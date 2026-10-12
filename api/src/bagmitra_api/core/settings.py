@@ -27,6 +27,11 @@ class Settings(BaseSettings):
 
     sync_max_batch: int = 200
 
+    # Knowledge base (addendum v1.3 §5-§6): review validity and licence span limit.
+    kb_review_months_default: int = 12
+    kb_review_months_chemical: int = 6
+    kb_max_verbatim_words: int = 12
+
     @field_validator("supabase_jwt_secret")
     @classmethod
     def _secret_long_enough(cls, value: SecretStr) -> SecretStr:

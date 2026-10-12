@@ -1,13 +1,12 @@
 from __future__ import annotations
 
-from datetime import UTC, datetime
-
 import structlog
 from pydantic import BaseModel, ValidationError
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from bagmitra_api.auth.jwt import AuthenticatedUser
+from bagmitra_api.db.base import as_utc
 from bagmitra_api.db.models import SyncMutation
 from bagmitra_api.sync.registry import HANDLERS, RejectedError, ValidatedWrite
 from bagmitra_api.sync.schemas import (
@@ -19,11 +18,6 @@ from bagmitra_api.sync.schemas import (
 )
 
 log = structlog.get_logger("bagmitra.sync")
-
-
-def _aware(value: datetime) -> datetime:
-    # SQLite drops tzinfo on read; Postgres keeps it. Normalise before comparing.
-    return value if value.tzinfo else value.replace(tzinfo=UTC)
 
 
 async def _record(
@@ -67,7 +61,7 @@ async def _decide(
         return "rejected", "invalid_payload", None
     except RejectedError as exc:
         return "rejected", exc.code, None
-    if current is not None and _aware(current) > m.client_updated_at:
+    if current is not None and as_utc(current) > m.client_updated_at:
         return "stale", None, None
     return "applied", None, payload
 
@@ -111,7 +105,7 @@ async def pull(session: AsyncSession, user: AuthenticatedUser, since: int) -> Pu
             entity_id=rc.entity_id,
             op=rc.op,
             data=rc.data,
-            updated_at=_aware(rc.updated_at),
+            updated_at=as_utc(rc.updated_at),
             seq=rc.seq,
         )
         for handler in HANDLERS.values()
