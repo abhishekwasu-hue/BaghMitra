@@ -241,4 +241,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get plotSaved => 'Saved. It will sync when you are online.';
+
+  @override
+  String get deletePlot => 'Delete block';
+
+  @override
+  String deletePlotConfirm(String name) {
+    return 'Delete $name? This also removes it from your other devices.';
+  }
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get delete => 'Delete';
 }

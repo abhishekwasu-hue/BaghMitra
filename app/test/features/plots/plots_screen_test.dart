@@ -90,6 +90,7 @@ void main() {
     await tester.tap(find.text('Sweet orange (mosambi)'));
     await tester.enterText(find.byKey(const Key('plot-acres')), '1.5');
     await tester.enterText(find.byKey(const Key('plot-trees')), '150');
+    await tester.enterText(find.byKey(const Key('plot-variety')), 'Nucellar');
     await tester.tap(find.text('Save'));
     await settle(tester);
 
@@ -100,6 +101,30 @@ void main() {
     );
     expect(queued!.single.entity, 'plot');
     expect(queued.single.payload, contains('"crop":"mosambi"'));
+    expect(queued.single.payload, contains('"variety":"Nucellar"'));
+    await unmountApp(tester);
+  });
+
+  testWidgets('delete asks for confirmation then removes the plot', (
+    tester,
+  ) async {
+    await pumpApp(
+      tester,
+      locale: const Locale('en'),
+      initialLocation: '/plots',
+      seed: seedTwo,
+    );
+    await settle(tester);
+    await tester.tap(find.byTooltip('Delete block').first);
+    await settle(tester);
+    expect(
+      find.textContaining('also removes it from your other devices'),
+      findsOneWidget,
+    );
+    await tester.tap(find.text('Delete'));
+    await settle(tester);
+    expect(find.text('बाग १'), findsNothing);
+    expect(find.text('बाग २'), findsOneWidget);
     await unmountApp(tester);
   });
 
