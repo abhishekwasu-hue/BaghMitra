@@ -100,6 +100,12 @@ abstract class AppLocalizations {
     Locale('mr'),
   ];
 
+  /// Product name shown as the app title and in admin. Brand: BagMitra; Devanagari in mr/hi.
+  ///
+  /// In en, this message translates to:
+  /// **'BagMitra'**
+  String get appName;
+
   /// Home header greeting line above the farmer's name.
   ///
   /// In en, this message translates to:
