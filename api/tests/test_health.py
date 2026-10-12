@@ -11,7 +11,7 @@ from bagmitra_api.main import create_app
 async def test_live_returns_ok_and_product_name(client: httpx.AsyncClient) -> None:
     resp = await client.get("/health/live")
     assert resp.status_code == 200
-    assert resp.json() == {"status": "ok", "product": "BaghMitra"}
+    assert resp.json() == {"status": "ok", "product": "BagMitra"}
 
 
 async def test_ready_checks_database(client: httpx.AsyncClient) -> None:

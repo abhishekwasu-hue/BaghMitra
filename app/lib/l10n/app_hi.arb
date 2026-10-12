@@ -1,5 +1,6 @@
 {
   "@@locale": "hi",
+  "appName": "बागमित्र",
   "greetingHello": "नमस्ते",
   "greetingName": "{name} जी",
   "temperature": "{degrees}°",

@@ -28,7 +28,7 @@ Future<void> main() async {
         appConfigProvider.overrideWithValue(config),
         authRepositoryProvider.overrideWithValue(auth),
       ],
-      child: const BaghMitraApp(),
+      child: const BagMitraApp(),
     ),
   );
 }
