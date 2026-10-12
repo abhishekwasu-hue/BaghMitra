@@ -32,6 +32,8 @@ jobs:
         run: bandit -q -c pyproject.toml -r src
       - name: Tests (coverage gate 85%)
         run: pytest
+      - name: Knowledge-base safety modules (coverage gate 90%, addendum v1.3 §9)
+        run: coverage report --include='src/bagmitra_api/kb/*' --fail-under=90
       - name: OpenAPI is up to date
         run: |
           python -m bagmitra_api.export_openapi /tmp/openapi.json
