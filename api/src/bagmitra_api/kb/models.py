@@ -94,3 +94,50 @@ class KbConflict(TimestampMixin, Base):
     values: Mapped[list[dict[str, str]]] = mapped_column(JSON)
     status: Mapped[str] = mapped_column(String(16))
     resolution: Mapped[str | None] = mapped_column(Text)
+
+
+class KbLabelClaim(TimestampMixin, Base):
+    """A CIB&RC 'major uses' row: the only allowed source of dose, interval and PHI."""
+
+    __tablename__ = "kb_label_claims"
+    reference_table = True
+
+    id: Mapped[uuid.UUID] = mapped_column(primary_key=True)
+    active_ingredient: Mapped[str] = mapped_column(String(120), index=True)
+    formulation: Mapped[str] = mapped_column(String(60))
+    crop: Mapped[str] = mapped_column(String(60))
+    target: Mapped[str] = mapped_column(String(120))
+    dose: Mapped[str] = mapped_column(String(200))
+    interval_days: Mapped[int | None] = mapped_column(Integer)
+    phi_days: Mapped[int | None] = mapped_column(Integer)
+    max_sprays: Mapped[int | None] = mapped_column(Integer)
+    source_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("kb_sources.id"))
+    valid_from: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+    valid_to: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+
+
+class KbRestriction(TimestampMixin, Base):
+    """Banned / withdrawn / refused / restricted status from gazette notifications."""
+
+    __tablename__ = "kb_restrictions"
+    reference_table = True
+
+    id: Mapped[uuid.UUID] = mapped_column(primary_key=True)
+    active_ingredient: Mapped[str] = mapped_column(String(120), index=True)
+    kind: Mapped[str] = mapped_column(String(16))
+    crops: Mapped[list[str]] = mapped_column(JSON)
+    crop_groups: Mapped[list[str]] = mapped_column(JSON)
+    notification: Mapped[str] = mapped_column(String(300))
+    effective_from: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+    source_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("kb_sources.id"))
+
+
+class KbSynonym(TimestampMixin, Base):
+    """Trade/brand name or abbreviation -> active ingredient, for the output filter."""
+
+    __tablename__ = "kb_synonyms"
+    reference_table = True
+
+    id: Mapped[uuid.UUID] = mapped_column(primary_key=True)
+    name: Mapped[str] = mapped_column(String(120), unique=True)
+    active_ingredient: Mapped[str] = mapped_column(String(120))
