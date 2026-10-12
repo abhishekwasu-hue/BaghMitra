@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import uuid
 from datetime import UTC, datetime
 
 from sqlalchemy import BigInteger, DateTime, MetaData
@@ -38,3 +39,13 @@ class SyncedRowMixin(TimestampMixin):
 
     client_updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
     last_seq: Mapped[int] = mapped_column(BigInteger, index=True)
+
+
+class OwnedSyncedRowMixin(SyncedRowMixin):
+    """A user-owned row with a client-generated UUID and soft delete (sync tombstones)."""
+
+    owner_column = "owner_id"
+
+    id: Mapped[uuid.UUID] = mapped_column(primary_key=True)
+    owner_id: Mapped[uuid.UUID] = mapped_column(index=True)
+    deleted_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))

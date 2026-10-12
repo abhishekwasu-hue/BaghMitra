@@ -59,7 +59,7 @@ async def _decide(
     if m.op not in handler.supported_ops:
         return "rejected", "unsupported_op", None
     try:
-        payload = handler.payload_model.model_validate(m.payload)
+        payload = None if m.op == "delete" else handler.payload_model.model_validate(m.payload)
         current = await handler.current_version(session, user, m.entity_id)
     except ValidationError:
         return "rejected", "invalid_payload", None
@@ -84,8 +84,8 @@ async def apply_mutation(
 
     status, error, payload = await _decide(session, user, m)
     row = await _record(session, user, m, status, error)
-    if payload is not None:
-        write = ValidatedWrite(m.entity_id, payload, m.client_updated_at, row.seq)
+    if status == "applied":
+        write = ValidatedWrite(m.entity_id, m.op, payload, m.client_updated_at, row.seq)
         await HANDLERS[m.entity].apply(session, user, write)
     else:
         log.info("sync_mutation_not_applied", entity=m.entity, status=status, error=error)
@@ -106,14 +106,14 @@ async def pull(session: AsyncSession, user: AuthenticatedUser, since: int) -> Pu
     changes = [
         Change(
             entity=handler.name,
-            entity_id=entity_id,
-            op="upsert",
-            data=data,
-            updated_at=_aware(updated_at),
-            seq=seq,
+            entity_id=rc.entity_id,
+            op=rc.op,
+            data=rc.data,
+            updated_at=_aware(rc.updated_at),
+            seq=rc.seq,
         )
         for handler in HANDLERS.values()
-        for entity_id, data, updated_at, seq in await handler.changed_since(session, user, since)
+        for rc in await handler.changed_since(session, user, since)
     ]
     changes.sort(key=lambda c: c.seq)
     return PullResponse(changes=changes, cursor=max((c.seq for c in changes), default=since))
