@@ -16,12 +16,16 @@ class RemoteChange {
     required this.entityId,
     required this.data,
     required this.updatedAt,
+    this.deleted = false,
   });
 
   final String entity;
   final String entityId;
   final Map<String, Object?> data;
   final DateTime updatedAt;
+
+  /// Tombstone: the entity was deleted on the server; [data] is empty.
+  final bool deleted;
 }
 
 class PullPage {

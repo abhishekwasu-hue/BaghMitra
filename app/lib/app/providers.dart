@@ -7,6 +7,7 @@ import '../data/local/database.dart';
 import '../features/auth/domain/auth.dart';
 import '../features/home/data/demo_home_repository.dart';
 import '../features/home/domain/home_snapshot.dart';
+import '../features/plots/data/plot_repository.dart';
 import '../features/profile/data/profile_repository.dart';
 import '../sync/http_transport.dart';
 import '../sync/sync_engine.dart';
@@ -40,6 +41,10 @@ final apiProvider = Provider<Bagmitra>((ref) {
 
 final profileRepositoryProvider = Provider<ProfileRepository>(
   (ref) => ProfileRepository(ref.watch(databaseProvider)),
+);
+
+final plotRepositoryProvider = Provider<PlotRepository>(
+  (ref) => PlotRepository(ref.watch(databaseProvider)),
 );
 
 final syncEngineProvider = Provider<SyncEngine>((ref) {

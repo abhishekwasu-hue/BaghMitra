@@ -98,6 +98,27 @@ void main() {
     expect(page.cursor, 9);
     expect(page.changes.single.data['language'], 'hi');
     expect(page.changes.single.updatedAt, DateTime.utc(2026, 10, 12, 6));
+    expect(page.changes.single.deleted, isFalse);
+  });
+
+  test('pull maps server tombstones to deleted changes', () async {
+    final t = _transport(
+      (req) async => _json({
+        'cursor': 3,
+        'changes': [
+          {
+            'entity': 'plot',
+            'entity_id': 'p1',
+            'op': 'delete',
+            'data': <String, Object>{},
+            'updated_at': '2026-10-12T06:00:00Z',
+            'seq': 3,
+          },
+        ],
+      }),
+    );
+    final page = await t.pull(0);
+    expect(page.changes.single.deleted, isTrue);
   });
 
   test('401 means signed out', () async {

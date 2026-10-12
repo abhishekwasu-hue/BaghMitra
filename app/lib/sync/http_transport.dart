@@ -48,6 +48,7 @@ class HttpSyncTransport implements SyncTransport {
           entityId: c.entityId,
           data: Map<String, Object?>.from(c.data),
           updatedAt: c.updatedAt.toUtc(),
+          deleted: c.op == enums.ChangeOp.delete,
         ),
     ], resp.cursor);
   }

@@ -42,6 +42,30 @@ class FarmerProfiles extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
+/// Orchard blocks (mirror of the API `plot` entity). Boundary is GeoJSON text.
+@DataClassName('PlotRow')
+class Plots extends Table {
+  TextColumn get id => text()();
+  TextColumn get name => text()();
+  TextColumn get crop => text()();
+  TextColumn get variety => text().nullable()();
+  RealColumn get areaSqM => real()();
+  IntColumn get plantingYear => integer().nullable()();
+  IntColumn get treeCount => integer().nullable()();
+  RealColumn get rowSpacingM => real().nullable()();
+  RealColumn get plantSpacingM => real().nullable()();
+  TextColumn get irrigationType => text().nullable()();
+  TextColumn get waterSource => text().nullable()();
+  TextColumn get soilType => text().nullable()();
+  RealColumn get centroidLat => real().nullable()();
+  RealColumn get centroidLon => real().nullable()();
+  TextColumn get boundary => text().nullable()();
+  DateTimeColumn get clientUpdatedAt => dateTime()();
+
+  @override
+  Set<Column<Object>> get primaryKey => {id};
+}
+
 /// Small key/value store for sync cursors and similar bookkeeping.
 class SyncMeta extends Table {
   TextColumn get key => text()();
@@ -51,14 +75,22 @@ class SyncMeta extends Table {
   Set<Column<Object>> get primaryKey => {key};
 }
 
-@DriftDatabase(tables: [OutboxEntries, FarmerProfiles, SyncMeta])
+@DriftDatabase(tables: [OutboxEntries, FarmerProfiles, SyncMeta, Plots])
 class AppDatabase extends _$AppDatabase {
   AppDatabase(super.e);
 
   AppDatabase.open(String name) : super(driftDatabase(name: name));
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
+
+  @override
+  MigrationStrategy get migration => MigrationStrategy(
+    onCreate: (m) => m.createAll(),
+    onUpgrade: (m, from, to) async {
+      if (from < 2) await m.createTable(plots);
+    },
+  );
 
   Future<String?> readMeta(String key) async {
     final row = await (select(
