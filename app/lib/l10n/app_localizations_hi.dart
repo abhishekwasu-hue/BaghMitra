@@ -241,4 +241,18 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get plotSaved => 'सहेजा गया। नेटवर्क आने पर भेजा जाएगा।';
+
+  @override
+  String get deletePlot => 'बाग हटाएँ';
+
+  @override
+  String deletePlotConfirm(String name) {
+    return '$name हटाएँ? यह आपके दूसरे फ़ोन से भी हट जाएगा।';
+  }
+
+  @override
+  String get cancel => 'रद्द करें';
+
+  @override
+  String get delete => 'हटाएँ';
 }

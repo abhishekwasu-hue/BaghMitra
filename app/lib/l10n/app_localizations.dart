@@ -459,6 +459,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Saved. It will sync when you are online.'**
   String get plotSaved;
+
+  /// No description provided for @deletePlot.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete block'**
+  String get deletePlot;
+
+  /// No description provided for @deletePlotConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete {name}? This also removes it from your other devices.'**
+  String deletePlotConfirm(String name);
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// No description provided for @delete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get delete;
 }
 
 class _AppLocalizationsDelegate

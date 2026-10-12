@@ -64,7 +64,7 @@ class PlotsScreen extends ConsumerWidget {
       crops.where((c) => c.slug == slug).firstOrNull?.label(lang) ?? slug;
 }
 
-class _PlotCard extends StatelessWidget {
+class _PlotCard extends ConsumerWidget {
   const _PlotCard({
     required this.plot,
     required this.cropLabel,
@@ -75,8 +75,30 @@ class _PlotCard extends StatelessWidget {
   final String cropLabel;
   final String lang;
 
+  Future<void> _confirmDelete(BuildContext context, WidgetRef ref) async {
+    final t = AppLocalizations.of(context);
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(t.deletePlot),
+        content: Text(t.deletePlotConfirm(plot.name)),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: Text(t.cancel),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: Text(t.delete),
+          ),
+        ],
+      ),
+    );
+    if (ok ?? false) await ref.read(plotRepositoryProvider).delete(plot.id);
+  }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final t = AppLocalizations.of(context);
     final c = context.bm;
     final facts = [
@@ -117,6 +139,11 @@ class _PlotCard extends StatelessWidget {
                 Text(facts, style: BmType.meta.copyWith(color: c.inkMuted)),
               ],
             ),
+          ),
+          IconButton(
+            tooltip: t.deletePlot,
+            onPressed: () => _confirmDelete(context, ref),
+            icon: Icon(Icons.delete_outline_rounded, color: c.inkMuted),
           ),
         ],
       ),

@@ -19,6 +19,7 @@ class AddPlotScreen extends ConsumerStatefulWidget {
 class _AddPlotScreenState extends ConsumerState<AddPlotScreen> {
   final _form = GlobalKey<FormState>();
   final _name = TextEditingController();
+  final _variety = TextEditingController();
   final _acres = TextEditingController();
   final _trees = TextEditingController();
   final _year = TextEditingController();
@@ -26,7 +27,7 @@ class _AddPlotScreenState extends ConsumerState<AddPlotScreen> {
 
   @override
   void dispose() {
-    for (final c in [_name, _acres, _trees, _year]) {
+    for (final c in [_name, _variety, _acres, _trees, _year]) {
       c.dispose();
     }
     super.dispose();
@@ -44,6 +45,7 @@ class _AddPlotScreenState extends ConsumerState<AddPlotScreen> {
         name: _name.text.trim(),
         crop: _crop!,
         areaSqM: double.parse(_acres.text.trim()) * Plot.sqMPerAcre,
+        variety: _optional(_variety.text),
         treeCount: int.tryParse(_trees.text.trim()),
         plantingYear: int.tryParse(_year.text.trim()),
       ),
@@ -138,6 +140,12 @@ class _AddPlotScreenState extends ConsumerState<AddPlotScreen> {
               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               decoration: InputDecoration(labelText: t.plotTreeCount),
               validator: optionalInt,
+            ),
+            gap,
+            TextFormField(
+              key: const Key('plot-variety'),
+              controller: _variety,
+              decoration: InputDecoration(labelText: t.plotVariety),
             ),
             gap,
             TextFormField(

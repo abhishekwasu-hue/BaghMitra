@@ -59,5 +59,9 @@
   "invalidNumber": "योग्य संख्या टाका",
   "plotAcres": "{area} एकर",
   "plotTrees": "{count} झाडं",
-  "plotSaved": "जतन झालं. नेट आल्यावर पाठवलं जाईल."
+  "plotSaved": "जतन झालं. नेट आल्यावर पाठवलं जाईल.",
+  "deletePlot": "बाग काढून टाका",
+  "deletePlotConfirm": "{name} काढून टाकायची? तुमच्या इतर फोनवरूनही ती जाईल.",
+  "cancel": "रद्द करा",
+  "delete": "काढून टाका"
 }

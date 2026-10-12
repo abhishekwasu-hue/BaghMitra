@@ -241,4 +241,18 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get plotSaved => 'जतन झालं. नेट आल्यावर पाठवलं जाईल.';
+
+  @override
+  String get deletePlot => 'बाग काढून टाका';
+
+  @override
+  String deletePlotConfirm(String name) {
+    return '$name काढून टाकायची? तुमच्या इतर फोनवरूनही ती जाईल.';
+  }
+
+  @override
+  String get cancel => 'रद्द करा';
+
+  @override
+  String get delete => 'काढून टाका';
 }
