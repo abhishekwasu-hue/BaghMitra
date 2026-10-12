@@ -181,4 +181,64 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get demoDataNotice => 'नमुना माहिती';
+
+  @override
+  String get myOrchard => 'माझी बाग';
+
+  @override
+  String get addPlot => 'बाग जोडा';
+
+  @override
+  String get plotsEmptyTitle => 'अजून बाग जोडलेली नाही';
+
+  @override
+  String get plotsEmptyBody =>
+      'बहार कॅलेंडर आणि रोजची कामं मिळवण्यासाठी पहिली बाग जोडा.';
+
+  @override
+  String get plotName => 'बागेचं नाव';
+
+  @override
+  String get plotNameHint => 'उदा. बाग १';
+
+  @override
+  String get plotCrop => 'पीक';
+
+  @override
+  String get plotVariety => 'जात (ऐच्छिक)';
+
+  @override
+  String get plotAreaAcres => 'क्षेत्र (एकर)';
+
+  @override
+  String get plotTreeCount => 'झाडांची संख्या (ऐच्छिक)';
+
+  @override
+  String get plotPlantingYear => 'लागवडीचं वर्ष (ऐच्छिक)';
+
+  @override
+  String get save => 'जतन करा';
+
+  @override
+  String get fieldRequired => 'आवश्यक';
+
+  @override
+  String get invalidNumber => 'योग्य संख्या टाका';
+
+  @override
+  String plotAcres(String area) {
+    return '$area एकर';
+  }
+
+  @override
+  String plotTrees(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    return '$countString झाडं';
+  }
+
+  @override
+  String get plotSaved => 'जतन झालं. नेट आल्यावर पाठवलं जाईल.';
 }

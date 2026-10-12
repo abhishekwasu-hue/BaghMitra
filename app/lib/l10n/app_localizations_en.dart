@@ -181,4 +181,64 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get demoDataNotice => 'Sample data';
+
+  @override
+  String get myOrchard => 'My orchard';
+
+  @override
+  String get addPlot => 'Add orchard block';
+
+  @override
+  String get plotsEmptyTitle => 'No orchard blocks yet';
+
+  @override
+  String get plotsEmptyBody =>
+      'Add your first block to get a bahar calendar and daily tasks.';
+
+  @override
+  String get plotName => 'Block name';
+
+  @override
+  String get plotNameHint => 'e.g. Bag 1';
+
+  @override
+  String get plotCrop => 'Crop';
+
+  @override
+  String get plotVariety => 'Variety (optional)';
+
+  @override
+  String get plotAreaAcres => 'Area (acres)';
+
+  @override
+  String get plotTreeCount => 'Number of trees (optional)';
+
+  @override
+  String get plotPlantingYear => 'Planting year (optional)';
+
+  @override
+  String get save => 'Save';
+
+  @override
+  String get fieldRequired => 'Required';
+
+  @override
+  String get invalidNumber => 'Enter a valid number';
+
+  @override
+  String plotAcres(String area) {
+    return '$area acres';
+  }
+
+  @override
+  String plotTrees(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    return '$countString trees';
+  }
+
+  @override
+  String get plotSaved => 'Saved. It will sync when you are online.';
 }

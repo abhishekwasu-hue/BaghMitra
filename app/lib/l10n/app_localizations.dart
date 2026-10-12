@@ -357,6 +357,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sample data'**
   String get demoDataNotice;
+
+  /// No description provided for @myOrchard.
+  ///
+  /// In en, this message translates to:
+  /// **'My orchard'**
+  String get myOrchard;
+
+  /// No description provided for @addPlot.
+  ///
+  /// In en, this message translates to:
+  /// **'Add orchard block'**
+  String get addPlot;
+
+  /// No description provided for @plotsEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No orchard blocks yet'**
+  String get plotsEmptyTitle;
+
+  /// No description provided for @plotsEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Add your first block to get a bahar calendar and daily tasks.'**
+  String get plotsEmptyBody;
+
+  /// No description provided for @plotName.
+  ///
+  /// In en, this message translates to:
+  /// **'Block name'**
+  String get plotName;
+
+  /// No description provided for @plotNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Bag 1'**
+  String get plotNameHint;
+
+  /// No description provided for @plotCrop.
+  ///
+  /// In en, this message translates to:
+  /// **'Crop'**
+  String get plotCrop;
+
+  /// No description provided for @plotVariety.
+  ///
+  /// In en, this message translates to:
+  /// **'Variety (optional)'**
+  String get plotVariety;
+
+  /// No description provided for @plotAreaAcres.
+  ///
+  /// In en, this message translates to:
+  /// **'Area (acres)'**
+  String get plotAreaAcres;
+
+  /// No description provided for @plotTreeCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Number of trees (optional)'**
+  String get plotTreeCount;
+
+  /// No description provided for @plotPlantingYear.
+  ///
+  /// In en, this message translates to:
+  /// **'Planting year (optional)'**
+  String get plotPlantingYear;
+
+  /// No description provided for @save.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get save;
+
+  /// No description provided for @fieldRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Required'**
+  String get fieldRequired;
+
+  /// No description provided for @invalidNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid number'**
+  String get invalidNumber;
+
+  /// No description provided for @plotAcres.
+  ///
+  /// In en, this message translates to:
+  /// **'{area} acres'**
+  String plotAcres(String area);
+
+  /// No description provided for @plotTrees.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} trees'**
+  String plotTrees(int count);
+
+  /// No description provided for @plotSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved. It will sync when you are online.'**
+  String get plotSaved;
 }
 
 class _AppLocalizationsDelegate

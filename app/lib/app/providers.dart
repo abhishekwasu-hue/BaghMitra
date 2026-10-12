@@ -7,7 +7,9 @@ import '../data/local/database.dart';
 import '../features/auth/domain/auth.dart';
 import '../features/home/data/demo_home_repository.dart';
 import '../features/home/domain/home_snapshot.dart';
+import '../features/plots/data/crop_catalog.dart';
 import '../features/plots/data/plot_repository.dart';
+import '../features/plots/domain/plot.dart';
 import '../features/profile/data/profile_repository.dart';
 import '../sync/http_transport.dart';
 import '../sync/sync_engine.dart';
@@ -45,6 +47,16 @@ final profileRepositoryProvider = Provider<ProfileRepository>(
 
 final plotRepositoryProvider = Provider<PlotRepository>(
   (ref) => PlotRepository(ref.watch(databaseProvider)),
+);
+
+final plotsProvider = StreamProvider<List<Plot>>(
+  (ref) => ref.watch(plotRepositoryProvider).watchAll(),
+);
+
+final cropCatalogProvider = Provider<CropCatalog>((ref) => CropCatalog());
+
+final cropsProvider = FutureProvider<List<CropOption>>(
+  (ref) => ref.watch(cropCatalogProvider).load(),
 );
 
 final syncEngineProvider = Provider<SyncEngine>((ref) {

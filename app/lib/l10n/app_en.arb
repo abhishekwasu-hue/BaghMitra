@@ -132,5 +132,37 @@
       }
     }
   },
-  "demoDataNotice": "Sample data"
+  "demoDataNotice": "Sample data",
+  "myOrchard": "My orchard",
+  "addPlot": "Add orchard block",
+  "plotsEmptyTitle": "No orchard blocks yet",
+  "plotsEmptyBody": "Add your first block to get a bahar calendar and daily tasks.",
+  "plotName": "Block name",
+  "plotNameHint": "e.g. Bag 1",
+  "plotCrop": "Crop",
+  "plotVariety": "Variety (optional)",
+  "plotAreaAcres": "Area (acres)",
+  "plotTreeCount": "Number of trees (optional)",
+  "plotPlantingYear": "Planting year (optional)",
+  "save": "Save",
+  "fieldRequired": "Required",
+  "invalidNumber": "Enter a valid number",
+  "plotAcres": "{area} acres",
+  "@plotAcres": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      }
+    }
+  },
+  "plotTrees": "{count} trees",
+  "@plotTrees": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "plotSaved": "Saved. It will sync when you are online."
 }

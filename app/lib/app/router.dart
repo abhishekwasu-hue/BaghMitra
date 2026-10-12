@@ -8,6 +8,8 @@ import '../features/auth/domain/auth.dart';
 import '../features/auth/presentation/login_screens.dart';
 import '../features/dev/component_gallery_screen.dart';
 import '../features/home/presentation/home_screen.dart';
+import '../features/plots/presentation/add_plot_screen.dart';
+import '../features/plots/presentation/plots_screen.dart';
 
 class _AuthListenable extends ChangeNotifier {
   _AuthListenable(Stream<AuthSession?> sessions) {
@@ -27,6 +29,8 @@ abstract final class Routes {
   static const login = '/login';
   static const otp = '/login/otp';
   static const gallery = '/dev/gallery';
+  static const plots = '/plots';
+  static const addPlot = '/plots/new';
 }
 
 GoRouter buildRouter(
@@ -49,6 +53,8 @@ GoRouter buildRouter(
     },
     routes: [
       GoRoute(path: Routes.home, builder: (_, _) => const HomeScreen()),
+      GoRoute(path: Routes.plots, builder: (_, _) => const PlotsScreen()),
+      GoRoute(path: Routes.addPlot, builder: (_, _) => const AddPlotScreen()),
       GoRoute(path: Routes.login, builder: (_, _) => const PhoneLoginScreen()),
       GoRoute(
         path: Routes.otp,
