@@ -1,0 +1,79 @@
+{
+  "_note": "Addendum v1.3 §3.8 (checked 2026-10-12). Re-verify against the gazette; the PPQS importer supersedes this file.",
+  "source_key": "ppqs_banned_restricted",
+  "restrictions": [
+    {
+      "active_ingredient": "benomyl",
+      "kind": "banned",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "S.O. 3951(E), 8 Aug 2018",
+      "effective_from": "2018-08-08"
+    },
+    {
+      "active_ingredient": "phorate",
+      "kind": "banned",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "S.O. 3951(E), 8 Aug 2018",
+      "effective_from": "2018-08-08"
+    },
+    {
+      "active_ingredient": "methyl parathion",
+      "kind": "banned",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "S.O. 3951(E), 8 Aug 2018",
+      "effective_from": "2018-08-08"
+    },
+    {
+      "active_ingredient": "dichlorvos",
+      "kind": "banned",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "S.O. 3951(E), 8 Aug 2018; export-only manufacture S.O. 1196(E), 2020",
+      "effective_from": "2018-08-08"
+    },
+    {
+      "active_ingredient": "dicofol",
+      "kind": "banned",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "S.O. 4294(E), 3 Oct 2023",
+      "effective_from": "2023-10-03"
+    },
+    {
+      "active_ingredient": "chlorpyrifos",
+      "kind": "restricted",
+      "crops": [
+        "citrus",
+        "ber",
+        "tobacco"
+      ],
+      "crop_groups": [],
+      "notification": "S.O. 4294(E), 3 Oct 2023 (prohibited on citrus, ber, tobacco)",
+      "effective_from": "2023-10-03"
+    },
+    {
+      "active_ingredient": "dimethoate",
+      "kind": "restricted",
+      "crops": [],
+      "crop_groups": [
+        "fruit_eaten_raw",
+        "vegetable_eaten_raw"
+      ],
+      "notification": "S.O. 4294(E), 3 Oct 2023 (prohibited on fruits/vegetables eaten raw)",
+      "effective_from": "2023-10-03"
+    },
+    {
+      "active_ingredient": "monocrotophos",
+      "kind": "restricted",
+      "crops": [],
+      "crop_groups": [
+        "vegetable"
+      ],
+      "notification": "S.O. 1482(E), 2005 (vegetables); 36% SL phase-out S.O. 4294(E) [exact gazette date to verify; year-start used so the block applies no later than the real date]",
+      "effective_from": "2005-01-01"
+    }
+  ]
+}
