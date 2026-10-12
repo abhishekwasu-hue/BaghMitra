@@ -8,7 +8,7 @@ import 'package:bagmitra/sync/transport.dart';
 class FakeSyncServer implements SyncTransport {
   bool online = true;
   bool unauthorized = false;
-  final Set<String> knownEntities = {'farmer_profile'};
+  final Set<String> knownEntities = {'farmer_profile', 'plot'};
   final Set<String> _seen = {};
   final Map<String, _Row> _rows = {};
   int _seq = 0;
@@ -29,8 +29,10 @@ class FakeSyncServer implements SyncTransport {
     _rows['$entity/$id'] = _Row(entity, id, data, at, ++_seq);
   }
 
-  Map<String, Object?>? row(String entity, String id) =>
-      _rows['$entity/$id']?.data;
+  Map<String, Object?>? row(String entity, String id) {
+    final r = _rows['$entity/$id'];
+    return r == null || r.deleted ? null : r.data;
+  }
 
   @override
   Future<List<PushOutcome>> push(List<OutboxEntry> batch) async {
@@ -55,7 +57,14 @@ class FakeSyncServer implements SyncTransport {
     }
     final data = (jsonDecode(e.payload) as Map<String, dynamic>)
         .cast<String, Object?>();
-    _rows[key] = _Row(e.entity, e.entityId, data, e.clientUpdatedAt, ++_seq);
+    _rows[key] = _Row(
+      e.entity,
+      e.entityId,
+      data,
+      e.clientUpdatedAt,
+      ++_seq,
+      deleted: e.op == 'delete',
+    );
     return PushOutcome(e.id, PushStatus.applied);
   }
 
@@ -70,7 +79,8 @@ class FakeSyncServer implements SyncTransport {
         RemoteChange(
           entity: r.entity,
           entityId: r.id,
-          data: r.data,
+          data: r.deleted ? const {} : r.data,
+          deleted: r.deleted,
           updatedAt: r.at,
         ),
     ], cursor);
@@ -78,10 +88,18 @@ class FakeSyncServer implements SyncTransport {
 }
 
 class _Row {
-  _Row(this.entity, this.id, this.data, this.at, this.seq);
+  _Row(
+    this.entity,
+    this.id,
+    this.data,
+    this.at,
+    this.seq, {
+    this.deleted = false,
+  });
   final String entity;
   final String id;
   final Map<String, Object?> data;
   final DateTime at;
   final int seq;
+  final bool deleted;
 }

@@ -1421,12 +1421,960 @@ class SyncMetaCompanion extends UpdateCompanion<SyncMetaData> {
   }
 }
 
+class $PlotsTable extends Plots with TableInfo<$PlotsTable, PlotRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $PlotsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _cropMeta = const VerificationMeta('crop');
+  @override
+  late final GeneratedColumn<String> crop = GeneratedColumn<String>(
+    'crop',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _varietyMeta = const VerificationMeta(
+    'variety',
+  );
+  @override
+  late final GeneratedColumn<String> variety = GeneratedColumn<String>(
+    'variety',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _areaSqMMeta = const VerificationMeta(
+    'areaSqM',
+  );
+  @override
+  late final GeneratedColumn<double> areaSqM = GeneratedColumn<double>(
+    'area_sq_m',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _plantingYearMeta = const VerificationMeta(
+    'plantingYear',
+  );
+  @override
+  late final GeneratedColumn<int> plantingYear = GeneratedColumn<int>(
+    'planting_year',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _treeCountMeta = const VerificationMeta(
+    'treeCount',
+  );
+  @override
+  late final GeneratedColumn<int> treeCount = GeneratedColumn<int>(
+    'tree_count',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _rowSpacingMMeta = const VerificationMeta(
+    'rowSpacingM',
+  );
+  @override
+  late final GeneratedColumn<double> rowSpacingM = GeneratedColumn<double>(
+    'row_spacing_m',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _plantSpacingMMeta = const VerificationMeta(
+    'plantSpacingM',
+  );
+  @override
+  late final GeneratedColumn<double> plantSpacingM = GeneratedColumn<double>(
+    'plant_spacing_m',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _irrigationTypeMeta = const VerificationMeta(
+    'irrigationType',
+  );
+  @override
+  late final GeneratedColumn<String> irrigationType = GeneratedColumn<String>(
+    'irrigation_type',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _waterSourceMeta = const VerificationMeta(
+    'waterSource',
+  );
+  @override
+  late final GeneratedColumn<String> waterSource = GeneratedColumn<String>(
+    'water_source',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _soilTypeMeta = const VerificationMeta(
+    'soilType',
+  );
+  @override
+  late final GeneratedColumn<String> soilType = GeneratedColumn<String>(
+    'soil_type',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _centroidLatMeta = const VerificationMeta(
+    'centroidLat',
+  );
+  @override
+  late final GeneratedColumn<double> centroidLat = GeneratedColumn<double>(
+    'centroid_lat',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _centroidLonMeta = const VerificationMeta(
+    'centroidLon',
+  );
+  @override
+  late final GeneratedColumn<double> centroidLon = GeneratedColumn<double>(
+    'centroid_lon',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _boundaryMeta = const VerificationMeta(
+    'boundary',
+  );
+  @override
+  late final GeneratedColumn<String> boundary = GeneratedColumn<String>(
+    'boundary',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _clientUpdatedAtMeta = const VerificationMeta(
+    'clientUpdatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> clientUpdatedAt =
+      GeneratedColumn<DateTime>(
+        'client_updated_at',
+        aliasedName,
+        false,
+        type: DriftSqlType.dateTime,
+        requiredDuringInsert: true,
+      );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    name,
+    crop,
+    variety,
+    areaSqM,
+    plantingYear,
+    treeCount,
+    rowSpacingM,
+    plantSpacingM,
+    irrigationType,
+    waterSource,
+    soilType,
+    centroidLat,
+    centroidLon,
+    boundary,
+    clientUpdatedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'plots';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<PlotRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('crop')) {
+      context.handle(
+        _cropMeta,
+        crop.isAcceptableOrUnknown(data['crop']!, _cropMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_cropMeta);
+    }
+    if (data.containsKey('variety')) {
+      context.handle(
+        _varietyMeta,
+        variety.isAcceptableOrUnknown(data['variety']!, _varietyMeta),
+      );
+    }
+    if (data.containsKey('area_sq_m')) {
+      context.handle(
+        _areaSqMMeta,
+        areaSqM.isAcceptableOrUnknown(data['area_sq_m']!, _areaSqMMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_areaSqMMeta);
+    }
+    if (data.containsKey('planting_year')) {
+      context.handle(
+        _plantingYearMeta,
+        plantingYear.isAcceptableOrUnknown(
+          data['planting_year']!,
+          _plantingYearMeta,
+        ),
+      );
+    }
+    if (data.containsKey('tree_count')) {
+      context.handle(
+        _treeCountMeta,
+        treeCount.isAcceptableOrUnknown(data['tree_count']!, _treeCountMeta),
+      );
+    }
+    if (data.containsKey('row_spacing_m')) {
+      context.handle(
+        _rowSpacingMMeta,
+        rowSpacingM.isAcceptableOrUnknown(
+          data['row_spacing_m']!,
+          _rowSpacingMMeta,
+        ),
+      );
+    }
+    if (data.containsKey('plant_spacing_m')) {
+      context.handle(
+        _plantSpacingMMeta,
+        plantSpacingM.isAcceptableOrUnknown(
+          data['plant_spacing_m']!,
+          _plantSpacingMMeta,
+        ),
+      );
+    }
+    if (data.containsKey('irrigation_type')) {
+      context.handle(
+        _irrigationTypeMeta,
+        irrigationType.isAcceptableOrUnknown(
+          data['irrigation_type']!,
+          _irrigationTypeMeta,
+        ),
+      );
+    }
+    if (data.containsKey('water_source')) {
+      context.handle(
+        _waterSourceMeta,
+        waterSource.isAcceptableOrUnknown(
+          data['water_source']!,
+          _waterSourceMeta,
+        ),
+      );
+    }
+    if (data.containsKey('soil_type')) {
+      context.handle(
+        _soilTypeMeta,
+        soilType.isAcceptableOrUnknown(data['soil_type']!, _soilTypeMeta),
+      );
+    }
+    if (data.containsKey('centroid_lat')) {
+      context.handle(
+        _centroidLatMeta,
+        centroidLat.isAcceptableOrUnknown(
+          data['centroid_lat']!,
+          _centroidLatMeta,
+        ),
+      );
+    }
+    if (data.containsKey('centroid_lon')) {
+      context.handle(
+        _centroidLonMeta,
+        centroidLon.isAcceptableOrUnknown(
+          data['centroid_lon']!,
+          _centroidLonMeta,
+        ),
+      );
+    }
+    if (data.containsKey('boundary')) {
+      context.handle(
+        _boundaryMeta,
+        boundary.isAcceptableOrUnknown(data['boundary']!, _boundaryMeta),
+      );
+    }
+    if (data.containsKey('client_updated_at')) {
+      context.handle(
+        _clientUpdatedAtMeta,
+        clientUpdatedAt.isAcceptableOrUnknown(
+          data['client_updated_at']!,
+          _clientUpdatedAtMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_clientUpdatedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  PlotRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return PlotRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      crop: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}crop'],
+      )!,
+      variety: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}variety'],
+      ),
+      areaSqM: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}area_sq_m'],
+      )!,
+      plantingYear: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}planting_year'],
+      ),
+      treeCount: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}tree_count'],
+      ),
+      rowSpacingM: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}row_spacing_m'],
+      ),
+      plantSpacingM: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}plant_spacing_m'],
+      ),
+      irrigationType: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}irrigation_type'],
+      ),
+      waterSource: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}water_source'],
+      ),
+      soilType: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}soil_type'],
+      ),
+      centroidLat: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}centroid_lat'],
+      ),
+      centroidLon: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}centroid_lon'],
+      ),
+      boundary: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}boundary'],
+      ),
+      clientUpdatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}client_updated_at'],
+      )!,
+    );
+  }
+
+  @override
+  $PlotsTable createAlias(String alias) {
+    return $PlotsTable(attachedDatabase, alias);
+  }
+}
+
+class PlotRow extends DataClass implements Insertable<PlotRow> {
+  final String id;
+  final String name;
+  final String crop;
+  final String? variety;
+  final double areaSqM;
+  final int? plantingYear;
+  final int? treeCount;
+  final double? rowSpacingM;
+  final double? plantSpacingM;
+  final String? irrigationType;
+  final String? waterSource;
+  final String? soilType;
+  final double? centroidLat;
+  final double? centroidLon;
+  final String? boundary;
+  final DateTime clientUpdatedAt;
+  const PlotRow({
+    required this.id,
+    required this.name,
+    required this.crop,
+    this.variety,
+    required this.areaSqM,
+    this.plantingYear,
+    this.treeCount,
+    this.rowSpacingM,
+    this.plantSpacingM,
+    this.irrigationType,
+    this.waterSource,
+    this.soilType,
+    this.centroidLat,
+    this.centroidLon,
+    this.boundary,
+    required this.clientUpdatedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['name'] = Variable<String>(name);
+    map['crop'] = Variable<String>(crop);
+    if (!nullToAbsent || variety != null) {
+      map['variety'] = Variable<String>(variety);
+    }
+    map['area_sq_m'] = Variable<double>(areaSqM);
+    if (!nullToAbsent || plantingYear != null) {
+      map['planting_year'] = Variable<int>(plantingYear);
+    }
+    if (!nullToAbsent || treeCount != null) {
+      map['tree_count'] = Variable<int>(treeCount);
+    }
+    if (!nullToAbsent || rowSpacingM != null) {
+      map['row_spacing_m'] = Variable<double>(rowSpacingM);
+    }
+    if (!nullToAbsent || plantSpacingM != null) {
+      map['plant_spacing_m'] = Variable<double>(plantSpacingM);
+    }
+    if (!nullToAbsent || irrigationType != null) {
+      map['irrigation_type'] = Variable<String>(irrigationType);
+    }
+    if (!nullToAbsent || waterSource != null) {
+      map['water_source'] = Variable<String>(waterSource);
+    }
+    if (!nullToAbsent || soilType != null) {
+      map['soil_type'] = Variable<String>(soilType);
+    }
+    if (!nullToAbsent || centroidLat != null) {
+      map['centroid_lat'] = Variable<double>(centroidLat);
+    }
+    if (!nullToAbsent || centroidLon != null) {
+      map['centroid_lon'] = Variable<double>(centroidLon);
+    }
+    if (!nullToAbsent || boundary != null) {
+      map['boundary'] = Variable<String>(boundary);
+    }
+    map['client_updated_at'] = Variable<DateTime>(clientUpdatedAt);
+    return map;
+  }
+
+  PlotsCompanion toCompanion(bool nullToAbsent) {
+    return PlotsCompanion(
+      id: Value(id),
+      name: Value(name),
+      crop: Value(crop),
+      variety: variety == null && nullToAbsent
+          ? const Value.absent()
+          : Value(variety),
+      areaSqM: Value(areaSqM),
+      plantingYear: plantingYear == null && nullToAbsent
+          ? const Value.absent()
+          : Value(plantingYear),
+      treeCount: treeCount == null && nullToAbsent
+          ? const Value.absent()
+          : Value(treeCount),
+      rowSpacingM: rowSpacingM == null && nullToAbsent
+          ? const Value.absent()
+          : Value(rowSpacingM),
+      plantSpacingM: plantSpacingM == null && nullToAbsent
+          ? const Value.absent()
+          : Value(plantSpacingM),
+      irrigationType: irrigationType == null && nullToAbsent
+          ? const Value.absent()
+          : Value(irrigationType),
+      waterSource: waterSource == null && nullToAbsent
+          ? const Value.absent()
+          : Value(waterSource),
+      soilType: soilType == null && nullToAbsent
+          ? const Value.absent()
+          : Value(soilType),
+      centroidLat: centroidLat == null && nullToAbsent
+          ? const Value.absent()
+          : Value(centroidLat),
+      centroidLon: centroidLon == null && nullToAbsent
+          ? const Value.absent()
+          : Value(centroidLon),
+      boundary: boundary == null && nullToAbsent
+          ? const Value.absent()
+          : Value(boundary),
+      clientUpdatedAt: Value(clientUpdatedAt),
+    );
+  }
+
+  factory PlotRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return PlotRow(
+      id: serializer.fromJson<String>(json['id']),
+      name: serializer.fromJson<String>(json['name']),
+      crop: serializer.fromJson<String>(json['crop']),
+      variety: serializer.fromJson<String?>(json['variety']),
+      areaSqM: serializer.fromJson<double>(json['areaSqM']),
+      plantingYear: serializer.fromJson<int?>(json['plantingYear']),
+      treeCount: serializer.fromJson<int?>(json['treeCount']),
+      rowSpacingM: serializer.fromJson<double?>(json['rowSpacingM']),
+      plantSpacingM: serializer.fromJson<double?>(json['plantSpacingM']),
+      irrigationType: serializer.fromJson<String?>(json['irrigationType']),
+      waterSource: serializer.fromJson<String?>(json['waterSource']),
+      soilType: serializer.fromJson<String?>(json['soilType']),
+      centroidLat: serializer.fromJson<double?>(json['centroidLat']),
+      centroidLon: serializer.fromJson<double?>(json['centroidLon']),
+      boundary: serializer.fromJson<String?>(json['boundary']),
+      clientUpdatedAt: serializer.fromJson<DateTime>(json['clientUpdatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'name': serializer.toJson<String>(name),
+      'crop': serializer.toJson<String>(crop),
+      'variety': serializer.toJson<String?>(variety),
+      'areaSqM': serializer.toJson<double>(areaSqM),
+      'plantingYear': serializer.toJson<int?>(plantingYear),
+      'treeCount': serializer.toJson<int?>(treeCount),
+      'rowSpacingM': serializer.toJson<double?>(rowSpacingM),
+      'plantSpacingM': serializer.toJson<double?>(plantSpacingM),
+      'irrigationType': serializer.toJson<String?>(irrigationType),
+      'waterSource': serializer.toJson<String?>(waterSource),
+      'soilType': serializer.toJson<String?>(soilType),
+      'centroidLat': serializer.toJson<double?>(centroidLat),
+      'centroidLon': serializer.toJson<double?>(centroidLon),
+      'boundary': serializer.toJson<String?>(boundary),
+      'clientUpdatedAt': serializer.toJson<DateTime>(clientUpdatedAt),
+    };
+  }
+
+  PlotRow copyWith({
+    String? id,
+    String? name,
+    String? crop,
+    Value<String?> variety = const Value.absent(),
+    double? areaSqM,
+    Value<int?> plantingYear = const Value.absent(),
+    Value<int?> treeCount = const Value.absent(),
+    Value<double?> rowSpacingM = const Value.absent(),
+    Value<double?> plantSpacingM = const Value.absent(),
+    Value<String?> irrigationType = const Value.absent(),
+    Value<String?> waterSource = const Value.absent(),
+    Value<String?> soilType = const Value.absent(),
+    Value<double?> centroidLat = const Value.absent(),
+    Value<double?> centroidLon = const Value.absent(),
+    Value<String?> boundary = const Value.absent(),
+    DateTime? clientUpdatedAt,
+  }) => PlotRow(
+    id: id ?? this.id,
+    name: name ?? this.name,
+    crop: crop ?? this.crop,
+    variety: variety.present ? variety.value : this.variety,
+    areaSqM: areaSqM ?? this.areaSqM,
+    plantingYear: plantingYear.present ? plantingYear.value : this.plantingYear,
+    treeCount: treeCount.present ? treeCount.value : this.treeCount,
+    rowSpacingM: rowSpacingM.present ? rowSpacingM.value : this.rowSpacingM,
+    plantSpacingM: plantSpacingM.present
+        ? plantSpacingM.value
+        : this.plantSpacingM,
+    irrigationType: irrigationType.present
+        ? irrigationType.value
+        : this.irrigationType,
+    waterSource: waterSource.present ? waterSource.value : this.waterSource,
+    soilType: soilType.present ? soilType.value : this.soilType,
+    centroidLat: centroidLat.present ? centroidLat.value : this.centroidLat,
+    centroidLon: centroidLon.present ? centroidLon.value : this.centroidLon,
+    boundary: boundary.present ? boundary.value : this.boundary,
+    clientUpdatedAt: clientUpdatedAt ?? this.clientUpdatedAt,
+  );
+  PlotRow copyWithCompanion(PlotsCompanion data) {
+    return PlotRow(
+      id: data.id.present ? data.id.value : this.id,
+      name: data.name.present ? data.name.value : this.name,
+      crop: data.crop.present ? data.crop.value : this.crop,
+      variety: data.variety.present ? data.variety.value : this.variety,
+      areaSqM: data.areaSqM.present ? data.areaSqM.value : this.areaSqM,
+      plantingYear: data.plantingYear.present
+          ? data.plantingYear.value
+          : this.plantingYear,
+      treeCount: data.treeCount.present ? data.treeCount.value : this.treeCount,
+      rowSpacingM: data.rowSpacingM.present
+          ? data.rowSpacingM.value
+          : this.rowSpacingM,
+      plantSpacingM: data.plantSpacingM.present
+          ? data.plantSpacingM.value
+          : this.plantSpacingM,
+      irrigationType: data.irrigationType.present
+          ? data.irrigationType.value
+          : this.irrigationType,
+      waterSource: data.waterSource.present
+          ? data.waterSource.value
+          : this.waterSource,
+      soilType: data.soilType.present ? data.soilType.value : this.soilType,
+      centroidLat: data.centroidLat.present
+          ? data.centroidLat.value
+          : this.centroidLat,
+      centroidLon: data.centroidLon.present
+          ? data.centroidLon.value
+          : this.centroidLon,
+      boundary: data.boundary.present ? data.boundary.value : this.boundary,
+      clientUpdatedAt: data.clientUpdatedAt.present
+          ? data.clientUpdatedAt.value
+          : this.clientUpdatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('PlotRow(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('crop: $crop, ')
+          ..write('variety: $variety, ')
+          ..write('areaSqM: $areaSqM, ')
+          ..write('plantingYear: $plantingYear, ')
+          ..write('treeCount: $treeCount, ')
+          ..write('rowSpacingM: $rowSpacingM, ')
+          ..write('plantSpacingM: $plantSpacingM, ')
+          ..write('irrigationType: $irrigationType, ')
+          ..write('waterSource: $waterSource, ')
+          ..write('soilType: $soilType, ')
+          ..write('centroidLat: $centroidLat, ')
+          ..write('centroidLon: $centroidLon, ')
+          ..write('boundary: $boundary, ')
+          ..write('clientUpdatedAt: $clientUpdatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    name,
+    crop,
+    variety,
+    areaSqM,
+    plantingYear,
+    treeCount,
+    rowSpacingM,
+    plantSpacingM,
+    irrigationType,
+    waterSource,
+    soilType,
+    centroidLat,
+    centroidLon,
+    boundary,
+    clientUpdatedAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is PlotRow &&
+          other.id == this.id &&
+          other.name == this.name &&
+          other.crop == this.crop &&
+          other.variety == this.variety &&
+          other.areaSqM == this.areaSqM &&
+          other.plantingYear == this.plantingYear &&
+          other.treeCount == this.treeCount &&
+          other.rowSpacingM == this.rowSpacingM &&
+          other.plantSpacingM == this.plantSpacingM &&
+          other.irrigationType == this.irrigationType &&
+          other.waterSource == this.waterSource &&
+          other.soilType == this.soilType &&
+          other.centroidLat == this.centroidLat &&
+          other.centroidLon == this.centroidLon &&
+          other.boundary == this.boundary &&
+          other.clientUpdatedAt == this.clientUpdatedAt);
+}
+
+class PlotsCompanion extends UpdateCompanion<PlotRow> {
+  final Value<String> id;
+  final Value<String> name;
+  final Value<String> crop;
+  final Value<String?> variety;
+  final Value<double> areaSqM;
+  final Value<int?> plantingYear;
+  final Value<int?> treeCount;
+  final Value<double?> rowSpacingM;
+  final Value<double?> plantSpacingM;
+  final Value<String?> irrigationType;
+  final Value<String?> waterSource;
+  final Value<String?> soilType;
+  final Value<double?> centroidLat;
+  final Value<double?> centroidLon;
+  final Value<String?> boundary;
+  final Value<DateTime> clientUpdatedAt;
+  final Value<int> rowid;
+  const PlotsCompanion({
+    this.id = const Value.absent(),
+    this.name = const Value.absent(),
+    this.crop = const Value.absent(),
+    this.variety = const Value.absent(),
+    this.areaSqM = const Value.absent(),
+    this.plantingYear = const Value.absent(),
+    this.treeCount = const Value.absent(),
+    this.rowSpacingM = const Value.absent(),
+    this.plantSpacingM = const Value.absent(),
+    this.irrigationType = const Value.absent(),
+    this.waterSource = const Value.absent(),
+    this.soilType = const Value.absent(),
+    this.centroidLat = const Value.absent(),
+    this.centroidLon = const Value.absent(),
+    this.boundary = const Value.absent(),
+    this.clientUpdatedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  PlotsCompanion.insert({
+    required String id,
+    required String name,
+    required String crop,
+    this.variety = const Value.absent(),
+    required double areaSqM,
+    this.plantingYear = const Value.absent(),
+    this.treeCount = const Value.absent(),
+    this.rowSpacingM = const Value.absent(),
+    this.plantSpacingM = const Value.absent(),
+    this.irrigationType = const Value.absent(),
+    this.waterSource = const Value.absent(),
+    this.soilType = const Value.absent(),
+    this.centroidLat = const Value.absent(),
+    this.centroidLon = const Value.absent(),
+    this.boundary = const Value.absent(),
+    required DateTime clientUpdatedAt,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       name = Value(name),
+       crop = Value(crop),
+       areaSqM = Value(areaSqM),
+       clientUpdatedAt = Value(clientUpdatedAt);
+  static Insertable<PlotRow> custom({
+    Expression<String>? id,
+    Expression<String>? name,
+    Expression<String>? crop,
+    Expression<String>? variety,
+    Expression<double>? areaSqM,
+    Expression<int>? plantingYear,
+    Expression<int>? treeCount,
+    Expression<double>? rowSpacingM,
+    Expression<double>? plantSpacingM,
+    Expression<String>? irrigationType,
+    Expression<String>? waterSource,
+    Expression<String>? soilType,
+    Expression<double>? centroidLat,
+    Expression<double>? centroidLon,
+    Expression<String>? boundary,
+    Expression<DateTime>? clientUpdatedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (crop != null) 'crop': crop,
+      if (variety != null) 'variety': variety,
+      if (areaSqM != null) 'area_sq_m': areaSqM,
+      if (plantingYear != null) 'planting_year': plantingYear,
+      if (treeCount != null) 'tree_count': treeCount,
+      if (rowSpacingM != null) 'row_spacing_m': rowSpacingM,
+      if (plantSpacingM != null) 'plant_spacing_m': plantSpacingM,
+      if (irrigationType != null) 'irrigation_type': irrigationType,
+      if (waterSource != null) 'water_source': waterSource,
+      if (soilType != null) 'soil_type': soilType,
+      if (centroidLat != null) 'centroid_lat': centroidLat,
+      if (centroidLon != null) 'centroid_lon': centroidLon,
+      if (boundary != null) 'boundary': boundary,
+      if (clientUpdatedAt != null) 'client_updated_at': clientUpdatedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  PlotsCompanion copyWith({
+    Value<String>? id,
+    Value<String>? name,
+    Value<String>? crop,
+    Value<String?>? variety,
+    Value<double>? areaSqM,
+    Value<int?>? plantingYear,
+    Value<int?>? treeCount,
+    Value<double?>? rowSpacingM,
+    Value<double?>? plantSpacingM,
+    Value<String?>? irrigationType,
+    Value<String?>? waterSource,
+    Value<String?>? soilType,
+    Value<double?>? centroidLat,
+    Value<double?>? centroidLon,
+    Value<String?>? boundary,
+    Value<DateTime>? clientUpdatedAt,
+    Value<int>? rowid,
+  }) {
+    return PlotsCompanion(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      crop: crop ?? this.crop,
+      variety: variety ?? this.variety,
+      areaSqM: areaSqM ?? this.areaSqM,
+      plantingYear: plantingYear ?? this.plantingYear,
+      treeCount: treeCount ?? this.treeCount,
+      rowSpacingM: rowSpacingM ?? this.rowSpacingM,
+      plantSpacingM: plantSpacingM ?? this.plantSpacingM,
+      irrigationType: irrigationType ?? this.irrigationType,
+      waterSource: waterSource ?? this.waterSource,
+      soilType: soilType ?? this.soilType,
+      centroidLat: centroidLat ?? this.centroidLat,
+      centroidLon: centroidLon ?? this.centroidLon,
+      boundary: boundary ?? this.boundary,
+      clientUpdatedAt: clientUpdatedAt ?? this.clientUpdatedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (crop.present) {
+      map['crop'] = Variable<String>(crop.value);
+    }
+    if (variety.present) {
+      map['variety'] = Variable<String>(variety.value);
+    }
+    if (areaSqM.present) {
+      map['area_sq_m'] = Variable<double>(areaSqM.value);
+    }
+    if (plantingYear.present) {
+      map['planting_year'] = Variable<int>(plantingYear.value);
+    }
+    if (treeCount.present) {
+      map['tree_count'] = Variable<int>(treeCount.value);
+    }
+    if (rowSpacingM.present) {
+      map['row_spacing_m'] = Variable<double>(rowSpacingM.value);
+    }
+    if (plantSpacingM.present) {
+      map['plant_spacing_m'] = Variable<double>(plantSpacingM.value);
+    }
+    if (irrigationType.present) {
+      map['irrigation_type'] = Variable<String>(irrigationType.value);
+    }
+    if (waterSource.present) {
+      map['water_source'] = Variable<String>(waterSource.value);
+    }
+    if (soilType.present) {
+      map['soil_type'] = Variable<String>(soilType.value);
+    }
+    if (centroidLat.present) {
+      map['centroid_lat'] = Variable<double>(centroidLat.value);
+    }
+    if (centroidLon.present) {
+      map['centroid_lon'] = Variable<double>(centroidLon.value);
+    }
+    if (boundary.present) {
+      map['boundary'] = Variable<String>(boundary.value);
+    }
+    if (clientUpdatedAt.present) {
+      map['client_updated_at'] = Variable<DateTime>(clientUpdatedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('PlotsCompanion(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('crop: $crop, ')
+          ..write('variety: $variety, ')
+          ..write('areaSqM: $areaSqM, ')
+          ..write('plantingYear: $plantingYear, ')
+          ..write('treeCount: $treeCount, ')
+          ..write('rowSpacingM: $rowSpacingM, ')
+          ..write('plantSpacingM: $plantSpacingM, ')
+          ..write('irrigationType: $irrigationType, ')
+          ..write('waterSource: $waterSource, ')
+          ..write('soilType: $soilType, ')
+          ..write('centroidLat: $centroidLat, ')
+          ..write('centroidLon: $centroidLon, ')
+          ..write('boundary: $boundary, ')
+          ..write('clientUpdatedAt: $clientUpdatedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
   late final $OutboxEntriesTable outboxEntries = $OutboxEntriesTable(this);
   late final $FarmerProfilesTable farmerProfiles = $FarmerProfilesTable(this);
   late final $SyncMetaTable syncMeta = $SyncMetaTable(this);
+  late final $PlotsTable plots = $PlotsTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -1435,6 +2383,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     outboxEntries,
     farmerProfiles,
     syncMeta,
+    plots,
   ];
   @override
   DriftDatabaseOptions get options =>
@@ -2189,6 +3138,431 @@ typedef $$SyncMetaTableProcessedTableManager =
       SyncMetaData,
       PrefetchHooks Function()
     >;
+typedef $$PlotsTableCreateCompanionBuilder = PlotsCompanion Function({
+  required String id,
+  required String name,
+  required String crop,
+  Value<String?> variety,
+  required double areaSqM,
+  Value<int?> plantingYear,
+  Value<int?> treeCount,
+  Value<double?> rowSpacingM,
+  Value<double?> plantSpacingM,
+  Value<String?> irrigationType,
+  Value<String?> waterSource,
+  Value<String?> soilType,
+  Value<double?> centroidLat,
+  Value<double?> centroidLon,
+  Value<String?> boundary,
+  required DateTime clientUpdatedAt,
+  Value<int> rowid,
+});
+typedef $$PlotsTableUpdateCompanionBuilder = PlotsCompanion Function({
+  Value<String> id,
+  Value<String> name,
+  Value<String> crop,
+  Value<String?> variety,
+  Value<double> areaSqM,
+  Value<int?> plantingYear,
+  Value<int?> treeCount,
+  Value<double?> rowSpacingM,
+  Value<double?> plantSpacingM,
+  Value<String?> irrigationType,
+  Value<String?> waterSource,
+  Value<String?> soilType,
+  Value<double?> centroidLat,
+  Value<double?> centroidLon,
+  Value<String?> boundary,
+  Value<DateTime> clientUpdatedAt,
+  Value<int> rowid,
+});
+
+class $$PlotsTableFilterComposer extends Composer<_$AppDatabase, $PlotsTable> {
+  $$PlotsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get crop => $composableBuilder(
+    column: $table.crop,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get variety => $composableBuilder(
+    column: $table.variety,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get areaSqM => $composableBuilder(
+    column: $table.areaSqM,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get plantingYear => $composableBuilder(
+    column: $table.plantingYear,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get treeCount => $composableBuilder(
+    column: $table.treeCount,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get rowSpacingM => $composableBuilder(
+    column: $table.rowSpacingM,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get plantSpacingM => $composableBuilder(
+    column: $table.plantSpacingM,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get irrigationType => $composableBuilder(
+    column: $table.irrigationType,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get waterSource => $composableBuilder(
+    column: $table.waterSource,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get soilType => $composableBuilder(
+    column: $table.soilType,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get centroidLat => $composableBuilder(
+    column: $table.centroidLat,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get centroidLon => $composableBuilder(
+    column: $table.centroidLon,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get boundary => $composableBuilder(
+    column: $table.boundary,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get clientUpdatedAt => $composableBuilder(
+    column: $table.clientUpdatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$PlotsTableOrderingComposer
+    extends Composer<_$AppDatabase, $PlotsTable> {
+  $$PlotsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get crop => $composableBuilder(
+    column: $table.crop,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get variety => $composableBuilder(
+    column: $table.variety,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get areaSqM => $composableBuilder(
+    column: $table.areaSqM,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get plantingYear => $composableBuilder(
+    column: $table.plantingYear,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get treeCount => $composableBuilder(
+    column: $table.treeCount,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get rowSpacingM => $composableBuilder(
+    column: $table.rowSpacingM,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get plantSpacingM => $composableBuilder(
+    column: $table.plantSpacingM,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get irrigationType => $composableBuilder(
+    column: $table.irrigationType,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get waterSource => $composableBuilder(
+    column: $table.waterSource,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get soilType => $composableBuilder(
+    column: $table.soilType,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get centroidLat => $composableBuilder(
+    column: $table.centroidLat,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get centroidLon => $composableBuilder(
+    column: $table.centroidLon,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get boundary => $composableBuilder(
+    column: $table.boundary,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get clientUpdatedAt => $composableBuilder(
+    column: $table.clientUpdatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$PlotsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $PlotsTable> {
+  $$PlotsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get crop =>
+      $composableBuilder(column: $table.crop, builder: (column) => column);
+
+  GeneratedColumn<String> get variety =>
+      $composableBuilder(column: $table.variety, builder: (column) => column);
+
+  GeneratedColumn<double> get areaSqM =>
+      $composableBuilder(column: $table.areaSqM, builder: (column) => column);
+
+  GeneratedColumn<int> get plantingYear => $composableBuilder(
+    column: $table.plantingYear,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get treeCount =>
+      $composableBuilder(column: $table.treeCount, builder: (column) => column);
+
+  GeneratedColumn<double> get rowSpacingM => $composableBuilder(
+    column: $table.rowSpacingM,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<double> get plantSpacingM => $composableBuilder(
+    column: $table.plantSpacingM,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get irrigationType => $composableBuilder(
+    column: $table.irrigationType,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get waterSource => $composableBuilder(
+    column: $table.waterSource,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get soilType =>
+      $composableBuilder(column: $table.soilType, builder: (column) => column);
+
+  GeneratedColumn<double> get centroidLat => $composableBuilder(
+    column: $table.centroidLat,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<double> get centroidLon => $composableBuilder(
+    column: $table.centroidLon,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get boundary =>
+      $composableBuilder(column: $table.boundary, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get clientUpdatedAt => $composableBuilder(
+    column: $table.clientUpdatedAt,
+    builder: (column) => column,
+  );
+}
+
+class $$PlotsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $PlotsTable,
+          PlotRow,
+          $$PlotsTableFilterComposer,
+          $$PlotsTableOrderingComposer,
+          $$PlotsTableAnnotationComposer,
+          $$PlotsTableCreateCompanionBuilder,
+          $$PlotsTableUpdateCompanionBuilder,
+          (PlotRow, BaseReferences<_$AppDatabase, $PlotsTable, PlotRow>),
+          PlotRow,
+          PrefetchHooks Function()
+        > {
+  $$PlotsTableTableManager(_$AppDatabase db, $PlotsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$PlotsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$PlotsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$PlotsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<String> crop = const Value.absent(),
+                Value<String?> variety = const Value.absent(),
+                Value<double> areaSqM = const Value.absent(),
+                Value<int?> plantingYear = const Value.absent(),
+                Value<int?> treeCount = const Value.absent(),
+                Value<double?> rowSpacingM = const Value.absent(),
+                Value<double?> plantSpacingM = const Value.absent(),
+                Value<String?> irrigationType = const Value.absent(),
+                Value<String?> waterSource = const Value.absent(),
+                Value<String?> soilType = const Value.absent(),
+                Value<double?> centroidLat = const Value.absent(),
+                Value<double?> centroidLon = const Value.absent(),
+                Value<String?> boundary = const Value.absent(),
+                Value<DateTime> clientUpdatedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => PlotsCompanion(
+                id: id,
+                name: name,
+                crop: crop,
+                variety: variety,
+                areaSqM: areaSqM,
+                plantingYear: plantingYear,
+                treeCount: treeCount,
+                rowSpacingM: rowSpacingM,
+                plantSpacingM: plantSpacingM,
+                irrigationType: irrigationType,
+                waterSource: waterSource,
+                soilType: soilType,
+                centroidLat: centroidLat,
+                centroidLon: centroidLon,
+                boundary: boundary,
+                clientUpdatedAt: clientUpdatedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String name,
+                required String crop,
+                Value<String?> variety = const Value.absent(),
+                required double areaSqM,
+                Value<int?> plantingYear = const Value.absent(),
+                Value<int?> treeCount = const Value.absent(),
+                Value<double?> rowSpacingM = const Value.absent(),
+                Value<double?> plantSpacingM = const Value.absent(),
+                Value<String?> irrigationType = const Value.absent(),
+                Value<String?> waterSource = const Value.absent(),
+                Value<String?> soilType = const Value.absent(),
+                Value<double?> centroidLat = const Value.absent(),
+                Value<double?> centroidLon = const Value.absent(),
+                Value<String?> boundary = const Value.absent(),
+                required DateTime clientUpdatedAt,
+                Value<int> rowid = const Value.absent(),
+              }) => PlotsCompanion.insert(
+                id: id,
+                name: name,
+                crop: crop,
+                variety: variety,
+                areaSqM: areaSqM,
+                plantingYear: plantingYear,
+                treeCount: treeCount,
+                rowSpacingM: rowSpacingM,
+                plantSpacingM: plantSpacingM,
+                irrigationType: irrigationType,
+                waterSource: waterSource,
+                soilType: soilType,
+                centroidLat: centroidLat,
+                centroidLon: centroidLon,
+                boundary: boundary,
+                clientUpdatedAt: clientUpdatedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$PlotsTable, PlotRow>(table),
+                  BaseReferences<_$AppDatabase, $PlotsTable, PlotRow>(
+                    db,
+                    table,
+                    e,
+                  ),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$PlotsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $PlotsTable,
+      PlotRow,
+      $$PlotsTableFilterComposer,
+      $$PlotsTableOrderingComposer,
+      $$PlotsTableAnnotationComposer,
+      $$PlotsTableCreateCompanionBuilder,
+      $$PlotsTableUpdateCompanionBuilder,
+      (PlotRow, BaseReferences<_$AppDatabase, $PlotsTable, PlotRow>),
+      PlotRow,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -2199,4 +3573,6 @@ class $AppDatabaseManager {
       $$FarmerProfilesTableTableManager(_db, _db.farmerProfiles);
   $$SyncMetaTableTableManager get syncMeta =>
       $$SyncMetaTableTableManager(_db, _db.syncMeta);
+  $$PlotsTableTableManager get plots =>
+      $$PlotsTableTableManager(_db, _db.plots);
 }
