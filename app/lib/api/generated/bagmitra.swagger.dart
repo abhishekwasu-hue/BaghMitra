@@ -136,6 +136,37 @@ abstract class Bagmitra extends ChopperService {
     ),
   });
 
+  ///Stage Templates
+  ///@param crop
+  Future<chopper.Response<StageTemplatesResponse>>
+  v1ReferenceStageTemplatesGet({String? crop}) {
+    generatedMapping.putIfAbsent(
+      StageTemplatesResponse,
+      () => StageTemplatesResponse.fromJsonFactory,
+    );
+
+    return _v1ReferenceStageTemplatesGet(crop: crop);
+  }
+
+  ///Stage Templates
+  ///@param crop
+  @GET(path: '/v1/reference/stage-templates')
+  Future<chopper.Response<StageTemplatesResponse>>
+  _v1ReferenceStageTemplatesGet({
+    @Query('crop') String? crop,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Stage Templates',
+      operationId: 'reference_stage_templates',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["reference"],
+      deprecated: false,
+    ),
+  });
+
   ///Pull
   ///@param since
   Future<chopper.Response<PullResponse>> v1SyncPullGet({int? since}) {

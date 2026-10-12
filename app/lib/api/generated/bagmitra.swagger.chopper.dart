@@ -88,6 +88,34 @@ final class _$Bagmitra extends Bagmitra {
   }
 
   @override
+  Future<Response<StageTemplatesResponse>> _v1ReferenceStageTemplatesGet({
+    String? crop,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Stage Templates',
+      operationId: 'reference_stage_templates',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["reference"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/reference/stage-templates');
+    final Map<String, dynamic> $params = <String, dynamic>{'crop': crop};
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+      tag: swaggerMetaData,
+    );
+    return client.send<StageTemplatesResponse, StageTemplatesResponse>(
+      $request,
+    );
+  }
+
+  @override
   Future<Response<PullResponse>> _v1SyncPullGet({
     int? since,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(

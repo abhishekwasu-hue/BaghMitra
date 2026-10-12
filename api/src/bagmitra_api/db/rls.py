@@ -50,3 +50,21 @@ def disable_owner_rls(table: str) -> list[str]:
         f"DROP POLICY IF EXISTS {t}_owner_all ON {t}",
         f"ALTER TABLE {t} DISABLE ROW LEVEL SECURITY",
     ]
+
+
+def enable_reference_rls(table: str) -> list[str]:
+    """Reference/config tables: any signed-in user may read; only privileged roles write."""
+    t = _check(table)
+    return [
+        f"ALTER TABLE {t} ENABLE ROW LEVEL SECURITY",
+        f"ALTER TABLE {t} FORCE ROW LEVEL SECURITY",
+        f"CREATE POLICY {t}_read ON {t} FOR SELECT USING (auth.uid() IS NOT NULL)",
+    ]
+
+
+def disable_reference_rls(table: str) -> list[str]:
+    t = _check(table)
+    return [
+        f"DROP POLICY IF EXISTS {t}_read ON {t}",
+        f"ALTER TABLE {t} DISABLE ROW LEVEL SECURITY",
+    ]

@@ -61,6 +61,8 @@ async def _decide(
     try:
         payload = None if m.op == "delete" else handler.payload_model.model_validate(m.payload)
         current = await handler.current_version(session, user, m.entity_id)
+        if payload is not None:
+            await handler.check_references(session, user, payload)
     except ValidationError:
         return "rejected", "invalid_payload", None
     except RejectedError as exc:

@@ -70,6 +70,21 @@ Map<String, dynamic> _$FarmerProfileToJson(FarmerProfile instance) =>
       'village': ?instance.village,
     };
 
+HTTPValidationError _$HTTPValidationErrorFromJson(Map<String, dynamic> json) =>
+    HTTPValidationError(
+      detail:
+          (json['detail'] as List<dynamic>?)
+              ?.map((e) => ValidationError.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+    );
+
+Map<String, dynamic> _$HTTPValidationErrorToJson(
+  HTTPValidationError instance,
+) => <String, dynamic>{
+  'detail': ?instance.detail?.map((e) => e.toJson()).toList(),
+};
+
 LiveResponse _$LiveResponseFromJson(Map<String, dynamic> json) => LiveResponse(
   product: json['product'] as String,
   status: json['status'] as String,
@@ -159,3 +174,86 @@ ReadyResponse _$ReadyResponseFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$ReadyResponseToJson(ReadyResponse instance) =>
     <String, dynamic>{'database': instance.database, 'status': instance.status};
+
+StageTemplate _$StageTemplateFromJson(Map<String, dynamic> json) =>
+    StageTemplate(
+      bahar: json['bahar'] as String,
+      crop: json['crop'] as String,
+      id: json['id'] as String,
+      labels: json['labels'] as Map<String, dynamic>,
+      sources: json['sources'] as Map<String, dynamic>,
+      stages:
+          (json['stages'] as List<dynamic>?)
+              ?.map((e) => TemplateStage.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+      updatedAt: DateTime.parse(json['updated_at'] as String),
+      version: (json['version'] as num).toInt(),
+    );
+
+Map<String, dynamic> _$StageTemplateToJson(StageTemplate instance) =>
+    <String, dynamic>{
+      'bahar': instance.bahar,
+      'crop': instance.crop,
+      'id': instance.id,
+      'labels': instance.labels,
+      'sources': instance.sources,
+      'stages': instance.stages.map((e) => e.toJson()).toList(),
+      'updated_at': instance.updatedAt.toIso8601String(),
+      'version': instance.version,
+    };
+
+StageTemplatesResponse _$StageTemplatesResponseFromJson(
+  Map<String, dynamic> json,
+) => StageTemplatesResponse(
+  templates:
+      (json['templates'] as List<dynamic>?)
+          ?.map((e) => StageTemplate.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      [],
+);
+
+Map<String, dynamic> _$StageTemplatesResponseToJson(
+  StageTemplatesResponse instance,
+) => <String, dynamic>{
+  'templates': instance.templates.map((e) => e.toJson()).toList(),
+};
+
+TemplateStage _$TemplateStageFromJson(Map<String, dynamic> json) =>
+    TemplateStage(
+      anchor: json['anchor'] as String,
+      key: json['key'] as String,
+      labels: json['labels'] as Map<String, dynamic>,
+      offsetDaysMax: (json['offset_days_max'] as num).toInt(),
+      offsetDaysMin: (json['offset_days_min'] as num).toInt(),
+      sourceIds:
+          (json['source_ids'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          [],
+    );
+
+Map<String, dynamic> _$TemplateStageToJson(TemplateStage instance) =>
+    <String, dynamic>{
+      'anchor': instance.anchor,
+      'key': instance.key,
+      'labels': instance.labels,
+      'offset_days_max': instance.offsetDaysMax,
+      'offset_days_min': instance.offsetDaysMin,
+      'source_ids': instance.sourceIds,
+    };
+
+ValidationError _$ValidationErrorFromJson(
+  Map<String, dynamic> json,
+) => ValidationError(
+  loc: (json['loc'] as List<dynamic>?)?.map((e) => e as Object).toList() ?? [],
+  msg: json['msg'] as String,
+  type: json['type'] as String,
+);
+
+Map<String, dynamic> _$ValidationErrorToJson(ValidationError instance) =>
+    <String, dynamic>{
+      'loc': instance.loc,
+      'msg': instance.msg,
+      'type': instance.type,
+    };
