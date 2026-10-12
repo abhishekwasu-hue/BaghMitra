@@ -16,3 +16,7 @@ String formatPercent(int value, String languageCode) =>
 
 String formatMonth(DateTime date, String languageCode) =>
     DateFormat.MMMM(_intlLocale(languageCode)).format(date);
+
+/// Up to two decimals, Indian grouping, locale digits (e.g. Marathi ४.५).
+String formatDecimal(double value, String languageCode) =>
+    NumberFormat('#,##,##0.##', _intlLocale(languageCode)).format(value);

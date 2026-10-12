@@ -7,6 +7,7 @@ import 'package:bagmitra/data/local/database.dart';
 import 'package:bagmitra/features/auth/data/demo_auth_repository.dart';
 import 'package:bagmitra/features/auth/domain/auth.dart';
 import 'package:bagmitra/features/home/data/demo_home_repository.dart';
+import 'package:bagmitra/features/plots/data/crop_catalog.dart';
 import 'package:bagmitra/sync/sync_engine.dart';
 
 import 'package:flutter/foundation.dart';
@@ -52,6 +53,7 @@ Future<AppDatabase> pumpApp(
   AuthSession? session = signedIn,
   String? initialLocation,
   SyncStatus? syncStatus,
+  Future<void> Function(AppDatabase db)? seed,
 }) async {
   tester.view.physicalSize = phoneSize * 3;
   tester.view.devicePixelRatio = 3;
@@ -59,6 +61,7 @@ Future<AppDatabase> pumpApp(
   addTearDown(tester.view.reset);
   final db = memoryDb();
   addTearDown(db.close);
+  if (seed != null) await tester.runAsync(() => seed(db));
   await tester.pumpWidget(
     ProviderScope(
       overrides: [
@@ -66,6 +69,9 @@ Future<AppDatabase> pumpApp(
         databaseProvider.overrideWithValue(db),
         authRepositoryProvider.overrideWithValue(
           DemoAuthRepository(initial: session),
+        ),
+        cropCatalogProvider.overrideWithValue(
+          CropCatalog(bundle: FileAssetBundle()),
         ),
         homeRepositoryProvider.overrideWithValue(
           DemoHomeRepository(bundle: FileAssetBundle()),
@@ -88,4 +94,11 @@ Future<AppDatabase> pumpApp(
     reason: 'screen must be fully loaded before assertions/goldens',
   );
   return db;
+}
+
+/// Unmounts the app and flushes Drift's stream-cleanup timer. Call at the end of any
+/// test whose screens watch Drift queries, or the test binding reports a pending Timer.
+Future<void> unmountApp(WidgetTester tester) async {
+  await tester.pumpWidget(const SizedBox());
+  await tester.pump(Duration.zero);
 }

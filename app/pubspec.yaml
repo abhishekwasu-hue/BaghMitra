@@ -39,6 +39,7 @@ flutter:
   generate: true
   assets:
     - assets/demo/
+    - assets/config/
   fonts:
     - family: Baloo2
       fonts:

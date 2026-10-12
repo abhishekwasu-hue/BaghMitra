@@ -42,5 +42,22 @@
   "adminTranslations": "भाषांतरे",
   "adminAiUsage": "AI वापर",
   "adminComingSoon": "संपादन टप्पा {milestone} मध्ये येईल.",
-  "demoDataNotice": "नमुना माहिती"
+  "demoDataNotice": "नमुना माहिती",
+  "myOrchard": "माझी बाग",
+  "addPlot": "बाग जोडा",
+  "plotsEmptyTitle": "अजून बाग जोडलेली नाही",
+  "plotsEmptyBody": "बहार कॅलेंडर आणि रोजची कामं मिळवण्यासाठी पहिली बाग जोडा.",
+  "plotName": "बागेचं नाव",
+  "plotNameHint": "उदा. बाग १",
+  "plotCrop": "पीक",
+  "plotVariety": "जात (ऐच्छिक)",
+  "plotAreaAcres": "क्षेत्र (एकर)",
+  "plotTreeCount": "झाडांची संख्या (ऐच्छिक)",
+  "plotPlantingYear": "लागवडीचं वर्ष (ऐच्छिक)",
+  "save": "जतन करा",
+  "fieldRequired": "आवश्यक",
+  "invalidNumber": "योग्य संख्या टाका",
+  "plotAcres": "{area} एकर",
+  "plotTrees": "{count} झाडं",
+  "plotSaved": "जतन झालं. नेट आल्यावर पाठवलं जाईल."
 }

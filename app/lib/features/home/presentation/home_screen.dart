@@ -43,6 +43,9 @@ class HomeScreen extends ConsumerWidget {
           BmNavItem(BmGlyph.mic, t.navAsk),
         ],
         selected: 0,
+        onSelect: (i) {
+          if (i == 1) context.push(Routes.plots);
+        },
         cameraLabel: t.takePhoto,
         // Camera capture lands in M3; in dev builds the button opens the component gallery.
         onCamera: () {

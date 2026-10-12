@@ -42,5 +42,22 @@
   "adminTranslations": "अनुवाद",
   "adminAiUsage": "AI उपयोग",
   "adminComingSoon": "संपादन माइलस्टोन {milestone} में आएगा।",
-  "demoDataNotice": "नमूना जानकारी"
+  "demoDataNotice": "नमूना जानकारी",
+  "myOrchard": "मेरा बाग",
+  "addPlot": "बाग जोड़ें",
+  "plotsEmptyTitle": "अभी कोई बाग नहीं जोड़ा",
+  "plotsEmptyBody": "बहार कैलेंडर और रोज़ के काम पाने के लिए पहला बाग जोड़ें।",
+  "plotName": "बाग का नाम",
+  "plotNameHint": "जैसे बाग 1",
+  "plotCrop": "फसल",
+  "plotVariety": "किस्म (वैकल्पिक)",
+  "plotAreaAcres": "क्षेत्रफल (एकड़)",
+  "plotTreeCount": "पेड़ों की संख्या (वैकल्पिक)",
+  "plotPlantingYear": "रोपण वर्ष (वैकल्पिक)",
+  "save": "सहेजें",
+  "fieldRequired": "ज़रूरी",
+  "invalidNumber": "सही संख्या डालें",
+  "plotAcres": "{area} एकड़",
+  "plotTrees": "{count} पेड़",
+  "plotSaved": "सहेजा गया। नेटवर्क आने पर भेजा जाएगा।"
 }
