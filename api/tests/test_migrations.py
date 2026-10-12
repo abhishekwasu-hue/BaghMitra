@@ -18,8 +18,10 @@ from bagmitra_api.db import models  # noqa: F401
 from bagmitra_api.db.base import Base
 from bagmitra_api.db.rls import (
     disable_owner_rls,
+    disable_private_rls,
     disable_reference_rls,
     enable_owner_rls,
+    enable_private_rls,
     enable_reference_rls,
 )
 
@@ -61,10 +63,10 @@ def test_upgrade_downgrade_upgrade_on_sqlite(tmp_path: Path) -> None:
 
 
 def test_every_model_declares_its_rls_kind() -> None:
-    """Each table is owner-scoped (owner_column) or read-only reference data."""
+    """Each table is owner-scoped (owner_column), read-only reference data, or private."""
     for mapper in Base.registry.mappers:
         cls = mapper.class_
-        if getattr(cls, "reference_table", False):
+        if getattr(cls, "reference_table", False) or getattr(cls, "private_table", False):
             continue
         owner = getattr(cls, "owner_column", None)
         assert isinstance(owner, str), f"{cls.__name__} lacks owner_column / reference_table"
@@ -76,6 +78,10 @@ def test_rls_statements_reject_unsafe_identifiers() -> None:
     assert "auth.uid() IS NOT NULL" in enable_reference_rls("crop_stage_templates")[2]
     assert disable_reference_rls("crop_stage_templates")[0].startswith("DROP POLICY")
     assert disable_owner_rls("farmers")[0].startswith("DROP POLICY")
+    assert not any("POLICY" in s for s in enable_private_rls("kb_admin_alerts"))
+    assert disable_private_rls("kb_admin_alerts") == [
+        "ALTER TABLE kb_admin_alerts DISABLE ROW LEVEL SECURITY"
+    ]
     with pytest.raises(ValueError, match="unsafe"):
         enable_owner_rls("farmers; drop table x", "id")
 

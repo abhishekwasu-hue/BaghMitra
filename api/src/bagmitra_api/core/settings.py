@@ -31,6 +31,17 @@ class Settings(BaseSettings):
     kb_review_months_default: int = 12
     kb_review_months_chemical: int = 6
     kb_max_verbatim_words: int = 12
+    # Our crop key -> crop names as written on CIB&RC labels, and crop groups used by
+    # gazette restrictions (OPEN_QUESTIONS Q15: confirm with the expert reviewer).
+    kb_crop_label_aliases: dict[str, list[str]] = Field(
+        default_factory=lambda: {
+            "santra": ["citrus", "mandarin", "orange"],
+            "mosambi": ["citrus", "sweet orange"],
+        }
+    )
+    kb_crop_groups: dict[str, list[str]] = Field(
+        default_factory=lambda: {"santra": ["fruit_eaten_raw"], "mosambi": ["fruit_eaten_raw"]}
+    )
 
     @field_validator("supabase_jwt_secret")
     @classmethod

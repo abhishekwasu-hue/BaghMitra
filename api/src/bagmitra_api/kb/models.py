@@ -141,3 +141,18 @@ class KbSynonym(TimestampMixin, Base):
     id: Mapped[uuid.UUID] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(120), unique=True)
     active_ingredient: Mapped[str] = mapped_column(String(120))
+
+
+class KbAdminAlert(TimestampMixin, Base):
+    """Something an admin must act on, e.g. a published card pulled by the nightly re-gate.
+    Service-only: no grower or signed-in client can read these rows."""
+
+    __tablename__ = "kb_admin_alerts"
+    private_table = True
+
+    id: Mapped[uuid.UUID] = mapped_column(primary_key=True)
+    # card_pulled | import_applied
+    kind: Mapped[str] = mapped_column(String(32))
+    card_id: Mapped[uuid.UUID | None] = mapped_column(ForeignKey("kb_cards.id"), index=True)
+    detail: Mapped[str] = mapped_column(Text)
+    resolved_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
