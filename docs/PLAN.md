@@ -1,6 +1,8 @@
 # BagMitra — Delivery Plan
 
-Source of truth for requirements: [`SPEC_v1.md`](SPEC_v1.md). This plan maps every spec
+Source of truth for requirements: [`SPEC_v1.md`](SPEC_v1.md), extended by the
+[knowledge base & advice-safety addendum v1.3](SPEC_knowledge_addendum_v1.3.md), which wins
+for anything that tells a grower what to spray, apply or do. This plan maps every spec
 section to concrete files and milestones. Each milestone has a Definition of Done (DoD)
 that must be met before the next one starts. Progress is tracked in
 [`PROGRESS.md`](PROGRESS.md); unresolved points live in
@@ -148,3 +150,52 @@ health alerts, sensor charts, sensor-based irrigation advisory.
 
 Low-end device profiling, size/battery/data audits, accessibility pass, store assets,
 privacy policy, DPDP export/delete, load tests, backups, runbooks.
+
+## Knowledge base & advice safety (addendum v1.3) — interleaved milestones
+
+Hard rule until K1 is done: **no chemical name, dose or spray instruction reaches a grower** —
+not in cards, task templates, alerts, AI answers or voice. Until a real expert reviewer is
+attached (§6), only the safe subset ships: cultural practices, record-keeping, bahar calendar
+dates, irrigation tables and weather risk alerts without chemical advice.
+
+### K0 — Knowledge data model & source registry (with M1)
+Files: `api/src/bagmitra_api/kb/` (models: `kb_sources`, `kb_topics`, `kb_cards`,
+`kb_label_claims`, `kb_restrictions`, `kb_mrl`, `kb_models`, `kb_reviews`, `kb_conflicts`;
+all content language-keyed with a human-review flag), migration with RLS (reference tables:
+read for signed-in users, write for privileged roles), seed of `kb_sources` from addendum §2
+with mandatory **tier** and **licence/allowed_use**, admin UI skeleton for sources and cards,
+CCRI monthly calendar / irrigation-by-age / fertiliser tables loaded as **draft** cards.
+DoD: every seeded source has tier + licence; licence rule enforced in code (no verbatim text
+from `summarise_cite`/`cite_only` sources in user-visible fields; `internal_only` never reaches
+growers) with tests; cards cannot be published without an expert review record.
+
+### K1 — Legal & safety gate (before any chemical text ships)
+Files: `api/src/bagmitra_api/kb/gate.py`, `kb/importers/` (CIB&RC major-uses, banned/
+restricted list, FSSAI MRL; manual-upload fallback; dated, diffed), `kb/output_filter.py`
+(active-ingredient + synonym/brand dictionary), nightly re-gate job.
+DoD: addendum §9 gate tests (benomyl, dichlorvos, dicofol, phorate, chlorpyrifos on citrus,
+dimethoate on raw-eaten fruit never appear; no label claim → suppressed; PHI vs planned
+harvest blocks; a new ban pulls published cards; "ICAR-recommended, no label claim" renders
+only as a reviewer-approved caution note); red-team tests; coverage ≥ 90 % on gate, filter and
+model modules.
+
+### K2 — Retrieval-grounded AI (with M3)
+Postgres full-text + pgvector retrieval over published cards + the grower's records; answers
+cite card ids; no card → "no verified answer" + expert escalation; photo diagnosis maps to
+`kb_topics` and shows only gated cards; output filter on every AI/alert/voice text.
+DoD: golden Q&A set (150+, mr/hi/en) with regression threshold gating merges.
+
+### K3 — Weather-risk models (with M4)
+`kb_models` with per-taluka calibration: heat/fruit-drop, psylla window + ACP degree-day model,
+Alter-Rater, canker storm + flush, Phytophthora rainfall/soil.
+DoD: model tests against hand-computed fixtures; alerts reviewed and gated.
+
+### K4 — Ongoing
+Reviewer onboarding, review-expiry automation (12 months; 6 for chemical cards), outcome
+feedback loop, consented field image dataset, quarterly source re-verification.
+
+### Impact on earlier M1 work
+- `crop_stage_templates` (PR #7) stay as the bahar-calendar mechanism; their content will be
+  generated from reviewed K0 cards (CCRI monthly guidance + PDKV), never from unreviewed text.
+- `docs/agronomy/DRAFT_santra_mosambi_bahar_stages.md` is superseded as a source list by
+  addendum §2–§3 (fetched and read, marked [V]); it remains as a cross-check only.
