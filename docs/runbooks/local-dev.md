@@ -17,6 +17,10 @@ uvicorn bagmitra_api.asgi:app --reload`.
 Postgres-only tests (RLS, reversible migrations):
 `POSTGRES_TEST_URL=postgresql+asyncpg://postgres:postgres@localhost:54322/bagmitra pytest -m postgres --no-cov`.
 
+**Reference data:** `python -m bagmitra_api.kb.seed` (idempotent) loads the knowledge-base
+source registry (addendum v1.3 §2) and the banned/restricted pesticide list (§3.8) from
+`api/src/bagmitra_api/kb/seed_data/`. `make dev` runs it on start.
+
 **Changing the API:** edit code + tests → `make openapi` (exports the spec, copies it into the app,
 regenerates the Dart client) → commit all three.
 
