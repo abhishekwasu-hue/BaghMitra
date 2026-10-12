@@ -10,6 +10,9 @@ class AppLocalizationsMr extends AppLocalizations {
   AppLocalizationsMr([String locale = 'mr']) : super(locale);
 
   @override
+  String get appName => 'बागमित्र';
+
+  @override
   String get greetingHello => 'नमस्कार';
 
   @override

@@ -40,7 +40,7 @@ class _BagMitraAppState extends ConsumerState<BagMitraApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: ref.watch(appConfigProvider).productName,
+      onGenerateTitle: (context) => AppLocalizations.of(context).appName,
       debugShowCheckedModeBanner: false,
       theme: BmTheme.light(),
       darkTheme: BmTheme.dark(),
