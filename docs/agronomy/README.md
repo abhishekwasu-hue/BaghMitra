@@ -10,3 +10,9 @@ chemical actions carry a "verify with local expert" line.
 M0 contains no agronomy data. The Home screen's sample content (`app/assets/demo/home_demo.json`)
 is illustrative only, labelled "Sample data" in the UI, and not used by any logic. Seeding the
 santra/mosambi stage templates with citations is the first M1 task.
+
+## Index
+
+| File | Status |
+|---|---|
+| [DRAFT_santra_mosambi_bahar_stages.md](DRAFT_santra_mosambi_bahar_stages.md) | **Draft, unverified.** Bahar calendars for Nagpur mandarin and mosambi, built from search excerpts of CCRI, NHB, ICAR-journal and extension sources, with confidence labels, conflicts and gaps. Needs primary-source verification (OPEN_QUESTIONS Q10). |
