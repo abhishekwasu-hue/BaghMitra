@@ -16,7 +16,12 @@ from sqlalchemy import exc as sa_exc
 
 from bagmitra_api.db import models  # noqa: F401
 from bagmitra_api.db.base import Base
-from bagmitra_api.db.rls import disable_owner_rls, enable_owner_rls
+from bagmitra_api.db.rls import (
+    disable_owner_rls,
+    disable_reference_rls,
+    enable_owner_rls,
+    enable_reference_rls,
+)
 
 API_DIR = Path(__file__).resolve().parents[1]
 
@@ -55,15 +60,21 @@ def test_upgrade_downgrade_upgrade_on_sqlite(tmp_path: Path) -> None:
     engine.dispose()
 
 
-def test_every_model_declares_its_owner_column() -> None:
+def test_every_model_declares_its_rls_kind() -> None:
+    """Each table is owner-scoped (owner_column) or read-only reference data."""
     for mapper in Base.registry.mappers:
-        owner = getattr(mapper.class_, "owner_column", None)
-        assert isinstance(owner, str), f"{mapper.class_.__name__} lacks owner_column"
-        assert owner in mapper.columns, f"{mapper.class_.__name__} needs owner_column for RLS"
+        cls = mapper.class_
+        if getattr(cls, "reference_table", False):
+            continue
+        owner = getattr(cls, "owner_column", None)
+        assert isinstance(owner, str), f"{cls.__name__} lacks owner_column / reference_table"
+        assert owner in mapper.columns, f"{cls.__name__} needs owner_column for RLS"
 
 
 def test_rls_statements_reject_unsafe_identifiers() -> None:
     assert enable_owner_rls("farmers", "id")[0] == "ALTER TABLE farmers ENABLE ROW LEVEL SECURITY"
+    assert "auth.uid() IS NOT NULL" in enable_reference_rls("crop_stage_templates")[2]
+    assert disable_reference_rls("crop_stage_templates")[0].startswith("DROP POLICY")
     assert disable_owner_rls("farmers")[0].startswith("DROP POLICY")
     with pytest.raises(ValueError, match="unsafe"):
         enable_owner_rls("farmers; drop table x", "id")

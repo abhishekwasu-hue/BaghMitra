@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import uuid
+from datetime import date
 from typing import Annotated, Any, Literal
 
 from pydantic import BaseModel, Field, field_validator
@@ -73,4 +75,23 @@ class PlotPayload(RowPayload):
                 "coordinates": [[list(p) for p in ring] for ring in self.boundary.coordinates],
             }
         )
+        return data
+
+
+StageKey = Annotated[str, Field(pattern=r"^[a-z][a-z0-9_]{1,31}$")]
+
+
+class BaharCyclePayload(RowPayload):
+    plot_id: uuid.UUID
+    bahar: Slug
+    season_year: int = Field(ge=2000, le=2100)
+    template_id: uuid.UUID | None = None
+    status: Literal["planned", "active", "completed", "abandoned"]
+    planned: dict[StageKey, date] = Field(default_factory=dict, max_length=40)
+    actual: dict[StageKey, date] = Field(default_factory=dict, max_length=40)
+
+    def to_columns(self) -> dict[str, Any]:
+        data = self.model_dump()
+        data["planned"] = {k: v.isoformat() for k, v in self.planned.items()}
+        data["actual"] = {k: v.isoformat() for k, v in self.actual.items()}
         return data

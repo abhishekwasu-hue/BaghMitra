@@ -13,7 +13,8 @@ api-check:
 
 openapi:
 	cd api && python -m bagmitra_api.export_openapi && cp ../docs/api/openapi.json ../app/openapi/bagmitra.openapi.json
-	cd app && dart run build_runner build --delete-conflicting-outputs && dart format lib > /dev/null
+	# build_runner caches by package, so a changed OpenAPI file alone does not re-run the generator: clean first.
+	cd app && dart run build_runner clean && dart run build_runner build --delete-conflicting-outputs && dart format lib > /dev/null
 
 app:
 	cd app && flutter run --dart-define-from-file=../product.env --dart-define=API_BASE_URL=http://10.0.2.2:8000

@@ -386,6 +386,54 @@ extension $FarmerProfileExtension on FarmerProfile {
 }
 
 @JsonSerializable(explicitToJson: true)
+class HTTPValidationError {
+  const HTTPValidationError({this.detail});
+
+  factory HTTPValidationError.fromJson(Map<String, dynamic> json) =>
+      _$HTTPValidationErrorFromJson(json);
+
+  static const toJsonFactory = _$HTTPValidationErrorToJson;
+  Map<String, dynamic> toJson() => _$HTTPValidationErrorToJson(this);
+
+  @JsonKey(
+    name: 'detail',
+    includeIfNull: false,
+    defaultValue: <ValidationError>[],
+  )
+  final List<ValidationError>? detail;
+  static const fromJsonFactory = _$HTTPValidationErrorFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is HTTPValidationError &&
+            (identical(other.detail, detail) ||
+                const DeepCollectionEquality().equals(other.detail, detail)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(detail) ^ runtimeType.hashCode;
+}
+
+extension $HTTPValidationErrorExtension on HTTPValidationError {
+  HTTPValidationError copyWith({List<ValidationError>? detail}) {
+    return HTTPValidationError(detail: detail ?? this.detail);
+  }
+
+  HTTPValidationError copyWithWrapped({
+    Wrapped<List<ValidationError>?>? detail,
+  }) {
+    return HTTPValidationError(
+      detail: (detail != null ? detail.value : this.detail),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class LiveResponse {
   const LiveResponse({required this.product, required this.status});
 
@@ -846,6 +894,369 @@ extension $ReadyResponseExtension on ReadyResponse {
     return ReadyResponse(
       database: (database != null ? database.value : this.database),
       status: (status != null ? status.value : this.status),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class StageTemplate {
+  const StageTemplate({
+    required this.bahar,
+    required this.crop,
+    required this.id,
+    required this.labels,
+    required this.sources,
+    required this.stages,
+    required this.updatedAt,
+    required this.version,
+  });
+
+  factory StageTemplate.fromJson(Map<String, dynamic> json) =>
+      _$StageTemplateFromJson(json);
+
+  static const toJsonFactory = _$StageTemplateToJson;
+  Map<String, dynamic> toJson() => _$StageTemplateToJson(this);
+
+  @JsonKey(name: 'bahar', includeIfNull: false)
+  final String bahar;
+  @JsonKey(name: 'crop', includeIfNull: false)
+  final String crop;
+  @JsonKey(name: 'id', includeIfNull: false)
+  final String id;
+  @JsonKey(name: 'labels', includeIfNull: false)
+  final Map<String, dynamic> labels;
+  @JsonKey(name: 'sources', includeIfNull: false)
+  final Map<String, dynamic> sources;
+  @JsonKey(
+    name: 'stages',
+    includeIfNull: false,
+    defaultValue: <TemplateStage>[],
+  )
+  final List<TemplateStage> stages;
+  @JsonKey(name: 'updated_at', includeIfNull: false)
+  final DateTime updatedAt;
+  @JsonKey(name: 'version', includeIfNull: false)
+  final int version;
+  static const fromJsonFactory = _$StageTemplateFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is StageTemplate &&
+            (identical(other.bahar, bahar) ||
+                const DeepCollectionEquality().equals(other.bahar, bahar)) &&
+            (identical(other.crop, crop) ||
+                const DeepCollectionEquality().equals(other.crop, crop)) &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.labels, labels) ||
+                const DeepCollectionEquality().equals(other.labels, labels)) &&
+            (identical(other.sources, sources) ||
+                const DeepCollectionEquality().equals(
+                  other.sources,
+                  sources,
+                )) &&
+            (identical(other.stages, stages) ||
+                const DeepCollectionEquality().equals(other.stages, stages)) &&
+            (identical(other.updatedAt, updatedAt) ||
+                const DeepCollectionEquality().equals(
+                  other.updatedAt,
+                  updatedAt,
+                )) &&
+            (identical(other.version, version) ||
+                const DeepCollectionEquality().equals(other.version, version)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(bahar) ^
+      const DeepCollectionEquality().hash(crop) ^
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(labels) ^
+      const DeepCollectionEquality().hash(sources) ^
+      const DeepCollectionEquality().hash(stages) ^
+      const DeepCollectionEquality().hash(updatedAt) ^
+      const DeepCollectionEquality().hash(version) ^
+      runtimeType.hashCode;
+}
+
+extension $StageTemplateExtension on StageTemplate {
+  StageTemplate copyWith({
+    String? bahar,
+    String? crop,
+    String? id,
+    Map<String, dynamic>? labels,
+    Map<String, dynamic>? sources,
+    List<TemplateStage>? stages,
+    DateTime? updatedAt,
+    int? version,
+  }) {
+    return StageTemplate(
+      bahar: bahar ?? this.bahar,
+      crop: crop ?? this.crop,
+      id: id ?? this.id,
+      labels: labels ?? this.labels,
+      sources: sources ?? this.sources,
+      stages: stages ?? this.stages,
+      updatedAt: updatedAt ?? this.updatedAt,
+      version: version ?? this.version,
+    );
+  }
+
+  StageTemplate copyWithWrapped({
+    Wrapped<String>? bahar,
+    Wrapped<String>? crop,
+    Wrapped<String>? id,
+    Wrapped<Map<String, dynamic>>? labels,
+    Wrapped<Map<String, dynamic>>? sources,
+    Wrapped<List<TemplateStage>>? stages,
+    Wrapped<DateTime>? updatedAt,
+    Wrapped<int>? version,
+  }) {
+    return StageTemplate(
+      bahar: (bahar != null ? bahar.value : this.bahar),
+      crop: (crop != null ? crop.value : this.crop),
+      id: (id != null ? id.value : this.id),
+      labels: (labels != null ? labels.value : this.labels),
+      sources: (sources != null ? sources.value : this.sources),
+      stages: (stages != null ? stages.value : this.stages),
+      updatedAt: (updatedAt != null ? updatedAt.value : this.updatedAt),
+      version: (version != null ? version.value : this.version),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class StageTemplatesResponse {
+  const StageTemplatesResponse({required this.templates});
+
+  factory StageTemplatesResponse.fromJson(Map<String, dynamic> json) =>
+      _$StageTemplatesResponseFromJson(json);
+
+  static const toJsonFactory = _$StageTemplatesResponseToJson;
+  Map<String, dynamic> toJson() => _$StageTemplatesResponseToJson(this);
+
+  @JsonKey(
+    name: 'templates',
+    includeIfNull: false,
+    defaultValue: <StageTemplate>[],
+  )
+  final List<StageTemplate> templates;
+  static const fromJsonFactory = _$StageTemplatesResponseFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is StageTemplatesResponse &&
+            (identical(other.templates, templates) ||
+                const DeepCollectionEquality().equals(
+                  other.templates,
+                  templates,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(templates) ^ runtimeType.hashCode;
+}
+
+extension $StageTemplatesResponseExtension on StageTemplatesResponse {
+  StageTemplatesResponse copyWith({List<StageTemplate>? templates}) {
+    return StageTemplatesResponse(templates: templates ?? this.templates);
+  }
+
+  StageTemplatesResponse copyWithWrapped({
+    Wrapped<List<StageTemplate>>? templates,
+  }) {
+    return StageTemplatesResponse(
+      templates: (templates != null ? templates.value : this.templates),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class TemplateStage {
+  const TemplateStage({
+    required this.anchor,
+    required this.key,
+    required this.labels,
+    required this.offsetDaysMax,
+    required this.offsetDaysMin,
+    required this.sourceIds,
+  });
+
+  factory TemplateStage.fromJson(Map<String, dynamic> json) =>
+      _$TemplateStageFromJson(json);
+
+  static const toJsonFactory = _$TemplateStageToJson;
+  Map<String, dynamic> toJson() => _$TemplateStageToJson(this);
+
+  @JsonKey(name: 'anchor', includeIfNull: false)
+  final String anchor;
+  @JsonKey(name: 'key', includeIfNull: false)
+  final String key;
+  @JsonKey(name: 'labels', includeIfNull: false)
+  final Map<String, dynamic> labels;
+  @JsonKey(name: 'offset_days_max', includeIfNull: false)
+  final int offsetDaysMax;
+  @JsonKey(name: 'offset_days_min', includeIfNull: false)
+  final int offsetDaysMin;
+  @JsonKey(name: 'source_ids', includeIfNull: false, defaultValue: <String>[])
+  final List<String> sourceIds;
+  static const fromJsonFactory = _$TemplateStageFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is TemplateStage &&
+            (identical(other.anchor, anchor) ||
+                const DeepCollectionEquality().equals(other.anchor, anchor)) &&
+            (identical(other.key, key) ||
+                const DeepCollectionEquality().equals(other.key, key)) &&
+            (identical(other.labels, labels) ||
+                const DeepCollectionEquality().equals(other.labels, labels)) &&
+            (identical(other.offsetDaysMax, offsetDaysMax) ||
+                const DeepCollectionEquality().equals(
+                  other.offsetDaysMax,
+                  offsetDaysMax,
+                )) &&
+            (identical(other.offsetDaysMin, offsetDaysMin) ||
+                const DeepCollectionEquality().equals(
+                  other.offsetDaysMin,
+                  offsetDaysMin,
+                )) &&
+            (identical(other.sourceIds, sourceIds) ||
+                const DeepCollectionEquality().equals(
+                  other.sourceIds,
+                  sourceIds,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(anchor) ^
+      const DeepCollectionEquality().hash(key) ^
+      const DeepCollectionEquality().hash(labels) ^
+      const DeepCollectionEquality().hash(offsetDaysMax) ^
+      const DeepCollectionEquality().hash(offsetDaysMin) ^
+      const DeepCollectionEquality().hash(sourceIds) ^
+      runtimeType.hashCode;
+}
+
+extension $TemplateStageExtension on TemplateStage {
+  TemplateStage copyWith({
+    String? anchor,
+    String? key,
+    Map<String, dynamic>? labels,
+    int? offsetDaysMax,
+    int? offsetDaysMin,
+    List<String>? sourceIds,
+  }) {
+    return TemplateStage(
+      anchor: anchor ?? this.anchor,
+      key: key ?? this.key,
+      labels: labels ?? this.labels,
+      offsetDaysMax: offsetDaysMax ?? this.offsetDaysMax,
+      offsetDaysMin: offsetDaysMin ?? this.offsetDaysMin,
+      sourceIds: sourceIds ?? this.sourceIds,
+    );
+  }
+
+  TemplateStage copyWithWrapped({
+    Wrapped<String>? anchor,
+    Wrapped<String>? key,
+    Wrapped<Map<String, dynamic>>? labels,
+    Wrapped<int>? offsetDaysMax,
+    Wrapped<int>? offsetDaysMin,
+    Wrapped<List<String>>? sourceIds,
+  }) {
+    return TemplateStage(
+      anchor: (anchor != null ? anchor.value : this.anchor),
+      key: (key != null ? key.value : this.key),
+      labels: (labels != null ? labels.value : this.labels),
+      offsetDaysMax: (offsetDaysMax != null
+          ? offsetDaysMax.value
+          : this.offsetDaysMax),
+      offsetDaysMin: (offsetDaysMin != null
+          ? offsetDaysMin.value
+          : this.offsetDaysMin),
+      sourceIds: (sourceIds != null ? sourceIds.value : this.sourceIds),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ValidationError {
+  const ValidationError({
+    required this.loc,
+    required this.msg,
+    required this.type,
+  });
+
+  factory ValidationError.fromJson(Map<String, dynamic> json) =>
+      _$ValidationErrorFromJson(json);
+
+  static const toJsonFactory = _$ValidationErrorToJson;
+  Map<String, dynamic> toJson() => _$ValidationErrorToJson(this);
+
+  @JsonKey(name: 'loc', includeIfNull: false, defaultValue: <Object>[])
+  final List<Object> loc;
+  @JsonKey(name: 'msg', includeIfNull: false)
+  final String msg;
+  @JsonKey(name: 'type', includeIfNull: false)
+  final String type;
+  static const fromJsonFactory = _$ValidationErrorFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is ValidationError &&
+            (identical(other.loc, loc) ||
+                const DeepCollectionEquality().equals(other.loc, loc)) &&
+            (identical(other.msg, msg) ||
+                const DeepCollectionEquality().equals(other.msg, msg)) &&
+            (identical(other.type, type) ||
+                const DeepCollectionEquality().equals(other.type, type)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(loc) ^
+      const DeepCollectionEquality().hash(msg) ^
+      const DeepCollectionEquality().hash(type) ^
+      runtimeType.hashCode;
+}
+
+extension $ValidationErrorExtension on ValidationError {
+  ValidationError copyWith({List<Object>? loc, String? msg, String? type}) {
+    return ValidationError(
+      loc: loc ?? this.loc,
+      msg: msg ?? this.msg,
+      type: type ?? this.type,
+    );
+  }
+
+  ValidationError copyWithWrapped({
+    Wrapped<List<Object>>? loc,
+    Wrapped<String>? msg,
+    Wrapped<String>? type,
+  }) {
+    return ValidationError(
+      loc: (loc != null ? loc.value : this.loc),
+      msg: (msg != null ? msg.value : this.msg),
+      type: (type != null ? type.value : this.type),
     );
   }
 }

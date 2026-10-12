@@ -18,8 +18,13 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from bagmitra_api.auth.jwt import AuthenticatedUser
 from bagmitra_api.db.base import OwnedSyncedRowMixin
-from bagmitra_api.db.models import Farmer, Plot
-from bagmitra_api.sync.payloads import FarmerProfilePayload, PlotPayload, RowPayload
+from bagmitra_api.db.models import BaharCycle, Farmer, Plot
+from bagmitra_api.sync.payloads import (
+    BaharCyclePayload,
+    FarmerProfilePayload,
+    PlotPayload,
+    RowPayload,
+)
 
 
 class RejectedError(Exception):
@@ -58,6 +63,10 @@ class EntityHandler(Protocol):
         self, session: AsyncSession, user: AuthenticatedUser, entity_id: str
     ) -> datetime | None: ...
 
+    async def check_references(
+        self, session: AsyncSession, user: AuthenticatedUser, payload: BaseModel
+    ) -> None: ...
+
     async def apply(
         self, session: AsyncSession, user: AuthenticatedUser, write: ValidatedWrite
     ) -> None: ...
@@ -84,6 +93,14 @@ class FarmerProfileHandler:
     ) -> datetime | None:
         farmer = await session.get(Farmer, self._own_id(user, entity_id))
         return farmer.client_updated_at if farmer else None
+
+    async def check_references(
+        self,
+        session: AsyncSession,  # noqa: ARG002
+        user: AuthenticatedUser,  # noqa: ARG002
+        payload: BaseModel,  # noqa: ARG002
+    ) -> None:
+        return None  # a profile references nothing
 
     async def apply(
         self, session: AsyncSession, user: AuthenticatedUser, write: ValidatedWrite
@@ -127,6 +144,8 @@ class OwnedEntityHandler:
     model: type[OwnedSyncedRowMixin]
     payload_model: type[RowPayload]
     supported_ops: frozenset[str] = frozenset({"upsert", "delete"})
+    # (payload attribute, parent model): the parent must exist, be live and be the user's.
+    parents: tuple[tuple[str, type[OwnedSyncedRowMixin]], ...] = ()
 
     async def _row(
         self, session: AsyncSession, user: AuthenticatedUser, entity_id: str
@@ -145,6 +164,14 @@ class OwnedEntityHandler:
     ) -> datetime | None:
         row = await self._row(session, user, entity_id)
         return row.client_updated_at if row else None
+
+    async def check_references(
+        self, session: AsyncSession, user: AuthenticatedUser, payload: BaseModel
+    ) -> None:
+        for attr, model in self.parents:
+            parent = await session.get(model, getattr(payload, attr))
+            if parent is None or parent.owner_id != user.id or parent.deleted_at is not None:
+                raise RejectedError("invalid_reference")
 
     async def apply(
         self, session: AsyncSession, user: AuthenticatedUser, write: ValidatedWrite
@@ -190,5 +217,11 @@ HANDLERS: dict[str, EntityHandler] = {
     for h in (
         FarmerProfileHandler(),
         OwnedEntityHandler(name="plot", model=Plot, payload_model=PlotPayload),
+        OwnedEntityHandler(
+            name="bahar_cycle",
+            model=BaharCycle,
+            payload_model=BaharCyclePayload,
+            parents=(("plot_id", Plot),),
+        ),
     )
 }
