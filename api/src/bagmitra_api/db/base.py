@@ -19,6 +19,11 @@ def utcnow() -> datetime:
     return datetime.now(UTC)
 
 
+def as_utc(value: datetime) -> datetime:
+    """SQLite drops tzinfo on read; Postgres keeps it. Normalise before comparing."""
+    return value if value.tzinfo else value.replace(tzinfo=UTC)
+
+
 class Base(DeclarativeBase):
     metadata = MetaData(naming_convention=NAMING_CONVENTION)
 
