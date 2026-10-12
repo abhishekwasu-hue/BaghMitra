@@ -105,7 +105,13 @@ def _assert_owner_isolation(conn: Connection) -> None:
     )
     conn.commit()
     with conn.begin():
-        conn.execute(text("DROP ROLE IF EXISTS rls_probe"))
+        # Idempotent on a reused database: the role keeps grants on the auth schema.
+        conn.execute(
+            text(
+                "DO $$ BEGIN IF EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'rls_probe') "
+                "THEN DROP OWNED BY rls_probe; DROP ROLE rls_probe; END IF; END $$"
+            )
+        )
         conn.execute(text("CREATE ROLE rls_probe NOLOGIN"))
         conn.execute(text("GRANT SELECT, INSERT ON farmers TO rls_probe"))
         conn.execute(text("GRANT USAGE ON SCHEMA auth TO rls_probe"))

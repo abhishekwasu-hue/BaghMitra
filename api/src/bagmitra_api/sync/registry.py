@@ -1,8 +1,8 @@
 """Entities that clients may write through the outbox.
 
 Each handler declares its payload schema and how to apply / serialise a row. Adding a
-synced entity in later milestones means registering a handler here — the push/pull
-mechanics stay unchanged.
+synced entity means registering a handler here — the push/pull mechanics stay unchanged.
+Most entities are owner-scoped rows and reuse [OwnedEntityHandler].
 """
 
 from __future__ import annotations
@@ -10,14 +10,16 @@ from __future__ import annotations
 import uuid
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Any, Protocol
+from typing import Any, Literal, Protocol
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from bagmitra_api.auth.jwt import AuthenticatedUser
-from bagmitra_api.db.models import Farmer
+from bagmitra_api.db.base import OwnedSyncedRowMixin
+from bagmitra_api.db.models import Farmer, Plot
+from bagmitra_api.sync.payloads import FarmerProfilePayload, PlotPayload, RowPayload
 
 
 class RejectedError(Exception):
@@ -29,8 +31,18 @@ class RejectedError(Exception):
 @dataclass(frozen=True, slots=True)
 class ValidatedWrite:
     entity_id: str
-    payload: BaseModel
+    op: Literal["upsert", "delete"]
+    payload: BaseModel | None  # None for deletes
     client_updated_at: datetime
+    seq: int
+
+
+@dataclass(frozen=True, slots=True)
+class RowChange:
+    entity_id: str
+    op: Literal["upsert", "delete"]
+    data: dict[str, Any]
+    updated_at: datetime
     seq: int
 
 
@@ -52,17 +64,7 @@ class EntityHandler(Protocol):
 
     async def changed_since(
         self, session: AsyncSession, user: AuthenticatedUser, since: int
-    ) -> list[tuple[str, dict[str, Any], datetime, int]]: ...
-
-
-class FarmerProfilePayload(BaseModel):
-    display_name: str | None = Field(default=None, max_length=120)
-    language: str = Field(min_length=2, max_length=12, pattern=r"^[a-z]{2,3}(-[A-Za-z]{2,4})?$")
-    village: str | None = Field(default=None, max_length=120)
-    taluka: str | None = Field(default=None, max_length=120)
-    district: str | None = Field(default=None, max_length=120)
-    consent_data_processing: bool = False
-    consent_whatsapp: bool = False
+    ) -> list[RowChange]: ...
 
 
 @dataclass(frozen=True)
@@ -86,6 +88,8 @@ class FarmerProfileHandler:
     async def apply(
         self, session: AsyncSession, user: AuthenticatedUser, write: ValidatedWrite
     ) -> None:
+        if write.payload is None:
+            raise TypeError("farmer_profile supports upsert only")
         farmer_id = self._own_id(user, write.entity_id)
         farmer = await session.get(Farmer, farmer_id)
         if farmer is None:
@@ -100,11 +104,13 @@ class FarmerProfileHandler:
 
     async def changed_since(
         self, session: AsyncSession, user: AuthenticatedUser, since: int
-    ) -> list[tuple[str, dict[str, Any], datetime, int]]:
+    ) -> list[RowChange]:
         rows = await session.scalars(
             select(Farmer).where(Farmer.id == user.id, Farmer.last_seq > since)
         )
-        return [(str(f.id), profile_dict(f), f.updated_at, f.last_seq) for f in rows]
+        return [
+            RowChange(str(f.id), "upsert", profile_dict(f), f.updated_at, f.last_seq) for f in rows
+        ]
 
 
 def profile_dict(farmer: Farmer) -> dict[str, Any]:
@@ -113,4 +119,76 @@ def profile_dict(farmer: Farmer) -> dict[str, Any]:
     return data
 
 
-HANDLERS: dict[str, EntityHandler] = {h.name: h for h in (FarmerProfileHandler(),)}
+@dataclass(frozen=True)
+class OwnedEntityHandler:
+    """Upsert / soft-delete for rows owned by one farmer, keyed by a client UUID."""
+
+    name: str
+    model: type[OwnedSyncedRowMixin]
+    payload_model: type[RowPayload]
+    supported_ops: frozenset[str] = frozenset({"upsert", "delete"})
+
+    async def _row(
+        self, session: AsyncSession, user: AuthenticatedUser, entity_id: str
+    ) -> OwnedSyncedRowMixin | None:
+        try:
+            row_id = uuid.UUID(entity_id)
+        except ValueError as exc:
+            raise RejectedError("invalid_entity_id") from exc
+        row = await session.get(self.model, row_id)
+        if row is not None and row.owner_id != user.id:
+            raise RejectedError("forbidden")
+        return row
+
+    async def current_version(
+        self, session: AsyncSession, user: AuthenticatedUser, entity_id: str
+    ) -> datetime | None:
+        row = await self._row(session, user, entity_id)
+        return row.client_updated_at if row else None
+
+    async def apply(
+        self, session: AsyncSession, user: AuthenticatedUser, write: ValidatedWrite
+    ) -> None:
+        row = await self._row(session, user, write.entity_id)
+        if write.op == "delete":
+            if row is None:
+                return  # never synced; nothing to tombstone
+            row.deleted_at = write.client_updated_at
+        else:
+            if not isinstance(write.payload, RowPayload):
+                raise TypeError(f"{self.name}: upsert needs a {self.payload_model.__name__}")
+            if row is None:
+                row = self.model()
+                row.id = uuid.UUID(write.entity_id)
+                row.owner_id = user.id
+                session.add(row)
+            for key, value in write.payload.to_columns().items():
+                setattr(row, key, value)
+            row.deleted_at = None
+        row.client_updated_at = write.client_updated_at
+        row.last_seq = write.seq
+
+    async def changed_since(
+        self, session: AsyncSession, user: AuthenticatedUser, since: int
+    ) -> list[RowChange]:
+        rows = await session.scalars(
+            select(self.model).where(self.model.owner_id == user.id, self.model.last_seq > since)
+        )
+        fields = list(self.payload_model.model_fields)
+        return [
+            RowChange(str(r.id), "delete", {}, r.updated_at, r.last_seq)
+            if r.deleted_at is not None
+            else RowChange(
+                str(r.id), "upsert", {f: getattr(r, f) for f in fields}, r.updated_at, r.last_seq
+            )
+            for r in rows
+        ]
+
+
+HANDLERS: dict[str, EntityHandler] = {
+    h.name: h
+    for h in (
+        FarmerProfileHandler(),
+        OwnedEntityHandler(name="plot", model=Plot, payload_model=PlotPayload),
+    )
+}
