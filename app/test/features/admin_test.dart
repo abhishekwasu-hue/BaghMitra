@@ -9,9 +9,9 @@ void main() {
     tester.view.physicalSize = const Size(1280, 800);
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.reset);
-    await tester.pumpWidget(const AdminApp(productName: 'BaghMitra'));
+    await tester.pumpWidget(const AdminApp(productName: 'BagMitra'));
     await tester.pumpAndSettle();
-    expect(find.text('BaghMitra Admin'), findsOneWidget);
+    expect(find.text('BagMitra Admin'), findsOneWidget);
     expect(find.text('Editing arrives in Milestone 1.'), findsOneWidget);
     await tester.tap(find.text('Risk rules'));
     await tester.pumpAndSettle();

@@ -1,6 +1,6 @@
 {
-    "name": "BaghMitra",
-    "short_name": "BaghMitra",
+    "name": "bagmitra",
+    "short_name": "bagmitra",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

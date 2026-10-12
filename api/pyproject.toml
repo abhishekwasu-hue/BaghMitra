@@ -1,7 +1,7 @@
 [project]
 name = "bagmitra-api"
 version = "0.1.0"
-description = "BaghMitra orchard management API"
+description = "BagMitra orchard management API"
 requires-python = ">=3.12,<3.13"
 dependencies = [
   "fastapi==0.118.0",

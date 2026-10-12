@@ -12,7 +12,7 @@ class AppConfig {
   factory AppConfig.fromEnvironment() => const AppConfig(
     productName: String.fromEnvironment(
       'PRODUCT_NAME',
-      defaultValue: 'BaghMitra',
+      defaultValue: 'BagMitra',
     ),
     apiBaseUrl: String.fromEnvironment(
       'API_BASE_URL',

@@ -21,7 +21,7 @@ void main() {
 
   test('config defaults to demo mode without Supabase credentials', () {
     final c = AppConfig.fromEnvironment();
-    expect(c.productName, 'BaghMitra');
+    expect(c.productName, 'BagMitra');
     expect(c.demoMode, isTrue);
     expect(c.devGallery, isFalse);
   });
