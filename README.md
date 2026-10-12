@@ -1,4 +1,4 @@
-# BagMitra
+# BaghMitra
 
 Bahar-based orchard management for Indian fruit growers — Nagpur santra and mosambi first.
 Offline-first Flutter app (Marathi · Hindi · English), FastAPI backend on Supabase Postgres.

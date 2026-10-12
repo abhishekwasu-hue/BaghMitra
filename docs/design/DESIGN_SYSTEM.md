@@ -1,4 +1,4 @@
-# BagMitra Design System (v0 — M0)
+# BaghMitra Design System (v0 — M0)
 
 Direction: a warm orchard brand, not Material defaults — deep leaf green, santra orange accent,
 soil browns, sky blue for weather, cream background. Reference: `reference/home_mockup.html`.

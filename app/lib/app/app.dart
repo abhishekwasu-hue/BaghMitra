@@ -7,8 +7,8 @@ import '../theme/app_theme.dart';
 import 'providers.dart';
 import 'router.dart';
 
-class BagMitraApp extends ConsumerStatefulWidget {
-  const BagMitraApp({
+class BaghMitraApp extends ConsumerStatefulWidget {
+  const BaghMitraApp({
     super.key,
     this.locale,
     this.initialLocation,
@@ -21,10 +21,10 @@ class BagMitraApp extends ConsumerStatefulWidget {
   final ThemeMode? themeMode;
 
   @override
-  ConsumerState<BagMitraApp> createState() => _BagMitraAppState();
+  ConsumerState<BaghMitraApp> createState() => _BaghMitraAppState();
 }
 
-class _BagMitraAppState extends ConsumerState<BagMitraApp> {
+class _BaghMitraAppState extends ConsumerState<BaghMitraApp> {
   late final GoRouter _router = buildRouter(
     ref.read(authRepositoryProvider),
     ref.read(appConfigProvider),

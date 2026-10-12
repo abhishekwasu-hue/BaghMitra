@@ -12,8 +12,8 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=(".env", "../product.env"), extra="ignore")
 
-    product_name: str = "BagMitra"
-    product_slug: str = "bagmitra"
+    product_name: str = "BaghMitra"
+    product_slug: str = "baghmitra"
     environment: Literal["local", "test", "staging", "production"] = "local"
     log_level: str = "INFO"
 

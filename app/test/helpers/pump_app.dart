@@ -18,7 +18,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'test_db.dart';
 
 const testConfig = AppConfig(
-  productName: 'BagMitra',
+  productName: 'BaghMitra',
   apiBaseUrl: 'http://localhost:8000',
   supabaseUrl: '',
   supabaseAnonKey: '',
@@ -73,7 +73,7 @@ Future<AppDatabase> pumpApp(
         if (syncStatus != null)
           syncStatusProvider.overrideWithValue(AsyncData(syncStatus)),
       ],
-      child: BagMitraApp(
+      child: BaghMitraApp(
         locale: locale,
         themeMode: themeMode,
         initialLocation: initialLocation,

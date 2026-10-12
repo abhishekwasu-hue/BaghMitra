@@ -1,4 +1,4 @@
-# BagMitra — Delivery Plan
+# BaghMitra — Delivery Plan
 
 Source of truth for requirements: [`SPEC_v1.md`](SPEC_v1.md). This plan maps every spec
 section to concrete files and milestones. Each milestone has a Definition of Done (DoD)
