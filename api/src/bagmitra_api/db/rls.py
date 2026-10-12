@@ -68,3 +68,16 @@ def disable_reference_rls(table: str) -> list[str]:
         f"DROP POLICY IF EXISTS {t}_read ON {t}",
         f"ALTER TABLE {t} DISABLE ROW LEVEL SECURITY",
     ]
+
+
+def enable_private_rls(table: str) -> list[str]:
+    """Service-only tables: RLS on with no policy, so only BYPASSRLS roles see rows."""
+    t = _check(table)
+    return [
+        f"ALTER TABLE {t} ENABLE ROW LEVEL SECURITY",
+        f"ALTER TABLE {t} FORCE ROW LEVEL SECURITY",
+    ]
+
+
+def disable_private_rls(table: str) -> list[str]:
+    return [f"ALTER TABLE {_check(table)} DISABLE ROW LEVEL SECURITY"]

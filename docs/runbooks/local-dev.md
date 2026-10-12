@@ -21,6 +21,14 @@ Postgres-only tests (RLS, reversible migrations):
 source registry (addendum v1.3 §2) and the banned/restricted pesticide list (§3.8) from
 `api/src/bagmitra_api/kb/seed_data/`. `make dev` runs it on start.
 
+**Label claims and restrictions (manual upload):** an admin checks a CSV by hand, then
+`python -m bagmitra_api.kb.importers claims cibrc_insecticides_pgr claims.csv` (or
+`restrictions ppqs_banned_restricted bans.csv`). Any bad row rejects the whole file. The
+output is a diff (added / changed / removed / unchanged); changed and removed claims are
+end-dated, never deleted; restrictions are never removed by an upload. Each import re-gates
+published cards. Nightly: `python -m bagmitra_api.kb.regate` pulls any published card that
+now fails the gate back to draft and writes a `kb_admin_alerts` row (service-only table).
+
 **Changing the API:** edit code + tests → `make openapi` (exports the spec, copies it into the app,
 regenerates the Dart client) → commit all three.
 
