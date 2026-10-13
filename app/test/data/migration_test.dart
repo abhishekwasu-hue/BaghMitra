@@ -8,7 +8,7 @@ import '../helpers/test_db.dart';
 /// Upgrading from schema v1 (M0) must keep existing data and add later tables.
 void main() {
   test(
-    'v1 -> latest adds plots and bahar cycles and keeps the outbox',
+    'v1 -> latest adds plots, bahar cycles and accounts and keeps the outbox',
     () async {
       // Capture the v1 tables' DDL from a fresh database (they are unchanged in v2).
       final fresh = memoryDb();
@@ -64,6 +64,8 @@ void main() {
             ),
           );
       expect(await db.select(db.baharCycles).get(), hasLength(1));
+      expect(await db.select(db.expenses).get(), isEmpty);
+      expect(await db.select(db.incomes).get(), isEmpty);
       await db.close();
     },
   );

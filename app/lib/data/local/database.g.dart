@@ -2931,6 +2931,1306 @@ class BaharCyclesCompanion extends UpdateCompanion<BaharCycleRow> {
   }
 }
 
+class $ExpensesTable extends Expenses
+    with TableInfo<$ExpensesTable, ExpenseRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ExpensesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _plotIdMeta = const VerificationMeta('plotId');
+  @override
+  late final GeneratedColumn<String> plotId = GeneratedColumn<String>(
+    'plot_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _baharCycleIdMeta = const VerificationMeta(
+    'baharCycleId',
+  );
+  @override
+  late final GeneratedColumn<String> baharCycleId = GeneratedColumn<String>(
+    'bahar_cycle_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _spentOnMeta = const VerificationMeta(
+    'spentOn',
+  );
+  @override
+  late final GeneratedColumn<DateTime> spentOn = GeneratedColumn<DateTime>(
+    'spent_on',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _categoryMeta = const VerificationMeta(
+    'category',
+  );
+  @override
+  late final GeneratedColumn<String> category = GeneratedColumn<String>(
+    'category',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _amountPaiseMeta = const VerificationMeta(
+    'amountPaise',
+  );
+  @override
+  late final GeneratedColumn<int> amountPaise = GeneratedColumn<int>(
+    'amount_paise',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _noteMeta = const VerificationMeta('note');
+  @override
+  late final GeneratedColumn<String> note = GeneratedColumn<String>(
+    'note',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _clientUpdatedAtMeta = const VerificationMeta(
+    'clientUpdatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> clientUpdatedAt =
+      GeneratedColumn<DateTime>(
+        'client_updated_at',
+        aliasedName,
+        false,
+        type: DriftSqlType.dateTime,
+        requiredDuringInsert: true,
+      );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    plotId,
+    baharCycleId,
+    spentOn,
+    category,
+    amountPaise,
+    note,
+    clientUpdatedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'expenses';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<ExpenseRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('plot_id')) {
+      context.handle(
+        _plotIdMeta,
+        plotId.isAcceptableOrUnknown(data['plot_id']!, _plotIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_plotIdMeta);
+    }
+    if (data.containsKey('bahar_cycle_id')) {
+      context.handle(
+        _baharCycleIdMeta,
+        baharCycleId.isAcceptableOrUnknown(
+          data['bahar_cycle_id']!,
+          _baharCycleIdMeta,
+        ),
+      );
+    }
+    if (data.containsKey('spent_on')) {
+      context.handle(
+        _spentOnMeta,
+        spentOn.isAcceptableOrUnknown(data['spent_on']!, _spentOnMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_spentOnMeta);
+    }
+    if (data.containsKey('category')) {
+      context.handle(
+        _categoryMeta,
+        category.isAcceptableOrUnknown(data['category']!, _categoryMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_categoryMeta);
+    }
+    if (data.containsKey('amount_paise')) {
+      context.handle(
+        _amountPaiseMeta,
+        amountPaise.isAcceptableOrUnknown(
+          data['amount_paise']!,
+          _amountPaiseMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_amountPaiseMeta);
+    }
+    if (data.containsKey('note')) {
+      context.handle(
+        _noteMeta,
+        note.isAcceptableOrUnknown(data['note']!, _noteMeta),
+      );
+    }
+    if (data.containsKey('client_updated_at')) {
+      context.handle(
+        _clientUpdatedAtMeta,
+        clientUpdatedAt.isAcceptableOrUnknown(
+          data['client_updated_at']!,
+          _clientUpdatedAtMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_clientUpdatedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ExpenseRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ExpenseRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      plotId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}plot_id'],
+      )!,
+      baharCycleId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}bahar_cycle_id'],
+      ),
+      spentOn: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}spent_on'],
+      )!,
+      category: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}category'],
+      )!,
+      amountPaise: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}amount_paise'],
+      )!,
+      note: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}note'],
+      ),
+      clientUpdatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}client_updated_at'],
+      )!,
+    );
+  }
+
+  @override
+  $ExpensesTable createAlias(String alias) {
+    return $ExpensesTable(attachedDatabase, alias);
+  }
+}
+
+class ExpenseRow extends DataClass implements Insertable<ExpenseRow> {
+  final String id;
+  final String plotId;
+  final String? baharCycleId;
+  final DateTime spentOn;
+  final String category;
+  final int amountPaise;
+  final String? note;
+  final DateTime clientUpdatedAt;
+  const ExpenseRow({
+    required this.id,
+    required this.plotId,
+    this.baharCycleId,
+    required this.spentOn,
+    required this.category,
+    required this.amountPaise,
+    this.note,
+    required this.clientUpdatedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['plot_id'] = Variable<String>(plotId);
+    if (!nullToAbsent || baharCycleId != null) {
+      map['bahar_cycle_id'] = Variable<String>(baharCycleId);
+    }
+    map['spent_on'] = Variable<DateTime>(spentOn);
+    map['category'] = Variable<String>(category);
+    map['amount_paise'] = Variable<int>(amountPaise);
+    if (!nullToAbsent || note != null) {
+      map['note'] = Variable<String>(note);
+    }
+    map['client_updated_at'] = Variable<DateTime>(clientUpdatedAt);
+    return map;
+  }
+
+  ExpensesCompanion toCompanion(bool nullToAbsent) {
+    return ExpensesCompanion(
+      id: Value(id),
+      plotId: Value(plotId),
+      baharCycleId: baharCycleId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(baharCycleId),
+      spentOn: Value(spentOn),
+      category: Value(category),
+      amountPaise: Value(amountPaise),
+      note: note == null && nullToAbsent ? const Value.absent() : Value(note),
+      clientUpdatedAt: Value(clientUpdatedAt),
+    );
+  }
+
+  factory ExpenseRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ExpenseRow(
+      id: serializer.fromJson<String>(json['id']),
+      plotId: serializer.fromJson<String>(json['plotId']),
+      baharCycleId: serializer.fromJson<String?>(json['baharCycleId']),
+      spentOn: serializer.fromJson<DateTime>(json['spentOn']),
+      category: serializer.fromJson<String>(json['category']),
+      amountPaise: serializer.fromJson<int>(json['amountPaise']),
+      note: serializer.fromJson<String?>(json['note']),
+      clientUpdatedAt: serializer.fromJson<DateTime>(json['clientUpdatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'plotId': serializer.toJson<String>(plotId),
+      'baharCycleId': serializer.toJson<String?>(baharCycleId),
+      'spentOn': serializer.toJson<DateTime>(spentOn),
+      'category': serializer.toJson<String>(category),
+      'amountPaise': serializer.toJson<int>(amountPaise),
+      'note': serializer.toJson<String?>(note),
+      'clientUpdatedAt': serializer.toJson<DateTime>(clientUpdatedAt),
+    };
+  }
+
+  ExpenseRow copyWith({
+    String? id,
+    String? plotId,
+    Value<String?> baharCycleId = const Value.absent(),
+    DateTime? spentOn,
+    String? category,
+    int? amountPaise,
+    Value<String?> note = const Value.absent(),
+    DateTime? clientUpdatedAt,
+  }) => ExpenseRow(
+    id: id ?? this.id,
+    plotId: plotId ?? this.plotId,
+    baharCycleId: baharCycleId.present ? baharCycleId.value : this.baharCycleId,
+    spentOn: spentOn ?? this.spentOn,
+    category: category ?? this.category,
+    amountPaise: amountPaise ?? this.amountPaise,
+    note: note.present ? note.value : this.note,
+    clientUpdatedAt: clientUpdatedAt ?? this.clientUpdatedAt,
+  );
+  ExpenseRow copyWithCompanion(ExpensesCompanion data) {
+    return ExpenseRow(
+      id: data.id.present ? data.id.value : this.id,
+      plotId: data.plotId.present ? data.plotId.value : this.plotId,
+      baharCycleId: data.baharCycleId.present
+          ? data.baharCycleId.value
+          : this.baharCycleId,
+      spentOn: data.spentOn.present ? data.spentOn.value : this.spentOn,
+      category: data.category.present ? data.category.value : this.category,
+      amountPaise: data.amountPaise.present
+          ? data.amountPaise.value
+          : this.amountPaise,
+      note: data.note.present ? data.note.value : this.note,
+      clientUpdatedAt: data.clientUpdatedAt.present
+          ? data.clientUpdatedAt.value
+          : this.clientUpdatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ExpenseRow(')
+          ..write('id: $id, ')
+          ..write('plotId: $plotId, ')
+          ..write('baharCycleId: $baharCycleId, ')
+          ..write('spentOn: $spentOn, ')
+          ..write('category: $category, ')
+          ..write('amountPaise: $amountPaise, ')
+          ..write('note: $note, ')
+          ..write('clientUpdatedAt: $clientUpdatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    plotId,
+    baharCycleId,
+    spentOn,
+    category,
+    amountPaise,
+    note,
+    clientUpdatedAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ExpenseRow &&
+          other.id == this.id &&
+          other.plotId == this.plotId &&
+          other.baharCycleId == this.baharCycleId &&
+          other.spentOn == this.spentOn &&
+          other.category == this.category &&
+          other.amountPaise == this.amountPaise &&
+          other.note == this.note &&
+          other.clientUpdatedAt == this.clientUpdatedAt);
+}
+
+class ExpensesCompanion extends UpdateCompanion<ExpenseRow> {
+  final Value<String> id;
+  final Value<String> plotId;
+  final Value<String?> baharCycleId;
+  final Value<DateTime> spentOn;
+  final Value<String> category;
+  final Value<int> amountPaise;
+  final Value<String?> note;
+  final Value<DateTime> clientUpdatedAt;
+  final Value<int> rowid;
+  const ExpensesCompanion({
+    this.id = const Value.absent(),
+    this.plotId = const Value.absent(),
+    this.baharCycleId = const Value.absent(),
+    this.spentOn = const Value.absent(),
+    this.category = const Value.absent(),
+    this.amountPaise = const Value.absent(),
+    this.note = const Value.absent(),
+    this.clientUpdatedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  ExpensesCompanion.insert({
+    required String id,
+    required String plotId,
+    this.baharCycleId = const Value.absent(),
+    required DateTime spentOn,
+    required String category,
+    required int amountPaise,
+    this.note = const Value.absent(),
+    required DateTime clientUpdatedAt,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       plotId = Value(plotId),
+       spentOn = Value(spentOn),
+       category = Value(category),
+       amountPaise = Value(amountPaise),
+       clientUpdatedAt = Value(clientUpdatedAt);
+  static Insertable<ExpenseRow> custom({
+    Expression<String>? id,
+    Expression<String>? plotId,
+    Expression<String>? baharCycleId,
+    Expression<DateTime>? spentOn,
+    Expression<String>? category,
+    Expression<int>? amountPaise,
+    Expression<String>? note,
+    Expression<DateTime>? clientUpdatedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (plotId != null) 'plot_id': plotId,
+      if (baharCycleId != null) 'bahar_cycle_id': baharCycleId,
+      if (spentOn != null) 'spent_on': spentOn,
+      if (category != null) 'category': category,
+      if (amountPaise != null) 'amount_paise': amountPaise,
+      if (note != null) 'note': note,
+      if (clientUpdatedAt != null) 'client_updated_at': clientUpdatedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  ExpensesCompanion copyWith({
+    Value<String>? id,
+    Value<String>? plotId,
+    Value<String?>? baharCycleId,
+    Value<DateTime>? spentOn,
+    Value<String>? category,
+    Value<int>? amountPaise,
+    Value<String?>? note,
+    Value<DateTime>? clientUpdatedAt,
+    Value<int>? rowid,
+  }) {
+    return ExpensesCompanion(
+      id: id ?? this.id,
+      plotId: plotId ?? this.plotId,
+      baharCycleId: baharCycleId ?? this.baharCycleId,
+      spentOn: spentOn ?? this.spentOn,
+      category: category ?? this.category,
+      amountPaise: amountPaise ?? this.amountPaise,
+      note: note ?? this.note,
+      clientUpdatedAt: clientUpdatedAt ?? this.clientUpdatedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (plotId.present) {
+      map['plot_id'] = Variable<String>(plotId.value);
+    }
+    if (baharCycleId.present) {
+      map['bahar_cycle_id'] = Variable<String>(baharCycleId.value);
+    }
+    if (spentOn.present) {
+      map['spent_on'] = Variable<DateTime>(spentOn.value);
+    }
+    if (category.present) {
+      map['category'] = Variable<String>(category.value);
+    }
+    if (amountPaise.present) {
+      map['amount_paise'] = Variable<int>(amountPaise.value);
+    }
+    if (note.present) {
+      map['note'] = Variable<String>(note.value);
+    }
+    if (clientUpdatedAt.present) {
+      map['client_updated_at'] = Variable<DateTime>(clientUpdatedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ExpensesCompanion(')
+          ..write('id: $id, ')
+          ..write('plotId: $plotId, ')
+          ..write('baharCycleId: $baharCycleId, ')
+          ..write('spentOn: $spentOn, ')
+          ..write('category: $category, ')
+          ..write('amountPaise: $amountPaise, ')
+          ..write('note: $note, ')
+          ..write('clientUpdatedAt: $clientUpdatedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $IncomesTable extends Incomes with TableInfo<$IncomesTable, IncomeRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $IncomesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _plotIdMeta = const VerificationMeta('plotId');
+  @override
+  late final GeneratedColumn<String> plotId = GeneratedColumn<String>(
+    'plot_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _baharCycleIdMeta = const VerificationMeta(
+    'baharCycleId',
+  );
+  @override
+  late final GeneratedColumn<String> baharCycleId = GeneratedColumn<String>(
+    'bahar_cycle_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _soldOnMeta = const VerificationMeta('soldOn');
+  @override
+  late final GeneratedColumn<DateTime> soldOn = GeneratedColumn<DateTime>(
+    'sold_on',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _buyerNameMeta = const VerificationMeta(
+    'buyerName',
+  );
+  @override
+  late final GeneratedColumn<String> buyerName = GeneratedColumn<String>(
+    'buyer_name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _gradeMeta = const VerificationMeta('grade');
+  @override
+  late final GeneratedColumn<String> grade = GeneratedColumn<String>(
+    'grade',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _quantityKgMeta = const VerificationMeta(
+    'quantityKg',
+  );
+  @override
+  late final GeneratedColumn<double> quantityKg = GeneratedColumn<double>(
+    'quantity_kg',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _ratePaisePerQuintalMeta =
+      const VerificationMeta('ratePaisePerQuintal');
+  @override
+  late final GeneratedColumn<int> ratePaisePerQuintal = GeneratedColumn<int>(
+    'rate_paise_per_quintal',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _deductionsPaiseMeta = const VerificationMeta(
+    'deductionsPaise',
+  );
+  @override
+  late final GeneratedColumn<int> deductionsPaise = GeneratedColumn<int>(
+    'deductions_paise',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _paymentStatusMeta = const VerificationMeta(
+    'paymentStatus',
+  );
+  @override
+  late final GeneratedColumn<String> paymentStatus = GeneratedColumn<String>(
+    'payment_status',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _paidPaiseMeta = const VerificationMeta(
+    'paidPaise',
+  );
+  @override
+  late final GeneratedColumn<int> paidPaise = GeneratedColumn<int>(
+    'paid_paise',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _paidOnMeta = const VerificationMeta('paidOn');
+  @override
+  late final GeneratedColumn<DateTime> paidOn = GeneratedColumn<DateTime>(
+    'paid_on',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _clientUpdatedAtMeta = const VerificationMeta(
+    'clientUpdatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> clientUpdatedAt =
+      GeneratedColumn<DateTime>(
+        'client_updated_at',
+        aliasedName,
+        false,
+        type: DriftSqlType.dateTime,
+        requiredDuringInsert: true,
+      );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    plotId,
+    baharCycleId,
+    soldOn,
+    buyerName,
+    grade,
+    quantityKg,
+    ratePaisePerQuintal,
+    deductionsPaise,
+    paymentStatus,
+    paidPaise,
+    paidOn,
+    clientUpdatedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'incomes';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<IncomeRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('plot_id')) {
+      context.handle(
+        _plotIdMeta,
+        plotId.isAcceptableOrUnknown(data['plot_id']!, _plotIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_plotIdMeta);
+    }
+    if (data.containsKey('bahar_cycle_id')) {
+      context.handle(
+        _baharCycleIdMeta,
+        baharCycleId.isAcceptableOrUnknown(
+          data['bahar_cycle_id']!,
+          _baharCycleIdMeta,
+        ),
+      );
+    }
+    if (data.containsKey('sold_on')) {
+      context.handle(
+        _soldOnMeta,
+        soldOn.isAcceptableOrUnknown(data['sold_on']!, _soldOnMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_soldOnMeta);
+    }
+    if (data.containsKey('buyer_name')) {
+      context.handle(
+        _buyerNameMeta,
+        buyerName.isAcceptableOrUnknown(data['buyer_name']!, _buyerNameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_buyerNameMeta);
+    }
+    if (data.containsKey('grade')) {
+      context.handle(
+        _gradeMeta,
+        grade.isAcceptableOrUnknown(data['grade']!, _gradeMeta),
+      );
+    }
+    if (data.containsKey('quantity_kg')) {
+      context.handle(
+        _quantityKgMeta,
+        quantityKg.isAcceptableOrUnknown(data['quantity_kg']!, _quantityKgMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_quantityKgMeta);
+    }
+    if (data.containsKey('rate_paise_per_quintal')) {
+      context.handle(
+        _ratePaisePerQuintalMeta,
+        ratePaisePerQuintal.isAcceptableOrUnknown(
+          data['rate_paise_per_quintal']!,
+          _ratePaisePerQuintalMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_ratePaisePerQuintalMeta);
+    }
+    if (data.containsKey('deductions_paise')) {
+      context.handle(
+        _deductionsPaiseMeta,
+        deductionsPaise.isAcceptableOrUnknown(
+          data['deductions_paise']!,
+          _deductionsPaiseMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_deductionsPaiseMeta);
+    }
+    if (data.containsKey('payment_status')) {
+      context.handle(
+        _paymentStatusMeta,
+        paymentStatus.isAcceptableOrUnknown(
+          data['payment_status']!,
+          _paymentStatusMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_paymentStatusMeta);
+    }
+    if (data.containsKey('paid_paise')) {
+      context.handle(
+        _paidPaiseMeta,
+        paidPaise.isAcceptableOrUnknown(data['paid_paise']!, _paidPaiseMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_paidPaiseMeta);
+    }
+    if (data.containsKey('paid_on')) {
+      context.handle(
+        _paidOnMeta,
+        paidOn.isAcceptableOrUnknown(data['paid_on']!, _paidOnMeta),
+      );
+    }
+    if (data.containsKey('client_updated_at')) {
+      context.handle(
+        _clientUpdatedAtMeta,
+        clientUpdatedAt.isAcceptableOrUnknown(
+          data['client_updated_at']!,
+          _clientUpdatedAtMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_clientUpdatedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  IncomeRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return IncomeRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      plotId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}plot_id'],
+      )!,
+      baharCycleId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}bahar_cycle_id'],
+      ),
+      soldOn: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}sold_on'],
+      )!,
+      buyerName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}buyer_name'],
+      )!,
+      grade: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}grade'],
+      ),
+      quantityKg: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}quantity_kg'],
+      )!,
+      ratePaisePerQuintal: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}rate_paise_per_quintal'],
+      )!,
+      deductionsPaise: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}deductions_paise'],
+      )!,
+      paymentStatus: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}payment_status'],
+      )!,
+      paidPaise: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}paid_paise'],
+      )!,
+      paidOn: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}paid_on'],
+      ),
+      clientUpdatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}client_updated_at'],
+      )!,
+    );
+  }
+
+  @override
+  $IncomesTable createAlias(String alias) {
+    return $IncomesTable(attachedDatabase, alias);
+  }
+}
+
+class IncomeRow extends DataClass implements Insertable<IncomeRow> {
+  final String id;
+  final String plotId;
+  final String? baharCycleId;
+  final DateTime soldOn;
+  final String buyerName;
+  final String? grade;
+  final double quantityKg;
+  final int ratePaisePerQuintal;
+  final int deductionsPaise;
+  final String paymentStatus;
+  final int paidPaise;
+  final DateTime? paidOn;
+  final DateTime clientUpdatedAt;
+  const IncomeRow({
+    required this.id,
+    required this.plotId,
+    this.baharCycleId,
+    required this.soldOn,
+    required this.buyerName,
+    this.grade,
+    required this.quantityKg,
+    required this.ratePaisePerQuintal,
+    required this.deductionsPaise,
+    required this.paymentStatus,
+    required this.paidPaise,
+    this.paidOn,
+    required this.clientUpdatedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['plot_id'] = Variable<String>(plotId);
+    if (!nullToAbsent || baharCycleId != null) {
+      map['bahar_cycle_id'] = Variable<String>(baharCycleId);
+    }
+    map['sold_on'] = Variable<DateTime>(soldOn);
+    map['buyer_name'] = Variable<String>(buyerName);
+    if (!nullToAbsent || grade != null) {
+      map['grade'] = Variable<String>(grade);
+    }
+    map['quantity_kg'] = Variable<double>(quantityKg);
+    map['rate_paise_per_quintal'] = Variable<int>(ratePaisePerQuintal);
+    map['deductions_paise'] = Variable<int>(deductionsPaise);
+    map['payment_status'] = Variable<String>(paymentStatus);
+    map['paid_paise'] = Variable<int>(paidPaise);
+    if (!nullToAbsent || paidOn != null) {
+      map['paid_on'] = Variable<DateTime>(paidOn);
+    }
+    map['client_updated_at'] = Variable<DateTime>(clientUpdatedAt);
+    return map;
+  }
+
+  IncomesCompanion toCompanion(bool nullToAbsent) {
+    return IncomesCompanion(
+      id: Value(id),
+      plotId: Value(plotId),
+      baharCycleId: baharCycleId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(baharCycleId),
+      soldOn: Value(soldOn),
+      buyerName: Value(buyerName),
+      grade: grade == null && nullToAbsent
+          ? const Value.absent()
+          : Value(grade),
+      quantityKg: Value(quantityKg),
+      ratePaisePerQuintal: Value(ratePaisePerQuintal),
+      deductionsPaise: Value(deductionsPaise),
+      paymentStatus: Value(paymentStatus),
+      paidPaise: Value(paidPaise),
+      paidOn: paidOn == null && nullToAbsent
+          ? const Value.absent()
+          : Value(paidOn),
+      clientUpdatedAt: Value(clientUpdatedAt),
+    );
+  }
+
+  factory IncomeRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return IncomeRow(
+      id: serializer.fromJson<String>(json['id']),
+      plotId: serializer.fromJson<String>(json['plotId']),
+      baharCycleId: serializer.fromJson<String?>(json['baharCycleId']),
+      soldOn: serializer.fromJson<DateTime>(json['soldOn']),
+      buyerName: serializer.fromJson<String>(json['buyerName']),
+      grade: serializer.fromJson<String?>(json['grade']),
+      quantityKg: serializer.fromJson<double>(json['quantityKg']),
+      ratePaisePerQuintal: serializer.fromJson<int>(
+        json['ratePaisePerQuintal'],
+      ),
+      deductionsPaise: serializer.fromJson<int>(json['deductionsPaise']),
+      paymentStatus: serializer.fromJson<String>(json['paymentStatus']),
+      paidPaise: serializer.fromJson<int>(json['paidPaise']),
+      paidOn: serializer.fromJson<DateTime?>(json['paidOn']),
+      clientUpdatedAt: serializer.fromJson<DateTime>(json['clientUpdatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'plotId': serializer.toJson<String>(plotId),
+      'baharCycleId': serializer.toJson<String?>(baharCycleId),
+      'soldOn': serializer.toJson<DateTime>(soldOn),
+      'buyerName': serializer.toJson<String>(buyerName),
+      'grade': serializer.toJson<String?>(grade),
+      'quantityKg': serializer.toJson<double>(quantityKg),
+      'ratePaisePerQuintal': serializer.toJson<int>(ratePaisePerQuintal),
+      'deductionsPaise': serializer.toJson<int>(deductionsPaise),
+      'paymentStatus': serializer.toJson<String>(paymentStatus),
+      'paidPaise': serializer.toJson<int>(paidPaise),
+      'paidOn': serializer.toJson<DateTime?>(paidOn),
+      'clientUpdatedAt': serializer.toJson<DateTime>(clientUpdatedAt),
+    };
+  }
+
+  IncomeRow copyWith({
+    String? id,
+    String? plotId,
+    Value<String?> baharCycleId = const Value.absent(),
+    DateTime? soldOn,
+    String? buyerName,
+    Value<String?> grade = const Value.absent(),
+    double? quantityKg,
+    int? ratePaisePerQuintal,
+    int? deductionsPaise,
+    String? paymentStatus,
+    int? paidPaise,
+    Value<DateTime?> paidOn = const Value.absent(),
+    DateTime? clientUpdatedAt,
+  }) => IncomeRow(
+    id: id ?? this.id,
+    plotId: plotId ?? this.plotId,
+    baharCycleId: baharCycleId.present ? baharCycleId.value : this.baharCycleId,
+    soldOn: soldOn ?? this.soldOn,
+    buyerName: buyerName ?? this.buyerName,
+    grade: grade.present ? grade.value : this.grade,
+    quantityKg: quantityKg ?? this.quantityKg,
+    ratePaisePerQuintal: ratePaisePerQuintal ?? this.ratePaisePerQuintal,
+    deductionsPaise: deductionsPaise ?? this.deductionsPaise,
+    paymentStatus: paymentStatus ?? this.paymentStatus,
+    paidPaise: paidPaise ?? this.paidPaise,
+    paidOn: paidOn.present ? paidOn.value : this.paidOn,
+    clientUpdatedAt: clientUpdatedAt ?? this.clientUpdatedAt,
+  );
+  IncomeRow copyWithCompanion(IncomesCompanion data) {
+    return IncomeRow(
+      id: data.id.present ? data.id.value : this.id,
+      plotId: data.plotId.present ? data.plotId.value : this.plotId,
+      baharCycleId: data.baharCycleId.present
+          ? data.baharCycleId.value
+          : this.baharCycleId,
+      soldOn: data.soldOn.present ? data.soldOn.value : this.soldOn,
+      buyerName: data.buyerName.present ? data.buyerName.value : this.buyerName,
+      grade: data.grade.present ? data.grade.value : this.grade,
+      quantityKg: data.quantityKg.present
+          ? data.quantityKg.value
+          : this.quantityKg,
+      ratePaisePerQuintal: data.ratePaisePerQuintal.present
+          ? data.ratePaisePerQuintal.value
+          : this.ratePaisePerQuintal,
+      deductionsPaise: data.deductionsPaise.present
+          ? data.deductionsPaise.value
+          : this.deductionsPaise,
+      paymentStatus: data.paymentStatus.present
+          ? data.paymentStatus.value
+          : this.paymentStatus,
+      paidPaise: data.paidPaise.present ? data.paidPaise.value : this.paidPaise,
+      paidOn: data.paidOn.present ? data.paidOn.value : this.paidOn,
+      clientUpdatedAt: data.clientUpdatedAt.present
+          ? data.clientUpdatedAt.value
+          : this.clientUpdatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('IncomeRow(')
+          ..write('id: $id, ')
+          ..write('plotId: $plotId, ')
+          ..write('baharCycleId: $baharCycleId, ')
+          ..write('soldOn: $soldOn, ')
+          ..write('buyerName: $buyerName, ')
+          ..write('grade: $grade, ')
+          ..write('quantityKg: $quantityKg, ')
+          ..write('ratePaisePerQuintal: $ratePaisePerQuintal, ')
+          ..write('deductionsPaise: $deductionsPaise, ')
+          ..write('paymentStatus: $paymentStatus, ')
+          ..write('paidPaise: $paidPaise, ')
+          ..write('paidOn: $paidOn, ')
+          ..write('clientUpdatedAt: $clientUpdatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    plotId,
+    baharCycleId,
+    soldOn,
+    buyerName,
+    grade,
+    quantityKg,
+    ratePaisePerQuintal,
+    deductionsPaise,
+    paymentStatus,
+    paidPaise,
+    paidOn,
+    clientUpdatedAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is IncomeRow &&
+          other.id == this.id &&
+          other.plotId == this.plotId &&
+          other.baharCycleId == this.baharCycleId &&
+          other.soldOn == this.soldOn &&
+          other.buyerName == this.buyerName &&
+          other.grade == this.grade &&
+          other.quantityKg == this.quantityKg &&
+          other.ratePaisePerQuintal == this.ratePaisePerQuintal &&
+          other.deductionsPaise == this.deductionsPaise &&
+          other.paymentStatus == this.paymentStatus &&
+          other.paidPaise == this.paidPaise &&
+          other.paidOn == this.paidOn &&
+          other.clientUpdatedAt == this.clientUpdatedAt);
+}
+
+class IncomesCompanion extends UpdateCompanion<IncomeRow> {
+  final Value<String> id;
+  final Value<String> plotId;
+  final Value<String?> baharCycleId;
+  final Value<DateTime> soldOn;
+  final Value<String> buyerName;
+  final Value<String?> grade;
+  final Value<double> quantityKg;
+  final Value<int> ratePaisePerQuintal;
+  final Value<int> deductionsPaise;
+  final Value<String> paymentStatus;
+  final Value<int> paidPaise;
+  final Value<DateTime?> paidOn;
+  final Value<DateTime> clientUpdatedAt;
+  final Value<int> rowid;
+  const IncomesCompanion({
+    this.id = const Value.absent(),
+    this.plotId = const Value.absent(),
+    this.baharCycleId = const Value.absent(),
+    this.soldOn = const Value.absent(),
+    this.buyerName = const Value.absent(),
+    this.grade = const Value.absent(),
+    this.quantityKg = const Value.absent(),
+    this.ratePaisePerQuintal = const Value.absent(),
+    this.deductionsPaise = const Value.absent(),
+    this.paymentStatus = const Value.absent(),
+    this.paidPaise = const Value.absent(),
+    this.paidOn = const Value.absent(),
+    this.clientUpdatedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  IncomesCompanion.insert({
+    required String id,
+    required String plotId,
+    this.baharCycleId = const Value.absent(),
+    required DateTime soldOn,
+    required String buyerName,
+    this.grade = const Value.absent(),
+    required double quantityKg,
+    required int ratePaisePerQuintal,
+    required int deductionsPaise,
+    required String paymentStatus,
+    required int paidPaise,
+    this.paidOn = const Value.absent(),
+    required DateTime clientUpdatedAt,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       plotId = Value(plotId),
+       soldOn = Value(soldOn),
+       buyerName = Value(buyerName),
+       quantityKg = Value(quantityKg),
+       ratePaisePerQuintal = Value(ratePaisePerQuintal),
+       deductionsPaise = Value(deductionsPaise),
+       paymentStatus = Value(paymentStatus),
+       paidPaise = Value(paidPaise),
+       clientUpdatedAt = Value(clientUpdatedAt);
+  static Insertable<IncomeRow> custom({
+    Expression<String>? id,
+    Expression<String>? plotId,
+    Expression<String>? baharCycleId,
+    Expression<DateTime>? soldOn,
+    Expression<String>? buyerName,
+    Expression<String>? grade,
+    Expression<double>? quantityKg,
+    Expression<int>? ratePaisePerQuintal,
+    Expression<int>? deductionsPaise,
+    Expression<String>? paymentStatus,
+    Expression<int>? paidPaise,
+    Expression<DateTime>? paidOn,
+    Expression<DateTime>? clientUpdatedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (plotId != null) 'plot_id': plotId,
+      if (baharCycleId != null) 'bahar_cycle_id': baharCycleId,
+      if (soldOn != null) 'sold_on': soldOn,
+      if (buyerName != null) 'buyer_name': buyerName,
+      if (grade != null) 'grade': grade,
+      if (quantityKg != null) 'quantity_kg': quantityKg,
+      if (ratePaisePerQuintal != null)
+        'rate_paise_per_quintal': ratePaisePerQuintal,
+      if (deductionsPaise != null) 'deductions_paise': deductionsPaise,
+      if (paymentStatus != null) 'payment_status': paymentStatus,
+      if (paidPaise != null) 'paid_paise': paidPaise,
+      if (paidOn != null) 'paid_on': paidOn,
+      if (clientUpdatedAt != null) 'client_updated_at': clientUpdatedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  IncomesCompanion copyWith({
+    Value<String>? id,
+    Value<String>? plotId,
+    Value<String?>? baharCycleId,
+    Value<DateTime>? soldOn,
+    Value<String>? buyerName,
+    Value<String?>? grade,
+    Value<double>? quantityKg,
+    Value<int>? ratePaisePerQuintal,
+    Value<int>? deductionsPaise,
+    Value<String>? paymentStatus,
+    Value<int>? paidPaise,
+    Value<DateTime?>? paidOn,
+    Value<DateTime>? clientUpdatedAt,
+    Value<int>? rowid,
+  }) {
+    return IncomesCompanion(
+      id: id ?? this.id,
+      plotId: plotId ?? this.plotId,
+      baharCycleId: baharCycleId ?? this.baharCycleId,
+      soldOn: soldOn ?? this.soldOn,
+      buyerName: buyerName ?? this.buyerName,
+      grade: grade ?? this.grade,
+      quantityKg: quantityKg ?? this.quantityKg,
+      ratePaisePerQuintal: ratePaisePerQuintal ?? this.ratePaisePerQuintal,
+      deductionsPaise: deductionsPaise ?? this.deductionsPaise,
+      paymentStatus: paymentStatus ?? this.paymentStatus,
+      paidPaise: paidPaise ?? this.paidPaise,
+      paidOn: paidOn ?? this.paidOn,
+      clientUpdatedAt: clientUpdatedAt ?? this.clientUpdatedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (plotId.present) {
+      map['plot_id'] = Variable<String>(plotId.value);
+    }
+    if (baharCycleId.present) {
+      map['bahar_cycle_id'] = Variable<String>(baharCycleId.value);
+    }
+    if (soldOn.present) {
+      map['sold_on'] = Variable<DateTime>(soldOn.value);
+    }
+    if (buyerName.present) {
+      map['buyer_name'] = Variable<String>(buyerName.value);
+    }
+    if (grade.present) {
+      map['grade'] = Variable<String>(grade.value);
+    }
+    if (quantityKg.present) {
+      map['quantity_kg'] = Variable<double>(quantityKg.value);
+    }
+    if (ratePaisePerQuintal.present) {
+      map['rate_paise_per_quintal'] = Variable<int>(ratePaisePerQuintal.value);
+    }
+    if (deductionsPaise.present) {
+      map['deductions_paise'] = Variable<int>(deductionsPaise.value);
+    }
+    if (paymentStatus.present) {
+      map['payment_status'] = Variable<String>(paymentStatus.value);
+    }
+    if (paidPaise.present) {
+      map['paid_paise'] = Variable<int>(paidPaise.value);
+    }
+    if (paidOn.present) {
+      map['paid_on'] = Variable<DateTime>(paidOn.value);
+    }
+    if (clientUpdatedAt.present) {
+      map['client_updated_at'] = Variable<DateTime>(clientUpdatedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('IncomesCompanion(')
+          ..write('id: $id, ')
+          ..write('plotId: $plotId, ')
+          ..write('baharCycleId: $baharCycleId, ')
+          ..write('soldOn: $soldOn, ')
+          ..write('buyerName: $buyerName, ')
+          ..write('grade: $grade, ')
+          ..write('quantityKg: $quantityKg, ')
+          ..write('ratePaisePerQuintal: $ratePaisePerQuintal, ')
+          ..write('deductionsPaise: $deductionsPaise, ')
+          ..write('paymentStatus: $paymentStatus, ')
+          ..write('paidPaise: $paidPaise, ')
+          ..write('paidOn: $paidOn, ')
+          ..write('clientUpdatedAt: $clientUpdatedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -2939,6 +4239,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $SyncMetaTable syncMeta = $SyncMetaTable(this);
   late final $PlotsTable plots = $PlotsTable(this);
   late final $BaharCyclesTable baharCycles = $BaharCyclesTable(this);
+  late final $ExpensesTable expenses = $ExpensesTable(this);
+  late final $IncomesTable incomes = $IncomesTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -2949,6 +4251,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     syncMeta,
     plots,
     baharCycles,
+    expenses,
+    incomes,
   ];
   @override
   DriftDatabaseOptions get options =>
@@ -4419,6 +5723,638 @@ typedef $$BaharCyclesTableProcessedTableManager =
       BaharCycleRow,
       PrefetchHooks Function()
     >;
+typedef $$ExpensesTableCreateCompanionBuilder = ExpensesCompanion Function({
+  required String id,
+  required String plotId,
+  Value<String?> baharCycleId,
+  required DateTime spentOn,
+  required String category,
+  required int amountPaise,
+  Value<String?> note,
+  required DateTime clientUpdatedAt,
+  Value<int> rowid,
+});
+typedef $$ExpensesTableUpdateCompanionBuilder = ExpensesCompanion Function({
+  Value<String> id,
+  Value<String> plotId,
+  Value<String?> baharCycleId,
+  Value<DateTime> spentOn,
+  Value<String> category,
+  Value<int> amountPaise,
+  Value<String?> note,
+  Value<DateTime> clientUpdatedAt,
+  Value<int> rowid,
+});
+
+class $$ExpensesTableFilterComposer
+    extends Composer<_$AppDatabase, $ExpensesTable> {
+  $$ExpensesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get plotId => $composableBuilder(
+    column: $table.plotId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get baharCycleId => $composableBuilder(
+    column: $table.baharCycleId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get spentOn => $composableBuilder(
+    column: $table.spentOn,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get category => $composableBuilder(
+    column: $table.category,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get amountPaise => $composableBuilder(
+    column: $table.amountPaise,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get note => $composableBuilder(
+    column: $table.note,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get clientUpdatedAt => $composableBuilder(
+    column: $table.clientUpdatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$ExpensesTableOrderingComposer
+    extends Composer<_$AppDatabase, $ExpensesTable> {
+  $$ExpensesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get plotId => $composableBuilder(
+    column: $table.plotId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get baharCycleId => $composableBuilder(
+    column: $table.baharCycleId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get spentOn => $composableBuilder(
+    column: $table.spentOn,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get category => $composableBuilder(
+    column: $table.category,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get amountPaise => $composableBuilder(
+    column: $table.amountPaise,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get note => $composableBuilder(
+    column: $table.note,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get clientUpdatedAt => $composableBuilder(
+    column: $table.clientUpdatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$ExpensesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $ExpensesTable> {
+  $$ExpensesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get plotId =>
+      $composableBuilder(column: $table.plotId, builder: (column) => column);
+
+  GeneratedColumn<String> get baharCycleId => $composableBuilder(
+    column: $table.baharCycleId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get spentOn =>
+      $composableBuilder(column: $table.spentOn, builder: (column) => column);
+
+  GeneratedColumn<String> get category =>
+      $composableBuilder(column: $table.category, builder: (column) => column);
+
+  GeneratedColumn<int> get amountPaise => $composableBuilder(
+    column: $table.amountPaise,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get note =>
+      $composableBuilder(column: $table.note, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get clientUpdatedAt => $composableBuilder(
+    column: $table.clientUpdatedAt,
+    builder: (column) => column,
+  );
+}
+
+class $$ExpensesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $ExpensesTable,
+          ExpenseRow,
+          $$ExpensesTableFilterComposer,
+          $$ExpensesTableOrderingComposer,
+          $$ExpensesTableAnnotationComposer,
+          $$ExpensesTableCreateCompanionBuilder,
+          $$ExpensesTableUpdateCompanionBuilder,
+          (
+            ExpenseRow,
+            BaseReferences<_$AppDatabase, $ExpensesTable, ExpenseRow>,
+          ),
+          ExpenseRow,
+          PrefetchHooks Function()
+        > {
+  $$ExpensesTableTableManager(_$AppDatabase db, $ExpensesTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ExpensesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ExpensesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ExpensesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> plotId = const Value.absent(),
+                Value<String?> baharCycleId = const Value.absent(),
+                Value<DateTime> spentOn = const Value.absent(),
+                Value<String> category = const Value.absent(),
+                Value<int> amountPaise = const Value.absent(),
+                Value<String?> note = const Value.absent(),
+                Value<DateTime> clientUpdatedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => ExpensesCompanion(
+                id: id,
+                plotId: plotId,
+                baharCycleId: baharCycleId,
+                spentOn: spentOn,
+                category: category,
+                amountPaise: amountPaise,
+                note: note,
+                clientUpdatedAt: clientUpdatedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String plotId,
+                Value<String?> baharCycleId = const Value.absent(),
+                required DateTime spentOn,
+                required String category,
+                required int amountPaise,
+                Value<String?> note = const Value.absent(),
+                required DateTime clientUpdatedAt,
+                Value<int> rowid = const Value.absent(),
+              }) => ExpensesCompanion.insert(
+                id: id,
+                plotId: plotId,
+                baharCycleId: baharCycleId,
+                spentOn: spentOn,
+                category: category,
+                amountPaise: amountPaise,
+                note: note,
+                clientUpdatedAt: clientUpdatedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$ExpensesTable, ExpenseRow>(table),
+                  BaseReferences<_$AppDatabase, $ExpensesTable, ExpenseRow>(
+                    db,
+                    table,
+                    e,
+                  ),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$ExpensesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $ExpensesTable,
+      ExpenseRow,
+      $$ExpensesTableFilterComposer,
+      $$ExpensesTableOrderingComposer,
+      $$ExpensesTableAnnotationComposer,
+      $$ExpensesTableCreateCompanionBuilder,
+      $$ExpensesTableUpdateCompanionBuilder,
+      (ExpenseRow, BaseReferences<_$AppDatabase, $ExpensesTable, ExpenseRow>),
+      ExpenseRow,
+      PrefetchHooks Function()
+    >;
+typedef $$IncomesTableCreateCompanionBuilder = IncomesCompanion Function({
+  required String id,
+  required String plotId,
+  Value<String?> baharCycleId,
+  required DateTime soldOn,
+  required String buyerName,
+  Value<String?> grade,
+  required double quantityKg,
+  required int ratePaisePerQuintal,
+  required int deductionsPaise,
+  required String paymentStatus,
+  required int paidPaise,
+  Value<DateTime?> paidOn,
+  required DateTime clientUpdatedAt,
+  Value<int> rowid,
+});
+typedef $$IncomesTableUpdateCompanionBuilder = IncomesCompanion Function({
+  Value<String> id,
+  Value<String> plotId,
+  Value<String?> baharCycleId,
+  Value<DateTime> soldOn,
+  Value<String> buyerName,
+  Value<String?> grade,
+  Value<double> quantityKg,
+  Value<int> ratePaisePerQuintal,
+  Value<int> deductionsPaise,
+  Value<String> paymentStatus,
+  Value<int> paidPaise,
+  Value<DateTime?> paidOn,
+  Value<DateTime> clientUpdatedAt,
+  Value<int> rowid,
+});
+
+class $$IncomesTableFilterComposer
+    extends Composer<_$AppDatabase, $IncomesTable> {
+  $$IncomesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get plotId => $composableBuilder(
+    column: $table.plotId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get baharCycleId => $composableBuilder(
+    column: $table.baharCycleId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get soldOn => $composableBuilder(
+    column: $table.soldOn,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get buyerName => $composableBuilder(
+    column: $table.buyerName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get grade => $composableBuilder(
+    column: $table.grade,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get quantityKg => $composableBuilder(
+    column: $table.quantityKg,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get ratePaisePerQuintal => $composableBuilder(
+    column: $table.ratePaisePerQuintal,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get deductionsPaise => $composableBuilder(
+    column: $table.deductionsPaise,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get paymentStatus => $composableBuilder(
+    column: $table.paymentStatus,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get paidPaise => $composableBuilder(
+    column: $table.paidPaise,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get paidOn => $composableBuilder(
+    column: $table.paidOn,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get clientUpdatedAt => $composableBuilder(
+    column: $table.clientUpdatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$IncomesTableOrderingComposer
+    extends Composer<_$AppDatabase, $IncomesTable> {
+  $$IncomesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get plotId => $composableBuilder(
+    column: $table.plotId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get baharCycleId => $composableBuilder(
+    column: $table.baharCycleId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get soldOn => $composableBuilder(
+    column: $table.soldOn,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get buyerName => $composableBuilder(
+    column: $table.buyerName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get grade => $composableBuilder(
+    column: $table.grade,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get quantityKg => $composableBuilder(
+    column: $table.quantityKg,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get ratePaisePerQuintal => $composableBuilder(
+    column: $table.ratePaisePerQuintal,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get deductionsPaise => $composableBuilder(
+    column: $table.deductionsPaise,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get paymentStatus => $composableBuilder(
+    column: $table.paymentStatus,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get paidPaise => $composableBuilder(
+    column: $table.paidPaise,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get paidOn => $composableBuilder(
+    column: $table.paidOn,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get clientUpdatedAt => $composableBuilder(
+    column: $table.clientUpdatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$IncomesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $IncomesTable> {
+  $$IncomesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get plotId =>
+      $composableBuilder(column: $table.plotId, builder: (column) => column);
+
+  GeneratedColumn<String> get baharCycleId => $composableBuilder(
+    column: $table.baharCycleId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get soldOn =>
+      $composableBuilder(column: $table.soldOn, builder: (column) => column);
+
+  GeneratedColumn<String> get buyerName =>
+      $composableBuilder(column: $table.buyerName, builder: (column) => column);
+
+  GeneratedColumn<String> get grade =>
+      $composableBuilder(column: $table.grade, builder: (column) => column);
+
+  GeneratedColumn<double> get quantityKg => $composableBuilder(
+    column: $table.quantityKg,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get ratePaisePerQuintal => $composableBuilder(
+    column: $table.ratePaisePerQuintal,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get deductionsPaise => $composableBuilder(
+    column: $table.deductionsPaise,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get paymentStatus => $composableBuilder(
+    column: $table.paymentStatus,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get paidPaise =>
+      $composableBuilder(column: $table.paidPaise, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get paidOn =>
+      $composableBuilder(column: $table.paidOn, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get clientUpdatedAt => $composableBuilder(
+    column: $table.clientUpdatedAt,
+    builder: (column) => column,
+  );
+}
+
+class $$IncomesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $IncomesTable,
+          IncomeRow,
+          $$IncomesTableFilterComposer,
+          $$IncomesTableOrderingComposer,
+          $$IncomesTableAnnotationComposer,
+          $$IncomesTableCreateCompanionBuilder,
+          $$IncomesTableUpdateCompanionBuilder,
+          (IncomeRow, BaseReferences<_$AppDatabase, $IncomesTable, IncomeRow>),
+          IncomeRow,
+          PrefetchHooks Function()
+        > {
+  $$IncomesTableTableManager(_$AppDatabase db, $IncomesTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$IncomesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$IncomesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$IncomesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> plotId = const Value.absent(),
+                Value<String?> baharCycleId = const Value.absent(),
+                Value<DateTime> soldOn = const Value.absent(),
+                Value<String> buyerName = const Value.absent(),
+                Value<String?> grade = const Value.absent(),
+                Value<double> quantityKg = const Value.absent(),
+                Value<int> ratePaisePerQuintal = const Value.absent(),
+                Value<int> deductionsPaise = const Value.absent(),
+                Value<String> paymentStatus = const Value.absent(),
+                Value<int> paidPaise = const Value.absent(),
+                Value<DateTime?> paidOn = const Value.absent(),
+                Value<DateTime> clientUpdatedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => IncomesCompanion(
+                id: id,
+                plotId: plotId,
+                baharCycleId: baharCycleId,
+                soldOn: soldOn,
+                buyerName: buyerName,
+                grade: grade,
+                quantityKg: quantityKg,
+                ratePaisePerQuintal: ratePaisePerQuintal,
+                deductionsPaise: deductionsPaise,
+                paymentStatus: paymentStatus,
+                paidPaise: paidPaise,
+                paidOn: paidOn,
+                clientUpdatedAt: clientUpdatedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String plotId,
+                Value<String?> baharCycleId = const Value.absent(),
+                required DateTime soldOn,
+                required String buyerName,
+                Value<String?> grade = const Value.absent(),
+                required double quantityKg,
+                required int ratePaisePerQuintal,
+                required int deductionsPaise,
+                required String paymentStatus,
+                required int paidPaise,
+                Value<DateTime?> paidOn = const Value.absent(),
+                required DateTime clientUpdatedAt,
+                Value<int> rowid = const Value.absent(),
+              }) => IncomesCompanion.insert(
+                id: id,
+                plotId: plotId,
+                baharCycleId: baharCycleId,
+                soldOn: soldOn,
+                buyerName: buyerName,
+                grade: grade,
+                quantityKg: quantityKg,
+                ratePaisePerQuintal: ratePaisePerQuintal,
+                deductionsPaise: deductionsPaise,
+                paymentStatus: paymentStatus,
+                paidPaise: paidPaise,
+                paidOn: paidOn,
+                clientUpdatedAt: clientUpdatedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$IncomesTable, IncomeRow>(table),
+                  BaseReferences<_$AppDatabase, $IncomesTable, IncomeRow>(
+                    db,
+                    table,
+                    e,
+                  ),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$IncomesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $IncomesTable,
+      IncomeRow,
+      $$IncomesTableFilterComposer,
+      $$IncomesTableOrderingComposer,
+      $$IncomesTableAnnotationComposer,
+      $$IncomesTableCreateCompanionBuilder,
+      $$IncomesTableUpdateCompanionBuilder,
+      (IncomeRow, BaseReferences<_$AppDatabase, $IncomesTable, IncomeRow>),
+      IncomeRow,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -4433,4 +6369,8 @@ class $AppDatabaseManager {
       $$PlotsTableTableManager(_db, _db.plots);
   $$BaharCyclesTableTableManager get baharCycles =>
       $$BaharCyclesTableTableManager(_db, _db.baharCycles);
+  $$ExpensesTableTableManager get expenses =>
+      $$ExpensesTableTableManager(_db, _db.expenses);
+  $$IncomesTableTableManager get incomes =>
+      $$IncomesTableTableManager(_db, _db.incomes);
 }

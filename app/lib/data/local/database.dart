@@ -83,6 +83,43 @@ class BaharCycles extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
+/// Expenses (mirror of the API `expense` entity). Money in whole paise.
+@DataClassName('ExpenseRow')
+class Expenses extends Table {
+  TextColumn get id => text()();
+  TextColumn get plotId => text()();
+  TextColumn get baharCycleId => text().nullable()();
+  DateTimeColumn get spentOn => dateTime()();
+  TextColumn get category => text()();
+  IntColumn get amountPaise => integer()();
+  TextColumn get note => text().nullable()();
+  DateTimeColumn get clientUpdatedAt => dateTime()();
+
+  @override
+  Set<Column<Object>> get primaryKey => {id};
+}
+
+/// Sales income (mirror of the API `income` entity). Money in whole paise.
+@DataClassName('IncomeRow')
+class Incomes extends Table {
+  TextColumn get id => text()();
+  TextColumn get plotId => text()();
+  TextColumn get baharCycleId => text().nullable()();
+  DateTimeColumn get soldOn => dateTime()();
+  TextColumn get buyerName => text()();
+  TextColumn get grade => text().nullable()();
+  RealColumn get quantityKg => real()();
+  IntColumn get ratePaisePerQuintal => integer()();
+  IntColumn get deductionsPaise => integer()();
+  TextColumn get paymentStatus => text()();
+  IntColumn get paidPaise => integer()();
+  DateTimeColumn get paidOn => dateTime().nullable()();
+  DateTimeColumn get clientUpdatedAt => dateTime()();
+
+  @override
+  Set<Column<Object>> get primaryKey => {id};
+}
+
 /// Small key/value store for sync cursors and similar bookkeeping.
 class SyncMeta extends Table {
   TextColumn get key => text()();
@@ -93,7 +130,15 @@ class SyncMeta extends Table {
 }
 
 @DriftDatabase(
-  tables: [OutboxEntries, FarmerProfiles, SyncMeta, Plots, BaharCycles],
+  tables: [
+    OutboxEntries,
+    FarmerProfiles,
+    SyncMeta,
+    Plots,
+    BaharCycles,
+    Expenses,
+    Incomes,
+  ],
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase(super.e);
@@ -101,7 +146,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.open(String name) : super(driftDatabase(name: name));
 
   @override
-  int get schemaVersion => 3;
+  int get schemaVersion => 4;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -109,6 +154,10 @@ class AppDatabase extends _$AppDatabase {
     onUpgrade: (m, from, to) async {
       if (from < 2) await m.createTable(plots);
       if (from < 3) await m.createTable(baharCycles);
+      if (from < 4) {
+        await m.createTable(expenses);
+        await m.createTable(incomes);
+      }
     },
   );
 

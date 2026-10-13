@@ -5,6 +5,7 @@ import '../api/generated/bagmitra.swagger.dart';
 import '../core/clock.dart';
 import '../core/config.dart';
 import '../data/local/database.dart';
+import '../features/accounts/data/accounts_repository.dart';
 import '../features/auth/domain/auth.dart';
 import '../features/bahar/data/bahar_catalog.dart';
 import '../features/bahar/data/bahar_repository.dart';
@@ -83,6 +84,13 @@ final baharOptionsProvider = FutureProvider<BaharCatalogData>(
   (ref) => ref.watch(baharCatalogProvider).load(),
 );
 
+final accountsRepositoryProvider = Provider<AccountsRepository>(
+  (ref) => AccountsRepository(
+    ref.watch(databaseProvider),
+    clock: ref.watch(clockProvider),
+  ),
+);
+
 final syncEngineProvider = Provider<SyncEngine>((ref) {
   final engine = SyncEngine(
     db: ref.watch(databaseProvider),
@@ -93,6 +101,12 @@ final syncEngineProvider = Provider<SyncEngine>((ref) {
           .applyRemote,
       PlotRepository.entity: ref.watch(plotRepositoryProvider).applyRemote,
       BaharRepository.entity: ref.watch(baharRepositoryProvider).applyRemote,
+      AccountsRepository.expenseEntity: ref
+          .watch(accountsRepositoryProvider)
+          .applyRemoteExpense,
+      AccountsRepository.incomeEntity: ref
+          .watch(accountsRepositoryProvider)
+          .applyRemoteIncome,
     },
   );
   // Demo mode has no backend: writes stay queued locally, nothing is reported as failing.
