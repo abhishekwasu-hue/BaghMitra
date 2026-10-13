@@ -7,7 +7,7 @@ Create Date: 2026-10-13
 
 from __future__ import annotations
 
-from datetime import datetime
+from typing import Any
 
 import sqlalchemy as sa
 from alembic import op
@@ -22,7 +22,7 @@ depends_on = None
 INDEXED = ("owner_id", "plot_id", "bahar_cycle_id", "last_seq")
 
 
-def _owned() -> list[sa.Column[datetime]]:
+def _owned() -> list[sa.Column[Any]]:
     return [
         sa.Column("deleted_at", sa.DateTime(timezone=True), nullable=True),
         sa.Column("client_updated_at", sa.DateTime(timezone=True), nullable=False),
