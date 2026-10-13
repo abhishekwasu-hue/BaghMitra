@@ -371,4 +371,69 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get adminNotConfigured =>
       'एडमिन साइन-इन के लिए SUPABASE_URL और SUPABASE_ANON_KEY चाहिए।';
+
+  @override
+  String get accountsTitle => 'हिसाब';
+
+  @override
+  String get addExpense => 'खर्च जोड़ें';
+
+  @override
+  String get addSale => 'बिक्री दर्ज करें';
+
+  @override
+  String get expenseCategory => 'किस लिए खर्च?';
+
+  @override
+  String get amountRupees => 'रकम (₹)';
+
+  @override
+  String get noteOptional => 'टिप्पणी (वैकल्पिक)';
+
+  @override
+  String get accountsExpenses => 'खर्च';
+
+  @override
+  String get accountsIncome => 'आमदनी';
+
+  @override
+  String get accountsProfit => 'मुनाफ़ा';
+
+  @override
+  String get accountsDues => 'व्यापारियों पर बाकी';
+
+  @override
+  String get costPerAcre => 'प्रति एकड़ खर्च';
+
+  @override
+  String get costPerTree => 'प्रति पेड़ खर्च';
+
+  @override
+  String get costPerTonne => 'प्रति टन खर्च';
+
+  @override
+  String get allBahars => 'सभी';
+
+  @override
+  String get saleBuyer => 'व्यापारी';
+
+  @override
+  String get saleKg => 'वज़न (किलो)';
+
+  @override
+  String get saleRate => 'दर (₹ प्रति क्विंटल)';
+
+  @override
+  String get saleDeductions => 'कटौती (₹, वैकल्पिक)';
+
+  @override
+  String get salePaid => 'अब तक मिले (₹)';
+
+  @override
+  String get accountsEmpty => 'अभी कोई प्रविष्टि नहीं। खर्च या बिक्री जोड़ें।';
+
+  @override
+  String saleBy(String buyer, String kg) {
+    return '$buyer · $kg किलो';
+  }
 }

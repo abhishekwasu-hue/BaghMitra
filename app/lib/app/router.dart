@@ -4,6 +4,8 @@ import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 
 import '../core/config.dart';
+import '../features/accounts/presentation/accounts_screen.dart';
+import '../features/accounts/presentation/add_entry_screens.dart';
 import '../features/auth/domain/auth.dart';
 import '../features/auth/presentation/login_screens.dart';
 import '../features/bahar/presentation/bahar_screen.dart';
@@ -35,6 +37,9 @@ abstract final class Routes {
   static const addPlot = '/plots/new';
   static String plotBahar(String plotId) => '/plots/$plotId/bahar';
   static String startBahar(String plotId) => '/plots/$plotId/bahar/new';
+  static String accounts(String plotId) => '/plots/$plotId/accounts';
+  static String addExpense(String plotId) => '/plots/$plotId/accounts/expense';
+  static String addSale(String plotId) => '/plots/$plotId/accounts/sale';
 }
 
 GoRouter buildRouter(
@@ -62,6 +67,18 @@ GoRouter buildRouter(
       GoRoute(
         path: '/plots/:id/bahar',
         builder: (_, s) => BaharScreen(plotId: s.pathParameters['id']!),
+      ),
+      GoRoute(
+        path: '/plots/:id/accounts',
+        builder: (_, s) => AccountsScreen(plotId: s.pathParameters['id']!),
+      ),
+      GoRoute(
+        path: '/plots/:id/accounts/expense',
+        builder: (_, s) => AddExpenseScreen(plotId: s.pathParameters['id']!),
+      ),
+      GoRoute(
+        path: '/plots/:id/accounts/sale',
+        builder: (_, s) => AddSaleScreen(plotId: s.pathParameters['id']!),
       ),
       GoRoute(
         path: '/plots/:id/bahar/new',

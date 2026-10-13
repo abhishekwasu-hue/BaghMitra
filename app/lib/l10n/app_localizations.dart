@@ -699,6 +699,132 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Admin sign-in needs SUPABASE_URL and SUPABASE_ANON_KEY.'**
   String get adminNotConfigured;
+
+  /// No description provided for @accountsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Accounts'**
+  String get accountsTitle;
+
+  /// No description provided for @addExpense.
+  ///
+  /// In en, this message translates to:
+  /// **'Add expense'**
+  String get addExpense;
+
+  /// No description provided for @addSale.
+  ///
+  /// In en, this message translates to:
+  /// **'Record a sale'**
+  String get addSale;
+
+  /// No description provided for @expenseCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'What was it for?'**
+  String get expenseCategory;
+
+  /// No description provided for @amountRupees.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount (₹)'**
+  String get amountRupees;
+
+  /// No description provided for @noteOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'Note (optional)'**
+  String get noteOptional;
+
+  /// No description provided for @accountsExpenses.
+  ///
+  /// In en, this message translates to:
+  /// **'Expenses'**
+  String get accountsExpenses;
+
+  /// No description provided for @accountsIncome.
+  ///
+  /// In en, this message translates to:
+  /// **'Income'**
+  String get accountsIncome;
+
+  /// No description provided for @accountsProfit.
+  ///
+  /// In en, this message translates to:
+  /// **'Profit'**
+  String get accountsProfit;
+
+  /// No description provided for @accountsDues.
+  ///
+  /// In en, this message translates to:
+  /// **'Buyers owe'**
+  String get accountsDues;
+
+  /// No description provided for @costPerAcre.
+  ///
+  /// In en, this message translates to:
+  /// **'Cost per acre'**
+  String get costPerAcre;
+
+  /// No description provided for @costPerTree.
+  ///
+  /// In en, this message translates to:
+  /// **'Cost per tree'**
+  String get costPerTree;
+
+  /// No description provided for @costPerTonne.
+  ///
+  /// In en, this message translates to:
+  /// **'Cost per tonne'**
+  String get costPerTonne;
+
+  /// No description provided for @allBahars.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get allBahars;
+
+  /// No description provided for @saleBuyer.
+  ///
+  /// In en, this message translates to:
+  /// **'Buyer'**
+  String get saleBuyer;
+
+  /// No description provided for @saleKg.
+  ///
+  /// In en, this message translates to:
+  /// **'Quantity (kg)'**
+  String get saleKg;
+
+  /// No description provided for @saleRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate (₹ per quintal)'**
+  String get saleRate;
+
+  /// No description provided for @saleDeductions.
+  ///
+  /// In en, this message translates to:
+  /// **'Deductions (₹, optional)'**
+  String get saleDeductions;
+
+  /// No description provided for @salePaid.
+  ///
+  /// In en, this message translates to:
+  /// **'Received so far (₹)'**
+  String get salePaid;
+
+  /// No description provided for @accountsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No entries yet. Add an expense or a sale.'**
+  String get accountsEmpty;
+
+  /// No description provided for @saleBy.
+  ///
+  /// In en, this message translates to:
+  /// **'{buyer} · {kg} kg'**
+  String saleBy(String buyer, String kg);
 }
 
 class _AppLocalizationsDelegate

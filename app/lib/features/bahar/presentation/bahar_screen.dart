@@ -39,6 +39,13 @@ class BaharScreen extends ConsumerWidget {
           plot?.name ?? '',
           style: BmType.title.copyWith(color: c.brand),
         ),
+        actions: [
+          IconButton(
+            tooltip: AppLocalizations.of(context).accountsTitle,
+            onPressed: () => context.push(Routes.accounts(plotId)),
+            icon: Icon(Icons.account_balance_wallet_outlined, color: c.brand),
+          ),
+        ],
       ),
       body: cycles.isEmpty || catalog == null
           ? _Empty(onStart: start)

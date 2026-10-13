@@ -4,6 +4,7 @@ import 'package:bagmitra/app/app.dart';
 import 'package:bagmitra/app/providers.dart';
 import 'package:bagmitra/core/config.dart';
 import 'package:bagmitra/data/local/database.dart';
+import 'package:bagmitra/features/accounts/data/expense_categories.dart';
 import 'package:bagmitra/features/auth/data/demo_auth_repository.dart';
 import 'package:bagmitra/features/auth/domain/auth.dart';
 import 'package:bagmitra/features/bahar/data/bahar_catalog.dart';
@@ -74,6 +75,9 @@ Future<AppDatabase> pumpApp(
         clockProvider.overrideWithValue(() => DateTime.utc(2026, 10, 13, 6)),
         baharCatalogProvider.overrideWithValue(
           BaharCatalog(bundle: FileAssetBundle()),
+        ),
+        expenseCategoriesCatalogProvider.overrideWithValue(
+          ExpenseCategories(bundle: FileAssetBundle()),
         ),
         cropCatalogProvider.overrideWithValue(
           CropCatalog(bundle: FileAssetBundle()),
