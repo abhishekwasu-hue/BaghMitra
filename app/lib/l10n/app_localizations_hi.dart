@@ -289,4 +289,67 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get baharStatusAbandoned => 'रोका गया';
+
+  @override
+  String get adminCards => 'जानकारी कार्ड';
+
+  @override
+  String get adminImports => 'आयात';
+
+  @override
+  String get adminAlerts => 'सूचनाएँ';
+
+  @override
+  String get adminSources => 'स्रोत';
+
+  @override
+  String get adminPublish => 'प्रकाशित करें';
+
+  @override
+  String get adminApprove => 'मंज़ूर करें';
+
+  @override
+  String get adminChemical => 'रसायन';
+
+  @override
+  String get adminImport => 'आयात करें';
+
+  @override
+  String get adminImportSource => 'स्रोत की';
+
+  @override
+  String get adminImportCsv => 'CSV (हाथ से जाँची गई)';
+
+  @override
+  String get adminImportClaims => 'लेबल क्लेम';
+
+  @override
+  String get adminImportRestrictions => 'प्रतिबंध और रोक';
+
+  @override
+  String adminImportResult(
+    int added,
+    int changed,
+    int removed,
+    int unchanged,
+    int pulled,
+  ) {
+    return 'नए $added · बदले $changed · हटाए $removed · वैसे ही $unchanged · वापस लिए कार्ड $pulled';
+  }
+
+  @override
+  String get adminResolve => 'निपटाएँ';
+
+  @override
+  String get adminNoAlerts => 'कोई खुली सूचना नहीं';
+
+  @override
+  String get adminNoCards => 'अभी कोई कार्ड नहीं';
+
+  @override
+  String get adminSignInRequired =>
+      'इस भाग के लिए जानकारी-कोश एडमिन खाते से साइन इन करें।';
+
+  @override
+  String get adminDone => 'हो गया';
 }

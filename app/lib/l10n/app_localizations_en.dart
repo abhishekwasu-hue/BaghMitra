@@ -289,4 +289,67 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get baharStatusAbandoned => 'Stopped';
+
+  @override
+  String get adminCards => 'Knowledge cards';
+
+  @override
+  String get adminImports => 'Imports';
+
+  @override
+  String get adminAlerts => 'Alerts';
+
+  @override
+  String get adminSources => 'Sources';
+
+  @override
+  String get adminPublish => 'Publish';
+
+  @override
+  String get adminApprove => 'Approve';
+
+  @override
+  String get adminChemical => 'Chemical';
+
+  @override
+  String get adminImport => 'Import';
+
+  @override
+  String get adminImportSource => 'Source key';
+
+  @override
+  String get adminImportCsv => 'CSV (checked by hand)';
+
+  @override
+  String get adminImportClaims => 'Label claims';
+
+  @override
+  String get adminImportRestrictions => 'Bans and restrictions';
+
+  @override
+  String adminImportResult(
+    int added,
+    int changed,
+    int removed,
+    int unchanged,
+    int pulled,
+  ) {
+    return 'Added $added · Changed $changed · Removed $removed · Unchanged $unchanged · Cards pulled $pulled';
+  }
+
+  @override
+  String get adminResolve => 'Resolve';
+
+  @override
+  String get adminNoAlerts => 'No open alerts';
+
+  @override
+  String get adminNoCards => 'No cards yet';
+
+  @override
+  String get adminSignInRequired =>
+      'Sign in with a knowledge-base admin account to use this section.';
+
+  @override
+  String get adminDone => 'Done';
 }
