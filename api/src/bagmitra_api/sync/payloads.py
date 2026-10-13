@@ -95,3 +95,29 @@ class BaharCyclePayload(RowPayload):
         data["planned"] = {k: v.isoformat() for k, v in self.planned.items()}
         data["actual"] = {k: v.isoformat() for k, v in self.actual.items()}
         return data
+
+
+Paise = Annotated[int, Field(ge=0, le=10**12)]  # up to ₹1,000 crore; exact integer money
+
+
+class ExpensePayload(RowPayload):
+    plot_id: uuid.UUID
+    bahar_cycle_id: uuid.UUID | None = None
+    spent_on: date
+    category: Slug
+    amount_paise: Paise
+    note: str | None = Field(default=None, max_length=500)
+
+
+class IncomePayload(RowPayload):
+    plot_id: uuid.UUID
+    bahar_cycle_id: uuid.UUID | None = None
+    sold_on: date
+    buyer_name: str = Field(min_length=1, max_length=120)
+    grade: Slug | None = None
+    quantity_kg: float = Field(gt=0, le=10**7)
+    rate_paise_per_quintal: Paise
+    deductions_paise: Paise = 0
+    payment_status: Literal["pending", "partial", "paid"]
+    paid_paise: Paise = 0
+    paid_on: date | None = None

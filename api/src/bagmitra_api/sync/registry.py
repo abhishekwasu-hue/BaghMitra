@@ -18,10 +18,12 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from bagmitra_api.auth.jwt import AuthenticatedUser
 from bagmitra_api.db.base import OwnedSyncedRowMixin
-from bagmitra_api.db.models import BaharCycle, Farmer, Plot
+from bagmitra_api.db.models import BaharCycle, Expense, Farmer, Income, Plot
 from bagmitra_api.sync.payloads import (
     BaharCyclePayload,
+    ExpensePayload,
     FarmerProfilePayload,
+    IncomePayload,
     PlotPayload,
     RowPayload,
 )
@@ -169,7 +171,10 @@ class OwnedEntityHandler:
         self, session: AsyncSession, user: AuthenticatedUser, payload: BaseModel
     ) -> None:
         for attr, model in self.parents:
-            parent = await session.get(model, getattr(payload, attr))
+            parent_id = getattr(payload, attr)
+            if parent_id is None:  # optional link (e.g. an expense not tied to a bahar)
+                continue
+            parent = await session.get(model, parent_id)
             if parent is None or parent.owner_id != user.id or parent.deleted_at is not None:
                 raise RejectedError("invalid_reference")
 
@@ -222,6 +227,18 @@ HANDLERS: dict[str, EntityHandler] = {
             model=BaharCycle,
             payload_model=BaharCyclePayload,
             parents=(("plot_id", Plot),),
+        ),
+        OwnedEntityHandler(
+            name="expense",
+            model=Expense,
+            payload_model=ExpensePayload,
+            parents=(("plot_id", Plot), ("bahar_cycle_id", BaharCycle)),
+        ),
+        OwnedEntityHandler(
+            name="income",
+            model=Income,
+            payload_model=IncomePayload,
+            parents=(("plot_id", Plot), ("bahar_cycle_id", BaharCycle)),
         ),
     )
 }

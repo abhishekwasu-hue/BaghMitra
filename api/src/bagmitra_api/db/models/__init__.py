@@ -1,3 +1,4 @@
+from bagmitra_api.db.models.accounts import Expense, Income
 from bagmitra_api.db.models.bahar import BaharCycle, CropStageTemplate
 from bagmitra_api.db.models.farmer import Farmer
 from bagmitra_api.db.models.plot import Plot
@@ -16,7 +17,9 @@ from bagmitra_api.kb.models import (
 __all__ = [
     "BaharCycle",
     "CropStageTemplate",
+    "Expense",
     "Farmer",
+    "Income",
     "KbCard",
     "KbConflict",
     "KbLabelClaim",
