@@ -6,6 +6,8 @@ import 'package:go_router/go_router.dart';
 import '../core/config.dart';
 import '../features/auth/domain/auth.dart';
 import '../features/auth/presentation/login_screens.dart';
+import '../features/bahar/presentation/bahar_screen.dart';
+import '../features/bahar/presentation/start_bahar_screen.dart';
 import '../features/dev/component_gallery_screen.dart';
 import '../features/home/presentation/home_screen.dart';
 import '../features/plots/presentation/add_plot_screen.dart';
@@ -31,6 +33,8 @@ abstract final class Routes {
   static const gallery = '/dev/gallery';
   static const plots = '/plots';
   static const addPlot = '/plots/new';
+  static String plotBahar(String plotId) => '/plots/$plotId/bahar';
+  static String startBahar(String plotId) => '/plots/$plotId/bahar/new';
 }
 
 GoRouter buildRouter(
@@ -55,6 +59,14 @@ GoRouter buildRouter(
       GoRoute(path: Routes.home, builder: (_, _) => const HomeScreen()),
       GoRoute(path: Routes.plots, builder: (_, _) => const PlotsScreen()),
       GoRoute(path: Routes.addPlot, builder: (_, _) => const AddPlotScreen()),
+      GoRoute(
+        path: '/plots/:id/bahar',
+        builder: (_, s) => BaharScreen(plotId: s.pathParameters['id']!),
+      ),
+      GoRoute(
+        path: '/plots/:id/bahar/new',
+        builder: (_, s) => StartBaharScreen(plotId: s.pathParameters['id']!),
+      ),
       GoRoute(path: Routes.login, builder: (_, _) => const PhoneLoginScreen()),
       GoRoute(
         path: Routes.otp,

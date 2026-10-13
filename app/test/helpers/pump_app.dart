@@ -6,6 +6,7 @@ import 'package:bagmitra/core/config.dart';
 import 'package:bagmitra/data/local/database.dart';
 import 'package:bagmitra/features/auth/data/demo_auth_repository.dart';
 import 'package:bagmitra/features/auth/domain/auth.dart';
+import 'package:bagmitra/features/bahar/data/bahar_catalog.dart';
 import 'package:bagmitra/features/home/data/demo_home_repository.dart';
 import 'package:bagmitra/features/plots/data/crop_catalog.dart';
 import 'package:bagmitra/sync/sync_engine.dart';
@@ -69,6 +70,10 @@ Future<AppDatabase> pumpApp(
         databaseProvider.overrideWithValue(db),
         authRepositoryProvider.overrideWithValue(
           DemoAuthRepository(initial: session),
+        ),
+        clockProvider.overrideWithValue(() => DateTime.utc(2026, 10, 13, 6)),
+        baharCatalogProvider.overrideWithValue(
+          BaharCatalog(bundle: FileAssetBundle()),
         ),
         cropCatalogProvider.overrideWithValue(
           CropCatalog(bundle: FileAssetBundle()),

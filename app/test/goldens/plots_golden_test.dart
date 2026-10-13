@@ -4,6 +4,7 @@ library;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../features/bahar/bahar_screen_test.dart' show seedPlotWithCycle;
 import '../features/plots/plots_screen_test.dart' show seedTwo, settle;
 import '../helpers/pump_app.dart';
 
@@ -47,4 +48,19 @@ void main() {
     );
     await unmountApp(tester);
   });
+
+  for (final (name, location) in [
+    ('bahar_mr_light', '/plots/p1/bahar'),
+    ('start_bahar_mr_light', '/plots/p1/bahar/new'),
+  ]) {
+    testWidgets(name, (tester) async {
+      await pumpApp(tester, initialLocation: location, seed: seedPlotWithCycle);
+      await settle(tester);
+      await expectLater(
+        find.byType(MaterialApp),
+        matchesGoldenFile('$name.png'),
+      );
+      await unmountApp(tester);
+    });
+  }
 }

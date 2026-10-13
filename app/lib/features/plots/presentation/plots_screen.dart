@@ -105,7 +105,7 @@ class _PlotCard extends ConsumerWidget {
       t.plotAcres(formatDecimal(plot.areaAcres, lang)),
       if (plot.treeCount != null) t.plotTrees(plot.treeCount!),
     ].join(' · ');
-    return BmCard(
+    final card = BmCard(
       elevated: false,
       radius: BmRadius.card,
       padding: const EdgeInsets.fromLTRB(
@@ -146,6 +146,14 @@ class _PlotCard extends ConsumerWidget {
             icon: Icon(Icons.delete_outline_rounded, color: c.inkMuted),
           ),
         ],
+      ),
+    );
+    return Semantics(
+      button: true,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () => context.push(Routes.plotBahar(plot.id)),
+        child: card,
       ),
     );
   }

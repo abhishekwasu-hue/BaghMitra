@@ -2,9 +2,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../api/api_client.dart';
 import '../api/generated/bagmitra.swagger.dart';
+import '../core/clock.dart';
 import '../core/config.dart';
 import '../data/local/database.dart';
 import '../features/auth/domain/auth.dart';
+import '../features/bahar/data/bahar_catalog.dart';
+import '../features/bahar/data/bahar_repository.dart';
+import '../features/bahar/domain/bahar_cycle.dart';
 import '../features/home/data/demo_home_repository.dart';
 import '../features/home/domain/home_snapshot.dart';
 import '../features/plots/data/crop_catalog.dart';
@@ -18,6 +22,9 @@ import '../sync/sync_engine.dart';
 final appConfigProvider = Provider<AppConfig>(
   (ref) => AppConfig.fromEnvironment(),
 );
+
+/// Overridden in tests for deterministic dates.
+final clockProvider = Provider<Clock>((ref) => systemClock);
 
 /// Overridden in main() / tests.
 final databaseProvider = Provider<AppDatabase>((ref) {
@@ -59,6 +66,23 @@ final cropsProvider = FutureProvider<List<CropOption>>(
   (ref) => ref.watch(cropCatalogProvider).load(),
 );
 
+final baharRepositoryProvider = Provider<BaharRepository>(
+  (ref) => BaharRepository(
+    ref.watch(databaseProvider),
+    clock: ref.watch(clockProvider),
+  ),
+);
+
+final baharCyclesProvider = StreamProvider.family<List<BaharCycle>, String>(
+  (ref, plotId) => ref.watch(baharRepositoryProvider).watchForPlot(plotId),
+);
+
+final baharCatalogProvider = Provider<BaharCatalog>((ref) => BaharCatalog());
+
+final baharOptionsProvider = FutureProvider<BaharCatalogData>(
+  (ref) => ref.watch(baharCatalogProvider).load(),
+);
+
 final syncEngineProvider = Provider<SyncEngine>((ref) {
   final engine = SyncEngine(
     db: ref.watch(databaseProvider),
@@ -67,6 +91,8 @@ final syncEngineProvider = Provider<SyncEngine>((ref) {
       ProfileRepository.entity: ref
           .watch(profileRepositoryProvider)
           .applyRemote,
+      PlotRepository.entity: ref.watch(plotRepositoryProvider).applyRemote,
+      BaharRepository.entity: ref.watch(baharRepositoryProvider).applyRemote,
     },
   );
   // Demo mode has no backend: writes stay queued locally, nothing is reported as failing.

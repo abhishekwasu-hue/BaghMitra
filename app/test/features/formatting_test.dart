@@ -25,4 +25,8 @@ void main() {
     expect(c.demoMode, isTrue);
     expect(c.devGallery, isFalse);
   });
+  test('years have no grouping and use locale digits', () {
+    expect(formatYear(2027, 'en'), '2027');
+    expect(formatYear(2027, 'mr'), '२०२७');
+  });
 }

@@ -66,6 +66,23 @@ class Plots extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
+/// Bahar cycles (mirror of the API `bahar_cycle` entity). Dates are JSON {stage: date}.
+@DataClassName('BaharCycleRow')
+class BaharCycles extends Table {
+  TextColumn get id => text()();
+  TextColumn get plotId => text()();
+  TextColumn get bahar => text()();
+  IntColumn get seasonYear => integer()();
+  TextColumn get templateId => text().nullable()();
+  TextColumn get status => text()();
+  TextColumn get planned => text()();
+  TextColumn get actual => text()();
+  DateTimeColumn get clientUpdatedAt => dateTime()();
+
+  @override
+  Set<Column<Object>> get primaryKey => {id};
+}
+
 /// Small key/value store for sync cursors and similar bookkeeping.
 class SyncMeta extends Table {
   TextColumn get key => text()();
@@ -75,20 +92,23 @@ class SyncMeta extends Table {
   Set<Column<Object>> get primaryKey => {key};
 }
 
-@DriftDatabase(tables: [OutboxEntries, FarmerProfiles, SyncMeta, Plots])
+@DriftDatabase(
+  tables: [OutboxEntries, FarmerProfiles, SyncMeta, Plots, BaharCycles],
+)
 class AppDatabase extends _$AppDatabase {
   AppDatabase(super.e);
 
   AppDatabase.open(String name) : super(driftDatabase(name: name));
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
     onCreate: (m) => m.createAll(),
     onUpgrade: (m, from, to) async {
       if (from < 2) await m.createTable(plots);
+      if (from < 3) await m.createTable(baharCycles);
     },
   );
 

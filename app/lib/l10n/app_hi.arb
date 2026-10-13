@@ -63,5 +63,16 @@
   "deletePlot": "बाग हटाएँ",
   "deletePlotConfirm": "{name} हटाएँ? यह आपके दूसरे फ़ोन से भी हट जाएगा।",
   "cancel": "रद्द करें",
-  "delete": "हटाएँ"
+  "delete": "हटाएँ",
+  "startBahar": "बहार शुरू करें",
+  "baharEmptyTitle": "अभी कोई बहार तय नहीं",
+  "baharEmptyBody": "बहार चुनें और अपनी तारीखें लिखें। विशेषज्ञ द्वारा जाँचा गया कैलेंडर तैयार होने पर सुझाई गई तारीखें मिलेंगी।",
+  "baharWhich": "कौन सा बहार?",
+  "baharSeason": "मौसम",
+  "baharDates": "आपकी तारीखें (वैकल्पिक)",
+  "baharPickDate": "तारीख चुनें",
+  "baharStatusPlanned": "तय",
+  "baharStatusActive": "चालू",
+  "baharStatusCompleted": "पूरा",
+  "baharStatusAbandoned": "रोका गया"
 }

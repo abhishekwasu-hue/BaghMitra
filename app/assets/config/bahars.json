@@ -1,0 +1,14 @@
+{
+  "_note": "Bahar names and the stages a grower can date by hand. Config, not code: replaced by published crop stage templates once the agronomy sources are verified (OPEN_QUESTIONS Q10). No timing advice here.",
+  "bahars": [
+    {"slug": "ambia", "crops": ["santra", "mosambi"], "labels": {"en": "Ambia bahar", "mr": "आंबिया बहार", "hi": "अंबिया बहार"}},
+    {"slug": "mrig", "crops": ["santra", "mosambi"], "labels": {"en": "Mrig bahar", "mr": "मृग बहार", "hi": "मृग बहार"}},
+    {"slug": "hasta", "crops": ["santra", "mosambi"], "labels": {"en": "Hasta bahar", "mr": "हस्त बहार", "hi": "हस्त बहार"}}
+  ],
+  "manual_stages": [
+    {"key": "stress_start", "labels": {"en": "Water stress starts", "mr": "ताण सुरू", "hi": "पानी रोकना शुरू"}},
+    {"key": "flowering", "labels": {"en": "Flowering", "mr": "फुलोरा", "hi": "फूल आना"}},
+    {"key": "fruit_set", "labels": {"en": "Fruit set", "mr": "फळधारणा", "hi": "फल बनना"}},
+    {"key": "harvest", "labels": {"en": "Harvest", "mr": "तोडणी", "hi": "तुड़ाई"}}
+  ]
+}

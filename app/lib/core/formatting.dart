@@ -20,3 +20,11 @@ String formatMonth(DateTime date, String languageCode) =>
 /// Up to two decimals, Indian grouping, locale digits (e.g. Marathi ४.५).
 String formatDecimal(double value, String languageCode) =>
     NumberFormat('#,##,##0.##', _intlLocale(languageCode)).format(value);
+
+/// Day, short month, year in the locale's script, e.g. "10 Feb 2027" / "१० फेब्रु, २०२७".
+String formatDate(DateTime date, String languageCode) =>
+    DateFormat.yMMMd(_intlLocale(languageCode)).format(date);
+
+/// A year without grouping, in locale digits (e.g. Marathi २०२७).
+String formatYear(int year, String languageCode) =>
+    NumberFormat('0', _intlLocale(languageCode)).format(year);
