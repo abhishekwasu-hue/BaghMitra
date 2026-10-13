@@ -186,5 +186,42 @@
   "baharStatusPlanned": "Planned",
   "baharStatusActive": "Running",
   "baharStatusCompleted": "Completed",
-  "baharStatusAbandoned": "Stopped"
+  "baharStatusAbandoned": "Stopped",
+  "adminCards": "Knowledge cards",
+  "adminImports": "Imports",
+  "adminAlerts": "Alerts",
+  "adminSources": "Sources",
+  "adminPublish": "Publish",
+  "adminApprove": "Approve",
+  "adminChemical": "Chemical",
+  "adminImport": "Import",
+  "adminImportSource": "Source key",
+  "adminImportCsv": "CSV (checked by hand)",
+  "adminImportClaims": "Label claims",
+  "adminImportRestrictions": "Bans and restrictions",
+  "adminImportResult": "Added {added} · Changed {changed} · Removed {removed} · Unchanged {unchanged} · Cards pulled {pulled}",
+  "@adminImportResult": {
+    "placeholders": {
+      "added": {
+        "type": "int"
+      },
+      "changed": {
+        "type": "int"
+      },
+      "removed": {
+        "type": "int"
+      },
+      "unchanged": {
+        "type": "int"
+      },
+      "pulled": {
+        "type": "int"
+      }
+    }
+  },
+  "adminResolve": "Resolve",
+  "adminNoAlerts": "No open alerts",
+  "adminNoCards": "No cards yet",
+  "adminSignInRequired": "Sign in with a knowledge-base admin account to use this section.",
+  "adminDone": "Done"
 }

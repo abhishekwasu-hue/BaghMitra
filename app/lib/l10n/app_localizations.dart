@@ -549,6 +549,120 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Stopped'**
   String get baharStatusAbandoned;
+
+  /// No description provided for @adminCards.
+  ///
+  /// In en, this message translates to:
+  /// **'Knowledge cards'**
+  String get adminCards;
+
+  /// No description provided for @adminImports.
+  ///
+  /// In en, this message translates to:
+  /// **'Imports'**
+  String get adminImports;
+
+  /// No description provided for @adminAlerts.
+  ///
+  /// In en, this message translates to:
+  /// **'Alerts'**
+  String get adminAlerts;
+
+  /// No description provided for @adminSources.
+  ///
+  /// In en, this message translates to:
+  /// **'Sources'**
+  String get adminSources;
+
+  /// No description provided for @adminPublish.
+  ///
+  /// In en, this message translates to:
+  /// **'Publish'**
+  String get adminPublish;
+
+  /// No description provided for @adminApprove.
+  ///
+  /// In en, this message translates to:
+  /// **'Approve'**
+  String get adminApprove;
+
+  /// No description provided for @adminChemical.
+  ///
+  /// In en, this message translates to:
+  /// **'Chemical'**
+  String get adminChemical;
+
+  /// No description provided for @adminImport.
+  ///
+  /// In en, this message translates to:
+  /// **'Import'**
+  String get adminImport;
+
+  /// No description provided for @adminImportSource.
+  ///
+  /// In en, this message translates to:
+  /// **'Source key'**
+  String get adminImportSource;
+
+  /// No description provided for @adminImportCsv.
+  ///
+  /// In en, this message translates to:
+  /// **'CSV (checked by hand)'**
+  String get adminImportCsv;
+
+  /// No description provided for @adminImportClaims.
+  ///
+  /// In en, this message translates to:
+  /// **'Label claims'**
+  String get adminImportClaims;
+
+  /// No description provided for @adminImportRestrictions.
+  ///
+  /// In en, this message translates to:
+  /// **'Bans and restrictions'**
+  String get adminImportRestrictions;
+
+  /// No description provided for @adminImportResult.
+  ///
+  /// In en, this message translates to:
+  /// **'Added {added} · Changed {changed} · Removed {removed} · Unchanged {unchanged} · Cards pulled {pulled}'**
+  String adminImportResult(
+    int added,
+    int changed,
+    int removed,
+    int unchanged,
+    int pulled,
+  );
+
+  /// No description provided for @adminResolve.
+  ///
+  /// In en, this message translates to:
+  /// **'Resolve'**
+  String get adminResolve;
+
+  /// No description provided for @adminNoAlerts.
+  ///
+  /// In en, this message translates to:
+  /// **'No open alerts'**
+  String get adminNoAlerts;
+
+  /// No description provided for @adminNoCards.
+  ///
+  /// In en, this message translates to:
+  /// **'No cards yet'**
+  String get adminNoCards;
+
+  /// No description provided for @adminSignInRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in with a knowledge-base admin account to use this section.'**
+  String get adminSignInRequired;
+
+  /// No description provided for @adminDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get adminDone;
 }
 
 class _AppLocalizationsDelegate

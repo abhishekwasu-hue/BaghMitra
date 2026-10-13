@@ -12,6 +12,8 @@ void main() {
     await tester.pumpWidget(const AdminApp(productName: 'BagMitra'));
     await tester.pumpAndSettle();
     expect(find.text('BagMitra Admin'), findsOneWidget);
+    await tester.tap(find.text('Crop stage templates'));
+    await tester.pumpAndSettle();
     expect(find.text('Editing arrives in Milestone 1.'), findsOneWidget);
     await tester.tap(find.text('Risk rules'));
     await tester.pumpAndSettle();
