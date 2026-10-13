@@ -36,6 +36,12 @@ publish and resolve alerts; `{"roles": ["kb_reviewer"], "reviewer_role": "agrono
 (or `plant_pathologist` / `entomologist`, see `KB_REVIEWER_ROLES`) to review. Publishing
 re-runs the legal gate on the card's chemical options and returns 409 with the reasons.
 
+**Admin web:** `flutter run -d chrome -t lib/main_admin.dart --dart-define-from-file=../product.env
+--dart-define=SUPABASE_URL=... --dart-define=SUPABASE_ANON_KEY=... --dart-define=API_BASE_URL=...`.
+Staff sign in with an email + password account created in the Supabase dashboard; give it
+`app_metadata` roles as above (signing in alone grants nothing). Without Supabase defines the
+admin opens without sign-in and the knowledge-base sections say what is missing.
+
 **Changing the API:** edit code + tests → `make openapi` (exports the spec, copies it into the app,
 regenerates the Dart client) → commit all three.
 

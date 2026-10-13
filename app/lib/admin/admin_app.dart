@@ -2,18 +2,23 @@ import 'package:flutter/material.dart';
 
 import '../l10n/app_localizations.dart';
 import '../theme/app_theme.dart';
+import 'admin_auth.dart';
+import 'admin_sign_in.dart';
 import 'kb_admin_repository.dart';
 import 'kb_pages.dart';
 
 /// Admin web shell (ADR 0006). Sections map to the config tables that keep business
 /// values out of code (spec §0.5); editors arrive with the milestones that own them.
 class AdminApp extends StatelessWidget {
-  const AdminApp({super.key, required this.productName, this.kb});
+  const AdminApp({super.key, required this.productName, this.kb, this.auth});
 
   final String productName;
 
-  /// Null until an admin has signed in; KB sections then explain what is needed.
+  /// Null when no admin can sign in (no backend); KB sections then explain why.
   final KbAdminRepository? kb;
+
+  /// When set, the shell is shown only to a signed-in staff account.
+  final AdminAuth? auth;
 
   @override
   Widget build(BuildContext context) => MaterialApp(
@@ -22,15 +27,33 @@ class AdminApp extends StatelessWidget {
     darkTheme: BmTheme.dark(),
     supportedLocales: AppLocalizations.supportedLocales,
     localizationsDelegates: AppLocalizations.localizationsDelegates,
-    home: AdminShell(productName: productName, kb: kb),
+    home: switch (auth) {
+      null => AdminShell(productName: productName, kb: kb),
+      final a => StreamBuilder<void>(
+        stream: a.changes,
+        builder: (context, _) => a.accessToken == null
+            ? AdminSignInScreen(auth: a, productName: productName)
+            : AdminShell(
+                productName: productName,
+                kb: kb,
+                onSignOut: a.signOut,
+              ),
+      ),
+    },
   );
 }
 
 class AdminShell extends StatefulWidget {
-  const AdminShell({super.key, required this.productName, this.kb});
+  const AdminShell({
+    super.key,
+    required this.productName,
+    this.kb,
+    this.onSignOut,
+  });
 
   final String productName;
   final KbAdminRepository? kb;
+  final VoidCallback? onSignOut;
 
   @override
   State<AdminShell> createState() => _AdminShellState();
@@ -84,6 +107,14 @@ class _AdminShellState extends State<AdminShell> {
           t.adminTitle(widget.productName),
           style: BmType.section.copyWith(color: c.onBrand),
         ),
+        actions: [
+          if (widget.onSignOut case final signOut?)
+            IconButton(
+              tooltip: t.adminSignOut,
+              onPressed: signOut,
+              icon: const Icon(Icons.logout_rounded),
+            ),
+        ],
       ),
       body: Row(
         children: [

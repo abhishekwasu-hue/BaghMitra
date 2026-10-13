@@ -92,5 +92,11 @@
   "adminNoAlerts": "कोई खुली सूचना नहीं",
   "adminNoCards": "अभी कोई कार्ड नहीं",
   "adminSignInRequired": "इस भाग के लिए जानकारी-कोश एडमिन खाते से साइन इन करें।",
-  "adminDone": "हो गया"
+  "adminDone": "हो गया",
+  "adminSignIn": "साइन इन करें",
+  "adminEmail": "ईमेल",
+  "adminPassword": "पासवर्ड",
+  "adminSignInFailed": "ईमेल या पासवर्ड गलत है।",
+  "adminSignOut": "साइन आउट",
+  "adminNotConfigured": "एडमिन साइन-इन के लिए SUPABASE_URL और SUPABASE_ANON_KEY चाहिए।"
 }

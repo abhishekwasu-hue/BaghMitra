@@ -352,4 +352,23 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get adminDone => 'हो गया';
+
+  @override
+  String get adminSignIn => 'साइन इन करें';
+
+  @override
+  String get adminEmail => 'ईमेल';
+
+  @override
+  String get adminPassword => 'पासवर्ड';
+
+  @override
+  String get adminSignInFailed => 'ईमेल या पासवर्ड गलत है।';
+
+  @override
+  String get adminSignOut => 'साइन आउट';
+
+  @override
+  String get adminNotConfigured =>
+      'एडमिन साइन-इन के लिए SUPABASE_URL और SUPABASE_ANON_KEY चाहिए।';
 }
