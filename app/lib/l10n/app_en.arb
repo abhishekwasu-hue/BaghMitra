@@ -229,5 +229,36 @@
   "adminPassword": "Password",
   "adminSignInFailed": "Email or password is wrong.",
   "adminSignOut": "Sign out",
-  "adminNotConfigured": "Admin sign-in needs SUPABASE_URL and SUPABASE_ANON_KEY."
+  "adminNotConfigured": "Admin sign-in needs SUPABASE_URL and SUPABASE_ANON_KEY.",
+  "accountsTitle": "Accounts",
+  "addExpense": "Add expense",
+  "addSale": "Record a sale",
+  "expenseCategory": "What was it for?",
+  "amountRupees": "Amount (₹)",
+  "noteOptional": "Note (optional)",
+  "accountsExpenses": "Expenses",
+  "accountsIncome": "Income",
+  "accountsProfit": "Profit",
+  "accountsDues": "Buyers owe",
+  "costPerAcre": "Cost per acre",
+  "costPerTree": "Cost per tree",
+  "costPerTonne": "Cost per tonne",
+  "allBahars": "All",
+  "saleBuyer": "Buyer",
+  "saleKg": "Quantity (kg)",
+  "saleRate": "Rate (₹ per quintal)",
+  "saleDeductions": "Deductions (₹, optional)",
+  "salePaid": "Received so far (₹)",
+  "accountsEmpty": "No entries yet. Add an expense or a sale.",
+  "saleBy": "{buyer} · {kg} kg",
+  "@saleBy": {
+    "placeholders": {
+      "buyer": {
+        "type": "String"
+      },
+      "kg": {
+        "type": "String"
+      }
+    }
+  }
 }

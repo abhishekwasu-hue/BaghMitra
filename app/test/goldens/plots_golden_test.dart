@@ -4,6 +4,7 @@ library;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../features/accounts/accounts_screen_test.dart' show seedAccounts;
 import '../features/bahar/bahar_screen_test.dart' show seedPlotWithCycle;
 import '../features/plots/plots_screen_test.dart' show seedTwo, settle;
 import '../helpers/pump_app.dart';
@@ -55,6 +56,22 @@ void main() {
   ]) {
     testWidgets(name, (tester) async {
       await pumpApp(tester, initialLocation: location, seed: seedPlotWithCycle);
+      await settle(tester);
+      await expectLater(
+        find.byType(MaterialApp),
+        matchesGoldenFile('$name.png'),
+      );
+      await unmountApp(tester);
+    });
+  }
+
+  for (final (name, location) in [
+    ('accounts_mr_light', '/plots/p1/accounts'),
+    ('add_expense_mr_light', '/plots/p1/accounts/expense'),
+    ('add_sale_mr_light', '/plots/p1/accounts/sale'),
+  ]) {
+    testWidgets(name, (tester) async {
+      await pumpApp(tester, initialLocation: location, seed: seedAccounts);
       await settle(tester);
       await expectLater(
         find.byType(MaterialApp),

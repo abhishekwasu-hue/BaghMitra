@@ -6,6 +6,8 @@ import '../core/clock.dart';
 import '../core/config.dart';
 import '../data/local/database.dart';
 import '../features/accounts/data/accounts_repository.dart';
+import '../features/accounts/data/expense_categories.dart';
+import '../features/accounts/domain/accounts.dart';
 import '../features/auth/domain/auth.dart';
 import '../features/bahar/data/bahar_catalog.dart';
 import '../features/bahar/data/bahar_repository.dart';
@@ -89,6 +91,22 @@ final accountsRepositoryProvider = Provider<AccountsRepository>(
     ref.watch(databaseProvider),
     clock: ref.watch(clockProvider),
   ),
+);
+
+final expensesProvider = StreamProvider.family<List<Expense>, String>(
+  (ref, plotId) => ref.watch(accountsRepositoryProvider).watchExpenses(plotId),
+);
+
+final incomesProvider = StreamProvider.family<List<Income>, String>(
+  (ref, plotId) => ref.watch(accountsRepositoryProvider).watchIncomes(plotId),
+);
+
+final expenseCategoriesCatalogProvider = Provider<ExpenseCategories>(
+  (ref) => ExpenseCategories(),
+);
+
+final expenseCategoriesProvider = FutureProvider<List<LabeledOption>>(
+  (ref) => ref.watch(expenseCategoriesCatalogProvider).load(),
 );
 
 final syncEngineProvider = Provider<SyncEngine>((ref) {

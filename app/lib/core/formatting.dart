@@ -28,3 +28,27 @@ String formatDate(DateTime date, String languageCode) =>
 /// A year without grouping, in locale digits (e.g. Marathi २०२७).
 String formatYear(int year, String languageCode) =>
     NumberFormat('0', _intlLocale(languageCode)).format(year);
+
+/// Exact paise as rupees: whole rupees without decimals, otherwise two decimals.
+String formatPaise(int paise, String languageCode) {
+  if (paise % 100 == 0) return formatRupees(paise ~/ 100, languageCode);
+  final f = NumberFormat('#,##,##0.00', _intlLocale(languageCode));
+  return '₹${f.format(paise / 100)}';
+}
+
+const _devanagariDigits = '०१२३४५६७८९';
+
+/// Parses a rupee amount typed by a grower ("1,500", "12.5", Devanagari digits) into
+/// exact paise. Returns null for anything that is not a non-negative amount with at
+/// most two decimals.
+int? parseRupeesToPaise(String input) {
+  final digits = input.split('').map((c) {
+    final i = _devanagariDigits.indexOf(c);
+    return i < 0 ? c : '$i';
+  }).join();
+  final clean = digits.replaceAll(RegExp(r'[,\s₹]'), '');
+  final m = RegExp(r'^(\d{1,10})(?:\.(\d{1,2}))?$').firstMatch(clean);
+  if (m == null) return null;
+  final fraction = (m.group(2) ?? '').padRight(2, '0');
+  return int.parse(m.group(1)!) * 100 + int.parse(fraction);
+}

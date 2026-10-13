@@ -371,4 +371,69 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get adminNotConfigured =>
       'Admin sign-in needs SUPABASE_URL and SUPABASE_ANON_KEY.';
+
+  @override
+  String get accountsTitle => 'Accounts';
+
+  @override
+  String get addExpense => 'Add expense';
+
+  @override
+  String get addSale => 'Record a sale';
+
+  @override
+  String get expenseCategory => 'What was it for?';
+
+  @override
+  String get amountRupees => 'Amount (₹)';
+
+  @override
+  String get noteOptional => 'Note (optional)';
+
+  @override
+  String get accountsExpenses => 'Expenses';
+
+  @override
+  String get accountsIncome => 'Income';
+
+  @override
+  String get accountsProfit => 'Profit';
+
+  @override
+  String get accountsDues => 'Buyers owe';
+
+  @override
+  String get costPerAcre => 'Cost per acre';
+
+  @override
+  String get costPerTree => 'Cost per tree';
+
+  @override
+  String get costPerTonne => 'Cost per tonne';
+
+  @override
+  String get allBahars => 'All';
+
+  @override
+  String get saleBuyer => 'Buyer';
+
+  @override
+  String get saleKg => 'Quantity (kg)';
+
+  @override
+  String get saleRate => 'Rate (₹ per quintal)';
+
+  @override
+  String get saleDeductions => 'Deductions (₹, optional)';
+
+  @override
+  String get salePaid => 'Received so far (₹)';
+
+  @override
+  String get accountsEmpty => 'No entries yet. Add an expense or a sale.';
+
+  @override
+  String saleBy(String buyer, String kg) {
+    return '$buyer · $kg kg';
+  }
 }
