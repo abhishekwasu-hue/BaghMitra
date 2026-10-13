@@ -255,4 +255,38 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get delete => 'Delete';
+
+  @override
+  String get startBahar => 'Start a bahar';
+
+  @override
+  String get baharEmptyTitle => 'No bahar planned yet';
+
+  @override
+  String get baharEmptyBody =>
+      'Choose a bahar and write down your own dates. Suggested dates will come once an expert-checked calendar is ready.';
+
+  @override
+  String get baharWhich => 'Which bahar?';
+
+  @override
+  String get baharSeason => 'Season';
+
+  @override
+  String get baharDates => 'Your dates (optional)';
+
+  @override
+  String get baharPickDate => 'Pick a date';
+
+  @override
+  String get baharStatusPlanned => 'Planned';
+
+  @override
+  String get baharStatusActive => 'Running';
+
+  @override
+  String get baharStatusCompleted => 'Completed';
+
+  @override
+  String get baharStatusAbandoned => 'Stopped';
 }

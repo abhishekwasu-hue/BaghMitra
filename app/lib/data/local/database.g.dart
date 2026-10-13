@@ -2368,6 +2368,569 @@ class PlotsCompanion extends UpdateCompanion<PlotRow> {
   }
 }
 
+class $BaharCyclesTable extends BaharCycles
+    with TableInfo<$BaharCyclesTable, BaharCycleRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $BaharCyclesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _plotIdMeta = const VerificationMeta('plotId');
+  @override
+  late final GeneratedColumn<String> plotId = GeneratedColumn<String>(
+    'plot_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _baharMeta = const VerificationMeta('bahar');
+  @override
+  late final GeneratedColumn<String> bahar = GeneratedColumn<String>(
+    'bahar',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _seasonYearMeta = const VerificationMeta(
+    'seasonYear',
+  );
+  @override
+  late final GeneratedColumn<int> seasonYear = GeneratedColumn<int>(
+    'season_year',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _templateIdMeta = const VerificationMeta(
+    'templateId',
+  );
+  @override
+  late final GeneratedColumn<String> templateId = GeneratedColumn<String>(
+    'template_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _statusMeta = const VerificationMeta('status');
+  @override
+  late final GeneratedColumn<String> status = GeneratedColumn<String>(
+    'status',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _plannedMeta = const VerificationMeta(
+    'planned',
+  );
+  @override
+  late final GeneratedColumn<String> planned = GeneratedColumn<String>(
+    'planned',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _actualMeta = const VerificationMeta('actual');
+  @override
+  late final GeneratedColumn<String> actual = GeneratedColumn<String>(
+    'actual',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _clientUpdatedAtMeta = const VerificationMeta(
+    'clientUpdatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> clientUpdatedAt =
+      GeneratedColumn<DateTime>(
+        'client_updated_at',
+        aliasedName,
+        false,
+        type: DriftSqlType.dateTime,
+        requiredDuringInsert: true,
+      );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    plotId,
+    bahar,
+    seasonYear,
+    templateId,
+    status,
+    planned,
+    actual,
+    clientUpdatedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'bahar_cycles';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<BaharCycleRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('plot_id')) {
+      context.handle(
+        _plotIdMeta,
+        plotId.isAcceptableOrUnknown(data['plot_id']!, _plotIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_plotIdMeta);
+    }
+    if (data.containsKey('bahar')) {
+      context.handle(
+        _baharMeta,
+        bahar.isAcceptableOrUnknown(data['bahar']!, _baharMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_baharMeta);
+    }
+    if (data.containsKey('season_year')) {
+      context.handle(
+        _seasonYearMeta,
+        seasonYear.isAcceptableOrUnknown(data['season_year']!, _seasonYearMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_seasonYearMeta);
+    }
+    if (data.containsKey('template_id')) {
+      context.handle(
+        _templateIdMeta,
+        templateId.isAcceptableOrUnknown(data['template_id']!, _templateIdMeta),
+      );
+    }
+    if (data.containsKey('status')) {
+      context.handle(
+        _statusMeta,
+        status.isAcceptableOrUnknown(data['status']!, _statusMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_statusMeta);
+    }
+    if (data.containsKey('planned')) {
+      context.handle(
+        _plannedMeta,
+        planned.isAcceptableOrUnknown(data['planned']!, _plannedMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_plannedMeta);
+    }
+    if (data.containsKey('actual')) {
+      context.handle(
+        _actualMeta,
+        actual.isAcceptableOrUnknown(data['actual']!, _actualMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_actualMeta);
+    }
+    if (data.containsKey('client_updated_at')) {
+      context.handle(
+        _clientUpdatedAtMeta,
+        clientUpdatedAt.isAcceptableOrUnknown(
+          data['client_updated_at']!,
+          _clientUpdatedAtMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_clientUpdatedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  BaharCycleRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return BaharCycleRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      plotId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}plot_id'],
+      )!,
+      bahar: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}bahar'],
+      )!,
+      seasonYear: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}season_year'],
+      )!,
+      templateId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}template_id'],
+      ),
+      status: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}status'],
+      )!,
+      planned: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}planned'],
+      )!,
+      actual: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}actual'],
+      )!,
+      clientUpdatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}client_updated_at'],
+      )!,
+    );
+  }
+
+  @override
+  $BaharCyclesTable createAlias(String alias) {
+    return $BaharCyclesTable(attachedDatabase, alias);
+  }
+}
+
+class BaharCycleRow extends DataClass implements Insertable<BaharCycleRow> {
+  final String id;
+  final String plotId;
+  final String bahar;
+  final int seasonYear;
+  final String? templateId;
+  final String status;
+  final String planned;
+  final String actual;
+  final DateTime clientUpdatedAt;
+  const BaharCycleRow({
+    required this.id,
+    required this.plotId,
+    required this.bahar,
+    required this.seasonYear,
+    this.templateId,
+    required this.status,
+    required this.planned,
+    required this.actual,
+    required this.clientUpdatedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['plot_id'] = Variable<String>(plotId);
+    map['bahar'] = Variable<String>(bahar);
+    map['season_year'] = Variable<int>(seasonYear);
+    if (!nullToAbsent || templateId != null) {
+      map['template_id'] = Variable<String>(templateId);
+    }
+    map['status'] = Variable<String>(status);
+    map['planned'] = Variable<String>(planned);
+    map['actual'] = Variable<String>(actual);
+    map['client_updated_at'] = Variable<DateTime>(clientUpdatedAt);
+    return map;
+  }
+
+  BaharCyclesCompanion toCompanion(bool nullToAbsent) {
+    return BaharCyclesCompanion(
+      id: Value(id),
+      plotId: Value(plotId),
+      bahar: Value(bahar),
+      seasonYear: Value(seasonYear),
+      templateId: templateId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(templateId),
+      status: Value(status),
+      planned: Value(planned),
+      actual: Value(actual),
+      clientUpdatedAt: Value(clientUpdatedAt),
+    );
+  }
+
+  factory BaharCycleRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return BaharCycleRow(
+      id: serializer.fromJson<String>(json['id']),
+      plotId: serializer.fromJson<String>(json['plotId']),
+      bahar: serializer.fromJson<String>(json['bahar']),
+      seasonYear: serializer.fromJson<int>(json['seasonYear']),
+      templateId: serializer.fromJson<String?>(json['templateId']),
+      status: serializer.fromJson<String>(json['status']),
+      planned: serializer.fromJson<String>(json['planned']),
+      actual: serializer.fromJson<String>(json['actual']),
+      clientUpdatedAt: serializer.fromJson<DateTime>(json['clientUpdatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'plotId': serializer.toJson<String>(plotId),
+      'bahar': serializer.toJson<String>(bahar),
+      'seasonYear': serializer.toJson<int>(seasonYear),
+      'templateId': serializer.toJson<String?>(templateId),
+      'status': serializer.toJson<String>(status),
+      'planned': serializer.toJson<String>(planned),
+      'actual': serializer.toJson<String>(actual),
+      'clientUpdatedAt': serializer.toJson<DateTime>(clientUpdatedAt),
+    };
+  }
+
+  BaharCycleRow copyWith({
+    String? id,
+    String? plotId,
+    String? bahar,
+    int? seasonYear,
+    Value<String?> templateId = const Value.absent(),
+    String? status,
+    String? planned,
+    String? actual,
+    DateTime? clientUpdatedAt,
+  }) => BaharCycleRow(
+    id: id ?? this.id,
+    plotId: plotId ?? this.plotId,
+    bahar: bahar ?? this.bahar,
+    seasonYear: seasonYear ?? this.seasonYear,
+    templateId: templateId.present ? templateId.value : this.templateId,
+    status: status ?? this.status,
+    planned: planned ?? this.planned,
+    actual: actual ?? this.actual,
+    clientUpdatedAt: clientUpdatedAt ?? this.clientUpdatedAt,
+  );
+  BaharCycleRow copyWithCompanion(BaharCyclesCompanion data) {
+    return BaharCycleRow(
+      id: data.id.present ? data.id.value : this.id,
+      plotId: data.plotId.present ? data.plotId.value : this.plotId,
+      bahar: data.bahar.present ? data.bahar.value : this.bahar,
+      seasonYear: data.seasonYear.present
+          ? data.seasonYear.value
+          : this.seasonYear,
+      templateId: data.templateId.present
+          ? data.templateId.value
+          : this.templateId,
+      status: data.status.present ? data.status.value : this.status,
+      planned: data.planned.present ? data.planned.value : this.planned,
+      actual: data.actual.present ? data.actual.value : this.actual,
+      clientUpdatedAt: data.clientUpdatedAt.present
+          ? data.clientUpdatedAt.value
+          : this.clientUpdatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('BaharCycleRow(')
+          ..write('id: $id, ')
+          ..write('plotId: $plotId, ')
+          ..write('bahar: $bahar, ')
+          ..write('seasonYear: $seasonYear, ')
+          ..write('templateId: $templateId, ')
+          ..write('status: $status, ')
+          ..write('planned: $planned, ')
+          ..write('actual: $actual, ')
+          ..write('clientUpdatedAt: $clientUpdatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    plotId,
+    bahar,
+    seasonYear,
+    templateId,
+    status,
+    planned,
+    actual,
+    clientUpdatedAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is BaharCycleRow &&
+          other.id == this.id &&
+          other.plotId == this.plotId &&
+          other.bahar == this.bahar &&
+          other.seasonYear == this.seasonYear &&
+          other.templateId == this.templateId &&
+          other.status == this.status &&
+          other.planned == this.planned &&
+          other.actual == this.actual &&
+          other.clientUpdatedAt == this.clientUpdatedAt);
+}
+
+class BaharCyclesCompanion extends UpdateCompanion<BaharCycleRow> {
+  final Value<String> id;
+  final Value<String> plotId;
+  final Value<String> bahar;
+  final Value<int> seasonYear;
+  final Value<String?> templateId;
+  final Value<String> status;
+  final Value<String> planned;
+  final Value<String> actual;
+  final Value<DateTime> clientUpdatedAt;
+  final Value<int> rowid;
+  const BaharCyclesCompanion({
+    this.id = const Value.absent(),
+    this.plotId = const Value.absent(),
+    this.bahar = const Value.absent(),
+    this.seasonYear = const Value.absent(),
+    this.templateId = const Value.absent(),
+    this.status = const Value.absent(),
+    this.planned = const Value.absent(),
+    this.actual = const Value.absent(),
+    this.clientUpdatedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  BaharCyclesCompanion.insert({
+    required String id,
+    required String plotId,
+    required String bahar,
+    required int seasonYear,
+    this.templateId = const Value.absent(),
+    required String status,
+    required String planned,
+    required String actual,
+    required DateTime clientUpdatedAt,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       plotId = Value(plotId),
+       bahar = Value(bahar),
+       seasonYear = Value(seasonYear),
+       status = Value(status),
+       planned = Value(planned),
+       actual = Value(actual),
+       clientUpdatedAt = Value(clientUpdatedAt);
+  static Insertable<BaharCycleRow> custom({
+    Expression<String>? id,
+    Expression<String>? plotId,
+    Expression<String>? bahar,
+    Expression<int>? seasonYear,
+    Expression<String>? templateId,
+    Expression<String>? status,
+    Expression<String>? planned,
+    Expression<String>? actual,
+    Expression<DateTime>? clientUpdatedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (plotId != null) 'plot_id': plotId,
+      if (bahar != null) 'bahar': bahar,
+      if (seasonYear != null) 'season_year': seasonYear,
+      if (templateId != null) 'template_id': templateId,
+      if (status != null) 'status': status,
+      if (planned != null) 'planned': planned,
+      if (actual != null) 'actual': actual,
+      if (clientUpdatedAt != null) 'client_updated_at': clientUpdatedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  BaharCyclesCompanion copyWith({
+    Value<String>? id,
+    Value<String>? plotId,
+    Value<String>? bahar,
+    Value<int>? seasonYear,
+    Value<String?>? templateId,
+    Value<String>? status,
+    Value<String>? planned,
+    Value<String>? actual,
+    Value<DateTime>? clientUpdatedAt,
+    Value<int>? rowid,
+  }) {
+    return BaharCyclesCompanion(
+      id: id ?? this.id,
+      plotId: plotId ?? this.plotId,
+      bahar: bahar ?? this.bahar,
+      seasonYear: seasonYear ?? this.seasonYear,
+      templateId: templateId ?? this.templateId,
+      status: status ?? this.status,
+      planned: planned ?? this.planned,
+      actual: actual ?? this.actual,
+      clientUpdatedAt: clientUpdatedAt ?? this.clientUpdatedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (plotId.present) {
+      map['plot_id'] = Variable<String>(plotId.value);
+    }
+    if (bahar.present) {
+      map['bahar'] = Variable<String>(bahar.value);
+    }
+    if (seasonYear.present) {
+      map['season_year'] = Variable<int>(seasonYear.value);
+    }
+    if (templateId.present) {
+      map['template_id'] = Variable<String>(templateId.value);
+    }
+    if (status.present) {
+      map['status'] = Variable<String>(status.value);
+    }
+    if (planned.present) {
+      map['planned'] = Variable<String>(planned.value);
+    }
+    if (actual.present) {
+      map['actual'] = Variable<String>(actual.value);
+    }
+    if (clientUpdatedAt.present) {
+      map['client_updated_at'] = Variable<DateTime>(clientUpdatedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('BaharCyclesCompanion(')
+          ..write('id: $id, ')
+          ..write('plotId: $plotId, ')
+          ..write('bahar: $bahar, ')
+          ..write('seasonYear: $seasonYear, ')
+          ..write('templateId: $templateId, ')
+          ..write('status: $status, ')
+          ..write('planned: $planned, ')
+          ..write('actual: $actual, ')
+          ..write('clientUpdatedAt: $clientUpdatedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -2375,6 +2938,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $FarmerProfilesTable farmerProfiles = $FarmerProfilesTable(this);
   late final $SyncMetaTable syncMeta = $SyncMetaTable(this);
   late final $PlotsTable plots = $PlotsTable(this);
+  late final $BaharCyclesTable baharCycles = $BaharCyclesTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -2384,6 +2948,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     farmerProfiles,
     syncMeta,
     plots,
+    baharCycles,
   ];
   @override
   DriftDatabaseOptions get options =>
@@ -3563,6 +4128,297 @@ typedef $$PlotsTableProcessedTableManager =
       PlotRow,
       PrefetchHooks Function()
     >;
+typedef $$BaharCyclesTableCreateCompanionBuilder =
+    BaharCyclesCompanion Function({
+      required String id,
+      required String plotId,
+      required String bahar,
+      required int seasonYear,
+      Value<String?> templateId,
+      required String status,
+      required String planned,
+      required String actual,
+      required DateTime clientUpdatedAt,
+      Value<int> rowid,
+    });
+typedef $$BaharCyclesTableUpdateCompanionBuilder =
+    BaharCyclesCompanion Function({
+      Value<String> id,
+      Value<String> plotId,
+      Value<String> bahar,
+      Value<int> seasonYear,
+      Value<String?> templateId,
+      Value<String> status,
+      Value<String> planned,
+      Value<String> actual,
+      Value<DateTime> clientUpdatedAt,
+      Value<int> rowid,
+    });
+
+class $$BaharCyclesTableFilterComposer
+    extends Composer<_$AppDatabase, $BaharCyclesTable> {
+  $$BaharCyclesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get plotId => $composableBuilder(
+    column: $table.plotId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get bahar => $composableBuilder(
+    column: $table.bahar,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get seasonYear => $composableBuilder(
+    column: $table.seasonYear,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get templateId => $composableBuilder(
+    column: $table.templateId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get planned => $composableBuilder(
+    column: $table.planned,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get actual => $composableBuilder(
+    column: $table.actual,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get clientUpdatedAt => $composableBuilder(
+    column: $table.clientUpdatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$BaharCyclesTableOrderingComposer
+    extends Composer<_$AppDatabase, $BaharCyclesTable> {
+  $$BaharCyclesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get plotId => $composableBuilder(
+    column: $table.plotId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get bahar => $composableBuilder(
+    column: $table.bahar,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get seasonYear => $composableBuilder(
+    column: $table.seasonYear,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get templateId => $composableBuilder(
+    column: $table.templateId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get planned => $composableBuilder(
+    column: $table.planned,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get actual => $composableBuilder(
+    column: $table.actual,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get clientUpdatedAt => $composableBuilder(
+    column: $table.clientUpdatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$BaharCyclesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $BaharCyclesTable> {
+  $$BaharCyclesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get plotId =>
+      $composableBuilder(column: $table.plotId, builder: (column) => column);
+
+  GeneratedColumn<String> get bahar =>
+      $composableBuilder(column: $table.bahar, builder: (column) => column);
+
+  GeneratedColumn<int> get seasonYear => $composableBuilder(
+    column: $table.seasonYear,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get templateId => $composableBuilder(
+    column: $table.templateId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get status =>
+      $composableBuilder(column: $table.status, builder: (column) => column);
+
+  GeneratedColumn<String> get planned =>
+      $composableBuilder(column: $table.planned, builder: (column) => column);
+
+  GeneratedColumn<String> get actual =>
+      $composableBuilder(column: $table.actual, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get clientUpdatedAt => $composableBuilder(
+    column: $table.clientUpdatedAt,
+    builder: (column) => column,
+  );
+}
+
+class $$BaharCyclesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $BaharCyclesTable,
+          BaharCycleRow,
+          $$BaharCyclesTableFilterComposer,
+          $$BaharCyclesTableOrderingComposer,
+          $$BaharCyclesTableAnnotationComposer,
+          $$BaharCyclesTableCreateCompanionBuilder,
+          $$BaharCyclesTableUpdateCompanionBuilder,
+          (
+            BaharCycleRow,
+            BaseReferences<_$AppDatabase, $BaharCyclesTable, BaharCycleRow>,
+          ),
+          BaharCycleRow,
+          PrefetchHooks Function()
+        > {
+  $$BaharCyclesTableTableManager(_$AppDatabase db, $BaharCyclesTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$BaharCyclesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$BaharCyclesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$BaharCyclesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> plotId = const Value.absent(),
+                Value<String> bahar = const Value.absent(),
+                Value<int> seasonYear = const Value.absent(),
+                Value<String?> templateId = const Value.absent(),
+                Value<String> status = const Value.absent(),
+                Value<String> planned = const Value.absent(),
+                Value<String> actual = const Value.absent(),
+                Value<DateTime> clientUpdatedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => BaharCyclesCompanion(
+                id: id,
+                plotId: plotId,
+                bahar: bahar,
+                seasonYear: seasonYear,
+                templateId: templateId,
+                status: status,
+                planned: planned,
+                actual: actual,
+                clientUpdatedAt: clientUpdatedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String plotId,
+                required String bahar,
+                required int seasonYear,
+                Value<String?> templateId = const Value.absent(),
+                required String status,
+                required String planned,
+                required String actual,
+                required DateTime clientUpdatedAt,
+                Value<int> rowid = const Value.absent(),
+              }) => BaharCyclesCompanion.insert(
+                id: id,
+                plotId: plotId,
+                bahar: bahar,
+                seasonYear: seasonYear,
+                templateId: templateId,
+                status: status,
+                planned: planned,
+                actual: actual,
+                clientUpdatedAt: clientUpdatedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$BaharCyclesTable, BaharCycleRow>(table),
+                  BaseReferences<
+                    _$AppDatabase,
+                    $BaharCyclesTable,
+                    BaharCycleRow
+                  >(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$BaharCyclesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $BaharCyclesTable,
+      BaharCycleRow,
+      $$BaharCyclesTableFilterComposer,
+      $$BaharCyclesTableOrderingComposer,
+      $$BaharCyclesTableAnnotationComposer,
+      $$BaharCyclesTableCreateCompanionBuilder,
+      $$BaharCyclesTableUpdateCompanionBuilder,
+      (
+        BaharCycleRow,
+        BaseReferences<_$AppDatabase, $BaharCyclesTable, BaharCycleRow>,
+      ),
+      BaharCycleRow,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -3575,4 +4431,6 @@ class $AppDatabaseManager {
       $$SyncMetaTableTableManager(_db, _db.syncMeta);
   $$PlotsTableTableManager get plots =>
       $$PlotsTableTableManager(_db, _db.plots);
+  $$BaharCyclesTableTableManager get baharCycles =>
+      $$BaharCyclesTableTableManager(_db, _db.baharCycles);
 }

@@ -175,5 +175,16 @@
     }
   },
   "cancel": "Cancel",
-  "delete": "Delete"
+  "delete": "Delete",
+  "startBahar": "Start a bahar",
+  "baharEmptyTitle": "No bahar planned yet",
+  "baharEmptyBody": "Choose a bahar and write down your own dates. Suggested dates will come once an expert-checked calendar is ready.",
+  "baharWhich": "Which bahar?",
+  "baharSeason": "Season",
+  "baharDates": "Your dates (optional)",
+  "baharPickDate": "Pick a date",
+  "baharStatusPlanned": "Planned",
+  "baharStatusActive": "Running",
+  "baharStatusCompleted": "Completed",
+  "baharStatusAbandoned": "Stopped"
 }

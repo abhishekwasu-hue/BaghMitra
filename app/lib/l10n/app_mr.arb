@@ -63,5 +63,16 @@
   "deletePlot": "बाग काढून टाका",
   "deletePlotConfirm": "{name} काढून टाकायची? तुमच्या इतर फोनवरूनही ती जाईल.",
   "cancel": "रद्द करा",
-  "delete": "काढून टाका"
+  "delete": "काढून टाका",
+  "startBahar": "बहार सुरू करा",
+  "baharEmptyTitle": "अजून बहार ठरवलेला नाही",
+  "baharEmptyBody": "बहार निवडा आणि तुमच्या तारखा लिहा. तज्ञांनी तपासलेलं कॅलेंडर तयार झाल्यावर सुचवलेल्या तारखा मिळतील.",
+  "baharWhich": "कोणता बहार?",
+  "baharSeason": "हंगाम",
+  "baharDates": "तुमच्या तारखा (ऐच्छिक)",
+  "baharPickDate": "तारीख निवडा",
+  "baharStatusPlanned": "ठरवलेला",
+  "baharStatusActive": "चालू",
+  "baharStatusCompleted": "पूर्ण",
+  "baharStatusAbandoned": "थांबवलेला"
 }

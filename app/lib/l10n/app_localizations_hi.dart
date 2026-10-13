@@ -255,4 +255,38 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get delete => 'हटाएँ';
+
+  @override
+  String get startBahar => 'बहार शुरू करें';
+
+  @override
+  String get baharEmptyTitle => 'अभी कोई बहार तय नहीं';
+
+  @override
+  String get baharEmptyBody =>
+      'बहार चुनें और अपनी तारीखें लिखें। विशेषज्ञ द्वारा जाँचा गया कैलेंडर तैयार होने पर सुझाई गई तारीखें मिलेंगी।';
+
+  @override
+  String get baharWhich => 'कौन सा बहार?';
+
+  @override
+  String get baharSeason => 'मौसम';
+
+  @override
+  String get baharDates => 'आपकी तारीखें (वैकल्पिक)';
+
+  @override
+  String get baharPickDate => 'तारीख चुनें';
+
+  @override
+  String get baharStatusPlanned => 'तय';
+
+  @override
+  String get baharStatusActive => 'चालू';
+
+  @override
+  String get baharStatusCompleted => 'पूरा';
+
+  @override
+  String get baharStatusAbandoned => 'रोका गया';
 }

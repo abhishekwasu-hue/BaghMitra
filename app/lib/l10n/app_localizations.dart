@@ -483,6 +483,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Delete'**
   String get delete;
+
+  /// No description provided for @startBahar.
+  ///
+  /// In en, this message translates to:
+  /// **'Start a bahar'**
+  String get startBahar;
+
+  /// No description provided for @baharEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No bahar planned yet'**
+  String get baharEmptyTitle;
+
+  /// No description provided for @baharEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a bahar and write down your own dates. Suggested dates will come once an expert-checked calendar is ready.'**
+  String get baharEmptyBody;
+
+  /// No description provided for @baharWhich.
+  ///
+  /// In en, this message translates to:
+  /// **'Which bahar?'**
+  String get baharWhich;
+
+  /// No description provided for @baharSeason.
+  ///
+  /// In en, this message translates to:
+  /// **'Season'**
+  String get baharSeason;
+
+  /// No description provided for @baharDates.
+  ///
+  /// In en, this message translates to:
+  /// **'Your dates (optional)'**
+  String get baharDates;
+
+  /// No description provided for @baharPickDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a date'**
+  String get baharPickDate;
+
+  /// No description provided for @baharStatusPlanned.
+  ///
+  /// In en, this message translates to:
+  /// **'Planned'**
+  String get baharStatusPlanned;
+
+  /// No description provided for @baharStatusActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Running'**
+  String get baharStatusActive;
+
+  /// No description provided for @baharStatusCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get baharStatusCompleted;
+
+  /// No description provided for @baharStatusAbandoned.
+  ///
+  /// In en, this message translates to:
+  /// **'Stopped'**
+  String get baharStatusAbandoned;
 }
 
 class _AppLocalizationsDelegate
