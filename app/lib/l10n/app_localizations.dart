@@ -663,6 +663,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Done'**
   String get adminDone;
+
+  /// No description provided for @adminSignIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in'**
+  String get adminSignIn;
+
+  /// No description provided for @adminEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get adminEmail;
+
+  /// No description provided for @adminPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get adminPassword;
+
+  /// No description provided for @adminSignInFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Email or password is wrong.'**
+  String get adminSignInFailed;
+
+  /// No description provided for @adminSignOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out'**
+  String get adminSignOut;
+
+  /// No description provided for @adminNotConfigured.
+  ///
+  /// In en, this message translates to:
+  /// **'Admin sign-in needs SUPABASE_URL and SUPABASE_ANON_KEY.'**
+  String get adminNotConfigured;
 }
 
 class _AppLocalizationsDelegate

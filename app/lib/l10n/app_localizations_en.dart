@@ -352,4 +352,23 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get adminDone => 'Done';
+
+  @override
+  String get adminSignIn => 'Sign in';
+
+  @override
+  String get adminEmail => 'Email';
+
+  @override
+  String get adminPassword => 'Password';
+
+  @override
+  String get adminSignInFailed => 'Email or password is wrong.';
+
+  @override
+  String get adminSignOut => 'Sign out';
+
+  @override
+  String get adminNotConfigured =>
+      'Admin sign-in needs SUPABASE_URL and SUPABASE_ANON_KEY.';
 }
