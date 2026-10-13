@@ -1,0 +1,12 @@
+{
+  "_note": "Expense categories a grower can pick. Config, not code: add or rename without a release.",
+  "categories": [
+    {"slug": "labour", "labels": {"en": "Labour", "mr": "मजुरी", "hi": "मज़दूरी"}},
+    {"slug": "fertiliser", "labels": {"en": "Fertiliser & manure", "mr": "खत", "hi": "खाद"}},
+    {"slug": "spray", "labels": {"en": "Spray inputs", "mr": "फवारणी", "hi": "छिड़काव"}},
+    {"slug": "irrigation", "labels": {"en": "Irrigation & power", "mr": "पाणी आणि वीज", "hi": "सिंचाई और बिजली"}},
+    {"slug": "machinery", "labels": {"en": "Machinery & fuel", "mr": "यंत्र आणि इंधन", "hi": "मशीन और ईंधन"}},
+    {"slug": "transport", "labels": {"en": "Transport", "mr": "वाहतूक", "hi": "ढुलाई"}},
+    {"slug": "other", "labels": {"en": "Other", "mr": "इतर", "hi": "अन्य"}}
+  ]
+}
