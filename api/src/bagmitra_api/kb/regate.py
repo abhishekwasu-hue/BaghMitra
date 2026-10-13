@@ -68,6 +68,24 @@ async def regate_published_cards(
     return pulled
 
 
+async def card_gate_failures(
+    session: AsyncSession, card: KbCard, settings: Settings, now: datetime
+) -> list[str]:
+    """Why this card's chemical options fail the gate today (empty means they pass)."""
+    aliases = settings.kb_crop_label_aliases.get(card.crop)
+    if not card.chemical_options:
+        return []
+    if aliases is None:
+        return [f"crop {card.crop!r} has no label aliases configured"]
+    ctx = await load_context(
+        session,
+        crop_aliases=frozenset(aliases),
+        crop_groups=frozenset(settings.kb_crop_groups.get(card.crop, [])),
+        now=now,
+    )
+    return _failures(card, ctx, now)
+
+
 async def regate_with_settings(
     session: AsyncSession, settings: Settings, now: datetime
 ) -> list[uuid.UUID]:

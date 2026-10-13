@@ -65,6 +65,180 @@ final class _$Bagmitra extends Bagmitra {
   }
 
   @override
+  Future<Response<AlertsResponse>> _v1AdminKbAlertsGet({
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Alerts',
+      operationId: 'admin_kb_alerts',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/kb/alerts');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<AlertsResponse, AlertsResponse>($request);
+  }
+
+  @override
+  Future<Response<AlertOut>> _v1AdminKbAlertsAlertIdResolvePost({
+    required String? alertId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Resolve Alert',
+      operationId: 'admin_kb_resolve_alert',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/kb/alerts/${alertId}/resolve');
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<AlertOut, AlertOut>($request);
+  }
+
+  @override
+  Future<Response<CardsResponse>> _v1AdminKbCardsGet({
+    String? status,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Cards',
+      operationId: 'admin_kb_cards',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/kb/cards');
+    final Map<String, dynamic> $params = <String, dynamic>{'status': status};
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+      tag: swaggerMetaData,
+    );
+    return client.send<CardsResponse, CardsResponse>($request);
+  }
+
+  @override
+  Future<Response<CardOut>> _v1AdminKbCardsCardIdPublishPost({
+    required String? cardId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Publish Card',
+      operationId: 'admin_kb_publish',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/kb/cards/${cardId}/publish');
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<CardOut, CardOut>($request);
+  }
+
+  @override
+  Future<Response<CardOut>> _v1AdminKbCardsCardIdReviewsPost({
+    required String? cardId,
+    required ReviewIn? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Review',
+      operationId: 'admin_kb_review',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/kb/cards/${cardId}/reviews');
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<CardOut, CardOut>($request);
+  }
+
+  @override
+  Future<Response<ImportOut>> _v1AdminKbImportsKindPost({
+    required String? kind,
+    required ImportIn? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Run Import',
+      operationId: 'admin_kb_import',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/kb/imports/${kind}');
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<ImportOut, ImportOut>($request);
+  }
+
+  @override
+  Future<Response<SourcesResponse>> _v1AdminKbSourcesGet({
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Sources',
+      operationId: 'admin_kb_sources',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/kb/sources');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<SourcesResponse, SourcesResponse>($request);
+  }
+
+  @override
   Future<Response<FarmerProfile>> _v1MeGet({
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',

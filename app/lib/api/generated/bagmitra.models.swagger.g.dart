@@ -6,6 +6,72 @@ part of 'bagmitra.models.swagger.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+AlertOut _$AlertOutFromJson(Map<String, dynamic> json) => AlertOut(
+  cardId: json['card_id'] as String?,
+  createdAt: DateTime.parse(json['created_at'] as String),
+  detail: json['detail'] as String,
+  id: json['id'] as String,
+  kind: json['kind'] as String,
+);
+
+Map<String, dynamic> _$AlertOutToJson(AlertOut instance) => <String, dynamic>{
+  'card_id': ?instance.cardId,
+  'created_at': instance.createdAt.toIso8601String(),
+  'detail': instance.detail,
+  'id': instance.id,
+  'kind': instance.kind,
+};
+
+AlertsResponse _$AlertsResponseFromJson(Map<String, dynamic> json) =>
+    AlertsResponse(
+      alerts:
+          (json['alerts'] as List<dynamic>?)
+              ?.map((e) => AlertOut.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+    );
+
+Map<String, dynamic> _$AlertsResponseToJson(AlertsResponse instance) =>
+    <String, dynamic>{
+      'alerts': instance.alerts.map((e) => e.toJson()).toList(),
+    };
+
+CardOut _$CardOutFromJson(Map<String, dynamic> json) => CardOut(
+  crop: json['crop'] as String,
+  hasChemicalOptions: json['has_chemical_options'] as bool,
+  id: json['id'] as String,
+  reviewDueAt: json['review_due_at'] == null
+      ? null
+      : DateTime.parse(json['review_due_at'] as String),
+  status: json['status'] as String,
+  title: json['title'] as String,
+  topic: json['topic'] as String,
+  version: (json['version'] as num).toInt(),
+);
+
+Map<String, dynamic> _$CardOutToJson(CardOut instance) => <String, dynamic>{
+  'crop': instance.crop,
+  'has_chemical_options': instance.hasChemicalOptions,
+  'id': instance.id,
+  'review_due_at': ?instance.reviewDueAt?.toIso8601String(),
+  'status': instance.status,
+  'title': instance.title,
+  'topic': instance.topic,
+  'version': instance.version,
+};
+
+CardsResponse _$CardsResponseFromJson(Map<String, dynamic> json) =>
+    CardsResponse(
+      cards:
+          (json['cards'] as List<dynamic>?)
+              ?.map((e) => CardOut.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+    );
+
+Map<String, dynamic> _$CardsResponseToJson(CardsResponse instance) =>
+    <String, dynamic>{'cards': instance.cards.map((e) => e.toJson()).toList()};
+
 Change _$ChangeFromJson(Map<String, dynamic> json) => Change(
   data: json['data'] as Map<String, dynamic>,
   entity: json['entity'] as String,
@@ -83,6 +149,32 @@ Map<String, dynamic> _$HTTPValidationErrorToJson(
   HTTPValidationError instance,
 ) => <String, dynamic>{
   'detail': ?instance.detail?.map((e) => e.toJson()).toList(),
+};
+
+ImportIn _$ImportInFromJson(Map<String, dynamic> json) => ImportIn(
+  csv: json['csv'] as String,
+  sourceKey: json['source_key'] as String,
+);
+
+Map<String, dynamic> _$ImportInToJson(ImportIn instance) => <String, dynamic>{
+  'csv': instance.csv,
+  'source_key': instance.sourceKey,
+};
+
+ImportOut _$ImportOutFromJson(Map<String, dynamic> json) => ImportOut(
+  added: (json['added'] as num).toInt(),
+  cardsPulled: (json['cards_pulled'] as num).toInt(),
+  changed: (json['changed'] as num).toInt(),
+  removed: (json['removed'] as num).toInt(),
+  unchanged: (json['unchanged'] as num).toInt(),
+);
+
+Map<String, dynamic> _$ImportOutToJson(ImportOut instance) => <String, dynamic>{
+  'added': instance.added,
+  'cards_pulled': instance.cardsPulled,
+  'changed': instance.changed,
+  'removed': instance.removed,
+  'unchanged': instance.unchanged,
 };
 
 LiveResponse _$LiveResponseFromJson(Map<String, dynamic> json) => LiveResponse(
@@ -174,6 +266,52 @@ ReadyResponse _$ReadyResponseFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$ReadyResponseToJson(ReadyResponse instance) =>
     <String, dynamic>{'database': instance.database, 'status': instance.status};
+
+ReviewIn _$ReviewInFromJson(Map<String, dynamic> json) => ReviewIn(
+  comments: json['comments'] as String?,
+  decision: reviewInDecisionFromJson(json['decision']),
+);
+
+Map<String, dynamic> _$ReviewInToJson(ReviewIn instance) => <String, dynamic>{
+  'comments': ?instance.comments,
+  'decision': ?reviewInDecisionToJson(instance.decision),
+};
+
+SourceOut _$SourceOutFromJson(Map<String, dynamic> json) => SourceOut(
+  allowedUse: json['allowed_use'] as String,
+  id: json['id'] as String,
+  key: json['key'] as String,
+  publisher: json['publisher'] as String,
+  tier: json['tier'] as String,
+  title: json['title'] as String,
+  url: json['url'] as String,
+  verification: json['verification'] as String,
+);
+
+Map<String, dynamic> _$SourceOutToJson(SourceOut instance) => <String, dynamic>{
+  'allowed_use': instance.allowedUse,
+  'id': instance.id,
+  'key': instance.key,
+  'publisher': instance.publisher,
+  'tier': instance.tier,
+  'title': instance.title,
+  'url': instance.url,
+  'verification': instance.verification,
+};
+
+SourcesResponse _$SourcesResponseFromJson(Map<String, dynamic> json) =>
+    SourcesResponse(
+      sources:
+          (json['sources'] as List<dynamic>?)
+              ?.map((e) => SourceOut.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+    );
+
+Map<String, dynamic> _$SourcesResponseToJson(SourcesResponse instance) =>
+    <String, dynamic>{
+      'sources': instance.sources.map((e) => e.toJson()).toList(),
+    };
 
 StageTemplate _$StageTemplateFromJson(Map<String, dynamic> json) =>
     StageTemplate(
