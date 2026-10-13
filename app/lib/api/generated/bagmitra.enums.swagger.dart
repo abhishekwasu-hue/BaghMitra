@@ -49,3 +49,33 @@ enum MutationResultStatus {
 
   const MutationResultStatus(this.value);
 }
+
+enum ReviewInDecision {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('approve')
+  approve('approve'),
+  @JsonValue('edit')
+  edit('edit'),
+  @JsonValue('reject')
+  reject('reject');
+
+  final String? value;
+
+  const ReviewInDecision(this.value);
+}
+
+enum V1AdminKbImportsKindPostKind {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('claims')
+  claims('claims'),
+  @JsonValue('restrictions')
+  restrictions('restrictions');
+
+  final String? value;
+
+  const V1AdminKbImportsKindPostKind(this.value);
+}

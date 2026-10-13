@@ -29,6 +29,13 @@ end-dated, never deleted; restrictions are never removed by an upload. Each impo
 published cards. Nightly: `python -m bagmitra_api.kb.regate` pulls any published card that
 now fails the gate back to draft and writes a `kb_admin_alerts` row (service-only table).
 
+**Knowledge-base admin API** (`/v1/admin/kb/*`): sources, cards, card reviews, publish,
+CSV imports and alerts. Access comes from Supabase **`app_metadata`** (only the service role
+can set it; `user_metadata` never grants anything): `{"roles": ["kb_admin"]}` to import,
+publish and resolve alerts; `{"roles": ["kb_reviewer"], "reviewer_role": "agronomist"}`
+(or `plant_pathologist` / `entomologist`, see `KB_REVIEWER_ROLES`) to review. Publishing
+re-runs the legal gate on the card's chemical options and returns 409 with the reasons.
+
 **Changing the API:** edit code + tests → `make openapi` (exports the spec, copies it into the app,
 regenerates the Dart client) → commit all three.
 

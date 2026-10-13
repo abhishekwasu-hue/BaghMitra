@@ -40,6 +40,10 @@ class Settings(BaseSettings):
             "mosambi": ["citrus", "sweet lime", "mosambi"],
         }
     )
+    # Reviewer roles accepted on a card review (addendum §6).
+    kb_reviewer_roles: list[str] = Field(
+        default_factory=lambda: ["agronomist", "plant_pathologist", "entomologist"]
+    )
     kb_crop_groups: dict[str, list[str]] = Field(
         default_factory=lambda: {"santra": ["fruit_eaten_raw"], "mosambi": ["fruit_eaten_raw"]}
     )
