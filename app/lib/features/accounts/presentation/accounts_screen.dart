@@ -95,6 +95,11 @@ class _AccountsScreenState extends ConsumerState<AccountsScreen> {
         ),
         actions: [
           IconButton(
+            tooltip: t.exportSharePdf,
+            onPressed: () => shareAccountsPdf(context, ref, id),
+            icon: Icon(Icons.picture_as_pdf_outlined, color: c.brand),
+          ),
+          IconButton(
             tooltip: t.exportShare,
             onPressed: () => shareAccountsCsv(context, ref, id),
             icon: Icon(Icons.ios_share, color: c.brand),

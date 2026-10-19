@@ -414,5 +414,6 @@
   "exportTypeSpray": "Spray",
   "exportTypeInput": "Input",
   "exportTypeLabour": "Labour",
-  "exportKg": "kg"
+  "exportKg": "kg",
+  "exportSharePdf": "Share PDF"
 }

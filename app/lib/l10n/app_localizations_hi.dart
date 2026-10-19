@@ -673,4 +673,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get exportKg => 'किलो';
+
+  @override
+  String get exportSharePdf => 'PDF शेयर करें';
 }

@@ -80,7 +80,7 @@ reach a grower (blockers: Q12 expert reviewer, Q13 CCRI calendar, Q10 source PDF
 | Cost and profit per plot / bahar; per acre, tree, tonne | |
 | Season-by-season comparison per bahar (cost, income, profit and change vs the same bahar a season earlier) | |
 | Spray records (API + app) with offline ban / PHI warning from a cached gazette list | Voice-note quick entry (needs STT, Q5) |
-| Accounts export as a spreadsheet (CSV with Marathi header, plain-decimal money), shared via the phone's share sheet | PDF export (Q16) |
+| Accounts export as a spreadsheet (CSV with Marathi header, plain-decimal money) and as a PDF report (Flutter-rendered, so Marathi is shaped correctly), shared via the phone's share sheet | Selectable-text PDF and a true .xlsx (Q16, only if asked) |
 | Fertiliser / manure and irrigation records (API + app, field log screen); input cost counted under its kind | |
 | Labour register (wages, advances, settlement) and harvest records (API + app); wages counted under labour | |
 | Warnings are facts only and never block recording | |

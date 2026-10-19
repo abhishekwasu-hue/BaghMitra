@@ -43,6 +43,61 @@ class ExportLabels {
   final String kg;
 }
 
+/// One dated line of the accounts ledger: costs are negative, sales positive.
+typedef LedgerLine = ({DateTime date, String type, String details, int paise});
+
+/// Every expense, sale, spray, input and labour record as one dated line, oldest first.
+/// Shared by the spreadsheet and the PDF so both always agree.
+List<LedgerLine> buildLedger({
+  required ExportLabels labels,
+  required String Function(String slug) nameOf,
+  required List<Expense> expenses,
+  required List<Income> incomes,
+  List<SprayRecord> sprays = const [],
+  List<InputRecord> inputs = const [],
+  List<LabourRecord> labour = const [],
+}) {
+  String join(Iterable<String?> parts) =>
+      parts.where((p) => p != null && p.isNotEmpty).join(' · ');
+  String kgText(double kg) =>
+      kg == kg.roundToDouble() ? '${kg.round()}' : '$kg';
+  LedgerLine line(DateTime date, String type, String details, int paise) =>
+      (date: date, type: type, details: details, paise: paise);
+
+  return [
+    for (final e in expenses)
+      line(
+        e.spentOn,
+        labels.typeExpense,
+        join([nameOf(e.category), e.note]),
+        -e.amountPaise,
+      ),
+    for (final i in incomes)
+      line(
+        i.soldOn,
+        labels.typeSale,
+        join([i.buyerName, '${kgText(i.quantityKg)} ${labels.kg}']),
+        i.netPaise,
+      ),
+    for (final s in sprays)
+      line(s.sprayedOn, labels.typeSpray, s.productName, -s.costPaise),
+    for (final i in inputs)
+      line(
+        i.appliedOn,
+        labels.typeInput,
+        join([i.productName, nameOf(i.kind)]),
+        -i.costPaise,
+      ),
+    for (final l in labour)
+      line(
+        l.workedOn,
+        labels.typeLabour,
+        join([l.workerName, l.task == null ? null : nameOf(l.task!)]),
+        -l.wagePaise,
+      ),
+  ]..sort((a, b) => a.date.compareTo(b.date));
+}
+
 /// One block's accounts as a spreadsheet-readable CSV: a summary, then every record as a
 /// signed line (costs negative, sales positive), oldest first. Pure and offline.
 ///
@@ -60,43 +115,15 @@ String buildAccountsCsv({
   List<InputRecord> inputs = const [],
   List<LabourRecord> labour = const [],
 }) {
-  String join(Iterable<String?> parts) =>
-      parts.where((p) => p != null && p.isNotEmpty).join(' · ');
-  String kgText(double kg) =>
-      kg == kg.roundToDouble() ? '${kg.round()}' : '$kg';
-
-  final ledger = <(DateTime, String, String, int)>[
-    for (final e in expenses)
-      (
-        e.spentOn,
-        labels.typeExpense,
-        join([nameOf(e.category), e.note]),
-        -e.amountPaise,
-      ),
-    for (final i in incomes)
-      (
-        i.soldOn,
-        labels.typeSale,
-        join([i.buyerName, '${kgText(i.quantityKg)} ${labels.kg}']),
-        i.netPaise,
-      ),
-    for (final s in sprays)
-      (s.sprayedOn, labels.typeSpray, s.productName, -s.costPaise),
-    for (final i in inputs)
-      (
-        i.appliedOn,
-        labels.typeInput,
-        join([i.productName, nameOf(i.kind)]),
-        -i.costPaise,
-      ),
-    for (final l in labour)
-      (
-        l.workedOn,
-        labels.typeLabour,
-        join([l.workerName, l.task == null ? null : nameOf(l.task!)]),
-        -l.wagePaise,
-      ),
-  ]..sort((a, b) => a.$1.compareTo(b.$1));
+  final ledger = buildLedger(
+    labels: labels,
+    nameOf: nameOf,
+    expenses: expenses,
+    incomes: incomes,
+    sprays: sprays,
+    inputs: inputs,
+    labour: labour,
+  );
 
   final rows = <List<String>>[
     ['$plotName · ${labels.title}'],
@@ -107,8 +134,13 @@ String buildAccountsCsv({
     [labels.dues, plainRupees(summary.duesPaise)],
     [],
     [labels.date, labels.type, labels.details, labels.amount],
-    for (final (date, type, details, paise) in ledger)
-      [BaharCycle.isoDate(date), type, _defuse(details), plainRupees(paise)],
+    for (final l in ledger)
+      [
+        BaharCycle.isoDate(l.date),
+        l.type,
+        _defuse(l.details),
+        plainRupees(l.paise),
+      ],
   ];
   return '\u{feff}${rows.map((r) => r.map(_cell).join(',')).join('\r\n')}\r\n';
 }
