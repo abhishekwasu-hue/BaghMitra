@@ -157,3 +157,25 @@ class IrrigationRecordPayload(RowPayload):
     duration_hours: float | None = Field(default=None, gt=0, le=240)
     water_litres: float | None = Field(default=None, gt=0, le=10**8)
     note: str | None = Field(default=None, max_length=500)
+
+
+class HarvestRecordPayload(RowPayload):
+    plot_id: uuid.UUID
+    bahar_cycle_id: uuid.UUID | None = None
+    harvested_on: date
+    grade: Slug | None = None
+    size_class: Slug | None = None
+    quantity_kg: float = Field(gt=0, le=10**7)
+    note: str | None = Field(default=None, max_length=500)
+
+
+class LabourRecordPayload(RowPayload):
+    plot_id: uuid.UUID
+    bahar_cycle_id: uuid.UUID | None = None
+    worker_name: str = Field(min_length=1, max_length=120)
+    worked_on: date
+    task: Slug | None = None
+    wage_paise: Paise
+    advance_paise: Paise = 0
+    settled_on: date | None = None
+    note: str | None = Field(default=None, max_length=500)
