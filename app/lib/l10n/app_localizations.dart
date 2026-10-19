@@ -825,6 +825,126 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{buyer} · {kg} kg'**
   String saleBy(String buyer, String kg);
+
+  /// No description provided for @sprayLogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Spray log'**
+  String get sprayLogTitle;
+
+  /// No description provided for @addSpray.
+  ///
+  /// In en, this message translates to:
+  /// **'Add spray'**
+  String get addSpray;
+
+  /// No description provided for @spraysEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No sprays recorded yet.'**
+  String get spraysEmpty;
+
+  /// No description provided for @sprayProduct.
+  ///
+  /// In en, this message translates to:
+  /// **'Product name'**
+  String get sprayProduct;
+
+  /// No description provided for @sprayActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Active ingredient (on the label)'**
+  String get sprayActive;
+
+  /// No description provided for @sprayDose.
+  ///
+  /// In en, this message translates to:
+  /// **'Dose (optional)'**
+  String get sprayDose;
+
+  /// No description provided for @sprayWater.
+  ///
+  /// In en, this message translates to:
+  /// **'Water (litres, optional)'**
+  String get sprayWater;
+
+  /// No description provided for @sprayArea.
+  ///
+  /// In en, this message translates to:
+  /// **'Area sprayed (acres, optional)'**
+  String get sprayArea;
+
+  /// No description provided for @sprayCost.
+  ///
+  /// In en, this message translates to:
+  /// **'Cost (₹, optional)'**
+  String get sprayCost;
+
+  /// No description provided for @sprayOperator.
+  ///
+  /// In en, this message translates to:
+  /// **'Sprayed by (optional)'**
+  String get sprayOperator;
+
+  /// No description provided for @sprayPhi.
+  ///
+  /// In en, this message translates to:
+  /// **'Days before harvest, PHI (optional)'**
+  String get sprayPhi;
+
+  /// No description provided for @sprayTarget.
+  ///
+  /// In en, this message translates to:
+  /// **'For which pest or disease (optional)'**
+  String get sprayTarget;
+
+  /// No description provided for @sprayDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get sprayDate;
+
+  /// No description provided for @sprayWhichBahar.
+  ///
+  /// In en, this message translates to:
+  /// **'Which bahar? (to check harvest date)'**
+  String get sprayWhichBahar;
+
+  /// No description provided for @sprayWarnBannedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Banned chemical'**
+  String get sprayWarnBannedTitle;
+
+  /// No description provided for @sprayWarnBannedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This ingredient is banned ({notification}). Do not use it. Ask your local KVK or expert.'**
+  String sprayWarnBannedBody(String notification);
+
+  /// No description provided for @sprayWarnRestrictedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Restricted for this crop'**
+  String get sprayWarnRestrictedTitle;
+
+  /// No description provided for @sprayWarnRestrictedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This ingredient is restricted for this crop ({notification}). Check the label and ask your local expert.'**
+  String sprayWarnRestrictedBody(String notification);
+
+  /// No description provided for @sprayWarnPhiTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Harvest too soon'**
+  String get sprayWarnPhiTitle;
+
+  /// No description provided for @sprayWarnPhiBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Harvest is planned before the waiting period ends. Safe to harvest from {date}.'**
+  String sprayWarnPhiBody(String date);
 }
 
 class _AppLocalizationsDelegate

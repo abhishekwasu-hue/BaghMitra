@@ -436,4 +436,70 @@ class AppLocalizationsMr extends AppLocalizations {
   String saleBy(String buyer, String kg) {
     return '$buyer · $kg किलो';
   }
+
+  @override
+  String get sprayLogTitle => 'फवारणी नोंदी';
+
+  @override
+  String get addSpray => 'फवारणी नोंदवा';
+
+  @override
+  String get spraysEmpty => 'अजून फवारणीची नोंद नाही.';
+
+  @override
+  String get sprayProduct => 'औषधाचं नाव';
+
+  @override
+  String get sprayActive => 'सक्रिय घटक (लेबलवर)';
+
+  @override
+  String get sprayDose => 'मात्रा (ऐच्छिक)';
+
+  @override
+  String get sprayWater => 'पाणी (लिटर, ऐच्छिक)';
+
+  @override
+  String get sprayArea => 'फवारलेलं क्षेत्र (एकर, ऐच्छिक)';
+
+  @override
+  String get sprayCost => 'खर्च (₹, ऐच्छिक)';
+
+  @override
+  String get sprayOperator => 'फवारणी करणारा (ऐच्छिक)';
+
+  @override
+  String get sprayPhi => 'तोडणीपूर्वीचे दिवस, PHI (ऐच्छिक)';
+
+  @override
+  String get sprayTarget => 'कोणत्या कीड/रोगासाठी (ऐच्छिक)';
+
+  @override
+  String get sprayDate => 'तारीख';
+
+  @override
+  String get sprayWhichBahar => 'कोणता बहार? (तोडणीची तारीख तपासण्यासाठी)';
+
+  @override
+  String get sprayWarnBannedTitle => 'बंदी असलेलं रसायन';
+
+  @override
+  String sprayWarnBannedBody(String notification) {
+    return 'हा घटक बंदी असलेला आहे ($notification). तो वापरू नका. जवळच्या KVK किंवा तज्ञांना विचारा.';
+  }
+
+  @override
+  String get sprayWarnRestrictedTitle => 'या पिकासाठी निर्बंध';
+
+  @override
+  String sprayWarnRestrictedBody(String notification) {
+    return 'या पिकासाठी हा घटक प्रतिबंधित आहे ($notification). लेबल पाहा आणि स्थानिक तज्ञांना विचारा.';
+  }
+
+  @override
+  String get sprayWarnPhiTitle => 'तोडणी खूप लवकर';
+
+  @override
+  String sprayWarnPhiBody(String date) {
+    return 'प्रतीक्षा कालावधी संपण्यापूर्वी तोडणी ठरवलेली आहे. $date पासून तोडणी सुरक्षित.';
+  }
 }

@@ -29,6 +29,16 @@ SprayRecord spray(String id, {int cost = 240000, String? cycle}) => SprayRecord(
   target: 'psylla',
 );
 
+extension SprayTestCopy on SprayRecord {
+  SprayRecord copyWithActive(String ai) => SprayRecord(
+    id: id,
+    plotId: plotId,
+    sprayedOn: sprayedOn,
+    productName: 'Old product',
+    activeIngredient: ai,
+  );
+}
+
 void main() {
   test('payload matches the API contract and round-trips', () {
     final s = spray('s1', cycle: 'b1');

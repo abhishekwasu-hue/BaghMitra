@@ -39,9 +39,11 @@ class _AccountsScreenState extends ConsumerState<AccountsScreen> {
     final expenses = ref.watch(expensesProvider(id)).value ?? const [];
     final incomes = ref.watch(incomesProvider(id)).value ?? const [];
     final cats = ref.watch(expenseCategoriesProvider).value ?? const [];
+    final sprays = ref.watch(spraysProvider(id)).value ?? const [];
     final s = AccountsSummary.of(
       expenses: expenses,
       incomes: incomes,
+      sprays: sprays,
       areaAcres: plot?.areaAcres ?? 0,
       treeCount: plot?.treeCount,
       baharCycleId: _cycle,
