@@ -11,6 +11,8 @@ import '../features/auth/presentation/login_screens.dart';
 import '../features/bahar/presentation/bahar_screen.dart';
 import '../features/bahar/presentation/start_bahar_screen.dart';
 import '../features/dev/component_gallery_screen.dart';
+import '../features/field_work/presentation/harvest_screen.dart';
+import '../features/field_work/presentation/labour_screens.dart';
 import '../features/home/presentation/home_screen.dart';
 import '../features/inputs/presentation/add_input_screens.dart';
 import '../features/inputs/presentation/field_log_screen.dart';
@@ -43,6 +45,10 @@ abstract final class Routes {
   static String startBahar(String plotId) => '/plots/$plotId/bahar/new';
   static String sprays(String plotId) => '/plots/$plotId/sprays';
   static String addSpray(String plotId) => '/plots/$plotId/sprays/new';
+  static String labour(String plotId) => '/plots/$plotId/labour';
+  static String addLabour(String plotId) => '/plots/$plotId/labour/new';
+  static String harvest(String plotId) => '/plots/$plotId/harvest';
+  static String addHarvest(String plotId) => '/plots/$plotId/harvest/new';
   static String fieldLog(String plotId) => '/plots/$plotId/log';
   static String addInput(String plotId) => '/plots/$plotId/log/input';
   static String addIrrigation(String plotId) => '/plots/$plotId/log/irrigation';
@@ -84,6 +90,22 @@ GoRouter buildRouter(
       GoRoute(
         path: '/plots/:id/sprays/new',
         builder: (_, s) => AddSprayScreen(plotId: s.pathParameters['id']!),
+      ),
+      GoRoute(
+        path: '/plots/:id/labour',
+        builder: (_, s) => LabourScreen(plotId: s.pathParameters['id']!),
+      ),
+      GoRoute(
+        path: '/plots/:id/labour/new',
+        builder: (_, s) => AddLabourScreen(plotId: s.pathParameters['id']!),
+      ),
+      GoRoute(
+        path: '/plots/:id/harvest',
+        builder: (_, s) => HarvestScreen(plotId: s.pathParameters['id']!),
+      ),
+      GoRoute(
+        path: '/plots/:id/harvest/new',
+        builder: (_, s) => AddHarvestScreen(plotId: s.pathParameters['id']!),
       ),
       GoRoute(
         path: '/plots/:id/log',

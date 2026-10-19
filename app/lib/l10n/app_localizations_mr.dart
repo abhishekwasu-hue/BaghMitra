@@ -551,4 +551,70 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get labourTitle => 'मजुरी';
+
+  @override
+  String get labourAddDay => 'मजूर दिवस जोडा';
+
+  @override
+  String get labourWorker => 'मजुराचे नाव';
+
+  @override
+  String get labourTask => 'केलेले काम';
+
+  @override
+  String get labourWage => 'मजुरी (₹)';
+
+  @override
+  String get labourAdvance => 'आगाऊ दिलेले (₹, ऐच्छिक)';
+
+  @override
+  String get labourPaidNow => 'आज पूर्ण दिले';
+
+  @override
+  String get labourSettled => 'हिशोब झाला';
+
+  @override
+  String get labourMarkPaid => 'पूर्ण दिले';
+
+  @override
+  String get labourEmpty => 'अजून मजुरीच्या नोंदी नाहीत. एक जोडा.';
+
+  @override
+  String get labourTotalDue => 'मजुरांना देणे';
+
+  @override
+  String labourDue(String amount) {
+    return 'बाकी $amount';
+  }
+
+  @override
+  String get harvestTitle => 'काढणी';
+
+  @override
+  String get harvestAdd => 'काढणी जोडा';
+
+  @override
+  String get harvestKg => 'प्रमाण (किलो)';
+
+  @override
+  String get harvestGrade => 'ग्रेड (ऐच्छिक)';
+
+  @override
+  String get harvestSize => 'आकार (ऐच्छिक)';
+
+  @override
+  String get harvestEmpty => 'अजून काढणी नोंदवलेली नाही. एक नोंद जोडा.';
+
+  @override
+  String harvestTotal(String kg) {
+    return 'एकूण $kg किलो';
+  }
+
+  @override
+  String get moreMenu => 'आणखी';
+
+  @override
+  String harvestKgValue(String kg) {
+    return '$kg किलो';
+  }
 }

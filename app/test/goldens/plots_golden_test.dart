@@ -6,6 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import '../features/accounts/accounts_screen_test.dart' show seedAccounts;
 import '../features/bahar/bahar_screen_test.dart' show seedPlotWithCycle;
+import '../features/field_work/field_work_screens_test.dart' show seedWork;
 import '../features/inputs/field_log_test.dart' show seedLog;
 import '../features/plots/plots_screen_test.dart' show seedTwo, settle;
 import '../features/spray/spray_screen_test.dart' show seedWithSpray;
@@ -89,6 +90,23 @@ void main() {
   ]) {
     testWidgets(name, (tester) async {
       await pumpApp(tester, initialLocation: location, seed: seedWithSpray);
+      await settle(tester);
+      await expectLater(
+        find.byType(MaterialApp),
+        matchesGoldenFile('$name.png'),
+      );
+      await unmountApp(tester);
+    });
+  }
+
+  for (final (name, location) in [
+    ('labour_mr_light', '/plots/p1/labour'),
+    ('add_labour_mr_light', '/plots/p1/labour/new'),
+    ('harvest_mr_light', '/plots/p1/harvest'),
+    ('add_harvest_mr_light', '/plots/p1/harvest/new'),
+  ]) {
+    testWidgets(name, (tester) async {
+      await pumpApp(tester, initialLocation: location, seed: seedWork);
       await settle(tester);
       await expectLater(
         find.byType(MaterialApp),
