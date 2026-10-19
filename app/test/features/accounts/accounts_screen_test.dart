@@ -60,7 +60,7 @@ void main() {
     await settle(tester);
     await tester.tap(find.text('Add expense'));
     await settle(tester);
-    await tester.tap(find.text('Labour'));
+    await tester.tap(find.text('Transport'));
     await tester.enterText(find.byKey(const Key('expense-amount')), '1,500');
     await tester.tap(find.text('Save'));
     await settle(tester);
@@ -72,7 +72,7 @@ void main() {
     );
     final payload = jsonDecode(queued!.single.payload) as Map<String, Object?>;
     expect(payload['amount_paise'], 150000);
-    expect(payload['category'], 'labour');
+    expect(payload['category'], 'transport');
     expect(payload['spent_on'], '2026-10-13');
     await unmountApp(tester);
   });

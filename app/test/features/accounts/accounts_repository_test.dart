@@ -52,7 +52,9 @@ void main() {
 
   test('expense categories come from config with labels', () async {
     final cats = await ExpenseCategories(bundle: FileAssetBundle()).load();
-    expect(cats.map((c) => c.slug), contains('labour'));
+    expect(cats.map((c) => c.slug), containsAll(['transport', 'other']));
+    // Spray, input and labour costs are counted from their own records.
+    expect(cats.map((c) => c.slug), isNot(contains('labour')));
     expect(cats.first.label('mr'), isNotEmpty);
   });
 }

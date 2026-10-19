@@ -177,6 +177,42 @@ class IrrigationRecords extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
+/// Harvest lots (mirror of the API `harvest_record` entity).
+@DataClassName('HarvestRecordRow')
+class HarvestRecords extends Table {
+  TextColumn get id => text()();
+  TextColumn get plotId => text()();
+  TextColumn get baharCycleId => text().nullable()();
+  DateTimeColumn get harvestedOn => dateTime()();
+  TextColumn get grade => text().nullable()();
+  TextColumn get sizeClass => text().nullable()();
+  RealColumn get quantityKg => real()();
+  TextColumn get note => text().nullable()();
+  DateTimeColumn get clientUpdatedAt => dateTime()();
+
+  @override
+  Set<Column<Object>> get primaryKey => {id};
+}
+
+/// Labour register (mirror of the API `labour_record` entity). Wages in whole paise.
+@DataClassName('LabourRecordRow')
+class LabourRecords extends Table {
+  TextColumn get id => text()();
+  TextColumn get plotId => text()();
+  TextColumn get baharCycleId => text().nullable()();
+  TextColumn get workerName => text()();
+  DateTimeColumn get workedOn => dateTime()();
+  TextColumn get task => text().nullable()();
+  IntColumn get wagePaise => integer()();
+  IntColumn get advancePaise => integer()();
+  DateTimeColumn get settledOn => dateTime().nullable()();
+  TextColumn get note => text().nullable()();
+  DateTimeColumn get clientUpdatedAt => dateTime()();
+
+  @override
+  Set<Column<Object>> get primaryKey => {id};
+}
+
 /// Small key/value store for sync cursors and similar bookkeeping.
 class SyncMeta extends Table {
   TextColumn get key => text()();
@@ -198,6 +234,8 @@ class SyncMeta extends Table {
     SprayRecords,
     InputRecords,
     IrrigationRecords,
+    HarvestRecords,
+    LabourRecords,
   ],
 )
 class AppDatabase extends _$AppDatabase {
@@ -206,7 +244,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.open(String name) : super(driftDatabase(name: name));
 
   @override
-  int get schemaVersion => 6;
+  int get schemaVersion => 7;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -222,6 +260,10 @@ class AppDatabase extends _$AppDatabase {
       if (from < 6) {
         await m.createTable(inputRecords);
         await m.createTable(irrigationRecords);
+      }
+      if (from < 7) {
+        await m.createTable(harvestRecords);
+        await m.createTable(labourRecords);
       }
     },
   );

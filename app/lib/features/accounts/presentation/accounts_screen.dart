@@ -41,12 +41,14 @@ class _AccountsScreenState extends ConsumerState<AccountsScreen> {
     final cats = ref.watch(expenseCategoriesProvider).value ?? const [];
     final sprays = ref.watch(spraysProvider(id)).value ?? const [];
     final inputs = ref.watch(inputsProvider(id)).value ?? const [];
+    final labour = ref.watch(labourProvider(id)).value ?? const [];
     final kinds = ref.watch(inputKindsProvider).value;
     final s = AccountsSummary.of(
       expenses: expenses,
       incomes: incomes,
       sprays: sprays,
       inputs: inputs,
+      labour: labour,
       areaAcres: plot?.areaAcres ?? 0,
       treeCount: plot?.treeCount,
       baharCycleId: _cycle,
@@ -61,19 +63,19 @@ class _AccountsScreenState extends ConsumerState<AccountsScreen> {
         ],
       ),
     );
+    // Older or synced rows may use a category that moved to input kinds or to the
+    // labour register.
+    String categoryLabel(String slug) => slug == 'labour'
+        ? t.labourTitle
+        : [
+                ...cats,
+                ...?kinds?.kinds,
+              ].where((x) => x.slug == slug).firstOrNull?.label(lang) ??
+              slug;
     final inScope = [
       for (final e in expenses)
         if (_cycle == null || e.baharCycleId == _cycle)
-          (
-            e.spentOn,
-            // Older or synced rows may use a category that moved to input kinds.
-            [
-                  ...cats,
-                  ...?kinds?.kinds,
-                ].where((x) => x.slug == e.category).firstOrNull?.label(lang) ??
-                e.category,
-            '−${money(e.amountPaise)}',
-          ),
+          (e.spentOn, categoryLabel(e.category), '−${money(e.amountPaise)}'),
       for (final i in incomes)
         if (_cycle == null || i.baharCycleId == _cycle)
           (
