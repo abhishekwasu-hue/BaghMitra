@@ -7,6 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import '../features/accounts/accounts_screen_test.dart' show seedAccounts;
 import '../features/bahar/bahar_screen_test.dart' show seedPlotWithCycle;
 import '../features/plots/plots_screen_test.dart' show seedTwo, settle;
+import '../features/spray/spray_screen_test.dart' show seedWithSpray;
 import '../helpers/pump_app.dart';
 
 void main() {
@@ -72,6 +73,21 @@ void main() {
   ]) {
     testWidgets(name, (tester) async {
       await pumpApp(tester, initialLocation: location, seed: seedAccounts);
+      await settle(tester);
+      await expectLater(
+        find.byType(MaterialApp),
+        matchesGoldenFile('$name.png'),
+      );
+      await unmountApp(tester);
+    });
+  }
+
+  for (final (name, location) in [
+    ('spray_log_mr_light', '/plots/p1/sprays'),
+    ('add_spray_mr_light', '/plots/p1/sprays/new'),
+  ]) {
+    testWidgets(name, (tester) async {
+      await pumpApp(tester, initialLocation: location, seed: seedWithSpray);
       await settle(tester);
       await expectLater(
         find.byType(MaterialApp),

@@ -14,6 +14,8 @@ import '../features/dev/component_gallery_screen.dart';
 import '../features/home/presentation/home_screen.dart';
 import '../features/plots/presentation/add_plot_screen.dart';
 import '../features/plots/presentation/plots_screen.dart';
+import '../features/spray/presentation/add_spray_screen.dart';
+import '../features/spray/presentation/spray_log_screen.dart';
 
 class _AuthListenable extends ChangeNotifier {
   _AuthListenable(Stream<AuthSession?> sessions) {
@@ -37,6 +39,8 @@ abstract final class Routes {
   static const addPlot = '/plots/new';
   static String plotBahar(String plotId) => '/plots/$plotId/bahar';
   static String startBahar(String plotId) => '/plots/$plotId/bahar/new';
+  static String sprays(String plotId) => '/plots/$plotId/sprays';
+  static String addSpray(String plotId) => '/plots/$plotId/sprays/new';
   static String accounts(String plotId) => '/plots/$plotId/accounts';
   static String addExpense(String plotId) => '/plots/$plotId/accounts/expense';
   static String addSale(String plotId) => '/plots/$plotId/accounts/sale';
@@ -67,6 +71,14 @@ GoRouter buildRouter(
       GoRoute(
         path: '/plots/:id/bahar',
         builder: (_, s) => BaharScreen(plotId: s.pathParameters['id']!),
+      ),
+      GoRoute(
+        path: '/plots/:id/sprays',
+        builder: (_, s) => SprayLogScreen(plotId: s.pathParameters['id']!),
+      ),
+      GoRoute(
+        path: '/plots/:id/sprays/new',
+        builder: (_, s) => AddSprayScreen(plotId: s.pathParameters['id']!),
       ),
       GoRoute(
         path: '/plots/:id/accounts',

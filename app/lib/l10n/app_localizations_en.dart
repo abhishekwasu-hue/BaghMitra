@@ -436,4 +436,70 @@ class AppLocalizationsEn extends AppLocalizations {
   String saleBy(String buyer, String kg) {
     return '$buyer · $kg kg';
   }
+
+  @override
+  String get sprayLogTitle => 'Spray log';
+
+  @override
+  String get addSpray => 'Add spray';
+
+  @override
+  String get spraysEmpty => 'No sprays recorded yet.';
+
+  @override
+  String get sprayProduct => 'Product name';
+
+  @override
+  String get sprayActive => 'Active ingredient (on the label)';
+
+  @override
+  String get sprayDose => 'Dose (optional)';
+
+  @override
+  String get sprayWater => 'Water (litres, optional)';
+
+  @override
+  String get sprayArea => 'Area sprayed (acres, optional)';
+
+  @override
+  String get sprayCost => 'Cost (₹, optional)';
+
+  @override
+  String get sprayOperator => 'Sprayed by (optional)';
+
+  @override
+  String get sprayPhi => 'Days before harvest, PHI (optional)';
+
+  @override
+  String get sprayTarget => 'For which pest or disease (optional)';
+
+  @override
+  String get sprayDate => 'Date';
+
+  @override
+  String get sprayWhichBahar => 'Which bahar? (to check harvest date)';
+
+  @override
+  String get sprayWarnBannedTitle => 'Banned chemical';
+
+  @override
+  String sprayWarnBannedBody(String notification) {
+    return 'This ingredient is banned ($notification). Do not use it. Ask your local KVK or expert.';
+  }
+
+  @override
+  String get sprayWarnRestrictedTitle => 'Restricted for this crop';
+
+  @override
+  String sprayWarnRestrictedBody(String notification) {
+    return 'This ingredient is restricted for this crop ($notification). Check the label and ask your local expert.';
+  }
+
+  @override
+  String get sprayWarnPhiTitle => 'Harvest too soon';
+
+  @override
+  String sprayWarnPhiBody(String date) {
+    return 'Harvest is planned before the waiting period ends. Safe to harvest from $date.';
+  }
 }

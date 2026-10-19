@@ -260,5 +260,46 @@
         "type": "String"
       }
     }
+  },
+  "sprayLogTitle": "Spray log",
+  "addSpray": "Add spray",
+  "spraysEmpty": "No sprays recorded yet.",
+  "sprayProduct": "Product name",
+  "sprayActive": "Active ingredient (on the label)",
+  "sprayDose": "Dose (optional)",
+  "sprayWater": "Water (litres, optional)",
+  "sprayArea": "Area sprayed (acres, optional)",
+  "sprayCost": "Cost (₹, optional)",
+  "sprayOperator": "Sprayed by (optional)",
+  "sprayPhi": "Days before harvest, PHI (optional)",
+  "sprayTarget": "For which pest or disease (optional)",
+  "sprayDate": "Date",
+  "sprayWhichBahar": "Which bahar? (to check harvest date)",
+  "sprayWarnBannedTitle": "Banned chemical",
+  "sprayWarnBannedBody": "This ingredient is banned ({notification}). Do not use it. Ask your local KVK or expert.",
+  "@sprayWarnBannedBody": {
+    "placeholders": {
+      "notification": {
+        "type": "String"
+      }
+    }
+  },
+  "sprayWarnRestrictedTitle": "Restricted for this crop",
+  "sprayWarnRestrictedBody": "This ingredient is restricted for this crop ({notification}). Check the label and ask your local expert.",
+  "@sprayWarnRestrictedBody": {
+    "placeholders": {
+      "notification": {
+        "type": "String"
+      }
+    }
+  },
+  "sprayWarnPhiTitle": "Harvest too soon",
+  "sprayWarnPhiBody": "Harvest is planned before the waiting period ends. Safe to harvest from {date}.",
+  "@sprayWarnPhiBody": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
   }
 }
