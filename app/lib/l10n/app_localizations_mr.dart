@@ -617,4 +617,29 @@ class AppLocalizationsMr extends AppLocalizations {
   String harvestKgValue(String kg) {
     return '$kg किलो';
   }
+
+  @override
+  String get compareTitle => 'हंगामांची तुलना';
+
+  @override
+  String get compareEmpty =>
+      'बहार सुरू करा आणि नोंदी जोडा, मग हंगामांची तुलना दिसेल.';
+
+  @override
+  String compareVs(String bahar, String change) {
+    return '$bahar च्या तुलनेत: $change';
+  }
+
+  @override
+  String compareMore(String amount) {
+    return '$amount जास्त';
+  }
+
+  @override
+  String compareLess(String amount) {
+    return '$amount कमी';
+  }
+
+  @override
+  String get compareSame => 'बदल नाही';
 }

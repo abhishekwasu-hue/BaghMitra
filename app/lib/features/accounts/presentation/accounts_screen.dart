@@ -92,6 +92,13 @@ class _AccountsScreenState extends ConsumerState<AccountsScreen> {
           '${t.accountsTitle} · ${plot?.name ?? ''}',
           style: BmType.section.copyWith(color: c.brand),
         ),
+        actions: [
+          IconButton(
+            tooltip: t.compareTitle,
+            onPressed: () => context.push(Routes.compare(id)),
+            icon: Icon(Icons.compare_arrows, color: c.brand),
+          ),
+        ],
       ),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(BmSpace.lg, 0, BmSpace.lg, 120),

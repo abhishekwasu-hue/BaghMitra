@@ -1155,6 +1155,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{kg} kg'**
   String harvestKgValue(String kg);
+
+  /// No description provided for @compareTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Compare seasons'**
+  String get compareTitle;
+
+  /// No description provided for @compareEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Start a bahar and add records to compare seasons.'**
+  String get compareEmpty;
+
+  /// No description provided for @compareVs.
+  ///
+  /// In en, this message translates to:
+  /// **'vs {bahar}: {change}'**
+  String compareVs(String bahar, String change);
+
+  /// No description provided for @compareMore.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} more'**
+  String compareMore(String amount);
+
+  /// No description provided for @compareLess.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} less'**
+  String compareLess(String amount);
+
+  /// No description provided for @compareSame.
+  ///
+  /// In en, this message translates to:
+  /// **'no change'**
+  String get compareSame;
 }
 
 class _AppLocalizationsDelegate
