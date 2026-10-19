@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../api/api_client.dart';
@@ -18,6 +20,10 @@ import '../features/plots/data/crop_catalog.dart';
 import '../features/plots/data/plot_repository.dart';
 import '../features/plots/domain/plot.dart';
 import '../features/profile/data/profile_repository.dart';
+import '../features/spray/data/restrictions_cache.dart';
+import '../features/spray/data/spray_repository.dart';
+import '../features/spray/domain/spray_check.dart';
+import '../features/spray/domain/spray_record.dart';
 import '../sync/http_transport.dart';
 import '../sync/sync_engine.dart';
 
@@ -109,6 +115,35 @@ final expenseCategoriesProvider = FutureProvider<List<LabeledOption>>(
   (ref) => ref.watch(expenseCategoriesCatalogProvider).load(),
 );
 
+final sprayRepositoryProvider = Provider<SprayRepository>(
+  (ref) => SprayRepository(
+    ref.watch(databaseProvider),
+    clock: ref.watch(clockProvider),
+  ),
+);
+
+final spraysProvider = StreamProvider.family<List<SprayRecord>, String>(
+  (ref, plotId) => ref.watch(sprayRepositoryProvider).watchForPlot(plotId),
+);
+
+final restrictionsCacheProvider = Provider<RestrictionsCache>(
+  (ref) => RestrictionsCache(
+    ref.watch(databaseProvider),
+    api: ref.watch(apiProvider),
+  ),
+);
+
+/// The cached ban list. Online (not demo) it is refreshed in the background; the cached
+/// copy is always returned first so the check works with no network.
+final restrictionsProvider = FutureProvider<RestrictionList>((ref) async {
+  final cache = ref.watch(restrictionsCacheProvider);
+  final cached = await cache.load();
+  if (!ref.watch(appConfigProvider).demoMode) {
+    unawaited(cache.refresh());
+  }
+  return cached;
+});
+
 final syncEngineProvider = Provider<SyncEngine>((ref) {
   final engine = SyncEngine(
     db: ref.watch(databaseProvider),
@@ -125,6 +160,7 @@ final syncEngineProvider = Provider<SyncEngine>((ref) {
       AccountsRepository.incomeEntity: ref
           .watch(accountsRepositoryProvider)
           .applyRemoteIncome,
+      SprayRepository.entity: ref.watch(sprayRepositoryProvider).applyRemote,
     },
   );
   // Demo mode has no backend: writes stay queued locally, nothing is reported as failing.

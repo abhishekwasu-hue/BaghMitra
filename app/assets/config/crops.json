@@ -1,7 +1,38 @@
 {
-  "_note": "Bundled default crop list. Replaced by admin-managed reference data once config sync lands (M1). Adding a crop needs no code change.",
+  "_note": "Bundled default crop list. label_aliases are the crop names on CIB&RC labels and groups the gazette crop groups used by the offline spray check (owner-confirmed: orange = santra, sweet lime = mosambi). Adding a crop needs no code change.",
   "crops": [
-    {"slug": "santra", "labels": {"en": "Nagpur mandarin (santra)", "mr": "संत्रा", "hi": "संतरा"}},
-    {"slug": "mosambi", "labels": {"en": "Sweet orange (mosambi)", "mr": "मोसंबी", "hi": "मौसंबी"}}
+    {
+      "slug": "santra",
+      "labels": {
+        "en": "Nagpur mandarin (santra)",
+        "mr": "संत्रा",
+        "hi": "संतरा"
+      },
+      "label_aliases": [
+        "citrus",
+        "mandarin",
+        "orange",
+        "santra"
+      ],
+      "groups": [
+        "fruit_eaten_raw"
+      ]
+    },
+    {
+      "slug": "mosambi",
+      "labels": {
+        "en": "Sweet orange (mosambi)",
+        "mr": "मोसंबी",
+        "hi": "मौसंबी"
+      },
+      "label_aliases": [
+        "citrus",
+        "sweet lime",
+        "mosambi"
+      ],
+      "groups": [
+        "fruit_eaten_raw"
+      ]
+    }
   ]
 }
