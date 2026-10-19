@@ -89,3 +89,35 @@ class IrrigationRecord(OwnedSyncedRowMixin, Base):
     duration_hours: Mapped[float | None] = mapped_column(Float)
     water_litres: Mapped[float | None] = mapped_column(Float)
     note: Mapped[str | None] = mapped_column(String(500))
+
+
+class HarvestRecord(OwnedSyncedRowMixin, Base):
+    """One lot picked on a day. Grade and size class are config slugs and optional, so a
+    grower can first note just the weight."""
+
+    __tablename__ = "harvest_records"
+
+    plot_id: Mapped[uuid.UUID] = mapped_column(index=True)
+    bahar_cycle_id: Mapped[uuid.UUID | None] = mapped_column(index=True)
+    harvested_on: Mapped[date] = mapped_column(Date)
+    grade: Mapped[str | None] = mapped_column(String(32))
+    size_class: Mapped[str | None] = mapped_column(String(32))
+    quantity_kg: Mapped[float] = mapped_column(Float)
+    note: Mapped[str | None] = mapped_column(String(500))
+
+
+class LabourRecord(OwnedSyncedRowMixin, Base):
+    """A worker's day: wage earned, advance already paid, and when it was settled. The wage
+    is counted under labour in the bahar summary (so it is not also entered as an expense)."""
+
+    __tablename__ = "labour_records"
+
+    plot_id: Mapped[uuid.UUID] = mapped_column(index=True)
+    bahar_cycle_id: Mapped[uuid.UUID | None] = mapped_column(index=True)
+    worker_name: Mapped[str] = mapped_column(String(120))
+    worked_on: Mapped[date] = mapped_column(Date)
+    task: Mapped[str | None] = mapped_column(String(32))
+    wage_paise: Mapped[int] = mapped_column(BigInteger)
+    advance_paise: Mapped[int] = mapped_column(BigInteger)
+    settled_on: Mapped[date | None] = mapped_column(Date)
+    note: Mapped[str | None] = mapped_column(String(500))
