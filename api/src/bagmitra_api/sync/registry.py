@@ -18,12 +18,23 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from bagmitra_api.auth.jwt import AuthenticatedUser
 from bagmitra_api.db.base import OwnedSyncedRowMixin
-from bagmitra_api.db.models import BaharCycle, Expense, Farmer, Income, Plot, SprayRecord
+from bagmitra_api.db.models import (
+    BaharCycle,
+    Expense,
+    Farmer,
+    Income,
+    InputRecord,
+    IrrigationRecord,
+    Plot,
+    SprayRecord,
+)
 from bagmitra_api.sync.payloads import (
     BaharCyclePayload,
     ExpensePayload,
     FarmerProfilePayload,
     IncomePayload,
+    InputRecordPayload,
+    IrrigationRecordPayload,
     PlotPayload,
     RowPayload,
     SprayRecordPayload,
@@ -239,6 +250,18 @@ HANDLERS: dict[str, EntityHandler] = {
             name="income",
             model=Income,
             payload_model=IncomePayload,
+            parents=(("plot_id", Plot), ("bahar_cycle_id", BaharCycle)),
+        ),
+        OwnedEntityHandler(
+            name="input_record",
+            model=InputRecord,
+            payload_model=InputRecordPayload,
+            parents=(("plot_id", Plot), ("bahar_cycle_id", BaharCycle)),
+        ),
+        OwnedEntityHandler(
+            name="irrigation_record",
+            model=IrrigationRecord,
+            payload_model=IrrigationRecordPayload,
             parents=(("plot_id", Plot), ("bahar_cycle_id", BaharCycle)),
         ),
         OwnedEntityHandler(

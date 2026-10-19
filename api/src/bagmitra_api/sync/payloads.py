@@ -136,3 +136,24 @@ class SprayRecordPayload(RowPayload):
     operator: str | None = Field(default=None, max_length=120)
     phi_days: int | None = Field(default=None, ge=0, le=365)
     target: str | None = Field(default=None, max_length=120)
+
+
+class InputRecordPayload(RowPayload):
+    plot_id: uuid.UUID
+    bahar_cycle_id: uuid.UUID | None = None
+    applied_on: date
+    kind: Slug
+    product_name: str = Field(min_length=1, max_length=120)
+    quantity: float | None = Field(default=None, gt=0, le=10**7)
+    unit: str | None = Field(default=None, min_length=1, max_length=16)
+    cost_paise: Paise = 0
+    note: str | None = Field(default=None, max_length=500)
+
+
+class IrrigationRecordPayload(RowPayload):
+    plot_id: uuid.UUID
+    bahar_cycle_id: uuid.UUID | None = None
+    irrigated_on: date
+    duration_hours: float | None = Field(default=None, gt=0, le=240)
+    water_litres: float | None = Field(default=None, gt=0, le=10**8)
+    note: str | None = Field(default=None, max_length=500)

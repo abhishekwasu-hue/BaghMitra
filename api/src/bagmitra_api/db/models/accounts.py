@@ -59,3 +59,33 @@ class SprayRecord(OwnedSyncedRowMixin, Base):
     operator: Mapped[str | None] = mapped_column(String(120))
     phi_days: Mapped[int | None] = mapped_column(Integer)
     target: Mapped[str | None] = mapped_column(String(120))
+
+
+class InputRecord(OwnedSyncedRowMixin, Base):
+    """Fertiliser / manure / micronutrient application. `kind` is a config slug; the cost is
+    counted in the bahar summary under that kind (so it is not also entered as an expense)."""
+
+    __tablename__ = "input_records"
+
+    plot_id: Mapped[uuid.UUID] = mapped_column(index=True)
+    bahar_cycle_id: Mapped[uuid.UUID | None] = mapped_column(index=True)
+    applied_on: Mapped[date] = mapped_column(Date)
+    kind: Mapped[str] = mapped_column(String(32))
+    product_name: Mapped[str] = mapped_column(String(120))
+    quantity: Mapped[float | None] = mapped_column(Float)
+    unit: Mapped[str | None] = mapped_column(String(16))
+    cost_paise: Mapped[int] = mapped_column(BigInteger)
+    note: Mapped[str | None] = mapped_column(String(500))
+
+
+class IrrigationRecord(OwnedSyncedRowMixin, Base):
+    """An irrigation event. A log only: water and power bills are entered as expenses."""
+
+    __tablename__ = "irrigation_records"
+
+    plot_id: Mapped[uuid.UUID] = mapped_column(index=True)
+    bahar_cycle_id: Mapped[uuid.UUID | None] = mapped_column(index=True)
+    irrigated_on: Mapped[date] = mapped_column(Date)
+    duration_hours: Mapped[float | None] = mapped_column(Float)
+    water_litres: Mapped[float | None] = mapped_column(Float)
+    note: Mapped[str | None] = mapped_column(String(500))
