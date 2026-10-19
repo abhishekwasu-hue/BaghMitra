@@ -46,3 +46,49 @@
 ### Known gaps carried into M1
 Home slightly exceeds one 5.5" screen (Q7); mic not wired until STT (Q5); performance budget
 measurement on a 2 GB device profile not yet automated.
+
+---
+
+## Status after M1 / K0 / K1 / M2 (first slices) · 2026-10-19
+
+Everything below is merged to `main` with CI green (API: ruff, format, mypy strict incl.
+alembic, bandit, pytest ≥ 85 %, kb/* ≥ 90 %, OpenAPI drift, Postgres migration + RLS; app:
+codegen drift, format, analyze, tests + goldens, logic coverage ≥ 80 %, APK). Nothing is
+deployed. All screens are checked as goldens at phone size; **no emulator run has been done**
+(Q4), so the demo checklists below are covered by widget tests, not by a device.
+
+### M1 — Orchard & bahar core · partly done
+| Done | Not done |
+|---|---|
+| Plots API + app (add / list / delete), offline + synced | GPS walk / boundary draw |
+| Bahar cycles API + app ("start a bahar" with the grower's own dates) | Stage calendar and bahar selection assistant (needs verified templates, Q10) |
+| Crop stage templates as reference data (none published) | Tasks and reminders (push, WhatsApp / SMS) |
+| Sync appliers for plot and bahar so other devices' changes arrive | Onboarding screens; wave-2 locales |
+
+### K0 / K1 — Knowledge base and legal gate · done in code, no content yet
+Source registry (51 sources, tier + licence), card lifecycle (draft → expert_reviewed →
+published, expert review record required, review expiry), licence rules enforced in code,
+legal gate (ban, crop restriction, no label claim, PHI), output filter, CSV importers with dated
+diffs and end-dating, nightly re-gate, admin alerts, admin API and web screens with staff
+sign-in. **No card is published and no label claims are loaded**, so no chemical advice can
+reach a grower (blockers: Q12 expert reviewer, Q13 CCRI calendar, Q10 source PDFs).
+
+### M2 — Records & accounts · partly done
+| Done | Not done |
+|---|---|
+| Expenses and incomes (API + app), exact paise, buyer dues | Input (fertiliser / manure) and irrigation records |
+| Cost and profit per plot / bahar; per acre, tree, tonne | Labour register; harvest records |
+| Spray records (API + app) with offline ban / PHI warning from a cached gazette list | Year-on-year comparison |
+| Admin-safe warnings: facts only, never block recording | PDF / Excel export in Marathi |
+| | Voice-note quick entry (needs STT, Q5) |
+
+### Known gaps
+- Home still shows sample data ("Sample data" chip): weather, tasks and price come in M4 / M5.
+- The restrictions feed is only as good as the seeded list (8 entries, checked 2026-10-12); the
+  PPQS importer (CSV upload) is how it gets completed.
+- Warnings use the label aliases in `assets/config/crops.json` (owner-confirmed, Q15).
+- Performance budget (2 GB device, first frame < 1 s) is not measured yet.
+
+### Owner actions outstanding
+Supabase project (Q3), expert reviewer (Q12), CCRI Calendar of Operations (Q13), source PDFs
+for bahar templates (Q10), billing addendum (Q11).
