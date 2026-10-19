@@ -1,5 +1,5 @@
 {
-  "_note": "Expense categories a grower can pick. Config, not code. Spray costs are recorded in the spray log (counted as 'spray'), so there is no spray category here.",
+  "_note": "Expense categories a grower can pick. Config, not code. Spray and input costs are recorded in the spray log and the input records (counted as 'spray' and by input kind), so they have no category here.",
   "categories": [
     {
       "slug": "labour",
@@ -7,14 +7,6 @@
         "en": "Labour",
         "mr": "मजुरी",
         "hi": "मज़दूरी"
-      }
-    },
-    {
-      "slug": "fertiliser",
-      "labels": {
-        "en": "Fertiliser & manure",
-        "mr": "खत",
-        "hi": "खाद"
       }
     },
     {

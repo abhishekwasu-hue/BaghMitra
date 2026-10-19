@@ -142,6 +142,41 @@ class SprayRecords extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
+/// Input records (mirror of the API `input_record` entity). Cost in whole paise.
+@DataClassName('InputRecordRow')
+class InputRecords extends Table {
+  TextColumn get id => text()();
+  TextColumn get plotId => text()();
+  TextColumn get baharCycleId => text().nullable()();
+  DateTimeColumn get appliedOn => dateTime()();
+  TextColumn get kind => text()();
+  TextColumn get productName => text()();
+  RealColumn get quantity => real().nullable()();
+  TextColumn get unit => text().nullable()();
+  IntColumn get costPaise => integer()();
+  TextColumn get note => text().nullable()();
+  DateTimeColumn get clientUpdatedAt => dateTime()();
+
+  @override
+  Set<Column<Object>> get primaryKey => {id};
+}
+
+/// Irrigation events (mirror of the API `irrigation_record` entity).
+@DataClassName('IrrigationRecordRow')
+class IrrigationRecords extends Table {
+  TextColumn get id => text()();
+  TextColumn get plotId => text()();
+  TextColumn get baharCycleId => text().nullable()();
+  DateTimeColumn get irrigatedOn => dateTime()();
+  RealColumn get durationHours => real().nullable()();
+  RealColumn get waterLitres => real().nullable()();
+  TextColumn get note => text().nullable()();
+  DateTimeColumn get clientUpdatedAt => dateTime()();
+
+  @override
+  Set<Column<Object>> get primaryKey => {id};
+}
+
 /// Small key/value store for sync cursors and similar bookkeeping.
 class SyncMeta extends Table {
   TextColumn get key => text()();
@@ -161,6 +196,8 @@ class SyncMeta extends Table {
     Expenses,
     Incomes,
     SprayRecords,
+    InputRecords,
+    IrrigationRecords,
   ],
 )
 class AppDatabase extends _$AppDatabase {
@@ -169,7 +206,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.open(String name) : super(driftDatabase(name: name));
 
   @override
-  int get schemaVersion => 5;
+  int get schemaVersion => 6;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -182,6 +219,10 @@ class AppDatabase extends _$AppDatabase {
         await m.createTable(incomes);
       }
       if (from < 5) await m.createTable(sprayRecords);
+      if (from < 6) {
+        await m.createTable(inputRecords);
+        await m.createTable(irrigationRecords);
+      }
     },
   );
 

@@ -16,6 +16,9 @@ import '../features/bahar/data/bahar_repository.dart';
 import '../features/bahar/domain/bahar_cycle.dart';
 import '../features/home/data/demo_home_repository.dart';
 import '../features/home/domain/home_snapshot.dart';
+import '../features/inputs/data/input_kinds.dart';
+import '../features/inputs/data/inputs_repository.dart';
+import '../features/inputs/domain/field_records.dart';
 import '../features/plots/data/crop_catalog.dart';
 import '../features/plots/data/plot_repository.dart';
 import '../features/plots/domain/plot.dart';
@@ -144,6 +147,29 @@ final restrictionsProvider = FutureProvider<RestrictionList>((ref) async {
   return cached;
 });
 
+final inputsRepositoryProvider = Provider<InputsRepository>(
+  (ref) => InputsRepository(
+    ref.watch(databaseProvider),
+    clock: ref.watch(clockProvider),
+  ),
+);
+
+final inputsProvider = StreamProvider.family<List<InputRecord>, String>(
+  (ref, plotId) => ref.watch(inputsRepositoryProvider).watchInputs(plotId),
+);
+
+final irrigationsProvider =
+    StreamProvider.family<List<IrrigationRecord>, String>(
+      (ref, plotId) =>
+          ref.watch(inputsRepositoryProvider).watchIrrigations(plotId),
+    );
+
+final inputKindsCatalogProvider = Provider<InputKinds>((ref) => InputKinds());
+
+final inputKindsProvider = FutureProvider<InputKindsData>(
+  (ref) => ref.watch(inputKindsCatalogProvider).load(),
+);
+
 final syncEngineProvider = Provider<SyncEngine>((ref) {
   final engine = SyncEngine(
     db: ref.watch(databaseProvider),
@@ -161,6 +187,12 @@ final syncEngineProvider = Provider<SyncEngine>((ref) {
           .watch(accountsRepositoryProvider)
           .applyRemoteIncome,
       SprayRepository.entity: ref.watch(sprayRepositoryProvider).applyRemote,
+      InputsRepository.inputEntity: ref
+          .watch(inputsRepositoryProvider)
+          .applyRemoteInput,
+      InputsRepository.irrigationEntity: ref
+          .watch(inputsRepositoryProvider)
+          .applyRemoteIrrigation,
     },
   );
   // Demo mode has no backend: writes stay queued locally, nothing is reported as failing.

@@ -102,4 +102,21 @@ void main() {
     expect(payload['payment_status'], 'partial');
     await unmountApp(tester);
   });
+
+  testWidgets(
+    'an expense whose category moved to input kinds keeps its label',
+    (tester) async {
+      await pumpApp(
+        tester,
+        locale: const Locale('en'),
+        initialLocation: '/plots/p1/accounts',
+        seed: seedAccounts,
+      );
+      await settle(tester);
+      // seedAccounts has a legacy expense in category "fertiliser".
+      expect(find.text('Fertiliser'), findsOneWidget);
+      expect(find.text('fertiliser'), findsNothing);
+      await unmountApp(tester);
+    },
+  );
 }
