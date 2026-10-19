@@ -374,5 +374,35 @@
         "type": "String"
       }
     }
-  }
+  },
+  "compareTitle": "Compare seasons",
+  "compareEmpty": "Start a bahar and add records to compare seasons.",
+  "compareVs": "vs {bahar}: {change}",
+  "@compareVs": {
+    "placeholders": {
+      "bahar": {
+        "type": "String"
+      },
+      "change": {
+        "type": "String"
+      }
+    }
+  },
+  "compareMore": "{amount} more",
+  "@compareMore": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "compareLess": "{amount} less",
+  "@compareLess": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "compareSame": "no change"
 }

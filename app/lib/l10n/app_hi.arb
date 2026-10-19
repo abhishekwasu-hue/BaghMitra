@@ -174,5 +174,11 @@
   "harvestEmpty": "अभी तुड़ाई दर्ज नहीं। एक नोंद जोड़ें।",
   "harvestTotal": "कुल {kg} किलो",
   "moreMenu": "और",
-  "harvestKgValue": "{kg} किलो"
+  "harvestKgValue": "{kg} किलो",
+  "compareTitle": "सीज़न की तुलना",
+  "compareEmpty": "बहार शुरू करें और नोंदें जोड़ें, फिर सीज़न की तुलना दिखेगी।",
+  "compareVs": "{bahar} की तुलना में: {change}",
+  "compareMore": "{amount} ज़्यादा",
+  "compareLess": "{amount} कम",
+  "compareSame": "कोई बदलाव नहीं"
 }

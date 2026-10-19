@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../features/accounts/accounts_screen_test.dart' show seedAccounts;
+import '../features/accounts/compare_screen_test.dart' show seedTwoSeasons;
 import '../features/bahar/bahar_screen_test.dart' show seedPlotWithCycle;
 import '../features/field_work/field_work_screens_test.dart' show seedWork;
 import '../features/inputs/field_log_test.dart' show seedLog;
@@ -131,4 +132,18 @@ void main() {
       await unmountApp(tester);
     });
   }
+
+  testWidgets('compare_mr_light', (tester) async {
+    await pumpApp(
+      tester,
+      initialLocation: '/plots/p1/compare',
+      seed: seedTwoSeasons,
+    );
+    await settle(tester);
+    await expectLater(
+      find.byType(MaterialApp),
+      matchesGoldenFile('compare_mr_light.png'),
+    );
+    await unmountApp(tester);
+  });
 }

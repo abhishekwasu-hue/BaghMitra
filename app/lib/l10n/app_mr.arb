@@ -174,5 +174,11 @@
   "harvestEmpty": "अजून काढणी नोंदवलेली नाही. एक नोंद जोडा.",
   "harvestTotal": "एकूण {kg} किलो",
   "moreMenu": "आणखी",
-  "harvestKgValue": "{kg} किलो"
+  "harvestKgValue": "{kg} किलो",
+  "compareTitle": "हंगामांची तुलना",
+  "compareEmpty": "बहार सुरू करा आणि नोंदी जोडा, मग हंगामांची तुलना दिसेल.",
+  "compareVs": "{bahar} च्या तुलनेत: {change}",
+  "compareMore": "{amount} जास्त",
+  "compareLess": "{amount} कमी",
+  "compareSame": "बदल नाही"
 }

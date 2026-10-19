@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import '../core/config.dart';
 import '../features/accounts/presentation/accounts_screen.dart';
 import '../features/accounts/presentation/add_entry_screens.dart';
+import '../features/accounts/presentation/compare_screen.dart';
 import '../features/auth/domain/auth.dart';
 import '../features/auth/presentation/login_screens.dart';
 import '../features/bahar/presentation/bahar_screen.dart';
@@ -53,6 +54,7 @@ abstract final class Routes {
   static String addInput(String plotId) => '/plots/$plotId/log/input';
   static String addIrrigation(String plotId) => '/plots/$plotId/log/irrigation';
   static String accounts(String plotId) => '/plots/$plotId/accounts';
+  static String compare(String plotId) => '/plots/$plotId/compare';
   static String addExpense(String plotId) => '/plots/$plotId/accounts/expense';
   static String addSale(String plotId) => '/plots/$plotId/accounts/sale';
 }
@@ -122,6 +124,10 @@ GoRouter buildRouter(
       GoRoute(
         path: '/plots/:id/accounts',
         builder: (_, s) => AccountsScreen(plotId: s.pathParameters['id']!),
+      ),
+      GoRoute(
+        path: '/plots/:id/compare',
+        builder: (_, s) => CompareScreen(plotId: s.pathParameters['id']!),
       ),
       GoRoute(
         path: '/plots/:id/accounts/expense',
