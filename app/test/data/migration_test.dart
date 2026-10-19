@@ -67,6 +67,8 @@ void main() {
       expect(await db.select(db.expenses).get(), isEmpty);
       expect(await db.select(db.incomes).get(), isEmpty);
       expect(await db.select(db.sprayRecords).get(), isEmpty);
+      expect(await db.select(db.inputRecords).get(), isEmpty);
+      expect(await db.select(db.irrigationRecords).get(), isEmpty);
       await db.close();
     },
   );

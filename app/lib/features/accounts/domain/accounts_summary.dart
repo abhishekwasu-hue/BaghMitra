@@ -1,3 +1,4 @@
+import '../../inputs/domain/field_records.dart';
 import '../../spray/domain/spray_record.dart';
 import 'accounts.dart';
 
@@ -19,6 +20,7 @@ class AccountsSummary {
     required List<Expense> expenses,
     required List<Income> incomes,
     List<SprayRecord> sprays = const [],
+    List<InputRecord> inputs = const [],
     required double areaAcres,
     required int? treeCount,
     String? baharCycleId,
@@ -42,6 +44,16 @@ class AccountsSummary {
           'spray',
           (v) => v + sp.costPaise,
           ifAbsent: () => sp.costPaise,
+        );
+      }
+    }
+    // Input costs are recorded in the input records, under their kind.
+    for (final i in inputs.where((i) => inScope(i.baharCycleId))) {
+      if (i.costPaise > 0) {
+        byCategory.update(
+          i.kind,
+          (v) => v + i.costPaise,
+          ifAbsent: () => i.costPaise,
         );
       }
     }

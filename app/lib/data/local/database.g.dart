@@ -5059,6 +5059,1209 @@ class SprayRecordsCompanion extends UpdateCompanion<SprayRecordRow> {
   }
 }
 
+class $InputRecordsTable extends InputRecords
+    with TableInfo<$InputRecordsTable, InputRecordRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $InputRecordsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _plotIdMeta = const VerificationMeta('plotId');
+  @override
+  late final GeneratedColumn<String> plotId = GeneratedColumn<String>(
+    'plot_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _baharCycleIdMeta = const VerificationMeta(
+    'baharCycleId',
+  );
+  @override
+  late final GeneratedColumn<String> baharCycleId = GeneratedColumn<String>(
+    'bahar_cycle_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _appliedOnMeta = const VerificationMeta(
+    'appliedOn',
+  );
+  @override
+  late final GeneratedColumn<DateTime> appliedOn = GeneratedColumn<DateTime>(
+    'applied_on',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _kindMeta = const VerificationMeta('kind');
+  @override
+  late final GeneratedColumn<String> kind = GeneratedColumn<String>(
+    'kind',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _productNameMeta = const VerificationMeta(
+    'productName',
+  );
+  @override
+  late final GeneratedColumn<String> productName = GeneratedColumn<String>(
+    'product_name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _quantityMeta = const VerificationMeta(
+    'quantity',
+  );
+  @override
+  late final GeneratedColumn<double> quantity = GeneratedColumn<double>(
+    'quantity',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _unitMeta = const VerificationMeta('unit');
+  @override
+  late final GeneratedColumn<String> unit = GeneratedColumn<String>(
+    'unit',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _costPaiseMeta = const VerificationMeta(
+    'costPaise',
+  );
+  @override
+  late final GeneratedColumn<int> costPaise = GeneratedColumn<int>(
+    'cost_paise',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _noteMeta = const VerificationMeta('note');
+  @override
+  late final GeneratedColumn<String> note = GeneratedColumn<String>(
+    'note',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _clientUpdatedAtMeta = const VerificationMeta(
+    'clientUpdatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> clientUpdatedAt =
+      GeneratedColumn<DateTime>(
+        'client_updated_at',
+        aliasedName,
+        false,
+        type: DriftSqlType.dateTime,
+        requiredDuringInsert: true,
+      );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    plotId,
+    baharCycleId,
+    appliedOn,
+    kind,
+    productName,
+    quantity,
+    unit,
+    costPaise,
+    note,
+    clientUpdatedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'input_records';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<InputRecordRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('plot_id')) {
+      context.handle(
+        _plotIdMeta,
+        plotId.isAcceptableOrUnknown(data['plot_id']!, _plotIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_plotIdMeta);
+    }
+    if (data.containsKey('bahar_cycle_id')) {
+      context.handle(
+        _baharCycleIdMeta,
+        baharCycleId.isAcceptableOrUnknown(
+          data['bahar_cycle_id']!,
+          _baharCycleIdMeta,
+        ),
+      );
+    }
+    if (data.containsKey('applied_on')) {
+      context.handle(
+        _appliedOnMeta,
+        appliedOn.isAcceptableOrUnknown(data['applied_on']!, _appliedOnMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_appliedOnMeta);
+    }
+    if (data.containsKey('kind')) {
+      context.handle(
+        _kindMeta,
+        kind.isAcceptableOrUnknown(data['kind']!, _kindMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_kindMeta);
+    }
+    if (data.containsKey('product_name')) {
+      context.handle(
+        _productNameMeta,
+        productName.isAcceptableOrUnknown(
+          data['product_name']!,
+          _productNameMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_productNameMeta);
+    }
+    if (data.containsKey('quantity')) {
+      context.handle(
+        _quantityMeta,
+        quantity.isAcceptableOrUnknown(data['quantity']!, _quantityMeta),
+      );
+    }
+    if (data.containsKey('unit')) {
+      context.handle(
+        _unitMeta,
+        unit.isAcceptableOrUnknown(data['unit']!, _unitMeta),
+      );
+    }
+    if (data.containsKey('cost_paise')) {
+      context.handle(
+        _costPaiseMeta,
+        costPaise.isAcceptableOrUnknown(data['cost_paise']!, _costPaiseMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_costPaiseMeta);
+    }
+    if (data.containsKey('note')) {
+      context.handle(
+        _noteMeta,
+        note.isAcceptableOrUnknown(data['note']!, _noteMeta),
+      );
+    }
+    if (data.containsKey('client_updated_at')) {
+      context.handle(
+        _clientUpdatedAtMeta,
+        clientUpdatedAt.isAcceptableOrUnknown(
+          data['client_updated_at']!,
+          _clientUpdatedAtMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_clientUpdatedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  InputRecordRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return InputRecordRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      plotId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}plot_id'],
+      )!,
+      baharCycleId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}bahar_cycle_id'],
+      ),
+      appliedOn: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}applied_on'],
+      )!,
+      kind: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}kind'],
+      )!,
+      productName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}product_name'],
+      )!,
+      quantity: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}quantity'],
+      ),
+      unit: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}unit'],
+      ),
+      costPaise: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}cost_paise'],
+      )!,
+      note: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}note'],
+      ),
+      clientUpdatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}client_updated_at'],
+      )!,
+    );
+  }
+
+  @override
+  $InputRecordsTable createAlias(String alias) {
+    return $InputRecordsTable(attachedDatabase, alias);
+  }
+}
+
+class InputRecordRow extends DataClass implements Insertable<InputRecordRow> {
+  final String id;
+  final String plotId;
+  final String? baharCycleId;
+  final DateTime appliedOn;
+  final String kind;
+  final String productName;
+  final double? quantity;
+  final String? unit;
+  final int costPaise;
+  final String? note;
+  final DateTime clientUpdatedAt;
+  const InputRecordRow({
+    required this.id,
+    required this.plotId,
+    this.baharCycleId,
+    required this.appliedOn,
+    required this.kind,
+    required this.productName,
+    this.quantity,
+    this.unit,
+    required this.costPaise,
+    this.note,
+    required this.clientUpdatedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['plot_id'] = Variable<String>(plotId);
+    if (!nullToAbsent || baharCycleId != null) {
+      map['bahar_cycle_id'] = Variable<String>(baharCycleId);
+    }
+    map['applied_on'] = Variable<DateTime>(appliedOn);
+    map['kind'] = Variable<String>(kind);
+    map['product_name'] = Variable<String>(productName);
+    if (!nullToAbsent || quantity != null) {
+      map['quantity'] = Variable<double>(quantity);
+    }
+    if (!nullToAbsent || unit != null) {
+      map['unit'] = Variable<String>(unit);
+    }
+    map['cost_paise'] = Variable<int>(costPaise);
+    if (!nullToAbsent || note != null) {
+      map['note'] = Variable<String>(note);
+    }
+    map['client_updated_at'] = Variable<DateTime>(clientUpdatedAt);
+    return map;
+  }
+
+  InputRecordsCompanion toCompanion(bool nullToAbsent) {
+    return InputRecordsCompanion(
+      id: Value(id),
+      plotId: Value(plotId),
+      baharCycleId: baharCycleId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(baharCycleId),
+      appliedOn: Value(appliedOn),
+      kind: Value(kind),
+      productName: Value(productName),
+      quantity: quantity == null && nullToAbsent
+          ? const Value.absent()
+          : Value(quantity),
+      unit: unit == null && nullToAbsent ? const Value.absent() : Value(unit),
+      costPaise: Value(costPaise),
+      note: note == null && nullToAbsent ? const Value.absent() : Value(note),
+      clientUpdatedAt: Value(clientUpdatedAt),
+    );
+  }
+
+  factory InputRecordRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return InputRecordRow(
+      id: serializer.fromJson<String>(json['id']),
+      plotId: serializer.fromJson<String>(json['plotId']),
+      baharCycleId: serializer.fromJson<String?>(json['baharCycleId']),
+      appliedOn: serializer.fromJson<DateTime>(json['appliedOn']),
+      kind: serializer.fromJson<String>(json['kind']),
+      productName: serializer.fromJson<String>(json['productName']),
+      quantity: serializer.fromJson<double?>(json['quantity']),
+      unit: serializer.fromJson<String?>(json['unit']),
+      costPaise: serializer.fromJson<int>(json['costPaise']),
+      note: serializer.fromJson<String?>(json['note']),
+      clientUpdatedAt: serializer.fromJson<DateTime>(json['clientUpdatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'plotId': serializer.toJson<String>(plotId),
+      'baharCycleId': serializer.toJson<String?>(baharCycleId),
+      'appliedOn': serializer.toJson<DateTime>(appliedOn),
+      'kind': serializer.toJson<String>(kind),
+      'productName': serializer.toJson<String>(productName),
+      'quantity': serializer.toJson<double?>(quantity),
+      'unit': serializer.toJson<String?>(unit),
+      'costPaise': serializer.toJson<int>(costPaise),
+      'note': serializer.toJson<String?>(note),
+      'clientUpdatedAt': serializer.toJson<DateTime>(clientUpdatedAt),
+    };
+  }
+
+  InputRecordRow copyWith({
+    String? id,
+    String? plotId,
+    Value<String?> baharCycleId = const Value.absent(),
+    DateTime? appliedOn,
+    String? kind,
+    String? productName,
+    Value<double?> quantity = const Value.absent(),
+    Value<String?> unit = const Value.absent(),
+    int? costPaise,
+    Value<String?> note = const Value.absent(),
+    DateTime? clientUpdatedAt,
+  }) => InputRecordRow(
+    id: id ?? this.id,
+    plotId: plotId ?? this.plotId,
+    baharCycleId: baharCycleId.present ? baharCycleId.value : this.baharCycleId,
+    appliedOn: appliedOn ?? this.appliedOn,
+    kind: kind ?? this.kind,
+    productName: productName ?? this.productName,
+    quantity: quantity.present ? quantity.value : this.quantity,
+    unit: unit.present ? unit.value : this.unit,
+    costPaise: costPaise ?? this.costPaise,
+    note: note.present ? note.value : this.note,
+    clientUpdatedAt: clientUpdatedAt ?? this.clientUpdatedAt,
+  );
+  InputRecordRow copyWithCompanion(InputRecordsCompanion data) {
+    return InputRecordRow(
+      id: data.id.present ? data.id.value : this.id,
+      plotId: data.plotId.present ? data.plotId.value : this.plotId,
+      baharCycleId: data.baharCycleId.present
+          ? data.baharCycleId.value
+          : this.baharCycleId,
+      appliedOn: data.appliedOn.present ? data.appliedOn.value : this.appliedOn,
+      kind: data.kind.present ? data.kind.value : this.kind,
+      productName: data.productName.present
+          ? data.productName.value
+          : this.productName,
+      quantity: data.quantity.present ? data.quantity.value : this.quantity,
+      unit: data.unit.present ? data.unit.value : this.unit,
+      costPaise: data.costPaise.present ? data.costPaise.value : this.costPaise,
+      note: data.note.present ? data.note.value : this.note,
+      clientUpdatedAt: data.clientUpdatedAt.present
+          ? data.clientUpdatedAt.value
+          : this.clientUpdatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('InputRecordRow(')
+          ..write('id: $id, ')
+          ..write('plotId: $plotId, ')
+          ..write('baharCycleId: $baharCycleId, ')
+          ..write('appliedOn: $appliedOn, ')
+          ..write('kind: $kind, ')
+          ..write('productName: $productName, ')
+          ..write('quantity: $quantity, ')
+          ..write('unit: $unit, ')
+          ..write('costPaise: $costPaise, ')
+          ..write('note: $note, ')
+          ..write('clientUpdatedAt: $clientUpdatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    plotId,
+    baharCycleId,
+    appliedOn,
+    kind,
+    productName,
+    quantity,
+    unit,
+    costPaise,
+    note,
+    clientUpdatedAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is InputRecordRow &&
+          other.id == this.id &&
+          other.plotId == this.plotId &&
+          other.baharCycleId == this.baharCycleId &&
+          other.appliedOn == this.appliedOn &&
+          other.kind == this.kind &&
+          other.productName == this.productName &&
+          other.quantity == this.quantity &&
+          other.unit == this.unit &&
+          other.costPaise == this.costPaise &&
+          other.note == this.note &&
+          other.clientUpdatedAt == this.clientUpdatedAt);
+}
+
+class InputRecordsCompanion extends UpdateCompanion<InputRecordRow> {
+  final Value<String> id;
+  final Value<String> plotId;
+  final Value<String?> baharCycleId;
+  final Value<DateTime> appliedOn;
+  final Value<String> kind;
+  final Value<String> productName;
+  final Value<double?> quantity;
+  final Value<String?> unit;
+  final Value<int> costPaise;
+  final Value<String?> note;
+  final Value<DateTime> clientUpdatedAt;
+  final Value<int> rowid;
+  const InputRecordsCompanion({
+    this.id = const Value.absent(),
+    this.plotId = const Value.absent(),
+    this.baharCycleId = const Value.absent(),
+    this.appliedOn = const Value.absent(),
+    this.kind = const Value.absent(),
+    this.productName = const Value.absent(),
+    this.quantity = const Value.absent(),
+    this.unit = const Value.absent(),
+    this.costPaise = const Value.absent(),
+    this.note = const Value.absent(),
+    this.clientUpdatedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  InputRecordsCompanion.insert({
+    required String id,
+    required String plotId,
+    this.baharCycleId = const Value.absent(),
+    required DateTime appliedOn,
+    required String kind,
+    required String productName,
+    this.quantity = const Value.absent(),
+    this.unit = const Value.absent(),
+    required int costPaise,
+    this.note = const Value.absent(),
+    required DateTime clientUpdatedAt,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       plotId = Value(plotId),
+       appliedOn = Value(appliedOn),
+       kind = Value(kind),
+       productName = Value(productName),
+       costPaise = Value(costPaise),
+       clientUpdatedAt = Value(clientUpdatedAt);
+  static Insertable<InputRecordRow> custom({
+    Expression<String>? id,
+    Expression<String>? plotId,
+    Expression<String>? baharCycleId,
+    Expression<DateTime>? appliedOn,
+    Expression<String>? kind,
+    Expression<String>? productName,
+    Expression<double>? quantity,
+    Expression<String>? unit,
+    Expression<int>? costPaise,
+    Expression<String>? note,
+    Expression<DateTime>? clientUpdatedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (plotId != null) 'plot_id': plotId,
+      if (baharCycleId != null) 'bahar_cycle_id': baharCycleId,
+      if (appliedOn != null) 'applied_on': appliedOn,
+      if (kind != null) 'kind': kind,
+      if (productName != null) 'product_name': productName,
+      if (quantity != null) 'quantity': quantity,
+      if (unit != null) 'unit': unit,
+      if (costPaise != null) 'cost_paise': costPaise,
+      if (note != null) 'note': note,
+      if (clientUpdatedAt != null) 'client_updated_at': clientUpdatedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  InputRecordsCompanion copyWith({
+    Value<String>? id,
+    Value<String>? plotId,
+    Value<String?>? baharCycleId,
+    Value<DateTime>? appliedOn,
+    Value<String>? kind,
+    Value<String>? productName,
+    Value<double?>? quantity,
+    Value<String?>? unit,
+    Value<int>? costPaise,
+    Value<String?>? note,
+    Value<DateTime>? clientUpdatedAt,
+    Value<int>? rowid,
+  }) {
+    return InputRecordsCompanion(
+      id: id ?? this.id,
+      plotId: plotId ?? this.plotId,
+      baharCycleId: baharCycleId ?? this.baharCycleId,
+      appliedOn: appliedOn ?? this.appliedOn,
+      kind: kind ?? this.kind,
+      productName: productName ?? this.productName,
+      quantity: quantity ?? this.quantity,
+      unit: unit ?? this.unit,
+      costPaise: costPaise ?? this.costPaise,
+      note: note ?? this.note,
+      clientUpdatedAt: clientUpdatedAt ?? this.clientUpdatedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (plotId.present) {
+      map['plot_id'] = Variable<String>(plotId.value);
+    }
+    if (baharCycleId.present) {
+      map['bahar_cycle_id'] = Variable<String>(baharCycleId.value);
+    }
+    if (appliedOn.present) {
+      map['applied_on'] = Variable<DateTime>(appliedOn.value);
+    }
+    if (kind.present) {
+      map['kind'] = Variable<String>(kind.value);
+    }
+    if (productName.present) {
+      map['product_name'] = Variable<String>(productName.value);
+    }
+    if (quantity.present) {
+      map['quantity'] = Variable<double>(quantity.value);
+    }
+    if (unit.present) {
+      map['unit'] = Variable<String>(unit.value);
+    }
+    if (costPaise.present) {
+      map['cost_paise'] = Variable<int>(costPaise.value);
+    }
+    if (note.present) {
+      map['note'] = Variable<String>(note.value);
+    }
+    if (clientUpdatedAt.present) {
+      map['client_updated_at'] = Variable<DateTime>(clientUpdatedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('InputRecordsCompanion(')
+          ..write('id: $id, ')
+          ..write('plotId: $plotId, ')
+          ..write('baharCycleId: $baharCycleId, ')
+          ..write('appliedOn: $appliedOn, ')
+          ..write('kind: $kind, ')
+          ..write('productName: $productName, ')
+          ..write('quantity: $quantity, ')
+          ..write('unit: $unit, ')
+          ..write('costPaise: $costPaise, ')
+          ..write('note: $note, ')
+          ..write('clientUpdatedAt: $clientUpdatedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $IrrigationRecordsTable extends IrrigationRecords
+    with TableInfo<$IrrigationRecordsTable, IrrigationRecordRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $IrrigationRecordsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _plotIdMeta = const VerificationMeta('plotId');
+  @override
+  late final GeneratedColumn<String> plotId = GeneratedColumn<String>(
+    'plot_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _baharCycleIdMeta = const VerificationMeta(
+    'baharCycleId',
+  );
+  @override
+  late final GeneratedColumn<String> baharCycleId = GeneratedColumn<String>(
+    'bahar_cycle_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _irrigatedOnMeta = const VerificationMeta(
+    'irrigatedOn',
+  );
+  @override
+  late final GeneratedColumn<DateTime> irrigatedOn = GeneratedColumn<DateTime>(
+    'irrigated_on',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _durationHoursMeta = const VerificationMeta(
+    'durationHours',
+  );
+  @override
+  late final GeneratedColumn<double> durationHours = GeneratedColumn<double>(
+    'duration_hours',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _waterLitresMeta = const VerificationMeta(
+    'waterLitres',
+  );
+  @override
+  late final GeneratedColumn<double> waterLitres = GeneratedColumn<double>(
+    'water_litres',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _noteMeta = const VerificationMeta('note');
+  @override
+  late final GeneratedColumn<String> note = GeneratedColumn<String>(
+    'note',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _clientUpdatedAtMeta = const VerificationMeta(
+    'clientUpdatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> clientUpdatedAt =
+      GeneratedColumn<DateTime>(
+        'client_updated_at',
+        aliasedName,
+        false,
+        type: DriftSqlType.dateTime,
+        requiredDuringInsert: true,
+      );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    plotId,
+    baharCycleId,
+    irrigatedOn,
+    durationHours,
+    waterLitres,
+    note,
+    clientUpdatedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'irrigation_records';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<IrrigationRecordRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('plot_id')) {
+      context.handle(
+        _plotIdMeta,
+        plotId.isAcceptableOrUnknown(data['plot_id']!, _plotIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_plotIdMeta);
+    }
+    if (data.containsKey('bahar_cycle_id')) {
+      context.handle(
+        _baharCycleIdMeta,
+        baharCycleId.isAcceptableOrUnknown(
+          data['bahar_cycle_id']!,
+          _baharCycleIdMeta,
+        ),
+      );
+    }
+    if (data.containsKey('irrigated_on')) {
+      context.handle(
+        _irrigatedOnMeta,
+        irrigatedOn.isAcceptableOrUnknown(
+          data['irrigated_on']!,
+          _irrigatedOnMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_irrigatedOnMeta);
+    }
+    if (data.containsKey('duration_hours')) {
+      context.handle(
+        _durationHoursMeta,
+        durationHours.isAcceptableOrUnknown(
+          data['duration_hours']!,
+          _durationHoursMeta,
+        ),
+      );
+    }
+    if (data.containsKey('water_litres')) {
+      context.handle(
+        _waterLitresMeta,
+        waterLitres.isAcceptableOrUnknown(
+          data['water_litres']!,
+          _waterLitresMeta,
+        ),
+      );
+    }
+    if (data.containsKey('note')) {
+      context.handle(
+        _noteMeta,
+        note.isAcceptableOrUnknown(data['note']!, _noteMeta),
+      );
+    }
+    if (data.containsKey('client_updated_at')) {
+      context.handle(
+        _clientUpdatedAtMeta,
+        clientUpdatedAt.isAcceptableOrUnknown(
+          data['client_updated_at']!,
+          _clientUpdatedAtMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_clientUpdatedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  IrrigationRecordRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return IrrigationRecordRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      plotId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}plot_id'],
+      )!,
+      baharCycleId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}bahar_cycle_id'],
+      ),
+      irrigatedOn: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}irrigated_on'],
+      )!,
+      durationHours: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}duration_hours'],
+      ),
+      waterLitres: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}water_litres'],
+      ),
+      note: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}note'],
+      ),
+      clientUpdatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}client_updated_at'],
+      )!,
+    );
+  }
+
+  @override
+  $IrrigationRecordsTable createAlias(String alias) {
+    return $IrrigationRecordsTable(attachedDatabase, alias);
+  }
+}
+
+class IrrigationRecordRow extends DataClass
+    implements Insertable<IrrigationRecordRow> {
+  final String id;
+  final String plotId;
+  final String? baharCycleId;
+  final DateTime irrigatedOn;
+  final double? durationHours;
+  final double? waterLitres;
+  final String? note;
+  final DateTime clientUpdatedAt;
+  const IrrigationRecordRow({
+    required this.id,
+    required this.plotId,
+    this.baharCycleId,
+    required this.irrigatedOn,
+    this.durationHours,
+    this.waterLitres,
+    this.note,
+    required this.clientUpdatedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['plot_id'] = Variable<String>(plotId);
+    if (!nullToAbsent || baharCycleId != null) {
+      map['bahar_cycle_id'] = Variable<String>(baharCycleId);
+    }
+    map['irrigated_on'] = Variable<DateTime>(irrigatedOn);
+    if (!nullToAbsent || durationHours != null) {
+      map['duration_hours'] = Variable<double>(durationHours);
+    }
+    if (!nullToAbsent || waterLitres != null) {
+      map['water_litres'] = Variable<double>(waterLitres);
+    }
+    if (!nullToAbsent || note != null) {
+      map['note'] = Variable<String>(note);
+    }
+    map['client_updated_at'] = Variable<DateTime>(clientUpdatedAt);
+    return map;
+  }
+
+  IrrigationRecordsCompanion toCompanion(bool nullToAbsent) {
+    return IrrigationRecordsCompanion(
+      id: Value(id),
+      plotId: Value(plotId),
+      baharCycleId: baharCycleId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(baharCycleId),
+      irrigatedOn: Value(irrigatedOn),
+      durationHours: durationHours == null && nullToAbsent
+          ? const Value.absent()
+          : Value(durationHours),
+      waterLitres: waterLitres == null && nullToAbsent
+          ? const Value.absent()
+          : Value(waterLitres),
+      note: note == null && nullToAbsent ? const Value.absent() : Value(note),
+      clientUpdatedAt: Value(clientUpdatedAt),
+    );
+  }
+
+  factory IrrigationRecordRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return IrrigationRecordRow(
+      id: serializer.fromJson<String>(json['id']),
+      plotId: serializer.fromJson<String>(json['plotId']),
+      baharCycleId: serializer.fromJson<String?>(json['baharCycleId']),
+      irrigatedOn: serializer.fromJson<DateTime>(json['irrigatedOn']),
+      durationHours: serializer.fromJson<double?>(json['durationHours']),
+      waterLitres: serializer.fromJson<double?>(json['waterLitres']),
+      note: serializer.fromJson<String?>(json['note']),
+      clientUpdatedAt: serializer.fromJson<DateTime>(json['clientUpdatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'plotId': serializer.toJson<String>(plotId),
+      'baharCycleId': serializer.toJson<String?>(baharCycleId),
+      'irrigatedOn': serializer.toJson<DateTime>(irrigatedOn),
+      'durationHours': serializer.toJson<double?>(durationHours),
+      'waterLitres': serializer.toJson<double?>(waterLitres),
+      'note': serializer.toJson<String?>(note),
+      'clientUpdatedAt': serializer.toJson<DateTime>(clientUpdatedAt),
+    };
+  }
+
+  IrrigationRecordRow copyWith({
+    String? id,
+    String? plotId,
+    Value<String?> baharCycleId = const Value.absent(),
+    DateTime? irrigatedOn,
+    Value<double?> durationHours = const Value.absent(),
+    Value<double?> waterLitres = const Value.absent(),
+    Value<String?> note = const Value.absent(),
+    DateTime? clientUpdatedAt,
+  }) => IrrigationRecordRow(
+    id: id ?? this.id,
+    plotId: plotId ?? this.plotId,
+    baharCycleId: baharCycleId.present ? baharCycleId.value : this.baharCycleId,
+    irrigatedOn: irrigatedOn ?? this.irrigatedOn,
+    durationHours: durationHours.present
+        ? durationHours.value
+        : this.durationHours,
+    waterLitres: waterLitres.present ? waterLitres.value : this.waterLitres,
+    note: note.present ? note.value : this.note,
+    clientUpdatedAt: clientUpdatedAt ?? this.clientUpdatedAt,
+  );
+  IrrigationRecordRow copyWithCompanion(IrrigationRecordsCompanion data) {
+    return IrrigationRecordRow(
+      id: data.id.present ? data.id.value : this.id,
+      plotId: data.plotId.present ? data.plotId.value : this.plotId,
+      baharCycleId: data.baharCycleId.present
+          ? data.baharCycleId.value
+          : this.baharCycleId,
+      irrigatedOn: data.irrigatedOn.present
+          ? data.irrigatedOn.value
+          : this.irrigatedOn,
+      durationHours: data.durationHours.present
+          ? data.durationHours.value
+          : this.durationHours,
+      waterLitres: data.waterLitres.present
+          ? data.waterLitres.value
+          : this.waterLitres,
+      note: data.note.present ? data.note.value : this.note,
+      clientUpdatedAt: data.clientUpdatedAt.present
+          ? data.clientUpdatedAt.value
+          : this.clientUpdatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('IrrigationRecordRow(')
+          ..write('id: $id, ')
+          ..write('plotId: $plotId, ')
+          ..write('baharCycleId: $baharCycleId, ')
+          ..write('irrigatedOn: $irrigatedOn, ')
+          ..write('durationHours: $durationHours, ')
+          ..write('waterLitres: $waterLitres, ')
+          ..write('note: $note, ')
+          ..write('clientUpdatedAt: $clientUpdatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    plotId,
+    baharCycleId,
+    irrigatedOn,
+    durationHours,
+    waterLitres,
+    note,
+    clientUpdatedAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is IrrigationRecordRow &&
+          other.id == this.id &&
+          other.plotId == this.plotId &&
+          other.baharCycleId == this.baharCycleId &&
+          other.irrigatedOn == this.irrigatedOn &&
+          other.durationHours == this.durationHours &&
+          other.waterLitres == this.waterLitres &&
+          other.note == this.note &&
+          other.clientUpdatedAt == this.clientUpdatedAt);
+}
+
+class IrrigationRecordsCompanion extends UpdateCompanion<IrrigationRecordRow> {
+  final Value<String> id;
+  final Value<String> plotId;
+  final Value<String?> baharCycleId;
+  final Value<DateTime> irrigatedOn;
+  final Value<double?> durationHours;
+  final Value<double?> waterLitres;
+  final Value<String?> note;
+  final Value<DateTime> clientUpdatedAt;
+  final Value<int> rowid;
+  const IrrigationRecordsCompanion({
+    this.id = const Value.absent(),
+    this.plotId = const Value.absent(),
+    this.baharCycleId = const Value.absent(),
+    this.irrigatedOn = const Value.absent(),
+    this.durationHours = const Value.absent(),
+    this.waterLitres = const Value.absent(),
+    this.note = const Value.absent(),
+    this.clientUpdatedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  IrrigationRecordsCompanion.insert({
+    required String id,
+    required String plotId,
+    this.baharCycleId = const Value.absent(),
+    required DateTime irrigatedOn,
+    this.durationHours = const Value.absent(),
+    this.waterLitres = const Value.absent(),
+    this.note = const Value.absent(),
+    required DateTime clientUpdatedAt,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       plotId = Value(plotId),
+       irrigatedOn = Value(irrigatedOn),
+       clientUpdatedAt = Value(clientUpdatedAt);
+  static Insertable<IrrigationRecordRow> custom({
+    Expression<String>? id,
+    Expression<String>? plotId,
+    Expression<String>? baharCycleId,
+    Expression<DateTime>? irrigatedOn,
+    Expression<double>? durationHours,
+    Expression<double>? waterLitres,
+    Expression<String>? note,
+    Expression<DateTime>? clientUpdatedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (plotId != null) 'plot_id': plotId,
+      if (baharCycleId != null) 'bahar_cycle_id': baharCycleId,
+      if (irrigatedOn != null) 'irrigated_on': irrigatedOn,
+      if (durationHours != null) 'duration_hours': durationHours,
+      if (waterLitres != null) 'water_litres': waterLitres,
+      if (note != null) 'note': note,
+      if (clientUpdatedAt != null) 'client_updated_at': clientUpdatedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  IrrigationRecordsCompanion copyWith({
+    Value<String>? id,
+    Value<String>? plotId,
+    Value<String?>? baharCycleId,
+    Value<DateTime>? irrigatedOn,
+    Value<double?>? durationHours,
+    Value<double?>? waterLitres,
+    Value<String?>? note,
+    Value<DateTime>? clientUpdatedAt,
+    Value<int>? rowid,
+  }) {
+    return IrrigationRecordsCompanion(
+      id: id ?? this.id,
+      plotId: plotId ?? this.plotId,
+      baharCycleId: baharCycleId ?? this.baharCycleId,
+      irrigatedOn: irrigatedOn ?? this.irrigatedOn,
+      durationHours: durationHours ?? this.durationHours,
+      waterLitres: waterLitres ?? this.waterLitres,
+      note: note ?? this.note,
+      clientUpdatedAt: clientUpdatedAt ?? this.clientUpdatedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (plotId.present) {
+      map['plot_id'] = Variable<String>(plotId.value);
+    }
+    if (baharCycleId.present) {
+      map['bahar_cycle_id'] = Variable<String>(baharCycleId.value);
+    }
+    if (irrigatedOn.present) {
+      map['irrigated_on'] = Variable<DateTime>(irrigatedOn.value);
+    }
+    if (durationHours.present) {
+      map['duration_hours'] = Variable<double>(durationHours.value);
+    }
+    if (waterLitres.present) {
+      map['water_litres'] = Variable<double>(waterLitres.value);
+    }
+    if (note.present) {
+      map['note'] = Variable<String>(note.value);
+    }
+    if (clientUpdatedAt.present) {
+      map['client_updated_at'] = Variable<DateTime>(clientUpdatedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('IrrigationRecordsCompanion(')
+          ..write('id: $id, ')
+          ..write('plotId: $plotId, ')
+          ..write('baharCycleId: $baharCycleId, ')
+          ..write('irrigatedOn: $irrigatedOn, ')
+          ..write('durationHours: $durationHours, ')
+          ..write('waterLitres: $waterLitres, ')
+          ..write('note: $note, ')
+          ..write('clientUpdatedAt: $clientUpdatedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -5070,6 +6273,9 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $ExpensesTable expenses = $ExpensesTable(this);
   late final $IncomesTable incomes = $IncomesTable(this);
   late final $SprayRecordsTable sprayRecords = $SprayRecordsTable(this);
+  late final $InputRecordsTable inputRecords = $InputRecordsTable(this);
+  late final $IrrigationRecordsTable irrigationRecords =
+      $IrrigationRecordsTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -5083,6 +6289,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     expenses,
     incomes,
     sprayRecords,
+    inputRecords,
+    irrigationRecords,
   ];
   @override
   DriftDatabaseOptions get options =>
@@ -7575,6 +8783,626 @@ typedef $$SprayRecordsTableProcessedTableManager =
       SprayRecordRow,
       PrefetchHooks Function()
     >;
+typedef $$InputRecordsTableCreateCompanionBuilder =
+    InputRecordsCompanion Function({
+      required String id,
+      required String plotId,
+      Value<String?> baharCycleId,
+      required DateTime appliedOn,
+      required String kind,
+      required String productName,
+      Value<double?> quantity,
+      Value<String?> unit,
+      required int costPaise,
+      Value<String?> note,
+      required DateTime clientUpdatedAt,
+      Value<int> rowid,
+    });
+typedef $$InputRecordsTableUpdateCompanionBuilder =
+    InputRecordsCompanion Function({
+      Value<String> id,
+      Value<String> plotId,
+      Value<String?> baharCycleId,
+      Value<DateTime> appliedOn,
+      Value<String> kind,
+      Value<String> productName,
+      Value<double?> quantity,
+      Value<String?> unit,
+      Value<int> costPaise,
+      Value<String?> note,
+      Value<DateTime> clientUpdatedAt,
+      Value<int> rowid,
+    });
+
+class $$InputRecordsTableFilterComposer
+    extends Composer<_$AppDatabase, $InputRecordsTable> {
+  $$InputRecordsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get plotId => $composableBuilder(
+    column: $table.plotId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get baharCycleId => $composableBuilder(
+    column: $table.baharCycleId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get appliedOn => $composableBuilder(
+    column: $table.appliedOn,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get kind => $composableBuilder(
+    column: $table.kind,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get productName => $composableBuilder(
+    column: $table.productName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get quantity => $composableBuilder(
+    column: $table.quantity,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get unit => $composableBuilder(
+    column: $table.unit,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get costPaise => $composableBuilder(
+    column: $table.costPaise,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get note => $composableBuilder(
+    column: $table.note,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get clientUpdatedAt => $composableBuilder(
+    column: $table.clientUpdatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$InputRecordsTableOrderingComposer
+    extends Composer<_$AppDatabase, $InputRecordsTable> {
+  $$InputRecordsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get plotId => $composableBuilder(
+    column: $table.plotId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get baharCycleId => $composableBuilder(
+    column: $table.baharCycleId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get appliedOn => $composableBuilder(
+    column: $table.appliedOn,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get kind => $composableBuilder(
+    column: $table.kind,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get productName => $composableBuilder(
+    column: $table.productName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get quantity => $composableBuilder(
+    column: $table.quantity,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get unit => $composableBuilder(
+    column: $table.unit,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get costPaise => $composableBuilder(
+    column: $table.costPaise,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get note => $composableBuilder(
+    column: $table.note,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get clientUpdatedAt => $composableBuilder(
+    column: $table.clientUpdatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$InputRecordsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $InputRecordsTable> {
+  $$InputRecordsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get plotId =>
+      $composableBuilder(column: $table.plotId, builder: (column) => column);
+
+  GeneratedColumn<String> get baharCycleId => $composableBuilder(
+    column: $table.baharCycleId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get appliedOn =>
+      $composableBuilder(column: $table.appliedOn, builder: (column) => column);
+
+  GeneratedColumn<String> get kind =>
+      $composableBuilder(column: $table.kind, builder: (column) => column);
+
+  GeneratedColumn<String> get productName => $composableBuilder(
+    column: $table.productName,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<double> get quantity =>
+      $composableBuilder(column: $table.quantity, builder: (column) => column);
+
+  GeneratedColumn<String> get unit =>
+      $composableBuilder(column: $table.unit, builder: (column) => column);
+
+  GeneratedColumn<int> get costPaise =>
+      $composableBuilder(column: $table.costPaise, builder: (column) => column);
+
+  GeneratedColumn<String> get note =>
+      $composableBuilder(column: $table.note, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get clientUpdatedAt => $composableBuilder(
+    column: $table.clientUpdatedAt,
+    builder: (column) => column,
+  );
+}
+
+class $$InputRecordsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $InputRecordsTable,
+          InputRecordRow,
+          $$InputRecordsTableFilterComposer,
+          $$InputRecordsTableOrderingComposer,
+          $$InputRecordsTableAnnotationComposer,
+          $$InputRecordsTableCreateCompanionBuilder,
+          $$InputRecordsTableUpdateCompanionBuilder,
+          (
+            InputRecordRow,
+            BaseReferences<_$AppDatabase, $InputRecordsTable, InputRecordRow>,
+          ),
+          InputRecordRow,
+          PrefetchHooks Function()
+        > {
+  $$InputRecordsTableTableManager(_$AppDatabase db, $InputRecordsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$InputRecordsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$InputRecordsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$InputRecordsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> plotId = const Value.absent(),
+                Value<String?> baharCycleId = const Value.absent(),
+                Value<DateTime> appliedOn = const Value.absent(),
+                Value<String> kind = const Value.absent(),
+                Value<String> productName = const Value.absent(),
+                Value<double?> quantity = const Value.absent(),
+                Value<String?> unit = const Value.absent(),
+                Value<int> costPaise = const Value.absent(),
+                Value<String?> note = const Value.absent(),
+                Value<DateTime> clientUpdatedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => InputRecordsCompanion(
+                id: id,
+                plotId: plotId,
+                baharCycleId: baharCycleId,
+                appliedOn: appliedOn,
+                kind: kind,
+                productName: productName,
+                quantity: quantity,
+                unit: unit,
+                costPaise: costPaise,
+                note: note,
+                clientUpdatedAt: clientUpdatedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String plotId,
+                Value<String?> baharCycleId = const Value.absent(),
+                required DateTime appliedOn,
+                required String kind,
+                required String productName,
+                Value<double?> quantity = const Value.absent(),
+                Value<String?> unit = const Value.absent(),
+                required int costPaise,
+                Value<String?> note = const Value.absent(),
+                required DateTime clientUpdatedAt,
+                Value<int> rowid = const Value.absent(),
+              }) => InputRecordsCompanion.insert(
+                id: id,
+                plotId: plotId,
+                baharCycleId: baharCycleId,
+                appliedOn: appliedOn,
+                kind: kind,
+                productName: productName,
+                quantity: quantity,
+                unit: unit,
+                costPaise: costPaise,
+                note: note,
+                clientUpdatedAt: clientUpdatedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$InputRecordsTable, InputRecordRow>(table),
+                  BaseReferences<
+                    _$AppDatabase,
+                    $InputRecordsTable,
+                    InputRecordRow
+                  >(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$InputRecordsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $InputRecordsTable,
+      InputRecordRow,
+      $$InputRecordsTableFilterComposer,
+      $$InputRecordsTableOrderingComposer,
+      $$InputRecordsTableAnnotationComposer,
+      $$InputRecordsTableCreateCompanionBuilder,
+      $$InputRecordsTableUpdateCompanionBuilder,
+      (
+        InputRecordRow,
+        BaseReferences<_$AppDatabase, $InputRecordsTable, InputRecordRow>,
+      ),
+      InputRecordRow,
+      PrefetchHooks Function()
+    >;
+typedef $$IrrigationRecordsTableCreateCompanionBuilder =
+    IrrigationRecordsCompanion Function({
+      required String id,
+      required String plotId,
+      Value<String?> baharCycleId,
+      required DateTime irrigatedOn,
+      Value<double?> durationHours,
+      Value<double?> waterLitres,
+      Value<String?> note,
+      required DateTime clientUpdatedAt,
+      Value<int> rowid,
+    });
+typedef $$IrrigationRecordsTableUpdateCompanionBuilder =
+    IrrigationRecordsCompanion Function({
+      Value<String> id,
+      Value<String> plotId,
+      Value<String?> baharCycleId,
+      Value<DateTime> irrigatedOn,
+      Value<double?> durationHours,
+      Value<double?> waterLitres,
+      Value<String?> note,
+      Value<DateTime> clientUpdatedAt,
+      Value<int> rowid,
+    });
+
+class $$IrrigationRecordsTableFilterComposer
+    extends Composer<_$AppDatabase, $IrrigationRecordsTable> {
+  $$IrrigationRecordsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get plotId => $composableBuilder(
+    column: $table.plotId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get baharCycleId => $composableBuilder(
+    column: $table.baharCycleId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get irrigatedOn => $composableBuilder(
+    column: $table.irrigatedOn,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get durationHours => $composableBuilder(
+    column: $table.durationHours,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get waterLitres => $composableBuilder(
+    column: $table.waterLitres,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get note => $composableBuilder(
+    column: $table.note,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get clientUpdatedAt => $composableBuilder(
+    column: $table.clientUpdatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$IrrigationRecordsTableOrderingComposer
+    extends Composer<_$AppDatabase, $IrrigationRecordsTable> {
+  $$IrrigationRecordsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get plotId => $composableBuilder(
+    column: $table.plotId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get baharCycleId => $composableBuilder(
+    column: $table.baharCycleId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get irrigatedOn => $composableBuilder(
+    column: $table.irrigatedOn,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get durationHours => $composableBuilder(
+    column: $table.durationHours,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get waterLitres => $composableBuilder(
+    column: $table.waterLitres,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get note => $composableBuilder(
+    column: $table.note,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get clientUpdatedAt => $composableBuilder(
+    column: $table.clientUpdatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$IrrigationRecordsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $IrrigationRecordsTable> {
+  $$IrrigationRecordsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get plotId =>
+      $composableBuilder(column: $table.plotId, builder: (column) => column);
+
+  GeneratedColumn<String> get baharCycleId => $composableBuilder(
+    column: $table.baharCycleId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get irrigatedOn => $composableBuilder(
+    column: $table.irrigatedOn,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<double> get durationHours => $composableBuilder(
+    column: $table.durationHours,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<double> get waterLitres => $composableBuilder(
+    column: $table.waterLitres,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get note =>
+      $composableBuilder(column: $table.note, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get clientUpdatedAt => $composableBuilder(
+    column: $table.clientUpdatedAt,
+    builder: (column) => column,
+  );
+}
+
+class $$IrrigationRecordsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $IrrigationRecordsTable,
+          IrrigationRecordRow,
+          $$IrrigationRecordsTableFilterComposer,
+          $$IrrigationRecordsTableOrderingComposer,
+          $$IrrigationRecordsTableAnnotationComposer,
+          $$IrrigationRecordsTableCreateCompanionBuilder,
+          $$IrrigationRecordsTableUpdateCompanionBuilder,
+          (
+            IrrigationRecordRow,
+            BaseReferences<
+              _$AppDatabase,
+              $IrrigationRecordsTable,
+              IrrigationRecordRow
+            >,
+          ),
+          IrrigationRecordRow,
+          PrefetchHooks Function()
+        > {
+  $$IrrigationRecordsTableTableManager(
+    _$AppDatabase db,
+    $IrrigationRecordsTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$IrrigationRecordsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$IrrigationRecordsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$IrrigationRecordsTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> plotId = const Value.absent(),
+                Value<String?> baharCycleId = const Value.absent(),
+                Value<DateTime> irrigatedOn = const Value.absent(),
+                Value<double?> durationHours = const Value.absent(),
+                Value<double?> waterLitres = const Value.absent(),
+                Value<String?> note = const Value.absent(),
+                Value<DateTime> clientUpdatedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => IrrigationRecordsCompanion(
+                id: id,
+                plotId: plotId,
+                baharCycleId: baharCycleId,
+                irrigatedOn: irrigatedOn,
+                durationHours: durationHours,
+                waterLitres: waterLitres,
+                note: note,
+                clientUpdatedAt: clientUpdatedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String plotId,
+                Value<String?> baharCycleId = const Value.absent(),
+                required DateTime irrigatedOn,
+                Value<double?> durationHours = const Value.absent(),
+                Value<double?> waterLitres = const Value.absent(),
+                Value<String?> note = const Value.absent(),
+                required DateTime clientUpdatedAt,
+                Value<int> rowid = const Value.absent(),
+              }) => IrrigationRecordsCompanion.insert(
+                id: id,
+                plotId: plotId,
+                baharCycleId: baharCycleId,
+                irrigatedOn: irrigatedOn,
+                durationHours: durationHours,
+                waterLitres: waterLitres,
+                note: note,
+                clientUpdatedAt: clientUpdatedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$IrrigationRecordsTable, IrrigationRecordRow>(
+                    table,
+                  ),
+                  BaseReferences<
+                    _$AppDatabase,
+                    $IrrigationRecordsTable,
+                    IrrigationRecordRow
+                  >(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$IrrigationRecordsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $IrrigationRecordsTable,
+      IrrigationRecordRow,
+      $$IrrigationRecordsTableFilterComposer,
+      $$IrrigationRecordsTableOrderingComposer,
+      $$IrrigationRecordsTableAnnotationComposer,
+      $$IrrigationRecordsTableCreateCompanionBuilder,
+      $$IrrigationRecordsTableUpdateCompanionBuilder,
+      (
+        IrrigationRecordRow,
+        BaseReferences<
+          _$AppDatabase,
+          $IrrigationRecordsTable,
+          IrrigationRecordRow
+        >,
+      ),
+      IrrigationRecordRow,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -7595,4 +9423,8 @@ class $AppDatabaseManager {
       $$IncomesTableTableManager(_db, _db.incomes);
   $$SprayRecordsTableTableManager get sprayRecords =>
       $$SprayRecordsTableTableManager(_db, _db.sprayRecords);
+  $$InputRecordsTableTableManager get inputRecords =>
+      $$InputRecordsTableTableManager(_db, _db.inputRecords);
+  $$IrrigationRecordsTableTableManager get irrigationRecords =>
+      $$IrrigationRecordsTableTableManager(_db, _db.irrigationRecords);
 }

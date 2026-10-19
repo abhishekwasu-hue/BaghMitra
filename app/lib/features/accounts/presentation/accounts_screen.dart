@@ -40,10 +40,13 @@ class _AccountsScreenState extends ConsumerState<AccountsScreen> {
     final incomes = ref.watch(incomesProvider(id)).value ?? const [];
     final cats = ref.watch(expenseCategoriesProvider).value ?? const [];
     final sprays = ref.watch(spraysProvider(id)).value ?? const [];
+    final inputs = ref.watch(inputsProvider(id)).value ?? const [];
+    final kinds = ref.watch(inputKindsProvider).value;
     final s = AccountsSummary.of(
       expenses: expenses,
       incomes: incomes,
       sprays: sprays,
+      inputs: inputs,
       areaAcres: plot?.areaAcres ?? 0,
       treeCount: plot?.treeCount,
       baharCycleId: _cycle,
@@ -63,7 +66,11 @@ class _AccountsScreenState extends ConsumerState<AccountsScreen> {
         if (_cycle == null || e.baharCycleId == _cycle)
           (
             e.spentOn,
-            cats.where((x) => x.slug == e.category).firstOrNull?.label(lang) ??
+            // Older or synced rows may use a category that moved to input kinds.
+            [
+                  ...cats,
+                  ...?kinds?.kinds,
+                ].where((x) => x.slug == e.category).firstOrNull?.label(lang) ??
                 e.category,
             '−${money(e.amountPaise)}',
           ),
