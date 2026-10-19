@@ -14,6 +14,7 @@ void main() {
     expect(find.text('फळधारणा सुरू'), findsOneWidget);
     expect(find.text('६८'), findsOneWidget);
     expect(find.text('फोटो काढा'), findsWidgets);
+    await unmountApp(tester);
   });
 
   testWidgets('ticking a task toggles it', (tester) async {
@@ -23,6 +24,7 @@ void main() {
     await tester.tap(spray);
     await tester.pump(const Duration(milliseconds: 300));
     expect(tester.widget<TaskTile>(spray).done, isTrue);
+    await unmountApp(tester);
   });
 
   testWidgets('offline status shows the offline banner', (tester) async {
@@ -33,6 +35,7 @@ void main() {
     );
     expect(find.byType(SyncBanner), findsOneWidget);
     expect(find.textContaining('You are offline'), findsOneWidget);
+    await unmountApp(tester);
   });
 
   testWidgets('pending and rejected states show their banners', (tester) async {
@@ -45,6 +48,7 @@ void main() {
       ),
     );
     expect(find.text('3 changes waiting to sync'), findsOneWidget);
+    await unmountApp(tester);
   });
 
   testWidgets('rejected writes surface a failure banner', (tester) async {
@@ -57,6 +61,7 @@ void main() {
       ),
     );
     expect(find.textContaining('Sync failed'), findsOneWidget);
+    await unmountApp(tester);
   });
 
   testWidgets('camera opens the dev gallery in dev builds', (tester) async {
@@ -65,5 +70,6 @@ void main() {
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 500));
     expect(find.text('Component gallery'), findsOneWidget);
+    await unmountApp(tester);
   });
 }

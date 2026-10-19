@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter/widgets.dart';
+import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
 
 import '../core/config.dart';
@@ -19,6 +19,7 @@ import '../features/inputs/presentation/add_input_screens.dart';
 import '../features/inputs/presentation/field_log_screen.dart';
 import '../features/plots/presentation/add_plot_screen.dart';
 import '../features/plots/presentation/plots_screen.dart';
+import '../features/profile/presentation/onboarding_screen.dart';
 import '../features/spray/presentation/add_spray_screen.dart';
 import '../features/spray/presentation/spray_log_screen.dart';
 
@@ -39,6 +40,7 @@ abstract final class Routes {
   static const home = '/';
   static const login = '/login';
   static const otp = '/login/otp';
+  static const onboarding = '/onboarding';
   static const gallery = '/dev/gallery';
   static const plots = '/plots';
   static const addPlot = '/plots/new';
@@ -63,11 +65,14 @@ GoRouter buildRouter(
   AuthRepository auth,
   AppConfig config, {
   String? initialLocation,
+  ValueListenable<bool?>? onboarded,
 }) {
   final refresh = _AuthListenable(auth.sessions());
   return GoRouter(
     initialLocation: initialLocation ?? Routes.home,
-    refreshListenable: refresh,
+    refreshListenable: onboarded == null
+        ? refresh
+        : Listenable.merge([refresh, onboarded]),
     redirect: (context, state) {
       final signedIn = auth.current != null;
       final loc = state.matchedLocation;
@@ -75,6 +80,11 @@ GoRouter buildRouter(
       if (loc == Routes.gallery) return config.devGallery ? null : Routes.home;
       if (!signedIn && !onLogin) return Routes.login;
       if (signedIn && onLogin) return Routes.home;
+      // Signed in but not set up yet: finish onboarding first. Unknown (still loading) waits.
+      final done = onboarded?.value;
+      final onOnboarding = loc == Routes.onboarding;
+      if (signedIn && done == false && !onOnboarding) return Routes.onboarding;
+      if (signedIn && done == true && onOnboarding) return Routes.home;
       return null;
     },
     routes: [
@@ -140,6 +150,10 @@ GoRouter buildRouter(
       GoRoute(
         path: '/plots/:id/bahar/new',
         builder: (_, s) => StartBaharScreen(plotId: s.pathParameters['id']!),
+      ),
+      GoRoute(
+        path: Routes.onboarding,
+        builder: (_, _) => const OnboardingScreen(),
       ),
       GoRoute(path: Routes.login, builder: (_, _) => const PhoneLoginScreen()),
       GoRoute(

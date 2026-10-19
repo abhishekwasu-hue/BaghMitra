@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import '../helpers/pump_app.dart';
 
 void main() {
-  testWidgets('signed-out users land on login; phone + OTP signs in to home', (
+  testWidgets('signed-out users land on login; phone + OTP signs in to setup', (
     tester,
   ) async {
     await pumpApp(tester, locale: const Locale('en'), session: null);
@@ -30,7 +30,9 @@ void main() {
     await tester.tap(find.text('Verify'));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 500));
-    expect(find.text("Today's tasks"), findsOneWidget);
+    // A first sign-in goes through setup before home.
+    expect(find.text('Welcome to BagMitra'), findsOneWidget);
+    await unmountApp(tester);
   });
 
   testWidgets('gallery route is blocked when the dev flag is off', (
@@ -46,5 +48,6 @@ void main() {
       findsOneWidget,
       reason: 'testConfig enables it',
     );
+    await unmountApp(tester);
   });
 }

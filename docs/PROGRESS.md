@@ -63,7 +63,8 @@ deployed. All screens are checked as goldens at phone size; **no emulator run ha
 | Plots API + app (add / list / delete), offline + synced | GPS walk / boundary draw |
 | Bahar cycles API + app ("start a bahar" with the grower's own dates) | Stage calendar and bahar selection assistant (needs verified templates, Q10) |
 | Crop stage templates as reference data (none published) | Tasks and reminders (push, WhatsApp / SMS) |
-| Sync appliers for plot and bahar so other devices' changes arrive | Onboarding screens; wave-2 locales |
+| Sync appliers for plot and bahar so other devices' changes arrive | Voice-guided onboarding (needs STT, Q5); wave-2 locales |
+| Onboarding: language (Marathi first, switches the app at once), optional name and place, required data consent and optional WhatsApp consent (draft wording, Q17); saved offline, router gates the app until done | |
 
 ### K0 / K1 — Knowledge base and legal gate · done in code, no content yet
 Source registry (51 sources, tier + licence), card lifecycle (draft → expert_reviewed →

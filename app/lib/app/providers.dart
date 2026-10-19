@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../api/api_client.dart';
-import '../api/generated/bagmitra.swagger.dart';
+import '../api/generated/bagmitra.swagger.dart' show Bagmitra;
 import '../core/clock.dart';
 import '../core/config.dart';
 import '../data/local/database.dart';
@@ -26,7 +26,9 @@ import '../features/inputs/domain/field_records.dart';
 import '../features/plots/data/crop_catalog.dart';
 import '../features/plots/data/plot_repository.dart';
 import '../features/plots/domain/plot.dart';
+import '../features/profile/data/language_catalog.dart';
 import '../features/profile/data/profile_repository.dart';
+import '../features/profile/domain/farmer_profile.dart';
 import '../features/spray/data/restrictions_cache.dart';
 import '../features/spray/data/spray_repository.dart';
 import '../features/spray/domain/spray_check.dart';
@@ -55,6 +57,16 @@ final authRepositoryProvider = Provider<AuthRepository>(
       throw UnimplementedError('authRepositoryProvider must be overridden'),
 );
 
+/// The signed-in session, current value first, then every change.
+final sessionProvider = StreamProvider<AuthSession?>((ref) {
+  final auth = ref.watch(authRepositoryProvider);
+  return Stream.multi((controller) {
+    controller.add(auth.current);
+    final sub = auth.sessions().listen(controller.add);
+    controller.onCancel = sub.cancel;
+  });
+});
+
 final apiProvider = Provider<Bagmitra>((ref) {
   final config = ref.watch(appConfigProvider);
   final auth = ref.watch(authRepositoryProvider);
@@ -66,6 +78,43 @@ final apiProvider = Provider<Bagmitra>((ref) {
 
 final profileRepositoryProvider = Provider<ProfileRepository>(
   (ref) => ProfileRepository(ref.watch(databaseProvider)),
+);
+
+/// The signed-in grower's profile; null until they finish onboarding.
+final profileProvider = StreamProvider<FarmerProfile?>((ref) {
+  final user = ref.watch(sessionProvider).value?.userId;
+  if (user == null) return Stream.value(null);
+  return ref.watch(profileRepositoryProvider).watch(user);
+});
+
+/// Whether the signed-in grower has finished onboarding; null while that is still loading or
+/// when nobody is signed in (so the router does not redirect on an unknown).
+final onboardedProvider = Provider<bool?>((ref) {
+  final session = ref.watch(sessionProvider);
+  final profile = ref.watch(profileProvider);
+  if (session.value == null || profile.isLoading) return null;
+  return profile.value?.consentDataProcessing ?? false;
+});
+
+/// Language chosen on the onboarding screen before it is saved, so the screen switches at once.
+final languagePreviewProvider = NotifierProvider<LanguagePreview, String?>(
+  LanguagePreview.new,
+);
+
+class LanguagePreview extends Notifier<String?> {
+  @override
+  String? build() => null;
+
+  // ignore: use_setters_to_change_properties
+  void set(String? language) => state = language;
+}
+
+final languageCatalogProvider = Provider<LanguageCatalog>(
+  (ref) => LanguageCatalog(),
+);
+
+final languagesProvider = FutureProvider<List<LabeledOption>>(
+  (ref) => ref.watch(languageCatalogProvider).load(),
 );
 
 final plotRepositoryProvider = Provider<PlotRepository>(

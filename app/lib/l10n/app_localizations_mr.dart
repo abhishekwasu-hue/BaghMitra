@@ -675,4 +675,33 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get exportSharePdf => 'PDF शेअर करा';
+
+  @override
+  String get onboardingWelcome => 'बागमित्रमध्ये आपले स्वागत';
+
+  @override
+  String get onboardingLanguage => 'आपली भाषा निवडा';
+
+  @override
+  String get onboardingName => 'आपले नाव (ऐच्छिक)';
+
+  @override
+  String get onboardingVillage => 'गाव (ऐच्छिक)';
+
+  @override
+  String get onboardingTaluka => 'तालुका (ऐच्छिक)';
+
+  @override
+  String get onboardingDistrict => 'जिल्हा (ऐच्छिक)';
+
+  @override
+  String get onboardingConsentData =>
+      'ॲप चालवण्यासाठी बागमित्रने माझ्या बागेच्या नोंदी साठवल्या तर माझी संमती आहे.';
+
+  @override
+  String get onboardingConsentWhatsapp =>
+      'मला WhatsApp वर आठवणी पाठवा (ऐच्छिक).';
+
+  @override
+  String get onboardingContinue => 'पुढे';
 }

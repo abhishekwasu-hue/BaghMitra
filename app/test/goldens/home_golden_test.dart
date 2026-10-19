@@ -23,6 +23,7 @@ void main() {
         find.byType(MaterialApp),
         matchesGoldenFile('$name.png'),
       );
+      await unmountApp(tester);
     });
   }
 
@@ -38,6 +39,7 @@ void main() {
       find.byType(MaterialApp),
       matchesGoldenFile('home_mr_offline.png'),
     );
+    await unmountApp(tester);
   });
 
   testWidgets('login_mr_light', (tester) async {
@@ -46,6 +48,7 @@ void main() {
       find.byType(MaterialApp),
       matchesGoldenFile('login_mr_light.png'),
     );
+    await unmountApp(tester);
   });
 
   testWidgets('gallery_en_light', (tester) async {
@@ -58,5 +61,6 @@ void main() {
       find.byType(MaterialApp),
       matchesGoldenFile('gallery_en_light.png'),
     );
+    await unmountApp(tester);
   });
 }

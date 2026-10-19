@@ -415,5 +415,14 @@
   "exportTypeInput": "Input",
   "exportTypeLabour": "Labour",
   "exportKg": "kg",
-  "exportSharePdf": "Share PDF"
+  "exportSharePdf": "Share PDF",
+  "onboardingWelcome": "Welcome to BagMitra",
+  "onboardingLanguage": "Choose your language",
+  "onboardingName": "Your name (optional)",
+  "onboardingVillage": "Village (optional)",
+  "onboardingTaluka": "Taluka (optional)",
+  "onboardingDistrict": "District (optional)",
+  "onboardingConsentData": "I agree that BagMitra stores my orchard records to run the app.",
+  "onboardingConsentWhatsapp": "Send me reminders on WhatsApp (optional).",
+  "onboardingContinue": "Continue"
 }

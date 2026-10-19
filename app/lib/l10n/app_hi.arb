@@ -191,5 +191,14 @@
   "exportTypeInput": "खाद / सामग्री",
   "exportTypeLabour": "मज़दूरी",
   "exportKg": "किलो",
-  "exportSharePdf": "PDF शेयर करें"
+  "exportSharePdf": "PDF शेयर करें",
+  "onboardingWelcome": "बागमित्र में आपका स्वागत है",
+  "onboardingLanguage": "अपनी भाषा चुनें",
+  "onboardingName": "आपका नाम (वैकल्पिक)",
+  "onboardingVillage": "गाँव (वैकल्पिक)",
+  "onboardingTaluka": "तहसील (वैकल्पिक)",
+  "onboardingDistrict": "ज़िला (वैकल्पिक)",
+  "onboardingConsentData": "ऐप चलाने के लिए बागमित्र मेरे बाग की नोंदें सहेजे, इसकी मेरी सहमति है।",
+  "onboardingConsentWhatsapp": "मुझे WhatsApp पर याद दिलाएँ (वैकल्पिक)।",
+  "onboardingContinue": "आगे बढ़ें"
 }
