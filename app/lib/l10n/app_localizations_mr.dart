@@ -672,4 +672,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get exportKg => 'किलो';
+
+  @override
+  String get exportSharePdf => 'PDF शेअर करा';
 }

@@ -1251,6 +1251,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'kg'**
   String get exportKg;
+
+  /// No description provided for @exportSharePdf.
+  ///
+  /// In en, this message translates to:
+  /// **'Share PDF'**
+  String get exportSharePdf;
 }
 
 class _AppLocalizationsDelegate

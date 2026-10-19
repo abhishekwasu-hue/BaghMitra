@@ -190,5 +190,6 @@
   "exportTypeSpray": "छिड़काव",
   "exportTypeInput": "खाद / सामग्री",
   "exportTypeLabour": "मज़दूरी",
-  "exportKg": "किलो"
+  "exportKg": "किलो",
+  "exportSharePdf": "PDF शेयर करें"
 }
