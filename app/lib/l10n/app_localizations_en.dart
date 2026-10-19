@@ -676,4 +676,33 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get exportSharePdf => 'Share PDF';
+
+  @override
+  String get onboardingWelcome => 'Welcome to BagMitra';
+
+  @override
+  String get onboardingLanguage => 'Choose your language';
+
+  @override
+  String get onboardingName => 'Your name (optional)';
+
+  @override
+  String get onboardingVillage => 'Village (optional)';
+
+  @override
+  String get onboardingTaluka => 'Taluka (optional)';
+
+  @override
+  String get onboardingDistrict => 'District (optional)';
+
+  @override
+  String get onboardingConsentData =>
+      'I agree that BagMitra stores my orchard records to run the app.';
+
+  @override
+  String get onboardingConsentWhatsapp =>
+      'Send me reminders on WhatsApp (optional).';
+
+  @override
+  String get onboardingContinue => 'Continue';
 }

@@ -191,5 +191,14 @@
   "exportTypeInput": "खत / निविष्ठा",
   "exportTypeLabour": "मजुरी",
   "exportKg": "किलो",
-  "exportSharePdf": "PDF शेअर करा"
+  "exportSharePdf": "PDF शेअर करा",
+  "onboardingWelcome": "बागमित्रमध्ये आपले स्वागत",
+  "onboardingLanguage": "आपली भाषा निवडा",
+  "onboardingName": "आपले नाव (ऐच्छिक)",
+  "onboardingVillage": "गाव (ऐच्छिक)",
+  "onboardingTaluka": "तालुका (ऐच्छिक)",
+  "onboardingDistrict": "जिल्हा (ऐच्छिक)",
+  "onboardingConsentData": "ॲप चालवण्यासाठी बागमित्रने माझ्या बागेच्या नोंदी साठवल्या तर माझी संमती आहे.",
+  "onboardingConsentWhatsapp": "मला WhatsApp वर आठवणी पाठवा (ऐच्छिक).",
+  "onboardingContinue": "पुढे"
 }

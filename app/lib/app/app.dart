@@ -25,27 +25,49 @@ class BagMitraApp extends ConsumerStatefulWidget {
 }
 
 class _BagMitraAppState extends ConsumerState<BagMitraApp> {
+  /// What the router knows about onboarding; null while that is still loading.
+  final _onboarded = ValueNotifier<bool?>(null);
+
   late final GoRouter _router = buildRouter(
     ref.read(authRepositoryProvider),
     ref.read(appConfigProvider),
     initialLocation: widget.initialLocation,
+    onboarded: _onboarded,
   );
+
+  @override
+  void initState() {
+    super.initState();
+    ref.listenManual(
+      onboardedProvider,
+      (_, done) => _onboarded.value = done,
+      fireImmediately: true,
+    );
+  }
 
   @override
   void dispose() {
     _router.dispose();
+    _onboarded.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    // A forced locale wins (tests); otherwise the language being picked, then the saved one.
+    final language =
+        ref.watch(languagePreviewProvider) ??
+        ref.watch(profileProvider).value?.language;
+    final chosen = AppLocalizations.supportedLocales
+        .where((l) => l.languageCode == language)
+        .firstOrNull;
     return MaterialApp.router(
       onGenerateTitle: (context) => AppLocalizations.of(context).appName,
       debugShowCheckedModeBanner: false,
       theme: BmTheme.light(),
       darkTheme: BmTheme.dark(),
       themeMode: widget.themeMode ?? ThemeMode.system,
-      locale: widget.locale,
+      locale: widget.locale ?? chosen,
       supportedLocales: AppLocalizations.supportedLocales,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       localeResolutionCallback: (device, supported) {

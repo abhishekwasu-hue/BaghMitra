@@ -13,8 +13,10 @@ import 'package:bagmitra/features/field_work/data/field_work_options.dart';
 import 'package:bagmitra/features/home/data/demo_home_repository.dart';
 import 'package:bagmitra/features/inputs/data/input_kinds.dart';
 import 'package:bagmitra/features/plots/data/crop_catalog.dart';
+import 'package:bagmitra/features/profile/data/language_catalog.dart';
 import 'package:bagmitra/sync/sync_engine.dart';
 
+import 'package:drift/drift.dart' show Value;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -66,13 +68,14 @@ const phoneSize = Size(393, 851);
 
 Future<AppDatabase> pumpApp(
   WidgetTester tester, {
-  Locale locale = const Locale('mr'),
+  Locale? locale = const Locale('mr'),
   ThemeMode themeMode = ThemeMode.light,
   AuthSession? session = signedIn,
   String? initialLocation,
   SyncStatus? syncStatus,
   Future<void> Function(AppDatabase db)? seed,
   FileSharer? sharer,
+  bool onboarded = true,
 }) async {
   tester.view.physicalSize = phoneSize * 3;
   tester.view.devicePixelRatio = 3;
@@ -80,6 +83,22 @@ Future<AppDatabase> pumpApp(
   addTearDown(tester.view.reset);
   final db = memoryDb();
   addTearDown(db.close);
+  if (onboarded && session != null) {
+    // Most tests are about what comes after setup, so they start with a finished profile.
+    // Written straight to the table: it is setup, not something the grower queued for sync.
+    await tester.runAsync(
+      () => db
+          .into(db.farmerProfiles)
+          .insert(
+            FarmerProfilesCompanion.insert(
+              id: session.userId,
+              language: 'en',
+              consentDataProcessing: const Value(true),
+              clientUpdatedAt: DateTime.utc(2026),
+            ),
+          ),
+    );
+  }
   if (seed != null) await tester.runAsync(() => seed(db));
   await tester.pumpWidget(
     ProviderScope(
@@ -96,6 +115,9 @@ Future<AppDatabase> pumpApp(
         ),
         inputKindsCatalogProvider.overrideWithValue(
           InputKinds(bundle: FileAssetBundle()),
+        ),
+        languageCatalogProvider.overrideWithValue(
+          LanguageCatalog(bundle: FileAssetBundle()),
         ),
         fieldWorkOptionsCatalogProvider.overrideWithValue(
           FieldWorkOptions(bundle: FileAssetBundle()),
@@ -121,6 +143,15 @@ Future<AppDatabase> pumpApp(
   );
   await tester.pump();
   await tester.pump(const Duration(milliseconds: 400));
+  // A language switch (from a saved profile) reloads the language-keyed screens; give that a
+  // moment of real time instead of asserting on the very first frame.
+  for (var i = 0; i < 15; i++) {
+    if (find.byType(CircularProgressIndicator).evaluate().isEmpty) break;
+    await tester.runAsync(
+      () => Future<void>.delayed(const Duration(milliseconds: 20)),
+    );
+    await tester.pump(const Duration(milliseconds: 100));
+  }
   expect(
     find.byType(CircularProgressIndicator),
     findsNothing,

@@ -146,4 +146,14 @@ void main() {
     );
     await unmountApp(tester);
   });
+
+  testWidgets('onboarding_mr_light', (tester) async {
+    await pumpApp(tester, locale: null, onboarded: false);
+    await settle(tester);
+    await expectLater(
+      find.byType(MaterialApp),
+      matchesGoldenFile('onboarding_mr_light.png'),
+    );
+    await unmountApp(tester);
+  });
 }

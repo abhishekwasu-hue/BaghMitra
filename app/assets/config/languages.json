@@ -1,0 +1,23 @@
+{
+  "_note": "Languages a grower can pick, in the order shown (Marathi first). Names are in the language itself. A language also needs an app_<code>.arb; no code change is needed to reorder or hide one.",
+  "languages": [
+    {
+      "slug": "mr",
+      "labels": {
+        "en": "मराठी"
+      }
+    },
+    {
+      "slug": "hi",
+      "labels": {
+        "en": "हिन्दी"
+      }
+    },
+    {
+      "slug": "en",
+      "labels": {
+        "en": "English"
+      }
+    }
+  ]
+}

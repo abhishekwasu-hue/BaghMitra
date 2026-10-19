@@ -1257,6 +1257,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Share PDF'**
   String get exportSharePdf;
+
+  /// No description provided for @onboardingWelcome.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to BagMitra'**
+  String get onboardingWelcome;
+
+  /// No description provided for @onboardingLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose your language'**
+  String get onboardingLanguage;
+
+  /// No description provided for @onboardingName.
+  ///
+  /// In en, this message translates to:
+  /// **'Your name (optional)'**
+  String get onboardingName;
+
+  /// No description provided for @onboardingVillage.
+  ///
+  /// In en, this message translates to:
+  /// **'Village (optional)'**
+  String get onboardingVillage;
+
+  /// No description provided for @onboardingTaluka.
+  ///
+  /// In en, this message translates to:
+  /// **'Taluka (optional)'**
+  String get onboardingTaluka;
+
+  /// No description provided for @onboardingDistrict.
+  ///
+  /// In en, this message translates to:
+  /// **'District (optional)'**
+  String get onboardingDistrict;
+
+  /// No description provided for @onboardingConsentData.
+  ///
+  /// In en, this message translates to:
+  /// **'I agree that BagMitra stores my orchard records to run the app.'**
+  String get onboardingConsentData;
+
+  /// No description provided for @onboardingConsentWhatsapp.
+  ///
+  /// In en, this message translates to:
+  /// **'Send me reminders on WhatsApp (optional).'**
+  String get onboardingConsentWhatsapp;
+
+  /// No description provided for @onboardingContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get onboardingContinue;
 }
 
 class _AppLocalizationsDelegate
