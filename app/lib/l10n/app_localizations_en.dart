@@ -643,4 +643,34 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get compareSame => 'no change';
+
+  @override
+  String get exportShare => 'Share spreadsheet';
+
+  @override
+  String get exportDate => 'Date';
+
+  @override
+  String get exportType => 'Type';
+
+  @override
+  String get exportDetails => 'Details';
+
+  @override
+  String get exportTypeExpense => 'Expense';
+
+  @override
+  String get exportTypeSale => 'Sale';
+
+  @override
+  String get exportTypeSpray => 'Spray';
+
+  @override
+  String get exportTypeInput => 'Input';
+
+  @override
+  String get exportTypeLabour => 'Labour';
+
+  @override
+  String get exportKg => 'kg';
 }

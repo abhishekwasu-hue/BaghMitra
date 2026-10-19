@@ -14,6 +14,7 @@ import '../features/auth/domain/auth.dart';
 import '../features/bahar/data/bahar_catalog.dart';
 import '../features/bahar/data/bahar_repository.dart';
 import '../features/bahar/domain/bahar_cycle.dart';
+import '../features/export/data/file_sharer.dart';
 import '../features/field_work/data/field_work_options.dart';
 import '../features/field_work/data/field_work_repository.dart';
 import '../features/field_work/domain/field_work.dart';
@@ -194,6 +195,10 @@ final fieldWorkOptionsCatalogProvider = Provider<FieldWorkOptions>(
 
 final fieldWorkOptionsProvider = FutureProvider<FieldWorkOptionsData>(
   (ref) => ref.watch(fieldWorkOptionsCatalogProvider).load(),
+);
+
+final fileSharerProvider = Provider<FileSharer>(
+  (ref) => const SharePlusFileSharer(),
 );
 
 final syncEngineProvider = Provider<SyncEngine>((ref) {

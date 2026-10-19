@@ -8,6 +8,7 @@ import '../../../core/formatting.dart';
 import '../../../design_system/cards.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
+import '../../export/presentation/share_accounts.dart';
 import '../domain/accounts_summary.dart';
 
 /// "Accounts" for one block: cost, income, profit and buyer dues, overall or per bahar.
@@ -93,6 +94,11 @@ class _AccountsScreenState extends ConsumerState<AccountsScreen> {
           style: BmType.section.copyWith(color: c.brand),
         ),
         actions: [
+          IconButton(
+            tooltip: t.exportShare,
+            onPressed: () => shareAccountsCsv(context, ref, id),
+            icon: Icon(Icons.ios_share, color: c.brand),
+          ),
           IconButton(
             tooltip: t.compareTitle,
             onPressed: () => context.push(Routes.compare(id)),

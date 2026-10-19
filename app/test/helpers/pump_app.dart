@@ -8,6 +8,7 @@ import 'package:bagmitra/features/accounts/data/expense_categories.dart';
 import 'package:bagmitra/features/auth/data/demo_auth_repository.dart';
 import 'package:bagmitra/features/auth/domain/auth.dart';
 import 'package:bagmitra/features/bahar/data/bahar_catalog.dart';
+import 'package:bagmitra/features/export/data/file_sharer.dart';
 import 'package:bagmitra/features/field_work/data/field_work_options.dart';
 import 'package:bagmitra/features/home/data/demo_home_repository.dart';
 import 'package:bagmitra/features/inputs/data/input_kinds.dart';
@@ -41,6 +42,19 @@ class FileAssetBundle extends CachingAssetBundle {
       SynchronousFuture(File(key).readAsStringSync());
 }
 
+/// Remembers what the app tried to share instead of opening a share sheet.
+class RecordingSharer implements FileSharer {
+  final shared = <({String fileName, Uint8List bytes, String mimeType})>[];
+
+  @override
+  Future<void> share({
+    required String fileName,
+    required Uint8List bytes,
+    required String mimeType,
+  }) async =>
+      shared.add((fileName: fileName, bytes: bytes, mimeType: mimeType));
+}
+
 const signedIn = AuthSession(
   userId: 'u1',
   phone: '+919800000000',
@@ -58,6 +72,7 @@ Future<AppDatabase> pumpApp(
   String? initialLocation,
   SyncStatus? syncStatus,
   Future<void> Function(AppDatabase db)? seed,
+  FileSharer? sharer,
 }) async {
   tester.view.physicalSize = phoneSize * 3;
   tester.view.devicePixelRatio = 3;
@@ -70,6 +85,7 @@ Future<AppDatabase> pumpApp(
     ProviderScope(
       overrides: [
         appConfigProvider.overrideWithValue(testConfig),
+        fileSharerProvider.overrideWithValue(sharer ?? RecordingSharer()),
         databaseProvider.overrideWithValue(db),
         authRepositoryProvider.overrideWithValue(
           DemoAuthRepository(initial: session),
