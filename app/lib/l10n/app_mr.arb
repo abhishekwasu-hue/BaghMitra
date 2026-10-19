@@ -139,5 +139,19 @@
   "sprayWarnRestrictedTitle": "या पिकासाठी निर्बंध",
   "sprayWarnRestrictedBody": "या पिकासाठी हा घटक प्रतिबंधित आहे ({notification}). लेबल पाहा आणि स्थानिक तज्ञांना विचारा.",
   "sprayWarnPhiTitle": "तोडणी खूप लवकर",
-  "sprayWarnPhiBody": "प्रतीक्षा कालावधी संपण्यापूर्वी तोडणी ठरवलेली आहे. {date} पासून तोडणी सुरक्षित."
+  "sprayWarnPhiBody": "प्रतीक्षा कालावधी संपण्यापूर्वी तोडणी ठरवलेली आहे. {date} पासून तोडणी सुरक्षित.",
+  "fieldLogTitle": "शेतातील नोंदी",
+  "addInput": "खत जोडा",
+  "logIrrigation": "पाणी नोंदवा",
+  "inputKind": "काय दिले?",
+  "inputProduct": "उत्पादनाचे नाव",
+  "inputQuantity": "प्रमाण (ऐच्छिक)",
+  "inputUnit": "एकक",
+  "inputCost": "खर्च (₹, ऐच्छिक)",
+  "irrigationTitle": "पाणी देणे",
+  "irrigationHours": "तास (ऐच्छिक)",
+  "irrigationLitres": "पाणी लिटरमध्ये (ऐच्छिक)",
+  "fieldLogEmpty": "अजून नोंदी नाहीत. खत जोडा किंवा पाणी नोंदवा.",
+  "inputLine": "{quantity} {unit}",
+  "irrigationHoursLine": "{hours} तास"
 }

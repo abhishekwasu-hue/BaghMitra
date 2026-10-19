@@ -46,6 +46,11 @@ class BaharScreen extends ConsumerWidget {
             icon: Icon(Icons.water_drop_outlined, color: c.brand),
           ),
           IconButton(
+            tooltip: AppLocalizations.of(context).fieldLogTitle,
+            onPressed: () => context.push(Routes.fieldLog(plotId)),
+            icon: Icon(Icons.grass_outlined, color: c.brand),
+          ),
+          IconButton(
             tooltip: AppLocalizations.of(context).accountsTitle,
             onPressed: () => context.push(Routes.accounts(plotId)),
             icon: Icon(Icons.account_balance_wallet_outlined, color: c.brand),

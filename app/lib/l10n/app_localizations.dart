@@ -945,6 +945,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Harvest is planned before the waiting period ends. Safe to harvest from {date}.'**
   String sprayWarnPhiBody(String date);
+
+  /// No description provided for @fieldLogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Field log'**
+  String get fieldLogTitle;
+
+  /// No description provided for @addInput.
+  ///
+  /// In en, this message translates to:
+  /// **'Add fertiliser'**
+  String get addInput;
+
+  /// No description provided for @logIrrigation.
+  ///
+  /// In en, this message translates to:
+  /// **'Log irrigation'**
+  String get logIrrigation;
+
+  /// No description provided for @inputKind.
+  ///
+  /// In en, this message translates to:
+  /// **'What did you apply?'**
+  String get inputKind;
+
+  /// No description provided for @inputProduct.
+  ///
+  /// In en, this message translates to:
+  /// **'Product name'**
+  String get inputProduct;
+
+  /// No description provided for @inputQuantity.
+  ///
+  /// In en, this message translates to:
+  /// **'Quantity (optional)'**
+  String get inputQuantity;
+
+  /// No description provided for @inputUnit.
+  ///
+  /// In en, this message translates to:
+  /// **'Unit'**
+  String get inputUnit;
+
+  /// No description provided for @inputCost.
+  ///
+  /// In en, this message translates to:
+  /// **'Cost (₹, optional)'**
+  String get inputCost;
+
+  /// No description provided for @irrigationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Irrigation'**
+  String get irrigationTitle;
+
+  /// No description provided for @irrigationHours.
+  ///
+  /// In en, this message translates to:
+  /// **'Hours (optional)'**
+  String get irrigationHours;
+
+  /// No description provided for @irrigationLitres.
+  ///
+  /// In en, this message translates to:
+  /// **'Water in litres (optional)'**
+  String get irrigationLitres;
+
+  /// No description provided for @fieldLogEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No entries yet. Add fertiliser or log irrigation.'**
+  String get fieldLogEmpty;
+
+  /// No description provided for @inputLine.
+  ///
+  /// In en, this message translates to:
+  /// **'{quantity} {unit}'**
+  String inputLine(String quantity, String unit);
+
+  /// No description provided for @irrigationHoursLine.
+  ///
+  /// In en, this message translates to:
+  /// **'{hours} h'**
+  String irrigationHoursLine(String hours);
 }
 
 class _AppLocalizationsDelegate
