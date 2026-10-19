@@ -404,5 +404,15 @@
       }
     }
   },
-  "compareSame": "no change"
+  "compareSame": "no change",
+  "exportShare": "Share spreadsheet",
+  "exportDate": "Date",
+  "exportType": "Type",
+  "exportDetails": "Details",
+  "exportTypeExpense": "Expense",
+  "exportTypeSale": "Sale",
+  "exportTypeSpray": "Spray",
+  "exportTypeInput": "Input",
+  "exportTypeLabour": "Labour",
+  "exportKg": "kg"
 }

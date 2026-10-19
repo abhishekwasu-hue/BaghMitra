@@ -643,4 +643,34 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get compareSame => 'कोई बदलाव नहीं';
+
+  @override
+  String get exportShare => 'स्प्रेडशीट शेयर करें';
+
+  @override
+  String get exportDate => 'तारीख';
+
+  @override
+  String get exportType => 'प्रकार';
+
+  @override
+  String get exportDetails => 'विवरण';
+
+  @override
+  String get exportTypeExpense => 'खर्च';
+
+  @override
+  String get exportTypeSale => 'बिक्री';
+
+  @override
+  String get exportTypeSpray => 'छिड़काव';
+
+  @override
+  String get exportTypeInput => 'खाद / सामग्री';
+
+  @override
+  String get exportTypeLabour => 'मज़दूरी';
+
+  @override
+  String get exportKg => 'किलो';
 }

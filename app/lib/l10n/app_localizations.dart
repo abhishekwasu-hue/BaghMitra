@@ -1191,6 +1191,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'no change'**
   String get compareSame;
+
+  /// No description provided for @exportShare.
+  ///
+  /// In en, this message translates to:
+  /// **'Share spreadsheet'**
+  String get exportShare;
+
+  /// No description provided for @exportDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get exportDate;
+
+  /// No description provided for @exportType.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get exportType;
+
+  /// No description provided for @exportDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Details'**
+  String get exportDetails;
+
+  /// No description provided for @exportTypeExpense.
+  ///
+  /// In en, this message translates to:
+  /// **'Expense'**
+  String get exportTypeExpense;
+
+  /// No description provided for @exportTypeSale.
+  ///
+  /// In en, this message translates to:
+  /// **'Sale'**
+  String get exportTypeSale;
+
+  /// No description provided for @exportTypeSpray.
+  ///
+  /// In en, this message translates to:
+  /// **'Spray'**
+  String get exportTypeSpray;
+
+  /// No description provided for @exportTypeInput.
+  ///
+  /// In en, this message translates to:
+  /// **'Input'**
+  String get exportTypeInput;
+
+  /// No description provided for @exportTypeLabour.
+  ///
+  /// In en, this message translates to:
+  /// **'Labour'**
+  String get exportTypeLabour;
+
+  /// No description provided for @exportKg.
+  ///
+  /// In en, this message translates to:
+  /// **'kg'**
+  String get exportKg;
 }
 
 class _AppLocalizationsDelegate

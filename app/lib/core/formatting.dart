@@ -36,6 +36,14 @@ String formatPaise(int paise, String languageCode) {
   return '₹${f.format(paise / 100)}';
 }
 
+/// Exact paise as a plain decimal rupee amount ("1500.00", "-12.50") for spreadsheets: no
+/// symbol, no grouping, no locale digits, and no floating point.
+String plainRupees(int paise) {
+  final abs = paise.abs();
+  final text = '${abs ~/ 100}.${(abs % 100).toString().padLeft(2, '0')}';
+  return paise < 0 ? '-$text' : text;
+}
+
 const _devanagariDigits = '०१२३४५६७८९';
 
 /// Parses a rupee amount typed by a grower ("1,500", "12.5", Devanagari digits) into

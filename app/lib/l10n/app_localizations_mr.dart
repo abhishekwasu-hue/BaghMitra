@@ -642,4 +642,34 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get compareSame => 'बदल नाही';
+
+  @override
+  String get exportShare => 'स्प्रेडशीट शेअर करा';
+
+  @override
+  String get exportDate => 'तारीख';
+
+  @override
+  String get exportType => 'प्रकार';
+
+  @override
+  String get exportDetails => 'तपशील';
+
+  @override
+  String get exportTypeExpense => 'खर्च';
+
+  @override
+  String get exportTypeSale => 'विक्री';
+
+  @override
+  String get exportTypeSpray => 'फवारणी';
+
+  @override
+  String get exportTypeInput => 'खत / निविष्ठा';
+
+  @override
+  String get exportTypeLabour => 'मजुरी';
+
+  @override
+  String get exportKg => 'किलो';
 }

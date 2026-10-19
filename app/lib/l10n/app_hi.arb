@@ -180,5 +180,15 @@
   "compareVs": "{bahar} की तुलना में: {change}",
   "compareMore": "{amount} ज़्यादा",
   "compareLess": "{amount} कम",
-  "compareSame": "कोई बदलाव नहीं"
+  "compareSame": "कोई बदलाव नहीं",
+  "exportShare": "स्प्रेडशीट शेयर करें",
+  "exportDate": "तारीख",
+  "exportType": "प्रकार",
+  "exportDetails": "विवरण",
+  "exportTypeExpense": "खर्च",
+  "exportTypeSale": "बिक्री",
+  "exportTypeSpray": "छिड़काव",
+  "exportTypeInput": "खाद / सामग्री",
+  "exportTypeLabour": "मज़दूरी",
+  "exportKg": "किलो"
 }
