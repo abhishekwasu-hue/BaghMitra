@@ -1029,6 +1029,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{hours} h'**
   String irrigationHoursLine(String hours);
+
+  /// No description provided for @labourTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Labour'**
+  String get labourTitle;
 }
 
 class _AppLocalizationsDelegate

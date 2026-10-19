@@ -548,4 +548,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String irrigationHoursLine(String hours) {
     return '$hours तास';
   }
+
+  @override
+  String get labourTitle => 'मजुरी';
 }

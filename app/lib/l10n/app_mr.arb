@@ -153,5 +153,6 @@
   "irrigationLitres": "पाणी लिटरमध्ये (ऐच्छिक)",
   "fieldLogEmpty": "अजून नोंदी नाहीत. खत जोडा किंवा पाणी नोंदवा.",
   "inputLine": "{quantity} {unit}",
-  "irrigationHoursLine": "{hours} तास"
+  "irrigationHoursLine": "{hours} तास",
+  "labourTitle": "मजुरी"
 }

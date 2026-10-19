@@ -1,3 +1,4 @@
+import '../../field_work/domain/field_work.dart';
 import '../../inputs/domain/field_records.dart';
 import '../../spray/domain/spray_record.dart';
 import 'accounts.dart';
@@ -21,6 +22,7 @@ class AccountsSummary {
     required List<Income> incomes,
     List<SprayRecord> sprays = const [],
     List<InputRecord> inputs = const [],
+    List<LabourRecord> labour = const [],
     required double areaAcres,
     required int? treeCount,
     String? baharCycleId,
@@ -54,6 +56,16 @@ class AccountsSummary {
           i.kind,
           (v) => v + i.costPaise,
           ifAbsent: () => i.costPaise,
+        );
+      }
+    }
+    // Wages are recorded in the labour register, under "labour".
+    for (final l in labour.where((l) => inScope(l.baharCycleId))) {
+      if (l.wagePaise > 0) {
+        byCategory.update(
+          'labour',
+          (v) => v + l.wagePaise,
+          ifAbsent: () => l.wagePaise,
         );
       }
     }

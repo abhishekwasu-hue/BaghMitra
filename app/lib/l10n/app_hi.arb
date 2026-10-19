@@ -153,5 +153,6 @@
   "irrigationLitres": "पानी लीटर में (वैकल्पिक)",
   "fieldLogEmpty": "अभी कोई नोंद नहीं। खाद जोड़ें या सिंचाई दर्ज करें।",
   "inputLine": "{quantity} {unit}",
-  "irrigationHoursLine": "{hours} घंटे"
+  "irrigationHoursLine": "{hours} घंटे",
+  "labourTitle": "मज़दूरी"
 }

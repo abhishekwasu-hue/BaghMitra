@@ -6262,6 +6262,1249 @@ class IrrigationRecordsCompanion extends UpdateCompanion<IrrigationRecordRow> {
   }
 }
 
+class $HarvestRecordsTable extends HarvestRecords
+    with TableInfo<$HarvestRecordsTable, HarvestRecordRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $HarvestRecordsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _plotIdMeta = const VerificationMeta('plotId');
+  @override
+  late final GeneratedColumn<String> plotId = GeneratedColumn<String>(
+    'plot_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _baharCycleIdMeta = const VerificationMeta(
+    'baharCycleId',
+  );
+  @override
+  late final GeneratedColumn<String> baharCycleId = GeneratedColumn<String>(
+    'bahar_cycle_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _harvestedOnMeta = const VerificationMeta(
+    'harvestedOn',
+  );
+  @override
+  late final GeneratedColumn<DateTime> harvestedOn = GeneratedColumn<DateTime>(
+    'harvested_on',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _gradeMeta = const VerificationMeta('grade');
+  @override
+  late final GeneratedColumn<String> grade = GeneratedColumn<String>(
+    'grade',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _sizeClassMeta = const VerificationMeta(
+    'sizeClass',
+  );
+  @override
+  late final GeneratedColumn<String> sizeClass = GeneratedColumn<String>(
+    'size_class',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _quantityKgMeta = const VerificationMeta(
+    'quantityKg',
+  );
+  @override
+  late final GeneratedColumn<double> quantityKg = GeneratedColumn<double>(
+    'quantity_kg',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _noteMeta = const VerificationMeta('note');
+  @override
+  late final GeneratedColumn<String> note = GeneratedColumn<String>(
+    'note',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _clientUpdatedAtMeta = const VerificationMeta(
+    'clientUpdatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> clientUpdatedAt =
+      GeneratedColumn<DateTime>(
+        'client_updated_at',
+        aliasedName,
+        false,
+        type: DriftSqlType.dateTime,
+        requiredDuringInsert: true,
+      );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    plotId,
+    baharCycleId,
+    harvestedOn,
+    grade,
+    sizeClass,
+    quantityKg,
+    note,
+    clientUpdatedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'harvest_records';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<HarvestRecordRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('plot_id')) {
+      context.handle(
+        _plotIdMeta,
+        plotId.isAcceptableOrUnknown(data['plot_id']!, _plotIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_plotIdMeta);
+    }
+    if (data.containsKey('bahar_cycle_id')) {
+      context.handle(
+        _baharCycleIdMeta,
+        baharCycleId.isAcceptableOrUnknown(
+          data['bahar_cycle_id']!,
+          _baharCycleIdMeta,
+        ),
+      );
+    }
+    if (data.containsKey('harvested_on')) {
+      context.handle(
+        _harvestedOnMeta,
+        harvestedOn.isAcceptableOrUnknown(
+          data['harvested_on']!,
+          _harvestedOnMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_harvestedOnMeta);
+    }
+    if (data.containsKey('grade')) {
+      context.handle(
+        _gradeMeta,
+        grade.isAcceptableOrUnknown(data['grade']!, _gradeMeta),
+      );
+    }
+    if (data.containsKey('size_class')) {
+      context.handle(
+        _sizeClassMeta,
+        sizeClass.isAcceptableOrUnknown(data['size_class']!, _sizeClassMeta),
+      );
+    }
+    if (data.containsKey('quantity_kg')) {
+      context.handle(
+        _quantityKgMeta,
+        quantityKg.isAcceptableOrUnknown(data['quantity_kg']!, _quantityKgMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_quantityKgMeta);
+    }
+    if (data.containsKey('note')) {
+      context.handle(
+        _noteMeta,
+        note.isAcceptableOrUnknown(data['note']!, _noteMeta),
+      );
+    }
+    if (data.containsKey('client_updated_at')) {
+      context.handle(
+        _clientUpdatedAtMeta,
+        clientUpdatedAt.isAcceptableOrUnknown(
+          data['client_updated_at']!,
+          _clientUpdatedAtMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_clientUpdatedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  HarvestRecordRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return HarvestRecordRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      plotId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}plot_id'],
+      )!,
+      baharCycleId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}bahar_cycle_id'],
+      ),
+      harvestedOn: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}harvested_on'],
+      )!,
+      grade: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}grade'],
+      ),
+      sizeClass: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}size_class'],
+      ),
+      quantityKg: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}quantity_kg'],
+      )!,
+      note: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}note'],
+      ),
+      clientUpdatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}client_updated_at'],
+      )!,
+    );
+  }
+
+  @override
+  $HarvestRecordsTable createAlias(String alias) {
+    return $HarvestRecordsTable(attachedDatabase, alias);
+  }
+}
+
+class HarvestRecordRow extends DataClass
+    implements Insertable<HarvestRecordRow> {
+  final String id;
+  final String plotId;
+  final String? baharCycleId;
+  final DateTime harvestedOn;
+  final String? grade;
+  final String? sizeClass;
+  final double quantityKg;
+  final String? note;
+  final DateTime clientUpdatedAt;
+  const HarvestRecordRow({
+    required this.id,
+    required this.plotId,
+    this.baharCycleId,
+    required this.harvestedOn,
+    this.grade,
+    this.sizeClass,
+    required this.quantityKg,
+    this.note,
+    required this.clientUpdatedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['plot_id'] = Variable<String>(plotId);
+    if (!nullToAbsent || baharCycleId != null) {
+      map['bahar_cycle_id'] = Variable<String>(baharCycleId);
+    }
+    map['harvested_on'] = Variable<DateTime>(harvestedOn);
+    if (!nullToAbsent || grade != null) {
+      map['grade'] = Variable<String>(grade);
+    }
+    if (!nullToAbsent || sizeClass != null) {
+      map['size_class'] = Variable<String>(sizeClass);
+    }
+    map['quantity_kg'] = Variable<double>(quantityKg);
+    if (!nullToAbsent || note != null) {
+      map['note'] = Variable<String>(note);
+    }
+    map['client_updated_at'] = Variable<DateTime>(clientUpdatedAt);
+    return map;
+  }
+
+  HarvestRecordsCompanion toCompanion(bool nullToAbsent) {
+    return HarvestRecordsCompanion(
+      id: Value(id),
+      plotId: Value(plotId),
+      baharCycleId: baharCycleId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(baharCycleId),
+      harvestedOn: Value(harvestedOn),
+      grade: grade == null && nullToAbsent
+          ? const Value.absent()
+          : Value(grade),
+      sizeClass: sizeClass == null && nullToAbsent
+          ? const Value.absent()
+          : Value(sizeClass),
+      quantityKg: Value(quantityKg),
+      note: note == null && nullToAbsent ? const Value.absent() : Value(note),
+      clientUpdatedAt: Value(clientUpdatedAt),
+    );
+  }
+
+  factory HarvestRecordRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return HarvestRecordRow(
+      id: serializer.fromJson<String>(json['id']),
+      plotId: serializer.fromJson<String>(json['plotId']),
+      baharCycleId: serializer.fromJson<String?>(json['baharCycleId']),
+      harvestedOn: serializer.fromJson<DateTime>(json['harvestedOn']),
+      grade: serializer.fromJson<String?>(json['grade']),
+      sizeClass: serializer.fromJson<String?>(json['sizeClass']),
+      quantityKg: serializer.fromJson<double>(json['quantityKg']),
+      note: serializer.fromJson<String?>(json['note']),
+      clientUpdatedAt: serializer.fromJson<DateTime>(json['clientUpdatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'plotId': serializer.toJson<String>(plotId),
+      'baharCycleId': serializer.toJson<String?>(baharCycleId),
+      'harvestedOn': serializer.toJson<DateTime>(harvestedOn),
+      'grade': serializer.toJson<String?>(grade),
+      'sizeClass': serializer.toJson<String?>(sizeClass),
+      'quantityKg': serializer.toJson<double>(quantityKg),
+      'note': serializer.toJson<String?>(note),
+      'clientUpdatedAt': serializer.toJson<DateTime>(clientUpdatedAt),
+    };
+  }
+
+  HarvestRecordRow copyWith({
+    String? id,
+    String? plotId,
+    Value<String?> baharCycleId = const Value.absent(),
+    DateTime? harvestedOn,
+    Value<String?> grade = const Value.absent(),
+    Value<String?> sizeClass = const Value.absent(),
+    double? quantityKg,
+    Value<String?> note = const Value.absent(),
+    DateTime? clientUpdatedAt,
+  }) => HarvestRecordRow(
+    id: id ?? this.id,
+    plotId: plotId ?? this.plotId,
+    baharCycleId: baharCycleId.present ? baharCycleId.value : this.baharCycleId,
+    harvestedOn: harvestedOn ?? this.harvestedOn,
+    grade: grade.present ? grade.value : this.grade,
+    sizeClass: sizeClass.present ? sizeClass.value : this.sizeClass,
+    quantityKg: quantityKg ?? this.quantityKg,
+    note: note.present ? note.value : this.note,
+    clientUpdatedAt: clientUpdatedAt ?? this.clientUpdatedAt,
+  );
+  HarvestRecordRow copyWithCompanion(HarvestRecordsCompanion data) {
+    return HarvestRecordRow(
+      id: data.id.present ? data.id.value : this.id,
+      plotId: data.plotId.present ? data.plotId.value : this.plotId,
+      baharCycleId: data.baharCycleId.present
+          ? data.baharCycleId.value
+          : this.baharCycleId,
+      harvestedOn: data.harvestedOn.present
+          ? data.harvestedOn.value
+          : this.harvestedOn,
+      grade: data.grade.present ? data.grade.value : this.grade,
+      sizeClass: data.sizeClass.present ? data.sizeClass.value : this.sizeClass,
+      quantityKg: data.quantityKg.present
+          ? data.quantityKg.value
+          : this.quantityKg,
+      note: data.note.present ? data.note.value : this.note,
+      clientUpdatedAt: data.clientUpdatedAt.present
+          ? data.clientUpdatedAt.value
+          : this.clientUpdatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('HarvestRecordRow(')
+          ..write('id: $id, ')
+          ..write('plotId: $plotId, ')
+          ..write('baharCycleId: $baharCycleId, ')
+          ..write('harvestedOn: $harvestedOn, ')
+          ..write('grade: $grade, ')
+          ..write('sizeClass: $sizeClass, ')
+          ..write('quantityKg: $quantityKg, ')
+          ..write('note: $note, ')
+          ..write('clientUpdatedAt: $clientUpdatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    plotId,
+    baharCycleId,
+    harvestedOn,
+    grade,
+    sizeClass,
+    quantityKg,
+    note,
+    clientUpdatedAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is HarvestRecordRow &&
+          other.id == this.id &&
+          other.plotId == this.plotId &&
+          other.baharCycleId == this.baharCycleId &&
+          other.harvestedOn == this.harvestedOn &&
+          other.grade == this.grade &&
+          other.sizeClass == this.sizeClass &&
+          other.quantityKg == this.quantityKg &&
+          other.note == this.note &&
+          other.clientUpdatedAt == this.clientUpdatedAt);
+}
+
+class HarvestRecordsCompanion extends UpdateCompanion<HarvestRecordRow> {
+  final Value<String> id;
+  final Value<String> plotId;
+  final Value<String?> baharCycleId;
+  final Value<DateTime> harvestedOn;
+  final Value<String?> grade;
+  final Value<String?> sizeClass;
+  final Value<double> quantityKg;
+  final Value<String?> note;
+  final Value<DateTime> clientUpdatedAt;
+  final Value<int> rowid;
+  const HarvestRecordsCompanion({
+    this.id = const Value.absent(),
+    this.plotId = const Value.absent(),
+    this.baharCycleId = const Value.absent(),
+    this.harvestedOn = const Value.absent(),
+    this.grade = const Value.absent(),
+    this.sizeClass = const Value.absent(),
+    this.quantityKg = const Value.absent(),
+    this.note = const Value.absent(),
+    this.clientUpdatedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  HarvestRecordsCompanion.insert({
+    required String id,
+    required String plotId,
+    this.baharCycleId = const Value.absent(),
+    required DateTime harvestedOn,
+    this.grade = const Value.absent(),
+    this.sizeClass = const Value.absent(),
+    required double quantityKg,
+    this.note = const Value.absent(),
+    required DateTime clientUpdatedAt,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       plotId = Value(plotId),
+       harvestedOn = Value(harvestedOn),
+       quantityKg = Value(quantityKg),
+       clientUpdatedAt = Value(clientUpdatedAt);
+  static Insertable<HarvestRecordRow> custom({
+    Expression<String>? id,
+    Expression<String>? plotId,
+    Expression<String>? baharCycleId,
+    Expression<DateTime>? harvestedOn,
+    Expression<String>? grade,
+    Expression<String>? sizeClass,
+    Expression<double>? quantityKg,
+    Expression<String>? note,
+    Expression<DateTime>? clientUpdatedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (plotId != null) 'plot_id': plotId,
+      if (baharCycleId != null) 'bahar_cycle_id': baharCycleId,
+      if (harvestedOn != null) 'harvested_on': harvestedOn,
+      if (grade != null) 'grade': grade,
+      if (sizeClass != null) 'size_class': sizeClass,
+      if (quantityKg != null) 'quantity_kg': quantityKg,
+      if (note != null) 'note': note,
+      if (clientUpdatedAt != null) 'client_updated_at': clientUpdatedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  HarvestRecordsCompanion copyWith({
+    Value<String>? id,
+    Value<String>? plotId,
+    Value<String?>? baharCycleId,
+    Value<DateTime>? harvestedOn,
+    Value<String?>? grade,
+    Value<String?>? sizeClass,
+    Value<double>? quantityKg,
+    Value<String?>? note,
+    Value<DateTime>? clientUpdatedAt,
+    Value<int>? rowid,
+  }) {
+    return HarvestRecordsCompanion(
+      id: id ?? this.id,
+      plotId: plotId ?? this.plotId,
+      baharCycleId: baharCycleId ?? this.baharCycleId,
+      harvestedOn: harvestedOn ?? this.harvestedOn,
+      grade: grade ?? this.grade,
+      sizeClass: sizeClass ?? this.sizeClass,
+      quantityKg: quantityKg ?? this.quantityKg,
+      note: note ?? this.note,
+      clientUpdatedAt: clientUpdatedAt ?? this.clientUpdatedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (plotId.present) {
+      map['plot_id'] = Variable<String>(plotId.value);
+    }
+    if (baharCycleId.present) {
+      map['bahar_cycle_id'] = Variable<String>(baharCycleId.value);
+    }
+    if (harvestedOn.present) {
+      map['harvested_on'] = Variable<DateTime>(harvestedOn.value);
+    }
+    if (grade.present) {
+      map['grade'] = Variable<String>(grade.value);
+    }
+    if (sizeClass.present) {
+      map['size_class'] = Variable<String>(sizeClass.value);
+    }
+    if (quantityKg.present) {
+      map['quantity_kg'] = Variable<double>(quantityKg.value);
+    }
+    if (note.present) {
+      map['note'] = Variable<String>(note.value);
+    }
+    if (clientUpdatedAt.present) {
+      map['client_updated_at'] = Variable<DateTime>(clientUpdatedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('HarvestRecordsCompanion(')
+          ..write('id: $id, ')
+          ..write('plotId: $plotId, ')
+          ..write('baharCycleId: $baharCycleId, ')
+          ..write('harvestedOn: $harvestedOn, ')
+          ..write('grade: $grade, ')
+          ..write('sizeClass: $sizeClass, ')
+          ..write('quantityKg: $quantityKg, ')
+          ..write('note: $note, ')
+          ..write('clientUpdatedAt: $clientUpdatedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $LabourRecordsTable extends LabourRecords
+    with TableInfo<$LabourRecordsTable, LabourRecordRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $LabourRecordsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _plotIdMeta = const VerificationMeta('plotId');
+  @override
+  late final GeneratedColumn<String> plotId = GeneratedColumn<String>(
+    'plot_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _baharCycleIdMeta = const VerificationMeta(
+    'baharCycleId',
+  );
+  @override
+  late final GeneratedColumn<String> baharCycleId = GeneratedColumn<String>(
+    'bahar_cycle_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _workerNameMeta = const VerificationMeta(
+    'workerName',
+  );
+  @override
+  late final GeneratedColumn<String> workerName = GeneratedColumn<String>(
+    'worker_name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _workedOnMeta = const VerificationMeta(
+    'workedOn',
+  );
+  @override
+  late final GeneratedColumn<DateTime> workedOn = GeneratedColumn<DateTime>(
+    'worked_on',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _taskMeta = const VerificationMeta('task');
+  @override
+  late final GeneratedColumn<String> task = GeneratedColumn<String>(
+    'task',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _wagePaiseMeta = const VerificationMeta(
+    'wagePaise',
+  );
+  @override
+  late final GeneratedColumn<int> wagePaise = GeneratedColumn<int>(
+    'wage_paise',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _advancePaiseMeta = const VerificationMeta(
+    'advancePaise',
+  );
+  @override
+  late final GeneratedColumn<int> advancePaise = GeneratedColumn<int>(
+    'advance_paise',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _settledOnMeta = const VerificationMeta(
+    'settledOn',
+  );
+  @override
+  late final GeneratedColumn<DateTime> settledOn = GeneratedColumn<DateTime>(
+    'settled_on',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _noteMeta = const VerificationMeta('note');
+  @override
+  late final GeneratedColumn<String> note = GeneratedColumn<String>(
+    'note',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _clientUpdatedAtMeta = const VerificationMeta(
+    'clientUpdatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> clientUpdatedAt =
+      GeneratedColumn<DateTime>(
+        'client_updated_at',
+        aliasedName,
+        false,
+        type: DriftSqlType.dateTime,
+        requiredDuringInsert: true,
+      );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    plotId,
+    baharCycleId,
+    workerName,
+    workedOn,
+    task,
+    wagePaise,
+    advancePaise,
+    settledOn,
+    note,
+    clientUpdatedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'labour_records';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<LabourRecordRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('plot_id')) {
+      context.handle(
+        _plotIdMeta,
+        plotId.isAcceptableOrUnknown(data['plot_id']!, _plotIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_plotIdMeta);
+    }
+    if (data.containsKey('bahar_cycle_id')) {
+      context.handle(
+        _baharCycleIdMeta,
+        baharCycleId.isAcceptableOrUnknown(
+          data['bahar_cycle_id']!,
+          _baharCycleIdMeta,
+        ),
+      );
+    }
+    if (data.containsKey('worker_name')) {
+      context.handle(
+        _workerNameMeta,
+        workerName.isAcceptableOrUnknown(data['worker_name']!, _workerNameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_workerNameMeta);
+    }
+    if (data.containsKey('worked_on')) {
+      context.handle(
+        _workedOnMeta,
+        workedOn.isAcceptableOrUnknown(data['worked_on']!, _workedOnMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_workedOnMeta);
+    }
+    if (data.containsKey('task')) {
+      context.handle(
+        _taskMeta,
+        task.isAcceptableOrUnknown(data['task']!, _taskMeta),
+      );
+    }
+    if (data.containsKey('wage_paise')) {
+      context.handle(
+        _wagePaiseMeta,
+        wagePaise.isAcceptableOrUnknown(data['wage_paise']!, _wagePaiseMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_wagePaiseMeta);
+    }
+    if (data.containsKey('advance_paise')) {
+      context.handle(
+        _advancePaiseMeta,
+        advancePaise.isAcceptableOrUnknown(
+          data['advance_paise']!,
+          _advancePaiseMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_advancePaiseMeta);
+    }
+    if (data.containsKey('settled_on')) {
+      context.handle(
+        _settledOnMeta,
+        settledOn.isAcceptableOrUnknown(data['settled_on']!, _settledOnMeta),
+      );
+    }
+    if (data.containsKey('note')) {
+      context.handle(
+        _noteMeta,
+        note.isAcceptableOrUnknown(data['note']!, _noteMeta),
+      );
+    }
+    if (data.containsKey('client_updated_at')) {
+      context.handle(
+        _clientUpdatedAtMeta,
+        clientUpdatedAt.isAcceptableOrUnknown(
+          data['client_updated_at']!,
+          _clientUpdatedAtMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_clientUpdatedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  LabourRecordRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return LabourRecordRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      plotId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}plot_id'],
+      )!,
+      baharCycleId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}bahar_cycle_id'],
+      ),
+      workerName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}worker_name'],
+      )!,
+      workedOn: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}worked_on'],
+      )!,
+      task: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}task'],
+      ),
+      wagePaise: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}wage_paise'],
+      )!,
+      advancePaise: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}advance_paise'],
+      )!,
+      settledOn: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}settled_on'],
+      ),
+      note: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}note'],
+      ),
+      clientUpdatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}client_updated_at'],
+      )!,
+    );
+  }
+
+  @override
+  $LabourRecordsTable createAlias(String alias) {
+    return $LabourRecordsTable(attachedDatabase, alias);
+  }
+}
+
+class LabourRecordRow extends DataClass implements Insertable<LabourRecordRow> {
+  final String id;
+  final String plotId;
+  final String? baharCycleId;
+  final String workerName;
+  final DateTime workedOn;
+  final String? task;
+  final int wagePaise;
+  final int advancePaise;
+  final DateTime? settledOn;
+  final String? note;
+  final DateTime clientUpdatedAt;
+  const LabourRecordRow({
+    required this.id,
+    required this.plotId,
+    this.baharCycleId,
+    required this.workerName,
+    required this.workedOn,
+    this.task,
+    required this.wagePaise,
+    required this.advancePaise,
+    this.settledOn,
+    this.note,
+    required this.clientUpdatedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['plot_id'] = Variable<String>(plotId);
+    if (!nullToAbsent || baharCycleId != null) {
+      map['bahar_cycle_id'] = Variable<String>(baharCycleId);
+    }
+    map['worker_name'] = Variable<String>(workerName);
+    map['worked_on'] = Variable<DateTime>(workedOn);
+    if (!nullToAbsent || task != null) {
+      map['task'] = Variable<String>(task);
+    }
+    map['wage_paise'] = Variable<int>(wagePaise);
+    map['advance_paise'] = Variable<int>(advancePaise);
+    if (!nullToAbsent || settledOn != null) {
+      map['settled_on'] = Variable<DateTime>(settledOn);
+    }
+    if (!nullToAbsent || note != null) {
+      map['note'] = Variable<String>(note);
+    }
+    map['client_updated_at'] = Variable<DateTime>(clientUpdatedAt);
+    return map;
+  }
+
+  LabourRecordsCompanion toCompanion(bool nullToAbsent) {
+    return LabourRecordsCompanion(
+      id: Value(id),
+      plotId: Value(plotId),
+      baharCycleId: baharCycleId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(baharCycleId),
+      workerName: Value(workerName),
+      workedOn: Value(workedOn),
+      task: task == null && nullToAbsent ? const Value.absent() : Value(task),
+      wagePaise: Value(wagePaise),
+      advancePaise: Value(advancePaise),
+      settledOn: settledOn == null && nullToAbsent
+          ? const Value.absent()
+          : Value(settledOn),
+      note: note == null && nullToAbsent ? const Value.absent() : Value(note),
+      clientUpdatedAt: Value(clientUpdatedAt),
+    );
+  }
+
+  factory LabourRecordRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return LabourRecordRow(
+      id: serializer.fromJson<String>(json['id']),
+      plotId: serializer.fromJson<String>(json['plotId']),
+      baharCycleId: serializer.fromJson<String?>(json['baharCycleId']),
+      workerName: serializer.fromJson<String>(json['workerName']),
+      workedOn: serializer.fromJson<DateTime>(json['workedOn']),
+      task: serializer.fromJson<String?>(json['task']),
+      wagePaise: serializer.fromJson<int>(json['wagePaise']),
+      advancePaise: serializer.fromJson<int>(json['advancePaise']),
+      settledOn: serializer.fromJson<DateTime?>(json['settledOn']),
+      note: serializer.fromJson<String?>(json['note']),
+      clientUpdatedAt: serializer.fromJson<DateTime>(json['clientUpdatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'plotId': serializer.toJson<String>(plotId),
+      'baharCycleId': serializer.toJson<String?>(baharCycleId),
+      'workerName': serializer.toJson<String>(workerName),
+      'workedOn': serializer.toJson<DateTime>(workedOn),
+      'task': serializer.toJson<String?>(task),
+      'wagePaise': serializer.toJson<int>(wagePaise),
+      'advancePaise': serializer.toJson<int>(advancePaise),
+      'settledOn': serializer.toJson<DateTime?>(settledOn),
+      'note': serializer.toJson<String?>(note),
+      'clientUpdatedAt': serializer.toJson<DateTime>(clientUpdatedAt),
+    };
+  }
+
+  LabourRecordRow copyWith({
+    String? id,
+    String? plotId,
+    Value<String?> baharCycleId = const Value.absent(),
+    String? workerName,
+    DateTime? workedOn,
+    Value<String?> task = const Value.absent(),
+    int? wagePaise,
+    int? advancePaise,
+    Value<DateTime?> settledOn = const Value.absent(),
+    Value<String?> note = const Value.absent(),
+    DateTime? clientUpdatedAt,
+  }) => LabourRecordRow(
+    id: id ?? this.id,
+    plotId: plotId ?? this.plotId,
+    baharCycleId: baharCycleId.present ? baharCycleId.value : this.baharCycleId,
+    workerName: workerName ?? this.workerName,
+    workedOn: workedOn ?? this.workedOn,
+    task: task.present ? task.value : this.task,
+    wagePaise: wagePaise ?? this.wagePaise,
+    advancePaise: advancePaise ?? this.advancePaise,
+    settledOn: settledOn.present ? settledOn.value : this.settledOn,
+    note: note.present ? note.value : this.note,
+    clientUpdatedAt: clientUpdatedAt ?? this.clientUpdatedAt,
+  );
+  LabourRecordRow copyWithCompanion(LabourRecordsCompanion data) {
+    return LabourRecordRow(
+      id: data.id.present ? data.id.value : this.id,
+      plotId: data.plotId.present ? data.plotId.value : this.plotId,
+      baharCycleId: data.baharCycleId.present
+          ? data.baharCycleId.value
+          : this.baharCycleId,
+      workerName: data.workerName.present
+          ? data.workerName.value
+          : this.workerName,
+      workedOn: data.workedOn.present ? data.workedOn.value : this.workedOn,
+      task: data.task.present ? data.task.value : this.task,
+      wagePaise: data.wagePaise.present ? data.wagePaise.value : this.wagePaise,
+      advancePaise: data.advancePaise.present
+          ? data.advancePaise.value
+          : this.advancePaise,
+      settledOn: data.settledOn.present ? data.settledOn.value : this.settledOn,
+      note: data.note.present ? data.note.value : this.note,
+      clientUpdatedAt: data.clientUpdatedAt.present
+          ? data.clientUpdatedAt.value
+          : this.clientUpdatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('LabourRecordRow(')
+          ..write('id: $id, ')
+          ..write('plotId: $plotId, ')
+          ..write('baharCycleId: $baharCycleId, ')
+          ..write('workerName: $workerName, ')
+          ..write('workedOn: $workedOn, ')
+          ..write('task: $task, ')
+          ..write('wagePaise: $wagePaise, ')
+          ..write('advancePaise: $advancePaise, ')
+          ..write('settledOn: $settledOn, ')
+          ..write('note: $note, ')
+          ..write('clientUpdatedAt: $clientUpdatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    plotId,
+    baharCycleId,
+    workerName,
+    workedOn,
+    task,
+    wagePaise,
+    advancePaise,
+    settledOn,
+    note,
+    clientUpdatedAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is LabourRecordRow &&
+          other.id == this.id &&
+          other.plotId == this.plotId &&
+          other.baharCycleId == this.baharCycleId &&
+          other.workerName == this.workerName &&
+          other.workedOn == this.workedOn &&
+          other.task == this.task &&
+          other.wagePaise == this.wagePaise &&
+          other.advancePaise == this.advancePaise &&
+          other.settledOn == this.settledOn &&
+          other.note == this.note &&
+          other.clientUpdatedAt == this.clientUpdatedAt);
+}
+
+class LabourRecordsCompanion extends UpdateCompanion<LabourRecordRow> {
+  final Value<String> id;
+  final Value<String> plotId;
+  final Value<String?> baharCycleId;
+  final Value<String> workerName;
+  final Value<DateTime> workedOn;
+  final Value<String?> task;
+  final Value<int> wagePaise;
+  final Value<int> advancePaise;
+  final Value<DateTime?> settledOn;
+  final Value<String?> note;
+  final Value<DateTime> clientUpdatedAt;
+  final Value<int> rowid;
+  const LabourRecordsCompanion({
+    this.id = const Value.absent(),
+    this.plotId = const Value.absent(),
+    this.baharCycleId = const Value.absent(),
+    this.workerName = const Value.absent(),
+    this.workedOn = const Value.absent(),
+    this.task = const Value.absent(),
+    this.wagePaise = const Value.absent(),
+    this.advancePaise = const Value.absent(),
+    this.settledOn = const Value.absent(),
+    this.note = const Value.absent(),
+    this.clientUpdatedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  LabourRecordsCompanion.insert({
+    required String id,
+    required String plotId,
+    this.baharCycleId = const Value.absent(),
+    required String workerName,
+    required DateTime workedOn,
+    this.task = const Value.absent(),
+    required int wagePaise,
+    required int advancePaise,
+    this.settledOn = const Value.absent(),
+    this.note = const Value.absent(),
+    required DateTime clientUpdatedAt,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       plotId = Value(plotId),
+       workerName = Value(workerName),
+       workedOn = Value(workedOn),
+       wagePaise = Value(wagePaise),
+       advancePaise = Value(advancePaise),
+       clientUpdatedAt = Value(clientUpdatedAt);
+  static Insertable<LabourRecordRow> custom({
+    Expression<String>? id,
+    Expression<String>? plotId,
+    Expression<String>? baharCycleId,
+    Expression<String>? workerName,
+    Expression<DateTime>? workedOn,
+    Expression<String>? task,
+    Expression<int>? wagePaise,
+    Expression<int>? advancePaise,
+    Expression<DateTime>? settledOn,
+    Expression<String>? note,
+    Expression<DateTime>? clientUpdatedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (plotId != null) 'plot_id': plotId,
+      if (baharCycleId != null) 'bahar_cycle_id': baharCycleId,
+      if (workerName != null) 'worker_name': workerName,
+      if (workedOn != null) 'worked_on': workedOn,
+      if (task != null) 'task': task,
+      if (wagePaise != null) 'wage_paise': wagePaise,
+      if (advancePaise != null) 'advance_paise': advancePaise,
+      if (settledOn != null) 'settled_on': settledOn,
+      if (note != null) 'note': note,
+      if (clientUpdatedAt != null) 'client_updated_at': clientUpdatedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  LabourRecordsCompanion copyWith({
+    Value<String>? id,
+    Value<String>? plotId,
+    Value<String?>? baharCycleId,
+    Value<String>? workerName,
+    Value<DateTime>? workedOn,
+    Value<String?>? task,
+    Value<int>? wagePaise,
+    Value<int>? advancePaise,
+    Value<DateTime?>? settledOn,
+    Value<String?>? note,
+    Value<DateTime>? clientUpdatedAt,
+    Value<int>? rowid,
+  }) {
+    return LabourRecordsCompanion(
+      id: id ?? this.id,
+      plotId: plotId ?? this.plotId,
+      baharCycleId: baharCycleId ?? this.baharCycleId,
+      workerName: workerName ?? this.workerName,
+      workedOn: workedOn ?? this.workedOn,
+      task: task ?? this.task,
+      wagePaise: wagePaise ?? this.wagePaise,
+      advancePaise: advancePaise ?? this.advancePaise,
+      settledOn: settledOn ?? this.settledOn,
+      note: note ?? this.note,
+      clientUpdatedAt: clientUpdatedAt ?? this.clientUpdatedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (plotId.present) {
+      map['plot_id'] = Variable<String>(plotId.value);
+    }
+    if (baharCycleId.present) {
+      map['bahar_cycle_id'] = Variable<String>(baharCycleId.value);
+    }
+    if (workerName.present) {
+      map['worker_name'] = Variable<String>(workerName.value);
+    }
+    if (workedOn.present) {
+      map['worked_on'] = Variable<DateTime>(workedOn.value);
+    }
+    if (task.present) {
+      map['task'] = Variable<String>(task.value);
+    }
+    if (wagePaise.present) {
+      map['wage_paise'] = Variable<int>(wagePaise.value);
+    }
+    if (advancePaise.present) {
+      map['advance_paise'] = Variable<int>(advancePaise.value);
+    }
+    if (settledOn.present) {
+      map['settled_on'] = Variable<DateTime>(settledOn.value);
+    }
+    if (note.present) {
+      map['note'] = Variable<String>(note.value);
+    }
+    if (clientUpdatedAt.present) {
+      map['client_updated_at'] = Variable<DateTime>(clientUpdatedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('LabourRecordsCompanion(')
+          ..write('id: $id, ')
+          ..write('plotId: $plotId, ')
+          ..write('baharCycleId: $baharCycleId, ')
+          ..write('workerName: $workerName, ')
+          ..write('workedOn: $workedOn, ')
+          ..write('task: $task, ')
+          ..write('wagePaise: $wagePaise, ')
+          ..write('advancePaise: $advancePaise, ')
+          ..write('settledOn: $settledOn, ')
+          ..write('note: $note, ')
+          ..write('clientUpdatedAt: $clientUpdatedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -6276,6 +7519,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $InputRecordsTable inputRecords = $InputRecordsTable(this);
   late final $IrrigationRecordsTable irrigationRecords =
       $IrrigationRecordsTable(this);
+  late final $HarvestRecordsTable harvestRecords = $HarvestRecordsTable(this);
+  late final $LabourRecordsTable labourRecords = $LabourRecordsTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -6291,6 +7536,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     sprayRecords,
     inputRecords,
     irrigationRecords,
+    harvestRecords,
+    labourRecords,
   ];
   @override
   DriftDatabaseOptions get options =>
@@ -9403,6 +10650,636 @@ typedef $$IrrigationRecordsTableProcessedTableManager =
       IrrigationRecordRow,
       PrefetchHooks Function()
     >;
+typedef $$HarvestRecordsTableCreateCompanionBuilder =
+    HarvestRecordsCompanion Function({
+      required String id,
+      required String plotId,
+      Value<String?> baharCycleId,
+      required DateTime harvestedOn,
+      Value<String?> grade,
+      Value<String?> sizeClass,
+      required double quantityKg,
+      Value<String?> note,
+      required DateTime clientUpdatedAt,
+      Value<int> rowid,
+    });
+typedef $$HarvestRecordsTableUpdateCompanionBuilder =
+    HarvestRecordsCompanion Function({
+      Value<String> id,
+      Value<String> plotId,
+      Value<String?> baharCycleId,
+      Value<DateTime> harvestedOn,
+      Value<String?> grade,
+      Value<String?> sizeClass,
+      Value<double> quantityKg,
+      Value<String?> note,
+      Value<DateTime> clientUpdatedAt,
+      Value<int> rowid,
+    });
+
+class $$HarvestRecordsTableFilterComposer
+    extends Composer<_$AppDatabase, $HarvestRecordsTable> {
+  $$HarvestRecordsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get plotId => $composableBuilder(
+    column: $table.plotId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get baharCycleId => $composableBuilder(
+    column: $table.baharCycleId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get harvestedOn => $composableBuilder(
+    column: $table.harvestedOn,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get grade => $composableBuilder(
+    column: $table.grade,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get sizeClass => $composableBuilder(
+    column: $table.sizeClass,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get quantityKg => $composableBuilder(
+    column: $table.quantityKg,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get note => $composableBuilder(
+    column: $table.note,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get clientUpdatedAt => $composableBuilder(
+    column: $table.clientUpdatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$HarvestRecordsTableOrderingComposer
+    extends Composer<_$AppDatabase, $HarvestRecordsTable> {
+  $$HarvestRecordsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get plotId => $composableBuilder(
+    column: $table.plotId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get baharCycleId => $composableBuilder(
+    column: $table.baharCycleId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get harvestedOn => $composableBuilder(
+    column: $table.harvestedOn,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get grade => $composableBuilder(
+    column: $table.grade,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get sizeClass => $composableBuilder(
+    column: $table.sizeClass,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get quantityKg => $composableBuilder(
+    column: $table.quantityKg,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get note => $composableBuilder(
+    column: $table.note,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get clientUpdatedAt => $composableBuilder(
+    column: $table.clientUpdatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$HarvestRecordsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $HarvestRecordsTable> {
+  $$HarvestRecordsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get plotId =>
+      $composableBuilder(column: $table.plotId, builder: (column) => column);
+
+  GeneratedColumn<String> get baharCycleId => $composableBuilder(
+    column: $table.baharCycleId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get harvestedOn => $composableBuilder(
+    column: $table.harvestedOn,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get grade =>
+      $composableBuilder(column: $table.grade, builder: (column) => column);
+
+  GeneratedColumn<String> get sizeClass =>
+      $composableBuilder(column: $table.sizeClass, builder: (column) => column);
+
+  GeneratedColumn<double> get quantityKg => $composableBuilder(
+    column: $table.quantityKg,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get note =>
+      $composableBuilder(column: $table.note, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get clientUpdatedAt => $composableBuilder(
+    column: $table.clientUpdatedAt,
+    builder: (column) => column,
+  );
+}
+
+class $$HarvestRecordsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $HarvestRecordsTable,
+          HarvestRecordRow,
+          $$HarvestRecordsTableFilterComposer,
+          $$HarvestRecordsTableOrderingComposer,
+          $$HarvestRecordsTableAnnotationComposer,
+          $$HarvestRecordsTableCreateCompanionBuilder,
+          $$HarvestRecordsTableUpdateCompanionBuilder,
+          (
+            HarvestRecordRow,
+            BaseReferences<
+              _$AppDatabase,
+              $HarvestRecordsTable,
+              HarvestRecordRow
+            >,
+          ),
+          HarvestRecordRow,
+          PrefetchHooks Function()
+        > {
+  $$HarvestRecordsTableTableManager(
+    _$AppDatabase db,
+    $HarvestRecordsTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$HarvestRecordsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$HarvestRecordsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$HarvestRecordsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> plotId = const Value.absent(),
+                Value<String?> baharCycleId = const Value.absent(),
+                Value<DateTime> harvestedOn = const Value.absent(),
+                Value<String?> grade = const Value.absent(),
+                Value<String?> sizeClass = const Value.absent(),
+                Value<double> quantityKg = const Value.absent(),
+                Value<String?> note = const Value.absent(),
+                Value<DateTime> clientUpdatedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => HarvestRecordsCompanion(
+                id: id,
+                plotId: plotId,
+                baharCycleId: baharCycleId,
+                harvestedOn: harvestedOn,
+                grade: grade,
+                sizeClass: sizeClass,
+                quantityKg: quantityKg,
+                note: note,
+                clientUpdatedAt: clientUpdatedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String plotId,
+                Value<String?> baharCycleId = const Value.absent(),
+                required DateTime harvestedOn,
+                Value<String?> grade = const Value.absent(),
+                Value<String?> sizeClass = const Value.absent(),
+                required double quantityKg,
+                Value<String?> note = const Value.absent(),
+                required DateTime clientUpdatedAt,
+                Value<int> rowid = const Value.absent(),
+              }) => HarvestRecordsCompanion.insert(
+                id: id,
+                plotId: plotId,
+                baharCycleId: baharCycleId,
+                harvestedOn: harvestedOn,
+                grade: grade,
+                sizeClass: sizeClass,
+                quantityKg: quantityKg,
+                note: note,
+                clientUpdatedAt: clientUpdatedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$HarvestRecordsTable, HarvestRecordRow>(table),
+                  BaseReferences<
+                    _$AppDatabase,
+                    $HarvestRecordsTable,
+                    HarvestRecordRow
+                  >(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$HarvestRecordsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $HarvestRecordsTable,
+      HarvestRecordRow,
+      $$HarvestRecordsTableFilterComposer,
+      $$HarvestRecordsTableOrderingComposer,
+      $$HarvestRecordsTableAnnotationComposer,
+      $$HarvestRecordsTableCreateCompanionBuilder,
+      $$HarvestRecordsTableUpdateCompanionBuilder,
+      (
+        HarvestRecordRow,
+        BaseReferences<_$AppDatabase, $HarvestRecordsTable, HarvestRecordRow>,
+      ),
+      HarvestRecordRow,
+      PrefetchHooks Function()
+    >;
+typedef $$LabourRecordsTableCreateCompanionBuilder =
+    LabourRecordsCompanion Function({
+      required String id,
+      required String plotId,
+      Value<String?> baharCycleId,
+      required String workerName,
+      required DateTime workedOn,
+      Value<String?> task,
+      required int wagePaise,
+      required int advancePaise,
+      Value<DateTime?> settledOn,
+      Value<String?> note,
+      required DateTime clientUpdatedAt,
+      Value<int> rowid,
+    });
+typedef $$LabourRecordsTableUpdateCompanionBuilder =
+    LabourRecordsCompanion Function({
+      Value<String> id,
+      Value<String> plotId,
+      Value<String?> baharCycleId,
+      Value<String> workerName,
+      Value<DateTime> workedOn,
+      Value<String?> task,
+      Value<int> wagePaise,
+      Value<int> advancePaise,
+      Value<DateTime?> settledOn,
+      Value<String?> note,
+      Value<DateTime> clientUpdatedAt,
+      Value<int> rowid,
+    });
+
+class $$LabourRecordsTableFilterComposer
+    extends Composer<_$AppDatabase, $LabourRecordsTable> {
+  $$LabourRecordsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get plotId => $composableBuilder(
+    column: $table.plotId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get baharCycleId => $composableBuilder(
+    column: $table.baharCycleId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get workerName => $composableBuilder(
+    column: $table.workerName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get workedOn => $composableBuilder(
+    column: $table.workedOn,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get task => $composableBuilder(
+    column: $table.task,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get wagePaise => $composableBuilder(
+    column: $table.wagePaise,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get advancePaise => $composableBuilder(
+    column: $table.advancePaise,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get settledOn => $composableBuilder(
+    column: $table.settledOn,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get note => $composableBuilder(
+    column: $table.note,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get clientUpdatedAt => $composableBuilder(
+    column: $table.clientUpdatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$LabourRecordsTableOrderingComposer
+    extends Composer<_$AppDatabase, $LabourRecordsTable> {
+  $$LabourRecordsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get plotId => $composableBuilder(
+    column: $table.plotId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get baharCycleId => $composableBuilder(
+    column: $table.baharCycleId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get workerName => $composableBuilder(
+    column: $table.workerName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get workedOn => $composableBuilder(
+    column: $table.workedOn,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get task => $composableBuilder(
+    column: $table.task,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get wagePaise => $composableBuilder(
+    column: $table.wagePaise,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get advancePaise => $composableBuilder(
+    column: $table.advancePaise,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get settledOn => $composableBuilder(
+    column: $table.settledOn,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get note => $composableBuilder(
+    column: $table.note,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get clientUpdatedAt => $composableBuilder(
+    column: $table.clientUpdatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$LabourRecordsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $LabourRecordsTable> {
+  $$LabourRecordsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get plotId =>
+      $composableBuilder(column: $table.plotId, builder: (column) => column);
+
+  GeneratedColumn<String> get baharCycleId => $composableBuilder(
+    column: $table.baharCycleId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get workerName => $composableBuilder(
+    column: $table.workerName,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get workedOn =>
+      $composableBuilder(column: $table.workedOn, builder: (column) => column);
+
+  GeneratedColumn<String> get task =>
+      $composableBuilder(column: $table.task, builder: (column) => column);
+
+  GeneratedColumn<int> get wagePaise =>
+      $composableBuilder(column: $table.wagePaise, builder: (column) => column);
+
+  GeneratedColumn<int> get advancePaise => $composableBuilder(
+    column: $table.advancePaise,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get settledOn =>
+      $composableBuilder(column: $table.settledOn, builder: (column) => column);
+
+  GeneratedColumn<String> get note =>
+      $composableBuilder(column: $table.note, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get clientUpdatedAt => $composableBuilder(
+    column: $table.clientUpdatedAt,
+    builder: (column) => column,
+  );
+}
+
+class $$LabourRecordsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $LabourRecordsTable,
+          LabourRecordRow,
+          $$LabourRecordsTableFilterComposer,
+          $$LabourRecordsTableOrderingComposer,
+          $$LabourRecordsTableAnnotationComposer,
+          $$LabourRecordsTableCreateCompanionBuilder,
+          $$LabourRecordsTableUpdateCompanionBuilder,
+          (
+            LabourRecordRow,
+            BaseReferences<_$AppDatabase, $LabourRecordsTable, LabourRecordRow>,
+          ),
+          LabourRecordRow,
+          PrefetchHooks Function()
+        > {
+  $$LabourRecordsTableTableManager(_$AppDatabase db, $LabourRecordsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$LabourRecordsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$LabourRecordsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$LabourRecordsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> plotId = const Value.absent(),
+                Value<String?> baharCycleId = const Value.absent(),
+                Value<String> workerName = const Value.absent(),
+                Value<DateTime> workedOn = const Value.absent(),
+                Value<String?> task = const Value.absent(),
+                Value<int> wagePaise = const Value.absent(),
+                Value<int> advancePaise = const Value.absent(),
+                Value<DateTime?> settledOn = const Value.absent(),
+                Value<String?> note = const Value.absent(),
+                Value<DateTime> clientUpdatedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => LabourRecordsCompanion(
+                id: id,
+                plotId: plotId,
+                baharCycleId: baharCycleId,
+                workerName: workerName,
+                workedOn: workedOn,
+                task: task,
+                wagePaise: wagePaise,
+                advancePaise: advancePaise,
+                settledOn: settledOn,
+                note: note,
+                clientUpdatedAt: clientUpdatedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String plotId,
+                Value<String?> baharCycleId = const Value.absent(),
+                required String workerName,
+                required DateTime workedOn,
+                Value<String?> task = const Value.absent(),
+                required int wagePaise,
+                required int advancePaise,
+                Value<DateTime?> settledOn = const Value.absent(),
+                Value<String?> note = const Value.absent(),
+                required DateTime clientUpdatedAt,
+                Value<int> rowid = const Value.absent(),
+              }) => LabourRecordsCompanion.insert(
+                id: id,
+                plotId: plotId,
+                baharCycleId: baharCycleId,
+                workerName: workerName,
+                workedOn: workedOn,
+                task: task,
+                wagePaise: wagePaise,
+                advancePaise: advancePaise,
+                settledOn: settledOn,
+                note: note,
+                clientUpdatedAt: clientUpdatedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$LabourRecordsTable, LabourRecordRow>(table),
+                  BaseReferences<
+                    _$AppDatabase,
+                    $LabourRecordsTable,
+                    LabourRecordRow
+                  >(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$LabourRecordsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $LabourRecordsTable,
+      LabourRecordRow,
+      $$LabourRecordsTableFilterComposer,
+      $$LabourRecordsTableOrderingComposer,
+      $$LabourRecordsTableAnnotationComposer,
+      $$LabourRecordsTableCreateCompanionBuilder,
+      $$LabourRecordsTableUpdateCompanionBuilder,
+      (
+        LabourRecordRow,
+        BaseReferences<_$AppDatabase, $LabourRecordsTable, LabourRecordRow>,
+      ),
+      LabourRecordRow,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -9427,4 +11304,8 @@ class $AppDatabaseManager {
       $$InputRecordsTableTableManager(_db, _db.inputRecords);
   $$IrrigationRecordsTableTableManager get irrigationRecords =>
       $$IrrigationRecordsTableTableManager(_db, _db.irrigationRecords);
+  $$HarvestRecordsTableTableManager get harvestRecords =>
+      $$HarvestRecordsTableTableManager(_db, _db.harvestRecords);
+  $$LabourRecordsTableTableManager get labourRecords =>
+      $$LabourRecordsTableTableManager(_db, _db.labourRecords);
 }

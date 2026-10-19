@@ -14,6 +14,9 @@ import '../features/auth/domain/auth.dart';
 import '../features/bahar/data/bahar_catalog.dart';
 import '../features/bahar/data/bahar_repository.dart';
 import '../features/bahar/domain/bahar_cycle.dart';
+import '../features/field_work/data/field_work_options.dart';
+import '../features/field_work/data/field_work_repository.dart';
+import '../features/field_work/domain/field_work.dart';
 import '../features/home/data/demo_home_repository.dart';
 import '../features/home/domain/home_snapshot.dart';
 import '../features/inputs/data/input_kinds.dart';
@@ -170,6 +173,29 @@ final inputKindsProvider = FutureProvider<InputKindsData>(
   (ref) => ref.watch(inputKindsCatalogProvider).load(),
 );
 
+final fieldWorkRepositoryProvider = Provider<FieldWorkRepository>(
+  (ref) => FieldWorkRepository(
+    ref.watch(databaseProvider),
+    clock: ref.watch(clockProvider),
+  ),
+);
+
+final harvestsProvider = StreamProvider.family<List<HarvestRecord>, String>(
+  (ref, plotId) => ref.watch(fieldWorkRepositoryProvider).watchHarvests(plotId),
+);
+
+final labourProvider = StreamProvider.family<List<LabourRecord>, String>(
+  (ref, plotId) => ref.watch(fieldWorkRepositoryProvider).watchLabour(plotId),
+);
+
+final fieldWorkOptionsCatalogProvider = Provider<FieldWorkOptions>(
+  (ref) => FieldWorkOptions(),
+);
+
+final fieldWorkOptionsProvider = FutureProvider<FieldWorkOptionsData>(
+  (ref) => ref.watch(fieldWorkOptionsCatalogProvider).load(),
+);
+
 final syncEngineProvider = Provider<SyncEngine>((ref) {
   final engine = SyncEngine(
     db: ref.watch(databaseProvider),
@@ -193,6 +219,12 @@ final syncEngineProvider = Provider<SyncEngine>((ref) {
       InputsRepository.irrigationEntity: ref
           .watch(inputsRepositoryProvider)
           .applyRemoteIrrigation,
+      FieldWorkRepository.harvestEntity: ref
+          .watch(fieldWorkRepositoryProvider)
+          .applyRemoteHarvest,
+      FieldWorkRepository.labourEntity: ref
+          .watch(fieldWorkRepositoryProvider)
+          .applyRemoteLabour,
     },
   );
   // Demo mode has no backend: writes stay queued locally, nothing is reported as failing.

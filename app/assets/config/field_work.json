@@ -1,0 +1,22 @@
+{
+  "_note": "Choices for harvest and labour records. Config, not code: add or rename without a release. Wages are counted under 'labour' in the bahar summary, so labour has no expense category.",
+  "grades": [
+    {"slug": "grade_a", "labels": {"en": "Grade A", "mr": "ए ग्रेड", "hi": "ए ग्रेड"}},
+    {"slug": "grade_b", "labels": {"en": "Grade B", "mr": "बी ग्रेड", "hi": "बी ग्रेड"}},
+    {"slug": "grade_c", "labels": {"en": "Grade C", "mr": "सी ग्रेड", "hi": "सी ग्रेड"}},
+    {"slug": "rejected", "labels": {"en": "Rejected / fallen", "mr": "नापसंत / गळलेली", "hi": "खराब / गिरी हुई"}}
+  ],
+  "size_classes": [
+    {"slug": "large", "labels": {"en": "Large", "mr": "मोठी", "hi": "बड़ी"}},
+    {"slug": "medium", "labels": {"en": "Medium", "mr": "मध्यम", "hi": "मध्यम"}},
+    {"slug": "small", "labels": {"en": "Small", "mr": "लहान", "hi": "छोटी"}}
+  ],
+  "tasks": [
+    {"slug": "weeding", "labels": {"en": "Weeding", "mr": "निंदणी", "hi": "निराई"}},
+    {"slug": "pruning", "labels": {"en": "Pruning", "mr": "छाटणी", "hi": "छंटाई"}},
+    {"slug": "spraying", "labels": {"en": "Spraying", "mr": "फवारणी", "hi": "छिड़काव"}},
+    {"slug": "harvesting", "labels": {"en": "Harvesting", "mr": "काढणी", "hi": "तुड़ाई"}},
+    {"slug": "irrigation_work", "labels": {"en": "Watering / drip work", "mr": "पाणी / ठिबकचे काम", "hi": "सिंचाई / ड्रिप का काम"}},
+    {"slug": "other", "labels": {"en": "Other work", "mr": "इतर काम", "hi": "अन्य काम"}}
+  ]
+}
