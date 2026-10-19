@@ -121,3 +121,18 @@ class IncomePayload(RowPayload):
     payment_status: Literal["pending", "partial", "paid"]
     paid_paise: Paise = 0
     paid_on: date | None = None
+
+
+class SprayRecordPayload(RowPayload):
+    plot_id: uuid.UUID
+    bahar_cycle_id: uuid.UUID | None = None
+    sprayed_on: date
+    product_name: str = Field(min_length=1, max_length=120)
+    active_ingredient: str | None = Field(default=None, min_length=1, max_length=120)
+    dose: str | None = Field(default=None, max_length=200)
+    water_litres: float | None = Field(default=None, gt=0, le=10**6)
+    area_acres: float | None = Field(default=None, gt=0, le=10**5)
+    cost_paise: Paise = 0
+    operator: str | None = Field(default=None, max_length=120)
+    phi_days: int | None = Field(default=None, ge=0, le=365)
+    target: str | None = Field(default=None, max_length=120)

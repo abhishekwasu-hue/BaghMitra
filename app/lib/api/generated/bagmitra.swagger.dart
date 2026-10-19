@@ -333,6 +333,33 @@ abstract class Bagmitra extends ChopperService {
     ),
   });
 
+  ///Restrictions
+  Future<chopper.Response<RestrictionsResponse>> v1ReferenceRestrictionsGet() {
+    generatedMapping.putIfAbsent(
+      RestrictionsResponse,
+      () => RestrictionsResponse.fromJsonFactory,
+    );
+
+    return _v1ReferenceRestrictionsGet();
+  }
+
+  ///Restrictions
+  @GET(path: '/v1/reference/restrictions')
+  Future<chopper.Response<RestrictionsResponse>> _v1ReferenceRestrictionsGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Gazette bans / restrictions and trade names, cached by the app so spray records can
+be checked offline. Facts only; no advice text.''',
+      summary: 'Restrictions',
+      operationId: 'reference_restrictions',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["reference"],
+      deprecated: false,
+    ),
+  });
+
   ///Stage Templates
   ///@param crop
   Future<chopper.Response<StageTemplatesResponse>>

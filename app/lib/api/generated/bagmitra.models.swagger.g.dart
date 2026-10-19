@@ -267,6 +267,54 @@ ReadyResponse _$ReadyResponseFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$ReadyResponseToJson(ReadyResponse instance) =>
     <String, dynamic>{'database': instance.database, 'status': instance.status};
 
+RestrictionOut _$RestrictionOutFromJson(Map<String, dynamic> json) =>
+    RestrictionOut(
+      activeIngredient: json['active_ingredient'] as String,
+      cropGroups:
+          (json['crop_groups'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          [],
+      crops:
+          (json['crops'] as List<dynamic>?)?.map((e) => e as String).toList() ??
+          [],
+      effectiveFrom: DateTime.parse(json['effective_from'] as String),
+      kind: json['kind'] as String,
+      notification: json['notification'] as String,
+    );
+
+Map<String, dynamic> _$RestrictionOutToJson(RestrictionOut instance) =>
+    <String, dynamic>{
+      'active_ingredient': instance.activeIngredient,
+      'crop_groups': instance.cropGroups,
+      'crops': instance.crops,
+      'effective_from': instance.effectiveFrom.toIso8601String(),
+      'kind': instance.kind,
+      'notification': instance.notification,
+    };
+
+RestrictionsResponse _$RestrictionsResponseFromJson(
+  Map<String, dynamic> json,
+) => RestrictionsResponse(
+  restrictions:
+      (json['restrictions'] as List<dynamic>?)
+          ?.map((e) => RestrictionOut.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      [],
+  synonyms:
+      (json['synonyms'] as List<dynamic>?)
+          ?.map((e) => SynonymOut.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      [],
+);
+
+Map<String, dynamic> _$RestrictionsResponseToJson(
+  RestrictionsResponse instance,
+) => <String, dynamic>{
+  'restrictions': instance.restrictions.map((e) => e.toJson()).toList(),
+  'synonyms': instance.synonyms.map((e) => e.toJson()).toList(),
+};
+
 ReviewIn _$ReviewInFromJson(Map<String, dynamic> json) => ReviewIn(
   comments: json['comments'] as String?,
   decision: reviewInDecisionFromJson(json['decision']),
@@ -356,6 +404,17 @@ Map<String, dynamic> _$StageTemplatesResponseToJson(
 ) => <String, dynamic>{
   'templates': instance.templates.map((e) => e.toJson()).toList(),
 };
+
+SynonymOut _$SynonymOutFromJson(Map<String, dynamic> json) => SynonymOut(
+  activeIngredient: json['active_ingredient'] as String,
+  name: json['name'] as String,
+);
+
+Map<String, dynamic> _$SynonymOutToJson(SynonymOut instance) =>
+    <String, dynamic>{
+      'active_ingredient': instance.activeIngredient,
+      'name': instance.name,
+    };
 
 TemplateStage _$TemplateStageFromJson(Map<String, dynamic> json) =>
     TemplateStage(

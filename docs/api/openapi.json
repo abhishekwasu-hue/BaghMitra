@@ -540,6 +540,75 @@
         "title": "ReadyResponse",
         "type": "object"
       },
+      "RestrictionOut": {
+        "properties": {
+          "active_ingredient": {
+            "title": "Active Ingredient",
+            "type": "string"
+          },
+          "crop_groups": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Crop Groups",
+            "type": "array"
+          },
+          "crops": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Crops",
+            "type": "array"
+          },
+          "effective_from": {
+            "format": "date-time",
+            "title": "Effective From",
+            "type": "string"
+          },
+          "kind": {
+            "title": "Kind",
+            "type": "string"
+          },
+          "notification": {
+            "title": "Notification",
+            "type": "string"
+          }
+        },
+        "required": [
+          "active_ingredient",
+          "kind",
+          "crops",
+          "crop_groups",
+          "notification",
+          "effective_from"
+        ],
+        "title": "RestrictionOut",
+        "type": "object"
+      },
+      "RestrictionsResponse": {
+        "properties": {
+          "restrictions": {
+            "items": {
+              "$ref": "#/components/schemas/RestrictionOut"
+            },
+            "title": "Restrictions",
+            "type": "array"
+          },
+          "synonyms": {
+            "items": {
+              "$ref": "#/components/schemas/SynonymOut"
+            },
+            "title": "Synonyms",
+            "type": "array"
+          }
+        },
+        "required": [
+          "restrictions",
+          "synonyms"
+        ],
+        "title": "RestrictionsResponse",
+        "type": "object"
+      },
       "ReviewIn": {
         "properties": {
           "comments": {
@@ -708,6 +777,24 @@
           "templates"
         ],
         "title": "StageTemplatesResponse",
+        "type": "object"
+      },
+      "SynonymOut": {
+        "properties": {
+          "active_ingredient": {
+            "title": "Active Ingredient",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "active_ingredient"
+        ],
+        "title": "SynonymOut",
         "type": "object"
       },
       "TemplateStage": {
@@ -1373,6 +1460,43 @@
         "summary": "Get Me",
         "tags": [
           "profile"
+        ]
+      }
+    },
+    "/v1/reference/restrictions": {
+      "get": {
+        "description": "Gazette bans / restrictions and trade names, cached by the app so spray records can\nbe checked offline. Facts only; no advice text.",
+        "operationId": "reference_restrictions",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestrictionsResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Restrictions",
+        "tags": [
+          "reference"
         ]
       }
     },

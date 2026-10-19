@@ -14,6 +14,7 @@ from bagmitra_api.auth.jwt import CurrentUser
 from bagmitra_api.core.errors import ErrorResponse
 from bagmitra_api.db.models import CropStageTemplate
 from bagmitra_api.db.session import DbSession
+from bagmitra_api.kb.models import KbRestriction, KbSynonym
 
 router = APIRouter(
     prefix="/v1/reference", tags=["reference"], responses={401: {"model": ErrorResponse}}
@@ -58,4 +59,37 @@ async def stage_templates(
     rows = await session.scalars(query.order_by(CropStageTemplate.crop, CropStageTemplate.bahar))
     return StageTemplatesResponse(
         templates=[StageTemplate.model_validate(r, from_attributes=True) for r in rows]
+    )
+
+
+class RestrictionOut(BaseModel):
+    active_ingredient: str
+    kind: str
+    crops: list[str]
+    crop_groups: list[str]
+    notification: str
+    effective_from: datetime
+
+
+class SynonymOut(BaseModel):
+    name: str
+    active_ingredient: str
+
+
+class RestrictionsResponse(BaseModel):
+    restrictions: list[RestrictionOut]
+    synonyms: list[SynonymOut]
+
+
+@router.get("/restrictions", operation_id="reference_restrictions")
+async def restrictions(_user: CurrentUser, session: DbSession) -> RestrictionsResponse:
+    """Gazette bans / restrictions and trade names, cached by the app so spray records can
+    be checked offline. Facts only; no advice text."""
+    rows = await session.scalars(
+        select(KbRestriction).order_by(KbRestriction.active_ingredient, KbRestriction.kind)
+    )
+    names = await session.scalars(select(KbSynonym).order_by(KbSynonym.name))
+    return RestrictionsResponse(
+        restrictions=[RestrictionOut.model_validate(r, from_attributes=True) for r in rows],
+        synonyms=[SynonymOut.model_validate(n, from_attributes=True) for n in names],
     )
