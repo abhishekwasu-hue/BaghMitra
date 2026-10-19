@@ -8,7 +8,7 @@ from __future__ import annotations
 import uuid
 from datetime import date
 
-from sqlalchemy import BigInteger, Date, Float, String
+from sqlalchemy import BigInteger, Date, Float, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column
 
 from bagmitra_api.db.base import Base, OwnedSyncedRowMixin
@@ -40,3 +40,22 @@ class Income(OwnedSyncedRowMixin, Base):
     payment_status: Mapped[str] = mapped_column(String(16))
     paid_paise: Mapped[int] = mapped_column(BigInteger)
     paid_on: Mapped[date | None] = mapped_column(Date)
+
+
+class SprayRecord(OwnedSyncedRowMixin, Base):
+    """A spray application. `active_ingredient` drives the offline ban / PHI warning."""
+
+    __tablename__ = "spray_records"
+
+    plot_id: Mapped[uuid.UUID] = mapped_column(index=True)
+    bahar_cycle_id: Mapped[uuid.UUID | None] = mapped_column(index=True)
+    sprayed_on: Mapped[date] = mapped_column(Date)
+    product_name: Mapped[str] = mapped_column(String(120))
+    active_ingredient: Mapped[str | None] = mapped_column(String(120))
+    dose: Mapped[str | None] = mapped_column(String(200))
+    water_litres: Mapped[float | None] = mapped_column(Float)
+    area_acres: Mapped[float | None] = mapped_column(Float)
+    cost_paise: Mapped[int] = mapped_column(BigInteger)
+    operator: Mapped[str | None] = mapped_column(String(120))
+    phi_days: Mapped[int | None] = mapped_column(Integer)
+    target: Mapped[str | None] = mapped_column(String(120))

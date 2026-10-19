@@ -1362,6 +1362,198 @@ extension $ReadyResponseExtension on ReadyResponse {
 }
 
 @JsonSerializable(explicitToJson: true)
+class RestrictionOut {
+  const RestrictionOut({
+    required this.activeIngredient,
+    required this.cropGroups,
+    required this.crops,
+    required this.effectiveFrom,
+    required this.kind,
+    required this.notification,
+  });
+
+  factory RestrictionOut.fromJson(Map<String, dynamic> json) =>
+      _$RestrictionOutFromJson(json);
+
+  static const toJsonFactory = _$RestrictionOutToJson;
+  Map<String, dynamic> toJson() => _$RestrictionOutToJson(this);
+
+  @JsonKey(name: 'active_ingredient', includeIfNull: false)
+  final String activeIngredient;
+  @JsonKey(name: 'crop_groups', includeIfNull: false, defaultValue: <String>[])
+  final List<String> cropGroups;
+  @JsonKey(name: 'crops', includeIfNull: false, defaultValue: <String>[])
+  final List<String> crops;
+  @JsonKey(name: 'effective_from', includeIfNull: false)
+  final DateTime effectiveFrom;
+  @JsonKey(name: 'kind', includeIfNull: false)
+  final String kind;
+  @JsonKey(name: 'notification', includeIfNull: false)
+  final String notification;
+  static const fromJsonFactory = _$RestrictionOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is RestrictionOut &&
+            (identical(other.activeIngredient, activeIngredient) ||
+                const DeepCollectionEquality().equals(
+                  other.activeIngredient,
+                  activeIngredient,
+                )) &&
+            (identical(other.cropGroups, cropGroups) ||
+                const DeepCollectionEquality().equals(
+                  other.cropGroups,
+                  cropGroups,
+                )) &&
+            (identical(other.crops, crops) ||
+                const DeepCollectionEquality().equals(other.crops, crops)) &&
+            (identical(other.effectiveFrom, effectiveFrom) ||
+                const DeepCollectionEquality().equals(
+                  other.effectiveFrom,
+                  effectiveFrom,
+                )) &&
+            (identical(other.kind, kind) ||
+                const DeepCollectionEquality().equals(other.kind, kind)) &&
+            (identical(other.notification, notification) ||
+                const DeepCollectionEquality().equals(
+                  other.notification,
+                  notification,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(activeIngredient) ^
+      const DeepCollectionEquality().hash(cropGroups) ^
+      const DeepCollectionEquality().hash(crops) ^
+      const DeepCollectionEquality().hash(effectiveFrom) ^
+      const DeepCollectionEquality().hash(kind) ^
+      const DeepCollectionEquality().hash(notification) ^
+      runtimeType.hashCode;
+}
+
+extension $RestrictionOutExtension on RestrictionOut {
+  RestrictionOut copyWith({
+    String? activeIngredient,
+    List<String>? cropGroups,
+    List<String>? crops,
+    DateTime? effectiveFrom,
+    String? kind,
+    String? notification,
+  }) {
+    return RestrictionOut(
+      activeIngredient: activeIngredient ?? this.activeIngredient,
+      cropGroups: cropGroups ?? this.cropGroups,
+      crops: crops ?? this.crops,
+      effectiveFrom: effectiveFrom ?? this.effectiveFrom,
+      kind: kind ?? this.kind,
+      notification: notification ?? this.notification,
+    );
+  }
+
+  RestrictionOut copyWithWrapped({
+    Wrapped<String>? activeIngredient,
+    Wrapped<List<String>>? cropGroups,
+    Wrapped<List<String>>? crops,
+    Wrapped<DateTime>? effectiveFrom,
+    Wrapped<String>? kind,
+    Wrapped<String>? notification,
+  }) {
+    return RestrictionOut(
+      activeIngredient: (activeIngredient != null
+          ? activeIngredient.value
+          : this.activeIngredient),
+      cropGroups: (cropGroups != null ? cropGroups.value : this.cropGroups),
+      crops: (crops != null ? crops.value : this.crops),
+      effectiveFrom: (effectiveFrom != null
+          ? effectiveFrom.value
+          : this.effectiveFrom),
+      kind: (kind != null ? kind.value : this.kind),
+      notification: (notification != null
+          ? notification.value
+          : this.notification),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class RestrictionsResponse {
+  const RestrictionsResponse({
+    required this.restrictions,
+    required this.synonyms,
+  });
+
+  factory RestrictionsResponse.fromJson(Map<String, dynamic> json) =>
+      _$RestrictionsResponseFromJson(json);
+
+  static const toJsonFactory = _$RestrictionsResponseToJson;
+  Map<String, dynamic> toJson() => _$RestrictionsResponseToJson(this);
+
+  @JsonKey(
+    name: 'restrictions',
+    includeIfNull: false,
+    defaultValue: <RestrictionOut>[],
+  )
+  final List<RestrictionOut> restrictions;
+  @JsonKey(name: 'synonyms', includeIfNull: false, defaultValue: <SynonymOut>[])
+  final List<SynonymOut> synonyms;
+  static const fromJsonFactory = _$RestrictionsResponseFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is RestrictionsResponse &&
+            (identical(other.restrictions, restrictions) ||
+                const DeepCollectionEquality().equals(
+                  other.restrictions,
+                  restrictions,
+                )) &&
+            (identical(other.synonyms, synonyms) ||
+                const DeepCollectionEquality().equals(
+                  other.synonyms,
+                  synonyms,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(restrictions) ^
+      const DeepCollectionEquality().hash(synonyms) ^
+      runtimeType.hashCode;
+}
+
+extension $RestrictionsResponseExtension on RestrictionsResponse {
+  RestrictionsResponse copyWith({
+    List<RestrictionOut>? restrictions,
+    List<SynonymOut>? synonyms,
+  }) {
+    return RestrictionsResponse(
+      restrictions: restrictions ?? this.restrictions,
+      synonyms: synonyms ?? this.synonyms,
+    );
+  }
+
+  RestrictionsResponse copyWithWrapped({
+    Wrapped<List<RestrictionOut>>? restrictions,
+    Wrapped<List<SynonymOut>>? synonyms,
+  }) {
+    return RestrictionsResponse(
+      restrictions: (restrictions != null
+          ? restrictions.value
+          : this.restrictions),
+      synonyms: (synonyms != null ? synonyms.value : this.synonyms),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class ReviewIn {
   const ReviewIn({this.comments, required this.decision});
 
@@ -1779,6 +1971,66 @@ extension $StageTemplatesResponseExtension on StageTemplatesResponse {
   }) {
     return StageTemplatesResponse(
       templates: (templates != null ? templates.value : this.templates),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class SynonymOut {
+  const SynonymOut({required this.activeIngredient, required this.name});
+
+  factory SynonymOut.fromJson(Map<String, dynamic> json) =>
+      _$SynonymOutFromJson(json);
+
+  static const toJsonFactory = _$SynonymOutToJson;
+  Map<String, dynamic> toJson() => _$SynonymOutToJson(this);
+
+  @JsonKey(name: 'active_ingredient', includeIfNull: false)
+  final String activeIngredient;
+  @JsonKey(name: 'name', includeIfNull: false)
+  final String name;
+  static const fromJsonFactory = _$SynonymOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is SynonymOut &&
+            (identical(other.activeIngredient, activeIngredient) ||
+                const DeepCollectionEquality().equals(
+                  other.activeIngredient,
+                  activeIngredient,
+                )) &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(activeIngredient) ^
+      const DeepCollectionEquality().hash(name) ^
+      runtimeType.hashCode;
+}
+
+extension $SynonymOutExtension on SynonymOut {
+  SynonymOut copyWith({String? activeIngredient, String? name}) {
+    return SynonymOut(
+      activeIngredient: activeIngredient ?? this.activeIngredient,
+      name: name ?? this.name,
+    );
+  }
+
+  SynonymOut copyWithWrapped({
+    Wrapped<String>? activeIngredient,
+    Wrapped<String>? name,
+  }) {
+    return SynonymOut(
+      activeIngredient: (activeIngredient != null
+          ? activeIngredient.value
+          : this.activeIngredient),
+      name: (name != null ? name.value : this.name),
     );
   }
 }

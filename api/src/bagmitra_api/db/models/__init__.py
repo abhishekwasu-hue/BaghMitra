@@ -1,4 +1,4 @@
-from bagmitra_api.db.models.accounts import Expense, Income
+from bagmitra_api.db.models.accounts import Expense, Income, SprayRecord
 from bagmitra_api.db.models.bahar import BaharCycle, CropStageTemplate
 from bagmitra_api.db.models.farmer import Farmer
 from bagmitra_api.db.models.plot import Plot
@@ -29,5 +29,6 @@ __all__ = [
     "KbSynonym",
     "KbTopic",
     "Plot",
+    "SprayRecord",
     "SyncMutation",
 ]

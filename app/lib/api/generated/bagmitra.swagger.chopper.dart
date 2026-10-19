@@ -262,6 +262,30 @@ final class _$Bagmitra extends Bagmitra {
   }
 
   @override
+  Future<Response<RestrictionsResponse>> _v1ReferenceRestrictionsGet({
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Gazette bans / restrictions and trade names, cached by the app so spray records can
+be checked offline. Facts only; no advice text.''',
+      summary: 'Restrictions',
+      operationId: 'reference_restrictions',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["reference"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/reference/restrictions');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<RestrictionsResponse, RestrictionsResponse>($request);
+  }
+
+  @override
   Future<Response<StageTemplatesResponse>> _v1ReferenceStageTemplatesGet({
     String? crop,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
