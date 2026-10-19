@@ -1,3 +1,4 @@
+import '../../spray/domain/spray_record.dart';
 import 'accounts.dart';
 
 /// Cost and profit for one plot, optionally narrowed to one bahar (spec M2). Pure, so it
@@ -17,6 +18,7 @@ class AccountsSummary {
   factory AccountsSummary.of({
     required List<Expense> expenses,
     required List<Income> incomes,
+    List<SprayRecord> sprays = const [],
     required double areaAcres,
     required int? treeCount,
     String? baharCycleId,
@@ -32,6 +34,16 @@ class AccountsSummary {
         (v) => v + e.amountPaise,
         ifAbsent: () => e.amountPaise,
       );
+    }
+    // Spray costs are recorded in the spray log (not as expenses), under "spray".
+    for (final sp in sprays.where((s) => inScope(s.baharCycleId))) {
+      if (sp.costPaise > 0) {
+        byCategory.update(
+          'spray',
+          (v) => v + sp.costPaise,
+          ifAbsent: () => sp.costPaise,
+        );
+      }
     }
     final total = byCategory.values.fold(0, (a, b) => a + b);
     final kg = sold.fold(0.0, (a, i) => a + i.quantityKg);

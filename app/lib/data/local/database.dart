@@ -120,6 +120,28 @@ class Incomes extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
+/// Spray records (mirror of the API `spray_record` entity). Cost in whole paise.
+@DataClassName('SprayRecordRow')
+class SprayRecords extends Table {
+  TextColumn get id => text()();
+  TextColumn get plotId => text()();
+  TextColumn get baharCycleId => text().nullable()();
+  DateTimeColumn get sprayedOn => dateTime()();
+  TextColumn get productName => text()();
+  TextColumn get activeIngredient => text().nullable()();
+  TextColumn get dose => text().nullable()();
+  RealColumn get waterLitres => real().nullable()();
+  RealColumn get areaAcres => real().nullable()();
+  IntColumn get costPaise => integer()();
+  TextColumn get operator => text().nullable()();
+  IntColumn get phiDays => integer().nullable()();
+  TextColumn get target => text().nullable()();
+  DateTimeColumn get clientUpdatedAt => dateTime()();
+
+  @override
+  Set<Column<Object>> get primaryKey => {id};
+}
+
 /// Small key/value store for sync cursors and similar bookkeeping.
 class SyncMeta extends Table {
   TextColumn get key => text()();
@@ -138,6 +160,7 @@ class SyncMeta extends Table {
     BaharCycles,
     Expenses,
     Incomes,
+    SprayRecords,
   ],
 )
 class AppDatabase extends _$AppDatabase {
@@ -146,7 +169,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.open(String name) : super(driftDatabase(name: name));
 
   @override
-  int get schemaVersion => 4;
+  int get schemaVersion => 5;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -158,6 +181,7 @@ class AppDatabase extends _$AppDatabase {
         await m.createTable(expenses);
         await m.createTable(incomes);
       }
+      if (from < 5) await m.createTable(sprayRecords);
     },
   );
 

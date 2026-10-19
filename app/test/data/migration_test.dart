@@ -66,6 +66,7 @@ void main() {
       expect(await db.select(db.baharCycles).get(), hasLength(1));
       expect(await db.select(db.expenses).get(), isEmpty);
       expect(await db.select(db.incomes).get(), isEmpty);
+      expect(await db.select(db.sprayRecords).get(), isEmpty);
       await db.close();
     },
   );

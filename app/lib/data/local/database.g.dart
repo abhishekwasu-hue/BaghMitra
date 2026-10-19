@@ -4231,6 +4231,834 @@ class IncomesCompanion extends UpdateCompanion<IncomeRow> {
   }
 }
 
+class $SprayRecordsTable extends SprayRecords
+    with TableInfo<$SprayRecordsTable, SprayRecordRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $SprayRecordsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _plotIdMeta = const VerificationMeta('plotId');
+  @override
+  late final GeneratedColumn<String> plotId = GeneratedColumn<String>(
+    'plot_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _baharCycleIdMeta = const VerificationMeta(
+    'baharCycleId',
+  );
+  @override
+  late final GeneratedColumn<String> baharCycleId = GeneratedColumn<String>(
+    'bahar_cycle_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _sprayedOnMeta = const VerificationMeta(
+    'sprayedOn',
+  );
+  @override
+  late final GeneratedColumn<DateTime> sprayedOn = GeneratedColumn<DateTime>(
+    'sprayed_on',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _productNameMeta = const VerificationMeta(
+    'productName',
+  );
+  @override
+  late final GeneratedColumn<String> productName = GeneratedColumn<String>(
+    'product_name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _activeIngredientMeta = const VerificationMeta(
+    'activeIngredient',
+  );
+  @override
+  late final GeneratedColumn<String> activeIngredient = GeneratedColumn<String>(
+    'active_ingredient',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _doseMeta = const VerificationMeta('dose');
+  @override
+  late final GeneratedColumn<String> dose = GeneratedColumn<String>(
+    'dose',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _waterLitresMeta = const VerificationMeta(
+    'waterLitres',
+  );
+  @override
+  late final GeneratedColumn<double> waterLitres = GeneratedColumn<double>(
+    'water_litres',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _areaAcresMeta = const VerificationMeta(
+    'areaAcres',
+  );
+  @override
+  late final GeneratedColumn<double> areaAcres = GeneratedColumn<double>(
+    'area_acres',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _costPaiseMeta = const VerificationMeta(
+    'costPaise',
+  );
+  @override
+  late final GeneratedColumn<int> costPaise = GeneratedColumn<int>(
+    'cost_paise',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _operatorMeta = const VerificationMeta(
+    'operator',
+  );
+  @override
+  late final GeneratedColumn<String> operator = GeneratedColumn<String>(
+    'operator',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _phiDaysMeta = const VerificationMeta(
+    'phiDays',
+  );
+  @override
+  late final GeneratedColumn<int> phiDays = GeneratedColumn<int>(
+    'phi_days',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _targetMeta = const VerificationMeta('target');
+  @override
+  late final GeneratedColumn<String> target = GeneratedColumn<String>(
+    'target',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _clientUpdatedAtMeta = const VerificationMeta(
+    'clientUpdatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> clientUpdatedAt =
+      GeneratedColumn<DateTime>(
+        'client_updated_at',
+        aliasedName,
+        false,
+        type: DriftSqlType.dateTime,
+        requiredDuringInsert: true,
+      );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    plotId,
+    baharCycleId,
+    sprayedOn,
+    productName,
+    activeIngredient,
+    dose,
+    waterLitres,
+    areaAcres,
+    costPaise,
+    operator,
+    phiDays,
+    target,
+    clientUpdatedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'spray_records';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<SprayRecordRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('plot_id')) {
+      context.handle(
+        _plotIdMeta,
+        plotId.isAcceptableOrUnknown(data['plot_id']!, _plotIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_plotIdMeta);
+    }
+    if (data.containsKey('bahar_cycle_id')) {
+      context.handle(
+        _baharCycleIdMeta,
+        baharCycleId.isAcceptableOrUnknown(
+          data['bahar_cycle_id']!,
+          _baharCycleIdMeta,
+        ),
+      );
+    }
+    if (data.containsKey('sprayed_on')) {
+      context.handle(
+        _sprayedOnMeta,
+        sprayedOn.isAcceptableOrUnknown(data['sprayed_on']!, _sprayedOnMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_sprayedOnMeta);
+    }
+    if (data.containsKey('product_name')) {
+      context.handle(
+        _productNameMeta,
+        productName.isAcceptableOrUnknown(
+          data['product_name']!,
+          _productNameMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_productNameMeta);
+    }
+    if (data.containsKey('active_ingredient')) {
+      context.handle(
+        _activeIngredientMeta,
+        activeIngredient.isAcceptableOrUnknown(
+          data['active_ingredient']!,
+          _activeIngredientMeta,
+        ),
+      );
+    }
+    if (data.containsKey('dose')) {
+      context.handle(
+        _doseMeta,
+        dose.isAcceptableOrUnknown(data['dose']!, _doseMeta),
+      );
+    }
+    if (data.containsKey('water_litres')) {
+      context.handle(
+        _waterLitresMeta,
+        waterLitres.isAcceptableOrUnknown(
+          data['water_litres']!,
+          _waterLitresMeta,
+        ),
+      );
+    }
+    if (data.containsKey('area_acres')) {
+      context.handle(
+        _areaAcresMeta,
+        areaAcres.isAcceptableOrUnknown(data['area_acres']!, _areaAcresMeta),
+      );
+    }
+    if (data.containsKey('cost_paise')) {
+      context.handle(
+        _costPaiseMeta,
+        costPaise.isAcceptableOrUnknown(data['cost_paise']!, _costPaiseMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_costPaiseMeta);
+    }
+    if (data.containsKey('operator')) {
+      context.handle(
+        _operatorMeta,
+        operator.isAcceptableOrUnknown(data['operator']!, _operatorMeta),
+      );
+    }
+    if (data.containsKey('phi_days')) {
+      context.handle(
+        _phiDaysMeta,
+        phiDays.isAcceptableOrUnknown(data['phi_days']!, _phiDaysMeta),
+      );
+    }
+    if (data.containsKey('target')) {
+      context.handle(
+        _targetMeta,
+        target.isAcceptableOrUnknown(data['target']!, _targetMeta),
+      );
+    }
+    if (data.containsKey('client_updated_at')) {
+      context.handle(
+        _clientUpdatedAtMeta,
+        clientUpdatedAt.isAcceptableOrUnknown(
+          data['client_updated_at']!,
+          _clientUpdatedAtMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_clientUpdatedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  SprayRecordRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return SprayRecordRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      plotId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}plot_id'],
+      )!,
+      baharCycleId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}bahar_cycle_id'],
+      ),
+      sprayedOn: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}sprayed_on'],
+      )!,
+      productName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}product_name'],
+      )!,
+      activeIngredient: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}active_ingredient'],
+      ),
+      dose: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}dose'],
+      ),
+      waterLitres: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}water_litres'],
+      ),
+      areaAcres: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}area_acres'],
+      ),
+      costPaise: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}cost_paise'],
+      )!,
+      operator: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}operator'],
+      ),
+      phiDays: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}phi_days'],
+      ),
+      target: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}target'],
+      ),
+      clientUpdatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}client_updated_at'],
+      )!,
+    );
+  }
+
+  @override
+  $SprayRecordsTable createAlias(String alias) {
+    return $SprayRecordsTable(attachedDatabase, alias);
+  }
+}
+
+class SprayRecordRow extends DataClass implements Insertable<SprayRecordRow> {
+  final String id;
+  final String plotId;
+  final String? baharCycleId;
+  final DateTime sprayedOn;
+  final String productName;
+  final String? activeIngredient;
+  final String? dose;
+  final double? waterLitres;
+  final double? areaAcres;
+  final int costPaise;
+  final String? operator;
+  final int? phiDays;
+  final String? target;
+  final DateTime clientUpdatedAt;
+  const SprayRecordRow({
+    required this.id,
+    required this.plotId,
+    this.baharCycleId,
+    required this.sprayedOn,
+    required this.productName,
+    this.activeIngredient,
+    this.dose,
+    this.waterLitres,
+    this.areaAcres,
+    required this.costPaise,
+    this.operator,
+    this.phiDays,
+    this.target,
+    required this.clientUpdatedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['plot_id'] = Variable<String>(plotId);
+    if (!nullToAbsent || baharCycleId != null) {
+      map['bahar_cycle_id'] = Variable<String>(baharCycleId);
+    }
+    map['sprayed_on'] = Variable<DateTime>(sprayedOn);
+    map['product_name'] = Variable<String>(productName);
+    if (!nullToAbsent || activeIngredient != null) {
+      map['active_ingredient'] = Variable<String>(activeIngredient);
+    }
+    if (!nullToAbsent || dose != null) {
+      map['dose'] = Variable<String>(dose);
+    }
+    if (!nullToAbsent || waterLitres != null) {
+      map['water_litres'] = Variable<double>(waterLitres);
+    }
+    if (!nullToAbsent || areaAcres != null) {
+      map['area_acres'] = Variable<double>(areaAcres);
+    }
+    map['cost_paise'] = Variable<int>(costPaise);
+    if (!nullToAbsent || operator != null) {
+      map['operator'] = Variable<String>(operator);
+    }
+    if (!nullToAbsent || phiDays != null) {
+      map['phi_days'] = Variable<int>(phiDays);
+    }
+    if (!nullToAbsent || target != null) {
+      map['target'] = Variable<String>(target);
+    }
+    map['client_updated_at'] = Variable<DateTime>(clientUpdatedAt);
+    return map;
+  }
+
+  SprayRecordsCompanion toCompanion(bool nullToAbsent) {
+    return SprayRecordsCompanion(
+      id: Value(id),
+      plotId: Value(plotId),
+      baharCycleId: baharCycleId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(baharCycleId),
+      sprayedOn: Value(sprayedOn),
+      productName: Value(productName),
+      activeIngredient: activeIngredient == null && nullToAbsent
+          ? const Value.absent()
+          : Value(activeIngredient),
+      dose: dose == null && nullToAbsent ? const Value.absent() : Value(dose),
+      waterLitres: waterLitres == null && nullToAbsent
+          ? const Value.absent()
+          : Value(waterLitres),
+      areaAcres: areaAcres == null && nullToAbsent
+          ? const Value.absent()
+          : Value(areaAcres),
+      costPaise: Value(costPaise),
+      operator: operator == null && nullToAbsent
+          ? const Value.absent()
+          : Value(operator),
+      phiDays: phiDays == null && nullToAbsent
+          ? const Value.absent()
+          : Value(phiDays),
+      target: target == null && nullToAbsent
+          ? const Value.absent()
+          : Value(target),
+      clientUpdatedAt: Value(clientUpdatedAt),
+    );
+  }
+
+  factory SprayRecordRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return SprayRecordRow(
+      id: serializer.fromJson<String>(json['id']),
+      plotId: serializer.fromJson<String>(json['plotId']),
+      baharCycleId: serializer.fromJson<String?>(json['baharCycleId']),
+      sprayedOn: serializer.fromJson<DateTime>(json['sprayedOn']),
+      productName: serializer.fromJson<String>(json['productName']),
+      activeIngredient: serializer.fromJson<String?>(json['activeIngredient']),
+      dose: serializer.fromJson<String?>(json['dose']),
+      waterLitres: serializer.fromJson<double?>(json['waterLitres']),
+      areaAcres: serializer.fromJson<double?>(json['areaAcres']),
+      costPaise: serializer.fromJson<int>(json['costPaise']),
+      operator: serializer.fromJson<String?>(json['operator']),
+      phiDays: serializer.fromJson<int?>(json['phiDays']),
+      target: serializer.fromJson<String?>(json['target']),
+      clientUpdatedAt: serializer.fromJson<DateTime>(json['clientUpdatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'plotId': serializer.toJson<String>(plotId),
+      'baharCycleId': serializer.toJson<String?>(baharCycleId),
+      'sprayedOn': serializer.toJson<DateTime>(sprayedOn),
+      'productName': serializer.toJson<String>(productName),
+      'activeIngredient': serializer.toJson<String?>(activeIngredient),
+      'dose': serializer.toJson<String?>(dose),
+      'waterLitres': serializer.toJson<double?>(waterLitres),
+      'areaAcres': serializer.toJson<double?>(areaAcres),
+      'costPaise': serializer.toJson<int>(costPaise),
+      'operator': serializer.toJson<String?>(operator),
+      'phiDays': serializer.toJson<int?>(phiDays),
+      'target': serializer.toJson<String?>(target),
+      'clientUpdatedAt': serializer.toJson<DateTime>(clientUpdatedAt),
+    };
+  }
+
+  SprayRecordRow copyWith({
+    String? id,
+    String? plotId,
+    Value<String?> baharCycleId = const Value.absent(),
+    DateTime? sprayedOn,
+    String? productName,
+    Value<String?> activeIngredient = const Value.absent(),
+    Value<String?> dose = const Value.absent(),
+    Value<double?> waterLitres = const Value.absent(),
+    Value<double?> areaAcres = const Value.absent(),
+    int? costPaise,
+    Value<String?> operator = const Value.absent(),
+    Value<int?> phiDays = const Value.absent(),
+    Value<String?> target = const Value.absent(),
+    DateTime? clientUpdatedAt,
+  }) => SprayRecordRow(
+    id: id ?? this.id,
+    plotId: plotId ?? this.plotId,
+    baharCycleId: baharCycleId.present ? baharCycleId.value : this.baharCycleId,
+    sprayedOn: sprayedOn ?? this.sprayedOn,
+    productName: productName ?? this.productName,
+    activeIngredient: activeIngredient.present
+        ? activeIngredient.value
+        : this.activeIngredient,
+    dose: dose.present ? dose.value : this.dose,
+    waterLitres: waterLitres.present ? waterLitres.value : this.waterLitres,
+    areaAcres: areaAcres.present ? areaAcres.value : this.areaAcres,
+    costPaise: costPaise ?? this.costPaise,
+    operator: operator.present ? operator.value : this.operator,
+    phiDays: phiDays.present ? phiDays.value : this.phiDays,
+    target: target.present ? target.value : this.target,
+    clientUpdatedAt: clientUpdatedAt ?? this.clientUpdatedAt,
+  );
+  SprayRecordRow copyWithCompanion(SprayRecordsCompanion data) {
+    return SprayRecordRow(
+      id: data.id.present ? data.id.value : this.id,
+      plotId: data.plotId.present ? data.plotId.value : this.plotId,
+      baharCycleId: data.baharCycleId.present
+          ? data.baharCycleId.value
+          : this.baharCycleId,
+      sprayedOn: data.sprayedOn.present ? data.sprayedOn.value : this.sprayedOn,
+      productName: data.productName.present
+          ? data.productName.value
+          : this.productName,
+      activeIngredient: data.activeIngredient.present
+          ? data.activeIngredient.value
+          : this.activeIngredient,
+      dose: data.dose.present ? data.dose.value : this.dose,
+      waterLitres: data.waterLitres.present
+          ? data.waterLitres.value
+          : this.waterLitres,
+      areaAcres: data.areaAcres.present ? data.areaAcres.value : this.areaAcres,
+      costPaise: data.costPaise.present ? data.costPaise.value : this.costPaise,
+      operator: data.operator.present ? data.operator.value : this.operator,
+      phiDays: data.phiDays.present ? data.phiDays.value : this.phiDays,
+      target: data.target.present ? data.target.value : this.target,
+      clientUpdatedAt: data.clientUpdatedAt.present
+          ? data.clientUpdatedAt.value
+          : this.clientUpdatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SprayRecordRow(')
+          ..write('id: $id, ')
+          ..write('plotId: $plotId, ')
+          ..write('baharCycleId: $baharCycleId, ')
+          ..write('sprayedOn: $sprayedOn, ')
+          ..write('productName: $productName, ')
+          ..write('activeIngredient: $activeIngredient, ')
+          ..write('dose: $dose, ')
+          ..write('waterLitres: $waterLitres, ')
+          ..write('areaAcres: $areaAcres, ')
+          ..write('costPaise: $costPaise, ')
+          ..write('operator: $operator, ')
+          ..write('phiDays: $phiDays, ')
+          ..write('target: $target, ')
+          ..write('clientUpdatedAt: $clientUpdatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    plotId,
+    baharCycleId,
+    sprayedOn,
+    productName,
+    activeIngredient,
+    dose,
+    waterLitres,
+    areaAcres,
+    costPaise,
+    operator,
+    phiDays,
+    target,
+    clientUpdatedAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is SprayRecordRow &&
+          other.id == this.id &&
+          other.plotId == this.plotId &&
+          other.baharCycleId == this.baharCycleId &&
+          other.sprayedOn == this.sprayedOn &&
+          other.productName == this.productName &&
+          other.activeIngredient == this.activeIngredient &&
+          other.dose == this.dose &&
+          other.waterLitres == this.waterLitres &&
+          other.areaAcres == this.areaAcres &&
+          other.costPaise == this.costPaise &&
+          other.operator == this.operator &&
+          other.phiDays == this.phiDays &&
+          other.target == this.target &&
+          other.clientUpdatedAt == this.clientUpdatedAt);
+}
+
+class SprayRecordsCompanion extends UpdateCompanion<SprayRecordRow> {
+  final Value<String> id;
+  final Value<String> plotId;
+  final Value<String?> baharCycleId;
+  final Value<DateTime> sprayedOn;
+  final Value<String> productName;
+  final Value<String?> activeIngredient;
+  final Value<String?> dose;
+  final Value<double?> waterLitres;
+  final Value<double?> areaAcres;
+  final Value<int> costPaise;
+  final Value<String?> operator;
+  final Value<int?> phiDays;
+  final Value<String?> target;
+  final Value<DateTime> clientUpdatedAt;
+  final Value<int> rowid;
+  const SprayRecordsCompanion({
+    this.id = const Value.absent(),
+    this.plotId = const Value.absent(),
+    this.baharCycleId = const Value.absent(),
+    this.sprayedOn = const Value.absent(),
+    this.productName = const Value.absent(),
+    this.activeIngredient = const Value.absent(),
+    this.dose = const Value.absent(),
+    this.waterLitres = const Value.absent(),
+    this.areaAcres = const Value.absent(),
+    this.costPaise = const Value.absent(),
+    this.operator = const Value.absent(),
+    this.phiDays = const Value.absent(),
+    this.target = const Value.absent(),
+    this.clientUpdatedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  SprayRecordsCompanion.insert({
+    required String id,
+    required String plotId,
+    this.baharCycleId = const Value.absent(),
+    required DateTime sprayedOn,
+    required String productName,
+    this.activeIngredient = const Value.absent(),
+    this.dose = const Value.absent(),
+    this.waterLitres = const Value.absent(),
+    this.areaAcres = const Value.absent(),
+    required int costPaise,
+    this.operator = const Value.absent(),
+    this.phiDays = const Value.absent(),
+    this.target = const Value.absent(),
+    required DateTime clientUpdatedAt,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       plotId = Value(plotId),
+       sprayedOn = Value(sprayedOn),
+       productName = Value(productName),
+       costPaise = Value(costPaise),
+       clientUpdatedAt = Value(clientUpdatedAt);
+  static Insertable<SprayRecordRow> custom({
+    Expression<String>? id,
+    Expression<String>? plotId,
+    Expression<String>? baharCycleId,
+    Expression<DateTime>? sprayedOn,
+    Expression<String>? productName,
+    Expression<String>? activeIngredient,
+    Expression<String>? dose,
+    Expression<double>? waterLitres,
+    Expression<double>? areaAcres,
+    Expression<int>? costPaise,
+    Expression<String>? operator,
+    Expression<int>? phiDays,
+    Expression<String>? target,
+    Expression<DateTime>? clientUpdatedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (plotId != null) 'plot_id': plotId,
+      if (baharCycleId != null) 'bahar_cycle_id': baharCycleId,
+      if (sprayedOn != null) 'sprayed_on': sprayedOn,
+      if (productName != null) 'product_name': productName,
+      if (activeIngredient != null) 'active_ingredient': activeIngredient,
+      if (dose != null) 'dose': dose,
+      if (waterLitres != null) 'water_litres': waterLitres,
+      if (areaAcres != null) 'area_acres': areaAcres,
+      if (costPaise != null) 'cost_paise': costPaise,
+      if (operator != null) 'operator': operator,
+      if (phiDays != null) 'phi_days': phiDays,
+      if (target != null) 'target': target,
+      if (clientUpdatedAt != null) 'client_updated_at': clientUpdatedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  SprayRecordsCompanion copyWith({
+    Value<String>? id,
+    Value<String>? plotId,
+    Value<String?>? baharCycleId,
+    Value<DateTime>? sprayedOn,
+    Value<String>? productName,
+    Value<String?>? activeIngredient,
+    Value<String?>? dose,
+    Value<double?>? waterLitres,
+    Value<double?>? areaAcres,
+    Value<int>? costPaise,
+    Value<String?>? operator,
+    Value<int?>? phiDays,
+    Value<String?>? target,
+    Value<DateTime>? clientUpdatedAt,
+    Value<int>? rowid,
+  }) {
+    return SprayRecordsCompanion(
+      id: id ?? this.id,
+      plotId: plotId ?? this.plotId,
+      baharCycleId: baharCycleId ?? this.baharCycleId,
+      sprayedOn: sprayedOn ?? this.sprayedOn,
+      productName: productName ?? this.productName,
+      activeIngredient: activeIngredient ?? this.activeIngredient,
+      dose: dose ?? this.dose,
+      waterLitres: waterLitres ?? this.waterLitres,
+      areaAcres: areaAcres ?? this.areaAcres,
+      costPaise: costPaise ?? this.costPaise,
+      operator: operator ?? this.operator,
+      phiDays: phiDays ?? this.phiDays,
+      target: target ?? this.target,
+      clientUpdatedAt: clientUpdatedAt ?? this.clientUpdatedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (plotId.present) {
+      map['plot_id'] = Variable<String>(plotId.value);
+    }
+    if (baharCycleId.present) {
+      map['bahar_cycle_id'] = Variable<String>(baharCycleId.value);
+    }
+    if (sprayedOn.present) {
+      map['sprayed_on'] = Variable<DateTime>(sprayedOn.value);
+    }
+    if (productName.present) {
+      map['product_name'] = Variable<String>(productName.value);
+    }
+    if (activeIngredient.present) {
+      map['active_ingredient'] = Variable<String>(activeIngredient.value);
+    }
+    if (dose.present) {
+      map['dose'] = Variable<String>(dose.value);
+    }
+    if (waterLitres.present) {
+      map['water_litres'] = Variable<double>(waterLitres.value);
+    }
+    if (areaAcres.present) {
+      map['area_acres'] = Variable<double>(areaAcres.value);
+    }
+    if (costPaise.present) {
+      map['cost_paise'] = Variable<int>(costPaise.value);
+    }
+    if (operator.present) {
+      map['operator'] = Variable<String>(operator.value);
+    }
+    if (phiDays.present) {
+      map['phi_days'] = Variable<int>(phiDays.value);
+    }
+    if (target.present) {
+      map['target'] = Variable<String>(target.value);
+    }
+    if (clientUpdatedAt.present) {
+      map['client_updated_at'] = Variable<DateTime>(clientUpdatedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SprayRecordsCompanion(')
+          ..write('id: $id, ')
+          ..write('plotId: $plotId, ')
+          ..write('baharCycleId: $baharCycleId, ')
+          ..write('sprayedOn: $sprayedOn, ')
+          ..write('productName: $productName, ')
+          ..write('activeIngredient: $activeIngredient, ')
+          ..write('dose: $dose, ')
+          ..write('waterLitres: $waterLitres, ')
+          ..write('areaAcres: $areaAcres, ')
+          ..write('costPaise: $costPaise, ')
+          ..write('operator: $operator, ')
+          ..write('phiDays: $phiDays, ')
+          ..write('target: $target, ')
+          ..write('clientUpdatedAt: $clientUpdatedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -4241,6 +5069,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $BaharCyclesTable baharCycles = $BaharCyclesTable(this);
   late final $ExpensesTable expenses = $ExpensesTable(this);
   late final $IncomesTable incomes = $IncomesTable(this);
+  late final $SprayRecordsTable sprayRecords = $SprayRecordsTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -4253,6 +5082,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     baharCycles,
     expenses,
     incomes,
+    sprayRecords,
   ];
   @override
   DriftDatabaseOptions get options =>
@@ -6355,6 +7185,396 @@ typedef $$IncomesTableProcessedTableManager =
       IncomeRow,
       PrefetchHooks Function()
     >;
+typedef $$SprayRecordsTableCreateCompanionBuilder =
+    SprayRecordsCompanion Function({
+      required String id,
+      required String plotId,
+      Value<String?> baharCycleId,
+      required DateTime sprayedOn,
+      required String productName,
+      Value<String?> activeIngredient,
+      Value<String?> dose,
+      Value<double?> waterLitres,
+      Value<double?> areaAcres,
+      required int costPaise,
+      Value<String?> operator,
+      Value<int?> phiDays,
+      Value<String?> target,
+      required DateTime clientUpdatedAt,
+      Value<int> rowid,
+    });
+typedef $$SprayRecordsTableUpdateCompanionBuilder =
+    SprayRecordsCompanion Function({
+      Value<String> id,
+      Value<String> plotId,
+      Value<String?> baharCycleId,
+      Value<DateTime> sprayedOn,
+      Value<String> productName,
+      Value<String?> activeIngredient,
+      Value<String?> dose,
+      Value<double?> waterLitres,
+      Value<double?> areaAcres,
+      Value<int> costPaise,
+      Value<String?> operator,
+      Value<int?> phiDays,
+      Value<String?> target,
+      Value<DateTime> clientUpdatedAt,
+      Value<int> rowid,
+    });
+
+class $$SprayRecordsTableFilterComposer
+    extends Composer<_$AppDatabase, $SprayRecordsTable> {
+  $$SprayRecordsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get plotId => $composableBuilder(
+    column: $table.plotId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get baharCycleId => $composableBuilder(
+    column: $table.baharCycleId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get sprayedOn => $composableBuilder(
+    column: $table.sprayedOn,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get productName => $composableBuilder(
+    column: $table.productName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get activeIngredient => $composableBuilder(
+    column: $table.activeIngredient,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get dose => $composableBuilder(
+    column: $table.dose,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get waterLitres => $composableBuilder(
+    column: $table.waterLitres,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get areaAcres => $composableBuilder(
+    column: $table.areaAcres,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get costPaise => $composableBuilder(
+    column: $table.costPaise,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get operator => $composableBuilder(
+    column: $table.operator,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get phiDays => $composableBuilder(
+    column: $table.phiDays,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get target => $composableBuilder(
+    column: $table.target,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get clientUpdatedAt => $composableBuilder(
+    column: $table.clientUpdatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$SprayRecordsTableOrderingComposer
+    extends Composer<_$AppDatabase, $SprayRecordsTable> {
+  $$SprayRecordsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get plotId => $composableBuilder(
+    column: $table.plotId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get baharCycleId => $composableBuilder(
+    column: $table.baharCycleId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get sprayedOn => $composableBuilder(
+    column: $table.sprayedOn,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get productName => $composableBuilder(
+    column: $table.productName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get activeIngredient => $composableBuilder(
+    column: $table.activeIngredient,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get dose => $composableBuilder(
+    column: $table.dose,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get waterLitres => $composableBuilder(
+    column: $table.waterLitres,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get areaAcres => $composableBuilder(
+    column: $table.areaAcres,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get costPaise => $composableBuilder(
+    column: $table.costPaise,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get operator => $composableBuilder(
+    column: $table.operator,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get phiDays => $composableBuilder(
+    column: $table.phiDays,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get target => $composableBuilder(
+    column: $table.target,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get clientUpdatedAt => $composableBuilder(
+    column: $table.clientUpdatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$SprayRecordsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $SprayRecordsTable> {
+  $$SprayRecordsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get plotId =>
+      $composableBuilder(column: $table.plotId, builder: (column) => column);
+
+  GeneratedColumn<String> get baharCycleId => $composableBuilder(
+    column: $table.baharCycleId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get sprayedOn =>
+      $composableBuilder(column: $table.sprayedOn, builder: (column) => column);
+
+  GeneratedColumn<String> get productName => $composableBuilder(
+    column: $table.productName,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get activeIngredient => $composableBuilder(
+    column: $table.activeIngredient,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get dose =>
+      $composableBuilder(column: $table.dose, builder: (column) => column);
+
+  GeneratedColumn<double> get waterLitres => $composableBuilder(
+    column: $table.waterLitres,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<double> get areaAcres =>
+      $composableBuilder(column: $table.areaAcres, builder: (column) => column);
+
+  GeneratedColumn<int> get costPaise =>
+      $composableBuilder(column: $table.costPaise, builder: (column) => column);
+
+  GeneratedColumn<String> get operator =>
+      $composableBuilder(column: $table.operator, builder: (column) => column);
+
+  GeneratedColumn<int> get phiDays =>
+      $composableBuilder(column: $table.phiDays, builder: (column) => column);
+
+  GeneratedColumn<String> get target =>
+      $composableBuilder(column: $table.target, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get clientUpdatedAt => $composableBuilder(
+    column: $table.clientUpdatedAt,
+    builder: (column) => column,
+  );
+}
+
+class $$SprayRecordsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $SprayRecordsTable,
+          SprayRecordRow,
+          $$SprayRecordsTableFilterComposer,
+          $$SprayRecordsTableOrderingComposer,
+          $$SprayRecordsTableAnnotationComposer,
+          $$SprayRecordsTableCreateCompanionBuilder,
+          $$SprayRecordsTableUpdateCompanionBuilder,
+          (
+            SprayRecordRow,
+            BaseReferences<_$AppDatabase, $SprayRecordsTable, SprayRecordRow>,
+          ),
+          SprayRecordRow,
+          PrefetchHooks Function()
+        > {
+  $$SprayRecordsTableTableManager(_$AppDatabase db, $SprayRecordsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$SprayRecordsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$SprayRecordsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$SprayRecordsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> plotId = const Value.absent(),
+                Value<String?> baharCycleId = const Value.absent(),
+                Value<DateTime> sprayedOn = const Value.absent(),
+                Value<String> productName = const Value.absent(),
+                Value<String?> activeIngredient = const Value.absent(),
+                Value<String?> dose = const Value.absent(),
+                Value<double?> waterLitres = const Value.absent(),
+                Value<double?> areaAcres = const Value.absent(),
+                Value<int> costPaise = const Value.absent(),
+                Value<String?> operator = const Value.absent(),
+                Value<int?> phiDays = const Value.absent(),
+                Value<String?> target = const Value.absent(),
+                Value<DateTime> clientUpdatedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => SprayRecordsCompanion(
+                id: id,
+                plotId: plotId,
+                baharCycleId: baharCycleId,
+                sprayedOn: sprayedOn,
+                productName: productName,
+                activeIngredient: activeIngredient,
+                dose: dose,
+                waterLitres: waterLitres,
+                areaAcres: areaAcres,
+                costPaise: costPaise,
+                operator: operator,
+                phiDays: phiDays,
+                target: target,
+                clientUpdatedAt: clientUpdatedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String plotId,
+                Value<String?> baharCycleId = const Value.absent(),
+                required DateTime sprayedOn,
+                required String productName,
+                Value<String?> activeIngredient = const Value.absent(),
+                Value<String?> dose = const Value.absent(),
+                Value<double?> waterLitres = const Value.absent(),
+                Value<double?> areaAcres = const Value.absent(),
+                required int costPaise,
+                Value<String?> operator = const Value.absent(),
+                Value<int?> phiDays = const Value.absent(),
+                Value<String?> target = const Value.absent(),
+                required DateTime clientUpdatedAt,
+                Value<int> rowid = const Value.absent(),
+              }) => SprayRecordsCompanion.insert(
+                id: id,
+                plotId: plotId,
+                baharCycleId: baharCycleId,
+                sprayedOn: sprayedOn,
+                productName: productName,
+                activeIngredient: activeIngredient,
+                dose: dose,
+                waterLitres: waterLitres,
+                areaAcres: areaAcres,
+                costPaise: costPaise,
+                operator: operator,
+                phiDays: phiDays,
+                target: target,
+                clientUpdatedAt: clientUpdatedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$SprayRecordsTable, SprayRecordRow>(table),
+                  BaseReferences<
+                    _$AppDatabase,
+                    $SprayRecordsTable,
+                    SprayRecordRow
+                  >(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$SprayRecordsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $SprayRecordsTable,
+      SprayRecordRow,
+      $$SprayRecordsTableFilterComposer,
+      $$SprayRecordsTableOrderingComposer,
+      $$SprayRecordsTableAnnotationComposer,
+      $$SprayRecordsTableCreateCompanionBuilder,
+      $$SprayRecordsTableUpdateCompanionBuilder,
+      (
+        SprayRecordRow,
+        BaseReferences<_$AppDatabase, $SprayRecordsTable, SprayRecordRow>,
+      ),
+      SprayRecordRow,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -6373,4 +7593,6 @@ class $AppDatabaseManager {
       $$ExpensesTableTableManager(_db, _db.expenses);
   $$IncomesTableTableManager get incomes =>
       $$IncomesTableTableManager(_db, _db.incomes);
+  $$SprayRecordsTableTableManager get sprayRecords =>
+      $$SprayRecordsTableTableManager(_db, _db.sprayRecords);
 }
