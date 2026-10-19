@@ -333,5 +333,46 @@
       }
     }
   },
-  "labourTitle": "Labour"
+  "labourTitle": "Labour",
+  "labourAddDay": "Add worker day",
+  "labourWorker": "Worker name",
+  "labourTask": "Work done",
+  "labourWage": "Wage (₹)",
+  "labourAdvance": "Advance paid (₹, optional)",
+  "labourPaidNow": "Paid in full today",
+  "labourSettled": "Settled",
+  "labourMarkPaid": "Mark paid",
+  "labourEmpty": "No worker days yet. Add one.",
+  "labourTotalDue": "Total owed to workers",
+  "labourDue": "Due {amount}",
+  "@labourDue": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "harvestTitle": "Harvest",
+  "harvestAdd": "Add harvest",
+  "harvestKg": "Quantity (kg)",
+  "harvestGrade": "Grade (optional)",
+  "harvestSize": "Size (optional)",
+  "harvestEmpty": "No harvest recorded yet. Add a lot.",
+  "harvestTotal": "Total {kg} kg",
+  "@harvestTotal": {
+    "placeholders": {
+      "kg": {
+        "type": "String"
+      }
+    }
+  },
+  "moreMenu": "More",
+  "harvestKgValue": "{kg} kg",
+  "@harvestKgValue": {
+    "placeholders": {
+      "kg": {
+        "type": "String"
+      }
+    }
+  }
 }

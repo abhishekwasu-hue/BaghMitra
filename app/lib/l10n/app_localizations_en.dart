@@ -552,4 +552,70 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get labourTitle => 'Labour';
+
+  @override
+  String get labourAddDay => 'Add worker day';
+
+  @override
+  String get labourWorker => 'Worker name';
+
+  @override
+  String get labourTask => 'Work done';
+
+  @override
+  String get labourWage => 'Wage (₹)';
+
+  @override
+  String get labourAdvance => 'Advance paid (₹, optional)';
+
+  @override
+  String get labourPaidNow => 'Paid in full today';
+
+  @override
+  String get labourSettled => 'Settled';
+
+  @override
+  String get labourMarkPaid => 'Mark paid';
+
+  @override
+  String get labourEmpty => 'No worker days yet. Add one.';
+
+  @override
+  String get labourTotalDue => 'Total owed to workers';
+
+  @override
+  String labourDue(String amount) {
+    return 'Due $amount';
+  }
+
+  @override
+  String get harvestTitle => 'Harvest';
+
+  @override
+  String get harvestAdd => 'Add harvest';
+
+  @override
+  String get harvestKg => 'Quantity (kg)';
+
+  @override
+  String get harvestGrade => 'Grade (optional)';
+
+  @override
+  String get harvestSize => 'Size (optional)';
+
+  @override
+  String get harvestEmpty => 'No harvest recorded yet. Add a lot.';
+
+  @override
+  String harvestTotal(String kg) {
+    return 'Total $kg kg';
+  }
+
+  @override
+  String get moreMenu => 'More';
+
+  @override
+  String harvestKgValue(String kg) {
+    return '$kg kg';
+  }
 }

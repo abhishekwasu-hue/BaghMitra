@@ -8,6 +8,7 @@ import 'package:bagmitra/features/accounts/data/expense_categories.dart';
 import 'package:bagmitra/features/auth/data/demo_auth_repository.dart';
 import 'package:bagmitra/features/auth/domain/auth.dart';
 import 'package:bagmitra/features/bahar/data/bahar_catalog.dart';
+import 'package:bagmitra/features/field_work/data/field_work_options.dart';
 import 'package:bagmitra/features/home/data/demo_home_repository.dart';
 import 'package:bagmitra/features/inputs/data/input_kinds.dart';
 import 'package:bagmitra/features/plots/data/crop_catalog.dart';
@@ -79,6 +80,9 @@ Future<AppDatabase> pumpApp(
         ),
         inputKindsCatalogProvider.overrideWithValue(
           InputKinds(bundle: FileAssetBundle()),
+        ),
+        fieldWorkOptionsCatalogProvider.overrideWithValue(
+          FieldWorkOptions(bundle: FileAssetBundle()),
         ),
         expenseCategoriesCatalogProvider.overrideWithValue(
           ExpenseCategories(bundle: FileAssetBundle()),

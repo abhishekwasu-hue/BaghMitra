@@ -50,6 +50,21 @@ class BaharScreen extends ConsumerWidget {
             onPressed: () => context.push(Routes.fieldLog(plotId)),
             icon: Icon(Icons.grass_outlined, color: c.brand),
           ),
+          PopupMenuButton<String>(
+            tooltip: AppLocalizations.of(context).moreMenu,
+            icon: Icon(Icons.more_vert, color: c.brand),
+            onSelected: context.push,
+            itemBuilder: (_) => [
+              PopupMenuItem(
+                value: Routes.labour(plotId),
+                child: Text(AppLocalizations.of(context).labourTitle),
+              ),
+              PopupMenuItem(
+                value: Routes.harvest(plotId),
+                child: Text(AppLocalizations.of(context).harvestTitle),
+              ),
+            ],
+          ),
           IconButton(
             tooltip: AppLocalizations.of(context).accountsTitle,
             onPressed: () => context.push(Routes.accounts(plotId)),

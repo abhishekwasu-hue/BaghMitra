@@ -1035,6 +1035,126 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Labour'**
   String get labourTitle;
+
+  /// No description provided for @labourAddDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Add worker day'**
+  String get labourAddDay;
+
+  /// No description provided for @labourWorker.
+  ///
+  /// In en, this message translates to:
+  /// **'Worker name'**
+  String get labourWorker;
+
+  /// No description provided for @labourTask.
+  ///
+  /// In en, this message translates to:
+  /// **'Work done'**
+  String get labourTask;
+
+  /// No description provided for @labourWage.
+  ///
+  /// In en, this message translates to:
+  /// **'Wage (₹)'**
+  String get labourWage;
+
+  /// No description provided for @labourAdvance.
+  ///
+  /// In en, this message translates to:
+  /// **'Advance paid (₹, optional)'**
+  String get labourAdvance;
+
+  /// No description provided for @labourPaidNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Paid in full today'**
+  String get labourPaidNow;
+
+  /// No description provided for @labourSettled.
+  ///
+  /// In en, this message translates to:
+  /// **'Settled'**
+  String get labourSettled;
+
+  /// No description provided for @labourMarkPaid.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark paid'**
+  String get labourMarkPaid;
+
+  /// No description provided for @labourEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No worker days yet. Add one.'**
+  String get labourEmpty;
+
+  /// No description provided for @labourTotalDue.
+  ///
+  /// In en, this message translates to:
+  /// **'Total owed to workers'**
+  String get labourTotalDue;
+
+  /// No description provided for @labourDue.
+  ///
+  /// In en, this message translates to:
+  /// **'Due {amount}'**
+  String labourDue(String amount);
+
+  /// No description provided for @harvestTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Harvest'**
+  String get harvestTitle;
+
+  /// No description provided for @harvestAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add harvest'**
+  String get harvestAdd;
+
+  /// No description provided for @harvestKg.
+  ///
+  /// In en, this message translates to:
+  /// **'Quantity (kg)'**
+  String get harvestKg;
+
+  /// No description provided for @harvestGrade.
+  ///
+  /// In en, this message translates to:
+  /// **'Grade (optional)'**
+  String get harvestGrade;
+
+  /// No description provided for @harvestSize.
+  ///
+  /// In en, this message translates to:
+  /// **'Size (optional)'**
+  String get harvestSize;
+
+  /// No description provided for @harvestEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No harvest recorded yet. Add a lot.'**
+  String get harvestEmpty;
+
+  /// No description provided for @harvestTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Total {kg} kg'**
+  String harvestTotal(String kg);
+
+  /// No description provided for @moreMenu.
+  ///
+  /// In en, this message translates to:
+  /// **'More'**
+  String get moreMenu;
+
+  /// No description provided for @harvestKgValue.
+  ///
+  /// In en, this message translates to:
+  /// **'{kg} kg'**
+  String harvestKgValue(String kg);
 }
 
 class _AppLocalizationsDelegate
