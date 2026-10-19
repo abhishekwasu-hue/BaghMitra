@@ -79,7 +79,7 @@ reach a grower (blockers: Q12 expert reviewer, Q13 CCRI calendar, Q10 source PDF
 | Expenses and incomes (API + app), exact paise, buyer dues | Input (fertiliser / manure) and irrigation records |
 | Cost and profit per plot / bahar; per acre, tree, tonne | Labour register; harvest records |
 | Spray records (API + app) with offline ban / PHI warning from a cached gazette list | Year-on-year comparison |
-| Admin-safe warnings: facts only, never block recording | PDF / Excel export in Marathi |
+| Warnings are facts only and never block recording | PDF / Excel export in Marathi |
 | | Voice-note quick entry (needs STT, Q5) |
 
 ### Known gaps
