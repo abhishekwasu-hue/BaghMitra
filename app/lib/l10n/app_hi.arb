@@ -139,5 +139,19 @@
   "sprayWarnRestrictedTitle": "इस फसल के लिए रोक",
   "sprayWarnRestrictedBody": "इस फसल के लिए यह तत्व प्रतिबंधित है ({notification})। लेबल देखें और स्थानीय विशेषज्ञ से पूछें।",
   "sprayWarnPhiTitle": "कटाई बहुत जल्दी",
-  "sprayWarnPhiBody": "प्रतीक्षा अवधि खत्म होने से पहले कटाई तय है। {date} से कटाई सुरक्षित है।"
+  "sprayWarnPhiBody": "प्रतीक्षा अवधि खत्म होने से पहले कटाई तय है। {date} से कटाई सुरक्षित है।",
+  "fieldLogTitle": "खेत की नोंदें",
+  "addInput": "खाद जोड़ें",
+  "logIrrigation": "सिंचाई दर्ज करें",
+  "inputKind": "क्या डाला?",
+  "inputProduct": "उत्पाद का नाम",
+  "inputQuantity": "मात्रा (वैकल्पिक)",
+  "inputUnit": "इकाई",
+  "inputCost": "खर्च (₹, वैकल्पिक)",
+  "irrigationTitle": "सिंचाई",
+  "irrigationHours": "घंटे (वैकल्पिक)",
+  "irrigationLitres": "पानी लीटर में (वैकल्पिक)",
+  "fieldLogEmpty": "अभी कोई नोंद नहीं। खाद जोड़ें या सिंचाई दर्ज करें।",
+  "inputLine": "{quantity} {unit}",
+  "irrigationHoursLine": "{hours} घंटे"
 }

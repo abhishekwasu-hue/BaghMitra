@@ -502,4 +502,51 @@ class AppLocalizationsEn extends AppLocalizations {
   String sprayWarnPhiBody(String date) {
     return 'Harvest is planned before the waiting period ends. Safe to harvest from $date.';
   }
+
+  @override
+  String get fieldLogTitle => 'Field log';
+
+  @override
+  String get addInput => 'Add fertiliser';
+
+  @override
+  String get logIrrigation => 'Log irrigation';
+
+  @override
+  String get inputKind => 'What did you apply?';
+
+  @override
+  String get inputProduct => 'Product name';
+
+  @override
+  String get inputQuantity => 'Quantity (optional)';
+
+  @override
+  String get inputUnit => 'Unit';
+
+  @override
+  String get inputCost => 'Cost (₹, optional)';
+
+  @override
+  String get irrigationTitle => 'Irrigation';
+
+  @override
+  String get irrigationHours => 'Hours (optional)';
+
+  @override
+  String get irrigationLitres => 'Water in litres (optional)';
+
+  @override
+  String get fieldLogEmpty =>
+      'No entries yet. Add fertiliser or log irrigation.';
+
+  @override
+  String inputLine(String quantity, String unit) {
+    return '$quantity $unit';
+  }
+
+  @override
+  String irrigationHoursLine(String hours) {
+    return '$hours h';
+  }
 }

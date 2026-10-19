@@ -301,5 +301,36 @@
         "type": "String"
       }
     }
+  },
+  "fieldLogTitle": "Field log",
+  "addInput": "Add fertiliser",
+  "logIrrigation": "Log irrigation",
+  "inputKind": "What did you apply?",
+  "inputProduct": "Product name",
+  "inputQuantity": "Quantity (optional)",
+  "inputUnit": "Unit",
+  "inputCost": "Cost (₹, optional)",
+  "irrigationTitle": "Irrigation",
+  "irrigationHours": "Hours (optional)",
+  "irrigationLitres": "Water in litres (optional)",
+  "fieldLogEmpty": "No entries yet. Add fertiliser or log irrigation.",
+  "inputLine": "{quantity} {unit}",
+  "@inputLine": {
+    "placeholders": {
+      "quantity": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "irrigationHoursLine": "{hours} h",
+  "@irrigationHoursLine": {
+    "placeholders": {
+      "hours": {
+        "type": "String"
+      }
+    }
   }
 }

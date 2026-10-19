@@ -502,4 +502,50 @@ class AppLocalizationsMr extends AppLocalizations {
   String sprayWarnPhiBody(String date) {
     return 'प्रतीक्षा कालावधी संपण्यापूर्वी तोडणी ठरवलेली आहे. $date पासून तोडणी सुरक्षित.';
   }
+
+  @override
+  String get fieldLogTitle => 'शेतातील नोंदी';
+
+  @override
+  String get addInput => 'खत जोडा';
+
+  @override
+  String get logIrrigation => 'पाणी नोंदवा';
+
+  @override
+  String get inputKind => 'काय दिले?';
+
+  @override
+  String get inputProduct => 'उत्पादनाचे नाव';
+
+  @override
+  String get inputQuantity => 'प्रमाण (ऐच्छिक)';
+
+  @override
+  String get inputUnit => 'एकक';
+
+  @override
+  String get inputCost => 'खर्च (₹, ऐच्छिक)';
+
+  @override
+  String get irrigationTitle => 'पाणी देणे';
+
+  @override
+  String get irrigationHours => 'तास (ऐच्छिक)';
+
+  @override
+  String get irrigationLitres => 'पाणी लिटरमध्ये (ऐच्छिक)';
+
+  @override
+  String get fieldLogEmpty => 'अजून नोंदी नाहीत. खत जोडा किंवा पाणी नोंदवा.';
+
+  @override
+  String inputLine(String quantity, String unit) {
+    return '$quantity $unit';
+  }
+
+  @override
+  String irrigationHoursLine(String hours) {
+    return '$hours तास';
+  }
 }

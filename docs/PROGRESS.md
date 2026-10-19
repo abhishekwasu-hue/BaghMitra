@@ -76,11 +76,11 @@ reach a grower (blockers: Q12 expert reviewer, Q13 CCRI calendar, Q10 source PDF
 ### M2 — Records & accounts · partly done
 | Done | Not done |
 |---|---|
-| Expenses and incomes (API + app), exact paise, buyer dues | Input (fertiliser / manure) and irrigation records |
-| Cost and profit per plot / bahar; per acre, tree, tonne | Labour register; harvest records |
-| Spray records (API + app) with offline ban / PHI warning from a cached gazette list | Year-on-year comparison |
-| Warnings are facts only and never block recording | PDF / Excel export in Marathi |
-| | Voice-note quick entry (needs STT, Q5) |
+| Expenses and incomes (API + app), exact paise, buyer dues | Labour register; harvest records |
+| Cost and profit per plot / bahar; per acre, tree, tonne | Year-on-year comparison |
+| Spray records (API + app) with offline ban / PHI warning from a cached gazette list | PDF / Excel export in Marathi |
+| Fertiliser / manure and irrigation records (API + app, field log screen); input cost counted under its kind | Voice-note quick entry (needs STT, Q5) |
+| Warnings are facts only and never block recording | |
 
 ### Known gaps
 - Home still shows sample data ("Sample data" chip): weather, tasks and price come in M4 / M5.
