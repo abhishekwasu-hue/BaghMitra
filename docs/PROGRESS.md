@@ -94,15 +94,10 @@ reach a grower (blockers: Q12 expert reviewer, Q13 CCRI calendar, Q10 source PDF
 - Warnings use the label aliases in `assets/config/crops.json` (owner-confirmed, Q15).
 - Performance budget (2 GB device, first frame < 1 s) is not measured yet.
 
-### Owner actions outstanding
-Supabase project (Q3), expert reviewer (Q12), CCRI Calendar of Operations (Q13), source PDFs
-for bahar templates (Q10), billing addendum (Q11), legal review of the consent wording (Q17), and
-an emulator or real phone to run the app on (Q4; GPS, share sheet and PDF export are only tested
-with fakes so far).
-
-### What is blocked on those
-Voice entry and voice-guided onboarding (STT, Q5), the stage calendar and bahar selection
-assistant (verified templates, Q10 / Q13), tasks and reminders (push / WhatsApp / SMS need
-accounts and keys, Q3), weather and prices (M4 / M5), billing (M6), and any chemical advice
-reaching a grower (Q12). Small unblocked work that remains: editing a plot (including its
-boundary), a plot detail screen, wave-2 locales.
+### Owner actions outstanding (none of them blocks development)
+Hosted Supabase project, an expert reviewer, the official CCRI Calendar of Operations, a legal
+review of the consent wording, a real-phone check before Play release, Play Console setup
+(billing runbooks). Decisions from the owner's unblock message of 2026-10-20 are recorded in
+`OPEN_QUESTIONS.md` and the work queue is in `PLAN.md`; development continues on the local Supabase
+stack, the on-device voice adapter, a headless emulator in CI, interim CCRI templates and draft
+knowledge cards.
