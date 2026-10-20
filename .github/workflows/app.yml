@@ -90,6 +90,11 @@ jobs:
           channel: stable
           cache: true
       - run: flutter pub get
+      - name: Free runner disk (the system image needs several GB)
+        working-directory: .
+        run: |
+          sudo rm -rf /usr/share/dotnet /opt/ghc /usr/local/share/boost /opt/hostedtoolcache/CodeQL
+          df -h /
       - name: Enable KVM
         working-directory: .
         run: |
