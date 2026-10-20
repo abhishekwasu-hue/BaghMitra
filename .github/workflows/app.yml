@@ -109,17 +109,8 @@ jobs:
       - name: Integration tests on an emulator
         id: emu
         continue-on-error: true
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 33
-          target: google_apis
-          arch: x86_64
-          profile: pixel_5
-          ram-size: 2048M
-          disable-animations: true
-          working-directory: app
-          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -no-metrics
-          script: bash tool/emulator_test.sh
+        working-directory: app
+        run: bash tool/emulator_ci.sh
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -134,7 +125,7 @@ jobs:
           {
             echo "Emulator job failed on ${GITHUB_SHA::7}. End of the test log:"
             echo '```'
-            tail -n 60 emulator-shots/test.log 2>/dev/null || echo "(no test.log: the script did not start)"
+            tail -n 40 emulator-shots/run.log 2>/dev/null || echo "(no run.log: the script did not start)"
             echo '```'
           } > emulator-comment.md
           gh pr comment ${{ github.event.pull_request.number }} --body-file emulator-comment.md
