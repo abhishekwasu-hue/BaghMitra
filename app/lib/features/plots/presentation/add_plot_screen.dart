@@ -4,8 +4,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../app/providers.dart';
+import '../../../app/router.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
+import '../domain/geo.dart';
 import '../domain/plot.dart';
 
 /// Adds an orchard block. Saves locally at once; sync happens in the background.
@@ -24,6 +26,7 @@ class _AddPlotScreenState extends ConsumerState<AddPlotScreen> {
   final _trees = TextEditingController();
   final _year = TextEditingController();
   String? _crop;
+  List<LatLon>? _boundary;
 
   @override
   void dispose() {
@@ -44,17 +47,33 @@ class _AddPlotScreenState extends ConsumerState<AddPlotScreen> {
         id: repo.newId(),
         name: _name.text.trim(),
         crop: _crop!,
-        areaSqM: double.parse(_acres.text.trim()) * Plot.sqMPerAcre,
+        areaSqM: _boundary != null
+            ? polygonAreaSqM(_boundary!)
+            : double.parse(_acres.text.trim()) * Plot.sqMPerAcre,
         variety: _optional(_variety.text),
         treeCount: int.tryParse(_trees.text.trim()),
         plantingYear: int.tryParse(_year.text.trim()),
+        centroidLat: _boundary == null ? null : centroidOf(_boundary!).lat,
+        centroidLon: _boundary == null ? null : centroidOf(_boundary!).lon,
+        boundary: _boundary == null ? null : toGeoJsonPolygon(_boundary!),
       ),
     );
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(AppLocalizations.of(context).plotSaved)),
     );
-    context.pop();
+    // Opened directly (e.g. from a notification) there is nothing to pop.
+    context.canPop() ? context.pop() : context.go(Routes.plots);
+  }
+
+  Future<void> _walkBoundary() async {
+    final corners = await context.push<List<LatLon>>(Routes.walkBoundary);
+    if (corners == null || !mounted) return;
+    setState(() {
+      _boundary = corners;
+      // The walked area fills the field; the grower can still see and correct it.
+      _acres.text = sqMToAcres(polygonAreaSqM(corners)).toStringAsFixed(2);
+    });
   }
 
   @override
@@ -131,7 +150,23 @@ class _AddPlotScreenState extends ConsumerState<AddPlotScreen> {
               ],
               decoration: InputDecoration(labelText: t.plotAreaAcres),
               validator: positive,
+              // Typing a new area replaces the walked one: the two would disagree.
+              onChanged: (_) => setState(() => _boundary = null),
             ),
+            const SizedBox(height: BmSpace.xs),
+            OutlinedButton.icon(
+              onPressed: _walkBoundary,
+              icon: const Icon(Icons.my_location),
+              label: Text(t.boundaryWalk),
+            ),
+            if (_boundary != null)
+              Padding(
+                padding: const EdgeInsets.only(top: BmSpace.xs),
+                child: Text(
+                  t.boundaryMarked(_boundary!.length),
+                  style: BmType.label.copyWith(color: c.brand),
+                ),
+              ),
             gap,
             TextFormField(
               key: const Key('plot-trees'),

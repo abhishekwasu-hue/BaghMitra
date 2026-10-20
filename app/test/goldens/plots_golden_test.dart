@@ -9,6 +9,9 @@ import '../features/accounts/compare_screen_test.dart' show seedTwoSeasons;
 import '../features/bahar/bahar_screen_test.dart' show seedPlotWithCycle;
 import '../features/field_work/field_work_screens_test.dart' show seedWork;
 import '../features/inputs/field_log_test.dart' show seedLog;
+import '../features/plots/boundary_screen_test.dart'
+    show ScriptedLocation, walkOf;
+import '../features/plots/geo_test.dart' show square;
 import '../features/plots/plots_screen_test.dart' show seedTwo, settle;
 import '../features/spray/spray_screen_test.dart' show seedWithSpray;
 import '../helpers/pump_app.dart';
@@ -153,6 +156,24 @@ void main() {
     await expectLater(
       find.byType(MaterialApp),
       matchesGoldenFile('onboarding_mr_light.png'),
+    );
+    await unmountApp(tester);
+  });
+
+  testWidgets('boundary_mr_light', (tester) async {
+    await pumpApp(
+      tester,
+      initialLocation: '/plots/new/boundary',
+      location: ScriptedLocation(walkOf(square(100))),
+    );
+    await settle(tester);
+    for (var i = 0; i < 4; i++) {
+      await tester.tap(find.byType(FilledButton).first);
+      await settle(tester);
+    }
+    await expectLater(
+      find.byType(MaterialApp),
+      matchesGoldenFile('boundary_mr_light.png'),
     );
     await unmountApp(tester);
   });

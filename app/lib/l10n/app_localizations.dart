@@ -1311,6 +1311,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Continue'**
   String get onboardingContinue;
+
+  /// No description provided for @boundaryWalk.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark boundary by walking'**
+  String get boundaryWalk;
+
+  /// No description provided for @boundaryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Walk the boundary'**
+  String get boundaryTitle;
+
+  /// No description provided for @boundaryHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Stand at a corner of the block and tap “Add this corner”. Walk to each corner and repeat. You need at least 3.'**
+  String get boundaryHelp;
+
+  /// No description provided for @boundaryAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add this corner'**
+  String get boundaryAdd;
+
+  /// No description provided for @boundaryUndo.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove last corner'**
+  String get boundaryUndo;
+
+  /// No description provided for @boundaryDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get boundaryDone;
+
+  /// No description provided for @boundaryCorners.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 corner} other{{count} corners}}'**
+  String boundaryCorners(int count);
+
+  /// No description provided for @boundaryArea.
+  ///
+  /// In en, this message translates to:
+  /// **'Area about {acres} acres'**
+  String boundaryArea(String acres);
+
+  /// No description provided for @boundaryAccuracy.
+  ///
+  /// In en, this message translates to:
+  /// **'±{metres} m'**
+  String boundaryAccuracy(String metres);
+
+  /// No description provided for @boundaryServiceOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on location (GPS) on your phone.'**
+  String get boundaryServiceOff;
+
+  /// No description provided for @boundaryDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow location to mark the boundary.'**
+  String get boundaryDenied;
+
+  /// No description provided for @boundaryDeniedForever.
+  ///
+  /// In en, this message translates to:
+  /// **'Location is blocked. Allow it in the phone\'s app settings.'**
+  String get boundaryDeniedForever;
+
+  /// No description provided for @boundaryFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not get your location. Try again outside.'**
+  String get boundaryFailed;
+
+  /// No description provided for @boundaryMarked.
+  ///
+  /// In en, this message translates to:
+  /// **'Boundary marked: {count, plural, =1{1 corner} other{{count} corners}}'**
+  String boundaryMarked(int count);
 }
 
 class _AppLocalizationsDelegate
