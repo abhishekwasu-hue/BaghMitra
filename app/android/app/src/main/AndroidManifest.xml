@@ -1,4 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Debug and profile builds add this themselves; release builds need it for API and sync calls. -->
+    <uses-permission android:name="android.permission.INTERNET"/>
     <!-- Read once, when the grower taps "Add this corner" while marking a block boundary. -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
