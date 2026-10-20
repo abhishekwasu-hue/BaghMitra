@@ -213,6 +213,23 @@ class LabourRecords extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
+@DataClassName('FarmTaskRow')
+class FarmTasks extends Table {
+  TextColumn get id => text()();
+  TextColumn get plotId => text().nullable()();
+  TextColumn get baharCycleId => text().nullable()();
+  TextColumn get title => text()();
+  TextColumn get kind => text()();
+  DateTimeColumn get dueOn => dateTime()();
+  DateTimeColumn get doneOn => dateTime().nullable()();
+  TextColumn get source => text().nullable()();
+  TextColumn get note => text().nullable()();
+  DateTimeColumn get clientUpdatedAt => dateTime()();
+
+  @override
+  Set<Column<Object>> get primaryKey => {id};
+}
+
 /// Small key/value store for sync cursors and similar bookkeeping.
 class SyncMeta extends Table {
   TextColumn get key => text()();
@@ -236,6 +253,7 @@ class SyncMeta extends Table {
     IrrigationRecords,
     HarvestRecords,
     LabourRecords,
+    FarmTasks,
   ],
 )
 class AppDatabase extends _$AppDatabase {
@@ -244,7 +262,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.open(String name) : super(driftDatabase(name: name));
 
   @override
-  int get schemaVersion => 7;
+  int get schemaVersion => 8;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -265,6 +283,7 @@ class AppDatabase extends _$AppDatabase {
         await m.createTable(harvestRecords);
         await m.createTable(labourRecords);
       }
+      if (from < 8) await m.createTable(farmTasks);
     },
   );
 

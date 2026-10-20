@@ -476,5 +476,22 @@
   "buildLabel": "Test build {sha}",
   "@buildLabel": {"placeholders": {"sha": {"type": "String"}}},
   "seedOrchard": "Add sample orchard",
-  "seedOrchardDone": "Sample orchard added"
+  "seedOrchardDone": "Sample orchard added",
+  "tasksTitle": "Tasks",
+  "addTask": "Add a task",
+  "taskWhat": "What needs doing?",
+  "taskKind": "Kind",
+  "taskDue": "Due",
+  "dueToday": "Today",
+  "dueTomorrow": "Tomorrow",
+  "pickDate": "Pick a date",
+  "tasksEmpty": "No tasks yet. Add one with the + button.",
+  "tasksOverdue": "Overdue",
+  "tasksToday": "Today",
+  "tasksUpcoming": "Coming up",
+  "tasksDone": "Done",
+  "noTasksToday": "Nothing due today",
+  "taskOverdue": "Overdue",
+  "dueInDays": "In {n} days",
+  "@dueInDays": {"placeholders": {"n": {"type": "int"}}}
 }

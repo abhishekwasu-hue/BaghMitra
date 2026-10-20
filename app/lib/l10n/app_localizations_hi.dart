@@ -799,4 +799,54 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get seedOrchardDone => 'नमूना बाग जोड़ा गया';
+
+  @override
+  String get tasksTitle => 'काम';
+
+  @override
+  String get addTask => 'काम जोड़ें';
+
+  @override
+  String get taskWhat => 'क्या करना है?';
+
+  @override
+  String get taskKind => 'प्रकार';
+
+  @override
+  String get taskDue => 'कब';
+
+  @override
+  String get dueToday => 'आज';
+
+  @override
+  String get dueTomorrow => 'कल';
+
+  @override
+  String get pickDate => 'तारीख चुनें';
+
+  @override
+  String get tasksEmpty => 'अभी कोई काम नहीं। + बटन से जोड़ें।';
+
+  @override
+  String get tasksOverdue => 'देर हो चुकी';
+
+  @override
+  String get tasksToday => 'आज';
+
+  @override
+  String get tasksUpcoming => 'आगे के';
+
+  @override
+  String get tasksDone => 'पूरे';
+
+  @override
+  String get noTasksToday => 'आज कुछ बाकी नहीं';
+
+  @override
+  String get taskOverdue => 'देर';
+
+  @override
+  String dueInDays(int n) {
+    return '$n दिन में';
+  }
 }

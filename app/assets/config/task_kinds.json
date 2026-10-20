@@ -1,0 +1,12 @@
+{
+  "_note": "Kinds of farm task a grower can pick. Config, not code: the slugs match the API's farm_task.kind. A kind with no glyph in the app falls back to the orchard glyph.",
+  "kinds": [
+    {"slug": "irrigation", "labels": {"en": "Irrigation", "mr": "पाणी देणे", "hi": "सिंचाई"}},
+    {"slug": "spray", "labels": {"en": "Spray", "mr": "फवारणी", "hi": "छिड़काव"}},
+    {"slug": "scouting", "labels": {"en": "Scouting", "mr": "बाग पाहणी", "hi": "बाग निरीक्षण"}},
+    {"slug": "fertiliser", "labels": {"en": "Fertiliser / manure", "mr": "खत देणे", "hi": "खाद देना"}},
+    {"slug": "pruning", "labels": {"en": "Pruning", "mr": "छाटणी", "hi": "छंटाई"}},
+    {"slug": "harvest", "labels": {"en": "Harvest", "mr": "काढणी", "hi": "तुड़ाई"}},
+    {"slug": "other", "labels": {"en": "Other", "mr": "इतर", "hi": "अन्य"}}
+  ]
+}
