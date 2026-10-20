@@ -200,5 +200,19 @@
   "onboardingDistrict": "ज़िला (वैकल्पिक)",
   "onboardingConsentData": "ऐप चलाने के लिए बागमित्र मेरे बाग की नोंदें सहेजे, इसकी मेरी सहमति है।",
   "onboardingConsentWhatsapp": "मुझे WhatsApp पर याद दिलाएँ (वैकल्पिक)।",
-  "onboardingContinue": "आगे बढ़ें"
+  "onboardingContinue": "आगे बढ़ें",
+  "boundaryWalk": "चलकर सीमा दर्ज करें",
+  "boundaryTitle": "बाग की सीमा दर्ज करें",
+  "boundaryHelp": "बाग के एक कोने पर खड़े हों और “यह कोना जोड़ें” दबाएँ। हर कोने पर जाकर यही करें। कम से कम 3 कोने चाहिए।",
+  "boundaryAdd": "यह कोना जोड़ें",
+  "boundaryUndo": "आख़िरी कोना हटाएँ",
+  "boundaryDone": "हो गया",
+  "boundaryCorners": "{count, plural, =1{1 कोना} other{{count} कोने}}",
+  "boundaryArea": "क्षेत्रफल लगभग {acres} एकड़",
+  "boundaryAccuracy": "±{metres} मी",
+  "boundaryServiceOff": "फ़ोन में लोकेशन (GPS) चालू करें।",
+  "boundaryDenied": "सीमा दर्ज करने के लिए लोकेशन की अनुमति दें।",
+  "boundaryDeniedForever": "लोकेशन बंद है। फ़ोन की ऐप सेटिंग में अनुमति दें।",
+  "boundaryFailed": "आपकी जगह नहीं मिली। खुली जगह में फिर कोशिश करें।",
+  "boundaryMarked": "सीमा दर्ज हुई: {count, plural, =1{1 कोना} other{{count} कोने}}"
 }

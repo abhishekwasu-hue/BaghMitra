@@ -704,4 +704,69 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get onboardingContinue => 'पुढे';
+
+  @override
+  String get boundaryWalk => 'चालत जाऊन सीमा नोंदवा';
+
+  @override
+  String get boundaryTitle => 'बागेची सीमा नोंदवा';
+
+  @override
+  String get boundaryHelp =>
+      'बागेच्या एका कोपऱ्यात उभे राहा आणि “हा कोपरा जोडा” दाबा. प्रत्येक कोपऱ्यावर जाऊन असेच करा. किमान ३ कोपरे हवेत.';
+
+  @override
+  String get boundaryAdd => 'हा कोपरा जोडा';
+
+  @override
+  String get boundaryUndo => 'शेवटचा कोपरा काढा';
+
+  @override
+  String get boundaryDone => 'झाले';
+
+  @override
+  String boundaryCorners(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count कोपरे',
+      one: '१ कोपरा',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String boundaryArea(String acres) {
+    return 'क्षेत्र सुमारे $acres एकर';
+  }
+
+  @override
+  String boundaryAccuracy(String metres) {
+    return '±$metres मी';
+  }
+
+  @override
+  String get boundaryServiceOff => 'फोनमधील लोकेशन (GPS) चालू करा.';
+
+  @override
+  String get boundaryDenied => 'सीमा नोंदवण्यासाठी लोकेशनला परवानगी द्या.';
+
+  @override
+  String get boundaryDeniedForever =>
+      'लोकेशन बंद केलेले आहे. फोनच्या अॅप सेटिंगमध्ये परवानगी द्या.';
+
+  @override
+  String get boundaryFailed =>
+      'आपले ठिकाण मिळाले नाही. मोकळ्या जागेत पुन्हा प्रयत्न करा.';
+
+  @override
+  String boundaryMarked(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count कोपरे',
+      one: '१ कोपरा',
+    );
+    return 'सीमा नोंदवली: $_temp0';
+  }
 }

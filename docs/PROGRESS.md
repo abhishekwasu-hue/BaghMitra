@@ -60,7 +60,8 @@ deployed. All screens are checked as goldens at phone size; **no emulator run ha
 ### M1 — Orchard & bahar core · partly done
 | Done | Not done |
 |---|---|
-| Plots API + app (add / list / delete), offline + synced | GPS walk / boundary draw |
+| Plots API + app (add / list / delete), offline + synced | Editing the boundary of an existing plot; boundary on a map (needs a map provider) |
+| GPS boundary when adding a plot: stand at each corner and tap; area and centroid computed on the phone, saved as a GeoJSON polygon (Android location permission; position read only on tap) | |
 | Bahar cycles API + app ("start a bahar" with the grower's own dates) | Stage calendar and bahar selection assistant (needs verified templates, Q10) |
 | Crop stage templates as reference data (none published) | Tasks and reminders (push, WhatsApp / SMS) |
 | Sync appliers for plot and bahar so other devices' changes arrive | Voice-guided onboarding (needs STT, Q5); wave-2 locales |

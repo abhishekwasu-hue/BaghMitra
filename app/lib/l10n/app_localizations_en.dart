@@ -705,4 +705,69 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get onboardingContinue => 'Continue';
+
+  @override
+  String get boundaryWalk => 'Mark boundary by walking';
+
+  @override
+  String get boundaryTitle => 'Walk the boundary';
+
+  @override
+  String get boundaryHelp =>
+      'Stand at a corner of the block and tap “Add this corner”. Walk to each corner and repeat. You need at least 3.';
+
+  @override
+  String get boundaryAdd => 'Add this corner';
+
+  @override
+  String get boundaryUndo => 'Remove last corner';
+
+  @override
+  String get boundaryDone => 'Done';
+
+  @override
+  String boundaryCorners(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count corners',
+      one: '1 corner',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String boundaryArea(String acres) {
+    return 'Area about $acres acres';
+  }
+
+  @override
+  String boundaryAccuracy(String metres) {
+    return '±$metres m';
+  }
+
+  @override
+  String get boundaryServiceOff => 'Turn on location (GPS) on your phone.';
+
+  @override
+  String get boundaryDenied => 'Allow location to mark the boundary.';
+
+  @override
+  String get boundaryDeniedForever =>
+      'Location is blocked. Allow it in the phone\'s app settings.';
+
+  @override
+  String get boundaryFailed =>
+      'Could not get your location. Try again outside.';
+
+  @override
+  String boundaryMarked(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count corners',
+      one: '1 corner',
+    );
+    return 'Boundary marked: $_temp0';
+  }
 }

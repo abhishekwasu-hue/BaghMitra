@@ -424,5 +424,47 @@
   "onboardingDistrict": "District (optional)",
   "onboardingConsentData": "I agree that BagMitra stores my orchard records to run the app.",
   "onboardingConsentWhatsapp": "Send me reminders on WhatsApp (optional).",
-  "onboardingContinue": "Continue"
+  "onboardingContinue": "Continue",
+  "boundaryWalk": "Mark boundary by walking",
+  "boundaryTitle": "Walk the boundary",
+  "boundaryHelp": "Stand at a corner of the block and tap “Add this corner”. Walk to each corner and repeat. You need at least 3.",
+  "boundaryAdd": "Add this corner",
+  "boundaryUndo": "Remove last corner",
+  "boundaryDone": "Done",
+  "boundaryCorners": "{count, plural, =1{1 corner} other{{count} corners}}",
+  "@boundaryCorners": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "boundaryArea": "Area about {acres} acres",
+  "@boundaryArea": {
+    "placeholders": {
+      "acres": {
+        "type": "String"
+      }
+    }
+  },
+  "boundaryAccuracy": "±{metres} m",
+  "@boundaryAccuracy": {
+    "placeholders": {
+      "metres": {
+        "type": "String"
+      }
+    }
+  },
+  "boundaryServiceOff": "Turn on location (GPS) on your phone.",
+  "boundaryDenied": "Allow location to mark the boundary.",
+  "boundaryDeniedForever": "Location is blocked. Allow it in the phone's app settings.",
+  "boundaryFailed": "Could not get your location. Try again outside.",
+  "boundaryMarked": "Boundary marked: {count, plural, =1{1 corner} other{{count} corners}}",
+  "@boundaryMarked": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

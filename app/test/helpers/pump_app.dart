@@ -13,6 +13,7 @@ import 'package:bagmitra/features/field_work/data/field_work_options.dart';
 import 'package:bagmitra/features/home/data/demo_home_repository.dart';
 import 'package:bagmitra/features/inputs/data/input_kinds.dart';
 import 'package:bagmitra/features/plots/data/crop_catalog.dart';
+import 'package:bagmitra/features/plots/data/location_service.dart';
 import 'package:bagmitra/features/profile/data/language_catalog.dart';
 import 'package:bagmitra/sync/sync_engine.dart';
 
@@ -76,6 +77,7 @@ Future<AppDatabase> pumpApp(
   Future<void> Function(AppDatabase db)? seed,
   FileSharer? sharer,
   bool onboarded = true,
+  LocationService? location,
 }) async {
   tester.view.physicalSize = phoneSize * 3;
   tester.view.devicePixelRatio = 3;
@@ -105,6 +107,8 @@ Future<AppDatabase> pumpApp(
       overrides: [
         appConfigProvider.overrideWithValue(testConfig),
         fileSharerProvider.overrideWithValue(sharer ?? RecordingSharer()),
+        if (location != null)
+          locationServiceProvider.overrideWithValue(location),
         databaseProvider.overrideWithValue(db),
         authRepositoryProvider.overrideWithValue(
           DemoAuthRepository(initial: session),

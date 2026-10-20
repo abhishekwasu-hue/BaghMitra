@@ -24,6 +24,7 @@ import '../features/inputs/data/input_kinds.dart';
 import '../features/inputs/data/inputs_repository.dart';
 import '../features/inputs/domain/field_records.dart';
 import '../features/plots/data/crop_catalog.dart';
+import '../features/plots/data/location_service.dart';
 import '../features/plots/data/plot_repository.dart';
 import '../features/plots/domain/plot.dart';
 import '../features/profile/data/language_catalog.dart';
@@ -115,6 +116,10 @@ final languageCatalogProvider = Provider<LanguageCatalog>(
 
 final languagesProvider = FutureProvider<List<LabeledOption>>(
   (ref) => ref.watch(languageCatalogProvider).load(),
+);
+
+final locationServiceProvider = Provider<LocationService>(
+  (ref) => const GeolocatorLocationService(),
 );
 
 final plotRepositoryProvider = Provider<PlotRepository>(
