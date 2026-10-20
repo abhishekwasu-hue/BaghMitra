@@ -793,4 +793,10 @@ class AppLocalizationsHi extends AppLocalizations {
   String buildLabel(String sha) {
     return 'टेस्ट बिल्ड $sha';
   }
+
+  @override
+  String get seedOrchard => 'नमूना बाग जोड़ें';
+
+  @override
+  String get seedOrchardDone => 'नमूना बाग जोड़ा गया';
 }

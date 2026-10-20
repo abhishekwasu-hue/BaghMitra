@@ -474,5 +474,7 @@
   "settingsTitle": "Settings",
   "sendLogs": "Send logs",
   "buildLabel": "Test build {sha}",
-  "@buildLabel": {"placeholders": {"sha": {"type": "String"}}}
+  "@buildLabel": {"placeholders": {"sha": {"type": "String"}}},
+  "seedOrchard": "Add sample orchard",
+  "seedOrchardDone": "Sample orchard added"
 }

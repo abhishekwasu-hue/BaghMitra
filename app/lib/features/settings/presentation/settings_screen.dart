@@ -23,6 +23,21 @@ class SettingsScreen extends ConsumerWidget {
           if (config.isTestBuild)
             Text(t.buildLabel(config.testBuild), style: BmType.meta),
           const SizedBox(height: BmSpace.lg),
+          // Sample data only where nothing syncs, so it can never reach a real account.
+          if (config.demoMode) ...[
+            OutlinedButton(
+              key: const Key('seed-orchard'),
+              onPressed: () async {
+                await ref.read(sampleOrchardProvider).run();
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(SnackBar(content: Text(t.seedOrchardDone)));
+                }
+              },
+              child: Text(t.seedOrchard),
+            ),
+            const SizedBox(height: BmSpace.md),
+          ],
           FilledButton(
             key: const Key('send-logs'),
             onPressed: () async {

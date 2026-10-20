@@ -17,6 +17,17 @@ const testBuildConfig = AppConfig(
   testBuild: 'abc1234',
 );
 
+extension TestBuildConfigX on AppConfig {
+  AppConfig withBackend() => AppConfig(
+    productName: productName,
+    apiBaseUrl: apiBaseUrl,
+    supabaseUrl: 'https://x.supabase.co',
+    supabaseAnonKey: 'anon',
+    devGallery: devGallery,
+    testBuild: testBuild,
+  );
+}
+
 void main() {
   testWidgets('"Try without account" signs in locally and goes to setup', (
     tester,

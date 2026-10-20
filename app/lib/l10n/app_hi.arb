@@ -220,5 +220,7 @@
   "testBuildBadge": "टेस्ट बिल्ड {sha}",
   "settingsTitle": "सेटिंग्स",
   "sendLogs": "लॉग भेजें",
-  "buildLabel": "टेस्ट बिल्ड {sha}"
+  "buildLabel": "टेस्ट बिल्ड {sha}",
+  "seedOrchard": "नमूना बाग जोड़ें",
+  "seedOrchardDone": "नमूना बाग जोड़ा गया"
 }
