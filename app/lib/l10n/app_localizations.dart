@@ -1431,6 +1431,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Test build {sha}'**
   String buildLabel(String sha);
+
+  /// No description provided for @seedOrchard.
+  ///
+  /// In en, this message translates to:
+  /// **'Add sample orchard'**
+  String get seedOrchard;
+
+  /// No description provided for @seedOrchardDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Sample orchard added'**
+  String get seedOrchardDone;
 }
 
 class _AppLocalizationsDelegate

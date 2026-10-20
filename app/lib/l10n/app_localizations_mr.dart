@@ -792,4 +792,10 @@ class AppLocalizationsMr extends AppLocalizations {
   String buildLabel(String sha) {
     return 'चाचणी बिल्ड $sha';
   }
+
+  @override
+  String get seedOrchard => 'नमुना बाग भरा';
+
+  @override
+  String get seedOrchardDone => 'नमुना बाग भरला';
 }

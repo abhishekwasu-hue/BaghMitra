@@ -220,5 +220,7 @@
   "testBuildBadge": "चाचणी बिल्ड {sha}",
   "settingsTitle": "सेटिंग्ज",
   "sendLogs": "लॉग पाठवा",
-  "buildLabel": "चाचणी बिल्ड {sha}"
+  "buildLabel": "चाचणी बिल्ड {sha}",
+  "seedOrchard": "नमुना बाग भरा",
+  "seedOrchardDone": "नमुना बाग भरला"
 }

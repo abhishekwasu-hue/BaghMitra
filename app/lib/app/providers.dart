@@ -17,6 +17,7 @@ import '../features/bahar/data/bahar_repository.dart';
 import '../features/bahar/domain/bahar_cycle.dart';
 import '../features/billing/data/entitlements_cache.dart';
 import '../features/billing/domain/entitlements.dart';
+import '../features/dev/sample_orchard.dart';
 import '../features/export/data/file_sharer.dart';
 import '../features/field_work/data/field_work_options.dart';
 import '../features/field_work/data/field_work_repository.dart';
@@ -226,6 +227,17 @@ final entitlementsProvider = FutureProvider<Entitlements>((ref) async {
   }
   return Entitlements(snapshot, rules, ref.watch(clockProvider)());
 });
+
+final sampleOrchardProvider = Provider<SampleOrchard>(
+  (ref) => SampleOrchard(
+    plots: ref.watch(plotRepositoryProvider),
+    bahars: ref.watch(baharRepositoryProvider),
+    accounts: ref.watch(accountsRepositoryProvider),
+    sprays: ref.watch(sprayRepositoryProvider),
+    inputs: ref.watch(inputsRepositoryProvider),
+    fieldWork: ref.watch(fieldWorkRepositoryProvider),
+  ),
+);
 
 final inputsRepositoryProvider = Provider<InputsRepository>(
   (ref) => InputsRepository(

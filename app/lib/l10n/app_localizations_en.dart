@@ -793,4 +793,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String buildLabel(String sha) {
     return 'Test build $sha';
   }
+
+  @override
+  String get seedOrchard => 'Add sample orchard';
+
+  @override
+  String get seedOrchardDone => 'Sample orchard added';
 }
