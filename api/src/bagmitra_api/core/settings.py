@@ -24,6 +24,8 @@ class Settings(BaseSettings):
     # https://<ref>.supabase.co/auth/v1/.well-known/jwks.json. Empty: only the shared secret.
     supabase_jwks_url: str = ""
     jwt_audience: str = "authenticated"
+    # Ed25519 seed (URL-safe base64) that signs entitlement snapshots; empty = unsigned (dev).
+    entitlement_signing_key: SecretStr = Field(default=SecretStr(""))
 
     cors_origins: list[str] = Field(default_factory=list)
     sentry_dsn: SecretStr | None = None

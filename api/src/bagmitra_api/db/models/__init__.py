@@ -1,3 +1,10 @@
+from bagmitra_api.billing.models import (
+    BillingEvent,
+    BillingPlan,
+    EntitlementSnapshot,
+    PlanEntitlement,
+    Subscription,
+)
 from bagmitra_api.db.models.accounts import (
     Expense,
     HarvestRecord,
@@ -24,7 +31,10 @@ from bagmitra_api.kb.models import (
 
 __all__ = [
     "BaharCycle",
+    "BillingEvent",
+    "BillingPlan",
     "CropStageTemplate",
+    "EntitlementSnapshot",
     "Expense",
     "Farmer",
     "HarvestRecord",
@@ -40,7 +50,9 @@ __all__ = [
     "KbSynonym",
     "KbTopic",
     "LabourRecord",
+    "PlanEntitlement",
     "Plot",
     "SprayRecord",
+    "Subscription",
     "SyncMutation",
 ]

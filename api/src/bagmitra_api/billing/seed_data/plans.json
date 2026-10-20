@@ -1,0 +1,33 @@
+{
+  "_note": "Provisional plan split from SPEC_v1 M6 (Free: records + accounts, limited photos; Grower Pro: calendar, alerts, AI, voice; Consultant: roster per 100 growers). Limits are config: an admin edits them without a release (OPEN_QUESTIONS Q19).",
+  "plans": [
+    {
+      "key": "free",
+      "kind": "grower",
+      "sort_order": 0,
+      "names": {"en": "Free", "mr": "मोफत", "hi": "मुफ़्त"},
+      "features": {"records": null, "accounts": null, "export": null, "bahar": null, "photos": 20}
+    },
+    {
+      "key": "grower_pro",
+      "kind": "grower",
+      "sort_order": 10,
+      "names": {"en": "Grower Pro", "mr": "ग्रोअर प्रो", "hi": "ग्रोअर प्रो"},
+      "features": {
+        "records": null, "accounts": null, "export": null, "bahar": null, "photos": null,
+        "calendar": null, "alerts": null, "ai": 300, "voice": null
+      }
+    },
+    {
+      "key": "consultant",
+      "kind": "organisation",
+      "sort_order": 20,
+      "names": {"en": "Consultant", "mr": "सल्लागार", "hi": "सलाहकार"},
+      "features": {
+        "records": null, "accounts": null, "export": null, "bahar": null, "photos": null,
+        "calendar": null, "alerts": null, "ai": 500, "voice": null,
+        "roster": 100, "broadcast": null, "comments": null
+      }
+    }
+  ]
+}

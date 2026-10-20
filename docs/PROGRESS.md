@@ -104,3 +104,6 @@ review of the consent wording, a real-phone check before Play release, Play Cons
 `OPEN_QUESTIONS.md` and the work queue is in `PLAN.md`; development continues on the local Supabase
 stack, the on-device voice adapter, a headless emulator in CI, interim CCRI templates and draft
 knowledge cards.
+
+### M6a — entitlement layer (2026-10-20)
+Provider-agnostic: `billing_plans`, `plan_entitlements`, `subscriptions`, `billing_events`, `entitlement_snapshots` (migration 0012, RLS: plans are reference data, the rest private). `compute_entitlements` is a pure function covering PENDING/ACTIVE/IN_GRACE_PERIOD/ON_HOLD/PAUSED/CANCELED/EXPIRED/REVOKED with half-open access windows; the free plan is the floor, the union of features wins (unlimited beats a limit), and each signed snapshot expires at the earliest access end or the TTL. `GET /v1/billing/entitlements` serves the Ed25519-signed snapshot; `billing_admin` endpoints manage plans, manual grants (with reason and audit event), revocation and event inspection. No Play code yet (M6b). Open: Q19 plan split. App-side cache and gating widget follow in the next PR.
