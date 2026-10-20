@@ -54,6 +54,7 @@ class _BagMitraAppState extends ConsumerState<BagMitraApp> {
 
   @override
   Widget build(BuildContext context) {
+    ref.watch(reminderSyncProvider);
     // A forced locale wins (tests); otherwise the language being picked, then the saved one.
     final language =
         ref.watch(languagePreviewProvider) ??

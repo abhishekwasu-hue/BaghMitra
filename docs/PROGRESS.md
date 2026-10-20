@@ -143,3 +143,6 @@ The two emulator jobs (about 25 minutes each) now run on pushes to `main` and by
 
 ### Plot detail and edit (2026-10-20)
 Tapping a block on "My orchard" now opens a detail screen (crop, variety, area, trees, planting year, boundary corner count and centre point) with "Bahar, sprays and accounts" (the former landing screen) and an Edit button. Editing reuses the add-block form with the block's values: it keeps the id (so it syncs as an update), the walked boundary (typing a new area still replaces it) and the fields the form does not show (irrigation, water, soil, spacing). Re-walking the boundary works as when adding.
+
+### Task reminders (2026-10-20)
+Open tasks now notify on the phone at 07:00 on their due date (local notifications, offline). `planReminders` is pure and tested; `LocalNotificationScheduler` is the Android adapter (desugaring, boot receiver and R8 keep rule added; the release-APK emulator smoke test covers the launch). Logged as Q23.

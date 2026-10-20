@@ -34,6 +34,7 @@ import '../features/plots/domain/plot.dart';
 import '../features/profile/data/language_catalog.dart';
 import '../features/profile/data/profile_repository.dart';
 import '../features/profile/domain/farmer_profile.dart';
+import '../features/reminders/domain/reminders.dart';
 import '../features/spray/data/restrictions_cache.dart';
 import '../features/spray/data/spray_repository.dart';
 import '../features/spray/domain/spray_check.dart';
@@ -328,6 +329,27 @@ final speechSynthesizerProvider = Provider<SpeechSynthesizer>(
       ? const CloudSpeechSynthesizer()
       : OnDeviceSpeechSynthesizer(),
 );
+
+/// Phone notifications for due tasks. `main` swaps in the real scheduler; tests do nothing.
+final reminderSchedulerProvider = Provider<ReminderScheduler>(
+  (ref) => const NoopReminderScheduler(),
+);
+
+/// Keeps the scheduled notifications in step with the task list. Watched once, at the app root.
+final reminderSyncProvider = Provider<void>((ref) {
+  final tasks = ref.watch(tasksProvider).value;
+  if (tasks == null) return;
+  final heading = ref.watch(appConfigProvider).productName;
+  final plan = planReminders(tasks, DateTime.now());
+  unawaited(
+    ref
+        .read(reminderSchedulerProvider)
+        .replaceAll(heading, plan)
+        .catchError(
+          (Object e) => ref.read(appLogProvider).log('reminders: $e'),
+        ),
+  );
+});
 
 final fileSharerProvider = Provider<FileSharer>(
   (ref) => const SharePlusFileSharer(),

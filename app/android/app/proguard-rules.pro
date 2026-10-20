@@ -19,3 +19,7 @@
 # Plugin registrants are looked up by name
 -keep class io.flutter.plugins.GeneratedPluginRegistrant { *; }
 -dontwarn com.google.android.play.core.**
+
+# flutter_local_notifications serialises scheduled notifications with Gson.
+-keep class com.dexterous.** { *; }
+-keepattributes *Annotation*, Signature

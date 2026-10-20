@@ -13,6 +13,7 @@ import 'core/config.dart';
 import 'features/auth/data/demo_auth_repository.dart';
 import 'features/auth/domain/auth.dart';
 import 'features/auth/infra/supabase_auth_repository.dart';
+import 'features/reminders/data/local_notifications.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -44,6 +45,9 @@ Future<void> main() async {
         appConfigProvider.overrideWithValue(config),
         authRepositoryProvider.overrideWithValue(auth),
         appLogProvider.overrideWithValue(log),
+        reminderSchedulerProvider.overrideWithValue(
+          LocalNotificationScheduler(),
+        ),
       ],
       child: const BagMitraApp(),
     ),
