@@ -239,6 +239,31 @@ final class _$Bagmitra extends Bagmitra {
   }
 
   @override
+  Future<Response<SourceOut>> _v1AdminKbSourcesKeyDocumentPut({
+    required String? key,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Record a document an admin downloaded by hand (the server could not fetch it). The body
+is the raw file; only its hash, size and time are kept.''',
+      summary: 'Upload Source Document',
+      operationId: 'admin_kb_upload_source_document',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/kb/sources/${key}/document');
+    final Request $request = Request(
+      'PUT',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<SourceOut, SourceOut>($request);
+  }
+
+  @override
   Future<Response<FarmerProfile>> _v1MeGet({
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',

@@ -327,6 +327,12 @@ Map<String, dynamic> _$ReviewInToJson(ReviewIn instance) => <String, dynamic>{
 
 SourceOut _$SourceOutFromJson(Map<String, dynamic> json) => SourceOut(
   allowedUse: json['allowed_use'] as String,
+  contentHash: json['content_hash'] as String?,
+  fetchError: json['fetch_error'] as String?,
+  fetchStatus: json['fetch_status'] as String,
+  fetchedAt: json['fetched_at'] == null
+      ? null
+      : DateTime.parse(json['fetched_at'] as String),
   id: json['id'] as String,
   key: json['key'] as String,
   publisher: json['publisher'] as String,
@@ -338,6 +344,10 @@ SourceOut _$SourceOutFromJson(Map<String, dynamic> json) => SourceOut(
 
 Map<String, dynamic> _$SourceOutToJson(SourceOut instance) => <String, dynamic>{
   'allowed_use': instance.allowedUse,
+  'content_hash': ?instance.contentHash,
+  'fetch_error': ?instance.fetchError,
+  'fetch_status': instance.fetchStatus,
+  'fetched_at': ?instance.fetchedAt?.toIso8601String(),
   'id': instance.id,
   'key': instance.key,
   'publisher': instance.publisher,

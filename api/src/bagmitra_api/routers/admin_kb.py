@@ -3,11 +3,12 @@ imports and admin alerts. Roles come from server-set Supabase app_metadata."""
 
 from __future__ import annotations
 
+import hashlib
 import uuid
 from datetime import UTC, datetime
 from typing import Annotated, Literal
 
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends, Query, Request
 from pydantic import BaseModel, Field
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -16,6 +17,7 @@ from bagmitra_api.auth.jwt import AuthenticatedUser, require_role
 from bagmitra_api.core.errors import ApiError, ErrorResponse
 from bagmitra_api.core.settings import Settings, get_settings
 from bagmitra_api.db.session import DbSession
+from bagmitra_api.kb.fetcher import MAX_DOCUMENT_BYTES
 from bagmitra_api.kb.importers import KbImportError, import_label_claims, import_restrictions
 from bagmitra_api.kb.models import KbAdminAlert, KbCard, KbSource, KbTopic
 from bagmitra_api.kb.regate import card_gate_failures, regate_with_settings
@@ -41,6 +43,10 @@ class SourceOut(BaseModel):
     tier: str
     allowed_use: str
     verification: str
+    fetch_status: str
+    fetch_error: str | None
+    fetched_at: datetime | None
+    content_hash: str | None
 
 
 class SourcesResponse(BaseModel):
@@ -120,6 +126,40 @@ def _card_out(card: KbCard, topic: str) -> CardOut:
         has_chemical_options=bool(card.chemical_options),
         review_due_at=card.review_due_at,
     )
+
+
+MAX_UPLOAD_BYTES = MAX_DOCUMENT_BYTES
+
+
+@router.put(
+    "/sources/{key}/document",
+    operation_id="admin_kb_upload_source_document",
+    responses={404: {"model": ErrorResponse}, 413: {"model": ErrorResponse}},
+)
+async def upload_source_document(
+    key: str, request: Request, _: Admin, session: DbSession
+) -> SourceOut:
+    """Record a document an admin downloaded by hand (the server could not fetch it). The body
+    is the raw file; only its hash, size and time are kept."""
+    source = await session.scalar(select(KbSource).where(KbSource.key == key))
+    if source is None:
+        raise ApiError(404, "not_found", "source not found")
+    digest = hashlib.sha256()
+    size = 0
+    async for chunk in request.stream():
+        size += len(chunk)
+        if size > MAX_UPLOAD_BYTES:
+            raise ApiError(413, "too_large", "document is too large")
+        digest.update(chunk)
+    if size == 0:
+        raise ApiError(422, "invalid_document", "the document is empty")
+    source.fetch_status = "uploaded"
+    source.fetch_error = None
+    source.content_hash = digest.hexdigest()
+    source.fetch_bytes = size
+    source.fetched_at = _now()
+    await session.commit()
+    return SourceOut.model_validate(source, from_attributes=True)
 
 
 @router.get("/sources", operation_id="admin_kb_sources")

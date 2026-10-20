@@ -307,6 +307,35 @@ abstract class Bagmitra extends ChopperService {
     ),
   });
 
+  ///Upload Source Document
+  ///@param key
+  Future<chopper.Response<SourceOut>> v1AdminKbSourcesKeyDocumentPut({
+    required String? key,
+  }) {
+    generatedMapping.putIfAbsent(SourceOut, () => SourceOut.fromJsonFactory);
+
+    return _v1AdminKbSourcesKeyDocumentPut(key: key);
+  }
+
+  ///Upload Source Document
+  ///@param key
+  @PUT(path: '/v1/admin/kb/sources/{key}/document', optionalBody: true)
+  Future<chopper.Response<SourceOut>> _v1AdminKbSourcesKeyDocumentPut({
+    @Path('key') required String? key,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Record a document an admin downloaded by hand (the server could not fetch it). The body
+is the raw file; only its hash, size and time are kept.''',
+      summary: 'Upload Source Document',
+      operationId: 'admin_kb_upload_source_document',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
   ///Get Me
   Future<chopper.Response<FarmerProfile>> v1MeGet() {
     generatedMapping.putIfAbsent(

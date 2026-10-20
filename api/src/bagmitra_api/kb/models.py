@@ -32,6 +32,11 @@ class KbSource(TimestampMixin, Base):
     verification: Mapped[str] = mapped_column(String(4))
     fetched_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     content_hash: Mapped[str | None] = mapped_column(String(64))
+    # not_fetched | ok | fetch_failed | uploaded. Only hash, size and time are kept: several
+    # licences forbid storing or redistributing the text.
+    fetch_status: Mapped[str] = mapped_column(String(16), default="not_fetched")
+    fetch_bytes: Mapped[int | None] = mapped_column(Integer)
+    fetch_error: Mapped[str | None] = mapped_column(Text)
     notes: Mapped[str | None] = mapped_column(Text)
 
 

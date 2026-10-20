@@ -96,6 +96,10 @@ class FakeKbAdmin implements KbAdminRepository {
       tier: 'tier1',
       allowedUse: 'summarise_cite',
       verification: 'V',
+      fetchStatus: 'fetch_failed',
+      fetchError: 'HTTP 403',
+      fetchedAt: null,
+      contentHash: null,
     ),
   ];
 }
@@ -192,6 +196,7 @@ void main() {
     await tester.tap(find.text('Sources'));
     await tester.pumpAndSettle();
     expect(find.textContaining('summarise_cite'), findsOneWidget);
+    expect(find.textContaining('fetch_failed (HTTP 403)'), findsOneWidget);
   });
 
   testWidgets('without a signed-in admin the KB pages say so', (tester) async {

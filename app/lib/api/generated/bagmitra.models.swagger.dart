@@ -1623,6 +1623,10 @@ extension $ReviewInExtension on ReviewIn {
 class SourceOut {
   const SourceOut({
     required this.allowedUse,
+    required this.contentHash,
+    required this.fetchError,
+    required this.fetchStatus,
+    required this.fetchedAt,
     required this.id,
     required this.key,
     required this.publisher,
@@ -1640,6 +1644,14 @@ class SourceOut {
 
   @JsonKey(name: 'allowed_use', includeIfNull: false)
   final String allowedUse;
+  @JsonKey(name: 'content_hash', includeIfNull: false)
+  final String? contentHash;
+  @JsonKey(name: 'fetch_error', includeIfNull: false)
+  final String? fetchError;
+  @JsonKey(name: 'fetch_status', includeIfNull: false)
+  final String fetchStatus;
+  @JsonKey(name: 'fetched_at', includeIfNull: false)
+  final DateTime? fetchedAt;
   @JsonKey(name: 'id', includeIfNull: false)
   final String id;
   @JsonKey(name: 'key', includeIfNull: false)
@@ -1664,6 +1676,26 @@ class SourceOut {
                 const DeepCollectionEquality().equals(
                   other.allowedUse,
                   allowedUse,
+                )) &&
+            (identical(other.contentHash, contentHash) ||
+                const DeepCollectionEquality().equals(
+                  other.contentHash,
+                  contentHash,
+                )) &&
+            (identical(other.fetchError, fetchError) ||
+                const DeepCollectionEquality().equals(
+                  other.fetchError,
+                  fetchError,
+                )) &&
+            (identical(other.fetchStatus, fetchStatus) ||
+                const DeepCollectionEquality().equals(
+                  other.fetchStatus,
+                  fetchStatus,
+                )) &&
+            (identical(other.fetchedAt, fetchedAt) ||
+                const DeepCollectionEquality().equals(
+                  other.fetchedAt,
+                  fetchedAt,
                 )) &&
             (identical(other.id, id) ||
                 const DeepCollectionEquality().equals(other.id, id)) &&
@@ -1693,6 +1725,10 @@ class SourceOut {
   @override
   int get hashCode =>
       const DeepCollectionEquality().hash(allowedUse) ^
+      const DeepCollectionEquality().hash(contentHash) ^
+      const DeepCollectionEquality().hash(fetchError) ^
+      const DeepCollectionEquality().hash(fetchStatus) ^
+      const DeepCollectionEquality().hash(fetchedAt) ^
       const DeepCollectionEquality().hash(id) ^
       const DeepCollectionEquality().hash(key) ^
       const DeepCollectionEquality().hash(publisher) ^
@@ -1706,6 +1742,10 @@ class SourceOut {
 extension $SourceOutExtension on SourceOut {
   SourceOut copyWith({
     String? allowedUse,
+    String? contentHash,
+    String? fetchError,
+    String? fetchStatus,
+    DateTime? fetchedAt,
     String? id,
     String? key,
     String? publisher,
@@ -1716,6 +1756,10 @@ extension $SourceOutExtension on SourceOut {
   }) {
     return SourceOut(
       allowedUse: allowedUse ?? this.allowedUse,
+      contentHash: contentHash ?? this.contentHash,
+      fetchError: fetchError ?? this.fetchError,
+      fetchStatus: fetchStatus ?? this.fetchStatus,
+      fetchedAt: fetchedAt ?? this.fetchedAt,
       id: id ?? this.id,
       key: key ?? this.key,
       publisher: publisher ?? this.publisher,
@@ -1728,6 +1772,10 @@ extension $SourceOutExtension on SourceOut {
 
   SourceOut copyWithWrapped({
     Wrapped<String>? allowedUse,
+    Wrapped<String?>? contentHash,
+    Wrapped<String?>? fetchError,
+    Wrapped<String>? fetchStatus,
+    Wrapped<DateTime?>? fetchedAt,
     Wrapped<String>? id,
     Wrapped<String>? key,
     Wrapped<String>? publisher,
@@ -1738,6 +1786,10 @@ extension $SourceOutExtension on SourceOut {
   }) {
     return SourceOut(
       allowedUse: (allowedUse != null ? allowedUse.value : this.allowedUse),
+      contentHash: (contentHash != null ? contentHash.value : this.contentHash),
+      fetchError: (fetchError != null ? fetchError.value : this.fetchError),
+      fetchStatus: (fetchStatus != null ? fetchStatus.value : this.fetchStatus),
+      fetchedAt: (fetchedAt != null ? fetchedAt.value : this.fetchedAt),
       id: (id != null ? id.value : this.id),
       key: (key != null ? key.value : this.key),
       publisher: (publisher != null ? publisher.value : this.publisher),

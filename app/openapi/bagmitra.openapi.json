@@ -645,6 +645,44 @@
             "title": "Allowed Use",
             "type": "string"
           },
+          "content_hash": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Content Hash"
+          },
+          "fetch_error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fetch Error"
+          },
+          "fetch_status": {
+            "title": "Fetch Status",
+            "type": "string"
+          },
+          "fetched_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fetched At"
+          },
           "id": {
             "format": "uuid",
             "title": "Id",
@@ -683,7 +721,11 @@
           "url",
           "tier",
           "allowed_use",
-          "verification"
+          "verification",
+          "fetch_status",
+          "fetch_error",
+          "fetched_at",
+          "content_hash"
         ],
         "title": "SourceOut",
         "type": "object"
@@ -1412,6 +1454,94 @@
           }
         ],
         "summary": "Sources",
+        "tags": [
+          "admin"
+        ]
+      }
+    },
+    "/v1/admin/kb/sources/{key}/document": {
+      "put": {
+        "description": "Record a document an admin downloaded by hand (the server could not fetch it). The body\nis the raw file; only its hash, size and time are kept.",
+        "operationId": "admin_kb_upload_source_document",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "key",
+            "required": true,
+            "schema": {
+              "title": "Key",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SourceOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Request Entity Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Upload Source Document",
         "tags": [
           "admin"
         ]
