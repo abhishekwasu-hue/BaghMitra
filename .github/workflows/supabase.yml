@@ -1,0 +1,48 @@
+name: supabase-e2e
+
+# Real phone-OTP login and sync against the local Supabase stack (`supabase start`), so the
+# hosted project only changes environment variables. See docs/runbooks/supabase-setup.md.
+on:
+  pull_request:
+    paths: ["api/**", "supabase/**", ".github/workflows/supabase.yml"]
+  push:
+    branches: [main]
+    paths: ["api/**", "supabase/**", ".github/workflows/supabase.yml"]
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      # Dummy: the phone numbers in supabase/config.toml never receive an SMS.
+      SUPABASE_AUTH_SMS_TWILIO_AUTH_TOKEN: local-dev-not-a-secret
+    steps:
+      - uses: actions/checkout@v4
+      - uses: supabase/setup-cli@v1
+        with:
+          version: 2.121.0
+      - name: Start the local stack
+        run: supabase start
+      - name: Export the stack's local development keys
+        run: |
+          supabase status -o env > /tmp/supabase.env
+          set -a; . /tmp/supabase.env; set +a
+          {
+            echo "SUPABASE_URL=${API_URL}"
+            echo "SUPABASE_ANON_KEY=${ANON_KEY:-${PUBLISHABLE_KEY:-}}"
+            echo "SUPABASE_DB_URL=${DB_URL/postgresql:\/\//postgresql+asyncpg://}"
+            echo "SUPABASE_JWT_SECRET=${JWT_SECRET:-}"
+          } >> "$GITHUB_ENV"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: api/pyproject.toml
+      - run: pip install -e ".[dev]"
+        working-directory: api
+      - name: Phone-OTP login and sync against the local stack
+        working-directory: api
+        run: pytest -m supabase --no-cov -v
+      - name: Stack logs on failure
+        if: failure()
+        run: supabase status || true
