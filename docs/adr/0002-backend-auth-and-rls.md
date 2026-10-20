@@ -7,6 +7,12 @@ Status: Accepted · 2026-10-12
   (HS256, audience `authenticated`, `exp`/`sub` required) with `SUPABASE_JWT_SECRET`.
   Verification lives in `api/src/bagmitra_api/auth/jwt.py`; switching to asymmetric JWKS keys
   is a local change there.
+- Added 2026-10-20: tokens signed with the project's asymmetric keys (ES256 / RS256) are verified
+  against the JWKS published at `SUPABASE_JWKS_URL` (cached, refreshed once on an unknown key id,
+  fail-closed when unreachable). The scheme comes from the token header but each scheme is
+  verified only with its own key material (an HS256 token is checked against the shared secret
+  only, so a public key can never act as an HMAC secret; `none` and unlisted algorithms are
+  refused). Without `SUPABASE_JWKS_URL` only the shared secret is accepted.
 - The API connects to Postgres with a privileged role and enforces ownership in code
   (every handler scopes by `user.id`).
 - RLS is defence in depth: every table gets `ENABLE` + `FORCE ROW LEVEL SECURITY` and an
