@@ -114,16 +114,7 @@ jobs:
           disable-animations: true
           working-directory: app
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -no-metrics
-          script: |
-            mkdir -p ../emulator-shots
-            adb logcat -c
-            set +e
-            timeout 900 flutter test integration_test --dart-define-from-file=../product.env 2>&1 | tee ../emulator-shots/test.log
-            status=${PIPESTATUS[0]}
-            adb exec-out screencap -p > ../emulator-shots/final.png
-            adb logcat -d -t 2000 > ../emulator-shots/logcat.txt
-            tail -n 60 ../emulator-shots/test.log
-            exit $status
+          script: bash tool/emulator_test.sh
       - uses: actions/upload-artifact@v4
         if: always()
         with:
