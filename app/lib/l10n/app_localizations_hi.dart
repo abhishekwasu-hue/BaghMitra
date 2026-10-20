@@ -770,4 +770,27 @@ class AppLocalizationsHi extends AppLocalizations {
     );
     return 'सीमा दर्ज हुई: $_temp0';
   }
+
+  @override
+  String get loginTryWithout => 'बिना खाते के आज़माएँ';
+
+  @override
+  String get localModeBanner =>
+      'ऑफ़लाइन टेस्ट मोड: आपका डेटा इसी फ़ोन में रहता है';
+
+  @override
+  String testBuildBadge(String sha) {
+    return 'टेस्ट बिल्ड $sha';
+  }
+
+  @override
+  String get settingsTitle => 'सेटिंग्स';
+
+  @override
+  String get sendLogs => 'लॉग भेजें';
+
+  @override
+  String buildLabel(String sha) {
+    return 'टेस्ट बिल्ड $sha';
+  }
 }

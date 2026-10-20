@@ -40,3 +40,7 @@ String? normalizeIndianMobile(String input) {
 }
 
 bool isValidOtp(String code) => RegExp(r'^\d{6}$').hasMatch(code);
+
+/// The fixed identity of the local-only "Try without account" session (demo mode only).
+const localAccountPhone = '+919000000000';
+const localAccountCode = '000000';

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:bagmitra/app/app.dart';
 import 'package:bagmitra/app/providers.dart';
+import 'package:bagmitra/core/app_log.dart';
 import 'package:bagmitra/core/config.dart';
 import 'package:bagmitra/data/local/database.dart';
 import 'package:bagmitra/features/accounts/data/expense_categories.dart';
@@ -32,6 +33,7 @@ const testConfig = AppConfig(
   supabaseUrl: '',
   supabaseAnonKey: '',
   devGallery: true,
+  testBuild: '',
 );
 
 /// Serves assets straight from disk, synchronously, so screens render in one pump.
@@ -78,6 +80,8 @@ Future<AppDatabase> pumpApp(
   FileSharer? sharer,
   bool onboarded = true,
   LocationService? location,
+  AppConfig config = testConfig,
+  AppLog? log,
 }) async {
   tester.view.physicalSize = phoneSize * 3;
   tester.view.devicePixelRatio = 3;
@@ -105,7 +109,8 @@ Future<AppDatabase> pumpApp(
   await tester.pumpWidget(
     ProviderScope(
       overrides: [
-        appConfigProvider.overrideWithValue(testConfig),
+        appConfigProvider.overrideWithValue(config),
+        if (log != null) appLogProvider.overrideWithValue(log),
         fileSharerProvider.overrideWithValue(sharer ?? RecordingSharer()),
         if (location != null)
           locationServiceProvider.overrideWithValue(location),

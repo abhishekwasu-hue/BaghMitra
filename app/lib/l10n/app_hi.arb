@@ -214,5 +214,11 @@
   "boundaryDenied": "सीमा दर्ज करने के लिए लोकेशन की अनुमति दें।",
   "boundaryDeniedForever": "लोकेशन बंद है। फ़ोन की ऐप सेटिंग में अनुमति दें।",
   "boundaryFailed": "आपकी जगह नहीं मिली। खुली जगह में फिर कोशिश करें।",
-  "boundaryMarked": "सीमा दर्ज हुई: {count, plural, =1{1 कोना} other{{count} कोने}}"
+  "boundaryMarked": "सीमा दर्ज हुई: {count, plural, =1{1 कोना} other{{count} कोने}}",
+  "loginTryWithout": "बिना खाते के आज़माएँ",
+  "localModeBanner": "ऑफ़लाइन टेस्ट मोड: आपका डेटा इसी फ़ोन में रहता है",
+  "testBuildBadge": "टेस्ट बिल्ड {sha}",
+  "settingsTitle": "सेटिंग्स",
+  "sendLogs": "लॉग भेजें",
+  "buildLabel": "टेस्ट बिल्ड {sha}"
 }

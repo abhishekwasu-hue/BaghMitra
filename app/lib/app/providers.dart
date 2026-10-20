@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../api/api_client.dart';
 import '../api/generated/bagmitra.swagger.dart' show Bagmitra;
+import '../core/app_log.dart';
 import '../core/clock.dart';
 import '../core/config.dart';
 import '../data/local/database.dart';
@@ -271,6 +272,9 @@ final fieldWorkOptionsCatalogProvider = Provider<FieldWorkOptions>(
 final fieldWorkOptionsProvider = FutureProvider<FieldWorkOptionsData>(
   (ref) => ref.watch(fieldWorkOptionsCatalogProvider).load(),
 );
+
+/// Where diagnostics go. `main` swaps in the file-backed log; tests use the in-memory one.
+final appLogProvider = Provider<AppLog>((ref) => MemoryAppLog());
 
 final fileSharerProvider = Provider<FileSharer>(
   (ref) => const SharePlusFileSharer(),
