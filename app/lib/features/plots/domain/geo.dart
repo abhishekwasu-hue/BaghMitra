@@ -86,4 +86,17 @@ Map<String, Object?> toGeoJsonPolygon(List<LatLon> corners) => {
   ],
 };
 
+/// The corners of a GeoJSON Polygon made by [toGeoJsonPolygon] (null when there is no boundary).
+List<LatLon>? cornersFromGeoJson(Map<String, Object?>? polygon) {
+  final rings = polygon?['coordinates'];
+  if (rings is! List || rings.isEmpty || rings.first is! List) return null;
+  final ring = (rings.first as List).cast<List<Object?>>();
+  // The ring is closed (last point repeats the first), so the corners are one fewer.
+  final corners = [
+    for (final p in ring.take(ring.length - 1))
+      LatLon((p[1]! as num).toDouble(), (p[0]! as num).toDouble()),
+  ];
+  return corners.length >= 3 ? corners : null;
+}
+
 double sqMToAcres(double sqM) => sqM / Plot.sqMPerAcre;

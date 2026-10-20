@@ -495,5 +495,9 @@
   "noTasksToday": "Nothing due today",
   "taskOverdue": "Overdue",
   "dueInDays": "In {n} days",
-  "@dueInDays": {"placeholders": {"n": {"type": "int"}}}
+  "@dueInDays": {"placeholders": {"n": {"type": "int"}}},
+  "editPlot": "Edit block",
+  "plotOpenRecords": "Bahar, sprays and accounts",
+  "plotBoundaryNone": "Boundary not marked yet",
+  "plotCentre": "Centre point"
 }

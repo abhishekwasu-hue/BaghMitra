@@ -1551,6 +1551,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'In {n} days'**
   String dueInDays(int n);
+
+  /// No description provided for @editPlot.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit block'**
+  String get editPlot;
+
+  /// No description provided for @plotOpenRecords.
+  ///
+  /// In en, this message translates to:
+  /// **'Bahar, sprays and accounts'**
+  String get plotOpenRecords;
+
+  /// No description provided for @plotBoundaryNone.
+  ///
+  /// In en, this message translates to:
+  /// **'Boundary not marked yet'**
+  String get plotBoundaryNone;
+
+  /// No description provided for @plotCentre.
+  ///
+  /// In en, this message translates to:
+  /// **'Centre point'**
+  String get plotCentre;
 }
 
 class _AppLocalizationsDelegate

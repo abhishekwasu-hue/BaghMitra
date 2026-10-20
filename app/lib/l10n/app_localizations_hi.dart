@@ -855,4 +855,16 @@ class AppLocalizationsHi extends AppLocalizations {
   String dueInDays(int n) {
     return '$n दिन में';
   }
+
+  @override
+  String get editPlot => 'बाग बदलें';
+
+  @override
+  String get plotOpenRecords => 'बहार, छिड़काव और हिसाब';
+
+  @override
+  String get plotBoundaryNone => 'सीमा अभी दर्ज नहीं है';
+
+  @override
+  String get plotCentre => 'केंद्र बिंदु';
 }
