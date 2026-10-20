@@ -19,7 +19,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from bagmitra_api.db.session import get_sessionmaker
-from bagmitra_api.kb.models import KbRestriction, KbSource
+from bagmitra_api.kb.models import KbCard, KbConflict, KbRestriction, KbSource, KbTopic
 
 
 class SourceSeed(BaseModel):
@@ -43,6 +43,42 @@ class RestrictionSeed(BaseModel):
     effective_from: datetime
 
 
+class TopicSeed(BaseModel):
+    key: str
+    kind: str
+    labels: dict[str, str]
+
+
+class CardSourceSeed(BaseModel):
+    source: str
+    locator: str
+
+
+class CardSeed(BaseModel):
+    topic: str
+    crop: str
+    content: dict[str, dict[str, str]]
+    chemical_options: list[dict[str, str]]
+    sources: list[CardSourceSeed]
+
+
+class ConflictValueSeed(BaseModel):
+    source: str
+    value: str
+
+
+class ConflictSeed(BaseModel):
+    topic: str | None
+    description: str
+    values: list[ConflictValueSeed]
+
+
+class KnowledgeSeeds(BaseModel):
+    topics: list[TopicSeed]
+    cards: list[CardSeed]
+    conflicts: list[ConflictSeed]
+
+
 def _load(name: str) -> dict[str, Any]:
     text = resources.files("bagmitra_api.kb.seed_data").joinpath(name).read_text("utf-8")
     data: dict[str, Any] = json.loads(text)
@@ -56,6 +92,53 @@ def source_seeds() -> list[SourceSeed]:
 def restriction_seeds() -> tuple[str, list[RestrictionSeed]]:
     data = _load("restrictions.json")
     return data["source_key"], [RestrictionSeed.model_validate(r) for r in data["restrictions"]]
+
+
+def knowledge_seeds() -> KnowledgeSeeds:
+    return KnowledgeSeeds.model_validate(_load("knowledge.json"))
+
+
+async def seed_knowledge(session: AsyncSession) -> None:
+    """Draft cards from addendum v1.3 §3. A card a reviewer has touched (anything but `draft`)
+    is never overwritten; a still-draft card is refreshed from the file."""
+    data = knowledge_seeds()
+    sources = {s.key: s.id for s in await session.scalars(select(KbSource))}
+    topics = {t.key: t for t in await session.scalars(select(KbTopic))}
+    for seed in data.topics:
+        topic = topics.get(seed.key) or KbTopic(id=uuid.uuid4(), key=seed.key)
+        topic.kind, topic.labels = seed.kind, seed.labels
+        session.add(topic)
+        topics[seed.key] = topic
+    await session.flush()
+    existing = {(c.topic_id, c.crop, c.version): c for c in await session.scalars(select(KbCard))}
+    for card in data.cards:
+        topic = topics[card.topic]
+        row = existing.get((topic.id, card.crop, 1))
+        if row is not None and row.status != "draft":
+            continue
+        row = row or KbCard(id=uuid.uuid4(), topic_id=topic.id, crop=card.crop, version=1)
+        row.content = card.content
+        row.reviewed_languages = []
+        row.chemical_options = card.chemical_options
+        row.sources = [
+            {"source_id": str(sources[ref.source]), "locator": ref.locator} for ref in card.sources
+        ]
+        row.status = "draft"
+        session.add(row)
+    known = {c.description for c in await session.scalars(select(KbConflict))}
+    for conflict in data.conflicts:
+        if conflict.description in known:
+            continue
+        session.add(
+            KbConflict(
+                id=uuid.uuid4(),
+                topic_id=topics[conflict.topic].id if conflict.topic else None,
+                description=conflict.description,
+                values=[v.model_dump() for v in conflict.values],
+                status="open",
+            )
+        )
+    await session.flush()
 
 
 async def seed_sources(session: AsyncSession) -> int:
@@ -95,6 +178,7 @@ async def main() -> None:  # pragma: no cover - thin CLI wrapper
     async with get_sessionmaker()() as session:
         await seed_sources(session)
         await seed_restrictions(session)
+        await seed_knowledge(session)
         await session.commit()
 
 
