@@ -199,3 +199,26 @@ feedback loop, consented field image dataset, quarterly source re-verification.
   generated from reviewed K0 cards (CCRI monthly guidance + PDKV), never from unreviewed text.
 - `docs/agronomy/DRAFT_santra_mosambi_bahar_stages.md` is superseded as a source list by
   addendum §2–§3 (fetched and read, marked [V]); it remains as a cross-check only.
+
+## Work queue from the owner's unblock message (2026-10-20)
+
+Standing rule (spec §0 rule 8): when something is blocked, log it in `OPEN_QUESTIONS.md` with a
+provisional default and move to the next unblocked item; "waiting for the owner" is not a state.
+One PR per item, tests first, DoD checked at the end and recorded in `PROGRESS.md`.
+
+| # | Item | Definition of Done |
+|---|---|---|
+| 1 | Register sources, seed draft cards from addendum v1.3 (K0 completion) | `kb_sources` seeded with tier, licence, allowed_use, URL, fetch date, hash (`fetch_failed` where blocked); §3 facts as **draft** cards with citations; no verbatim spans from `summarise_cite`/`cite_only` sources; nothing publishes |
+| 2 | Local Supabase stack, runbook, end-to-end auth + sync tests (Q3) | `supabase start` config in repo, `docs/runbooks/supabase-setup.md` for the owner, real login and sync pass against the local stack in CI |
+| 3 | Entitlement layer M6a | plans, `plan_entitlements`, `subscriptions`, `billing_events`, pure `compute_entitlements` with table-driven tests for every state, admin plan config, manual grants, app-side signed-snapshot cache and feature gating; no Play code |
+| 4 | Headless emulator CI job (Q4) | emulator job installs the CI APK, runs integration tests (offline→online sync, add plot, GPS boundary with mocked fix, PDF export, share) and uploads screenshots |
+| 5 | STT/TTS adapters and voice entry (Q5) | adapter interface, on-device adapter, cloud adapter stub behind config, voice-note → fields → confirm on records |
+| 6 | Stage and monthly task templates from CCRI PDFs; season calendar, bahar selection assistant, tasks and reminders (push only) | templates tagged `CCRI monthly guidelines (interim)`; banned chemicals filtered by the gate; WhatsApp/SMS adapters stubbed behind config |
+| 7 | Plot edit (with boundary), plot detail screen | edit saves offline; boundary re-walk; detail shows block summary |
+| 8 | Weather adapter (Open-Meteo), forecast/history storage, M4 rule engine with v1.3 §3.7 models as `kb_models` | models table-driven tests against hand-computed fixtures; alerts via push; no chemical advice in alerts |
+| 9 | Market prices adapter + price screen (M5 start) | Agmarknet adapter with manual-upload fallback; price screen offline |
+| 10 | Design-system pass against §4A | goldens, screenshots in the PR, 2 GB device profile numbers in `PROGRESS.md` |
+
+Billing (M6b–M6d) follows [`SPEC_billing_addendum.md`](SPEC_billing_addendum.md) after the policy
+re-verification ADR.
+
