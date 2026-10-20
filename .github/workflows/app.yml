@@ -73,6 +73,13 @@ jobs:
           path: app/build/app/outputs/flutter-apk/*.apk
 
   emulator:
+    name: emulator (${{ matrix.mode }})
+    strategy:
+      fail-fast: false
+      matrix:
+        # integration: debug build + integration_test. release: the R8-minified release build
+        # installed and opened (separate runner, so the two heavy Gradle builds never share memory).
+        mode: [integration, release]
     permissions:
       contents: read
       pull-requests: write
@@ -110,11 +117,11 @@ jobs:
         id: emu
         continue-on-error: true
         working-directory: app
-        run: bash tool/emulator_ci.sh
+        run: bash tool/emulator_ci.sh ${{ matrix.mode }}
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: emulator-screenshots
+          name: emulator-${{ matrix.mode }}
           path: emulator-shots/
       - name: Show the end of the emulator test log on the pull request
         if: steps.emu.outcome == 'failure' && github.event_name == 'pull_request'
@@ -123,7 +130,7 @@ jobs:
         working-directory: .
         run: |
           {
-            echo "Emulator job failed on ${GITHUB_SHA::7}. End of the test log:"
+            echo "Emulator (${{ matrix.mode }}) failed on ${GITHUB_SHA::7}. End of the log:"
             echo '```'
             tail -n 40 emulator-shots/run.log 2>/dev/null || echo "(no run.log: the script did not start)"
             echo '```'
