@@ -20,6 +20,9 @@ class Settings(BaseSettings):
     database_url: str = "sqlite+aiosqlite:///./bagmitra-local.db"
 
     supabase_jwt_secret: SecretStr = Field(default=SecretStr(""))
+    # Supabase signs tokens with asymmetric keys (ES256/RS256) published here, e.g.
+    # https://<ref>.supabase.co/auth/v1/.well-known/jwks.json. Empty: only the shared secret.
+    supabase_jwks_url: str = ""
     jwt_audience: str = "authenticated"
 
     cors_origins: list[str] = Field(default_factory=list)
