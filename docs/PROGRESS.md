@@ -72,7 +72,10 @@ Source registry (51 sources, tier + licence), card lifecycle (draft → expert_r
 published, expert review record required, review expiry), licence rules enforced in code,
 legal gate (ban, crop restriction, no label claim, PHI), output filter, CSV importers with dated
 diffs and end-dating, nightly re-gate, admin alerts, admin API and web screens with staff
-sign-in. **No card is published and no label claims are loaded**, so no chemical advice can
+sign-in. 27 draft cards and 7 recorded source conflicts are seeded from addendum v1.3 §3 (chemical
+options carry no dose; none can pass the gate until label claims are imported), and source
+documents are tracked by fetch status (all 38 fetches were blocked from the dev environment, see
+`runbooks/kb-sources.md`). **No card is published and no label claims are loaded**, so no chemical advice can
 reach a grower (blockers: Q12 expert reviewer, Q13 CCRI calendar, Q10 source PDFs).
 
 ### M2 — Records & accounts · partly done
