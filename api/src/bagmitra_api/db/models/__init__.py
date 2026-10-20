@@ -18,6 +18,7 @@ from bagmitra_api.db.models.bahar import BaharCycle, CropStageTemplate
 from bagmitra_api.db.models.farmer import Farmer
 from bagmitra_api.db.models.plot import Plot
 from bagmitra_api.db.models.sync_mutation import SyncMutation
+from bagmitra_api.db.models.tasks import FarmTask
 from bagmitra_api.kb.models import (
     KbCard,
     KbConflict,
@@ -36,6 +37,7 @@ __all__ = [
     "CropStageTemplate",
     "EntitlementSnapshot",
     "Expense",
+    "FarmTask",
     "Farmer",
     "HarvestRecord",
     "Income",

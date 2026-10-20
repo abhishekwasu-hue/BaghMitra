@@ -179,3 +179,14 @@ class LabourRecordPayload(RowPayload):
     advance_paise: Paise = 0
     settled_on: date | None = None
     note: str | None = Field(default=None, max_length=500)
+
+
+class FarmTaskPayload(RowPayload):
+    plot_id: uuid.UUID | None = None
+    bahar_cycle_id: uuid.UUID | None = None
+    title: str = Field(min_length=1, max_length=200)
+    kind: Slug
+    due_on: date
+    done_on: date | None = None
+    source: str | None = Field(default=None, max_length=80)
+    note: str | None = Field(default=None, max_length=500)
