@@ -128,3 +128,6 @@ The `emulator` job (API 33, pixel_5, 2 GB) is green on `main`: it frees runner d
 
 ### Farm tasks, API side (2026-10-20)
 `farm_task` is a synced owner entity (table `farm_tasks`, migration 0013, RLS): title, kind slug, due date, done date, optional plot and bahar, a `source` ('manual' or a template key with its source label) and a note. A task with no plot belongs to the whole orchard. Next: the phone-side table, repository, task list and home "today" list, then local reminders and the season calendar.
+
+### Actions minutes (2026-10-20)
+The two emulator jobs (about 25 minutes each) now run on pushes to `main` and by hand, not on every pull-request push; pull requests still run checks and the APK build. A push to `main` therefore still gates the test APK on the emulator. Reason: on 2026-10-20 every job started failing within seconds with no runner assigned (0 billable ms), which looks like the Actions usage limit; the owner needs to check Settings → Billing for the account.
