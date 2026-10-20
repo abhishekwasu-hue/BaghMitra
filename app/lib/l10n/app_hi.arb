@@ -223,6 +223,8 @@
   "buildLabel": "टेस्ट बिल्ड {sha}",
   "seedOrchard": "नमूना बाग जोड़ें",
   "seedOrchardDone": "नमूना बाग जोड़ा गया",
+  "voiceUnavailable": "इस फ़ोन पर बोलकर लिखना उपलब्ध नहीं है",
+  "voiceListening": "सुन रहा है… रोकने के लिए दबाएँ",
   "tasksTitle": "काम",
   "addTask": "काम जोड़ें",
   "taskWhat": "क्या करना है?",

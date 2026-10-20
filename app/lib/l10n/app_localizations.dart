@@ -1444,6 +1444,18 @@ abstract class AppLocalizations {
   /// **'Sample orchard added'**
   String get seedOrchardDone;
 
+  /// No description provided for @voiceUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice input is not available on this phone'**
+  String get voiceUnavailable;
+
+  /// No description provided for @voiceListening.
+  ///
+  /// In en, this message translates to:
+  /// **'Listening… tap to stop'**
+  String get voiceListening;
+
   /// No description provided for @tasksTitle.
   ///
   /// In en, this message translates to:

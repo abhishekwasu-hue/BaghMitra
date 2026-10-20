@@ -8,6 +8,7 @@ class AppConfig {
     required this.supabaseAnonKey,
     required this.devGallery,
     required this.testBuild,
+    required this.speechEngine,
   });
 
   factory AppConfig.fromEnvironment() => const AppConfig(
@@ -23,6 +24,10 @@ class AppConfig {
     supabaseAnonKey: String.fromEnvironment('SUPABASE_ANON_KEY'),
     devGallery: bool.fromEnvironment('DEV_GALLERY'),
     testBuild: String.fromEnvironment('TEST_BUILD'),
+    speechEngine: String.fromEnvironment(
+      'SPEECH_ENGINE',
+      defaultValue: 'on_device',
+    ),
   );
 
   final String productName;
@@ -33,6 +38,9 @@ class AppConfig {
 
   /// Short commit id of a CI test build (`--dart-define=TEST_BUILD=<sha>`); empty in real builds.
   final String testBuild;
+
+  /// `on_device` (default) or `cloud`. Bhashini / Sarvam can be added as further engines.
+  final String speechEngine;
 
   bool get isTestBuild => testBuild.isNotEmpty;
 

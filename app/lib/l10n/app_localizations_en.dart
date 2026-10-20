@@ -801,6 +801,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get seedOrchardDone => 'Sample orchard added';
 
   @override
+  String get voiceUnavailable => 'Voice input is not available on this phone';
+
+  @override
+  String get voiceListening => 'Listening… tap to stop';
+
+  @override
   String get tasksTitle => 'Tasks';
 
   @override

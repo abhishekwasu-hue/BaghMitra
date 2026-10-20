@@ -42,6 +42,9 @@ import '../features/tasks/data/cycle_tasks_service.dart';
 import '../features/tasks/data/task_kinds.dart';
 import '../features/tasks/data/tasks_repository.dart';
 import '../features/tasks/domain/farm_task.dart';
+import '../features/voice/data/cloud_speech.dart';
+import '../features/voice/data/on_device_speech.dart';
+import '../features/voice/domain/speech.dart';
 import '../sync/http_transport.dart';
 import '../sync/sync_engine.dart';
 
@@ -312,6 +315,19 @@ final fieldWorkOptionsProvider = FutureProvider<FieldWorkOptionsData>(
 
 /// Where diagnostics go. `main` swaps in the file-backed log; tests use the in-memory one.
 final appLogProvider = Provider<AppLog>((ref) => MemoryAppLog());
+
+/// Speech engines, chosen by `SPEECH_ENGINE` (on_device by default). Tests override these.
+final speechRecognizerProvider = Provider<SpeechRecognizer>(
+  (ref) => ref.watch(appConfigProvider).speechEngine == 'cloud'
+      ? const CloudSpeechRecognizer()
+      : OnDeviceSpeechRecognizer(),
+);
+
+final speechSynthesizerProvider = Provider<SpeechSynthesizer>(
+  (ref) => ref.watch(appConfigProvider).speechEngine == 'cloud'
+      ? const CloudSpeechSynthesizer()
+      : OnDeviceSpeechSynthesizer(),
+);
 
 final fileSharerProvider = Provider<FileSharer>(
   (ref) => const SharePlusFileSharer(),

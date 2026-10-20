@@ -800,6 +800,12 @@ class AppLocalizationsMr extends AppLocalizations {
   String get seedOrchardDone => 'नमुना बाग भरला';
 
   @override
+  String get voiceUnavailable => 'या फोनवर आवाजाने लिहिणे उपलब्ध नाही';
+
+  @override
+  String get voiceListening => 'ऐकत आहे… थांबवण्यासाठी दाबा';
+
+  @override
   String get tasksTitle => 'कामे';
 
   @override
