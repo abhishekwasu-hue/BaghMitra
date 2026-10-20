@@ -49,7 +49,7 @@ measurement on a 2 GB device profile not yet automated.
 
 ---
 
-## Status after M1 / K0 / K1 / M2 (first slices) · 2026-10-19
+## Status after M1 / K0 / K1 / M2 (first slices) · 2026-10-20
 
 Everything below is merged to `main` with CI green (API: ruff, format, mypy strict incl.
 alembic, bandit, pytest ≥ 85 %, kb/* ≥ 90 %, OpenAPI drift, Postgres migration + RLS; app:
@@ -96,4 +96,13 @@ reach a grower (blockers: Q12 expert reviewer, Q13 CCRI calendar, Q10 source PDF
 
 ### Owner actions outstanding
 Supabase project (Q3), expert reviewer (Q12), CCRI Calendar of Operations (Q13), source PDFs
-for bahar templates (Q10), billing addendum (Q11).
+for bahar templates (Q10), billing addendum (Q11), legal review of the consent wording (Q17), and
+an emulator or real phone to run the app on (Q4; GPS, share sheet and PDF export are only tested
+with fakes so far).
+
+### What is blocked on those
+Voice entry and voice-guided onboarding (STT, Q5), the stage calendar and bahar selection
+assistant (verified templates, Q10 / Q13), tasks and reminders (push / WhatsApp / SMS need
+accounts and keys, Q3), weather and prices (M4 / M5), billing (M6), and any chemical advice
+reaching a grower (Q12). Small unblocked work that remains: editing a plot (including its
+boundary), a plot detail screen, wave-2 locales.
