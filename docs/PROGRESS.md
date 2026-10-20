@@ -122,3 +122,6 @@ Provider-agnostic: `billing_plans`, `plan_entitlements`, `subscriptions`, `billi
 
 ### Test build app features, part 2b (2026-10-20)
 Settings has "Add sample orchard" (only when no backend is configured, so sample rows can never sync into a real account): one Nagpur mandarin block near Shindi Khurd, Chandur Bazar (Amravati) with a placeholder square boundary of about 4 acres, Mrig bahar active, and a few expense, sale, spray, input, irrigation, labour and harvest records. Fixed ids make repeated taps idempotent. The real boundary is walked with "Add this corner". Release-APK smoke test on the emulator waits for the emulator job (PR #44).
+
+### Emulator job and release smoke test (2026-10-20)
+The `emulator` job (API 33, pixel_5, 2 GB) is green on `main`: it frees runner disk, installs the system image, builds the debug APK, boots the AVD from `app/tool/emulator_ci.sh`, runs `integration_test`, and now also builds the release APK, installs it, opens it and fails on a crash or a dead process (catches R8 / permission problems only visible in release). Logs and screenshots are the `emulator-screenshots` artifact; on a failed pull-request run the end of the log is posted as a comment (job logs for this job are not retrievable through the API). Test APKs: `https://github.com/abhishekwasu-hue/BaghMitra/releases` (pre-releases `test-YYYYMMDD-<sha>`).

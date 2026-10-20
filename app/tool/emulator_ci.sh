@@ -55,4 +55,24 @@ status=${PIPESTATUS[0]}
 adb exec-out screencap -p > "$shots/final.png"
 adb logcat -d -t 2000 > "$shots/logcat.txt"
 echo "tests exit status $status"
-exit "$status"
+[ "$status" -eq 0 ] || exit "$status"
+
+# Release-only crashes (R8 stripping a class a plugin needs, a missing permission) never show in
+# debug tests, so install the real release build and make sure the app opens and stays up.
+echo "== release smoke test"
+flutter build apk --release --target-platform android-x64 --dart-define-from-file=../product.env || { echo "release build failed"; exit 1; }
+adb uninstall app.bagmitra.bagmitra > /dev/null 2>&1
+adb install -r build/app/outputs/flutter-apk/app-release.apk || { echo "release install failed"; exit 1; }
+adb logcat -c
+adb shell monkey -p app.bagmitra.bagmitra -c android.intent.category.LAUNCHER 1 > /dev/null
+sleep 20
+adb exec-out screencap -p > "$shots/release-home.png"
+adb logcat -d > "$shots/release-logcat.txt"
+if [ -z "$(adb shell pidof app.bagmitra.bagmitra | tr -d '\r')" ]; then
+  echo "release app is not running"; grep -E "FATAL|AndroidRuntime" "$shots/release-logcat.txt" | head -n 20; exit 1
+fi
+if grep -q "FATAL EXCEPTION" "$shots/release-logcat.txt"; then
+  echo "release app crashed"; grep -A12 "FATAL EXCEPTION" "$shots/release-logcat.txt" | head -n 30; exit 1
+fi
+echo "release app opened and stayed up"
+exit 0
