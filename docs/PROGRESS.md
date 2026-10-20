@@ -132,5 +132,8 @@ Drift schema v8 `farm_tasks`, `TasksRepository` (offline, outbox, remote apply),
 ### Farm tasks, API side (2026-10-20)
 `farm_task` is a synced owner entity (table `farm_tasks`, migration 0013, RLS): title, kind slug, due date, done date, optional plot and bahar, a `source` ('manual' or a template key with its source label) and a note. A task with no plot belongs to the whole orchard. Next: the phone-side table, repository, task list and home "today" list, then local reminders and the season calendar.
 
+### Stage reminders from a bahar's dates (2026-10-20)
+Starting a bahar now makes one task per planned stage date that has a template (`assets/config/task_templates.json`: stress start, flowering, fruit set and harvest), due on that date, in the grower's language, with a stable UUID per stage so saving again updates instead of duplicating and a task the grower already ticked is left alone. The templates only restate the grower's own dates and ask for a record (no timing or treatment advice); verified CCRI-based templates plug into the same file later (Q10, Q13).
+
 ### Actions minutes (2026-10-20)
 The two emulator jobs (about 25 minutes each) now run on pushes to `main` and by hand, not on every pull-request push; pull requests still run checks and the APK build. A push to `main` therefore still gates the test APK on the emulator. Reason: on 2026-10-20 every job started failing within seconds with no runner assigned (0 billable ms), which looks like the Actions usage limit; the owner needs to check Settings → Billing for the account.

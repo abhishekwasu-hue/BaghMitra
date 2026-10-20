@@ -38,16 +38,26 @@ class _StartBaharScreenState extends ConsumerState<StartBaharScreen> {
 
   Future<void> _save() async {
     final repo = ref.read(baharRepositoryProvider);
-    await repo.save(
-      BaharCycle(
-        id: repo.newId(),
-        plotId: widget.plotId,
-        bahar: _bahar!,
-        seasonYear: _season!,
-        status: 'planned',
-        planned: Map.of(_dates),
-      ),
+    final cycle = BaharCycle(
+      id: repo.newId(),
+      plotId: widget.plotId,
+      bahar: _bahar!,
+      seasonYear: _season!,
+      status: 'planned',
+      planned: Map.of(_dates),
     );
+    await repo.save(cycle);
+    final catalog = await ref.read(baharOptionsProvider.future);
+    if (!mounted) return;
+    final lang = Localizations.localeOf(context).languageCode;
+    await ref
+        .read(cycleTasksProvider)
+        .sync(
+          cycle,
+          lang: lang,
+          baharLabel: catalog.baharLabel(cycle.bahar, lang),
+          stageLabels: {for (final s in catalog.stages) s.slug: s.label(lang)},
+        );
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(AppLocalizations.of(context).plotSaved)),

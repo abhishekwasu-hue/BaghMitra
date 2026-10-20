@@ -1,0 +1,42 @@
+{
+  "_note": "Reminders made from the dates a grower enters for a bahar. They only restate the grower's own dates and ask for a record; they give no timing or treatment advice. Verified stage-by-stage task templates replace or extend this list once the agronomy sources are confirmed (OPEN_QUESTIONS Q10, Q13). Placeholders: {stage}, {bahar}.",
+  "source": "BagMitra stage reminder",
+  "templates": [
+    {
+      "stage": "stress_start",
+      "kind": "scouting",
+      "titles": {
+        "en": "{stage} today ({bahar}): look over the block and note what you see",
+        "mr": "आज {stage} ({bahar}): बाग पाहा आणि जे दिसते ते नोंदवा",
+        "hi": "आज {stage} ({bahar}): बाग देखें और जो दिखे उसे दर्ज करें"
+      }
+    },
+    {
+      "stage": "flowering",
+      "kind": "scouting",
+      "titles": {
+        "en": "{stage} today ({bahar}): look over the block and note what you see",
+        "mr": "आज {stage} ({bahar}): बाग पाहा आणि जे दिसते ते नोंदवा",
+        "hi": "आज {stage} ({bahar}): बाग देखें और जो दिखे उसे दर्ज करें"
+      }
+    },
+    {
+      "stage": "fruit_set",
+      "kind": "scouting",
+      "titles": {
+        "en": "{stage} today ({bahar}): look over the block and note what you see",
+        "mr": "आज {stage} ({bahar}): बाग पाहा आणि जे दिसते ते नोंदवा",
+        "hi": "आज {stage} ({bahar}): बाग देखें और जो दिखे उसे दर्ज करें"
+      }
+    },
+    {
+      "stage": "harvest",
+      "kind": "harvest",
+      "titles": {
+        "en": "{stage} planned today ({bahar}): enter the weight and the sale when done",
+        "mr": "आज {stage} नियोजित ({bahar}): झाल्यावर वजन आणि विक्री नोंदवा",
+        "hi": "आज {stage} तय ({bahar}): पूरा होने पर वजन और बिक्री दर्ज करें"
+      }
+    }
+  ]
+}

@@ -61,6 +61,17 @@ void main() {
     expect(payload['bahar'], 'mrig');
     expect(payload['plot_id'], 'p1');
     expect((payload['planned']! as Map).keys, ['flowering']);
+
+    // The planned flowering date also became a reminder on the Tasks list.
+    final tasks = await tester.runAsync(
+      () => (db.select(
+        db.outboxEntries,
+      )..where((t) => t.entity.equals('farm_task'))).get(),
+    );
+    final task = jsonDecode(tasks!.single.payload) as Map<String, Object?>;
+    expect(task['kind'], 'scouting');
+    expect(task['plot_id'], 'p1');
+    expect(task['title'], contains('Flowering today (Mrig bahar)'));
     await unmountApp(tester);
   });
 
