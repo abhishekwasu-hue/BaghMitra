@@ -134,6 +134,10 @@ jobs:
             echo '```'
             tail -n 40 emulator-shots/run.log 2>/dev/null || echo "(no run.log: the script did not start)"
             echo '```'
+            echo "App errors from logcat:"
+            echo '```'
+            grep -E "FATAL|AndroidRuntime|E/flutter|E/DartVM|Exception|has died|ANR in" emulator-shots/logcat.txt 2>/dev/null | head -n 30 || true
+            echo '```'
           } > emulator-comment.md
           gh pr comment ${{ github.event.pull_request.number }} --body-file emulator-comment.md
       - name: Fail when the emulator tests failed
