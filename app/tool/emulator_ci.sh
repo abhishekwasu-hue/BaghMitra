@@ -2,6 +2,7 @@
 # Boots a headless emulator (API 33, pixel_5, 2 GB RAM), runs the integration tests and keeps every
 # log under ../emulator-shots so a failure can be read from the PR. Run from the app/ directory.
 set -u
+mode="${1:-integration}"   # integration | release
 shots=../emulator-shots
 mkdir -p "$shots"
 log="$shots/run.log"
@@ -30,15 +31,20 @@ printf 'hw.ramSize=2048\ndisk.dataPartition.size=4096M\n' >> "$ANDROID_AVD_HOME/
 
 # Build first: a Gradle build next to a running emulator exhausts the runner (and the image is installed
 # before the build so the disk is not already full by then).
+if [ "$mode" = integration ]; then
 echo "== build debug apk"
 flutter build apk --debug --dart-define-from-file=../product.env || { echo "apk build failed"; exit 1; }
 df -h / | tail -1
+fi
 
 # The release build is the heaviest (R8); like the debug build it must finish before the emulator
 # starts, or the two together exhaust the runner's memory and the runner dies mid-job.
+if [ "$mode" = release ]; then
 echo "== build release apk"
 flutter build apk --release --target-platform android-x64 --dart-define-from-file=../product.env || { echo "release build failed"; exit 1; }
 free -m | head -2
+fi
+(cd android && ./gradlew --stop > /dev/null 2>&1)   # free the Gradle daemons before the emulator starts
 
 boot_emulator() {
   nohup emulator -avd ci -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -no-metrics \
@@ -63,6 +69,7 @@ adb shell settings put global window_animation_scale 0
 adb shell settings put global transition_animation_scale 0
 adb shell settings put global animator_duration_scale 0
 
+if [ "$mode" = integration ]; then
 echo "== tests"
 adb logcat -c
 timeout 900 flutter test integration_test --dart-define-from-file=../product.env 2>&1 | tee "$shots/test.log"
@@ -70,7 +77,9 @@ status=${PIPESTATUS[0]}
 adb exec-out screencap -p > "$shots/final.png"
 adb logcat -d -t 2000 > "$shots/logcat.txt"
 echo "tests exit status $status"
-[ "$status" -eq 0 ] || exit "$status"
+
+exit "$status"
+fi
 
 # Release-only crashes (R8 stripping a class a plugin needs, a missing permission) never show in
 # debug tests, so install the real release build and make sure the app opens and stays up.
