@@ -101,3 +101,6 @@ review of the consent wording, a real-phone check before Play release, Play Cons
 `OPEN_QUESTIONS.md` and the work queue is in `PLAN.md`; development continues on the local Supabase
 stack, the on-device voice adapter, a headless emulator in CI, interim CCRI templates and draft
 knowledge cards.
+
+### Headless emulator job (2026-10-20)
+`emulator` job in `app.yml`: `reactivecircus/android-emulator-runner` (API 33, `pixel_5`, 2 GB RAM, x86_64) runs `flutter test integration_test` against the real `main()` in demo mode, then uploads `final.png` (or `failure.png`) as the `emulator-screenshots` artifact. First test is a sign-in smoke test. Not yet run: the first CI run decides whether the job needs tuning; the offline-to-online sync, add-plot, GPS boundary (emulator geo fix), PDF export and share-intent tests are added incrementally as follow-ups.
