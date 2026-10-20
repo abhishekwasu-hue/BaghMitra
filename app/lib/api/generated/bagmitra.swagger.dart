@@ -110,6 +110,232 @@ abstract class Bagmitra extends ChopperService {
     ),
   });
 
+  ///Alerts
+  Future<chopper.Response<AlertsResponse>> v1AdminKbAlertsGet() {
+    generatedMapping.putIfAbsent(
+      AlertsResponse,
+      () => AlertsResponse.fromJsonFactory,
+    );
+
+    return _v1AdminKbAlertsGet();
+  }
+
+  ///Alerts
+  @GET(path: '/v1/admin/kb/alerts')
+  Future<chopper.Response<AlertsResponse>> _v1AdminKbAlertsGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Alerts',
+      operationId: 'admin_kb_alerts',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Resolve Alert
+  ///@param alert_id
+  Future<chopper.Response<AlertOut>> v1AdminKbAlertsAlertIdResolvePost({
+    required String? alertId,
+  }) {
+    generatedMapping.putIfAbsent(AlertOut, () => AlertOut.fromJsonFactory);
+
+    return _v1AdminKbAlertsAlertIdResolvePost(alertId: alertId);
+  }
+
+  ///Resolve Alert
+  ///@param alert_id
+  @POST(path: '/v1/admin/kb/alerts/{alert_id}/resolve', optionalBody: true)
+  Future<chopper.Response<AlertOut>> _v1AdminKbAlertsAlertIdResolvePost({
+    @Path('alert_id') required String? alertId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Resolve Alert',
+      operationId: 'admin_kb_resolve_alert',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Cards
+  ///@param status
+  Future<chopper.Response<CardsResponse>> v1AdminKbCardsGet({String? status}) {
+    generatedMapping.putIfAbsent(
+      CardsResponse,
+      () => CardsResponse.fromJsonFactory,
+    );
+
+    return _v1AdminKbCardsGet(status: status);
+  }
+
+  ///Cards
+  ///@param status
+  @GET(path: '/v1/admin/kb/cards')
+  Future<chopper.Response<CardsResponse>> _v1AdminKbCardsGet({
+    @Query('status') String? status,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Cards',
+      operationId: 'admin_kb_cards',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Publish Card
+  ///@param card_id
+  Future<chopper.Response<CardOut>> v1AdminKbCardsCardIdPublishPost({
+    required String? cardId,
+  }) {
+    generatedMapping.putIfAbsent(CardOut, () => CardOut.fromJsonFactory);
+
+    return _v1AdminKbCardsCardIdPublishPost(cardId: cardId);
+  }
+
+  ///Publish Card
+  ///@param card_id
+  @POST(path: '/v1/admin/kb/cards/{card_id}/publish', optionalBody: true)
+  Future<chopper.Response<CardOut>> _v1AdminKbCardsCardIdPublishPost({
+    @Path('card_id') required String? cardId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Publish Card',
+      operationId: 'admin_kb_publish',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Review
+  ///@param card_id
+  Future<chopper.Response<CardOut>> v1AdminKbCardsCardIdReviewsPost({
+    required String? cardId,
+    required ReviewIn? body,
+  }) {
+    generatedMapping.putIfAbsent(CardOut, () => CardOut.fromJsonFactory);
+
+    return _v1AdminKbCardsCardIdReviewsPost(cardId: cardId, body: body);
+  }
+
+  ///Review
+  ///@param card_id
+  @POST(path: '/v1/admin/kb/cards/{card_id}/reviews', optionalBody: true)
+  Future<chopper.Response<CardOut>> _v1AdminKbCardsCardIdReviewsPost({
+    @Path('card_id') required String? cardId,
+    @Body() required ReviewIn? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Review',
+      operationId: 'admin_kb_review',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Run Import
+  ///@param kind
+  Future<chopper.Response<ImportOut>> v1AdminKbImportsKindPost({
+    required enums.V1AdminKbImportsKindPostKind? kind,
+    required ImportIn? body,
+  }) {
+    generatedMapping.putIfAbsent(ImportOut, () => ImportOut.fromJsonFactory);
+
+    return _v1AdminKbImportsKindPost(kind: kind?.value?.toString(), body: body);
+  }
+
+  ///Run Import
+  ///@param kind
+  @POST(path: '/v1/admin/kb/imports/{kind}', optionalBody: true)
+  Future<chopper.Response<ImportOut>> _v1AdminKbImportsKindPost({
+    @Path('kind') required String? kind,
+    @Body() required ImportIn? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Run Import',
+      operationId: 'admin_kb_import',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Sources
+  Future<chopper.Response<SourcesResponse>> v1AdminKbSourcesGet() {
+    generatedMapping.putIfAbsent(
+      SourcesResponse,
+      () => SourcesResponse.fromJsonFactory,
+    );
+
+    return _v1AdminKbSourcesGet();
+  }
+
+  ///Sources
+  @GET(path: '/v1/admin/kb/sources')
+  Future<chopper.Response<SourcesResponse>> _v1AdminKbSourcesGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Sources',
+      operationId: 'admin_kb_sources',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Upload Source Document
+  ///@param key
+  Future<chopper.Response<SourceOut>> v1AdminKbSourcesKeyDocumentPut({
+    required String? key,
+  }) {
+    generatedMapping.putIfAbsent(SourceOut, () => SourceOut.fromJsonFactory);
+
+    return _v1AdminKbSourcesKeyDocumentPut(key: key);
+  }
+
+  ///Upload Source Document
+  ///@param key
+  @PUT(path: '/v1/admin/kb/sources/{key}/document', optionalBody: true)
+  Future<chopper.Response<SourceOut>> _v1AdminKbSourcesKeyDocumentPut({
+    @Path('key') required String? key,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Record a document an admin downloaded by hand (the server could not fetch it). The body
+is the raw file; only its hash, size and time are kept.''',
+      summary: 'Upload Source Document',
+      operationId: 'admin_kb_upload_source_document',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
   ///Get Me
   Future<chopper.Response<FarmerProfile>> v1MeGet() {
     generatedMapping.putIfAbsent(
@@ -132,6 +358,64 @@ abstract class Bagmitra extends ChopperService {
       produces: [],
       security: ["HTTPBearer"],
       tags: ["profile"],
+      deprecated: false,
+    ),
+  });
+
+  ///Restrictions
+  Future<chopper.Response<RestrictionsResponse>> v1ReferenceRestrictionsGet() {
+    generatedMapping.putIfAbsent(
+      RestrictionsResponse,
+      () => RestrictionsResponse.fromJsonFactory,
+    );
+
+    return _v1ReferenceRestrictionsGet();
+  }
+
+  ///Restrictions
+  @GET(path: '/v1/reference/restrictions')
+  Future<chopper.Response<RestrictionsResponse>> _v1ReferenceRestrictionsGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Gazette bans / restrictions and trade names, cached by the app so spray records can
+be checked offline. Facts only; no advice text.''',
+      summary: 'Restrictions',
+      operationId: 'reference_restrictions',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["reference"],
+      deprecated: false,
+    ),
+  });
+
+  ///Stage Templates
+  ///@param crop
+  Future<chopper.Response<StageTemplatesResponse>>
+  v1ReferenceStageTemplatesGet({String? crop}) {
+    generatedMapping.putIfAbsent(
+      StageTemplatesResponse,
+      () => StageTemplatesResponse.fromJsonFactory,
+    );
+
+    return _v1ReferenceStageTemplatesGet(crop: crop);
+  }
+
+  ///Stage Templates
+  ///@param crop
+  @GET(path: '/v1/reference/stage-templates')
+  Future<chopper.Response<StageTemplatesResponse>>
+  _v1ReferenceStageTemplatesGet({
+    @Query('crop') String? crop,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Stage Templates',
+      operationId: 'reference_stage_templates',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["reference"],
       deprecated: false,
     ),
   });

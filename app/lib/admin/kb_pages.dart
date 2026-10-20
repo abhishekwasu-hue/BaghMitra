@@ -238,7 +238,8 @@ class KbSourcesPage extends StatelessWidget {
             title: Text(s.title, style: BmType.bodyStrong),
             subtitle: SelectableText(
               '${s.publisher} · ${s.tier} · ${s.allowedUse} · '
-              '${s.verification} · ${s.url}',
+              '${s.verification} · ${s.fetchStatus}'
+              '${s.fetchError == null ? '' : ' (${s.fetchError})'} · ${s.url}',
             ),
           ),
       ],
