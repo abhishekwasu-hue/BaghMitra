@@ -95,6 +95,19 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
     }
   }
 
+  /// Offline test mode: a local-only account, nothing leaves the phone. Only offered when no
+  /// backend is configured, so a build with Supabase keys goes straight to real login.
+  Future<void> _tryWithoutAccount() async {
+    setState(() => _busy = true);
+    try {
+      await ref
+          .read(authRepositoryProvider)
+          .verifyOtp(localAccountPhone, localAccountCode);
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
@@ -124,6 +137,12 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
           child: Text(t.loginSendOtp),
         ),
         if (demo) ...[
+          const SizedBox(height: BmSpace.md),
+          OutlinedButton(
+            key: const Key('try-without-account'),
+            onPressed: _busy ? null : _tryWithoutAccount,
+            child: Text(t.loginTryWithout),
+          ),
           const SizedBox(height: BmSpace.md),
           Text(
             t.loginDemoNotice,

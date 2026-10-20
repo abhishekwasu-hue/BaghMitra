@@ -770,4 +770,27 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return 'Boundary marked: $_temp0';
   }
+
+  @override
+  String get loginTryWithout => 'Try without account';
+
+  @override
+  String get localModeBanner =>
+      'Offline test mode: your data stays on this phone';
+
+  @override
+  String testBuildBadge(String sha) {
+    return 'TEST BUILD $sha';
+  }
+
+  @override
+  String get settingsTitle => 'Settings';
+
+  @override
+  String get sendLogs => 'Send logs';
+
+  @override
+  String buildLabel(String sha) {
+    return 'Test build $sha';
+  }
 }

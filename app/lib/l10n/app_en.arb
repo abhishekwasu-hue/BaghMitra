@@ -466,5 +466,13 @@
         "type": "int"
       }
     }
-  }
+  },
+  "loginTryWithout": "Try without account",
+  "localModeBanner": "Offline test mode: your data stays on this phone",
+  "testBuildBadge": "TEST BUILD {sha}",
+  "@testBuildBadge": {"placeholders": {"sha": {"type": "String"}}},
+  "settingsTitle": "Settings",
+  "sendLogs": "Send logs",
+  "buildLabel": "Test build {sha}",
+  "@buildLabel": {"placeholders": {"sha": {"type": "String"}}}
 }

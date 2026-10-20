@@ -7,6 +7,7 @@ class AppConfig {
     required this.supabaseUrl,
     required this.supabaseAnonKey,
     required this.devGallery,
+    required this.testBuild,
   });
 
   factory AppConfig.fromEnvironment() => const AppConfig(
@@ -21,6 +22,7 @@ class AppConfig {
     supabaseUrl: String.fromEnvironment('SUPABASE_URL'),
     supabaseAnonKey: String.fromEnvironment('SUPABASE_ANON_KEY'),
     devGallery: bool.fromEnvironment('DEV_GALLERY'),
+    testBuild: String.fromEnvironment('TEST_BUILD'),
   );
 
   final String productName;
@@ -28,6 +30,11 @@ class AppConfig {
   final String supabaseUrl;
   final String supabaseAnonKey;
   final bool devGallery;
+
+  /// Short commit id of a CI test build (`--dart-define=TEST_BUILD=<sha>`); empty in real builds.
+  final String testBuild;
+
+  bool get isTestBuild => testBuild.isNotEmpty;
 
   /// Without Supabase credentials the app runs in demo mode (local-only auth).
   bool get demoMode => supabaseUrl.isEmpty || supabaseAnonKey.isEmpty;

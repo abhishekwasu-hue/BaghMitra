@@ -110,3 +110,6 @@ Provider-agnostic: `billing_plans`, `plan_entitlements`, `subscriptions`, `billi
 
 ### M6a — app side (2026-10-20)
 `EntitlementsCache` stores the last server snapshot (`SyncMeta` key `billing.entitlements`), `entitlementsProvider` answers from the cache first and refreshes online, `Entitlements.has/limitOf/isAtLimit` apply the offline grace margin (`assets/config/entitlements.json`, 72 h) and never lock `records`, `accounts`, `export`. `FeatureGate` widget wraps premium UI; nothing is gated yet because no premium feature exists. Open: the phone stores the snapshot signature but does not verify it (needs the public key shipped in config; logged with the paywall work in M6b). Admin plan/grant UI is the next M6a piece.
+
+### Test build app features, part 2a (2026-10-20)
+`--dart-define=TEST_BUILD=<sha>` (set by the test-APK workflow) turns on the TEST BUILD badge on Home (tap it for Settings), the "Offline test mode: your data stays on this phone" banner when no backend is configured, and the Settings screen with "Send logs" (on-device log file, newest 256 KB, shared through the share sheet). The login screen offers "Try without account" when there is no Supabase config; with Supabase keys it is hidden and real OTP login is used, no code change. Still to do: seed-orchard button (Shindi Khurd sample), release-APK smoke test on the emulator.

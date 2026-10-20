@@ -1395,6 +1395,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Boundary marked: {count, plural, =1{1 corner} other{{count} corners}}'**
   String boundaryMarked(int count);
+
+  /// No description provided for @loginTryWithout.
+  ///
+  /// In en, this message translates to:
+  /// **'Try without account'**
+  String get loginTryWithout;
+
+  /// No description provided for @localModeBanner.
+  ///
+  /// In en, this message translates to:
+  /// **'Offline test mode: your data stays on this phone'**
+  String get localModeBanner;
+
+  /// No description provided for @testBuildBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'TEST BUILD {sha}'**
+  String testBuildBadge(String sha);
+
+  /// No description provided for @settingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settingsTitle;
+
+  /// No description provided for @sendLogs.
+  ///
+  /// In en, this message translates to:
+  /// **'Send logs'**
+  String get sendLogs;
+
+  /// No description provided for @buildLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Test build {sha}'**
+  String buildLabel(String sha);
 }
 
 class _AppLocalizationsDelegate

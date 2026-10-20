@@ -21,6 +21,7 @@ import '../features/plots/presentation/add_plot_screen.dart';
 import '../features/plots/presentation/boundary_screen.dart';
 import '../features/plots/presentation/plots_screen.dart';
 import '../features/profile/presentation/onboarding_screen.dart';
+import '../features/settings/presentation/settings_screen.dart';
 import '../features/spray/presentation/add_spray_screen.dart';
 import '../features/spray/presentation/spray_log_screen.dart';
 
@@ -43,6 +44,7 @@ abstract final class Routes {
   static const otp = '/login/otp';
   static const onboarding = '/onboarding';
   static const gallery = '/dev/gallery';
+  static const settings = '/settings';
   static const plots = '/plots';
   static const addPlot = '/plots/new';
   static const walkBoundary = '/plots/new/boundary';
@@ -80,6 +82,9 @@ GoRouter buildRouter(
       final loc = state.matchedLocation;
       final onLogin = loc.startsWith(Routes.login);
       if (loc == Routes.gallery) return config.devGallery ? null : Routes.home;
+      if (loc == Routes.settings && !config.isTestBuild && !config.devGallery) {
+        return Routes.home;
+      }
       if (!signedIn && !onLogin) return Routes.login;
       if (signedIn && onLogin) return Routes.home;
       // Signed in but not set up yet: finish onboarding first. Unknown (still loading) waits.
@@ -91,6 +96,7 @@ GoRouter buildRouter(
     },
     routes: [
       GoRoute(path: Routes.home, builder: (_, _) => const HomeScreen()),
+      GoRoute(path: Routes.settings, builder: (_, _) => const SettingsScreen()),
       GoRoute(path: Routes.plots, builder: (_, _) => const PlotsScreen()),
       GoRoute(path: Routes.addPlot, builder: (_, _) => const AddPlotScreen()),
       GoRoute(

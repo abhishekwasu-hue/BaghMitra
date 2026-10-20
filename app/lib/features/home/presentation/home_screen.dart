@@ -84,7 +84,11 @@ class _HomeBody extends ConsumerWidget {
     final s = snapshot.stage;
     final w = snapshot.weather;
     final m = snapshot.market;
-    final banner = _syncBanner(t, sync);
+    final config = ref.watch(appConfigProvider);
+    // A test build with no backend never syncs, so say where the data lives instead.
+    final banner = config.demoMode && config.isTestBuild
+        ? SyncBanner(kind: SyncBannerKind.offline, message: t.localModeBanner)
+        : _syncBanner(t, sync);
 
     return SingleChildScrollView(
       child: Column(
@@ -108,6 +112,16 @@ class _HomeBody extends ConsumerWidget {
                   left: 0,
                   right: 0,
                   child: Center(child: _DemoChip(label: t.demoDataNotice)),
+                ),
+              if (config.isTestBuild)
+                Positioned(
+                  top: MediaQuery.paddingOf(context).top + 6,
+                  right: BmSpace.md,
+                  child: GestureDetector(
+                    key: const Key('test-badge'),
+                    onTap: () => context.push(Routes.settings),
+                    child: _DemoChip(label: t.testBuildBadge(config.testBuild)),
+                  ),
                 ),
             ],
           ),

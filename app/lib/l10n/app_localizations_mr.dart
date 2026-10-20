@@ -769,4 +769,27 @@ class AppLocalizationsMr extends AppLocalizations {
     );
     return 'सीमा नोंदवली: $_temp0';
   }
+
+  @override
+  String get loginTryWithout => 'खात्याशिवाय वापरून पहा';
+
+  @override
+  String get localModeBanner =>
+      'ऑफलाइन चाचणी मोड: तुमची माहिती या फोनमध्येच राहते';
+
+  @override
+  String testBuildBadge(String sha) {
+    return 'चाचणी बिल्ड $sha';
+  }
+
+  @override
+  String get settingsTitle => 'सेटिंग्ज';
+
+  @override
+  String get sendLogs => 'लॉग पाठवा';
+
+  @override
+  String buildLabel(String sha) {
+    return 'चाचणी बिल्ड $sha';
+  }
 }
