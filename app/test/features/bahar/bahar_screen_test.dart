@@ -38,6 +38,8 @@ void main() {
     await settle(tester);
     await tester.tap(find.text('बाग १'));
     await settle(tester);
+    await tester.tap(find.byKey(const Key('open-records')));
+    await settle(tester);
     expect(find.text('No bahar planned yet'), findsOneWidget);
 
     await tester.tap(find.text('Start a bahar').first);

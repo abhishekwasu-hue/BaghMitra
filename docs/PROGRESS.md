@@ -140,3 +140,6 @@ Starting a bahar now makes one task per planned stage date that has a template (
 
 ### Actions minutes (2026-10-20)
 The two emulator jobs (about 25 minutes each) now run on pushes to `main` and by hand, not on every pull-request push; pull requests still run checks and the APK build. A push to `main` therefore still gates the test APK on the emulator. Reason: on 2026-10-20 every job started failing within seconds with no runner assigned (0 billable ms), which looks like the Actions usage limit; the owner needs to check Settings → Billing for the account.
+
+### Plot detail and edit (2026-10-20)
+Tapping a block on "My orchard" now opens a detail screen (crop, variety, area, trees, planting year, boundary corner count and centre point) with "Bahar, sprays and accounts" (the former landing screen) and an Edit button. Editing reuses the add-block form with the block's values: it keeps the id (so it syncs as an update), the walked boundary (typing a new area still replaces it) and the fields the form does not show (irrigation, water, soil, spacing). Re-walking the boundary works as when adding.

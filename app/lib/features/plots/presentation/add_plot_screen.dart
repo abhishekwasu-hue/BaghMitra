@@ -10,9 +10,12 @@ import '../../../theme/app_theme.dart';
 import '../domain/geo.dart';
 import '../domain/plot.dart';
 
-/// Adds an orchard block. Saves locally at once; sync happens in the background.
+/// Adds an orchard block, or edits one when [plotId] is given. Saves locally at once; sync
+/// happens in the background.
 class AddPlotScreen extends ConsumerStatefulWidget {
-  const AddPlotScreen({super.key});
+  const AddPlotScreen({this.plotId, super.key});
+
+  final String? plotId;
 
   @override
   ConsumerState<AddPlotScreen> createState() => _AddPlotScreenState();
@@ -27,6 +30,8 @@ class _AddPlotScreenState extends ConsumerState<AddPlotScreen> {
   final _year = TextEditingController();
   String? _crop;
   List<LatLon>? _boundary;
+  Plot? _editing;
+  bool _filled = false;
 
   @override
   void dispose() {
@@ -39,12 +44,31 @@ class _AddPlotScreenState extends ConsumerState<AddPlotScreen> {
   String? _optional(String? v) =>
       (v == null || v.trim().isEmpty) ? null : v.trim();
 
+  /// Fills the form once from the block being edited.
+  void _fill(Plot p) {
+    _filled = true;
+    _editing = p;
+    _name.text = p.name;
+    _crop = p.crop;
+    _variety.text = p.variety ?? '';
+    _acres.text = sqMToAcres(p.areaSqM).toStringAsFixed(2);
+    _trees.text = p.treeCount?.toString() ?? '';
+    _year.text = p.plantingYear?.toString() ?? '';
+    _boundary = cornersFromGeoJson(p.boundary);
+  }
+
   Future<void> _save() async {
     if (!_form.currentState!.validate()) return;
     final repo = ref.read(plotRepositoryProvider);
     await repo.save(
       Plot(
-        id: repo.newId(),
+        id: _editing?.id ?? repo.newId(),
+        // What the form does not show (water, soil, irrigation) is kept as it was.
+        irrigationType: _editing?.irrigationType,
+        waterSource: _editing?.waterSource,
+        soilType: _editing?.soilType,
+        rowSpacingM: _editing?.rowSpacingM,
+        plantSpacingM: _editing?.plantSpacingM,
         name: _name.text.trim(),
         crop: _crop!,
         areaSqM: _boundary != null
@@ -82,6 +106,15 @@ class _AddPlotScreenState extends ConsumerState<AddPlotScreen> {
     final c = context.bm;
     final lang = Localizations.localeOf(context).languageCode;
     final crops = ref.watch(cropsProvider).value ?? const [];
+    if (widget.plotId != null && !_filled) {
+      final existing = ref
+          .watch(plotsProvider)
+          .value
+          ?.where((p) => p.id == widget.plotId)
+          .firstOrNull;
+      if (existing == null) return const Scaffold(body: SizedBox.shrink());
+      _fill(existing);
+    }
     _crop ??= crops.isEmpty ? null : crops.first.slug;
 
     String? required(String? v) =>
@@ -99,7 +132,10 @@ class _AddPlotScreenState extends ConsumerState<AddPlotScreen> {
       appBar: AppBar(
         backgroundColor: c.background,
         surfaceTintColor: c.background,
-        title: Text(t.addPlot, style: BmType.section.copyWith(color: c.brand)),
+        title: Text(
+          widget.plotId == null ? t.addPlot : t.editPlot,
+          style: BmType.section.copyWith(color: c.brand),
+        ),
       ),
       body: Form(
         key: _form,

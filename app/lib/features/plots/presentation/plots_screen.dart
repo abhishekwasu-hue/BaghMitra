@@ -152,7 +152,7 @@ class _PlotCard extends ConsumerWidget {
       button: true,
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
-        onTap: () => context.push(Routes.plotBahar(plot.id)),
+        onTap: () => context.push(Routes.plot(plot.id)),
         child: card,
       ),
     );

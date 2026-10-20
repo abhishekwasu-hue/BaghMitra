@@ -240,5 +240,9 @@
   "tasksDone": "पूर्ण",
   "noTasksToday": "आज काही बाकी नाही",
   "taskOverdue": "उशीर",
-  "dueInDays": "{n} दिवसांत"
+  "dueInDays": "{n} दिवसांत",
+  "editPlot": "बाग संपादित करा",
+  "plotOpenRecords": "बहार, फवारणी आणि हिशेब",
+  "plotBoundaryNone": "हद्द अजून नोंदवलेली नाही",
+  "plotCentre": "मध्यबिंदू"
 }

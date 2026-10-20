@@ -855,4 +855,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String dueInDays(int n) {
     return 'In $n days';
   }
+
+  @override
+  String get editPlot => 'Edit block';
+
+  @override
+  String get plotOpenRecords => 'Bahar, sprays and accounts';
+
+  @override
+  String get plotBoundaryNone => 'Boundary not marked yet';
+
+  @override
+  String get plotCentre => 'Centre point';
 }

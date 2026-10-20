@@ -19,6 +19,7 @@ import '../features/inputs/presentation/add_input_screens.dart';
 import '../features/inputs/presentation/field_log_screen.dart';
 import '../features/plots/presentation/add_plot_screen.dart';
 import '../features/plots/presentation/boundary_screen.dart';
+import '../features/plots/presentation/plot_detail_screen.dart';
 import '../features/plots/presentation/plots_screen.dart';
 import '../features/profile/presentation/onboarding_screen.dart';
 import '../features/settings/presentation/settings_screen.dart';
@@ -52,6 +53,8 @@ abstract final class Routes {
   static const plots = '/plots';
   static const addPlot = '/plots/new';
   static const walkBoundary = '/plots/new/boundary';
+  static String plot(String plotId) => '/plots/$plotId';
+  static String editPlot(String plotId) => '/plots/$plotId/edit';
   static String plotBahar(String plotId) => '/plots/$plotId/bahar';
   static String startBahar(String plotId) => '/plots/$plotId/bahar/new';
   static String sprays(String plotId) => '/plots/$plotId/sprays';
@@ -108,6 +111,14 @@ GoRouter buildRouter(
       GoRoute(
         path: Routes.walkBoundary,
         builder: (_, _) => const BoundaryScreen(),
+      ),
+      GoRoute(
+        path: '/plots/:id',
+        builder: (_, s) => PlotDetailScreen(plotId: s.pathParameters['id']!),
+      ),
+      GoRoute(
+        path: '/plots/:id/edit',
+        builder: (_, s) => AddPlotScreen(plotId: s.pathParameters['id']),
       ),
       GoRoute(
         path: '/plots/:id/bahar',
