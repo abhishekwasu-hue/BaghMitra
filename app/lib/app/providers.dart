@@ -38,6 +38,7 @@ import '../features/spray/data/restrictions_cache.dart';
 import '../features/spray/data/spray_repository.dart';
 import '../features/spray/domain/spray_check.dart';
 import '../features/spray/domain/spray_record.dart';
+import '../features/tasks/data/cycle_tasks_service.dart';
 import '../features/tasks/data/task_kinds.dart';
 import '../features/tasks/data/tasks_repository.dart';
 import '../features/tasks/domain/farm_task.dart';
@@ -251,6 +252,10 @@ final tasksRepositoryProvider = Provider<TasksRepository>(
 
 final tasksProvider = StreamProvider<List<FarmTask>>(
   (ref) => ref.watch(tasksRepositoryProvider).watchAll(),
+);
+
+final cycleTasksProvider = Provider<CycleTasksService>(
+  (ref) => CycleTasksService(ref.watch(tasksRepositoryProvider)),
 );
 
 final taskKindsCatalogProvider = Provider<TaskKinds>((ref) => TaskKinds());
