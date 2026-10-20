@@ -96,10 +96,10 @@ jobs:
       - name: Free runner disk (the system image needs several GB)
         working-directory: .
         run: |
-          sudo rm -rf /usr/share/dotnet /opt/ghc /usr/local/share/boost /opt/hostedtoolcache/CodeQL
+          sudo rm -rf /usr/share/dotnet /opt/ghc /usr/local/.ghcup /usr/local/share/boost /usr/share/swift /opt/microsoft /opt/az /usr/local/lib/heroku
+          sudo rm -rf /opt/hostedtoolcache/CodeQL /opt/hostedtoolcache/Python /opt/hostedtoolcache/PyPy /opt/hostedtoolcache/go /opt/hostedtoolcache/Ruby /opt/hostedtoolcache/node
+          docker image prune --all --force > /dev/null 2>&1 || true
           df -h /
-      - name: Build the debug APK before the emulator starts (a Gradle build next to a running emulator exhausts the runner)
-        run: flutter build apk --debug --dart-define-from-file=../product.env
       - name: Enable KVM
         working-directory: .
         run: |

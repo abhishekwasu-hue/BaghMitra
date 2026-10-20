@@ -12,11 +12,23 @@ image="system-images;android-33;google_apis;x86_64"
 
 echo "== install image"; df -h / | tail -1
 yes | sdkmanager --licenses > /dev/null 2>&1
-sdkmanager --install "$image" "emulator" "platform-tools" > "$shots/sdkmanager.log" 2>&1 || { echo "sdkmanager failed"; tail -n 15 "$shots/sdkmanager.log"; exit 1; }
+sdkmanager --install "$image" "emulator" "platform-tools" > "$shots/sdkmanager.log" 2>&1 || {
+  echo "sdkmanager failed"
+  tr '\r' '\n' < "$shots/sdkmanager.log" | grep -iE "error|fail|space|exception|warning: an error" | sort -u | head -n 10
+  df -h / | tail -1
+  exit 1
+}
+df -h / | tail -1
 
 echo "== create avd"
 echo no | avdmanager create avd -n ci -k "$image" -d pixel_5 --force || exit 1
 printf 'hw.ramSize=2048\ndisk.dataPartition.size=4096M\n' >> "$HOME/.android/avd/ci.avd/config.ini"
+
+# Build first: a Gradle build next to a running emulator exhausts the runner (and the image is installed
+# before the build so the disk is not already full by then).
+echo "== build debug apk"
+flutter build apk --debug --dart-define-from-file=../product.env || { echo "apk build failed"; exit 1; }
+df -h / | tail -1
 
 echo "== start emulator"
 nohup emulator -avd ci -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -no-metrics \
