@@ -67,7 +67,10 @@ testpaths = ["tests"]
 asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "function"
 addopts = "--cov=bagmitra_api --cov-branch --cov-report=term-missing --cov-fail-under=85"
-markers = ["postgres: requires a real Postgres (DATABASE_URL), run in CI migration job"]
+markers = [
+  "postgres: requires a real Postgres (DATABASE_URL), run in CI migration job",
+  "supabase: requires the local Supabase stack (`supabase start`), run in the supabase CI job",
+]
 
 [tool.coverage.run]
 omit = ["src/bagmitra_api/asgi.py"]

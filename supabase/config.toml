@@ -1,0 +1,32 @@
+# Local Supabase stack for development and integration tests (`supabase start`).
+# The hosted project (region ap-south-1, Mumbai) is created by the owner later; only environment
+# variables change. See docs/runbooks/supabase-setup.md.
+project_id = "bagmitra"
+
+[api]
+port = 54321
+
+[db]
+port = 54322
+major_version = 17
+
+[auth]
+site_url = "http://127.0.0.1:3000"
+enable_signup = true
+jwt_expiry = 3600
+
+[auth.sms]
+enable_signup = true
+enable_confirmations = false
+
+# Phone OTP needs an SMS provider to be enabled. These are dummy values: the numbers listed
+# in test_otp never receive an SMS, they are verified against the fixed code below.
+[auth.sms.twilio]
+enabled = true
+account_sid = "AC00000000000000000000000000000000"
+message_service_sid = "MG00000000000000000000000000000000"
+auth_token = "env(SUPABASE_AUTH_SMS_TWILIO_AUTH_TOKEN)"
+
+[auth.sms.test_otp]
+919800000001 = "123456"
+919800000002 = "123456"
