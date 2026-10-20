@@ -24,6 +24,8 @@ import '../features/profile/presentation/onboarding_screen.dart';
 import '../features/settings/presentation/settings_screen.dart';
 import '../features/spray/presentation/add_spray_screen.dart';
 import '../features/spray/presentation/spray_log_screen.dart';
+import '../features/tasks/presentation/add_task_screen.dart';
+import '../features/tasks/presentation/tasks_screen.dart';
 
 class _AuthListenable extends ChangeNotifier {
   _AuthListenable(Stream<AuthSession?> sessions) {
@@ -45,6 +47,8 @@ abstract final class Routes {
   static const onboarding = '/onboarding';
   static const gallery = '/dev/gallery';
   static const settings = '/settings';
+  static const tasks = '/tasks';
+  static const addTask = '/tasks/new';
   static const plots = '/plots';
   static const addPlot = '/plots/new';
   static const walkBoundary = '/plots/new/boundary';
@@ -97,6 +101,8 @@ GoRouter buildRouter(
     routes: [
       GoRoute(path: Routes.home, builder: (_, _) => const HomeScreen()),
       GoRoute(path: Routes.settings, builder: (_, _) => const SettingsScreen()),
+      GoRoute(path: Routes.tasks, builder: (_, _) => const TasksScreen()),
+      GoRoute(path: Routes.addTask, builder: (_, _) => const AddTaskScreen()),
       GoRoute(path: Routes.plots, builder: (_, _) => const PlotsScreen()),
       GoRoute(path: Routes.addPlot, builder: (_, _) => const AddPlotScreen()),
       GoRoute(

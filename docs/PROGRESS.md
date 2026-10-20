@@ -126,6 +126,9 @@ Settings has "Add sample orchard" (only when no backend is configured, so sample
 ### Emulator job and release smoke test (2026-10-20)
 The `emulator` job (API 33, pixel_5, 2 GB) is green on `main`: it frees runner disk, installs the system image, builds the debug APK, boots the AVD from `app/tool/emulator_ci.sh`, runs `integration_test`, and now also builds the release APK, installs it, opens it and fails on a crash or a dead process (catches R8 / permission problems only visible in release). Logs and screenshots are the `emulator-integration` and `emulator-release` artifacts; on a failed pull-request run the end of the log is posted as a comment (job logs for this job are not retrievable through the API). Test APKs: `https://github.com/abhishekwasu-hue/BaghMitra/releases` (pre-releases `test-YYYYMMDD-<sha>`).
 
+### Farm tasks, phone side (2026-10-20)
+Drift schema v8 `farm_tasks`, `TasksRepository` (offline, outbox, remote apply), task kinds from `assets/config/task_kinds.json`, a Tasks screen (grouped overdue / today / upcoming / done; tick to finish, swipe to delete, add with kind and due day) and Home "Today's tasks" now showing the grower's real tasks (overdue and due today, plus ones ticked today) instead of the sample ones once any task exists; "See all" opens the Tasks screen. Still to do: tasks generated from a bahar cycle's dates and templates, local reminders, the season calendar.
+
 ### Farm tasks, API side (2026-10-20)
 `farm_task` is a synced owner entity (table `farm_tasks`, migration 0013, RLS): title, kind slug, due date, done date, optional plot and bahar, a `source` ('manual' or a template key with its source label) and a note. A task with no plot belongs to the whole orchard. Next: the phone-side table, repository, task list and home "today" list, then local reminders and the season calendar.
 

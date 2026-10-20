@@ -16,6 +16,7 @@ import 'package:bagmitra/features/inputs/data/input_kinds.dart';
 import 'package:bagmitra/features/plots/data/crop_catalog.dart';
 import 'package:bagmitra/features/plots/data/location_service.dart';
 import 'package:bagmitra/features/profile/data/language_catalog.dart';
+import 'package:bagmitra/features/tasks/data/task_kinds.dart';
 import 'package:bagmitra/sync/sync_engine.dart';
 
 import 'package:drift/drift.dart' show Value;
@@ -133,6 +134,9 @@ Future<AppDatabase> pumpApp(
         ),
         expenseCategoriesCatalogProvider.overrideWithValue(
           ExpenseCategories(bundle: FileAssetBundle()),
+        ),
+        taskKindsCatalogProvider.overrideWithValue(
+          TaskKinds(bundle: FileAssetBundle()),
         ),
         cropCatalogProvider.overrideWithValue(
           CropCatalog(bundle: FileAssetBundle()),
