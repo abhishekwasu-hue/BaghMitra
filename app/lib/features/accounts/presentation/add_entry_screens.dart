@@ -8,6 +8,8 @@ import '../../../app/router.dart';
 import '../../../core/formatting.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
+import '../../voice/domain/voice_note.dart';
+import '../../voice/presentation/voice_mic_button.dart';
 import '../domain/accounts.dart';
 
 String? _rupeesRequired(AppLocalizations t, String? v) =>
@@ -41,6 +43,17 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
   final _note = TextEditingController();
   String? _category;
   String? _cycle;
+
+  /// A spoken note fills the note field; a number in it becomes the amount when that is empty.
+  /// Nothing is saved until the grower taps Save.
+  void _heard(String text, {required bool isFinal}) {
+    final voice = parseVoiceNote(text);
+    _note.text = voice.text;
+    final paise = voice.amountPaise;
+    if (isFinal && paise != null && _amount.text.trim().isEmpty) {
+      _amount.text = amountFieldText(paise);
+    }
+  }
 
   @override
   void dispose() {
@@ -136,9 +149,13 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
             ],
             const SizedBox(height: BmSpace.md),
             TextFormField(
+              key: const Key('expense-note'),
               controller: _note,
               maxLength: 500,
-              decoration: InputDecoration(labelText: t.noteOptional),
+              decoration: InputDecoration(
+                labelText: t.noteOptional,
+                suffixIcon: VoiceMicButton(onResult: _heard),
+              ),
             ),
             const SizedBox(height: BmSpace.lg),
             FilledButton(

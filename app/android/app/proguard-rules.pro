@@ -12,6 +12,10 @@
 # share_plus (file provider and share intents)
 -keep class dev.fluttercommunity.plus.share.** { *; }
 
+# speech_to_text and flutter_tts (platform channels reach their classes by name)
+-keep class com.csdcorp.speech_to_text.** { *; }
+-keep class com.tundralabs.fluttertts.** { *; }
+
 # Plugin registrants are looked up by name
 -keep class io.flutter.plugins.GeneratedPluginRegistrant { *; }
 -dontwarn com.google.android.play.core.**

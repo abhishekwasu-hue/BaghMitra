@@ -799,4 +799,10 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get seedOrchardDone => 'नमूना बाग जोड़ा गया';
+
+  @override
+  String get voiceUnavailable => 'इस फ़ोन पर बोलकर लिखना उपलब्ध नहीं है';
+
+  @override
+  String get voiceListening => 'सुन रहा है… रोकने के लिए दबाएँ';
 }

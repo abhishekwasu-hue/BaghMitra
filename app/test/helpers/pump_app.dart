@@ -16,6 +16,7 @@ import 'package:bagmitra/features/inputs/data/input_kinds.dart';
 import 'package:bagmitra/features/plots/data/crop_catalog.dart';
 import 'package:bagmitra/features/plots/data/location_service.dart';
 import 'package:bagmitra/features/profile/data/language_catalog.dart';
+import 'package:bagmitra/features/voice/domain/speech.dart';
 import 'package:bagmitra/sync/sync_engine.dart';
 
 import 'package:drift/drift.dart' show Value;
@@ -34,6 +35,7 @@ const testConfig = AppConfig(
   supabaseAnonKey: '',
   devGallery: true,
   testBuild: '',
+  speechEngine: 'on_device',
 );
 
 /// Serves assets straight from disk, synchronously, so screens render in one pump.
@@ -45,6 +47,27 @@ class FileAssetBundle extends CachingAssetBundle {
   @override
   Future<String> loadString(String key, {bool cache = true}) =>
       SynchronousFuture(File(key).readAsStringSync());
+}
+
+/// A recogniser that says whatever the test tells it to, then finishes.
+class FakeRecognizer implements SpeechRecognizer {
+  FakeRecognizer({this.available = true, this.words = const []});
+
+  final bool available;
+  final List<SpeechResult> words;
+  String? heardLocale;
+
+  @override
+  Future<bool> isAvailable() async => available;
+
+  @override
+  Stream<SpeechResult> listen({required String localeId}) {
+    heardLocale = localeId;
+    return Stream.fromIterable(words);
+  }
+
+  @override
+  Future<void> stop() async {}
 }
 
 /// Remembers what the app tried to share instead of opening a share sheet.
@@ -82,6 +105,7 @@ Future<AppDatabase> pumpApp(
   LocationService? location,
   AppConfig config = testConfig,
   AppLog? log,
+  SpeechRecognizer? recognizer,
 }) async {
   tester.view.physicalSize = phoneSize * 3;
   tester.view.devicePixelRatio = 3;
@@ -111,6 +135,8 @@ Future<AppDatabase> pumpApp(
       overrides: [
         appConfigProvider.overrideWithValue(config),
         if (log != null) appLogProvider.overrideWithValue(log),
+        if (recognizer != null)
+          speechRecognizerProvider.overrideWithValue(recognizer),
         fileSharerProvider.overrideWithValue(sharer ?? RecordingSharer()),
         if (location != null)
           locationServiceProvider.overrideWithValue(location),

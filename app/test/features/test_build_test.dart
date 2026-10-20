@@ -15,6 +15,7 @@ const testBuildConfig = AppConfig(
   supabaseAnonKey: '',
   devGallery: true,
   testBuild: 'abc1234',
+  speechEngine: 'on_device',
 );
 
 extension TestBuildConfigX on AppConfig {
@@ -25,6 +26,7 @@ extension TestBuildConfigX on AppConfig {
     supabaseAnonKey: 'anon',
     devGallery: devGallery,
     testBuild: testBuild,
+    speechEngine: speechEngine,
   );
 }
 
@@ -84,6 +86,7 @@ void main() {
         supabaseAnonKey: '',
         devGallery: false,
         testBuild: '',
+        speechEngine: 'on_device',
       ),
     );
     expect(find.byKey(const Key('test-badge')), findsNothing);

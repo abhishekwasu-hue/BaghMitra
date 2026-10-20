@@ -9,6 +9,7 @@ import '../../../core/formatting.dart';
 import '../../../design_system/alert_banner.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
+import '../../voice/presentation/voice_mic_button.dart';
 import '../domain/spray_check.dart';
 import '../domain/spray_record.dart';
 import 'spray_warnings.dart';
@@ -155,7 +156,12 @@ class _AddSprayScreenState extends ConsumerState<AddSprayScreen> {
             TextFormField(
               key: const Key('spray-product'),
               controller: _product,
-              decoration: InputDecoration(labelText: t.sprayProduct),
+              decoration: InputDecoration(
+                labelText: t.sprayProduct,
+                suffixIcon: VoiceMicButton(
+                  onResult: (text, {required isFinal}) => _product.text = text,
+                ),
+              ),
               validator: (v) =>
                   (v ?? '').trim().isEmpty ? t.fieldRequired : null,
             ),

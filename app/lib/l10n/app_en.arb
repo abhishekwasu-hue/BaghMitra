@@ -476,5 +476,7 @@
   "buildLabel": "Test build {sha}",
   "@buildLabel": {"placeholders": {"sha": {"type": "String"}}},
   "seedOrchard": "Add sample orchard",
-  "seedOrchardDone": "Sample orchard added"
+  "seedOrchardDone": "Sample orchard added",
+  "voiceUnavailable": "Voice input is not available on this phone",
+  "voiceListening": "Listening… tap to stop"
 }

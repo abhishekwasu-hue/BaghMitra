@@ -798,4 +798,10 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get seedOrchardDone => 'नमुना बाग भरला';
+
+  @override
+  String get voiceUnavailable => 'या फोनवर आवाजाने लिहिणे उपलब्ध नाही';
+
+  @override
+  String get voiceListening => 'ऐकत आहे… थांबवण्यासाठी दाबा';
 }
