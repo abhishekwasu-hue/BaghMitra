@@ -21,8 +21,12 @@ sdkmanager --install "$image" "emulator" "platform-tools" > "$shots/sdkmanager.l
 df -h / | tail -1
 
 echo "== create avd"
-echo no | avdmanager create avd -n ci -k "$image" -d pixel_5 --force || exit 1
-printf 'hw.ramSize=2048\ndisk.dataPartition.size=4096M\n' >> "$HOME/.android/avd/ci.avd/config.ini"
+export ANDROID_AVD_HOME="$HOME/.android/avd"
+mkdir -p "$ANDROID_AVD_HOME"
+echo no | avdmanager create avd -n ci -k "$image" -d pixel_5 --force || { echo "avdmanager failed"; exit 1; }
+emulator -list-avds
+[ -f "$ANDROID_AVD_HOME/ci.avd/config.ini" ] || { echo "no config.ini in $ANDROID_AVD_HOME"; ls -la "$ANDROID_AVD_HOME" "$HOME/.android" 2>&1 | head -n 20; exit 1; }
+printf 'hw.ramSize=2048\ndisk.dataPartition.size=4096M\n' >> "$ANDROID_AVD_HOME/ci.avd/config.ini"
 
 # Build first: a Gradle build next to a running emulator exhausts the runner (and the image is installed
 # before the build so the disk is not already full by then).
