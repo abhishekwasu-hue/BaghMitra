@@ -73,6 +73,9 @@ jobs:
           path: app/build/app/outputs/flutter-apk/*.apk
 
   emulator:
+    permissions:
+      contents: read
+      pull-requests: write
     # Headless Android emulator: API 33, pixel_5-class AVD, 2 GB RAM. Installs the debug build, runs the
     # integration tests in app/integration_test and uploads screenshots (OPEN_QUESTIONS Q4).
     runs-on: ubuntu-latest
@@ -104,6 +107,8 @@ jobs:
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
       - name: Integration tests on an emulator
+        id: emu
+        continue-on-error: true
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 33
@@ -120,3 +125,19 @@ jobs:
         with:
           name: emulator-screenshots
           path: emulator-shots/
+      - name: Show the end of the emulator test log on the pull request
+        if: steps.emu.outcome == 'failure' && github.event_name == 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        working-directory: .
+        run: |
+          {
+            echo "Emulator job failed on ${GITHUB_SHA::7}. End of the test log:"
+            echo '```'
+            tail -n 60 emulator-shots/test.log 2>/dev/null || echo "(no test.log: the script did not start)"
+            echo '```'
+          } > emulator-comment.md
+          gh pr comment ${{ github.event.pull_request.number }} --body-file emulator-comment.md
+      - name: Fail when the emulator tests failed
+        if: steps.emu.outcome == 'failure'
+        run: exit 1
