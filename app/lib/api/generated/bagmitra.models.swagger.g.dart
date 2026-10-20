@@ -90,6 +90,40 @@ Map<String, dynamic> _$ChangeToJson(Change instance) => <String, dynamic>{
   'updated_at': instance.updatedAt.toIso8601String(),
 };
 
+EntitlementsOut _$EntitlementsOutFromJson(Map<String, dynamic> json) =>
+    EntitlementsOut(
+      computedAt: json['computed_at'] as String,
+      features: json['features'] as Map<String, dynamic>,
+      plans:
+          (json['plans'] as List<dynamic>?)?.map((e) => e as String).toList() ??
+          [],
+      validUntil: json['valid_until'] as String,
+    );
+
+Map<String, dynamic> _$EntitlementsOutToJson(EntitlementsOut instance) =>
+    <String, dynamic>{
+      'computed_at': instance.computedAt,
+      'features': instance.features,
+      'plans': instance.plans,
+      'valid_until': instance.validUntil,
+    };
+
+EntitlementsResponse _$EntitlementsResponseFromJson(
+  Map<String, dynamic> json,
+) => EntitlementsResponse(
+  entitlements: EntitlementsOut.fromJson(
+    json['entitlements'] as Map<String, dynamic>,
+  ),
+  signature: json['signature'] as String?,
+);
+
+Map<String, dynamic> _$EntitlementsResponseToJson(
+  EntitlementsResponse instance,
+) => <String, dynamic>{
+  'entitlements': instance.entitlements.toJson(),
+  'signature': ?instance.signature,
+};
+
 ErrorBody _$ErrorBodyFromJson(Map<String, dynamic> json) => ErrorBody(
   code: json['code'] as String,
   message: json['message'] as String,
@@ -109,6 +143,36 @@ ErrorResponse _$ErrorResponseFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$ErrorResponseToJson(ErrorResponse instance) =>
     <String, dynamic>{'error': instance.error.toJson()};
+
+EventOut _$EventOutFromJson(Map<String, dynamic> json) => EventOut(
+  createdAt: DateTime.parse(json['created_at'] as String),
+  eventType: json['event_type'] as String,
+  id: json['id'] as String,
+  provider: json['provider'] as String,
+  subscriptionId: json['subscription_id'] as String?,
+);
+
+Map<String, dynamic> _$EventOutToJson(EventOut instance) => <String, dynamic>{
+  'created_at': instance.createdAt.toIso8601String(),
+  'event_type': instance.eventType,
+  'id': instance.id,
+  'provider': instance.provider,
+  'subscription_id': ?instance.subscriptionId,
+};
+
+EventsResponse _$EventsResponseFromJson(Map<String, dynamic> json) =>
+    EventsResponse(
+      events:
+          (json['events'] as List<dynamic>?)
+              ?.map((e) => EventOut.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+    );
+
+Map<String, dynamic> _$EventsResponseToJson(EventsResponse instance) =>
+    <String, dynamic>{
+      'events': instance.events.map((e) => e.toJson()).toList(),
+    };
 
 FarmerProfile _$FarmerProfileFromJson(Map<String, dynamic> json) =>
     FarmerProfile(
@@ -135,6 +199,39 @@ Map<String, dynamic> _$FarmerProfileToJson(FarmerProfile instance) =>
       'taluka': ?instance.taluka,
       'village': ?instance.village,
     };
+
+FeatureConfig _$FeatureConfigFromJson(Map<String, dynamic> json) =>
+    FeatureConfig(
+      feature: json['feature'] as String,
+      limit: (json['limit'] as num?)?.toInt(),
+    );
+
+Map<String, dynamic> _$FeatureConfigToJson(FeatureConfig instance) =>
+    <String, dynamic>{'feature': instance.feature, 'limit': ?instance.limit};
+
+FeatureOut _$FeatureOutFromJson(Map<String, dynamic> json) => FeatureOut(
+  enabled: json['enabled'] as bool,
+  limit: (json['limit'] as num?)?.toInt(),
+);
+
+Map<String, dynamic> _$FeatureOutToJson(FeatureOut instance) =>
+    <String, dynamic>{'enabled': instance.enabled, 'limit': ?instance.limit};
+
+GrantIn _$GrantInFromJson(Map<String, dynamic> json) => GrantIn(
+  periodEnd: DateTime.parse(json['period_end'] as String),
+  planKey: json['plan_key'] as String,
+  reason: json['reason'] as String,
+  subjectId: json['subject_id'] as String,
+  subjectType: grantInSubjectTypeFromJson(json['subject_type']),
+);
+
+Map<String, dynamic> _$GrantInToJson(GrantIn instance) => <String, dynamic>{
+  'period_end': instance.periodEnd.toIso8601String(),
+  'plan_key': instance.planKey,
+  'reason': instance.reason,
+  'subject_id': instance.subjectId,
+  'subject_type': ?grantInSubjectTypeToJson(instance.subjectType),
+};
 
 HTTPValidationError _$HTTPValidationErrorFromJson(Map<String, dynamic> json) =>
     HTTPValidationError(
@@ -216,6 +313,56 @@ Map<String, dynamic> _$MutationResultToJson(MutationResult instance) =>
       'error': ?instance.error,
       'status': ?mutationResultStatusToJson(instance.status),
     };
+
+PlanIn _$PlanInFromJson(Map<String, dynamic> json) => PlanIn(
+  active: json['active'] as bool? ?? true,
+  features: json['features'] as Object,
+  kind: planInKindFromJson(json['kind']),
+  names: json['names'] as Map<String, dynamic>,
+  sortOrder: (json['sort_order'] as num?)?.toInt(),
+);
+
+Map<String, dynamic> _$PlanInToJson(PlanIn instance) => <String, dynamic>{
+  'active': ?instance.active,
+  'features': instance.features,
+  'kind': ?planInKindToJson(instance.kind),
+  'names': instance.names,
+  'sort_order': ?instance.sortOrder,
+};
+
+PlanOut _$PlanOutFromJson(Map<String, dynamic> json) => PlanOut(
+  active: json['active'] as bool,
+  features:
+      (json['features'] as List<dynamic>?)
+          ?.map((e) => FeatureConfig.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      [],
+  key: json['key'] as String,
+  kind: json['kind'] as String,
+  names: json['names'] as Map<String, dynamic>,
+  sortOrder: (json['sort_order'] as num).toInt(),
+);
+
+Map<String, dynamic> _$PlanOutToJson(PlanOut instance) => <String, dynamic>{
+  'active': instance.active,
+  'features': instance.features.map((e) => e.toJson()).toList(),
+  'key': instance.key,
+  'kind': instance.kind,
+  'names': instance.names,
+  'sort_order': instance.sortOrder,
+};
+
+PlansResponse _$PlansResponseFromJson(Map<String, dynamic> json) =>
+    PlansResponse(
+      plans:
+          (json['plans'] as List<dynamic>?)
+              ?.map((e) => PlanOut.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+    );
+
+Map<String, dynamic> _$PlansResponseToJson(PlansResponse instance) =>
+    <String, dynamic>{'plans': instance.plans.map((e) => e.toJson()).toList()};
 
 PullResponse _$PullResponseFromJson(Map<String, dynamic> json) => PullResponse(
   changes:
@@ -413,6 +560,48 @@ Map<String, dynamic> _$StageTemplatesResponseToJson(
   StageTemplatesResponse instance,
 ) => <String, dynamic>{
   'templates': instance.templates.map((e) => e.toJson()).toList(),
+};
+
+SubscriptionOut _$SubscriptionOutFromJson(Map<String, dynamic> json) =>
+    SubscriptionOut(
+      id: json['id'] as String,
+      periodEnd: DateTime.parse(json['period_end'] as String),
+      periodStart: DateTime.parse(json['period_start'] as String),
+      planKey: json['plan_key'] as String,
+      provider: json['provider'] as String,
+      reason: json['reason'] as String?,
+      state: json['state'] as String,
+      subjectId: json['subject_id'] as String,
+      subjectType: json['subject_type'] as String,
+    );
+
+Map<String, dynamic> _$SubscriptionOutToJson(SubscriptionOut instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'period_end': instance.periodEnd.toIso8601String(),
+      'period_start': instance.periodStart.toIso8601String(),
+      'plan_key': instance.planKey,
+      'provider': instance.provider,
+      'reason': ?instance.reason,
+      'state': instance.state,
+      'subject_id': instance.subjectId,
+      'subject_type': instance.subjectType,
+    };
+
+SubscriptionsResponse _$SubscriptionsResponseFromJson(
+  Map<String, dynamic> json,
+) => SubscriptionsResponse(
+  subscriptions:
+      (json['subscriptions'] as List<dynamic>?)
+          ?.map((e) => SubscriptionOut.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      [],
+);
+
+Map<String, dynamic> _$SubscriptionsResponseToJson(
+  SubscriptionsResponse instance,
+) => <String, dynamic>{
+  'subscriptions': instance.subscriptions.map((e) => e.toJson()).toList(),
 };
 
 SynonymOut _$SynonymOutFromJson(Map<String, dynamic> json) => SynonymOut(

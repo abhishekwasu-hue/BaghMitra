@@ -427,6 +427,165 @@ extension $ChangeExtension on Change {
 }
 
 @JsonSerializable(explicitToJson: true)
+class EntitlementsOut {
+  const EntitlementsOut({
+    required this.computedAt,
+    required this.features,
+    required this.plans,
+    required this.validUntil,
+  });
+
+  factory EntitlementsOut.fromJson(Map<String, dynamic> json) =>
+      _$EntitlementsOutFromJson(json);
+
+  static const toJsonFactory = _$EntitlementsOutToJson;
+  Map<String, dynamic> toJson() => _$EntitlementsOutToJson(this);
+
+  @JsonKey(name: 'computed_at', includeIfNull: false)
+  final String computedAt;
+  @JsonKey(name: 'features', includeIfNull: false)
+  final Map<String, dynamic> features;
+  @JsonKey(name: 'plans', includeIfNull: false, defaultValue: <String>[])
+  final List<String> plans;
+  @JsonKey(name: 'valid_until', includeIfNull: false)
+  final String validUntil;
+  static const fromJsonFactory = _$EntitlementsOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is EntitlementsOut &&
+            (identical(other.computedAt, computedAt) ||
+                const DeepCollectionEquality().equals(
+                  other.computedAt,
+                  computedAt,
+                )) &&
+            (identical(other.features, features) ||
+                const DeepCollectionEquality().equals(
+                  other.features,
+                  features,
+                )) &&
+            (identical(other.plans, plans) ||
+                const DeepCollectionEquality().equals(other.plans, plans)) &&
+            (identical(other.validUntil, validUntil) ||
+                const DeepCollectionEquality().equals(
+                  other.validUntil,
+                  validUntil,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(computedAt) ^
+      const DeepCollectionEquality().hash(features) ^
+      const DeepCollectionEquality().hash(plans) ^
+      const DeepCollectionEquality().hash(validUntil) ^
+      runtimeType.hashCode;
+}
+
+extension $EntitlementsOutExtension on EntitlementsOut {
+  EntitlementsOut copyWith({
+    String? computedAt,
+    Map<String, dynamic>? features,
+    List<String>? plans,
+    String? validUntil,
+  }) {
+    return EntitlementsOut(
+      computedAt: computedAt ?? this.computedAt,
+      features: features ?? this.features,
+      plans: plans ?? this.plans,
+      validUntil: validUntil ?? this.validUntil,
+    );
+  }
+
+  EntitlementsOut copyWithWrapped({
+    Wrapped<String>? computedAt,
+    Wrapped<Map<String, dynamic>>? features,
+    Wrapped<List<String>>? plans,
+    Wrapped<String>? validUntil,
+  }) {
+    return EntitlementsOut(
+      computedAt: (computedAt != null ? computedAt.value : this.computedAt),
+      features: (features != null ? features.value : this.features),
+      plans: (plans != null ? plans.value : this.plans),
+      validUntil: (validUntil != null ? validUntil.value : this.validUntil),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class EntitlementsResponse {
+  const EntitlementsResponse({
+    required this.entitlements,
+    required this.signature,
+  });
+
+  factory EntitlementsResponse.fromJson(Map<String, dynamic> json) =>
+      _$EntitlementsResponseFromJson(json);
+
+  static const toJsonFactory = _$EntitlementsResponseToJson;
+  Map<String, dynamic> toJson() => _$EntitlementsResponseToJson(this);
+
+  @JsonKey(name: 'entitlements', includeIfNull: false)
+  final EntitlementsOut entitlements;
+  @JsonKey(name: 'signature', includeIfNull: false)
+  final String? signature;
+  static const fromJsonFactory = _$EntitlementsResponseFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is EntitlementsResponse &&
+            (identical(other.entitlements, entitlements) ||
+                const DeepCollectionEquality().equals(
+                  other.entitlements,
+                  entitlements,
+                )) &&
+            (identical(other.signature, signature) ||
+                const DeepCollectionEquality().equals(
+                  other.signature,
+                  signature,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(entitlements) ^
+      const DeepCollectionEquality().hash(signature) ^
+      runtimeType.hashCode;
+}
+
+extension $EntitlementsResponseExtension on EntitlementsResponse {
+  EntitlementsResponse copyWith({
+    EntitlementsOut? entitlements,
+    String? signature,
+  }) {
+    return EntitlementsResponse(
+      entitlements: entitlements ?? this.entitlements,
+      signature: signature ?? this.signature,
+    );
+  }
+
+  EntitlementsResponse copyWithWrapped({
+    Wrapped<EntitlementsOut>? entitlements,
+    Wrapped<String?>? signature,
+  }) {
+    return EntitlementsResponse(
+      entitlements: (entitlements != null
+          ? entitlements.value
+          : this.entitlements),
+      signature: (signature != null ? signature.value : this.signature),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class ErrorBody {
   const ErrorBody({
     required this.code,
@@ -536,6 +695,153 @@ extension $ErrorResponseExtension on ErrorResponse {
 
   ErrorResponse copyWithWrapped({Wrapped<ErrorBody>? error}) {
     return ErrorResponse(error: (error != null ? error.value : this.error));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class EventOut {
+  const EventOut({
+    required this.createdAt,
+    required this.eventType,
+    required this.id,
+    required this.provider,
+    required this.subscriptionId,
+  });
+
+  factory EventOut.fromJson(Map<String, dynamic> json) =>
+      _$EventOutFromJson(json);
+
+  static const toJsonFactory = _$EventOutToJson;
+  Map<String, dynamic> toJson() => _$EventOutToJson(this);
+
+  @JsonKey(name: 'created_at', includeIfNull: false)
+  final DateTime createdAt;
+  @JsonKey(name: 'event_type', includeIfNull: false)
+  final String eventType;
+  @JsonKey(name: 'id', includeIfNull: false)
+  final String id;
+  @JsonKey(name: 'provider', includeIfNull: false)
+  final String provider;
+  @JsonKey(name: 'subscription_id', includeIfNull: false)
+  final String? subscriptionId;
+  static const fromJsonFactory = _$EventOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is EventOut &&
+            (identical(other.createdAt, createdAt) ||
+                const DeepCollectionEquality().equals(
+                  other.createdAt,
+                  createdAt,
+                )) &&
+            (identical(other.eventType, eventType) ||
+                const DeepCollectionEquality().equals(
+                  other.eventType,
+                  eventType,
+                )) &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.provider, provider) ||
+                const DeepCollectionEquality().equals(
+                  other.provider,
+                  provider,
+                )) &&
+            (identical(other.subscriptionId, subscriptionId) ||
+                const DeepCollectionEquality().equals(
+                  other.subscriptionId,
+                  subscriptionId,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(createdAt) ^
+      const DeepCollectionEquality().hash(eventType) ^
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(provider) ^
+      const DeepCollectionEquality().hash(subscriptionId) ^
+      runtimeType.hashCode;
+}
+
+extension $EventOutExtension on EventOut {
+  EventOut copyWith({
+    DateTime? createdAt,
+    String? eventType,
+    String? id,
+    String? provider,
+    String? subscriptionId,
+  }) {
+    return EventOut(
+      createdAt: createdAt ?? this.createdAt,
+      eventType: eventType ?? this.eventType,
+      id: id ?? this.id,
+      provider: provider ?? this.provider,
+      subscriptionId: subscriptionId ?? this.subscriptionId,
+    );
+  }
+
+  EventOut copyWithWrapped({
+    Wrapped<DateTime>? createdAt,
+    Wrapped<String>? eventType,
+    Wrapped<String>? id,
+    Wrapped<String>? provider,
+    Wrapped<String?>? subscriptionId,
+  }) {
+    return EventOut(
+      createdAt: (createdAt != null ? createdAt.value : this.createdAt),
+      eventType: (eventType != null ? eventType.value : this.eventType),
+      id: (id != null ? id.value : this.id),
+      provider: (provider != null ? provider.value : this.provider),
+      subscriptionId: (subscriptionId != null
+          ? subscriptionId.value
+          : this.subscriptionId),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class EventsResponse {
+  const EventsResponse({required this.events});
+
+  factory EventsResponse.fromJson(Map<String, dynamic> json) =>
+      _$EventsResponseFromJson(json);
+
+  static const toJsonFactory = _$EventsResponseToJson;
+  Map<String, dynamic> toJson() => _$EventsResponseToJson(this);
+
+  @JsonKey(name: 'events', includeIfNull: false, defaultValue: <EventOut>[])
+  final List<EventOut> events;
+  static const fromJsonFactory = _$EventsResponseFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is EventsResponse &&
+            (identical(other.events, events) ||
+                const DeepCollectionEquality().equals(other.events, events)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(events) ^ runtimeType.hashCode;
+}
+
+extension $EventsResponseExtension on EventsResponse {
+  EventsResponse copyWith({List<EventOut>? events}) {
+    return EventsResponse(events: events ?? this.events);
+  }
+
+  EventsResponse copyWithWrapped({Wrapped<List<EventOut>>? events}) {
+    return EventsResponse(
+      events: (events != null ? events.value : this.events),
+    );
   }
 }
 
@@ -686,6 +992,227 @@ extension $FarmerProfileExtension on FarmerProfile {
       phone: (phone != null ? phone.value : this.phone),
       taluka: (taluka != null ? taluka.value : this.taluka),
       village: (village != null ? village.value : this.village),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class FeatureConfig {
+  const FeatureConfig({required this.feature, required this.limit});
+
+  factory FeatureConfig.fromJson(Map<String, dynamic> json) =>
+      _$FeatureConfigFromJson(json);
+
+  static const toJsonFactory = _$FeatureConfigToJson;
+  Map<String, dynamic> toJson() => _$FeatureConfigToJson(this);
+
+  @JsonKey(name: 'feature', includeIfNull: false)
+  final String feature;
+  @JsonKey(name: 'limit', includeIfNull: false)
+  final int? limit;
+  static const fromJsonFactory = _$FeatureConfigFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is FeatureConfig &&
+            (identical(other.feature, feature) ||
+                const DeepCollectionEquality().equals(
+                  other.feature,
+                  feature,
+                )) &&
+            (identical(other.limit, limit) ||
+                const DeepCollectionEquality().equals(other.limit, limit)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(feature) ^
+      const DeepCollectionEquality().hash(limit) ^
+      runtimeType.hashCode;
+}
+
+extension $FeatureConfigExtension on FeatureConfig {
+  FeatureConfig copyWith({String? feature, int? limit}) {
+    return FeatureConfig(
+      feature: feature ?? this.feature,
+      limit: limit ?? this.limit,
+    );
+  }
+
+  FeatureConfig copyWithWrapped({
+    Wrapped<String>? feature,
+    Wrapped<int?>? limit,
+  }) {
+    return FeatureConfig(
+      feature: (feature != null ? feature.value : this.feature),
+      limit: (limit != null ? limit.value : this.limit),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class FeatureOut {
+  const FeatureOut({required this.enabled, required this.limit});
+
+  factory FeatureOut.fromJson(Map<String, dynamic> json) =>
+      _$FeatureOutFromJson(json);
+
+  static const toJsonFactory = _$FeatureOutToJson;
+  Map<String, dynamic> toJson() => _$FeatureOutToJson(this);
+
+  @JsonKey(name: 'enabled', includeIfNull: false)
+  final bool enabled;
+  @JsonKey(name: 'limit', includeIfNull: false)
+  final int? limit;
+  static const fromJsonFactory = _$FeatureOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is FeatureOut &&
+            (identical(other.enabled, enabled) ||
+                const DeepCollectionEquality().equals(
+                  other.enabled,
+                  enabled,
+                )) &&
+            (identical(other.limit, limit) ||
+                const DeepCollectionEquality().equals(other.limit, limit)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(enabled) ^
+      const DeepCollectionEquality().hash(limit) ^
+      runtimeType.hashCode;
+}
+
+extension $FeatureOutExtension on FeatureOut {
+  FeatureOut copyWith({bool? enabled, int? limit}) {
+    return FeatureOut(
+      enabled: enabled ?? this.enabled,
+      limit: limit ?? this.limit,
+    );
+  }
+
+  FeatureOut copyWithWrapped({Wrapped<bool>? enabled, Wrapped<int?>? limit}) {
+    return FeatureOut(
+      enabled: (enabled != null ? enabled.value : this.enabled),
+      limit: (limit != null ? limit.value : this.limit),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class GrantIn {
+  const GrantIn({
+    required this.periodEnd,
+    required this.planKey,
+    required this.reason,
+    required this.subjectId,
+    required this.subjectType,
+  });
+
+  factory GrantIn.fromJson(Map<String, dynamic> json) =>
+      _$GrantInFromJson(json);
+
+  static const toJsonFactory = _$GrantInToJson;
+  Map<String, dynamic> toJson() => _$GrantInToJson(this);
+
+  @JsonKey(name: 'period_end', includeIfNull: false)
+  final DateTime periodEnd;
+  @JsonKey(name: 'plan_key', includeIfNull: false)
+  final String planKey;
+  @JsonKey(name: 'reason', includeIfNull: false)
+  final String reason;
+  @JsonKey(name: 'subject_id', includeIfNull: false)
+  final String subjectId;
+  @JsonKey(
+    name: 'subject_type',
+    includeIfNull: false,
+    toJson: grantInSubjectTypeToJson,
+    fromJson: grantInSubjectTypeFromJson,
+  )
+  final enums.GrantInSubjectType subjectType;
+  static const fromJsonFactory = _$GrantInFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is GrantIn &&
+            (identical(other.periodEnd, periodEnd) ||
+                const DeepCollectionEquality().equals(
+                  other.periodEnd,
+                  periodEnd,
+                )) &&
+            (identical(other.planKey, planKey) ||
+                const DeepCollectionEquality().equals(
+                  other.planKey,
+                  planKey,
+                )) &&
+            (identical(other.reason, reason) ||
+                const DeepCollectionEquality().equals(other.reason, reason)) &&
+            (identical(other.subjectId, subjectId) ||
+                const DeepCollectionEquality().equals(
+                  other.subjectId,
+                  subjectId,
+                )) &&
+            (identical(other.subjectType, subjectType) ||
+                const DeepCollectionEquality().equals(
+                  other.subjectType,
+                  subjectType,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(periodEnd) ^
+      const DeepCollectionEquality().hash(planKey) ^
+      const DeepCollectionEquality().hash(reason) ^
+      const DeepCollectionEquality().hash(subjectId) ^
+      const DeepCollectionEquality().hash(subjectType) ^
+      runtimeType.hashCode;
+}
+
+extension $GrantInExtension on GrantIn {
+  GrantIn copyWith({
+    DateTime? periodEnd,
+    String? planKey,
+    String? reason,
+    String? subjectId,
+    enums.GrantInSubjectType? subjectType,
+  }) {
+    return GrantIn(
+      periodEnd: periodEnd ?? this.periodEnd,
+      planKey: planKey ?? this.planKey,
+      reason: reason ?? this.reason,
+      subjectId: subjectId ?? this.subjectId,
+      subjectType: subjectType ?? this.subjectType,
+    );
+  }
+
+  GrantIn copyWithWrapped({
+    Wrapped<DateTime>? periodEnd,
+    Wrapped<String>? planKey,
+    Wrapped<String>? reason,
+    Wrapped<String>? subjectId,
+    Wrapped<enums.GrantInSubjectType>? subjectType,
+  }) {
+    return GrantIn(
+      periodEnd: (periodEnd != null ? periodEnd.value : this.periodEnd),
+      planKey: (planKey != null ? planKey.value : this.planKey),
+      reason: (reason != null ? reason.value : this.reason),
+      subjectId: (subjectId != null ? subjectId.value : this.subjectId),
+      subjectType: (subjectType != null ? subjectType.value : this.subjectType),
     );
   }
 }
@@ -1151,6 +1678,258 @@ extension $MutationResultExtension on MutationResult {
       error: (error != null ? error.value : this.error),
       status: (status != null ? status.value : this.status),
     );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class PlanIn {
+  const PlanIn({
+    this.active,
+    required this.features,
+    required this.kind,
+    required this.names,
+    this.sortOrder,
+  });
+
+  factory PlanIn.fromJson(Map<String, dynamic> json) => _$PlanInFromJson(json);
+
+  static const toJsonFactory = _$PlanInToJson;
+  Map<String, dynamic> toJson() => _$PlanInToJson(this);
+
+  @JsonKey(name: 'active', includeIfNull: false, defaultValue: true)
+  final bool? active;
+  @JsonKey(name: 'features', includeIfNull: false)
+  final Object features;
+  @JsonKey(
+    name: 'kind',
+    includeIfNull: false,
+    toJson: planInKindToJson,
+    fromJson: planInKindFromJson,
+  )
+  final enums.PlanInKind kind;
+  @JsonKey(name: 'names', includeIfNull: false)
+  final Map<String, dynamic> names;
+  @JsonKey(name: 'sort_order', includeIfNull: false)
+  final int? sortOrder;
+  static const fromJsonFactory = _$PlanInFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is PlanIn &&
+            (identical(other.active, active) ||
+                const DeepCollectionEquality().equals(other.active, active)) &&
+            (identical(other.features, features) ||
+                const DeepCollectionEquality().equals(
+                  other.features,
+                  features,
+                )) &&
+            (identical(other.kind, kind) ||
+                const DeepCollectionEquality().equals(other.kind, kind)) &&
+            (identical(other.names, names) ||
+                const DeepCollectionEquality().equals(other.names, names)) &&
+            (identical(other.sortOrder, sortOrder) ||
+                const DeepCollectionEquality().equals(
+                  other.sortOrder,
+                  sortOrder,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(active) ^
+      const DeepCollectionEquality().hash(features) ^
+      const DeepCollectionEquality().hash(kind) ^
+      const DeepCollectionEquality().hash(names) ^
+      const DeepCollectionEquality().hash(sortOrder) ^
+      runtimeType.hashCode;
+}
+
+extension $PlanInExtension on PlanIn {
+  PlanIn copyWith({
+    bool? active,
+    Object? features,
+    enums.PlanInKind? kind,
+    Map<String, dynamic>? names,
+    int? sortOrder,
+  }) {
+    return PlanIn(
+      active: active ?? this.active,
+      features: features ?? this.features,
+      kind: kind ?? this.kind,
+      names: names ?? this.names,
+      sortOrder: sortOrder ?? this.sortOrder,
+    );
+  }
+
+  PlanIn copyWithWrapped({
+    Wrapped<bool?>? active,
+    Wrapped<Object>? features,
+    Wrapped<enums.PlanInKind>? kind,
+    Wrapped<Map<String, dynamic>>? names,
+    Wrapped<int?>? sortOrder,
+  }) {
+    return PlanIn(
+      active: (active != null ? active.value : this.active),
+      features: (features != null ? features.value : this.features),
+      kind: (kind != null ? kind.value : this.kind),
+      names: (names != null ? names.value : this.names),
+      sortOrder: (sortOrder != null ? sortOrder.value : this.sortOrder),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class PlanOut {
+  const PlanOut({
+    required this.active,
+    required this.features,
+    required this.key,
+    required this.kind,
+    required this.names,
+    required this.sortOrder,
+  });
+
+  factory PlanOut.fromJson(Map<String, dynamic> json) =>
+      _$PlanOutFromJson(json);
+
+  static const toJsonFactory = _$PlanOutToJson;
+  Map<String, dynamic> toJson() => _$PlanOutToJson(this);
+
+  @JsonKey(name: 'active', includeIfNull: false)
+  final bool active;
+  @JsonKey(
+    name: 'features',
+    includeIfNull: false,
+    defaultValue: <FeatureConfig>[],
+  )
+  final List<FeatureConfig> features;
+  @JsonKey(name: 'key', includeIfNull: false)
+  final String key;
+  @JsonKey(name: 'kind', includeIfNull: false)
+  final String kind;
+  @JsonKey(name: 'names', includeIfNull: false)
+  final Map<String, dynamic> names;
+  @JsonKey(name: 'sort_order', includeIfNull: false)
+  final int sortOrder;
+  static const fromJsonFactory = _$PlanOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is PlanOut &&
+            (identical(other.active, active) ||
+                const DeepCollectionEquality().equals(other.active, active)) &&
+            (identical(other.features, features) ||
+                const DeepCollectionEquality().equals(
+                  other.features,
+                  features,
+                )) &&
+            (identical(other.key, key) ||
+                const DeepCollectionEquality().equals(other.key, key)) &&
+            (identical(other.kind, kind) ||
+                const DeepCollectionEquality().equals(other.kind, kind)) &&
+            (identical(other.names, names) ||
+                const DeepCollectionEquality().equals(other.names, names)) &&
+            (identical(other.sortOrder, sortOrder) ||
+                const DeepCollectionEquality().equals(
+                  other.sortOrder,
+                  sortOrder,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(active) ^
+      const DeepCollectionEquality().hash(features) ^
+      const DeepCollectionEquality().hash(key) ^
+      const DeepCollectionEquality().hash(kind) ^
+      const DeepCollectionEquality().hash(names) ^
+      const DeepCollectionEquality().hash(sortOrder) ^
+      runtimeType.hashCode;
+}
+
+extension $PlanOutExtension on PlanOut {
+  PlanOut copyWith({
+    bool? active,
+    List<FeatureConfig>? features,
+    String? key,
+    String? kind,
+    Map<String, dynamic>? names,
+    int? sortOrder,
+  }) {
+    return PlanOut(
+      active: active ?? this.active,
+      features: features ?? this.features,
+      key: key ?? this.key,
+      kind: kind ?? this.kind,
+      names: names ?? this.names,
+      sortOrder: sortOrder ?? this.sortOrder,
+    );
+  }
+
+  PlanOut copyWithWrapped({
+    Wrapped<bool>? active,
+    Wrapped<List<FeatureConfig>>? features,
+    Wrapped<String>? key,
+    Wrapped<String>? kind,
+    Wrapped<Map<String, dynamic>>? names,
+    Wrapped<int>? sortOrder,
+  }) {
+    return PlanOut(
+      active: (active != null ? active.value : this.active),
+      features: (features != null ? features.value : this.features),
+      key: (key != null ? key.value : this.key),
+      kind: (kind != null ? kind.value : this.kind),
+      names: (names != null ? names.value : this.names),
+      sortOrder: (sortOrder != null ? sortOrder.value : this.sortOrder),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class PlansResponse {
+  const PlansResponse({required this.plans});
+
+  factory PlansResponse.fromJson(Map<String, dynamic> json) =>
+      _$PlansResponseFromJson(json);
+
+  static const toJsonFactory = _$PlansResponseToJson;
+  Map<String, dynamic> toJson() => _$PlansResponseToJson(this);
+
+  @JsonKey(name: 'plans', includeIfNull: false, defaultValue: <PlanOut>[])
+  final List<PlanOut> plans;
+  static const fromJsonFactory = _$PlansResponseFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is PlansResponse &&
+            (identical(other.plans, plans) ||
+                const DeepCollectionEquality().equals(other.plans, plans)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(plans) ^ runtimeType.hashCode;
+}
+
+extension $PlansResponseExtension on PlansResponse {
+  PlansResponse copyWith({List<PlanOut>? plans}) {
+    return PlansResponse(plans: plans ?? this.plans);
+  }
+
+  PlansResponse copyWithWrapped({Wrapped<List<PlanOut>>? plans}) {
+    return PlansResponse(plans: (plans != null ? plans.value : this.plans));
   }
 }
 
@@ -2028,6 +2807,210 @@ extension $StageTemplatesResponseExtension on StageTemplatesResponse {
 }
 
 @JsonSerializable(explicitToJson: true)
+class SubscriptionOut {
+  const SubscriptionOut({
+    required this.id,
+    required this.periodEnd,
+    required this.periodStart,
+    required this.planKey,
+    required this.provider,
+    required this.reason,
+    required this.state,
+    required this.subjectId,
+    required this.subjectType,
+  });
+
+  factory SubscriptionOut.fromJson(Map<String, dynamic> json) =>
+      _$SubscriptionOutFromJson(json);
+
+  static const toJsonFactory = _$SubscriptionOutToJson;
+  Map<String, dynamic> toJson() => _$SubscriptionOutToJson(this);
+
+  @JsonKey(name: 'id', includeIfNull: false)
+  final String id;
+  @JsonKey(name: 'period_end', includeIfNull: false)
+  final DateTime periodEnd;
+  @JsonKey(name: 'period_start', includeIfNull: false)
+  final DateTime periodStart;
+  @JsonKey(name: 'plan_key', includeIfNull: false)
+  final String planKey;
+  @JsonKey(name: 'provider', includeIfNull: false)
+  final String provider;
+  @JsonKey(name: 'reason', includeIfNull: false)
+  final String? reason;
+  @JsonKey(name: 'state', includeIfNull: false)
+  final String state;
+  @JsonKey(name: 'subject_id', includeIfNull: false)
+  final String subjectId;
+  @JsonKey(name: 'subject_type', includeIfNull: false)
+  final String subjectType;
+  static const fromJsonFactory = _$SubscriptionOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is SubscriptionOut &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.periodEnd, periodEnd) ||
+                const DeepCollectionEquality().equals(
+                  other.periodEnd,
+                  periodEnd,
+                )) &&
+            (identical(other.periodStart, periodStart) ||
+                const DeepCollectionEquality().equals(
+                  other.periodStart,
+                  periodStart,
+                )) &&
+            (identical(other.planKey, planKey) ||
+                const DeepCollectionEquality().equals(
+                  other.planKey,
+                  planKey,
+                )) &&
+            (identical(other.provider, provider) ||
+                const DeepCollectionEquality().equals(
+                  other.provider,
+                  provider,
+                )) &&
+            (identical(other.reason, reason) ||
+                const DeepCollectionEquality().equals(other.reason, reason)) &&
+            (identical(other.state, state) ||
+                const DeepCollectionEquality().equals(other.state, state)) &&
+            (identical(other.subjectId, subjectId) ||
+                const DeepCollectionEquality().equals(
+                  other.subjectId,
+                  subjectId,
+                )) &&
+            (identical(other.subjectType, subjectType) ||
+                const DeepCollectionEquality().equals(
+                  other.subjectType,
+                  subjectType,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(periodEnd) ^
+      const DeepCollectionEquality().hash(periodStart) ^
+      const DeepCollectionEquality().hash(planKey) ^
+      const DeepCollectionEquality().hash(provider) ^
+      const DeepCollectionEquality().hash(reason) ^
+      const DeepCollectionEquality().hash(state) ^
+      const DeepCollectionEquality().hash(subjectId) ^
+      const DeepCollectionEquality().hash(subjectType) ^
+      runtimeType.hashCode;
+}
+
+extension $SubscriptionOutExtension on SubscriptionOut {
+  SubscriptionOut copyWith({
+    String? id,
+    DateTime? periodEnd,
+    DateTime? periodStart,
+    String? planKey,
+    String? provider,
+    String? reason,
+    String? state,
+    String? subjectId,
+    String? subjectType,
+  }) {
+    return SubscriptionOut(
+      id: id ?? this.id,
+      periodEnd: periodEnd ?? this.periodEnd,
+      periodStart: periodStart ?? this.periodStart,
+      planKey: planKey ?? this.planKey,
+      provider: provider ?? this.provider,
+      reason: reason ?? this.reason,
+      state: state ?? this.state,
+      subjectId: subjectId ?? this.subjectId,
+      subjectType: subjectType ?? this.subjectType,
+    );
+  }
+
+  SubscriptionOut copyWithWrapped({
+    Wrapped<String>? id,
+    Wrapped<DateTime>? periodEnd,
+    Wrapped<DateTime>? periodStart,
+    Wrapped<String>? planKey,
+    Wrapped<String>? provider,
+    Wrapped<String?>? reason,
+    Wrapped<String>? state,
+    Wrapped<String>? subjectId,
+    Wrapped<String>? subjectType,
+  }) {
+    return SubscriptionOut(
+      id: (id != null ? id.value : this.id),
+      periodEnd: (periodEnd != null ? periodEnd.value : this.periodEnd),
+      periodStart: (periodStart != null ? periodStart.value : this.periodStart),
+      planKey: (planKey != null ? planKey.value : this.planKey),
+      provider: (provider != null ? provider.value : this.provider),
+      reason: (reason != null ? reason.value : this.reason),
+      state: (state != null ? state.value : this.state),
+      subjectId: (subjectId != null ? subjectId.value : this.subjectId),
+      subjectType: (subjectType != null ? subjectType.value : this.subjectType),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class SubscriptionsResponse {
+  const SubscriptionsResponse({required this.subscriptions});
+
+  factory SubscriptionsResponse.fromJson(Map<String, dynamic> json) =>
+      _$SubscriptionsResponseFromJson(json);
+
+  static const toJsonFactory = _$SubscriptionsResponseToJson;
+  Map<String, dynamic> toJson() => _$SubscriptionsResponseToJson(this);
+
+  @JsonKey(
+    name: 'subscriptions',
+    includeIfNull: false,
+    defaultValue: <SubscriptionOut>[],
+  )
+  final List<SubscriptionOut> subscriptions;
+  static const fromJsonFactory = _$SubscriptionsResponseFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is SubscriptionsResponse &&
+            (identical(other.subscriptions, subscriptions) ||
+                const DeepCollectionEquality().equals(
+                  other.subscriptions,
+                  subscriptions,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(subscriptions) ^ runtimeType.hashCode;
+}
+
+extension $SubscriptionsResponseExtension on SubscriptionsResponse {
+  SubscriptionsResponse copyWith({List<SubscriptionOut>? subscriptions}) {
+    return SubscriptionsResponse(
+      subscriptions: subscriptions ?? this.subscriptions,
+    );
+  }
+
+  SubscriptionsResponse copyWithWrapped({
+    Wrapped<List<SubscriptionOut>>? subscriptions,
+  }) {
+    return SubscriptionsResponse(
+      subscriptions: (subscriptions != null
+          ? subscriptions.value
+          : this.subscriptions),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class SynonymOut {
   const SynonymOut({required this.activeIngredient, required this.name});
 
@@ -2330,6 +3313,82 @@ List<enums.ChangeOp>? changeOpNullableListFromJson(
   return changeOp.map((e) => changeOpFromJson(e.toString())).toList();
 }
 
+String? grantInSubjectTypeNullableToJson(
+  enums.GrantInSubjectType? grantInSubjectType,
+) {
+  return grantInSubjectType?.value;
+}
+
+String? grantInSubjectTypeToJson(enums.GrantInSubjectType grantInSubjectType) {
+  return grantInSubjectType.value;
+}
+
+enums.GrantInSubjectType grantInSubjectTypeFromJson(
+  Object? grantInSubjectType, [
+  enums.GrantInSubjectType? defaultValue,
+]) {
+  return enums.GrantInSubjectType.values.firstWhereOrNull(
+        (e) => e.value == grantInSubjectType,
+      ) ??
+      defaultValue ??
+      enums.GrantInSubjectType.swaggerGeneratedUnknown;
+}
+
+enums.GrantInSubjectType? grantInSubjectTypeNullableFromJson(
+  Object? grantInSubjectType, [
+  enums.GrantInSubjectType? defaultValue,
+]) {
+  if (grantInSubjectType == null) {
+    return null;
+  }
+  return enums.GrantInSubjectType.values.firstWhereOrNull(
+        (e) => e.value == grantInSubjectType,
+      ) ??
+      defaultValue;
+}
+
+String grantInSubjectTypeExplodedListToJson(
+  List<enums.GrantInSubjectType>? grantInSubjectType,
+) {
+  return grantInSubjectType?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> grantInSubjectTypeListToJson(
+  List<enums.GrantInSubjectType>? grantInSubjectType,
+) {
+  if (grantInSubjectType == null) {
+    return [];
+  }
+
+  return grantInSubjectType.map((e) => e.value!).toList();
+}
+
+List<enums.GrantInSubjectType> grantInSubjectTypeListFromJson(
+  List? grantInSubjectType, [
+  List<enums.GrantInSubjectType>? defaultValue,
+]) {
+  if (grantInSubjectType == null) {
+    return defaultValue ?? [];
+  }
+
+  return grantInSubjectType
+      .map((e) => grantInSubjectTypeFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.GrantInSubjectType>? grantInSubjectTypeNullableListFromJson(
+  List? grantInSubjectType, [
+  List<enums.GrantInSubjectType>? defaultValue,
+]) {
+  if (grantInSubjectType == null) {
+    return defaultValue;
+  }
+
+  return grantInSubjectType
+      .map((e) => grantInSubjectTypeFromJson(e.toString()))
+      .toList();
+}
+
 String? mutationOpNullableToJson(enums.MutationOp? mutationOp) {
   return mutationOp?.value;
 }
@@ -2472,6 +3531,72 @@ List<enums.MutationResultStatus>? mutationResultStatusNullableListFromJson(
   return mutationResultStatus
       .map((e) => mutationResultStatusFromJson(e.toString()))
       .toList();
+}
+
+String? planInKindNullableToJson(enums.PlanInKind? planInKind) {
+  return planInKind?.value;
+}
+
+String? planInKindToJson(enums.PlanInKind planInKind) {
+  return planInKind.value;
+}
+
+enums.PlanInKind planInKindFromJson(
+  Object? planInKind, [
+  enums.PlanInKind? defaultValue,
+]) {
+  return enums.PlanInKind.values.firstWhereOrNull(
+        (e) => e.value == planInKind,
+      ) ??
+      defaultValue ??
+      enums.PlanInKind.swaggerGeneratedUnknown;
+}
+
+enums.PlanInKind? planInKindNullableFromJson(
+  Object? planInKind, [
+  enums.PlanInKind? defaultValue,
+]) {
+  if (planInKind == null) {
+    return null;
+  }
+  return enums.PlanInKind.values.firstWhereOrNull(
+        (e) => e.value == planInKind,
+      ) ??
+      defaultValue;
+}
+
+String planInKindExplodedListToJson(List<enums.PlanInKind>? planInKind) {
+  return planInKind?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> planInKindListToJson(List<enums.PlanInKind>? planInKind) {
+  if (planInKind == null) {
+    return [];
+  }
+
+  return planInKind.map((e) => e.value!).toList();
+}
+
+List<enums.PlanInKind> planInKindListFromJson(
+  List? planInKind, [
+  List<enums.PlanInKind>? defaultValue,
+]) {
+  if (planInKind == null) {
+    return defaultValue ?? [];
+  }
+
+  return planInKind.map((e) => planInKindFromJson(e.toString())).toList();
+}
+
+List<enums.PlanInKind>? planInKindNullableListFromJson(
+  List? planInKind, [
+  List<enums.PlanInKind>? defaultValue,
+]) {
+  if (planInKind == null) {
+    return defaultValue;
+  }
+
+  return planInKind.map((e) => planInKindFromJson(e.toString())).toList();
 }
 
 String? reviewInDecisionNullableToJson(

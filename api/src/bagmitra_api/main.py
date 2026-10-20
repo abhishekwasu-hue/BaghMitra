@@ -8,7 +8,7 @@ from bagmitra_api.core.logging import configure_logging
 from bagmitra_api.core.middleware import RequestIdMiddleware
 from bagmitra_api.core.observability import init_error_reporting
 from bagmitra_api.core.settings import Settings, get_settings
-from bagmitra_api.routers import admin_kb, health, me, reference, sync
+from bagmitra_api.routers import admin_billing, admin_kb, billing, health, me, reference, sync
 
 
 def create_app(settings: Settings | None = None) -> FastAPI:
@@ -27,6 +27,6 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         )
     app.add_middleware(RequestIdMiddleware)
     install_error_handlers(app)
-    for module in (admin_kb, health, me, reference, sync):
+    for module in (admin_billing, admin_kb, billing, health, me, reference, sync):
         app.include_router(module.router)
     return app

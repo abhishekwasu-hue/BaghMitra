@@ -110,6 +110,184 @@ abstract class Bagmitra extends ChopperService {
     ),
   });
 
+  ///Events
+  ///@param limit
+  Future<chopper.Response<EventsResponse>> v1AdminBillingEventsGet({
+    int? limit,
+  }) {
+    generatedMapping.putIfAbsent(
+      EventsResponse,
+      () => EventsResponse.fromJsonFactory,
+    );
+
+    return _v1AdminBillingEventsGet(limit: limit);
+  }
+
+  ///Events
+  ///@param limit
+  @GET(path: '/v1/admin/billing/events')
+  Future<chopper.Response<EventsResponse>> _v1AdminBillingEventsGet({
+    @Query('limit') int? limit,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Events',
+      operationId: 'admin_billing_events',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Grant
+  Future<chopper.Response<SubscriptionOut>> v1AdminBillingGrantsPost({
+    required GrantIn? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      SubscriptionOut,
+      () => SubscriptionOut.fromJsonFactory,
+    );
+
+    return _v1AdminBillingGrantsPost(body: body);
+  }
+
+  ///Grant
+  @POST(path: '/v1/admin/billing/grants', optionalBody: true)
+  Future<chopper.Response<SubscriptionOut>> _v1AdminBillingGrantsPost({
+    @Body() required GrantIn? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Grant',
+      operationId: 'admin_billing_grant',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Revoke
+  ///@param grant_id
+  Future<chopper.Response<SubscriptionOut>>
+  v1AdminBillingGrantsGrantIdRevokePost({required String? grantId}) {
+    generatedMapping.putIfAbsent(
+      SubscriptionOut,
+      () => SubscriptionOut.fromJsonFactory,
+    );
+
+    return _v1AdminBillingGrantsGrantIdRevokePost(grantId: grantId);
+  }
+
+  ///Revoke
+  ///@param grant_id
+  @POST(path: '/v1/admin/billing/grants/{grant_id}/revoke', optionalBody: true)
+  Future<chopper.Response<SubscriptionOut>>
+  _v1AdminBillingGrantsGrantIdRevokePost({
+    @Path('grant_id') required String? grantId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Revoke',
+      operationId: 'admin_billing_revoke',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Plans
+  Future<chopper.Response<PlansResponse>> v1AdminBillingPlansGet() {
+    generatedMapping.putIfAbsent(
+      PlansResponse,
+      () => PlansResponse.fromJsonFactory,
+    );
+
+    return _v1AdminBillingPlansGet();
+  }
+
+  ///Plans
+  @GET(path: '/v1/admin/billing/plans')
+  Future<chopper.Response<PlansResponse>> _v1AdminBillingPlansGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Plans',
+      operationId: 'admin_billing_plans',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Put Plan
+  ///@param key
+  Future<chopper.Response<PlanOut>> v1AdminBillingPlansKeyPut({
+    required String? key,
+    required PlanIn? body,
+  }) {
+    generatedMapping.putIfAbsent(PlanOut, () => PlanOut.fromJsonFactory);
+
+    return _v1AdminBillingPlansKeyPut(key: key, body: body);
+  }
+
+  ///Put Plan
+  ///@param key
+  @PUT(path: '/v1/admin/billing/plans/{key}', optionalBody: true)
+  Future<chopper.Response<PlanOut>> _v1AdminBillingPlansKeyPut({
+    @Path('key') required String? key,
+    @Body() required PlanIn? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Put Plan',
+      operationId: 'admin_billing_put_plan',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Subscriptions
+  ///@param subject_id
+  Future<chopper.Response<SubscriptionsResponse>>
+  v1AdminBillingSubscriptionsGet({String? subjectId}) {
+    generatedMapping.putIfAbsent(
+      SubscriptionsResponse,
+      () => SubscriptionsResponse.fromJsonFactory,
+    );
+
+    return _v1AdminBillingSubscriptionsGet(subjectId: subjectId);
+  }
+
+  ///Subscriptions
+  ///@param subject_id
+  @GET(path: '/v1/admin/billing/subscriptions')
+  Future<chopper.Response<SubscriptionsResponse>>
+  _v1AdminBillingSubscriptionsGet({
+    @Query('subject_id') String? subjectId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Subscriptions',
+      operationId: 'admin_billing_subscriptions',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
   ///Alerts
   Future<chopper.Response<AlertsResponse>> v1AdminKbAlertsGet() {
     generatedMapping.putIfAbsent(
@@ -332,6 +510,32 @@ is the raw file; only its hash, size and time are kept.''',
       produces: [],
       security: ["HTTPBearer"],
       tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Entitlements
+  Future<chopper.Response<EntitlementsResponse>> v1BillingEntitlementsGet() {
+    generatedMapping.putIfAbsent(
+      EntitlementsResponse,
+      () => EntitlementsResponse.fromJsonFactory,
+    );
+
+    return _v1BillingEntitlementsGet();
+  }
+
+  ///Entitlements
+  @GET(path: '/v1/billing/entitlements')
+  Future<chopper.Response<EntitlementsResponse>> _v1BillingEntitlementsGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Entitlements',
+      operationId: 'billing_entitlements',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["billing"],
       deprecated: false,
     ),
   });
