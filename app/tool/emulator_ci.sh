@@ -34,15 +34,24 @@ echo "== build debug apk"
 flutter build apk --debug --dart-define-from-file=../product.env || { echo "apk build failed"; exit 1; }
 df -h / | tail -1
 
+boot_emulator() {
+  nohup emulator -avd ci -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -no-metrics \
+    > "$shots/emulator-$1.log" 2>&1 &
+  timeout 120 adb wait-for-device || return 1
+  for _ in $(seq 1 120); do
+    [ "$(adb shell getprop sys.boot_completed 2>/dev/null | tr -d '\r')" = "1" ] && return 0
+    sleep 5
+  done
+  return 1
+}
+
+# A cold boot without a snapshot is sometimes very slow on a shared runner, so give it two tries.
 echo "== start emulator"
-nohup emulator -avd ci -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -no-metrics \
-  > "$shots/emulator.log" 2>&1 &
-timeout 120 adb wait-for-device || { echo "no device"; tail -n 20 "$shots/emulator.log"; exit 1; }
-for i in $(seq 1 90); do
-  [ "$(adb shell getprop sys.boot_completed 2>/dev/null | tr -d '\r')" = "1" ] && break
-  sleep 5
-done
-[ "$(adb shell getprop sys.boot_completed 2>/dev/null | tr -d '\r')" = "1" ] || { echo "boot timed out"; tail -n 20 "$shots/emulator.log"; exit 1; }
+if ! boot_emulator 1; then
+  echo "boot attempt 1 timed out, retrying"
+  adb emu kill > /dev/null 2>&1; pkill -f qemu-system > /dev/null 2>&1; sleep 5
+  boot_emulator 2 || { echo "boot timed out twice"; tail -n 20 "$shots/emulator-2.log"; exit 1; }
+fi
 echo "booted"
 adb shell settings put global window_animation_scale 0
 adb shell settings put global transition_animation_scale 0
