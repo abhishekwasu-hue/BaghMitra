@@ -65,6 +65,160 @@ final class _$Bagmitra extends Bagmitra {
   }
 
   @override
+  Future<Response<EventsResponse>> _v1AdminBillingEventsGet({
+    int? limit,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Events',
+      operationId: 'admin_billing_events',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/billing/events');
+    final Map<String, dynamic> $params = <String, dynamic>{'limit': limit};
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+      tag: swaggerMetaData,
+    );
+    return client.send<EventsResponse, EventsResponse>($request);
+  }
+
+  @override
+  Future<Response<SubscriptionOut>> _v1AdminBillingGrantsPost({
+    required GrantIn? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Grant',
+      operationId: 'admin_billing_grant',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/billing/grants');
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<SubscriptionOut, SubscriptionOut>($request);
+  }
+
+  @override
+  Future<Response<SubscriptionOut>> _v1AdminBillingGrantsGrantIdRevokePost({
+    required String? grantId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Revoke',
+      operationId: 'admin_billing_revoke',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/billing/grants/${grantId}/revoke');
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<SubscriptionOut, SubscriptionOut>($request);
+  }
+
+  @override
+  Future<Response<PlansResponse>> _v1AdminBillingPlansGet({
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Plans',
+      operationId: 'admin_billing_plans',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/billing/plans');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<PlansResponse, PlansResponse>($request);
+  }
+
+  @override
+  Future<Response<PlanOut>> _v1AdminBillingPlansKeyPut({
+    required String? key,
+    required PlanIn? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Put Plan',
+      operationId: 'admin_billing_put_plan',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/billing/plans/${key}');
+    final $body = body;
+    final Request $request = Request(
+      'PUT',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<PlanOut, PlanOut>($request);
+  }
+
+  @override
+  Future<Response<SubscriptionsResponse>> _v1AdminBillingSubscriptionsGet({
+    String? subjectId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Subscriptions',
+      operationId: 'admin_billing_subscriptions',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/billing/subscriptions');
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'subject_id': subjectId,
+    };
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+      tag: swaggerMetaData,
+    );
+    return client.send<SubscriptionsResponse, SubscriptionsResponse>($request);
+  }
+
+  @override
   Future<Response<AlertsResponse>> _v1AdminKbAlertsGet({
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
@@ -261,6 +415,29 @@ is the raw file; only its hash, size and time are kept.''',
       tag: swaggerMetaData,
     );
     return client.send<SourceOut, SourceOut>($request);
+  }
+
+  @override
+  Future<Response<EntitlementsResponse>> _v1BillingEntitlementsGet({
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Entitlements',
+      operationId: 'billing_entitlements',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["billing"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/billing/entitlements');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<EntitlementsResponse, EntitlementsResponse>($request);
   }
 
   @override

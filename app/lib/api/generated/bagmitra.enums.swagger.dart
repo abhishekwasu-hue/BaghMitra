@@ -18,6 +18,20 @@ enum ChangeOp {
   const ChangeOp(this.value);
 }
 
+enum GrantInSubjectType {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('farmer')
+  farmer('farmer'),
+  @JsonValue('organisation')
+  organisation('organisation');
+
+  final String? value;
+
+  const GrantInSubjectType(this.value);
+}
+
 enum MutationOp {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
@@ -48,6 +62,20 @@ enum MutationResultStatus {
   final String? value;
 
   const MutationResultStatus(this.value);
+}
+
+enum PlanInKind {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('grower')
+  grower('grower'),
+  @JsonValue('organisation')
+  organisation('organisation');
+
+  final String? value;
+
+  const PlanInKind(this.value);
 }
 
 enum ReviewInDecision {

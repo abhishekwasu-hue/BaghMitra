@@ -14,6 +14,8 @@ import '../features/auth/domain/auth.dart';
 import '../features/bahar/data/bahar_catalog.dart';
 import '../features/bahar/data/bahar_repository.dart';
 import '../features/bahar/domain/bahar_cycle.dart';
+import '../features/billing/data/entitlements_cache.dart';
+import '../features/billing/domain/entitlements.dart';
 import '../features/export/data/file_sharer.dart';
 import '../features/field_work/data/field_work_options.dart';
 import '../features/field_work/data/field_work_repository.dart';
@@ -203,6 +205,25 @@ final restrictionsProvider = FutureProvider<RestrictionList>((ref) async {
     unawaited(cache.refresh());
   }
   return cached;
+});
+
+final entitlementsCacheProvider = Provider<EntitlementsCache>(
+  (ref) => EntitlementsCache(
+    ref.watch(databaseProvider),
+    api: ref.watch(apiProvider),
+  ),
+);
+
+/// What the grower's plan allows. The cached snapshot answers first (works offline); online
+/// (not demo) it is refreshed in the background and picked up the next time this is read.
+final entitlementsProvider = FutureProvider<Entitlements>((ref) async {
+  final cache = ref.watch(entitlementsCacheProvider);
+  final rules = await cache.rules();
+  final snapshot = await cache.load();
+  if (!ref.watch(appConfigProvider).demoMode) {
+    unawaited(cache.refresh());
+  }
+  return Entitlements(snapshot, rules, ref.watch(clockProvider)());
 });
 
 final inputsRepositoryProvider = Provider<InputsRepository>(

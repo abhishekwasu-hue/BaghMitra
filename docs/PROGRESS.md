@@ -72,7 +72,10 @@ Source registry (51 sources, tier + licence), card lifecycle (draft → expert_r
 published, expert review record required, review expiry), licence rules enforced in code,
 legal gate (ban, crop restriction, no label claim, PHI), output filter, CSV importers with dated
 diffs and end-dating, nightly re-gate, admin alerts, admin API and web screens with staff
-sign-in. **No card is published and no label claims are loaded**, so no chemical advice can
+sign-in. 27 draft cards and 7 recorded source conflicts are seeded from addendum v1.3 §3 (chemical
+options carry no dose; none can pass the gate until label claims are imported), and source
+documents are tracked by fetch status (all 38 fetches were blocked from the dev environment, see
+`runbooks/kb-sources.md`). **No card is published and no label claims are loaded**, so no chemical advice can
 reach a grower (blockers: Q12 expert reviewer, Q13 CCRI calendar, Q10 source PDFs).
 
 ### M2 — Records & accounts · partly done
@@ -104,3 +107,9 @@ knowledge cards.
 
 ### Headless emulator job (2026-10-20)
 `emulator` job in `app.yml`: `reactivecircus/android-emulator-runner` (API 33, `pixel_5`, 2 GB RAM, x86_64) runs `flutter test integration_test` against the real `main()` in demo mode, then uploads `final.png` (or `failure.png`) as the `emulator-screenshots` artifact. First test is a sign-in smoke test. Not yet run: the first CI run decides whether the job needs tuning; the offline-to-online sync, add-plot, GPS boundary (emulator geo fix), PDF export and share-intent tests are added incrementally as follow-ups.
+
+### M6a — entitlement layer (2026-10-20)
+Provider-agnostic: `billing_plans`, `plan_entitlements`, `subscriptions`, `billing_events`, `entitlement_snapshots` (migration 0012, RLS: plans are reference data, the rest private). `compute_entitlements` is a pure function covering PENDING/ACTIVE/IN_GRACE_PERIOD/ON_HOLD/PAUSED/CANCELED/EXPIRED/REVOKED with half-open access windows; the free plan is the floor, the union of features wins (unlimited beats a limit), and each signed snapshot expires at the earliest access end or the TTL. `GET /v1/billing/entitlements` serves the Ed25519-signed snapshot; `billing_admin` endpoints manage plans, manual grants (with reason and audit event), revocation and event inspection. No Play code yet (M6b). Open: Q19 plan split. App-side cache and gating widget follow in the next PR.
+
+### M6a — app side (2026-10-20)
+`EntitlementsCache` stores the last server snapshot (`SyncMeta` key `billing.entitlements`), `entitlementsProvider` answers from the cache first and refreshes online, `Entitlements.has/limitOf/isAtLimit` apply the offline grace margin (`assets/config/entitlements.json`, 72 h) and never lock `records`, `accounts`, `export`. `FeatureGate` widget wraps premium UI; nothing is gated yet because no premium feature exists. Open: the phone stores the snapshot signature but does not verify it (needs the public key shipped in config; logged with the paywall work in M6b). Admin plan/grant UI is the next M6a piece.

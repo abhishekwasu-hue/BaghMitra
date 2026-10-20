@@ -1,0 +1,1235 @@
+{
+  "_note": "Draft knowledge cards from addendum v1.3 §3 (read and verified 2026-10-12). All cards are drafts: nothing reaches a grower until a legal gate pass and an expert review. English text only; mr/hi are machine-translation tasks for a human to review. Chemical options carry no dose: dose, interval and PHI come only from the label claims.",
+  "topics": [
+    {
+      "key": "bahar_ambia",
+      "kind": "bahar",
+      "labels": {
+        "en": "Ambia bahar",
+        "mr": "आंबिया बहार",
+        "hi": "अंबिया बहार"
+      }
+    },
+    {
+      "key": "bahar_mrig",
+      "kind": "bahar",
+      "labels": {
+        "en": "Mrig bahar",
+        "mr": "मृग बहार",
+        "hi": "मृग बहार"
+      }
+    },
+    {
+      "key": "bahar_hasta",
+      "kind": "bahar",
+      "labels": {
+        "en": "Hasta bahar",
+        "mr": "हस्त बहार",
+        "hi": "हस्त बहार"
+      }
+    },
+    {
+      "key": "bahar_mosambi",
+      "kind": "bahar",
+      "labels": {
+        "en": "Mosambi flushes",
+        "mr": "मोसंबी बहार",
+        "hi": "मौसंबी बहार"
+      }
+    },
+    {
+      "key": "fruit_drop",
+      "kind": "disorder",
+      "labels": {
+        "en": "Fruit drop",
+        "mr": "फळगळ",
+        "hi": "फल गिरना"
+      }
+    },
+    {
+      "key": "fruit_sucking_moth",
+      "kind": "pest",
+      "labels": {
+        "en": "Fruit-sucking moth",
+        "mr": "फळ पोखरणारी पतंग",
+        "hi": "फल चूसने वाला पतंगा"
+      }
+    },
+    {
+      "key": "hlb_greening",
+      "kind": "disease",
+      "labels": {
+        "en": "Greening (HLB)",
+        "mr": "ग्रीनिंग (एचएलबी)",
+        "hi": "ग्रीनिंग (एचएलबी)"
+      }
+    },
+    {
+      "key": "citrus_canker",
+      "kind": "disease",
+      "labels": {
+        "en": "Citrus canker",
+        "mr": "लिंबूवर्गीय कॅन्कर",
+        "hi": "नींबू कैंकर"
+      }
+    },
+    {
+      "key": "phytophthora",
+      "kind": "disease",
+      "labels": {
+        "en": "Gummosis and root rot (Phytophthora)",
+        "mr": "डिंक्या आणि मुळकुज",
+        "hi": "गमोसिस और जड़ सड़न"
+      }
+    },
+    {
+      "key": "twig_blight",
+      "kind": "disease",
+      "labels": {
+        "en": "Twig blight and dieback",
+        "mr": "फांद्या वाळणे",
+        "hi": "टहनी झुलसा और शीर्षमरण"
+      }
+    },
+    {
+      "key": "powdery_mildew",
+      "kind": "disease",
+      "labels": {
+        "en": "Powdery mildew",
+        "mr": "भुरी",
+        "hi": "चूर्णिल आसिता"
+      }
+    },
+    {
+      "key": "tristeza",
+      "kind": "disease",
+      "labels": {
+        "en": "Tristeza",
+        "mr": "ट्रिस्टेझा",
+        "hi": "ट्रिस्टेज़ा"
+      }
+    },
+    {
+      "key": "alternaria_brown_spot",
+      "kind": "disease",
+      "labels": {
+        "en": "Alternaria brown spot",
+        "mr": "अल्टरनेरिया तपकिरी ठिपके",
+        "hi": "अल्टरनेरिया भूरा धब्बा"
+      }
+    },
+    {
+      "key": "psylla",
+      "kind": "pest",
+      "labels": {
+        "en": "Citrus psylla",
+        "mr": "सिट्रस सायला",
+        "hi": "सिट्रस सायला"
+      }
+    },
+    {
+      "key": "leaf_miner",
+      "kind": "pest",
+      "labels": {
+        "en": "Leaf miner",
+        "mr": "पाने पोखरणारी अळी",
+        "hi": "पत्ती सुरंगक"
+      }
+    },
+    {
+      "key": "whitefly_blackfly",
+      "kind": "pest",
+      "labels": {
+        "en": "Whitefly and blackfly",
+        "mr": "पांढरी माशी आणि काळी माशी",
+        "hi": "सफेद मक्खी और काली मक्खी"
+      }
+    },
+    {
+      "key": "mealybug",
+      "kind": "pest",
+      "labels": {
+        "en": "Mealybug",
+        "mr": "पिठ्या ढेकूण",
+        "hi": "मिलीबग"
+      }
+    },
+    {
+      "key": "mites",
+      "kind": "pest",
+      "labels": {
+        "en": "Mites",
+        "mr": "कोळी (लाल्या)",
+        "hi": "माइट"
+      }
+    },
+    {
+      "key": "fruit_fly",
+      "kind": "pest",
+      "labels": {
+        "en": "Fruit fly",
+        "mr": "फळमाशी",
+        "hi": "फल मक्खी"
+      }
+    },
+    {
+      "key": "bark_eating_caterpillar",
+      "kind": "pest",
+      "labels": {
+        "en": "Bark-eating caterpillar",
+        "mr": "खोडकिडा",
+        "hi": "छाल खाने वाली इल्ली"
+      }
+    },
+    {
+      "key": "nematodes",
+      "kind": "pest",
+      "labels": {
+        "en": "Nematodes",
+        "mr": "सूत्रकृमी",
+        "hi": "सूत्रकृमि"
+      }
+    },
+    {
+      "key": "nutrition_bearing",
+      "kind": "nutrition",
+      "labels": {
+        "en": "Feeding bearing trees",
+        "mr": "फळधारक झाडांना खते",
+        "hi": "फलदार पेड़ों का पोषण"
+      }
+    },
+    {
+      "key": "nutrition_young",
+      "kind": "nutrition",
+      "labels": {
+        "en": "Feeding young trees",
+        "mr": "लहान झाडांना खते",
+        "hi": "छोटे पेड़ों का पोषण"
+      }
+    },
+    {
+      "key": "irrigation_drip",
+      "kind": "irrigation",
+      "labels": {
+        "en": "Drip irrigation by month and age",
+        "mr": "ठिबक सिंचन: महिना आणि वय",
+        "hi": "ड्रिप सिंचाई: महीना और उम्र"
+      }
+    },
+    {
+      "key": "irrigation_scheduling",
+      "kind": "irrigation",
+      "labels": {
+        "en": "Irrigation scheduling and mulch",
+        "mr": "पाणी नियोजन आणि आच्छादन",
+        "hi": "सिंचाई प्रबंधन और मल्च"
+      }
+    },
+    {
+      "key": "rootstock_planting",
+      "kind": "planting",
+      "labels": {
+        "en": "Rootstock and planting",
+        "mr": "खुंट आणि लागवड",
+        "hi": "मूलवृंत और रोपण"
+      }
+    },
+    {
+      "key": "harvest_post_harvest",
+      "kind": "harvest",
+      "labels": {
+        "en": "Maturity, grading and storage",
+        "mr": "परिपक्वता, प्रतवारी आणि साठवण",
+        "hi": "परिपक्वता, ग्रेडिंग और भंडारण"
+      }
+    }
+  ],
+  "cards": [
+    {
+      "topic": "bahar_ambia",
+      "crop": "santra",
+      "content": {
+        "en": {
+          "title": "Ambia bahar: withhold water, restart in January",
+          "summary": "Ambia flowers after a dry rest in winter. Growers withhold irrigation from November, restart in January and harvest from October to the first week of December.",
+          "cultural": "Withhold irrigation from November. A rest of about 40 to 50 days in November and December is reported to induce flowering. Restart irrigation in January and apply the flush and fruit-set nutrition then. In one trial, breaking the stress on 1 January gave less psylla than breaking it on 10, 20 or 30 January; wider spacing (6 x 6 m) had less psylla than 3 x 3 m.",
+          "organic": "Vermicompost at 10 kg per tree gave the best result among the manures compared in the psylla trial.",
+          "warnings": "If the stress is too short or rain breaks it, flowering can be weak. Timing depends on soil type and local rain: follow your local advisory.",
+          "when_to_call_expert": "Send photos and details to your local KVK or agricultural officer if it spreads, if more than a small part of the orchard is affected, or if you are unsure."
+        }
+      },
+      "chemical_options": [
+        {
+          "active_ingredient": "chlormequat chloride",
+          "formulation": "",
+          "target": "bahar regulation"
+        },
+        {
+          "active_ingredient": "gibberellic acid",
+          "formulation": "",
+          "target": "flush and fruit set"
+        }
+      ],
+      "sources": [
+        {
+          "source": "ccri_monthly_november",
+          "locator": "addendum v1.3 §3.1 (November guidance); original not yet fetched"
+        },
+        {
+          "source": "ccri_monthly_december",
+          "locator": "addendum v1.3 §3.1 (December guidance); original not yet fetched"
+        },
+        {
+          "source": "ccri_monthly_january",
+          "locator": "addendum v1.3 §3.1 (January guidance); original not yet fetched"
+        },
+        {
+          "source": "icar_journals",
+          "locator": "addendum v1.3 §3.1 (Rao et al., Indian Journal of Agricultural Sciences 83(10), 2013)"
+        }
+      ]
+    },
+    {
+      "topic": "bahar_mrig",
+      "crop": "santra",
+      "content": {
+        "en": {
+          "title": "Mrig bahar: about 50 days of stress in May",
+          "summary": "Mrig flowers after a dry rest in the hot season. On medium soils about 50 days of soil-moisture stress in May is enough; the crop is harvested in February and March.",
+          "cultural": "Let the soil dry from the start of May for about 50 days on medium soils. If the monsoon is late, break the stress with irrigation in June. If pre-monsoon rain weakens the stress on heavy black soils, a growth regulator is sometimes used (see the regulator options); otherwise rely on water management.",
+          "organic": "",
+          "warnings": "Growth regulators may have no citrus label in India: they are shown only after the legal check and expert review.",
+          "when_to_call_expert": "Send photos and details to your local KVK or agricultural officer if it spreads, if more than a small part of the orchard is affected, or if you are unsure."
+        }
+      },
+      "chemical_options": [
+        {
+          "active_ingredient": "chlormequat chloride",
+          "formulation": "",
+          "target": "bahar regulation"
+        },
+        {
+          "active_ingredient": "paclobutrazol",
+          "formulation": "",
+          "target": "bahar regulation"
+        }
+      ],
+      "sources": [
+        {
+          "source": "pdkv_aicrp_citrus",
+          "locator": "addendum v1.3 §3.1 (PDKV AICRP page); original not yet fetched"
+        },
+        {
+          "source": "ccri_monthly_may",
+          "locator": "addendum v1.3 §3.1 (May guidance); original not yet fetched"
+        },
+        {
+          "source": "ccri_monthly_june",
+          "locator": "addendum v1.3 §3.1 (June guidance); original not yet fetched"
+        }
+      ]
+    },
+    {
+      "topic": "bahar_hasta",
+      "crop": "santra",
+      "content": {
+        "en": {
+          "title": "Hasta bahar: no verified schedule yet",
+          "summary": "No ICAR or agricultural-university schedule for Hasta bahar on Nagpur mandarin was found; sources only mention October flowering.",
+          "cultural": "Do not plan Hasta from this app yet. Ask your local expert which bahar suits your water supply and market timing.",
+          "organic": "",
+          "warnings": "",
+          "when_to_call_expert": "Ask your local expert or KVK before choosing Hasta bahar."
+        }
+      },
+      "chemical_options": [],
+      "sources": [
+        {
+          "source": "ccri_monthly_october",
+          "locator": "addendum v1.3 §3.1 (gap: October flowering mentioned only); original not yet fetched"
+        }
+      ]
+    },
+    {
+      "topic": "bahar_mosambi",
+      "crop": "mosambi",
+      "content": {
+        "en": {
+          "title": "Mosambi: three flushes (Ambia, Mrig, Hasta)",
+          "summary": "Mosambi can flower in three flushes. For Ambia in Marathwada, fruit set to harvest took about 234 to 244 days.",
+          "cultural": "Plan harvest time from the date of fruit set: add about 234 to 244 days for Ambia in Marathwada and adjust for your own records.",
+          "organic": "",
+          "warnings": "",
+          "when_to_call_expert": "Send photos and details to your local KVK or agricultural officer if it spreads, if more than a small part of the orchard is affected, or if you are unsure."
+        }
+      },
+      "chemical_options": [],
+      "sources": [
+        {
+          "source": "icar_journals",
+          "locator": "addendum v1.3 §3.1 (Ladaniya and Mahalle, IJAgS 2011; Patil and Panchal, J. Hortl. Sci. 2016)"
+        }
+      ]
+    },
+    {
+      "topic": "fruit_drop",
+      "crop": "santra",
+      "content": {
+        "en": {
+          "title": "Fruit drop: causes and what to do",
+          "summary": "Fruit drop has three kinds of cause: weather and nutrition stress, fungal disease (peak mid-September to mid-October) and pests such as fruit fly and the fruit-sucking moth.",
+          "cultural": "Keep the soil moisture even through fruit growth, avoid long dry spells, feed on schedule and remove and bury fallen fruit. Irrigate and avoid midday spraying during sudden heat above 35 to 40 degrees Celsius.",
+          "organic": "Trials found a Bacillus subtilis spray (0.5 percent) cut fungal fruit drop by about a third.",
+          "warnings": "Older advisories list sprays that are no longer legal on citrus; this app shows only chemicals that pass the legal check. Growth regulators for fruit drop may have no citrus label.",
+          "when_to_call_expert": "Send photos and details to your local KVK or agricultural officer if it spreads, if more than a small part of the orchard is affected, or if you are unsure."
+        }
+      },
+      "chemical_options": [
+        {
+          "active_ingredient": "carbendazim",
+          "formulation": "50 WP",
+          "target": "fruit drop"
+        },
+        {
+          "active_ingredient": "copper oxychloride",
+          "formulation": "50 WP",
+          "target": "fruit drop"
+        },
+        {
+          "active_ingredient": "gibberellic acid",
+          "formulation": "",
+          "target": "fruit drop"
+        },
+        {
+          "active_ingredient": "2,4-D",
+          "formulation": "",
+          "target": "fruit drop"
+        }
+      ],
+      "sources": [
+        {
+          "source": "pau_fruit_drop",
+          "locator": "addendum v1.3 §3.2 (causes and timing); original not yet fetched"
+        },
+        {
+          "source": "ccri_monthly_march",
+          "locator": "addendum v1.3 §3.2 (March to October schedule); original not yet fetched"
+        },
+        {
+          "source": "pdkv_aicrp_citrus",
+          "locator": "addendum v1.3 §3.2 (monthly sprays from July); original not yet fetched"
+        }
+      ]
+    },
+    {
+      "topic": "fruit_sucking_moth",
+      "crop": "santra",
+      "content": {
+        "en": {
+          "title": "Fruit-sucking moth: non-chemical control",
+          "summary": "Moths pierce ripening fruit and cause drop and rot.",
+          "cultural": "Collect and bury fallen fruit, use bait traps and a light trap, and light smoke between 7 and 8 pm in the orchard at colour break.",
+          "organic": "Neem oil at 10 ml per litre at colour break.",
+          "warnings": "An older sachet method used a chemical that is now banned and is not shown.",
+          "when_to_call_expert": "Send photos and details to your local KVK or agricultural officer if it spreads, if more than a small part of the orchard is affected, or if you are unsure."
+        }
+      },
+      "chemical_options": [],
+      "sources": [
+        {
+          "source": "ccri_monthly_august",
+          "locator": "addendum v1.3 §3.2; original not yet fetched"
+        },
+        {
+          "source": "ccri_monthly_september",
+          "locator": "addendum v1.3 §3.2; original not yet fetched"
+        },
+        {
+          "source": "ccri_monthly_october",
+          "locator": "addendum v1.3 §3.2; original not yet fetched"
+        },
+        {
+          "source": "niphm_ipm_citrus",
+          "locator": "addendum v1.3 §3.2"
+        }
+      ]
+    },
+    {
+      "topic": "hlb_greening",
+      "crop": "santra",
+      "content": {
+        "en": {
+          "title": "Greening (HLB): prevention is the only protection",
+          "summary": "There is no cure. Protection is clean planting material, controlling the psylla that carries it, good nutrition and removing infected trees.",
+          "cultural": "Plant only certified, disease-indexed budwood. Control psylla at every flush. Keep the bud union 30 to 46 cm above ground and keep water off the trunk. Paint trunks to about 60 cm each year. Remove and destroy infected trees.",
+          "organic": "",
+          "warnings": "Antibiotic sprays recommended in older notes must pass the legal check and an expert review.",
+          "when_to_call_expert": "Send photos to your KVK at once if you suspect greening: early removal protects neighbouring trees."
+        }
+      },
+      "chemical_options": [
+        {
+          "active_ingredient": "tetracycline hydrochloride",
+          "formulation": "",
+          "target": "greening"
+        }
+      ],
+      "sources": [
+        {
+          "source": "ccri_greening_advisory",
+          "locator": "addendum v1.3 §3.3; original not yet fetched"
+        },
+        {
+          "source": "niphm_ipm_citrus",
+          "locator": "addendum v1.3 §3.3 (bud height and trunk paint)"
+        }
+      ]
+    },
+    {
+      "topic": "citrus_canker",
+      "crop": "santra",
+      "content": {
+        "en": {
+          "title": "Canker: prune, protect new flushes",
+          "summary": "Canker spreads with wind-driven rain and attacks new flushes most.",
+          "cultural": "Prune and burn affected twigs, avoid working in wet orchards, protect new flushes and repeat protection through the rainy season as advised.",
+          "organic": "Research on Bacillus amyloliquefaciens against the canker bacterium is promising but is not a label recommendation.",
+          "warnings": "",
+          "when_to_call_expert": "Send photos and details to your local KVK or agricultural officer if it spreads, if more than a small part of the orchard is affected, or if you are unsure."
+        }
+      },
+      "chemical_options": [
+        {
+          "active_ingredient": "copper oxychloride",
+          "formulation": "50 WP",
+          "target": "citrus canker"
+        },
+        {
+          "active_ingredient": "streptomycin sulphate + tetracycline hydrochloride",
+          "formulation": "90:10 SP",
+          "target": "citrus canker"
+        }
+      ],
+      "sources": [
+        {
+          "source": "ccri_monthly_june",
+          "locator": "addendum v1.3 §3.3; original not yet fetched"
+        },
+        {
+          "source": "ccri_monthly_july",
+          "locator": "addendum v1.3 §3.3; original not yet fetched"
+        },
+        {
+          "source": "ccri_monthly_august",
+          "locator": "addendum v1.3 §3.3; original not yet fetched"
+        },
+        {
+          "source": "ccri_monthly_september",
+          "locator": "addendum v1.3 §3.3; original not yet fetched"
+        },
+        {
+          "source": "niphm_ipm_citrus",
+          "locator": "addendum v1.3 §3.3"
+        }
+      ]
+    },
+    {
+      "topic": "phytophthora",
+      "crop": "santra",
+      "content": {
+        "en": {
+          "title": "Gummosis and root rot: sanitation and Bordeaux paste",
+          "summary": "Wet, poorly drained soil in warm weather favours the fungus. Gum on the trunk and yellowing canopies are the signs.",
+          "cultural": "Scrape the diseased bark, wash with a weak potassium permanganate solution (10 g per litre) and paint with Bordeaux paste. Apply Bordeaux paste to the trunk up to 60 cm before and after the monsoon. Keep the bud union high, drain water away from the trunk and avoid heavy irrigation near it.",
+          "organic": "Pseudomonas fluorescens and Trichoderma (talc formulations) reduced the disease in trials; Pseudomonas did better in one greenhouse comparison.",
+          "warnings": "Some commonly advised fungicide mixes have no citrus label; only those with a citrus label can be shown.",
+          "when_to_call_expert": "Send photos and details to your local KVK or agricultural officer if it spreads, if more than a small part of the orchard is affected, or if you are unsure."
+        }
+      },
+      "chemical_options": [
+        {
+          "active_ingredient": "metalaxyl + chlorothalonil",
+          "formulation": "3.3% + 33.1% SC",
+          "target": "gummosis and root rot"
+        },
+        {
+          "active_ingredient": "cymoxanil + mancozeb",
+          "formulation": "8% + 64% WP",
+          "target": "gummosis and root rot"
+        },
+        {
+          "active_ingredient": "aureofungin",
+          "formulation": "1%",
+          "target": "gummosis and root rot"
+        },
+        {
+          "active_ingredient": "fosetyl-aluminium",
+          "formulation": "",
+          "target": "gummosis and root rot"
+        }
+      ],
+      "sources": [
+        {
+          "source": "ccri_monthly_may",
+          "locator": "addendum v1.3 §3.3 (pre-monsoon paste); original not yet fetched"
+        },
+        {
+          "source": "ccri_monthly_october",
+          "locator": "addendum v1.3 §3.3 (post-monsoon paste and brown rot); original not yet fetched"
+        },
+        {
+          "source": "pdkv_aicrp_citrus",
+          "locator": "addendum v1.3 §3.3 (Pseudomonas and Trichoderma); original not yet fetched"
+        }
+      ]
+    },
+    {
+      "topic": "twig_blight",
+      "crop": "santra",
+      "content": {
+        "en": {
+          "title": "Twig blight and dieback",
+          "summary": "Fungal dieback of twigs, common after stress.",
+          "cultural": "Prune about 2 cm below the dead wood and burn the cuttings; avoid water and nutrient stress.",
+          "organic": "",
+          "warnings": "",
+          "when_to_call_expert": "Send photos and details to your local KVK or agricultural officer if it spreads, if more than a small part of the orchard is affected, or if you are unsure."
+        }
+      },
+      "chemical_options": [
+        {
+          "active_ingredient": "carbendazim + mancozeb",
+          "formulation": "12% + 63% WP",
+          "target": "twig blight"
+        }
+      ],
+      "sources": [
+        {
+          "source": "ccri_monthly_november",
+          "locator": "addendum v1.3 §3.3; original not yet fetched"
+        },
+        {
+          "source": "ccri_monthly_december",
+          "locator": "addendum v1.3 §3.3; original not yet fetched"
+        },
+        {
+          "source": "ccri_monthly_april",
+          "locator": "addendum v1.3 §3.3; original not yet fetched"
+        }
+      ]
+    },
+    {
+      "topic": "powdery_mildew",
+      "crop": "santra",
+      "content": {
+        "en": {
+          "title": "Powdery mildew",
+          "summary": "White powder on young leaves and fruit in dry, mild weather.",
+          "cultural": "Remove badly affected shoots and keep the canopy open.",
+          "organic": "",
+          "warnings": "",
+          "when_to_call_expert": "Send photos and details to your local KVK or agricultural officer if it spreads, if more than a small part of the orchard is affected, or if you are unsure."
+        }
+      },
+      "chemical_options": [
+        {
+          "active_ingredient": "sulphur",
+          "formulation": "80 WP",
+          "target": "powdery mildew"
+        }
+      ],
+      "sources": [
+        {
+          "source": "niphm_ipm_citrus",
+          "locator": "addendum v1.3 §3.3"
+        }
+      ]
+    },
+    {
+      "topic": "tristeza",
+      "crop": "santra",
+      "content": {
+        "en": {
+          "title": "Tristeza virus",
+          "summary": "A virus spread by aphids and by infected budwood.",
+          "cultural": "Use virus-free budwood and a tolerant rootstock, and control aphids.",
+          "organic": "",
+          "warnings": "",
+          "when_to_call_expert": "Send photos and details to your local KVK or agricultural officer if it spreads, if more than a small part of the orchard is affected, or if you are unsure."
+        }
+      },
+      "chemical_options": [],
+      "sources": [
+        {
+          "source": "niphm_ipm_citrus",
+          "locator": "addendum v1.3 §3.3"
+        },
+        {
+          "source": "pdkv_aicrp_citrus",
+          "locator": "addendum v1.3 §3.3; original not yet fetched"
+        }
+      ]
+    },
+    {
+      "topic": "alternaria_brown_spot",
+      "crop": "santra",
+      "content": {
+        "en": {
+          "title": "Alternaria brown spot",
+          "summary": "Brown spots on leaves and fruit after warm, wet weather.",
+          "cultural": "Keep the canopy open and reduce leaf wetness. Risk is estimated from rain, leaf-wetness hours and temperature (a weather risk model will give alerts later).",
+          "organic": "",
+          "warnings": "No Indian dose was found; no spray advice is given.",
+          "when_to_call_expert": "Ask your KVK about local spray timing if the disease keeps coming back."
+        }
+      },
+      "chemical_options": [],
+      "sources": [
+        {
+          "source": "ufifas_citrus_guide",
+          "locator": "addendum v1.3 §3.3, 3.7 (Alter-Rater; summarised in our own words)"
+        }
+      ]
+    },
+    {
+      "topic": "psylla",
+      "crop": "santra",
+      "content": {
+        "en": {
+          "title": "Citrus psylla: watch every new flush",
+          "summary": "The psylla feeds on new shoots and carries greening. Numbers rise with each new flush (in Vidarbha mainly February to March and August to September).",
+          "cultural": "Check new flushes weekly. Remove and destroy badly infested tips, avoid forcing many separate flushes, and break the Ambia stress on time. Plan control for the start of each flush and rotate chemical groups so the pest does not become resistant.",
+          "organic": "Petroleum spray oil and neem products are among the options trialled; abamectin and novaluron were effective in trials.",
+          "warnings": "Several older recommendations are no longer legal on citrus. Label claims for some newer products are not yet confirmed on the official lists.",
+          "when_to_call_expert": "Send photos and details to your local KVK or agricultural officer if it spreads, if more than a small part of the orchard is affected, or if you are unsure."
+        }
+      },
+      "chemical_options": [
+        {
+          "active_ingredient": "imidacloprid",
+          "formulation": "17.8 SL",
+          "target": "psylla"
+        },
+        {
+          "active_ingredient": "cyantraniliprole",
+          "formulation": "10.26 OD",
+          "target": "psylla"
+        },
+        {
+          "active_ingredient": "spirotetramat",
+          "formulation": "15.31 OD",
+          "target": "psylla"
+        },
+        {
+          "active_ingredient": "thiamethoxam",
+          "formulation": "25 WG",
+          "target": "psylla"
+        },
+        {
+          "active_ingredient": "abamectin",
+          "formulation": "1.9 EC",
+          "target": "psylla"
+        }
+      ],
+      "sources": [
+        {
+          "source": "ccri_monthly_january",
+          "locator": "addendum v1.3 §3.4; original not yet fetched"
+        },
+        {
+          "source": "icar_journals",
+          "locator": "addendum v1.3 §3.4 (Rao et al., IJAgS 2011 and 2017)"
+        }
+      ]
+    },
+    {
+      "topic": "leaf_miner",
+      "crop": "santra",
+      "content": {
+        "en": {
+          "title": "Leaf miner",
+          "summary": "Larvae tunnel in young leaves of new flushes; peak around week 42 in Nagpur nurseries.",
+          "cultural": "Pluck and destroy affected young leaves. A pheromone lure reduced damage by up to 55 percent in ICAR trials. Protect nursery plants and new flushes.",
+          "organic": "",
+          "warnings": "",
+          "when_to_call_expert": "Send photos and details to your local KVK or agricultural officer if it spreads, if more than a small part of the orchard is affected, or if you are unsure."
+        }
+      },
+      "chemical_options": [
+        {
+          "active_ingredient": "imidacloprid",
+          "formulation": "17.8 SL",
+          "target": "leaf miner"
+        }
+      ],
+      "sources": [
+        {
+          "source": "ccri_technologies",
+          "locator": "addendum v1.3 §3.4; original not yet fetched"
+        },
+        {
+          "source": "niphm_ipm_citrus",
+          "locator": "addendum v1.3 §3.4 (fish-oil rosin soap 25 g per litre)"
+        }
+      ]
+    },
+    {
+      "topic": "whitefly_blackfly",
+      "crop": "santra",
+      "content": {
+        "en": {
+          "title": "Whitefly and blackfly",
+          "summary": "Sap-sucking flies that leave sooty mould.",
+          "cultural": "Use yellow sticky traps (4 to 5 per acre) and water-pan traps, and spray at about 50 percent egg hatch and 15 days later with a botanical.",
+          "organic": "Neem oil (1 percent, emulsified) was the best botanical in PDKV trials; azadirachtin 1500 ppm is another option.",
+          "warnings": "",
+          "when_to_call_expert": "Send photos and details to your local KVK or agricultural officer if it spreads, if more than a small part of the orchard is affected, or if you are unsure."
+        }
+      },
+      "chemical_options": [],
+      "sources": [
+        {
+          "source": "niphm_ipm_citrus",
+          "locator": "addendum v1.3 §3.4"
+        },
+        {
+          "source": "pdkv_aicrp_citrus",
+          "locator": "addendum v1.3 §3.4; original not yet fetched"
+        }
+      ]
+    },
+    {
+      "topic": "mealybug",
+      "crop": "santra",
+      "content": {
+        "en": {
+          "title": "Mealybug",
+          "summary": "White waxy insects on fruit and shoots, protected by ants.",
+          "cultural": "Destroy ant nests and release the predator Cryptolaemus (about 10 beetles per tree).",
+          "organic": "The fungus Verticillium lecanii has a citrus label for mealybug.",
+          "warnings": "",
+          "when_to_call_expert": "Send photos and details to your local KVK or agricultural officer if it spreads, if more than a small part of the orchard is affected, or if you are unsure."
+        }
+      },
+      "chemical_options": [
+        {
+          "active_ingredient": "verticillium lecanii",
+          "formulation": "1.15% WP",
+          "target": "mealybug"
+        }
+      ],
+      "sources": [
+        {
+          "source": "niphm_ipm_citrus",
+          "locator": "addendum v1.3 §3.4"
+        }
+      ]
+    },
+    {
+      "topic": "mites",
+      "crop": "santra",
+      "content": {
+        "en": {
+          "title": "Mites (lalya)",
+          "summary": "Tiny mites bronze leaves and fruit in hot, dry weather.",
+          "cultural": "Water and nutrient stress make mites worse: keep moisture even and monitor leaves in dry spells.",
+          "organic": "",
+          "warnings": "Some commonly listed products have no confirmed citrus label.",
+          "when_to_call_expert": "Send photos and details to your local KVK or agricultural officer if it spreads, if more than a small part of the orchard is affected, or if you are unsure."
+        }
+      },
+      "chemical_options": [
+        {
+          "active_ingredient": "sulphur",
+          "formulation": "80 WP",
+          "target": "mites"
+        },
+        {
+          "active_ingredient": "diafenthiuron",
+          "formulation": "50 WP",
+          "target": "mites"
+        },
+        {
+          "active_ingredient": "propargite",
+          "formulation": "57 EC",
+          "target": "mites"
+        },
+        {
+          "active_ingredient": "ethion",
+          "formulation": "50 EC",
+          "target": "mites"
+        }
+      ],
+      "sources": [
+        {
+          "source": "ccri_monthly_april",
+          "locator": "addendum v1.3 §3.4; original not yet fetched"
+        },
+        {
+          "source": "niphm_ipm_citrus",
+          "locator": "addendum v1.3 §3.4"
+        }
+      ]
+    },
+    {
+      "topic": "fruit_fly",
+      "crop": "santra",
+      "content": {
+        "en": {
+          "title": "Fruit fly",
+          "summary": "Maggots spoil fruit near harvest.",
+          "cultural": "Hang methyl-eugenol traps (about 20 per hectare) from 60 days before harvest and change the lure every 30 days. Bury fallen fruit at least 60 cm deep.",
+          "organic": "",
+          "warnings": "",
+          "when_to_call_expert": "Send photos and details to your local KVK or agricultural officer if it spreads, if more than a small part of the orchard is affected, or if you are unsure."
+        }
+      },
+      "chemical_options": [],
+      "sources": [
+        {
+          "source": "ccri_monthly_september",
+          "locator": "addendum v1.3 §3.4; original not yet fetched"
+        },
+        {
+          "source": "pau_fruit_drop",
+          "locator": "addendum v1.3 §3.4"
+        }
+      ]
+    },
+    {
+      "topic": "bark_eating_caterpillar",
+      "crop": "santra",
+      "content": {
+        "en": {
+          "title": "Bark-eating caterpillar",
+          "summary": "Caterpillars tunnel under the bark of old trees, leaving frass.",
+          "cultural": "Remove frass and webbing and plug the tunnels mechanically.",
+          "organic": "",
+          "warnings": "Older injection advice uses a banned chemical and is not shown: ask your expert for a registered alternative.",
+          "when_to_call_expert": "Ask your KVK for a registered alternative if tunnels are active."
+        }
+      },
+      "chemical_options": [],
+      "sources": [
+        {
+          "source": "ccri_monthly_july",
+          "locator": "addendum v1.3 §3.4; original not yet fetched"
+        }
+      ]
+    },
+    {
+      "topic": "nematodes",
+      "crop": "santra",
+      "content": {
+        "en": {
+          "title": "Nematodes",
+          "summary": "Root-feeding worms weaken trees and show as poor growth.",
+          "cultural": "Add well-rotted farmyard manure and organic amendments to improve root health.",
+          "organic": "A bio-nematicide mixed in farmyard manure has a label (about 2 kg per plant).",
+          "warnings": "",
+          "when_to_call_expert": "Send photos and details to your local KVK or agricultural officer if it spreads, if more than a small part of the orchard is affected, or if you are unsure."
+        }
+      },
+      "chemical_options": [
+        {
+          "active_ingredient": "carbofuran",
+          "formulation": "3% CG",
+          "target": "nematodes"
+        }
+      ],
+      "sources": [
+        {
+          "source": "ccri_technologies",
+          "locator": "addendum v1.3 §3.4; original not yet fetched"
+        }
+      ]
+    },
+    {
+      "topic": "nutrition_bearing",
+      "crop": "santra",
+      "content": {
+        "en": {
+          "title": "Feeding bearing trees",
+          "summary": "ICAR-CCRI and PDKV give different doses; the reviewer must choose. A soil or leaf test is the best guide.",
+          "cultural": "CCRI (soil, November, per bearing tree): urea 500 g, single superphosphate 600 g, muriate of potash 150 g, ferrous, manganese and zinc sulphate 100 g each and borax 50 g; an Ambia top-up of muriate of potash 180 g in July. PDKV (full-grown tree per year): 1200 g nitrogen, 400 g phosphate and 400 g potash, with 600 g of the nitrogen and all of the phosphate and potash at the end of stress and the rest two months after fruit set; zinc sulphate 200 g in the soil. Fertigation reference: 600:100:200 g N:P2O5:K2O per plant. Leaf-test ranges (percent dry weight): N 1.70 to 2.81, P 0.09 to 0.15, K 1.02 to 2.59.",
+          "organic": "",
+          "warnings": "Sources disagree on nitrogen per tree (about 230 g to 1200 g); see the recorded conflict.",
+          "when_to_call_expert": "Get a soil and leaf test before changing doses."
+        }
+      },
+      "chemical_options": [],
+      "sources": [
+        {
+          "source": "ccri_monthly_november",
+          "locator": "addendum v1.3 §3.5; original not yet fetched"
+        },
+        {
+          "source": "ccri_monthly_july",
+          "locator": "addendum v1.3 §3.5; original not yet fetched"
+        },
+        {
+          "source": "pdkv_aicrp_citrus",
+          "locator": "addendum v1.3 §3.5; original not yet fetched"
+        },
+        {
+          "source": "pdkv_recom_2017",
+          "locator": "addendum v1.3 §3.5 (5-split fertiliser, Ambia); original not yet fetched"
+        },
+        {
+          "source": "icar_journals",
+          "locator": "addendum v1.3 §3.5 (fertigation and leaf-test ranges)"
+        }
+      ]
+    },
+    {
+      "topic": "nutrition_young",
+      "crop": "santra",
+      "content": {
+        "en": {
+          "title": "Feeding young trees",
+          "summary": "Doses grow with tree age (multiply the 1-year dose by 1 to 4).",
+          "cultural": "Per young tree, twice a year (April and August): urea about 108 g (or ammonium sulphate 250 g), single superphosphate 157 g and 25 g each of zinc, iron and manganese sulphate, with 20 to 25 kg farmyard manure.",
+          "organic": "",
+          "warnings": "",
+          "when_to_call_expert": "Send photos and details to your local KVK or agricultural officer if it spreads, if more than a small part of the orchard is affected, or if you are unsure."
+        }
+      },
+      "chemical_options": [],
+      "sources": [
+        {
+          "source": "ccri_monthly_april",
+          "locator": "addendum v1.3 §3.5; original not yet fetched"
+        },
+        {
+          "source": "ccri_monthly_august",
+          "locator": "addendum v1.3 §3.5; original not yet fetched"
+        }
+      ]
+    },
+    {
+      "topic": "irrigation_drip",
+      "crop": "santra",
+      "content": {
+        "en": {
+          "title": "Drip irrigation by month and tree age (Nagpur mandarin)",
+          "summary": "ICAR-CCRI gives litres per tree per day by month and age. Acid lime needs about half.",
+          "cultural": "Litres per tree per day, 1-4 year / 5-7 year / 8+ year: January 7-30 / 44-72 / 82-102; February 9-40 / 60-96 / 108-137; March 12-53 / 78-127 / 145-180. April: 163 (8 year), 204 (10+ year). May: 17 (1 year), 102 (5 year), 188 (8 year), 235 (10+ year) every 4 to 5 days in extreme heat. September 8 / 45 / 87 / 108; October 9 (1 year), 40 (4 year), 105 (8 year); November 8 / 36 / 85 / 105; December 41 (6 year), 82 (10+ year).",
+          "organic": "",
+          "warnings": "The October table in the source has a typo (13 L for 10+ year trees; other months and the pattern give 105 L).",
+          "when_to_call_expert": "Check your own water supply and soil with your KVK."
+        }
+      },
+      "chemical_options": [],
+      "sources": [
+        {
+          "source": "ccri_monthly_january",
+          "locator": "addendum v1.3 §3.6; original not yet fetched"
+        },
+        {
+          "source": "ccri_monthly_may",
+          "locator": "addendum v1.3 §3.6; original not yet fetched"
+        },
+        {
+          "source": "ccri_monthly_october",
+          "locator": "addendum v1.3 §3.6 (typo in source: 13 L means 105 L); original not yet fetched"
+        }
+      ]
+    },
+    {
+      "topic": "irrigation_scheduling",
+      "crop": "santra",
+      "content": {
+        "en": {
+          "title": "Irrigation scheduling and mulch",
+          "summary": "Replacing about 80 percent of pan evaporation at every stage gave much higher yield than 30 percent; May and June are the most critical months.",
+          "cultural": "Replace about 80 percent of pan evaporation. Crop coefficient is about 0.6 at flowering and 1.1 to 1.2 during fruit growth. Mulch 5 to 10 cm of straw (or black polythene) to hold moisture. Dig drainage channels 30 cm deep every two rows. Subsurface drip used about 46 L per day in January to February and 86 L per day in May to June, about 60 percent less water than surface drip.",
+          "organic": "",
+          "warnings": "",
+          "when_to_call_expert": "Send photos and details to your local KVK or agricultural officer if it spreads, if more than a small part of the orchard is affected, or if you are unsure."
+        }
+      },
+      "chemical_options": [],
+      "sources": [
+        {
+          "source": "pdkv_aicrp_citrus",
+          "locator": "addendum v1.3 §3.6; original not yet fetched"
+        },
+        {
+          "source": "ccri_monthly_june",
+          "locator": "addendum v1.3 §3.6 (mulch, drainage); original not yet fetched"
+        },
+        {
+          "source": "icar_journals",
+          "locator": "addendum v1.3 §3.6 (Shirgure et al. 2014; Meshram et al. 2025)"
+        }
+      ]
+    },
+    {
+      "topic": "rootstock_planting",
+      "crop": "santra",
+      "content": {
+        "en": {
+          "title": "Rootstock and planting",
+          "summary": "Rangpur lime was the best of 18 rootstocks in one trial; PDKV recommends Rangpur lime or Jamberi at 6 x 6 m in Vidarbha.",
+          "cultural": "Dig pits of 75 cm in May, fill with 2 parts soil, 1 part sand, 1 part farmyard manure plus 1 kg superphosphate and 1 kg neem cake, and plant in July with the bud union 20 to 25 cm above ground. Site: clay under 60 percent, pH under 8.3, lime under 12 percent, water table deeper than 2 m. High-density planting at 6 x 3 m on Rangpur lime gave the best return by year 5 in one trial.",
+          "organic": "",
+          "warnings": "Older planting advice adds a chemical to the pit that is now banned; it is left out.",
+          "when_to_call_expert": "Send photos and details to your local KVK or agricultural officer if it spreads, if more than a small part of the orchard is affected, or if you are unsure."
+        }
+      },
+      "chemical_options": [],
+      "sources": [
+        {
+          "source": "ccri_monthly_may",
+          "locator": "addendum v1.3 §3.9; original not yet fetched"
+        },
+        {
+          "source": "ccri_monthly_july",
+          "locator": "addendum v1.3 §3.9; original not yet fetched"
+        },
+        {
+          "source": "pdkv_recom_2017",
+          "locator": "addendum v1.3 §3.9; original not yet fetched"
+        }
+      ]
+    },
+    {
+      "topic": "harvest_post_harvest",
+      "crop": "santra",
+      "content": {
+        "en": {
+          "title": "Maturity, grading and storage",
+          "summary": "Harvest at the right maturity and grade by size.",
+          "cultural": "Typical Ambia maturity: about 11 percent sugars, 0.69 percent acid, 43 percent juice. Agmark size grades A to E run from 54-61 mm to over 85 mm; minimum 10 degrees Brix, sugar-to-acid ratio at least 12:1, juice at least 40 percent. Store at 6 to 7 degrees Celsius and 85 to 90 percent humidity.",
+          "organic": "",
+          "warnings": "Colour-advancing sprays before harvest need the legal check and a harvest interval.",
+          "when_to_call_expert": "Send photos and details to your local KVK or agricultural officer if it spreads, if more than a small part of the orchard is affected, or if you are unsure."
+        }
+      },
+      "chemical_options": [],
+      "sources": [
+        {
+          "source": "agmark_mandarin_grades",
+          "locator": "addendum v1.3 §3.9"
+        },
+        {
+          "source": "nhb_citrus_pht",
+          "locator": "addendum v1.3 §3.9; original not yet fetched"
+        },
+        {
+          "source": "icar_journals",
+          "locator": "addendum v1.3 §3.9 (Ram and Kumar, IJAgS 2012)"
+        }
+      ]
+    }
+  ],
+  "conflicts": [
+    {
+      "topic": "nutrition_bearing",
+      "description": "Nitrogen per bearing tree differs between sources.",
+      "values": [
+        {
+          "source": "ICAR-CCRI",
+          "value": "about 230 g N per tree per year"
+        },
+        {
+          "source": "PDKV",
+          "value": "1200 g N per tree per year"
+        },
+        {
+          "source": "Fertigation reference",
+          "value": "600 g N per plant"
+        },
+        {
+          "source": "Zinc trial base",
+          "value": "450 to 500 g"
+        }
+      ]
+    },
+    {
+      "topic": null,
+      "description": "The April CCRI note recommends a fungicide that is banned; May to September notes use carbendazim.",
+      "values": [
+        {
+          "source": "CCRI April",
+          "value": "benomyl"
+        },
+        {
+          "source": "CCRI May to September",
+          "value": "carbendazim"
+        }
+      ]
+    },
+    {
+      "topic": "irrigation_drip",
+      "description": "October drip table shows 13 L for 10+ year trees; every other month and the October pattern give 105 L.",
+      "values": [
+        {
+          "source": "CCRI October",
+          "value": "13 L"
+        },
+        {
+          "source": "Other months",
+          "value": "105 L"
+        }
+      ]
+    },
+    {
+      "topic": "irrigation_scheduling",
+      "description": "Crop coefficient range differs between the methods and results of one paper.",
+      "values": [
+        {
+          "source": "Methods",
+          "value": "0.30 to 1.10"
+        },
+        {
+          "source": "Results",
+          "value": "0.20 to 1.10"
+        }
+      ]
+    },
+    {
+      "topic": "psylla",
+      "description": "Psylla peaks differ by region.",
+      "values": [
+        {
+          "source": "Vidarbha",
+          "value": "February to March and August to September"
+        },
+        {
+          "source": "Meghalaya",
+          "value": "June"
+        }
+      ]
+    },
+    {
+      "topic": "bahar_ambia",
+      "description": "Ambia harvest window differs between sources.",
+      "values": [
+        {
+          "source": "Wikipedia",
+          "value": "September to December"
+        },
+        {
+          "source": "NIT paper",
+          "value": "October to November"
+        },
+        {
+          "source": "CCRI",
+          "value": "finish by the first week of December"
+        }
+      ]
+    },
+    {
+      "topic": null,
+      "description": "CCRI monthly notes still list chemicals that are banned or restricted on citrus.",
+      "values": [
+        {
+          "source": "CCRI",
+          "value": "dicofol, dichlorvos, chlorpyriphos, dimethoate, phorate"
+        }
+      ]
+    }
+  ]
+}
