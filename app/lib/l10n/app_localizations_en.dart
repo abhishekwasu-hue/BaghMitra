@@ -805,4 +805,54 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get voiceListening => 'Listening… tap to stop';
+
+  @override
+  String get tasksTitle => 'Tasks';
+
+  @override
+  String get addTask => 'Add a task';
+
+  @override
+  String get taskWhat => 'What needs doing?';
+
+  @override
+  String get taskKind => 'Kind';
+
+  @override
+  String get taskDue => 'Due';
+
+  @override
+  String get dueToday => 'Today';
+
+  @override
+  String get dueTomorrow => 'Tomorrow';
+
+  @override
+  String get pickDate => 'Pick a date';
+
+  @override
+  String get tasksEmpty => 'No tasks yet. Add one with the + button.';
+
+  @override
+  String get tasksOverdue => 'Overdue';
+
+  @override
+  String get tasksToday => 'Today';
+
+  @override
+  String get tasksUpcoming => 'Coming up';
+
+  @override
+  String get tasksDone => 'Done';
+
+  @override
+  String get noTasksToday => 'Nothing due today';
+
+  @override
+  String get taskOverdue => 'Overdue';
+
+  @override
+  String dueInDays(int n) {
+    return 'In $n days';
+  }
 }

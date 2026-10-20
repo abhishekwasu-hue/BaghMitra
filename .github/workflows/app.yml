@@ -1,6 +1,7 @@
 name: BagMitra App
 
 on:
+  workflow_dispatch:
   push:
     branches: [main]
     paths: ["app/**", "docs/api/**", "product.env", ".github/workflows/app.yml"]
@@ -73,6 +74,9 @@ jobs:
           path: app/build/app/outputs/flutter-apk/*.apk
 
   emulator:
+    # The two emulator jobs take about 25 minutes each, so they run on main (which gates the test
+    # APK) and by hand, not on every pull-request push: that keeps GitHub Actions minutes in budget.
+    if: github.event_name != 'pull_request'
     name: emulator (${{ matrix.mode }})
     strategy:
       fail-fast: false

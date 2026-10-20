@@ -224,5 +224,21 @@
   "seedOrchard": "नमुना बाग भरा",
   "seedOrchardDone": "नमुना बाग भरला",
   "voiceUnavailable": "या फोनवर आवाजाने लिहिणे उपलब्ध नाही",
-  "voiceListening": "ऐकत आहे… थांबवण्यासाठी दाबा"
+  "voiceListening": "ऐकत आहे… थांबवण्यासाठी दाबा",
+  "tasksTitle": "कामे",
+  "addTask": "काम जोडा",
+  "taskWhat": "काय करायचे आहे?",
+  "taskKind": "प्रकार",
+  "taskDue": "कधी",
+  "dueToday": "आज",
+  "dueTomorrow": "उद्या",
+  "pickDate": "तारीख निवडा",
+  "tasksEmpty": "अजून कामे नाहीत. + बटणाने जोडा.",
+  "tasksOverdue": "उशीर झालेली",
+  "tasksToday": "आज",
+  "tasksUpcoming": "पुढची",
+  "tasksDone": "पूर्ण",
+  "noTasksToday": "आज काही बाकी नाही",
+  "taskOverdue": "उशीर",
+  "dueInDays": "{n} दिवसांत"
 }

@@ -224,5 +224,21 @@
   "seedOrchard": "नमूना बाग जोड़ें",
   "seedOrchardDone": "नमूना बाग जोड़ा गया",
   "voiceUnavailable": "इस फ़ोन पर बोलकर लिखना उपलब्ध नहीं है",
-  "voiceListening": "सुन रहा है… रोकने के लिए दबाएँ"
+  "voiceListening": "सुन रहा है… रोकने के लिए दबाएँ",
+  "tasksTitle": "काम",
+  "addTask": "काम जोड़ें",
+  "taskWhat": "क्या करना है?",
+  "taskKind": "प्रकार",
+  "taskDue": "कब",
+  "dueToday": "आज",
+  "dueTomorrow": "कल",
+  "pickDate": "तारीख चुनें",
+  "tasksEmpty": "अभी कोई काम नहीं। + बटन से जोड़ें।",
+  "tasksOverdue": "देर हो चुकी",
+  "tasksToday": "आज",
+  "tasksUpcoming": "आगे के",
+  "tasksDone": "पूरे",
+  "noTasksToday": "आज कुछ बाकी नहीं",
+  "taskOverdue": "देर",
+  "dueInDays": "{n} दिन में"
 }

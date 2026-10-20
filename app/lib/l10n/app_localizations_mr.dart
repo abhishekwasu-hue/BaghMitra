@@ -804,4 +804,54 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get voiceListening => 'ऐकत आहे… थांबवण्यासाठी दाबा';
+
+  @override
+  String get tasksTitle => 'कामे';
+
+  @override
+  String get addTask => 'काम जोडा';
+
+  @override
+  String get taskWhat => 'काय करायचे आहे?';
+
+  @override
+  String get taskKind => 'प्रकार';
+
+  @override
+  String get taskDue => 'कधी';
+
+  @override
+  String get dueToday => 'आज';
+
+  @override
+  String get dueTomorrow => 'उद्या';
+
+  @override
+  String get pickDate => 'तारीख निवडा';
+
+  @override
+  String get tasksEmpty => 'अजून कामे नाहीत. + बटणाने जोडा.';
+
+  @override
+  String get tasksOverdue => 'उशीर झालेली';
+
+  @override
+  String get tasksToday => 'आज';
+
+  @override
+  String get tasksUpcoming => 'पुढची';
+
+  @override
+  String get tasksDone => 'पूर्ण';
+
+  @override
+  String get noTasksToday => 'आज काही बाकी नाही';
+
+  @override
+  String get taskOverdue => 'उशीर';
+
+  @override
+  String dueInDays(int n) {
+    return '$n दिवसांत';
+  }
 }

@@ -478,5 +478,22 @@
   "seedOrchard": "Add sample orchard",
   "seedOrchardDone": "Sample orchard added",
   "voiceUnavailable": "Voice input is not available on this phone",
-  "voiceListening": "Listening… tap to stop"
+  "voiceListening": "Listening… tap to stop",
+  "tasksTitle": "Tasks",
+  "addTask": "Add a task",
+  "taskWhat": "What needs doing?",
+  "taskKind": "Kind",
+  "taskDue": "Due",
+  "dueToday": "Today",
+  "dueTomorrow": "Tomorrow",
+  "pickDate": "Pick a date",
+  "tasksEmpty": "No tasks yet. Add one with the + button.",
+  "tasksOverdue": "Overdue",
+  "tasksToday": "Today",
+  "tasksUpcoming": "Coming up",
+  "tasksDone": "Done",
+  "noTasksToday": "Nothing due today",
+  "taskOverdue": "Overdue",
+  "dueInDays": "In {n} days",
+  "@dueInDays": {"placeholders": {"n": {"type": "int"}}}
 }

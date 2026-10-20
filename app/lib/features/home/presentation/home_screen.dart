@@ -17,6 +17,7 @@ import '../../../design_system/weather_header.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../sync/sync_engine.dart';
 import '../../../theme/app_theme.dart';
+import '../../tasks/domain/farm_task.dart';
 import '../domain/home_snapshot.dart';
 
 /// "Today's orchard": weather, bahar stage, risk alert, tasks, market price, camera.
@@ -69,6 +70,14 @@ class _HomeBody extends ConsumerWidget {
     StageKind.harvest => BmGlyph.orange,
   };
 
+  static BmGlyph _kindGlyph(String kind) => switch (kind) {
+    'irrigation' => BmGlyph.drop,
+    'spray' => BmGlyph.spray,
+    'scouting' => BmGlyph.camera,
+    'harvest' => BmGlyph.orange,
+    _ => BmGlyph.orchard,
+  };
+
   static BmGlyph _taskGlyph(TaskKind k) => switch (k) {
     TaskKind.irrigation => BmGlyph.drop,
     TaskKind.spray => BmGlyph.spray,
@@ -85,6 +94,16 @@ class _HomeBody extends ConsumerWidget {
     final w = snapshot.weather;
     final m = snapshot.market;
     final config = ref.watch(appConfigProvider);
+    final now = ref.watch(clockProvider)();
+    final realTasks = ref.watch(tasksProvider).value ?? const <FarmTask>[];
+    // Open tasks due today or earlier, and the ones ticked off today.
+    final dueToday = [
+      for (final task in realTasks)
+        if (task.isDone
+            ? dateOnly(task.doneOn!) == dateOnly(now)
+            : !dateOnly(task.dueOn).isAfter(dateOnly(now)))
+          task,
+    ];
     // A test build with no backend never syncs, so say where the data lives instead.
     final banner = config.demoMode && config.isTestBuild
         ? SyncBanner(kind: SyncBannerKind.offline, message: t.localModeBanner)
@@ -170,20 +189,43 @@ class _HomeBody extends ConsumerWidget {
                   SectionHeader(
                     title: t.todaysTasks,
                     action: t.seeAll,
-                    onAction: () {},
+                    onAction: () => context.push(Routes.tasks),
                   ),
-                  for (final task in snapshot.tasks) ...[
-                    TaskTile(
-                      title: task.title,
-                      subtitle: task.subtitle,
-                      glyph: _taskGlyph(task.kind),
-                      done: ticks[task.id] ?? task.done,
-                      checkLabel: t.markTaskDone,
-                      onToggle: (v) =>
-                          ref.read(taskTicksProvider.notifier).set(task.id, v),
-                    ),
-                    const SizedBox(height: 10),
-                  ],
+                  if (realTasks.isNotEmpty) ...[
+                    if (dueToday.isEmpty)
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: Text(t.noTasksToday, style: BmType.meta),
+                      ),
+                    for (final task in dueToday) ...[
+                      TaskTile(
+                        title: task.title,
+                        subtitle: taskWhen(task, now) == TaskWhen.overdue
+                            ? t.taskOverdue
+                            : '',
+                        glyph: _kindGlyph(task.kind),
+                        done: task.isDone,
+                        checkLabel: t.markTaskDone,
+                        onToggle: (v) => ref
+                            .read(tasksRepositoryProvider)
+                            .setDone(task, done: v),
+                      ),
+                      const SizedBox(height: 10),
+                    ],
+                  ] else
+                    for (final task in snapshot.tasks) ...[
+                      TaskTile(
+                        title: task.title,
+                        subtitle: task.subtitle,
+                        glyph: _taskGlyph(task.kind),
+                        done: ticks[task.id] ?? task.done,
+                        checkLabel: t.markTaskDone,
+                        onToggle: (v) => ref
+                            .read(taskTicksProvider.notifier)
+                            .set(task.id, v),
+                      ),
+                      const SizedBox(height: 10),
+                    ],
                   SectionHeader(
                     title: t.marketTitle(m.market),
                     action: t.sevenDayTrend,

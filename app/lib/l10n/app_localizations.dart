@@ -1455,6 +1455,102 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Listening… tap to stop'**
   String get voiceListening;
+
+  /// No description provided for @tasksTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Tasks'**
+  String get tasksTitle;
+
+  /// No description provided for @addTask.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a task'**
+  String get addTask;
+
+  /// No description provided for @taskWhat.
+  ///
+  /// In en, this message translates to:
+  /// **'What needs doing?'**
+  String get taskWhat;
+
+  /// No description provided for @taskKind.
+  ///
+  /// In en, this message translates to:
+  /// **'Kind'**
+  String get taskKind;
+
+  /// No description provided for @taskDue.
+  ///
+  /// In en, this message translates to:
+  /// **'Due'**
+  String get taskDue;
+
+  /// No description provided for @dueToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get dueToday;
+
+  /// No description provided for @dueTomorrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Tomorrow'**
+  String get dueTomorrow;
+
+  /// No description provided for @pickDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a date'**
+  String get pickDate;
+
+  /// No description provided for @tasksEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No tasks yet. Add one with the + button.'**
+  String get tasksEmpty;
+
+  /// No description provided for @tasksOverdue.
+  ///
+  /// In en, this message translates to:
+  /// **'Overdue'**
+  String get tasksOverdue;
+
+  /// No description provided for @tasksToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get tasksToday;
+
+  /// No description provided for @tasksUpcoming.
+  ///
+  /// In en, this message translates to:
+  /// **'Coming up'**
+  String get tasksUpcoming;
+
+  /// No description provided for @tasksDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get tasksDone;
+
+  /// No description provided for @noTasksToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing due today'**
+  String get noTasksToday;
+
+  /// No description provided for @taskOverdue.
+  ///
+  /// In en, this message translates to:
+  /// **'Overdue'**
+  String get taskOverdue;
+
+  /// No description provided for @dueInDays.
+  ///
+  /// In en, this message translates to:
+  /// **'In {n} days'**
+  String dueInDays(int n);
 }
 
 class _AppLocalizationsDelegate

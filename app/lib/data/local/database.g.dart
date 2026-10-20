@@ -7505,6 +7505,614 @@ class LabourRecordsCompanion extends UpdateCompanion<LabourRecordRow> {
   }
 }
 
+class $FarmTasksTable extends FarmTasks
+    with TableInfo<$FarmTasksTable, FarmTaskRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $FarmTasksTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _plotIdMeta = const VerificationMeta('plotId');
+  @override
+  late final GeneratedColumn<String> plotId = GeneratedColumn<String>(
+    'plot_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _baharCycleIdMeta = const VerificationMeta(
+    'baharCycleId',
+  );
+  @override
+  late final GeneratedColumn<String> baharCycleId = GeneratedColumn<String>(
+    'bahar_cycle_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _titleMeta = const VerificationMeta('title');
+  @override
+  late final GeneratedColumn<String> title = GeneratedColumn<String>(
+    'title',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _kindMeta = const VerificationMeta('kind');
+  @override
+  late final GeneratedColumn<String> kind = GeneratedColumn<String>(
+    'kind',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _dueOnMeta = const VerificationMeta('dueOn');
+  @override
+  late final GeneratedColumn<DateTime> dueOn = GeneratedColumn<DateTime>(
+    'due_on',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _doneOnMeta = const VerificationMeta('doneOn');
+  @override
+  late final GeneratedColumn<DateTime> doneOn = GeneratedColumn<DateTime>(
+    'done_on',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _sourceMeta = const VerificationMeta('source');
+  @override
+  late final GeneratedColumn<String> source = GeneratedColumn<String>(
+    'source',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _noteMeta = const VerificationMeta('note');
+  @override
+  late final GeneratedColumn<String> note = GeneratedColumn<String>(
+    'note',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _clientUpdatedAtMeta = const VerificationMeta(
+    'clientUpdatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> clientUpdatedAt =
+      GeneratedColumn<DateTime>(
+        'client_updated_at',
+        aliasedName,
+        false,
+        type: DriftSqlType.dateTime,
+        requiredDuringInsert: true,
+      );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    plotId,
+    baharCycleId,
+    title,
+    kind,
+    dueOn,
+    doneOn,
+    source,
+    note,
+    clientUpdatedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'farm_tasks';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<FarmTaskRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('plot_id')) {
+      context.handle(
+        _plotIdMeta,
+        plotId.isAcceptableOrUnknown(data['plot_id']!, _plotIdMeta),
+      );
+    }
+    if (data.containsKey('bahar_cycle_id')) {
+      context.handle(
+        _baharCycleIdMeta,
+        baharCycleId.isAcceptableOrUnknown(
+          data['bahar_cycle_id']!,
+          _baharCycleIdMeta,
+        ),
+      );
+    }
+    if (data.containsKey('title')) {
+      context.handle(
+        _titleMeta,
+        title.isAcceptableOrUnknown(data['title']!, _titleMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_titleMeta);
+    }
+    if (data.containsKey('kind')) {
+      context.handle(
+        _kindMeta,
+        kind.isAcceptableOrUnknown(data['kind']!, _kindMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_kindMeta);
+    }
+    if (data.containsKey('due_on')) {
+      context.handle(
+        _dueOnMeta,
+        dueOn.isAcceptableOrUnknown(data['due_on']!, _dueOnMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_dueOnMeta);
+    }
+    if (data.containsKey('done_on')) {
+      context.handle(
+        _doneOnMeta,
+        doneOn.isAcceptableOrUnknown(data['done_on']!, _doneOnMeta),
+      );
+    }
+    if (data.containsKey('source')) {
+      context.handle(
+        _sourceMeta,
+        source.isAcceptableOrUnknown(data['source']!, _sourceMeta),
+      );
+    }
+    if (data.containsKey('note')) {
+      context.handle(
+        _noteMeta,
+        note.isAcceptableOrUnknown(data['note']!, _noteMeta),
+      );
+    }
+    if (data.containsKey('client_updated_at')) {
+      context.handle(
+        _clientUpdatedAtMeta,
+        clientUpdatedAt.isAcceptableOrUnknown(
+          data['client_updated_at']!,
+          _clientUpdatedAtMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_clientUpdatedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  FarmTaskRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return FarmTaskRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      plotId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}plot_id'],
+      ),
+      baharCycleId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}bahar_cycle_id'],
+      ),
+      title: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}title'],
+      )!,
+      kind: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}kind'],
+      )!,
+      dueOn: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}due_on'],
+      )!,
+      doneOn: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}done_on'],
+      ),
+      source: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}source'],
+      ),
+      note: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}note'],
+      ),
+      clientUpdatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}client_updated_at'],
+      )!,
+    );
+  }
+
+  @override
+  $FarmTasksTable createAlias(String alias) {
+    return $FarmTasksTable(attachedDatabase, alias);
+  }
+}
+
+class FarmTaskRow extends DataClass implements Insertable<FarmTaskRow> {
+  final String id;
+  final String? plotId;
+  final String? baharCycleId;
+  final String title;
+  final String kind;
+  final DateTime dueOn;
+  final DateTime? doneOn;
+  final String? source;
+  final String? note;
+  final DateTime clientUpdatedAt;
+  const FarmTaskRow({
+    required this.id,
+    this.plotId,
+    this.baharCycleId,
+    required this.title,
+    required this.kind,
+    required this.dueOn,
+    this.doneOn,
+    this.source,
+    this.note,
+    required this.clientUpdatedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    if (!nullToAbsent || plotId != null) {
+      map['plot_id'] = Variable<String>(plotId);
+    }
+    if (!nullToAbsent || baharCycleId != null) {
+      map['bahar_cycle_id'] = Variable<String>(baharCycleId);
+    }
+    map['title'] = Variable<String>(title);
+    map['kind'] = Variable<String>(kind);
+    map['due_on'] = Variable<DateTime>(dueOn);
+    if (!nullToAbsent || doneOn != null) {
+      map['done_on'] = Variable<DateTime>(doneOn);
+    }
+    if (!nullToAbsent || source != null) {
+      map['source'] = Variable<String>(source);
+    }
+    if (!nullToAbsent || note != null) {
+      map['note'] = Variable<String>(note);
+    }
+    map['client_updated_at'] = Variable<DateTime>(clientUpdatedAt);
+    return map;
+  }
+
+  FarmTasksCompanion toCompanion(bool nullToAbsent) {
+    return FarmTasksCompanion(
+      id: Value(id),
+      plotId: plotId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(plotId),
+      baharCycleId: baharCycleId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(baharCycleId),
+      title: Value(title),
+      kind: Value(kind),
+      dueOn: Value(dueOn),
+      doneOn: doneOn == null && nullToAbsent
+          ? const Value.absent()
+          : Value(doneOn),
+      source: source == null && nullToAbsent
+          ? const Value.absent()
+          : Value(source),
+      note: note == null && nullToAbsent ? const Value.absent() : Value(note),
+      clientUpdatedAt: Value(clientUpdatedAt),
+    );
+  }
+
+  factory FarmTaskRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return FarmTaskRow(
+      id: serializer.fromJson<String>(json['id']),
+      plotId: serializer.fromJson<String?>(json['plotId']),
+      baharCycleId: serializer.fromJson<String?>(json['baharCycleId']),
+      title: serializer.fromJson<String>(json['title']),
+      kind: serializer.fromJson<String>(json['kind']),
+      dueOn: serializer.fromJson<DateTime>(json['dueOn']),
+      doneOn: serializer.fromJson<DateTime?>(json['doneOn']),
+      source: serializer.fromJson<String?>(json['source']),
+      note: serializer.fromJson<String?>(json['note']),
+      clientUpdatedAt: serializer.fromJson<DateTime>(json['clientUpdatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'plotId': serializer.toJson<String?>(plotId),
+      'baharCycleId': serializer.toJson<String?>(baharCycleId),
+      'title': serializer.toJson<String>(title),
+      'kind': serializer.toJson<String>(kind),
+      'dueOn': serializer.toJson<DateTime>(dueOn),
+      'doneOn': serializer.toJson<DateTime?>(doneOn),
+      'source': serializer.toJson<String?>(source),
+      'note': serializer.toJson<String?>(note),
+      'clientUpdatedAt': serializer.toJson<DateTime>(clientUpdatedAt),
+    };
+  }
+
+  FarmTaskRow copyWith({
+    String? id,
+    Value<String?> plotId = const Value.absent(),
+    Value<String?> baharCycleId = const Value.absent(),
+    String? title,
+    String? kind,
+    DateTime? dueOn,
+    Value<DateTime?> doneOn = const Value.absent(),
+    Value<String?> source = const Value.absent(),
+    Value<String?> note = const Value.absent(),
+    DateTime? clientUpdatedAt,
+  }) => FarmTaskRow(
+    id: id ?? this.id,
+    plotId: plotId.present ? plotId.value : this.plotId,
+    baharCycleId: baharCycleId.present ? baharCycleId.value : this.baharCycleId,
+    title: title ?? this.title,
+    kind: kind ?? this.kind,
+    dueOn: dueOn ?? this.dueOn,
+    doneOn: doneOn.present ? doneOn.value : this.doneOn,
+    source: source.present ? source.value : this.source,
+    note: note.present ? note.value : this.note,
+    clientUpdatedAt: clientUpdatedAt ?? this.clientUpdatedAt,
+  );
+  FarmTaskRow copyWithCompanion(FarmTasksCompanion data) {
+    return FarmTaskRow(
+      id: data.id.present ? data.id.value : this.id,
+      plotId: data.plotId.present ? data.plotId.value : this.plotId,
+      baharCycleId: data.baharCycleId.present
+          ? data.baharCycleId.value
+          : this.baharCycleId,
+      title: data.title.present ? data.title.value : this.title,
+      kind: data.kind.present ? data.kind.value : this.kind,
+      dueOn: data.dueOn.present ? data.dueOn.value : this.dueOn,
+      doneOn: data.doneOn.present ? data.doneOn.value : this.doneOn,
+      source: data.source.present ? data.source.value : this.source,
+      note: data.note.present ? data.note.value : this.note,
+      clientUpdatedAt: data.clientUpdatedAt.present
+          ? data.clientUpdatedAt.value
+          : this.clientUpdatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('FarmTaskRow(')
+          ..write('id: $id, ')
+          ..write('plotId: $plotId, ')
+          ..write('baharCycleId: $baharCycleId, ')
+          ..write('title: $title, ')
+          ..write('kind: $kind, ')
+          ..write('dueOn: $dueOn, ')
+          ..write('doneOn: $doneOn, ')
+          ..write('source: $source, ')
+          ..write('note: $note, ')
+          ..write('clientUpdatedAt: $clientUpdatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    plotId,
+    baharCycleId,
+    title,
+    kind,
+    dueOn,
+    doneOn,
+    source,
+    note,
+    clientUpdatedAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is FarmTaskRow &&
+          other.id == this.id &&
+          other.plotId == this.plotId &&
+          other.baharCycleId == this.baharCycleId &&
+          other.title == this.title &&
+          other.kind == this.kind &&
+          other.dueOn == this.dueOn &&
+          other.doneOn == this.doneOn &&
+          other.source == this.source &&
+          other.note == this.note &&
+          other.clientUpdatedAt == this.clientUpdatedAt);
+}
+
+class FarmTasksCompanion extends UpdateCompanion<FarmTaskRow> {
+  final Value<String> id;
+  final Value<String?> plotId;
+  final Value<String?> baharCycleId;
+  final Value<String> title;
+  final Value<String> kind;
+  final Value<DateTime> dueOn;
+  final Value<DateTime?> doneOn;
+  final Value<String?> source;
+  final Value<String?> note;
+  final Value<DateTime> clientUpdatedAt;
+  final Value<int> rowid;
+  const FarmTasksCompanion({
+    this.id = const Value.absent(),
+    this.plotId = const Value.absent(),
+    this.baharCycleId = const Value.absent(),
+    this.title = const Value.absent(),
+    this.kind = const Value.absent(),
+    this.dueOn = const Value.absent(),
+    this.doneOn = const Value.absent(),
+    this.source = const Value.absent(),
+    this.note = const Value.absent(),
+    this.clientUpdatedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  FarmTasksCompanion.insert({
+    required String id,
+    this.plotId = const Value.absent(),
+    this.baharCycleId = const Value.absent(),
+    required String title,
+    required String kind,
+    required DateTime dueOn,
+    this.doneOn = const Value.absent(),
+    this.source = const Value.absent(),
+    this.note = const Value.absent(),
+    required DateTime clientUpdatedAt,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       title = Value(title),
+       kind = Value(kind),
+       dueOn = Value(dueOn),
+       clientUpdatedAt = Value(clientUpdatedAt);
+  static Insertable<FarmTaskRow> custom({
+    Expression<String>? id,
+    Expression<String>? plotId,
+    Expression<String>? baharCycleId,
+    Expression<String>? title,
+    Expression<String>? kind,
+    Expression<DateTime>? dueOn,
+    Expression<DateTime>? doneOn,
+    Expression<String>? source,
+    Expression<String>? note,
+    Expression<DateTime>? clientUpdatedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (plotId != null) 'plot_id': plotId,
+      if (baharCycleId != null) 'bahar_cycle_id': baharCycleId,
+      if (title != null) 'title': title,
+      if (kind != null) 'kind': kind,
+      if (dueOn != null) 'due_on': dueOn,
+      if (doneOn != null) 'done_on': doneOn,
+      if (source != null) 'source': source,
+      if (note != null) 'note': note,
+      if (clientUpdatedAt != null) 'client_updated_at': clientUpdatedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  FarmTasksCompanion copyWith({
+    Value<String>? id,
+    Value<String?>? plotId,
+    Value<String?>? baharCycleId,
+    Value<String>? title,
+    Value<String>? kind,
+    Value<DateTime>? dueOn,
+    Value<DateTime?>? doneOn,
+    Value<String?>? source,
+    Value<String?>? note,
+    Value<DateTime>? clientUpdatedAt,
+    Value<int>? rowid,
+  }) {
+    return FarmTasksCompanion(
+      id: id ?? this.id,
+      plotId: plotId ?? this.plotId,
+      baharCycleId: baharCycleId ?? this.baharCycleId,
+      title: title ?? this.title,
+      kind: kind ?? this.kind,
+      dueOn: dueOn ?? this.dueOn,
+      doneOn: doneOn ?? this.doneOn,
+      source: source ?? this.source,
+      note: note ?? this.note,
+      clientUpdatedAt: clientUpdatedAt ?? this.clientUpdatedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (plotId.present) {
+      map['plot_id'] = Variable<String>(plotId.value);
+    }
+    if (baharCycleId.present) {
+      map['bahar_cycle_id'] = Variable<String>(baharCycleId.value);
+    }
+    if (title.present) {
+      map['title'] = Variable<String>(title.value);
+    }
+    if (kind.present) {
+      map['kind'] = Variable<String>(kind.value);
+    }
+    if (dueOn.present) {
+      map['due_on'] = Variable<DateTime>(dueOn.value);
+    }
+    if (doneOn.present) {
+      map['done_on'] = Variable<DateTime>(doneOn.value);
+    }
+    if (source.present) {
+      map['source'] = Variable<String>(source.value);
+    }
+    if (note.present) {
+      map['note'] = Variable<String>(note.value);
+    }
+    if (clientUpdatedAt.present) {
+      map['client_updated_at'] = Variable<DateTime>(clientUpdatedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('FarmTasksCompanion(')
+          ..write('id: $id, ')
+          ..write('plotId: $plotId, ')
+          ..write('baharCycleId: $baharCycleId, ')
+          ..write('title: $title, ')
+          ..write('kind: $kind, ')
+          ..write('dueOn: $dueOn, ')
+          ..write('doneOn: $doneOn, ')
+          ..write('source: $source, ')
+          ..write('note: $note, ')
+          ..write('clientUpdatedAt: $clientUpdatedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -7521,6 +8129,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       $IrrigationRecordsTable(this);
   late final $HarvestRecordsTable harvestRecords = $HarvestRecordsTable(this);
   late final $LabourRecordsTable labourRecords = $LabourRecordsTable(this);
+  late final $FarmTasksTable farmTasks = $FarmTasksTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -7538,6 +8147,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     irrigationRecords,
     harvestRecords,
     labourRecords,
+    farmTasks,
   ];
   @override
   DriftDatabaseOptions get options =>
@@ -11280,6 +11890,312 @@ typedef $$LabourRecordsTableProcessedTableManager =
       LabourRecordRow,
       PrefetchHooks Function()
     >;
+typedef $$FarmTasksTableCreateCompanionBuilder = FarmTasksCompanion Function({
+  required String id,
+  Value<String?> plotId,
+  Value<String?> baharCycleId,
+  required String title,
+  required String kind,
+  required DateTime dueOn,
+  Value<DateTime?> doneOn,
+  Value<String?> source,
+  Value<String?> note,
+  required DateTime clientUpdatedAt,
+  Value<int> rowid,
+});
+typedef $$FarmTasksTableUpdateCompanionBuilder = FarmTasksCompanion Function({
+  Value<String> id,
+  Value<String?> plotId,
+  Value<String?> baharCycleId,
+  Value<String> title,
+  Value<String> kind,
+  Value<DateTime> dueOn,
+  Value<DateTime?> doneOn,
+  Value<String?> source,
+  Value<String?> note,
+  Value<DateTime> clientUpdatedAt,
+  Value<int> rowid,
+});
+
+class $$FarmTasksTableFilterComposer
+    extends Composer<_$AppDatabase, $FarmTasksTable> {
+  $$FarmTasksTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get plotId => $composableBuilder(
+    column: $table.plotId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get baharCycleId => $composableBuilder(
+    column: $table.baharCycleId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get title => $composableBuilder(
+    column: $table.title,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get kind => $composableBuilder(
+    column: $table.kind,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get dueOn => $composableBuilder(
+    column: $table.dueOn,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get doneOn => $composableBuilder(
+    column: $table.doneOn,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get source => $composableBuilder(
+    column: $table.source,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get note => $composableBuilder(
+    column: $table.note,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get clientUpdatedAt => $composableBuilder(
+    column: $table.clientUpdatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$FarmTasksTableOrderingComposer
+    extends Composer<_$AppDatabase, $FarmTasksTable> {
+  $$FarmTasksTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get plotId => $composableBuilder(
+    column: $table.plotId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get baharCycleId => $composableBuilder(
+    column: $table.baharCycleId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get title => $composableBuilder(
+    column: $table.title,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get kind => $composableBuilder(
+    column: $table.kind,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get dueOn => $composableBuilder(
+    column: $table.dueOn,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get doneOn => $composableBuilder(
+    column: $table.doneOn,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get source => $composableBuilder(
+    column: $table.source,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get note => $composableBuilder(
+    column: $table.note,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get clientUpdatedAt => $composableBuilder(
+    column: $table.clientUpdatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$FarmTasksTableAnnotationComposer
+    extends Composer<_$AppDatabase, $FarmTasksTable> {
+  $$FarmTasksTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get plotId =>
+      $composableBuilder(column: $table.plotId, builder: (column) => column);
+
+  GeneratedColumn<String> get baharCycleId => $composableBuilder(
+    column: $table.baharCycleId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get title =>
+      $composableBuilder(column: $table.title, builder: (column) => column);
+
+  GeneratedColumn<String> get kind =>
+      $composableBuilder(column: $table.kind, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get dueOn =>
+      $composableBuilder(column: $table.dueOn, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get doneOn =>
+      $composableBuilder(column: $table.doneOn, builder: (column) => column);
+
+  GeneratedColumn<String> get source =>
+      $composableBuilder(column: $table.source, builder: (column) => column);
+
+  GeneratedColumn<String> get note =>
+      $composableBuilder(column: $table.note, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get clientUpdatedAt => $composableBuilder(
+    column: $table.clientUpdatedAt,
+    builder: (column) => column,
+  );
+}
+
+class $$FarmTasksTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $FarmTasksTable,
+          FarmTaskRow,
+          $$FarmTasksTableFilterComposer,
+          $$FarmTasksTableOrderingComposer,
+          $$FarmTasksTableAnnotationComposer,
+          $$FarmTasksTableCreateCompanionBuilder,
+          $$FarmTasksTableUpdateCompanionBuilder,
+          (
+            FarmTaskRow,
+            BaseReferences<_$AppDatabase, $FarmTasksTable, FarmTaskRow>,
+          ),
+          FarmTaskRow,
+          PrefetchHooks Function()
+        > {
+  $$FarmTasksTableTableManager(_$AppDatabase db, $FarmTasksTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$FarmTasksTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$FarmTasksTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$FarmTasksTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String?> plotId = const Value.absent(),
+                Value<String?> baharCycleId = const Value.absent(),
+                Value<String> title = const Value.absent(),
+                Value<String> kind = const Value.absent(),
+                Value<DateTime> dueOn = const Value.absent(),
+                Value<DateTime?> doneOn = const Value.absent(),
+                Value<String?> source = const Value.absent(),
+                Value<String?> note = const Value.absent(),
+                Value<DateTime> clientUpdatedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => FarmTasksCompanion(
+                id: id,
+                plotId: plotId,
+                baharCycleId: baharCycleId,
+                title: title,
+                kind: kind,
+                dueOn: dueOn,
+                doneOn: doneOn,
+                source: source,
+                note: note,
+                clientUpdatedAt: clientUpdatedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                Value<String?> plotId = const Value.absent(),
+                Value<String?> baharCycleId = const Value.absent(),
+                required String title,
+                required String kind,
+                required DateTime dueOn,
+                Value<DateTime?> doneOn = const Value.absent(),
+                Value<String?> source = const Value.absent(),
+                Value<String?> note = const Value.absent(),
+                required DateTime clientUpdatedAt,
+                Value<int> rowid = const Value.absent(),
+              }) => FarmTasksCompanion.insert(
+                id: id,
+                plotId: plotId,
+                baharCycleId: baharCycleId,
+                title: title,
+                kind: kind,
+                dueOn: dueOn,
+                doneOn: doneOn,
+                source: source,
+                note: note,
+                clientUpdatedAt: clientUpdatedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$FarmTasksTable, FarmTaskRow>(table),
+                  BaseReferences<_$AppDatabase, $FarmTasksTable, FarmTaskRow>(
+                    db,
+                    table,
+                    e,
+                  ),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$FarmTasksTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $FarmTasksTable,
+      FarmTaskRow,
+      $$FarmTasksTableFilterComposer,
+      $$FarmTasksTableOrderingComposer,
+      $$FarmTasksTableAnnotationComposer,
+      $$FarmTasksTableCreateCompanionBuilder,
+      $$FarmTasksTableUpdateCompanionBuilder,
+      (
+        FarmTaskRow,
+        BaseReferences<_$AppDatabase, $FarmTasksTable, FarmTaskRow>,
+      ),
+      FarmTaskRow,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -11308,4 +12224,6 @@ class $AppDatabaseManager {
       $$HarvestRecordsTableTableManager(_db, _db.harvestRecords);
   $$LabourRecordsTableTableManager get labourRecords =>
       $$LabourRecordsTableTableManager(_db, _db.labourRecords);
+  $$FarmTasksTableTableManager get farmTasks =>
+      $$FarmTasksTableTableManager(_db, _db.farmTasks);
 }

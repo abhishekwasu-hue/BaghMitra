@@ -38,6 +38,9 @@ import '../features/spray/data/restrictions_cache.dart';
 import '../features/spray/data/spray_repository.dart';
 import '../features/spray/domain/spray_check.dart';
 import '../features/spray/domain/spray_record.dart';
+import '../features/tasks/data/task_kinds.dart';
+import '../features/tasks/data/tasks_repository.dart';
+import '../features/tasks/domain/farm_task.dart';
 import '../features/voice/data/cloud_speech.dart';
 import '../features/voice/data/on_device_speech.dart';
 import '../features/voice/domain/speech.dart';
@@ -242,6 +245,23 @@ final sampleOrchardProvider = Provider<SampleOrchard>(
   ),
 );
 
+final tasksRepositoryProvider = Provider<TasksRepository>(
+  (ref) => TasksRepository(
+    ref.watch(databaseProvider),
+    clock: ref.watch(clockProvider),
+  ),
+);
+
+final tasksProvider = StreamProvider<List<FarmTask>>(
+  (ref) => ref.watch(tasksRepositoryProvider).watchAll(),
+);
+
+final taskKindsCatalogProvider = Provider<TaskKinds>((ref) => TaskKinds());
+
+final taskKindsProvider = FutureProvider<List<LabeledOption>>(
+  (ref) => ref.watch(taskKindsCatalogProvider).load(),
+);
+
 final inputsRepositoryProvider = Provider<InputsRepository>(
   (ref) => InputsRepository(
     ref.watch(databaseProvider),
@@ -337,6 +357,7 @@ final syncEngineProvider = Provider<SyncEngine>((ref) {
       FieldWorkRepository.labourEntity: ref
           .watch(fieldWorkRepositoryProvider)
           .applyRemoteLabour,
+      TasksRepository.entity: ref.watch(tasksRepositoryProvider).applyRemote,
     },
   );
   // Demo mode has no backend: writes stay queued locally, nothing is reported as failing.
