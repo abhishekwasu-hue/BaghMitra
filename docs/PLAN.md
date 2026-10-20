@@ -222,3 +222,13 @@ One PR per item, tests first, DoD checked at the end and recorded in `PROGRESS.m
 Billing (M6b–M6d) follows [`SPEC_billing_addendum.md`](SPEC_billing_addendum.md) after the policy
 re-verification ADR.
 
+### Re-prioritised 2026-10-20 (owner): a complete app in the test APK first, Play Store later
+Items 1–5 are done (voice entry: PR #50 in review). The owner does not need a Play Store release
+now; the goal is a **feature-complete app installable from the test-APK releases** for the owner
+and a few growers to use. So the order is: 6 → 7 → 8 → 9 → 10, then M3 (photos, scouting log) and
+the safe parts of M4/M5 (weather, price, irrigation tables, record templates, reminders), then
+polish and the first-run walkthrough. **Parked until asked:** M6b–M6d (Play Billing, consultant
+portal, hardening), Play Console / release runbook, store listing. Hard limits stay: no chemical
+advice until the knowledge base has expert review and the legal gate (Q12), and real login and
+sync wait for the hosted Supabase project (Q3), so the test build runs in offline test mode.
+

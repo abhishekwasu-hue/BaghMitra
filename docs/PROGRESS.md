@@ -128,3 +128,6 @@ The `emulator` job (API 33, pixel_5, 2 GB) is green on `main`: it frees runner d
 
 ### Voice entry (2026-10-20)
 `SpeechRecognizer` / `SpeechSynthesizer` interfaces with an on-device adapter (`speech_to_text`, `flutter_tts`: free, offline where the phone has the `mr-IN` / `hi-IN` pack), a Google Cloud stub behind `SPEECH_ENGINE=cloud` (never selected by default, never called in CI), and a `VoiceMicButton` next to the expense note (note + amount) and the spray product name. RECORD_AUDIO and the recogniser / TTS `queries` are in the manifest, keep rules in `proguard-rules.pro`. The microphone is asked for only when tapped; audio is not stored. Real microphone behaviour is for the owner's phone check (Q21 has the scope).
+
+### Farm tasks, API side (2026-10-20)
+`farm_task` is a synced owner entity (table `farm_tasks`, migration 0013, RLS): title, kind slug, due date, done date, optional plot and bahar, a `source` ('manual' or a template key with its source label) and a note. A task with no plot belongs to the whole orchard. Next: the phone-side table, repository, task list and home "today" list, then local reminders and the season calendar.
