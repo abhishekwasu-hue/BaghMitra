@@ -34,6 +34,12 @@ echo "== build debug apk"
 flutter build apk --debug --dart-define-from-file=../product.env || { echo "apk build failed"; exit 1; }
 df -h / | tail -1
 
+# The release build is the heaviest (R8); like the debug build it must finish before the emulator
+# starts, or the two together exhaust the runner's memory and the runner dies mid-job.
+echo "== build release apk"
+flutter build apk --release --target-platform android-x64 --dart-define-from-file=../product.env || { echo "release build failed"; exit 1; }
+free -m | head -2
+
 boot_emulator() {
   nohup emulator -avd ci -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -no-metrics \
     > "$shots/emulator-$1.log" 2>&1 &
@@ -69,7 +75,6 @@ echo "tests exit status $status"
 # Release-only crashes (R8 stripping a class a plugin needs, a missing permission) never show in
 # debug tests, so install the real release build and make sure the app opens and stays up.
 echo "== release smoke test"
-flutter build apk --release --target-platform android-x64 --dart-define-from-file=../product.env || { echo "release build failed"; exit 1; }
 adb uninstall app.bagmitra.bagmitra > /dev/null 2>&1
 adb install -r build/app/outputs/flutter-apk/app-release.apk || { echo "release install failed"; exit 1; }
 adb logcat -c
