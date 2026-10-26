@@ -3,8 +3,9 @@ exist without anyone opening the app.
 
 Plots are grouped by weather cell, so one provider call serves every plot in a cell
 (`weather_for_cell` stores the days). The configured rules are evaluated over the cell's
-days and each plot in the cell gets the alerts it does not have yet; the unique key
-(plot, rule, first day) keeps a repeated pull from storing an alert twice. A provider
+days and each plot in the cell gets the alerts it does not have yet: a plot gets at most
+one alert per rule while an earlier one still starts inside the past-days window, so a
+degree-day rule whose first day rolls forward every day is not stored again daily. A provider
 failure for one cell is recorded in the summary and the other cells still run.
 
 Delivery is a later step: it sends a push for every `plot_risk_alerts` row with
@@ -22,7 +23,7 @@ import uuid
 from collections import defaultdict
 from collections.abc import Sequence
 from dataclasses import asdict, dataclass, field
-from datetime import datetime
+from datetime import datetime, timedelta
 
 import httpx
 from sqlalchemy import select
@@ -99,14 +100,13 @@ async def run_daily_pull(
         summary.stale_cells += stale
         found = evaluate(active, days)
         plot_ids = [p.id for p in plots]
+        window_start = now.date() - timedelta(days=settings.weather_past_days)
         existing = set(
             (
                 await session.execute(
-                    select(
-                        PlotRiskAlert.plot_id, PlotRiskAlert.rule_key, PlotRiskAlert.first_day
-                    ).where(
+                    select(PlotRiskAlert.plot_id, PlotRiskAlert.rule_key).where(
                         PlotRiskAlert.plot_id.in_(plot_ids),
-                        PlotRiskAlert.first_day.in_({a.first_day for a in found}),
+                        PlotRiskAlert.first_day >= window_start,
                     )
                 )
             ).tuples()
@@ -123,7 +123,7 @@ async def run_daily_pull(
             )
             for plot in plots
             for alert in found
-            if (plot.id, alert.rule_key, alert.first_day) not in existing
+            if (plot.id, alert.rule_key) not in existing
         ]
         session.add_all(new)
         await session.commit()

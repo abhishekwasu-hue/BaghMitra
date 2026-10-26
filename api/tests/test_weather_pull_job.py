@@ -10,7 +10,7 @@ from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker
 
 from bagmitra_api.core.settings import Settings
 from bagmitra_api.db.models import Plot, PlotRiskAlert
-from bagmitra_api.risk.engine import load_rules
+from bagmitra_api.risk.engine import load_rules, parse_rules
 from bagmitra_api.weather.open_meteo import DailyWeather, WeatherUnavailableError
 from bagmitra_api.weather.pull_job import run_daily_pull
 
@@ -150,3 +150,49 @@ async def test_deleted_and_unlocated_plots_are_skipped(
     assert provider.calls == []
     assert (summary.cells, summary.plots, summary.new_alerts) == (0, 0, 0)
     assert await alerts(maker) == []
+
+
+class RollingProvider(FakeProvider):
+    """Each pull starts the days at `start`, so a degree-day rule's first day moves forward."""
+
+    start = TODAY
+
+    async def daily(
+        self, lat: float, lon: float, *, past_days: int, forecast_days: int
+    ) -> list[DailyWeather]:
+        assert (past_days, forecast_days) == (7, 7)
+        self.calls.append((lat, lon))
+        return [DailyWeather(self.start + timedelta(days=i), 30, 20, 0.0, 40, 20) for i in range(3)]
+
+
+async def test_rolling_degree_day_alert_is_stored_once_per_window(
+    maker: async_sessionmaker[AsyncSession], settings: Settings
+) -> None:
+    await add_plot(maker, lat=21.2468, lon=77.7512)
+    psylla = parse_rules(
+        {
+            "rules": [
+                {
+                    "key": "psylla_degree_days",
+                    "kind": "degree_days",
+                    "base_c": 11.11,
+                    "upper_c": 32,
+                    "per_unit": 580,
+                    "source": "test",
+                    "labels": {"en": "Warm", "mr": "उबदार", "hi": "गर्म"},
+                }
+            ]
+        }
+    )
+    provider = RollingProvider()
+    async with maker() as s:
+        first = await run_daily_pull(s, provider, settings, NOW, rules=psylla)
+    provider.start = TODAY + timedelta(days=1)
+    async with maker() as s:
+        next_day = await run_daily_pull(
+            s, provider, settings, NOW + timedelta(days=1), rules=psylla
+        )
+
+    assert first.new_alerts == 1
+    assert next_day.new_alerts == 0, "same rule, same plot, still inside the window"
+    assert len(await alerts(maker)) == 1
