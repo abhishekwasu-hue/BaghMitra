@@ -1702,6 +1702,66 @@ abstract class AppLocalizations {
   /// **'Source: {source}'**
   String weatherSource(String source);
 
+  /// No description provided for @labelInfoTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Label information'**
+  String get labelInfoTitle;
+
+  /// No description provided for @labelInfoBanner.
+  ///
+  /// In en, this message translates to:
+  /// **'This is information printed on registered labels (CIB&RC). It is not a recommendation. Read the product label and confirm with your KVK or agriculture officer before any use.'**
+  String get labelInfoBanner;
+
+  /// No description provided for @labelInfoEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No registered label information is available yet.'**
+  String get labelInfoEmpty;
+
+  /// No description provided for @labelInfoUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Updated {date}'**
+  String labelInfoUpdated(String date);
+
+  /// No description provided for @labelInfoDose.
+  ///
+  /// In en, this message translates to:
+  /// **'Dose on label:'**
+  String get labelInfoDose;
+
+  /// No description provided for @labelInfoInterval.
+  ///
+  /// In en, this message translates to:
+  /// **'Interval: {days} days'**
+  String labelInfoInterval(String days);
+
+  /// No description provided for @labelInfoPhi.
+  ///
+  /// In en, this message translates to:
+  /// **'PHI: {days} days before harvest'**
+  String labelInfoPhi(String days);
+
+  /// No description provided for @labelInfoMaxSprays.
+  ///
+  /// In en, this message translates to:
+  /// **'Max sprays: {count}'**
+  String labelInfoMaxSprays(String count);
+
+  /// No description provided for @labelInfoCrop.
+  ///
+  /// In en, this message translates to:
+  /// **'Label crop: {crop}'**
+  String labelInfoCrop(String crop);
+
+  /// No description provided for @labelInfoSource.
+  ///
+  /// In en, this message translates to:
+  /// **'Source: {title}'**
+  String labelInfoSource(String title);
+
   /// No description provided for @marketPricesTitle.
   ///
   /// In en, this message translates to:

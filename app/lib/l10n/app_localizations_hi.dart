@@ -948,6 +948,49 @@ class AppLocalizationsHi extends AppLocalizations {
   }
 
   @override
+  String get labelInfoTitle => 'लेबल जानकारी';
+
+  @override
+  String get labelInfoBanner =>
+      'यह जानकारी पंजीकृत लेबल (CIB&RC) पर छपी है। यह सिफ़ारिश नहीं है। किसी भी उपयोग से पहले उत्पाद का लेबल पढ़ें और अपने कृषि विज्ञान केंद्र (KVK) या कृषि अधिकारी से पुष्टि करें।';
+
+  @override
+  String get labelInfoEmpty => 'पंजीकृत लेबल की जानकारी अभी उपलब्ध नहीं है।';
+
+  @override
+  String labelInfoUpdated(String date) {
+    return 'अद्यतन: $date';
+  }
+
+  @override
+  String get labelInfoDose => 'लेबल पर मात्रा:';
+
+  @override
+  String labelInfoInterval(String days) {
+    return 'दो छिड़काव के बीच अंतर: $days दिन';
+  }
+
+  @override
+  String labelInfoPhi(String days) {
+    return 'कटाई से $days दिन पहले (PHI)';
+  }
+
+  @override
+  String labelInfoMaxSprays(String count) {
+    return 'अधिकतम छिड़काव: $count';
+  }
+
+  @override
+  String labelInfoCrop(String crop) {
+    return 'लेबल पर फसल: $crop';
+  }
+
+  @override
+  String labelInfoSource(String title) {
+    return 'स्रोत: $title';
+  }
+
+  @override
   String get marketPricesTitle => 'मंडी भाव';
 
   @override
