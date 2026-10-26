@@ -42,6 +42,21 @@ class Settings(BaseSettings):
     weather_past_days: int = 7
     weather_forecast_days: int = 7
 
+    # Market prices (M5): Agmarknet "current daily price" resource on data.gov.in. The key is
+    # issued free on data.gov.in registration and stays out of git (OPEN_QUESTIONS Q26).
+    market_api_base_url: str = "https://api.data.gov.in"
+    market_resource_id: str = "9ef84268-d588-465a-a308-a864a43d0070"
+    market_api_key: SecretStr = Field(default=SecretStr(""))
+    market_state: str = "Maharashtra"
+    # APMCs near the santra belt (SPEC_v1 §2); names as Agmarknet spells them.
+    market_markets: list[str] = Field(
+        default_factory=lambda: ["Kalamna", "Warud", "Katol", "Morshi", "Amravati"]
+    )
+    # Our crop key -> Agmarknet commodity names.
+    market_commodities: dict[str, list[str]] = Field(
+        default_factory=lambda: {"santra": ["Orange"], "mosambi": ["Mousambi(Sweet Lime)"]}
+    )
+
     # Knowledge base (addendum v1.3 §5-§6): review validity and licence span limit.
     kb_review_months_default: int = 12
     kb_review_months_chemical: int = 6
