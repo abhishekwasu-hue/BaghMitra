@@ -1,0 +1,22 @@
+name: Docs
+
+# Markdown-only changes run just this offline link check (no app or API jobs).
+on:
+  push:
+    branches: [main]
+    paths: ["**/*.md", ".github/scripts/check_md_links.py", ".github/workflows/docs.yml"]
+  pull_request:
+    paths: ["**/*.md", ".github/scripts/check_md_links.py", ".github/workflows/docs.yml"]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  links:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Relative links point at files that exist
+        run: python3 .github/scripts/check_md_links.py
