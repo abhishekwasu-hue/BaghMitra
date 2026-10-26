@@ -1575,6 +1575,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Centre point'**
   String get plotCentre;
+
+  /// No description provided for @calendarTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Season calendar'**
+  String get calendarTitle;
+
+  /// No description provided for @calendarIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Your bahar dates and tasks for the next twelve months, from what you entered.'**
+  String get calendarIntro;
+
+  /// No description provided for @calendarMonthEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing dated this month.'**
+  String get calendarMonthEmpty;
+
+  /// No description provided for @calendarStagePlanned.
+  ///
+  /// In en, this message translates to:
+  /// **'planned'**
+  String get calendarStagePlanned;
+
+  /// No description provided for @calendarStageDone.
+  ///
+  /// In en, this message translates to:
+  /// **'done'**
+  String get calendarStageDone;
+
+  /// No description provided for @calendarOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Season calendar'**
+  String get calendarOpen;
 }
 
 class _AppLocalizationsDelegate

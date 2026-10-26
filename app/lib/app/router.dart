@@ -11,6 +11,7 @@ import '../features/auth/domain/auth.dart';
 import '../features/auth/presentation/login_screens.dart';
 import '../features/bahar/presentation/bahar_screen.dart';
 import '../features/bahar/presentation/start_bahar_screen.dart';
+import '../features/calendar/presentation/season_calendar_screen.dart';
 import '../features/dev/component_gallery_screen.dart';
 import '../features/field_work/presentation/harvest_screen.dart';
 import '../features/field_work/presentation/labour_screens.dart';
@@ -50,6 +51,7 @@ abstract final class Routes {
   static const settings = '/settings';
   static const tasks = '/tasks';
   static const addTask = '/tasks/new';
+  static const calendar = '/calendar';
   static const plots = '/plots';
   static const addPlot = '/plots/new';
   static const walkBoundary = '/plots/new/boundary';
@@ -103,6 +105,10 @@ GoRouter buildRouter(
     },
     routes: [
       GoRoute(path: Routes.home, builder: (_, _) => const HomeScreen()),
+      GoRoute(
+        path: Routes.calendar,
+        builder: (_, _) => const SeasonCalendarScreen(),
+      ),
       GoRoute(path: Routes.settings, builder: (_, _) => const SettingsScreen()),
       GoRoute(path: Routes.tasks, builder: (_, _) => const TasksScreen()),
       GoRoute(path: Routes.addTask, builder: (_, _) => const AddTaskScreen()),

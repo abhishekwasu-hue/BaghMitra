@@ -159,6 +159,10 @@ final baharCyclesProvider = StreamProvider.family<List<BaharCycle>, String>(
   (ref, plotId) => ref.watch(baharRepositoryProvider).watchForPlot(plotId),
 );
 
+final allBaharCyclesProvider = StreamProvider<List<BaharCycle>>(
+  (ref) => ref.watch(baharRepositoryProvider).watchAll(),
+);
+
 final baharCatalogProvider = Provider<BaharCatalog>((ref) => BaharCatalog());
 
 final baharOptionsProvider = FutureProvider<BaharCatalogData>(

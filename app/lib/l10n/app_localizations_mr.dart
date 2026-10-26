@@ -866,4 +866,23 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get plotCentre => 'मध्यबिंदू';
+
+  @override
+  String get calendarTitle => 'हंगाम दिनदर्शिका';
+
+  @override
+  String get calendarIntro =>
+      'पुढील बारा महिन्यांतील तुमच्या बहाराच्या तारखा आणि कामे, तुम्ही नोंदवलेल्या माहितीवरून.';
+
+  @override
+  String get calendarMonthEmpty => 'या महिन्यात काही नोंद नाही.';
+
+  @override
+  String get calendarStagePlanned => 'नियोजित';
+
+  @override
+  String get calendarStageDone => 'झाले';
+
+  @override
+  String get calendarOpen => 'हंगाम दिनदर्शिका';
 }

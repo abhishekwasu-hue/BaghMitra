@@ -867,4 +867,23 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get plotCentre => 'Centre point';
+
+  @override
+  String get calendarTitle => 'Season calendar';
+
+  @override
+  String get calendarIntro =>
+      'Your bahar dates and tasks for the next twelve months, from what you entered.';
+
+  @override
+  String get calendarMonthEmpty => 'Nothing dated this month.';
+
+  @override
+  String get calendarStagePlanned => 'planned';
+
+  @override
+  String get calendarStageDone => 'done';
+
+  @override
+  String get calendarOpen => 'Season calendar';
 }
