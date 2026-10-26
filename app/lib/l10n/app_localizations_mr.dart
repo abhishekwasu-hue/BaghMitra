@@ -894,10 +894,6 @@ class AppLocalizationsMr extends AppLocalizations {
       'प्रत्येक बहाराचा विचार करण्यासाठी प्रकाशित स्रोतांमधील मुद्दे. निर्णय तुमचाच; स्रोतांमध्ये कधी कधी मतभेद असतात.';
 
   @override
-  String get baharCompareDraft =>
-      'मसुदा: तज्ज्ञांनी अजून तपासलेले नाही. स्थानिक तज्ज्ञांकडून खात्री करा.';
-
-  @override
   String baharCompareLast(String bahar) {
     return 'या बागेतील मागील बहार: $bahar';
   }
@@ -935,10 +931,6 @@ class AppLocalizationsMr extends AppLocalizations {
   String weatherRain(String mm) {
     return '$mm मिमी पाऊस';
   }
-
-  @override
-  String get weatherAlertsDraft =>
-      'धोक्याच्या सूचना मसुदा नियम आहेत, तज्ज्ञांनी अजून तपासलेले नाहीत. स्थानिक तज्ज्ञांकडून खात्री करा.';
 
   @override
   String weatherSource(String source) {

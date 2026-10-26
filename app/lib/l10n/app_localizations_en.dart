@@ -895,10 +895,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'Points from published sources to help you weigh each bahar. The decision is yours; sources sometimes disagree.';
 
   @override
-  String get baharCompareDraft =>
-      'Draft: not yet checked by an expert. Verify with your local expert.';
-
-  @override
   String baharCompareLast(String bahar) {
     return 'Last bahar on this block: $bahar';
   }
@@ -938,10 +934,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String weatherRain(String mm) {
     return '$mm mm rain';
   }
-
-  @override
-  String get weatherAlertsDraft =>
-      'Risk alerts are draft rules, not yet checked by an expert. Verify with your local expert.';
 
   @override
   String weatherSource(String source) {

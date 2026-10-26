@@ -77,8 +77,6 @@ class PlotWeatherCard extends ConsumerWidget {
                   title: Text(a.text, style: BmType.body),
                   subtitle: Text(t.weatherSource(a.source), style: BmType.meta),
                 ),
-              if (alerts.any((a) => a.status != 'reviewed'))
-                Text(t.weatherAlertsDraft, style: BmType.meta),
             ],
           ],
         ),

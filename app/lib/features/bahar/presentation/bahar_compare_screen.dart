@@ -55,14 +55,6 @@ class _BaharCompareScreenState extends ConsumerState<BaharCompareScreen> {
         padding: const EdgeInsets.all(BmSpace.lg),
         children: [
           Text(t.baharCompareIntro, style: BmType.meta),
-          if (data?.isDraft ?? true)
-            Padding(
-              padding: const EdgeInsets.only(top: BmSpace.xs),
-              child: Text(
-                t.baharCompareDraft,
-                style: BmType.meta.copyWith(color: c.accent),
-              ),
-            ),
           const SizedBox(height: BmSpace.lg),
           Text(
             last == null

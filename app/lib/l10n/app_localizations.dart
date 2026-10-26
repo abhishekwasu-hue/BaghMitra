@@ -1624,12 +1624,6 @@ abstract class AppLocalizations {
   /// **'Points from published sources to help you weigh each bahar. The decision is yours; sources sometimes disagree.'**
   String get baharCompareIntro;
 
-  /// No description provided for @baharCompareDraft.
-  ///
-  /// In en, this message translates to:
-  /// **'Draft: not yet checked by an expert. Verify with your local expert.'**
-  String get baharCompareDraft;
-
   /// No description provided for @baharCompareLast.
   ///
   /// In en, this message translates to:
@@ -1689,12 +1683,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{mm} mm rain'**
   String weatherRain(String mm);
-
-  /// No description provided for @weatherAlertsDraft.
-  ///
-  /// In en, this message translates to:
-  /// **'Risk alerts are draft rules, not yet checked by an expert. Verify with your local expert.'**
-  String get weatherAlertsDraft;
 
   /// No description provided for @weatherSource.
   ///
