@@ -1,5 +1,7 @@
 # BagMitra — Delivery Plan
 
+> Before any spec reading or web research, read `docs/research/RESEARCH_DIGEST.md` (owner's research digest; append one dated, tagged line per new durable finding). Resume point: `docs/PROGRESS.md`.
+
 Source of truth for requirements: [`SPEC_v1.md`](SPEC_v1.md), extended by the
 [knowledge base & advice-safety addendum v1.3](SPEC_knowledge_addendum_v1.3.md), which wins
 for anything that tells a grower what to spray, apply or do. This plan maps every spec

@@ -1,0 +1,148 @@
+# Progress
+
+## M0 — Foundation · 2026-10-12
+
+### Delivered
+- **API** (`api/`): settings from env + `product.env`, JSON logs with request ids, uniform error
+  envelope, `/health/live`, `/health/ready`, Supabase JWT verification, `GET /v1/me`,
+  `POST /v1/sync/push` / `GET /v1/sync/pull` (idempotent, last-writer-wins, full audit log),
+  OpenAPI export, Sentry hook behind `SENTRY_DSN`, Dockerfile.
+- **DB:** `farmers`, `sync_mutations`; Alembic 0001 with owner-only RLS (ENABLE + FORCE).
+- **App** (`app/`): Riverpod + go_router; theme tokens from the reference mockup (light + dark);
+  Baloo 2 + Mukta bundled; i18n `en` / `mr` / `hi`; Drift DB + outbox + sync engine (batching,
+  backoff with jitter, offline/signed-out states, pull cursor); generated API client; HTTP sync
+  transport; phone-OTP login (Supabase adapter + demo mode); Home "today's orchard" built from
+  design-system components; painted glyph illustration set; component gallery behind
+  `DEV_GALLERY`; admin web shell (`lib/main_admin.dart`).
+- **CI:** `.github/workflows/api.yml` (ruff, format, mypy strict, bandit, pytest ≥ 85%,
+  OpenAPI drift, Postgres migration + RLS job), `.github/workflows/app.yml` (codegen drift,
+  format, analyze `--fatal-infos`, tests incl. goldens, logic coverage ≥ 80%, release APK artifact).
+- **Docs:** PLAN, ADRs 0001–0007, DESIGN_SYSTEM (with screenshots), OPEN_QUESTIONS, runbook.
+
+### DoD checklist (verified in the build session)
+| Item | Result |
+|---|---|
+| ruff / ruff format / mypy --strict / bandit | clean |
+| pytest | 30 passed, 1 Postgres-only; coverage **95.9%** (gate 85%) |
+| Postgres: upgrade → downgrade → upgrade, RLS on every table, cross-user read/insert blocked | passed (postgis/postgis:16-3.4) |
+| API smoke on Postgres: migrate, push profile, `GET /v1/me` (Marathi), JSON access logs | passed |
+| dart format / flutter analyze | zero issues |
+| flutter test | 55 passed (unit, widget, offline→online sync, l10n completeness, no-inline-colours, goldens) |
+| App logic coverage | **91.2%** (gate 80%) |
+| Goldens | Home mr light/dark, hi, en, offline banner; login; gallery |
+| `flutter build web` (app + admin) | passed |
+| OpenAPI exported, Dart client generated | yes; CI checks drift |
+| APK build | CI job (no Android SDK in the build container) |
+| Emulator demo checklist | **not run** — no KVM/Android SDK in the cloud container (OPEN_QUESTIONS Q4) |
+| `make dev` (Docker compose) | **not verified** — Docker Hub returned 429 for `python:3.12-slim`; the same steps passed without Docker (above) |
+
+### Demo checklist (run on an emulator when one is available)
+1. Fresh install → login screen in device language (Marathi device → Marathi).
+2. Invalid number shows error; valid number → OTP screen; wrong OTP error; correct OTP → Home.
+3. Home: weather header, stage card with day count in Devanagari digits, alert, tasks, price.
+4. Tick a task → animated check; dark mode via system setting.
+5. Airplane mode → offline banner; edits queue; network back → banner clears.
+
+### Known gaps carried into M1
+Home slightly exceeds one 5.5" screen (Q7); mic not wired until STT (Q5); performance budget
+measurement on a 2 GB device profile not yet automated.
+
+---
+
+## Status after M1 / K0 / K1 / M2 (first slices) · 2026-10-20
+
+Everything below is merged to `main` with CI green (API: ruff, format, mypy strict incl.
+alembic, bandit, pytest ≥ 85 %, kb/* ≥ 90 %, OpenAPI drift, Postgres migration + RLS; app:
+codegen drift, format, analyze, tests + goldens, logic coverage ≥ 80 %, APK). Nothing is
+deployed. All screens are checked as goldens at phone size; **no emulator run has been done**
+(Q4), so the demo checklists below are covered by widget tests, not by a device.
+
+### M1 — Orchard & bahar core · partly done
+| Done | Not done |
+|---|---|
+| Plots API + app (add / list / delete), offline + synced | Editing the boundary of an existing plot; boundary on a map (needs a map provider) |
+| GPS boundary when adding a plot: stand at each corner and tap; area and centroid computed on the phone, saved as a GeoJSON polygon (Android location permission; position read only on tap) | |
+| Bahar cycles API + app ("start a bahar" with the grower's own dates) | Stage calendar and bahar selection assistant (needs verified templates, Q10) |
+| Crop stage templates as reference data (none published) | Tasks and reminders (push, WhatsApp / SMS) |
+| Sync appliers for plot and bahar so other devices' changes arrive | Voice-guided onboarding (needs STT, Q5); wave-2 locales |
+| Onboarding: language (Marathi first, switches the app at once), optional name and place, required data consent and optional WhatsApp consent (draft wording, Q17); saved offline, router gates the app until done | |
+
+### K0 / K1 — Knowledge base and legal gate · done in code, no content yet
+Source registry (51 sources, tier + licence), card lifecycle (draft → expert_reviewed →
+published, expert review record required, review expiry), licence rules enforced in code,
+legal gate (ban, crop restriction, no label claim, PHI), output filter, CSV importers with dated
+diffs and end-dating, nightly re-gate, admin alerts, admin API and web screens with staff
+sign-in. 27 draft cards and 7 recorded source conflicts are seeded from addendum v1.3 §3 (chemical
+options carry no dose; none can pass the gate until label claims are imported), and source
+documents are tracked by fetch status (all 38 fetches were blocked from the dev environment, see
+`runbooks/kb-sources.md`). **No card is published and no label claims are loaded**, so no chemical advice can
+reach a grower (blockers: Q12 expert reviewer, Q13 CCRI calendar, Q10 source PDFs).
+
+### M2 — Records & accounts · partly done
+| Done | Not done |
+|---|---|
+| Expenses and incomes (API + app), exact paise, buyer dues | |
+| Cost and profit per plot / bahar; per acre, tree, tonne | |
+| Season-by-season comparison per bahar (cost, income, profit and change vs the same bahar a season earlier) | |
+| Spray records (API + app) with offline ban / PHI warning from a cached gazette list | Voice-note quick entry (needs STT, Q5) |
+| Accounts export as a spreadsheet (CSV with Marathi header, plain-decimal money) and as a PDF report (Flutter-rendered, so Marathi is shaped correctly), shared via the phone's share sheet | Selectable-text PDF and a true .xlsx (Q16, only if asked) |
+| Fertiliser / manure and irrigation records (API + app, field log screen); input cost counted under its kind | |
+| Labour register (wages, advances, settlement) and harvest records (API + app); wages counted under labour | |
+| Warnings are facts only and never block recording | |
+
+### Known gaps
+- Home still shows sample data ("Sample data" chip): weather, tasks and price come in M4 / M5.
+- The restrictions feed is only as good as the seeded list (8 entries, checked 2026-10-12); the
+  PPQS importer (CSV upload) is how it gets completed.
+- Warnings use the label aliases in `assets/config/crops.json` (owner-confirmed, Q15).
+- Performance budget (2 GB device, first frame < 1 s) is not measured yet.
+
+### Owner actions outstanding (none of them blocks development)
+Hosted Supabase project, an expert reviewer, the official CCRI Calendar of Operations, a legal
+review of the consent wording, a real-phone check before Play release, Play Console setup
+(billing runbooks). Decisions from the owner's unblock message of 2026-10-20 are recorded in
+`OPEN_QUESTIONS.md` and the work queue is in `PLAN.md`; development continues on the local Supabase
+stack, the on-device voice adapter, a headless emulator in CI, interim CCRI templates and draft
+knowledge cards.
+
+### Headless emulator job (2026-10-20)
+`emulator` job in `app.yml`: `reactivecircus/android-emulator-runner` (API 33, `pixel_5`, 2 GB RAM, x86_64) runs `flutter test integration_test` against the real `main()` in demo mode, then uploads `final.png` (or `failure.png`) as the `emulator-integration` and `emulator-release` artifacts. First test is a sign-in smoke test. Not yet run: the first CI run decides whether the job needs tuning; the offline-to-online sync, add-plot, GPS boundary (emulator geo fix), PDF export and share-intent tests are added incrementally as follow-ups.
+
+### M6a — entitlement layer (2026-10-20)
+Provider-agnostic: `billing_plans`, `plan_entitlements`, `subscriptions`, `billing_events`, `entitlement_snapshots` (migration 0012, RLS: plans are reference data, the rest private). `compute_entitlements` is a pure function covering PENDING/ACTIVE/IN_GRACE_PERIOD/ON_HOLD/PAUSED/CANCELED/EXPIRED/REVOKED with half-open access windows; the free plan is the floor, the union of features wins (unlimited beats a limit), and each signed snapshot expires at the earliest access end or the TTL. `GET /v1/billing/entitlements` serves the Ed25519-signed snapshot; `billing_admin` endpoints manage plans, manual grants (with reason and audit event), revocation and event inspection. No Play code yet (M6b). Open: Q19 plan split. App-side cache and gating widget follow in the next PR.
+
+### M6a — app side (2026-10-20)
+`EntitlementsCache` stores the last server snapshot (`SyncMeta` key `billing.entitlements`), `entitlementsProvider` answers from the cache first and refreshes online, `Entitlements.has/limitOf/isAtLimit` apply the offline grace margin (`assets/config/entitlements.json`, 72 h) and never lock `records`, `accounts`, `export`. `FeatureGate` widget wraps premium UI; nothing is gated yet because no premium feature exists. Open: the phone stores the snapshot signature but does not verify it (needs the public key shipped in config; logged with the paywall work in M6b). Admin plan/grant UI is the next M6a piece.
+
+### Test build app features, part 2a (2026-10-20)
+`--dart-define=TEST_BUILD=<sha>` (set by the test-APK workflow) turns on the TEST BUILD badge on Home (tap it for Settings), the "Offline test mode: your data stays on this phone" banner when no backend is configured, and the Settings screen with "Send logs" (on-device log file, newest 256 KB, shared through the share sheet). The login screen offers "Try without account" when there is no Supabase config; with Supabase keys it is hidden and real OTP login is used, no code change. Still to do: seed-orchard button (Shindi Khurd sample), release-APK smoke test on the emulator.
+
+### Test APK (2026-10-20)
+`release-test-apk.yml` runs after the "BagMitra App" workflow succeeds on a push to `main` (or by hand) and publishes a signed release APK set as a pre-release `test-YYYYMMDD-<sha>` (`https://github.com/abhishekwasu-hue/BaghMitra/releases`). Secrets the owner adds: `TEST_KEYSTORE_BASE64`, `TEST_KEYSTORE_PASSWORD`, `TEST_KEY_ALIAS`, `TEST_KEY_PASSWORD` (Q20). `versionCode` = CI run number, `versionName` = pubspec version + sha. R8 is on for release with keep rules in `android/app/proguard-rules.pro`; the INTERNET permission is now in the main manifest (release builds had none). Next PR: demo "Try without account", TEST BUILD badge, seed orchard, Send logs, release-APK smoke test on the emulator.
+
+### Test build app features, part 2b (2026-10-20)
+Settings has "Add sample orchard" (only when no backend is configured, so sample rows can never sync into a real account): one Nagpur mandarin block near Shindi Khurd, Chandur Bazar (Amravati) with a placeholder square boundary of about 4 acres, Mrig bahar active, and a few expense, sale, spray, input, irrigation, labour and harvest records. Fixed ids make repeated taps idempotent. The real boundary is walked with "Add this corner". Release-APK smoke test on the emulator waits for the emulator job (PR #44).
+
+### Emulator job and release smoke test (2026-10-20)
+The `emulator` job (API 33, pixel_5, 2 GB) is green on `main`: it frees runner disk, installs the system image, builds the debug APK, boots the AVD from `app/tool/emulator_ci.sh`, runs `integration_test`, and now also builds the release APK, installs it, opens it and fails on a crash or a dead process (catches R8 / permission problems only visible in release). Logs and screenshots are the `emulator-integration` and `emulator-release` artifacts; on a failed pull-request run the end of the log is posted as a comment (job logs for this job are not retrievable through the API). Test APKs: `https://github.com/abhishekwasu-hue/BaghMitra/releases` (pre-releases `test-YYYYMMDD-<sha>`).
+
+### Voice entry (2026-10-20)
+`SpeechRecognizer` / `SpeechSynthesizer` interfaces with an on-device adapter (`speech_to_text`, `flutter_tts`: free, offline where the phone has the `mr-IN` / `hi-IN` pack), a Google Cloud stub behind `SPEECH_ENGINE=cloud` (never selected by default, never called in CI), and a `VoiceMicButton` next to the expense note (note + amount) and the spray product name. RECORD_AUDIO and the recogniser / TTS `queries` are in the manifest, keep rules in `proguard-rules.pro`. The microphone is asked for only when tapped; audio is not stored. Real microphone behaviour is for the owner's phone check (Q21 has the scope).
+
+### Farm tasks, phone side (2026-10-20)
+Drift schema v8 `farm_tasks`, `TasksRepository` (offline, outbox, remote apply), task kinds from `assets/config/task_kinds.json`, a Tasks screen (grouped overdue / today / upcoming / done; tick to finish, swipe to delete, add with kind and due day) and Home "Today's tasks" now showing the grower's real tasks (overdue and due today, plus ones ticked today) instead of the sample ones once any task exists; "See all" opens the Tasks screen. Still to do: tasks generated from a bahar cycle's dates and templates, local reminders, the season calendar.
+
+### Farm tasks, API side (2026-10-20)
+`farm_task` is a synced owner entity (table `farm_tasks`, migration 0013, RLS): title, kind slug, due date, done date, optional plot and bahar, a `source` ('manual' or a template key with its source label) and a note. A task with no plot belongs to the whole orchard. Next: the phone-side table, repository, task list and home "today" list, then local reminders and the season calendar.
+
+### Stage reminders from a bahar's dates (2026-10-20)
+Starting a bahar now makes one task per planned stage date that has a template (`assets/config/task_templates.json`: stress start, flowering, fruit set and harvest), due on that date, in the grower's language, with a stable UUID per stage so saving again updates instead of duplicating and a task the grower already ticked is left alone. The templates only restate the grower's own dates and ask for a record (no timing or treatment advice); verified CCRI-based templates plug into the same file later (Q10, Q13).
+
+### Actions minutes (2026-10-20)
+The two emulator jobs (about 25 minutes each) now run on pushes to `main` and by hand, not on every pull-request push; pull requests still run checks and the APK build. A push to `main` therefore still gates the test APK on the emulator. Reason: on 2026-10-20 every job started failing within seconds with no runner assigned (0 billable ms), which looks like the Actions usage limit; the owner needs to check Settings → Billing for the account.
+
+### Plot detail and edit (2026-10-20)
+Tapping a block on "My orchard" now opens a detail screen (crop, variety, area, trees, planting year, boundary corner count and centre point) with "Bahar, sprays and accounts" (the former landing screen) and an Edit button. Editing reuses the add-block form with the block's values: it keeps the id (so it syncs as an update), the walked boundary (typing a new area still replaces it) and the fields the form does not show (irrigation, water, soil, spacing). Re-walking the boundary works as when adding.
+
+### Task reminders (2026-10-20)
+Open tasks now notify on the phone at 07:00 on their due date (local notifications, offline). `planReminders` is pure and tested; `LocalNotificationScheduler` is the Android adapter (desugaring, boot receiver and R8 keep rule added; the release-APK emulator smoke test covers the launch). Logged as Q23.
