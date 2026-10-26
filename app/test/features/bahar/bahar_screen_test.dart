@@ -11,14 +11,17 @@ import '../../helpers/pump_app.dart';
 import '../plots/plots_screen_test.dart' show settle;
 import 'bahar_repository_test.dart' show cycle;
 
-Future<void> seedPlot(AppDatabase db) => PlotRepository(db).save(
-  const Plot(
-    id: 'p1',
-    name: 'बाग १',
-    crop: 'santra',
-    areaSqM: 4 * Plot.sqMPerAcre,
-  ),
-);
+Future<void> seedPlot(AppDatabase db, {double? lat, double? lon}) =>
+    PlotRepository(db).save(
+      Plot(
+        id: 'p1',
+        name: 'बाग १',
+        crop: 'santra',
+        areaSqM: 4 * Plot.sqMPerAcre,
+        centroidLat: lat,
+        centroidLon: lon,
+      ),
+    );
 
 Future<void> seedPlotWithCycle(AppDatabase db) async {
   await seedPlot(db);

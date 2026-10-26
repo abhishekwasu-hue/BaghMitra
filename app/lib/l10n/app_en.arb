@@ -515,5 +515,15 @@
   "baharCompareNoPoints": "No checked information for this bahar yet.",
   "baharCompareUse": "Use this bahar",
   "@baharCompareLast": {"placeholders": {"bahar": {"type": "String"}}},
-  "@baharCompareSource": {"placeholders": {"source": {"type": "String"}}}
+  "@baharCompareSource": {"placeholders": {"source": {"type": "String"}}},
+  "weatherTitle": "Weather",
+  "weatherAsOf": "Updated {date}",
+  "weatherStale": "Weather could not be updated; showing the last saved days.",
+  "weatherNone": "No weather yet. It loads when the phone is online.",
+  "weatherRain": "{mm} mm rain",
+  "weatherAlertsDraft": "Risk alerts are draft rules, not yet checked by an expert. Verify with your local expert.",
+  "weatherSource": "Source: {source}",
+  "@weatherAsOf": {"placeholders": {"date": {"type": "String"}}},
+  "@weatherRain": {"placeholders": {"mm": {"type": "String"}}},
+  "@weatherSource": {"placeholders": {"source": {"type": "String"}}}
 }

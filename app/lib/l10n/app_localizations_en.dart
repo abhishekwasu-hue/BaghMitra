@@ -917,4 +917,34 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get baharCompareUse => 'Use this bahar';
+
+  @override
+  String get weatherTitle => 'Weather';
+
+  @override
+  String weatherAsOf(String date) {
+    return 'Updated $date';
+  }
+
+  @override
+  String get weatherStale =>
+      'Weather could not be updated; showing the last saved days.';
+
+  @override
+  String get weatherNone =>
+      'No weather yet. It loads when the phone is online.';
+
+  @override
+  String weatherRain(String mm) {
+    return '$mm mm rain';
+  }
+
+  @override
+  String get weatherAlertsDraft =>
+      'Risk alerts are draft rules, not yet checked by an expert. Verify with your local expert.';
+
+  @override
+  String weatherSource(String source) {
+    return 'Source: $source';
+  }
 }

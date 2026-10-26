@@ -258,5 +258,12 @@
   "baharCompareNoLast": "या बागेत अजून कोणताही बहार नोंदलेला नाही.",
   "baharCompareSource": "स्रोत: {source}",
   "baharCompareNoPoints": "या बहारासाठी अजून तपासलेली माहिती नाही.",
-  "baharCompareUse": "हा बहार निवडा"
+  "baharCompareUse": "हा बहार निवडा",
+  "weatherTitle": "हवामान",
+  "weatherAsOf": "अद्ययावत: {date}",
+  "weatherStale": "हवामान अद्ययावत होऊ शकले नाही; शेवटचे जतन केलेले दिवस दाखवत आहोत.",
+  "weatherNone": "अजून हवामान नाही. फोन ऑनलाइन असताना ते येईल.",
+  "weatherRain": "{mm} मिमी पाऊस",
+  "weatherAlertsDraft": "धोक्याच्या सूचना मसुदा नियम आहेत, तज्ज्ञांनी अजून तपासलेले नाहीत. स्थानिक तज्ज्ञांकडून खात्री करा.",
+  "weatherSource": "स्रोत: {source}"
 }

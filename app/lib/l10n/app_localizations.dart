@@ -1659,6 +1659,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Use this bahar'**
   String get baharCompareUse;
+
+  /// No description provided for @weatherTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Weather'**
+  String get weatherTitle;
+
+  /// No description provided for @weatherAsOf.
+  ///
+  /// In en, this message translates to:
+  /// **'Updated {date}'**
+  String weatherAsOf(String date);
+
+  /// No description provided for @weatherStale.
+  ///
+  /// In en, this message translates to:
+  /// **'Weather could not be updated; showing the last saved days.'**
+  String get weatherStale;
+
+  /// No description provided for @weatherNone.
+  ///
+  /// In en, this message translates to:
+  /// **'No weather yet. It loads when the phone is online.'**
+  String get weatherNone;
+
+  /// No description provided for @weatherRain.
+  ///
+  /// In en, this message translates to:
+  /// **'{mm} mm rain'**
+  String weatherRain(String mm);
+
+  /// No description provided for @weatherAlertsDraft.
+  ///
+  /// In en, this message translates to:
+  /// **'Risk alerts are draft rules, not yet checked by an expert. Verify with your local expert.'**
+  String get weatherAlertsDraft;
+
+  /// No description provided for @weatherSource.
+  ///
+  /// In en, this message translates to:
+  /// **'Source: {source}'**
+  String weatherSource(String source);
 }
 
 class _AppLocalizationsDelegate

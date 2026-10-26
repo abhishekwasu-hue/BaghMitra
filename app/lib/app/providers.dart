@@ -47,6 +47,7 @@ import '../features/tasks/domain/farm_task.dart';
 import '../features/voice/data/cloud_speech.dart';
 import '../features/voice/data/on_device_speech.dart';
 import '../features/voice/domain/speech.dart';
+import '../features/weather/data/plot_weather_cache.dart';
 import '../sync/http_transport.dart';
 import '../sync/sync_engine.dart';
 
@@ -430,3 +431,23 @@ class TaskTicks extends Notifier<Map<String, bool>> {
 final taskTicksProvider = NotifierProvider<TaskTicks, Map<String, bool>>(
   TaskTicks.new,
 );
+
+final plotWeatherCacheProvider = Provider<PlotWeatherCache>(
+  (ref) => PlotWeatherCache(
+    ref.watch(databaseProvider),
+    api: ref.watch(apiProvider),
+    clock: ref.watch(clockProvider),
+  ),
+);
+
+/// The cached weather for a plot in a language. Online (not demo) it is refreshed first;
+/// offline the cached copy is shown with its date.
+final plotWeatherProvider =
+    FutureProvider.family<CachedWeather?, (String, String)>((ref, key) async {
+      final (plotId, lang) = key;
+      final cache = ref.watch(plotWeatherCacheProvider);
+      if (!ref.watch(appConfigProvider).demoMode) {
+        await cache.refresh(plotId, lang);
+      }
+      return cache.load(plotId, lang);
+    });
