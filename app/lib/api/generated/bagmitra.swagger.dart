@@ -641,6 +641,45 @@ Alerts come only from the configured rules (never from AI) and carry no chemical
     ),
   });
 
+  ///Label Claims
+  ///@param crop
+  ///@param target
+  Future<chopper.Response<LabelClaimsResponse>> v1ReferenceLabelClaimsGet({
+    required String? crop,
+    String? target,
+  }) {
+    generatedMapping.putIfAbsent(
+      LabelClaimsResponse,
+      () => LabelClaimsResponse.fromJsonFactory,
+    );
+
+    return _v1ReferenceLabelClaimsGet(crop: crop, target: target);
+  }
+
+  ///Label Claims
+  ///@param crop
+  ///@param target
+  @GET(path: '/v1/reference/label-claims')
+  Future<chopper.Response<LabelClaimsResponse>> _v1ReferenceLabelClaimsGet({
+    @Query('crop') required String? crop,
+    @Query('target') String? target,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''What CIB&RC registered labels say for the crop (owner, 2026-10-26: label information
+only). Only claims valid today whose active ingredient is neither banned nor restricted
+for the crop pass the legal gate; doses are quoted exactly as the label states them.
+The app shows this as label information with "read the label; confirm with KVK", never
+as BagMitra\'s own advice.''',
+      summary: 'Label Claims',
+      operationId: 'reference_label_claims',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["reference"],
+      deprecated: false,
+    ),
+  });
+
   ///Restrictions
   Future<chopper.Response<RestrictionsResponse>> v1ReferenceRestrictionsGet() {
     generatedMapping.putIfAbsent(

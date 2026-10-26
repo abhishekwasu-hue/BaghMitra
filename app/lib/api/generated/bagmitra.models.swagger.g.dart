@@ -274,6 +274,53 @@ Map<String, dynamic> _$ImportOutToJson(ImportOut instance) => <String, dynamic>{
   'unchanged': instance.unchanged,
 };
 
+LabelClaimOut _$LabelClaimOutFromJson(Map<String, dynamic> json) =>
+    LabelClaimOut(
+      activeIngredient: json['active_ingredient'] as String,
+      dose: json['dose'] as String,
+      formulation: json['formulation'] as String,
+      intervalDays: (json['interval_days'] as num?)?.toInt(),
+      labelCrop: json['label_crop'] as String,
+      maxSprays: (json['max_sprays'] as num?)?.toInt(),
+      phiDays: (json['phi_days'] as num?)?.toInt(),
+      sourceKey: json['source_key'] as String,
+      sourceTitle: json['source_title'] as String,
+      sourceUrl: json['source_url'] as String,
+      target: json['target'] as String,
+    );
+
+Map<String, dynamic> _$LabelClaimOutToJson(LabelClaimOut instance) =>
+    <String, dynamic>{
+      'active_ingredient': instance.activeIngredient,
+      'dose': instance.dose,
+      'formulation': instance.formulation,
+      'interval_days': ?instance.intervalDays,
+      'label_crop': instance.labelCrop,
+      'max_sprays': ?instance.maxSprays,
+      'phi_days': ?instance.phiDays,
+      'source_key': instance.sourceKey,
+      'source_title': instance.sourceTitle,
+      'source_url': instance.sourceUrl,
+      'target': instance.target,
+    };
+
+LabelClaimsResponse _$LabelClaimsResponseFromJson(Map<String, dynamic> json) =>
+    LabelClaimsResponse(
+      claims:
+          (json['claims'] as List<dynamic>?)
+              ?.map((e) => LabelClaimOut.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+      kind: json['kind'] as String?,
+    );
+
+Map<String, dynamic> _$LabelClaimsResponseToJson(
+  LabelClaimsResponse instance,
+) => <String, dynamic>{
+  'claims': instance.claims.map((e) => e.toJson()).toList(),
+  'kind': ?instance.kind,
+};
+
 LiveResponse _$LiveResponseFromJson(Map<String, dynamic> json) => LiveResponse(
   product: json['product'] as String,
   status: json['status'] as String,

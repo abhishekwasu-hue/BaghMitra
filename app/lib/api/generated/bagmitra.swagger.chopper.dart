@@ -526,6 +526,40 @@ Alerts come only from the configured rules (never from AI) and carry no chemical
   }
 
   @override
+  Future<Response<LabelClaimsResponse>> _v1ReferenceLabelClaimsGet({
+    required String? crop,
+    String? target,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''What CIB&RC registered labels say for the crop (owner, 2026-10-26: label information
+only). Only claims valid today whose active ingredient is neither banned nor restricted
+for the crop pass the legal gate; doses are quoted exactly as the label states them.
+The app shows this as label information with "read the label; confirm with KVK", never
+as BagMitra\'s own advice.''',
+      summary: 'Label Claims',
+      operationId: 'reference_label_claims',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["reference"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/reference/label-claims');
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'crop': crop,
+      'target': target,
+    };
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+      tag: swaggerMetaData,
+    );
+    return client.send<LabelClaimsResponse, LabelClaimsResponse>($request);
+  }
+
+  @override
   Future<Response<RestrictionsResponse>> _v1ReferenceRestrictionsGet({
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Gazette bans / restrictions and trade names, cached by the app so spray records can
