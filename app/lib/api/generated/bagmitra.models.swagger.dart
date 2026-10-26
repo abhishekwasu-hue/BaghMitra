@@ -1424,6 +1424,247 @@ extension $ImportOutExtension on ImportOut {
 }
 
 @JsonSerializable(explicitToJson: true)
+class LabelClaimOut {
+  const LabelClaimOut({
+    required this.activeIngredient,
+    required this.dose,
+    required this.formulation,
+    required this.intervalDays,
+    required this.labelCrop,
+    required this.maxSprays,
+    required this.phiDays,
+    required this.sourceKey,
+    required this.sourceTitle,
+    required this.sourceUrl,
+    required this.target,
+  });
+
+  factory LabelClaimOut.fromJson(Map<String, dynamic> json) =>
+      _$LabelClaimOutFromJson(json);
+
+  static const toJsonFactory = _$LabelClaimOutToJson;
+  Map<String, dynamic> toJson() => _$LabelClaimOutToJson(this);
+
+  @JsonKey(name: 'active_ingredient', includeIfNull: false)
+  final String activeIngredient;
+  @JsonKey(name: 'dose', includeIfNull: false)
+  final String dose;
+  @JsonKey(name: 'formulation', includeIfNull: false)
+  final String formulation;
+  @JsonKey(name: 'interval_days', includeIfNull: false)
+  final int? intervalDays;
+  @JsonKey(name: 'label_crop', includeIfNull: false)
+  final String labelCrop;
+  @JsonKey(name: 'max_sprays', includeIfNull: false)
+  final int? maxSprays;
+  @JsonKey(name: 'phi_days', includeIfNull: false)
+  final int? phiDays;
+  @JsonKey(name: 'source_key', includeIfNull: false)
+  final String sourceKey;
+  @JsonKey(name: 'source_title', includeIfNull: false)
+  final String sourceTitle;
+  @JsonKey(name: 'source_url', includeIfNull: false)
+  final String sourceUrl;
+  @JsonKey(name: 'target', includeIfNull: false)
+  final String target;
+  static const fromJsonFactory = _$LabelClaimOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is LabelClaimOut &&
+            (identical(other.activeIngredient, activeIngredient) ||
+                const DeepCollectionEquality().equals(
+                  other.activeIngredient,
+                  activeIngredient,
+                )) &&
+            (identical(other.dose, dose) ||
+                const DeepCollectionEquality().equals(other.dose, dose)) &&
+            (identical(other.formulation, formulation) ||
+                const DeepCollectionEquality().equals(
+                  other.formulation,
+                  formulation,
+                )) &&
+            (identical(other.intervalDays, intervalDays) ||
+                const DeepCollectionEquality().equals(
+                  other.intervalDays,
+                  intervalDays,
+                )) &&
+            (identical(other.labelCrop, labelCrop) ||
+                const DeepCollectionEquality().equals(
+                  other.labelCrop,
+                  labelCrop,
+                )) &&
+            (identical(other.maxSprays, maxSprays) ||
+                const DeepCollectionEquality().equals(
+                  other.maxSprays,
+                  maxSprays,
+                )) &&
+            (identical(other.phiDays, phiDays) ||
+                const DeepCollectionEquality().equals(
+                  other.phiDays,
+                  phiDays,
+                )) &&
+            (identical(other.sourceKey, sourceKey) ||
+                const DeepCollectionEquality().equals(
+                  other.sourceKey,
+                  sourceKey,
+                )) &&
+            (identical(other.sourceTitle, sourceTitle) ||
+                const DeepCollectionEquality().equals(
+                  other.sourceTitle,
+                  sourceTitle,
+                )) &&
+            (identical(other.sourceUrl, sourceUrl) ||
+                const DeepCollectionEquality().equals(
+                  other.sourceUrl,
+                  sourceUrl,
+                )) &&
+            (identical(other.target, target) ||
+                const DeepCollectionEquality().equals(other.target, target)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(activeIngredient) ^
+      const DeepCollectionEquality().hash(dose) ^
+      const DeepCollectionEquality().hash(formulation) ^
+      const DeepCollectionEquality().hash(intervalDays) ^
+      const DeepCollectionEquality().hash(labelCrop) ^
+      const DeepCollectionEquality().hash(maxSprays) ^
+      const DeepCollectionEquality().hash(phiDays) ^
+      const DeepCollectionEquality().hash(sourceKey) ^
+      const DeepCollectionEquality().hash(sourceTitle) ^
+      const DeepCollectionEquality().hash(sourceUrl) ^
+      const DeepCollectionEquality().hash(target) ^
+      runtimeType.hashCode;
+}
+
+extension $LabelClaimOutExtension on LabelClaimOut {
+  LabelClaimOut copyWith({
+    String? activeIngredient,
+    String? dose,
+    String? formulation,
+    int? intervalDays,
+    String? labelCrop,
+    int? maxSprays,
+    int? phiDays,
+    String? sourceKey,
+    String? sourceTitle,
+    String? sourceUrl,
+    String? target,
+  }) {
+    return LabelClaimOut(
+      activeIngredient: activeIngredient ?? this.activeIngredient,
+      dose: dose ?? this.dose,
+      formulation: formulation ?? this.formulation,
+      intervalDays: intervalDays ?? this.intervalDays,
+      labelCrop: labelCrop ?? this.labelCrop,
+      maxSprays: maxSprays ?? this.maxSprays,
+      phiDays: phiDays ?? this.phiDays,
+      sourceKey: sourceKey ?? this.sourceKey,
+      sourceTitle: sourceTitle ?? this.sourceTitle,
+      sourceUrl: sourceUrl ?? this.sourceUrl,
+      target: target ?? this.target,
+    );
+  }
+
+  LabelClaimOut copyWithWrapped({
+    Wrapped<String>? activeIngredient,
+    Wrapped<String>? dose,
+    Wrapped<String>? formulation,
+    Wrapped<int?>? intervalDays,
+    Wrapped<String>? labelCrop,
+    Wrapped<int?>? maxSprays,
+    Wrapped<int?>? phiDays,
+    Wrapped<String>? sourceKey,
+    Wrapped<String>? sourceTitle,
+    Wrapped<String>? sourceUrl,
+    Wrapped<String>? target,
+  }) {
+    return LabelClaimOut(
+      activeIngredient: (activeIngredient != null
+          ? activeIngredient.value
+          : this.activeIngredient),
+      dose: (dose != null ? dose.value : this.dose),
+      formulation: (formulation != null ? formulation.value : this.formulation),
+      intervalDays: (intervalDays != null
+          ? intervalDays.value
+          : this.intervalDays),
+      labelCrop: (labelCrop != null ? labelCrop.value : this.labelCrop),
+      maxSprays: (maxSprays != null ? maxSprays.value : this.maxSprays),
+      phiDays: (phiDays != null ? phiDays.value : this.phiDays),
+      sourceKey: (sourceKey != null ? sourceKey.value : this.sourceKey),
+      sourceTitle: (sourceTitle != null ? sourceTitle.value : this.sourceTitle),
+      sourceUrl: (sourceUrl != null ? sourceUrl.value : this.sourceUrl),
+      target: (target != null ? target.value : this.target),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class LabelClaimsResponse {
+  const LabelClaimsResponse({required this.claims, this.kind});
+
+  factory LabelClaimsResponse.fromJson(Map<String, dynamic> json) =>
+      _$LabelClaimsResponseFromJson(json);
+
+  static const toJsonFactory = _$LabelClaimsResponseToJson;
+  Map<String, dynamic> toJson() => _$LabelClaimsResponseToJson(this);
+
+  @JsonKey(
+    name: 'claims',
+    includeIfNull: false,
+    defaultValue: <LabelClaimOut>[],
+  )
+  final List<LabelClaimOut> claims;
+  @JsonKey(name: 'kind', includeIfNull: false)
+  final String? kind;
+  static const fromJsonFactory = _$LabelClaimsResponseFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is LabelClaimsResponse &&
+            (identical(other.claims, claims) ||
+                const DeepCollectionEquality().equals(other.claims, claims)) &&
+            (identical(other.kind, kind) ||
+                const DeepCollectionEquality().equals(other.kind, kind)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(claims) ^
+      const DeepCollectionEquality().hash(kind) ^
+      runtimeType.hashCode;
+}
+
+extension $LabelClaimsResponseExtension on LabelClaimsResponse {
+  LabelClaimsResponse copyWith({List<LabelClaimOut>? claims, String? kind}) {
+    return LabelClaimsResponse(
+      claims: claims ?? this.claims,
+      kind: kind ?? this.kind,
+    );
+  }
+
+  LabelClaimsResponse copyWithWrapped({
+    Wrapped<List<LabelClaimOut>>? claims,
+    Wrapped<String?>? kind,
+  }) {
+    return LabelClaimsResponse(
+      claims: (claims != null ? claims.value : this.claims),
+      kind: (kind != null ? kind.value : this.kind),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class LiveResponse {
   const LiveResponse({required this.product, required this.status});
 

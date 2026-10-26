@@ -576,6 +576,112 @@
         "title": "ImportOut",
         "type": "object"
       },
+      "LabelClaimOut": {
+        "properties": {
+          "active_ingredient": {
+            "title": "Active Ingredient",
+            "type": "string"
+          },
+          "dose": {
+            "title": "Dose",
+            "type": "string"
+          },
+          "formulation": {
+            "title": "Formulation",
+            "type": "string"
+          },
+          "interval_days": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Interval Days"
+          },
+          "label_crop": {
+            "title": "Label Crop",
+            "type": "string"
+          },
+          "max_sprays": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Sprays"
+          },
+          "phi_days": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phi Days"
+          },
+          "source_key": {
+            "title": "Source Key",
+            "type": "string"
+          },
+          "source_title": {
+            "title": "Source Title",
+            "type": "string"
+          },
+          "source_url": {
+            "title": "Source Url",
+            "type": "string"
+          },
+          "target": {
+            "title": "Target",
+            "type": "string"
+          }
+        },
+        "required": [
+          "active_ingredient",
+          "formulation",
+          "target",
+          "dose",
+          "interval_days",
+          "phi_days",
+          "max_sprays",
+          "label_crop",
+          "source_key",
+          "source_title",
+          "source_url"
+        ],
+        "title": "LabelClaimOut",
+        "type": "object"
+      },
+      "LabelClaimsResponse": {
+        "properties": {
+          "claims": {
+            "items": {
+              "$ref": "#/components/schemas/LabelClaimOut"
+            },
+            "title": "Claims",
+            "type": "array"
+          },
+          "kind": {
+            "const": "label_information",
+            "default": "label_information",
+            "title": "Kind",
+            "type": "string"
+          }
+        },
+        "required": [
+          "claims"
+        ],
+        "title": "LabelClaimsResponse",
+        "type": "object"
+      },
       "LiveResponse": {
         "properties": {
           "product": {
@@ -2728,6 +2834,82 @@
         "summary": "Get Plot Weather",
         "tags": [
           "weather"
+        ]
+      }
+    },
+    "/v1/reference/label-claims": {
+      "get": {
+        "description": "What CIB&RC registered labels say for the crop (owner, 2026-10-26: label information\nonly). Only claims valid today whose active ingredient is neither banned nor restricted\nfor the crop pass the legal gate; doses are quoted exactly as the label states them.\nThe app shows this as label information with \"read the label; confirm with KVK\", never\nas BagMitra's own advice.",
+        "operationId": "reference_label_claims",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "crop",
+            "required": true,
+            "schema": {
+              "pattern": "^[a-z_]{2,32}$",
+              "title": "Crop",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "target",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "maxLength": 120,
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Target"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LabelClaimsResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Label Claims",
+        "tags": [
+          "reference"
         ]
       }
     },
