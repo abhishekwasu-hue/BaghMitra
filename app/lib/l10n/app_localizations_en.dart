@@ -1043,4 +1043,34 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get marketEmpty =>
       'No prices yet. They load when the phone is online and the price source is connected.';
+
+  @override
+  String get practicesOpen => 'Orchard practices (non-chemical)';
+
+  @override
+  String get practicesTitle => 'Orchard practices';
+
+  @override
+  String practicesSource(String source) {
+    return 'Source: $source';
+  }
+
+  @override
+  String get practicesEvidenceOfficial => 'Official';
+
+  @override
+  String get practicesEvidenceUniversity => 'University';
+
+  @override
+  String get practicesEvidenceResearch => 'Research finding';
+
+  @override
+  String get practicesEvidenceInferred => 'Inferred';
+
+  @override
+  String get practicesGapsTitle => 'No non-chemical practice found yet';
+
+  @override
+  String get practicesSourcesLine =>
+      'Sources: NHB and Dr. PDKV, Akola. Details under each practice.';
 }

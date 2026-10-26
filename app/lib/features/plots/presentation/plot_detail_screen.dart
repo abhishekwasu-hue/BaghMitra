@@ -97,6 +97,12 @@ class PlotDetailScreen extends ConsumerWidget {
           ),
           const SizedBox(height: BmSpace.sm),
           OutlinedButton(
+            key: const Key('open-practices'),
+            onPressed: () => context.push(Routes.practices),
+            child: Text(t.practicesOpen),
+          ),
+          const SizedBox(height: BmSpace.sm),
+          OutlinedButton(
             onPressed: () => context.push(Routes.editPlot(plot.id)),
             child: Text(t.editPlot),
           ),

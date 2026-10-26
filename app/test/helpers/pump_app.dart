@@ -15,6 +15,7 @@ import 'package:bagmitra/features/home/data/demo_home_repository.dart';
 import 'package:bagmitra/features/inputs/data/input_kinds.dart';
 import 'package:bagmitra/features/plots/data/crop_catalog.dart';
 import 'package:bagmitra/features/plots/data/location_service.dart';
+import 'package:bagmitra/features/practices/data/practice_cards.dart';
 import 'package:bagmitra/features/profile/data/language_catalog.dart';
 import 'package:bagmitra/features/tasks/data/task_kinds.dart';
 import 'package:bagmitra/features/voice/domain/speech.dart';
@@ -166,6 +167,9 @@ Future<AppDatabase> pumpApp(
         ),
         cropCatalogProvider.overrideWithValue(
           CropCatalog(bundle: FileAssetBundle()),
+        ),
+        practiceCardsConfigProvider.overrideWithValue(
+          PracticeCardsConfig(bundle: FileAssetBundle()),
         ),
         homeRepositoryProvider.overrideWithValue(
           DemoHomeRepository(bundle: FileAssetBundle()),

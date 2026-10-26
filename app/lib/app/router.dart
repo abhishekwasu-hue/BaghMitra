@@ -25,6 +25,7 @@ import '../features/plots/presentation/add_plot_screen.dart';
 import '../features/plots/presentation/boundary_screen.dart';
 import '../features/plots/presentation/plot_detail_screen.dart';
 import '../features/plots/presentation/plots_screen.dart';
+import '../features/practices/presentation/practices_screen.dart';
 import '../features/profile/presentation/onboarding_screen.dart';
 import '../features/settings/presentation/settings_screen.dart';
 import '../features/spray/presentation/add_spray_screen.dart';
@@ -56,6 +57,7 @@ abstract final class Routes {
   static const addTask = '/tasks/new';
   static const calendar = '/calendar';
   static const market = '/market';
+  static const practices = '/practices';
   static const plots = '/plots';
   static const addPlot = '/plots/new';
   static const walkBoundary = '/plots/new/boundary';
@@ -123,6 +125,10 @@ GoRouter buildRouter(
       GoRoute(path: Routes.tasks, builder: (_, _) => const TasksScreen()),
       GoRoute(path: Routes.addTask, builder: (_, _) => const AddTaskScreen()),
       GoRoute(path: Routes.plots, builder: (_, _) => const PlotsScreen()),
+      GoRoute(
+        path: Routes.practices,
+        builder: (_, _) => const PracticesScreen(),
+      ),
       GoRoute(path: Routes.addPlot, builder: (_, _) => const AddPlotScreen()),
       GoRoute(
         path: Routes.walkBoundary,

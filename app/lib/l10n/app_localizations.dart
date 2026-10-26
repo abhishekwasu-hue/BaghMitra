@@ -1845,6 +1845,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No prices yet. They load when the phone is online and the price source is connected.'**
   String get marketEmpty;
+
+  /// No description provided for @practicesOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Orchard practices (non-chemical)'**
+  String get practicesOpen;
+
+  /// No description provided for @practicesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Orchard practices'**
+  String get practicesTitle;
+
+  /// No description provided for @practicesSource.
+  ///
+  /// In en, this message translates to:
+  /// **'Source: {source}'**
+  String practicesSource(String source);
+
+  /// No description provided for @practicesEvidenceOfficial.
+  ///
+  /// In en, this message translates to:
+  /// **'Official'**
+  String get practicesEvidenceOfficial;
+
+  /// No description provided for @practicesEvidenceUniversity.
+  ///
+  /// In en, this message translates to:
+  /// **'University'**
+  String get practicesEvidenceUniversity;
+
+  /// No description provided for @practicesEvidenceResearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Research finding'**
+  String get practicesEvidenceResearch;
+
+  /// No description provided for @practicesEvidenceInferred.
+  ///
+  /// In en, this message translates to:
+  /// **'Inferred'**
+  String get practicesEvidenceInferred;
+
+  /// No description provided for @practicesGapsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No non-chemical practice found yet'**
+  String get practicesGapsTitle;
+
+  /// No description provided for @practicesSourcesLine.
+  ///
+  /// In en, this message translates to:
+  /// **'Sources: NHB and Dr. PDKV, Akola. Details under each practice.'**
+  String get practicesSourcesLine;
 }
 
 class _AppLocalizationsDelegate

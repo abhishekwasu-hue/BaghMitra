@@ -289,5 +289,14 @@
   "marketUpdated": "अद्यतन: {date}",
   "marketStale": "भाव अद्यतन नहीं हो सके: {reason}",
   "marketStaleNoReason": "भाव अद्यतन नहीं हो सके; आख़िरी सहेजी सूची दिखा रहे हैं।",
-  "marketEmpty": "अभी भाव नहीं हैं। फ़ोन ऑनलाइन होने और भाव का स्रोत जुड़ने पर आएँगे।"
+  "marketEmpty": "अभी भाव नहीं हैं। फ़ोन ऑनलाइन होने और भाव का स्रोत जुड़ने पर आएँगे।",
+  "practicesOpen": "बाग प्रबंधन पद्धतियाँ (रसायन-रहित)",
+  "practicesTitle": "बाग प्रबंधन पद्धतियाँ",
+  "practicesSource": "स्रोत: {source}",
+  "practicesEvidenceOfficial": "सरकारी",
+  "practicesEvidenceUniversity": "विश्वविद्यालय",
+  "practicesEvidenceResearch": "शोध निष्कर्ष",
+  "practicesEvidenceInferred": "अनुमानित",
+  "practicesGapsTitle": "इनके लिए अभी रसायन-रहित उपाय नहीं मिला",
+  "practicesSourcesLine": "स्रोत: NHB और डॉ. पीडीकेवी, अकोला। हर पद्धति के नीचे विवरण।"
 }
