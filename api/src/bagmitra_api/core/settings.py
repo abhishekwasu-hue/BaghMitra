@@ -32,6 +32,11 @@ class Settings(BaseSettings):
 
     sync_max_batch: int = 200
 
+    # Weather (M4): free Open-Meteo endpoint by default; the commercial endpoint
+    # (customer-api.open-meteo.com) needs WEATHER_API_KEY (OPEN_QUESTIONS Q25).
+    weather_base_url: str = "https://api.open-meteo.com/v1"
+    weather_api_key: SecretStr = Field(default=SecretStr(""))
+
     # Knowledge base (addendum v1.3 §5-§6): review validity and licence span limit.
     kb_review_months_default: int = 12
     kb_review_months_chemical: int = 6
