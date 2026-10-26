@@ -1,5 +1,6 @@
-"""Mandi price storage: pull from Agmarknet when stored prices are old, otherwise serve what
-is stored. A failed pull falls back to stored prices marked stale; prices are never invented."""
+"""Mandi price storage: pull India-wide from Agmarknet when stored prices are old, otherwise
+serve what is stored. A failed pull falls back to stored prices marked stale; prices are
+never invented. Readers get the latest price per mandi (market, variety, grade)."""
 
 from __future__ import annotations
 
@@ -24,7 +25,7 @@ AGMARKNET = "agmarknet"
 
 class MarketProvider(Protocol):
     async def prices(
-        self, *, state: str, commodity: str, market: str | None = None
+        self, *, commodity: str, state: str | None = None, market: str | None = None
     ) -> list[MandiPrice]: ...
 
 
@@ -37,6 +38,7 @@ async def get_market_provider(
             base_url=settings.market_api_base_url,
             resource_id=settings.market_resource_id,
             api_key=settings.market_api_key.get_secret_value(),
+            max_pages=settings.market_max_pages,
         )
 
 
@@ -91,6 +93,7 @@ async def store_prices(
             variety=k[3],
             grade=k[4],
             source=k[5],
+            state=p.state,
             district=p.district,
             min_rs_per_quintal=p.min_rs_per_quintal,
             max_rs_per_quintal=p.max_rs_per_quintal,
@@ -102,28 +105,26 @@ async def store_prices(
     await session.commit()
 
 
-async def _stored(
-    session: AsyncSession, commodities: Sequence[str], markets: Sequence[str], since: datetime
+async def _latest_per_mandi(
+    session: AsyncSession, commodities: Sequence[str], since: datetime
 ) -> list[MarketPrice]:
     query = (
         select(MarketPrice)
-        .where(
-            MarketPrice.commodity.in_(commodities),
-            MarketPrice.market.in_(markets),
-            MarketPrice.day >= since.date(),
-        )
-        .order_by(MarketPrice.day.desc(), MarketPrice.market, MarketPrice.variety)
+        .where(MarketPrice.commodity.in_(commodities), MarketPrice.day >= since.date())
+        .order_by(MarketPrice.day.desc())
     )
-    return list((await session.scalars(query)).all())
+    latest: dict[tuple[str, str, str, str], MarketPrice] = {}
+    for row in (await session.scalars(query)).all():
+        latest.setdefault((row.market, row.commodity, row.variety, row.grade), row)
+    return list(latest.values())
 
 
 async def prices_for_commodities(
     session: AsyncSession, ctx: MarketContext, commodities: Sequence[str]
 ) -> PriceView:
     settings, now = ctx.settings, ctx.clock()
-    markets = settings.market_markets
     since = now - timedelta(days=settings.market_window_days)
-    rows = await _stored(session, commodities, markets, since)
+    rows = await _latest_per_mandi(session, commodities, since)
     pulled = [as_utc(r.fetched_at) for r in rows if r.source == AGMARKNET]
     if pulled and now - max(pulled) < timedelta(hours=settings.market_max_age_hours):
         return PriceView(rows, stale=False)
@@ -131,10 +132,11 @@ async def prices_for_commodities(
         fetched = [
             p
             for commodity in commodities
-            for p in await ctx.provider.prices(state=settings.market_state, commodity=commodity)
-            if p.market in markets
+            for p in await ctx.provider.prices(
+                commodity=commodity, state=settings.market_state or None
+            )
         ]
     except MarketUnavailableError as exc:
         return PriceView(rows, stale=True, reason=str(exc))
     await store_prices(session, fetched, source=AGMARKNET, now=now)
-    return PriceView(await _stored(session, commodities, markets, since), stale=False)
+    return PriceView(await _latest_per_mandi(session, commodities, since), stale=False)

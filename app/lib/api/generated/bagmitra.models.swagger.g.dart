@@ -288,11 +288,14 @@ MarketPriceOut _$MarketPriceOutFromJson(Map<String, dynamic> json) =>
       day: DateTime.parse(json['day'] as String),
       district: json['district'] as String,
       grade: json['grade'] as String?,
+      isLocal: json['is_local'] as bool,
+      isMajor: json['is_major'] as bool,
       market: json['market'] as String,
       maxRsPerQuintal: (json['max_rs_per_quintal'] as num?)?.toInt(),
       minRsPerQuintal: (json['min_rs_per_quintal'] as num?)?.toInt(),
       modalRsPerQuintal: (json['modal_rs_per_quintal'] as num).toInt(),
       source: json['source'] as String,
+      state: json['state'] as String,
       variety: json['variety'] as String?,
     );
 
@@ -302,11 +305,14 @@ Map<String, dynamic> _$MarketPriceOutToJson(MarketPriceOut instance) =>
       'day': ?_dateToJson(instance.day),
       'district': instance.district,
       'grade': ?instance.grade,
+      'is_local': instance.isLocal,
+      'is_major': instance.isMajor,
       'market': instance.market,
       'max_rs_per_quintal': ?instance.maxRsPerQuintal,
       'min_rs_per_quintal': ?instance.minRsPerQuintal,
       'modal_rs_per_quintal': instance.modalRsPerQuintal,
       'source': instance.source,
+      'state': instance.state,
       'variety': ?instance.variety,
     };
 

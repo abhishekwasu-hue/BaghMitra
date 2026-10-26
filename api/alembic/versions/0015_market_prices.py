@@ -30,6 +30,7 @@ def upgrade() -> None:
         sa.Column("variety", sa.String(80), nullable=False),
         sa.Column("grade", sa.String(40), nullable=False),
         sa.Column("source", sa.String(32), nullable=False),
+        sa.Column("state", sa.String(80), nullable=False),
         sa.Column("district", sa.String(80), nullable=False),
         sa.Column("min_rs_per_quintal", sa.Integer(), nullable=True),
         sa.Column("max_rs_per_quintal", sa.Integer(), nullable=True),

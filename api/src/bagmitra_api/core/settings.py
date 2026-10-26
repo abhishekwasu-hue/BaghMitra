@@ -47,10 +47,30 @@ class Settings(BaseSettings):
     market_api_base_url: str = "https://api.data.gov.in"
     market_resource_id: str = "9ef84268-d588-465a-a308-a864a43d0070"
     market_api_key: SecretStr = Field(default=SecretStr(""))
-    market_state: str = "Maharashtra"
-    # APMCs near the santra belt (SPEC_v1 §2); names as Agmarknet spells them.
-    market_markets: list[str] = Field(
+    # Empty = all India (owner, 2026-10-26: prices from all major mandis in the country).
+    market_state: str = ""
+    market_max_pages: int = 20
+    # APMCs near the santra belt (SPEC_v1 §2), shown first; names as Agmarknet spells them.
+    market_local_markets: list[str] = Field(
         default_factory=lambda: ["Kalamna", "Warud", "Katol", "Morshi", "Amravati"]
+    )
+    # Big terminal markets shown next (OPEN_QUESTIONS Q27: spellings to confirm on the first
+    # live pull). Every other reporting mandi is still listed after these.
+    market_major_markets: list[str] = Field(
+        default_factory=lambda: [
+            "Azadpur",
+            "Mumbai",
+            "Pune",
+            "Nagpur",
+            "Bangalore",
+            "Chennai",
+            "Hyderabad",
+            "Kolkata",
+            "Ahmedabad",
+            "Jaipur",
+            "Lucknow",
+            "Indore",
+        ]
     )
     market_max_age_hours: int = 12
     market_window_days: int = 14

@@ -8,6 +8,7 @@ import pytest
 
 from bagmitra_api.core.settings import Settings
 from bagmitra_api.market.agmarknet import (
+    PAGE_LIMIT,
     AgmarknetClient,
     MandiPrice,
     MarketUnavailableError,
@@ -52,6 +53,7 @@ def test_parse_records_reads_rupees_per_quintal_and_skips_unusable_rows() -> Non
     assert prices == [
         MandiPrice(
             market="Kalamna",
+            state="Maharashtra",
             district="Nagpur",
             commodity="Orange",
             variety="Nagpuri",
@@ -63,6 +65,7 @@ def test_parse_records_reads_rupees_per_quintal_and_skips_unusable_rows() -> Non
         ),
         MandiPrice(
             market="Warud",
+            state="Maharashtra",
             district="Amravati",
             commodity="Orange",
             variety="Other",
@@ -111,17 +114,41 @@ async def test_client_needs_a_key_and_reports_failures() -> None:
     async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as http:
         no_key = AgmarknetClient(http, base_url="https://x.test", resource_id="r", api_key="")
         with pytest.raises(MarketUnavailableError, match="API key"):
-            await no_key.prices(state="Maharashtra", commodity="Orange")
+            await no_key.prices(commodity="Orange")
         bad = AgmarknetClient(http, base_url="https://x.test", resource_id="r", api_key="k")
         with pytest.raises(MarketUnavailableError, match="403"):
-            await bad.prices(state="Maharashtra", commodity="Orange")
+            await bad.prices(commodity="Orange")
         down = AgmarknetClient(http, base_url="https://x.test", resource_id="r", api_key="down")
         with pytest.raises(MarketUnavailableError, match="down"):
-            await down.prices(state="Maharashtra", commodity="Orange")
+            await down.prices(commodity="Orange")
 
 
 def test_settings_name_the_markets_and_crop_commodities_as_config() -> None:
     s = Settings()
     assert s.market_api_key.get_secret_value() == ""
-    assert "Kalamna" in s.market_markets
+    assert s.market_state == "", "all India by default"
+    assert "Kalamna" in s.market_local_markets
+    assert "Azadpur" in s.market_major_markets
     assert s.market_commodities["santra"] == ["Orange"]
+
+
+async def test_client_pulls_all_india_by_default_and_pages_until_a_short_page() -> None:
+    offsets: list[str] = []
+    row = SAMPLE["records"][0]
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        assert "filters[state]" not in request.url.params
+        offsets.append(request.url.params["offset"])
+        full = int(request.url.params["offset"]) == 0
+        return httpx.Response(200, json={"records": [row] * (PAGE_LIMIT if full else 3)})
+
+    async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as http:
+        client = AgmarknetClient(http, base_url="https://x.test", resource_id="r", api_key="k")
+        prices = await client.prices(commodity="Orange")
+        capped = AgmarknetClient(
+            http, base_url="https://x.test", resource_id="r", api_key="k", max_pages=1
+        )
+        assert len(await capped.prices(commodity="Orange")) == PAGE_LIMIT
+
+    assert len(prices) == PAGE_LIMIT + 3
+    assert offsets == ["0", str(PAGE_LIMIT), "0"]

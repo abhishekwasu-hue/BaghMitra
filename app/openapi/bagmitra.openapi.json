@@ -620,6 +620,14 @@
             ],
             "title": "Grade"
           },
+          "is_local": {
+            "title": "Is Local",
+            "type": "boolean"
+          },
+          "is_major": {
+            "title": "Is Major",
+            "type": "boolean"
+          },
           "market": {
             "title": "Market",
             "type": "string"
@@ -654,6 +662,10 @@
             "title": "Source",
             "type": "string"
           },
+          "state": {
+            "title": "State",
+            "type": "string"
+          },
           "variety": {
             "anyOf": [
               {
@@ -669,6 +681,7 @@
         "required": [
           "day",
           "market",
+          "state",
           "district",
           "commodity",
           "variety",
@@ -676,7 +689,9 @@
           "min_rs_per_quintal",
           "max_rs_per_quintal",
           "modal_rs_per_quintal",
-          "source"
+          "source",
+          "is_local",
+          "is_major"
         ],
         "title": "MarketPriceOut",
         "type": "object"
@@ -2706,7 +2721,7 @@
     },
     "/v1/market/prices": {
       "get": {
-        "description": "Published mandi prices (₹ per quintal) for the crop at the configured APMCs, newest\nfirst. Prices are shown as published, never estimated; `stale` says the source could not\nbe reached and `reason` says why.",
+        "description": "Latest published price (₹ per quintal) at every reporting mandi in India for the crop:\nthe local APMCs first, then the major terminal markets, then all others by state. Prices\nare shown as published, never estimated; `stale` says the source could not be reached and\n`reason` says why. `scope` narrows the list to local or major mandis.",
         "operationId": "market_prices_get",
         "parameters": [
           {
@@ -2716,6 +2731,21 @@
             "schema": {
               "pattern": "^[a-z_]{2,32}$",
               "title": "Crop",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "scope",
+            "required": false,
+            "schema": {
+              "default": "all",
+              "enum": [
+                "all",
+                "local",
+                "major"
+              ],
+              "title": "Scope",
               "type": "string"
             }
           }

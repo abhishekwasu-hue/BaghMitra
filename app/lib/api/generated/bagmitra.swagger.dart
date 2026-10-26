@@ -542,27 +542,32 @@ is the raw file; only its hash, size and time are kept.''',
 
   ///Get Market Prices
   ///@param crop
+  ///@param scope
   Future<chopper.Response<MarketPrices>> v1MarketPricesGet({
     required String? crop,
+    enums.V1MarketPricesGetScope? scope,
   }) {
     generatedMapping.putIfAbsent(
       MarketPrices,
       () => MarketPrices.fromJsonFactory,
     );
 
-    return _v1MarketPricesGet(crop: crop);
+    return _v1MarketPricesGet(crop: crop, scope: scope?.value?.toString());
   }
 
   ///Get Market Prices
   ///@param crop
+  ///@param scope
   @GET(path: '/v1/market/prices')
   Future<chopper.Response<MarketPrices>> _v1MarketPricesGet({
     @Query('crop') required String? crop,
+    @Query('scope') String? scope,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Published mandi prices (₹ per quintal) for the crop at the configured APMCs, newest
-first. Prices are shown as published, never estimated; `stale` says the source could not
-be reached and `reason` says why.''',
+      description: '''Latest published price (₹ per quintal) at every reporting mandi in India for the crop:
+the local APMCs first, then the major terminal markets, then all others by state. Prices
+are shown as published, never estimated; `stale` says the source could not be reached and
+`reason` says why. `scope` narrows the list to local or major mandis.''',
       summary: 'Get Market Prices',
       operationId: 'market_prices_get',
       consumes: [],

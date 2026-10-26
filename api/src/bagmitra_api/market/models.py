@@ -21,6 +21,7 @@ class MarketPrice(Base):
     variety: Mapped[str] = mapped_column(String(80), primary_key=True)
     grade: Mapped[str] = mapped_column(String(40), primary_key=True)
     source: Mapped[str] = mapped_column(String(32), primary_key=True)
+    state: Mapped[str] = mapped_column(String(80))
     district: Mapped[str] = mapped_column(String(80))
     min_rs_per_quintal: Mapped[int | None] = mapped_column(Integer)
     max_rs_per_quintal: Mapped[int | None] = mapped_column(Integer)

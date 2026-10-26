@@ -17,12 +17,21 @@ from bagmitra_api.market.service import get_market_provider
 from bagmitra_api.weather.service import get_clock
 
 NOW = datetime(2026, 10, 26, 6, 0, tzinfo=UTC)
+NO_KEY = "no API key configured (MARKET_API_KEY)"
 
 
-def price(market: str, day: date, modal: int, *, variety: str | None = "Nagpuri") -> MandiPrice:
+def price(
+    market: str,
+    state: str,
+    day: date,
+    modal: int,
+    *,
+    variety: str | None = "Nagpuri",
+) -> MandiPrice:
     return MandiPrice(
         market=market,
-        district="Nagpur",
+        state=state,
+        district=market,
         commodity="Orange",
         variety=variety,
         grade=None,
@@ -35,21 +44,23 @@ def price(market: str, day: date, modal: int, *, variety: str | None = "Nagpuri"
 
 class FakeMarket:
     def __init__(self) -> None:
-        self.calls: list[tuple[str, str]] = []
+        self.calls: list[tuple[str, str | None]] = []
         self.fail = False
 
     async def prices(
-        self, *, state: str, commodity: str, market: str | None = None
+        self, *, commodity: str, state: str | None = None, market: str | None = None
     ) -> list[MandiPrice]:
-        assert market is None, "one call per commodity; markets are filtered here"
-        self.calls.append((state, commodity))
+        assert market is None, "one India-wide call per commodity"
+        self.calls.append((commodity, state))
         if self.fail:
-            raise MarketUnavailableError("no API key configured (MARKET_API_KEY)")
+            raise MarketUnavailableError(NO_KEY)
         return [
-            price("Kalamna", date(2026, 10, 25), 3600),
-            price("Kalamna", date(2026, 10, 24), 3400),
-            price("Warud", date(2026, 10, 25), 3300, variety=None),
-            price("Pune", date(2026, 10, 25), 5000),  # not in the configured markets
+            price("Kalamna", "Maharashtra", date(2026, 10, 25), 3600),
+            price("Kalamna", "Maharashtra", date(2026, 10, 24), 3400),  # older: not latest
+            price("Warud", "Maharashtra", date(2026, 10, 25), 3300, variety=None),
+            price("Azadpur", "NCT of Delhi", date(2026, 10, 25), 5200),
+            price("Siliguri", "West Bengal", date(2026, 10, 23), 4100),
+            price("Bathinda", "Punjab", date(2026, 10, 1), 3000),  # outside the window
         ]
 
 
@@ -73,7 +84,7 @@ async def api(
         yield c
 
 
-async def test_prices_for_a_crop_are_pulled_once_stored_and_filtered(
+async def test_latest_price_at_every_mandi_in_india_local_then_major_first(
     api: httpx.AsyncClient,
     engine: AsyncEngine,
     market: FakeMarket,
@@ -84,20 +95,33 @@ async def test_prices_for_a_crop_are_pulled_once_stored_and_filtered(
     body = r.json()
     assert body["stale"] is False
     rows = body["prices"]
-    assert [(p["market"], p["day"], p["modal_rs_per_quintal"]) for p in rows] == [
-        ("Kalamna", "2026-10-25", 3600),
-        ("Warud", "2026-10-25", 3300),
-        ("Kalamna", "2026-10-24", 3400),
+    assert [(p["market"], p["state"], p["day"], p["modal_rs_per_quintal"]) for p in rows] == [
+        ("Kalamna", "Maharashtra", "2026-10-25", 3600),
+        ("Warud", "Maharashtra", "2026-10-25", 3300),
+        ("Azadpur", "NCT of Delhi", "2026-10-25", 5200),
+        ("Siliguri", "West Bengal", "2026-10-23", 4100),
+    ]
+    assert [(p["is_local"], p["is_major"]) for p in rows] == [
+        (True, False),
+        (True, False),
+        (False, True),
+        (False, False),
     ]
     assert rows[1]["variety"] is None
     assert rows[0]["source"] == "agmarknet"
+    assert market.calls == [("Orange", None)], "India-wide: no state filter"
 
     again = await api.get("/v1/market/prices?crop=santra", headers=auth_headers)
     assert again.json()["prices"] == rows
-    assert market.calls == [("Maharashtra", "Orange")], "fresh prices come from storage"
+    assert len(market.calls) == 1, "fresh prices come from storage"
+
+    major = await api.get("/v1/market/prices?crop=santra&scope=major", headers=auth_headers)
+    assert [p["market"] for p in major.json()["prices"]] == ["Azadpur"]
+    local = await api.get("/v1/market/prices?crop=santra&scope=local", headers=auth_headers)
+    assert [p["market"] for p in local.json()["prices"]] == ["Kalamna", "Warud"]
 
     async with async_sessionmaker(engine)() as s:
-        assert len((await s.scalars(select(MarketPrice))).all()) == 3
+        assert len((await s.scalars(select(MarketPrice))).all()) == 6
 
 
 async def test_source_down_serves_stored_prices_as_stale_or_an_empty_list(
@@ -109,11 +133,7 @@ async def test_source_down_serves_stored_prices_as_stale_or_an_empty_list(
     market.fail = True
     empty = await api.get("/v1/market/prices?crop=santra", headers=auth_headers)
     assert empty.status_code == 200
-    assert empty.json() == {
-        "prices": [],
-        "stale": True,
-        "reason": "no API key configured (MARKET_API_KEY)",
-    }
+    assert empty.json() == {"prices": [], "stale": True, "reason": NO_KEY}
 
     market.fail = False
     await api.get("/v1/market/prices?crop=santra", headers=auth_headers)
@@ -123,13 +143,16 @@ async def test_source_down_serves_stored_prices_as_stale_or_an_empty_list(
     market.fail = True
     stale = (await api.get("/v1/market/prices?crop=santra", headers=auth_headers)).json()
     assert stale["stale"] is True
-    assert len(stale["prices"]) == 3
+    assert stale["reason"] == NO_KEY
+    assert len(stale["prices"]) == 4
 
 
-async def test_unknown_crop_and_no_token_are_refused(
+async def test_unknown_crop_bad_scope_and_no_token_are_refused(
     api: httpx.AsyncClient, auth_headers: dict[str, str]
 ) -> None:
     r = await api.get("/v1/market/prices?crop=banana", headers=auth_headers)
     assert r.status_code == 404
     assert r.json()["error"]["code"] == "crop_not_priced"
+    bad = await api.get("/v1/market/prices?crop=santra&scope=world", headers=auth_headers)
+    assert bad.status_code == 422
     assert (await api.get("/v1/market/prices?crop=santra")).status_code == 401
