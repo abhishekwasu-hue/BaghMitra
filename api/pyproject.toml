@@ -37,6 +37,7 @@ where = ["src"]
 
 [tool.setuptools.package-data]
 "bagmitra_api.kb.seed_data" = ["*.json"]
+"bagmitra_api.risk" = ["*.json"]
 
 [tool.ruff]
 line-length = 100
