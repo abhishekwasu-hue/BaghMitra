@@ -6,6 +6,7 @@ from datetime import UTC, date, datetime, timedelta
 
 import httpx
 import pytest
+from sqlalchemy import select, update
 from sqlalchemy.ext.asyncio import AsyncEngine, async_sessionmaker
 
 from bagmitra_api.core.settings import Settings
@@ -109,7 +110,7 @@ async def test_plot_weather_pulls_once_stores_and_returns_alerts(
 
     maker = async_sessionmaker(engine)
     async with maker() as s:
-        rows = (await s.execute(WeatherDaily.__table__.select())).all()
+        rows = (await s.execute(select(WeatherDaily))).all()
     assert len(rows) == 3
 
 
@@ -130,7 +131,7 @@ async def test_provider_down_serves_stored_days_as_stale(
     await api.get(f"/v1/plots/{plot_id}/weather", headers=auth_headers)
     maker = async_sessionmaker(engine)
     async with maker() as s:
-        await s.execute(WeatherDaily.__table__.update().values(fetched_at=NOW - timedelta(days=2)))
+        await s.execute(update(WeatherDaily).values(fetched_at=NOW - timedelta(days=2)))
         await s.commit()
     provider.fail = True
     stale = await api.get(f"/v1/plots/{plot_id}/weather", headers=auth_headers)

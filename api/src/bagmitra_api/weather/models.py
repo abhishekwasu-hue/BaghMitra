@@ -13,6 +13,7 @@ class WeatherDaily(Base):
     same cell share a row, and no plot or owner id is stored."""
 
     __tablename__ = "weather_daily"
+    private_table = True  # service-only (RLS on, no policy); the API filters by plot owner
 
     cell_lat: Mapped[float] = mapped_column(Float, primary_key=True)
     cell_lon: Mapped[float] = mapped_column(Float, primary_key=True)
