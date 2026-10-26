@@ -78,5 +78,6 @@ void main() {
     expect(find.text('Flowering · Ambia bahar'), findsOneWidget);
     await tester.scrollUntilVisible(find.textContaining('बाग १'), 200);
     expect(find.textContaining('planned'), findsOneWidget);
+    await unmountApp(tester);
   });
 }
