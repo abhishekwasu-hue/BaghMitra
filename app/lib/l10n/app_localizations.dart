@@ -1701,6 +1701,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Source: {source}'**
   String weatherSource(String source);
+
+  /// No description provided for @marketPricesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Market prices'**
+  String get marketPricesTitle;
+
+  /// No description provided for @marketOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Market prices'**
+  String get marketOpen;
+
+  /// No description provided for @marketScopeAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get marketScopeAll;
+
+  /// No description provided for @marketScopeLocal.
+  ///
+  /// In en, this message translates to:
+  /// **'Near me'**
+  String get marketScopeLocal;
+
+  /// No description provided for @marketScopeMajor.
+  ///
+  /// In en, this message translates to:
+  /// **'Major mandis'**
+  String get marketScopeMajor;
+
+  /// No description provided for @marketTagLocal.
+  ///
+  /// In en, this message translates to:
+  /// **'Near you'**
+  String get marketTagLocal;
+
+  /// No description provided for @marketTagMajor.
+  ///
+  /// In en, this message translates to:
+  /// **'Major mandi'**
+  String get marketTagMajor;
+
+  /// No description provided for @marketPerQuintal.
+  ///
+  /// In en, this message translates to:
+  /// **'per quintal'**
+  String get marketPerQuintal;
+
+  /// No description provided for @marketRange.
+  ///
+  /// In en, this message translates to:
+  /// **'Min–max: {min} – {max}'**
+  String marketRange(String min, String max);
+
+  /// No description provided for @marketVariety.
+  ///
+  /// In en, this message translates to:
+  /// **'Variety: {variety}'**
+  String marketVariety(String variety);
+
+  /// No description provided for @marketUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Updated {date}'**
+  String marketUpdated(String date);
+
+  /// No description provided for @marketStale.
+  ///
+  /// In en, this message translates to:
+  /// **'Prices could not be updated: {reason}'**
+  String marketStale(String reason);
+
+  /// No description provided for @marketStaleNoReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Prices could not be updated; showing the last saved list.'**
+  String get marketStaleNoReason;
+
+  /// No description provided for @marketEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No prices yet. They load when the phone is online and the price source is connected.'**
+  String get marketEmpty;
 }
 
 class _AppLocalizationsDelegate

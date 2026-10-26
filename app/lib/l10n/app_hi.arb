@@ -265,5 +265,19 @@
   "weatherNone": "अभी मौसम नहीं है। फ़ोन ऑनलाइन होने पर आएगा।",
   "weatherRain": "{mm} मिमी बारिश",
   "weatherAlertsDraft": "जोखिम सूचनाएँ मसौदा नियम हैं, विशेषज्ञ ने अभी जाँचे नहीं हैं। स्थानीय विशेषज्ञ से पुष्टि करें।",
-  "weatherSource": "स्रोत: {source}"
+  "weatherSource": "स्रोत: {source}",
+  "marketPricesTitle": "मंडी भाव",
+  "marketOpen": "मंडी भाव",
+  "marketScopeAll": "सभी",
+  "marketScopeLocal": "मेरे पास",
+  "marketScopeMajor": "बड़ी मंडियाँ",
+  "marketTagLocal": "पास की मंडी",
+  "marketTagMajor": "बड़ी मंडी",
+  "marketPerQuintal": "प्रति क्विंटल",
+  "marketRange": "न्यूनतम–अधिकतम: {min} – {max}",
+  "marketVariety": "किस्म: {variety}",
+  "marketUpdated": "अद्यतन: {date}",
+  "marketStale": "भाव अद्यतन नहीं हो सके: {reason}",
+  "marketStaleNoReason": "भाव अद्यतन नहीं हो सके; आख़िरी सहेजी सूची दिखा रहे हैं।",
+  "marketEmpty": "अभी भाव नहीं हैं। फ़ोन ऑनलाइन होने और भाव का स्रोत जुड़ने पर आएँगे।"
 }
