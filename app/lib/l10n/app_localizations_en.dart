@@ -991,4 +991,56 @@ class AppLocalizationsEn extends AppLocalizations {
   String labelInfoSource(String title) {
     return 'Source: $title';
   }
+
+  @override
+  String get marketPricesTitle => 'Market prices';
+
+  @override
+  String get marketOpen => 'Market prices';
+
+  @override
+  String get marketScopeAll => 'All';
+
+  @override
+  String get marketScopeLocal => 'Near me';
+
+  @override
+  String get marketScopeMajor => 'Major mandis';
+
+  @override
+  String get marketTagLocal => 'Near you';
+
+  @override
+  String get marketTagMajor => 'Major mandi';
+
+  @override
+  String get marketPerQuintal => 'per quintal';
+
+  @override
+  String marketRange(String min, String max) {
+    return 'Min–max: $min – $max';
+  }
+
+  @override
+  String marketVariety(String variety) {
+    return 'Variety: $variety';
+  }
+
+  @override
+  String marketUpdated(String date) {
+    return 'Updated $date';
+  }
+
+  @override
+  String marketStale(String reason) {
+    return 'Prices could not be updated: $reason';
+  }
+
+  @override
+  String get marketStaleNoReason =>
+      'Prices could not be updated; showing the last saved list.';
+
+  @override
+  String get marketEmpty =>
+      'No prices yet. They load when the phone is online and the price source is connected.';
 }

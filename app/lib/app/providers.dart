@@ -3,7 +3,8 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../api/api_client.dart';
-import '../api/generated/bagmitra.swagger.dart' show Bagmitra;
+import '../api/generated/bagmitra.swagger.dart'
+    show Bagmitra, V1MarketPricesGetScope;
 import '../core/app_log.dart';
 import '../core/clock.dart';
 import '../core/config.dart';
@@ -29,6 +30,7 @@ import '../features/inputs/data/input_kinds.dart';
 import '../features/inputs/data/inputs_repository.dart';
 import '../features/inputs/domain/field_records.dart';
 import '../features/labels/data/label_claims_cache.dart';
+import '../features/market/data/market_prices_cache.dart';
 import '../features/plots/data/crop_catalog.dart';
 import '../features/plots/data/location_service.dart';
 import '../features/plots/data/plot_repository.dart';
@@ -477,4 +479,32 @@ final plotWeatherProvider =
         await cache.refresh(plotId, lang);
       }
       return cache.load(plotId, lang);
+    });
+
+final marketPricesCacheProvider = Provider<MarketPricesCache>(
+  (ref) => MarketPricesCache(
+    ref.watch(databaseProvider),
+    api: ref.watch(apiProvider),
+    clock: ref.watch(clockProvider),
+  ),
+);
+
+/// The crop whose mandi prices the grower sees: their first block's crop, else santra.
+final marketCropProvider = Provider<String>(
+  (ref) => ref.watch(plotsProvider).value?.firstOrNull?.crop ?? 'santra',
+);
+
+/// The cached mandi prices for a crop and scope. Online (not demo) they are refreshed
+/// first; offline the cached copy is shown with its date.
+final marketPricesProvider =
+    FutureProvider.family<
+      CachedMarketPrices?,
+      (String, V1MarketPricesGetScope)
+    >((ref, key) async {
+      final (crop, scope) = key;
+      final cache = ref.watch(marketPricesCacheProvider);
+      if (!ref.watch(appConfigProvider).demoMode) {
+        await cache.refresh(crop, scope);
+      }
+      return cache.load(crop, scope);
     });

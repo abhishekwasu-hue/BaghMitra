@@ -48,6 +48,12 @@ class TasksScreen extends ConsumerWidget {
             icon: const Icon(Icons.calendar_month_outlined),
             onPressed: () => context.push(Routes.calendar),
           ),
+          IconButton(
+            key: const Key('open-market'),
+            tooltip: t.marketOpen,
+            icon: const Icon(Icons.storefront_outlined),
+            onPressed: () => context.push(Routes.market),
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(

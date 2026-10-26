@@ -989,4 +989,56 @@ class AppLocalizationsHi extends AppLocalizations {
   String labelInfoSource(String title) {
     return 'स्रोत: $title';
   }
+
+  @override
+  String get marketPricesTitle => 'मंडी भाव';
+
+  @override
+  String get marketOpen => 'मंडी भाव';
+
+  @override
+  String get marketScopeAll => 'सभी';
+
+  @override
+  String get marketScopeLocal => 'मेरे पास';
+
+  @override
+  String get marketScopeMajor => 'बड़ी मंडियाँ';
+
+  @override
+  String get marketTagLocal => 'पास की मंडी';
+
+  @override
+  String get marketTagMajor => 'बड़ी मंडी';
+
+  @override
+  String get marketPerQuintal => 'प्रति क्विंटल';
+
+  @override
+  String marketRange(String min, String max) {
+    return 'न्यूनतम–अधिकतम: $min – $max';
+  }
+
+  @override
+  String marketVariety(String variety) {
+    return 'किस्म: $variety';
+  }
+
+  @override
+  String marketUpdated(String date) {
+    return 'अद्यतन: $date';
+  }
+
+  @override
+  String marketStale(String reason) {
+    return 'भाव अद्यतन नहीं हो सके: $reason';
+  }
+
+  @override
+  String get marketStaleNoReason =>
+      'भाव अद्यतन नहीं हो सके; आख़िरी सहेजी सूची दिखा रहे हैं।';
+
+  @override
+  String get marketEmpty =>
+      'अभी भाव नहीं हैं। फ़ोन ऑनलाइन होने और भाव का स्रोत जुड़ने पर आएँगे।';
 }

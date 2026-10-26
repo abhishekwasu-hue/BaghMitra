@@ -275,5 +275,19 @@
   "labelInfoPhi": "कटाई से {days} दिन पहले (PHI)",
   "labelInfoMaxSprays": "अधिकतम छिड़काव: {count}",
   "labelInfoCrop": "लेबल पर फसल: {crop}",
-  "labelInfoSource": "स्रोत: {title}"
+  "labelInfoSource": "स्रोत: {title}",
+  "marketPricesTitle": "मंडी भाव",
+  "marketOpen": "मंडी भाव",
+  "marketScopeAll": "सभी",
+  "marketScopeLocal": "मेरे पास",
+  "marketScopeMajor": "बड़ी मंडियाँ",
+  "marketTagLocal": "पास की मंडी",
+  "marketTagMajor": "बड़ी मंडी",
+  "marketPerQuintal": "प्रति क्विंटल",
+  "marketRange": "न्यूनतम–अधिकतम: {min} – {max}",
+  "marketVariety": "किस्म: {variety}",
+  "marketUpdated": "अद्यतन: {date}",
+  "marketStale": "भाव अद्यतन नहीं हो सके: {reason}",
+  "marketStaleNoReason": "भाव अद्यतन नहीं हो सके; आख़िरी सहेजी सूची दिखा रहे हैं।",
+  "marketEmpty": "अभी भाव नहीं हैं। फ़ोन ऑनलाइन होने और भाव का स्रोत जुड़ने पर आएँगे।"
 }
