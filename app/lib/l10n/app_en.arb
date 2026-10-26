@@ -505,5 +505,15 @@
   "calendarMonthEmpty": "Nothing dated this month.",
   "calendarStagePlanned": "planned",
   "calendarStageDone": "done",
-  "calendarOpen": "Season calendar"
+  "calendarOpen": "Season calendar",
+  "baharCompareTitle": "Compare bahars",
+  "baharCompareIntro": "Points from published sources to help you weigh each bahar. The decision is yours; sources sometimes disagree.",
+  "baharCompareDraft": "Draft: not yet checked by an expert. Verify with your local expert.",
+  "baharCompareLast": "Last bahar on this block: {bahar}",
+  "baharCompareNoLast": "No bahar recorded on this block yet.",
+  "baharCompareSource": "Source: {source}",
+  "baharCompareNoPoints": "No checked information for this bahar yet.",
+  "baharCompareUse": "Use this bahar",
+  "@baharCompareLast": {"placeholders": {"bahar": {"type": "String"}}},
+  "@baharCompareSource": {"placeholders": {"source": {"type": "String"}}}
 }

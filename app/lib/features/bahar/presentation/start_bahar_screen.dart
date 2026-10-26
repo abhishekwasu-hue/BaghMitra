@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../app/providers.dart';
+import '../../../app/router.dart';
 import '../../../core/formatting.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
@@ -120,6 +121,20 @@ class _StartBaharScreenState extends ConsumerState<StartBaharScreen> {
                   onTap: () => setState(() => _bahar = b.slug),
                 ),
             ],
+          ),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: TextButton.icon(
+              key: const Key('compare-bahars'),
+              icon: const Icon(Icons.compare_arrows),
+              label: Text(t.baharCompareTitle),
+              onPressed: () async {
+                final picked = await context.push<String>(
+                  Routes.compareBahars(widget.plotId),
+                );
+                if (picked != null) setState(() => _bahar = picked);
+              },
+            ),
           ),
           gap,
           Text(t.baharSeason, style: label),

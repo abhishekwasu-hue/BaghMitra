@@ -1,0 +1,52 @@
+{
+  "_note": "Bahar comparison points (decision support, never a recommendation). Every point names its source; sources disagree on Ambia vs Mrig for Vidarbha, so both sides are kept (docs/agronomy/DRAFT_santra_mosambi_bahar_stages.md §8). Draft until the expert reviewer checks them (OPEN_QUESTIONS Q10, Q12). No chemical or timing advice here.",
+  "status": "draft",
+  "questions": [
+    {
+      "key": "water_apr_may",
+      "labels": {"en": "Water for the orchard in April–May", "mr": "एप्रिल–मे मध्ये बागेसाठी पाणी", "hi": "अप्रैल–मई में बाग के लिए पानी"},
+      "options": [
+        {"slug": "enough", "labels": {"en": "Enough", "mr": "पुरेसे", "hi": "पर्याप्त"}},
+        {"slug": "short", "labels": {"en": "Short", "mr": "कमी", "hi": "कम"}}
+      ]
+    }
+  ],
+  "points": [
+    {
+      "bahar": "ambia",
+      "when": {},
+      "labels": {"en": "Fruit is harvested in October–December.", "mr": "फळांची तोडणी ऑक्टोबर–डिसेंबरमध्ये होते.", "hi": "फलों की तुड़ाई अक्टूबर–दिसंबर में होती है।"},
+      "source": "Kalatippi et al. 2022, Current Horticulture 10(2)"
+    },
+    {
+      "bahar": "ambia",
+      "when": {},
+      "labels": {"en": "Field reports say most Vidarbha growers take Ambia, for steadier yields and less January–March hail damage.", "mr": "क्षेत्रीय वृत्तांनुसार विदर्भातील बहुतेक शेतकरी आंबिया घेतात; उत्पादन अधिक स्थिर आणि जानेवारी–मार्चच्या गारपिटीचे नुकसान कमी.", "hi": "क्षेत्रीय रिपोर्टों के अनुसार विदर्भ के अधिकतर किसान अंबिया लेते हैं; उपज अधिक स्थिर और जनवरी–मार्च की ओलावृष्टि से नुकसान कम।"},
+      "source": "Outlook India (press); IJLRA GI review"
+    },
+    {
+      "bahar": "ambia",
+      "when": {"water_apr_may": "short"},
+      "labels": {"en": "A press report says the Mrig crop carries more risk when water is scarce, because it depends on irrigation.", "mr": "एका वृत्तानुसार पाणी कमी असताना मृग पीक अधिक जोखमीचे असते, कारण ते ओलितावर अवलंबून असते.", "hi": "एक समाचार रिपोर्ट के अनुसार पानी कम होने पर मृग फसल अधिक जोखिम वाली होती है, क्योंकि वह सिंचाई पर निर्भर है।"},
+      "source": "FreshPlaza (press)"
+    },
+    {
+      "bahar": "mrig",
+      "when": {},
+      "labels": {"en": "Fruit is harvested in February–April.", "mr": "फळांची तोडणी फेब्रुवारी–एप्रिलमध्ये होते.", "hi": "फलों की तुड़ाई फ़रवरी–अप्रैल में होती है।"},
+      "source": "Kalatippi et al. 2022, Current Horticulture 10(2)"
+    },
+    {
+      "bahar": "mrig",
+      "when": {},
+      "labels": {"en": "Fruit maturing in February–March has export potential, as few mandarins reach foreign markets then.", "mr": "फेब्रुवारी–मार्चमध्ये तयार होणाऱ्या फळांना निर्यातीची संधी असते, कारण तेव्हा परदेशी बाजारात संत्र्याची आवक कमी असते.", "hi": "फ़रवरी–मार्च में तैयार होने वाले फलों के लिए निर्यात का अवसर होता है, क्योंकि तब विदेशी बाज़ार में संतरे की आवक कम होती है।"},
+      "source": "NHB, Orange model project report"
+    },
+    {
+      "bahar": "mrig",
+      "when": {"water_apr_may": "short"},
+      "labels": {"en": "NHB says that where water is short in April–May, growers in central India prefer Mrig bahar.", "mr": "NHB नुसार मध्य भारतात एप्रिल–मे मध्ये पाणी कमी असेल तर शेतकरी मृग बहार पसंत करतात.", "hi": "NHB के अनुसार मध्य भारत में अप्रैल–मई में पानी कम हो तो किसान मृग बहार पसंद करते हैं।"},
+      "source": "NHB, Orange model project report"
+    }
+  ]
+}

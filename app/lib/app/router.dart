@@ -9,6 +9,7 @@ import '../features/accounts/presentation/add_entry_screens.dart';
 import '../features/accounts/presentation/compare_screen.dart';
 import '../features/auth/domain/auth.dart';
 import '../features/auth/presentation/login_screens.dart';
+import '../features/bahar/presentation/bahar_compare_screen.dart';
 import '../features/bahar/presentation/bahar_screen.dart';
 import '../features/bahar/presentation/start_bahar_screen.dart';
 import '../features/calendar/presentation/season_calendar_screen.dart';
@@ -59,6 +60,7 @@ abstract final class Routes {
   static String editPlot(String plotId) => '/plots/$plotId/edit';
   static String plotBahar(String plotId) => '/plots/$plotId/bahar';
   static String startBahar(String plotId) => '/plots/$plotId/bahar/new';
+  static String compareBahars(String plotId) => '/plots/$plotId/bahar/compare';
   static String sprays(String plotId) => '/plots/$plotId/sprays';
   static String addSpray(String plotId) => '/plots/$plotId/sprays/new';
   static String labour(String plotId) => '/plots/$plotId/labour';
@@ -185,6 +187,10 @@ GoRouter buildRouter(
       GoRoute(
         path: '/plots/:id/bahar/new',
         builder: (_, s) => StartBaharScreen(plotId: s.pathParameters['id']!),
+      ),
+      GoRoute(
+        path: '/plots/:id/bahar/compare',
+        builder: (_, s) => BaharCompareScreen(plotId: s.pathParameters['id']!),
       ),
       GoRoute(
         path: Routes.onboarding,
