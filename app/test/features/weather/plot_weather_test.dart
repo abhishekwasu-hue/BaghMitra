@@ -96,7 +96,7 @@ void main() {
     expect(find.textContaining('12.5 mm'), findsOneWidget);
     expect(find.textContaining('risk of fruit drop'), findsOneWidget);
     expect(find.textContaining('ICAR-CCRI'), findsOneWidget);
-    expect(find.textContaining('not yet checked by an expert'), findsOneWidget);
+    expect(find.textContaining('not yet checked by an expert'), findsNothing);
     expect(find.textContaining('could not be updated'), findsOneWidget);
     await unmountApp(tester);
   });
