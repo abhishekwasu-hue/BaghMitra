@@ -244,5 +244,11 @@
   "editPlot": "बाग संपादित करा",
   "plotOpenRecords": "बहार, फवारणी आणि हिशेब",
   "plotBoundaryNone": "हद्द अजून नोंदवलेली नाही",
-  "plotCentre": "मध्यबिंदू"
+  "plotCentre": "मध्यबिंदू",
+  "calendarTitle": "हंगाम दिनदर्शिका",
+  "calendarIntro": "पुढील बारा महिन्यांतील तुमच्या बहाराच्या तारखा आणि कामे, तुम्ही नोंदवलेल्या माहितीवरून.",
+  "calendarMonthEmpty": "या महिन्यात काही नोंद नाही.",
+  "calendarStagePlanned": "नियोजित",
+  "calendarStageDone": "झाले",
+  "calendarOpen": "हंगाम दिनदर्शिका"
 }

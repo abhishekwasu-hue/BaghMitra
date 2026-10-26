@@ -867,4 +867,23 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get plotCentre => 'केंद्र बिंदु';
+
+  @override
+  String get calendarTitle => 'मौसम कैलेंडर';
+
+  @override
+  String get calendarIntro =>
+      'अगले बारह महीनों की आपकी बहार तारीखें और काम, आपकी दर्ज जानकारी से।';
+
+  @override
+  String get calendarMonthEmpty => 'इस महीने कुछ दर्ज नहीं।';
+
+  @override
+  String get calendarStagePlanned => 'योजना';
+
+  @override
+  String get calendarStageDone => 'हो गया';
+
+  @override
+  String get calendarOpen => 'मौसम कैलेंडर';
 }

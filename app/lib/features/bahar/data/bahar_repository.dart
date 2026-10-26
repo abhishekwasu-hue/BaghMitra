@@ -35,6 +35,12 @@ class BaharRepository {
           .watch()
           .map((rows) => rows.map(_toDomain).toList());
 
+  /// Every cycle on every block (season calendar).
+  Stream<List<BaharCycle>> watchAll() => _db
+      .select(_db.baharCycles)
+      .watch()
+      .map((rows) => rows.map(_toDomain).toList());
+
   Future<void> save(BaharCycle cycle) {
     final now = _clock();
     return _db.transaction(() async {

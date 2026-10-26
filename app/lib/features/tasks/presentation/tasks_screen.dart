@@ -41,6 +41,14 @@ class TasksScreen extends ConsumerWidget {
           t.tasksTitle,
           style: BmType.section.copyWith(color: c.brand),
         ),
+        actions: [
+          IconButton(
+            key: const Key('open-calendar'),
+            tooltip: t.calendarOpen,
+            icon: const Icon(Icons.calendar_month_outlined),
+            onPressed: () => context.push(Routes.calendar),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton.extended(
         key: const Key('add-task'),

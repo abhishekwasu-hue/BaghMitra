@@ -244,5 +244,11 @@
   "editPlot": "बाग बदलें",
   "plotOpenRecords": "बहार, छिड़काव और हिसाब",
   "plotBoundaryNone": "सीमा अभी दर्ज नहीं है",
-  "plotCentre": "केंद्र बिंदु"
+  "plotCentre": "केंद्र बिंदु",
+  "calendarTitle": "मौसम कैलेंडर",
+  "calendarIntro": "अगले बारह महीनों की आपकी बहार तारीखें और काम, आपकी दर्ज जानकारी से।",
+  "calendarMonthEmpty": "इस महीने कुछ दर्ज नहीं।",
+  "calendarStagePlanned": "योजना",
+  "calendarStageDone": "हो गया",
+  "calendarOpen": "मौसम कैलेंडर"
 }
