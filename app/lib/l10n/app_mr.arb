@@ -265,5 +265,19 @@
   "weatherNone": "अजून हवामान नाही. फोन ऑनलाइन असताना ते येईल.",
   "weatherRain": "{mm} मिमी पाऊस",
   "weatherAlertsDraft": "धोक्याच्या सूचना मसुदा नियम आहेत, तज्ज्ञांनी अजून तपासलेले नाहीत. स्थानिक तज्ज्ञांकडून खात्री करा.",
-  "weatherSource": "स्रोत: {source}"
+  "weatherSource": "स्रोत: {source}",
+  "marketPricesTitle": "बाजारभाव",
+  "marketOpen": "बाजारभाव",
+  "marketScopeAll": "सर्व",
+  "marketScopeLocal": "माझ्या जवळ",
+  "marketScopeMajor": "मोठ्या बाजारपेठा",
+  "marketTagLocal": "जवळची बाजारपेठ",
+  "marketTagMajor": "मोठी बाजारपेठ",
+  "marketPerQuintal": "प्रति क्विंटल",
+  "marketRange": "किमान–कमाल: {min} – {max}",
+  "marketVariety": "वाण: {variety}",
+  "marketUpdated": "अद्ययावत: {date}",
+  "marketStale": "भाव अद्ययावत होऊ शकले नाहीत: {reason}",
+  "marketStaleNoReason": "भाव अद्ययावत होऊ शकले नाहीत; शेवटची जतन केलेली यादी दाखवत आहोत.",
+  "marketEmpty": "अजून भाव नाहीत. फोन ऑनलाइन असताना आणि भावांचा स्रोत जोडलेला असताना ते येतील."
 }

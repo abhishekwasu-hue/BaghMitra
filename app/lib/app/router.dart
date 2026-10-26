@@ -19,6 +19,7 @@ import '../features/field_work/presentation/labour_screens.dart';
 import '../features/home/presentation/home_screen.dart';
 import '../features/inputs/presentation/add_input_screens.dart';
 import '../features/inputs/presentation/field_log_screen.dart';
+import '../features/market/presentation/market_prices_screen.dart';
 import '../features/plots/presentation/add_plot_screen.dart';
 import '../features/plots/presentation/boundary_screen.dart';
 import '../features/plots/presentation/plot_detail_screen.dart';
@@ -53,6 +54,7 @@ abstract final class Routes {
   static const tasks = '/tasks';
   static const addTask = '/tasks/new';
   static const calendar = '/calendar';
+  static const market = '/market';
   static const plots = '/plots';
   static const addPlot = '/plots/new';
   static const walkBoundary = '/plots/new/boundary';
@@ -110,6 +112,10 @@ GoRouter buildRouter(
       GoRoute(
         path: Routes.calendar,
         builder: (_, _) => const SeasonCalendarScreen(),
+      ),
+      GoRoute(
+        path: Routes.market,
+        builder: (_, _) => const MarketPricesScreen(),
       ),
       GoRoute(path: Routes.settings, builder: (_, _) => const SettingsScreen()),
       GoRoute(path: Routes.tasks, builder: (_, _) => const TasksScreen()),
