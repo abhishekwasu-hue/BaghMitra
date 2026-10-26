@@ -36,6 +36,11 @@ class Settings(BaseSettings):
     # (customer-api.open-meteo.com) needs WEATHER_API_KEY (OPEN_QUESTIONS Q25).
     weather_base_url: str = "https://api.open-meteo.com/v1"
     weather_api_key: SecretStr = Field(default=SecretStr(""))
+    # Plots within one cell (lat/lon rounded to this many decimals, about 1 km) share a pull.
+    weather_cell_decimals: int = 2
+    weather_max_age_hours: int = 6
+    weather_past_days: int = 7
+    weather_forecast_days: int = 7
 
     # Knowledge base (addendum v1.3 §5-§6): review validity and licence span limit.
     kb_review_months_default: int = 12

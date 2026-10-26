@@ -29,6 +29,7 @@ from bagmitra_api.kb.models import (
     KbSynonym,
     KbTopic,
 )
+from bagmitra_api.weather.models import WeatherDaily
 
 __all__ = [
     "BaharCycle",
@@ -57,4 +58,5 @@ __all__ = [
     "SprayRecord",
     "Subscription",
     "SyncMutation",
+    "WeatherDaily",
 ]

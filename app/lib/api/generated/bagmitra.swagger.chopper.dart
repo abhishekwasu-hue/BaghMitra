@@ -464,6 +464,35 @@ is the raw file; only its hash, size and time are kept.''',
   }
 
   @override
+  Future<Response<PlotWeather>> _v1PlotsPlotIdWeatherGet({
+    required String? plotId,
+    String? lang,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Recent and forecast days for the plot\'s location, with rule-based risk alerts.
+
+Alerts come only from the configured rules (never from AI) and carry no chemical advice.''',
+      summary: 'Get Plot Weather',
+      operationId: 'plot_weather_get',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["weather"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/plots/${plotId}/weather');
+    final Map<String, dynamic> $params = <String, dynamic>{'lang': lang};
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+      tag: swaggerMetaData,
+    );
+    return client.send<PlotWeather, PlotWeather>($request);
+  }
+
+  @override
   Future<Response<RestrictionsResponse>> _v1ReferenceRestrictionsGet({
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Gazette bans / restrictions and trade names, cached by the app so spray records can

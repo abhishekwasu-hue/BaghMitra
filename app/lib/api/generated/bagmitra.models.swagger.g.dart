@@ -364,6 +364,27 @@ PlansResponse _$PlansResponseFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$PlansResponseToJson(PlansResponse instance) =>
     <String, dynamic>{'plans': instance.plans.map((e) => e.toJson()).toList()};
 
+PlotWeather _$PlotWeatherFromJson(Map<String, dynamic> json) => PlotWeather(
+  alerts:
+      (json['alerts'] as List<dynamic>?)
+          ?.map((e) => WeatherAlert.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      [],
+  days:
+      (json['days'] as List<dynamic>?)
+          ?.map((e) => WeatherDay.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      [],
+  stale: json['stale'] as bool,
+);
+
+Map<String, dynamic> _$PlotWeatherToJson(PlotWeather instance) =>
+    <String, dynamic>{
+      'alerts': instance.alerts.map((e) => e.toJson()).toList(),
+      'days': instance.days.map((e) => e.toJson()).toList(),
+      'stale': instance.stale,
+    };
+
 PullResponse _$PullResponseFromJson(Map<String, dynamic> json) => PullResponse(
   changes:
       (json['changes'] as List<dynamic>?)
@@ -652,4 +673,44 @@ Map<String, dynamic> _$ValidationErrorToJson(ValidationError instance) =>
       'loc': instance.loc,
       'msg': instance.msg,
       'type': instance.type,
+    };
+
+WeatherAlert _$WeatherAlertFromJson(Map<String, dynamic> json) => WeatherAlert(
+  firstDay: DateTime.parse(json['first_day'] as String),
+  ruleKey: json['rule_key'] as String,
+  source: json['source'] as String,
+  status: json['status'] as String,
+  text: json['text'] as String,
+  units: (json['units'] as num?)?.toDouble(),
+  value: (json['value'] as num).toDouble(),
+);
+
+Map<String, dynamic> _$WeatherAlertToJson(WeatherAlert instance) =>
+    <String, dynamic>{
+      'first_day': ?_dateToJson(instance.firstDay),
+      'rule_key': instance.ruleKey,
+      'source': instance.source,
+      'status': instance.status,
+      'text': instance.text,
+      'units': ?instance.units,
+      'value': instance.value,
+    };
+
+WeatherDay _$WeatherDayFromJson(Map<String, dynamic> json) => WeatherDay(
+  day: DateTime.parse(json['day'] as String),
+  precipMm: (json['precip_mm'] as num?)?.toDouble(),
+  rhMeanPct: (json['rh_mean_pct'] as num?)?.toDouble(),
+  tMaxC: (json['t_max_c'] as num?)?.toDouble(),
+  tMinC: (json['t_min_c'] as num?)?.toDouble(),
+  windGustKmh: (json['wind_gust_kmh'] as num?)?.toDouble(),
+);
+
+Map<String, dynamic> _$WeatherDayToJson(WeatherDay instance) =>
+    <String, dynamic>{
+      'day': ?_dateToJson(instance.day),
+      'precip_mm': ?instance.precipMm,
+      'rh_mean_pct': ?instance.rhMeanPct,
+      't_max_c': ?instance.tMaxC,
+      't_min_c': ?instance.tMinC,
+      'wind_gust_kmh': ?instance.windGustKmh,
     };
