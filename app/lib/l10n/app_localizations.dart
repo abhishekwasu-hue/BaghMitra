@@ -1611,6 +1611,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Season calendar'**
   String get calendarOpen;
+
+  /// No description provided for @baharCompareTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Compare bahars'**
+  String get baharCompareTitle;
+
+  /// No description provided for @baharCompareIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Points from published sources to help you weigh each bahar. The decision is yours; sources sometimes disagree.'**
+  String get baharCompareIntro;
+
+  /// No description provided for @baharCompareDraft.
+  ///
+  /// In en, this message translates to:
+  /// **'Draft: not yet checked by an expert. Verify with your local expert.'**
+  String get baharCompareDraft;
+
+  /// No description provided for @baharCompareLast.
+  ///
+  /// In en, this message translates to:
+  /// **'Last bahar on this block: {bahar}'**
+  String baharCompareLast(String bahar);
+
+  /// No description provided for @baharCompareNoLast.
+  ///
+  /// In en, this message translates to:
+  /// **'No bahar recorded on this block yet.'**
+  String get baharCompareNoLast;
+
+  /// No description provided for @baharCompareSource.
+  ///
+  /// In en, this message translates to:
+  /// **'Source: {source}'**
+  String baharCompareSource(String source);
+
+  /// No description provided for @baharCompareNoPoints.
+  ///
+  /// In en, this message translates to:
+  /// **'No checked information for this bahar yet.'**
+  String get baharCompareNoPoints;
+
+  /// No description provided for @baharCompareUse.
+  ///
+  /// In en, this message translates to:
+  /// **'Use this bahar'**
+  String get baharCompareUse;
 }
 
 class _AppLocalizationsDelegate

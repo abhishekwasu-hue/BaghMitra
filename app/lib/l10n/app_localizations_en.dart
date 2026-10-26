@@ -886,4 +886,35 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get calendarOpen => 'Season calendar';
+
+  @override
+  String get baharCompareTitle => 'Compare bahars';
+
+  @override
+  String get baharCompareIntro =>
+      'Points from published sources to help you weigh each bahar. The decision is yours; sources sometimes disagree.';
+
+  @override
+  String get baharCompareDraft =>
+      'Draft: not yet checked by an expert. Verify with your local expert.';
+
+  @override
+  String baharCompareLast(String bahar) {
+    return 'Last bahar on this block: $bahar';
+  }
+
+  @override
+  String get baharCompareNoLast => 'No bahar recorded on this block yet.';
+
+  @override
+  String baharCompareSource(String source) {
+    return 'Source: $source';
+  }
+
+  @override
+  String get baharCompareNoPoints =>
+      'No checked information for this bahar yet.';
+
+  @override
+  String get baharCompareUse => 'Use this bahar';
 }

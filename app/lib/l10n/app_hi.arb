@@ -250,5 +250,13 @@
   "calendarMonthEmpty": "इस महीने कुछ दर्ज नहीं।",
   "calendarStagePlanned": "योजना",
   "calendarStageDone": "हो गया",
-  "calendarOpen": "मौसम कैलेंडर"
+  "calendarOpen": "मौसम कैलेंडर",
+  "baharCompareTitle": "बहारों की तुलना",
+  "baharCompareIntro": "हर बहार पर विचार करने के लिए प्रकाशित स्रोतों के बिंदु। निर्णय आपका है; स्रोतों में कभी-कभी मतभेद होता है।",
+  "baharCompareDraft": "मसौदा: विशेषज्ञ ने अभी जाँचा नहीं है। स्थानीय विशेषज्ञ से पुष्टि करें।",
+  "baharCompareLast": "इस बाग में पिछला बहार: {bahar}",
+  "baharCompareNoLast": "इस बाग में अभी कोई बहार दर्ज नहीं है।",
+  "baharCompareSource": "स्रोत: {source}",
+  "baharCompareNoPoints": "इस बहार के लिए अभी जाँची हुई जानकारी नहीं है।",
+  "baharCompareUse": "यह बहार चुनें"
 }

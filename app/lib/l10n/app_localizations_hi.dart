@@ -886,4 +886,35 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get calendarOpen => 'मौसम कैलेंडर';
+
+  @override
+  String get baharCompareTitle => 'बहारों की तुलना';
+
+  @override
+  String get baharCompareIntro =>
+      'हर बहार पर विचार करने के लिए प्रकाशित स्रोतों के बिंदु। निर्णय आपका है; स्रोतों में कभी-कभी मतभेद होता है।';
+
+  @override
+  String get baharCompareDraft =>
+      'मसौदा: विशेषज्ञ ने अभी जाँचा नहीं है। स्थानीय विशेषज्ञ से पुष्टि करें।';
+
+  @override
+  String baharCompareLast(String bahar) {
+    return 'इस बाग में पिछला बहार: $bahar';
+  }
+
+  @override
+  String get baharCompareNoLast => 'इस बाग में अभी कोई बहार दर्ज नहीं है।';
+
+  @override
+  String baharCompareSource(String source) {
+    return 'स्रोत: $source';
+  }
+
+  @override
+  String get baharCompareNoPoints =>
+      'इस बहार के लिए अभी जाँची हुई जानकारी नहीं है।';
+
+  @override
+  String get baharCompareUse => 'यह बहार चुनें';
 }

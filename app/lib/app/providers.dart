@@ -13,6 +13,7 @@ import '../features/accounts/data/expense_categories.dart';
 import '../features/accounts/domain/accounts.dart';
 import '../features/auth/domain/auth.dart';
 import '../features/bahar/data/bahar_catalog.dart';
+import '../features/bahar/data/bahar_compare.dart';
 import '../features/bahar/data/bahar_repository.dart';
 import '../features/bahar/domain/bahar_cycle.dart';
 import '../features/billing/data/entitlements_cache.dart';
@@ -167,6 +168,10 @@ final baharCatalogProvider = Provider<BaharCatalog>((ref) => BaharCatalog());
 
 final baharOptionsProvider = FutureProvider<BaharCatalogData>(
   (ref) => ref.watch(baharCatalogProvider).load(),
+);
+
+final baharCompareProvider = FutureProvider<BaharCompareData>(
+  (ref) => BaharCompareConfig().load(),
 );
 
 final accountsRepositoryProvider = Provider<AccountsRepository>(
