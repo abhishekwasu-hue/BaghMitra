@@ -1,8 +1,9 @@
 """Agmarknet daily mandi prices through the data.gov.in API (M5: market prices).
 
-Returns prices as published (rupees per quintal) with the market, variety and grade; it
-holds no advice and never estimates a missing price. The resource id, markets and crop
-commodity names are settings; the API key is a secret (OPEN_QUESTIONS Q26).
+Returns prices as published (rupees per quintal) with the state, market, variety and grade
+for every mandi in India that reports the commodity (owner, 2026-10-26: all major mandis);
+it holds no advice and never estimates a missing price. The resource id and crop commodity
+names are settings; the API key is a secret (OPEN_QUESTIONS Q26).
 """
 
 from __future__ import annotations
@@ -23,6 +24,7 @@ class MarketUnavailableError(Exception):
 @dataclass(frozen=True)
 class MandiPrice:
     market: str
+    state: str
     district: str
     commodity: str
     variety: str | None
@@ -61,6 +63,7 @@ def parse_records(payload: dict[str, Any]) -> list[MandiPrice]:
         prices.append(
             MandiPrice(
                 market=market,
+                state=_text(r.get("state")) or "",
                 district=_text(r.get("district")) or "",
                 commodity=_text(r.get("commodity")) or "",
                 variety=_text(r.get("variety")),
@@ -76,30 +79,50 @@ def parse_records(payload: dict[str, Any]) -> list[MandiPrice]:
 
 class AgmarknetClient:
     def __init__(
-        self, http: httpx.AsyncClient, *, base_url: str, resource_id: str, api_key: str
+        self,
+        http: httpx.AsyncClient,
+        *,
+        base_url: str,
+        resource_id: str,
+        api_key: str,
+        max_pages: int = 20,
     ) -> None:
         self._http = http
         self._url = f"{base_url.rstrip('/')}/resource/{resource_id}"
         self._api_key = api_key
+        self._max_pages = max_pages
 
-    async def prices(
-        self, *, state: str, commodity: str, market: str | None = None
-    ) -> list[MandiPrice]:
-        if not self._api_key:
-            raise MarketUnavailableError("no API key configured (MARKET_API_KEY)")
-        params: dict[str, str | int] = {
-            "api-key": self._api_key,
-            "format": "json",
-            "limit": PAGE_LIMIT,
-            "filters[state]": state,
-            "filters[commodity]": commodity,
-        }
-        if market:
-            params["filters[market]"] = market
+    async def _page(self, params: dict[str, str | int]) -> dict[str, Any]:
         try:
             response = await self._http.get(self._url, params=params)
         except httpx.HTTPError as exc:
             raise MarketUnavailableError(str(exc)) from exc
         if response.status_code != httpx.codes.OK:
             raise MarketUnavailableError(f"HTTP {response.status_code}")
-        return parse_records(response.json())
+        payload: dict[str, Any] = response.json()
+        return payload
+
+    async def prices(
+        self, *, commodity: str, state: str | None = None, market: str | None = None
+    ) -> list[MandiPrice]:
+        """All reported rows for the commodity, India-wide unless a state or market is given.
+        Pages through the resource; stops at `max_pages` so one pull stays bounded."""
+        if not self._api_key:
+            raise MarketUnavailableError("no API key configured (MARKET_API_KEY)")
+        params: dict[str, str | int] = {
+            "api-key": self._api_key,
+            "format": "json",
+            "limit": PAGE_LIMIT,
+            "filters[commodity]": commodity,
+        }
+        if state:
+            params["filters[state]"] = state
+        if market:
+            params["filters[market]"] = market
+        prices: list[MandiPrice] = []
+        for page in range(self._max_pages):
+            payload = await self._page({**params, "offset": page * PAGE_LIMIT})
+            prices.extend(parse_records(payload))
+            if len(payload["records"]) < PAGE_LIMIT:
+                break
+        return prices

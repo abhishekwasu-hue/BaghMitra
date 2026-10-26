@@ -1482,6 +1482,275 @@ extension $LiveResponseExtension on LiveResponse {
 }
 
 @JsonSerializable(explicitToJson: true)
+class MarketPriceOut {
+  const MarketPriceOut({
+    required this.commodity,
+    required this.day,
+    required this.district,
+    required this.grade,
+    required this.isLocal,
+    required this.isMajor,
+    required this.market,
+    required this.maxRsPerQuintal,
+    required this.minRsPerQuintal,
+    required this.modalRsPerQuintal,
+    required this.source,
+    required this.state,
+    required this.variety,
+  });
+
+  factory MarketPriceOut.fromJson(Map<String, dynamic> json) =>
+      _$MarketPriceOutFromJson(json);
+
+  static const toJsonFactory = _$MarketPriceOutToJson;
+  Map<String, dynamic> toJson() => _$MarketPriceOutToJson(this);
+
+  @JsonKey(name: 'commodity', includeIfNull: false)
+  final String commodity;
+  @JsonKey(name: 'day', includeIfNull: false, toJson: _dateToJson)
+  final DateTime day;
+  @JsonKey(name: 'district', includeIfNull: false)
+  final String district;
+  @JsonKey(name: 'grade', includeIfNull: false)
+  final String? grade;
+  @JsonKey(name: 'is_local', includeIfNull: false)
+  final bool isLocal;
+  @JsonKey(name: 'is_major', includeIfNull: false)
+  final bool isMajor;
+  @JsonKey(name: 'market', includeIfNull: false)
+  final String market;
+  @JsonKey(name: 'max_rs_per_quintal', includeIfNull: false)
+  final int? maxRsPerQuintal;
+  @JsonKey(name: 'min_rs_per_quintal', includeIfNull: false)
+  final int? minRsPerQuintal;
+  @JsonKey(name: 'modal_rs_per_quintal', includeIfNull: false)
+  final int modalRsPerQuintal;
+  @JsonKey(name: 'source', includeIfNull: false)
+  final String source;
+  @JsonKey(name: 'state', includeIfNull: false)
+  final String state;
+  @JsonKey(name: 'variety', includeIfNull: false)
+  final String? variety;
+  static const fromJsonFactory = _$MarketPriceOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is MarketPriceOut &&
+            (identical(other.commodity, commodity) ||
+                const DeepCollectionEquality().equals(
+                  other.commodity,
+                  commodity,
+                )) &&
+            (identical(other.day, day) ||
+                const DeepCollectionEquality().equals(other.day, day)) &&
+            (identical(other.district, district) ||
+                const DeepCollectionEquality().equals(
+                  other.district,
+                  district,
+                )) &&
+            (identical(other.grade, grade) ||
+                const DeepCollectionEquality().equals(other.grade, grade)) &&
+            (identical(other.isLocal, isLocal) ||
+                const DeepCollectionEquality().equals(
+                  other.isLocal,
+                  isLocal,
+                )) &&
+            (identical(other.isMajor, isMajor) ||
+                const DeepCollectionEquality().equals(
+                  other.isMajor,
+                  isMajor,
+                )) &&
+            (identical(other.market, market) ||
+                const DeepCollectionEquality().equals(other.market, market)) &&
+            (identical(other.maxRsPerQuintal, maxRsPerQuintal) ||
+                const DeepCollectionEquality().equals(
+                  other.maxRsPerQuintal,
+                  maxRsPerQuintal,
+                )) &&
+            (identical(other.minRsPerQuintal, minRsPerQuintal) ||
+                const DeepCollectionEquality().equals(
+                  other.minRsPerQuintal,
+                  minRsPerQuintal,
+                )) &&
+            (identical(other.modalRsPerQuintal, modalRsPerQuintal) ||
+                const DeepCollectionEquality().equals(
+                  other.modalRsPerQuintal,
+                  modalRsPerQuintal,
+                )) &&
+            (identical(other.source, source) ||
+                const DeepCollectionEquality().equals(other.source, source)) &&
+            (identical(other.state, state) ||
+                const DeepCollectionEquality().equals(other.state, state)) &&
+            (identical(other.variety, variety) ||
+                const DeepCollectionEquality().equals(other.variety, variety)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(commodity) ^
+      const DeepCollectionEquality().hash(day) ^
+      const DeepCollectionEquality().hash(district) ^
+      const DeepCollectionEquality().hash(grade) ^
+      const DeepCollectionEquality().hash(isLocal) ^
+      const DeepCollectionEquality().hash(isMajor) ^
+      const DeepCollectionEquality().hash(market) ^
+      const DeepCollectionEquality().hash(maxRsPerQuintal) ^
+      const DeepCollectionEquality().hash(minRsPerQuintal) ^
+      const DeepCollectionEquality().hash(modalRsPerQuintal) ^
+      const DeepCollectionEquality().hash(source) ^
+      const DeepCollectionEquality().hash(state) ^
+      const DeepCollectionEquality().hash(variety) ^
+      runtimeType.hashCode;
+}
+
+extension $MarketPriceOutExtension on MarketPriceOut {
+  MarketPriceOut copyWith({
+    String? commodity,
+    DateTime? day,
+    String? district,
+    String? grade,
+    bool? isLocal,
+    bool? isMajor,
+    String? market,
+    int? maxRsPerQuintal,
+    int? minRsPerQuintal,
+    int? modalRsPerQuintal,
+    String? source,
+    String? state,
+    String? variety,
+  }) {
+    return MarketPriceOut(
+      commodity: commodity ?? this.commodity,
+      day: day ?? this.day,
+      district: district ?? this.district,
+      grade: grade ?? this.grade,
+      isLocal: isLocal ?? this.isLocal,
+      isMajor: isMajor ?? this.isMajor,
+      market: market ?? this.market,
+      maxRsPerQuintal: maxRsPerQuintal ?? this.maxRsPerQuintal,
+      minRsPerQuintal: minRsPerQuintal ?? this.minRsPerQuintal,
+      modalRsPerQuintal: modalRsPerQuintal ?? this.modalRsPerQuintal,
+      source: source ?? this.source,
+      state: state ?? this.state,
+      variety: variety ?? this.variety,
+    );
+  }
+
+  MarketPriceOut copyWithWrapped({
+    Wrapped<String>? commodity,
+    Wrapped<DateTime>? day,
+    Wrapped<String>? district,
+    Wrapped<String?>? grade,
+    Wrapped<bool>? isLocal,
+    Wrapped<bool>? isMajor,
+    Wrapped<String>? market,
+    Wrapped<int?>? maxRsPerQuintal,
+    Wrapped<int?>? minRsPerQuintal,
+    Wrapped<int>? modalRsPerQuintal,
+    Wrapped<String>? source,
+    Wrapped<String>? state,
+    Wrapped<String?>? variety,
+  }) {
+    return MarketPriceOut(
+      commodity: (commodity != null ? commodity.value : this.commodity),
+      day: (day != null ? day.value : this.day),
+      district: (district != null ? district.value : this.district),
+      grade: (grade != null ? grade.value : this.grade),
+      isLocal: (isLocal != null ? isLocal.value : this.isLocal),
+      isMajor: (isMajor != null ? isMajor.value : this.isMajor),
+      market: (market != null ? market.value : this.market),
+      maxRsPerQuintal: (maxRsPerQuintal != null
+          ? maxRsPerQuintal.value
+          : this.maxRsPerQuintal),
+      minRsPerQuintal: (minRsPerQuintal != null
+          ? minRsPerQuintal.value
+          : this.minRsPerQuintal),
+      modalRsPerQuintal: (modalRsPerQuintal != null
+          ? modalRsPerQuintal.value
+          : this.modalRsPerQuintal),
+      source: (source != null ? source.value : this.source),
+      state: (state != null ? state.value : this.state),
+      variety: (variety != null ? variety.value : this.variety),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class MarketPrices {
+  const MarketPrices({required this.prices, this.reason, required this.stale});
+
+  factory MarketPrices.fromJson(Map<String, dynamic> json) =>
+      _$MarketPricesFromJson(json);
+
+  static const toJsonFactory = _$MarketPricesToJson;
+  Map<String, dynamic> toJson() => _$MarketPricesToJson(this);
+
+  @JsonKey(
+    name: 'prices',
+    includeIfNull: false,
+    defaultValue: <MarketPriceOut>[],
+  )
+  final List<MarketPriceOut> prices;
+  @JsonKey(name: 'reason', includeIfNull: false)
+  final String? reason;
+  @JsonKey(name: 'stale', includeIfNull: false)
+  final bool stale;
+  static const fromJsonFactory = _$MarketPricesFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is MarketPrices &&
+            (identical(other.prices, prices) ||
+                const DeepCollectionEquality().equals(other.prices, prices)) &&
+            (identical(other.reason, reason) ||
+                const DeepCollectionEquality().equals(other.reason, reason)) &&
+            (identical(other.stale, stale) ||
+                const DeepCollectionEquality().equals(other.stale, stale)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(prices) ^
+      const DeepCollectionEquality().hash(reason) ^
+      const DeepCollectionEquality().hash(stale) ^
+      runtimeType.hashCode;
+}
+
+extension $MarketPricesExtension on MarketPrices {
+  MarketPrices copyWith({
+    List<MarketPriceOut>? prices,
+    String? reason,
+    bool? stale,
+  }) {
+    return MarketPrices(
+      prices: prices ?? this.prices,
+      reason: reason ?? this.reason,
+      stale: stale ?? this.stale,
+    );
+  }
+
+  MarketPrices copyWithWrapped({
+    Wrapped<List<MarketPriceOut>>? prices,
+    Wrapped<String?>? reason,
+    Wrapped<bool>? stale,
+  }) {
+    return MarketPrices(
+      prices: (prices != null ? prices.value : this.prices),
+      reason: (reason != null ? reason.value : this.reason),
+      stale: (stale != null ? stale.value : this.stale),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class Mutation {
   const Mutation({
     required this.clientMutationId,
@@ -4051,6 +4320,84 @@ v1AdminKbImportsKindPostKindNullableListFromJson(
 
   return v1AdminKbImportsKindPostKind
       .map((e) => v1AdminKbImportsKindPostKindFromJson(e.toString()))
+      .toList();
+}
+
+String? v1MarketPricesGetScopeNullableToJson(
+  enums.V1MarketPricesGetScope? v1MarketPricesGetScope,
+) {
+  return v1MarketPricesGetScope?.value;
+}
+
+String? v1MarketPricesGetScopeToJson(
+  enums.V1MarketPricesGetScope v1MarketPricesGetScope,
+) {
+  return v1MarketPricesGetScope.value;
+}
+
+enums.V1MarketPricesGetScope v1MarketPricesGetScopeFromJson(
+  Object? v1MarketPricesGetScope, [
+  enums.V1MarketPricesGetScope? defaultValue,
+]) {
+  return enums.V1MarketPricesGetScope.values.firstWhereOrNull(
+        (e) => e.value == v1MarketPricesGetScope,
+      ) ??
+      defaultValue ??
+      enums.V1MarketPricesGetScope.swaggerGeneratedUnknown;
+}
+
+enums.V1MarketPricesGetScope? v1MarketPricesGetScopeNullableFromJson(
+  Object? v1MarketPricesGetScope, [
+  enums.V1MarketPricesGetScope? defaultValue,
+]) {
+  if (v1MarketPricesGetScope == null) {
+    return null;
+  }
+  return enums.V1MarketPricesGetScope.values.firstWhereOrNull(
+        (e) => e.value == v1MarketPricesGetScope,
+      ) ??
+      defaultValue;
+}
+
+String v1MarketPricesGetScopeExplodedListToJson(
+  List<enums.V1MarketPricesGetScope>? v1MarketPricesGetScope,
+) {
+  return v1MarketPricesGetScope?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> v1MarketPricesGetScopeListToJson(
+  List<enums.V1MarketPricesGetScope>? v1MarketPricesGetScope,
+) {
+  if (v1MarketPricesGetScope == null) {
+    return [];
+  }
+
+  return v1MarketPricesGetScope.map((e) => e.value!).toList();
+}
+
+List<enums.V1MarketPricesGetScope> v1MarketPricesGetScopeListFromJson(
+  List? v1MarketPricesGetScope, [
+  List<enums.V1MarketPricesGetScope>? defaultValue,
+]) {
+  if (v1MarketPricesGetScope == null) {
+    return defaultValue ?? [];
+  }
+
+  return v1MarketPricesGetScope
+      .map((e) => v1MarketPricesGetScopeFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.V1MarketPricesGetScope>? v1MarketPricesGetScopeNullableListFromJson(
+  List? v1MarketPricesGetScope, [
+  List<enums.V1MarketPricesGetScope>? defaultValue,
+]) {
+  if (v1MarketPricesGetScope == null) {
+    return defaultValue;
+  }
+
+  return v1MarketPricesGetScope
+      .map((e) => v1MarketPricesGetScopeFromJson(e.toString()))
       .toList();
 }
 
