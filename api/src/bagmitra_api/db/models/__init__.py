@@ -30,6 +30,7 @@ from bagmitra_api.kb.models import (
     KbTopic,
 )
 from bagmitra_api.market.models import MarketPrice
+from bagmitra_api.risk.models import PlotRiskAlert
 from bagmitra_api.weather.models import WeatherDaily
 
 __all__ = [
@@ -57,6 +58,7 @@ __all__ = [
     "MarketPrice",
     "PlanEntitlement",
     "Plot",
+    "PlotRiskAlert",
     "SprayRecord",
     "Subscription",
     "SyncMutation",
