@@ -1,0 +1,34 @@
+{
+  "_note": "Weather risk rules (knowledge addendum v1.3 §3.7). Starting points for local calibration; draft until the expert reviewer approves (OPEN_QUESTIONS Q12). Alert texts state the risk and what to check, never a chemical.",
+  "rules": [
+    {
+      "key": "heat_fruit_drop",
+      "kind": "threshold",
+      "field": "t_max_c",
+      "op": ">=",
+      "value": 35,
+      "min_days": 1,
+      "status": "draft",
+      "source": "ICAR-CCRI Nagpur monthly guidelines (March): sudden rise to 35–40 °C",
+      "labels": {
+        "en": "Heat of 35 °C or more expected: risk of fruit drop. Check irrigation and avoid field work at midday. Verify with your local expert.",
+        "mr": "३५ °C किंवा अधिक तापमानाचा अंदाज: फळगळीचा धोका. ओलित तपासा आणि दुपारी शेतातील कामे टाळा. स्थानिक तज्ज्ञांकडून खात्री करा.",
+        "hi": "35 °C या अधिक तापमान का अनुमान: फल गिरने का जोखिम। सिंचाई जाँचें और दोपहर में खेत का काम टालें। स्थानीय विशेषज्ञ से पुष्टि करें।"
+      }
+    },
+    {
+      "key": "psylla_degree_days",
+      "kind": "degree_days",
+      "base_c": 11.11,
+      "upper_c": 32,
+      "per_unit": 580,
+      "status": "draft",
+      "source": "ACP degree-day model, Coop & McRoberts 2013 (after Liu & Tsai 2000)",
+      "labels": {
+        "en": "Warm days favour citrus psylla development. Look for psylla on new flush. Verify with your local expert.",
+        "mr": "उबदार दिवस सिट्रस सायलाच्या वाढीस अनुकूल. नवीन पालवीवर सायला आहे का ते पाहा. स्थानिक तज्ज्ञांकडून खात्री करा.",
+        "hi": "गर्म दिन सिट्रस सिला के विकास के अनुकूल। नई कोंपलों पर सिला देखें। स्थानीय विशेषज्ञ से पुष्टि करें।"
+      }
+    }
+  ]
+}
