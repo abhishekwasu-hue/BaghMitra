@@ -793,6 +793,35 @@
         "title": "PlansResponse",
         "type": "object"
       },
+      "PlotWeather": {
+        "properties": {
+          "alerts": {
+            "items": {
+              "$ref": "#/components/schemas/WeatherAlert"
+            },
+            "title": "Alerts",
+            "type": "array"
+          },
+          "days": {
+            "items": {
+              "$ref": "#/components/schemas/WeatherDay"
+            },
+            "title": "Days",
+            "type": "array"
+          },
+          "stale": {
+            "title": "Stale",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "days",
+          "alerts",
+          "stale"
+        ],
+        "title": "PlotWeather",
+        "type": "object"
+      },
       "PullResponse": {
         "properties": {
           "changes": {
@@ -1319,6 +1348,131 @@
           "type"
         ],
         "title": "ValidationError",
+        "type": "object"
+      },
+      "WeatherAlert": {
+        "properties": {
+          "first_day": {
+            "format": "date",
+            "title": "First Day",
+            "type": "string"
+          },
+          "rule_key": {
+            "title": "Rule Key",
+            "type": "string"
+          },
+          "source": {
+            "title": "Source",
+            "type": "string"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          },
+          "text": {
+            "title": "Text",
+            "type": "string"
+          },
+          "units": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Units"
+          },
+          "value": {
+            "title": "Value",
+            "type": "number"
+          }
+        },
+        "required": [
+          "rule_key",
+          "first_day",
+          "value",
+          "units",
+          "text",
+          "source",
+          "status"
+        ],
+        "title": "WeatherAlert",
+        "type": "object"
+      },
+      "WeatherDay": {
+        "properties": {
+          "day": {
+            "format": "date",
+            "title": "Day",
+            "type": "string"
+          },
+          "precip_mm": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Precip Mm"
+          },
+          "rh_mean_pct": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rh Mean Pct"
+          },
+          "t_max_c": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "T Max C"
+          },
+          "t_min_c": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "T Min C"
+          },
+          "wind_gust_kmh": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wind Gust Kmh"
+          }
+        },
+        "required": [
+          "day",
+          "t_max_c",
+          "t_min_c",
+          "precip_mm",
+          "rh_mean_pct",
+          "wind_gust_kmh"
+        ],
+        "title": "WeatherDay",
         "type": "object"
       }
     },
@@ -2474,6 +2628,106 @@
         "summary": "Get Me",
         "tags": [
           "profile"
+        ]
+      }
+    },
+    "/v1/plots/{plot_id}/weather": {
+      "get": {
+        "description": "Recent and forecast days for the plot's location, with rule-based risk alerts.\n\nAlerts come only from the configured rules (never from AI) and carry no chemical advice.",
+        "operationId": "plot_weather_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "plot_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Plot Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "lang",
+            "required": false,
+            "schema": {
+              "default": "en",
+              "pattern": "^[a-z]{2}$",
+              "title": "Lang",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlotWeather"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Get Plot Weather",
+        "tags": [
+          "weather"
         ]
       }
     },

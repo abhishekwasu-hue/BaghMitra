@@ -1934,6 +1934,77 @@ extension $PlansResponseExtension on PlansResponse {
 }
 
 @JsonSerializable(explicitToJson: true)
+class PlotWeather {
+  const PlotWeather({
+    required this.alerts,
+    required this.days,
+    required this.stale,
+  });
+
+  factory PlotWeather.fromJson(Map<String, dynamic> json) =>
+      _$PlotWeatherFromJson(json);
+
+  static const toJsonFactory = _$PlotWeatherToJson;
+  Map<String, dynamic> toJson() => _$PlotWeatherToJson(this);
+
+  @JsonKey(name: 'alerts', includeIfNull: false, defaultValue: <WeatherAlert>[])
+  final List<WeatherAlert> alerts;
+  @JsonKey(name: 'days', includeIfNull: false, defaultValue: <WeatherDay>[])
+  final List<WeatherDay> days;
+  @JsonKey(name: 'stale', includeIfNull: false)
+  final bool stale;
+  static const fromJsonFactory = _$PlotWeatherFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is PlotWeather &&
+            (identical(other.alerts, alerts) ||
+                const DeepCollectionEquality().equals(other.alerts, alerts)) &&
+            (identical(other.days, days) ||
+                const DeepCollectionEquality().equals(other.days, days)) &&
+            (identical(other.stale, stale) ||
+                const DeepCollectionEquality().equals(other.stale, stale)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(alerts) ^
+      const DeepCollectionEquality().hash(days) ^
+      const DeepCollectionEquality().hash(stale) ^
+      runtimeType.hashCode;
+}
+
+extension $PlotWeatherExtension on PlotWeather {
+  PlotWeather copyWith({
+    List<WeatherAlert>? alerts,
+    List<WeatherDay>? days,
+    bool? stale,
+  }) {
+    return PlotWeather(
+      alerts: alerts ?? this.alerts,
+      days: days ?? this.days,
+      stale: stale ?? this.stale,
+    );
+  }
+
+  PlotWeather copyWithWrapped({
+    Wrapped<List<WeatherAlert>>? alerts,
+    Wrapped<List<WeatherDay>>? days,
+    Wrapped<bool>? stale,
+  }) {
+    return PlotWeather(
+      alerts: (alerts != null ? alerts.value : this.alerts),
+      days: (days != null ? days.value : this.days),
+      stale: (stale != null ? stale.value : this.stale),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class PullResponse {
   const PullResponse({required this.changes, required this.cursor});
 
@@ -3247,6 +3318,233 @@ extension $ValidationErrorExtension on ValidationError {
       loc: (loc != null ? loc.value : this.loc),
       msg: (msg != null ? msg.value : this.msg),
       type: (type != null ? type.value : this.type),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class WeatherAlert {
+  const WeatherAlert({
+    required this.firstDay,
+    required this.ruleKey,
+    required this.source,
+    required this.status,
+    required this.text,
+    required this.units,
+    required this.value,
+  });
+
+  factory WeatherAlert.fromJson(Map<String, dynamic> json) =>
+      _$WeatherAlertFromJson(json);
+
+  static const toJsonFactory = _$WeatherAlertToJson;
+  Map<String, dynamic> toJson() => _$WeatherAlertToJson(this);
+
+  @JsonKey(name: 'first_day', includeIfNull: false, toJson: _dateToJson)
+  final DateTime firstDay;
+  @JsonKey(name: 'rule_key', includeIfNull: false)
+  final String ruleKey;
+  @JsonKey(name: 'source', includeIfNull: false)
+  final String source;
+  @JsonKey(name: 'status', includeIfNull: false)
+  final String status;
+  @JsonKey(name: 'text', includeIfNull: false)
+  final String text;
+  @JsonKey(name: 'units', includeIfNull: false)
+  final double? units;
+  @JsonKey(name: 'value', includeIfNull: false)
+  final double value;
+  static const fromJsonFactory = _$WeatherAlertFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is WeatherAlert &&
+            (identical(other.firstDay, firstDay) ||
+                const DeepCollectionEquality().equals(
+                  other.firstDay,
+                  firstDay,
+                )) &&
+            (identical(other.ruleKey, ruleKey) ||
+                const DeepCollectionEquality().equals(
+                  other.ruleKey,
+                  ruleKey,
+                )) &&
+            (identical(other.source, source) ||
+                const DeepCollectionEquality().equals(other.source, source)) &&
+            (identical(other.status, status) ||
+                const DeepCollectionEquality().equals(other.status, status)) &&
+            (identical(other.text, text) ||
+                const DeepCollectionEquality().equals(other.text, text)) &&
+            (identical(other.units, units) ||
+                const DeepCollectionEquality().equals(other.units, units)) &&
+            (identical(other.value, value) ||
+                const DeepCollectionEquality().equals(other.value, value)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(firstDay) ^
+      const DeepCollectionEquality().hash(ruleKey) ^
+      const DeepCollectionEquality().hash(source) ^
+      const DeepCollectionEquality().hash(status) ^
+      const DeepCollectionEquality().hash(text) ^
+      const DeepCollectionEquality().hash(units) ^
+      const DeepCollectionEquality().hash(value) ^
+      runtimeType.hashCode;
+}
+
+extension $WeatherAlertExtension on WeatherAlert {
+  WeatherAlert copyWith({
+    DateTime? firstDay,
+    String? ruleKey,
+    String? source,
+    String? status,
+    String? text,
+    double? units,
+    double? value,
+  }) {
+    return WeatherAlert(
+      firstDay: firstDay ?? this.firstDay,
+      ruleKey: ruleKey ?? this.ruleKey,
+      source: source ?? this.source,
+      status: status ?? this.status,
+      text: text ?? this.text,
+      units: units ?? this.units,
+      value: value ?? this.value,
+    );
+  }
+
+  WeatherAlert copyWithWrapped({
+    Wrapped<DateTime>? firstDay,
+    Wrapped<String>? ruleKey,
+    Wrapped<String>? source,
+    Wrapped<String>? status,
+    Wrapped<String>? text,
+    Wrapped<double?>? units,
+    Wrapped<double>? value,
+  }) {
+    return WeatherAlert(
+      firstDay: (firstDay != null ? firstDay.value : this.firstDay),
+      ruleKey: (ruleKey != null ? ruleKey.value : this.ruleKey),
+      source: (source != null ? source.value : this.source),
+      status: (status != null ? status.value : this.status),
+      text: (text != null ? text.value : this.text),
+      units: (units != null ? units.value : this.units),
+      value: (value != null ? value.value : this.value),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class WeatherDay {
+  const WeatherDay({
+    required this.day,
+    required this.precipMm,
+    required this.rhMeanPct,
+    required this.tMaxC,
+    required this.tMinC,
+    required this.windGustKmh,
+  });
+
+  factory WeatherDay.fromJson(Map<String, dynamic> json) =>
+      _$WeatherDayFromJson(json);
+
+  static const toJsonFactory = _$WeatherDayToJson;
+  Map<String, dynamic> toJson() => _$WeatherDayToJson(this);
+
+  @JsonKey(name: 'day', includeIfNull: false, toJson: _dateToJson)
+  final DateTime day;
+  @JsonKey(name: 'precip_mm', includeIfNull: false)
+  final double? precipMm;
+  @JsonKey(name: 'rh_mean_pct', includeIfNull: false)
+  final double? rhMeanPct;
+  @JsonKey(name: 't_max_c', includeIfNull: false)
+  final double? tMaxC;
+  @JsonKey(name: 't_min_c', includeIfNull: false)
+  final double? tMinC;
+  @JsonKey(name: 'wind_gust_kmh', includeIfNull: false)
+  final double? windGustKmh;
+  static const fromJsonFactory = _$WeatherDayFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is WeatherDay &&
+            (identical(other.day, day) ||
+                const DeepCollectionEquality().equals(other.day, day)) &&
+            (identical(other.precipMm, precipMm) ||
+                const DeepCollectionEquality().equals(
+                  other.precipMm,
+                  precipMm,
+                )) &&
+            (identical(other.rhMeanPct, rhMeanPct) ||
+                const DeepCollectionEquality().equals(
+                  other.rhMeanPct,
+                  rhMeanPct,
+                )) &&
+            (identical(other.tMaxC, tMaxC) ||
+                const DeepCollectionEquality().equals(other.tMaxC, tMaxC)) &&
+            (identical(other.tMinC, tMinC) ||
+                const DeepCollectionEquality().equals(other.tMinC, tMinC)) &&
+            (identical(other.windGustKmh, windGustKmh) ||
+                const DeepCollectionEquality().equals(
+                  other.windGustKmh,
+                  windGustKmh,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(day) ^
+      const DeepCollectionEquality().hash(precipMm) ^
+      const DeepCollectionEquality().hash(rhMeanPct) ^
+      const DeepCollectionEquality().hash(tMaxC) ^
+      const DeepCollectionEquality().hash(tMinC) ^
+      const DeepCollectionEquality().hash(windGustKmh) ^
+      runtimeType.hashCode;
+}
+
+extension $WeatherDayExtension on WeatherDay {
+  WeatherDay copyWith({
+    DateTime? day,
+    double? precipMm,
+    double? rhMeanPct,
+    double? tMaxC,
+    double? tMinC,
+    double? windGustKmh,
+  }) {
+    return WeatherDay(
+      day: day ?? this.day,
+      precipMm: precipMm ?? this.precipMm,
+      rhMeanPct: rhMeanPct ?? this.rhMeanPct,
+      tMaxC: tMaxC ?? this.tMaxC,
+      tMinC: tMinC ?? this.tMinC,
+      windGustKmh: windGustKmh ?? this.windGustKmh,
+    );
+  }
+
+  WeatherDay copyWithWrapped({
+    Wrapped<DateTime>? day,
+    Wrapped<double?>? precipMm,
+    Wrapped<double?>? rhMeanPct,
+    Wrapped<double?>? tMaxC,
+    Wrapped<double?>? tMinC,
+    Wrapped<double?>? windGustKmh,
+  }) {
+    return WeatherDay(
+      day: (day != null ? day.value : this.day),
+      precipMm: (precipMm != null ? precipMm.value : this.precipMm),
+      rhMeanPct: (rhMeanPct != null ? rhMeanPct.value : this.rhMeanPct),
+      tMaxC: (tMaxC != null ? tMaxC.value : this.tMaxC),
+      tMinC: (tMinC != null ? tMinC.value : this.tMinC),
+      windGustKmh: (windGustKmh != null ? windGustKmh.value : this.windGustKmh),
     );
   }
 }

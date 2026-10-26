@@ -566,6 +566,43 @@ is the raw file; only its hash, size and time are kept.''',
     ),
   });
 
+  ///Get Plot Weather
+  ///@param plot_id
+  ///@param lang
+  Future<chopper.Response<PlotWeather>> v1PlotsPlotIdWeatherGet({
+    required String? plotId,
+    String? lang,
+  }) {
+    generatedMapping.putIfAbsent(
+      PlotWeather,
+      () => PlotWeather.fromJsonFactory,
+    );
+
+    return _v1PlotsPlotIdWeatherGet(plotId: plotId, lang: lang);
+  }
+
+  ///Get Plot Weather
+  ///@param plot_id
+  ///@param lang
+  @GET(path: '/v1/plots/{plot_id}/weather')
+  Future<chopper.Response<PlotWeather>> _v1PlotsPlotIdWeatherGet({
+    @Path('plot_id') required String? plotId,
+    @Query('lang') String? lang,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Recent and forecast days for the plot\'s location, with rule-based risk alerts.
+
+Alerts come only from the configured rules (never from AI) and carry no chemical advice.''',
+      summary: 'Get Plot Weather',
+      operationId: 'plot_weather_get',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["weather"],
+      deprecated: false,
+    ),
+  });
+
   ///Restrictions
   Future<chopper.Response<RestrictionsResponse>> v1ReferenceRestrictionsGet() {
     generatedMapping.putIfAbsent(
