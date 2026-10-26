@@ -11,9 +11,15 @@ defaults:
   run:
     working-directory: api
 
+# A newer push to the same branch or PR cancels the older run.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   checks:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -41,6 +47,7 @@ jobs:
 
   migrations-postgres:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     services:
       postgres:
         image: postgis/postgis:16-3.4

@@ -17,6 +17,11 @@ permissions:
 env:
   FLUTTER_VERSION: "3.47.5"
 
+# One release at a time; a run already uploading is never cancelled.
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
 jobs:
   test-apk:
     if: github.event_name == 'workflow_dispatch' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push')

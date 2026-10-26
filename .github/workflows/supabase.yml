@@ -9,6 +9,11 @@ on:
     branches: [main]
     paths: ["api/**", "supabase/**", ".github/workflows/supabase.yml"]
 
+# A newer push to the same branch or PR cancels the older run.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   e2e:
     runs-on: ubuntu-latest
