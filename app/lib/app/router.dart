@@ -19,6 +19,7 @@ import '../features/field_work/presentation/labour_screens.dart';
 import '../features/home/presentation/home_screen.dart';
 import '../features/inputs/presentation/add_input_screens.dart';
 import '../features/inputs/presentation/field_log_screen.dart';
+import '../features/labels/presentation/label_info_screen.dart';
 import '../features/plots/presentation/add_plot_screen.dart';
 import '../features/plots/presentation/boundary_screen.dart';
 import '../features/plots/presentation/plot_detail_screen.dart';
@@ -63,6 +64,7 @@ abstract final class Routes {
   static String compareBahars(String plotId) => '/plots/$plotId/bahar/compare';
   static String sprays(String plotId) => '/plots/$plotId/sprays';
   static String addSpray(String plotId) => '/plots/$plotId/sprays/new';
+  static String labels(String plotId) => '/plots/$plotId/labels';
   static String labour(String plotId) => '/plots/$plotId/labour';
   static String addLabour(String plotId) => '/plots/$plotId/labour/new';
   static String harvest(String plotId) => '/plots/$plotId/harvest';
@@ -139,6 +141,10 @@ GoRouter buildRouter(
       GoRoute(
         path: '/plots/:id/sprays/new',
         builder: (_, s) => AddSprayScreen(plotId: s.pathParameters['id']!),
+      ),
+      GoRoute(
+        path: '/plots/:id/labels',
+        builder: (_, s) => LabelInfoScreen(plotId: s.pathParameters['id']!),
       ),
       GoRoute(
         path: '/plots/:id/labour',

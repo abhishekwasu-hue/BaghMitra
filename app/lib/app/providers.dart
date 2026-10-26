@@ -28,6 +28,7 @@ import '../features/home/domain/home_snapshot.dart';
 import '../features/inputs/data/input_kinds.dart';
 import '../features/inputs/data/inputs_repository.dart';
 import '../features/inputs/domain/field_records.dart';
+import '../features/labels/data/label_claims_cache.dart';
 import '../features/plots/data/crop_catalog.dart';
 import '../features/plots/data/location_service.dart';
 import '../features/plots/data/plot_repository.dart';
@@ -225,6 +226,32 @@ final restrictionsProvider = FutureProvider<RestrictionList>((ref) async {
     unawaited(cache.refresh());
   }
   return cached;
+});
+
+final labelClaimsCacheProvider = Provider<LabelClaimsCache>(
+  (ref) => LabelClaimsCache(
+    ref.watch(databaseProvider),
+    api: ref.watch(apiProvider),
+    clock: ref.watch(clockProvider),
+  ),
+);
+
+/// CIB&RC label information for a crop (label facts only, never advice). The cached copy is
+/// returned when there is one and refreshed in the background online (not demo); with no
+/// cached copy yet the first refresh is awaited so the screen is not empty for nothing.
+final labelClaimsProvider = FutureProvider.family<CachedLabelClaims?, String>((
+  ref,
+  crop,
+) async {
+  final cache = ref.watch(labelClaimsCacheProvider);
+  final cached = await cache.load(crop);
+  if (ref.watch(appConfigProvider).demoMode) return cached;
+  if (cached != null) {
+    unawaited(cache.refresh(crop));
+    return cached;
+  }
+  await cache.refresh(crop);
+  return cache.load(crop);
 });
 
 final entitlementsCacheProvider = Provider<EntitlementsCache>(

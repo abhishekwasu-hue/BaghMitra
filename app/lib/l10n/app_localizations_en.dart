@@ -947,4 +947,48 @@ class AppLocalizationsEn extends AppLocalizations {
   String weatherSource(String source) {
     return 'Source: $source';
   }
+
+  @override
+  String get labelInfoTitle => 'Label information';
+
+  @override
+  String get labelInfoBanner =>
+      'This is information printed on registered labels (CIB&RC). It is not a recommendation. Read the product label and confirm with your KVK or agriculture officer before any use.';
+
+  @override
+  String get labelInfoEmpty =>
+      'No registered label information is available yet.';
+
+  @override
+  String labelInfoUpdated(String date) {
+    return 'Updated $date';
+  }
+
+  @override
+  String get labelInfoDose => 'Dose on label:';
+
+  @override
+  String labelInfoInterval(String days) {
+    return 'Interval: $days days';
+  }
+
+  @override
+  String labelInfoPhi(String days) {
+    return 'PHI: $days days before harvest';
+  }
+
+  @override
+  String labelInfoMaxSprays(String count) {
+    return 'Max sprays: $count';
+  }
+
+  @override
+  String labelInfoCrop(String crop) {
+    return 'Label crop: $crop';
+  }
+
+  @override
+  String labelInfoSource(String title) {
+    return 'Source: $title';
+  }
 }

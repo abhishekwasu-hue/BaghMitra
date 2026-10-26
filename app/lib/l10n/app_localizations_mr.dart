@@ -944,4 +944,47 @@ class AppLocalizationsMr extends AppLocalizations {
   String weatherSource(String source) {
     return 'स्रोत: $source';
   }
+
+  @override
+  String get labelInfoTitle => 'लेबल माहिती';
+
+  @override
+  String get labelInfoBanner =>
+      'ही माहिती नोंदणीकृत लेबलवर (CIB&RC) छापलेली आहे. ही शिफारस नाही. कोणताही वापर करण्यापूर्वी उत्पादनाचे लेबल वाचा आणि तुमच्या कृषी विज्ञान केंद्र (KVK) किंवा कृषी अधिकाऱ्याकडून खात्री करून घ्या.';
+
+  @override
+  String get labelInfoEmpty => 'नोंदणीकृत लेबलची माहिती अजून उपलब्ध नाही.';
+
+  @override
+  String labelInfoUpdated(String date) {
+    return 'अद्ययावत: $date';
+  }
+
+  @override
+  String get labelInfoDose => 'लेबलवरील मात्रा:';
+
+  @override
+  String labelInfoInterval(String days) {
+    return 'दोन फवारण्यांमधील अंतर: $days दिवस';
+  }
+
+  @override
+  String labelInfoPhi(String days) {
+    return 'काढणीपूर्वी $days दिवस (PHI)';
+  }
+
+  @override
+  String labelInfoMaxSprays(String count) {
+    return 'जास्तीत जास्त फवारण्या: $count';
+  }
+
+  @override
+  String labelInfoCrop(String crop) {
+    return 'लेबलवरील पीक: $crop';
+  }
+
+  @override
+  String labelInfoSource(String title) {
+    return 'स्रोत: $title';
+  }
 }

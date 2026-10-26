@@ -102,9 +102,22 @@ class SprayLogScreen extends ConsumerWidget {
       bottomNavigationBar: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(BmSpace.md),
-          child: FilledButton(
-            onPressed: () => context.push(Routes.addSpray(plotId)),
-            child: Text(t.addSpray),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              OutlinedButton.icon(
+                key: const Key('open-labels'),
+                onPressed: () => context.push(Routes.labels(plotId)),
+                icon: const Icon(Icons.menu_book_outlined),
+                label: Text(t.labelInfoTitle),
+              ),
+              const SizedBox(height: BmSpace.xs),
+              FilledButton(
+                onPressed: () => context.push(Routes.addSpray(plotId)),
+                child: Text(t.addSpray),
+              ),
+            ],
           ),
         ),
       ),
