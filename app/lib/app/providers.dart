@@ -35,6 +35,7 @@ import '../features/plots/data/crop_catalog.dart';
 import '../features/plots/data/location_service.dart';
 import '../features/plots/data/plot_repository.dart';
 import '../features/plots/domain/plot.dart';
+import '../features/practices/data/practice_cards.dart';
 import '../features/profile/data/language_catalog.dart';
 import '../features/profile/data/profile_repository.dart';
 import '../features/profile/domain/farmer_profile.dart';
@@ -176,6 +177,14 @@ final baharOptionsProvider = FutureProvider<BaharCatalogData>(
 
 final baharCompareProvider = FutureProvider<BaharCompareData>(
   (ref) => BaharCompareConfig().load(),
+);
+
+final practiceCardsConfigProvider = Provider<PracticeCardsConfig>(
+  (ref) => PracticeCardsConfig(),
+);
+
+final practiceCardsProvider = FutureProvider<PracticeCardsData>(
+  (ref) => ref.watch(practiceCardsConfigProvider).load(),
 );
 
 final accountsRepositoryProvider = Provider<AccountsRepository>(

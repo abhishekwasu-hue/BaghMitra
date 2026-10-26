@@ -1039,4 +1039,34 @@ class AppLocalizationsMr extends AppLocalizations {
   @override
   String get marketEmpty =>
       'अजून भाव नाहीत. फोन ऑनलाइन असताना आणि भावांचा स्रोत जोडलेला असताना ते येतील.';
+
+  @override
+  String get practicesOpen => 'बाग व्यवस्थापन पद्धती (रसायनविरहित)';
+
+  @override
+  String get practicesTitle => 'बाग व्यवस्थापन पद्धती';
+
+  @override
+  String practicesSource(String source) {
+    return 'स्रोत: $source';
+  }
+
+  @override
+  String get practicesEvidenceOfficial => 'शासकीय';
+
+  @override
+  String get practicesEvidenceUniversity => 'विद्यापीठ';
+
+  @override
+  String get practicesEvidenceResearch => 'संशोधन निष्कर्ष';
+
+  @override
+  String get practicesEvidenceInferred => 'अनुमानित';
+
+  @override
+  String get practicesGapsTitle => 'यांसाठी अजून रसायनविरहित उपाय सापडला नाही';
+
+  @override
+  String get practicesSourcesLine =>
+      'स्रोत: NHB आणि डॉ. पंदेकृवि, अकोला. प्रत्येक पद्धतीखाली तपशील.';
 }

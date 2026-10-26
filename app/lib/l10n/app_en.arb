@@ -559,5 +559,15 @@
   "@marketRange": {"placeholders": {"min": {"type": "String"}, "max": {"type": "String"}}},
   "@marketVariety": {"placeholders": {"variety": {"type": "String"}}},
   "@marketUpdated": {"placeholders": {"date": {"type": "String"}}},
-  "@marketStale": {"placeholders": {"reason": {"type": "String"}}}
+  "@marketStale": {"placeholders": {"reason": {"type": "String"}}},
+  "practicesOpen": "Orchard practices (non-chemical)",
+  "practicesTitle": "Orchard practices",
+  "practicesSource": "Source: {source}",
+  "practicesEvidenceOfficial": "Official",
+  "practicesEvidenceUniversity": "University",
+  "practicesEvidenceResearch": "Research finding",
+  "practicesEvidenceInferred": "Inferred",
+  "practicesGapsTitle": "No non-chemical practice found yet",
+  "practicesSourcesLine": "Sources: NHB and Dr. PDKV, Akola. Details under each practice.",
+  "@practicesSource": {"placeholders": {"source": {"type": "String"}}}
 }
