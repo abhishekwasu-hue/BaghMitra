@@ -107,3 +107,19 @@ enum V1AdminKbImportsKindPostKind {
 
   const V1AdminKbImportsKindPostKind(this.value);
 }
+
+enum V1MarketPricesGetScope {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('all')
+  all('all'),
+  @JsonValue('local')
+  local('local'),
+  @JsonValue('major')
+  major('major');
+
+  final String? value;
+
+  const V1MarketPricesGetScope(this.value);
+}

@@ -13,6 +13,7 @@ from bagmitra_api.routers import (
     admin_kb,
     billing,
     health,
+    market,
     me,
     reference,
     sync,
@@ -36,6 +37,6 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         )
     app.add_middleware(RequestIdMiddleware)
     install_error_handlers(app)
-    for module in (admin_billing, admin_kb, billing, health, me, reference, sync, weather):
+    for module in (admin_billing, admin_kb, billing, health, market, me, reference, sync, weather):
         app.include_router(module.router)
     return app
