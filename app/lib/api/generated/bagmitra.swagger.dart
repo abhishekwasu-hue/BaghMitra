@@ -540,6 +540,39 @@ is the raw file; only its hash, size and time are kept.''',
     ),
   });
 
+  ///Get Market Prices
+  ///@param crop
+  Future<chopper.Response<MarketPrices>> v1MarketPricesGet({
+    required String? crop,
+  }) {
+    generatedMapping.putIfAbsent(
+      MarketPrices,
+      () => MarketPrices.fromJsonFactory,
+    );
+
+    return _v1MarketPricesGet(crop: crop);
+  }
+
+  ///Get Market Prices
+  ///@param crop
+  @GET(path: '/v1/market/prices')
+  Future<chopper.Response<MarketPrices>> _v1MarketPricesGet({
+    @Query('crop') required String? crop,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Published mandi prices (₹ per quintal) for the crop at the configured APMCs, newest
+first. Prices are shown as published, never estimated; `stale` says the source could not
+be reached and `reason` says why.''',
+      summary: 'Get Market Prices',
+      operationId: 'market_prices_get',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market"],
+      deprecated: false,
+    ),
+  });
+
   ///Get Me
   Future<chopper.Response<FarmerProfile>> v1MeGet() {
     generatedMapping.putIfAbsent(

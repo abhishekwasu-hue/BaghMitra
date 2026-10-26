@@ -29,6 +29,7 @@ from bagmitra_api.kb.models import (
     KbSynonym,
     KbTopic,
 )
+from bagmitra_api.market.models import MarketPrice
 from bagmitra_api.weather.models import WeatherDaily
 
 __all__ = [
@@ -53,6 +54,7 @@ __all__ = [
     "KbSynonym",
     "KbTopic",
     "LabourRecord",
+    "MarketPrice",
     "PlanEntitlement",
     "Plot",
     "SprayRecord",

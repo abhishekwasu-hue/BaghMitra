@@ -594,6 +594,125 @@
         "title": "LiveResponse",
         "type": "object"
       },
+      "MarketPriceOut": {
+        "properties": {
+          "commodity": {
+            "title": "Commodity",
+            "type": "string"
+          },
+          "day": {
+            "format": "date",
+            "title": "Day",
+            "type": "string"
+          },
+          "district": {
+            "title": "District",
+            "type": "string"
+          },
+          "grade": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Grade"
+          },
+          "market": {
+            "title": "Market",
+            "type": "string"
+          },
+          "max_rs_per_quintal": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Rs Per Quintal"
+          },
+          "min_rs_per_quintal": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Min Rs Per Quintal"
+          },
+          "modal_rs_per_quintal": {
+            "title": "Modal Rs Per Quintal",
+            "type": "integer"
+          },
+          "source": {
+            "title": "Source",
+            "type": "string"
+          },
+          "variety": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Variety"
+          }
+        },
+        "required": [
+          "day",
+          "market",
+          "district",
+          "commodity",
+          "variety",
+          "grade",
+          "min_rs_per_quintal",
+          "max_rs_per_quintal",
+          "modal_rs_per_quintal",
+          "source"
+        ],
+        "title": "MarketPriceOut",
+        "type": "object"
+      },
+      "MarketPrices": {
+        "properties": {
+          "prices": {
+            "items": {
+              "$ref": "#/components/schemas/MarketPriceOut"
+            },
+            "title": "Prices",
+            "type": "array"
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason"
+          },
+          "stale": {
+            "title": "Stale",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "prices",
+          "stale"
+        ],
+        "title": "MarketPrices",
+        "type": "object"
+      },
       "Mutation": {
         "properties": {
           "client_mutation_id": {
@@ -2582,6 +2701,75 @@
         "summary": "Entitlements",
         "tags": [
           "billing"
+        ]
+      }
+    },
+    "/v1/market/prices": {
+      "get": {
+        "description": "Published mandi prices (₹ per quintal) for the crop at the configured APMCs, newest\nfirst. Prices are shown as published, never estimated; `stale` says the source could not\nbe reached and `reason` says why.",
+        "operationId": "market_prices_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "crop",
+            "required": true,
+            "schema": {
+              "pattern": "^[a-z_]{2,32}$",
+              "title": "Crop",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MarketPrices"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Get Market Prices",
+        "tags": [
+          "market"
         ]
       }
     },

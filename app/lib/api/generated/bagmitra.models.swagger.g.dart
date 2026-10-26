@@ -282,6 +282,51 @@ LiveResponse _$LiveResponseFromJson(Map<String, dynamic> json) => LiveResponse(
 Map<String, dynamic> _$LiveResponseToJson(LiveResponse instance) =>
     <String, dynamic>{'product': instance.product, 'status': instance.status};
 
+MarketPriceOut _$MarketPriceOutFromJson(Map<String, dynamic> json) =>
+    MarketPriceOut(
+      commodity: json['commodity'] as String,
+      day: DateTime.parse(json['day'] as String),
+      district: json['district'] as String,
+      grade: json['grade'] as String?,
+      market: json['market'] as String,
+      maxRsPerQuintal: (json['max_rs_per_quintal'] as num?)?.toInt(),
+      minRsPerQuintal: (json['min_rs_per_quintal'] as num?)?.toInt(),
+      modalRsPerQuintal: (json['modal_rs_per_quintal'] as num).toInt(),
+      source: json['source'] as String,
+      variety: json['variety'] as String?,
+    );
+
+Map<String, dynamic> _$MarketPriceOutToJson(MarketPriceOut instance) =>
+    <String, dynamic>{
+      'commodity': instance.commodity,
+      'day': ?_dateToJson(instance.day),
+      'district': instance.district,
+      'grade': ?instance.grade,
+      'market': instance.market,
+      'max_rs_per_quintal': ?instance.maxRsPerQuintal,
+      'min_rs_per_quintal': ?instance.minRsPerQuintal,
+      'modal_rs_per_quintal': instance.modalRsPerQuintal,
+      'source': instance.source,
+      'variety': ?instance.variety,
+    };
+
+MarketPrices _$MarketPricesFromJson(Map<String, dynamic> json) => MarketPrices(
+  prices:
+      (json['prices'] as List<dynamic>?)
+          ?.map((e) => MarketPriceOut.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      [],
+  reason: json['reason'] as String?,
+  stale: json['stale'] as bool,
+);
+
+Map<String, dynamic> _$MarketPricesToJson(MarketPrices instance) =>
+    <String, dynamic>{
+      'prices': instance.prices.map((e) => e.toJson()).toList(),
+      'reason': ?instance.reason,
+      'stale': instance.stale,
+    };
+
 Mutation _$MutationFromJson(Map<String, dynamic> json) => Mutation(
   clientMutationId: json['client_mutation_id'] as String,
   clientUpdatedAt: DateTime.parse(json['client_updated_at'] as String),

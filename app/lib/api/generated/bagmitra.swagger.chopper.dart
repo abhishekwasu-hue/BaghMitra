@@ -441,6 +441,34 @@ is the raw file; only its hash, size and time are kept.''',
   }
 
   @override
+  Future<Response<MarketPrices>> _v1MarketPricesGet({
+    required String? crop,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Published mandi prices (₹ per quintal) for the crop at the configured APMCs, newest
+first. Prices are shown as published, never estimated; `stale` says the source could not
+be reached and `reason` says why.''',
+      summary: 'Get Market Prices',
+      operationId: 'market_prices_get',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/market/prices');
+    final Map<String, dynamic> $params = <String, dynamic>{'crop': crop};
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+      tag: swaggerMetaData,
+    );
+    return client.send<MarketPrices, MarketPrices>($request);
+  }
+
+  @override
   Future<Response<FarmerProfile>> _v1MeGet({
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',

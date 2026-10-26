@@ -52,6 +52,8 @@ class Settings(BaseSettings):
     market_markets: list[str] = Field(
         default_factory=lambda: ["Kalamna", "Warud", "Katol", "Morshi", "Amravati"]
     )
+    market_max_age_hours: int = 12
+    market_window_days: int = 14
     # Our crop key -> Agmarknet commodity names.
     market_commodities: dict[str, list[str]] = Field(
         default_factory=lambda: {"santra": ["Orange"], "mosambi": ["Mousambi(Sweet Lime)"]}
