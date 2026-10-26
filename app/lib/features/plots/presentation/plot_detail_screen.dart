@@ -7,6 +7,7 @@ import '../../../app/router.dart';
 import '../../../core/formatting.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
+import '../../weather/presentation/plot_weather_card.dart';
 import '../domain/geo.dart';
 
 /// One block at a glance: what the grower entered, the boundary, and the way into its bahars,
@@ -84,6 +85,10 @@ class PlotDetailScreen extends ConsumerWidget {
               '${plot.centroidLat!.toStringAsFixed(5)}, '
               '${plot.centroidLon!.toStringAsFixed(5)}',
             ),
+          if (plot.centroidLat != null && plot.centroidLon != null) ...[
+            const SizedBox(height: BmSpace.lg),
+            PlotWeatherCard(plotId: plot.id),
+          ],
           const SizedBox(height: BmSpace.lg),
           FilledButton(
             key: const Key('open-records'),

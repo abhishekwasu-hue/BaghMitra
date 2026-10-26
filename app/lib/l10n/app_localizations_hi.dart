@@ -917,4 +917,33 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get baharCompareUse => 'यह बहार चुनें';
+
+  @override
+  String get weatherTitle => 'मौसम';
+
+  @override
+  String weatherAsOf(String date) {
+    return 'अद्यतन: $date';
+  }
+
+  @override
+  String get weatherStale =>
+      'मौसम अद्यतन नहीं हो सका; आख़िरी सहेजे दिन दिखा रहे हैं।';
+
+  @override
+  String get weatherNone => 'अभी मौसम नहीं है। फ़ोन ऑनलाइन होने पर आएगा।';
+
+  @override
+  String weatherRain(String mm) {
+    return '$mm मिमी बारिश';
+  }
+
+  @override
+  String get weatherAlertsDraft =>
+      'जोखिम सूचनाएँ मसौदा नियम हैं, विशेषज्ञ ने अभी जाँचे नहीं हैं। स्थानीय विशेषज्ञ से पुष्टि करें।';
+
+  @override
+  String weatherSource(String source) {
+    return 'स्रोत: $source';
+  }
 }
