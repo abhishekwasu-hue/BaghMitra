@@ -11,6 +11,7 @@ from bagmitra_api.core.settings import Settings, get_settings
 from bagmitra_api.routers import (
     admin_billing,
     admin_kb,
+    admin_market,
     billing,
     devices,
     health,
@@ -41,6 +42,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     for module in (
         admin_billing,
         admin_kb,
+        admin_market,
         billing,
         devices,
         health,

@@ -514,6 +514,35 @@ is the raw file; only its hash, size and time are kept.''',
     ),
   });
 
+  ///Upload Prices
+  Future<chopper.Response<ManualPricesOut>> v1AdminMarketPricesPost({
+    required ManualPricesIn? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      ManualPricesOut,
+      () => ManualPricesOut.fromJsonFactory,
+    );
+
+    return _v1AdminMarketPricesPost(body: body);
+  }
+
+  ///Upload Prices
+  @POST(path: '/v1/admin/market/prices', optionalBody: true)
+  Future<chopper.Response<ManualPricesOut>> _v1AdminMarketPricesPost({
+    @Body() required ManualPricesIn? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Store prices typed in from a mandi\'s published rate list (same day and mandi replace).',
+      summary: 'Upload Prices',
+      operationId: 'admin_market_prices_upload',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
   ///Entitlements
   Future<chopper.Response<EntitlementsResponse>> v1BillingEntitlementsGet() {
     generatedMapping.putIfAbsent(

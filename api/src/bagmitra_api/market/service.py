@@ -1,6 +1,7 @@
 """Mandi price storage: pull India-wide from Agmarknet when stored prices are old, otherwise
 serve what is stored. A failed pull falls back to stored prices marked stale; prices are
-never invented. Readers get the latest price per mandi (market, variety, grade)."""
+never invented. Readers get the latest price per mandi (market, variety, grade); on the
+same day an Agmarknet row wins over a manual one."""
 
 from __future__ import annotations
 
@@ -21,6 +22,7 @@ from bagmitra_api.market.models import MarketPrice
 from bagmitra_api.weather.service import get_clock
 
 AGMARKNET = "agmarknet"
+MANUAL = "manual"  # typed in by a market_admin when Agmarknet has no price
 
 
 class MarketProvider(Protocol):
@@ -111,7 +113,7 @@ async def _latest_per_mandi(
     query = (
         select(MarketPrice)
         .where(MarketPrice.commodity.in_(commodities), MarketPrice.day >= since.date())
-        .order_by(MarketPrice.day.desc())
+        .order_by(MarketPrice.day.desc(), MarketPrice.source == MANUAL)
     )
     latest: dict[tuple[str, str, str, str], MarketPrice] = {}
     for row in (await session.scalars(query)).all():

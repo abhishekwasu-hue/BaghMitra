@@ -740,6 +740,136 @@
         "title": "LiveResponse",
         "type": "object"
       },
+      "ManualPriceIn": {
+        "properties": {
+          "commodity": {
+            "maxLength": 120,
+            "minLength": 1,
+            "title": "Commodity",
+            "type": "string"
+          },
+          "day": {
+            "format": "date",
+            "title": "Day",
+            "type": "string"
+          },
+          "district": {
+            "maxLength": 120,
+            "minLength": 1,
+            "title": "District",
+            "type": "string"
+          },
+          "grade": {
+            "anyOf": [
+              {
+                "maxLength": 60,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Grade"
+          },
+          "market": {
+            "maxLength": 120,
+            "minLength": 1,
+            "title": "Market",
+            "type": "string"
+          },
+          "max_rs_per_quintal": {
+            "anyOf": [
+              {
+                "exclusiveMinimum": 0.0,
+                "maximum": 1000000.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Rs Per Quintal"
+          },
+          "min_rs_per_quintal": {
+            "anyOf": [
+              {
+                "exclusiveMinimum": 0.0,
+                "maximum": 1000000.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Min Rs Per Quintal"
+          },
+          "modal_rs_per_quintal": {
+            "exclusiveMinimum": 0.0,
+            "maximum": 1000000.0,
+            "title": "Modal Rs Per Quintal",
+            "type": "integer"
+          },
+          "state": {
+            "maxLength": 120,
+            "minLength": 1,
+            "title": "State",
+            "type": "string"
+          },
+          "variety": {
+            "anyOf": [
+              {
+                "maxLength": 120,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Variety"
+          }
+        },
+        "required": [
+          "day",
+          "market",
+          "state",
+          "district",
+          "commodity",
+          "modal_rs_per_quintal"
+        ],
+        "title": "ManualPriceIn",
+        "type": "object"
+      },
+      "ManualPricesIn": {
+        "properties": {
+          "prices": {
+            "items": {
+              "$ref": "#/components/schemas/ManualPriceIn"
+            },
+            "maxItems": 500,
+            "minItems": 1,
+            "title": "Prices",
+            "type": "array"
+          }
+        },
+        "required": [
+          "prices"
+        ],
+        "title": "ManualPricesIn",
+        "type": "object"
+      },
+      "ManualPricesOut": {
+        "properties": {
+          "stored": {
+            "title": "Stored",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "stored"
+        ],
+        "title": "ManualPricesOut",
+        "type": "object"
+      },
       "MarketPriceOut": {
         "properties": {
           "commodity": {
@@ -2824,6 +2954,73 @@
           }
         ],
         "summary": "Upload Source Document",
+        "tags": [
+          "admin"
+        ]
+      }
+    },
+    "/v1/admin/market/prices": {
+      "post": {
+        "description": "Store prices typed in from a mandi's published rate list (same day and mandi replace).",
+        "operationId": "admin_market_prices_upload",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ManualPricesIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ManualPricesOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Upload Prices",
         "tags": [
           "admin"
         ]
