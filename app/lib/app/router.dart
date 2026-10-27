@@ -14,6 +14,8 @@ import '../features/bahar/presentation/bahar_screen.dart';
 import '../features/bahar/presentation/start_bahar_screen.dart';
 import '../features/calendar/presentation/season_calendar_screen.dart';
 import '../features/dev/component_gallery_screen.dart';
+import '../features/feed/presentation/feed_check_screen.dart';
+import '../features/feed/presentation/feed_preferences_screen.dart';
 import '../features/feed/presentation/feed_screen.dart';
 import '../features/field_work/presentation/harvest_screen.dart';
 import '../features/field_work/presentation/labour_screens.dart';
@@ -64,6 +66,8 @@ abstract final class Routes {
   static const market = '/market';
   static const feed = '/feed';
   static String feedItem(String itemId) => '/feed/$itemId';
+  static const feedSettings = '/feed-settings';
+  static const feedCheck = '/feed-check';
   static const practices = '/practices';
   static const irrigation = '/irrigation';
   static const plots = '/plots';
@@ -151,6 +155,14 @@ GoRouter buildRouter(
         builder: (_, _) => const MarketPricesScreen(),
       ),
       GoRoute(path: Routes.feed, builder: (_, _) => const FeedScreen()),
+      GoRoute(
+        path: Routes.feedSettings,
+        builder: (_, _) => const FeedPreferencesScreen(),
+      ),
+      GoRoute(
+        path: Routes.feedCheck,
+        builder: (_, _) => const FeedCheckScreen(),
+      ),
       GoRoute(
         path: '/feed/:id',
         builder: (_, s) => FeedItemScreen(itemId: s.pathParameters['id']!),
