@@ -147,6 +147,24 @@ def _scan(text: str) -> _Facts:
     return facts
 
 
+@dataclass(frozen=True, slots=True)
+class TextFacts:
+    """Full dates (ISO) and money amounts (₹ / lakh / crore, unit-multiplied) in a text."""
+
+    dates: frozenset[str]
+    amounts: frozenset[float]
+
+
+def text_facts(text: str) -> TextFacts:
+    """The dates and amounts the output check reads, for other matchers (e.g. "Check this
+    message"): same normalisation of Devanagari digits, digit grouping and units."""
+    facts = _scan(text)
+    return TextFacts(
+        frozenset(k for k in facts.dates if len(k) == 10),
+        frozenset(v for _, v, is_amount in facts.numbers if is_amount),
+    )
+
+
 def _contains(haystack: str, needle: str) -> bool:
     return bool(needle) and normalise(needle) in haystack
 

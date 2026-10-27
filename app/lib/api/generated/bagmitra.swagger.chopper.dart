@@ -820,6 +820,36 @@ profile and plots.''',
   }
 
   @override
+  Future<Response<FeedCheckResponse>> _v1FeedCheckPost({
+    String? lang,
+    required FeedCheckIn? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Compares the pasted text with published official items only. Never says a message is
+fake: without a match the note says none was found and points to the official portal.''',
+      summary: 'Check',
+      operationId: 'feed_check',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["feed"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/feed/check');
+    final Map<String, dynamic> $params = <String, dynamic>{'lang': lang};
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      parameters: $params,
+      tag: swaggerMetaData,
+    );
+    return client.send<FeedCheckResponse, FeedCheckResponse>($request);
+  }
+
+  @override
   Future<Response<FeedReceiptOut>> _v1FeedItemIdDismissPost({
     required String? itemId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
