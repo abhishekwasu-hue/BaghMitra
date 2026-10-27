@@ -631,6 +631,50 @@ Map<String, dynamic> _$FeedAdminWithdrawInToJson(
   'replaced_by_id': ?instance.replacedById,
 };
 
+FeedCheckIn _$FeedCheckInFromJson(Map<String, dynamic> json) =>
+    FeedCheckIn(text: json['text'] as String);
+
+Map<String, dynamic> _$FeedCheckInToJson(FeedCheckIn instance) =>
+    <String, dynamic>{'text': instance.text};
+
+FeedCheckMatch _$FeedCheckMatchFromJson(Map<String, dynamic> json) =>
+    FeedCheckMatch(
+      grNumber: json['gr_number'] as String?,
+      id: json['id'] as String,
+      publishedAt: DateTime.parse(json['published_at'] as String),
+      score: (json['score'] as num).toDouble(),
+      title: json['title'] as String,
+      url: json['url'] as String,
+    );
+
+Map<String, dynamic> _$FeedCheckMatchToJson(FeedCheckMatch instance) =>
+    <String, dynamic>{
+      'gr_number': ?instance.grNumber,
+      'id': instance.id,
+      'published_at': instance.publishedAt.toIso8601String(),
+      'score': instance.score,
+      'title': instance.title,
+      'url': instance.url,
+    };
+
+FeedCheckResponse _$FeedCheckResponseFromJson(Map<String, dynamic> json) =>
+    FeedCheckResponse(
+      matches:
+          (json['matches'] as List<dynamic>?)
+              ?.map((e) => FeedCheckMatch.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+      note: json['note'] as String,
+      verdict: feedCheckResponseVerdictFromJson(json['verdict']),
+    );
+
+Map<String, dynamic> _$FeedCheckResponseToJson(FeedCheckResponse instance) =>
+    <String, dynamic>{
+      'matches': instance.matches.map((e) => e.toJson()).toList(),
+      'note': instance.note,
+      'verdict': ?feedCheckResponseVerdictToJson(instance.verdict),
+    };
+
 FeedItemOut _$FeedItemOutFromJson(Map<String, dynamic> json) => FeedItemOut(
   deadline: json['deadline'] == null
       ? null

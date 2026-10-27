@@ -1528,6 +1528,99 @@
         "title": "FeedAdminWithdrawIn",
         "type": "object"
       },
+      "FeedCheckIn": {
+        "properties": {
+          "text": {
+            "maxLength": 4000,
+            "minLength": 1,
+            "title": "Text",
+            "type": "string"
+          }
+        },
+        "required": [
+          "text"
+        ],
+        "title": "FeedCheckIn",
+        "type": "object"
+      },
+      "FeedCheckMatch": {
+        "properties": {
+          "gr_number": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Gr Number"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "published_at": {
+            "format": "date-time",
+            "title": "Published At",
+            "type": "string"
+          },
+          "score": {
+            "title": "Score",
+            "type": "number"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "url": {
+            "title": "Url",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "gr_number",
+          "published_at",
+          "url",
+          "score"
+        ],
+        "title": "FeedCheckMatch",
+        "type": "object"
+      },
+      "FeedCheckResponse": {
+        "properties": {
+          "matches": {
+            "items": {
+              "$ref": "#/components/schemas/FeedCheckMatch"
+            },
+            "title": "Matches",
+            "type": "array"
+          },
+          "note": {
+            "title": "Note",
+            "type": "string"
+          },
+          "verdict": {
+            "enum": [
+              "official_match",
+              "possible_match",
+              "no_official_match"
+            ],
+            "title": "Verdict",
+            "type": "string"
+          }
+        },
+        "required": [
+          "verdict",
+          "matches",
+          "note"
+        ],
+        "title": "FeedCheckResponse",
+        "type": "object"
+      },
       "FeedItemOut": {
         "properties": {
           "deadline": {
@@ -5518,6 +5611,90 @@
           }
         ],
         "summary": "Feed",
+        "tags": [
+          "feed"
+        ]
+      }
+    },
+    "/v1/feed/check": {
+      "post": {
+        "description": "Compares the pasted text with published official items only. Never says a message is\nfake: without a match the note says none was found and points to the official portal.",
+        "operationId": "feed_check",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "lang",
+            "required": false,
+            "schema": {
+              "default": "en",
+              "enum": [
+                "en",
+                "mr",
+                "hi"
+              ],
+              "title": "Lang",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FeedCheckIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedCheckResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Check",
         "tags": [
           "feed"
         ]
