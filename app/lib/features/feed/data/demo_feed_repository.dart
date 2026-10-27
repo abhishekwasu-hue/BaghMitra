@@ -1,13 +1,18 @@
+import '../domain/feed_check.dart';
 import '../domain/feed_item.dart';
+import '../domain/feed_preferences.dart';
 import 'feed_repository.dart';
 
 /// A small built-in feed for demo and test builds, so the tab works with no backend. Every
 /// entry is clearly a sample (no real GR, scheme or news claim) and every link points at
-/// example.org. Dates are relative to [clock] so deadlines stay in the future.
+/// example.org. Dates are relative to [clock] so deadlines stay in the future. Receipts
+/// are accepted and dropped; alert settings live in memory; the message check matches the
+/// sample items only.
 class DemoFeedRepository implements FeedRepository {
-  const DemoFeedRepository({required this.clock});
+  DemoFeedRepository({required this.clock});
 
   final DateTime Function() clock;
+  FeedPreferences _prefs = FeedPreferences.defaults;
 
   static String _pick(Map<String, String> m, String lang) =>
       m[lang] ?? m['en']!;
@@ -152,6 +157,82 @@ class DemoFeedRepository implements FeedRepository {
           if (filter == null || filter.matches(i)) i,
       ],
       footer: s(_footer),
+    );
+  }
+
+  @override
+  Future<void> sendReceipt(String itemId, FeedReceiptAction action) async {}
+
+  @override
+  Future<FeedPreferences> loadPreferences() async => _prefs;
+
+  @override
+  Future<FeedPreferences> savePreferences(FeedPreferences prefs) async =>
+      _prefs = prefs;
+
+  /// Words every sample title shares, so they never count as a match on their own.
+  static const _common = {'sample', 'demo', 'नमुना', 'नमूना', 'डेमो'};
+
+  static Set<String> _words(String text) => {
+    for (final w in text.toLowerCase().split(RegExp(r'[\s:()\-,.!?।]+')))
+      if (w.runes.length >= 4 && !_common.contains(w)) w,
+  };
+
+  static const _noMatchNote = {
+    'en': 'No sample item matches this message (demo check).',
+    'mr': 'हा संदेश कोणत्याही नमुना संदेशाशी जुळत नाही (डेमो तपासणी).',
+    'hi': 'यह संदेश किसी नमूना संदेश से मेल नहीं खाता (डेमो जाँच).',
+  };
+
+  static const _matchNote = {
+    'en': 'Demo check: only the sample items are searched.',
+    'mr': 'डेमो तपासणी: फक्त नमुना संदेशांमध्ये शोधले.',
+    'hi': 'डेमो जाँच: केवल नमूना संदेशों में खोजा गया.',
+  };
+
+  /// A GR number in the text is an official match; a shared title word is a possible one.
+  @override
+  Future<FeedCheckResult> check(String text, {String lang = 'en'}) async {
+    final official = [
+      for (final i in (await fetch(lang: lang)).items)
+        if (i.isOfficial) i,
+    ];
+    FeedCheckMatch match(FeedItem i, double score) => FeedCheckMatch(
+      id: i.id,
+      title: i.title,
+      url: i.url,
+      grNumber: i.grNumber,
+      publishedAt: i.publishedAt,
+      score: score,
+    );
+    final lower = text.toLowerCase();
+    final exact = [
+      for (final i in official)
+        if (i.grNumber case final n? when lower.contains(n.toLowerCase()))
+          match(i, 1),
+    ];
+    if (exact.isNotEmpty) {
+      return FeedCheckResult(
+        verdict: FeedCheckVerdict.officialMatch,
+        matches: exact,
+        note: _pick(_matchNote, lang),
+      );
+    }
+    final words = _words(text);
+    final possible = [
+      for (final i in official)
+        if (_words(i.title).intersection(words).isNotEmpty) match(i, 0.5),
+    ];
+    if (possible.isNotEmpty) {
+      return FeedCheckResult(
+        verdict: FeedCheckVerdict.possibleMatch,
+        matches: possible,
+        note: _pick(_matchNote, lang),
+      );
+    }
+    return FeedCheckResult(
+      verdict: FeedCheckVerdict.noOfficialMatch,
+      note: _pick(_noMatchNote, lang),
     );
   }
 }

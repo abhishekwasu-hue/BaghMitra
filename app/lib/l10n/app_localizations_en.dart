@@ -1573,4 +1573,101 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get feedNotFound => 'This message is no longer in the saved list.';
+
+  @override
+  String get feedUnseen => 'New';
+
+  @override
+  String get feedDismiss => 'Hide from my list';
+
+  @override
+  String get feedDismissed => 'Hidden from your list.';
+
+  @override
+  String get feedPrefsTitle => 'Alert settings';
+
+  @override
+  String get feedPrefsQuietTitle => 'Quiet hours (no alerts)';
+
+  @override
+  String get feedPrefsQuietStart => 'From';
+
+  @override
+  String get feedPrefsQuietEnd => 'Until';
+
+  @override
+  String feedPrefsWeeklyCap(String count) {
+    return 'At most $count alerts a week';
+  }
+
+  @override
+  String get feedPrefsCapLess => 'Fewer';
+
+  @override
+  String get feedPrefsCapMore => 'More';
+
+  @override
+  String get feedPrefsCategoriesTitle => 'Send me alerts for';
+
+  @override
+  String get feedPrefsCatDeadline => 'Last dates coming up';
+
+  @override
+  String get feedPrefsCatPayment => 'Payment updates';
+
+  @override
+  String get feedPrefsCatWindowOpen => 'Applications open';
+
+  @override
+  String get feedPrefsDigest => 'Weekly summary';
+
+  @override
+  String get feedPrefsDigestHint => 'One message a week with what is new.';
+
+  @override
+  String get feedPrefsSave => 'Save';
+
+  @override
+  String get feedPrefsSaved => 'Settings saved.';
+
+  @override
+  String get feedPrefsSaveFailed => 'Could not save. Try again when online.';
+
+  @override
+  String get feedPrefsOffline =>
+      'You are offline. These are your last saved settings. Saving needs internet.';
+
+  @override
+  String get feedCheckTitle => 'Check a message';
+
+  @override
+  String get feedCheckIntro =>
+      'Got a message about a GR or scheme on WhatsApp? Paste it here to look for the official GR.';
+
+  @override
+  String get feedCheckHint => 'Paste the message here';
+
+  @override
+  String get feedCheckPaste => 'Paste';
+
+  @override
+  String get feedCheckButton => 'Check';
+
+  @override
+  String get feedCheckPrivacy => 'The text is not saved on your phone.';
+
+  @override
+  String get feedCheckFailed => 'Could not check. This needs internet.';
+
+  @override
+  String get feedCheckOfficial => 'Official GR found';
+
+  @override
+  String get feedCheckPossible => 'Possibly related official items';
+
+  @override
+  String get feedCheckNoMatch => 'No matching official item was found.';
+
+  @override
+  String get feedCheckPortal => 'Check the official portal before acting.';
 }

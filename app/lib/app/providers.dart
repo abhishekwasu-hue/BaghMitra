@@ -23,6 +23,8 @@ import '../features/dev/sample_orchard.dart';
 import '../features/export/data/file_sharer.dart';
 import '../features/feed/data/demo_feed_repository.dart';
 import '../features/feed/data/feed_cache.dart';
+import '../features/feed/data/feed_preferences_store.dart';
+import '../features/feed/data/feed_receipts.dart';
 import '../features/feed/data/feed_repository.dart';
 import '../features/feed/data/text_sharer.dart';
 import '../features/field_work/data/field_work_options.dart';
@@ -600,8 +602,30 @@ final feedProvider = FutureProvider.family<CachedFeed?, String>((
 ) async {
   final cache = ref.watch(feedCacheProvider);
   await cache.refresh(lang);
+  // Receipts queued while offline go out whenever the feed opens again.
+  await ref.watch(feedReceiptsProvider).flush();
   return cache.load(lang);
 });
+
+/// Seen / dismiss / remind receipts: on the phone at once, sent to the server when it can.
+final feedReceiptsProvider = Provider<FeedReceipts>(
+  (ref) => FeedReceipts(
+    ref.watch(databaseProvider),
+    repository: ref.watch(feedRepositoryProvider),
+  ),
+);
+
+/// What the phone knows of the grower's seen and hidden items. Invalidate after a receipt.
+final feedReceiptStateProvider = FutureProvider<FeedReceiptState>(
+  (ref) => ref.watch(feedReceiptsProvider).load(),
+);
+
+final feedPreferencesStoreProvider = Provider<FeedPreferencesStore>(
+  (ref) => FeedPreferencesStore(
+    ref.watch(databaseProvider),
+    repository: ref.watch(feedRepositoryProvider),
+  ),
+);
 
 final textSharerProvider = Provider<TextSharer>(
   (ref) => const SharePlusTextSharer(),

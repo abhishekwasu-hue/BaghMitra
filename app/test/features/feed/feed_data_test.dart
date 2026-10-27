@@ -5,7 +5,9 @@ import 'package:bagmitra/core/config.dart';
 import 'package:bagmitra/features/feed/data/demo_feed_repository.dart';
 import 'package:bagmitra/features/feed/data/feed_cache.dart';
 import 'package:bagmitra/features/feed/data/feed_repository.dart';
+import 'package:bagmitra/features/feed/domain/feed_check.dart';
 import 'package:bagmitra/features/feed/domain/feed_item.dart';
+import 'package:bagmitra/features/feed/domain/feed_preferences.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
@@ -46,18 +48,63 @@ Map<String, Object?> feedBody(List<Map<String, Object?>> items) => {
   'footer': 'Check the official GR/portal before acting.',
 };
 
+/// A fake server: offline (every call throws) while [body] is null.
 class FakeFeedRepository implements FeedRepository {
   FakeFeedRepository(this.body);
 
   Map<String, Object?>? body;
   final calls = <String>[];
+  final receipts = <(String, FeedReceiptAction)>[];
+  FeedPreferences prefs = const FeedPreferences(
+    quietStart: '22:00',
+    quietEnd: '06:30',
+    weeklyCap: 5,
+    optedOut: {'payment'},
+    digestWeekly: false,
+  );
+  final savedPrefs = <FeedPreferences>[];
+  FeedCheckResult checkResult = const FeedCheckResult(
+    verdict: FeedCheckVerdict.noOfficialMatch,
+  );
+  final checked = <String>[];
+
+  bool get offline => body == null;
+
+  void _online() {
+    if (offline) throw const FeedUnavailableException('offline');
+  }
 
   @override
   Future<FeedPage> fetch({required String lang, FeedFilter? filter}) async {
     calls.add(lang);
-    final b = body;
-    if (b == null) throw const FeedUnavailableException('offline');
-    return FeedPage.fromJson(b);
+    _online();
+    return FeedPage.fromJson(body!);
+  }
+
+  @override
+  Future<void> sendReceipt(String itemId, FeedReceiptAction action) async {
+    _online();
+    receipts.add((itemId, action));
+  }
+
+  @override
+  Future<FeedPreferences> loadPreferences() async {
+    _online();
+    return prefs;
+  }
+
+  @override
+  Future<FeedPreferences> savePreferences(FeedPreferences p) async {
+    _online();
+    savedPrefs.add(p);
+    return prefs = p;
+  }
+
+  @override
+  Future<FeedCheckResult> check(String text, {String lang = 'en'}) async {
+    _online();
+    checked.add(text);
+    return checkResult;
   }
 }
 

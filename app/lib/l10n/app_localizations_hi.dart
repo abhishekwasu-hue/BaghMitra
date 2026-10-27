@@ -1569,4 +1569,101 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get feedNotFound => 'यह संदेश अब सहेजी सूची में नहीं है.';
+
+  @override
+  String get feedUnseen => 'नया';
+
+  @override
+  String get feedDismiss => 'मेरी सूची से हटाएँ';
+
+  @override
+  String get feedDismissed => 'आपकी सूची से हटा दिया.';
+
+  @override
+  String get feedPrefsTitle => 'सूचना सेटिंग';
+
+  @override
+  String get feedPrefsQuietTitle => 'शांत समय (सूचना नहीं)';
+
+  @override
+  String get feedPrefsQuietStart => 'से';
+
+  @override
+  String get feedPrefsQuietEnd => 'तक';
+
+  @override
+  String feedPrefsWeeklyCap(String count) {
+    return 'हफ़्ते में ज़्यादा से ज़्यादा $count सूचनाएँ';
+  }
+
+  @override
+  String get feedPrefsCapLess => 'कम';
+
+  @override
+  String get feedPrefsCapMore => 'ज़्यादा';
+
+  @override
+  String get feedPrefsCategoriesTitle => 'इन बातों की सूचना भेजें';
+
+  @override
+  String get feedPrefsCatDeadline => 'नज़दीक आती आख़िरी तारीख़ें';
+
+  @override
+  String get feedPrefsCatPayment => 'भुगतान की जानकारी';
+
+  @override
+  String get feedPrefsCatWindowOpen => 'आवेदन शुरू हुए';
+
+  @override
+  String get feedPrefsDigest => 'हफ़्ते का सार';
+
+  @override
+  String get feedPrefsDigestHint => 'हफ़्ते में एक बार नई जानकारी का एक संदेश.';
+
+  @override
+  String get feedPrefsSave => 'सहेजें';
+
+  @override
+  String get feedPrefsSaved => 'सेटिंग सहेज ली गई.';
+
+  @override
+  String get feedPrefsSaveFailed => 'सहेजा नहीं गया. इंटरनेट आने पर फिर करें.';
+
+  @override
+  String get feedPrefsOffline =>
+      'इंटरनेट नहीं है. ये आपकी आख़िरी सहेजी सेटिंग हैं. सहेजने के लिए इंटरनेट चाहिए.';
+
+  @override
+  String get feedCheckTitle => 'संदेश जाँचें';
+
+  @override
+  String get feedCheckIntro =>
+      'WhatsApp पर GR या योजना का संदेश आया? यहाँ पेस्ट करें, हम आधिकारिक GR ढूँढेंगे.';
+
+  @override
+  String get feedCheckHint => 'संदेश यहाँ पेस्ट करें';
+
+  @override
+  String get feedCheckPaste => 'पेस्ट करें';
+
+  @override
+  String get feedCheckButton => 'जाँचें';
+
+  @override
+  String get feedCheckPrivacy => 'यह पाठ आपके फ़ोन पर सहेजा नहीं जाता.';
+
+  @override
+  String get feedCheckFailed => 'जाँच नहीं हो पाई. इसके लिए इंटरनेट चाहिए.';
+
+  @override
+  String get feedCheckOfficial => 'आधिकारिक GR मिला';
+
+  @override
+  String get feedCheckPossible => 'शायद जुड़े हुए आधिकारिक संदेश';
+
+  @override
+  String get feedCheckNoMatch => 'मेल खाता आधिकारिक संदेश नहीं मिला.';
+
+  @override
+  String get feedCheckPortal => 'कुछ करने से पहले आधिकारिक पोर्टल जाँचें.';
 }

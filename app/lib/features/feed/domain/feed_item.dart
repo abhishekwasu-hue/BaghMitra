@@ -18,6 +18,7 @@ class FeedItem {
     this.validTo,
     this.replacedBy,
     this.mayBeEligibleBecause = const [],
+    this.seen = false,
   });
 
   factory FeedItem.fromJson(Map<String, Object?> j) => FeedItem(
@@ -37,6 +38,7 @@ class FeedItem {
       for (final r in (j['may_be_eligible_because'] as List?) ?? const [])
         r as String,
     ],
+    seen: (j['seen'] as bool?) ?? false,
   );
 
   final String id;
@@ -56,6 +58,9 @@ class FeedItem {
   final DateTime? validTo;
   final String? replacedBy;
   final List<String> mayBeEligibleBecause;
+
+  /// The server's record that this grower already opened the item.
+  final bool seen;
 
   bool get isOfficial => trust == 'official';
 
@@ -90,6 +95,7 @@ class FeedItem {
     'valid_to': validTo == null ? null : BaharCycle.isoDate(validTo!),
     'replaced_by': replacedBy,
     'may_be_eligible_because': mayBeEligibleBecause,
+    'seen': seen,
   };
 
   static DateTime? _date(Object? v) =>
