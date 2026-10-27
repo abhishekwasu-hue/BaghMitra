@@ -51,6 +51,7 @@ import '../features/tasks/domain/farm_task.dart';
 import '../features/voice/data/cloud_speech.dart';
 import '../features/voice/data/on_device_speech.dart';
 import '../features/voice/domain/speech.dart';
+import '../features/walkthrough/data/walkthrough_flag.dart';
 import '../features/weather/data/plot_weather_cache.dart';
 import '../sync/http_transport.dart';
 import '../sync/sync_engine.dart';
@@ -114,6 +115,25 @@ final onboardedProvider = Provider<bool?>((ref) {
   if (session.value == null || profile.isLoading) return null;
   return profile.value?.consentDataProcessing ?? false;
 });
+
+final walkthroughFlagProvider = Provider<WalkthroughFlag>(
+  (ref) => WalkthroughFlag(ref.watch(databaseProvider)),
+);
+
+/// Whether this phone has shown the first-run walkthrough; loading until the flag is read.
+final walkthroughSeenProvider = AsyncNotifierProvider<WalkthroughSeen, bool>(
+  WalkthroughSeen.new,
+);
+
+class WalkthroughSeen extends AsyncNotifier<bool> {
+  @override
+  Future<bool> build() => ref.watch(walkthroughFlagProvider).seen();
+
+  Future<void> markSeen() async {
+    await ref.read(walkthroughFlagProvider).markSeen();
+    state = const AsyncData(true);
+  }
+}
 
 /// Language chosen on the onboarding screen before it is saved, so the screen switches at once.
 final languagePreviewProvider = NotifierProvider<LanguagePreview, String?>(

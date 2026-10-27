@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../app/providers.dart';
+import '../../../app/router.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 
@@ -51,6 +53,12 @@ class SettingsScreen extends ConsumerWidget {
                   );
             },
             child: Text(t.sendLogs),
+          ),
+          const SizedBox(height: BmSpace.md),
+          OutlinedButton(
+            key: const Key('show-walkthrough'),
+            onPressed: () => context.push(Routes.walkthrough),
+            child: Text(t.settingsShowWalkthrough),
           ),
         ],
       ),

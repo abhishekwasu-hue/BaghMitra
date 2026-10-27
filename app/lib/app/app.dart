@@ -28,11 +28,16 @@ class _BagMitraAppState extends ConsumerState<BagMitraApp> {
   /// What the router knows about onboarding; null while that is still loading.
   final _onboarded = ValueNotifier<bool?>(null);
 
+  /// Whether the first-run walkthrough was seen; null while loading. A read error counts as
+  /// seen, so a broken flag never keeps the grower out of the app.
+  final _walkthroughSeen = ValueNotifier<bool?>(null);
+
   late final GoRouter _router = buildRouter(
     ref.read(authRepositoryProvider),
     ref.read(appConfigProvider),
     initialLocation: widget.initialLocation,
     onboarded: _onboarded,
+    walkthroughSeen: _walkthroughSeen,
   );
 
   @override
@@ -43,12 +48,22 @@ class _BagMitraAppState extends ConsumerState<BagMitraApp> {
       (_, done) => _onboarded.value = done,
       fireImmediately: true,
     );
+    ref.listenManual(
+      walkthroughSeenProvider,
+      (_, seen) => _walkthroughSeen.value = switch (seen) {
+        AsyncData(:final value) => value,
+        AsyncError() => true,
+        _ => null,
+      },
+      fireImmediately: true,
+    );
   }
 
   @override
   void dispose() {
     _router.dispose();
     _onboarded.dispose();
+    _walkthroughSeen.dispose();
     super.dispose();
   }
 

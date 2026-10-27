@@ -32,6 +32,7 @@ import '../features/spray/presentation/add_spray_screen.dart';
 import '../features/spray/presentation/spray_log_screen.dart';
 import '../features/tasks/presentation/add_task_screen.dart';
 import '../features/tasks/presentation/tasks_screen.dart';
+import '../features/walkthrough/presentation/walkthrough_screen.dart';
 
 class _AuthListenable extends ChangeNotifier {
   _AuthListenable(Stream<AuthSession?> sessions) {
@@ -51,6 +52,7 @@ abstract final class Routes {
   static const login = '/login';
   static const otp = '/login/otp';
   static const onboarding = '/onboarding';
+  static const walkthrough = '/welcome';
   static const gallery = '/dev/gallery';
   static const settings = '/settings';
   static const tasks = '/tasks';
@@ -87,13 +89,16 @@ GoRouter buildRouter(
   AppConfig config, {
   String? initialLocation,
   ValueListenable<bool?>? onboarded,
+  ValueListenable<bool?>? walkthroughSeen,
 }) {
   final refresh = _AuthListenable(auth.sessions());
   return GoRouter(
     initialLocation: initialLocation ?? Routes.home,
-    refreshListenable: onboarded == null
-        ? refresh
-        : Listenable.merge([refresh, onboarded]),
+    refreshListenable: Listenable.merge([
+      refresh,
+      ?onboarded,
+      ?walkthroughSeen,
+    ]),
     redirect: (context, state) {
       final signedIn = auth.current != null;
       final loc = state.matchedLocation;
@@ -102,6 +107,13 @@ GoRouter buildRouter(
       if (loc == Routes.settings && !config.isTestBuild && !config.devGallery) {
         return Routes.home;
       }
+      // First run on this phone: the short walkthrough comes before anything else. Once seen
+      // it stays reachable (settings opens it again); unknown (still loading) waits.
+      final onWalkthrough = loc == Routes.walkthrough;
+      if (walkthroughSeen?.value == false && !onWalkthrough) {
+        return Routes.walkthrough;
+      }
+      if (onWalkthrough) return null;
       if (!signedIn && !onLogin) return Routes.login;
       if (signedIn && onLogin) return Routes.home;
       // Signed in but not set up yet: finish onboarding first. Unknown (still loading) waits.
@@ -113,6 +125,10 @@ GoRouter buildRouter(
     },
     routes: [
       GoRoute(path: Routes.home, builder: (_, _) => const HomeScreen()),
+      GoRoute(
+        path: Routes.walkthrough,
+        builder: (_, _) => const WalkthroughScreen(),
+      ),
       GoRoute(
         path: Routes.calendar,
         builder: (_, _) => const SeasonCalendarScreen(),

@@ -790,6 +790,46 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sendLogs => 'Send logs';
 
   @override
+  String get walkthroughSkip => 'Skip';
+
+  @override
+  String get walkthroughNext => 'Next';
+
+  @override
+  String get walkthroughStart => 'Start';
+
+  @override
+  String get walkthroughPlotsTitle => 'Your plots and bahar calendar';
+
+  @override
+  String get walkthroughPlotsBody =>
+      'Add your plots. For each bahar you see a season calendar and a list of tasks.';
+
+  @override
+  String get walkthroughWeatherTitle => 'Weather alerts for your plot';
+
+  @override
+  String get walkthroughWeatherBody =>
+      'See the weather at your plot and get an alert when rain, heat or cold may need your attention.';
+
+  @override
+  String get walkthroughMarketTitle => 'Mandi prices across India';
+
+  @override
+  String get walkthroughMarketBody =>
+      'Check recent mandi prices for your crop in markets across India.';
+
+  @override
+  String get walkthroughRecordsTitle => 'Your records and accounts';
+
+  @override
+  String get walkthroughRecordsBody =>
+      'Note sprays, expenses, labour and sales, and see your accounts. Works without internet; records are sent when the network is back.';
+
+  @override
+  String get settingsShowWalkthrough => 'See the app introduction again';
+
+  @override
   String buildLabel(String sha) {
     return 'Test build $sha';
   }
