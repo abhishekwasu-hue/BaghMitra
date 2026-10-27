@@ -1107,6 +1107,79 @@ class AppLocalizationsEn extends AppLocalizations {
       'Sources: NHB and Dr. PDKV, Akola. Details under each practice.';
 
   @override
+  String get scoutingTitle => 'Scouting log';
+
+  @override
+  String get scoutingAdd => 'Add scouting';
+
+  @override
+  String get scoutingEmpty =>
+      'No scouting recorded yet. Note what you saw on this plot.';
+
+  @override
+  String get scoutingDate => 'Date';
+
+  @override
+  String get scoutingWhat => 'What did you look at?';
+
+  @override
+  String get scoutingSeverity => 'How much?';
+
+  @override
+  String get scoutingNote => 'Note (optional)';
+
+  @override
+  String get scoutingPhoto => 'Photo (optional, stays on this phone)';
+
+  @override
+  String get scoutingCamera => 'Camera';
+
+  @override
+  String get scoutingGallery => 'Gallery';
+
+  @override
+  String get scoutingRemovePhoto => 'Remove photo';
+
+  @override
+  String get scoutingPhotoFailed => 'Could not get the photo. Try again.';
+
+  @override
+  String get scoutingPickOne => 'Choose one';
+
+  @override
+  String get scoutingItemPsylla => 'Psylla';
+
+  @override
+  String get scoutingItemLeafMiner => 'Leaf miner';
+
+  @override
+  String get scoutingItemMitesThrips => 'Mites / thrips';
+
+  @override
+  String get scoutingItemFruitDrop => 'Fruit drop';
+
+  @override
+  String get scoutingItemGummosis => 'Gummosis / bark';
+
+  @override
+  String get scoutingItemDieBack => 'Die-back';
+
+  @override
+  String get scoutingItemOther => 'Other';
+
+  @override
+  String get scoutingSeverityNone => 'Not seen';
+
+  @override
+  String get scoutingSeverityLow => 'Low';
+
+  @override
+  String get scoutingSeverityMedium => 'Medium';
+
+  @override
+  String get scoutingSeverityHigh => 'High';
+
+  @override
   String get irrigationOpen => 'Irrigation guide (ओलित तक्ता)';
 
   @override

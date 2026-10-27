@@ -8113,6 +8113,575 @@ class FarmTasksCompanion extends UpdateCompanion<FarmTaskRow> {
   }
 }
 
+class $ScoutingRecordsTable extends ScoutingRecords
+    with TableInfo<$ScoutingRecordsTable, ScoutingRecordRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ScoutingRecordsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _plotIdMeta = const VerificationMeta('plotId');
+  @override
+  late final GeneratedColumn<String> plotId = GeneratedColumn<String>(
+    'plot_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _baharCycleIdMeta = const VerificationMeta(
+    'baharCycleId',
+  );
+  @override
+  late final GeneratedColumn<String> baharCycleId = GeneratedColumn<String>(
+    'bahar_cycle_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _observedOnMeta = const VerificationMeta(
+    'observedOn',
+  );
+  @override
+  late final GeneratedColumn<DateTime> observedOn = GeneratedColumn<DateTime>(
+    'observed_on',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _itemMeta = const VerificationMeta('item');
+  @override
+  late final GeneratedColumn<String> item = GeneratedColumn<String>(
+    'item',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _severityMeta = const VerificationMeta(
+    'severity',
+  );
+  @override
+  late final GeneratedColumn<String> severity = GeneratedColumn<String>(
+    'severity',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _noteMeta = const VerificationMeta('note');
+  @override
+  late final GeneratedColumn<String> note = GeneratedColumn<String>(
+    'note',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _photoPathMeta = const VerificationMeta(
+    'photoPath',
+  );
+  @override
+  late final GeneratedColumn<String> photoPath = GeneratedColumn<String>(
+    'photo_path',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _clientUpdatedAtMeta = const VerificationMeta(
+    'clientUpdatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> clientUpdatedAt =
+      GeneratedColumn<DateTime>(
+        'client_updated_at',
+        aliasedName,
+        false,
+        type: DriftSqlType.dateTime,
+        requiredDuringInsert: true,
+      );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    plotId,
+    baharCycleId,
+    observedOn,
+    item,
+    severity,
+    note,
+    photoPath,
+    clientUpdatedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'scouting_records';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<ScoutingRecordRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('plot_id')) {
+      context.handle(
+        _plotIdMeta,
+        plotId.isAcceptableOrUnknown(data['plot_id']!, _plotIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_plotIdMeta);
+    }
+    if (data.containsKey('bahar_cycle_id')) {
+      context.handle(
+        _baharCycleIdMeta,
+        baharCycleId.isAcceptableOrUnknown(
+          data['bahar_cycle_id']!,
+          _baharCycleIdMeta,
+        ),
+      );
+    }
+    if (data.containsKey('observed_on')) {
+      context.handle(
+        _observedOnMeta,
+        observedOn.isAcceptableOrUnknown(data['observed_on']!, _observedOnMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_observedOnMeta);
+    }
+    if (data.containsKey('item')) {
+      context.handle(
+        _itemMeta,
+        item.isAcceptableOrUnknown(data['item']!, _itemMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_itemMeta);
+    }
+    if (data.containsKey('severity')) {
+      context.handle(
+        _severityMeta,
+        severity.isAcceptableOrUnknown(data['severity']!, _severityMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_severityMeta);
+    }
+    if (data.containsKey('note')) {
+      context.handle(
+        _noteMeta,
+        note.isAcceptableOrUnknown(data['note']!, _noteMeta),
+      );
+    }
+    if (data.containsKey('photo_path')) {
+      context.handle(
+        _photoPathMeta,
+        photoPath.isAcceptableOrUnknown(data['photo_path']!, _photoPathMeta),
+      );
+    }
+    if (data.containsKey('client_updated_at')) {
+      context.handle(
+        _clientUpdatedAtMeta,
+        clientUpdatedAt.isAcceptableOrUnknown(
+          data['client_updated_at']!,
+          _clientUpdatedAtMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_clientUpdatedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ScoutingRecordRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ScoutingRecordRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      plotId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}plot_id'],
+      )!,
+      baharCycleId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}bahar_cycle_id'],
+      ),
+      observedOn: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}observed_on'],
+      )!,
+      item: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}item'],
+      )!,
+      severity: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}severity'],
+      )!,
+      note: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}note'],
+      ),
+      photoPath: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}photo_path'],
+      ),
+      clientUpdatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}client_updated_at'],
+      )!,
+    );
+  }
+
+  @override
+  $ScoutingRecordsTable createAlias(String alias) {
+    return $ScoutingRecordsTable(attachedDatabase, alias);
+  }
+}
+
+class ScoutingRecordRow extends DataClass
+    implements Insertable<ScoutingRecordRow> {
+  final String id;
+  final String plotId;
+  final String? baharCycleId;
+  final DateTime observedOn;
+  final String item;
+  final String severity;
+  final String? note;
+  final String? photoPath;
+  final DateTime clientUpdatedAt;
+  const ScoutingRecordRow({
+    required this.id,
+    required this.plotId,
+    this.baharCycleId,
+    required this.observedOn,
+    required this.item,
+    required this.severity,
+    this.note,
+    this.photoPath,
+    required this.clientUpdatedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['plot_id'] = Variable<String>(plotId);
+    if (!nullToAbsent || baharCycleId != null) {
+      map['bahar_cycle_id'] = Variable<String>(baharCycleId);
+    }
+    map['observed_on'] = Variable<DateTime>(observedOn);
+    map['item'] = Variable<String>(item);
+    map['severity'] = Variable<String>(severity);
+    if (!nullToAbsent || note != null) {
+      map['note'] = Variable<String>(note);
+    }
+    if (!nullToAbsent || photoPath != null) {
+      map['photo_path'] = Variable<String>(photoPath);
+    }
+    map['client_updated_at'] = Variable<DateTime>(clientUpdatedAt);
+    return map;
+  }
+
+  ScoutingRecordsCompanion toCompanion(bool nullToAbsent) {
+    return ScoutingRecordsCompanion(
+      id: Value(id),
+      plotId: Value(plotId),
+      baharCycleId: baharCycleId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(baharCycleId),
+      observedOn: Value(observedOn),
+      item: Value(item),
+      severity: Value(severity),
+      note: note == null && nullToAbsent ? const Value.absent() : Value(note),
+      photoPath: photoPath == null && nullToAbsent
+          ? const Value.absent()
+          : Value(photoPath),
+      clientUpdatedAt: Value(clientUpdatedAt),
+    );
+  }
+
+  factory ScoutingRecordRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ScoutingRecordRow(
+      id: serializer.fromJson<String>(json['id']),
+      plotId: serializer.fromJson<String>(json['plotId']),
+      baharCycleId: serializer.fromJson<String?>(json['baharCycleId']),
+      observedOn: serializer.fromJson<DateTime>(json['observedOn']),
+      item: serializer.fromJson<String>(json['item']),
+      severity: serializer.fromJson<String>(json['severity']),
+      note: serializer.fromJson<String?>(json['note']),
+      photoPath: serializer.fromJson<String?>(json['photoPath']),
+      clientUpdatedAt: serializer.fromJson<DateTime>(json['clientUpdatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'plotId': serializer.toJson<String>(plotId),
+      'baharCycleId': serializer.toJson<String?>(baharCycleId),
+      'observedOn': serializer.toJson<DateTime>(observedOn),
+      'item': serializer.toJson<String>(item),
+      'severity': serializer.toJson<String>(severity),
+      'note': serializer.toJson<String?>(note),
+      'photoPath': serializer.toJson<String?>(photoPath),
+      'clientUpdatedAt': serializer.toJson<DateTime>(clientUpdatedAt),
+    };
+  }
+
+  ScoutingRecordRow copyWith({
+    String? id,
+    String? plotId,
+    Value<String?> baharCycleId = const Value.absent(),
+    DateTime? observedOn,
+    String? item,
+    String? severity,
+    Value<String?> note = const Value.absent(),
+    Value<String?> photoPath = const Value.absent(),
+    DateTime? clientUpdatedAt,
+  }) => ScoutingRecordRow(
+    id: id ?? this.id,
+    plotId: plotId ?? this.plotId,
+    baharCycleId: baharCycleId.present ? baharCycleId.value : this.baharCycleId,
+    observedOn: observedOn ?? this.observedOn,
+    item: item ?? this.item,
+    severity: severity ?? this.severity,
+    note: note.present ? note.value : this.note,
+    photoPath: photoPath.present ? photoPath.value : this.photoPath,
+    clientUpdatedAt: clientUpdatedAt ?? this.clientUpdatedAt,
+  );
+  ScoutingRecordRow copyWithCompanion(ScoutingRecordsCompanion data) {
+    return ScoutingRecordRow(
+      id: data.id.present ? data.id.value : this.id,
+      plotId: data.plotId.present ? data.plotId.value : this.plotId,
+      baharCycleId: data.baharCycleId.present
+          ? data.baharCycleId.value
+          : this.baharCycleId,
+      observedOn: data.observedOn.present
+          ? data.observedOn.value
+          : this.observedOn,
+      item: data.item.present ? data.item.value : this.item,
+      severity: data.severity.present ? data.severity.value : this.severity,
+      note: data.note.present ? data.note.value : this.note,
+      photoPath: data.photoPath.present ? data.photoPath.value : this.photoPath,
+      clientUpdatedAt: data.clientUpdatedAt.present
+          ? data.clientUpdatedAt.value
+          : this.clientUpdatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ScoutingRecordRow(')
+          ..write('id: $id, ')
+          ..write('plotId: $plotId, ')
+          ..write('baharCycleId: $baharCycleId, ')
+          ..write('observedOn: $observedOn, ')
+          ..write('item: $item, ')
+          ..write('severity: $severity, ')
+          ..write('note: $note, ')
+          ..write('photoPath: $photoPath, ')
+          ..write('clientUpdatedAt: $clientUpdatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    plotId,
+    baharCycleId,
+    observedOn,
+    item,
+    severity,
+    note,
+    photoPath,
+    clientUpdatedAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ScoutingRecordRow &&
+          other.id == this.id &&
+          other.plotId == this.plotId &&
+          other.baharCycleId == this.baharCycleId &&
+          other.observedOn == this.observedOn &&
+          other.item == this.item &&
+          other.severity == this.severity &&
+          other.note == this.note &&
+          other.photoPath == this.photoPath &&
+          other.clientUpdatedAt == this.clientUpdatedAt);
+}
+
+class ScoutingRecordsCompanion extends UpdateCompanion<ScoutingRecordRow> {
+  final Value<String> id;
+  final Value<String> plotId;
+  final Value<String?> baharCycleId;
+  final Value<DateTime> observedOn;
+  final Value<String> item;
+  final Value<String> severity;
+  final Value<String?> note;
+  final Value<String?> photoPath;
+  final Value<DateTime> clientUpdatedAt;
+  final Value<int> rowid;
+  const ScoutingRecordsCompanion({
+    this.id = const Value.absent(),
+    this.plotId = const Value.absent(),
+    this.baharCycleId = const Value.absent(),
+    this.observedOn = const Value.absent(),
+    this.item = const Value.absent(),
+    this.severity = const Value.absent(),
+    this.note = const Value.absent(),
+    this.photoPath = const Value.absent(),
+    this.clientUpdatedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  ScoutingRecordsCompanion.insert({
+    required String id,
+    required String plotId,
+    this.baharCycleId = const Value.absent(),
+    required DateTime observedOn,
+    required String item,
+    required String severity,
+    this.note = const Value.absent(),
+    this.photoPath = const Value.absent(),
+    required DateTime clientUpdatedAt,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       plotId = Value(plotId),
+       observedOn = Value(observedOn),
+       item = Value(item),
+       severity = Value(severity),
+       clientUpdatedAt = Value(clientUpdatedAt);
+  static Insertable<ScoutingRecordRow> custom({
+    Expression<String>? id,
+    Expression<String>? plotId,
+    Expression<String>? baharCycleId,
+    Expression<DateTime>? observedOn,
+    Expression<String>? item,
+    Expression<String>? severity,
+    Expression<String>? note,
+    Expression<String>? photoPath,
+    Expression<DateTime>? clientUpdatedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (plotId != null) 'plot_id': plotId,
+      if (baharCycleId != null) 'bahar_cycle_id': baharCycleId,
+      if (observedOn != null) 'observed_on': observedOn,
+      if (item != null) 'item': item,
+      if (severity != null) 'severity': severity,
+      if (note != null) 'note': note,
+      if (photoPath != null) 'photo_path': photoPath,
+      if (clientUpdatedAt != null) 'client_updated_at': clientUpdatedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  ScoutingRecordsCompanion copyWith({
+    Value<String>? id,
+    Value<String>? plotId,
+    Value<String?>? baharCycleId,
+    Value<DateTime>? observedOn,
+    Value<String>? item,
+    Value<String>? severity,
+    Value<String?>? note,
+    Value<String?>? photoPath,
+    Value<DateTime>? clientUpdatedAt,
+    Value<int>? rowid,
+  }) {
+    return ScoutingRecordsCompanion(
+      id: id ?? this.id,
+      plotId: plotId ?? this.plotId,
+      baharCycleId: baharCycleId ?? this.baharCycleId,
+      observedOn: observedOn ?? this.observedOn,
+      item: item ?? this.item,
+      severity: severity ?? this.severity,
+      note: note ?? this.note,
+      photoPath: photoPath ?? this.photoPath,
+      clientUpdatedAt: clientUpdatedAt ?? this.clientUpdatedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (plotId.present) {
+      map['plot_id'] = Variable<String>(plotId.value);
+    }
+    if (baharCycleId.present) {
+      map['bahar_cycle_id'] = Variable<String>(baharCycleId.value);
+    }
+    if (observedOn.present) {
+      map['observed_on'] = Variable<DateTime>(observedOn.value);
+    }
+    if (item.present) {
+      map['item'] = Variable<String>(item.value);
+    }
+    if (severity.present) {
+      map['severity'] = Variable<String>(severity.value);
+    }
+    if (note.present) {
+      map['note'] = Variable<String>(note.value);
+    }
+    if (photoPath.present) {
+      map['photo_path'] = Variable<String>(photoPath.value);
+    }
+    if (clientUpdatedAt.present) {
+      map['client_updated_at'] = Variable<DateTime>(clientUpdatedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ScoutingRecordsCompanion(')
+          ..write('id: $id, ')
+          ..write('plotId: $plotId, ')
+          ..write('baharCycleId: $baharCycleId, ')
+          ..write('observedOn: $observedOn, ')
+          ..write('item: $item, ')
+          ..write('severity: $severity, ')
+          ..write('note: $note, ')
+          ..write('photoPath: $photoPath, ')
+          ..write('clientUpdatedAt: $clientUpdatedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -8130,6 +8699,9 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $HarvestRecordsTable harvestRecords = $HarvestRecordsTable(this);
   late final $LabourRecordsTable labourRecords = $LabourRecordsTable(this);
   late final $FarmTasksTable farmTasks = $FarmTasksTable(this);
+  late final $ScoutingRecordsTable scoutingRecords = $ScoutingRecordsTable(
+    this,
+  );
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -8148,6 +8720,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     harvestRecords,
     labourRecords,
     farmTasks,
+    scoutingRecords,
   ];
   @override
   DriftDatabaseOptions get options =>
@@ -12196,6 +12769,303 @@ typedef $$FarmTasksTableProcessedTableManager =
       FarmTaskRow,
       PrefetchHooks Function()
     >;
+typedef $$ScoutingRecordsTableCreateCompanionBuilder =
+    ScoutingRecordsCompanion Function({
+      required String id,
+      required String plotId,
+      Value<String?> baharCycleId,
+      required DateTime observedOn,
+      required String item,
+      required String severity,
+      Value<String?> note,
+      Value<String?> photoPath,
+      required DateTime clientUpdatedAt,
+      Value<int> rowid,
+    });
+typedef $$ScoutingRecordsTableUpdateCompanionBuilder =
+    ScoutingRecordsCompanion Function({
+      Value<String> id,
+      Value<String> plotId,
+      Value<String?> baharCycleId,
+      Value<DateTime> observedOn,
+      Value<String> item,
+      Value<String> severity,
+      Value<String?> note,
+      Value<String?> photoPath,
+      Value<DateTime> clientUpdatedAt,
+      Value<int> rowid,
+    });
+
+class $$ScoutingRecordsTableFilterComposer
+    extends Composer<_$AppDatabase, $ScoutingRecordsTable> {
+  $$ScoutingRecordsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get plotId => $composableBuilder(
+    column: $table.plotId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get baharCycleId => $composableBuilder(
+    column: $table.baharCycleId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get observedOn => $composableBuilder(
+    column: $table.observedOn,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get item => $composableBuilder(
+    column: $table.item,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get severity => $composableBuilder(
+    column: $table.severity,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get note => $composableBuilder(
+    column: $table.note,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get photoPath => $composableBuilder(
+    column: $table.photoPath,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get clientUpdatedAt => $composableBuilder(
+    column: $table.clientUpdatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$ScoutingRecordsTableOrderingComposer
+    extends Composer<_$AppDatabase, $ScoutingRecordsTable> {
+  $$ScoutingRecordsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get plotId => $composableBuilder(
+    column: $table.plotId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get baharCycleId => $composableBuilder(
+    column: $table.baharCycleId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get observedOn => $composableBuilder(
+    column: $table.observedOn,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get item => $composableBuilder(
+    column: $table.item,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get severity => $composableBuilder(
+    column: $table.severity,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get note => $composableBuilder(
+    column: $table.note,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get photoPath => $composableBuilder(
+    column: $table.photoPath,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get clientUpdatedAt => $composableBuilder(
+    column: $table.clientUpdatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$ScoutingRecordsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $ScoutingRecordsTable> {
+  $$ScoutingRecordsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get plotId =>
+      $composableBuilder(column: $table.plotId, builder: (column) => column);
+
+  GeneratedColumn<String> get baharCycleId => $composableBuilder(
+    column: $table.baharCycleId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get observedOn => $composableBuilder(
+    column: $table.observedOn,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get item =>
+      $composableBuilder(column: $table.item, builder: (column) => column);
+
+  GeneratedColumn<String> get severity =>
+      $composableBuilder(column: $table.severity, builder: (column) => column);
+
+  GeneratedColumn<String> get note =>
+      $composableBuilder(column: $table.note, builder: (column) => column);
+
+  GeneratedColumn<String> get photoPath =>
+      $composableBuilder(column: $table.photoPath, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get clientUpdatedAt => $composableBuilder(
+    column: $table.clientUpdatedAt,
+    builder: (column) => column,
+  );
+}
+
+class $$ScoutingRecordsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $ScoutingRecordsTable,
+          ScoutingRecordRow,
+          $$ScoutingRecordsTableFilterComposer,
+          $$ScoutingRecordsTableOrderingComposer,
+          $$ScoutingRecordsTableAnnotationComposer,
+          $$ScoutingRecordsTableCreateCompanionBuilder,
+          $$ScoutingRecordsTableUpdateCompanionBuilder,
+          (
+            ScoutingRecordRow,
+            BaseReferences<
+              _$AppDatabase,
+              $ScoutingRecordsTable,
+              ScoutingRecordRow
+            >,
+          ),
+          ScoutingRecordRow,
+          PrefetchHooks Function()
+        > {
+  $$ScoutingRecordsTableTableManager(
+    _$AppDatabase db,
+    $ScoutingRecordsTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ScoutingRecordsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ScoutingRecordsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ScoutingRecordsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> plotId = const Value.absent(),
+                Value<String?> baharCycleId = const Value.absent(),
+                Value<DateTime> observedOn = const Value.absent(),
+                Value<String> item = const Value.absent(),
+                Value<String> severity = const Value.absent(),
+                Value<String?> note = const Value.absent(),
+                Value<String?> photoPath = const Value.absent(),
+                Value<DateTime> clientUpdatedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => ScoutingRecordsCompanion(
+                id: id,
+                plotId: plotId,
+                baharCycleId: baharCycleId,
+                observedOn: observedOn,
+                item: item,
+                severity: severity,
+                note: note,
+                photoPath: photoPath,
+                clientUpdatedAt: clientUpdatedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String plotId,
+                Value<String?> baharCycleId = const Value.absent(),
+                required DateTime observedOn,
+                required String item,
+                required String severity,
+                Value<String?> note = const Value.absent(),
+                Value<String?> photoPath = const Value.absent(),
+                required DateTime clientUpdatedAt,
+                Value<int> rowid = const Value.absent(),
+              }) => ScoutingRecordsCompanion.insert(
+                id: id,
+                plotId: plotId,
+                baharCycleId: baharCycleId,
+                observedOn: observedOn,
+                item: item,
+                severity: severity,
+                note: note,
+                photoPath: photoPath,
+                clientUpdatedAt: clientUpdatedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$ScoutingRecordsTable, ScoutingRecordRow>(table),
+                  BaseReferences<
+                    _$AppDatabase,
+                    $ScoutingRecordsTable,
+                    ScoutingRecordRow
+                  >(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$ScoutingRecordsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $ScoutingRecordsTable,
+      ScoutingRecordRow,
+      $$ScoutingRecordsTableFilterComposer,
+      $$ScoutingRecordsTableOrderingComposer,
+      $$ScoutingRecordsTableAnnotationComposer,
+      $$ScoutingRecordsTableCreateCompanionBuilder,
+      $$ScoutingRecordsTableUpdateCompanionBuilder,
+      (
+        ScoutingRecordRow,
+        BaseReferences<_$AppDatabase, $ScoutingRecordsTable, ScoutingRecordRow>,
+      ),
+      ScoutingRecordRow,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -12226,4 +13096,6 @@ class $AppDatabaseManager {
       $$LabourRecordsTableTableManager(_db, _db.labourRecords);
   $$FarmTasksTableTableManager get farmTasks =>
       $$FarmTasksTableTableManager(_db, _db.farmTasks);
+  $$ScoutingRecordsTableTableManager get scoutingRecords =>
+      $$ScoutingRecordsTableTableManager(_db, _db.scoutingRecords);
 }

@@ -41,6 +41,9 @@ import '../features/profile/data/language_catalog.dart';
 import '../features/profile/data/profile_repository.dart';
 import '../features/profile/domain/farmer_profile.dart';
 import '../features/reminders/domain/reminders.dart';
+import '../features/scouting/data/scouting_photos.dart';
+import '../features/scouting/data/scouting_repository.dart';
+import '../features/scouting/domain/scouting_record.dart';
 import '../features/spray/data/restrictions_cache.dart';
 import '../features/spray/data/spray_repository.dart';
 import '../features/spray/domain/spray_check.dart';
@@ -391,6 +394,25 @@ final fieldWorkOptionsProvider = FutureProvider<FieldWorkOptionsData>(
   (ref) => ref.watch(fieldWorkOptionsCatalogProvider).load(),
 );
 
+/// Where scouting photos come from (camera / gallery, kept on the phone). Tests fake it.
+final scoutingPhotosProvider = Provider<ScoutingPhotos>(
+  (ref) => DeviceScoutingPhotos(),
+);
+
+final scoutingRepositoryProvider = Provider<ScoutingRepository>(
+  (ref) => ScoutingRepository(
+    ref.watch(databaseProvider),
+    clock: ref.watch(clockProvider),
+    photos: ref.watch(scoutingPhotosProvider),
+  ),
+);
+
+final scoutingRecordsProvider =
+    StreamProvider.family<List<ScoutingRecord>, String>(
+      (ref, plotId) =>
+          ref.watch(scoutingRepositoryProvider).watchForPlot(plotId),
+    );
+
 /// Where diagnostics go. `main` swaps in the file-backed log; tests use the in-memory one.
 final appLogProvider = Provider<AppLog>((ref) => MemoryAppLog());
 
@@ -462,6 +484,9 @@ final syncEngineProvider = Provider<SyncEngine>((ref) {
           .watch(fieldWorkRepositoryProvider)
           .applyRemoteLabour,
       TasksRepository.entity: ref.watch(tasksRepositoryProvider).applyRemote,
+      ScoutingRepository.entity: ref
+          .watch(scoutingRepositoryProvider)
+          .applyRemote,
     },
   );
   // Demo mode has no backend: writes stay queued locally, nothing is reported as failing.

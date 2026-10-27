@@ -28,6 +28,7 @@ import '../features/plots/presentation/plots_screen.dart';
 import '../features/practices/presentation/irrigation_guide_screen.dart';
 import '../features/practices/presentation/practices_screen.dart';
 import '../features/profile/presentation/onboarding_screen.dart';
+import '../features/scouting/presentation/scouting_screens.dart';
 import '../features/settings/presentation/settings_screen.dart';
 import '../features/spray/presentation/add_spray_screen.dart';
 import '../features/spray/presentation/spray_log_screen.dart';
@@ -79,6 +80,8 @@ abstract final class Routes {
   static String addLabour(String plotId) => '/plots/$plotId/labour/new';
   static String harvest(String plotId) => '/plots/$plotId/harvest';
   static String addHarvest(String plotId) => '/plots/$plotId/harvest/new';
+  static String scouting(String plotId) => '/plots/$plotId/scouting';
+  static String addScouting(String plotId) => '/plots/$plotId/scouting/new';
   static String fieldLog(String plotId) => '/plots/$plotId/log';
   static String addInput(String plotId) => '/plots/$plotId/log/input';
   static String addIrrigation(String plotId) => '/plots/$plotId/log/irrigation';
@@ -197,6 +200,14 @@ GoRouter buildRouter(
       GoRoute(
         path: '/plots/:id/harvest/new',
         builder: (_, s) => AddHarvestScreen(plotId: s.pathParameters['id']!),
+      ),
+      GoRoute(
+        path: '/plots/:id/scouting',
+        builder: (_, s) => ScoutingScreen(plotId: s.pathParameters['id']!),
+      ),
+      GoRoute(
+        path: '/plots/:id/scouting/new',
+        builder: (_, s) => AddScoutingScreen(plotId: s.pathParameters['id']!),
       ),
       GoRoute(
         path: '/plots/:id/log',

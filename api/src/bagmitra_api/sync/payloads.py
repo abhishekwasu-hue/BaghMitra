@@ -6,7 +6,7 @@ import uuid
 from datetime import date
 from typing import Annotated, Any, Literal
 
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 
 class RowPayload(BaseModel):
@@ -189,4 +189,18 @@ class FarmTaskPayload(RowPayload):
     due_on: date
     done_on: date | None = None
     source: str | None = Field(default=None, max_length=80)
+    note: str | None = Field(default=None, max_length=500)
+
+
+class ScoutingRecordPayload(RowPayload):
+    """A scouting observation. Extra fields are refused so a phone-only photo path can never
+    reach the server by mistake."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    plot_id: uuid.UUID
+    bahar_cycle_id: uuid.UUID | None = None
+    observed_on: date
+    item: Slug
+    severity: Literal["none", "low", "medium", "high"]
     note: str | None = Field(default=None, max_length=500)

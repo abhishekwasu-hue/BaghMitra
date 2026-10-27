@@ -1960,6 +1960,150 @@ abstract class AppLocalizations {
   /// **'Sources: NHB and Dr. PDKV, Akola. Details under each practice.'**
   String get practicesSourcesLine;
 
+  /// No description provided for @scoutingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Scouting log'**
+  String get scoutingTitle;
+
+  /// No description provided for @scoutingAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add scouting'**
+  String get scoutingAdd;
+
+  /// No description provided for @scoutingEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No scouting recorded yet. Note what you saw on this plot.'**
+  String get scoutingEmpty;
+
+  /// No description provided for @scoutingDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get scoutingDate;
+
+  /// No description provided for @scoutingWhat.
+  ///
+  /// In en, this message translates to:
+  /// **'What did you look at?'**
+  String get scoutingWhat;
+
+  /// No description provided for @scoutingSeverity.
+  ///
+  /// In en, this message translates to:
+  /// **'How much?'**
+  String get scoutingSeverity;
+
+  /// No description provided for @scoutingNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Note (optional)'**
+  String get scoutingNote;
+
+  /// No description provided for @scoutingPhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo (optional, stays on this phone)'**
+  String get scoutingPhoto;
+
+  /// No description provided for @scoutingCamera.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera'**
+  String get scoutingCamera;
+
+  /// No description provided for @scoutingGallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Gallery'**
+  String get scoutingGallery;
+
+  /// No description provided for @scoutingRemovePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove photo'**
+  String get scoutingRemovePhoto;
+
+  /// No description provided for @scoutingPhotoFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not get the photo. Try again.'**
+  String get scoutingPhotoFailed;
+
+  /// No description provided for @scoutingPickOne.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose one'**
+  String get scoutingPickOne;
+
+  /// No description provided for @scoutingItemPsylla.
+  ///
+  /// In en, this message translates to:
+  /// **'Psylla'**
+  String get scoutingItemPsylla;
+
+  /// No description provided for @scoutingItemLeafMiner.
+  ///
+  /// In en, this message translates to:
+  /// **'Leaf miner'**
+  String get scoutingItemLeafMiner;
+
+  /// No description provided for @scoutingItemMitesThrips.
+  ///
+  /// In en, this message translates to:
+  /// **'Mites / thrips'**
+  String get scoutingItemMitesThrips;
+
+  /// No description provided for @scoutingItemFruitDrop.
+  ///
+  /// In en, this message translates to:
+  /// **'Fruit drop'**
+  String get scoutingItemFruitDrop;
+
+  /// No description provided for @scoutingItemGummosis.
+  ///
+  /// In en, this message translates to:
+  /// **'Gummosis / bark'**
+  String get scoutingItemGummosis;
+
+  /// No description provided for @scoutingItemDieBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Die-back'**
+  String get scoutingItemDieBack;
+
+  /// No description provided for @scoutingItemOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get scoutingItemOther;
+
+  /// No description provided for @scoutingSeverityNone.
+  ///
+  /// In en, this message translates to:
+  /// **'Not seen'**
+  String get scoutingSeverityNone;
+
+  /// No description provided for @scoutingSeverityLow.
+  ///
+  /// In en, this message translates to:
+  /// **'Low'**
+  String get scoutingSeverityLow;
+
+  /// No description provided for @scoutingSeverityMedium.
+  ///
+  /// In en, this message translates to:
+  /// **'Medium'**
+  String get scoutingSeverityMedium;
+
+  /// No description provided for @scoutingSeverityHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'High'**
+  String get scoutingSeverityHigh;
+
   /// No description provided for @irrigationOpen.
   ///
   /// In en, this message translates to:
