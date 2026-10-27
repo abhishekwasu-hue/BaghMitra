@@ -124,6 +124,8 @@ class _HomeBody extends ConsumerWidget {
                 condition: w.condition,
                 maxTemperature: t.maxTemperature(w.maxC),
                 soilPill: t.soilMoisture(w.soilMoisturePct),
+                onAvatarTap: () => context.push(Routes.profile),
+                avatarLabel: t.profileTitle,
               ),
               if (snapshot.isDemo)
                 Positioned(

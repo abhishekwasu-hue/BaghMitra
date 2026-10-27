@@ -1798,6 +1798,60 @@ abstract class AppLocalizations {
   /// **'Continue'**
   String get onboardingContinue;
 
+  /// No description provided for @profileTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'My profile'**
+  String get profileTitle;
+
+  /// No description provided for @profileConsentDataNote.
+  ///
+  /// In en, this message translates to:
+  /// **'This is needed so the app can save and back up your records. It cannot be turned off here.'**
+  String get profileConsentDataNote;
+
+  /// No description provided for @profilePhoneSignedIn.
+  ///
+  /// In en, this message translates to:
+  /// **'You sign in with this number.'**
+  String get profilePhoneSignedIn;
+
+  /// No description provided for @profileAddPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Add mobile number (optional)'**
+  String get profileAddPhone;
+
+  /// No description provided for @profilePhoneContactOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Only so we can contact you. It is not for signing in; you still sign in with Google.'**
+  String get profilePhoneContactOnly;
+
+  /// No description provided for @profileSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved.'**
+  String get profileSaved;
+
+  /// No description provided for @profileSignOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out'**
+  String get profileSignOut;
+
+  /// No description provided for @profileSignOutTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out?'**
+  String get profileSignOutTitle;
+
+  /// No description provided for @profileSignOutBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your records stay on this phone. Sign in again to see them.'**
+  String get profileSignOutBody;
+
   /// No description provided for @boundaryWalk.
   ///
   /// In en, this message translates to:
