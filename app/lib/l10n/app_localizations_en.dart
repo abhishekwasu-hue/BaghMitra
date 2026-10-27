@@ -971,6 +971,36 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onboardingContinue => 'Continue';
 
   @override
+  String get profileTitle => 'My profile';
+
+  @override
+  String get profileConsentDataNote =>
+      'This is needed so the app can save and back up your records. It cannot be turned off here.';
+
+  @override
+  String get profilePhoneSignedIn => 'You sign in with this number.';
+
+  @override
+  String get profileAddPhone => 'Add mobile number (optional)';
+
+  @override
+  String get profilePhoneContactOnly =>
+      'Only so we can contact you. It is not for signing in; you still sign in with Google.';
+
+  @override
+  String get profileSaved => 'Saved.';
+
+  @override
+  String get profileSignOut => 'Sign out';
+
+  @override
+  String get profileSignOutTitle => 'Sign out?';
+
+  @override
+  String get profileSignOutBody =>
+      'Your records stay on this phone. Sign in again to see them.';
+
+  @override
   String get boundaryWalk => 'Mark boundary by walking';
 
   @override

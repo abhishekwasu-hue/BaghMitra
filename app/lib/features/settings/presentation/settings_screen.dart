@@ -25,6 +25,12 @@ class SettingsScreen extends ConsumerWidget {
           if (config.isTestBuild)
             Text(t.buildLabel(config.testBuild), style: BmType.meta),
           const SizedBox(height: BmSpace.lg),
+          OutlinedButton(
+            key: const Key('settings-profile'),
+            onPressed: () => context.push(Routes.profile),
+            child: Text(t.profileTitle),
+          ),
+          const SizedBox(height: BmSpace.md),
           // Sample data only where nothing syncs, so it can never reach a real account.
           if (config.demoMode) ...[
             OutlinedButton(

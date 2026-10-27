@@ -1,5 +1,5 @@
 import 'package:bagmitra/data/local/database.dart';
-import 'package:drift/drift.dart';
+import 'package:drift/drift.dart' hide isNull;
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -18,9 +18,12 @@ void main() {
             "AND name IN ('outbox_entries', 'farmer_profiles', 'sync_meta')",
           )
           .map((r) => r.read<String>('sql'))
+          // The profile's phone column came later (v10); v1 did not have it.
+          .map((sql) => sql.replaceFirst(RegExp(r',\s*"phone" TEXT NULL'), ''))
           .get();
       await fresh.close();
       expect(ddl, hasLength(3));
+      expect(ddl.join(), isNot(contains('"phone"')));
 
       driftRuntimeOptions.dontWarnAboutMultipleDatabases = true;
       final db = AppDatabase(
@@ -31,6 +34,10 @@ void main() {
             }
             raw.execute(
               "INSERT INTO sync_meta (key, value) VALUES ('sync.pull.cursor', '42')",
+            );
+            raw.execute(
+              'INSERT INTO farmer_profiles (id, language, client_updated_at) '
+              "VALUES ('u1', 'mr', '2026-01-01T00:00:00.000Z')",
             );
             raw.execute('PRAGMA user_version = 1');
           },
@@ -72,7 +79,45 @@ void main() {
       expect(await db.select(db.harvestRecords).get(), isEmpty);
       expect(await db.select(db.labourRecords).get(), isEmpty);
       expect(await db.select(db.scoutingRecords).get(), isEmpty);
+      // v10: the kept profile gains an empty contact number.
+      final profile = await db.select(db.farmerProfiles).getSingle();
+      expect(profile.language, 'mr');
+      expect(profile.phone, isNull);
       await db.close();
     },
   );
+
+  test('v10 -> latest adds the scouting photo key column', () async {
+    final fresh = memoryDb();
+    final ddl = await fresh
+        .customSelect(
+          "SELECT sql FROM sqlite_master WHERE type = 'table' "
+          "AND name NOT LIKE 'sqlite_%'",
+        )
+        .map((r) => r.read<String>('sql'))
+        .map(
+          (sql) => sql.replaceFirst(RegExp(r',\s*"photo_key" TEXT NULL'), ''),
+        )
+        .get();
+    await fresh.close();
+    expect(ddl.join(), isNot(contains('"photo_key"')));
+
+    driftRuntimeOptions.dontWarnAboutMultipleDatabases = true;
+    final db = AppDatabase(
+      NativeDatabase.memory(
+        setup: (raw) {
+          for (final stmt in ddl) {
+            raw.execute(stmt);
+          }
+          raw.execute('PRAGMA user_version = 10');
+        },
+      ),
+    );
+    final cols = await db
+        .customSelect("PRAGMA table_info('scouting_records')")
+        .map((r) => r.read<String>('name'))
+        .get();
+    expect(cols, contains('photo_key'));
+    await db.close();
+  });
 }
