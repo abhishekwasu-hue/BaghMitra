@@ -871,8 +871,80 @@ abstract class AppLocalizations {
   /// No description provided for @adminFeedDatesNote.
   ///
   /// In en, this message translates to:
-  /// **'Dates are set at upload and output-checked against the source text.'**
+  /// **'Dates are output-checked against the source text. Saving a change to a published item sends it back to review.'**
   String get adminFeedDatesNote;
+
+  /// No description provided for @adminFeedPickDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick date'**
+  String get adminFeedPickDate;
+
+  /// No description provided for @adminFeedClearDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get adminFeedClearDate;
+
+  /// No description provided for @adminFeedSaveDates.
+  ///
+  /// In en, this message translates to:
+  /// **'Save dates'**
+  String get adminFeedSaveDates;
+
+  /// No description provided for @adminFeedCardNew.
+  ///
+  /// In en, this message translates to:
+  /// **'Scheme card'**
+  String get adminFeedCardNew;
+
+  /// No description provided for @adminFeedCardNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Each field: the value as written in the document with its page, or \"Not stated\".'**
+  String get adminFeedCardNote;
+
+  /// No description provided for @adminFeedNotStated.
+  ///
+  /// In en, this message translates to:
+  /// **'Not stated'**
+  String get adminFeedNotStated;
+
+  /// No description provided for @adminFeedCardValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Value'**
+  String get adminFeedCardValue;
+
+  /// No description provided for @adminFeedCardPage.
+  ///
+  /// In en, this message translates to:
+  /// **'Page (e.g. p. 2)'**
+  String get adminFeedCardPage;
+
+  /// No description provided for @adminFeedSaveCard.
+  ///
+  /// In en, this message translates to:
+  /// **'Save card'**
+  String get adminFeedSaveCard;
+
+  /// No description provided for @adminFeedCardEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Fill at least one field or mark it Not stated.'**
+  String get adminFeedCardEmpty;
+
+  /// No description provided for @adminFeedFullText.
+  ///
+  /// In en, this message translates to:
+  /// **'Stored text (what the output check reads):'**
+  String get adminFeedFullText;
+
+  /// No description provided for @adminFeedTextTruncated.
+  ///
+  /// In en, this message translates to:
+  /// **'Only the first 200 KB are shown; the stored text is longer.'**
+  String get adminFeedTextTruncated;
 
   /// No description provided for @adminFeedCard.
   ///

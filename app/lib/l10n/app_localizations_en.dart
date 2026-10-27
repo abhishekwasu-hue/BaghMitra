@@ -463,7 +463,46 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get adminFeedDatesNote =>
-      'Dates are set at upload and output-checked against the source text.';
+      'Dates are output-checked against the source text. Saving a change to a published item sends it back to review.';
+
+  @override
+  String get adminFeedPickDate => 'Pick date';
+
+  @override
+  String get adminFeedClearDate => 'Clear';
+
+  @override
+  String get adminFeedSaveDates => 'Save dates';
+
+  @override
+  String get adminFeedCardNew => 'Scheme card';
+
+  @override
+  String get adminFeedCardNote =>
+      'Each field: the value as written in the document with its page, or \"Not stated\".';
+
+  @override
+  String get adminFeedNotStated => 'Not stated';
+
+  @override
+  String get adminFeedCardValue => 'Value';
+
+  @override
+  String get adminFeedCardPage => 'Page (e.g. p. 2)';
+
+  @override
+  String get adminFeedSaveCard => 'Save card';
+
+  @override
+  String get adminFeedCardEmpty =>
+      'Fill at least one field or mark it Not stated.';
+
+  @override
+  String get adminFeedFullText => 'Stored text (what the output check reads):';
+
+  @override
+  String get adminFeedTextTruncated =>
+      'Only the first 200 KB are shown; the stored text is longer.';
 
   @override
   String adminFeedCard(int version) {

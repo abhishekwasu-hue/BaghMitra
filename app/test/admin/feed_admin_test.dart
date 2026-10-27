@@ -67,7 +67,10 @@ Map<String, dynamic> _detail(Map<String, dynamic> summary) => {
   'url': 'https://gr.maharashtra.gov.in/gr-101.pdf',
   'raw_hash': 'ab12',
   'raw_bytes': 1024,
-  'has_text': false,
+  'has_text': true,
+  'extracted_text':
+      'शासन निर्णय GR-2026/101\nअंतिम मुदत 31/12/2026\nप्रति वर्ष ₹6,000',
+  'extracted_text_truncated': true,
   'valid_from': '2026-10-20',
   'valid_to': '2027-03-31',
   'deadline': '2026-12-31',
@@ -95,7 +98,7 @@ Map<String, dynamic> _detail(Map<String, dynamic> summary) => {
       'detail': {
         'method': 'pdf_text',
         'quality': 'broken',
-        'used': null,
+        'used': 'ocr',
         'pages': 3,
         'text_layer': 'ÉÉ´ÉÉ Kruti Dev text',
       },
@@ -111,6 +114,8 @@ class FakeFeedAdmin implements FeedAdminRepository {
   final texts = <(String, String, String, String?)>[];
   final terms = <(String, String, String?)>[];
   final targetSaves = <List<FeedAdminTargetIn>>[];
+  final dateSaves = <FeedAdminDatesIn>[];
+  final cardSaves = <Map<String, FeedAdminCardFieldIn>>[];
   FeedAdminItemIn? created;
 
   static FeedAdminItemOut _item(String id) =>
@@ -150,6 +155,21 @@ class FakeFeedAdmin implements FeedAdminRepository {
     List<FeedAdminTargetIn> targets,
   ) async {
     targetSaves.add(targets);
+    return _item(id);
+  }
+
+  @override
+  Future<FeedAdminItemOut> setDates(String id, FeedAdminDatesIn dates) async {
+    dateSaves.add(dates);
+    return _item(id);
+  }
+
+  @override
+  Future<FeedAdminItemOut> setCard(
+    String id,
+    Map<String, FeedAdminCardFieldIn> fields,
+  ) async {
+    cardSaves.add(fields);
     return _item(id);
   }
 
@@ -358,6 +378,24 @@ void main() {
         {'district': 'Nagpur'},
       ],
     });
+    final dated = await repo.setDates(
+      'i1',
+      FeedAdminDatesIn(deadline: DateTime(2026, 12, 15)),
+    );
+    expect(dated.extractedTextTruncated, isTrue);
+    expect(sent['PUT /v1/admin/feed/items/i1/dates'], {
+      'deadline': '2026-12-15',
+    });
+    await repo.setCard('i1', const {
+      'amount': FeedAdminCardFieldIn(value: '₹6,000', page: 'p. 2'),
+      'documents': FeedAdminCardFieldIn(value: 'not_stated'),
+    });
+    expect(sent['PUT /v1/admin/feed/items/i1/card'], {
+      'fields': {
+        'amount': {'value': '₹6,000', 'page': 'p. 2'},
+        'documents': {'value': 'not_stated'},
+      },
+    });
     await repo.publish('i1');
     await repo.withdraw('i1', 'superseded', 'i2');
     expect(sent['POST /v1/admin/feed/items/i1/withdraw'], {
@@ -425,7 +463,8 @@ void main() {
     expect(find.textContaining('gr-101.pdf'), findsOneWidget);
     expect(find.text('₹6,000 is not in the source text'), findsOneWidget);
     expect(find.textContaining('Kruti Dev'), findsOneWidget);
-    expect(find.textContaining('No usable text'), findsOneWidget);
+    expect(find.textContaining('Text is stored'), findsOneWidget);
+    expect(find.textContaining('used: ocr'), findsOneWidget);
     expect(find.textContaining('Last date: 2026-12-31'), findsOneWidget);
 
     await tester.tap(find.text('Approve'));
@@ -492,6 +531,98 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Hectares must be numbers.'), findsOneWidget);
     expect(feed.targetSaves, hasLength(1));
+  });
+
+  testWidgets('dates: pick, clear and save all four', (tester) async {
+    final feed = await _openDetail(tester);
+    await tester.ensureVisible(find.byKey(const Key('pick-deadline')));
+    await tester.tap(find.byKey(const Key('pick-deadline')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('15'));
+    await tester.tap(find.text('OK'));
+    await tester.pumpAndSettle();
+    expect(find.text('Last date: 2026-12-15'), findsOneWidget);
+    final clearPayment = find.byKey(const Key('clear-payment_date'));
+    expect(tester.widget<IconButton>(clearPayment).onPressed, isNull);
+    await tester.tap(find.byKey(const Key('clear-valid_to')));
+    await tester.pumpAndSettle();
+    expect(find.text('Valid to: —'), findsOneWidget);
+    await tester.ensureVisible(find.byKey(const Key('save-dates')));
+    await tester.tap(find.byKey(const Key('save-dates')));
+    await tester.pumpAndSettle();
+    final saved = feed.dateSaves.single;
+    expect(
+      (saved.deadline, saved.paymentDate, saved.validFrom, saved.validTo),
+      (DateTime(2026, 12, 15), null, DateTime(2026, 10, 20), null),
+    );
+    expect(find.text('Done'), findsOneWidget);
+  });
+
+  testWidgets('scheme card editor saves values, pages and not stated', (
+    tester,
+  ) async {
+    final feed = await _openDetail(tester);
+    expect(find.text('Scheme card v1'), findsOneWidget);
+    expect(find.text('₹6,000 per year'), findsOneWidget);
+    await tester.ensureVisible(find.byKey(const Key('save-card')));
+    await tester.tap(find.byKey(const Key('save-card')));
+    await tester.pumpAndSettle();
+    expect(feed.cardSaves.single.map((k, v) => MapEntry(k, v.toJson())), {
+      'amount': {'value': '₹6,000 per year', 'page': 'p. 2'},
+    });
+
+    await tester.enterText(
+      find.byKey(const Key('card-scheme_name-value')),
+      'PM-KISAN',
+    );
+    await tester.enterText(
+      find.byKey(const Key('card-scheme_name-page')),
+      'p. 1',
+    );
+    await tester.ensureVisible(
+      find.byKey(const Key('card-documents-not-stated')),
+    );
+    await tester.tap(find.byKey(const Key('card-documents-not-stated')));
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(find.byKey(const Key('save-card')));
+    await tester.tap(find.byKey(const Key('save-card')));
+    await tester.pumpAndSettle();
+    expect(feed.cardSaves.last.map((k, v) => MapEntry(k, v.toJson())), {
+      'scheme_name': {'value': 'PM-KISAN', 'page': 'p. 1'},
+      'documents': {'value': 'not_stated'},
+      'amount': {'value': '₹6,000 per year', 'page': 'p. 2'},
+    });
+
+    // Nothing filled: refused locally.
+    await tester.tap(find.byKey(const Key('card-documents-not-stated')));
+    for (final name in ['scheme_name', 'amount']) {
+      await tester.enterText(find.byKey(Key('card-$name-value')), '');
+    }
+    await tester.ensureVisible(find.byKey(const Key('save-card')));
+    await tester.tap(find.byKey(const Key('save-card')));
+    await tester.pumpAndSettle();
+    expect(
+      find.text('Fill at least one field or mark it Not stated.'),
+      findsOneWidget,
+    );
+    expect(feed.cardSaves, hasLength(2));
+  });
+
+  testWidgets('full extracted text preview with the truncated note', (
+    tester,
+  ) async {
+    await _openDetail(tester);
+    final box = find.byKey(const Key('extracted-text'));
+    expect(box, findsOneWidget);
+    expect(
+      find.descendant(of: box, matching: find.textContaining('31/12/2026')),
+      findsOneWidget,
+    );
+    expect(
+      find.descendant(of: box, matching: find.byType(Scrollbar)),
+      findsOneWidget,
+    );
+    expect(find.textContaining('first 200 KB'), findsOneWidget);
   });
 
   testWidgets('withdraw picks a replacement item', (tester) async {

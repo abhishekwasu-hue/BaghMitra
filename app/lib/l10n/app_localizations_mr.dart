@@ -463,7 +463,46 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get adminFeedDatesNote =>
-      'तारखा अपलोड करताना भरल्या जातात आणि मूळ मजकुराशी तपासल्या जातात.';
+      'तारखा मूळ मजकुराशी तपासल्या जातात. प्रसिद्ध बाबीत बदल जतन केल्यास ती पुन्हा पुनरावलोकनात जाते.';
+
+  @override
+  String get adminFeedPickDate => 'तारीख निवडा';
+
+  @override
+  String get adminFeedClearDate => 'काढा';
+
+  @override
+  String get adminFeedSaveDates => 'तारखा जतन करा';
+
+  @override
+  String get adminFeedCardNew => 'योजना कार्ड';
+
+  @override
+  String get adminFeedCardNote =>
+      'प्रत्येक रकाना: दस्तऐवजात लिहिलेली किंमत व तिचे पान, किंवा \"नमूद नाही\".';
+
+  @override
+  String get adminFeedNotStated => 'नमूद नाही';
+
+  @override
+  String get adminFeedCardValue => 'किंमत';
+
+  @override
+  String get adminFeedCardPage => 'पान (उदा. p. 2)';
+
+  @override
+  String get adminFeedSaveCard => 'कार्ड जतन करा';
+
+  @override
+  String get adminFeedCardEmpty =>
+      'किमान एक रकाना भरा किंवा \"नमूद नाही\" निवडा.';
+
+  @override
+  String get adminFeedFullText => 'साठवलेला मजकूर (आउटपुट तपासणी हाच वाचते):';
+
+  @override
+  String get adminFeedTextTruncated =>
+      'फक्त पहिले 200 KB दाखवले आहेत; साठवलेला मजकूर त्याहून मोठा आहे.';
 
   @override
   String adminFeedCard(int version) {
