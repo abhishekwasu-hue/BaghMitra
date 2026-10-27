@@ -25,6 +25,7 @@ import '../features/plots/presentation/add_plot_screen.dart';
 import '../features/plots/presentation/boundary_screen.dart';
 import '../features/plots/presentation/plot_detail_screen.dart';
 import '../features/plots/presentation/plots_screen.dart';
+import '../features/practices/presentation/irrigation_guide_screen.dart';
 import '../features/practices/presentation/practices_screen.dart';
 import '../features/profile/presentation/onboarding_screen.dart';
 import '../features/settings/presentation/settings_screen.dart';
@@ -60,6 +61,7 @@ abstract final class Routes {
   static const calendar = '/calendar';
   static const market = '/market';
   static const practices = '/practices';
+  static const irrigation = '/irrigation';
   static const plots = '/plots';
   static const addPlot = '/plots/new';
   static const walkBoundary = '/plots/new/boundary';
@@ -68,6 +70,8 @@ abstract final class Routes {
   static String plotBahar(String plotId) => '/plots/$plotId/bahar';
   static String startBahar(String plotId) => '/plots/$plotId/bahar/new';
   static String compareBahars(String plotId) => '/plots/$plotId/bahar/compare';
+  static String irrigationGuide(String plotId) =>
+      '/plots/$plotId/irrigation-guide';
   static String sprays(String plotId) => '/plots/$plotId/sprays';
   static String addSpray(String plotId) => '/plots/$plotId/sprays/new';
   static String labels(String plotId) => '/plots/$plotId/labels';
@@ -144,6 +148,10 @@ GoRouter buildRouter(
       GoRoute(
         path: Routes.practices,
         builder: (_, _) => const PracticesScreen(),
+      ),
+      GoRoute(
+        path: Routes.irrigation,
+        builder: (_, _) => const IrrigationGuideScreen(),
       ),
       GoRoute(path: Routes.addPlot, builder: (_, _) => const AddPlotScreen()),
       GoRoute(
@@ -225,6 +233,11 @@ GoRouter buildRouter(
       GoRoute(
         path: '/plots/:id/bahar/compare',
         builder: (_, s) => BaharCompareScreen(plotId: s.pathParameters['id']!),
+      ),
+      GoRoute(
+        path: '/plots/:id/irrigation-guide',
+        builder: (_, s) =>
+            IrrigationGuideScreen(plotId: s.pathParameters['id']!),
       ),
       GoRoute(
         path: Routes.onboarding,

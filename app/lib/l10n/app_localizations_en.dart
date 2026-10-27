@@ -1105,4 +1105,43 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get practicesSourcesLine =>
       'Sources: NHB and Dr. PDKV, Akola. Details under each practice.';
+
+  @override
+  String get irrigationOpen => 'Irrigation guide (ओलित तक्ता)';
+
+  @override
+  String get irrigationGuideTitle => 'Irrigation guide';
+
+  @override
+  String get irrigationCaveat =>
+      'Amounts depend on your soil, the tree\'s canopy and the weather. Check with your KVK before you change your watering.';
+
+  @override
+  String get irrigationCropLabel => 'Crop';
+
+  @override
+  String get irrigationAgeLabel => 'Tree age';
+
+  @override
+  String irrigationPlanted(String year, String years) {
+    return 'Planted in $year: about $years years old';
+  }
+
+  @override
+  String get irrigationNoPlantingYear =>
+      'Planting year not entered for this block. Choose the tree age.';
+
+  @override
+  String get irrigationNoRows =>
+      'No figure in the sources for this tree age yet.';
+
+  @override
+  String get irrigationStagesTitle => 'Flowering, fruit and bahar rest';
+
+  @override
+  String get irrigationGapsTitle => 'Not found in the sources yet';
+
+  @override
+  String get irrigationSourcesLine =>
+      'Sources: NHB, Dr. PDKV Akola and published citrus research. Details under each point.';
 }

@@ -579,5 +579,17 @@
   "practicesEvidenceInferred": "Inferred",
   "practicesGapsTitle": "No non-chemical practice found yet",
   "practicesSourcesLine": "Sources: NHB and Dr. PDKV, Akola. Details under each practice.",
-  "@practicesSource": {"placeholders": {"source": {"type": "String"}}}
+  "@practicesSource": {"placeholders": {"source": {"type": "String"}}},
+  "irrigationOpen": "Irrigation guide (ओलित तक्ता)",
+  "irrigationGuideTitle": "Irrigation guide",
+  "irrigationCaveat": "Amounts depend on your soil, the tree's canopy and the weather. Check with your KVK before you change your watering.",
+  "irrigationCropLabel": "Crop",
+  "irrigationAgeLabel": "Tree age",
+  "irrigationPlanted": "Planted in {year}: about {years} years old",
+  "irrigationNoPlantingYear": "Planting year not entered for this block. Choose the tree age.",
+  "irrigationNoRows": "No figure in the sources for this tree age yet.",
+  "irrigationStagesTitle": "Flowering, fruit and bahar rest",
+  "irrigationGapsTitle": "Not found in the sources yet",
+  "irrigationSourcesLine": "Sources: NHB, Dr. PDKV Akola and published citrus research. Details under each point.",
+  "@irrigationPlanted": {"placeholders": {"year": {"type": "String"}, "years": {"type": "String"}}}
 }
