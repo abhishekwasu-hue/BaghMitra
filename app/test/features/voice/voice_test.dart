@@ -98,4 +98,36 @@ void main() {
     );
     await unmountApp(tester);
   });
+  // Every free-text name field on the entry forms has a mic; the transcript fills the field and
+  // nothing is saved until the grower taps Save.
+  for (final (location, field) in const [
+    ('/plots/p1/accounts/sale', 'sale-buyer'),
+    ('/plots/p1/log/input', 'input-product'),
+    ('/plots/p1/labour/new', 'labour-worker'),
+    ('/tasks/new', 'task-title'),
+  ]) {
+    testWidgets('speaking on $location fills $field', (tester) async {
+      final recognizer = FakeRecognizer(
+        words: const [
+          SpeechResult('Ramesh', isFinal: false),
+          SpeechResult('Ramesh Patil', isFinal: true),
+        ],
+      );
+      await pumpApp(tester, initialLocation: location, recognizer: recognizer);
+      final mic = find.descendant(
+        of: find.byKey(Key(field)),
+        matching: find.byKey(const Key('voice-mic')),
+      );
+      expect(mic, findsOneWidget);
+      await tester.tap(mic);
+      await tester.pump();
+      await tester.pump();
+
+      expect(recognizer.heardLocale, 'mr_IN');
+      final input = tester.widget<TextFormField>(find.byKey(Key(field)));
+      expect(input.controller!.text, 'Ramesh Patil');
+      expect(find.byType(SnackBar), findsNothing);
+      await unmountApp(tester);
+    });
+  }
 }

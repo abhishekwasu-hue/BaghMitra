@@ -11,6 +11,7 @@ import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../../bahar/data/bahar_catalog.dart';
 import '../../bahar/presentation/cycle_chips.dart';
+import '../../voice/presentation/voice_mic_button.dart';
 import '../domain/field_work.dart';
 
 DateTime _today(WidgetRef ref) {
@@ -226,7 +227,12 @@ class _AddLabourScreenState extends ConsumerState<AddLabourScreen> {
               key: const Key('labour-worker'),
               controller: _worker,
               maxLength: 120,
-              decoration: InputDecoration(labelText: t.labourWorker),
+              decoration: InputDecoration(
+                labelText: t.labourWorker,
+                suffixIcon: VoiceMicButton(
+                  onResult: (text, {required isFinal}) => _worker.text = text,
+                ),
+              ),
               validator: (v) =>
                   (v ?? '').trim().isEmpty ? t.fieldRequired : null,
             ),
