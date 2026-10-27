@@ -383,6 +383,260 @@ class AppLocalizationsEn extends AppLocalizations {
       'Admin sign-in needs SUPABASE_URL and SUPABASE_ANON_KEY.';
 
   @override
+  String get adminFeed => 'Govt feed';
+
+  @override
+  String get adminFeedQueue => 'Review queue';
+
+  @override
+  String get adminFeedUpload => 'Upload';
+
+  @override
+  String get adminFeedSources => 'Feed sources';
+
+  @override
+  String get adminFeedStatusInReview => 'In review';
+
+  @override
+  String get adminFeedStatusDraft => 'Draft';
+
+  @override
+  String get adminFeedStatusPublished => 'Published';
+
+  @override
+  String get adminFeedStatusWithdrawn => 'Withdrawn';
+
+  @override
+  String get adminFeedNoItems => 'Nothing in this list';
+
+  @override
+  String get adminFeedApproved => 'Approved';
+
+  @override
+  String adminFeedIssueCount(int count) {
+    return '$count check issues';
+  }
+
+  @override
+  String get adminFeedAiOff => 'AI not configured';
+
+  @override
+  String get adminFeedSourceLink => 'Source document';
+
+  @override
+  String adminFeedReplacedByValue(String id) {
+    return 'Replaced by $id';
+  }
+
+  @override
+  String get adminFeedWithdraw => 'Withdraw';
+
+  @override
+  String get adminFeedAiDraft => 'AI draft';
+
+  @override
+  String get adminFeedCheckIssues => 'Output-check issues';
+
+  @override
+  String get adminFeedNoIssues => 'No check issues';
+
+  @override
+  String get adminFeedTextPreview => 'Extracted text';
+
+  @override
+  String get adminFeedTexts => 'Title and summary';
+
+  @override
+  String get adminFeedDates => 'Dates';
+
+  @override
+  String get adminFeedDeadline => 'Last date';
+
+  @override
+  String get adminFeedPayment => 'Payment date';
+
+  @override
+  String get adminFeedValidFrom => 'Valid from';
+
+  @override
+  String get adminFeedValidTo => 'Valid to';
+
+  @override
+  String get adminFeedDatesNote =>
+      'Dates are set at upload and output-checked against the source text.';
+
+  @override
+  String adminFeedCard(int version) {
+    return 'Scheme card v$version';
+  }
+
+  @override
+  String get adminFeedTargets => 'Targets';
+
+  @override
+  String get adminFeedHistory => 'History';
+
+  @override
+  String get adminFeedHasText =>
+      'Text is stored (used by the output check and the AI draft).';
+
+  @override
+  String get adminFeedNoText =>
+      'No usable text stored: upload again with the text pasted, or accept the issues with a comment.';
+
+  @override
+  String get adminFeedUnusedText => 'Text not used (broken text layer or OCR):';
+
+  @override
+  String get adminFeedTitle => 'Title';
+
+  @override
+  String get adminFeedSummary => 'Summary (2 lines)';
+
+  @override
+  String get adminFeedSave => 'Save';
+
+  @override
+  String get adminFeedBadNumber => 'Hectares must be numbers.';
+
+  @override
+  String get adminFeedTargetsNote =>
+      'Empty fields mean any. Matching says \"may be eligible\", never \"will receive\".';
+
+  @override
+  String get adminFeedDistrict => 'District';
+
+  @override
+  String get adminFeedCrop => 'Crop';
+
+  @override
+  String get adminFeedMinHa => 'Min ha';
+
+  @override
+  String get adminFeedMaxHa => 'Max ha';
+
+  @override
+  String get adminFeedRemove => 'Remove';
+
+  @override
+  String get adminFeedAddTarget => 'Add target';
+
+  @override
+  String get adminFeedSaveTargets => 'Save targets';
+
+  @override
+  String get adminFeedAcceptTitle => 'Accept open check issues?';
+
+  @override
+  String adminFeedAcceptBody(int count) {
+    return 'This item has $count open check issues. Approve it anyway only with a comment saying why.';
+  }
+
+  @override
+  String get adminFeedComment => 'Comment (why)';
+
+  @override
+  String get adminFeedCancel => 'Cancel';
+
+  @override
+  String get adminFeedAcceptApprove => 'Accept and approve';
+
+  @override
+  String get adminFeedWithdrawTitle => 'Withdraw item';
+
+  @override
+  String get adminFeedReason => 'Reason';
+
+  @override
+  String get adminFeedReplacedBy => 'Replaced by';
+
+  @override
+  String get adminFeedNoReplacement => 'No replacement';
+
+  @override
+  String get adminFeedRequiredMissing =>
+      'Source key, document URL and published date are required.';
+
+  @override
+  String get adminFeedBadDate => 'Write dates as YYYY-MM-DD.';
+
+  @override
+  String adminFeedCreated(String status, int count) {
+    return 'Created: $status, $count check issues';
+  }
+
+  @override
+  String get adminFeedDateHint => 'YYYY-MM-DD';
+
+  @override
+  String get adminFeedUploadNote =>
+      'Choose the GR document (the server keeps its hash and reads its text) and / or paste the text copied from it (pasted text wins). The official URL is always needed.';
+
+  @override
+  String get adminFeedPickDocument => 'Choose document (PDF or HTML)';
+
+  @override
+  String get adminFeedNoDocument => 'No document chosen';
+
+  @override
+  String adminFeedDocument(String name, int kb) {
+    return '$name · $kb KB';
+  }
+
+  @override
+  String adminFeedTooLarge(int mb) {
+    return 'The document is larger than $mb MB.';
+  }
+
+  @override
+  String get adminFeedBadType => 'Only .pdf, .html or .htm files.';
+
+  @override
+  String get adminFeedExtraction => 'Extraction result';
+
+  @override
+  String get adminFeedSourceKey => 'Source key';
+
+  @override
+  String get adminFeedPublishedAt => 'Published on';
+
+  @override
+  String get adminFeedUrl => 'Document URL';
+
+  @override
+  String get adminFeedExternalId => 'External ID (GR code)';
+
+  @override
+  String get adminFeedGrNumber => 'GR number';
+
+  @override
+  String get adminFeedDepartment => 'Department';
+
+  @override
+  String get adminFeedPastedText => 'Text from the document (pasted)';
+
+  @override
+  String get adminFeedSubmit => 'Send to review';
+
+  @override
+  String get adminFeedOpen => 'Open item';
+
+  @override
+  String get adminFeedTerms => 'Terms';
+
+  @override
+  String get adminFeedTermsUnknown => 'Unknown';
+
+  @override
+  String get adminFeedTermsAllowed => 'Allowed';
+
+  @override
+  String get adminFeedTermsDisallowed => 'Disallowed';
+
+  @override
+  String get adminFeedTermsNote => 'Note (what you read)';
+
+  @override
   String get accountsTitle => 'Accounts';
 
   @override

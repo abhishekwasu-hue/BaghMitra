@@ -718,6 +718,474 @@ abstract class AppLocalizations {
   /// **'Admin sign-in needs SUPABASE_URL and SUPABASE_ANON_KEY.'**
   String get adminNotConfigured;
 
+  /// No description provided for @adminFeed.
+  ///
+  /// In en, this message translates to:
+  /// **'Govt feed'**
+  String get adminFeed;
+
+  /// No description provided for @adminFeedQueue.
+  ///
+  /// In en, this message translates to:
+  /// **'Review queue'**
+  String get adminFeedQueue;
+
+  /// No description provided for @adminFeedUpload.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload'**
+  String get adminFeedUpload;
+
+  /// No description provided for @adminFeedSources.
+  ///
+  /// In en, this message translates to:
+  /// **'Feed sources'**
+  String get adminFeedSources;
+
+  /// No description provided for @adminFeedStatusInReview.
+  ///
+  /// In en, this message translates to:
+  /// **'In review'**
+  String get adminFeedStatusInReview;
+
+  /// No description provided for @adminFeedStatusDraft.
+  ///
+  /// In en, this message translates to:
+  /// **'Draft'**
+  String get adminFeedStatusDraft;
+
+  /// No description provided for @adminFeedStatusPublished.
+  ///
+  /// In en, this message translates to:
+  /// **'Published'**
+  String get adminFeedStatusPublished;
+
+  /// No description provided for @adminFeedStatusWithdrawn.
+  ///
+  /// In en, this message translates to:
+  /// **'Withdrawn'**
+  String get adminFeedStatusWithdrawn;
+
+  /// No description provided for @adminFeedNoItems.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing in this list'**
+  String get adminFeedNoItems;
+
+  /// No description provided for @adminFeedApproved.
+  ///
+  /// In en, this message translates to:
+  /// **'Approved'**
+  String get adminFeedApproved;
+
+  /// No description provided for @adminFeedIssueCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} check issues'**
+  String adminFeedIssueCount(int count);
+
+  /// No description provided for @adminFeedAiOff.
+  ///
+  /// In en, this message translates to:
+  /// **'AI not configured'**
+  String get adminFeedAiOff;
+
+  /// No description provided for @adminFeedSourceLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Source document'**
+  String get adminFeedSourceLink;
+
+  /// No description provided for @adminFeedReplacedByValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Replaced by {id}'**
+  String adminFeedReplacedByValue(String id);
+
+  /// No description provided for @adminFeedWithdraw.
+  ///
+  /// In en, this message translates to:
+  /// **'Withdraw'**
+  String get adminFeedWithdraw;
+
+  /// No description provided for @adminFeedAiDraft.
+  ///
+  /// In en, this message translates to:
+  /// **'AI draft'**
+  String get adminFeedAiDraft;
+
+  /// No description provided for @adminFeedCheckIssues.
+  ///
+  /// In en, this message translates to:
+  /// **'Output-check issues'**
+  String get adminFeedCheckIssues;
+
+  /// No description provided for @adminFeedNoIssues.
+  ///
+  /// In en, this message translates to:
+  /// **'No check issues'**
+  String get adminFeedNoIssues;
+
+  /// No description provided for @adminFeedTextPreview.
+  ///
+  /// In en, this message translates to:
+  /// **'Extracted text'**
+  String get adminFeedTextPreview;
+
+  /// No description provided for @adminFeedTexts.
+  ///
+  /// In en, this message translates to:
+  /// **'Title and summary'**
+  String get adminFeedTexts;
+
+  /// No description provided for @adminFeedDates.
+  ///
+  /// In en, this message translates to:
+  /// **'Dates'**
+  String get adminFeedDates;
+
+  /// No description provided for @adminFeedDeadline.
+  ///
+  /// In en, this message translates to:
+  /// **'Last date'**
+  String get adminFeedDeadline;
+
+  /// No description provided for @adminFeedPayment.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment date'**
+  String get adminFeedPayment;
+
+  /// No description provided for @adminFeedValidFrom.
+  ///
+  /// In en, this message translates to:
+  /// **'Valid from'**
+  String get adminFeedValidFrom;
+
+  /// No description provided for @adminFeedValidTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Valid to'**
+  String get adminFeedValidTo;
+
+  /// No description provided for @adminFeedDatesNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Dates are set at upload and output-checked against the source text.'**
+  String get adminFeedDatesNote;
+
+  /// No description provided for @adminFeedCard.
+  ///
+  /// In en, this message translates to:
+  /// **'Scheme card v{version}'**
+  String adminFeedCard(int version);
+
+  /// No description provided for @adminFeedTargets.
+  ///
+  /// In en, this message translates to:
+  /// **'Targets'**
+  String get adminFeedTargets;
+
+  /// No description provided for @adminFeedHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'History'**
+  String get adminFeedHistory;
+
+  /// No description provided for @adminFeedHasText.
+  ///
+  /// In en, this message translates to:
+  /// **'Text is stored (used by the output check and the AI draft).'**
+  String get adminFeedHasText;
+
+  /// No description provided for @adminFeedNoText.
+  ///
+  /// In en, this message translates to:
+  /// **'No usable text stored: upload again with the text pasted, or accept the issues with a comment.'**
+  String get adminFeedNoText;
+
+  /// No description provided for @adminFeedUnusedText.
+  ///
+  /// In en, this message translates to:
+  /// **'Text not used (broken text layer or OCR):'**
+  String get adminFeedUnusedText;
+
+  /// No description provided for @adminFeedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get adminFeedTitle;
+
+  /// No description provided for @adminFeedSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Summary (2 lines)'**
+  String get adminFeedSummary;
+
+  /// No description provided for @adminFeedSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get adminFeedSave;
+
+  /// No description provided for @adminFeedBadNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Hectares must be numbers.'**
+  String get adminFeedBadNumber;
+
+  /// No description provided for @adminFeedTargetsNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Empty fields mean any. Matching says \"may be eligible\", never \"will receive\".'**
+  String get adminFeedTargetsNote;
+
+  /// No description provided for @adminFeedDistrict.
+  ///
+  /// In en, this message translates to:
+  /// **'District'**
+  String get adminFeedDistrict;
+
+  /// No description provided for @adminFeedCrop.
+  ///
+  /// In en, this message translates to:
+  /// **'Crop'**
+  String get adminFeedCrop;
+
+  /// No description provided for @adminFeedMinHa.
+  ///
+  /// In en, this message translates to:
+  /// **'Min ha'**
+  String get adminFeedMinHa;
+
+  /// No description provided for @adminFeedMaxHa.
+  ///
+  /// In en, this message translates to:
+  /// **'Max ha'**
+  String get adminFeedMaxHa;
+
+  /// No description provided for @adminFeedRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get adminFeedRemove;
+
+  /// No description provided for @adminFeedAddTarget.
+  ///
+  /// In en, this message translates to:
+  /// **'Add target'**
+  String get adminFeedAddTarget;
+
+  /// No description provided for @adminFeedSaveTargets.
+  ///
+  /// In en, this message translates to:
+  /// **'Save targets'**
+  String get adminFeedSaveTargets;
+
+  /// No description provided for @adminFeedAcceptTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept open check issues?'**
+  String get adminFeedAcceptTitle;
+
+  /// No description provided for @adminFeedAcceptBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This item has {count} open check issues. Approve it anyway only with a comment saying why.'**
+  String adminFeedAcceptBody(int count);
+
+  /// No description provided for @adminFeedComment.
+  ///
+  /// In en, this message translates to:
+  /// **'Comment (why)'**
+  String get adminFeedComment;
+
+  /// No description provided for @adminFeedCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get adminFeedCancel;
+
+  /// No description provided for @adminFeedAcceptApprove.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept and approve'**
+  String get adminFeedAcceptApprove;
+
+  /// No description provided for @adminFeedWithdrawTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Withdraw item'**
+  String get adminFeedWithdrawTitle;
+
+  /// No description provided for @adminFeedReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Reason'**
+  String get adminFeedReason;
+
+  /// No description provided for @adminFeedReplacedBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Replaced by'**
+  String get adminFeedReplacedBy;
+
+  /// No description provided for @adminFeedNoReplacement.
+  ///
+  /// In en, this message translates to:
+  /// **'No replacement'**
+  String get adminFeedNoReplacement;
+
+  /// No description provided for @adminFeedRequiredMissing.
+  ///
+  /// In en, this message translates to:
+  /// **'Source key, document URL and published date are required.'**
+  String get adminFeedRequiredMissing;
+
+  /// No description provided for @adminFeedBadDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Write dates as YYYY-MM-DD.'**
+  String get adminFeedBadDate;
+
+  /// No description provided for @adminFeedCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Created: {status}, {count} check issues'**
+  String adminFeedCreated(String status, int count);
+
+  /// No description provided for @adminFeedDateHint.
+  ///
+  /// In en, this message translates to:
+  /// **'YYYY-MM-DD'**
+  String get adminFeedDateHint;
+
+  /// No description provided for @adminFeedUploadNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the GR document (the server keeps its hash and reads its text) and / or paste the text copied from it (pasted text wins). The official URL is always needed.'**
+  String get adminFeedUploadNote;
+
+  /// No description provided for @adminFeedPickDocument.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose document (PDF or HTML)'**
+  String get adminFeedPickDocument;
+
+  /// No description provided for @adminFeedNoDocument.
+  ///
+  /// In en, this message translates to:
+  /// **'No document chosen'**
+  String get adminFeedNoDocument;
+
+  /// No description provided for @adminFeedDocument.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} · {kb} KB'**
+  String adminFeedDocument(String name, int kb);
+
+  /// No description provided for @adminFeedTooLarge.
+  ///
+  /// In en, this message translates to:
+  /// **'The document is larger than {mb} MB.'**
+  String adminFeedTooLarge(int mb);
+
+  /// No description provided for @adminFeedBadType.
+  ///
+  /// In en, this message translates to:
+  /// **'Only .pdf, .html or .htm files.'**
+  String get adminFeedBadType;
+
+  /// No description provided for @adminFeedExtraction.
+  ///
+  /// In en, this message translates to:
+  /// **'Extraction result'**
+  String get adminFeedExtraction;
+
+  /// No description provided for @adminFeedSourceKey.
+  ///
+  /// In en, this message translates to:
+  /// **'Source key'**
+  String get adminFeedSourceKey;
+
+  /// No description provided for @adminFeedPublishedAt.
+  ///
+  /// In en, this message translates to:
+  /// **'Published on'**
+  String get adminFeedPublishedAt;
+
+  /// No description provided for @adminFeedUrl.
+  ///
+  /// In en, this message translates to:
+  /// **'Document URL'**
+  String get adminFeedUrl;
+
+  /// No description provided for @adminFeedExternalId.
+  ///
+  /// In en, this message translates to:
+  /// **'External ID (GR code)'**
+  String get adminFeedExternalId;
+
+  /// No description provided for @adminFeedGrNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'GR number'**
+  String get adminFeedGrNumber;
+
+  /// No description provided for @adminFeedDepartment.
+  ///
+  /// In en, this message translates to:
+  /// **'Department'**
+  String get adminFeedDepartment;
+
+  /// No description provided for @adminFeedPastedText.
+  ///
+  /// In en, this message translates to:
+  /// **'Text from the document (pasted)'**
+  String get adminFeedPastedText;
+
+  /// No description provided for @adminFeedSubmit.
+  ///
+  /// In en, this message translates to:
+  /// **'Send to review'**
+  String get adminFeedSubmit;
+
+  /// No description provided for @adminFeedOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Open item'**
+  String get adminFeedOpen;
+
+  /// No description provided for @adminFeedTerms.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms'**
+  String get adminFeedTerms;
+
+  /// No description provided for @adminFeedTermsUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown'**
+  String get adminFeedTermsUnknown;
+
+  /// No description provided for @adminFeedTermsAllowed.
+  ///
+  /// In en, this message translates to:
+  /// **'Allowed'**
+  String get adminFeedTermsAllowed;
+
+  /// No description provided for @adminFeedTermsDisallowed.
+  ///
+  /// In en, this message translates to:
+  /// **'Disallowed'**
+  String get adminFeedTermsDisallowed;
+
+  /// No description provided for @adminFeedTermsNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Note (what you read)'**
+  String get adminFeedTermsNote;
+
   /// No description provided for @accountsTitle.
   ///
   /// In en, this message translates to:

@@ -3,6 +3,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'admin/admin_app.dart';
 import 'admin/admin_auth.dart';
+import 'admin/feed_admin_repository.dart';
 import 'admin/kb_admin_repository.dart';
 import 'api/api_client.dart';
 import 'core/config.dart';
@@ -31,6 +32,7 @@ Future<void> main() async {
       productName: config.productName,
       auth: auth,
       kb: ApiKbAdminRepository(api),
+      feed: ApiFeedAdminRepository(api),
     ),
   );
 }

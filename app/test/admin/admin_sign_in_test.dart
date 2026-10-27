@@ -8,8 +8,14 @@ import 'package:flutter_test/flutter_test.dart';
 import 'kb_admin_test.dart' show FakeKbAdmin;
 
 class FakeAdminAuth implements AdminAuth {
+  FakeAdminAuth({bool signedIn = false, this.roles = const {}})
+    : _token = signedIn ? 'tok' : null;
+
   final _changes = StreamController<void>.broadcast();
   String? _token;
+
+  @override
+  final Set<String> roles;
 
   @override
   String? get accessToken => _token;

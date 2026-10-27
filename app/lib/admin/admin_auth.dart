@@ -5,9 +5,11 @@ class AdminSignInError implements Exception {
 }
 
 /// Staff sign-in for the admin web (email + password accounts created in Supabase).
-/// Roles are not read here: the API decides from server-set app_metadata.
+/// The API decides access from server-set app_metadata; [roles] (the same app_metadata
+/// `roles`) only decides which sections the shell shows (e.g. `feed_admin`).
 abstract interface class AdminAuth {
   String? get accessToken;
+  Set<String> get roles;
   Stream<void> get changes;
   Future<void> signIn(String email, String password);
   Future<void> signOut();
@@ -20,6 +22,13 @@ class SupabaseAdminAuth implements AdminAuth {
 
   @override
   String? get accessToken => _client.auth.currentSession?.accessToken;
+
+  @override
+  Set<String> get roles =>
+      switch (_client.auth.currentUser?.appMetadata['roles']) {
+        final List<Object?> list => {...list.whereType<String>()},
+        _ => const {},
+      };
 
   @override
   Stream<void> get changes => _client.auth.onAuthStateChange;
