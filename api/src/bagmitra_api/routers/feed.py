@@ -25,7 +25,8 @@ from bagmitra_api.core.settings import Settings, get_settings
 from bagmitra_api.db.models import Farmer, Plot
 from bagmitra_api.db.session import DbSession
 from bagmitra_api.feed.matching import Target, eligibility_reasons, passes_filter, profile_from
-from bagmitra_api.feed.models import FeedItem, FeedItemI18n, FeedItemTarget
+from bagmitra_api.feed.models import FeedItem, FeedItemI18n, FeedItemTarget, FeedReceipt
+from bagmitra_api.feed.texts import FOOTER
 from bagmitra_api.weather.service import get_clock
 
 router = APIRouter(prefix="/v1", tags=["feed"])
@@ -33,11 +34,6 @@ INDIA = ZoneInfo("Asia/Kolkata")
 VISIBLE = ("published", "withdrawn")
 # Most recent items considered per request; the app caches the last 50 (spec §4.8).
 SCAN_LIMIT = 500
-FOOTER = {
-    "en": "Check the official GR/portal before acting.",
-    "mr": "कोणतीही कृती करण्यापूर्वी अधिकृत शासन निर्णय (GR) / पोर्टल तपासा.",
-    "hi": "कोई भी कदम उठाने से पहले आधिकारिक GR / पोर्टल देखें।",
-}
 FeedLang = Literal["en", "mr", "hi"]
 FeedFilter = Literal["official", "scheme", "deadline", "news"]
 
@@ -56,6 +52,8 @@ class FeedItemOut(BaseModel):
     valid_to: date | None
     replaced_by: uuid.UUID | None
     may_be_eligible_because: list[str]
+    # The caller marked it seen (POST /v1/feed/{id}/seen); optional for older clients.
+    seen: bool = False
 
 
 class FeedResponse(BaseModel):
@@ -128,6 +126,15 @@ async def feed(  # noqa: PLR0913 - query parameters and dependencies
         select(Plot.crop, Plot.area_sq_m).where(Plot.owner_id == user.id, Plot.deleted_at.is_(None))
     )
     profile = profile_from(farmer.district if farmer else None, plots.tuples().all())
+    seen = set(
+        await session.scalars(
+            select(FeedReceipt.item_id).where(
+                FeedReceipt.owner_id == user.id,
+                FeedReceipt.item_id.in_(ids),
+                FeedReceipt.seen_at.is_not(None),
+            )
+        )
+    )
 
     items: list[FeedItemOut] = []
     for item in rows:
@@ -154,6 +161,7 @@ async def feed(  # noqa: PLR0913 - query parameters and dependencies
                 valid_to=item.valid_to,
                 replaced_by=item.replaced_by_id,
                 may_be_eligible_because=eligibility_reasons(targets[item.id], profile, lang),
+                seen=item.id in seen,
             )
         )
         if len(items) >= settings.feed_page_size:

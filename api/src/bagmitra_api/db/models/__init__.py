@@ -21,9 +21,12 @@ from bagmitra_api.db.models.scouting import ScoutingRecord
 from bagmitra_api.db.models.sync_mutation import SyncMutation
 from bagmitra_api.db.models.tasks import FarmTask
 from bagmitra_api.feed.models import (
+    FeedDeadline,
     FeedItem,
     FeedItemI18n,
     FeedItemTarget,
+    FeedPreferences,
+    FeedReceipt,
     FeedReviewEvent,
     FeedSchemeCard,
     FeedSource,
@@ -52,9 +55,12 @@ __all__ = [
     "Expense",
     "FarmTask",
     "Farmer",
+    "FeedDeadline",
     "FeedItem",
     "FeedItemI18n",
     "FeedItemTarget",
+    "FeedPreferences",
+    "FeedReceipt",
     "FeedReviewEvent",
     "FeedSchemeCard",
     "FeedSource",

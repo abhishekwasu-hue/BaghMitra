@@ -1593,6 +1593,7 @@ class FeedAdminItemIn {
     this.externalId,
     this.extractedText,
     this.grNumber,
+    this.paymentDate,
     required this.publishedAt,
     required this.sourceKey,
     this.targets,
@@ -1625,6 +1626,8 @@ class FeedAdminItemIn {
   final String? extractedText;
   @JsonKey(name: 'gr_number', includeIfNull: false)
   final String? grNumber;
+  @JsonKey(name: 'payment_date', includeIfNull: false, toJson: _dateToJson)
+  final DateTime? paymentDate;
   @JsonKey(name: 'published_at', includeIfNull: false)
   final DateTime publishedAt;
   @JsonKey(name: 'source_key', includeIfNull: false)
@@ -1693,6 +1696,11 @@ class FeedAdminItemIn {
                   other.grNumber,
                   grNumber,
                 )) &&
+            (identical(other.paymentDate, paymentDate) ||
+                const DeepCollectionEquality().equals(
+                  other.paymentDate,
+                  paymentDate,
+                )) &&
             (identical(other.publishedAt, publishedAt) ||
                 const DeepCollectionEquality().equals(
                   other.publishedAt,
@@ -1736,6 +1744,7 @@ class FeedAdminItemIn {
       const DeepCollectionEquality().hash(externalId) ^
       const DeepCollectionEquality().hash(extractedText) ^
       const DeepCollectionEquality().hash(grNumber) ^
+      const DeepCollectionEquality().hash(paymentDate) ^
       const DeepCollectionEquality().hash(publishedAt) ^
       const DeepCollectionEquality().hash(sourceKey) ^
       const DeepCollectionEquality().hash(targets) ^
@@ -1757,6 +1766,7 @@ extension $FeedAdminItemInExtension on FeedAdminItemIn {
     String? externalId,
     String? extractedText,
     String? grNumber,
+    DateTime? paymentDate,
     DateTime? publishedAt,
     String? sourceKey,
     List<FeedAdminTargetIn>? targets,
@@ -1775,6 +1785,7 @@ extension $FeedAdminItemInExtension on FeedAdminItemIn {
       externalId: externalId ?? this.externalId,
       extractedText: extractedText ?? this.extractedText,
       grNumber: grNumber ?? this.grNumber,
+      paymentDate: paymentDate ?? this.paymentDate,
       publishedAt: publishedAt ?? this.publishedAt,
       sourceKey: sourceKey ?? this.sourceKey,
       targets: targets ?? this.targets,
@@ -1795,6 +1806,7 @@ extension $FeedAdminItemInExtension on FeedAdminItemIn {
     Wrapped<String?>? externalId,
     Wrapped<String?>? extractedText,
     Wrapped<String?>? grNumber,
+    Wrapped<DateTime?>? paymentDate,
     Wrapped<DateTime>? publishedAt,
     Wrapped<String>? sourceKey,
     Wrapped<List<FeedAdminTargetIn>?>? targets,
@@ -1819,6 +1831,7 @@ extension $FeedAdminItemInExtension on FeedAdminItemIn {
           ? extractedText.value
           : this.extractedText),
       grNumber: (grNumber != null ? grNumber.value : this.grNumber),
+      paymentDate: (paymentDate != null ? paymentDate.value : this.paymentDate),
       publishedAt: (publishedAt != null ? publishedAt.value : this.publishedAt),
       sourceKey: (sourceKey != null ? sourceKey.value : this.sourceKey),
       targets: (targets != null ? targets.value : this.targets),
@@ -1844,6 +1857,7 @@ class FeedAdminItemOut {
     required this.grNumber,
     required this.hasText,
     required this.id,
+    this.paymentDate,
     required this.publishedAt,
     required this.rawBytes,
     required this.rawHash,
@@ -1894,6 +1908,8 @@ class FeedAdminItemOut {
   final bool hasText;
   @JsonKey(name: 'id', includeIfNull: false)
   final String id;
+  @JsonKey(name: 'payment_date', includeIfNull: false, toJson: _dateToJson)
+  final DateTime? paymentDate;
   @JsonKey(name: 'published_at', includeIfNull: false)
   final DateTime publishedAt;
   @JsonKey(name: 'raw_bytes', includeIfNull: false)
@@ -1973,6 +1989,11 @@ class FeedAdminItemOut {
                 )) &&
             (identical(other.id, id) ||
                 const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.paymentDate, paymentDate) ||
+                const DeepCollectionEquality().equals(
+                  other.paymentDate,
+                  paymentDate,
+                )) &&
             (identical(other.publishedAt, publishedAt) ||
                 const DeepCollectionEquality().equals(
                   other.publishedAt,
@@ -2039,6 +2060,7 @@ class FeedAdminItemOut {
       const DeepCollectionEquality().hash(grNumber) ^
       const DeepCollectionEquality().hash(hasText) ^
       const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(paymentDate) ^
       const DeepCollectionEquality().hash(publishedAt) ^
       const DeepCollectionEquality().hash(rawBytes) ^
       const DeepCollectionEquality().hash(rawHash) ^
@@ -2068,6 +2090,7 @@ extension $FeedAdminItemOutExtension on FeedAdminItemOut {
     String? grNumber,
     bool? hasText,
     String? id,
+    DateTime? paymentDate,
     DateTime? publishedAt,
     int? rawBytes,
     String? rawHash,
@@ -2094,6 +2117,7 @@ extension $FeedAdminItemOutExtension on FeedAdminItemOut {
       grNumber: grNumber ?? this.grNumber,
       hasText: hasText ?? this.hasText,
       id: id ?? this.id,
+      paymentDate: paymentDate ?? this.paymentDate,
       publishedAt: publishedAt ?? this.publishedAt,
       rawBytes: rawBytes ?? this.rawBytes,
       rawHash: rawHash ?? this.rawHash,
@@ -2122,6 +2146,7 @@ extension $FeedAdminItemOutExtension on FeedAdminItemOut {
     Wrapped<String?>? grNumber,
     Wrapped<bool>? hasText,
     Wrapped<String>? id,
+    Wrapped<DateTime?>? paymentDate,
     Wrapped<DateTime>? publishedAt,
     Wrapped<int?>? rawBytes,
     Wrapped<String?>? rawHash,
@@ -2148,6 +2173,7 @@ extension $FeedAdminItemOutExtension on FeedAdminItemOut {
       grNumber: (grNumber != null ? grNumber.value : this.grNumber),
       hasText: (hasText != null ? hasText.value : this.hasText),
       id: (id != null ? id.value : this.id),
+      paymentDate: (paymentDate != null ? paymentDate.value : this.paymentDate),
       publishedAt: (publishedAt != null ? publishedAt.value : this.publishedAt),
       rawBytes: (rawBytes != null ? rawBytes.value : this.rawBytes),
       rawHash: (rawHash != null ? rawHash.value : this.rawHash),
@@ -3053,6 +3079,7 @@ class FeedItemOut {
     required this.mayBeEligibleBecause,
     required this.publishedAt,
     required this.replacedBy,
+    this.seen,
     required this.summary,
     required this.title,
     required this.trust,
@@ -3085,6 +3112,8 @@ class FeedItemOut {
   final DateTime publishedAt;
   @JsonKey(name: 'replaced_by', includeIfNull: false)
   final String? replacedBy;
+  @JsonKey(name: 'seen', includeIfNull: false, defaultValue: false)
+  final bool? seen;
   @JsonKey(name: 'summary', includeIfNull: false)
   final String? summary;
   @JsonKey(name: 'title', includeIfNull: false)
@@ -3140,6 +3169,8 @@ class FeedItemOut {
                   other.replacedBy,
                   replacedBy,
                 )) &&
+            (identical(other.seen, seen) ||
+                const DeepCollectionEquality().equals(other.seen, seen)) &&
             (identical(other.summary, summary) ||
                 const DeepCollectionEquality().equals(
                   other.summary,
@@ -3169,6 +3200,7 @@ class FeedItemOut {
       const DeepCollectionEquality().hash(mayBeEligibleBecause) ^
       const DeepCollectionEquality().hash(publishedAt) ^
       const DeepCollectionEquality().hash(replacedBy) ^
+      const DeepCollectionEquality().hash(seen) ^
       const DeepCollectionEquality().hash(summary) ^
       const DeepCollectionEquality().hash(title) ^
       const DeepCollectionEquality().hash(trust) ^
@@ -3187,6 +3219,7 @@ extension $FeedItemOutExtension on FeedItemOut {
     List<String>? mayBeEligibleBecause,
     DateTime? publishedAt,
     String? replacedBy,
+    bool? seen,
     String? summary,
     String? title,
     enums.FeedItemOutTrust? trust,
@@ -3202,6 +3235,7 @@ extension $FeedItemOutExtension on FeedItemOut {
       mayBeEligibleBecause: mayBeEligibleBecause ?? this.mayBeEligibleBecause,
       publishedAt: publishedAt ?? this.publishedAt,
       replacedBy: replacedBy ?? this.replacedBy,
+      seen: seen ?? this.seen,
       summary: summary ?? this.summary,
       title: title ?? this.title,
       trust: trust ?? this.trust,
@@ -3219,6 +3253,7 @@ extension $FeedItemOutExtension on FeedItemOut {
     Wrapped<List<String>>? mayBeEligibleBecause,
     Wrapped<DateTime>? publishedAt,
     Wrapped<String?>? replacedBy,
+    Wrapped<bool?>? seen,
     Wrapped<String?>? summary,
     Wrapped<String>? title,
     Wrapped<enums.FeedItemOutTrust>? trust,
@@ -3236,12 +3271,210 @@ extension $FeedItemOutExtension on FeedItemOut {
           : this.mayBeEligibleBecause),
       publishedAt: (publishedAt != null ? publishedAt.value : this.publishedAt),
       replacedBy: (replacedBy != null ? replacedBy.value : this.replacedBy),
+      seen: (seen != null ? seen.value : this.seen),
       summary: (summary != null ? summary.value : this.summary),
       title: (title != null ? title.value : this.title),
       trust: (trust != null ? trust.value : this.trust),
       type: (type != null ? type.value : this.type),
       url: (url != null ? url.value : this.url),
       validTo: (validTo != null ? validTo.value : this.validTo),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class FeedPreferencesBody {
+  const FeedPreferencesBody({
+    required this.digestWeekly,
+    this.optedOut,
+    required this.quietEnd,
+    required this.quietStart,
+    required this.weeklyCap,
+  });
+
+  factory FeedPreferencesBody.fromJson(Map<String, dynamic> json) =>
+      _$FeedPreferencesBodyFromJson(json);
+
+  static const toJsonFactory = _$FeedPreferencesBodyToJson;
+  Map<String, dynamic> toJson() => _$FeedPreferencesBodyToJson(this);
+
+  @JsonKey(name: 'digest_weekly', includeIfNull: false)
+  final bool digestWeekly;
+  @JsonKey(
+    name: 'opted_out',
+    includeIfNull: false,
+    toJson: feedPreferencesBodyOptedOutListToJson,
+    fromJson: feedPreferencesBodyOptedOutListFromJson,
+  )
+  final List<enums.FeedPreferencesBodyOptedOut>? optedOut;
+  @JsonKey(name: 'quiet_end', includeIfNull: false)
+  final String quietEnd;
+  @JsonKey(name: 'quiet_start', includeIfNull: false)
+  final String quietStart;
+  @JsonKey(name: 'weekly_cap', includeIfNull: false)
+  final int weeklyCap;
+  static const fromJsonFactory = _$FeedPreferencesBodyFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is FeedPreferencesBody &&
+            (identical(other.digestWeekly, digestWeekly) ||
+                const DeepCollectionEquality().equals(
+                  other.digestWeekly,
+                  digestWeekly,
+                )) &&
+            (identical(other.optedOut, optedOut) ||
+                const DeepCollectionEquality().equals(
+                  other.optedOut,
+                  optedOut,
+                )) &&
+            (identical(other.quietEnd, quietEnd) ||
+                const DeepCollectionEquality().equals(
+                  other.quietEnd,
+                  quietEnd,
+                )) &&
+            (identical(other.quietStart, quietStart) ||
+                const DeepCollectionEquality().equals(
+                  other.quietStart,
+                  quietStart,
+                )) &&
+            (identical(other.weeklyCap, weeklyCap) ||
+                const DeepCollectionEquality().equals(
+                  other.weeklyCap,
+                  weeklyCap,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(digestWeekly) ^
+      const DeepCollectionEquality().hash(optedOut) ^
+      const DeepCollectionEquality().hash(quietEnd) ^
+      const DeepCollectionEquality().hash(quietStart) ^
+      const DeepCollectionEquality().hash(weeklyCap) ^
+      runtimeType.hashCode;
+}
+
+extension $FeedPreferencesBodyExtension on FeedPreferencesBody {
+  FeedPreferencesBody copyWith({
+    bool? digestWeekly,
+    List<enums.FeedPreferencesBodyOptedOut>? optedOut,
+    String? quietEnd,
+    String? quietStart,
+    int? weeklyCap,
+  }) {
+    return FeedPreferencesBody(
+      digestWeekly: digestWeekly ?? this.digestWeekly,
+      optedOut: optedOut ?? this.optedOut,
+      quietEnd: quietEnd ?? this.quietEnd,
+      quietStart: quietStart ?? this.quietStart,
+      weeklyCap: weeklyCap ?? this.weeklyCap,
+    );
+  }
+
+  FeedPreferencesBody copyWithWrapped({
+    Wrapped<bool>? digestWeekly,
+    Wrapped<List<enums.FeedPreferencesBodyOptedOut>?>? optedOut,
+    Wrapped<String>? quietEnd,
+    Wrapped<String>? quietStart,
+    Wrapped<int>? weeklyCap,
+  }) {
+    return FeedPreferencesBody(
+      digestWeekly: (digestWeekly != null
+          ? digestWeekly.value
+          : this.digestWeekly),
+      optedOut: (optedOut != null ? optedOut.value : this.optedOut),
+      quietEnd: (quietEnd != null ? quietEnd.value : this.quietEnd),
+      quietStart: (quietStart != null ? quietStart.value : this.quietStart),
+      weeklyCap: (weeklyCap != null ? weeklyCap.value : this.weeklyCap),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class FeedReceiptOut {
+  const FeedReceiptOut({
+    required this.dismissed,
+    required this.itemId,
+    required this.remind,
+    required this.seen,
+  });
+
+  factory FeedReceiptOut.fromJson(Map<String, dynamic> json) =>
+      _$FeedReceiptOutFromJson(json);
+
+  static const toJsonFactory = _$FeedReceiptOutToJson;
+  Map<String, dynamic> toJson() => _$FeedReceiptOutToJson(this);
+
+  @JsonKey(name: 'dismissed', includeIfNull: false)
+  final bool dismissed;
+  @JsonKey(name: 'item_id', includeIfNull: false)
+  final String itemId;
+  @JsonKey(name: 'remind', includeIfNull: false)
+  final bool remind;
+  @JsonKey(name: 'seen', includeIfNull: false)
+  final bool seen;
+  static const fromJsonFactory = _$FeedReceiptOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is FeedReceiptOut &&
+            (identical(other.dismissed, dismissed) ||
+                const DeepCollectionEquality().equals(
+                  other.dismissed,
+                  dismissed,
+                )) &&
+            (identical(other.itemId, itemId) ||
+                const DeepCollectionEquality().equals(other.itemId, itemId)) &&
+            (identical(other.remind, remind) ||
+                const DeepCollectionEquality().equals(other.remind, remind)) &&
+            (identical(other.seen, seen) ||
+                const DeepCollectionEquality().equals(other.seen, seen)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(dismissed) ^
+      const DeepCollectionEquality().hash(itemId) ^
+      const DeepCollectionEquality().hash(remind) ^
+      const DeepCollectionEquality().hash(seen) ^
+      runtimeType.hashCode;
+}
+
+extension $FeedReceiptOutExtension on FeedReceiptOut {
+  FeedReceiptOut copyWith({
+    bool? dismissed,
+    String? itemId,
+    bool? remind,
+    bool? seen,
+  }) {
+    return FeedReceiptOut(
+      dismissed: dismissed ?? this.dismissed,
+      itemId: itemId ?? this.itemId,
+      remind: remind ?? this.remind,
+      seen: seen ?? this.seen,
+    );
+  }
+
+  FeedReceiptOut copyWithWrapped({
+    Wrapped<bool>? dismissed,
+    Wrapped<String>? itemId,
+    Wrapped<bool>? remind,
+    Wrapped<bool>? seen,
+  }) {
+    return FeedReceiptOut(
+      dismissed: (dismissed != null ? dismissed.value : this.dismissed),
+      itemId: (itemId != null ? itemId.value : this.itemId),
+      remind: (remind != null ? remind.value : this.remind),
+      seen: (seen != null ? seen.value : this.seen),
     );
   }
 }
@@ -6869,6 +7102,85 @@ List<enums.FeedItemOutTrust>? feedItemOutTrustNullableListFromJson(
 
   return feedItemOutTrust
       .map((e) => feedItemOutTrustFromJson(e.toString()))
+      .toList();
+}
+
+String? feedPreferencesBodyOptedOutNullableToJson(
+  enums.FeedPreferencesBodyOptedOut? feedPreferencesBodyOptedOut,
+) {
+  return feedPreferencesBodyOptedOut?.value;
+}
+
+String? feedPreferencesBodyOptedOutToJson(
+  enums.FeedPreferencesBodyOptedOut feedPreferencesBodyOptedOut,
+) {
+  return feedPreferencesBodyOptedOut.value;
+}
+
+enums.FeedPreferencesBodyOptedOut feedPreferencesBodyOptedOutFromJson(
+  Object? feedPreferencesBodyOptedOut, [
+  enums.FeedPreferencesBodyOptedOut? defaultValue,
+]) {
+  return enums.FeedPreferencesBodyOptedOut.values.firstWhereOrNull(
+        (e) => e.value == feedPreferencesBodyOptedOut,
+      ) ??
+      defaultValue ??
+      enums.FeedPreferencesBodyOptedOut.swaggerGeneratedUnknown;
+}
+
+enums.FeedPreferencesBodyOptedOut? feedPreferencesBodyOptedOutNullableFromJson(
+  Object? feedPreferencesBodyOptedOut, [
+  enums.FeedPreferencesBodyOptedOut? defaultValue,
+]) {
+  if (feedPreferencesBodyOptedOut == null) {
+    return null;
+  }
+  return enums.FeedPreferencesBodyOptedOut.values.firstWhereOrNull(
+        (e) => e.value == feedPreferencesBodyOptedOut,
+      ) ??
+      defaultValue;
+}
+
+String feedPreferencesBodyOptedOutExplodedListToJson(
+  List<enums.FeedPreferencesBodyOptedOut>? feedPreferencesBodyOptedOut,
+) {
+  return feedPreferencesBodyOptedOut?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> feedPreferencesBodyOptedOutListToJson(
+  List<enums.FeedPreferencesBodyOptedOut>? feedPreferencesBodyOptedOut,
+) {
+  if (feedPreferencesBodyOptedOut == null) {
+    return [];
+  }
+
+  return feedPreferencesBodyOptedOut.map((e) => e.value!).toList();
+}
+
+List<enums.FeedPreferencesBodyOptedOut> feedPreferencesBodyOptedOutListFromJson(
+  List? feedPreferencesBodyOptedOut, [
+  List<enums.FeedPreferencesBodyOptedOut>? defaultValue,
+]) {
+  if (feedPreferencesBodyOptedOut == null) {
+    return defaultValue ?? [];
+  }
+
+  return feedPreferencesBodyOptedOut
+      .map((e) => feedPreferencesBodyOptedOutFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.FeedPreferencesBodyOptedOut>?
+feedPreferencesBodyOptedOutNullableListFromJson(
+  List? feedPreferencesBodyOptedOut, [
+  List<enums.FeedPreferencesBodyOptedOut>? defaultValue,
+]) {
+  if (feedPreferencesBodyOptedOut == null) {
+    return defaultValue;
+  }
+
+  return feedPreferencesBodyOptedOut
+      .map((e) => feedPreferencesBodyOptedOutFromJson(e.toString()))
       .toList();
 }
 

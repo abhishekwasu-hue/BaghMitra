@@ -315,6 +315,9 @@ FeedAdminItemIn _$FeedAdminItemInFromJson(Map<String, dynamic> json) =>
       externalId: json['external_id'] as String?,
       extractedText: json['extracted_text'] as String?,
       grNumber: json['gr_number'] as String?,
+      paymentDate: json['payment_date'] == null
+          ? null
+          : DateTime.parse(json['payment_date'] as String),
       publishedAt: DateTime.parse(json['published_at'] as String),
       sourceKey: json['source_key'] as String,
       targets:
@@ -345,6 +348,7 @@ Map<String, dynamic> _$FeedAdminItemInToJson(FeedAdminItemIn instance) =>
       'external_id': ?instance.externalId,
       'extracted_text': ?instance.extractedText,
       'gr_number': ?instance.grNumber,
+      'payment_date': ?_dateToJson(instance.paymentDate),
       'published_at': instance.publishedAt.toIso8601String(),
       'source_key': instance.sourceKey,
       'targets': ?instance.targets?.map((e) => e.toJson()).toList(),
@@ -380,6 +384,9 @@ FeedAdminItemOut _$FeedAdminItemOutFromJson(
   grNumber: json['gr_number'] as String?,
   hasText: json['has_text'] as bool,
   id: json['id'] as String,
+  paymentDate: json['payment_date'] == null
+      ? null
+      : DateTime.parse(json['payment_date'] as String),
   publishedAt: DateTime.parse(json['published_at'] as String),
   rawBytes: (json['raw_bytes'] as num?)?.toInt(),
   rawHash: json['raw_hash'] as String?,
@@ -416,6 +423,7 @@ Map<String, dynamic> _$FeedAdminItemOutToJson(FeedAdminItemOut instance) =>
       'gr_number': ?instance.grNumber,
       'has_text': instance.hasText,
       'id': instance.id,
+      'payment_date': ?_dateToJson(instance.paymentDate),
       'published_at': instance.publishedAt.toIso8601String(),
       'raw_bytes': ?instance.rawBytes,
       'raw_hash': ?instance.rawHash,
@@ -637,6 +645,7 @@ FeedItemOut _$FeedItemOutFromJson(Map<String, dynamic> json) => FeedItemOut(
       [],
   publishedAt: DateTime.parse(json['published_at'] as String),
   replacedBy: json['replaced_by'] as String?,
+  seen: json['seen'] as bool? ?? false,
   summary: json['summary'] as String?,
   title: json['title'] as String,
   trust: feedItemOutTrustFromJson(json['trust']),
@@ -656,12 +665,50 @@ Map<String, dynamic> _$FeedItemOutToJson(FeedItemOut instance) =>
       'may_be_eligible_because': instance.mayBeEligibleBecause,
       'published_at': instance.publishedAt.toIso8601String(),
       'replaced_by': ?instance.replacedBy,
+      'seen': ?instance.seen,
       'summary': ?instance.summary,
       'title': instance.title,
       'trust': ?feedItemOutTrustToJson(instance.trust),
       'type': instance.type,
       'url': instance.url,
       'valid_to': ?_dateToJson(instance.validTo),
+    };
+
+FeedPreferencesBody _$FeedPreferencesBodyFromJson(Map<String, dynamic> json) =>
+    FeedPreferencesBody(
+      digestWeekly: json['digest_weekly'] as bool,
+      optedOut: feedPreferencesBodyOptedOutListFromJson(
+        json['opted_out'] as List?,
+      ),
+      quietEnd: json['quiet_end'] as String,
+      quietStart: json['quiet_start'] as String,
+      weeklyCap: (json['weekly_cap'] as num).toInt(),
+    );
+
+Map<String, dynamic> _$FeedPreferencesBodyToJson(
+  FeedPreferencesBody instance,
+) => <String, dynamic>{
+  'digest_weekly': instance.digestWeekly,
+  'opted_out': feedPreferencesBodyOptedOutListToJson(instance.optedOut),
+  'quiet_end': instance.quietEnd,
+  'quiet_start': instance.quietStart,
+  'weekly_cap': instance.weeklyCap,
+};
+
+FeedReceiptOut _$FeedReceiptOutFromJson(Map<String, dynamic> json) =>
+    FeedReceiptOut(
+      dismissed: json['dismissed'] as bool,
+      itemId: json['item_id'] as String,
+      remind: json['remind'] as bool,
+      seen: json['seen'] as bool,
+    );
+
+Map<String, dynamic> _$FeedReceiptOutToJson(FeedReceiptOut instance) =>
+    <String, dynamic>{
+      'dismissed': instance.dismissed,
+      'item_id': instance.itemId,
+      'remind': instance.remind,
+      'seen': instance.seen,
     };
 
 FeedResponse _$FeedResponseFromJson(Map<String, dynamic> json) => FeedResponse(

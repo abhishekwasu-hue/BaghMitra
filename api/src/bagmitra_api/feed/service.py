@@ -24,6 +24,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from bagmitra_api.core.settings import Settings
 from bagmitra_api.feed.ai import FeedAi
 from bagmitra_api.feed.models import (
+    FeedDeadline,
     FeedItem,
     FeedItemI18n,
     FeedItemTarget,
@@ -54,6 +55,7 @@ class NewItem:
     valid_from: date | None = None
     valid_to: date | None = None
     deadline: date | None = None
+    payment_date: date | None = None
     extracted_text: str | None = None
     document: bytes | None = None
     texts: Mapping[str, tuple[str, str | None]] | None = None
@@ -101,7 +103,7 @@ async def run_output_check(
     for lang, row in (await texts_of(session, item.id)).items():
         texts[f"{lang}.title"] = row.title
         texts[f"{lang}.summary"] = row.summary
-    for name in ("deadline", "valid_from", "valid_to"):
+    for name in ("deadline", "valid_from", "valid_to", "payment_date"):
         value = getattr(item, name)
         texts[name] = value.isoformat() if value else None
     card = await latest_card(session, item.id)
@@ -180,6 +182,7 @@ async def create_item(
         valid_from=new.valid_from,
         valid_to=new.valid_to,
         deadline=new.deadline,
+        payment_date=new.payment_date,
         check_issues=[],
     )
     session.add(item)
@@ -318,7 +321,31 @@ async def publish(session: AsyncSession, item: FeedItem, actor: uuid.UUID, today
     if blockers:
         raise FeedError(409, "publish_refused", "; ".join(blockers))
     item.status = "published"
+    await sync_deadlines(session, item)
     session.add(event(item, "published", actor))
+
+
+# Which item date becomes which feed_deadlines kind (migration 0020 backfills the same way).
+KIND_OF_COLUMN = {
+    "deadline": "apply_by",
+    "valid_from": "window_open",
+    "valid_to": "window_close",
+    "payment_date": "payment",
+}
+
+
+async def sync_deadlines(session: AsyncSession, item: FeedItem) -> list[FeedDeadline]:
+    """Rebuild the item's dated events from its reviewed dates (on every publish)."""
+    for row in await session.scalars(select(FeedDeadline).where(FeedDeadline.item_id == item.id)):
+        await session.delete(row)
+    await session.flush()
+    rows = [
+        FeedDeadline(id=uuid.uuid4(), item_id=item.id, kind=kind, due_date=getattr(item, column))
+        for column, kind in KIND_OF_COLUMN.items()
+        if getattr(item, column) is not None
+    ]
+    session.add_all(rows)
+    return rows
 
 
 async def withdraw(

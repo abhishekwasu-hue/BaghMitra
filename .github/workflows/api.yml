@@ -40,6 +40,8 @@ jobs:
         run: pytest
       - name: Knowledge-base safety modules (coverage gate 90%, addendum v1.3 §9)
         run: coverage report --include='src/bagmitra_api/kb/*' --fail-under=90
+      - name: Feed matching, output check and alerts (coverage gate 90%, addendum v1.4 §7)
+        run: coverage report --include='src/bagmitra_api/feed/matching.py,src/bagmitra_api/feed/output_check.py,src/bagmitra_api/feed/alerts.py' --fail-under=90
       - name: OpenAPI is up to date
         run: |
           python -m bagmitra_api.export_openapi /tmp/openapi.json

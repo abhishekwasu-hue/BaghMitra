@@ -8,7 +8,7 @@ private (service-only). The app reads the feed through `GET /v1/feed`, never dir
 from __future__ import annotations
 
 import uuid
-from datetime import date, datetime
+from datetime import date, datetime, time
 from typing import Any
 
 from sqlalchemy import (
@@ -20,6 +20,7 @@ from sqlalchemy import (
     Integer,
     String,
     Text,
+    Time,
     UniqueConstraint,
 )
 from sqlalchemy.orm import Mapped, mapped_column
@@ -29,6 +30,11 @@ from bagmitra_api.db.base import Base, TimestampMixin, utcnow
 ITEM_TYPES = ("gr", "circular", "scheme", "alert", "news")
 ITEM_STATUSES = ("draft", "in_review", "published", "withdrawn")
 LANGS = ("en", "mr", "hi")
+# feed_deadlines.kind, derived on publish: deadline -> apply_by, valid_from -> window_open,
+# valid_to -> window_close, payment_date -> payment.
+DEADLINE_KINDS = ("apply_by", "window_open", "window_close", "payment")
+# Push categories a farmer may opt out of (feed_preferences.opted_out).
+PUSH_CATEGORIES = ("deadline", "payment", "window_open")
 
 
 class FeedSource(TimestampMixin, Base):
@@ -79,6 +85,8 @@ class FeedItem(TimestampMixin, Base):
     valid_from: Mapped[date | None] = mapped_column(Date)
     valid_to: Mapped[date | None] = mapped_column(Date)
     deadline: Mapped[date | None] = mapped_column(Date)
+    # Date a payment is released (G2 "payment released" push), as stated in the document.
+    payment_date: Mapped[date | None] = mapped_column(Date)
     replaced_by_id: Mapped[uuid.UUID | None] = mapped_column(ForeignKey("feed_items.id"))
     # Output-check mismatches still open; approval is refused while any remain.
     check_issues: Mapped[list[dict[str, str]]] = mapped_column(JSON, default=list)
@@ -139,3 +147,54 @@ class FeedReviewEvent(Base):
     kind: Mapped[str] = mapped_column(String(32))
     detail: Mapped[dict[str, Any]] = mapped_column(JSON, default=dict)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+
+
+class FeedDeadline(TimestampMixin, Base):
+    """A dated event of a published item, rebuilt from the item's dates on every publish.
+    Visible like the item (published / withdrawn); alerts only use published ones."""
+
+    __tablename__ = "feed_deadlines"
+    __table_args__ = (UniqueConstraint("item_id", "kind"),)
+    reference_table = True
+
+    id: Mapped[uuid.UUID] = mapped_column(primary_key=True)
+    item_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("feed_items.id"), index=True)
+    kind: Mapped[str] = mapped_column(String(16))
+    due_date: Mapped[date] = mapped_column(Date, index=True)
+
+
+class FeedReceipt(TimestampMixin, Base):
+    """Per farmer and item: seen / dismissed / "remind me", and when each push stage was
+    sent (a stage is never sent twice). Owner data (RLS)."""
+
+    __tablename__ = "feed_receipts"
+    __table_args__ = (UniqueConstraint("owner_id", "item_id"),)
+    owner_column = "owner_id"
+
+    id: Mapped[uuid.UUID] = mapped_column(primary_key=True)
+    owner_id: Mapped[uuid.UUID] = mapped_column(index=True)
+    item_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("feed_items.id"), index=True)
+    seen_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    dismissed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    remind_requested_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    t7_notified_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    t2_notified_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    t0_notified_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    payment_notified_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    window_open_notified_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+
+
+class FeedPreferences(TimestampMixin, Base):
+    """A farmer's feed push settings; no row means the defaults. Quiet hours are India
+    local times (start inclusive, end exclusive; start == end means none). Owner data."""
+
+    __tablename__ = "feed_preferences"
+    owner_column = "owner_id"
+
+    owner_id: Mapped[uuid.UUID] = mapped_column(primary_key=True)
+    quiet_start: Mapped[time] = mapped_column(Time, default=time(21, 0))
+    quiet_end: Mapped[time] = mapped_column(Time, default=time(7, 0))
+    weekly_cap: Mapped[int] = mapped_column(Integer, default=3)
+    opted_out: Mapped[list[str]] = mapped_column(JSON, default=list)
+    digest_weekly: Mapped[bool] = mapped_column(default=True)
+    last_digest_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))

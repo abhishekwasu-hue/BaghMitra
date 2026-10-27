@@ -84,6 +84,22 @@ enum FeedItemOutTrust {
   const FeedItemOutTrust(this.value);
 }
 
+enum FeedPreferencesBodyOptedOut {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('deadline')
+  deadline('deadline'),
+  @JsonValue('payment')
+  payment('payment'),
+  @JsonValue('window_open')
+  windowOpen('window_open');
+
+  final String? value;
+
+  const FeedPreferencesBodyOptedOut(this.value);
+}
+
 enum GrantInSubjectType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),

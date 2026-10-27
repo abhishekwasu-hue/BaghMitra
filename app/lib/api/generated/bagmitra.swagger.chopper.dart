@@ -820,6 +820,79 @@ profile and plots.''',
   }
 
   @override
+  Future<Response<FeedReceiptOut>> _v1FeedItemIdDismissPost({
+    required String? itemId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Hide the item from the caller\'s pushes (reminders and digest stop for it).',
+      summary: 'Dismiss',
+      operationId: 'feed_dismiss',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["feed"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/feed/${itemId}/dismiss');
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<FeedReceiptOut, FeedReceiptOut>($request);
+  }
+
+  @override
+  Future<Response<FeedReceiptOut>> _v1FeedItemIdRemindPost({
+    required String? itemId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Record that the caller wants this item\'s date reminders even if it was not matched to
+their profile; undoes a dismiss. Only for a published item that has a date.''',
+      summary: 'Remind',
+      operationId: 'feed_remind',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["feed"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/feed/${itemId}/remind');
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<FeedReceiptOut, FeedReceiptOut>($request);
+  }
+
+  @override
+  Future<Response<FeedReceiptOut>> _v1FeedItemIdSeenPost({
+    required String? itemId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Mark Seen',
+      operationId: 'feed_mark_seen',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["feed"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/feed/${itemId}/seen');
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<FeedReceiptOut, FeedReceiptOut>($request);
+  }
+
+  @override
   Future<Response<MarketPrices>> _v1MarketPricesGet({
     required String? crop,
     String? scope,
@@ -926,6 +999,55 @@ are shown as published, never estimated; `stale` says the source could not be re
       tag: swaggerMetaData,
     );
     return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<FeedPreferencesBody>> _v1MeFeedPreferencesGet({
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'The caller\'s settings, or the defaults (21:00-07:00, 3 a week, digest on).',
+      summary: 'Get Preferences',
+      operationId: 'feed_preferences_get',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["feed"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/me/feed-preferences');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<FeedPreferencesBody, FeedPreferencesBody>($request);
+  }
+
+  @override
+  Future<Response<FeedPreferencesBody>> _v1MeFeedPreferencesPut({
+    required FeedPreferencesBody? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Put Preferences',
+      operationId: 'feed_preferences_put',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["feed"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/me/feed-preferences');
+    final $body = body;
+    final Request $request = Request(
+      'PUT',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<FeedPreferencesBody, FeedPreferencesBody>($request);
   }
 
   @override
