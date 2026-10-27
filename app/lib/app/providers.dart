@@ -21,6 +21,10 @@ import '../features/billing/data/entitlements_cache.dart';
 import '../features/billing/domain/entitlements.dart';
 import '../features/dev/sample_orchard.dart';
 import '../features/export/data/file_sharer.dart';
+import '../features/feed/data/demo_feed_repository.dart';
+import '../features/feed/data/feed_cache.dart';
+import '../features/feed/data/feed_repository.dart';
+import '../features/feed/data/text_sharer.dart';
 import '../features/field_work/data/field_work_options.dart';
 import '../features/field_work/data/field_work_repository.dart';
 import '../features/field_work/domain/field_work.dart';
@@ -546,3 +550,34 @@ final marketPricesProvider =
       }
       return cache.load(crop, scope);
     });
+
+/// Where the Sarkari Sandesh feed comes from: the built-in sample feed in demo mode (no
+/// backend), else the server's `/v1/feed`. Tests override this.
+final feedRepositoryProvider = Provider<FeedRepository>(
+  (ref) => ref.watch(appConfigProvider).demoMode
+      ? DemoFeedRepository(clock: ref.watch(clockProvider))
+      : HttpFeedRepository(ref.watch(apiProvider)),
+);
+
+final feedCacheProvider = Provider<FeedCache>(
+  (ref) => FeedCache(
+    ref.watch(databaseProvider),
+    repository: ref.watch(feedRepositoryProvider),
+    clock: ref.watch(clockProvider),
+  ),
+);
+
+/// The cached feed for a language. It is refreshed first (best effort); offline the cached
+/// copy is shown with its date.
+final feedProvider = FutureProvider.family<CachedFeed?, String>((
+  ref,
+  lang,
+) async {
+  final cache = ref.watch(feedCacheProvider);
+  await cache.refresh(lang);
+  return cache.load(lang);
+});
+
+final textSharerProvider = Provider<TextSharer>(
+  (ref) => const SharePlusTextSharer(),
+);

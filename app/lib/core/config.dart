@@ -9,6 +9,7 @@ class AppConfig {
     required this.devGallery,
     required this.testBuild,
     required this.speechEngine,
+    this.sarkariSandesh = '',
   });
 
   factory AppConfig.fromEnvironment() => const AppConfig(
@@ -28,6 +29,9 @@ class AppConfig {
       'SPEECH_ENGINE',
       defaultValue: 'on_device',
     ),
+    // Empty unless defined at build time; the analyzer only sees the empty default.
+    // ignore: avoid_redundant_argument_values
+    sarkariSandesh: String.fromEnvironment('SARKARI_SANDESH'),
   );
 
   final String productName;
@@ -41,6 +45,17 @@ class AppConfig {
 
   /// `on_device` (default) or `cloud`. Bhashini / Sarvam can be added as further engines.
   final String speechEngine;
+
+  /// Feature flag for the Sarkari Sandesh feed (`--dart-define=SARKARI_SANDESH=on|off`).
+  /// Unset: on in demo and test builds (they use the built-in sample feed), off otherwise
+  /// until the server feed is live.
+  final String sarkariSandesh;
+
+  bool get sarkariSandeshEnabled => switch (sarkariSandesh) {
+    'on' => true,
+    'off' => false,
+    _ => demoMode || isTestBuild,
+  };
 
   bool get isTestBuild => testBuild.isNotEmpty;
 

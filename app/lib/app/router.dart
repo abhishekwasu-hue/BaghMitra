@@ -14,6 +14,7 @@ import '../features/bahar/presentation/bahar_screen.dart';
 import '../features/bahar/presentation/start_bahar_screen.dart';
 import '../features/calendar/presentation/season_calendar_screen.dart';
 import '../features/dev/component_gallery_screen.dart';
+import '../features/feed/presentation/feed_screen.dart';
 import '../features/field_work/presentation/harvest_screen.dart';
 import '../features/field_work/presentation/labour_screens.dart';
 import '../features/home/presentation/home_screen.dart';
@@ -60,6 +61,8 @@ abstract final class Routes {
   static const addTask = '/tasks/new';
   static const calendar = '/calendar';
   static const market = '/market';
+  static const feed = '/feed';
+  static String feedItem(String itemId) => '/feed/$itemId';
   static const practices = '/practices';
   static const irrigation = '/irrigation';
   static const plots = '/plots';
@@ -108,6 +111,9 @@ GoRouter buildRouter(
       final loc = state.matchedLocation;
       final onLogin = loc.startsWith(Routes.login);
       if (loc == Routes.gallery) return config.devGallery ? null : Routes.home;
+      if (loc.startsWith(Routes.feed) && !config.sarkariSandeshEnabled) {
+        return Routes.home;
+      }
       if (loc == Routes.settings && !config.isTestBuild && !config.devGallery) {
         return Routes.home;
       }
@@ -140,6 +146,11 @@ GoRouter buildRouter(
       GoRoute(
         path: Routes.market,
         builder: (_, _) => const MarketPricesScreen(),
+      ),
+      GoRoute(path: Routes.feed, builder: (_, _) => const FeedScreen()),
+      GoRoute(
+        path: '/feed/:id',
+        builder: (_, s) => FeedItemScreen(itemId: s.pathParameters['id']!),
       ),
       GoRoute(path: Routes.settings, builder: (_, _) => const SettingsScreen()),
       GoRoute(path: Routes.tasks, builder: (_, _) => const TasksScreen()),

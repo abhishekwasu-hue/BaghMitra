@@ -1141,4 +1141,95 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get irrigationSourcesLine =>
       'स्रोत: NHB, डॉ. पीडीकेवी अकोला और प्रकाशित नींबूवर्गीय शोध। हर बिंदु के नीचे विवरण।';
+
+  @override
+  String get feedTitle => 'सरकारी संदेश';
+
+  @override
+  String get feedOpenHint => 'आधिकारिक GR, योजनाएँ और आख़िरी तारीख़ें';
+
+  @override
+  String get feedFilterAll => 'सभी';
+
+  @override
+  String get feedFilterOfficial => 'आधिकारिक';
+
+  @override
+  String get feedFilterSchemes => 'योजनाएँ';
+
+  @override
+  String get feedFilterDeadlines => 'आख़िरी तारीख़';
+
+  @override
+  String get feedFilterNews => 'ख़बरें';
+
+  @override
+  String get feedBadgeOfficial => 'आधिकारिक';
+
+  @override
+  String feedGrNumber(String number) {
+    return 'GR सं. $number';
+  }
+
+  @override
+  String get feedBadgeNews => 'ख़बर — आधिकारिक नहीं';
+
+  @override
+  String feedReplacedBy(String replacement) {
+    return 'वापस लिया गया. इसकी जगह अब: $replacement';
+  }
+
+  @override
+  String feedExpired(String date) {
+    return 'अब लागू नहीं ($date को समाप्त)';
+  }
+
+  @override
+  String feedMayBeEligible(String reason) {
+    return 'आप पात्र हो सकते हैं क्योंकि $reason';
+  }
+
+  @override
+  String get feedFooter => 'कुछ भी करने से पहले आधिकारिक GR/पोर्टल देखें.';
+
+  @override
+  String feedDeadline(String date) {
+    return 'आख़िरी तारीख़: $date';
+  }
+
+  @override
+  String feedUpdated(String date) {
+    return '$date को अपडेट';
+  }
+
+  @override
+  String get feedEmpty => 'अभी कोई संदेश नहीं. फ़ोन ऑनलाइन होने पर आएँगे.';
+
+  @override
+  String get feedRemindMe => 'मुझे याद दिलाएँ';
+
+  @override
+  String feedReminderAdded(String date) {
+    return '$date के लिए आपके कामों में जोड़ा';
+  }
+
+  @override
+  String get feedReminderExists => 'पहले से आपके कामों में है';
+
+  @override
+  String get feedShare => 'भेजें';
+
+  @override
+  String get feedCopyLink => 'स्रोत लिंक कॉपी करें';
+
+  @override
+  String get feedLinkCopied => 'लिंक कॉपी हो गया. ब्राउज़र में खोलें.';
+
+  @override
+  String feedSource(String url) {
+    return 'स्रोत: $url';
+  }
+
+  @override
+  String get feedNotFound => 'यह संदेश अब सहेजी सूची में नहीं है.';
 }

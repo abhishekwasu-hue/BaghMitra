@@ -2025,6 +2025,156 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sources: NHB, Dr. PDKV Akola and published citrus research. Details under each point.'**
   String get irrigationSourcesLine;
+
+  /// No description provided for @feedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sarkari Sandesh'**
+  String get feedTitle;
+
+  /// No description provided for @feedOpenHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Official GRs, schemes and last dates'**
+  String get feedOpenHint;
+
+  /// No description provided for @feedFilterAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get feedFilterAll;
+
+  /// No description provided for @feedFilterOfficial.
+  ///
+  /// In en, this message translates to:
+  /// **'Official'**
+  String get feedFilterOfficial;
+
+  /// No description provided for @feedFilterSchemes.
+  ///
+  /// In en, this message translates to:
+  /// **'Schemes'**
+  String get feedFilterSchemes;
+
+  /// No description provided for @feedFilterDeadlines.
+  ///
+  /// In en, this message translates to:
+  /// **'Deadlines'**
+  String get feedFilterDeadlines;
+
+  /// No description provided for @feedFilterNews.
+  ///
+  /// In en, this message translates to:
+  /// **'News'**
+  String get feedFilterNews;
+
+  /// No description provided for @feedBadgeOfficial.
+  ///
+  /// In en, this message translates to:
+  /// **'Official'**
+  String get feedBadgeOfficial;
+
+  /// No description provided for @feedGrNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'GR {number}'**
+  String feedGrNumber(String number);
+
+  /// No description provided for @feedBadgeNews.
+  ///
+  /// In en, this message translates to:
+  /// **'News — not official'**
+  String get feedBadgeNews;
+
+  /// No description provided for @feedReplacedBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Withdrawn. Replaced by {replacement}'**
+  String feedReplacedBy(String replacement);
+
+  /// No description provided for @feedExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'No longer valid (ended {date})'**
+  String feedExpired(String date);
+
+  /// No description provided for @feedMayBeEligible.
+  ///
+  /// In en, this message translates to:
+  /// **'You may be eligible because {reason}'**
+  String feedMayBeEligible(String reason);
+
+  /// No description provided for @feedFooter.
+  ///
+  /// In en, this message translates to:
+  /// **'Check the official GR/portal before acting.'**
+  String get feedFooter;
+
+  /// No description provided for @feedDeadline.
+  ///
+  /// In en, this message translates to:
+  /// **'Last date: {date}'**
+  String feedDeadline(String date);
+
+  /// No description provided for @feedUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Updated {date}'**
+  String feedUpdated(String date);
+
+  /// No description provided for @feedEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No messages yet. They load when the phone is online.'**
+  String get feedEmpty;
+
+  /// No description provided for @feedRemindMe.
+  ///
+  /// In en, this message translates to:
+  /// **'Remind me'**
+  String get feedRemindMe;
+
+  /// No description provided for @feedReminderAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Added to your tasks for {date}'**
+  String feedReminderAdded(String date);
+
+  /// No description provided for @feedReminderExists.
+  ///
+  /// In en, this message translates to:
+  /// **'Already in your tasks'**
+  String get feedReminderExists;
+
+  /// No description provided for @feedShare.
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get feedShare;
+
+  /// No description provided for @feedCopyLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy source link'**
+  String get feedCopyLink;
+
+  /// No description provided for @feedLinkCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Link copied. Open it in your browser.'**
+  String get feedLinkCopied;
+
+  /// No description provided for @feedSource.
+  ///
+  /// In en, this message translates to:
+  /// **'Source: {url}'**
+  String feedSource(String url);
+
+  /// No description provided for @feedNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'This message is no longer in the saved list.'**
+  String get feedNotFound;
 }
 
 class _AppLocalizationsDelegate
