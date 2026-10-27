@@ -6,11 +6,15 @@ Rules kept here, not in the routers:
 - news keeps headline + link + our own summary only (no article text, no document);
 - the official badge needs the source document's SHA-256 before publishing;
 - any edit clears the approval and sends a published item back to review;
-- output-check mismatches block approval unless the reviewer explicitly accepts them.
+- output-check mismatches block approval unless the reviewer explicitly accepts them;
+- an uploaded document without admin text is extracted (PDF text layer / HTML, OCR fallback
+  when enabled); a missing or broken text is a check issue, so the item stays in review until
+  the reviewer accepts it with a comment (QG2).
 """
 
 from __future__ import annotations
 
+import asyncio
 import hashlib
 import uuid
 from collections.abc import Mapping, Sequence
@@ -23,6 +27,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from bagmitra_api.core.settings import Settings
 from bagmitra_api.feed.ai import FeedAi
+from bagmitra_api.feed.extract import OcrEngine, OcrError, assess, extract
 from bagmitra_api.feed.models import (
     FeedItem,
     FeedItemI18n,
@@ -56,6 +61,7 @@ class NewItem:
     deadline: date | None = None
     extracted_text: str | None = None
     document: bytes | None = None
+    document_type: str | None = None  # pdf | html
     texts: Mapping[str, tuple[str, str | None]] | None = None
     card: Mapping[str, Mapping[str, Any]] | None = None
     targets: Sequence[Mapping[str, Any]] = ()
@@ -105,16 +111,113 @@ async def run_output_check(
         value = getattr(item, name)
         texts[name] = value.isoformat() if value else None
     card = await latest_card(session, item.id)
+    text_issues = await extraction_issues(session, item)
     found = check_output(
         source_text(item),
         texts,
         card_fields=card.fields if card else None,
         scheme_glossary=settings.feed_scheme_glossary,
     )
-    item.check_issues = [m.as_dict() for m in found]
+    item.check_issues = text_issues + [m.as_dict() for m in found]
     if found:
         session.add(event(item, "output_check_failed", actor, issues=item.check_issues))
     return item.check_issues
+
+
+# Text kept in review events (the text not stored as `extracted_text`) is cut to this size.
+MAX_KEPT_TEXT = 2_000_000
+
+
+async def extraction_issues(session: AsyncSession, item: FeedItem) -> list[dict[str, str]]:
+    """Issues recorded when the uploaded document was extracted (missing / broken text, low
+    OCR confidence). They stay until a reviewer accepts them with a comment."""
+    detail: dict[str, Any] | None = await session.scalar(
+        select(FeedReviewEvent.detail)
+        .where(FeedReviewEvent.item_id == item.id, FeedReviewEvent.kind == "extracted")
+        .order_by(FeedReviewEvent.created_at.desc())
+        .limit(1)
+    )
+    return list(detail.get("issues", [])) if detail else []
+
+
+def _keep(text: str) -> str | None:
+    return text[:MAX_KEPT_TEXT] or None
+
+
+async def extract_document(  # noqa: PLR0913
+    session: AsyncSession,
+    item: FeedItem,
+    data: bytes,
+    content_type: str,
+    actor: uuid.UUID | None,
+    settings: Settings,
+    ocr: OcrEngine | None,
+) -> None:
+    """Extract the uploaded document into `item.extracted_text` (only when the text is usable)
+    and record method / quality / Devanagari ratio / pages / OCR confidence, the text that was
+    not used (broken text layer or OCR text) and the review issues in an `extracted` event."""
+    found = await asyncio.to_thread(extract, data, content_type)
+    detail: dict[str, Any] = {
+        "method": found.method,
+        "quality": found.quality,
+        "devanagari_ratio": found.devanagari_ratio,
+        "pages": found.pages,
+        "reason": found.reason,
+        "chars": len(found.text),
+        "used": None,
+        "ocr": None,
+    }
+    issues: list[dict[str, str]] = []
+    if found.quality == "ok":
+        item.extracted_text, detail["used"] = found.text, found.method
+    else:
+        detail["text_layer"] = _keep(found.text)
+        if ocr is not None and found.method != "html":
+            await _ocr(item, data, ocr, settings, detail, issues)
+        if item.extracted_text is None:
+            tried = " and OCR" if detail["ocr"] else ""
+            issues.insert(0, {
+                "kind": f"text_{found.quality}",
+                "text": f"{found.reason}; no usable text from the text layer{tried}: paste "
+                "the text from the document or accept with a comment",
+                "where": "document",
+            })  # fmt: skip
+    detail["issues"] = issues
+    session.add(event(item, "extracted", actor, **detail))
+
+
+async def _ocr(  # noqa: PLR0913
+    item: FeedItem,
+    data: bytes,
+    ocr: OcrEngine,
+    settings: Settings,
+    detail: dict[str, Any],
+    issues: list[dict[str, str]],
+) -> None:
+    try:
+        result = await asyncio.to_thread(ocr.ocr_pdf, data)
+    except OcrError as exc:
+        detail["ocr"] = {"error": str(exc)}
+        return
+    quality, ratio, reason = assess(result.text)
+    detail["ocr"] = {
+        "quality": quality,
+        "confidence": result.confidence,
+        "devanagari_ratio": ratio,
+        "pages": result.pages,
+        "reason": reason,
+    }
+    if quality != "ok":
+        detail["ocr"]["text"] = _keep(result.text)
+        return
+    item.extracted_text, detail["used"] = result.text, "ocr"
+    if result.confidence < settings.feed_ocr_min_confidence:
+        issues.append({
+            "kind": "ocr_low_confidence",
+            "text": f"OCR confidence {result.confidence:g} < "
+            f"{settings.feed_ocr_min_confidence:g}: check the text against the document",
+            "where": "document",
+        })  # fmt: skip
 
 
 def mark_changed(item: FeedItem) -> None:
@@ -139,7 +242,11 @@ def _validate_new(source: FeedSource, new: NewItem) -> str:
 
 
 async def create_item(
-    session: AsyncSession, new: NewItem, actor: uuid.UUID, settings: Settings
+    session: AsyncSession,
+    new: NewItem,
+    actor: uuid.UUID,
+    settings: Settings,
+    ocr: OcrEngine | None = None,
 ) -> FeedItem:
     source = await session.scalar(select(FeedSource).where(FeedSource.key == new.source_key))
     if source is None:
@@ -184,6 +291,8 @@ async def create_item(
     )
     session.add(item)
     session.add(event(item, "created", actor, via="manual_upload", hashed=raw_hash is not None))
+    if new.document is not None and new.document_type and not new.extracted_text:
+        await extract_document(session, item, new.document, new.document_type, actor, settings, ocr)
     for lang, (title, summary) in (new.texts or {}).items():
         session.add(
             FeedItemI18n(id=uuid.uuid4(), item_id=item.id, lang=lang, title=title, summary=summary)
