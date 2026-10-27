@@ -100,6 +100,35 @@ class Settings(BaseSettings):
         default_factory=lambda: {"santra": ["fruit_eaten_raw"], "mosambi": ["fruit_eaten_raw"]}
     )
 
+    # Government feed (addendum v1.4). The AI summariser / classifier stays off unless
+    # FEED_AI_API_KEY is set; the key is a secret and never leaves the environment.
+    feed_ai_api_key: SecretStr = Field(default=SecretStr(""))
+    feed_ai_base_url: str = "https://api.anthropic.com"
+    feed_classify_model: str = "claude-haiku-5-5"
+    feed_summarise_model: str = "claude-sonnet-5-5"
+    feed_ai_max_tokens: int = 2000
+    feed_ai_timeout_seconds: float = 60.0
+    # Source text sent to the model is cut to this many characters (cost bound).
+    feed_ai_max_source_chars: int = 60_000
+    # Polite fetching: at least this long between two requests to one host, one try only.
+    feed_fetch_min_interval_seconds: float = 5.0
+    feed_fetch_timeout_seconds: float = 30.0
+    feed_fetch_user_agent: str = "BagMitra-Feed/1.0 (+manual review; contact via repository)"
+    feed_page_size: int = 50
+    # Scheme names the output check knows (canonical -> other spellings). From addendum §3
+    # secondary pages; spellings to be confirmed against the GRs (OPEN_QUESTIONS QG3).
+    feed_scheme_glossary: dict[str, list[str]] = Field(
+        default_factory=lambda: {
+            "Namo Shetkari Mahasanman Nidhi": ["नमो शेतकरी महासन्मान निधी"],
+            "Mukhyamantri Baliraja": ["मुख्यमंत्री बळीराजा"],
+            "Bhausaheb Fundkar Falbag Lagvad": ["भाऊसाहेब फुंडकर फळबाग लागवड"],
+            "PM-KISAN": ["PM KISAN", "पीएम किसान", "प्रधानमंत्री किसान सन्मान निधी"],
+            "PMFBY": ["Pradhan Mantri Fasal Bima Yojana", "प्रधानमंत्री पीक विमा योजना"],
+            "MIDH": ["Mission for Integrated Development of Horticulture"],
+            "PMKSY": ["Per Drop More Crop", "प्रधानमंत्री कृषी सिंचाई योजना"],
+        }
+    )
+
     @field_validator("supabase_jwt_secret")
     @classmethod
     def _secret_long_enough(cls, value: SecretStr) -> SecretStr:

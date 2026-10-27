@@ -81,3 +81,25 @@ def enable_private_rls(table: str) -> list[str]:
 
 def disable_private_rls(table: str) -> list[str]:
     return [f"ALTER TABLE {_check(table)} DISABLE ROW LEVEL SECURITY"]
+
+
+FEED_VISIBLE = "status IN ('published', 'withdrawn')"
+
+
+def enable_feed_published_rls(table: str, item_column: str | None = None) -> list[str]:
+    """Feed reference tables: signed-in users read only rows of published or withdrawn items
+    (drafts and the review queue stay hidden). `item_column` points a child table at
+    feed_items; without it the table itself carries `status`. Dropped by
+    `disable_reference_rls` (same policy name)."""
+    t = _check(table)
+    # Identifiers pass _check; the status list is a constant.
+    visible = (
+        FEED_VISIBLE
+        if item_column is None
+        else f"{_check(item_column)} IN (SELECT id FROM feed_items WHERE {FEED_VISIBLE})"  # noqa: S608  # nosec B608
+    )
+    return [
+        f"ALTER TABLE {t} ENABLE ROW LEVEL SECURITY",
+        f"ALTER TABLE {t} FORCE ROW LEVEL SECURITY",
+        f"CREATE POLICY {t}_read ON {t} FOR SELECT USING (auth.uid() IS NOT NULL AND {visible})",
+    ]
