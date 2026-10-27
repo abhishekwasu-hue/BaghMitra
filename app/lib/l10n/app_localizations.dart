@@ -262,6 +262,24 @@ abstract class AppLocalizations {
   /// **'Send OTP'**
   String get loginSendOtp;
 
+  /// No description provided for @loginOr.
+  ///
+  /// In en, this message translates to:
+  /// **'or'**
+  String get loginOr;
+
+  /// No description provided for @loginGoogle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in with Google'**
+  String get loginGoogle;
+
+  /// No description provided for @loginGoogleFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open Google sign-in. Check the internet and try again.'**
+  String get loginGoogleFailed;
+
   /// No description provided for @loginOtpTitle.
   ///
   /// In en, this message translates to:

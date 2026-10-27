@@ -95,6 +95,21 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
     }
   }
 
+  Future<void> _google() async {
+    final t = AppLocalizations.of(context);
+    setState(() {
+      _busy = true;
+      _error = null;
+    });
+    try {
+      await ref.read(authRepositoryProvider).signInWithGoogle();
+    } on AuthFailure {
+      if (mounted) setState(() => _error = t.loginGoogleFailed);
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
+  }
+
   /// Offline test mode: a local-only account, nothing leaves the phone. Only offered when no
   /// backend is configured, so a build with Supabase keys goes straight to real login.
   Future<void> _tryWithoutAccount() async {
@@ -135,6 +150,15 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
         FilledButton(
           onPressed: _busy ? null : _submit,
           child: Text(t.loginSendOtp),
+        ),
+        const SizedBox(height: BmSpace.md),
+        Text(t.loginOr, textAlign: TextAlign.center, style: BmType.meta),
+        const SizedBox(height: BmSpace.md),
+        OutlinedButton.icon(
+          key: const Key('google-login'),
+          onPressed: _busy ? null : _google,
+          icon: const Icon(Icons.account_circle_outlined),
+          label: Text(t.loginGoogle),
         ),
         if (demo) ...[
           const SizedBox(height: BmSpace.md),

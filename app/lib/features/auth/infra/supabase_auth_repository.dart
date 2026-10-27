@@ -2,7 +2,7 @@ import 'package:supabase_flutter/supabase_flutter.dart' as sb;
 
 import '../domain/auth.dart';
 
-/// Phone-OTP auth via Supabase. Thin adapter; behaviour is covered by the
+/// Phone-OTP and Google auth via Supabase. Thin adapter; behaviour is covered by the
 /// [AuthRepository] contract tests run against the demo implementation.
 class SupabaseAuthRepository implements AuthRepository {
   SupabaseAuthRepository(this._client);
@@ -47,6 +47,24 @@ class SupabaseAuthRepository implements AuthRepository {
           (throw const AuthFailure(AuthFailureKind.invalidOtp));
     } on sb.AuthException {
       throw const AuthFailure(AuthFailureKind.invalidOtp);
+    } on AuthFailure {
+      rethrow;
+    } on Exception {
+      throw const AuthFailure(AuthFailureKind.network);
+    }
+  }
+
+  @override
+  Future<void> signInWithGoogle() async {
+    try {
+      final opened = await _client.auth.signInWithOAuth(
+        sb.OAuthProvider.google,
+        redirectTo: googleRedirectUri,
+        authScreenLaunchMode: sb.LaunchMode.externalApplication,
+      );
+      if (!opened) throw const AuthFailure(AuthFailureKind.network);
+    } on sb.AuthException {
+      throw const AuthFailure(AuthFailureKind.unknown);
     } on AuthFailure {
       rethrow;
     } on Exception {
