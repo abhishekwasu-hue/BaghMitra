@@ -3,6 +3,9 @@
 # for you): first install as in docs/runbooks/vps-deploy.md steps 1-4, then every time:
 #   cd /opt/bagmitra && bash deploy/deploy.sh            # update to the latest main
 #   cd /opt/bagmitra && bash deploy/deploy.sh --revert   # go back to the previous deploy
+# If another project's Caddy already owns ports 80/443, set EDGE_NETWORK=edge in .env: BagMitra
+# then runs without its own Caddy and joins that shared network (docker-compose.shared-caddy.yml,
+# runbook "Sharing the server").
 # It checks .env, pulls the code, rebuilds and restarts the containers (migrations run on
 # start), waits until https://$API_DOMAIN/health/live answers, and adds the daily weather
 # cron line once. It never prints .env values.
@@ -19,7 +22,7 @@ say() { printf '\n== %s\n' "$*"; }
 fail() { printf '\nERROR: %s\n' "$*" >&2; exit 1; }
 
 env_value() { # value of KEY in .env without printing it anywhere
-  grep -E "^$1=" "$ENV_FILE" | tail -n 1 | cut -d= -f2- | sed -e 's/^"//' -e 's/"$//'
+  { grep -E "^$1=" "$ENV_FILE" || true; } | tail -n 1 | cut -d= -f2- | sed -e 's/^"//' -e 's/"$//'
 }
 
 check_env() {
@@ -55,10 +58,26 @@ update_code() {
   echo "now at $(git log --oneline -1)"
 }
 
+compose() {
+  local edge
+  edge="$(env_value EDGE_NETWORK)"
+  if [[ -n "$edge" ]]; then
+    docker compose -f "$DEPLOY/docker-compose.yml" -f "$DEPLOY/docker-compose.shared-caddy.yml" "$@"
+  else
+    docker compose -f "$DEPLOY/docker-compose.yml" "$@"
+  fi
+}
+
 restart() {
   say "Building and starting (migrations run on start; first build takes 5-10 minutes)"
   cd "$DEPLOY"
-  docker compose up -d --build
+  local edge
+  edge="$(env_value EDGE_NETWORK)"
+  if [[ -n "$edge" ]]; then
+    docker network inspect "$edge" > /dev/null 2>&1 || docker network create "$edge" > /dev/null
+    echo "sharing the server: no own Caddy, API joins network '$edge' as bagmitra-api"
+  fi
+  compose up -d --build --remove-orphans
 }
 
 wait_healthy() {
@@ -73,7 +92,8 @@ wait_healthy() {
     fi
     sleep 5
   done
-  docker compose -f "$DEPLOY/docker-compose.yml" logs --tail 60 api || true
+  compose logs --tail 60 api || true
+  [[ -z "$(env_value EDGE_NETWORK)" ]] || echo "shared Caddy: check that it joined '$(env_value EDGE_NETWORK)' and has the BagMitra site block (runbook)"
   fail "the API did not answer in 5 minutes (logs above). Go back with: bash deploy/deploy.sh --revert"
 }
 
@@ -90,14 +110,15 @@ install_cron() {
 main() {
   case "${1:-}" in
     "" | --revert) ;;
-    *) fail "usage: bash deploy/deploy.sh [--revert]" ;;
+    status) check_env > /dev/null; compose ps; exit 0 ;;
+    *) fail "usage: bash deploy/deploy.sh [--revert|status]" ;;
   esac
   check_env
   update_code "${1:-}"
   restart
   wait_healthy
   install_cron
-  say "Done. Check the app, then: docker compose -f deploy/docker-compose.yml ps"
+  say "Done. Check the app, then: bash deploy/deploy.sh status"
 }
 
 main "$@"

@@ -74,6 +74,45 @@ Supabase → Authentication → Users → त्या व्यक्तीच�
 - [ ] (ऐच्छिक) `MARKET_API_KEY` टाकून ॲपमध्ये बाजारभाव दिसतात
 - [ ] GitHub secrets `API_BASE_URL`, `SUPABASE_URL`, `SUPABASE_ANON_KEY` टाकून नवीन test APK
 
+## ६ड. एकाच सर्व्हरवर दुसरा प्रकल्प (उदा. ट्रेडिंग प्लॅटफॉर्म ATP) असेल तर
+ATP चा `atp-caddy-1` आधीच पोर्ट 80/443 वापरतो. मग बागमित्र स्वतःचा Caddy चालवत नाही; ATP चाच Caddy
+`bagmitra.तुमचे-डोमेन.com` बागमित्रकडे पाठवतो. दोघांमध्ये फक्त `edge` नावाचे छोटे नेटवर्क असते — ATP चा
+डेटाबेस/redis बागमित्रला दिसत नाहीत. हे **बाजार बंद असताना** करा (Caddy reload मध्ये ATP बंद होत नाही,
+तरी काळजी म्हणून).
+
+1. DNS: नवीन A record `bagmitra` → VPS चा IP.
+2. `.env` (पायरी ४) मध्ये `API_DOMAIN=bagmitra.तुमचे-डोमेन.com` आणि एक ओळ जास्त: `EDGE_NETWORK=edge`.
+3. नेटवर्क बनवा आणि ATP चा Caddy त्याला जोडा:
+```
+docker network create edge
+docker network connect edge atp-caddy-1
+```
+4. ATP ची Caddyfile कुठे आहे ते पाहा:
+```
+docker inspect atp-caddy-1 --format '{{range .Mounts}}{{.Source}} -> {{.Destination}}{{println}}{{end}}'
+```
+`/etc/caddy/Caddyfile` च्या समोर जो Source पत्ता दिसेल ती फाइल `nano` ने उघडा आणि **शेवटी** हे जोडा
+(बाकी काहीही बदलू नका):
+```
+bagmitra.तुमचे-डोमेन.com {
+	encode gzip
+	reverse_proxy bagmitra-api:8000
+}
+```
+5. तपासून reload करा (ATP चालूच राहतो):
+```
+docker exec atp-caddy-1 caddy validate --config /etc/caddy/Caddyfile
+docker exec atp-caddy-1 caddy reload --config /etc/caddy/Caddyfile
+```
+`validate` मध्ये त्रुटी आली तर reload करू नका; जोडलेल्या ओळी काढा आणि मला संदेश पाठवा.
+6. बागमित्र सुरू करा: `cd /opt/bagmitra && bash deploy/deploy.sh` → शेवटी "API is up".
+
+**लक्षात ठेवा:** ATP चा Caddy container पुन्हा बनवला (ATP update) की `docker network connect edge atp-caddy-1`
+परत चालवावे लागते, आणि ATP ची Caddyfile git मधून बदलत असेल तर वरचा block तिथेही (ATP रेपोमध्ये) टाकावा
+लागेल. कायमचा उपाय: ATP च्या compose मध्ये caddy ला `edge` नेटवर्क आणि Caddyfile मध्ये हा block — हा बदल
+ATP प्रकल्पात करायचा (बागमित्र रेपोमध्ये नाही).
+बागमित्र स्थिती: `bash deploy/deploy.sh status`. परत जाणे: `bash deploy/deploy.sh --revert`.
+
 ## ७. बॅकअप
 - **Supabase चा डेटाबेस वापरत असाल तर:** बॅकअप तिथल्या प्लॅननुसार (मोफत प्लॅनमध्ये मर्यादित). महत्त्वाचा डेटा असेल तर Settings → Database → Backups तपासा.
 - **याच सर्व्हरवरचा डेटाबेस** (`docker compose --profile localdb up -d`) वापरल्यास बॅकअप तुमची जबाबदारी: रोज `docker compose exec -T db pg_dump -U postgres bagmitra | gzip > /root/bagmitra-$(date +%F).sql.gz` (cron) आणि फाइल दुसरीकडे कॉपी करा.

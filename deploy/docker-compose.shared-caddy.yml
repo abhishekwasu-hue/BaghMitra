@@ -1,0 +1,18 @@
+# Use when another project on this server already runs Caddy on ports 80/443 (e.g. the trading
+# platform's atp-caddy-1). BagMitra then starts no Caddy of its own; the API joins a small
+# shared network (EDGE_NETWORK, default "edge") that the other Caddy also joins, and that Caddy
+# proxies the BagMitra domain to bagmitra-api:8000. Nothing else of either project is shared.
+# deploy.sh uses this file automatically when EDGE_NETWORK is set in .env.
+services:
+  api:
+    networks:
+      default: {}
+      edge:
+        aliases: [bagmitra-api]
+  caddy:
+    profiles: [own-caddy]
+
+networks:
+  edge:
+    name: ${EDGE_NETWORK:-edge}
+    external: true
