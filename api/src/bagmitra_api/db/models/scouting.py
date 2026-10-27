@@ -1,6 +1,8 @@
 """Field scouting log ("पाहणी नोंद"): what the grower looked at on one plot, how bad it was
-and a note. A record only, never advice. The optional photo stays on the phone and is not
-stored here (photo upload needs signed URLs; see OPEN_QUESTIONS Q34). Owner data, synced."""
+and a note. A record only, never advice. The photo itself stays on the phone; when the
+optional backup is configured (OPEN_QUESTIONS Q34) the phone uploads it to a private bucket
+by signed URL and `photo_key` holds the object path `<owner_id>/<record_id>.jpg`. Owner data,
+synced."""
 
 from __future__ import annotations
 
@@ -24,3 +26,5 @@ class ScoutingRecord(OwnedSyncedRowMixin, Base):
     # none | low | medium | high
     severity: Mapped[str] = mapped_column(String(16))
     note: Mapped[str | None] = mapped_column(String(500))
+    # Object path in the private photo bucket; None while the photo is only on the phone.
+    photo_key: Mapped[str | None] = mapped_column(String(120))

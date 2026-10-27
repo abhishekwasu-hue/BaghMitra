@@ -5097,6 +5097,246 @@ extension $MutationResultExtension on MutationResult {
 }
 
 @JsonSerializable(explicitToJson: true)
+class PhotoDownloadUrl {
+  const PhotoDownloadUrl({
+    required this.expiresIn,
+    required this.photoKey,
+    required this.url,
+  });
+
+  factory PhotoDownloadUrl.fromJson(Map<String, dynamic> json) =>
+      _$PhotoDownloadUrlFromJson(json);
+
+  static const toJsonFactory = _$PhotoDownloadUrlToJson;
+  Map<String, dynamic> toJson() => _$PhotoDownloadUrlToJson(this);
+
+  @JsonKey(name: 'expires_in', includeIfNull: false)
+  final int expiresIn;
+  @JsonKey(name: 'photo_key', includeIfNull: false)
+  final String photoKey;
+  @JsonKey(name: 'url', includeIfNull: false)
+  final String url;
+  static const fromJsonFactory = _$PhotoDownloadUrlFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is PhotoDownloadUrl &&
+            (identical(other.expiresIn, expiresIn) ||
+                const DeepCollectionEquality().equals(
+                  other.expiresIn,
+                  expiresIn,
+                )) &&
+            (identical(other.photoKey, photoKey) ||
+                const DeepCollectionEquality().equals(
+                  other.photoKey,
+                  photoKey,
+                )) &&
+            (identical(other.url, url) ||
+                const DeepCollectionEquality().equals(other.url, url)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(expiresIn) ^
+      const DeepCollectionEquality().hash(photoKey) ^
+      const DeepCollectionEquality().hash(url) ^
+      runtimeType.hashCode;
+}
+
+extension $PhotoDownloadUrlExtension on PhotoDownloadUrl {
+  PhotoDownloadUrl copyWith({int? expiresIn, String? photoKey, String? url}) {
+    return PhotoDownloadUrl(
+      expiresIn: expiresIn ?? this.expiresIn,
+      photoKey: photoKey ?? this.photoKey,
+      url: url ?? this.url,
+    );
+  }
+
+  PhotoDownloadUrl copyWithWrapped({
+    Wrapped<int>? expiresIn,
+    Wrapped<String>? photoKey,
+    Wrapped<String>? url,
+  }) {
+    return PhotoDownloadUrl(
+      expiresIn: (expiresIn != null ? expiresIn.value : this.expiresIn),
+      photoKey: (photoKey != null ? photoKey.value : this.photoKey),
+      url: (url != null ? url.value : this.url),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class PhotoUploadIn {
+  const PhotoUploadIn({this.contentType, required this.sizeBytes});
+
+  factory PhotoUploadIn.fromJson(Map<String, dynamic> json) =>
+      _$PhotoUploadInFromJson(json);
+
+  static const toJsonFactory = _$PhotoUploadInToJson;
+  Map<String, dynamic> toJson() => _$PhotoUploadInToJson(this);
+
+  @JsonKey(name: 'content_type', includeIfNull: false)
+  final String? contentType;
+  @JsonKey(name: 'size_bytes', includeIfNull: false)
+  final int sizeBytes;
+  static const fromJsonFactory = _$PhotoUploadInFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is PhotoUploadIn &&
+            (identical(other.contentType, contentType) ||
+                const DeepCollectionEquality().equals(
+                  other.contentType,
+                  contentType,
+                )) &&
+            (identical(other.sizeBytes, sizeBytes) ||
+                const DeepCollectionEquality().equals(
+                  other.sizeBytes,
+                  sizeBytes,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(contentType) ^
+      const DeepCollectionEquality().hash(sizeBytes) ^
+      runtimeType.hashCode;
+}
+
+extension $PhotoUploadInExtension on PhotoUploadIn {
+  PhotoUploadIn copyWith({String? contentType, int? sizeBytes}) {
+    return PhotoUploadIn(
+      contentType: contentType ?? this.contentType,
+      sizeBytes: sizeBytes ?? this.sizeBytes,
+    );
+  }
+
+  PhotoUploadIn copyWithWrapped({
+    Wrapped<String?>? contentType,
+    Wrapped<int>? sizeBytes,
+  }) {
+    return PhotoUploadIn(
+      contentType: (contentType != null ? contentType.value : this.contentType),
+      sizeBytes: (sizeBytes != null ? sizeBytes.value : this.sizeBytes),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class PhotoUploadUrl {
+  const PhotoUploadUrl({
+    this.contentType,
+    required this.expiresIn,
+    required this.maxBytes,
+    required this.photoKey,
+    required this.uploadUrl,
+  });
+
+  factory PhotoUploadUrl.fromJson(Map<String, dynamic> json) =>
+      _$PhotoUploadUrlFromJson(json);
+
+  static const toJsonFactory = _$PhotoUploadUrlToJson;
+  Map<String, dynamic> toJson() => _$PhotoUploadUrlToJson(this);
+
+  @JsonKey(name: 'content_type', includeIfNull: false)
+  final String? contentType;
+  @JsonKey(name: 'expires_in', includeIfNull: false)
+  final int expiresIn;
+  @JsonKey(name: 'max_bytes', includeIfNull: false)
+  final int maxBytes;
+  @JsonKey(name: 'photo_key', includeIfNull: false)
+  final String photoKey;
+  @JsonKey(name: 'upload_url', includeIfNull: false)
+  final String uploadUrl;
+  static const fromJsonFactory = _$PhotoUploadUrlFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is PhotoUploadUrl &&
+            (identical(other.contentType, contentType) ||
+                const DeepCollectionEquality().equals(
+                  other.contentType,
+                  contentType,
+                )) &&
+            (identical(other.expiresIn, expiresIn) ||
+                const DeepCollectionEquality().equals(
+                  other.expiresIn,
+                  expiresIn,
+                )) &&
+            (identical(other.maxBytes, maxBytes) ||
+                const DeepCollectionEquality().equals(
+                  other.maxBytes,
+                  maxBytes,
+                )) &&
+            (identical(other.photoKey, photoKey) ||
+                const DeepCollectionEquality().equals(
+                  other.photoKey,
+                  photoKey,
+                )) &&
+            (identical(other.uploadUrl, uploadUrl) ||
+                const DeepCollectionEquality().equals(
+                  other.uploadUrl,
+                  uploadUrl,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(contentType) ^
+      const DeepCollectionEquality().hash(expiresIn) ^
+      const DeepCollectionEquality().hash(maxBytes) ^
+      const DeepCollectionEquality().hash(photoKey) ^
+      const DeepCollectionEquality().hash(uploadUrl) ^
+      runtimeType.hashCode;
+}
+
+extension $PhotoUploadUrlExtension on PhotoUploadUrl {
+  PhotoUploadUrl copyWith({
+    String? contentType,
+    int? expiresIn,
+    int? maxBytes,
+    String? photoKey,
+    String? uploadUrl,
+  }) {
+    return PhotoUploadUrl(
+      contentType: contentType ?? this.contentType,
+      expiresIn: expiresIn ?? this.expiresIn,
+      maxBytes: maxBytes ?? this.maxBytes,
+      photoKey: photoKey ?? this.photoKey,
+      uploadUrl: uploadUrl ?? this.uploadUrl,
+    );
+  }
+
+  PhotoUploadUrl copyWithWrapped({
+    Wrapped<String?>? contentType,
+    Wrapped<int>? expiresIn,
+    Wrapped<int>? maxBytes,
+    Wrapped<String>? photoKey,
+    Wrapped<String>? uploadUrl,
+  }) {
+    return PhotoUploadUrl(
+      contentType: (contentType != null ? contentType.value : this.contentType),
+      expiresIn: (expiresIn != null ? expiresIn.value : this.expiresIn),
+      maxBytes: (maxBytes != null ? maxBytes.value : this.maxBytes),
+      photoKey: (photoKey != null ? photoKey.value : this.photoKey),
+      uploadUrl: (uploadUrl != null ? uploadUrl.value : this.uploadUrl),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class PlanIn {
   const PlanIn({
     this.active,

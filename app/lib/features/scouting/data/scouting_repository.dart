@@ -10,7 +10,7 @@ import 'scouting_photos.dart';
 
 /// Offline-first scouting log: each write lands locally and in the outbox atomically; server
 /// changes (including tombstones) apply through the sync engine. The photo path is local
-/// only, so a server change never clears it.
+/// only, so a server change never clears it; the backed-up photo's key is synced.
 class ScoutingRepository {
   ScoutingRepository(
     this._db, {
@@ -57,6 +57,53 @@ class ScoutingRepository {
       );
     });
   }
+
+  Future<ScoutingRecord?> find(String id) async {
+    final row = await (_db.select(
+      _db.scoutingRecords,
+    )..where((t) => t.id.equals(id))).getSingleOrNull();
+    return row == null ? null : _record(row);
+  }
+
+  /// Records with a photo on this phone that is not backed up yet, oldest first.
+  Future<List<ScoutingRecord>> photosToBackUp() async {
+    final rows =
+        await (_db.select(_db.scoutingRecords)
+              ..where((t) => t.photoPath.isNotNull() & t.photoKey.isNull())
+              ..orderBy([(t) => OrderingTerm.asc(t.clientUpdatedAt)]))
+            .get();
+    return [for (final r in rows) _record(r)];
+  }
+
+  /// The photo was uploaded: keep its key and send it to the server like any other edit.
+  Future<void> markBackedUp(String id, String photoKey) {
+    final now = _clock();
+    return _db.transaction(() async {
+      final current = await find(id);
+      if (current == null) return; // deleted meanwhile
+      final r = current.withPhoto(key: photoKey);
+      await (_db.update(
+        _db.scoutingRecords,
+      )..where((t) => t.id.equals(id))).write(
+        ScoutingRecordsCompanion(
+          photoKey: Value(photoKey),
+          clientUpdatedAt: Value(now.toUtc()),
+        ),
+      );
+      await _outbox.enqueue(
+        entity: entity,
+        entityId: id,
+        payload: r.toPayload(),
+        clientUpdatedAt: now,
+      );
+    });
+  }
+
+  /// A backed-up photo downloaded to this phone: remember the file (local only, not synced).
+  Future<void> keepDownloaded(String id, String path) =>
+      (_db.update(_db.scoutingRecords)..where((t) => t.id.equals(id))).write(
+        ScoutingRecordsCompanion(photoPath: Value(path)),
+      );
 
   Future<void> delete(String id) async {
     final now = _clock();
@@ -113,6 +160,7 @@ class ScoutingRepository {
     severity: r.severity,
     note: Value(r.note),
     photoPath: photoPath,
+    photoKey: Value(r.photoKey),
     clientUpdatedAt: at.toUtc(),
   );
 
@@ -125,5 +173,6 @@ class ScoutingRepository {
     severity: r.severity,
     note: r.note,
     photoPath: r.photoPath,
+    photoKey: r.photoKey,
   );
 }

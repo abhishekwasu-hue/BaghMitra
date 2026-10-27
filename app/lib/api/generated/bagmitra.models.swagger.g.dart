@@ -1013,6 +1013,50 @@ Map<String, dynamic> _$MutationResultToJson(MutationResult instance) =>
       'status': ?mutationResultStatusToJson(instance.status),
     };
 
+PhotoDownloadUrl _$PhotoDownloadUrlFromJson(Map<String, dynamic> json) =>
+    PhotoDownloadUrl(
+      expiresIn: (json['expires_in'] as num).toInt(),
+      photoKey: json['photo_key'] as String,
+      url: json['url'] as String,
+    );
+
+Map<String, dynamic> _$PhotoDownloadUrlToJson(PhotoDownloadUrl instance) =>
+    <String, dynamic>{
+      'expires_in': instance.expiresIn,
+      'photo_key': instance.photoKey,
+      'url': instance.url,
+    };
+
+PhotoUploadIn _$PhotoUploadInFromJson(Map<String, dynamic> json) =>
+    PhotoUploadIn(
+      contentType: json['content_type'] as String?,
+      sizeBytes: (json['size_bytes'] as num).toInt(),
+    );
+
+Map<String, dynamic> _$PhotoUploadInToJson(PhotoUploadIn instance) =>
+    <String, dynamic>{
+      'content_type': ?instance.contentType,
+      'size_bytes': instance.sizeBytes,
+    };
+
+PhotoUploadUrl _$PhotoUploadUrlFromJson(Map<String, dynamic> json) =>
+    PhotoUploadUrl(
+      contentType: json['content_type'] as String?,
+      expiresIn: (json['expires_in'] as num).toInt(),
+      maxBytes: (json['max_bytes'] as num).toInt(),
+      photoKey: json['photo_key'] as String,
+      uploadUrl: json['upload_url'] as String,
+    );
+
+Map<String, dynamic> _$PhotoUploadUrlToJson(PhotoUploadUrl instance) =>
+    <String, dynamic>{
+      'content_type': ?instance.contentType,
+      'expires_in': instance.expiresIn,
+      'max_bytes': instance.maxBytes,
+      'photo_key': instance.photoKey,
+      'upload_url': instance.uploadUrl,
+    };
+
 PlanIn _$PlanInFromJson(Map<String, dynamic> json) => PlanIn(
   active: json['active'] as bool? ?? true,
   features: json['features'] as Object,

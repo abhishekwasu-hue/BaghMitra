@@ -9,7 +9,7 @@ import '../../../app/router.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 
-/// Test-build tools: which build this is, and sending the on-device log.
+/// Test-build tools (which build this is, sending the on-device log) and phone settings.
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
 
@@ -59,6 +59,16 @@ class SettingsScreen extends ConsumerWidget {
             key: const Key('show-walkthrough'),
             onPressed: () => context.push(Routes.walkthrough),
             child: Text(t.settingsShowWalkthrough),
+          ),
+          const SizedBox(height: BmSpace.md),
+          SwitchListTile(
+            key: const Key('photo-backup-mobile-data'),
+            contentPadding: EdgeInsets.zero,
+            title: Text(t.settingsPhotoMobileData, style: BmType.body),
+            subtitle: Text(t.settingsPhotoMobileDataHint, style: BmType.meta),
+            value: ref.watch(photoBackupMobileDataProvider).value ?? false,
+            onChanged: (on) =>
+                ref.read(photoBackupMobileDataProvider.notifier).set(on),
           ),
         ],
       ),

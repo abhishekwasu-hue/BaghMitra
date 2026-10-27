@@ -1440,6 +1440,78 @@ be checked offline. Facts only; no advice text.''',
     ),
   });
 
+  ///Create Photo Upload Url
+  ///@param record_id
+  Future<chopper.Response<PhotoUploadUrl>>
+  v1ScoutingRecordIdPhotoUploadUrlPost({
+    required String? recordId,
+    required PhotoUploadIn? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      PhotoUploadUrl,
+      () => PhotoUploadUrl.fromJsonFactory,
+    );
+
+    return _v1ScoutingRecordIdPhotoUploadUrlPost(
+      recordId: recordId,
+      body: body,
+    );
+  }
+
+  ///Create Photo Upload Url
+  ///@param record_id
+  @POST(path: '/v1/scouting/{record_id}/photo-upload-url', optionalBody: true)
+  Future<chopper.Response<PhotoUploadUrl>>
+  _v1ScoutingRecordIdPhotoUploadUrlPost({
+    @Path('record_id') required String? recordId,
+    @Body() required PhotoUploadIn? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''A signed upload URL for this record\'s photo (JPEG only, at most `max_bytes`).
+
+The phone PUTs the file to `upload_url` with `Content-Type: image/jpeg`, then records
+`photo_key` on the scouting record through the normal outbox.''',
+      summary: 'Create Photo Upload Url',
+      operationId: 'scouting_photo_upload_url',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["scouting"],
+      deprecated: false,
+    ),
+  });
+
+  ///Get Photo Url
+  ///@param record_id
+  Future<chopper.Response<PhotoDownloadUrl>> v1ScoutingRecordIdPhotoUrlGet({
+    required String? recordId,
+  }) {
+    generatedMapping.putIfAbsent(
+      PhotoDownloadUrl,
+      () => PhotoDownloadUrl.fromJsonFactory,
+    );
+
+    return _v1ScoutingRecordIdPhotoUrlGet(recordId: recordId);
+  }
+
+  ///Get Photo Url
+  ///@param record_id
+  @GET(path: '/v1/scouting/{record_id}/photo-url')
+  Future<chopper.Response<PhotoDownloadUrl>> _v1ScoutingRecordIdPhotoUrlGet({
+    @Path('record_id') required String? recordId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'A short-lived signed download URL for a backed-up photo.',
+      summary: 'Get Photo Url',
+      operationId: 'scouting_photo_url',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["scouting"],
+      deprecated: false,
+    ),
+  });
+
   ///Pull
   ///@param since
   Future<chopper.Response<PullResponse>> v1SyncPullGet({int? since}) {

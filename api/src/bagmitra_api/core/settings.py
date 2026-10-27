@@ -142,6 +142,20 @@ class Settings(BaseSettings):
         }
     )
 
+    # Scouting photo backup (OPEN_QUESTIONS Q34): off unless all of URL and service key are
+    # set. Photos go to a private Supabase Storage bucket through short-lived signed URLs only;
+    # the service key never leaves the API and is never logged.
+    photo_storage_url: str = ""
+    photo_storage_bucket: str = "scouting-photos"
+    photo_storage_service_key: SecretStr = Field(default=SecretStr(""))
+    photo_max_bytes: int = Field(default=2 * 1024 * 1024, ge=1)
+    photo_download_expiry_seconds: int = Field(default=300, ge=10)
+    photo_storage_timeout_seconds: float = 15.0
+
+    @property
+    def photo_storage_enabled(self) -> bool:
+        return bool(self.photo_storage_url and self.photo_storage_service_key.get_secret_value())
+
     @field_validator("supabase_jwt_secret")
     @classmethod
     def _secret_long_enough(cls, value: SecretStr) -> SecretStr:
