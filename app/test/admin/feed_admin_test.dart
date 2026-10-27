@@ -1,6 +1,9 @@
 import 'dart:convert';
 
+import 'dart:typed_data';
+
 import 'package:bagmitra/admin/admin_app.dart';
+import 'package:bagmitra/admin/document_picker.dart';
 import 'package:bagmitra/admin/feed_admin_repository.dart';
 import 'package:bagmitra/api/api_client.dart';
 import 'package:bagmitra/api/generated/bagmitra.swagger.dart';
@@ -234,9 +237,23 @@ ApiFeedAdminRepository _repo(MockClientHandler handler) =>
       ),
     );
 
+/// Returns the queued picks in order: a [PickedDocument], null (cancelled) or an exception.
+class FakeDocuments implements DocumentPicker {
+  FakeDocuments(this.picks);
+  final List<Object?> picks;
+
+  @override
+  Future<PickedDocument?> pick() async => switch (picks.removeAt(0)) {
+    final PickedDocument d => d,
+    final Exception e => throw e,
+    _ => null,
+  };
+}
+
 Future<FakeFeedAdmin> _pump(
   WidgetTester tester, {
   Set<String> roles = const {'feed_admin'},
+  DocumentPicker? documents,
 }) async {
   tester.view.physicalSize = const Size(1280, 900);
   tester.view.devicePixelRatio = 1;
@@ -247,6 +264,7 @@ Future<FakeFeedAdmin> _pump(
       productName: 'BagMitra',
       kb: FakeKbAdmin(),
       feed: feed,
+      documents: documents,
       auth: FakeAdminAuth(signedIn: true, roles: roles),
     ),
   );
@@ -522,17 +540,22 @@ void main() {
     await tester.pumpAndSettle();
     await tester.tap(find.text('Upload'));
     await tester.pumpAndSettle();
+    await tester.ensureVisible(find.text('Send to review'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Send to review'));
     await tester.pumpAndSettle();
     expect(find.textContaining('are required'), findsOneWidget);
 
     Future<void> type(String key, String text) =>
         tester.enterText(find.byKey(Key('upload-$key')), text);
+    await tester.ensureVisible(find.text('scheme'));
     await tester.tap(find.text('scheme'));
     await type('source', 'mh_gr_portal');
     await type('published', '2026-10-26');
     await type('url', 'https://gr.maharashtra.gov.in/x.pdf');
     await type('deadline', '31-12-2026');
+    await tester.ensureVisible(find.text('Send to review'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Send to review'));
     await tester.pumpAndSettle();
     expect(find.textContaining('YYYY-MM-DD.'), findsOneWidget);
@@ -540,6 +563,8 @@ void main() {
     await type('deadline', '2026-12-31');
     await type('title', 'PM-KISAN instalment');
     await type('text', 'GR text copied from the PDF');
+    await tester.ensureVisible(find.text('Send to review'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Send to review'));
     await tester.pumpAndSettle();
     final body = feed.created!;
@@ -550,10 +575,76 @@ void main() {
       'en': {'title': 'PM-KISAN instalment'},
     });
     expect(body.extractedText, 'GR text copied from the PDF');
+    expect(body.documentBase64, isNull);
     expect(find.text('Created: In review, 2 check issues'), findsOneWidget);
     await tester.ensureVisible(find.text('Open item'));
     await tester.tap(find.text('Open item'));
     await tester.pumpAndSettle();
     expect(find.text('Output-check issues'), findsOneWidget);
+  });
+
+  test('picked document type follows the extension', () {
+    expect(PickedDocument('GR.PDF', Uint8List(1)).type, 'pdf');
+    expect(PickedDocument('gr.htm', Uint8List(1)).type, 'html');
+    expect(maxDocumentBytes, 20 * 1024 * 1024);
+  });
+
+  testWidgets('upload sends a picked document as base64 and shows extraction', (
+    tester,
+  ) async {
+    final pdf = Uint8List.fromList(utf8.encode('%PDF-1.7 GR'));
+    final feed = await _pump(
+      tester,
+      documents: FakeDocuments([
+        const DocumentTooLarge(),
+        const DocumentTypeNotAllowed(),
+        null,
+        PickedDocument('gr-101.pdf', pdf),
+      ]),
+    );
+    await tester.tap(find.text('Govt feed'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Upload'));
+    await tester.pumpAndSettle();
+    expect(find.text('No document chosen'), findsOneWidget);
+
+    Future<void> pick() async {
+      await tester.ensureVisible(find.byKey(const Key('upload-pick')));
+      await tester.tap(find.byKey(const Key('upload-pick')));
+      await tester.pumpAndSettle();
+    }
+
+    await pick();
+    expect(find.text('The document is larger than 20 MB.'), findsOneWidget);
+    await pick();
+    expect(find.text('Only .pdf, .html or .htm files.'), findsOneWidget);
+    await pick();
+    expect(find.text('No document chosen'), findsOneWidget);
+    await pick();
+    expect(find.text('gr-101.pdf · 1 KB'), findsOneWidget);
+
+    await tester.enterText(
+      find.byKey(const Key('upload-source')),
+      'mh_gr_portal',
+    );
+    await tester.enterText(
+      find.byKey(const Key('upload-published')),
+      '2026-10-26',
+    );
+    await tester.enterText(
+      find.byKey(const Key('upload-url')),
+      'https://gr.maharashtra.gov.in/gr-101.pdf',
+    );
+    await tester.ensureVisible(find.text('Send to review'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Send to review'));
+    await tester.pumpAndSettle();
+    final body = feed.created!;
+    expect(body.documentBase64, base64Encode(pdf));
+    expect(body.documentType, 'pdf');
+    expect(body.extractedText, isNull);
+    expect(find.text('Extraction result'), findsOneWidget);
+    expect(find.textContaining('quality: broken'), findsOneWidget);
+    expect(find.textContaining('number_not_in_source: ₹6,000'), findsOneWidget);
   });
 }

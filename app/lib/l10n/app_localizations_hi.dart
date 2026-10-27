@@ -570,7 +570,29 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get adminFeedUploadNote =>
-      'एडमिन ऐप में अभी फ़ाइल चुनना नहीं है: दस्तावेज़ का पाठ और उसका आधिकारिक URL पेस्ट करें।';
+      'GR दस्तावेज़ चुनें (सर्वर उसका हैश रखता है और पाठ पढ़ता है) और / या उसका पाठ पेस्ट करें (पेस्ट किया पाठ मान्य)। आधिकारिक URL हमेशा चाहिए।';
+
+  @override
+  String get adminFeedPickDocument => 'दस्तावेज़ चुनें (PDF या HTML)';
+
+  @override
+  String get adminFeedNoDocument => 'कोई दस्तावेज़ नहीं चुना';
+
+  @override
+  String adminFeedDocument(String name, int kb) {
+    return '$name · $kb KB';
+  }
+
+  @override
+  String adminFeedTooLarge(int mb) {
+    return 'दस्तावेज़ $mb MB से बड़ा है।';
+  }
+
+  @override
+  String get adminFeedBadType => 'केवल .pdf, .html या .htm फ़ाइल।';
+
+  @override
+  String get adminFeedExtraction => 'पाठ निकालने का नतीजा';
 
   @override
   String get adminFeedSourceKey => 'स्रोत की';

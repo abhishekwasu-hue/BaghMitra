@@ -100,11 +100,14 @@ shown only then (the API still checks the role on every call). Three tabs:
   Actions: **Approve** (with open issues a dialog asks to accept them and needs a comment),
   **Publish** (the refusal reason is shown), **Withdraw** (reason + optional replacement picked
   from published / in-review items), **AI draft** ("AI not configured" when the API answers 503).
-- **Upload**: the admin app has no file picker yet, so paste the text copied from the GR and its
-  official URL, plus source key, type, published date, external id / GR number, department,
-  deadline / payment / validity dates (YYYY-MM-DD) and the English title and summary. Without a
-  document no hash is kept, so an official item cannot be published from such an upload; use
-  `POST /v1/admin/feed/items` with `document_base64` (§3) for that.
+- **Upload**: **Choose document** picks the GR as `.pdf`, `.html` or `.htm` (up to 20 MB, the
+  server's `MAX_DOCUMENT_BYTES`); it is sent base64 in `document_base64` with `document_type`, so
+  the server keeps its hash and extracts the text (§3a). Pasting the text is still possible and
+  wins over extraction. Also: official URL, source key, type, published date, external id / GR
+  number, department, deadline / payment / validity dates (YYYY-MM-DD), English title and
+  summary. After sending, the page shows the extraction result (method, quality, unused text)
+  and the check issues; **Open item** goes to the detail page. Without a document no hash is
+  kept, so an official item cannot be published from a paste-only upload.
 - **Feed sources**: each source with its terms status; pick Unknown / Allowed / Disallowed, write
   what you read in the note and Save (same as `PUT .../terms`, §2).
 

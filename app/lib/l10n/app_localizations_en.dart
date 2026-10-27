@@ -570,7 +570,29 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get adminFeedUploadNote =>
-      'No file picker in the admin app yet: paste the text copied from the document and its official URL.';
+      'Choose the GR document (the server keeps its hash and reads its text) and / or paste the text copied from it (pasted text wins). The official URL is always needed.';
+
+  @override
+  String get adminFeedPickDocument => 'Choose document (PDF or HTML)';
+
+  @override
+  String get adminFeedNoDocument => 'No document chosen';
+
+  @override
+  String adminFeedDocument(String name, int kb) {
+    return '$name · $kb KB';
+  }
+
+  @override
+  String adminFeedTooLarge(int mb) {
+    return 'The document is larger than $mb MB.';
+  }
+
+  @override
+  String get adminFeedBadType => 'Only .pdf, .html or .htm files.';
+
+  @override
+  String get adminFeedExtraction => 'Extraction result';
 
   @override
   String get adminFeedSourceKey => 'Source key';

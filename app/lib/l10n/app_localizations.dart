@@ -1063,8 +1063,44 @@ abstract class AppLocalizations {
   /// No description provided for @adminFeedUploadNote.
   ///
   /// In en, this message translates to:
-  /// **'No file picker in the admin app yet: paste the text copied from the document and its official URL.'**
+  /// **'Choose the GR document (the server keeps its hash and reads its text) and / or paste the text copied from it (pasted text wins). The official URL is always needed.'**
   String get adminFeedUploadNote;
+
+  /// No description provided for @adminFeedPickDocument.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose document (PDF or HTML)'**
+  String get adminFeedPickDocument;
+
+  /// No description provided for @adminFeedNoDocument.
+  ///
+  /// In en, this message translates to:
+  /// **'No document chosen'**
+  String get adminFeedNoDocument;
+
+  /// No description provided for @adminFeedDocument.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} · {kb} KB'**
+  String adminFeedDocument(String name, int kb);
+
+  /// No description provided for @adminFeedTooLarge.
+  ///
+  /// In en, this message translates to:
+  /// **'The document is larger than {mb} MB.'**
+  String adminFeedTooLarge(int mb);
+
+  /// No description provided for @adminFeedBadType.
+  ///
+  /// In en, this message translates to:
+  /// **'Only .pdf, .html or .htm files.'**
+  String get adminFeedBadType;
+
+  /// No description provided for @adminFeedExtraction.
+  ///
+  /// In en, this message translates to:
+  /// **'Extraction result'**
+  String get adminFeedExtraction;
 
   /// No description provided for @adminFeedSourceKey.
   ///

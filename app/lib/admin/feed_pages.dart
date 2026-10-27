@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 import '../api/generated/bagmitra.swagger.dart';
 import '../l10n/app_localizations.dart';
 import '../theme/app_theme.dart';
+import 'document_picker.dart';
 import 'feed_admin_repository.dart';
 
 /// Supabase app_metadata role that may review the government feed (runbook govt-feed §1).
@@ -38,8 +41,9 @@ void _say(ScaffoldMessengerState messenger, String text) =>
 
 /// One admin section with the review queue, manual upload and the source registry.
 class FeedAdminSection extends StatelessWidget {
-  const FeedAdminSection({required this.feed, super.key});
+  const FeedAdminSection({required this.feed, this.documents, super.key});
   final FeedAdminRepository feed;
+  final DocumentPicker? documents;
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +66,7 @@ class FeedAdminSection extends StatelessWidget {
             child: TabBarView(
               children: [
                 FeedQueuePage(feed: feed),
-                FeedUploadPage(feed: feed),
+                FeedUploadPage(feed: feed, documents: documents),
                 FeedSourcesPage(feed: feed),
               ],
             ),
@@ -809,11 +813,14 @@ class _WithdrawDialogState extends State<_WithdrawDialog> {
   }
 }
 
-/// Manual GR upload. The admin app has no file picker, so the reviewer pastes the text
-/// copied from the document and its official URL (the server keeps no document hash then).
+/// Manual GR upload: the document (PDF / HTML, base64; the server keeps its hash and
+/// extracts the text) and / or text pasted from it (pasted text wins), plus metadata.
 class FeedUploadPage extends StatefulWidget {
-  const FeedUploadPage({required this.feed, super.key});
+  const FeedUploadPage({required this.feed, this.documents, super.key});
   final FeedAdminRepository feed;
+
+  /// Defaults to the `file_picker` adapter; tests pass a fake.
+  final DocumentPicker? documents;
 
   @override
   State<FeedUploadPage> createState() => _FeedUploadPageState();
@@ -841,6 +848,22 @@ class _FeedUploadPageState extends State<FeedUploadPage> {
   String _type = 'gr';
   String? _result;
   FeedAdminItemOut? _created;
+  PickedDocument? _document;
+
+  Future<void> _pick() async {
+    final t = AppLocalizations.of(context);
+    try {
+      final doc = await (widget.documents ?? const FilePickerDocuments())
+          .pick();
+      if (doc != null) setState(() => _document = doc);
+    } on DocumentTooLarge {
+      setState(
+        () => _result = t.adminFeedTooLarge(maxDocumentBytes ~/ (1024 * 1024)),
+      );
+    } on DocumentTypeNotAllowed {
+      setState(() => _result = t.adminFeedBadType);
+    }
+  }
 
   @override
   void dispose() {
@@ -878,6 +901,11 @@ class _FeedUploadPageState extends State<FeedUploadPage> {
         validFrom: _parseDate(_v('validFrom')),
         validTo: _parseDate(_v('validTo')),
         extractedText: _blankToNull(_c['text']!.text),
+        documentBase64: switch (_document) {
+          final d? => base64Encode(d.bytes),
+          _ => null,
+        },
+        documentType: _document?.type,
         texts: _v('title').isEmpty
             ? null
             : {
@@ -959,6 +987,33 @@ class _FeedUploadPageState extends State<FeedUploadPage> {
             field('title', 'EN · ${t.adminFeedTitle}'),
             field('summary', 'EN · ${t.adminFeedSummary}'),
           ),
+          const SizedBox(height: BmSpace.sm),
+          Row(
+            spacing: BmSpace.sm,
+            children: [
+              OutlinedButton.icon(
+                key: const Key('upload-pick'),
+                onPressed: _pick,
+                icon: const Icon(Icons.attach_file_rounded),
+                label: Text(t.adminFeedPickDocument),
+              ),
+              Expanded(
+                child: Text(switch (_document) {
+                  final d? => t.adminFeedDocument(
+                    d.name,
+                    (d.bytes.length / 1024).ceil(),
+                  ),
+                  _ => t.adminFeedNoDocument,
+                }, style: BmType.body),
+              ),
+              if (_document != null)
+                IconButton(
+                  tooltip: t.adminFeedRemove,
+                  onPressed: () => setState(() => _document = null),
+                  icon: const Icon(Icons.close_rounded),
+                ),
+            ],
+          ),
           field('text', t.adminFeedPastedText, lines: 6),
           const SizedBox(height: BmSpace.md),
           Wrap(
@@ -980,6 +1035,13 @@ class _FeedUploadPageState extends State<FeedUploadPage> {
           if (_result case final r?) ...[
             const SizedBox(height: BmSpace.md),
             SelectableText(r, style: BmType.body),
+          ],
+          if (_created case final item?) ...[
+            const SizedBox(height: BmSpace.sm),
+            Text(t.adminFeedExtraction, style: BmType.bodyStrong),
+            _TextPreview(item: item),
+            for (final issue in item.checkIssues)
+              Text('• ${issue.kind}: ${issue.text}', style: BmType.body),
           ],
         ],
       ),

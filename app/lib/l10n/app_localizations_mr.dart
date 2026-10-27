@@ -571,7 +571,29 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get adminFeedUploadNote =>
-      'अॅडमिन अॅपमध्ये अजून फाइल निवड नाही: दस्तऐवजातील मजकूर व त्याचा अधिकृत URL पेस्ट करा.';
+      'GR दस्तऐवज निवडा (सर्व्हर त्याचा हॅश ठेवतो व मजकूर वाचतो) आणि / किंवा त्यातील मजकूर पेस्ट करा (पेस्ट केलेला मजकूर ग्राह्य). अधिकृत URL नेहमी हवा.';
+
+  @override
+  String get adminFeedPickDocument => 'दस्तऐवज निवडा (PDF किंवा HTML)';
+
+  @override
+  String get adminFeedNoDocument => 'दस्तऐवज निवडलेला नाही';
+
+  @override
+  String adminFeedDocument(String name, int kb) {
+    return '$name · $kb KB';
+  }
+
+  @override
+  String adminFeedTooLarge(int mb) {
+    return 'दस्तऐवज $mb MB पेक्षा मोठा आहे.';
+  }
+
+  @override
+  String get adminFeedBadType => 'फक्त .pdf, .html किंवा .htm फाइल.';
+
+  @override
+  String get adminFeedExtraction => 'मजकूर काढण्याचा निकाल';
 
   @override
   String get adminFeedSourceKey => 'स्रोत की';
