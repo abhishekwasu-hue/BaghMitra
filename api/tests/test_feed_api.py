@@ -19,10 +19,12 @@ from bagmitra_api.core.settings import Settings
 from bagmitra_api.db.models import Farmer, Plot
 from bagmitra_api.db.session import get_sessionmaker
 from bagmitra_api.feed.ai import AiUnavailableError, Classification, FeedAi, Summary, get_feed_ai
+from bagmitra_api.feed.extract import OcrError, OcrResult, get_feed_ocr
 from bagmitra_api.feed.models import FeedItem, FeedReviewEvent, FeedSource
 from bagmitra_api.feed.seed import seed_feed_sources
 from bagmitra_api.main import create_app
 from tests.conftest import make_token
+from tests.feed_docs import HTML, KRUTI_DEV, make_pdf
 
 ADMIN_BASE = "/v1/admin/feed"
 ADMIN = {
@@ -65,9 +67,27 @@ async def ai_box() -> dict[str, Any]:
     return {"ai": None}
 
 
+class FakeOcr:
+    def __init__(self, text: str = "", confidence: float = 90.0, *, fail: bool = False) -> None:
+        self.text, self.confidence, self.fail = text, confidence, fail
+        self.calls = 0
+
+    def ocr_pdf(self, data: bytes) -> OcrResult:
+        self.calls += 1
+        assert data.startswith(b"%PDF")
+        if self.fail:
+            raise OcrError("tesseract failed: TimeoutExpired")
+        return OcrResult(self.text, self.confidence, 1)
+
+
+@pytest.fixture
+async def ocr_box() -> dict[str, Any]:
+    return {"ocr": None}
+
+
 @pytest.fixture
 async def api(
-    settings: Settings, engine: AsyncEngine, ai_box: dict[str, Any]
+    settings: Settings, engine: AsyncEngine, ai_box: dict[str, Any], ocr_box: dict[str, Any]
 ) -> AsyncIterator[httpx.AsyncClient]:
     app = create_app(settings)
     maker = async_sessionmaker(engine, expire_on_commit=False)
@@ -78,6 +98,7 @@ async def api(
         yield FeedAi(classifier=ai, summariser=ai) if ai else None
 
     app.dependency_overrides[get_feed_ai] = fake_ai
+    app.dependency_overrides[get_feed_ocr] = lambda: ocr_box["ocr"]
     async with maker() as session:
         await seed_feed_sources(session)
         session.add(
@@ -488,3 +509,146 @@ async def test_ai_draft(
 
 def test_today_is_a_date() -> None:
     assert isinstance(TODAY, date)
+
+
+# --- document extraction on upload (addendum §4 step 2, QG2) --------------------------------
+
+
+def upload(document: bytes, document_type: str = "pdf", **extra: Any) -> dict[str, Any]:
+    return {
+        "extracted_text": None,
+        "document_base64": base64.b64encode(document).decode(),
+        "document_type": document_type,
+        **extra,
+    }
+
+
+def extraction(item: dict[str, Any]) -> dict[str, Any]:
+    found: list[dict[str, Any]] = [e["detail"] for e in item["events"] if e["kind"] == "extracted"]
+    assert len(found) == 1
+    return found[0]
+
+
+async def stored_text(engine: AsyncEngine, item_id: str) -> str | None:
+    async with async_sessionmaker(engine)() as session:
+        item = await session.get(FeedItem, uuid.UUID(item_id))
+        assert item is not None
+        return item.extracted_text
+
+
+async def test_uploaded_pdf_text_is_the_checked_source(
+    api: httpx.AsyncClient, engine: AsyncEngine, ocr_box: dict[str, Any]
+) -> None:
+    ocr_box["ocr"] = ocr = FakeOcr()
+    item = await create(api, **upload(make_pdf([GR_TEXT], unicode=True)))
+    assert (item["has_text"], item["check_issues"]) == (True, [])
+    detail = extraction(item)
+    assert (detail["method"], detail["quality"], detail["used"]) == ("pdf_text", "ok", "pdf_text")
+    assert (detail["pages"], detail["ocr"], detail["issues"]) == (1, None, [])
+    assert detail["devanagari_ratio"] > 0.9
+    assert "text_layer" not in detail
+    assert "भाऊसाहेब फुंडकर फळबाग" in (await stored_text(engine, item["id"]) or "")
+    assert ocr.calls == 0
+    # The output check reads the extracted text: an invented amount is caught.
+    bad = {"en": {"title": "Fruit planting subsidy", "summary": "₹2 lakh per hectare."}}
+    item = await create(
+        api, external_id="x2", texts=bad, **upload(make_pdf([GR_TEXT + " "], unicode=True))
+    )
+    assert item["check_issues"] == [{"kind": "amount", "text": "₹2 lakh", "where": "en.summary"}]
+
+
+async def test_given_text_wins_over_extraction(api: httpx.AsyncClient) -> None:
+    item = await create(api, document_base64=base64.b64encode(make_pdf([KRUTI_DEV])).decode())
+    assert [e["kind"] for e in item["events"]] == ["created"]
+    assert item["check_issues"] == []
+
+
+async def test_broken_marathi_stays_in_review_with_a_reason(
+    api: httpx.AsyncClient, engine: AsyncEngine
+) -> None:
+    item = await create(api, **upload(make_pdf([KRUTI_DEV])))
+    assert (item["status"], item["has_text"]) == ("in_review", False)
+    issue = item["check_issues"][0]
+    assert (issue["kind"], issue["where"]) == ("text_broken", "document")
+    assert "legacy Marathi font" in issue["text"]
+    detail = extraction(item)
+    assert (detail["quality"], detail["used"], detail["ocr"]) == ("broken", None, None)
+    assert "fu.kZ;" in detail["text_layer"]  # the broken text layer is kept for the reviewer
+    assert await stored_text(engine, item["id"]) is None
+    url = f"{ADMIN_BASE}/items/{item['id']}"
+    res = await api.post(f"{url}/approve", json={}, headers=ADMIN)
+    assert (res.status_code, res.json()["error"]["code"]) == (409, "check_issues_open")
+    # The issue survives later checks (an edit re-runs the output check).
+    res = await api.put(f"{url}/texts/en", json={"title": "Fruit planting"}, headers=ADMIN)
+    assert res.json()["check_issues"][0]["kind"] == "text_broken"
+    res = await api.post(
+        f"{url}/approve",
+        json={"accept_check_issues": True, "comment": "read from the printed GR"},
+        headers=ADMIN,
+    )
+    assert res.status_code == 200
+
+
+async def test_scanned_pdf_uses_ocr_and_keeps_both(
+    api: httpx.AsyncClient, engine: AsyncEngine, ocr_box: dict[str, Any]
+) -> None:
+    ocr_box["ocr"] = FakeOcr(GR_TEXT, 88.5)
+    item = await create(api, **upload(make_pdf([""])))
+    assert (item["has_text"], item["check_issues"]) == (True, [])
+    detail = extraction(item)
+    assert (detail["quality"], detail["used"], detail["text_layer"]) == ("empty", "ocr", None)
+    assert detail["ocr"]["confidence"] == 88.5
+    assert detail["ocr"]["quality"] == "ok"
+    assert await stored_text(engine, item["id"]) == GR_TEXT
+
+
+async def test_low_ocr_confidence_is_flagged(
+    api: httpx.AsyncClient, engine: AsyncEngine, ocr_box: dict[str, Any]
+) -> None:
+    ocr_box["ocr"] = FakeOcr(GR_TEXT, 41.0)
+    item = await create(api, **upload(make_pdf([KRUTI_DEV])))
+    assert [i["kind"] for i in item["check_issues"]] == ["ocr_low_confidence"]
+    assert "41" in item["check_issues"][0]["text"]
+    detail = extraction(item)
+    assert (detail["quality"], detail["used"]) == ("broken", "ocr")
+    assert "fu.kZ;" in detail["text_layer"]
+    assert await stored_text(engine, item["id"]) == GR_TEXT
+
+
+@pytest.mark.parametrize(
+    ("ocr", "kept"),
+    [(FakeOcr(KRUTI_DEV), "ocr_text"), (FakeOcr(fail=True), "error")],
+)
+async def test_ocr_without_usable_text(
+    api: httpx.AsyncClient, ocr_box: dict[str, Any], ocr: FakeOcr, kept: str
+) -> None:
+    ocr_box["ocr"] = ocr
+    item = await create(api, **upload(make_pdf([""])))
+    issue = item["check_issues"][0]
+    assert issue["kind"] == "text_empty"
+    assert "and OCR" in issue["text"]
+    detail = extraction(item)
+    assert detail["used"] is None
+    if kept == "error":
+        assert "TimeoutExpired" in detail["ocr"]["error"]
+    else:
+        assert detail["ocr"]["quality"] == "broken"
+        assert "fu.kZ;" in detail["ocr"]["text"]
+
+
+async def test_uploaded_html_text(
+    api: httpx.AsyncClient, engine: AsyncEngine, ocr_box: dict[str, Any]
+) -> None:
+    ocr_box["ocr"] = ocr = FakeOcr(GR_TEXT)
+    item = await create(api, **upload(HTML.encode(), "html"))
+    detail = extraction(item)
+    assert (detail["method"], detail["quality"], detail["used"]) == ("html", "ok", "html")
+    text = await stored_text(engine, item["id"])
+    assert text is not None
+    assert "१,००,००० अनुदान" in text
+    assert "99,99,999" not in text
+    broken = await create(
+        api, external_id="h2", **upload(b"<p>" + KRUTI_DEV.encode() + b"</p>", "html")
+    )
+    assert broken["check_issues"][0]["kind"] == "text_broken"
+    assert ocr.calls == 0  # OCR is for PDFs only

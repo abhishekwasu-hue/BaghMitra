@@ -143,7 +143,8 @@ class FeedReviewEvent(Base):
     id: Mapped[uuid.UUID] = mapped_column(primary_key=True)
     item_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("feed_items.id"), index=True)
     actor_id: Mapped[uuid.UUID | None] = mapped_column()
-    # created | edited | output_check_failed | summarised | approved | published | withdrawn
+    # created | extracted | edited | output_check_failed | summarised | approved | published |
+    # withdrawn
     kind: Mapped[str] = mapped_column(String(32))
     detail: Mapped[dict[str, Any]] = mapped_column(JSON, default=dict)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)

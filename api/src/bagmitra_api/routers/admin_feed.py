@@ -23,6 +23,7 @@ from bagmitra_api.core.settings import Settings, get_settings
 from bagmitra_api.db.session import DbSession
 from bagmitra_api.feed import service
 from bagmitra_api.feed.ai import AiUnavailableError, FeedAi, get_feed_ai
+from bagmitra_api.feed.extract import OcrEngine, get_feed_ocr
 from bagmitra_api.feed.gr_portal import MAX_DOCUMENT_BYTES
 from bagmitra_api.feed.models import (
     FeedItem,
@@ -106,7 +107,8 @@ class FeedAdminItemIn(BaseModel):
     # Payment release date as stated in the document ("payment released" push, G2).
     payment_date: date | None = None
     extracted_text: str | None = Field(default=None, max_length=2_000_000)
-    # Optional PDF / HTML copy: only its SHA-256 and size are kept (OPEN_QUESTIONS QG1).
+    # Optional PDF / HTML copy: only its SHA-256 and size are kept (OPEN_QUESTIONS QG1). Without
+    # `extracted_text` the document's text is extracted (OCR fallback when enabled, QG2).
     document_base64: str | None = Field(default=None, max_length=(MAX_DOCUMENT_BYTES // 3 + 1) * 4)
     # pdf | html (a plain string: nullable enums break the generated app client)
     document_type: str | None = Field(default=None, pattern="^(pdf|html)$")
@@ -312,7 +314,11 @@ async def set_terms(
     responses={**ERRORS, 413: {"model": ErrorResponse}},
 )
 async def create_item(
-    body: FeedAdminItemIn, user: FeedAdmin, session: DbSession, settings: AppSettings
+    body: FeedAdminItemIn,
+    user: FeedAdmin,
+    session: DbSession,
+    settings: AppSettings,
+    ocr: Annotated[OcrEngine | None, Depends(get_feed_ocr)],
 ) -> FeedAdminItemOut:
     """Manual upload: metadata, optional document (hashed), optional text. Lands in review."""
     new = NewItem(
@@ -329,12 +335,13 @@ async def create_item(
         payment_date=body.payment_date,
         extracted_text=body.extracted_text,
         document=_decode(body),
+        document_type=body.document_type,
         texts={k: (v.title, v.summary) for k, v in body.texts.items()},
         card={k: v.model_dump() for k, v in body.card.items()} if body.card else None,
         targets=[t.model_dump() for t in body.targets],
     )
     try:
-        item = await service.create_item(session, new, user.id, settings)
+        item = await service.create_item(session, new, user.id, settings, ocr)
     except FeedError as exc:
         raise _api_error(exc) from exc
     await session.commit()

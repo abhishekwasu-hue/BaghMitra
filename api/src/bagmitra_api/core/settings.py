@@ -115,6 +115,15 @@ class Settings(BaseSettings):
     feed_fetch_timeout_seconds: float = 30.0
     feed_fetch_user_agent: str = "BagMitra-Feed/1.0 (+manual review; contact via repository)"
     feed_page_size: int = 50
+    # OCR for uploaded PDFs whose text layer is missing or broken Marathi (QG2). Off unless
+    # set AND `tesseract` (with the language below) and `pdftoppm` are installed; local only.
+    feed_ocr_enabled: bool = False
+    feed_ocr_lang: str = "mar"
+    feed_ocr_dpi: int = 300
+    feed_ocr_max_pages: int = 40
+    feed_ocr_timeout_seconds: float = 120.0
+    # Mean word confidence (0-100) under which OCR text is flagged for the reviewer.
+    feed_ocr_min_confidence: float = 70.0
     # Scheme names the output check knows (canonical -> other spellings). From addendum §3
     # secondary pages; spellings to be confirmed against the GRs (OPEN_QUESTIONS QG3).
     feed_scheme_glossary: dict[str, list[str]] = Field(
