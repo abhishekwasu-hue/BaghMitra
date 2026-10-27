@@ -1426,6 +1426,78 @@ abstract class AppLocalizations {
   /// **'Send logs'**
   String get sendLogs;
 
+  /// No description provided for @walkthroughSkip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get walkthroughSkip;
+
+  /// No description provided for @walkthroughNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get walkthroughNext;
+
+  /// No description provided for @walkthroughStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get walkthroughStart;
+
+  /// No description provided for @walkthroughPlotsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your plots and bahar calendar'**
+  String get walkthroughPlotsTitle;
+
+  /// No description provided for @walkthroughPlotsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Add your plots. For each bahar you see a season calendar and a list of tasks.'**
+  String get walkthroughPlotsBody;
+
+  /// No description provided for @walkthroughWeatherTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Weather alerts for your plot'**
+  String get walkthroughWeatherTitle;
+
+  /// No description provided for @walkthroughWeatherBody.
+  ///
+  /// In en, this message translates to:
+  /// **'See the weather at your plot and get an alert when rain, heat or cold may need your attention.'**
+  String get walkthroughWeatherBody;
+
+  /// No description provided for @walkthroughMarketTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Mandi prices across India'**
+  String get walkthroughMarketTitle;
+
+  /// No description provided for @walkthroughMarketBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Check recent mandi prices for your crop in markets across India.'**
+  String get walkthroughMarketBody;
+
+  /// No description provided for @walkthroughRecordsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your records and accounts'**
+  String get walkthroughRecordsTitle;
+
+  /// No description provided for @walkthroughRecordsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Note sprays, expenses, labour and sales, and see your accounts. Works without internet; records are sent when the network is back.'**
+  String get walkthroughRecordsBody;
+
+  /// No description provided for @settingsShowWalkthrough.
+  ///
+  /// In en, this message translates to:
+  /// **'See the app introduction again'**
+  String get settingsShowWalkthrough;
+
   /// No description provided for @buildLabel.
   ///
   /// In en, this message translates to:

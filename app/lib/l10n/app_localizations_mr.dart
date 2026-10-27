@@ -789,6 +789,46 @@ class AppLocalizationsMr extends AppLocalizations {
   String get sendLogs => 'लॉग पाठवा';
 
   @override
+  String get walkthroughSkip => 'वगळा';
+
+  @override
+  String get walkthroughNext => 'पुढे';
+
+  @override
+  String get walkthroughStart => 'सुरू करा';
+
+  @override
+  String get walkthroughPlotsTitle => 'तुमचे प्लॉट आणि बहार कॅलेंडर';
+
+  @override
+  String get walkthroughPlotsBody =>
+      'तुमचे प्लॉट जोडा. प्रत्येक बहारसाठी हंगामाचं कॅलेंडर आणि करायच्या कामांची यादी दिसेल.';
+
+  @override
+  String get walkthroughWeatherTitle => 'तुमच्या प्लॉटसाठी हवामान सूचना';
+
+  @override
+  String get walkthroughWeatherBody =>
+      'तुमच्या प्लॉटवरचं हवामान पहा. पाऊस, ऊन किंवा थंडीकडे लक्ष द्यायची गरज असेल तेव्हा सूचना मिळेल.';
+
+  @override
+  String get walkthroughMarketTitle => 'देशभरातील बाजारभाव';
+
+  @override
+  String get walkthroughMarketBody =>
+      'तुमच्या पिकाचे भारतभरातील बाजारांमधले अलीकडचे भाव पहा.';
+
+  @override
+  String get walkthroughRecordsTitle => 'तुमच्या नोंदी आणि हिशोब';
+
+  @override
+  String get walkthroughRecordsBody =>
+      'फवारणी, खर्च, मजुरी आणि विक्रीची नोंद ठेवा आणि हिशोब पहा. इंटरनेट नसलं तरी चालतं; नेटवर्क आल्यावर नोंदी पाठवल्या जातात.';
+
+  @override
+  String get settingsShowWalkthrough => 'ॲपची ओळख पुन्हा पहा';
+
+  @override
   String buildLabel(String sha) {
     return 'चाचणी बिल्ड $sha';
   }

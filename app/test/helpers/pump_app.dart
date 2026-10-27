@@ -19,6 +19,7 @@ import 'package:bagmitra/features/practices/data/practice_cards.dart';
 import 'package:bagmitra/features/profile/data/language_catalog.dart';
 import 'package:bagmitra/features/tasks/data/task_kinds.dart';
 import 'package:bagmitra/features/voice/domain/speech.dart';
+import 'package:bagmitra/features/walkthrough/data/walkthrough_flag.dart';
 import 'package:bagmitra/sync/sync_engine.dart';
 
 import 'package:drift/drift.dart' show Value;
@@ -104,6 +105,7 @@ Future<AppDatabase> pumpApp(
   Future<void> Function(AppDatabase db)? seed,
   FileSharer? sharer,
   bool onboarded = true,
+  bool walkthroughSeen = true,
   LocationService? location,
   AppConfig config = testConfig,
   AppLog? log,
@@ -131,6 +133,8 @@ Future<AppDatabase> pumpApp(
           ),
     );
   }
+  // The first-run walkthrough is about a brand-new phone; other tests start past it.
+  if (walkthroughSeen) await tester.runAsync(WalkthroughFlag(db).markSeen);
   if (seed != null) await tester.runAsync(() => seed(db));
   await tester.pumpWidget(
     ProviderScope(
