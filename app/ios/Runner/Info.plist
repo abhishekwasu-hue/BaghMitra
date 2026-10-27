@@ -26,6 +26,15 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>app.bagmitra.bagmitra</string>
+			</array>
+		</dict>
+	</array>
 	<key>NSCameraUsageDescription</key>
 	<string>Take a photo of what you saw on the plot for your scouting log. The photo stays on this phone.</string>
 	<key>NSPhotoLibraryUsageDescription</key>

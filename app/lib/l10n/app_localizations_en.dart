@@ -129,6 +129,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loginSendOtp => 'Send OTP';
 
   @override
+  String get loginOr => 'or';
+
+  @override
+  String get loginGoogle => 'Sign in with Google';
+
+  @override
+  String get loginGoogleFailed =>
+      'Could not open Google sign-in. Check the internet and try again.';
+
+  @override
   String loginOtpTitle(String phone) {
     return 'Enter the OTP sent to $phone';
   }

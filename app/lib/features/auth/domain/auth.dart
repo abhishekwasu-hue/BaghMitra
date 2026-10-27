@@ -22,6 +22,10 @@ abstract interface class AuthRepository {
   Stream<AuthSession?> sessions();
   Future<void> sendOtp(String phoneE164);
   Future<AuthSession> verifyOtp(String phoneE164, String code);
+
+  /// Opens Google sign-in. The session arrives later through [sessions] once the grower
+  /// comes back to the app; throws [AuthFailure] if the sign-in page cannot be opened.
+  Future<void> signInWithGoogle();
   Future<void> signOut();
 }
 
@@ -40,6 +44,10 @@ String? normalizeIndianMobile(String input) {
 }
 
 bool isValidOtp(String code) => RegExp(r'^\d{6}$').hasMatch(code);
+
+/// Where Google sign-in returns to the app (Android intent filter, iOS URL type and the
+/// Supabase redirect allow-list must all name it).
+const googleRedirectUri = 'app.bagmitra.bagmitra://login-callback';
 
 /// The fixed identity of the local-only "Try without account" session (demo mode only).
 const localAccountPhone = '+919000000000';

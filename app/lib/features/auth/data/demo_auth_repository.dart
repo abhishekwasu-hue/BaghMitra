@@ -37,6 +37,16 @@ class DemoAuthRepository implements AuthRepository {
     return session;
   }
 
+  /// Signs in at once as a fixed local Google account (no browser in demo mode).
+  @override
+  Future<void> signInWithGoogle() async => _set(
+    const AuthSession(
+      userId: '00000000-0000-4000-8000-00000000600e',
+      phone: '',
+      accessToken: 'demo',
+    ),
+  );
+
   @override
   Future<void> signOut() async => _set(null);
 

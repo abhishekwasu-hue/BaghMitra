@@ -96,6 +96,9 @@
   "loginTitle": "Sign in with your mobile number",
   "loginPhoneLabel": "Mobile number",
   "loginSendOtp": "Send OTP",
+  "loginOr": "or",
+  "loginGoogle": "Sign in with Google",
+  "loginGoogleFailed": "Could not open Google sign-in. Check the internet and try again.",
   "loginOtpTitle": "Enter the OTP sent to {phone}",
   "@loginOtpTitle": {
     "placeholders": {

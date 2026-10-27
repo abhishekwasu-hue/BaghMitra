@@ -129,6 +129,16 @@ class AppLocalizationsHi extends AppLocalizations {
   String get loginSendOtp => 'OTP भेजें';
 
   @override
+  String get loginOr => 'या';
+
+  @override
+  String get loginGoogle => 'Google से लॉगिन करें';
+
+  @override
+  String get loginGoogleFailed =>
+      'Google लॉगिन नहीं खुल सका। इंटरनेट जाँचकर फिर से कोशिश करें।';
+
+  @override
   String loginOtpTitle(String phone) {
     return '$phone पर आया OTP डालें';
   }

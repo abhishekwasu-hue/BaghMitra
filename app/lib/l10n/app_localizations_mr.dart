@@ -129,6 +129,16 @@ class AppLocalizationsMr extends AppLocalizations {
   String get loginSendOtp => 'OTP पाठवा';
 
   @override
+  String get loginOr => 'किंवा';
+
+  @override
+  String get loginGoogle => 'Google ने लॉगिन करा';
+
+  @override
+  String get loginGoogleFailed =>
+      'Google लॉगिन उघडता आले नाही. इंटरनेट तपासून पुन्हा प्रयत्न करा.';
+
+  @override
   String loginOtpTitle(String phone) {
     return '$phone वर आलेला OTP टाका';
   }

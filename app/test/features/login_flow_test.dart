@@ -35,6 +35,25 @@ void main() {
     await unmountApp(tester);
   });
 
+  testWidgets('Google sign-in from the login page signs in to setup', (
+    tester,
+  ) async {
+    await pumpApp(tester, locale: const Locale('en'), session: null);
+    expect(find.text('or'), findsOneWidget);
+    await tester.tap(find.byKey(const Key('google-login')));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 500));
+    expect(find.text('Welcome to BagMitra'), findsOneWidget);
+    await unmountApp(tester);
+  });
+
+  testWidgets('Marathi login page offers Google', (tester) async {
+    await pumpApp(tester, session: null);
+    expect(find.text('Google ने लॉगिन करा'), findsOneWidget);
+    expect(find.text('किंवा'), findsOneWidget);
+    await unmountApp(tester);
+  });
+
   testWidgets('gallery route is blocked when the dev flag is off', (
     tester,
   ) async {

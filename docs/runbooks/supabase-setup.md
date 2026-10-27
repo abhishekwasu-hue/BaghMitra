@@ -36,6 +36,17 @@ sign in with `9800000001` and OTP `123456`).
    provider (Twilio, MessageBird, Textlocal or Vonage) and enter its credentials. Sending SMS to
    Indian numbers needs a registered DLT sender and template with the provider. Set the OTP
    length (6) and expiry (e.g. 300 s). Leave *confirm phone* on.
+2a. **Google sign-in (optional, no SMS cost).**
+   - Google Cloud Console → APIs & Services → Credentials → Create OAuth client ID → type
+     **Web application**. Authorised redirect URI: `https://<ref>.supabase.co/auth/v1/callback`.
+     Note the client ID and client secret (keep the secret out of git and chat).
+   - Supabase → Authentication → Sign In / Providers → **Google**: enable, paste the client ID and
+     secret.
+   - Supabase → Authentication → URL Configuration → Redirect URLs: add
+     `app.bagmitra.bagmitra://login-callback` (the app's return link; `googleRedirectUri` in
+     `app/lib/features/auth/domain/auth.dart`).
+   - The login page then shows "Google ने लॉगिन करा"; a Google account has no phone number, the
+     grower can add one later in the profile.
 3. **Signing keys.** Settings → JWT Keys: use the asymmetric signing keys (recommended) and note
    the JWKS URL `https://<ref>.supabase.co/auth/v1/.well-known/jwks.json`; if you stay on the
    legacy shared secret instead, copy the JWT secret. The API accepts either.
