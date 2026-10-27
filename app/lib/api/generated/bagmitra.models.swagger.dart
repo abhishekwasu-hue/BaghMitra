@@ -3070,6 +3070,236 @@ extension $FeedAdminWithdrawInExtension on FeedAdminWithdrawIn {
 }
 
 @JsonSerializable(explicitToJson: true)
+class FeedCheckIn {
+  const FeedCheckIn({required this.text});
+
+  factory FeedCheckIn.fromJson(Map<String, dynamic> json) =>
+      _$FeedCheckInFromJson(json);
+
+  static const toJsonFactory = _$FeedCheckInToJson;
+  Map<String, dynamic> toJson() => _$FeedCheckInToJson(this);
+
+  @JsonKey(name: 'text', includeIfNull: false)
+  final String text;
+  static const fromJsonFactory = _$FeedCheckInFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is FeedCheckIn &&
+            (identical(other.text, text) ||
+                const DeepCollectionEquality().equals(other.text, text)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(text) ^ runtimeType.hashCode;
+}
+
+extension $FeedCheckInExtension on FeedCheckIn {
+  FeedCheckIn copyWith({String? text}) {
+    return FeedCheckIn(text: text ?? this.text);
+  }
+
+  FeedCheckIn copyWithWrapped({Wrapped<String>? text}) {
+    return FeedCheckIn(text: (text != null ? text.value : this.text));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class FeedCheckMatch {
+  const FeedCheckMatch({
+    required this.grNumber,
+    required this.id,
+    required this.publishedAt,
+    required this.score,
+    required this.title,
+    required this.url,
+  });
+
+  factory FeedCheckMatch.fromJson(Map<String, dynamic> json) =>
+      _$FeedCheckMatchFromJson(json);
+
+  static const toJsonFactory = _$FeedCheckMatchToJson;
+  Map<String, dynamic> toJson() => _$FeedCheckMatchToJson(this);
+
+  @JsonKey(name: 'gr_number', includeIfNull: false)
+  final String? grNumber;
+  @JsonKey(name: 'id', includeIfNull: false)
+  final String id;
+  @JsonKey(name: 'published_at', includeIfNull: false)
+  final DateTime publishedAt;
+  @JsonKey(name: 'score', includeIfNull: false)
+  final double score;
+  @JsonKey(name: 'title', includeIfNull: false)
+  final String title;
+  @JsonKey(name: 'url', includeIfNull: false)
+  final String url;
+  static const fromJsonFactory = _$FeedCheckMatchFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is FeedCheckMatch &&
+            (identical(other.grNumber, grNumber) ||
+                const DeepCollectionEquality().equals(
+                  other.grNumber,
+                  grNumber,
+                )) &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.publishedAt, publishedAt) ||
+                const DeepCollectionEquality().equals(
+                  other.publishedAt,
+                  publishedAt,
+                )) &&
+            (identical(other.score, score) ||
+                const DeepCollectionEquality().equals(other.score, score)) &&
+            (identical(other.title, title) ||
+                const DeepCollectionEquality().equals(other.title, title)) &&
+            (identical(other.url, url) ||
+                const DeepCollectionEquality().equals(other.url, url)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(grNumber) ^
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(publishedAt) ^
+      const DeepCollectionEquality().hash(score) ^
+      const DeepCollectionEquality().hash(title) ^
+      const DeepCollectionEquality().hash(url) ^
+      runtimeType.hashCode;
+}
+
+extension $FeedCheckMatchExtension on FeedCheckMatch {
+  FeedCheckMatch copyWith({
+    String? grNumber,
+    String? id,
+    DateTime? publishedAt,
+    double? score,
+    String? title,
+    String? url,
+  }) {
+    return FeedCheckMatch(
+      grNumber: grNumber ?? this.grNumber,
+      id: id ?? this.id,
+      publishedAt: publishedAt ?? this.publishedAt,
+      score: score ?? this.score,
+      title: title ?? this.title,
+      url: url ?? this.url,
+    );
+  }
+
+  FeedCheckMatch copyWithWrapped({
+    Wrapped<String?>? grNumber,
+    Wrapped<String>? id,
+    Wrapped<DateTime>? publishedAt,
+    Wrapped<double>? score,
+    Wrapped<String>? title,
+    Wrapped<String>? url,
+  }) {
+    return FeedCheckMatch(
+      grNumber: (grNumber != null ? grNumber.value : this.grNumber),
+      id: (id != null ? id.value : this.id),
+      publishedAt: (publishedAt != null ? publishedAt.value : this.publishedAt),
+      score: (score != null ? score.value : this.score),
+      title: (title != null ? title.value : this.title),
+      url: (url != null ? url.value : this.url),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class FeedCheckResponse {
+  const FeedCheckResponse({
+    required this.matches,
+    required this.note,
+    required this.verdict,
+  });
+
+  factory FeedCheckResponse.fromJson(Map<String, dynamic> json) =>
+      _$FeedCheckResponseFromJson(json);
+
+  static const toJsonFactory = _$FeedCheckResponseToJson;
+  Map<String, dynamic> toJson() => _$FeedCheckResponseToJson(this);
+
+  @JsonKey(
+    name: 'matches',
+    includeIfNull: false,
+    defaultValue: <FeedCheckMatch>[],
+  )
+  final List<FeedCheckMatch> matches;
+  @JsonKey(name: 'note', includeIfNull: false)
+  final String note;
+  @JsonKey(
+    name: 'verdict',
+    includeIfNull: false,
+    toJson: feedCheckResponseVerdictToJson,
+    fromJson: feedCheckResponseVerdictFromJson,
+  )
+  final enums.FeedCheckResponseVerdict verdict;
+  static const fromJsonFactory = _$FeedCheckResponseFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is FeedCheckResponse &&
+            (identical(other.matches, matches) ||
+                const DeepCollectionEquality().equals(
+                  other.matches,
+                  matches,
+                )) &&
+            (identical(other.note, note) ||
+                const DeepCollectionEquality().equals(other.note, note)) &&
+            (identical(other.verdict, verdict) ||
+                const DeepCollectionEquality().equals(other.verdict, verdict)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(matches) ^
+      const DeepCollectionEquality().hash(note) ^
+      const DeepCollectionEquality().hash(verdict) ^
+      runtimeType.hashCode;
+}
+
+extension $FeedCheckResponseExtension on FeedCheckResponse {
+  FeedCheckResponse copyWith({
+    List<FeedCheckMatch>? matches,
+    String? note,
+    enums.FeedCheckResponseVerdict? verdict,
+  }) {
+    return FeedCheckResponse(
+      matches: matches ?? this.matches,
+      note: note ?? this.note,
+      verdict: verdict ?? this.verdict,
+    );
+  }
+
+  FeedCheckResponse copyWithWrapped({
+    Wrapped<List<FeedCheckMatch>>? matches,
+    Wrapped<String>? note,
+    Wrapped<enums.FeedCheckResponseVerdict>? verdict,
+  }) {
+    return FeedCheckResponse(
+      matches: (matches != null ? matches.value : this.matches),
+      note: (note != null ? note.value : this.note),
+      verdict: (verdict != null ? verdict.value : this.verdict),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class FeedItemOut {
   const FeedItemOut({
     required this.deadline,
@@ -7029,6 +7259,85 @@ feedAdminTermsInTermsStatusNullableListFromJson(
       .toList();
 }
 
+String? feedCheckResponseVerdictNullableToJson(
+  enums.FeedCheckResponseVerdict? feedCheckResponseVerdict,
+) {
+  return feedCheckResponseVerdict?.value;
+}
+
+String? feedCheckResponseVerdictToJson(
+  enums.FeedCheckResponseVerdict feedCheckResponseVerdict,
+) {
+  return feedCheckResponseVerdict.value;
+}
+
+enums.FeedCheckResponseVerdict feedCheckResponseVerdictFromJson(
+  Object? feedCheckResponseVerdict, [
+  enums.FeedCheckResponseVerdict? defaultValue,
+]) {
+  return enums.FeedCheckResponseVerdict.values.firstWhereOrNull(
+        (e) => e.value == feedCheckResponseVerdict,
+      ) ??
+      defaultValue ??
+      enums.FeedCheckResponseVerdict.swaggerGeneratedUnknown;
+}
+
+enums.FeedCheckResponseVerdict? feedCheckResponseVerdictNullableFromJson(
+  Object? feedCheckResponseVerdict, [
+  enums.FeedCheckResponseVerdict? defaultValue,
+]) {
+  if (feedCheckResponseVerdict == null) {
+    return null;
+  }
+  return enums.FeedCheckResponseVerdict.values.firstWhereOrNull(
+        (e) => e.value == feedCheckResponseVerdict,
+      ) ??
+      defaultValue;
+}
+
+String feedCheckResponseVerdictExplodedListToJson(
+  List<enums.FeedCheckResponseVerdict>? feedCheckResponseVerdict,
+) {
+  return feedCheckResponseVerdict?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> feedCheckResponseVerdictListToJson(
+  List<enums.FeedCheckResponseVerdict>? feedCheckResponseVerdict,
+) {
+  if (feedCheckResponseVerdict == null) {
+    return [];
+  }
+
+  return feedCheckResponseVerdict.map((e) => e.value!).toList();
+}
+
+List<enums.FeedCheckResponseVerdict> feedCheckResponseVerdictListFromJson(
+  List? feedCheckResponseVerdict, [
+  List<enums.FeedCheckResponseVerdict>? defaultValue,
+]) {
+  if (feedCheckResponseVerdict == null) {
+    return defaultValue ?? [];
+  }
+
+  return feedCheckResponseVerdict
+      .map((e) => feedCheckResponseVerdictFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.FeedCheckResponseVerdict>?
+feedCheckResponseVerdictNullableListFromJson(
+  List? feedCheckResponseVerdict, [
+  List<enums.FeedCheckResponseVerdict>? defaultValue,
+]) {
+  if (feedCheckResponseVerdict == null) {
+    return defaultValue;
+  }
+
+  return feedCheckResponseVerdict
+      .map((e) => feedCheckResponseVerdictFromJson(e.toString()))
+      .toList();
+}
+
 String? feedItemOutTrustNullableToJson(
   enums.FeedItemOutTrust? feedItemOutTrust,
 ) {
@@ -7861,6 +8170,84 @@ List<enums.V1FeedGetLang>? v1FeedGetLangNullableListFromJson(
   }
 
   return v1FeedGetLang.map((e) => v1FeedGetLangFromJson(e.toString())).toList();
+}
+
+String? v1FeedCheckPostLangNullableToJson(
+  enums.V1FeedCheckPostLang? v1FeedCheckPostLang,
+) {
+  return v1FeedCheckPostLang?.value;
+}
+
+String? v1FeedCheckPostLangToJson(
+  enums.V1FeedCheckPostLang v1FeedCheckPostLang,
+) {
+  return v1FeedCheckPostLang.value;
+}
+
+enums.V1FeedCheckPostLang v1FeedCheckPostLangFromJson(
+  Object? v1FeedCheckPostLang, [
+  enums.V1FeedCheckPostLang? defaultValue,
+]) {
+  return enums.V1FeedCheckPostLang.values.firstWhereOrNull(
+        (e) => e.value == v1FeedCheckPostLang,
+      ) ??
+      defaultValue ??
+      enums.V1FeedCheckPostLang.swaggerGeneratedUnknown;
+}
+
+enums.V1FeedCheckPostLang? v1FeedCheckPostLangNullableFromJson(
+  Object? v1FeedCheckPostLang, [
+  enums.V1FeedCheckPostLang? defaultValue,
+]) {
+  if (v1FeedCheckPostLang == null) {
+    return null;
+  }
+  return enums.V1FeedCheckPostLang.values.firstWhereOrNull(
+        (e) => e.value == v1FeedCheckPostLang,
+      ) ??
+      defaultValue;
+}
+
+String v1FeedCheckPostLangExplodedListToJson(
+  List<enums.V1FeedCheckPostLang>? v1FeedCheckPostLang,
+) {
+  return v1FeedCheckPostLang?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> v1FeedCheckPostLangListToJson(
+  List<enums.V1FeedCheckPostLang>? v1FeedCheckPostLang,
+) {
+  if (v1FeedCheckPostLang == null) {
+    return [];
+  }
+
+  return v1FeedCheckPostLang.map((e) => e.value!).toList();
+}
+
+List<enums.V1FeedCheckPostLang> v1FeedCheckPostLangListFromJson(
+  List? v1FeedCheckPostLang, [
+  List<enums.V1FeedCheckPostLang>? defaultValue,
+]) {
+  if (v1FeedCheckPostLang == null) {
+    return defaultValue ?? [];
+  }
+
+  return v1FeedCheckPostLang
+      .map((e) => v1FeedCheckPostLangFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.V1FeedCheckPostLang>? v1FeedCheckPostLangNullableListFromJson(
+  List? v1FeedCheckPostLang, [
+  List<enums.V1FeedCheckPostLang>? defaultValue,
+]) {
+  if (v1FeedCheckPostLang == null) {
+    return defaultValue;
+  }
+
+  return v1FeedCheckPostLang
+      .map((e) => v1FeedCheckPostLangFromJson(e.toString()))
+      .toList();
 }
 
 String? v1MarketPricesGetScopeNullableToJson(

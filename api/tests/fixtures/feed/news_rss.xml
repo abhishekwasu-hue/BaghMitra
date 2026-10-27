@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>PIB - Agriculture (fixture modelled on an RSS 2.0 channel; replace with a recorded feed once terms allow)</title>
+    <link>https://pib.gov.in</link>
+    <description>Press releases</description>
+    <item>
+      <title><![CDATA[Centre releases <b>PM-KISAN</b> instalment to farmers]]></title>
+      <link>https://pib.gov.in/PressReleasePage.aspx?PRID=1000001</link>
+      <guid isPermaLink="false">PRID-1000001</guid>
+      <pubDate>Mon, 26 Oct 2026 10:30:00 +0530</pubDate>
+      <description>ARTICLE BODY MUST NOT BE STORED. The full release text with &lt;img src="x.jpg"&gt; images.</description>
+      <enclosure url="https://pib.gov.in/photo.jpg" type="image/jpeg" length="1"/>
+    </item>
+    <item>
+      <title>कृषी यांत्रिकीकरण अभियानाचा आढावा</title>
+      <link>/PressReleasePage.aspx?PRID=1000002</link>
+      <dc:date>2026-10-25T09:00:00Z</dc:date>
+      <description>ARTICLE BODY MUST NOT BE STORED.</description>
+    </item>
+    <item>
+      <title>Release without a date is skipped</title>
+      <link>https://pib.gov.in/PressReleasePage.aspx?PRID=1000003</link>
+    </item>
+    <item>
+      <title>Release with a non-web link is skipped</title>
+      <link>javascript:alert(1)</link>
+      <pubDate>Sat, 24 Oct 2026 08:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>   </title>
+      <link>https://pib.gov.in/PressReleasePage.aspx?PRID=1000005</link>
+      <pubDate>Sat, 24 Oct 2026 08:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Same release listed twice</title>
+      <link>https://pib.gov.in/PressReleasePage.aspx?PRID=1000001</link>
+      <guid isPermaLink="false">PRID-1000001</guid>
+      <pubDate>Mon, 26 Oct 2026 10:30:00 +0530</pubDate>
+    </item>
+  </channel>
+</rss>

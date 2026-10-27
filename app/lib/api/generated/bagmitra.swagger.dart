@@ -1014,6 +1014,40 @@ profile and plots.''',
     ),
   });
 
+  ///Check
+  ///@param lang
+  Future<chopper.Response<FeedCheckResponse>> v1FeedCheckPost({
+    enums.V1FeedCheckPostLang? lang,
+    required FeedCheckIn? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      FeedCheckResponse,
+      () => FeedCheckResponse.fromJsonFactory,
+    );
+
+    return _v1FeedCheckPost(lang: lang?.value?.toString(), body: body);
+  }
+
+  ///Check
+  ///@param lang
+  @POST(path: '/v1/feed/check', optionalBody: true)
+  Future<chopper.Response<FeedCheckResponse>> _v1FeedCheckPost({
+    @Query('lang') String? lang,
+    @Body() required FeedCheckIn? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Compares the pasted text with published official items only. Never says a message is
+fake: without a match the note says none was found and points to the official portal.''',
+      summary: 'Check',
+      operationId: 'feed_check',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["feed"],
+      deprecated: false,
+    ),
+  });
+
   ///Dismiss
   ///@param item_id
   Future<chopper.Response<FeedReceiptOut>> v1FeedItemIdDismissPost({

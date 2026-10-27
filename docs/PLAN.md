@@ -205,14 +205,14 @@ feedback loop, consented field image dataset, quarterly source re-verification.
 ## Government GR, scheme & news feed (addendum v1.4)
 
 Spec: [`SPEC_govt_news_addendum_v1.4.md`](SPEC_govt_news_addendum_v1.4.md); runbook
-`docs/runbooks/govt-feed.md`; open questions QG1–QG3.
+`docs/runbooks/govt-feed.md`; open questions QG1–QG5.
 
 | Milestone | Definition of Done |
 |---|---|
 | G0 | `feed_*` tables with RLS (published feed readable, drafts and review events private); §3 sources seeded `terms_status: unknown`; `feed_admin` manual upload (hash kept, not the file), review queue, approve/publish/withdraw with replacement, i18n edits; output check ≥ 90 % coverage with injected hallucination tests; `GET /v1/feed` with footer; feed tab with static items behind a flag. |
 | G1 | GR adapter (terms + robots gate, rate limit, one try, fixture contract tests incl. 404/blocked), extraction (PDF text, OCR per QG2), AI classify/summarise adapters off without `FEED_AI_API_KEY`, quote-or-`not_stated`, mismatches forced to review; Official badge only with official source + hash; offline cache of the last 50 items. |
 | G2 | Rule-based matching (district, crop, hectares from plots; "may be eligible", ≥ 90 % coverage, table-driven); deadline/payment push alerts with dedupe, quiet hours, weekly cap, T-7/T-2/T-0 reminders, withdrawal cancels reminders; weekly digest. |
-| G3 | Curated news from sources whose terms allow headline + link (own 2-line summary, "News — not official"); "Check this message" for pasted forwards (matches an official item or says none found). |
+| G3 | Curated news from sources whose terms allow headline + link (own 2-line summary, "News — not official"); "Check this message" for pasted forwards (matches an official item or says none found). Server: ✅ news adapter (`feed/news.py`: RSS/Atom, tier news + terms `allowed` gate, robots, rate limit, one try, DTD/entity refusal, headline + link + date only, dedupe by guid/link hash, review before publish; `news_job` CLI; PIB seeded `unknown`, QG5); ✅ `POST /v1/feed/check` (rule matcher `feed/check.py` ≥ 90 % gate, published official items only, never "fake", text not stored, per-user limit); ✅ OpenAPI + app client regenerated. Open: app UI for news and "Check this message"; PIB terms check (QG5). |
 
 ## Work queue from the owner's unblock message (2026-10-20)
 
