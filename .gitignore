@@ -12,6 +12,7 @@ api/.ruff_cache/
 # App
 app/coverage/
 app/build/
+api/build/
 app/.dart_tool/
 app/test/**/failures/
 
