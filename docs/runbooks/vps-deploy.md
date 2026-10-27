@@ -38,6 +38,8 @@ chmod 600 .env
 ```
 `.env` मध्ये: `API_DOMAIN`, `DATABASE_URL` (Supabase चा direct connection string, सुरुवात `postgresql+asyncpg://`), `SUPABASE_JWKS_URL`, `ENTITLEMENT_SIGNING_KEY` (`openssl rand -base64 32 | tr '+/' '-_' | tr -d '='` ने बनवा). **`.env` कुणालाही पाठवू नका आणि GitHub वर टाकू नका.**
 
+ऐच्छिक (नसले तरी API चालते): `MARKET_API_KEY` (data.gov.in वरची मोफत key, बाजारभावासाठी). हवामानाला key लागत नाही (मोफत Open-Meteo; व्यावसायिक प्लॅन घेतल्यावर `WEATHER_BASE_URL` + `WEATHER_API_KEY`, Q25).
+
 ## ५. सुरू करा
 ```
 docker compose up -d --build
@@ -51,6 +53,25 @@ curl https://api.तुमचे-डोमेन.com/health/live
 cd /opt/bagmitra && git pull && cd deploy && docker compose up -d --build
 ```
 टेबलचे बदल (migration) प्रत्येक सुरुवातीला आपोआप होतात.
+
+## ६अ. रोजचे हवामान आणि सूचना (cron)
+API चालू झाल्यावर एकदाच `crontab -e` करून ही ओळ टाका (रोज सकाळी ५:३० IST = ००:०० UTC):
+```
+0 0 * * * cd /opt/bagmitra/deploy && docker compose exec -T api python -m bagmitra_api.weather.pull_job >> /var/log/bagmitra-weather-pull.log 2>&1
+```
+आधी एकदा हाताने चालवून पाहा (वरची कमांड `0 0 * * *` शिवाय). तपशील: `docs/runbooks/weather-pull.md`. फोनवर push सूचना Firebase key मिळाल्यावरच (Q32).
+
+## ६ब. बाजारभाव हाताने भरणारी व्यक्ती
+Supabase → Authentication → Users → त्या व्यक्तीचे `app_metadata` = `{"roles": ["market_admin"]}` (service role नेच बदलता येते). पायऱ्या: `docs/runbooks/market-prices.md`.
+
+## ६क. deploy आधीची यादी
+- [ ] DNS A record काम करतो (`ping api.तुमचे-डोमेन.com` ने VPS चा IP दिसतो)
+- [ ] `.env` भरलेली, `chmod 600`, GitHub वर नाही
+- [ ] `docker compose ps` मध्ये `api` healthy, `curl https://api.तुमचे-डोमेन.com/health/live` → `ok`
+- [ ] `docker compose logs api | grep -i "alembic"` मध्ये migration त्रुटी नाही
+- [ ] हवामान cron ओळ टाकली आणि हाताने एकदा चालवली (`new_alerts`, `failed_cells: 0`)
+- [ ] (ऐच्छिक) `MARKET_API_KEY` टाकून ॲपमध्ये बाजारभाव दिसतात
+- [ ] GitHub secrets `API_BASE_URL`, `SUPABASE_URL`, `SUPABASE_ANON_KEY` टाकून नवीन test APK
 
 ## ७. बॅकअप
 - **Supabase चा डेटाबेस वापरत असाल तर:** बॅकअप तिथल्या प्लॅननुसार (मोफत प्लॅनमध्ये मर्यादित). महत्त्वाचा डेटा असेल तर Settings → Database → Backups तपासा.
