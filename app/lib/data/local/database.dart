@@ -230,6 +230,24 @@ class FarmTasks extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
+/// Scouting log (mirror of the API `scouting_record` entity). [photoPath] is local only:
+/// the photo stays on this phone and is never synced.
+@DataClassName('ScoutingRecordRow')
+class ScoutingRecords extends Table {
+  TextColumn get id => text()();
+  TextColumn get plotId => text()();
+  TextColumn get baharCycleId => text().nullable()();
+  DateTimeColumn get observedOn => dateTime()();
+  TextColumn get item => text()();
+  TextColumn get severity => text()();
+  TextColumn get note => text().nullable()();
+  TextColumn get photoPath => text().nullable()();
+  DateTimeColumn get clientUpdatedAt => dateTime()();
+
+  @override
+  Set<Column<Object>> get primaryKey => {id};
+}
+
 /// Small key/value store for sync cursors and similar bookkeeping.
 class SyncMeta extends Table {
   TextColumn get key => text()();
@@ -254,6 +272,7 @@ class SyncMeta extends Table {
     HarvestRecords,
     LabourRecords,
     FarmTasks,
+    ScoutingRecords,
   ],
 )
 class AppDatabase extends _$AppDatabase {
@@ -262,7 +281,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.open(String name) : super(driftDatabase(name: name));
 
   @override
-  int get schemaVersion => 8;
+  int get schemaVersion => 9;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -284,6 +303,7 @@ class AppDatabase extends _$AppDatabase {
         await m.createTable(labourRecords);
       }
       if (from < 8) await m.createTable(farmTasks);
+      if (from < 9) await m.createTable(scoutingRecords);
     },
   );
 

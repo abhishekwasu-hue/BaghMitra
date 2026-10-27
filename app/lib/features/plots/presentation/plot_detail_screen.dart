@@ -96,6 +96,13 @@ class PlotDetailScreen extends ConsumerWidget {
             child: Text(t.plotOpenRecords),
           ),
           const SizedBox(height: BmSpace.sm),
+          OutlinedButton.icon(
+            key: const Key('open-scouting'),
+            onPressed: () => context.push(Routes.scouting(plot.id)),
+            icon: const Icon(Icons.search_rounded),
+            label: Text(t.scoutingTitle),
+          ),
+          const SizedBox(height: BmSpace.sm),
           OutlinedButton(
             key: const Key('open-practices'),
             onPressed: () => context.push(Routes.practices),

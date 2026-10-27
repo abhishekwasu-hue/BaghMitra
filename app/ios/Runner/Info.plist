@@ -26,6 +26,10 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Take a photo of what you saw on the plot for your scouting log. The photo stays on this phone.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Pick a photo for your scouting log. The photo stays on this phone.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

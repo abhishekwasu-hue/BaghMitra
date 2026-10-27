@@ -1103,4 +1103,77 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get practicesSourcesLine =>
       'स्रोत: NHB और डॉ. पीडीकेवी, अकोला। हर पद्धति के नीचे विवरण।';
+
+  @override
+  String get scoutingTitle => 'निरीक्षण नोंद';
+
+  @override
+  String get scoutingAdd => 'निरीक्षण जोड़ें';
+
+  @override
+  String get scoutingEmpty =>
+      'अभी कोई निरीक्षण दर्ज नहीं है। इस बाग में जो दिखा, वह दर्ज करें।';
+
+  @override
+  String get scoutingDate => 'तारीख';
+
+  @override
+  String get scoutingWhat => 'क्या देखा?';
+
+  @override
+  String get scoutingSeverity => 'कितना?';
+
+  @override
+  String get scoutingNote => 'टिप्पणी (वैकल्पिक)';
+
+  @override
+  String get scoutingPhoto => 'फ़ोटो (वैकल्पिक, सिर्फ़ इसी फ़ोन पर रहती है)';
+
+  @override
+  String get scoutingCamera => 'कैमरा';
+
+  @override
+  String get scoutingGallery => 'गैलरी';
+
+  @override
+  String get scoutingRemovePhoto => 'फ़ोटो हटाएँ';
+
+  @override
+  String get scoutingPhotoFailed => 'फ़ोटो नहीं मिल सकी। फिर से कोशिश करें।';
+
+  @override
+  String get scoutingPickOne => 'एक चुनें';
+
+  @override
+  String get scoutingItemPsylla => 'सिट्रस सिल्ला';
+
+  @override
+  String get scoutingItemLeafMiner => 'पत्ती सुरंगक (लीफ माइनर)';
+
+  @override
+  String get scoutingItemMitesThrips => 'माइट्स / थ्रिप्स';
+
+  @override
+  String get scoutingItemFruitDrop => 'फल गिरना';
+
+  @override
+  String get scoutingItemGummosis => 'गोंद रिसना / छाल';
+
+  @override
+  String get scoutingItemDieBack => 'टहनियाँ सूखना (डाइबैक)';
+
+  @override
+  String get scoutingItemOther => 'अन्य';
+
+  @override
+  String get scoutingSeverityNone => 'नहीं दिखा';
+
+  @override
+  String get scoutingSeverityLow => 'कम';
+
+  @override
+  String get scoutingSeverityMedium => 'मध्यम';
+
+  @override
+  String get scoutingSeverityHigh => 'ज़्यादा';
 }
