@@ -1313,4 +1313,102 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get feedNotFound => 'हा संदेश आता जतन यादीत नाही.';
+
+  @override
+  String get feedUnseen => 'नवीन';
+
+  @override
+  String get feedDismiss => 'माझ्या यादीतून काढा';
+
+  @override
+  String get feedDismissed => 'तुमच्या यादीतून काढले.';
+
+  @override
+  String get feedPrefsTitle => 'सूचना सेटिंग';
+
+  @override
+  String get feedPrefsQuietTitle => 'शांत वेळ (सूचना नाहीत)';
+
+  @override
+  String get feedPrefsQuietStart => 'पासून';
+
+  @override
+  String get feedPrefsQuietEnd => 'पर्यंत';
+
+  @override
+  String feedPrefsWeeklyCap(String count) {
+    return 'आठवड्यात जास्तीत जास्त $count सूचना';
+  }
+
+  @override
+  String get feedPrefsCapLess => 'कमी';
+
+  @override
+  String get feedPrefsCapMore => 'जास्त';
+
+  @override
+  String get feedPrefsCategoriesTitle => 'या गोष्टींच्या सूचना पाठवा';
+
+  @override
+  String get feedPrefsCatDeadline => 'जवळ आलेल्या शेवटच्या तारखा';
+
+  @override
+  String get feedPrefsCatPayment => 'पैसे जमा झाल्याची माहिती';
+
+  @override
+  String get feedPrefsCatWindowOpen => 'अर्ज सुरू झाले';
+
+  @override
+  String get feedPrefsDigest => 'आठवड्याचा सारांश';
+
+  @override
+  String get feedPrefsDigestHint => 'आठवड्यातून एकदा नवीन माहितीचा एक संदेश.';
+
+  @override
+  String get feedPrefsSave => 'जतन करा';
+
+  @override
+  String get feedPrefsSaved => 'सेटिंग जतन झाली.';
+
+  @override
+  String get feedPrefsSaveFailed =>
+      'जतन झाले नाही. इंटरनेट आल्यावर पुन्हा करा.';
+
+  @override
+  String get feedPrefsOffline =>
+      'इंटरनेट नाही. ही तुमची शेवटची जतन केलेली सेटिंग आहे. जतन करायला इंटरनेट लागेल.';
+
+  @override
+  String get feedCheckTitle => 'संदेश तपासा';
+
+  @override
+  String get feedCheckIntro =>
+      'WhatsApp वर GR किंवा योजनेचा संदेश आला? इथे पेस्ट करा, आम्ही अधिकृत GR शोधू.';
+
+  @override
+  String get feedCheckHint => 'संदेश इथे पेस्ट करा';
+
+  @override
+  String get feedCheckPaste => 'पेस्ट करा';
+
+  @override
+  String get feedCheckButton => 'तपासा';
+
+  @override
+  String get feedCheckPrivacy => 'हा मजकूर तुमच्या फोनवर जतन होत नाही.';
+
+  @override
+  String get feedCheckFailed => 'तपासता आले नाही. यासाठी इंटरनेट लागेल.';
+
+  @override
+  String get feedCheckOfficial => 'अधिकृत GR सापडला';
+
+  @override
+  String get feedCheckPossible => 'कदाचित संबंधित अधिकृत संदेश';
+
+  @override
+  String get feedCheckNoMatch => 'जुळणारा अधिकृत संदेश सापडला नाही.';
+
+  @override
+  String get feedCheckPortal => 'काही करण्याआधी अधिकृत पोर्टल तपासा.';
 }

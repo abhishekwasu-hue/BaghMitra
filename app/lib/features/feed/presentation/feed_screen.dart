@@ -9,6 +9,8 @@ import '../../../core/formatting.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../../tasks/domain/farm_task.dart';
+import '../data/feed_receipts.dart';
+import '../data/feed_repository.dart';
 import '../domain/feed_item.dart';
 
 /// Sarkari Sandesh: official GRs, circulars, schemes and alerts, plus clearly marked news,
@@ -30,7 +32,12 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
     final c = context.bm;
     final lang = Localizations.localeOf(context).languageCode;
     final cached = ref.watch(feedProvider(lang)).value;
-    final items = filterFeed(cached?.page.items ?? const [], _filter);
+    final receipts =
+        ref.watch(feedReceiptStateProvider).value ?? const FeedReceiptState();
+    final items = [
+      for (final i in filterFeed(cached?.page.items ?? const [], _filter))
+        if (!receipts.dismissed.contains(i.id)) i,
+    ];
     final now = ref.watch(clockProvider)();
 
     final filters = <FeedFilter?, String>{
@@ -47,6 +54,20 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
           t.feedTitle,
           style: BmType.section.copyWith(color: c.brand),
         ),
+        actions: [
+          IconButton(
+            key: const Key('feed-open-check'),
+            tooltip: t.feedCheckTitle,
+            icon: const Icon(Icons.fact_check_outlined),
+            onPressed: () => context.push(Routes.feedCheck),
+          ),
+          IconButton(
+            key: const Key('feed-open-settings'),
+            tooltip: t.feedPrefsTitle,
+            icon: const Icon(Icons.tune),
+            onPressed: () => context.push(Routes.feedSettings),
+          ),
+        ],
       ),
       bottomNavigationBar: FeedFooter(serverFooter: cached?.page.footer),
       body: ListView(
@@ -91,7 +112,30 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
                     border: Border.all(color: c.line),
                   ),
                   padding: const EdgeInsets.all(BmSpace.md),
-                  child: _ItemBody(item: item, now: now, lang: lang),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: _ItemBody(item: item, now: now, lang: lang),
+                      ),
+                      if (!item.seen && !receipts.seen.contains(item.id))
+                        Padding(
+                          padding: const EdgeInsets.only(left: BmSpace.xs),
+                          child: Semantics(
+                            label: t.feedUnseen,
+                            child: Container(
+                              key: Key('feed-unseen-${item.id}'),
+                              width: 10,
+                              height: 10,
+                              decoration: BoxDecoration(
+                                color: c.accent,
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -278,20 +322,60 @@ String feedShareText(AppLocalizations t, FeedItem item, String lang) => [
   t.feedFooter,
 ].join('\n');
 
-/// One item in full: summary, deadline, source link, and the remind / share actions.
-class FeedItemScreen extends ConsumerWidget {
+/// One item in full: summary, deadline, source link, and the remind / share / hide
+/// actions. Opening it marks it seen (on the phone at once, on the server when online).
+class FeedItemScreen extends ConsumerStatefulWidget {
   const FeedItemScreen({super.key, required this.itemId});
 
   final String itemId;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<FeedItemScreen> createState() => _FeedItemScreenState();
+}
+
+class _FeedItemScreenState extends ConsumerState<FeedItemScreen> {
+  bool _markedSeen = false;
+
+  String get itemId => widget.itemId;
+
+  /// Records a receipt; [receipts] is read up front by callers that await first.
+  Future<void> _receipt(
+    String id,
+    FeedReceiptAction action, [
+    FeedReceipts? receipts,
+  ]) async {
+    if (receipts == null && !mounted) return;
+    final FeedReceipts store = receipts ?? ref.read(feedReceiptsProvider);
+    await store.record(id, action);
+    if (mounted) ref.invalidate(feedReceiptStateProvider);
+  }
+
+  void _markSeen(FeedItem item) {
+    if (_markedSeen || item.seen) return;
+    _markedSeen = true;
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => _receipt(item.id, FeedReceiptAction.seen),
+    );
+  }
+
+  Future<void> _dismiss(FeedItem item) async {
+    final t = AppLocalizations.of(context);
+    final messenger = ScaffoldMessenger.of(context);
+    final router = GoRouter.of(context);
+    await _receipt(item.id, FeedReceiptAction.dismiss);
+    messenger.showSnackBar(SnackBar(content: Text(t.feedDismissed)));
+    if (router.canPop()) router.pop();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
     final c = context.bm;
     final lang = Localizations.localeOf(context).languageCode;
     final cached = ref.watch(feedProvider(lang)).value;
     final now = ref.watch(clockProvider)();
     final item = cached?.page.items.where((i) => i.id == itemId).firstOrNull;
+    if (item != null) _markSeen(item);
     final tasks = ref.watch(tasksProvider).value ?? const <FarmTask>[];
     final reminded =
         item != null &&
@@ -329,7 +413,7 @@ class FeedItemScreen extends ConsumerWidget {
                         key: const Key('feed-remind'),
                         icon: const Icon(Icons.alarm_add_outlined),
                         label: Text(t.feedRemindMe),
-                        onPressed: () => _remind(context, ref, item),
+                        onPressed: () => _remind(item),
                       ),
                     OutlinedButton.icon(
                       key: const Key('feed-share'),
@@ -352,6 +436,12 @@ class FeedItemScreen extends ConsumerWidget {
                         }
                       },
                     ),
+                    OutlinedButton.icon(
+                      key: const Key('feed-dismiss'),
+                      icon: const Icon(Icons.visibility_off_outlined),
+                      label: Text(t.feedDismiss),
+                      onPressed: () => _dismiss(item),
+                    ),
                   ],
                 ),
               ],
@@ -359,16 +449,14 @@ class FeedItemScreen extends ConsumerWidget {
     );
   }
 
-  /// Adds an orchard-wide task due on the item's last date (once per item).
-  static Future<void> _remind(
-    BuildContext context,
-    WidgetRef ref,
-    FeedItem item,
-  ) async {
+  /// Adds an orchard-wide task due on the item's last date (once per item), and tells the
+  /// server so its reminder alert goes out too.
+  Future<void> _remind(FeedItem item) async {
     final t = AppLocalizations.of(context);
     final lang = Localizations.localeOf(context).languageCode;
     final messenger = ScaffoldMessenger.of(context);
     final repo = ref.read(tasksRepositoryProvider);
+    final receipts = ref.read(feedReceiptsProvider);
     final deadline = item.deadline!;
     await repo.save(
       FarmTask(
@@ -383,6 +471,7 @@ class FeedItemScreen extends ConsumerWidget {
     messenger.showSnackBar(
       SnackBar(content: Text(t.feedReminderAdded(formatDate(deadline, lang)))),
     );
+    await _receipt(item.id, FeedReceiptAction.remind, receipts);
   }
 }
 

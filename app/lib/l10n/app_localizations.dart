@@ -2337,6 +2337,192 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This message is no longer in the saved list.'**
   String get feedNotFound;
+
+  /// No description provided for @feedUnseen.
+  ///
+  /// In en, this message translates to:
+  /// **'New'**
+  String get feedUnseen;
+
+  /// No description provided for @feedDismiss.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide from my list'**
+  String get feedDismiss;
+
+  /// No description provided for @feedDismissed.
+  ///
+  /// In en, this message translates to:
+  /// **'Hidden from your list.'**
+  String get feedDismissed;
+
+  /// No description provided for @feedPrefsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Alert settings'**
+  String get feedPrefsTitle;
+
+  /// No description provided for @feedPrefsQuietTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Quiet hours (no alerts)'**
+  String get feedPrefsQuietTitle;
+
+  /// No description provided for @feedPrefsQuietStart.
+  ///
+  /// In en, this message translates to:
+  /// **'From'**
+  String get feedPrefsQuietStart;
+
+  /// No description provided for @feedPrefsQuietEnd.
+  ///
+  /// In en, this message translates to:
+  /// **'Until'**
+  String get feedPrefsQuietEnd;
+
+  /// No description provided for @feedPrefsWeeklyCap.
+  ///
+  /// In en, this message translates to:
+  /// **'At most {count} alerts a week'**
+  String feedPrefsWeeklyCap(String count);
+
+  /// No description provided for @feedPrefsCapLess.
+  ///
+  /// In en, this message translates to:
+  /// **'Fewer'**
+  String get feedPrefsCapLess;
+
+  /// No description provided for @feedPrefsCapMore.
+  ///
+  /// In en, this message translates to:
+  /// **'More'**
+  String get feedPrefsCapMore;
+
+  /// No description provided for @feedPrefsCategoriesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Send me alerts for'**
+  String get feedPrefsCategoriesTitle;
+
+  /// No description provided for @feedPrefsCatDeadline.
+  ///
+  /// In en, this message translates to:
+  /// **'Last dates coming up'**
+  String get feedPrefsCatDeadline;
+
+  /// No description provided for @feedPrefsCatPayment.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment updates'**
+  String get feedPrefsCatPayment;
+
+  /// No description provided for @feedPrefsCatWindowOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Applications open'**
+  String get feedPrefsCatWindowOpen;
+
+  /// No description provided for @feedPrefsDigest.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly summary'**
+  String get feedPrefsDigest;
+
+  /// No description provided for @feedPrefsDigestHint.
+  ///
+  /// In en, this message translates to:
+  /// **'One message a week with what is new.'**
+  String get feedPrefsDigestHint;
+
+  /// No description provided for @feedPrefsSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get feedPrefsSave;
+
+  /// No description provided for @feedPrefsSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings saved.'**
+  String get feedPrefsSaved;
+
+  /// No description provided for @feedPrefsSaveFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not save. Try again when online.'**
+  String get feedPrefsSaveFailed;
+
+  /// No description provided for @feedPrefsOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'You are offline. These are your last saved settings. Saving needs internet.'**
+  String get feedPrefsOffline;
+
+  /// No description provided for @feedCheckTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Check a message'**
+  String get feedCheckTitle;
+
+  /// No description provided for @feedCheckIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Got a message about a GR or scheme on WhatsApp? Paste it here to look for the official GR.'**
+  String get feedCheckIntro;
+
+  /// No description provided for @feedCheckHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste the message here'**
+  String get feedCheckHint;
+
+  /// No description provided for @feedCheckPaste.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste'**
+  String get feedCheckPaste;
+
+  /// No description provided for @feedCheckButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Check'**
+  String get feedCheckButton;
+
+  /// No description provided for @feedCheckPrivacy.
+  ///
+  /// In en, this message translates to:
+  /// **'The text is not saved on your phone.'**
+  String get feedCheckPrivacy;
+
+  /// No description provided for @feedCheckFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not check. This needs internet.'**
+  String get feedCheckFailed;
+
+  /// No description provided for @feedCheckOfficial.
+  ///
+  /// In en, this message translates to:
+  /// **'Official GR found'**
+  String get feedCheckOfficial;
+
+  /// No description provided for @feedCheckPossible.
+  ///
+  /// In en, this message translates to:
+  /// **'Possibly related official items'**
+  String get feedCheckPossible;
+
+  /// No description provided for @feedCheckNoMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'No matching official item was found.'**
+  String get feedCheckNoMatch;
+
+  /// No description provided for @feedCheckPortal.
+  ///
+  /// In en, this message translates to:
+  /// **'Check the official portal before acting.'**
+  String get feedCheckPortal;
 }
 
 class _AppLocalizationsDelegate
