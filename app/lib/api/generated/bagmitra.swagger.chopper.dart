@@ -497,6 +497,59 @@ are shown as published, never estimated; `stale` says the source could not be re
   }
 
   @override
+  Future<Response<dynamic>> _v1MeDevicesDelete({
+    required DeviceOut? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Stop push alerts to this phone (sign-out); unknown tokens are ignored.',
+      summary: 'Unregister Device',
+      operationId: 'me_device_unregister',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["profile"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/me/devices');
+    final $body = body;
+    final Request $request = Request(
+      'DELETE',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _v1MeDevicesPost({
+    required DeviceIn? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description:
+          'Register this phone for push alerts; repeating it is harmless.',
+      summary: 'Register Device',
+      operationId: 'me_device_register',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["profile"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/me/devices');
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
   Future<Response<PlotWeather>> _v1PlotsPlotIdWeatherGet({
     required String? plotId,
     String? lang,

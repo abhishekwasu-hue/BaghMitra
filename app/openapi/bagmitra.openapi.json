@@ -177,6 +177,46 @@
         "title": "Change",
         "type": "object"
       },
+      "DeviceIn": {
+        "properties": {
+          "platform": {
+            "enum": [
+              "android",
+              "ios",
+              "web"
+            ],
+            "title": "Platform",
+            "type": "string"
+          },
+          "token": {
+            "maxLength": 512,
+            "minLength": 1,
+            "title": "Token",
+            "type": "string"
+          }
+        },
+        "required": [
+          "token",
+          "platform"
+        ],
+        "title": "DeviceIn",
+        "type": "object"
+      },
+      "DeviceOut": {
+        "properties": {
+          "token": {
+            "maxLength": 512,
+            "minLength": 1,
+            "title": "Token",
+            "type": "string"
+          }
+        },
+        "required": [
+          "token"
+        ],
+        "title": "DeviceOut",
+        "type": "object"
+      },
       "EntitlementsOut": {
         "properties": {
           "computed_at": {
@@ -2950,6 +2990,104 @@
           }
         ],
         "summary": "Get Me",
+        "tags": [
+          "profile"
+        ]
+      }
+    },
+    "/v1/me/devices": {
+      "delete": {
+        "description": "Stop push alerts to this phone (sign-out); unknown tokens are ignored.",
+        "operationId": "me_device_unregister",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeviceOut"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Unregister Device",
+        "tags": [
+          "profile"
+        ]
+      },
+      "post": {
+        "description": "Register this phone for push alerts; repeating it is harmless.",
+        "operationId": "me_device_register",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeviceIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Register Device",
         "tags": [
           "profile"
         ]
