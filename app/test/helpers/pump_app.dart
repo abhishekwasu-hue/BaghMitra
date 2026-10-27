@@ -18,6 +18,7 @@ import 'package:bagmitra/features/plots/data/location_service.dart';
 import 'package:bagmitra/features/practices/data/irrigation_guide.dart';
 import 'package:bagmitra/features/practices/data/practice_cards.dart';
 import 'package:bagmitra/features/profile/data/language_catalog.dart';
+import 'package:bagmitra/features/scouting/data/scouting_photos.dart';
 import 'package:bagmitra/features/tasks/data/task_kinds.dart';
 import 'package:bagmitra/features/voice/domain/speech.dart';
 import 'package:bagmitra/features/walkthrough/data/walkthrough_flag.dart';
@@ -112,6 +113,7 @@ Future<AppDatabase> pumpApp(
   AppConfig config = testConfig,
   AppLog? log,
   SpeechRecognizer? recognizer,
+  ScoutingPhotos? photos,
   List<Override> overrides = const [],
 }) async {
   tester.view.physicalSize = phoneSize * 3;
@@ -147,6 +149,7 @@ Future<AppDatabase> pumpApp(
         if (recognizer != null)
           speechRecognizerProvider.overrideWithValue(recognizer),
         fileSharerProvider.overrideWithValue(sharer ?? RecordingSharer()),
+        if (photos != null) scoutingPhotosProvider.overrideWithValue(photos),
         if (location != null)
           locationServiceProvider.overrideWithValue(location),
         databaseProvider.overrideWithValue(db),

@@ -71,6 +71,7 @@ void main() {
       expect(await db.select(db.irrigationRecords).get(), isEmpty);
       expect(await db.select(db.harvestRecords).get(), isEmpty);
       expect(await db.select(db.labourRecords).get(), isEmpty);
+      expect(await db.select(db.scoutingRecords).get(), isEmpty);
       await db.close();
     },
   );

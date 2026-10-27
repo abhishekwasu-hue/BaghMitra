@@ -63,6 +63,10 @@ class BaharScreen extends ConsumerWidget {
                 value: Routes.harvest(plotId),
                 child: Text(AppLocalizations.of(context).harvestTitle),
               ),
+              PopupMenuItem(
+                value: Routes.scouting(plotId),
+                child: Text(AppLocalizations.of(context).scoutingTitle),
+              ),
             ],
           ),
           IconButton(

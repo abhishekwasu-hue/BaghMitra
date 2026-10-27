@@ -26,6 +26,14 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Take a photo of what you saw on the plot for your scouting log. The photo stays on this phone.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Pick a photo for your scouting log. The photo stays on this phone.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Speak a note instead of typing it. Nothing is saved until you tap Save.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Turn what you say into text for your notes.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

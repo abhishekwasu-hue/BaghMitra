@@ -28,7 +28,6 @@ final sampleFeed = feedBody([
   feedJson(
     'gr1',
     grNumber: 'GR-2026-101',
-    department: 'Agriculture Dept',
     publishedAt: '2026-10-12T06:00:00Z',
     deadline: '2026-10-30',
     eligible: ['you grow oranges'],

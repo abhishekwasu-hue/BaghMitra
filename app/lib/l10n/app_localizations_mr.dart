@@ -1103,6 +1103,79 @@ class AppLocalizationsMr extends AppLocalizations {
       'स्रोत: NHB आणि डॉ. पंदेकृवि, अकोला. प्रत्येक पद्धतीखाली तपशील.';
 
   @override
+  String get scoutingTitle => 'पाहणी नोंद';
+
+  @override
+  String get scoutingAdd => 'पाहणी नोंदवा';
+
+  @override
+  String get scoutingEmpty =>
+      'अजून पाहणी नोंदवलेली नाही. या बागेत काय दिसले ते नोंदवा.';
+
+  @override
+  String get scoutingDate => 'तारीख';
+
+  @override
+  String get scoutingWhat => 'काय पाहिले?';
+
+  @override
+  String get scoutingSeverity => 'किती प्रमाणात?';
+
+  @override
+  String get scoutingNote => 'टीप (ऐच्छिक)';
+
+  @override
+  String get scoutingPhoto => 'फोटो (ऐच्छिक, फक्त या फोनवर राहतो)';
+
+  @override
+  String get scoutingCamera => 'कॅमेरा';
+
+  @override
+  String get scoutingGallery => 'गॅलरी';
+
+  @override
+  String get scoutingRemovePhoto => 'फोटो काढा';
+
+  @override
+  String get scoutingPhotoFailed => 'फोटो घेता आला नाही. पुन्हा प्रयत्न करा.';
+
+  @override
+  String get scoutingPickOne => 'एक निवडा';
+
+  @override
+  String get scoutingItemPsylla => 'सिट्रस सायला';
+
+  @override
+  String get scoutingItemLeafMiner => 'पाने पोखरणारी अळी';
+
+  @override
+  String get scoutingItemMitesThrips => 'कोळी / फुलकिडे';
+
+  @override
+  String get scoutingItemFruitDrop => 'फळगळ';
+
+  @override
+  String get scoutingItemGummosis => 'डिंक्या / साल';
+
+  @override
+  String get scoutingItemDieBack => 'फांद्या वाळणे (डायबॅक)';
+
+  @override
+  String get scoutingItemOther => 'इतर';
+
+  @override
+  String get scoutingSeverityNone => 'दिसले नाही';
+
+  @override
+  String get scoutingSeverityLow => 'कमी';
+
+  @override
+  String get scoutingSeverityMedium => 'मध्यम';
+
+  @override
+  String get scoutingSeverityHigh => 'जास्त';
+
+  @override
   String get irrigationOpen => 'ओलित तक्ता';
 
   @override

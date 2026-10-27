@@ -29,6 +29,7 @@ from bagmitra_api.db.models import (
     IrrigationRecord,
     LabourRecord,
     Plot,
+    ScoutingRecord,
     SprayRecord,
 )
 from bagmitra_api.sync.payloads import (
@@ -43,6 +44,7 @@ from bagmitra_api.sync.payloads import (
     LabourRecordPayload,
     PlotPayload,
     RowPayload,
+    ScoutingRecordPayload,
     SprayRecordPayload,
 )
 
@@ -292,6 +294,12 @@ HANDLERS: dict[str, EntityHandler] = {
             name="spray_record",
             model=SprayRecord,
             payload_model=SprayRecordPayload,
+            parents=(("plot_id", Plot), ("bahar_cycle_id", BaharCycle)),
+        ),
+        OwnedEntityHandler(
+            name="scouting_record",
+            model=ScoutingRecord,
+            payload_model=ScoutingRecordPayload,
             parents=(("plot_id", Plot), ("bahar_cycle_id", BaharCycle)),
         ),
     )
