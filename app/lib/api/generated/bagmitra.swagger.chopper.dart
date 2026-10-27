@@ -418,6 +418,32 @@ is the raw file; only its hash, size and time are kept.''',
   }
 
   @override
+  Future<Response<ManualPricesOut>> _v1AdminMarketPricesPost({
+    required ManualPricesIn? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Store prices typed in from a mandi\'s published rate list (same day and mandi replace).',
+      summary: 'Upload Prices',
+      operationId: 'admin_market_prices_upload',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/market/prices');
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<ManualPricesOut, ManualPricesOut>($request);
+  }
+
+  @override
   Future<Response<EntitlementsResponse>> _v1BillingEntitlementsGet({
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',

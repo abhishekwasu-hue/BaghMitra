@@ -346,6 +346,54 @@ LiveResponse _$LiveResponseFromJson(Map<String, dynamic> json) => LiveResponse(
 Map<String, dynamic> _$LiveResponseToJson(LiveResponse instance) =>
     <String, dynamic>{'product': instance.product, 'status': instance.status};
 
+ManualPriceIn _$ManualPriceInFromJson(Map<String, dynamic> json) =>
+    ManualPriceIn(
+      commodity: json['commodity'] as String,
+      day: DateTime.parse(json['day'] as String),
+      district: json['district'] as String,
+      grade: json['grade'] as String?,
+      market: json['market'] as String,
+      maxRsPerQuintal: (json['max_rs_per_quintal'] as num?)?.toInt(),
+      minRsPerQuintal: (json['min_rs_per_quintal'] as num?)?.toInt(),
+      modalRsPerQuintal: (json['modal_rs_per_quintal'] as num).toInt(),
+      state: json['state'] as String,
+      variety: json['variety'] as String?,
+    );
+
+Map<String, dynamic> _$ManualPriceInToJson(ManualPriceIn instance) =>
+    <String, dynamic>{
+      'commodity': instance.commodity,
+      'day': ?_dateToJson(instance.day),
+      'district': instance.district,
+      'grade': ?instance.grade,
+      'market': instance.market,
+      'max_rs_per_quintal': ?instance.maxRsPerQuintal,
+      'min_rs_per_quintal': ?instance.minRsPerQuintal,
+      'modal_rs_per_quintal': instance.modalRsPerQuintal,
+      'state': instance.state,
+      'variety': ?instance.variety,
+    };
+
+ManualPricesIn _$ManualPricesInFromJson(Map<String, dynamic> json) =>
+    ManualPricesIn(
+      prices:
+          (json['prices'] as List<dynamic>?)
+              ?.map((e) => ManualPriceIn.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+    );
+
+Map<String, dynamic> _$ManualPricesInToJson(ManualPricesIn instance) =>
+    <String, dynamic>{
+      'prices': instance.prices.map((e) => e.toJson()).toList(),
+    };
+
+ManualPricesOut _$ManualPricesOutFromJson(Map<String, dynamic> json) =>
+    ManualPricesOut(stored: (json['stored'] as num).toInt());
+
+Map<String, dynamic> _$ManualPricesOutToJson(ManualPricesOut instance) =>
+    <String, dynamic>{'stored': instance.stored};
+
 MarketPriceOut _$MarketPriceOutFromJson(Map<String, dynamic> json) =>
     MarketPriceOut(
       commodity: json['commodity'] as String,

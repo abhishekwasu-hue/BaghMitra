@@ -1826,6 +1826,256 @@ extension $LiveResponseExtension on LiveResponse {
 }
 
 @JsonSerializable(explicitToJson: true)
+class ManualPriceIn {
+  const ManualPriceIn({
+    required this.commodity,
+    required this.day,
+    required this.district,
+    this.grade,
+    required this.market,
+    this.maxRsPerQuintal,
+    this.minRsPerQuintal,
+    required this.modalRsPerQuintal,
+    required this.state,
+    this.variety,
+  });
+
+  factory ManualPriceIn.fromJson(Map<String, dynamic> json) =>
+      _$ManualPriceInFromJson(json);
+
+  static const toJsonFactory = _$ManualPriceInToJson;
+  Map<String, dynamic> toJson() => _$ManualPriceInToJson(this);
+
+  @JsonKey(name: 'commodity', includeIfNull: false)
+  final String commodity;
+  @JsonKey(name: 'day', includeIfNull: false, toJson: _dateToJson)
+  final DateTime day;
+  @JsonKey(name: 'district', includeIfNull: false)
+  final String district;
+  @JsonKey(name: 'grade', includeIfNull: false)
+  final String? grade;
+  @JsonKey(name: 'market', includeIfNull: false)
+  final String market;
+  @JsonKey(name: 'max_rs_per_quintal', includeIfNull: false)
+  final int? maxRsPerQuintal;
+  @JsonKey(name: 'min_rs_per_quintal', includeIfNull: false)
+  final int? minRsPerQuintal;
+  @JsonKey(name: 'modal_rs_per_quintal', includeIfNull: false)
+  final int modalRsPerQuintal;
+  @JsonKey(name: 'state', includeIfNull: false)
+  final String state;
+  @JsonKey(name: 'variety', includeIfNull: false)
+  final String? variety;
+  static const fromJsonFactory = _$ManualPriceInFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is ManualPriceIn &&
+            (identical(other.commodity, commodity) ||
+                const DeepCollectionEquality().equals(
+                  other.commodity,
+                  commodity,
+                )) &&
+            (identical(other.day, day) ||
+                const DeepCollectionEquality().equals(other.day, day)) &&
+            (identical(other.district, district) ||
+                const DeepCollectionEquality().equals(
+                  other.district,
+                  district,
+                )) &&
+            (identical(other.grade, grade) ||
+                const DeepCollectionEquality().equals(other.grade, grade)) &&
+            (identical(other.market, market) ||
+                const DeepCollectionEquality().equals(other.market, market)) &&
+            (identical(other.maxRsPerQuintal, maxRsPerQuintal) ||
+                const DeepCollectionEquality().equals(
+                  other.maxRsPerQuintal,
+                  maxRsPerQuintal,
+                )) &&
+            (identical(other.minRsPerQuintal, minRsPerQuintal) ||
+                const DeepCollectionEquality().equals(
+                  other.minRsPerQuintal,
+                  minRsPerQuintal,
+                )) &&
+            (identical(other.modalRsPerQuintal, modalRsPerQuintal) ||
+                const DeepCollectionEquality().equals(
+                  other.modalRsPerQuintal,
+                  modalRsPerQuintal,
+                )) &&
+            (identical(other.state, state) ||
+                const DeepCollectionEquality().equals(other.state, state)) &&
+            (identical(other.variety, variety) ||
+                const DeepCollectionEquality().equals(other.variety, variety)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(commodity) ^
+      const DeepCollectionEquality().hash(day) ^
+      const DeepCollectionEquality().hash(district) ^
+      const DeepCollectionEquality().hash(grade) ^
+      const DeepCollectionEquality().hash(market) ^
+      const DeepCollectionEquality().hash(maxRsPerQuintal) ^
+      const DeepCollectionEquality().hash(minRsPerQuintal) ^
+      const DeepCollectionEquality().hash(modalRsPerQuintal) ^
+      const DeepCollectionEquality().hash(state) ^
+      const DeepCollectionEquality().hash(variety) ^
+      runtimeType.hashCode;
+}
+
+extension $ManualPriceInExtension on ManualPriceIn {
+  ManualPriceIn copyWith({
+    String? commodity,
+    DateTime? day,
+    String? district,
+    String? grade,
+    String? market,
+    int? maxRsPerQuintal,
+    int? minRsPerQuintal,
+    int? modalRsPerQuintal,
+    String? state,
+    String? variety,
+  }) {
+    return ManualPriceIn(
+      commodity: commodity ?? this.commodity,
+      day: day ?? this.day,
+      district: district ?? this.district,
+      grade: grade ?? this.grade,
+      market: market ?? this.market,
+      maxRsPerQuintal: maxRsPerQuintal ?? this.maxRsPerQuintal,
+      minRsPerQuintal: minRsPerQuintal ?? this.minRsPerQuintal,
+      modalRsPerQuintal: modalRsPerQuintal ?? this.modalRsPerQuintal,
+      state: state ?? this.state,
+      variety: variety ?? this.variety,
+    );
+  }
+
+  ManualPriceIn copyWithWrapped({
+    Wrapped<String>? commodity,
+    Wrapped<DateTime>? day,
+    Wrapped<String>? district,
+    Wrapped<String?>? grade,
+    Wrapped<String>? market,
+    Wrapped<int?>? maxRsPerQuintal,
+    Wrapped<int?>? minRsPerQuintal,
+    Wrapped<int>? modalRsPerQuintal,
+    Wrapped<String>? state,
+    Wrapped<String?>? variety,
+  }) {
+    return ManualPriceIn(
+      commodity: (commodity != null ? commodity.value : this.commodity),
+      day: (day != null ? day.value : this.day),
+      district: (district != null ? district.value : this.district),
+      grade: (grade != null ? grade.value : this.grade),
+      market: (market != null ? market.value : this.market),
+      maxRsPerQuintal: (maxRsPerQuintal != null
+          ? maxRsPerQuintal.value
+          : this.maxRsPerQuintal),
+      minRsPerQuintal: (minRsPerQuintal != null
+          ? minRsPerQuintal.value
+          : this.minRsPerQuintal),
+      modalRsPerQuintal: (modalRsPerQuintal != null
+          ? modalRsPerQuintal.value
+          : this.modalRsPerQuintal),
+      state: (state != null ? state.value : this.state),
+      variety: (variety != null ? variety.value : this.variety),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ManualPricesIn {
+  const ManualPricesIn({required this.prices});
+
+  factory ManualPricesIn.fromJson(Map<String, dynamic> json) =>
+      _$ManualPricesInFromJson(json);
+
+  static const toJsonFactory = _$ManualPricesInToJson;
+  Map<String, dynamic> toJson() => _$ManualPricesInToJson(this);
+
+  @JsonKey(
+    name: 'prices',
+    includeIfNull: false,
+    defaultValue: <ManualPriceIn>[],
+  )
+  final List<ManualPriceIn> prices;
+  static const fromJsonFactory = _$ManualPricesInFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is ManualPricesIn &&
+            (identical(other.prices, prices) ||
+                const DeepCollectionEquality().equals(other.prices, prices)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(prices) ^ runtimeType.hashCode;
+}
+
+extension $ManualPricesInExtension on ManualPricesIn {
+  ManualPricesIn copyWith({List<ManualPriceIn>? prices}) {
+    return ManualPricesIn(prices: prices ?? this.prices);
+  }
+
+  ManualPricesIn copyWithWrapped({Wrapped<List<ManualPriceIn>>? prices}) {
+    return ManualPricesIn(
+      prices: (prices != null ? prices.value : this.prices),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ManualPricesOut {
+  const ManualPricesOut({required this.stored});
+
+  factory ManualPricesOut.fromJson(Map<String, dynamic> json) =>
+      _$ManualPricesOutFromJson(json);
+
+  static const toJsonFactory = _$ManualPricesOutToJson;
+  Map<String, dynamic> toJson() => _$ManualPricesOutToJson(this);
+
+  @JsonKey(name: 'stored', includeIfNull: false)
+  final int stored;
+  static const fromJsonFactory = _$ManualPricesOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is ManualPricesOut &&
+            (identical(other.stored, stored) ||
+                const DeepCollectionEquality().equals(other.stored, stored)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(stored) ^ runtimeType.hashCode;
+}
+
+extension $ManualPricesOutExtension on ManualPricesOut {
+  ManualPricesOut copyWith({int? stored}) {
+    return ManualPricesOut(stored: stored ?? this.stored);
+  }
+
+  ManualPricesOut copyWithWrapped({Wrapped<int>? stored}) {
+    return ManualPricesOut(
+      stored: (stored != null ? stored.value : this.stored),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class MarketPriceOut {
   const MarketPriceOut({
     required this.commodity,
