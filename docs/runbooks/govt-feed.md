@@ -81,7 +81,9 @@ to the reviewer (a vision model is not wired; QG2 default).
   `PUT .../targets`) or approve with `{"accept_check_issues": true, "comment": "why"}`.
 - `POST .../approve`, then `POST .../publish`. Publishing is refused without an approval after
   the last change, without English text, for an official item without a document hash, or
-  after `valid_to`. Any edit sends a published item back to review.
+  after `valid_to`. Any edit sends a published item back to review. Publishing writes the item's
+  dates to `feed_deadlines`: `deadline` → apply_by, `valid_from` → window_open, `valid_to` →
+  window_close, `payment_date` (optional upload field, output-checked like the others) → payment.
 - Superseded GR: `POST .../withdraw {"reason": "...", "replaced_by_id": "<new item>"}`; the app
   shows "Replaced by …". Expired schemes (validity or deadline passed) are never listed.
 
@@ -95,3 +97,32 @@ draft for review only: it never publishes. Paid calls; without the key the endpo
 
 ## 6. App
 `GET /v1/feed?lang=en|mr|hi&type=official|scheme|deadline|news&district=&crop=` (signed in).
+
+## 7. Farmer state and push settings (G2)
+- `GET|PUT /v1/me/feed-preferences`: quiet hours (India time "HH:MM", default 21:00–07:00),
+  `weekly_cap` (default 3 alert pushes per rolling 7 days, hard, QG4), `opted_out`
+  (`deadline`, `payment`, `window_open`), `digest_weekly` (default on).
+- `POST /v1/feed/{id}/seen | /dismiss | /remind`; `GET /v1/feed` items carry `seen`.
+  Dismiss stops pushes for the item; "remind" asks for its date reminders even if the item is
+  not matched to the farmer's profile (refused for a withdrawn item or one without a date).
+
+## 8. Alert job (owner runs it; deploy/deploy.sh is unchanged)
+```
+python -m bagmitra_api.feed.alert_job      # prints a JSON summary, exit 1 if pushes failed
+```
+Per matched farmer and published item date: reminders at T-7 / T-2 / T-0 (apply_by,
+window_close), one push on a payment / window-open date (up to 2 days late), each item +
+stage once; withdrawn or expired items cancel what was pending; quiet hours hold a push until
+their end; the weekly digest lists new items for the farmer from the last 7 days. Text: title,
+"Last date: …", "Check the official GR/portal before acting." in the farmer's language
+(English fallback). Until the FCM sender exists (Q32) the summary says
+`"skipped_reason": "no push sender configured (FCM credentials)"` and nothing is stamped.
+
+Suggested cron on the VPS (twice a day, outside the default quiet hours; the server clock is
+UTC, so 03:17 and 11:47 UTC are 08:47 and 17:17 India time), with `crontab -e`:
+```
+17 3 * * *  cd /opt/bagmitra/deploy && docker compose exec -T api python -m bagmitra_api.feed.alert_job >> /var/log/bagmitra-feed-alerts.log 2>&1
+47 11 * * * cd /opt/bagmitra/deploy && docker compose exec -T api python -m bagmitra_api.feed.alert_job >> /var/log/bagmitra-feed-alerts.log 2>&1
+```
+Same layout as docs/runbooks/weather-pull.md. To stop: delete the lines. Migration
+`0020` must be applied first (it backfills `feed_deadlines` for items already published).

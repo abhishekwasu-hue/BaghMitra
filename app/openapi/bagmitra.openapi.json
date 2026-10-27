@@ -759,6 +759,18 @@
             ],
             "title": "Gr Number"
           },
+          "payment_date": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Payment Date"
+          },
           "published_at": {
             "format": "date-time",
             "title": "Published At",
@@ -925,6 +937,18 @@
             "format": "uuid",
             "title": "Id",
             "type": "string"
+          },
+          "payment_date": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Payment Date"
           },
           "published_at": {
             "format": "date-time",
@@ -1569,6 +1593,11 @@
             ],
             "title": "Replaced By"
           },
+          "seen": {
+            "default": false,
+            "title": "Seen",
+            "type": "boolean"
+          },
           "summary": {
             "anyOf": [
               {
@@ -1629,6 +1658,81 @@
           "may_be_eligible_because"
         ],
         "title": "FeedItemOut",
+        "type": "object"
+      },
+      "FeedPreferencesBody": {
+        "description": "Quiet hours are India local times \"HH:MM\" (start inclusive, end exclusive; equal\nmeans no quiet hours). `weekly_cap` counts alert pushes in any rolling 7 days.",
+        "properties": {
+          "digest_weekly": {
+            "title": "Digest Weekly",
+            "type": "boolean"
+          },
+          "opted_out": {
+            "items": {
+              "enum": [
+                "deadline",
+                "payment",
+                "window_open"
+              ],
+              "type": "string"
+            },
+            "maxItems": 3,
+            "title": "Opted Out",
+            "type": "array"
+          },
+          "quiet_end": {
+            "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$",
+            "title": "Quiet End",
+            "type": "string"
+          },
+          "quiet_start": {
+            "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$",
+            "title": "Quiet Start",
+            "type": "string"
+          },
+          "weekly_cap": {
+            "maximum": 21.0,
+            "minimum": 0.0,
+            "title": "Weekly Cap",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "quiet_start",
+          "quiet_end",
+          "weekly_cap",
+          "digest_weekly"
+        ],
+        "title": "FeedPreferencesBody",
+        "type": "object"
+      },
+      "FeedReceiptOut": {
+        "properties": {
+          "dismissed": {
+            "title": "Dismissed",
+            "type": "boolean"
+          },
+          "item_id": {
+            "format": "uuid",
+            "title": "Item Id",
+            "type": "string"
+          },
+          "remind": {
+            "title": "Remind",
+            "type": "boolean"
+          },
+          "seen": {
+            "title": "Seen",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "item_id",
+          "seen",
+          "dismissed",
+          "remind"
+        ],
+        "title": "FeedReceiptOut",
         "type": "object"
       },
       "FeedResponse": {
@@ -5419,6 +5523,242 @@
         ]
       }
     },
+    "/v1/feed/{item_id}/dismiss": {
+      "post": {
+        "description": "Hide the item from the caller's pushes (reminders and digest stop for it).",
+        "operationId": "feed_dismiss",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "item_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Item Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedReceiptOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Dismiss",
+        "tags": [
+          "feed"
+        ]
+      }
+    },
+    "/v1/feed/{item_id}/remind": {
+      "post": {
+        "description": "Record that the caller wants this item's date reminders even if it was not matched to\ntheir profile; undoes a dismiss. Only for a published item that has a date.",
+        "operationId": "feed_remind",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "item_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Item Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedReceiptOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Remind",
+        "tags": [
+          "feed"
+        ]
+      }
+    },
+    "/v1/feed/{item_id}/seen": {
+      "post": {
+        "operationId": "feed_mark_seen",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "item_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Item Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedReceiptOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Mark Seen",
+        "tags": [
+          "feed"
+        ]
+      }
+    },
     "/v1/market/prices": {
       "get": {
         "description": "Latest published price (₹ per quintal) at every reporting mandi in India for the crop:\nthe local APMCs first, then the major terminal markets, then all others by state. Prices\nare shown as published, never estimated; `stale` says the source could not be reached and\n`reason` says why. `scope` narrows the list to local or major mandis.",
@@ -5644,6 +5984,97 @@
         "summary": "Register Device",
         "tags": [
           "profile"
+        ]
+      }
+    },
+    "/v1/me/feed-preferences": {
+      "get": {
+        "description": "The caller's settings, or the defaults (21:00-07:00, 3 a week, digest on).",
+        "operationId": "feed_preferences_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedPreferencesBody"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Get Preferences",
+        "tags": [
+          "feed"
+        ]
+      },
+      "put": {
+        "operationId": "feed_preferences_put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FeedPreferencesBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedPreferencesBody"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Put Preferences",
+        "tags": [
+          "feed"
         ]
       }
     },

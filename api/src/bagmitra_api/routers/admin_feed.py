@@ -104,6 +104,8 @@ class FeedAdminItemIn(BaseModel):
     valid_from: date | None = None
     valid_to: date | None = None
     deadline: date | None = None
+    # Payment release date as stated in the document ("payment released" push, G2).
+    payment_date: date | None = None
     extracted_text: str | None = Field(default=None, max_length=2_000_000)
     # Optional PDF / HTML copy: only its SHA-256 and size are kept (OPEN_QUESTIONS QG1). Without
     # `extracted_text` the document's text is extracted (OCR fallback when enabled, QG2).
@@ -190,6 +192,7 @@ class FeedAdminItemOut(FeedAdminItemSummaryOut):
     valid_from: date | None
     valid_to: date | None
     deadline: date | None
+    payment_date: date | None = None
     replaced_by_id: uuid.UUID | None
     texts: dict[str, FeedAdminItemTextOut]
     card: FeedAdminCardOut | None
@@ -246,6 +249,7 @@ async def _detail(session: AsyncSession, item: FeedItem) -> FeedAdminItemOut:
         valid_from=item.valid_from,
         valid_to=item.valid_to,
         deadline=item.deadline,
+        payment_date=item.payment_date,
         replaced_by_id=item.replaced_by_id,
         texts={k: FeedAdminItemTextOut(title=v.title, summary=v.summary) for k, v in texts.items()},
         card=FeedAdminCardOut(version=card.version, fields=card.fields) if card else None,
@@ -328,6 +332,7 @@ async def create_item(
         valid_from=body.valid_from,
         valid_to=body.valid_to,
         deadline=body.deadline,
+        payment_date=body.payment_date,
         extracted_text=body.extracted_text,
         document=_decode(body),
         document_type=body.document_type,

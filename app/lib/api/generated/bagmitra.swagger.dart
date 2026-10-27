@@ -1014,6 +1014,100 @@ profile and plots.''',
     ),
   });
 
+  ///Dismiss
+  ///@param item_id
+  Future<chopper.Response<FeedReceiptOut>> v1FeedItemIdDismissPost({
+    required String? itemId,
+  }) {
+    generatedMapping.putIfAbsent(
+      FeedReceiptOut,
+      () => FeedReceiptOut.fromJsonFactory,
+    );
+
+    return _v1FeedItemIdDismissPost(itemId: itemId);
+  }
+
+  ///Dismiss
+  ///@param item_id
+  @POST(path: '/v1/feed/{item_id}/dismiss', optionalBody: true)
+  Future<chopper.Response<FeedReceiptOut>> _v1FeedItemIdDismissPost({
+    @Path('item_id') required String? itemId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Hide the item from the caller\'s pushes (reminders and digest stop for it).',
+      summary: 'Dismiss',
+      operationId: 'feed_dismiss',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["feed"],
+      deprecated: false,
+    ),
+  });
+
+  ///Remind
+  ///@param item_id
+  Future<chopper.Response<FeedReceiptOut>> v1FeedItemIdRemindPost({
+    required String? itemId,
+  }) {
+    generatedMapping.putIfAbsent(
+      FeedReceiptOut,
+      () => FeedReceiptOut.fromJsonFactory,
+    );
+
+    return _v1FeedItemIdRemindPost(itemId: itemId);
+  }
+
+  ///Remind
+  ///@param item_id
+  @POST(path: '/v1/feed/{item_id}/remind', optionalBody: true)
+  Future<chopper.Response<FeedReceiptOut>> _v1FeedItemIdRemindPost({
+    @Path('item_id') required String? itemId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Record that the caller wants this item\'s date reminders even if it was not matched to
+their profile; undoes a dismiss. Only for a published item that has a date.''',
+      summary: 'Remind',
+      operationId: 'feed_remind',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["feed"],
+      deprecated: false,
+    ),
+  });
+
+  ///Mark Seen
+  ///@param item_id
+  Future<chopper.Response<FeedReceiptOut>> v1FeedItemIdSeenPost({
+    required String? itemId,
+  }) {
+    generatedMapping.putIfAbsent(
+      FeedReceiptOut,
+      () => FeedReceiptOut.fromJsonFactory,
+    );
+
+    return _v1FeedItemIdSeenPost(itemId: itemId);
+  }
+
+  ///Mark Seen
+  ///@param item_id
+  @POST(path: '/v1/feed/{item_id}/seen', optionalBody: true)
+  Future<chopper.Response<FeedReceiptOut>> _v1FeedItemIdSeenPost({
+    @Path('item_id') required String? itemId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Mark Seen',
+      operationId: 'feed_mark_seen',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["feed"],
+      deprecated: false,
+    ),
+  });
+
   ///Get Market Prices
   ///@param crop
   ///@param scope
@@ -1119,6 +1213,61 @@ are shown as published, never estimated; `stale` says the source could not be re
       produces: [],
       security: ["HTTPBearer"],
       tags: ["profile"],
+      deprecated: false,
+    ),
+  });
+
+  ///Get Preferences
+  Future<chopper.Response<FeedPreferencesBody>> v1MeFeedPreferencesGet() {
+    generatedMapping.putIfAbsent(
+      FeedPreferencesBody,
+      () => FeedPreferencesBody.fromJsonFactory,
+    );
+
+    return _v1MeFeedPreferencesGet();
+  }
+
+  ///Get Preferences
+  @GET(path: '/v1/me/feed-preferences')
+  Future<chopper.Response<FeedPreferencesBody>> _v1MeFeedPreferencesGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'The caller\'s settings, or the defaults (21:00-07:00, 3 a week, digest on).',
+      summary: 'Get Preferences',
+      operationId: 'feed_preferences_get',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["feed"],
+      deprecated: false,
+    ),
+  });
+
+  ///Put Preferences
+  Future<chopper.Response<FeedPreferencesBody>> v1MeFeedPreferencesPut({
+    required FeedPreferencesBody? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      FeedPreferencesBody,
+      () => FeedPreferencesBody.fromJsonFactory,
+    );
+
+    return _v1MeFeedPreferencesPut(body: body);
+  }
+
+  ///Put Preferences
+  @PUT(path: '/v1/me/feed-preferences', optionalBody: true)
+  Future<chopper.Response<FeedPreferencesBody>> _v1MeFeedPreferencesPut({
+    @Body() required FeedPreferencesBody? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Put Preferences',
+      operationId: 'feed_preferences_put',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["feed"],
       deprecated: false,
     ),
   });
