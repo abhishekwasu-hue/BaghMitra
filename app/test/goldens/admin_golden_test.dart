@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../admin/admin_sign_in_test.dart' show FakeAdminAuth;
+import '../admin/feed_admin_test.dart' show FakeFeedAdmin;
 import '../admin/kb_admin_test.dart' show FakeKbAdmin;
 
 Future<void> _pump(WidgetTester tester, Widget app) async {
@@ -58,5 +59,24 @@ void main() {
     await tester.tap(find.text('Sources'));
     await tester.pumpAndSettle();
     await _shot(tester, 'sources');
+  });
+
+  testWidgets('admin_feed', (tester) async {
+    await _pump(
+      tester,
+      AdminApp(
+        productName: 'BagMitra',
+        auth: FakeAdminAuth(signedIn: true, roles: {'kb_admin', 'feed_admin'}),
+        kb: FakeKbAdmin(),
+        feed: FakeFeedAdmin(),
+      ),
+    );
+    await tester.tap(find.text('Govt feed'));
+    await tester.pumpAndSettle();
+    await _shot(tester, 'feed_queue');
+
+    await tester.tap(find.text('PM-KISAN instalment'));
+    await tester.pumpAndSettle();
+    await _shot(tester, 'feed_item');
   });
 }

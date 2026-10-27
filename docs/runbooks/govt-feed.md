@@ -87,6 +87,27 @@ to the reviewer (a vision model is not wired; QG2 default).
 - Superseded GR: `POST .../withdraw {"reason": "...", "replaced_by_id": "<new item>"}`; the app
   shows "Replaced by …". Expired schemes (validity or deadline passed) are never listed.
 
+## 4a. Review in the admin app
+`flutter run -d chrome -t lib/main_admin.dart` (same defines as the KB admin). Sign in with a
+staff account whose `app_metadata.roles` contains `feed_admin` (§1); the **Govt feed** section is
+shown only then (the API still checks the role on every call). Three tabs:
+- **Review queue**: items by status (In review, Draft, Published, Withdrawn) with type and trust
+  badges and the open check-issue count. Tap an item for the detail page: source link, status
+  and badges, output-check issues, extracted text (whether text is stored; method / quality /
+  pages from the `extracted` event and the unused text layer or OCR text), en / mr / hi title +
+  2-line summary editors (Save per language), dates (read-only: set at upload), the scheme card
+  (read-only), targets (district / crop / min-max ha; empty means any) and the history.
+  Actions: **Approve** (with open issues a dialog asks to accept them and needs a comment),
+  **Publish** (the refusal reason is shown), **Withdraw** (reason + optional replacement picked
+  from published / in-review items), **AI draft** ("AI not configured" when the API answers 503).
+- **Upload**: the admin app has no file picker yet, so paste the text copied from the GR and its
+  official URL, plus source key, type, published date, external id / GR number, department,
+  deadline / payment / validity dates (YYYY-MM-DD) and the English title and summary. Without a
+  document no hash is kept, so an official item cannot be published from such an upload; use
+  `POST /v1/admin/feed/items` with `document_base64` (§3) for that.
+- **Feed sources**: each source with its terms status; pick Unknown / Allowed / Disallowed, write
+  what you read in the note and Save (same as `PUT .../terms`, §2).
+
 ## 5. AI draft (optional, off by default)
 Set `FEED_AI_API_KEY` in the VPS `.env` (never in git or chat) and restart. Models:
 `FEED_CLASSIFY_MODEL` (default `claude-haiku-5-5`), `FEED_SUMMARISE_MODEL` (default

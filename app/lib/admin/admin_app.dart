@@ -4,18 +4,29 @@ import '../l10n/app_localizations.dart';
 import '../theme/app_theme.dart';
 import 'admin_auth.dart';
 import 'admin_sign_in.dart';
+import 'feed_admin_repository.dart';
+import 'feed_pages.dart';
 import 'kb_admin_repository.dart';
 import 'kb_pages.dart';
 
 /// Admin web shell (ADR 0006). Sections map to the config tables that keep business
 /// values out of code (spec §0.5); editors arrive with the milestones that own them.
 class AdminApp extends StatelessWidget {
-  const AdminApp({super.key, required this.productName, this.kb, this.auth});
+  const AdminApp({
+    super.key,
+    required this.productName,
+    this.kb,
+    this.feed,
+    this.auth,
+  });
 
   final String productName;
 
   /// Null when no admin can sign in (no backend); KB sections then explain why.
   final KbAdminRepository? kb;
+
+  /// Government feed review (API `/v1/admin/feed`); shown only to role `feed_admin`.
+  final FeedAdminRepository? feed;
 
   /// When set, the shell is shown only to a signed-in staff account.
   final AdminAuth? auth;
@@ -36,6 +47,8 @@ class AdminApp extends StatelessWidget {
             : AdminShell(
                 productName: productName,
                 kb: kb,
+                feed: feed,
+                roles: a.roles,
                 onSignOut: a.signOut,
               ),
       ),
@@ -48,11 +61,17 @@ class AdminShell extends StatefulWidget {
     super.key,
     required this.productName,
     this.kb,
+    this.feed,
+    this.roles = const {},
     this.onSignOut,
   });
 
   final String productName;
   final KbAdminRepository? kb;
+  final FeedAdminRepository? feed;
+
+  /// Supabase app_metadata roles of the signed-in account (gates the feed section).
+  final Set<String> roles;
   final VoidCallback? onSignOut;
 
   @override
@@ -92,6 +111,9 @@ class _AdminShellState extends State<AdminShell> {
         Icons.library_books_rounded,
         kbPage((r) => KbSourcesPage(kb: r)),
       ),
+      if (widget.feed case final feed?
+          when widget.roles.contains(feedAdminRole))
+        (t.adminFeed, Icons.campaign_rounded, FeedAdminSection(feed: feed)),
       (t.adminCropTemplates, Icons.eco_rounded, soon(1)),
       (t.adminRiskRules, Icons.thunderstorm_rounded, soon(4)),
       (t.adminPrompts, Icons.auto_awesome_rounded, soon(3)),

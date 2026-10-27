@@ -383,6 +383,239 @@ class AppLocalizationsMr extends AppLocalizations {
       'अॅडमिन साइन-इनसाठी SUPABASE_URL आणि SUPABASE_ANON_KEY हवे.';
 
   @override
+  String get adminFeed => 'सरकारी संदेश';
+
+  @override
+  String get adminFeedQueue => 'तपासणी रांग';
+
+  @override
+  String get adminFeedUpload => 'अपलोड';
+
+  @override
+  String get adminFeedSources => 'संदेश स्रोत';
+
+  @override
+  String get adminFeedStatusInReview => 'तपासणीत';
+
+  @override
+  String get adminFeedStatusDraft => 'मसुदा';
+
+  @override
+  String get adminFeedStatusPublished => 'प्रकाशित';
+
+  @override
+  String get adminFeedStatusWithdrawn => 'मागे घेतले';
+
+  @override
+  String get adminFeedNoItems => 'या यादीत काही नाही';
+
+  @override
+  String get adminFeedApproved => 'मंजूर';
+
+  @override
+  String adminFeedIssueCount(int count) {
+    return '$count तपासणी मुद्दे';
+  }
+
+  @override
+  String get adminFeedAiOff => 'AI सेट केलेले नाही';
+
+  @override
+  String get adminFeedSourceLink => 'मूळ दस्तऐवज';
+
+  @override
+  String adminFeedReplacedByValue(String id) {
+    return '$id ने बदलले';
+  }
+
+  @override
+  String get adminFeedWithdraw => 'मागे घ्या';
+
+  @override
+  String get adminFeedAiDraft => 'AI मसुदा';
+
+  @override
+  String get adminFeedCheckIssues => 'आउटपुट-तपासणी मुद्दे';
+
+  @override
+  String get adminFeedNoIssues => 'तपासणी मुद्दे नाहीत';
+
+  @override
+  String get adminFeedTextPreview => 'काढलेला मजकूर';
+
+  @override
+  String get adminFeedTexts => 'शीर्षक आणि सारांश';
+
+  @override
+  String get adminFeedDates => 'तारखा';
+
+  @override
+  String get adminFeedDeadline => 'शेवटची तारीख';
+
+  @override
+  String get adminFeedPayment => 'पैसे मिळण्याची तारीख';
+
+  @override
+  String get adminFeedValidFrom => 'पासून लागू';
+
+  @override
+  String get adminFeedValidTo => 'पर्यंत लागू';
+
+  @override
+  String get adminFeedDatesNote =>
+      'तारखा अपलोड करताना भरल्या जातात आणि मूळ मजकुराशी तपासल्या जातात.';
+
+  @override
+  String adminFeedCard(int version) {
+    return 'योजना कार्ड v$version';
+  }
+
+  @override
+  String get adminFeedTargets => 'लक्ष्य';
+
+  @override
+  String get adminFeedHistory => 'इतिहास';
+
+  @override
+  String get adminFeedHasText =>
+      'मजकूर साठवला आहे (आउटपुट तपासणी व AI मसुद्यासाठी).';
+
+  @override
+  String get adminFeedNoText =>
+      'वापरण्याजोगा मजकूर नाही: मजकूर पेस्ट करून पुन्हा अपलोड करा, किंवा टिप्पणीसह मुद्दे स्वीकारा.';
+
+  @override
+  String get adminFeedUnusedText =>
+      'न वापरलेला मजकूर (बिघडलेला मजकूर-स्तर किंवा OCR):';
+
+  @override
+  String get adminFeedTitle => 'शीर्षक';
+
+  @override
+  String get adminFeedSummary => 'सारांश (2 ओळी)';
+
+  @override
+  String get adminFeedSave => 'जतन करा';
+
+  @override
+  String get adminFeedBadNumber => 'हेक्टर आकड्यात लिहा.';
+
+  @override
+  String get adminFeedTargetsNote =>
+      'रिकामे क्षेत्र म्हणजे कोणतेही. जुळणी \"पात्र असू शकता\" म्हणते, \"मिळेल\" कधीच नाही.';
+
+  @override
+  String get adminFeedDistrict => 'जिल्हा';
+
+  @override
+  String get adminFeedCrop => 'पीक';
+
+  @override
+  String get adminFeedMinHa => 'किमान हे.';
+
+  @override
+  String get adminFeedMaxHa => 'कमाल हे.';
+
+  @override
+  String get adminFeedRemove => 'काढा';
+
+  @override
+  String get adminFeedAddTarget => 'लक्ष्य जोडा';
+
+  @override
+  String get adminFeedSaveTargets => 'लक्ष्य जतन करा';
+
+  @override
+  String get adminFeedAcceptTitle => 'उघडे तपासणी मुद्दे स्वीकारायचे?';
+
+  @override
+  String adminFeedAcceptBody(int count) {
+    return 'या बाबीत $count उघडे तपासणी मुद्दे आहेत. तरीही मंजूर करायचे असल्यास कारणाची टिप्पणी लिहा.';
+  }
+
+  @override
+  String get adminFeedComment => 'टिप्पणी (का)';
+
+  @override
+  String get adminFeedCancel => 'रद्द करा';
+
+  @override
+  String get adminFeedAcceptApprove => 'स्वीकारा आणि मंजूर करा';
+
+  @override
+  String get adminFeedWithdrawTitle => 'बाब मागे घ्या';
+
+  @override
+  String get adminFeedReason => 'कारण';
+
+  @override
+  String get adminFeedReplacedBy => 'याने बदलले';
+
+  @override
+  String get adminFeedNoReplacement => 'बदली नाही';
+
+  @override
+  String get adminFeedRequiredMissing =>
+      'स्रोत की, दस्तऐवज URL आणि प्रकाशन तारीख आवश्यक आहेत.';
+
+  @override
+  String get adminFeedBadDate => 'तारखा YYYY-MM-DD अशा लिहा.';
+
+  @override
+  String adminFeedCreated(String status, int count) {
+    return 'तयार: $status, $count तपासणी मुद्दे';
+  }
+
+  @override
+  String get adminFeedDateHint => 'YYYY-MM-DD';
+
+  @override
+  String get adminFeedUploadNote =>
+      'अॅडमिन अॅपमध्ये अजून फाइल निवड नाही: दस्तऐवजातील मजकूर व त्याचा अधिकृत URL पेस्ट करा.';
+
+  @override
+  String get adminFeedSourceKey => 'स्रोत की';
+
+  @override
+  String get adminFeedPublishedAt => 'प्रकाशन तारीख';
+
+  @override
+  String get adminFeedUrl => 'दस्तऐवज URL';
+
+  @override
+  String get adminFeedExternalId => 'बाह्य ID (GR कोड)';
+
+  @override
+  String get adminFeedGrNumber => 'GR क्रमांक';
+
+  @override
+  String get adminFeedDepartment => 'विभाग';
+
+  @override
+  String get adminFeedPastedText => 'दस्तऐवजातील मजकूर (पेस्ट केलेला)';
+
+  @override
+  String get adminFeedSubmit => 'तपासणीला पाठवा';
+
+  @override
+  String get adminFeedOpen => 'बाब उघडा';
+
+  @override
+  String get adminFeedTerms => 'अटी';
+
+  @override
+  String get adminFeedTermsUnknown => 'माहीत नाही';
+
+  @override
+  String get adminFeedTermsAllowed => 'परवानगी';
+
+  @override
+  String get adminFeedTermsDisallowed => 'परवानगी नाही';
+
+  @override
+  String get adminFeedTermsNote => 'टीप (काय वाचले)';
+
+  @override
   String get accountsTitle => 'हिशोब';
 
   @override
