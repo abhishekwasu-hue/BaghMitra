@@ -1,0 +1,130 @@
+{
+  "_note": "Irrigation guide (ओलित तक्ता) per crop and tree age, from docs/agronomy/DRAFT_irrigation.md. Sourced DRAFT, not expert-reviewed (OPEN_QUESTIONS Q35). Only numbers read in the fetched source are here; search-snippet numbers stay in the doc. No fertiliser or chemical content. Months only describe when a source measured something, never a date to act on.",
+  "status": "draft",
+  "sources": {
+    "N1": {"title": "NHB Model Project Report: Orange (Mandarin)", "publisher": "National Horticulture Board", "url": "https://nhb.gov.in/model-project-reports/Horticulture%20Crops/orange/orange1.htm"},
+    "C02": {"title": "NHB Citrus: Diseases", "publisher": "National Horticulture Board", "url": "https://www.nhb.gov.in/pdf/fruits/citrus/cit002.pdf"},
+    "C06": {"title": "NHB Citrus: Irrigation", "publisher": "National Horticulture Board", "url": "https://www.nhb.gov.in/pdf/fruits/citrus/cit006.pdf"},
+    "P1": {"title": "PDKV: AICRP (Tropical Fruits) on Citrus, Akola: recommendations", "publisher": "Dr. PDKV, Akola", "url": "https://www.pdkv.ac.in/?page_id=4604"},
+    "P2": {"title": "PDKV: crop-wise research recommendations 2009–2018, Citrus (Marathi)", "publisher": "Dr. PDKV, Akola", "year": 2018, "url": "https://www.pdkv.ac.in/pkv_journal/recommend/Horticulture/Citrus.pdf"},
+    "SH14": {"title": "Shirgure, Srivastava & Huchche: Water requirements in growth stages of drip irrigated Nagpur mandarin, Indian J. Agric. Sci. 84(3)", "publisher": "NRC for Citrus, Nagpur", "year": 2014, "url": "https://epubs.icar.org.in/index.php/IJAgS/article/download/38560/17334/88919"},
+    "SA14": {"title": "Shirgure & Srivastava: Automatic micro-irrigation scheduling of Nagpur mandarin, Indian J. Hort. 71(1)", "publisher": "NRC for Citrus, Nagpur", "year": 2014, "url": "https://journal.iahs.org.in/index.php/ijh/article/download/1363/863"},
+    "SH15": {"title": "Shirgure & Srivastava: Drip emitter arrangement in Nagpur mandarin, Indian J. Agric. Sci. 85(12)", "publisher": "CCRI, Nagpur", "year": 2015, "url": "https://epubs.icar.org.in/index.php/IJAgS/article/download/54312/22926/370204"},
+    "S8": {"title": "Jhade et al.: Water deficit stress period in Mrig crop of Nagpur mandarin, J. Agric. Ecol. 12(2)", "publisher": "SAAER", "year": 2021, "url": "https://saaer.org.in/journals/index.php/jae/article/view/406"},
+    "NI": {"title": "ICAR-NIASM Baramati: Agro-Advisory 140", "publisher": "ICAR-NIASM", "year": 2026, "url": "https://niam.res.in/sites/default/files/pdfs/Agro-Advisory-140.pdf"},
+    "GP": {"title": "Ghosh & Pal: Basin versus drip irrigation in Mosambi sweet orange, J. Hortl. Sci. 5(1)", "publisher": "BCKV, West Bengal", "year": 2010, "url": "https://jhs.iihr.res.in/index.php/jhs/article/download/487/335"},
+    "ML19": {"title": "Mukunda Lakshmi et al.: Water and nutrient management in Sathgudi sweet orange, Indian J. Agric. Sci. 89(11)", "publisher": "Dr YSRHU, Tirupati", "year": 2019, "url": "https://epubs.icar.org.in/index.php/IJAgS/article/download/95346/38259/245759"}
+  },
+  "age_bands": [
+    {"key": "young", "min": 0, "max": 4, "labels": {"en": "Young (1–4 years)", "mr": "लहान (१–४ वर्षे)", "hi": "छोटे (1–4 साल)"}},
+    {"key": "middle", "min": 5, "max": 8, "labels": {"en": "Middle (5–8 years)", "mr": "मध्यम (५–८ वर्षे)", "hi": "मध्यम (5–8 साल)"}},
+    {"key": "mature", "min": 9, "labels": {"en": "Mature (9 years and more)", "mr": "मोठी (९ वर्षे व जास्त)", "hi": "बड़े (9 साल और ज़्यादा)"}}
+  ],
+  "seasons": [
+    {"key": "year", "labels": {"en": "Whole year", "mr": "वर्षभर", "hi": "पूरे साल"}},
+    {"key": "winter", "labels": {"en": "Winter", "mr": "हिवाळा", "hi": "सर्दी"}},
+    {"key": "summer", "labels": {"en": "Summer", "mr": "उन्हाळा", "hi": "गर्मी"}},
+    {"key": "rainy", "labels": {"en": "Rainy season", "mr": "पावसाळा", "hi": "बरसात"}}
+  ],
+  "methods": {
+    "drip": {"en": "Drip", "mr": "ठिबक", "hi": "ड्रिप"},
+    "basin": {"en": "Basin (ring)", "mr": "आळे (दुहेरी आळे)", "hi": "थाला (रिंग)"},
+    "sprinkler": {"en": "Sprinkler", "mr": "तुषार", "hi": "फव्वारा"},
+    "any": {"en": "Any method", "mr": "कोणतीही पद्धत", "hi": "कोई भी तरीका"}
+  },
+  "crops": {
+    "santra": {
+      "rows": [
+        {"id": "s1", "ages": ["young"], "season": "year", "method": "drip", "source": "N1 §5.7.1", "source_keys": ["N1"],
+         "labels": {"en": "About 5–15 litres per tree per day.", "mr": "दर झाडाला दररोज सुमारे ५–१५ लिटर.", "hi": "हर पेड़ को रोज़ लगभग 5–15 लीटर।"}},
+        {"id": "s2", "ages": ["middle"], "season": "year", "method": "drip", "source": "N1 §5.7.1", "source_keys": ["N1"],
+         "labels": {"en": "About 35–105 litres per tree per day.", "mr": "दर झाडाला दररोज सुमारे ३५–१०५ लिटर.", "hi": "हर पेड़ को रोज़ लगभग 35–105 लीटर।"}},
+        {"id": "s3", "ages": ["mature"], "season": "year", "method": "drip", "source": "N1 §5.7.1", "source_keys": ["N1"],
+         "labels": {"en": "About 60–170 litres per tree per day.", "mr": "दर झाडाला दररोज सुमारे ६०–१७० लिटर.", "hi": "हर पेड़ को रोज़ लगभग 60–170 लीटर।"}},
+        {"id": "s4", "ages": ["mature"], "season": "year", "method": "drip", "source": "P2 (2016, water part)", "source_keys": ["P2"],
+         "labels": {"en": "Trees above 10 years: drip water equal to 90% of the day's evaporation.", "mr": "१० वर्षांवरील झाडे: दिवसाच्या बाष्पीभवनाच्या ९०% इतके पाणी ठिबकने.", "hi": "10 साल से ऊपर के पेड़: दिन के वाष्पीकरण का 90% पानी ड्रिप से।"}},
+        {"id": "s5", "ages": ["mature"], "season": "year", "method": "drip", "source": "SH15", "source_keys": ["SH15"],
+         "labels": {"en": "Trees 14–16 years old in a CCRI trial got 78–108 litres per tree per day on average.", "mr": "CCRI प्रयोगात १४–१६ वर्षांच्या झाडांना सरासरी दररोज ७८–१०८ लिटर पाणी दिले.", "hi": "CCRI प्रयोग में 14–16 साल के पेड़ों को औसतन रोज़ 78–108 लीटर पानी दिया गया।"}},
+        {"id": "s6", "ages": ["young", "middle", "mature"], "season": "year", "method": "drip", "source": "P2 (2015)", "source_keys": ["P2"],
+         "labels": {"en": "West and central Vidarbha: drip every day, water equal to 80% of the day's evaporation.", "mr": "पश्चिम व मध्य विदर्भ: रोज ठिबकने, दिवसाच्या बाष्पीभवनाच्या ८०% इतके पाणी.", "hi": "पश्चिम और मध्य विदर्भ: रोज़ ड्रिप से, दिन के वाष्पीकरण का 80% पानी।"}},
+        {"id": "s7", "ages": ["young", "middle", "mature"], "season": "year", "method": "basin", "source": "P1 Horticulture recs", "source_keys": ["P1"],
+         "labels": {"en": "Medium soil (about 1 m deep): water when 40% of the soil moisture is used up (about 60 mm of evaporation).", "mr": "मध्यम जमीन (सुमारे १ मीटर खोल): जमिनीतील ४०% ओल संपल्यावर पाणी द्या (सुमारे ६० मिमी बाष्पीभवन).", "hi": "मध्यम मिट्टी (लगभग 1 मीटर गहरी): मिट्टी की 40% नमी खत्म होने पर पानी दें (लगभग 60 मिमी वाष्पीकरण)।"}},
+        {"id": "s8", "ages": ["mature"], "season": "winter", "method": "drip", "source": "SH14 Table 2", "source_keys": ["SH14"],
+         "labels": {"en": "Trees 8–10 years old, drip at 80% of evaporation: about 35–78 litres per tree per day (November–February in the trial).", "mr": "८–१० वर्षांची झाडे, बाष्पीभवनाच्या ८०% ठिबक: दर झाडाला दररोज सुमारे ३५–७८ लिटर (प्रयोगात नोव्हेंबर–फेब्रुवारी).", "hi": "8–10 साल के पेड़, वाष्पीकरण का 80% ड्रिप: हर पेड़ को रोज़ लगभग 35–78 लीटर (प्रयोग में नवंबर–फरवरी)।"}},
+        {"id": "s9", "ages": ["mature"], "season": "summer", "method": "drip", "source": "SH14 Table 2", "source_keys": ["SH14"],
+         "labels": {"en": "Same trial: about 100–188 litres per tree per day (March–June, most in June).", "mr": "त्याच प्रयोगात: दर झाडाला दररोज सुमारे १००–१८८ लिटर (मार्च–जून, जूनमध्ये सर्वात जास्त).", "hi": "उसी प्रयोग में: हर पेड़ को रोज़ लगभग 100–188 लीटर (मार्च–जून, जून में सबसे ज़्यादा)।"}},
+        {"id": "s10", "ages": ["mature"], "season": "summer", "method": "drip", "source": "SA14", "source_keys": ["SA14"],
+         "labels": {"en": "Trees 12–14 years old: 133–148 litres per tree per day in May–June.", "mr": "१२–१४ वर्षांची झाडे: मे–जूनमध्ये दर झाडाला दररोज १३३–१४८ लिटर.", "hi": "12–14 साल के पेड़: मई–जून में हर पेड़ को रोज़ 133–148 लीटर।"}},
+        {"id": "s11", "ages": ["mature"], "season": "rainy", "method": "drip", "source": "SH14 Table 2", "source_keys": ["SH14"],
+         "labels": {"en": "In the trial, rain met the need from July to October; no drip water was given.", "mr": "प्रयोगात जुलै–ऑक्टोबर पावसानेच गरज भागली; ठिबकने पाणी दिले नाही.", "hi": "प्रयोग में जुलाई–अक्टूबर बारिश से ही ज़रूरत पूरी हुई; ड्रिप से पानी नहीं दिया गया।"}},
+        {"id": "s12", "ages": ["mature"], "season": "rainy", "method": "drip", "source": "SA14", "source_keys": ["SA14"],
+         "labels": {"en": "Trees 12–14 years old: 65–72 litres per tree per day in October.", "mr": "१२–१४ वर्षांची झाडे: ऑक्टोबरमध्ये दर झाडाला दररोज ६५–७२ लिटर.", "hi": "12–14 साल के पेड़: अक्टूबर में हर पेड़ को रोज़ 65–72 लीटर।"}},
+        {"id": "s13", "ages": ["young", "middle", "mature"], "season": "winter", "method": "basin", "source": "N1 §5.7", "source_keys": ["N1"],
+         "labels": {"en": "Water every 10–15 days.", "mr": "दर १०–१५ दिवसांनी पाणी.", "hi": "हर 10–15 दिन में पानी।"}},
+        {"id": "s14", "ages": ["young", "middle", "mature"], "season": "winter", "method": "basin", "source": "C06", "source_keys": ["C06"],
+         "labels": {"en": "Water every 10–12 days.", "mr": "दर १०–१२ दिवसांनी पाणी.", "hi": "हर 10–12 दिन में पानी।"}},
+        {"id": "s15", "ages": ["young", "middle", "mature"], "season": "winter", "method": "sprinkler", "source": "P1 Horticulture recs", "source_keys": ["P1"],
+         "labels": {"en": "Instead of basin: about 53 litres per tree per watering.", "mr": "आळ्याऐवजी: दर पाळीला दर झाडाला सुमारे ५३ लिटर.", "hi": "थाले की जगह: हर बार हर पेड़ को लगभग 53 लीटर।"}},
+        {"id": "s16", "ages": ["young", "middle", "mature"], "season": "summer", "method": "basin", "source": "N1 §5.7", "source_keys": ["N1"],
+         "labels": {"en": "Water every 5–7 days.", "mr": "दर ५–७ दिवसांनी पाणी.", "hi": "हर 5–7 दिन में पानी।"}},
+        {"id": "s17", "ages": ["young", "middle", "mature"], "season": "summer", "method": "basin", "source": "C06", "source_keys": ["C06"],
+         "labels": {"en": "Water every 5–6 days.", "mr": "दर ५–६ दिवसांनी पाणी.", "hi": "हर 5–6 दिन में पानी।"}},
+        {"id": "s18", "ages": ["young", "middle", "mature"], "season": "summer", "method": "sprinkler", "source": "P1 Horticulture recs", "source_keys": ["P1"],
+         "labels": {"en": "Instead of basin: about 102 litres per tree per watering.", "mr": "आळ्याऐवजी: दर पाळीला दर झाडाला सुमारे १०२ लिटर.", "hi": "थाले की जगह: हर बार हर पेड़ को लगभग 102 लीटर।"}},
+        {"id": "s19", "ages": ["young", "middle", "mature"], "season": "rainy", "method": "any", "source": "P1 (decline management)", "source_keys": ["P1"],
+         "labels": {"en": "Drain extra water: a channel between rows, about 60 cm wide and 30 cm deep.", "mr": "जास्तीचे पाणी काढा: ओळींमध्ये सुमारे ६० सेंमी रुंद व ३० सेंमी खोल चर.", "hi": "ज़्यादा पानी निकालें: कतारों के बीच लगभग 60 सेमी चौड़ी और 30 सेमी गहरी नाली।"}}
+      ],
+      "notes": [
+        {"id": "sn1", "source": "C06", "source_keys": ["C06"],
+         "labels": {"en": "Water a few days before flowering and again after fruit set; short water then drops flowers and young fruit.", "mr": "फुलोऱ्याच्या काही दिवस आधी आणि फळधारणेनंतर पुन्हा पाणी द्या; तेव्हा पाणी कमी पडले तर फुले व लहान फळे गळतात.", "hi": "फूल आने से कुछ दिन पहले और फल लगने के बाद फिर पानी दें; तब पानी कम पड़ा तो फूल और छोटे फल गिरते हैं।"}},
+        {"id": "sn2", "source": "C06", "source_keys": ["C06"],
+         "labels": {"en": "Keep watering as fruit matures, so fruit does not shrink and the pulp does not dry; mild late stress raises sweetness but gives smaller fruit.", "mr": "फळ पक्व होताना पाणी चालू ठेवा, म्हणजे फळ आकसत नाही व गर सुकत नाही; शेवटी थोडा ताण दिल्यास गोडी वाढते पण फळ लहान राहते.", "hi": "फल पकते समय पानी देते रहें, ताकि फल न सिकुड़े और गूदा न सूखे; आखिर में थोड़ा तनाव मिठास बढ़ाता है पर फल छोटा रहता है।"}},
+        {"id": "sn3", "source": "C06", "source_keys": ["C06"],
+         "labels": {"en": "Summer is the critical time: frequent light watering keeps the soil cooler.", "mr": "उन्हाळा सर्वात महत्त्वाचा: थोडे थोडे पण वारंवार पाणी दिल्याने जमीन थंड राहते.", "hi": "गर्मी सबसे अहम समय है: थोड़ा-थोड़ा पर बार-बार पानी देने से मिट्टी ठंडी रहती है।"}},
+        {"id": "sn4", "source": "C02", "source_keys": ["C02"],
+         "labels": {"en": "Use a double ring so water does not touch the trunk.", "mr": "दुहेरी आळे करा, म्हणजे पाणी खोडाला लागत नाही.", "hi": "दोहरा थाला बनाएँ, ताकि पानी तने को न छुए।"}},
+        {"id": "sn5", "source": "P1 Horticulture recs", "source_keys": ["P1"],
+         "labels": {"en": "Drip saved about 30% water and gave bigger, juicier fruit.", "mr": "ठिबकने सुमारे ३०% पाणी वाचले आणि फळे मोठी व रसदार मिळाली.", "hi": "ड्रिप से लगभग 30% पानी बचा और फल बड़े व रसीले मिले।"}},
+        {"id": "sn6", "source": "N1 §5.10", "source_keys": ["N1"],
+         "labels": {"en": "A mulch of dry leaves or paddy husk, about 8 cm thick in the basin, means fewer waterings.", "mr": "आळ्यात सुमारे ८ सेंमी वाळलेली पाने किंवा भाताचा तूस टाकल्यास पाणी कमी वेळा द्यावे लागते.", "hi": "थाले में लगभग 8 सेमी सूखी पत्तियाँ या धान की भूसी बिछाने से कम बार पानी देना पड़ता है।"}},
+        {"id": "sn7", "source": "N1 §5.13", "source_keys": ["N1"],
+         "labels": {"en": "Bahar rest: water is held back for about a month before flowering, until the leaves wilt; in light, sandy or shallow soil 2–3 weeks is enough.", "mr": "बहाराचा ताण: फुलोऱ्याआधी सुमारे एक महिना, पाने मलूल होईपर्यंत पाणी थांबवतात; हलक्या, वाळूच्या किंवा उथळ जमिनीत २–३ आठवडे पुरेसे.", "hi": "बहार का तनाव: फूल आने से पहले लगभग एक महीना, पत्तियाँ मुरझाने तक पानी रोका जाता है; हल्की, रेतीली या उथली मिट्टी में 2–3 हफ्ते काफी हैं।"}},
+        {"id": "sn8", "source": "P1 Horticulture recs", "source_keys": ["P1"],
+         "labels": {"en": "For Mrig bahar on medium soil, PDKV found 50 days without water enough.", "mr": "मध्यम जमिनीत मृग बहारासाठी ५० दिवसांचा ताण पुरेसा असल्याचे पंदेकृविला आढळले.", "hi": "मध्यम मिट्टी में मृग बहार के लिए PDKV ने 50 दिन का तनाव काफी पाया।"}},
+        {"id": "sn9", "source": "S8", "source_keys": ["S8"],
+         "labels": {"en": "A CCRI trial describes holding water back for 30–45 days before the expected flowering.", "mr": "CCRI प्रयोगात अपेक्षित फुलोऱ्याआधी ३०–४५ दिवस पाणी थांबवल्याचे सांगितले आहे.", "hi": "CCRI प्रयोग में अपेक्षित फूल आने से पहले 30–45 दिन पानी रोकने की बात है।"}}
+      ],
+      "gaps": [
+        {"en": "Winter, summer and rainy amounts for young and middle trees were not found in a source we could read.", "mr": "लहान व मध्यम झाडांसाठी हिवाळा, उन्हाळा, पावसाळा वेगवेगळे प्रमाण वाचता आलेल्या स्रोतात सापडले नाही.", "hi": "छोटे और मध्यम पेड़ों के लिए सर्दी, गर्मी, बरसात की अलग मात्रा पढ़े जा सके स्रोत में नहीं मिली।"}
+      ]
+    },
+    "mosambi": {
+      "rows": [
+        {"id": "m1", "ages": ["middle", "mature"], "season": "summer", "method": "drip", "source": "NI (May)", "source_keys": ["NI"],
+         "labels": {"en": "Bearing trees (age not given), western Maharashtra: 100–120 litres per plant per day in May.", "mr": "फळ देणारी झाडे (वय दिलेले नाही), पश्चिम महाराष्ट्र: मे मध्ये दर झाडाला दररोज १००–१२० लिटर.", "hi": "फल देने वाले पेड़ (उम्र नहीं दी), पश्चिम महाराष्ट्र: मई में हर पेड़ को रोज़ 100–120 लीटर।"}},
+        {"id": "m2", "ages": ["mature"], "season": "year", "method": "drip", "source": "ML19", "source_keys": ["ML19"],
+         "labels": {"en": "10-year-old trees at Tirupati (Andhra Pradesh): drip at 90% of evaporation did best and saved 27–30% water.", "mr": "तिरुपती (आंध्र प्रदेश) येथे १० वर्षांची झाडे: बाष्पीभवनाच्या ९०% ठिबक सर्वात चांगले, २७–३०% पाणी वाचले.", "hi": "तिरुपति (आंध्र प्रदेश) में 10 साल के पेड़: वाष्पीकरण का 90% ड्रिप सबसे अच्छा, 27–30% पानी बचा।"}},
+        {"id": "m3", "ages": ["mature"], "season": "year", "method": "drip", "source": "GP", "source_keys": ["GP"],
+         "labels": {"en": "West Bengal trial: drip at 0.8 of pan evaporation with black plastic mulch gave the best fruit; the basin plants got 30 litres every 18 days.", "mr": "पश्चिम बंगाल प्रयोग: पॅन बाष्पीभवनाच्या ०.८ ठिबक व काळे प्लास्टिक आच्छादन यात फळे सर्वात चांगली; आळ्याच्या झाडांना दर १८ दिवसांनी ३० लिटर दिले.", "hi": "पश्चिम बंगाल प्रयोग: पैन वाष्पीकरण का 0.8 ड्रिप और काली प्लास्टिक पलवार से फल सबसे अच्छे; थाले वाले पेड़ों को हर 18 दिन में 30 लीटर दिया।"}},
+        {"id": "m4", "ages": ["young", "middle", "mature"], "season": "winter", "method": "basin", "source": "C06 (all citrus)", "source_keys": ["C06"],
+         "labels": {"en": "Water every 10–12 days.", "mr": "दर १०–१२ दिवसांनी पाणी.", "hi": "हर 10–12 दिन में पानी।"}},
+        {"id": "m5", "ages": ["young", "middle", "mature"], "season": "summer", "method": "basin", "source": "C06 (all citrus)", "source_keys": ["C06"],
+         "labels": {"en": "Water every 5–6 days.", "mr": "दर ५–६ दिवसांनी पाणी.", "hi": "हर 5–6 दिन में पानी।"}}
+      ],
+      "notes": [
+        {"id": "mn1", "source": "C06 (all citrus)", "source_keys": ["C06"],
+         "labels": {"en": "Water a few days before flowering and again after fruit set; short water then drops flowers and young fruit.", "mr": "फुलोऱ्याच्या काही दिवस आधी आणि फळधारणेनंतर पुन्हा पाणी द्या; तेव्हा पाणी कमी पडले तर फुले व लहान फळे गळतात.", "hi": "फूल आने से कुछ दिन पहले और फल लगने के बाद फिर पानी दें; तब पानी कम पड़ा तो फूल और छोटे फल गिरते हैं।"}},
+        {"id": "mn2", "source": "C06 (all citrus)", "source_keys": ["C06"],
+         "labels": {"en": "Keep watering as fruit matures, so fruit does not shrink and the pulp does not dry.", "mr": "फळ पक्व होताना पाणी चालू ठेवा, म्हणजे फळ आकसत नाही व गर सुकत नाही.", "hi": "फल पकते समय पानी देते रहें, ताकि फल न सिकुड़े और गूदा न सूखे।"}},
+        {"id": "mn3", "source": "NI (all orchards)", "source_keys": ["NI"],
+         "labels": {"en": "In hot weather, water in the evening and mulch the basin.", "mr": "उन्हाळ्यात संध्याकाळी पाणी द्या आणि आळ्यात आच्छादन करा.", "hi": "गर्मी में शाम को पानी दें और थाले में पलवार बिछाएँ।"}},
+        {"id": "mn4", "source": "C02", "source_keys": ["C02"],
+         "labels": {"en": "Use a double ring so water does not touch the trunk.", "mr": "दुहेरी आळे करा, म्हणजे पाणी खोडाला लागत नाही.", "hi": "दोहरा थाला बनाएँ, ताकि पानी तने को न छुए।"}}
+      ],
+      "gaps": [
+        {"en": "Litres per day for young and middle mosambi trees in central India were not found.", "mr": "मध्य भारतातील लहान व मध्यम मोसंबी झाडांसाठी दररोजचे लिटर सापडले नाहीत.", "hi": "मध्य भारत में छोटे और मध्यम मौसंबी पेड़ों के लिए रोज़ के लीटर नहीं मिले।"},
+        {"en": "How long to hold water back for a mosambi bahar was not found.", "mr": "मोसंबीच्या बहारासाठी किती दिवस पाणी थांबवायचे ते सापडले नाही.", "hi": "मौसंबी की बहार के लिए कितने दिन पानी रोकें, यह नहीं मिला।"}
+      ]
+    }
+  }
+}

@@ -1176,4 +1176,42 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get scoutingSeverityHigh => 'ज़्यादा';
+
+  @override
+  String get irrigationOpen => 'सिंचाई तालिका';
+
+  @override
+  String get irrigationGuideTitle => 'सिंचाई तालिका';
+
+  @override
+  String get irrigationCaveat =>
+      'पानी की मात्रा मिट्टी, पेड़ के फैलाव और मौसम पर निर्भर है। पानी देना बदलने से पहले अपने कृषि विज्ञान केंद्र (KVK) से पूछें।';
+
+  @override
+  String get irrigationCropLabel => 'फसल';
+
+  @override
+  String get irrigationAgeLabel => 'पेड़ की उम्र';
+
+  @override
+  String irrigationPlanted(String year, String years) {
+    return 'रोपण $year: लगभग $years साल के पेड़';
+  }
+
+  @override
+  String get irrigationNoPlantingYear =>
+      'इस बाग का रोपण वर्ष नहीं भरा है। पेड़ की उम्र चुनें।';
+
+  @override
+  String get irrigationNoRows => 'इस उम्र के लिए स्रोत में अभी आँकड़ा नहीं है।';
+
+  @override
+  String get irrigationStagesTitle => 'फूल, फल और बहार का तनाव';
+
+  @override
+  String get irrigationGapsTitle => 'स्रोत में अभी नहीं मिला';
+
+  @override
+  String get irrigationSourcesLine =>
+      'स्रोत: NHB, डॉ. पीडीकेवी अकोला और प्रकाशित नींबूवर्गीय शोध। हर बिंदु के नीचे विवरण।';
 }

@@ -48,10 +48,11 @@ curl https://api.तुमचे-डोमेन.com/health/live
 ```
 पहिल्यांदा ५–१० मिनिटे लागतात. `{"status":"ok",...}` दिसले की API चालू आहे. अडल्यास: `docker compose logs --tail 100 api`.
 
-## ६. नंतर अपडेट
+## ६. नंतर अपडेट (एक कमांड)
 ```
-cd /opt/bagmitra && git pull && cd deploy && docker compose up -d --build
+cd /opt/bagmitra && bash deploy/deploy.sh
 ```
+ही script `.env` तपासते (मूल्ये छापत नाही), नवीन कोड आणते, containers पुन्हा बांधून सुरू करते, `https://API_DOMAIN/health/live` उत्तर देईपर्यंत थांबते आणि हवामानाची cron ओळ एकदाच जोडते. काही बिघडले तर मागच्या आवृत्तीवर परत: `bash deploy/deploy.sh --revert`. पहिल्यांदाही (पायरी ४ नंतर) हीच कमांड चालते.
 टेबलचे बदल (migration) प्रत्येक सुरुवातीला आपोआप होतात.
 
 ## ६अ. रोजचे हवामान आणि सूचना (cron)

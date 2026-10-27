@@ -110,6 +110,12 @@ class PlotDetailScreen extends ConsumerWidget {
           ),
           const SizedBox(height: BmSpace.sm),
           OutlinedButton(
+            key: const Key('open-irrigation-guide'),
+            onPressed: () => context.push(Routes.irrigationGuide(plot.id)),
+            child: Text(t.irrigationOpen),
+          ),
+          const SizedBox(height: BmSpace.sm),
+          OutlinedButton(
             onPressed: () => context.push(Routes.editPlot(plot.id)),
             child: Text(t.editPlot),
           ),

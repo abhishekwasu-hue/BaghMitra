@@ -1174,4 +1174,42 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get scoutingSeverityHigh => 'जास्त';
+
+  @override
+  String get irrigationOpen => 'ओलित तक्ता';
+
+  @override
+  String get irrigationGuideTitle => 'ओलित तक्ता';
+
+  @override
+  String get irrigationCaveat =>
+      'पाण्याचे प्रमाण जमीन, झाडाचा घेर आणि हवामानावर अवलंबून असते. पाणी देणे बदलण्याआधी आपल्या कृषी विज्ञान केंद्राला (KVK) विचारा.';
+
+  @override
+  String get irrigationCropLabel => 'पीक';
+
+  @override
+  String get irrigationAgeLabel => 'झाडाचे वय';
+
+  @override
+  String irrigationPlanted(String year, String years) {
+    return 'लागवड $year: सुमारे $years वर्षांची झाडे';
+  }
+
+  @override
+  String get irrigationNoPlantingYear =>
+      'या बागेचे लागवड वर्ष भरलेले नाही. झाडाचे वय निवडा.';
+
+  @override
+  String get irrigationNoRows => 'या वयासाठी स्रोतात अजून आकडा नाही.';
+
+  @override
+  String get irrigationStagesTitle => 'फुलोरा, फळ आणि बहाराचा ताण';
+
+  @override
+  String get irrigationGapsTitle => 'स्रोतात अजून सापडले नाही';
+
+  @override
+  String get irrigationSourcesLine =>
+      'स्रोत: NHB, डॉ. पंदेकृवि अकोला आणि प्रकाशित लिंबूवर्गीय संशोधन. प्रत्येक मुद्द्याखाली तपशील.';
 }

@@ -332,5 +332,16 @@
   "scoutingSeverityNone": "नहीं दिखा",
   "scoutingSeverityLow": "कम",
   "scoutingSeverityMedium": "मध्यम",
-  "scoutingSeverityHigh": "ज़्यादा"
+  "scoutingSeverityHigh": "ज़्यादा",
+  "irrigationOpen": "सिंचाई तालिका",
+  "irrigationGuideTitle": "सिंचाई तालिका",
+  "irrigationCaveat": "पानी की मात्रा मिट्टी, पेड़ के फैलाव और मौसम पर निर्भर है। पानी देना बदलने से पहले अपने कृषि विज्ञान केंद्र (KVK) से पूछें।",
+  "irrigationCropLabel": "फसल",
+  "irrigationAgeLabel": "पेड़ की उम्र",
+  "irrigationPlanted": "रोपण {year}: लगभग {years} साल के पेड़",
+  "irrigationNoPlantingYear": "इस बाग का रोपण वर्ष नहीं भरा है। पेड़ की उम्र चुनें।",
+  "irrigationNoRows": "इस उम्र के लिए स्रोत में अभी आँकड़ा नहीं है।",
+  "irrigationStagesTitle": "फूल, फल और बहार का तनाव",
+  "irrigationGapsTitle": "स्रोत में अभी नहीं मिला",
+  "irrigationSourcesLine": "स्रोत: NHB, डॉ. पीडीकेवी अकोला और प्रकाशित नींबूवर्गीय शोध। हर बिंदु के नीचे विवरण।"
 }
