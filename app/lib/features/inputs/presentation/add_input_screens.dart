@@ -9,6 +9,7 @@ import '../../../core/formatting.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../../bahar/data/bahar_catalog.dart';
+import '../../voice/presentation/voice_mic_button.dart';
 import '../domain/field_records.dart';
 
 Future<void> _savedAndBack(BuildContext context, String plotId) async {
@@ -117,7 +118,12 @@ class _AddInputScreenState extends ConsumerState<AddInputScreen> {
               key: const Key('input-product'),
               controller: _product,
               maxLength: 120,
-              decoration: InputDecoration(labelText: t.inputProduct),
+              decoration: InputDecoration(
+                labelText: t.inputProduct,
+                suffixIcon: VoiceMicButton(
+                  onResult: (text, {required isFinal}) => _product.text = text,
+                ),
+              ),
               validator: (v) =>
                   (v ?? '').trim().isEmpty ? t.fieldRequired : null,
             ),

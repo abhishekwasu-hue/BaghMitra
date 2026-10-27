@@ -254,7 +254,12 @@ class _AddSaleScreenState extends ConsumerState<AddSaleScreen> {
             TextFormField(
               key: const Key('sale-buyer'),
               controller: _buyer,
-              decoration: InputDecoration(labelText: t.saleBuyer),
+              decoration: InputDecoration(
+                labelText: t.saleBuyer,
+                suffixIcon: VoiceMicButton(
+                  onResult: (text, {required isFinal}) => _buyer.text = text,
+                ),
+              ),
               validator: (v) =>
                   (v ?? '').trim().isEmpty ? t.fieldRequired : null,
             ),

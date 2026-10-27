@@ -6,6 +6,7 @@ import '../../../app/providers.dart';
 import '../../../app/router.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
+import '../../voice/presentation/voice_mic_button.dart';
 import '../domain/farm_task.dart';
 
 /// Adds one task for the whole orchard: what, which kind, and when.
@@ -81,7 +82,12 @@ class _AddTaskScreenState extends ConsumerState<AddTaskScreen> {
               key: const Key('task-title'),
               controller: _title,
               maxLength: 200,
-              decoration: InputDecoration(labelText: t.taskWhat),
+              decoration: InputDecoration(
+                labelText: t.taskWhat,
+                suffixIcon: VoiceMicButton(
+                  onResult: (text, {required isFinal}) => _title.text = text,
+                ),
+              ),
               validator: (v) =>
                   (v ?? '').trim().isEmpty ? t.fieldRequired : null,
             ),
