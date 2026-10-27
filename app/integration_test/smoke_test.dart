@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 
-/// Runs the real app (demo auth, no network) on an emulator: login, OTP, setup screen.
+/// Runs the real app (demo auth, no network) on an emulator: first-run walkthrough, login,
+/// OTP, setup screen.
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
@@ -11,6 +12,11 @@ void main() {
     tester,
   ) async {
     await app.main();
+    await tester.pumpAndSettle(const Duration(seconds: 2));
+
+    // A fresh install shows the walkthrough once, before sign-in.
+    expect(find.byKey(const Key('walkthrough-skip')), findsOneWidget);
+    await tester.tap(find.byKey(const Key('walkthrough-skip')));
     await tester.pumpAndSettle(const Duration(seconds: 2));
 
     await tester.enterText(find.byKey(const Key('phone')), '9876543210');
