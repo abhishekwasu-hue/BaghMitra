@@ -1213,6 +1213,2095 @@ extension $FeatureOutExtension on FeatureOut {
 }
 
 @JsonSerializable(explicitToJson: true)
+class FeedAdminApproveIn {
+  const FeedAdminApproveIn({this.acceptCheckIssues, this.comment});
+
+  factory FeedAdminApproveIn.fromJson(Map<String, dynamic> json) =>
+      _$FeedAdminApproveInFromJson(json);
+
+  static const toJsonFactory = _$FeedAdminApproveInToJson;
+  Map<String, dynamic> toJson() => _$FeedAdminApproveInToJson(this);
+
+  @JsonKey(
+    name: 'accept_check_issues',
+    includeIfNull: false,
+    defaultValue: false,
+  )
+  final bool? acceptCheckIssues;
+  @JsonKey(name: 'comment', includeIfNull: false)
+  final String? comment;
+  static const fromJsonFactory = _$FeedAdminApproveInFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is FeedAdminApproveIn &&
+            (identical(other.acceptCheckIssues, acceptCheckIssues) ||
+                const DeepCollectionEquality().equals(
+                  other.acceptCheckIssues,
+                  acceptCheckIssues,
+                )) &&
+            (identical(other.comment, comment) ||
+                const DeepCollectionEquality().equals(other.comment, comment)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(acceptCheckIssues) ^
+      const DeepCollectionEquality().hash(comment) ^
+      runtimeType.hashCode;
+}
+
+extension $FeedAdminApproveInExtension on FeedAdminApproveIn {
+  FeedAdminApproveIn copyWith({bool? acceptCheckIssues, String? comment}) {
+    return FeedAdminApproveIn(
+      acceptCheckIssues: acceptCheckIssues ?? this.acceptCheckIssues,
+      comment: comment ?? this.comment,
+    );
+  }
+
+  FeedAdminApproveIn copyWithWrapped({
+    Wrapped<bool?>? acceptCheckIssues,
+    Wrapped<String?>? comment,
+  }) {
+    return FeedAdminApproveIn(
+      acceptCheckIssues: (acceptCheckIssues != null
+          ? acceptCheckIssues.value
+          : this.acceptCheckIssues),
+      comment: (comment != null ? comment.value : this.comment),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class FeedAdminCardFieldIn {
+  const FeedAdminCardFieldIn({this.page, required this.value});
+
+  factory FeedAdminCardFieldIn.fromJson(Map<String, dynamic> json) =>
+      _$FeedAdminCardFieldInFromJson(json);
+
+  static const toJsonFactory = _$FeedAdminCardFieldInToJson;
+  Map<String, dynamic> toJson() => _$FeedAdminCardFieldInToJson(this);
+
+  @JsonKey(name: 'page', includeIfNull: false)
+  final String? page;
+  @JsonKey(name: 'value', includeIfNull: false)
+  final String value;
+  static const fromJsonFactory = _$FeedAdminCardFieldInFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is FeedAdminCardFieldIn &&
+            (identical(other.page, page) ||
+                const DeepCollectionEquality().equals(other.page, page)) &&
+            (identical(other.value, value) ||
+                const DeepCollectionEquality().equals(other.value, value)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(page) ^
+      const DeepCollectionEquality().hash(value) ^
+      runtimeType.hashCode;
+}
+
+extension $FeedAdminCardFieldInExtension on FeedAdminCardFieldIn {
+  FeedAdminCardFieldIn copyWith({String? page, String? value}) {
+    return FeedAdminCardFieldIn(
+      page: page ?? this.page,
+      value: value ?? this.value,
+    );
+  }
+
+  FeedAdminCardFieldIn copyWithWrapped({
+    Wrapped<String?>? page,
+    Wrapped<String>? value,
+  }) {
+    return FeedAdminCardFieldIn(
+      page: (page != null ? page.value : this.page),
+      value: (value != null ? value.value : this.value),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class FeedAdminCardIn {
+  const FeedAdminCardIn({required this.fields});
+
+  factory FeedAdminCardIn.fromJson(Map<String, dynamic> json) =>
+      _$FeedAdminCardInFromJson(json);
+
+  static const toJsonFactory = _$FeedAdminCardInToJson;
+  Map<String, dynamic> toJson() => _$FeedAdminCardInToJson(this);
+
+  @JsonKey(name: 'fields', includeIfNull: false)
+  final Map<String, dynamic> fields;
+  static const fromJsonFactory = _$FeedAdminCardInFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is FeedAdminCardIn &&
+            (identical(other.fields, fields) ||
+                const DeepCollectionEquality().equals(other.fields, fields)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(fields) ^ runtimeType.hashCode;
+}
+
+extension $FeedAdminCardInExtension on FeedAdminCardIn {
+  FeedAdminCardIn copyWith({Map<String, dynamic>? fields}) {
+    return FeedAdminCardIn(fields: fields ?? this.fields);
+  }
+
+  FeedAdminCardIn copyWithWrapped({Wrapped<Map<String, dynamic>>? fields}) {
+    return FeedAdminCardIn(
+      fields: (fields != null ? fields.value : this.fields),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class FeedAdminCardOut {
+  const FeedAdminCardOut({required this.fields, required this.version});
+
+  factory FeedAdminCardOut.fromJson(Map<String, dynamic> json) =>
+      _$FeedAdminCardOutFromJson(json);
+
+  static const toJsonFactory = _$FeedAdminCardOutToJson;
+  Map<String, dynamic> toJson() => _$FeedAdminCardOutToJson(this);
+
+  @JsonKey(name: 'fields', includeIfNull: false)
+  final Map<String, dynamic> fields;
+  @JsonKey(name: 'version', includeIfNull: false)
+  final int version;
+  static const fromJsonFactory = _$FeedAdminCardOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is FeedAdminCardOut &&
+            (identical(other.fields, fields) ||
+                const DeepCollectionEquality().equals(other.fields, fields)) &&
+            (identical(other.version, version) ||
+                const DeepCollectionEquality().equals(other.version, version)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(fields) ^
+      const DeepCollectionEquality().hash(version) ^
+      runtimeType.hashCode;
+}
+
+extension $FeedAdminCardOutExtension on FeedAdminCardOut {
+  FeedAdminCardOut copyWith({Map<String, dynamic>? fields, int? version}) {
+    return FeedAdminCardOut(
+      fields: fields ?? this.fields,
+      version: version ?? this.version,
+    );
+  }
+
+  FeedAdminCardOut copyWithWrapped({
+    Wrapped<Map<String, dynamic>>? fields,
+    Wrapped<int>? version,
+  }) {
+    return FeedAdminCardOut(
+      fields: (fields != null ? fields.value : this.fields),
+      version: (version != null ? version.value : this.version),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class FeedAdminCheckIssue {
+  const FeedAdminCheckIssue({
+    required this.kind,
+    required this.text,
+    required this.where,
+  });
+
+  factory FeedAdminCheckIssue.fromJson(Map<String, dynamic> json) =>
+      _$FeedAdminCheckIssueFromJson(json);
+
+  static const toJsonFactory = _$FeedAdminCheckIssueToJson;
+  Map<String, dynamic> toJson() => _$FeedAdminCheckIssueToJson(this);
+
+  @JsonKey(name: 'kind', includeIfNull: false)
+  final String kind;
+  @JsonKey(name: 'text', includeIfNull: false)
+  final String text;
+  @JsonKey(name: 'where', includeIfNull: false)
+  final String where;
+  static const fromJsonFactory = _$FeedAdminCheckIssueFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is FeedAdminCheckIssue &&
+            (identical(other.kind, kind) ||
+                const DeepCollectionEquality().equals(other.kind, kind)) &&
+            (identical(other.text, text) ||
+                const DeepCollectionEquality().equals(other.text, text)) &&
+            (identical(other.where, where) ||
+                const DeepCollectionEquality().equals(other.where, where)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(kind) ^
+      const DeepCollectionEquality().hash(text) ^
+      const DeepCollectionEquality().hash(where) ^
+      runtimeType.hashCode;
+}
+
+extension $FeedAdminCheckIssueExtension on FeedAdminCheckIssue {
+  FeedAdminCheckIssue copyWith({String? kind, String? text, String? where}) {
+    return FeedAdminCheckIssue(
+      kind: kind ?? this.kind,
+      text: text ?? this.text,
+      where: where ?? this.where,
+    );
+  }
+
+  FeedAdminCheckIssue copyWithWrapped({
+    Wrapped<String>? kind,
+    Wrapped<String>? text,
+    Wrapped<String>? where,
+  }) {
+    return FeedAdminCheckIssue(
+      kind: (kind != null ? kind.value : this.kind),
+      text: (text != null ? text.value : this.text),
+      where: (where != null ? where.value : this.where),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class FeedAdminEventOut {
+  const FeedAdminEventOut({
+    required this.actorId,
+    required this.createdAt,
+    required this.detail,
+    required this.kind,
+  });
+
+  factory FeedAdminEventOut.fromJson(Map<String, dynamic> json) =>
+      _$FeedAdminEventOutFromJson(json);
+
+  static const toJsonFactory = _$FeedAdminEventOutToJson;
+  Map<String, dynamic> toJson() => _$FeedAdminEventOutToJson(this);
+
+  @JsonKey(name: 'actor_id', includeIfNull: false)
+  final String? actorId;
+  @JsonKey(name: 'created_at', includeIfNull: false)
+  final DateTime createdAt;
+  @JsonKey(name: 'detail', includeIfNull: false)
+  final Map<String, dynamic> detail;
+  @JsonKey(name: 'kind', includeIfNull: false)
+  final String kind;
+  static const fromJsonFactory = _$FeedAdminEventOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is FeedAdminEventOut &&
+            (identical(other.actorId, actorId) ||
+                const DeepCollectionEquality().equals(
+                  other.actorId,
+                  actorId,
+                )) &&
+            (identical(other.createdAt, createdAt) ||
+                const DeepCollectionEquality().equals(
+                  other.createdAt,
+                  createdAt,
+                )) &&
+            (identical(other.detail, detail) ||
+                const DeepCollectionEquality().equals(other.detail, detail)) &&
+            (identical(other.kind, kind) ||
+                const DeepCollectionEquality().equals(other.kind, kind)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(actorId) ^
+      const DeepCollectionEquality().hash(createdAt) ^
+      const DeepCollectionEquality().hash(detail) ^
+      const DeepCollectionEquality().hash(kind) ^
+      runtimeType.hashCode;
+}
+
+extension $FeedAdminEventOutExtension on FeedAdminEventOut {
+  FeedAdminEventOut copyWith({
+    String? actorId,
+    DateTime? createdAt,
+    Map<String, dynamic>? detail,
+    String? kind,
+  }) {
+    return FeedAdminEventOut(
+      actorId: actorId ?? this.actorId,
+      createdAt: createdAt ?? this.createdAt,
+      detail: detail ?? this.detail,
+      kind: kind ?? this.kind,
+    );
+  }
+
+  FeedAdminEventOut copyWithWrapped({
+    Wrapped<String?>? actorId,
+    Wrapped<DateTime>? createdAt,
+    Wrapped<Map<String, dynamic>>? detail,
+    Wrapped<String>? kind,
+  }) {
+    return FeedAdminEventOut(
+      actorId: (actorId != null ? actorId.value : this.actorId),
+      createdAt: (createdAt != null ? createdAt.value : this.createdAt),
+      detail: (detail != null ? detail.value : this.detail),
+      kind: (kind != null ? kind.value : this.kind),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class FeedAdminItemIn {
+  const FeedAdminItemIn({
+    this.card,
+    this.deadline,
+    this.department,
+    this.documentBase64,
+    this.documentType,
+    this.externalId,
+    this.extractedText,
+    this.grNumber,
+    required this.publishedAt,
+    required this.sourceKey,
+    this.targets,
+    this.texts,
+    required this.type,
+    required this.url,
+    this.validFrom,
+    this.validTo,
+  });
+
+  factory FeedAdminItemIn.fromJson(Map<String, dynamic> json) =>
+      _$FeedAdminItemInFromJson(json);
+
+  static const toJsonFactory = _$FeedAdminItemInToJson;
+  Map<String, dynamic> toJson() => _$FeedAdminItemInToJson(this);
+
+  @JsonKey(name: 'card', includeIfNull: false)
+  final Object? card;
+  @JsonKey(name: 'deadline', includeIfNull: false, toJson: _dateToJson)
+  final DateTime? deadline;
+  @JsonKey(name: 'department', includeIfNull: false)
+  final String? department;
+  @JsonKey(name: 'document_base64', includeIfNull: false)
+  final String? documentBase64;
+  @JsonKey(name: 'document_type', includeIfNull: false)
+  final String? documentType;
+  @JsonKey(name: 'external_id', includeIfNull: false)
+  final String? externalId;
+  @JsonKey(name: 'extracted_text', includeIfNull: false)
+  final String? extractedText;
+  @JsonKey(name: 'gr_number', includeIfNull: false)
+  final String? grNumber;
+  @JsonKey(name: 'published_at', includeIfNull: false)
+  final DateTime publishedAt;
+  @JsonKey(name: 'source_key', includeIfNull: false)
+  final String sourceKey;
+  @JsonKey(
+    name: 'targets',
+    includeIfNull: false,
+    defaultValue: <FeedAdminTargetIn>[],
+  )
+  final List<FeedAdminTargetIn>? targets;
+  @JsonKey(name: 'texts', includeIfNull: false)
+  final Map<String, dynamic>? texts;
+  @JsonKey(
+    name: 'type',
+    includeIfNull: false,
+    toJson: feedAdminItemInTypeToJson,
+    fromJson: feedAdminItemInTypeFromJson,
+  )
+  final enums.FeedAdminItemInType type;
+  @JsonKey(name: 'url', includeIfNull: false)
+  final String url;
+  @JsonKey(name: 'valid_from', includeIfNull: false, toJson: _dateToJson)
+  final DateTime? validFrom;
+  @JsonKey(name: 'valid_to', includeIfNull: false, toJson: _dateToJson)
+  final DateTime? validTo;
+  static const fromJsonFactory = _$FeedAdminItemInFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is FeedAdminItemIn &&
+            (identical(other.card, card) ||
+                const DeepCollectionEquality().equals(other.card, card)) &&
+            (identical(other.deadline, deadline) ||
+                const DeepCollectionEquality().equals(
+                  other.deadline,
+                  deadline,
+                )) &&
+            (identical(other.department, department) ||
+                const DeepCollectionEquality().equals(
+                  other.department,
+                  department,
+                )) &&
+            (identical(other.documentBase64, documentBase64) ||
+                const DeepCollectionEquality().equals(
+                  other.documentBase64,
+                  documentBase64,
+                )) &&
+            (identical(other.documentType, documentType) ||
+                const DeepCollectionEquality().equals(
+                  other.documentType,
+                  documentType,
+                )) &&
+            (identical(other.externalId, externalId) ||
+                const DeepCollectionEquality().equals(
+                  other.externalId,
+                  externalId,
+                )) &&
+            (identical(other.extractedText, extractedText) ||
+                const DeepCollectionEquality().equals(
+                  other.extractedText,
+                  extractedText,
+                )) &&
+            (identical(other.grNumber, grNumber) ||
+                const DeepCollectionEquality().equals(
+                  other.grNumber,
+                  grNumber,
+                )) &&
+            (identical(other.publishedAt, publishedAt) ||
+                const DeepCollectionEquality().equals(
+                  other.publishedAt,
+                  publishedAt,
+                )) &&
+            (identical(other.sourceKey, sourceKey) ||
+                const DeepCollectionEquality().equals(
+                  other.sourceKey,
+                  sourceKey,
+                )) &&
+            (identical(other.targets, targets) ||
+                const DeepCollectionEquality().equals(
+                  other.targets,
+                  targets,
+                )) &&
+            (identical(other.texts, texts) ||
+                const DeepCollectionEquality().equals(other.texts, texts)) &&
+            (identical(other.type, type) ||
+                const DeepCollectionEquality().equals(other.type, type)) &&
+            (identical(other.url, url) ||
+                const DeepCollectionEquality().equals(other.url, url)) &&
+            (identical(other.validFrom, validFrom) ||
+                const DeepCollectionEquality().equals(
+                  other.validFrom,
+                  validFrom,
+                )) &&
+            (identical(other.validTo, validTo) ||
+                const DeepCollectionEquality().equals(other.validTo, validTo)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(card) ^
+      const DeepCollectionEquality().hash(deadline) ^
+      const DeepCollectionEquality().hash(department) ^
+      const DeepCollectionEquality().hash(documentBase64) ^
+      const DeepCollectionEquality().hash(documentType) ^
+      const DeepCollectionEquality().hash(externalId) ^
+      const DeepCollectionEquality().hash(extractedText) ^
+      const DeepCollectionEquality().hash(grNumber) ^
+      const DeepCollectionEquality().hash(publishedAt) ^
+      const DeepCollectionEquality().hash(sourceKey) ^
+      const DeepCollectionEquality().hash(targets) ^
+      const DeepCollectionEquality().hash(texts) ^
+      const DeepCollectionEquality().hash(type) ^
+      const DeepCollectionEquality().hash(url) ^
+      const DeepCollectionEquality().hash(validFrom) ^
+      const DeepCollectionEquality().hash(validTo) ^
+      runtimeType.hashCode;
+}
+
+extension $FeedAdminItemInExtension on FeedAdminItemIn {
+  FeedAdminItemIn copyWith({
+    Object? card,
+    DateTime? deadline,
+    String? department,
+    String? documentBase64,
+    String? documentType,
+    String? externalId,
+    String? extractedText,
+    String? grNumber,
+    DateTime? publishedAt,
+    String? sourceKey,
+    List<FeedAdminTargetIn>? targets,
+    Map<String, dynamic>? texts,
+    enums.FeedAdminItemInType? type,
+    String? url,
+    DateTime? validFrom,
+    DateTime? validTo,
+  }) {
+    return FeedAdminItemIn(
+      card: card ?? this.card,
+      deadline: deadline ?? this.deadline,
+      department: department ?? this.department,
+      documentBase64: documentBase64 ?? this.documentBase64,
+      documentType: documentType ?? this.documentType,
+      externalId: externalId ?? this.externalId,
+      extractedText: extractedText ?? this.extractedText,
+      grNumber: grNumber ?? this.grNumber,
+      publishedAt: publishedAt ?? this.publishedAt,
+      sourceKey: sourceKey ?? this.sourceKey,
+      targets: targets ?? this.targets,
+      texts: texts ?? this.texts,
+      type: type ?? this.type,
+      url: url ?? this.url,
+      validFrom: validFrom ?? this.validFrom,
+      validTo: validTo ?? this.validTo,
+    );
+  }
+
+  FeedAdminItemIn copyWithWrapped({
+    Wrapped<Object?>? card,
+    Wrapped<DateTime?>? deadline,
+    Wrapped<String?>? department,
+    Wrapped<String?>? documentBase64,
+    Wrapped<String?>? documentType,
+    Wrapped<String?>? externalId,
+    Wrapped<String?>? extractedText,
+    Wrapped<String?>? grNumber,
+    Wrapped<DateTime>? publishedAt,
+    Wrapped<String>? sourceKey,
+    Wrapped<List<FeedAdminTargetIn>?>? targets,
+    Wrapped<Map<String, dynamic>?>? texts,
+    Wrapped<enums.FeedAdminItemInType>? type,
+    Wrapped<String>? url,
+    Wrapped<DateTime?>? validFrom,
+    Wrapped<DateTime?>? validTo,
+  }) {
+    return FeedAdminItemIn(
+      card: (card != null ? card.value : this.card),
+      deadline: (deadline != null ? deadline.value : this.deadline),
+      department: (department != null ? department.value : this.department),
+      documentBase64: (documentBase64 != null
+          ? documentBase64.value
+          : this.documentBase64),
+      documentType: (documentType != null
+          ? documentType.value
+          : this.documentType),
+      externalId: (externalId != null ? externalId.value : this.externalId),
+      extractedText: (extractedText != null
+          ? extractedText.value
+          : this.extractedText),
+      grNumber: (grNumber != null ? grNumber.value : this.grNumber),
+      publishedAt: (publishedAt != null ? publishedAt.value : this.publishedAt),
+      sourceKey: (sourceKey != null ? sourceKey.value : this.sourceKey),
+      targets: (targets != null ? targets.value : this.targets),
+      texts: (texts != null ? texts.value : this.texts),
+      type: (type != null ? type.value : this.type),
+      url: (url != null ? url.value : this.url),
+      validFrom: (validFrom != null ? validFrom.value : this.validFrom),
+      validTo: (validTo != null ? validTo.value : this.validTo),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class FeedAdminItemOut {
+  const FeedAdminItemOut({
+    required this.approved,
+    required this.card,
+    required this.checkIssues,
+    required this.deadline,
+    required this.department,
+    required this.events,
+    required this.externalId,
+    required this.grNumber,
+    required this.hasText,
+    required this.id,
+    required this.publishedAt,
+    required this.rawBytes,
+    required this.rawHash,
+    required this.replacedById,
+    required this.sourceKey,
+    required this.status,
+    required this.targets,
+    required this.texts,
+    required this.title,
+    required this.trust,
+    required this.type,
+    required this.url,
+    required this.validFrom,
+    required this.validTo,
+  });
+
+  factory FeedAdminItemOut.fromJson(Map<String, dynamic> json) =>
+      _$FeedAdminItemOutFromJson(json);
+
+  static const toJsonFactory = _$FeedAdminItemOutToJson;
+  Map<String, dynamic> toJson() => _$FeedAdminItemOutToJson(this);
+
+  @JsonKey(name: 'approved', includeIfNull: false)
+  final bool approved;
+  @JsonKey(name: 'card', includeIfNull: false)
+  final FeedAdminCardOut? card;
+  @JsonKey(
+    name: 'check_issues',
+    includeIfNull: false,
+    defaultValue: <FeedAdminCheckIssue>[],
+  )
+  final List<FeedAdminCheckIssue> checkIssues;
+  @JsonKey(name: 'deadline', includeIfNull: false, toJson: _dateToJson)
+  final DateTime? deadline;
+  @JsonKey(name: 'department', includeIfNull: false)
+  final String? department;
+  @JsonKey(
+    name: 'events',
+    includeIfNull: false,
+    defaultValue: <FeedAdminEventOut>[],
+  )
+  final List<FeedAdminEventOut> events;
+  @JsonKey(name: 'external_id', includeIfNull: false)
+  final String? externalId;
+  @JsonKey(name: 'gr_number', includeIfNull: false)
+  final String? grNumber;
+  @JsonKey(name: 'has_text', includeIfNull: false)
+  final bool hasText;
+  @JsonKey(name: 'id', includeIfNull: false)
+  final String id;
+  @JsonKey(name: 'published_at', includeIfNull: false)
+  final DateTime publishedAt;
+  @JsonKey(name: 'raw_bytes', includeIfNull: false)
+  final int? rawBytes;
+  @JsonKey(name: 'raw_hash', includeIfNull: false)
+  final String? rawHash;
+  @JsonKey(name: 'replaced_by_id', includeIfNull: false)
+  final String? replacedById;
+  @JsonKey(name: 'source_key', includeIfNull: false)
+  final String sourceKey;
+  @JsonKey(name: 'status', includeIfNull: false)
+  final String status;
+  @JsonKey(
+    name: 'targets',
+    includeIfNull: false,
+    defaultValue: <FeedAdminTargetOut>[],
+  )
+  final List<FeedAdminTargetOut> targets;
+  @JsonKey(name: 'texts', includeIfNull: false)
+  final Map<String, dynamic> texts;
+  @JsonKey(name: 'title', includeIfNull: false)
+  final String? title;
+  @JsonKey(name: 'trust', includeIfNull: false)
+  final String trust;
+  @JsonKey(name: 'type', includeIfNull: false)
+  final String type;
+  @JsonKey(name: 'url', includeIfNull: false)
+  final String url;
+  @JsonKey(name: 'valid_from', includeIfNull: false, toJson: _dateToJson)
+  final DateTime? validFrom;
+  @JsonKey(name: 'valid_to', includeIfNull: false, toJson: _dateToJson)
+  final DateTime? validTo;
+  static const fromJsonFactory = _$FeedAdminItemOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is FeedAdminItemOut &&
+            (identical(other.approved, approved) ||
+                const DeepCollectionEquality().equals(
+                  other.approved,
+                  approved,
+                )) &&
+            (identical(other.card, card) ||
+                const DeepCollectionEquality().equals(other.card, card)) &&
+            (identical(other.checkIssues, checkIssues) ||
+                const DeepCollectionEquality().equals(
+                  other.checkIssues,
+                  checkIssues,
+                )) &&
+            (identical(other.deadline, deadline) ||
+                const DeepCollectionEquality().equals(
+                  other.deadline,
+                  deadline,
+                )) &&
+            (identical(other.department, department) ||
+                const DeepCollectionEquality().equals(
+                  other.department,
+                  department,
+                )) &&
+            (identical(other.events, events) ||
+                const DeepCollectionEquality().equals(other.events, events)) &&
+            (identical(other.externalId, externalId) ||
+                const DeepCollectionEquality().equals(
+                  other.externalId,
+                  externalId,
+                )) &&
+            (identical(other.grNumber, grNumber) ||
+                const DeepCollectionEquality().equals(
+                  other.grNumber,
+                  grNumber,
+                )) &&
+            (identical(other.hasText, hasText) ||
+                const DeepCollectionEquality().equals(
+                  other.hasText,
+                  hasText,
+                )) &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.publishedAt, publishedAt) ||
+                const DeepCollectionEquality().equals(
+                  other.publishedAt,
+                  publishedAt,
+                )) &&
+            (identical(other.rawBytes, rawBytes) ||
+                const DeepCollectionEquality().equals(
+                  other.rawBytes,
+                  rawBytes,
+                )) &&
+            (identical(other.rawHash, rawHash) ||
+                const DeepCollectionEquality().equals(
+                  other.rawHash,
+                  rawHash,
+                )) &&
+            (identical(other.replacedById, replacedById) ||
+                const DeepCollectionEquality().equals(
+                  other.replacedById,
+                  replacedById,
+                )) &&
+            (identical(other.sourceKey, sourceKey) ||
+                const DeepCollectionEquality().equals(
+                  other.sourceKey,
+                  sourceKey,
+                )) &&
+            (identical(other.status, status) ||
+                const DeepCollectionEquality().equals(other.status, status)) &&
+            (identical(other.targets, targets) ||
+                const DeepCollectionEquality().equals(
+                  other.targets,
+                  targets,
+                )) &&
+            (identical(other.texts, texts) ||
+                const DeepCollectionEquality().equals(other.texts, texts)) &&
+            (identical(other.title, title) ||
+                const DeepCollectionEquality().equals(other.title, title)) &&
+            (identical(other.trust, trust) ||
+                const DeepCollectionEquality().equals(other.trust, trust)) &&
+            (identical(other.type, type) ||
+                const DeepCollectionEquality().equals(other.type, type)) &&
+            (identical(other.url, url) ||
+                const DeepCollectionEquality().equals(other.url, url)) &&
+            (identical(other.validFrom, validFrom) ||
+                const DeepCollectionEquality().equals(
+                  other.validFrom,
+                  validFrom,
+                )) &&
+            (identical(other.validTo, validTo) ||
+                const DeepCollectionEquality().equals(other.validTo, validTo)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(approved) ^
+      const DeepCollectionEquality().hash(card) ^
+      const DeepCollectionEquality().hash(checkIssues) ^
+      const DeepCollectionEquality().hash(deadline) ^
+      const DeepCollectionEquality().hash(department) ^
+      const DeepCollectionEquality().hash(events) ^
+      const DeepCollectionEquality().hash(externalId) ^
+      const DeepCollectionEquality().hash(grNumber) ^
+      const DeepCollectionEquality().hash(hasText) ^
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(publishedAt) ^
+      const DeepCollectionEquality().hash(rawBytes) ^
+      const DeepCollectionEquality().hash(rawHash) ^
+      const DeepCollectionEquality().hash(replacedById) ^
+      const DeepCollectionEquality().hash(sourceKey) ^
+      const DeepCollectionEquality().hash(status) ^
+      const DeepCollectionEquality().hash(targets) ^
+      const DeepCollectionEquality().hash(texts) ^
+      const DeepCollectionEquality().hash(title) ^
+      const DeepCollectionEquality().hash(trust) ^
+      const DeepCollectionEquality().hash(type) ^
+      const DeepCollectionEquality().hash(url) ^
+      const DeepCollectionEquality().hash(validFrom) ^
+      const DeepCollectionEquality().hash(validTo) ^
+      runtimeType.hashCode;
+}
+
+extension $FeedAdminItemOutExtension on FeedAdminItemOut {
+  FeedAdminItemOut copyWith({
+    bool? approved,
+    FeedAdminCardOut? card,
+    List<FeedAdminCheckIssue>? checkIssues,
+    DateTime? deadline,
+    String? department,
+    List<FeedAdminEventOut>? events,
+    String? externalId,
+    String? grNumber,
+    bool? hasText,
+    String? id,
+    DateTime? publishedAt,
+    int? rawBytes,
+    String? rawHash,
+    String? replacedById,
+    String? sourceKey,
+    String? status,
+    List<FeedAdminTargetOut>? targets,
+    Map<String, dynamic>? texts,
+    String? title,
+    String? trust,
+    String? type,
+    String? url,
+    DateTime? validFrom,
+    DateTime? validTo,
+  }) {
+    return FeedAdminItemOut(
+      approved: approved ?? this.approved,
+      card: card ?? this.card,
+      checkIssues: checkIssues ?? this.checkIssues,
+      deadline: deadline ?? this.deadline,
+      department: department ?? this.department,
+      events: events ?? this.events,
+      externalId: externalId ?? this.externalId,
+      grNumber: grNumber ?? this.grNumber,
+      hasText: hasText ?? this.hasText,
+      id: id ?? this.id,
+      publishedAt: publishedAt ?? this.publishedAt,
+      rawBytes: rawBytes ?? this.rawBytes,
+      rawHash: rawHash ?? this.rawHash,
+      replacedById: replacedById ?? this.replacedById,
+      sourceKey: sourceKey ?? this.sourceKey,
+      status: status ?? this.status,
+      targets: targets ?? this.targets,
+      texts: texts ?? this.texts,
+      title: title ?? this.title,
+      trust: trust ?? this.trust,
+      type: type ?? this.type,
+      url: url ?? this.url,
+      validFrom: validFrom ?? this.validFrom,
+      validTo: validTo ?? this.validTo,
+    );
+  }
+
+  FeedAdminItemOut copyWithWrapped({
+    Wrapped<bool>? approved,
+    Wrapped<FeedAdminCardOut?>? card,
+    Wrapped<List<FeedAdminCheckIssue>>? checkIssues,
+    Wrapped<DateTime?>? deadline,
+    Wrapped<String?>? department,
+    Wrapped<List<FeedAdminEventOut>>? events,
+    Wrapped<String?>? externalId,
+    Wrapped<String?>? grNumber,
+    Wrapped<bool>? hasText,
+    Wrapped<String>? id,
+    Wrapped<DateTime>? publishedAt,
+    Wrapped<int?>? rawBytes,
+    Wrapped<String?>? rawHash,
+    Wrapped<String?>? replacedById,
+    Wrapped<String>? sourceKey,
+    Wrapped<String>? status,
+    Wrapped<List<FeedAdminTargetOut>>? targets,
+    Wrapped<Map<String, dynamic>>? texts,
+    Wrapped<String?>? title,
+    Wrapped<String>? trust,
+    Wrapped<String>? type,
+    Wrapped<String>? url,
+    Wrapped<DateTime?>? validFrom,
+    Wrapped<DateTime?>? validTo,
+  }) {
+    return FeedAdminItemOut(
+      approved: (approved != null ? approved.value : this.approved),
+      card: (card != null ? card.value : this.card),
+      checkIssues: (checkIssues != null ? checkIssues.value : this.checkIssues),
+      deadline: (deadline != null ? deadline.value : this.deadline),
+      department: (department != null ? department.value : this.department),
+      events: (events != null ? events.value : this.events),
+      externalId: (externalId != null ? externalId.value : this.externalId),
+      grNumber: (grNumber != null ? grNumber.value : this.grNumber),
+      hasText: (hasText != null ? hasText.value : this.hasText),
+      id: (id != null ? id.value : this.id),
+      publishedAt: (publishedAt != null ? publishedAt.value : this.publishedAt),
+      rawBytes: (rawBytes != null ? rawBytes.value : this.rawBytes),
+      rawHash: (rawHash != null ? rawHash.value : this.rawHash),
+      replacedById: (replacedById != null
+          ? replacedById.value
+          : this.replacedById),
+      sourceKey: (sourceKey != null ? sourceKey.value : this.sourceKey),
+      status: (status != null ? status.value : this.status),
+      targets: (targets != null ? targets.value : this.targets),
+      texts: (texts != null ? texts.value : this.texts),
+      title: (title != null ? title.value : this.title),
+      trust: (trust != null ? trust.value : this.trust),
+      type: (type != null ? type.value : this.type),
+      url: (url != null ? url.value : this.url),
+      validFrom: (validFrom != null ? validFrom.value : this.validFrom),
+      validTo: (validTo != null ? validTo.value : this.validTo),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class FeedAdminItemSummaryOut {
+  const FeedAdminItemSummaryOut({
+    required this.approved,
+    required this.checkIssues,
+    required this.department,
+    required this.grNumber,
+    required this.id,
+    required this.publishedAt,
+    required this.status,
+    required this.title,
+    required this.trust,
+    required this.type,
+  });
+
+  factory FeedAdminItemSummaryOut.fromJson(Map<String, dynamic> json) =>
+      _$FeedAdminItemSummaryOutFromJson(json);
+
+  static const toJsonFactory = _$FeedAdminItemSummaryOutToJson;
+  Map<String, dynamic> toJson() => _$FeedAdminItemSummaryOutToJson(this);
+
+  @JsonKey(name: 'approved', includeIfNull: false)
+  final bool approved;
+  @JsonKey(
+    name: 'check_issues',
+    includeIfNull: false,
+    defaultValue: <FeedAdminCheckIssue>[],
+  )
+  final List<FeedAdminCheckIssue> checkIssues;
+  @JsonKey(name: 'department', includeIfNull: false)
+  final String? department;
+  @JsonKey(name: 'gr_number', includeIfNull: false)
+  final String? grNumber;
+  @JsonKey(name: 'id', includeIfNull: false)
+  final String id;
+  @JsonKey(name: 'published_at', includeIfNull: false)
+  final DateTime publishedAt;
+  @JsonKey(name: 'status', includeIfNull: false)
+  final String status;
+  @JsonKey(name: 'title', includeIfNull: false)
+  final String? title;
+  @JsonKey(name: 'trust', includeIfNull: false)
+  final String trust;
+  @JsonKey(name: 'type', includeIfNull: false)
+  final String type;
+  static const fromJsonFactory = _$FeedAdminItemSummaryOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is FeedAdminItemSummaryOut &&
+            (identical(other.approved, approved) ||
+                const DeepCollectionEquality().equals(
+                  other.approved,
+                  approved,
+                )) &&
+            (identical(other.checkIssues, checkIssues) ||
+                const DeepCollectionEquality().equals(
+                  other.checkIssues,
+                  checkIssues,
+                )) &&
+            (identical(other.department, department) ||
+                const DeepCollectionEquality().equals(
+                  other.department,
+                  department,
+                )) &&
+            (identical(other.grNumber, grNumber) ||
+                const DeepCollectionEquality().equals(
+                  other.grNumber,
+                  grNumber,
+                )) &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.publishedAt, publishedAt) ||
+                const DeepCollectionEquality().equals(
+                  other.publishedAt,
+                  publishedAt,
+                )) &&
+            (identical(other.status, status) ||
+                const DeepCollectionEquality().equals(other.status, status)) &&
+            (identical(other.title, title) ||
+                const DeepCollectionEquality().equals(other.title, title)) &&
+            (identical(other.trust, trust) ||
+                const DeepCollectionEquality().equals(other.trust, trust)) &&
+            (identical(other.type, type) ||
+                const DeepCollectionEquality().equals(other.type, type)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(approved) ^
+      const DeepCollectionEquality().hash(checkIssues) ^
+      const DeepCollectionEquality().hash(department) ^
+      const DeepCollectionEquality().hash(grNumber) ^
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(publishedAt) ^
+      const DeepCollectionEquality().hash(status) ^
+      const DeepCollectionEquality().hash(title) ^
+      const DeepCollectionEquality().hash(trust) ^
+      const DeepCollectionEquality().hash(type) ^
+      runtimeType.hashCode;
+}
+
+extension $FeedAdminItemSummaryOutExtension on FeedAdminItemSummaryOut {
+  FeedAdminItemSummaryOut copyWith({
+    bool? approved,
+    List<FeedAdminCheckIssue>? checkIssues,
+    String? department,
+    String? grNumber,
+    String? id,
+    DateTime? publishedAt,
+    String? status,
+    String? title,
+    String? trust,
+    String? type,
+  }) {
+    return FeedAdminItemSummaryOut(
+      approved: approved ?? this.approved,
+      checkIssues: checkIssues ?? this.checkIssues,
+      department: department ?? this.department,
+      grNumber: grNumber ?? this.grNumber,
+      id: id ?? this.id,
+      publishedAt: publishedAt ?? this.publishedAt,
+      status: status ?? this.status,
+      title: title ?? this.title,
+      trust: trust ?? this.trust,
+      type: type ?? this.type,
+    );
+  }
+
+  FeedAdminItemSummaryOut copyWithWrapped({
+    Wrapped<bool>? approved,
+    Wrapped<List<FeedAdminCheckIssue>>? checkIssues,
+    Wrapped<String?>? department,
+    Wrapped<String?>? grNumber,
+    Wrapped<String>? id,
+    Wrapped<DateTime>? publishedAt,
+    Wrapped<String>? status,
+    Wrapped<String?>? title,
+    Wrapped<String>? trust,
+    Wrapped<String>? type,
+  }) {
+    return FeedAdminItemSummaryOut(
+      approved: (approved != null ? approved.value : this.approved),
+      checkIssues: (checkIssues != null ? checkIssues.value : this.checkIssues),
+      department: (department != null ? department.value : this.department),
+      grNumber: (grNumber != null ? grNumber.value : this.grNumber),
+      id: (id != null ? id.value : this.id),
+      publishedAt: (publishedAt != null ? publishedAt.value : this.publishedAt),
+      status: (status != null ? status.value : this.status),
+      title: (title != null ? title.value : this.title),
+      trust: (trust != null ? trust.value : this.trust),
+      type: (type != null ? type.value : this.type),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class FeedAdminItemTextOut {
+  const FeedAdminItemTextOut({required this.summary, required this.title});
+
+  factory FeedAdminItemTextOut.fromJson(Map<String, dynamic> json) =>
+      _$FeedAdminItemTextOutFromJson(json);
+
+  static const toJsonFactory = _$FeedAdminItemTextOutToJson;
+  Map<String, dynamic> toJson() => _$FeedAdminItemTextOutToJson(this);
+
+  @JsonKey(name: 'summary', includeIfNull: false)
+  final String? summary;
+  @JsonKey(name: 'title', includeIfNull: false)
+  final String title;
+  static const fromJsonFactory = _$FeedAdminItemTextOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is FeedAdminItemTextOut &&
+            (identical(other.summary, summary) ||
+                const DeepCollectionEquality().equals(
+                  other.summary,
+                  summary,
+                )) &&
+            (identical(other.title, title) ||
+                const DeepCollectionEquality().equals(other.title, title)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(summary) ^
+      const DeepCollectionEquality().hash(title) ^
+      runtimeType.hashCode;
+}
+
+extension $FeedAdminItemTextOutExtension on FeedAdminItemTextOut {
+  FeedAdminItemTextOut copyWith({String? summary, String? title}) {
+    return FeedAdminItemTextOut(
+      summary: summary ?? this.summary,
+      title: title ?? this.title,
+    );
+  }
+
+  FeedAdminItemTextOut copyWithWrapped({
+    Wrapped<String?>? summary,
+    Wrapped<String>? title,
+  }) {
+    return FeedAdminItemTextOut(
+      summary: (summary != null ? summary.value : this.summary),
+      title: (title != null ? title.value : this.title),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class FeedAdminItemsResponse {
+  const FeedAdminItemsResponse({required this.items});
+
+  factory FeedAdminItemsResponse.fromJson(Map<String, dynamic> json) =>
+      _$FeedAdminItemsResponseFromJson(json);
+
+  static const toJsonFactory = _$FeedAdminItemsResponseToJson;
+  Map<String, dynamic> toJson() => _$FeedAdminItemsResponseToJson(this);
+
+  @JsonKey(
+    name: 'items',
+    includeIfNull: false,
+    defaultValue: <FeedAdminItemSummaryOut>[],
+  )
+  final List<FeedAdminItemSummaryOut> items;
+  static const fromJsonFactory = _$FeedAdminItemsResponseFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is FeedAdminItemsResponse &&
+            (identical(other.items, items) ||
+                const DeepCollectionEquality().equals(other.items, items)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(items) ^ runtimeType.hashCode;
+}
+
+extension $FeedAdminItemsResponseExtension on FeedAdminItemsResponse {
+  FeedAdminItemsResponse copyWith({List<FeedAdminItemSummaryOut>? items}) {
+    return FeedAdminItemsResponse(items: items ?? this.items);
+  }
+
+  FeedAdminItemsResponse copyWithWrapped({
+    Wrapped<List<FeedAdminItemSummaryOut>>? items,
+  }) {
+    return FeedAdminItemsResponse(
+      items: (items != null ? items.value : this.items),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class FeedAdminSourceOut {
+  const FeedAdminSourceOut({
+    required this.fetchMethod,
+    required this.fetchStatus,
+    required this.id,
+    required this.key,
+    required this.lastError,
+    required this.lastOkAt,
+    required this.name,
+    required this.notes,
+    required this.termsStatus,
+    required this.tier,
+    required this.url,
+  });
+
+  factory FeedAdminSourceOut.fromJson(Map<String, dynamic> json) =>
+      _$FeedAdminSourceOutFromJson(json);
+
+  static const toJsonFactory = _$FeedAdminSourceOutToJson;
+  Map<String, dynamic> toJson() => _$FeedAdminSourceOutToJson(this);
+
+  @JsonKey(name: 'fetch_method', includeIfNull: false)
+  final String fetchMethod;
+  @JsonKey(name: 'fetch_status', includeIfNull: false)
+  final String fetchStatus;
+  @JsonKey(name: 'id', includeIfNull: false)
+  final String id;
+  @JsonKey(name: 'key', includeIfNull: false)
+  final String key;
+  @JsonKey(name: 'last_error', includeIfNull: false)
+  final String? lastError;
+  @JsonKey(name: 'last_ok_at', includeIfNull: false)
+  final DateTime? lastOkAt;
+  @JsonKey(name: 'name', includeIfNull: false)
+  final String name;
+  @JsonKey(name: 'notes', includeIfNull: false)
+  final String? notes;
+  @JsonKey(name: 'terms_status', includeIfNull: false)
+  final String termsStatus;
+  @JsonKey(name: 'tier', includeIfNull: false)
+  final String tier;
+  @JsonKey(name: 'url', includeIfNull: false)
+  final String url;
+  static const fromJsonFactory = _$FeedAdminSourceOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is FeedAdminSourceOut &&
+            (identical(other.fetchMethod, fetchMethod) ||
+                const DeepCollectionEquality().equals(
+                  other.fetchMethod,
+                  fetchMethod,
+                )) &&
+            (identical(other.fetchStatus, fetchStatus) ||
+                const DeepCollectionEquality().equals(
+                  other.fetchStatus,
+                  fetchStatus,
+                )) &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.key, key) ||
+                const DeepCollectionEquality().equals(other.key, key)) &&
+            (identical(other.lastError, lastError) ||
+                const DeepCollectionEquality().equals(
+                  other.lastError,
+                  lastError,
+                )) &&
+            (identical(other.lastOkAt, lastOkAt) ||
+                const DeepCollectionEquality().equals(
+                  other.lastOkAt,
+                  lastOkAt,
+                )) &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.notes, notes) ||
+                const DeepCollectionEquality().equals(other.notes, notes)) &&
+            (identical(other.termsStatus, termsStatus) ||
+                const DeepCollectionEquality().equals(
+                  other.termsStatus,
+                  termsStatus,
+                )) &&
+            (identical(other.tier, tier) ||
+                const DeepCollectionEquality().equals(other.tier, tier)) &&
+            (identical(other.url, url) ||
+                const DeepCollectionEquality().equals(other.url, url)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(fetchMethod) ^
+      const DeepCollectionEquality().hash(fetchStatus) ^
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(key) ^
+      const DeepCollectionEquality().hash(lastError) ^
+      const DeepCollectionEquality().hash(lastOkAt) ^
+      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(notes) ^
+      const DeepCollectionEquality().hash(termsStatus) ^
+      const DeepCollectionEquality().hash(tier) ^
+      const DeepCollectionEquality().hash(url) ^
+      runtimeType.hashCode;
+}
+
+extension $FeedAdminSourceOutExtension on FeedAdminSourceOut {
+  FeedAdminSourceOut copyWith({
+    String? fetchMethod,
+    String? fetchStatus,
+    String? id,
+    String? key,
+    String? lastError,
+    DateTime? lastOkAt,
+    String? name,
+    String? notes,
+    String? termsStatus,
+    String? tier,
+    String? url,
+  }) {
+    return FeedAdminSourceOut(
+      fetchMethod: fetchMethod ?? this.fetchMethod,
+      fetchStatus: fetchStatus ?? this.fetchStatus,
+      id: id ?? this.id,
+      key: key ?? this.key,
+      lastError: lastError ?? this.lastError,
+      lastOkAt: lastOkAt ?? this.lastOkAt,
+      name: name ?? this.name,
+      notes: notes ?? this.notes,
+      termsStatus: termsStatus ?? this.termsStatus,
+      tier: tier ?? this.tier,
+      url: url ?? this.url,
+    );
+  }
+
+  FeedAdminSourceOut copyWithWrapped({
+    Wrapped<String>? fetchMethod,
+    Wrapped<String>? fetchStatus,
+    Wrapped<String>? id,
+    Wrapped<String>? key,
+    Wrapped<String?>? lastError,
+    Wrapped<DateTime?>? lastOkAt,
+    Wrapped<String>? name,
+    Wrapped<String?>? notes,
+    Wrapped<String>? termsStatus,
+    Wrapped<String>? tier,
+    Wrapped<String>? url,
+  }) {
+    return FeedAdminSourceOut(
+      fetchMethod: (fetchMethod != null ? fetchMethod.value : this.fetchMethod),
+      fetchStatus: (fetchStatus != null ? fetchStatus.value : this.fetchStatus),
+      id: (id != null ? id.value : this.id),
+      key: (key != null ? key.value : this.key),
+      lastError: (lastError != null ? lastError.value : this.lastError),
+      lastOkAt: (lastOkAt != null ? lastOkAt.value : this.lastOkAt),
+      name: (name != null ? name.value : this.name),
+      notes: (notes != null ? notes.value : this.notes),
+      termsStatus: (termsStatus != null ? termsStatus.value : this.termsStatus),
+      tier: (tier != null ? tier.value : this.tier),
+      url: (url != null ? url.value : this.url),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class FeedAdminSourcesResponse {
+  const FeedAdminSourcesResponse({required this.sources});
+
+  factory FeedAdminSourcesResponse.fromJson(Map<String, dynamic> json) =>
+      _$FeedAdminSourcesResponseFromJson(json);
+
+  static const toJsonFactory = _$FeedAdminSourcesResponseToJson;
+  Map<String, dynamic> toJson() => _$FeedAdminSourcesResponseToJson(this);
+
+  @JsonKey(
+    name: 'sources',
+    includeIfNull: false,
+    defaultValue: <FeedAdminSourceOut>[],
+  )
+  final List<FeedAdminSourceOut> sources;
+  static const fromJsonFactory = _$FeedAdminSourcesResponseFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is FeedAdminSourcesResponse &&
+            (identical(other.sources, sources) ||
+                const DeepCollectionEquality().equals(other.sources, sources)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(sources) ^ runtimeType.hashCode;
+}
+
+extension $FeedAdminSourcesResponseExtension on FeedAdminSourcesResponse {
+  FeedAdminSourcesResponse copyWith({List<FeedAdminSourceOut>? sources}) {
+    return FeedAdminSourcesResponse(sources: sources ?? this.sources);
+  }
+
+  FeedAdminSourcesResponse copyWithWrapped({
+    Wrapped<List<FeedAdminSourceOut>>? sources,
+  }) {
+    return FeedAdminSourcesResponse(
+      sources: (sources != null ? sources.value : this.sources),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class FeedAdminTargetIn {
+  const FeedAdminTargetIn({this.crop, this.district, this.maxHa, this.minHa});
+
+  factory FeedAdminTargetIn.fromJson(Map<String, dynamic> json) =>
+      _$FeedAdminTargetInFromJson(json);
+
+  static const toJsonFactory = _$FeedAdminTargetInToJson;
+  Map<String, dynamic> toJson() => _$FeedAdminTargetInToJson(this);
+
+  @JsonKey(name: 'crop', includeIfNull: false)
+  final String? crop;
+  @JsonKey(name: 'district', includeIfNull: false)
+  final String? district;
+  @JsonKey(name: 'max_ha', includeIfNull: false)
+  final double? maxHa;
+  @JsonKey(name: 'min_ha', includeIfNull: false)
+  final double? minHa;
+  static const fromJsonFactory = _$FeedAdminTargetInFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is FeedAdminTargetIn &&
+            (identical(other.crop, crop) ||
+                const DeepCollectionEquality().equals(other.crop, crop)) &&
+            (identical(other.district, district) ||
+                const DeepCollectionEquality().equals(
+                  other.district,
+                  district,
+                )) &&
+            (identical(other.maxHa, maxHa) ||
+                const DeepCollectionEquality().equals(other.maxHa, maxHa)) &&
+            (identical(other.minHa, minHa) ||
+                const DeepCollectionEquality().equals(other.minHa, minHa)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(crop) ^
+      const DeepCollectionEquality().hash(district) ^
+      const DeepCollectionEquality().hash(maxHa) ^
+      const DeepCollectionEquality().hash(minHa) ^
+      runtimeType.hashCode;
+}
+
+extension $FeedAdminTargetInExtension on FeedAdminTargetIn {
+  FeedAdminTargetIn copyWith({
+    String? crop,
+    String? district,
+    double? maxHa,
+    double? minHa,
+  }) {
+    return FeedAdminTargetIn(
+      crop: crop ?? this.crop,
+      district: district ?? this.district,
+      maxHa: maxHa ?? this.maxHa,
+      minHa: minHa ?? this.minHa,
+    );
+  }
+
+  FeedAdminTargetIn copyWithWrapped({
+    Wrapped<String?>? crop,
+    Wrapped<String?>? district,
+    Wrapped<double?>? maxHa,
+    Wrapped<double?>? minHa,
+  }) {
+    return FeedAdminTargetIn(
+      crop: (crop != null ? crop.value : this.crop),
+      district: (district != null ? district.value : this.district),
+      maxHa: (maxHa != null ? maxHa.value : this.maxHa),
+      minHa: (minHa != null ? minHa.value : this.minHa),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class FeedAdminTargetOut {
+  const FeedAdminTargetOut({
+    required this.crop,
+    required this.district,
+    required this.maxHa,
+    required this.minHa,
+  });
+
+  factory FeedAdminTargetOut.fromJson(Map<String, dynamic> json) =>
+      _$FeedAdminTargetOutFromJson(json);
+
+  static const toJsonFactory = _$FeedAdminTargetOutToJson;
+  Map<String, dynamic> toJson() => _$FeedAdminTargetOutToJson(this);
+
+  @JsonKey(name: 'crop', includeIfNull: false)
+  final String? crop;
+  @JsonKey(name: 'district', includeIfNull: false)
+  final String? district;
+  @JsonKey(name: 'max_ha', includeIfNull: false)
+  final double? maxHa;
+  @JsonKey(name: 'min_ha', includeIfNull: false)
+  final double? minHa;
+  static const fromJsonFactory = _$FeedAdminTargetOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is FeedAdminTargetOut &&
+            (identical(other.crop, crop) ||
+                const DeepCollectionEquality().equals(other.crop, crop)) &&
+            (identical(other.district, district) ||
+                const DeepCollectionEquality().equals(
+                  other.district,
+                  district,
+                )) &&
+            (identical(other.maxHa, maxHa) ||
+                const DeepCollectionEquality().equals(other.maxHa, maxHa)) &&
+            (identical(other.minHa, minHa) ||
+                const DeepCollectionEquality().equals(other.minHa, minHa)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(crop) ^
+      const DeepCollectionEquality().hash(district) ^
+      const DeepCollectionEquality().hash(maxHa) ^
+      const DeepCollectionEquality().hash(minHa) ^
+      runtimeType.hashCode;
+}
+
+extension $FeedAdminTargetOutExtension on FeedAdminTargetOut {
+  FeedAdminTargetOut copyWith({
+    String? crop,
+    String? district,
+    double? maxHa,
+    double? minHa,
+  }) {
+    return FeedAdminTargetOut(
+      crop: crop ?? this.crop,
+      district: district ?? this.district,
+      maxHa: maxHa ?? this.maxHa,
+      minHa: minHa ?? this.minHa,
+    );
+  }
+
+  FeedAdminTargetOut copyWithWrapped({
+    Wrapped<String?>? crop,
+    Wrapped<String?>? district,
+    Wrapped<double?>? maxHa,
+    Wrapped<double?>? minHa,
+  }) {
+    return FeedAdminTargetOut(
+      crop: (crop != null ? crop.value : this.crop),
+      district: (district != null ? district.value : this.district),
+      maxHa: (maxHa != null ? maxHa.value : this.maxHa),
+      minHa: (minHa != null ? minHa.value : this.minHa),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class FeedAdminTargetsIn {
+  const FeedAdminTargetsIn({required this.targets});
+
+  factory FeedAdminTargetsIn.fromJson(Map<String, dynamic> json) =>
+      _$FeedAdminTargetsInFromJson(json);
+
+  static const toJsonFactory = _$FeedAdminTargetsInToJson;
+  Map<String, dynamic> toJson() => _$FeedAdminTargetsInToJson(this);
+
+  @JsonKey(
+    name: 'targets',
+    includeIfNull: false,
+    defaultValue: <FeedAdminTargetIn>[],
+  )
+  final List<FeedAdminTargetIn> targets;
+  static const fromJsonFactory = _$FeedAdminTargetsInFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is FeedAdminTargetsIn &&
+            (identical(other.targets, targets) ||
+                const DeepCollectionEquality().equals(other.targets, targets)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(targets) ^ runtimeType.hashCode;
+}
+
+extension $FeedAdminTargetsInExtension on FeedAdminTargetsIn {
+  FeedAdminTargetsIn copyWith({List<FeedAdminTargetIn>? targets}) {
+    return FeedAdminTargetsIn(targets: targets ?? this.targets);
+  }
+
+  FeedAdminTargetsIn copyWithWrapped({
+    Wrapped<List<FeedAdminTargetIn>>? targets,
+  }) {
+    return FeedAdminTargetsIn(
+      targets: (targets != null ? targets.value : this.targets),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class FeedAdminTermsIn {
+  const FeedAdminTermsIn({this.notes, required this.termsStatus});
+
+  factory FeedAdminTermsIn.fromJson(Map<String, dynamic> json) =>
+      _$FeedAdminTermsInFromJson(json);
+
+  static const toJsonFactory = _$FeedAdminTermsInToJson;
+  Map<String, dynamic> toJson() => _$FeedAdminTermsInToJson(this);
+
+  @JsonKey(name: 'notes', includeIfNull: false)
+  final String? notes;
+  @JsonKey(
+    name: 'terms_status',
+    includeIfNull: false,
+    toJson: feedAdminTermsInTermsStatusToJson,
+    fromJson: feedAdminTermsInTermsStatusFromJson,
+  )
+  final enums.FeedAdminTermsInTermsStatus termsStatus;
+  static const fromJsonFactory = _$FeedAdminTermsInFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is FeedAdminTermsIn &&
+            (identical(other.notes, notes) ||
+                const DeepCollectionEquality().equals(other.notes, notes)) &&
+            (identical(other.termsStatus, termsStatus) ||
+                const DeepCollectionEquality().equals(
+                  other.termsStatus,
+                  termsStatus,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(notes) ^
+      const DeepCollectionEquality().hash(termsStatus) ^
+      runtimeType.hashCode;
+}
+
+extension $FeedAdminTermsInExtension on FeedAdminTermsIn {
+  FeedAdminTermsIn copyWith({
+    String? notes,
+    enums.FeedAdminTermsInTermsStatus? termsStatus,
+  }) {
+    return FeedAdminTermsIn(
+      notes: notes ?? this.notes,
+      termsStatus: termsStatus ?? this.termsStatus,
+    );
+  }
+
+  FeedAdminTermsIn copyWithWrapped({
+    Wrapped<String?>? notes,
+    Wrapped<enums.FeedAdminTermsInTermsStatus>? termsStatus,
+  }) {
+    return FeedAdminTermsIn(
+      notes: (notes != null ? notes.value : this.notes),
+      termsStatus: (termsStatus != null ? termsStatus.value : this.termsStatus),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class FeedAdminTextIn {
+  const FeedAdminTextIn({this.summary, required this.title});
+
+  factory FeedAdminTextIn.fromJson(Map<String, dynamic> json) =>
+      _$FeedAdminTextInFromJson(json);
+
+  static const toJsonFactory = _$FeedAdminTextInToJson;
+  Map<String, dynamic> toJson() => _$FeedAdminTextInToJson(this);
+
+  @JsonKey(name: 'summary', includeIfNull: false)
+  final String? summary;
+  @JsonKey(name: 'title', includeIfNull: false)
+  final String title;
+  static const fromJsonFactory = _$FeedAdminTextInFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is FeedAdminTextIn &&
+            (identical(other.summary, summary) ||
+                const DeepCollectionEquality().equals(
+                  other.summary,
+                  summary,
+                )) &&
+            (identical(other.title, title) ||
+                const DeepCollectionEquality().equals(other.title, title)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(summary) ^
+      const DeepCollectionEquality().hash(title) ^
+      runtimeType.hashCode;
+}
+
+extension $FeedAdminTextInExtension on FeedAdminTextIn {
+  FeedAdminTextIn copyWith({String? summary, String? title}) {
+    return FeedAdminTextIn(
+      summary: summary ?? this.summary,
+      title: title ?? this.title,
+    );
+  }
+
+  FeedAdminTextIn copyWithWrapped({
+    Wrapped<String?>? summary,
+    Wrapped<String>? title,
+  }) {
+    return FeedAdminTextIn(
+      summary: (summary != null ? summary.value : this.summary),
+      title: (title != null ? title.value : this.title),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class FeedAdminWithdrawIn {
+  const FeedAdminWithdrawIn({required this.reason, this.replacedById});
+
+  factory FeedAdminWithdrawIn.fromJson(Map<String, dynamic> json) =>
+      _$FeedAdminWithdrawInFromJson(json);
+
+  static const toJsonFactory = _$FeedAdminWithdrawInToJson;
+  Map<String, dynamic> toJson() => _$FeedAdminWithdrawInToJson(this);
+
+  @JsonKey(name: 'reason', includeIfNull: false)
+  final String reason;
+  @JsonKey(name: 'replaced_by_id', includeIfNull: false)
+  final String? replacedById;
+  static const fromJsonFactory = _$FeedAdminWithdrawInFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is FeedAdminWithdrawIn &&
+            (identical(other.reason, reason) ||
+                const DeepCollectionEquality().equals(other.reason, reason)) &&
+            (identical(other.replacedById, replacedById) ||
+                const DeepCollectionEquality().equals(
+                  other.replacedById,
+                  replacedById,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(reason) ^
+      const DeepCollectionEquality().hash(replacedById) ^
+      runtimeType.hashCode;
+}
+
+extension $FeedAdminWithdrawInExtension on FeedAdminWithdrawIn {
+  FeedAdminWithdrawIn copyWith({String? reason, String? replacedById}) {
+    return FeedAdminWithdrawIn(
+      reason: reason ?? this.reason,
+      replacedById: replacedById ?? this.replacedById,
+    );
+  }
+
+  FeedAdminWithdrawIn copyWithWrapped({
+    Wrapped<String>? reason,
+    Wrapped<String?>? replacedById,
+  }) {
+    return FeedAdminWithdrawIn(
+      reason: (reason != null ? reason.value : this.reason),
+      replacedById: (replacedById != null
+          ? replacedById.value
+          : this.replacedById),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class FeedItemOut {
+  const FeedItemOut({
+    required this.deadline,
+    required this.department,
+    required this.grNumber,
+    required this.id,
+    required this.mayBeEligibleBecause,
+    required this.publishedAt,
+    required this.replacedBy,
+    required this.summary,
+    required this.title,
+    required this.trust,
+    required this.type,
+    required this.url,
+    required this.validTo,
+  });
+
+  factory FeedItemOut.fromJson(Map<String, dynamic> json) =>
+      _$FeedItemOutFromJson(json);
+
+  static const toJsonFactory = _$FeedItemOutToJson;
+  Map<String, dynamic> toJson() => _$FeedItemOutToJson(this);
+
+  @JsonKey(name: 'deadline', includeIfNull: false, toJson: _dateToJson)
+  final DateTime? deadline;
+  @JsonKey(name: 'department', includeIfNull: false)
+  final String? department;
+  @JsonKey(name: 'gr_number', includeIfNull: false)
+  final String? grNumber;
+  @JsonKey(name: 'id', includeIfNull: false)
+  final String id;
+  @JsonKey(
+    name: 'may_be_eligible_because',
+    includeIfNull: false,
+    defaultValue: <String>[],
+  )
+  final List<String> mayBeEligibleBecause;
+  @JsonKey(name: 'published_at', includeIfNull: false)
+  final DateTime publishedAt;
+  @JsonKey(name: 'replaced_by', includeIfNull: false)
+  final String? replacedBy;
+  @JsonKey(name: 'summary', includeIfNull: false)
+  final String? summary;
+  @JsonKey(name: 'title', includeIfNull: false)
+  final String title;
+  @JsonKey(
+    name: 'trust',
+    includeIfNull: false,
+    toJson: feedItemOutTrustToJson,
+    fromJson: feedItemOutTrustFromJson,
+  )
+  final enums.FeedItemOutTrust trust;
+  @JsonKey(name: 'type', includeIfNull: false)
+  final String type;
+  @JsonKey(name: 'url', includeIfNull: false)
+  final String url;
+  @JsonKey(name: 'valid_to', includeIfNull: false, toJson: _dateToJson)
+  final DateTime? validTo;
+  static const fromJsonFactory = _$FeedItemOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is FeedItemOut &&
+            (identical(other.deadline, deadline) ||
+                const DeepCollectionEquality().equals(
+                  other.deadline,
+                  deadline,
+                )) &&
+            (identical(other.department, department) ||
+                const DeepCollectionEquality().equals(
+                  other.department,
+                  department,
+                )) &&
+            (identical(other.grNumber, grNumber) ||
+                const DeepCollectionEquality().equals(
+                  other.grNumber,
+                  grNumber,
+                )) &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.mayBeEligibleBecause, mayBeEligibleBecause) ||
+                const DeepCollectionEquality().equals(
+                  other.mayBeEligibleBecause,
+                  mayBeEligibleBecause,
+                )) &&
+            (identical(other.publishedAt, publishedAt) ||
+                const DeepCollectionEquality().equals(
+                  other.publishedAt,
+                  publishedAt,
+                )) &&
+            (identical(other.replacedBy, replacedBy) ||
+                const DeepCollectionEquality().equals(
+                  other.replacedBy,
+                  replacedBy,
+                )) &&
+            (identical(other.summary, summary) ||
+                const DeepCollectionEquality().equals(
+                  other.summary,
+                  summary,
+                )) &&
+            (identical(other.title, title) ||
+                const DeepCollectionEquality().equals(other.title, title)) &&
+            (identical(other.trust, trust) ||
+                const DeepCollectionEquality().equals(other.trust, trust)) &&
+            (identical(other.type, type) ||
+                const DeepCollectionEquality().equals(other.type, type)) &&
+            (identical(other.url, url) ||
+                const DeepCollectionEquality().equals(other.url, url)) &&
+            (identical(other.validTo, validTo) ||
+                const DeepCollectionEquality().equals(other.validTo, validTo)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(deadline) ^
+      const DeepCollectionEquality().hash(department) ^
+      const DeepCollectionEquality().hash(grNumber) ^
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(mayBeEligibleBecause) ^
+      const DeepCollectionEquality().hash(publishedAt) ^
+      const DeepCollectionEquality().hash(replacedBy) ^
+      const DeepCollectionEquality().hash(summary) ^
+      const DeepCollectionEquality().hash(title) ^
+      const DeepCollectionEquality().hash(trust) ^
+      const DeepCollectionEquality().hash(type) ^
+      const DeepCollectionEquality().hash(url) ^
+      const DeepCollectionEquality().hash(validTo) ^
+      runtimeType.hashCode;
+}
+
+extension $FeedItemOutExtension on FeedItemOut {
+  FeedItemOut copyWith({
+    DateTime? deadline,
+    String? department,
+    String? grNumber,
+    String? id,
+    List<String>? mayBeEligibleBecause,
+    DateTime? publishedAt,
+    String? replacedBy,
+    String? summary,
+    String? title,
+    enums.FeedItemOutTrust? trust,
+    String? type,
+    String? url,
+    DateTime? validTo,
+  }) {
+    return FeedItemOut(
+      deadline: deadline ?? this.deadline,
+      department: department ?? this.department,
+      grNumber: grNumber ?? this.grNumber,
+      id: id ?? this.id,
+      mayBeEligibleBecause: mayBeEligibleBecause ?? this.mayBeEligibleBecause,
+      publishedAt: publishedAt ?? this.publishedAt,
+      replacedBy: replacedBy ?? this.replacedBy,
+      summary: summary ?? this.summary,
+      title: title ?? this.title,
+      trust: trust ?? this.trust,
+      type: type ?? this.type,
+      url: url ?? this.url,
+      validTo: validTo ?? this.validTo,
+    );
+  }
+
+  FeedItemOut copyWithWrapped({
+    Wrapped<DateTime?>? deadline,
+    Wrapped<String?>? department,
+    Wrapped<String?>? grNumber,
+    Wrapped<String>? id,
+    Wrapped<List<String>>? mayBeEligibleBecause,
+    Wrapped<DateTime>? publishedAt,
+    Wrapped<String?>? replacedBy,
+    Wrapped<String?>? summary,
+    Wrapped<String>? title,
+    Wrapped<enums.FeedItemOutTrust>? trust,
+    Wrapped<String>? type,
+    Wrapped<String>? url,
+    Wrapped<DateTime?>? validTo,
+  }) {
+    return FeedItemOut(
+      deadline: (deadline != null ? deadline.value : this.deadline),
+      department: (department != null ? department.value : this.department),
+      grNumber: (grNumber != null ? grNumber.value : this.grNumber),
+      id: (id != null ? id.value : this.id),
+      mayBeEligibleBecause: (mayBeEligibleBecause != null
+          ? mayBeEligibleBecause.value
+          : this.mayBeEligibleBecause),
+      publishedAt: (publishedAt != null ? publishedAt.value : this.publishedAt),
+      replacedBy: (replacedBy != null ? replacedBy.value : this.replacedBy),
+      summary: (summary != null ? summary.value : this.summary),
+      title: (title != null ? title.value : this.title),
+      trust: (trust != null ? trust.value : this.trust),
+      type: (type != null ? type.value : this.type),
+      url: (url != null ? url.value : this.url),
+      validTo: (validTo != null ? validTo.value : this.validTo),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class FeedResponse {
+  const FeedResponse({required this.footer, required this.items});
+
+  factory FeedResponse.fromJson(Map<String, dynamic> json) =>
+      _$FeedResponseFromJson(json);
+
+  static const toJsonFactory = _$FeedResponseToJson;
+  Map<String, dynamic> toJson() => _$FeedResponseToJson(this);
+
+  @JsonKey(name: 'footer', includeIfNull: false)
+  final String footer;
+  @JsonKey(name: 'items', includeIfNull: false, defaultValue: <FeedItemOut>[])
+  final List<FeedItemOut> items;
+  static const fromJsonFactory = _$FeedResponseFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is FeedResponse &&
+            (identical(other.footer, footer) ||
+                const DeepCollectionEquality().equals(other.footer, footer)) &&
+            (identical(other.items, items) ||
+                const DeepCollectionEquality().equals(other.items, items)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(footer) ^
+      const DeepCollectionEquality().hash(items) ^
+      runtimeType.hashCode;
+}
+
+extension $FeedResponseExtension on FeedResponse {
+  FeedResponse copyWith({String? footer, List<FeedItemOut>? items}) {
+    return FeedResponse(
+      footer: footer ?? this.footer,
+      items: items ?? this.items,
+    );
+  }
+
+  FeedResponse copyWithWrapped({
+    Wrapped<String>? footer,
+    Wrapped<List<FeedItemOut>>? items,
+  }) {
+    return FeedResponse(
+      footer: (footer != null ? footer.value : this.footer),
+      items: (items != null ? items.value : this.items),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class GrantIn {
   const GrantIn({
     required this.periodEnd,
@@ -4550,6 +6639,239 @@ List<enums.DeviceInPlatform>? deviceInPlatformNullableListFromJson(
       .toList();
 }
 
+String? feedAdminItemInTypeNullableToJson(
+  enums.FeedAdminItemInType? feedAdminItemInType,
+) {
+  return feedAdminItemInType?.value;
+}
+
+String? feedAdminItemInTypeToJson(
+  enums.FeedAdminItemInType feedAdminItemInType,
+) {
+  return feedAdminItemInType.value;
+}
+
+enums.FeedAdminItemInType feedAdminItemInTypeFromJson(
+  Object? feedAdminItemInType, [
+  enums.FeedAdminItemInType? defaultValue,
+]) {
+  return enums.FeedAdminItemInType.values.firstWhereOrNull(
+        (e) => e.value == feedAdminItemInType,
+      ) ??
+      defaultValue ??
+      enums.FeedAdminItemInType.swaggerGeneratedUnknown;
+}
+
+enums.FeedAdminItemInType? feedAdminItemInTypeNullableFromJson(
+  Object? feedAdminItemInType, [
+  enums.FeedAdminItemInType? defaultValue,
+]) {
+  if (feedAdminItemInType == null) {
+    return null;
+  }
+  return enums.FeedAdminItemInType.values.firstWhereOrNull(
+        (e) => e.value == feedAdminItemInType,
+      ) ??
+      defaultValue;
+}
+
+String feedAdminItemInTypeExplodedListToJson(
+  List<enums.FeedAdminItemInType>? feedAdminItemInType,
+) {
+  return feedAdminItemInType?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> feedAdminItemInTypeListToJson(
+  List<enums.FeedAdminItemInType>? feedAdminItemInType,
+) {
+  if (feedAdminItemInType == null) {
+    return [];
+  }
+
+  return feedAdminItemInType.map((e) => e.value!).toList();
+}
+
+List<enums.FeedAdminItemInType> feedAdminItemInTypeListFromJson(
+  List? feedAdminItemInType, [
+  List<enums.FeedAdminItemInType>? defaultValue,
+]) {
+  if (feedAdminItemInType == null) {
+    return defaultValue ?? [];
+  }
+
+  return feedAdminItemInType
+      .map((e) => feedAdminItemInTypeFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.FeedAdminItemInType>? feedAdminItemInTypeNullableListFromJson(
+  List? feedAdminItemInType, [
+  List<enums.FeedAdminItemInType>? defaultValue,
+]) {
+  if (feedAdminItemInType == null) {
+    return defaultValue;
+  }
+
+  return feedAdminItemInType
+      .map((e) => feedAdminItemInTypeFromJson(e.toString()))
+      .toList();
+}
+
+String? feedAdminTermsInTermsStatusNullableToJson(
+  enums.FeedAdminTermsInTermsStatus? feedAdminTermsInTermsStatus,
+) {
+  return feedAdminTermsInTermsStatus?.value;
+}
+
+String? feedAdminTermsInTermsStatusToJson(
+  enums.FeedAdminTermsInTermsStatus feedAdminTermsInTermsStatus,
+) {
+  return feedAdminTermsInTermsStatus.value;
+}
+
+enums.FeedAdminTermsInTermsStatus feedAdminTermsInTermsStatusFromJson(
+  Object? feedAdminTermsInTermsStatus, [
+  enums.FeedAdminTermsInTermsStatus? defaultValue,
+]) {
+  return enums.FeedAdminTermsInTermsStatus.values.firstWhereOrNull(
+        (e) => e.value == feedAdminTermsInTermsStatus,
+      ) ??
+      defaultValue ??
+      enums.FeedAdminTermsInTermsStatus.swaggerGeneratedUnknown;
+}
+
+enums.FeedAdminTermsInTermsStatus? feedAdminTermsInTermsStatusNullableFromJson(
+  Object? feedAdminTermsInTermsStatus, [
+  enums.FeedAdminTermsInTermsStatus? defaultValue,
+]) {
+  if (feedAdminTermsInTermsStatus == null) {
+    return null;
+  }
+  return enums.FeedAdminTermsInTermsStatus.values.firstWhereOrNull(
+        (e) => e.value == feedAdminTermsInTermsStatus,
+      ) ??
+      defaultValue;
+}
+
+String feedAdminTermsInTermsStatusExplodedListToJson(
+  List<enums.FeedAdminTermsInTermsStatus>? feedAdminTermsInTermsStatus,
+) {
+  return feedAdminTermsInTermsStatus?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> feedAdminTermsInTermsStatusListToJson(
+  List<enums.FeedAdminTermsInTermsStatus>? feedAdminTermsInTermsStatus,
+) {
+  if (feedAdminTermsInTermsStatus == null) {
+    return [];
+  }
+
+  return feedAdminTermsInTermsStatus.map((e) => e.value!).toList();
+}
+
+List<enums.FeedAdminTermsInTermsStatus> feedAdminTermsInTermsStatusListFromJson(
+  List? feedAdminTermsInTermsStatus, [
+  List<enums.FeedAdminTermsInTermsStatus>? defaultValue,
+]) {
+  if (feedAdminTermsInTermsStatus == null) {
+    return defaultValue ?? [];
+  }
+
+  return feedAdminTermsInTermsStatus
+      .map((e) => feedAdminTermsInTermsStatusFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.FeedAdminTermsInTermsStatus>?
+feedAdminTermsInTermsStatusNullableListFromJson(
+  List? feedAdminTermsInTermsStatus, [
+  List<enums.FeedAdminTermsInTermsStatus>? defaultValue,
+]) {
+  if (feedAdminTermsInTermsStatus == null) {
+    return defaultValue;
+  }
+
+  return feedAdminTermsInTermsStatus
+      .map((e) => feedAdminTermsInTermsStatusFromJson(e.toString()))
+      .toList();
+}
+
+String? feedItemOutTrustNullableToJson(
+  enums.FeedItemOutTrust? feedItemOutTrust,
+) {
+  return feedItemOutTrust?.value;
+}
+
+String? feedItemOutTrustToJson(enums.FeedItemOutTrust feedItemOutTrust) {
+  return feedItemOutTrust.value;
+}
+
+enums.FeedItemOutTrust feedItemOutTrustFromJson(
+  Object? feedItemOutTrust, [
+  enums.FeedItemOutTrust? defaultValue,
+]) {
+  return enums.FeedItemOutTrust.values.firstWhereOrNull(
+        (e) => e.value == feedItemOutTrust,
+      ) ??
+      defaultValue ??
+      enums.FeedItemOutTrust.swaggerGeneratedUnknown;
+}
+
+enums.FeedItemOutTrust? feedItemOutTrustNullableFromJson(
+  Object? feedItemOutTrust, [
+  enums.FeedItemOutTrust? defaultValue,
+]) {
+  if (feedItemOutTrust == null) {
+    return null;
+  }
+  return enums.FeedItemOutTrust.values.firstWhereOrNull(
+        (e) => e.value == feedItemOutTrust,
+      ) ??
+      defaultValue;
+}
+
+String feedItemOutTrustExplodedListToJson(
+  List<enums.FeedItemOutTrust>? feedItemOutTrust,
+) {
+  return feedItemOutTrust?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> feedItemOutTrustListToJson(
+  List<enums.FeedItemOutTrust>? feedItemOutTrust,
+) {
+  if (feedItemOutTrust == null) {
+    return [];
+  }
+
+  return feedItemOutTrust.map((e) => e.value!).toList();
+}
+
+List<enums.FeedItemOutTrust> feedItemOutTrustListFromJson(
+  List? feedItemOutTrust, [
+  List<enums.FeedItemOutTrust>? defaultValue,
+]) {
+  if (feedItemOutTrust == null) {
+    return defaultValue ?? [];
+  }
+
+  return feedItemOutTrust
+      .map((e) => feedItemOutTrustFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.FeedItemOutTrust>? feedItemOutTrustNullableListFromJson(
+  List? feedItemOutTrust, [
+  List<enums.FeedItemOutTrust>? defaultValue,
+]) {
+  if (feedItemOutTrust == null) {
+    return defaultValue;
+  }
+
+  return feedItemOutTrust
+      .map((e) => feedItemOutTrustFromJson(e.toString()))
+      .toList();
+}
+
 String? grantInSubjectTypeNullableToJson(
   enums.GrantInSubjectType? grantInSubjectType,
 ) {
@@ -4912,6 +7234,174 @@ List<enums.ReviewInDecision>? reviewInDecisionNullableListFromJson(
       .toList();
 }
 
+String? v1AdminFeedItemsGetStatusNullableToJson(
+  enums.V1AdminFeedItemsGetStatus? v1AdminFeedItemsGetStatus,
+) {
+  return v1AdminFeedItemsGetStatus?.value;
+}
+
+String? v1AdminFeedItemsGetStatusToJson(
+  enums.V1AdminFeedItemsGetStatus v1AdminFeedItemsGetStatus,
+) {
+  return v1AdminFeedItemsGetStatus.value;
+}
+
+enums.V1AdminFeedItemsGetStatus v1AdminFeedItemsGetStatusFromJson(
+  Object? v1AdminFeedItemsGetStatus, [
+  enums.V1AdminFeedItemsGetStatus? defaultValue,
+]) {
+  return enums.V1AdminFeedItemsGetStatus.values.firstWhereOrNull(
+        (e) => e.value == v1AdminFeedItemsGetStatus,
+      ) ??
+      defaultValue ??
+      enums.V1AdminFeedItemsGetStatus.swaggerGeneratedUnknown;
+}
+
+enums.V1AdminFeedItemsGetStatus? v1AdminFeedItemsGetStatusNullableFromJson(
+  Object? v1AdminFeedItemsGetStatus, [
+  enums.V1AdminFeedItemsGetStatus? defaultValue,
+]) {
+  if (v1AdminFeedItemsGetStatus == null) {
+    return null;
+  }
+  return enums.V1AdminFeedItemsGetStatus.values.firstWhereOrNull(
+        (e) => e.value == v1AdminFeedItemsGetStatus,
+      ) ??
+      defaultValue;
+}
+
+String v1AdminFeedItemsGetStatusExplodedListToJson(
+  List<enums.V1AdminFeedItemsGetStatus>? v1AdminFeedItemsGetStatus,
+) {
+  return v1AdminFeedItemsGetStatus?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> v1AdminFeedItemsGetStatusListToJson(
+  List<enums.V1AdminFeedItemsGetStatus>? v1AdminFeedItemsGetStatus,
+) {
+  if (v1AdminFeedItemsGetStatus == null) {
+    return [];
+  }
+
+  return v1AdminFeedItemsGetStatus.map((e) => e.value!).toList();
+}
+
+List<enums.V1AdminFeedItemsGetStatus> v1AdminFeedItemsGetStatusListFromJson(
+  List? v1AdminFeedItemsGetStatus, [
+  List<enums.V1AdminFeedItemsGetStatus>? defaultValue,
+]) {
+  if (v1AdminFeedItemsGetStatus == null) {
+    return defaultValue ?? [];
+  }
+
+  return v1AdminFeedItemsGetStatus
+      .map((e) => v1AdminFeedItemsGetStatusFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.V1AdminFeedItemsGetStatus>?
+v1AdminFeedItemsGetStatusNullableListFromJson(
+  List? v1AdminFeedItemsGetStatus, [
+  List<enums.V1AdminFeedItemsGetStatus>? defaultValue,
+]) {
+  if (v1AdminFeedItemsGetStatus == null) {
+    return defaultValue;
+  }
+
+  return v1AdminFeedItemsGetStatus
+      .map((e) => v1AdminFeedItemsGetStatusFromJson(e.toString()))
+      .toList();
+}
+
+String? v1AdminFeedItemsItemIdTextsLangPutLangNullableToJson(
+  enums.V1AdminFeedItemsItemIdTextsLangPutLang?
+  v1AdminFeedItemsItemIdTextsLangPutLang,
+) {
+  return v1AdminFeedItemsItemIdTextsLangPutLang?.value;
+}
+
+String? v1AdminFeedItemsItemIdTextsLangPutLangToJson(
+  enums.V1AdminFeedItemsItemIdTextsLangPutLang
+  v1AdminFeedItemsItemIdTextsLangPutLang,
+) {
+  return v1AdminFeedItemsItemIdTextsLangPutLang.value;
+}
+
+enums.V1AdminFeedItemsItemIdTextsLangPutLang
+v1AdminFeedItemsItemIdTextsLangPutLangFromJson(
+  Object? v1AdminFeedItemsItemIdTextsLangPutLang, [
+  enums.V1AdminFeedItemsItemIdTextsLangPutLang? defaultValue,
+]) {
+  return enums.V1AdminFeedItemsItemIdTextsLangPutLang.values.firstWhereOrNull(
+        (e) => e.value == v1AdminFeedItemsItemIdTextsLangPutLang,
+      ) ??
+      defaultValue ??
+      enums.V1AdminFeedItemsItemIdTextsLangPutLang.swaggerGeneratedUnknown;
+}
+
+enums.V1AdminFeedItemsItemIdTextsLangPutLang?
+v1AdminFeedItemsItemIdTextsLangPutLangNullableFromJson(
+  Object? v1AdminFeedItemsItemIdTextsLangPutLang, [
+  enums.V1AdminFeedItemsItemIdTextsLangPutLang? defaultValue,
+]) {
+  if (v1AdminFeedItemsItemIdTextsLangPutLang == null) {
+    return null;
+  }
+  return enums.V1AdminFeedItemsItemIdTextsLangPutLang.values.firstWhereOrNull(
+        (e) => e.value == v1AdminFeedItemsItemIdTextsLangPutLang,
+      ) ??
+      defaultValue;
+}
+
+String v1AdminFeedItemsItemIdTextsLangPutLangExplodedListToJson(
+  List<enums.V1AdminFeedItemsItemIdTextsLangPutLang>?
+  v1AdminFeedItemsItemIdTextsLangPutLang,
+) {
+  return v1AdminFeedItemsItemIdTextsLangPutLang
+          ?.map((e) => e.value!)
+          .join(',') ??
+      '';
+}
+
+List<String> v1AdminFeedItemsItemIdTextsLangPutLangListToJson(
+  List<enums.V1AdminFeedItemsItemIdTextsLangPutLang>?
+  v1AdminFeedItemsItemIdTextsLangPutLang,
+) {
+  if (v1AdminFeedItemsItemIdTextsLangPutLang == null) {
+    return [];
+  }
+
+  return v1AdminFeedItemsItemIdTextsLangPutLang.map((e) => e.value!).toList();
+}
+
+List<enums.V1AdminFeedItemsItemIdTextsLangPutLang>
+v1AdminFeedItemsItemIdTextsLangPutLangListFromJson(
+  List? v1AdminFeedItemsItemIdTextsLangPutLang, [
+  List<enums.V1AdminFeedItemsItemIdTextsLangPutLang>? defaultValue,
+]) {
+  if (v1AdminFeedItemsItemIdTextsLangPutLang == null) {
+    return defaultValue ?? [];
+  }
+
+  return v1AdminFeedItemsItemIdTextsLangPutLang
+      .map((e) => v1AdminFeedItemsItemIdTextsLangPutLangFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.V1AdminFeedItemsItemIdTextsLangPutLang>?
+v1AdminFeedItemsItemIdTextsLangPutLangNullableListFromJson(
+  List? v1AdminFeedItemsItemIdTextsLangPutLang, [
+  List<enums.V1AdminFeedItemsItemIdTextsLangPutLang>? defaultValue,
+]) {
+  if (v1AdminFeedItemsItemIdTextsLangPutLang == null) {
+    return defaultValue;
+  }
+
+  return v1AdminFeedItemsItemIdTextsLangPutLang
+      .map((e) => v1AdminFeedItemsItemIdTextsLangPutLangFromJson(e.toString()))
+      .toList();
+}
+
 String? v1AdminKbImportsKindPostKindNullableToJson(
   enums.V1AdminKbImportsKindPostKind? v1AdminKbImportsKindPostKind,
 ) {
@@ -4991,6 +7481,74 @@ v1AdminKbImportsKindPostKindNullableListFromJson(
   return v1AdminKbImportsKindPostKind
       .map((e) => v1AdminKbImportsKindPostKindFromJson(e.toString()))
       .toList();
+}
+
+String? v1FeedGetLangNullableToJson(enums.V1FeedGetLang? v1FeedGetLang) {
+  return v1FeedGetLang?.value;
+}
+
+String? v1FeedGetLangToJson(enums.V1FeedGetLang v1FeedGetLang) {
+  return v1FeedGetLang.value;
+}
+
+enums.V1FeedGetLang v1FeedGetLangFromJson(
+  Object? v1FeedGetLang, [
+  enums.V1FeedGetLang? defaultValue,
+]) {
+  return enums.V1FeedGetLang.values.firstWhereOrNull(
+        (e) => e.value == v1FeedGetLang,
+      ) ??
+      defaultValue ??
+      enums.V1FeedGetLang.swaggerGeneratedUnknown;
+}
+
+enums.V1FeedGetLang? v1FeedGetLangNullableFromJson(
+  Object? v1FeedGetLang, [
+  enums.V1FeedGetLang? defaultValue,
+]) {
+  if (v1FeedGetLang == null) {
+    return null;
+  }
+  return enums.V1FeedGetLang.values.firstWhereOrNull(
+        (e) => e.value == v1FeedGetLang,
+      ) ??
+      defaultValue;
+}
+
+String v1FeedGetLangExplodedListToJson(
+  List<enums.V1FeedGetLang>? v1FeedGetLang,
+) {
+  return v1FeedGetLang?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> v1FeedGetLangListToJson(List<enums.V1FeedGetLang>? v1FeedGetLang) {
+  if (v1FeedGetLang == null) {
+    return [];
+  }
+
+  return v1FeedGetLang.map((e) => e.value!).toList();
+}
+
+List<enums.V1FeedGetLang> v1FeedGetLangListFromJson(
+  List? v1FeedGetLang, [
+  List<enums.V1FeedGetLang>? defaultValue,
+]) {
+  if (v1FeedGetLang == null) {
+    return defaultValue ?? [];
+  }
+
+  return v1FeedGetLang.map((e) => v1FeedGetLangFromJson(e.toString())).toList();
+}
+
+List<enums.V1FeedGetLang>? v1FeedGetLangNullableListFromJson(
+  List? v1FeedGetLang, [
+  List<enums.V1FeedGetLang>? defaultValue,
+]) {
+  if (v1FeedGetLang == null) {
+    return defaultValue;
+  }
+
+  return v1FeedGetLang.map((e) => v1FeedGetLangFromJson(e.toString())).toList();
 }
 
 String? v1MarketPricesGetScopeNullableToJson(

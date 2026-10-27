@@ -20,6 +20,14 @@ from bagmitra_api.db.models.plot import Plot
 from bagmitra_api.db.models.scouting import ScoutingRecord
 from bagmitra_api.db.models.sync_mutation import SyncMutation
 from bagmitra_api.db.models.tasks import FarmTask
+from bagmitra_api.feed.models import (
+    FeedItem,
+    FeedItemI18n,
+    FeedItemTarget,
+    FeedReviewEvent,
+    FeedSchemeCard,
+    FeedSource,
+)
 from bagmitra_api.kb.models import (
     KbCard,
     KbConflict,
@@ -44,6 +52,12 @@ __all__ = [
     "Expense",
     "FarmTask",
     "Farmer",
+    "FeedItem",
+    "FeedItemI18n",
+    "FeedItemTarget",
+    "FeedReviewEvent",
+    "FeedSchemeCard",
+    "FeedSource",
     "HarvestRecord",
     "Income",
     "InputRecord",

@@ -288,6 +288,401 @@ abstract class Bagmitra extends ChopperService {
     ),
   });
 
+  ///Items
+  ///@param status
+  Future<chopper.Response<FeedAdminItemsResponse>> v1AdminFeedItemsGet({
+    enums.V1AdminFeedItemsGetStatus? status,
+  }) {
+    generatedMapping.putIfAbsent(
+      FeedAdminItemsResponse,
+      () => FeedAdminItemsResponse.fromJsonFactory,
+    );
+
+    return _v1AdminFeedItemsGet(status: status?.value?.toString());
+  }
+
+  ///Items
+  ///@param status
+  @GET(path: '/v1/admin/feed/items')
+  Future<chopper.Response<FeedAdminItemsResponse>> _v1AdminFeedItemsGet({
+    @Query('status') String? status,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description:
+          'The review queue by default (`status=in_review`), newest first.',
+      summary: 'Items',
+      operationId: 'admin_feed_items',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Create Item
+  Future<chopper.Response<FeedAdminItemOut>> v1AdminFeedItemsPost({
+    required FeedAdminItemIn? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      FeedAdminItemOut,
+      () => FeedAdminItemOut.fromJsonFactory,
+    );
+
+    return _v1AdminFeedItemsPost(body: body);
+  }
+
+  ///Create Item
+  @POST(path: '/v1/admin/feed/items', optionalBody: true)
+  Future<chopper.Response<FeedAdminItemOut>> _v1AdminFeedItemsPost({
+    @Body() required FeedAdminItemIn? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Manual upload: metadata, optional document (hashed), optional text. Lands in review.',
+      summary: 'Create Item',
+      operationId: 'admin_feed_create_item',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Item Detail
+  ///@param item_id
+  Future<chopper.Response<FeedAdminItemOut>> v1AdminFeedItemsItemIdGet({
+    required String? itemId,
+  }) {
+    generatedMapping.putIfAbsent(
+      FeedAdminItemOut,
+      () => FeedAdminItemOut.fromJsonFactory,
+    );
+
+    return _v1AdminFeedItemsItemIdGet(itemId: itemId);
+  }
+
+  ///Item Detail
+  ///@param item_id
+  @GET(path: '/v1/admin/feed/items/{item_id}')
+  Future<chopper.Response<FeedAdminItemOut>> _v1AdminFeedItemsItemIdGet({
+    @Path('item_id') required String? itemId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Item Detail',
+      operationId: 'admin_feed_item',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Ai Draft
+  ///@param item_id
+  Future<chopper.Response<FeedAdminItemOut>> v1AdminFeedItemsItemIdAiDraftPost({
+    required String? itemId,
+  }) {
+    generatedMapping.putIfAbsent(
+      FeedAdminItemOut,
+      () => FeedAdminItemOut.fromJsonFactory,
+    );
+
+    return _v1AdminFeedItemsItemIdAiDraftPost(itemId: itemId);
+  }
+
+  ///Ai Draft
+  ///@param item_id
+  @POST(path: '/v1/admin/feed/items/{item_id}/ai-draft', optionalBody: true)
+  Future<chopper.Response<FeedAdminItemOut>>
+  _v1AdminFeedItemsItemIdAiDraftPost({
+    @Path('item_id') required String? itemId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Classify and summarise the item\'s text into a review draft (AI off without
+FEED_AI_API_KEY). Irrelevant documents move to `draft`, out of the queue.''',
+      summary: 'Ai Draft',
+      operationId: 'admin_feed_ai_draft',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Approve
+  ///@param item_id
+  Future<chopper.Response<FeedAdminItemOut>> v1AdminFeedItemsItemIdApprovePost({
+    required String? itemId,
+    required FeedAdminApproveIn? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      FeedAdminItemOut,
+      () => FeedAdminItemOut.fromJsonFactory,
+    );
+
+    return _v1AdminFeedItemsItemIdApprovePost(itemId: itemId, body: body);
+  }
+
+  ///Approve
+  ///@param item_id
+  @POST(path: '/v1/admin/feed/items/{item_id}/approve', optionalBody: true)
+  Future<chopper.Response<FeedAdminItemOut>>
+  _v1AdminFeedItemsItemIdApprovePost({
+    @Path('item_id') required String? itemId,
+    @Body() required FeedAdminApproveIn? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Approve',
+      operationId: 'admin_feed_approve',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Set Card
+  ///@param item_id
+  Future<chopper.Response<FeedAdminItemOut>> v1AdminFeedItemsItemIdCardPut({
+    required String? itemId,
+    required FeedAdminCardIn? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      FeedAdminItemOut,
+      () => FeedAdminItemOut.fromJsonFactory,
+    );
+
+    return _v1AdminFeedItemsItemIdCardPut(itemId: itemId, body: body);
+  }
+
+  ///Set Card
+  ///@param item_id
+  @PUT(path: '/v1/admin/feed/items/{item_id}/card', optionalBody: true)
+  Future<chopper.Response<FeedAdminItemOut>> _v1AdminFeedItemsItemIdCardPut({
+    @Path('item_id') required String? itemId,
+    @Body() required FeedAdminCardIn? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Set Card',
+      operationId: 'admin_feed_set_card',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Publish
+  ///@param item_id
+  Future<chopper.Response<FeedAdminItemOut>> v1AdminFeedItemsItemIdPublishPost({
+    required String? itemId,
+  }) {
+    generatedMapping.putIfAbsent(
+      FeedAdminItemOut,
+      () => FeedAdminItemOut.fromJsonFactory,
+    );
+
+    return _v1AdminFeedItemsItemIdPublishPost(itemId: itemId);
+  }
+
+  ///Publish
+  ///@param item_id
+  @POST(path: '/v1/admin/feed/items/{item_id}/publish', optionalBody: true)
+  Future<chopper.Response<FeedAdminItemOut>>
+  _v1AdminFeedItemsItemIdPublishPost({
+    @Path('item_id') required String? itemId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Publish',
+      operationId: 'admin_feed_publish',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Set Targets
+  ///@param item_id
+  Future<chopper.Response<FeedAdminItemOut>> v1AdminFeedItemsItemIdTargetsPut({
+    required String? itemId,
+    required FeedAdminTargetsIn? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      FeedAdminItemOut,
+      () => FeedAdminItemOut.fromJsonFactory,
+    );
+
+    return _v1AdminFeedItemsItemIdTargetsPut(itemId: itemId, body: body);
+  }
+
+  ///Set Targets
+  ///@param item_id
+  @PUT(path: '/v1/admin/feed/items/{item_id}/targets', optionalBody: true)
+  Future<chopper.Response<FeedAdminItemOut>> _v1AdminFeedItemsItemIdTargetsPut({
+    @Path('item_id') required String? itemId,
+    @Body() required FeedAdminTargetsIn? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Set Targets',
+      operationId: 'admin_feed_set_targets',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Set Text
+  ///@param item_id
+  ///@param lang
+  Future<chopper.Response<FeedAdminItemOut>>
+  v1AdminFeedItemsItemIdTextsLangPut({
+    required String? itemId,
+    required enums.V1AdminFeedItemsItemIdTextsLangPutLang? lang,
+    required FeedAdminTextIn? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      FeedAdminItemOut,
+      () => FeedAdminItemOut.fromJsonFactory,
+    );
+
+    return _v1AdminFeedItemsItemIdTextsLangPut(
+      itemId: itemId,
+      lang: lang?.value?.toString(),
+      body: body,
+    );
+  }
+
+  ///Set Text
+  ///@param item_id
+  ///@param lang
+  @PUT(path: '/v1/admin/feed/items/{item_id}/texts/{lang}', optionalBody: true)
+  Future<chopper.Response<FeedAdminItemOut>>
+  _v1AdminFeedItemsItemIdTextsLangPut({
+    @Path('item_id') required String? itemId,
+    @Path('lang') required String? lang,
+    @Body() required FeedAdminTextIn? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Set Text',
+      operationId: 'admin_feed_set_text',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Withdraw
+  ///@param item_id
+  Future<chopper.Response<FeedAdminItemOut>>
+  v1AdminFeedItemsItemIdWithdrawPost({
+    required String? itemId,
+    required FeedAdminWithdrawIn? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      FeedAdminItemOut,
+      () => FeedAdminItemOut.fromJsonFactory,
+    );
+
+    return _v1AdminFeedItemsItemIdWithdrawPost(itemId: itemId, body: body);
+  }
+
+  ///Withdraw
+  ///@param item_id
+  @POST(path: '/v1/admin/feed/items/{item_id}/withdraw', optionalBody: true)
+  Future<chopper.Response<FeedAdminItemOut>>
+  _v1AdminFeedItemsItemIdWithdrawPost({
+    @Path('item_id') required String? itemId,
+    @Body() required FeedAdminWithdrawIn? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Withdraw',
+      operationId: 'admin_feed_withdraw',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Sources
+  Future<chopper.Response<FeedAdminSourcesResponse>> v1AdminFeedSourcesGet() {
+    generatedMapping.putIfAbsent(
+      FeedAdminSourcesResponse,
+      () => FeedAdminSourcesResponse.fromJsonFactory,
+    );
+
+    return _v1AdminFeedSourcesGet();
+  }
+
+  ///Sources
+  @GET(path: '/v1/admin/feed/sources')
+  Future<chopper.Response<FeedAdminSourcesResponse>> _v1AdminFeedSourcesGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Sources',
+      operationId: 'admin_feed_sources',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Set Terms
+  ///@param key
+  Future<chopper.Response<FeedAdminSourceOut>> v1AdminFeedSourcesKeyTermsPut({
+    required String? key,
+    required FeedAdminTermsIn? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      FeedAdminSourceOut,
+      () => FeedAdminSourceOut.fromJsonFactory,
+    );
+
+    return _v1AdminFeedSourcesKeyTermsPut(key: key, body: body);
+  }
+
+  ///Set Terms
+  ///@param key
+  @PUT(path: '/v1/admin/feed/sources/{key}/terms', optionalBody: true)
+  Future<chopper.Response<FeedAdminSourceOut>> _v1AdminFeedSourcesKeyTermsPut({
+    @Path('key') required String? key,
+    @Body() required FeedAdminTermsIn? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Record the owner\'s check of the source\'s terms of use and robots. Also clears a
+recorded fetch failure, so the next scheduled run tries once more.''',
+      summary: 'Set Terms',
+      operationId: 'admin_feed_source_terms',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
   ///Alerts
   Future<chopper.Response<AlertsResponse>> v1AdminKbAlertsGet() {
     generatedMapping.putIfAbsent(
@@ -565,6 +960,56 @@ is the raw file; only its hash, size and time are kept.''',
       produces: [],
       security: ["HTTPBearer"],
       tags: ["billing"],
+      deprecated: false,
+    ),
+  });
+
+  ///Feed
+  ///@param lang
+  ///@param type
+  ///@param district
+  ///@param crop
+  Future<chopper.Response<FeedResponse>> v1FeedGet({
+    enums.V1FeedGetLang? lang,
+    String? type,
+    String? district,
+    String? crop,
+  }) {
+    generatedMapping.putIfAbsent(
+      FeedResponse,
+      () => FeedResponse.fromJsonFactory,
+    );
+
+    return _v1FeedGet(
+      lang: lang?.value?.toString(),
+      type: type,
+      district: district,
+      crop: crop,
+    );
+  }
+
+  ///Feed
+  ///@param lang
+  ///@param type
+  ///@param district
+  ///@param crop
+  @GET(path: '/v1/feed')
+  Future<chopper.Response<FeedResponse>> _v1FeedGet({
+    @Query('lang') String? lang,
+    @Query('type') String? type,
+    @Query('district') String? district,
+    @Query('crop') String? crop,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Newest first. `district` / `crop` narrow the list to items meant for them (items for
+everyone always pass); `may_be_eligible_because` is computed from the caller\'s own
+profile and plots.''',
+      summary: 'Feed',
+      operationId: 'feed_list',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["feed"],
       deprecated: false,
     ),
   });

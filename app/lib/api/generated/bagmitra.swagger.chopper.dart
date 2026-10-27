@@ -219,6 +219,323 @@ final class _$Bagmitra extends Bagmitra {
   }
 
   @override
+  Future<Response<FeedAdminItemsResponse>> _v1AdminFeedItemsGet({
+    String? status,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description:
+          'The review queue by default (`status=in_review`), newest first.',
+      summary: 'Items',
+      operationId: 'admin_feed_items',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/feed/items');
+    final Map<String, dynamic> $params = <String, dynamic>{'status': status};
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+      tag: swaggerMetaData,
+    );
+    return client.send<FeedAdminItemsResponse, FeedAdminItemsResponse>(
+      $request,
+    );
+  }
+
+  @override
+  Future<Response<FeedAdminItemOut>> _v1AdminFeedItemsPost({
+    required FeedAdminItemIn? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Manual upload: metadata, optional document (hashed), optional text. Lands in review.',
+      summary: 'Create Item',
+      operationId: 'admin_feed_create_item',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/feed/items');
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<FeedAdminItemOut, FeedAdminItemOut>($request);
+  }
+
+  @override
+  Future<Response<FeedAdminItemOut>> _v1AdminFeedItemsItemIdGet({
+    required String? itemId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Item Detail',
+      operationId: 'admin_feed_item',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/feed/items/${itemId}');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<FeedAdminItemOut, FeedAdminItemOut>($request);
+  }
+
+  @override
+  Future<Response<FeedAdminItemOut>> _v1AdminFeedItemsItemIdAiDraftPost({
+    required String? itemId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Classify and summarise the item\'s text into a review draft (AI off without
+FEED_AI_API_KEY). Irrelevant documents move to `draft`, out of the queue.''',
+      summary: 'Ai Draft',
+      operationId: 'admin_feed_ai_draft',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/feed/items/${itemId}/ai-draft');
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<FeedAdminItemOut, FeedAdminItemOut>($request);
+  }
+
+  @override
+  Future<Response<FeedAdminItemOut>> _v1AdminFeedItemsItemIdApprovePost({
+    required String? itemId,
+    required FeedAdminApproveIn? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Approve',
+      operationId: 'admin_feed_approve',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/feed/items/${itemId}/approve');
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<FeedAdminItemOut, FeedAdminItemOut>($request);
+  }
+
+  @override
+  Future<Response<FeedAdminItemOut>> _v1AdminFeedItemsItemIdCardPut({
+    required String? itemId,
+    required FeedAdminCardIn? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Set Card',
+      operationId: 'admin_feed_set_card',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/feed/items/${itemId}/card');
+    final $body = body;
+    final Request $request = Request(
+      'PUT',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<FeedAdminItemOut, FeedAdminItemOut>($request);
+  }
+
+  @override
+  Future<Response<FeedAdminItemOut>> _v1AdminFeedItemsItemIdPublishPost({
+    required String? itemId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Publish',
+      operationId: 'admin_feed_publish',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/feed/items/${itemId}/publish');
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<FeedAdminItemOut, FeedAdminItemOut>($request);
+  }
+
+  @override
+  Future<Response<FeedAdminItemOut>> _v1AdminFeedItemsItemIdTargetsPut({
+    required String? itemId,
+    required FeedAdminTargetsIn? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Set Targets',
+      operationId: 'admin_feed_set_targets',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/feed/items/${itemId}/targets');
+    final $body = body;
+    final Request $request = Request(
+      'PUT',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<FeedAdminItemOut, FeedAdminItemOut>($request);
+  }
+
+  @override
+  Future<Response<FeedAdminItemOut>> _v1AdminFeedItemsItemIdTextsLangPut({
+    required String? itemId,
+    required String? lang,
+    required FeedAdminTextIn? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Set Text',
+      operationId: 'admin_feed_set_text',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/feed/items/${itemId}/texts/${lang}');
+    final $body = body;
+    final Request $request = Request(
+      'PUT',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<FeedAdminItemOut, FeedAdminItemOut>($request);
+  }
+
+  @override
+  Future<Response<FeedAdminItemOut>> _v1AdminFeedItemsItemIdWithdrawPost({
+    required String? itemId,
+    required FeedAdminWithdrawIn? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Withdraw',
+      operationId: 'admin_feed_withdraw',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/feed/items/${itemId}/withdraw');
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<FeedAdminItemOut, FeedAdminItemOut>($request);
+  }
+
+  @override
+  Future<Response<FeedAdminSourcesResponse>> _v1AdminFeedSourcesGet({
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Sources',
+      operationId: 'admin_feed_sources',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/feed/sources');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<FeedAdminSourcesResponse, FeedAdminSourcesResponse>(
+      $request,
+    );
+  }
+
+  @override
+  Future<Response<FeedAdminSourceOut>> _v1AdminFeedSourcesKeyTermsPut({
+    required String? key,
+    required FeedAdminTermsIn? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Record the owner\'s check of the source\'s terms of use and robots. Also clears a
+recorded fetch failure, so the next scheduled run tries once more.''',
+      summary: 'Set Terms',
+      operationId: 'admin_feed_source_terms',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/feed/sources/${key}/terms');
+    final $body = body;
+    final Request $request = Request(
+      'PUT',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<FeedAdminSourceOut, FeedAdminSourceOut>($request);
+  }
+
+  @override
   Future<Response<AlertsResponse>> _v1AdminKbAlertsGet({
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
@@ -464,6 +781,42 @@ is the raw file; only its hash, size and time are kept.''',
       tag: swaggerMetaData,
     );
     return client.send<EntitlementsResponse, EntitlementsResponse>($request);
+  }
+
+  @override
+  Future<Response<FeedResponse>> _v1FeedGet({
+    String? lang,
+    String? type,
+    String? district,
+    String? crop,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Newest first. `district` / `crop` narrow the list to items meant for them (items for
+everyone always pass); `may_be_eligible_because` is computed from the caller\'s own
+profile and plots.''',
+      summary: 'Feed',
+      operationId: 'feed_list',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["feed"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/feed');
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'lang': lang,
+      'type': type,
+      'district': district,
+      'crop': crop,
+    };
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+      tag: swaggerMetaData,
+    );
+    return client.send<FeedResponse, FeedResponse>($request);
   }
 
   @override

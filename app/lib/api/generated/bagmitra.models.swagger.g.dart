@@ -234,6 +234,451 @@ FeatureOut _$FeatureOutFromJson(Map<String, dynamic> json) => FeatureOut(
 Map<String, dynamic> _$FeatureOutToJson(FeatureOut instance) =>
     <String, dynamic>{'enabled': instance.enabled, 'limit': ?instance.limit};
 
+FeedAdminApproveIn _$FeedAdminApproveInFromJson(Map<String, dynamic> json) =>
+    FeedAdminApproveIn(
+      acceptCheckIssues: json['accept_check_issues'] as bool? ?? false,
+      comment: json['comment'] as String?,
+    );
+
+Map<String, dynamic> _$FeedAdminApproveInToJson(FeedAdminApproveIn instance) =>
+    <String, dynamic>{
+      'accept_check_issues': ?instance.acceptCheckIssues,
+      'comment': ?instance.comment,
+    };
+
+FeedAdminCardFieldIn _$FeedAdminCardFieldInFromJson(
+  Map<String, dynamic> json,
+) => FeedAdminCardFieldIn(
+  page: json['page'] as String?,
+  value: json['value'] as String,
+);
+
+Map<String, dynamic> _$FeedAdminCardFieldInToJson(
+  FeedAdminCardFieldIn instance,
+) => <String, dynamic>{'page': ?instance.page, 'value': instance.value};
+
+FeedAdminCardIn _$FeedAdminCardInFromJson(Map<String, dynamic> json) =>
+    FeedAdminCardIn(fields: json['fields'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$FeedAdminCardInToJson(FeedAdminCardIn instance) =>
+    <String, dynamic>{'fields': instance.fields};
+
+FeedAdminCardOut _$FeedAdminCardOutFromJson(Map<String, dynamic> json) =>
+    FeedAdminCardOut(
+      fields: json['fields'] as Map<String, dynamic>,
+      version: (json['version'] as num).toInt(),
+    );
+
+Map<String, dynamic> _$FeedAdminCardOutToJson(FeedAdminCardOut instance) =>
+    <String, dynamic>{'fields': instance.fields, 'version': instance.version};
+
+FeedAdminCheckIssue _$FeedAdminCheckIssueFromJson(Map<String, dynamic> json) =>
+    FeedAdminCheckIssue(
+      kind: json['kind'] as String,
+      text: json['text'] as String,
+      where: json['where'] as String,
+    );
+
+Map<String, dynamic> _$FeedAdminCheckIssueToJson(
+  FeedAdminCheckIssue instance,
+) => <String, dynamic>{
+  'kind': instance.kind,
+  'text': instance.text,
+  'where': instance.where,
+};
+
+FeedAdminEventOut _$FeedAdminEventOutFromJson(Map<String, dynamic> json) =>
+    FeedAdminEventOut(
+      actorId: json['actor_id'] as String?,
+      createdAt: DateTime.parse(json['created_at'] as String),
+      detail: json['detail'] as Map<String, dynamic>,
+      kind: json['kind'] as String,
+    );
+
+Map<String, dynamic> _$FeedAdminEventOutToJson(FeedAdminEventOut instance) =>
+    <String, dynamic>{
+      'actor_id': ?instance.actorId,
+      'created_at': instance.createdAt.toIso8601String(),
+      'detail': instance.detail,
+      'kind': instance.kind,
+    };
+
+FeedAdminItemIn _$FeedAdminItemInFromJson(Map<String, dynamic> json) =>
+    FeedAdminItemIn(
+      card: json['card'],
+      deadline: json['deadline'] == null
+          ? null
+          : DateTime.parse(json['deadline'] as String),
+      department: json['department'] as String?,
+      documentBase64: json['document_base64'] as String?,
+      documentType: json['document_type'] as String?,
+      externalId: json['external_id'] as String?,
+      extractedText: json['extracted_text'] as String?,
+      grNumber: json['gr_number'] as String?,
+      publishedAt: DateTime.parse(json['published_at'] as String),
+      sourceKey: json['source_key'] as String,
+      targets:
+          (json['targets'] as List<dynamic>?)
+              ?.map(
+                (e) => FeedAdminTargetIn.fromJson(e as Map<String, dynamic>),
+              )
+              .toList() ??
+          [],
+      texts: json['texts'] as Map<String, dynamic>?,
+      type: feedAdminItemInTypeFromJson(json['type']),
+      url: json['url'] as String,
+      validFrom: json['valid_from'] == null
+          ? null
+          : DateTime.parse(json['valid_from'] as String),
+      validTo: json['valid_to'] == null
+          ? null
+          : DateTime.parse(json['valid_to'] as String),
+    );
+
+Map<String, dynamic> _$FeedAdminItemInToJson(FeedAdminItemIn instance) =>
+    <String, dynamic>{
+      'card': ?instance.card,
+      'deadline': ?_dateToJson(instance.deadline),
+      'department': ?instance.department,
+      'document_base64': ?instance.documentBase64,
+      'document_type': ?instance.documentType,
+      'external_id': ?instance.externalId,
+      'extracted_text': ?instance.extractedText,
+      'gr_number': ?instance.grNumber,
+      'published_at': instance.publishedAt.toIso8601String(),
+      'source_key': instance.sourceKey,
+      'targets': ?instance.targets?.map((e) => e.toJson()).toList(),
+      'texts': ?instance.texts,
+      'type': ?feedAdminItemInTypeToJson(instance.type),
+      'url': instance.url,
+      'valid_from': ?_dateToJson(instance.validFrom),
+      'valid_to': ?_dateToJson(instance.validTo),
+    };
+
+FeedAdminItemOut _$FeedAdminItemOutFromJson(
+  Map<String, dynamic> json,
+) => FeedAdminItemOut(
+  approved: json['approved'] as bool,
+  card: json['card'] == null
+      ? null
+      : FeedAdminCardOut.fromJson(json['card'] as Map<String, dynamic>),
+  checkIssues:
+      (json['check_issues'] as List<dynamic>?)
+          ?.map((e) => FeedAdminCheckIssue.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      [],
+  deadline: json['deadline'] == null
+      ? null
+      : DateTime.parse(json['deadline'] as String),
+  department: json['department'] as String?,
+  events:
+      (json['events'] as List<dynamic>?)
+          ?.map((e) => FeedAdminEventOut.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      [],
+  externalId: json['external_id'] as String?,
+  grNumber: json['gr_number'] as String?,
+  hasText: json['has_text'] as bool,
+  id: json['id'] as String,
+  publishedAt: DateTime.parse(json['published_at'] as String),
+  rawBytes: (json['raw_bytes'] as num?)?.toInt(),
+  rawHash: json['raw_hash'] as String?,
+  replacedById: json['replaced_by_id'] as String?,
+  sourceKey: json['source_key'] as String,
+  status: json['status'] as String,
+  targets:
+      (json['targets'] as List<dynamic>?)
+          ?.map((e) => FeedAdminTargetOut.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      [],
+  texts: json['texts'] as Map<String, dynamic>,
+  title: json['title'] as String?,
+  trust: json['trust'] as String,
+  type: json['type'] as String,
+  url: json['url'] as String,
+  validFrom: json['valid_from'] == null
+      ? null
+      : DateTime.parse(json['valid_from'] as String),
+  validTo: json['valid_to'] == null
+      ? null
+      : DateTime.parse(json['valid_to'] as String),
+);
+
+Map<String, dynamic> _$FeedAdminItemOutToJson(FeedAdminItemOut instance) =>
+    <String, dynamic>{
+      'approved': instance.approved,
+      'card': ?instance.card?.toJson(),
+      'check_issues': instance.checkIssues.map((e) => e.toJson()).toList(),
+      'deadline': ?_dateToJson(instance.deadline),
+      'department': ?instance.department,
+      'events': instance.events.map((e) => e.toJson()).toList(),
+      'external_id': ?instance.externalId,
+      'gr_number': ?instance.grNumber,
+      'has_text': instance.hasText,
+      'id': instance.id,
+      'published_at': instance.publishedAt.toIso8601String(),
+      'raw_bytes': ?instance.rawBytes,
+      'raw_hash': ?instance.rawHash,
+      'replaced_by_id': ?instance.replacedById,
+      'source_key': instance.sourceKey,
+      'status': instance.status,
+      'targets': instance.targets.map((e) => e.toJson()).toList(),
+      'texts': instance.texts,
+      'title': ?instance.title,
+      'trust': instance.trust,
+      'type': instance.type,
+      'url': instance.url,
+      'valid_from': ?_dateToJson(instance.validFrom),
+      'valid_to': ?_dateToJson(instance.validTo),
+    };
+
+FeedAdminItemSummaryOut _$FeedAdminItemSummaryOutFromJson(
+  Map<String, dynamic> json,
+) => FeedAdminItemSummaryOut(
+  approved: json['approved'] as bool,
+  checkIssues:
+      (json['check_issues'] as List<dynamic>?)
+          ?.map((e) => FeedAdminCheckIssue.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      [],
+  department: json['department'] as String?,
+  grNumber: json['gr_number'] as String?,
+  id: json['id'] as String,
+  publishedAt: DateTime.parse(json['published_at'] as String),
+  status: json['status'] as String,
+  title: json['title'] as String?,
+  trust: json['trust'] as String,
+  type: json['type'] as String,
+);
+
+Map<String, dynamic> _$FeedAdminItemSummaryOutToJson(
+  FeedAdminItemSummaryOut instance,
+) => <String, dynamic>{
+  'approved': instance.approved,
+  'check_issues': instance.checkIssues.map((e) => e.toJson()).toList(),
+  'department': ?instance.department,
+  'gr_number': ?instance.grNumber,
+  'id': instance.id,
+  'published_at': instance.publishedAt.toIso8601String(),
+  'status': instance.status,
+  'title': ?instance.title,
+  'trust': instance.trust,
+  'type': instance.type,
+};
+
+FeedAdminItemTextOut _$FeedAdminItemTextOutFromJson(
+  Map<String, dynamic> json,
+) => FeedAdminItemTextOut(
+  summary: json['summary'] as String?,
+  title: json['title'] as String,
+);
+
+Map<String, dynamic> _$FeedAdminItemTextOutToJson(
+  FeedAdminItemTextOut instance,
+) => <String, dynamic>{'summary': ?instance.summary, 'title': instance.title};
+
+FeedAdminItemsResponse _$FeedAdminItemsResponseFromJson(
+  Map<String, dynamic> json,
+) => FeedAdminItemsResponse(
+  items:
+      (json['items'] as List<dynamic>?)
+          ?.map(
+            (e) => FeedAdminItemSummaryOut.fromJson(e as Map<String, dynamic>),
+          )
+          .toList() ??
+      [],
+);
+
+Map<String, dynamic> _$FeedAdminItemsResponseToJson(
+  FeedAdminItemsResponse instance,
+) => <String, dynamic>{'items': instance.items.map((e) => e.toJson()).toList()};
+
+FeedAdminSourceOut _$FeedAdminSourceOutFromJson(Map<String, dynamic> json) =>
+    FeedAdminSourceOut(
+      fetchMethod: json['fetch_method'] as String,
+      fetchStatus: json['fetch_status'] as String,
+      id: json['id'] as String,
+      key: json['key'] as String,
+      lastError: json['last_error'] as String?,
+      lastOkAt: json['last_ok_at'] == null
+          ? null
+          : DateTime.parse(json['last_ok_at'] as String),
+      name: json['name'] as String,
+      notes: json['notes'] as String?,
+      termsStatus: json['terms_status'] as String,
+      tier: json['tier'] as String,
+      url: json['url'] as String,
+    );
+
+Map<String, dynamic> _$FeedAdminSourceOutToJson(FeedAdminSourceOut instance) =>
+    <String, dynamic>{
+      'fetch_method': instance.fetchMethod,
+      'fetch_status': instance.fetchStatus,
+      'id': instance.id,
+      'key': instance.key,
+      'last_error': ?instance.lastError,
+      'last_ok_at': ?instance.lastOkAt?.toIso8601String(),
+      'name': instance.name,
+      'notes': ?instance.notes,
+      'terms_status': instance.termsStatus,
+      'tier': instance.tier,
+      'url': instance.url,
+    };
+
+FeedAdminSourcesResponse _$FeedAdminSourcesResponseFromJson(
+  Map<String, dynamic> json,
+) => FeedAdminSourcesResponse(
+  sources:
+      (json['sources'] as List<dynamic>?)
+          ?.map((e) => FeedAdminSourceOut.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      [],
+);
+
+Map<String, dynamic> _$FeedAdminSourcesResponseToJson(
+  FeedAdminSourcesResponse instance,
+) => <String, dynamic>{
+  'sources': instance.sources.map((e) => e.toJson()).toList(),
+};
+
+FeedAdminTargetIn _$FeedAdminTargetInFromJson(Map<String, dynamic> json) =>
+    FeedAdminTargetIn(
+      crop: json['crop'] as String?,
+      district: json['district'] as String?,
+      maxHa: (json['max_ha'] as num?)?.toDouble(),
+      minHa: (json['min_ha'] as num?)?.toDouble(),
+    );
+
+Map<String, dynamic> _$FeedAdminTargetInToJson(FeedAdminTargetIn instance) =>
+    <String, dynamic>{
+      'crop': ?instance.crop,
+      'district': ?instance.district,
+      'max_ha': ?instance.maxHa,
+      'min_ha': ?instance.minHa,
+    };
+
+FeedAdminTargetOut _$FeedAdminTargetOutFromJson(Map<String, dynamic> json) =>
+    FeedAdminTargetOut(
+      crop: json['crop'] as String?,
+      district: json['district'] as String?,
+      maxHa: (json['max_ha'] as num?)?.toDouble(),
+      minHa: (json['min_ha'] as num?)?.toDouble(),
+    );
+
+Map<String, dynamic> _$FeedAdminTargetOutToJson(FeedAdminTargetOut instance) =>
+    <String, dynamic>{
+      'crop': ?instance.crop,
+      'district': ?instance.district,
+      'max_ha': ?instance.maxHa,
+      'min_ha': ?instance.minHa,
+    };
+
+FeedAdminTargetsIn _$FeedAdminTargetsInFromJson(Map<String, dynamic> json) =>
+    FeedAdminTargetsIn(
+      targets:
+          (json['targets'] as List<dynamic>?)
+              ?.map(
+                (e) => FeedAdminTargetIn.fromJson(e as Map<String, dynamic>),
+              )
+              .toList() ??
+          [],
+    );
+
+Map<String, dynamic> _$FeedAdminTargetsInToJson(FeedAdminTargetsIn instance) =>
+    <String, dynamic>{
+      'targets': instance.targets.map((e) => e.toJson()).toList(),
+    };
+
+FeedAdminTermsIn _$FeedAdminTermsInFromJson(Map<String, dynamic> json) =>
+    FeedAdminTermsIn(
+      notes: json['notes'] as String?,
+      termsStatus: feedAdminTermsInTermsStatusFromJson(json['terms_status']),
+    );
+
+Map<String, dynamic> _$FeedAdminTermsInToJson(FeedAdminTermsIn instance) =>
+    <String, dynamic>{
+      'notes': ?instance.notes,
+      'terms_status': ?feedAdminTermsInTermsStatusToJson(instance.termsStatus),
+    };
+
+FeedAdminTextIn _$FeedAdminTextInFromJson(Map<String, dynamic> json) =>
+    FeedAdminTextIn(
+      summary: json['summary'] as String?,
+      title: json['title'] as String,
+    );
+
+Map<String, dynamic> _$FeedAdminTextInToJson(FeedAdminTextIn instance) =>
+    <String, dynamic>{'summary': ?instance.summary, 'title': instance.title};
+
+FeedAdminWithdrawIn _$FeedAdminWithdrawInFromJson(Map<String, dynamic> json) =>
+    FeedAdminWithdrawIn(
+      reason: json['reason'] as String,
+      replacedById: json['replaced_by_id'] as String?,
+    );
+
+Map<String, dynamic> _$FeedAdminWithdrawInToJson(
+  FeedAdminWithdrawIn instance,
+) => <String, dynamic>{
+  'reason': instance.reason,
+  'replaced_by_id': ?instance.replacedById,
+};
+
+FeedItemOut _$FeedItemOutFromJson(Map<String, dynamic> json) => FeedItemOut(
+  deadline: json['deadline'] == null
+      ? null
+      : DateTime.parse(json['deadline'] as String),
+  department: json['department'] as String?,
+  grNumber: json['gr_number'] as String?,
+  id: json['id'] as String,
+  mayBeEligibleBecause:
+      (json['may_be_eligible_because'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList() ??
+      [],
+  publishedAt: DateTime.parse(json['published_at'] as String),
+  replacedBy: json['replaced_by'] as String?,
+  summary: json['summary'] as String?,
+  title: json['title'] as String,
+  trust: feedItemOutTrustFromJson(json['trust']),
+  type: json['type'] as String,
+  url: json['url'] as String,
+  validTo: json['valid_to'] == null
+      ? null
+      : DateTime.parse(json['valid_to'] as String),
+);
+
+Map<String, dynamic> _$FeedItemOutToJson(FeedItemOut instance) =>
+    <String, dynamic>{
+      'deadline': ?_dateToJson(instance.deadline),
+      'department': ?instance.department,
+      'gr_number': ?instance.grNumber,
+      'id': instance.id,
+      'may_be_eligible_because': instance.mayBeEligibleBecause,
+      'published_at': instance.publishedAt.toIso8601String(),
+      'replaced_by': ?instance.replacedBy,
+      'summary': ?instance.summary,
+      'title': instance.title,
+      'trust': ?feedItemOutTrustToJson(instance.trust),
+      'type': instance.type,
+      'url': instance.url,
+      'valid_to': ?_dateToJson(instance.validTo),
+    };
+
+FeedResponse _$FeedResponseFromJson(Map<String, dynamic> json) => FeedResponse(
+  footer: json['footer'] as String,
+  items:
+      (json['items'] as List<dynamic>?)
+          ?.map((e) => FeedItemOut.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      [],
+);
+
+Map<String, dynamic> _$FeedResponseToJson(FeedResponse instance) =>
+    <String, dynamic>{
+      'footer': instance.footer,
+      'items': instance.items.map((e) => e.toJson()).toList(),
+    };
+
 GrantIn _$GrantInFromJson(Map<String, dynamic> json) => GrantIn(
   periodEnd: DateTime.parse(json['period_end'] as String),
   planKey: json['plan_key'] as String,
