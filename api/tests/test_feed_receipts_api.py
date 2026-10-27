@@ -21,9 +21,10 @@ from tests.test_feed_api import (
     api,
     approve_publish,
     create,
+    ocr_box,
 )
 
-__all__ = ["ai_box", "api"]  # fixtures used here
+__all__ = ["ai_box", "api", "ocr_box"]  # fixtures used here
 PREFS = "/v1/me/feed-preferences"
 
 
