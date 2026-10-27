@@ -20,9 +20,10 @@ from bagmitra_api.db.models import Farmer, Plot
 from bagmitra_api.db.session import get_sessionmaker
 from bagmitra_api.feed.ai import AiUnavailableError, Classification, FeedAi, Summary, get_feed_ai
 from bagmitra_api.feed.extract import OcrError, OcrResult, get_feed_ocr
-from bagmitra_api.feed.models import FeedItem, FeedReviewEvent, FeedSource
+from bagmitra_api.feed.models import FeedDeadline, FeedItem, FeedReviewEvent, FeedSource
 from bagmitra_api.feed.seed import seed_feed_sources
 from bagmitra_api.main import create_app
+from bagmitra_api.routers import admin_feed
 from tests.conftest import make_token
 from tests.feed_docs import HTML, KRUTI_DEV, make_pdf
 
@@ -652,3 +653,110 @@ async def test_uploaded_html_text(
     )
     assert broken["check_issues"][0]["kind"] == "text_broken"
     assert ocr.calls == 0  # OCR is for PDFs only
+
+
+async def deadline_rows(engine: AsyncEngine, item_id: str) -> dict[str, date]:
+    async with async_sessionmaker(engine)() as session:
+        rows = await session.scalars(
+            select(FeedDeadline).where(FeedDeadline.item_id == uuid.UUID(item_id))
+        )
+        return {r.kind: r.due_date for r in rows}
+
+
+async def test_edit_dates_is_output_checked(api: httpx.AsyncClient) -> None:
+    item = await create(api)
+    url = f"{ADMIN_BASE}/items/{item['id']}/dates"
+    right = (TODAY + timedelta(days=30)).isoformat()
+    wrong = (TODAY + timedelta(days=31)).isoformat()
+    res = await api.put(url, json={"deadline": wrong}, headers=ADMIN)
+    assert res.status_code == 200, res.text
+    body = res.json()
+    assert body["deadline"] == wrong
+    assert [(i["kind"], i["where"]) for i in body["check_issues"]] == [("date", "deadline")]
+    edited = [e for e in body["events"] if e["kind"] == "edited"][-1]
+    assert edited["detail"] == {"dates": {"deadline": [right, wrong]}, "reopened": False}
+    # The body replaces all four dates: a missing or null one is cleared.
+    res = await api.put(url, json={"valid_to": right, "payment_date": None}, headers=ADMIN)
+    body = res.json()
+    assert (body["deadline"], body["valid_to"], body["check_issues"]) == (None, right, [])
+    assert body["status"] == "in_review"
+    res = await api.put(url, json={"valid_to": right, "payment_date": "2026-01-02"}, headers=ADMIN)
+    assert [i["where"] for i in res.json()["check_issues"]] == ["payment_date"]
+    # Sending the stored dates again records nothing.
+    before = len(res.json()["events"])
+    res = await api.put(url, json={"valid_to": right, "payment_date": "2026-01-02"}, headers=ADMIN)
+    assert len(res.json()["events"]) == before
+
+
+async def test_edit_dates_validation_and_roles(
+    api: httpx.AsyncClient, auth_headers: dict[str, str]
+) -> None:
+    item = await create(api)
+    url = f"{ADMIN_BASE}/items/{item['id']}/dates"
+    assert (await api.put(url, json={})).status_code == 401
+    assert (await api.put(url, json={}, headers=auth_headers)).status_code == 403
+    res = await api.put(
+        url, json={"valid_from": "2027-02-01", "valid_to": "2027-01-01"}, headers=ADMIN
+    )
+    assert (res.status_code, res.json()["error"]["code"]) == (422, "invalid_dates")
+    assert (await api.put(url, json={"deadline": "x"}, headers=ADMIN)).status_code == 422
+    missing = f"{ADMIN_BASE}/items/{uuid.uuid4()}/dates"
+    assert (await api.put(missing, json={}, headers=ADMIN)).status_code == 404
+    await api.post(f"{ADMIN_BASE}/items/{item['id']}/withdraw", json={"reason": "x"}, headers=ADMIN)
+    res = await api.put(url, json={}, headers=ADMIN)
+    assert (res.status_code, res.json()["error"]["code"]) == (409, "withdrawn")
+
+
+async def test_editing_published_dates_reopens_review_and_rebuilds_deadlines(
+    api: httpx.AsyncClient, engine: AsyncEngine, auth_headers: dict[str, str]
+) -> None:
+    item = await create(api)
+    await approve_publish(api, item["id"])
+    due = TODAY + timedelta(days=30)
+    assert await deadline_rows(engine, item["id"]) == {"apply_by": due}
+    res = await api.put(
+        f"{ADMIN_BASE}/items/{item['id']}/dates",
+        json={"valid_to": due.isoformat()},
+        headers=ADMIN,
+    )
+    body = res.json()
+    assert (body["status"], body["approved"]) == ("in_review", False)
+    assert body["events"][-1]["kind"] == "edited"
+    assert body["events"][-1]["detail"]["reopened"] is True
+    assert (await api.get("/v1/feed", headers=auth_headers)).json()["items"] == []
+    res = await api.post(f"{ADMIN_BASE}/items/{item['id']}/publish", headers=ADMIN)
+    assert res.status_code == 409  # needs a new approval
+    await approve_publish(api, item["id"])
+    assert await deadline_rows(engine, item["id"]) == {"window_close": due}
+
+
+async def test_detail_returns_the_stored_text_capped(
+    api: httpx.AsyncClient, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    item = await create(api)
+    assert (item["extracted_text"], item["extracted_text_truncated"]) == (GR_TEXT, False)
+    monkeypatch.setattr(admin_feed, "MAX_DETAIL_TEXT_BYTES", 100)
+    res = await api.get(f"{ADMIN_BASE}/items/{item['id']}", headers=ADMIN)
+    body = res.json()
+    assert body["extracted_text_truncated"] is True
+    assert len(body["extracted_text"].encode()) <= 100
+    assert GR_TEXT.startswith(body["extracted_text"])  # cut on a character boundary
+    news = await create(
+        api,
+        source_key="test_news",
+        type="news",
+        external_id="n1",
+        extracted_text=None,
+        document_base64=None,
+        document_type=None,
+        card=None,
+    )
+    assert (news["extracted_text"], news["extracted_text_truncated"]) == (None, False)
+
+
+def test_text_cap_default() -> None:
+    assert admin_feed.MAX_DETAIL_TEXT_BYTES == 200_000
+    text = "अ" * 70_000  # 210 000 UTF-8 bytes
+    cut, truncated = admin_feed._capped(text)
+    assert truncated
+    assert cut == "अ" * 66_666

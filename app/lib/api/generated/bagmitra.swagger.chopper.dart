@@ -377,6 +377,36 @@ FEED_AI_API_KEY). Irrelevant documents move to `draft`, out of the queue.''',
   }
 
   @override
+  Future<Response<FeedAdminItemOut>> _v1AdminFeedItemsItemIdDatesPut({
+    required String? itemId,
+    required FeedAdminDatesIn? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Replace deadline / payment / validity dates (a missing or `null` date is cleared). The
+dates are output-checked against the stored text; a change to a published item clears its
+approval and sends it back to review (an `edited` event with `reopened: true`); the
+farmer-facing deadlines are rebuilt when it is published again. Withdrawn: 409.''',
+      summary: 'Set Dates',
+      operationId: 'admin_feed_set_dates',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/feed/items/${itemId}/dates');
+    final $body = body;
+    final Request $request = Request(
+      'PUT',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<FeedAdminItemOut, FeedAdminItemOut>($request);
+  }
+
+  @override
   Future<Response<FeedAdminItemOut>> _v1AdminFeedItemsItemIdPublishPost({
     required String? itemId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(

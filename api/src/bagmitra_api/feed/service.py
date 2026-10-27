@@ -371,6 +371,44 @@ async def set_card(
     return card
 
 
+DATE_FIELDS = ("deadline", "payment_date", "valid_from", "valid_to")
+
+
+async def set_dates(
+    session: AsyncSession,
+    item: FeedItem,
+    dates: Mapping[str, date | None],
+    actor: uuid.UUID,
+    settings: Settings,
+) -> None:
+    """Replace the item's dates (a missing or None date is cleared). A change clears the
+    approval like every edit, and a published item goes back to review (its `feed_deadlines`
+    rows are rebuilt on the next publish); the dates are output-checked against the source text
+    again. Sending the current dates changes nothing."""
+    _editable(item)
+    new = {name: dates.get(name) for name in DATE_FIELDS}
+    if new["valid_from"] and new["valid_to"] and new["valid_from"] > new["valid_to"]:
+        raise FeedError(422, "invalid_dates", "valid_from is after valid_to")
+    changed = {
+        name: [_iso(getattr(item, name)), _iso(value)]
+        for name, value in new.items()
+        if value != getattr(item, name)
+    }
+    if not changed:
+        return
+    for name, value in new.items():
+        setattr(item, name, value)
+    reopened = item.status == "published"
+    mark_changed(item)
+    session.add(event(item, "edited", actor, dates=changed, reopened=reopened))
+    await session.flush()
+    await run_output_check(session, item, settings, actor)
+
+
+def _iso(value: date | None) -> str | None:
+    return value.isoformat() if value else None
+
+
 async def set_targets(
     session: AsyncSession, item: FeedItem, targets: Sequence[Mapping[str, Any]], actor: uuid.UUID
 ) -> None:

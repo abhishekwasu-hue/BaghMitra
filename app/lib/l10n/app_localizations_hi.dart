@@ -463,7 +463,46 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get adminFeedDatesNote =>
-      'तारीखें अपलोड पर भरी जाती हैं और मूल पाठ से जाँची जाती हैं।';
+      'तारीखें मूल पाठ से जाँची जाती हैं। प्रकाशित आइटम में बदलाव सहेजने पर वह फिर समीक्षा में जाता है।';
+
+  @override
+  String get adminFeedPickDate => 'तारीख चुनें';
+
+  @override
+  String get adminFeedClearDate => 'हटाएँ';
+
+  @override
+  String get adminFeedSaveDates => 'तारीखें सहेजें';
+
+  @override
+  String get adminFeedCardNew => 'योजना कार्ड';
+
+  @override
+  String get adminFeedCardNote =>
+      'हर फ़ील्ड: दस्तावेज़ में लिखा मान और उसका पेज, या \"उल्लेख नहीं\"।';
+
+  @override
+  String get adminFeedNotStated => 'उल्लेख नहीं';
+
+  @override
+  String get adminFeedCardValue => 'मान';
+
+  @override
+  String get adminFeedCardPage => 'पेज (जैसे p. 2)';
+
+  @override
+  String get adminFeedSaveCard => 'कार्ड सहेजें';
+
+  @override
+  String get adminFeedCardEmpty =>
+      'कम से कम एक फ़ील्ड भरें या \"उल्लेख नहीं\" चुनें।';
+
+  @override
+  String get adminFeedFullText => 'सहेजा गया पाठ (आउटपुट जाँच यही पढ़ती है):';
+
+  @override
+  String get adminFeedTextTruncated =>
+      'केवल पहले 200 KB दिखाए गए हैं; सहेजा गया पाठ इससे लंबा है।';
 
   @override
   String adminFeedCard(int version) {

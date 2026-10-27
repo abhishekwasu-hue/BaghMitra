@@ -389,27 +389,24 @@ class _FeedItemPageState extends State<FeedItemPage> {
               ),
             ),
           heading(t.adminFeedDates),
-          Text(
-            [
-              '${t.adminFeedDeadline}: ${_date(item.deadline)}',
-              '${t.adminFeedPayment}: ${_date(item.paymentDate)}',
-              '${t.adminFeedValidFrom}: ${_date(item.validFrom)}',
-              '${t.adminFeedValidTo}: ${_date(item.validTo)}',
-            ].join('   '),
-            style: BmType.body,
+          _DatesEditor(
+            key: ValueKey(
+              'dates-${[item.deadline, item.paymentDate, item.validFrom, item.validTo].map(_date).join()}',
+            ),
+            item: item,
+            onSave: (dates) => _act(() => widget.feed.setDates(item.id, dates)),
           ),
-          Text(t.adminFeedDatesNote, style: BmType.meta),
-          if (item.card case final card?) ...[
-            heading(t.adminFeedCard(card.version)),
-            for (final MapEntry(:key, :value) in card.fields.entries)
-              Text(
-                '$key: ${switch (value) {
-                  {'value': final Object v, 'page': final Object p} => '$v ($p)',
-                  {'value': final Object v} => '$v',
-                  _ => '$value',
-                }}',
-                style: BmType.body,
-              ),
+          if (item.type == 'scheme' || item.card != null) ...[
+            heading(switch (item.card) {
+              final card? => t.adminFeedCard(card.version),
+              null => t.adminFeedCardNew,
+            }),
+            _CardEditor(
+              key: ValueKey('card-${item.card?.version}'),
+              fields: item.card?.fields ?? const {},
+              onSave: (fields) =>
+                  _act(() => widget.feed.setCard(item.id, fields)),
+            ),
           ],
           heading(t.adminFeedTargets),
           _TargetsEditor(
@@ -468,6 +465,36 @@ class _TextPreview extends StatelessWidget {
             ].join(' · '),
             style: BmType.meta,
           ),
+        if (item.extractedText case final text?) ...[
+          const SizedBox(height: BmSpace.xs),
+          Text(t.adminFeedFullText, style: BmType.meta),
+          Container(
+            key: const Key('extracted-text'),
+            width: double.infinity,
+            constraints: const BoxConstraints(maxHeight: 320),
+            padding: const EdgeInsets.all(BmSpace.sm),
+            decoration: BoxDecoration(
+              border: Border.all(color: c.line),
+              borderRadius: BorderRadius.circular(BmSpace.xs),
+            ),
+            child: Scrollbar(
+              child: SingleChildScrollView(
+                primary: false,
+                child: SelectableText(
+                  text,
+                  // Bundled fonts only (a generic `monospace` does not resolve on
+                  // web): Mukta with fixed-width digits, lines kept as stored.
+                  style: BmType.meta.copyWith(
+                    fontFeatures: const [FontFeature.tabularFigures()],
+                    height: 1.5,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          if (item.extractedTextTruncated ?? false)
+            Text(t.adminFeedTextTruncated, style: BmType.meta),
+        ],
         if (unused != null) ...[
           const SizedBox(height: BmSpace.xs),
           Text(t.adminFeedUnusedText, style: BmType.meta),
@@ -556,6 +583,226 @@ class _TextEditorState extends State<_TextEditor> {
           ),
         ],
       ),
+    );
+  }
+}
+
+/// Deadline / payment / validity dates: a picker and a clear button each, saved together
+/// (`PUT .../dates`; the server output-checks them and reopens a published item).
+class _DatesEditor extends StatefulWidget {
+  const _DatesEditor({required this.item, required this.onSave, super.key});
+  final FeedAdminItemOut item;
+  final Future<void> Function(FeedAdminDatesIn dates) onSave;
+
+  @override
+  State<_DatesEditor> createState() => _DatesEditorState();
+}
+
+class _DatesEditorState extends State<_DatesEditor> {
+  late final Map<String, DateTime?> _dates = {
+    'deadline': widget.item.deadline,
+    'payment_date': widget.item.paymentDate,
+    'valid_from': widget.item.validFrom,
+    'valid_to': widget.item.validTo,
+  };
+
+  Future<void> _pick(String name) async {
+    final now = DateTime.now();
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: _dates[name] ?? now,
+      firstDate: DateTime(now.year - 5),
+      lastDate: DateTime(now.year + 10),
+    );
+    if (picked != null) setState(() => _dates[name] = picked);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        for (final (name, label) in [
+          ('deadline', t.adminFeedDeadline),
+          ('payment_date', t.adminFeedPayment),
+          ('valid_from', t.adminFeedValidFrom),
+          ('valid_to', t.adminFeedValidTo),
+        ])
+          Row(
+            children: [
+              SizedBox(
+                width: 260,
+                child: Text(
+                  '$label: ${_date(_dates[name])}',
+                  style: BmType.body,
+                ),
+              ),
+              IconButton(
+                key: Key('pick-$name'),
+                tooltip: t.adminFeedPickDate,
+                onPressed: () => _pick(name),
+                icon: const Icon(Icons.calendar_month_rounded),
+              ),
+              IconButton(
+                key: Key('clear-$name'),
+                tooltip: t.adminFeedClearDate,
+                onPressed: _dates[name] == null
+                    ? null
+                    : () => setState(() => _dates[name] = null),
+                icon: const Icon(Icons.backspace_outlined),
+              ),
+            ],
+          ),
+        Text(t.adminFeedDatesNote, style: BmType.meta),
+        TextButton(
+          key: const Key('save-dates'),
+          onPressed: () => widget.onSave(
+            FeedAdminDatesIn(
+              deadline: _dates['deadline'],
+              paymentDate: _dates['payment_date'],
+              validFrom: _dates['valid_from'],
+              validTo: _dates['valid_to'],
+            ),
+          ),
+          child: Text(t.adminFeedSaveDates),
+        ),
+      ],
+    );
+  }
+}
+
+/// Scheme-card field names (API `feed.ai.CARD_FIELDS`); other stored fields are kept.
+const _cardFields = [
+  'scheme_name',
+  'who_benefits',
+  'eligibility',
+  'documents',
+  'how_to_apply',
+  'deadline',
+  'amount',
+  'gr_number',
+  'gr_date',
+];
+const _notStated = 'not_stated';
+
+typedef _CardRow = ({
+  TextEditingController value,
+  TextEditingController page,
+  ValueNotifier<bool> notStated,
+});
+
+/// Scheme card (`PUT .../card`, a new version): each field is the value as written in the
+/// document plus its page, or "not_stated"; empty fields are left out.
+class _CardEditor extends StatefulWidget {
+  const _CardEditor({required this.fields, required this.onSave, super.key});
+  final Map<String, dynamic> fields;
+  final Future<void> Function(Map<String, FeedAdminCardFieldIn>) onSave;
+
+  @override
+  State<_CardEditor> createState() => _CardEditorState();
+}
+
+class _CardEditorState extends State<_CardEditor> {
+  late final Map<String, _CardRow> _rows = {
+    for (final name in {..._cardFields, ...widget.fields.keys})
+      name: switch (widget.fields[name]) {
+        {'value': _notStated} => _row(null, null, notStated: true),
+        {'value': final Object v, 'page': final Object p} => _row('$v', '$p'),
+        {'value': final Object v} => _row('$v', null),
+        _ => _row(null, null),
+      },
+  };
+  String? _error;
+
+  static _CardRow _row(String? value, String? page, {bool notStated = false}) =>
+      (
+        value: TextEditingController(text: value),
+        page: TextEditingController(text: page),
+        notStated: ValueNotifier(notStated),
+      );
+
+  @override
+  void dispose() {
+    for (final r in _rows.values) {
+      r.value.dispose();
+      r.page.dispose();
+      r.notStated.dispose();
+    }
+    super.dispose();
+  }
+
+  void _save() {
+    final fields = <String, FeedAdminCardFieldIn>{
+      for (final MapEntry(key: name, value: r) in _rows.entries)
+        if (r.notStated.value)
+          name: const FeedAdminCardFieldIn(value: _notStated)
+        else if (_blankToNull(r.value.text) case final value?)
+          name: FeedAdminCardFieldIn(
+            value: value,
+            page: _blankToNull(r.page.text),
+          ),
+    };
+    if (fields.isEmpty) {
+      setState(() => _error = AppLocalizations.of(context).adminFeedCardEmpty);
+      return;
+    }
+    setState(() => _error = null);
+    widget.onSave(fields);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(t.adminFeedCardNote, style: BmType.meta),
+        for (final MapEntry(key: name, value: r) in _rows.entries)
+          ValueListenableBuilder<bool>(
+            valueListenable: r.notStated,
+            builder: (context, notStated, _) => Row(
+              spacing: BmSpace.sm,
+              children: [
+                SizedBox(
+                  width: 140,
+                  child: Text(name, style: BmType.bodyStrong),
+                ),
+                Expanded(
+                  flex: 3,
+                  child: TextField(
+                    key: Key('card-$name-value'),
+                    controller: r.value,
+                    enabled: !notStated,
+                    decoration: InputDecoration(
+                      labelText: t.adminFeedCardValue,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: TextField(
+                    key: Key('card-$name-page'),
+                    controller: r.page,
+                    enabled: !notStated,
+                    decoration: InputDecoration(labelText: t.adminFeedCardPage),
+                  ),
+                ),
+                FilterChip(
+                  key: Key('card-$name-not-stated'),
+                  label: Text(t.adminFeedNotStated),
+                  selected: notStated,
+                  onSelected: (v) => r.notStated.value = v,
+                ),
+              ],
+            ),
+          ),
+        if (_error case final e?) Text(e, style: BmType.meta),
+        TextButton(
+          key: const Key('save-card'),
+          onPressed: _save,
+          child: Text(t.adminFeedSaveCard),
+        ),
+      ],
     );
   }
 }

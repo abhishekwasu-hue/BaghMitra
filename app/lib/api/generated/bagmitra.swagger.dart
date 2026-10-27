@@ -480,6 +480,42 @@ FEED_AI_API_KEY). Irrelevant documents move to `draft`, out of the queue.''',
     ),
   });
 
+  ///Set Dates
+  ///@param item_id
+  Future<chopper.Response<FeedAdminItemOut>> v1AdminFeedItemsItemIdDatesPut({
+    required String? itemId,
+    required FeedAdminDatesIn? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      FeedAdminItemOut,
+      () => FeedAdminItemOut.fromJsonFactory,
+    );
+
+    return _v1AdminFeedItemsItemIdDatesPut(itemId: itemId, body: body);
+  }
+
+  ///Set Dates
+  ///@param item_id
+  @PUT(path: '/v1/admin/feed/items/{item_id}/dates', optionalBody: true)
+  Future<chopper.Response<FeedAdminItemOut>> _v1AdminFeedItemsItemIdDatesPut({
+    @Path('item_id') required String? itemId,
+    @Body() required FeedAdminDatesIn? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Replace deadline / payment / validity dates (a missing or `null` date is cleared). The
+dates are output-checked against the stored text; a change to a published item clears its
+approval and sends it back to review (an `edited` event with `reopened: true`); the
+farmer-facing deadlines are rebuilt when it is published again. Withdrawn: 409.''',
+      summary: 'Set Dates',
+      operationId: 'admin_feed_set_dates',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
   ///Publish
   ///@param item_id
   Future<chopper.Response<FeedAdminItemOut>> v1AdminFeedItemsItemIdPublishPost({
