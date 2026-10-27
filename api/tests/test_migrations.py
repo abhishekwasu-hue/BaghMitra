@@ -20,6 +20,7 @@ from bagmitra_api.db.rls import (
     disable_owner_rls,
     disable_private_rls,
     disable_reference_rls,
+    enable_feed_published_rls,
     enable_owner_rls,
     enable_private_rls,
     enable_reference_rls,
@@ -84,6 +85,18 @@ def test_rls_statements_reject_unsafe_identifiers() -> None:
     ]
     with pytest.raises(ValueError, match="unsafe"):
         enable_owner_rls("farmers; drop table x", "id")
+
+
+def test_feed_policies_hide_unpublished_items() -> None:
+    own = enable_feed_published_rls("feed_items")[2]
+    assert "status IN ('published', 'withdrawn')" in own
+    child = enable_feed_published_rls("feed_item_i18n", "item_id")[2]
+    assert "item_id IN (SELECT id FROM feed_items WHERE status IN" in child
+    assert disable_reference_rls("feed_item_i18n")[0].endswith(
+        "feed_item_i18n_read ON feed_item_i18n"
+    )
+    with pytest.raises(ValueError, match="unsafe"):
+        enable_feed_published_rls("feed_item_i18n", "id; drop")
 
 
 @pytest.mark.postgres

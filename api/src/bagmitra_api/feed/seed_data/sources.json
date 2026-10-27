@@ -1,0 +1,15 @@
+{
+  "_note": "Addendum v1.4 §3. Terms of use and robots are not yet checked for any source, so every terms_status is unknown and nothing is fetched automatically (OPEN_QUESTIONS QG1). URLs are the portals' home pages [UV]; the owner confirms each before enabling a fetch.",
+  "sources": [
+    {"key": "mh_gr_portal", "name": "Government of Maharashtra - Government Resolutions (GR) search", "url": "https://gr.maharashtra.gov.in", "tier": "official", "fetch_method": "portal_list", "notes": "Filter: Agriculture, Horticulture, Co-operation, Revenue & Forest (relief), Water Resources, Rural Development. No public API found [UV]; portal not fetchable from the research environment [UV]."},
+    {"key": "mahadbt", "name": "MahaDBT farmer schemes portal", "url": "https://mahadbt.maharashtra.gov.in", "tier": "official", "fetch_method": "manual", "notes": "Scheme pages and notices."},
+    {"key": "mh_agri_commissionerate", "name": "Commissionerate of Agriculture, Maharashtra", "url": "https://krishi.maharashtra.gov.in", "tier": "official", "fetch_method": "manual", "notes": null},
+    {"key": "mh_horticulture", "name": "Directorate of Horticulture, Maharashtra", "url": "https://krishi.maharashtra.gov.in", "tier": "official", "fetch_method": "manual", "notes": "Exact page to confirm [UV]."},
+    {"key": "mh_input_notices", "name": "Maharashtra state pesticide / fertiliser notices", "url": "https://krishi.maharashtra.gov.in", "tier": "official", "fetch_method": "manual", "notes": "Exact page to confirm [UV]."},
+    {"key": "pm_kisan", "name": "PM-KISAN", "url": "https://pmkisan.gov.in", "tier": "official", "fetch_method": "manual", "notes": null},
+    {"key": "pib_agriculture", "name": "Press Information Bureau - Agriculture releases", "url": "https://pib.gov.in", "tier": "official", "fetch_method": "rss", "notes": "Also the first news-style feed (headline + link) once terms are checked."},
+    {"key": "pmfby", "name": "Pradhan Mantri Fasal Bima Yojana (crop insurance) notices", "url": "https://pmfby.gov.in", "tier": "official", "fetch_method": "manual", "notes": null},
+    {"key": "icar_ccri", "name": "ICAR-Central Citrus Research Institute advisories", "url": "https://ccri.icar.gov.in", "tier": "official", "fetch_method": "manual", "notes": null},
+    {"key": "imd_agromet", "name": "IMD agromet advisories", "url": "https://mausam.imd.gov.in", "tier": "official", "fetch_method": "manual", "notes": "Already used by the weather module; listed for completeness."}
+  ]
+}

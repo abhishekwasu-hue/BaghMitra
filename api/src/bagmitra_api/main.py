@@ -10,10 +10,12 @@ from bagmitra_api.core.observability import init_error_reporting
 from bagmitra_api.core.settings import Settings, get_settings
 from bagmitra_api.routers import (
     admin_billing,
+    admin_feed,
     admin_kb,
     admin_market,
     billing,
     devices,
+    feed,
     health,
     market,
     me,
@@ -41,10 +43,12 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     install_error_handlers(app)
     for module in (
         admin_billing,
+        admin_feed,
         admin_kb,
         admin_market,
         billing,
         devices,
+        feed,
         health,
         market,
         me,

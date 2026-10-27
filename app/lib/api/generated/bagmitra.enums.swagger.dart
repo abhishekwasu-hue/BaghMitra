@@ -34,6 +34,56 @@ enum DeviceInPlatform {
   const DeviceInPlatform(this.value);
 }
 
+enum FeedAdminItemInType {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('gr')
+  gr('gr'),
+  @JsonValue('circular')
+  circular('circular'),
+  @JsonValue('scheme')
+  scheme('scheme'),
+  @JsonValue('alert')
+  alert('alert'),
+  @JsonValue('news')
+  news('news');
+
+  final String? value;
+
+  const FeedAdminItemInType(this.value);
+}
+
+enum FeedAdminTermsInTermsStatus {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('unknown')
+  unknown('unknown'),
+  @JsonValue('allowed')
+  allowed('allowed'),
+  @JsonValue('disallowed')
+  disallowed('disallowed');
+
+  final String? value;
+
+  const FeedAdminTermsInTermsStatus(this.value);
+}
+
+enum FeedItemOutTrust {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('official')
+  official('official'),
+  @JsonValue('news')
+  news('news');
+
+  final String? value;
+
+  const FeedItemOutTrust(this.value);
+}
+
 enum GrantInSubjectType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
@@ -110,6 +160,40 @@ enum ReviewInDecision {
   const ReviewInDecision(this.value);
 }
 
+enum V1AdminFeedItemsGetStatus {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('draft')
+  draft('draft'),
+  @JsonValue('in_review')
+  inReview('in_review'),
+  @JsonValue('published')
+  published('published'),
+  @JsonValue('withdrawn')
+  withdrawn('withdrawn');
+
+  final String? value;
+
+  const V1AdminFeedItemsGetStatus(this.value);
+}
+
+enum V1AdminFeedItemsItemIdTextsLangPutLang {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('en')
+  en('en'),
+  @JsonValue('mr')
+  mr('mr'),
+  @JsonValue('hi')
+  hi('hi');
+
+  final String? value;
+
+  const V1AdminFeedItemsItemIdTextsLangPutLang(this.value);
+}
+
 enum V1AdminKbImportsKindPostKind {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
@@ -122,6 +206,22 @@ enum V1AdminKbImportsKindPostKind {
   final String? value;
 
   const V1AdminKbImportsKindPostKind(this.value);
+}
+
+enum V1FeedGetLang {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('en')
+  en('en'),
+  @JsonValue('mr')
+  mr('mr'),
+  @JsonValue('hi')
+  hi('hi');
+
+  final String? value;
+
+  const V1FeedGetLang(this.value);
 }
 
 enum V1MarketPricesGetScope {
