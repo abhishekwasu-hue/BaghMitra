@@ -1010,6 +1010,36 @@ class AppLocalizationsHi extends AppLocalizations {
   String get onboardingContinue => 'आगे बढ़ें';
 
   @override
+  String get profileTitle => 'मेरी जानकारी';
+
+  @override
+  String get profileConsentDataNote =>
+      'आपके रिकॉर्ड सहेजने और सुरक्षित रखने के लिए यह सहमति ज़रूरी है। इसे यहाँ बंद नहीं किया जा सकता।';
+
+  @override
+  String get profilePhoneSignedIn => 'आप इसी नंबर से लॉगिन करते हैं।';
+
+  @override
+  String get profileAddPhone => 'मोबाइल नंबर जोड़ें (वैकल्पिक)';
+
+  @override
+  String get profilePhoneContactOnly =>
+      'सिर्फ़ आपसे संपर्क के लिए। इससे लॉगिन नहीं होता; लॉगिन Google से ही होगा।';
+
+  @override
+  String get profileSaved => 'सहेज लिया।';
+
+  @override
+  String get profileSignOut => 'लॉगआउट';
+
+  @override
+  String get profileSignOutTitle => 'लॉगआउट करें?';
+
+  @override
+  String get profileSignOutBody =>
+      'आपके रिकॉर्ड इसी फ़ोन पर रहेंगे। फिर से लॉगिन करने पर दिखेंगे।';
+
+  @override
   String get boundaryWalk => 'चलकर सीमा दर्ज करें';
 
   @override

@@ -689,6 +689,15 @@ class $FarmerProfilesTable extends FarmerProfiles
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _phoneMeta = const VerificationMeta('phone');
+  @override
+  late final GeneratedColumn<String> phone = GeneratedColumn<String>(
+    'phone',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   static const VerificationMeta _consentDataProcessingMeta =
       const VerificationMeta('consentDataProcessing');
   @override
@@ -739,6 +748,7 @@ class $FarmerProfilesTable extends FarmerProfiles
     village,
     taluka,
     district,
+    phone,
     consentDataProcessing,
     consentWhatsapp,
     clientUpdatedAt,
@@ -793,6 +803,12 @@ class $FarmerProfilesTable extends FarmerProfiles
       context.handle(
         _districtMeta,
         district.isAcceptableOrUnknown(data['district']!, _districtMeta),
+      );
+    }
+    if (data.containsKey('phone')) {
+      context.handle(
+        _phoneMeta,
+        phone.isAcceptableOrUnknown(data['phone']!, _phoneMeta),
       );
     }
     if (data.containsKey('consent_data_processing')) {
@@ -857,6 +873,10 @@ class $FarmerProfilesTable extends FarmerProfiles
         DriftSqlType.string,
         data['${effectivePrefix}district'],
       ),
+      phone: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}phone'],
+      ),
       consentDataProcessing: attachedDatabase.typeMapping.read(
         DriftSqlType.bool,
         data['${effectivePrefix}consent_data_processing'],
@@ -886,6 +906,9 @@ class FarmerProfileRow extends DataClass
   final String? village;
   final String? taluka;
   final String? district;
+
+  /// Contact number. For phone sign-ins the server fills it; Google users may add one.
+  final String? phone;
   final bool consentDataProcessing;
   final bool consentWhatsapp;
   final DateTime clientUpdatedAt;
@@ -896,6 +919,7 @@ class FarmerProfileRow extends DataClass
     this.village,
     this.taluka,
     this.district,
+    this.phone,
     required this.consentDataProcessing,
     required this.consentWhatsapp,
     required this.clientUpdatedAt,
@@ -916,6 +940,9 @@ class FarmerProfileRow extends DataClass
     }
     if (!nullToAbsent || district != null) {
       map['district'] = Variable<String>(district);
+    }
+    if (!nullToAbsent || phone != null) {
+      map['phone'] = Variable<String>(phone);
     }
     map['consent_data_processing'] = Variable<bool>(consentDataProcessing);
     map['consent_whatsapp'] = Variable<bool>(consentWhatsapp);
@@ -939,6 +966,9 @@ class FarmerProfileRow extends DataClass
       district: district == null && nullToAbsent
           ? const Value.absent()
           : Value(district),
+      phone: phone == null && nullToAbsent
+          ? const Value.absent()
+          : Value(phone),
       consentDataProcessing: Value(consentDataProcessing),
       consentWhatsapp: Value(consentWhatsapp),
       clientUpdatedAt: Value(clientUpdatedAt),
@@ -957,6 +987,7 @@ class FarmerProfileRow extends DataClass
       village: serializer.fromJson<String?>(json['village']),
       taluka: serializer.fromJson<String?>(json['taluka']),
       district: serializer.fromJson<String?>(json['district']),
+      phone: serializer.fromJson<String?>(json['phone']),
       consentDataProcessing: serializer.fromJson<bool>(
         json['consentDataProcessing'],
       ),
@@ -974,6 +1005,7 @@ class FarmerProfileRow extends DataClass
       'village': serializer.toJson<String?>(village),
       'taluka': serializer.toJson<String?>(taluka),
       'district': serializer.toJson<String?>(district),
+      'phone': serializer.toJson<String?>(phone),
       'consentDataProcessing': serializer.toJson<bool>(consentDataProcessing),
       'consentWhatsapp': serializer.toJson<bool>(consentWhatsapp),
       'clientUpdatedAt': serializer.toJson<DateTime>(clientUpdatedAt),
@@ -987,6 +1019,7 @@ class FarmerProfileRow extends DataClass
     Value<String?> village = const Value.absent(),
     Value<String?> taluka = const Value.absent(),
     Value<String?> district = const Value.absent(),
+    Value<String?> phone = const Value.absent(),
     bool? consentDataProcessing,
     bool? consentWhatsapp,
     DateTime? clientUpdatedAt,
@@ -997,6 +1030,7 @@ class FarmerProfileRow extends DataClass
     village: village.present ? village.value : this.village,
     taluka: taluka.present ? taluka.value : this.taluka,
     district: district.present ? district.value : this.district,
+    phone: phone.present ? phone.value : this.phone,
     consentDataProcessing: consentDataProcessing ?? this.consentDataProcessing,
     consentWhatsapp: consentWhatsapp ?? this.consentWhatsapp,
     clientUpdatedAt: clientUpdatedAt ?? this.clientUpdatedAt,
@@ -1011,6 +1045,7 @@ class FarmerProfileRow extends DataClass
       village: data.village.present ? data.village.value : this.village,
       taluka: data.taluka.present ? data.taluka.value : this.taluka,
       district: data.district.present ? data.district.value : this.district,
+      phone: data.phone.present ? data.phone.value : this.phone,
       consentDataProcessing: data.consentDataProcessing.present
           ? data.consentDataProcessing.value
           : this.consentDataProcessing,
@@ -1032,6 +1067,7 @@ class FarmerProfileRow extends DataClass
           ..write('village: $village, ')
           ..write('taluka: $taluka, ')
           ..write('district: $district, ')
+          ..write('phone: $phone, ')
           ..write('consentDataProcessing: $consentDataProcessing, ')
           ..write('consentWhatsapp: $consentWhatsapp, ')
           ..write('clientUpdatedAt: $clientUpdatedAt')
@@ -1047,6 +1083,7 @@ class FarmerProfileRow extends DataClass
     village,
     taluka,
     district,
+    phone,
     consentDataProcessing,
     consentWhatsapp,
     clientUpdatedAt,
@@ -1061,6 +1098,7 @@ class FarmerProfileRow extends DataClass
           other.village == this.village &&
           other.taluka == this.taluka &&
           other.district == this.district &&
+          other.phone == this.phone &&
           other.consentDataProcessing == this.consentDataProcessing &&
           other.consentWhatsapp == this.consentWhatsapp &&
           other.clientUpdatedAt == this.clientUpdatedAt);
@@ -1073,6 +1111,7 @@ class FarmerProfilesCompanion extends UpdateCompanion<FarmerProfileRow> {
   final Value<String?> village;
   final Value<String?> taluka;
   final Value<String?> district;
+  final Value<String?> phone;
   final Value<bool> consentDataProcessing;
   final Value<bool> consentWhatsapp;
   final Value<DateTime> clientUpdatedAt;
@@ -1084,6 +1123,7 @@ class FarmerProfilesCompanion extends UpdateCompanion<FarmerProfileRow> {
     this.village = const Value.absent(),
     this.taluka = const Value.absent(),
     this.district = const Value.absent(),
+    this.phone = const Value.absent(),
     this.consentDataProcessing = const Value.absent(),
     this.consentWhatsapp = const Value.absent(),
     this.clientUpdatedAt = const Value.absent(),
@@ -1096,6 +1136,7 @@ class FarmerProfilesCompanion extends UpdateCompanion<FarmerProfileRow> {
     this.village = const Value.absent(),
     this.taluka = const Value.absent(),
     this.district = const Value.absent(),
+    this.phone = const Value.absent(),
     this.consentDataProcessing = const Value.absent(),
     this.consentWhatsapp = const Value.absent(),
     required DateTime clientUpdatedAt,
@@ -1110,6 +1151,7 @@ class FarmerProfilesCompanion extends UpdateCompanion<FarmerProfileRow> {
     Expression<String>? village,
     Expression<String>? taluka,
     Expression<String>? district,
+    Expression<String>? phone,
     Expression<bool>? consentDataProcessing,
     Expression<bool>? consentWhatsapp,
     Expression<DateTime>? clientUpdatedAt,
@@ -1122,6 +1164,7 @@ class FarmerProfilesCompanion extends UpdateCompanion<FarmerProfileRow> {
       if (village != null) 'village': village,
       if (taluka != null) 'taluka': taluka,
       if (district != null) 'district': district,
+      if (phone != null) 'phone': phone,
       if (consentDataProcessing != null)
         'consent_data_processing': consentDataProcessing,
       if (consentWhatsapp != null) 'consent_whatsapp': consentWhatsapp,
@@ -1137,6 +1180,7 @@ class FarmerProfilesCompanion extends UpdateCompanion<FarmerProfileRow> {
     Value<String?>? village,
     Value<String?>? taluka,
     Value<String?>? district,
+    Value<String?>? phone,
     Value<bool>? consentDataProcessing,
     Value<bool>? consentWhatsapp,
     Value<DateTime>? clientUpdatedAt,
@@ -1149,6 +1193,7 @@ class FarmerProfilesCompanion extends UpdateCompanion<FarmerProfileRow> {
       village: village ?? this.village,
       taluka: taluka ?? this.taluka,
       district: district ?? this.district,
+      phone: phone ?? this.phone,
       consentDataProcessing:
           consentDataProcessing ?? this.consentDataProcessing,
       consentWhatsapp: consentWhatsapp ?? this.consentWhatsapp,
@@ -1178,6 +1223,9 @@ class FarmerProfilesCompanion extends UpdateCompanion<FarmerProfileRow> {
     if (district.present) {
       map['district'] = Variable<String>(district.value);
     }
+    if (phone.present) {
+      map['phone'] = Variable<String>(phone.value);
+    }
     if (consentDataProcessing.present) {
       map['consent_data_processing'] = Variable<bool>(
         consentDataProcessing.value,
@@ -1204,6 +1252,7 @@ class FarmerProfilesCompanion extends UpdateCompanion<FarmerProfileRow> {
           ..write('village: $village, ')
           ..write('taluka: $taluka, ')
           ..write('district: $district, ')
+          ..write('phone: $phone, ')
           ..write('consentDataProcessing: $consentDataProcessing, ')
           ..write('consentWhatsapp: $consentWhatsapp, ')
           ..write('clientUpdatedAt: $clientUpdatedAt, ')
@@ -9044,6 +9093,7 @@ typedef $$FarmerProfilesTableCreateCompanionBuilder =
       Value<String?> village,
       Value<String?> taluka,
       Value<String?> district,
+      Value<String?> phone,
       Value<bool> consentDataProcessing,
       Value<bool> consentWhatsapp,
       required DateTime clientUpdatedAt,
@@ -9057,6 +9107,7 @@ typedef $$FarmerProfilesTableUpdateCompanionBuilder =
       Value<String?> village,
       Value<String?> taluka,
       Value<String?> district,
+      Value<String?> phone,
       Value<bool> consentDataProcessing,
       Value<bool> consentWhatsapp,
       Value<DateTime> clientUpdatedAt,
@@ -9099,6 +9150,11 @@ class $$FarmerProfilesTableFilterComposer
 
   ColumnFilters<String> get district => $composableBuilder(
     column: $table.district,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get phone => $composableBuilder(
+    column: $table.phone,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -9157,6 +9213,11 @@ class $$FarmerProfilesTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get phone => $composableBuilder(
+    column: $table.phone,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<bool> get consentDataProcessing => $composableBuilder(
     column: $table.consentDataProcessing,
     builder: (column) => ColumnOrderings(column),
@@ -9201,6 +9262,9 @@ class $$FarmerProfilesTableAnnotationComposer
 
   GeneratedColumn<String> get district =>
       $composableBuilder(column: $table.district, builder: (column) => column);
+
+  GeneratedColumn<String> get phone =>
+      $composableBuilder(column: $table.phone, builder: (column) => column);
 
   GeneratedColumn<bool> get consentDataProcessing => $composableBuilder(
     column: $table.consentDataProcessing,
@@ -9261,6 +9325,7 @@ class $$FarmerProfilesTableTableManager
                 Value<String?> village = const Value.absent(),
                 Value<String?> taluka = const Value.absent(),
                 Value<String?> district = const Value.absent(),
+                Value<String?> phone = const Value.absent(),
                 Value<bool> consentDataProcessing = const Value.absent(),
                 Value<bool> consentWhatsapp = const Value.absent(),
                 Value<DateTime> clientUpdatedAt = const Value.absent(),
@@ -9272,6 +9337,7 @@ class $$FarmerProfilesTableTableManager
                 village: village,
                 taluka: taluka,
                 district: district,
+                phone: phone,
                 consentDataProcessing: consentDataProcessing,
                 consentWhatsapp: consentWhatsapp,
                 clientUpdatedAt: clientUpdatedAt,
@@ -9285,6 +9351,7 @@ class $$FarmerProfilesTableTableManager
                 Value<String?> village = const Value.absent(),
                 Value<String?> taluka = const Value.absent(),
                 Value<String?> district = const Value.absent(),
+                Value<String?> phone = const Value.absent(),
                 Value<bool> consentDataProcessing = const Value.absent(),
                 Value<bool> consentWhatsapp = const Value.absent(),
                 required DateTime clientUpdatedAt,
@@ -9296,6 +9363,7 @@ class $$FarmerProfilesTableTableManager
                 village: village,
                 taluka: taluka,
                 district: district,
+                phone: phone,
                 consentDataProcessing: consentDataProcessing,
                 consentWhatsapp: consentWhatsapp,
                 clientUpdatedAt: clientUpdatedAt,

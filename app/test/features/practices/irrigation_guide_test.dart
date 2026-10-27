@@ -118,6 +118,44 @@ void main() {
     }
   });
 
+  test('young and middle mosambi have sourced rows; bahar rest is sourced', () {
+    final m = data.crops['mosambi']!;
+    for (final b in ['young', 'middle']) {
+      final rows = [for (final s in data.seasons.keys) ...m.rowsFor(b, s)];
+      expect(
+        rows.where((r) => r.labels['en']!.contains('litres per tree per day')),
+        isNotEmpty,
+        reason: 'mosambi $b litres',
+      );
+    }
+    expect([
+      for (final r in m.rowsFor('young', 'summer')) r.id,
+    ], contains('m6'));
+    expect([
+      for (final r in m.rowsFor('middle', 'summer')) r.id,
+    ], contains('m7'));
+    expect([for (final r in m.rowsFor('young', 'year')) r.id], contains('m10'));
+    final byId = {for (final r in m.rows) r.id: r};
+    expect(byId['m6']!.sourceKeys, ['AW18']);
+    expect(byId['m10']!.sourceKeys, ['CH24']);
+    expect(byId['m11']!.sourceKeys, ['MP25']);
+    final notes = {for (final n in m.notes) n.id: n};
+    expect(notes['mn5']!.sourceKeys, ['MP25']);
+    expect(notes['mn6']!.sourceKeys, ['AW24', 'AW23']);
+    expect(notes['mn6']!.label('en'), contains('35–45 days'));
+    expect(notes['mn7']!.sourceKeys, ['VK']);
+    // The bahar-length gap is closed; only the winter / rainy litres gap stays.
+    expect(m.gaps, hasLength(1));
+    // Santra young and middle now have a summer row too.
+    final s = data.crops['santra']!;
+    expect([
+      for (final r in s.rowsFor('young', 'summer')) r.id,
+    ], contains('s20'));
+    expect([
+      for (final r in s.rowsFor('middle', 'summer')) r.id,
+    ], contains('s21'));
+  });
+
   test('tree age band from the planting year', () {
     expect(data.bandFor(null, 2026), isNull);
     expect(data.bandFor(2027, 2026), isNull);
@@ -220,6 +258,27 @@ void main() {
     expect(find.byKey(const Key('irrigation-m4')), findsOneWidget);
     expect(find.byKey(const Key('irrigation-s1')), findsNothing);
     expect(find.byKey(const Key('irrigation-m1')), findsNothing);
+    final m10 = find.byKey(const Key('irrigation-m10'));
+    await tester.scrollUntilVisible(m10, 300);
+    expect(m10, findsOneWidget);
+    final m6 = find.byKey(const Key('irrigation-m6'));
+    await tester.scrollUntilVisible(m6, 300);
+    expect(m6, findsOneWidget);
+    expect(find.byKey(const Key('irrigation-m7')), findsNothing);
+    await tester.scrollUntilVisible(
+      find.byKey(const Key('irrigation-age-middle')),
+      -300,
+    );
+    await tester.tap(find.byKey(const Key('irrigation-age-middle')));
+    await settle(tester);
+    final m7 = find.byKey(const Key('irrigation-m7'));
+    await tester.scrollUntilVisible(m7, 300);
+    expect(m7, findsOneWidget);
+    expect(find.byKey(const Key('irrigation-m6')), findsNothing);
+    await tester.scrollUntilVisible(
+      find.byKey(const Key('irrigation-age-mature')),
+      -300,
+    );
     await tester.tap(find.byKey(const Key('irrigation-age-mature')));
     await settle(tester);
     final m1 = find.byKey(const Key('irrigation-m1'));

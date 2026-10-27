@@ -13,7 +13,13 @@
     "S8": {"title": "Jhade et al.: Water deficit stress period in Mrig crop of Nagpur mandarin, J. Agric. Ecol. 12(2)", "publisher": "SAAER", "year": 2021, "url": "https://saaer.org.in/journals/index.php/jae/article/view/406"},
     "NI": {"title": "ICAR-NIASM Baramati: Agro-Advisory 140", "publisher": "ICAR-NIASM", "year": 2026, "url": "https://niam.res.in/sites/default/files/pdfs/Agro-Advisory-140.pdf"},
     "GP": {"title": "Ghosh & Pal: Basin versus drip irrigation in Mosambi sweet orange, J. Hortl. Sci. 5(1)", "publisher": "BCKV, West Bengal", "year": 2010, "url": "https://jhs.iihr.res.in/index.php/jhs/article/download/487/335"},
-    "ML19": {"title": "Mukunda Lakshmi et al.: Water and nutrient management in Sathgudi sweet orange, Indian J. Agric. Sci. 89(11)", "publisher": "Dr YSRHU, Tirupati", "year": 2019, "url": "https://epubs.icar.org.in/index.php/IJAgS/article/download/95346/38259/245759"}
+    "ML19": {"title": "Mukunda Lakshmi et al.: Water and nutrient management in Sathgudi sweet orange, Indian J. Agric. Sci. 89(11)", "publisher": "Dr YSRHU, Tirupati", "year": 2019, "url": "https://epubs.icar.org.in/index.php/IJAgS/article/download/95346/38259/245759"},
+    "AW18": {"title": "Ladaniya & Garg (ICAR-CCRI Nagpur): Water management in citrus orchards, Agrowon (Marathi)", "publisher": "Agrowon; authors from ICAR-CCRI, Nagpur", "year": 2018, "url": "https://agrowon.esakal.com/agroguide/agricultural-news-marathi-fruit-crop-advisory-agrowon-maharashtra-7855"},
+    "AW24": {"title": "Sanjay Patil (Mosambi Research Station, Badnapur): Ambia bahar management in mosambi, Agrowon (Marathi)", "publisher": "Agrowon; author from VNMKV Mosambi Research Station, Badnapur", "year": 2024, "url": "https://agrowon.esakal.com/agro-special/management-of-ambia-blossom-in-mosambi-article-on-agrowon"},
+    "AW23": {"title": "Surendra Patil (Dr. PDKV Akola): Points for the bahar stress in santra and mosambi, Agrowon (Marathi)", "publisher": "Agrowon; author from Dr. PDKV, Akola", "year": 2023, "url": "https://agrowon.esakal.com/agroguide/keep-these-things-in-mind-while-managemet-of-orange-mosambi-orchard"},
+    "MP25": {"title": "MPKV Rahuri, AICRP on Fruits: scheme profile and recommendations", "publisher": "Mahatma Phule Krishi Vidyapeeth, Rahuri", "year": 2025, "url": "https://mpkv.ac.in/Uploads/Research/35.%20AICRP%20on%20Fruits_20250926041209.pdf"},
+    "VK": {"title": "Vikaspedia: Sweet Orange (package of practices)", "publisher": "Vikaspedia (MeitY / C-DAC)", "year": 2024, "url": "https://en.vikaspedia.in/viewcontent/agriculture/crop-production/package-of-practices/fruits-1/sweet-orange-1"},
+    "CH24": {"title": "Choudhary et al.: Water volumes and mulches in young sweet orange cv. Mosambi, Sci. Rep. 14: 23919", "publisher": "Agriculture University, Kota (Jhalawar, Rajasthan)", "year": 2024, "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11471785/"}
   },
   "age_bands": [
     {"key": "young", "min": 0, "max": 4, "labels": {"en": "Young (1–4 years)", "mr": "लहान (१–४ वर्षे)", "hi": "छोटे (1–4 साल)"}},
@@ -72,7 +78,15 @@
         {"id": "s18", "ages": ["young", "middle", "mature"], "season": "summer", "method": "sprinkler", "source": "P1 Horticulture recs", "source_keys": ["P1"],
          "labels": {"en": "Instead of basin: about 102 litres per tree per watering.", "mr": "आळ्याऐवजी: दर पाळीला दर झाडाला सुमारे १०२ लिटर.", "hi": "थाले की जगह: हर बार हर पेड़ को लगभग 102 लीटर।"}},
         {"id": "s19", "ages": ["young", "middle", "mature"], "season": "rainy", "method": "any", "source": "P1 (decline management)", "source_keys": ["P1"],
-         "labels": {"en": "Drain extra water: a channel between rows, about 60 cm wide and 30 cm deep.", "mr": "जास्तीचे पाणी काढा: ओळींमध्ये सुमारे ६० सेंमी रुंद व ३० सेंमी खोल चर.", "hi": "ज़्यादा पानी निकालें: कतारों के बीच लगभग 60 सेमी चौड़ी और 30 सेमी गहरी नाली।"}}
+         "labels": {"en": "Drain extra water: a channel between rows, about 60 cm wide and 30 cm deep.", "mr": "जास्तीचे पाणी काढा: ओळींमध्ये सुमारे ६० सेंमी रुंद व ३० सेंमी खोल चर.", "hi": "ज़्यादा पानी निकालें: कतारों के बीच लगभग 60 सेमी चौड़ी और 30 सेमी गहरी नाली।"}},
+        {"id": "s20", "ages": ["young"], "season": "summer", "method": "any", "source": "AW18 (May)", "source_keys": ["AW18"],
+         "labels": {"en": "Hot weather (May) advisory: 1-year-old trees about 17, 2-year 34, 3-year 51, 4-year 74 litres per tree per day.", "mr": "उन्हाळा (मे) सल्ला: १ वर्षाच्या झाडाला दररोज सुमारे १७, २ वर्षे ३४, ३ वर्षे ५१, ४ वर्षे ७४ लिटर.", "hi": "गर्मी (मई) सलाह: 1 साल के पेड़ को रोज़ लगभग 17, 2 साल 34, 3 साल 51, 4 साल 74 लीटर।"}},
+        {"id": "s21", "ages": ["middle"], "season": "summer", "method": "any", "source": "AW18 (May)", "source_keys": ["AW18"],
+         "labels": {"en": "Hot weather (May) advisory: 8-year-old trees about 188 litres per tree per day.", "mr": "उन्हाळा (मे) सल्ला: ८ वर्षांच्या झाडाला दररोज सुमारे १८८ लिटर.", "hi": "गर्मी (मई) सलाह: 8 साल के पेड़ को रोज़ लगभग 188 लीटर।"}},
+        {"id": "s22", "ages": ["mature"], "season": "summer", "method": "any", "source": "AW18 (May)", "source_keys": ["AW18"],
+         "labels": {"en": "Hot weather (May) advisory: trees 10 years and older about 235 litres per tree per day.", "mr": "उन्हाळा (मे) सल्ला: १० वर्षे व जास्त वयाच्या झाडाला दररोज सुमारे २३५ लिटर.", "hi": "गर्मी (मई) सलाह: 10 साल और ज़्यादा के पेड़ को रोज़ लगभग 235 लीटर।"}},
+        {"id": "s23", "ages": ["young", "middle", "mature"], "season": "summer", "method": "any", "source": "AW18 (May)", "source_keys": ["AW18"],
+         "labels": {"en": "Hot weather (May): water every 4–5 days.", "mr": "उन्हाळा (मे): दर ४–५ दिवसांनी पाणी.", "hi": "गर्मी (मई): हर 4–5 दिन में पानी।"}}
       ],
       "notes": [
         {"id": "sn1", "source": "C06", "source_keys": ["C06"],
@@ -95,7 +109,7 @@
          "labels": {"en": "A CCRI trial describes holding water back for 30–45 days before the expected flowering.", "mr": "CCRI प्रयोगात अपेक्षित फुलोऱ्याआधी ३०–४५ दिवस पाणी थांबवल्याचे सांगितले आहे.", "hi": "CCRI प्रयोग में अपेक्षित फूल आने से पहले 30–45 दिन पानी रोकने की बात है।"}}
       ],
       "gaps": [
-        {"en": "Winter, summer and rainy amounts for young and middle trees were not found in a source we could read.", "mr": "लहान व मध्यम झाडांसाठी हिवाळा, उन्हाळा, पावसाळा वेगवेगळे प्रमाण वाचता आलेल्या स्रोतात सापडले नाही.", "hi": "छोटे और मध्यम पेड़ों के लिए सर्दी, गर्मी, बरसात की अलग मात्रा पढ़े जा सके स्रोत में नहीं मिली।"}
+        {"en": "Winter and rainy amounts for young and middle trees were not found in a source we could read; the summer litres are from a hot-weather (May) advisory.", "mr": "लहान व मध्यम झाडांसाठी हिवाळा व पावसाळ्याचे प्रमाण वाचता आलेल्या स्रोतात सापडले नाही; उन्हाळ्याचे लिटर मे महिन्याच्या सल्ल्यातील आहेत.", "hi": "छोटे और मध्यम पेड़ों के लिए सर्दी और बरसात की मात्रा पढ़े जा सके स्रोत में नहीं मिली; गर्मी के लीटर मई की सलाह से हैं।"}
       ]
     },
     "mosambi": {
@@ -109,7 +123,21 @@
         {"id": "m4", "ages": ["young", "middle", "mature"], "season": "winter", "method": "basin", "source": "C06 (all citrus)", "source_keys": ["C06"],
          "labels": {"en": "Water every 10–12 days.", "mr": "दर १०–१२ दिवसांनी पाणी.", "hi": "हर 10–12 दिन में पानी।"}},
         {"id": "m5", "ages": ["young", "middle", "mature"], "season": "summer", "method": "basin", "source": "C06 (all citrus)", "source_keys": ["C06"],
-         "labels": {"en": "Water every 5–6 days.", "mr": "दर ५–६ दिवसांनी पाणी.", "hi": "हर 5–6 दिन में पानी।"}}
+         "labels": {"en": "Water every 5–6 days.", "mr": "दर ५–६ दिवसांनी पाणी.", "hi": "हर 5–6 दिन में पानी।"}},
+        {"id": "m6", "ages": ["young"], "season": "summer", "method": "any", "source": "AW18 (May)", "source_keys": ["AW18"],
+         "labels": {"en": "Hot weather (May) advisory: 1-year-old trees about 17, 2-year 34, 3-year 51, 4-year 74 litres per tree per day.", "mr": "उन्हाळा (मे) सल्ला: १ वर्षाच्या झाडाला दररोज सुमारे १७, २ वर्षे ३४, ३ वर्षे ५१, ४ वर्षे ७४ लिटर.", "hi": "गर्मी (मई) सलाह: 1 साल के पेड़ को रोज़ लगभग 17, 2 साल 34, 3 साल 51, 4 साल 74 लीटर।"}},
+        {"id": "m7", "ages": ["middle"], "season": "summer", "method": "any", "source": "AW18 (May)", "source_keys": ["AW18"],
+         "labels": {"en": "Hot weather (May) advisory: 8-year-old trees about 188 litres per tree per day.", "mr": "उन्हाळा (मे) सल्ला: ८ वर्षांच्या झाडाला दररोज सुमारे १८८ लिटर.", "hi": "गर्मी (मई) सलाह: 8 साल के पेड़ को रोज़ लगभग 188 लीटर।"}},
+        {"id": "m8", "ages": ["mature"], "season": "summer", "method": "any", "source": "AW18 (May)", "source_keys": ["AW18"],
+         "labels": {"en": "Hot weather (May) advisory: trees 10 years and older about 235 litres per tree per day.", "mr": "उन्हाळा (मे) सल्ला: १० वर्षे व जास्त वयाच्या झाडाला दररोज सुमारे २३५ लिटर.", "hi": "गर्मी (मई) सलाह: 10 साल और ज़्यादा के पेड़ को रोज़ लगभग 235 लीटर।"}},
+        {"id": "m9", "ages": ["young", "middle", "mature"], "season": "summer", "method": "any", "source": "AW18 (May)", "source_keys": ["AW18"],
+         "labels": {"en": "Hot weather (May): water every 4–5 days.", "mr": "उन्हाळा (मे): दर ४–५ दिवसांनी पाणी.", "hi": "गर्मी (मई): हर 4–5 दिन में पानी।"}},
+        {"id": "m10", "ages": ["young"], "season": "year", "method": "drip", "source": "CH24", "source_keys": ["CH24"],
+         "labels": {"en": "One-year-old trees, Jhalawar (Rajasthan) trial: drip at 100% of the crop's water need with black plastic mulch gave the most growth; 60% gave the least.", "mr": "१ वर्षाची झाडे, झालावाड (राजस्थान) प्रयोग: पिकाच्या पाण्याच्या गरजेच्या १००% ठिबक व काळे प्लास्टिक आच्छादन यात वाढ सर्वात जास्त; ६०% मध्ये सर्वात कमी.", "hi": "1 साल के पेड़, झालावाड़ (राजस्थान) प्रयोग: फसल की पानी की ज़रूरत का 100% ड्रिप और काली प्लास्टिक पलवार से बढ़वार सबसे ज़्यादा; 60% में सबसे कम।"}},
+        {"id": "m11", "ages": ["middle", "mature"], "season": "year", "method": "drip", "source": "MP25 §8a", "source_keys": ["MP25"],
+         "labels": {"en": "MPKV Rahuri (western Maharashtra, Ambia bahar): drip at 80% of evaporation through the growing period (January–October).", "mr": "म.फु.कृ.वि. राहुरी (पश्चिम महाराष्ट्र, आंबिया बहार): वाढीच्या काळात (जानेवारी–ऑक्टोबर) बाष्पीभवनाच्या ८०% ठिबक.", "hi": "MPKV राहुरी (पश्चिम महाराष्ट्र, आंबिया बहार): बढ़वार के समय (जनवरी–अक्टूबर) वाष्पीकरण का 80% ड्रिप।"}},
+        {"id": "m12", "ages": ["young", "middle", "mature"], "season": "year", "method": "any", "source": "VK (Andhra Pradesh, Tamil Nadu)", "source_keys": ["VK"],
+         "labels": {"en": "Andhra Pradesh / Tamil Nadu package: water once in 10 days; do not let water stand near the plant in the rains.", "mr": "आंध्र प्रदेश / तमिळनाडू शिफारस: दर १० दिवसांनी एकदा पाणी; पावसाळ्यात झाडाजवळ पाणी साचू देऊ नका.", "hi": "आंध्र प्रदेश / तमिलनाडु सिफ़ारिश: हर 10 दिन में एक बार पानी; बरसात में पेड़ के पास पानी न रुकने दें।"}}
       ],
       "notes": [
         {"id": "mn1", "source": "C06 (all citrus)", "source_keys": ["C06"],
@@ -119,11 +147,18 @@
         {"id": "mn3", "source": "NI (all orchards)", "source_keys": ["NI"],
          "labels": {"en": "In hot weather, water in the evening and mulch the basin.", "mr": "उन्हाळ्यात संध्याकाळी पाणी द्या आणि आळ्यात आच्छादन करा.", "hi": "गर्मी में शाम को पानी दें और थाले में पलवार बिछाएँ।"}},
         {"id": "mn4", "source": "C02", "source_keys": ["C02"],
-         "labels": {"en": "Use a double ring so water does not touch the trunk.", "mr": "दुहेरी आळे करा, म्हणजे पाणी खोडाला लागत नाही.", "hi": "दोहरा थाला बनाएँ, ताकि पानी तने को न छुए।"}}
+         "labels": {"en": "Use a double ring so water does not touch the trunk.", "mr": "दुहेरी आळे करा, म्हणजे पाणी खोडाला लागत नाही.", "hi": "दोहरा थाला बनाएँ, ताकि पानी तने को न छुए।"}},
+        {"id": "mn5", "source": "MP25 §8a", "source_keys": ["MP25"],
+         "labels": {"en": "Bahar rest (MPKV Rahuri, western Maharashtra, Ambia bahar): water is held back in November–December.", "mr": "बहाराचा ताण (म.फु.कृ.वि. राहुरी, पश्चिम महाराष्ट्र, आंबिया बहार): नोव्हेंबर–डिसेंबरमध्ये पाणी थांबवतात.", "hi": "बहार का तनाव (MPKV राहुरी, पश्चिम महाराष्ट्र, आंबिया बहार): नवंबर–दिसंबर में पानी रोका जाता है।"}},
+        {"id": "mn6", "source": "AW24 (Badnapur), AW23 (PDKV)", "source_keys": ["AW24", "AW23"],
+         "labels": {"en": "Ambia bahar rest by soil: light soil 35–45 days, medium 45–60 days, heavy 55–75 days without water.", "mr": "आंबिया बहारासाठी जमिनीनुसार ताण: हलकी जमीन ३५–४५ दिवस, मध्यम ४५–६० दिवस, भारी ५५–७५ दिवस.", "hi": "आंबिया बहार के लिए मिट्टी के अनुसार तनाव: हल्की मिट्टी 35–45 दिन, मध्यम 45–60 दिन, भारी 55–75 दिन।"}},
+        {"id": "mn7", "source": "VK", "source_keys": ["VK"],
+         "labels": {"en": "Under Andhra Pradesh conditions a stress of 20–25 days is enough to bring flowering.", "mr": "आंध्र प्रदेशातील परिस्थितीत फुलोऱ्यासाठी २०–२५ दिवसांचा ताण पुरेसा.", "hi": "आंध्र प्रदेश की परिस्थिति में फूल लाने के लिए 20–25 दिन का तनाव काफी है।"}},
+        {"id": "mn8", "source": "AW24", "source_keys": ["AW24"],
+         "labels": {"en": "Cut water down slowly to start the rest and raise it slowly to end it; do not let the stress go too far.", "mr": "ताण देताना पाणी हळूहळू कमी करा आणि ताण सोडताना हळूहळू वाढवा; जास्तीचा ताण बसू देऊ नका.", "hi": "तनाव देते समय पानी धीरे-धीरे घटाएँ और छोड़ते समय धीरे-धीरे बढ़ाएँ; ज़्यादा तनाव न होने दें।"}}
       ],
       "gaps": [
-        {"en": "Litres per day for young and middle mosambi trees in central India were not found.", "mr": "मध्य भारतातील लहान व मध्यम मोसंबी झाडांसाठी दररोजचे लिटर सापडले नाहीत.", "hi": "मध्य भारत में छोटे और मध्यम मौसंबी पेड़ों के लिए रोज़ के लीटर नहीं मिले।"},
-        {"en": "How long to hold water back for a mosambi bahar was not found.", "mr": "मोसंबीच्या बहारासाठी किती दिवस पाणी थांबवायचे ते सापडले नाही.", "hi": "मौसंबी की बहार के लिए कितने दिन पानी रोकें, यह नहीं मिला।"}
+        {"en": "Winter and rainy-season litres for young and middle mosambi trees were not found; the litres shown are from a hot-weather (May) advisory.", "mr": "लहान व मध्यम मोसंबी झाडांसाठी हिवाळा व पावसाळ्यातील लिटर सापडले नाहीत; दाखवलेले लिटर मे महिन्याच्या सल्ल्यातील आहेत.", "hi": "छोटे और मध्यम मौसंबी पेड़ों के लिए सर्दी और बरसात के लीटर नहीं मिले; दिखाए गए लीटर मई की सलाह से हैं।"}
       ]
     }
   }
