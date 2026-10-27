@@ -6,6 +6,7 @@ class FarmerProfile {
     this.village,
     this.taluka,
     this.district,
+    this.phone,
     this.consentDataProcessing = false,
     this.consentWhatsapp = false,
   });
@@ -16,6 +17,9 @@ class FarmerProfile {
   final String? village;
   final String? taluka;
   final String? district;
+
+  /// Contact number only (E.164), never a login. Google users may add one on the profile.
+  final String? phone;
   final bool consentDataProcessing;
   final bool consentWhatsapp;
 
@@ -26,6 +30,7 @@ class FarmerProfile {
     'village': village,
     'taluka': taluka,
     'district': district,
+    'phone': phone,
     'consent_data_processing': consentDataProcessing,
     'consent_whatsapp': consentWhatsapp,
   };
@@ -38,6 +43,7 @@ class FarmerProfile {
         village: p['village'] as String?,
         taluka: p['taluka'] as String?,
         district: p['district'] as String?,
+        phone: p['phone'] as String?,
         consentDataProcessing: p['consent_data_processing'] as bool? ?? false,
         consentWhatsapp: p['consent_whatsapp'] as bool? ?? false,
       );

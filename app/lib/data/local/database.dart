@@ -32,6 +32,9 @@ class FarmerProfiles extends Table {
   TextColumn get village => text().nullable()();
   TextColumn get taluka => text().nullable()();
   TextColumn get district => text().nullable()();
+
+  /// Contact number. For phone sign-ins the server fills it; Google users may add one.
+  TextColumn get phone => text().nullable()();
   BoolColumn get consentDataProcessing =>
       boolean().withDefault(const Constant(false))();
   BoolColumn get consentWhatsapp =>
@@ -281,7 +284,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.open(String name) : super(driftDatabase(name: name));
 
   @override
-  int get schemaVersion => 9;
+  int get schemaVersion => 10;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -304,6 +307,9 @@ class AppDatabase extends _$AppDatabase {
       }
       if (from < 8) await m.createTable(farmTasks);
       if (from < 9) await m.createTable(scoutingRecords);
+      if (from < 10) {
+        await m.addColumn(farmerProfiles, farmerProfiles.phone);
+      }
     },
   );
 

@@ -16,6 +16,8 @@ class WeatherHeader extends StatelessWidget {
     required this.maxTemperature,
     required this.soilPill,
     this.trailingAction,
+    this.onAvatarTap,
+    this.avatarLabel,
   });
 
   final String greeting;
@@ -27,6 +29,23 @@ class WeatherHeader extends StatelessWidget {
   final String maxTemperature;
   final String soilPill;
   final Widget? trailingAction;
+
+  /// Tapping the initial (e.g. to open the profile). Only a tap target: no visual change.
+  final VoidCallback? onAvatarTap;
+  final String? avatarLabel;
+
+  Widget _tappable(Widget avatar) => onAvatarTap == null
+      ? avatar
+      : Semantics(
+          button: true,
+          label: avatarLabel,
+          child: GestureDetector(
+            key: const Key('open-profile'),
+            behavior: HitTestBehavior.opaque,
+            onTap: onAvatarTap,
+            child: avatar,
+          ),
+        );
 
   @override
   Widget build(BuildContext context) {
@@ -72,23 +91,25 @@ class WeatherHeader extends StatelessWidget {
                 ),
                 ?trailingAction,
                 const SizedBox(width: BmSpace.xs),
-                Container(
-                  width: 46,
-                  height: 46,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: c.sun,
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: onBrand.withValues(alpha: 0.5),
-                      width: 3,
+                _tappable(
+                  Container(
+                    width: 46,
+                    height: 46,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: c.sun,
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: onBrand.withValues(alpha: 0.5),
+                        width: 3,
+                      ),
                     ),
-                  ),
-                  child: Text(
-                    initial,
-                    style: BmType.alertTitle.copyWith(
-                      fontSize: 19,
-                      color: BmColors.light.brand,
+                    child: Text(
+                      initial,
+                      style: BmType.alertTitle.copyWith(
+                        fontSize: 19,
+                        color: BmColors.light.brand,
+                      ),
                     ),
                   ),
                 ),

@@ -31,6 +31,7 @@ import '../features/plots/presentation/plots_screen.dart';
 import '../features/practices/presentation/irrigation_guide_screen.dart';
 import '../features/practices/presentation/practices_screen.dart';
 import '../features/profile/presentation/onboarding_screen.dart';
+import '../features/profile/presentation/profile_screen.dart';
 import '../features/scouting/presentation/scouting_screens.dart';
 import '../features/settings/presentation/settings_screen.dart';
 import '../features/spray/presentation/add_spray_screen.dart';
@@ -60,6 +61,7 @@ abstract final class Routes {
   static const walkthrough = '/welcome';
   static const gallery = '/dev/gallery';
   static const settings = '/settings';
+  static const profile = '/profile';
   static const tasks = '/tasks';
   static const addTask = '/tasks/new';
   static const calendar = '/calendar';
@@ -168,6 +170,7 @@ GoRouter buildRouter(
         builder: (_, s) => FeedItemScreen(itemId: s.pathParameters['id']!),
       ),
       GoRoute(path: Routes.settings, builder: (_, _) => const SettingsScreen()),
+      GoRoute(path: Routes.profile, builder: (_, _) => const ProfileScreen()),
       GoRoute(path: Routes.tasks, builder: (_, _) => const TasksScreen()),
       GoRoute(path: Routes.addTask, builder: (_, _) => const AddTaskScreen()),
       GoRoute(path: Routes.plots, builder: (_, _) => const PlotsScreen()),

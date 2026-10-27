@@ -36,13 +36,19 @@ class ProfileRepository {
     });
   }
 
-  /// Sync applier for server changes.
+  /// Sync applier for server changes. A server copy without a phone keeps the local one: the
+  /// server only knows sign-in numbers, not a contact number a Google user added here.
   Future<void> applyRemote(RemoteChange change) => _upsert(
     FarmerProfile.fromPayload(change.entityId, change.data),
     change.updatedAt,
+    keepLocalPhone: true,
   );
 
-  Future<void> _upsert(FarmerProfile p, DateTime updatedAt) => _db
+  Future<void> _upsert(
+    FarmerProfile p,
+    DateTime updatedAt, {
+    bool keepLocalPhone = false,
+  }) => _db
       .into(_db.farmerProfiles)
       .insertOnConflictUpdate(
         FarmerProfilesCompanion.insert(
@@ -52,6 +58,9 @@ class ProfileRepository {
           village: Value(p.village),
           taluka: Value(p.taluka),
           district: Value(p.district),
+          phone: keepLocalPhone && p.phone == null
+              ? const Value.absent()
+              : Value(p.phone),
           consentDataProcessing: Value(p.consentDataProcessing),
           consentWhatsapp: Value(p.consentWhatsapp),
           clientUpdatedAt: updatedAt.toUtc(),
@@ -65,6 +74,7 @@ class ProfileRepository {
     village: r.village,
     taluka: r.taluka,
     district: r.district,
+    phone: r.phone,
     consentDataProcessing: r.consentDataProcessing,
     consentWhatsapp: r.consentWhatsapp,
   );
