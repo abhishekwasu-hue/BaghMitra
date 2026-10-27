@@ -121,6 +121,15 @@ class FeedAdminCardIn(BaseModel):
     fields: dict[str, FeedAdminCardFieldIn] = Field(min_length=1, max_length=40)
 
 
+class FeedAdminDatesIn(BaseModel):
+    """All four dates at once: a missing or `null` date is cleared."""
+
+    deadline: date | None = None
+    payment_date: date | None = None
+    valid_from: date | None = None
+    valid_to: date | None = None
+
+
 class FeedAdminTargetsIn(BaseModel):
     targets: list[FeedAdminTargetIn] = Field(max_length=50)
 
@@ -198,6 +207,22 @@ class FeedAdminItemOut(FeedAdminItemSummaryOut):
     card: FeedAdminCardOut | None
     targets: list[FeedAdminTargetOut]
     events: list[FeedAdminEventOut]
+    # The stored text the output check reads, cut to MAX_DETAIL_TEXT_BYTES (UTF-8).
+    extracted_text: str | None = None
+    extracted_text_truncated: bool = False
+
+
+# Cap on the extracted text returned in an item's detail.
+MAX_DETAIL_TEXT_BYTES = 200_000
+
+
+def _capped(text: str | None) -> tuple[str | None, bool]:
+    if text is None:
+        return None, False
+    data = text.encode()
+    if len(data) <= MAX_DETAIL_TEXT_BYTES:
+        return text, False
+    return data[:MAX_DETAIL_TEXT_BYTES].decode(errors="ignore"), True
 
 
 def _api_error(exc: FeedError) -> ApiError:
@@ -238,6 +263,7 @@ async def _detail(session: AsyncSession, item: FeedItem) -> FeedAdminItemOut:
         .where(FeedReviewEvent.item_id == item.id)
         .order_by(FeedReviewEvent.created_at)
     )
+    text, truncated = _capped(item.extracted_text)
     return FeedAdminItemOut(
         **summary.model_dump(),
         source_key=source_key or "",
@@ -255,6 +281,8 @@ async def _detail(session: AsyncSession, item: FeedItem) -> FeedAdminItemOut:
         card=FeedAdminCardOut(version=card.version, fields=card.fields) if card else None,
         targets=[FeedAdminTargetOut.model_validate(t, from_attributes=True) for t in targets],
         events=[FeedAdminEventOut.model_validate(e, from_attributes=True) for e in events],
+        extracted_text=text,
+        extracted_text_truncated=truncated,
     )
 
 
@@ -396,6 +424,27 @@ async def set_card(
     fields = {k: v.model_dump() for k, v in body.fields.items()}
     try:
         await service.set_card(session, item, fields, user.id, settings)
+    except FeedError as exc:
+        raise _api_error(exc) from exc
+    await session.commit()
+    return await _detail(session, item)
+
+
+@router.put("/items/{item_id}/dates", operation_id="admin_feed_set_dates", responses=ERRORS)
+async def set_dates(
+    item_id: uuid.UUID,
+    body: FeedAdminDatesIn,
+    user: FeedAdmin,
+    session: DbSession,
+    settings: AppSettings,
+) -> FeedAdminItemOut:
+    """Replace deadline / payment / validity dates (a missing or `null` date is cleared). The
+    dates are output-checked against the stored text; a change to a published item clears its
+    approval and sends it back to review (an `edited` event with `reopened: true`); the
+    farmer-facing deadlines are rebuilt when it is published again. Withdrawn: 409."""
+    item = await _item(session, item_id)
+    try:
+        await service.set_dates(session, item, body.model_dump(), user.id, settings)
     except FeedError as exc:
         raise _api_error(exc) from exc
     await session.commit()

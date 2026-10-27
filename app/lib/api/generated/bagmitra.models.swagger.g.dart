@@ -287,6 +287,30 @@ Map<String, dynamic> _$FeedAdminCheckIssueToJson(
   'where': instance.where,
 };
 
+FeedAdminDatesIn _$FeedAdminDatesInFromJson(Map<String, dynamic> json) =>
+    FeedAdminDatesIn(
+      deadline: json['deadline'] == null
+          ? null
+          : DateTime.parse(json['deadline'] as String),
+      paymentDate: json['payment_date'] == null
+          ? null
+          : DateTime.parse(json['payment_date'] as String),
+      validFrom: json['valid_from'] == null
+          ? null
+          : DateTime.parse(json['valid_from'] as String),
+      validTo: json['valid_to'] == null
+          ? null
+          : DateTime.parse(json['valid_to'] as String),
+    );
+
+Map<String, dynamic> _$FeedAdminDatesInToJson(FeedAdminDatesIn instance) =>
+    <String, dynamic>{
+      'deadline': ?_dateToJson(instance.deadline),
+      'payment_date': ?_dateToJson(instance.paymentDate),
+      'valid_from': ?_dateToJson(instance.validFrom),
+      'valid_to': ?_dateToJson(instance.validTo),
+    };
+
 FeedAdminEventOut _$FeedAdminEventOutFromJson(Map<String, dynamic> json) =>
     FeedAdminEventOut(
       actorId: json['actor_id'] as String?,
@@ -381,6 +405,8 @@ FeedAdminItemOut _$FeedAdminItemOutFromJson(
           .toList() ??
       [],
   externalId: json['external_id'] as String?,
+  extractedText: json['extracted_text'] as String?,
+  extractedTextTruncated: json['extracted_text_truncated'] as bool? ?? false,
   grNumber: json['gr_number'] as String?,
   hasText: json['has_text'] as bool,
   id: json['id'] as String,
@@ -420,6 +446,8 @@ Map<String, dynamic> _$FeedAdminItemOutToJson(FeedAdminItemOut instance) =>
       'department': ?instance.department,
       'events': instance.events.map((e) => e.toJson()).toList(),
       'external_id': ?instance.externalId,
+      'extracted_text': ?instance.extractedText,
+      'extracted_text_truncated': ?instance.extractedTextTruncated,
       'gr_number': ?instance.grNumber,
       'has_text': instance.hasText,
       'id': instance.id,

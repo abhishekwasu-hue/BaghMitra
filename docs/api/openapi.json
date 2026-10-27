@@ -621,6 +621,61 @@
         "title": "FeedAdminCheckIssue",
         "type": "object"
       },
+      "FeedAdminDatesIn": {
+        "description": "All four dates at once: a missing or `null` date is cleared.",
+        "properties": {
+          "deadline": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deadline"
+          },
+          "payment_date": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Payment Date"
+          },
+          "valid_from": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Valid From"
+          },
+          "valid_to": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Valid To"
+          }
+        },
+        "title": "FeedAdminDatesIn",
+        "type": "object"
+      },
       "FeedAdminEventOut": {
         "properties": {
           "actor_id": {
@@ -917,6 +972,22 @@
               }
             ],
             "title": "External Id"
+          },
+          "extracted_text": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Extracted Text"
+          },
+          "extracted_text_truncated": {
+            "default": false,
+            "title": "Extracted Text Truncated",
+            "type": "boolean"
           },
           "gr_number": {
             "anyOf": [
@@ -4359,6 +4430,105 @@
           }
         ],
         "summary": "Set Card",
+        "tags": [
+          "admin"
+        ]
+      }
+    },
+    "/v1/admin/feed/items/{item_id}/dates": {
+      "put": {
+        "description": "Replace deadline / payment / validity dates (a missing or `null` date is cleared). The\ndates are output-checked against the stored text; a change to a published item clears its\napproval and sends it back to review (an `edited` event with `reopened: true`); the\nfarmer-facing deadlines are rebuilt when it is published again. Withdrawn: 409.",
+        "operationId": "admin_feed_set_dates",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "item_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Item Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FeedAdminDatesIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedAdminItemOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Set Dates",
         "tags": [
           "admin"
         ]

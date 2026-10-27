@@ -78,7 +78,7 @@ to the reviewer (a vision model is not wired; QG2 default).
 - Output check: every number, amount (₹, lakh, crore), date and scheme name in titles,
   summaries, card fields and the deadline/validity dates must appear in the source text.
   Mismatches show in `check_issues`; fix the text (`PUT .../texts/{en|mr|hi}`, `PUT .../card`,
-  `PUT .../targets`) or approve with `{"accept_check_issues": true, "comment": "why"}`.
+  `PUT .../dates`, `PUT .../targets`; see §4a) or approve with `{"accept_check_issues": true, "comment": "why"}`.
 - `POST .../approve`, then `POST .../publish`. Publishing is refused without an approval after
   the last change, without English text, for an official item without a document hash, or
   after `valid_to`. Any edit sends a published item back to review. Publishing writes the item's
@@ -95,8 +95,28 @@ shown only then (the API still checks the role on every call). Three tabs:
   badges and the open check-issue count. Tap an item for the detail page: source link, status
   and badges, output-check issues, extracted text (whether text is stored; method / quality /
   pages from the `extracted` event and the unused text layer or OCR text), en / mr / hi title +
-  2-line summary editors (Save per language), dates (read-only: set at upload), the scheme card
-  (read-only), targets (district / crop / min-max ha; empty means any) and the history.
+  2-line summary editors (Save per language), dates, the scheme card, targets (district / crop /
+  min-max ha; empty means any) and the history.
+  - **Extracted text**: below the extraction result the full stored text (`extracted_text` of
+    `GET .../items/{id}`, the text the output check reads) in a scrollable box. The API returns
+    at most the first 200 KB (UTF-8, `MAX_DETAIL_TEXT_BYTES`); a longer text is cut on a
+    character boundary with `extracted_text_truncated: true` and the page says so.
+  - **Dates**: last date / payment / valid from / valid to, each with a date picker and a clear
+    button; **Save dates** sends all four (`PUT .../items/{id}/dates`; a missing or `null` date
+    is cleared, `valid_from` after `valid_to` is refused with `invalid_dates`). The dates are
+    output-checked against the stored text like on upload (a date not in the text is a check
+    issue `where: deadline|payment_date|valid_from|valid_to`). A change clears the approval and
+    records an `edited` event with the old / new dates; on a **published** item it also sends
+    the item back to **In review** (event detail `reopened: true`) so it leaves the farmer feed
+    until it is approved and published again, and publishing rebuilds its `feed_deadlines` rows
+    from the new dates (a cleared date's reminder row is removed). Sending the stored dates
+    again changes nothing. Withdrawn items: 409.
+  - **Scheme card** (scheme items): one row per field (`scheme_name`, `who_benefits`,
+    `eligibility`, `documents`, `how_to_apply`, `deadline`, `amount`, `gr_number`, `gr_date`,
+    plus any other stored field): the value as written in the document and its page (e.g.
+    `p. 2`), or **Not stated** (`not_stated`, no page). Empty rows are left out; **Save card**
+    writes a new card version (`PUT .../card`) and the output check runs (a stated value
+    without a page is a `missing_page` issue).
   Actions: **Approve** (with open issues a dialog asks to accept them and needs a comment),
   **Publish** (the refusal reason is shown), **Withdraw** (reason + optional replacement picked
   from published / in-review items), **AI draft** ("AI not configured" when the API answers 503).

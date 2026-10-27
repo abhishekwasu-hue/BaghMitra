@@ -34,6 +34,15 @@ abstract interface class FeedAdminRepository {
     String id,
     List<FeedAdminTargetIn> targets,
   );
+
+  /// Replaces all four dates (null clears one); output-checked like the upload.
+  Future<FeedAdminItemOut> setDates(String id, FeedAdminDatesIn dates);
+
+  /// A new scheme-card version: `{name: (value or not_stated, page)}`.
+  Future<FeedAdminItemOut> setCard(
+    String id,
+    Map<String, FeedAdminCardFieldIn> fields,
+  );
   Future<FeedAdminItemOut> approve(
     String id, {
     bool acceptCheckIssues = false,
@@ -130,6 +139,21 @@ class ApiFeedAdminRepository implements FeedAdminRepository {
     await _api.v1AdminFeedItemsItemIdTargetsPut(
       itemId: id,
       body: FeedAdminTargetsIn(targets: targets),
+    ),
+  );
+
+  @override
+  Future<FeedAdminItemOut> setDates(String id, FeedAdminDatesIn dates) async =>
+      _ok(await _api.v1AdminFeedItemsItemIdDatesPut(itemId: id, body: dates));
+
+  @override
+  Future<FeedAdminItemOut> setCard(
+    String id,
+    Map<String, FeedAdminCardFieldIn> fields,
+  ) async => _ok(
+    await _api.v1AdminFeedItemsItemIdCardPut(
+      itemId: id,
+      body: FeedAdminCardIn(fields: fields),
     ),
   );
 

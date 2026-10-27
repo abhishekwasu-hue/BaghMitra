@@ -1496,6 +1496,96 @@ extension $FeedAdminCheckIssueExtension on FeedAdminCheckIssue {
 }
 
 @JsonSerializable(explicitToJson: true)
+class FeedAdminDatesIn {
+  const FeedAdminDatesIn({
+    this.deadline,
+    this.paymentDate,
+    this.validFrom,
+    this.validTo,
+  });
+
+  factory FeedAdminDatesIn.fromJson(Map<String, dynamic> json) =>
+      _$FeedAdminDatesInFromJson(json);
+
+  static const toJsonFactory = _$FeedAdminDatesInToJson;
+  Map<String, dynamic> toJson() => _$FeedAdminDatesInToJson(this);
+
+  @JsonKey(name: 'deadline', includeIfNull: false, toJson: _dateToJson)
+  final DateTime? deadline;
+  @JsonKey(name: 'payment_date', includeIfNull: false, toJson: _dateToJson)
+  final DateTime? paymentDate;
+  @JsonKey(name: 'valid_from', includeIfNull: false, toJson: _dateToJson)
+  final DateTime? validFrom;
+  @JsonKey(name: 'valid_to', includeIfNull: false, toJson: _dateToJson)
+  final DateTime? validTo;
+  static const fromJsonFactory = _$FeedAdminDatesInFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is FeedAdminDatesIn &&
+            (identical(other.deadline, deadline) ||
+                const DeepCollectionEquality().equals(
+                  other.deadline,
+                  deadline,
+                )) &&
+            (identical(other.paymentDate, paymentDate) ||
+                const DeepCollectionEquality().equals(
+                  other.paymentDate,
+                  paymentDate,
+                )) &&
+            (identical(other.validFrom, validFrom) ||
+                const DeepCollectionEquality().equals(
+                  other.validFrom,
+                  validFrom,
+                )) &&
+            (identical(other.validTo, validTo) ||
+                const DeepCollectionEquality().equals(other.validTo, validTo)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(deadline) ^
+      const DeepCollectionEquality().hash(paymentDate) ^
+      const DeepCollectionEquality().hash(validFrom) ^
+      const DeepCollectionEquality().hash(validTo) ^
+      runtimeType.hashCode;
+}
+
+extension $FeedAdminDatesInExtension on FeedAdminDatesIn {
+  FeedAdminDatesIn copyWith({
+    DateTime? deadline,
+    DateTime? paymentDate,
+    DateTime? validFrom,
+    DateTime? validTo,
+  }) {
+    return FeedAdminDatesIn(
+      deadline: deadline ?? this.deadline,
+      paymentDate: paymentDate ?? this.paymentDate,
+      validFrom: validFrom ?? this.validFrom,
+      validTo: validTo ?? this.validTo,
+    );
+  }
+
+  FeedAdminDatesIn copyWithWrapped({
+    Wrapped<DateTime?>? deadline,
+    Wrapped<DateTime?>? paymentDate,
+    Wrapped<DateTime?>? validFrom,
+    Wrapped<DateTime?>? validTo,
+  }) {
+    return FeedAdminDatesIn(
+      deadline: (deadline != null ? deadline.value : this.deadline),
+      paymentDate: (paymentDate != null ? paymentDate.value : this.paymentDate),
+      validFrom: (validFrom != null ? validFrom.value : this.validFrom),
+      validTo: (validTo != null ? validTo.value : this.validTo),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class FeedAdminEventOut {
   const FeedAdminEventOut({
     required this.actorId,
@@ -1854,6 +1944,8 @@ class FeedAdminItemOut {
     required this.department,
     required this.events,
     required this.externalId,
+    this.extractedText,
+    this.extractedTextTruncated,
     required this.grNumber,
     required this.hasText,
     required this.id,
@@ -1902,6 +1994,14 @@ class FeedAdminItemOut {
   final List<FeedAdminEventOut> events;
   @JsonKey(name: 'external_id', includeIfNull: false)
   final String? externalId;
+  @JsonKey(name: 'extracted_text', includeIfNull: false)
+  final String? extractedText;
+  @JsonKey(
+    name: 'extracted_text_truncated',
+    includeIfNull: false,
+    defaultValue: false,
+  )
+  final bool? extractedTextTruncated;
   @JsonKey(name: 'gr_number', includeIfNull: false)
   final String? grNumber;
   @JsonKey(name: 'has_text', includeIfNull: false)
@@ -1976,6 +2076,16 @@ class FeedAdminItemOut {
                 const DeepCollectionEquality().equals(
                   other.externalId,
                   externalId,
+                )) &&
+            (identical(other.extractedText, extractedText) ||
+                const DeepCollectionEquality().equals(
+                  other.extractedText,
+                  extractedText,
+                )) &&
+            (identical(other.extractedTextTruncated, extractedTextTruncated) ||
+                const DeepCollectionEquality().equals(
+                  other.extractedTextTruncated,
+                  extractedTextTruncated,
                 )) &&
             (identical(other.grNumber, grNumber) ||
                 const DeepCollectionEquality().equals(
@@ -2057,6 +2167,8 @@ class FeedAdminItemOut {
       const DeepCollectionEquality().hash(department) ^
       const DeepCollectionEquality().hash(events) ^
       const DeepCollectionEquality().hash(externalId) ^
+      const DeepCollectionEquality().hash(extractedText) ^
+      const DeepCollectionEquality().hash(extractedTextTruncated) ^
       const DeepCollectionEquality().hash(grNumber) ^
       const DeepCollectionEquality().hash(hasText) ^
       const DeepCollectionEquality().hash(id) ^
@@ -2087,6 +2199,8 @@ extension $FeedAdminItemOutExtension on FeedAdminItemOut {
     String? department,
     List<FeedAdminEventOut>? events,
     String? externalId,
+    String? extractedText,
+    bool? extractedTextTruncated,
     String? grNumber,
     bool? hasText,
     String? id,
@@ -2114,6 +2228,9 @@ extension $FeedAdminItemOutExtension on FeedAdminItemOut {
       department: department ?? this.department,
       events: events ?? this.events,
       externalId: externalId ?? this.externalId,
+      extractedText: extractedText ?? this.extractedText,
+      extractedTextTruncated:
+          extractedTextTruncated ?? this.extractedTextTruncated,
       grNumber: grNumber ?? this.grNumber,
       hasText: hasText ?? this.hasText,
       id: id ?? this.id,
@@ -2143,6 +2260,8 @@ extension $FeedAdminItemOutExtension on FeedAdminItemOut {
     Wrapped<String?>? department,
     Wrapped<List<FeedAdminEventOut>>? events,
     Wrapped<String?>? externalId,
+    Wrapped<String?>? extractedText,
+    Wrapped<bool?>? extractedTextTruncated,
     Wrapped<String?>? grNumber,
     Wrapped<bool>? hasText,
     Wrapped<String>? id,
@@ -2170,6 +2289,12 @@ extension $FeedAdminItemOutExtension on FeedAdminItemOut {
       department: (department != null ? department.value : this.department),
       events: (events != null ? events.value : this.events),
       externalId: (externalId != null ? externalId.value : this.externalId),
+      extractedText: (extractedText != null
+          ? extractedText.value
+          : this.extractedText),
+      extractedTextTruncated: (extractedTextTruncated != null
+          ? extractedTextTruncated.value
+          : this.extractedTextTruncated),
       grNumber: (grNumber != null ? grNumber.value : this.grNumber),
       hasText: (hasText != null ? hasText.value : this.hasText),
       id: (id != null ? id.value : this.id),
