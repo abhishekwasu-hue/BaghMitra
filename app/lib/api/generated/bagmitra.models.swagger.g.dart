@@ -90,6 +90,23 @@ Map<String, dynamic> _$ChangeToJson(Change instance) => <String, dynamic>{
   'updated_at': instance.updatedAt.toIso8601String(),
 };
 
+DeviceIn _$DeviceInFromJson(Map<String, dynamic> json) => DeviceIn(
+  platform: deviceInPlatformFromJson(json['platform']),
+  token: json['token'] as String,
+);
+
+Map<String, dynamic> _$DeviceInToJson(DeviceIn instance) => <String, dynamic>{
+  'platform': ?deviceInPlatformToJson(instance.platform),
+  'token': instance.token,
+};
+
+DeviceOut _$DeviceOutFromJson(Map<String, dynamic> json) =>
+    DeviceOut(token: json['token'] as String);
+
+Map<String, dynamic> _$DeviceOutToJson(DeviceOut instance) => <String, dynamic>{
+  'token': instance.token,
+};
+
 EntitlementsOut _$EntitlementsOutFromJson(Map<String, dynamic> json) =>
     EntitlementsOut(
       computedAt: json['computed_at'] as String,

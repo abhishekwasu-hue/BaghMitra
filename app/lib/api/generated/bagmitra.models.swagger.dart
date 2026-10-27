@@ -427,6 +427,109 @@ extension $ChangeExtension on Change {
 }
 
 @JsonSerializable(explicitToJson: true)
+class DeviceIn {
+  const DeviceIn({required this.platform, required this.token});
+
+  factory DeviceIn.fromJson(Map<String, dynamic> json) =>
+      _$DeviceInFromJson(json);
+
+  static const toJsonFactory = _$DeviceInToJson;
+  Map<String, dynamic> toJson() => _$DeviceInToJson(this);
+
+  @JsonKey(
+    name: 'platform',
+    includeIfNull: false,
+    toJson: deviceInPlatformToJson,
+    fromJson: deviceInPlatformFromJson,
+  )
+  final enums.DeviceInPlatform platform;
+  @JsonKey(name: 'token', includeIfNull: false)
+  final String token;
+  static const fromJsonFactory = _$DeviceInFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is DeviceIn &&
+            (identical(other.platform, platform) ||
+                const DeepCollectionEquality().equals(
+                  other.platform,
+                  platform,
+                )) &&
+            (identical(other.token, token) ||
+                const DeepCollectionEquality().equals(other.token, token)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(platform) ^
+      const DeepCollectionEquality().hash(token) ^
+      runtimeType.hashCode;
+}
+
+extension $DeviceInExtension on DeviceIn {
+  DeviceIn copyWith({enums.DeviceInPlatform? platform, String? token}) {
+    return DeviceIn(
+      platform: platform ?? this.platform,
+      token: token ?? this.token,
+    );
+  }
+
+  DeviceIn copyWithWrapped({
+    Wrapped<enums.DeviceInPlatform>? platform,
+    Wrapped<String>? token,
+  }) {
+    return DeviceIn(
+      platform: (platform != null ? platform.value : this.platform),
+      token: (token != null ? token.value : this.token),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class DeviceOut {
+  const DeviceOut({required this.token});
+
+  factory DeviceOut.fromJson(Map<String, dynamic> json) =>
+      _$DeviceOutFromJson(json);
+
+  static const toJsonFactory = _$DeviceOutToJson;
+  Map<String, dynamic> toJson() => _$DeviceOutToJson(this);
+
+  @JsonKey(name: 'token', includeIfNull: false)
+  final String token;
+  static const fromJsonFactory = _$DeviceOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is DeviceOut &&
+            (identical(other.token, token) ||
+                const DeepCollectionEquality().equals(other.token, token)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(token) ^ runtimeType.hashCode;
+}
+
+extension $DeviceOutExtension on DeviceOut {
+  DeviceOut copyWith({String? token}) {
+    return DeviceOut(token: token ?? this.token);
+  }
+
+  DeviceOut copyWithWrapped({Wrapped<String>? token}) {
+    return DeviceOut(token: (token != null ? token.value : this.token));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class EntitlementsOut {
   const EntitlementsOut({
     required this.computedAt,
@@ -4119,6 +4222,82 @@ List<enums.ChangeOp>? changeOpNullableListFromJson(
   }
 
   return changeOp.map((e) => changeOpFromJson(e.toString())).toList();
+}
+
+String? deviceInPlatformNullableToJson(
+  enums.DeviceInPlatform? deviceInPlatform,
+) {
+  return deviceInPlatform?.value;
+}
+
+String? deviceInPlatformToJson(enums.DeviceInPlatform deviceInPlatform) {
+  return deviceInPlatform.value;
+}
+
+enums.DeviceInPlatform deviceInPlatformFromJson(
+  Object? deviceInPlatform, [
+  enums.DeviceInPlatform? defaultValue,
+]) {
+  return enums.DeviceInPlatform.values.firstWhereOrNull(
+        (e) => e.value == deviceInPlatform,
+      ) ??
+      defaultValue ??
+      enums.DeviceInPlatform.swaggerGeneratedUnknown;
+}
+
+enums.DeviceInPlatform? deviceInPlatformNullableFromJson(
+  Object? deviceInPlatform, [
+  enums.DeviceInPlatform? defaultValue,
+]) {
+  if (deviceInPlatform == null) {
+    return null;
+  }
+  return enums.DeviceInPlatform.values.firstWhereOrNull(
+        (e) => e.value == deviceInPlatform,
+      ) ??
+      defaultValue;
+}
+
+String deviceInPlatformExplodedListToJson(
+  List<enums.DeviceInPlatform>? deviceInPlatform,
+) {
+  return deviceInPlatform?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> deviceInPlatformListToJson(
+  List<enums.DeviceInPlatform>? deviceInPlatform,
+) {
+  if (deviceInPlatform == null) {
+    return [];
+  }
+
+  return deviceInPlatform.map((e) => e.value!).toList();
+}
+
+List<enums.DeviceInPlatform> deviceInPlatformListFromJson(
+  List? deviceInPlatform, [
+  List<enums.DeviceInPlatform>? defaultValue,
+]) {
+  if (deviceInPlatform == null) {
+    return defaultValue ?? [];
+  }
+
+  return deviceInPlatform
+      .map((e) => deviceInPlatformFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.DeviceInPlatform>? deviceInPlatformNullableListFromJson(
+  List? deviceInPlatform, [
+  List<enums.DeviceInPlatform>? defaultValue,
+]) {
+  if (deviceInPlatform == null) {
+    return defaultValue;
+  }
+
+  return deviceInPlatform
+      .map((e) => deviceInPlatformFromJson(e.toString()))
+      .toList();
 }
 
 String? grantInSubjectTypeNullableToJson(

@@ -18,6 +18,22 @@ enum ChangeOp {
   const ChangeOp(this.value);
 }
 
+enum DeviceInPlatform {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('android')
+  android('android'),
+  @JsonValue('ios')
+  ios('ios'),
+  @JsonValue('web')
+  web('web');
+
+  final String? value;
+
+  const DeviceInPlatform(this.value);
+}
+
 enum GrantInSubjectType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),

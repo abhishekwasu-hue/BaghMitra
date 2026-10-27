@@ -604,6 +604,51 @@ are shown as published, never estimated; `stale` says the source could not be re
     ),
   });
 
+  ///Unregister Device
+  Future<chopper.Response> v1MeDevicesDelete({required DeviceOut? body}) {
+    return _v1MeDevicesDelete(body: body);
+  }
+
+  ///Unregister Device
+  @DELETE(path: '/v1/me/devices')
+  Future<chopper.Response> _v1MeDevicesDelete({
+    @Body() required DeviceOut? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Stop push alerts to this phone (sign-out); unknown tokens are ignored.',
+      summary: 'Unregister Device',
+      operationId: 'me_device_unregister',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["profile"],
+      deprecated: false,
+    ),
+  });
+
+  ///Register Device
+  Future<chopper.Response> v1MeDevicesPost({required DeviceIn? body}) {
+    return _v1MeDevicesPost(body: body);
+  }
+
+  ///Register Device
+  @POST(path: '/v1/me/devices', optionalBody: true)
+  Future<chopper.Response> _v1MeDevicesPost({
+    @Body() required DeviceIn? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description:
+          'Register this phone for push alerts; repeating it is harmless.',
+      summary: 'Register Device',
+      operationId: 'me_device_register',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["profile"],
+      deprecated: false,
+    ),
+  });
+
   ///Get Plot Weather
   ///@param plot_id
   ///@param lang

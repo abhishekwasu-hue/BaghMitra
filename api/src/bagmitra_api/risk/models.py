@@ -1,5 +1,5 @@
 """Stored weather risk alerts: what the daily pull found for each plot, kept once per
-(plot, rule, first day) so a repeated pull never repeats an alert."""
+plot and rule within the pull window so a repeated pull never repeats an alert."""
 
 from __future__ import annotations
 
@@ -15,8 +15,7 @@ from bagmitra_api.db.base import Base, utcnow
 class PlotRiskAlert(Base):
     """One rule-based alert for one plot. Owner data (RLS by `owner_id`).
 
-    `notified_at` stays null until a later delivery step sends a push for every row with
-    `notified_at IS NULL` and stamps it.
+    `notified_at` is stamped by push delivery (`push/deliver.py`) once a phone got it.
     """
 
     __tablename__ = "plot_risk_alerts"
