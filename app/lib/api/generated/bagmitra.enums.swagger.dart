@@ -70,6 +70,22 @@ enum FeedAdminTermsInTermsStatus {
   const FeedAdminTermsInTermsStatus(this.value);
 }
 
+enum FeedCheckResponseVerdict {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('official_match')
+  officialMatch('official_match'),
+  @JsonValue('possible_match')
+  possibleMatch('possible_match'),
+  @JsonValue('no_official_match')
+  noOfficialMatch('no_official_match');
+
+  final String? value;
+
+  const FeedCheckResponseVerdict(this.value);
+}
+
 enum FeedItemOutTrust {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
@@ -238,6 +254,22 @@ enum V1FeedGetLang {
   final String? value;
 
   const V1FeedGetLang(this.value);
+}
+
+enum V1FeedCheckPostLang {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('en')
+  en('en'),
+  @JsonValue('mr')
+  mr('mr'),
+  @JsonValue('hi')
+  hi('hi');
+
+  final String? value;
+
+  const V1FeedCheckPostLang(this.value);
 }
 
 enum V1MarketPricesGetScope {

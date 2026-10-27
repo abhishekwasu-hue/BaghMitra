@@ -126,3 +126,37 @@ UTC, so 03:17 and 11:47 UTC are 08:47 and 17:17 India time), with `crontab -e`:
 ```
 Same layout as docs/runbooks/weather-pull.md. To stop: delete the lines. Migration
 `0020` must be applied first (it backfills `feed_deadlines` for items already published).
+
+## 9. News headlines (G3; OPEN_QUESTIONS QG5)
+Only sources with tier `news` **and** `terms_status: allowed` are read; everything else is
+reported `refused` and nothing is requested. Seeded: `pib_agriculture_news` (PIB RSS, URL
+[UV], terms `unknown`). Before enabling it, open the feed URL in a browser, confirm it is the
+agriculture releases feed (fix the URL in the registry if not) and read PIB's terms, then
+`PUT /v1/admin/feed/sources/pib_agriculture_news/terms {"terms_status": "allowed", "notes": "..."}`.
+```
+python -m bagmitra_api.feed.news_job       # JSON summary: per source status / added / error
+```
+The run also registers seeded sources missing from an older database (terms `unknown`). Same
+politeness as the GR adapter: robots.txt checked, requests spaced by
+`FEED_FETCH_MIN_INTERVAL_SECONDS`, one try; a blocked, failing or unsafe feed (DTD / entity
+declarations, over 2 MB, not RSS / Atom) is recorded `fetch_failed` once and skipped until the
+terms are set again. Stored per headline: title, link, date, source; never the article text or
+images. Each headline is an `in_review` news item: write **our own** two-line summary with
+`PUT .../items/{id}/texts/en` (and `mr`, `hi`), then approve and publish; the app shows it as
+"News — not official". Duplicates (same guid or link) are not added again.
+
+Suggested cron (every 6 hours, after the terms are recorded), with `crontab -e`:
+```
+23 */6 * * * cd /opt/bagmitra/deploy && docker compose exec -T api python -m bagmitra_api.feed.news_job >> /var/log/bagmitra-feed-news.log 2>&1
+```
+No migration is needed. To stop: delete the line (or set the source's terms to `disallowed`).
+
+## 10. "Check this message" (G3)
+`POST /v1/feed/check?lang=en|mr|hi {"text": "<pasted forward, up to 4000 characters>"}`
+(signed in) answers `official_match`, `possible_match` or `no_official_match` with up to three
+published official items (`id`, `title`, `gr_number`, `published_at`, `url`, `score`) and a
+note that always points to the official portal; it never calls a message fake. Rules
+(`feed/check.py`): GR number / unique code, title words (close spellings count), dates,
+amounts (₹ / lakh), scheme names; an amount that differs is never an official match. The text
+is not stored; the log keeps only its length and the verdict. Limit: `FEED_CHECK_RATE_LIMIT`
+checks (default 20) per user per `FEED_CHECK_RATE_WINDOW_SECONDS` (3600), in memory (HTTP 429).

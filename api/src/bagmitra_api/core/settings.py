@@ -115,6 +115,10 @@ class Settings(BaseSettings):
     feed_fetch_timeout_seconds: float = 30.0
     feed_fetch_user_agent: str = "BagMitra-Feed/1.0 (+manual review; contact via repository)"
     feed_page_size: int = 50
+    # "Check this message" (G3): requests per signed-in user per window (in memory, per API
+    # process). The pasted text is never stored.
+    feed_check_rate_limit: int = Field(default=20, ge=1)
+    feed_check_rate_window_seconds: float = 3600.0
     # OCR for uploaded PDFs whose text layer is missing or broken Marathi (QG2). Off unless
     # set AND `tesseract` (with the language below) and `pdftoppm` are installed; local only.
     feed_ocr_enabled: bool = False
