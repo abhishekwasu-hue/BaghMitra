@@ -29,6 +29,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 
 import 'test_db.dart';
@@ -113,6 +114,7 @@ Future<AppDatabase> pumpApp(
   AppLog? log,
   SpeechRecognizer? recognizer,
   ScoutingPhotos? photos,
+  List<Override> overrides = const [],
 }) async {
   tester.view.physicalSize = phoneSize * 3;
   tester.view.devicePixelRatio = 3;
@@ -187,6 +189,7 @@ Future<AppDatabase> pumpApp(
         ),
         if (syncStatus != null)
           syncStatusProvider.overrideWithValue(AsyncData(syncStatus)),
+        ...overrides,
       ],
       child: BagMitraApp(
         locale: locale,

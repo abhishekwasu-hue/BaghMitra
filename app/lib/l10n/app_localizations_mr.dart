@@ -1212,4 +1212,95 @@ class AppLocalizationsMr extends AppLocalizations {
   @override
   String get irrigationSourcesLine =>
       'स्रोत: NHB, डॉ. पंदेकृवि अकोला आणि प्रकाशित लिंबूवर्गीय संशोधन. प्रत्येक मुद्द्याखाली तपशील.';
+
+  @override
+  String get feedTitle => 'सरकारी संदेश';
+
+  @override
+  String get feedOpenHint => 'अधिकृत GR, योजना आणि शेवटच्या तारखा';
+
+  @override
+  String get feedFilterAll => 'सगळे';
+
+  @override
+  String get feedFilterOfficial => 'अधिकृत';
+
+  @override
+  String get feedFilterSchemes => 'योजना';
+
+  @override
+  String get feedFilterDeadlines => 'शेवटच्या तारखा';
+
+  @override
+  String get feedFilterNews => 'बातम्या';
+
+  @override
+  String get feedBadgeOfficial => 'अधिकृत';
+
+  @override
+  String feedGrNumber(String number) {
+    return 'GR क्र. $number';
+  }
+
+  @override
+  String get feedBadgeNews => 'बातमी — अधिकृत नाही';
+
+  @override
+  String feedReplacedBy(String replacement) {
+    return 'मागे घेतले. याच्या जागी आता: $replacement';
+  }
+
+  @override
+  String feedExpired(String date) {
+    return 'आता लागू नाही ($date ला संपले)';
+  }
+
+  @override
+  String feedMayBeEligible(String reason) {
+    return 'तुम्ही पात्र असू शकता कारण $reason';
+  }
+
+  @override
+  String get feedFooter => 'काही करण्याआधी अधिकृत GR/पोर्टल तपासा.';
+
+  @override
+  String feedDeadline(String date) {
+    return 'शेवटची तारीख: $date';
+  }
+
+  @override
+  String feedUpdated(String date) {
+    return '$date ला अद्ययावत';
+  }
+
+  @override
+  String get feedEmpty => 'अजून संदेश नाहीत. फोन ऑनलाइन असताना येतील.';
+
+  @override
+  String get feedRemindMe => 'मला आठवण करा';
+
+  @override
+  String feedReminderAdded(String date) {
+    return '$date साठी तुमच्या कामांत जोडले';
+  }
+
+  @override
+  String get feedReminderExists => 'आधीच तुमच्या कामांत आहे';
+
+  @override
+  String get feedShare => 'पाठवा';
+
+  @override
+  String get feedCopyLink => 'स्रोताची लिंक कॉपी करा';
+
+  @override
+  String get feedLinkCopied => 'लिंक कॉपी झाली. ब्राउझरमध्ये उघडा.';
+
+  @override
+  String feedSource(String url) {
+    return 'स्रोत: $url';
+  }
+
+  @override
+  String get feedNotFound => 'हा संदेश आता जतन यादीत नाही.';
 }

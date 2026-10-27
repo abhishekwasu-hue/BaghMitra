@@ -1217,4 +1217,96 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get irrigationSourcesLine =>
       'Sources: NHB, Dr. PDKV Akola and published citrus research. Details under each point.';
+
+  @override
+  String get feedTitle => 'Sarkari Sandesh';
+
+  @override
+  String get feedOpenHint => 'Official GRs, schemes and last dates';
+
+  @override
+  String get feedFilterAll => 'All';
+
+  @override
+  String get feedFilterOfficial => 'Official';
+
+  @override
+  String get feedFilterSchemes => 'Schemes';
+
+  @override
+  String get feedFilterDeadlines => 'Deadlines';
+
+  @override
+  String get feedFilterNews => 'News';
+
+  @override
+  String get feedBadgeOfficial => 'Official';
+
+  @override
+  String feedGrNumber(String number) {
+    return 'GR $number';
+  }
+
+  @override
+  String get feedBadgeNews => 'News — not official';
+
+  @override
+  String feedReplacedBy(String replacement) {
+    return 'Withdrawn. Replaced by $replacement';
+  }
+
+  @override
+  String feedExpired(String date) {
+    return 'No longer valid (ended $date)';
+  }
+
+  @override
+  String feedMayBeEligible(String reason) {
+    return 'You may be eligible because $reason';
+  }
+
+  @override
+  String get feedFooter => 'Check the official GR/portal before acting.';
+
+  @override
+  String feedDeadline(String date) {
+    return 'Last date: $date';
+  }
+
+  @override
+  String feedUpdated(String date) {
+    return 'Updated $date';
+  }
+
+  @override
+  String get feedEmpty =>
+      'No messages yet. They load when the phone is online.';
+
+  @override
+  String get feedRemindMe => 'Remind me';
+
+  @override
+  String feedReminderAdded(String date) {
+    return 'Added to your tasks for $date';
+  }
+
+  @override
+  String get feedReminderExists => 'Already in your tasks';
+
+  @override
+  String get feedShare => 'Share';
+
+  @override
+  String get feedCopyLink => 'Copy source link';
+
+  @override
+  String get feedLinkCopied => 'Link copied. Open it in your browser.';
+
+  @override
+  String feedSource(String url) {
+    return 'Source: $url';
+  }
+
+  @override
+  String get feedNotFound => 'This message is no longer in the saved list.';
 }

@@ -238,6 +238,32 @@ class _HomeBody extends ConsumerWidget {
                     changeCaption: t.vsLastWeek,
                     rising: m.weeklyChangePct >= 0,
                   ),
+                  if (config.sarkariSandeshEnabled) ...[
+                    const SizedBox(height: BmSpace.md),
+                    SectionHeader(
+                      title: t.feedTitle,
+                      action: t.seeAll,
+                      onAction: () => context.push(Routes.feed),
+                    ),
+                    BmCard(
+                      elevated: false,
+                      padding: EdgeInsets.zero,
+                      child: Material(
+                        type: MaterialType.transparency,
+                        child: ListTile(
+                          key: const Key('open-feed'),
+                          leading: Icon(
+                            Icons.account_balance_outlined,
+                            color: context.bm.brand,
+                          ),
+                          title: Text(t.feedTitle, style: BmType.bodyStrong),
+                          subtitle: Text(t.feedOpenHint, style: BmType.meta),
+                          trailing: const Icon(Icons.chevron_right),
+                          onTap: () => context.push(Routes.feed),
+                        ),
+                      ),
+                    ),
+                  ],
                 ],
               ),
             ),
