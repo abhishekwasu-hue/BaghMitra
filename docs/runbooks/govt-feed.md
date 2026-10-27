@@ -27,7 +27,8 @@ once and never retried; upload by hand instead.
 
 ## 3. Upload a GR by hand
 `POST /v1/admin/feed/items` (JSON). The document is optional, base64 in `document_base64`
-with `document_type` `pdf` or `html`; only its SHA-256 and size are kept (QG1).
+with `document_type` `pdf` or `html`; only its SHA-256 and size are kept (QG1). Without
+`extracted_text` the server extracts the text itself (§3a).
 ```json
 {"source_key": "mh_gr_portal", "type": "scheme", "published_at": "2026-10-26T00:00:00Z",
  "url": "https://gr.maharashtra.gov.in/...pdf", "external_id": "<GR unique code>",
@@ -41,6 +42,35 @@ Rules: types `gr | circular | scheme | alert | news`. `Official` trust only for 
 tier `official`. **News** keeps headline + link + our own summary: no `extracted_text`, no
 document, no card. Scheme cards: each stated field cites its page, otherwise `not_stated`.
 Targets: empty fields mean "any"; matching says "may be eligible", never "will receive".
+
+## 3a. Text extraction and OCR (QG2)
+When a document is uploaded **without** `extracted_text`, the server reads it: a PDF's text
+layer (`pypdf`, pages separated by a form feed) or an HTML page's visible text (scripts and
+styles dropped). The result is judged: `ok`, `empty` (scanned PDF, no text layer) or `broken`
+(legacy non-Unicode Marathi fonts such as Kruti Dev / Shree-Lipi: Latin garbage, private-use
+or control characters, vowel signs out of order). Only `ok` text is stored as the item's text
+(the source of the output check and of the AI draft). Text pasted by the admin always wins.
+
+Everything is recorded in the item's `extracted` review event (`GET .../items/{id}` → events):
+`method` (`pdf_text | html | none`), `quality`, `devanagari_ratio`, `pages`, `reason`, `used`
+(`pdf_text | html | ocr | null`), the unused text (`text_layer`, or `ocr.text`) and `ocr`
+(`confidence` 0–100, quality, or `error`). A missing / broken text shows as a check issue
+`text_empty` / `text_broken` (low OCR confidence: `ocr_low_confidence`), so the item **stays in
+review**: upload again with the text pasted, or approve with `accept_check_issues` and a comment.
+
+OCR (off by default; local, free, nothing leaves the server) runs only for PDFs whose text is
+broken or empty. To enable it on the VPS (Abhi runs the block; restart afterwards):
+```
+sudo apt install -y tesseract-ocr tesseract-ocr-mar poppler-utils
+tesseract --list-langs | grep -x mar     # must print: mar
+echo FEED_OCR_ENABLED=true >> .env       # then restart the API
+```
+If the API runs in Docker, the image needs the same packages: uncomment the `RUN apt-get …`
+line in `api/Dockerfile` and rebuild. Without `tesseract`, the `mar` language or `pdftoppm`,
+OCR stays off (logged `feed.ocr.not_installed` / `feed.ocr.language_missing`). Settings:
+`FEED_OCR_LANG` (`mar`), `FEED_OCR_DPI` (300), `FEED_OCR_MAX_PAGES` (40),
+`FEED_OCR_TIMEOUT_SECONDS` (120), `FEED_OCR_MIN_CONFIDENCE` (70). Failures OCR cannot fix go
+to the reviewer (a vision model is not wired; QG2 default).
 
 ## 4. Review and publish
 - Queue: `GET /v1/admin/feed/items` (default `status=in_review`); detail with texts, card,
