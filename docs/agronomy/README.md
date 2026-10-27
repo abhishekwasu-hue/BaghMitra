@@ -16,3 +16,4 @@ santra/mosambi stage templates with citations is the first M1 task.
 | File | Status |
 |---|---|
 | [DRAFT_santra_mosambi_bahar_stages.md](DRAFT_santra_mosambi_bahar_stages.md) | **Draft, unverified.** Bahar calendars for Nagpur mandarin and mosambi, built from search excerpts of CCRI, NHB, ICAR-journal and extension sources, with confidence labels, conflicts and gaps. Needs primary-source verification (OPEN_QUESTIONS Q10). |
+| [DRAFT_irrigation.md](DRAFT_irrigation.md) | **Draft, not expert-reviewed.** Irrigation guide (ओलित तक्ता) per crop, tree age and season from NHB, Dr. PDKV, CCRI/NRCC papers and ICAR-NIASM, with disagreements and unverified items kept apart. Feeds `app/assets/config/irrigation_guide.json` (OPEN_QUESTIONS Q35). |

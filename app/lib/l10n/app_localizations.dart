@@ -1959,6 +1959,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sources: NHB and Dr. PDKV, Akola. Details under each practice.'**
   String get practicesSourcesLine;
+
+  /// No description provided for @irrigationOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Irrigation guide (ओलित तक्ता)'**
+  String get irrigationOpen;
+
+  /// No description provided for @irrigationGuideTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Irrigation guide'**
+  String get irrigationGuideTitle;
+
+  /// No description provided for @irrigationCaveat.
+  ///
+  /// In en, this message translates to:
+  /// **'Amounts depend on your soil, the tree\'s canopy and the weather. Check with your KVK before you change your watering.'**
+  String get irrigationCaveat;
+
+  /// No description provided for @irrigationCropLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Crop'**
+  String get irrigationCropLabel;
+
+  /// No description provided for @irrigationAgeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Tree age'**
+  String get irrigationAgeLabel;
+
+  /// No description provided for @irrigationPlanted.
+  ///
+  /// In en, this message translates to:
+  /// **'Planted in {year}: about {years} years old'**
+  String irrigationPlanted(String year, String years);
+
+  /// No description provided for @irrigationNoPlantingYear.
+  ///
+  /// In en, this message translates to:
+  /// **'Planting year not entered for this block. Choose the tree age.'**
+  String get irrigationNoPlantingYear;
+
+  /// No description provided for @irrigationNoRows.
+  ///
+  /// In en, this message translates to:
+  /// **'No figure in the sources for this tree age yet.'**
+  String get irrigationNoRows;
+
+  /// No description provided for @irrigationStagesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Flowering, fruit and bahar rest'**
+  String get irrigationStagesTitle;
+
+  /// No description provided for @irrigationGapsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Not found in the sources yet'**
+  String get irrigationGapsTitle;
+
+  /// No description provided for @irrigationSourcesLine.
+  ///
+  /// In en, this message translates to:
+  /// **'Sources: NHB, Dr. PDKV Akola and published citrus research. Details under each point.'**
+  String get irrigationSourcesLine;
 }
 
 class _AppLocalizationsDelegate

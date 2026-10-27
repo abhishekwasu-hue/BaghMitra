@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../app/providers.dart';
+import '../../../app/router.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../data/practice_cards.dart';
@@ -55,6 +57,14 @@ class PracticesScreen extends ConsumerWidget {
           t.practicesTitle,
           style: BmType.section.copyWith(color: c.brand),
         ),
+        actions: [
+          IconButton(
+            key: const Key('open-irrigation-guide-all'),
+            tooltip: t.irrigationOpen,
+            icon: Icon(Icons.water_drop_outlined, color: c.brand),
+            onPressed: () => context.push(Routes.irrigation),
+          ),
+        ],
       ),
       body: data == null
           ? const Center(child: CircularProgressIndicator())
