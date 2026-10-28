@@ -272,6 +272,22 @@ enum V1FeedCheckPostLang {
   const V1FeedCheckPostLang(this.value);
 }
 
+enum V1InsuranceDeadlinesGetLang {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('en')
+  en('en'),
+  @JsonValue('mr')
+  mr('mr'),
+  @JsonValue('hi')
+  hi('hi');
+
+  final String? value;
+
+  const V1InsuranceDeadlinesGetLang(this.value);
+}
+
 enum V1MarketPricesGetScope {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),

@@ -5,6 +5,9 @@ import 'package:flutter_test/flutter_test.dart';
 
 import '../helpers/test_db.dart';
 
+/// Tables added in v12 (crop insurance and claim kits).
+const v12Tables = "('insurance_policies', 'claim_kits', 'claim_photos')";
+
 /// Upgrading from schema v1 (M0) must keep existing data and add later tables.
 void main() {
   test(
@@ -92,7 +95,7 @@ void main() {
     final ddl = await fresh
         .customSelect(
           "SELECT sql FROM sqlite_master WHERE type = 'table' "
-          "AND name NOT LIKE 'sqlite_%'",
+          "AND name NOT LIKE 'sqlite_%' AND name NOT IN $v12Tables",
         )
         .map((r) => r.read<String>('sql'))
         .map(
@@ -118,6 +121,63 @@ void main() {
         .map((r) => r.read<String>('name'))
         .get();
     expect(cols, contains('photo_key'));
+    await db.close();
+  });
+
+  test('v11 -> v12 adds insurance policies and claim kits, keeps data', () async {
+    final fresh = memoryDb();
+    final ddl = await fresh
+        .customSelect(
+          "SELECT sql FROM sqlite_master WHERE type = 'table' "
+          "AND name NOT LIKE 'sqlite_%' AND name NOT IN $v12Tables",
+        )
+        .map((r) => r.read<String>('sql'))
+        .get();
+    await fresh.close();
+    expect(ddl.join(), isNot(contains('insurance_policies')));
+
+    driftRuntimeOptions.dontWarnAboutMultipleDatabases = true;
+    final db = AppDatabase(
+      NativeDatabase.memory(
+        setup: (raw) {
+          for (final stmt in ddl) {
+            raw.execute(stmt);
+          }
+          raw.execute(
+            'INSERT INTO plots (id, name, crop, area_sq_m, client_updated_at) '
+            "VALUES ('p1', 'Bag 1', 'santra', 100, '2026-01-01T00:00:00.000Z')",
+          );
+          raw.execute('PRAGMA user_version = 11');
+        },
+      ),
+    );
+    expect(db.schemaVersion, 12);
+    expect(await db.select(db.plots).get(), hasLength(1));
+    await db
+        .into(db.insurancePolicies)
+        .insert(
+          InsurancePoliciesCompanion.insert(
+            id: 'i1',
+            plotId: 'p1',
+            scheme: 'rwbcis',
+            season: 'ambia',
+            clientUpdatedAt: DateTime.utc(2026),
+          ),
+        );
+    final policy = await db.select(db.insurancePolicies).getSingle();
+    expect(policy.premiumPaidPaise, isNull);
+    await db
+        .into(db.claimKits)
+        .insert(
+          ClaimKitsCompanion.insert(
+            id: 'k1',
+            plotId: 'p1',
+            lossOn: DateTime(2026, 10, 12),
+            updatedAt: DateTime.utc(2026),
+          ),
+        );
+    expect((await db.select(db.claimKits).getSingle()).checklist, '[]');
+    expect(await db.select(db.claimPhotos).get(), isEmpty);
     await db.close();
   });
 }

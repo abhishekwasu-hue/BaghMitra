@@ -40,6 +40,8 @@ void main() {
     ('/plots/p1/sprays/new', seedWithSpray),
     ('/plots/p1/accounts', seedAccounts),
     ('/plots/p1/labour/new', seedPlot),
+    ('/plots/p1/insurance/new', seedPlot),
+    ('/claim-kit?plot=p1', seedPlot),
   ]) {
     testWidgets('tap targets and contrast on $location', (tester) async {
       final handle = tester.ensureSemantics();

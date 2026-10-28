@@ -23,6 +23,8 @@ import '../features/field_work/presentation/labour_screens.dart';
 import '../features/home/presentation/home_screen.dart';
 import '../features/inputs/presentation/add_input_screens.dart';
 import '../features/inputs/presentation/field_log_screen.dart';
+import '../features/insurance/presentation/claim_kit_screen.dart';
+import '../features/insurance/presentation/insurance_screens.dart';
 import '../features/labels/presentation/label_info_screen.dart';
 import '../features/market/presentation/market_prices_screen.dart';
 import '../features/plots/presentation/add_plot_screen.dart';
@@ -94,6 +96,14 @@ abstract final class Routes {
   static String addHarvest(String plotId) => '/plots/$plotId/harvest/new';
   static String scouting(String plotId) => '/plots/$plotId/scouting';
   static String addScouting(String plotId) => '/plots/$plotId/scouting/new';
+  static String insurance(String plotId) => '/plots/$plotId/insurance';
+  static String addPolicy(String plotId) => '/plots/$plotId/insurance/new';
+  static String editPolicy(String plotId, String policyId) =>
+      '/plots/$plotId/insurance/$policyId';
+  static const claimKit = '/claim-kit';
+  static String newClaimKit([String? plotId]) =>
+      plotId == null ? claimKit : '$claimKit?plot=$plotId';
+  static String openClaimKit(String claimId) => '$claimKit/$claimId';
   static String fieldLog(String plotId) => '/plots/$plotId/log';
   static String addInput(String plotId) => '/plots/$plotId/log/input';
   static String addIrrigation(String plotId) => '/plots/$plotId/log/irrigation';
@@ -254,6 +264,30 @@ GoRouter buildRouter(
       GoRoute(
         path: '/plots/:id/scouting/new',
         builder: (_, s) => AddScoutingScreen(plotId: s.pathParameters['id']!),
+      ),
+      GoRoute(
+        path: '/plots/:id/insurance',
+        builder: (_, s) => InsuranceScreen(plotId: s.pathParameters['id']!),
+      ),
+      GoRoute(
+        path: '/plots/:id/insurance/new',
+        builder: (_, s) => PolicyFormScreen(plotId: s.pathParameters['id']!),
+      ),
+      GoRoute(
+        path: '/plots/:id/insurance/:policyId',
+        builder: (_, s) => PolicyFormScreen(
+          plotId: s.pathParameters['id']!,
+          policyId: s.pathParameters['policyId'],
+        ),
+      ),
+      GoRoute(
+        path: Routes.claimKit,
+        builder: (_, s) =>
+            ClaimKitScreen(plotId: s.uri.queryParameters['plot']),
+      ),
+      GoRoute(
+        path: '${Routes.claimKit}/:claimId',
+        builder: (_, s) => ClaimKitScreen(claimId: s.pathParameters['claimId']),
       ),
       GoRoute(
         path: '/plots/:id/log',

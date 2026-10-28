@@ -28,6 +28,7 @@ SAMPLE: dict[str, Any] = {
         "precipitation_sum": [0.0, 12.5],
         "relative_humidity_2m_mean": [31, None],
         "wind_gusts_10m_max": [24.1, 61.2],
+        "weather_code": [3, 95],
     },
 }
 
@@ -35,8 +36,8 @@ SAMPLE: dict[str, Any] = {
 def test_parse_daily_maps_each_day_and_keeps_missing_values_missing() -> None:
     days = parse_daily(SAMPLE)
     assert days == [
-        DailyWeather(date(2026, 3, 14), 38.4, 21.0, 0.0, 31.0, 24.1),
-        DailyWeather(date(2026, 3, 15), 40.1, 22.6, 12.5, None, 61.2),
+        DailyWeather(date(2026, 3, 14), 38.4, 21.0, 0.0, 31.0, 24.1, 3.0),
+        DailyWeather(date(2026, 3, 15), 40.1, 22.6, 12.5, None, 61.2, 95.0),
     ]
 
 

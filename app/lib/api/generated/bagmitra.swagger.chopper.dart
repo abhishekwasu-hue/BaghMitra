@@ -953,6 +953,34 @@ their profile; undoes a dismiss. Only for a published item that has a date.''',
   }
 
   @override
+  Future<Response<InsuranceDeadlinesResponse>> _v1InsuranceDeadlinesGet({
+    String? lang,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Enrolment dates of published official crop insurance notices, soonest first.',
+      summary: 'Deadlines',
+      operationId: 'insurance_deadlines',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["insurance"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/insurance/deadlines');
+    final Map<String, dynamic> $params = <String, dynamic>{'lang': lang};
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+      tag: swaggerMetaData,
+    );
+    return client.send<InsuranceDeadlinesResponse, InsuranceDeadlinesResponse>(
+      $request,
+    );
+  }
+
+  @override
   Future<Response<MarketPrices>> _v1MarketPricesGet({
     required String? crop,
     String? scope,

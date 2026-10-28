@@ -2028,6 +2028,69 @@
         "title": "ImportOut",
         "type": "object"
       },
+      "InsuranceDeadlineOut": {
+        "properties": {
+          "due_date": {
+            "format": "date",
+            "title": "Due Date",
+            "type": "string"
+          },
+          "item_id": {
+            "format": "uuid",
+            "title": "Item Id",
+            "type": "string"
+          },
+          "season": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Season"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "url": {
+            "title": "Url",
+            "type": "string"
+          }
+        },
+        "required": [
+          "item_id",
+          "title",
+          "due_date",
+          "url",
+          "season"
+        ],
+        "title": "InsuranceDeadlineOut",
+        "type": "object"
+      },
+      "InsuranceDeadlinesResponse": {
+        "properties": {
+          "footer": {
+            "title": "Footer",
+            "type": "string"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/InsuranceDeadlineOut"
+            },
+            "title": "Items",
+            "type": "array"
+          }
+        },
+        "required": [
+          "items",
+          "footer"
+        ],
+        "title": "InsuranceDeadlinesResponse",
+        "type": "object"
+      },
       "LabelClaimOut": {
         "properties": {
           "active_ingredient": {
@@ -3250,6 +3313,17 @@
       },
       "WeatherAlert": {
         "properties": {
+          "action": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Action"
+          },
           "first_day": {
             "format": "date",
             "title": "First Day",
@@ -3349,6 +3423,17 @@
               }
             ],
             "title": "T Min C"
+          },
+          "weather_code": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Weather Code"
           },
           "wind_gust_kmh": {
             "anyOf": [
@@ -6179,6 +6264,70 @@
         "summary": "Mark Seen",
         "tags": [
           "feed"
+        ]
+      }
+    },
+    "/v1/insurance/deadlines": {
+      "get": {
+        "description": "Enrolment dates of published official crop insurance notices, soonest first.",
+        "operationId": "insurance_deadlines",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "lang",
+            "required": false,
+            "schema": {
+              "default": "en",
+              "enum": [
+                "en",
+                "mr",
+                "hi"
+              ],
+              "title": "Lang",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InsuranceDeadlinesResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Deadlines",
+        "tags": [
+          "insurance"
         ]
       }
     },

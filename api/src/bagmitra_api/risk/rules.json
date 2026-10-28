@@ -1,5 +1,5 @@
 {
-  "_note": "Weather risk rules (knowledge addendum v1.3 §3.7). Starting points for local calibration; draft until the expert reviewer approves (OPEN_QUESTIONS Q12). Alert texts state the risk and what to check, never a chemical.",
+  "_note": "Weather risk rules (knowledge addendum v1.3 §3.7). Starting points for local calibration; draft until the expert reviewer approves (OPEN_QUESTIONS Q12). Alert texts state the risk and what to check, never a chemical. Storm rules (hail / wind / heavy or unseasonal rain) only say what weather is expected and link to the claim kit (action claim_kit); thresholds are drafts to calibrate (OPEN_QUESTIONS Q38).",
   "rules": [
     {
       "key": "heat_fruit_drop",
@@ -28,6 +28,79 @@
         "en": "Warm days favour citrus psylla development. Look for psylla on new flush. Verify with your local expert.",
         "mr": "उबदार दिवस सिट्रस सायलाच्या वाढीस अनुकूल. नवीन पालवीवर सायला आहे का ते पाहा. स्थानिक तज्ज्ञांकडून खात्री करा.",
         "hi": "गर्म दिन सिट्रस सिला के विकास के अनुकूल। नई कोंपलों पर सिला देखें। स्थानीय विशेषज्ञ से पुष्टि करें।"
+      }
+    },
+    {
+      "key": "hail_thunderstorm",
+      "kind": "threshold",
+      "field": "weather_code",
+      "op": ">=",
+      "value": 95,
+      "min_days": 1,
+      "status": "draft",
+      "action": "claim_kit",
+      "source": "Open-Meteo daily weather_code (WMO 4677): 95 thunderstorm, 96/99 thunderstorm with hail. Open-Meteo marks the hail codes as reliable only in Central Europe, so any thunderstorm day alerts. Draft.",
+      "labels": {
+        "en": "Thunderstorm expected, hail possible. If the orchard is damaged, take loss photos now and open the claim kit. Check your policy for how to report a loss.",
+        "mr": "वादळी पावसाचा अंदाज, गारपीट होऊ शकते. बागेचे नुकसान झाल्यास लगेच नुकसानीचे फोटो काढा आणि क्लेम किट उघडा. नुकसान कसे कळवायचे ते तुमच्या पॉलिसीत तपासा.",
+        "hi": "आंधी-तूफ़ान का अनुमान, ओले गिर सकते हैं। बाग को नुकसान हो तो अभी नुकसान की फ़ोटो लें और क्लेम किट खोलें। नुकसान की सूचना कैसे दें, अपनी पॉलिसी में देखें।"
+      }
+    },
+    {
+      "key": "high_wind_gust",
+      "kind": "threshold",
+      "field": "wind_gust_kmh",
+      "op": ">=",
+      "value": 60,
+      "min_days": 1,
+      "status": "draft",
+      "action": "claim_kit",
+      "source": "IMD thunderstorm / squall warning wording (gusty winds 40-60 km/h and above); 60 km/h daily max gust (Open-Meteo wind_gusts_10m_max) is a draft starting point for fruit drop and branch damage, to be calibrated locally.",
+      "labels": {
+        "en": "Strong wind gusts of 60 km/h or more expected: risk of fruit drop and broken branches. If the orchard is damaged, take loss photos now and open the claim kit. Check your policy for how to report a loss.",
+        "mr": "ताशी ६० किमी किंवा अधिक वेगाच्या जोरदार वाऱ्याचा अंदाज: फळगळ व फांद्या तुटण्याचा धोका. बागेचे नुकसान झाल्यास लगेच नुकसानीचे फोटो काढा आणि क्लेम किट उघडा. नुकसान कसे कळवायचे ते तुमच्या पॉलिसीत तपासा.",
+        "hi": "60 किमी/घंटा या अधिक की तेज़ हवा का अनुमान: फल गिरने और डालियाँ टूटने का जोखिम। बाग को नुकसान हो तो अभी नुकसान की फ़ोटो लें और क्लेम किट खोलें। नुकसान की सूचना कैसे दें, अपनी पॉलिसी में देखें।"
+      }
+    },
+    {
+      "key": "heavy_rain",
+      "kind": "threshold",
+      "field": "precip_mm",
+      "op": ">=",
+      "value": 64.5,
+      "min_days": 1,
+      "status": "draft",
+      "action": "claim_kit",
+      "source": "IMD rainfall intensity terms: heavy rain 64.5-115.5 mm in 24 h (Open-Meteo precipitation_sum). Draft.",
+      "labels": {
+        "en": "Heavy rain of 64.5 mm or more in a day expected: risk of water-logging and fruit drop. If the orchard is damaged, take loss photos now and open the claim kit. Check your policy for how to report a loss.",
+        "mr": "एका दिवसात ६४.५ मिमी किंवा अधिक मुसळधार पावसाचा अंदाज: पाणी साचण्याचा व फळगळीचा धोका. बागेचे नुकसान झाल्यास लगेच नुकसानीचे फोटो काढा आणि क्लेम किट उघडा. नुकसान कसे कळवायचे ते तुमच्या पॉलिसीत तपासा.",
+        "hi": "एक दिन में 64.5 मिमी या अधिक भारी बारिश का अनुमान: जलभराव और फल गिरने का जोखिम। बाग को नुकसान हो तो अभी नुकसान की फ़ोटो लें और क्लेम किट खोलें। नुकसान की सूचना कैसे दें, अपनी पॉलिसी में देखें।"
+      }
+    },
+    {
+      "key": "unseasonal_rain",
+      "kind": "threshold",
+      "field": "precip_mm",
+      "op": ">=",
+      "value": 15.6,
+      "min_days": 1,
+      "months": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "status": "draft",
+      "action": "claim_kit",
+      "source": "IMD rainfall intensity terms: rather heavy rain 15.6-64.4 mm in 24 h; months November to May are outside the south-west monsoon and its withdrawal over Vidarbha (IMD seasons). Draft: months and amount to be calibrated.",
+      "labels": {
+        "en": "Unseasonal rain of 15.6 mm or more expected outside the monsoon: risk to flowers and fruit. If the orchard is damaged, take loss photos now and open the claim kit. Check your policy for how to report a loss.",
+        "mr": "पावसाळ्याबाहेर १५.६ मिमी किंवा अधिक अवकाळी पावसाचा अंदाज: फुले व फळांना धोका. बागेचे नुकसान झाल्यास लगेच नुकसानीचे फोटो काढा आणि क्लेम किट उघडा. नुकसान कसे कळवायचे ते तुमच्या पॉलिसीत तपासा.",
+        "hi": "मानसून के बाहर 15.6 मिमी या अधिक बेमौसम बारिश का अनुमान: फूल और फल को जोखिम। बाग को नुकसान हो तो अभी नुकसान की फ़ोटो लें और क्लेम किट खोलें। नुकसान की सूचना कैसे दें, अपनी पॉलिसी में देखें।"
       }
     }
   ]

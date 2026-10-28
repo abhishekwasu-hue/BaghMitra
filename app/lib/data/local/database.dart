@@ -253,6 +253,58 @@ class ScoutingRecords extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
+/// Crop insurance policies (mirror of the API `insurance_policy` entity). Whatever the
+/// grower typed in; amounts are optional whole paise and never filled in by the app.
+@DataClassName('InsurancePolicyRow')
+class InsurancePolicies extends Table {
+  TextColumn get id => text()();
+  TextColumn get plotId => text()();
+  TextColumn get scheme => text()();
+  TextColumn get season => text()();
+  IntColumn get seasonYear => integer().nullable()();
+  TextColumn get insurerName => text().nullable()();
+  TextColumn get policyNumber => text().nullable()();
+  IntColumn get sumInsuredPaise => integer().nullable()();
+  IntColumn get premiumPaidPaise => integer().nullable()();
+  DateTimeColumn get enrolledOn => dateTime().nullable()();
+  TextColumn get note => text().nullable()();
+  DateTimeColumn get clientUpdatedAt => dateTime()();
+
+  @override
+  Set<Column<Object>> get primaryKey => {id};
+}
+
+/// Crop-loss claim kits. Local only (photos and notes stay on this phone, OPEN_QUESTIONS
+/// Q37); [checklist] is a JSON list of the ticked checklist keys.
+@DataClassName('ClaimKitRow')
+class ClaimKits extends Table {
+  TextColumn get id => text()();
+  TextColumn get plotId => text()();
+  DateTimeColumn get lossOn => dateTime()();
+  TextColumn get note => text().nullable()();
+  TextColumn get checklist => text().withDefault(const Constant('[]'))();
+  DateTimeColumn get updatedAt => dateTime()();
+
+  @override
+  Set<Column<Object>> get primaryKey => {id};
+}
+
+/// One loss photo of a claim kit, stamped when and where it was added in the app.
+/// Local only: [path] is the file on this phone.
+@DataClassName('ClaimPhotoRow')
+class ClaimPhotos extends Table {
+  TextColumn get id => text()();
+  TextColumn get claimId => text()();
+  TextColumn get path => text()();
+  DateTimeColumn get takenAt => dateTime()();
+  RealColumn get lat => real().nullable()();
+  RealColumn get lon => real().nullable()();
+  RealColumn get accuracyM => real().nullable()();
+
+  @override
+  Set<Column<Object>> get primaryKey => {id};
+}
+
 /// Small key/value store for sync cursors and similar bookkeeping.
 class SyncMeta extends Table {
   TextColumn get key => text()();
@@ -278,6 +330,9 @@ class SyncMeta extends Table {
     LabourRecords,
     FarmTasks,
     ScoutingRecords,
+    InsurancePolicies,
+    ClaimKits,
+    ClaimPhotos,
   ],
 )
 class AppDatabase extends _$AppDatabase {
@@ -286,7 +341,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.open(String name) : super(driftDatabase(name: name));
 
   @override
-  int get schemaVersion => 11;
+  int get schemaVersion => 12;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -315,6 +370,11 @@ class AppDatabase extends _$AppDatabase {
       // Created above with the column already when coming from before 9.
       if (from >= 9 && from < 11) {
         await m.addColumn(scoutingRecords, scoutingRecords.photoKey);
+      }
+      if (from < 12) {
+        await m.createTable(insurancePolicies);
+        await m.createTable(claimKits);
+        await m.createTable(claimPhotos);
       }
     },
   );

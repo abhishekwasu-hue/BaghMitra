@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -35,6 +37,11 @@ import '../features/home/domain/home_snapshot.dart';
 import '../features/inputs/data/input_kinds.dart';
 import '../features/inputs/data/inputs_repository.dart';
 import '../features/inputs/domain/field_records.dart';
+import '../features/insurance/data/claim_kit_repository.dart';
+import '../features/insurance/data/insurance_deadlines_cache.dart';
+import '../features/insurance/data/insurance_repository.dart';
+import '../features/insurance/domain/claim_kit.dart';
+import '../features/insurance/domain/insurance_policy.dart';
 import '../features/labels/data/label_claims_cache.dart';
 import '../features/market/data/market_prices_cache.dart';
 import '../features/plots/data/crop_catalog.dart';
@@ -498,6 +505,60 @@ final scoutingPhotoFileProvider = FutureProvider.autoDispose
       return ref.watch(scoutingPhotoBackupProvider).localPhoto(record);
     });
 
+final insuranceRepositoryProvider = Provider<InsuranceRepository>(
+  (ref) => InsuranceRepository(
+    ref.watch(databaseProvider),
+    clock: ref.watch(clockProvider),
+  ),
+);
+
+final insurancePoliciesProvider =
+    StreamProvider.family<List<InsurancePolicy>, String>(
+      (ref, plotId) =>
+          ref.watch(insuranceRepositoryProvider).watchForPlot(plotId),
+    );
+
+/// Where loss photos come from (camera / gallery, kept on this phone). Tests fake it.
+final claimPhotosProvider = Provider<ScoutingPhotos>(
+  (ref) => DeviceScoutingPhotos(folderName: 'claim_photos'),
+);
+
+/// Reads a kept loss photo for the PDF; null when the file is gone. Tests fake it.
+final claimPhotoBytesProvider = Provider<Future<Uint8List?> Function(String)>(
+  (ref) => (path) async {
+    final file = File(path);
+    return await file.exists() ? file.readAsBytes() : null;
+  },
+);
+
+final claimKitRepositoryProvider = Provider<ClaimKitRepository>(
+  (ref) => ClaimKitRepository(
+    ref.watch(databaseProvider),
+    clock: ref.watch(clockProvider),
+    photos: ref.watch(claimPhotosProvider),
+  ),
+);
+
+final claimKitsProvider = StreamProvider<List<ClaimKit>>(
+  (ref) => ref.watch(claimKitRepositoryProvider).watchAll(),
+);
+
+final insuranceDeadlinesCacheProvider = Provider<InsuranceDeadlinesCache>(
+  (ref) => InsuranceDeadlinesCache(
+    ref.watch(databaseProvider),
+    api: ref.watch(apiProvider),
+  ),
+);
+
+/// Enrolment deadlines from published official notices, per language. Online (not demo)
+/// they are refreshed first; offline the cached list is used. Empty means none is shown.
+final insuranceDeadlinesProvider =
+    FutureProvider.family<List<InsuranceDeadline>, String>((ref, lang) async {
+      final cache = ref.watch(insuranceDeadlinesCacheProvider);
+      if (!ref.watch(appConfigProvider).demoMode) await cache.refresh(lang);
+      return cache.load(lang);
+    });
+
 /// Where diagnostics go. `main` swaps in the file-backed log; tests use the in-memory one.
 final appLogProvider = Provider<AppLog>((ref) => MemoryAppLog());
 
@@ -571,6 +632,9 @@ final syncEngineProvider = Provider<SyncEngine>((ref) {
       TasksRepository.entity: ref.watch(tasksRepositoryProvider).applyRemote,
       ScoutingRepository.entity: ref
           .watch(scoutingRepositoryProvider)
+          .applyRemote,
+      InsuranceRepository.entity: ref
+          .watch(insuranceRepositoryProvider)
           .applyRemote,
     },
   );

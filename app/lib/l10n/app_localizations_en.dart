@@ -1819,4 +1819,225 @@ class AppLocalizationsEn extends AppLocalizations {
   String accountPreviousPhone(String phone) {
     return 'Previous account: $phone';
   }
+
+  @override
+  String get insuranceTitle => 'Crop insurance';
+
+  @override
+  String get insuranceEmpty =>
+      'No policy recorded for this plot yet. Add the crop insurance you took, or open the claim kit after a loss.';
+
+  @override
+  String get insurancePoliciesNone => 'No policy recorded yet.';
+
+  @override
+  String get insuranceAdd => 'Add policy';
+
+  @override
+  String get insuranceEdit => 'Edit policy';
+
+  @override
+  String get insuranceScheme => 'Scheme';
+
+  @override
+  String get insuranceSchemePmfby => 'PM crop insurance (PMFBY)';
+
+  @override
+  String get insuranceSchemeRwbcis => 'Weather-based fruit crop (RWBCIS)';
+
+  @override
+  String get insuranceSchemeOther => 'Other';
+
+  @override
+  String get insuranceSchemeUnknown => 'Don\'t know';
+
+  @override
+  String get insuranceSeason => 'Bahar';
+
+  @override
+  String get insuranceSeasonAmbia => 'Ambia bahar';
+
+  @override
+  String get insuranceSeasonMrig => 'Mrig bahar';
+
+  @override
+  String get insuranceSeasonYear => 'Year (optional)';
+
+  @override
+  String get insuranceInsurer => 'Insurance company (optional)';
+
+  @override
+  String get insurancePolicyNumber => 'Policy or application number (optional)';
+
+  @override
+  String get insuranceSumInsured => 'Sum insured ₹ (optional)';
+
+  @override
+  String get insurancePremium => 'Premium paid ₹ (optional)';
+
+  @override
+  String get insuranceAmountsHint =>
+      'Enter amounts only as printed on your receipt.';
+
+  @override
+  String get insuranceEnrolledOn => 'Enrolment date';
+
+  @override
+  String get insuranceNotSet => 'Not set';
+
+  @override
+  String get insuranceNote => 'Note (optional)';
+
+  @override
+  String insurancePolicyNo(String number) {
+    return 'No. $number';
+  }
+
+  @override
+  String insuranceEnrolled(String date) {
+    return 'Enrolled $date';
+  }
+
+  @override
+  String insurancePremiumLine(String amount) {
+    return 'Premium paid $amount';
+  }
+
+  @override
+  String insuranceSumLine(String amount) {
+    return 'Sum insured $amount';
+  }
+
+  @override
+  String insuranceDeadline(String date) {
+    return 'Enrolment deadline: $date';
+  }
+
+  @override
+  String get insuranceDeadlineNote =>
+      'From a published official notice. Check the notice before acting.';
+
+  @override
+  String get insuranceDeletePolicy => 'Delete policy';
+
+  @override
+  String get insuranceDeleteConfirm => 'Delete this policy record?';
+
+  @override
+  String get insuranceClaims => 'Loss records';
+
+  @override
+  String insuranceClaimLine(String date, String count) {
+    return 'Loss on $date · photos: $count';
+  }
+
+  @override
+  String get claimKitTitle => 'Claim kit';
+
+  @override
+  String get claimKitFromAlert => 'Take loss photos · claim kit';
+
+  @override
+  String get claimKitPlot => 'Plot';
+
+  @override
+  String get claimKitPickPlot => 'Pick a plot';
+
+  @override
+  String get claimKitDate => 'Date of loss';
+
+  @override
+  String get claimKitPhotos => 'Loss photos (date and GPS are added)';
+
+  @override
+  String get claimKitNoPhotos => 'No photos yet.';
+
+  @override
+  String get claimKitNoGps => 'GPS not available';
+
+  @override
+  String get claimKitRemovePhoto => 'Remove photo';
+
+  @override
+  String get claimKitNote => 'What happened? (optional)';
+
+  @override
+  String get claimKitChecklist => 'Checklist';
+
+  @override
+  String get claimKitCheckPolicy =>
+      'General guidance only. Rules and time limits differ by policy: check your policy, bank or CSC.';
+
+  @override
+  String get claimCheckInform72h =>
+      'Inform the insurer, your bank or the CSC about the loss soon. Many policies ask for this within 72 hours.';
+
+  @override
+  String get claimCheckPhotos =>
+      'Take dated photos of the damage from several sides of the plot.';
+
+  @override
+  String get claimCheckPanchnama =>
+      'Ask for the panchnama (loss survey) and keep a copy.';
+
+  @override
+  String get claimCheckPolicyCopy =>
+      'Keep your policy or application receipt and a bank passbook copy ready.';
+
+  @override
+  String get claimCheckAcknowledgement =>
+      'Write down the complaint or docket number you get when you inform.';
+
+  @override
+  String get claimCheckKeepFruit =>
+      'Do not clear the damaged fruit or trees before the survey, unless you are told otherwise.';
+
+  @override
+  String get claimKitShare => 'Share PDF';
+
+  @override
+  String get claimKitShareFailed => 'Could not make the PDF. Try again.';
+
+  @override
+  String get claimKitDelete => 'Delete loss record';
+
+  @override
+  String get claimKitDeleteConfirm =>
+      'Delete this loss record and its photos from this phone?';
+
+  @override
+  String get claimKitLocalOnly =>
+      'Photos and notes stay on this phone. Share the PDF when you need it.';
+
+  @override
+  String get claimPdfTitle => 'Crop loss record';
+
+  @override
+  String get claimPdfPlotGps => 'Plot location (GPS)';
+
+  @override
+  String get claimPdfNoGps => 'Not marked';
+
+  @override
+  String get claimPdfPolicy => 'Insurance';
+
+  @override
+  String get claimPdfPhotos => 'Photos';
+
+  @override
+  String get claimPdfNote => 'Note';
+
+  @override
+  String get claimPdfDone => 'Done';
+
+  @override
+  String get claimPdfNotDone => 'Not yet';
+
+  @override
+  String claimPdfMade(String date) {
+    return 'Made on $date. A record kept by the grower, not an insurer\'s document.';
+  }
+
+  @override
+  String get insurancePolicies => 'Policies';
 }
