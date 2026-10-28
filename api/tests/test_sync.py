@@ -51,6 +51,41 @@ async def test_push_applies_profile_and_me_returns_it(
     assert body["phone"] == "919800000000"
 
 
+async def test_phone_sign_in_number_wins_over_payload_phone(
+    client: httpx.AsyncClient, auth_headers: dict[str, str], user_id: uuid.UUID
+) -> None:
+    [result] = await push(client, auth_headers, profile_mutation(user_id, phone="+919811111111"))
+    assert result["status"] == "applied"
+    me = (await client.get("/v1/me", headers=auth_headers)).json()
+    assert me["phone"] == "919800000000"
+
+
+async def test_google_user_contact_phone_is_stored_and_kept(
+    client: httpx.AsyncClient, user_id: uuid.UUID
+) -> None:
+    headers = {"Authorization": f"Bearer {make_token(user_id, email='a@example.com')}"}
+    [result] = await push(client, headers, profile_mutation(user_id, phone="+919811111111"))
+    assert result["status"] == "applied"
+    assert (await client.get("/v1/me", headers=headers)).json()["phone"] == "+919811111111"
+
+    # An app version that sends no phone leaves it alone; an explicit null clears it.
+    later = profile_mutation(user_id, updated_at="2026-10-02T06:00:00Z")
+    await push(client, headers, later)
+    assert (await client.get("/v1/me", headers=headers)).json()["phone"] == "+919811111111"
+    cleared = profile_mutation(user_id, updated_at="2026-10-03T06:00:00Z", phone=None)
+    await push(client, headers, cleared)
+    assert (await client.get("/v1/me", headers=headers)).json()["phone"] is None
+
+
+async def test_rejects_a_malformed_contact_phone(
+    client: httpx.AsyncClient, user_id: uuid.UUID
+) -> None:
+    headers = {"Authorization": f"Bearer {make_token(user_id)}"}
+    [result] = await push(client, headers, profile_mutation(user_id, phone="12345"))
+    assert result["status"] == "rejected"
+    assert result["error"] == "invalid_payload"
+
+
 async def test_push_is_idempotent_on_client_mutation_id(
     client: httpx.AsyncClient, auth_headers: dict[str, str], user_id: uuid.UUID
 ) -> None:

@@ -30,6 +30,8 @@ class FarmerProfilePayload(BaseModel):
     district: str | None = Field(default=None, max_length=120)
     consent_data_processing: bool = False
     consent_whatsapp: bool = False
+    # Contact number a Google sign-in may add (a phone sign-in's own number always wins).
+    phone: str | None = Field(default=None, pattern=r"^\+91[6-9]\d{9}$")
 
 
 class GeoJsonPolygon(BaseModel):
