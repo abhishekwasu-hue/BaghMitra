@@ -2046,7 +2046,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get labTestsEmpty =>
-      'No test recorded for this plot yet. Add one from your lab report or Soil Health Card.';
+      'Add this plot\'s first test from your lab report or Soil Health Card.';
 
   @override
   String get labTestAdd => 'Add test';
@@ -2125,20 +2125,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get labTestReportRemove => 'Remove';
 
   @override
-  String get labTestReportFailed => 'Could not add the report. Try again.';
+  String get labTestReportFailed => 'Please try adding the report again.';
 
   @override
   String get labTestReportLocal => 'The report stays on this phone.';
 
   @override
-  String get labTestReportMissing => 'The report file is not on this phone.';
+  String get labTestReportMissing => 'Please attach the report file again.';
 
   @override
   String get labTestShareReport => 'Share the report';
 
   @override
   String get labTestAskExpert =>
-      'Ask an expert to read this report. BagMitra does not judge these values.';
+      'Ask an expert to read this report; they can explain what the values mean.';
 
   @override
   String get labTestNextDue => 'Next test due (reminder)';
@@ -2188,13 +2188,13 @@ class AppLocalizationsEn extends AppLocalizations {
       locale: localeName,
       other: '$count values',
       one: '1 value',
-      zero: 'No values typed',
+      zero: 'Add values',
     );
     return '$_temp0';
   }
 
   @override
-  String get labTestNoValues => 'No values typed yet.';
+  String get labTestNoValues => 'Type the values from the report here.';
 
   @override
   String get labTestEditAction => 'Edit';
@@ -2207,7 +2207,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get schemesIntro =>
-      'General information to help you get ready. No amounts are shown. Always check the official page before you apply.';
+      'General information to help you get ready. See the amount and rules on the official page, then apply.';
 
   @override
   String get schemeVisitSetu =>
@@ -2232,7 +2232,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get schemeNotConfirmed => 'Not yet confirmed on an official page';
+  String get schemeNotConfirmed => 'Please confirm on the official page';
 
   @override
   String get schemeWhereToApply => 'Where to apply';

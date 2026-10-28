@@ -3631,7 +3631,7 @@ abstract class AppLocalizations {
   /// No description provided for @labTestsEmpty.
   ///
   /// In en, this message translates to:
-  /// **'No test recorded for this plot yet. Add one from your lab report or Soil Health Card.'**
+  /// **'Add this plot\'s first test from your lab report or Soil Health Card.'**
   String get labTestsEmpty;
 
   /// No description provided for @labTestAdd.
@@ -3787,7 +3787,7 @@ abstract class AppLocalizations {
   /// No description provided for @labTestReportFailed.
   ///
   /// In en, this message translates to:
-  /// **'Could not add the report. Try again.'**
+  /// **'Please try adding the report again.'**
   String get labTestReportFailed;
 
   /// No description provided for @labTestReportLocal.
@@ -3799,7 +3799,7 @@ abstract class AppLocalizations {
   /// No description provided for @labTestReportMissing.
   ///
   /// In en, this message translates to:
-  /// **'The report file is not on this phone.'**
+  /// **'Please attach the report file again.'**
   String get labTestReportMissing;
 
   /// No description provided for @labTestShareReport.
@@ -3811,7 +3811,7 @@ abstract class AppLocalizations {
   /// No description provided for @labTestAskExpert.
   ///
   /// In en, this message translates to:
-  /// **'Ask an expert to read this report. BagMitra does not judge these values.'**
+  /// **'Ask an expert to read this report; they can explain what the values mean.'**
   String get labTestAskExpert;
 
   /// No description provided for @labTestNextDue.
@@ -3883,13 +3883,13 @@ abstract class AppLocalizations {
   /// No description provided for @labTestValuesCount.
   ///
   /// In en, this message translates to:
-  /// **'{count, plural, =0{No values typed} =1{1 value} other{{count} values}}'**
+  /// **'{count, plural, =0{Add values} =1{1 value} other{{count} values}}'**
   String labTestValuesCount(int count);
 
   /// No description provided for @labTestNoValues.
   ///
   /// In en, this message translates to:
-  /// **'No values typed yet.'**
+  /// **'Type the values from the report here.'**
   String get labTestNoValues;
 
   /// No description provided for @labTestEditAction.
@@ -3913,7 +3913,7 @@ abstract class AppLocalizations {
   /// No description provided for @schemesIntro.
   ///
   /// In en, this message translates to:
-  /// **'General information to help you get ready. No amounts are shown. Always check the official page before you apply.'**
+  /// **'General information to help you get ready. See the amount and rules on the official page, then apply.'**
   String get schemesIntro;
 
   /// Nudge to visit the nearest Setu / Aaple Sarkar Seva Kendra (CSC); shown on the scheme list and each scheme.
@@ -3955,7 +3955,7 @@ abstract class AppLocalizations {
   /// No description provided for @schemeNotConfirmed.
   ///
   /// In en, this message translates to:
-  /// **'Not yet confirmed on an official page'**
+  /// **'Please confirm on the official page'**
   String get schemeNotConfirmed;
 
   /// No description provided for @schemeWhereToApply.

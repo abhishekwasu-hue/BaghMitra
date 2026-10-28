@@ -2040,7 +2040,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get labTestsEmpty =>
-      'या बागेची अजून तपासणी नोंद नाही. प्रयोगशाळेच्या अहवालातून किंवा मृदा आरोग्य पत्रिकेतून नोंद करा.';
+      'प्रयोगशाळेच्या अहवालातून किंवा मृदा आरोग्य पत्रिकेतून या बागेची पहिली तपासणी नोंदवा.';
 
   @override
   String get labTestAdd => 'तपासणी नोंदवा';
@@ -2119,20 +2119,20 @@ class AppLocalizationsMr extends AppLocalizations {
   String get labTestReportRemove => 'काढा';
 
   @override
-  String get labTestReportFailed => 'अहवाल जोडता आला नाही. पुन्हा प्रयत्न करा.';
+  String get labTestReportFailed => 'अहवाल पुन्हा जोडून पहा.';
 
   @override
   String get labTestReportLocal => 'अहवाल याच फोनवर राहतो.';
 
   @override
-  String get labTestReportMissing => 'अहवालाची फाइल या फोनवर नाही.';
+  String get labTestReportMissing => 'अहवालाची फाइल पुन्हा जोडा.';
 
   @override
   String get labTestShareReport => 'अहवाल पाठवा';
 
   @override
   String get labTestAskExpert =>
-      'हा अहवाल तज्ज्ञांकडून वाचून घ्या. बागमित्र या आकड्यांबद्दल मत देत नाही.';
+      'हा अहवाल तज्ज्ञांकडून वाचून घ्या; ते आकड्यांचा अर्थ समजावून सांगतील.';
 
   @override
   String get labTestNextDue => 'पुढील तपासणी (आठवण)';
@@ -2181,13 +2181,13 @@ class AppLocalizationsMr extends AppLocalizations {
       locale: localeName,
       other: '$count आकडे',
       one: '१ आकडा',
-      zero: 'आकडे लिहिलेले नाहीत',
+      zero: 'आकडे लिहा',
     );
     return '$_temp0';
   }
 
   @override
-  String get labTestNoValues => 'अजून आकडे लिहिलेले नाहीत.';
+  String get labTestNoValues => 'अहवालातील आकडे इथे लिहा.';
 
   @override
   String get labTestEditAction => 'बदला';
@@ -2201,7 +2201,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get schemesIntro =>
-      'तयारीसाठी सर्वसाधारण माहिती. रक्कम दिलेली नाही. अर्ज करण्याआधी अधिकृत पान नक्की तपासा.';
+      'तयारीसाठी सर्वसाधारण माहिती. रक्कम आणि अटी अधिकृत पानावर पहा आणि मगच अर्ज करा.';
 
   @override
   String get schemeVisitSetu =>
@@ -2226,7 +2226,7 @@ class AppLocalizationsMr extends AppLocalizations {
   }
 
   @override
-  String get schemeNotConfirmed => 'अधिकृत पानावर अजून खात्री झालेली नाही';
+  String get schemeNotConfirmed => 'अधिकृत पानावर एकदा खात्री करून घ्या';
 
   @override
   String get schemeWhereToApply => 'कुठे अर्ज करावा';

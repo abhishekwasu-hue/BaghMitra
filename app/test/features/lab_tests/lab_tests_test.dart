@@ -237,7 +237,7 @@ void main() {
       overrides: fakeFiles(FakeReportFiles()),
     );
     await settle(tester);
-    expect(find.textContaining('No test recorded for this plot'), findsOne);
+    expect(find.textContaining('first test from your lab report'), findsOne);
     await unmountApp(tester);
   });
 
@@ -253,7 +253,7 @@ void main() {
     );
     await settle(tester);
     expect(find.text('Sample 1 Oct 2026 · 3 values'), findsOne);
-    expect(find.text('Sample 2 Apr 2026 · No values typed'), findsOne);
+    expect(find.text('Sample 2 Apr 2026 · Add values'), findsOne);
     await tester.tap(find.byKey(const Key('lab-test-l1')));
     await settle(tester);
     expect(find.byKey(const Key('lab-ask-expert')), findsOne);
@@ -453,7 +453,7 @@ void main() {
     await settle(tester);
     await tester.tap(find.text('Delete'));
     await settle(tester);
-    expect(find.textContaining('No test recorded for this plot'), findsOne);
+    expect(find.textContaining('first test from your lab report'), findsOne);
     expect(
       await tester.runAsync(() => TasksRepository(db).watchAll().first),
       isEmpty,

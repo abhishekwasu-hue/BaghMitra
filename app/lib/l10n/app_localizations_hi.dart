@@ -2040,7 +2040,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get labTestsEmpty =>
-      'इस बाग की अभी कोई जाँच दर्ज नहीं है। लैब रिपोर्ट या मृदा स्वास्थ्य कार्ड से दर्ज करें।';
+      'अपनी लैब रिपोर्ट या मृदा स्वास्थ्य कार्ड से इस बाग़ की पहली जाँच दर्ज करें।';
 
   @override
   String get labTestAdd => 'जाँच जोड़ें';
@@ -2120,20 +2120,20 @@ class AppLocalizationsHi extends AppLocalizations {
   String get labTestReportRemove => 'हटाएँ';
 
   @override
-  String get labTestReportFailed => 'रिपोर्ट नहीं जुड़ी। फिर से कोशिश करें।';
+  String get labTestReportFailed => 'रिपोर्ट दोबारा जोड़कर देखें।';
 
   @override
   String get labTestReportLocal => 'रिपोर्ट इसी फ़ोन पर रहती है।';
 
   @override
-  String get labTestReportMissing => 'रिपोर्ट फ़ाइल इस फ़ोन पर नहीं है।';
+  String get labTestReportMissing => 'रिपोर्ट की फ़ाइल दोबारा जोड़ें।';
 
   @override
   String get labTestShareReport => 'रिपोर्ट भेजें';
 
   @override
   String get labTestAskExpert =>
-      'यह रिपोर्ट किसी विशेषज्ञ से पढ़वाएँ। बागमित्र इन मानों पर राय नहीं देता।';
+      'यह रिपोर्ट किसी विशेषज्ञ से पढ़वाएँ; वे आँकड़ों का अर्थ समझाएँगे।';
 
   @override
   String get labTestNextDue => 'अगली जाँच (याद)';
@@ -2182,13 +2182,13 @@ class AppLocalizationsHi extends AppLocalizations {
       locale: localeName,
       other: '$count मान',
       one: '1 मान',
-      zero: 'कोई मान नहीं लिखा',
+      zero: 'आँकड़े लिखें',
     );
     return '$_temp0';
   }
 
   @override
-  String get labTestNoValues => 'अभी कोई मान नहीं लिखा।';
+  String get labTestNoValues => 'रिपोर्ट के आँकड़े यहाँ लिखें।';
 
   @override
   String get labTestEditAction => 'बदलें';
@@ -2202,7 +2202,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get schemesIntro =>
-      'तैयारी के लिए सामान्य जानकारी। कोई राशि नहीं दी गई है। आवेदन से पहले आधिकारिक पेज ज़रूर देखें।';
+      'तैयारी के लिए सामान्य जानकारी। राशि और शर्तें आधिकारिक पेज पर देखें, फिर आवेदन करें।';
 
   @override
   String get schemeVisitSetu =>
@@ -2227,7 +2227,7 @@ class AppLocalizationsHi extends AppLocalizations {
   }
 
   @override
-  String get schemeNotConfirmed => 'आधिकारिक पेज पर अभी पुष्टि नहीं हुई';
+  String get schemeNotConfirmed => 'आधिकारिक पेज पर एक बार पुष्टि करें';
 
   @override
   String get schemeWhereToApply => 'कहाँ आवेदन करें';

@@ -169,7 +169,7 @@ void main() {
     );
     await tester.tap(find.byKey(const Key('open-schemes')));
     await settle(tester);
-    expect(find.textContaining('Always check the official page'), findsOne);
+    expect(find.textContaining('on the official page, then apply'), findsOne);
     expect(find.byKey(const Key('setu-note')), findsOne);
     expect(find.byKey(const Key('scheme-agristack')), findsOne);
     await tester.tap(find.byKey(const Key('scheme-pm_kisan')));
@@ -218,7 +218,7 @@ void main() {
     );
     await settle(tester);
     expect(
-      find.text('Not yet confirmed on an official page'),
+      find.text('Please confirm on the official page'),
       findsAtLeastNWidgets(1),
     );
     expect(find.byKey(const Key('scheme-feed-pk1')), findsNothing);
@@ -232,7 +232,7 @@ void main() {
       initialLocation: '/schemes/nope',
     );
     await settle(tester);
-    expect(find.textContaining('Always check the official page'), findsOne);
+    expect(find.textContaining('on the official page, then apply'), findsOne);
     await unmountApp(tester);
   });
 }
