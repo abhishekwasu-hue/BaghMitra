@@ -85,6 +85,9 @@ async def apply_mutation(
         write = ValidatedWrite(m.entity_id, m.op, payload, m.client_updated_at, row.seq)
         await HANDLERS[m.entity].apply(session, user, write)
     else:
+        if status == "stale":
+            # The phone shows its losing write; send it the kept version on its next pull.
+            await HANDLERS[m.entity].resend(session, user, m.entity_id, row.seq)
         log.info("sync_mutation_not_applied", entity=m.entity, status=status, error=error)
     return MutationResult(client_mutation_id=m.client_mutation_id, status=status, error=error)
 
@@ -99,7 +102,11 @@ async def push(
     return results
 
 
-async def pull(session: AsyncSession, user: AuthenticatedUser, since: int) -> PullResponse:
+async def pull(
+    session: AsyncSession, user: AuthenticatedUser, since: int, limit: int
+) -> PullResponse:
+    """The next `limit` changes after `since`. Each entity yields its own lowest `limit`, so
+    the lowest `limit` overall are among them; the cursor is the last one returned."""
     changes = [
         Change(
             entity=handler.name,
@@ -110,7 +117,8 @@ async def pull(session: AsyncSession, user: AuthenticatedUser, since: int) -> Pu
             seq=rc.seq,
         )
         for handler in HANDLERS.values()
-        for rc in await handler.changed_since(session, user, since)
+        for rc in await handler.changed_since(session, user, since, limit)
     ]
     changes.sort(key=lambda c: c.seq)
+    del changes[limit:]
     return PullResponse(changes=changes, cursor=max((c.seq for c in changes), default=since))

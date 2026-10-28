@@ -228,3 +228,25 @@ async def test_manual_upload_is_validated_and_needs_the_market_admin_role(
         assert r.status_code == 422, bad
     empty = await api.post(url, json={"prices": []}, headers=admin("market_admin"))
     assert empty.status_code == 422
+
+
+async def test_manual_upload_takes_todays_india_date_before_utc_midnight(
+    settings: Settings, engine: AsyncEngine
+) -> None:
+    """01:30 in Nagpur is still the previous day in UTC: today's rate list is not 'future'."""
+    app = create_app(settings)
+    maker = async_sessionmaker(engine, expire_on_commit=False)
+    app.dependency_overrides[get_sessionmaker] = lambda: maker
+    app.dependency_overrides[get_clock] = lambda: (
+        lambda: datetime(2026, 10, 26, 20, 0, tzinfo=UTC)  # 27 Oct 01:30 IST
+    )
+    async with httpx.AsyncClient(
+        transport=httpx.ASGITransport(app=app), base_url="http://test"
+    ) as c:
+        url = "/v1/admin/market/prices"
+        today = {"prices": [manual_row("Kalamna", "2026-10-27", 3500)]}
+        r = await c.post(url, json=today, headers=admin("market_admin"))
+        assert r.status_code == 200, r.text
+        later = {"prices": [manual_row("Kalamna", "2026-10-28", 3500)]}
+        r = await c.post(url, json=later, headers=admin("market_admin"))
+        assert r.status_code == 422

@@ -46,6 +46,7 @@ update_code() {
     [[ -f "$PREVIOUS" ]] || fail "no previous deploy recorded"
     local target; target="$(cat "$PREVIOUS")"
     say "Reverting to $target"
+    downgrade_db_to "$target"
     git rev-parse HEAD > "$PREVIOUS.new"
     git checkout -q "$target"
     mv "$PREVIOUS.new" "$PREVIOUS"
@@ -56,6 +57,23 @@ update_code() {
     git pull -q --ff-only origin main
   fi
   echo "now at $(git log --oneline -1)"
+}
+
+# Newest migration id (the 4-digit file prefix) in a commit.
+migration_head() {
+  git ls-tree --name-only "$1" api/alembic/versions/ | sed -n 's#.*/\([0-9]\{4\}\)_.*\.py$#\1#p' | sort | tail -1
+}
+
+# The older code cannot start on a database at a revision it does not know, so step the
+# database back first, with the current image (which knows both revisions).
+downgrade_db_to() {
+  local cur prev
+  cur="$(migration_head HEAD)"
+  prev="$(migration_head "$1")"
+  if [[ -n "$cur" && -n "$prev" && "$cur" > "$prev" ]]; then
+    say "Stepping the database back from migration $cur to $prev"
+    compose run --rm --no-deps api alembic downgrade "$prev" || fail "database downgrade failed; nothing was switched"
+  fi
 }
 
 compose() {

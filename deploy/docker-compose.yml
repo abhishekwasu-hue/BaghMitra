@@ -40,7 +40,7 @@ services:
     image: postgis/postgis:16-3.4
     restart: unless-stopped
     environment:
-      POSTGRES_PASSWORD: ${DB_PASSWORD:?set DB_PASSWORD in .env}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-}  # only the localdb profile uses it
       POSTGRES_DB: bagmitra
     volumes: [pgdata:/var/lib/postgresql/data]
     healthcheck:

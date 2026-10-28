@@ -176,3 +176,19 @@ async def test_pull_returns_changes_after_cursor_only_for_owner(
     ).json()
     assert later["changes"][0]["data"]["village"] == "Katol"
     assert later["cursor"] > cursor
+
+
+async def test_stale_profile_write_is_sent_back_on_the_next_pull(
+    client: httpx.AsyncClient, auth_headers: dict[str, str], user_id: uuid.UUID
+) -> None:
+    newer = profile_mutation(user_id, updated_at="2026-10-02T06:00:00Z", display_name="New")
+    await push(client, auth_headers, newer)
+    cursor = (await client.get("/v1/sync/pull", headers=auth_headers)).json()["cursor"]
+    older = profile_mutation(user_id, updated_at="2026-10-01T06:00:00Z", display_name="Old")
+    [r] = await push(client, auth_headers, older)
+    assert r["status"] == "stale"
+    body = (
+        await client.get("/v1/sync/pull", params={"since": cursor}, headers=auth_headers)
+    ).json()
+    [change] = [c for c in body["changes"] if c["entity"] == "farmer_profile"]
+    assert change["data"]["display_name"] == "New"

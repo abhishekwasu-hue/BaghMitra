@@ -111,7 +111,7 @@ docker exec atp-caddy-1 caddy reload --config /etc/caddy/Caddyfile
 परत चालवावे लागते, आणि ATP ची Caddyfile git मधून बदलत असेल तर वरचा block तिथेही (ATP रेपोमध्ये) टाकावा
 लागेल. कायमचा उपाय: ATP च्या compose मध्ये caddy ला `edge` नेटवर्क आणि Caddyfile मध्ये हा block — हा बदल
 ATP प्रकल्पात करायचा (बागमित्र रेपोमध्ये नाही).
-बागमित्र स्थिती: `bash deploy/deploy.sh status`. परत जाणे: `bash deploy/deploy.sh --revert`.
+बागमित्र स्थिती: `bash deploy/deploy.sh status`. परत जाणे: `bash deploy/deploy.sh --revert`. नवीन deploy ने database migration जोडली असेल तर `--revert` आधी database त्या मागच्या migration पर्यंत खाली नेते (उदा. 0021 मागे घेतल्यास scouting फोटोचे `photo_key` पुसले जातात), मग जुना कोड सुरू करते.
 
 ## ७. बॅकअप
 - **Supabase चा डेटाबेस वापरत असाल तर:** बॅकअप तिथल्या प्लॅननुसार (मोफत प्लॅनमध्ये मर्यादित). महत्त्वाचा डेटा असेल तर Settings → Database → Backups तपासा.
