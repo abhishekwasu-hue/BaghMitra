@@ -31,6 +31,8 @@ class Settings(BaseSettings):
     sentry_dsn: SecretStr | None = None
 
     sync_max_batch: int = 200
+    # Rows per pull response; the phone keeps pulling from the returned cursor until empty.
+    sync_pull_page_size: int = Field(default=500, ge=1)
 
     # Weather (M4): free Open-Meteo endpoint by default; the commercial endpoint
     # (customer-api.open-meteo.com) needs WEATHER_API_KEY (OPEN_QUESTIONS Q25).

@@ -172,3 +172,35 @@ async def test_profile_still_rejects_delete(
     m = plot_mutation(user_id, op="delete") | {"entity": "farmer_profile"}
     [r] = await push(client, auth_headers, m)
     assert r["error"] == "unsupported_op"
+
+
+async def test_stale_write_sends_the_winning_version_back_on_the_next_pull(
+    client: httpx.AsyncClient, auth_headers: dict[str, str]
+) -> None:
+    """A phone that already pulled past the winning version and then pushes an older write
+    (its clock is behind, or the write sat in backoff while the pull skipped the row) must get
+    the server's version again, or it keeps showing a value the server never stored."""
+    plot_id = uuid.uuid4()
+    await push(client, auth_headers, plot_mutation(plot_id, updated_at="2026-10-12T08:00:00Z"))
+    cursor = (await pull(client, auth_headers))["cursor"]
+    [r] = await push(
+        client, auth_headers, plot_mutation(plot_id, updated_at="2026-10-12T07:00:00Z", name="Old")
+    )
+    assert r["status"] == "stale"
+    [change] = plot_changes(await pull(client, auth_headers, since=cursor))
+    assert change["op"] == "upsert"
+    assert change["data"]["name"] == "Bag 1"
+
+
+async def test_stale_delete_brings_the_live_row_back(
+    client: httpx.AsyncClient, auth_headers: dict[str, str]
+) -> None:
+    plot_id = uuid.uuid4()
+    await push(client, auth_headers, plot_mutation(plot_id, updated_at="2026-10-12T08:00:00Z"))
+    cursor = (await pull(client, auth_headers))["cursor"]
+    [r] = await push(
+        client, auth_headers, plot_mutation(plot_id, op="delete", updated_at="2026-10-12T07:00:00Z")
+    )
+    assert r["status"] == "stale"
+    [change] = plot_changes(await pull(client, auth_headers, since=cursor))
+    assert change["op"] == "upsert"

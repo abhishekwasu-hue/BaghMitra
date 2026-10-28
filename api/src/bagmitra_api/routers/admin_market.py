@@ -9,6 +9,7 @@ from __future__ import annotations
 from collections.abc import Callable
 from datetime import date, datetime
 from typing import Annotated, Self
+from zoneinfo import ZoneInfo
 
 from fastapi import APIRouter, Depends
 from pydantic import BaseModel, Field, model_validator
@@ -26,6 +27,7 @@ router = APIRouter(
     tags=["admin"],
     responses={401: {"model": ErrorResponse}, 403: {"model": ErrorResponse}},
 )
+INDIA = ZoneInfo("Asia/Kolkata")
 MarketAdmin = Annotated[AuthenticatedUser, Depends(require_role("market_admin"))]
 
 Name = Annotated[str, Field(min_length=1, max_length=120)]
@@ -75,11 +77,12 @@ async def upload_prices(
 ) -> ManualPricesOut:
     """Store prices typed in from a mandi's published rate list (same day and mandi replace)."""
     now = clock()
+    today = now.astimezone(INDIA).date()  # mandi rate lists are dated in India time
     known = {c for commodities in settings.market_commodities.values() for c in commodities}
     for i, p in enumerate(body.prices):
         if p.commodity not in known:
             raise ApiError(422, "unknown_commodity", f"row {i}: {p.commodity} is not configured")
-        if p.day > now.date():
+        if p.day > today:
             raise ApiError(422, "future_day", f"row {i}: {p.day} is after today")
     await store_prices(
         session,
