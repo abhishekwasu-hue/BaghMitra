@@ -21,6 +21,8 @@ void main() {
     await pumpApp(tester, locale: const Locale('en'));
     final spray = find.widgetWithText(TaskTile, 'Zinc + boron spray');
     expect(tester.widget<TaskTile>(spray).done, isFalse);
+    await tester.ensureVisible(spray);
+    await tester.pump();
     await tester.tap(spray);
     await tester.pump(const Duration(milliseconds: 300));
     expect(tester.widget<TaskTile>(spray).done, isTrue);

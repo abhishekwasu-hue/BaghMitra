@@ -26,9 +26,13 @@ class FieldLogScreen extends ConsumerWidget {
         .value
         ?.where((p) => p.id == plotId)
         .firstOrNull;
-    final inputs = ref.watch(inputsProvider(plotId)).value ?? const [];
-    final irrigations =
-        ref.watch(irrigationsProvider(plotId)).value ?? const [];
+    final loadedInputs = ref.watch(inputsProvider(plotId));
+    final loadedIrrigations = ref.watch(irrigationsProvider(plotId));
+    final inputs = loadedInputs.value ?? const [];
+    final irrigations = loadedIrrigations.value ?? const [];
+    final loading =
+        (loadedInputs.isLoading && !loadedInputs.hasValue) ||
+        (loadedIrrigations.isLoading && !loadedIrrigations.hasValue);
     final data = ref.watch(inputKindsProvider).value;
     final units = {
       for (final u in data?.units ?? const <LabeledOption>[]) u.slug: u,
@@ -66,7 +70,9 @@ class FieldLogScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(title: Text('${t.fieldLogTitle} · ${plot?.name ?? ''}')),
-      body: rows.isEmpty
+      body: loading
+          ? LoadingState(label: t.loadingLabel)
+          : rows.isEmpty
           ? EmptyState(glyph: BmGlyph.drop, message: t.fieldLogEmpty)
           : ListView(
               padding: const EdgeInsets.fromLTRB(

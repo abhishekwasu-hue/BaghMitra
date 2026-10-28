@@ -189,16 +189,16 @@ class _GlyphPainter extends CustomPainter {
           ..lineTo(22, 21)
           ..lineTo(2, 21)
           ..close();
-        canvas.drawPath(tri, _stroke(c.onBrand, 2.4));
+        canvas.drawPath(tri, _stroke(c.onAccent, 2.4));
         canvas.drawLine(
           const Offset(12, 10),
           const Offset(12, 15),
-          _stroke(c.onBrand, 2.4),
+          _stroke(c.onAccent, 2.4),
         );
         canvas.drawLine(
           const Offset(12, 18.5),
           const Offset(12, 19),
-          _stroke(c.onBrand, 2.4),
+          _stroke(c.onAccent, 2.4),
         );
       case BmGlyph.mic:
         canvas.drawRRect(

@@ -7,6 +7,7 @@ import '../../../core/formatting.dart';
 import '../../../design_system/empty_state.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
+import '../../voice/presentation/share_speak_buttons.dart';
 
 /// Mandi prices for the grower's crop, exactly as the API published them (never estimated),
 /// from the phone's cache so the list works offline.
@@ -26,7 +27,8 @@ class _MarketPricesScreenState extends ConsumerState<MarketPricesScreen> {
     final c = context.bm;
     final lang = Localizations.localeOf(context).languageCode;
     final crop = ref.watch(marketCropProvider);
-    final cached = ref.watch(marketPricesProvider((crop, _scope))).value;
+    final loaded = ref.watch(marketPricesProvider((crop, _scope)));
+    final cached = loaded.value;
     final prices = cached?.prices.prices ?? const <MarketPriceOut>[];
     String rs(int? v) => v == null ? '–' : formatRupees(v, lang);
 
@@ -65,7 +67,10 @@ class _MarketPricesScreenState extends ConsumerState<MarketPricesScreen> {
                 null => t.marketStaleNoReason,
               }, style: BmType.meta.copyWith(color: c.accentInk)),
           ],
-          if (prices.isEmpty) EmptyNote(t.marketEmpty),
+          if (prices.isEmpty)
+            loaded.isLoading && !loaded.hasValue
+                ? LoadingState(label: t.loadingLabel)
+                : EmptyNote(t.marketEmpty),
           for (final p in prices)
             // A plain row, not a ListTile: a ListTile caps the trailing price's height,
             // which clipped it at larger text sizes.
@@ -114,6 +119,17 @@ class _MarketPricesScreenState extends ConsumerState<MarketPricesScreen> {
                         style: BmType.cardTitle.copyWith(color: c.brand),
                       ),
                       Text(t.marketPerQuintal, style: BmType.meta),
+                      ShareSpeakButtons(
+                        keyPrefix:
+                            'market-${p.market}-${p.day.toIso8601String()}',
+                        shareText: marketPriceShareText(
+                          t,
+                          p,
+                          lang,
+                          ref.watch(appConfigProvider).productName,
+                        ),
+                        speakText: marketPriceShareText(t, p, lang, null),
+                      ),
                     ],
                   ),
                 ],
@@ -148,4 +164,25 @@ class _Tag extends StatelessWidget {
       ),
     );
   }
+}
+
+/// What sharing a mandi price hands on: market and modal price, the min–max range, state
+/// and day, the source and (unless read aloud, [productName] null) where it came from.
+/// Exactly the published numbers, never an estimate.
+String marketPriceShareText(
+  AppLocalizations t,
+  MarketPriceOut p,
+  String lang,
+  String? productName,
+) {
+  String rs(int? v) => v == null ? '–' : formatRupees(v, lang);
+  return [
+    t.marketShareLine(p.market, rs(p.modalRsPerQuintal)),
+    if (p.minRsPerQuintal != null || p.maxRsPerQuintal != null)
+      t.marketRange(rs(p.minRsPerQuintal), rs(p.maxRsPerQuintal)),
+    if (p.variety case final variety?) t.marketVariety(variety),
+    '${p.state} · ${formatDate(p.day, lang)}',
+    t.shareSource(p.source),
+    if (productName != null) shareFooter(t, productName),
+  ].join('\n');
 }

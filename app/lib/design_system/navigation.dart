@@ -135,7 +135,7 @@ class CameraButton extends StatelessWidget {
             ],
           ),
           padding: const EdgeInsets.all(19),
-          child: GlyphIcon(BmGlyph.camera, color: c.onBrand),
+          child: GlyphIcon(BmGlyph.camera, color: c.onAccent),
         ),
       ),
     );

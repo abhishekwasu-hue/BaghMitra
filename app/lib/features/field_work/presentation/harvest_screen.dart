@@ -23,14 +23,17 @@ class HarvestScreen extends ConsumerWidget {
     final t = AppLocalizations.of(context);
     final c = context.bm;
     final lang = Localizations.localeOf(context).languageCode;
-    final lots = ref.watch(harvestsProvider(plotId)).value ?? const [];
+    final loaded = ref.watch(harvestsProvider(plotId));
+    final lots = loaded.value ?? const [];
     final opts = ref.watch(fieldWorkOptionsProvider).value;
     final total = lots.fold(0.0, (a, l) => a + l.quantityKg);
     String name(List<LabeledOption>? items, String slug) =>
         items?.where((x) => x.slug == slug).firstOrNull?.label(lang) ?? slug;
     return Scaffold(
       appBar: AppBar(title: Text(t.harvestTitle)),
-      body: lots.isEmpty
+      body: loaded.isLoading && !loaded.hasValue
+          ? LoadingState(label: t.loadingLabel)
+          : lots.isEmpty
           ? EmptyState(glyph: BmGlyph.orange, message: t.harvestEmpty)
           : ListView(
               padding: const EdgeInsets.fromLTRB(

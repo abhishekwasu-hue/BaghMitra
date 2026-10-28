@@ -10,11 +10,15 @@ class AlertBanner extends StatefulWidget {
     required this.title,
     required this.body,
     this.onTap,
+    this.actions,
   });
 
   final String title;
   final String body;
   final VoidCallback? onTap;
+
+  /// Small actions under the text (read aloud, share), right-aligned.
+  final Widget? actions;
 
   @override
   State<AlertBanner> createState() => _AlertBannerState();
@@ -101,6 +105,11 @@ class _AlertBannerState extends State<AlertBanner>
                           height: 1.4,
                         ),
                       ),
+                      if (widget.actions case final actions?)
+                        Align(
+                          alignment: AlignmentDirectional.centerEnd,
+                          child: actions,
+                        ),
                     ],
                   ),
                 ),

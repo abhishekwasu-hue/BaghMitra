@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../l10n/app_localizations.dart';
+import '../sync/account_guard.dart';
 import '../theme/app_theme.dart';
 import 'providers.dart';
 import 'router.dart';
@@ -32,12 +33,16 @@ class _BagMitraAppState extends ConsumerState<BagMitraApp> {
   /// seen, so a broken flag never keeps the grower out of the app.
   final _walkthroughSeen = ValueNotifier<bool?>(null);
 
+  /// Whose records the phone holds for the signed-in account; null while checking.
+  final _accountGate = ValueNotifier<AccountCheck?>(null);
+
   late final GoRouter _router = buildRouter(
     ref.read(authRepositoryProvider),
     ref.read(appConfigProvider),
     initialLocation: widget.initialLocation,
     onboarded: _onboarded,
     walkthroughSeen: _walkthroughSeen,
+    accountGate: _accountGate,
   );
 
   @override
@@ -57,6 +62,17 @@ class _BagMitraAppState extends ConsumerState<BagMitraApp> {
       },
       fireImmediately: true,
     );
+    // A read error counts as the same account, so a broken check never locks the grower out.
+    ref.listenManual(
+      accountGateProvider,
+      (_, gate) => _accountGate.value = switch (gate) {
+        AsyncValue(isLoading: true) => null,
+        AsyncData(:final value) => value,
+        AsyncError() => AccountCheck.same,
+        _ => null,
+      },
+      fireImmediately: true,
+    );
   }
 
   @override
@@ -64,6 +80,7 @@ class _BagMitraAppState extends ConsumerState<BagMitraApp> {
     _router.dispose();
     _onboarded.dispose();
     _walkthroughSeen.dispose();
+    _accountGate.dispose();
     super.dispose();
   }
 

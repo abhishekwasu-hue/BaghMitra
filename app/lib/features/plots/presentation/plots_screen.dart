@@ -21,12 +21,15 @@ class PlotsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final t = AppLocalizations.of(context);
-    final plots = ref.watch(plotsProvider).value ?? const <Plot>[];
+    final loaded = ref.watch(plotsProvider);
+    final plots = loaded.value ?? const <Plot>[];
     final crops = ref.watch(cropsProvider).value ?? const <CropOption>[];
     final lang = Localizations.localeOf(context).languageCode;
     return Scaffold(
       appBar: AppBar(title: Text(t.myOrchard)),
-      body: plots.isEmpty
+      body: loaded.isLoading && !loaded.hasValue
+          ? LoadingState(label: t.loadingLabel)
+          : plots.isEmpty
           ? const _EmptyOrchard()
           : ListView.separated(
               padding: const EdgeInsets.fromLTRB(

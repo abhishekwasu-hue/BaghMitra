@@ -6,6 +6,7 @@ import '../../../app/providers.dart';
 import '../../../core/formatting.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
+import '../../voice/presentation/share_speak_buttons.dart';
 
 /// The next days for a plot and the rule-based risk alerts, each with its source. Shows the
 /// last saved answer offline; alerts never carry chemical advice (they come from the API).
@@ -72,10 +73,24 @@ class PlotWeatherCard extends ConsumerWidget {
                 ),
               for (final a in alerts)
                 ListTile(
+                  key: Key('weather-alert-${a.ruleKey}'),
                   contentPadding: EdgeInsets.zero,
-                  leading: Icon(Icons.warning_amber_rounded, color: c.accent),
+                  leading: Icon(
+                    Icons.warning_amber_rounded,
+                    color: c.accentInk,
+                  ),
                   title: Text(a.text, style: BmType.body),
                   subtitle: Text(t.weatherSource(a.source), style: BmType.meta),
+                  trailing: ShareSpeakButtons(
+                    keyPrefix: 'weather-alert-${a.ruleKey}',
+                    shareText: weatherAlertShareText(
+                      t,
+                      a,
+                      lang,
+                      ref.watch(appConfigProvider).productName,
+                    ),
+                    speakText: weatherAlertShareText(t, a, lang, null),
+                  ),
                 ),
             ],
           ],
@@ -84,3 +99,17 @@ class PlotWeatherCard extends ConsumerWidget {
     );
   }
 }
+
+/// What sharing a risk alert hands on: the day it starts, the alert as the API wrote it
+/// (never chemical advice), its source and, unless [productName] is null (read aloud), where
+/// it came from.
+String weatherAlertShareText(
+  AppLocalizations t,
+  WeatherAlert alert,
+  String lang,
+  String? productName,
+) => [
+  '${formatDate(alert.firstDay, lang)}: ${alert.text}',
+  t.shareSource(alert.source),
+  if (productName != null) shareFooter(t, productName),
+].join('\n');

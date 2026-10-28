@@ -82,3 +82,23 @@ class EmptyNote extends StatelessWidget {
     ),
   );
 }
+
+/// What a list screen shows until its first data arrives, so it never flashes its
+/// [EmptyState] while the records are still being read.
+class LoadingState extends StatelessWidget {
+  const LoadingState({super.key, required this.label});
+
+  /// Read out by screen readers ("Loading").
+  final String label;
+
+  @override
+  Widget build(BuildContext context) => Center(
+    child: Padding(
+      padding: const EdgeInsets.all(BmSpace.xxl),
+      child: Semantics(
+        label: label,
+        child: CircularProgressIndicator(color: context.bm.brand),
+      ),
+    ),
+  );
+}

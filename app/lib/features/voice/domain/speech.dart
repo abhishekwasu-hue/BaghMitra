@@ -20,9 +20,20 @@ abstract interface class SpeechRecognizer {
 
 /// Text to speech.
 abstract interface class SpeechSynthesizer {
-  Future<void> speak(String text, {required String localeId});
+  /// Speaks [text] in [localeId], or in the nearest voice the phone has (see
+  /// [speechFallbackLocales]). False when the phone has no usable voice at all.
+  Future<bool> speak(String text, {required String localeId});
   Future<void> stop();
 }
+
+/// The voices to try, best first, for text written in [localeId]'s language. Marathi and
+/// Hindi share the Devanagari script, so each falls back to the other; an English voice
+/// cannot read Devanagari, so it is never a fallback for them.
+List<String> speechFallbackLocales(String localeId) => switch (localeId) {
+  'mr_IN' => const ['mr-IN', 'hi-IN'],
+  'hi_IN' => const ['hi-IN', 'mr-IN'],
+  _ => const ['en-IN', 'en-US', 'en-GB'],
+};
 
 /// Maps an app language code to the locale the speech engines expect.
 String speechLocaleId(String languageCode) => switch (languageCode) {

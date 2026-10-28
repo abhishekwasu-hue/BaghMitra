@@ -23,7 +23,7 @@ class CloudSpeechSynthesizer implements SpeechSynthesizer {
   const CloudSpeechSynthesizer();
 
   @override
-  Future<void> speak(String text, {required String localeId}) async =>
+  Future<bool> speak(String text, {required String localeId}) async =>
       throw UnsupportedError('Cloud speech synthesis is not wired yet');
 
   @override

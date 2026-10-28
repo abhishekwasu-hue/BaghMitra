@@ -105,8 +105,8 @@ class ScoutingScreen extends ConsumerWidget {
     final t = AppLocalizations.of(context);
     final c = context.bm;
     final lang = Localizations.localeOf(context).languageCode;
-    final records =
-        ref.watch(scoutingRecordsProvider(plotId)).value ?? const [];
+    final loaded = ref.watch(scoutingRecordsProvider(plotId));
+    final records = loaded.value ?? const [];
     Color tone(String severity) => switch (severity) {
       'high' => c.danger,
       'medium' => c.soil,
@@ -115,7 +115,9 @@ class ScoutingScreen extends ConsumerWidget {
     };
     return Scaffold(
       appBar: AppBar(title: Text(t.scoutingTitle)),
-      body: records.isEmpty
+      body: loaded.isLoading && !loaded.hasValue
+          ? LoadingState(label: t.loadingLabel)
+          : records.isEmpty
           ? EmptyState(glyph: BmGlyph.camera, message: t.scoutingEmpty)
           : ListView.separated(
               padding: const EdgeInsets.fromLTRB(

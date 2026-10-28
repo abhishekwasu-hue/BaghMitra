@@ -3135,6 +3135,102 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Check the official portal before acting.'**
   String get feedCheckPortal;
+
+  /// No description provided for @shareAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get shareAction;
+
+  /// No description provided for @speakAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Read aloud'**
+  String get speakAction;
+
+  /// No description provided for @speakUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'This phone has no voice for this language yet.'**
+  String get speakUnavailable;
+
+  /// No description provided for @shareSentFrom.
+  ///
+  /// In en, this message translates to:
+  /// **'Shared from the {app} app'**
+  String shareSentFrom(String app);
+
+  /// No description provided for @shareSource.
+  ///
+  /// In en, this message translates to:
+  /// **'Source: {source}'**
+  String shareSource(String source);
+
+  /// No description provided for @marketShareLine.
+  ///
+  /// In en, this message translates to:
+  /// **'{market}: {price} per quintal'**
+  String marketShareLine(String market, String price);
+
+  /// No description provided for @taskDueOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Due: {date}'**
+  String taskDueOn(String date);
+
+  /// No description provided for @taskDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Task details'**
+  String get taskDetails;
+
+  /// No description provided for @tasksTodayShare.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s tasks ({date})'**
+  String tasksTodayShare(String date);
+
+  /// No description provided for @loadingLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading'**
+  String get loadingLabel;
+
+  /// No description provided for @accountSwitchTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Another account\'s records'**
+  String get accountSwitchTitle;
+
+  /// No description provided for @accountSwitchBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This phone holds the records of another account. If you continue, they are removed from this phone (they stay safe on the server) and your own records are downloaded.'**
+  String get accountSwitchBody;
+
+  /// No description provided for @accountSwitchContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get accountSwitchContinue;
+
+  /// No description provided for @accountBlockedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Unsent records on this phone'**
+  String get accountBlockedTitle;
+
+  /// No description provided for @accountBlockedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 record of the previous account is not sent yet.} other{{count} records of the previous account are not sent yet.}} Sign in again with that account and open the app with internet on so they are sent. Then sign in with this account.'**
+  String accountBlockedBody(int count);
+
+  /// No description provided for @accountPreviousPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous account: {phone}'**
+  String accountPreviousPhone(String phone);
 }
 
 class _AppLocalizationsDelegate
