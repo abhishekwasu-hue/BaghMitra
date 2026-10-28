@@ -3,10 +3,12 @@ from __future__ import annotations
 import uuid
 from collections.abc import AsyncIterator
 from datetime import UTC, date, datetime, timedelta
+from pathlib import Path
 
 import httpx
 import pytest
-from sqlalchemy import select, update
+from alembic import command
+from sqlalchemy import create_engine, inspect, select, update
 from sqlalchemy.ext.asyncio import AsyncEngine, async_sessionmaker
 
 from bagmitra_api.core.settings import Settings
@@ -15,6 +17,7 @@ from bagmitra_api.db.session import get_sessionmaker
 from bagmitra_api.main import create_app
 from bagmitra_api.weather.open_meteo import DailyWeather, WeatherUnavailableError
 from bagmitra_api.weather.service import cell_for, get_clock, get_weather_provider
+from tests.test_migrations import _config, _sync_url
 
 TODAY = date(2026, 3, 14)
 NOW = datetime(2026, 3, 14, 6, 0, tzinfo=UTC)
@@ -24,6 +27,7 @@ class FakeProvider:
     def __init__(self, *, fail: bool = False) -> None:
         self.calls: list[tuple[float, float]] = []
         self.fail = fail
+        self.storm = False
 
     async def daily(
         self, lat: float, lon: float, *, past_days: int, forecast_days: int
@@ -32,8 +36,10 @@ class FakeProvider:
         self.calls.append((lat, lon))
         if self.fail:
             raise WeatherUnavailableError("HTTP 503")
+        code = 95.0 if self.storm else 3.0
         return [
-            DailyWeather(TODAY + timedelta(days=i), 30 + 3 * i, 18, 0.0, 40, 20) for i in range(3)
+            DailyWeather(TODAY + timedelta(days=i), 30 + 3 * i, 18, 0.0, 40, 20, code)
+            for i in range(3)
         ]
 
 
@@ -154,3 +160,38 @@ async def test_other_owner_and_missing_location_are_refused(
     assert r.status_code == 409
     assert r.json()["error"]["code"] == "plot_location_missing"
     assert (await api.get(f"/v1/plots/{no_gps}/weather")).status_code == 401
+
+
+async def test_storm_alert_links_to_the_claim_kit_and_code_is_stored(
+    api: httpx.AsyncClient,
+    engine: AsyncEngine,
+    provider: FakeProvider,
+    user_id: uuid.UUID,
+    auth_headers: dict[str, str],
+) -> None:
+    provider.storm = True
+    plot_id = await add_plot(engine, user_id)
+    body = (await api.get(f"/v1/plots/{plot_id}/weather?lang=mr", headers=auth_headers)).json()
+    storm = next(a for a in body["alerts"] if a["rule_key"] == "hail_thunderstorm")
+    assert storm["action"] == "claim_kit"
+    assert "फोटो" in storm["text"]
+    heat = next(a for a in body["alerts"] if a["rule_key"] == "heat_fruit_drop")
+    assert heat["action"] is None
+    assert body["days"][0]["weather_code"] == 95
+    # Served again from storage: the stored code still triggers the same alert.
+    again = (await api.get(f"/v1/plots/{plot_id}/weather", headers=auth_headers)).json()
+    assert any(a["rule_key"] == "hail_thunderstorm" for a in again["alerts"])
+    assert provider.calls == [(21.25, 77.75)]
+
+
+def test_migration_0023_adds_and_drops_the_weather_code(tmp_path: Path) -> None:
+    url = f"sqlite+aiosqlite:///{tmp_path / 'w.db'}"
+    cfg = _config(url)
+    engine = create_engine(_sync_url(url))
+    command.upgrade(cfg, "0023")
+    with engine.connect() as conn:
+        assert "weather_code" in {c["name"] for c in inspect(conn).get_columns("weather_daily")}
+    command.downgrade(cfg, "0022")
+    with engine.connect() as conn:
+        assert "weather_code" not in {c["name"] for c in inspect(conn).get_columns("weather_daily")}
+    engine.dispose()

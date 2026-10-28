@@ -102,3 +102,69 @@ def test_missing_required_values_and_missing_temperatures() -> None:
     weather = [*days((30, 20)), DailyWeather(START + timedelta(1), None, 20, 0.0, None, None)]
     [alert] = evaluate([dd], weather)
     assert (alert.first_day, alert.value) == (START, 15)
+
+
+def test_months_limit_a_threshold_to_part_of_the_year() -> None:
+    wet = rule(key="wet", field="precip_mm", op=">=", value=10, min_days=1, months=[3])
+    march = [DailyWeather(START, 30, 20, 25.0, None, None)]
+    july = [DailyWeather(date(2026, 7, 10), 30, 20, 25.0, None, None)]
+    [alert] = evaluate([wet], march)
+    assert (alert.first_day, alert.value) == (START, 25.0)
+    assert evaluate([wet], july) == []
+    with pytest.raises(RuleConfigError, match="wet"):
+        rule(key="wet", months=[13])
+    with pytest.raises(RuleConfigError, match="wet"):
+        rule(key="wet", months=[])
+
+
+def test_action_links_an_alert_to_a_screen() -> None:
+    assert rule(action="claim_kit").action == "claim_kit"
+    assert rule().action is None
+    with pytest.raises(RuleConfigError, match="hot"):
+        rule(action="buy_now")
+
+
+def test_weather_code_thresholds_catch_thunderstorms() -> None:
+    storm = rule(key="storm", field="weather_code", op=">=", value=95, min_days=1)
+    calm = DailyWeather(START, 30, 20, 0.0, None, None, weather_code=3)
+    thunder = DailyWeather(START + timedelta(1), 30, 20, 8.0, None, None, weather_code=96)
+    [alert] = evaluate([storm], [calm, thunder])
+    assert (alert.first_day, alert.value) == (START + timedelta(1), 96)
+    assert evaluate([storm], [calm]) == []
+
+
+def test_shipped_storm_rules_point_to_the_claim_kit() -> None:
+    by_key = {r.key: r for r in load_rules()}
+    storm_keys = {"hail_thunderstorm", "high_wind_gust", "heavy_rain", "unseasonal_rain"}
+    assert storm_keys <= set(by_key)
+    for key in storm_keys:
+        assert by_key[key].action == "claim_kit"
+        assert by_key[key].kind == "threshold"
+    assert by_key["heat_fruit_drop"].action is None
+
+    def day(on: date, **kw: float) -> DailyWeather:
+        values: dict[str, float | None] = {"precip_mm": 0.0, "wind_gust_kmh": 10.0}
+        values.update(kw)
+        return DailyWeather(
+            on,
+            30,
+            20,
+            values["precip_mm"],
+            None,
+            values["wind_gust_kmh"],
+            weather_code=values.get("weather_code"),
+        )
+
+    rules = list(by_key.values())
+
+    def fired(*weather: DailyWeather) -> set[str]:
+        return {a.rule_key for a in evaluate(rules, list(weather))} & storm_keys
+
+    assert fired(day(START)) == set()
+    assert fired(day(START, weather_code=95)) == {"hail_thunderstorm"}
+    assert fired(day(START, wind_gust_kmh=70)) == {"high_wind_gust"}
+    # Monsoon rain is expected: only a very wet day alerts in July.
+    assert fired(day(date(2026, 7, 10), precip_mm=30)) == set()
+    assert fired(day(date(2026, 7, 10), precip_mm=80)) == {"heavy_rain"}
+    # Out of season (March), a smaller fall already alerts.
+    assert fired(day(START, precip_mm=30)) == {"unseasonal_rain"}

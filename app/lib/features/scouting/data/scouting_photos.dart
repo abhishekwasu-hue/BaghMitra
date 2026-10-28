@@ -20,11 +20,14 @@ abstract interface class ScoutingPhotos {
 }
 
 class DeviceScoutingPhotos implements ScoutingPhotos {
+  /// [folderName] keeps another feature's photos apart (the claim kit uses its own).
   DeviceScoutingPhotos({
     ImagePicker? picker,
     Future<Directory> Function()? documents,
+    String folderName = folder,
   }) : _picker = picker ?? ImagePicker(),
-       _documents = documents ?? getApplicationDocumentsDirectory;
+       _documents = documents ?? getApplicationDocumentsDirectory,
+       _folder = folderName;
 
   /// Phone photos are large; this is plenty to see a pest on a leaf.
   static const maxWidth = 1280.0;
@@ -33,6 +36,7 @@ class DeviceScoutingPhotos implements ScoutingPhotos {
 
   final ImagePicker _picker;
   final Future<Directory> Function() _documents;
+  final String _folder;
 
   @override
   Future<String?> pick(PhotoSource source) async {
@@ -49,7 +53,7 @@ class DeviceScoutingPhotos implements ScoutingPhotos {
 
   @override
   Future<String> keep(String pickedPath, String recordId) async {
-    final dir = Directory(p.join((await _documents()).path, folder));
+    final dir = Directory(p.join((await _documents()).path, _folder));
     await dir.create(recursive: true);
     final ext = p.extension(pickedPath);
     final dest = p.join(dir.path, '$recordId${ext.isEmpty ? '.jpg' : ext}');

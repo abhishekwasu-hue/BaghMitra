@@ -63,7 +63,13 @@ def cell_for(lat: float, lon: float, decimals: int) -> Cell:
 
 def _to_daily(row: WeatherDaily) -> DailyWeather:
     return DailyWeather(
-        row.day, row.t_max_c, row.t_min_c, row.precip_mm, row.rh_mean_pct, row.wind_gust_kmh
+        row.day,
+        row.t_max_c,
+        row.t_min_c,
+        row.precip_mm,
+        row.rh_mean_pct,
+        row.wind_gust_kmh,
+        row.weather_code,
     )
 
 
@@ -116,6 +122,7 @@ async def weather_for_cell(
             precip_mm=d.precip_mm,
             rh_mean_pct=d.rh_mean_pct,
             wind_gust_kmh=d.wind_gust_kmh,
+            weather_code=d.weather_code,
             fetched_at=now,
         )
         for d in days

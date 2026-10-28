@@ -1745,4 +1745,221 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get feedCheckPortal => 'कुछ करने से पहले आधिकारिक पोर्टल जाँचें.';
+
+  @override
+  String get insuranceTitle => 'फसल बीमा';
+
+  @override
+  String get insuranceEmpty =>
+      'इस बाग के लिए अभी कोई बीमा दर्ज नहीं। लिया हुआ फसल बीमा दर्ज करें, या नुकसान होने पर क्लेम किट खोलें।';
+
+  @override
+  String get insurancePoliciesNone => 'अभी कोई बीमा दर्ज नहीं।';
+
+  @override
+  String get insuranceAdd => 'बीमा दर्ज करें';
+
+  @override
+  String get insuranceEdit => 'बीमा बदलें';
+
+  @override
+  String get insuranceScheme => 'योजना';
+
+  @override
+  String get insuranceSchemePmfby => 'प्रधानमंत्री फसल बीमा (PMFBY)';
+
+  @override
+  String get insuranceSchemeRwbcis => 'मौसम आधारित फल फसल बीमा (RWBCIS)';
+
+  @override
+  String get insuranceSchemeOther => 'अन्य';
+
+  @override
+  String get insuranceSchemeUnknown => 'पता नहीं';
+
+  @override
+  String get insuranceSeason => 'बहार';
+
+  @override
+  String get insuranceSeasonAmbia => 'अंबिया बहार';
+
+  @override
+  String get insuranceSeasonMrig => 'मृग बहार';
+
+  @override
+  String get insuranceSeasonYear => 'वर्ष (वैकल्पिक)';
+
+  @override
+  String get insuranceInsurer => 'बीमा कंपनी (वैकल्पिक)';
+
+  @override
+  String get insurancePolicyNumber => 'पॉलिसी या आवेदन नंबर (वैकल्पिक)';
+
+  @override
+  String get insuranceSumInsured => 'बीमित राशि ₹ (वैकल्पिक)';
+
+  @override
+  String get insurancePremium => 'भरा गया प्रीमियम ₹ (वैकल्पिक)';
+
+  @override
+  String get insuranceAmountsHint => 'राशि केवल रसीद पर छपी हुई ही लिखें।';
+
+  @override
+  String get insuranceEnrolledOn => 'नामांकन की तारीख';
+
+  @override
+  String get insuranceNotSet => 'नहीं दी';
+
+  @override
+  String get insuranceNote => 'नोट (वैकल्पिक)';
+
+  @override
+  String insurancePolicyNo(String number) {
+    return 'नं. $number';
+  }
+
+  @override
+  String insuranceEnrolled(String date) {
+    return 'नामांकन $date';
+  }
+
+  @override
+  String insurancePremiumLine(String amount) {
+    return 'भरा प्रीमियम $amount';
+  }
+
+  @override
+  String insuranceSumLine(String amount) {
+    return 'बीमित राशि $amount';
+  }
+
+  @override
+  String insuranceDeadline(String date) {
+    return 'नामांकन की अंतिम तिथि: $date';
+  }
+
+  @override
+  String get insuranceDeadlineNote =>
+      'प्रकाशित आधिकारिक सूचना के अनुसार। कुछ करने से पहले सूचना देखें।';
+
+  @override
+  String get insuranceDeletePolicy => 'बीमा हटाएँ';
+
+  @override
+  String get insuranceDeleteConfirm => 'यह बीमा रिकॉर्ड हटाएँ?';
+
+  @override
+  String get insuranceClaims => 'नुकसान रिकॉर्ड';
+
+  @override
+  String insuranceClaimLine(String date, String count) {
+    return 'नुकसान $date · फ़ोटो: $count';
+  }
+
+  @override
+  String get claimKitTitle => 'क्लेम किट';
+
+  @override
+  String get claimKitFromAlert => 'नुकसान की फ़ोटो · क्लेम किट';
+
+  @override
+  String get claimKitPlot => 'बाग';
+
+  @override
+  String get claimKitPickPlot => 'बाग चुनें';
+
+  @override
+  String get claimKitDate => 'नुकसान की तारीख';
+
+  @override
+  String get claimKitPhotos => 'नुकसान की फ़ोटो (तारीख और GPS जुड़ते हैं)';
+
+  @override
+  String get claimKitNoPhotos => 'अभी कोई फ़ोटो नहीं।';
+
+  @override
+  String get claimKitNoGps => 'GPS नहीं मिला';
+
+  @override
+  String get claimKitRemovePhoto => 'फ़ोटो हटाएँ';
+
+  @override
+  String get claimKitNote => 'क्या हुआ? (वैकल्पिक)';
+
+  @override
+  String get claimKitChecklist => 'जाँच सूची';
+
+  @override
+  String get claimKitCheckPolicy =>
+      'यह केवल सामान्य जानकारी है। नियम और समय-सीमा पॉलिसी के अनुसार अलग होते हैं: अपनी पॉलिसी, बैंक या CSC से जाँचें।';
+
+  @override
+  String get claimCheckInform72h =>
+      'नुकसान की सूचना बीमा कंपनी, अपने बैंक या CSC केंद्र को जल्दी दें। कई पॉलिसियों में 72 घंटे के भीतर बताना होता है।';
+
+  @override
+  String get claimCheckPhotos =>
+      'नुकसान की तारीख वाली फ़ोटो बाग की अलग-अलग तरफ़ से लें।';
+
+  @override
+  String get claimCheckPanchnama =>
+      'पंचनामा (नुकसान सर्वे) करवाएँ और उसकी कॉपी संभाल कर रखें।';
+
+  @override
+  String get claimCheckPolicyCopy =>
+      'पॉलिसी या आवेदन की रसीद और बैंक पासबुक की कॉपी तैयार रखें।';
+
+  @override
+  String get claimCheckAcknowledgement =>
+      'सूचना देते समय मिला शिकायत / डॉकेट नंबर लिख कर रखें।';
+
+  @override
+  String get claimCheckKeepFruit =>
+      'सर्वे से पहले नुकसान वाले फल या पेड़ न हटाएँ, जब तक अलग से न कहा जाए।';
+
+  @override
+  String get claimKitShare => 'PDF भेजें';
+
+  @override
+  String get claimKitShareFailed => 'PDF नहीं बन सकी। फिर कोशिश करें।';
+
+  @override
+  String get claimKitDelete => 'नुकसान रिकॉर्ड हटाएँ';
+
+  @override
+  String get claimKitDeleteConfirm =>
+      'यह नुकसान रिकॉर्ड और इसकी फ़ोटो इस फ़ोन से हटाएँ?';
+
+  @override
+  String get claimKitLocalOnly =>
+      'फ़ोटो और नोट इसी फ़ोन पर रहते हैं। ज़रूरत हो तो PDF भेजें।';
+
+  @override
+  String get claimPdfTitle => 'फसल नुकसान रिकॉर्ड';
+
+  @override
+  String get claimPdfPlotGps => 'बाग का स्थान (GPS)';
+
+  @override
+  String get claimPdfNoGps => 'दर्ज नहीं';
+
+  @override
+  String get claimPdfPolicy => 'बीमा';
+
+  @override
+  String get claimPdfPhotos => 'फ़ोटो';
+
+  @override
+  String get claimPdfNote => 'नोट';
+
+  @override
+  String get claimPdfDone => 'किया';
+
+  @override
+  String get claimPdfNotDone => 'अभी नहीं';
+
+  @override
+  String claimPdfMade(String date) {
+    return '$date को बनाया। किसान का रखा रिकॉर्ड, बीमा कंपनी का दस्तावेज़ नहीं।';
+  }
 }

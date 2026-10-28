@@ -4204,6 +4204,162 @@ extension $ImportOutExtension on ImportOut {
 }
 
 @JsonSerializable(explicitToJson: true)
+class InsuranceDeadlineOut {
+  const InsuranceDeadlineOut({
+    required this.dueDate,
+    required this.itemId,
+    required this.season,
+    required this.title,
+    required this.url,
+  });
+
+  factory InsuranceDeadlineOut.fromJson(Map<String, dynamic> json) =>
+      _$InsuranceDeadlineOutFromJson(json);
+
+  static const toJsonFactory = _$InsuranceDeadlineOutToJson;
+  Map<String, dynamic> toJson() => _$InsuranceDeadlineOutToJson(this);
+
+  @JsonKey(name: 'due_date', includeIfNull: false, toJson: _dateToJson)
+  final DateTime dueDate;
+  @JsonKey(name: 'item_id', includeIfNull: false)
+  final String itemId;
+  @JsonKey(name: 'season', includeIfNull: false)
+  final String? season;
+  @JsonKey(name: 'title', includeIfNull: false)
+  final String title;
+  @JsonKey(name: 'url', includeIfNull: false)
+  final String url;
+  static const fromJsonFactory = _$InsuranceDeadlineOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is InsuranceDeadlineOut &&
+            (identical(other.dueDate, dueDate) ||
+                const DeepCollectionEquality().equals(
+                  other.dueDate,
+                  dueDate,
+                )) &&
+            (identical(other.itemId, itemId) ||
+                const DeepCollectionEquality().equals(other.itemId, itemId)) &&
+            (identical(other.season, season) ||
+                const DeepCollectionEquality().equals(other.season, season)) &&
+            (identical(other.title, title) ||
+                const DeepCollectionEquality().equals(other.title, title)) &&
+            (identical(other.url, url) ||
+                const DeepCollectionEquality().equals(other.url, url)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(dueDate) ^
+      const DeepCollectionEquality().hash(itemId) ^
+      const DeepCollectionEquality().hash(season) ^
+      const DeepCollectionEquality().hash(title) ^
+      const DeepCollectionEquality().hash(url) ^
+      runtimeType.hashCode;
+}
+
+extension $InsuranceDeadlineOutExtension on InsuranceDeadlineOut {
+  InsuranceDeadlineOut copyWith({
+    DateTime? dueDate,
+    String? itemId,
+    String? season,
+    String? title,
+    String? url,
+  }) {
+    return InsuranceDeadlineOut(
+      dueDate: dueDate ?? this.dueDate,
+      itemId: itemId ?? this.itemId,
+      season: season ?? this.season,
+      title: title ?? this.title,
+      url: url ?? this.url,
+    );
+  }
+
+  InsuranceDeadlineOut copyWithWrapped({
+    Wrapped<DateTime>? dueDate,
+    Wrapped<String>? itemId,
+    Wrapped<String?>? season,
+    Wrapped<String>? title,
+    Wrapped<String>? url,
+  }) {
+    return InsuranceDeadlineOut(
+      dueDate: (dueDate != null ? dueDate.value : this.dueDate),
+      itemId: (itemId != null ? itemId.value : this.itemId),
+      season: (season != null ? season.value : this.season),
+      title: (title != null ? title.value : this.title),
+      url: (url != null ? url.value : this.url),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class InsuranceDeadlinesResponse {
+  const InsuranceDeadlinesResponse({required this.footer, required this.items});
+
+  factory InsuranceDeadlinesResponse.fromJson(Map<String, dynamic> json) =>
+      _$InsuranceDeadlinesResponseFromJson(json);
+
+  static const toJsonFactory = _$InsuranceDeadlinesResponseToJson;
+  Map<String, dynamic> toJson() => _$InsuranceDeadlinesResponseToJson(this);
+
+  @JsonKey(name: 'footer', includeIfNull: false)
+  final String footer;
+  @JsonKey(
+    name: 'items',
+    includeIfNull: false,
+    defaultValue: <InsuranceDeadlineOut>[],
+  )
+  final List<InsuranceDeadlineOut> items;
+  static const fromJsonFactory = _$InsuranceDeadlinesResponseFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is InsuranceDeadlinesResponse &&
+            (identical(other.footer, footer) ||
+                const DeepCollectionEquality().equals(other.footer, footer)) &&
+            (identical(other.items, items) ||
+                const DeepCollectionEquality().equals(other.items, items)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(footer) ^
+      const DeepCollectionEquality().hash(items) ^
+      runtimeType.hashCode;
+}
+
+extension $InsuranceDeadlinesResponseExtension on InsuranceDeadlinesResponse {
+  InsuranceDeadlinesResponse copyWith({
+    String? footer,
+    List<InsuranceDeadlineOut>? items,
+  }) {
+    return InsuranceDeadlinesResponse(
+      footer: footer ?? this.footer,
+      items: items ?? this.items,
+    );
+  }
+
+  InsuranceDeadlinesResponse copyWithWrapped({
+    Wrapped<String>? footer,
+    Wrapped<List<InsuranceDeadlineOut>>? items,
+  }) {
+    return InsuranceDeadlinesResponse(
+      footer: (footer != null ? footer.value : this.footer),
+      items: (items != null ? items.value : this.items),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class LabelClaimOut {
   const LabelClaimOut({
     required this.activeIngredient,
@@ -7105,6 +7261,7 @@ extension $ValidationErrorExtension on ValidationError {
 @JsonSerializable(explicitToJson: true)
 class WeatherAlert {
   const WeatherAlert({
+    this.action,
     required this.firstDay,
     required this.ruleKey,
     required this.source,
@@ -7120,6 +7277,8 @@ class WeatherAlert {
   static const toJsonFactory = _$WeatherAlertToJson;
   Map<String, dynamic> toJson() => _$WeatherAlertToJson(this);
 
+  @JsonKey(name: 'action', includeIfNull: false)
+  final String? action;
   @JsonKey(name: 'first_day', includeIfNull: false, toJson: _dateToJson)
   final DateTime firstDay;
   @JsonKey(name: 'rule_key', includeIfNull: false)
@@ -7140,6 +7299,8 @@ class WeatherAlert {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other is WeatherAlert &&
+            (identical(other.action, action) ||
+                const DeepCollectionEquality().equals(other.action, action)) &&
             (identical(other.firstDay, firstDay) ||
                 const DeepCollectionEquality().equals(
                   other.firstDay,
@@ -7167,6 +7328,7 @@ class WeatherAlert {
 
   @override
   int get hashCode =>
+      const DeepCollectionEquality().hash(action) ^
       const DeepCollectionEquality().hash(firstDay) ^
       const DeepCollectionEquality().hash(ruleKey) ^
       const DeepCollectionEquality().hash(source) ^
@@ -7179,6 +7341,7 @@ class WeatherAlert {
 
 extension $WeatherAlertExtension on WeatherAlert {
   WeatherAlert copyWith({
+    String? action,
     DateTime? firstDay,
     String? ruleKey,
     String? source,
@@ -7188,6 +7351,7 @@ extension $WeatherAlertExtension on WeatherAlert {
     double? value,
   }) {
     return WeatherAlert(
+      action: action ?? this.action,
       firstDay: firstDay ?? this.firstDay,
       ruleKey: ruleKey ?? this.ruleKey,
       source: source ?? this.source,
@@ -7199,6 +7363,7 @@ extension $WeatherAlertExtension on WeatherAlert {
   }
 
   WeatherAlert copyWithWrapped({
+    Wrapped<String?>? action,
     Wrapped<DateTime>? firstDay,
     Wrapped<String>? ruleKey,
     Wrapped<String>? source,
@@ -7208,6 +7373,7 @@ extension $WeatherAlertExtension on WeatherAlert {
     Wrapped<double>? value,
   }) {
     return WeatherAlert(
+      action: (action != null ? action.value : this.action),
       firstDay: (firstDay != null ? firstDay.value : this.firstDay),
       ruleKey: (ruleKey != null ? ruleKey.value : this.ruleKey),
       source: (source != null ? source.value : this.source),
@@ -7227,6 +7393,7 @@ class WeatherDay {
     required this.rhMeanPct,
     required this.tMaxC,
     required this.tMinC,
+    this.weatherCode,
     required this.windGustKmh,
   });
 
@@ -7246,6 +7413,8 @@ class WeatherDay {
   final double? tMaxC;
   @JsonKey(name: 't_min_c', includeIfNull: false)
   final double? tMinC;
+  @JsonKey(name: 'weather_code', includeIfNull: false)
+  final double? weatherCode;
   @JsonKey(name: 'wind_gust_kmh', includeIfNull: false)
   final double? windGustKmh;
   static const fromJsonFactory = _$WeatherDayFromJson;
@@ -7270,6 +7439,11 @@ class WeatherDay {
                 const DeepCollectionEquality().equals(other.tMaxC, tMaxC)) &&
             (identical(other.tMinC, tMinC) ||
                 const DeepCollectionEquality().equals(other.tMinC, tMinC)) &&
+            (identical(other.weatherCode, weatherCode) ||
+                const DeepCollectionEquality().equals(
+                  other.weatherCode,
+                  weatherCode,
+                )) &&
             (identical(other.windGustKmh, windGustKmh) ||
                 const DeepCollectionEquality().equals(
                   other.windGustKmh,
@@ -7287,6 +7461,7 @@ class WeatherDay {
       const DeepCollectionEquality().hash(rhMeanPct) ^
       const DeepCollectionEquality().hash(tMaxC) ^
       const DeepCollectionEquality().hash(tMinC) ^
+      const DeepCollectionEquality().hash(weatherCode) ^
       const DeepCollectionEquality().hash(windGustKmh) ^
       runtimeType.hashCode;
 }
@@ -7298,6 +7473,7 @@ extension $WeatherDayExtension on WeatherDay {
     double? rhMeanPct,
     double? tMaxC,
     double? tMinC,
+    double? weatherCode,
     double? windGustKmh,
   }) {
     return WeatherDay(
@@ -7306,6 +7482,7 @@ extension $WeatherDayExtension on WeatherDay {
       rhMeanPct: rhMeanPct ?? this.rhMeanPct,
       tMaxC: tMaxC ?? this.tMaxC,
       tMinC: tMinC ?? this.tMinC,
+      weatherCode: weatherCode ?? this.weatherCode,
       windGustKmh: windGustKmh ?? this.windGustKmh,
     );
   }
@@ -7316,6 +7493,7 @@ extension $WeatherDayExtension on WeatherDay {
     Wrapped<double?>? rhMeanPct,
     Wrapped<double?>? tMaxC,
     Wrapped<double?>? tMinC,
+    Wrapped<double?>? weatherCode,
     Wrapped<double?>? windGustKmh,
   }) {
     return WeatherDay(
@@ -7324,6 +7502,7 @@ extension $WeatherDayExtension on WeatherDay {
       rhMeanPct: (rhMeanPct != null ? rhMeanPct.value : this.rhMeanPct),
       tMaxC: (tMaxC != null ? tMaxC.value : this.tMaxC),
       tMinC: (tMinC != null ? tMinC.value : this.tMinC),
+      weatherCode: (weatherCode != null ? weatherCode.value : this.weatherCode),
       windGustKmh: (windGustKmh != null ? windGustKmh.value : this.windGustKmh),
     );
   }
@@ -8612,6 +8791,85 @@ List<enums.V1FeedCheckPostLang>? v1FeedCheckPostLangNullableListFromJson(
 
   return v1FeedCheckPostLang
       .map((e) => v1FeedCheckPostLangFromJson(e.toString()))
+      .toList();
+}
+
+String? v1InsuranceDeadlinesGetLangNullableToJson(
+  enums.V1InsuranceDeadlinesGetLang? v1InsuranceDeadlinesGetLang,
+) {
+  return v1InsuranceDeadlinesGetLang?.value;
+}
+
+String? v1InsuranceDeadlinesGetLangToJson(
+  enums.V1InsuranceDeadlinesGetLang v1InsuranceDeadlinesGetLang,
+) {
+  return v1InsuranceDeadlinesGetLang.value;
+}
+
+enums.V1InsuranceDeadlinesGetLang v1InsuranceDeadlinesGetLangFromJson(
+  Object? v1InsuranceDeadlinesGetLang, [
+  enums.V1InsuranceDeadlinesGetLang? defaultValue,
+]) {
+  return enums.V1InsuranceDeadlinesGetLang.values.firstWhereOrNull(
+        (e) => e.value == v1InsuranceDeadlinesGetLang,
+      ) ??
+      defaultValue ??
+      enums.V1InsuranceDeadlinesGetLang.swaggerGeneratedUnknown;
+}
+
+enums.V1InsuranceDeadlinesGetLang? v1InsuranceDeadlinesGetLangNullableFromJson(
+  Object? v1InsuranceDeadlinesGetLang, [
+  enums.V1InsuranceDeadlinesGetLang? defaultValue,
+]) {
+  if (v1InsuranceDeadlinesGetLang == null) {
+    return null;
+  }
+  return enums.V1InsuranceDeadlinesGetLang.values.firstWhereOrNull(
+        (e) => e.value == v1InsuranceDeadlinesGetLang,
+      ) ??
+      defaultValue;
+}
+
+String v1InsuranceDeadlinesGetLangExplodedListToJson(
+  List<enums.V1InsuranceDeadlinesGetLang>? v1InsuranceDeadlinesGetLang,
+) {
+  return v1InsuranceDeadlinesGetLang?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> v1InsuranceDeadlinesGetLangListToJson(
+  List<enums.V1InsuranceDeadlinesGetLang>? v1InsuranceDeadlinesGetLang,
+) {
+  if (v1InsuranceDeadlinesGetLang == null) {
+    return [];
+  }
+
+  return v1InsuranceDeadlinesGetLang.map((e) => e.value!).toList();
+}
+
+List<enums.V1InsuranceDeadlinesGetLang> v1InsuranceDeadlinesGetLangListFromJson(
+  List? v1InsuranceDeadlinesGetLang, [
+  List<enums.V1InsuranceDeadlinesGetLang>? defaultValue,
+]) {
+  if (v1InsuranceDeadlinesGetLang == null) {
+    return defaultValue ?? [];
+  }
+
+  return v1InsuranceDeadlinesGetLang
+      .map((e) => v1InsuranceDeadlinesGetLangFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.V1InsuranceDeadlinesGetLang>?
+v1InsuranceDeadlinesGetLangNullableListFromJson(
+  List? v1InsuranceDeadlinesGetLang, [
+  List<enums.V1InsuranceDeadlinesGetLang>? defaultValue,
+]) {
+  if (v1InsuranceDeadlinesGetLang == null) {
+    return defaultValue;
+  }
+
+  return v1InsuranceDeadlinesGetLang
+      .map((e) => v1InsuranceDeadlinesGetLangFromJson(e.toString()))
       .toList();
 }
 

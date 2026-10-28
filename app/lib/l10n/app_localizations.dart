@@ -3135,6 +3135,390 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Check the official portal before acting.'**
   String get feedCheckPortal;
+
+  /// No description provided for @insuranceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Crop insurance'**
+  String get insuranceTitle;
+
+  /// No description provided for @insuranceEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No policy recorded for this plot yet. Add the crop insurance you took, or open the claim kit after a loss.'**
+  String get insuranceEmpty;
+
+  /// No description provided for @insurancePoliciesNone.
+  ///
+  /// In en, this message translates to:
+  /// **'No policy recorded yet.'**
+  String get insurancePoliciesNone;
+
+  /// No description provided for @insuranceAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add policy'**
+  String get insuranceAdd;
+
+  /// No description provided for @insuranceEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit policy'**
+  String get insuranceEdit;
+
+  /// No description provided for @insuranceScheme.
+  ///
+  /// In en, this message translates to:
+  /// **'Scheme'**
+  String get insuranceScheme;
+
+  /// No description provided for @insuranceSchemePmfby.
+  ///
+  /// In en, this message translates to:
+  /// **'PM crop insurance (PMFBY)'**
+  String get insuranceSchemePmfby;
+
+  /// No description provided for @insuranceSchemeRwbcis.
+  ///
+  /// In en, this message translates to:
+  /// **'Weather-based fruit crop (RWBCIS)'**
+  String get insuranceSchemeRwbcis;
+
+  /// No description provided for @insuranceSchemeOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get insuranceSchemeOther;
+
+  /// No description provided for @insuranceSchemeUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t know'**
+  String get insuranceSchemeUnknown;
+
+  /// No description provided for @insuranceSeason.
+  ///
+  /// In en, this message translates to:
+  /// **'Bahar'**
+  String get insuranceSeason;
+
+  /// No description provided for @insuranceSeasonAmbia.
+  ///
+  /// In en, this message translates to:
+  /// **'Ambia bahar'**
+  String get insuranceSeasonAmbia;
+
+  /// No description provided for @insuranceSeasonMrig.
+  ///
+  /// In en, this message translates to:
+  /// **'Mrig bahar'**
+  String get insuranceSeasonMrig;
+
+  /// No description provided for @insuranceSeasonYear.
+  ///
+  /// In en, this message translates to:
+  /// **'Year (optional)'**
+  String get insuranceSeasonYear;
+
+  /// No description provided for @insuranceInsurer.
+  ///
+  /// In en, this message translates to:
+  /// **'Insurance company (optional)'**
+  String get insuranceInsurer;
+
+  /// No description provided for @insurancePolicyNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Policy or application number (optional)'**
+  String get insurancePolicyNumber;
+
+  /// No description provided for @insuranceSumInsured.
+  ///
+  /// In en, this message translates to:
+  /// **'Sum insured ₹ (optional)'**
+  String get insuranceSumInsured;
+
+  /// No description provided for @insurancePremium.
+  ///
+  /// In en, this message translates to:
+  /// **'Premium paid ₹ (optional)'**
+  String get insurancePremium;
+
+  /// No description provided for @insuranceAmountsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter amounts only as printed on your receipt.'**
+  String get insuranceAmountsHint;
+
+  /// No description provided for @insuranceEnrolledOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Enrolment date'**
+  String get insuranceEnrolledOn;
+
+  /// No description provided for @insuranceNotSet.
+  ///
+  /// In en, this message translates to:
+  /// **'Not set'**
+  String get insuranceNotSet;
+
+  /// No description provided for @insuranceNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Note (optional)'**
+  String get insuranceNote;
+
+  /// No description provided for @insurancePolicyNo.
+  ///
+  /// In en, this message translates to:
+  /// **'No. {number}'**
+  String insurancePolicyNo(String number);
+
+  /// No description provided for @insuranceEnrolled.
+  ///
+  /// In en, this message translates to:
+  /// **'Enrolled {date}'**
+  String insuranceEnrolled(String date);
+
+  /// No description provided for @insurancePremiumLine.
+  ///
+  /// In en, this message translates to:
+  /// **'Premium paid {amount}'**
+  String insurancePremiumLine(String amount);
+
+  /// No description provided for @insuranceSumLine.
+  ///
+  /// In en, this message translates to:
+  /// **'Sum insured {amount}'**
+  String insuranceSumLine(String amount);
+
+  /// No description provided for @insuranceDeadline.
+  ///
+  /// In en, this message translates to:
+  /// **'Enrolment deadline: {date}'**
+  String insuranceDeadline(String date);
+
+  /// No description provided for @insuranceDeadlineNote.
+  ///
+  /// In en, this message translates to:
+  /// **'From a published official notice. Check the notice before acting.'**
+  String get insuranceDeadlineNote;
+
+  /// No description provided for @insuranceDeletePolicy.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete policy'**
+  String get insuranceDeletePolicy;
+
+  /// No description provided for @insuranceDeleteConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this policy record?'**
+  String get insuranceDeleteConfirm;
+
+  /// No description provided for @insuranceClaims.
+  ///
+  /// In en, this message translates to:
+  /// **'Loss records'**
+  String get insuranceClaims;
+
+  /// No description provided for @insuranceClaimLine.
+  ///
+  /// In en, this message translates to:
+  /// **'Loss on {date} · photos: {count}'**
+  String insuranceClaimLine(String date, String count);
+
+  /// No description provided for @claimKitTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Claim kit'**
+  String get claimKitTitle;
+
+  /// No description provided for @claimKitFromAlert.
+  ///
+  /// In en, this message translates to:
+  /// **'Take loss photos · claim kit'**
+  String get claimKitFromAlert;
+
+  /// No description provided for @claimKitPlot.
+  ///
+  /// In en, this message translates to:
+  /// **'Plot'**
+  String get claimKitPlot;
+
+  /// No description provided for @claimKitPickPlot.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a plot'**
+  String get claimKitPickPlot;
+
+  /// No description provided for @claimKitDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Date of loss'**
+  String get claimKitDate;
+
+  /// No description provided for @claimKitPhotos.
+  ///
+  /// In en, this message translates to:
+  /// **'Loss photos (date and GPS are added)'**
+  String get claimKitPhotos;
+
+  /// No description provided for @claimKitNoPhotos.
+  ///
+  /// In en, this message translates to:
+  /// **'No photos yet.'**
+  String get claimKitNoPhotos;
+
+  /// No description provided for @claimKitNoGps.
+  ///
+  /// In en, this message translates to:
+  /// **'GPS not available'**
+  String get claimKitNoGps;
+
+  /// No description provided for @claimKitRemovePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove photo'**
+  String get claimKitRemovePhoto;
+
+  /// No description provided for @claimKitNote.
+  ///
+  /// In en, this message translates to:
+  /// **'What happened? (optional)'**
+  String get claimKitNote;
+
+  /// No description provided for @claimKitChecklist.
+  ///
+  /// In en, this message translates to:
+  /// **'Checklist'**
+  String get claimKitChecklist;
+
+  /// No description provided for @claimKitCheckPolicy.
+  ///
+  /// In en, this message translates to:
+  /// **'General guidance only. Rules and time limits differ by policy: check your policy, bank or CSC.'**
+  String get claimKitCheckPolicy;
+
+  /// No description provided for @claimCheckInform72h.
+  ///
+  /// In en, this message translates to:
+  /// **'Inform the insurer, your bank or the CSC about the loss soon. Many policies ask for this within 72 hours.'**
+  String get claimCheckInform72h;
+
+  /// No description provided for @claimCheckPhotos.
+  ///
+  /// In en, this message translates to:
+  /// **'Take dated photos of the damage from several sides of the plot.'**
+  String get claimCheckPhotos;
+
+  /// No description provided for @claimCheckPanchnama.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask for the panchnama (loss survey) and keep a copy.'**
+  String get claimCheckPanchnama;
+
+  /// No description provided for @claimCheckPolicyCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep your policy or application receipt and a bank passbook copy ready.'**
+  String get claimCheckPolicyCopy;
+
+  /// No description provided for @claimCheckAcknowledgement.
+  ///
+  /// In en, this message translates to:
+  /// **'Write down the complaint or docket number you get when you inform.'**
+  String get claimCheckAcknowledgement;
+
+  /// No description provided for @claimCheckKeepFruit.
+  ///
+  /// In en, this message translates to:
+  /// **'Do not clear the damaged fruit or trees before the survey, unless you are told otherwise.'**
+  String get claimCheckKeepFruit;
+
+  /// No description provided for @claimKitShare.
+  ///
+  /// In en, this message translates to:
+  /// **'Share PDF'**
+  String get claimKitShare;
+
+  /// No description provided for @claimKitShareFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not make the PDF. Try again.'**
+  String get claimKitShareFailed;
+
+  /// No description provided for @claimKitDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete loss record'**
+  String get claimKitDelete;
+
+  /// No description provided for @claimKitDeleteConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this loss record and its photos from this phone?'**
+  String get claimKitDeleteConfirm;
+
+  /// No description provided for @claimKitLocalOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Photos and notes stay on this phone. Share the PDF when you need it.'**
+  String get claimKitLocalOnly;
+
+  /// No description provided for @claimPdfTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Crop loss record'**
+  String get claimPdfTitle;
+
+  /// No description provided for @claimPdfPlotGps.
+  ///
+  /// In en, this message translates to:
+  /// **'Plot location (GPS)'**
+  String get claimPdfPlotGps;
+
+  /// No description provided for @claimPdfNoGps.
+  ///
+  /// In en, this message translates to:
+  /// **'Not marked'**
+  String get claimPdfNoGps;
+
+  /// No description provided for @claimPdfPolicy.
+  ///
+  /// In en, this message translates to:
+  /// **'Insurance'**
+  String get claimPdfPolicy;
+
+  /// No description provided for @claimPdfPhotos.
+  ///
+  /// In en, this message translates to:
+  /// **'Photos'**
+  String get claimPdfPhotos;
+
+  /// No description provided for @claimPdfNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Note'**
+  String get claimPdfNote;
+
+  /// No description provided for @claimPdfDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get claimPdfDone;
+
+  /// No description provided for @claimPdfNotDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Not yet'**
+  String get claimPdfNotDone;
+
+  /// No description provided for @claimPdfMade.
+  ///
+  /// In en, this message translates to:
+  /// **'Made on {date}. A record kept by the grower, not an insurer\'s document.'**
+  String claimPdfMade(String date);
 }
 
 class _AppLocalizationsDelegate

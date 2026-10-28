@@ -8780,6 +8780,1593 @@ class ScoutingRecordsCompanion extends UpdateCompanion<ScoutingRecordRow> {
   }
 }
 
+class $InsurancePoliciesTable extends InsurancePolicies
+    with TableInfo<$InsurancePoliciesTable, InsurancePolicyRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $InsurancePoliciesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _plotIdMeta = const VerificationMeta('plotId');
+  @override
+  late final GeneratedColumn<String> plotId = GeneratedColumn<String>(
+    'plot_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _schemeMeta = const VerificationMeta('scheme');
+  @override
+  late final GeneratedColumn<String> scheme = GeneratedColumn<String>(
+    'scheme',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _seasonMeta = const VerificationMeta('season');
+  @override
+  late final GeneratedColumn<String> season = GeneratedColumn<String>(
+    'season',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _seasonYearMeta = const VerificationMeta(
+    'seasonYear',
+  );
+  @override
+  late final GeneratedColumn<int> seasonYear = GeneratedColumn<int>(
+    'season_year',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _insurerNameMeta = const VerificationMeta(
+    'insurerName',
+  );
+  @override
+  late final GeneratedColumn<String> insurerName = GeneratedColumn<String>(
+    'insurer_name',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _policyNumberMeta = const VerificationMeta(
+    'policyNumber',
+  );
+  @override
+  late final GeneratedColumn<String> policyNumber = GeneratedColumn<String>(
+    'policy_number',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _sumInsuredPaiseMeta = const VerificationMeta(
+    'sumInsuredPaise',
+  );
+  @override
+  late final GeneratedColumn<int> sumInsuredPaise = GeneratedColumn<int>(
+    'sum_insured_paise',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _premiumPaidPaiseMeta = const VerificationMeta(
+    'premiumPaidPaise',
+  );
+  @override
+  late final GeneratedColumn<int> premiumPaidPaise = GeneratedColumn<int>(
+    'premium_paid_paise',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _enrolledOnMeta = const VerificationMeta(
+    'enrolledOn',
+  );
+  @override
+  late final GeneratedColumn<DateTime> enrolledOn = GeneratedColumn<DateTime>(
+    'enrolled_on',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _noteMeta = const VerificationMeta('note');
+  @override
+  late final GeneratedColumn<String> note = GeneratedColumn<String>(
+    'note',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _clientUpdatedAtMeta = const VerificationMeta(
+    'clientUpdatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> clientUpdatedAt =
+      GeneratedColumn<DateTime>(
+        'client_updated_at',
+        aliasedName,
+        false,
+        type: DriftSqlType.dateTime,
+        requiredDuringInsert: true,
+      );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    plotId,
+    scheme,
+    season,
+    seasonYear,
+    insurerName,
+    policyNumber,
+    sumInsuredPaise,
+    premiumPaidPaise,
+    enrolledOn,
+    note,
+    clientUpdatedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'insurance_policies';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<InsurancePolicyRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('plot_id')) {
+      context.handle(
+        _plotIdMeta,
+        plotId.isAcceptableOrUnknown(data['plot_id']!, _plotIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_plotIdMeta);
+    }
+    if (data.containsKey('scheme')) {
+      context.handle(
+        _schemeMeta,
+        scheme.isAcceptableOrUnknown(data['scheme']!, _schemeMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_schemeMeta);
+    }
+    if (data.containsKey('season')) {
+      context.handle(
+        _seasonMeta,
+        season.isAcceptableOrUnknown(data['season']!, _seasonMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_seasonMeta);
+    }
+    if (data.containsKey('season_year')) {
+      context.handle(
+        _seasonYearMeta,
+        seasonYear.isAcceptableOrUnknown(data['season_year']!, _seasonYearMeta),
+      );
+    }
+    if (data.containsKey('insurer_name')) {
+      context.handle(
+        _insurerNameMeta,
+        insurerName.isAcceptableOrUnknown(
+          data['insurer_name']!,
+          _insurerNameMeta,
+        ),
+      );
+    }
+    if (data.containsKey('policy_number')) {
+      context.handle(
+        _policyNumberMeta,
+        policyNumber.isAcceptableOrUnknown(
+          data['policy_number']!,
+          _policyNumberMeta,
+        ),
+      );
+    }
+    if (data.containsKey('sum_insured_paise')) {
+      context.handle(
+        _sumInsuredPaiseMeta,
+        sumInsuredPaise.isAcceptableOrUnknown(
+          data['sum_insured_paise']!,
+          _sumInsuredPaiseMeta,
+        ),
+      );
+    }
+    if (data.containsKey('premium_paid_paise')) {
+      context.handle(
+        _premiumPaidPaiseMeta,
+        premiumPaidPaise.isAcceptableOrUnknown(
+          data['premium_paid_paise']!,
+          _premiumPaidPaiseMeta,
+        ),
+      );
+    }
+    if (data.containsKey('enrolled_on')) {
+      context.handle(
+        _enrolledOnMeta,
+        enrolledOn.isAcceptableOrUnknown(data['enrolled_on']!, _enrolledOnMeta),
+      );
+    }
+    if (data.containsKey('note')) {
+      context.handle(
+        _noteMeta,
+        note.isAcceptableOrUnknown(data['note']!, _noteMeta),
+      );
+    }
+    if (data.containsKey('client_updated_at')) {
+      context.handle(
+        _clientUpdatedAtMeta,
+        clientUpdatedAt.isAcceptableOrUnknown(
+          data['client_updated_at']!,
+          _clientUpdatedAtMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_clientUpdatedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  InsurancePolicyRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return InsurancePolicyRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      plotId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}plot_id'],
+      )!,
+      scheme: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}scheme'],
+      )!,
+      season: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}season'],
+      )!,
+      seasonYear: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}season_year'],
+      ),
+      insurerName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}insurer_name'],
+      ),
+      policyNumber: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}policy_number'],
+      ),
+      sumInsuredPaise: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}sum_insured_paise'],
+      ),
+      premiumPaidPaise: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}premium_paid_paise'],
+      ),
+      enrolledOn: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}enrolled_on'],
+      ),
+      note: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}note'],
+      ),
+      clientUpdatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}client_updated_at'],
+      )!,
+    );
+  }
+
+  @override
+  $InsurancePoliciesTable createAlias(String alias) {
+    return $InsurancePoliciesTable(attachedDatabase, alias);
+  }
+}
+
+class InsurancePolicyRow extends DataClass
+    implements Insertable<InsurancePolicyRow> {
+  final String id;
+  final String plotId;
+  final String scheme;
+  final String season;
+  final int? seasonYear;
+  final String? insurerName;
+  final String? policyNumber;
+  final int? sumInsuredPaise;
+  final int? premiumPaidPaise;
+  final DateTime? enrolledOn;
+  final String? note;
+  final DateTime clientUpdatedAt;
+  const InsurancePolicyRow({
+    required this.id,
+    required this.plotId,
+    required this.scheme,
+    required this.season,
+    this.seasonYear,
+    this.insurerName,
+    this.policyNumber,
+    this.sumInsuredPaise,
+    this.premiumPaidPaise,
+    this.enrolledOn,
+    this.note,
+    required this.clientUpdatedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['plot_id'] = Variable<String>(plotId);
+    map['scheme'] = Variable<String>(scheme);
+    map['season'] = Variable<String>(season);
+    if (!nullToAbsent || seasonYear != null) {
+      map['season_year'] = Variable<int>(seasonYear);
+    }
+    if (!nullToAbsent || insurerName != null) {
+      map['insurer_name'] = Variable<String>(insurerName);
+    }
+    if (!nullToAbsent || policyNumber != null) {
+      map['policy_number'] = Variable<String>(policyNumber);
+    }
+    if (!nullToAbsent || sumInsuredPaise != null) {
+      map['sum_insured_paise'] = Variable<int>(sumInsuredPaise);
+    }
+    if (!nullToAbsent || premiumPaidPaise != null) {
+      map['premium_paid_paise'] = Variable<int>(premiumPaidPaise);
+    }
+    if (!nullToAbsent || enrolledOn != null) {
+      map['enrolled_on'] = Variable<DateTime>(enrolledOn);
+    }
+    if (!nullToAbsent || note != null) {
+      map['note'] = Variable<String>(note);
+    }
+    map['client_updated_at'] = Variable<DateTime>(clientUpdatedAt);
+    return map;
+  }
+
+  InsurancePoliciesCompanion toCompanion(bool nullToAbsent) {
+    return InsurancePoliciesCompanion(
+      id: Value(id),
+      plotId: Value(plotId),
+      scheme: Value(scheme),
+      season: Value(season),
+      seasonYear: seasonYear == null && nullToAbsent
+          ? const Value.absent()
+          : Value(seasonYear),
+      insurerName: insurerName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(insurerName),
+      policyNumber: policyNumber == null && nullToAbsent
+          ? const Value.absent()
+          : Value(policyNumber),
+      sumInsuredPaise: sumInsuredPaise == null && nullToAbsent
+          ? const Value.absent()
+          : Value(sumInsuredPaise),
+      premiumPaidPaise: premiumPaidPaise == null && nullToAbsent
+          ? const Value.absent()
+          : Value(premiumPaidPaise),
+      enrolledOn: enrolledOn == null && nullToAbsent
+          ? const Value.absent()
+          : Value(enrolledOn),
+      note: note == null && nullToAbsent ? const Value.absent() : Value(note),
+      clientUpdatedAt: Value(clientUpdatedAt),
+    );
+  }
+
+  factory InsurancePolicyRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return InsurancePolicyRow(
+      id: serializer.fromJson<String>(json['id']),
+      plotId: serializer.fromJson<String>(json['plotId']),
+      scheme: serializer.fromJson<String>(json['scheme']),
+      season: serializer.fromJson<String>(json['season']),
+      seasonYear: serializer.fromJson<int?>(json['seasonYear']),
+      insurerName: serializer.fromJson<String?>(json['insurerName']),
+      policyNumber: serializer.fromJson<String?>(json['policyNumber']),
+      sumInsuredPaise: serializer.fromJson<int?>(json['sumInsuredPaise']),
+      premiumPaidPaise: serializer.fromJson<int?>(json['premiumPaidPaise']),
+      enrolledOn: serializer.fromJson<DateTime?>(json['enrolledOn']),
+      note: serializer.fromJson<String?>(json['note']),
+      clientUpdatedAt: serializer.fromJson<DateTime>(json['clientUpdatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'plotId': serializer.toJson<String>(plotId),
+      'scheme': serializer.toJson<String>(scheme),
+      'season': serializer.toJson<String>(season),
+      'seasonYear': serializer.toJson<int?>(seasonYear),
+      'insurerName': serializer.toJson<String?>(insurerName),
+      'policyNumber': serializer.toJson<String?>(policyNumber),
+      'sumInsuredPaise': serializer.toJson<int?>(sumInsuredPaise),
+      'premiumPaidPaise': serializer.toJson<int?>(premiumPaidPaise),
+      'enrolledOn': serializer.toJson<DateTime?>(enrolledOn),
+      'note': serializer.toJson<String?>(note),
+      'clientUpdatedAt': serializer.toJson<DateTime>(clientUpdatedAt),
+    };
+  }
+
+  InsurancePolicyRow copyWith({
+    String? id,
+    String? plotId,
+    String? scheme,
+    String? season,
+    Value<int?> seasonYear = const Value.absent(),
+    Value<String?> insurerName = const Value.absent(),
+    Value<String?> policyNumber = const Value.absent(),
+    Value<int?> sumInsuredPaise = const Value.absent(),
+    Value<int?> premiumPaidPaise = const Value.absent(),
+    Value<DateTime?> enrolledOn = const Value.absent(),
+    Value<String?> note = const Value.absent(),
+    DateTime? clientUpdatedAt,
+  }) => InsurancePolicyRow(
+    id: id ?? this.id,
+    plotId: plotId ?? this.plotId,
+    scheme: scheme ?? this.scheme,
+    season: season ?? this.season,
+    seasonYear: seasonYear.present ? seasonYear.value : this.seasonYear,
+    insurerName: insurerName.present ? insurerName.value : this.insurerName,
+    policyNumber: policyNumber.present ? policyNumber.value : this.policyNumber,
+    sumInsuredPaise: sumInsuredPaise.present
+        ? sumInsuredPaise.value
+        : this.sumInsuredPaise,
+    premiumPaidPaise: premiumPaidPaise.present
+        ? premiumPaidPaise.value
+        : this.premiumPaidPaise,
+    enrolledOn: enrolledOn.present ? enrolledOn.value : this.enrolledOn,
+    note: note.present ? note.value : this.note,
+    clientUpdatedAt: clientUpdatedAt ?? this.clientUpdatedAt,
+  );
+  InsurancePolicyRow copyWithCompanion(InsurancePoliciesCompanion data) {
+    return InsurancePolicyRow(
+      id: data.id.present ? data.id.value : this.id,
+      plotId: data.plotId.present ? data.plotId.value : this.plotId,
+      scheme: data.scheme.present ? data.scheme.value : this.scheme,
+      season: data.season.present ? data.season.value : this.season,
+      seasonYear: data.seasonYear.present
+          ? data.seasonYear.value
+          : this.seasonYear,
+      insurerName: data.insurerName.present
+          ? data.insurerName.value
+          : this.insurerName,
+      policyNumber: data.policyNumber.present
+          ? data.policyNumber.value
+          : this.policyNumber,
+      sumInsuredPaise: data.sumInsuredPaise.present
+          ? data.sumInsuredPaise.value
+          : this.sumInsuredPaise,
+      premiumPaidPaise: data.premiumPaidPaise.present
+          ? data.premiumPaidPaise.value
+          : this.premiumPaidPaise,
+      enrolledOn: data.enrolledOn.present
+          ? data.enrolledOn.value
+          : this.enrolledOn,
+      note: data.note.present ? data.note.value : this.note,
+      clientUpdatedAt: data.clientUpdatedAt.present
+          ? data.clientUpdatedAt.value
+          : this.clientUpdatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('InsurancePolicyRow(')
+          ..write('id: $id, ')
+          ..write('plotId: $plotId, ')
+          ..write('scheme: $scheme, ')
+          ..write('season: $season, ')
+          ..write('seasonYear: $seasonYear, ')
+          ..write('insurerName: $insurerName, ')
+          ..write('policyNumber: $policyNumber, ')
+          ..write('sumInsuredPaise: $sumInsuredPaise, ')
+          ..write('premiumPaidPaise: $premiumPaidPaise, ')
+          ..write('enrolledOn: $enrolledOn, ')
+          ..write('note: $note, ')
+          ..write('clientUpdatedAt: $clientUpdatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    plotId,
+    scheme,
+    season,
+    seasonYear,
+    insurerName,
+    policyNumber,
+    sumInsuredPaise,
+    premiumPaidPaise,
+    enrolledOn,
+    note,
+    clientUpdatedAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is InsurancePolicyRow &&
+          other.id == this.id &&
+          other.plotId == this.plotId &&
+          other.scheme == this.scheme &&
+          other.season == this.season &&
+          other.seasonYear == this.seasonYear &&
+          other.insurerName == this.insurerName &&
+          other.policyNumber == this.policyNumber &&
+          other.sumInsuredPaise == this.sumInsuredPaise &&
+          other.premiumPaidPaise == this.premiumPaidPaise &&
+          other.enrolledOn == this.enrolledOn &&
+          other.note == this.note &&
+          other.clientUpdatedAt == this.clientUpdatedAt);
+}
+
+class InsurancePoliciesCompanion extends UpdateCompanion<InsurancePolicyRow> {
+  final Value<String> id;
+  final Value<String> plotId;
+  final Value<String> scheme;
+  final Value<String> season;
+  final Value<int?> seasonYear;
+  final Value<String?> insurerName;
+  final Value<String?> policyNumber;
+  final Value<int?> sumInsuredPaise;
+  final Value<int?> premiumPaidPaise;
+  final Value<DateTime?> enrolledOn;
+  final Value<String?> note;
+  final Value<DateTime> clientUpdatedAt;
+  final Value<int> rowid;
+  const InsurancePoliciesCompanion({
+    this.id = const Value.absent(),
+    this.plotId = const Value.absent(),
+    this.scheme = const Value.absent(),
+    this.season = const Value.absent(),
+    this.seasonYear = const Value.absent(),
+    this.insurerName = const Value.absent(),
+    this.policyNumber = const Value.absent(),
+    this.sumInsuredPaise = const Value.absent(),
+    this.premiumPaidPaise = const Value.absent(),
+    this.enrolledOn = const Value.absent(),
+    this.note = const Value.absent(),
+    this.clientUpdatedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  InsurancePoliciesCompanion.insert({
+    required String id,
+    required String plotId,
+    required String scheme,
+    required String season,
+    this.seasonYear = const Value.absent(),
+    this.insurerName = const Value.absent(),
+    this.policyNumber = const Value.absent(),
+    this.sumInsuredPaise = const Value.absent(),
+    this.premiumPaidPaise = const Value.absent(),
+    this.enrolledOn = const Value.absent(),
+    this.note = const Value.absent(),
+    required DateTime clientUpdatedAt,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       plotId = Value(plotId),
+       scheme = Value(scheme),
+       season = Value(season),
+       clientUpdatedAt = Value(clientUpdatedAt);
+  static Insertable<InsurancePolicyRow> custom({
+    Expression<String>? id,
+    Expression<String>? plotId,
+    Expression<String>? scheme,
+    Expression<String>? season,
+    Expression<int>? seasonYear,
+    Expression<String>? insurerName,
+    Expression<String>? policyNumber,
+    Expression<int>? sumInsuredPaise,
+    Expression<int>? premiumPaidPaise,
+    Expression<DateTime>? enrolledOn,
+    Expression<String>? note,
+    Expression<DateTime>? clientUpdatedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (plotId != null) 'plot_id': plotId,
+      if (scheme != null) 'scheme': scheme,
+      if (season != null) 'season': season,
+      if (seasonYear != null) 'season_year': seasonYear,
+      if (insurerName != null) 'insurer_name': insurerName,
+      if (policyNumber != null) 'policy_number': policyNumber,
+      if (sumInsuredPaise != null) 'sum_insured_paise': sumInsuredPaise,
+      if (premiumPaidPaise != null) 'premium_paid_paise': premiumPaidPaise,
+      if (enrolledOn != null) 'enrolled_on': enrolledOn,
+      if (note != null) 'note': note,
+      if (clientUpdatedAt != null) 'client_updated_at': clientUpdatedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  InsurancePoliciesCompanion copyWith({
+    Value<String>? id,
+    Value<String>? plotId,
+    Value<String>? scheme,
+    Value<String>? season,
+    Value<int?>? seasonYear,
+    Value<String?>? insurerName,
+    Value<String?>? policyNumber,
+    Value<int?>? sumInsuredPaise,
+    Value<int?>? premiumPaidPaise,
+    Value<DateTime?>? enrolledOn,
+    Value<String?>? note,
+    Value<DateTime>? clientUpdatedAt,
+    Value<int>? rowid,
+  }) {
+    return InsurancePoliciesCompanion(
+      id: id ?? this.id,
+      plotId: plotId ?? this.plotId,
+      scheme: scheme ?? this.scheme,
+      season: season ?? this.season,
+      seasonYear: seasonYear ?? this.seasonYear,
+      insurerName: insurerName ?? this.insurerName,
+      policyNumber: policyNumber ?? this.policyNumber,
+      sumInsuredPaise: sumInsuredPaise ?? this.sumInsuredPaise,
+      premiumPaidPaise: premiumPaidPaise ?? this.premiumPaidPaise,
+      enrolledOn: enrolledOn ?? this.enrolledOn,
+      note: note ?? this.note,
+      clientUpdatedAt: clientUpdatedAt ?? this.clientUpdatedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (plotId.present) {
+      map['plot_id'] = Variable<String>(plotId.value);
+    }
+    if (scheme.present) {
+      map['scheme'] = Variable<String>(scheme.value);
+    }
+    if (season.present) {
+      map['season'] = Variable<String>(season.value);
+    }
+    if (seasonYear.present) {
+      map['season_year'] = Variable<int>(seasonYear.value);
+    }
+    if (insurerName.present) {
+      map['insurer_name'] = Variable<String>(insurerName.value);
+    }
+    if (policyNumber.present) {
+      map['policy_number'] = Variable<String>(policyNumber.value);
+    }
+    if (sumInsuredPaise.present) {
+      map['sum_insured_paise'] = Variable<int>(sumInsuredPaise.value);
+    }
+    if (premiumPaidPaise.present) {
+      map['premium_paid_paise'] = Variable<int>(premiumPaidPaise.value);
+    }
+    if (enrolledOn.present) {
+      map['enrolled_on'] = Variable<DateTime>(enrolledOn.value);
+    }
+    if (note.present) {
+      map['note'] = Variable<String>(note.value);
+    }
+    if (clientUpdatedAt.present) {
+      map['client_updated_at'] = Variable<DateTime>(clientUpdatedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('InsurancePoliciesCompanion(')
+          ..write('id: $id, ')
+          ..write('plotId: $plotId, ')
+          ..write('scheme: $scheme, ')
+          ..write('season: $season, ')
+          ..write('seasonYear: $seasonYear, ')
+          ..write('insurerName: $insurerName, ')
+          ..write('policyNumber: $policyNumber, ')
+          ..write('sumInsuredPaise: $sumInsuredPaise, ')
+          ..write('premiumPaidPaise: $premiumPaidPaise, ')
+          ..write('enrolledOn: $enrolledOn, ')
+          ..write('note: $note, ')
+          ..write('clientUpdatedAt: $clientUpdatedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $ClaimKitsTable extends ClaimKits
+    with TableInfo<$ClaimKitsTable, ClaimKitRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ClaimKitsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _plotIdMeta = const VerificationMeta('plotId');
+  @override
+  late final GeneratedColumn<String> plotId = GeneratedColumn<String>(
+    'plot_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _lossOnMeta = const VerificationMeta('lossOn');
+  @override
+  late final GeneratedColumn<DateTime> lossOn = GeneratedColumn<DateTime>(
+    'loss_on',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _noteMeta = const VerificationMeta('note');
+  @override
+  late final GeneratedColumn<String> note = GeneratedColumn<String>(
+    'note',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _checklistMeta = const VerificationMeta(
+    'checklist',
+  );
+  @override
+  late final GeneratedColumn<String> checklist = GeneratedColumn<String>(
+    'checklist',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('[]'),
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    plotId,
+    lossOn,
+    note,
+    checklist,
+    updatedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'claim_kits';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<ClaimKitRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('plot_id')) {
+      context.handle(
+        _plotIdMeta,
+        plotId.isAcceptableOrUnknown(data['plot_id']!, _plotIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_plotIdMeta);
+    }
+    if (data.containsKey('loss_on')) {
+      context.handle(
+        _lossOnMeta,
+        lossOn.isAcceptableOrUnknown(data['loss_on']!, _lossOnMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_lossOnMeta);
+    }
+    if (data.containsKey('note')) {
+      context.handle(
+        _noteMeta,
+        note.isAcceptableOrUnknown(data['note']!, _noteMeta),
+      );
+    }
+    if (data.containsKey('checklist')) {
+      context.handle(
+        _checklistMeta,
+        checklist.isAcceptableOrUnknown(data['checklist']!, _checklistMeta),
+      );
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ClaimKitRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ClaimKitRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      plotId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}plot_id'],
+      )!,
+      lossOn: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}loss_on'],
+      )!,
+      note: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}note'],
+      ),
+      checklist: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}checklist'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      )!,
+    );
+  }
+
+  @override
+  $ClaimKitsTable createAlias(String alias) {
+    return $ClaimKitsTable(attachedDatabase, alias);
+  }
+}
+
+class ClaimKitRow extends DataClass implements Insertable<ClaimKitRow> {
+  final String id;
+  final String plotId;
+  final DateTime lossOn;
+  final String? note;
+  final String checklist;
+  final DateTime updatedAt;
+  const ClaimKitRow({
+    required this.id,
+    required this.plotId,
+    required this.lossOn,
+    this.note,
+    required this.checklist,
+    required this.updatedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['plot_id'] = Variable<String>(plotId);
+    map['loss_on'] = Variable<DateTime>(lossOn);
+    if (!nullToAbsent || note != null) {
+      map['note'] = Variable<String>(note);
+    }
+    map['checklist'] = Variable<String>(checklist);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    return map;
+  }
+
+  ClaimKitsCompanion toCompanion(bool nullToAbsent) {
+    return ClaimKitsCompanion(
+      id: Value(id),
+      plotId: Value(plotId),
+      lossOn: Value(lossOn),
+      note: note == null && nullToAbsent ? const Value.absent() : Value(note),
+      checklist: Value(checklist),
+      updatedAt: Value(updatedAt),
+    );
+  }
+
+  factory ClaimKitRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ClaimKitRow(
+      id: serializer.fromJson<String>(json['id']),
+      plotId: serializer.fromJson<String>(json['plotId']),
+      lossOn: serializer.fromJson<DateTime>(json['lossOn']),
+      note: serializer.fromJson<String?>(json['note']),
+      checklist: serializer.fromJson<String>(json['checklist']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'plotId': serializer.toJson<String>(plotId),
+      'lossOn': serializer.toJson<DateTime>(lossOn),
+      'note': serializer.toJson<String?>(note),
+      'checklist': serializer.toJson<String>(checklist),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+    };
+  }
+
+  ClaimKitRow copyWith({
+    String? id,
+    String? plotId,
+    DateTime? lossOn,
+    Value<String?> note = const Value.absent(),
+    String? checklist,
+    DateTime? updatedAt,
+  }) => ClaimKitRow(
+    id: id ?? this.id,
+    plotId: plotId ?? this.plotId,
+    lossOn: lossOn ?? this.lossOn,
+    note: note.present ? note.value : this.note,
+    checklist: checklist ?? this.checklist,
+    updatedAt: updatedAt ?? this.updatedAt,
+  );
+  ClaimKitRow copyWithCompanion(ClaimKitsCompanion data) {
+    return ClaimKitRow(
+      id: data.id.present ? data.id.value : this.id,
+      plotId: data.plotId.present ? data.plotId.value : this.plotId,
+      lossOn: data.lossOn.present ? data.lossOn.value : this.lossOn,
+      note: data.note.present ? data.note.value : this.note,
+      checklist: data.checklist.present ? data.checklist.value : this.checklist,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ClaimKitRow(')
+          ..write('id: $id, ')
+          ..write('plotId: $plotId, ')
+          ..write('lossOn: $lossOn, ')
+          ..write('note: $note, ')
+          ..write('checklist: $checklist, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, plotId, lossOn, note, checklist, updatedAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ClaimKitRow &&
+          other.id == this.id &&
+          other.plotId == this.plotId &&
+          other.lossOn == this.lossOn &&
+          other.note == this.note &&
+          other.checklist == this.checklist &&
+          other.updatedAt == this.updatedAt);
+}
+
+class ClaimKitsCompanion extends UpdateCompanion<ClaimKitRow> {
+  final Value<String> id;
+  final Value<String> plotId;
+  final Value<DateTime> lossOn;
+  final Value<String?> note;
+  final Value<String> checklist;
+  final Value<DateTime> updatedAt;
+  final Value<int> rowid;
+  const ClaimKitsCompanion({
+    this.id = const Value.absent(),
+    this.plotId = const Value.absent(),
+    this.lossOn = const Value.absent(),
+    this.note = const Value.absent(),
+    this.checklist = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  ClaimKitsCompanion.insert({
+    required String id,
+    required String plotId,
+    required DateTime lossOn,
+    this.note = const Value.absent(),
+    this.checklist = const Value.absent(),
+    required DateTime updatedAt,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       plotId = Value(plotId),
+       lossOn = Value(lossOn),
+       updatedAt = Value(updatedAt);
+  static Insertable<ClaimKitRow> custom({
+    Expression<String>? id,
+    Expression<String>? plotId,
+    Expression<DateTime>? lossOn,
+    Expression<String>? note,
+    Expression<String>? checklist,
+    Expression<DateTime>? updatedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (plotId != null) 'plot_id': plotId,
+      if (lossOn != null) 'loss_on': lossOn,
+      if (note != null) 'note': note,
+      if (checklist != null) 'checklist': checklist,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  ClaimKitsCompanion copyWith({
+    Value<String>? id,
+    Value<String>? plotId,
+    Value<DateTime>? lossOn,
+    Value<String?>? note,
+    Value<String>? checklist,
+    Value<DateTime>? updatedAt,
+    Value<int>? rowid,
+  }) {
+    return ClaimKitsCompanion(
+      id: id ?? this.id,
+      plotId: plotId ?? this.plotId,
+      lossOn: lossOn ?? this.lossOn,
+      note: note ?? this.note,
+      checklist: checklist ?? this.checklist,
+      updatedAt: updatedAt ?? this.updatedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (plotId.present) {
+      map['plot_id'] = Variable<String>(plotId.value);
+    }
+    if (lossOn.present) {
+      map['loss_on'] = Variable<DateTime>(lossOn.value);
+    }
+    if (note.present) {
+      map['note'] = Variable<String>(note.value);
+    }
+    if (checklist.present) {
+      map['checklist'] = Variable<String>(checklist.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ClaimKitsCompanion(')
+          ..write('id: $id, ')
+          ..write('plotId: $plotId, ')
+          ..write('lossOn: $lossOn, ')
+          ..write('note: $note, ')
+          ..write('checklist: $checklist, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $ClaimPhotosTable extends ClaimPhotos
+    with TableInfo<$ClaimPhotosTable, ClaimPhotoRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ClaimPhotosTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _claimIdMeta = const VerificationMeta(
+    'claimId',
+  );
+  @override
+  late final GeneratedColumn<String> claimId = GeneratedColumn<String>(
+    'claim_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _pathMeta = const VerificationMeta('path');
+  @override
+  late final GeneratedColumn<String> path = GeneratedColumn<String>(
+    'path',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _takenAtMeta = const VerificationMeta(
+    'takenAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> takenAt = GeneratedColumn<DateTime>(
+    'taken_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _latMeta = const VerificationMeta('lat');
+  @override
+  late final GeneratedColumn<double> lat = GeneratedColumn<double>(
+    'lat',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _lonMeta = const VerificationMeta('lon');
+  @override
+  late final GeneratedColumn<double> lon = GeneratedColumn<double>(
+    'lon',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _accuracyMMeta = const VerificationMeta(
+    'accuracyM',
+  );
+  @override
+  late final GeneratedColumn<double> accuracyM = GeneratedColumn<double>(
+    'accuracy_m',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    claimId,
+    path,
+    takenAt,
+    lat,
+    lon,
+    accuracyM,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'claim_photos';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<ClaimPhotoRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('claim_id')) {
+      context.handle(
+        _claimIdMeta,
+        claimId.isAcceptableOrUnknown(data['claim_id']!, _claimIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_claimIdMeta);
+    }
+    if (data.containsKey('path')) {
+      context.handle(
+        _pathMeta,
+        path.isAcceptableOrUnknown(data['path']!, _pathMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_pathMeta);
+    }
+    if (data.containsKey('taken_at')) {
+      context.handle(
+        _takenAtMeta,
+        takenAt.isAcceptableOrUnknown(data['taken_at']!, _takenAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_takenAtMeta);
+    }
+    if (data.containsKey('lat')) {
+      context.handle(
+        _latMeta,
+        lat.isAcceptableOrUnknown(data['lat']!, _latMeta),
+      );
+    }
+    if (data.containsKey('lon')) {
+      context.handle(
+        _lonMeta,
+        lon.isAcceptableOrUnknown(data['lon']!, _lonMeta),
+      );
+    }
+    if (data.containsKey('accuracy_m')) {
+      context.handle(
+        _accuracyMMeta,
+        accuracyM.isAcceptableOrUnknown(data['accuracy_m']!, _accuracyMMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ClaimPhotoRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ClaimPhotoRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      claimId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}claim_id'],
+      )!,
+      path: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}path'],
+      )!,
+      takenAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}taken_at'],
+      )!,
+      lat: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}lat'],
+      ),
+      lon: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}lon'],
+      ),
+      accuracyM: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}accuracy_m'],
+      ),
+    );
+  }
+
+  @override
+  $ClaimPhotosTable createAlias(String alias) {
+    return $ClaimPhotosTable(attachedDatabase, alias);
+  }
+}
+
+class ClaimPhotoRow extends DataClass implements Insertable<ClaimPhotoRow> {
+  final String id;
+  final String claimId;
+  final String path;
+  final DateTime takenAt;
+  final double? lat;
+  final double? lon;
+  final double? accuracyM;
+  const ClaimPhotoRow({
+    required this.id,
+    required this.claimId,
+    required this.path,
+    required this.takenAt,
+    this.lat,
+    this.lon,
+    this.accuracyM,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['claim_id'] = Variable<String>(claimId);
+    map['path'] = Variable<String>(path);
+    map['taken_at'] = Variable<DateTime>(takenAt);
+    if (!nullToAbsent || lat != null) {
+      map['lat'] = Variable<double>(lat);
+    }
+    if (!nullToAbsent || lon != null) {
+      map['lon'] = Variable<double>(lon);
+    }
+    if (!nullToAbsent || accuracyM != null) {
+      map['accuracy_m'] = Variable<double>(accuracyM);
+    }
+    return map;
+  }
+
+  ClaimPhotosCompanion toCompanion(bool nullToAbsent) {
+    return ClaimPhotosCompanion(
+      id: Value(id),
+      claimId: Value(claimId),
+      path: Value(path),
+      takenAt: Value(takenAt),
+      lat: lat == null && nullToAbsent ? const Value.absent() : Value(lat),
+      lon: lon == null && nullToAbsent ? const Value.absent() : Value(lon),
+      accuracyM: accuracyM == null && nullToAbsent
+          ? const Value.absent()
+          : Value(accuracyM),
+    );
+  }
+
+  factory ClaimPhotoRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ClaimPhotoRow(
+      id: serializer.fromJson<String>(json['id']),
+      claimId: serializer.fromJson<String>(json['claimId']),
+      path: serializer.fromJson<String>(json['path']),
+      takenAt: serializer.fromJson<DateTime>(json['takenAt']),
+      lat: serializer.fromJson<double?>(json['lat']),
+      lon: serializer.fromJson<double?>(json['lon']),
+      accuracyM: serializer.fromJson<double?>(json['accuracyM']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'claimId': serializer.toJson<String>(claimId),
+      'path': serializer.toJson<String>(path),
+      'takenAt': serializer.toJson<DateTime>(takenAt),
+      'lat': serializer.toJson<double?>(lat),
+      'lon': serializer.toJson<double?>(lon),
+      'accuracyM': serializer.toJson<double?>(accuracyM),
+    };
+  }
+
+  ClaimPhotoRow copyWith({
+    String? id,
+    String? claimId,
+    String? path,
+    DateTime? takenAt,
+    Value<double?> lat = const Value.absent(),
+    Value<double?> lon = const Value.absent(),
+    Value<double?> accuracyM = const Value.absent(),
+  }) => ClaimPhotoRow(
+    id: id ?? this.id,
+    claimId: claimId ?? this.claimId,
+    path: path ?? this.path,
+    takenAt: takenAt ?? this.takenAt,
+    lat: lat.present ? lat.value : this.lat,
+    lon: lon.present ? lon.value : this.lon,
+    accuracyM: accuracyM.present ? accuracyM.value : this.accuracyM,
+  );
+  ClaimPhotoRow copyWithCompanion(ClaimPhotosCompanion data) {
+    return ClaimPhotoRow(
+      id: data.id.present ? data.id.value : this.id,
+      claimId: data.claimId.present ? data.claimId.value : this.claimId,
+      path: data.path.present ? data.path.value : this.path,
+      takenAt: data.takenAt.present ? data.takenAt.value : this.takenAt,
+      lat: data.lat.present ? data.lat.value : this.lat,
+      lon: data.lon.present ? data.lon.value : this.lon,
+      accuracyM: data.accuracyM.present ? data.accuracyM.value : this.accuracyM,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ClaimPhotoRow(')
+          ..write('id: $id, ')
+          ..write('claimId: $claimId, ')
+          ..write('path: $path, ')
+          ..write('takenAt: $takenAt, ')
+          ..write('lat: $lat, ')
+          ..write('lon: $lon, ')
+          ..write('accuracyM: $accuracyM')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, claimId, path, takenAt, lat, lon, accuracyM);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ClaimPhotoRow &&
+          other.id == this.id &&
+          other.claimId == this.claimId &&
+          other.path == this.path &&
+          other.takenAt == this.takenAt &&
+          other.lat == this.lat &&
+          other.lon == this.lon &&
+          other.accuracyM == this.accuracyM);
+}
+
+class ClaimPhotosCompanion extends UpdateCompanion<ClaimPhotoRow> {
+  final Value<String> id;
+  final Value<String> claimId;
+  final Value<String> path;
+  final Value<DateTime> takenAt;
+  final Value<double?> lat;
+  final Value<double?> lon;
+  final Value<double?> accuracyM;
+  final Value<int> rowid;
+  const ClaimPhotosCompanion({
+    this.id = const Value.absent(),
+    this.claimId = const Value.absent(),
+    this.path = const Value.absent(),
+    this.takenAt = const Value.absent(),
+    this.lat = const Value.absent(),
+    this.lon = const Value.absent(),
+    this.accuracyM = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  ClaimPhotosCompanion.insert({
+    required String id,
+    required String claimId,
+    required String path,
+    required DateTime takenAt,
+    this.lat = const Value.absent(),
+    this.lon = const Value.absent(),
+    this.accuracyM = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       claimId = Value(claimId),
+       path = Value(path),
+       takenAt = Value(takenAt);
+  static Insertable<ClaimPhotoRow> custom({
+    Expression<String>? id,
+    Expression<String>? claimId,
+    Expression<String>? path,
+    Expression<DateTime>? takenAt,
+    Expression<double>? lat,
+    Expression<double>? lon,
+    Expression<double>? accuracyM,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (claimId != null) 'claim_id': claimId,
+      if (path != null) 'path': path,
+      if (takenAt != null) 'taken_at': takenAt,
+      if (lat != null) 'lat': lat,
+      if (lon != null) 'lon': lon,
+      if (accuracyM != null) 'accuracy_m': accuracyM,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  ClaimPhotosCompanion copyWith({
+    Value<String>? id,
+    Value<String>? claimId,
+    Value<String>? path,
+    Value<DateTime>? takenAt,
+    Value<double?>? lat,
+    Value<double?>? lon,
+    Value<double?>? accuracyM,
+    Value<int>? rowid,
+  }) {
+    return ClaimPhotosCompanion(
+      id: id ?? this.id,
+      claimId: claimId ?? this.claimId,
+      path: path ?? this.path,
+      takenAt: takenAt ?? this.takenAt,
+      lat: lat ?? this.lat,
+      lon: lon ?? this.lon,
+      accuracyM: accuracyM ?? this.accuracyM,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (claimId.present) {
+      map['claim_id'] = Variable<String>(claimId.value);
+    }
+    if (path.present) {
+      map['path'] = Variable<String>(path.value);
+    }
+    if (takenAt.present) {
+      map['taken_at'] = Variable<DateTime>(takenAt.value);
+    }
+    if (lat.present) {
+      map['lat'] = Variable<double>(lat.value);
+    }
+    if (lon.present) {
+      map['lon'] = Variable<double>(lon.value);
+    }
+    if (accuracyM.present) {
+      map['accuracy_m'] = Variable<double>(accuracyM.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ClaimPhotosCompanion(')
+          ..write('id: $id, ')
+          ..write('claimId: $claimId, ')
+          ..write('path: $path, ')
+          ..write('takenAt: $takenAt, ')
+          ..write('lat: $lat, ')
+          ..write('lon: $lon, ')
+          ..write('accuracyM: $accuracyM, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -8800,6 +10387,10 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $ScoutingRecordsTable scoutingRecords = $ScoutingRecordsTable(
     this,
   );
+  late final $InsurancePoliciesTable insurancePolicies =
+      $InsurancePoliciesTable(this);
+  late final $ClaimKitsTable claimKits = $ClaimKitsTable(this);
+  late final $ClaimPhotosTable claimPhotos = $ClaimPhotosTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -8819,6 +10410,9 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     labourRecords,
     farmTasks,
     scoutingRecords,
+    insurancePolicies,
+    claimKits,
+    claimPhotos,
   ];
   @override
   DriftDatabaseOptions get options =>
@@ -13202,6 +14796,850 @@ typedef $$ScoutingRecordsTableProcessedTableManager =
       ScoutingRecordRow,
       PrefetchHooks Function()
     >;
+typedef $$InsurancePoliciesTableCreateCompanionBuilder =
+    InsurancePoliciesCompanion Function({
+      required String id,
+      required String plotId,
+      required String scheme,
+      required String season,
+      Value<int?> seasonYear,
+      Value<String?> insurerName,
+      Value<String?> policyNumber,
+      Value<int?> sumInsuredPaise,
+      Value<int?> premiumPaidPaise,
+      Value<DateTime?> enrolledOn,
+      Value<String?> note,
+      required DateTime clientUpdatedAt,
+      Value<int> rowid,
+    });
+typedef $$InsurancePoliciesTableUpdateCompanionBuilder =
+    InsurancePoliciesCompanion Function({
+      Value<String> id,
+      Value<String> plotId,
+      Value<String> scheme,
+      Value<String> season,
+      Value<int?> seasonYear,
+      Value<String?> insurerName,
+      Value<String?> policyNumber,
+      Value<int?> sumInsuredPaise,
+      Value<int?> premiumPaidPaise,
+      Value<DateTime?> enrolledOn,
+      Value<String?> note,
+      Value<DateTime> clientUpdatedAt,
+      Value<int> rowid,
+    });
+
+class $$InsurancePoliciesTableFilterComposer
+    extends Composer<_$AppDatabase, $InsurancePoliciesTable> {
+  $$InsurancePoliciesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get plotId => $composableBuilder(
+    column: $table.plotId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get scheme => $composableBuilder(
+    column: $table.scheme,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get season => $composableBuilder(
+    column: $table.season,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get seasonYear => $composableBuilder(
+    column: $table.seasonYear,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get insurerName => $composableBuilder(
+    column: $table.insurerName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get policyNumber => $composableBuilder(
+    column: $table.policyNumber,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get sumInsuredPaise => $composableBuilder(
+    column: $table.sumInsuredPaise,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get premiumPaidPaise => $composableBuilder(
+    column: $table.premiumPaidPaise,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get enrolledOn => $composableBuilder(
+    column: $table.enrolledOn,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get note => $composableBuilder(
+    column: $table.note,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get clientUpdatedAt => $composableBuilder(
+    column: $table.clientUpdatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$InsurancePoliciesTableOrderingComposer
+    extends Composer<_$AppDatabase, $InsurancePoliciesTable> {
+  $$InsurancePoliciesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get plotId => $composableBuilder(
+    column: $table.plotId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get scheme => $composableBuilder(
+    column: $table.scheme,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get season => $composableBuilder(
+    column: $table.season,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get seasonYear => $composableBuilder(
+    column: $table.seasonYear,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get insurerName => $composableBuilder(
+    column: $table.insurerName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get policyNumber => $composableBuilder(
+    column: $table.policyNumber,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get sumInsuredPaise => $composableBuilder(
+    column: $table.sumInsuredPaise,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get premiumPaidPaise => $composableBuilder(
+    column: $table.premiumPaidPaise,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get enrolledOn => $composableBuilder(
+    column: $table.enrolledOn,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get note => $composableBuilder(
+    column: $table.note,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get clientUpdatedAt => $composableBuilder(
+    column: $table.clientUpdatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$InsurancePoliciesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $InsurancePoliciesTable> {
+  $$InsurancePoliciesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get plotId =>
+      $composableBuilder(column: $table.plotId, builder: (column) => column);
+
+  GeneratedColumn<String> get scheme =>
+      $composableBuilder(column: $table.scheme, builder: (column) => column);
+
+  GeneratedColumn<String> get season =>
+      $composableBuilder(column: $table.season, builder: (column) => column);
+
+  GeneratedColumn<int> get seasonYear => $composableBuilder(
+    column: $table.seasonYear,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get insurerName => $composableBuilder(
+    column: $table.insurerName,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get policyNumber => $composableBuilder(
+    column: $table.policyNumber,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get sumInsuredPaise => $composableBuilder(
+    column: $table.sumInsuredPaise,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get premiumPaidPaise => $composableBuilder(
+    column: $table.premiumPaidPaise,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get enrolledOn => $composableBuilder(
+    column: $table.enrolledOn,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get note =>
+      $composableBuilder(column: $table.note, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get clientUpdatedAt => $composableBuilder(
+    column: $table.clientUpdatedAt,
+    builder: (column) => column,
+  );
+}
+
+class $$InsurancePoliciesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $InsurancePoliciesTable,
+          InsurancePolicyRow,
+          $$InsurancePoliciesTableFilterComposer,
+          $$InsurancePoliciesTableOrderingComposer,
+          $$InsurancePoliciesTableAnnotationComposer,
+          $$InsurancePoliciesTableCreateCompanionBuilder,
+          $$InsurancePoliciesTableUpdateCompanionBuilder,
+          (
+            InsurancePolicyRow,
+            BaseReferences<
+              _$AppDatabase,
+              $InsurancePoliciesTable,
+              InsurancePolicyRow
+            >,
+          ),
+          InsurancePolicyRow,
+          PrefetchHooks Function()
+        > {
+  $$InsurancePoliciesTableTableManager(
+    _$AppDatabase db,
+    $InsurancePoliciesTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$InsurancePoliciesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$InsurancePoliciesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$InsurancePoliciesTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> plotId = const Value.absent(),
+                Value<String> scheme = const Value.absent(),
+                Value<String> season = const Value.absent(),
+                Value<int?> seasonYear = const Value.absent(),
+                Value<String?> insurerName = const Value.absent(),
+                Value<String?> policyNumber = const Value.absent(),
+                Value<int?> sumInsuredPaise = const Value.absent(),
+                Value<int?> premiumPaidPaise = const Value.absent(),
+                Value<DateTime?> enrolledOn = const Value.absent(),
+                Value<String?> note = const Value.absent(),
+                Value<DateTime> clientUpdatedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => InsurancePoliciesCompanion(
+                id: id,
+                plotId: plotId,
+                scheme: scheme,
+                season: season,
+                seasonYear: seasonYear,
+                insurerName: insurerName,
+                policyNumber: policyNumber,
+                sumInsuredPaise: sumInsuredPaise,
+                premiumPaidPaise: premiumPaidPaise,
+                enrolledOn: enrolledOn,
+                note: note,
+                clientUpdatedAt: clientUpdatedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String plotId,
+                required String scheme,
+                required String season,
+                Value<int?> seasonYear = const Value.absent(),
+                Value<String?> insurerName = const Value.absent(),
+                Value<String?> policyNumber = const Value.absent(),
+                Value<int?> sumInsuredPaise = const Value.absent(),
+                Value<int?> premiumPaidPaise = const Value.absent(),
+                Value<DateTime?> enrolledOn = const Value.absent(),
+                Value<String?> note = const Value.absent(),
+                required DateTime clientUpdatedAt,
+                Value<int> rowid = const Value.absent(),
+              }) => InsurancePoliciesCompanion.insert(
+                id: id,
+                plotId: plotId,
+                scheme: scheme,
+                season: season,
+                seasonYear: seasonYear,
+                insurerName: insurerName,
+                policyNumber: policyNumber,
+                sumInsuredPaise: sumInsuredPaise,
+                premiumPaidPaise: premiumPaidPaise,
+                enrolledOn: enrolledOn,
+                note: note,
+                clientUpdatedAt: clientUpdatedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$InsurancePoliciesTable, InsurancePolicyRow>(
+                    table,
+                  ),
+                  BaseReferences<
+                    _$AppDatabase,
+                    $InsurancePoliciesTable,
+                    InsurancePolicyRow
+                  >(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$InsurancePoliciesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $InsurancePoliciesTable,
+      InsurancePolicyRow,
+      $$InsurancePoliciesTableFilterComposer,
+      $$InsurancePoliciesTableOrderingComposer,
+      $$InsurancePoliciesTableAnnotationComposer,
+      $$InsurancePoliciesTableCreateCompanionBuilder,
+      $$InsurancePoliciesTableUpdateCompanionBuilder,
+      (
+        InsurancePolicyRow,
+        BaseReferences<
+          _$AppDatabase,
+          $InsurancePoliciesTable,
+          InsurancePolicyRow
+        >,
+      ),
+      InsurancePolicyRow,
+      PrefetchHooks Function()
+    >;
+typedef $$ClaimKitsTableCreateCompanionBuilder = ClaimKitsCompanion Function({
+  required String id,
+  required String plotId,
+  required DateTime lossOn,
+  Value<String?> note,
+  Value<String> checklist,
+  required DateTime updatedAt,
+  Value<int> rowid,
+});
+typedef $$ClaimKitsTableUpdateCompanionBuilder = ClaimKitsCompanion Function({
+  Value<String> id,
+  Value<String> plotId,
+  Value<DateTime> lossOn,
+  Value<String?> note,
+  Value<String> checklist,
+  Value<DateTime> updatedAt,
+  Value<int> rowid,
+});
+
+class $$ClaimKitsTableFilterComposer
+    extends Composer<_$AppDatabase, $ClaimKitsTable> {
+  $$ClaimKitsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get plotId => $composableBuilder(
+    column: $table.plotId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get lossOn => $composableBuilder(
+    column: $table.lossOn,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get note => $composableBuilder(
+    column: $table.note,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get checklist => $composableBuilder(
+    column: $table.checklist,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$ClaimKitsTableOrderingComposer
+    extends Composer<_$AppDatabase, $ClaimKitsTable> {
+  $$ClaimKitsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get plotId => $composableBuilder(
+    column: $table.plotId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get lossOn => $composableBuilder(
+    column: $table.lossOn,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get note => $composableBuilder(
+    column: $table.note,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get checklist => $composableBuilder(
+    column: $table.checklist,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$ClaimKitsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $ClaimKitsTable> {
+  $$ClaimKitsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get plotId =>
+      $composableBuilder(column: $table.plotId, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get lossOn =>
+      $composableBuilder(column: $table.lossOn, builder: (column) => column);
+
+  GeneratedColumn<String> get note =>
+      $composableBuilder(column: $table.note, builder: (column) => column);
+
+  GeneratedColumn<String> get checklist =>
+      $composableBuilder(column: $table.checklist, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+}
+
+class $$ClaimKitsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $ClaimKitsTable,
+          ClaimKitRow,
+          $$ClaimKitsTableFilterComposer,
+          $$ClaimKitsTableOrderingComposer,
+          $$ClaimKitsTableAnnotationComposer,
+          $$ClaimKitsTableCreateCompanionBuilder,
+          $$ClaimKitsTableUpdateCompanionBuilder,
+          (
+            ClaimKitRow,
+            BaseReferences<_$AppDatabase, $ClaimKitsTable, ClaimKitRow>,
+          ),
+          ClaimKitRow,
+          PrefetchHooks Function()
+        > {
+  $$ClaimKitsTableTableManager(_$AppDatabase db, $ClaimKitsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ClaimKitsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ClaimKitsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ClaimKitsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> plotId = const Value.absent(),
+                Value<DateTime> lossOn = const Value.absent(),
+                Value<String?> note = const Value.absent(),
+                Value<String> checklist = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => ClaimKitsCompanion(
+                id: id,
+                plotId: plotId,
+                lossOn: lossOn,
+                note: note,
+                checklist: checklist,
+                updatedAt: updatedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String plotId,
+                required DateTime lossOn,
+                Value<String?> note = const Value.absent(),
+                Value<String> checklist = const Value.absent(),
+                required DateTime updatedAt,
+                Value<int> rowid = const Value.absent(),
+              }) => ClaimKitsCompanion.insert(
+                id: id,
+                plotId: plotId,
+                lossOn: lossOn,
+                note: note,
+                checklist: checklist,
+                updatedAt: updatedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$ClaimKitsTable, ClaimKitRow>(table),
+                  BaseReferences<_$AppDatabase, $ClaimKitsTable, ClaimKitRow>(
+                    db,
+                    table,
+                    e,
+                  ),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$ClaimKitsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $ClaimKitsTable,
+      ClaimKitRow,
+      $$ClaimKitsTableFilterComposer,
+      $$ClaimKitsTableOrderingComposer,
+      $$ClaimKitsTableAnnotationComposer,
+      $$ClaimKitsTableCreateCompanionBuilder,
+      $$ClaimKitsTableUpdateCompanionBuilder,
+      (
+        ClaimKitRow,
+        BaseReferences<_$AppDatabase, $ClaimKitsTable, ClaimKitRow>,
+      ),
+      ClaimKitRow,
+      PrefetchHooks Function()
+    >;
+typedef $$ClaimPhotosTableCreateCompanionBuilder =
+    ClaimPhotosCompanion Function({
+      required String id,
+      required String claimId,
+      required String path,
+      required DateTime takenAt,
+      Value<double?> lat,
+      Value<double?> lon,
+      Value<double?> accuracyM,
+      Value<int> rowid,
+    });
+typedef $$ClaimPhotosTableUpdateCompanionBuilder =
+    ClaimPhotosCompanion Function({
+      Value<String> id,
+      Value<String> claimId,
+      Value<String> path,
+      Value<DateTime> takenAt,
+      Value<double?> lat,
+      Value<double?> lon,
+      Value<double?> accuracyM,
+      Value<int> rowid,
+    });
+
+class $$ClaimPhotosTableFilterComposer
+    extends Composer<_$AppDatabase, $ClaimPhotosTable> {
+  $$ClaimPhotosTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get claimId => $composableBuilder(
+    column: $table.claimId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get path => $composableBuilder(
+    column: $table.path,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get takenAt => $composableBuilder(
+    column: $table.takenAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get lat => $composableBuilder(
+    column: $table.lat,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get lon => $composableBuilder(
+    column: $table.lon,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get accuracyM => $composableBuilder(
+    column: $table.accuracyM,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$ClaimPhotosTableOrderingComposer
+    extends Composer<_$AppDatabase, $ClaimPhotosTable> {
+  $$ClaimPhotosTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get claimId => $composableBuilder(
+    column: $table.claimId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get path => $composableBuilder(
+    column: $table.path,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get takenAt => $composableBuilder(
+    column: $table.takenAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get lat => $composableBuilder(
+    column: $table.lat,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get lon => $composableBuilder(
+    column: $table.lon,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get accuracyM => $composableBuilder(
+    column: $table.accuracyM,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$ClaimPhotosTableAnnotationComposer
+    extends Composer<_$AppDatabase, $ClaimPhotosTable> {
+  $$ClaimPhotosTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get claimId =>
+      $composableBuilder(column: $table.claimId, builder: (column) => column);
+
+  GeneratedColumn<String> get path =>
+      $composableBuilder(column: $table.path, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get takenAt =>
+      $composableBuilder(column: $table.takenAt, builder: (column) => column);
+
+  GeneratedColumn<double> get lat =>
+      $composableBuilder(column: $table.lat, builder: (column) => column);
+
+  GeneratedColumn<double> get lon =>
+      $composableBuilder(column: $table.lon, builder: (column) => column);
+
+  GeneratedColumn<double> get accuracyM =>
+      $composableBuilder(column: $table.accuracyM, builder: (column) => column);
+}
+
+class $$ClaimPhotosTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $ClaimPhotosTable,
+          ClaimPhotoRow,
+          $$ClaimPhotosTableFilterComposer,
+          $$ClaimPhotosTableOrderingComposer,
+          $$ClaimPhotosTableAnnotationComposer,
+          $$ClaimPhotosTableCreateCompanionBuilder,
+          $$ClaimPhotosTableUpdateCompanionBuilder,
+          (
+            ClaimPhotoRow,
+            BaseReferences<_$AppDatabase, $ClaimPhotosTable, ClaimPhotoRow>,
+          ),
+          ClaimPhotoRow,
+          PrefetchHooks Function()
+        > {
+  $$ClaimPhotosTableTableManager(_$AppDatabase db, $ClaimPhotosTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ClaimPhotosTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ClaimPhotosTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ClaimPhotosTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> claimId = const Value.absent(),
+                Value<String> path = const Value.absent(),
+                Value<DateTime> takenAt = const Value.absent(),
+                Value<double?> lat = const Value.absent(),
+                Value<double?> lon = const Value.absent(),
+                Value<double?> accuracyM = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => ClaimPhotosCompanion(
+                id: id,
+                claimId: claimId,
+                path: path,
+                takenAt: takenAt,
+                lat: lat,
+                lon: lon,
+                accuracyM: accuracyM,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String claimId,
+                required String path,
+                required DateTime takenAt,
+                Value<double?> lat = const Value.absent(),
+                Value<double?> lon = const Value.absent(),
+                Value<double?> accuracyM = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => ClaimPhotosCompanion.insert(
+                id: id,
+                claimId: claimId,
+                path: path,
+                takenAt: takenAt,
+                lat: lat,
+                lon: lon,
+                accuracyM: accuracyM,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$ClaimPhotosTable, ClaimPhotoRow>(table),
+                  BaseReferences<
+                    _$AppDatabase,
+                    $ClaimPhotosTable,
+                    ClaimPhotoRow
+                  >(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$ClaimPhotosTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $ClaimPhotosTable,
+      ClaimPhotoRow,
+      $$ClaimPhotosTableFilterComposer,
+      $$ClaimPhotosTableOrderingComposer,
+      $$ClaimPhotosTableAnnotationComposer,
+      $$ClaimPhotosTableCreateCompanionBuilder,
+      $$ClaimPhotosTableUpdateCompanionBuilder,
+      (
+        ClaimPhotoRow,
+        BaseReferences<_$AppDatabase, $ClaimPhotosTable, ClaimPhotoRow>,
+      ),
+      ClaimPhotoRow,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -13234,4 +15672,10 @@ class $AppDatabaseManager {
       $$FarmTasksTableTableManager(_db, _db.farmTasks);
   $$ScoutingRecordsTableTableManager get scoutingRecords =>
       $$ScoutingRecordsTableTableManager(_db, _db.scoutingRecords);
+  $$InsurancePoliciesTableTableManager get insurancePolicies =>
+      $$InsurancePoliciesTableTableManager(_db, _db.insurancePolicies);
+  $$ClaimKitsTableTableManager get claimKits =>
+      $$ClaimKitsTableTableManager(_db, _db.claimKits);
+  $$ClaimPhotosTableTableManager get claimPhotos =>
+      $$ClaimPhotosTableTableManager(_db, _db.claimPhotos);
 }

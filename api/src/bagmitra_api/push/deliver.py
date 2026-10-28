@@ -114,6 +114,7 @@ async def run_delivery(
                     "plot_id": str(alert.plot_id),
                     "rule_key": alert.rule_key,
                     "first_day": alert.first_day.isoformat(),
+                    **({"action": rule.action} if rule.action else {}),
                 },
             )
             try:

@@ -27,6 +27,7 @@ from bagmitra_api.db.models import (
     HarvestRecord,
     Income,
     InputRecord,
+    InsurancePolicy,
     IrrigationRecord,
     LabourRecord,
     Plot,
@@ -41,6 +42,7 @@ from bagmitra_api.sync.payloads import (
     HarvestRecordPayload,
     IncomePayload,
     InputRecordPayload,
+    InsurancePolicyPayload,
     IrrigationRecordPayload,
     LabourRecordPayload,
     PlotPayload,
@@ -360,6 +362,12 @@ HANDLERS: dict[str, EntityHandler] = {
             payload_model=ScoutingRecordPayload,
             parents=(("plot_id", Plot), ("bahar_cycle_id", BaharCycle)),
             payload_check=check_photo_key,
+        ),
+        OwnedEntityHandler(
+            name="insurance_policy",
+            model=InsurancePolicy,
+            payload_model=InsurancePolicyPayload,
+            parents=(("plot_id", Plot),),
         ),
     )
 }

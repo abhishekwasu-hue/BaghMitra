@@ -30,6 +30,8 @@ class WeatherDay(BaseModel):
     precip_mm: float | None
     rh_mean_pct: float | None
     wind_gust_kmh: float | None
+    # WMO code (95 thunderstorm, 96 / 99 with hail); optional for older stored days.
+    weather_code: float | None = None
 
 
 class WeatherAlert(BaseModel):
@@ -40,6 +42,8 @@ class WeatherAlert(BaseModel):
     text: str
     source: str
     status: str
+    # App screen the alert links to ("claim_kit": take loss photos now), if any.
+    action: str | None = None
 
 
 class PlotWeather(BaseModel):
@@ -91,6 +95,7 @@ async def get_plot_weather(
                 text=rules[a.rule_key].labels.get(lang) or rules[a.rule_key].labels["en"],
                 source=rules[a.rule_key].source,
                 status=rules[a.rule_key].status,
+                action=rules[a.rule_key].action,
             )
             for a in evaluate(list(rules.values()), days)
         ],

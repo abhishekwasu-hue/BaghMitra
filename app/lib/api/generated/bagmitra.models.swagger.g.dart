@@ -855,6 +855,44 @@ Map<String, dynamic> _$ImportOutToJson(ImportOut instance) => <String, dynamic>{
   'unchanged': instance.unchanged,
 };
 
+InsuranceDeadlineOut _$InsuranceDeadlineOutFromJson(
+  Map<String, dynamic> json,
+) => InsuranceDeadlineOut(
+  dueDate: DateTime.parse(json['due_date'] as String),
+  itemId: json['item_id'] as String,
+  season: json['season'] as String?,
+  title: json['title'] as String,
+  url: json['url'] as String,
+);
+
+Map<String, dynamic> _$InsuranceDeadlineOutToJson(
+  InsuranceDeadlineOut instance,
+) => <String, dynamic>{
+  'due_date': ?_dateToJson(instance.dueDate),
+  'item_id': instance.itemId,
+  'season': ?instance.season,
+  'title': instance.title,
+  'url': instance.url,
+};
+
+InsuranceDeadlinesResponse _$InsuranceDeadlinesResponseFromJson(
+  Map<String, dynamic> json,
+) => InsuranceDeadlinesResponse(
+  footer: json['footer'] as String,
+  items:
+      (json['items'] as List<dynamic>?)
+          ?.map((e) => InsuranceDeadlineOut.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      [],
+);
+
+Map<String, dynamic> _$InsuranceDeadlinesResponseToJson(
+  InsuranceDeadlinesResponse instance,
+) => <String, dynamic>{
+  'footer': instance.footer,
+  'items': instance.items.map((e) => e.toJson()).toList(),
+};
+
 LabelClaimOut _$LabelClaimOutFromJson(Map<String, dynamic> json) =>
     LabelClaimOut(
       activeIngredient: json['active_ingredient'] as String,
@@ -1447,6 +1485,7 @@ Map<String, dynamic> _$ValidationErrorToJson(ValidationError instance) =>
     };
 
 WeatherAlert _$WeatherAlertFromJson(Map<String, dynamic> json) => WeatherAlert(
+  action: json['action'] as String?,
   firstDay: DateTime.parse(json['first_day'] as String),
   ruleKey: json['rule_key'] as String,
   source: json['source'] as String,
@@ -1458,6 +1497,7 @@ WeatherAlert _$WeatherAlertFromJson(Map<String, dynamic> json) => WeatherAlert(
 
 Map<String, dynamic> _$WeatherAlertToJson(WeatherAlert instance) =>
     <String, dynamic>{
+      'action': ?instance.action,
       'first_day': ?_dateToJson(instance.firstDay),
       'rule_key': instance.ruleKey,
       'source': instance.source,
@@ -1473,6 +1513,7 @@ WeatherDay _$WeatherDayFromJson(Map<String, dynamic> json) => WeatherDay(
   rhMeanPct: (json['rh_mean_pct'] as num?)?.toDouble(),
   tMaxC: (json['t_max_c'] as num?)?.toDouble(),
   tMinC: (json['t_min_c'] as num?)?.toDouble(),
+  weatherCode: (json['weather_code'] as num?)?.toDouble(),
   windGustKmh: (json['wind_gust_kmh'] as num?)?.toDouble(),
 );
 
@@ -1483,5 +1524,6 @@ Map<String, dynamic> _$WeatherDayToJson(WeatherDay instance) =>
       'rh_mean_pct': ?instance.rhMeanPct,
       't_max_c': ?instance.tMaxC,
       't_min_c': ?instance.tMinC,
+      'weather_code': ?instance.weatherCode,
       'wind_gust_kmh': ?instance.windGustKmh,
     };

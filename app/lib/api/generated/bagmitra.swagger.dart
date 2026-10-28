@@ -1178,6 +1178,38 @@ their profile; undoes a dismiss. Only for a published item that has a date.''',
     ),
   });
 
+  ///Deadlines
+  ///@param lang
+  Future<chopper.Response<InsuranceDeadlinesResponse>> v1InsuranceDeadlinesGet({
+    enums.V1InsuranceDeadlinesGetLang? lang,
+  }) {
+    generatedMapping.putIfAbsent(
+      InsuranceDeadlinesResponse,
+      () => InsuranceDeadlinesResponse.fromJsonFactory,
+    );
+
+    return _v1InsuranceDeadlinesGet(lang: lang?.value?.toString());
+  }
+
+  ///Deadlines
+  ///@param lang
+  @GET(path: '/v1/insurance/deadlines')
+  Future<chopper.Response<InsuranceDeadlinesResponse>>
+  _v1InsuranceDeadlinesGet({
+    @Query('lang') String? lang,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Enrolment dates of published official crop insurance notices, soonest first.',
+      summary: 'Deadlines',
+      operationId: 'insurance_deadlines',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["insurance"],
+      deprecated: false,
+    ),
+  });
+
   ///Get Market Prices
   ///@param crop
   ///@param scope

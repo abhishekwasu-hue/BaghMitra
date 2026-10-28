@@ -42,12 +42,13 @@ async def seed(
     tokens: tuple[str, ...] = ("tok-a",),
     created: datetime = NOW,
     notified: datetime | None = None,
+    rule_key: str = "heat_fruit_drop",
 ) -> PlotRiskAlert:
     owner = uuid.uuid4()
     alert = PlotRiskAlert(
         owner_id=owner,
         plot_id=uuid.uuid4(),
-        rule_key="heat_fruit_drop",
+        rule_key=rule_key,
         first_day=date(2026, 10, 28),
         value=36,
         units=None,
@@ -147,3 +148,20 @@ async def test_without_a_sender_nothing_is_sent_or_stamped(
     assert summary.skipped_reason == "no push sender configured (FCM credentials)"
     assert summary.alerts == 1
     assert all(a.notified_at is None for a in await stored(maker))
+
+
+async def test_storm_alert_tells_the_app_to_open_the_claim_kit(
+    maker: async_sessionmaker[AsyncSession],
+) -> None:
+    alert = await seed(maker, rule_key="hail_thunderstorm")
+    sender = FakeSender()
+    async with maker() as s:
+        await run_delivery(s, sender, NOW)
+    [msg] = sender.sent
+    assert "फोटो" in msg.body
+    assert msg.data == {
+        "plot_id": str(alert.plot_id),
+        "rule_key": "hail_thunderstorm",
+        "first_day": "2026-10-28",
+        "action": "claim_kit",
+    }

@@ -210,3 +210,21 @@ class ScoutingRecordPayload(RowPayload):
     severity: Literal["none", "low", "medium", "high"]
     note: str | None = Field(default=None, max_length=500)
     photo_key: str | None = Field(default=None, pattern=PHOTO_KEY_PATTERN)
+
+
+class InsurancePolicyPayload(RowPayload):
+    """A crop insurance policy as the grower recorded it. Extra fields are refused; amounts
+    are optional and never filled in by the app (no default premium or cover)."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    plot_id: uuid.UUID
+    scheme: Literal["pmfby", "rwbcis", "other", "unknown"]
+    season: Literal["ambia", "mrig"]
+    season_year: int | None = Field(default=None, ge=2000, le=2100)
+    insurer_name: str | None = Field(default=None, max_length=120)
+    policy_number: str | None = Field(default=None, max_length=60)
+    sum_insured_paise: Paise | None = None
+    premium_paid_paise: Paise | None = None
+    enrolled_on: date | None = None
+    note: str | None = Field(default=None, max_length=500)

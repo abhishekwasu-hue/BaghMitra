@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../api/generated/bagmitra.swagger.dart';
 import '../../../app/providers.dart';
+import '../../../app/router.dart';
 import '../../../core/formatting.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 
 /// The next days for a plot and the rule-based risk alerts, each with its source. Shows the
 /// last saved answer offline; alerts never carry chemical advice (they come from the API).
+/// A storm / hail / heavy-rain alert links to the claim kit ("take loss photos now").
 class PlotWeatherCard extends ConsumerWidget {
   const PlotWeatherCard({required this.plotId, super.key});
 
@@ -77,6 +80,17 @@ class PlotWeatherCard extends ConsumerWidget {
                   title: Text(a.text, style: BmType.body),
                   subtitle: Text(t.weatherSource(a.source), style: BmType.meta),
                 ),
+              for (final a in alerts)
+                if (a.action == 'claim_kit')
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: TextButton.icon(
+                      key: Key('alert-claim-kit-${a.ruleKey}'),
+                      onPressed: () => context.push(Routes.newClaimKit(plotId)),
+                      icon: const Icon(Icons.photo_camera_outlined),
+                      label: Text(t.claimKitFromAlert),
+                    ),
+                  ),
             ],
           ],
         ),

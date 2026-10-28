@@ -19,6 +19,8 @@ DAILY_FIELDS = (
     "precipitation_sum",
     "relative_humidity_2m_mean",
     "wind_gusts_10m_max",
+    # WMO weather code, the day's most severe: 95 thunderstorm, 96 / 99 with hail.
+    "weather_code",
 )
 
 
@@ -34,6 +36,7 @@ class DailyWeather:
     precip_mm: float | None
     rh_mean_pct: float | None
     wind_gust_kmh: float | None
+    weather_code: float | None = None
 
 
 def _num(value: object) -> float | None:

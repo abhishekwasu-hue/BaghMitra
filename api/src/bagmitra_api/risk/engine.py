@@ -6,7 +6,9 @@ decides a trigger, and alert texts carry no chemical advice.
 
 Rule kinds:
 - `threshold`: `field op value` on at least `min_days` consecutive days. The alert names the
-  first day of the first such run and the most extreme value in it.
+  first day of the first such run and the most extreme value in it. Optional `months`
+  (1-12) limits the rule to part of the year, e.g. rain outside the monsoon months; a day
+  in another month breaks a run.
 - `degree_days`: sum over the window of max(0, min(mean, upper_c) - base_c), the average
   method with a horizontal cutoff; `units` = total / `per_unit` (e.g. insect generations).
 """
@@ -31,6 +33,8 @@ _OPS: dict[str, Callable[[float, float], bool]] = {
     "<": operator.lt,
 }
 _FIELDS = {f.name for f in fields(DailyWeather)} - {"day"}
+# Screens an alert may link to in the app (`action` in rules.json, pushed as data).
+ACTIONS = frozenset({"claim_kit"})
 
 
 class RuleConfigError(ValueError):
@@ -51,6 +55,8 @@ class RiskRule:
     base_c: float | None = None
     upper_c: float | None = None
     per_unit: float | None = None
+    months: frozenset[int] | None = None
+    action: str | None = None
 
 
 @dataclass(frozen=True)
@@ -72,12 +78,16 @@ def _rule(raw: Mapping[str, Any]) -> RiskRule:
     labels = dict(need("labels"))
     if missing := [lang for lang in LANGUAGES if not labels.get(lang)]:
         raise RuleConfigError(f"rule {key}: labels missing for {missing}")
+    action = raw.get("action")
+    if action is not None and action not in ACTIONS:
+        raise RuleConfigError(f"rule {key}: unknown action {action!r}")
     common: dict[str, Any] = {
         "key": key,
         "kind": need("kind"),
         "source": need("source"),
         "labels": labels,
         "status": raw.get("status", "draft"),
+        "action": action,
     }
     if common["kind"] == "threshold":
         if need("field") not in _FIELDS:
@@ -90,6 +100,7 @@ def _rule(raw: Mapping[str, Any]) -> RiskRule:
             op=raw["op"],
             value=float(need("value")),
             min_days=int(raw.get("min_days") or 1),
+            months=_months(key, raw.get("months")),
         )
     if common["kind"] == "degree_days":
         return RiskRule(
@@ -99,6 +110,18 @@ def _rule(raw: Mapping[str, Any]) -> RiskRule:
             per_unit=float(need("per_unit")),
         )
     raise RuleConfigError(f"rule {key}: unknown kind {common['kind']!r}")
+
+
+def _months(key: str, raw: object) -> frozenset[int] | None:
+    if raw is None:
+        return None
+    if (
+        not isinstance(raw, list)
+        or not raw
+        or not all(isinstance(m, int) and 1 <= m <= 12 for m in raw)
+    ):
+        raise RuleConfigError(f"rule {key}: 'months' must be a non-empty list of 1-12")
+    return frozenset(raw)
 
 
 def parse_rules(config: Mapping[str, Any]) -> list[RiskRule]:
@@ -117,7 +140,8 @@ def _threshold(rule: RiskRule, weather: Sequence[DailyWeather]) -> RiskAlert | N
     run: list[tuple[date, float]] = []
     for day in weather:
         reading = getattr(day, rule.field)
-        if reading is not None and hit(reading, rule.value):
+        in_season = rule.months is None or day.day.month in rule.months
+        if in_season and reading is not None and hit(reading, rule.value):
             run.append((day.day, reading))
             if len(run) >= rule.min_days:
                 extreme = max if rule.op in (">=", ">") else min
