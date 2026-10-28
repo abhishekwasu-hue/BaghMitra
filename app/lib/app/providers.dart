@@ -108,7 +108,10 @@ final sessionProvider = StreamProvider<AuthSession?>((ref) {
 });
 
 final accountGuardProvider = Provider<AccountGuard>(
-  (ref) => AccountGuard(ref.watch(databaseProvider)),
+  (ref) => AccountGuard(
+    ref.watch(databaseProvider),
+    deletePhotos: AccountGuard.photoFolderDeleter(),
+  ),
 );
 
 /// Whose records the phone holds, for the signed-in account (OPEN_QUESTIONS Q36); null

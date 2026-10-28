@@ -22,6 +22,7 @@ import 'package:bagmitra/features/scouting/data/scouting_photos.dart';
 import 'package:bagmitra/features/tasks/data/task_kinds.dart';
 import 'package:bagmitra/features/voice/domain/speech.dart';
 import 'package:bagmitra/features/walkthrough/data/walkthrough_flag.dart';
+import 'package:bagmitra/sync/account_guard.dart';
 import 'package:bagmitra/sync/sync_engine.dart';
 
 import 'package:drift/drift.dart' show Value;
@@ -153,6 +154,8 @@ Future<AppDatabase> pumpApp(
         if (location != null)
           locationServiceProvider.overrideWithValue(location),
         databaseProvider.overrideWithValue(db),
+        // Real photo folders are not touched in widget tests.
+        accountGuardProvider.overrideWithValue(AccountGuard(db)),
         authRepositoryProvider.overrideWithValue(
           DemoAuthRepository(initial: session),
         ),

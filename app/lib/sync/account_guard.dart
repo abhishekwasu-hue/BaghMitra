@@ -1,8 +1,13 @@
+import 'dart:io';
+
 import 'package:drift/drift.dart';
+import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
 
 import '../data/local/database.dart';
 import '../features/auth/domain/auth.dart';
 import '../features/scouting/data/photo_backup.dart';
+import '../features/scouting/data/scouting_photos.dart';
 import '../features/walkthrough/data/walkthrough_flag.dart';
 
 /// What a sign-in means for the records already on the phone (OPEN_QUESTIONS Q36).
@@ -22,9 +27,26 @@ enum AccountCheck {
 /// phone over to another account: every local user table, the outbox and the pull cursor
 /// are cleared, so the next sync pulls the new account's records from the start.
 class AccountGuard {
-  AccountGuard(this._db);
+  /// [deletePhotos] removes the previous account's photo files after a switch; the app
+  /// passes [photoFolderDeleter], tests may leave it out.
+  AccountGuard(this._db, {this.deletePhotos});
 
   final AppDatabase _db;
+  final Future<void> Function()? deletePhotos;
+
+  /// Photo folders of the previous account (scouting and claim kit); removed on a switch.
+  static const photoFolders = [DeviceScoutingPhotos.folder, 'claim_photos'];
+
+  /// Deletes [photoFolders] under the app documents folder.
+  static Future<void> Function() photoFolderDeleter([
+    Future<Directory> Function() documents = getApplicationDocumentsDirectory,
+  ]) => () async {
+    final root = (await documents()).path;
+    for (final name in photoFolders) {
+      final dir = Directory(p.join(root, name));
+      if (await dir.exists()) await dir.delete(recursive: true);
+    }
+  };
 
   static const ownerKey = 'sync.owner.user_id';
   static const ownerPhoneKey = 'sync.owner.phone';
@@ -75,7 +97,12 @@ class AccountGuard {
 
   /// Clears the previous account's records and makes [session]'s account the owner.
   /// Throws [StateError] if writes are still unsent (checked inside the transaction).
-  Future<void> switchTo(AuthSession session) => _db.transaction(() async {
+  Future<void> switchTo(AuthSession session) async {
+    await _clearRecords(session);
+    await deletePhotos?.call();
+  }
+
+  Future<void> _clearRecords(AuthSession session) => _db.transaction(() async {
     if (await unsentCount() > 0) {
       throw StateError('unsent writes of the previous account');
     }
