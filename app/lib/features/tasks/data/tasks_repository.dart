@@ -33,6 +33,16 @@ class TasksRepository {
           .watch()
           .map((rows) => [for (final r in rows) _toDomain(r)]);
 
+  /// The task made from [source] (e.g. a lab test's "next test due"), if any.
+  Future<FarmTask?> findBySource(String source) async {
+    final row =
+        await (_db.select(_db.farmTasks)
+              ..where((t) => t.source.equals(source))
+              ..limit(1))
+            .getSingleOrNull();
+    return row == null ? null : _toDomain(row);
+  }
+
   Future<void> save(FarmTask task) {
     final now = _clock();
     return _write(

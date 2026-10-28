@@ -17,6 +17,7 @@ from bagmitra_api.db.models.accounts import (
 from bagmitra_api.db.models.bahar import BaharCycle, CropStageTemplate
 from bagmitra_api.db.models.farmer import Farmer
 from bagmitra_api.db.models.insurance import InsurancePolicy
+from bagmitra_api.db.models.lab_test import LabTest
 from bagmitra_api.db.models.plot import Plot
 from bagmitra_api.db.models.scouting import ScoutingRecord
 from bagmitra_api.db.models.sync_mutation import SyncMutation
@@ -78,6 +79,7 @@ __all__ = [
     "KbSource",
     "KbSynonym",
     "KbTopic",
+    "LabTest",
     "LabourRecord",
     "MarketPrice",
     "PlanEntitlement",

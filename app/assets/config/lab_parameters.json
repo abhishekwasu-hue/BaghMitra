@@ -1,0 +1,45 @@
+{
+  "_note": "Parameter NAMES a soil, water or leaf report usually lists, offered as typing shortcuts in the lab test form. DRAFT, not expert-reviewed (OPEN_QUESTIONS Q40). Names and usual units only: no values, no ranges, no low/high labels and no advice. The grower always types the value from the report and may change the name or unit.",
+  "status": "draft",
+  "types": {
+    "soil": [
+      {"key": "ph", "labels": {"en": "pH", "mr": "सामू (pH)", "hi": "पीएच (pH)"}},
+      {"key": "ec", "labels": {"en": "EC", "mr": "विद्युत वाहकता (EC)", "hi": "विद्युत चालकता (EC)"}, "unit": "dS/m"},
+      {"key": "oc", "labels": {"en": "Organic carbon", "mr": "सेंद्रिय कर्ब", "hi": "जैविक कार्बन"}, "unit": "%"},
+      {"key": "n", "labels": {"en": "Nitrogen (N)", "mr": "नत्र (N)", "hi": "नाइट्रोजन (N)"}, "unit": "kg/ha"},
+      {"key": "p", "labels": {"en": "Phosphorus (P)", "mr": "स्फुरद (P)", "hi": "फॉस्फोरस (P)"}, "unit": "kg/ha"},
+      {"key": "k", "labels": {"en": "Potassium (K)", "mr": "पालाश (K)", "hi": "पोटैशियम (K)"}, "unit": "kg/ha"},
+      {"key": "s", "labels": {"en": "Sulphur (S)", "mr": "गंधक (S)", "hi": "सल्फर (S)"}, "unit": "ppm"},
+      {"key": "zn", "labels": {"en": "Zinc (Zn)", "mr": "जस्त (Zn)", "hi": "जिंक (Zn)"}, "unit": "ppm"},
+      {"key": "fe", "labels": {"en": "Iron (Fe)", "mr": "लोह (Fe)", "hi": "लोहा (Fe)"}, "unit": "ppm"},
+      {"key": "mn", "labels": {"en": "Manganese (Mn)", "mr": "मँगनीज (Mn)", "hi": "मैंगनीज (Mn)"}, "unit": "ppm"},
+      {"key": "cu", "labels": {"en": "Copper (Cu)", "mr": "तांबे (Cu)", "hi": "तांबा (Cu)"}, "unit": "ppm"},
+      {"key": "b", "labels": {"en": "Boron (B)", "mr": "बोरॉन (B)", "hi": "बोरॉन (B)"}, "unit": "ppm"},
+      {"key": "caco3", "labels": {"en": "Free lime (CaCO3)", "mr": "मुक्त चुना (CaCO3)", "hi": "मुक्त चूना (CaCO3)"}, "unit": "%"}
+    ],
+    "water": [
+      {"key": "ph", "labels": {"en": "pH", "mr": "सामू (pH)", "hi": "पीएच (pH)"}},
+      {"key": "ec", "labels": {"en": "EC", "mr": "विद्युत वाहकता (EC)", "hi": "विद्युत चालकता (EC)"}, "unit": "dS/m"},
+      {"key": "co3", "labels": {"en": "Carbonate (CO3)", "mr": "कार्बोनेट (CO3)", "hi": "कार्बोनेट (CO3)"}, "unit": "meq/L"},
+      {"key": "hco3", "labels": {"en": "Bicarbonate (HCO3)", "mr": "बायकार्बोनेट (HCO3)", "hi": "बाइकार्बोनेट (HCO3)"}, "unit": "meq/L"},
+      {"key": "cl", "labels": {"en": "Chloride (Cl)", "mr": "क्लोराइड (Cl)", "hi": "क्लोराइड (Cl)"}, "unit": "meq/L"},
+      {"key": "na", "labels": {"en": "Sodium (Na)", "mr": "सोडियम (Na)", "hi": "सोडियम (Na)"}, "unit": "meq/L"},
+      {"key": "ca_mg", "labels": {"en": "Calcium + Magnesium (Ca+Mg)", "mr": "कॅल्शियम + मॅग्नेशियम (Ca+Mg)", "hi": "कैल्शियम + मैग्नीशियम (Ca+Mg)"}, "unit": "meq/L"},
+      {"key": "sar", "labels": {"en": "SAR", "mr": "SAR", "hi": "SAR"}},
+      {"key": "rsc", "labels": {"en": "RSC", "mr": "RSC", "hi": "RSC"}, "unit": "meq/L"}
+    ],
+    "leaf": [
+      {"key": "n", "labels": {"en": "Nitrogen (N)", "mr": "नत्र (N)", "hi": "नाइट्रोजन (N)"}, "unit": "%"},
+      {"key": "p", "labels": {"en": "Phosphorus (P)", "mr": "स्फुरद (P)", "hi": "फॉस्फोरस (P)"}, "unit": "%"},
+      {"key": "k", "labels": {"en": "Potassium (K)", "mr": "पालाश (K)", "hi": "पोटैशियम (K)"}, "unit": "%"},
+      {"key": "ca", "labels": {"en": "Calcium (Ca)", "mr": "कॅल्शियम (Ca)", "hi": "कैल्शियम (Ca)"}, "unit": "%"},
+      {"key": "mg", "labels": {"en": "Magnesium (Mg)", "mr": "मॅग्नेशियम (Mg)", "hi": "मैग्नीशियम (Mg)"}, "unit": "%"},
+      {"key": "s", "labels": {"en": "Sulphur (S)", "mr": "गंधक (S)", "hi": "सल्फर (S)"}, "unit": "%"},
+      {"key": "fe", "labels": {"en": "Iron (Fe)", "mr": "लोह (Fe)", "hi": "लोहा (Fe)"}, "unit": "ppm"},
+      {"key": "zn", "labels": {"en": "Zinc (Zn)", "mr": "जस्त (Zn)", "hi": "जिंक (Zn)"}, "unit": "ppm"},
+      {"key": "mn", "labels": {"en": "Manganese (Mn)", "mr": "मँगनीज (Mn)", "hi": "मैंगनीज (Mn)"}, "unit": "ppm"},
+      {"key": "cu", "labels": {"en": "Copper (Cu)", "mr": "तांबे (Cu)", "hi": "तांबा (Cu)"}, "unit": "ppm"},
+      {"key": "b", "labels": {"en": "Boron (B)", "mr": "बोरॉन (B)", "hi": "बोरॉन (B)"}, "unit": "ppm"}
+    ]
+  }
+}

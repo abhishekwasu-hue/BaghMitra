@@ -228,3 +228,29 @@ class InsurancePolicyPayload(RowPayload):
     premium_paid_paise: Paise | None = None
     enrolled_on: date | None = None
     note: str | None = Field(default=None, max_length=500)
+
+
+class LabReading(BaseModel):
+    """One value from a lab report as the grower typed it: kept as text ("<0.5", "7.9"),
+    never parsed, rated or compared with a range."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    parameter: str = Field(min_length=1, max_length=60)
+    value: str = Field(min_length=1, max_length=30)
+    unit: str | None = Field(default=None, max_length=20)
+
+
+class LabTestPayload(RowPayload):
+    """A soil, water or leaf test of one plot. Extra fields are refused (the report photo
+    or file path stays on the phone)."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    plot_id: uuid.UUID
+    test_type: Literal["soil", "water", "leaf"]
+    sampled_on: date
+    lab_name: str | None = Field(default=None, max_length=120)
+    reported_on: date | None = None
+    readings: list[LabReading] = Field(default_factory=list, max_length=40)
+    note: str | None = Field(default=None, max_length=500)

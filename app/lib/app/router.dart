@@ -26,6 +26,7 @@ import '../features/inputs/presentation/add_input_screens.dart';
 import '../features/inputs/presentation/field_log_screen.dart';
 import '../features/insurance/presentation/claim_kit_screen.dart';
 import '../features/insurance/presentation/insurance_screens.dart';
+import '../features/lab_tests/presentation/lab_test_screens.dart';
 import '../features/labels/presentation/label_info_screen.dart';
 import '../features/lookalikes/presentation/lookalikes_screen.dart';
 import '../features/market/presentation/market_prices_screen.dart';
@@ -37,6 +38,7 @@ import '../features/practices/presentation/irrigation_guide_screen.dart';
 import '../features/practices/presentation/practices_screen.dart';
 import '../features/profile/presentation/onboarding_screen.dart';
 import '../features/profile/presentation/profile_screen.dart';
+import '../features/schemes/presentation/scheme_screens.dart';
 import '../features/scouting/presentation/scouting_screens.dart';
 import '../features/settings/presentation/settings_screen.dart';
 import '../features/spray/presentation/add_spray_screen.dart';
@@ -108,6 +110,14 @@ abstract final class Routes {
   static String addPolicy(String plotId) => '/plots/$plotId/insurance/new';
   static String editPolicy(String plotId, String policyId) =>
       '/plots/$plotId/insurance/$policyId';
+  static String labTests(String plotId) => '/plots/$plotId/lab-tests';
+  static String addLabTest(String plotId) => '/plots/$plotId/lab-tests/new';
+  static String labTest(String plotId, String testId) =>
+      '/plots/$plotId/lab-tests/$testId';
+  static String editLabTest(String plotId, String testId) =>
+      '/plots/$plotId/lab-tests/$testId/edit';
+  static const schemes = '/schemes';
+  static String scheme(String schemeId) => '$schemes/$schemeId';
   static const claimKit = '/claim-kit';
   static String newClaimKit([String? plotId]) =>
       plotId == null ? claimKit : '$claimKit?plot=$plotId';
@@ -300,6 +310,34 @@ GoRouter buildRouter(
           plotId: s.pathParameters['id']!,
           policyId: s.pathParameters['policyId'],
         ),
+      ),
+      GoRoute(
+        path: '/plots/:id/lab-tests',
+        builder: (_, s) => LabTestsScreen(plotId: s.pathParameters['id']!),
+      ),
+      GoRoute(
+        path: '/plots/:id/lab-tests/new',
+        builder: (_, s) => LabTestFormScreen(plotId: s.pathParameters['id']!),
+      ),
+      GoRoute(
+        path: '/plots/:id/lab-tests/:testId',
+        builder: (_, s) => LabTestDetailScreen(
+          plotId: s.pathParameters['id']!,
+          testId: s.pathParameters['testId']!,
+        ),
+      ),
+      GoRoute(
+        path: '/plots/:id/lab-tests/:testId/edit',
+        builder: (_, s) => LabTestFormScreen(
+          plotId: s.pathParameters['id']!,
+          testId: s.pathParameters['testId'],
+        ),
+      ),
+      GoRoute(path: Routes.schemes, builder: (_, _) => const SchemesScreen()),
+      GoRoute(
+        path: '${Routes.schemes}/:schemeId',
+        builder: (_, s) =>
+            SchemeDetailScreen(schemeId: s.pathParameters['schemeId']!),
       ),
       GoRoute(
         path: Routes.claimKit,

@@ -3622,6 +3622,378 @@ abstract class AppLocalizations {
   /// **'Policies'**
   String get insurancePolicies;
 
+  /// No description provided for @labTestsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Soil, water and leaf tests'**
+  String get labTestsTitle;
+
+  /// No description provided for @labTestsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Add this plot\'s first test from your lab report or Soil Health Card.'**
+  String get labTestsEmpty;
+
+  /// No description provided for @labTestAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add test'**
+  String get labTestAdd;
+
+  /// No description provided for @labTestEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit test'**
+  String get labTestEdit;
+
+  /// No description provided for @labTestType.
+  ///
+  /// In en, this message translates to:
+  /// **'Test of'**
+  String get labTestType;
+
+  /// No description provided for @labTestTypeSoil.
+  ///
+  /// In en, this message translates to:
+  /// **'Soil'**
+  String get labTestTypeSoil;
+
+  /// No description provided for @labTestTypeWater.
+  ///
+  /// In en, this message translates to:
+  /// **'Water'**
+  String get labTestTypeWater;
+
+  /// No description provided for @labTestTypeLeaf.
+  ///
+  /// In en, this message translates to:
+  /// **'Leaf'**
+  String get labTestTypeLeaf;
+
+  /// No description provided for @labTestTitleSoil.
+  ///
+  /// In en, this message translates to:
+  /// **'Soil test'**
+  String get labTestTitleSoil;
+
+  /// No description provided for @labTestTitleWater.
+  ///
+  /// In en, this message translates to:
+  /// **'Water test'**
+  String get labTestTitleWater;
+
+  /// No description provided for @labTestTitleLeaf.
+  ///
+  /// In en, this message translates to:
+  /// **'Leaf test'**
+  String get labTestTitleLeaf;
+
+  /// No description provided for @labTestSampledOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Sample taken on'**
+  String get labTestSampledOn;
+
+  /// No description provided for @labTestReportedOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Report date'**
+  String get labTestReportedOn;
+
+  /// No description provided for @labTestLab.
+  ///
+  /// In en, this message translates to:
+  /// **'Lab name'**
+  String get labTestLab;
+
+  /// No description provided for @labTestReadings.
+  ///
+  /// In en, this message translates to:
+  /// **'Values from the report'**
+  String get labTestReadings;
+
+  /// No description provided for @labTestReadingsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Type each value as it is written on the report.'**
+  String get labTestReadingsHint;
+
+  /// No description provided for @labTestParameter.
+  ///
+  /// In en, this message translates to:
+  /// **'Name (pH, EC …)'**
+  String get labTestParameter;
+
+  /// No description provided for @labTestValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Value'**
+  String get labTestValue;
+
+  /// No description provided for @labTestUnit.
+  ///
+  /// In en, this message translates to:
+  /// **'Unit'**
+  String get labTestUnit;
+
+  /// No description provided for @labTestAddReading.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a value'**
+  String get labTestAddReading;
+
+  /// No description provided for @labTestRemoveReading.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove this value'**
+  String get labTestRemoveReading;
+
+  /// No description provided for @labTestSuggestions.
+  ///
+  /// In en, this message translates to:
+  /// **'Names on most reports (tap to add)'**
+  String get labTestSuggestions;
+
+  /// No description provided for @labTestReadingIncomplete.
+  ///
+  /// In en, this message translates to:
+  /// **'Type the name and the value'**
+  String get labTestReadingIncomplete;
+
+  /// No description provided for @labTestNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Note'**
+  String get labTestNote;
+
+  /// No description provided for @labTestReport.
+  ///
+  /// In en, this message translates to:
+  /// **'Report photo or file'**
+  String get labTestReport;
+
+  /// No description provided for @labTestReportFile.
+  ///
+  /// In en, this message translates to:
+  /// **'File (PDF)'**
+  String get labTestReportFile;
+
+  /// No description provided for @labTestReportRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get labTestReportRemove;
+
+  /// No description provided for @labTestReportFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Please try adding the report again.'**
+  String get labTestReportFailed;
+
+  /// No description provided for @labTestReportLocal.
+  ///
+  /// In en, this message translates to:
+  /// **'The report stays on this phone.'**
+  String get labTestReportLocal;
+
+  /// No description provided for @labTestReportMissing.
+  ///
+  /// In en, this message translates to:
+  /// **'Please attach the report file again.'**
+  String get labTestReportMissing;
+
+  /// No description provided for @labTestShareReport.
+  ///
+  /// In en, this message translates to:
+  /// **'Share the report'**
+  String get labTestShareReport;
+
+  /// No description provided for @labTestAskExpert.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask an expert to read this report; they can explain what the values mean.'**
+  String get labTestAskExpert;
+
+  /// No description provided for @labTestNextDue.
+  ///
+  /// In en, this message translates to:
+  /// **'Next test due (reminder)'**
+  String get labTestNextDue;
+
+  /// No description provided for @labTestNextDueHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a date only if you want a reminder task.'**
+  String get labTestNextDueHint;
+
+  /// No description provided for @labTestNextDueClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear the reminder date'**
+  String get labTestNextDueClear;
+
+  /// No description provided for @labTestReminderSoil.
+  ///
+  /// In en, this message translates to:
+  /// **'Next soil test due'**
+  String get labTestReminderSoil;
+
+  /// No description provided for @labTestReminderWater.
+  ///
+  /// In en, this message translates to:
+  /// **'Next water test due'**
+  String get labTestReminderWater;
+
+  /// No description provided for @labTestReminderLeaf.
+  ///
+  /// In en, this message translates to:
+  /// **'Next leaf test due'**
+  String get labTestReminderLeaf;
+
+  /// No description provided for @labTestDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete test'**
+  String get labTestDelete;
+
+  /// No description provided for @labTestDeleteConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this test record and its report from this phone?'**
+  String get labTestDeleteConfirm;
+
+  /// No description provided for @labTestSampledLine.
+  ///
+  /// In en, this message translates to:
+  /// **'Sample {date}'**
+  String labTestSampledLine(String date);
+
+  /// No description provided for @labTestReportedLine.
+  ///
+  /// In en, this message translates to:
+  /// **'Report {date}'**
+  String labTestReportedLine(String date);
+
+  /// No description provided for @labTestLabLine.
+  ///
+  /// In en, this message translates to:
+  /// **'Lab: {name}'**
+  String labTestLabLine(String name);
+
+  /// No description provided for @labTestValuesCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Add values} =1{1 value} other{{count} values}}'**
+  String labTestValuesCount(int count);
+
+  /// No description provided for @labTestNoValues.
+  ///
+  /// In en, this message translates to:
+  /// **'Type the values from the report here.'**
+  String get labTestNoValues;
+
+  /// No description provided for @labTestEditAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get labTestEditAction;
+
+  /// No description provided for @schemesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Schemes and documents'**
+  String get schemesTitle;
+
+  /// No description provided for @schemesHomeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Who can apply, documents to keep ready'**
+  String get schemesHomeHint;
+
+  /// No description provided for @schemesIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'General information to help you get ready. See the amount and rules on the official page, then apply.'**
+  String get schemesIntro;
+
+  /// Nudge to visit the nearest Setu / Aaple Sarkar Seva Kendra (CSC); shown on the scheme list and each scheme.
+  ///
+  /// In en, this message translates to:
+  /// **'Visit your nearest Setu Kendra (Aaple Sarkar Seva Kendra / CSC) to apply, get documents and ask questions.'**
+  String get schemeVisitSetu;
+
+  /// No description provided for @schemeWho.
+  ///
+  /// In en, this message translates to:
+  /// **'Who can apply'**
+  String get schemeWho;
+
+  /// No description provided for @schemeWhoCheck.
+  ///
+  /// In en, this message translates to:
+  /// **'In general terms. Check the official page.'**
+  String get schemeWhoCheck;
+
+  /// No description provided for @schemeDocuments.
+  ///
+  /// In en, this message translates to:
+  /// **'Documents usually needed'**
+  String get schemeDocuments;
+
+  /// No description provided for @schemeDocumentsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tick what you already have. Kept on this phone only.'**
+  String get schemeDocumentsHint;
+
+  /// No description provided for @schemeDocsReady.
+  ///
+  /// In en, this message translates to:
+  /// **'{have} of {total} ready'**
+  String schemeDocsReady(int have, int total);
+
+  /// No description provided for @schemeNotConfirmed.
+  ///
+  /// In en, this message translates to:
+  /// **'Please confirm on the official page'**
+  String get schemeNotConfirmed;
+
+  /// No description provided for @schemeWhereToApply.
+  ///
+  /// In en, this message translates to:
+  /// **'Where to apply'**
+  String get schemeWhereToApply;
+
+  /// No description provided for @schemeSources.
+  ///
+  /// In en, this message translates to:
+  /// **'Sources (checked on {date})'**
+  String schemeSources(String date);
+
+  /// No description provided for @schemeFeedItems.
+  ///
+  /// In en, this message translates to:
+  /// **'Related govt notices'**
+  String get schemeFeedItems;
+
+  /// No description provided for @schemeShareDocs.
+  ///
+  /// In en, this message translates to:
+  /// **'Documents for {scheme}:'**
+  String schemeShareDocs(String scheme);
+
+  /// No description provided for @schemeShareHave.
+  ///
+  /// In en, this message translates to:
+  /// **'have'**
+  String get schemeShareHave;
+
+  /// No description provided for @schemeShareMissing.
+  ///
+  /// In en, this message translates to:
+  /// **'to get'**
+  String get schemeShareMissing;
+
   /// No description provided for @lookalikesTitle.
   ///
   /// In en, this message translates to:

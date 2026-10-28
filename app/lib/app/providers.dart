@@ -43,6 +43,10 @@ import '../features/insurance/data/insurance_deadlines_cache.dart';
 import '../features/insurance/data/insurance_repository.dart';
 import '../features/insurance/domain/claim_kit.dart';
 import '../features/insurance/domain/insurance_policy.dart';
+import '../features/lab_tests/data/lab_parameters.dart';
+import '../features/lab_tests/data/lab_report_files.dart';
+import '../features/lab_tests/data/lab_test_repository.dart';
+import '../features/lab_tests/domain/lab_test.dart';
 import '../features/labels/data/label_claims_cache.dart';
 import '../features/lookalikes/data/lookalike_cards.dart';
 import '../features/market/data/market_prices_cache.dart';
@@ -56,6 +60,8 @@ import '../features/profile/data/language_catalog.dart';
 import '../features/profile/data/profile_repository.dart';
 import '../features/profile/domain/farmer_profile.dart';
 import '../features/reminders/domain/reminders.dart';
+import '../features/schemes/data/scheme_catalog.dart';
+import '../features/schemes/data/scheme_ticks_store.dart';
 import '../features/scouting/data/photo_backup.dart';
 import '../features/scouting/data/scouting_photos.dart';
 import '../features/scouting/data/scouting_repository.dart';
@@ -579,6 +585,50 @@ final insuranceDeadlinesCacheProvider = Provider<InsuranceDeadlinesCache>(
   ),
 );
 
+final labReportFilesProvider = Provider<ScoutingPhotos>(
+  (ref) => DeviceScoutingPhotos(folderName: labReportFolder),
+);
+
+/// Picks a report file (PDF / picture) already on the phone. Tests fake it.
+final reportFilePickerProvider = Provider<ReportFilePicker>(
+  (ref) => const DeviceReportFilePicker(),
+);
+
+final labTestRepositoryProvider = Provider<LabTestRepository>(
+  (ref) => LabTestRepository(
+    ref.watch(databaseProvider),
+    clock: ref.watch(clockProvider),
+    files: ref.watch(labReportFilesProvider),
+  ),
+);
+
+final labTestsProvider = StreamProvider.family<List<LabTest>, String>(
+  (ref, plotId) => ref.watch(labTestRepositoryProvider).watchForPlot(plotId),
+);
+
+final labParametersCatalogProvider = Provider<LabParameters>(
+  (ref) => LabParameters(),
+);
+
+final labParametersProvider = FutureProvider<Map<String, List<LabParameter>>>(
+  (ref) => ref.watch(labParametersCatalogProvider).load(),
+);
+
+final schemeCatalogProvider = Provider<SchemeCatalog>((ref) => SchemeCatalog());
+
+final schemesProvider = FutureProvider<SchemesData>(
+  (ref) => ref.watch(schemeCatalogProvider).load(),
+);
+
+final schemeTicksStoreProvider = Provider<SchemeTicksStore>(
+  (ref) => SchemeTicksStore(ref.watch(databaseProvider)),
+);
+
+/// The documents the grower ticked as "I have this" for one scheme (this phone only).
+final schemeTicksProvider = StreamProvider.family<Set<String>, String>(
+  (ref, schemeId) => ref.watch(schemeTicksStoreProvider).watch(schemeId),
+);
+
 /// Enrolment deadlines from published official notices, per language. Online (not demo)
 /// they are refreshed first; offline the cached list is used. Empty means none is shown.
 final insuranceDeadlinesProvider =
@@ -664,6 +714,9 @@ final syncEngineProvider = Provider<SyncEngine>((ref) {
           .applyRemote,
       InsuranceRepository.entity: ref
           .watch(insuranceRepositoryProvider)
+          .applyRemote,
+      LabTestRepository.entity: ref
+          .watch(labTestRepositoryProvider)
           .applyRemote,
     },
   );

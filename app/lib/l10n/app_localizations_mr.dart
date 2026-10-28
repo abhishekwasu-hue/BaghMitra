@@ -2036,6 +2036,221 @@ class AppLocalizationsMr extends AppLocalizations {
   String get insurancePolicies => 'विमा नोंदी';
 
   @override
+  String get labTestsTitle => 'माती, पाणी व पान तपासणी';
+
+  @override
+  String get labTestsEmpty =>
+      'प्रयोगशाळेच्या अहवालातून किंवा मृदा आरोग्य पत्रिकेतून या बागेची पहिली तपासणी नोंदवा.';
+
+  @override
+  String get labTestAdd => 'तपासणी नोंदवा';
+
+  @override
+  String get labTestEdit => 'तपासणी बदला';
+
+  @override
+  String get labTestType => 'कशाची तपासणी';
+
+  @override
+  String get labTestTypeSoil => 'माती';
+
+  @override
+  String get labTestTypeWater => 'पाणी';
+
+  @override
+  String get labTestTypeLeaf => 'पान';
+
+  @override
+  String get labTestTitleSoil => 'माती तपासणी';
+
+  @override
+  String get labTestTitleWater => 'पाणी तपासणी';
+
+  @override
+  String get labTestTitleLeaf => 'पान तपासणी';
+
+  @override
+  String get labTestSampledOn => 'नमुना घेतल्याची तारीख';
+
+  @override
+  String get labTestReportedOn => 'अहवालाची तारीख';
+
+  @override
+  String get labTestLab => 'प्रयोगशाळेचे नाव';
+
+  @override
+  String get labTestReadings => 'अहवालातील आकडे';
+
+  @override
+  String get labTestReadingsHint =>
+      'अहवालात जसे लिहिले आहे तसेच प्रत्येक आकडा लिहा.';
+
+  @override
+  String get labTestParameter => 'नाव (pH, EC …)';
+
+  @override
+  String get labTestValue => 'आकडा';
+
+  @override
+  String get labTestUnit => 'एकक';
+
+  @override
+  String get labTestAddReading => 'आकडा जोडा';
+
+  @override
+  String get labTestRemoveReading => 'हा आकडा काढा';
+
+  @override
+  String get labTestSuggestions => 'बहुतेक अहवालांतील नावे (जोडण्यासाठी दाबा)';
+
+  @override
+  String get labTestReadingIncomplete => 'नाव व आकडा दोन्ही लिहा';
+
+  @override
+  String get labTestNote => 'टीप';
+
+  @override
+  String get labTestReport => 'अहवालाचा फोटो किंवा फाइल';
+
+  @override
+  String get labTestReportFile => 'फाइल (PDF)';
+
+  @override
+  String get labTestReportRemove => 'काढा';
+
+  @override
+  String get labTestReportFailed => 'अहवाल पुन्हा जोडून पहा.';
+
+  @override
+  String get labTestReportLocal => 'अहवाल याच फोनवर राहतो.';
+
+  @override
+  String get labTestReportMissing => 'अहवालाची फाइल पुन्हा जोडा.';
+
+  @override
+  String get labTestShareReport => 'अहवाल पाठवा';
+
+  @override
+  String get labTestAskExpert =>
+      'हा अहवाल तज्ज्ञांकडून वाचून घ्या; ते आकड्यांचा अर्थ समजावून सांगतील.';
+
+  @override
+  String get labTestNextDue => 'पुढील तपासणी (आठवण)';
+
+  @override
+  String get labTestNextDueHint => 'आठवण कार्य हवे असेल तरच तारीख निवडा.';
+
+  @override
+  String get labTestNextDueClear => 'आठवणीची तारीख काढा';
+
+  @override
+  String get labTestReminderSoil => 'पुढील माती तपासणी';
+
+  @override
+  String get labTestReminderWater => 'पुढील पाणी तपासणी';
+
+  @override
+  String get labTestReminderLeaf => 'पुढील पान तपासणी';
+
+  @override
+  String get labTestDelete => 'तपासणी नोंद काढा';
+
+  @override
+  String get labTestDeleteConfirm =>
+      'ही तपासणी नोंद व तिचा अहवाल या फोनवरून काढायचा?';
+
+  @override
+  String labTestSampledLine(String date) {
+    return 'नमुना $date';
+  }
+
+  @override
+  String labTestReportedLine(String date) {
+    return 'अहवाल $date';
+  }
+
+  @override
+  String labTestLabLine(String name) {
+    return 'प्रयोगशाळा: $name';
+  }
+
+  @override
+  String labTestValuesCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count आकडे',
+      one: '१ आकडा',
+      zero: 'आकडे लिहा',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get labTestNoValues => 'अहवालातील आकडे इथे लिहा.';
+
+  @override
+  String get labTestEditAction => 'बदला';
+
+  @override
+  String get schemesTitle => 'योजना व कागदपत्रे';
+
+  @override
+  String get schemesHomeHint =>
+      'कोण अर्ज करू शकतो, कोणती कागदपत्रे तयार ठेवावी';
+
+  @override
+  String get schemesIntro =>
+      'तयारीसाठी सर्वसाधारण माहिती. रक्कम आणि अटी अधिकृत पानावर पहा आणि मगच अर्ज करा.';
+
+  @override
+  String get schemeVisitSetu =>
+      'अर्ज, कागदपत्रे आणि अधिक माहितीसाठी जवळच्या सेतू केंद्राला (आपले सरकार सेवा केंद्र / CSC) भेट द्या.';
+
+  @override
+  String get schemeWho => 'कोण अर्ज करू शकतो';
+
+  @override
+  String get schemeWhoCheck => 'सर्वसाधारण माहिती. अधिकृत पान तपासा.';
+
+  @override
+  String get schemeDocuments => 'सहसा लागणारी कागदपत्रे';
+
+  @override
+  String get schemeDocumentsHint =>
+      'जे आधीच आहे त्यावर खूण करा. फक्त याच फोनवर राहते.';
+
+  @override
+  String schemeDocsReady(int have, int total) {
+    return '$total पैकी $have तयार';
+  }
+
+  @override
+  String get schemeNotConfirmed => 'अधिकृत पानावर एकदा खात्री करून घ्या';
+
+  @override
+  String get schemeWhereToApply => 'कुठे अर्ज करावा';
+
+  @override
+  String schemeSources(String date) {
+    return 'स्रोत ($date रोजी तपासले)';
+  }
+
+  @override
+  String get schemeFeedItems => 'संबंधित शासकीय सूचना';
+
+  @override
+  String schemeShareDocs(String scheme) {
+    return '$scheme साठी कागदपत्रे:';
+  }
+
+  @override
+  String get schemeShareHave => 'आहे';
+
+  @override
+  String get schemeShareMissing => 'मिळवायचे';
+
+  @override
   String get lookalikesTitle => 'सारखी दिसणारी लक्षणे';
 
   @override

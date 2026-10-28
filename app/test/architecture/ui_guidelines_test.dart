@@ -11,6 +11,7 @@ import '../features/accounts/accounts_screen_test.dart' show seedAccounts;
 import '../features/bahar/bahar_screen_test.dart' show seedPlot;
 import '../features/feed/feed_data_test.dart' show FakeFeedRepository;
 import '../features/feed/feed_screen_test.dart' show seedFeed;
+import '../features/lab_tests/lab_tests_test.dart' show seedLabTest;
 import '../features/market/market_prices_test.dart' show seedPrices;
 import '../features/plots/plots_screen_test.dart' show seedTwo, settle;
 import '../features/spray/spray_screen_test.dart' show seedWithSpray;
@@ -42,6 +43,10 @@ void main() {
     ('/plots/p1/labour/new', seedPlot),
     ('/plots/p1/insurance/new', seedPlot),
     ('/claim-kit?plot=p1', seedPlot),
+    ('/plots/p1/lab-tests/new', seedPlot),
+    ('/plots/p1/lab-tests/l1', seedLabTest),
+    ('/schemes', null),
+    ('/schemes/pm_kisan', null),
     ('/lookalikes?plot=p1', seedPlot),
     ('/labs', null),
     ('/market/directory', null),
