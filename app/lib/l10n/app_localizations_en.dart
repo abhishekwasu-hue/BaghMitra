@@ -2040,4 +2040,138 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get insurancePolicies => 'Policies';
+
+  @override
+  String get lookalikesTitle => 'Look-alike symptoms';
+
+  @override
+  String get lookalikesOpen => 'Look-alike symptoms';
+
+  @override
+  String get lookalikesIntro =>
+      'Many orchard problems look alike. These cards help you describe what you see; they do not tell you what it is.';
+
+  @override
+  String get lookalikesSee => 'What you may see';
+
+  @override
+  String get lookalikesConfusedWith => 'Can be confused with';
+
+  @override
+  String get lookalikesConfirm => 'Who can confirm it';
+
+  @override
+  String get lookalikesCheckLine =>
+      'Not sure? Do not guess. Take a photo, log it in scouting and get it checked by a lab or an expert.';
+
+  @override
+  String get lookalikesLogThis => 'Log this in scouting';
+
+  @override
+  String get lookalikesFindLab => 'Find a lab or expert';
+
+  @override
+  String get lookalikesSources => 'Sources';
+
+  @override
+  String get lookalikesDraft => 'Draft: a source is not yet checked';
+
+  @override
+  String get lookalikesEmpty => 'No cards yet.';
+
+  @override
+  String get labsTitle => 'Labs and experts';
+
+  @override
+  String get labsOpen => 'Labs and experts';
+
+  @override
+  String get marketDirectoryTitle => 'Markets and buyers';
+
+  @override
+  String get marketDirectoryOpen => 'Markets and buyers';
+
+  @override
+  String get directoryAll => 'All';
+
+  @override
+  String get directoryUnverified => 'Not yet checked on an official page';
+
+  @override
+  String get directoryCopyNumber => 'Copy number';
+
+  @override
+  String get directoryNumberCopied => 'Number copied';
+
+  @override
+  String get directoryCopyLink => 'Copy link';
+
+  @override
+  String directoryWebPage(Object url) {
+    return 'Web page: $url';
+  }
+
+  @override
+  String directoryPhone(Object phone) {
+    return 'Phone: $phone';
+  }
+
+  @override
+  String directoryDetailsFrom(Object url) {
+    return 'Details from: $url';
+  }
+
+  @override
+  String directoryChecked(Object date) {
+    return 'Checked $date';
+  }
+
+  @override
+  String get directoryCheckLine =>
+      'Details are copied from official pages on the date shown. Call or visit the page to confirm before you travel.';
+
+  @override
+  String get directoryEmpty => 'Nothing listed yet.';
+
+  @override
+  String get directoryKindResearch => 'Research institute';
+
+  @override
+  String get directoryKindUniversity => 'Agricultural university';
+
+  @override
+  String get directoryKindKvk => 'Krishi Vigyan Kendra';
+
+  @override
+  String get directoryKindSoilLab => 'Soil testing';
+
+  @override
+  String get directoryKindPortal => 'Prices and arrivals';
+
+  @override
+  String get directoryKindApmc => 'Market committee (APMC)';
+
+  @override
+  String get directoryKindExport => 'Export';
+
+  @override
+  String get directoryKindProcessor => 'Processing';
+
+  @override
+  String fairPriceMandi(Object date, Object market, Object price) {
+    return '$market mandi, $date: modal price $price per quintal';
+  }
+
+  @override
+  String fairPriceAbove(Object percent) {
+    return 'Your rate is $percent% above the mandi modal price.';
+  }
+
+  @override
+  String fairPriceBelow(Object percent) {
+    return 'Your rate is $percent% below the mandi modal price.';
+  }
+
+  @override
+  String get fairPriceSame => 'Your rate is the same as the mandi modal price.';
 }

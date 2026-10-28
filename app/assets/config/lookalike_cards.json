@@ -1,0 +1,221 @@
+{
+  "_note": "Look-alike symptom cards for santra / mosambi (research gap #8). Each card says what the grower may see, what it can be confused with, and that only a lab test or an expert can confirm it. NO chemical, dose or treatment content: only 'get it checked', photo it and log it in scouting. Every statement comes from a source read on the date in 'checked'; a source not read is 'verified': false and its cards show as draft. Not expert-reviewed (OPEN_QUESTIONS Q45).",
+  "status": "draft",
+  "sources": {
+    "NHB-C02": {
+      "title": "National Horticulture Board: Citrus diseases",
+      "url": "https://www.nhb.gov.in/pdf/fruits/citrus/cit002.pdf",
+      "kind": "official",
+      "verified": true,
+      "checked": "2026-10-28"
+    },
+    "NHB-C03": {
+      "title": "National Horticulture Board: Citrus disorders (fruit drop, die-back / decline)",
+      "url": "https://www.nhb.gov.in/pdf/fruits/citrus/cit003.pdf",
+      "kind": "official",
+      "verified": true,
+      "checked": "2026-10-28"
+    },
+    "NHB-C08": {
+      "title": "National Horticulture Board: Citrus pests",
+      "url": "https://www.nhb.gov.in/pdf/fruits/citrus/cit008.pdf",
+      "kind": "official",
+      "verified": true,
+      "checked": "2026-10-28"
+    },
+    "PDKV-HLB": {
+      "title": "Deshmukh et al. 2022, Dr. PDKV Akola: Rapid detection of citrus greening by iodine kit and PCR (IJCMAS 11(2): 127-132, doi 10.20546/ijcmas.2022.1102.016)",
+      "url": "https://www.ijcmas.com/11-2-2022/Snehal%20Sanjayrao%20Deshmukh,%20et%20al.pdf",
+      "kind": "research",
+      "verified": true,
+      "checked": "2026-10-28"
+    },
+    "PDKV-AICRP": {
+      "title": "Dr. PDKV Akola: AICRP (Tropical Fruits) on Citrus, aims include finding the causes of citrus decline and die-back",
+      "url": "https://www.pdkv.ac.in/?page_id=4604",
+      "kind": "university",
+      "verified": true,
+      "checked": "2026-10-28"
+    },
+    "CCRI-2022": {
+      "title": "AESA: ICAR-CCRI Nagpur NABARD-sponsored training for citrus growers, July 2022 (fruit drop from heat, untimely rain and hail)",
+      "url": "https://aesanetwork.org/capacity-development-of-citrus-growers-of-nagpur-nabard-sponsored-training-program-on-advanced-production-technologies-of-citrus-12-14-july-2022/",
+      "kind": "extension",
+      "verified": true,
+      "checked": "2026-10-28"
+    },
+    "UF-PP328": {
+      "title": "UF/IFAS Extension PP328: HLB (citrus greening) and nutrient deficiency identification (reviewed 01/2025)",
+      "url": "https://edis.ifas.ufl.edu/publication/PP328",
+      "kind": "extension",
+      "verified": true,
+      "checked": "2026-10-28"
+    },
+    "UC-THRIPS": {
+      "title": "UC IPM (University of California): Citrus thrips",
+      "url": "https://ipm.ucanr.edu/agriculture/citrus/citrus-thrips/",
+      "kind": "extension",
+      "verified": true,
+      "checked": "2026-10-28"
+    },
+    "UC-WIND": {
+      "title": "UC IPM (University of California): Identification and confirmation of wind injury",
+      "url": "https://ipm.ucanr.edu/home-and-landscape/identification-and-confirmation-wind-injury/",
+      "kind": "extension",
+      "verified": true,
+      "checked": "2026-10-28"
+    }
+  },
+  "cards": [
+    {
+      "id": "greening_vs_deficiency",
+      "scouting_item": "other",
+      "title": {
+        "en": "Yellow leaves: greening (HLB) or a nutrient shortage?",
+        "mr": "पिवळी पाने: ग्रीनिंग (HLB) की अन्नद्रव्याची कमतरता?",
+        "hi": "पीली पत्तियाँ: ग्रीनिंग (HLB) या पोषक तत्व की कमी?"
+      },
+      "see": {
+        "en": "Yellow, blotchy (mottled) leaves. Some branches dry from the tips while others look normal. Small, misshapen fruit that stay green when mature, sometimes with a yellow patch on the sunny side. Leaves and fruit drop.",
+        "mr": "पिवळी, डाग-डाग (चट्टेदार) पाने. काही फांद्या टोकाकडून वाळतात, तर इतर फांद्या सामान्य दिसतात. फळे लहान, वेडीवाकडी आणि पिकल्यावरही हिरवी राहतात; उन्हाच्या बाजूला कधी पिवळा चट्टा दिसतो. पाने व फळे गळतात.",
+        "hi": "पीली, धब्बेदार (चितकबरी) पत्तियाँ। कुछ डालियाँ सिरे से सूखती हैं, जबकि बाकी सामान्य दिखती हैं। फल छोटे, टेढ़े-मेढ़े और पकने पर भी हरे रहते हैं; धूप वाली तरफ कभी पीला धब्बा दिखता है। पत्तियाँ और फल झड़ते हैं।"
+      },
+      "confused_with": {
+        "en": "A shortage of zinc, iron, manganese or magnesium also turns leaves yellow or mottled. Extension guides say greening mottle is usually uneven on the two sides of the middle vein, while a nutrient shortage looks the same on both sides, but the eye can be wrong.",
+        "mr": "जस्त (झिंक), लोह, मँगनीज किंवा मॅग्नेशियमच्या कमतरतेनेही पाने पिवळी किंवा चट्टेदार होतात. विस्तार मार्गदर्शिकांनुसार ग्रीनिंगचे चट्टे मधल्या शिरेच्या दोन्ही बाजूंना सहसा वेगवेगळे असतात, तर कमतरतेत दोन्ही बाजू सारख्या दिसतात; पण डोळ्यांनी पाहून चूक होऊ शकते.",
+        "hi": "जिंक, आयरन, मैंगनीज या मैग्नीशियम की कमी से भी पत्तियाँ पीली या चितकबरी होती हैं। विस्तार गाइड के अनुसार ग्रीनिंग के धब्बे बीच की नस के दोनों ओर अक्सर अलग-अलग होते हैं, जबकि कमी में दोनों ओर एक जैसे दिखते हैं; पर आँख से देखकर गलती हो सकती है।"
+      },
+      "confirm": {
+        "en": "Greening is confirmed only by a lab test (PCR) on leaf samples; a nutrient shortage by a leaf or soil test. Ask your KVK, Dr. PDKV or ICAR-CCRI.",
+        "mr": "ग्रीनिंगची खात्री फक्त पानांच्या नमुन्याच्या प्रयोगशाळा चाचणीने (PCR) होते; अन्नद्रव्य कमतरतेची खात्री पान किंवा माती चाचणीने. आपल्या KVK, डॉ. पंदेकृवि किंवा ICAR-CCRI ला विचारा.",
+        "hi": "ग्रीनिंग की पुष्टि केवल पत्तियों के नमूने की लैब जाँच (PCR) से होती है; पोषक तत्व की कमी की पुष्टि पत्ती या मिट्टी जाँच से। अपने KVK, डॉ. पीडीकेवी या ICAR-CCRI से पूछें।"
+      },
+      "sources": ["NHB-C02", "PDKV-HLB", "UF-PP328"]
+    },
+    {
+      "id": "gummosis_vs_bark",
+      "scouting_item": "gummosis_bark",
+      "title": {
+        "en": "Gum on the trunk: Phytophthora gummosis or other bark damage?",
+        "mr": "खोडावर डिंक: फायटोफ्थोरा डिंक्या की सालीचे इतर नुकसान?",
+        "hi": "तने पर गोंद: फाइटोफ्थोरा गमोसिस या छाल का कोई और नुकसान?"
+      },
+      "see": {
+        "en": "Cracked bark near the base of the trunk with gum oozing out, and yellowing leaves. In bad cases the bark rots all round the trunk and the tree dries; a tree may flower heavily before it dies.",
+        "mr": "खोडाच्या खालच्या भागात साल तडकते व त्यातून डिंक येतो, पाने पिवळी पडतात. जास्त प्रादुर्भावात खोडाभोवती साल कुजते व झाड वाळते; मरण्यापूर्वी झाडाला भरपूर फुले येऊ शकतात.",
+        "hi": "तने के निचले भाग में छाल फटती है और उससे गोंद निकलता है, पत्तियाँ पीली पड़ती हैं। ज़्यादा प्रकोप में तने के चारों ओर छाल सड़ती है और पेड़ सूखता है; मरने से पहले पेड़ पर बहुत फूल आ सकते हैं।"
+      },
+      "confused_with": {
+        "en": "Dry root rot (bark first moist, later dry and shredded, roots smell bad); pink disease (a silvery-white, then pink film on branches after the rains); exocortis (narrow strips of outer bark dry and peel off); bark borer (holes, with a webbed mass of chewed wood and droppings stuck on the trunk); or a wound from tools.",
+        "mr": "कोरडी मूळकूज (साल आधी ओलसर, नंतर कोरडी व चिंध्यांसारखी, मुळांना दुर्गंधी); पिंक रोग (पावसानंतर फांद्यांवर आधी चंदेरी-पांढरा, नंतर गुलाबी थर); एक्झोकॉर्टिस (बाहेरच्या सालीच्या अरुंद पट्ट्या वाळून सुटतात); साल खाणारी अळी (छिद्रे, व खोडावर चिकटलेला भुसा व विष्ठेचा जाळीदार गोळा); किंवा अवजाराने झालेली जखम.",
+        "hi": "सूखी जड़ सड़न (छाल पहले नम, फिर सूखी और रेशेदार, जड़ों से बदबू); पिंक रोग (बारिश के बाद डालियों पर पहले चाँदी-सफ़ेद, फिर गुलाबी परत); एक्सोकॉर्टिस (बाहरी छाल की पतली पट्टियाँ सूखकर उतरती हैं); छाल खाने वाली इल्ली (छेद, और तने पर चिपका बुरादे व मल का जालीदार ढेर); या औज़ार से लगा घाव।"
+      },
+      "confirm": {
+        "en": "Only a lab test of a bark, root or soil sample, or an expert who sees the tree, can tell which it is. Ask your KVK, Dr. PDKV or ICAR-CCRI.",
+        "mr": "कोणता प्रकार आहे हे फक्त साल, मूळ किंवा मातीच्या नमुन्याची प्रयोगशाळा चाचणी किंवा झाड प्रत्यक्ष पाहणारे तज्ज्ञच सांगू शकतात. आपल्या KVK, डॉ. पंदेकृवि किंवा ICAR-CCRI ला विचारा.",
+        "hi": "कौन-सा है यह केवल छाल, जड़ या मिट्टी के नमूने की लैब जाँच या पेड़ को खुद देखने वाले विशेषज्ञ ही बता सकते हैं। अपने KVK, डॉ. पीडीकेवी या ICAR-CCRI से पूछें।"
+      },
+      "sources": ["NHB-C02", "NHB-C08"]
+    },
+    {
+      "id": "die_back_causes",
+      "scouting_item": "die_back",
+      "title": {
+        "en": "Drying twigs and branches: what is behind die-back?",
+        "mr": "वाळणाऱ्या काड्या व फांद्या: फांदीमर (डाय-बॅक) कशामुळे?",
+        "hi": "सूखती टहनियाँ और डालियाँ: डाई-बैक किस वजह से?"
+      },
+      "see": {
+        "en": "Twigs and branches dry back from the tips, the tree loses vigour and the yield falls, often slowly over years.",
+        "mr": "काड्या व फांद्या टोकाकडून मागे वाळत जातात, झाडाचा जोम कमी होतो व उत्पादन घटते; हे बहुधा काही वर्षांत हळूहळू होते.",
+        "hi": "टहनियाँ और डालियाँ सिरे से पीछे की ओर सूखती हैं, पेड़ की ताकत घटती है और उपज कम होती है; अक्सर यह कुछ सालों में धीरे-धीरे होता है।"
+      },
+      "confused_with": {
+        "en": "Many causes give the same picture, alone or together: Phytophthora root and collar rot, greening, tristeza (a virus spread by aphids), twig blight, unsuitable or waterlogged soil, drought, poor feeding and infected budwood. Finding the causes of decline and die-back is a research aim of Dr. PDKV's citrus project.",
+        "mr": "एकट्याने किंवा एकत्र अनेक कारणांनी असेच दिसते: फायटोफ्थोरा मूळकूज व खोडकूज, ग्रीनिंग, ट्रिस्टेझा (मावा पसरवणारा विषाणू), काडी करपा, अयोग्य किंवा पाणी साचणारी जमीन, दुष्काळ, अपुरे पोषण आणि रोगट डोळ्याची कलमे. ऱ्हास व फांदीमराची कारणे शोधणे हे डॉ. पंदेकृविच्या लिंबूवर्गीय प्रकल्पाचे एक संशोधन उद्दिष्ट आहे.",
+        "hi": "अकेले या साथ में कई कारणों से ऐसा ही दिखता है: फाइटोफ्थोरा जड़ व कॉलर सड़न, ग्रीनिंग, ट्रिस्टेज़ा (माहू से फैलने वाला वायरस), टहनी झुलसा, अनुपयुक्त या जलभराव वाली ज़मीन, सूखा, कम पोषण और रोगग्रस्त कलम। गिरावट और डाई-बैक के कारण खोजना डॉ. पीडीकेवी की नींबूवर्गीय परियोजना का एक शोध लक्ष्य है।"
+      },
+      "confirm": {
+        "en": "The cause can only be found by testing soil, roots or leaves in a lab, or by an expert visit to the orchard.",
+        "mr": "खरे कारण फक्त माती, मुळे किंवा पानांच्या प्रयोगशाळा चाचणीने किंवा तज्ज्ञांनी बागेला भेट दिल्यावरच कळू शकते.",
+        "hi": "असली कारण केवल मिट्टी, जड़ों या पत्तियों की लैब जाँच से, या विशेषज्ञ के बाग में आने पर ही पता चल सकता है।"
+      },
+      "sources": ["NHB-C03", "NHB-C02", "PDKV-AICRP"]
+    },
+    {
+      "id": "fruit_drop_types",
+      "scouting_item": "fruit_drop",
+      "title": {
+        "en": "Fruit falling: which kind of drop is it?",
+        "mr": "फळगळ: कोणत्या प्रकारची गळ आहे?",
+        "hi": "फल झड़ना: किस तरह का झड़ना है?"
+      },
+      "see": {
+        "en": "Fruit falling at the marble stage (about a month after full bloom), in the May–June heat, or before harvest (August to January).",
+        "mr": "गोटी अवस्थेत (पूर्ण बहरानंतर साधारण महिनाभर), मे–जूनच्या उष्णतेत, किंवा काढणीपूर्वी (ऑगस्ट ते जानेवारी) फळे गळतात.",
+        "hi": "कंचा अवस्था में (पूरे बहार के लगभग एक महीने बाद), मई–जून की गर्मी में, या तुड़ाई से पहले (अगस्त से जनवरी) फल झड़ते हैं।"
+      },
+      "confused_with": {
+        "en": "Drop can come from poor fruit set, knocks, insects, diseases (for example Phytophthora fruit rot, which starts as water-soaked patches on the rind, or greening), high heat, rain and hail. In 2022 ICAR-CCRI trainers linked heavy fruitlet drop in Vidarbha to March heat of 40–42 °C, untimely rain and hail.",
+        "mr": "फळधारणा कमी होणे, धक्का लागणे, कीड, रोग (उदा. फायटोफ्थोरा फळकूज, जी सालीवर पाणथळ चट्ट्यांनी सुरू होते, किंवा ग्रीनिंग), जास्त उष्णता, पाऊस व गारपीट यांमुळे गळ होऊ शकते. २०२२ मध्ये ICAR-CCRI च्या प्रशिक्षकांनी विदर्भातील मोठ्या फळगळीचा संबंध मार्चमधील ४०–४२ °C उष्णता, अवेळी पाऊस व गारपिटीशी जोडला.",
+        "hi": "फल कम लगना, झटका लगना, कीट, रोग (जैसे फाइटोफ्थोरा फल सड़न, जो छिलके पर पानी भरे धब्बों से शुरू होती है, या ग्रीनिंग), ज़्यादा गर्मी, बारिश और ओले से झड़ना हो सकता है। 2022 में ICAR-CCRI के प्रशिक्षकों ने विदर्भ में भारी फल झड़ने को मार्च की 40–42 °C गर्मी, बेमौसम बारिश और ओलों से जोड़ा।"
+      },
+      "confirm": {
+        "en": "Which cause it is needs an expert to look at the fallen fruit and the tree; a lab can test fallen fruit for disease.",
+        "mr": "कोणते कारण आहे हे तज्ज्ञांनी गळलेली फळे व झाड पाहूनच सांगता येते; प्रयोगशाळा गळलेल्या फळांची रोगासाठी चाचणी करू शकते.",
+        "hi": "कौन-सा कारण है यह विशेषज्ञ झड़े फल और पेड़ देखकर ही बता सकते हैं; लैब झड़े फलों की रोग के लिए जाँच कर सकती है।"
+      },
+      "sources": ["NHB-C03", "NHB-C02", "CCRI-2022"]
+    },
+    {
+      "id": "psylla_vs_leaf_miner",
+      "scouting_item": "psylla",
+      "title": {
+        "en": "Curled new leaves: psylla or leaf miner?",
+        "mr": "आकसलेली नवी पाने: सायला की पाने पोखरणारी अळी?",
+        "hi": "मुड़ी नई पत्तियाँ: सिल्ला या लीफ माइनर?"
+      },
+      "see": {
+        "en": "Damage on new flush: young leaves curled, twisted, pale or falling.",
+        "mr": "नव्या नवतीवर नुकसान: कोवळी पाने आकसलेली, वाकडी, फिकट किंवा गळणारी.",
+        "hi": "नई बढ़वार पर नुकसान: कोमल पत्तियाँ मुड़ी, टेढ़ी, फीकी या झड़ती हुई।"
+      },
+      "confused_with": {
+        "en": "Psylla: small insects and their young suck sap from buds and tender leaves; leaves twist, curl and fall. Psylla also spreads greening. Leaf miner: silvery, winding tunnels inside the leaf; leaves turn pale yellow, crumple and dry; its damage can let canker in.",
+        "mr": "सायला: लहान कीटक व त्यांची पिल्ले कळ्या व कोवळ्या पानांतून रस शोषतात; पाने वाकडी होऊन आकसतात व गळतात. सायला ग्रीनिंगही पसरवतो. पाने पोखरणारी अळी: पानाच्या आत चंदेरी, नागमोडी बोगदे; पाने फिकट पिवळी होऊन चुरगळतात व वाळतात; या नुकसानीतून कॅन्करला वाव मिळू शकतो.",
+        "hi": "सिल्ला: छोटे कीट और उनके बच्चे कलियों और कोमल पत्तियों का रस चूसते हैं; पत्तियाँ टेढ़ी होकर मुड़ती और झड़ती हैं। सिल्ला ग्रीनिंग भी फैलाता है। लीफ माइनर: पत्ती के अंदर चाँदी जैसी, टेढ़ी-मेढ़ी सुरंगें; पत्तियाँ फीकी पीली होकर सिकुड़ती और सूखती हैं; इस नुकसान से कैंकर को मौका मिल सकता है।"
+      },
+      "confirm": {
+        "en": "Look closely, take a clear photo and show it to an expert at your KVK; they can confirm the insect from a photo or a sample.",
+        "mr": "जवळून पाहा, स्पष्ट फोटो घ्या आणि आपल्या KVK मधील तज्ज्ञांना दाखवा; ते फोटो किंवा नमुन्यावरून कीड निश्चित करू शकतात.",
+        "hi": "पास से देखें, साफ़ फ़ोटो लें और अपने KVK के विशेषज्ञ को दिखाएँ; वे फ़ोटो या नमूने से कीट की पुष्टि कर सकते हैं।"
+      },
+      "sources": ["NHB-C08"]
+    },
+    {
+      "id": "mites_thrips_scarring",
+      "scouting_item": "mites_thrips",
+      "title": {
+        "en": "Scars on the fruit skin: mites, thrips or wind?",
+        "mr": "फळाच्या सालीवर व्रण: कोळी, फुलकिडे की वारा?",
+        "hi": "फल के छिलके पर निशान: माइट, थ्रिप्स या हवा?"
+      },
+      "see": {
+        "en": "Rough, grey, silvery or brownish (russeted) skin on the fruit; grey spots on the leaves.",
+        "mr": "फळाची साल खरबरीत, राखाडी, चंदेरी किंवा तपकिरी (रसेटिंग); पानांवर राखाडी ठिपके.",
+        "hi": "फल का छिलका खुरदरा, धूसर, चाँदी जैसा या भूरा (रसेटिंग); पत्तियों पर धूसर धब्बे।"
+      },
+      "confused_with": {
+        "en": "Citrus mites cause russeting on fruit and many grey spots on leaves, and the leaves may fall. Thrips leave grey or silvery scabby scars, often as a ring around the stem end. Wind rubbing also scars fruit, but leaves no ring around the stem.",
+        "mr": "लिंबूवर्गीय कोळी फळावर रसेटिंग व पानांवर अनेक राखाडी ठिपके करतात, व पाने गळू शकतात. फुलकिडे राखाडी किंवा चंदेरी खपलीसारखे व्रण करतात, बहुधा देठाभोवती कड्याच्या रूपात. वाऱ्याने घासल्यानेही फळावर व्रण पडतात, पण देठाभोवती कडे नसते.",
+        "hi": "नींबूवर्गीय माइट फल पर रसेटिंग और पत्तियों पर कई धूसर धब्बे करते हैं, और पत्तियाँ झड़ सकती हैं। थ्रिप्स धूसर या चाँदी जैसे पपड़ीदार निशान छोड़ते हैं, अक्सर डंठल के चारों ओर छल्ले की तरह। हवा की रगड़ से भी फल पर निशान पड़ते हैं, पर डंठल के चारों ओर छल्ला नहीं होता।"
+      },
+      "confirm": {
+        "en": "Mites and thrips are tiny: an expert with a lens, or a lab, can confirm which it is.",
+        "mr": "कोळी व फुलकिडे अतिशय लहान असतात: भिंग वापरणारे तज्ज्ञ किंवा प्रयोगशाळाच खात्री करू शकते.",
+        "hi": "माइट और थ्रिप्स बहुत छोटे होते हैं: लेंस से देखने वाले विशेषज्ञ या लैब ही पुष्टि कर सकते हैं।"
+      },
+      "sources": ["NHB-C08", "UC-THRIPS", "UC-WIND"]
+    }
+  ]
+}

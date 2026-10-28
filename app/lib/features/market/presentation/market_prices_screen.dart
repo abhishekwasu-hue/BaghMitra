@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../api/generated/bagmitra.swagger.dart';
 import '../../../app/providers.dart';
+import '../../../app/router.dart';
 import '../../../core/formatting.dart';
 import '../../../design_system/empty_state.dart';
 import '../../../l10n/app_localizations.dart';
@@ -39,7 +41,17 @@ class _MarketPricesScreenState extends ConsumerState<MarketPricesScreen> {
     };
 
     return Scaffold(
-      appBar: AppBar(title: Text(t.marketPricesTitle)),
+      appBar: AppBar(
+        title: Text(t.marketPricesTitle),
+        actions: [
+          IconButton(
+            key: const Key('open-market-directory'),
+            tooltip: t.marketDirectoryOpen,
+            icon: Icon(Icons.store_mall_directory_outlined, color: c.brand),
+            onPressed: () => context.push(Routes.marketDirectory),
+          ),
+        ],
+      ),
       body: ListView(
         padding: const EdgeInsets.all(BmSpace.lg),
         children: [

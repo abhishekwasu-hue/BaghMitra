@@ -114,7 +114,17 @@ class ScoutingScreen extends ConsumerWidget {
       _ => c.inkMuted,
     };
     return Scaffold(
-      appBar: AppBar(title: Text(t.scoutingTitle)),
+      appBar: AppBar(
+        title: Text(t.scoutingTitle),
+        actions: [
+          IconButton(
+            key: const Key('open-lookalikes'),
+            tooltip: t.lookalikesOpen,
+            icon: Icon(Icons.compare_outlined, color: c.brand),
+            onPressed: () => context.push(Routes.lookalikesFor(plotId)),
+          ),
+        ],
+      ),
       body: loaded.isLoading && !loaded.hasValue
           ? LoadingState(label: t.loadingLabel)
           : records.isEmpty
@@ -187,8 +197,11 @@ class ScoutingScreen extends ConsumerWidget {
 /// Records one scouting observation: what was looked at and how much of it there was are
 /// required; a note (typed or spoken) and one photo are optional. Names only, no advice.
 class AddScoutingScreen extends ConsumerStatefulWidget {
-  const AddScoutingScreen({required this.plotId, super.key});
+  const AddScoutingScreen({required this.plotId, this.initialItem, super.key});
   final String plotId;
+
+  /// Picked already when the form is opened from a look-alike card ("Log this").
+  final String? initialItem;
 
   @override
   ConsumerState<AddScoutingScreen> createState() => _AddScoutingScreenState();
@@ -197,7 +210,9 @@ class AddScoutingScreen extends ConsumerStatefulWidget {
 class _AddScoutingScreenState extends ConsumerState<AddScoutingScreen> {
   final _note = TextEditingController();
   DateTime? _date;
-  String? _item;
+  late String? _item = scoutingItems.contains(widget.initialItem)
+      ? widget.initialItem
+      : null;
   String? _severity;
   String? _cycle;
   String? _picked;

@@ -15,6 +15,7 @@ import '../features/bahar/presentation/bahar_screen.dart';
 import '../features/bahar/presentation/start_bahar_screen.dart';
 import '../features/calendar/presentation/season_calendar_screen.dart';
 import '../features/dev/component_gallery_screen.dart';
+import '../features/directory/presentation/directory_screen.dart';
 import '../features/feed/presentation/feed_check_screen.dart';
 import '../features/feed/presentation/feed_preferences_screen.dart';
 import '../features/feed/presentation/feed_screen.dart';
@@ -26,6 +27,7 @@ import '../features/inputs/presentation/field_log_screen.dart';
 import '../features/insurance/presentation/claim_kit_screen.dart';
 import '../features/insurance/presentation/insurance_screens.dart';
 import '../features/labels/presentation/label_info_screen.dart';
+import '../features/lookalikes/presentation/lookalikes_screen.dart';
 import '../features/market/presentation/market_prices_screen.dart';
 import '../features/plots/presentation/add_plot_screen.dart';
 import '../features/plots/presentation/boundary_screen.dart';
@@ -77,6 +79,11 @@ abstract final class Routes {
   static const feedCheck = '/feed-check';
   static const practices = '/practices';
   static const irrigation = '/irrigation';
+  static const lookalikes = '/lookalikes';
+  static String lookalikesFor(String? plotId) =>
+      plotId == null ? lookalikes : '$lookalikes?plot=$plotId';
+  static const labs = '/labs';
+  static const marketDirectory = '/market/directory';
   static const plots = '/plots';
   static const addPlot = '/plots/new';
   static const walkBoundary = '/plots/new/boundary';
@@ -95,7 +102,8 @@ abstract final class Routes {
   static String harvest(String plotId) => '/plots/$plotId/harvest';
   static String addHarvest(String plotId) => '/plots/$plotId/harvest/new';
   static String scouting(String plotId) => '/plots/$plotId/scouting';
-  static String addScouting(String plotId) => '/plots/$plotId/scouting/new';
+  static String addScouting(String plotId, {String? item}) =>
+      '/plots/$plotId/scouting/new${item == null ? '' : '?item=$item'}';
   static String insurance(String plotId) => '/plots/$plotId/insurance';
   static String addPolicy(String plotId) => '/plots/$plotId/insurance/new';
   static String editPolicy(String plotId, String policyId) =>
@@ -212,6 +220,16 @@ GoRouter buildRouter(
         path: Routes.irrigation,
         builder: (_, _) => const IrrigationGuideScreen(),
       ),
+      GoRoute(
+        path: Routes.lookalikes,
+        builder: (_, s) =>
+            LookalikesScreen(plotId: s.uri.queryParameters['plot']),
+      ),
+      GoRoute(path: Routes.labs, builder: (_, _) => const LabDirectoryScreen()),
+      GoRoute(
+        path: Routes.marketDirectory,
+        builder: (_, _) => const MarketDirectoryScreen(),
+      ),
       GoRoute(path: Routes.addPlot, builder: (_, _) => const AddPlotScreen()),
       GoRoute(
         path: Routes.walkBoundary,
@@ -263,7 +281,10 @@ GoRouter buildRouter(
       ),
       GoRoute(
         path: '/plots/:id/scouting/new',
-        builder: (_, s) => AddScoutingScreen(plotId: s.pathParameters['id']!),
+        builder: (_, s) => AddScoutingScreen(
+          plotId: s.pathParameters['id']!,
+          initialItem: s.uri.queryParameters['item'],
+        ),
       ),
       GoRoute(
         path: '/plots/:id/insurance',

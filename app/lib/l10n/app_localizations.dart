@@ -3621,6 +3621,240 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Policies'**
   String get insurancePolicies;
+
+  /// No description provided for @lookalikesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Look-alike symptoms'**
+  String get lookalikesTitle;
+
+  /// No description provided for @lookalikesOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Look-alike symptoms'**
+  String get lookalikesOpen;
+
+  /// No description provided for @lookalikesIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Many orchard problems look alike. These cards help you describe what you see; they do not tell you what it is.'**
+  String get lookalikesIntro;
+
+  /// No description provided for @lookalikesSee.
+  ///
+  /// In en, this message translates to:
+  /// **'What you may see'**
+  String get lookalikesSee;
+
+  /// No description provided for @lookalikesConfusedWith.
+  ///
+  /// In en, this message translates to:
+  /// **'Can be confused with'**
+  String get lookalikesConfusedWith;
+
+  /// No description provided for @lookalikesConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Who can confirm it'**
+  String get lookalikesConfirm;
+
+  /// No description provided for @lookalikesCheckLine.
+  ///
+  /// In en, this message translates to:
+  /// **'Not sure? Do not guess. Take a photo, log it in scouting and get it checked by a lab or an expert.'**
+  String get lookalikesCheckLine;
+
+  /// No description provided for @lookalikesLogThis.
+  ///
+  /// In en, this message translates to:
+  /// **'Log this in scouting'**
+  String get lookalikesLogThis;
+
+  /// No description provided for @lookalikesFindLab.
+  ///
+  /// In en, this message translates to:
+  /// **'Find a lab or expert'**
+  String get lookalikesFindLab;
+
+  /// No description provided for @lookalikesSources.
+  ///
+  /// In en, this message translates to:
+  /// **'Sources'**
+  String get lookalikesSources;
+
+  /// No description provided for @lookalikesDraft.
+  ///
+  /// In en, this message translates to:
+  /// **'Draft: a source is not yet checked'**
+  String get lookalikesDraft;
+
+  /// No description provided for @lookalikesEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No cards yet.'**
+  String get lookalikesEmpty;
+
+  /// No description provided for @labsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Labs and experts'**
+  String get labsTitle;
+
+  /// No description provided for @labsOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Labs and experts'**
+  String get labsOpen;
+
+  /// No description provided for @marketDirectoryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Markets and buyers'**
+  String get marketDirectoryTitle;
+
+  /// No description provided for @marketDirectoryOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Markets and buyers'**
+  String get marketDirectoryOpen;
+
+  /// No description provided for @directoryAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get directoryAll;
+
+  /// No description provided for @directoryUnverified.
+  ///
+  /// In en, this message translates to:
+  /// **'Not yet checked on an official page'**
+  String get directoryUnverified;
+
+  /// No description provided for @directoryCopyNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy number'**
+  String get directoryCopyNumber;
+
+  /// No description provided for @directoryNumberCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Number copied'**
+  String get directoryNumberCopied;
+
+  /// No description provided for @directoryCopyLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy link'**
+  String get directoryCopyLink;
+
+  /// No description provided for @directoryWebPage.
+  ///
+  /// In en, this message translates to:
+  /// **'Web page: {url}'**
+  String directoryWebPage(Object url);
+
+  /// No description provided for @directoryPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone: {phone}'**
+  String directoryPhone(Object phone);
+
+  /// No description provided for @directoryDetailsFrom.
+  ///
+  /// In en, this message translates to:
+  /// **'Details from: {url}'**
+  String directoryDetailsFrom(Object url);
+
+  /// No description provided for @directoryChecked.
+  ///
+  /// In en, this message translates to:
+  /// **'Checked {date}'**
+  String directoryChecked(Object date);
+
+  /// No description provided for @directoryCheckLine.
+  ///
+  /// In en, this message translates to:
+  /// **'Details are copied from official pages on the date shown. Call or visit the page to confirm before you travel.'**
+  String get directoryCheckLine;
+
+  /// No description provided for @directoryEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing listed yet.'**
+  String get directoryEmpty;
+
+  /// No description provided for @directoryKindResearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Research institute'**
+  String get directoryKindResearch;
+
+  /// No description provided for @directoryKindUniversity.
+  ///
+  /// In en, this message translates to:
+  /// **'Agricultural university'**
+  String get directoryKindUniversity;
+
+  /// No description provided for @directoryKindKvk.
+  ///
+  /// In en, this message translates to:
+  /// **'Krishi Vigyan Kendra'**
+  String get directoryKindKvk;
+
+  /// No description provided for @directoryKindSoilLab.
+  ///
+  /// In en, this message translates to:
+  /// **'Soil testing'**
+  String get directoryKindSoilLab;
+
+  /// No description provided for @directoryKindPortal.
+  ///
+  /// In en, this message translates to:
+  /// **'Prices and arrivals'**
+  String get directoryKindPortal;
+
+  /// No description provided for @directoryKindApmc.
+  ///
+  /// In en, this message translates to:
+  /// **'Market committee (APMC)'**
+  String get directoryKindApmc;
+
+  /// No description provided for @directoryKindExport.
+  ///
+  /// In en, this message translates to:
+  /// **'Export'**
+  String get directoryKindExport;
+
+  /// No description provided for @directoryKindProcessor.
+  ///
+  /// In en, this message translates to:
+  /// **'Processing'**
+  String get directoryKindProcessor;
+
+  /// No description provided for @fairPriceMandi.
+  ///
+  /// In en, this message translates to:
+  /// **'{market} mandi, {date}: modal price {price} per quintal'**
+  String fairPriceMandi(Object date, Object market, Object price);
+
+  /// No description provided for @fairPriceAbove.
+  ///
+  /// In en, this message translates to:
+  /// **'Your rate is {percent}% above the mandi modal price.'**
+  String fairPriceAbove(Object percent);
+
+  /// No description provided for @fairPriceBelow.
+  ///
+  /// In en, this message translates to:
+  /// **'Your rate is {percent}% below the mandi modal price.'**
+  String fairPriceBelow(Object percent);
+
+  /// No description provided for @fairPriceSame.
+  ///
+  /// In en, this message translates to:
+  /// **'Your rate is the same as the mandi modal price.'**
+  String get fairPriceSame;
 }
 
 class _AppLocalizationsDelegate
