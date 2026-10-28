@@ -1,0 +1,237 @@
+{
+  "_note": "Labs and experts near Nagpur / Vidarbha / Marathwada (research gap #8). Only institutions found on an official page; 'source' is the page where name, address and phone were read on 'checked'. A phone or address is given only when it is on that page. 'verified': false = not yet seen on an official page; the screen marks it. No chemical or treatment content. OPEN_QUESTIONS Q46.",
+  "status": "draft",
+  "districts": {
+    "nagpur": {"en": "Nagpur", "mr": "नागपूर", "hi": "नागपुर"},
+    "amravati": {"en": "Amravati", "mr": "अमरावती", "hi": "अमरावती"},
+    "wardha": {"en": "Wardha", "mr": "वर्धा", "hi": "वर्धा"},
+    "akola": {"en": "Akola", "mr": "अकोला", "hi": "अकोला"},
+    "jalna": {"en": "Jalna", "mr": "जालना", "hi": "जालना"},
+    "india": {"en": "All India", "mr": "संपूर्ण भारत", "hi": "पूरा भारत"}
+  },
+  "entries": [
+    {
+      "id": "icar_ccri",
+      "kind": "research",
+      "district": "nagpur",
+      "name": {
+        "en": "ICAR-Central Citrus Research Institute (CCRI), Nagpur",
+        "mr": "ICAR-केंद्रीय लिंबूवर्गीय फळ संशोधन संस्था (CCRI), नागपूर",
+        "hi": "ICAR-केंद्रीय नींबूवर्गीय अनुसंधान संस्थान (CCRI), नागपुर"
+      },
+      "offers": {
+        "en": "National citrus research institute: diseases, pests, nutrition and planting material. Ask whether they can test your sample (for example for greening).",
+        "mr": "राष्ट्रीय लिंबूवर्गीय संशोधन संस्था: रोग, कीड, पोषण व लागवड साहित्य. आपला नमुना (उदा. ग्रीनिंगसाठी) तपासता येईल का ते विचारा.",
+        "hi": "राष्ट्रीय नींबूवर्गीय अनुसंधान संस्थान: रोग, कीट, पोषण और रोपण सामग्री। पूछें कि क्या वे आपका नमूना (जैसे ग्रीनिंग के लिए) जाँच सकते हैं।"
+      },
+      "url": "https://ccri.icar.gov.in/",
+      "address": "Amravati Road, Nagpur – 440033",
+      "source": "https://www.icar.org.in/en/institutes-networks",
+      "verified": true,
+      "checked": "2026-10-28"
+    },
+    {
+      "id": "kvk_nagpur",
+      "kind": "kvk",
+      "district": "nagpur",
+      "name": {
+        "en": "Krishi Vigyan Kendra (KVK), ICAR-CICR, Nagpur",
+        "mr": "कृषी विज्ञान केंद्र (KVK), ICAR-CICR, नागपूर",
+        "hi": "कृषि विज्ञान केंद्र (KVK), ICAR-CICR, नागपुर"
+      },
+      "offers": {
+        "en": "Soil and water testing lab: tests soil from farmers' fields and issues soil health cards, at a small charge.",
+        "mr": "माती व पाणी परीक्षण प्रयोगशाळा: शेतकऱ्यांच्या शेतातील मातीची चाचणी करून अल्प शुल्कात मृदा आरोग्य पत्रिका देते.",
+        "hi": "मिट्टी व पानी जाँच लैब: किसानों के खेत की मिट्टी जाँचकर कम शुल्क पर मृदा स्वास्थ्य कार्ड देती है।"
+      },
+      "url": "https://www.kvknagpur.org.in/SoilTest.html",
+      "address": "Panjri Farm, Wardha Road, Nagpur",
+      "phone": "07103-275537",
+      "source": "https://www.kvknagpur.org.in/Contact.html",
+      "verified": true,
+      "checked": "2026-10-28"
+    },
+    {
+      "id": "pdkv_ars_katol",
+      "kind": "university",
+      "district": "nagpur",
+      "name": {
+        "en": "Dr. PDKV Agriculture Research Station, Katol",
+        "mr": "डॉ. पंदेकृवि कृषी संशोधन केंद्र, काटोल",
+        "hi": "डॉ. पीडीकेवी कृषि अनुसंधान केंद्र, काटोल"
+      },
+      "offers": {
+        "en": "University research station in the Nagpur orange belt.",
+        "mr": "नागपूर संत्रा पट्ट्यातील विद्यापीठाचे संशोधन केंद्र.",
+        "hi": "नागपुर संतरा पट्टी में विश्वविद्यालय का अनुसंधान केंद्र।"
+      },
+      "url": "https://www.pdkv.ac.in/?page_id=126",
+      "source": "https://www.pdkv.ac.in/?page_id=126",
+      "verified": true,
+      "checked": "2026-10-28"
+    },
+    {
+      "id": "pdkv_atic",
+      "kind": "university",
+      "district": "akola",
+      "name": {
+        "en": "Dr. PDKV Akola: Agricultural Technology Information Centre (ATIC)",
+        "mr": "डॉ. पंदेकृवि अकोला: कृषी तंत्रज्ञान माहिती केंद्र (ATIC)",
+        "hi": "डॉ. पीडीकेवी अकोला: कृषि प्रौद्योगिकी सूचना केंद्र (ATIC)"
+      },
+      "offers": {
+        "en": "Farmers' single window. University scientists (agronomist, plant pathologist, entomologist, horticulturist) answer farmers' questions on the phone every Thursday, 2:30 to 5:30 pm.",
+        "mr": "शेतकऱ्यांसाठी एक खिडकी. विद्यापीठाचे शास्त्रज्ञ (कृषीविद्या, वनस्पती रोगशास्त्र, कीटकशास्त्र, उद्यानविद्या) दर गुरुवारी दुपारी २:३० ते ५:३० फोनवर शेतकऱ्यांच्या प्रश्नांना उत्तरे देतात.",
+        "hi": "किसानों के लिए एक खिड़की। विश्वविद्यालय के वैज्ञानिक (सस्य विज्ञान, पादप रोग, कीट विज्ञान, उद्यान विज्ञान) हर गुरुवार दोपहर 2:30 से 5:30 बजे फ़ोन पर किसानों के सवालों के जवाब देते हैं।"
+      },
+      "url": "https://www.pdkv.ac.in/?page_id=2207",
+      "phone": "0724-2259262",
+      "source": "https://www.pdkv.ac.in/?page_id=2207",
+      "verified": true,
+      "checked": "2026-10-28"
+    },
+    {
+      "id": "pdkv_akola",
+      "kind": "university",
+      "district": "akola",
+      "name": {
+        "en": "Dr. Panjabrao Deshmukh Krishi Vidyapeeth (Dr. PDKV), Akola",
+        "mr": "डॉ. पंजाबराव देशमुख कृषी विद्यापीठ (डॉ. पंदेकृवि), अकोला",
+        "hi": "डॉ. पंजाबराव देशमुख कृषि विद्यापीठ (डॉ. पीडीकेवी), अकोला"
+      },
+      "offers": {
+        "en": "State agricultural university for Vidarbha, with departments of plant pathology, soil science and horticulture. Ask which of its labs can test your sample.",
+        "mr": "विदर्भाचे राज्य कृषी विद्यापीठ; वनस्पती रोगशास्त्र, मृदाशास्त्र व उद्यानविद्या विभाग. आपला नमुना कोणती प्रयोगशाळा तपासू शकेल ते विचारा.",
+        "hi": "विदर्भ का राज्य कृषि विश्वविद्यालय; पादप रोग, मृदा विज्ञान और उद्यान विज्ञान विभाग। पूछें कि कौन-सी लैब आपका नमूना जाँच सकती है।"
+      },
+      "url": "https://www.pdkv.ac.in/?page_id=143",
+      "address": "P.O. Krishi Nagar, Akola – 444104",
+      "phone": "0724-2258372",
+      "source": "https://www.pdkv.ac.in/?page_id=44",
+      "verified": true,
+      "checked": "2026-10-28"
+    },
+    {
+      "id": "kvk_selsura",
+      "kind": "kvk",
+      "district": "wardha",
+      "name": {
+        "en": "Krishi Vigyan Kendra (KVK), Selsura, Wardha",
+        "mr": "कृषी विज्ञान केंद्र (KVK), सेलसुरा, वर्धा",
+        "hi": "कृषि विज्ञान केंद्र (KVK), सेलसुरा, वर्धा"
+      },
+      "offers": {
+        "en": "District KVK under Dr. PDKV: farmer advice, training and field visits.",
+        "mr": "डॉ. पंदेकृवि अंतर्गत जिल्हा KVK: शेतकऱ्यांना सल्ला, प्रशिक्षण व शेतभेटी.",
+        "hi": "डॉ. पीडीकेवी के अंतर्गत जिला KVK: किसानों को सलाह, प्रशिक्षण और खेत भ्रमण।"
+      },
+      "url": "https://kvkselsura.pdkv.ac.in/",
+      "address": "Selsura, Wardha – Yavatmal road, Dist. Wardha",
+      "phone": "9970070944",
+      "source": "https://kvkselsura.pdkv.ac.in/?page_id=39",
+      "verified": true,
+      "checked": "2026-10-28"
+    },
+    {
+      "id": "kvk_ghatkhed",
+      "kind": "kvk",
+      "district": "amravati",
+      "name": {
+        "en": "Krishi Vigyan Kendra (KVK), Ghatkhed, Amravati",
+        "mr": "कृषी विज्ञान केंद्र (KVK), घाटखेड, अमरावती",
+        "hi": "कृषि विज्ञान केंद्र (KVK), घाटखेड, अमरावती"
+      },
+      "offers": {
+        "en": "District KVK (Sharmasafalya Foundation): farmer advice and training.",
+        "mr": "जिल्हा KVK (श्रमसाफल्य फाउंडेशन): शेतकऱ्यांना सल्ला व प्रशिक्षण.",
+        "hi": "जिला KVK (श्रमसाफल्य फ़ाउंडेशन): किसानों को सलाह और प्रशिक्षण।"
+      },
+      "url": "https://www.pdkv.ac.in/?p=2217",
+      "address": "Ghatkhed, Tq. Chandur Rly, Dist. Amravati",
+      "phone": "07221-227070",
+      "source": "https://www.pdkv.ac.in/?p=2217",
+      "verified": true,
+      "checked": "2026-10-28"
+    },
+    {
+      "id": "kvk_durgapur",
+      "kind": "kvk",
+      "district": "amravati",
+      "name": {
+        "en": "Krishi Vigyan Kendra (KVK), Durgapur (Badnera), Amravati",
+        "mr": "कृषी विज्ञान केंद्र (KVK), दुर्गापूर (बडनेरा), अमरावती",
+        "hi": "कृषि विज्ञान केंद्र (KVK), दुर्गापुर (बडनेरा), अमरावती"
+      },
+      "offers": {
+        "en": "District KVK (Shram Sadhna Trust): farmer advice and training.",
+        "mr": "जिल्हा KVK (श्रम साधना ट्रस्ट): शेतकऱ्यांना सल्ला व प्रशिक्षण.",
+        "hi": "जिला KVK (श्रम साधना ट्रस्ट): किसानों को सलाह और प्रशिक्षण।"
+      },
+      "url": "https://www.pdkv.ac.in/?p=2217",
+      "address": "Durgapur (Badnera), Dist. Amravati",
+      "phone": "0721-281560",
+      "source": "https://www.pdkv.ac.in/?p=2217",
+      "verified": true,
+      "checked": "2026-10-28"
+    },
+    {
+      "id": "kvk_kharpudi",
+      "kind": "kvk",
+      "district": "jalna",
+      "name": {
+        "en": "Krishi Vigyan Kendra (KVK), Kharpudi, Jalna",
+        "mr": "कृषी विज्ञान केंद्र (KVK), खरपुडी, जालना",
+        "hi": "कृषि विज्ञान केंद्र (KVK), खरपुडी, जालना"
+      },
+      "offers": {
+        "en": "District KVK (Marathwada Sheti Sahayya Mandal): farmer advice and training.",
+        "mr": "जिल्हा KVK (मराठवाडा शेती सहाय्य मंडळ): शेतकऱ्यांना सल्ला व प्रशिक्षण.",
+        "hi": "जिला KVK (मराठवाड़ा शेती सहाय्य मंडल): किसानों को सलाह और प्रशिक्षण।"
+      },
+      "url": "https://icar.org.in/en/node/15040",
+      "address": "Post Box No. 45, Jalna – 431203",
+      "source": "https://icar.org.in/en/node/15040",
+      "verified": true,
+      "checked": "2026-10-28"
+    },
+    {
+      "id": "kvk_badnapur",
+      "kind": "kvk",
+      "district": "jalna",
+      "name": {
+        "en": "Krishi Vigyan Kendra (KVK), Badnapur, Jalna",
+        "mr": "कृषी विज्ञान केंद्र (KVK), बदनापूर, जालना",
+        "hi": "कृषि विज्ञान केंद्र (KVK), बदनापुर, जालना"
+      },
+      "offers": {
+        "en": "District KVK under VNMKV Parbhani: farmer advice and training.",
+        "mr": "वनामकृवि परभणी अंतर्गत जिल्हा KVK: शेतकऱ्यांना सल्ला व प्रशिक्षण.",
+        "hi": "वीएनएमकेवी परभणी के अंतर्गत जिला KVK: किसानों को सलाह और प्रशिक्षण।"
+      },
+      "url": "https://icar.org.in/en/node/15040",
+      "address": "Badnapur, Tq. Badnapur, Dist. Jalna",
+      "source": "https://icar.org.in/en/node/15040",
+      "verified": true,
+      "checked": "2026-10-28"
+    },
+    {
+      "id": "soil_health_portal",
+      "kind": "soil_lab",
+      "district": "india",
+      "name": {
+        "en": "Soil Health Card portal (Government of India)",
+        "mr": "मृदा आरोग्य पत्रिका पोर्टल (भारत सरकार)",
+        "hi": "मृदा स्वास्थ्य कार्ड पोर्टल (भारत सरकार)"
+      },
+      "offers": {
+        "en": "Government soil testing and soil health cards; find a government soil testing lab near you.",
+        "mr": "सरकारी माती परीक्षण व मृदा आरोग्य पत्रिका; जवळची सरकारी माती परीक्षण प्रयोगशाळा शोधा.",
+        "hi": "सरकारी मिट्टी जाँच और मृदा स्वास्थ्य कार्ड; पास की सरकारी मिट्टी जाँच लैब खोजें।"
+      },
+      "url": "https://soilhealth.dac.gov.in/",
+      "source": "https://soilhealth.dac.gov.in/",
+      "verified": false,
+      "checked": "2026-10-28"
+    }
+  ]
+}

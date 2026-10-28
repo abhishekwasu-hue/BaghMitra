@@ -9,11 +9,13 @@ import 'package:bagmitra/features/accounts/data/expense_categories.dart';
 import 'package:bagmitra/features/auth/data/demo_auth_repository.dart';
 import 'package:bagmitra/features/auth/domain/auth.dart';
 import 'package:bagmitra/features/bahar/data/bahar_catalog.dart';
+import 'package:bagmitra/features/directory/data/directory_config.dart';
 import 'package:bagmitra/features/export/data/file_sharer.dart';
 import 'package:bagmitra/features/field_work/data/field_work_options.dart';
 import 'package:bagmitra/features/home/data/demo_home_repository.dart';
 import 'package:bagmitra/features/inputs/data/input_kinds.dart';
 import 'package:bagmitra/features/lab_tests/data/lab_parameters.dart';
+import 'package:bagmitra/features/lookalikes/data/lookalike_cards.dart';
 import 'package:bagmitra/features/plots/data/crop_catalog.dart';
 import 'package:bagmitra/features/plots/data/location_service.dart';
 import 'package:bagmitra/features/practices/data/irrigation_guide.dart';
@@ -194,6 +196,15 @@ Future<AppDatabase> pumpApp(
         ),
         schemeCatalogProvider.overrideWithValue(
           SchemeCatalog(bundle: FileAssetBundle()),
+        ),
+        lookalikeCardsConfigProvider.overrideWithValue(
+          LookalikeCardsConfig(bundle: FileAssetBundle()),
+        ),
+        labDirectoryConfigProvider.overrideWithValue(
+          DirectoryConfig(DirectoryConfig.labs, bundle: FileAssetBundle()),
+        ),
+        marketDirectoryConfigProvider.overrideWithValue(
+          DirectoryConfig(DirectoryConfig.markets, bundle: FileAssetBundle()),
         ),
         homeRepositoryProvider.overrideWithValue(
           DemoHomeRepository(bundle: FileAssetBundle()),

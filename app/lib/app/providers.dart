@@ -22,6 +22,7 @@ import '../features/bahar/domain/bahar_cycle.dart';
 import '../features/billing/data/entitlements_cache.dart';
 import '../features/billing/domain/entitlements.dart';
 import '../features/dev/sample_orchard.dart';
+import '../features/directory/data/directory_config.dart';
 import '../features/export/data/file_sharer.dart';
 import '../features/feed/data/demo_feed_repository.dart';
 import '../features/feed/data/feed_cache.dart';
@@ -47,6 +48,7 @@ import '../features/lab_tests/data/lab_report_files.dart';
 import '../features/lab_tests/data/lab_test_repository.dart';
 import '../features/lab_tests/domain/lab_test.dart';
 import '../features/labels/data/label_claims_cache.dart';
+import '../features/lookalikes/data/lookalike_cards.dart';
 import '../features/market/data/market_prices_cache.dart';
 import '../features/plots/data/crop_catalog.dart';
 import '../features/plots/data/location_service.dart';
@@ -266,6 +268,30 @@ final practiceCardsConfigProvider = Provider<PracticeCardsConfig>(
 
 final practiceCardsProvider = FutureProvider<PracticeCardsData>(
   (ref) => ref.watch(practiceCardsConfigProvider).load(),
+);
+
+final lookalikeCardsConfigProvider = Provider<LookalikeCardsConfig>(
+  (ref) => LookalikeCardsConfig(),
+);
+
+final lookalikeCardsProvider = FutureProvider<LookalikeCardsData>(
+  (ref) => ref.watch(lookalikeCardsConfigProvider).load(),
+);
+
+final labDirectoryConfigProvider = Provider<DirectoryConfig>(
+  (ref) => DirectoryConfig(DirectoryConfig.labs),
+);
+
+final labDirectoryProvider = FutureProvider<DirectoryData>(
+  (ref) => ref.watch(labDirectoryConfigProvider).load(),
+);
+
+final marketDirectoryConfigProvider = Provider<DirectoryConfig>(
+  (ref) => DirectoryConfig(DirectoryConfig.markets),
+);
+
+final marketDirectoryProvider = FutureProvider<DirectoryData>(
+  (ref) => ref.watch(marketDirectoryConfigProvider).load(),
 );
 
 final irrigationGuideConfigProvider = Provider<IrrigationGuideConfig>(
@@ -795,6 +821,15 @@ final marketPricesProvider =
       }
       return cache.load(crop, scope);
     });
+
+/// The mandi prices already saved on the phone for a crop (all markets), never fetched:
+/// the fair-price check on a sale reads only what the grower has seen on the prices screen.
+final savedMarketPricesProvider =
+    FutureProvider.family<CachedMarketPrices?, String>(
+      (ref, crop) => ref
+          .watch(marketPricesCacheProvider)
+          .load(crop, V1MarketPricesGetScope.all),
+    );
 
 /// Where the Sarkari Sandesh feed comes from: the built-in sample feed in demo mode (no
 /// backend), else the server's `/v1/feed`. Tests override this.

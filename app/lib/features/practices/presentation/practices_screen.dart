@@ -56,6 +56,12 @@ class PracticesScreen extends ConsumerWidget {
         title: Text(t.practicesTitle),
         actions: [
           IconButton(
+            key: const Key('open-lookalikes-all'),
+            tooltip: t.lookalikesOpen,
+            icon: Icon(Icons.compare_outlined, color: c.brand),
+            onPressed: () => context.push(Routes.lookalikes),
+          ),
+          IconButton(
             key: const Key('open-irrigation-guide-all'),
             tooltip: t.irrigationOpen,
             icon: Icon(Icons.water_drop_outlined, color: c.brand),
