@@ -12,6 +12,7 @@ import '../../../theme/app_theme.dart';
 import '../../voice/domain/voice_note.dart';
 import '../../voice/presentation/voice_mic_button.dart';
 import '../domain/accounts.dart';
+import 'fair_price_note.dart';
 
 String? _rupeesRequired(AppLocalizations t, String? v) =>
     (parseRupeesToPaise(v ?? '') ?? 0) > 0 ? null : t.invalidNumber;
@@ -236,6 +237,14 @@ class _AddSaleScreenState extends ConsumerState<AddSaleScreen> {
     final t = AppLocalizations.of(context);
     const gap = SizedBox(height: BmSpace.md);
     const money = TextInputType.numberWithOptions(decimal: true);
+    final crop = ref
+        .watch(plotsProvider)
+        .value
+        ?.where((p) => p.id == widget.plotId)
+        .firstOrNull
+        ?.crop;
+    final rate = parseRupeesToPaise(_rate.text) ?? 0;
+    final now = ref.watch(clockProvider)();
     return Scaffold(
       appBar: AppBar(title: Text(t.addSale)),
       body: Form(
@@ -275,7 +284,14 @@ class _AddSaleScreenState extends ConsumerState<AddSaleScreen> {
               keyboardType: money,
               decoration: InputDecoration(labelText: t.saleRate),
               validator: (v) => _rupeesRequired(t, v),
+              onChanged: (_) => setState(() {}),
             ),
+            if (crop != null && rate > 0)
+              FairPriceNote(
+                crop: crop,
+                soldOn: DateTime(now.year, now.month, now.day),
+                ratePaisePerQuintal: rate,
+              ),
             gap,
             TextFormField(
               controller: _deductions,

@@ -2034,4 +2034,138 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get insurancePolicies => 'विमा नोंदी';
+
+  @override
+  String get lookalikesTitle => 'सारखी दिसणारी लक्षणे';
+
+  @override
+  String get lookalikesOpen => 'सारखी दिसणारी लक्षणे';
+
+  @override
+  String get lookalikesIntro =>
+      'बागेतील अनेक समस्या सारख्याच दिसतात. ही कार्डे तुम्हाला जे दिसते ते नेमके सांगायला मदत करतात; समस्या नक्की कोणती हे ती सांगत नाहीत.';
+
+  @override
+  String get lookalikesSee => 'काय दिसू शकते';
+
+  @override
+  String get lookalikesConfusedWith => 'यासारखे दिसणारे';
+
+  @override
+  String get lookalikesConfirm => 'खात्री कोण करू शकते';
+
+  @override
+  String get lookalikesCheckLine =>
+      'खात्री नाही? अंदाज लावू नका. फोटो घ्या, निरीक्षण नोंदीत लिहा आणि प्रयोगशाळा किंवा तज्ज्ञांकडून तपासून घ्या.';
+
+  @override
+  String get lookalikesLogThis => 'निरीक्षण नोंदीत लिहा';
+
+  @override
+  String get lookalikesFindLab => 'प्रयोगशाळा / तज्ज्ञ शोधा';
+
+  @override
+  String get lookalikesSources => 'स्रोत';
+
+  @override
+  String get lookalikesDraft => 'मसुदा: एक स्रोत अजून तपासलेला नाही';
+
+  @override
+  String get lookalikesEmpty => 'अजून कार्डे नाहीत.';
+
+  @override
+  String get labsTitle => 'प्रयोगशाळा व तज्ज्ञ';
+
+  @override
+  String get labsOpen => 'प्रयोगशाळा व तज्ज्ञ';
+
+  @override
+  String get marketDirectoryTitle => 'बाजार व खरेदीदार';
+
+  @override
+  String get marketDirectoryOpen => 'बाजार व खरेदीदार';
+
+  @override
+  String get directoryAll => 'सर्व';
+
+  @override
+  String get directoryUnverified => 'अधिकृत पानावर अजून तपासलेले नाही';
+
+  @override
+  String get directoryCopyNumber => 'नंबर कॉपी करा';
+
+  @override
+  String get directoryNumberCopied => 'नंबर कॉपी झाला';
+
+  @override
+  String get directoryCopyLink => 'लिंक कॉपी करा';
+
+  @override
+  String directoryWebPage(Object url) {
+    return 'संकेतस्थळ: $url';
+  }
+
+  @override
+  String directoryPhone(Object phone) {
+    return 'फोन: $phone';
+  }
+
+  @override
+  String directoryDetailsFrom(Object url) {
+    return 'माहितीचा स्रोत: $url';
+  }
+
+  @override
+  String directoryChecked(Object date) {
+    return 'तपासले $date';
+  }
+
+  @override
+  String get directoryCheckLine =>
+      'माहिती दाखवलेल्या तारखेला अधिकृत पानांवरून घेतली आहे. प्रवासापूर्वी फोन करून किंवा पान पाहून खात्री करा.';
+
+  @override
+  String get directoryEmpty => 'अजून काही नोंद नाही.';
+
+  @override
+  String get directoryKindResearch => 'संशोधन संस्था';
+
+  @override
+  String get directoryKindUniversity => 'कृषी विद्यापीठ';
+
+  @override
+  String get directoryKindKvk => 'कृषी विज्ञान केंद्र';
+
+  @override
+  String get directoryKindSoilLab => 'माती परीक्षण';
+
+  @override
+  String get directoryKindPortal => 'बाजारभाव व आवक';
+
+  @override
+  String get directoryKindApmc => 'बाजार समिती (APMC)';
+
+  @override
+  String get directoryKindExport => 'निर्यात';
+
+  @override
+  String get directoryKindProcessor => 'प्रक्रिया उद्योग';
+
+  @override
+  String fairPriceMandi(Object date, Object market, Object price) {
+    return '$market बाजार, $date: सर्वसाधारण भाव $price प्रति क्विंटल';
+  }
+
+  @override
+  String fairPriceAbove(Object percent) {
+    return 'तुमचा दर बाजाराच्या सर्वसाधारण भावापेक्षा $percent% जास्त आहे.';
+  }
+
+  @override
+  String fairPriceBelow(Object percent) {
+    return 'तुमचा दर बाजाराच्या सर्वसाधारण भावापेक्षा $percent% कमी आहे.';
+  }
+
+  @override
+  String get fairPriceSame => 'तुमचा दर बाजाराच्या सर्वसाधारण भावाइतकाच आहे.';
 }

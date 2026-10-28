@@ -1,0 +1,105 @@
+{
+  "_note": "Markets, buyers and processing for santra / mosambi (research gap #3). Only entries found on an official page ('source', read on 'checked'); the list is kept short rather than guessed. No individual APMC or FPO page could be opened from an official site, so APMCs are reached through the state marketing board's APMC profile page; Kalamna is listed as not yet checked. No in-app trading, no price forecasts. OPEN_QUESTIONS Q47.",
+  "status": "draft",
+  "districts": {
+    "maharashtra": {"en": "All Maharashtra", "mr": "संपूर्ण महाराष्ट्र", "hi": "पूरा महाराष्ट्र"},
+    "nagpur": {"en": "Nagpur", "mr": "नागपूर", "hi": "नागपुर"}
+  },
+  "entries": [
+    {
+      "id": "msamb_prices",
+      "kind": "portal",
+      "district": "maharashtra",
+      "name": {
+        "en": "MSAMB: APMC arrivals and prices",
+        "mr": "महाराष्ट्र राज्य कृषी पणन मंडळ: बाजार समिती आवक व बाजारभाव",
+        "hi": "MSAMB: मंडी समिति आवक और भाव"
+      },
+      "offers": {
+        "en": "State agricultural marketing board: arrivals and prices by market committee; santra and mosambi are listed.",
+        "mr": "राज्य कृषी पणन मंडळ: बाजार समितीनुसार आवक व भाव; संत्री व मोसंबी यादीत आहेत.",
+        "hi": "राज्य कृषि विपणन बोर्ड: मंडी समिति के अनुसार आवक और भाव; संतरा और मोसंबी सूची में हैं।"
+      },
+      "url": "https://www.msamb.com/ApmcDetail/APMCPriceInformation",
+      "source": "https://www.msamb.com/ApmcDetail/APMCPriceInformation",
+      "verified": true,
+      "checked": "2026-10-28"
+    },
+    {
+      "id": "msamb_apmc_profiles",
+      "kind": "apmc",
+      "district": "maharashtra",
+      "name": {
+        "en": "MSAMB: market committee (APMC) profiles",
+        "mr": "महाराष्ट्र राज्य कृषी पणन मंडळ: बाजार समिती प्रोफाइल",
+        "hi": "MSAMB: मंडी समिति (APMC) प्रोफ़ाइल"
+      },
+      "offers": {
+        "en": "Pick a district and a market committee (for example Nagpur, Warud, Morshi, Jalna) to see its address, phone and facilities, as uploaded by the committee.",
+        "mr": "जिल्हा व बाजार समिती (उदा. नागपूर, वरुड, मोर्शी, जालना) निवडा आणि समितीने दिलेला पत्ता, फोन व सुविधा पाहा.",
+        "hi": "जिला और मंडी समिति (जैसे नागपुर, वरुड, मोर्शी, जालना) चुनें और समिति का दिया पता, फ़ोन और सुविधाएँ देखें।"
+      },
+      "url": "https://www.msamb.com/ApmcDetail/Profile",
+      "source": "https://www.msamb.com/ApmcDetail/Profile",
+      "verified": true,
+      "checked": "2026-10-28"
+    },
+    {
+      "id": "apeda_nagpur_cluster",
+      "kind": "export",
+      "district": "nagpur",
+      "name": {
+        "en": "APEDA: Nagpur orange export cluster",
+        "mr": "अपेडा: नागपूर संत्रा निर्यात क्लस्टर",
+        "hi": "एपीडा: नागपुर संतरा निर्यात क्लस्टर"
+      },
+      "offers": {
+        "en": "Nagpur district is developed by APEDA as an export cluster for Nagpur orange, with a nodal officer at APEDA Mumbai; it has held buyer–seller meets for farmers, producer companies and exporters.",
+        "mr": "अपेडा नागपूर जिल्ह्याला नागपूर संत्र्यासाठी निर्यात क्लस्टर म्हणून विकसित करत आहे; नोडल अधिकारी अपेडा मुंबई येथे. शेतकरी, उत्पादक कंपन्या व निर्यातदारांसाठी खरेदीदार–विक्रेता बैठका झाल्या आहेत.",
+        "hi": "एपीडा नागपुर जिले को नागपुर संतरे के निर्यात क्लस्टर के रूप में विकसित कर रहा है; नोडल अधिकारी एपीडा मुंबई में। किसानों, उत्पादक कंपनियों और निर्यातकों के लिए क्रेता–विक्रेता बैठकें हुई हैं।"
+      },
+      "url": "https://www.commerce.gov.in/ministryofcommerce/node/280",
+      "source": "https://www.commerce.gov.in/ministryofcommerce/node/280",
+      "verified": true,
+      "checked": "2026-10-28"
+    },
+    {
+      "id": "mihan_food_park",
+      "kind": "processor",
+      "district": "nagpur",
+      "name": {
+        "en": "Patanjali Mega Food and Herbal Park, MIHAN, Nagpur",
+        "mr": "पतंजली मेगा फूड अँड हर्बल पार्क, मिहान, नागपूर",
+        "hi": "पतंजलि मेगा फ़ूड एंड हर्बल पार्क, मिहान, नागपुर"
+      },
+      "offers": {
+        "en": "Orange processing plant (juice and by-products) in the MIHAN special economic zone, as reported by All India Radio News.",
+        "mr": "मिहान विशेष आर्थिक क्षेत्रातील संत्रा प्रक्रिया प्रकल्प (रस व उपपदार्थ), आकाशवाणी बातम्यांनुसार.",
+        "hi": "मिहान विशेष आर्थिक क्षेत्र में संतरा प्रसंस्करण संयंत्र (जूस और उप-उत्पाद), आकाशवाणी समाचार के अनुसार।"
+      },
+      "url": "https://www.newsonair.gov.in/maharashtra-patanjali-mega-food-and-herbal-park-to-be-inaugurated-in-mihan-area-of-nagpur/",
+      "source": "https://www.newsonair.gov.in/maharashtra-patanjali-mega-food-and-herbal-park-to-be-inaugurated-in-mihan-area-of-nagpur/",
+      "verified": true,
+      "checked": "2026-10-28"
+    },
+    {
+      "id": "apmc_nagpur_kalamna",
+      "kind": "apmc",
+      "district": "nagpur",
+      "name": {
+        "en": "APMC Nagpur, Kalamna market yard (orange and fruit market)",
+        "mr": "कृषी उत्पन्न बाजार समिती नागपूर, कळमना बाजार (संत्रा व फळ बाजार)",
+        "hi": "कृषि उपज मंडी समिति नागपुर, कलमना मंडी (संतरा व फल मंडी)"
+      },
+      "offers": {
+        "en": "Wholesale market yard where Nagpur oranges arrive in season. Check its details on the MSAMB APMC profile page.",
+        "mr": "हंगामात नागपुरी संत्री येणारा घाऊक बाजार. तपशील MSAMB च्या बाजार समिती प्रोफाइल पानावर तपासा.",
+        "hi": "थोक मंडी जहाँ मौसम में नागपुरी संतरे आते हैं। विवरण MSAMB के मंडी समिति प्रोफ़ाइल पेज पर जाँचें।"
+      },
+      "url": "https://www.msamb.com/ApmcDetail/Profile",
+      "source": "https://www.thehitavada.com/Encyc/2022/11/10/Incessant-rains-damage-orange-crop-by-50-per-cent.html",
+      "verified": false,
+      "checked": "2026-10-28"
+    }
+  ]
+}

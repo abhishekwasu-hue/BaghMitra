@@ -12,6 +12,7 @@ import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../../export/presentation/share_accounts.dart';
 import '../domain/accounts_summary.dart';
+import 'fair_price_note.dart';
 
 /// "Accounts" for one block: cost, income, profit and buyer dues, overall or per bahar.
 /// Computed on the phone from local records, so it works offline.
@@ -78,13 +79,19 @@ class _AccountsScreenState extends ConsumerState<AccountsScreen> {
     final inScope = [
       for (final e in expenses)
         if (_cycle == null || e.baharCycleId == _cycle)
-          (e.spentOn, categoryLabel(e.category), '−${money(e.amountPaise)}'),
+          (
+            e.spentOn,
+            categoryLabel(e.category),
+            '−${money(e.amountPaise)}',
+            null,
+          ),
       for (final i in incomes)
         if (_cycle == null || i.baharCycleId == _cycle)
           (
             i.soldOn,
             t.saleBy(i.buyerName, formatDecimal(i.quantityKg, lang)),
             '+${money(i.netPaise)}',
+            i,
           ),
     ]..sort((a, b) => b.$1.compareTo(a.$1));
     return Scaffold(
@@ -154,11 +161,22 @@ class _AccountsScreenState extends ConsumerState<AccountsScreen> {
           ),
           const SizedBox(height: BmSpace.sm),
           if (inScope.isEmpty) EmptyNote(t.accountsEmpty),
-          for (final (date, label, amount) in inScope)
+          for (final (date, label, amount, sale) in inScope)
             ListTile(
               contentPadding: EdgeInsets.zero,
               title: Text(label, style: BmType.body),
-              subtitle: Text(formatDate(date, lang)),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(formatDate(date, lang)),
+                  if (sale != null && plot != null)
+                    FairPriceNote(
+                      crop: plot.crop,
+                      soldOn: sale.soldOn,
+                      ratePaisePerQuintal: sale.ratePaisePerQuintal,
+                    ),
+                ],
+              ),
               trailing: Text(amount, style: BmType.bodyStrong),
             ),
         ],
