@@ -7,7 +7,8 @@
 - Also done 2026-10-26/27: #75 IPM practice cards (Q29/Q30), #76 draft lines removed (Q31), #77 daily weather pull job + stored `plot_risk_alerts` (one per plot and rule per window), #78 push devices + alert delivery (no sender until FCM, Q32).
 - Also done 2026-10-27: #80 manual mandi prices, #81/#85 deploy readiness + `deploy/deploy.sh`, #82 first-run walkthrough, #83 more mics, #84 build/ cleanup, #86 irrigation guide (Q35), #87 scouting log (Q34), #88/#89 Sarkari Sandesh feed G0+G1 (spec v1.4; app flag `SARKARI_SANDESH`).
 - Also done 2026-10-27 (later): #91 GR text extraction + optional Marathi OCR (QG2), #92 feed G2 deadlines/receipts/preferences + alert job (QG4), #93 Google sign-in, #94 shared-Caddy deploy (`EDGE_NETWORK`, VPS shared with ATP), #95 feed G3 news + "Check this message" (QG5), #96 app feed actions/settings/check, #97 admin feed review + document upload.
-- In flight: admin feed date/card/text editing, profile screen (phone for Google users), scouting photo backup via signed URLs (Q34, migration 0021), mosambi irrigation gaps (Q35).
+- Also done 2026-10-28: #99 mosambi/santra young-middle irrigation rows + bahar stress by soil (Q35, drafts), #100 profile screen (local schema v10, phone for Google users kept on device), #101 admin feed date/card/stored-text editing (`PUT …/dates`), #102 scouting photo backup via signed URLs (Q34, migration 0021, local v11; off unless `PHOTO_STORAGE_*` set).
+- In flight: none. Follow-ups: sync the Google user's phone to the server (`FarmerProfilePayload`); Q35 winter/rainy litres and 5–7 y trees.
 - Next: owner-gated items below; then goldens + 2 GB device check.
 - Blockers (owner, none block development): hosted Supabase + VPS hostname for real login/sync; CCRI PDFs; expert reviewer; consent legal review.
 - Actions minutes: repo is public (no minute cap) since 2026-10-20; record usage weekly here anyway.
