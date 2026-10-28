@@ -229,7 +229,7 @@ abstract class AppLocalizations {
   /// No description provided for @offlineBanner.
   ///
   /// In en, this message translates to:
-  /// **'You are offline. Your entries are saved and will sync.'**
+  /// **'Your entries are saved on this phone; they will sync when the network is back.'**
   String get offlineBanner;
 
   /// No description provided for @pendingSync.
@@ -241,7 +241,7 @@ abstract class AppLocalizations {
   /// No description provided for @syncFailed.
   ///
   /// In en, this message translates to:
-  /// **'Sync failed. Will retry automatically.'**
+  /// **'Your records are safe on this phone. The app will try sending again on its own.'**
   String get syncFailed;
 
   /// No description provided for @loginTitle.
@@ -277,7 +277,7 @@ abstract class AppLocalizations {
   /// No description provided for @loginGoogleFailed.
   ///
   /// In en, this message translates to:
-  /// **'Could not open Google sign-in. Check the internet and try again.'**
+  /// **'Please try Google sign-in again; check the internet.'**
   String get loginGoogleFailed;
 
   /// No description provided for @loginOtpTitle.
@@ -391,13 +391,13 @@ abstract class AppLocalizations {
   /// No description provided for @plotsEmptyTitle.
   ///
   /// In en, this message translates to:
-  /// **'No orchard blocks yet'**
+  /// **'Add your first orchard block'**
   String get plotsEmptyTitle;
 
   /// No description provided for @plotsEmptyBody.
   ///
   /// In en, this message translates to:
-  /// **'Add your first block to get a bahar calendar and daily tasks.'**
+  /// **'Each block gets a bahar calendar and daily tasks.'**
   String get plotsEmptyBody;
 
   /// No description provided for @plotName.
@@ -511,7 +511,7 @@ abstract class AppLocalizations {
   /// No description provided for @baharEmptyTitle.
   ///
   /// In en, this message translates to:
-  /// **'No bahar planned yet'**
+  /// **'Plan your first bahar'**
   String get baharEmptyTitle;
 
   /// No description provided for @baharEmptyBody.
@@ -661,13 +661,13 @@ abstract class AppLocalizations {
   /// No description provided for @adminNoAlerts.
   ///
   /// In en, this message translates to:
-  /// **'No open alerts'**
+  /// **'Open alerts appear here'**
   String get adminNoAlerts;
 
   /// No description provided for @adminNoCards.
   ///
   /// In en, this message translates to:
-  /// **'No cards yet'**
+  /// **'Cards appear here once added'**
   String get adminNoCards;
 
   /// No description provided for @adminSignInRequired.
@@ -769,7 +769,7 @@ abstract class AppLocalizations {
   /// No description provided for @adminFeedNoItems.
   ///
   /// In en, this message translates to:
-  /// **'Nothing in this list'**
+  /// **'This list is empty'**
   String get adminFeedNoItems;
 
   /// No description provided for @adminFeedApproved.
@@ -787,7 +787,7 @@ abstract class AppLocalizations {
   /// No description provided for @adminFeedAiOff.
   ///
   /// In en, this message translates to:
-  /// **'AI not configured'**
+  /// **'AI is still to be set up'**
   String get adminFeedAiOff;
 
   /// No description provided for @adminFeedSourceLink.
@@ -823,7 +823,7 @@ abstract class AppLocalizations {
   /// No description provided for @adminFeedNoIssues.
   ///
   /// In en, this message translates to:
-  /// **'No check issues'**
+  /// **'All checks passed'**
   String get adminFeedNoIssues;
 
   /// No description provided for @adminFeedTextPreview.
@@ -901,13 +901,13 @@ abstract class AppLocalizations {
   /// No description provided for @adminFeedCardNote.
   ///
   /// In en, this message translates to:
-  /// **'Each field: the value as written in the document with its page, or \"Not stated\".'**
+  /// **'Each field: the value as written in the document with its page, or \"Blank in document\".'**
   String get adminFeedCardNote;
 
   /// No description provided for @adminFeedNotStated.
   ///
   /// In en, this message translates to:
-  /// **'Not stated'**
+  /// **'Blank in document'**
   String get adminFeedNotStated;
 
   /// No description provided for @adminFeedCardValue.
@@ -931,7 +931,7 @@ abstract class AppLocalizations {
   /// No description provided for @adminFeedCardEmpty.
   ///
   /// In en, this message translates to:
-  /// **'Fill at least one field or mark it Not stated.'**
+  /// **'Fill at least one field or mark it \"Blank in document\".'**
   String get adminFeedCardEmpty;
 
   /// No description provided for @adminFeedFullText.
@@ -973,13 +973,13 @@ abstract class AppLocalizations {
   /// No description provided for @adminFeedNoText.
   ///
   /// In en, this message translates to:
-  /// **'No usable text stored: upload again with the text pasted, or accept the issues with a comment.'**
+  /// **'This needs usable text: upload again with the text pasted, or accept the issues with a comment.'**
   String get adminFeedNoText;
 
   /// No description provided for @adminFeedUnusedText.
   ///
   /// In en, this message translates to:
-  /// **'Text not used (broken text layer or OCR):'**
+  /// **'Text set aside (broken text layer or OCR):'**
   String get adminFeedUnusedText;
 
   /// No description provided for @adminFeedTitle.
@@ -1009,7 +1009,7 @@ abstract class AppLocalizations {
   /// No description provided for @adminFeedTargetsNote.
   ///
   /// In en, this message translates to:
-  /// **'Empty fields mean any. Matching says \"may be eligible\", never \"will receive\".'**
+  /// **'Empty fields mean any. Matching only ever says \"may be eligible\".'**
   String get adminFeedTargetsNote;
 
   /// No description provided for @adminFeedDistrict.
@@ -1105,7 +1105,7 @@ abstract class AppLocalizations {
   /// No description provided for @adminFeedNoReplacement.
   ///
   /// In en, this message translates to:
-  /// **'No replacement'**
+  /// **'Withdraw only'**
   String get adminFeedNoReplacement;
 
   /// No description provided for @adminFeedRequiredMissing.
@@ -1147,7 +1147,7 @@ abstract class AppLocalizations {
   /// No description provided for @adminFeedNoDocument.
   ///
   /// In en, this message translates to:
-  /// **'No document chosen'**
+  /// **'Choose a document'**
   String get adminFeedNoDocument;
 
   /// No description provided for @adminFeedDocument.
@@ -1375,7 +1375,7 @@ abstract class AppLocalizations {
   /// No description provided for @accountsEmpty.
   ///
   /// In en, this message translates to:
-  /// **'No entries yet. Add an expense or a sale.'**
+  /// **'Add your first expense or sale.'**
   String get accountsEmpty;
 
   /// No description provided for @saleBy.
@@ -1399,7 +1399,7 @@ abstract class AppLocalizations {
   /// No description provided for @spraysEmpty.
   ///
   /// In en, this message translates to:
-  /// **'No sprays recorded yet.'**
+  /// **'Record your first spray here.'**
   String get spraysEmpty;
 
   /// No description provided for @sprayProduct.
@@ -1573,7 +1573,7 @@ abstract class AppLocalizations {
   /// No description provided for @fieldLogEmpty.
   ///
   /// In en, this message translates to:
-  /// **'No entries yet. Add fertiliser or log irrigation.'**
+  /// **'Add your first fertiliser or irrigation entry.'**
   String get fieldLogEmpty;
 
   /// No description provided for @inputLine.
@@ -1645,7 +1645,7 @@ abstract class AppLocalizations {
   /// No description provided for @labourEmpty.
   ///
   /// In en, this message translates to:
-  /// **'No worker days yet. Add one.'**
+  /// **'Add your first worker day.'**
   String get labourEmpty;
 
   /// No description provided for @labourTotalDue.
@@ -1693,7 +1693,7 @@ abstract class AppLocalizations {
   /// No description provided for @harvestEmpty.
   ///
   /// In en, this message translates to:
-  /// **'No harvest recorded yet. Add a lot.'**
+  /// **'Record your first harvest lot.'**
   String get harvestEmpty;
 
   /// No description provided for @harvestTotal.
@@ -1747,7 +1747,7 @@ abstract class AppLocalizations {
   /// No description provided for @compareSame.
   ///
   /// In en, this message translates to:
-  /// **'no change'**
+  /// **'same'**
   String get compareSame;
 
   /// No description provided for @exportShare.
@@ -1897,7 +1897,7 @@ abstract class AppLocalizations {
   /// No description provided for @profilePhoneContactOnly.
   ///
   /// In en, this message translates to:
-  /// **'Only so we can contact you. It is not for signing in; you still sign in with Google.'**
+  /// **'Only so we can contact you. You sign in with Google, as before.'**
   String get profilePhoneContactOnly;
 
   /// No description provided for @profileSaved.
@@ -1999,7 +1999,7 @@ abstract class AppLocalizations {
   /// No description provided for @boundaryFailed.
   ///
   /// In en, this message translates to:
-  /// **'Could not get your location. Try again outside.'**
+  /// **'Please try again in an open place to get your location.'**
   String get boundaryFailed;
 
   /// No description provided for @boundaryMarked.
@@ -2011,7 +2011,7 @@ abstract class AppLocalizations {
   /// No description provided for @loginTryWithout.
   ///
   /// In en, this message translates to:
-  /// **'Try without account'**
+  /// **'Try the app first'**
   String get loginTryWithout;
 
   /// No description provided for @localModeBanner.
@@ -2101,7 +2101,7 @@ abstract class AppLocalizations {
   /// No description provided for @walkthroughRecordsBody.
   ///
   /// In en, this message translates to:
-  /// **'Note sprays, expenses, labour and sales, and see your accounts. Works without internet; records are sent when the network is back.'**
+  /// **'Note sprays, expenses, labour and sales, and see your accounts. Works offline too; records are sent when the network is back.'**
   String get walkthroughRecordsBody;
 
   /// No description provided for @settingsShowWalkthrough.
@@ -2143,7 +2143,7 @@ abstract class AppLocalizations {
   /// No description provided for @voiceUnavailable.
   ///
   /// In en, this message translates to:
-  /// **'Voice input is not available on this phone'**
+  /// **'Please type here; voice typing works on phones that support it'**
   String get voiceUnavailable;
 
   /// No description provided for @voiceListening.
@@ -2203,7 +2203,7 @@ abstract class AppLocalizations {
   /// No description provided for @tasksEmpty.
   ///
   /// In en, this message translates to:
-  /// **'No tasks yet. Add one with the + button.'**
+  /// **'Add your first task with the + button.'**
   String get tasksEmpty;
 
   /// No description provided for @tasksOverdue.
@@ -2233,7 +2233,7 @@ abstract class AppLocalizations {
   /// No description provided for @noTasksToday.
   ///
   /// In en, this message translates to:
-  /// **'Nothing due today'**
+  /// **'Today is clear'**
   String get noTasksToday;
 
   /// No description provided for @taskOverdue.
@@ -2263,7 +2263,7 @@ abstract class AppLocalizations {
   /// No description provided for @plotBoundaryNone.
   ///
   /// In en, this message translates to:
-  /// **'Boundary not marked yet'**
+  /// **'Mark the boundary'**
   String get plotBoundaryNone;
 
   /// No description provided for @plotCentre.
@@ -2287,7 +2287,7 @@ abstract class AppLocalizations {
   /// No description provided for @calendarMonthEmpty.
   ///
   /// In en, this message translates to:
-  /// **'Nothing dated this month.'**
+  /// **'This month is clear.'**
   String get calendarMonthEmpty;
 
   /// No description provided for @calendarStagePlanned.
@@ -2329,7 +2329,7 @@ abstract class AppLocalizations {
   /// No description provided for @baharCompareNoLast.
   ///
   /// In en, this message translates to:
-  /// **'No bahar recorded on this block yet.'**
+  /// **'Record this block\'s first bahar to see it here.'**
   String get baharCompareNoLast;
 
   /// No description provided for @baharCompareSource.
@@ -2341,7 +2341,7 @@ abstract class AppLocalizations {
   /// No description provided for @baharCompareNoPoints.
   ///
   /// In en, this message translates to:
-  /// **'No checked information for this bahar yet.'**
+  /// **'Checked information for this bahar appears here once it is ready.'**
   String get baharCompareNoPoints;
 
   /// No description provided for @baharCompareUse.
@@ -2365,13 +2365,13 @@ abstract class AppLocalizations {
   /// No description provided for @weatherStale.
   ///
   /// In en, this message translates to:
-  /// **'Weather could not be updated; showing the last saved days.'**
+  /// **'Showing the last saved days; the weather updates on the next successful load.'**
   String get weatherStale;
 
   /// No description provided for @weatherNone.
   ///
   /// In en, this message translates to:
-  /// **'No weather yet. It loads when the phone is online.'**
+  /// **'Weather loads when the phone is online.'**
   String get weatherNone;
 
   /// No description provided for @weatherRain.
@@ -2401,7 +2401,7 @@ abstract class AppLocalizations {
   /// No description provided for @labelInfoEmpty.
   ///
   /// In en, this message translates to:
-  /// **'No registered label information is available yet.'**
+  /// **'Registered label information appears here once it is available.'**
   String get labelInfoEmpty;
 
   /// No description provided for @labelInfoUpdated.
@@ -2515,19 +2515,19 @@ abstract class AppLocalizations {
   /// No description provided for @marketStale.
   ///
   /// In en, this message translates to:
-  /// **'Prices could not be updated: {reason}'**
+  /// **'Showing the last saved prices: {reason}'**
   String marketStale(String reason);
 
   /// No description provided for @marketStaleNoReason.
   ///
   /// In en, this message translates to:
-  /// **'Prices could not be updated; showing the last saved list.'**
+  /// **'Showing the last saved list; prices update on the next successful load.'**
   String get marketStaleNoReason;
 
   /// No description provided for @marketEmpty.
   ///
   /// In en, this message translates to:
-  /// **'No prices yet. They load when the phone is online and the price source is connected.'**
+  /// **'Prices load when the phone is online and the price source is connected.'**
   String get marketEmpty;
 
   /// No description provided for @practicesOpen.
@@ -2575,7 +2575,7 @@ abstract class AppLocalizations {
   /// No description provided for @practicesGapsTitle.
   ///
   /// In en, this message translates to:
-  /// **'No non-chemical practice found yet'**
+  /// **'A non-chemical practice is still to be found for these'**
   String get practicesGapsTitle;
 
   /// No description provided for @practicesSourcesLine.
@@ -2599,7 +2599,7 @@ abstract class AppLocalizations {
   /// No description provided for @scoutingEmpty.
   ///
   /// In en, this message translates to:
-  /// **'No scouting recorded yet. Note what you saw on this plot.'**
+  /// **'Record your first scouting: note what you saw on this plot.'**
   String get scoutingEmpty;
 
   /// No description provided for @scoutingDate.
@@ -2659,7 +2659,7 @@ abstract class AppLocalizations {
   /// No description provided for @scoutingPhotoFailed.
   ///
   /// In en, this message translates to:
-  /// **'Could not get the photo. Try again.'**
+  /// **'Please take the photo again.'**
   String get scoutingPhotoFailed;
 
   /// No description provided for @scoutingPickOne.
@@ -2713,7 +2713,7 @@ abstract class AppLocalizations {
   /// No description provided for @scoutingSeverityNone.
   ///
   /// In en, this message translates to:
-  /// **'Not seen'**
+  /// **'Zero'**
   String get scoutingSeverityNone;
 
   /// No description provided for @scoutingSeverityLow.
@@ -2773,13 +2773,13 @@ abstract class AppLocalizations {
   /// No description provided for @irrigationNoPlantingYear.
   ///
   /// In en, this message translates to:
-  /// **'Planting year not entered for this block. Choose the tree age.'**
+  /// **'Choose the tree age, or add the planting year to this block.'**
   String get irrigationNoPlantingYear;
 
   /// No description provided for @irrigationNoRows.
   ///
   /// In en, this message translates to:
-  /// **'No figure in the sources for this tree age yet.'**
+  /// **'A figure for this tree age is still to be found in the sources.'**
   String get irrigationNoRows;
 
   /// No description provided for @irrigationStagesTitle.
@@ -2791,7 +2791,7 @@ abstract class AppLocalizations {
   /// No description provided for @irrigationGapsTitle.
   ///
   /// In en, this message translates to:
-  /// **'Not found in the sources yet'**
+  /// **'Still to be found in the sources'**
   String get irrigationGapsTitle;
 
   /// No description provided for @irrigationSourcesLine.
@@ -2857,7 +2857,7 @@ abstract class AppLocalizations {
   /// No description provided for @feedBadgeNews.
   ///
   /// In en, this message translates to:
-  /// **'News — not official'**
+  /// **'News — check the official source'**
   String get feedBadgeNews;
 
   /// No description provided for @feedReplacedBy.
@@ -2869,7 +2869,7 @@ abstract class AppLocalizations {
   /// No description provided for @feedExpired.
   ///
   /// In en, this message translates to:
-  /// **'No longer valid (ended {date})'**
+  /// **'Ended on {date}'**
   String feedExpired(String date);
 
   /// No description provided for @feedMayBeEligible.
@@ -2899,7 +2899,7 @@ abstract class AppLocalizations {
   /// No description provided for @feedEmpty.
   ///
   /// In en, this message translates to:
-  /// **'No messages yet. They load when the phone is online.'**
+  /// **'Messages load when the phone is online.'**
   String get feedEmpty;
 
   /// No description provided for @feedRemindMe.
@@ -2947,7 +2947,7 @@ abstract class AppLocalizations {
   /// No description provided for @feedNotFound.
   ///
   /// In en, this message translates to:
-  /// **'This message is no longer in the saved list.'**
+  /// **'This message was removed from the saved list.'**
   String get feedNotFound;
 
   /// No description provided for @feedUnseen.
@@ -2977,7 +2977,7 @@ abstract class AppLocalizations {
   /// No description provided for @feedPrefsQuietTitle.
   ///
   /// In en, this message translates to:
-  /// **'Quiet hours (no alerts)'**
+  /// **'Quiet hours (alerts stay silent)'**
   String get feedPrefsQuietTitle;
 
   /// No description provided for @feedPrefsQuietStart.
@@ -3061,13 +3061,13 @@ abstract class AppLocalizations {
   /// No description provided for @feedPrefsSaveFailed.
   ///
   /// In en, this message translates to:
-  /// **'Could not save. Try again when online.'**
+  /// **'Please save again when online.'**
   String get feedPrefsSaveFailed;
 
   /// No description provided for @feedPrefsOffline.
   ///
   /// In en, this message translates to:
-  /// **'You are offline. These are your last saved settings. Saving needs internet.'**
+  /// **'These are your last saved settings. Connect to the internet to save changes.'**
   String get feedPrefsOffline;
 
   /// No description provided for @feedCheckTitle.
@@ -3109,7 +3109,7 @@ abstract class AppLocalizations {
   /// No description provided for @feedCheckFailed.
   ///
   /// In en, this message translates to:
-  /// **'Could not check. This needs internet.'**
+  /// **'Checking needs internet; please try again when online.'**
   String get feedCheckFailed;
 
   /// No description provided for @feedCheckOfficial.
@@ -3151,7 +3151,7 @@ abstract class AppLocalizations {
   /// No description provided for @speakUnavailable.
   ///
   /// In en, this message translates to:
-  /// **'This phone has no voice for this language yet.'**
+  /// **'Reading aloud needs a voice for this language on this phone.'**
   String get speakUnavailable;
 
   /// No description provided for @shareSentFrom.
@@ -3217,13 +3217,13 @@ abstract class AppLocalizations {
   /// No description provided for @accountBlockedTitle.
   ///
   /// In en, this message translates to:
-  /// **'Unsent records on this phone'**
+  /// **'Records waiting to send on this phone'**
   String get accountBlockedTitle;
 
   /// No description provided for @accountBlockedBody.
   ///
   /// In en, this message translates to:
-  /// **'{count, plural, =1{1 record of the previous account is not sent yet.} other{{count} records of the previous account are not sent yet.}} Sign in again with that account and open the app with internet on so they are sent. Then sign in with this account.'**
+  /// **'{count, plural, =1{1 record of the previous account is still waiting to send.} other{{count} records of the previous account are still waiting to send.}} Sign in again with that account and open the app with internet on so they are sent. Then sign in with this account.'**
   String accountBlockedBody(int count);
 
   /// No description provided for @accountPreviousPhone.
@@ -3241,13 +3241,13 @@ abstract class AppLocalizations {
   /// No description provided for @insuranceEmpty.
   ///
   /// In en, this message translates to:
-  /// **'No policy recorded for this plot yet. Add the crop insurance you took, or open the claim kit after a loss.'**
+  /// **'Add the crop insurance you took for this plot, or open the claim kit after a loss.'**
   String get insuranceEmpty;
 
   /// No description provided for @insurancePoliciesNone.
   ///
   /// In en, this message translates to:
-  /// **'No policy recorded yet.'**
+  /// **'Add your first policy.'**
   String get insurancePoliciesNone;
 
   /// No description provided for @insuranceAdd.
@@ -3289,7 +3289,7 @@ abstract class AppLocalizations {
   /// No description provided for @insuranceSchemeUnknown.
   ///
   /// In en, this message translates to:
-  /// **'Don\'t know'**
+  /// **'To check'**
   String get insuranceSchemeUnknown;
 
   /// No description provided for @insuranceSeason.
@@ -3355,7 +3355,7 @@ abstract class AppLocalizations {
   /// No description provided for @insuranceNotSet.
   ///
   /// In en, this message translates to:
-  /// **'Not set'**
+  /// **'To add'**
   String get insuranceNotSet;
 
   /// No description provided for @insuranceNote.
@@ -3463,13 +3463,13 @@ abstract class AppLocalizations {
   /// No description provided for @claimKitNoPhotos.
   ///
   /// In en, this message translates to:
-  /// **'No photos yet.'**
+  /// **'Take loss photos; they appear here.'**
   String get claimKitNoPhotos;
 
   /// No description provided for @claimKitNoGps.
   ///
   /// In en, this message translates to:
-  /// **'GPS not available'**
+  /// **'GPS unavailable'**
   String get claimKitNoGps;
 
   /// No description provided for @claimKitRemovePhoto.
@@ -3529,7 +3529,7 @@ abstract class AppLocalizations {
   /// No description provided for @claimCheckKeepFruit.
   ///
   /// In en, this message translates to:
-  /// **'Do not clear the damaged fruit or trees before the survey, unless you are told otherwise.'**
+  /// **'Keep the damaged fruit and trees as they are until the survey, unless you are told otherwise.'**
   String get claimCheckKeepFruit;
 
   /// No description provided for @claimKitShare.
@@ -3541,7 +3541,7 @@ abstract class AppLocalizations {
   /// No description provided for @claimKitShareFailed.
   ///
   /// In en, this message translates to:
-  /// **'Could not make the PDF. Try again.'**
+  /// **'Please try making the PDF again.'**
   String get claimKitShareFailed;
 
   /// No description provided for @claimKitDelete.
@@ -3577,7 +3577,7 @@ abstract class AppLocalizations {
   /// No description provided for @claimPdfNoGps.
   ///
   /// In en, this message translates to:
-  /// **'Not marked'**
+  /// **'To be marked'**
   String get claimPdfNoGps;
 
   /// No description provided for @claimPdfPolicy.
@@ -3607,7 +3607,7 @@ abstract class AppLocalizations {
   /// No description provided for @claimPdfNotDone.
   ///
   /// In en, this message translates to:
-  /// **'Not yet'**
+  /// **'Pending'**
   String get claimPdfNotDone;
 
   /// No description provided for @claimPdfMade.
@@ -4009,7 +4009,7 @@ abstract class AppLocalizations {
   /// No description provided for @lookalikesIntro.
   ///
   /// In en, this message translates to:
-  /// **'Many orchard problems look alike. These cards help you describe what you see; they do not tell you what it is.'**
+  /// **'Many orchard problems look alike. These cards help you describe what you see; a lab or an expert tells you what it is.'**
   String get lookalikesIntro;
 
   /// No description provided for @lookalikesSee.
@@ -4033,7 +4033,7 @@ abstract class AppLocalizations {
   /// No description provided for @lookalikesCheckLine.
   ///
   /// In en, this message translates to:
-  /// **'Not sure? Do not guess. Take a photo, log it in scouting and get it checked by a lab or an expert.'**
+  /// **'Want to be sure? Take a photo, log it in scouting and get it checked by a lab or an expert before you decide.'**
   String get lookalikesCheckLine;
 
   /// No description provided for @lookalikesLogThis.
@@ -4057,13 +4057,13 @@ abstract class AppLocalizations {
   /// No description provided for @lookalikesDraft.
   ///
   /// In en, this message translates to:
-  /// **'Draft: a source is not yet checked'**
+  /// **'Draft: a source is still to be checked'**
   String get lookalikesDraft;
 
   /// No description provided for @lookalikesEmpty.
   ///
   /// In en, this message translates to:
-  /// **'No cards yet.'**
+  /// **'Cards appear here.'**
   String get lookalikesEmpty;
 
   /// No description provided for @labsTitle.
@@ -4099,7 +4099,7 @@ abstract class AppLocalizations {
   /// No description provided for @directoryUnverified.
   ///
   /// In en, this message translates to:
-  /// **'Not yet checked on an official page'**
+  /// **'Please confirm on the official page'**
   String get directoryUnverified;
 
   /// No description provided for @directoryCopyNumber.
@@ -4153,7 +4153,7 @@ abstract class AppLocalizations {
   /// No description provided for @directoryEmpty.
   ///
   /// In en, this message translates to:
-  /// **'Nothing listed yet.'**
+  /// **'Entries appear here.'**
   String get directoryEmpty;
 
   /// No description provided for @directoryKindResearch.

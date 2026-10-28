@@ -156,7 +156,10 @@ void main() {
   testWidgets('a Google user can add a contact number', (tester) async {
     final db = await openProfile(tester, session: googleUser);
     expect(find.text('Add mobile number (optional)'), findsOneWidget);
-    expect(find.textContaining('not for signing in'), findsOneWidget);
+    expect(
+      find.textContaining('You sign in with Google, as before'),
+      findsOneWidget,
+    );
     await tester.enterText(
       find.byKey(const Key('profile-phone')),
       '098230 12345',

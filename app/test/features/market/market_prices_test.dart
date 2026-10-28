@@ -127,7 +127,10 @@ void main() {
     await tester.tap(find.byKey(const Key('market-scope-major')));
     await settle(tester);
     expect(find.text('Warud'), findsNothing);
-    expect(find.textContaining('No prices yet'), findsOneWidget);
+    expect(
+      find.textContaining('Prices load when the phone is online'),
+      findsOneWidget,
+    );
     await unmountApp(tester);
   });
 
@@ -145,8 +148,8 @@ void main() {
     expect(find.text('Market prices'), findsOneWidget);
     expect(
       find.text(
-        'No prices yet. They load when the phone is online and the price '
-        'source is connected.',
+        'Prices load when the phone is online and the price source is '
+        'connected.',
       ),
       findsOneWidget,
     );

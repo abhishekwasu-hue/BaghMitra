@@ -30,7 +30,7 @@ void main() {
     );
     await settle(tester);
     expect(find.text('Your plots and bahar calendar'), findsOneWidget);
-    expect(find.text('Try without account'), findsNothing);
+    expect(find.text('Try the app first'), findsNothing);
     await unmountApp(tester);
   });
 
@@ -59,7 +59,7 @@ void main() {
     await tester.tap(find.byKey(const Key('walkthrough-start')));
     await settle(tester);
     expect(await seenFlag(tester, db), '1');
-    expect(find.text('Try without account'), findsOneWidget);
+    expect(find.text('Try the app first'), findsOneWidget);
     await unmountApp(tester);
   });
 

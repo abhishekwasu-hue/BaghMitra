@@ -453,7 +453,7 @@ void main() {
     expect(find.text('0 check issues'), findsOneWidget);
     await tester.tap(find.text('Withdrawn'));
     await tester.pumpAndSettle();
-    expect(find.text('Nothing in this list'), findsOneWidget);
+    expect(find.text('This list is empty'), findsOneWidget);
   });
 
   testWidgets('approve with open issues needs accept + comment', (
@@ -502,7 +502,7 @@ void main() {
     await tester.pump();
     await tester.pump(const Duration(seconds: 5));
     await tester.pumpAndSettle();
-    expect(find.text('AI not configured'), findsOneWidget);
+    expect(find.text('AI is still to be set up'), findsOneWidget);
 
     await tester.enterText(
       find.byKey(const Key('title-mr')),
@@ -602,7 +602,7 @@ void main() {
     await tester.tap(find.byKey(const Key('save-card')));
     await tester.pumpAndSettle();
     expect(
-      find.text('Fill at least one field or mark it Not stated.'),
+      find.text('Fill at least one field or mark it "Blank in document".'),
       findsOneWidget,
     );
     expect(feed.cardSaves, hasLength(2));
@@ -737,7 +737,7 @@ void main() {
     await tester.pumpAndSettle();
     await tester.tap(find.text('Upload'));
     await tester.pumpAndSettle();
-    expect(find.text('No document chosen'), findsOneWidget);
+    expect(find.text('Choose a document'), findsOneWidget);
 
     Future<void> pick() async {
       await tester.ensureVisible(find.byKey(const Key('upload-pick')));
@@ -750,7 +750,7 @@ void main() {
     await pick();
     expect(find.text('Only .pdf, .html or .htm files.'), findsOneWidget);
     await pick();
-    expect(find.text('No document chosen'), findsOneWidget);
+    expect(find.text('Choose a document'), findsOneWidget);
     await pick();
     expect(find.text('gr-101.pdf · 1 KB'), findsOneWidget);
 

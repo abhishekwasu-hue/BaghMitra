@@ -31,11 +31,11 @@ extension TestBuildConfigX on AppConfig {
 }
 
 void main() {
-  testWidgets('"Try without account" signs in locally and goes to setup', (
+  testWidgets('"Try the app first" signs in locally and goes to setup', (
     tester,
   ) async {
     await pumpApp(tester, locale: const Locale('en'), session: null);
-    expect(find.text('Try without account'), findsOneWidget);
+    expect(find.text('Try the app first'), findsOneWidget);
     await tester.tap(find.byKey(const Key('try-without-account')));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 500));

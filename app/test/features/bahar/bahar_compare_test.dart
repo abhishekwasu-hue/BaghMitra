@@ -61,7 +61,10 @@ void main() {
     await settle(tester);
     expect(find.text('Compare bahars'), findsOneWidget);
     expect(find.textContaining('decision is yours'), findsOneWidget);
-    expect(find.text('No bahar recorded on this block yet.'), findsOneWidget);
+    expect(
+      find.text("Record this block's first bahar to see it here."),
+      findsOneWidget,
+    );
 
     await tester.tap(find.byKey(const Key('answer-water_apr_may-short')));
     await settle(tester);

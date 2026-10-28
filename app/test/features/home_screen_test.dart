@@ -36,7 +36,10 @@ void main() {
       syncStatus: const SyncStatus(connectivity: Connectivity.offline),
     );
     expect(find.byType(SyncBanner), findsOneWidget);
-    expect(find.textContaining('You are offline'), findsOneWidget);
+    expect(
+      find.textContaining('Your entries are saved on this phone'),
+      findsOneWidget,
+    );
     await unmountApp(tester);
   });
 
@@ -62,7 +65,10 @@ void main() {
         rejected: 1,
       ),
     );
-    expect(find.textContaining('Sync failed'), findsOneWidget);
+    expect(
+      find.textContaining('Your records are safe on this phone'),
+      findsOneWidget,
+    );
     await unmountApp(tester);
   });
 

@@ -106,7 +106,9 @@ void main() {
       findsOneWidget,
     );
     expect(
-      find.text('News — not official · ${en(DateTime(2026, 10, 11))}'),
+      find.text(
+        'News — check the official source · ${en(DateTime(2026, 10, 11))}',
+      ),
       findsOneWidget,
     );
     expect(find.byKey(const Key('feed-replaced-old')), findsOneWidget);
@@ -229,7 +231,9 @@ void main() {
     );
     await pumpFeed(tester, location: '/feed/news1');
     expect(
-      find.text('News — not official · ${en(DateTime(2026, 10, 11))}'),
+      find.text(
+        'News — check the official source · ${en(DateTime(2026, 10, 11))}',
+      ),
       findsOneWidget,
     );
     await tester.tap(find.byKey(const Key('feed-copy-link')));
@@ -242,7 +246,7 @@ void main() {
   testWidgets('an item missing from the cache says so', (tester) async {
     await pumpFeed(tester, location: '/feed/gone');
     expect(
-      find.text('This message is no longer in the saved list.'),
+      find.text('This message was removed from the saved list.'),
       findsOneWidget,
     );
     await unmountApp(tester);
@@ -258,7 +262,10 @@ void main() {
     expect(find.text('काही करण्याआधी अधिकृत GR/पोर्टल तपासा.'), findsOneWidget);
     expect(find.textContaining('नमुना GR'), findsOneWidget);
     expect(find.textContaining('अधिकृत · GR क्र.'), findsWidgets);
-    expect(find.textContaining('बातमी — अधिकृत नाही'), findsOneWidget);
+    expect(
+      find.textContaining('बातमी — अधिकृत स्रोतावर खात्री करा'),
+      findsOneWidget,
+    );
     expect(find.textContaining('मागे घेतले'), findsOneWidget);
     expect(find.textContaining('तुम्ही पात्र असू शकता कारण'), findsWidgets);
     expect(find.text('शेवटच्या तारखा'), findsOneWidget);

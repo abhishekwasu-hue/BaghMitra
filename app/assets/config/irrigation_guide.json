@@ -62,7 +62,7 @@
         {"id": "s10", "ages": ["mature"], "season": "summer", "method": "drip", "source": "SA14", "source_keys": ["SA14"],
          "labels": {"en": "Trees 12–14 years old: 133–148 litres per tree per day in May–June.", "mr": "१२–१४ वर्षांची झाडे: मे–जूनमध्ये दर झाडाला दररोज १३३–१४८ लिटर.", "hi": "12–14 साल के पेड़: मई–जून में हर पेड़ को रोज़ 133–148 लीटर।"}},
         {"id": "s11", "ages": ["mature"], "season": "rainy", "method": "drip", "source": "SH14 Table 2", "source_keys": ["SH14"],
-         "labels": {"en": "In the trial, rain met the need from July to October; no drip water was given.", "mr": "प्रयोगात जुलै–ऑक्टोबर पावसानेच गरज भागली; ठिबकने पाणी दिले नाही.", "hi": "प्रयोग में जुलाई–अक्टूबर बारिश से ही ज़रूरत पूरी हुई; ड्रिप से पानी नहीं दिया गया।"}},
+         "labels": {"en": "In the trial, rain alone met the need from July to October; the drip stayed off then.", "mr": "प्रयोगात जुलै–ऑक्टोबर पावसानेच गरज भागली; त्या काळात ठिबक बंद ठेवले होते.", "hi": "प्रयोग में जुलाई–अक्टूबर बारिश से ही ज़रूरत पूरी हुई; उस दौरान ड्रिप बंद रखी गई।"}},
         {"id": "s12", "ages": ["mature"], "season": "rainy", "method": "drip", "source": "SA14", "source_keys": ["SA14"],
          "labels": {"en": "Trees 12–14 years old: 65–72 litres per tree per day in October.", "mr": "१२–१४ वर्षांची झाडे: ऑक्टोबरमध्ये दर झाडाला दररोज ६५–७२ लिटर.", "hi": "12–14 साल के पेड़: अक्टूबर में हर पेड़ को रोज़ 65–72 लीटर।"}},
         {"id": "s13", "ages": ["young", "middle", "mature"], "season": "winter", "method": "basin", "source": "N1 §5.7", "source_keys": ["N1"],
@@ -92,11 +92,11 @@
         {"id": "sn1", "source": "C06", "source_keys": ["C06"],
          "labels": {"en": "Water a few days before flowering and again after fruit set; short water then drops flowers and young fruit.", "mr": "फुलोऱ्याच्या काही दिवस आधी आणि फळधारणेनंतर पुन्हा पाणी द्या; तेव्हा पाणी कमी पडले तर फुले व लहान फळे गळतात.", "hi": "फूल आने से कुछ दिन पहले और फल लगने के बाद फिर पानी दें; तब पानी कम पड़ा तो फूल और छोटे फल गिरते हैं।"}},
         {"id": "sn2", "source": "C06", "source_keys": ["C06"],
-         "labels": {"en": "Keep watering as fruit matures, so fruit does not shrink and the pulp does not dry; mild late stress raises sweetness but gives smaller fruit.", "mr": "फळ पक्व होताना पाणी चालू ठेवा, म्हणजे फळ आकसत नाही व गर सुकत नाही; शेवटी थोडा ताण दिल्यास गोडी वाढते पण फळ लहान राहते.", "hi": "फल पकते समय पानी देते रहें, ताकि फल न सिकुड़े और गूदा न सूखे; आखिर में थोड़ा तनाव मिठास बढ़ाता है पर फल छोटा रहता है।"}},
+         "labels": {"en": "Keep watering as fruit matures, so the fruit stays full and the pulp stays juicy; mild late stress raises sweetness but gives smaller fruit.", "mr": "फळ पक्व होताना पाणी चालू ठेवा, म्हणजे फळ भरलेले राहते व गर रसदार राहतो; शेवटी थोडा ताण दिल्यास गोडी वाढते पण फळ लहान राहते.", "hi": "फल पकते समय पानी देते रहें, ताकि फल भरा रहे और गूदा रसीला रहे; आखिर में थोड़ा तनाव मिठास बढ़ाता है पर फल छोटा रहता है।"}},
         {"id": "sn3", "source": "C06", "source_keys": ["C06"],
          "labels": {"en": "Summer is the critical time: frequent light watering keeps the soil cooler.", "mr": "उन्हाळा सर्वात महत्त्वाचा: थोडे थोडे पण वारंवार पाणी दिल्याने जमीन थंड राहते.", "hi": "गर्मी सबसे अहम समय है: थोड़ा-थोड़ा पर बार-बार पानी देने से मिट्टी ठंडी रहती है।"}},
         {"id": "sn4", "source": "C02", "source_keys": ["C02"],
-         "labels": {"en": "Use a double ring so water does not touch the trunk.", "mr": "दुहेरी आळे करा, म्हणजे पाणी खोडाला लागत नाही.", "hi": "दोहरा थाला बनाएँ, ताकि पानी तने को न छुए।"}},
+         "labels": {"en": "Use a double ring so water stays away from the trunk.", "mr": "दुहेरी आळे करा, म्हणजे पाणी खोडापासून दूर राहते.", "hi": "दोहरा थाला बनाएँ, ताकि पानी तने से दूर रहे।"}},
         {"id": "sn5", "source": "P1 Horticulture recs", "source_keys": ["P1"],
          "labels": {"en": "Drip saved about 30% water and gave bigger, juicier fruit.", "mr": "ठिबकने सुमारे ३०% पाणी वाचले आणि फळे मोठी व रसदार मिळाली.", "hi": "ड्रिप से लगभग 30% पानी बचा और फल बड़े व रसीले मिले।"}},
         {"id": "sn6", "source": "N1 §5.10", "source_keys": ["N1"],
@@ -109,13 +109,13 @@
          "labels": {"en": "A CCRI trial describes holding water back for 30–45 days before the expected flowering.", "mr": "CCRI प्रयोगात अपेक्षित फुलोऱ्याआधी ३०–४५ दिवस पाणी थांबवल्याचे सांगितले आहे.", "hi": "CCRI प्रयोग में अपेक्षित फूल आने से पहले 30–45 दिन पानी रोकने की बात है।"}}
       ],
       "gaps": [
-        {"en": "Winter and rainy amounts for young and middle trees were not found in a source we could read; the summer litres are from a hot-weather (May) advisory.", "mr": "लहान व मध्यम झाडांसाठी हिवाळा व पावसाळ्याचे प्रमाण वाचता आलेल्या स्रोतात सापडले नाही; उन्हाळ्याचे लिटर मे महिन्याच्या सल्ल्यातील आहेत.", "hi": "छोटे और मध्यम पेड़ों के लिए सर्दी और बरसात की मात्रा पढ़े जा सके स्रोत में नहीं मिली; गर्मी के लीटर मई की सलाह से हैं।"}
+        {"en": "Winter and rainy amounts for young and middle trees are still to be found in a source we can read; the summer litres are from a hot-weather (May) advisory.", "mr": "लहान व मध्यम झाडांसाठी हिवाळा व पावसाळ्याचे प्रमाण वाचता येणाऱ्या स्रोतात अजून शोधायचे आहे; उन्हाळ्याचे लिटर मे महिन्याच्या सल्ल्यातील आहेत.", "hi": "छोटे और मध्यम पेड़ों के लिए सर्दी और बरसात की मात्रा पढ़े जा सकने वाले स्रोत में अभी खोजनी बाकी है; गर्मी के लीटर मई की सलाह से हैं।"}
       ]
     },
     "mosambi": {
       "rows": [
         {"id": "m1", "ages": ["middle", "mature"], "season": "summer", "method": "drip", "source": "NI (May)", "source_keys": ["NI"],
-         "labels": {"en": "Bearing trees (age not given), western Maharashtra: 100–120 litres per plant per day in May.", "mr": "फळ देणारी झाडे (वय दिलेले नाही), पश्चिम महाराष्ट्र: मे मध्ये दर झाडाला दररोज १००–१२० लिटर.", "hi": "फल देने वाले पेड़ (उम्र नहीं दी), पश्चिम महाराष्ट्र: मई में हर पेड़ को रोज़ 100–120 लीटर।"}},
+         "labels": {"en": "Bearing trees (age unspecified), western Maharashtra: 100–120 litres per plant per day in May.", "mr": "फळ देणारी झाडे (वय अनिर्दिष्ट), पश्चिम महाराष्ट्र: मे मध्ये दर झाडाला दररोज १००–१२० लिटर.", "hi": "फल देने वाले पेड़ (उम्र अनिर्दिष्ट), पश्चिम महाराष्ट्र: मई में हर पेड़ को रोज़ 100–120 लीटर।"}},
         {"id": "m2", "ages": ["mature"], "season": "year", "method": "drip", "source": "ML19", "source_keys": ["ML19"],
          "labels": {"en": "10-year-old trees at Tirupati (Andhra Pradesh): drip at 90% of evaporation did best and saved 27–30% water.", "mr": "तिरुपती (आंध्र प्रदेश) येथे १० वर्षांची झाडे: बाष्पीभवनाच्या ९०% ठिबक सर्वात चांगले, २७–३०% पाणी वाचले.", "hi": "तिरुपति (आंध्र प्रदेश) में 10 साल के पेड़: वाष्पीकरण का 90% ड्रिप सबसे अच्छा, 27–30% पानी बचा।"}},
         {"id": "m3", "ages": ["mature"], "season": "year", "method": "drip", "source": "GP", "source_keys": ["GP"],
@@ -137,17 +137,17 @@
         {"id": "m11", "ages": ["middle", "mature"], "season": "year", "method": "drip", "source": "MP25 §8a", "source_keys": ["MP25"],
          "labels": {"en": "MPKV Rahuri (western Maharashtra, Ambia bahar): drip at 80% of evaporation through the growing period (January–October).", "mr": "म.फु.कृ.वि. राहुरी (पश्चिम महाराष्ट्र, आंबिया बहार): वाढीच्या काळात (जानेवारी–ऑक्टोबर) बाष्पीभवनाच्या ८०% ठिबक.", "hi": "MPKV राहुरी (पश्चिम महाराष्ट्र, आंबिया बहार): बढ़वार के समय (जनवरी–अक्टूबर) वाष्पीकरण का 80% ड्रिप।"}},
         {"id": "m12", "ages": ["young", "middle", "mature"], "season": "year", "method": "any", "source": "VK (Andhra Pradesh, Tamil Nadu)", "source_keys": ["VK"],
-         "labels": {"en": "Andhra Pradesh / Tamil Nadu package: water once in 10 days; do not let water stand near the plant in the rains.", "mr": "आंध्र प्रदेश / तमिळनाडू शिफारस: दर १० दिवसांनी एकदा पाणी; पावसाळ्यात झाडाजवळ पाणी साचू देऊ नका.", "hi": "आंध्र प्रदेश / तमिलनाडु सिफ़ारिश: हर 10 दिन में एक बार पानी; बरसात में पेड़ के पास पानी न रुकने दें।"}}
+         "labels": {"en": "Andhra Pradesh / Tamil Nadu package: water once in 10 days; in the rains, drain standing water away from the plant.", "mr": "आंध्र प्रदेश / तमिळनाडू शिफारस: दर १० दिवसांनी एकदा पाणी; पावसाळ्यात झाडाजवळ साचलेले पाणी काढून द्या.", "hi": "आंध्र प्रदेश / तमिलनाडु सिफ़ारिश: हर 10 दिन में एक बार पानी; बरसात में पेड़ के पास रुका पानी निकाल दें।"}}
       ],
       "notes": [
         {"id": "mn1", "source": "C06 (all citrus)", "source_keys": ["C06"],
          "labels": {"en": "Water a few days before flowering and again after fruit set; short water then drops flowers and young fruit.", "mr": "फुलोऱ्याच्या काही दिवस आधी आणि फळधारणेनंतर पुन्हा पाणी द्या; तेव्हा पाणी कमी पडले तर फुले व लहान फळे गळतात.", "hi": "फूल आने से कुछ दिन पहले और फल लगने के बाद फिर पानी दें; तब पानी कम पड़ा तो फूल और छोटे फल गिरते हैं।"}},
         {"id": "mn2", "source": "C06 (all citrus)", "source_keys": ["C06"],
-         "labels": {"en": "Keep watering as fruit matures, so fruit does not shrink and the pulp does not dry.", "mr": "फळ पक्व होताना पाणी चालू ठेवा, म्हणजे फळ आकसत नाही व गर सुकत नाही.", "hi": "फल पकते समय पानी देते रहें, ताकि फल न सिकुड़े और गूदा न सूखे।"}},
+         "labels": {"en": "Keep watering as fruit matures, so the fruit stays full and the pulp stays juicy.", "mr": "फळ पक्व होताना पाणी चालू ठेवा, म्हणजे फळ भरलेले राहते व गर रसदार राहतो.", "hi": "फल पकते समय पानी देते रहें, ताकि फल भरा रहे और गूदा रसीला रहे।"}},
         {"id": "mn3", "source": "NI (all orchards)", "source_keys": ["NI"],
          "labels": {"en": "In hot weather, water in the evening and mulch the basin.", "mr": "उन्हाळ्यात संध्याकाळी पाणी द्या आणि आळ्यात आच्छादन करा.", "hi": "गर्मी में शाम को पानी दें और थाले में पलवार बिछाएँ।"}},
         {"id": "mn4", "source": "C02", "source_keys": ["C02"],
-         "labels": {"en": "Use a double ring so water does not touch the trunk.", "mr": "दुहेरी आळे करा, म्हणजे पाणी खोडाला लागत नाही.", "hi": "दोहरा थाला बनाएँ, ताकि पानी तने को न छुए।"}},
+         "labels": {"en": "Use a double ring so water stays away from the trunk.", "mr": "दुहेरी आळे करा, म्हणजे पाणी खोडापासून दूर राहते.", "hi": "दोहरा थाला बनाएँ, ताकि पानी तने से दूर रहे।"}},
         {"id": "mn5", "source": "MP25 §8a", "source_keys": ["MP25"],
          "labels": {"en": "Bahar rest (MPKV Rahuri, western Maharashtra, Ambia bahar): water is held back in November–December.", "mr": "बहाराचा ताण (म.फु.कृ.वि. राहुरी, पश्चिम महाराष्ट्र, आंबिया बहार): नोव्हेंबर–डिसेंबरमध्ये पाणी थांबवतात.", "hi": "बहार का तनाव (MPKV राहुरी, पश्चिम महाराष्ट्र, आंबिया बहार): नवंबर–दिसंबर में पानी रोका जाता है।"}},
         {"id": "mn6", "source": "AW24 (Badnapur), AW23 (PDKV)", "source_keys": ["AW24", "AW23"],
@@ -155,10 +155,10 @@
         {"id": "mn7", "source": "VK", "source_keys": ["VK"],
          "labels": {"en": "Under Andhra Pradesh conditions a stress of 20–25 days is enough to bring flowering.", "mr": "आंध्र प्रदेशातील परिस्थितीत फुलोऱ्यासाठी २०–२५ दिवसांचा ताण पुरेसा.", "hi": "आंध्र प्रदेश की परिस्थिति में फूल लाने के लिए 20–25 दिन का तनाव काफी है।"}},
         {"id": "mn8", "source": "AW24", "source_keys": ["AW24"],
-         "labels": {"en": "Cut water down slowly to start the rest and raise it slowly to end it; do not let the stress go too far.", "mr": "ताण देताना पाणी हळूहळू कमी करा आणि ताण सोडताना हळूहळू वाढवा; जास्तीचा ताण बसू देऊ नका.", "hi": "तनाव देते समय पानी धीरे-धीरे घटाएँ और छोड़ते समय धीरे-धीरे बढ़ाएँ; ज़्यादा तनाव न होने दें।"}}
+         "labels": {"en": "Cut water down slowly to start the rest and raise it slowly to end it; keep the stress within limits.", "mr": "ताण देताना पाणी हळूहळू कमी करा आणि ताण सोडताना हळूहळू वाढवा; ताण मर्यादेतच ठेवा.", "hi": "तनाव देते समय पानी धीरे-धीरे घटाएँ और छोड़ते समय धीरे-धीरे बढ़ाएँ; तनाव सीमा में ही रखें।"}}
       ],
       "gaps": [
-        {"en": "Winter and rainy-season litres for young and middle mosambi trees were not found; the litres shown are from a hot-weather (May) advisory.", "mr": "लहान व मध्यम मोसंबी झाडांसाठी हिवाळा व पावसाळ्यातील लिटर सापडले नाहीत; दाखवलेले लिटर मे महिन्याच्या सल्ल्यातील आहेत.", "hi": "छोटे और मध्यम मौसंबी पेड़ों के लिए सर्दी और बरसात के लीटर नहीं मिले; दिखाए गए लीटर मई की सलाह से हैं।"}
+        {"en": "Winter and rainy-season litres for young and middle mosambi trees are still to be found; the litres shown are from a hot-weather (May) advisory.", "mr": "लहान व मध्यम मोसंबी झाडांसाठी हिवाळा व पावसाळ्यातील लिटर अजून शोधायचे आहेत; दाखवलेले लिटर मे महिन्याच्या सल्ल्यातील आहेत.", "hi": "छोटे और मध्यम मौसंबी पेड़ों के लिए सर्दी और बरसात के लीटर अभी खोजने बाकी हैं; दिखाए गए लीटर मई की सलाह से हैं।"}
       ]
     }
   }

@@ -244,7 +244,7 @@ void main() {
     await tester.pump();
     await tester.pump();
     expect(
-      find.text('This phone has no voice for this language yet.'),
+      find.text('Reading aloud needs a voice for this language on this phone.'),
       findsOneWidget,
     );
     await unmountApp(tester);

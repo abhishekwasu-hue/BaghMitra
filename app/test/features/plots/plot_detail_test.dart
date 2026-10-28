@@ -61,7 +61,7 @@ void main() {
 
     await tester.tap(find.byKey(const Key('open-records')));
     await settle(tester);
-    expect(find.text('No bahar planned yet'), findsOneWidget);
+    expect(find.text('Plan your first bahar'), findsOneWidget);
     await unmountApp(tester);
   });
 

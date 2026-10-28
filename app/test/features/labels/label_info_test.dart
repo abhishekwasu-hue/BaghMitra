@@ -135,7 +135,9 @@ void main() {
     await settle(tester);
     expect(find.textContaining('It is not a recommendation'), findsOneWidget);
     expect(
-      find.text('No registered label information is available yet.'),
+      find.text(
+        'Registered label information appears here once it is available.',
+      ),
       findsOneWidget,
     );
     expect(find.textContaining('days before harvest'), findsNothing);

@@ -97,7 +97,7 @@ void main() {
     expect(find.textContaining('risk of fruit drop'), findsOneWidget);
     expect(find.textContaining('ICAR-CCRI'), findsOneWidget);
     expect(find.textContaining('not yet checked by an expert'), findsNothing);
-    expect(find.textContaining('could not be updated'), findsOneWidget);
+    expect(find.textContaining('Showing the last saved days'), findsOneWidget);
     await unmountApp(tester);
   });
 

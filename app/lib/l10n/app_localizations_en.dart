@@ -103,7 +103,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get offlineBanner =>
-      'You are offline. Your entries are saved and will sync.';
+      'Your entries are saved on this phone; they will sync when the network is back.';
 
   @override
   String pendingSync(int count) {
@@ -117,7 +117,8 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get syncFailed => 'Sync failed. Will retry automatically.';
+  String get syncFailed =>
+      'Your records are safe on this phone. The app will try sending again on its own.';
 
   @override
   String get loginTitle => 'Sign in with your mobile number';
@@ -136,7 +137,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get loginGoogleFailed =>
-      'Could not open Google sign-in. Check the internet and try again.';
+      'Please try Google sign-in again; check the internet.';
 
   @override
   String loginOtpTitle(String phone) {
@@ -199,11 +200,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get addPlot => 'Add orchard block';
 
   @override
-  String get plotsEmptyTitle => 'No orchard blocks yet';
+  String get plotsEmptyTitle => 'Add your first orchard block';
 
   @override
   String get plotsEmptyBody =>
-      'Add your first block to get a bahar calendar and daily tasks.';
+      'Each block gets a bahar calendar and daily tasks.';
 
   @override
   String get plotName => 'Block name';
@@ -270,7 +271,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get startBahar => 'Start a bahar';
 
   @override
-  String get baharEmptyTitle => 'No bahar planned yet';
+  String get baharEmptyTitle => 'Plan your first bahar';
 
   @override
   String get baharEmptyBody =>
@@ -351,10 +352,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get adminResolve => 'Resolve';
 
   @override
-  String get adminNoAlerts => 'No open alerts';
+  String get adminNoAlerts => 'Open alerts appear here';
 
   @override
-  String get adminNoCards => 'No cards yet';
+  String get adminNoCards => 'Cards appear here once added';
 
   @override
   String get adminSignInRequired =>
@@ -407,7 +408,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get adminFeedStatusWithdrawn => 'Withdrawn';
 
   @override
-  String get adminFeedNoItems => 'Nothing in this list';
+  String get adminFeedNoItems => 'This list is empty';
 
   @override
   String get adminFeedApproved => 'Approved';
@@ -418,7 +419,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get adminFeedAiOff => 'AI not configured';
+  String get adminFeedAiOff => 'AI is still to be set up';
 
   @override
   String get adminFeedSourceLink => 'Source document';
@@ -438,7 +439,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get adminFeedCheckIssues => 'Output-check issues';
 
   @override
-  String get adminFeedNoIssues => 'No check issues';
+  String get adminFeedNoIssues => 'All checks passed';
 
   @override
   String get adminFeedTextPreview => 'Extracted text';
@@ -479,10 +480,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get adminFeedCardNote =>
-      'Each field: the value as written in the document with its page, or \"Not stated\".';
+      'Each field: the value as written in the document with its page, or \"Blank in document\".';
 
   @override
-  String get adminFeedNotStated => 'Not stated';
+  String get adminFeedNotStated => 'Blank in document';
 
   @override
   String get adminFeedCardValue => 'Value';
@@ -495,7 +496,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get adminFeedCardEmpty =>
-      'Fill at least one field or mark it Not stated.';
+      'Fill at least one field or mark it \"Blank in document\".';
 
   @override
   String get adminFeedFullText => 'Stored text (what the output check reads):';
@@ -521,10 +522,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get adminFeedNoText =>
-      'No usable text stored: upload again with the text pasted, or accept the issues with a comment.';
+      'This needs usable text: upload again with the text pasted, or accept the issues with a comment.';
 
   @override
-  String get adminFeedUnusedText => 'Text not used (broken text layer or OCR):';
+  String get adminFeedUnusedText =>
+      'Text set aside (broken text layer or OCR):';
 
   @override
   String get adminFeedTitle => 'Title';
@@ -540,7 +542,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get adminFeedTargetsNote =>
-      'Empty fields mean any. Matching says \"may be eligible\", never \"will receive\".';
+      'Empty fields mean any. Matching only ever says \"may be eligible\".';
 
   @override
   String get adminFeedDistrict => 'District';
@@ -590,7 +592,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get adminFeedReplacedBy => 'Replaced by';
 
   @override
-  String get adminFeedNoReplacement => 'No replacement';
+  String get adminFeedNoReplacement => 'Withdraw only';
 
   @override
   String get adminFeedRequiredMissing =>
@@ -615,7 +617,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get adminFeedPickDocument => 'Choose document (PDF or HTML)';
 
   @override
-  String get adminFeedNoDocument => 'No document chosen';
+  String get adminFeedNoDocument => 'Choose a document';
 
   @override
   String adminFeedDocument(String name, int kb) {
@@ -733,7 +735,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get salePaid => 'Received so far (₹)';
 
   @override
-  String get accountsEmpty => 'No entries yet. Add an expense or a sale.';
+  String get accountsEmpty => 'Add your first expense or sale.';
 
   @override
   String saleBy(String buyer, String kg) {
@@ -747,7 +749,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get addSpray => 'Add spray';
 
   @override
-  String get spraysEmpty => 'No sprays recorded yet.';
+  String get spraysEmpty => 'Record your first spray here.';
 
   @override
   String get sprayProduct => 'Product name';
@@ -840,8 +842,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get irrigationLitres => 'Water in litres (optional)';
 
   @override
-  String get fieldLogEmpty =>
-      'No entries yet. Add fertiliser or log irrigation.';
+  String get fieldLogEmpty => 'Add your first fertiliser or irrigation entry.';
 
   @override
   String inputLine(String quantity, String unit) {
@@ -881,7 +882,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get labourMarkPaid => 'Mark paid';
 
   @override
-  String get labourEmpty => 'No worker days yet. Add one.';
+  String get labourEmpty => 'Add your first worker day.';
 
   @override
   String get labourTotalDue => 'Total owed to workers';
@@ -907,7 +908,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get harvestSize => 'Size (optional)';
 
   @override
-  String get harvestEmpty => 'No harvest recorded yet. Add a lot.';
+  String get harvestEmpty => 'Record your first harvest lot.';
 
   @override
   String harvestTotal(String kg) {
@@ -945,7 +946,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get compareSame => 'no change';
+  String get compareSame => 'same';
 
   @override
   String get exportShare => 'Share spreadsheet';
@@ -1024,7 +1025,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profilePhoneContactOnly =>
-      'Only so we can contact you. It is not for signing in; you still sign in with Google.';
+      'Only so we can contact you. You sign in with Google, as before.';
 
   @override
   String get profileSaved => 'Saved.';
@@ -1091,7 +1092,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get boundaryFailed =>
-      'Could not get your location. Try again outside.';
+      'Please try again in an open place to get your location.';
 
   @override
   String boundaryMarked(int count) {
@@ -1105,7 +1106,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get loginTryWithout => 'Try without account';
+  String get loginTryWithout => 'Try the app first';
 
   @override
   String get localModeBanner =>
@@ -1157,7 +1158,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get walkthroughRecordsBody =>
-      'Note sprays, expenses, labour and sales, and see your accounts. Works without internet; records are sent when the network is back.';
+      'Note sprays, expenses, labour and sales, and see your accounts. Works offline too; records are sent when the network is back.';
 
   @override
   String get settingsShowWalkthrough => 'See the app introduction again';
@@ -1181,7 +1182,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get seedOrchardDone => 'Sample orchard added';
 
   @override
-  String get voiceUnavailable => 'Voice input is not available on this phone';
+  String get voiceUnavailable =>
+      'Please type here; voice typing works on phones that support it';
 
   @override
   String get voiceListening => 'Listening… tap to stop';
@@ -1211,7 +1213,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pickDate => 'Pick a date';
 
   @override
-  String get tasksEmpty => 'No tasks yet. Add one with the + button.';
+  String get tasksEmpty => 'Add your first task with the + button.';
 
   @override
   String get tasksOverdue => 'Overdue';
@@ -1226,7 +1228,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tasksDone => 'Done';
 
   @override
-  String get noTasksToday => 'Nothing due today';
+  String get noTasksToday => 'Today is clear';
 
   @override
   String get taskOverdue => 'Overdue';
@@ -1243,7 +1245,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get plotOpenRecords => 'Bahar, sprays and accounts';
 
   @override
-  String get plotBoundaryNone => 'Boundary not marked yet';
+  String get plotBoundaryNone => 'Mark the boundary';
 
   @override
   String get plotCentre => 'Centre point';
@@ -1256,7 +1258,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Your bahar dates and tasks for the next twelve months, from what you entered.';
 
   @override
-  String get calendarMonthEmpty => 'Nothing dated this month.';
+  String get calendarMonthEmpty => 'This month is clear.';
 
   @override
   String get calendarStagePlanned => 'planned';
@@ -1280,7 +1282,8 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get baharCompareNoLast => 'No bahar recorded on this block yet.';
+  String get baharCompareNoLast =>
+      'Record this block\'s first bahar to see it here.';
 
   @override
   String baharCompareSource(String source) {
@@ -1289,7 +1292,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get baharCompareNoPoints =>
-      'No checked information for this bahar yet.';
+      'Checked information for this bahar appears here once it is ready.';
 
   @override
   String get baharCompareUse => 'Use this bahar';
@@ -1304,11 +1307,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get weatherStale =>
-      'Weather could not be updated; showing the last saved days.';
+      'Showing the last saved days; the weather updates on the next successful load.';
 
   @override
-  String get weatherNone =>
-      'No weather yet. It loads when the phone is online.';
+  String get weatherNone => 'Weather loads when the phone is online.';
 
   @override
   String weatherRain(String mm) {
@@ -1329,7 +1331,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get labelInfoEmpty =>
-      'No registered label information is available yet.';
+      'Registered label information appears here once it is available.';
 
   @override
   String labelInfoUpdated(String date) {
@@ -1405,16 +1407,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String marketStale(String reason) {
-    return 'Prices could not be updated: $reason';
+    return 'Showing the last saved prices: $reason';
   }
 
   @override
   String get marketStaleNoReason =>
-      'Prices could not be updated; showing the last saved list.';
+      'Showing the last saved list; prices update on the next successful load.';
 
   @override
   String get marketEmpty =>
-      'No prices yet. They load when the phone is online and the price source is connected.';
+      'Prices load when the phone is online and the price source is connected.';
 
   @override
   String get practicesOpen => 'Orchard practices (non-chemical)';
@@ -1440,7 +1442,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get practicesEvidenceInferred => 'Inferred';
 
   @override
-  String get practicesGapsTitle => 'No non-chemical practice found yet';
+  String get practicesGapsTitle =>
+      'A non-chemical practice is still to be found for these';
 
   @override
   String get practicesSourcesLine =>
@@ -1454,7 +1457,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get scoutingEmpty =>
-      'No scouting recorded yet. Note what you saw on this plot.';
+      'Record your first scouting: note what you saw on this plot.';
 
   @override
   String get scoutingDate => 'Date';
@@ -1484,7 +1487,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get scoutingRemovePhoto => 'Remove photo';
 
   @override
-  String get scoutingPhotoFailed => 'Could not get the photo. Try again.';
+  String get scoutingPhotoFailed => 'Please take the photo again.';
 
   @override
   String get scoutingPickOne => 'Choose one';
@@ -1511,7 +1514,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get scoutingItemOther => 'Other';
 
   @override
-  String get scoutingSeverityNone => 'Not seen';
+  String get scoutingSeverityNone => 'Zero';
 
   @override
   String get scoutingSeverityLow => 'Low';
@@ -1545,17 +1548,17 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get irrigationNoPlantingYear =>
-      'Planting year not entered for this block. Choose the tree age.';
+      'Choose the tree age, or add the planting year to this block.';
 
   @override
   String get irrigationNoRows =>
-      'No figure in the sources for this tree age yet.';
+      'A figure for this tree age is still to be found in the sources.';
 
   @override
   String get irrigationStagesTitle => 'Flowering, fruit and bahar rest';
 
   @override
-  String get irrigationGapsTitle => 'Not found in the sources yet';
+  String get irrigationGapsTitle => 'Still to be found in the sources';
 
   @override
   String get irrigationSourcesLine =>
@@ -1591,7 +1594,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get feedBadgeNews => 'News — not official';
+  String get feedBadgeNews => 'News — check the official source';
 
   @override
   String feedReplacedBy(String replacement) {
@@ -1600,7 +1603,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String feedExpired(String date) {
-    return 'No longer valid (ended $date)';
+    return 'Ended on $date';
   }
 
   @override
@@ -1622,8 +1625,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get feedEmpty =>
-      'No messages yet. They load when the phone is online.';
+  String get feedEmpty => 'Messages load when the phone is online.';
 
   @override
   String get feedRemindMe => 'Remind me';
@@ -1651,7 +1653,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get feedNotFound => 'This message is no longer in the saved list.';
+  String get feedNotFound => 'This message was removed from the saved list.';
 
   @override
   String get feedUnseen => 'New';
@@ -1666,7 +1668,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get feedPrefsTitle => 'Alert settings';
 
   @override
-  String get feedPrefsQuietTitle => 'Quiet hours (no alerts)';
+  String get feedPrefsQuietTitle => 'Quiet hours (alerts stay silent)';
 
   @override
   String get feedPrefsQuietStart => 'From';
@@ -1710,11 +1712,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get feedPrefsSaved => 'Settings saved.';
 
   @override
-  String get feedPrefsSaveFailed => 'Could not save. Try again when online.';
+  String get feedPrefsSaveFailed => 'Please save again when online.';
 
   @override
   String get feedPrefsOffline =>
-      'You are offline. These are your last saved settings. Saving needs internet.';
+      'These are your last saved settings. Connect to the internet to save changes.';
 
   @override
   String get feedCheckTitle => 'Check a message';
@@ -1736,7 +1738,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get feedCheckPrivacy => 'The text is not saved on your phone.';
 
   @override
-  String get feedCheckFailed => 'Could not check. This needs internet.';
+  String get feedCheckFailed =>
+      'Checking needs internet; please try again when online.';
 
   @override
   String get feedCheckOfficial => 'Official GR found';
@@ -1758,7 +1761,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get speakUnavailable =>
-      'This phone has no voice for this language yet.';
+      'Reading aloud needs a voice for this language on this phone.';
 
   @override
   String shareSentFrom(String app) {
@@ -1802,15 +1805,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get accountSwitchContinue => 'Continue';
 
   @override
-  String get accountBlockedTitle => 'Unsent records on this phone';
+  String get accountBlockedTitle => 'Records waiting to send on this phone';
 
   @override
   String accountBlockedBody(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count records of the previous account are not sent yet.',
-      one: '1 record of the previous account is not sent yet.',
+      other:
+          '$count records of the previous account are still waiting to send.',
+      one: '1 record of the previous account is still waiting to send.',
     );
     return '$_temp0 Sign in again with that account and open the app with internet on so they are sent. Then sign in with this account.';
   }
@@ -1825,10 +1829,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get insuranceEmpty =>
-      'No policy recorded for this plot yet. Add the crop insurance you took, or open the claim kit after a loss.';
+      'Add the crop insurance you took for this plot, or open the claim kit after a loss.';
 
   @override
-  String get insurancePoliciesNone => 'No policy recorded yet.';
+  String get insurancePoliciesNone => 'Add your first policy.';
 
   @override
   String get insuranceAdd => 'Add policy';
@@ -1849,7 +1853,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get insuranceSchemeOther => 'Other';
 
   @override
-  String get insuranceSchemeUnknown => 'Don\'t know';
+  String get insuranceSchemeUnknown => 'To check';
 
   @override
   String get insuranceSeason => 'Bahar';
@@ -1883,7 +1887,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get insuranceEnrolledOn => 'Enrolment date';
 
   @override
-  String get insuranceNotSet => 'Not set';
+  String get insuranceNotSet => 'To add';
 
   @override
   String get insuranceNote => 'Note (optional)';
@@ -1950,10 +1954,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get claimKitPhotos => 'Loss photos (date and GPS are added)';
 
   @override
-  String get claimKitNoPhotos => 'No photos yet.';
+  String get claimKitNoPhotos => 'Take loss photos; they appear here.';
 
   @override
-  String get claimKitNoGps => 'GPS not available';
+  String get claimKitNoGps => 'GPS unavailable';
 
   @override
   String get claimKitRemovePhoto => 'Remove photo';
@@ -1990,13 +1994,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get claimCheckKeepFruit =>
-      'Do not clear the damaged fruit or trees before the survey, unless you are told otherwise.';
+      'Keep the damaged fruit and trees as they are until the survey, unless you are told otherwise.';
 
   @override
   String get claimKitShare => 'Share PDF';
 
   @override
-  String get claimKitShareFailed => 'Could not make the PDF. Try again.';
+  String get claimKitShareFailed => 'Please try making the PDF again.';
 
   @override
   String get claimKitDelete => 'Delete loss record';
@@ -2016,7 +2020,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get claimPdfPlotGps => 'Plot location (GPS)';
 
   @override
-  String get claimPdfNoGps => 'Not marked';
+  String get claimPdfNoGps => 'To be marked';
 
   @override
   String get claimPdfPolicy => 'Insurance';
@@ -2031,7 +2035,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get claimPdfDone => 'Done';
 
   @override
-  String get claimPdfNotDone => 'Not yet';
+  String get claimPdfNotDone => 'Pending';
 
   @override
   String claimPdfMade(String date) {
@@ -2264,7 +2268,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get lookalikesIntro =>
-      'Many orchard problems look alike. These cards help you describe what you see; they do not tell you what it is.';
+      'Many orchard problems look alike. These cards help you describe what you see; a lab or an expert tells you what it is.';
 
   @override
   String get lookalikesSee => 'What you may see';
@@ -2277,7 +2281,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get lookalikesCheckLine =>
-      'Not sure? Do not guess. Take a photo, log it in scouting and get it checked by a lab or an expert.';
+      'Want to be sure? Take a photo, log it in scouting and get it checked by a lab or an expert before you decide.';
 
   @override
   String get lookalikesLogThis => 'Log this in scouting';
@@ -2289,10 +2293,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get lookalikesSources => 'Sources';
 
   @override
-  String get lookalikesDraft => 'Draft: a source is not yet checked';
+  String get lookalikesDraft => 'Draft: a source is still to be checked';
 
   @override
-  String get lookalikesEmpty => 'No cards yet.';
+  String get lookalikesEmpty => 'Cards appear here.';
 
   @override
   String get labsTitle => 'Labs and experts';
@@ -2310,7 +2314,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get directoryAll => 'All';
 
   @override
-  String get directoryUnverified => 'Not yet checked on an official page';
+  String get directoryUnverified => 'Please confirm on the official page';
 
   @override
   String get directoryCopyNumber => 'Copy number';
@@ -2346,7 +2350,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Details are copied from official pages on the date shown. Call or visit the page to confirm before you travel.';
 
   @override
-  String get directoryEmpty => 'Nothing listed yet.';
+  String get directoryEmpty => 'Entries appear here.';
 
   @override
   String get directoryKindResearch => 'Research institute';

@@ -81,7 +81,7 @@ void main() {
       ],
     );
     await settle(tester);
-    expect(find.text('No photos yet.'), findsOne);
+    expect(find.text('Take loss photos; they appear here.'), findsOne);
     expect(find.byKey(const Key('claim-check-policy')), findsOne);
     await tester.tap(find.byKey(const Key('claim-camera')));
     await settle(tester);
@@ -140,7 +140,7 @@ void main() {
     await settle(tester);
     await tester.tap(find.byKey(const Key('claim-gallery')));
     await settle(tester);
-    expect(find.textContaining('GPS not available'), findsOne);
+    expect(find.textContaining('GPS unavailable'), findsOne);
     await tester.tap(find.byKey(const Key('claim-save')));
     await settle(tester);
     expect(find.text('Pick a plot'), findsOne);

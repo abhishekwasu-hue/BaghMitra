@@ -110,10 +110,7 @@ void main() {
       locale: const Locale('en'),
       initialLocation: '/tasks',
     );
-    expect(
-      find.text('No tasks yet. Add one with the + button.'),
-      findsOneWidget,
-    );
+    expect(find.text('Add your first task with the + button.'), findsOneWidget);
 
     await tester.tap(find.byKey(const Key('add-task')));
     await tester.pumpAndSettle();
@@ -134,10 +131,7 @@ void main() {
 
     await tester.drag(find.text('Check drip'), const Offset(-600, 0));
     await tester.pumpAndSettle();
-    expect(
-      find.text('No tasks yet. Add one with the + button.'),
-      findsOneWidget,
-    );
+    expect(find.text('Add your first task with the + button.'), findsOneWidget);
     await unmountApp(tester);
   });
 

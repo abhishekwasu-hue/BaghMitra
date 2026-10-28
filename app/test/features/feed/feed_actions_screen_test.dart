@@ -258,7 +258,10 @@ void main() {
     await _pump(tester, FakeFeedRepository(null), location: '/feed-settings');
     // Never loaded: the server defaults.
     expect(find.byKey(const Key('feed-prefs-offline')), findsOneWidget);
-    expect(find.textContaining('Saving needs internet'), findsOneWidget);
+    expect(
+      find.textContaining('Connect to the internet to save changes'),
+      findsOneWidget,
+    );
     expect(find.text('9:00 PM'), findsOneWidget);
     expect(find.text('At most 3 alerts a week'), findsOneWidget);
     final save = find.byKey(const Key('feed-prefs-save'));
@@ -299,7 +302,7 @@ void main() {
     await tester.ensureVisible(save);
     await tester.tap(save);
     await settle(tester);
-    expect(find.text('Could not save. Try again when online.'), findsOneWidget);
+    expect(find.text('Please save again when online.'), findsOneWidget);
     expect(repo.savedPrefs, isEmpty);
     await unmountApp(tester);
   });
@@ -423,7 +426,10 @@ void main() {
     await tester.tap(find.byKey(const Key('feed-check-go')));
     await settle(tester);
     expect(find.byKey(const Key('feed-check-failed')), findsOneWidget);
-    expect(find.text('Could not check. This needs internet.'), findsOneWidget);
+    expect(
+      find.text('Checking needs internet; please try again when online.'),
+      findsOneWidget,
+    );
     await unmountApp(tester);
   });
 
