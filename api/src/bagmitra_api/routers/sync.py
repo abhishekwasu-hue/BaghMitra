@@ -34,6 +34,10 @@ async def push(
 
 @router.get("/pull", operation_id="sync_pull")
 async def pull(
-    user: CurrentUser, session: DbSession, since: Annotated[int, Query(ge=0)] = 0
+    user: CurrentUser,
+    session: DbSession,
+    settings: Annotated[Settings, Depends(get_settings)],
+    since: Annotated[int, Query(ge=0)] = 0,
 ) -> PullResponse:
-    return await service.pull(session, user, since)
+    # At most `sync_pull_page_size` changes; the phone pulls again from `cursor` until empty.
+    return await service.pull(session, user, since, settings.sync_pull_page_size)

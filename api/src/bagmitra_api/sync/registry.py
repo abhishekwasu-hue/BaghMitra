@@ -99,8 +99,17 @@ class EntityHandler(Protocol):
     ) -> None: ...
 
     async def changed_since(
-        self, session: AsyncSession, user: AuthenticatedUser, since: int
-    ) -> list[RowChange]: ...
+        self, session: AsyncSession, user: AuthenticatedUser, since: int, limit: int
+    ) -> list[RowChange]:
+        """At most `limit` rows with `last_seq > since`, lowest seq first."""
+        ...
+
+    async def resend(
+        self, session: AsyncSession, user: AuthenticatedUser, entity_id: str, seq: int
+    ) -> None:
+        """Move the stored row to `seq` so the next pull carries it again (after a stale
+        write the phone holds a version the server did not keep)."""
+        ...
 
 
 @dataclass(frozen=True)
@@ -157,8 +166,19 @@ class FarmerProfileHandler:
         farmer.client_updated_at = write.client_updated_at
         farmer.last_seq = write.seq
 
+    async def resend(
+        self, session: AsyncSession, user: AuthenticatedUser, entity_id: str, seq: int
+    ) -> None:
+        farmer = await session.get(Farmer, self._own_id(user, entity_id))
+        if farmer is not None:
+            farmer.last_seq = seq
+
     async def changed_since(
-        self, session: AsyncSession, user: AuthenticatedUser, since: int
+        self,
+        session: AsyncSession,
+        user: AuthenticatedUser,
+        since: int,
+        limit: int,  # noqa: ARG002 - one row at most
     ) -> list[RowChange]:
         rows = await session.scalars(
             select(Farmer).where(Farmer.id == user.id, Farmer.last_seq > since)
@@ -240,11 +260,21 @@ class OwnedEntityHandler:
         row.client_updated_at = write.client_updated_at
         row.last_seq = write.seq
 
+    async def resend(
+        self, session: AsyncSession, user: AuthenticatedUser, entity_id: str, seq: int
+    ) -> None:
+        row = await self._row(session, user, entity_id)
+        if row is not None:
+            row.last_seq = seq
+
     async def changed_since(
-        self, session: AsyncSession, user: AuthenticatedUser, since: int
+        self, session: AsyncSession, user: AuthenticatedUser, since: int, limit: int
     ) -> list[RowChange]:
         rows = await session.scalars(
-            select(self.model).where(self.model.owner_id == user.id, self.model.last_seq > since)
+            select(self.model)
+            .where(self.model.owner_id == user.id, self.model.last_seq > since)
+            .order_by(self.model.last_seq)
+            .limit(limit)
         )
         fields = list(self.payload_model.model_fields)
         return [
