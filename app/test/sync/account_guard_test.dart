@@ -1,3 +1,5 @@
+import 'dart:io';
+
 // Q36: one phone, two accounts. The phone remembers whose records it holds; another account
 // gets a warning, is blocked while the first account still has unsent writes, and otherwise
 // starts from a clean phone and a fresh pull.
@@ -92,6 +94,42 @@ void main() {
     expect(await db.select(db.plots).get(), hasLength(1));
     expect(await db.readMeta(AccountGuard.ownerKey), 'u1');
     expect(await db.readMeta(SyncEngine.cursorKey), '42');
+  });
+
+  test('a switch deletes the previous account\'s photo files', () async {
+    final docs = await Directory.systemTemp.createTemp('bm_docs');
+    addTearDown(() => docs.delete(recursive: true));
+    final photos = Directory('${docs.path}/scouting_photos')..createSync();
+    final claims = Directory('${docs.path}/claim_photos')..createSync();
+    File('${photos.path}/r1.jpg').writeAsStringSync('x');
+    File('${claims.path}/c1.jpg').writeAsStringSync('x');
+    final keep = File('${docs.path}/other.txt')..writeAsStringSync('x');
+    await seedFirstAccount(db, sent: true);
+
+    await AccountGuard(
+      db,
+      deletePhotos: AccountGuard.photoFolderDeleter(() async => docs),
+    ).switchTo(second);
+
+    expect(photos.existsSync(), isFalse);
+    expect(claims.existsSync(), isFalse);
+    expect(keep.existsSync(), isTrue, reason: 'only the photo folders go');
+  });
+
+  test('a blocked switch keeps the photo files', () async {
+    final docs = await Directory.systemTemp.createTemp('bm_docs');
+    addTearDown(() => docs.delete(recursive: true));
+    final photos = Directory('${docs.path}/scouting_photos')..createSync();
+    await seedFirstAccount(db, sent: false);
+
+    await expectLater(
+      AccountGuard(
+        db,
+        deletePhotos: AccountGuard.photoFolderDeleter(() async => docs),
+      ).switchTo(second),
+      throwsStateError,
+    );
+    expect(photos.existsSync(), isTrue);
   });
 
   group('sign-in on the phone', () {
