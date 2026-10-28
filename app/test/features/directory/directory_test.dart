@@ -228,7 +228,7 @@ void main() {
       expect(
         find.descendant(
           of: kalamna,
-          matching: find.text('Not yet checked on an official page'),
+          matching: find.text('Please confirm on the official page'),
         ),
         findsOneWidget,
       );

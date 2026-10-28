@@ -99,7 +99,10 @@ void main() {
       LocationProblem.deniedForever,
       "Location is blocked. Allow it in the phone's app settings.",
     ),
-    (LocationProblem.failed, 'Could not get your location. Try again outside.'),
+    (
+      LocationProblem.failed,
+      'Please try again in an open place to get your location.',
+    ),
   ]) {
     testWidgets(
       'a location problem ($problem) is explained, nothing is added',

@@ -228,7 +228,10 @@ void main() {
       seed: seedPlot,
     );
     await settle(tester);
-    expect(find.textContaining('No policy recorded for this plot'), findsOne);
+    expect(
+      find.textContaining('Add the crop insurance you took for this plot'),
+      findsOne,
+    );
     expect(find.textContaining('Enrolment deadline'), findsNothing);
     await unmountApp(tester);
   });

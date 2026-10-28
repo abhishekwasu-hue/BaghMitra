@@ -295,8 +295,8 @@
           "id": 11,
           "labels": {
             "en": "Train to a single stem with 4–6 well-spaced main branches; keep the trunk clear of branches up to about 45–50 cm. (Sources differ slightly.)",
-            "mr": "एक खोड ठेवून ४–६ चांगल्या पसरलेल्या फांद्या ठेवा; खोडावर ४५–५० सें.मी. पर्यंत फांदी ठेवू नका.",
-            "hi": "एक तना रखकर 4–6 अच्छी तरह फैली मुख्य शाखाएँ रखें; तने पर लगभग 45–50 सें.मी. तक कोई शाखा न रखें। (स्रोतों में थोड़ा अंतर है।)"
+            "mr": "एक खोड ठेवून ४–६ चांगल्या पसरलेल्या फांद्या ठेवा; खोड सुमारे ४५–५० सें.मी. उंचीपर्यंत फांद्यांपासून मोकळे ठेवा. (स्रोतांमध्ये थोडा फरक आहे.)",
+            "hi": "एक तना रखकर 4–6 अच्छी तरह फैली मुख्य शाखाएँ रखें; तने को लगभग 45–50 सें.मी. तक शाखाओं से खाली रखें। (स्रोतों में थोड़ा अंतर है।)"
           },
           "source": "N1 §5.8 (50 cm); C05 \"Training and Pruning\" (45 cm)",
           "source_keys": [
@@ -325,9 +325,9 @@
         {
           "id": 13,
           "labels": {
-            "en": "Support heavily loaded branches with a bamboo frame and rope so they do not break.",
+            "en": "Support heavily loaded branches with a bamboo frame and rope to keep them from breaking.",
             "mr": "फळांनी लदबदलेल्या फांद्या बांबूच्या चौकटीला दोरीने बांधा.",
-            "hi": "फलों से लदी भारी शाखाओं को बाँस के ढाँचे और रस्सी से सहारा दें ताकि वे टूटें नहीं।"
+            "hi": "फलों से लदी भारी शाखाओं को बाँस के ढाँचे और रस्सी से सहारा दें ताकि वे टूटने से बचें।"
           },
           "source": "C05 \"Training and Pruning\"",
           "source_keys": [
@@ -426,7 +426,7 @@
           "id": 19,
           "labels": {
             "en": "Choose a site with good drainage; dig a drainage channel between rows (source size about 60 cm wide x 30 cm deep).",
-            "mr": "बागेत पाणी साचू देऊ नका; दोन ओळींमध्ये निचऱ्यासाठी चर खणा.",
+            "mr": "चांगला निचरा होणारी जागा निवडा; दोन ओळींमध्ये निचऱ्यासाठी चर खणा (स्रोतात सुमारे ६० सें.मी. रुंद x ३० सें.मी. खोल).",
             "hi": "अच्छी जल-निकासी वाली जगह चुनें; कतारों के बीच निकासी की नाली खोदें (स्रोत में लगभग 60 सें.मी. चौड़ी x 30 सें.मी. गहरी)।"
           },
           "source": "C02 \"Foot Rot or Gummosis\"; P1 \"Transfer of Technology\"; R25 p.14 #57 (drainage is the biggest gap)",
@@ -443,9 +443,9 @@
         {
           "id": 20,
           "labels": {
-            "en": "Use ring (double-ring) irrigation so water does not touch the trunk.",
-            "mr": "खोडाला पाणी लागू नये म्हणून आळ्याऐवजी खोडापासून दूर गोल (रिंग) पद्धतीने पाणी द्या.",
-            "hi": "रिंग (दोहरी रिंग) सिंचाई करें ताकि पानी तने को न छुए।"
+            "en": "Use ring (double-ring) irrigation so water stays away from the trunk.",
+            "mr": "खोडापासून पाणी दूर राहावे म्हणून आळ्याऐवजी खोडापासून दूर गोल (रिंग) पद्धतीने पाणी द्या.",
+            "hi": "रिंग (दोहरी रिंग) सिंचाई करें ताकि पानी तने से दूर रहे।"
           },
           "source": "C02 \"Foot Rot or Gummosis\"",
           "source_keys": [
@@ -532,8 +532,8 @@
           "id": 25,
           "labels": {
             "en": "Conserve natural enemies: coccinellid (ladybird) beetles feed on psylla nymphs.",
-            "mr": "लेडीबर्ड (ढालकीडा) सिट्रस सायलाची पिल्ले खातो; त्यांना मारू नका.",
-            "hi": "मित्र कीटों को बचाएँ: लेडीबर्ड भृंग सिट्रस सिल्ला के शिशु खाते हैं; उन्हें न मारें।"
+            "mr": "मित्रकीटकांचे जतन करा: लेडीबर्ड (ढालकीडा) सिट्रस सायलाची पिल्ले खातो.",
+            "hi": "मित्र कीटों को बचाएँ: लेडीबर्ड भृंग सिट्रस सिल्ला के शिशु खाते हैं।"
           },
           "source": "C08 \"Citrus Psylla\"",
           "source_keys": [
@@ -934,9 +934,9 @@
         {
           "id": 48,
           "labels": {
-            "en": "Do not let the tree run short of water just before flowering and after fruit set; a shortage then sheds flowers and young fruit.",
-            "mr": "फुलोऱ्याआधी आणि फळधारणेनंतर पाण्याचा ताण पडू देऊ नका, नाहीतर फूल-फळगळ होते.",
-            "hi": "फूल आने से ठीक पहले और फल बनने के बाद पेड़ को पानी की कमी न होने दें; तब कमी से फूल और छोटे फल झड़ते हैं।"
+            "en": "Give the tree enough water just before flowering and after fruit set; a shortage then sheds flowers and young fruit.",
+            "mr": "फुलोऱ्याआधी आणि फळधारणेनंतर झाडाला पुरेसे पाणी द्या; त्या वेळी ताण पडल्यास फूल-फळगळ होते.",
+            "hi": "फूल आने से ठीक पहले और फल बनने के बाद पेड़ को पर्याप्त पानी दें; तब कमी से फूल और छोटे फल झड़ते हैं।"
           },
           "source": "C06",
           "source_keys": [
@@ -965,7 +965,7 @@
           "id": 50,
           "labels": {
             "en": "Fruit splitting: give frequent light irrigations in hot, dry spells and pick fruit soon after maturity.",
-            "mr": "फळ तडकू नये म्हणून कडक उन्हात थोडे-थोडे पण वारंवार पाणी द्या आणि फळे पक्व होताच तोडा.",
+            "mr": "फळ तडकणे टाळण्यासाठी कडक उन्हात थोडे-थोडे पण वारंवार पाणी द्या आणि फळे पक्व होताच तोडा.",
             "hi": "फल फटना: गर्म, सूखे दौर में बार-बार हल्की सिंचाई करें और पकते ही फल तोड़ें।"
           },
           "source": "C03 \"Fruit Splitting\"",
@@ -1004,9 +1004,9 @@
         {
           "id": 52,
           "labels": {
-            "en": "Do not expose roots in light, sandy or shallow soils; withholding water for 2–3 weeks is enough there.",
-            "mr": "हलक्या, उथळ जमिनीत मुळे उघडी करू नका; २–३ आठवडे पाणी तोडणे पुरेसे.",
-            "hi": "हल्की, रेतीली या उथली मिट्टी में जड़ें न खोलें; वहाँ 2–3 सप्ताह पानी रोकना काफ़ी है।"
+            "en": "Keep roots covered in light, sandy or shallow soils; withholding water for 2–3 weeks is enough there.",
+            "mr": "हलक्या, उथळ जमिनीत मुळे झाकलेलीच ठेवा; २–३ आठवडे पाणी तोडणे पुरेसे.",
+            "hi": "हल्की, रेतीली या उथली मिट्टी में जड़ें ढकी रहने दें; वहाँ 2–3 सप्ताह पानी रोकना काफ़ी है।"
           },
           "source": "N1 §5.13",
           "source_keys": [
@@ -1102,8 +1102,8 @@
           "id": 58,
           "labels": {
             "en": "Water at fruit maturity too, to avoid fruit shrinkage and dry pulp; mild late stress raises TSS but reduces size.",
-            "mr": "फळ पक्व होताना पाणी तोडू नका, नाहीतर फळ आकसते व रस सुकतो.",
-            "hi": "फल पकते समय भी पानी दें, ताकि फल सिकुड़े नहीं और गूदा सूखे नहीं; देर से हल्का तनाव TSS बढ़ाता है पर आकार घटाता है।"
+            "mr": "फळ पक्व होतानाही पाणी द्या, म्हणजे फळ भरलेले व रसदार राहते; शेवटी थोडा ताण दिल्यास गोडी (TSS) वाढते पण आकार घटतो.",
+            "hi": "फल पकते समय भी पानी दें, ताकि फल भरा और गूदा रसीला रहे; देर से हल्का तनाव TSS बढ़ाता है पर आकार घटाता है।"
           },
           "source": "C06",
           "source_keys": [
@@ -1233,9 +1233,9 @@
         {
           "id": 65,
           "labels": {
-            "en": "Cut fruit with clippers or secateurs, leaving a little stalk; never pull by hand; do not harvest in wet weather.",
-            "mr": "फळे कात्रीने देठासह तोडा, हाताने ओढू नका; पावसात किंवा ओल्या हवामानात तोडणी करू नका.",
-            "hi": "फल कैंची या सिकेटियर से थोड़ा डंठल छोड़कर काटें; हाथ से कभी न खींचें; गीले मौसम में तुड़ाई न करें।"
+            "en": "Always cut fruit with clippers or secateurs, leaving a little stalk, and harvest only in dry weather.",
+            "mr": "फळे नेहमी कात्रीने देठासह कापून तोडा, आणि तोडणी फक्त कोरड्या हवामानात करा.",
+            "hi": "फल हमेशा कैंची या सिकेटियर से थोड़ा डंठल छोड़कर काटें, और तुड़ाई सिर्फ़ सूखे मौसम में करें।"
           },
           "source": "C04; N1 §5.15",
           "source_keys": [
@@ -1341,9 +1341,9 @@
       "hi": "माहू (ट्रिस्टेज़ा वाहक), थ्रिप्स, मिलीबग: केवल रासायनिक उपाय (C08); N1 में केवल नाम हैं।"
     },
     {
-      "en": "Psylla, direct control: only natural-enemy conservation and sticky traps; no threshold or scouting count given.",
-      "mr": "सायलाचे थेट नियंत्रण: फक्त मित्रकीटकांचे जतन आणि चिकट सापळे; आर्थिक नुकसान पातळी किंवा पाहणीची संख्या दिलेली नाही.",
-      "hi": "सिल्ला का सीधा नियंत्रण: केवल मित्र कीटों का संरक्षण और चिपचिपे ट्रैप; कोई सीमा-स्तर या निगरानी गिनती नहीं दी गई।"
+      "en": "Psylla, direct control: only natural-enemy conservation and sticky traps; a threshold and scouting count are still to be found.",
+      "mr": "सायलाचे थेट नियंत्रण: फक्त मित्रकीटकांचे जतन आणि चिकट सापळे; आर्थिक नुकसान पातळी व पाहणीची संख्या अजून शोधायची आहे.",
+      "hi": "सिल्ला का सीधा नियंत्रण: केवल मित्र कीटों का संरक्षण और चिपचिपे ट्रैप; सीमा-स्तर और निगरानी गिनती अभी खोजनी बाकी है।"
     },
     {
       "en": "Leaf miner beyond winter pruning: remaining items are chemical or botanical products (excluded).",
@@ -1366,14 +1366,14 @@
       "hi": "कैंकर का जैविक विकल्प: P1 में गेंदे (Tagetes) की पत्ती के अर्क का कैंकर जीवाणु पर प्रयोगशाला में असर दर्ज है; यह प्रयोगशाला का निष्कर्ष है, खेत का उपाय नहीं।"
     },
     {
-      "en": "Mosambi-specific IPM: apart from UV-C post-harvest (R23 #45), sweet-orange maturity signs (C04), spacing (C10) and the CTV note (P1), nothing in the fetched sources was specific to mosambi.",
-      "mr": "मोसंबीसाठी खास IPM: तोडणीनंतरचे यूव्ही-सी (R23 #45), मोसंबी पक्वतेची लक्षणे (C04), अंतर (C10) आणि CTV नोंद (P1) याशिवाय स्रोतांमध्ये मोसंबीसाठी खास काही नाही.",
-      "hi": "मोसंबी के लिए विशेष IPM: तुड़ाई के बाद यूवी-सी (R23 #45), मोसंबी पकने के संकेत (C04), दूरी (C10) और CTV टिप्पणी (P1) के अलावा स्रोतों में मोसंबी के लिए विशेष कुछ नहीं मिला।"
+      "en": "Mosambi-specific IPM: apart from UV-C post-harvest (R23 #45), sweet-orange maturity signs (C04), spacing (C10) and the CTV note (P1), more mosambi-specific items are still to be found.",
+      "mr": "मोसंबीसाठी खास IPM: तोडणीनंतरचे यूव्ही-सी (R23 #45), मोसंबी पक्वतेची लक्षणे (C04), अंतर (C10) आणि CTV नोंद (P1) याशिवाय मोसंबीसाठी खास माहिती अजून शोधायची आहे.",
+      "hi": "मोसंबी के लिए विशेष IPM: तुड़ाई के बाद यूवी-सी (R23 #45), मोसंबी पकने के संकेत (C04), दूरी (C10) और CTV टिप्पणी (P1) के अलावा मोसंबी के लिए विशेष जानकारी अभी खोजनी बाकी है।"
     },
     {
-      "en": "Economic thresholds / scouting protocols for any citrus pest: none found.",
-      "mr": "कोणत्याही लिंबूवर्गीय किडीसाठी आर्थिक नुकसान पातळी / पाहणी पद्धत: आढळली नाही.",
-      "hi": "किसी भी नींबूवर्गीय कीट के लिए आर्थिक सीमा-स्तर / निगरानी पद्धति: नहीं मिली।"
+      "en": "Economic thresholds / scouting protocols for any citrus pest: still to be found.",
+      "mr": "कोणत्याही लिंबूवर्गीय किडीसाठी आर्थिक नुकसान पातळी / पाहणी पद्धत: अजून शोधायची आहे.",
+      "hi": "किसी भी नींबूवर्गीय कीट के लिए आर्थिक सीमा-स्तर / निगरानी पद्धति: अभी खोजनी बाकी।"
     },
     {
       "en": "Nutrition as practice: organic/bio-input packages exist (R14 #20, R16 #24), but all are tied to fertiliser doses and products, so they were excluded.",
@@ -1381,9 +1381,9 @@
       "hi": "पोषण पद्धति: जैविक/जैव-आदान पैकेज मौजूद हैं (R14 #20, R16 #24), पर सभी खाद की मात्रा और उत्पादों से जुड़े हैं, इसलिए शामिल नहीं किए।"
     },
     {
-      "en": "ICAR-CCRI and NIPHM content (monthly advisories, citrus IPM package): not fetched (hosts not reachable); expected to fill several gaps above.",
-      "mr": "ICAR-CCRI व NIPHM ची माहिती (मासिक सल्ला, लिंबूवर्गीय IPM पॅकेज): मिळवता आली नाही (संकेतस्थळ उपलब्ध नव्हते); वरील अनेक उणिवा त्यातून भरून निघतील अशी अपेक्षा.",
-      "hi": "ICAR-CCRI और NIPHM की सामग्री (मासिक सलाह, नींबूवर्गीय IPM पैकेज): प्राप्त नहीं हुई (साइट उपलब्ध नहीं थी); ऊपर की कई कमियाँ इससे पूरी होने की उम्मीद है।"
+      "en": "ICAR-CCRI and NIPHM content (monthly advisories, citrus IPM package): still to be fetched (the sites were unreachable during research); expected to fill several gaps above.",
+      "mr": "ICAR-CCRI व NIPHM ची माहिती (मासिक सल्ला, लिंबूवर्गीय IPM पॅकेज): अजून मिळवायची आहे (संशोधनाच्या वेळी संकेतस्थळ बंद होते); वरील अनेक उणिवा त्यातून भरून निघतील अशी अपेक्षा.",
+      "hi": "ICAR-CCRI और NIPHM की सामग्री (मासिक सलाह, नींबूवर्गीय IPM पैकेज): अभी प्राप्त करनी है (शोध के समय साइट बंद थी); ऊपर की कई कमियाँ इससे पूरी होने की उम्मीद है।"
     }
   ]
 }

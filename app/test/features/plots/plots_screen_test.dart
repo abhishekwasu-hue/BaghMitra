@@ -53,7 +53,7 @@ void main() {
       initialLocation: '/plots',
     );
     await settle(tester);
-    expect(find.text('No orchard blocks yet'), findsOneWidget);
+    expect(find.text('Add your first orchard block'), findsOneWidget);
     await unmountApp(tester);
   });
 

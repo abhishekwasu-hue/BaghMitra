@@ -63,7 +63,10 @@ void main() {
       seed: seedPlot,
     );
     await settle(tester);
-    expect(find.textContaining('No entries yet'), findsOneWidget);
+    expect(
+      find.textContaining('Add your first fertiliser or irrigation entry'),
+      findsOneWidget,
+    );
     await unmountApp(tester);
   });
 

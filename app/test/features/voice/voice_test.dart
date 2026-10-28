@@ -93,7 +93,9 @@ void main() {
     await tester.pump();
     await tester.pump();
     expect(
-      find.text('Voice input is not available on this phone'),
+      find.text(
+        'Please type here; voice typing works on phones that support it',
+      ),
       findsOneWidget,
     );
     await unmountApp(tester);

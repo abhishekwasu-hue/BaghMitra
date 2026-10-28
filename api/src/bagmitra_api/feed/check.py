@@ -56,11 +56,11 @@ NOTES: dict[str, dict[str, str]] = {
         "पहले आधिकारिक GR में सभी विवरण जाँचें।",
     },
     "possible_match": {
-        "en": "Some details are similar to an official item in BagMitra, but not all of them "
-        "match. Check the official portal before acting.",
-        "mr": "काही तपशील BagMitra मधील अधिकृत नोंदीसारखे आहेत, पण सर्व जुळत नाहीत. कोणतीही "
+        "en": "Some details are similar to an official item in BagMitra, and some differ. "
+        "Check the official portal before acting.",
+        "mr": "काही तपशील BagMitra मधील अधिकृत नोंदीसारखे आहेत, तर काही वेगळे आहेत. कोणतीही "
         "कृती करण्यापूर्वी अधिकृत पोर्टल तपासा.",
-        "hi": "कुछ विवरण BagMitra की एक आधिकारिक जानकारी से मिलते हैं, लेकिन सभी नहीं। कोई भी "
+        "hi": "कुछ विवरण BagMitra की एक आधिकारिक जानकारी से मिलते हैं, और कुछ अलग हैं। कोई भी "
         "कदम उठाने से पहले आधिकारिक पोर्टल देखें।",
     },
     "no_official_match": {

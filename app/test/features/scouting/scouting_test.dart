@@ -230,7 +230,7 @@ void main() {
     await settle(tester);
     expect(find.text('पाहणी नोंद'), findsOneWidget);
     expect(
-      find.text('अजून पाहणी नोंदवलेली नाही. या बागेत काय दिसले ते नोंदवा.'),
+      find.text('पहिली पाहणी नोंदवा: या बागेत काय दिसले ते लिहा.'),
       findsOneWidget,
     );
     await unmountApp(tester);
@@ -347,7 +347,7 @@ void main() {
     await tester.pump();
     await tester.tap(find.text('Camera'));
     await settle(tester);
-    expect(find.text('Could not get the photo. Try again.'), findsOneWidget);
+    expect(find.text('Please take the photo again.'), findsOneWidget);
     expect(find.text('Remove photo'), findsNothing);
     await unmountApp(tester);
   });
@@ -364,14 +364,14 @@ void main() {
     );
     await settle(tester);
     await tester.tap(find.text('Die-back'));
-    await tester.tap(find.text('Not seen'));
+    await tester.tap(find.text('Zero'));
     await tester.ensureVisible(find.text('Camera'));
     await tester.pump();
     await tester.tap(find.text('Camera'));
     await settle(tester);
     await tester.tap(find.text('Save'));
     await settle(tester);
-    expect(find.text('Could not get the photo. Try again.'), findsOneWidget);
+    expect(find.text('Please take the photo again.'), findsOneWidget);
     expect(await tester.runAsync(() => outbox(db)), isEmpty);
     await unmountApp(tester);
   });

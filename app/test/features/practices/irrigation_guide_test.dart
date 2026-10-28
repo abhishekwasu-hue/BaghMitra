@@ -249,9 +249,7 @@ void main() {
     );
     await settle(tester);
     expect(
-      find.text(
-        'Planting year not entered for this block. Choose the tree age.',
-      ),
+      find.text('Choose the tree age, or add the planting year to this block.'),
       findsOneWidget,
     );
     // Young is the default band; mosambi rows only, no santra litres.
@@ -284,7 +282,7 @@ void main() {
     final m1 = find.byKey(const Key('irrigation-m1'));
     await tester.scrollUntilVisible(m1, 300);
     expect(m1, findsOneWidget);
-    final gaps = find.text('Not found in the sources yet');
+    final gaps = find.text('Still to be found in the sources');
     await tester.scrollUntilVisible(gaps, 300);
     expect(gaps, findsOneWidget);
     await unmountApp(tester);
