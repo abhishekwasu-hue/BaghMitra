@@ -32,11 +32,9 @@ Future<ClaimReportContent> claimReportContent(
   String lang,
   ClaimKit kit,
 ) async {
-  final plot = read(plotsProvider)
-      .value
-      ?.where((p) => p.id == kit.plotId)
-      .firstOrNull;
-  final crops = read(cropsProvider).value ?? const [];
+  final plots = await read(plotRepositoryProvider).watchAll().first;
+  final plot = plots.where((p) => p.id == kit.plotId).firstOrNull;
+  final crops = await read(cropsProvider.future);
   final crop = [
     for (final k in crops)
       if (k.slug == plot?.crop) k.label(lang),

@@ -52,8 +52,8 @@ void main() {
       tester,
       initialLocation: '/plots/p1/insurance',
       seed: (db) async {
-        await seedClaim(db);
         await seedPolicy(db);
+        await seedClaim(db); // re-saves the plot with its GPS
       },
     );
     await settle(tester);

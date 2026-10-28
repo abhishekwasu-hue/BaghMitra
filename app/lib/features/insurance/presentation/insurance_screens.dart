@@ -67,8 +67,8 @@ class InsuranceScreen extends ConsumerWidget {
     final c = context.bm;
     final lang = Localizations.localeOf(context).languageCode;
     final today = ref.watch(clockProvider)();
-    final policies =
-        ref.watch(insurancePoliciesProvider(plotId)).value ?? const [];
+    final policiesAsync = ref.watch(insurancePoliciesProvider(plotId));
+    final policies = policiesAsync.value ?? const [];
     final kits = [
       for (final k in ref.watch(claimKitsProvider).value ?? const <ClaimKit>[])
         if (k.plotId == plotId) k,
@@ -122,7 +122,9 @@ class InsuranceScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(title: Text(t.insuranceTitle)),
-      body: empty
+      body: !policiesAsync.hasValue
+          ? LoadingState(label: t.loadingLabel)
+          : empty
           ? EmptyState(glyph: BmGlyph.ledger, message: t.insuranceEmpty)
           : ListView(
               padding: const EdgeInsets.fromLTRB(
@@ -160,7 +162,7 @@ class InsuranceScreen extends ConsumerWidget {
                       ),
                     ),
                   ),
-                section(t.insuranceTitle),
+                section(t.insurancePolicies),
                 if (policies.isEmpty) EmptyNote(t.insurancePoliciesNone),
                 for (final p in policies)
                   tile(

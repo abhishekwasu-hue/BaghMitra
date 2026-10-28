@@ -1747,6 +1747,75 @@ class AppLocalizationsHi extends AppLocalizations {
   String get feedCheckPortal => 'कुछ करने से पहले आधिकारिक पोर्टल जाँचें.';
 
   @override
+  String get shareAction => 'भेजें';
+
+  @override
+  String get speakAction => 'पढ़कर सुनाएँ';
+
+  @override
+  String get speakUnavailable => 'इस फ़ोन पर अभी इस भाषा की आवाज़ नहीं है।';
+
+  @override
+  String shareSentFrom(String app) {
+    return '$app ऐप से भेजा गया';
+  }
+
+  @override
+  String shareSource(String source) {
+    return 'स्रोत: $source';
+  }
+
+  @override
+  String marketShareLine(String market, String price) {
+    return '$market: $price प्रति क्विंटल';
+  }
+
+  @override
+  String taskDueOn(String date) {
+    return 'तारीख: $date';
+  }
+
+  @override
+  String get taskDetails => 'काम की जानकारी';
+
+  @override
+  String tasksTodayShare(String date) {
+    return 'आज के काम ($date)';
+  }
+
+  @override
+  String get loadingLabel => 'लोड हो रहा है';
+
+  @override
+  String get accountSwitchTitle => 'दूसरे खाते के रिकॉर्ड';
+
+  @override
+  String get accountSwitchBody =>
+      'इस फ़ोन पर दूसरे खाते के रिकॉर्ड हैं। आगे बढ़ने पर वे इस फ़ोन से हटा दिए जाएँगे (सर्वर पर सुरक्षित रहेंगे) और आपके रिकॉर्ड डाउनलोड होंगे।';
+
+  @override
+  String get accountSwitchContinue => 'आगे बढ़ें';
+
+  @override
+  String get accountBlockedTitle => 'इस फ़ोन पर बिना भेजे रिकॉर्ड';
+
+  @override
+  String accountBlockedBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'पिछले खाते के $count रिकॉर्ड अभी भेजे नहीं गए हैं।',
+      one: 'पिछले खाते का 1 रिकॉर्ड अभी भेजा नहीं गया है।',
+    );
+    return '$_temp0 उस खाते से फिर से साइन इन करें और इंटरनेट चालू रखकर ऐप खोलें ताकि वे भेजे जाएँ। फिर इस खाते से साइन इन करें।';
+  }
+
+  @override
+  String accountPreviousPhone(String phone) {
+    return 'पिछला खाता: $phone';
+  }
+
+  @override
   String get insuranceTitle => 'फसल बीमा';
 
   @override
@@ -1962,4 +2031,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String claimPdfMade(String date) {
     return '$date को बनाया। किसान का रखा रिकॉर्ड, बीमा कंपनी का दस्तावेज़ नहीं।';
   }
+
+  @override
+  String get insurancePolicies => 'बीमा रिकॉर्ड';
 }

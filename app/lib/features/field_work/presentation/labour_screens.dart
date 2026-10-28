@@ -32,7 +32,8 @@ class LabourScreen extends ConsumerWidget {
     final t = AppLocalizations.of(context);
     final c = context.bm;
     final lang = Localizations.localeOf(context).languageCode;
-    final days = ref.watch(labourProvider(plotId)).value ?? const [];
+    final loaded = ref.watch(labourProvider(plotId));
+    final days = loaded.value ?? const [];
     final tasks = ref.watch(fieldWorkOptionsProvider).value?.tasks;
     final totalDue = days.fold(0, (a, d) => a + d.duePaise);
     String taskLabel(String? slug) => slug == null
@@ -44,7 +45,9 @@ class LabourScreen extends ConsumerWidget {
               slug;
     return Scaffold(
       appBar: AppBar(title: Text(t.labourTitle)),
-      body: days.isEmpty
+      body: loaded.isLoading && !loaded.hasValue
+          ? LoadingState(label: t.loadingLabel)
+          : days.isEmpty
           ? EmptyState(glyph: BmGlyph.ledger, message: t.labourEmpty)
           : ListView(
               padding: const EdgeInsets.fromLTRB(

@@ -24,7 +24,7 @@ final onePixelPng = base64Decode(
 );
 
 final gps = ScriptedLocation([
-  LocationReading.at(const LatLon(21.1458, 79.0882), accuracyM: 8),
+  const LocationReading.at(LatLon(21.1458, 79.0882), accuracyM: 8),
 ]);
 
 Future<void> seedClaim(AppDatabase db) async {
@@ -117,7 +117,9 @@ void main() {
     expect(kit.done, {'panchnama'});
     expect(kit.photos.single.lat, 21.1458);
     // Only the seeded plot is queued: the kit itself never goes to the server.
-    final queued = await tester.runAsync(() => db.select(db.outboxEntries).get());
+    final queued = await tester.runAsync(
+      () => db.select(db.outboxEntries).get(),
+    );
     expect([for (final e in queued!) e.entity], ['plot']);
     await unmountApp(tester);
   });

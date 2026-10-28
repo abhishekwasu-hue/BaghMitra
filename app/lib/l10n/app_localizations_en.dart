@@ -1751,6 +1751,76 @@ class AppLocalizationsEn extends AppLocalizations {
   String get feedCheckPortal => 'Check the official portal before acting.';
 
   @override
+  String get shareAction => 'Share';
+
+  @override
+  String get speakAction => 'Read aloud';
+
+  @override
+  String get speakUnavailable =>
+      'This phone has no voice for this language yet.';
+
+  @override
+  String shareSentFrom(String app) {
+    return 'Shared from the $app app';
+  }
+
+  @override
+  String shareSource(String source) {
+    return 'Source: $source';
+  }
+
+  @override
+  String marketShareLine(String market, String price) {
+    return '$market: $price per quintal';
+  }
+
+  @override
+  String taskDueOn(String date) {
+    return 'Due: $date';
+  }
+
+  @override
+  String get taskDetails => 'Task details';
+
+  @override
+  String tasksTodayShare(String date) {
+    return 'Today\'s tasks ($date)';
+  }
+
+  @override
+  String get loadingLabel => 'Loading';
+
+  @override
+  String get accountSwitchTitle => 'Another account\'s records';
+
+  @override
+  String get accountSwitchBody =>
+      'This phone holds the records of another account. If you continue, they are removed from this phone (they stay safe on the server) and your own records are downloaded.';
+
+  @override
+  String get accountSwitchContinue => 'Continue';
+
+  @override
+  String get accountBlockedTitle => 'Unsent records on this phone';
+
+  @override
+  String accountBlockedBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count records of the previous account are not sent yet.',
+      one: '1 record of the previous account is not sent yet.',
+    );
+    return '$_temp0 Sign in again with that account and open the app with internet on so they are sent. Then sign in with this account.';
+  }
+
+  @override
+  String accountPreviousPhone(String phone) {
+    return 'Previous account: $phone';
+  }
+
+  @override
   String get insuranceTitle => 'Crop insurance';
 
   @override
@@ -1967,4 +2037,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String claimPdfMade(String date) {
     return 'Made on $date. A record kept by the grower, not an insurer\'s document.';
   }
+
+  @override
+  String get insurancePolicies => 'Policies';
 }

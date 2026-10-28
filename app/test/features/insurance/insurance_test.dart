@@ -34,7 +34,7 @@ InsurancePolicy policy(
   insurerName: 'Example Insurance',
   policyNumber: 'APP-1',
   premiumPaidPaise: premium,
-  enrolledOn: DateTime(2026, 10, 1),
+  enrolledOn: DateTime(2026, 10, 2),
 );
 
 InsuranceDeadline deadline(String id, {String? season, int inDays = 10}) =>
@@ -67,7 +67,7 @@ void main() {
       'policy_number': 'APP-1',
       'sum_insured_paise': null,
       'premium_paid_paise': 123400,
-      'enrolled_on': '2026-10-01',
+      'enrolled_on': '2026-10-02',
       'note': null,
     });
     expect(InsurancePolicy.fromPayload('i1', p).toPayload(), p);

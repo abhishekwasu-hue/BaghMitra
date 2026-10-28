@@ -52,9 +52,17 @@ class OnDeviceSpeechSynthesizer implements SpeechSynthesizer {
   final FlutterTts _engine;
 
   @override
-  Future<void> speak(String text, {required String localeId}) async {
-    await _engine.setLanguage(localeId.replaceAll('_', '-'));
-    await _engine.speak(text);
+  Future<bool> speak(String text, {required String localeId}) async {
+    for (final locale in speechFallbackLocales(localeId)) {
+      // Android answers true/false; some engines answer 1/0.
+      final available = await _engine.isLanguageAvailable(locale);
+      if (available != true && available != 1) continue;
+      await _engine.stop();
+      await _engine.setLanguage(locale);
+      await _engine.speak(text);
+      return true;
+    }
+    return false;
   }
 
   @override

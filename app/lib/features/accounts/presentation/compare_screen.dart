@@ -27,8 +27,9 @@ class CompareScreen extends ConsumerWidget {
         ?.where((p) => p.id == plotId)
         .firstOrNull;
     final bahars = ref.watch(baharOptionsProvider).value;
+    final loaded = ref.watch(baharCyclesProvider(plotId));
     final results = compareCycles(
-      cycles: ref.watch(baharCyclesProvider(plotId)).value ?? const [],
+      cycles: loaded.value ?? const [],
       expenses: ref.watch(expensesProvider(plotId)).value ?? const [],
       incomes: ref.watch(incomesProvider(plotId)).value ?? const [],
       sprays: ref.watch(spraysProvider(plotId)).value ?? const [],
@@ -87,7 +88,9 @@ class CompareScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(title: Text('${t.compareTitle} · ${plot?.name ?? ''}')),
-      body: results.isEmpty
+      body: loaded.isLoading && !loaded.hasValue
+          ? LoadingState(label: t.loadingLabel)
+          : results.isEmpty
           ? EmptyState(glyph: BmGlyph.ledger, message: t.compareEmpty)
           : ListView(
               padding: const EdgeInsets.all(BmSpace.lg),

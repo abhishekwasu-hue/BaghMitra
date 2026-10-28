@@ -29,14 +29,17 @@ class SprayLogScreen extends ConsumerWidget {
         .value
         ?.where((p) => p.id == plotId)
         .firstOrNull;
-    final sprays = ref.watch(spraysProvider(plotId)).value ?? const [];
+    final loaded = ref.watch(spraysProvider(plotId));
+    final sprays = loaded.value ?? const [];
     final cycles = ref.watch(baharCyclesProvider(plotId)).value ?? const [];
     final rules =
         ref.watch(restrictionsProvider).value ?? RestrictionList.empty();
     final crop = cropRulesFor(ref, plot?.crop);
     return Scaffold(
       appBar: AppBar(title: Text('${t.sprayLogTitle} · ${plot?.name ?? ''}')),
-      body: sprays.isEmpty
+      body: loaded.isLoading && !loaded.hasValue
+          ? LoadingState(label: t.loadingLabel)
+          : sprays.isEmpty
           ? EmptyState(glyph: BmGlyph.spray, message: t.spraysEmpty)
           : ListView(
               padding: const EdgeInsets.fromLTRB(

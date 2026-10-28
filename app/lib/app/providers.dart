@@ -71,6 +71,7 @@ import '../features/voice/data/on_device_speech.dart';
 import '../features/voice/domain/speech.dart';
 import '../features/walkthrough/data/walkthrough_flag.dart';
 import '../features/weather/data/plot_weather_cache.dart';
+import '../sync/account_guard.dart';
 import '../sync/http_transport.dart';
 import '../sync/outbox.dart';
 import '../sync/sync_engine.dart';
@@ -105,6 +106,38 @@ final sessionProvider = StreamProvider<AuthSession?>((ref) {
     controller.onCancel = sub.cancel;
   });
 });
+
+final accountGuardProvider = Provider<AccountGuard>(
+  (ref) => AccountGuard(ref.watch(databaseProvider)),
+);
+
+/// Whose records the phone holds, for the signed-in account (OPEN_QUESTIONS Q36); null
+/// when nobody is signed in. Nothing syncs until this is [AccountCheck.same].
+final accountGateProvider = AsyncNotifierProvider<AccountGate, AccountCheck?>(
+  AccountGate.new,
+);
+
+class AccountGate extends AsyncNotifier<AccountCheck?> {
+  @override
+  Future<AccountCheck?> build() async {
+    final userId = ref.watch(sessionProvider.select((s) => s.value?.userId));
+    final session = ref.read(authRepositoryProvider).current;
+    if (userId == null || session == null) return null;
+    final guard = ref.read(accountGuardProvider);
+    final check = await guard.check(userId);
+    if (check == AccountCheck.same) await guard.claim(session);
+    return check;
+  }
+
+  /// The grower read the warning and goes on: clears the other account's records and
+  /// starts this account from a fresh pull.
+  Future<void> confirmSwitch() async {
+    final session = ref.read(authRepositoryProvider).current;
+    if (session == null) return;
+    await ref.read(accountGuardProvider).switchTo(session);
+    state = const AsyncData(AccountCheck.same);
+  }
+}
 
 final apiProvider = Provider<Bagmitra>((ref) {
   final config = ref.watch(appConfigProvider);
@@ -605,8 +638,14 @@ final syncEngineProvider = Provider<SyncEngine>((ref) {
           .applyRemote,
     },
   );
+  // Nothing syncs until the phone's records are known to be this account's (Q36).
+  final ownRecords = ref.watch(
+    accountGateProvider.select(
+      (g) => !g.isLoading && g.value == AccountCheck.same,
+    ),
+  );
   // Demo mode has no backend: writes stay queued locally, nothing is reported as failing.
-  if (!ref.watch(appConfigProvider).demoMode) {
+  if (ownRecords && !ref.watch(appConfigProvider).demoMode) {
     // Scouting photos are backed up after each successful sync, then synced again so the
     // new photo keys reach the server (OPEN_QUESTIONS Q34).
     final backup = ref.watch(scoutingPhotoBackupProvider);

@@ -30,7 +30,8 @@ class BaharScreen extends ConsumerWidget {
         .value
         ?.where((p) => p.id == plotId)
         .firstOrNull;
-    final cycles = ref.watch(baharCyclesProvider(plotId)).value ?? const [];
+    final loaded = ref.watch(baharCyclesProvider(plotId));
+    final cycles = loaded.value ?? const [];
     final catalog = ref.watch(baharOptionsProvider).value;
     void start() => context.push(Routes.startBahar(plotId));
     return Scaffold(
@@ -73,7 +74,9 @@ class BaharScreen extends ConsumerWidget {
           ),
         ],
       ),
-      body: cycles.isEmpty || catalog == null
+      body: loaded.isLoading && !loaded.hasValue
+          ? LoadingState(label: t.loadingLabel)
+          : cycles.isEmpty || catalog == null
           ? _Empty(onStart: start)
           : ListView.separated(
               padding: const EdgeInsets.fromLTRB(
