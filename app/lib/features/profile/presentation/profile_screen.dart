@@ -141,7 +141,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             key: Key(key),
             controller: controller,
             maxLength: 120,
-            decoration: InputDecoration(labelText: label),
+            decoration: InputDecoration(counterText: '', labelText: label),
           ),
         );
     return PopScope(
@@ -186,6 +186,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         keyboardType: TextInputType.phone,
                         maxLength: 16,
                         decoration: InputDecoration(
+                          counterText: '',
                           labelText: t.profileAddPhone,
                           helperText: t.profilePhoneContactOnly,
                           helperMaxLines: 3,
@@ -203,7 +204,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         ChoiceChip(
                           label: Text(l.label('en'), style: BmType.bodyStrong),
                           selected: _language == l.slug,
-                          selectedColor: c.nowTint,
                           onSelected: (_) {
                             setState(() => _language = l.slug);
                             // The whole app switches at once, like on setup.

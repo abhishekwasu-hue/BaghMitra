@@ -5,7 +5,9 @@ import 'package:go_router/go_router.dart';
 import '../../../app/providers.dart';
 import '../../../app/router.dart';
 import '../../../core/formatting.dart';
+import '../../../design_system/bottom_actions.dart';
 import '../../../design_system/cards.dart';
+import '../../../design_system/empty_state.dart';
 import '../../../design_system/glyphs.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
@@ -19,16 +21,11 @@ class PlotsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final t = AppLocalizations.of(context);
-    final c = context.bm;
     final plots = ref.watch(plotsProvider).value ?? const <Plot>[];
     final crops = ref.watch(cropsProvider).value ?? const <CropOption>[];
     final lang = Localizations.localeOf(context).languageCode;
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: c.background,
-        surfaceTintColor: c.background,
-        title: Text(t.myOrchard, style: BmType.title.copyWith(color: c.brand)),
-      ),
+      appBar: AppBar(title: Text(t.myOrchard)),
       body: plots.isEmpty
           ? const _EmptyOrchard()
           : ListView.separated(
@@ -46,16 +43,16 @@ class PlotsScreen extends ConsumerWidget {
                 lang: lang,
               ),
             ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: plots.isEmpty
+      bottomNavigationBar: plots.isEmpty
           ? null
-          : Padding(
-              padding: const EdgeInsets.symmetric(horizontal: BmSpace.lg),
-              child: FilledButton.icon(
-                onPressed: () => context.push(Routes.addPlot),
-                icon: const Icon(Icons.add_rounded),
-                label: Text(t.addPlot),
-              ),
+          : BottomActions(
+              children: [
+                FilledButton.icon(
+                  onPressed: () => context.push(Routes.addPlot),
+                  icon: const Icon(Icons.add_rounded),
+                  label: Text(t.addPlot),
+                ),
+              ],
             ),
     );
   }
@@ -165,43 +162,14 @@ class _EmptyOrchard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
-    final c = context.bm;
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(BmSpace.xxl),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              width: 120,
-              height: 120,
-              padding: const EdgeInsets.all(26),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: LinearGradient(colors: [c.nowTint, c.doneTint]),
-              ),
-              child: const GlyphIcon(BmGlyph.orange),
-            ),
-            const SizedBox(height: BmSpace.xl),
-            Text(
-              t.plotsEmptyTitle,
-              textAlign: TextAlign.center,
-              style: BmType.cardTitle.copyWith(color: c.brand),
-            ),
-            const SizedBox(height: BmSpace.xs),
-            Text(
-              t.plotsEmptyBody,
-              textAlign: TextAlign.center,
-              style: BmType.body.copyWith(color: c.inkMuted),
-            ),
-            const SizedBox(height: BmSpace.xl),
-            FilledButton.icon(
-              onPressed: () => context.push(Routes.addPlot),
-              icon: const Icon(Icons.add_rounded),
-              label: Text(t.addPlot),
-            ),
-          ],
-        ),
+    return EmptyState(
+      glyph: BmGlyph.orange,
+      title: t.plotsEmptyTitle,
+      message: t.plotsEmptyBody,
+      action: FilledButton.icon(
+        onPressed: () => context.push(Routes.addPlot),
+        icon: const Icon(Icons.add_rounded),
+        label: Text(t.addPlot),
       ),
     );
   }

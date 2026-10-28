@@ -5,8 +5,10 @@ import 'package:go_router/go_router.dart';
 
 import '../../../app/providers.dart';
 import '../../../app/router.dart';
+import '../../../design_system/bottom_actions.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
+import '../../voice/presentation/voice_mic_button.dart';
 import '../domain/geo.dart';
 import '../domain/plot.dart';
 
@@ -130,12 +132,7 @@ class _AddPlotScreenState extends ConsumerState<AddPlotScreen> {
     const gap = SizedBox(height: BmSpace.md);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: c.background,
-        surfaceTintColor: c.background,
-        title: Text(
-          widget.plotId == null ? t.addPlot : t.editPlot,
-          style: BmType.section.copyWith(color: c.brand),
-        ),
+        title: Text(widget.plotId == null ? t.addPlot : t.editPlot),
       ),
       body: Form(
         key: _form,
@@ -149,14 +146,14 @@ class _AddPlotScreenState extends ConsumerState<AddPlotScreen> {
               decoration: InputDecoration(
                 labelText: t.plotName,
                 hintText: t.plotNameHint,
+                suffixIcon: VoiceMicButton(
+                  onResult: (text, {required isFinal}) => _name.text = text,
+                ),
               ),
               validator: required,
             ),
             gap,
-            Text(
-              t.plotCrop,
-              style: BmType.label.copyWith(color: c.inkMuted, fontSize: 14),
-            ),
+            Text(t.plotCrop, style: BmType.formLabel.copyWith(color: c.ink)),
             const SizedBox(height: BmSpace.xs),
             Wrap(
               spacing: BmSpace.xs,
@@ -166,10 +163,6 @@ class _AddPlotScreenState extends ConsumerState<AddPlotScreen> {
                   ChoiceChip(
                     label: Text(crop.label(lang), style: BmType.bodyStrong),
                     selected: _crop == crop.slug,
-                    selectedColor: c.nowTint,
-                    side: BorderSide(
-                      color: _crop == crop.slug ? c.accent : c.line,
-                    ),
                     onSelected: (_) => setState(() => _crop = crop.slug),
                   ),
               ],
@@ -229,13 +222,16 @@ class _AddPlotScreenState extends ConsumerState<AddPlotScreen> {
               decoration: InputDecoration(labelText: t.plotPlantingYear),
               validator: optionalInt,
             ),
-            const SizedBox(height: BmSpace.xl),
-            FilledButton(
-              onPressed: _crop == null ? null : _save,
-              child: Text(t.save),
-            ),
           ],
         ),
+      ),
+      bottomNavigationBar: BottomActions(
+        children: [
+          FilledButton(
+            onPressed: _crop == null ? null : _save,
+            child: Text(t.save),
+          ),
+        ],
       ),
     );
   }

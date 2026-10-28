@@ -44,12 +44,7 @@ class SeasonCalendarScreen extends ConsumerWidget {
     };
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          t.calendarTitle,
-          style: BmType.section.copyWith(color: c.brand),
-        ),
-      ),
+      appBar: AppBar(title: Text(t.calendarTitle)),
       body: ListView(
         padding: const EdgeInsets.all(BmSpace.lg),
         children: [

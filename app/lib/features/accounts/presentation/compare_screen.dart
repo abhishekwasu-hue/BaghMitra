@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../app/providers.dart';
 import '../../../core/formatting.dart';
 import '../../../design_system/cards.dart';
+import '../../../design_system/empty_state.dart';
+import '../../../design_system/glyphs.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../domain/year_comparison.dart';
@@ -84,22 +86,9 @@ class CompareScreen extends ConsumerWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: c.background,
-        surfaceTintColor: c.background,
-        title: Text(
-          '${t.compareTitle} · ${plot?.name ?? ''}',
-          style: BmType.section.copyWith(color: c.brand),
-        ),
-      ),
+      appBar: AppBar(title: Text('${t.compareTitle} · ${plot?.name ?? ''}')),
       body: results.isEmpty
-          ? Padding(
-              padding: const EdgeInsets.all(BmSpace.lg),
-              child: Text(
-                t.compareEmpty,
-                style: BmType.body.copyWith(color: c.inkMuted),
-              ),
-            )
+          ? EmptyState(glyph: BmGlyph.ledger, message: t.compareEmpty)
           : ListView(
               padding: const EdgeInsets.all(BmSpace.lg),
               children: [

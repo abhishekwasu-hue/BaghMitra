@@ -21,7 +21,7 @@ class ComponentGalleryScreen extends StatelessWidget {
     final c = context.bm;
     const gap = SizedBox(height: BmSpace.md);
     return Scaffold(
-      appBar: AppBar(title: Text(t.galleryTitle, style: BmType.section)),
+      appBar: AppBar(title: Text(t.galleryTitle)),
       body: ListView(
         padding: const EdgeInsets.all(BmSpace.lg),
         children: [

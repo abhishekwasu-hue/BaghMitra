@@ -306,10 +306,7 @@ class _DemoChip extends StatelessWidget {
         color: c.onBrand.withValues(alpha: 0.14),
         borderRadius: BorderRadius.circular(BmRadius.pill),
       ),
-      child: Text(
-        label,
-        style: BmType.label.copyWith(color: c.onBrand, fontSize: 11),
-      ),
+      child: Text(label, style: BmType.label.copyWith(color: c.onBrand)),
     );
   }
 }

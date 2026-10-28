@@ -90,9 +90,8 @@ class BmBottomBar extends StatelessWidget {
             child: Text(
               cameraLabel,
               style: BmType.label.copyWith(
-                color: c.accent,
+                color: c.accentInk,
                 fontWeight: FontWeight.w700,
-                fontSize: 12.5,
               ),
             ),
           ),

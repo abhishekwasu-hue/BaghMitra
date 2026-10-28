@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import '../../../app/providers.dart';
 import '../../../app/router.dart';
 import '../../../core/formatting.dart';
+import '../../../design_system/bottom_actions.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../../voice/domain/voice_note.dart';
@@ -89,16 +90,9 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
     final cycles =
         ref.watch(baharCyclesProvider(widget.plotId)).value ?? const [];
     final bahars = ref.watch(baharOptionsProvider).value;
-    final label = BmType.label.copyWith(color: c.inkMuted, fontSize: 14);
+    final label = BmType.formLabel.copyWith(color: c.ink);
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: c.background,
-        surfaceTintColor: c.background,
-        title: Text(
-          t.addExpense,
-          style: BmType.section.copyWith(color: c.brand),
-        ),
-      ),
+      appBar: AppBar(title: Text(t.addExpense)),
       body: Form(
         key: _form,
         child: ListView(
@@ -114,7 +108,6 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
                   ChoiceChip(
                     label: Text(cat.label(lang), style: BmType.bodyStrong),
                     selected: _category == cat.slug,
-                    selectedColor: c.nowTint,
                     onSelected: (_) => setState(() => _category = cat.slug),
                   ),
               ],
@@ -153,17 +146,21 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
               controller: _note,
               maxLength: 500,
               decoration: InputDecoration(
+                counterText: '',
                 labelText: t.noteOptional,
                 suffixIcon: VoiceMicButton(onResult: _heard),
               ),
             ),
-            const SizedBox(height: BmSpace.lg),
-            FilledButton(
-              onPressed: _category == null ? null : _save,
-              child: Text(t.save),
-            ),
           ],
         ),
+      ),
+      bottomNavigationBar: BottomActions(
+        children: [
+          FilledButton(
+            onPressed: _category == null ? null : _save,
+            child: Text(t.save),
+          ),
+        ],
       ),
     );
   }
@@ -237,15 +234,10 @@ class _AddSaleScreenState extends ConsumerState<AddSaleScreen> {
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
-    final c = context.bm;
     const gap = SizedBox(height: BmSpace.md);
     const money = TextInputType.numberWithOptions(decimal: true);
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: c.background,
-        surfaceTintColor: c.background,
-        title: Text(t.addSale, style: BmType.section.copyWith(color: c.brand)),
-      ),
+      appBar: AppBar(title: Text(t.addSale)),
       body: Form(
         key: _form,
         child: ListView(
@@ -299,10 +291,11 @@ class _AddSaleScreenState extends ConsumerState<AddSaleScreen> {
               decoration: InputDecoration(labelText: t.salePaid),
               validator: (v) => _rupeesOptional(t, v),
             ),
-            const SizedBox(height: BmSpace.lg),
-            FilledButton(onPressed: _save, child: Text(t.save)),
           ],
         ),
+      ),
+      bottomNavigationBar: BottomActions(
+        children: [FilledButton(onPressed: _save, child: Text(t.save))],
       ),
     );
   }

@@ -53,7 +53,7 @@ class PlotDetailScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(plot.name, style: BmType.section.copyWith(color: c.brand)),
+        title: Text(plot.name),
         actions: [
           IconButton(
             key: const Key('edit-plot'),

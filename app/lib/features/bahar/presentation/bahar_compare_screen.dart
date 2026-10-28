@@ -45,12 +45,7 @@ class _BaharCompareScreenState extends ConsumerState<BaharCompareScreen> {
         : catalog.forCrop(crop);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          t.baharCompareTitle,
-          style: BmType.section.copyWith(color: c.brand),
-        ),
-      ),
+      appBar: AppBar(title: Text(t.baharCompareTitle)),
       body: ListView(
         padding: const EdgeInsets.all(BmSpace.lg),
         children: [
@@ -67,7 +62,7 @@ class _BaharCompareScreenState extends ConsumerState<BaharCompareScreen> {
           ),
           for (final q in data?.questions ?? const <CompareQuestion>[]) ...[
             const SizedBox(height: BmSpace.lg),
-            Text(q.label(lang), style: BmType.label),
+            Text(q.label(lang), style: BmType.formLabel.copyWith(color: c.ink)),
             const SizedBox(height: BmSpace.xs),
             Wrap(
               spacing: BmSpace.xs,

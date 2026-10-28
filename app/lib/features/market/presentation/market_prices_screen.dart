@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../api/generated/bagmitra.swagger.dart';
 import '../../../app/providers.dart';
 import '../../../core/formatting.dart';
+import '../../../design_system/empty_state.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 
@@ -36,12 +37,7 @@ class _MarketPricesScreenState extends ConsumerState<MarketPricesScreen> {
     };
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          t.marketPricesTitle,
-          style: BmType.section.copyWith(color: c.brand),
-        ),
-      ),
+      appBar: AppBar(title: Text(t.marketPricesTitle)),
       body: ListView(
         padding: const EdgeInsets.all(BmSpace.lg),
         children: [
@@ -67,53 +63,59 @@ class _MarketPricesScreenState extends ConsumerState<MarketPricesScreen> {
               Text(switch (cached.prices.reason) {
                 final String reason => t.marketStale(reason),
                 null => t.marketStaleNoReason,
-              }, style: BmType.meta.copyWith(color: c.accent)),
+              }, style: BmType.meta.copyWith(color: c.accentInk)),
           ],
-          if (prices.isEmpty)
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: BmSpace.lg),
-              child: Text(t.marketEmpty, style: BmType.meta),
-            ),
+          if (prices.isEmpty) EmptyNote(t.marketEmpty),
           for (final p in prices)
-            ListTile(
-              contentPadding: EdgeInsets.zero,
-              title: Wrap(
-                spacing: BmSpace.xs,
-                crossAxisAlignment: WrapCrossAlignment.center,
-                children: [
-                  Text(p.market, style: BmType.bodyStrong),
-                  if (p.isLocal) _Tag(t.marketTagLocal),
-                  if (p.isMajor) _Tag(t.marketTagMajor),
-                ],
-              ),
-              subtitle: Column(
+            // A plain row, not a ListTile: a ListTile caps the trailing price's height,
+            // which clipped it at larger text sizes.
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: BmSpace.xs),
+              child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    '${p.state} · ${formatDate(p.day, lang)}',
-                    style: BmType.meta,
-                  ),
-                  if (p.minRsPerQuintal != null || p.maxRsPerQuintal != null)
-                    Text(
-                      t.marketRange(
-                        rs(p.minRsPerQuintal),
-                        rs(p.maxRsPerQuintal),
-                      ),
-                      style: BmType.meta,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Wrap(
+                          spacing: BmSpace.xs,
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          children: [
+                            Text(p.market, style: BmType.bodyStrong),
+                            if (p.isLocal) _Tag(t.marketTagLocal),
+                            if (p.isMajor) _Tag(t.marketTagMajor),
+                          ],
+                        ),
+                        Text(
+                          '${p.state} · ${formatDate(p.day, lang)}',
+                          style: BmType.meta,
+                        ),
+                        if (p.minRsPerQuintal != null ||
+                            p.maxRsPerQuintal != null)
+                          Text(
+                            t.marketRange(
+                              rs(p.minRsPerQuintal),
+                              rs(p.maxRsPerQuintal),
+                            ),
+                            style: BmType.meta,
+                          ),
+                        if (p.variety case final variety?)
+                          Text(t.marketVariety(variety), style: BmType.meta),
+                      ],
                     ),
-                  if (p.variety case final variety?)
-                    Text(t.marketVariety(variety), style: BmType.meta),
-                ],
-              ),
-              trailing: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    rs(p.modalRsPerQuintal),
-                    style: BmType.cardTitle.copyWith(color: c.brand),
                   ),
-                  Text(t.marketPerQuintal, style: BmType.meta),
+                  const SizedBox(width: BmSpace.sm),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        rs(p.modalRsPerQuintal),
+                        style: BmType.cardTitle.copyWith(color: c.brand),
+                      ),
+                      Text(t.marketPerQuintal, style: BmType.meta),
+                    ],
+                  ),
                 ],
               ),
             ),
@@ -142,7 +144,7 @@ class _Tag extends StatelessWidget {
           horizontal: BmSpace.xs,
           vertical: BmSpace.xxs,
         ),
-        child: Text(text, style: BmType.label.copyWith(color: c.brandStrong)),
+        child: Text(text, style: BmType.label.copyWith(color: c.ink)),
       ),
     );
   }

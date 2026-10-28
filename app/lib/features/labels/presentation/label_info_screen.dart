@@ -5,6 +5,7 @@ import '../../../api/generated/bagmitra.swagger.dart';
 import '../../../app/providers.dart';
 import '../../../core/formatting.dart';
 import '../../../design_system/cards.dart';
+import '../../../design_system/empty_state.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 
@@ -37,12 +38,7 @@ class LabelInfoScreen extends ConsumerWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          t.labelInfoTitle,
-          style: BmType.section.copyWith(color: c.brand),
-        ),
-      ),
+      appBar: AppBar(title: Text(t.labelInfoTitle)),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -94,11 +90,7 @@ class LabelInfoScreen extends ConsumerWidget {
                     ),
                     style: BmType.meta,
                   ),
-                if (claims.isEmpty)
-                  Padding(
-                    padding: const EdgeInsets.only(top: BmSpace.xl),
-                    child: Text(t.labelInfoEmpty, style: BmType.body),
-                  ),
+                if (claims.isEmpty) EmptyNote(t.labelInfoEmpty),
                 for (final MapEntry(key: target, value: group)
                     in byTarget.entries) ...[
                   Padding(

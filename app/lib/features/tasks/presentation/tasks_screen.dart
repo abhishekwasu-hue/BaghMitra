@@ -4,6 +4,9 @@ import 'package:go_router/go_router.dart';
 
 import '../../../app/providers.dart';
 import '../../../app/router.dart';
+import '../../../design_system/bottom_actions.dart';
+import '../../../design_system/empty_state.dart';
+import '../../../design_system/glyphs.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../domain/farm_task.dart';
@@ -37,10 +40,7 @@ class TasksScreen extends ConsumerWidget {
     };
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          t.tasksTitle,
-          style: BmType.section.copyWith(color: c.brand),
-        ),
+        title: Text(t.tasksTitle),
         actions: [
           IconButton(
             key: const Key('open-calendar'),
@@ -56,14 +56,18 @@ class TasksScreen extends ConsumerWidget {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        key: const Key('add-task'),
-        onPressed: () => context.push(Routes.addTask),
-        icon: const Icon(Icons.add),
-        label: Text(t.addTask),
+      bottomNavigationBar: BottomActions(
+        children: [
+          FilledButton.icon(
+            key: const Key('add-task'),
+            onPressed: () => context.push(Routes.addTask),
+            icon: const Icon(Icons.add_rounded),
+            label: Text(t.addTask),
+          ),
+        ],
       ),
       body: tasks.isEmpty
-          ? Center(child: Text(t.tasksEmpty, style: BmType.meta))
+          ? EmptyState(glyph: BmGlyph.sunCloud, message: t.tasksEmpty)
           : ListView(
               padding: const EdgeInsets.fromLTRB(
                 BmSpace.lg,

@@ -301,7 +301,11 @@ void main() {
     expect(find.text('लहान (१–४ वर्षे)'), findsOneWidget);
     expect(find.text('दर झाडाला दररोज सुमारे ५–१५ लिटर.'), findsOneWidget);
     expect(find.text('ठिबक'), findsWidgets);
+    // The season list is long; scroll to it, then back up to the crop chips.
+    await tester.scrollUntilVisible(find.text('हिवाळा'), 200);
     expect(find.text('हिवाळा'), findsOneWidget);
+    await tester.drag(find.byType(ListView).first, const Offset(0, 2000));
+    await settle(tester);
 
     await tester.tap(find.byKey(const Key('irrigation-crop-mosambi')));
     await settle(tester);

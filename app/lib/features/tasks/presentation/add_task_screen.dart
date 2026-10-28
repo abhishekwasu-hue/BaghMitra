@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../app/providers.dart';
 import '../../../app/router.dart';
+import '../../../design_system/bottom_actions.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../../voice/presentation/voice_mic_button.dart';
@@ -70,9 +71,7 @@ class _AddTaskScreenState extends ConsumerState<AddTaskScreen> {
     final kinds = ref.watch(taskKindsProvider).value ?? const [];
     final now = ref.watch(clockProvider)();
     return Scaffold(
-      appBar: AppBar(
-        title: Text(t.addTask, style: BmType.section.copyWith(color: c.brand)),
-      ),
+      appBar: AppBar(title: Text(t.addTask)),
       body: Form(
         key: _form,
         child: ListView(
@@ -83,6 +82,7 @@ class _AddTaskScreenState extends ConsumerState<AddTaskScreen> {
               controller: _title,
               maxLength: 200,
               decoration: InputDecoration(
+                counterText: '',
                 labelText: t.taskWhat,
                 suffixIcon: VoiceMicButton(
                   onResult: (text, {required isFinal}) => _title.text = text,
@@ -91,8 +91,9 @@ class _AddTaskScreenState extends ConsumerState<AddTaskScreen> {
               validator: (v) =>
                   (v ?? '').trim().isEmpty ? t.fieldRequired : null,
             ),
-            const SizedBox(height: BmSpace.sm),
-            Text(t.taskKind, style: BmType.label),
+            const SizedBox(height: BmSpace.md),
+            Text(t.taskKind, style: BmType.formLabel.copyWith(color: c.ink)),
+            const SizedBox(height: BmSpace.xs),
             Wrap(
               spacing: BmSpace.xs,
               children: [
@@ -101,13 +102,13 @@ class _AddTaskScreenState extends ConsumerState<AddTaskScreen> {
                     key: Key('kind-${k.slug}'),
                     label: Text(k.label(lang)),
                     selected: _kind == k.slug,
-                    selectedColor: c.nowTint,
                     onSelected: (_) => setState(() => _kind = k.slug),
                   ),
               ],
             ),
             const SizedBox(height: BmSpace.md),
-            Text(t.taskDue, style: BmType.label),
+            Text(t.taskDue, style: BmType.formLabel.copyWith(color: c.ink)),
+            const SizedBox(height: BmSpace.xs),
             Wrap(
               spacing: BmSpace.xs,
               children: [
@@ -121,7 +122,6 @@ class _AddTaskScreenState extends ConsumerState<AddTaskScreen> {
                     key: Key('due-$days'),
                     label: Text(label),
                     selected: _picked == null && _inDays == days,
-                    selectedColor: c.nowTint,
                     onSelected: (_) => setState(() {
                       _picked = null;
                       _inDays = days;
@@ -135,10 +135,13 @@ class _AddTaskScreenState extends ConsumerState<AddTaskScreen> {
                 ),
               ],
             ),
-            const SizedBox(height: BmSpace.lg),
-            FilledButton(onPressed: () => _save(now), child: Text(t.save)),
           ],
         ),
+      ),
+      bottomNavigationBar: BottomActions(
+        children: [
+          FilledButton(onPressed: () => _save(now), child: Text(t.save)),
+        ],
       ),
     );
   }

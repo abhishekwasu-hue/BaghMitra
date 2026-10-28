@@ -208,7 +208,7 @@ class StageCard extends StatelessWidget {
                 children: [
                   Text(
                     dayCount,
-                    style: BmType.bigNumber.copyWith(color: c.accent),
+                    style: BmType.bigNumber.copyWith(color: c.accentInk),
                   ),
                   Text(
                     dayUnit,

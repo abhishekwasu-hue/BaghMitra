@@ -6,7 +6,10 @@ import 'package:go_router/go_router.dart';
 import '../../../app/providers.dart';
 import '../../../app/router.dart';
 import '../../../core/formatting.dart';
+import '../../../design_system/bottom_actions.dart';
 import '../../../design_system/cards.dart';
+import '../../../design_system/empty_state.dart';
+import '../../../design_system/glyphs.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../../bahar/data/bahar_catalog.dart';
@@ -40,22 +43,9 @@ class LabourScreen extends ConsumerWidget {
                   ?.label(lang) ??
               slug;
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: c.background,
-        surfaceTintColor: c.background,
-        title: Text(
-          t.labourTitle,
-          style: BmType.section.copyWith(color: c.brand),
-        ),
-      ),
+      appBar: AppBar(title: Text(t.labourTitle)),
       body: days.isEmpty
-          ? Padding(
-              padding: const EdgeInsets.all(BmSpace.lg),
-              child: Text(
-                t.labourEmpty,
-                style: BmType.body.copyWith(color: c.inkMuted),
-              ),
-            )
+          ? EmptyState(glyph: BmGlyph.ledger, message: t.labourEmpty)
           : ListView(
               padding: const EdgeInsets.fromLTRB(
                 BmSpace.lg,
@@ -138,14 +128,13 @@ class LabourScreen extends ConsumerWidget {
                   ),
               ],
             ),
-      bottomNavigationBar: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(BmSpace.md),
-          child: FilledButton(
+      bottomNavigationBar: BottomActions(
+        children: [
+          FilledButton(
             onPressed: () => context.push(Routes.addLabour(plotId)),
             child: Text(t.labourAddDay),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -210,14 +199,7 @@ class _AddLabourScreenState extends ConsumerState<AddLabourScreen> {
     const gap = SizedBox(height: BmSpace.md);
     const money = TextInputType.numberWithOptions(decimal: true);
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: c.background,
-        surfaceTintColor: c.background,
-        title: Text(
-          t.labourAddDay,
-          style: BmType.section.copyWith(color: c.brand),
-        ),
-      ),
+      appBar: AppBar(title: Text(t.labourAddDay)),
       body: Form(
         key: _form,
         child: ListView(
@@ -228,6 +210,7 @@ class _AddLabourScreenState extends ConsumerState<AddLabourScreen> {
               controller: _worker,
               maxLength: 120,
               decoration: InputDecoration(
+                counterText: '',
                 labelText: t.labourWorker,
                 suffixIcon: VoiceMicButton(
                   onResult: (text, {required isFinal}) => _worker.text = text,
@@ -236,10 +219,8 @@ class _AddLabourScreenState extends ConsumerState<AddLabourScreen> {
               validator: (v) =>
                   (v ?? '').trim().isEmpty ? t.fieldRequired : null,
             ),
-            Text(
-              t.labourTask,
-              style: BmType.label.copyWith(color: c.inkMuted, fontSize: 14),
-            ),
+            const SizedBox(height: BmSpace.md),
+            Text(t.labourTask, style: BmType.formLabel.copyWith(color: c.ink)),
             const SizedBox(height: BmSpace.xs),
             Wrap(
               spacing: BmSpace.xs,
@@ -249,7 +230,6 @@ class _AddLabourScreenState extends ConsumerState<AddLabourScreen> {
                   ChoiceChip(
                     label: Text(k.label(lang), style: BmType.bodyStrong),
                     selected: _task == k.slug,
-                    selectedColor: c.nowTint,
                     onSelected: (on) =>
                         setState(() => _task = on ? k.slug : null),
                   ),
@@ -291,11 +271,8 @@ class _AddLabourScreenState extends ConsumerState<AddLabourScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(BmSpace.md),
-          child: FilledButton(onPressed: _save, child: Text(t.save)),
-        ),
+      bottomNavigationBar: BottomActions(
+        children: [FilledButton(onPressed: _save, child: Text(t.save))],
       ),
     );
   }
@@ -354,7 +331,7 @@ class _AddHarvestScreenState extends ConsumerState<AddHarvestScreen> {
     final c = context.bm;
     final lang = Localizations.localeOf(context).languageCode;
     final opts = ref.watch(fieldWorkOptionsProvider).value;
-    final label = BmType.label.copyWith(color: c.inkMuted, fontSize: 14);
+    final label = BmType.formLabel.copyWith(color: c.ink);
     Widget choice(
       String title,
       List<LabeledOption> items,
@@ -374,7 +351,6 @@ class _AddHarvestScreenState extends ConsumerState<AddHarvestScreen> {
               ChoiceChip(
                 label: Text(o.label(lang), style: BmType.bodyStrong),
                 selected: value == o.slug,
-                selectedColor: c.nowTint,
                 onSelected: (on) => setState(() => set(on ? o.slug : null)),
               ),
           ],
@@ -382,14 +358,7 @@ class _AddHarvestScreenState extends ConsumerState<AddHarvestScreen> {
       ],
     );
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: c.background,
-        surfaceTintColor: c.background,
-        title: Text(
-          t.harvestAdd,
-          style: BmType.section.copyWith(color: c.brand),
-        ),
-      ),
+      appBar: AppBar(title: Text(t.harvestAdd)),
       body: Form(
         key: _form,
         child: ListView(
@@ -427,11 +396,8 @@ class _AddHarvestScreenState extends ConsumerState<AddHarvestScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(BmSpace.md),
-          child: FilledButton(onPressed: _save, child: Text(t.save)),
-        ),
+      bottomNavigationBar: BottomActions(
+        children: [FilledButton(onPressed: _save, child: Text(t.save))],
       ),
     );
   }

@@ -5,7 +5,10 @@ import 'package:go_router/go_router.dart';
 import '../../../app/providers.dart';
 import '../../../app/router.dart';
 import '../../../core/formatting.dart';
+import '../../../design_system/bottom_actions.dart';
 import '../../../design_system/cards.dart';
+import '../../../design_system/empty_state.dart';
+import '../../../design_system/glyphs.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../domain/spray_check.dart';
@@ -32,16 +35,9 @@ class SprayLogScreen extends ConsumerWidget {
         ref.watch(restrictionsProvider).value ?? RestrictionList.empty();
     final crop = cropRulesFor(ref, plot?.crop);
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: c.background,
-        surfaceTintColor: c.background,
-        title: Text(
-          '${t.sprayLogTitle} · ${plot?.name ?? ''}',
-          style: BmType.section.copyWith(color: c.brand),
-        ),
-      ),
+      appBar: AppBar(title: Text('${t.sprayLogTitle} · ${plot?.name ?? ''}')),
       body: sprays.isEmpty
-          ? Center(child: Text(t.spraysEmpty, style: BmType.body))
+          ? EmptyState(glyph: BmGlyph.spray, message: t.spraysEmpty)
           : ListView(
               padding: const EdgeInsets.fromLTRB(
                 BmSpace.lg,
@@ -99,27 +95,20 @@ class SprayLogScreen extends ConsumerWidget {
                   ),
               ],
             ),
-      bottomNavigationBar: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(BmSpace.md),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              OutlinedButton.icon(
-                key: const Key('open-labels'),
-                onPressed: () => context.push(Routes.labels(plotId)),
-                icon: const Icon(Icons.menu_book_outlined),
-                label: Text(t.labelInfoTitle),
-              ),
-              const SizedBox(height: BmSpace.xs),
-              FilledButton(
-                onPressed: () => context.push(Routes.addSpray(plotId)),
-                child: Text(t.addSpray),
-              ),
-            ],
+      bottomNavigationBar: BottomActions(
+        stacked: true,
+        children: [
+          OutlinedButton.icon(
+            key: const Key('open-labels'),
+            onPressed: () => context.push(Routes.labels(plotId)),
+            icon: const Icon(Icons.menu_book_outlined),
+            label: Text(t.labelInfoTitle),
           ),
-        ),
+          FilledButton(
+            onPressed: () => context.push(Routes.addSpray(plotId)),
+            child: Text(t.addSpray),
+          ),
+        ],
       ),
     );
   }

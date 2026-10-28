@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import '../../../app/providers.dart';
 import '../../../app/router.dart';
 import '../../../core/formatting.dart';
+import '../../../design_system/bottom_actions.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../../bahar/data/bahar_catalog.dart';
@@ -85,14 +86,10 @@ class _AddInputScreenState extends ConsumerState<AddInputScreen> {
     final cycles =
         ref.watch(baharCyclesProvider(widget.plotId)).value ?? const [];
     final bahars = ref.watch(baharOptionsProvider).value;
-    final label = BmType.label.copyWith(color: c.inkMuted, fontSize: 14);
+    final label = BmType.formLabel.copyWith(color: c.ink);
     const gap = SizedBox(height: BmSpace.md);
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: c.background,
-        surfaceTintColor: c.background,
-        title: Text(t.addInput, style: BmType.section.copyWith(color: c.brand)),
-      ),
+      appBar: AppBar(title: Text(t.addInput)),
       body: Form(
         key: _form,
         child: ListView(
@@ -108,7 +105,6 @@ class _AddInputScreenState extends ConsumerState<AddInputScreen> {
                   ChoiceChip(
                     label: Text(k.label(lang), style: BmType.bodyStrong),
                     selected: _kind == k.slug,
-                    selectedColor: c.nowTint,
                     onSelected: (_) => setState(() => _kind = k.slug),
                   ),
               ],
@@ -119,6 +115,7 @@ class _AddInputScreenState extends ConsumerState<AddInputScreen> {
               controller: _product,
               maxLength: 120,
               decoration: InputDecoration(
+                counterText: '',
                 labelText: t.inputProduct,
                 suffixIcon: VoiceMicButton(
                   onResult: (text, {required isFinal}) => _product.text = text,
@@ -127,6 +124,7 @@ class _AddInputScreenState extends ConsumerState<AddInputScreen> {
               validator: (v) =>
                   (v ?? '').trim().isEmpty ? t.fieldRequired : null,
             ),
+            const SizedBox(height: BmSpace.sm),
             TextFormField(
               key: const Key('input-quantity'),
               controller: _quantity,
@@ -184,14 +182,13 @@ class _AddInputScreenState extends ConsumerState<AddInputScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(BmSpace.md),
-          child: FilledButton(
+      bottomNavigationBar: BottomActions(
+        children: [
+          FilledButton(
             onPressed: _kind == null ? null : _save,
             child: Text(t.save),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -238,17 +235,9 @@ class _AddIrrigationScreenState extends ConsumerState<AddIrrigationScreen> {
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
-    final c = context.bm;
     const decimal = TextInputType.numberWithOptions(decimal: true);
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: c.background,
-        surfaceTintColor: c.background,
-        title: Text(
-          t.logIrrigation,
-          style: BmType.section.copyWith(color: c.brand),
-        ),
-      ),
+      appBar: AppBar(title: Text(t.logIrrigation)),
       body: Form(
         key: _form,
         child: ListView(
@@ -274,11 +263,8 @@ class _AddIrrigationScreenState extends ConsumerState<AddIrrigationScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(BmSpace.md),
-          child: FilledButton(onPressed: _save, child: Text(t.save)),
-        ),
+      bottomNavigationBar: BottomActions(
+        children: [FilledButton(onPressed: _save, child: Text(t.save))],
       ),
     );
   }

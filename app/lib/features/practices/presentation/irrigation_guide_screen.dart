@@ -40,12 +40,7 @@ class _IrrigationGuideScreenState extends ConsumerState<IrrigationGuideScreen> {
               .firstOrNull;
     final thisYear = ref.watch(clockProvider)().year;
 
-    final appBar = AppBar(
-      title: Text(
-        t.irrigationGuideTitle,
-        style: BmType.section.copyWith(color: c.brand),
-      ),
-    );
+    final appBar = AppBar(title: Text(t.irrigationGuideTitle));
     if (data == null) {
       return Scaffold(
         appBar: appBar,
@@ -103,7 +98,10 @@ class _IrrigationGuideScreenState extends ConsumerState<IrrigationGuideScreen> {
           ),
           const SizedBox(height: BmSpace.lg),
           if (plot == null) ...[
-            Text(t.irrigationCropLabel, style: BmType.label),
+            Text(
+              t.irrigationCropLabel,
+              style: BmType.formLabel.copyWith(color: c.ink),
+            ),
             const SizedBox(height: BmSpace.xs),
             Wrap(
               spacing: BmSpace.sm,
@@ -125,7 +123,10 @@ class _IrrigationGuideScreenState extends ConsumerState<IrrigationGuideScreen> {
             ),
             const SizedBox(height: BmSpace.md),
           ],
-          Text(t.irrigationAgeLabel, style: BmType.label),
+          Text(
+            t.irrigationAgeLabel,
+            style: BmType.formLabel.copyWith(color: c.ink),
+          ),
           if (plot != null)
             Text(
               plotBand == null

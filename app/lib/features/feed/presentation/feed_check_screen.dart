@@ -69,12 +69,7 @@ class _FeedCheckScreenState extends ConsumerState<FeedCheckScreen> {
     final c = context.bm;
     final result = _result;
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          t.feedCheckTitle,
-          style: BmType.section.copyWith(color: c.brand),
-        ),
-      ),
+      appBar: AppBar(title: Text(t.feedCheckTitle)),
       body: ListView(
         padding: const EdgeInsets.all(BmSpace.lg),
         children: [

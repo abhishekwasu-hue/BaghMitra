@@ -81,7 +81,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
             key: Key(key),
             controller: controller,
             maxLength: 120,
-            decoration: InputDecoration(labelText: label),
+            decoration: InputDecoration(counterText: '', labelText: label),
           ),
         );
     return Scaffold(
@@ -103,7 +103,6 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                   ChoiceChip(
                     label: Text(l.label('en'), style: BmType.bodyStrong),
                     selected: _language == l.slug,
-                    selectedColor: c.nowTint,
                     onSelected: (_) {
                       setState(() => _language = l.slug);
                       ref.read(languagePreviewProvider.notifier).set(l.slug);

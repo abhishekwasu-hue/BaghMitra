@@ -7,6 +7,7 @@ import '../../../app/providers.dart';
 import '../../../app/router.dart';
 import '../../../core/formatting.dart';
 import '../../../design_system/alert_banner.dart';
+import '../../../design_system/bottom_actions.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../../voice/presentation/voice_mic_button.dart';
@@ -134,11 +135,7 @@ class _AddSprayScreenState extends ConsumerState<AddSprayScreen> {
     const gap = SizedBox(height: BmSpace.md);
     const decimal = TextInputType.numberWithOptions(decimal: true);
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: c.background,
-        surfaceTintColor: c.background,
-        title: Text(t.addSpray, style: BmType.section.copyWith(color: c.brand)),
-      ),
+      appBar: AppBar(title: Text(t.addSpray)),
       body: Form(
         key: _form,
         child: ListView(
@@ -192,7 +189,7 @@ class _AddSprayScreenState extends ConsumerState<AddSprayScreen> {
             if (cycles.isNotEmpty) ...[
               Text(
                 t.sprayWhichBahar,
-                style: BmType.label.copyWith(color: c.inkMuted, fontSize: 14),
+                style: BmType.formLabel.copyWith(color: c.ink),
               ),
               const SizedBox(height: BmSpace.xs),
               Wrap(
@@ -247,7 +244,12 @@ class _AddSprayScreenState extends ConsumerState<AddSprayScreen> {
             gap,
             TextFormField(
               controller: _target,
-              decoration: InputDecoration(labelText: t.sprayTarget),
+              decoration: InputDecoration(
+                labelText: t.sprayTarget,
+                suffixIcon: VoiceMicButton(
+                  onResult: (text, {required isFinal}) => _target.text = text,
+                ),
+              ),
             ),
             gap,
             TextFormField(
@@ -267,14 +269,10 @@ class _AddSprayScreenState extends ConsumerState<AddSprayScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(BmSpace.md),
-          child: FilledButton(
-            onPressed: () => _save(date),
-            child: Text(t.save),
-          ),
-        ),
+      bottomNavigationBar: BottomActions(
+        children: [
+          FilledButton(onPressed: () => _save(date), child: Text(t.save)),
+        ],
       ),
     );
   }
