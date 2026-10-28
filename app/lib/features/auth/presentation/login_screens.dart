@@ -89,7 +89,7 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
         );
       }
     } on AuthFailure {
-      setState(() => _error = t.loginInvalidPhone);
+      if (mounted) setState(() => _error = t.loginInvalidPhone);
     } finally {
       if (mounted) setState(() => _busy = false);
     }
