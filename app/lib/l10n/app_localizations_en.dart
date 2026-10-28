@@ -2210,6 +2210,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'General information to help you get ready. No amounts are shown. Always check the official page before you apply.';
 
   @override
+  String get schemeVisitSetu =>
+      'Visit your nearest Setu Kendra (Aaple Sarkar Seva Kendra / CSC) to apply, get documents and ask questions.';
+
+  @override
   String get schemeWho => 'Who can apply';
 
   @override

@@ -2205,6 +2205,10 @@ class AppLocalizationsHi extends AppLocalizations {
       'तैयारी के लिए सामान्य जानकारी। कोई राशि नहीं दी गई है। आवेदन से पहले आधिकारिक पेज ज़रूर देखें।';
 
   @override
+  String get schemeVisitSetu =>
+      'आवेदन, दस्तावेज़ और अधिक जानकारी के लिए अपने नज़दीकी सेतु केंद्र (आपले सरकार सेवा केंद्र / CSC) पर जाएँ।';
+
+  @override
   String get schemeWho => 'कौन आवेदन कर सकता है';
 
   @override

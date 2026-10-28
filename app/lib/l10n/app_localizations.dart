@@ -3916,6 +3916,12 @@ abstract class AppLocalizations {
   /// **'General information to help you get ready. No amounts are shown. Always check the official page before you apply.'**
   String get schemesIntro;
 
+  /// Nudge to visit the nearest Setu / Aaple Sarkar Seva Kendra (CSC); shown on the scheme list and each scheme.
+  ///
+  /// In en, this message translates to:
+  /// **'Visit your nearest Setu Kendra (Aaple Sarkar Seva Kendra / CSC) to apply, get documents and ask questions.'**
+  String get schemeVisitSetu;
+
   /// No description provided for @schemeWho.
   ///
   /// In en, this message translates to:

@@ -39,6 +39,7 @@ String schemeShareText(
     a.url == null ? '• ${a.label(lang)}' : '• ${a.label(lang)}: ${a.url}',
   '',
   t.schemeWhoCheck,
+  t.schemeVisitSetu,
   shareFooter(t, productName),
 ].join('\n');
 
@@ -81,6 +82,8 @@ class SchemesScreen extends ConsumerWidget {
               t.schemesIntro,
               style: BmType.body.copyWith(color: c.inkMuted),
             ),
+            const SizedBox(height: BmSpace.sm),
+            const SetuNote(key: Key('setu-note')),
             const SizedBox(height: BmSpace.md),
             for (final s in value.schemes)
               Padding(
@@ -283,6 +286,8 @@ class SchemeDetailScreen extends ConsumerWidget {
                   : Text(t.schemeNotConfirmed, style: notConfirmed),
             ),
           section(t.schemeWhereToApply),
+          const SetuNote(key: Key('scheme-setu-note')),
+          const SizedBox(height: BmSpace.xs),
           for (final (i, a) in scheme.apply.indexed)
             if (a.url case final url?)
               link(
@@ -330,6 +335,32 @@ class SchemeDetailScreen extends ConsumerWidget {
           section(t.schemeSources(formatDate(data.checkedOn, lang))),
           for (final (i, s) in scheme.sources.indexed)
             link(Key('scheme-source-$i'), s.title, s.url),
+        ],
+      ),
+    );
+  }
+}
+
+/// "Visit your nearest Setu Kendra" nudge: where growers actually apply and get papers.
+class SetuNote extends StatelessWidget {
+  const SetuNote({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+    final c = context.bm;
+    return Container(
+      padding: const EdgeInsets.all(BmSpace.md),
+      decoration: BoxDecoration(
+        color: c.brandSoft,
+        borderRadius: BorderRadius.circular(BmRadius.card),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(Icons.storefront_outlined, color: c.brandStrong),
+          const SizedBox(width: BmSpace.sm),
+          Expanded(child: Text(t.schemeVisitSetu, style: BmType.bodyStrong)),
         ],
       ),
     );

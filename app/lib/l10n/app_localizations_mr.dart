@@ -2204,6 +2204,10 @@ class AppLocalizationsMr extends AppLocalizations {
       'तयारीसाठी सर्वसाधारण माहिती. रक्कम दिलेली नाही. अर्ज करण्याआधी अधिकृत पान नक्की तपासा.';
 
   @override
+  String get schemeVisitSetu =>
+      'अर्ज, कागदपत्रे आणि अधिक माहितीसाठी जवळच्या सेतू केंद्राला (आपले सरकार सेवा केंद्र / CSC) भेट द्या.';
+
+  @override
   String get schemeWho => 'कोण अर्ज करू शकतो';
 
   @override

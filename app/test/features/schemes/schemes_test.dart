@@ -145,6 +145,7 @@ void main() {
       contains('KCC form on the PM-Kisan portal: https://pmkisan.gov.in/'),
     );
     expect(text, contains(t.schemeWhoCheck));
+    expect(text, contains(t.schemeVisitSetu));
     await unmountApp(tester);
   });
 
@@ -169,6 +170,7 @@ void main() {
     await tester.tap(find.byKey(const Key('open-schemes')));
     await settle(tester);
     expect(find.textContaining('Always check the official page'), findsOne);
+    expect(find.byKey(const Key('setu-note')), findsOne);
     expect(find.byKey(const Key('scheme-agristack')), findsOne);
     await tester.tap(find.byKey(const Key('scheme-pm_kisan')));
     await settle(tester);
@@ -176,6 +178,7 @@ void main() {
     expect(find.text('PM-Kisan Samman Nidhi'), findsOne);
     expect(find.text('In general terms. Check the official page.'), findsOne);
     expect(find.text('0 of 5 ready'), findsOne);
+    expect(find.textContaining('Visit your nearest Setu Kendra'), findsOne);
     await tester.tap(find.byKey(const Key('scheme-doc-aadhaar')));
     await settle(tester);
     expect(find.text('1 of 5 ready'), findsOne);

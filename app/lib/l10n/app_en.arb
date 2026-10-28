@@ -941,6 +941,8 @@
   "schemesTitle": "Schemes and documents",
   "schemesHomeHint": "Who can apply, documents to keep ready",
   "schemesIntro": "General information to help you get ready. No amounts are shown. Always check the official page before you apply.",
+  "schemeVisitSetu": "Visit your nearest Setu Kendra (Aaple Sarkar Seva Kendra / CSC) to apply, get documents and ask questions.",
+  "@schemeVisitSetu": {"description": "Nudge to visit the nearest Setu / Aaple Sarkar Seva Kendra (CSC); shown on the scheme list and each scheme."},
   "schemeWho": "Who can apply",
   "schemeWhoCheck": "In general terms. Check the official page.",
   "schemeDocuments": "Documents usually needed",
