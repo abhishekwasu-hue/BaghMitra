@@ -5,6 +5,9 @@ import 'package:go_router/go_router.dart';
 import '../../../app/providers.dart';
 import '../../../app/router.dart';
 import '../../../core/formatting.dart';
+import '../../../design_system/bottom_actions.dart';
+import '../../../design_system/empty_state.dart';
+import '../../../design_system/glyphs.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../../bahar/data/bahar_catalog.dart';
@@ -17,7 +20,6 @@ class FieldLogScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final t = AppLocalizations.of(context);
-    final c = context.bm;
     final lang = Localizations.localeOf(context).languageCode;
     final plot = ref
         .watch(plotsProvider)
@@ -63,22 +65,9 @@ class FieldLogScreen extends ConsumerWidget {
     ]..sort((a, b) => b.$1.compareTo(a.$1));
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: c.background,
-        surfaceTintColor: c.background,
-        title: Text(
-          '${t.fieldLogTitle} · ${plot?.name ?? ''}',
-          style: BmType.section.copyWith(color: c.brand),
-        ),
-      ),
+      appBar: AppBar(title: Text('${t.fieldLogTitle} · ${plot?.name ?? ''}')),
       body: rows.isEmpty
-          ? Padding(
-              padding: const EdgeInsets.all(BmSpace.lg),
-              child: Text(
-                t.fieldLogEmpty,
-                style: BmType.body.copyWith(color: c.inkMuted),
-              ),
-            )
+          ? EmptyState(glyph: BmGlyph.drop, message: t.fieldLogEmpty)
           : ListView(
               padding: const EdgeInsets.fromLTRB(
                 BmSpace.lg,
@@ -98,27 +87,17 @@ class FieldLogScreen extends ConsumerWidget {
                   ),
               ],
             ),
-      bottomNavigationBar: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(BmSpace.md),
-          child: Row(
-            children: [
-              Expanded(
-                child: OutlinedButton(
-                  onPressed: () => context.push(Routes.addIrrigation(plotId)),
-                  child: Text(t.logIrrigation),
-                ),
-              ),
-              const SizedBox(width: BmSpace.sm),
-              Expanded(
-                child: FilledButton(
-                  onPressed: () => context.push(Routes.addInput(plotId)),
-                  child: Text(t.addInput),
-                ),
-              ),
-            ],
+      bottomNavigationBar: BottomActions(
+        children: [
+          OutlinedButton(
+            onPressed: () => context.push(Routes.addIrrigation(plotId)),
+            child: Text(t.logIrrigation),
           ),
-        ),
+          FilledButton(
+            onPressed: () => context.push(Routes.addInput(plotId)),
+            child: Text(t.addInput),
+          ),
+        ],
       ),
     );
   }

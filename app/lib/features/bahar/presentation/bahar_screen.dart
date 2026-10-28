@@ -5,7 +5,9 @@ import 'package:go_router/go_router.dart';
 import '../../../app/providers.dart';
 import '../../../app/router.dart';
 import '../../../core/formatting.dart';
+import '../../../design_system/bottom_actions.dart';
 import '../../../design_system/cards.dart';
+import '../../../design_system/empty_state.dart';
 import '../../../design_system/glyphs.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
@@ -33,12 +35,7 @@ class BaharScreen extends ConsumerWidget {
     void start() => context.push(Routes.startBahar(plotId));
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: c.background,
-        surfaceTintColor: c.background,
-        title: Text(
-          plot?.name ?? '',
-          style: BmType.title.copyWith(color: c.brand),
-        ),
+        title: Text(plot?.name ?? ''),
         actions: [
           IconButton(
             tooltip: AppLocalizations.of(context).sprayLogTitle,
@@ -90,16 +87,16 @@ class BaharScreen extends ConsumerWidget {
               itemBuilder: (_, i) =>
                   _CycleCard(cycle: cycles[i], catalog: catalog, lang: lang),
             ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: cycles.isEmpty
+      bottomNavigationBar: cycles.isEmpty
           ? null
-          : Padding(
-              padding: const EdgeInsets.symmetric(horizontal: BmSpace.lg),
-              child: FilledButton.icon(
-                onPressed: start,
-                icon: const Icon(Icons.add_rounded),
-                label: Text(t.startBahar),
-              ),
+          : BottomActions(
+              children: [
+                FilledButton.icon(
+                  onPressed: start,
+                  icon: const Icon(Icons.add_rounded),
+                  label: Text(t.startBahar),
+                ),
+              ],
             ),
     );
   }
@@ -177,37 +174,14 @@ class _Empty extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
-    final c = context.bm;
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(BmSpace.xxl),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const SizedBox.square(
-              dimension: 96,
-              child: GlyphIcon(BmGlyph.flower),
-            ),
-            const SizedBox(height: BmSpace.xl),
-            Text(
-              t.baharEmptyTitle,
-              textAlign: TextAlign.center,
-              style: BmType.cardTitle.copyWith(color: c.brand),
-            ),
-            const SizedBox(height: BmSpace.xs),
-            Text(
-              t.baharEmptyBody,
-              textAlign: TextAlign.center,
-              style: BmType.body.copyWith(color: c.inkMuted),
-            ),
-            const SizedBox(height: BmSpace.xl),
-            FilledButton.icon(
-              onPressed: onStart,
-              icon: const Icon(Icons.add_rounded),
-              label: Text(t.startBahar),
-            ),
-          ],
-        ),
+    return EmptyState(
+      glyph: BmGlyph.flower,
+      title: t.baharEmptyTitle,
+      message: t.baharEmptyBody,
+      action: FilledButton.icon(
+        onPressed: onStart,
+        icon: const Icon(Icons.add_rounded),
+        label: Text(t.startBahar),
       ),
     );
   }

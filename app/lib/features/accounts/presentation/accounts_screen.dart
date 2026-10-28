@@ -5,7 +5,9 @@ import 'package:go_router/go_router.dart';
 import '../../../app/providers.dart';
 import '../../../app/router.dart';
 import '../../../core/formatting.dart';
+import '../../../design_system/bottom_actions.dart';
 import '../../../design_system/cards.dart';
+import '../../../design_system/empty_state.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../../export/presentation/share_accounts.dart';
@@ -87,12 +89,7 @@ class _AccountsScreenState extends ConsumerState<AccountsScreen> {
     ]..sort((a, b) => b.$1.compareTo(a.$1));
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: c.background,
-        surfaceTintColor: c.background,
-        title: Text(
-          '${t.accountsTitle} · ${plot?.name ?? ''}',
-          style: BmType.section.copyWith(color: c.brand),
-        ),
+        title: Text('${t.accountsTitle} · ${plot?.name ?? ''}'),
         actions: [
           IconButton(
             tooltip: t.exportSharePdf,
@@ -156,11 +153,7 @@ class _AccountsScreenState extends ConsumerState<AccountsScreen> {
             ),
           ),
           const SizedBox(height: BmSpace.sm),
-          if (inScope.isEmpty)
-            Text(
-              t.accountsEmpty,
-              style: BmType.body.copyWith(color: c.inkMuted),
-            ),
+          if (inScope.isEmpty) EmptyNote(t.accountsEmpty),
           for (final (date, label, amount) in inScope)
             ListTile(
               contentPadding: EdgeInsets.zero,
@@ -170,27 +163,17 @@ class _AccountsScreenState extends ConsumerState<AccountsScreen> {
             ),
         ],
       ),
-      bottomNavigationBar: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(BmSpace.md),
-          child: Row(
-            children: [
-              Expanded(
-                child: OutlinedButton(
-                  onPressed: () => context.push(Routes.addExpense(id)),
-                  child: Text(t.addExpense),
-                ),
-              ),
-              const SizedBox(width: BmSpace.sm),
-              Expanded(
-                child: FilledButton(
-                  onPressed: () => context.push(Routes.addSale(id)),
-                  child: Text(t.addSale),
-                ),
-              ),
-            ],
+      bottomNavigationBar: BottomActions(
+        children: [
+          OutlinedButton(
+            onPressed: () => context.push(Routes.addExpense(id)),
+            child: Text(t.addExpense),
           ),
-        ),
+          FilledButton(
+            onPressed: () => context.push(Routes.addSale(id)),
+            child: Text(t.addSale),
+          ),
+        ],
       ),
     );
   }

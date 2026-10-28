@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import '../../../app/providers.dart';
 import '../../../app/router.dart';
 import '../../../core/formatting.dart';
+import '../../../design_system/empty_state.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../../tasks/domain/farm_task.dart';
@@ -50,10 +51,7 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          t.feedTitle,
-          style: BmType.section.copyWith(color: c.brand),
-        ),
+        title: Text(t.feedTitle),
         actions: [
           IconButton(
             key: const Key('feed-open-check'),
@@ -93,11 +91,7 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
               style: BmType.meta,
             ),
           ],
-          if (items.isEmpty)
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: BmSpace.lg),
-              child: Text(t.feedEmpty, style: BmType.meta),
-            ),
+          if (items.isEmpty) EmptyNote(t.feedEmpty),
           for (final item in items)
             Padding(
               padding: const EdgeInsets.only(top: BmSpace.sm),
@@ -188,7 +182,7 @@ class _ItemBody extends StatelessWidget {
             padding: const EdgeInsets.only(top: BmSpace.xxs),
             child: Text(
               t.feedDeadline(formatDate(deadline, lang)),
-              style: BmType.meta.copyWith(color: c.accent),
+              style: BmType.meta.copyWith(color: c.accentInk),
             ),
           ),
         if (item.showsEligibility(now))
@@ -242,9 +236,7 @@ class FeedBadge extends StatelessWidget {
         ),
         child: Text(
           text(t, item, lang),
-          style: BmType.label.copyWith(
-            color: official ? c.brandStrong : c.warnTitle,
-          ),
+          style: BmType.label.copyWith(color: official ? c.ink : c.warnTitle),
         ),
       ),
     );
@@ -370,7 +362,6 @@ class _FeedItemScreenState extends ConsumerState<FeedItemScreen> {
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
-    final c = context.bm;
     final lang = Localizations.localeOf(context).languageCode;
     final cached = ref.watch(feedProvider(lang)).value;
     final now = ref.watch(clockProvider)();
@@ -382,12 +373,7 @@ class _FeedItemScreenState extends ConsumerState<FeedItemScreen> {
         tasks.any((task) => task.source == feedTaskSource(item));
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          t.feedTitle,
-          style: BmType.section.copyWith(color: c.brand),
-        ),
-      ),
+      appBar: AppBar(title: Text(t.feedTitle)),
       bottomNavigationBar: FeedFooter(serverFooter: cached?.page.footer),
       body: item == null
           ? Center(child: Text(t.feedNotFound, style: BmType.meta))

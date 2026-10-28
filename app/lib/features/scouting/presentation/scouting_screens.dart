@@ -7,7 +7,10 @@ import 'package:go_router/go_router.dart';
 import '../../../app/providers.dart';
 import '../../../app/router.dart';
 import '../../../core/formatting.dart';
+import '../../../design_system/bottom_actions.dart';
 import '../../../design_system/cards.dart';
+import '../../../design_system/empty_state.dart';
+import '../../../design_system/glyphs.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../../bahar/presentation/cycle_chips.dart';
@@ -111,22 +114,9 @@ class ScoutingScreen extends ConsumerWidget {
       _ => c.inkMuted,
     };
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: c.background,
-        surfaceTintColor: c.background,
-        title: Text(
-          t.scoutingTitle,
-          style: BmType.section.copyWith(color: c.brand),
-        ),
-      ),
+      appBar: AppBar(title: Text(t.scoutingTitle)),
       body: records.isEmpty
-          ? Padding(
-              padding: const EdgeInsets.all(BmSpace.lg),
-              child: Text(
-                t.scoutingEmpty,
-                style: BmType.body.copyWith(color: c.inkMuted),
-              ),
-            )
+          ? EmptyState(glyph: BmGlyph.camera, message: t.scoutingEmpty)
           : ListView.separated(
               padding: const EdgeInsets.fromLTRB(
                 BmSpace.lg,
@@ -180,14 +170,13 @@ class ScoutingScreen extends ConsumerWidget {
                 );
               },
             ),
-      bottomNavigationBar: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(BmSpace.md),
-          child: FilledButton(
+      bottomNavigationBar: BottomActions(
+        children: [
+          FilledButton(
             onPressed: () => context.push(Routes.addScouting(plotId)),
             child: Text(t.scoutingAdd),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -292,7 +281,7 @@ class _AddScoutingScreenState extends ConsumerState<AddScoutingScreen> {
     final lang = Localizations.localeOf(context).languageCode;
     final today = _today;
     final date = _date ?? today;
-    final label = BmType.label.copyWith(color: c.inkMuted, fontSize: 14);
+    final label = BmType.formLabel.copyWith(color: c.ink);
     Widget choice(
       String title,
       List<String> slugs,
@@ -313,7 +302,6 @@ class _AddScoutingScreenState extends ConsumerState<AddScoutingScreen> {
               ChoiceChip(
                 label: Text(name(s), style: BmType.bodyStrong),
                 selected: value == s,
-                selectedColor: c.nowTint,
                 onSelected: (_) => setState(() => set(s)),
               ),
           ],
@@ -329,14 +317,7 @@ class _AddScoutingScreenState extends ConsumerState<AddScoutingScreen> {
       ],
     );
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: c.background,
-        surfaceTintColor: c.background,
-        title: Text(
-          t.scoutingAdd,
-          style: BmType.section.copyWith(color: c.brand),
-        ),
-      ),
+      appBar: AppBar(title: Text(t.scoutingAdd)),
       body: ListView(
         padding: const EdgeInsets.all(BmSpace.lg),
         children: [
@@ -380,6 +361,7 @@ class _AddScoutingScreenState extends ConsumerState<AddScoutingScreen> {
             maxLines: 3,
             minLines: 1,
             decoration: InputDecoration(
+              counterText: '',
               labelText: t.scoutingNote,
               suffixIcon: VoiceMicButton(
                 onResult: (text, {required isFinal}) => _note.text = text,
@@ -424,11 +406,8 @@ class _AddScoutingScreenState extends ConsumerState<AddScoutingScreen> {
           ),
         ],
       ),
-      bottomNavigationBar: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(BmSpace.md),
-          child: FilledButton(onPressed: _save, child: Text(t.save)),
-        ),
+      bottomNavigationBar: BottomActions(
+        children: [FilledButton(onPressed: _save, child: Text(t.save))],
       ),
     );
   }

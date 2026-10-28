@@ -53,10 +53,7 @@ class PracticesScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          t.practicesTitle,
-          style: BmType.section.copyWith(color: c.brand),
-        ),
+        title: Text(t.practicesTitle),
         actions: [
           IconButton(
             key: const Key('open-irrigation-guide-all'),

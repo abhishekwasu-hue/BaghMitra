@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../app/providers.dart';
 import '../../../core/formatting.dart';
+import '../../../design_system/bottom_actions.dart';
 import '../../../design_system/cards.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
@@ -59,14 +60,7 @@ class _BoundaryScreenState extends ConsumerState<BoundaryScreen> {
       null => null,
     };
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: c.background,
-        surfaceTintColor: c.background,
-        title: Text(
-          t.boundaryTitle,
-          style: BmType.section.copyWith(color: c.brand),
-        ),
-      ),
+      appBar: AppBar(title: Text(t.boundaryTitle)),
       body: ListView(
         padding: const EdgeInsets.all(BmSpace.lg),
         children: [
@@ -107,39 +101,34 @@ class _BoundaryScreenState extends ConsumerState<BoundaryScreen> {
           ],
         ],
       ),
-      bottomNavigationBar: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(BmSpace.md),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
+      bottomNavigationBar: BottomActions(
+        stacked: true,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: OutlinedButton(
-                      onPressed: _corners.isEmpty ? null : _undo,
-                      child: Text(t.boundaryUndo),
-                    ),
-                  ),
-                  const SizedBox(width: BmSpace.sm),
-                  Expanded(
-                    child: FilledButton(
-                      onPressed: _reading ? null : _add,
-                      child: Text(t.boundaryAdd),
-                    ),
-                  ),
-                ],
+              Expanded(
+                child: OutlinedButton(
+                  onPressed: _corners.isEmpty ? null : _undo,
+                  child: Text(t.boundaryUndo),
+                ),
               ),
-              const SizedBox(height: BmSpace.xs),
-              FilledButton(
-                onPressed: _corners.length >= 3
-                    ? () => context.pop(List<LatLon>.of(_corners))
-                    : null,
-                child: Text(t.boundaryDone),
+              const SizedBox(width: BmSpace.sm),
+              Expanded(
+                child: FilledButton(
+                  onPressed: _reading ? null : _add,
+                  child: Text(t.boundaryAdd),
+                ),
               ),
             ],
           ),
-        ),
+          FilledButton(
+            onPressed: _corners.length >= 3
+                ? () => context.pop(List<LatLon>.of(_corners))
+                : null,
+            child: Text(t.boundaryDone),
+          ),
+        ],
       ),
     );
   }

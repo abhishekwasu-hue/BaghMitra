@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../app/providers.dart';
 import '../../../app/router.dart';
 import '../../../core/formatting.dart';
+import '../../../design_system/bottom_actions.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../data/bahar_catalog.dart';
@@ -67,12 +68,9 @@ class _StartBaharScreenState extends ConsumerState<StartBaharScreen> {
   }
 
   Widget _chip(String label, {required bool selected, VoidCallback? onTap}) {
-    final c = context.bm;
     return ChoiceChip(
       label: Text(label, style: BmType.bodyStrong),
       selected: selected,
-      selectedColor: c.nowTint,
-      side: BorderSide(color: selected ? c.accent : c.line),
       onSelected: (_) => onTap?.call(),
     );
   }
@@ -94,17 +92,10 @@ class _StartBaharScreenState extends ConsumerState<StartBaharScreen> {
         ? const <LabeledOption>[]
         : catalog.forCrop(crop);
     _season ??= year;
-    final label = BmType.label.copyWith(color: c.inkMuted, fontSize: 14);
+    final label = BmType.formLabel.copyWith(color: c.ink);
     const gap = SizedBox(height: BmSpace.lg);
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: c.background,
-        surfaceTintColor: c.background,
-        title: Text(
-          t.startBahar,
-          style: BmType.section.copyWith(color: c.brand),
-        ),
-      ),
+      appBar: AppBar(title: Text(t.startBahar)),
       body: ListView(
         padding: const EdgeInsets.all(BmSpace.lg),
         children: [
@@ -163,7 +154,10 @@ class _StartBaharScreenState extends ConsumerState<StartBaharScreen> {
               }, style: BmType.bodyStrong.copyWith(color: c.brandStrong)),
               onTap: () => _pick(stage.key),
             ),
-          const SizedBox(height: BmSpace.xl),
+        ],
+      ),
+      bottomNavigationBar: BottomActions(
+        children: [
           FilledButton(
             onPressed: _bahar == null ? null : _save,
             child: Text(t.save),

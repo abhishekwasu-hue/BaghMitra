@@ -52,7 +52,7 @@ class PlotWeatherCard extends ConsumerWidget {
               if (cached.weather.stale)
                 Text(
                   t.weatherStale,
-                  style: BmType.meta.copyWith(color: c.accent),
+                  style: BmType.meta.copyWith(color: c.accentInk),
                 ),
               for (final d in days)
                 ListTile(

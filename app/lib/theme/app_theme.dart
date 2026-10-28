@@ -57,15 +57,65 @@ abstract final class BmTheme {
           vertical: BmSpace.md,
         ),
       ),
+      // One app bar for every screen: page-coloured, brand title, no tint when scrolled.
+      // Screens set only the title and actions.
+      appBarTheme: AppBarTheme(
+        backgroundColor: c.background,
+        surfaceTintColor: c.background,
+        foregroundColor: c.brand,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+        centerTitle: false,
+        titleTextStyle: BmType.section.copyWith(color: c.brand),
+        iconTheme: IconThemeData(color: c.brand),
+        actionsIconTheme: IconThemeData(color: c.brand),
+      ),
+      // Choices look the same on every form: santra tint and border when picked.
+      chipTheme: ChipThemeData(
+        selectedColor: c.nowTint,
+        checkmarkColor: c.ink,
+        labelStyle: BmType.bodyStrong.copyWith(color: c.ink),
+        side: WidgetStateBorderSide.resolveWith(
+          (states) => BorderSide(
+            color: states.contains(WidgetState.selected) ? c.accent : c.line,
+            width: 1.5,
+          ),
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(BmRadius.chip),
+        ),
+      ),
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
           backgroundColor: c.accent,
-          foregroundColor: c.onBrand,
+          // Dark ink on santra: white on santra is 2.4:1 and washes out in sunlight.
+          foregroundColor: c.onAccent,
+          iconColor: c.onAccent,
           minimumSize: const Size.fromHeight(56),
           textStyle: BmType.alertTitle,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(BmRadius.tile),
           ),
+        ),
+      ),
+      // Secondary actions: same shape and text as the main button, 48 dp tall at least.
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          foregroundColor: c.brand,
+          minimumSize: const Size(BmSpace.tapTarget, BmSpace.tapTarget),
+          padding: const EdgeInsets.symmetric(horizontal: BmSpace.md),
+          textStyle: BmType.bodyStrong,
+          side: BorderSide(color: c.brandStrong, width: 1.5),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(BmRadius.tile),
+          ),
+        ),
+      ),
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          foregroundColor: c.brandStrong,
+          minimumSize: const Size(BmSpace.tapTarget, BmSpace.tapTarget),
+          textStyle: BmType.bodyStrong,
         ),
       ),
     );

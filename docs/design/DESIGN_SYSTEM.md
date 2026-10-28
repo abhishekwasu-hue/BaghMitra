@@ -21,7 +21,9 @@ in-app gallery (`--dart-define=DEV_GALLERY=true`, route `/dev/gallery`) and snap
 | card | `#FFFFFF` | `#18271B` | cards, tiles |
 | ink / inkMuted | `#1B2A1E` / `#4E6153` | `#E8F0E3` / `#A9BCA9` | text |
 | brand / brandStrong / brandSoft | leaf `#1F4D2B` / `#2E6B3C` / `#9BC79A` | leaf-light inverted | headings, done states |
-| accent / accentSoft | santra `#F28C28` / `#FFB15C` | same | current stage, camera, hero numbers |
+| accent / accentSoft | santra `#F28C28` / `#FFB15C` | same | fills: main buttons, camera, current stage |
+| accentInk | santra-deep `#A34A06` | santra | accent used as **text** (dates, stale notes, stage days) — santra text is 2.4:1 on cream |
+| onAccent | ink `#1B2A1E` | same | text/icons on a santra fill (white on santra fails in sunlight) |
 | sun, soil, sky | `#FFC857`, `#6B4A2B`, `#CFE8F3` | same | weather, earth, water |
 | warn* | warm orange gradient | deep amber | risk alerts |
 | headerGradient | leaf → leaf2 → `#3F8A4F` | night → leaf → leaf2 | home header |
@@ -48,8 +50,20 @@ motion (`MediaQuery.disableAnimations`).
 | `BmBottomBar`, `CameraButton`, `VoiceButton` | navigation.dart | raised centre camera; mic affordance for voice entry |
 | `SyncBanner` | sync_banner.dart | offline / pending / failed states |
 | `GlyphIcon` | glyphs.dart | painted illustration set (ADR 0007) |
+| `EmptyState`, `EmptyNote` | empty_state.dart | every empty list: glyph in soft circle, optional title, one line, optional action; `EmptyNote` for an empty line under filters/totals |
+| `BottomActions` | bottom_actions.dart | pinned bottom strip for a screen's main action(s) (Save / Add); side-by-side buttons share the 56 dp height |
 
-Inputs and filled buttons are themed in `theme/app_theme.dart` (56 dp buttons, 18 dp radius).
+Themed in `theme/app_theme.dart`, so screens never style these by hand:
+- **App bar**: page background, brand `section` title, brand icons, no scroll tint. Screens pass only title/actions.
+- **Buttons**: filled = santra with dark ink text, 56 dp; outlined/text = brand, ≥ 48 dp, same 18 dp radius.
+- **Chips**: picked = `nowTint` with santra border; unpicked = `line` border.
+- **Inputs**: 18 dp radius; no `0/120` counters (the limit still applies); a mic (`VoiceMicButton`) on free-text name/note fields.
+- **Form question labels** ("Which crop?") use `BmType.formLabel` (16 sp, w600, ink) — not the 13 sp `label`.
+- **Placement**: data-entry forms and list screens put their main action in `BottomActions`; settings-style pages (profile, notification settings) keep Save at the end of the page.
+- **Offline**: any "you are offline" notice is a `SyncBanner`, never a one-off box.
+
+Checks: `test/architecture/ui_guidelines_test.dart` (48 dp tap targets + WCAG text contrast on key screens) and the
+`*_x13` goldens (Marathi at 1.3× text size).
 
 ## Rules for every UI PR
 Tokens only · Marathi strings fit without overflow · works offline · works in dark mode ·

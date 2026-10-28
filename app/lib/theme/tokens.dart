@@ -10,6 +10,9 @@ abstract final class BmPalette {
   static const leafGlow = Color(0xFF3F8A4F);
   static const santra = Color(0xFFF28C28);
   static const santra2 = Color(0xFFFFB15C);
+
+  /// Santra deepened until it reads as text on cream/white in sunlight (≥ 4.5:1).
+  static const santraDeep = Color(0xFFA34A06);
   static const sun = Color(0xFFFFC857);
   static const soil = Color(0xFF6B4A2B);
   static const sky = Color(0xFFCFE8F3);
@@ -57,6 +60,8 @@ class BmColors extends ThemeExtension<BmColors> {
     required this.brandSoft,
     required this.accent,
     required this.accentSoft,
+    required this.accentInk,
+    required this.onAccent,
     required this.sun,
     required this.soil,
     required this.sky,
@@ -82,6 +87,14 @@ class BmColors extends ThemeExtension<BmColors> {
   final Color brandSoft;
   final Color accent;
   final Color accentSoft;
+
+  /// Accent used as text (dates, stale notes, hero numbers): santra is too light for
+  /// text on cream in sunlight, so light mode deepens it.
+  final Color accentInk;
+
+  /// Text and icons on an [accent] fill (the main santra buttons). White on santra is
+  /// only 2.4:1, so this is dark ink.
+  final Color onAccent;
   final Color sun;
   final Color soil;
   final Color sky;
@@ -107,6 +120,8 @@ class BmColors extends ThemeExtension<BmColors> {
     brandSoft: BmPalette.leaf3,
     accent: BmPalette.santra,
     accentSoft: BmPalette.santra2,
+    accentInk: BmPalette.santraDeep,
+    onAccent: BmPalette.ink,
     sun: BmPalette.sun,
     soil: BmPalette.soil,
     sky: BmPalette.sky,
@@ -133,6 +148,8 @@ class BmColors extends ThemeExtension<BmColors> {
     brandSoft: BmPalette.leaf2,
     accent: BmPalette.santra,
     accentSoft: BmPalette.santra2,
+    accentInk: BmPalette.santra,
+    onAccent: BmPalette.ink,
     sun: BmPalette.sun,
     soil: BmPalette.soil,
     sky: BmPalette.sky,
@@ -228,6 +245,13 @@ abstract final class BmType {
     fontWeight: FontWeight.w600,
   );
   static final body = _body.copyWith(fontSize: 16, fontWeight: FontWeight.w400);
+
+  /// The question above a group of chips or fields ("Which crop?"). It carries meaning,
+  /// so it keeps the 16 sp body minimum instead of the small [label] size.
+  static final formLabel = _body.copyWith(
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+  );
   static final meta = _body.copyWith(fontSize: 14, fontWeight: FontWeight.w500);
   static final label = _body.copyWith(
     fontSize: 13,

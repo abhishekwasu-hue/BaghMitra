@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../app/providers.dart';
+import '../../../design_system/sync_banner.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../data/feed_repository.dart';
@@ -81,7 +82,6 @@ class _FeedPreferencesScreenState extends ConsumerState<FeedPreferencesScreen> {
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
-    final c = context.bm;
     final p = _prefs;
     final categories = {
       'deadline': t.feedPrefsCatDeadline,
@@ -89,29 +89,20 @@ class _FeedPreferencesScreenState extends ConsumerState<FeedPreferencesScreen> {
       'window_open': t.feedPrefsCatWindowOpen,
     };
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          t.feedPrefsTitle,
-          style: BmType.section.copyWith(color: c.brand),
-        ),
-      ),
+      appBar: AppBar(title: Text(t.feedPrefsTitle)),
       body: p == null
           ? const Center(child: CircularProgressIndicator())
           : ListView(
               padding: const EdgeInsets.all(BmSpace.lg),
               children: [
                 if (!_online)
-                  Container(
-                    key: const Key('feed-prefs-offline'),
-                    padding: const EdgeInsets.all(BmSpace.sm),
-                    margin: const EdgeInsets.only(bottom: BmSpace.md),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: c.warnBorder),
-                      borderRadius: BorderRadius.circular(BmRadius.chip),
-                    ),
-                    child: Text(
-                      t.feedPrefsOffline,
-                      style: BmType.meta.copyWith(color: c.warnTitle),
+                  // The same offline strip as Home, not a one-off box.
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: BmSpace.md),
+                    child: SyncBanner(
+                      key: const Key('feed-prefs-offline'),
+                      kind: SyncBannerKind.offline,
+                      message: t.feedPrefsOffline,
                     ),
                   ),
                 Text(t.feedPrefsQuietTitle, style: BmType.bodyStrong),

@@ -93,8 +93,8 @@ class WeatherHeader extends StatelessWidget {
                 const SizedBox(width: BmSpace.xs),
                 _tappable(
                   Container(
-                    width: 46,
-                    height: 46,
+                    width: BmSpace.tapTarget,
+                    height: BmSpace.tapTarget,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       color: c.sun,
@@ -145,7 +145,9 @@ class WeatherHeader extends StatelessWidget {
                     vertical: BmSpace.xs,
                   ),
                   decoration: BoxDecoration(
-                    color: onBrand.withValues(alpha: 0.16),
+                    // A darkened (not lightened) pill keeps white text readable on the
+                    // lightest end of the header gradient.
+                    color: c.shadow.withValues(alpha: 0.35),
                     borderRadius: BorderRadius.circular(BmRadius.pill),
                     border: Border.all(color: onBrand.withValues(alpha: 0.3)),
                   ),
