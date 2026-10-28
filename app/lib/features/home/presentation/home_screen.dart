@@ -18,6 +18,8 @@ import '../../../l10n/app_localizations.dart';
 import '../../../sync/sync_engine.dart';
 import '../../../theme/app_theme.dart';
 import '../../tasks/domain/farm_task.dart';
+import '../../tasks/presentation/tasks_screen.dart' show todaysTasksShareText;
+import '../../voice/presentation/share_speak_buttons.dart';
 import '../domain/home_snapshot.dart';
 
 /// "Today's orchard": weather, bahar stage, risk alert, tasks, market price, camera.
@@ -104,6 +106,16 @@ class _HomeBody extends ConsumerWidget {
             : !dateOnly(task.dueOn).isAfter(dateOnly(now)))
           task,
     ];
+    // What "share today's tasks" hands on: the open ones (real tasks, or the demo list).
+    final openTitles = realTasks.isNotEmpty
+        ? [
+            for (final task in dueToday)
+              if (!task.isDone) task.title,
+          ]
+        : [
+            for (final task in snapshot.tasks)
+              if (!(ticks[task.id] ?? task.done)) task.title,
+          ];
     // A test build with no backend never syncs, so say where the data lives instead.
     final banner = config.demoMode && config.isTestBuild
         ? SyncBanner(kind: SyncBannerKind.offline, message: t.localModeBanner)
@@ -186,13 +198,46 @@ class _HomeBody extends ConsumerWidget {
                     const SizedBox(height: BmSpace.sm),
                   ],
                   if (snapshot.alert case final alert?)
-                    AlertBanner(title: alert.title, body: alert.body),
+                    AlertBanner(
+                      title: alert.title,
+                      body: alert.body,
+                      actions: ShareSpeakButtons(
+                        keyPrefix: 'home-alert',
+                        shareText: [
+                          alert.title,
+                          alert.body,
+                          shareFooter(t, config.productName),
+                        ].join('\n'),
+                        speakText: '${alert.title}\n${alert.body}',
+                      ),
+                    ),
                   const SizedBox(height: BmSpace.xs),
                   SectionHeader(
                     title: t.todaysTasks,
                     action: t.seeAll,
                     onAction: () => context.push(Routes.tasks),
                   ),
+                  if (openTitles.isNotEmpty)
+                    Align(
+                      alignment: AlignmentDirectional.centerEnd,
+                      child: ShareSpeakButtons(
+                        keyPrefix: 'home-tasks',
+                        shareText: todaysTasksShareText(
+                          t,
+                          openTitles,
+                          now,
+                          lang,
+                          config.productName,
+                        ),
+                        speakText: todaysTasksShareText(
+                          t,
+                          openTitles,
+                          now,
+                          lang,
+                          null,
+                        ),
+                      ),
+                    ),
                   if (realTasks.isNotEmpty) ...[
                     if (dueToday.isEmpty)
                       Padding(

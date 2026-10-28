@@ -36,9 +36,11 @@ class ComponentGalleryScreen extends StatelessWidget {
                   height: 56,
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: g == BmGlyph.warning || g == BmGlyph.sunCloud
-                        ? c.brand
-                        : c.card,
+                    color: switch (g) {
+                      BmGlyph.sunCloud => c.brand,
+                      BmGlyph.warning => c.accent,
+                      _ => c.card,
+                    },
                     borderRadius: BorderRadius.circular(BmRadius.chip),
                   ),
                   child: GlyphIcon(g, semanticLabel: g.name),

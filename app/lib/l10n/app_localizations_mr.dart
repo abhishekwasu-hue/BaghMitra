@@ -1745,4 +1745,73 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get feedCheckPortal => 'काही करण्याआधी अधिकृत पोर्टल तपासा.';
+
+  @override
+  String get shareAction => 'पाठवा';
+
+  @override
+  String get speakAction => 'वाचून दाखवा';
+
+  @override
+  String get speakUnavailable => 'या फोनवर या भाषेचा आवाज अजून नाही.';
+
+  @override
+  String shareSentFrom(String app) {
+    return '$app ॲपवरून पाठवले';
+  }
+
+  @override
+  String shareSource(String source) {
+    return 'स्रोत: $source';
+  }
+
+  @override
+  String marketShareLine(String market, String price) {
+    return '$market: $price प्रति क्विंटल';
+  }
+
+  @override
+  String taskDueOn(String date) {
+    return 'तारीख: $date';
+  }
+
+  @override
+  String get taskDetails => 'कामाची माहिती';
+
+  @override
+  String tasksTodayShare(String date) {
+    return 'आजची कामं ($date)';
+  }
+
+  @override
+  String get loadingLabel => 'लोड होत आहे';
+
+  @override
+  String get accountSwitchTitle => 'दुसऱ्या खात्याच्या नोंदी';
+
+  @override
+  String get accountSwitchBody =>
+      'या फोनवर दुसऱ्या खात्याच्या नोंदी आहेत. पुढे गेल्यास त्या या फोनवरून काढल्या जातील (सर्व्हरवर सुरक्षित राहतील) आणि तुमच्या नोंदी डाउनलोड होतील.';
+
+  @override
+  String get accountSwitchContinue => 'पुढे जा';
+
+  @override
+  String get accountBlockedTitle => 'या फोनवर न पाठवलेल्या नोंदी';
+
+  @override
+  String accountBlockedBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'आधीच्या खात्याच्या $count नोंदी अजून पाठवलेल्या नाहीत.',
+      one: 'आधीच्या खात्याची १ नोंद अजून पाठवलेली नाही.',
+    );
+    return '$_temp0 त्या खात्याने पुन्हा साइन इन करा आणि इंटरनेट चालू ठेवून ॲप उघडा, म्हणजे त्या पाठवल्या जातील. मग या खात्याने साइन इन करा.';
+  }
+
+  @override
+  String accountPreviousPhone(String phone) {
+    return 'आधीचे खाते: $phone';
+  }
 }

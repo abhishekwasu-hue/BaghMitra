@@ -10,6 +10,7 @@ import '../../../design_system/empty_state.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../../tasks/domain/farm_task.dart';
+import '../../voice/presentation/share_speak_buttons.dart';
 import '../data/feed_receipts.dart';
 import '../data/feed_repository.dart';
 import '../domain/feed_item.dart';
@@ -32,7 +33,8 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
     final t = AppLocalizations.of(context);
     final c = context.bm;
     final lang = Localizations.localeOf(context).languageCode;
-    final cached = ref.watch(feedProvider(lang)).value;
+    final loaded = ref.watch(feedProvider(lang));
+    final cached = loaded.value;
     final receipts =
         ref.watch(feedReceiptStateProvider).value ?? const FeedReceiptState();
     final items = [
@@ -91,7 +93,10 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
               style: BmType.meta,
             ),
           ],
-          if (items.isEmpty) EmptyNote(t.feedEmpty),
+          if (items.isEmpty)
+            loaded.isLoading && !loaded.hasValue
+                ? LoadingState(label: t.loadingLabel)
+                : EmptyNote(t.feedEmpty),
           for (final item in items)
             Padding(
               padding: const EdgeInsets.only(top: BmSpace.sm),
@@ -304,15 +309,70 @@ class FeedFooter extends StatelessWidget {
 }
 
 /// The short text "Share" hands on: title, last date, the source link and the footer, in
-/// the grower's language. Never more than the item says.
-String feedShareText(AppLocalizations t, FeedItem item, String lang) => [
+/// the grower's language. Never more than the item says. Read aloud, the link is left out.
+String feedShareText(
+  AppLocalizations t,
+  FeedItem item,
+  String lang, {
+  bool withLink = true,
+}) => [
   item.title,
   FeedBadge.text(t, item, lang),
   if (item.replacedBy case final r?) t.feedReplacedBy(r),
   if (item.deadline case final d?) t.feedDeadline(formatDate(d, lang)),
-  t.feedSource(item.url),
+  if (withLink) t.feedSource(item.url),
   t.feedFooter,
 ].join('\n');
+
+Future<void> _copyLink(BuildContext context, String url) async {
+  final t = AppLocalizations.of(context);
+  await Clipboard.setData(ClipboardData(text: url));
+  if (context.mounted) {
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(t.feedLinkCopied)));
+  }
+}
+
+/// The item's source link as a full-width row at least 48 dp tall: tapping it copies the
+/// link (the app opens no browser), so the grower can open it or send it on.
+class _SourceLink extends StatelessWidget {
+  const _SourceLink({required this.url});
+
+  final String url;
+
+  @override
+  Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+    final c = context.bm;
+    return Semantics(
+      button: true,
+      hint: t.feedCopyLink,
+      child: InkWell(
+        key: const Key('feed-source'),
+        borderRadius: BorderRadius.circular(BmRadius.chip),
+        onTap: () => _copyLink(context, url),
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(minHeight: BmSpace.tapTarget),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: BmSpace.xs),
+            child: Row(
+              children: [
+                Icon(Icons.link, color: c.brandStrong),
+                const SizedBox(width: BmSpace.xs),
+                Expanded(
+                  child: Text(
+                    t.feedSource(url),
+                    style: BmType.meta.copyWith(color: c.brandStrong),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
 
 /// One item in full: summary, deadline, source link, and the remind / share / hide
 /// actions. Opening it marks it seen (on the phone at once, on the server when online).
@@ -363,7 +423,8 @@ class _FeedItemScreenState extends ConsumerState<FeedItemScreen> {
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
     final lang = Localizations.localeOf(context).languageCode;
-    final cached = ref.watch(feedProvider(lang)).value;
+    final loaded = ref.watch(feedProvider(lang));
+    final cached = loaded.value;
     final now = ref.watch(clockProvider)();
     final item = cached?.page.items.where((i) => i.id == itemId).firstOrNull;
     if (item != null) _markSeen(item);
@@ -376,13 +437,15 @@ class _FeedItemScreenState extends ConsumerState<FeedItemScreen> {
       appBar: AppBar(title: Text(t.feedTitle)),
       bottomNavigationBar: FeedFooter(serverFooter: cached?.page.footer),
       body: item == null
-          ? Center(child: Text(t.feedNotFound, style: BmType.meta))
+          ? loaded.isLoading && !loaded.hasValue
+                ? LoadingState(label: t.loadingLabel)
+                : Center(child: Text(t.feedNotFound, style: BmType.meta))
           : ListView(
               padding: const EdgeInsets.all(BmSpace.lg),
               children: [
                 _ItemBody(item: item, now: now, lang: lang, detail: true),
                 const SizedBox(height: BmSpace.md),
-                SelectableText(t.feedSource(item.url), style: BmType.meta),
+                _SourceLink(url: item.url),
                 const SizedBox(height: BmSpace.md),
                 Wrap(
                   spacing: BmSpace.xs,
@@ -401,26 +464,16 @@ class _FeedItemScreenState extends ConsumerState<FeedItemScreen> {
                         label: Text(t.feedRemindMe),
                         onPressed: () => _remind(item),
                       ),
-                    OutlinedButton.icon(
-                      key: const Key('feed-share'),
-                      icon: const Icon(Icons.share_outlined),
-                      label: Text(t.feedShare),
-                      onPressed: () => ref
-                          .read(textSharerProvider)
-                          .shareText(feedShareText(t, item, lang)),
+                    ShareSpeakButtons(
+                      keyPrefix: 'feed',
+                      shareText: feedShareText(t, item, lang),
+                      speakText: feedShareText(t, item, lang, withLink: false),
                     ),
                     OutlinedButton.icon(
                       key: const Key('feed-copy-link'),
                       icon: const Icon(Icons.link),
                       label: Text(t.feedCopyLink),
-                      onPressed: () async {
-                        await Clipboard.setData(ClipboardData(text: item.url));
-                        if (context.mounted) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text(t.feedLinkCopied)),
-                          );
-                        }
-                      },
+                      onPressed: () => _copyLink(context, item.url),
                     ),
                     OutlinedButton.icon(
                       key: const Key('feed-dismiss'),

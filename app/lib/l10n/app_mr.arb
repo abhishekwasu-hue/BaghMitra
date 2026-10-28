@@ -504,5 +504,21 @@
   "feedCheckOfficial": "अधिकृत GR सापडला",
   "feedCheckPossible": "कदाचित संबंधित अधिकृत संदेश",
   "feedCheckNoMatch": "जुळणारा अधिकृत संदेश सापडला नाही.",
-  "feedCheckPortal": "काही करण्याआधी अधिकृत पोर्टल तपासा."
+  "feedCheckPortal": "काही करण्याआधी अधिकृत पोर्टल तपासा.",
+  "shareAction": "पाठवा",
+  "speakAction": "वाचून दाखवा",
+  "speakUnavailable": "या फोनवर या भाषेचा आवाज अजून नाही.",
+  "shareSentFrom": "{app} ॲपवरून पाठवले",
+  "shareSource": "स्रोत: {source}",
+  "marketShareLine": "{market}: {price} प्रति क्विंटल",
+  "taskDueOn": "तारीख: {date}",
+  "taskDetails": "कामाची माहिती",
+  "tasksTodayShare": "आजची कामं ({date})",
+  "loadingLabel": "लोड होत आहे",
+  "accountSwitchTitle": "दुसऱ्या खात्याच्या नोंदी",
+  "accountSwitchBody": "या फोनवर दुसऱ्या खात्याच्या नोंदी आहेत. पुढे गेल्यास त्या या फोनवरून काढल्या जातील (सर्व्हरवर सुरक्षित राहतील) आणि तुमच्या नोंदी डाउनलोड होतील.",
+  "accountSwitchContinue": "पुढे जा",
+  "accountBlockedTitle": "या फोनवर न पाठवलेल्या नोंदी",
+  "accountBlockedBody": "{count, plural, =1{आधीच्या खात्याची १ नोंद अजून पाठवलेली नाही.} other{आधीच्या खात्याच्या {count} नोंदी अजून पाठवलेल्या नाहीत.}} त्या खात्याने पुन्हा साइन इन करा आणि इंटरनेट चालू ठेवून ॲप उघडा, म्हणजे त्या पाठवल्या जातील. मग या खात्याने साइन इन करा.",
+  "accountPreviousPhone": "आधीचे खाते: {phone}"
 }

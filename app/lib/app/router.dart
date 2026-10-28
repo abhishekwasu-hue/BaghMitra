@@ -8,6 +8,7 @@ import '../features/accounts/presentation/accounts_screen.dart';
 import '../features/accounts/presentation/add_entry_screens.dart';
 import '../features/accounts/presentation/compare_screen.dart';
 import '../features/auth/domain/auth.dart';
+import '../features/auth/presentation/account_switch_screen.dart';
 import '../features/auth/presentation/login_screens.dart';
 import '../features/bahar/presentation/bahar_compare_screen.dart';
 import '../features/bahar/presentation/bahar_screen.dart';
@@ -39,6 +40,7 @@ import '../features/spray/presentation/spray_log_screen.dart';
 import '../features/tasks/presentation/add_task_screen.dart';
 import '../features/tasks/presentation/tasks_screen.dart';
 import '../features/walkthrough/presentation/walkthrough_screen.dart';
+import '../sync/account_guard.dart';
 
 class _AuthListenable extends ChangeNotifier {
   _AuthListenable(Stream<AuthSession?> sessions) {
@@ -58,6 +60,7 @@ abstract final class Routes {
   static const login = '/login';
   static const otp = '/login/otp';
   static const onboarding = '/onboarding';
+  static const accountSwitch = '/account-switch';
   static const walkthrough = '/welcome';
   static const gallery = '/dev/gallery';
   static const settings = '/settings';
@@ -106,6 +109,7 @@ GoRouter buildRouter(
   String? initialLocation,
   ValueListenable<bool?>? onboarded,
   ValueListenable<bool?>? walkthroughSeen,
+  ValueListenable<AccountCheck?>? accountGate,
 }) {
   final refresh = _AuthListenable(auth.sessions());
   return GoRouter(
@@ -114,6 +118,7 @@ GoRouter buildRouter(
       refresh,
       ?onboarded,
       ?walkthroughSeen,
+      ?accountGate,
     ]),
     redirect: (context, state) {
       final signedIn = auth.current != null;
@@ -134,6 +139,17 @@ GoRouter buildRouter(
       }
       if (onWalkthrough) return null;
       if (!signedIn && !onLogin) return Routes.login;
+      // Another account's records on the phone (Q36): warn (or block) before anything of
+      // them shows. Unknown (still checking) waits where it is, so a sign-in stays on the
+      // login screen until the check is done.
+      final gate = accountGate == null ? AccountCheck.same : accountGate.value;
+      final onSwitch = loc == Routes.accountSwitch;
+      if (signedIn &&
+          (gate == AccountCheck.switchable || gate == AccountCheck.blocked)) {
+        return onSwitch ? null : Routes.accountSwitch;
+      }
+      if (signedIn && gate == null) return null;
+      if (onSwitch) return Routes.home;
       if (signedIn && onLogin) return Routes.home;
       // Signed in but not set up yet: finish onboarding first. Unknown (still loading) waits.
       final done = onboarded?.value;
@@ -171,6 +187,10 @@ GoRouter buildRouter(
       ),
       GoRoute(path: Routes.settings, builder: (_, _) => const SettingsScreen()),
       GoRoute(path: Routes.profile, builder: (_, _) => const ProfileScreen()),
+      GoRoute(
+        path: Routes.accountSwitch,
+        builder: (_, _) => const AccountSwitchScreen(),
+      ),
       GoRoute(path: Routes.tasks, builder: (_, _) => const TasksScreen()),
       GoRoute(path: Routes.addTask, builder: (_, _) => const AddTaskScreen()),
       GoRoute(path: Routes.plots, builder: (_, _) => const PlotsScreen()),
