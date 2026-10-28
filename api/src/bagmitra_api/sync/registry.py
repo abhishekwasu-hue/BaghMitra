@@ -147,10 +147,13 @@ class FarmerProfileHandler:
         if farmer is None:
             farmer = Farmer(id=farmer_id)
             session.add(farmer)
-        for key, value in write.payload.model_dump().items():
+        # Older apps send no phone: leave the stored one alone.
+        for key, value in write.payload.model_dump(exclude={"phone"}).items():
             setattr(farmer, key, value)
         if user.phone:
             farmer.phone = user.phone
+        elif "phone" in write.payload.model_fields_set:
+            farmer.phone = getattr(write.payload, "phone", None)
         farmer.client_updated_at = write.client_updated_at
         farmer.last_seq = write.seq
 
@@ -166,9 +169,7 @@ class FarmerProfileHandler:
 
 
 def profile_dict(farmer: Farmer) -> dict[str, Any]:
-    data = {key: getattr(farmer, key) for key in FarmerProfilePayload.model_fields}
-    data["phone"] = farmer.phone
-    return data
+    return {key: getattr(farmer, key) for key in FarmerProfilePayload.model_fields}
 
 
 @dataclass(frozen=True)
