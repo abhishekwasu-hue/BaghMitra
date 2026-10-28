@@ -86,4 +86,38 @@ void main() {
       await db.close();
     },
   );
+
+  test('v10 -> latest adds the scouting photo key column', () async {
+    final fresh = memoryDb();
+    final ddl = await fresh
+        .customSelect(
+          "SELECT sql FROM sqlite_master WHERE type = 'table' "
+          "AND name NOT LIKE 'sqlite_%'",
+        )
+        .map((r) => r.read<String>('sql'))
+        .map(
+          (sql) => sql.replaceFirst(RegExp(r',\s*"photo_key" TEXT NULL'), ''),
+        )
+        .get();
+    await fresh.close();
+    expect(ddl.join(), isNot(contains('"photo_key"')));
+
+    driftRuntimeOptions.dontWarnAboutMultipleDatabases = true;
+    final db = AppDatabase(
+      NativeDatabase.memory(
+        setup: (raw) {
+          for (final stmt in ddl) {
+            raw.execute(stmt);
+          }
+          raw.execute('PRAGMA user_version = 10');
+        },
+      ),
+    );
+    final cols = await db
+        .customSelect("PRAGMA table_info('scouting_records')")
+        .map((r) => r.read<String>('name'))
+        .get();
+    expect(cols, contains('photo_key'));
+    await db.close();
+  });
 }

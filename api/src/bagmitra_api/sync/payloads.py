@@ -18,6 +18,8 @@ class RowPayload(BaseModel):
 
 Position = tuple[float, float]  # GeoJSON order: (longitude, latitude)
 Slug = Annotated[str, Field(pattern=r"^[a-z][a-z0-9_]{1,31}$")]
+_UUID = r"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+PHOTO_KEY_PATTERN = rf"^{_UUID}/{_UUID}\.jpg$"
 
 
 class FarmerProfilePayload(BaseModel):
@@ -194,7 +196,8 @@ class FarmTaskPayload(RowPayload):
 
 class ScoutingRecordPayload(RowPayload):
     """A scouting observation. Extra fields are refused so a phone-only photo path can never
-    reach the server by mistake."""
+    reach the server by mistake. `photo_key` is the backed-up object path
+    `<owner_id>/<record_id>.jpg`; the handler checks it is the caller's own."""
 
     model_config = ConfigDict(extra="forbid")
 
@@ -204,3 +207,4 @@ class ScoutingRecordPayload(RowPayload):
     item: Slug
     severity: Literal["none", "low", "medium", "high"]
     note: str | None = Field(default=None, max_length=500)
+    photo_key: str | None = Field(default=None, pattern=PHOTO_KEY_PATTERN)

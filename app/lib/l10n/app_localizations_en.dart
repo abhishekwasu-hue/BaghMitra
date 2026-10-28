@@ -1163,6 +1163,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsShowWalkthrough => 'See the app introduction again';
 
   @override
+  String get settingsPhotoMobileData => 'Back up photos on mobile data';
+
+  @override
+  String get settingsPhotoMobileDataHint =>
+      'Scouting photos are backed up on Wi-Fi. Turn this on to use mobile data too.';
+
+  @override
   String buildLabel(String sha) {
     return 'Test build $sha';
   }
@@ -1462,7 +1469,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get scoutingNote => 'Note (optional)';
 
   @override
-  String get scoutingPhoto => 'Photo (optional, stays on this phone)';
+  String get scoutingPhoto => 'Photo (optional)';
+
+  @override
+  String get scoutingPhotoBackedUp => 'Photo backed up';
 
   @override
   String get scoutingCamera => 'Camera';

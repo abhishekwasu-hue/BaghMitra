@@ -8248,6 +8248,17 @@ class $ScoutingRecordsTable extends ScoutingRecords
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _photoKeyMeta = const VerificationMeta(
+    'photoKey',
+  );
+  @override
+  late final GeneratedColumn<String> photoKey = GeneratedColumn<String>(
+    'photo_key',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   static const VerificationMeta _clientUpdatedAtMeta = const VerificationMeta(
     'clientUpdatedAt',
   );
@@ -8270,6 +8281,7 @@ class $ScoutingRecordsTable extends ScoutingRecords
     severity,
     note,
     photoPath,
+    photoKey,
     clientUpdatedAt,
   ];
   @override
@@ -8342,6 +8354,12 @@ class $ScoutingRecordsTable extends ScoutingRecords
         photoPath.isAcceptableOrUnknown(data['photo_path']!, _photoPathMeta),
       );
     }
+    if (data.containsKey('photo_key')) {
+      context.handle(
+        _photoKeyMeta,
+        photoKey.isAcceptableOrUnknown(data['photo_key']!, _photoKeyMeta),
+      );
+    }
     if (data.containsKey('client_updated_at')) {
       context.handle(
         _clientUpdatedAtMeta,
@@ -8394,6 +8412,10 @@ class $ScoutingRecordsTable extends ScoutingRecords
         DriftSqlType.string,
         data['${effectivePrefix}photo_path'],
       ),
+      photoKey: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}photo_key'],
+      ),
       clientUpdatedAt: attachedDatabase.typeMapping.read(
         DriftSqlType.dateTime,
         data['${effectivePrefix}client_updated_at'],
@@ -8417,6 +8439,7 @@ class ScoutingRecordRow extends DataClass
   final String severity;
   final String? note;
   final String? photoPath;
+  final String? photoKey;
   final DateTime clientUpdatedAt;
   const ScoutingRecordRow({
     required this.id,
@@ -8427,6 +8450,7 @@ class ScoutingRecordRow extends DataClass
     required this.severity,
     this.note,
     this.photoPath,
+    this.photoKey,
     required this.clientUpdatedAt,
   });
   @override
@@ -8446,6 +8470,9 @@ class ScoutingRecordRow extends DataClass
     if (!nullToAbsent || photoPath != null) {
       map['photo_path'] = Variable<String>(photoPath);
     }
+    if (!nullToAbsent || photoKey != null) {
+      map['photo_key'] = Variable<String>(photoKey);
+    }
     map['client_updated_at'] = Variable<DateTime>(clientUpdatedAt);
     return map;
   }
@@ -8464,6 +8491,9 @@ class ScoutingRecordRow extends DataClass
       photoPath: photoPath == null && nullToAbsent
           ? const Value.absent()
           : Value(photoPath),
+      photoKey: photoKey == null && nullToAbsent
+          ? const Value.absent()
+          : Value(photoKey),
       clientUpdatedAt: Value(clientUpdatedAt),
     );
   }
@@ -8482,6 +8512,7 @@ class ScoutingRecordRow extends DataClass
       severity: serializer.fromJson<String>(json['severity']),
       note: serializer.fromJson<String?>(json['note']),
       photoPath: serializer.fromJson<String?>(json['photoPath']),
+      photoKey: serializer.fromJson<String?>(json['photoKey']),
       clientUpdatedAt: serializer.fromJson<DateTime>(json['clientUpdatedAt']),
     );
   }
@@ -8497,6 +8528,7 @@ class ScoutingRecordRow extends DataClass
       'severity': serializer.toJson<String>(severity),
       'note': serializer.toJson<String?>(note),
       'photoPath': serializer.toJson<String?>(photoPath),
+      'photoKey': serializer.toJson<String?>(photoKey),
       'clientUpdatedAt': serializer.toJson<DateTime>(clientUpdatedAt),
     };
   }
@@ -8510,6 +8542,7 @@ class ScoutingRecordRow extends DataClass
     String? severity,
     Value<String?> note = const Value.absent(),
     Value<String?> photoPath = const Value.absent(),
+    Value<String?> photoKey = const Value.absent(),
     DateTime? clientUpdatedAt,
   }) => ScoutingRecordRow(
     id: id ?? this.id,
@@ -8520,6 +8553,7 @@ class ScoutingRecordRow extends DataClass
     severity: severity ?? this.severity,
     note: note.present ? note.value : this.note,
     photoPath: photoPath.present ? photoPath.value : this.photoPath,
+    photoKey: photoKey.present ? photoKey.value : this.photoKey,
     clientUpdatedAt: clientUpdatedAt ?? this.clientUpdatedAt,
   );
   ScoutingRecordRow copyWithCompanion(ScoutingRecordsCompanion data) {
@@ -8536,6 +8570,7 @@ class ScoutingRecordRow extends DataClass
       severity: data.severity.present ? data.severity.value : this.severity,
       note: data.note.present ? data.note.value : this.note,
       photoPath: data.photoPath.present ? data.photoPath.value : this.photoPath,
+      photoKey: data.photoKey.present ? data.photoKey.value : this.photoKey,
       clientUpdatedAt: data.clientUpdatedAt.present
           ? data.clientUpdatedAt.value
           : this.clientUpdatedAt,
@@ -8553,6 +8588,7 @@ class ScoutingRecordRow extends DataClass
           ..write('severity: $severity, ')
           ..write('note: $note, ')
           ..write('photoPath: $photoPath, ')
+          ..write('photoKey: $photoKey, ')
           ..write('clientUpdatedAt: $clientUpdatedAt')
           ..write(')'))
         .toString();
@@ -8568,6 +8604,7 @@ class ScoutingRecordRow extends DataClass
     severity,
     note,
     photoPath,
+    photoKey,
     clientUpdatedAt,
   );
   @override
@@ -8582,6 +8619,7 @@ class ScoutingRecordRow extends DataClass
           other.severity == this.severity &&
           other.note == this.note &&
           other.photoPath == this.photoPath &&
+          other.photoKey == this.photoKey &&
           other.clientUpdatedAt == this.clientUpdatedAt);
 }
 
@@ -8594,6 +8632,7 @@ class ScoutingRecordsCompanion extends UpdateCompanion<ScoutingRecordRow> {
   final Value<String> severity;
   final Value<String?> note;
   final Value<String?> photoPath;
+  final Value<String?> photoKey;
   final Value<DateTime> clientUpdatedAt;
   final Value<int> rowid;
   const ScoutingRecordsCompanion({
@@ -8605,6 +8644,7 @@ class ScoutingRecordsCompanion extends UpdateCompanion<ScoutingRecordRow> {
     this.severity = const Value.absent(),
     this.note = const Value.absent(),
     this.photoPath = const Value.absent(),
+    this.photoKey = const Value.absent(),
     this.clientUpdatedAt = const Value.absent(),
     this.rowid = const Value.absent(),
   });
@@ -8617,6 +8657,7 @@ class ScoutingRecordsCompanion extends UpdateCompanion<ScoutingRecordRow> {
     required String severity,
     this.note = const Value.absent(),
     this.photoPath = const Value.absent(),
+    this.photoKey = const Value.absent(),
     required DateTime clientUpdatedAt,
     this.rowid = const Value.absent(),
   }) : id = Value(id),
@@ -8634,6 +8675,7 @@ class ScoutingRecordsCompanion extends UpdateCompanion<ScoutingRecordRow> {
     Expression<String>? severity,
     Expression<String>? note,
     Expression<String>? photoPath,
+    Expression<String>? photoKey,
     Expression<DateTime>? clientUpdatedAt,
     Expression<int>? rowid,
   }) {
@@ -8646,6 +8688,7 @@ class ScoutingRecordsCompanion extends UpdateCompanion<ScoutingRecordRow> {
       if (severity != null) 'severity': severity,
       if (note != null) 'note': note,
       if (photoPath != null) 'photo_path': photoPath,
+      if (photoKey != null) 'photo_key': photoKey,
       if (clientUpdatedAt != null) 'client_updated_at': clientUpdatedAt,
       if (rowid != null) 'rowid': rowid,
     });
@@ -8660,6 +8703,7 @@ class ScoutingRecordsCompanion extends UpdateCompanion<ScoutingRecordRow> {
     Value<String>? severity,
     Value<String?>? note,
     Value<String?>? photoPath,
+    Value<String?>? photoKey,
     Value<DateTime>? clientUpdatedAt,
     Value<int>? rowid,
   }) {
@@ -8672,6 +8716,7 @@ class ScoutingRecordsCompanion extends UpdateCompanion<ScoutingRecordRow> {
       severity: severity ?? this.severity,
       note: note ?? this.note,
       photoPath: photoPath ?? this.photoPath,
+      photoKey: photoKey ?? this.photoKey,
       clientUpdatedAt: clientUpdatedAt ?? this.clientUpdatedAt,
       rowid: rowid ?? this.rowid,
     );
@@ -8704,6 +8749,9 @@ class ScoutingRecordsCompanion extends UpdateCompanion<ScoutingRecordRow> {
     if (photoPath.present) {
       map['photo_path'] = Variable<String>(photoPath.value);
     }
+    if (photoKey.present) {
+      map['photo_key'] = Variable<String>(photoKey.value);
+    }
     if (clientUpdatedAt.present) {
       map['client_updated_at'] = Variable<DateTime>(clientUpdatedAt.value);
     }
@@ -8724,6 +8772,7 @@ class ScoutingRecordsCompanion extends UpdateCompanion<ScoutingRecordRow> {
           ..write('severity: $severity, ')
           ..write('note: $note, ')
           ..write('photoPath: $photoPath, ')
+          ..write('photoKey: $photoKey, ')
           ..write('clientUpdatedAt: $clientUpdatedAt, ')
           ..write('rowid: $rowid')
           ..write(')'))
@@ -12847,6 +12896,7 @@ typedef $$ScoutingRecordsTableCreateCompanionBuilder =
       required String severity,
       Value<String?> note,
       Value<String?> photoPath,
+      Value<String?> photoKey,
       required DateTime clientUpdatedAt,
       Value<int> rowid,
     });
@@ -12860,6 +12910,7 @@ typedef $$ScoutingRecordsTableUpdateCompanionBuilder =
       Value<String> severity,
       Value<String?> note,
       Value<String?> photoPath,
+      Value<String?> photoKey,
       Value<DateTime> clientUpdatedAt,
       Value<int> rowid,
     });
@@ -12910,6 +12961,11 @@ class $$ScoutingRecordsTableFilterComposer
 
   ColumnFilters<String> get photoPath => $composableBuilder(
     column: $table.photoPath,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get photoKey => $composableBuilder(
+    column: $table.photoKey,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -12968,6 +13024,11 @@ class $$ScoutingRecordsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get photoKey => $composableBuilder(
+    column: $table.photoKey,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<DateTime> get clientUpdatedAt => $composableBuilder(
     column: $table.clientUpdatedAt,
     builder: (column) => ColumnOrderings(column),
@@ -13010,6 +13071,9 @@ class $$ScoutingRecordsTableAnnotationComposer
 
   GeneratedColumn<String> get photoPath =>
       $composableBuilder(column: $table.photoPath, builder: (column) => column);
+
+  GeneratedColumn<String> get photoKey =>
+      $composableBuilder(column: $table.photoKey, builder: (column) => column);
 
   GeneratedColumn<DateTime> get clientUpdatedAt => $composableBuilder(
     column: $table.clientUpdatedAt,
@@ -13062,6 +13126,7 @@ class $$ScoutingRecordsTableTableManager
                 Value<String> severity = const Value.absent(),
                 Value<String?> note = const Value.absent(),
                 Value<String?> photoPath = const Value.absent(),
+                Value<String?> photoKey = const Value.absent(),
                 Value<DateTime> clientUpdatedAt = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => ScoutingRecordsCompanion(
@@ -13073,6 +13138,7 @@ class $$ScoutingRecordsTableTableManager
                 severity: severity,
                 note: note,
                 photoPath: photoPath,
+                photoKey: photoKey,
                 clientUpdatedAt: clientUpdatedAt,
                 rowid: rowid,
               ),
@@ -13086,6 +13152,7 @@ class $$ScoutingRecordsTableTableManager
                 required String severity,
                 Value<String?> note = const Value.absent(),
                 Value<String?> photoPath = const Value.absent(),
+                Value<String?> photoKey = const Value.absent(),
                 required DateTime clientUpdatedAt,
                 Value<int> rowid = const Value.absent(),
               }) => ScoutingRecordsCompanion.insert(
@@ -13097,6 +13164,7 @@ class $$ScoutingRecordsTableTableManager
                 severity: severity,
                 note: note,
                 photoPath: photoPath,
+                photoKey: photoKey,
                 clientUpdatedAt: clientUpdatedAt,
                 rowid: rowid,
               ),

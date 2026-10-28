@@ -1163,6 +1163,13 @@ class AppLocalizationsHi extends AppLocalizations {
   String get settingsShowWalkthrough => 'ऐप का परिचय फिर से देखें';
 
   @override
+  String get settingsPhotoMobileData => 'मोबाइल डेटा पर भी फ़ोटो का बैकअप लें';
+
+  @override
+  String get settingsPhotoMobileDataHint =>
+      'निरीक्षण की फ़ोटो का बैकअप वाई-फ़ाई पर होता है। मोबाइल डेटा भी इस्तेमाल करना हो तो इसे चालू करें।';
+
+  @override
   String buildLabel(String sha) {
     return 'टेस्ट बिल्ड $sha';
   }
@@ -1460,7 +1467,10 @@ class AppLocalizationsHi extends AppLocalizations {
   String get scoutingNote => 'टिप्पणी (वैकल्पिक)';
 
   @override
-  String get scoutingPhoto => 'फ़ोटो (वैकल्पिक, सिर्फ़ इसी फ़ोन पर रहती है)';
+  String get scoutingPhoto => 'फ़ोटो (वैकल्पिक)';
+
+  @override
+  String get scoutingPhotoBackedUp => 'फ़ोटो का बैकअप हो गया';
 
   @override
   String get scoutingCamera => 'कैमरा';

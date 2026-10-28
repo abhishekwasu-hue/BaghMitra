@@ -8,6 +8,7 @@ Most entities are owner-scoped rows and reuse [OwnedEntityHandler].
 from __future__ import annotations
 
 import uuid
+from collections.abc import Callable
 from dataclasses import dataclass
 from datetime import datetime
 from typing import Any, Literal, Protocol
@@ -89,6 +90,10 @@ class EntityHandler(Protocol):
         self, session: AsyncSession, user: AuthenticatedUser, payload: BaseModel
     ) -> None: ...
 
+    def check_payload(self, user: AuthenticatedUser, entity_id: str, payload: BaseModel) -> None:
+        """Entity-specific checks needing the caller and row id; raise RejectedError."""
+        ...
+
     async def apply(
         self, session: AsyncSession, user: AuthenticatedUser, write: ValidatedWrite
     ) -> None: ...
@@ -123,6 +128,14 @@ class FarmerProfileHandler:
         payload: BaseModel,  # noqa: ARG002
     ) -> None:
         return None  # a profile references nothing
+
+    def check_payload(
+        self,
+        user: AuthenticatedUser,  # noqa: ARG002
+        entity_id: str,  # noqa: ARG002
+        payload: BaseModel,  # noqa: ARG002
+    ) -> None:
+        return None
 
     async def apply(
         self, session: AsyncSession, user: AuthenticatedUser, write: ValidatedWrite
@@ -168,6 +181,12 @@ class OwnedEntityHandler:
     supported_ops: frozenset[str] = frozenset({"upsert", "delete"})
     # (payload attribute, parent model): the parent must exist, be live and be the user's.
     parents: tuple[tuple[str, type[OwnedSyncedRowMixin]], ...] = ()
+    # Extra (user, entity_id, payload) check; raises RejectedError.
+    payload_check: Callable[[AuthenticatedUser, str, BaseModel], None] | None = None
+
+    def check_payload(self, user: AuthenticatedUser, entity_id: str, payload: BaseModel) -> None:
+        if self.payload_check is not None:
+            self.payload_check(user, entity_id, payload)
 
     async def _row(
         self, session: AsyncSession, user: AuthenticatedUser, entity_id: str
@@ -237,6 +256,14 @@ class OwnedEntityHandler:
         ]
 
 
+def check_photo_key(user: AuthenticatedUser, entity_id: str, payload: BaseModel) -> None:
+    """A backed-up photo lives at `<owner_id>/<record_id>.jpg`: the caller's own folder and
+    this record's name. Anything else is refused (OPEN_QUESTIONS Q34)."""
+    key = getattr(payload, "photo_key", None)
+    if key is not None and key != f"{user.id}/{entity_id.lower()}.jpg":
+        raise RejectedError("invalid_photo_key")
+
+
 HANDLERS: dict[str, EntityHandler] = {
     h.name: h
     for h in (
@@ -301,6 +328,7 @@ HANDLERS: dict[str, EntityHandler] = {
             model=ScoutingRecord,
             payload_model=ScoutingRecordPayload,
             parents=(("plot_id", Plot), ("bahar_cycle_id", BaharCycle)),
+            payload_check=check_photo_key,
         ),
     )
 }

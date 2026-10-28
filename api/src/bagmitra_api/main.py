@@ -22,6 +22,7 @@ from bagmitra_api.routers import (
     market,
     me,
     reference,
+    scouting_photos,
     sync,
     weather,
 )
@@ -57,6 +58,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         market,
         me,
         reference,
+        scouting_photos,
         sync,
         weather,
     ):

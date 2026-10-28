@@ -56,6 +56,42 @@ class _Thumb extends StatelessWidget {
   );
 }
 
+/// A record's photo: the file on this phone, or a backed-up one fetched once from the
+/// server; a small cloud mark when it is backed up.
+class _RecordPhoto extends ConsumerWidget {
+  const _RecordPhoto(this.record);
+  final ScoutingRecord record;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final t = AppLocalizations.of(context);
+    final path =
+        record.photoPath ??
+        ref.watch(scoutingPhotoFileProvider(record.id)).value;
+    return Column(
+      children: [
+        path != null
+            ? _Thumb(path)
+            : SizedBox.square(
+                dimension: 56,
+                child: Icon(Icons.photo_outlined, color: context.bm.inkMuted),
+              ),
+        if (record.backedUp)
+          Padding(
+            padding: const EdgeInsets.only(top: BmSpace.xs),
+            child: Icon(
+              Icons.cloud_done_outlined,
+              key: const Key('photo-backed-up'),
+              size: 16,
+              color: context.bm.brand,
+              semanticLabel: t.scoutingPhotoBackedUp,
+            ),
+          ),
+      ],
+    );
+  }
+}
+
 /// The scouting log of one block ("पाहणी नोंद"), newest first.
 class ScoutingScreen extends ConsumerWidget {
   const ScoutingScreen({required this.plotId, super.key});
@@ -135,9 +171,9 @@ class ScoutingScreen extends ConsumerWidget {
                           ],
                         ),
                       ),
-                      if (r.photoPath != null) ...[
+                      if (r.photoPath != null || r.backedUp) ...[
                         const SizedBox(width: BmSpace.sm),
-                        _Thumb(r.photoPath!),
+                        _RecordPhoto(r),
                       ],
                     ],
                   ),

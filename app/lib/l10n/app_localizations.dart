@@ -2110,6 +2110,18 @@ abstract class AppLocalizations {
   /// **'See the app introduction again'**
   String get settingsShowWalkthrough;
 
+  /// No description provided for @settingsPhotoMobileData.
+  ///
+  /// In en, this message translates to:
+  /// **'Back up photos on mobile data'**
+  String get settingsPhotoMobileData;
+
+  /// No description provided for @settingsPhotoMobileDataHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Scouting photos are backed up on Wi-Fi. Turn this on to use mobile data too.'**
+  String get settingsPhotoMobileDataHint;
+
   /// No description provided for @buildLabel.
   ///
   /// In en, this message translates to:
@@ -2617,8 +2629,14 @@ abstract class AppLocalizations {
   /// No description provided for @scoutingPhoto.
   ///
   /// In en, this message translates to:
-  /// **'Photo (optional, stays on this phone)'**
+  /// **'Photo (optional)'**
   String get scoutingPhoto;
+
+  /// No description provided for @scoutingPhotoBackedUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo backed up'**
+  String get scoutingPhotoBackedUp;
 
   /// No description provided for @scoutingCamera.
   ///

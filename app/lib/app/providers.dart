@@ -47,6 +47,7 @@ import '../features/profile/data/language_catalog.dart';
 import '../features/profile/data/profile_repository.dart';
 import '../features/profile/domain/farmer_profile.dart';
 import '../features/reminders/domain/reminders.dart';
+import '../features/scouting/data/photo_backup.dart';
 import '../features/scouting/data/scouting_photos.dart';
 import '../features/scouting/data/scouting_repository.dart';
 import '../features/scouting/domain/scouting_record.dart';
@@ -64,6 +65,7 @@ import '../features/voice/domain/speech.dart';
 import '../features/walkthrough/data/walkthrough_flag.dart';
 import '../features/weather/data/plot_weather_cache.dart';
 import '../sync/http_transport.dart';
+import '../sync/outbox.dart';
 import '../sync/sync_engine.dart';
 
 /// Overridden in main() / tests.
@@ -419,6 +421,50 @@ final scoutingRecordsProvider =
           ref.watch(scoutingRepositoryProvider).watchForPlot(plotId),
     );
 
+final photoBackupPrefsProvider = Provider<PhotoBackupPrefs>(
+  (ref) => PhotoBackupPrefs(ref.watch(databaseProvider)),
+);
+
+/// "Back up photos on mobile data" (off by default; Wi-Fi uploads need no setting).
+final photoBackupMobileDataProvider =
+    AsyncNotifierProvider<PhotoBackupMobileData, bool>(
+      PhotoBackupMobileData.new,
+    );
+
+class PhotoBackupMobileData extends AsyncNotifier<bool> {
+  @override
+  Future<bool> build() => ref.watch(photoBackupPrefsProvider).mobileData();
+
+  Future<void> set(bool on) async {
+    await ref.read(photoBackupPrefsProvider).setMobileData(on);
+    state = AsyncData(on);
+  }
+}
+
+/// Optional server backup of scouting photos (OPEN_QUESTIONS Q34). One per app start, so a
+/// "not configured" answer stops it until the next start. Tests override it.
+final scoutingPhotoBackupProvider = Provider<ScoutingPhotoBackup>((ref) {
+  final db = ref.watch(databaseProvider);
+  return ScoutingPhotoBackup(
+    repo: ref.watch(scoutingRepositoryProvider),
+    api: HttpPhotoBackupApi(ref.watch(apiProvider)),
+    files: DevicePhotoFiles(),
+    outbox: Outbox(db, clock: ref.watch(clockProvider)),
+    prefs: ref.watch(photoBackupPrefsProvider),
+    clock: ref.watch(clockProvider),
+    log: (line) => ref.read(appLogProvider).log(line),
+  );
+});
+
+/// The phone's copy of a scouting record's photo, downloading a backed-up one when needed
+/// (kept once fetched; tried again when the screen is opened again).
+final scoutingPhotoFileProvider = FutureProvider.autoDispose
+    .family<String?, String>((ref, recordId) async {
+      final record = await ref.watch(scoutingRepositoryProvider).find(recordId);
+      if (record == null) return null;
+      return ref.watch(scoutingPhotoBackupProvider).localPhoto(record);
+    });
+
 /// Where diagnostics go. `main` swaps in the file-backed log; tests use the in-memory one.
 final appLogProvider = Provider<AppLog>((ref) => MemoryAppLog());
 
@@ -496,7 +542,20 @@ final syncEngineProvider = Provider<SyncEngine>((ref) {
     },
   );
   // Demo mode has no backend: writes stay queued locally, nothing is reported as failing.
-  if (!ref.watch(appConfigProvider).demoMode) engine.start();
+  if (!ref.watch(appConfigProvider).demoMode) {
+    // Scouting photos are backed up after each successful sync, then synced again so the
+    // new photo keys reach the server (OPEN_QUESTIONS Q34).
+    final backup = ref.watch(scoutingPhotoBackupProvider);
+    final sub = engine.statusStream
+        .map((s) => s.lastSuccessAt)
+        .where((at) => at != null)
+        .distinct()
+        .listen((_) async {
+          if (await backup.uploadPending() > 0) unawaited(engine.sync());
+        });
+    ref.onDispose(sub.cancel);
+    engine.start();
+  }
   ref.onDispose(engine.dispose);
   return engine;
 });

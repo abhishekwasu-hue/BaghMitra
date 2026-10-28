@@ -233,8 +233,9 @@ class FarmTasks extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
-/// Scouting log (mirror of the API `scouting_record` entity). [photoPath] is local only:
-/// the photo stays on this phone and is never synced.
+/// Scouting log (mirror of the API `scouting_record` entity). [photoPath] is local only
+/// (the file on this phone, never synced). [photoKey] is synced: the object path of the
+/// backed-up photo once the optional photo backup uploaded it (OPEN_QUESTIONS Q34).
 @DataClassName('ScoutingRecordRow')
 class ScoutingRecords extends Table {
   TextColumn get id => text()();
@@ -245,6 +246,7 @@ class ScoutingRecords extends Table {
   TextColumn get severity => text()();
   TextColumn get note => text().nullable()();
   TextColumn get photoPath => text().nullable()();
+  TextColumn get photoKey => text().nullable()();
   DateTimeColumn get clientUpdatedAt => dateTime()();
 
   @override
@@ -284,7 +286,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.open(String name) : super(driftDatabase(name: name));
 
   @override
-  int get schemaVersion => 10;
+  int get schemaVersion => 11;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -309,6 +311,10 @@ class AppDatabase extends _$AppDatabase {
       if (from < 9) await m.createTable(scoutingRecords);
       if (from < 10) {
         await m.addColumn(farmerProfiles, farmerProfiles.phone);
+      }
+      // Created above with the column already when coming from before 9.
+      if (from >= 9 && from < 11) {
+        await m.addColumn(scoutingRecords, scoutingRecords.photoKey);
       }
     },
   );
