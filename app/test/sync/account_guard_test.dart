@@ -101,8 +101,10 @@ void main() {
     addTearDown(() => docs.delete(recursive: true));
     final photos = Directory('${docs.path}/scouting_photos')..createSync();
     final claims = Directory('${docs.path}/claim_photos')..createSync();
+    final reports = Directory('${docs.path}/lab_reports')..createSync();
     File('${photos.path}/r1.jpg').writeAsStringSync('x');
     File('${claims.path}/c1.jpg').writeAsStringSync('x');
+    File('${reports.path}/l1.pdf').writeAsStringSync('x');
     final keep = File('${docs.path}/other.txt')..writeAsStringSync('x');
     await seedFirstAccount(db, sent: true);
 
@@ -113,6 +115,7 @@ void main() {
 
     expect(photos.existsSync(), isFalse);
     expect(claims.existsSync(), isFalse);
+    expect(reports.existsSync(), isFalse);
     expect(keep.existsSync(), isTrue, reason: 'only the photo folders go');
   });
 

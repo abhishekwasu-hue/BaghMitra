@@ -1,0 +1,528 @@
+{
+  "_note": "Schemes for Nagpur santra / mosambi growers: what each is, who can apply in general terms, documents usually asked for, and where to apply. DRAFT, not reviewed (OPEN_QUESTIONS Q41). Facts come from web research on checked_on; 'verified': true means an official / govt page said it in that research (read through search extracts, the govt sites could not be opened directly), false means only secondary sources said it. No amounts, rates or limits are given: none was read from an official page with its date. The app always tells the grower to check the official page. No form filing.",
+  "status": "draft",
+  "checked_on": "2026-10-28",
+  "documents": {
+    "aadhaar": {
+      "en": "Aadhaar card",
+      "mr": "आधार कार्ड",
+      "hi": "आधार कार्ड"
+    },
+    "satbara": {
+      "en": "7/12 extract (Satbara)",
+      "mr": "७/१२ उतारा (सातबारा)",
+      "hi": "7/12 उतारा (सातबारा)"
+    },
+    "eight_a": {
+      "en": "8A extract",
+      "mr": "८-अ उतारा",
+      "hi": "8-अ उतारा"
+    },
+    "bank_passbook": {
+      "en": "Bank passbook (first page), account linked to Aadhaar",
+      "mr": "बँक पासबुक (पहिले पान), आधारशी जोडलेले खाते",
+      "hi": "बैंक पासबुक (पहला पन्ना), आधार से जुड़ा खाता"
+    },
+    "farmer_id": {
+      "en": "Agristack Farmer ID",
+      "mr": "ॲग्रीस्टॅक शेतकरी ओळख क्रमांक (Farmer ID)",
+      "hi": "एग्रीस्टैक किसान पहचान (Farmer ID)"
+    },
+    "mobile": {
+      "en": "Mobile number linked to Aadhaar",
+      "mr": "आधारशी जोडलेला मोबाईल नंबर",
+      "hi": "आधार से जुड़ा मोबाइल नंबर"
+    },
+    "sowing_proof": {
+      "en": "Sowing / planting certificate or self-declaration",
+      "mr": "पेरणी / लागवड दाखला किंवा स्वयंघोषणा",
+      "hi": "बुवाई / रोपण प्रमाणपत्र या स्व-घोषणा"
+    },
+    "crop_details": {
+      "en": "Details of the crops you grow",
+      "mr": "आपण घेत असलेल्या पिकांची माहिती",
+      "hi": "आप जो फसलें उगाते हैं उनकी जानकारी"
+    },
+    "id_address_proof": {
+      "en": "Identity and address proof (Aadhaar, voter ID, PAN and so on)",
+      "mr": "ओळख व पत्ता पुरावा (आधार, मतदार ओळखपत्र, पॅन इ.)",
+      "hi": "पहचान और पते का प्रमाण (आधार, मतदाता पहचान पत्र, पैन आदि)"
+    }
+  },
+  "schemes": [
+    {
+      "id": "agristack",
+      "names": {
+        "en": "Agristack Farmer ID",
+        "mr": "ॲग्रीस्टॅक शेतकरी ओळख क्रमांक (Farmer ID)",
+        "hi": "एग्रीस्टैक किसान पहचान (Farmer ID)"
+      },
+      "summary": {
+        "en": "A digital farmer ID linked to your Aadhaar and land records, asked for by PM-Kisan and many farm schemes.",
+        "mr": "आधार व जमिनीच्या नोंदींशी जोडलेला डिजिटल शेतकरी ओळख क्रमांक; पीएम-किसान व अनेक कृषी योजनांसाठी विचारला जातो.",
+        "hi": "आधार और भूमि अभिलेख से जुड़ी डिजिटल किसान पहचान; पीएम-किसान और कई कृषि योजनाओं में मांगी जाती है।"
+      },
+      "who": {
+        "en": "Farmers with farm land recorded in their name in Maharashtra.",
+        "mr": "महाराष्ट्रात स्वतःच्या नावावर शेतजमिनीची नोंद असलेले शेतकरी.",
+        "hi": "महाराष्ट्र में अपने नाम पर दर्ज कृषि भूमि वाले किसान।"
+      },
+      "documents": [
+        {
+          "key": "aadhaar",
+          "verified": false
+        },
+        {
+          "key": "satbara",
+          "verified": false
+        },
+        {
+          "key": "mobile",
+          "verified": false
+        }
+      ],
+      "apply": [
+        {
+          "labels": {
+            "en": "Farmer registry portal",
+            "mr": "शेतकरी नोंदणी पोर्टल",
+            "hi": "किसान रजिस्ट्री पोर्टल"
+          },
+          "url": "https://mhfr.agristack.gov.in/",
+          "verified": true
+        },
+        {
+          "labels": {
+            "en": "CSC / Aaple Sarkar Seva Kendra",
+            "mr": "सीएससी / आपले सरकार सेवा केंद्र",
+            "hi": "सीएससी / आपले सरकार सेवा केंद्र"
+          },
+          "verified": false
+        }
+      ],
+      "feed_keywords": [
+        "agristack",
+        "farmer id",
+        "farmer registry",
+        "ॲग्रीस्टॅक",
+        "अॅग्रीस्टॅक",
+        "शेतकरी ओळख",
+        "फार्मर आयडी",
+        "एग्रीस्टैक",
+        "किसान पहचान"
+      ],
+      "sources": [
+        {
+          "title": "Parbhani district: Agristack service page",
+          "url": "https://parbhani.gov.in/en/service/agristack/",
+          "official": true
+        },
+        {
+          "title": "PIB: 22nd instalment of PM-KISAN (Farmer ID for new registrations)",
+          "url": "https://static.pib.gov.in/WriteReadData/specificdocs/documents/2026/mar/doc2026319829701.pdf",
+          "official": true
+        }
+      ]
+    },
+    {
+      "id": "pm_kisan",
+      "names": {
+        "en": "PM-Kisan Samman Nidhi",
+        "mr": "पीएम-किसान सन्मान निधी",
+        "hi": "पीएम-किसान सम्मान निधि"
+      },
+      "summary": {
+        "en": "Central income support paid in instalments straight to the bank account of landholding farmer families.",
+        "mr": "जमीनधारक शेतकरी कुटुंबांच्या बँक खात्यात थेट हप्त्यांनी मिळणारे केंद्र सरकारचे उत्पन्न सहाय्य.",
+        "hi": "भूमिधारक किसान परिवारों के बैंक खाते में सीधे किस्तों में मिलने वाली केंद्र सरकार की आय सहायता।"
+      },
+      "who": {
+        "en": "Farmer families with cultivable land in their name; some groups are excluded. New registrations need a Farmer ID where the farmer registry has started.",
+        "mr": "स्वतःच्या नावावर लागवडीयोग्य जमीन असलेली शेतकरी कुटुंबे; काही गट वगळलेले आहेत. शेतकरी नोंदणी सुरू झालेल्या राज्यांत नवीन नोंदणीसाठी Farmer ID लागतो.",
+        "hi": "अपने नाम पर खेती योग्य भूमि वाले किसान परिवार; कुछ वर्ग बाहर हैं। जहाँ किसान रजिस्ट्री शुरू हुई है वहाँ नए पंजीकरण के लिए Farmer ID चाहिए।"
+      },
+      "documents": [
+        {
+          "key": "aadhaar",
+          "verified": true
+        },
+        {
+          "key": "satbara",
+          "verified": true
+        },
+        {
+          "key": "bank_passbook",
+          "verified": true
+        },
+        {
+          "key": "farmer_id",
+          "verified": true
+        },
+        {
+          "key": "mobile",
+          "verified": true
+        }
+      ],
+      "apply": [
+        {
+          "labels": {
+            "en": "PM-Kisan portal",
+            "mr": "पीएम-किसान पोर्टल",
+            "hi": "पीएम-किसान पोर्टल"
+          },
+          "url": "https://pmkisan.gov.in/",
+          "verified": true
+        },
+        {
+          "labels": {
+            "en": "CSC / Aaple Sarkar Seva Kendra",
+            "mr": "सीएससी / आपले सरकार सेवा केंद्र",
+            "hi": "सीएससी / आपले सरकार सेवा केंद्र"
+          },
+          "verified": true
+        }
+      ],
+      "feed_keywords": [
+        "pm-kisan",
+        "pm kisan",
+        "pmkisan",
+        "किसान सन्मान",
+        "किसान सम्मान"
+      ],
+      "sources": [
+        {
+          "title": "PM-KISAN FAQs",
+          "url": "https://pmkisan.gov.in/Documents/RevisedFAQ.pdf",
+          "official": true
+        },
+        {
+          "title": "PM-KISAN operational guidelines",
+          "url": "https://fw.pmkisan.gov.in/Documents/Revised%20Operational%20Guidelines%20-%20PM-Kisan%20Scheme.pdf",
+          "official": true
+        },
+        {
+          "title": "PIB: 22nd instalment of PM-KISAN",
+          "url": "https://static.pib.gov.in/WriteReadData/specificdocs/documents/2026/mar/doc2026319829701.pdf",
+          "official": true
+        }
+      ]
+    },
+    {
+      "id": "crop_insurance",
+      "names": {
+        "en": "Crop insurance: PMFBY / RWBCIS (fruit crops)",
+        "mr": "पीक विमा: पीएमएफबीवाय / हवामान आधारित फळपीक विमा",
+        "hi": "फसल बीमा: पीएमएफबीवाई / मौसम आधारित फल फसल बीमा"
+      },
+      "summary": {
+        "en": "Government-backed crop insurance; for santra and mosambi the weather-based scheme (RWBCIS) is notified bahar by bahar.",
+        "mr": "शासनाचा पीक विमा; संत्रा-मोसंबीसाठी हवामान आधारित योजना (RWBCIS) प्रत्येक बहारासाठी स्वतंत्र अधिसूचित होते.",
+        "hi": "सरकारी फसल बीमा; संतरा-मौसंबी के लिए मौसम आधारित योजना (RWBCIS) हर बहार के लिए अलग अधिसूचित होती है।"
+      },
+      "who": {
+        "en": "Farmers, with or without a crop loan, growing a notified crop in a notified area, including tenants as the state allows.",
+        "mr": "अधिसूचित क्षेत्रात अधिसूचित पीक घेणारे शेतकरी, कर्जदार व बिगर-कर्जदार दोन्ही; राज्य नियमांनुसार कुळ शेतकरीसुद्धा.",
+        "hi": "अधिसूचित क्षेत्र में अधिसूचित फसल उगाने वाले किसान, ऋणी और गैर-ऋणी दोनों; राज्य नियमों के अनुसार बटाईदार भी।"
+      },
+      "documents": [
+        {
+          "key": "aadhaar",
+          "verified": false
+        },
+        {
+          "key": "satbara",
+          "verified": false
+        },
+        {
+          "key": "bank_passbook",
+          "verified": false
+        },
+        {
+          "key": "sowing_proof",
+          "verified": false
+        }
+      ],
+      "apply": [
+        {
+          "labels": {
+            "en": "Crop insurance portal",
+            "mr": "पीक विमा पोर्टल",
+            "hi": "फसल बीमा पोर्टल"
+          },
+          "url": "https://pmfby.gov.in/",
+          "verified": true
+        },
+        {
+          "labels": {
+            "en": "Your bank branch",
+            "mr": "आपली बँक शाखा",
+            "hi": "आपकी बैंक शाखा"
+          },
+          "verified": false
+        },
+        {
+          "labels": {
+            "en": "CSC / Aaple Sarkar Seva Kendra",
+            "mr": "सीएससी / आपले सरकार सेवा केंद्र",
+            "hi": "सीएससी / आपले सरकार सेवा केंद्र"
+          },
+          "verified": false
+        }
+      ],
+      "feed_keywords": [
+        "pmfby",
+        "rwbcis",
+        "fasal bima",
+        "crop insurance",
+        "पीक विमा",
+        "फळपीक विमा",
+        "फसल बीमा"
+      ],
+      "sources": [
+        {
+          "title": "PMFBY portal",
+          "url": "https://pmfby.gov.in/",
+          "official": true
+        }
+      ]
+    },
+    {
+      "id": "micro_irrigation",
+      "names": {
+        "en": "Drip / sprinkler subsidy (MahaDBT)",
+        "mr": "ठिबक / तुषार सिंचन अनुदान (महाडीबीटी)",
+        "hi": "ड्रिप / स्प्रिंकलर अनुदान (महाडीबीटी)"
+      },
+      "summary": {
+        "en": "Subsidy on a drip or sprinkler set under Per Drop More Crop with state top-ups, applied for on MahaDBT.",
+        "mr": "'प्रति थेंब अधिक पीक' व राज्य पूरक योजनांतून ठिबक किंवा तुषार संचावर अनुदान; अर्ज महाडीबीटीवर.",
+        "hi": "'पर ड्रॉप मोर क्रॉप' और राज्य पूरक योजनाओं से ड्रिप या स्प्रिंकलर सेट पर अनुदान; आवेदन महाडीबीटी पर।"
+      },
+      "who": {
+        "en": "Farmers with land in their name; the area limit and share differ by holding size.",
+        "mr": "स्वतःच्या नावावर जमीन असलेले शेतकरी; क्षेत्र मर्यादा व अनुदानाचा वाटा जमीनधारणेनुसार बदलतो.",
+        "hi": "अपने नाम पर भूमि वाले किसान; क्षेत्र सीमा और अनुदान का हिस्सा जोत के अनुसार बदलता है।"
+      },
+      "documents": [
+        {
+          "key": "satbara",
+          "verified": true
+        },
+        {
+          "key": "eight_a",
+          "verified": true
+        },
+        {
+          "key": "aadhaar",
+          "verified": true
+        },
+        {
+          "key": "bank_passbook",
+          "verified": true
+        },
+        {
+          "key": "farmer_id",
+          "verified": false
+        }
+      ],
+      "apply": [
+        {
+          "labels": {
+            "en": "MahaDBT farmer portal",
+            "mr": "महाडीबीटी शेतकरी पोर्टल",
+            "hi": "महाडीबीटी किसान पोर्टल"
+          },
+          "url": "https://mahadbt.maharashtra.gov.in/",
+          "verified": false
+        },
+        {
+          "labels": {
+            "en": "CSC / Aaple Sarkar Seva Kendra",
+            "mr": "सीएससी / आपले सरकार सेवा केंद्र",
+            "hi": "सीएससी / आपले सरकार सेवा केंद्र"
+          },
+          "verified": false
+        }
+      ],
+      "feed_keywords": [
+        "drip",
+        "sprinkler",
+        "micro irrigation",
+        "per drop",
+        "ठिबक",
+        "तुषार",
+        "सूक्ष्म सिंचन",
+        "ड्रिप",
+        "स्प्रिंकलर"
+      ],
+      "sources": [
+        {
+          "title": "Zilla Parishad Satara: drip / sprinkler scheme page",
+          "url": "https://www.zpsatara.gov.in/?p=7345",
+          "official": true
+        },
+        {
+          "title": "myScheme: PMKSY Per Drop More Crop",
+          "url": "https://www.myscheme.gov.in/schemes/pmksypdmc",
+          "official": true
+        }
+      ]
+    },
+    {
+      "id": "falbag",
+      "names": {
+        "en": "Bhausaheb Fundkar Falbag Lagvad Yojana",
+        "mr": "भाऊसाहेब फुंडकर फळबाग लागवड योजना",
+        "hi": "भाऊसाहेब फुंडकर फलबाग लागवड योजना"
+      },
+      "summary": {
+        "en": "State help for planting a new fruit orchard (santra and mosambi are among the crops), paid over three years if the plants survive.",
+        "mr": "नवीन फळबाग लागवडीसाठी राज्य सरकारची मदत (संत्रा, मोसंबी समाविष्ट); रोपे जगल्यास तीन वर्षांत टप्प्याने मिळते.",
+        "hi": "नया फलबाग लगाने के लिए राज्य सरकार की सहायता (संतरा, मौसंबी शामिल); पौधे जीवित रहने पर तीन वर्षों में किस्तों में।"
+      },
+      "who": {
+        "en": "Individual farmers in Maharashtra planting a covered fruit crop on their own land, within the area limits.",
+        "mr": "स्वतःच्या जमिनीवर योजनेतील फळपिकाची लागवड करणारे महाराष्ट्रातील वैयक्तिक शेतकरी, क्षेत्र मर्यादेत.",
+        "hi": "अपनी भूमि पर योजना में शामिल फल फसल लगाने वाले महाराष्ट्र के व्यक्तिगत किसान, क्षेत्र सीमा के भीतर।"
+      },
+      "documents": [
+        {
+          "key": "satbara",
+          "verified": true
+        },
+        {
+          "key": "eight_a",
+          "verified": false
+        },
+        {
+          "key": "aadhaar",
+          "verified": false
+        },
+        {
+          "key": "bank_passbook",
+          "verified": false
+        }
+      ],
+      "apply": [
+        {
+          "labels": {
+            "en": "MahaDBT farmer portal",
+            "mr": "महाडीबीटी शेतकरी पोर्टल",
+            "hi": "महाडीबीटी किसान पोर्टल"
+          },
+          "url": "https://mahadbt.maharashtra.gov.in/",
+          "verified": false
+        },
+        {
+          "labels": {
+            "en": "CSC / Aaple Sarkar Seva Kendra",
+            "mr": "सीएससी / आपले सरकार सेवा केंद्र",
+            "hi": "सीएससी / आपले सरकार सेवा केंद्र"
+          },
+          "verified": false
+        }
+      ],
+      "feed_keywords": [
+        "fundkar",
+        "phundkar",
+        "falbag",
+        "fruit plantation",
+        "orchard plantation",
+        "फुंडकर",
+        "फळबाग लागवड",
+        "फलबाग"
+      ],
+      "sources": [
+        {
+          "title": "MahaPoCRA: horticulture plantation guideline (Bhausaheb Fundkar component)",
+          "url": "https://mahapocra.gov.in/documents/Horticulture_Plantation_Guideline_NDKSP_2.0.pdf",
+          "official": true
+        },
+        {
+          "title": "myScheme: Bhausaheb Fundkar horticulture plantation scheme",
+          "url": "https://myscheme.gov.in/schemes/bhausaheb-fundkar-horticulture-plantataion-scheme",
+          "official": true
+        }
+      ]
+    },
+    {
+      "id": "kcc",
+      "names": {
+        "en": "Kisan Credit Card (KCC)",
+        "mr": "किसान क्रेडिट कार्ड (केसीसी)",
+        "hi": "किसान क्रेडिट कार्ड (केसीसी)"
+      },
+      "summary": {
+        "en": "A bank credit limit for crop and orchard costs, including horticulture, from a commercial, regional rural or cooperative bank.",
+        "mr": "पीक व फळबाग खर्चासाठी बँकेकडून कर्ज मर्यादा (फलोत्पादनासह); व्यापारी, ग्रामीण किंवा सहकारी बँकेतून.",
+        "hi": "फसल और बाग के खर्च के लिए बैंक से ऋण सीमा (बागवानी सहित); वाणिज्यिक, ग्रामीण या सहकारी बैंक से।"
+      },
+      "who": {
+        "en": "Owner-cultivators, tenant farmers, oral lessees, sharecroppers and farmer groups.",
+        "mr": "स्वतः शेती करणारे जमीनमालक, कुळ, तोंडी भाडेपट्टेदार, बटाईदार व शेतकरी गट.",
+        "hi": "स्वयं खेती करने वाले भूमि मालिक, काश्तकार, मौखिक पट्टेदार, बटाईदार और किसान समूह।"
+      },
+      "documents": [
+        {
+          "key": "satbara",
+          "verified": true
+        },
+        {
+          "key": "crop_details",
+          "verified": true
+        },
+        {
+          "key": "id_address_proof",
+          "verified": true
+        },
+        {
+          "key": "farmer_id",
+          "verified": false
+        }
+      ],
+      "apply": [
+        {
+          "labels": {
+            "en": "Your bank branch",
+            "mr": "आपली बँक शाखा",
+            "hi": "आपकी बैंक शाखा"
+          },
+          "verified": true
+        },
+        {
+          "labels": {
+            "en": "KCC form on the PM-Kisan portal",
+            "mr": "पीएम-किसान पोर्टलवरील केसीसी अर्ज",
+            "hi": "पीएम-किसान पोर्टल पर केसीसी फॉर्म"
+          },
+          "url": "https://pmkisan.gov.in/",
+          "verified": true
+        }
+      ],
+      "feed_keywords": [
+        "kisan credit",
+        "kcc",
+        "किसान क्रेडिट",
+        "पीक कर्ज",
+        "फसल ऋण"
+      ],
+      "sources": [
+        {
+          "title": "PIB factsheet: Kisan Credit Card (2026)",
+          "url": "https://www.pib.gov.in/PressNoteDetails.aspx?NoteId=157771&ModuleId=3&reg=48&lang=2",
+          "official": true
+        },
+        {
+          "title": "RBI master circular: Kisan Credit Card scheme",
+          "url": "https://www.rbi.org.in/commonman/english/scripts/Notification.aspx?Id=2311",
+          "official": true
+        },
+        {
+          "title": "NABARD: KCC documents",
+          "url": "https://www.nabard.org/news-article.aspx?id=25&cid=552&NID=220",
+          "official": true
+        }
+      ]
+    }
+  ]
+}

@@ -311,6 +311,25 @@ class _HomeBody extends ConsumerWidget {
                       ),
                     ),
                   ],
+                  const SizedBox(height: BmSpace.md),
+                  BmCard(
+                    elevated: false,
+                    padding: EdgeInsets.zero,
+                    child: Material(
+                      type: MaterialType.transparency,
+                      child: ListTile(
+                        key: const Key('open-schemes'),
+                        leading: Icon(
+                          Icons.fact_check_outlined,
+                          color: context.bm.brand,
+                        ),
+                        title: Text(t.schemesTitle, style: BmType.bodyStrong),
+                        subtitle: Text(t.schemesHomeHint, style: BmType.meta),
+                        trailing: const Icon(Icons.chevron_right),
+                        onTap: () => context.push(Routes.schemes),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),

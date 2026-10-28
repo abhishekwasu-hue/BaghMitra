@@ -2040,4 +2040,215 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get insurancePolicies => 'Policies';
+
+  @override
+  String get labTestsTitle => 'Soil, water and leaf tests';
+
+  @override
+  String get labTestsEmpty =>
+      'No test recorded for this plot yet. Add one from your lab report or Soil Health Card.';
+
+  @override
+  String get labTestAdd => 'Add test';
+
+  @override
+  String get labTestEdit => 'Edit test';
+
+  @override
+  String get labTestType => 'Test of';
+
+  @override
+  String get labTestTypeSoil => 'Soil';
+
+  @override
+  String get labTestTypeWater => 'Water';
+
+  @override
+  String get labTestTypeLeaf => 'Leaf';
+
+  @override
+  String get labTestTitleSoil => 'Soil test';
+
+  @override
+  String get labTestTitleWater => 'Water test';
+
+  @override
+  String get labTestTitleLeaf => 'Leaf test';
+
+  @override
+  String get labTestSampledOn => 'Sample taken on';
+
+  @override
+  String get labTestReportedOn => 'Report date';
+
+  @override
+  String get labTestLab => 'Lab name';
+
+  @override
+  String get labTestReadings => 'Values from the report';
+
+  @override
+  String get labTestReadingsHint =>
+      'Type each value as it is written on the report.';
+
+  @override
+  String get labTestParameter => 'Name (pH, EC …)';
+
+  @override
+  String get labTestValue => 'Value';
+
+  @override
+  String get labTestUnit => 'Unit';
+
+  @override
+  String get labTestAddReading => 'Add a value';
+
+  @override
+  String get labTestRemoveReading => 'Remove this value';
+
+  @override
+  String get labTestSuggestions => 'Names on most reports (tap to add)';
+
+  @override
+  String get labTestReadingIncomplete => 'Type the name and the value';
+
+  @override
+  String get labTestNote => 'Note';
+
+  @override
+  String get labTestReport => 'Report photo or file';
+
+  @override
+  String get labTestReportFile => 'File (PDF)';
+
+  @override
+  String get labTestReportRemove => 'Remove';
+
+  @override
+  String get labTestReportFailed => 'Could not add the report. Try again.';
+
+  @override
+  String get labTestReportLocal => 'The report stays on this phone.';
+
+  @override
+  String get labTestReportMissing => 'The report file is not on this phone.';
+
+  @override
+  String get labTestShareReport => 'Share the report';
+
+  @override
+  String get labTestAskExpert =>
+      'Ask an expert to read this report. BagMitra does not judge these values.';
+
+  @override
+  String get labTestNextDue => 'Next test due (reminder)';
+
+  @override
+  String get labTestNextDueHint =>
+      'Pick a date only if you want a reminder task.';
+
+  @override
+  String get labTestNextDueClear => 'Clear the reminder date';
+
+  @override
+  String get labTestReminderSoil => 'Next soil test due';
+
+  @override
+  String get labTestReminderWater => 'Next water test due';
+
+  @override
+  String get labTestReminderLeaf => 'Next leaf test due';
+
+  @override
+  String get labTestDelete => 'Delete test';
+
+  @override
+  String get labTestDeleteConfirm =>
+      'Delete this test record and its report from this phone?';
+
+  @override
+  String labTestSampledLine(String date) {
+    return 'Sample $date';
+  }
+
+  @override
+  String labTestReportedLine(String date) {
+    return 'Report $date';
+  }
+
+  @override
+  String labTestLabLine(String name) {
+    return 'Lab: $name';
+  }
+
+  @override
+  String labTestValuesCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count values',
+      one: '1 value',
+      zero: 'No values typed',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get labTestNoValues => 'No values typed yet.';
+
+  @override
+  String get labTestEditAction => 'Edit';
+
+  @override
+  String get schemesTitle => 'Schemes and documents';
+
+  @override
+  String get schemesHomeHint => 'Who can apply, documents to keep ready';
+
+  @override
+  String get schemesIntro =>
+      'General information to help you get ready. No amounts are shown. Always check the official page before you apply.';
+
+  @override
+  String get schemeWho => 'Who can apply';
+
+  @override
+  String get schemeWhoCheck => 'In general terms. Check the official page.';
+
+  @override
+  String get schemeDocuments => 'Documents usually needed';
+
+  @override
+  String get schemeDocumentsHint =>
+      'Tick what you already have. Kept on this phone only.';
+
+  @override
+  String schemeDocsReady(int have, int total) {
+    return '$have of $total ready';
+  }
+
+  @override
+  String get schemeNotConfirmed => 'Not yet confirmed on an official page';
+
+  @override
+  String get schemeWhereToApply => 'Where to apply';
+
+  @override
+  String schemeSources(String date) {
+    return 'Sources (checked on $date)';
+  }
+
+  @override
+  String get schemeFeedItems => 'Related govt notices';
+
+  @override
+  String schemeShareDocs(String scheme) {
+    return 'Documents for $scheme:';
+  }
+
+  @override
+  String get schemeShareHave => 'have';
+
+  @override
+  String get schemeShareMissing => 'to get';
 }

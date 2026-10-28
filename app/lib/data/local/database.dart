@@ -305,6 +305,26 @@ class ClaimPhotos extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
+/// Soil, water and leaf tests (mirror of the API `lab_test` entity). [readings] is a JSON
+/// list of `{parameter, value, unit}` exactly as typed (text, never interpreted).
+/// [reportPath] is local only: the report photo or file on this phone, never synced.
+@DataClassName('LabTestRow')
+class LabTests extends Table {
+  TextColumn get id => text()();
+  TextColumn get plotId => text()();
+  TextColumn get testType => text()();
+  DateTimeColumn get sampledOn => dateTime()();
+  TextColumn get labName => text().nullable()();
+  DateTimeColumn get reportedOn => dateTime().nullable()();
+  TextColumn get readings => text().withDefault(const Constant('[]'))();
+  TextColumn get note => text().nullable()();
+  TextColumn get reportPath => text().nullable()();
+  DateTimeColumn get clientUpdatedAt => dateTime()();
+
+  @override
+  Set<Column<Object>> get primaryKey => {id};
+}
+
 /// Small key/value store for sync cursors and similar bookkeeping.
 class SyncMeta extends Table {
   TextColumn get key => text()();
@@ -333,6 +353,7 @@ class SyncMeta extends Table {
     InsurancePolicies,
     ClaimKits,
     ClaimPhotos,
+    LabTests,
   ],
 )
 class AppDatabase extends _$AppDatabase {
@@ -341,7 +362,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.open(String name) : super(driftDatabase(name: name));
 
   @override
-  int get schemaVersion => 12;
+  int get schemaVersion => 13;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -376,6 +397,7 @@ class AppDatabase extends _$AppDatabase {
         await m.createTable(claimKits);
         await m.createTable(claimPhotos);
       }
+      if (from < 13) await m.createTable(labTests);
     },
   );
 

@@ -6,6 +6,7 @@ import 'package:path_provider/path_provider.dart';
 
 import '../data/local/database.dart';
 import '../features/auth/domain/auth.dart';
+import '../features/lab_tests/data/lab_report_files.dart';
 import '../features/scouting/data/photo_backup.dart';
 import '../features/scouting/data/scouting_photos.dart';
 import '../features/walkthrough/data/walkthrough_flag.dart';
@@ -34,8 +35,13 @@ class AccountGuard {
   final AppDatabase _db;
   final Future<void> Function()? deletePhotos;
 
-  /// Photo folders of the previous account (scouting and claim kit); removed on a switch.
-  static const photoFolders = [DeviceScoutingPhotos.folder, 'claim_photos'];
+  /// Photo folders of the previous account (scouting, claim kit and lab reports); removed
+  /// on a switch.
+  static const photoFolders = [
+    DeviceScoutingPhotos.folder,
+    'claim_photos',
+    labReportFolder,
+  ];
 
   /// Deletes [photoFolders] under the app documents folder.
   static Future<void> Function() photoFolderDeleter([
