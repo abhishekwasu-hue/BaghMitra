@@ -19,6 +19,15 @@ from bagmitra_api.main import create_app
 JWT_SECRET = "test-secret-that-is-long-enough-for-hs256-signing"
 
 
+@pytest.fixture(autouse=True)
+def sentry_init_calls(monkeypatch: pytest.MonkeyPatch) -> list[dict[str, Any]]:
+    """Tests never start a real error-reporting client (a set SENTRY_DSN would send events to
+    a real server). `sentry_sdk.init` is replaced by a recorder of its keyword arguments."""
+    calls: list[dict[str, Any]] = []
+    monkeypatch.setattr("sentry_sdk.init", lambda **kwargs: calls.append(kwargs))
+    return calls
+
+
 @pytest.fixture
 def settings() -> Settings:
     return Settings(
