@@ -10,7 +10,7 @@ import '../helpers/pump_app.dart';
 void main() {
   testWidgets('shows the key home sections in Marathi', (tester) async {
     await pumpApp(tester);
-    expect(find.text('आजची कामं'), findsOneWidget);
+    expect(find.text('आजची कामे'), findsOneWidget);
     expect(find.text('फळधारणा सुरू'), findsOneWidget);
     expect(find.text('६८'), findsOneWidget);
     expect(find.text('फोटो काढा'), findsWidgets);

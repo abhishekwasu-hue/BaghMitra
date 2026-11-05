@@ -64,7 +64,7 @@ void main() {
     await settle(tester);
     expect(find.text('बाग १'), findsOneWidget);
     expect(find.text('संत्रा'), findsOneWidget);
-    expect(find.text('४ एकर · ४४० झाडं'), findsOneWidget);
+    expect(find.text('४ एकर · ४४० झाडे'), findsOneWidget);
     expect(find.text('२.५ एकर'), findsOneWidget);
     await unmountApp(tester);
   });

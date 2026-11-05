@@ -102,7 +102,7 @@ void main() {
   testWidgets('Marathi pages read in Marathi', (tester) async {
     await pumpApp(tester, session: null, walkthroughSeen: false);
     await settle(tester);
-    expect(find.text('तुमचे प्लॉट आणि बहार कॅलेंडर'), findsOneWidget);
+    expect(find.text('तुमच्या बागा आणि बहार कॅलेंडर'), findsOneWidget);
     expect(find.text('पुढे'), findsOneWidget);
     await unmountApp(tester);
   });

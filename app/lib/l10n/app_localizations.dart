@@ -2215,7 +2215,7 @@ abstract class AppLocalizations {
   /// No description provided for @walkthroughWeatherBody.
   ///
   /// In en, this message translates to:
-  /// **'See the weather at your plot and get an alert when rain, heat or cold may need your attention.'**
+  /// **'See the weather at your plot and get an alert when rain or heat may need your attention.'**
   String get walkthroughWeatherBody;
 
   /// No description provided for @walkthroughMarketTitle.
@@ -3703,7 +3703,7 @@ abstract class AppLocalizations {
   /// No description provided for @claimCheckInform72h.
   ///
   /// In en, this message translates to:
-  /// **'Inform the insurer, your bank or the CSC about the loss soon. Many policies ask for this within 72 hours.'**
+  /// **'Inform the insurer, your bank or the CSC about the loss as soon as possible; check your policy for the time limit.'**
   String get claimCheckInform72h;
 
   /// No description provided for @claimCheckPhotos.
