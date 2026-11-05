@@ -1,0 +1,66 @@
+name: Admin web
+
+# Builds the admin web (app/lib/main_admin.dart) for serving by the API at /admin/ (OPS-02) and
+# pushes the files as ONE commit to the admin-web-build branch (force-pushed, so the branch never
+# grows a history). deploy.sh on the server fetches that branch with its read-only deploy key and
+# unpacks it into deploy/admin-web/. Runs after the "BagMitra App" workflow (format, analyze,
+# tests) succeeded on a push to main, or by hand. Runbook: docs/runbooks/admin-web.md.
+#
+# The build holds no environment values and no secrets: the page reads the Supabase URL and the
+# public anon key from the API's /admin/config.json at runtime, and calls the API on its own
+# origin. The renderer files are bundled (--no-web-resources-cdn), not loaded from a CDN.
+on:
+  workflow_run:
+    workflows: ["BagMitra App"]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  FLUTTER_VERSION: "3.47.5"
+  BRANCH: admin-web-build
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+jobs:
+  admin-web:
+    if: github.event_name == 'workflow_dispatch' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push')
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+      - name: Build
+        working-directory: app
+        run: |
+          flutter pub get
+          flutter build web --release -t lib/main_admin.dart --base-href /admin/ \
+            --no-web-resources-cdn --dart-define-from-file=../product.env
+          test -f build/web/index.html
+          du -sh build/web
+      - name: Push the build to the ${{ env.BRANCH }} branch
+        env:
+          GIT_AUTHOR_NAME: github-actions[bot]
+          GIT_AUTHOR_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
+          GIT_COMMITTER_NAME: github-actions[bot]
+          GIT_COMMITTER_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
+        run: |
+          sha=$(git rev-parse --short=7 HEAD)
+          export GIT_INDEX_FILE="$RUNNER_TEMP/admin-web.index"
+          git_dir="$GITHUB_WORKSPACE/.git"
+          (cd app/build/web && git --git-dir="$git_dir" --work-tree=. add -A -f .)
+          tree=$(git write-tree)
+          commit=$(git commit-tree "$tree" -m "Admin web build of $sha")
+          git push -f origin "$commit:refs/heads/$BRANCH"
+          echo "pushed $commit (build of $sha) to $BRANCH"
