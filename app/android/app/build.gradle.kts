@@ -4,10 +4,27 @@ plugins {
     id("dev.flutter.flutter-gradle-plugin")
 }
 
-// Test builds are signed with a dedicated test keystore passed in by CI (docs/runbooks/test-apk.md);
-// without it the release build falls back to the debug key so it still installs. The Play upload
-// key is a different key, handled by Play App Signing.
+// Signing (audit RL-02 / R4):
+// - Production APKs (the "Release APK" workflow, RELEASE_BUILD=true) are signed with the owner's
+//   release keystore (docs/runbooks/release-apk.md). Without it the build stops: never the debug key.
+// - Test builds are signed with a dedicated test keystore passed in by CI (docs/runbooks/test-apk.md);
+//   without it the test build falls back to the debug key so it still installs.
+// The two keys differ, so a test APK and a release APK cannot be installed over each other.
+val releaseKeystorePath: String? = System.getenv("RELEASE_KEYSTORE_PATH")?.takeIf { it.isNotBlank() }
+val productionBuild: Boolean = System.getenv("RELEASE_BUILD") == "true"
 val testKeystorePath: String? = System.getenv("TEST_KEYSTORE_PATH")
+
+if (productionBuild) {
+    val missing = listOf(
+        "RELEASE_KEYSTORE_PATH",
+        "RELEASE_KEYSTORE_PASSWORD",
+        "RELEASE_KEY_ALIAS",
+        "RELEASE_KEY_PASSWORD",
+    ).filter { System.getenv(it).isNullOrBlank() }
+    if (missing.isNotEmpty()) {
+        throw GradleException("Production build without the release key: set ${missing.joinToString()}")
+    }
+}
 
 android {
     namespace = "app.bagmitra.bagmitra"
@@ -32,12 +49,22 @@ android {
         // is added automatically by Flutter. (https://developer.android.com/studio/build/configure-apk-splits#configure-APK-versions)
         // You can force using the value of versionCode by specifying the `-P force-version-code-ignoring-abi=true`
         // flag during build.
-        // CI passes the run number so every test build installs over the previous one.
+        // CI passes the run number so every build installs over the previous one. The Release APK
+        // workflow also passes -P force-version-code-ignoring-abi=true, so its arm64-v8a and
+        // armeabi-v7a APKs carry the same, ever-rising code (audit R5) that /v1/app/version compares.
         versionCode = System.getenv("BUILD_NUMBER")?.toIntOrNull() ?: flutter.versionCode
         versionName = System.getenv("BUILD_NAME") ?: flutter.versionName
     }
 
     signingConfigs {
+        if (releaseKeystorePath != null) {
+            create("release") {
+                storeFile = file(releaseKeystorePath)
+                storePassword = System.getenv("RELEASE_KEYSTORE_PASSWORD")
+                keyAlias = System.getenv("RELEASE_KEY_ALIAS")
+                keyPassword = System.getenv("RELEASE_KEY_PASSWORD")
+            }
+        }
         if (testKeystorePath != null) {
             create("test") {
                 storeFile = file(testKeystorePath)
@@ -51,7 +78,12 @@ android {
     buildTypes {
         release {
             signingConfig = signingConfigs.getByName(
-                if (testKeystorePath != null) "test" else "debug",
+                when {
+                    releaseKeystorePath != null -> "release"
+                    productionBuild -> throw GradleException("Production build without the release key")
+                    testKeystorePath != null -> "test"
+                    else -> "debug"
+                },
             )
             isMinifyEnabled = true
             isShrinkResources = true

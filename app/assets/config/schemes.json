@@ -1,5 +1,5 @@
 {
-  "_note": "Schemes for Nagpur santra / mosambi growers: what each is, who can apply in general terms, documents usually asked for, and where to apply. DRAFT, not reviewed (OPEN_QUESTIONS Q41). Facts come from web research on checked_on; 'verified': true means an official / govt page said it in that research (read through search extracts, the govt sites could not be opened directly), false means only secondary sources said it. No amounts, rates or limits are given: none was read from an official page with its date. The app always tells the grower to check the official page. No form filing.",
+  "_note": "Schemes for Nagpur santra / mosambi growers: what each is, who can apply in general terms, documents usually asked for, and where to apply. DRAFT, not reviewed (OPEN_QUESTIONS Q41). Facts come from web research on checked_on; Every fact was read through web-search extracts (the govt sites could not be opened directly), so every document and place is 'verified': false and shows \"confirm on the official page\" until a reviewer reads the official page itself (audit C8); set true only after that read, with the date. No amounts, rates or limits are given: none was read from an official page with its date. The app always tells the grower to check the official page. No form filing.",
   "status": "draft",
   "checked_on": "2026-10-28",
   "documents": {
@@ -89,7 +89,7 @@
             "hi": "किसान रजिस्ट्री पोर्टल"
           },
           "url": "https://mhfr.agristack.gov.in/",
-          "verified": true
+          "verified": false
         },
         {
           "labels": {
@@ -144,23 +144,23 @@
       "documents": [
         {
           "key": "aadhaar",
-          "verified": true
+          "verified": false
         },
         {
           "key": "satbara",
-          "verified": true
+          "verified": false
         },
         {
           "key": "bank_passbook",
-          "verified": true
+          "verified": false
         },
         {
           "key": "farmer_id",
-          "verified": true
+          "verified": false
         },
         {
           "key": "mobile",
-          "verified": true
+          "verified": false
         }
       ],
       "apply": [
@@ -171,7 +171,7 @@
             "hi": "पीएम-किसान पोर्टल"
           },
           "url": "https://pmkisan.gov.in/",
-          "verified": true
+          "verified": false
         },
         {
           "labels": {
@@ -179,7 +179,7 @@
             "mr": "सीएससी / आपले सरकार सेवा केंद्र",
             "hi": "सीएससी / आपले सरकार सेवा केंद्र"
           },
-          "verified": true
+          "verified": false
         }
       ],
       "feed_keywords": [
@@ -250,7 +250,7 @@
             "hi": "फसल बीमा पोर्टल"
           },
           "url": "https://pmfby.gov.in/",
-          "verified": true
+          "verified": false
         },
         {
           "labels": {
@@ -306,19 +306,19 @@
       "documents": [
         {
           "key": "satbara",
-          "verified": true
+          "verified": false
         },
         {
           "key": "eight_a",
-          "verified": true
+          "verified": false
         },
         {
           "key": "aadhaar",
-          "verified": true
+          "verified": false
         },
         {
           "key": "bank_passbook",
-          "verified": true
+          "verified": false
         },
         {
           "key": "farmer_id",
@@ -388,7 +388,7 @@
       "documents": [
         {
           "key": "satbara",
-          "verified": true
+          "verified": false
         },
         {
           "key": "eight_a",
@@ -465,15 +465,15 @@
       "documents": [
         {
           "key": "satbara",
-          "verified": true
+          "verified": false
         },
         {
           "key": "crop_details",
-          "verified": true
+          "verified": false
         },
         {
           "key": "id_address_proof",
-          "verified": true
+          "verified": false
         },
         {
           "key": "farmer_id",
@@ -487,7 +487,7 @@
             "mr": "आपली बँक शाखा",
             "hi": "आपकी बैंक शाखा"
           },
-          "verified": true
+          "verified": false
         },
         {
           "labels": {
@@ -496,7 +496,7 @@
             "hi": "पीएम-किसान पोर्टल पर केसीसी फॉर्म"
           },
           "url": "https://pmkisan.gov.in/",
-          "verified": true
+          "verified": false
         }
       ],
       "feed_keywords": [

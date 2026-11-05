@@ -1124,6 +1124,32 @@ class AppLocalizationsMr extends AppLocalizations {
   String get sendLogs => 'लॉग पाठवा';
 
   @override
+  String get updateAvailable => 'नवीन आवृत्ती उपलब्ध — डाउनलोड करा';
+
+  @override
+  String get updateDismiss => 'बंद करा';
+
+  @override
+  String get updateDownload => 'डाउनलोड करा';
+
+  @override
+  String get updateRequiredTitle => 'नवीन आवृत्ती आवश्यक';
+
+  @override
+  String get updateRequiredBody =>
+      'बागमित्र वापरत राहण्यासाठी नवीन आवृत्ती डाउनलोड करून इन्स्टॉल करा.';
+
+  @override
+  String updateLinkCopied(String url) {
+    return 'लिंक कॉपी केली. ब्राउझरमध्ये पेस्ट करून डाउनलोड करा: $url';
+  }
+
+  @override
+  String settingsVersion(String name, String code) {
+    return 'आवृत्ती $name ($code)';
+  }
+
+  @override
   String get walkthroughSkip => 'वगळा';
 
   @override
@@ -1249,6 +1275,40 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get plotCentre => 'मध्यबिंदू';
+
+  @override
+  String get plotLocation => 'ठिकाण';
+
+  @override
+  String get plotPointCapture => 'मी बागेत उभा आहे — ठिकाण घ्या';
+
+  @override
+  String get plotPointWhy =>
+      'या भागाच्या हवामान व इशाऱ्यांसाठी. फक्त आत्ता एकदाच घेतले जाते.';
+
+  @override
+  String get plotPointReading => 'ठिकाण घेत आहे…';
+
+  @override
+  String get plotPointTake => 'ठिकाण घ्या';
+
+  @override
+  String get plotPointRetake => 'ठिकाण पुन्हा घ्या';
+
+  @override
+  String get plotPointDenied => 'भागाचे ठिकाण घेण्यासाठी परवानगी द्या.';
+
+  @override
+  String get plotPointOpenSettings => 'सेटिंग्ज उघडा';
+
+  @override
+  String get plotPointTryAgain => 'पुन्हा प्रयत्न करा';
+
+  @override
+  String get plotPointLater => 'भाग आत्ता जतन करा; ठिकाण नंतर कधीही घेता येईल.';
+
+  @override
+  String get boundaryWalkOptional => 'सीमा चालत नोंदवा (ऐच्छिक)';
 
   @override
   String get calendarTitle => 'हंगाम दिनदर्शिका';

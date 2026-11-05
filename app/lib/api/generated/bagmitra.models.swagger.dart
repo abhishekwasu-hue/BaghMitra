@@ -147,6 +147,105 @@ extension $AlertsResponseExtension on AlertsResponse {
 }
 
 @JsonSerializable(explicitToJson: true)
+class AppVersionResponse {
+  const AppVersionResponse({
+    required this.downloadUrl,
+    required this.latestVersionCode,
+    required this.latestVersionName,
+    required this.minVersionCode,
+  });
+
+  factory AppVersionResponse.fromJson(Map<String, dynamic> json) =>
+      _$AppVersionResponseFromJson(json);
+
+  static const toJsonFactory = _$AppVersionResponseToJson;
+  Map<String, dynamic> toJson() => _$AppVersionResponseToJson(this);
+
+  @JsonKey(name: 'download_url', includeIfNull: false)
+  final String downloadUrl;
+  @JsonKey(name: 'latest_version_code', includeIfNull: false)
+  final int latestVersionCode;
+  @JsonKey(name: 'latest_version_name', includeIfNull: false)
+  final String latestVersionName;
+  @JsonKey(name: 'min_version_code', includeIfNull: false)
+  final int minVersionCode;
+  static const fromJsonFactory = _$AppVersionResponseFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is AppVersionResponse &&
+            (identical(other.downloadUrl, downloadUrl) ||
+                const DeepCollectionEquality().equals(
+                  other.downloadUrl,
+                  downloadUrl,
+                )) &&
+            (identical(other.latestVersionCode, latestVersionCode) ||
+                const DeepCollectionEquality().equals(
+                  other.latestVersionCode,
+                  latestVersionCode,
+                )) &&
+            (identical(other.latestVersionName, latestVersionName) ||
+                const DeepCollectionEquality().equals(
+                  other.latestVersionName,
+                  latestVersionName,
+                )) &&
+            (identical(other.minVersionCode, minVersionCode) ||
+                const DeepCollectionEquality().equals(
+                  other.minVersionCode,
+                  minVersionCode,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(downloadUrl) ^
+      const DeepCollectionEquality().hash(latestVersionCode) ^
+      const DeepCollectionEquality().hash(latestVersionName) ^
+      const DeepCollectionEquality().hash(minVersionCode) ^
+      runtimeType.hashCode;
+}
+
+extension $AppVersionResponseExtension on AppVersionResponse {
+  AppVersionResponse copyWith({
+    String? downloadUrl,
+    int? latestVersionCode,
+    String? latestVersionName,
+    int? minVersionCode,
+  }) {
+    return AppVersionResponse(
+      downloadUrl: downloadUrl ?? this.downloadUrl,
+      latestVersionCode: latestVersionCode ?? this.latestVersionCode,
+      latestVersionName: latestVersionName ?? this.latestVersionName,
+      minVersionCode: minVersionCode ?? this.minVersionCode,
+    );
+  }
+
+  AppVersionResponse copyWithWrapped({
+    Wrapped<String>? downloadUrl,
+    Wrapped<int>? latestVersionCode,
+    Wrapped<String>? latestVersionName,
+    Wrapped<int>? minVersionCode,
+  }) {
+    return AppVersionResponse(
+      downloadUrl: (downloadUrl != null ? downloadUrl.value : this.downloadUrl),
+      latestVersionCode: (latestVersionCode != null
+          ? latestVersionCode.value
+          : this.latestVersionCode),
+      latestVersionName: (latestVersionName != null
+          ? latestVersionName.value
+          : this.latestVersionName),
+      minVersionCode: (minVersionCode != null
+          ? minVersionCode.value
+          : this.minVersionCode),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class CardOut {
   const CardOut({
     required this.crop,

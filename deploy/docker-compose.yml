@@ -16,9 +16,11 @@ services:
     command: sh -c "alembic upgrade head && python -m bagmitra_api.kb.seed && uvicorn bagmitra_api.asgi:app --host 0.0.0.0 --port 8000 --proxy-headers --forwarded-allow-ips='*'"
     expose: ["8000"]
     # Admin web (OPS-02): deploy.sh unpacks the CI build here; served at /admin/. Runbook
-    # docs/runbooks/admin-web.md.
+    # docs/runbooks/admin-web.md. The latest production APK, served at https://<API_DOMAIN>/app
+    # (runbook vps-deploy.md "नवीन APK"). Both read-only: the API can never change them.
     volumes:
       - ./admin-web:/srv/admin-web:ro
+      - /srv/bagmitra-apk:/srv/bagmitra-apk:ro
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request as u; u.urlopen('http://localhost:8000/health/live', timeout=3)"]
       interval: 30s

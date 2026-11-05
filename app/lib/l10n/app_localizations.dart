@@ -2038,6 +2038,48 @@ abstract class AppLocalizations {
   /// **'Send logs'**
   String get sendLogs;
 
+  /// No description provided for @updateAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'New version available — download'**
+  String get updateAvailable;
+
+  /// No description provided for @updateDismiss.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get updateDismiss;
+
+  /// No description provided for @updateDownload.
+  ///
+  /// In en, this message translates to:
+  /// **'Download'**
+  String get updateDownload;
+
+  /// No description provided for @updateRequiredTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Please update the app'**
+  String get updateRequiredTitle;
+
+  /// No description provided for @updateRequiredBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Download and install the new version to keep using BagMitra.'**
+  String get updateRequiredBody;
+
+  /// No description provided for @updateLinkCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Link copied. Paste it in the browser to download: {url}'**
+  String updateLinkCopied(String url);
+
+  /// No description provided for @settingsVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'Version {name} ({code})'**
+  String settingsVersion(String name, String code);
+
   /// No description provided for @walkthroughSkip.
   ///
   /// In en, this message translates to:
@@ -2271,6 +2313,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Centre point'**
   String get plotCentre;
+
+  /// No description provided for @plotLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Location'**
+  String get plotLocation;
+
+  /// No description provided for @plotPointCapture.
+  ///
+  /// In en, this message translates to:
+  /// **'I am in the orchard — take location'**
+  String get plotPointCapture;
+
+  /// No description provided for @plotPointWhy.
+  ///
+  /// In en, this message translates to:
+  /// **'For this block\'s weather and alerts. Read once, only now.'**
+  String get plotPointWhy;
+
+  /// No description provided for @plotPointReading.
+  ///
+  /// In en, this message translates to:
+  /// **'Taking location…'**
+  String get plotPointReading;
+
+  /// No description provided for @plotPointTake.
+  ///
+  /// In en, this message translates to:
+  /// **'Take location'**
+  String get plotPointTake;
+
+  /// No description provided for @plotPointRetake.
+  ///
+  /// In en, this message translates to:
+  /// **'Take location again'**
+  String get plotPointRetake;
+
+  /// No description provided for @plotPointDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow location to save where this block is.'**
+  String get plotPointDenied;
+
+  /// No description provided for @plotPointOpenSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Open settings'**
+  String get plotPointOpenSettings;
+
+  /// No description provided for @plotPointTryAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get plotPointTryAgain;
+
+  /// No description provided for @plotPointLater.
+  ///
+  /// In en, this message translates to:
+  /// **'Save the block now; take the location any time later.'**
+  String get plotPointLater;
+
+  /// No description provided for @boundaryWalkOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'Walk the boundary (optional)'**
+  String get boundaryWalkOptional;
 
   /// No description provided for @calendarTitle.
   ///
