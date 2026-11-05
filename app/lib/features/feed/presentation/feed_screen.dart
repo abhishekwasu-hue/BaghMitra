@@ -4,13 +4,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../app/providers.dart';
+import '../../../app/refresh.dart';
 import '../../../app/router.dart';
 import '../../../core/formatting.dart';
 import '../../../design_system/empty_state.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../../sync/presentation/refresh_note.dart';
 import '../../../theme/app_theme.dart';
 import '../../tasks/domain/farm_task.dart';
 import '../../voice/presentation/share_speak_buttons.dart';
+import '../data/feed_cache.dart';
 import '../data/feed_receipts.dart';
 import '../data/feed_repository.dart';
 import '../domain/feed_item.dart';
@@ -42,6 +45,7 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
         if (!receipts.dismissed.contains(i.id)) i,
     ];
     final now = ref.watch(clockProvider)();
+    Future<void> refresh() => ref.read(refresherProvider).feed(lang);
 
     final filters = <FeedFilter?, String>{
       null: t.feedFilterAll,
@@ -70,75 +74,82 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
         ],
       ),
       bottomNavigationBar: FeedFooter(serverFooter: cached?.page.footer),
-      body: ListView(
-        padding: const EdgeInsets.all(BmSpace.lg),
-        children: [
-          Wrap(
-            spacing: BmSpace.xs,
-            runSpacing: BmSpace.xs,
-            children: [
-              for (final MapEntry(key: f, value: label) in filters.entries)
-                ChoiceChip(
-                  key: Key('feed-filter-${f?.value ?? 'all'}'),
-                  label: Text(label),
-                  selected: _filter == f,
-                  onSelected: (_) => setState(() => _filter = f),
-                ),
-            ],
-          ),
-          if (cached != null) ...[
-            const SizedBox(height: BmSpace.xs),
-            Text(
-              t.feedUpdated(formatDate(cached.savedAt.toLocal(), lang)),
-              style: BmType.meta,
-            ),
-          ],
-          if (items.isEmpty)
-            loaded.isLoading && !loaded.hasValue
-                ? LoadingState(label: t.loadingLabel)
-                : EmptyNote(t.feedEmpty),
-          for (final item in items)
-            Padding(
-              padding: const EdgeInsets.only(top: BmSpace.sm),
-              child: InkWell(
-                key: Key('feed-item-${item.id}'),
-                borderRadius: BorderRadius.circular(BmRadius.tile),
-                onTap: () => context.push(Routes.feedItem(item.id)),
-                child: Ink(
-                  decoration: BoxDecoration(
-                    color: c.card,
-                    borderRadius: BorderRadius.circular(BmRadius.tile),
-                    border: Border.all(color: c.line),
+      body: RefreshIndicator(
+        onRefresh: refresh,
+        child: ListView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          padding: const EdgeInsets.all(BmSpace.lg),
+          children: [
+            Wrap(
+              spacing: BmSpace.xs,
+              runSpacing: BmSpace.xs,
+              children: [
+                for (final MapEntry(key: f, value: label) in filters.entries)
+                  ChoiceChip(
+                    key: Key('feed-filter-${f?.value ?? 'all'}'),
+                    label: Text(label),
+                    selected: _filter == f,
+                    onSelected: (_) => setState(() => _filter = f),
                   ),
-                  padding: const EdgeInsets.all(BmSpace.md),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: _ItemBody(item: item, now: now, lang: lang),
-                      ),
-                      if (!item.seen && !receipts.seen.contains(item.id))
-                        Padding(
-                          padding: const EdgeInsets.only(left: BmSpace.xs),
-                          child: Semantics(
-                            label: t.feedUnseen,
-                            child: Container(
-                              key: Key('feed-unseen-${item.id}'),
-                              width: 10,
-                              height: 10,
-                              decoration: BoxDecoration(
-                                color: c.accent,
-                                shape: BoxShape.circle,
+              ],
+            ),
+            const SizedBox(height: BmSpace.xs),
+            RefreshNote(
+              cacheKey: FeedCache.keyFor(lang),
+              updated: cached == null
+                  ? null
+                  : t.feedUpdated(
+                      formatDateTime(cached.savedAt.toLocal(), lang),
+                    ),
+              onRetry: refresh,
+            ),
+            if (items.isEmpty)
+              loaded.isLoading && !loaded.hasValue
+                  ? LoadingState(label: t.loadingLabel)
+                  : EmptyNote(t.feedEmpty),
+            for (final item in items)
+              Padding(
+                padding: const EdgeInsets.only(top: BmSpace.sm),
+                child: InkWell(
+                  key: Key('feed-item-${item.id}'),
+                  borderRadius: BorderRadius.circular(BmRadius.tile),
+                  onTap: () => context.push(Routes.feedItem(item.id)),
+                  child: Ink(
+                    decoration: BoxDecoration(
+                      color: c.card,
+                      borderRadius: BorderRadius.circular(BmRadius.tile),
+                      border: Border.all(color: c.line),
+                    ),
+                    padding: const EdgeInsets.all(BmSpace.md),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: _ItemBody(item: item, now: now, lang: lang),
+                        ),
+                        if (!item.seen && !receipts.seen.contains(item.id))
+                          Padding(
+                            padding: const EdgeInsets.only(left: BmSpace.xs),
+                            child: Semantics(
+                              label: t.feedUnseen,
+                              child: Container(
+                                key: Key('feed-unseen-${item.id}'),
+                                width: 10,
+                                height: 10,
+                                decoration: BoxDecoration(
+                                  color: c.accent,
+                                  shape: BoxShape.circle,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-        ],
+          ],
+        ),
       ),
     );
   }

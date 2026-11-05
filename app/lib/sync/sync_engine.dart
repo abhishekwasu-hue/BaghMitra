@@ -13,7 +13,9 @@ import 'transport.dart';
 /// or intentionally skipped.
 typedef ChangeApplier = Future<void> Function(RemoteChange change);
 
-enum Connectivity { unknown, online, offline, signedOut }
+/// What the last sync run found: [offline] (the phone has no network), [serverError] (the
+/// server is down, slow or answered with an error) or [signedOut] (the session ended).
+enum Connectivity { unknown, online, offline, serverError, signedOut }
 
 class SyncStatus {
   const SyncStatus({
@@ -129,14 +131,32 @@ class SyncEngine {
         ),
       );
       return SyncRunResult(pushed: pushed, pulled: pulled);
-    } on SyncUnavailableException {
-      _emit(_current.copyWith(connectivity: Connectivity.offline));
+    } on SyncUnavailableException catch (e) {
+      _emit(
+        _current.copyWith(
+          connectivity: e.serverSide
+              ? Connectivity.serverError
+              : Connectivity.offline,
+        ),
+      );
       return const SyncRunResult(offline: true);
     } on SyncUnauthorizedException {
       _emit(_current.copyWith(connectivity: Connectivity.signedOut));
       return const SyncRunResult(offline: true);
     }
   }
+
+  /// The writes the server turned down, oldest first, for the grower to resend or delete.
+  Stream<List<OutboxEntry>> watchRejected() => _outbox.watchRejected();
+
+  /// Queues a turned-down write again and syncs at once.
+  Future<void> resendRejected(String id) async {
+    await _outbox.requeue(id);
+    await sync();
+  }
+
+  /// Drops a turned-down write from the outbox; the record on the phone stays as it is.
+  Future<void> deleteRejected(String id) => _outbox.discard(id);
 
   Future<List<OutboxEntry>> _dueBatch() {
     final now = _clock();

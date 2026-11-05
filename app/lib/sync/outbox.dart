@@ -60,4 +60,40 @@ class Outbox {
             .getSingleOrNull();
     return row != null;
   }
+
+  /// Writes the server turned down (state rejected), oldest first.
+  Stream<List<OutboxEntry>> watchRejected() =>
+      (_db.select(_db.outboxEntries)
+            ..where((t) => t.state.equalsValue(OutboxState.rejected))
+            ..orderBy([(t) => OrderingTerm.asc(t.clientUpdatedAt)]))
+          .watch();
+
+  /// Puts a rejected write back in the queue, due now, under a new mutation id: the server
+  /// remembers every id it has decided on (rejected ones too) and would answer a resent id
+  /// with "duplicate" without looking at it again.
+  Future<void> requeue(String id) => _db.transaction(() async {
+    final e = await (_db.select(
+      _db.outboxEntries,
+    )..where((t) => t.id.equals(id))).getSingleOrNull();
+    if (e == null) return;
+    await discard(id);
+    await _db
+        .into(_db.outboxEntries)
+        .insert(
+          OutboxEntriesCompanion.insert(
+            id: _uuid.v4(),
+            entity: e.entity,
+            entityId: e.entityId,
+            op: e.op,
+            payload: e.payload,
+            clientUpdatedAt: e.clientUpdatedAt,
+            nextAttemptAt: _clock(),
+            state: OutboxState.pending,
+          ),
+        );
+  });
+
+  /// Removes a write from the queue (the grower chose to drop it).
+  Future<void> discard(String id) =>
+      (_db.delete(_db.outboxEntries)..where((t) => t.id.equals(id))).go();
 }

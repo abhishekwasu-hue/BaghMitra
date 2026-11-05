@@ -49,6 +49,12 @@ Without these three secrets the APK runs in the offline test mode. Add them the 
 
 The next test build (after a push to main, or Actions → Test APK → Run workflow) carries them.
 
+**Phone OTP login (`PHONE_LOGIN`).** The login page offers Google only until an SMS provider is
+set up on the Supabase project (supabase-setup.md step 2). Once it is, build with
+`--dart-define=PHONE_LOGIN=true` (a repository variable passed by the build workflow); the
+phone number and OTP fields then return. The offline test mode (no Supabase secrets) always
+shows the phone path, since any six digits sign in locally there.
+
 ## 2. Install on the phone
 
 1. On the phone open the repository's **Releases** page, pick the newest `test-…` release, download

@@ -4,12 +4,15 @@ import 'package:go_router/go_router.dart';
 
 import '../../../api/generated/bagmitra.swagger.dart';
 import '../../../app/providers.dart';
+import '../../../app/refresh.dart';
 import '../../../app/router.dart';
 import '../../../core/formatting.dart';
 import '../../../design_system/empty_state.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../../sync/presentation/refresh_note.dart';
 import '../../../theme/app_theme.dart';
 import '../../voice/presentation/share_speak_buttons.dart';
+import '../data/market_prices_cache.dart';
 
 /// Mandi prices for the grower's crop, exactly as the API published them (never estimated),
 /// from the phone's cache so the list works offline.
@@ -33,6 +36,8 @@ class _MarketPricesScreenState extends ConsumerState<MarketPricesScreen> {
     final cached = loaded.value;
     final prices = cached?.prices.prices ?? const <MarketPriceOut>[];
     String rs(int? v) => v == null ? '–' : formatRupees(v, lang);
+    Future<void> refresh() =>
+        ref.read(refresherProvider).marketPrices(crop, _scope);
 
     final scopes = {
       V1MarketPricesGetScope.all: t.marketScopeAll,
@@ -52,102 +57,110 @@ class _MarketPricesScreenState extends ConsumerState<MarketPricesScreen> {
           ),
         ],
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(BmSpace.lg),
-        children: [
-          Wrap(
-            spacing: BmSpace.xs,
-            children: [
-              for (final MapEntry(key: scope, value: label) in scopes.entries)
-                ChoiceChip(
-                  key: Key('market-scope-${scope.value}'),
-                  label: Text(label),
-                  selected: _scope == scope,
-                  onSelected: (_) => setState(() => _scope = scope),
-                ),
-            ],
-          ),
-          if (cached != null) ...[
-            const SizedBox(height: BmSpace.xs),
-            Text(
-              t.marketUpdated(formatDate(cached.savedAt.toLocal(), lang)),
-              style: BmType.meta,
+      body: RefreshIndicator(
+        onRefresh: refresh,
+        child: ListView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          padding: const EdgeInsets.all(BmSpace.lg),
+          children: [
+            Wrap(
+              spacing: BmSpace.xs,
+              children: [
+                for (final MapEntry(key: scope, value: label) in scopes.entries)
+                  ChoiceChip(
+                    key: Key('market-scope-${scope.value}'),
+                    label: Text(label),
+                    selected: _scope == scope,
+                    onSelected: (_) => setState(() => _scope = scope),
+                  ),
+              ],
             ),
-            if (cached.prices.stale)
+            const SizedBox(height: BmSpace.xs),
+            RefreshNote(
+              cacheKey: MarketPricesCache.keyFor(crop, _scope),
+              updated: cached == null
+                  ? null
+                  : t.marketUpdated(
+                      formatDateTime(cached.savedAt.toLocal(), lang),
+                    ),
+              onRetry: refresh,
+            ),
+            if (cached != null && cached.prices.stale)
+              // The server sends a reason code; the grower sees plain words for it.
               Text(switch (cached.prices.reason) {
                 final String reason => t.marketStale(reason),
                 null => t.marketStaleNoReason,
               }, style: BmType.meta.copyWith(color: c.accentInk)),
-          ],
-          if (prices.isEmpty)
-            loaded.isLoading && !loaded.hasValue
-                ? LoadingState(label: t.loadingLabel)
-                : EmptyNote(t.marketEmpty),
-          for (final p in prices)
-            // A plain row, not a ListTile: a ListTile caps the trailing price's height,
-            // which clipped it at larger text sizes.
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: BmSpace.xs),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Wrap(
-                          spacing: BmSpace.xs,
-                          crossAxisAlignment: WrapCrossAlignment.center,
-                          children: [
-                            Text(p.market, style: BmType.bodyStrong),
-                            if (p.isLocal) _Tag(t.marketTagLocal),
-                            if (p.isMajor) _Tag(t.marketTagMajor),
-                          ],
-                        ),
-                        Text(
-                          '${p.state} · ${formatDate(p.day, lang)}',
-                          style: BmType.meta,
-                        ),
-                        if (p.minRsPerQuintal != null ||
-                            p.maxRsPerQuintal != null)
+            if (prices.isEmpty)
+              loaded.isLoading && !loaded.hasValue
+                  ? LoadingState(label: t.loadingLabel)
+                  : EmptyNote(t.marketEmpty),
+            for (final p in prices)
+              // A plain row, not a ListTile: a ListTile caps the trailing price's height,
+              // which clipped it at larger text sizes.
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: BmSpace.xs),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Wrap(
+                            spacing: BmSpace.xs,
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            children: [
+                              Text(p.market, style: BmType.bodyStrong),
+                              if (p.isLocal) _Tag(t.marketTagLocal),
+                              if (p.isMajor) _Tag(t.marketTagMajor),
+                            ],
+                          ),
                           Text(
-                            t.marketRange(
-                              rs(p.minRsPerQuintal),
-                              rs(p.maxRsPerQuintal),
-                            ),
+                            '${p.state} · ${formatDate(p.day, lang)}',
                             style: BmType.meta,
                           ),
-                        if (p.variety case final variety?)
-                          Text(t.marketVariety(variety), style: BmType.meta),
+                          if (p.minRsPerQuintal != null ||
+                              p.maxRsPerQuintal != null)
+                            Text(
+                              t.marketRange(
+                                rs(p.minRsPerQuintal),
+                                rs(p.maxRsPerQuintal),
+                              ),
+                              style: BmType.meta,
+                            ),
+                          if (p.variety case final variety?)
+                            Text(t.marketVariety(variety), style: BmType.meta),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: BmSpace.sm),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          rs(p.modalRsPerQuintal),
+                          style: BmType.cardTitle.copyWith(color: c.brand),
+                        ),
+                        Text(t.marketPerQuintal, style: BmType.meta),
+                        ShareSpeakButtons(
+                          keyPrefix:
+                              'market-${p.market}-${p.day.toIso8601String()}',
+                          shareText: marketPriceShareText(
+                            t,
+                            p,
+                            lang,
+                            ref.watch(appConfigProvider).productName,
+                          ),
+                          speakText: marketPriceShareText(t, p, lang, null),
+                        ),
                       ],
                     ),
-                  ),
-                  const SizedBox(width: BmSpace.sm),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text(
-                        rs(p.modalRsPerQuintal),
-                        style: BmType.cardTitle.copyWith(color: c.brand),
-                      ),
-                      Text(t.marketPerQuintal, style: BmType.meta),
-                      ShareSpeakButtons(
-                        keyPrefix:
-                            'market-${p.market}-${p.day.toIso8601String()}',
-                        shareText: marketPriceShareText(
-                          t,
-                          p,
-                          lang,
-                          ref.watch(appConfigProvider).productName,
-                        ),
-                        speakText: marketPriceShareText(t, p, lang, null),
-                      ),
-                    ],
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-        ],
+          ],
+        ),
       ),
     );
   }

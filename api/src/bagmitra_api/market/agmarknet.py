@@ -17,8 +17,20 @@ import httpx
 PAGE_LIMIT = 500
 
 
+# Stable reason codes sent to the app as `MarketPrices.reason`; the app translates them, so
+# the farmer never sees the technical detail (that goes to the log only).
+REASON_NOT_CONFIGURED = "source_not_configured"
+REASON_UNREACHABLE = "source_unreachable"
+REASON_BAD_RESPONSE = "source_bad_response"
+
+
 class MarketUnavailableError(Exception):
-    """The price source could not be reached or answered with something we cannot use."""
+    """The price source could not be reached or answered with something we cannot use.
+    `code` is one of the REASON_* codes; the message is technical detail for the log."""
+
+    def __init__(self, message: str, *, code: str = REASON_UNREACHABLE) -> None:
+        super().__init__(message)
+        self.code = code
 
 
 @dataclass(frozen=True)
@@ -53,7 +65,9 @@ def _text(value: object) -> str | None:
 def parse_records(payload: dict[str, Any]) -> list[MandiPrice]:
     records = payload.get("records")
     if not isinstance(records, list):
-        raise MarketUnavailableError(f"no records in response: {payload.get('message')}")
+        raise MarketUnavailableError(
+            f"no records in response: {payload.get('message')}", code=REASON_BAD_RESPONSE
+        )
     prices = []
     for r in records:
         modal = _rupees(r.get("modal_price"))
@@ -108,7 +122,9 @@ class AgmarknetClient:
         """All reported rows for the commodity, India-wide unless a state or market is given.
         Pages through the resource; stops at `max_pages` so one pull stays bounded."""
         if not self._api_key:
-            raise MarketUnavailableError("no API key configured (MARKET_API_KEY)")
+            raise MarketUnavailableError(
+                "no API key configured (MARKET_API_KEY)", code=REASON_NOT_CONFIGURED
+            )
         params: dict[str, str | int] = {
             "api-key": self._api_key,
             "format": "json",

@@ -4,6 +4,7 @@ import uuid
 from datetime import date
 from typing import Annotated
 
+import structlog
 from fastapi import APIRouter, Depends, Query
 from pydantic import BaseModel
 
@@ -19,6 +20,8 @@ from bagmitra_api.weather.service import (
     get_weather_context,
     weather_for_cell,
 )
+
+log = structlog.get_logger("bagmitra.weather")
 
 router = APIRouter(prefix="/v1", tags=["weather"])
 
@@ -82,7 +85,8 @@ async def get_plot_weather(
     try:
         days, stale = await weather_for_cell(session, ctx.provider, ctx.settings, cell, ctx.clock())
     except WeatherUnavailableError as exc:
-        raise ApiError(503, "weather_unavailable", str(exc)) from exc
+        log.warning("weather_source_unavailable", detail=str(exc))
+        raise ApiError(503, "weather_unavailable") from exc
     rules = {r.key: r for r in load_rules()}
     return PlotWeather(
         days=[WeatherDay.model_validate(d, from_attributes=True) for d in days],

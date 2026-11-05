@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import '../../../core/net_failure.dart';
 import '../../../data/local/database.dart';
 import '../domain/feed_item.dart';
 import 'feed_repository.dart';
@@ -37,12 +38,18 @@ class FeedCache {
   }
 
   /// Returns true when a fresh answer was stored.
-  Future<bool> refresh(String lang) async {
+  Future<bool> refresh(String lang) async =>
+      await refreshOrFailure(lang) == null;
+
+  /// Stores a fresh answer and returns null, or says why none came; the cache stays as is.
+  Future<NetFailure?> refreshOrFailure(String lang) async {
     final FeedPage page;
     try {
       page = await _repository.fetch(lang: lang);
-    } on Exception {
-      return false;
+    } on FeedUnavailableException catch (e) {
+      return e.failure;
+    } on Object catch (e) {
+      return netFailureForError(e);
     }
     final items = filterFeed(page.items, null).take(maxItems).toList();
     await _db.writeMeta(
@@ -52,6 +59,6 @@ class FeedCache {
         'page': FeedPage(items: items, footer: page.footer).toJson(),
       }),
     );
-    return true;
+    return null;
   }
 }

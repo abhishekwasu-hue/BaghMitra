@@ -25,6 +25,14 @@ String formatDecimal(double value, String languageCode) =>
 String formatDate(DateTime date, String languageCode) =>
     DateFormat.yMMMd(_intlLocale(languageCode)).format(date);
 
+/// Day, short month and time of day in the locale's script, for "updated at" lines:
+/// "25 Oct 2026, 11:30 am" in English, a 24-hour clock elsewhere ("२५ ऑक्टो, २०२६ १८:३०"),
+/// where the locale's am / pm marks are single letters.
+String formatDateTime(DateTime date, String languageCode) {
+  final day = DateFormat.yMMMd(_intlLocale(languageCode));
+  return (languageCode == 'en' ? day.add_jm() : day.add_Hm()).format(date);
+}
+
 /// A year without grouping, in locale digits (e.g. Marathi २०२७).
 String formatYear(int year, String languageCode) =>
     NumberFormat('0', _intlLocale(languageCode)).format(year);

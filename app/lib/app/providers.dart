@@ -88,6 +88,7 @@ import '../sync/account_guard.dart';
 import '../sync/http_transport.dart';
 import '../sync/outbox.dart';
 import '../sync/sync_engine.dart';
+import 'refresh.dart';
 
 /// Overridden in main() / tests.
 final appConfigProvider = Provider<AppConfig>(
@@ -196,7 +197,14 @@ final onboardedProvider = Provider<bool?>((ref) {
   final session = ref.watch(sessionProvider);
   final profile = ref.watch(profileProvider);
   if (session.value == null || profile.isLoading) return null;
-  return profile.value?.consentDataProcessing ?? false;
+  if (profile.value?.consentDataProcessing ?? false) return true;
+  // A returning grower on a new phone: his profile comes with the first pull, so onboarding
+  // is decided only after it (audit LG-05). Demo mode has no server to pull from.
+  if (!ref.watch(appConfigProvider).demoMode &&
+      ref.watch(firstPullProvider).isLoading) {
+    return null;
+  }
+  return false;
 });
 
 final walkthroughFlagProvider = Provider<WalkthroughFlag>(
@@ -849,16 +857,20 @@ final plotWeatherCacheProvider = Provider<PlotWeatherCache>(
   ),
 );
 
-/// The cached weather for a plot in a language. Online (not demo) it is refreshed first;
-/// offline the cached copy is shown with its date.
+/// The cached weather for a plot in a language, saved copy first (see [cacheFirst]); online
+/// (not demo) an old copy is fetched again in the background.
 final plotWeatherProvider =
-    FutureProvider.family<CachedWeather?, (String, String)>((ref, key) async {
+    FutureProvider.family<CachedWeather?, (String, String)>((ref, key) {
       final (plotId, lang) = key;
       final cache = ref.watch(plotWeatherCacheProvider);
-      if (!ref.watch(appConfigProvider).demoMode) {
-        await cache.refresh(plotId, lang);
-      }
-      return cache.load(plotId, lang);
+      return cacheFirst(
+        ref,
+        key: PlotWeatherCache.keyFor(plotId, lang),
+        load: () => cache.load(plotId, lang),
+        savedAt: (c) => c.savedAt,
+        fetch: () => cache.refreshOrFailure(plotId, lang),
+        fetchAllowed: !ref.watch(appConfigProvider).demoMode,
+      );
     });
 
 final marketPricesCacheProvider = Provider<MarketPricesCache>(
@@ -874,19 +886,23 @@ final marketCropProvider = Provider<String>(
   (ref) => ref.watch(plotsProvider).value?.firstOrNull?.crop ?? 'santra',
 );
 
-/// The cached mandi prices for a crop and scope. Online (not demo) they are refreshed
-/// first; offline the cached copy is shown with its date.
+/// The cached mandi prices for a crop and scope, saved copy first (see [cacheFirst]);
+/// online (not demo) an old copy is fetched again in the background.
 final marketPricesProvider =
     FutureProvider.family<
       CachedMarketPrices?,
       (String, V1MarketPricesGetScope)
-    >((ref, key) async {
+    >((ref, key) {
       final (crop, scope) = key;
       final cache = ref.watch(marketPricesCacheProvider);
-      if (!ref.watch(appConfigProvider).demoMode) {
-        await cache.refresh(crop, scope);
-      }
-      return cache.load(crop, scope);
+      return cacheFirst(
+        ref,
+        key: MarketPricesCache.keyFor(crop, scope),
+        load: () => cache.load(crop, scope),
+        savedAt: (c) => c.savedAt,
+        fetch: () => cache.refreshOrFailure(crop, scope),
+        fetchAllowed: !ref.watch(appConfigProvider).demoMode,
+      );
     });
 
 /// The mandi prices already saved on the phone for a crop (all markets), never fetched:
@@ -914,17 +930,19 @@ final feedCacheProvider = Provider<FeedCache>(
   ),
 );
 
-/// The cached feed for a language. It is refreshed first (best effort); offline the cached
-/// copy is shown with its date.
-final feedProvider = FutureProvider.family<CachedFeed?, String>((
-  ref,
-  lang,
-) async {
+/// The cached feed for a language, saved copy first (see [cacheFirst]); an old copy is
+/// fetched again in the background.
+final feedProvider = FutureProvider.family<CachedFeed?, String>((ref, lang) {
   final cache = ref.watch(feedCacheProvider);
-  await cache.refresh(lang);
   // Receipts queued while offline go out whenever the feed opens again.
-  await ref.watch(feedReceiptsProvider).flush();
-  return cache.load(lang);
+  unawaited(ref.watch(feedReceiptsProvider).flush().catchError((_) => 0));
+  return cacheFirst(
+    ref,
+    key: FeedCache.keyFor(lang),
+    load: () => cache.load(lang),
+    savedAt: (c) => c.savedAt,
+    fetch: () => cache.refreshOrFailure(lang),
+  );
 });
 
 /// Seen / dismiss / remind receipts: on the phone at once, sent to the server when it can.

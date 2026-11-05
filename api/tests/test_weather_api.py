@@ -132,6 +132,7 @@ async def test_provider_down_serves_stored_days_as_stale(
     empty = await api.get(f"/v1/plots/{plot_id}/weather", headers=auth_headers)
     assert empty.status_code == 503
     assert empty.json()["error"]["code"] == "weather_unavailable"
+    assert "HTTP" not in empty.json()["error"]["message"]  # provider detail stays in the log
 
     provider.fail = False
     await api.get(f"/v1/plots/{plot_id}/weather", headers=auth_headers)

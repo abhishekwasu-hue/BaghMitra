@@ -97,7 +97,7 @@ void main() {
     },
   );
 
-  testWidgets('market screen shows cached rows, tags and the stale reason', (
+  testWidgets('market screen shows cached rows, tags and a plain stale note', (
     tester,
   ) async {
     await pumpApp(
@@ -106,7 +106,7 @@ void main() {
       initialLocation: '/market',
       seed: (db) => seedPrices(
         db,
-        body: samplePrices(stale: true, reason: 'price source unreachable'),
+        body: samplePrices(stale: true, reason: 'source_unreachable'),
       ),
     );
     await settle(tester);
@@ -121,7 +121,14 @@ void main() {
     expect(find.text('Near you'), findsOneWidget);
     expect(find.text('Major mandi'), findsOneWidget);
     expect(find.textContaining('Updated'), findsOneWidget);
-    expect(find.textContaining('price source unreachable'), findsOneWidget);
+    // The server's reason code becomes plain words; the code itself never shows.
+    expect(find.textContaining('source_unreachable'), findsNothing);
+    expect(
+      find.text(
+        'Showing the last saved prices; they update on the next successful load.',
+      ),
+      findsOneWidget,
+    );
 
     // Another scope has its own cache: nothing saved for it yet.
     await tester.tap(find.byKey(const Key('market-scope-major')));
@@ -153,6 +160,39 @@ void main() {
       ),
       findsOneWidget,
     );
+    await unmountApp(tester);
+  });
+
+  testWidgets('a source that is not set up yet reads as coming soon', (
+    tester,
+  ) async {
+    await pumpApp(
+      tester,
+      initialLocation: '/market',
+      seed: (db) => seedPrices(
+        db,
+        body: samplePrices(
+          stale: true,
+          reason: 'no API key configured (MARKET_API_KEY)',
+        ),
+      ),
+    );
+    await settle(tester);
+    // An older server's free-text reason falls back to the general note.
+    expect(find.textContaining('MARKET_API_KEY'), findsNothing);
+    expect(find.textContaining('शेवटचे जतन केलेले भाव'), findsOneWidget);
+    await unmountApp(tester);
+
+    await pumpApp(
+      tester,
+      initialLocation: '/market',
+      seed: (db) => seedPrices(
+        db,
+        body: samplePrices(stale: true, reason: 'source_not_configured'),
+      ),
+    );
+    await settle(tester);
+    expect(find.text('बाजारभाव सेवा लवकरच सुरू होईल.'), findsOneWidget);
     await unmountApp(tester);
   });
 }

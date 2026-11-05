@@ -7,6 +7,7 @@ import '../l10n/app_localizations.dart';
 import '../sync/account_guard.dart';
 import '../theme/app_theme.dart';
 import 'providers.dart';
+import 'refresh.dart';
 import 'router.dart';
 
 class BagMitraApp extends ConsumerStatefulWidget {
@@ -37,6 +38,9 @@ class _BagMitraAppState extends ConsumerState<BagMitraApp> {
   /// Whose records the phone holds for the signed-in account; null while checking.
   final _accountGate = ValueNotifier<AccountCheck?>(null);
 
+  /// Reloads weather, prices and feed (when old) and syncs when the app comes back.
+  late final AppLifecycleListener _lifecycle;
+
   late final GoRouter _router = buildRouter(
     ref.read(authRepositoryProvider),
     ref.read(appConfigProvider),
@@ -49,6 +53,12 @@ class _BagMitraAppState extends ConsumerState<BagMitraApp> {
   @override
   void initState() {
     super.initState();
+    _lifecycle = AppLifecycleListener(
+      onResume: () => ref.read(refresherProvider).onResume(),
+    );
+    // Sync runs from the app root once the records are this account's, not only while the
+    // home screen is open, so a returning grower's records arrive before onboarding (LG-05).
+    ref.listenManual(syncEngineProvider, (_, _) {}, fireImmediately: true);
     ref.listenManual(
       onboardedProvider,
       (_, done) => _onboarded.value = done,
@@ -78,6 +88,7 @@ class _BagMitraAppState extends ConsumerState<BagMitraApp> {
 
   @override
   void dispose() {
+    _lifecycle.dispose();
     _router.dispose();
     _onboarded.dispose();
     _walkthroughSeen.dispose();

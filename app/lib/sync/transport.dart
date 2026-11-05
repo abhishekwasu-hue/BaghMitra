@@ -35,10 +35,13 @@ class PullPage {
   final int cursor;
 }
 
-/// No network, timeout, 5xx: retry later with backoff.
+/// No network, timeout, 5xx: retry later with backoff. [serverSide] tells a server that is
+/// down or answering with errors (5xx, timeout, a rejected request) from a phone that has
+/// no network, so the grower is told which one it is.
 class SyncUnavailableException implements Exception {
-  const SyncUnavailableException(this.reason);
+  const SyncUnavailableException(this.reason, {this.serverSide = false});
   final String reason;
+  final bool serverSide;
   @override
   String toString() => 'SyncUnavailableException($reason)';
 }

@@ -4,11 +4,14 @@ import 'package:go_router/go_router.dart';
 
 import '../../../api/generated/bagmitra.swagger.dart';
 import '../../../app/providers.dart';
+import '../../../app/refresh.dart';
 import '../../../app/router.dart';
 import '../../../core/formatting.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../../sync/presentation/refresh_note.dart';
 import '../../../theme/app_theme.dart';
 import '../../voice/presentation/share_speak_buttons.dart';
+import '../data/plot_weather_cache.dart';
 
 /// The next days for a plot and the rule-based risk alerts, each with its source. Shows the
 /// last saved answer offline; alerts never carry chemical advice (they come from the API).
@@ -46,13 +49,18 @@ class PlotWeatherCard extends ConsumerWidget {
               t.weatherTitle,
               style: BmType.section.copyWith(color: c.brand),
             ),
-            if (cached == null)
-              Text(t.weatherNone, style: BmType.meta)
-            else ...[
-              Text(
-                t.weatherAsOf(formatDate(cached.savedAt.toLocal(), lang)),
-                style: BmType.meta,
-              ),
+            if (cached == null) Text(t.weatherNone, style: BmType.meta),
+            RefreshNote(
+              cacheKey: PlotWeatherCache.keyFor(plotId, lang),
+              updated: cached == null
+                  ? null
+                  : t.weatherAsOf(
+                      formatDateTime(cached.savedAt.toLocal(), lang),
+                    ),
+              onRetry: () =>
+                  ref.read(refresherProvider).plotWeather(plotId, lang),
+            ),
+            if (cached != null) ...[
               if (cached.weather.stale)
                 Text(
                   t.weatherStale,

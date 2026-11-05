@@ -65,10 +65,9 @@ void main() {
         rejected: 1,
       ),
     );
-    expect(
-      find.textContaining('Your records are safe on this phone'),
-      findsOneWidget,
-    );
+    // Home shows the shared sync strip: the count to check and a way to review them.
+    expect(find.byKey(const Key('sync-banner-rejected')), findsOneWidget);
+    expect(find.textContaining('1 entry to check'), findsOneWidget);
     await unmountApp(tester);
   });
 

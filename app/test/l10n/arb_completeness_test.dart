@@ -14,7 +14,9 @@ Map<String, dynamic> _arb(String locale) =>
 Set<String> _keys(Map<String, dynamic> arb) =>
     arb.keys.where((k) => !k.startsWith('@')).toSet();
 
-final _placeholder = RegExp(r'\{(\w+)[,}]');
+// A placeholder opens a message or follows a separator; `case{Text}` inside a select or
+// plural is a translated case body, not a placeholder.
+final _placeholder = RegExp(r'(?<![\w=])\{(\w+)[,}]');
 
 void main() {
   final en = _arb('en');

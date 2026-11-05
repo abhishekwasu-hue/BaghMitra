@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:bagmitra/api/api_client.dart';
 import 'package:bagmitra/core/config.dart';
+import 'package:bagmitra/core/net_failure.dart';
 import 'package:bagmitra/features/feed/data/demo_feed_repository.dart';
 import 'package:bagmitra/features/feed/data/feed_cache.dart';
 import 'package:bagmitra/features/feed/data/feed_repository.dart';
@@ -71,7 +72,12 @@ class FakeFeedRepository implements FeedRepository {
   bool get offline => body == null;
 
   void _online() {
-    if (offline) throw const FeedUnavailableException('offline');
+    if (offline) {
+      throw const FeedUnavailableException(
+        'offline',
+        failure: NetFailure.offline,
+      );
+    }
   }
 
   @override

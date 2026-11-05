@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../app/providers.dart';
+import '../../../app/refresh.dart';
 import '../../../app/router.dart';
 import '../../../core/formatting.dart';
 import '../../../l10n/app_localizations.dart';
@@ -37,6 +38,14 @@ class PlotDetailScreen extends ConsumerWidget {
         ].firstOrNull ??
         plot.crop;
     final corners = cornersFromGeoJson(plot.boundary);
+    // Pull to refresh: the plot's weather and the latest records from the server.
+    Future<void> refresh() async {
+      final refresher = ref.read(refresherProvider);
+      await Future.wait([
+        refresher.plotWeather(plotId, lang),
+        refresher.records(),
+      ]);
+    }
 
     Widget row(String label, String value) => Padding(
       padding: const EdgeInsets.symmetric(vertical: BmSpace.xs),
@@ -64,79 +73,83 @@ class PlotDetailScreen extends ConsumerWidget {
           ),
         ],
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(BmSpace.lg),
-        children: [
-          row(t.plotCrop, cropLabel),
-          if (plot.variety != null) row(t.plotVariety, plot.variety!),
-          row(t.plotAreaAcres, formatDecimal(plot.areaAcres, lang)),
-          if (plot.treeCount != null)
-            row(t.plotTreeCount, formatInt(plot.treeCount!, lang)),
-          if (plot.plantingYear != null)
-            row(t.plotPlantingYear, formatYear(plot.plantingYear!, lang)),
-          row(
-            t.boundaryWalk,
-            corners == null
-                ? t.plotBoundaryNone
-                : t.boundaryMarked(corners.length),
-          ),
-          PlotLocationRow(
-            point: plot.centroidLat != null && plot.centroidLon != null
-                ? LatLon(plot.centroidLat!, plot.centroidLon!)
-                : null,
-            onCaptured: (p) => ref
-                .read(plotRepositoryProvider)
-                .save(plot.withCentre(p.lat, p.lon)),
-          ),
-          if (plot.centroidLat != null && plot.centroidLon != null) ...[
+      body: RefreshIndicator(
+        onRefresh: refresh,
+        child: ListView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          padding: const EdgeInsets.all(BmSpace.lg),
+          children: [
+            row(t.plotCrop, cropLabel),
+            if (plot.variety != null) row(t.plotVariety, plot.variety!),
+            row(t.plotAreaAcres, formatDecimal(plot.areaAcres, lang)),
+            if (plot.treeCount != null)
+              row(t.plotTreeCount, formatInt(plot.treeCount!, lang)),
+            if (plot.plantingYear != null)
+              row(t.plotPlantingYear, formatYear(plot.plantingYear!, lang)),
+            row(
+              t.boundaryWalk,
+              corners == null
+                  ? t.plotBoundaryNone
+                  : t.boundaryMarked(corners.length),
+            ),
+            PlotLocationRow(
+              point: plot.centroidLat != null && plot.centroidLon != null
+                  ? LatLon(plot.centroidLat!, plot.centroidLon!)
+                  : null,
+              onCaptured: (p) => ref
+                  .read(plotRepositoryProvider)
+                  .save(plot.withCentre(p.lat, p.lon)),
+            ),
+            if (plot.centroidLat != null && plot.centroidLon != null) ...[
+              const SizedBox(height: BmSpace.lg),
+              PlotWeatherCard(plotId: plot.id),
+            ],
             const SizedBox(height: BmSpace.lg),
-            PlotWeatherCard(plotId: plot.id),
+            FilledButton(
+              key: const Key('open-records'),
+              onPressed: () => context.push(Routes.plotBahar(plot.id)),
+              child: Text(t.plotOpenRecords),
+            ),
+            const SizedBox(height: BmSpace.sm),
+            OutlinedButton.icon(
+              key: const Key('open-scouting'),
+              onPressed: () => context.push(Routes.scouting(plot.id)),
+              icon: const Icon(Icons.search_rounded),
+              label: Text(t.scoutingTitle),
+            ),
+            const SizedBox(height: BmSpace.sm),
+            OutlinedButton.icon(
+              key: const Key('open-insurance'),
+              onPressed: () => context.push(Routes.insurance(plot.id)),
+              icon: const Icon(Icons.verified_user_outlined),
+              label: Text(t.insuranceTitle),
+            ),
+            const SizedBox(height: BmSpace.sm),
+            OutlinedButton.icon(
+              key: const Key('open-lab-tests'),
+              onPressed: () => context.push(Routes.labTests(plot.id)),
+              icon: const Icon(Icons.science_outlined),
+              label: Text(t.labTestsTitle),
+            ),
+            const SizedBox(height: BmSpace.sm),
+            OutlinedButton(
+              key: const Key('open-practices'),
+              onPressed: () => context.push(Routes.practices),
+              child: Text(t.practicesOpen),
+            ),
+            const SizedBox(height: BmSpace.sm),
+            OutlinedButton(
+              key: const Key('open-irrigation-guide'),
+              onPressed: () => context.push(Routes.irrigationGuide(plot.id)),
+              child: Text(t.irrigationOpen),
+            ),
+            const SizedBox(height: BmSpace.sm),
+            OutlinedButton(
+              onPressed: () => context.push(Routes.editPlot(plot.id)),
+              child: Text(t.editPlot),
+            ),
           ],
-          const SizedBox(height: BmSpace.lg),
-          FilledButton(
-            key: const Key('open-records'),
-            onPressed: () => context.push(Routes.plotBahar(plot.id)),
-            child: Text(t.plotOpenRecords),
-          ),
-          const SizedBox(height: BmSpace.sm),
-          OutlinedButton.icon(
-            key: const Key('open-scouting'),
-            onPressed: () => context.push(Routes.scouting(plot.id)),
-            icon: const Icon(Icons.search_rounded),
-            label: Text(t.scoutingTitle),
-          ),
-          const SizedBox(height: BmSpace.sm),
-          OutlinedButton.icon(
-            key: const Key('open-insurance'),
-            onPressed: () => context.push(Routes.insurance(plot.id)),
-            icon: const Icon(Icons.verified_user_outlined),
-            label: Text(t.insuranceTitle),
-          ),
-          const SizedBox(height: BmSpace.sm),
-          OutlinedButton.icon(
-            key: const Key('open-lab-tests'),
-            onPressed: () => context.push(Routes.labTests(plot.id)),
-            icon: const Icon(Icons.science_outlined),
-            label: Text(t.labTestsTitle),
-          ),
-          const SizedBox(height: BmSpace.sm),
-          OutlinedButton(
-            key: const Key('open-practices'),
-            onPressed: () => context.push(Routes.practices),
-            child: Text(t.practicesOpen),
-          ),
-          const SizedBox(height: BmSpace.sm),
-          OutlinedButton(
-            key: const Key('open-irrigation-guide'),
-            onPressed: () => context.push(Routes.irrigationGuide(plot.id)),
-            child: Text(t.irrigationOpen),
-          ),
-          const SizedBox(height: BmSpace.sm),
-          OutlinedButton(
-            onPressed: () => context.push(Routes.editPlot(plot.id)),
-            child: Text(t.editPlot),
-          ),
-        ],
+        ),
       ),
     );
   }

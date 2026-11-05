@@ -227,4 +227,38 @@ void main() {
       await sub.cancel();
     },
   );
+
+  test('a server that is down reports serverError, not offline', () async {
+    await enqueue();
+    server.serverDown = true;
+    final result = await engine.sync();
+    expect(result.offline, isTrue);
+    expect(engine.status.connectivity, Connectivity.serverError);
+    expect(await rows(), hasLength(1));
+    server.serverDown = false;
+    clock.advance(const Duration(minutes: 1));
+    await engine.sync();
+    expect(engine.status.connectivity, Connectivity.online);
+  });
+
+  test('turned-down writes are listed, resent or deleted on request', () async {
+    final bad = await enqueue(entity: 'spaceship', id: 'z');
+    final other = await enqueue(entity: 'spaceship', id: 'y');
+    await engine.sync();
+    final listed = await engine.watchRejected().first;
+    expect([for (final e in listed) e.id], [bad, other]);
+    expect(listed.first.lastError, 'unknown_entity');
+
+    // The server learns the entity; "send again" queues it at once, under a new mutation
+    // id (the server answers a known id with "duplicate"), and syncs.
+    server.knownEntities.add('spaceship');
+    await engine.resendRejected(bad);
+    expect(server.row('spaceship', 'z'), {'language': 'mr'});
+    expect([for (final e in await rows()) e.id], [other]);
+    expect(server.row('spaceship', 'y'), isNull);
+
+    await engine.deleteRejected(other);
+    expect(await rows(), isEmpty);
+    expect(await engine.watchRejected().first, isEmpty);
+  });
 }

@@ -149,4 +149,43 @@ void main() {
       throwsA(isA<SyncUnavailableException>()),
     );
   });
+
+  test(
+    'the server side (5xx, timeout) is told apart from no network',
+    () async {
+      Matcher unavailable({required bool serverSide}) => throwsA(
+        isA<SyncUnavailableException>().having(
+          (e) => e.serverSide,
+          'serverSide',
+          serverSide,
+        ),
+      );
+      expect(
+        () => _transport((_) async => _json({}, 502)).pull(0),
+        unavailable(serverSide: true),
+      );
+      expect(
+        () => _transport((_) async => _json({}, 422)).pull(0),
+        unavailable(serverSide: true),
+      );
+      expect(
+        () => _transport(
+          (_) => Future.delayed(const Duration(seconds: 2), () => _json({})),
+        ).pull(0),
+        unavailable(serverSide: true),
+      );
+      expect(
+        () =>
+            _transport((_) async => throw const SocketException('down'))
+                .pull(0),
+        unavailable(serverSide: false),
+      );
+      expect(
+        () =>
+            _transport((_) async => throw http.ClientException('refused'))
+                .pull(0),
+        unavailable(serverSide: false),
+      );
+    },
+  );
 }

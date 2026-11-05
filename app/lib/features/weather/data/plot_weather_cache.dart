@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import '../../../api/generated/bagmitra.swagger.dart';
+import '../../../core/net_failure.dart';
 import '../../../data/local/database.dart';
 
 /// The last weather answer for one plot, with the time the phone saved it.
@@ -33,14 +34,19 @@ class PlotWeatherCache {
   }
 
   /// Returns true when a fresh answer was stored.
-  Future<bool> refresh(String plotId, String lang) async {
+  Future<bool> refresh(String plotId, String lang) async =>
+      await refreshOrFailure(plotId, lang) == null;
+
+  /// Stores a fresh answer and returns null, or says why none came; the cache stays as is.
+  Future<NetFailure?> refreshOrFailure(String plotId, String lang) async {
     try {
       final res = await _api.v1PlotsPlotIdWeatherGet(
         plotId: plotId,
         lang: lang,
       );
       final body = res.body;
-      if (!res.isSuccessful || body == null) return false;
+      if (!res.isSuccessful) return netFailureForStatus(res.statusCode);
+      if (body == null) return NetFailure.server;
       await _db.writeMeta(
         keyFor(plotId, lang),
         jsonEncode({
@@ -48,9 +54,9 @@ class PlotWeatherCache {
           'weather': body.toJson(),
         }),
       );
-      return true;
-    } on Exception {
-      return false;
+      return null;
+    } on Object catch (e) {
+      return netFailureForError(e);
     }
   }
 }

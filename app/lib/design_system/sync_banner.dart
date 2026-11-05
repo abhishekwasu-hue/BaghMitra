@@ -2,20 +2,33 @@ import 'package:flutter/material.dart';
 
 import '../theme/app_theme.dart';
 
-enum SyncBannerKind { offline, pending, failed }
+/// [offline]: no network; [server]: the server is unavailable; [signedOut]: sign in again;
+/// [failed]: entries the server turned down wait for the grower's choice.
+enum SyncBannerKind { offline, server, signedOut, pending, failed }
 
-/// Compact status strip shown only when something is not synced.
+/// Compact status strip shown only when something is not synced, with an optional action
+/// (sign in again, review the turned-down entries).
 class SyncBanner extends StatelessWidget {
-  const SyncBanner({super.key, required this.kind, required this.message});
+  const SyncBanner({
+    super.key,
+    required this.kind,
+    required this.message,
+    this.actionLabel,
+    this.onAction,
+  });
 
   final SyncBannerKind kind;
   final String message;
+  final String? actionLabel;
+  final VoidCallback? onAction;
 
   @override
   Widget build(BuildContext context) {
     final c = context.bm;
     final (bg, fg, icon) = switch (kind) {
       SyncBannerKind.offline => (c.ink, c.background, Icons.cloud_off_rounded),
+      SyncBannerKind.server => (c.ink, c.background, Icons.cloud_sync_rounded),
+      SyncBannerKind.signedOut => (c.nowTint, c.warnTitle, Icons.login_rounded),
       SyncBannerKind.pending => (
         c.nowTint,
         c.warnTitle,
@@ -49,6 +62,16 @@ class SyncBanner extends StatelessWidget {
                 style: BmType.label.copyWith(color: fg, fontSize: 14),
               ),
             ),
+            if (actionLabel case final label? when onAction != null)
+              TextButton(
+                key: const Key('sync-banner-action'),
+                style: TextButton.styleFrom(foregroundColor: fg),
+                onPressed: onAction,
+                child: Text(
+                  label,
+                  style: BmType.bodyStrong.copyWith(color: fg),
+                ),
+              ),
           ],
         ),
       ),

@@ -7,6 +7,7 @@ import 'package:bagmitra/sync/transport.dart';
 /// client mutation id, last-writer-wins on client_updated_at, monotonic pull cursor.
 class FakeSyncServer implements SyncTransport {
   bool online = true;
+  bool serverDown = false;
   bool unauthorized = false;
   final Set<String> knownEntities = {'farmer_profile', 'plot'};
   final Set<String> _seen = {};
@@ -17,6 +18,9 @@ class FakeSyncServer implements SyncTransport {
   void _guard() {
     if (unauthorized) throw const SyncUnauthorizedException();
     if (!online) throw const SyncUnavailableException('network');
+    if (serverDown) {
+      throw const SyncUnavailableException('http 503', serverSide: true);
+    }
   }
 
   /// Simulates a write made on another device.

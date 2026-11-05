@@ -193,7 +193,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get loginInvalidPhone => '10 अंकों का सही मोबाइल नंबर डालें';
 
   @override
-  String get loginInvalidOtp => 'OTP गलत है या समय समाप्त हो गया';
+  String get loginInvalidOtp => 'SMS में आया नया 6 अंकों का OTP डालें';
 
   @override
   String get loginDemoNotice => 'डेमो मोड: कोई भी 6 अंक चलेंगे';
@@ -1534,7 +1534,12 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String marketStale(String reason) {
-    return 'आख़िरी सहेजे भाव दिखा रहे हैं: $reason';
+    String _temp0 = intl.Intl.selectLogic(reason, {
+      'source_not_configured': 'मंडी भाव सेवा जल्द शुरू होगी।',
+      'other':
+          'आख़िरी सहेजे भाव दिखा रहे हैं; अगली बार भाव मिलने पर अद्यतन होंगे।',
+    });
+    return '$_temp0';
   }
 
   @override
@@ -2518,4 +2523,104 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get fairPriceSame => 'आपका भाव मंडी के मॉडल भाव के बराबर है।';
+
+  @override
+  String get loginPhoneUnavailable => 'अभी Google से लॉगिन करें';
+
+  @override
+  String get loginResendOtp => 'OTP फिर से भेजें';
+
+  @override
+  String loginResendIn(int seconds) {
+    return '$seconds सेकंड में OTP फिर से माँग सकते हैं';
+  }
+
+  @override
+  String get loginOtpResent => 'नया OTP भेज दिया गया है';
+
+  @override
+  String get loginChangeNumber => 'नंबर बदलें';
+
+  @override
+  String get loginTitleGoogle => 'अपने Google खाते से शुरू करें';
+
+  @override
+  String get netOffline => 'इंटरनेट जाँचें और फिर से कोशिश करें';
+
+  @override
+  String get netServer => 'सर्वर अभी व्यस्त है; थोड़ी देर बाद फिर कोशिश करें';
+
+  @override
+  String get netSignedOut => 'नई जानकारी के लिए फिर से लॉगिन करें';
+
+  @override
+  String get netRetry => 'फिर से कोशिश करें';
+
+  @override
+  String get signInAgain => 'लॉगिन करें';
+
+  @override
+  String get syncServerBanner =>
+      'आपकी एंट्री फ़ोन पर सुरक्षित हैं; सर्वर तैयार होते ही अपने आप भेजी जाएँगी।';
+
+  @override
+  String get syncSignedOutBanner => 'एंट्री भेजने के लिए फिर से लॉगिन करें';
+
+  @override
+  String syncRejectedBanner(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count एंट्री जाँचनी हैं',
+      one: '1 एंट्री जाँचनी है',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get syncReview => 'देखें';
+
+  @override
+  String get syncRejectedTitle => 'जाँचने वाली एंट्री';
+
+  @override
+  String get syncRejectedHelp =>
+      'हर एंट्री फिर से भेजें या इस सूची से हटाएँ; फ़ोन पर जानकारी वैसी ही रहती है।';
+
+  @override
+  String get syncRejectedDone => 'सभी एंट्री ठीक हैं';
+
+  @override
+  String get syncResend => 'फिर से भेजें';
+
+  @override
+  String get syncDelete => 'हटाएँ';
+
+  @override
+  String syncEntryName(String entity) {
+    String _temp0 = intl.Intl.selectLogic(entity, {
+      'farmer_profile': 'प्रोफ़ाइल',
+      'plot': 'प्लॉट',
+      'bahar_cycle': 'बहार',
+      'expense': 'खर्च',
+      'income': 'बिक्री',
+      'spray_record': 'छिड़काव',
+      'input_record': 'खाद / इनपुट',
+      'irrigation_record': 'सिंचाई',
+      'harvest_record': 'तुड़ाई',
+      'labour_record': 'मज़दूरी',
+      'farm_task': 'काम',
+      'scouting_record': 'निरीक्षण',
+      'insurance_policy': 'बीमा',
+      'lab_test': 'लैब जाँच',
+      'other': 'एंट्री',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String get refreshOffline => 'इंटरनेट जाँचें';
+
+  @override
+  String get refreshServer => 'सर्वर अभी व्यस्त है';
 }
