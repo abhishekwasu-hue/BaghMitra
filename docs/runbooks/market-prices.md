@@ -1,13 +1,37 @@
 # Mandi prices: Agmarknet pull and manual upload
 
-`GET /v1/market/prices?crop=santra|mosambi` pulls India-wide from Agmarknet (data.gov.in)
-when stored prices are older than `MARKET_MAX_AGE_HOURS`. It needs `MARKET_API_KEY` as a VPS
-secret (OPEN_QUESTIONS Q26), never in git. Without the key, or when the source is down, the
-app shows the stored prices marked stale; no price is ever invented.
+`GET /v1/market/prices?crop=santra|mosambi` serves **stored** prices only; a farmer's request
+never calls Agmarknet (audit BG-04). Prices come in through the scheduled pull below and the
+manual upload. `MARKET_API_KEY` is a VPS secret (OPEN_QUESTIONS Q26), never in git. No price is
+ever invented.
 
-`reason` in the answer is a stable code the app translates: `source_not_configured` (no
-`MARKET_API_KEY`), `source_unreachable`, `source_bad_response`. The technical detail goes to the
-API log (`market_source_unavailable`), never to the farmer.
+## Scheduled pull
+```
+python -m bagmitra_api.market.pull_job     # JSON summary per commodity; exit 1 if one failed
+```
+Fetches every commodity in `MARKET_COMMODITIES` India-wide (at most `MARKET_MAX_PAGES` pages of
+500 rows, each request bounded by `MARKET_TIMEOUT_SECONDS`, default 15 s), stores the rows and
+records each outcome in table `market_pulls` (migration `0026`). One failing commodity does not
+stop the others. Two runs never overlap: a Postgres advisory lock is held for the whole run, and
+a second run exits at once with `"skipped_reason": "another market pull is running"`. Without
+`MARKET_API_KEY` it does nothing.
+
+`deploy/deploy.sh` adds the cron line while `MARKET_API_KEY` is set (and removes it when the
+key is emptied): every 6 hours at 02:35, 08:35, 14:35 and 20:35 UTC (08:05, 14:05, 20:05,
+02:05 IST), log `/var/log/bagmitra-market-pull.log`. After setting the key, run it once by
+hand (`cd /opt/bagmitra/deploy && docker compose exec -T api python -m bagmitra_api.market.pull_job`)
+so prices show before the first scheduled run.
+
+## Read rule (fallback) and `reason`
+`reason` is a stable code the app translates; the technical detail goes to the job log, never
+to the farmer.
+- `MARKET_API_KEY` empty: stored rows (e.g. manual ones), `stale: true`, `source_not_configured`.
+- Every commodity of the crop had a successful pull within `MARKET_MAX_AGE_HOURS` (12; with a
+  pull every 6 h one missed run stays inside): `stale: false`. A successful pull that found no
+  rows (off season) gives an empty list, not an error.
+- Otherwise the stored rows with `stale: true` and the commodity's last failure
+  (`source_unreachable`, `source_bad_response`), `source_not_pulled_yet` (no pull has run yet)
+  or `source_pull_overdue` (the pulls stopped: check the cron line and the log).
 
 ## Manual upload (fallback)
 
