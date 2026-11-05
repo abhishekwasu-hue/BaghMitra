@@ -107,6 +107,8 @@ jobs:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
           SARKARI_SANDESH: ${{ inputs.sarkari_sandesh }}
+          # Phone OTP login stays hidden until an SMS provider is set up (repository variable).
+          PHONE_LOGIN: ${{ vars.PHONE_LOGIN || 'false' }}
         run: |
           flutter pub get
           flutter build apk --release --split-per-abi \
@@ -118,7 +120,8 @@ jobs:
             --dart-define=API_BASE_URL="$API_BASE_URL" \
             --dart-define=SUPABASE_URL="$SUPABASE_URL" \
             --dart-define=SUPABASE_ANON_KEY="$SUPABASE_ANON_KEY" \
-            --dart-define=SARKARI_SANDESH="$SARKARI_SANDESH"
+            --dart-define=SARKARI_SANDESH="$SARKARI_SANDESH" \
+            --dart-define=PHONE_LOGIN="$PHONE_LOGIN"
       - name: Check signature and version codes
         env:
           CODE: ${{ steps.meta.outputs.code }}

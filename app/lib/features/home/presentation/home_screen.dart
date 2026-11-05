@@ -11,11 +11,10 @@ import '../../../design_system/glyphs.dart';
 import '../../../design_system/navigation.dart';
 import '../../../design_system/price_card.dart';
 import '../../../design_system/stage_timeline.dart';
-import '../../../design_system/sync_banner.dart';
 import '../../../design_system/task_tile.dart';
 import '../../../design_system/weather_header.dart';
 import '../../../l10n/app_localizations.dart';
-import '../../../sync/sync_engine.dart';
+import '../../../sync/presentation/sync_status_banner.dart';
 import '../../../theme/app_theme.dart';
 import '../../plots/domain/plot.dart';
 import '../../tasks/domain/farm_task.dart';
@@ -145,7 +144,6 @@ class _HomeBody extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final t = AppLocalizations.of(context);
     final ticks = ref.watch(taskTicksProvider);
-    final sync = ref.watch(syncStatusProvider).value;
     final w = snapshot.weather;
     final m = snapshot.market;
     final config = ref.watch(appConfigProvider);
@@ -171,10 +169,9 @@ class _HomeBody extends ConsumerWidget {
             for (final task in dueToday)
               if (!task.isDone) task.title,
           ];
-    // A test build with no backend never syncs, so say where the data lives instead.
-    final banner = config.demoMode && config.isTestBuild
-        ? SyncBanner(kind: SyncBannerKind.offline, message: t.localModeBanner)
-        : _syncBanner(t, sync);
+    // The shared sync strip: signed out, offline, server unavailable, entries to check,
+    // entries waiting; a test build with no backend says where the data lives instead.
+    final banner = buildSyncStatusBanner(context, ref);
 
     return SingleChildScrollView(
       child: Column(
@@ -491,23 +488,6 @@ class _HomeBody extends ConsumerWidget {
       ),
     ),
   );
-
-  static Widget? _syncBanner(AppLocalizations t, SyncStatus? s) {
-    if (s == null) return null;
-    if (s.connectivity == Connectivity.offline) {
-      return SyncBanner(kind: SyncBannerKind.offline, message: t.offlineBanner);
-    }
-    if (s.rejected > 0) {
-      return SyncBanner(kind: SyncBannerKind.failed, message: t.syncFailed);
-    }
-    if (s.pending > 0) {
-      return SyncBanner(
-        kind: SyncBannerKind.pending,
-        message: t.pendingSync(s.pending),
-      );
-    }
-    return null;
-  }
 }
 
 /// A card with one clear next step (add the first block, start a bahar).
