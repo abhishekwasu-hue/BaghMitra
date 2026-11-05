@@ -2071,7 +2071,7 @@ abstract class AppLocalizations {
   /// No description provided for @boundaryAccuracy.
   ///
   /// In en, this message translates to:
-  /// **'±{metres} m'**
+  /// **'±{metres} m'**
   String boundaryAccuracy(String metres);
 
   /// No description provided for @boundaryServiceOff.

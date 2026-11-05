@@ -1144,7 +1144,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String boundaryAccuracy(String metres) {
-    return '±$metres मी';
+    return '±$metres मी';
   }
 
   @override

@@ -327,7 +327,7 @@
   "boundaryDone": "हो गया",
   "boundaryCorners": "{count, plural, =1{1 कोना} other{{count} कोने}}",
   "boundaryArea": "क्षेत्रफल लगभग {acres} एकड़",
-  "boundaryAccuracy": "±{metres}\u00a0मी",
+  "boundaryAccuracy": "±{metres} मी",
   "boundaryServiceOff": "फ़ोन में लोकेशन (GPS) चालू करें।",
   "boundaryDenied": "सीमा दर्ज करने के लिए लोकेशन की अनुमति दें।",
   "boundaryDeniedForever": "लोकेशन बंद है। फ़ोन की ऐप सेटिंग में अनुमति दें।",
