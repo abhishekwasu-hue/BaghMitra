@@ -6,6 +6,7 @@ import '../../../app/providers.dart';
 import '../../../core/formatting.dart';
 import '../../../design_system/cards.dart';
 import '../../../design_system/empty_state.dart';
+import '../../../design_system/info_note.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../../voice/presentation/share_speak_buttons.dart';
@@ -208,10 +209,7 @@ class _EntryCard extends ConsumerWidget {
           if (!e.verified)
             Padding(
               padding: const EdgeInsets.only(top: BmSpace.xxs),
-              child: Text(
-                t.directoryUnverified,
-                style: BmType.meta.copyWith(color: c.accentInk),
-              ),
+              child: InfoNote(t.directoryUnverified),
             ),
           const SizedBox(height: BmSpace.xs),
           Text(e.offersIn(lang), style: BmType.body),

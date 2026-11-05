@@ -2623,4 +2623,28 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get refreshServer => 'सर्वर अभी व्यस्त है';
+
+  @override
+  String get homeQuickTitle => 'झटपट काम';
+
+  @override
+  String get moreTitle => 'सभी सुविधाएँ';
+
+  @override
+  String get moreSectionRecords => 'बाग के रिकॉर्ड';
+
+  @override
+  String get moreSectionWork => 'काम और मौसम';
+
+  @override
+  String get moreSectionHelp => 'जानकारी और मदद';
+
+  @override
+  String get moreSectionMarket => 'मंडी';
+
+  @override
+  String get moreSectionGovt => 'सरकारी मदद';
+
+  @override
+  String get moreSectionAccount => 'मेरा खाता';
 }

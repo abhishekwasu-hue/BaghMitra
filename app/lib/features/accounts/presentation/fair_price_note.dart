@@ -66,7 +66,7 @@ class FairPriceNote extends ConsumerWidget {
                 ? t.fairPriceBelow(formatInt(-pct, lang))
                 : t.fairPriceSame,
             style: BmType.bodyStrong.copyWith(
-              color: pct < 0 ? c.accentInk : c.brandStrong,
+              color: pct < 0 ? c.caution : c.brandStrong,
             ),
           ),
         ],

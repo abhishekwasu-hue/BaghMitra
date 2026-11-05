@@ -159,6 +159,9 @@ void main() {
       final container = ProviderScope.containerOf(
         tester.element(find.byType(Scaffold).first),
       );
+      // Below the quick actions: scroll it into view first.
+      await tester.ensureVisible(find.text('Task late'));
+      await tester.pump();
       await tester.tap(find.text('Task late'));
       await tester.pump();
       await tester.runAsync(() => Future<void>.delayed(Duration.zero));

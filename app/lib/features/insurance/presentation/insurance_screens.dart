@@ -147,9 +147,7 @@ class InsuranceScreen extends ConsumerWidget {
                         children: [
                           Text(
                             t.insuranceDeadline(formatDate(d.dueDate, lang)),
-                            style: BmType.bodyStrong.copyWith(
-                              color: c.accentInk,
-                            ),
+                            style: BmType.bodyStrong.copyWith(color: c.caution),
                           ),
                           const SizedBox(height: BmSpace.xs),
                           Text(d.title, style: BmType.body),

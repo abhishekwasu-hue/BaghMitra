@@ -4569,6 +4569,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The server is busy'**
   String get refreshServer;
+
+  /// No description provided for @homeQuickTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick actions'**
+  String get homeQuickTitle;
+
+  /// No description provided for @moreTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'All features'**
+  String get moreTitle;
+
+  /// No description provided for @moreSectionRecords.
+  ///
+  /// In en, this message translates to:
+  /// **'Orchard records'**
+  String get moreSectionRecords;
+
+  /// No description provided for @moreSectionWork.
+  ///
+  /// In en, this message translates to:
+  /// **'Work and season'**
+  String get moreSectionWork;
+
+  /// No description provided for @moreSectionHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Guides and help'**
+  String get moreSectionHelp;
+
+  /// No description provided for @moreSectionMarket.
+  ///
+  /// In en, this message translates to:
+  /// **'Market'**
+  String get moreSectionMarket;
+
+  /// No description provided for @moreSectionGovt.
+  ///
+  /// In en, this message translates to:
+  /// **'Government help'**
+  String get moreSectionGovt;
+
+  /// No description provided for @moreSectionAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'My account'**
+  String get moreSectionAccount;
 }
 
 class _AppLocalizationsDelegate

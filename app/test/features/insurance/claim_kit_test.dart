@@ -97,6 +97,9 @@ void main() {
       200,
       scrollable: find.byType(Scrollable).first,
     );
+    // Clear of the bottom share bar before tapping.
+    await tester.drag(find.byType(Scrollable).first, const Offset(0, -150));
+    await settle(tester);
     await tester.tap(find.byKey(const Key('check-panchnama')));
     await settle(tester);
     await tester.tap(find.byKey(const Key('claim-share')));

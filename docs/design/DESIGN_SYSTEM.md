@@ -22,7 +22,9 @@ in-app gallery (`--dart-define=DEV_GALLERY=true`, route `/dev/gallery`) and snap
 | ink / inkMuted | `#1B2A1E` / `#4E6153` | `#E8F0E3` / `#A9BCA9` | text |
 | brand / brandStrong / brandSoft | leaf `#1F4D2B` / `#2E6B3C` / `#9BC79A` | leaf-light inverted | headings, done states |
 | accent / accentSoft | santra `#F28C28` / `#FFB15C` | same | fills: main buttons, camera, current stage |
-| accentInk | santra-deep `#A34A06` | santra | accent used as **text** (dates, stale notes, stage days) — santra text is 2.4:1 on cream |
+| accentInk | santra-deep `#A34A06` | santra | accent as **text**, for actions only (camera label) and the stage day number — santra text is 2.4:1 on cream. Orange = action |
+| info | slate-sky `#2C5A70` | `#A9D2E4` | neutral notes and disclaimers, always with an (i) icon (`InfoNote`) |
+| caution | amber `#8A4B06` (= warn title) | `#FFC27A` | deadlines, stale data, warning lines and icons |
 | onAccent | ink `#1B2A1E` | same | text/icons on a santra fill (white on santra fails in sunlight) |
 | sun, soil, sky | `#FFC857`, `#6B4A2B`, `#CFE8F3` | same | weather, earth, water |
 | warn* | warm orange gradient | deep amber | risk alerts |
