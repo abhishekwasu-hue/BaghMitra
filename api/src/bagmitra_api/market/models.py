@@ -27,3 +27,18 @@ class MarketPrice(Base):
     max_rs_per_quintal: Mapped[int | None] = mapped_column(Integer)
     modal_rs_per_quintal: Mapped[int] = mapped_column(Integer)
     fetched_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+
+
+class MarketPull(Base):
+    """Outcome of the scheduled Agmarknet pull per commodity (audit BG-04). The price read path
+    never fetches; it uses this row to say whether the stored prices are current, and why not.
+    `last_error` is a reason code (agmarknet.REASON_*), null after a successful pull."""
+
+    __tablename__ = "market_pulls"
+    private_table = True  # service-only (RLS on, no policy)
+
+    commodity: Mapped[str] = mapped_column(String(80), primary_key=True)
+    last_attempt_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+    last_success_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    last_error: Mapped[str | None] = mapped_column(String(32))
+    last_rows: Mapped[int] = mapped_column(Integer, default=0)

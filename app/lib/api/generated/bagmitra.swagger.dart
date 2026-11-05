@@ -1262,8 +1262,9 @@ their profile; undoes a dismiss. Only for a published item that has a date.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Latest published price (₹ per quintal) at every reporting mandi in India for the crop:
 the local APMCs first, then the major terminal markets, then all others by state. Prices
-are shown as published, never estimated; `stale` says the source could not be reached and
-`reason` says why. `scope` narrows the list to local or major mandis.''',
+are shown as published, never estimated, and come from storage only (filled by the scheduled
+pull; a request never fetches). `stale` says they are not current and `reason` says why.
+`scope` narrows the list to local or major mandis.''',
       summary: 'Get Market Prices',
       operationId: 'market_prices_get',
       consumes: [],
