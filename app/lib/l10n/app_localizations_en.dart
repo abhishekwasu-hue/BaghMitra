@@ -1124,6 +1124,32 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sendLogs => 'Send logs';
 
   @override
+  String get updateAvailable => 'New version available — download';
+
+  @override
+  String get updateDismiss => 'Close';
+
+  @override
+  String get updateDownload => 'Download';
+
+  @override
+  String get updateRequiredTitle => 'Please update the app';
+
+  @override
+  String get updateRequiredBody =>
+      'Download and install the new version to keep using BagMitra.';
+
+  @override
+  String updateLinkCopied(String url) {
+    return 'Link copied. Paste it in the browser to download: $url';
+  }
+
+  @override
+  String settingsVersion(String name, String code) {
+    return 'Version $name ($code)';
+  }
+
+  @override
   String get walkthroughSkip => 'Skip';
 
   @override

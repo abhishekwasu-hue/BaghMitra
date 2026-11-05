@@ -1124,6 +1124,32 @@ class AppLocalizationsMr extends AppLocalizations {
   String get sendLogs => 'लॉग पाठवा';
 
   @override
+  String get updateAvailable => 'नवीन आवृत्ती उपलब्ध — डाउनलोड करा';
+
+  @override
+  String get updateDismiss => 'बंद करा';
+
+  @override
+  String get updateDownload => 'डाउनलोड करा';
+
+  @override
+  String get updateRequiredTitle => 'नवीन आवृत्ती आवश्यक';
+
+  @override
+  String get updateRequiredBody =>
+      'बागमित्र वापरत राहण्यासाठी नवीन आवृत्ती डाउनलोड करून इन्स्टॉल करा.';
+
+  @override
+  String updateLinkCopied(String url) {
+    return 'लिंक कॉपी केली. ब्राउझरमध्ये पेस्ट करून डाउनलोड करा: $url';
+  }
+
+  @override
+  String settingsVersion(String name, String code) {
+    return 'आवृत्ती $name ($code)';
+  }
+
+  @override
   String get walkthroughSkip => 'वगळा';
 
   @override

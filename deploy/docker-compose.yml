@@ -14,6 +14,10 @@ services:
     # draft cards and sources (it never overwrites a reviewed card).
     command: sh -c "alembic upgrade head && python -m bagmitra_api.kb.seed && uvicorn bagmitra_api.asgi:app --host 0.0.0.0 --port 8000 --proxy-headers --forwarded-allow-ips='*'"
     expose: ["8000"]
+    # The latest production APK, served at https://<API_DOMAIN>/app (runbook vps-deploy.md
+    # "नवीन APK"). Read-only: the API can never change or delete the file.
+    volumes:
+      - /srv/bagmitra-apk:/srv/bagmitra-apk:ro
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request as u; u.urlopen('http://localhost:8000/health/live', timeout=3)"]
       interval: 30s

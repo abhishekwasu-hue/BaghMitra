@@ -156,9 +156,6 @@ GoRouter buildRouter(
       if (loc.startsWith(Routes.feed) && !config.sarkariSandeshEnabled) {
         return Routes.home;
       }
-      if (loc == Routes.settings && !config.isTestBuild && !config.devGallery) {
-        return Routes.home;
-      }
       // First run on this phone: the short walkthrough comes before anything else. Once seen
       // it stays reachable (settings opens it again); unknown (still loading) waits.
       final onWalkthrough = loc == Routes.walkthrough;
