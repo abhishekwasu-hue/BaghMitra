@@ -791,6 +791,29 @@ is the raw file; only its hash, size and time are kept.''',
   }
 
   @override
+  Future<Response<AppVersionResponse>> _v1AppVersionGet({
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Latest and minimum app version codes (0 = not set) and where to download the APK.',
+      summary: 'App Version',
+      operationId: 'app_version',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["app"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/app/version');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<AppVersionResponse, AppVersionResponse>($request);
+  }
+
+  @override
   Future<Response<EntitlementsResponse>> _v1BillingEntitlementsGet({
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',

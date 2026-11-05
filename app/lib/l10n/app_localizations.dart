@@ -2038,6 +2038,48 @@ abstract class AppLocalizations {
   /// **'Send logs'**
   String get sendLogs;
 
+  /// No description provided for @updateAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'New version available — download'**
+  String get updateAvailable;
+
+  /// No description provided for @updateDismiss.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get updateDismiss;
+
+  /// No description provided for @updateDownload.
+  ///
+  /// In en, this message translates to:
+  /// **'Download'**
+  String get updateDownload;
+
+  /// No description provided for @updateRequiredTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Please update the app'**
+  String get updateRequiredTitle;
+
+  /// No description provided for @updateRequiredBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Download and install the new version to keep using BagMitra.'**
+  String get updateRequiredBody;
+
+  /// No description provided for @updateLinkCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Link copied. Paste it in the browser to download: {url}'**
+  String updateLinkCopied(String url);
+
+  /// No description provided for @settingsVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'Version {name} ({code})'**
+  String settingsVersion(String name, String code);
+
   /// No description provided for @walkthroughSkip.
   ///
   /// In en, this message translates to:
