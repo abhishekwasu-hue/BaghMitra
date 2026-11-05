@@ -1,5 +1,7 @@
 // Sunlight and thumb checks on the main list and form screens: every labelled tap target
 // is at least 48 dp and text meets WCAG contrast (the santra buttons once failed at 2.4:1).
+import 'dart:io';
+
 import 'package:bagmitra/app/providers.dart';
 import 'package:bagmitra/data/local/database.dart';
 import 'package:bagmitra/features/tasks/data/tasks_repository.dart';
@@ -82,5 +84,34 @@ void main() {
       expect(contrast(c.onAccent, c.accentSoft), greaterThanOrEqualTo(4.5));
       expect(contrast(c.accentInk, c.card), greaterThanOrEqualTo(3));
     });
+
+    // M5: orange means action; a note (info) and a deadline or warning (caution) each
+    // have their own ink, readable as body text on cards and on the page.
+    test('info and caution inks are their own and readable ($name)', () {
+      for (final ink in [c.info, c.caution]) {
+        expect(contrast(ink, c.card), greaterThanOrEqualTo(4.5));
+        expect(contrast(ink, c.background), greaterThanOrEqualTo(4.5));
+        expect(ink, isNot(anyOf(c.accent, c.accentInk, c.accentSoft)));
+      }
+      expect(c.info, isNot(c.caution));
+      expect(c.info, isNot(c.inkMuted));
+    });
   }
+
+  // M5: santra text is kept for actions (the camera label) and the stage hero number.
+  // Notes use InfoNote / BmColors.info, deadlines and stale lines BmColors.caution.
+  test('accentInk is used only on actions and the stage number', () {
+    final users = [
+      for (final f in Directory('lib').listSync(recursive: true))
+        if (f is File &&
+            f.path.endsWith('.dart') &&
+            !f.path.endsWith('tokens.dart') &&
+            f.readAsStringSync().contains('accentInk'))
+          f.path.replaceAll(r'\', '/'),
+    ]..sort();
+    expect(users, [
+      'lib/design_system/navigation.dart',
+      'lib/design_system/stage_timeline.dart',
+    ]);
+  });
 }

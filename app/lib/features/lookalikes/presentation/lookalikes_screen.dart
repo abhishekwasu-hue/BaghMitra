@@ -7,6 +7,7 @@ import '../../../app/router.dart';
 import '../../../design_system/cards.dart';
 import '../../../design_system/empty_state.dart';
 import '../../../design_system/glyphs.dart';
+import '../../../design_system/info_note.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../data/lookalike_cards.dart';
@@ -107,10 +108,7 @@ class _LookalikeCardView extends StatelessWidget {
           if (card.isDraftIn(data.sources))
             Padding(
               padding: const EdgeInsets.only(top: BmSpace.xxs),
-              child: Text(
-                t.lookalikesDraft,
-                style: BmType.meta.copyWith(color: c.accentInk),
-              ),
+              child: InfoNote(t.lookalikesDraft),
             ),
           part(t.lookalikesSee, card.see),
           part(t.lookalikesConfusedWith, card.confusedWith),

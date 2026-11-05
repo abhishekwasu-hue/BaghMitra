@@ -9,6 +9,7 @@ import '../../../app/router.dart';
 import '../../../core/formatting.dart';
 import '../../../design_system/bottom_actions.dart';
 import '../../../design_system/cards.dart';
+import '../../../design_system/info_note.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../../scouting/data/scouting_photos.dart';
@@ -341,10 +342,10 @@ class _ClaimKitScreenState extends ConsumerState<ClaimKitScreen> {
             elevated: false,
             radius: BmRadius.card,
             padding: const EdgeInsets.all(BmSpace.md),
-            child: Text(
+            child: InfoNote(
               t.claimKitCheckPolicy,
               key: const Key('claim-check-policy'),
-              style: BmType.body.copyWith(color: c.accentInk),
+              style: BmType.body,
             ),
           ),
           for (final k in claimChecklist)

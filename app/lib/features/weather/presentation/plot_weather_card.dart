@@ -64,7 +64,7 @@ class PlotWeatherCard extends ConsumerWidget {
               if (cached.weather.stale)
                 Text(
                   t.weatherStale,
-                  style: BmType.meta.copyWith(color: c.accentInk),
+                  style: BmType.meta.copyWith(color: c.caution),
                 ),
               for (final d in days)
                 ListTile(
@@ -86,10 +86,7 @@ class PlotWeatherCard extends ConsumerWidget {
                 ListTile(
                   key: Key('weather-alert-${a.ruleKey}'),
                   contentPadding: EdgeInsets.zero,
-                  leading: Icon(
-                    Icons.warning_amber_rounded,
-                    color: c.accentInk,
-                  ),
+                  leading: Icon(Icons.warning_amber_rounded, color: c.caution),
                   title: Text(a.text, style: BmType.body),
                   subtitle: Text(t.weatherSource(a.source), style: BmType.meta),
                   trailing: ShareSpeakButtons(
