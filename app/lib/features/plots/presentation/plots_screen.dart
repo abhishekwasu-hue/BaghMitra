@@ -69,7 +69,9 @@ class PlotsScreen extends ConsumerWidget {
       crops.where((c) => c.slug == slug).firstOrNull?.label(lang) ?? slug;
 }
 
-class _PlotCard extends ConsumerWidget {
+/// One block in the list. The whole card opens the block (with ink feedback); deleting
+/// lives on the block's edit screen, away from this main tap area.
+class _PlotCard extends StatelessWidget {
   const _PlotCard({
     required this.plot,
     required this.cropLabel,
@@ -80,85 +82,63 @@ class _PlotCard extends ConsumerWidget {
   final String cropLabel;
   final String lang;
 
-  Future<void> _confirmDelete(BuildContext context, WidgetRef ref) async {
-    final t = AppLocalizations.of(context);
-    final ok = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(t.deletePlot),
-        content: Text(t.deletePlotConfirm(plot.name)),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: Text(t.cancel),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: Text(t.delete),
-          ),
-        ],
-      ),
-    );
-    if (ok ?? false) await ref.read(plotRepositoryProvider).delete(plot.id);
-  }
-
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
     final c = context.bm;
     final facts = [
       t.plotAcres(formatDecimal(plot.areaAcres, lang)),
       if (plot.treeCount != null) t.plotTrees(plot.treeCount!),
     ].join(' · ');
-    final card = BmCard(
+    return BmCard(
       elevated: false,
       radius: BmRadius.card,
-      padding: const EdgeInsets.fromLTRB(
-        BmSpace.md,
-        BmSpace.md,
-        BmSpace.xs,
-        BmSpace.md,
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 52,
-            height: 52,
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: c.nowTint,
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: const GlyphIcon(BmGlyph.orange),
-          ),
-          const SizedBox(width: BmSpace.sm),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+      padding: EdgeInsets.zero,
+      child: Material(
+        type: MaterialType.transparency,
+        child: InkWell(
+          key: Key('plot-card-${plot.id}'),
+          borderRadius: BorderRadius.circular(BmRadius.card),
+          onTap: () => context.push(Routes.plot(plot.id)),
+          child: Padding(
+            padding: const EdgeInsets.all(BmSpace.md),
+            child: Row(
               children: [
-                Text(plot.name, style: BmType.section.copyWith(color: c.ink)),
-                Text(
-                  cropLabel,
-                  style: BmType.meta.copyWith(color: c.brandStrong),
+                Container(
+                  width: 52,
+                  height: 52,
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: c.nowTint,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: const GlyphIcon(BmGlyph.orange),
                 ),
-                Text(facts, style: BmType.meta.copyWith(color: c.inkMuted)),
+                const SizedBox(width: BmSpace.sm),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        plot.name,
+                        style: BmType.section.copyWith(color: c.ink),
+                      ),
+                      Text(
+                        cropLabel,
+                        style: BmType.meta.copyWith(color: c.brandStrong),
+                      ),
+                      Text(
+                        facts,
+                        style: BmType.meta.copyWith(color: c.inkMuted),
+                      ),
+                    ],
+                  ),
+                ),
+                Icon(Icons.chevron_right_rounded, color: c.inkMuted),
               ],
             ),
           ),
-          IconButton(
-            tooltip: t.deletePlot,
-            onPressed: () => _confirmDelete(context, ref),
-            icon: Icon(Icons.delete_outline_rounded, color: c.inkMuted),
-          ),
-        ],
-      ),
-    );
-    return Semantics(
-      button: true,
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: () => context.push(Routes.plot(plot.id)),
-        child: card,
+        ),
       ),
     );
   }

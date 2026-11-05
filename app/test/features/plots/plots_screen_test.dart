@@ -83,7 +83,7 @@ void main() {
 
     await tester.tap(find.text('Save'));
     await tester.pump();
-    expect(find.text('Required'), findsOneWidget);
+    expect(find.text('Write the block name'), findsOneWidget);
     expect(find.text('Enter a valid number'), findsOneWidget);
 
     await tester.enterText(find.byKey(const Key('plot-name')), 'Bag 3');
@@ -105,9 +105,38 @@ void main() {
     await unmountApp(tester);
   });
 
-  testWidgets('delete asks for confirmation then removes the plot', (
-    tester,
-  ) async {
+  testWidgets(
+    'delete sits on the edit screen, asks first, then removes the plot',
+    (tester) async {
+      await pumpApp(
+        tester,
+        locale: const Locale('en'),
+        initialLocation: '/plots',
+        seed: seedTwo,
+      );
+      await settle(tester);
+      // The list card only opens the block: no delete next to the main tap area.
+      expect(find.byTooltip('Delete block'), findsNothing);
+      await tester.tap(find.text('बाग १'));
+      await settle(tester);
+      await tester.tap(find.byKey(const Key('edit-plot')));
+      await settle(tester);
+      await tester.tap(find.byTooltip('Delete block'));
+      await settle(tester);
+      expect(
+        find.textContaining('also removes it from your other devices'),
+        findsOneWidget,
+      );
+      await tester.tap(find.text('Delete'));
+      await settle(tester);
+      expect(find.text('My orchard'), findsOneWidget);
+      expect(find.text('बाग १'), findsNothing);
+      expect(find.text('बाग २'), findsOneWidget);
+      await unmountApp(tester);
+    },
+  );
+
+  testWidgets('cancelling the delete keeps the plot', (tester) async {
     await pumpApp(
       tester,
       locale: const Locale('en'),
@@ -115,16 +144,15 @@ void main() {
       seed: seedTwo,
     );
     await settle(tester);
-    await tester.tap(find.byTooltip('Delete block').first);
+    await tester.tap(find.text('बाग १'));
     await settle(tester);
-    expect(
-      find.textContaining('also removes it from your other devices'),
-      findsOneWidget,
-    );
-    await tester.tap(find.text('Delete'));
+    await tester.tap(find.byKey(const Key('edit-plot')));
     await settle(tester);
-    expect(find.text('बाग १'), findsNothing);
-    expect(find.text('बाग २'), findsOneWidget);
+    await tester.tap(find.byTooltip('Delete block'));
+    await settle(tester);
+    await tester.tap(find.text('Cancel'));
+    await settle(tester);
+    expect(find.text('Edit block'), findsOneWidget);
     await unmountApp(tester);
   });
 

@@ -74,24 +74,25 @@ class FieldLogScreen extends ConsumerWidget {
           ? LoadingState(label: t.loadingLabel)
           : rows.isEmpty
           ? EmptyState(glyph: BmGlyph.drop, message: t.fieldLogEmpty)
-          : ListView(
+          : ListView.builder(
               padding: const EdgeInsets.fromLTRB(
                 BmSpace.lg,
                 0,
                 BmSpace.lg,
                 120,
               ),
-              children: [
-                for (final (_, title, subtitle, amount) in rows)
-                  ListTile(
-                    contentPadding: EdgeInsets.zero,
-                    title: Text(title, style: BmType.body),
-                    subtitle: subtitle == null ? null : Text(subtitle),
-                    trailing: amount == null
-                        ? null
-                        : Text(amount, style: BmType.bodyStrong),
-                  ),
-              ],
+              itemCount: rows.length,
+              itemBuilder: (context, i) {
+                final (_, title, subtitle, amount) = rows[i];
+                return ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  title: Text(title, style: BmType.body),
+                  subtitle: subtitle == null ? null : Text(subtitle),
+                  trailing: amount == null
+                      ? null
+                      : Text(amount, style: BmType.bodyStrong),
+                );
+              },
             ),
       bottomNavigationBar: BottomActions(
         children: [

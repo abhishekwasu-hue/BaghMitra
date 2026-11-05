@@ -121,7 +121,7 @@ void main() {
     await settle(tester);
     await tester.tap(find.text('Save'));
     await settle(tester);
-    expect(find.text('Required'), findsOneWidget);
+    expect(find.text('Write the product name'), findsOneWidget);
     await tester.enterText(find.byKey(const Key('spray-product')), 'Neem oil');
     await tester.tap(find.text('Save'));
     await settle(tester);

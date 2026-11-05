@@ -2623,4 +2623,44 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get refreshServer => 'सर्वर अभी व्यस्त है';
+
+  @override
+  String get plotTileBahar => 'बहार';
+
+  @override
+  String get baharRecordsMenu => 'रिकॉर्ड';
+
+  @override
+  String tasksDoneShow(String count) {
+    return 'दिखाएँ ($count)';
+  }
+
+  @override
+  String get tasksDoneHide => 'छिपाएँ';
+
+  @override
+  String tasksDoneLatest(String count) {
+    return 'आख़िरी $count दिखा रहे हैं';
+  }
+
+  @override
+  String get requiredPlotName => 'बाग का नाम लिखें';
+
+  @override
+  String get requiredTaskTitle => 'क्या करना है, लिखें';
+
+  @override
+  String get requiredWorker => 'मज़दूर का नाम लिखें';
+
+  @override
+  String get requiredSprayProduct => 'दवा का नाम लिखें';
+
+  @override
+  String get requiredInputProduct => 'उत्पाद का नाम लिखें';
+
+  @override
+  String get requiredBuyer => 'व्यापारी का नाम लिखें';
+
+  @override
+  String get claimKitGpsOk => 'जगह जुड़ी';
 }

@@ -4,6 +4,7 @@ import 'package:bagmitra/api/api_client.dart';
 import 'package:bagmitra/api/generated/bagmitra.enums.swagger.dart';
 import 'package:bagmitra/data/local/database.dart';
 import 'package:bagmitra/features/market/data/market_prices_cache.dart';
+import 'package:bagmitra/features/market/domain/market_labels.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
@@ -193,6 +194,33 @@ void main() {
     );
     await settle(tester);
     expect(find.text('बाजारभाव सेवा लवकरच सुरू होईल.'), findsOneWidget);
+    await unmountApp(tester);
+  });
+
+  test('source names map to Marathi / Hindi; unknown ones stay as sent', () {
+    expect(marketLabel('Warud', 'mr'), 'वरूड');
+    expect(marketLabel(' KALAMNA ', 'hi'), 'कलमना');
+    expect(marketLabel('Warud', 'en'), 'Warud');
+    expect(marketLabel('Some New Mandi', 'mr'), 'Some New Mandi');
+    expect(marketStateLabel('NCT of Delhi', 'mr'), 'दिल्ली');
+    expect(marketStateLabel('Atlantis', 'hi'), 'Atlantis');
+    expect(marketVarietyLabel('Nagpuri', 'mr'), 'नागपुरी');
+    expect(marketVarietyLabel('Other', 'hi'), 'अन्य');
+    expect(marketCommodityLabel('Mousambi(Sweet Lime)', 'mr'), 'मोसंबी');
+    expect(marketCommodityLabel('Banana', 'mr'), 'Banana');
+  });
+
+  testWidgets('in Marathi the rows read mandi, state and variety in Marathi', (
+    tester,
+  ) async {
+    await pumpApp(tester, initialLocation: '/market', seed: seedPrices);
+    await settle(tester);
+    expect(find.text('वरूड'), findsOneWidget);
+    expect(find.text('आझादपूर'), findsOneWidget);
+    expect(find.textContaining('महाराष्ट्र ·'), findsOneWidget);
+    expect(find.textContaining('दिल्ली ·'), findsOneWidget);
+    expect(find.textContaining('नागपुरी'), findsOneWidget);
+    expect(find.textContaining('Warud'), findsNothing);
     await unmountApp(tester);
   });
 }

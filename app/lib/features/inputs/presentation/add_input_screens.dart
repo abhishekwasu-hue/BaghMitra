@@ -122,7 +122,7 @@ class _AddInputScreenState extends ConsumerState<AddInputScreen> {
                 ),
               ),
               validator: (v) =>
-                  (v ?? '').trim().isEmpty ? t.fieldRequired : null,
+                  (v ?? '').trim().isEmpty ? t.requiredInputProduct : null,
             ),
             const SizedBox(height: BmSpace.sm),
             TextFormField(

@@ -33,6 +33,25 @@ String formatDateTime(DateTime date, String languageCode) {
   return (languageCode == 'en' ? day.add_jm() : day.add_Hm()).format(date);
 }
 
+/// A number typed as text by the grower (a lab value such as "7.9" or "<0.5"), shown with
+/// the locale's digits like every other number on screen. Only the digits change: the
+/// stored text and everything else in it stay as typed.
+String localDigits(String text, String languageCode) {
+  final zero = NumberFormat.decimalPattern(_intlLocale(languageCode))
+      .symbols
+      .ZERO_DIGIT
+      .codeUnitAt(0);
+  if (zero == 0x30) return text;
+  return String.fromCharCodes([
+    for (final u in text.codeUnits)
+      u >= 0x30 && u <= 0x39 ? zero + u - 0x30 : u,
+  ]);
+}
+
+/// A latitude or longitude with five decimals (about one metre), in locale digits.
+String formatCoordinate(double value, String languageCode) =>
+    NumberFormat('0.00000', _intlLocale(languageCode)).format(value);
+
 /// A year without grouping, in locale digits (e.g. Marathi २०२७).
 String formatYear(int year, String languageCode) =>
     NumberFormat('0', _intlLocale(languageCode)).format(year);

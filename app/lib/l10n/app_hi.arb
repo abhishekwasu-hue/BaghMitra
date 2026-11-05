@@ -743,5 +743,17 @@
   "syncDelete": "हटाएँ",
   "syncEntryName": "{entity, select, farmer_profile{प्रोफ़ाइल} plot{प्लॉट} bahar_cycle{बहार} expense{खर्च} income{बिक्री} spray_record{छिड़काव} input_record{खाद / इनपुट} irrigation_record{सिंचाई} harvest_record{तुड़ाई} labour_record{मज़दूरी} farm_task{काम} scouting_record{निरीक्षण} insurance_policy{बीमा} lab_test{लैब जाँच} other{एंट्री}}",
   "refreshOffline": "इंटरनेट जाँचें",
-  "refreshServer": "सर्वर अभी व्यस्त है"
+  "refreshServer": "सर्वर अभी व्यस्त है",
+  "plotTileBahar": "बहार",
+  "baharRecordsMenu": "रिकॉर्ड",
+  "tasksDoneShow": "दिखाएँ ({count})",
+  "tasksDoneHide": "छिपाएँ",
+  "tasksDoneLatest": "आख़िरी {count} दिखा रहे हैं",
+  "requiredPlotName": "बाग का नाम लिखें",
+  "requiredTaskTitle": "क्या करना है, लिखें",
+  "requiredWorker": "मज़दूर का नाम लिखें",
+  "requiredSprayProduct": "दवा का नाम लिखें",
+  "requiredInputProduct": "उत्पाद का नाम लिखें",
+  "requiredBuyer": "व्यापारी का नाम लिखें",
+  "claimKitGpsOk": "जगह जुड़ी"
 }

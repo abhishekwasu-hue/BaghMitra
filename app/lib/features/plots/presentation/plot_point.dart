@@ -9,9 +9,11 @@ import '../../../theme/app_theme.dart';
 import '../data/location_service.dart';
 import '../domain/geo.dart';
 
-/// A block's location as the grower reads it: "21.23050, 77.75060".
-String formatLatLon(LatLon p) =>
-    '${p.lat.toStringAsFixed(5)}, ${p.lon.toStringAsFixed(5)}';
+/// A block's location as the grower reads it, in locale digits: "21.23050, 77.75060" in
+/// English, "२१.२३०५०, ७७.७५०६०" in Marathi.
+String formatLatLon(LatLon p, String languageCode) =>
+    '${formatCoordinate(p.lat, languageCode)}, '
+    '${formatCoordinate(p.lon, languageCode)}';
 
 /// Taking the phone's position for a block: one settled fix, or why there is none.
 mixin _PointCapture<T extends ConsumerStatefulWidget> on ConsumerState<T> {
@@ -168,7 +170,10 @@ class _PointCaptureCardState extends ConsumerState<PointCaptureCard>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        formatLatLon(point),
+                        formatLatLon(
+                          point,
+                          Localizations.localeOf(context).languageCode,
+                        ),
                         key: const Key('point-value'),
                         style: BmType.bodyStrong.copyWith(color: c.ink),
                       ),
@@ -270,7 +275,10 @@ class _PlotLocationRowState extends ConsumerState<PlotLocationRow>
               children: [
                 if (point != null)
                   Text(
-                    formatLatLon(point),
+                    formatLatLon(
+                      point,
+                      Localizations.localeOf(context).languageCode,
+                    ),
                     key: const Key('point-value'),
                     style: BmType.bodyStrong,
                   ),

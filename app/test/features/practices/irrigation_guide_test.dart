@@ -202,6 +202,7 @@ void main() {
     );
     await settle(tester);
     await tester.ensureVisible(find.byKey(const Key('open-irrigation-guide')));
+    await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('open-irrigation-guide')));
     await settle(tester);
 

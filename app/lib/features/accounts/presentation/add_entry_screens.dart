@@ -262,7 +262,7 @@ class _AddSaleScreenState extends ConsumerState<AddSaleScreen> {
                 ),
               ),
               validator: (v) =>
-                  (v ?? '').trim().isEmpty ? t.fieldRequired : null,
+                  (v ?? '').trim().isEmpty ? t.requiredBuyer : null,
             ),
             gap,
             TextFormField(

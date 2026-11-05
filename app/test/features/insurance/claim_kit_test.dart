@@ -85,7 +85,9 @@ void main() {
     expect(find.byKey(const Key('claim-check-policy')), findsOne);
     await tester.tap(find.byKey(const Key('claim-camera')));
     await settle(tester);
-    expect(find.textContaining('21.14580, 79.08820 (±8 m)'), findsOne);
+    // On screen: a localized time and a location mark; coordinates stay for the PDF.
+    expect(find.textContaining('Location added (±8 m)'), findsOne);
+    expect(find.textContaining('21.14580'), findsNothing);
     expect(photos.kept.keys, ['/tmp/loss.jpg']);
 
     await tester.enterText(
@@ -163,7 +165,12 @@ void main() {
     await tester.tap(find.byKey(const Key('claim-k1')));
     await settle(tester);
     expect(find.text('रात्री गारपीट, फळगळ'), findsOne);
-    expect(find.textContaining('2026-10-12 07:30'), findsOne);
+    // The photo's time on screen is in the grower's date format.
+    final stamp = tester.widget<Text>(
+      find.byKey(const Key('claim-photo-stamp-f1')),
+    );
+    expect(stamp.data, startsWith('12 Oct 2026'));
+    expect(stamp.data, endsWith('Location added (±8 m)'));
     await tester.tap(find.byKey(const Key('delete-claim')));
     await settle(tester);
     await tester.tap(find.text('Delete'));

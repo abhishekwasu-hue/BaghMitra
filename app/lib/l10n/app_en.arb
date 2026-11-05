@@ -1090,5 +1090,19 @@
   "syncEntryName": "{entity, select, farmer_profile{Profile} plot{Plot} bahar_cycle{Bahar} expense{Expense} income{Sale} spray_record{Spray} input_record{Input} irrigation_record{Irrigation} harvest_record{Harvest} labour_record{Labour} farm_task{Task} scouting_record{Scouting} insurance_policy{Insurance} lab_test{Lab test} other{Entry}}",
   "@syncEntryName": {"placeholders": {"entity": {"type": "String"}}},
   "refreshOffline": "Check the internet",
-  "refreshServer": "The server is busy"
+  "refreshServer": "The server is busy",
+  "plotTileBahar": "Bahar",
+  "baharRecordsMenu": "Records",
+  "tasksDoneShow": "Show ({count})",
+  "@tasksDoneShow": {"placeholders": {"count": {"type": "String"}}},
+  "tasksDoneHide": "Hide",
+  "tasksDoneLatest": "Showing the latest {count}",
+  "@tasksDoneLatest": {"placeholders": {"count": {"type": "String"}}},
+  "requiredPlotName": "Write the block name",
+  "requiredTaskTitle": "Write what needs doing",
+  "requiredWorker": "Write the worker's name",
+  "requiredSprayProduct": "Write the product name",
+  "requiredInputProduct": "Write the product name",
+  "requiredBuyer": "Write the buyer's name",
+  "claimKitGpsOk": "Location added"
 }

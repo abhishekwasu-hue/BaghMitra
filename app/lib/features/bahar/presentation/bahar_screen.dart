@@ -38,39 +38,74 @@ class BaharScreen extends ConsumerWidget {
       appBar: AppBar(
         title: Text(plot?.name ?? ''),
         actions: [
-          IconButton(
-            tooltip: AppLocalizations.of(context).sprayLogTitle,
-            onPressed: () => context.push(Routes.sprays(plotId)),
-            icon: Icon(Icons.water_drop_outlined, color: c.brand),
-          ),
-          IconButton(
-            tooltip: AppLocalizations.of(context).fieldLogTitle,
-            onPressed: () => context.push(Routes.fieldLog(plotId)),
-            icon: Icon(Icons.grass_outlined, color: c.brand),
-          ),
+          // One labelled menu instead of icon-only buttons: every record book of the block,
+          // each with its icon and its name.
           PopupMenuButton<String>(
-            tooltip: AppLocalizations.of(context).moreMenu,
-            icon: Icon(Icons.more_vert, color: c.brand),
+            key: const Key('bahar-records-menu'),
+            tooltip: t.baharRecordsMenu,
             onSelected: context.push,
             itemBuilder: (_) => [
-              PopupMenuItem(
-                value: Routes.labour(plotId),
-                child: Text(AppLocalizations.of(context).labourTitle),
-              ),
-              PopupMenuItem(
-                value: Routes.harvest(plotId),
-                child: Text(AppLocalizations.of(context).harvestTitle),
-              ),
-              PopupMenuItem(
-                value: Routes.scouting(plotId),
-                child: Text(AppLocalizations.of(context).scoutingTitle),
-              ),
+              for (final (route, icon, label) in [
+                (
+                  Routes.sprays(plotId),
+                  const GlyphIcon(BmGlyph.spray),
+                  t.sprayLogTitle,
+                ),
+                (
+                  Routes.fieldLog(plotId),
+                  const Icon(Icons.grass_outlined),
+                  t.fieldLogTitle,
+                ),
+                (
+                  Routes.accounts(plotId),
+                  const Icon(Icons.account_balance_wallet_outlined),
+                  t.accountsTitle,
+                ),
+                (
+                  Routes.labour(plotId),
+                  const Icon(Icons.groups_outlined),
+                  t.labourTitle,
+                ),
+                (
+                  Routes.harvest(plotId),
+                  const GlyphIcon(BmGlyph.orange),
+                  t.harvestTitle,
+                ),
+                (
+                  Routes.scouting(plotId),
+                  const Icon(Icons.search_rounded),
+                  t.scoutingTitle,
+                ),
+              ])
+                PopupMenuItem(
+                  value: route,
+                  child: Row(
+                    children: [
+                      IconTheme(
+                        data: IconThemeData(color: c.brand),
+                        child: SizedBox.square(dimension: 24, child: icon),
+                      ),
+                      const SizedBox(width: BmSpace.sm),
+                      Flexible(child: Text(label, style: BmType.body)),
+                    ],
+                  ),
+                ),
             ],
-          ),
-          IconButton(
-            tooltip: AppLocalizations.of(context).accountsTitle,
-            onPressed: () => context.push(Routes.accounts(plotId)),
-            icon: Icon(Icons.account_balance_wallet_outlined, color: c.brand),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: BmSpace.sm),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.list_alt_rounded, color: c.brand),
+                  const SizedBox(width: BmSpace.xxs),
+                  Text(
+                    t.baharRecordsMenu,
+                    style: BmType.bodyStrong.copyWith(color: c.brand),
+                  ),
+                  Icon(Icons.arrow_drop_down_rounded, color: c.brand),
+                ],
+              ),
+            ),
           ),
         ],
       ),

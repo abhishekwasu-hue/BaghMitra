@@ -160,7 +160,7 @@ class _AddSprayScreenState extends ConsumerState<AddSprayScreen> {
                 ),
               ),
               validator: (v) =>
-                  (v ?? '').trim().isEmpty ? t.fieldRequired : null,
+                  (v ?? '').trim().isEmpty ? t.requiredSprayProduct : null,
             ),
             gap,
             TextFormField(

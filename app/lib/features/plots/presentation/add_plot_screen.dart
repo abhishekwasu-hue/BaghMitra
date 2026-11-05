@@ -101,6 +101,34 @@ class _AddPlotScreenState extends ConsumerState<AddPlotScreen> {
     context.canPop() ? context.pop() : context.go(Routes.plots);
   }
 
+  /// Deleting a block, from its edit screen: asks first, then returns to the block list
+  /// (the block's own screens are gone with it).
+  Future<void> _confirmDelete() async {
+    final t = AppLocalizations.of(context);
+    final plot = _editing;
+    if (plot == null) return;
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(t.deletePlot),
+        content: Text(t.deletePlotConfirm(plot.name)),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: Text(t.cancel),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: Text(t.delete),
+          ),
+        ],
+      ),
+    );
+    if (!(ok ?? false)) return;
+    await ref.read(plotRepositoryProvider).delete(plot.id);
+    if (mounted) context.go(Routes.plots);
+  }
+
   Future<void> _walkBoundary() async {
     final corners = await context.push<List<LatLon>>(Routes.walkBoundary);
     if (corners == null || !mounted) return;
@@ -130,7 +158,7 @@ class _AddPlotScreenState extends ConsumerState<AddPlotScreen> {
     _crop ??= crops.isEmpty ? null : crops.first.slug;
 
     String? required(String? v) =>
-        _optional(v) == null ? t.fieldRequired : null;
+        _optional(v) == null ? t.requiredPlotName : null;
     String? positive(String? v) =>
         (double.tryParse(v?.trim() ?? '') ?? 0) <= 0 ? t.invalidNumber : null;
 
@@ -143,6 +171,15 @@ class _AddPlotScreenState extends ConsumerState<AddPlotScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.plotId == null ? t.addPlot : t.editPlot),
+        actions: [
+          if (widget.plotId != null)
+            IconButton(
+              key: const Key('delete-plot'),
+              tooltip: t.deletePlot,
+              onPressed: _confirmDelete,
+              icon: Icon(Icons.delete_outline_rounded, color: c.inkMuted),
+            ),
+        ],
       ),
       body: Form(
         key: _form,
