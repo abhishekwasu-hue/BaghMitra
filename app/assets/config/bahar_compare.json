@@ -22,13 +22,15 @@
       "bahar": "ambia",
       "when": {},
       "labels": {"en": "Field reports say most Vidarbha growers take Ambia, for steadier yields and less January–March hail damage.", "mr": "क्षेत्रीय वृत्तांनुसार विदर्भातील बहुतेक शेतकरी आंबिया घेतात; उत्पादन अधिक स्थिर आणि जानेवारी–मार्चच्या गारपिटीचे नुकसान कमी.", "hi": "क्षेत्रीय रिपोर्टों के अनुसार विदर्भ के अधिकतर किसान अंबिया लेते हैं; उपज अधिक स्थिर और जनवरी–मार्च की ओलावृष्टि से नुकसान कम।"},
-      "source": "Outlook India (press); IJLRA GI review"
+      "source": "Outlook India (press, 5 Jun 2022); IJLRA GI review",
+      "source_urls": ["https://www.outlookindia.com/national/heatwave-in-maharashtra-vidarbha-is-affecting-orange-orchards-yield-and-quality-news-197413"]
     },
     {
       "bahar": "ambia",
       "when": {"water_apr_may": "short"},
       "labels": {"en": "A press report says the Mrig crop carries more risk when water is scarce, because it depends on irrigation.", "mr": "एका वृत्तानुसार पाणी कमी असताना मृग पीक अधिक जोखमीचे असते, कारण ते ओलितावर अवलंबून असते.", "hi": "एक समाचार रिपोर्ट के अनुसार पानी कम होने पर मृग फसल अधिक जोखिम वाली होती है, क्योंकि वह सिंचाई पर निर्भर है।"},
-      "source": "FreshPlaza (press)"
+      "source": "FreshPlaza (press, 5 Oct 2026)",
+      "source_urls": ["https://www.freshplaza.com/asia/article/9879834/"]
     },
     {
       "bahar": "mrig",

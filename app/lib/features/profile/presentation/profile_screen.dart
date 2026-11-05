@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../app/providers.dart';
+import '../../../app/router.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../../auth/domain/auth.dart';
@@ -286,6 +288,15 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     key: const Key('profile-save'),
                     onPressed: _saving ? null : _save,
                     child: Text(t.save),
+                  ),
+                  const SizedBox(height: BmSpace.md),
+                  // The way to Settings in every build (audit R2): photo backup on mobile
+                  // data, the introduction, sending the log, the app version.
+                  OutlinedButton.icon(
+                    key: const Key('profile-settings'),
+                    icon: const Icon(Icons.settings_rounded),
+                    onPressed: () => context.push(Routes.settings),
+                    label: Text(t.settingsTitle),
                   ),
                   const SizedBox(height: BmSpace.xl),
                   OutlinedButton(

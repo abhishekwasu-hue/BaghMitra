@@ -50,6 +50,22 @@ Map<String, dynamic> _$AlertsResponseToJson(AlertsResponse instance) =>
       'alerts': instance.alerts.map((e) => e.toJson()).toList(),
     };
 
+AppVersionResponse _$AppVersionResponseFromJson(Map<String, dynamic> json) =>
+    AppVersionResponse(
+      downloadUrl: json['download_url'] as String,
+      latestVersionCode: (json['latest_version_code'] as num).toInt(),
+      latestVersionName: json['latest_version_name'] as String,
+      minVersionCode: (json['min_version_code'] as num).toInt(),
+    );
+
+Map<String, dynamic> _$AppVersionResponseToJson(AppVersionResponse instance) =>
+    <String, dynamic>{
+      'download_url': instance.downloadUrl,
+      'latest_version_code': instance.latestVersionCode,
+      'latest_version_name': instance.latestVersionName,
+      'min_version_code': instance.minVersionCode,
+    };
+
 CardOut _$CardOutFromJson(Map<String, dynamic> json) => CardOut(
   crop: json['crop'] as String,
   hasChemicalOptions: json['has_chemical_options'] as bool,

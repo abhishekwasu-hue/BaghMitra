@@ -11,8 +11,10 @@ import '../../../theme/app_theme.dart';
 import '../../voice/presentation/voice_mic_button.dart';
 import '../domain/geo.dart';
 import '../domain/plot.dart';
+import 'plot_point.dart';
 
-/// Adds an orchard block, or edits one when [plotId] is given. Saves locally at once; sync
+/// Adds an orchard block, or edits one when [plotId] is given. The grower stands in the block
+/// and takes its location first; walking the boundary is optional. Saves locally at once; sync
 /// happens in the background.
 class AddPlotScreen extends ConsumerStatefulWidget {
   const AddPlotScreen({this.plotId, super.key});
@@ -32,6 +34,10 @@ class _AddPlotScreenState extends ConsumerState<AddPlotScreen> {
   final _year = TextEditingController();
   String? _crop;
   List<LatLon>? _boundary;
+
+  /// The block's location: the fix taken in the block, the walked centre, or the saved one.
+  /// The latest of the first two wins.
+  LatLon? _centre;
   Plot? _editing;
   bool _filled = false;
 
@@ -57,6 +63,9 @@ class _AddPlotScreenState extends ConsumerState<AddPlotScreen> {
     _trees.text = p.treeCount?.toString() ?? '';
     _year.text = p.plantingYear?.toString() ?? '';
     _boundary = cornersFromGeoJson(p.boundary);
+    _centre = p.centroidLat != null && p.centroidLon != null
+        ? LatLon(p.centroidLat!, p.centroidLon!)
+        : null;
   }
 
   Future<void> _save() async {
@@ -79,8 +88,8 @@ class _AddPlotScreenState extends ConsumerState<AddPlotScreen> {
         variety: _optional(_variety.text),
         treeCount: int.tryParse(_trees.text.trim()),
         plantingYear: int.tryParse(_year.text.trim()),
-        centroidLat: _boundary == null ? null : centroidOf(_boundary!).lat,
-        centroidLon: _boundary == null ? null : centroidOf(_boundary!).lon,
+        centroidLat: _centre?.lat,
+        centroidLon: _centre?.lon,
         boundary: _boundary == null ? null : toGeoJsonPolygon(_boundary!),
       ),
     );
@@ -97,6 +106,7 @@ class _AddPlotScreenState extends ConsumerState<AddPlotScreen> {
     if (corners == null || !mounted) return;
     setState(() {
       _boundary = corners;
+      _centre = centroidOf(corners);
       // The walked area fills the field; the grower can still see and correct it.
       _acres.text = sqMToAcres(polygonAreaSqM(corners)).toStringAsFixed(2);
     });
@@ -139,6 +149,11 @@ class _AddPlotScreenState extends ConsumerState<AddPlotScreen> {
         child: ListView(
           padding: const EdgeInsets.all(BmSpace.lg),
           children: [
+            PointCaptureCard(
+              point: _centre,
+              onCaptured: (fix) => setState(() => _centre = fix.position),
+            ),
+            gap,
             TextFormField(
               key: const Key('plot-name'),
               controller: _name,
@@ -179,14 +194,16 @@ class _AddPlotScreenState extends ConsumerState<AddPlotScreen> {
               ],
               decoration: InputDecoration(labelText: t.plotAreaAcres),
               validator: positive,
-              // Typing a new area replaces the walked one: the two would disagree.
+              // Typing a new area replaces the walked one: the two would disagree. The
+              // location stays: it is still where the block is.
               onChanged: (_) => setState(() => _boundary = null),
             ),
             const SizedBox(height: BmSpace.xs),
             OutlinedButton.icon(
+              key: const Key('walk-boundary'),
               onPressed: _walkBoundary,
-              icon: const Icon(Icons.my_location),
-              label: Text(t.boundaryWalk),
+              icon: const Icon(Icons.timeline_rounded),
+              label: Text(t.boundaryWalkOptional),
             ),
             if (_boundary != null)
               Padding(

@@ -1,0 +1,35 @@
+# Expert review list (before launch)
+
+> Items 1–13 are the production audit's list (content trust audit, section 4). Items 14–26 were found while fixing
+> the content findings (C2–C14). Each line: asset, item id, what to check. Reviewer codes: **AG** agronomist or KVK
+> scientist, **SS** soil scientist, **IN** insurance or bank contact, **GO** agriculture office or CSC,
+> **MR** native Marathi agri-extension writer (and a Hindi writer for the hi text).
+
+| # | Reviewer | Asset | Item id(s) | What to check |
+|---|---|---|---|---|
+| 1 | AG | `app/assets/config/irrigation_guide.json` | every row, both crops; s9, s11, s13, s16, m1, m5 | Set one working range per condition from the merged rows (DRAFT_irrigation.md "Reconciled rows"); confirm the AW18 newspaper figures (s20, s21, s9, m1, m6) and their use for mosambi; confirm the age-band tags (C5: s6, s7, s13, s15, s16, s18, s19, m1) and the evaporation vs evapotranspiration wording (s4, s6). |
+| 2 | AG | `irrigation_guide.json`, `practice_cards.json` | sn7, mn5, mn6, mn8; items 51–53 | Bahar stress length by crop and soil: light-soil santra 2–3 weeks (N1) vs 35–45 days (AW23) vs mosambi 35–45 days (AW24); the root-exposure step in item 51 (7–10 cm within a 40–60 cm radius). |
+| 3 | AG | `practice_cards.json` | 23, 24, 39, 41; 61, 31, 32, 26, 14 | Items that now say "check the registered label information in the app" or "ask your KVK" (23 gummosis, 24 trunk protection, 39 fruit-fly lure, 41 canker cuts); item 61 organic nitrogen, item 31 Mallada release, item 32 Hypocrella, item 26 sticky traps (30 per acre, from June), item 14 HDP pruning date. |
+| 4 | AG | `practice_cards.json` `gaps`; `irrigation_guide.json` `gaps` | all gap lines; item 43 | The reworded "still to be added; ask your KVK" lines; twig-blight item 43 (weather forecast equation, no in-app alert exists). |
+| 5 | AG | `app/assets/config/lookalike_cards.json` | all six cards | The midrib rule for greening vs deficiency; the fit of the UF/UC (Florida, California) sources for Vidarbha. |
+| 6 | AG | `api/src/bagmitra_api/risk/rules.json` | heat_fruit_drop, psylla_degree_days, high_wind_gust, heavy_rain, unseasonal_rain | Heat ≥ 35 °C with no month limit (OPEN_QUESTIONS QC1); the psylla degree-day model (Coop & McRoberts, a US model: base 11.11 °C, 580 DD); wind 60 km/h; rain 64.5 mm and 15.6 mm and its months; the advice wording. |
+| 7 | AG | `app/assets/config/bahar_compare.json` | all six points | Including the two press-only sources (Outlook India, 5 Jun 2022; FreshPlaza, 5 Oct 2026, a Warud trader quoted from the Times of India); Hasta bahar has no point yet. |
+| 8 | AG / SS | `practice_cards.json` | 2, 6, 30 | Item 2 soil limits (CaCO3 < 6 %, carbonate clay < 2 %); item 6 HDP spacing 6 × 3 m; item 30 Katol egg-hatch timing. |
+| 9 | IN | `app/lib/l10n/app_*.arb` `claimCheckInform72h` (lines 567–573 in mr) | claim kit checklist | The 72-hour line (no source; suggested rewording in GLOSSARY_mr.md) and how the checklist fits RWBCIS. |
+| 10 | GO | `app/assets/config/schemes.json` | every scheme, document and place | Read each fact on the official page itself; every `verified` flag is now false (facts were read through search extracts only) and shows "confirm on the official page"; set true with the date only after that read (C8). |
+| 11 | SS | `app/assets/config/lab_parameters.json` | all parameters | Names and units (soil N/P/K in kg/ha, micronutrients in ppm, leaf values in %); मुक्त चुना (CaCO3) as the Marathi name. |
+| 12 | AG | `app/assets/config/crops.json` | mosambi `label_aliases` | "sweet lime" = mosambi (owner decision Q15); confirm against the CIB&RC label wording before label information goes live. |
+| 13 | MR | every config and arb string | all | The full Marathi text, using `docs/agronomy/GLOSSARY_mr.md` (C3, C6); the Hindi text the same way. |
+| 14 | AG | `practice_cards.json` | 52, 53 | Item 52 now shows both N1 (2–3 weeks) and the PDKV soil table AW23 (35–45 days) for light soil; item 53 names the NHB model report ("about a month"). Pick one working range. |
+| 15 | AG | `irrigation_guide.json` | s4, s6; practice 55 | s6 and item 55 are the same PDKV 2015 recommendation (80 % ET replenishment, six stages, R15 no. 14). s4 (P2 2016 / R16 no. 25: "90 % ER", with fertigation, trees above 10 years) does not spell out ER: confirm evaporation or evapotranspiration. |
+| 16 | AG | `practice_cards.json` | 31, 39, 43, 61, 67 | Items that now say "ask your KVK" for a rate, a count, a quantity or a temperature the source gives: confirm the KVK can answer, or give the sourced figure for the text. |
+| 17 | AG | `practice_cards.json` | 18, 69 | Item 18 "disinfect tools" (the source names no product: what may the grower use, via label information?); item 69 says UV-C is used "in place of a chemical treatment". |
+| 18 | AG | `practice_cards.json` | 8, 15, 22, 26, 35, 40, 62 | The grower text no longer mentions the source's excluded chemical steps; confirm the remaining practice is complete and safe on its own (the exclusions stay in DRAFT_ipm_practices.md). |
+| 19 | AG | `rules.json` | heat_fruit_drop | "Avoid field work at midday" was removed (not in the cited source); "check irrigation" stays: confirm it, and whether a month window applies (QC1). |
+| 20 | AG | `irrigation_guide.json` | `age_bands` young | `min: 0` while the label says 1–4 years: a block planted this year is shown young-tree rows. |
+| 21 | GO | `app/assets/config/lab_directory.json` | `pdkv_atic` and the six phone numbers | The ATIC "every Thursday, 2:30 to 5:30 pm" line and each phone number (checked 2026-10-28, no re-check date) (C8). |
+| 22 | GO | `app/assets/config/market_directory.json` | MIHAN plant, Kalamna APMC | The MIHAN source is a "to be inaugurated" news item; Kalamna's is a 2022 press story (C8). |
+| 23 | MR | `rules.json`, `practice_cards.json`, `lookalike_cards.json` | psylla_degree_days; 27, 30, 34 | नवती for new flush (was नवीन पालवी in the alert); हस्त नवती in item 30. |
+| 24 | MR | `practice_cards.json` | 16, 42, 43, sections `canker_decline`, `other_pests` | Disease names: फांदीमर (dieback), काडी करपा (twig blight), ऱ्हास (decline), साल खाणारी अळी (bark borer), मूळकूज. |
+| 25 | AG | `practice_cards.json` | 20; `irrigation_guide.json` sn4, mn4 | Double-ring basin (दुहेरी आळे) wording: practice 20 had said "instead of the basin". |
+| 26 | AG | `practice_cards.json` `gaps` | psylla gap | It now says "until then, use natural-enemy conservation and sticky traps above"; confirm. |

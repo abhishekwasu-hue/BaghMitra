@@ -84,6 +84,34 @@
         "title": "AlertsResponse",
         "type": "object"
       },
+      "AppVersionResponse": {
+        "properties": {
+          "download_url": {
+            "title": "Download Url",
+            "type": "string"
+          },
+          "latest_version_code": {
+            "title": "Latest Version Code",
+            "type": "integer"
+          },
+          "latest_version_name": {
+            "title": "Latest Version Name",
+            "type": "string"
+          },
+          "min_version_code": {
+            "title": "Min Version Code",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "latest_version_code",
+          "latest_version_name",
+          "min_version_code",
+          "download_url"
+        ],
+        "title": "AppVersionResponse",
+        "type": "object"
+      },
       "CardOut": {
         "properties": {
           "crop": {
@@ -5812,6 +5840,28 @@
         "summary": "Upload Prices",
         "tags": [
           "admin"
+        ]
+      }
+    },
+    "/v1/app/version": {
+      "get": {
+        "description": "Latest and minimum app version codes (0 = not set) and where to download the APK.",
+        "operationId": "app_version",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppVersionResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "App Version",
+        "tags": [
+          "app"
         ]
       }
     },

@@ -974,6 +974,32 @@ is the raw file; only its hash, size and time are kept.''',
     ),
   });
 
+  ///App Version
+  Future<chopper.Response<AppVersionResponse>> v1AppVersionGet() {
+    generatedMapping.putIfAbsent(
+      AppVersionResponse,
+      () => AppVersionResponse.fromJsonFactory,
+    );
+
+    return _v1AppVersionGet();
+  }
+
+  ///App Version
+  @GET(path: '/v1/app/version')
+  Future<chopper.Response<AppVersionResponse>> _v1AppVersionGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Latest and minimum app version codes (0 = not set) and where to download the APK.',
+      summary: 'App Version',
+      operationId: 'app_version',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["app"],
+      deprecated: false,
+    ),
+  });
+
   ///Entitlements
   Future<chopper.Response<EntitlementsResponse>> v1BillingEntitlementsGet() {
     generatedMapping.putIfAbsent(

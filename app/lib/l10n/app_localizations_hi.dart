@@ -1151,6 +1151,32 @@ class AppLocalizationsHi extends AppLocalizations {
   String get sendLogs => 'लॉग भेजें';
 
   @override
+  String get updateAvailable => 'नया संस्करण उपलब्ध — डाउनलोड करें';
+
+  @override
+  String get updateDismiss => 'बंद करें';
+
+  @override
+  String get updateDownload => 'डाउनलोड करें';
+
+  @override
+  String get updateRequiredTitle => 'नया संस्करण ज़रूरी है';
+
+  @override
+  String get updateRequiredBody =>
+      'बागमित्र इस्तेमाल करते रहने के लिए नया संस्करण डाउनलोड करके इंस्टॉल करें।';
+
+  @override
+  String updateLinkCopied(String url) {
+    return 'लिंक कॉपी हो गया। ब्राउज़र में पेस्ट करके डाउनलोड करें: $url';
+  }
+
+  @override
+  String settingsVersion(String name, String code) {
+    return 'संस्करण $name ($code)';
+  }
+
+  @override
   String get walkthroughSkip => 'छोड़ें';
 
   @override
@@ -1276,6 +1302,41 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get plotCentre => 'केंद्र बिंदु';
+
+  @override
+  String get plotLocation => 'जगह';
+
+  @override
+  String get plotPointCapture => 'मैं बाग में खड़ा हूँ — जगह लें';
+
+  @override
+  String get plotPointWhy =>
+      'इस हिस्से के मौसम और चेतावनियों के लिए। केवल अभी एक बार ली जाती है।';
+
+  @override
+  String get plotPointReading => 'जगह ली जा रही है…';
+
+  @override
+  String get plotPointTake => 'जगह लें';
+
+  @override
+  String get plotPointRetake => 'जगह फिर से लें';
+
+  @override
+  String get plotPointDenied => 'हिस्से की जगह सेव करने के लिए अनुमति दें।';
+
+  @override
+  String get plotPointOpenSettings => 'सेटिंग्स खोलें';
+
+  @override
+  String get plotPointTryAgain => 'फिर से कोशिश करें';
+
+  @override
+  String get plotPointLater =>
+      'हिस्सा अभी सेव करें; जगह बाद में कभी भी ले सकते हैं।';
+
+  @override
+  String get boundaryWalkOptional => 'सीमा चलकर दर्ज करें (वैकल्पिक)';
 
   @override
   String get calendarTitle => 'मौसम कैलेंडर';

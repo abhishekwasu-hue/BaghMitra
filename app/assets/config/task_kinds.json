@@ -6,7 +6,7 @@
     {"slug": "scouting", "labels": {"en": "Scouting", "mr": "बाग पाहणी", "hi": "बाग निरीक्षण"}},
     {"slug": "fertiliser", "labels": {"en": "Fertiliser / manure", "mr": "खत देणे", "hi": "खाद देना"}},
     {"slug": "pruning", "labels": {"en": "Pruning", "mr": "छाटणी", "hi": "छंटाई"}},
-    {"slug": "harvest", "labels": {"en": "Harvest", "mr": "काढणी", "hi": "तुड़ाई"}},
+    {"slug": "harvest", "labels": {"en": "Harvest", "mr": "तोडणी", "hi": "तुड़ाई"}},
     {"slug": "other", "labels": {"en": "Other", "mr": "इतर", "hi": "अन्य"}}
   ]
 }
