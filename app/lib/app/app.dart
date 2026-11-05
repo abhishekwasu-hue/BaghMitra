@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../features/app_update/presentation/app_update_gate.dart';
 import '../l10n/app_localizations.dart';
 import '../sync/account_guard.dart';
 import '../theme/app_theme.dart';
@@ -110,6 +111,9 @@ class _BagMitraAppState extends ConsumerState<BagMitraApp> {
         return const Locale('en');
       },
       routerConfig: _router,
+      // Update notice / blocking screen above every route (audit BG-06).
+      builder: (context, child) =>
+          AppUpdateGate(child: child ?? const SizedBox.shrink()),
     );
   }
 }

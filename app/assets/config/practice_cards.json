@@ -1,5 +1,5 @@
 {
-  "_note": "Non-chemical IPM / orchard practices for santra and mosambi, from docs/agronomy/DRAFT_ipm_practices.md. Sourced DRAFT, not expert-reviewed (OPEN_QUESTIONS Q28, Q29). No chemical advice: no pesticide, fungicide, PGR or bio-product names or doses; where a source gives a product the item says only that a registered product exists and to see label information.",
+  "_note": "Non-chemical IPM / orchard practices for santra and mosambi, from docs/agronomy/DRAFT_ipm_practices.md. Sourced DRAFT, not expert-reviewed (OPEN_QUESTIONS Q28, Q29). No chemical advice: no pesticide, fungicide, PGR or bio-product names, doses or remedy types, and no pointer to where a source gives them; where a source uses a product the item says to check the registered label information in the app or to ask the KVK. Marathi terms follow docs/agronomy/GLOSSARY_mr.md; every number in en is also in mr and hi (test).",
   "status": "draft",
   "sources": {
     "C02": {
@@ -101,6 +101,10 @@
     "R25": {
       "title": "PDKV Joint Agresco research recommendations 2025 (English)",
       "url": "https://www.pdkv.ac.in/Circulars/Recom-2025English.pdf"
+    },
+    "AW23": {
+      "title": "Surendra Patil (Dr. PDKV Akola): Points for the bahar stress in santra and mosambi, Agrowon (Marathi), 2023",
+      "url": "https://agrowon.esakal.com/agroguide/keep-these-things-in-mind-while-managemet-of-orange-mosambi-orchard"
     }
   },
   "sections": [
@@ -108,7 +112,7 @@
       "key": "site",
       "labels": {
         "en": "Site, soil and planting material (prevention of decline)",
-        "mr": "जमीन, माती आणि लागवड साहित्य (खंगणे टाळणे)",
+        "mr": "जमीन, माती आणि लागवड साहित्य (बागेचा ऱ्हास टाळणे)",
         "hi": "स्थान, मिट्टी और रोपण सामग्री (बाग के क्षय से बचाव)"
       },
       "items": [
@@ -131,7 +135,7 @@
           "id": 2,
           "labels": {
             "en": "Before planting, test soil for lime: plant santra only where CaCO3 is below 6 % and carbonate clay is below 2 %.",
-            "mr": "लागवडीपूर्वी माती तपासा; चुनखडी ६ टक्क्यांपेक्षा कमी असलेल्या जमिनीतच संत्रा लावा.",
+            "mr": "लागवडीपूर्वी मातीतील चुना तपासा: मुक्त चुना (CaCO3) ६ टक्क्यांपेक्षा कमी आणि कार्बोनेट चिकणमाती २ टक्क्यांपेक्षा कमी असेल तिथेच संत्रा लावा.",
             "hi": "रोपण से पहले मिट्टी जाँचें; संतरा वहीं लगाएँ जहाँ चूना (CaCO3) 6 प्रतिशत से कम और कार्बोनेट मिट्टी 2 प्रतिशत से कम हो।"
           },
           "source": "R12 p.2 #12 (matches P2, 2012)",
@@ -147,7 +151,7 @@
           "id": 3,
           "labels": {
             "en": "Plant only genuine, disease-free grafts from certified budwood, to guard against greening, exocortis and decline.",
-            "mr": "खात्रीच्या रोपवाटिकेतूनच, रोगमुक्त डोळ्यापासून बनवलेली कलमे घ्या.",
+            "mr": "ग्रीनिंग, एक्झोकॉर्टिस आणि बागेचा ऱ्हास टाळण्यासाठी प्रमाणित, रोगमुक्त डोळ्यांपासून बनवलेली खरी कलमेच लावा.",
             "hi": "केवल प्रमाणित नर्सरी से, रोगमुक्त आँख (बडवुड) से बनी असली कलमें ही लगाएँ, ताकि ग्रीनिंग, एक्सोकॉर्टिस और क्षय से बचाव हो।"
           },
           "source": "C02 \"Greening\", \"Citrus Exocortis\"; C03 \"Citrus Dieback/Decline\"; R25 p.14 #57 (genuine planting material is a major gap)",
@@ -180,7 +184,7 @@
           "id": 5,
           "labels": {
             "en": "Use Phytophthora-tolerant rootstocks: Rangpur lime and rough lemon (Akola), and Alemow (Citrus microphylla) as a root-rot-tolerant rootstock.",
-            "mr": "डिंक्या/मुळकुज टाळण्यासाठी रंगपूर लाइम, जंबेरी (अकोला) किंवा अलेमो खुंटावरची कलमे निवडा.",
+            "mr": "फायटोफ्थोरा सहन करणारे खुंट वापरा: रंगपूर लाइम आणि जंबेरी (रफ लेमन) (अकोला), तसेच मूळकूज सहन करणारा अलेमो (Citrus microphylla) खुंट.",
             "hi": "फाइटोफ्थोरा सहने वाले मूलवृंत चुनें: रंगपुर लाइम और रफ लेमन (अकोला), और जड़ सड़न सहने वाला अलेमो (Citrus microphylla)।"
           },
           "source": "P1 Plant Pathology recs; R25 p.10 #29; C11 rootstock table (Rangpur lime tolerant to foot rot)",
@@ -198,7 +202,7 @@
           "id": 6,
           "labels": {
             "en": "High-density planting at 6 m x 3 m on raised beds (Indo-Israel method) for Nagpur mandarin.",
-            "mr": "उंच गादीवाफ्यावर ६ x ३ मीटर अंतरावर घन लागवड करता येते.",
+            "mr": "नागपुरी संत्र्यासाठी उंच गादीवाफ्यांवर ६ x ३ मीटर अंतरावर घन लागवड (इंडो-इस्रायल पद्धत).",
             "hi": "नागपुर संतरे के लिए उठी हुई क्यारियों पर 6 x 3 मीटर पर सघन रोपण (इंडो-इज़राइल पद्धति)।"
           },
           "source": "R16 p.4 #21; R25 p.15 #62 (economics)",
@@ -214,7 +218,7 @@
           "id": 7,
           "labels": {
             "en": "Traditional spacing about 6 m x 6 m for both mosambi and Nagpur mandarin.",
-            "mr": "पारंपरिक लागवडीत मोसंबी व संत्र्यासाठी ६ x ६ मीटर अंतर.",
+            "mr": "मोसंबी व नागपुरी संत्रा दोन्हींसाठी पारंपरिक अंतर सुमारे ६ x ६ मीटर.",
             "hi": "पारंपरिक रोपण में मोसंबी और संतरे दोनों के लिए लगभग 6 x 6 मीटर दूरी।"
           },
           "source": "C10 \"Spacing\"; N1 §5.5.3",
@@ -239,9 +243,9 @@
         {
           "id": 8,
           "labels": {
-            "en": "Soil solarisation of nursery beds for 45 days (Sept–Nov) under clear transparent polythene, against diseases and annual weeds. (The seed treatment in the same item is excluded.)",
-            "mr": "रोपवाटिकेचे वाफे पारदर्शक प्लास्टिकने ४५ दिवस झाकून उन्हात तापवा.",
-            "hi": "नर्सरी की क्यारियों को पारदर्शक पॉलीथीन से 45 दिन (सितंबर–नवंबर) ढककर धूप में तपाएँ; इससे रोग और वार्षिक खरपतवार घटते हैं। (इसी सिफ़ारिश का बीज उपचार यहाँ शामिल नहीं है।)"
+            "en": "Soil solarisation of nursery beds for 45 days (Sept–Nov) under clear transparent polythene, against diseases and annual weeds.",
+            "mr": "रोग आणि वार्षिक तणांविरुद्ध रोपवाटिकेचे वाफे पारदर्शक पॉलिथिनने ४५ दिवस (सप्टेंबर–नोव्हेंबर) झाकून उन्हात तापवा.",
+            "hi": "नर्सरी की क्यारियों को पारदर्शक पॉलीथीन से 45 दिन (सितंबर–नवंबर) ढककर धूप में तपाएँ; इससे रोग और वार्षिक खरपतवार घटते हैं।"
           },
           "source": "P1 Plant Pathology recs",
           "source_keys": [
@@ -255,7 +259,7 @@
           "id": 9,
           "labels": {
             "en": "Cover the rootstock stem with a strip of used fertiliser bag or black polyethylene tape instead of rubbing off side shoots by hand.",
-            "mr": "खुंटावरील फुटवे काढत बसण्यापेक्षा खुंट रिकाम्या खताच्या पिशवीच्या पट्टीने किंवा काळ्या टेपने गुंडाळा.",
+            "mr": "खुंटावरील फुटवे हाताने काढण्याऐवजी खुंटाचे खोड वापरलेल्या खताच्या पिशवीच्या पट्टीने किंवा काळ्या पॉलिथिन टेपने गुंडाळा.",
             "hi": "मूलवृंत की शाखाएँ हाथ से तोड़ने की बजाय मूलवृंत के तने को खाली खाद की बोरी की पट्टी या काली पॉलीथीन टेप से लपेटें।"
           },
           "source": "R23 p.6 #23",
@@ -270,7 +274,7 @@
           "id": 10,
           "labels": {
             "en": "Cover fresh bud grafts with 70 % agro-net (from budding in February) to raise growth and cut graft mortality.",
-            "mr": "डोळे भरल्यानंतर कलमांवर ७० टक्के शेडनेट झाका.",
+            "mr": "नवीन डोळे भरलेली कलमे (फेब्रुवारीतील डोळे भरणीपासून) ७० टक्के ॲग्रो-नेटने (शेडनेट) झाका; त्यामुळे वाढ चांगली होते आणि कमी कलमे मरतात.",
             "hi": "नई आँख चढ़ाई कलमों को (फरवरी में बडिंग से) 70 प्रतिशत एग्रो-नेट से ढकें, ताकि बढ़वार बढ़े और कलमें कम मरें।"
           },
           "source": "P1 Horticulture recs",
@@ -311,7 +315,7 @@
           "id": 12,
           "labels": {
             "en": "On bearing trees, remove dead, diseased, criss-cross and weak branches, water sprouts and rootstock suckers, preferably after harvest.",
-            "mr": "फळतोडणीनंतर वाळलेल्या, रोगट, एकमेकांत घुसलेल्या फांद्या, पाणफुटवे आणि खुंटावरचे फुटवे काढा.",
+            "mr": "फळे देणाऱ्या झाडांवरील वाळलेल्या, रोगट, एकमेकांत घुसलेल्या व कमकुवत फांद्या, पाणफुटवे आणि खुंटावरचे फुटवे काढा; शक्यतो फळतोडणीनंतर.",
             "hi": "फल देने वाले पेड़ों से सूखी, रोगी, आपस में उलझी और कमज़ोर शाखाएँ, पानी-फुटान और मूलवृंत के फुटाव हटाएँ, हो सके तो तुड़ाई के बाद।"
           },
           "source": "N1 §5.8",
@@ -326,7 +330,7 @@
           "id": 13,
           "labels": {
             "en": "Support heavily loaded branches with a bamboo frame and rope to keep them from breaking.",
-            "mr": "फळांनी लदबदलेल्या फांद्या बांबूच्या चौकटीला दोरीने बांधा.",
+            "mr": "फळांनी लदबदलेल्या फांद्या तुटू नयेत म्हणून त्यांना बांबूच्या चौकटीने व दोरीने आधार द्या.",
             "hi": "फलों से लदी भारी शाखाओं को बाँस के ढाँचे और रस्सी से सहारा दें ताकि वे टूटने से बचें।"
           },
           "source": "C05 \"Training and Pruning\"",
@@ -355,9 +359,9 @@
         {
           "id": 15,
           "labels": {
-            "en": "Rejuvenate declining orchards with medium pruning in June (terminal shoots cut back up to 45 cm). The same item adds fertiliser and chemical steps after pruning; those are excluded.",
-            "mr": "खंगलेल्या बागेत जूनमध्ये फांद्यांची टोके ४५ सें.मी. पर्यंत छाटून बागेला नवसंजीवनी द्या.",
-            "hi": "कमज़ोर होते बागों को जून में मध्यम छँटाई (शाखाओं के सिरे 45 सें.मी. तक काटकर) से नया जीवन दें। इसी सिफ़ारिश में छँटाई के बाद के खाद और रासायनिक कदम यहाँ शामिल नहीं हैं।"
+            "en": "Rejuvenate declining orchards with medium pruning in June (terminal shoots cut back up to 45 cm).",
+            "mr": "ऱ्हास होत असलेल्या बागेत जूनमध्ये मध्यम छाटणी करा (फांद्यांची टोके ४५ सें.मी. पर्यंत कापा); त्यामुळे बागेला नवसंजीवनी मिळते.",
+            "hi": "कमज़ोर होते बागों को जून में मध्यम छँटाई (शाखाओं के सिरे 45 सें.मी. तक काटकर) से नया जीवन दें।"
           },
           "source": "P1 Horticulture recs",
           "source_keys": [
@@ -371,7 +375,7 @@
           "id": 16,
           "labels": {
             "en": "Remove dead twigs (twig blight), diseased twigs (anthracnose), affected branches (sooty mould) and diseased portions (pink disease) and destroy them.",
-            "mr": "वाळलेल्या, रोगट फांद्या कापून बागेबाहेर नेऊन नष्ट करा.",
+            "mr": "वाळलेल्या काड्या (काडी करपा), रोगट काड्या (ॲन्थ्रॅकनोज), बाधित फांद्या (काळी बुरशी) आणि रोगट भाग (पिंक रोग) कापून नष्ट करा.",
             "hi": "सूखी टहनियाँ (टहनी झुलसा), रोगी टहनियाँ (एन्थ्रेक्नोज़), प्रभावित शाखाएँ (काली फफूंद/सूटी मोल्ड) और रोगी हिस्से (पिंक रोग) काटकर नष्ट करें।"
           },
           "source": "C02 sections Twig blight, Anthracnose, Sooty mould, Pink disease",
@@ -386,7 +390,7 @@
           "id": 17,
           "labels": {
             "en": "Collect and destroy diseased leaves, twigs and fruits (scab).",
-            "mr": "खरूज रोगाची पाने, फांद्या, फळे गोळा करून नष्ट करा.",
+            "mr": "खरूज (स्कॅब) रोगाची पाने, काड्या व फळे गोळा करून नष्ट करा.",
             "hi": "स्कैब रोग वाली पत्तियाँ, टहनियाँ और फल इकट्ठा करके नष्ट करें।"
           },
           "source": "C02 \"Scab\"",
@@ -400,9 +404,9 @@
         {
           "id": 18,
           "labels": {
-            "en": "Disinfect grafting and pruning tools after cutting diseased trees (exocortis). No product is named in the source.",
-            "mr": "रोगट झाड छाटल्यानंतर कात्री, चाकू निर्जंतुक करूनच पुढच्या झाडाला लावा.",
-            "hi": "रोगी पेड़ काटने के बाद कलम और छँटाई के औज़ार कीटाणुरहित करें (एक्सोकॉर्टिस)। स्रोत में कोई उत्पाद नाम नहीं दिया गया है।"
+            "en": "Disinfect grafting and pruning tools after cutting diseased trees (exocortis).",
+            "mr": "रोगट झाड (एक्झोकॉर्टिस) छाटल्यानंतर कलम व छाटणीची अवजारे निर्जंतुक करूनच पुढच्या झाडाला लावा.",
+            "hi": "रोगी पेड़ काटने के बाद कलम और छँटाई के औज़ार कीटाणुरहित करें (एक्सोकॉर्टिस)।"
           },
           "source": "C02 \"Citrus Exocortis\"",
           "source_keys": [
@@ -418,7 +422,7 @@
       "key": "phytophthora",
       "labels": {
         "en": "Phytophthora: gummosis, foot / collar rot, root rot",
-        "mr": "फायटोफ्थोरा: डिंक्या, खोडकूज, मुळकूज",
+        "mr": "फायटोफ्थोरा: डिंक्या, खोडकूज, मूळकूज",
         "hi": "फाइटोफ्थोरा: गोंदिया (गमोसिस), तना/कॉलर सड़न, जड़ सड़न"
       },
       "items": [
@@ -444,8 +448,8 @@
           "id": 20,
           "labels": {
             "en": "Use ring (double-ring) irrigation so water stays away from the trunk.",
-            "mr": "खोडापासून पाणी दूर राहावे म्हणून आळ्याऐवजी खोडापासून दूर गोल (रिंग) पद्धतीने पाणी द्या.",
-            "hi": "रिंग (दोहरी रिंग) सिंचाई करें ताकि पानी तने से दूर रहे।"
+            "mr": "खोडाला पाणी लागू नये म्हणून दुहेरी आळे (डबल रिंग) पद्धतीने पाणी द्या.",
+            "hi": "दोहरे थाले (डबल रिंग) से सिंचाई करें ताकि पानी तने से दूर रहे।"
           },
           "source": "C02 \"Foot Rot or Gummosis\"",
           "source_keys": [
@@ -459,7 +463,7 @@
           "id": 21,
           "labels": {
             "en": "For an infected tree: remove all its fruits, prune dried branches with about 5 cm of healthy wood, and cut shoots back 30–45 cm.",
-            "mr": "रोगग्रस्त झाडावरची सर्व फळे काढा; वाळलेल्या फांद्या ५ सें.मी. निरोगी भागासह कापा.",
+            "mr": "रोगग्रस्त झाडावरची सर्व फळे काढा; वाळलेल्या फांद्या सुमारे ५ सें.मी. निरोगी भागासह कापा, आणि फांद्या ३०–४५ सें.मी. मागे छाटा.",
             "hi": "रोगी पेड़ के सभी फल हटाएँ, सूखी शाखाएँ लगभग 5 सें.मी. स्वस्थ लकड़ी सहित काटें, और टहनियाँ 30–45 सें.मी. पीछे तक काटें।"
           },
           "source": "P1 \"Management of Phytophthora Root Rot Infected Plants\"",
@@ -473,9 +477,9 @@
         {
           "id": 22,
           "labels": {
-            "en": "Expose the active root zone, cut out rotten roots and leave the zone open to sun for 3–4 days. The drench, paste and other chemical steps in the same package are excluded.",
-            "mr": "झाडाभोवतीची माती उकरून कुजलेली मुळे कापा आणि ३–४ दिवस मुळांना ऊन लागू द्या.",
-            "hi": "सक्रिय जड़ क्षेत्र की मिट्टी हटाकर सड़ी जड़ें काटें और 3–4 दिन धूप लगने दें। इसी पैकेज के ड्रेंच, लेप और अन्य रासायनिक कदम यहाँ शामिल नहीं हैं।"
+            "en": "Expose the active root zone, cut out rotten roots and leave the zone open to sun for 3–4 days.",
+            "mr": "सक्रिय मुळांच्या भागातील माती उकरून कुजलेली मुळे कापा आणि तो भाग ३–४ दिवस उन्हात उघडा ठेवा.",
+            "hi": "सक्रिय जड़ क्षेत्र की मिट्टी हटाकर सड़ी जड़ें काटें और 3–4 दिन धूप लगने दें।"
           },
           "source": "P1 \"Management of Phytophthora Root Rot Infected Plants\"",
           "source_keys": [
@@ -488,9 +492,9 @@
         {
           "id": 23,
           "labels": {
-            "en": "At gummosis onset PDKV recommends soil-applied bio-control agents mixed with FYM at the tree periphery. A registered product exists; see label information.",
-            "mr": "डिंक्या सुरू झाल्यावर जैविक नियंत्रणाचा पर्याय आहे; नोंदणीकृत उत्पादनाच्या लेबलप्रमाणेच वापरा.",
-            "hi": "गोंदिया (गमोसिस) शुरू होने पर PDKV पेड़ के घेरे में गोबर खाद में मिलाकर मिट्टी में डाले जाने वाले जैविक नियंत्रण एजेंट की सिफ़ारिश करता है। पंजीकृत उत्पाद मौजूद है; लेबल की जानकारी देखें।"
+            "en": "At the first signs of gummosis, ask your KVK about the PDKV recommendation; for any product, check the registered label information in the app.",
+            "mr": "डिंक्याची सुरुवात दिसताच डॉ. पंदेकृविच्या शिफारशीबाबत आपल्या कृषी विज्ञान केंद्राला (KVK) विचारा; कोणत्याही उत्पादनासाठी ॲपमधील नोंदणीकृत लेबल माहिती पाहा.",
+            "hi": "गोंदिया (गमोसिस) की शुरुआत दिखते ही PDKV की सिफ़ारिश के बारे में अपने KVK से पूछें; किसी भी उत्पाद के लिए ऐप में पंजीकृत लेबल की जानकारी देखें।"
           },
           "source": "R21 p.6 #23; P1 Plant Pathology recs (greenhouse comparison of bio-agents)",
           "source_keys": [
@@ -504,9 +508,9 @@
         {
           "id": 24,
           "labels": {
-            "en": "Trunk protection twice a year (before and after the monsoon) is recommended. A registered product exists; see label information.",
-            "mr": "पावसाळ्यापूर्वी व नंतर खोडाला संरक्षक लेप लावण्याची शिफारस आहे; उत्पादन लेबलप्रमाणे वापरा.",
-            "hi": "साल में दो बार (बरसात से पहले और बाद में) तने की सुरक्षा की सिफ़ारिश है। पंजीकृत उत्पाद मौजूद है; लेबल की जानकारी देखें।"
+            "en": "PDKV recommends trunk protection twice a year, before and after the monsoon; ask your KVK how, and check the registered label information in the app.",
+            "mr": "डॉ. पंदेकृवि वर्षातून दोनदा, पावसाळ्यापूर्वी व पावसाळ्यानंतर, खोडाच्या संरक्षणाची शिफारस करते; ते कसे करायचे ते आपल्या KVK ला विचारा आणि ॲपमधील नोंदणीकृत लेबल माहिती पाहा.",
+            "hi": "PDKV साल में दो बार, बरसात से पहले और बाद में, तने की सुरक्षा की सिफ़ारिश करता है; कैसे करें, यह अपने KVK से पूछें और ऐप में पंजीकृत लेबल की जानकारी देखें।"
           },
           "source": "R20 p.5 #19; R21 p.6 #23; P1",
           "source_keys": [
@@ -532,7 +536,7 @@
           "id": 25,
           "labels": {
             "en": "Conserve natural enemies: coccinellid (ladybird) beetles feed on psylla nymphs.",
-            "mr": "मित्रकीटकांचे जतन करा: लेडीबर्ड (ढालकीडा) सिट्रस सायलाची पिल्ले खातो.",
+            "mr": "मित्रकीटकांचे जतन करा: लेडीबर्ड (ढालकीडा) भुंगे सायलाची पिल्ले खातात.",
             "hi": "मित्र कीटों को बचाएँ: लेडीबर्ड भृंग सिट्रस सिल्ला के शिशु खाते हैं।"
           },
           "source": "C08 \"Citrus Psylla\"",
@@ -546,9 +550,9 @@
         {
           "id": 26,
           "labels": {
-            "en": "Hang yellow sticky traps from the first week of June, about 2 m above ground, and change them monthly (source: 30 per acre). Taken from a mixed module; its chemical parts are excluded.",
-            "mr": "जूनच्या पहिल्या आठवड्यापासून जमिनीपासून २ मीटर उंचीवर पिवळे चिकट सापळे लावा, दर महिन्याला बदला.",
-            "hi": "जून के पहले सप्ताह से ज़मीन से लगभग 2 मीटर ऊपर पीले चिपचिपे ट्रैप लगाएँ और हर महीने बदलें (स्रोत: 30 प्रति एकड़)। यह एक मिश्रित मॉड्यूल से लिया गया है; उसके रासायनिक हिस्से शामिल नहीं हैं।"
+            "en": "Hang yellow sticky traps from the first week of June, about 2 m above ground, and change them monthly (source: 30 per acre).",
+            "mr": "जूनच्या पहिल्या आठवड्यापासून जमिनीपासून सुमारे २ मीटर उंचीवर पिवळे चिकट सापळे लावा आणि दर महिन्याला बदला (स्रोतानुसार एकरी ३०).",
+            "hi": "जून के पहले सप्ताह से ज़मीन से लगभग 2 मीटर ऊपर पीले चिपचिपे ट्रैप लगाएँ और हर महीने बदलें (स्रोत: 30 प्रति एकड़)।"
           },
           "source": "R25 p.10 #32",
           "source_keys": [
@@ -562,7 +566,7 @@
           "id": 27,
           "labels": {
             "en": "Watch new flush closely: psylla, black fly and leaf miner all attack new flush; PDKV ties its psylla actions to the new flush.",
-            "mr": "नवती फुटली की पानांच्या टोकांवर सायला, काळी माशी, पाने पोखरणारी अळी आहे का ते रोज पाहा.",
+            "mr": "नवतीवर बारकाईने लक्ष ठेवा: सायला, काळी माशी आणि पाने पोखरणारी अळी तिन्ही नवतीवर येतात; डॉ. पंदेकृवि सायलाचे उपाय नवतीशी जोडते.",
             "hi": "नई फुटान पर बारीकी से नज़र रखें: सिल्ला, काली मक्खी और पत्ती सुरंगक तीनों नई फुटान पर हमला करते हैं; PDKV सिल्ला के उपाय नई फुटान से जोड़ता है।"
           },
           "source": "R13 p.3 #18; R25 p.10 #32; C08 \"Citrus Leaf Miner\"",
@@ -605,7 +609,7 @@
           "id": 29,
           "labels": {
             "en": "Scout the shady side of the canopy first; the attack is heavier there, and sooty mould on leaves is a sign.",
-            "mr": "झाडाची सावलीकडची बाजू आधी तपासा; पानांवर काळी बुरशी दिसली तर काळी माशी असू शकते.",
+            "mr": "झाडाची सावलीकडची बाजू आधी तपासा; तिथे प्रादुर्भाव जास्त असतो, आणि पानांवरील काळी बुरशी हे त्याचे लक्षण आहे.",
             "hi": "पहले छतरी की छायादार तरफ़ जाँचें; वहाँ हमला ज़्यादा होता है, और पत्तियों पर काली फफूंद (सूटी मोल्ड) इसका संकेत है।"
           },
           "source": "C08 \"Citrus White Fly / Citrus Black Fly\"",
@@ -620,7 +624,7 @@
           "id": 30,
           "labels": {
             "en": "Time scouting to egg hatch: in Katol, over half the eggs hatched in early April, late July and early December (ambia, mrig, hasta flushes). Survival was highest in the hasta-flush brood.",
-            "mr": "काटोल भागात एप्रिलचा पहिला पंधरवडा, जुलैचा दुसरा व डिसेंबरचा पहिला पंधरवडा हा अंडी उबण्याचा काळ; तेव्हा बारकाईने पाहा.",
+            "mr": "अंडी उबण्याच्या काळात पाहणी करा: काटोल भागात निम्म्याहून अधिक अंडी एप्रिलच्या सुरुवातीला, जुलैच्या शेवटी आणि डिसेंबरच्या सुरुवातीला उबली (आंबिया, मृग, हस्त नवती). हस्त नवतीच्या पिढीत जगण्याचे प्रमाण सर्वाधिक होते.",
             "hi": "जाँच अंडे फूटने के समय पर करें: काटोल में आधे से ज़्यादा अंडे अप्रैल की शुरुआत, जुलाई के अंत और दिसंबर की शुरुआत में फूटे (आंबिया, मृग, हस्त फुटान)। हस्त फुटान वाली पीढ़ी में जीवित रहना सबसे अधिक था।"
           },
           "source": "P1 Entomology recs",
@@ -634,9 +638,9 @@
         {
           "id": 31,
           "labels": {
-            "en": "Biological control: two releases of the green lacewing Mallada boninensis (eggs on shoots) during hasta bahar (release rate in source).",
-            "mr": "हस्त बहारात क्रायसोपा (मलाडा) या मित्रकीटकाची अंडी फांद्यांवर दोनदा सोडा.",
-            "hi": "जैविक नियंत्रण: हस्त बहार में हरे लेसविंग Mallada boninensis (टहनियों पर अंडे) को दो बार छोड़ें (छोड़ने की मात्रा स्रोत में)।"
+            "en": "Biological control: two releases of the green lacewing Mallada boninensis (eggs on shoots) during hasta bahar; ask your KVK for the release rate.",
+            "mr": "जैविक नियंत्रण: हस्त बहारात हिरव्या लेसविंगची (Mallada boninensis) अंडी फांद्यांवर दोनदा सोडा; किती सोडायची ते आपल्या KVK ला विचारा.",
+            "hi": "जैविक नियंत्रण: हस्त बहार में हरे लेसविंग Mallada boninensis (टहनियों पर अंडे) को दो बार छोड़ें; छोड़ने की मात्रा अपने KVK से पूछें।"
           },
           "source": "P1 Entomology recs",
           "source_keys": [
@@ -649,9 +653,9 @@
         {
           "id": 32,
           "labels": {
-            "en": "Recognise and protect the beneficial fungus Hypocrella raciborskii (Aschersonia) on black fly nymphs. A registered product exists; see label information.",
-            "mr": "काळ्या माशीच्या पिल्लांवर वाढणारी मित्रबुरशी (ॲशरसोनिया) ओळखा आणि जपा.",
-            "hi": "काली मक्खी के शिशुओं पर उगने वाली मित्र फफूंद Hypocrella raciborskii (ऐशरसोनिया) को पहचानें और बचाएँ। पंजीकृत उत्पाद मौजूद है; लेबल की जानकारी देखें।"
+            "en": "Recognise and protect the beneficial fungus Hypocrella raciborskii (Aschersonia) on black fly nymphs.",
+            "mr": "काळ्या माशीच्या पिल्लांवर वाढणारी मित्रबुरशी Hypocrella raciborskii (ॲशरसोनिया) ओळखा आणि जपा.",
+            "hi": "काली मक्खी के शिशुओं पर उगने वाली मित्र फफूंद Hypocrella raciborskii (ऐशरसोनिया) को पहचानें और बचाएँ।"
           },
           "source": "R25 p.10 #31; R25 p.11 #38 (research finding)",
           "source_keys": [
@@ -668,7 +672,7 @@
       "key": "other_pests",
       "labels": {
         "en": "Leaf miner, lemon butterfly, bark borer, scales, nematode",
-        "mr": "पाने पोखरणारी अळी, लिंबू फुलपाखरू, साल पोखरणारी अळी, खवले कीड, सूत्रकृमी",
+        "mr": "पाने पोखरणारी अळी, लिंबू फुलपाखरू, साल खाणारी अळी, खवले कीड, सूत्रकृमी",
         "hi": "पत्ती सुरंगक, नींबू तितली, छाल भेदक, शल्क कीट, सूत्रकृमि"
       },
       "items": [
@@ -691,7 +695,7 @@
           "id": 34,
           "labels": {
             "en": "Lemon butterfly: hand-pick the green caterpillars, especially in nurseries and on young flush.",
-            "mr": "रोपवाटिकेत व नवतीवर लिंबू फुलपाखराच्या हिरव्या अळ्या हाताने वेचून नष्ट करा.",
+            "mr": "लिंबू फुलपाखराच्या हिरव्या अळ्या हाताने वेचून नष्ट करा, विशेषतः रोपवाटिकेत व नवतीवर.",
             "hi": "नींबू तितली: हरी इल्लियाँ हाथ से चुनकर नष्ट करें, ख़ासकर नर्सरी में और नई फुटान पर।"
           },
           "source": "C08 \"Citrus or Lemon Butterfly\"",
@@ -705,9 +709,9 @@
         {
           "id": 35,
           "labels": {
-            "en": "Bark borer: look for webbing of chewed wood and frass on the trunk and remove it (Sept–Oct and Jan–Feb). The hole treatment in the source uses a banned chemical and is excluded.",
-            "mr": "खोडावर भुसा व विष्ठेचे जाळे दिसले तर साल पोखरणारी अळी आहे; जाळे काढून छिद्र तपासा.",
-            "hi": "छाल भेदक: तने पर चबाई लकड़ी और विष्ठा का जाला देखें और उसे हटाएँ (सितंबर–अक्टूबर और जनवरी–फरवरी)। स्रोत का छेद-उपचार एक प्रतिबंधित रसायन से है, इसलिए शामिल नहीं है।"
+            "en": "Bark borer: look for webbing of chewed wood and frass on the trunk and remove it (Sept–Oct and Jan–Feb).",
+            "mr": "साल खाणारी अळी: खोडावर चावलेल्या लाकडाचा भुसा व विष्ठेचे जाळे दिसते का ते पाहा आणि ते काढा (सप्टेंबर–ऑक्टोबर व जानेवारी–फेब्रुवारी).",
+            "hi": "छाल भेदक: तने पर चबाई लकड़ी और विष्ठा का जाला देखें और उसे हटाएँ (सितंबर–अक्टूबर और जनवरी–फरवरी)।"
           },
           "source": "C08 \"Bark Borer\"",
           "source_keys": [
@@ -720,9 +724,9 @@
         {
           "id": 36,
           "labels": {
-            "en": "Soft scales are worse with poor light from overcrowding and waterlogging; spacing, pruning and drainage address those conditions (reading drawn from the source's statement).",
-            "mr": "दाट, अंधारी आणि पाणथळ बागेत खवले कीड वाढते; हवा, ऊन खेळते ठेवा.",
-            "hi": "भीड़ से कम रोशनी और जलभराव में नरम शल्क कीट ज़्यादा होते हैं; उचित दूरी, छँटाई और जल-निकासी इन हालात को सुधारते हैं (स्रोत के कथन से निकाला गया अर्थ)।"
+            "en": "Soft scales are worse with poor light from overcrowding and waterlogging; spacing, pruning and drainage address those conditions.",
+            "mr": "दाटीमुळे कमी उजेड आणि पाणी साचणे यामुळे मऊ खवले कीड वाढते; योग्य अंतर, छाटणी आणि निचरा यांनी ही परिस्थिती सुधारते.",
+            "hi": "भीड़ से कम रोशनी और जलभराव में नरम शल्क कीट ज़्यादा होते हैं; उचित दूरी, छँटाई और जल-निकासी इन हालात को सुधारते हैं।"
           },
           "source": "C08 \"Scale Insects\"",
           "source_keys": [
@@ -737,7 +741,7 @@
           "id": 37,
           "labels": {
             "en": "Nematode: certified nematode-free planting material, good sanitation, 1–3 years of annual crops before replanting citrus, tolerant rootstocks (trifoliate orange, citranges), and a marigold intercrop.",
-            "mr": "सूत्रकृमी टाळण्यासाठी सूत्रकृमीमुक्त कलमे, जुनी बाग काढल्यावर १–३ वर्षे इतर पिके, आणि झेंडूचे आंतरपीक घ्या.",
+            "mr": "सूत्रकृमी: प्रमाणित सूत्रकृमीमुक्त कलमे, चांगली स्वच्छता, पुन्हा लिंबूवर्गीय लागवडीपूर्वी १–३ वर्षे एकवर्षीय पिके, सहनशील खुंट (ट्रायफोलिएट ऑरेंज, सिट्रेंज) आणि झेंडूचे आंतरपीक.",
             "hi": "सूत्रकृमि: प्रमाणित सूत्रकृमि-मुक्त पौध, अच्छी स्वच्छता, दोबारा सिट्रस लगाने से पहले 1–3 साल वार्षिक फसलें, सहनशील मूलवृंत (ट्राइफोलिएट ऑरेंज, सिट्रेंज), और गेंदे की अंतरफसल।"
           },
           "source": "C08 \"Citrus Nematode\"; C11 rootstock table",
@@ -763,7 +767,7 @@
           "id": 38,
           "labels": {
             "en": "Collect and destroy fallen and infested fruits regularly.",
-            "mr": "गळलेली व किडलेली फळे रोज गोळा करून खोल पुरा किंवा नष्ट करा.",
+            "mr": "गळलेली व किडलेली फळे नियमितपणे गोळा करून नष्ट करा.",
             "hi": "गिरे हुए और कीड़े लगे फल नियमित रूप से इकट्ठा करके नष्ट करें।"
           },
           "source": "C08 \"Fruit Flies\", \"Fruit Sucking Moths\"",
@@ -777,9 +781,9 @@
         {
           "id": 39,
           "labels": {
-            "en": "Fruit fly: lure (parapheromone) traps from early October, with the lure changed every 15–20 days. The lure is a product; see label information (trap density in source).",
-            "mr": "ऑक्टोबरपासून फळमाशीसाठी ल्युअर सापळे लावा; ल्युअर १५–२० दिवसांनी बदला.",
-            "hi": "फल मक्खी: अक्टूबर की शुरुआत से ल्यूर (पैराफेरोमोन) ट्रैप लगाएँ, ल्यूर हर 15–20 दिन में बदलें। ल्यूर एक उत्पाद है; लेबल की जानकारी देखें (ट्रैप की संख्या स्रोत में)।"
+            "en": "Fruit fly: set lure traps from early October and renew the lure every 15–20 days. Ask your KVK for the number of traps, and check the registered label information in the app for the lure.",
+            "mr": "फळमाशी: ऑक्टोबरच्या सुरुवातीपासून ल्युअर सापळे लावा आणि ल्युअर दर १५–२० दिवसांनी बदला. सापळ्यांची संख्या आपल्या KVK ला विचारा आणि ल्युअरसाठी ॲपमधील नोंदणीकृत लेबल माहिती पाहा.",
+            "hi": "फल मक्खी: अक्टूबर की शुरुआत से ल्यूर ट्रैप लगाएँ और ल्यूर हर 15–20 दिन में बदलें। ट्रैप की संख्या अपने KVK से पूछें, और ल्यूर के लिए ऐप में पंजीकृत लेबल की जानकारी देखें।"
           },
           "source": "R25 p.10 #32",
           "source_keys": [
@@ -792,9 +796,9 @@
         {
           "id": 40,
           "labels": {
-            "en": "Fruit-sucking moth: remove its alternate host plants (weeds) from around the orchard; the moths hide in fallen leaves and weeds by day. (The poison bait in C08 and R25 is excluded.)",
-            "mr": "बागेभोवतीचे पतंगाचे पर्यायी यजमान तण काढा; पडलेला पालापाचोळा साफ ठेवा.",
-            "hi": "फल-रस चूसक पतंगा: बाग के आसपास से इसके वैकल्पिक मेज़बान पौधे (खरपतवार) हटाएँ; पतंगे दिन में गिरी पत्तियों और खरपतवार में छिपते हैं। (स्रोतों का ज़हरीला चारा यहाँ शामिल नहीं है।)"
+            "en": "Fruit-sucking moth: remove its alternate host plants (weeds) from around the orchard; the moths hide in fallen leaves and weeds by day.",
+            "mr": "रस शोषणारा पतंग: बागेभोवतीची त्याची पर्यायी यजमान झाडे (तण) काढा; पतंग दिवसा पडलेल्या पालापाचोळ्यात व तणात लपतात.",
+            "hi": "फल-रस चूसक पतंगा: बाग के आसपास से इसके वैकल्पिक मेज़बान पौधे (खरपतवार) हटाएँ; पतंगे दिन में गिरी पत्तियों और खरपतवार में छिपते हैं।"
           },
           "source": "C08 \"Fruit Sucking Moths\"",
           "source_keys": [
@@ -810,16 +814,16 @@
       "key": "canker_decline",
       "labels": {
         "en": "Canker, decline, dieback, tristeza, other root diseases",
-        "mr": "कँकर, खंगणे, शेंडेमर, ट्रिस्टेझा, मुळांचे इतर रोग",
+        "mr": "कँकर, ऱ्हास, फांदीमर, ट्रिस्टेझा, मुळांचे इतर रोग",
         "hi": "कैंकर, क्षय, डाइबैक, ट्रिस्टेज़ा, जड़ के अन्य रोग"
       },
       "items": [
         {
           "id": 41,
           "labels": {
-            "en": "Canker: before the monsoon, prune and burn all canker-infected twigs. The source also protects the cuts with a product; a registered product exists, see label information.",
-            "mr": "पावसाळ्यापूर्वी कँकरग्रस्त फांद्या छाटून जाळा.",
-            "hi": "कैंकर: बरसात से पहले कैंकर-ग्रस्त सभी टहनियाँ काटकर जला दें। स्रोत कटे हिस्सों को एक उत्पाद से भी बचाता है; पंजीकृत उत्पाद मौजूद है, लेबल की जानकारी देखें।"
+            "en": "Canker: before the monsoon, prune and burn all canker-infected twigs. Ask your KVK how to care for the cut surfaces.",
+            "mr": "कँकर: पावसाळ्यापूर्वी कँकरग्रस्त सर्व काड्या छाटून जाळा. कापलेल्या भागांची काळजी कशी घ्यायची ते आपल्या KVK ला विचारा.",
+            "hi": "कैंकर: बरसात से पहले कैंकर-ग्रस्त सभी टहनियाँ काटकर जला दें। कटे हिस्सों की देखभाल कैसे करें, यह अपने KVK से पूछें।"
           },
           "source": "C02 \"Citrus Canker\"",
           "source_keys": [
@@ -833,7 +837,7 @@
           "id": 42,
           "labels": {
             "en": "Decline / dieback: right site and soil, certified budwood, proper rootstock, and careful irrigation and manuring.",
-            "mr": "खंगणे टाळायला योग्य जमीन, खात्रीची कलमे, योग्य खुंट आणि मोजके पाणी-खत हेच मूळ उपाय.",
+            "mr": "ऱ्हास / फांदीमर टाळण्यासाठी: योग्य जागा व जमीन, प्रमाणित डोळ्यांची कलमे, योग्य खुंट आणि काळजीपूर्वक पाणी व खत व्यवस्थापन.",
             "hi": "क्षय / डाइबैक: सही जगह और मिट्टी, प्रमाणित बडवुड, उचित मूलवृंत, और सावधानी से सिंचाई और खाद।"
           },
           "source": "C03 \"Citrus Dieback/Decline\"",
@@ -847,9 +851,9 @@
         {
           "id": 43,
           "labels": {
-            "en": "Twig-blight risk forecast from weather (max/min temperature, morning/evening humidity, wind, rain, sunshine) predicts incidence in advance. Candidate for an in-app weather alert.",
-            "mr": "हवामानावरून शेंडेमर (फांदी करपा) येण्याचा अंदाज आधी मिळतो; सूचना आल्यावर बाग तपासा.",
-            "hi": "मौसम (अधिकतम/न्यूनतम तापमान, सुबह/शाम की नमी, हवा, वर्षा, धूप) से टहनी झुलसा का जोखिम पहले से बताया जा सकता है। ऐप में मौसम चेतावनी के लिए उम्मीदवार।"
+            "en": "Twig-blight risk can be forecast in advance from the weather (max/min temperature, morning/evening humidity, wind, rain, sunshine) with a PDKV equation; ask your KVK about the current risk.",
+            "mr": "काडी करप्याचा धोका हवामानावरून (कमाल/किमान तापमान, सकाळ/संध्याकाळची आर्द्रता, वारा, पाऊस, सूर्यप्रकाश) डॉ. पंदेकृविच्या सूत्राने आधीच ओळखता येतो; सध्याच्या धोक्याबाबत आपल्या KVK ला विचारा.",
+            "hi": "मौसम (अधिकतम/न्यूनतम तापमान, सुबह/शाम की नमी, हवा, वर्षा, धूप) से PDKV के सूत्र द्वारा टहनी झुलसा का जोखिम पहले से बताया जा सकता है; अभी के जोखिम के बारे में अपने KVK से पूछें।"
           },
           "source": "R14 p.6 #17 (equation in source)",
           "source_keys": [
@@ -863,7 +867,7 @@
           "id": 44,
           "labels": {
             "en": "Tristeza: good cultural practice, better soil fertility and good drainage reduce decline. Mosambi note: a PDKV survey found more CTV in sweet orange than in Nagpur mandarin.",
-            "mr": "ट्रिस्टेझा टाळायला चांगली मशागत, सुपीक जमीन व निचरा ठेवा; मोसंबीत हा विषाणू जास्त आढळतो.",
+            "mr": "ट्रिस्टेझा: चांगली मशागत, जमिनीची सुपीकता आणि चांगला निचरा यामुळे ऱ्हास कमी होतो. मोसंबीसाठी नोंद: डॉ. पंदेकृविच्या सर्वेक्षणात नागपुरी संत्र्यापेक्षा मोसंबीत CTV (ट्रिस्टेझा विषाणू) जास्त आढळला.",
             "hi": "ट्रिस्टेज़ा: अच्छी खेती-पद्धति, बेहतर मिट्टी उर्वरता और अच्छी जल-निकासी से क्षय घटता है। मोसंबी टिप्पणी: PDKV सर्वे में नागपुर संतरे से ज़्यादा CTV मोसंबी (स्वीट ऑरेंज) में मिला।"
           },
           "source": "C02 \"Tristeza\"; P1 Plant Pathology recs (survey 1997–2006)",
@@ -880,7 +884,7 @@
           "id": 45,
           "labels": {
             "en": "Ganoderma root rot: remove dead and old stumps, collect and destroy the bracket fungi near the collar, and isolate infected trees with a trench.",
-            "mr": "बागेतील जुने बुंधे काढा; खोडाजवळ उगवणाऱ्या कानासारख्या बुरशी नष्ट करा; रोगट झाडाभोवती चर खणा.",
+            "mr": "गॅनोडर्मा मूळकूज: बागेतील मेलेले व जुने बुंधे काढा; खोडाजवळ उगवणाऱ्या कानासारख्या बुरशी गोळा करून नष्ट करा; रोगट झाडांभोवती चर खणून ती वेगळी करा.",
             "hi": "गैनोडर्मा जड़ सड़न: मरे और पुराने ठूँठ हटाएँ, तने के पास उगने वाली ब्रैकेट फफूंद इकट्ठा करके नष्ट करें, और रोगी पेड़ों को खाई से अलग करें।"
           },
           "source": "C02 \"Ganoderma Root-Rot\"",
@@ -895,7 +899,7 @@
           "id": 46,
           "labels": {
             "en": "Dry root rot: if only one or two roots are affected, cut them off and destroy them.",
-            "mr": "एक-दोनच मुळे कुजली असतील तर ती कापून नष्ट करा.",
+            "mr": "कोरडी मूळकूज: एक-दोनच मुळे बाधित असतील तर ती कापून नष्ट करा.",
             "hi": "सूखी जड़ सड़न: अगर केवल एक-दो जड़ें प्रभावित हैं, तो उन्हें काटकर नष्ट करें।"
           },
           "source": "C02 \"Dry Root Rot\"",
@@ -920,7 +924,7 @@
           "id": 47,
           "labels": {
             "en": "Know the drop waves: the marble stage (about a month after full bloom), the May–June heat, and pre-harvest (Aug–Jan). Causes include lack of fertilisation (fruit set), mechanical shock, pests, disease, heat, rain and faulty practices.",
-            "mr": "फळगळ तीन वेळा होते: गोटी अवस्था, मे-जूनची उष्णता आणि तोडणीपूर्व; कारण ओळखूनच उपाय करा.",
+            "mr": "फळगळीच्या लाटा ओळखा: गोटी अवस्था (पूर्ण बहरानंतर सुमारे एक महिना), मे–जूनची उष्णता आणि तोडणीपूर्व (ऑगस्ट–जानेवारी). कारणांमध्ये फलन न होणे (फळधारणा), धक्का लागणे, कीड, रोग, उष्णता, पाऊस आणि चुकीच्या पद्धती यांचा समावेश आहे.",
             "hi": "फल गिरने की लहरें जानें: मार्बल अवस्था (पूरे फूल के लगभग एक महीने बाद), मई–जून की गर्मी, और तुड़ाई से पहले (अगस्त–जनवरी)। कारणों में निषेचन की कमी (फल बनना), यांत्रिक झटका, कीट, रोग, गर्मी, वर्षा और ग़लत पद्धतियाँ शामिल हैं।"
           },
           "source": "C03 \"Fruit Drop\"",
@@ -949,9 +953,9 @@
         {
           "id": 49,
           "labels": {
-            "en": "Fruit-drop training should stress drainage, soil selection, nutrition, genuine planting material and pest and disease management, the largest adoption gaps found.",
-            "mr": "फळगळ कमी करण्यासाठी निचरा, योग्य जमीन, संतुलित खत, खात्रीची कलमे यांवर आधी लक्ष द्या.",
-            "hi": "फल गिरने पर प्रशिक्षण में जल-निकासी, मिट्टी का चुनाव, पोषण, असली पौध सामग्री और कीट-रोग प्रबंधन पर ज़ोर दें; ये अपनाने की सबसे बड़ी कमियाँ पाई गईं।"
+            "en": "To reduce fruit drop, give attention first to drainage, soil selection, nutrition, genuine planting material and pest and disease management; a PDKV study found these were the least adopted.",
+            "mr": "फळगळ कमी करण्यासाठी निचरा, योग्य जमीन, पोषण, खात्रीची कलमे आणि कीड-रोग व्यवस्थापन यांवर आधी लक्ष द्या; डॉ. पंदेकृविच्या अभ्यासात याच बाबींचा अवलंब सर्वात कमी आढळला.",
+            "hi": "फल गिरना घटाने के लिए पहले जल-निकासी, मिट्टी के चुनाव, पोषण, असली पौध सामग्री और कीट-रोग प्रबंधन पर ध्यान दें; PDKV के अध्ययन में इन्हीं को सबसे कम अपनाया गया पाया गया।"
           },
           "source": "R25 p.14 #57",
           "source_keys": [
@@ -965,7 +969,7 @@
           "id": 50,
           "labels": {
             "en": "Fruit splitting: give frequent light irrigations in hot, dry spells and pick fruit soon after maturity.",
-            "mr": "फळ तडकणे टाळण्यासाठी कडक उन्हात थोडे-थोडे पण वारंवार पाणी द्या आणि फळे पक्व होताच तोडा.",
+            "mr": "फळ तडकणे टाळण्यासाठी उष्ण व कोरड्या काळात थोडे-थोडे पण वारंवार पाणी द्या आणि फळे पक्व होताच लवकर तोडा.",
             "hi": "फल फटना: गर्म, सूखे दौर में बार-बार हल्की सिंचाई करें और पकते ही फल तोड़ें।"
           },
           "source": "C03 \"Fruit Splitting\"",
@@ -982,7 +986,7 @@
       "key": "bahar_irrigation",
       "labels": {
         "en": "Bahar treatment (water stress) and irrigation",
-        "mr": "बहार धरणे (पाण्याचा ताण) आणि सिंचन",
+        "mr": "बहार धरणे (पाण्याचा ताण) आणि ओलित",
         "hi": "बहार उपचार (पानी का तनाव) और सिंचाई"
       },
       "items": [
@@ -990,7 +994,7 @@
           "id": 51,
           "labels": {
             "en": "Bahar treatment: withhold water until the leaves wilt. For deeper soils the source adds root exposure: about 7–10 cm of soil removed within a 40–60 cm radius. Then re-cover the roots with soil mixed with FYM and irrigate at once.",
-            "mr": "बहारासाठी पाणी तोडा, पाने कोमेजेपर्यंत ताण द्या; नंतर मुळांवर शेणखत मिसळलेली माती टाकून लगेच पाणी द्या.",
+            "mr": "बहार धरणे: पाने कोमेजेपर्यंत पाणी तोडा. खोल जमिनीत स्रोत मुळे उघडी करण्यासही सांगतो: ४०–६० सें.मी. त्रिज्येत सुमारे ७–१० सें.मी. माती काढणे. नंतर मुळे शेणखत मिसळलेल्या मातीने झाका आणि लगेच पाणी द्या.",
             "hi": "बहार उपचार: पत्तियाँ मुरझाने तक पानी रोकें। गहरी मिट्टी के लिए स्रोत जड़ें खोलना भी बताता है: 40–60 सें.मी. घेरे में लगभग 7–10 सें.मी. मिट्टी हटाना। फिर जड़ों को गोबर खाद मिली मिट्टी से ढकें और तुरंत सिंचाई करें।"
           },
           "source": "N1 §5.13",
@@ -1004,24 +1008,26 @@
         {
           "id": 52,
           "labels": {
-            "en": "Keep roots covered in light, sandy or shallow soils; withholding water for 2–3 weeks is enough there.",
-            "mr": "हलक्या, उथळ जमिनीत मुळे झाकलेलीच ठेवा; २–३ आठवडे पाणी तोडणे पुरेसे.",
-            "hi": "हल्की, रेतीली या उथली मिट्टी में जड़ें ढकी रहने दें; वहाँ 2–3 सप्ताह पानी रोकना काफ़ी है।"
+            "en": "In light, sandy or shallow soils keep the roots covered. The NHB model report gives 2–3 weeks without water there; a PDKV soil table gives 35–45 days for light soil. The sources differ; ask your KVK.",
+            "mr": "हलक्या, वाळूच्या किंवा उथळ जमिनीत मुळे झाकलेलीच ठेवा. NHB च्या प्रकल्प अहवालानुसार तिथे २–३ आठवडे पाणी तोडणे पुरेसे; डॉ. पंदेकृविच्या जमिनीनुसार तक्त्यात हलक्या जमिनीसाठी ३५–४५ दिवस दिले आहेत. स्रोतांमध्ये फरक आहे; आपल्या KVK ला विचारा.",
+            "hi": "हल्की, रेतीली या उथली मिट्टी में जड़ें ढकी रहने दें। NHB मॉडल रिपोर्ट वहाँ 2–3 सप्ताह पानी रोकना बताती है; PDKV की मिट्टी-वार तालिका हल्की मिट्टी के लिए 35–45 दिन देती है। स्रोतों में अंतर है; अपने KVK से पूछें।"
           },
-          "source": "N1 §5.13",
+          "source": "N1 §5.13; AW23 (PDKV soil table)",
           "source_keys": [
-            "N1"
+            "N1",
+            "AW23"
           ],
           "evidence": [
-            "official"
+            "official",
+            "university"
           ]
         },
         {
           "id": 53,
           "labels": {
-            "en": "Stress length: ambia about 40–60 days (mid-Nov to end-Dec); mrig about 40–50 days in May–June (to about 25 % leaf drop); PDKV: 50 days for mrig on medium soil. (N1 says \"about a month\"; the sources differ.)",
-            "mr": "आंबियासाठी साधारण ४०–६० दिवस, मृगासाठी ४०–५० दिवस ताण; मध्यम जमिनीत मृगासाठी ५० दिवस पुरे.",
-            "hi": "तनाव की अवधि: आंबिया लगभग 40–60 दिन (मध्य नवंबर से दिसंबर अंत); मृग मई–जून में लगभग 40–50 दिन (लगभग 25 प्रतिशत पत्ती गिरने तक); PDKV: मध्यम मिट्टी पर मृग के लिए 50 दिन। (N1 \"लगभग एक महीना\" कहता है; स्रोतों में अंतर है।)"
+            "en": "Stress length: ambia about 40–60 days (mid-Nov to end-Dec); mrig about 40–50 days in May–June (to about 25 % leaf drop); PDKV: 50 days for mrig on medium soil. (The NHB model report says about a month; the sources differ.)",
+            "mr": "ताणाचा कालावधी: आंबियासाठी सुमारे ४०–६० दिवस (मध्य नोव्हेंबर ते डिसेंबर अखेर); मृगासाठी मे–जूनमध्ये सुमारे ४०–५० दिवस (सुमारे २५ टक्के पानगळ होईपर्यंत); डॉ. पंदेकृवि: मध्यम जमिनीत मृगासाठी ५० दिवस. (NHB च्या प्रकल्प अहवालात सुमारे एक महिना आहे; स्रोतांमध्ये फरक आहे.)",
+            "hi": "तनाव की अवधि: आंबिया लगभग 40–60 दिन (मध्य नवंबर से दिसंबर अंत); मृग मई–जून में लगभग 40–50 दिन (लगभग 25 प्रतिशत पत्ती गिरने तक); PDKV: मध्यम मिट्टी पर मृग के लिए 50 दिन। (NHB मॉडल रिपोर्ट \"लगभग एक महीना\" कहती है; स्रोतों में अंतर है।)"
           },
           "source": "C05 \"Regulation of Flowering\"; P1 Horticulture recs",
           "source_keys": [
@@ -1037,7 +1043,7 @@
           "id": 54,
           "labels": {
             "en": "Prefer drip irrigation: it saves water, wets only the root zone and reduces weeds; PDKV found about 30 % water saving with bigger, juicier fruit.",
-            "mr": "ठिबक सिंचन वापरा: पाणी वाचते, तण कमी, फळे मोठी व रसाळ.",
+            "mr": "ठिबकला प्राधान्य द्या: पाणी वाचते, फक्त मुळांचा भाग ओला होतो आणि तण कमी होते; डॉ. पंदेकृविला सुमारे ३० टक्के पाण्याची बचत आणि मोठी, रसाळ फळे आढळली.",
             "hi": "ड्रिप सिंचाई को प्राथमिकता दें: पानी बचता है, केवल जड़ क्षेत्र भीगता है और खरपतवार घटते हैं; PDKV ने लगभग 30 प्रतिशत पानी की बचत और बड़े, रसीले फल पाए।"
           },
           "source": "N1 §5.7.1; C06; P1 Horticulture recs",
@@ -1054,9 +1060,9 @@
         {
           "id": 55,
           "labels": {
-            "en": "Schedule drip at 80 % of evapotranspiration replenishment through all growth stages (central and western Vidarbha).",
-            "mr": "ठिबकने बाष्पीभवनाच्या ८० टक्के इतके पाणी सर्व अवस्थांत द्या.",
-            "hi": "सभी बढ़वार अवस्थाओं में वाष्पोत्सर्जन की 80 प्रतिशत भरपाई के हिसाब से ड्रिप चलाएँ (मध्य और पश्चिम विदर्भ)।"
+            "en": "Schedule drip at 80 % of evapotranspiration (ET) replenishment through all six growth stages (central and western Vidarbha).",
+            "mr": "मध्य व पश्चिम विदर्भ: वाढीच्या सर्व सहा अवस्थांत बाष्पपर्णोत्सर्जनाच्या (ET) ८० टक्के भरपाई होईल इतके पाणी ठिबकने द्या.",
+            "hi": "मध्य और पश्चिम विदर्भ: बढ़वार की सभी छह अवस्थाओं में वाष्पन-वाष्पोत्सर्जन (ET) की 80 प्रतिशत भरपाई के हिसाब से ड्रिप चलाएँ।"
           },
           "source": "R15 p.4 #14",
           "source_keys": [
@@ -1070,7 +1076,7 @@
           "id": 56,
           "labels": {
             "en": "Surface irrigation on medium soil: irrigate at 40 % soil-moisture depletion (about 60 mm cumulative pan evaporation).",
-            "mr": "मध्यम जमिनीत ओलावा ४० टक्के कमी झाला की पाणी द्या.",
+            "mr": "मध्यम जमिनीत प्रवाही पद्धतीने पाणी: जमिनीतील ओलावा ४० टक्के कमी झाल्यावर पाणी द्या (सुमारे ६० मि.मी. एकत्रित पॅन बाष्पीभवन).",
             "hi": "मध्यम मिट्टी में सतही सिंचाई: मिट्टी की नमी 40 प्रतिशत घटने पर सिंचाई करें (लगभग 60 मि.मी. संचित पैन वाष्पीकरण)।"
           },
           "source": "P1 Horticulture recs",
@@ -1084,9 +1090,9 @@
         {
           "id": 57,
           "labels": {
-            "en": "Sprinkler irrigation can replace basin irrigation and save water (per-tree volumes for winter and summer are in source).",
-            "mr": "आळे पद्धतीऐवजी तुषार सिंचनाने पाणी वाचवता येते.",
-            "hi": "स्प्रिंकलर सिंचाई थाला सिंचाई की जगह ले सकती है और पानी बचाती है (सर्दी और गर्मी के लिए प्रति पेड़ मात्रा स्रोत में)।"
+            "en": "Sprinkler irrigation can replace basin irrigation and save water; the per-tree amounts for winter and summer are in the irrigation guide.",
+            "mr": "आळे पद्धतीऐवजी तुषार सिंचन वापरून पाणी वाचवता येते; हिवाळा व उन्हाळ्यातील दर झाडाचे प्रमाण ओलित तक्त्यात आहे.",
+            "hi": "स्प्रिंकलर सिंचाई थाला सिंचाई की जगह ले सकती है और पानी बचाती है; सर्दी और गर्मी के लिए प्रति पेड़ मात्रा सिंचाई तालिका में है।"
           },
           "source": "P1 Horticulture recs; C06",
           "source_keys": [
@@ -1127,7 +1133,7 @@
           "id": 59,
           "labels": {
             "en": "Mulch the basin with dry leaves, paddy husk or wheat/paddy straw (about 5–8 cm): it keeps down weeds, saves irrigation and conserves moisture.",
-            "mr": "आळ्यात वाळलेली पाने, भाताचे तूस किंवा गव्हाचा/भाताचा पेंढा ५–८ सें.मी. पसरा.",
+            "mr": "आळ्यात वाळलेली पाने, भाताचे तूस किंवा गव्हाचा/भाताचा पेंढा (सुमारे ५–८ सें.मी.) पसरा: तण दबते, पाणी कमी लागते आणि ओलावा टिकतो.",
             "hi": "थाले में सूखी पत्तियाँ, धान की भूसी या गेहूँ/धान का पुआल (लगभग 5–8 सें.मी.) बिछाएँ: इससे खरपतवार दबते हैं, सिंचाई बचती है और नमी बनी रहती है।"
           },
           "source": "N1 §5.10 (about 8 cm); P1 Horticulture recs (5 cm straw kept about 17.6 % more moisture)",
@@ -1144,7 +1150,7 @@
           "id": 60,
           "labels": {
             "en": "Grow a green manure crop (e.g. sunhemp) in kharif and plough it in before flowering.",
-            "mr": "खरिपात ताग पेरून फुलोऱ्याआधी जमिनीत गाडा.",
+            "mr": "खरिपात हिरवळीचे पीक (उदा. ताग) घ्या आणि फुलोऱ्याआधी नांगरून जमिनीत गाडा.",
             "hi": "खरीफ़ में हरी खाद की फसल (जैसे सनई) उगाएँ और फूल आने से पहले जुताई करके मिट्टी में मिला दें।"
           },
           "source": "P1 Horticulture recs; C05 \"Intercropping\"",
@@ -1160,9 +1166,9 @@
         {
           "id": 61,
           "labels": {
-            "en": "Supply part of the nitrogen through organic manure (FYM, cakes) (quantities in source, not given here).",
-            "mr": "खताचा काही भाग शेणखत/पेंडीतून द्या (मात्रा तज्ज्ञांकडून घ्या).",
-            "hi": "नाइट्रोजन का कुछ हिस्सा जैविक खाद (गोबर खाद, खली) से दें (मात्रा स्रोत में, यहाँ नहीं दी गई)।"
+            "en": "Supply part of the nitrogen through organic manure (FYM, cakes); ask your KVK for the quantities.",
+            "mr": "नत्राचा काही भाग सेंद्रिय खतांतून (शेणखत, पेंड) द्या; प्रमाण आपल्या KVK ला विचारा.",
+            "hi": "नाइट्रोजन का कुछ हिस्सा जैविक खाद (गोबर खाद, खली) से दें; मात्रा अपने KVK से पूछें।"
           },
           "source": "N1 §5.6",
           "source_keys": [
@@ -1175,9 +1181,9 @@
         {
           "id": 62,
           "labels": {
-            "en": "Weeds: shallow cultivation only (no deeper than 10–15 cm), plus mulch. Herbicide items in sources are excluded.",
-            "mr": "तणासाठी उथळ (१०–१५ सें.मी.) खुरपणी करा; खोल नांगरट मुळांना हानी करते.",
-            "hi": "खरपतवार: केवल उथली गुड़ाई (10–15 सें.मी. से ज़्यादा गहरी नहीं), साथ में मल्च। स्रोतों के खरपतवारनाशी वाले उपाय शामिल नहीं हैं।"
+            "en": "Weeds: shallow cultivation only (no deeper than 10–15 cm), plus mulch.",
+            "mr": "तण: फक्त उथळ खुरपणी (१०–१५ सें.मी. पेक्षा खोल नाही), सोबत आच्छादन.",
+            "hi": "खरपतवार: केवल उथली गुड़ाई (10–15 सें.मी. से ज़्यादा गहरी नहीं), साथ में मल्च।"
           },
           "source": "C05 \"Weed Control\"",
           "source_keys": [
@@ -1190,9 +1196,9 @@
         {
           "id": 63,
           "labels": {
-            "en": "Intercropping: sources conflict. N1 allows pea, cowpea and gram, and PDKV found cowpea profitable. C05 says to avoid intercrops in Nagpur mandarin (more pests, diseases and micronutrient deficiency) and allows short crops only in the first 3–4 years elsewhere.",
-            "mr": "आंतरपिकाबाबत मतभेद आहेत; संत्र्यात आंतरपीक घेण्यापूर्वी तज्ज्ञांचा सल्ला घ्या.",
-            "hi": "अंतरफसल: स्रोतों में मतभेद है। N1 मटर, लोबिया और चने की अनुमति देता है, और PDKV ने लोबिया को लाभदायक पाया। C05 नागपुर संतरे में अंतरफसल से बचने को कहता है (ज़्यादा कीट, रोग और सूक्ष्म पोषक कमी) और बाकी जगह केवल पहले 3–4 साल छोटी फसलें ठीक मानता है।"
+            "en": "Intercropping: sources conflict. The NHB model report allows pea, cowpea and gram, and PDKV found cowpea profitable. The NHB citrus page says to avoid intercrops in Nagpur mandarin (more pests, diseases and micronutrient deficiency) and allows short crops only in the first 3–4 years elsewhere.",
+            "mr": "आंतरपीक: स्रोतांमध्ये मतभेद आहेत. NHB चा प्रकल्प अहवाल वाटाणा, चवळी व हरभरा घेऊ देतो, आणि डॉ. पंदेकृविला चवळी फायदेशीर आढळली. NHB चे लिंबूवर्गीय पान नागपुरी संत्र्यात आंतरपीक टाळायला सांगते (जास्त कीड, रोग व सूक्ष्म अन्नद्रव्यांची कमतरता) आणि इतरत्र फक्त पहिल्या ३–४ वर्षांत कमी कालावधीची पिके घेऊ देते.",
+            "hi": "अंतरफसल: स्रोतों में मतभेद है। NHB मॉडल रिपोर्ट मटर, लोबिया और चने की अनुमति देती है, और PDKV ने लोबिया को लाभदायक पाया। NHB का सिट्रस पेज नागपुर संतरे में अंतरफसल से बचने को कहता है (ज़्यादा कीट, रोग और सूक्ष्म पोषक कमी) और बाकी जगह केवल पहले 3–4 साल छोटी फसलें ठीक मानता है।"
           },
           "source": "N1 §5.11; P1; C05",
           "source_keys": [
@@ -1218,9 +1224,9 @@
         {
           "id": 64,
           "labels": {
-            "en": "Harvest mandarin when about 75 % of the surface has turned yellowish-orange; check the TSS:acid ratio too. (C04 also gives sweet orange signs: light-yellow, shiny skin, softer rind.)",
-            "mr": "संत्र्याच्या सालीचा ७५ टक्के भाग पिवळसर-केशरी झाल्यावर तोडणी करा.",
-            "hi": "संतरे की तुड़ाई तब करें जब सतह का लगभग 75 प्रतिशत हिस्सा पीला-नारंगी हो जाए; TSS:अम्ल अनुपात भी जाँचें। (C04 मोसंबी के संकेत भी देता है: हल्का पीला, चमकदार छिलका, नरम छिलका।)"
+            "en": "Harvest mandarin when about 75 % of the surface has turned yellowish-orange; check the TSS:acid ratio too. (NHB also gives sweet orange signs: light-yellow, shiny skin, softer rind.)",
+            "mr": "संत्र्याच्या सालीचा सुमारे ७५ टक्के भाग पिवळसर-केशरी झाल्यावर तोडणी करा; TSS:आम्लता गुणोत्तरही तपासा. (NHB मोसंबीची लक्षणेही देते: फिकट पिवळी, चकचकीत व मऊ झालेली साल.)",
+            "hi": "संतरे की तुड़ाई तब करें जब सतह का लगभग 75 प्रतिशत हिस्सा पीला-नारंगी हो जाए; TSS:अम्ल अनुपात भी जाँचें। (NHB मोसंबी के संकेत भी देता है: हल्का पीला, चमकदार छिलका, नरम छिलका।)"
           },
           "source": "C04",
           "source_keys": [
@@ -1250,7 +1256,7 @@
           "id": 66,
           "labels": {
             "en": "Handle gently and keep picked fruit in shade; cuts and bruises let storage rots in, and rough handling causes oleocellosis.",
-            "mr": "फळे हळुवार हाताळा, सावलीत ठेवा; खरचटलेले फळ लवकर सडते.",
+            "mr": "फळे हळुवार हाताळा आणि तोडलेली फळे सावलीत ठेवा; खरचटलेल्या व मार लागलेल्या फळांत साठवणीत सड लागते, आणि खडबडीत हाताळणीने ओलिओसेलोसिस होतो.",
             "hi": "फलों को धीरे से संभालें और तोड़े फल छाया में रखें; कटे और चोट लगे फलों में भंडारण सड़न घुसती है, और खुरदरे बर्ताव से ओलियोसेलोसिस होता है।"
           },
           "source": "C02 \"Storage Rots\"; C03 \"Oleocellosis\"; C04",
@@ -1266,9 +1272,9 @@
         {
           "id": 67,
           "labels": {
-            "en": "Cure fruit overnight before moving it to the pack house to reduce oleocellosis (temperature in source).",
-            "mr": "तोडलेली फळे एक रात्र थंड जागी ठेवून मगच पॅकहाऊसला न्या.",
-            "hi": "ओलियोसेलोसिस घटाने के लिए पैक हाउस ले जाने से पहले फलों को एक रात रखकर क्योर करें (तापमान स्रोत में)।"
+            "en": "Cure fruit overnight before moving it to the pack house to reduce oleocellosis; ask your KVK for the temperature.",
+            "mr": "ओलिओसेलोसिस कमी करण्यासाठी तोडलेली फळे पॅकहाऊसला नेण्यापूर्वी एक रात्र ठेवून क्युअर करा; तापमान आपल्या KVK ला विचारा.",
+            "hi": "ओलियोसेलोसिस घटाने के लिए पैक हाउस ले जाने से पहले फलों को एक रात रखकर क्योर करें; तापमान अपने KVK से पूछें।"
           },
           "source": "C03 \"Oleocellosis\"",
           "source_keys": [
@@ -1298,7 +1304,7 @@
           "id": 69,
           "labels": {
             "en": "UV-C treatment of fruit before waxing, used in place of a chemical treatment (PDKV UV-assisted device), cuts Penicillium and Geotrichum rots in Nagpur mandarin and, at a slower conveyor speed, in sweet orange (mosambi).",
-            "mr": "पॅकहाऊसमध्ये रसायनाऐवजी यूव्ही-सी प्रकाश यंत्राने फळांची सड कमी करता येते, मोसंबीलाही चालते.",
+            "mr": "वॅक्सिंगपूर्वी फळांवर रसायनाऐवजी यूव्ही-सी प्रक्रिया (डॉ. पंदेकृविचे यूव्ही यंत्र) केल्यास नागपुरी संत्र्यात, आणि कन्व्हेयरचा वेग कमी ठेवून मोसंबीतही, पेनिसिलियम व जिओट्रायकम सड कमी होते.",
             "hi": "वैक्सिंग से पहले फलों का यूवी-सी उपचार, रासायनिक उपचार की जगह (PDKV का यूवी उपकरण), नागपुर संतरे में और धीमी कन्वेयर गति पर मोसंबी में भी पेनिसिलियम और जियोट्राइकम सड़न घटाता है।"
           },
           "source": "R17 p.11 #28; R22 p.2 #6; R23 p.8 #45",
@@ -1315,7 +1321,7 @@
           "id": 70,
           "labels": {
             "en": "UV-C tubes behind the air-handling unit of mandarin cold rooms reduce airborne microbes and rotting.",
-            "mr": "शीतगृहात हवेच्या यंत्रामागे यूव्ही-सी ट्यूब लावल्यास साठवलेली संत्री कमी सडतात.",
+            "mr": "संत्र्याच्या शीतगृहात हवा हाताळणी यंत्रामागे (एअर-हँडलिंग युनिट) यूव्ही-सी ट्यूब लावल्यास हवेतील सूक्ष्मजीव व सड कमी होतात.",
             "hi": "संतरे के शीतगृहों में एयर-हैंडलिंग यूनिट के पीछे यूवी-सी ट्यूब लगाने से हवा के सूक्ष्मजीव और सड़न घटते हैं।"
           },
           "source": "R24 p.10 #55",
@@ -1331,59 +1337,59 @@
   ],
   "gaps": [
     {
-      "en": "Mites (citrus mite, russeting): C08, R13 and P1 give chemical controls only.",
-      "mr": "कोळी (सिट्रस माइट, साल खरबरीत होणे): C08, R13 व P1 मध्ये फक्त रासायनिक उपाय आहेत.",
-      "hi": "माइट (सिट्रस माइट, छिलका खुरदरा होना): C08, R13 और P1 में केवल रासायनिक उपाय हैं।"
+      "en": "Mites (citrus mite, russeting): practices still to be added; ask your KVK.",
+      "mr": "कोळी (सिट्रस माइट, साल खरबरीत होणे): माहिती पुढे जोडली जाईल; आपल्या KVK ला विचारा.",
+      "hi": "माइट (सिट्रस माइट, छिलका खुरदरा होना): जानकारी आगे जोड़ी जाएगी; अपने KVK से पूछें।"
     },
     {
-      "en": "Aphids (tristeza vector), thrips, mealybugs: chemical only (C08); N1 only lists them.",
-      "mr": "मावा (ट्रिस्टेझाचा वाहक), फुलकिडे, पिठ्या ढेकूण: फक्त रासायनिक उपाय (C08); N1 मध्ये फक्त नावे आहेत.",
-      "hi": "माहू (ट्रिस्टेज़ा वाहक), थ्रिप्स, मिलीबग: केवल रासायनिक उपाय (C08); N1 में केवल नाम हैं।"
+      "en": "Aphids (tristeza vector), thrips, mealybugs: practices still to be added; ask your KVK.",
+      "mr": "मावा (ट्रिस्टेझाचा वाहक), फुलकिडे, पिठ्या ढेकूण: माहिती पुढे जोडली जाईल; आपल्या KVK ला विचारा.",
+      "hi": "माहू (ट्रिस्टेज़ा वाहक), थ्रिप्स, मिलीबग: जानकारी आगे जोड़ी जाएगी; अपने KVK से पूछें।"
     },
     {
-      "en": "Psylla, direct control: only natural-enemy conservation and sticky traps; a threshold and scouting count are still to be found.",
-      "mr": "सायलाचे थेट नियंत्रण: फक्त मित्रकीटकांचे जतन आणि चिकट सापळे; आर्थिक नुकसान पातळी व पाहणीची संख्या अजून शोधायची आहे.",
-      "hi": "सिल्ला का सीधा नियंत्रण: केवल मित्र कीटों का संरक्षण और चिपचिपे ट्रैप; सीमा-स्तर और निगरानी गिनती अभी खोजनी बाकी है।"
+      "en": "Psylla: a scouting count and action level are still to be added; until then, use natural-enemy conservation and sticky traps above.",
+      "mr": "सायला: पाहणीची संख्या आणि नुकसान पातळी पुढे जोडली जाईल; तोपर्यंत वरील मित्रकीटकांचे जतन आणि चिकट सापळे वापरा.",
+      "hi": "सिल्ला: निगरानी गिनती और सीमा-स्तर आगे जोड़े जाएँगे; तब तक ऊपर दिए मित्र कीटों का संरक्षण और चिपचिपे ट्रैप अपनाएँ।"
     },
     {
-      "en": "Leaf miner beyond winter pruning: remaining items are chemical or botanical products (excluded).",
-      "mr": "हिवाळी छाटणीशिवाय पाने पोखरणाऱ्या अळीसाठी: उरलेले उपाय रासायनिक किंवा वनस्पतिजन्य उत्पादने आहेत (वगळले).",
-      "hi": "सर्दियों की छँटाई के अलावा पत्ती सुरंगक के लिए: बाकी उपाय रासायनिक या वनस्पति-आधारित उत्पाद हैं (शामिल नहीं)।"
+      "en": "Leaf miner, beyond winter pruning: more practices still to be added; ask your KVK.",
+      "mr": "पाने पोखरणारी अळी, हिवाळी छाटणीशिवाय: अधिक माहिती पुढे जोडली जाईल; आपल्या KVK ला विचारा.",
+      "hi": "पत्ती सुरंगक, सर्दियों की छँटाई के अलावा: और जानकारी आगे जोड़ी जाएगी; अपने KVK से पूछें।"
     },
     {
-      "en": "Fruit drop from heat (May–June wave): causes described; the only remedies are growth-regulator or other chemical treatments (N1 §5.12, C03, R22, R24, R25), all excluded.",
-      "mr": "उष्णतेमुळे होणारी फळगळ (मे–जून): कारणे दिली आहेत; उपाय फक्त वाढ नियंत्रक किंवा इतर रासायनिक उपचार (N1 §5.12, C03, R22, R24, R25), सर्व वगळले.",
-      "hi": "गर्मी से फल गिरना (मई–जून की लहर): कारण बताए गए हैं; उपाय केवल वृद्धि नियामक या अन्य रासायनिक उपचार हैं (N1 §5.12, C03, R22, R24, R25), सभी शामिल नहीं।"
+      "en": "Fruit drop from heat (May–June wave): the causes are above; ways to reduce it are still to be added; ask your KVK.",
+      "mr": "उष्णतेमुळे होणारी फळगळ (मे–जून): कारणे वर दिली आहेत; ती कमी करण्याचे उपाय पुढे जोडले जातील; आपल्या KVK ला विचारा.",
+      "hi": "गर्मी से फल गिरना (मई–जून की लहर): कारण ऊपर दिए हैं; इसे घटाने के उपाय आगे जोड़े जाएँगे; अपने KVK से पूछें।"
     },
     {
-      "en": "Waibar disorder, greasy spot, powdery mildew, Alternaria, leaf fall / fruit rot (P. palmivora), greening (disease): chemical or fertiliser schedules only (R22, R24, R25, C02).",
-      "mr": "वायबार विकृती, ग्रीसी स्पॉट, भुरी, अल्टरनेरिया, पानगळ / फळकूज (P. palmivora), ग्रीनिंग (रोग): फक्त रासायनिक किंवा खतांचे वेळापत्रक (R22, R24, R25, C02).",
-      "hi": "वायबार विकार, ग्रीसी स्पॉट, चूर्णिल आसिता, अल्टरनेरिया, पत्ती गिरना / फल सड़न (P. palmivora), ग्रीनिंग (रोग): केवल रासायनिक या खाद की समय-सारणी (R22, R24, R25, C02)।"
+      "en": "Waibar disorder, greasy spot, powdery mildew, Alternaria, leaf fall / fruit rot (P. palmivora), greening (disease): practices still to be added; ask your KVK.",
+      "mr": "वायबार विकृती, ग्रीसी स्पॉट, भुरी, अल्टरनेरिया, पानगळ / फळकूज (P. palmivora), ग्रीनिंग (रोग): माहिती पुढे जोडली जाईल; आपल्या KVK ला विचारा.",
+      "hi": "वायबार विकार, ग्रीसी स्पॉट, चूर्णिल आसिता, अल्टरनेरिया, पत्ती गिरना / फल सड़न (P. palmivora), ग्रीनिंग (रोग): जानकारी आगे जोड़ी जाएगी; अपने KVK से पूछें।"
     },
     {
-      "en": "Canker, biological option: P1 notes lab activity of a marigold (Tagetes) leaf extract on canker bacteria; a lab finding, not a field practice.",
-      "mr": "कँकरसाठी जैविक पर्याय: P1 मध्ये झेंडूच्या (Tagetes) पानांच्या अर्काचा कँकर जिवाणूंवर प्रयोगशाळेत परिणाम नोंदला आहे; हा प्रयोगशाळेतील निष्कर्ष आहे, शेतातील उपाय नाही.",
-      "hi": "कैंकर का जैविक विकल्प: P1 में गेंदे (Tagetes) की पत्ती के अर्क का कैंकर जीवाणु पर प्रयोगशाला में असर दर्ज है; यह प्रयोगशाला का निष्कर्ष है, खेत का उपाय नहीं।"
+      "en": "Canker: more practices still to be added; ask your KVK.",
+      "mr": "कँकर: अधिक माहिती पुढे जोडली जाईल; आपल्या KVK ला विचारा.",
+      "hi": "कैंकर: और जानकारी आगे जोड़ी जाएगी; अपने KVK से पूछें।"
     },
     {
-      "en": "Mosambi-specific IPM: apart from UV-C post-harvest (R23 #45), sweet-orange maturity signs (C04), spacing (C10) and the CTV note (P1), more mosambi-specific items are still to be found.",
-      "mr": "मोसंबीसाठी खास IPM: तोडणीनंतरचे यूव्ही-सी (R23 #45), मोसंबी पक्वतेची लक्षणे (C04), अंतर (C10) आणि CTV नोंद (P1) याशिवाय मोसंबीसाठी खास माहिती अजून शोधायची आहे.",
-      "hi": "मोसंबी के लिए विशेष IPM: तुड़ाई के बाद यूवी-सी (R23 #45), मोसंबी पकने के संकेत (C04), दूरी (C10) और CTV टिप्पणी (P1) के अलावा मोसंबी के लिए विशेष जानकारी अभी खोजनी बाकी है।"
+      "en": "Mosambi: the mosambi items here are UV-C after harvest, maturity signs, spacing and the tristeza note; more mosambi practices are still to be added.",
+      "mr": "मोसंबी: येथे तोडणीनंतरचे यूव्ही-सी, पक्वतेची लक्षणे, अंतर आणि ट्रिस्टेझाची नोंद आहे; मोसंबीसाठी अधिक माहिती पुढे जोडली जाईल.",
+      "hi": "मोसंबी: यहाँ तुड़ाई के बाद यूवी-सी, पकने के संकेत, दूरी और ट्रिस्टेज़ा टिप्पणी हैं; मोसंबी के लिए और जानकारी आगे जोड़ी जाएगी।"
     },
     {
-      "en": "Economic thresholds / scouting protocols for any citrus pest: still to be found.",
-      "mr": "कोणत्याही लिंबूवर्गीय किडीसाठी आर्थिक नुकसान पातळी / पाहणी पद्धत: अजून शोधायची आहे.",
-      "hi": "किसी भी नींबूवर्गीय कीट के लिए आर्थिक सीमा-स्तर / निगरानी पद्धति: अभी खोजनी बाकी।"
+      "en": "Action levels and scouting methods for citrus pests: still to be added.",
+      "mr": "लिंबूवर्गीय किडींसाठी नुकसान पातळी व पाहणी पद्धत: पुढे जोडली जाईल.",
+      "hi": "नींबूवर्गीय कीटों के लिए सीमा-स्तर और निगरानी पद्धति: आगे जोड़ी जाएगी।"
     },
     {
-      "en": "Nutrition as practice: organic/bio-input packages exist (R14 #20, R16 #24), but all are tied to fertiliser doses and products, so they were excluded.",
-      "mr": "पोषण पद्धती: सेंद्रिय/जैविक निविष्ठांचे पॅकेज आहेत (R14 #20, R16 #24), पण सर्व खतांच्या मात्रा व उत्पादनांशी जोडलेले असल्याने वगळले.",
-      "hi": "पोषण पद्धति: जैविक/जैव-आदान पैकेज मौजूद हैं (R14 #20, R16 #24), पर सभी खाद की मात्रा और उत्पादों से जुड़े हैं, इसलिए शामिल नहीं किए।"
+      "en": "Nutrition practices: still to be added; ask your KVK or a soil-testing lab.",
+      "mr": "पोषण व्यवस्थापन: माहिती पुढे जोडली जाईल; आपल्या KVK ला किंवा माती परीक्षण प्रयोगशाळेला विचारा.",
+      "hi": "पोषण पद्धति: जानकारी आगे जोड़ी जाएगी; अपने KVK या मिट्टी जाँच प्रयोगशाला से पूछें।"
     },
     {
-      "en": "ICAR-CCRI and NIPHM content (monthly advisories, citrus IPM package): still to be fetched (the sites were unreachable during research); expected to fill several gaps above.",
-      "mr": "ICAR-CCRI व NIPHM ची माहिती (मासिक सल्ला, लिंबूवर्गीय IPM पॅकेज): अजून मिळवायची आहे (संशोधनाच्या वेळी संकेतस्थळ बंद होते); वरील अनेक उणिवा त्यातून भरून निघतील अशी अपेक्षा.",
-      "hi": "ICAR-CCRI और NIPHM की सामग्री (मासिक सलाह, नींबूवर्गीय IPM पैकेज): अभी प्राप्त करनी है (शोध के समय साइट बंद थी); ऊपर की कई कमियाँ इससे पूरी होने की उम्मीद है।"
+      "en": "ICAR-CCRI and NIPHM guidance (monthly advisories, citrus IPM package): to be added once read from their sites.",
+      "mr": "ICAR-CCRI व NIPHM ची माहिती (मासिक सल्ला, लिंबूवर्गीय IPM पॅकेज): त्यांच्या संकेतस्थळावरून वाचल्यानंतर जोडली जाईल.",
+      "hi": "ICAR-CCRI और NIPHM की सामग्री (मासिक सलाह, नींबूवर्गीय IPM पैकेज): उनकी साइट से पढ़ने के बाद जोड़ी जाएगी।"
     }
   ]
 }

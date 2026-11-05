@@ -77,4 +77,8 @@ Open Settings → "Send logs", add a screenshot, and tell which test build you h
 - No server sync until the hosted Supabase project exists (`docs/runbooks/supabase-setup.md`): use "Try without account"; data stays on the phone.
 - No payments, no WhatsApp or SMS reminders.
 - Knowledge cards are drafts and are not shown to growers; no chemical advice.
-- Test builds show the component gallery and the TEST BUILD badge; real releases will not.
+- Test builds show the component gallery and the TEST BUILD badge; real releases do not
+  (production build: `docs/runbooks/release-apk.md`).
+- Test builds do not check for app updates, and a test APK cannot be installed over a release APK or the
+  other way round (different keys). Moving a phone to the release APK: sync, uninstall, install, sign in
+  once (`release-apk.md` §4).

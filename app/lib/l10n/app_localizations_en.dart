@@ -1164,6 +1164,32 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sendLogs => 'Send logs';
 
   @override
+  String get updateAvailable => 'New version available — download';
+
+  @override
+  String get updateDismiss => 'Close';
+
+  @override
+  String get updateDownload => 'Download';
+
+  @override
+  String get updateRequiredTitle => 'Please update the app';
+
+  @override
+  String get updateRequiredBody =>
+      'Download and install the new version to keep using BagMitra.';
+
+  @override
+  String updateLinkCopied(String url) {
+    return 'Link copied. Paste it in the browser to download: $url';
+  }
+
+  @override
+  String settingsVersion(String name, String code) {
+    return 'Version $name ($code)';
+  }
+
+  @override
   String get walkthroughSkip => 'Skip';
 
   @override
@@ -1289,6 +1315,41 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get plotCentre => 'Centre point';
+
+  @override
+  String get plotLocation => 'Location';
+
+  @override
+  String get plotPointCapture => 'I am in the orchard — take location';
+
+  @override
+  String get plotPointWhy =>
+      'For this block\'s weather and alerts. Read once, only now.';
+
+  @override
+  String get plotPointReading => 'Taking location…';
+
+  @override
+  String get plotPointTake => 'Take location';
+
+  @override
+  String get plotPointRetake => 'Take location again';
+
+  @override
+  String get plotPointDenied => 'Allow location to save where this block is.';
+
+  @override
+  String get plotPointOpenSettings => 'Open settings';
+
+  @override
+  String get plotPointTryAgain => 'Try again';
+
+  @override
+  String get plotPointLater =>
+      'Save the block now; take the location any time later.';
+
+  @override
+  String get boundaryWalkOptional => 'Walk the boundary (optional)';
 
   @override
   String get calendarTitle => 'Season calendar';

@@ -10,15 +10,36 @@ import '../bahar/bahar_screen_test.dart' show seedPlot;
 import '../plots/plots_screen_test.dart' show settle;
 import 'geo_test.dart' show square;
 
-/// Hands out scripted readings, one per tap.
+/// Hands out scripted readings, one per tap. A settled fix runs [bestFixOf] over the next
+/// list of [fixes] (or over the next single reading), so the waiting logic is the real one.
 class ScriptedLocation implements LocationService {
-  ScriptedLocation(this._readings);
+  ScriptedLocation(this._readings, {this.fixes = const []});
   final List<LocationReading> _readings;
+  final List<List<LocationReading>> fixes;
   var taps = 0;
+  var settles = 0;
+  final openedFor = <LocationProblem>[];
 
   @override
   Future<LocationReading> current() async =>
       _readings[taps < _readings.length ? taps++ : _readings.length - 1];
+
+  @override
+  Future<LocationReading> settled({
+    Duration within = PointFix.within,
+    double goodEnoughM = PointFix.goodEnoughM,
+  }) async {
+    final stream = fixes.isEmpty
+        ? Stream.fromFuture(current())
+        : Stream.fromIterable(
+            fixes[settles < fixes.length ? settles++ : fixes.length - 1],
+          );
+    return bestFixOf(stream, within: within, goodEnoughM: goodEnoughM);
+  }
+
+  @override
+  Future<void> openSettings(LocationProblem problem) async =>
+      openedFor.add(problem);
 }
 
 List<LocationReading> walkOf(List<LatLon> corners) => [
@@ -135,7 +156,7 @@ void main() {
       location: ScriptedLocation(walkOf(corners)),
     );
     await settle(tester);
-    await tester.tap(find.text('Mark boundary by walking'));
+    await tester.tap(find.text('Walk the boundary (optional)'));
     await settle(tester);
     for (var i = 0; i < 4; i++) {
       await tester.tap(find.text('Add this corner'));

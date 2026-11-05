@@ -8,8 +8,11 @@ import '../../../app/providers.dart';
 import '../../../app/router.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
+import '../../app_update/data/app_update_providers.dart';
 
-/// Test-build tools (which build this is, sending the on-device log) and phone settings.
+/// Phone settings, the introduction, sending the on-device log and the app version; shown in
+/// every build (audit R2). Only the test-build label and the sample orchard (demo mode) are
+/// limited to those builds.
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
 
@@ -24,6 +27,12 @@ class SettingsScreen extends ConsumerWidget {
         children: [
           if (config.isTestBuild)
             Text(t.buildLabel(config.testBuild), style: BmType.meta),
+          if (ref.watch(installedVersionProvider).value case final v?)
+            Text(
+              t.settingsVersion(v.name, '${v.code}'),
+              key: const Key('settings-version'),
+              style: BmType.meta,
+            ),
           const SizedBox(height: BmSpace.lg),
           OutlinedButton(
             key: const Key('settings-profile'),

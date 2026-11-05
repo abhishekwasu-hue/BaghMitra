@@ -21,6 +21,13 @@ const _enBanned = [
   'mancozeb',
   'ml/l',
   'g/l',
+  // No pointer to where a source gives a chemical remedy, and no research notes (audit C2, C7).
+  'product exists',
+  'excluded',
+  'growth-regulator',
+  'chemical control',
+  'in source',
+  'candidate for',
 ];
 const _mrBanned = ['फवार', 'कीटकनाशक', 'बुरशीनाशक'];
 const _hiBanned = ['छिड़क', 'कीटनाशक', 'फफूंदनाशक'];
@@ -137,7 +144,8 @@ void main() {
     await settle(tester);
     expect(
       find.text(
-        'रोपवाटिकेचे वाफे पारदर्शक प्लास्टिकने ४५ दिवस झाकून उन्हात तापवा.',
+        'रोग आणि वार्षिक तणांविरुद्ध रोपवाटिकेचे वाफे पारदर्शक पॉलिथिनने ४५ दिवस '
+        '(सप्टेंबर–नोव्हेंबर) झाकून उन्हात तापवा.',
       ),
       findsOneWidget,
     );
