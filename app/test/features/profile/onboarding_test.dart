@@ -100,7 +100,7 @@ void main() {
       expect(p['consent_whatsapp'], true);
       // Home, now in Marathi.
       expect(find.text('Welcome to BagMitra'), findsNothing);
-      expect(find.text('आजची कामं'), findsOneWidget);
+      expect(find.text('आजची कामे'), findsOneWidget);
       await unmountApp(tester);
     },
   );

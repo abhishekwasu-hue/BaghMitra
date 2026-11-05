@@ -1238,7 +1238,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get walkthroughWeatherBody =>
-      'See the weather at your plot and get an alert when rain, heat or cold may need your attention.';
+      'See the weather at your plot and get an alert when rain or heat may need your attention.';
 
   @override
   String get walkthroughMarketTitle => 'Mandi prices across India';
@@ -2107,7 +2107,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get claimCheckInform72h =>
-      'Inform the insurer, your bank or the CSC about the loss soon. Many policies ask for this within 72 hours.';
+      'Inform the insurer, your bank or the CSC about the loss as soon as possible; check your policy for the time limit.';
 
   @override
   String get claimCheckPhotos =>

@@ -1236,7 +1236,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get walkthroughWeatherBody =>
-      'अपने प्लॉट का मौसम देखें। बारिश, धूप या ठंड पर ध्यान देना हो तब सूचना मिलेगी।';
+      'अपने प्लॉट का मौसम देखें। बारिश या धूप पर ध्यान देना हो तब सूचना मिलेगी।';
 
   @override
   String get walkthroughMarketTitle => 'पूरे भारत के मंडी भाव';
@@ -2103,7 +2103,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get claimCheckInform72h =>
-      'नुकसान की सूचना बीमा कंपनी, अपने बैंक या CSC केंद्र को जल्दी दें। कई पॉलिसियों में 72 घंटे के भीतर बताना होता है।';
+      'नुकसान की सूचना बीमा कंपनी, अपने बैंक या CSC केंद्र को जितनी जल्दी हो सके दें; कितने दिनों में बताना है, यह अपनी पॉलिसी में देखें।';
 
   @override
   String get claimCheckPhotos =>

@@ -126,7 +126,7 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.byKey(const Key('rejected-writes-sheet')), findsOneWidget);
     expect(find.text('तपासायच्या नोंदी'), findsOneWidget);
-    expect(find.text('प्लॉट'), findsOneWidget);
+    expect(find.text('बाग'), findsOneWidget);
     expect(find.text('फवारणी'), findsOneWidget);
     expect(find.text('पुन्हा पाठवा'), findsNWidgets(2));
     expect(find.text('हटवा'), findsNWidgets(2));

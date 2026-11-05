@@ -57,11 +57,11 @@ class AppLocalizationsMr extends AppLocalizations {
     );
     final String daysString = daysNumberFormat.format(days);
 
-    return 'पुढचा टप्पा: $stage · अंदाजे $daysString दिवसांत · काढणी $month';
+    return 'पुढचा टप्पा: $stage · अंदाजे $daysString दिवसांत · तोडणी $month';
   }
 
   @override
-  String get todaysTasks => 'आजची कामं';
+  String get todaysTasks => 'आजची कामे';
 
   @override
   String get seeAll => 'सगळी पाहा';
@@ -98,7 +98,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String homeHarvestMonth(String month) {
-    return 'काढणी $month';
+    return 'तोडणी $month';
   }
 
   @override
@@ -138,7 +138,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get taskDone => 'पूर्ण';
 
   @override
-  String get markTaskDone => 'काम पूर्ण झालं';
+  String get markTaskDone => 'काम पूर्ण झाले';
 
   @override
   String get offlineBanner =>
@@ -243,10 +243,10 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get plotsEmptyBody =>
-      'प्रत्येक बागेसाठी बहार कॅलेंडर आणि रोजची कामं मिळतील.';
+      'प्रत्येक बागेसाठी बहार कॅलेंडर आणि रोजची कामे मिळतील.';
 
   @override
-  String get plotName => 'बागेचं नाव';
+  String get plotName => 'बागेचे नाव';
 
   @override
   String get plotNameHint => 'उदा. बाग १';
@@ -264,7 +264,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get plotTreeCount => 'झाडांची संख्या (ऐच्छिक)';
 
   @override
-  String get plotPlantingYear => 'लागवडीचं वर्ष (ऐच्छिक)';
+  String get plotPlantingYear => 'लागवडीचे वर्ष (ऐच्छिक)';
 
   @override
   String get save => 'जतन करा';
@@ -286,11 +286,11 @@ class AppLocalizationsMr extends AppLocalizations {
         intl.NumberFormat.decimalPattern(localeName);
     final String countString = countNumberFormat.format(count);
 
-    return '$countString झाडं';
+    return '$countString झाडे';
   }
 
   @override
-  String get plotSaved => 'जतन झालं. नेट आल्यावर पाठवलं जाईल.';
+  String get plotSaved => 'जतन झाले. नेट आल्यावर पाठवले जाईल.';
 
   @override
   String get deletePlot => 'बाग काढून टाका';
@@ -314,7 +314,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get baharEmptyBody =>
-      'बहार निवडा आणि तुमच्या तारखा लिहा. तज्ञांनी तपासलेलं कॅलेंडर तयार झाल्यावर सुचवलेल्या तारखा मिळतील.';
+      'बहार निवडा आणि तुमच्या तारखा लिहा. तज्ञांनी तपासलेले कॅलेंडर तयार झाल्यावर सुचवलेल्या तारखा मिळतील.';
 
   @override
   String get baharWhich => 'कोणता बहार?';
@@ -401,7 +401,7 @@ class AppLocalizationsMr extends AppLocalizations {
       'हा विभाग वापरण्यासाठी माहिती-कोश अॅडमिन खात्याने साइन इन करा.';
 
   @override
-  String get adminDone => 'झालं';
+  String get adminDone => 'झाले';
 
   @override
   String get adminSignIn => 'साइन इन करा';
@@ -791,7 +791,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get spraysEmpty => 'पहिल्या फवारणीची नोंद इथे करा.';
 
   @override
-  String get sprayProduct => 'औषधाचं नाव';
+  String get sprayProduct => 'औषधाचे नाव';
 
   @override
   String get sprayActive => 'सक्रिय घटक (लेबलवर)';
@@ -803,7 +803,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get sprayWater => 'पाणी (लिटर, ऐच्छिक)';
 
   @override
-  String get sprayArea => 'फवारलेलं क्षेत्र (एकर, ऐच्छिक)';
+  String get sprayArea => 'फवारलेले क्षेत्र (एकर, ऐच्छिक)';
 
   @override
   String get sprayCost => 'खर्च (₹, ऐच्छिक)';
@@ -824,7 +824,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get sprayWhichBahar => 'कोणता बहार? (तोडणीची तारीख तपासण्यासाठी)';
 
   @override
-  String get sprayWarnBannedTitle => 'बंदी असलेलं रसायन';
+  String get sprayWarnBannedTitle => 'बंदी असलेले रसायन';
 
   @override
   String sprayWarnBannedBody(String notification) {
@@ -932,10 +932,10 @@ class AppLocalizationsMr extends AppLocalizations {
   }
 
   @override
-  String get harvestTitle => 'काढणी';
+  String get harvestTitle => 'तोडणी';
 
   @override
-  String get harvestAdd => 'काढणी जोडा';
+  String get harvestAdd => 'तोडणी जोडा';
 
   @override
   String get harvestKg => 'प्रमाण (किलो)';
@@ -947,7 +947,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get harvestSize => 'आकार (ऐच्छिक)';
 
   @override
-  String get harvestEmpty => 'काढणीची पहिली नोंद जोडा.';
+  String get harvestEmpty => 'तोडणीची पहिली नोंद जोडा.';
 
   @override
   String harvestTotal(String kg) {
@@ -1067,13 +1067,13 @@ class AppLocalizationsMr extends AppLocalizations {
       'फक्त तुमच्याशी संपर्कासाठी. लॉगिन नेहमीप्रमाणे Google नेच होईल.';
 
   @override
-  String get profileSaved => 'जतन झालं.';
+  String get profileSaved => 'जतन झाले.';
 
   @override
   String get profileSignOut => 'लॉगआउट';
 
   @override
-  String get profileSignOutTitle => 'लॉगआउट करायचं?';
+  String get profileSignOutTitle => 'लॉगआउट करायचे?';
 
   @override
   String get profileSignOutBody =>
@@ -1090,7 +1090,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get profileDeleteAccount => 'माझे खाते आणि माहिती काढून टाका';
 
   @override
-  String get profileDeleteTitle => 'खाते काढून टाकायचं?';
+  String get profileDeleteTitle => 'खाते काढून टाकायचे?';
 
   @override
   String profileDeleteBody(String word) {
@@ -1226,18 +1226,18 @@ class AppLocalizationsMr extends AppLocalizations {
   String get walkthroughStart => 'सुरू करा';
 
   @override
-  String get walkthroughPlotsTitle => 'तुमचे प्लॉट आणि बहार कॅलेंडर';
+  String get walkthroughPlotsTitle => 'तुमच्या बागा आणि बहार कॅलेंडर';
 
   @override
   String get walkthroughPlotsBody =>
-      'तुमचे प्लॉट जोडा. प्रत्येक बहारसाठी हंगामाचं कॅलेंडर आणि करायच्या कामांची यादी दिसेल.';
+      'तुमच्या बागा जोडा. प्रत्येक बहारसाठी हंगामाचे कॅलेंडर आणि करायच्या कामांची यादी दिसेल.';
 
   @override
-  String get walkthroughWeatherTitle => 'तुमच्या प्लॉटसाठी हवामान सूचना';
+  String get walkthroughWeatherTitle => 'तुमच्या बागेसाठी हवामान सूचना';
 
   @override
   String get walkthroughWeatherBody =>
-      'तुमच्या प्लॉटवरचं हवामान पहा. पाऊस, ऊन किंवा थंडीकडे लक्ष द्यायची गरज असेल तेव्हा सूचना मिळेल.';
+      'तुमच्या बागेवरचे हवामान पहा. पाऊस किंवा उन्हाकडे लक्ष द्यायची गरज असेल तेव्हा सूचना मिळेल.';
 
   @override
   String get walkthroughMarketTitle => 'देशभरातील बाजारभाव';
@@ -1251,7 +1251,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get walkthroughRecordsBody =>
-      'फवारणी, खर्च, मजुरी आणि विक्रीची नोंद ठेवा आणि हिशोब पहा. नेट बंद असले तरी ॲप चालतं; नेटवर्क आल्यावर नोंदी पाठवल्या जातात.';
+      'फवारणी, खर्च, मजुरी आणि विक्रीची नोंद ठेवा आणि हिशोब पहा. नेट बंद असले तरी ॲप चालते; नेटवर्क आल्यावर नोंदी पाठवल्या जातात.';
 
   @override
   String get settingsShowWalkthrough => 'ॲपची ओळख पुन्हा पहा';
@@ -1475,7 +1475,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String labelInfoPhi(String days) {
-    return 'काढणीपूर्वी $days दिवस (PHI)';
+    return 'तोडणीपूर्वीचे $days दिवस (PHI)';
   }
 
   @override
@@ -1916,7 +1916,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String tasksTodayShare(String date) {
-    return 'आजची कामं ($date)';
+    return 'आजची कामे ($date)';
   }
 
   @override
@@ -2100,7 +2100,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get claimCheckInform72h =>
-      'नुकसानीची माहिती विमा कंपनी, तुमची बँक किंवा CSC केंद्राला लवकर द्या. अनेक पॉलिसींमध्ये ७२ तासांच्या आत कळवावे लागते.';
+      'नुकसानीची माहिती विमा कंपनी, तुमची बँक किंवा CSC केंद्राला शक्य तितक्या लवकर द्या; किती दिवसांत कळवायचे ते तुमच्या पॉलिसीत तपासा.';
 
   @override
   String get claimCheckPhotos =>
@@ -2597,7 +2597,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String syncEntryName(String entity) {
     String _temp0 = intl.Intl.selectLogic(entity, {
       'farmer_profile': 'प्रोफाइल',
-      'plot': 'प्लॉट',
+      'plot': 'बाग',
       'bahar_cycle': 'बहार',
       'expense': 'खर्च',
       'income': 'विक्री',
