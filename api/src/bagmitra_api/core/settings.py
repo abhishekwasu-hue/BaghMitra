@@ -178,6 +178,14 @@ class Settings(BaseSettings):
     supabase_url: str = ""
     supabase_service_role_key: SecretStr = Field(default=SecretStr(""))
     supabase_admin_timeout_seconds: float = 15.0
+    # Admin web (OPS-02): the Flutter web build served by this API at `/admin/` (same origin,
+    # so no CORS). Empty dir or no index.html there: `/admin/` answers 404. The Supabase
+    # project URL and its public anon (publishable) key are handed to the page at runtime by
+    # `/admin/config.json`, so the build itself holds no environment values. Never the
+    # service role key: the page runs in the browser.
+    admin_web_dir: str = ""
+    admin_web_supabase_url: str = ""
+    admin_web_supabase_anon_key: str = ""
     # App update path (audit BG-06; runbooks release-apk.md and vps-deploy.md). The app asks
     # `GET /v1/app/version` on start: below the latest it shows an "update available" notice,
     # below the minimum a blocking screen. 0 = not set (no notice). `GET /app` serves

@@ -22,3 +22,5 @@ __pycache__/
 *.egg-info/
 .pytest_cache/
 deploy/.previous_commit*
+# Admin web build unpacked by deploy.sh (OPS-02)
+deploy/admin-web/
