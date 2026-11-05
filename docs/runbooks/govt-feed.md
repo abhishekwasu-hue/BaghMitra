@@ -151,7 +151,7 @@ draft for review only: it never publishes. Paid calls; without the key the endpo
   Dismiss stops pushes for the item; "remind" asks for its date reminders even if the item is
   not matched to the farmer's profile (refused for a withdrawn item or one without a date).
 
-## 8. Alert job (owner runs it; deploy/deploy.sh is unchanged)
+## 8. Alert job (cron added by deploy/deploy.sh when `CRON_FEED_ALERTS=on`)
 ```
 python -m bagmitra_api.feed.alert_job      # prints a JSON summary, exit 1 if pushes failed
 ```
@@ -163,13 +163,13 @@ their end; the weekly digest lists new items for the farmer from the last 7 days
 (English fallback). Until the FCM sender exists (Q32) the summary says
 `"skipped_reason": "no push sender configured (FCM credentials)"` and nothing is stamped.
 
-Suggested cron on the VPS (twice a day, outside the default quiet hours; the server clock is
-UTC, so 03:17 and 11:47 UTC are 08:47 and 17:17 India time), with `crontab -e`:
+Cron on the VPS: set `CRON_FEED_ALERTS=on` in `deploy/.env` and run `bash deploy/deploy.sh`; it
+adds this line once (twice a day, outside the default quiet hours; the server clock is UTC, so
+03:17 and 11:17 UTC are 08:47 and 16:47 India time):
 ```
-17 3 * * *  cd /opt/bagmitra/deploy && docker compose exec -T api python -m bagmitra_api.feed.alert_job >> /var/log/bagmitra-feed-alerts.log 2>&1
-47 11 * * * cd /opt/bagmitra/deploy && docker compose exec -T api python -m bagmitra_api.feed.alert_job >> /var/log/bagmitra-feed-alerts.log 2>&1
+17 3,11 * * * cd /opt/bagmitra/deploy && docker compose exec -T api python -m bagmitra_api.feed.alert_job >> /var/log/bagmitra-feed-alerts.log 2>&1
 ```
-Same layout as docs/runbooks/weather-pull.md. To stop: delete the lines. Migration
+Same layout as docs/runbooks/weather-pull.md. To stop: `CRON_FEED_ALERTS=off` and deploy again (the line is removed). Migration
 `0020` must be applied first (it backfills `feed_deadlines` for items already published).
 
 ## 9. News headlines (G3; OPEN_QUESTIONS QG5)
@@ -190,11 +190,12 @@ images. Each headline is an `in_review` news item: write **our own** two-line su
 `PUT .../items/{id}/texts/en` (and `mr`, `hi`), then approve and publish; the app shows it as
 "News — not official". Duplicates (same guid or link) are not added again.
 
-Suggested cron (every 6 hours, after the terms are recorded), with `crontab -e`:
+Cron (every 6 hours, only after the terms are recorded): set `CRON_FEED_NEWS=on` in
+`deploy/.env` and run `bash deploy/deploy.sh`; it adds (01:23, 07:23, 13:23, 19:23 UTC):
 ```
-23 */6 * * * cd /opt/bagmitra/deploy && docker compose exec -T api python -m bagmitra_api.feed.news_job >> /var/log/bagmitra-feed-news.log 2>&1
+23 1,7,13,19 * * * cd /opt/bagmitra/deploy && docker compose exec -T api python -m bagmitra_api.feed.news_job >> /var/log/bagmitra-feed-news.log 2>&1
 ```
-No migration is needed. To stop: delete the line (or set the source's terms to `disallowed`).
+No migration is needed. To stop: `CRON_FEED_NEWS=off` and deploy again (or set the source's terms to `disallowed`).
 
 ## 10. "Check this message" (G3)
 `POST /v1/feed/check?lang=en|mr|hi {"text": "<pasted forward, up to 4000 characters>"}`

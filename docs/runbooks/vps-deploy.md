@@ -38,7 +38,7 @@ chmod 600 .env
 ```
 `.env` मध्ये: `API_DOMAIN`, `DATABASE_URL` (Supabase चा direct connection string, सुरुवात `postgresql+asyncpg://`), `SUPABASE_JWKS_URL`, `ENTITLEMENT_SIGNING_KEY` (`openssl rand -base64 32 | tr '+/' '-_' | tr -d '='` ने बनवा). **`.env` कुणालाही पाठवू नका आणि GitHub वर टाकू नका.**
 
-ऐच्छिक (नसले तरी API चालते): `MARKET_API_KEY` (data.gov.in वरची मोफत key, बाजारभावासाठी). हवामानाला key लागत नाही (मोफत Open-Meteo; व्यावसायिक प्लॅन घेतल्यावर `WEATHER_BASE_URL` + `WEATHER_API_KEY`, Q25).
+ऐच्छिक (नसले तरी API चालते): `MARKET_API_KEY` (data.gov.in वरची मोफत key, बाजारभावासाठी). हवामानाला key लागत नाही (मोफत Open-Meteo; व्यावसायिक प्लॅन घेतल्यावर `WEATHER_BASE_URL` + `WEATHER_API_KEY`, Q25). `SENTRY_DSN` (त्रुटी अहवाल, पायरी ६अ-२; रिकामा = बंद).
 
 ## ५. सुरू करा
 ```
@@ -52,15 +52,39 @@ curl https://api.तुमचे-डोमेन.com/health/live
 ```
 cd /opt/bagmitra && bash deploy/deploy.sh
 ```
-ही script `.env` तपासते (मूल्ये छापत नाही), नवीन कोड आणते, containers पुन्हा बांधून सुरू करते, `https://API_DOMAIN/health/live` उत्तर देईपर्यंत थांबते आणि हवामानाची cron ओळ एकदाच जोडते. काही बिघडले तर मागच्या आवृत्तीवर परत: `bash deploy/deploy.sh --revert`. पहिल्यांदाही (पायरी ४ नंतर) हीच कमांड चालते.
+ही script `.env` तपासते (मूल्ये छापत नाही), नवीन कोड आणते, containers पुन्हा बांधून सुरू करते, `https://API_DOMAIN/health/live` उत्तर देईपर्यंत थांबते आणि cron ओळी एकदाच जोडते (हवामान, बॅकअप, आणि `.env` मध्ये चालू केलेली कामे — पायरी ६अ). काही बिघडले तर मागच्या आवृत्तीवर परत: `bash deploy/deploy.sh --revert`. पहिल्यांदाही (पायरी ४ नंतर) हीच कमांड चालते.
 टेबलचे बदल (migration) प्रत्येक सुरुवातीला आपोआप होतात.
 
-## ६अ. रोजचे हवामान आणि सूचना (cron)
-API चालू झाल्यावर एकदाच `crontab -e` करून ही ओळ टाका (रोज सकाळी ५:३० IST = ००:०० UTC):
-```
-0 0 * * * cd /opt/bagmitra/deploy && docker compose exec -T api python -m bagmitra_api.weather.pull_job >> /var/log/bagmitra-weather-pull.log 2>&1
-```
-आधी एकदा हाताने चालवून पाहा (वरची कमांड `0 0 * * *` शिवाय). तपशील: `docs/runbooks/weather-pull.md`. फोनवर push सूचना Firebase key मिळाल्यावरच (Q32).
+## ६अ. ठरलेल्या वेळची कामे (cron)
+`bash deploy/deploy.sh` प्रत्येक वेळी cron तपासतो: हवी ती ओळ नसेल तर एकदाच जोडतो, आधीच असेल तर पुन्हा जोडत
+नाही. तुमच्या इतर cron ओळींना हात लावत नाही. `.env` मधील मूल्ये कुठेही छापली जात नाहीत. सर्व्हरचे घड्याळ UTC
+आहे; खाली IST वेळही दिली आहे.
+
+| काम | केव्हा चालू | वेळ (UTC = IST) | log |
+|---|---|---|---|
+| हवामान व धोका सूचना (`weather.pull_job`) | नेहमी | रोज 00:00 = 05:30 | `/var/log/bagmitra-weather-pull.log` |
+| database बॅकअप (`deploy/backup.sh`) | नेहमी | रोज 21:40 = 03:10 | `/var/log/bagmitra-backup.log` |
+| बाजारभाव ओढणे (`market.pull_job`) | `MARKET_API_KEY` भरलेली असेल तर | दर ६ तासांनी 02:35, 08:35, 14:35, 20:35 = 08:05, 14:05, 20:05, 02:05 | `/var/log/bagmitra-market-pull.log` |
+| KB कार्डांची रात्रीची फेरतपासणी (`kb.regate`) | `CRON_KB_REGATE=on` | रोज 20:50 = 02:20 | `/var/log/bagmitra-kb-regate.log` |
+| सरकारी सूचनांच्या आठवणी (`feed.alert_job`) | `CRON_FEED_ALERTS=on` | रोज 03:17 व 11:17 = 08:47 व 16:47 | `/var/log/bagmitra-feed-alerts.log` |
+| बातम्यांचे मथळे (`feed.news_job`) | `CRON_FEED_NEWS=on` (स्रोताच्या अटी नोंदल्यानंतरच) | दर ६ तासांनी 01:23, 07:23, 13:23, 19:23 | `/var/log/bagmitra-feed-news.log` |
+
+- चालू करणे: `deploy/.env` मध्ये ओळ टाका (उदा. `CRON_KB_REGATE=on`; `on` / `true` / `yes` / `1` चालते) आणि
+  `bash deploy/deploy.sh` चालवा. शेवटी "... cron line added" दिसते.
+- बंद करणे: `off` करा किंवा ओळ काढा आणि पुन्हा deploy: "... cron line removed" दिसते.
+- तपासणे: `crontab -l | grep bagmitra`. एखादे काम हाताने आत्ता चालवायचे असेल तर, उदा.
+  `cd /opt/bagmitra/deploy && docker compose exec -T api python -m bagmitra_api.market.pull_job`
+  (शेवटी JSON सारांश; बाजारभाव key टाकल्यावर एकदा असे चालवा म्हणजे पहिल्या ठरलेल्या वेळेआधीच भाव दिसतात).
+- हवामान: `docs/runbooks/weather-pull.md`. बाजारभाव: `docs/runbooks/market-prices.md`. सरकारी सूचना व बातम्या:
+  `docs/runbooks/govt-feed.md` §8–§9. फोनवर push सूचना Firebase key मिळाल्यावरच (Q32); तोपर्यंत आठवणींचे काम
+  फक्त नियोजन करते.
+
+## ६अ-२. त्रुटी अहवाल (ऐच्छिक, Sentry)
+`SENTRY_DSN` रिकामा असेल (मूळ स्थिती) तर कोणताही त्रुटी अहवाल कुठेही जात नाही. Sentry (किंवा स्वतः चालवलेला
+GlitchTip सारखा Sentry-सुसंगत सर्व्हर) वापरायचा असेल तर तिथे प्रकल्प बनवा, त्याचा DSN `deploy/.env` मध्ये
+`SENTRY_DSN=` ला टाका आणि `bash deploy/deploy.sh` चालवा. फक्त API च्या त्रुटी जातात: वापरकर्त्याचा id, IP,
+cookies, विनंतीचा मजकूर (शेतकऱ्यांच्या नोंदी), Authorization / API key headers आणि query आधीच काढून टाकले
+जातात. DSN ही गुप्त माहिती आहे: git किंवा chat मध्ये टाकू नका. बंद करण्यासाठी ओळ रिकामी करा आणि पुन्हा deploy.
 
 ## ६अ-१. मुख्य पान, गोपनीयता धोरण आणि Google लॉगिन प्रसिद्ध करणे
 1. (ऐच्छिक, पण Google / Play Store साठी हवे) `.env` मध्ये `PRIVACY_CONTACT_EMAIL=` प्रकल्पाचा ईमेल टाका आणि `bash deploy/deploy.sh` चालवा.
@@ -77,8 +101,9 @@ Supabase → Authentication → Users → त्या व्यक्तीच�
 - [ ] `.env` भरलेली, `chmod 600`, GitHub वर नाही
 - [ ] `docker compose ps` मध्ये `api` healthy, `curl https://api.तुमचे-डोमेन.com/health/live` → `ok`
 - [ ] `docker compose logs api | grep -i "alembic"` मध्ये migration त्रुटी नाही
-- [ ] हवामान cron ओळ टाकली आणि हाताने एकदा चालवली (`new_alerts`, `failed_cells: 0`)
-- [ ] (ऐच्छिक) `MARKET_API_KEY` टाकून ॲपमध्ये बाजारभाव दिसतात
+- [ ] `crontab -l | grep bagmitra` मध्ये हवामान व बॅकअप ओळी (deploy नंतर आपोआप); हवामान हाताने एकदा चालवले (`new_alerts`, `failed_cells: 0`)
+- [ ] `deploy/.env` मध्ये `CRON_KB_REGATE=on` (रात्रीची KB फेरतपासणी, पायरी ६अ)
+- [ ] (ऐच्छिक) `MARKET_API_KEY` टाकून deploy, `market.pull_job` एकदा हाताने चालवला, ॲपमध्ये बाजारभाव दिसतात
 - [ ] `https://<API_DOMAIN>/` आणि `/privacy` उघडतात; Google Branding मध्ये दोन्ही दुवे टाकले (पायरी ६अ-१)
 - [ ] GitHub secrets `API_BASE_URL`, `SUPABASE_URL`, `SUPABASE_ANON_KEY` टाकून नवीन test APK
 - [ ] (शेतकऱ्यांसाठी) release key चे ४ secrets, Release APK, `/srv/bagmitra-apk/bagmitra.apk` आणि `APP_LATEST_VERSION_*` (पायरी ६इ)

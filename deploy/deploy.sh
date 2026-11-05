@@ -8,7 +8,8 @@
 # runbook "Sharing the server").
 # It checks .env, pulls the code, rebuilds and restarts the containers (migrations run on
 # start), waits until https://$API_DOMAIN/health/live answers, and adds the daily weather and
-# nightly backup cron lines once. It never prints .env values.
+# nightly backup cron lines once, plus each scheduled job whose switch in .env is on (market
+# pull, feed reminders, feed news, KB re-gate; install_cron). It never prints .env values.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -18,6 +19,21 @@ PREVIOUS="$DEPLOY/.previous_commit"
 CRON_LINE="0 0 * * * cd $DEPLOY && docker compose exec -T api python -m bagmitra_api.weather.pull_job >> /var/log/bagmitra-weather-pull.log 2>&1"
 # Nightly database dump (OPS-06), 21:40 UTC = 03:10 IST, kept 14 days in /var/backups/bagmitra.
 BACKUP_CRON_LINE="40 21 * * * bash $DEPLOY/backup.sh >> /var/log/bagmitra-backup.log 2>&1"
+# Scheduled jobs from the runbooks (audit BG-02), times in UTC (the server clock), all away from
+# the 00:00 weather and 21:40 backup slots. Each is added only while its switch in .env is on
+# and removed again when the switch is turned off (install_cron); the module name is the marker.
+JOB="cd $DEPLOY && docker compose exec -T api python -m"
+# Mandi prices (BG-04, docs/runbooks/market-prices.md): every 6 h at 02:35, 08:35, 14:35, 20:35
+# UTC (08:05, 14:05, 20:05, 02:05 IST); on while MARKET_API_KEY is set.
+MARKET_CRON_LINE="35 2,8,14,20 * * * $JOB bagmitra_api.market.pull_job >> /var/log/bagmitra-market-pull.log 2>&1"
+# Government feed reminders (govt-feed.md §8): 03:17 and 11:17 UTC (08:47, 16:47 IST, outside
+# the default quiet hours); on with CRON_FEED_ALERTS=on.
+FEED_ALERTS_CRON_LINE="17 3,11 * * * $JOB bagmitra_api.feed.alert_job >> /var/log/bagmitra-feed-alerts.log 2>&1"
+# News headlines (govt-feed.md §9): every 6 h at 01:23, 07:23, 13:23, 19:23 UTC; on with
+# CRON_FEED_NEWS=on (only after the source terms are recorded).
+FEED_NEWS_CRON_LINE="23 1,7,13,19 * * * $JOB bagmitra_api.feed.news_job >> /var/log/bagmitra-feed-news.log 2>&1"
+# Nightly KB re-gate (kb/regate.py): 20:50 UTC (02:20 IST); on with CRON_KB_REGATE=on.
+KB_REGATE_CRON_LINE="50 20 * * * $JOB bagmitra_api.kb.regate >> /var/log/bagmitra-kb-regate.log 2>&1"
 REQUIRED=(API_DOMAIN DATABASE_URL ENTITLEMENT_SIGNING_KEY)
 
 say() { printf '\n== %s\n' "$*"; }
@@ -126,10 +142,41 @@ add_cron_line() { # marker, line, label: adds the line once
   fi
 }
 
+remove_cron_line() { # marker, label: removes the line if it is there
+  if crontab -l 2> /dev/null | grep -Fq "$1"; then
+    { crontab -l 2> /dev/null | grep -Fv "$1" || true; } | crontab -
+    echo "$2 cron line removed (switched off in .env)"
+  fi
+}
+
+switch_on() { # true when the .env value of KEY is on / true / yes / 1 (value never printed)
+  case "$(env_value "$1" | tr '[:upper:]' '[:lower:]')" in
+    on | true | yes | 1) return 0 ;;
+    *) return 1 ;;
+  esac
+}
+
+cron_job_if() { # condition (0 = on), marker, line, label
+  if [[ "$1" == 0 ]]; then
+    add_cron_line "$2" "$3" "$4"
+  else
+    remove_cron_line "$2" "$4"
+  fi
+}
+
 install_cron() {
-  command -v crontab > /dev/null || { echo "note: crontab not found, add the weather and backup lines by hand (runbook 6a, 7)"; return; }
+  command -v crontab > /dev/null || { echo "note: crontab not found, add the cron lines by hand (runbook 6a, 7)"; return; }
   add_cron_line "bagmitra_api.weather.pull_job" "$CRON_LINE" "weather (daily 00:00 UTC = 05:30 IST)"
   add_cron_line "deploy/backup.sh" "$BACKUP_CRON_LINE" "backup (nightly 21:40 UTC = 03:10 IST)"
+  local on
+  on=1; [[ -n "$(env_value MARKET_API_KEY)" ]] && on=0
+  cron_job_if "$on" "bagmitra_api.market.pull_job" "$MARKET_CRON_LINE" "market prices (every 6 h)"
+  on=1; switch_on CRON_FEED_ALERTS && on=0
+  cron_job_if "$on" "bagmitra_api.feed.alert_job" "$FEED_ALERTS_CRON_LINE" "feed reminders (03:17, 11:17 UTC)"
+  on=1; switch_on CRON_FEED_NEWS && on=0
+  cron_job_if "$on" "bagmitra_api.feed.news_job" "$FEED_NEWS_CRON_LINE" "feed news (every 6 h)"
+  on=1; switch_on CRON_KB_REGATE && on=0
+  cron_job_if "$on" "bagmitra_api.kb.regate" "$KB_REGATE_CRON_LINE" "KB re-gate (nightly 20:50 UTC)"
 }
 
 # Admin web (OPS-02, runbook docs/runbooks/admin-web.md): the "Admin web" workflow pushes each
@@ -169,4 +216,7 @@ main() {
   say "Done. Check the app, then: bash deploy/deploy.sh status"
 }
 
-main "$@"
+# Run only when executed (tests source this file to call install_cron with a fake crontab).
+if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
+  main "$@"
+fi
