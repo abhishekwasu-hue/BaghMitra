@@ -47,6 +47,7 @@ import '../features/tasks/presentation/add_task_screen.dart';
 import '../features/tasks/presentation/tasks_screen.dart';
 import '../features/walkthrough/presentation/walkthrough_screen.dart';
 import '../sync/account_guard.dart';
+import 'app_shell.dart';
 
 class _AuthListenable extends ChangeNotifier {
   _AuthListenable(Stream<AuthSession?> sessions) {
@@ -80,6 +81,10 @@ abstract final class Routes {
   static const feedSettings = '/feed-settings';
   static const feedCheck = '/feed-check';
   static const practices = '/practices';
+
+  /// The विचारा tab: the practices guide inside the tab shell. Tabs ([home], [plots],
+  /// [ask]) are opened with `go`, never pushed.
+  static const ask = '/ask';
   static const irrigation = '/irrigation';
   static const lookalikes = '/lookalikes';
   static String lookalikesFor(String? plotId) =>
@@ -184,7 +189,39 @@ GoRouter buildRouter(
       return null;
     },
     routes: [
-      GoRoute(path: Routes.home, builder: (_, _) => const HomeScreen()),
+      // The three tabs of the bottom bar (audit M3); every other page opens above them.
+      StatefulShellRoute.indexedStack(
+        builder: (_, _, shell) => AppShell(shell: shell),
+        branches: [
+          StatefulShellBranch(
+            routes: [
+              GoRoute(path: Routes.home, builder: (_, _) => const HomeScreen()),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: Routes.plots,
+                builder: (_, _) => const PlotsScreen(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: Routes.ask,
+                builder: (_, _) => const PracticesScreen(),
+              ),
+            ],
+          ),
+        ],
+      ),
+      // The same guide opened from a page (a block, a scouting record): above the tabs,
+      // with a back arrow to that page. A tab route cannot be pushed on top of the shell.
+      GoRoute(
+        path: Routes.practices,
+        builder: (_, _) => const PracticesScreen(),
+      ),
       GoRoute(
         path: Routes.walkthrough,
         builder: (_, _) => const WalkthroughScreen(),
@@ -218,11 +255,6 @@ GoRouter buildRouter(
       ),
       GoRoute(path: Routes.tasks, builder: (_, _) => const TasksScreen()),
       GoRoute(path: Routes.addTask, builder: (_, _) => const AddTaskScreen()),
-      GoRoute(path: Routes.plots, builder: (_, _) => const PlotsScreen()),
-      GoRoute(
-        path: Routes.practices,
-        builder: (_, _) => const PracticesScreen(),
-      ),
       GoRoute(
         path: Routes.irrigation,
         builder: (_, _) => const IrrigationGuideScreen(),

@@ -8,7 +8,6 @@ import '../../../core/formatting.dart';
 import '../../../design_system/alert_banner.dart';
 import '../../../design_system/cards.dart';
 import '../../../design_system/glyphs.dart';
-import '../../../design_system/navigation.dart';
 import '../../../design_system/price_card.dart';
 import '../../../design_system/stage_timeline.dart';
 import '../../../design_system/task_tile.dart';
@@ -31,8 +30,6 @@ class HomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final lang = Localizations.localeOf(context).languageCode;
     final snapshot = ref.watch(homeSnapshotProvider(lang));
-    final config = ref.watch(appConfigProvider);
-    final plots = ref.watch(plotsProvider).value ?? const <Plot>[];
     final t = AppLocalizations.of(context);
     return Scaffold(
       body: switch (snapshot) {
@@ -43,29 +40,6 @@ class HomeScreen extends ConsumerWidget {
         AsyncError() => Center(child: Text(t.syncFailed)),
         _ => const Center(child: CircularProgressIndicator()),
       },
-      bottomNavigationBar: BmBottomBar(
-        items: [
-          BmNavItem(BmGlyph.home, t.navHome),
-          BmNavItem(BmGlyph.orchard, t.navOrchard),
-          BmNavItem(BmGlyph.ledger, t.navAccounts),
-          BmNavItem(BmGlyph.mic, t.navAsk),
-        ],
-        selected: 0,
-        onSelect: (i) => switch (i) {
-          1 => context.push(Routes.plots),
-          2 => openForPlot(context, plots, Routes.accounts),
-          // "Ask": the practices guide, grouped by problem, with its links to the
-          // look-alike symptoms and the labs (the app has no question flow).
-          3 => context.push(Routes.practices),
-          _ => null,
-        },
-        cameraLabel: t.takePhoto,
-        // A scouting record with a photo, for the grower's block.
-        onCamera: () => openForPlot(context, plots, Routes.addScouting),
-        onCameraLongPress: config.devGallery
-            ? () => context.push(Routes.gallery)
-            : null,
-      ),
     );
   }
 }
