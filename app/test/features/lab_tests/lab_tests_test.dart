@@ -264,6 +264,27 @@ void main() {
     await unmountApp(tester);
   });
 
+  testWidgets(
+    'in Marathi the typed values show Marathi digits, stored as typed',
+    (tester) async {
+      final db = await pumpApp(
+        tester,
+        initialLocation: '/plots/p1/lab-tests/l1',
+        seed: seedLabTest,
+        overrides: fakeFiles(FakeReportFiles()),
+      );
+      await settle(tester);
+      expect(find.text('०.४२ dS/m'), findsOne);
+      expect(find.text('<०.५ %'), findsOne);
+      expect(find.text('७.९'), findsOne);
+      final stored = await tester.runAsync(
+        () => LabTestRepository(db).find('l1'),
+      );
+      expect(stored!.readings[1].value, '0.42');
+      await unmountApp(tester);
+    },
+  );
+
   testWidgets('grower records a test from suggestions, report and reminder', (
     tester,
   ) async {

@@ -279,8 +279,20 @@ class _ClaimKitScreenState extends ConsumerState<ClaimKitScreen> {
                   ),
                   const SizedBox(width: BmSpace.sm),
                   Expanded(
+                    // On screen: the grower's own date format and a location mark; the
+                    // fixed Latin stamp with coordinates goes into the PDF only.
                     child: Text(
-                      p.stamp(noGps: t.claimKitNoGps),
+                      [
+                        formatDateTime(p.takenAt.toLocal(), lang),
+                        if (!p.hasPosition)
+                          t.claimKitNoGps
+                        else if (p.accuracyM case final m?)
+                          '${t.claimKitGpsOk} '
+                              '(${t.boundaryAccuracy(formatDecimal(m.roundToDouble(), lang))})'
+                        else
+                          t.claimKitGpsOk,
+                      ].join(' · '),
+                      key: Key('claim-photo-stamp-${p.id}'),
                       style: BmType.meta,
                     ),
                   ),

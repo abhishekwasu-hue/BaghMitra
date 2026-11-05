@@ -4617,6 +4617,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'My account'**
   String get moreSectionAccount;
+
+  /// No description provided for @plotTileBahar.
+  ///
+  /// In en, this message translates to:
+  /// **'Bahar'**
+  String get plotTileBahar;
+
+  /// No description provided for @baharRecordsMenu.
+  ///
+  /// In en, this message translates to:
+  /// **'Records'**
+  String get baharRecordsMenu;
+
+  /// No description provided for @tasksDoneShow.
+  ///
+  /// In en, this message translates to:
+  /// **'Show ({count})'**
+  String tasksDoneShow(String count);
+
+  /// No description provided for @tasksDoneHide.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide'**
+  String get tasksDoneHide;
+
+  /// No description provided for @tasksDoneLatest.
+  ///
+  /// In en, this message translates to:
+  /// **'Showing the latest {count}'**
+  String tasksDoneLatest(String count);
+
+  /// No description provided for @requiredPlotName.
+  ///
+  /// In en, this message translates to:
+  /// **'Write the block name'**
+  String get requiredPlotName;
+
+  /// No description provided for @requiredTaskTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Write what needs doing'**
+  String get requiredTaskTitle;
+
+  /// No description provided for @requiredWorker.
+  ///
+  /// In en, this message translates to:
+  /// **'Write the worker\'s name'**
+  String get requiredWorker;
+
+  /// No description provided for @requiredSprayProduct.
+  ///
+  /// In en, this message translates to:
+  /// **'Write the product name'**
+  String get requiredSprayProduct;
+
+  /// No description provided for @requiredInputProduct.
+  ///
+  /// In en, this message translates to:
+  /// **'Write the product name'**
+  String get requiredInputProduct;
+
+  /// No description provided for @requiredBuyer.
+  ///
+  /// In en, this message translates to:
+  /// **'Write the buyer\'s name'**
+  String get requiredBuyer;
+
+  /// No description provided for @claimKitGpsOk.
+  ///
+  /// In en, this message translates to:
+  /// **'Location added'**
+  String get claimKitGpsOk;
 }
 
 class _AppLocalizationsDelegate

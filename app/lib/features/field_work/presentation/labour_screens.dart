@@ -49,87 +49,92 @@ class LabourScreen extends ConsumerWidget {
           ? LoadingState(label: t.loadingLabel)
           : days.isEmpty
           ? EmptyState(glyph: BmGlyph.ledger, message: t.labourEmpty)
-          : ListView(
+          : ListView.builder(
               padding: const EdgeInsets.fromLTRB(
                 BmSpace.lg,
                 0,
                 BmSpace.lg,
                 120,
               ),
-              children: [
-                BmCard(
-                  elevated: false,
-                  radius: BmRadius.card,
-                  padding: const EdgeInsets.all(BmSpace.md),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Text(t.labourTotalDue, style: BmType.body),
-                      ),
-                      Text(
-                        t.labourDue(formatPaise(totalDue, lang)),
-                        style: BmType.section.copyWith(
-                          color: totalDue > 0 ? c.danger : c.brand,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: BmSpace.sm),
-                for (final d in days)
-                  ListTile(
-                    contentPadding: EdgeInsets.zero,
-                    title: Text(
-                      [
-                        d.workerName,
-                        if (d.task != null) taskLabel(d.task),
-                      ].join(' · '),
-                      style: BmType.body,
-                    ),
-                    subtitle: Text(
-                      [
-                        formatDate(d.workedOn, lang),
-                        if (d.settled)
-                          t.labourSettled
-                        else if (d.duePaise > 0)
-                          t.labourDue(formatPaise(d.duePaise, lang)),
-                      ].join(' · '),
-                    ),
-                    trailing: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(
-                          formatPaise(d.wagePaise, lang),
-                          style: BmType.bodyStrong,
-                        ),
-                        if (!d.settled && d.duePaise > 0)
-                          GestureDetector(
-                            onTap: () => ref
-                                .read(fieldWorkRepositoryProvider)
-                                .saveLabour(
-                                  LabourRecord(
-                                    id: d.id,
-                                    plotId: d.plotId,
-                                    baharCycleId: d.baharCycleId,
-                                    workerName: d.workerName,
-                                    workedOn: d.workedOn,
-                                    task: d.task,
-                                    wagePaise: d.wagePaise,
-                                    advancePaise: d.advancePaise,
-                                    settledOn: _today(ref),
-                                    note: d.note,
-                                  ),
-                                ),
-                            child: Text(
-                              t.labourMarkPaid,
-                              style: BmType.label.copyWith(color: c.brand),
+              itemCount: days.length + 1,
+              itemBuilder: (context, i) {
+                if (i == 0) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: BmSpace.sm),
+                    child: BmCard(
+                      elevated: false,
+                      radius: BmRadius.card,
+                      padding: const EdgeInsets.all(BmSpace.md),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text(t.labourTotalDue, style: BmType.body),
+                          ),
+                          Text(
+                            t.labourDue(formatPaise(totalDue, lang)),
+                            style: BmType.section.copyWith(
+                              color: totalDue > 0 ? c.danger : c.brand,
                             ),
                           ),
-                      ],
+                        ],
+                      ),
                     ),
+                  );
+                }
+                final d = days[i - 1];
+                return ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  title: Text(
+                    [
+                      d.workerName,
+                      if (d.task != null) taskLabel(d.task),
+                    ].join(' · '),
+                    style: BmType.body,
                   ),
-              ],
+                  subtitle: Text(
+                    [
+                      formatDate(d.workedOn, lang),
+                      if (d.settled)
+                        t.labourSettled
+                      else if (d.duePaise > 0)
+                        t.labourDue(formatPaise(d.duePaise, lang)),
+                    ].join(' · '),
+                  ),
+                  trailing: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        formatPaise(d.wagePaise, lang),
+                        style: BmType.bodyStrong,
+                      ),
+                      if (!d.settled && d.duePaise > 0)
+                        GestureDetector(
+                          onTap: () => ref
+                              .read(fieldWorkRepositoryProvider)
+                              .saveLabour(
+                                LabourRecord(
+                                  id: d.id,
+                                  plotId: d.plotId,
+                                  baharCycleId: d.baharCycleId,
+                                  workerName: d.workerName,
+                                  workedOn: d.workedOn,
+                                  task: d.task,
+                                  wagePaise: d.wagePaise,
+                                  advancePaise: d.advancePaise,
+                                  settledOn: _today(ref),
+                                  note: d.note,
+                                ),
+                              ),
+                          child: Text(
+                            t.labourMarkPaid,
+                            style: BmType.label.copyWith(color: c.brand),
+                          ),
+                        ),
+                    ],
+                  ),
+                );
+              },
             ),
       bottomNavigationBar: BottomActions(
         children: [
@@ -220,7 +225,7 @@ class _AddLabourScreenState extends ConsumerState<AddLabourScreen> {
                 ),
               ),
               validator: (v) =>
-                  (v ?? '').trim().isEmpty ? t.fieldRequired : null,
+                  (v ?? '').trim().isEmpty ? t.requiredWorker : null,
             ),
             const SizedBox(height: BmSpace.md),
             Text(t.labourTask, style: BmType.formLabel.copyWith(color: c.ink)),

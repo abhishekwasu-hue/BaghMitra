@@ -167,10 +167,12 @@ void main() {
     );
     await tester.pump();
     final text = sharer.shared.single;
-    expect(text, startsWith('Warud: '));
+    // Mandi and state names in Marathi; the published numbers unchanged.
+    expect(text, startsWith('वरूड: '));
     expect(text, contains('प्रति क्विंटल'));
     expect(text, contains('स्रोत: agmarknet'));
-    expect(text, contains('Maharashtra · '));
+    expect(text, contains('महाराष्ट्र · '));
+    expect(text, contains('नागपुरी'));
     expect(voice.spoken.single.$2, 'mr_IN');
     await unmountApp(tester);
   });

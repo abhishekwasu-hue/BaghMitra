@@ -41,62 +41,62 @@ class SprayLogScreen extends ConsumerWidget {
           ? LoadingState(label: t.loadingLabel)
           : sprays.isEmpty
           ? EmptyState(glyph: BmGlyph.spray, message: t.spraysEmpty)
-          : ListView(
+          : ListView.builder(
               padding: const EdgeInsets.fromLTRB(
                 BmSpace.lg,
                 0,
                 BmSpace.lg,
                 120,
               ),
-              children: [
-                for (final s in sprays)
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: BmSpace.sm),
-                    child: BmCard(
-                      elevated: false,
-                      radius: BmRadius.card,
-                      padding: const EdgeInsets.all(BmSpace.md),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            s.productName,
-                            style: BmType.section.copyWith(color: c.ink),
-                          ),
-                          Text(
-                            [
-                              formatDate(s.sprayedOn, lang),
-                              if (s.target != null) s.target!,
-                              if (s.costPaise > 0)
-                                formatPaise(s.costPaise, lang),
-                            ].join(' · '),
-                            style: BmType.meta.copyWith(color: c.inkMuted),
-                          ),
-                          for (final w in checkSpray(
-                            activeIngredient: s.activeIngredient,
-                            sprayedOn: s.sprayedOn,
-                            phiDays: s.phiDays,
-                            plannedHarvest: cycles
-                                .where((cy) => cy.id == s.baharCycleId)
-                                .firstOrNull
-                                ?.planned['harvest'],
-                            crop: crop,
-                            rules: rules,
-                          ))
-                            Padding(
-                              padding: const EdgeInsets.only(top: BmSpace.xs),
-                              child: Text(
-                                warningText(t, w, lang).$1,
-                                style: BmType.bodyStrong.copyWith(
-                                  color: c.danger,
-                                ),
+              itemCount: sprays.length,
+              itemBuilder: (context, i) {
+                final s = sprays[i];
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: BmSpace.sm),
+                  child: BmCard(
+                    elevated: false,
+                    radius: BmRadius.card,
+                    padding: const EdgeInsets.all(BmSpace.md),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          s.productName,
+                          style: BmType.section.copyWith(color: c.ink),
+                        ),
+                        Text(
+                          [
+                            formatDate(s.sprayedOn, lang),
+                            if (s.target != null) s.target!,
+                            if (s.costPaise > 0) formatPaise(s.costPaise, lang),
+                          ].join(' · '),
+                          style: BmType.meta.copyWith(color: c.inkMuted),
+                        ),
+                        for (final w in checkSpray(
+                          activeIngredient: s.activeIngredient,
+                          sprayedOn: s.sprayedOn,
+                          phiDays: s.phiDays,
+                          plannedHarvest: cycles
+                              .where((cy) => cy.id == s.baharCycleId)
+                              .firstOrNull
+                              ?.planned['harvest'],
+                          crop: crop,
+                          rules: rules,
+                        ))
+                          Padding(
+                            padding: const EdgeInsets.only(top: BmSpace.xs),
+                            child: Text(
+                              warningText(t, w, lang).$1,
+                              style: BmType.bodyStrong.copyWith(
+                                color: c.danger,
                               ),
                             ),
-                        ],
-                      ),
+                          ),
+                      ],
                     ),
                   ),
-              ],
+                );
+              },
             ),
       bottomNavigationBar: BottomActions(
         stacked: true,

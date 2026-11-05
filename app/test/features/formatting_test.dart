@@ -29,4 +29,18 @@ void main() {
     expect(formatYear(2027, 'en'), '2027');
     expect(formatYear(2027, 'mr'), '२०२७');
   });
+
+  test('typed text takes the locale digits, nothing else changes', () {
+    expect(localDigits('0.42 dS/m', 'mr'), '०.४२ dS/m');
+    expect(localDigits('<0.5', 'mr'), '<०.५');
+    expect(localDigits('7.9', 'en'), '7.9');
+    // Hindi numbers in the app use Latin digits (formatInt), so typed text does too.
+    expect(localDigits('7.9', 'hi'), '7.9');
+  });
+
+  test('coordinates keep five decimals in locale digits', () {
+    expect(formatCoordinate(21.2305, 'en'), '21.23050');
+    expect(formatCoordinate(79.0882, 'mr'), '७९.०८८२०');
+    expect(formatCoordinate(-0.5, 'en'), '-0.50000');
+  });
 }

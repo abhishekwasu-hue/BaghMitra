@@ -751,5 +751,17 @@
   "moreSectionHelp": "जानकारी और मदद",
   "moreSectionMarket": "मंडी",
   "moreSectionGovt": "सरकारी मदद",
-  "moreSectionAccount": "मेरा खाता"
+  "moreSectionAccount": "मेरा खाता",
+  "plotTileBahar": "बहार",
+  "baharRecordsMenu": "रिकॉर्ड",
+  "tasksDoneShow": "दिखाएँ ({count})",
+  "tasksDoneHide": "छिपाएँ",
+  "tasksDoneLatest": "आख़िरी {count} दिखा रहे हैं",
+  "requiredPlotName": "बाग का नाम लिखें",
+  "requiredTaskTitle": "क्या करना है, लिखें",
+  "requiredWorker": "मज़दूर का नाम लिखें",
+  "requiredSprayProduct": "दवा का नाम लिखें",
+  "requiredInputProduct": "उत्पाद का नाम लिखें",
+  "requiredBuyer": "व्यापारी का नाम लिखें",
+  "claimKitGpsOk": "जगह जुड़ी"
 }

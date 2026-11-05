@@ -94,6 +94,52 @@ class _AccountsScreenState extends ConsumerState<AccountsScreen> {
             i,
           ),
     ]..sort((a, b) => b.$1.compareTo(a.$1));
+    // What sits above the entries; the entries themselves are built as they scroll in.
+    final head = <Widget>[
+      Wrap(
+        spacing: BmSpace.xs,
+        children: [
+          ChoiceChip(
+            label: Text(t.allBahars),
+            selected: _cycle == null,
+            onSelected: (_) => setState(() => _cycle = null),
+          ),
+          for (final cy in cycles)
+            ChoiceChip(
+              label: Text(
+                '${bahars?.baharLabel(cy.bahar, lang) ?? cy.bahar} '
+                '${formatYear(cy.seasonYear, lang)}',
+              ),
+              selected: _cycle == cy.id,
+              onSelected: (_) => setState(() => _cycle = cy.id),
+            ),
+        ],
+      ),
+      const SizedBox(height: BmSpace.sm),
+      BmCard(
+        elevated: false,
+        radius: BmRadius.card,
+        padding: const EdgeInsets.all(BmSpace.md),
+        child: Column(
+          children: [
+            row(t.accountsExpenses, money(s.expensePaise)),
+            row(t.accountsIncome, money(s.netIncomePaise)),
+            row(
+              t.accountsProfit,
+              money(s.profitPaise),
+              color: s.profitPaise < 0 ? c.danger : c.brand,
+            ),
+            row(t.accountsDues, money(s.duesPaise)),
+            Divider(color: c.line),
+            row(t.costPerAcre, money(s.costPerAcrePaise)),
+            row(t.costPerTree, money(s.costPerTreePaise)),
+            row(t.costPerTonne, money(s.costPerTonnePaise)),
+          ],
+        ),
+      ),
+      const SizedBox(height: BmSpace.sm),
+      if (inScope.isEmpty) EmptyNote(t.accountsEmpty),
+    ];
     return Scaffold(
       appBar: AppBar(
         title: Text('${t.accountsTitle} · ${plot?.name ?? ''}'),
@@ -115,71 +161,30 @@ class _AccountsScreenState extends ConsumerState<AccountsScreen> {
           ),
         ],
       ),
-      body: ListView(
+      body: ListView.builder(
         padding: const EdgeInsets.fromLTRB(BmSpace.lg, 0, BmSpace.lg, 120),
-        children: [
-          Wrap(
-            spacing: BmSpace.xs,
-            children: [
-              ChoiceChip(
-                label: Text(t.allBahars),
-                selected: _cycle == null,
-                onSelected: (_) => setState(() => _cycle = null),
-              ),
-              for (final cy in cycles)
-                ChoiceChip(
-                  label: Text(
-                    '${bahars?.baharLabel(cy.bahar, lang) ?? cy.bahar} '
-                    '${formatYear(cy.seasonYear, lang)}',
-                  ),
-                  selected: _cycle == cy.id,
-                  onSelected: (_) => setState(() => _cycle = cy.id),
-                ),
-            ],
-          ),
-          const SizedBox(height: BmSpace.sm),
-          BmCard(
-            elevated: false,
-            radius: BmRadius.card,
-            padding: const EdgeInsets.all(BmSpace.md),
-            child: Column(
+        itemCount: head.length + inScope.length,
+        itemBuilder: (context, i) {
+          if (i < head.length) return head[i];
+          final (date, label, amount, sale) = inScope[i - head.length];
+          return ListTile(
+            contentPadding: EdgeInsets.zero,
+            title: Text(label, style: BmType.body),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                row(t.accountsExpenses, money(s.expensePaise)),
-                row(t.accountsIncome, money(s.netIncomePaise)),
-                row(
-                  t.accountsProfit,
-                  money(s.profitPaise),
-                  color: s.profitPaise < 0 ? c.danger : c.brand,
-                ),
-                row(t.accountsDues, money(s.duesPaise)),
-                Divider(color: c.line),
-                row(t.costPerAcre, money(s.costPerAcrePaise)),
-                row(t.costPerTree, money(s.costPerTreePaise)),
-                row(t.costPerTonne, money(s.costPerTonnePaise)),
+                Text(formatDate(date, lang)),
+                if (sale != null && plot != null)
+                  FairPriceNote(
+                    crop: plot.crop,
+                    soldOn: sale.soldOn,
+                    ratePaisePerQuintal: sale.ratePaisePerQuintal,
+                  ),
               ],
             ),
-          ),
-          const SizedBox(height: BmSpace.sm),
-          if (inScope.isEmpty) EmptyNote(t.accountsEmpty),
-          for (final (date, label, amount, sale) in inScope)
-            ListTile(
-              contentPadding: EdgeInsets.zero,
-              title: Text(label, style: BmType.body),
-              subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(formatDate(date, lang)),
-                  if (sale != null && plot != null)
-                    FairPriceNote(
-                      crop: plot.crop,
-                      soldOn: sale.soldOn,
-                      ratePaisePerQuintal: sale.ratePaisePerQuintal,
-                    ),
-                ],
-              ),
-              trailing: Text(amount, style: BmType.bodyStrong),
-            ),
-        ],
+            trailing: Text(amount, style: BmType.bodyStrong),
+          );
+        },
       ),
       bottomNavigationBar: BottomActions(
         children: [

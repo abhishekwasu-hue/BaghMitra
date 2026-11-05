@@ -189,7 +189,7 @@ void main() {
       seed: seedPlot,
     );
     await settle(tester);
-    await tester.tap(find.byTooltip('More'));
+    await tester.tap(find.text('Records'));
     await settle(tester);
     await tester.tap(find.text('Harvest'));
     await settle(tester);

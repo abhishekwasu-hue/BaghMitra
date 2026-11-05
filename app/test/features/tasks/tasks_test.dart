@@ -10,6 +10,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import '../../helpers/pump_app.dart';
 import '../../helpers/test_db.dart';
+import '../plots/plots_screen_test.dart' show settle;
 
 // pumpApp's clock is 2026-10-13 06:00 UTC.
 FarmTask task(
@@ -128,6 +129,11 @@ void main() {
     await tester.tap(find.byType(Checkbox));
     await tester.pumpAndSettle();
     expect(find.text('Done'), findsOneWidget);
+    // Finished tasks are folded until the grower opens them.
+    expect(find.text('Check drip'), findsNothing);
+    await tester.tap(find.text('Show (1)'));
+    await tester.pumpAndSettle();
+    expect(find.text('Check drip'), findsOneWidget);
 
     await tester.drag(find.text('Check drip'), const Offset(-600, 0));
     await tester.pumpAndSettle();
@@ -173,4 +179,57 @@ void main() {
       await unmountApp(tester);
     },
   );
+
+  testWidgets('done tasks fold, open to the latest 30 and fold again', (
+    tester,
+  ) async {
+    await pumpApp(
+      tester,
+      locale: const Locale('en'),
+      initialLocation: '/tasks',
+      seed: (db) async {
+        final repo = TasksRepository(
+          db,
+          clock: () => DateTime.utc(2026, 10, 13, 6),
+        );
+        await repo.save(task('open', DateTime(2026, 10, 20)));
+        for (var i = 0; i < 32; i++) {
+          await repo.save(
+            task(
+              'd$i',
+              DateTime(2026, 9, 1 + i ~/ 2),
+              done: DateTime(2026, 9).add(Duration(days: i)),
+            ),
+          );
+        }
+      },
+    );
+    await settle(tester);
+    expect(find.text('Task open'), findsOneWidget);
+    expect(find.text('Show (32)'), findsOneWidget);
+    expect(find.textContaining('Task d'), findsNothing);
+
+    await tester.tap(find.byKey(const Key('tasks-done-toggle')));
+    await settle(tester);
+    // Newest first: the last one finished leads the group.
+    expect(find.text('Task d31'), findsOneWidget);
+    await tester.scrollUntilVisible(
+      find.text('Showing the latest 30'),
+      300,
+      scrollable: find.byType(Scrollable).first,
+    );
+    expect(find.text('Task d2'), findsOneWidget);
+    expect(find.text('Task d1'), findsNothing);
+    expect(find.text('Task d0'), findsNothing);
+
+    await tester.scrollUntilVisible(
+      find.text('Hide'),
+      -300,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.tap(find.text('Hide'));
+    await settle(tester);
+    expect(find.textContaining('Task d'), findsNothing);
+    await unmountApp(tester);
+  });
 }

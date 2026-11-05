@@ -2650,4 +2650,44 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get moreSectionAccount => 'My account';
+
+  @override
+  String get plotTileBahar => 'Bahar';
+
+  @override
+  String get baharRecordsMenu => 'Records';
+
+  @override
+  String tasksDoneShow(String count) {
+    return 'Show ($count)';
+  }
+
+  @override
+  String get tasksDoneHide => 'Hide';
+
+  @override
+  String tasksDoneLatest(String count) {
+    return 'Showing the latest $count';
+  }
+
+  @override
+  String get requiredPlotName => 'Write the block name';
+
+  @override
+  String get requiredTaskTitle => 'Write what needs doing';
+
+  @override
+  String get requiredWorker => 'Write the worker\'s name';
+
+  @override
+  String get requiredSprayProduct => 'Write the product name';
+
+  @override
+  String get requiredInputProduct => 'Write the product name';
+
+  @override
+  String get requiredBuyer => 'Write the buyer\'s name';
+
+  @override
+  String get claimKitGpsOk => 'Location added';
 }

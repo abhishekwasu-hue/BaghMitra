@@ -100,4 +100,47 @@ void main() {
       await unmountApp(tester);
     },
   );
+
+  testWidgets('one labelled tile per record book, each opening its screen', (
+    tester,
+  ) async {
+    for (final (key, title) in [
+      ('open-sprays', 'Spray log · Shindi block'),
+      ('open-field-log', 'Field log · Shindi block'),
+      ('open-accounts', 'Accounts · Shindi block'),
+      ('open-labour', 'Labour'),
+      ('open-harvest', 'Harvest'),
+    ]) {
+      await pumpApp(
+        tester,
+        locale: const Locale('en'),
+        initialLocation: '/plots/p1',
+        seed: seed,
+      );
+      await settle(tester);
+      // Edit is only in the app bar now; the bottom duplicate is gone.
+      expect(find.text('Edit block'), findsNothing);
+      expect(find.byKey(const Key('edit-plot')), findsOneWidget);
+      await tester.ensureVisible(find.byKey(Key(key)));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(Key(key)));
+      await settle(tester);
+      expect(
+        find.descendant(of: find.byType(AppBar), matching: find.text(title)),
+        findsOneWidget,
+        reason: key,
+      );
+      await unmountApp(tester);
+    }
+  });
+
+  testWidgets('in Marathi the location reads in Marathi digits', (
+    tester,
+  ) async {
+    await pumpApp(tester, initialLocation: '/plots/p1', seed: seed);
+    await settle(tester);
+    expect(find.text('२१.२३०५०, ७७.७५०६०'), findsOneWidget);
+    expect(find.text('बहार'), findsOneWidget);
+    await unmountApp(tester);
+  });
 }

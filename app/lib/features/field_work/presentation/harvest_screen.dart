@@ -35,44 +35,49 @@ class HarvestScreen extends ConsumerWidget {
           ? LoadingState(label: t.loadingLabel)
           : lots.isEmpty
           ? EmptyState(glyph: BmGlyph.orange, message: t.harvestEmpty)
-          : ListView(
+          : ListView.builder(
               padding: const EdgeInsets.fromLTRB(
                 BmSpace.lg,
                 0,
                 BmSpace.lg,
                 120,
               ),
-              children: [
-                BmCard(
-                  elevated: false,
-                  radius: BmRadius.card,
-                  padding: const EdgeInsets.all(BmSpace.md),
-                  child: Text(
-                    t.harvestTotal(formatDecimal(total, lang)),
-                    style: BmType.section.copyWith(color: c.brand),
-                  ),
-                ),
-                const SizedBox(height: BmSpace.sm),
-                for (final l in lots)
-                  ListTile(
-                    contentPadding: EdgeInsets.zero,
-                    title: Text(
-                      [
-                        if (l.grade != null) name(opts?.grades, l.grade!),
-                        if (l.sizeClass != null)
-                          name(opts?.sizeClasses, l.sizeClass!),
-                        if (l.grade == null && l.sizeClass == null)
-                          t.harvestTitle,
-                      ].join(' · '),
-                      style: BmType.body,
+              itemCount: lots.length + 1,
+              itemBuilder: (context, i) {
+                if (i == 0) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: BmSpace.sm),
+                    child: BmCard(
+                      elevated: false,
+                      radius: BmRadius.card,
+                      padding: const EdgeInsets.all(BmSpace.md),
+                      child: Text(
+                        t.harvestTotal(formatDecimal(total, lang)),
+                        style: BmType.section.copyWith(color: c.brand),
+                      ),
                     ),
-                    subtitle: Text(formatDate(l.harvestedOn, lang)),
-                    trailing: Text(
-                      t.harvestKgValue(formatDecimal(l.quantityKg, lang)),
-                      style: BmType.bodyStrong,
-                    ),
+                  );
+                }
+                final l = lots[i - 1];
+                return ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  title: Text(
+                    [
+                      if (l.grade != null) name(opts?.grades, l.grade!),
+                      if (l.sizeClass != null)
+                        name(opts?.sizeClasses, l.sizeClass!),
+                      if (l.grade == null && l.sizeClass == null)
+                        t.harvestTitle,
+                    ].join(' · '),
+                    style: BmType.body,
                   ),
-              ],
+                  subtitle: Text(formatDate(l.harvestedOn, lang)),
+                  trailing: Text(
+                    t.harvestKgValue(formatDecimal(l.quantityKg, lang)),
+                    style: BmType.bodyStrong,
+                  ),
+                );
+              },
             ),
       bottomNavigationBar: BottomActions(
         children: [

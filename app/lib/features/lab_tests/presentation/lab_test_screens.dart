@@ -52,7 +52,8 @@ String labTestShareText(
   if (test.reportedOn != null)
     t.labTestReportedLine(formatDate(test.reportedOn!, lang)),
   if (test.labName != null) t.labTestLabLine(test.labName!),
-  for (final r in test.readings) '${r.parameter}: ${r.valueWithUnit}',
+  for (final r in test.readings)
+    '${r.parameter}: ${localDigits(r.valueWithUnit, lang)}',
   if (test.note != null) test.note!,
   t.labTestAskExpert,
   shareFooter(t, productName),
@@ -331,7 +332,11 @@ class LabTestDetailScreen extends ConsumerWidget {
                 children: [
                   Expanded(child: Text(r.parameter, style: BmType.body)),
                   const SizedBox(width: BmSpace.sm),
-                  Text(r.valueWithUnit, style: BmType.bodyStrong),
+                  // Typed text, shown in the locale's digits like every other number.
+                  Text(
+                    localDigits(r.valueWithUnit, lang),
+                    style: BmType.bodyStrong,
+                  ),
                 ],
               ),
             ),

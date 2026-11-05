@@ -89,7 +89,7 @@ class _AddTaskScreenState extends ConsumerState<AddTaskScreen> {
                 ),
               ),
               validator: (v) =>
-                  (v ?? '').trim().isEmpty ? t.fieldRequired : null,
+                  (v ?? '').trim().isEmpty ? t.requiredTaskTitle : null,
             ),
             const SizedBox(height: BmSpace.md),
             Text(t.taskKind, style: BmType.formLabel.copyWith(color: c.ink)),

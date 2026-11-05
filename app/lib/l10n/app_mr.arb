@@ -751,5 +751,17 @@
   "moreSectionHelp": "माहिती व मदत",
   "moreSectionMarket": "बाजार",
   "moreSectionGovt": "सरकारी मदत",
-  "moreSectionAccount": "माझे खाते"
+  "moreSectionAccount": "माझे खाते",
+  "plotTileBahar": "बहार",
+  "baharRecordsMenu": "नोंदी",
+  "tasksDoneShow": "दाखवा ({count})",
+  "tasksDoneHide": "लपवा",
+  "tasksDoneLatest": "शेवटची {count} दाखवत आहोत",
+  "requiredPlotName": "बागेचे नाव लिहा",
+  "requiredTaskTitle": "काय करायचे ते लिहा",
+  "requiredWorker": "मजुराचे नाव लिहा",
+  "requiredSprayProduct": "औषधाचे नाव लिहा",
+  "requiredInputProduct": "उत्पादनाचे नाव लिहा",
+  "requiredBuyer": "व्यापाऱ्याचे नाव लिहा",
+  "claimKitGpsOk": "ठिकाण जोडले"
 }

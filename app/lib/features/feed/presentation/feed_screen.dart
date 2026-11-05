@@ -55,6 +55,34 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
       FeedFilter.news: t.feedFilterNews,
     };
 
+    // The filters and notes above the items; the items are built as they scroll in.
+    final head = <Widget>[
+      Wrap(
+        spacing: BmSpace.xs,
+        runSpacing: BmSpace.xs,
+        children: [
+          for (final MapEntry(key: f, value: label) in filters.entries)
+            ChoiceChip(
+              key: Key('feed-filter-${f?.value ?? 'all'}'),
+              label: Text(label),
+              selected: _filter == f,
+              onSelected: (_) => setState(() => _filter = f),
+            ),
+        ],
+      ),
+      const SizedBox(height: BmSpace.xs),
+      RefreshNote(
+        cacheKey: FeedCache.keyFor(lang),
+        updated: cached == null
+            ? null
+            : t.feedUpdated(formatDateTime(cached.savedAt.toLocal(), lang)),
+        onRetry: refresh,
+      ),
+      if (items.isEmpty)
+        loaded.isLoading && !loaded.hasValue
+            ? LoadingState(label: t.loadingLabel)
+            : EmptyNote(t.feedEmpty),
+    ];
     return Scaffold(
       appBar: AppBar(
         title: Text(t.feedTitle),
@@ -76,79 +104,54 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
       bottomNavigationBar: FeedFooter(serverFooter: cached?.page.footer),
       body: RefreshIndicator(
         onRefresh: refresh,
-        child: ListView(
+        child: ListView.builder(
           physics: const AlwaysScrollableScrollPhysics(),
           padding: const EdgeInsets.all(BmSpace.lg),
-          children: [
-            Wrap(
-              spacing: BmSpace.xs,
-              runSpacing: BmSpace.xs,
-              children: [
-                for (final MapEntry(key: f, value: label) in filters.entries)
-                  ChoiceChip(
-                    key: Key('feed-filter-${f?.value ?? 'all'}'),
-                    label: Text(label),
-                    selected: _filter == f,
-                    onSelected: (_) => setState(() => _filter = f),
+          itemCount: head.length + items.length,
+          itemBuilder: (context, i) {
+            if (i < head.length) return head[i];
+            final item = items[i - head.length];
+            return Padding(
+              padding: const EdgeInsets.only(top: BmSpace.sm),
+              child: InkWell(
+                key: Key('feed-item-${item.id}'),
+                borderRadius: BorderRadius.circular(BmRadius.tile),
+                onTap: () => context.push(Routes.feedItem(item.id)),
+                child: Ink(
+                  decoration: BoxDecoration(
+                    color: c.card,
+                    borderRadius: BorderRadius.circular(BmRadius.tile),
+                    border: Border.all(color: c.line),
                   ),
-              ],
-            ),
-            const SizedBox(height: BmSpace.xs),
-            RefreshNote(
-              cacheKey: FeedCache.keyFor(lang),
-              updated: cached == null
-                  ? null
-                  : t.feedUpdated(
-                      formatDateTime(cached.savedAt.toLocal(), lang),
-                    ),
-              onRetry: refresh,
-            ),
-            if (items.isEmpty)
-              loaded.isLoading && !loaded.hasValue
-                  ? LoadingState(label: t.loadingLabel)
-                  : EmptyNote(t.feedEmpty),
-            for (final item in items)
-              Padding(
-                padding: const EdgeInsets.only(top: BmSpace.sm),
-                child: InkWell(
-                  key: Key('feed-item-${item.id}'),
-                  borderRadius: BorderRadius.circular(BmRadius.tile),
-                  onTap: () => context.push(Routes.feedItem(item.id)),
-                  child: Ink(
-                    decoration: BoxDecoration(
-                      color: c.card,
-                      borderRadius: BorderRadius.circular(BmRadius.tile),
-                      border: Border.all(color: c.line),
-                    ),
-                    padding: const EdgeInsets.all(BmSpace.md),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: _ItemBody(item: item, now: now, lang: lang),
-                        ),
-                        if (!item.seen && !receipts.seen.contains(item.id))
-                          Padding(
-                            padding: const EdgeInsets.only(left: BmSpace.xs),
-                            child: Semantics(
-                              label: t.feedUnseen,
-                              child: Container(
-                                key: Key('feed-unseen-${item.id}'),
-                                width: 10,
-                                height: 10,
-                                decoration: BoxDecoration(
-                                  color: c.accent,
-                                  shape: BoxShape.circle,
-                                ),
+                  padding: const EdgeInsets.all(BmSpace.md),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: _ItemBody(item: item, now: now, lang: lang),
+                      ),
+                      if (!item.seen && !receipts.seen.contains(item.id))
+                        Padding(
+                          padding: const EdgeInsets.only(left: BmSpace.xs),
+                          child: Semantics(
+                            label: t.feedUnseen,
+                            child: Container(
+                              key: Key('feed-unseen-${item.id}'),
+                              width: 10,
+                              height: 10,
+                              decoration: BoxDecoration(
+                                color: c.accent,
+                                shape: BoxShape.circle,
                               ),
                             ),
                           ),
-                      ],
-                    ),
+                        ),
+                    ],
                   ),
                 ),
               ),
-          ],
+            );
+          },
         ),
       ),
     );

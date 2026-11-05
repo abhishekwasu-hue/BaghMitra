@@ -13,9 +13,11 @@ import '../../../sync/presentation/refresh_note.dart';
 import '../../../theme/app_theme.dart';
 import '../../voice/presentation/share_speak_buttons.dart';
 import '../data/market_prices_cache.dart';
+import '../domain/market_labels.dart';
 
 /// Mandi prices for the grower's crop, exactly as the API published them (never estimated),
-/// from the phone's cache so the list works offline.
+/// from the phone's cache so the list works offline. Mandi, state and variety names are
+/// shown in the grower's language where known ([marketLabel]), else as the source wrote them.
 class MarketPricesScreen extends ConsumerStatefulWidget {
   const MarketPricesScreen({super.key});
 
@@ -111,13 +113,17 @@ class _MarketPricesScreenState extends ConsumerState<MarketPricesScreen> {
                             spacing: BmSpace.xs,
                             crossAxisAlignment: WrapCrossAlignment.center,
                             children: [
-                              Text(p.market, style: BmType.bodyStrong),
+                              Text(
+                                marketLabel(p.market, lang),
+                                style: BmType.bodyStrong,
+                              ),
                               if (p.isLocal) _Tag(t.marketTagLocal),
                               if (p.isMajor) _Tag(t.marketTagMajor),
                             ],
                           ),
                           Text(
-                            '${p.state} · ${formatDate(p.day, lang)}',
+                            '${marketStateLabel(p.state, lang)} · '
+                            '${formatDate(p.day, lang)}',
                             style: BmType.meta,
                           ),
                           if (p.minRsPerQuintal != null ||
@@ -130,7 +136,12 @@ class _MarketPricesScreenState extends ConsumerState<MarketPricesScreen> {
                               style: BmType.meta,
                             ),
                           if (p.variety case final variety?)
-                            Text(t.marketVariety(variety), style: BmType.meta),
+                            Text(
+                              t.marketVariety(
+                                marketVarietyLabel(variety, lang),
+                              ),
+                              style: BmType.meta,
+                            ),
                         ],
                       ),
                     ),
@@ -202,11 +213,12 @@ String marketPriceShareText(
 ) {
   String rs(int? v) => v == null ? '–' : formatRupees(v, lang);
   return [
-    t.marketShareLine(p.market, rs(p.modalRsPerQuintal)),
+    t.marketShareLine(marketLabel(p.market, lang), rs(p.modalRsPerQuintal)),
     if (p.minRsPerQuintal != null || p.maxRsPerQuintal != null)
       t.marketRange(rs(p.minRsPerQuintal), rs(p.maxRsPerQuintal)),
-    if (p.variety case final variety?) t.marketVariety(variety),
-    '${p.state} · ${formatDate(p.day, lang)}',
+    if (p.variety case final variety?)
+      t.marketVariety(marketVarietyLabel(variety, lang)),
+    '${marketStateLabel(p.state, lang)} · ${formatDate(p.day, lang)}',
     t.shareSource(p.source),
     if (productName != null) shareFooter(t, productName),
   ].join('\n');
