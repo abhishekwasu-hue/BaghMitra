@@ -10,4 +10,4 @@ COPY alembic.ini ./
 COPY alembic ./alembic
 USER app
 EXPOSE 8000
-CMD ["uvicorn", "bagmitra_api.asgi:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "bagmitra_api.asgi:app", "--host", "0.0.0.0", "--port", "8000", "--no-access-log"]

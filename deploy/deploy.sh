@@ -7,8 +7,8 @@
 # then runs without its own Caddy and joins that shared network (docker-compose.shared-caddy.yml,
 # runbook "Sharing the server").
 # It checks .env, pulls the code, rebuilds and restarts the containers (migrations run on
-# start), waits until https://$API_DOMAIN/health/live answers, and adds the daily weather
-# cron line once. It never prints .env values.
+# start), waits until https://$API_DOMAIN/health/live answers, and adds the daily weather and
+# nightly backup cron lines once. It never prints .env values.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -16,6 +16,8 @@ DEPLOY="$ROOT/deploy"
 ENV_FILE="$DEPLOY/.env"
 PREVIOUS="$DEPLOY/.previous_commit"
 CRON_LINE="0 0 * * * cd $DEPLOY && docker compose exec -T api python -m bagmitra_api.weather.pull_job >> /var/log/bagmitra-weather-pull.log 2>&1"
+# Nightly database dump (OPS-06), 21:40 UTC = 03:10 IST, kept 14 days in /var/backups/bagmitra.
+BACKUP_CRON_LINE="40 21 * * * bash $DEPLOY/backup.sh >> /var/log/bagmitra-backup.log 2>&1"
 REQUIRED=(API_DOMAIN DATABASE_URL ENTITLEMENT_SIGNING_KEY)
 
 say() { printf '\n== %s\n' "$*"; }
@@ -115,14 +117,19 @@ wait_healthy() {
   fail "the API did not answer in 5 minutes (logs above). Go back with: bash deploy/deploy.sh --revert"
 }
 
-install_cron() {
-  command -v crontab > /dev/null || { echo "note: crontab not found, add the weather line by hand (runbook 6a)"; return; }
-  if crontab -l 2> /dev/null | grep -Fq "bagmitra_api.weather.pull_job"; then
-    echo "weather cron line already present"
+add_cron_line() { # marker, line, label: adds the line once
+  if crontab -l 2> /dev/null | grep -Fq "$1"; then
+    echo "$3 cron line already present"
   else
-    (crontab -l 2> /dev/null || true; echo "$CRON_LINE") | crontab -
-    echo "weather cron line added (daily 00:00 UTC = 05:30 IST)"
+    (crontab -l 2> /dev/null || true; echo "$2") | crontab -
+    echo "$3 cron line added"
   fi
+}
+
+install_cron() {
+  command -v crontab > /dev/null || { echo "note: crontab not found, add the weather and backup lines by hand (runbook 6a, 7)"; return; }
+  add_cron_line "bagmitra_api.weather.pull_job" "$CRON_LINE" "weather (daily 00:00 UTC = 05:30 IST)"
+  add_cron_line "deploy/backup.sh" "$BACKUP_CRON_LINE" "backup (nightly 21:40 UTC = 03:10 IST)"
 }
 
 main() {

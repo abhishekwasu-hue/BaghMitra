@@ -1041,6 +1041,34 @@ class AppLocalizationsEn extends AppLocalizations {
       'Your records stay on this phone. Sign in again to see them.';
 
   @override
+  String get profilePrivacy => 'Privacy policy';
+
+  @override
+  String get profilePrivacyHint =>
+      'Tap to copy the link, then open it in your browser';
+
+  @override
+  String get profileDeleteAccount => 'Delete my account and data';
+
+  @override
+  String get profileDeleteTitle => 'Delete your account?';
+
+  @override
+  String profileDeleteBody(String word) {
+    return 'All your records, photos and history are erased from the server and from this phone, and you are signed out. This is permanent. To confirm, type $word.';
+  }
+
+  @override
+  String get profileDeleteWord => 'DELETE';
+
+  @override
+  String get profileDeleteConfirm => 'Delete for ever';
+
+  @override
+  String get profileDeleteFailed =>
+      'Please try again in a while: deleting needs the internet and the server. All your data is still kept.';
+
+  @override
   String get boundaryWalk => 'Mark boundary by walking';
 
   @override

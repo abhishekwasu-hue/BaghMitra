@@ -3,6 +3,7 @@ from __future__ import annotations
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from bagmitra_api.core.body_limit import BodyLimitMiddleware
 from bagmitra_api.core.errors import install_error_handlers
 from bagmitra_api.core.logging import configure_logging
 from bagmitra_api.core.middleware import RequestIdMiddleware
@@ -44,6 +45,12 @@ def create_app(settings: Settings | None = None) -> FastAPI:
             allow_methods=["GET", "POST", "PUT", "DELETE"],
             allow_headers=["Authorization", "Content-Type", "X-Request-ID"],
         )
+    # Added first so it runs inside RequestIdMiddleware: a 413 still carries the request id.
+    app.add_middleware(
+        BodyLimitMiddleware,
+        default_limit=settings.max_request_body_bytes,
+        admin_limit=settings.max_admin_request_body_bytes,
+    )
     app.add_middleware(RequestIdMiddleware)
     install_error_handlers(app)
     for module in (

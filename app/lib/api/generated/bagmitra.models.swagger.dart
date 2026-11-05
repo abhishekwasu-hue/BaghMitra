@@ -11,6 +11,90 @@ import 'bagmitra.enums.swagger.dart' as enums;
 part 'bagmitra.models.swagger.g.dart';
 
 @JsonSerializable(explicitToJson: true)
+class AccountDeleted {
+  const AccountDeleted({
+    required this.photosDeleted,
+    required this.rowsDeleted,
+    required this.signInAccountRemoved,
+  });
+
+  factory AccountDeleted.fromJson(Map<String, dynamic> json) =>
+      _$AccountDeletedFromJson(json);
+
+  static const toJsonFactory = _$AccountDeletedToJson;
+  Map<String, dynamic> toJson() => _$AccountDeletedToJson(this);
+
+  @JsonKey(name: 'photos_deleted', includeIfNull: false)
+  final int photosDeleted;
+  @JsonKey(name: 'rows_deleted', includeIfNull: false)
+  final int rowsDeleted;
+  @JsonKey(name: 'sign_in_account_removed', includeIfNull: false)
+  final bool signInAccountRemoved;
+  static const fromJsonFactory = _$AccountDeletedFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is AccountDeleted &&
+            (identical(other.photosDeleted, photosDeleted) ||
+                const DeepCollectionEquality().equals(
+                  other.photosDeleted,
+                  photosDeleted,
+                )) &&
+            (identical(other.rowsDeleted, rowsDeleted) ||
+                const DeepCollectionEquality().equals(
+                  other.rowsDeleted,
+                  rowsDeleted,
+                )) &&
+            (identical(other.signInAccountRemoved, signInAccountRemoved) ||
+                const DeepCollectionEquality().equals(
+                  other.signInAccountRemoved,
+                  signInAccountRemoved,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(photosDeleted) ^
+      const DeepCollectionEquality().hash(rowsDeleted) ^
+      const DeepCollectionEquality().hash(signInAccountRemoved) ^
+      runtimeType.hashCode;
+}
+
+extension $AccountDeletedExtension on AccountDeleted {
+  AccountDeleted copyWith({
+    int? photosDeleted,
+    int? rowsDeleted,
+    bool? signInAccountRemoved,
+  }) {
+    return AccountDeleted(
+      photosDeleted: photosDeleted ?? this.photosDeleted,
+      rowsDeleted: rowsDeleted ?? this.rowsDeleted,
+      signInAccountRemoved: signInAccountRemoved ?? this.signInAccountRemoved,
+    );
+  }
+
+  AccountDeleted copyWithWrapped({
+    Wrapped<int>? photosDeleted,
+    Wrapped<int>? rowsDeleted,
+    Wrapped<bool>? signInAccountRemoved,
+  }) {
+    return AccountDeleted(
+      photosDeleted: (photosDeleted != null
+          ? photosDeleted.value
+          : this.photosDeleted),
+      rowsDeleted: (rowsDeleted != null ? rowsDeleted.value : this.rowsDeleted),
+      signInAccountRemoved: (signInAccountRemoved != null
+          ? signInAccountRemoved.value
+          : this.signInAccountRemoved),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class AlertOut {
   const AlertOut({
     required this.cardId,

@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../app/providers.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../../auth/domain/auth.dart';
+import '../data/account_deletion.dart';
 import '../domain/farmer_profile.dart';
 
 /// The grower's own details after setup: name, place, app language, consents, contact number,
-/// and signing out. Saved offline through the same repository as onboarding.
+/// signing out, the privacy policy link and deleting the account (S-10). Saved offline
+/// through the same repository as onboarding.
 class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
 
@@ -27,6 +30,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   var _consentWhatsapp = false;
   String? _phoneError;
   var _saving = false;
+  var _deleting = false;
 
   @override
   void initState() {
@@ -125,6 +129,44 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     ref.read(languagePreviewProvider.notifier).set(null);
     // Only the session ends: the records stay on this phone, as before.
     await ref.read(authRepositoryProvider).signOut();
+  }
+
+  String get _privacyUrl {
+    final base = ref.read(appConfigProvider).apiBaseUrl;
+    return '${base.endsWith('/') ? base.substring(0, base.length - 1) : base}/privacy';
+  }
+
+  /// No browser plugin in the app: the link is copied for the grower to open.
+  Future<void> _copyPrivacyLink() async {
+    final t = AppLocalizations.of(context);
+    await Clipboard.setData(ClipboardData(text: _privacyUrl));
+    if (!mounted) return;
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(SnackBar(content: Text(t.feedLinkCopied)));
+  }
+
+  Future<void> _deleteAccount() async {
+    final t = AppLocalizations.of(context);
+    if (_deleting) return;
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (context) => const _DeleteAccountDialog(),
+    );
+    if (ok != true || !mounted) return;
+    setState(() => _deleting = true);
+    try {
+      ref.read(languagePreviewProvider.notifier).set(null);
+      // Server first, then this phone, then sign-out (the router then shows login).
+      await ref.read(accountDeletionProvider).run();
+    } on AccountDeletionException catch (e) {
+      ref.read(appLogProvider).log('account deletion: ${e.reason}');
+      if (!mounted) return;
+      setState(() => _deleting = false);
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(SnackBar(content: Text(t.profileDeleteFailed)));
+    }
   }
 
   @override
@@ -251,9 +293,100 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     onPressed: _signOut,
                     child: Text(t.profileSignOut),
                   ),
+                  const SizedBox(height: BmSpace.lg),
+                  ListTile(
+                    key: const Key('profile-privacy'),
+                    contentPadding: EdgeInsets.zero,
+                    leading: const Icon(Icons.privacy_tip_outlined),
+                    title: Text(t.profilePrivacy, style: BmType.bodyStrong),
+                    subtitle: Text(
+                      '${t.profilePrivacyHint}\n$_privacyUrl',
+                      style: BmType.meta.copyWith(color: c.inkMuted),
+                    ),
+                    trailing: const Icon(Icons.copy),
+                    onTap: _copyPrivacyLink,
+                  ),
+                  const SizedBox(height: BmSpace.md),
+                  TextButton.icon(
+                    key: const Key('delete-account'),
+                    style: TextButton.styleFrom(foregroundColor: c.danger),
+                    onPressed: _deleting ? null : _deleteAccount,
+                    icon: _deleting
+                        ? const SizedBox.square(
+                            dimension: 18,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          )
+                        : const Icon(Icons.delete_forever_outlined),
+                    label: Text(t.profileDeleteAccount),
+                  ),
                 ],
               ),
       ),
+    );
+  }
+}
+
+/// Asks the grower to type the confirmation word before anything is deleted.
+class _DeleteAccountDialog extends StatefulWidget {
+  const _DeleteAccountDialog();
+
+  @override
+  State<_DeleteAccountDialog> createState() => _DeleteAccountDialogState();
+}
+
+class _DeleteAccountDialogState extends State<_DeleteAccountDialog> {
+  final _typed = TextEditingController();
+
+  @override
+  void dispose() {
+    _typed.dispose();
+    super.dispose();
+  }
+
+  /// The word in the app's language, or the English one, in any case.
+  bool _confirmed(AppLocalizations t) {
+    final typed = _typed.text.trim().toLowerCase();
+    return typed == t.profileDeleteWord.toLowerCase() || typed == 'delete';
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+    final c = context.bm;
+    return AlertDialog(
+      title: Text(t.profileDeleteTitle),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(t.profileDeleteBody(t.profileDeleteWord)),
+          const SizedBox(height: BmSpace.sm),
+          TextField(
+            key: const Key('delete-account-word'),
+            controller: _typed,
+            autofocus: true,
+            decoration: InputDecoration(hintText: t.profileDeleteWord),
+            onChanged: (_) => setState(() {}),
+          ),
+        ],
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(false),
+          child: Text(t.cancel),
+        ),
+        FilledButton(
+          key: const Key('delete-account-confirm'),
+          style: FilledButton.styleFrom(
+            backgroundColor: c.danger,
+            foregroundColor: c.onBrand,
+          ),
+          onPressed: _confirmed(t)
+              ? () => Navigator.of(context).pop(true)
+              : null,
+          child: Text(t.profileDeleteConfirm),
+        ),
+      ],
     );
   }
 }

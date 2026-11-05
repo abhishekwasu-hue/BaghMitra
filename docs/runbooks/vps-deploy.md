@@ -104,6 +104,9 @@ docker inspect atp-caddy-1 --format '{{range .Mounts}}{{.Source}} -> {{.Destinat
 ```
 bagmitra.तुमचे-डोमेन.com {
 	encode gzip
+	request_body {
+		max_size 50MB
+	}
 	reverse_proxy bagmitra-api:8000
 }
 ```
@@ -121,9 +124,47 @@ docker exec atp-caddy-1 caddy reload --config /etc/caddy/Caddyfile
 ATP प्रकल्पात करायचा (बागमित्र रेपोमध्ये नाही).
 बागमित्र स्थिती: `bash deploy/deploy.sh status`. परत जाणे: `bash deploy/deploy.sh --revert`. नवीन deploy ने database migration जोडली असेल तर `--revert` आधी database त्या मागच्या migration पर्यंत खाली नेते (उदा. 0021 मागे घेतल्यास scouting फोटोचे `photo_key` पुसले जातात), मग जुना कोड सुरू करते.
 
-## ७. बॅकअप
-- **Supabase चा डेटाबेस वापरत असाल तर:** बॅकअप तिथल्या प्लॅननुसार (मोफत प्लॅनमध्ये मर्यादित). महत्त्वाचा डेटा असेल तर Settings → Database → Backups तपासा.
-- **याच सर्व्हरवरचा डेटाबेस** (`docker compose --profile localdb up -d`) वापरल्यास बॅकअप तुमची जबाबदारी: रोज `docker compose exec -T db pg_dump -U postgres bagmitra | gzip > /root/bagmitra-$(date +%F).sql.gz` (cron) आणि फाइल दुसरीकडे कॉपी करा.
+## ७. बॅकअप आणि restore
+**रोजचा बॅकअप (आपोआप):** `deploy.sh` पहिल्यांदा चालवल्यावर cron मध्ये एक ओळ टाकतो: रोज रात्री 03:10 IST ला
+`deploy/backup.sh` चालते. ते `.env` मधील `DATABASE_URL` च्या database मधील `public` च्या सर्व tables (RLS
+नियमांसह) `pg_dump` ने (`postgres:17-alpine` container मधून) काढून `/var/backups/bagmitra/bagmitra-<वेळ>.sql.gz`
+मध्ये ठेवते. १४ दिवसांपेक्षा जुन्या फाइल आपोआप पुसल्या जातात. `DATABASE_URL` कुठेही छापला जात नाही.
+- हाताने आत्ता बॅकअप: `cd /opt/bagmitra && bash deploy/backup.sh` → शेवटी "backup written".
+- नोंद: `tail -n 5 /var/log/bagmitra-backup.log`. फाइली: `ls -lh /var/backups/bagmitra/`.
+- हा बॅकअप याच सर्व्हरवर असतो. सर्व्हरच गेला तर तोही जातो: आठवड्यातून एकदा एखादी फाइल दुसरीकडे (उदा. तुमच्या
+  laptop वर `scp`) कॉपी करा.
+- लॉगिन खाती (मोबाइल नंबर) Supabase Auth मध्ये असतात, या बॅकअपमध्ये नाहीत; ती Supabase च्या प्लॅनच्या बॅकअपवर
+  अवलंबून (Settings → Database → Backups तपासा). फोटो Supabase Storage मध्ये, या बॅकअपमध्ये नाहीत.
+- प्रत्येक नवीन migration असलेल्या deploy आधी `bash deploy/backup.sh` एकदा हाताने चालवा.
+
+**Restore (database खराब झाल्यास / चुकीचे migration).** हे सध्याच्या सर्व नोंदी बॅकअपच्या वेळेच्या नोंदींनी बदलते.
+एकच block, `/opt/bagmitra` मध्ये; `FILE=` मध्ये हवी ती फाइल लिहा:
+```
+cd /opt/bagmitra/deploy && FILE=/var/backups/bagmitra/bagmitra-YYYYMMDDTHHMMSSZ.sql.gz \
+&& bash backup.sh \
+&& docker compose stop api \
+&& docker compose run --rm --no-deps api alembic downgrade base \
+&& PGURL="$(grep -E '^DATABASE_URL=' .env | tail -n 1 | cut -d= -f2- | sed -e 's/^"//' -e 's/"$//' -e 's/postgresql+asyncpg:/postgresql:/')" \
+&& export PGURL \
+&& docker run --rm -e PGURL postgres:17-alpine sh -c 'psql -q "$PGURL" -c "DROP TABLE IF EXISTS public.alembic_version"' \
+&& zcat "$FILE" | docker run --rm -i -e PGURL postgres:17-alpine sh -c 'psql -q -v ON_ERROR_STOP=1 "$PGURL"' > /dev/null \
+&& unset PGURL && docker compose start api
+```
+(पहिली `backup.sh` म्हणजे restore आधीची आजची प्रत; `alembic downgrade base` बागमित्रच्या सर्व tables काढते,
+मग बॅकअप त्या परत बनवतो.) शेवटी `curl -fsS https://<API_DOMAIN>/health/ready`. काही `ERROR` आल्यास पुढे जाऊ नका,
+संपूर्ण output मला पाठवा. localdb profile वापरत असाल तर दोन्ही `docker run` मध्ये `--network deploy_default` जोडा.
+
+**Restore चाचणी (महिन्यातून एकदा, सध्याच्या database ला हात न लावता):**
+```
+docker run -d --name bm-restore-test -e POSTGRES_PASSWORD=test postgres:17-alpine && sleep 10 \
+&& docker exec bm-restore-test psql -U postgres -qc "CREATE SCHEMA auth; CREATE FUNCTION auth.uid() RETURNS uuid LANGUAGE sql STABLE AS 'SELECT NULL::uuid'" \
+&& zcat "$(ls -t /var/backups/bagmitra/bagmitra-*.sql.gz | head -1)" | docker exec -i bm-restore-test psql -U postgres -q -v ON_ERROR_STOP=1 > /dev/null \
+&& docker exec bm-restore-test psql -U postgres -tc "SELECT version_num FROM alembic_version" -tc "SELECT count(*) FROM plots" ; docker rm -f bm-restore-test
+```
+शेवटी migration क्रमांक आणि बागांची संख्या दिसली की बॅकअप वापरता येतो.
+
+**Logs:** API containers चे logs प्रत्येकी जास्तीत जास्त 5 × 10 MB (जुने आपोआप जातात). Uvicorn चा access log बंद
+आहे: logs मध्ये IP पत्ते आणि query string नसतात; API स्वतः फक्त method, path, status आणि वेळ नोंदवते.
 
 ## ८. अॅपला जोडणे
 API चालू झाले की test APK build ला API पत्ता (`API_BASE_URL=https://api.तुमचे-डोमेन.com`) आणि Supabase चाव्या द्याव्या लागतात (GitHub secrets `API_BASE_URL`, `SUPABASE_URL`, `SUPABASE_ANON_KEY`). तोपर्यंत APK ऑफलाइन चाचणी मोडमध्येच राहतो.

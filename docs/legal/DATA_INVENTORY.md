@@ -30,7 +30,7 @@ Policy text: `api/src/bagmitra_api/public_pages/privacy.py`. Keep both in step.
 | Lab test | lab name, typed values | `api/src/bagmitra_api/db/models/lab_test.py:17-28` |
 | Bahar cycle, farm task | dates, titles, notes | `api/src/bagmitra_api/db/models/bahar.py:32-43`; `api/src/bagmitra_api/db/models/tasks.py:15-27` |
 | **Deletes are soft** | a delete sets `deleted_at`; the row stays on the server | `api/src/bagmitra_api/sync/registry.py:248-252`; `api/src/bagmitra_api/db/base.py:49-56` |
-| **Sync audit log** | every write's full payload kept in `sync_mutations`, including rejected ones; no purge job exists | `api/src/bagmitra_api/db/models/sync_mutation.py:13-35`; `api/src/bagmitra_api/sync/service.py:30-41` |
+| **Sync audit log** | applied and stale writes keep their payload in `sync_mutations`; rejected ones keep only `{sha256, bytes}`. A payload over 64 KiB is rejected, a batch over 2 MiB of payloads is refused (413); no purge job exists | `api/src/bagmitra_api/sync/service.py` (`_digest`, `payload_size`); `api/src/bagmitra_api/core/settings.py` (`sync_max_payload_bytes`) |
 | Ownership | API checks owner in code; Postgres RLS as second wall | `api/src/bagmitra_api/db/rls.py:1-4` |
 
 ## 3. Photos and files
@@ -53,7 +53,7 @@ Policy text: `api/src/bagmitra_api/public_pages/privacy.py`. Keep both in step.
 | Text-to-speech | `flutter_tts` on the phone | `app/lib/features/voice/data/on_device_speech.dart:47-50` |
 | Reminders | local notifications scheduled on the phone | `app/lib/features/reminders/data/local_notifications.dart:7-9` |
 | Permissions | INTERNET, fine / coarse location, RECORD_AUDIO, POST_NOTIFICATIONS, RECEIVE_BOOT_COMPLETED | `app/android/app/src/main/AndroidManifest.xml:3-11` |
-| Android backup | manifest sets no `android:allowBackup`, so Android's default (allowed) applies: the phone's own Google backup may include app files | `app/android/app/src/main/AndroidManifest.xml` (attribute absent) |
+| Android backup | off: `android:allowBackup="false"`, and backup / device-transfer rules exclude every domain, so no app data goes to Google backup | `app/android/app/src/main/AndroidManifest.xml`; `app/android/app/src/main/res/xml/` |
 | On-phone log | newest 256 KB, leaves the phone only through "Send logs" (share sheet) | `app/lib/core/app_log.dart:3,20`; `app/lib/features/settings/presentation/settings_screen.dart:49-58` |
 | Exports | accounts CSV and PDF reports through the share sheet | `app/lib/features/export/data/file_sharer.dart:5-6`; `app/lib/features/export/domain/accounts_csv.dart` |
 
@@ -79,8 +79,10 @@ Policy text: `api/src/bagmitra_api/public_pages/privacy.py`. Keep both in step.
 |---|---|---|
 | Pasted text | compared in memory, not stored; only length and verdict logged; 20 checks / user / hour (in memory) | `api/src/bagmitra_api/routers/feed_check.py:4-5,91,124-125`; `api/src/bagmitra_api/core/settings.py:125` |
 | API access log | method, path, status, duration, request id (JSON) | `api/src/bagmitra_api/core/middleware.py:33-39` |
-| **Uvicorn access log** | also on: client IP (real IP via `--proxy-headers`), request line with query string, status. Verified locally: `203.0.113.9:0 - "GET /privacy HTTP/1.1" 200` | `deploy/docker-compose.yml:15` (no `--no-access-log`) |
-| Log retention | Docker default logging (no rotation configured in compose); Caddy has no `log` directive (no Caddy access log) | `deploy/docker-compose.yml`; `deploy/Caddyfile` |
+| Uvicorn access log | off (`--no-access-log`): no client IP or query string is logged | `deploy/docker-compose.yml` (api command); `api/Dockerfile` |
+| HTTP client logs | `httpx` / `httpcore` at WARNING: request URLs (with third-party API keys, photo paths) are never logged | `api/src/bagmitra_api/core/logging.py` (`QUIET_LOGGERS`) |
+| Log retention | Docker `json-file` with `max-size 10m`, `max-file 5` per service; Caddy has no `log` directive (no Caddy access log) | `deploy/docker-compose.yml` (`x-logging`); `deploy/Caddyfile` |
+| Database backup | nightly `pg_dump` of the `public` tables to `/var/backups/bagmitra` on the server, 14 days | `deploy/backup.sh`; `deploy/deploy.sh` (cron) |
 
 ## 7. Account switch, sign-out, deletion, export
 
@@ -89,15 +91,13 @@ Policy text: `api/src/bagmitra_api/public_pages/privacy.py`. Keep both in step.
 | Sign-out | only the session ends; records stay on the phone | `app/lib/features/profile/presentation/profile_screen.dart:104-128` |
 | Another account on the same phone | blocked while unsent writes exist; otherwise every local table, the outbox, cursor and the previous account's photos are cleared | `app/lib/sync/account_guard.dart:104-125`; OPEN_QUESTIONS Q36 |
 | Push token on sign-out | `DELETE /v1/me/devices` exists but the app does not call it | `api/src/bagmitra_api/routers/devices.py:43-55` |
-| Account / data deletion endpoint | **none** (no route deletes a farmer or their rows) | grep `delete` in `api/src/bagmitra_api/routers` |
+| Account / data deletion | `DELETE /v1/me` erases every owner-scoped table (incl. `sync_mutations`, `push_devices`, `feed_receipts`, `feed_preferences`), the farmer's entitlement snapshot and the photo folder; the Supabase Auth user too when `SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY` are set, else a follow-up row in `account_deletions`. The billing ledger (`subscriptions`, `billing_events`) is kept. In the app: Profile → delete, typed confirmation, then local wipe and sign-out | `api/src/bagmitra_api/account/erase.py`; `api/src/bagmitra_api/routers/me.py`; `app/lib/features/profile/` |
 | Data export endpoint | none on the server; the phone shares CSV / PDF; `GET /v1/me` returns the profile | `api/src/bagmitra_api/routers/me.py:28-37` |
 
 ## 8. Points the owner should know
 
-1. Server deletes are soft and `sync_mutations` keeps every payload with no purge: erasure on request must be a manual
-   operation across all owner tables, `sync_mutations`, `push_devices`, `feed_receipts`, `feed_preferences`,
-   `plot_risk_alerts`, the photo bucket and the Supabase Auth user (OPEN_QUESTIONS Q50).
-2. Client IPs are in the uvicorn access log with no log rotation set; the policy says the server log holds the IP.
+1. Record deletes inside the app stay soft (sync tombstones); account deletion (`DELETE /v1/me`) erases for real. Without
+   the service role key the Supabase Auth user is removed by hand from the `account_deletions` follow-up rows.
+2. Client IPs are no longer logged, and container logs are capped (OPS-01).
 3. Voice typing is not forced on-device; the policy says the phone's speech service may process audio online.
-4. Android `allowBackup` is not set; the phone's own backup may copy app data (not stated in the policy as a BagMitra
-   transfer, since it goes to the user's own backup).
+4. Android backup is off (S-09): a new phone starts empty and signed out; records come back through sync.

@@ -1,6 +1,30 @@
 {
   "components": {
     "schemas": {
+      "AccountDeleted": {
+        "description": "The server holds none of the grower's records or photos any more.\n`sign_in_account_removed` is false when the sign-in account is left for the owner to\nremove by hand (no service role key configured, or Supabase did not answer).",
+        "properties": {
+          "photos_deleted": {
+            "title": "Photos Deleted",
+            "type": "integer"
+          },
+          "rows_deleted": {
+            "title": "Rows Deleted",
+            "type": "integer"
+          },
+          "sign_in_account_removed": {
+            "title": "Sign In Account Removed",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "rows_deleted",
+          "photos_deleted",
+          "sign_in_account_removed"
+        ],
+        "title": "AccountDeleted",
+        "type": "object"
+      },
       "AlertOut": {
         "properties": {
           "card_id": {
@@ -6416,6 +6440,51 @@
       }
     },
     "/v1/me": {
+      "delete": {
+        "description": "Erase the caller's account: every record, the sync history, devices, notice receipts,\nbacked-up photos and (when configured) the sign-in account. It cannot be undone.",
+        "operationId": "me_delete",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountDeleted"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Gateway"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Delete Me",
+        "tags": [
+          "profile"
+        ]
+      },
       "get": {
         "operationId": "me_get",
         "responses": {
@@ -7039,7 +7108,7 @@
     },
     "/v1/scouting/{record_id}/photo-url": {
       "get": {
-        "description": "A short-lived signed download URL for a backed-up photo.",
+        "description": "A short-lived signed download URL for a backed-up photo.\n\nOnly the key derived from the caller and the record is ever signed (S-03): the stored\n`photo_key` is just the flag that a photo exists, and one that does not match the derived\nkey (written around the sync check) is treated as no photo.",
         "operationId": "scouting_photo_url",
         "parameters": [
           {
@@ -7173,6 +7242,16 @@
             },
             "description": "Unauthorized"
           },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Request Entity Too Large"
+          },
           "422": {
             "content": {
               "application/json": {
@@ -7229,6 +7308,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Request Entity Too Large"
           },
           "422": {
             "content": {

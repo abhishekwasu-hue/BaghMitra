@@ -14,7 +14,11 @@ from bagmitra_api.sync.schemas import PullResponse, PushRequest, PushResponse
 router = APIRouter(
     prefix="/v1/sync",
     tags=["sync"],
-    responses={401: {"model": ErrorResponse}, 422: {"model": ErrorResponse}},
+    responses={
+        401: {"model": ErrorResponse},
+        413: {"model": ErrorResponse},
+        422: {"model": ErrorResponse},
+    },
 )
 
 
@@ -29,7 +33,15 @@ async def push(
     never fails as a whole because of one bad mutation."""
     if len(body.mutations) > settings.sync_max_batch:
         raise ApiError(422, "validation_error", f"at most {settings.sync_max_batch} mutations")
-    return PushResponse(results=await service.push(session, user, body.mutations))
+    total = sum(service.payload_size(m.payload) for m in body.mutations)
+    if total > settings.sync_max_batch_payload_bytes:
+        raise ApiError(
+            413,
+            "sync_batch_too_large",
+            f"payloads add up to more than {settings.sync_max_batch_payload_bytes} bytes",
+        )
+    results = await service.push(session, user, body.mutations, settings.sync_max_payload_bytes)
+    return PushResponse(results=results)
 
 
 @router.get("/pull", operation_id="sync_pull")

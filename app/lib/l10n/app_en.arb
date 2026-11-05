@@ -534,6 +534,20 @@
   "profileSignOut": "Sign out",
   "profileSignOutTitle": "Sign out?",
   "profileSignOutBody": "Your records stay on this phone. Sign in again to see them.",
+  "profilePrivacy": "Privacy policy",
+  "profilePrivacyHint": "Tap to copy the link, then open it in your browser",
+  "profileDeleteAccount": "Delete my account and data",
+  "profileDeleteTitle": "Delete your account?",
+  "profileDeleteBody": "All your records, photos and history are erased from the server and from this phone, and you are signed out. This is permanent. To confirm, type {word}.",
+  "@profileDeleteBody": {
+    "description": "Account deletion confirmation; {word} is the word the grower must type.",
+    "placeholders": {
+      "word": {"type": "String"}
+    }
+  },
+  "profileDeleteWord": "DELETE",
+  "profileDeleteConfirm": "Delete for ever",
+  "profileDeleteFailed": "Please try again in a while: deleting needs the internet and the server. All your data is still kept.",
   "boundaryWalk": "Mark boundary by walking",
   "boundaryTitle": "Walk the boundary",
   "boundaryHelp": "Stand at a corner of the block and tap “Add this corner”. Walk to each corner and repeat. You need at least 3.",

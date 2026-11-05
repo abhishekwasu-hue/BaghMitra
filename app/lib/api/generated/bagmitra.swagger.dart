@@ -1248,6 +1248,33 @@ are shown as published, never estimated; `stale` says the source could not be re
     ),
   });
 
+  ///Delete Me
+  Future<chopper.Response<AccountDeleted>> v1MeDelete() {
+    generatedMapping.putIfAbsent(
+      AccountDeleted,
+      () => AccountDeleted.fromJsonFactory,
+    );
+
+    return _v1MeDelete();
+  }
+
+  ///Delete Me
+  @DELETE(path: '/v1/me')
+  Future<chopper.Response<AccountDeleted>> _v1MeDelete({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Erase the caller\'s account: every record, the sync history, devices, notice receipts,
+backed-up photos and (when configured) the sign-in account. It cannot be undone.''',
+      summary: 'Delete Me',
+      operationId: 'me_delete',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["profile"],
+      deprecated: false,
+    ),
+  });
+
   ///Get Me
   Future<chopper.Response<FarmerProfile>> v1MeGet() {
     generatedMapping.putIfAbsent(
@@ -1569,7 +1596,11 @@ The phone PUTs the file to `upload_url` with `Content-Type: image/jpeg`, then re
     @Path('record_id') required String? recordId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: 'A short-lived signed download URL for a backed-up photo.',
+      description: '''A short-lived signed download URL for a backed-up photo.
+
+Only the key derived from the caller and the record is ever signed (S-03): the stored
+`photo_key` is just the flag that a photo exists, and one that does not match the derived
+key (written around the sync check) is treated as no photo.''',
       summary: 'Get Photo Url',
       operationId: 'scouting_photo_url',
       consumes: [],

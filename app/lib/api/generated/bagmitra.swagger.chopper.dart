@@ -1014,6 +1014,30 @@ are shown as published, never estimated; `stale` says the source could not be re
   }
 
   @override
+  Future<Response<AccountDeleted>> _v1MeDelete({
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Erase the caller\'s account: every record, the sync history, devices, notice receipts,
+backed-up photos and (when configured) the sign-in account. It cannot be undone.''',
+      summary: 'Delete Me',
+      operationId: 'me_delete',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["profile"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/me');
+    final Request $request = Request(
+      'DELETE',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<AccountDeleted, AccountDeleted>($request);
+  }
+
+  @override
   Future<Response<FarmerProfile>> _v1MeGet({
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
@@ -1287,7 +1311,11 @@ The phone PUTs the file to `upload_url` with `Content-Type: image/jpeg`, then re
   Future<Response<PhotoDownloadUrl>> _v1ScoutingRecordIdPhotoUrlGet({
     required String? recordId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: 'A short-lived signed download URL for a backed-up photo.',
+      description: '''A short-lived signed download URL for a backed-up photo.
+
+Only the key derived from the caller and the record is ever signed (S-03): the stored
+`photo_key` is just the flag that a photo exists, and one that does not match the derived
+key (written around the sync check) is treated as no photo.''',
       summary: 'Get Photo Url',
       operationId: 'scouting_photo_url',
       consumes: [],

@@ -1041,6 +1041,34 @@ class AppLocalizationsMr extends AppLocalizations {
       'तुमच्या नोंदी या फोनवरच राहतील. पुन्हा लॉगिन केल्यावर दिसतील.';
 
   @override
+  String get profilePrivacy => 'गोपनीयता धोरण';
+
+  @override
+  String get profilePrivacyHint =>
+      'दुवा कॉपी करण्यासाठी दाबा, मग ब्राउझरमध्ये उघडा';
+
+  @override
+  String get profileDeleteAccount => 'माझे खाते आणि माहिती काढून टाका';
+
+  @override
+  String get profileDeleteTitle => 'खाते काढून टाकायचं?';
+
+  @override
+  String profileDeleteBody(String word) {
+    return 'तुमच्या सर्व नोंदी, फोटो आणि इतिहास सर्व्हरवरून आणि या फोनवरून पुसले जातील आणि तुम्ही लॉगआउट व्हाल. हे कायमचे आहे. खात्रीसाठी $word लिहा.';
+  }
+
+  @override
+  String get profileDeleteWord => 'काढा';
+
+  @override
+  String get profileDeleteConfirm => 'कायमचे काढा';
+
+  @override
+  String get profileDeleteFailed =>
+      'थोड्या वेळाने पुन्हा प्रयत्न करा: खाते काढण्यासाठी इंटरनेट आणि सर्व्हर लागतो. तुमची सर्व माहिती अजून जशीच्या तशी आहे.';
+
+  @override
   String get boundaryWalk => 'चालत जाऊन सीमा नोंदवा';
 
   @override
