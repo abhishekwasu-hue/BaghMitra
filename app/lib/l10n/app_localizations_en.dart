@@ -154,7 +154,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loginInvalidPhone => 'Enter a valid 10-digit mobile number';
 
   @override
-  String get loginInvalidOtp => 'The OTP is incorrect or expired';
+  String get loginInvalidOtp => 'Enter the latest 6-digit OTP from the SMS';
 
   @override
   String get loginDemoNotice => 'Demo mode: any 6 digits will work';
@@ -1407,7 +1407,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String marketStale(String reason) {
-    return 'Showing the last saved prices: $reason';
+    String _temp0 = intl.Intl.selectLogic(reason, {
+      'source_not_configured': 'Mandi prices are coming soon.',
+      'other': 'Showing the last saved prices; they update on the next successful load.',
+    });
+    return '$_temp0';
   }
 
   @override
@@ -2393,4 +2397,104 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get fairPriceSame => 'Your rate is the same as the mandi modal price.';
+
+  @override
+  String get loginPhoneUnavailable => 'Please sign in with Google for now';
+
+  @override
+  String get loginResendOtp => 'Resend OTP';
+
+  @override
+  String loginResendIn(int seconds) {
+    return 'Resend OTP in $seconds s';
+  }
+
+  @override
+  String get loginOtpResent => 'A new OTP has been sent';
+
+  @override
+  String get loginChangeNumber => 'Change number';
+
+  @override
+  String get loginTitleGoogle => 'Start with your Google account';
+
+  @override
+  String get netOffline => 'Check the internet and try again';
+
+  @override
+  String get netServer => 'The server is busy; try again in a little while';
+
+  @override
+  String get netSignedOut => 'Sign in again for the latest information';
+
+  @override
+  String get netRetry => 'Try again';
+
+  @override
+  String get signInAgain => 'Sign in';
+
+  @override
+  String get syncServerBanner =>
+      'Your entries are safe on this phone; they will be sent once the server is back.';
+
+  @override
+  String get syncSignedOutBanner => 'Sign in again to send your entries';
+
+  @override
+  String syncRejectedBanner(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count entries to check',
+      one: '1 entry to check',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get syncReview => 'Review';
+
+  @override
+  String get syncRejectedTitle => 'Entries to check';
+
+  @override
+  String get syncRejectedHelp =>
+      'Send each entry again, or remove it from this list; the record on the phone stays as it is.';
+
+  @override
+  String get syncRejectedDone => 'All entries are in order';
+
+  @override
+  String get syncResend => 'Send again';
+
+  @override
+  String get syncDelete => 'Delete';
+
+  @override
+  String syncEntryName(String entity) {
+    String _temp0 = intl.Intl.selectLogic(entity, {
+      'farmer_profile': 'Profile',
+      'plot': 'Plot',
+      'bahar_cycle': 'Bahar',
+      'expense': 'Expense',
+      'income': 'Sale',
+      'spray_record': 'Spray',
+      'input_record': 'Input',
+      'irrigation_record': 'Irrigation',
+      'harvest_record': 'Harvest',
+      'labour_record': 'Labour',
+      'farm_task': 'Task',
+      'scouting_record': 'Scouting',
+      'insurance_policy': 'Insurance',
+      'lab_test': 'Lab test',
+      'other': 'Entry',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String get refreshOffline => 'Check the internet';
+
+  @override
+  String get refreshServer => 'The server is busy';
 }

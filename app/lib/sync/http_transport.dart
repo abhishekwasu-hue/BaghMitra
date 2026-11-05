@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:chopper/chopper.dart';
+import 'package:http/http.dart' as http;
 
 import '../api/generated/bagmitra.enums.swagger.dart' as enums;
 import '../api/generated/bagmitra.swagger.dart';
@@ -64,10 +65,12 @@ class HttpSyncTransport implements SyncTransport {
     try {
       return await call().timeout(timeout);
     } on TimeoutException {
-      throw const SyncUnavailableException('timeout');
+      throw const SyncUnavailableException('timeout', serverSide: true);
     } on SocketException {
       throw const SyncUnavailableException('network');
     } on HttpException {
+      throw const SyncUnavailableException('network');
+    } on http.ClientException {
       throw const SyncUnavailableException('network');
     }
   }
@@ -78,7 +81,10 @@ class HttpSyncTransport implements SyncTransport {
     }
     final body = resp.body;
     if (!resp.isSuccessful || body == null) {
-      throw SyncUnavailableException('http ${resp.statusCode}');
+      throw SyncUnavailableException(
+        'http ${resp.statusCode}',
+        serverSide: true,
+      );
     }
     return body;
   }

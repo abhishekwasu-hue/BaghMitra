@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../app/providers.dart';
+import '../../../app/refresh.dart';
 import '../../../app/router.dart';
 import '../../../core/formatting.dart';
 import '../../../design_system/bottom_actions.dart';
@@ -31,19 +32,23 @@ class PlotsScreen extends ConsumerWidget {
           ? LoadingState(label: t.loadingLabel)
           : plots.isEmpty
           ? const _EmptyOrchard()
-          : ListView.separated(
-              padding: const EdgeInsets.fromLTRB(
-                BmSpace.lg,
-                BmSpace.xs,
-                BmSpace.lg,
-                120,
-              ),
-              itemCount: plots.length,
-              separatorBuilder: (_, _) => const SizedBox(height: BmSpace.sm),
-              itemBuilder: (context, i) => _PlotCard(
-                plot: plots[i],
-                cropLabel: _cropLabel(crops, plots[i].crop, lang),
-                lang: lang,
+          : RefreshIndicator(
+              onRefresh: ref.read(refresherProvider).records,
+              child: ListView.separated(
+                physics: const AlwaysScrollableScrollPhysics(),
+                padding: const EdgeInsets.fromLTRB(
+                  BmSpace.lg,
+                  BmSpace.xs,
+                  BmSpace.lg,
+                  120,
+                ),
+                itemCount: plots.length,
+                separatorBuilder: (_, _) => const SizedBox(height: BmSpace.sm),
+                itemBuilder: (context, i) => _PlotCard(
+                  plot: plots[i],
+                  cropLabel: _cropLabel(crops, plots[i].crop, lang),
+                  lang: lang,
+                ),
               ),
             ),
       bottomNavigationBar: plots.isEmpty

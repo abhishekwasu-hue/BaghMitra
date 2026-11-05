@@ -10,7 +10,18 @@ class AuthSession {
   final String accessToken;
 }
 
-enum AuthFailureKind { invalidPhone, invalidOtp, network, unknown }
+/// Why a sign-in step failed. Only [invalidPhone] / [invalidOtp] are about what the grower
+/// typed; [network] means the phone is offline, [server] / [rateLimited] that the sign-in
+/// service is busy, and [phoneUnavailable] that SMS sign-in is not set up on the server.
+enum AuthFailureKind {
+  invalidPhone,
+  invalidOtp,
+  network,
+  server,
+  rateLimited,
+  phoneUnavailable,
+  unknown,
+}
 
 class AuthFailure implements Exception {
   const AuthFailure(this.kind);

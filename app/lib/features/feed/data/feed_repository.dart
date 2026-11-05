@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import '../../../api/generated/bagmitra.swagger.dart';
+import '../../../core/net_failure.dart';
 import '../domain/feed_check.dart';
 import '../domain/feed_item.dart';
 import '../domain/feed_preferences.dart';
@@ -38,9 +39,15 @@ abstract interface class FeedRepository {
 }
 
 class FeedUnavailableException implements Exception {
-  const FeedUnavailableException(this.reason);
+  const FeedUnavailableException(
+    this.reason, {
+    this.failure = NetFailure.server,
+  });
 
   final String reason;
+
+  /// Offline, server or signed out, for the words the grower sees.
+  final NetFailure failure;
 
   @override
   String toString() => 'FeedUnavailableException: $reason';
@@ -65,7 +72,10 @@ class HttpFeedRepository implements FeedRepository {
     } on FeedUnavailableException {
       rethrow;
     } on Object catch (e) {
-      throw FeedUnavailableException('$what: $e');
+      throw FeedUnavailableException(
+        '$what: $e',
+        failure: netFailureForError(e),
+      );
     }
   }
 
@@ -97,7 +107,10 @@ class HttpFeedRepository implements FeedRepository {
     );
     final body = res.body;
     if (!res.isSuccessful || body == null) {
-      throw FeedUnavailableException('http ${res.statusCode}');
+      throw FeedUnavailableException(
+        'http ${res.statusCode}',
+        failure: netFailureForStatus(res.statusCode),
+      );
     }
     return FeedPage(
       items: [for (final o in body.items) _item(o)],
@@ -118,7 +131,10 @@ class HttpFeedRepository implements FeedRepository {
       },
     );
     if (res.isSuccessful || _gone(res.statusCode)) return;
-    throw FeedUnavailableException('http ${res.statusCode}');
+    throw FeedUnavailableException(
+      'http ${res.statusCode}',
+      failure: netFailureForStatus(res.statusCode),
+    );
   }
 
   /// A client error that a retry cannot fix (the item is gone, the body is refused): the
@@ -146,7 +162,10 @@ class HttpFeedRepository implements FeedRepository {
     final res = await _guard('prefs', _api.v1MeFeedPreferencesGet);
     final body = res.body;
     if (!res.isSuccessful || body == null) {
-      throw FeedUnavailableException('http ${res.statusCode}');
+      throw FeedUnavailableException(
+        'http ${res.statusCode}',
+        failure: netFailureForStatus(res.statusCode),
+      );
     }
     return _prefs(body);
   }
@@ -170,7 +189,10 @@ class HttpFeedRepository implements FeedRepository {
     );
     final body = res.body;
     if (!res.isSuccessful || body == null) {
-      throw FeedUnavailableException('http ${res.statusCode}');
+      throw FeedUnavailableException(
+        'http ${res.statusCode}',
+        failure: netFailureForStatus(res.statusCode),
+      );
     }
     return _prefs(body);
   }
@@ -186,7 +208,10 @@ class HttpFeedRepository implements FeedRepository {
     );
     final body = res.bodyString;
     if (!res.isSuccessful || body.isEmpty) {
-      throw FeedUnavailableException('http ${res.statusCode}');
+      throw FeedUnavailableException(
+        'http ${res.statusCode}',
+        failure: netFailureForStatus(res.statusCode),
+      );
     }
     try {
       return FeedCheckResult.fromJson(

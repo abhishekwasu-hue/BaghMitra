@@ -11,6 +11,7 @@ from datetime import datetime, timedelta
 from typing import Annotated, Protocol
 
 import httpx
+import structlog
 from fastapi import Depends
 from sqlalchemy import select, tuple_
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -20,6 +21,8 @@ from bagmitra_api.db.base import as_utc
 from bagmitra_api.market.agmarknet import AgmarknetClient, MandiPrice, MarketUnavailableError
 from bagmitra_api.market.models import MarketPrice
 from bagmitra_api.weather.service import get_clock
+
+log = structlog.get_logger("bagmitra.market")
 
 AGMARKNET = "agmarknet"
 MANUAL = "manual"  # typed in by a market_admin when Agmarknet has no price
@@ -139,6 +142,7 @@ async def prices_for_commodities(
             )
         ]
     except MarketUnavailableError as exc:
-        return PriceView(rows, stale=True, reason=str(exc))
+        log.warning("market_source_unavailable", code=exc.code, detail=str(exc))
+        return PriceView(rows, stale=True, reason=exc.code)
     await store_prices(session, fetched, source=AGMARKNET, now=now)
     return PriceView(await _latest_per_mandi(session, commodities, since), stale=False)

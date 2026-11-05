@@ -10,6 +10,7 @@ class AppConfig {
     required this.testBuild,
     required this.speechEngine,
     this.sarkariSandesh = '',
+    this.phoneLogin = false,
   });
 
   factory AppConfig.fromEnvironment() => const AppConfig(
@@ -32,6 +33,9 @@ class AppConfig {
     // Empty unless defined at build time; the analyzer only sees the empty default.
     // ignore: avoid_redundant_argument_values
     sarkariSandesh: String.fromEnvironment('SARKARI_SANDESH'),
+    // Off unless defined at build time; the analyzer only sees the false default.
+    // ignore: avoid_redundant_argument_values
+    phoneLogin: bool.fromEnvironment('PHONE_LOGIN'),
   );
 
   final String productName;
@@ -56,6 +60,14 @@ class AppConfig {
     'off' => false,
     _ => demoMode || isTestBuild,
   };
+
+  /// `--dart-define=PHONE_LOGIN=true` once an SMS provider is set up on the Supabase
+  /// project. Off by default: the login screen then offers Google only.
+  final bool phoneLogin;
+
+  /// Phone OTP sign-in is offered when the build enables it, and always in demo mode (any
+  /// six digits sign in locally, nothing is sent).
+  bool get phoneLoginEnabled => phoneLogin || demoMode;
 
   bool get isTestBuild => testBuild.isNotEmpty;
 

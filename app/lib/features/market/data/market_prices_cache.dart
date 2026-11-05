@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import '../../../api/generated/bagmitra.swagger.dart';
+import '../../../core/net_failure.dart';
 import '../../../data/local/database.dart';
 
 /// The last mandi prices for one crop and scope, with the time the phone saved them.
@@ -38,11 +39,19 @@ class MarketPricesCache {
   }
 
   /// Returns true when a fresh answer was stored.
-  Future<bool> refresh(String crop, V1MarketPricesGetScope scope) async {
+  Future<bool> refresh(String crop, V1MarketPricesGetScope scope) async =>
+      await refreshOrFailure(crop, scope) == null;
+
+  /// Stores a fresh answer and returns null, or says why none came; the cache stays as is.
+  Future<NetFailure?> refreshOrFailure(
+    String crop,
+    V1MarketPricesGetScope scope,
+  ) async {
     try {
       final res = await _api.v1MarketPricesGet(crop: crop, scope: scope);
       final body = res.body;
-      if (!res.isSuccessful || body == null) return false;
+      if (!res.isSuccessful) return netFailureForStatus(res.statusCode);
+      if (body == null) return NetFailure.server;
       await _db.writeMeta(
         keyFor(crop, scope),
         jsonEncode({
@@ -50,9 +59,9 @@ class MarketPricesCache {
           'prices': body.toJson(),
         }),
       );
-      return true;
-    } on Exception {
-      return false;
+      return null;
+    } on Object catch (e) {
+      return netFailureForError(e);
     }
   }
 }

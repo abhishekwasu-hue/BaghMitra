@@ -13,13 +13,18 @@ from bagmitra_api.core.settings import Settings
 from bagmitra_api.db.models import MarketPrice
 from bagmitra_api.db.session import get_sessionmaker
 from bagmitra_api.main import create_app
-from bagmitra_api.market.agmarknet import MandiPrice, MarketUnavailableError
+from bagmitra_api.market.agmarknet import (
+    REASON_NOT_CONFIGURED,
+    MandiPrice,
+    MarketUnavailableError,
+)
 from bagmitra_api.market.service import get_market_provider
 from bagmitra_api.weather.service import get_clock
 from tests.conftest import make_token
 
 NOW = datetime(2026, 10, 26, 6, 0, tzinfo=UTC)
 NO_KEY = "no API key configured (MARKET_API_KEY)"
+NO_KEY_CODE = REASON_NOT_CONFIGURED
 
 
 def price(
@@ -55,7 +60,7 @@ class FakeMarket:
         assert market is None, "one India-wide call per commodity"
         self.calls.append((commodity, state))
         if self.fail:
-            raise MarketUnavailableError(NO_KEY)
+            raise MarketUnavailableError(NO_KEY, code=REASON_NOT_CONFIGURED)
         return [
             price("Kalamna", "Maharashtra", date(2026, 10, 25), 3600),
             price("Kalamna", "Maharashtra", date(2026, 10, 24), 3400),  # older: not latest
@@ -135,7 +140,7 @@ async def test_source_down_serves_stored_prices_as_stale_or_an_empty_list(
     market.fail = True
     empty = await api.get("/v1/market/prices?crop=santra", headers=auth_headers)
     assert empty.status_code == 200
-    assert empty.json() == {"prices": [], "stale": True, "reason": NO_KEY}
+    assert empty.json() == {"prices": [], "stale": True, "reason": NO_KEY_CODE}
 
     market.fail = False
     await api.get("/v1/market/prices?crop=santra", headers=auth_headers)
@@ -145,7 +150,7 @@ async def test_source_down_serves_stored_prices_as_stale_or_an_empty_list(
     market.fail = True
     stale = (await api.get("/v1/market/prices?crop=santra", headers=auth_headers)).json()
     assert stale["stale"] is True
-    assert stale["reason"] == NO_KEY
+    assert stale["reason"] == NO_KEY_CODE
     assert len(stale["prices"]) == 4
 
 

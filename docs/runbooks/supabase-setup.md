@@ -36,6 +36,8 @@ sign in with `9800000001` and OTP `123456`).
    provider (Twilio, MessageBird, Textlocal or Vonage) and enter its credentials. Sending SMS to
    Indian numbers needs a registered DLT sender and template with the provider. Set the OTP
    length (6) and expiry (e.g. 300 s). Leave *confirm phone* on.
+   Then build the app with `--dart-define=PHONE_LOGIN=true` (test-apk.md §1a); until then the
+   login page shows Google sign-in only.
 2a. **Google sign-in (optional, no SMS cost).**
    - Google Cloud Console → APIs & Services → Credentials → Create OAuth client ID → type
      **Web application**. Authorised redirect URI: `https://<ref>.supabase.co/auth/v1/callback`.

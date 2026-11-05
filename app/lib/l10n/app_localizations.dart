@@ -307,7 +307,7 @@ abstract class AppLocalizations {
   /// No description provided for @loginInvalidOtp.
   ///
   /// In en, this message translates to:
-  /// **'The OTP is incorrect or expired'**
+  /// **'Enter the latest 6-digit OTP from the SMS'**
   String get loginInvalidOtp;
 
   /// No description provided for @loginDemoNotice.
@@ -2515,7 +2515,7 @@ abstract class AppLocalizations {
   /// No description provided for @marketStale.
   ///
   /// In en, this message translates to:
-  /// **'Showing the last saved prices: {reason}'**
+  /// **'{reason, select, source_not_configured{Mandi prices are coming soon.} other{Showing the last saved prices; they update on the next successful load.}}'**
   String marketStale(String reason);
 
   /// No description provided for @marketStaleNoReason.
@@ -4227,6 +4227,144 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Your rate is the same as the mandi modal price.'**
   String get fairPriceSame;
+
+  /// No description provided for @loginPhoneUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Please sign in with Google for now'**
+  String get loginPhoneUnavailable;
+
+  /// No description provided for @loginResendOtp.
+  ///
+  /// In en, this message translates to:
+  /// **'Resend OTP'**
+  String get loginResendOtp;
+
+  /// No description provided for @loginResendIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Resend OTP in {seconds} s'**
+  String loginResendIn(int seconds);
+
+  /// No description provided for @loginOtpResent.
+  ///
+  /// In en, this message translates to:
+  /// **'A new OTP has been sent'**
+  String get loginOtpResent;
+
+  /// No description provided for @loginChangeNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Change number'**
+  String get loginChangeNumber;
+
+  /// No description provided for @loginTitleGoogle.
+  ///
+  /// In en, this message translates to:
+  /// **'Start with your Google account'**
+  String get loginTitleGoogle;
+
+  /// No description provided for @netOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'Check the internet and try again'**
+  String get netOffline;
+
+  /// No description provided for @netServer.
+  ///
+  /// In en, this message translates to:
+  /// **'The server is busy; try again in a little while'**
+  String get netServer;
+
+  /// No description provided for @netSignedOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in again for the latest information'**
+  String get netSignedOut;
+
+  /// No description provided for @netRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get netRetry;
+
+  /// No description provided for @signInAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in'**
+  String get signInAgain;
+
+  /// No description provided for @syncServerBanner.
+  ///
+  /// In en, this message translates to:
+  /// **'Your entries are safe on this phone; they will be sent once the server is back.'**
+  String get syncServerBanner;
+
+  /// No description provided for @syncSignedOutBanner.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in again to send your entries'**
+  String get syncSignedOutBanner;
+
+  /// No description provided for @syncRejectedBanner.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 entry to check} other{{count} entries to check}}'**
+  String syncRejectedBanner(int count);
+
+  /// No description provided for @syncReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Review'**
+  String get syncReview;
+
+  /// No description provided for @syncRejectedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Entries to check'**
+  String get syncRejectedTitle;
+
+  /// No description provided for @syncRejectedHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Send each entry again, or remove it from this list; the record on the phone stays as it is.'**
+  String get syncRejectedHelp;
+
+  /// No description provided for @syncRejectedDone.
+  ///
+  /// In en, this message translates to:
+  /// **'All entries are in order'**
+  String get syncRejectedDone;
+
+  /// No description provided for @syncResend.
+  ///
+  /// In en, this message translates to:
+  /// **'Send again'**
+  String get syncResend;
+
+  /// No description provided for @syncDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get syncDelete;
+
+  /// No description provided for @syncEntryName.
+  ///
+  /// In en, this message translates to:
+  /// **'{entity, select, farmer_profile{Profile} plot{Plot} bahar_cycle{Bahar} expense{Expense} income{Sale} spray_record{Spray} input_record{Input} irrigation_record{Irrigation} harvest_record{Harvest} labour_record{Labour} farm_task{Task} scouting_record{Scouting} insurance_policy{Insurance} lab_test{Lab test} other{Entry}}'**
+  String syncEntryName(String entity);
+
+  /// No description provided for @refreshOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'Check the internet'**
+  String get refreshOffline;
+
+  /// No description provided for @refreshServer.
+  ///
+  /// In en, this message translates to:
+  /// **'The server is busy'**
+  String get refreshServer;
 }
 
 class _AppLocalizationsDelegate

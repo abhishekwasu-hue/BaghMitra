@@ -5,6 +5,10 @@ when stored prices are older than `MARKET_MAX_AGE_HOURS`. It needs `MARKET_API_K
 secret (OPEN_QUESTIONS Q26), never in git. Without the key, or when the source is down, the
 app shows the stored prices marked stale; no price is ever invented.
 
+`reason` in the answer is a stable code the app translates: `source_not_configured` (no
+`MARKET_API_KEY`), `source_unreachable`, `source_bad_response`. The technical detail goes to the
+API log (`market_source_unavailable`), never to the farmer.
+
 ## Manual upload (fallback)
 
 When a mandi's rate is missing on Agmarknet, a person with the `market_admin` role types it

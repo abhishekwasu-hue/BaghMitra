@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../app/providers.dart';
+import '../../../app/refresh.dart';
 import '../../../app/router.dart';
 import '../../../core/formatting.dart';
 import '../../../design_system/bottom_actions.dart';
@@ -73,60 +74,64 @@ class TasksScreen extends ConsumerWidget {
           ? LoadingState(label: t.loadingLabel)
           : tasks.isEmpty
           ? EmptyState(glyph: BmGlyph.sunCloud, message: t.tasksEmpty)
-          : ListView(
-              padding: const EdgeInsets.fromLTRB(
-                BmSpace.lg,
-                BmSpace.md,
-                BmSpace.lg,
-                96,
-              ),
-              children: [
-                for (final entry in groups.entries)
-                  if ([
-                        for (final task in tasks)
-                          if (taskWhen(task, now) == entry.key) task,
-                      ]
-                      case final inGroup when inGroup.isNotEmpty) ...[
-                    Padding(
-                      padding: const EdgeInsets.only(top: BmSpace.md),
-                      child: Text(entry.value, style: BmType.label),
-                    ),
-                    for (final task in inGroup)
-                      Dismissible(
-                        key: ValueKey(task.id),
-                        direction: DismissDirection.endToStart,
-                        background: Container(
-                          color: c.danger,
-                          alignment: Alignment.centerRight,
-                          padding: const EdgeInsets.only(right: BmSpace.lg),
-                          child: Icon(Icons.delete_outline, color: c.onBrand),
-                        ),
-                        onDismissed: (_) => repo.delete(task.id),
-                        child: CheckboxListTile(
-                          key: Key('task-${task.id}'),
-                          value: task.isDone,
-                          onChanged: (v) =>
-                              repo.setDone(task, done: v ?? false),
-                          controlAffinity: ListTileControlAffinity.leading,
-                          title: Text(task.title, style: BmType.bodyStrong),
-                          subtitle: Text(
-                            kindLabel(task.kind),
-                            style: BmType.meta,
+          : RefreshIndicator(
+              onRefresh: ref.read(refresherProvider).records,
+              child: ListView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                padding: const EdgeInsets.fromLTRB(
+                  BmSpace.lg,
+                  BmSpace.md,
+                  BmSpace.lg,
+                  96,
+                ),
+                children: [
+                  for (final entry in groups.entries)
+                    if ([
+                          for (final task in tasks)
+                            if (taskWhen(task, now) == entry.key) task,
+                        ]
+                        case final inGroup when inGroup.isNotEmpty) ...[
+                      Padding(
+                        padding: const EdgeInsets.only(top: BmSpace.md),
+                        child: Text(entry.value, style: BmType.label),
+                      ),
+                      for (final task in inGroup)
+                        Dismissible(
+                          key: ValueKey(task.id),
+                          direction: DismissDirection.endToStart,
+                          background: Container(
+                            color: c.danger,
+                            alignment: Alignment.centerRight,
+                            padding: const EdgeInsets.only(right: BmSpace.lg),
+                            child: Icon(Icons.delete_outline, color: c.onBrand),
                           ),
-                          secondary: IconButton(
-                            key: Key('task-details-${task.id}'),
-                            tooltip: t.taskDetails,
-                            icon: const Icon(Icons.info_outline),
-                            onPressed: () => showTaskDetails(
-                              context,
-                              task,
+                          onDismissed: (_) => repo.delete(task.id),
+                          child: CheckboxListTile(
+                            key: Key('task-${task.id}'),
+                            value: task.isDone,
+                            onChanged: (v) =>
+                                repo.setDone(task, done: v ?? false),
+                            controlAffinity: ListTileControlAffinity.leading,
+                            title: Text(task.title, style: BmType.bodyStrong),
+                            subtitle: Text(
                               kindLabel(task.kind),
+                              style: BmType.meta,
+                            ),
+                            secondary: IconButton(
+                              key: Key('task-details-${task.id}'),
+                              tooltip: t.taskDetails,
+                              icon: const Icon(Icons.info_outline),
+                              onPressed: () => showTaskDetails(
+                                context,
+                                task,
+                                kindLabel(task.kind),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                  ],
-              ],
+                    ],
+                ],
+              ),
             ),
     );
   }

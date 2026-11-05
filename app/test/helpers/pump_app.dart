@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:bagmitra/api/api_client.dart';
 import 'package:bagmitra/app/app.dart';
 import 'package:bagmitra/app/providers.dart';
 import 'package:bagmitra/core/app_log.dart';
@@ -36,6 +37,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
+import 'package:http/http.dart' as http;
+import 'package:http/testing.dart';
 
 import 'test_db.dart';
 
@@ -119,6 +122,7 @@ Future<AppDatabase> pumpApp(
   AppLog? log,
   SpeechRecognizer? recognizer,
   ScoutingPhotos? photos,
+  AuthRepository? auth,
   List<Override> overrides = const [],
 }) async {
   tester.view.physicalSize = phoneSize * 3;
@@ -158,10 +162,19 @@ Future<AppDatabase> pumpApp(
         if (location != null)
           locationServiceProvider.overrideWithValue(location),
         databaseProvider.overrideWithValue(db),
+        // Widget tests never reach a real server: a build with a backend configured gets a
+        // server that answers 503, so sync and refreshes end at once in fake time.
+        apiProvider.overrideWithValue(
+          createApi(
+            baseUrl: Uri.parse(config.apiBaseUrl),
+            token: () => null,
+            httpClient: MockClient((_) async => http.Response('{}', 503)),
+          ),
+        ),
         // Real photo folders are not touched in widget tests.
         accountGuardProvider.overrideWithValue(AccountGuard(db)),
         authRepositoryProvider.overrideWithValue(
-          DemoAuthRepository(initial: session),
+          auth ?? DemoAuthRepository(initial: session),
         ),
         clockProvider.overrideWithValue(() => DateTime.utc(2026, 10, 13, 6)),
         baharCatalogProvider.overrideWithValue(
@@ -244,4 +257,10 @@ Future<AppDatabase> pumpApp(
 Future<void> unmountApp(WidgetTester tester) async {
   await tester.pumpWidget(const SizedBox());
   await tester.pump(Duration.zero);
+  // A sync run still in flight (a build with a backend starts one at the app root) ends
+  // here, so closing the test database does not wait for it.
+  await tester.runAsync(
+    () => Future<void>.delayed(const Duration(milliseconds: 20)),
+  );
+  await tester.pump(const Duration(milliseconds: 100));
 }

@@ -2,8 +2,42 @@ import 'package:supabase_flutter/supabase_flutter.dart' as sb;
 
 import '../domain/auth.dart';
 
+/// Turns a Supabase auth error into what the grower is told. A failed fetch with no HTTP
+/// status is the phone's network; 5xx is the service; only a validation or token error is
+/// about the number or code he typed ([verifying] says which step it was).
+AuthFailureKind authFailureKindFor(
+  sb.AuthException e, {
+  required bool verifying,
+}) {
+  if (e is sb.AuthRetryableFetchException) {
+    return e.statusCode == null
+        ? AuthFailureKind.network
+        : AuthFailureKind.server;
+  }
+  switch (e.code) {
+    case 'phone_provider_disabled':
+      return AuthFailureKind.phoneUnavailable;
+    case 'sms_send_failed':
+      return AuthFailureKind.server;
+    case 'over_sms_send_rate_limit' ||
+        'over_request_rate_limit' ||
+        'over_email_send_rate_limit':
+      return AuthFailureKind.rateLimited;
+    case 'otp_expired' || 'invalid_credentials':
+      return AuthFailureKind.invalidOtp;
+    case 'validation_failed':
+      return verifying
+          ? AuthFailureKind.invalidOtp
+          : AuthFailureKind.invalidPhone;
+  }
+  final status = int.tryParse(e.statusCode ?? '');
+  if (status != null && status >= 500) return AuthFailureKind.server;
+  return verifying ? AuthFailureKind.invalidOtp : AuthFailureKind.unknown;
+}
+
 /// Phone-OTP and Google auth via Supabase. Thin adapter; behaviour is covered by the
-/// [AuthRepository] contract tests run against the demo implementation.
+/// [AuthRepository] contract tests run against the demo implementation, and the error
+/// mapping by [authFailureKindFor]'s tests.
 class SupabaseAuthRepository implements AuthRepository {
   SupabaseAuthRepository(this._client);
 
@@ -28,8 +62,8 @@ class SupabaseAuthRepository implements AuthRepository {
   Future<void> sendOtp(String phoneE164) async {
     try {
       await _client.auth.signInWithOtp(phone: phoneE164);
-    } on sb.AuthException {
-      throw const AuthFailure(AuthFailureKind.invalidPhone);
+    } on sb.AuthException catch (e) {
+      throw AuthFailure(authFailureKindFor(e, verifying: false));
     } on Exception {
       throw const AuthFailure(AuthFailureKind.network);
     }
@@ -45,8 +79,8 @@ class SupabaseAuthRepository implements AuthRepository {
       );
       return _map(res.session) ??
           (throw const AuthFailure(AuthFailureKind.invalidOtp));
-    } on sb.AuthException {
-      throw const AuthFailure(AuthFailureKind.invalidOtp);
+    } on sb.AuthException catch (e) {
+      throw AuthFailure(authFailureKindFor(e, verifying: true));
     } on AuthFailure {
       rethrow;
     } on Exception {
@@ -63,8 +97,12 @@ class SupabaseAuthRepository implements AuthRepository {
         authScreenLaunchMode: sb.LaunchMode.externalApplication,
       );
       if (!opened) throw const AuthFailure(AuthFailureKind.network);
-    } on sb.AuthException {
-      throw const AuthFailure(AuthFailureKind.unknown);
+    } on sb.AuthException catch (e) {
+      throw AuthFailure(
+        e is sb.AuthRetryableFetchException && e.statusCode == null
+            ? AuthFailureKind.network
+            : AuthFailureKind.unknown,
+      );
     } on AuthFailure {
       rethrow;
     } on Exception {

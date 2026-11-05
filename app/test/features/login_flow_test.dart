@@ -24,7 +24,10 @@ void main() {
     await tester.enterText(find.byKey(const Key('otp')), '12');
     await tester.tap(find.text('Verify'));
     await tester.pump();
-    expect(find.text('The OTP is incorrect or expired'), findsOneWidget);
+    expect(
+      find.text('Enter the latest 6-digit OTP from the SMS'),
+      findsOneWidget,
+    );
 
     await tester.enterText(find.byKey(const Key('otp')), '123456');
     await tester.tap(find.text('Verify'));

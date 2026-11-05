@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -52,6 +54,19 @@ class _AuthScaffold extends StatelessWidget {
   }
 }
 
+/// What the grower is told for a failed sign-in step. Only an invalid number or code points
+/// at what he typed; a network or service failure says what to do next.
+String authFailureText(AppLocalizations t, AuthFailureKind kind) =>
+    switch (kind) {
+      AuthFailureKind.invalidPhone => t.loginInvalidPhone,
+      AuthFailureKind.invalidOtp => t.loginInvalidOtp,
+      AuthFailureKind.network => t.netOffline,
+      AuthFailureKind.phoneUnavailable => t.loginPhoneUnavailable,
+      AuthFailureKind.server ||
+      AuthFailureKind.rateLimited ||
+      AuthFailureKind.unknown => t.netServer,
+    };
+
 class PhoneLoginScreen extends ConsumerStatefulWidget {
   const PhoneLoginScreen({super.key});
 
@@ -62,6 +77,7 @@ class PhoneLoginScreen extends ConsumerStatefulWidget {
 class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
   final _phone = TextEditingController();
   String? _error;
+  String? _googleError;
   bool _busy = false;
 
   @override
@@ -80,6 +96,7 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
     setState(() {
       _busy = true;
       _error = null;
+      _googleError = null;
     });
     try {
       await ref.read(authRepositoryProvider).sendOtp(e164);
@@ -88,8 +105,8 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
           Uri(path: Routes.otp, queryParameters: {'phone': e164}).toString(),
         );
       }
-    } on AuthFailure {
-      if (mounted) setState(() => _error = t.loginInvalidPhone);
+    } on AuthFailure catch (f) {
+      if (mounted) setState(() => _error = authFailureText(t, f.kind));
     } finally {
       if (mounted) setState(() => _busy = false);
     }
@@ -100,11 +117,18 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
     setState(() {
       _busy = true;
       _error = null;
+      _googleError = null;
     });
     try {
       await ref.read(authRepositoryProvider).signInWithGoogle();
-    } on AuthFailure {
-      if (mounted) setState(() => _error = t.loginGoogleFailed);
+    } on AuthFailure catch (f) {
+      if (mounted) {
+        setState(
+          () => _googleError = f.kind == AuthFailureKind.network
+              ? t.netOffline
+              : t.loginGoogleFailed,
+        );
+      }
     } finally {
       if (mounted) setState(() => _busy = false);
     }
@@ -126,40 +150,63 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
-    final demo = ref.watch(appConfigProvider).demoMode;
+    final config = ref.watch(appConfigProvider);
+    final demo = config.demoMode;
+    final phone = config.phoneLoginEnabled;
+    final googleLabel = Text(t.loginGoogle);
+    const googleIcon = Icon(Icons.account_circle_outlined);
     return _AuthScaffold(
-      title: t.loginTitle,
+      title: phone ? t.loginTitle : t.loginTitleGoogle,
       children: [
-        TextField(
-          key: const Key('phone'),
-          controller: _phone,
-          keyboardType: TextInputType.phone,
-          autofillHints: const [AutofillHints.telephoneNumber],
-          inputFormatters: [
-            FilteringTextInputFormatter.allow(RegExp(r'[0-9+ ]')),
-          ],
-          style: BmType.bigNumber.copyWith(fontSize: 26, letterSpacing: 1.5),
-          decoration: InputDecoration(
-            labelText: t.loginPhoneLabel,
-            prefixText: '+91  ',
-            errorText: _error,
+        if (phone) ...[
+          TextField(
+            key: const Key('phone'),
+            controller: _phone,
+            keyboardType: TextInputType.phone,
+            autofillHints: const [AutofillHints.telephoneNumber],
+            inputFormatters: [
+              FilteringTextInputFormatter.allow(RegExp(r'[0-9+ ]')),
+            ],
+            style: BmType.bigNumber.copyWith(fontSize: 26, letterSpacing: 1.5),
+            decoration: InputDecoration(
+              labelText: t.loginPhoneLabel,
+              prefixText: '+91  ',
+              errorText: _error,
+              errorMaxLines: 3,
+            ),
+            onSubmitted: (_) => _submit(),
           ),
-          onSubmitted: (_) => _submit(),
-        ),
-        const SizedBox(height: BmSpace.lg),
-        FilledButton(
-          onPressed: _busy ? null : _submit,
-          child: Text(t.loginSendOtp),
-        ),
-        const SizedBox(height: BmSpace.md),
-        Text(t.loginOr, textAlign: TextAlign.center, style: BmType.meta),
-        const SizedBox(height: BmSpace.md),
-        OutlinedButton.icon(
-          key: const Key('google-login'),
-          onPressed: _busy ? null : _google,
-          icon: const Icon(Icons.account_circle_outlined),
-          label: Text(t.loginGoogle),
-        ),
+          const SizedBox(height: BmSpace.lg),
+          FilledButton(
+            key: const Key('send-otp'),
+            onPressed: _busy ? null : _submit,
+            child: Text(t.loginSendOtp),
+          ),
+          const SizedBox(height: BmSpace.md),
+          Text(t.loginOr, textAlign: TextAlign.center, style: BmType.meta),
+          const SizedBox(height: BmSpace.md),
+          OutlinedButton.icon(
+            key: const Key('google-login'),
+            onPressed: _busy ? null : _google,
+            icon: googleIcon,
+            label: googleLabel,
+          ),
+        ] else
+          FilledButton.icon(
+            key: const Key('google-login'),
+            onPressed: _busy ? null : _google,
+            icon: googleIcon,
+            label: googleLabel,
+          ),
+        if (_googleError case final message?) ...[
+          const SizedBox(height: BmSpace.sm),
+          Text(
+            message,
+            key: const Key('google-error'),
+            textAlign: TextAlign.center,
+            style: BmType.meta.copyWith(color: context.bm.danger),
+          ),
+        ],
         if (demo) ...[
           const SizedBox(height: BmSpace.md),
           OutlinedButton(
@@ -184,6 +231,9 @@ class OtpScreen extends ConsumerStatefulWidget {
 
   final String phone;
 
+  /// How long the grower waits before asking for a new OTP.
+  static const resendAfter = Duration(seconds: 30);
+
   @override
   ConsumerState<OtpScreen> createState() => _OtpScreenState();
 }
@@ -191,12 +241,32 @@ class OtpScreen extends ConsumerStatefulWidget {
 class _OtpScreenState extends ConsumerState<OtpScreen> {
   final _code = TextEditingController();
   String? _error;
+  String? _note;
   bool _busy = false;
+  Timer? _timer;
+  int _wait = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _startCountdown();
+  }
 
   @override
   void dispose() {
+    _timer?.cancel();
     _code.dispose();
     super.dispose();
+  }
+
+  void _startCountdown() {
+    _timer?.cancel();
+    _wait = OtpScreen.resendAfter.inSeconds;
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (!mounted) return;
+      setState(() => _wait--);
+      if (_wait <= 0) timer.cancel();
+    });
   }
 
   Future<void> _verify() async {
@@ -205,16 +275,51 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
       setState(() => _error = t.loginInvalidOtp);
       return;
     }
-    setState(() => _busy = true);
+    setState(() {
+      _busy = true;
+      _error = null;
+      _note = null;
+    });
     try {
       await ref
           .read(authRepositoryProvider)
           .verifyOtp(widget.phone, _code.text);
       // The router redirects home once the session stream reports the sign-in.
-    } on AuthFailure {
-      if (mounted) setState(() => _error = t.loginInvalidOtp);
+    } on AuthFailure catch (f) {
+      if (mounted) setState(() => _error = authFailureText(t, f.kind));
     } finally {
       if (mounted) setState(() => _busy = false);
+    }
+  }
+
+  Future<void> _resend() async {
+    final t = AppLocalizations.of(context);
+    setState(() {
+      _busy = true;
+      _error = null;
+      _note = null;
+    });
+    try {
+      await ref.read(authRepositoryProvider).sendOtp(widget.phone);
+      if (mounted) {
+        _code.clear();
+        setState(() {
+          _note = t.loginOtpResent;
+          _startCountdown();
+        });
+      }
+    } on AuthFailure catch (f) {
+      if (mounted) setState(() => _error = authFailureText(t, f.kind));
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
+  }
+
+  void _changeNumber() {
+    if (context.canPop()) {
+      context.pop();
+    } else {
+      context.go(Routes.login);
     }
   }
 
@@ -236,14 +341,36 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
           decoration: InputDecoration(
             labelText: t.loginOtpLabel,
             errorText: _error,
+            errorMaxLines: 3,
+            helperText: _note,
             counterText: '',
           ),
           onSubmitted: (_) => _verify(),
         ),
         const SizedBox(height: BmSpace.lg),
         FilledButton(
+          key: const Key('verify-otp'),
           onPressed: _busy ? null : _verify,
           child: Text(t.loginVerify),
+        ),
+        const SizedBox(height: BmSpace.md),
+        if (_wait > 0)
+          Text(
+            t.loginResendIn(_wait),
+            key: const Key('resend-countdown'),
+            textAlign: TextAlign.center,
+            style: BmType.meta,
+          )
+        else
+          TextButton(
+            key: const Key('resend-otp'),
+            onPressed: _busy ? null : _resend,
+            child: Text(t.loginResendOtp),
+          ),
+        TextButton(
+          key: const Key('change-number'),
+          onPressed: _busy ? null : _changeNumber,
+          child: Text(t.loginChangeNumber),
         ),
       ],
     );
