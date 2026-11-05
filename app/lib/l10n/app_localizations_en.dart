@@ -1251,6 +1251,41 @@ class AppLocalizationsEn extends AppLocalizations {
   String get plotCentre => 'Centre point';
 
   @override
+  String get plotLocation => 'Location';
+
+  @override
+  String get plotPointCapture => 'I am in the orchard — take location';
+
+  @override
+  String get plotPointWhy =>
+      'For this block\'s weather and alerts. Read once, only now.';
+
+  @override
+  String get plotPointReading => 'Taking location…';
+
+  @override
+  String get plotPointTake => 'Take location';
+
+  @override
+  String get plotPointRetake => 'Take location again';
+
+  @override
+  String get plotPointDenied => 'Allow location to save where this block is.';
+
+  @override
+  String get plotPointOpenSettings => 'Open settings';
+
+  @override
+  String get plotPointTryAgain => 'Try again';
+
+  @override
+  String get plotPointLater =>
+      'Save the block now; take the location any time later.';
+
+  @override
+  String get boundaryWalkOptional => 'Walk the boundary (optional)';
+
+  @override
   String get calendarTitle => 'Season calendar';
 
   @override

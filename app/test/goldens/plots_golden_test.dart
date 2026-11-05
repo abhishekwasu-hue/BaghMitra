@@ -1,6 +1,8 @@
 @Tags(['golden'])
 library;
 
+import 'package:bagmitra/features/plots/data/location_service.dart';
+import 'package:bagmitra/features/plots/domain/geo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -47,12 +49,42 @@ void main() {
     await unmountApp(tester);
   });
 
-  testWidgets('add_plot_mr_light', (tester) async {
-    await pumpApp(tester, initialLocation: '/plots/new');
+  // Older growers often raise the phone's text size: Marathi must still fit.
+  for (final (name, scale) in [
+    ('add_plot_mr_light', 1.0),
+    ('add_plot_mr_x13', 1.3),
+  ]) {
+    testWidgets(name, (tester) async {
+      tester.platformDispatcher.textScaleFactorTestValue = scale;
+      addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+      await pumpApp(tester, initialLocation: '/plots/new');
+      await settle(tester);
+      await expectLater(
+        find.byType(MaterialApp),
+        matchesGoldenFile('$name.png'),
+      );
+      await unmountApp(tester);
+    });
+  }
+
+  // After standing in the block: the point as numbers, with its accuracy.
+  testWidgets('add_plot_point_mr_light', (tester) async {
+    await pumpApp(
+      tester,
+      initialLocation: '/plots/new',
+      location: ScriptedLocation(
+        const [],
+        fixes: const [
+          [LocationReading.at(LatLon(21.2468, 77.7512), accuracyM: 6)],
+        ],
+      ),
+    );
+    await settle(tester);
+    await tester.tap(find.byKey(const Key('point-take')));
     await settle(tester);
     await expectLater(
       find.byType(MaterialApp),
-      matchesGoldenFile('add_plot_mr_light.png'),
+      matchesGoldenFile('add_plot_point_mr_light.png'),
     );
     await unmountApp(tester);
   });
