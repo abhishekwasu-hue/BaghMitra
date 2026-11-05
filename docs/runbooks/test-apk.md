@@ -37,6 +37,18 @@ Then in GitHub: repository → Settings → Secrets and variables → Actions �
 
 (Or with the GitHub CLI: `gh secret set TEST_KEYSTORE_BASE64 < bagmitra-test.jks.b64`, and so on.)
 
+## 1a. Connect the APK to the live server and login (owner)
+
+Without these three secrets the APK runs in the offline test mode. Add them the same way:
+
+| Secret | Value |
+|---|---|
+| `API_BASE_URL` | the deployed API, e.g. `https://bagmitra.<your-domain>` (no trailing `/`) |
+| `SUPABASE_URL` | `https://<project-ref>.supabase.co` |
+| `SUPABASE_ANON_KEY` | Supabase → Project Settings → API Keys → the `anon` / publishable key (never the service-role key) |
+
+The next test build (after a push to main, or Actions → Test APK → Run workflow) carries them.
+
 ## 2. Install on the phone
 
 1. On the phone open the repository's **Releases** page, pick the newest `test-…` release, download
