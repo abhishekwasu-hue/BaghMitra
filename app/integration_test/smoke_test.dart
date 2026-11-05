@@ -22,13 +22,23 @@ void main() {
     await tester.enterText(find.byKey(const Key('phone')), '9876543210');
     await tester.pumpAndSettle();
     await tester.tap(find.byType(FilledButton).first);
-    await tester.pumpAndSettle(const Duration(seconds: 2));
+    // From here the OTP screen runs the one-second "resend in" countdown, so the frame
+    // queue never settles: pump for a fixed time instead of pumpAndSettle.
+    await pumpFor(tester, const Duration(seconds: 2));
 
     await tester.enterText(find.byKey(const Key('otp')), '123456');
-    await tester.pumpAndSettle();
+    await pumpFor(tester, const Duration(milliseconds: 500));
     await tester.tap(find.byType(FilledButton).first);
-    await tester.pumpAndSettle(const Duration(seconds: 3));
+    await pumpFor(tester, const Duration(seconds: 3));
 
     expect(find.byKey(const Key('otp')), findsNothing);
   });
+}
+
+/// Pumps frames for [total] in small steps (works while a periodic timer is running).
+Future<void> pumpFor(WidgetTester tester, Duration total) async {
+  const step = Duration(milliseconds: 100);
+  for (var t = Duration.zero; t < total; t += step) {
+    await tester.pump(step);
+  }
 }
