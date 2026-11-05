@@ -2,11 +2,14 @@
 
 from __future__ import annotations
 
+import re
 from functools import lru_cache
 from typing import Literal
 
 from pydantic import Field, SecretStr, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+_EMAIL = re.compile(r"[^@\s<>\"'&]+@[^@\s<>\"'&]+\.[^@\s<>\"'&]+")
 
 
 class Settings(BaseSettings):
@@ -154,9 +157,21 @@ class Settings(BaseSettings):
     photo_download_expiry_seconds: int = Field(default=300, ge=10)
     photo_storage_timeout_seconds: float = 15.0
 
+    # Public privacy policy page (`GET /privacy`): the address people write to for access,
+    # correction or deletion requests. Empty: the page says the contact is not published yet.
+    privacy_contact_email: str = ""
+
     @property
     def photo_storage_enabled(self) -> bool:
         return bool(self.photo_storage_url and self.photo_storage_service_key.get_secret_value())
+
+    @field_validator("privacy_contact_email")
+    @classmethod
+    def _plain_email(cls, value: str) -> str:
+        value = value.strip()
+        if value and not _EMAIL.fullmatch(value):
+            raise ValueError("PRIVACY_CONTACT_EMAIL must be one plain email address")
+        return value
 
     @field_validator("supabase_jwt_secret")
     @classmethod
