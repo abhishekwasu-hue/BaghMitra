@@ -8,6 +8,15 @@
 > left out on purpose. Where a source gives such a product, the item says only "a registered product
 > exists; see label information". Most items were written for Nagpur mandarin. Unless an item says
 > mosambi or sweet orange, its use on mosambi is a general-citrus reading that a reviewer must confirm.
+>
+> **Grower text differs from this file (audit C2, C7, 2026-11-05).** The notes below on what was excluded
+> (seed treatment, drench / paste, hole treatment, poison bait, herbicides, "mixed module") and the
+> "registered product exists" lines stay here for the reviewer only. In `app/assets/config/practice_cards.json`
+> those items say only the practice, and items 23, 24, 39 and 41 point to "the registered label information in the
+> app" or "ask your KVK", with no product, dose or remedy type; the "gaps" list says "still to be added" with no
+> pointer to where a chemical remedy is. Raw citation ids (N1, C04, C05) in the text became publisher names
+> (NHB, PDKV). Marathi and Hindi now carry every number, caveat and step of the English text (test:
+> `app/test/architecture/config_content_test.dart`), with the terms in `GLOSSARY_mr.md`.
 
 ## Sources fetched (2026-10-26, plain curl)
 

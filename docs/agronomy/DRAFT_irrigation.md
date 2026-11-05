@@ -152,6 +152,44 @@ per day" — anecdotal, not used.
 - Rainy season: drain excess water; PDKV describes a drainage channel between rows (60 cm wide, 30 cm
   deep) in decline management [P1].
 
+## Reconciled rows (audit C4)
+
+Where sources gave different numbers for the same crop, age band, season and method, the app now shows ONE row or
+note that states the range and names every source. No number outside a source was added; the reviewer still sets
+one working range per condition (docs/agronomy/EXPERT_REVIEW_LIST.md, item 1).
+
+| App row (kept id) | Merged from | Shown range | Sources |
+|---|---|---|---|
+| Santra, mature, summer `s9` | s9, s10, s22 | about 100–235 L/tree/day: 100–188 (8–10 y, drip trial, Mar–Jun), 133–148 (12–14 y, drip, May–Jun), 235 (10 y +, May advisory) | SH14, SA14, AW18 |
+| Santra, mature, rainy `s11` | s11, s12 | the two CCRI trials differ: rain met the need Jul–Oct, drip off (8–10 y); 65–72 L/tree/day in October (12–14 y) | SH14, SA14 |
+| Santra, winter basin `s13` | s13, s14 | every 10–15 days (N1 10–15; C06 10–12) | N1, C06 |
+| Santra, summer interval `s16` (method "any") | s16, s17, s23 | every 4–7 days: basin 5–7 (N1) or 5–6 (C06); May heat 4–5 (AW18) | N1, C06, AW18 |
+| Santra, bahar rest note `sn7` | sn7, sn8, sn9 | about a month, 2–3 weeks in light soil (N1); 30–45 days (S8); 50 days Mrig on medium soil (P1); by soil 35–45 / 45–60 / 55–75 days (AW23, the PDKV table for santra and mosambi) | N1, S8, P1, AW23 |
+| Mosambi, middle and mature, summer `m1` (method "any") | m1, m7, m8 | 100–235 L/tree/day: 100–120 (hasta-bahar trees, age not stated, NI); 188 at 8 y and 235 at 10 y + (AW18, written for santra and mosambi orchards) | NI, AW18 |
+| Mosambi, summer interval `m5` (method "any") | m5, m9 | every 4–6 days: basin 5–6 (C06); May heat 4–5 (AW18) | C06, AW18 |
+| Mosambi, Ambia bahar rest note `mn6` | mn6, mn7 | by soil 35–45 / 45–60 / 55–75 days (AW24, AW23); 20–25 days under Andhra Pradesh conditions (VK) | AW24, AW23, VK |
+
+Practice cards: item 52 (light soil) now shows both N1 (2–3 weeks) and the AW23 soil table (35–45 days for light
+soil) and says the sources differ; item 53 names the NHB model report instead of "N1".
+
+Not merged, because they are different measures or seasons, not a conflict:
+- Whole-year rows (N1 by age band, SH15 78–108 L) and the summer rows: the summer figures are the hot-weather
+  peak (see "Side by side" above). The middle band keeps s2 (year, 35–105 L) and s21 (May, 188 L at 8 y).
+- s4 (P2 2016, trees above 10 years, drip at 90 % ER, with fertigation in R16 no. 25) and s6 (80 % ET, below).
+
+Evaporation vs evapotranspiration (audit C4): s6 (P2 2015, read as "80 % of the day's evaporation") and practice
+item 55 (R15, "80 % evapotranspiration replenishment") are the same 2015 PDKV recommendation (central and western
+Vidarbha, Nagpur mandarin, all six stages). The English text R15 p.4 no. 14 was read again on 2026-11-05: "Drip
+irrigation at 80% evapotrans-replinishment for all the six stages is recommended for higher fruit yield, quality and
+water saving in Nagpur mandarin under Central and Western Vidarbha conditions." s6 now cites P2 and R15 and says
+evapotranspiration (ET); Marathi बाष्पपर्णोत्सर्जन (ET), Hindi वाष्पन-वाष्पोत्सर्जन (ET). Rows that cite pan
+evaporation or "ER" (s4, s7, s8, m2, m3, m11) keep evaporation (बाष्पीभवन); R16 no. 25 says only "90 % ER" without
+spelling it out, so s4 is left as evaporation and listed for the reviewer.
+
+Age tags (audit C5), not changed, for the reviewer: s6, s7, s13, s15, s16, s18 and s19 carry all three age bands though their
+sources do not name an age; m1 is shown for middle and mature trees and now states each figure's age; the young band
+is `min: 0` while its label says 1–4 years (a block planted this year falls in it).
+
 ## Gaps
 
 - Winter and rainy-season litres for young and middle trees, santra and mosambi: only the May (summer)
