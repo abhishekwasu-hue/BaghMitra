@@ -81,6 +81,29 @@ async def test_privacy_page_has_both_languages_and_every_section(
     assert "शेवटचा बदल" in body
 
 
+async def test_privacy_page_matches_the_code(pages: httpx.AsyncClient) -> None:
+    """P-1..P-7: the statements the audit found untrue now match what the code does."""
+    body = (await pages.get("/privacy")).text
+    # P-5 / OPS-01: no IP in logs, logs capped.
+    assert "address (IP)" not in body
+    assert "पत्ता (IP)" not in body
+    assert "They do not contain your IP address" in body
+    assert "IP पत्ता, query आणि नोंदींचा मजकूर log मध्ये नसतो" in body
+    # P-3 / S-10: deletion inside the app; P-2 / S-9: no Android backup; OPS-06: 14 days.
+    assert "Delete my account and data" in body
+    assert "माझे खाते आणि माहिती काढून टाका" in body
+    assert "not included in Android" in body
+    assert "kept for 14 days" in body
+    assert "१४ दिवस ठेवला जातो" in body
+    # P-7 / S-07: rejected changes are not kept in full.
+    assert "only a fingerprint (hash)" in body
+    # P-6: both link lifetimes.
+    assert "within two hours" in body
+    # P-1 / S-02: the Data API is closed.
+    assert "closed to app sign-ins" in body
+    assert "by database row-level security" not in body
+
+
 @pytest.mark.parametrize(("lang", "present", "absent"), [("en", "en", "mr"), ("mr", "mr", "en")])
 async def test_privacy_page_one_language(
     pages: httpx.AsyncClient, lang: str, present: str, absent: str

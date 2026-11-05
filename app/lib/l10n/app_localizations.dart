@@ -1972,6 +1972,54 @@ abstract class AppLocalizations {
   /// **'Your records stay on this phone. Sign in again to see them.'**
   String get profileSignOutBody;
 
+  /// No description provided for @profilePrivacy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy policy'**
+  String get profilePrivacy;
+
+  /// No description provided for @profilePrivacyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to copy the link, then open it in your browser'**
+  String get profilePrivacyHint;
+
+  /// No description provided for @profileDeleteAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete my account and data'**
+  String get profileDeleteAccount;
+
+  /// No description provided for @profileDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete your account?'**
+  String get profileDeleteTitle;
+
+  /// Account deletion confirmation; {word} is the word the grower must type.
+  ///
+  /// In en, this message translates to:
+  /// **'All your records, photos and history are erased from the server and from this phone, and you are signed out. This is permanent. To confirm, type {word}.'**
+  String profileDeleteBody(String word);
+
+  /// No description provided for @profileDeleteWord.
+  ///
+  /// In en, this message translates to:
+  /// **'DELETE'**
+  String get profileDeleteWord;
+
+  /// No description provided for @profileDeleteConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete for ever'**
+  String get profileDeleteConfirm;
+
+  /// No description provided for @profileDeleteFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Please try again in a while: deleting needs the internet and the server. All your data is still kept.'**
+  String get profileDeleteFailed;
+
   /// No description provided for @boundaryWalk.
   ///
   /// In en, this message translates to:

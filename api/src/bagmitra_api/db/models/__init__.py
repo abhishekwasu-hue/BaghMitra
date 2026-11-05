@@ -1,3 +1,4 @@
+from bagmitra_api.account.models import AccountDeletion
 from bagmitra_api.billing.models import (
     BillingEvent,
     BillingPlan,
@@ -49,6 +50,7 @@ from bagmitra_api.risk.models import PlotRiskAlert
 from bagmitra_api.weather.models import WeatherDaily
 
 __all__ = [
+    "AccountDeletion",
     "BaharCycle",
     "BillingEvent",
     "BillingPlan",

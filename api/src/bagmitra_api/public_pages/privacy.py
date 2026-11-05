@@ -1,8 +1,9 @@
 """Privacy policy text (Marathi first, English), built on docs/legal/DATA_INVENTORY.md.
 
 Every statement here must match the code; items that depend on the live configuration are
-marked "if turned on". The 30-day deletion window and the contact setting are defaults
-(OPEN_QUESTIONS Q50-Q52). Change the text and LAST_UPDATED together.
+marked "if turned on". The 30-day window (for requests by email and for the sign-in account
+when no service role key is set) and the contact setting are defaults (OPEN_QUESTIONS
+Q50-Q52). Change the text and LAST_UPDATED together.
 """
 
 from __future__ import annotations
@@ -58,8 +59,8 @@ Google त्याच्या संमती-पानावर दाखव�
 <li>का: ॲप चालवण्यासाठी, तुमच्या दुसऱ्या फोनवर नोंदी दिसण्यासाठी आणि बॅकअपसाठी.</li></ul>
 <h3>फोटो आणि फाइल</h3>
 <ul><li>पाहणीचे फोटो फोनवरच राहतात. फोटो बॅकअप {i}: ते खाजगी Supabase Storage मध्ये
-जातात (Wi-Fi वर; तुम्ही निवडल्यास मोबाइल डेटावरही) आणि काही मिनिटांत संपणाऱ्या दुव्यानेच
-उघडतात.</li>
+जातात (Wi-Fi वर; तुम्ही निवडल्यास मोबाइल डेटावरही). फोटो उघडण्याचा दुवा काही मिनिटांत आणि
+पाठवण्याचा दुवा दोन तासांत संपतो.</li>
 <li>पीक-नुकसान दाव्याचे फोटो, टिपा आणि तपासणी अहवालाच्या फाइल फक्त फोनवरच राहतात.</li></ul>
 <h3>ठिकाण (location)</h3>
 <ul><li>फक्त तुम्ही बागेचे ठिकाण/सीमा नोंदवता किंवा दाव्याचा फोटो जोडता तेव्हा एकदाच वाचले
@@ -74,9 +75,10 @@ Google त्याच्या संमती-पानावर दाखव�
 <li>सरकारी सूचना पाहिली / बाजूला केली / आठवण हवी, आणि सूचना-वेळेच्या पसंती.</li>
 <li>Push सूचना {i}: फोनचा push token (Firebase Cloud Messaging). सध्या हे चालू नाही;
 आठवणी फोनवरच ठरतात.</li>
-<li>सर्व्हर log: प्रत्येक विनंतीची वेळ, पत्ता (IP), मार्ग आणि निकाल — सुरक्षा आणि अडचणी
-शोधण्यासाठी. नोंदींचा मजकूर log मध्ये नसतो. त्रुटी अहवाल सेवा (Sentry) {i}: त्रुटींची
-माहिती तिथे जाते.</li>
+<li>सर्व्हर log: प्रत्येक विनंतीची वेळ, मार्ग, निकाल आणि लागलेला वेळ — सुरक्षा आणि अडचणी
+शोधण्यासाठी. IP पत्ता, query आणि नोंदींचा मजकूर log मध्ये नसतो. Log ला आकाराची मर्यादा आहे
+(प्रत्येक सेवेसाठी सुमारे ५० MB); त्यापुढे जुने log आपोआप पुसले जातात. त्रुटी अहवाल सेवा
+(Sentry) {i}: त्रुटींची माहिती तिथे जाते.</li>
 <li>फोनवरचा छोटा log फोनवरच राहतो; तुम्ही "Logs पाठवा" दाबल्यासच तुम्ही निवडलेल्या ॲपने
 जातो.</li>
 <li>योजना (plan) आणि तिची मुदत. बागमित्र कार्ड किंवा बँक तपशील घेत नाही.</li></ul>
@@ -85,7 +87,9 @@ Google त्याच्या संमती-पानावर दाखव�
 <ul><li>तुमच्या फोनवर (ॲप ऑफलाइन चालते).</li>
 <li>Supabase चा डेटाबेस (PostgreSQL) — आमच्या सेटअप मार्गदर्शकानुसार मुंबई (ap-south-1) भागात.
 सर्व्हरवरचा स्वतंत्र डेटाबेस {i}: बागमित्रच्या भाड्याच्या सर्व्हरवर (VPS), Supabase ऐवजी.</li>
-<li>फोटो बॅकअप {i}: खाजगी Supabase Storage.</li></ul>
+<li>फोटो बॅकअप {i}: खाजगी Supabase Storage.</li>
+<li>डेटाबेसचा रोजचा बॅकअप: बागमित्रच्या सर्व्हरवर, १४ दिवस ठेवला जातो. फोनवरची माहिती Google
+च्या Android बॅकअपमध्ये जात नाही.</li></ul>
 
 <h2 id="mr-share">४. माहिती कोणाला जाते</h2>
 <p>आम्ही तुमची माहिती विकत नाही आणि जाहिरातींसाठी वापरत नाही. फक्त या सेवा आमच्यासाठी काम
@@ -103,28 +107,37 @@ Google त्याच्या संमती-पानावर दाखव�
 
 <h2 id="mr-keep">५. किती काळ ठेवतो</h2>
 <ul><li>खाते चालू आहे तोपर्यंत. ॲपमध्ये नोंद काढल्यावर सर्व्हर ती "काढलेली" म्हणून खूण ठेवतो (इतर
-फोनवरूनही ती जावी म्हणून) आणि sync साठी बदलांचा इतिहास ठेवतो.</li>
-<li>खाते काढण्याची विनंती आल्यावर खाते, सर्व्हरवरच्या नोंदी, फोटो, खुणा आणि इतिहास
-{DELETION_DAYS["mr"]} पुसले जातात. होस्टिंग सेवेच्या डेटाबेस बॅकअपमधील प्रत त्यांच्या मुदतीनंतर
-संपते.</li>
+फोनवरूनही ती जावी म्हणून) आणि sync साठी बदलांचा इतिहास ठेवतो. सर्व्हरने नाकारलेल्या बदलांचा
+मजकूर ठेवला जात नाही; फक्त त्याची ओळख-खूण (hash) आणि आकार.</li>
+<li>खाते काढल्यावर (ॲपमधून किंवा विनंतीने) सर्व्हरवरच्या नोंदी, इतिहास, फोनची नोंदणी, सूचनांच्या
+खुणा आणि बॅकअप घेतलेले फोटो लगेच पुसले जातात. लॉगिन खाते (Supabase Auth) आपोआप किंवा
+{DELETION_DAYS["mr"]} आम्ही हाताने काढतो. आमच्या रोजच्या डेटाबेस बॅकअपमधील प्रत १४ दिवसांत
+संपते; होस्टिंग सेवेच्या स्वतःच्या बॅकअपमधील प्रत त्यांच्या मुदतीनंतर संपते. सर्व्हरवर फक्त
+"एक खाते काढले" अशी, कोणतीही वैयक्तिक माहिती नसलेली नोंद राहते.</li>
+<li>योजनेच्या (plan) देयकांच्या नोंदी (कार्ड किंवा बँक तपशील नसलेल्या) हिशोबासाठी ठेवल्या
+जातात.</li>
 <li>Sign out केल्यावर नोंदी फोनवर राहतात; त्याच फोनवर दुसरे खाते सुरू केल्यास (सर्व नोंदी
 पाठवून झाल्या असतील तर) आधीच्या खात्याच्या नोंदी आणि फोटो फोनवरून काढले जातात.</li></ul>
 
 <h2 id="mr-rights">६. तुमचे हक्क</h2>
 <ul><li><b>पाहणे:</b> तुमच्या सर्व नोंदी ॲपमध्ये दिसतात; हिशोब CSV आणि अहवाल PDF म्हणून शेअर
-करता येतात. सर्व्हरवरच्या माहितीची प्रत ईमेलने मागता येते.</li>
+करता येतात. सर्व्हरवरच्या माहितीची प्रत ईमेलने मागता येते; ती आम्ही हाताने तयार करून
+पाठवतो.</li>
 <li><b>दुरुस्ती:</b> ॲपमध्ये नोंद आणि प्रोफाइल बदला.</li>
-<li><b>पुसणे:</b> खाली दिलेल्या पद्धतीने विनंती करा.</li>
+<li><b>पुसणे:</b> ॲपमधूनच खाते काढा, किंवा खाली दिलेल्या पद्धतीने विनंती करा.</li>
 <li><b>संमती मागे घेणे:</b> WhatsApp संमती प्रोफाइलमध्ये बंद करता येते. नोंदी साठवण्याची संमती
 ॲप चालण्यासाठी लागते; ती मागे घ्यायची असल्यास खाते पुसण्याची विनंती करा.</li>
 <li><b>तक्रार आणि नामनिर्देशन:</b> तक्रार किंवा तुमच्या वतीने हक्क वापरणारी व्यक्ती नेमण्यासाठी
 आम्हाला लिहा. समाधान न झाल्यास भारताच्या डेटा संरक्षण मंडळाकडे (Data Protection Board of India)
 तक्रार करता येते.</li></ul>
 
-<h2 id="mr-delete">७. खाते आणि माहिती पुसण्याची विनंती</h2>
-<p>खालील संपर्कावर लिहा: लॉगिनचा मोबाइल नंबर किंवा Google ईमेल द्या. आम्ही खात्री करून
-{DELETION_DAYS["mr"]} खाते आणि सर्व्हरवरची माहिती पुसतो आणि तसे कळवतो. फोनवरची माहिती ॲप
-uninstall केल्यावर जाते.</p>
+<h2 id="mr-delete">७. खाते आणि माहिती पुसणे</h2>
+<p><b>ॲपमधून:</b> प्रोफाइल → "माझे खाते आणि माहिती काढून टाका" → पुष्टीसाठी दिलेला शब्द
+लिहा. सर्व्हरवरची माहिती आणि फोटो लगेच पुसले जातात, मग या फोनवरच्या नोंदी व फोटो पुसून ॲप
+लॉगआउट होते. हे परत आणता येत नाही.</p>
+<p><b>ॲप नसल्यास:</b> खालील संपर्कावर लिहा: लॉगिनचा मोबाइल नंबर किंवा Google ईमेल द्या. आम्ही
+खात्री करून {DELETION_DAYS["mr"]} खाते आणि सर्व्हरवरची माहिती पुसतो आणि तसे कळवतो.</p>
+<p>ॲप uninstall केल्यावरही फोनवरची माहिती जाते (ती Android बॅकअपमध्ये जात नाही).</p>
 
 <h2 id="mr-children">८. मुले</h2>
 <p>बागमित्र प्रौढ बागायतदारांसाठी आहे; १८ वर्षांखालील मुलांसाठी नाही. मुलाची माहिती नोंदली
@@ -132,8 +145,9 @@ uninstall केल्यावर जाते.</p>
 
 <h2 id="mr-security">९. सुरक्षा</h2>
 <ul><li>ॲप आणि सर्व्हरमधील सर्व संवाद HTTPS ने. प्रत्येक विनंतीचा लॉगिन token तपासला जातो.</li>
-<li>प्रत्येक खाते फक्त स्वतःच्या नोंदी पाहू/बदलू शकते (सर्व्हर कोडमध्ये आणि डेटाबेसच्या
-row-level security ने).</li>
+<li>प्रत्येक खाते फक्त स्वतःच्या नोंदी पाहू/बदलू शकते: सर्व्हर कोड प्रत्येक नोंदीचा मालक
+तपासतो. डेटाबेसचा थेट प्रवेश (Supabase Data API) ॲपच्या लॉगिनसाठी पूर्ण बंद आहे; row-level
+security हे आणखी एक संरक्षण म्हणून चालू आहे.</li>
 <li>फोटो खाजगी साठवणीत, थोड्या वेळासाठीच्या दुव्यांनी. सर्व्हरच्या गुप्त चाव्या ॲपमध्ये नसतात.</li></ul>
 
 <h2 id="mr-changes">१०. बदल</h2>
@@ -175,8 +189,8 @@ test values.</li>
 <li>Why: to run the app, show your records on your other phones, and keep a backup.</li></ul>
 <h3>Photos and files</h3>
 <ul><li>Scouting photos stay on your phone. Photo backup {i}: they are uploaded to a private
-Supabase Storage bucket (on Wi-Fi, or on mobile data if you allow it) and opened only through
-links that expire within minutes.</li>
+Supabase Storage bucket (on Wi-Fi, or on mobile data if you allow it). A link to open a photo
+expires within minutes; a link to upload one expires within two hours.</li>
 <li>Crop-loss claim photos and notes, and lab report files, stay on your phone only.</li></ul>
 <h3>Location</h3>
 <ul><li>Read once, only when you mark a plot location or boundary or add a claim photo. There is
@@ -192,9 +206,10 @@ notices and is not stored anywhere; only its length and the result are logged.</
 notification preferences.</li>
 <li>Push alerts {i}: your phone's push token (Firebase Cloud Messaging). Not active yet;
 reminders are scheduled on the phone.</li>
-<li>Server logs: time, address (IP), path and result of each request, for security and
-troubleshooting. They do not contain your record contents. Error reporting (Sentry) {i}:
-receives error details.</li>
+<li>Server logs: time, path, result and duration of each request, for security and
+troubleshooting. They do not contain your IP address, query strings or record contents. Logs
+are capped in size (about 50 MB per service); older lines are deleted automatically. Error
+reporting (Sentry) {i}: receives error details.</li>
 <li>A small log on the phone stays there unless you tap "Send logs" and pick an app.</li>
 <li>Your plan and its period. BagMitra does not collect card or bank details.</li></ul>
 
@@ -202,7 +217,9 @@ receives error details.</li>
 <ul><li>On your phone (the app works offline).</li>
 <li>In a Supabase PostgreSQL database, in the Mumbai (ap-south-1) region per our setup guide. The
 server's own database {i}: on BagMitra's rented server (VPS) instead.</li>
-<li>Photo backup {i}: private Supabase Storage.</li></ul>
+<li>Photo backup {i}: private Supabase Storage.</li>
+<li>Nightly database backups: on BagMitra's server, kept for 14 days. Data on the phone is not
+included in Google's Android backup.</li></ul>
 
 <h2 id="en-share">4. Who receives it</h2>
 <p>We do not sell your data or use it for advertising. Only these services process it for us:</p>
@@ -221,29 +238,40 @@ grower data.</li>
 <h2 id="en-keep">5. How long we keep it</h2>
 <ul><li>While your account is active. When you delete a record in the app, the server keeps a
 "deleted" mark (so it disappears from your other phones too) and a history of changes used for
-sync.</li>
-<li>On a deletion request, your account, server records, photos, marks and history are erased
-{DELETION_DAYS["en"]}. Copies in the hosting service's database backups expire on their own
-schedule.</li>
+sync. For a change the server rejects, only a fingerprint (hash) and its size are kept, not its
+contents.</li>
+<li>When the account is deleted (in the app or on request), the server records, history,
+registered devices, notice marks and backed-up photos are erased at once. The sign-in account
+(Supabase Auth) is removed automatically, or by us by hand {DELETION_DAYS["en"]}. Copies in our
+nightly database backups expire within 14 days; copies in the hosting service's own backups
+expire on its schedule. The server keeps only a record that "an account was deleted", with no
+personal data.</li>
+<li>Records of plan payments (with no card or bank details) are kept for accounting.</li>
 <li>Signing out keeps the records on the phone. If another account signs in on the same phone
 (after everything was sent), the previous account's records and photos are removed from the
 phone.</li></ul>
 
 <h2 id="en-rights">6. Your rights</h2>
 <ul><li><b>Access:</b> all your records are visible in the app; accounts can be shared as CSV and
-reports as PDF. You can ask by email for a copy of what the server holds.</li>
+reports as PDF. You can ask by email for a copy of what the server holds; we prepare it by hand
+and send it to you.</li>
 <li><b>Correction:</b> edit records and your profile in the app.</li>
-<li><b>Erasure:</b> ask as described below.</li>
+<li><b>Erasure:</b> delete the account in the app, or ask as described below.</li>
 <li><b>Withdrawing consent:</b> turn off the WhatsApp consent in Profile. Consent to store
 records is needed for the app to work; to withdraw it, ask for your account to be deleted.</li>
 <li><b>Grievance and nomination:</b> write to us to raise a grievance or to nominate a person to
 exercise your rights. If not resolved, you may complain to the Data Protection Board of
 India.</li></ul>
 
-<h2 id="en-delete">7. How to ask for deletion</h2>
-<p>Write to the contact below with the mobile number or Google email you sign in with. After
-confirming it is you, we erase the account and its server data {DELETION_DAYS["en"]} and tell
-you. Data on the phone is removed when you uninstall the app.</p>
+<h2 id="en-delete">7. Deleting your account and data</h2>
+<p><b>In the app:</b> Profile → "Delete my account and data" → type the word shown to confirm.
+Your server data and photos are erased at once; then the records and photos on this phone are
+removed and the app signs out. This cannot be undone.</p>
+<p><b>Without the app:</b> write to the contact below with the mobile number or Google email you
+sign in with. After confirming it is you, we erase the account and its server data
+{DELETION_DAYS["en"]} and tell you.</p>
+<p>Uninstalling the app also removes the data on the phone (it is not included in Android
+backup).</p>
 
 <h2 id="en-children">8. Children</h2>
 <p>BagMitra is meant for adult growers, not for children under 18. If a child's data was
@@ -252,8 +280,9 @@ entered, tell us and we will delete it.</p>
 <h2 id="en-security">9. Security</h2>
 <ul><li>All traffic between the app and the server uses HTTPS; every request's sign-in token is
 verified.</li>
-<li>Each account can read and change only its own records (in the server code and by database
-row-level security).</li>
+<li>Each account can read and change only its own records: the server code checks the owner
+of every record. Direct database access (the Supabase Data API) is closed to app sign-ins;
+row-level security stays on as a further guard.</li>
 <li>Photos are in private storage behind short-lived links. Server secrets are never in the
 app.</li></ul>
 

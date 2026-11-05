@@ -103,3 +103,38 @@ def enable_feed_published_rls(table: str, item_column: str | None = None) -> lis
         f"ALTER TABLE {t} FORCE ROW LEVEL SECURITY",
         f"CREATE POLICY {t}_read ON {t} FOR SELECT USING (auth.uid() IS NOT NULL AND {visible})",
     ]
+
+
+# Supabase's client roles. The app never reads tables through PostgREST (it talks only to
+# the API), so these roles get no privileges on schema `public` at all (S-01 / S-02 / S-04).
+CLIENT_ROLES = ("anon", "authenticated")
+
+
+_REVOKE_TEMPLATE = """
+DO $$
+DECLARE r text;
+BEGIN
+  FOREACH r IN ARRAY ARRAY[@ROLES@] LOOP
+    IF EXISTS (SELECT 1 FROM pg_roles WHERE rolname = r) THEN
+@REVOKES@
+    END IF;
+  END LOOP;
+END $$;
+"""
+_REVOKE_KIND = (
+    "      EXECUTE format('REVOKE ALL ON ALL @KIND@ IN SCHEMA public FROM %I', r);\n"
+    "      EXECUTE format('ALTER DEFAULT PRIVILEGES IN SCHEMA public "
+    "REVOKE ALL ON @KIND@ FROM %I', r);"
+)
+
+
+def revoke_client_roles() -> str:
+    """One DO block: revoke every privilege of the client roles on the tables, sequences and
+    functions in `public`, and the default privileges that would grant them future ones.
+    A role that does not exist (plain Postgres in CI) is skipped. Role names pass _check and
+    the object kinds are constants."""
+    roles = ", ".join(f"'{_check(r)}'" for r in CLIENT_ROLES)
+    revokes = "\n".join(
+        _REVOKE_KIND.replace("@KIND@", kind) for kind in ("TABLES", "SEQUENCES", "FUNCTIONS")
+    )
+    return _REVOKE_TEMPLATE.replace("@ROLES@", roles).replace("@REVOKES@", revokes)

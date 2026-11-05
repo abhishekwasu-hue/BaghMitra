@@ -1,5 +1,9 @@
 # Caddy: HTTPS for the API domain (certificate from Let's Encrypt, renewed automatically).
 {$API_DOMAIN} {
 	encode gzip
+	# Body cap at the edge (S-06); the API checks its own, smaller per-route caps too.
+	request_body {
+		max_size 50MB
+	}
 	reverse_proxy api:8000
 }

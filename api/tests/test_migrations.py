@@ -17,6 +17,7 @@ from sqlalchemy import exc as sa_exc
 from bagmitra_api.db import models  # noqa: F401
 from bagmitra_api.db.base import Base
 from bagmitra_api.db.rls import (
+    CLIENT_ROLES,
     disable_owner_rls,
     disable_private_rls,
     disable_reference_rls,
@@ -24,6 +25,7 @@ from bagmitra_api.db.rls import (
     enable_owner_rls,
     enable_private_rls,
     enable_reference_rls,
+    revoke_client_roles,
 )
 
 API_DIR = Path(__file__).resolve().parents[1]
@@ -115,14 +117,120 @@ def test_postgres_migrations_and_rls() -> None:
                 "JOIN pg_namespace n ON n.oid = c.relnamespace "
                 "WHERE n.nspname = 'public' AND c.relkind = 'r' "
                 # Extension-owned tables (e.g. PostGIS spatial_ref_sys) are not ours.
-                "AND c.relname <> 'alembic_version' AND NOT EXISTS ("
+                "AND NOT EXISTS ("
                 "  SELECT 1 FROM pg_depend d WHERE d.objid = c.oid AND d.deptype = 'e')"
             )
         ).all()
-        assert {r for r, _ in rows} == set(Base.metadata.tables)
+        # alembic_version too (S-01): it is in `public` like every other table.
+        assert {r for r, _ in rows} == set(Base.metadata.tables) | {"alembic_version"}
         assert all(rls for _, rls in rows), f"RLS missing: {[r for r, s in rows if not s]}"
         assert _diff(conn) == []
+        assert client_role_grants(conn) == []
         _assert_owner_isolation(conn)
+    engine.dispose()
+
+
+GRANTS_SQL = """
+SELECT 'table ' || table_name || ' ' || privilege_type || ' ' || grantee
+  FROM information_schema.role_table_grants
+ WHERE table_schema = 'public' AND grantee = ANY(:roles)
+UNION ALL
+SELECT 'sequence ' || c.relname || ' ' || r.rolname
+  FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace
+  JOIN pg_roles r ON r.rolname = ANY(:roles)
+ WHERE n.nspname = 'public' AND c.relkind = 'S'
+   AND has_sequence_privilege(r.oid, c.oid, 'USAGE,SELECT,UPDATE')
+   AND NOT EXISTS (SELECT 1 FROM pg_depend d WHERE d.objid = c.oid AND d.deptype = 'e')
+UNION ALL
+SELECT 'function ' || p.proname || ' ' || a.grantee::regrole::text
+  FROM pg_proc p JOIN pg_namespace n ON n.oid = p.pronamespace,
+       aclexplode(p.proacl) a
+ WHERE n.nspname = 'public' AND a.grantee::regrole::text = ANY(:roles)
+UNION ALL
+SELECT 'default ' || d.defaclobjtype::text || ' ' || a.grantee::regrole::text
+  FROM pg_default_acl d JOIN pg_namespace n ON n.oid = d.defaclnamespace,
+       aclexplode(d.defaclacl) a
+ WHERE n.nspname = 'public' AND a.grantee <> 0 AND a.grantee::regrole::text = ANY(:roles)
+"""
+
+
+def client_role_grants(conn: Connection) -> list[str]:
+    """Privileges the Supabase client roles (anon, authenticated) hold in `public`: tables,
+    sequences, functions and default privileges. Empty when the roles do not exist."""
+    roles = list(CLIENT_ROLES)
+    return list(conn.execute(text(GRANTS_SQL), {"roles": roles}).scalars().all())
+
+
+def test_revoke_block_names_every_kind_and_guards_missing_roles() -> None:
+    sql = revoke_client_roles()
+    assert "IF EXISTS (SELECT 1 FROM pg_roles WHERE rolname = r)" in sql
+    assert "ARRAY['anon', 'authenticated']" in sql
+    for kind in ("TABLES", "SEQUENCES", "FUNCTIONS"):
+        assert f"REVOKE ALL ON ALL {kind} IN SCHEMA public FROM %I" in sql
+        assert f"IN SCHEMA public REVOKE ALL ON {kind} FROM %I" in sql
+
+
+@pytest.mark.postgres
+@pytest.mark.skipif("POSTGRES_TEST_URL" not in os.environ, reason="needs POSTGRES_TEST_URL")
+def test_postgres_client_roles_lose_every_grant() -> None:
+    """Simulates Supabase (client roles granted everything by default), then checks that 0025
+    takes it all away, keeps it away for tables created later, and leaves the API role
+    working."""
+    url = os.environ["POSTGRES_TEST_URL"]
+    cfg = _config(url)
+    engine = create_engine(url.replace("+asyncpg", "+psycopg"))
+    command.downgrade(cfg, "base")
+    with engine.begin() as conn:
+        for role in CLIENT_ROLES:
+            conn.execute(
+                text(
+                    f"DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = '{role}')"  # noqa: S608
+                    f" THEN CREATE ROLE {role} NOLOGIN; END IF; END $$"
+                )
+            )
+        for kind in ("TABLES", "SEQUENCES", "FUNCTIONS"):
+            conn.execute(
+                text(
+                    f"ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON {kind} "
+                    "TO anon, authenticated"
+                )
+            )
+        conn.execute(
+            text(
+                "CREATE OR REPLACE FUNCTION public.probe_fn() RETURNS int "
+                "LANGUAGE sql AS 'SELECT 1'"
+            )
+        )
+    command.upgrade(cfg, "0024")
+    with engine.connect() as conn:
+        before = client_role_grants(conn)
+    assert any(g.startswith("table farmers ") for g in before), before
+    assert any(g.startswith("default ") for g in before), before
+    # The owner may already have run the same revokes by hand on the live project: 0025 must
+    # then still apply cleanly (every statement is idempotent).
+    with engine.begin() as conn:
+        conn.execute(text(revoke_client_roles()))
+        conn.execute(text("ALTER TABLE public.alembic_version ENABLE ROW LEVEL SECURITY"))
+        assert client_role_grants(conn) == []
+    command.upgrade(cfg, "head")
+    with engine.begin() as conn:
+        assert client_role_grants(conn) == []
+        conn.execute(text("CREATE TABLE public.later_probe (id int)"))
+        assert client_role_grants(conn) == []
+        conn.execute(text("DROP TABLE public.later_probe"))
+        conn.execute(text("DROP FUNCTION public.probe_fn()"))
+        rls = conn.execute(
+            text("SELECT relrowsecurity FROM pg_class WHERE relname = 'alembic_version'")
+        ).scalar_one()
+        assert rls is True
+        # The migrating / API role still reads and writes alembic_version and the tables.
+        assert conn.execute(text("SELECT version_num FROM alembic_version")).scalar_one() == "0025"
+        assert conn.execute(text("SELECT count(*) FROM account_deletions")).scalar_one() == 0
+    # Reversible, and a revert never hands the privileges back.
+    command.downgrade(cfg, "0024")
+    with engine.connect() as conn:
+        assert client_role_grants(conn) == []
+    command.upgrade(cfg, "head")
     engine.dispose()
 
 

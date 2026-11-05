@@ -1,5 +1,9 @@
 from __future__ import annotations
 
+import hashlib
+import json
+from typing import Any
+
 import structlog
 from pydantic import BaseModel, ValidationError
 from sqlalchemy import select
@@ -20,6 +24,21 @@ from bagmitra_api.sync.schemas import (
 log = structlog.get_logger("bagmitra.sync")
 
 
+def _compact(payload: dict[str, Any]) -> bytes:
+    return json.dumps(payload, separators=(",", ":"), ensure_ascii=False, default=str).encode()
+
+
+def payload_size(payload: dict[str, Any]) -> int:
+    """Size of a payload as compact UTF-8 JSON: what the sync caps count (S-07)."""
+    return len(_compact(payload))
+
+
+def _digest(payload: dict[str, Any]) -> dict[str, Any]:
+    """What is kept of a rejected payload: enough to recognise a repeat, none of the content."""
+    raw = _compact(payload)
+    return {"sha256": hashlib.sha256(raw).hexdigest(), "bytes": len(raw)}
+
+
 async def _record(
     session: AsyncSession,
     user: AuthenticatedUser,
@@ -33,7 +52,7 @@ async def _record(
         entity=m.entity,
         entity_id=m.entity_id,
         op=m.op,
-        payload=m.payload,
+        payload=_digest(m.payload) if status == "rejected" else m.payload,
         client_updated_at=m.client_updated_at,
         status=status,
         error=error,
@@ -68,7 +87,7 @@ async def _decide(
 
 
 async def apply_mutation(
-    session: AsyncSession, user: AuthenticatedUser, m: Mutation
+    session: AsyncSession, user: AuthenticatedUser, m: Mutation, max_payload_bytes: int
 ) -> MutationResult:
     seen = await session.scalar(
         select(SyncMutation.seq).where(
@@ -79,7 +98,13 @@ async def apply_mutation(
     if seen is not None:
         return MutationResult(client_mutation_id=m.client_mutation_id, status="duplicate")
 
-    status, error, payload = await _decide(session, user, m)
+    status: MutationStatus
+    error: str | None
+    payload: BaseModel | None
+    if payload_size(m.payload) > max_payload_bytes:
+        status, error, payload = "rejected", "payload_too_large", None
+    else:
+        status, error, payload = await _decide(session, user, m)
     row = await _record(session, user, m, status, error)
     if status == "applied":
         write = ValidatedWrite(m.entity_id, m.op, payload, m.client_updated_at, row.seq)
@@ -93,11 +118,14 @@ async def apply_mutation(
 
 
 async def push(
-    session: AsyncSession, user: AuthenticatedUser, mutations: list[Mutation]
+    session: AsyncSession,
+    user: AuthenticatedUser,
+    mutations: list[Mutation],
+    max_payload_bytes: int,
 ) -> list[MutationResult]:
     results = []
     for m in mutations:
-        results.append(await apply_mutation(session, user, m))
+        results.append(await apply_mutation(session, user, m, max_payload_bytes))
         await session.commit()
     return results
 

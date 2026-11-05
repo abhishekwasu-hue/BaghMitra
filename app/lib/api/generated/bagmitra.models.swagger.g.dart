@@ -6,6 +6,20 @@ part of 'bagmitra.models.swagger.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+AccountDeleted _$AccountDeletedFromJson(Map<String, dynamic> json) =>
+    AccountDeleted(
+      photosDeleted: (json['photos_deleted'] as num).toInt(),
+      rowsDeleted: (json['rows_deleted'] as num).toInt(),
+      signInAccountRemoved: json['sign_in_account_removed'] as bool,
+    );
+
+Map<String, dynamic> _$AccountDeletedToJson(AccountDeleted instance) =>
+    <String, dynamic>{
+      'photos_deleted': instance.photosDeleted,
+      'rows_deleted': instance.rowsDeleted,
+      'sign_in_account_removed': instance.signInAccountRemoved,
+    };
+
 AlertOut _$AlertOutFromJson(Map<String, dynamic> json) => AlertOut(
   cardId: json['card_id'] as String?,
   createdAt: DateTime.parse(json['created_at'] as String),

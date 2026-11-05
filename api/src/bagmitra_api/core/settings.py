@@ -33,7 +33,18 @@ class Settings(BaseSettings):
     cors_origins: list[str] = Field(default_factory=list)
     sentry_dsn: SecretStr | None = None
 
+    # Request bodies (S-06): checked from Content-Length, and while streaming, before the body
+    # is parsed; over the cap the API answers 413. Admin routes (feed documents up to 20 MB as
+    # base64, KB CSV imports) get their own, larger cap.
+    max_request_body_bytes: int = Field(default=3 * 1024 * 1024, ge=1024)
+    max_admin_request_body_bytes: int = Field(default=40 * 1024 * 1024, ge=1024)
+
     sync_max_batch: int = 200
+    # Sync payload caps (S-07), counted as compact UTF-8 JSON: one mutation over the first is
+    # rejected as `payload_too_large`; a batch whose payloads add up to more than the second
+    # is refused whole (413). Rejected payloads are stored only as a digest and a size.
+    sync_max_payload_bytes: int = Field(default=64 * 1024, ge=256)
+    sync_max_batch_payload_bytes: int = Field(default=2 * 1024 * 1024, ge=1024)
     # Rows per pull response; the phone keeps pulling from the returned cursor until empty.
     sync_pull_page_size: int = Field(default=500, ge=1)
 
@@ -161,6 +172,12 @@ class Settings(BaseSettings):
     # correction or deletion requests. Empty: the page says the contact is not published yet.
     privacy_contact_email: str = ""
 
+    # Account deletion (`DELETE /v1/me`, S-10): the sign-in account itself lives in Supabase Auth
+    # and needs the service role key to remove. Unless both are set, the API erases everything
+    # it holds and leaves a follow-up row (account_deletions) for the owner to finish by hand.
+    supabase_url: str = ""
+    supabase_service_role_key: SecretStr = Field(default=SecretStr(""))
+    supabase_admin_timeout_seconds: float = 15.0
     # Admin web (OPS-02): the Flutter web build served by this API at `/admin/` (same origin,
     # so no CORS). Empty dir or no index.html there: `/admin/` answers 404. The Supabase
     # project URL and its public anon (publishable) key are handed to the page at runtime by
@@ -183,6 +200,10 @@ class Settings(BaseSettings):
     @property
     def photo_storage_enabled(self) -> bool:
         return bool(self.photo_storage_url and self.photo_storage_service_key.get_secret_value())
+
+    @property
+    def auth_admin_enabled(self) -> bool:
+        return bool(self.supabase_url and self.supabase_service_role_key.get_secret_value())
 
     @model_validator(mode="after")
     def _min_not_above_latest(self) -> Settings:
