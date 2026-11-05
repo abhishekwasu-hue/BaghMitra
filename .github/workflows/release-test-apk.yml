@@ -95,10 +95,14 @@ jobs:
             [ -f "$apks/app-$abi-release.apk" ] && cp "$apks/app-$abi-release.apk" "$out/$prefix-$abi.apk"
           done
           ls -l "$out"
+      # The pre-release below is where the owner downloads the APK; this artifact is only a copy. When the account's
+      # artifact storage quota is full, the upload fails - that must not stop the release.
       - uses: actions/upload-artifact@v4
+        continue-on-error: true
         with:
           name: bagmitra-test-apk
           path: release-files/*.apk
+          retention-days: 3
       - name: Publish pre-release
         env:
           GH_TOKEN: ${{ github.token }}
