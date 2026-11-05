@@ -115,7 +115,6 @@ class ComponentGalleryScreen extends StatelessWidget {
             caption: 'per quintal',
             change: '8%',
             changeCaption: 'vs last week',
-            rising: true,
           ),
           gap,
           const SectionHeader(title: 'Sync banners'),

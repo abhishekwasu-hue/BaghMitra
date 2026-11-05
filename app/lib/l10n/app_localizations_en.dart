@@ -75,6 +75,46 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sevenDayTrend => '7-day trend';
 
   @override
+  String get homeWeatherNeedsLocation =>
+      'Add the block\'s location to see its weather here.';
+
+  @override
+  String minTemperature(int degrees) {
+    final intl.NumberFormat degreesNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String degreesString = degreesNumberFormat.format(degrees);
+
+    return 'Min $degreesString°';
+  }
+
+  @override
+  String homeNextStage(String stage, int days) {
+    final intl.NumberFormat daysNumberFormat = intl.NumberFormat.decimalPattern(
+      localeName,
+    );
+    final String daysString = daysNumberFormat.format(days);
+
+    return 'Next: $stage in $daysString days';
+  }
+
+  @override
+  String homeHarvestMonth(String month) {
+    return 'Harvest $month';
+  }
+
+  @override
+  String get homeStageAddDates => 'Write the stage dates to see the days here.';
+
+  @override
+  String get homeOpenMarket => 'See market prices';
+
+  @override
+  String get choosePlot => 'Choose a block';
+
+  @override
+  String get onboardingSaveFailed => 'Please tap Continue again.';
+
+  @override
   String get perQuintal => 'per quintal';
 
   @override

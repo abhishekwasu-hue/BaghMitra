@@ -74,6 +74,40 @@
     }
   },
   "sevenDayTrend": "7-day trend",
+  "homeWeatherNeedsLocation": "Add the block's location to see its weather here.",
+  "minTemperature": "Min {degrees}°",
+  "@minTemperature": {
+    "placeholders": {
+      "degrees": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "homeNextStage": "Next: {stage} in {days} days",
+  "@homeNextStage": {
+    "placeholders": {
+      "stage": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "homeHarvestMonth": "Harvest {month}",
+  "@homeHarvestMonth": {
+    "placeholders": {
+      "month": {
+        "type": "String"
+      }
+    }
+  },
+  "homeStageAddDates": "Write the stage dates to see the days here.",
+  "homeOpenMarket": "See market prices",
+  "choosePlot": "Choose a block",
+  "onboardingSaveFailed": "Please tap Continue again.",
   "perQuintal": "per quintal",
   "vsLastWeek": "vs last week",
   "takePhoto": "Take photo",

@@ -8,15 +8,17 @@ class PriceHeroCard extends StatelessWidget {
     super.key,
     required this.price,
     required this.caption,
-    required this.change,
-    required this.changeCaption,
-    required this.rising,
+    this.change,
+    this.changeCaption,
+    this.rising = true,
   });
 
   final String price;
   final String caption;
-  final String change;
-  final String changeCaption;
+
+  /// The weekly change chip; left out when there is no published change.
+  final String? change;
+  final String? changeCaption;
   final bool rising;
 
   @override
@@ -45,31 +47,35 @@ class PriceHeroCard extends StatelessWidget {
               ],
             ),
           ),
-          Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: BmSpace.sm,
-              vertical: BmSpace.xs,
-            ),
-            decoration: BoxDecoration(
-              color: c.onBrand.withValues(alpha: 0.14),
-              borderRadius: BorderRadius.circular(14),
-            ),
-            child: Column(
-              children: [
-                Text(
-                  '${rising ? '▲' : '▼'} $change',
-                  style: BmType.alertTitle.copyWith(fontSize: 19, color: c.sun),
-                ),
-                Text(
-                  changeCaption,
-                  style: BmType.label.copyWith(
-                    fontSize: 12,
-                    color: c.onBrand.withValues(alpha: 0.9),
+          if (change case final change?)
+            Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: BmSpace.sm,
+                vertical: BmSpace.xs,
+              ),
+              decoration: BoxDecoration(
+                color: c.onBrand.withValues(alpha: 0.14),
+                borderRadius: BorderRadius.circular(14),
+              ),
+              child: Column(
+                children: [
+                  Text(
+                    '${rising ? '▲' : '▼'} $change',
+                    style: BmType.alertTitle.copyWith(
+                      fontSize: 19,
+                      color: c.sun,
+                    ),
                   ),
-                ),
-              ],
+                  Text(
+                    changeCaption ?? '',
+                    style: BmType.label.copyWith(
+                      fontSize: 12,
+                      color: c.onBrand.withValues(alpha: 0.9),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
         ],
       ),
     );

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
+import 'dart:ui' show Locale;
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -10,6 +11,7 @@ import '../api/generated/bagmitra.swagger.dart'
 import '../core/app_log.dart';
 import '../core/clock.dart';
 import '../core/config.dart';
+import '../core/formatting.dart';
 import '../data/local/database.dart';
 import '../features/accounts/data/accounts_repository.dart';
 import '../features/accounts/data/expense_categories.dart';
@@ -34,6 +36,7 @@ import '../features/field_work/data/field_work_options.dart';
 import '../features/field_work/data/field_work_repository.dart';
 import '../features/field_work/domain/field_work.dart';
 import '../features/home/data/demo_home_repository.dart';
+import '../features/home/data/local_home_repository.dart';
 import '../features/home/domain/home_snapshot.dart';
 import '../features/inputs/data/input_kinds.dart';
 import '../features/inputs/data/inputs_repository.dart';
@@ -79,6 +82,7 @@ import '../features/voice/data/on_device_speech.dart';
 import '../features/voice/domain/speech.dart';
 import '../features/walkthrough/data/walkthrough_flag.dart';
 import '../features/weather/data/plot_weather_cache.dart';
+import '../l10n/app_localizations.dart';
 import '../sync/account_guard.dart';
 import '../sync/http_transport.dart';
 import '../sync/outbox.dart';
@@ -754,13 +758,60 @@ final syncStatusProvider = StreamProvider<SyncStatus>((ref) {
   });
 });
 
+/// The bundled sample home. Used only in demo mode (no backend configured).
 final homeRepositoryProvider = Provider<DemoHomeRepository>(
   (ref) => DemoHomeRepository(),
 );
 
-final homeSnapshotProvider = FutureProvider.family<HomeSnapshot, String>(
+final demoHomeSnapshotProvider = FutureProvider.family<HomeSnapshot, String>(
   (ref, languageCode) => ref.watch(homeRepositoryProvider).load(languageCode),
 );
+
+/// "Today's orchard" for a language. Demo mode shows the bundled sample; every other build
+/// shows only the grower's own data (B1 / LD-01), each block empty until it has some.
+/// Weather and prices fill in when they arrive, without holding back the rest of the screen.
+final homeSnapshotProvider = Provider.family<AsyncValue<HomeSnapshot>, String>((
+  ref,
+  lang,
+) {
+  if (ref.watch(appConfigProvider).demoMode) {
+    return ref.watch(demoHomeSnapshotProvider(lang));
+  }
+  final profile = ref.watch(profileProvider);
+  final plots = ref.watch(plotsProvider);
+  final cycles = ref.watch(allBaharCyclesProvider);
+  for (final AsyncValue<Object?> v in [profile, plots, cycles]) {
+    if (v case AsyncError(:final error, :final stackTrace)) {
+      return AsyncError(error, stackTrace);
+    }
+    if (!v.hasValue) return const AsyncLoading();
+  }
+  final plot = plots.requireValue.firstOrNull;
+  final located = plot?.centroidLat != null && plot?.centroidLon != null;
+  final weather = located
+      ? ref.watch(plotWeatherProvider((plot!.id, lang)))
+      : null;
+  final prices = plot == null
+      ? null
+      : ref.watch(
+          marketPricesProvider((plot.crop, V1MarketPricesGetScope.all)),
+        );
+  final t = lookupAppLocalizations(Locale(lang));
+  return AsyncData(
+    buildLocalHomeSnapshot(
+      profile: profile.value,
+      plots: plots.requireValue,
+      cycles: cycles.requireValue,
+      catalog: ref.watch(baharOptionsProvider).value,
+      weather: weather?.value,
+      weatherLoading: weather?.isLoading ?? false,
+      prices: prices?.value,
+      today: ref.watch(clockProvider)(),
+      lang: lang,
+      acresLabel: (a) => t.plotAcres(formatDecimal(a, lang)),
+    ),
+  );
+});
 
 /// Task ticks made on the home screen. M1 replaces this with offline-synced task records.
 class TaskTicks extends Notifier<Map<String, bool>> {
