@@ -125,6 +125,28 @@ install_cron() {
   fi
 }
 
+# Admin web (OPS-02, runbook docs/runbooks/admin-web.md): the "Admin web" workflow pushes each
+# web build of app/lib/main_admin.dart to the admin-web-build branch. Unpack it in place into
+# deploy/admin-web/ (mounted read-only into the API and served at /admin/). Never stops the
+# deploy: with no build yet, /admin/ answers 404.
+ADMIN_WEB_BRANCH=admin-web-build
+update_admin_web() {
+  local dir="$DEPLOY/admin-web"
+  cd "$ROOT"
+  mkdir -p "$dir"
+  if ! git fetch -q origin "$ADMIN_WEB_BRANCH" 2> /dev/null; then
+    echo "note: could not fetch the $ADMIN_WEB_BRANCH branch (not built yet? run the Admin web workflow); admin web left as it was"
+    return 0
+  fi
+  if ! git cat-file -e FETCH_HEAD:index.html 2> /dev/null; then
+    echo "note: $ADMIN_WEB_BRANCH has no index.html; admin web left as it was"
+    return 0
+  fi
+  find "$dir" -mindepth 1 -delete
+  git archive FETCH_HEAD | tar -x -C "$dir"
+  echo "admin web: $(git log -1 --format=%s FETCH_HEAD)"
+}
+
 main() {
   case "${1:-}" in
     "" | --revert) ;;
@@ -133,6 +155,7 @@ main() {
   esac
   check_env
   update_code "${1:-}"
+  update_admin_web
   restart
   wait_healthy
   install_cron

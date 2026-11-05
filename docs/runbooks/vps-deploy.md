@@ -70,7 +70,7 @@ API चालू झाल्यावर एकदाच `crontab -e` करू
 5. Play Store आधी: धोरणाचा मजकूर वकिलाकडून तपासून घ्या (Q52). तपशील: `docs/legal/DATA_INVENTORY.md`.
 
 ## ६ब. बाजारभाव हाताने भरणारी व्यक्ती
-Supabase → Authentication → Users → त्या व्यक्तीचे `app_metadata` = `{"roles": ["market_admin"]}` (service role नेच बदलता येते). पायऱ्या: `docs/runbooks/market-prices.md`.
+Supabase → Authentication → Users → त्या व्यक्तीचे `app_metadata` = `{"roles": ["market_admin"]}` (service role नेच बदलता येते). पायऱ्या: `docs/runbooks/market-prices.md`. Admin पान (`/admin/`) आणि role देणारी script: `docs/runbooks/admin-web.md`.
 
 ## ६क. deploy आधीची यादी
 - [ ] DNS A record काम करतो (`ping api.तुमचे-डोमेन.com` ने VPS चा IP दिसतो)
@@ -81,6 +81,7 @@ Supabase → Authentication → Users → त्या व्यक्तीच�
 - [ ] (ऐच्छिक) `MARKET_API_KEY` टाकून ॲपमध्ये बाजारभाव दिसतात
 - [ ] `https://<API_DOMAIN>/` आणि `/privacy` उघडतात; Google Branding मध्ये दोन्ही दुवे टाकले (पायरी ६अ-१)
 - [ ] GitHub secrets `API_BASE_URL`, `SUPABASE_URL`, `SUPABASE_ANON_KEY` टाकून नवीन test APK
+- [ ] (शेतकऱ्यांसाठी) release key चे ४ secrets, Release APK, `/srv/bagmitra-apk/bagmitra.apk` आणि `APP_LATEST_VERSION_*` (पायरी ६इ)
 
 ## ६ड. एकाच सर्व्हरवर दुसरा प्रकल्प (उदा. ट्रेडिंग प्लॅटफॉर्म ATP) असेल तर
 ATP चा `atp-caddy-1` आधीच पोर्ट 80/443 वापरतो. मग बागमित्र स्वतःचा Caddy चालवत नाही; ATP चाच Caddy
@@ -120,6 +121,36 @@ docker exec atp-caddy-1 caddy reload --config /etc/caddy/Caddyfile
 लागेल. कायमचा उपाय: ATP च्या compose मध्ये caddy ला `edge` नेटवर्क आणि Caddyfile मध्ये हा block — हा बदल
 ATP प्रकल्पात करायचा (बागमित्र रेपोमध्ये नाही).
 बागमित्र स्थिती: `bash deploy/deploy.sh status`. परत जाणे: `bash deploy/deploy.sh --revert`. नवीन deploy ने database migration जोडली असेल तर `--revert` आधी database त्या मागच्या migration पर्यंत खाली नेते (उदा. 0021 मागे घेतल्यास scouting फोटोचे `photo_key` पुसले जातात), मग जुना कोड सुरू करते.
+
+## ६इ. नवीन APK शेतकऱ्यांना देणे (ॲप अपडेट)
+ॲप सुरू होताना (दिवसातून जास्तीत जास्त एकदा) `https://<API_DOMAIN>/v1/app/version` विचारते. फोनवरची आवृत्ती
+जुनी असेल तर वर छोटी पट्टी "नवीन आवृत्ती उपलब्ध — डाउनलोड करा" दिसते; ती दाबली की `https://<API_DOMAIN>/app`
+वरून APK उतरतो. इंटरनेट नसेल तर ॲप काहीच दाखवत नाही.
+
+1. GitHub → Actions → **Release APK** चालवा (`docs/runbooks/release-apk.md`). Summary मधील **version code** आणि
+   **version name** लिहून ठेवा. Releases पानावरून `bagmitra-<name>-<code>-arm64-v8a.apk` तुमच्या कॉम्प्युटरवर उतरवा.
+2. तुमच्या कॉम्प्युटरवरून सर्व्हरवर पाठवा (फाइलचे नाव तुमच्या फाइलप्रमाणे):
+```
+ssh root@<VPS-IP> "mkdir -p /srv/bagmitra-apk"
+scp bagmitra-1.0.0-3-arm64-v8a.apk root@<VPS-IP>:/srv/bagmitra-apk/bagmitra.apk.new
+ssh root@<VPS-IP> "mv /srv/bagmitra-apk/bagmitra.apk.new /srv/bagmitra-apk/bagmitra.apk && chmod 644 /srv/bagmitra-apk/bagmitra.apk"
+```
+   (आधी `.new` नावाने पाठवून मग `mv`: पाठवणे मध्येच तुटले तरी शेतकऱ्यांना अर्धी फाइल मिळत नाही.)
+3. सर्व्हरवर `.env` (`nano /opt/bagmitra/deploy/.env`) मध्ये पायरी १ चे आकडे:
+```
+APP_LATEST_VERSION_CODE=3
+APP_LATEST_VERSION_NAME=1.0.0
+APP_MIN_VERSION_CODE=0
+```
+   `APP_MIN_VERSION_CODE` फक्त जुने ॲप पूर्ण थांबवायचे असेल तेव्हाच वाढवा (त्याखालच्या ॲपवर "नवीन आवृत्ती आवश्यक"
+   पडदा येतो आणि ॲप वापरता येत नाही). तो `APP_LATEST_VERSION_CODE` पेक्षा मोठा ठेवला तर API सुरूच होत नाही.
+4. पुन्हा deploy: `cd /opt/bagmitra && bash deploy/deploy.sh`
+5. तपासा: `curl https://<API_DOMAIN>/v1/app/version` मध्ये नवीन आकडे, आणि फोनच्या ब्राउझरमध्ये
+   `https://<API_DOMAIN>/app` उघडल्यावर `bagmitra.apk` उतरतो.
+
+**लक्षात ठेवा:** Test APK (test key) असलेल्या फोनवर हा APK थेट install होत नाही. परीक्षकांनी एकदाच: sync पूर्ण
+होऊ द्या → test ॲप uninstall → हा APK install → त्याच खात्याने लॉगिन (`release-apk.md` §४). त्यानंतरचे सर्व
+release APK जुन्यावरच install होतात आणि डेटा राहतो.
 
 ## ७. बॅकअप
 - **Supabase चा डेटाबेस वापरत असाल तर:** बॅकअप तिथल्या प्लॅननुसार (मोफत प्लॅनमध्ये मर्यादित). महत्त्वाचा डेटा असेल तर Settings → Database → Backups तपासा.

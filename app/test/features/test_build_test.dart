@@ -3,6 +3,9 @@ import 'dart:io';
 
 import 'package:bagmitra/core/app_log.dart';
 import 'package:bagmitra/core/config.dart';
+import 'package:bagmitra/features/app_update/data/app_update_providers.dart';
+import 'package:bagmitra/features/dev/component_gallery_screen.dart';
+import 'package:bagmitra/features/home/presentation/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -72,13 +75,60 @@ void main() {
     await unmountApp(tester);
   });
 
-  testWidgets('real builds have no badge and no settings route', (
-    tester,
-  ) async {
+  testWidgets('real builds have no badge but reach Settings from the profile '
+      '(audit R2), without the test label or the dev gallery', (tester) async {
+    final sharer = RecordingSharer();
+    const realBuild = AppConfig(
+      productName: 'BagMitra',
+      apiBaseUrl: 'http://localhost:8000',
+      supabaseUrl: '',
+      supabaseAnonKey: '',
+      devGallery: false,
+      testBuild: '',
+      speechEngine: 'on_device',
+    );
     await pumpApp(
       tester,
       locale: const Locale('en'),
-      initialLocation: '/settings',
+      initialLocation: '/profile',
+      config: realBuild,
+      sharer: sharer,
+      overrides: [
+        installedVersionNameProvider.overrideWithValue(
+          () async => (name: '1.0.0', code: 12),
+        ),
+      ],
+    );
+    expect(find.byKey(const Key('test-badge')), findsNothing);
+    await tester.scrollUntilVisible(
+      find.byKey(const Key('profile-settings')),
+      200,
+      scrollable: find
+          .descendant(
+            of: find.byKey(const Key('profile-list')),
+            matching: find.byType(Scrollable),
+          )
+          .first,
+    );
+    await tester.tap(find.byKey(const Key('profile-settings')));
+    await tester.pumpAndSettle();
+
+    expect(find.byKey(const Key('send-logs')), findsOneWidget);
+    expect(find.byKey(const Key('photo-backup-mobile-data')), findsOneWidget);
+    expect(find.byKey(const Key('show-walkthrough')), findsOneWidget);
+    expect(find.text('Version 1.0.0 (12)'), findsOneWidget);
+    expect(find.textContaining('Test build'), findsNothing);
+    await tester.tap(find.byKey(const Key('send-logs')));
+    await tester.pump();
+    expect(sharer.shared.single.fileName, 'bagmitra-logs.txt');
+    await unmountApp(tester);
+  });
+
+  testWidgets('real builds still keep the dev gallery closed', (tester) async {
+    await pumpApp(
+      tester,
+      locale: const Locale('en'),
+      initialLocation: '/dev/gallery',
       config: const AppConfig(
         productName: 'BagMitra',
         apiBaseUrl: 'http://localhost:8000',
@@ -89,8 +139,8 @@ void main() {
         speechEngine: 'on_device',
       ),
     );
-    expect(find.byKey(const Key('test-badge')), findsNothing);
-    expect(find.byKey(const Key('send-logs')), findsNothing);
+    expect(find.byType(ComponentGalleryScreen), findsNothing);
+    expect(find.byType(HomeScreen), findsOneWidget);
     await unmountApp(tester);
   });
 

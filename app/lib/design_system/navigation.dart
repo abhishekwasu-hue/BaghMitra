@@ -17,6 +17,7 @@ class BmBottomBar extends StatelessWidget {
     required this.selected,
     required this.cameraLabel,
     required this.onCamera,
+    this.onCameraLongPress,
     this.onSelect,
   }) : assert(items.length == 4, 'two items on each side of the camera');
 
@@ -24,6 +25,9 @@ class BmBottomBar extends StatelessWidget {
   final int selected;
   final String cameraLabel;
   final VoidCallback onCamera;
+
+  /// A hidden second action on the camera (developer builds open the component gallery).
+  final VoidCallback? onCameraLongPress;
   final ValueChanged<int>? onSelect;
 
   @override
@@ -97,7 +101,11 @@ class BmBottomBar extends StatelessWidget {
           ),
           Positioned(
             bottom: 40 + bottomInset,
-            child: CameraButton(label: cameraLabel, onPressed: onCamera),
+            child: CameraButton(
+              label: cameraLabel,
+              onPressed: onCamera,
+              onLongPress: onCameraLongPress,
+            ),
           ),
         ],
       ),
@@ -106,10 +114,16 @@ class BmBottomBar extends StatelessWidget {
 }
 
 class CameraButton extends StatelessWidget {
-  const CameraButton({super.key, required this.label, required this.onPressed});
+  const CameraButton({
+    super.key,
+    required this.label,
+    required this.onPressed,
+    this.onLongPress,
+  });
 
   final String label;
   final VoidCallback onPressed;
+  final VoidCallback? onLongPress;
 
   @override
   Widget build(BuildContext context) {
@@ -119,6 +133,7 @@ class CameraButton extends StatelessWidget {
       label: label,
       child: GestureDetector(
         onTap: onPressed,
+        onLongPress: onLongPress,
         child: Container(
           width: 72,
           height: 72,

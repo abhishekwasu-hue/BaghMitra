@@ -13,6 +13,8 @@ from bagmitra_api.routers import (
     admin_feed,
     admin_kb,
     admin_market,
+    admin_web,
+    app_release,
     billing,
     devices,
     feed,
@@ -51,6 +53,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         admin_feed,
         admin_kb,
         admin_market,
+        admin_web,
+        app_release,
         billing,
         devices,
         feed,
@@ -67,4 +71,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         weather,
     ):
         app.include_router(module.router)
+    # Last, so `/admin/config.json` (admin_web router) wins over the static files.
+    admin_files = admin_web.admin_web_files(settings)
+    if admin_files is not None:
+        app.mount(admin_web.MOUNT_PATH, admin_files, name="admin_web")
     return app

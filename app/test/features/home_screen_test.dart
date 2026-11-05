@@ -19,7 +19,7 @@ void main() {
 
   testWidgets('ticking a task toggles it', (tester) async {
     await pumpApp(tester, locale: const Locale('en'));
-    final spray = find.widgetWithText(TaskTile, 'Zinc + boron spray');
+    final spray = find.widgetWithText(TaskTile, 'Psylla check — 10 trees');
     expect(tester.widget<TaskTile>(spray).done, isFalse);
     await tester.ensureVisible(spray);
     await tester.pump();
@@ -72,12 +72,15 @@ void main() {
     await unmountApp(tester);
   });
 
-  testWidgets('camera opens the dev gallery in dev builds', (tester) async {
-    await pumpApp(tester, locale: const Locale('en'));
-    await tester.tap(find.byType(CameraButton));
-    await tester.pump();
-    await tester.pump(const Duration(milliseconds: 500));
-    expect(find.text('Component gallery'), findsOneWidget);
-    await unmountApp(tester);
-  });
+  testWidgets(
+    'a long press on the camera opens the dev gallery in dev builds',
+    (tester) async {
+      await pumpApp(tester, locale: const Locale('en'));
+      await tester.longPress(find.byType(CameraButton));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      expect(find.text('Component gallery'), findsOneWidget);
+      await unmountApp(tester);
+    },
+  );
 }

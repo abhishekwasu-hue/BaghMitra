@@ -75,6 +75,45 @@ class AppLocalizationsHi extends AppLocalizations {
   String get sevenDayTrend => '7 दिन का रुझान';
 
   @override
+  String get homeWeatherNeedsLocation => 'बाग की जगह जोड़ें, यहाँ मौसम दिखेगा।';
+
+  @override
+  String minTemperature(int degrees) {
+    final intl.NumberFormat degreesNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String degreesString = degreesNumberFormat.format(degrees);
+
+    return 'न्यूनतम $degreesString°';
+  }
+
+  @override
+  String homeNextStage(String stage, int days) {
+    final intl.NumberFormat daysNumberFormat = intl.NumberFormat.decimalPattern(
+      localeName,
+    );
+    final String daysString = daysNumberFormat.format(days);
+
+    return 'अगला चरण: $stage · $daysString दिनों में';
+  }
+
+  @override
+  String homeHarvestMonth(String month) {
+    return 'तुड़ाई $month';
+  }
+
+  @override
+  String get homeStageAddDates => 'चरणों की तारीखें लिखें, यहाँ दिन दिखेंगे।';
+
+  @override
+  String get homeOpenMarket => 'मंडी भाव देखें';
+
+  @override
+  String get choosePlot => 'बाग चुनें';
+
+  @override
+  String get onboardingSaveFailed => 'कृपया फिर से \"आगे बढ़ें\" दबाएँ।';
+
+  @override
   String get perQuintal => 'प्रति क्विंटल';
 
   @override
@@ -1121,6 +1160,32 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get sendLogs => 'लॉग भेजें';
+
+  @override
+  String get updateAvailable => 'नया संस्करण उपलब्ध — डाउनलोड करें';
+
+  @override
+  String get updateDismiss => 'बंद करें';
+
+  @override
+  String get updateDownload => 'डाउनलोड करें';
+
+  @override
+  String get updateRequiredTitle => 'नया संस्करण ज़रूरी है';
+
+  @override
+  String get updateRequiredBody =>
+      'बागमित्र इस्तेमाल करते रहने के लिए नया संस्करण डाउनलोड करके इंस्टॉल करें।';
+
+  @override
+  String updateLinkCopied(String url) {
+    return 'लिंक कॉपी हो गया। ब्राउज़र में पेस्ट करके डाउनलोड करें: $url';
+  }
+
+  @override
+  String settingsVersion(String name, String code) {
+    return 'संस्करण $name ($code)';
+  }
 
   @override
   String get walkthroughSkip => 'छोड़ें';

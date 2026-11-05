@@ -51,20 +51,33 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     final userId = ref.read(authRepositoryProvider).current?.userId;
     if (userId == null || !_consentData || _saving) return;
     setState(() => _saving = true);
-    await ref
-        .read(profileRepositoryProvider)
-        .save(
-          FarmerProfile(
-            id: userId,
-            language: _language,
-            displayName: _text(_name),
-            village: _text(_village),
-            taluka: _text(_taluka),
-            district: _text(_district),
-            consentDataProcessing: true,
-            consentWhatsapp: _consentWhatsapp,
-          ),
-        );
+    try {
+      await ref
+          .read(profileRepositoryProvider)
+          .save(
+            FarmerProfile(
+              id: userId,
+              language: _language,
+              displayName: _text(_name),
+              village: _text(_village),
+              taluka: _text(_taluka),
+              district: _text(_district),
+              consentDataProcessing: true,
+              consentWhatsapp: _consentWhatsapp,
+            ),
+          );
+    } on Object catch (e) {
+      // The button comes back so the grower can try again (M9).
+      ref.read(appLogProvider).log('onboarding save: $e');
+      if (!mounted) return;
+      setState(() => _saving = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(AppLocalizations.of(context).onboardingSaveFailed),
+        ),
+      );
+      return;
+    }
     // The saved profile now decides the language, and the router moves on to home.
     ref.read(languagePreviewProvider.notifier).set(null);
   }

@@ -7,6 +7,8 @@ import 'package:bagmitra/sync/sync_engine.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../features/home/home_seed.dart';
+import '../features/plots/plots_screen_test.dart' show settle;
 import '../helpers/pump_app.dart';
 
 void main() {
@@ -41,6 +43,30 @@ void main() {
     );
     await unmountApp(tester);
   });
+
+  // A production build (backend configured): only the grower's own data (B1 / H2 / H3).
+  for (final (name, seed, scale) in [
+    ('home_real_new_mr_light', null, 1.0),
+    ('home_real_data_mr_light', seedHomeData, 1.0),
+    ('home_real_data_mr_x13', seedHomeData, 1.3),
+  ]) {
+    testWidgets(name, (tester) async {
+      tester.platformDispatcher.textScaleFactorTestValue = scale;
+      addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+      await pumpApp(
+        tester,
+        config: realConfig,
+        syncStatus: const SyncStatus(connectivity: Connectivity.online),
+        seed: seed,
+      );
+      await settle(tester);
+      await expectLater(
+        find.byType(MaterialApp),
+        matchesGoldenFile('$name.png'),
+      );
+      await unmountApp(tester);
+    });
+  }
 
   testWidgets('login_mr_light', (tester) async {
     await pumpApp(tester, session: null);

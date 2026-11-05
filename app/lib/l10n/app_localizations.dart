@@ -172,6 +172,54 @@ abstract class AppLocalizations {
   /// **'7-day trend'**
   String get sevenDayTrend;
 
+  /// No description provided for @homeWeatherNeedsLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Add the block\'s location to see its weather here.'**
+  String get homeWeatherNeedsLocation;
+
+  /// No description provided for @minTemperature.
+  ///
+  /// In en, this message translates to:
+  /// **'Min {degrees}°'**
+  String minTemperature(int degrees);
+
+  /// No description provided for @homeNextStage.
+  ///
+  /// In en, this message translates to:
+  /// **'Next: {stage} in {days} days'**
+  String homeNextStage(String stage, int days);
+
+  /// No description provided for @homeHarvestMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Harvest {month}'**
+  String homeHarvestMonth(String month);
+
+  /// No description provided for @homeStageAddDates.
+  ///
+  /// In en, this message translates to:
+  /// **'Write the stage dates to see the days here.'**
+  String get homeStageAddDates;
+
+  /// No description provided for @homeOpenMarket.
+  ///
+  /// In en, this message translates to:
+  /// **'See market prices'**
+  String get homeOpenMarket;
+
+  /// No description provided for @choosePlot.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a block'**
+  String get choosePlot;
+
+  /// No description provided for @onboardingSaveFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Please tap Continue again.'**
+  String get onboardingSaveFailed;
+
   /// No description provided for @perQuintal.
   ///
   /// In en, this message translates to:
@@ -2037,6 +2085,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Send logs'**
   String get sendLogs;
+
+  /// No description provided for @updateAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'New version available — download'**
+  String get updateAvailable;
+
+  /// No description provided for @updateDismiss.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get updateDismiss;
+
+  /// No description provided for @updateDownload.
+  ///
+  /// In en, this message translates to:
+  /// **'Download'**
+  String get updateDownload;
+
+  /// No description provided for @updateRequiredTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Please update the app'**
+  String get updateRequiredTitle;
+
+  /// No description provided for @updateRequiredBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Download and install the new version to keep using BagMitra.'**
+  String get updateRequiredBody;
+
+  /// No description provided for @updateLinkCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Link copied. Paste it in the browser to download: {url}'**
+  String updateLinkCopied(String url);
+
+  /// No description provided for @settingsVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'Version {name} ({code})'**
+  String settingsVersion(String name, String code);
 
   /// No description provided for @walkthroughSkip.
   ///

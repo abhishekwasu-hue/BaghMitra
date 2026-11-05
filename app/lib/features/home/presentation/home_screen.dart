@@ -17,12 +17,14 @@ import '../../../design_system/weather_header.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../sync/sync_engine.dart';
 import '../../../theme/app_theme.dart';
+import '../../plots/domain/plot.dart';
 import '../../tasks/domain/farm_task.dart';
 import '../../tasks/presentation/tasks_screen.dart' show todaysTasksShareText;
 import '../../voice/presentation/share_speak_buttons.dart';
 import '../domain/home_snapshot.dart';
 
 /// "Today's orchard": weather, bahar stage, risk alert, tasks, market price, camera.
+/// Demo mode shows the bundled sample; every other build only the grower's own data.
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
@@ -31,10 +33,14 @@ class HomeScreen extends ConsumerWidget {
     final lang = Localizations.localeOf(context).languageCode;
     final snapshot = ref.watch(homeSnapshotProvider(lang));
     final config = ref.watch(appConfigProvider);
+    final plots = ref.watch(plotsProvider).value ?? const <Plot>[];
     final t = AppLocalizations.of(context);
     return Scaffold(
       body: switch (snapshot) {
-        AsyncData(:final value) => _HomeBody(snapshot: value, lang: lang),
+        AsyncValue(hasValue: true, :final value?) => _HomeBody(
+          snapshot: value,
+          lang: lang,
+        ),
         AsyncError() => Center(child: Text(t.syncFailed)),
         _ => const Center(child: CircularProgressIndicator()),
       },
@@ -46,17 +52,65 @@ class HomeScreen extends ConsumerWidget {
           BmNavItem(BmGlyph.mic, t.navAsk),
         ],
         selected: 0,
-        onSelect: (i) {
-          if (i == 1) context.push(Routes.plots);
+        onSelect: (i) => switch (i) {
+          1 => context.push(Routes.plots),
+          2 => openForPlot(context, plots, Routes.accounts),
+          // "Ask": the practices guide, grouped by problem, with its links to the
+          // look-alike symptoms and the labs (the app has no question flow).
+          3 => context.push(Routes.practices),
+          _ => null,
         },
         cameraLabel: t.takePhoto,
-        // Camera capture lands in M3; in dev builds the button opens the component gallery.
-        onCamera: () {
-          if (config.devGallery) context.push(Routes.gallery);
-        },
+        // A scouting record with a photo, for the grower's block.
+        onCamera: () => openForPlot(context, plots, Routes.addScouting),
+        onCameraLongPress: config.devGallery
+            ? () => context.push(Routes.gallery)
+            : null,
       ),
     );
   }
+}
+
+/// Opens [route] for the grower's block: straight away with one block, after a short
+/// "choose a block" sheet with several, and the add-block form when there is none yet.
+Future<void> openForPlot(
+  BuildContext context,
+  List<Plot> plots,
+  String Function(String plotId) route,
+) async {
+  if (plots.isEmpty) {
+    await context.push(Routes.addPlot);
+    return;
+  }
+  if (plots.length == 1) {
+    await context.push(route(plots.single.id));
+    return;
+  }
+  final t = AppLocalizations.of(context);
+  final id = await showModalBottomSheet<String>(
+    context: context,
+    showDragHandle: true,
+    builder: (sheet) => SafeArea(
+      child: ListView(
+        shrinkWrap: true,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: BmSpace.lg),
+            child: Text(t.choosePlot, style: BmType.section),
+          ),
+          for (final p in plots)
+            ListTile(
+              key: Key('pick-plot-${p.id}'),
+              leading: const GlyphIcon(BmGlyph.orchard),
+              title: Text(p.name, style: BmType.bodyStrong),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () => Navigator.of(sheet).pop(p.id),
+            ),
+        ],
+      ),
+    ),
+  );
+  if (id != null && context.mounted) await context.push(route(id));
 }
 
 class _HomeBody extends ConsumerWidget {
@@ -92,7 +146,6 @@ class _HomeBody extends ConsumerWidget {
     final t = AppLocalizations.of(context);
     final ticks = ref.watch(taskTicksProvider);
     final sync = ref.watch(syncStatusProvider).value;
-    final s = snapshot.stage;
     final w = snapshot.weather;
     final m = snapshot.market;
     final config = ref.watch(appConfigProvider);
@@ -106,15 +159,17 @@ class _HomeBody extends ConsumerWidget {
             : !dateOnly(task.dueOn).isAfter(dateOnly(now)))
           task,
     ];
-    // What "share today's tasks" hands on: the open ones (real tasks, or the demo list).
-    final openTitles = realTasks.isNotEmpty
+    // The sample task list is shown only in demo mode, and only until a real task exists.
+    final sampleTasks = snapshot.isDemo && realTasks.isEmpty;
+    // What "share today's tasks" hands on: the open ones.
+    final openTitles = sampleTasks
         ? [
-            for (final task in dueToday)
-              if (!task.isDone) task.title,
-          ]
-        : [
             for (final task in snapshot.tasks)
               if (!(ticks[task.id] ?? task.done)) task.title,
+          ]
+        : [
+            for (final task in dueToday)
+              if (!task.isDone) task.title,
           ];
     // A test build with no backend never syncs, so say where the data lives instead.
     final banner = config.demoMode && config.isTestBuild
@@ -129,13 +184,28 @@ class _HomeBody extends ConsumerWidget {
             children: [
               WeatherHeader(
                 greeting: t.greetingHello,
-                name: t.greetingName(snapshot.farmerName),
+                name: snapshot.farmerName.isEmpty
+                    ? ''
+                    : t.greetingName(snapshot.farmerName),
                 initial: snapshot.initial,
-                temperature: t.temperature(w.tempC),
-                place: w.place,
-                condition: w.condition,
-                maxTemperature: t.maxTemperature(w.maxC),
-                soilPill: t.soilMoisture(w.soilMoisturePct),
+                temperature: w == null ? null : t.temperature(w.tempC),
+                details: [
+                  if (w != null) ...[
+                    w.place,
+                    ?w.condition,
+                    if (w.maxC case final max?) t.maxTemperature(max),
+                    if (w.minC case final min?) t.minTemperature(min),
+                  ],
+                ],
+                soilPill: switch (w?.soilMoisturePct) {
+                  final int pct => t.soilMoisture(pct),
+                  null => null,
+                },
+                weatherNote: switch (snapshot.weatherNote) {
+                  WeatherNote.needsLocation => t.homeWeatherNeedsLocation,
+                  WeatherNote.notYetLoaded => t.weatherNone,
+                  null => null,
+                },
                 onAvatarTap: () => context.push(Routes.profile),
                 avatarLabel: t.profileTitle,
               ),
@@ -167,50 +237,14 @@ class _HomeBody extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  StageCard(
-                    tag: s.tag,
-                    stageName: s.currentName,
-                    dayCount: formatInt(s.day, lang),
-                    dayUnit: t.stageDays,
-                    progress: s.progress,
-                    nodes: [
-                      for (final (i, ms) in s.milestones.indexed)
-                        StageNodeData(
-                          label: ms.label,
-                          glyph: _stageGlyph(ms.kind),
-                          position: ms.position,
-                          state: i < s.currentIndex
-                              ? StageState.done
-                              : i == s.currentIndex
-                              ? StageState.now
-                              : StageState.upcoming,
-                        ),
-                    ],
-                    nextLine: t.nextStage(
-                      s.nextName,
-                      s.nextInDays,
-                      formatMonth(s.harvestMonth, lang),
-                    ),
-                  ),
+                  _stageBlock(context, t),
                   const SizedBox(height: BmSpace.sm),
                   if (banner != null) ...[
                     banner,
                     const SizedBox(height: BmSpace.sm),
                   ],
                   if (snapshot.alert case final alert?)
-                    AlertBanner(
-                      title: alert.title,
-                      body: alert.body,
-                      actions: ShareSpeakButtons(
-                        keyPrefix: 'home-alert',
-                        shareText: [
-                          alert.title,
-                          alert.body,
-                          shareFooter(t, config.productName),
-                        ].join('\n'),
-                        speakText: '${alert.title}\n${alert.body}',
-                      ),
-                    ),
+                    _alert(t, alert, config.productName),
                   const SizedBox(height: BmSpace.xs),
                   SectionHeader(
                     title: t.todaysTasks,
@@ -238,11 +272,37 @@ class _HomeBody extends ConsumerWidget {
                         ),
                       ),
                     ),
-                  if (realTasks.isNotEmpty) ...[
+                  if (sampleTasks)
+                    for (final task in snapshot.tasks) ...[
+                      TaskTile(
+                        title: task.title,
+                        subtitle: task.subtitle,
+                        glyph: _taskGlyph(task.kind),
+                        done: ticks[task.id] ?? task.done,
+                        checkLabel: t.markTaskDone,
+                        onToggle: (v) => ref
+                            .read(taskTicksProvider.notifier)
+                            .set(task.id, v),
+                      ),
+                      const SizedBox(height: 10),
+                    ]
+                  else ...[
                     if (dueToday.isEmpty)
                       Padding(
                         padding: const EdgeInsets.only(bottom: 10),
-                        child: Text(t.noTasksToday, style: BmType.meta),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Text(t.noTasksToday, style: BmType.meta),
+                            ),
+                            TextButton.icon(
+                              key: const Key('home-add-task'),
+                              onPressed: () => context.push(Routes.addTask),
+                              icon: const Icon(Icons.add_rounded),
+                              label: Text(t.addTask),
+                            ),
+                          ],
+                        ),
                       ),
                     for (final task in dueToday) ...[
                       TaskTile(
@@ -259,32 +319,42 @@ class _HomeBody extends ConsumerWidget {
                       ),
                       const SizedBox(height: 10),
                     ],
-                  ] else
-                    for (final task in snapshot.tasks) ...[
-                      TaskTile(
-                        title: task.title,
-                        subtitle: task.subtitle,
-                        glyph: _taskGlyph(task.kind),
-                        done: ticks[task.id] ?? task.done,
-                        checkLabel: t.markTaskDone,
-                        onToggle: (v) => ref
-                            .read(taskTicksProvider.notifier)
-                            .set(task.id, v),
-                      ),
-                      const SizedBox(height: 10),
-                    ],
+                  ],
                   SectionHeader(
-                    title: t.marketTitle(m.market),
-                    action: t.sevenDayTrend,
-                    onAction: () {},
+                    title: m == null
+                        ? t.marketPricesTitle
+                        : t.marketTitle(m.market),
+                    action: t.seeAll,
+                    onAction: () => context.push(Routes.market),
                   ),
-                  PriceHeroCard(
-                    price: formatRupees(m.pricePerQuintal, lang),
-                    caption: '${t.perQuintal} · ${m.grade}',
-                    change: formatPercent(m.weeklyChangePct.abs(), lang),
-                    changeCaption: t.vsLastWeek,
-                    rising: m.weeklyChangePct >= 0,
-                  ),
+                  if (m != null)
+                    GestureDetector(
+                      key: const Key('home-price'),
+                      onTap: () => context.push(Routes.market),
+                      child: PriceHeroCard(
+                        price: formatRupees(m.pricePerQuintal, lang),
+                        caption: [
+                          t.perQuintal,
+                          ?m.grade,
+                          if (m.day case final day?) formatDate(day, lang),
+                        ].join(' · '),
+                        change: switch (m.weeklyChangePct) {
+                          final int pct => formatPercent(pct.abs(), lang),
+                          null => null,
+                        },
+                        changeCaption: t.vsLastWeek,
+                        rising: (m.weeklyChangePct ?? 0) >= 0,
+                      ),
+                    )
+                  else
+                    _linkCard(
+                      context,
+                      key: const Key('home-market-empty'),
+                      icon: Icons.storefront_outlined,
+                      title: t.homeOpenMarket,
+                      subtitle: t.marketEmpty,
+                      onTap: () => context.push(Routes.market),
+                    ),
                   if (config.sarkariSandeshEnabled) ...[
                     const SizedBox(height: BmSpace.md),
                     SectionHeader(
@@ -292,43 +362,23 @@ class _HomeBody extends ConsumerWidget {
                       action: t.seeAll,
                       onAction: () => context.push(Routes.feed),
                     ),
-                    BmCard(
-                      elevated: false,
-                      padding: EdgeInsets.zero,
-                      child: Material(
-                        type: MaterialType.transparency,
-                        child: ListTile(
-                          key: const Key('open-feed'),
-                          leading: Icon(
-                            Icons.account_balance_outlined,
-                            color: context.bm.brand,
-                          ),
-                          title: Text(t.feedTitle, style: BmType.bodyStrong),
-                          subtitle: Text(t.feedOpenHint, style: BmType.meta),
-                          trailing: const Icon(Icons.chevron_right),
-                          onTap: () => context.push(Routes.feed),
-                        ),
-                      ),
+                    _linkCard(
+                      context,
+                      key: const Key('open-feed'),
+                      icon: Icons.account_balance_outlined,
+                      title: t.feedTitle,
+                      subtitle: t.feedOpenHint,
+                      onTap: () => context.push(Routes.feed),
                     ),
                   ],
                   const SizedBox(height: BmSpace.md),
-                  BmCard(
-                    elevated: false,
-                    padding: EdgeInsets.zero,
-                    child: Material(
-                      type: MaterialType.transparency,
-                      child: ListTile(
-                        key: const Key('open-schemes'),
-                        leading: Icon(
-                          Icons.fact_check_outlined,
-                          color: context.bm.brand,
-                        ),
-                        title: Text(t.schemesTitle, style: BmType.bodyStrong),
-                        subtitle: Text(t.schemesHomeHint, style: BmType.meta),
-                        trailing: const Icon(Icons.chevron_right),
-                        onTap: () => context.push(Routes.schemes),
-                      ),
-                    ),
+                  _linkCard(
+                    context,
+                    key: const Key('open-schemes'),
+                    icon: Icons.fact_check_outlined,
+                    title: t.schemesTitle,
+                    subtitle: t.schemesHomeHint,
+                    onTap: () => context.push(Routes.schemes),
                   ),
                 ],
               ),
@@ -338,6 +388,109 @@ class _HomeBody extends ConsumerWidget {
       ),
     );
   }
+
+  /// The bahar block: the stage card; else "start a bahar" for the block; else, for a
+  /// grower with no block yet, the first step: add the first orchard block (H2).
+  Widget _stageBlock(BuildContext context, AppLocalizations t) {
+    final plotId = snapshot.plotId;
+    if (!snapshot.hasPlot) {
+      return _ActionCard(
+        key: const Key('home-add-first-plot'),
+        glyph: BmGlyph.orchard,
+        title: t.plotsEmptyTitle,
+        body: t.plotsEmptyBody,
+        action: t.addPlot,
+        onPressed: () => context.push(Routes.addPlot),
+      );
+    }
+    final s = snapshot.stage;
+    if (s == null) {
+      return _ActionCard(
+        key: const Key('home-start-bahar'),
+        glyph: BmGlyph.flower,
+        title: t.baharEmptyTitle,
+        body: t.baharEmptyBody,
+        action: t.startBahar,
+        onPressed: plotId == null
+            ? null
+            : () => context.push(Routes.startBahar(plotId)),
+      );
+    }
+    final next = [
+      if ((s.nextName, s.nextInDays) case (final name?, final days?))
+        t.homeNextStage(name, days),
+      if (s.harvestMonth case final month?)
+        t.homeHarvestMonth(formatMonth(month, lang)),
+    ];
+    final card = StageCard(
+      tag: s.tag,
+      stageName: s.currentName,
+      dayCount: s.day == null ? '' : formatInt(s.day!, lang),
+      dayUnit: s.day == null ? '' : t.stageDays,
+      progress: s.progress,
+      nodes: [
+        for (final (i, ms) in s.milestones.indexed)
+          StageNodeData(
+            label: ms.label,
+            glyph: _stageGlyph(ms.kind),
+            position: ms.position,
+            state: i < s.currentIndex
+                ? StageState.done
+                : i == s.currentIndex
+                ? StageState.now
+                : StageState.upcoming,
+          ),
+      ],
+      nextLine: next.isEmpty ? t.homeStageAddDates : next.join(' · '),
+    );
+    if (plotId == null) return card;
+    return GestureDetector(
+      key: const Key('home-stage'),
+      onTap: () => context.push(Routes.plotBahar(plotId)),
+      child: card,
+    );
+  }
+
+  Widget _alert(AppLocalizations t, RiskAlert alert, String productName) {
+    final body =
+        alert.body ??
+        [
+          if (alert.firstDay case final day?) formatDate(day, lang),
+          if (alert.source case final source?) t.weatherSource(source),
+        ].join(' · ');
+    return AlertBanner(
+      title: alert.title,
+      body: body,
+      actions: ShareSpeakButtons(
+        keyPrefix: 'home-alert',
+        shareText: [alert.title, body, shareFooter(t, productName)].join('\n'),
+        speakText: '${alert.title}\n$body',
+      ),
+    );
+  }
+
+  static Widget _linkCard(
+    BuildContext context, {
+    required Key key,
+    required IconData icon,
+    required String title,
+    required String subtitle,
+    required VoidCallback onTap,
+  }) => BmCard(
+    elevated: false,
+    padding: EdgeInsets.zero,
+    child: Material(
+      type: MaterialType.transparency,
+      child: ListTile(
+        key: key,
+        leading: Icon(icon, color: context.bm.brand),
+        title: Text(title, style: BmType.bodyStrong),
+        subtitle: Text(subtitle, style: BmType.meta),
+        trailing: const Icon(Icons.chevron_right),
+        onTap: onTap,
+      ),
+    ),
+  );
 
   static Widget? _syncBanner(AppLocalizations t, SyncStatus? s) {
     if (s == null) return null;
@@ -354,6 +507,56 @@ class _HomeBody extends ConsumerWidget {
       );
     }
     return null;
+  }
+}
+
+/// A card with one clear next step (add the first block, start a bahar).
+class _ActionCard extends StatelessWidget {
+  const _ActionCard({
+    super.key,
+    required this.glyph,
+    required this.title,
+    required this.body,
+    required this.action,
+    required this.onPressed,
+  });
+
+  final BmGlyph glyph;
+  final String title;
+  final String body;
+  final String action;
+  final VoidCallback? onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    final c = context.bm;
+    return BmCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              SizedBox.square(dimension: 40, child: GlyphIcon(glyph)),
+              const SizedBox(width: BmSpace.sm),
+              Expanded(
+                child: Text(
+                  title,
+                  style: BmType.cardTitle.copyWith(color: c.brand),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: BmSpace.xs),
+          Text(body, style: BmType.body.copyWith(color: c.inkMuted)),
+          const SizedBox(height: BmSpace.md),
+          FilledButton.icon(
+            onPressed: onPressed,
+            icon: const Icon(Icons.add_rounded),
+            label: Text(action),
+          ),
+        ],
+      ),
+    );
   }
 }
 

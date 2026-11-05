@@ -4,8 +4,9 @@ import 'package:flutter/services.dart';
 
 import '../domain/home_snapshot.dart';
 
-/// Reads the M0 sample "today's orchard" from a language-keyed asset. This is demo content,
-/// not business configuration: it is replaced by real plot/bahar/weather data in M1–M5.
+/// Reads the sample "today's orchard" from a language-keyed asset. Demo mode only (no backend
+/// configured); every other build reads the grower's own data (`local_home_repository.dart`).
+/// The sample carries no spray task, no spray advice and no mandi price (C1).
 class DemoHomeRepository {
   DemoHomeRepository({AssetBundle? bundle}) : _bundle = bundle ?? rootBundle;
 

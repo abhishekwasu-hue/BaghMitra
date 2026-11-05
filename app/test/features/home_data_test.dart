@@ -11,9 +11,14 @@ void main() {
     test('demo snapshot parses for $lang', () async {
       final s = await repo.load(lang);
       expect(s.isDemo, isTrue);
-      expect(s.stage.milestones, hasLength(4));
-      expect(s.stage.milestones[s.stage.currentIndex].kind, StageKind.fruitSet);
-      expect(s.tasks.map((t) => t.kind), contains(TaskKind.spray));
+      expect(s.stage!.milestones, hasLength(4));
+      expect(
+        s.stage!.milestones[s.stage!.currentIndex].kind,
+        StageKind.fruitSet,
+      );
+      // C1: the sample carries no spray task, no spray advice and no made-up price.
+      expect(s.tasks.map((t) => t.kind), isNot(contains(TaskKind.spray)));
+      expect(s.market, isNull);
       expect(s.alert, isNotNull);
       expect(s.initial, isNotEmpty);
     });
@@ -30,6 +35,7 @@ void main() {
       for (final t in s.tasks) t.copyWith(done: true),
     ]);
     expect(ticked.tasks.every((t) => t.done), isTrue);
-    expect(ticked.market.pricePerQuintal, s.market.pricePerQuintal);
+    expect(ticked.stage, same(s.stage));
+    expect(ticked.isDemo, isTrue);
   });
 }

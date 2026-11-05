@@ -6,7 +6,7 @@ import re
 from functools import lru_cache
 from typing import Literal
 
-from pydantic import Field, SecretStr, field_validator
+from pydantic import Field, SecretStr, field_validator, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 _EMAIL = re.compile(r"[^@\s<>\"'&]+@[^@\s<>\"'&]+\.[^@\s<>\"'&]+")
@@ -161,9 +161,35 @@ class Settings(BaseSettings):
     # correction or deletion requests. Empty: the page says the contact is not published yet.
     privacy_contact_email: str = ""
 
+    # Admin web (OPS-02): the Flutter web build served by this API at `/admin/` (same origin,
+    # so no CORS). Empty dir or no index.html there: `/admin/` answers 404. The Supabase
+    # project URL and its public anon (publishable) key are handed to the page at runtime by
+    # `/admin/config.json`, so the build itself holds no environment values. Never the
+    # service role key: the page runs in the browser.
+    admin_web_dir: str = ""
+    admin_web_supabase_url: str = ""
+    admin_web_supabase_anon_key: str = ""
+    # App update path (audit BG-06; runbooks release-apk.md and vps-deploy.md). The app asks
+    # `GET /v1/app/version` on start: below the latest it shows an "update available" notice,
+    # below the minimum a blocking screen. 0 = not set (no notice). `GET /app` serves
+    # APP_DOWNLOAD_DIR/bagmitra.apk (a host folder mounted read-only). APP_DOWNLOAD_URL
+    # overrides the link the app opens; empty = this API's own `/app`.
+    app_latest_version_code: int = Field(default=0, ge=0)
+    app_latest_version_name: str = ""
+    app_min_version_code: int = Field(default=0, ge=0)
+    app_download_dir: str = "/srv/bagmitra-apk"
+    app_download_url: str = ""
+
     @property
     def photo_storage_enabled(self) -> bool:
         return bool(self.photo_storage_url and self.photo_storage_service_key.get_secret_value())
+
+    @model_validator(mode="after")
+    def _min_not_above_latest(self) -> Settings:
+        # A minimum above the latest would block every phone, even one on the newest APK.
+        if self.app_min_version_code > self.app_latest_version_code:
+            raise ValueError("APP_MIN_VERSION_CODE must not be above APP_LATEST_VERSION_CODE")
+        return self
 
     @field_validator("privacy_contact_email")
     @classmethod

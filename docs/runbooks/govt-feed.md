@@ -88,6 +88,7 @@ to the reviewer (a vision model is not wired; QG2 default).
   shows "Replaced by …". Expired schemes (validity or deadline passed) are never listed.
 
 ## 4a. Review in the admin app
+Production: `https://<API_DOMAIN>/admin/` ([admin-web.md](admin-web.md)); locally
 `flutter run -d chrome -t lib/main_admin.dart` (same defines as the KB admin). Sign in with a
 staff account whose `app_metadata.roles` contains `feed_admin` (§1); the **Govt feed** section is
 shown only then (the API still checks the role on every call). Three tabs:
