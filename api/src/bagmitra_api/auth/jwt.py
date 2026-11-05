@@ -8,6 +8,7 @@ used as an HMAC secret, and a missing or unreachable key set fails closed.
 
 from __future__ import annotations
 
+import asyncio
 import time
 import uuid
 from collections.abc import Awaitable, Callable
@@ -16,6 +17,7 @@ from typing import Annotated, Any
 
 import httpx
 import jwt
+import structlog
 from fastapi import Depends
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
@@ -23,6 +25,7 @@ from bagmitra_api.core.errors import ApiError
 from bagmitra_api.core.settings import Settings, get_settings
 
 _bearer = HTTPBearer(auto_error=False)
+log = structlog.get_logger("bagmitra.auth")
 
 
 @dataclass(frozen=True, slots=True)
@@ -44,7 +47,11 @@ ASYMMETRIC_ALGORITHMS = frozenset({"ES256", "RS256"})
 class JwksKeys:
     """Signing keys published by Supabase, cached. An unknown key id triggers one refresh (a
     rotated key is picked up without a restart), but never more often than
-    `min_refresh_seconds`, so garbage tokens cannot hammer the key endpoint."""
+    `min_refresh_seconds`, so garbage tokens cannot hammer the key endpoint.
+
+    One lock covers the fetch: requests that arrive while it runs (e.g. the parallel first
+    requests after a restart) wait for it and use its result instead of failing. A refresh that
+    fails while keys are cached keeps serving those keys; with nothing cached it fails closed."""
 
     def __init__(
         self,
@@ -61,22 +68,41 @@ class JwksKeys:
         self._keys: dict[str, jwt.PyJWK] = {}
         self._fetched_at: float | None = None
         self._attempted_at: float | None = None
+        self._lock = asyncio.Lock()
+
+    def _fresh_key(self, kid: str) -> jwt.PyJWK | None:
+        fetched = self._fetched_at
+        if kid in self._keys and fetched is not None and self._clock() - fetched <= self._ttl:
+            return self._keys[kid]
+        return None
 
     async def key_for(self, kid: str) -> jwt.PyJWK | None:
-        now = self._clock()
-        fresh = self._fetched_at is not None and now - self._fetched_at <= self._ttl
-        if kid in self._keys and fresh:
-            return self._keys[kid]
-        if self._attempted_at is None or now - self._attempted_at >= self._min_refresh:
-            self._attempted_at = now
-            document = await self._fetch()
-            self._keys = {
-                str(raw["kid"]): jwt.PyJWK(raw)
-                for raw in document.get("keys", [])
-                if isinstance(raw, dict) and raw.get("kid")
-            }
-            self._fetched_at = now
-        return self._keys.get(kid)
+        key = self._fresh_key(kid)
+        if key is not None:
+            return key
+        async with self._lock:
+            # Another request may have refreshed the keys while this one waited.
+            key = self._fresh_key(kid)
+            if key is not None:
+                return key
+            now = self._clock()
+            if self._attempted_at is None or now - self._attempted_at >= self._min_refresh:
+                self._attempted_at = now
+                try:
+                    document = await self._fetch()
+                    keys = {
+                        str(raw["kid"]): jwt.PyJWK(raw)
+                        for raw in document.get("keys", [])
+                        if isinstance(raw, dict) and raw.get("kid")
+                    }
+                except (httpx.HTTPError, ValueError, KeyError, jwt.PyJWTError) as exc:
+                    if not self._keys:
+                        raise
+                    log.warning("jwks_refresh_failed_serving_cached", error=type(exc).__name__)
+                else:
+                    self._keys = keys
+                    self._fetched_at = now
+            return self._keys.get(kid)
 
 
 _JWKS: dict[str, JwksKeys] = {}
@@ -139,7 +165,7 @@ async def verify_token_async(
         raise _unauthorized("invalid or expired token")
     try:
         key = await keys.key_for(kid)
-    except (httpx.HTTPError, ValueError, KeyError) as exc:
+    except (httpx.HTTPError, ValueError, KeyError, jwt.PyJWTError) as exc:
         raise _unauthorized("signing keys unavailable") from exc
     if key is None or key.algorithm_name != algorithm:
         raise _unauthorized("invalid or expired token")
