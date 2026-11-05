@@ -9,6 +9,7 @@ import '../../../core/formatting.dart';
 import '../../../design_system/cards.dart';
 import '../../../design_system/empty_state.dart';
 import '../../../design_system/glyphs.dart';
+import '../../../design_system/info_note.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../../feed/domain/feed_item.dart';
@@ -257,10 +258,7 @@ class SchemeDetailScreen extends ConsumerWidget {
           section(t.schemeWho),
           Text(scheme.whoCanApply(lang), style: BmType.body),
           const SizedBox(height: BmSpace.xxs),
-          Text(
-            t.schemeWhoCheck,
-            style: BmType.bodyStrong.copyWith(color: c.accentInk),
-          ),
+          InfoNote(t.schemeWhoCheck, style: BmType.bodyStrong),
           section(t.schemeDocuments),
           Text(
             t.schemeDocumentsHint,

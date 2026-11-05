@@ -4,6 +4,7 @@ confused for the other, and a missing or unreachable key set fails closed."""
 
 from __future__ import annotations
 
+import asyncio
 import base64
 import hashlib
 import hmac
@@ -131,6 +132,86 @@ async def test_an_unreachable_key_set_fails_closed() -> None:
     source.down = True
     with pytest.raises(ApiError) as err:
         await verify_token_async(sign(private, "k1", uuid.uuid4()), settings(), JwksKeys(source))
+    assert err.value.status_code == 401
+
+
+class SlowJwks(FakeJwks):
+    """The key endpoint answers only when the test releases it (a slow first fetch)."""
+
+    def __init__(self, *jwks: dict[str, Any]) -> None:
+        super().__init__(*jwks)
+        self.release = asyncio.Event()
+
+    async def __call__(self) -> dict[str, Any]:
+        self.calls += 1
+        await self.release.wait()
+        if self.down:
+            raise httpx.ConnectError("jwks unreachable")
+        return {"keys": self.keys}
+
+
+async def test_parallel_first_requests_wait_for_one_fetch_and_all_verify() -> None:
+    """LG-03: right after a restart the key cache is empty; requests that arrive while the
+    first fetch runs wait for it instead of getting a 401."""
+    private, jwk = new_key("k1")
+    source = SlowJwks(jwk)
+    keys = JwksKeys(source)
+    tasks = [
+        asyncio.create_task(verify_token_async(sign(private, "k1", uuid.uuid4()), settings(), keys))
+        for _ in range(5)
+    ]
+    await asyncio.sleep(0)
+    source.release.set()
+    users = await asyncio.gather(*tasks)
+    assert len(users) == 5
+    assert source.calls == 1
+
+
+async def test_waiters_fail_closed_when_the_first_fetch_fails_with_nothing_cached() -> None:
+    private, jwk = new_key("k1")
+    source = SlowJwks(jwk)
+    source.down = True
+    keys = JwksKeys(source)
+    tasks = [
+        asyncio.create_task(verify_token_async(sign(private, "k1", uuid.uuid4()), settings(), keys))
+        for _ in range(3)
+    ]
+    await asyncio.sleep(0)
+    source.release.set()
+    results = await asyncio.gather(*tasks, return_exceptions=True)
+    assert all(isinstance(r, ApiError) and r.status_code == 401 for r in results)
+    assert source.calls == 1  # the waiters do not each retry inside the refresh window
+
+
+async def test_a_failed_refresh_keeps_serving_the_cached_keys() -> None:
+    """LG-03: the hourly refresh hits a JWKS blip; tokens signed with the cached key still
+    verify, and the next refresh after the window picks up the endpoint again."""
+    private, jwk = new_key("k1")
+    source = FakeJwks(jwk)
+    now = [1000.0]
+    keys = JwksKeys(source, ttl_seconds=60, min_refresh_seconds=30, clock=lambda: now[0])
+    await verify_token_async(sign(private, "k1", uuid.uuid4()), settings(), keys)
+    source.down = True
+    now[0] += 120  # past the TTL: a refresh is due and fails
+    await verify_token_async(sign(private, "k1", uuid.uuid4()), settings(), keys)
+    await verify_token_async(sign(private, "k1", uuid.uuid4()), settings(), keys)
+    assert source.calls == 2  # one failed refresh, no retry inside the window
+    source.down = False
+    now[0] += 31
+    await verify_token_async(sign(private, "k1", uuid.uuid4()), settings(), keys)
+    assert source.calls == 3
+
+
+async def test_a_failed_refresh_does_not_admit_an_unknown_key_id() -> None:
+    private, jwk = new_key("k1")
+    other, _ = new_key("k2")
+    source = FakeJwks(jwk)
+    now = [1000.0]
+    keys = JwksKeys(source, ttl_seconds=60, min_refresh_seconds=0, clock=lambda: now[0])
+    await verify_token_async(sign(private, "k1", uuid.uuid4()), settings(), keys)
+    source.down = True
+    with pytest.raises(ApiError) as err:
+        await verify_token_async(sign(other, "k2", uuid.uuid4()), settings(), keys)
     assert err.value.status_code == 401
 
 

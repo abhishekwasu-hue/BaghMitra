@@ -6,24 +6,26 @@ from datetime import UTC, date, datetime, timedelta
 
 import httpx
 import pytest
+from pydantic import SecretStr
 from sqlalchemy import select, update
 from sqlalchemy.ext.asyncio import AsyncEngine, async_sessionmaker
 
 from bagmitra_api.core.settings import Settings
-from bagmitra_api.db.models import MarketPrice
+from bagmitra_api.db.models import MarketPrice, MarketPull
 from bagmitra_api.db.session import get_sessionmaker
 from bagmitra_api.main import create_app
 from bagmitra_api.market.agmarknet import (
     REASON_NOT_CONFIGURED,
+    REASON_UNREACHABLE,
     MandiPrice,
     MarketUnavailableError,
 )
-from bagmitra_api.market.service import get_market_provider
+from bagmitra_api.market.pull_job import run_market_pull
+from bagmitra_api.market.service import REASON_NOT_PULLED, REASON_OVERDUE
 from bagmitra_api.weather.service import get_clock
 from tests.conftest import make_token
 
 NOW = datetime(2026, 10, 26, 6, 0, tzinfo=UTC)
-NO_KEY = "no API key configured (MARKET_API_KEY)"
 NO_KEY_CODE = REASON_NOT_CONFIGURED
 
 
@@ -53,6 +55,7 @@ class FakeMarket:
     def __init__(self) -> None:
         self.calls: list[tuple[str, str | None]] = []
         self.fail = False
+        self.empty = False
 
     async def prices(
         self, *, commodity: str, state: str | None = None, market: str | None = None
@@ -60,7 +63,9 @@ class FakeMarket:
         assert market is None, "one India-wide call per commodity"
         self.calls.append((commodity, state))
         if self.fail:
-            raise MarketUnavailableError(NO_KEY, code=REASON_NOT_CONFIGURED)
+            raise MarketUnavailableError("connect timeout", code=REASON_UNREACHABLE)
+        if self.empty:
+            return []
         return [
             price("Kalamna", "Maharashtra", date(2026, 10, 25), 3600),
             price("Kalamna", "Maharashtra", date(2026, 10, 24), 3400),  # older: not latest
@@ -77,13 +82,21 @@ def market() -> FakeMarket:
 
 
 @pytest.fixture
-async def api(
-    settings: Settings, engine: AsyncEngine, market: FakeMarket
-) -> AsyncIterator[httpx.AsyncClient]:
-    app = create_app(settings)
+def keyed(settings: Settings) -> Settings:
+    return settings.model_copy(update={"market_api_key": SecretStr("market-test-key")})
+
+
+async def pull(engine: AsyncEngine, market: FakeMarket, settings: Settings, now: datetime) -> None:
+    """One scheduled pull run (BG-04): the only way Agmarknet prices get stored."""
+    async with async_sessionmaker(engine, expire_on_commit=False)() as session:
+        await run_market_pull(session, market, settings, now)
+
+
+@pytest.fixture
+async def api(keyed: Settings, engine: AsyncEngine) -> AsyncIterator[httpx.AsyncClient]:
+    app = create_app(keyed)
     maker = async_sessionmaker(engine, expire_on_commit=False)
     app.dependency_overrides[get_sessionmaker] = lambda: maker
-    app.dependency_overrides[get_market_provider] = lambda: market
     app.dependency_overrides[get_clock] = lambda: (lambda: NOW)
     async with httpx.AsyncClient(
         transport=httpx.ASGITransport(app=app), base_url="http://test"
@@ -95,8 +108,10 @@ async def test_latest_price_at_every_mandi_in_india_local_then_major_first(
     api: httpx.AsyncClient,
     engine: AsyncEngine,
     market: FakeMarket,
+    keyed: Settings,
     auth_headers: dict[str, str],
 ) -> None:
+    await pull(engine, market, keyed, NOW - timedelta(hours=1))
     r = await api.get("/v1/market/prices?crop=santra", headers=auth_headers)
     assert r.status_code == 200, r.text
     body = r.json()
@@ -116,11 +131,11 @@ async def test_latest_price_at_every_mandi_in_india_local_then_major_first(
     ]
     assert rows[1]["variety"] is None
     assert rows[0]["source"] == "agmarknet"
-    assert market.calls == [("Orange", None)], "India-wide: no state filter"
+    assert market.calls == [("Mousambi(Sweet Lime)", None), ("Orange", None)], "India-wide"
 
     again = await api.get("/v1/market/prices?crop=santra", headers=auth_headers)
     assert again.json()["prices"] == rows
-    assert len(market.calls) == 1, "fresh prices come from storage"
+    assert len(market.calls) == 2, "a request never fetches: prices come from storage"
 
     major = await api.get("/v1/market/prices?crop=santra&scope=major", headers=auth_headers)
     assert [p["market"] for p in major.json()["prices"]] == ["Azadpur"]
@@ -128,30 +143,81 @@ async def test_latest_price_at_every_mandi_in_india_local_then_major_first(
     assert [p["market"] for p in local.json()["prices"]] == ["Kalamna", "Warud"]
 
     async with async_sessionmaker(engine)() as s:
-        assert len((await s.scalars(select(MarketPrice))).all()) == 6
+        # Six rows per commodity: the fake answers the same rows for both names.
+        orange = select(MarketPrice).where(MarketPrice.commodity == "Orange")
+        assert len((await s.scalars(orange)).all()) == 6
 
 
-async def test_source_down_serves_stored_prices_as_stale_or_an_empty_list(
+async def test_the_read_path_never_fetches_and_marks_old_or_failed_pulls_stale(
     api: httpx.AsyncClient,
     engine: AsyncEngine,
     market: FakeMarket,
+    keyed: Settings,
     auth_headers: dict[str, str],
 ) -> None:
+    url = "/v1/market/prices?crop=santra"
+    before = (await api.get(url, headers=auth_headers)).json()
+    assert before == {"prices": [], "stale": True, "reason": REASON_NOT_PULLED}
+    assert market.calls == [], "no pull has run: the request does not fetch either"
+
     market.fail = True
-    empty = await api.get("/v1/market/prices?crop=santra", headers=auth_headers)
-    assert empty.status_code == 200
-    assert empty.json() == {"prices": [], "stale": True, "reason": NO_KEY_CODE}
+    await pull(engine, market, keyed, NOW - timedelta(hours=1))
+    down = (await api.get(url, headers=auth_headers)).json()
+    assert down == {"prices": [], "stale": True, "reason": REASON_UNREACHABLE}
 
     market.fail = False
-    await api.get("/v1/market/prices?crop=santra", headers=auth_headers)
+    await pull(engine, market, keyed, NOW - timedelta(hours=2))
+    fresh = (await api.get(url, headers=auth_headers)).json()
+    assert fresh["stale"] is False
+    assert len(fresh["prices"]) == 4
+
+    market.fail = True  # a later run fails: the last success is still inside the max age
+    await pull(engine, market, keyed, NOW - timedelta(hours=1))
+    still = (await api.get(url, headers=auth_headers)).json()
+    assert still["stale"] is False
+
+    await pull(engine, market, keyed, NOW)
     async with async_sessionmaker(engine)() as s:
-        await s.execute(update(MarketPrice).values(fetched_at=NOW - timedelta(days=2)))
+        await s.execute(update(MarketPull).values(last_success_at=NOW - timedelta(days=2)))
         await s.commit()
-    market.fail = True
-    stale = (await api.get("/v1/market/prices?crop=santra", headers=auth_headers)).json()
+    stale = (await api.get(url, headers=auth_headers)).json()
     assert stale["stale"] is True
-    assert stale["reason"] == NO_KEY_CODE
-    assert len(stale["prices"]) == 4
+    assert stale["reason"] == REASON_UNREACHABLE
+    assert len(stale["prices"]) == 4, "stored prices are still served"
+
+    async with async_sessionmaker(engine)() as s:
+        await s.execute(update(MarketPull).values(last_error=None))
+        await s.commit()
+    overdue = (await api.get(url, headers=auth_headers)).json()
+    assert overdue["reason"] == REASON_OVERDUE
+    assert market.calls
+    assert all(state is None for _, state in market.calls)
+
+
+async def test_without_a_key_stored_prices_are_served_as_not_configured(
+    settings: Settings, engine: AsyncEngine, auth_headers: dict[str, str]
+) -> None:
+    app = create_app(settings)
+    maker = async_sessionmaker(engine, expire_on_commit=False)
+    app.dependency_overrides[get_sessionmaker] = lambda: maker
+    app.dependency_overrides[get_clock] = lambda: (lambda: NOW)
+    async with httpx.AsyncClient(
+        transport=httpx.ASGITransport(app=app), base_url="http://test"
+    ) as c:
+        r = await c.get("/v1/market/prices?crop=santra", headers=auth_headers)
+    assert r.json() == {"prices": [], "stale": True, "reason": NO_KEY_CODE}
+
+
+async def test_an_empty_successful_pull_is_current_not_an_error(
+    api: httpx.AsyncClient, engine: AsyncEngine, keyed: Settings, auth_headers: dict[str, str]
+) -> None:
+    """Off season Agmarknet may report no rows: an empty list, not 'source unreachable'."""
+
+    empty = FakeMarket()
+    empty.empty = True
+    await pull(engine, empty, keyed, NOW)
+    r = await api.get("/v1/market/prices?crop=mosambi", headers=auth_headers)
+    assert r.json() == {"prices": [], "stale": False, "reason": None}
 
 
 async def test_unknown_crop_bad_scope_and_no_token_are_refused(
@@ -187,7 +253,11 @@ def manual_row(market: str, day: str, modal: int, **extra: object) -> dict[str, 
 
 
 async def test_manual_upload_fills_in_when_the_source_is_down_and_yields_to_agmarknet(
-    api: httpx.AsyncClient, market: FakeMarket, auth_headers: dict[str, str]
+    api: httpx.AsyncClient,
+    engine: AsyncEngine,
+    market: FakeMarket,
+    keyed: Settings,
+    auth_headers: dict[str, str],
 ) -> None:
     rows = [manual_row("Kalamna", "2026-10-25", 3500), manual_row("Katol", "2026-10-25", 3100)]
     r = await api.post(
@@ -197,6 +267,7 @@ async def test_manual_upload_fills_in_when_the_source_is_down_and_yields_to_agma
     assert r.json() == {"stored": 2}
 
     market.fail = True
+    await pull(engine, market, keyed, NOW)
     down = (await api.get("/v1/market/prices?crop=santra", headers=auth_headers)).json()
     assert down["stale"] is True
     assert [(p["market"], p["modal_rs_per_quintal"], p["source"]) for p in down["prices"]] == [
@@ -205,6 +276,7 @@ async def test_manual_upload_fills_in_when_the_source_is_down_and_yields_to_agma
     ]
 
     market.fail = False
+    await pull(engine, market, keyed, NOW)
     up = (await api.get("/v1/market/prices?crop=santra", headers=auth_headers)).json()
     kalamna = [p for p in up["prices"] if p["market"] == "Kalamna"]
     assert [(p["modal_rs_per_quintal"], p["source"]) for p in kalamna] == [(3600, "agmarknet")]

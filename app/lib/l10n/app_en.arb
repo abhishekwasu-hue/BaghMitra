@@ -604,7 +604,7 @@
       }
     }
   },
-  "boundaryAccuracy": "±{metres} m",
+  "boundaryAccuracy": "±{metres}\u00a0m",
   "@boundaryAccuracy": {
     "placeholders": {
       "metres": {
@@ -1091,6 +1091,14 @@
   "@syncEntryName": {"placeholders": {"entity": {"type": "String"}}},
   "refreshOffline": "Check the internet",
   "refreshServer": "The server is busy",
+  "homeQuickTitle": "Quick actions",
+  "moreTitle": "All features",
+  "moreSectionRecords": "Orchard records",
+  "moreSectionWork": "Work and season",
+  "moreSectionHelp": "Guides and help",
+  "moreSectionMarket": "Market",
+  "moreSectionGovt": "Government help",
+  "moreSectionAccount": "My account",
   "plotTileBahar": "Bahar",
   "baharRecordsMenu": "Records",
   "tasksDoneShow": "Show ({count})",

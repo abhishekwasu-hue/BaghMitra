@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import '../../../app/providers.dart';
 import '../../../app/router.dart';
 import '../../../design_system/bottom_actions.dart';
+import '../../../design_system/empty_state.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../../voice/presentation/voice_mic_button.dart';
@@ -147,12 +148,22 @@ class _AddPlotScreenState extends ConsumerState<AddPlotScreen> {
     final lang = Localizations.localeOf(context).languageCode;
     final crops = ref.watch(cropsProvider).value ?? const [];
     if (widget.plotId != null && !_filled) {
-      final existing = ref
-          .watch(plotsProvider)
-          .value
-          ?.where((p) => p.id == widget.plotId)
-          .firstOrNull;
-      if (existing == null) return const Scaffold(body: SizedBox.shrink());
+      final plots = ref.watch(plotsProvider).value;
+      final existing = plots?.where((p) => p.id == widget.plotId).firstOrNull;
+      if (existing == null) {
+        // L5: while the block loads, the page keeps its title and a loading sign; a block
+        // that is gone (deleted, or another phone's) returns to the list.
+        if (plots != null) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (!mounted) return;
+            context.canPop() ? context.pop() : context.go(Routes.plots);
+          });
+        }
+        return Scaffold(
+          appBar: AppBar(title: Text(t.editPlot)),
+          body: LoadingState(label: t.loadingLabel),
+        );
+      }
       _fill(existing);
     }
     _crop ??= crops.isEmpty ? null : crops.first.slug;

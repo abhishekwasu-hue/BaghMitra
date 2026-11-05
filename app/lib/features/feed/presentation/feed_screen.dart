@@ -201,7 +201,7 @@ class _ItemBody extends StatelessWidget {
             padding: const EdgeInsets.only(top: BmSpace.xxs),
             child: Text(
               t.feedDeadline(formatDate(deadline, lang)),
-              style: BmType.meta.copyWith(color: c.accentInk),
+              style: BmType.meta.copyWith(color: c.caution),
             ),
           ),
         if (item.showsEligibility(now))

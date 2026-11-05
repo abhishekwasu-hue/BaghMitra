@@ -64,7 +64,7 @@ class _Accuracy extends StatelessWidget {
       t.boundaryAccuracy(formatDecimal(metres.roundToDouble(), lang)),
       key: const Key('point-accuracy'),
       style: BmType.label.copyWith(
-        color: metres <= PointFix.goodEnoughM ? c.brand : c.accentInk,
+        color: metres <= PointFix.goodEnoughM ? c.brand : c.caution,
       ),
     );
   }

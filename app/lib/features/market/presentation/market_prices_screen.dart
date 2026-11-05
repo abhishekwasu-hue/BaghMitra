@@ -92,7 +92,7 @@ class _MarketPricesScreenState extends ConsumerState<MarketPricesScreen> {
               Text(switch (cached.prices.reason) {
                 final String reason => t.marketStale(reason),
                 null => t.marketStaleNoReason,
-              }, style: BmType.meta.copyWith(color: c.accentInk)),
+              }, style: BmType.meta.copyWith(color: c.caution)),
             if (prices.isEmpty)
               loaded.isLoading && !loaded.hasValue
                   ? LoadingState(label: t.loadingLabel)

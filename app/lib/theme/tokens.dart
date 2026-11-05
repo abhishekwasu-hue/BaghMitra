@@ -28,6 +28,9 @@ abstract final class BmPalette {
   static const alertWarmTitle = Color(0xFF8A4B06);
   static const alertWarmBody = Color(0xFF5E4225);
   static const doneTint = Color(0xFFEEF6EC);
+
+  /// Neutral notes and disclaimers: a calm slate-sky ink, never santra (orange = action).
+  static const infoInk = Color(0xFF2C5A70);
   static const nowTint = Color(0xFFFFF1E2);
 
   // Dark mode: deep night-orchard greens; accents stay recognisably santra.
@@ -42,6 +45,7 @@ abstract final class BmPalette {
   static const nightAlertTitle = Color(0xFFFFC27A);
   static const nightAlertBody = Color(0xFFE9D3B8);
   static const nightDoneTint = Color(0xFF213826);
+  static const nightInfoInk = Color(0xFFA9D2E4);
   static const nightNowTint = Color(0xFF3A2610);
   static const shadow = Color(0xFF1F4D2B);
 }
@@ -62,6 +66,8 @@ class BmColors extends ThemeExtension<BmColors> {
     required this.accentSoft,
     required this.accentInk,
     required this.onAccent,
+    required this.info,
+    required this.caution,
     required this.sun,
     required this.soil,
     required this.sky,
@@ -88,13 +94,21 @@ class BmColors extends ThemeExtension<BmColors> {
   final Color accent;
   final Color accentSoft;
 
-  /// Accent used as text (dates, stale notes, hero numbers): santra is too light for
-  /// text on cream in sunlight, so light mode deepens it.
+  /// Accent used as text on actions (the camera label) and the stage hero number:
+  /// santra is too light for text on cream in sunlight, so light mode deepens it.
+  /// Orange means action: notes use [info], deadlines and warnings use [caution].
   final Color accentInk;
 
   /// Text and icons on an [accent] fill (the main santra buttons). White on santra is
   /// only 2.4:1, so this is dark ink.
   final Color onAccent;
+
+  /// Text and icon of a neutral note or disclaimer ("check this at the office").
+  final Color info;
+
+  /// Text and icon of a deadline, stale data or a warning line (amber, as the warning
+  /// banner's title).
+  final Color caution;
   final Color sun;
   final Color soil;
   final Color sky;
@@ -122,6 +136,8 @@ class BmColors extends ThemeExtension<BmColors> {
     accentSoft: BmPalette.santra2,
     accentInk: BmPalette.santraDeep,
     onAccent: BmPalette.ink,
+    info: BmPalette.infoInk,
+    caution: BmPalette.alertWarmTitle,
     sun: BmPalette.sun,
     soil: BmPalette.soil,
     sky: BmPalette.sky,
@@ -150,6 +166,8 @@ class BmColors extends ThemeExtension<BmColors> {
     accentSoft: BmPalette.santra2,
     accentInk: BmPalette.santra,
     onAccent: BmPalette.ink,
+    info: BmPalette.nightInfoInk,
+    caution: BmPalette.nightAlertTitle,
     sun: BmPalette.sun,
     soil: BmPalette.soil,
     sky: BmPalette.sky,

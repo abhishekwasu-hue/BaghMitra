@@ -1,0 +1,119 @@
+"""BG-02: deploy/deploy.sh `install_cron` adds every scheduled job whose switch in deploy/.env
+is on, once, and removes it again when the switch is off. Runs the real script functions
+against a fake `crontab` (a file), so the host's crontab is never touched."""
+
+from __future__ import annotations
+
+import os
+import shutil
+import subprocess
+from pathlib import Path
+
+import pytest
+
+DEPLOY = Path(__file__).resolve().parents[2] / "deploy"
+BASH = shutil.which("bash")
+
+pytestmark = pytest.mark.skipif(BASH is None, reason="needs bash")
+
+FAKE_CRONTAB = """#!/usr/bin/env bash
+store="$FAKE_CRON_FILE"
+if [[ "$1" == "-l" ]]; then [[ -f "$store" ]] || exit 1; cat "$store"; exit 0; fi
+# Like the real crontab: read all of stdin first, then install (no truncate-while-reading race).
+if [[ "$1" == "-" ]]; then new="$(cat)"; printf '%s\n' "$new" > "$store"; exit 0; fi
+exit 2
+"""
+
+MARKERS = {
+    "weather": "bagmitra_api.weather.pull_job",
+    "backup": "deploy/backup.sh",
+    "market": "bagmitra_api.market.pull_job",
+    "alerts": "bagmitra_api.feed.alert_job",
+    "news": "bagmitra_api.feed.news_job",
+    "regate": "bagmitra_api.kb.regate",
+}
+
+
+def run_install(tmp_path: Path, env_text: str) -> tuple[str, list[str]]:
+    bin_dir = tmp_path / "bin"
+    bin_dir.mkdir(exist_ok=True)
+    fake = bin_dir / "crontab"
+    fake.write_text(FAKE_CRONTAB)
+    fake.chmod(0o755)
+    env_file = tmp_path / ".env"
+    env_file.write_text(env_text)
+    cron = tmp_path / "cron.txt"
+    script = f'source "{DEPLOY / "deploy.sh"}"; ENV_FILE="{env_file}"; install_cron'
+    result = subprocess.run(  # noqa: S603 - fixed arguments, test only
+        [str(BASH), "-c", script],
+        capture_output=True,
+        text=True,
+        check=True,
+        env={**os.environ, "PATH": f"{bin_dir}:{os.environ['PATH']}", "FAKE_CRON_FILE": str(cron)},
+    )
+    lines = cron.read_text().splitlines() if cron.exists() else []
+    return result.stdout, lines
+
+
+def jobs(lines: list[str]) -> set[str]:
+    return {name for name, marker in MARKERS.items() if any(marker in ln for ln in lines)}
+
+
+def test_only_weather_and_backup_with_every_switch_off(tmp_path: Path) -> None:
+    env = (
+        "API_DOMAIN=x\nMARKET_API_KEY=\nCRON_FEED_ALERTS=off\nCRON_FEED_NEWS=no\nCRON_KB_REGATE=0\n"
+    )
+    out, lines = run_install(tmp_path, env)
+    assert jobs(lines) == {"weather", "backup"}
+    assert len(lines) == 2
+    assert "market" not in out
+
+
+def test_unset_switches_are_on_by_default(tmp_path: Path) -> None:
+    # Owner default: the feed and KB jobs run unless a switch says off.
+    _, lines = run_install(tmp_path, "API_DOMAIN=x\nMARKET_API_KEY=\n")
+    assert jobs(lines) == {"weather", "backup", "alerts", "news", "regate"}
+
+
+def test_each_switch_adds_its_job_once_and_never_prints_values(tmp_path: Path) -> None:
+    env = (
+        'MARKET_API_KEY="secret-market-key-123"\n'
+        "CRON_FEED_ALERTS=on\nCRON_FEED_NEWS=TRUE\nCRON_KB_REGATE=1\n"
+    )
+    out, lines = run_install(tmp_path, env)
+    assert jobs(lines) == set(MARKERS)
+    assert len(lines) == 6
+    assert "secret-market-key-123" not in out
+    assert not any("secret-market-key-123" in ln for ln in lines)
+    out_again, lines_again = run_install(tmp_path, env)
+    assert lines_again == lines, "idempotent: a second deploy adds nothing"
+    assert "already present" in out_again
+    market = next(ln for ln in lines if MARKERS["market"] in ln)
+    assert market.startswith("35 2,8,14,20 * * * cd ")
+    assert market.endswith(">> /var/log/bagmitra-market-pull.log 2>&1")
+    # None of the new jobs shares the 00:00 weather or 21:40 backup slot.
+    for name in ("market", "alerts", "news", "regate"):
+        line = next(ln for ln in lines if MARKERS[name] in ln)
+        minute, hour = line.split()[:2]
+        assert (minute, hour) != ("0", "0")
+        assert not (minute == "40" and "21" in hour.split(","))
+
+
+def test_turning_a_switch_off_removes_only_its_line(tmp_path: Path) -> None:
+    run_install(tmp_path, "MARKET_API_KEY=k\nCRON_FEED_NEWS=on\nCRON_KB_REGATE=on\n")
+    out, lines = run_install(tmp_path, "MARKET_API_KEY=k\nCRON_FEED_NEWS=off\nCRON_KB_REGATE=on\n")
+    assert jobs(lines) == {"weather", "backup", "market", "alerts", "regate"}
+    assert "feed news (every 6 h) cron line removed" in out
+    _, cleared = run_install(
+        tmp_path, "MARKET_API_KEY=\nCRON_FEED_ALERTS=off\nCRON_FEED_NEWS=off\nCRON_KB_REGATE=off\n"
+    )
+    assert jobs(cleared) == {"weather", "backup"}
+
+
+def test_other_cron_lines_are_kept(tmp_path: Path) -> None:
+    (tmp_path / "cron.txt").write_text("5 4 * * * /usr/local/bin/other-project\n")
+    off = "CRON_FEED_ALERTS=off\nCRON_FEED_NEWS=off\n"
+    run_install(tmp_path, off + "CRON_KB_REGATE=on\n")
+    _, lines = run_install(tmp_path, off + "CRON_KB_REGATE=no\n")
+    assert lines[0] == "5 4 * * * /usr/local/bin/other-project"
+    assert jobs(lines) == {"weather", "backup"}

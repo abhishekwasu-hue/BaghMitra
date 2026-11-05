@@ -68,7 +68,7 @@ Policy text: `api/src/bagmitra_api/public_pages/privacy.py`. Keep both in step.
 | data.gov.in (Agmarknet) | commodity / market / state filters only; the route ignores the user (`_user`) | `api/src/bagmitra_api/routers/market.py:44-50`; `api/src/bagmitra_api/market/agmarknet.py:119-121` |
 | Anthropic (only if `FEED_AI_API_KEY`) | extracted text of government documents for classify / summarise; no grower data | `api/src/bagmitra_api/feed/ai.py:1-6,172`; `api/src/bagmitra_api/feed/service.py:528,545`; `api/src/bagmitra_api/core/settings.py:110-111` |
 | FCM (push) | not wired: no sender exists and the app never calls `/v1/me/devices` (only in generated client) | `api/src/bagmitra_api/push/deliver.py:3-11`; `api/src/bagmitra_api/routers/devices.py:26-55`; no `firebase` in `app/pubspec.yaml` |
-| Sentry (only if `SENTRY_DSN` and SDK installed) | error reports | `api/src/bagmitra_api/core/observability.py:14-23` |
+| Sentry (only if `SENTRY_DSN` is set; off by default) | error reports without user ids, IPs, cookies, bodies, local variables, auth headers or query strings | `api/src/bagmitra_api/core/observability.py` |
 | Govt sites (GR portal, PIB) | API fetches public pages; no user data | `api/src/bagmitra_api/feed/news_job.py:57`; `api/src/bagmitra_api/kb/fetch_sources.py:15` |
 | Payments | none collected; subscriptions are manual grants (`provider` google_play / web_invoice reserved); purchase tokens would be stored hashed | `api/src/bagmitra_api/billing/models.py:52-55`; `api/src/bagmitra_api/billing/service.py:171` |
 | Ads / analytics SDKs | none in `app/pubspec.yaml` | `app/pubspec.yaml:9-33` |

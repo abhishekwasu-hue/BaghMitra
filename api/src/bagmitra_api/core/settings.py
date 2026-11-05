@@ -88,7 +88,11 @@ class Settings(BaseSettings):
             "Indore",
         ]
     )
+    # Stored prices count as current while the last successful scheduled pull (BG-04, cron
+    # every 6 h: one missed run still stays inside) is younger than this.
     market_max_age_hours: int = 12
+    # Per request to data.gov.in; one pull makes at most market_max_pages requests per commodity.
+    market_timeout_seconds: float = Field(default=15.0, gt=0)
     market_window_days: int = 14
     # Our crop key -> Agmarknet commodity names.
     market_commodities: dict[str, list[str]] = Field(

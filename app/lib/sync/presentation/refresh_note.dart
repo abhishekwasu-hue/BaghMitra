@@ -50,7 +50,7 @@ class RefreshNote extends ConsumerWidget {
               Expanded(
                 child: Text(
                   failureText(t, failure),
-                  style: BmType.meta.copyWith(color: c.accentInk),
+                  style: BmType.meta.copyWith(color: c.caution),
                 ),
               ),
               if (failure == NetFailure.signedOut)
