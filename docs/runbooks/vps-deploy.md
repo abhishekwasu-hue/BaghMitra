@@ -62,6 +62,13 @@ API चालू झाल्यावर एकदाच `crontab -e` करू
 ```
 आधी एकदा हाताने चालवून पाहा (वरची कमांड `0 0 * * *` शिवाय). तपशील: `docs/runbooks/weather-pull.md`. फोनवर push सूचना Firebase key मिळाल्यावरच (Q32).
 
+## ६अ-१. मुख्य पान, गोपनीयता धोरण आणि Google लॉगिन प्रसिद्ध करणे
+1. (ऐच्छिक, पण Google / Play Store साठी हवे) `.env` मध्ये `PRIVACY_CONTACT_EMAIL=` प्रकल्पाचा ईमेल टाका आणि `bash deploy/deploy.sh` चालवा.
+2. deploy नंतर फोन / ब्राउझरमध्ये उघडा: `https://<API_DOMAIN>/` (मुख्य पान) आणि `https://<API_DOMAIN>/privacy` (गोपनीयता धोरण, मराठी + English; फक्त English: `/privacy?lang=en`). संपर्क ईमेल दिसतो का ते पाहा.
+3. Google Cloud → **Google Auth Platform → Branding**: App home page = `https://<API_DOMAIN>/`, Privacy policy = `https://<API_DOMAIN>/privacy`, Authorized domains = तुमचे डोमेन (उदा. `तुमचे-डोमेन.com`) आणि `<ref>.supabase.co` (Supabase प्रकल्पाचा ref). Save.
+4. **Audience → Publish app** (Testing मधून In production). यानंतर कोणतेही Google खाते लॉगिन करू शकते.
+5. Play Store आधी: धोरणाचा मजकूर वकिलाकडून तपासून घ्या (Q52). तपशील: `docs/legal/DATA_INVENTORY.md`.
+
 ## ६ब. बाजारभाव हाताने भरणारी व्यक्ती
 Supabase → Authentication → Users → त्या व्यक्तीचे `app_metadata` = `{"roles": ["market_admin"]}` (service role नेच बदलता येते). पायऱ्या: `docs/runbooks/market-prices.md`.
 
@@ -72,6 +79,7 @@ Supabase → Authentication → Users → त्या व्यक्तीच�
 - [ ] `docker compose logs api | grep -i "alembic"` मध्ये migration त्रुटी नाही
 - [ ] हवामान cron ओळ टाकली आणि हाताने एकदा चालवली (`new_alerts`, `failed_cells: 0`)
 - [ ] (ऐच्छिक) `MARKET_API_KEY` टाकून ॲपमध्ये बाजारभाव दिसतात
+- [ ] `https://<API_DOMAIN>/` आणि `/privacy` उघडतात; Google Branding मध्ये दोन्ही दुवे टाकले (पायरी ६अ-१)
 - [ ] GitHub secrets `API_BASE_URL`, `SUPABASE_URL`, `SUPABASE_ANON_KEY` टाकून नवीन test APK
 
 ## ६ड. एकाच सर्व्हरवर दुसरा प्रकल्प (उदा. ट्रेडिंग प्लॅटफॉर्म ATP) असेल तर

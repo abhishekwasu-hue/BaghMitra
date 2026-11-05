@@ -1,0 +1,103 @@
+# Data inventory (basis of the privacy policy at `GET /privacy`)
+
+Every row is what the code does today; references are `file:line` from the repository root.
+"Config" means it depends on the operator's live settings, which this document cannot see.
+Policy text: `api/src/bagmitra_api/public_pages/privacy.py`. Keep both in step.
+
+## 1. Account and profile
+
+| Data | Where / how | Reference |
+|---|---|---|
+| Phone number + SMS OTP | Supabase Auth sends the OTP through the SMS provider chosen in Supabase (Twilio, MessageBird, Textlocal or Vonage) | `app/lib/features/auth/infra/supabase_auth_repository.dart:30,41`; `docs/runbooks/supabase-setup.md:35-38` |
+| Google sign-in | Supabase OAuth in the external browser, no extra scopes requested (Supabase defaults); Google shares its consent-screen details with Supabase Auth | `app/lib/features/auth/infra/supabase_auth_repository.dart:60-64`; `docs/runbooks/supabase-setup.md:39-49` |
+| What the API reads from the token | user id (`sub`), phone, `app_metadata` roles; no email | `api/src/bagmitra_api/auth/jwt.py:29-34,107-118` |
+| Profile (`farmers`) | phone, display name, language, village, taluka, district, `consent_data_processing`, `consent_whatsapp` | `api/src/bagmitra_api/db/models/farmer.py:17-25`; `api/src/bagmitra_api/sync/payloads.py:25-34` |
+| Phone on profile | a phone sign-in's own number always wins; a Google account may add one | `api/src/bagmitra_api/sync/registry.py:166-169` |
+| Data-processing consent | required to finish onboarding; shown read-only in Profile ("cannot be turned off here") | `app/lib/app/providers.dart:175-180`; `app/lib/features/profile/presentation/profile_screen.dart:218-228`; `app/lib/l10n/app_en.arb:525,529` |
+| WhatsApp consent | stored only; no WhatsApp sending code exists in the API | `app/lib/features/profile/presentation/profile_screen.dart:230-240`; grep `whatsapp` in `api/src` finds only the consent field |
+| Profile use | district + plot crop / area pick the govt notices for the grower | `api/src/bagmitra_api/routers/feed.py:5,126-128` |
+
+## 2. Orchard records (synced to the server, owner-only)
+
+| Entity | Personal / sensitive fields | Reference |
+|---|---|---|
+| Plot | name, crop, area, spacing, irrigation, water, soil, **GPS centroid and GeoJSON boundary** | `api/src/bagmitra_api/db/models/plot.py:11-31` |
+| Spray, input, irrigation, harvest | products, doses, quantities, costs | `api/src/bagmitra_api/db/models/accounts.py:45-106` |
+| Labour | **worker name**, wage, advance, settled date | `api/src/bagmitra_api/db/models/accounts.py:109-123` |
+| Expense / sale (income) | amounts; sale **buyer name**, rate, payment status | `api/src/bagmitra_api/db/models/accounts.py:17-42` |
+| Scouting | item, severity, note, `photo_key` | `api/src/bagmitra_api/db/models/scouting.py:18-30` |
+| Insurance policy | insurer, **policy number**, sum insured, premium | `api/src/bagmitra_api/db/models/insurance.py:17-31` |
+| Lab test | lab name, typed values | `api/src/bagmitra_api/db/models/lab_test.py:17-28` |
+| Bahar cycle, farm task | dates, titles, notes | `api/src/bagmitra_api/db/models/bahar.py:32-43`; `api/src/bagmitra_api/db/models/tasks.py:15-27` |
+| **Deletes are soft** | a delete sets `deleted_at`; the row stays on the server | `api/src/bagmitra_api/sync/registry.py:248-252`; `api/src/bagmitra_api/db/base.py:49-56` |
+| **Sync audit log** | every write's full payload kept in `sync_mutations`, including rejected ones; no purge job exists | `api/src/bagmitra_api/db/models/sync_mutation.py:13-35`; `api/src/bagmitra_api/sync/service.py:30-41` |
+| Ownership | API checks owner in code; Postgres RLS as second wall | `api/src/bagmitra_api/db/rls.py:1-4` |
+
+## 3. Photos and files
+
+| Item | Behaviour | Reference |
+|---|---|---|
+| Scouting photos | on the phone; backup only when `PHOTO_STORAGE_URL` + `PHOTO_STORAGE_SERVICE_KEY` are set (config), else 503 | `api/src/bagmitra_api/core/settings.py:153-166`; `api/src/bagmitra_api/routers/scouting_photos.py:1-6` |
+| Backup path | private bucket, object `<owner_id>/<record_id>.jpg`, signed upload URL; download URL expires (default 300 s) | `api/src/bagmitra_api/routers/scouting_photos.py:39-40`; `api/src/bagmitra_api/core/settings.py:157` |
+| Upload network | Wi-Fi, or any network if the grower turns on "Back up photos on mobile data" (default off) | `app/lib/features/scouting/data/photo_backup.dart:26-31` |
+| Stored photo removal | the storage client has only sign-upload / sign-download; no API path deletes a stored photo | `api/src/bagmitra_api/photos/storage.py:38-40,76,86` |
+| Claim kit (photos, notes, GPS stamp) | phone only, not synced | `app/lib/features/insurance/data/claim_kit_repository.dart:11-12`; OPEN_QUESTIONS Q37 |
+| Lab report photo / file | phone only, path never synced | `app/lib/features/lab_tests/data/lab_report_files.dart:3-5`; `api/src/bagmitra_api/db/models/lab_test.py:1-4` |
+
+## 4. Device features
+
+| Item | Behaviour | Reference |
+|---|---|---|
+| Location | one reading when the grower asks (plot point / boundary, claim photo stamp); no background tracking | `app/lib/features/plots/data/location_service.dart:20-21`; `app/lib/features/plots/presentation/boundary_screen.dart:32`; `app/lib/features/insurance/presentation/claim_kit_screen.dart:114` |
+| Voice (STT) | Android recogniser via `speech_to_text`; `SpeechListenOptions` sets only `localeId` (no on-device flag), so the phone's recognition service (Google on most phones) may process audio online. Audio never reaches our API. Cloud engine is a stub | `app/lib/features/voice/data/on_device_speech.dart:8-10,29-31`; `app/lib/features/voice/data/cloud_speech.dart:3-15` |
+| Text-to-speech | `flutter_tts` on the phone | `app/lib/features/voice/data/on_device_speech.dart:47-50` |
+| Reminders | local notifications scheduled on the phone | `app/lib/features/reminders/data/local_notifications.dart:7-9` |
+| Permissions | INTERNET, fine / coarse location, RECORD_AUDIO, POST_NOTIFICATIONS, RECEIVE_BOOT_COMPLETED | `app/android/app/src/main/AndroidManifest.xml:3-11` |
+| Android backup | manifest sets no `android:allowBackup`, so Android's default (allowed) applies: the phone's own Google backup may include app files | `app/android/app/src/main/AndroidManifest.xml` (attribute absent) |
+| On-phone log | newest 256 KB, leaves the phone only through "Send logs" (share sheet) | `app/lib/core/app_log.dart:3,20`; `app/lib/features/settings/presentation/settings_screen.dart:49-58` |
+| Exports | accounts CSV and PDF reports through the share sheet | `app/lib/features/export/data/file_sharer.dart:5-6`; `app/lib/features/export/domain/accounts_csv.dart` |
+
+## 5. Server-side services and third parties
+
+| Party | What it receives | Reference |
+|---|---|---|
+| Supabase | auth (phone / Google identity), PostgreSQL data, photo storage (config); region ap-south-1 (Mumbai) per setup guide (live project not visible here) | `docs/runbooks/supabase-setup.md:33`; `deploy/.env.example` (`DATABASE_URL`) |
+| Local database option | `--profile localdb` keeps the data on the VPS instead (config) | `deploy/docker-compose.yml:36-39`; `docs/runbooks/vps-deploy.md:116-118` |
+| VPS (Hostinger, Ubuntu) | runs the API container and Caddy (TLS) | `docs/runbooks/vps-deploy.md:1,9`; `deploy/Caddyfile:2-5` |
+| Open-Meteo | plot centroid **rounded to 2 decimals (~1 km)**; no user id | `api/src/bagmitra_api/routers/weather.py:81`; `api/src/bagmitra_api/weather/service.py:60-61,99-103`; `api/src/bagmitra_api/weather/open_meteo.py:76-87`; `api/src/bagmitra_api/core/settings.py:45` |
+| data.gov.in (Agmarknet) | commodity / market / state filters only; the route ignores the user (`_user`) | `api/src/bagmitra_api/routers/market.py:44-50`; `api/src/bagmitra_api/market/agmarknet.py:119-121` |
+| Anthropic (only if `FEED_AI_API_KEY`) | extracted text of government documents for classify / summarise; no grower data | `api/src/bagmitra_api/feed/ai.py:1-6,172`; `api/src/bagmitra_api/feed/service.py:528,545`; `api/src/bagmitra_api/core/settings.py:110-111` |
+| FCM (push) | not wired: no sender exists and the app never calls `/v1/me/devices` (only in generated client) | `api/src/bagmitra_api/push/deliver.py:3-11`; `api/src/bagmitra_api/routers/devices.py:26-55`; no `firebase` in `app/pubspec.yaml` |
+| Sentry (only if `SENTRY_DSN` and SDK installed) | error reports | `api/src/bagmitra_api/core/observability.py:14-23` |
+| Govt sites (GR portal, PIB) | API fetches public pages; no user data | `api/src/bagmitra_api/feed/news_job.py:57`; `api/src/bagmitra_api/kb/fetch_sources.py:15` |
+| Payments | none collected; subscriptions are manual grants (`provider` google_play / web_invoice reserved); purchase tokens would be stored hashed | `api/src/bagmitra_api/billing/models.py:52-55`; `api/src/bagmitra_api/billing/service.py:171` |
+| Ads / analytics SDKs | none in `app/pubspec.yaml` | `app/pubspec.yaml:9-33` |
+
+## 6. "Check a message" and logs
+
+| Item | Behaviour | Reference |
+|---|---|---|
+| Pasted text | compared in memory, not stored; only length and verdict logged; 20 checks / user / hour (in memory) | `api/src/bagmitra_api/routers/feed_check.py:4-5,91,124-125`; `api/src/bagmitra_api/core/settings.py:125` |
+| API access log | method, path, status, duration, request id (JSON) | `api/src/bagmitra_api/core/middleware.py:33-39` |
+| **Uvicorn access log** | also on: client IP (real IP via `--proxy-headers`), request line with query string, status. Verified locally: `203.0.113.9:0 - "GET /privacy HTTP/1.1" 200` | `deploy/docker-compose.yml:15` (no `--no-access-log`) |
+| Log retention | Docker default logging (no rotation configured in compose); Caddy has no `log` directive (no Caddy access log) | `deploy/docker-compose.yml`; `deploy/Caddyfile` |
+
+## 7. Account switch, sign-out, deletion, export
+
+| Item | Behaviour | Reference |
+|---|---|---|
+| Sign-out | only the session ends; records stay on the phone | `app/lib/features/profile/presentation/profile_screen.dart:104-128` |
+| Another account on the same phone | blocked while unsent writes exist; otherwise every local table, the outbox, cursor and the previous account's photos are cleared | `app/lib/sync/account_guard.dart:104-125`; OPEN_QUESTIONS Q36 |
+| Push token on sign-out | `DELETE /v1/me/devices` exists but the app does not call it | `api/src/bagmitra_api/routers/devices.py:43-55` |
+| Account / data deletion endpoint | **none** (no route deletes a farmer or their rows) | grep `delete` in `api/src/bagmitra_api/routers` |
+| Data export endpoint | none on the server; the phone shares CSV / PDF; `GET /v1/me` returns the profile | `api/src/bagmitra_api/routers/me.py:28-37` |
+
+## 8. Points the owner should know
+
+1. Server deletes are soft and `sync_mutations` keeps every payload with no purge: erasure on request must be a manual
+   operation across all owner tables, `sync_mutations`, `push_devices`, `feed_receipts`, `feed_preferences`,
+   `plot_risk_alerts`, the photo bucket and the Supabase Auth user (OPEN_QUESTIONS Q50).
+2. Client IPs are in the uvicorn access log with no log rotation set; the policy says the server log holds the IP.
+3. Voice typing is not forced on-device; the policy says the phone's speech service may process audio online.
+4. Android `allowBackup` is not set; the phone's own backup may copy app data (not stated in the policy as a BagMitra
+   transfer, since it goes to the user's own backup).
