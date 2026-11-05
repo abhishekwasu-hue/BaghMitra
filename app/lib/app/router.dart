@@ -30,6 +30,7 @@ import '../features/lab_tests/presentation/lab_test_screens.dart';
 import '../features/labels/presentation/label_info_screen.dart';
 import '../features/lookalikes/presentation/lookalikes_screen.dart';
 import '../features/market/presentation/market_prices_screen.dart';
+import '../features/more/presentation/more_screen.dart';
 import '../features/plots/presentation/add_plot_screen.dart';
 import '../features/plots/presentation/boundary_screen.dart';
 import '../features/plots/presentation/plot_detail_screen.dart';
@@ -85,6 +86,9 @@ abstract final class Routes {
   /// The विचारा tab: the practices guide inside the tab shell. Tabs ([home], [plots],
   /// [ask]) are opened with `go`, never pushed.
   static const ask = '/ask';
+
+  /// "All features": an entry to every screen (audit H1).
+  static const more = '/more';
   static const irrigation = '/irrigation';
   static const lookalikes = '/lookalikes';
   static String lookalikesFor(String? plotId) =>
@@ -247,6 +251,7 @@ GoRouter buildRouter(
         path: '/feed/:id',
         builder: (_, s) => FeedItemScreen(itemId: s.pathParameters['id']!),
       ),
+      GoRoute(path: Routes.more, builder: (_, _) => const MoreScreen()),
       GoRoute(path: Routes.settings, builder: (_, _) => const SettingsScreen()),
       GoRoute(path: Routes.profile, builder: (_, _) => const ProfileScreen()),
       GoRoute(

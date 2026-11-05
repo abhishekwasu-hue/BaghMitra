@@ -2620,4 +2620,28 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get refreshServer => 'सर्व्हर थोडा व्यस्त आहे';
+
+  @override
+  String get homeQuickTitle => 'झटपट कामे';
+
+  @override
+  String get moreTitle => 'सर्व सुविधा';
+
+  @override
+  String get moreSectionRecords => 'बागेच्या नोंदी';
+
+  @override
+  String get moreSectionWork => 'कामे व हंगाम';
+
+  @override
+  String get moreSectionHelp => 'माहिती व मदत';
+
+  @override
+  String get moreSectionMarket => 'बाजार';
+
+  @override
+  String get moreSectionGovt => 'सरकारी मदत';
+
+  @override
+  String get moreSectionAccount => 'माझे खाते';
 }

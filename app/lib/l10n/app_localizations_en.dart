@@ -2626,4 +2626,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get refreshServer => 'The server is busy';
+
+  @override
+  String get homeQuickTitle => 'Quick actions';
+
+  @override
+  String get moreTitle => 'All features';
+
+  @override
+  String get moreSectionRecords => 'Orchard records';
+
+  @override
+  String get moreSectionWork => 'Work and season';
+
+  @override
+  String get moreSectionHelp => 'Guides and help';
+
+  @override
+  String get moreSectionMarket => 'Market';
+
+  @override
+  String get moreSectionGovt => 'Government help';
+
+  @override
+  String get moreSectionAccount => 'My account';
 }

@@ -1090,5 +1090,13 @@
   "syncEntryName": "{entity, select, farmer_profile{Profile} plot{Plot} bahar_cycle{Bahar} expense{Expense} income{Sale} spray_record{Spray} input_record{Input} irrigation_record{Irrigation} harvest_record{Harvest} labour_record{Labour} farm_task{Task} scouting_record{Scouting} insurance_policy{Insurance} lab_test{Lab test} other{Entry}}",
   "@syncEntryName": {"placeholders": {"entity": {"type": "String"}}},
   "refreshOffline": "Check the internet",
-  "refreshServer": "The server is busy"
+  "refreshServer": "The server is busy",
+  "homeQuickTitle": "Quick actions",
+  "moreTitle": "All features",
+  "moreSectionRecords": "Orchard records",
+  "moreSectionWork": "Work and season",
+  "moreSectionHelp": "Guides and help",
+  "moreSectionMarket": "Market",
+  "moreSectionGovt": "Government help",
+  "moreSectionAccount": "My account"
 }

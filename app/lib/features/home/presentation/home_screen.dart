@@ -123,6 +123,7 @@ class _HomeBody extends ConsumerWidget {
     final config = ref.watch(appConfigProvider);
     final now = ref.watch(clockProvider)();
     final realTasks = ref.watch(tasksProvider).value ?? const <FarmTask>[];
+    final plots = ref.watch(plotsProvider).value ?? const <Plot>[];
     // Open tasks due today or earlier, and the ones ticked off today.
     final dueToday = [
       for (final task in realTasks)
@@ -217,6 +218,14 @@ class _HomeBody extends ConsumerWidget {
                   if (snapshot.alert case final alert?)
                     _alert(t, alert, config.productName),
                   const SizedBox(height: BmSpace.xs),
+                  // The core tasks one tap away, and "more" for every other screen (H1).
+                  SectionHeader(
+                    title: t.homeQuickTitle,
+                    action: t.moreMenu,
+                    onAction: () => context.push(Routes.more),
+                  ),
+                  _QuickActions(plots: plots),
+                  const SizedBox(height: BmSpace.sm),
                   SectionHeader(
                     title: t.todaysTasks,
                     action: t.seeAll,
@@ -462,6 +471,112 @@ class _HomeBody extends ConsumerWidget {
       ),
     ),
   );
+}
+
+/// Home quick actions (audit H1): add a spray, add an expense, a scouting photo, market
+/// prices. The record actions open for the grower's block (see [openForPlot]).
+class _QuickActions extends StatelessWidget {
+  const _QuickActions({required this.plots});
+
+  final List<Plot> plots;
+
+  @override
+  Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+    final tiles = [
+      _QuickTile(
+        key: const Key('quick-spray'),
+        icon: const GlyphIcon(BmGlyph.spray),
+        label: t.addSpray,
+        onTap: () => openForPlot(context, plots, Routes.addSpray),
+      ),
+      _QuickTile(
+        key: const Key('quick-expense'),
+        icon: const GlyphIcon(BmGlyph.ledger),
+        label: t.addExpense,
+        onTap: () => openForPlot(context, plots, Routes.addExpense),
+      ),
+      _QuickTile(
+        key: const Key('quick-photo'),
+        icon: const GlyphIcon(BmGlyph.camera),
+        label: t.takePhoto,
+        onTap: () => openForPlot(context, plots, Routes.addScouting),
+      ),
+      _QuickTile(
+        key: const Key('quick-market'),
+        icon: Icon(Icons.storefront_outlined, color: context.bm.brand),
+        label: t.marketPricesTitle,
+        onTap: () => context.push(Routes.market),
+      ),
+    ];
+    return IntrinsicHeight(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          for (final (i, tile) in tiles.indexed) ...[
+            if (i > 0) const SizedBox(width: BmSpace.xs),
+            Expanded(child: tile),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _QuickTile extends StatelessWidget {
+  const _QuickTile({
+    super.key,
+    required this.icon,
+    required this.label,
+    required this.onTap,
+  });
+
+  final Widget icon;
+  final String label;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final c = context.bm;
+    return Material(
+      color: c.card,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(BmRadius.tile),
+        side: BorderSide(color: c.line),
+      ),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(BmRadius.tile),
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: BmSpace.xxs,
+            vertical: BmSpace.sm,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 44,
+                height: 44,
+                padding: const EdgeInsets.all(BmSpace.xs + 2),
+                decoration: BoxDecoration(
+                  color: c.doneTint,
+                  shape: BoxShape.circle,
+                ),
+                child: icon,
+              ),
+              const SizedBox(height: BmSpace.xs),
+              Text(
+                label,
+                textAlign: TextAlign.center,
+                style: BmType.label.copyWith(color: c.ink),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 /// A card with one clear next step (add the first block, start a bahar).
