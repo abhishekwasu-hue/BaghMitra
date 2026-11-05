@@ -158,19 +158,22 @@ async def get_photo_url(
     session: DbSession,
     ctx: Annotated[PhotoContext, Depends(get_photo_context)],
 ) -> PhotoDownloadUrl:
-    """A short-lived signed download URL for a backed-up photo."""
+    """A short-lived signed download URL for a backed-up photo.
+
+    Only the key derived from the caller and the record is ever signed (S-03): the stored
+    `photo_key` is just the flag that a photo exists, and one that does not match the derived
+    key (written around the sync check) is treated as no photo."""
     configured = _configured(ctx.storage)
     record = await _own_record(session, user, record_id)
-    if not record.photo_key:
+    key = photo_key_for(user.id, record.id)
+    if not record.photo_key or record.photo_key != key:
         raise ApiError(404, "photo_not_found")
     expires = ctx.settings.photo_download_expiry_seconds
     try:
-        signed = await configured.signed_download_url(record.photo_key, expires)
+        signed = await configured.signed_download_url(key, expires)
     except PhotoNotFoundError as exc:
         raise ApiError(404, "photo_not_found") from exc
     except PhotoStorageError as exc:
         log.warning("photo_download_sign_failed", reason=str(exc))
         raise ApiError(502, "photo_storage_unavailable") from exc
-    return PhotoDownloadUrl(
-        url=signed.url, photo_key=record.photo_key, expires_in=signed.expires_in
-    )
+    return PhotoDownloadUrl(url=signed.url, photo_key=key, expires_in=signed.expires_in)

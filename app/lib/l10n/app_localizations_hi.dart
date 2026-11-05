@@ -1079,6 +1079,34 @@ class AppLocalizationsHi extends AppLocalizations {
       'आपके रिकॉर्ड इसी फ़ोन पर रहेंगे। फिर से लॉगिन करने पर दिखेंगे।';
 
   @override
+  String get profilePrivacy => 'गोपनीयता नीति';
+
+  @override
+  String get profilePrivacyHint =>
+      'लिंक कॉपी करने के लिए दबाएँ, फिर ब्राउज़र में खोलें';
+
+  @override
+  String get profileDeleteAccount => 'मेरा खाता और जानकारी हटाएँ';
+
+  @override
+  String get profileDeleteTitle => 'खाता हटाना है?';
+
+  @override
+  String profileDeleteBody(String word) {
+    return 'आपके सभी रिकॉर्ड, फ़ोटो और इतिहास सर्वर और इस फ़ोन से मिटा दिए जाएँगे और आप लॉगआउट हो जाएँगे। यह स्थायी है। पुष्टि के लिए $word लिखें।';
+  }
+
+  @override
+  String get profileDeleteWord => 'हटाएँ';
+
+  @override
+  String get profileDeleteConfirm => 'हमेशा के लिए हटाएँ';
+
+  @override
+  String get profileDeleteFailed =>
+      'थोड़ी देर बाद फिर कोशिश करें: खाता हटाने के लिए इंटरनेट और सर्वर चाहिए। आपकी सारी जानकारी अभी वैसी ही है।';
+
+  @override
   String get boundaryWalk => 'चलकर सीमा दर्ज करें';
 
   @override

@@ -59,6 +59,7 @@ import '../features/plots/data/plot_repository.dart';
 import '../features/plots/domain/plot.dart';
 import '../features/practices/data/irrigation_guide.dart';
 import '../features/practices/data/practice_cards.dart';
+import '../features/profile/data/account_deletion.dart';
 import '../features/profile/data/language_catalog.dart';
 import '../features/profile/data/profile_repository.dart';
 import '../features/profile/domain/farmer_profile.dart';
@@ -162,6 +163,21 @@ final apiProvider = Provider<Bagmitra>((ref) {
     token: () => auth.current?.accessToken,
   );
 });
+
+/// Where "delete my account" erases the server side: nowhere in demo mode (no backend).
+final accountDeletionApiProvider = Provider<AccountDeletionApi>(
+  (ref) => ref.watch(appConfigProvider).demoMode
+      ? const NoServerAccountDeletionApi()
+      : HttpAccountDeletionApi(ref.watch(apiProvider)),
+);
+
+final accountDeletionProvider = Provider<AccountDeletion>(
+  (ref) => AccountDeletion(
+    api: ref.watch(accountDeletionApiProvider),
+    guard: ref.watch(accountGuardProvider),
+    auth: ref.watch(authRepositoryProvider),
+  ),
+);
 
 final profileRepositoryProvider = Provider<ProfileRepository>(
   (ref) => ProfileRepository(ref.watch(databaseProvider)),

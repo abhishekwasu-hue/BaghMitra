@@ -1,14 +1,18 @@
+import 'package:bagmitra/app/providers.dart';
 import 'package:bagmitra/data/local/database.dart';
 import 'package:bagmitra/features/auth/domain/auth.dart';
 import 'package:bagmitra/features/profile/data/profile_repository.dart';
 import 'package:bagmitra/features/profile/domain/farmer_profile.dart';
 import 'package:bagmitra/sync/transport.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../helpers/pump_app.dart';
 import '../../helpers/test_db.dart';
+import '../directory/directory_test.dart' show mockClipboard;
 import '../plots/plots_screen_test.dart' show settle;
+import 'account_deletion_test.dart' show RecordingApi;
 import 'onboarding_test.dart' show savedProfile;
 
 const googleUser = AuthSession(userId: 'g1', phone: '', accessToken: 't');
@@ -39,6 +43,7 @@ Future<AppDatabase> openProfile(
   WidgetTester tester, {
   AuthSession session = signedIn,
   Locale? locale = const Locale('en'),
+  List<Override> overrides = const [],
 }) async {
   final db = await pumpApp(
     tester,
@@ -46,6 +51,7 @@ Future<AppDatabase> openProfile(
     session: session,
     onboarded: false,
     seed: (db) => seedProfile(db, id: session.userId),
+    overrides: overrides,
   );
   await settle(tester);
   // Reached from the avatar on the home header.
@@ -199,6 +205,86 @@ void main() {
     await settle(tester);
     expect(find.text('My profile'), findsNothing);
     expect(find.text('Mobile number'), findsOneWidget); // the login screen
+    expect(
+      await tester.runAsync(() => db.select(db.farmerProfiles).get()),
+      hasLength(1),
+    );
+    await unmountApp(tester);
+  });
+
+  testWidgets('the privacy policy link is shown and copied', (tester) async {
+    final copied = mockClipboard(tester);
+    await openProfile(tester);
+    await tapKey(tester, 'profile-privacy');
+    expect(copied(), 'http://localhost:8000/privacy');
+    expect(
+      find.textContaining('http://localhost:8000/privacy'),
+      findsOneWidget,
+    );
+    expect(find.text('Privacy policy'), findsOneWidget);
+    await unmountApp(tester);
+  });
+
+  testWidgets('deleting the account needs the typed word, then erases and '
+      'signs out', (tester) async {
+    final api = RecordingApi();
+    final db = await openProfile(
+      tester,
+      overrides: [accountDeletionApiProvider.overrideWithValue(api)],
+    );
+    await tapKey(tester, 'delete-account');
+    expect(find.text('Delete your account?'), findsOneWidget);
+    expect(find.textContaining('type DELETE'), findsOneWidget);
+    FilledButton confirm() => tester.widget<FilledButton>(
+      find.byKey(const Key('delete-account-confirm')),
+    );
+    expect(confirm().onPressed, isNull);
+    await tester.enterText(find.byKey(const Key('delete-account-word')), 'del');
+    await tester.pump();
+    expect(confirm().onPressed, isNull);
+    // Cancel changes nothing.
+    await tester.tap(find.text('Cancel'));
+    await settle(tester);
+    expect(api.calls, 0);
+
+    await tapKey(tester, 'delete-account');
+    await tester.enterText(
+      find.byKey(const Key('delete-account-word')),
+      ' delete ',
+    );
+    await tester.pump();
+    await tester.tap(find.byKey(const Key('delete-account-confirm')));
+    await settle(tester);
+    expect(api.calls, 2);
+    expect(find.text('Mobile number'), findsOneWidget); // the login screen
+    expect(
+      await tester.runAsync(() => db.select(db.farmerProfiles).get()),
+      isEmpty,
+    );
+    await unmountApp(tester);
+  });
+
+  testWidgets('a failed deletion says so and keeps everything', (tester) async {
+    final api = RecordingApi(fail: true);
+    final db = await openProfile(
+      tester,
+      locale: const Locale('mr'),
+      overrides: [accountDeletionApiProvider.overrideWithValue(api)],
+    );
+    await tapKey(tester, 'delete-account');
+    await tester.enterText(
+      find.byKey(const Key('delete-account-word')),
+      'काढा',
+    );
+    await tester.pump();
+    await tester.tap(find.byKey(const Key('delete-account-confirm')));
+    await settle(tester);
+    expect(
+      find.textContaining('थोड्या वेळाने पुन्हा प्रयत्न करा'),
+      findsOneWidget,
+    );
+    expect(find.text('माझी माहिती'), findsOneWidget);
+    expect(find.text('माझे खाते आणि माहिती काढून टाका'), findsOneWidget);
     expect(
       await tester.runAsync(() => db.select(db.farmerProfiles).get()),
       hasLength(1),

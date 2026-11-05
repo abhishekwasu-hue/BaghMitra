@@ -112,6 +112,19 @@ class AccountGuard {
     if (await unsentCount() > 0) {
       throw StateError('unsent writes of the previous account');
     }
+    await _clearTables();
+    await claim(session);
+  });
+
+  /// After the account was deleted on the server (S-10): every local record, the outbox
+  /// (unsent writes included, they belong to the deleted account), the owner and the cursor
+  /// go, then the photo folders. Only the phone's own settings stay.
+  Future<void> eraseAll() async {
+    await _db.transaction(_clearTables);
+    await deletePhotos?.call();
+  }
+
+  Future<void> _clearTables() async {
     for (final table in _db.allTables) {
       if (table == _db.syncMeta) continue;
       await _db.delete(table).go();
@@ -123,6 +136,5 @@ class AccountGuard {
         _db.syncMeta,
       )..where((t) => t.key.equals(row.key))).go();
     }
-    await claim(session);
-  });
+  }
 }

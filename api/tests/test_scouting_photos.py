@@ -16,6 +16,7 @@ from sqlalchemy import create_engine, inspect
 from sqlalchemy.ext.asyncio import AsyncEngine, async_sessionmaker
 
 from bagmitra_api.core.settings import Settings
+from bagmitra_api.db.models import ScoutingRecord
 from bagmitra_api.db.session import get_sessionmaker
 from bagmitra_api.main import create_app
 from bagmitra_api.photos.storage import (
@@ -182,6 +183,30 @@ async def test_deleted_record_has_no_photo_urls(
         f"/v1/scouting/{record_id}/photo-upload-url", json=UPLOAD, headers=auth_headers
     )
     assert r.status_code == 404
+
+
+async def test_a_stored_key_that_is_not_the_derived_one_is_never_signed(
+    photo_client: httpx.AsyncClient,
+    auth_headers: dict[str, str],
+    user_id: uuid.UUID,
+    engine: AsyncEngine,
+    storage: FakeStorage,
+) -> None:
+    """S-03: a key written around the sync check (e.g. another grower's photo path) is
+    treated as no photo; only `<caller>/<record>.jpg` is ever signed."""
+    record_id = await _record(photo_client, auth_headers)
+    maker = async_sessionmaker(engine, expire_on_commit=False)
+    victim = f"{uuid.uuid4()}/{uuid.uuid4()}.jpg"
+    for planted in (victim, f"{user_id}/{uuid.uuid4()}.jpg", f"{user_id}/{record_id}.png"):
+        async with maker() as session:
+            record = await session.get(ScoutingRecord, record_id)
+            assert record is not None
+            record.photo_key = planted
+            await session.commit()
+        r = await photo_client.get(f"/v1/scouting/{record_id}/photo-url", headers=auth_headers)
+        assert r.status_code == 404
+        assert r.json()["error"]["code"] == "photo_not_found"
+    assert storage.calls == []
 
 
 async def test_jpeg_only_and_size_limit(

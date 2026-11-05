@@ -105,6 +105,13 @@ async def test_phone_otp_login_and_sync_against_the_local_supabase_stack() -> No
     async with httpx.AsyncClient(timeout=20) as client:
         token_a = await sign_in(client, base, anon, GROWER_A)
         token_b = await sign_in(client, base, anon, GROWER_B)
+        # S-01 / S-02 / S-04: the Data API reaches no table in `public`, signed in or not.
+        for table, bearer in (("alembic_version", anon), ("kb_cards", token_a), ("plots", token_a)):
+            probe = await client.get(
+                f"{base}/rest/v1/{table}?select=*",
+                headers={"apikey": anon, "Authorization": f"Bearer {bearer}"},
+            )
+            assert probe.status_code in (401, 403, 404), (table, probe.status_code, probe.text)
     algorithm = jwt.get_unverified_header(token_a)["alg"]
     settings = Settings(
         supabase_jwt_secret=os.environ.get("SUPABASE_JWT_SECRET", ""),
