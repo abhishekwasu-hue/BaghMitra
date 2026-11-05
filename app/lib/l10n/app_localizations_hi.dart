@@ -75,6 +75,45 @@ class AppLocalizationsHi extends AppLocalizations {
   String get sevenDayTrend => '7 दिन का रुझान';
 
   @override
+  String get homeWeatherNeedsLocation => 'बाग की जगह जोड़ें, यहाँ मौसम दिखेगा।';
+
+  @override
+  String minTemperature(int degrees) {
+    final intl.NumberFormat degreesNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String degreesString = degreesNumberFormat.format(degrees);
+
+    return 'न्यूनतम $degreesString°';
+  }
+
+  @override
+  String homeNextStage(String stage, int days) {
+    final intl.NumberFormat daysNumberFormat = intl.NumberFormat.decimalPattern(
+      localeName,
+    );
+    final String daysString = daysNumberFormat.format(days);
+
+    return 'अगला चरण: $stage · $daysString दिनों में';
+  }
+
+  @override
+  String homeHarvestMonth(String month) {
+    return 'तुड़ाई $month';
+  }
+
+  @override
+  String get homeStageAddDates => 'चरणों की तारीखें लिखें, यहाँ दिन दिखेंगे।';
+
+  @override
+  String get homeOpenMarket => 'मंडी भाव देखें';
+
+  @override
+  String get choosePlot => 'बाग चुनें';
+
+  @override
+  String get onboardingSaveFailed => 'कृपया फिर से \"आगे बढ़ें\" दबाएँ।';
+
+  @override
   String get perQuintal => 'प्रति क्विंटल';
 
   @override

@@ -172,6 +172,54 @@ abstract class AppLocalizations {
   /// **'7-day trend'**
   String get sevenDayTrend;
 
+  /// No description provided for @homeWeatherNeedsLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Add the block\'s location to see its weather here.'**
+  String get homeWeatherNeedsLocation;
+
+  /// No description provided for @minTemperature.
+  ///
+  /// In en, this message translates to:
+  /// **'Min {degrees}°'**
+  String minTemperature(int degrees);
+
+  /// No description provided for @homeNextStage.
+  ///
+  /// In en, this message translates to:
+  /// **'Next: {stage} in {days} days'**
+  String homeNextStage(String stage, int days);
+
+  /// No description provided for @homeHarvestMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Harvest {month}'**
+  String homeHarvestMonth(String month);
+
+  /// No description provided for @homeStageAddDates.
+  ///
+  /// In en, this message translates to:
+  /// **'Write the stage dates to see the days here.'**
+  String get homeStageAddDates;
+
+  /// No description provided for @homeOpenMarket.
+  ///
+  /// In en, this message translates to:
+  /// **'See market prices'**
+  String get homeOpenMarket;
+
+  /// No description provided for @choosePlot.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a block'**
+  String get choosePlot;
+
+  /// No description provided for @onboardingSaveFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Please tap Continue again.'**
+  String get onboardingSaveFailed;
+
   /// No description provided for @perQuintal.
   ///
   /// In en, this message translates to:

@@ -1,14 +1,17 @@
-/// Everything the "today's orchard" screen shows. Built in M0 from a demo fixture;
-/// later milestones fill it from plots, bahar cycles, weather, risk events and prices.
+/// Everything the "today's orchard" screen shows. In demo mode (no backend) it comes from a
+/// bundled sample; otherwise only from the grower's own profile, plots, bahar cycles, saved
+/// weather and saved mandi prices (`local_home_repository.dart`). A missing block is null.
 class HomeSnapshot {
   const HomeSnapshot({
     required this.farmerName,
-    required this.weather,
-    required this.stage,
-    required this.tasks,
-    required this.market,
+    this.weather,
+    this.stage,
+    this.tasks = const [],
+    this.market,
     this.alert,
     this.isDemo = false,
+    this.plotId,
+    this.weatherNote,
   });
 
   factory HomeSnapshot.fromJson(
@@ -21,18 +24,33 @@ class HomeSnapshot {
     tasks: [
       for (final t in j['tasks']! as List<Object?>) TaskItem.fromJson(_map(t)),
     ],
-    market: MarketQuote.fromJson(_map(j['market'])),
+    market: j['market'] == null
+        ? null
+        : MarketQuote.fromJson(_map(j['market'])),
     alert: j['alert'] == null ? null : RiskAlert.fromJson(_map(j['alert'])),
     isDemo: isDemo,
   );
 
+  /// Empty when the grower gave no name.
   final String farmerName;
-  final WeatherNow weather;
-  final StageSummary stage;
+  final WeatherNow? weather;
+
+  /// Null when there is no plot, or the first plot has no planned / active bahar.
+  final StageSummary? stage;
+
+  /// Sample tasks (demo only). Real tasks come from the tasks table.
   final List<TaskItem> tasks;
-  final MarketQuote market;
+  final MarketQuote? market;
   final RiskAlert? alert;
   final bool isDemo;
+
+  /// The plot the home blocks describe (the first plot); null when the grower has none.
+  final String? plotId;
+
+  /// Why there is no weather for [plotId], when there is none.
+  final WeatherNote? weatherNote;
+
+  bool get hasPlot => plotId != null || isDemo;
 
   String get initial =>
       farmerName.isEmpty ? '' : String.fromCharCodes(farmerName.runes.take(1));
@@ -45,7 +63,18 @@ class HomeSnapshot {
     market: market,
     alert: alert,
     isDemo: isDemo,
+    plotId: plotId,
+    weatherNote: weatherNote,
   );
+}
+
+/// Why the home header shows no weather.
+enum WeatherNote {
+  /// The plot has no saved location, so the server cannot forecast it.
+  needsLocation,
+
+  /// Nothing saved on the phone yet; it comes once the phone is online.
+  notYetLoaded,
 }
 
 Map<String, Object?> _map(Object? o) =>
@@ -54,25 +83,29 @@ Map<String, Object?> _map(Object? o) =>
 class WeatherNow {
   const WeatherNow({
     required this.place,
-    required this.condition,
     required this.tempC,
-    required this.maxC,
-    required this.soilMoisturePct,
+    this.condition,
+    this.maxC,
+    this.minC,
+    this.soilMoisturePct,
   });
 
   factory WeatherNow.fromJson(Map<String, Object?> j) => WeatherNow(
     place: j['place']! as String,
-    condition: j['condition']! as String,
+    condition: j['condition'] as String?,
     tempC: j['temp_c']! as int,
-    maxC: j['max_c']! as int,
-    soilMoisturePct: j['soil_moisture_pct']! as int,
+    maxC: j['max_c'] as int?,
+    soilMoisturePct: j['soil_moisture_pct'] as int?,
   );
 
   final String place;
-  final String condition;
+  final String? condition;
+
+  /// The big number. The sample shows "now"; real data shows today's forecast maximum.
   final int tempC;
-  final int maxC;
-  final int soilMoisturePct;
+  final int? maxC;
+  final int? minC;
+  final int? soilMoisturePct;
 }
 
 enum StageKind { stress, flowering, fruitSet, fruitGrowth, harvest }
@@ -99,39 +132,43 @@ class StageSummary {
   const StageSummary({
     required this.tag,
     required this.currentName,
-    required this.day,
     required this.milestones,
     required this.currentIndex,
     required this.progress,
-    required this.nextName,
-    required this.nextInDays,
-    required this.harvestMonth,
+    this.day,
+    this.nextName,
+    this.nextInDays,
+    this.harvestMonth,
   });
 
   factory StageSummary.fromJson(Map<String, Object?> j) => StageSummary(
     tag: j['tag']! as String,
     currentName: j['current_name']! as String,
-    day: j['day']! as int,
+    day: j['day'] as int?,
     milestones: [
       for (final m in j['milestones']! as List<Object?>)
         StageMilestone.fromJson(_map(m)),
     ],
     currentIndex: j['current_index']! as int,
     progress: (j['progress']! as num).toDouble(),
-    nextName: j['next_name']! as String,
-    nextInDays: j['next_in_days']! as int,
-    harvestMonth: DateTime.parse(j['harvest_month']! as String),
+    nextName: j['next_name'] as String?,
+    nextInDays: j['next_in_days'] as int?,
+    harvestMonth: DateTime.tryParse(j['harvest_month'] as String? ?? ''),
   );
 
   final String tag;
   final String currentName;
-  final int day;
+
+  /// Days since the first dated stage; null before it or when no stage has a date.
+  final int? day;
   final List<StageMilestone> milestones;
+
+  /// The milestone reached last; -1 when none is reached yet.
   final int currentIndex;
   final double progress;
-  final String nextName;
-  final int nextInDays;
-  final DateTime harvestMonth;
+  final String? nextName;
+  final int? nextInDays;
+  final DateTime? harvestMonth;
 }
 
 enum TaskKind { irrigation, spray, scouting, other }
@@ -172,29 +209,39 @@ class MarketQuote {
   const MarketQuote({
     required this.market,
     required this.pricePerQuintal,
-    required this.grade,
-    required this.weeklyChangePct,
+    this.grade,
+    this.weeklyChangePct,
+    this.day,
   });
 
   factory MarketQuote.fromJson(Map<String, Object?> j) => MarketQuote(
     market: j['market']! as String,
     pricePerQuintal: j['price_per_quintal']! as int,
-    grade: j['grade']! as String,
-    weeklyChangePct: j['weekly_change_pct']! as int,
+    grade: j['grade'] as String?,
+    weeklyChangePct: j['weekly_change_pct'] as int?,
   );
 
   final String market;
+
+  /// Modal price, exactly as published.
   final int pricePerQuintal;
-  final String grade;
-  final int weeklyChangePct;
+  final String? grade;
+  final int? weeklyChangePct;
+
+  /// The market day of the price (real data).
+  final DateTime? day;
 }
 
 class RiskAlert {
-  const RiskAlert({required this.title, required this.body});
+  const RiskAlert({required this.title, this.body, this.source, this.firstDay});
 
   factory RiskAlert.fromJson(Map<String, Object?> j) =>
-      RiskAlert(title: j['title']! as String, body: j['body']! as String);
+      RiskAlert(title: j['title']! as String, body: j['body'] as String?);
 
   final String title;
-  final String body;
+  final String? body;
+
+  /// Where a real (rule-based) alert comes from, and the day it starts.
+  final String? source;
+  final DateTime? firstDay;
 }

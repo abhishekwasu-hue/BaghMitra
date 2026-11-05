@@ -49,29 +49,16 @@
         "done": true
       },
       {
-        "id": "t2",
-        "kind": "spray",
-        "title": "झिंक + बोरॉन फवारणी",
-        "subtitle": "फळधारणा टप्पा · ४ एकर · PHI ७ दिवस",
-        "done": false
-      },
-      {
         "id": "t3",
         "kind": "scouting",
         "title": "सिल्ला तपासणी — १० झाडं",
-        "subtitle": "फोटो काढा, ॲप तपासेल",
+        "subtitle": "",
         "done": false
       }
     ],
-    "market": {
-      "market": "कळमना",
-      "price_per_quintal": 3200,
-      "grade": "आंबिया · ७० मिमी+",
-      "weekly_change_pct": 8
-    },
     "alert": {
       "title": "उद्या उष्णतेची लहर · फळगळीचा धोका",
-      "body": "पुढील ३ दिवस ३८°+ · आज संध्याकाळी पाणी द्या, सकाळी हलकी फवारणी टाळा."
+      "body": "पुढील ३ दिवस ३८°+"
     }
   },
   "hi": {
@@ -124,29 +111,16 @@
         "done": true
       },
       {
-        "id": "t2",
-        "kind": "spray",
-        "title": "जिंक + बोरॉन छिड़काव",
-        "subtitle": "फल लगना चरण · 4 एकड़ · PHI 7 दिन",
-        "done": false
-      },
-      {
         "id": "t3",
         "kind": "scouting",
         "title": "सिल्ला जाँच — 10 पेड़",
-        "subtitle": "फोटो लें, ऐप जाँचेगा",
+        "subtitle": "",
         "done": false
       }
     ],
-    "market": {
-      "market": "कळमना",
-      "price_per_quintal": 3200,
-      "grade": "आंबिया · 70 मिमी+",
-      "weekly_change_pct": 8
-    },
     "alert": {
       "title": "कल लू की लहर · फल गिरने का खतरा",
-      "body": "अगले 3 दिन 38°+ · आज शाम पानी दें, सुबह हल्का छिड़काव टालें।"
+      "body": "अगले 3 दिन 38°+"
     }
   },
   "en": {
@@ -199,29 +173,16 @@
         "done": true
       },
       {
-        "id": "t2",
-        "kind": "spray",
-        "title": "Zinc + boron spray",
-        "subtitle": "Fruit-set stage · 4 acres · PHI 7 days",
-        "done": false
-      },
-      {
         "id": "t3",
         "kind": "scouting",
         "title": "Psylla check — 10 trees",
-        "subtitle": "Take photos, the app will check",
+        "subtitle": "",
         "done": false
       }
     ],
-    "market": {
-      "market": "Kalamna",
-      "price_per_quintal": 3200,
-      "grade": "Ambiya · 70 mm+",
-      "weekly_change_pct": 8
-    },
     "alert": {
       "title": "Heat wave tomorrow · fruit-drop risk",
-      "body": "Next 3 days 38°+ · irrigate this evening, skip light morning sprays."
+      "body": "Next 3 days 38°+"
     }
   }
 }
