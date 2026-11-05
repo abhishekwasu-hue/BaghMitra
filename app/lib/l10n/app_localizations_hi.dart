@@ -1250,6 +1250,41 @@ class AppLocalizationsHi extends AppLocalizations {
   String get plotCentre => 'केंद्र बिंदु';
 
   @override
+  String get plotLocation => 'जगह';
+
+  @override
+  String get plotPointCapture => 'मैं बाग में खड़ा हूँ — जगह लें';
+
+  @override
+  String get plotPointWhy =>
+      'इस हिस्से के मौसम और चेतावनियों के लिए। केवल अभी एक बार ली जाती है।';
+
+  @override
+  String get plotPointReading => 'जगह ली जा रही है…';
+
+  @override
+  String get plotPointTake => 'जगह लें';
+
+  @override
+  String get plotPointRetake => 'जगह फिर से लें';
+
+  @override
+  String get plotPointDenied => 'हिस्से की जगह सेव करने के लिए अनुमति दें।';
+
+  @override
+  String get plotPointOpenSettings => 'सेटिंग्स खोलें';
+
+  @override
+  String get plotPointTryAgain => 'फिर से कोशिश करें';
+
+  @override
+  String get plotPointLater =>
+      'हिस्सा अभी सेव करें; जगह बाद में कभी भी ले सकते हैं।';
+
+  @override
+  String get boundaryWalkOptional => 'सीमा चलकर दर्ज करें (वैकल्पिक)';
+
+  @override
   String get calendarTitle => 'मौसम कैलेंडर';
 
   @override

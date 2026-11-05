@@ -35,6 +35,8 @@ void main() {
     ('/plots', seedTwo),
     ('/tasks', _seedTask),
     ('/tasks/new', seedPlot),
+    ('/plots/new', null),
+    ('/plots/p1', seedPlot),
     ('/market', seedPrices),
     ('/feed/gr1', seedFeed),
     ('/plots/p1/sprays', seedWithSpray),

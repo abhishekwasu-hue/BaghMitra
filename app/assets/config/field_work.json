@@ -15,7 +15,7 @@
     {"slug": "weeding", "labels": {"en": "Weeding", "mr": "निंदणी", "hi": "निराई"}},
     {"slug": "pruning", "labels": {"en": "Pruning", "mr": "छाटणी", "hi": "छंटाई"}},
     {"slug": "spraying", "labels": {"en": "Spraying", "mr": "फवारणी", "hi": "छिड़काव"}},
-    {"slug": "harvesting", "labels": {"en": "Harvesting", "mr": "काढणी", "hi": "तुड़ाई"}},
+    {"slug": "harvesting", "labels": {"en": "Harvesting", "mr": "तोडणी", "hi": "तुड़ाई"}},
     {"slug": "irrigation_work", "labels": {"en": "Watering / drip work", "mr": "पाणी / ठिबकचे काम", "hi": "सिंचाई / ड्रिप का काम"}},
     {"slug": "other", "labels": {"en": "Other work", "mr": "इतर काम", "hi": "अन्य काम"}}
   ]

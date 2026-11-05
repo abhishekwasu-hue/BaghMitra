@@ -10,6 +10,7 @@ import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../../weather/presentation/plot_weather_card.dart';
 import '../domain/geo.dart';
+import 'plot_point.dart';
 
 /// One block at a glance: what the grower entered, the boundary, and the way into its bahars,
 /// sprays, field log and accounts.
@@ -91,12 +92,14 @@ class PlotDetailScreen extends ConsumerWidget {
                   ? t.plotBoundaryNone
                   : t.boundaryMarked(corners.length),
             ),
-            if (plot.centroidLat != null && plot.centroidLon != null)
-              row(
-                t.plotCentre,
-                '${plot.centroidLat!.toStringAsFixed(5)}, '
-                '${plot.centroidLon!.toStringAsFixed(5)}',
-              ),
+            PlotLocationRow(
+              point: plot.centroidLat != null && plot.centroidLon != null
+                  ? LatLon(plot.centroidLat!, plot.centroidLon!)
+                  : null,
+              onCaptured: (p) => ref
+                  .read(plotRepositoryProvider)
+                  .save(plot.withCentre(p.lat, p.lon)),
+            ),
             if (plot.centroidLat != null && plot.centroidLon != null) ...[
               const SizedBox(height: BmSpace.lg),
               PlotWeatherCard(plotId: plot.id),

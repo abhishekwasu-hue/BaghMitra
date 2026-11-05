@@ -133,7 +133,7 @@ void main() {
     ], contains('m6'));
     expect([
       for (final r in m.rowsFor('middle', 'summer')) r.id,
-    ], contains('m7'));
+    ], contains('m1'));
     expect([for (final r in m.rowsFor('young', 'year')) r.id], contains('m10'));
     final byId = {for (final r in m.rows) r.id: r};
     expect(byId['m6']!.sourceKeys, ['AW18']);
@@ -141,9 +141,13 @@ void main() {
     expect(byId['m11']!.sourceKeys, ['MP25']);
     final notes = {for (final n in m.notes) n.id: n};
     expect(notes['mn5']!.sourceKeys, ['MP25']);
-    expect(notes['mn6']!.sourceKeys, ['AW24', 'AW23']);
+    // Sources that differ on one condition share one row or note (audit C4).
+    expect(notes['mn6']!.sourceKeys, ['AW24', 'AW23', 'VK']);
     expect(notes['mn6']!.label('en'), contains('35–45 days'));
-    expect(notes['mn7']!.sourceKeys, ['VK']);
+    expect(notes['mn6']!.label('en'), contains('20–25 days'));
+    expect(notes, isNot(contains('mn7')));
+    expect(byId['m1']!.sourceKeys, ['NI', 'AW18']);
+    expect(byId, isNot(contains('m8')));
     // The bahar-length gap is closed; only the winter / rainy litres gap stays.
     expect(m.gaps, hasLength(1));
     // Santra young and middle now have a summer row too.
@@ -269,9 +273,9 @@ void main() {
     );
     await tester.tap(find.byKey(const Key('irrigation-age-middle')));
     await settle(tester);
-    final m7 = find.byKey(const Key('irrigation-m7'));
-    await tester.scrollUntilVisible(m7, 300);
-    expect(m7, findsOneWidget);
+    final m1Middle = find.byKey(const Key('irrigation-m1'));
+    await tester.scrollUntilVisible(m1Middle, 300);
+    expect(m1Middle, findsOneWidget);
     expect(find.byKey(const Key('irrigation-m6')), findsNothing);
     await tester.scrollUntilVisible(
       find.byKey(const Key('irrigation-age-mature')),

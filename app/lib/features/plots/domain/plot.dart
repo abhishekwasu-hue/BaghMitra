@@ -40,6 +40,25 @@ class Plot {
 
   double get areaAcres => areaSqM / sqMPerAcre;
 
+  /// The same block at a new location (taken again in the block); everything else is kept.
+  Plot withCentre(double lat, double lon) => Plot(
+    id: id,
+    name: name,
+    crop: crop,
+    areaSqM: areaSqM,
+    variety: variety,
+    plantingYear: plantingYear,
+    treeCount: treeCount,
+    rowSpacingM: rowSpacingM,
+    plantSpacingM: plantSpacingM,
+    irrigationType: irrigationType,
+    waterSource: waterSource,
+    soilType: soilType,
+    centroidLat: lat,
+    centroidLon: lon,
+    boundary: boundary,
+  );
+
   /// Payload for the `plot` sync entity (see api sync/payloads.py PlotPayload).
   Map<String, Object?> toPayload() => {
     'name': name,
