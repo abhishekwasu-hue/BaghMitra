@@ -161,6 +161,15 @@ class Settings(BaseSettings):
     # correction or deletion requests. Empty: the page says the contact is not published yet.
     privacy_contact_email: str = ""
 
+    # Admin web (OPS-02): the Flutter web build served by this API at `/admin/` (same origin,
+    # so no CORS). Empty dir or no index.html there: `/admin/` answers 404. The Supabase
+    # project URL and its public anon (publishable) key are handed to the page at runtime by
+    # `/admin/config.json`, so the build itself holds no environment values. Never the
+    # service role key: the page runs in the browser.
+    admin_web_dir: str = ""
+    admin_web_supabase_url: str = ""
+    admin_web_supabase_anon_key: str = ""
+
     @property
     def photo_storage_enabled(self) -> bool:
         return bool(self.photo_storage_url and self.photo_storage_service_key.get_secret_value())

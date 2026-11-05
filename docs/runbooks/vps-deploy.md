@@ -70,7 +70,7 @@ API चालू झाल्यावर एकदाच `crontab -e` करू
 5. Play Store आधी: धोरणाचा मजकूर वकिलाकडून तपासून घ्या (Q52). तपशील: `docs/legal/DATA_INVENTORY.md`.
 
 ## ६ब. बाजारभाव हाताने भरणारी व्यक्ती
-Supabase → Authentication → Users → त्या व्यक्तीचे `app_metadata` = `{"roles": ["market_admin"]}` (service role नेच बदलता येते). पायऱ्या: `docs/runbooks/market-prices.md`.
+Supabase → Authentication → Users → त्या व्यक्तीचे `app_metadata` = `{"roles": ["market_admin"]}` (service role नेच बदलता येते). पायऱ्या: `docs/runbooks/market-prices.md`. Admin पान (`/admin/`) आणि role देणारी script: `docs/runbooks/admin-web.md`.
 
 ## ६क. deploy आधीची यादी
 - [ ] DNS A record काम करतो (`ping api.तुमचे-डोमेन.com` ने VPS चा IP दिसतो)
