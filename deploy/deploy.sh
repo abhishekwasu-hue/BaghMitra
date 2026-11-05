@@ -149,10 +149,10 @@ remove_cron_line() { # marker, label: removes the line if it is there
   fi
 }
 
-switch_on() { # true when the .env value of KEY is on / true / yes / 1 (value never printed)
+switch_on() { # true unless the .env value of KEY is off / false / no / 0; unset = on (owner default)
   case "$(env_value "$1" | tr '[:upper:]' '[:lower:]')" in
-    on | true | yes | 1) return 0 ;;
-    *) return 1 ;;
+    off | false | no | 0) return 1 ;;
+    *) return 0 ;;
   esac
 }
 

@@ -60,10 +60,19 @@ def jobs(lines: list[str]) -> set[str]:
 
 
 def test_only_weather_and_backup_with_every_switch_off(tmp_path: Path) -> None:
-    out, lines = run_install(tmp_path, "API_DOMAIN=x\nMARKET_API_KEY=\n")
+    env = (
+        "API_DOMAIN=x\nMARKET_API_KEY=\nCRON_FEED_ALERTS=off\nCRON_FEED_NEWS=no\nCRON_KB_REGATE=0\n"
+    )
+    out, lines = run_install(tmp_path, env)
     assert jobs(lines) == {"weather", "backup"}
     assert len(lines) == 2
     assert "market" not in out
+
+
+def test_unset_switches_are_on_by_default(tmp_path: Path) -> None:
+    # Owner default: the feed and KB jobs run unless a switch says off.
+    _, lines = run_install(tmp_path, "API_DOMAIN=x\nMARKET_API_KEY=\n")
+    assert jobs(lines) == {"weather", "backup", "alerts", "news", "regate"}
 
 
 def test_each_switch_adds_its_job_once_and_never_prints_values(tmp_path: Path) -> None:
@@ -93,15 +102,18 @@ def test_each_switch_adds_its_job_once_and_never_prints_values(tmp_path: Path) -
 def test_turning_a_switch_off_removes_only_its_line(tmp_path: Path) -> None:
     run_install(tmp_path, "MARKET_API_KEY=k\nCRON_FEED_NEWS=on\nCRON_KB_REGATE=on\n")
     out, lines = run_install(tmp_path, "MARKET_API_KEY=k\nCRON_FEED_NEWS=off\nCRON_KB_REGATE=on\n")
-    assert jobs(lines) == {"weather", "backup", "market", "regate"}
+    assert jobs(lines) == {"weather", "backup", "market", "alerts", "regate"}
     assert "feed news (every 6 h) cron line removed" in out
-    _, cleared = run_install(tmp_path, "MARKET_API_KEY=\n")
+    _, cleared = run_install(
+        tmp_path, "MARKET_API_KEY=\nCRON_FEED_ALERTS=off\nCRON_FEED_NEWS=off\nCRON_KB_REGATE=off\n"
+    )
     assert jobs(cleared) == {"weather", "backup"}
 
 
 def test_other_cron_lines_are_kept(tmp_path: Path) -> None:
     (tmp_path / "cron.txt").write_text("5 4 * * * /usr/local/bin/other-project\n")
-    run_install(tmp_path, "CRON_KB_REGATE=on\n")
-    _, lines = run_install(tmp_path, "CRON_KB_REGATE=no\n")
+    off = "CRON_FEED_ALERTS=off\nCRON_FEED_NEWS=off\n"
+    run_install(tmp_path, off + "CRON_KB_REGATE=on\n")
+    _, lines = run_install(tmp_path, off + "CRON_KB_REGATE=no\n")
     assert lines[0] == "5 4 * * * /usr/local/bin/other-project"
     assert jobs(lines) == {"weather", "backup"}

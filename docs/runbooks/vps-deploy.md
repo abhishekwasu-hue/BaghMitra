@@ -65,13 +65,14 @@ cd /opt/bagmitra && bash deploy/deploy.sh
 | हवामान व धोका सूचना (`weather.pull_job`) | नेहमी | रोज 00:00 = 05:30 | `/var/log/bagmitra-weather-pull.log` |
 | database बॅकअप (`deploy/backup.sh`) | नेहमी | रोज 21:40 = 03:10 | `/var/log/bagmitra-backup.log` |
 | बाजारभाव ओढणे (`market.pull_job`) | `MARKET_API_KEY` भरलेली असेल तर | दर ६ तासांनी 02:35, 08:35, 14:35, 20:35 = 08:05, 14:05, 20:05, 02:05 | `/var/log/bagmitra-market-pull.log` |
-| KB कार्डांची रात्रीची फेरतपासणी (`kb.regate`) | `CRON_KB_REGATE=on` | रोज 20:50 = 02:20 | `/var/log/bagmitra-kb-regate.log` |
-| सरकारी सूचनांच्या आठवणी (`feed.alert_job`) | `CRON_FEED_ALERTS=on` | रोज 03:17 व 11:17 = 08:47 व 16:47 | `/var/log/bagmitra-feed-alerts.log` |
-| बातम्यांचे मथळे (`feed.news_job`) | `CRON_FEED_NEWS=on` (स्रोताच्या अटी नोंदल्यानंतरच) | दर ६ तासांनी 01:23, 07:23, 13:23, 19:23 | `/var/log/bagmitra-feed-news.log` |
+| KB कार्डांची रात्रीची फेरतपासणी (`kb.regate`) | नेहमी (बंद: `CRON_KB_REGATE=off`) | रोज 20:50 = 02:20 | `/var/log/bagmitra-kb-regate.log` |
+| सरकारी सूचनांच्या आठवणी (`feed.alert_job`) | नेहमी (बंद: `CRON_FEED_ALERTS=off`) | रोज 03:17 व 11:17 = 08:47 व 16:47 | `/var/log/bagmitra-feed-alerts.log` |
+| बातम्यांचे मथळे (`feed.news_job`) | नेहमी (बंद: `CRON_FEED_NEWS=off`); अटी `allowed` असलेल्या स्रोतांकडूनच मथळे येतात | दर ६ तासांनी 01:23, 07:23, 13:23, 19:23 | `/var/log/bagmitra-feed-news.log` |
 
-- चालू करणे: `deploy/.env` मध्ये ओळ टाका (उदा. `CRON_KB_REGATE=on`; `on` / `true` / `yes` / `1` चालते) आणि
-  `bash deploy/deploy.sh` चालवा. शेवटी "... cron line added" दिसते.
-- बंद करणे: `off` करा किंवा ओळ काढा आणि पुन्हा deploy: "... cron line removed" दिसते.
+- ही तिन्ही कामे default चालू आहेत: `.env` मध्ये काहीही न लिहिता `bash deploy/deploy.sh` ने ओळी लागतात
+  ("... cron line added").
+- बंद करणे: `deploy/.env` मध्ये उदा. `CRON_FEED_NEWS=off` (`off` / `false` / `no` / `0` चालते) लिहा आणि पुन्हा
+  deploy: "... cron line removed" दिसते.
 - तपासणे: `crontab -l | grep bagmitra`. एखादे काम हाताने आत्ता चालवायचे असेल तर, उदा.
   `cd /opt/bagmitra/deploy && docker compose exec -T api python -m bagmitra_api.market.pull_job`
   (शेवटी JSON सारांश; बाजारभाव key टाकल्यावर एकदा असे चालवा म्हणजे पहिल्या ठरलेल्या वेळेआधीच भाव दिसतात).
@@ -102,7 +103,7 @@ Supabase → Authentication → Users → त्या व्यक्तीच�
 - [ ] `docker compose ps` मध्ये `api` healthy, `curl https://api.तुमचे-डोमेन.com/health/live` → `ok`
 - [ ] `docker compose logs api | grep -i "alembic"` मध्ये migration त्रुटी नाही
 - [ ] `crontab -l | grep bagmitra` मध्ये हवामान व बॅकअप ओळी (deploy नंतर आपोआप); हवामान हाताने एकदा चालवले (`new_alerts`, `failed_cells: 0`)
-- [ ] `deploy/.env` मध्ये `CRON_KB_REGATE=on` (रात्रीची KB फेरतपासणी, पायरी ६अ)
+- [ ] नियोजित कामे (पायरी ६अ) default चालू; नको असलेले `off` करा
 - [ ] (ऐच्छिक) `MARKET_API_KEY` टाकून deploy, `market.pull_job` एकदा हाताने चालवला, ॲपमध्ये बाजारभाव दिसतात
 - [ ] `https://<API_DOMAIN>/` आणि `/privacy` उघडतात; Google Branding मध्ये दोन्ही दुवे टाकले (पायरी ६अ-१)
 - [ ] GitHub secrets `API_BASE_URL`, `SUPABASE_URL`, `SUPABASE_ANON_KEY` टाकून नवीन test APK

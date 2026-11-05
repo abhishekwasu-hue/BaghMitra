@@ -151,7 +151,7 @@ draft for review only: it never publishes. Paid calls; without the key the endpo
   Dismiss stops pushes for the item; "remind" asks for its date reminders even if the item is
   not matched to the farmer's profile (refused for a withdrawn item or one without a date).
 
-## 8. Alert job (cron added by deploy/deploy.sh when `CRON_FEED_ALERTS=on`)
+## 8. Alert job (cron added by deploy/deploy.sh unless `CRON_FEED_ALERTS=off`)
 ```
 python -m bagmitra_api.feed.alert_job      # prints a JSON summary, exit 1 if pushes failed
 ```
@@ -163,7 +163,7 @@ their end; the weekly digest lists new items for the farmer from the last 7 days
 (English fallback). Until the FCM sender exists (Q32) the summary says
 `"skipped_reason": "no push sender configured (FCM credentials)"` and nothing is stamped.
 
-Cron on the VPS: set `CRON_FEED_ALERTS=on` in `deploy/.env` and run `bash deploy/deploy.sh`; it
+Cron on the VPS: on by default; `bash deploy/deploy.sh` adds it (set `CRON_FEED_ALERTS=off` in `deploy/.env` to stop); it
 adds this line once (twice a day, outside the default quiet hours; the server clock is UTC, so
 03:17 and 11:17 UTC are 08:47 and 16:47 India time):
 ```
@@ -190,7 +190,7 @@ images. Each headline is an `in_review` news item: write **our own** two-line su
 `PUT .../items/{id}/texts/en` (and `mr`, `hi`), then approve and publish; the app shows it as
 "News — not official". Duplicates (same guid or link) are not added again.
 
-Cron (every 6 hours, only after the terms are recorded): set `CRON_FEED_NEWS=on` in
+Cron (every 6 hours, only after the terms are recorded): on by default (`CRON_FEED_NEWS=off` stops it) in
 `deploy/.env` and run `bash deploy/deploy.sh`; it adds (01:23, 07:23, 13:23, 19:23 UTC):
 ```
 23 1,7,13,19 * * * cd /opt/bagmitra/deploy && docker compose exec -T api python -m bagmitra_api.feed.news_job >> /var/log/bagmitra-feed-news.log 2>&1
