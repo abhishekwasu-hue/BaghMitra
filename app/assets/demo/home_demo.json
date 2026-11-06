@@ -30,7 +30,7 @@
         },
         {
           "kind": "harvest",
-          "label": "काढणी",
+          "label": "तोडणी",
           "position": 1.0
         }
       ],
@@ -51,7 +51,7 @@
       {
         "id": "t3",
         "kind": "scouting",
-        "title": "सिल्ला तपासणी — १० झाडं",
+        "title": "सायला पाहणी — १० झाडे",
         "subtitle": "",
         "done": false
       }

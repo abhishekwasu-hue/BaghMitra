@@ -1,0 +1,121 @@
+# Marathi / Hindi wording pass (audit M6 + M7)
+
+Native-speaker pass over `app/lib/l10n/app_mr.arb` and `app_hi.arb`. English strings, keys, ICU placeholders and
+plural / select structures are unchanged. Admin-only strings were not touched. Binding terms: docs/agronomy/GLOSSARY_mr.md.
+
+Reasons: **calque** = word-for-word English; **positive** = calm, action-first wording (real warnings kept clear);
+**glossary** = GLOSSARY_mr.md term or unit; **consistency** = one term per thing across screens; **grammar**; **jargon** =
+English / developer words; **word** = Marathi word in Hindi text; **punctuation** = । instead of . in Hindi.
+
+| Lang | Reason | Changed |
+|---|---|---|
+| hi | consistency | 11 |
+| hi | grammar | 1 |
+| hi | jargon | 2 |
+| hi | positive | 7 |
+| hi | punctuation | 14 |
+| hi | word | 9 |
+| mr | calque | 5 |
+| mr | consistency | 18 |
+| mr | glossary | 4 |
+| mr | grammar | 3 |
+| mr | jargon | 5 |
+| mr | positive | 7 |
+
+Total: 42 mr, 44 hi strings.
+
+Warning meaning kept as it was: `sprayWarnBannedBody` / `sprayWarnRestrictedBody` (spelling only) and `sprayWarnPhiTitle`;
+`feedCheckNoMatch` (tells the grower a forwarded message is not confirmed), `claimPdfMade` (legal note). The
+"not a recommendation" sense of `labelInfoBanner` is kept, with the information first. Not in the arb (left for its
+owner, audit C1): the demo home stage chip still says काढणी (`app/assets/demo/home_demo.json`).
+
+## Changes
+
+| Lang | Key | Old | New | Reason |
+|---|---|---|---|---|
+| mr | `soilMoisture` | माती ओली {percent}% | मातीतील ओलावा {percent}% | calque |
+| mr | `navHome` | घर | मुख्य पान | calque |
+| mr | `seeAll` | सगळी पाहा | सर्व पहा | consistency: सर्व / पहा as on the other screens |
+| mr | `homeOpenMarket` | बाजारभाव पाहा | बाजारभाव पहा | consistency: पहा (9 uses) over पाहा (3) |
+| mr | `sprayWarnBannedBody` | हा घटक बंदी असलेला आहे ({notification}). तो वापरू नका. जवळच्या KVK किंवा तज्ञांना विचारा. | हा घटक बंदी असलेला आहे ({notification}). तो वापरू नका. जवळच्या KVK किंवा तज्ज्ञांना विचारा. | glossary: तज्ञ → तज्ज्ञ; warning text kept |
+| mr | `sprayWarnRestrictedBody` | या पिकासाठी हा घटक प्रतिबंधित आहे ({notification}). लेबल पाहा आणि स्थानिक तज्ञांना विचारा. | या पिकासाठी हा घटक प्रतिबंधित आहे ({notification}). लेबल पहा आणि स्थानिक तज्ज्ञांना विचारा. | glossary: तज्ञ → तज्ज्ञ, पाहा → पहा |
+| mr | `baharEmptyBody` | बहार निवडा आणि तुमच्या तारखा लिहा. तज्ञांनी तपासलेले कॅलेंडर तयार झाल्यावर सुचवलेल्या तारखा मिळतील. | बहार निवडा आणि तुमच्या तारखा लिहा. तज्ज्ञांनी तपासलेले कॅलेंडर तयार झाल्यावर सुचवलेल्या तारखा मिळतील. | glossary: तज्ञ → तज्ज्ञ |
+| mr | `plotOpenRecords` | बहार, फवारणी आणि हिशेब | बहार, फवारणी आणि हिशोब | consistency: हिशोब, as on the Accounts tab |
+| mr | `plotBoundaryNone` | हद्द नोंदवा | सीमा नोंदवा | consistency: सीमा, as on the boundary screen |
+| mr | `boundaryDeniedForever` | लोकेशन बंद केलेले आहे. फोनच्या अॅप सेटिंगमध्ये परवानगी द्या. | फोनच्या ॲप सेटिंगमध्ये लोकेशनला परवानगी द्या. | positive: action first; ॲप spelling |
+| mr | `settingsPhotoMobileData` | मोबाइल डेटावरही फोटोचा बॅकअप घ्या | मोबाईल डेटावरही फोटोचा बॅकअप घ्या | consistency: मोबाईल, as on the login screen |
+| mr | `settingsPhotoMobileDataHint` | पाहणीच्या फोटोंचा बॅकअप वाय-फायवर होतो. मोबाइल डेटाही वापरायचा असेल तर हे चालू करा. | पाहणीच्या फोटोंचा बॅकअप वाय-फायवर होतो. मोबाईल डेटाही वापरायचा असेल तर हे चालू करा. | consistency: मोबाईल, as on the login screen |
+| mr | `weatherRain` | {mm} मिमी पाऊस | {mm} मि.मी. पाऊस | glossary: unit मि.मी. |
+| mr | `harvestKg` | प्रमाण (किलो) | वजन (किलो) | consistency: वजन, as in the sale form |
+| mr | `labourAddDay` | मजूर दिवस जोडा | मजुराचा दिवस जोडा | calque |
+| mr | `profileConsentDataNote` | तुमच्या नोंदी साठवण्यासाठी आणि सुरक्षित ठेवण्यासाठी ही संमती लागते. ती इथे बंद करता येत नाही. | तुमच्या नोंदी साठवण्यासाठी आणि सुरक्षित ठेवण्यासाठी ही संमती लागते, म्हणून ती नेहमी चालू राहते. | positive: "stays on" instead of "cannot be turned off" |
+| mr | `seedOrchard` | नमुना बाग भरा | नमुना बाग जोडा | grammar: बाग is feminine; जोडा as elsewhere |
+| mr | `seedOrchardDone` | नमुना बाग भरला | नमुना बाग जोडली | grammar: बाग is feminine (भरला → जोडली) |
+| mr | `tasksOverdue` | उशीर झालेली | राहिलेली | positive: calm wording for the overdue group |
+| mr | `taskOverdue` | उशीर | आजच करा | positive: action first (audit M6) |
+| mr | `editPlot` | बाग संपादित करा | बागेची माहिती बदला | calque: संपादित is bookish |
+| mr | `plotPointCapture` | मी बागेत उभा आहे — ठिकाण घ्या | मी बागेत आहे — ठिकाण घ्या | grammar: उभा is male-only; neutral for every grower |
+| mr | `plotPointWhy` | या भागाच्या हवामान व इशाऱ्यांसाठी. फक्त आत्ता एकदाच घेतले जाते. | या बागेच्या हवामान व इशाऱ्यांसाठी. ठिकाण फक्त आत्ता एकदाच घेतले जाते. | consistency: भाग → बाग; clear subject |
+| mr | `plotPointDenied` | भागाचे ठिकाण घेण्यासाठी परवानगी द्या. | बागेचे ठिकाण जतन करण्यासाठी लोकेशनला परवानगी द्या. | consistency: भाग → बाग |
+| mr | `plotPointLater` | भाग आत्ता जतन करा; ठिकाण नंतर कधीही घेता येईल. | बाग आत्ता जतन करा; ठिकाण नंतर कधीही घेता येईल. | consistency: भाग → बाग |
+| mr | `calendarTitle` | हंगाम दिनदर्शिका | हंगामाचे कॅलेंडर | consistency: कॅलेंडर, as in the walkthrough and bahar screens |
+| mr | `calendarOpen` | हंगाम दिनदर्शिका | हंगामाचे कॅलेंडर | consistency: कॅलेंडर, as in the walkthrough and bahar screens |
+| mr | `labelInfoBanner` | ही माहिती नोंदणीकृत लेबलवर (CIB&RC) छापलेली आहे. ही शिफारस नाही. कोणताही वापर करण्यापूर्वी उत्पादनाचे लेबल वाचा आणि तुमच्या कृषी विज्ञान केंद्र (KVK) किंवा कृषी अधिकाऱ्याकडून खात्री करून घ्या. | ही माहिती नोंदणीकृत लेबलवर (CIB&RC) छापलेली आहे; ती फक्त लेबलवरील माहिती आहे, शिफारस नाही. कोणताही वापर करण्यापूर्वी उत्पादनाचे लेबल वाचा आणि तुमच्या कृषी विज्ञान केंद्राकडून (KVK) किंवा कृषी अधिकाऱ्याकडून खात्री करून घ्या. | positive: information first, "not a recommendation" kept; case ending on केंद्राकडून |
+| mr | `plotVariety` | जात (ऐच्छिक) | वाण (ऐच्छिक) | consistency: वाण, as in market prices |
+| mr | `marketEmpty` | फोन ऑनलाइन असताना आणि भावांचा स्रोत जोडलेला असताना भाव येतील. | फोन ऑनलाइन असताना आणि बाजारभाव सेवा सुरू असताना भाव इथे दिसतील. | jargon: "price source connected" was developer text |
+| mr | `scoutingRemovePhoto` | फोटो काढा | फोटो हटवा | consistency: काढा also means "take" (फोटो काढा); हटवा as in the claim kit |
+| mr | `claimKitTitle` | क्लेम किट | नुकसान नोंद किट | jargon: क्लेम (audit M7) |
+| mr | `claimKitFromAlert` | नुकसानीचे फोटो · क्लेम किट | नुकसानीचे फोटो · नुकसान नोंद किट | jargon: follows claimKitTitle |
+| mr | `insuranceEmpty` | या बागेसाठी घेतलेला पीक विमा नोंदवा, किंवा नुकसान झाल्यावर क्लेम किट उघडा. | या बागेसाठी घेतलेला पीक विमा नोंदवा, किंवा नुकसान झाल्यावर नुकसान नोंद किट उघडा. | jargon: follows claimKitTitle |
+| mr | `claimKitNoGps` | GPS अनुपलब्ध | GPS शिवाय | positive: neutral fact instead of "unavailable" |
+| mr | `feedCheckPrivacy` | हा मजकूर तुमच्या फोनवर जतन होत नाही. | हा मजकूर फक्त तपासणीसाठी वापरला जातो; तो फोनवर साठवला जात नाही. | positive: purpose first; privacy fact kept |
+| mr | `loadingLabel` | लोड होत आहे | माहिती येत आहे | jargon: लोड (audit M7) |
+| mr | `accountBlockedBody` | {count, plural, =1{आधीच्या खात्याची १ नोंद अजून पाठवायची बाकी आहे.} other{आधीच्या खात्याच्या {count} नोंदी अजून पाठवायच्या बाकी आहेत.}} त्या खात्याने पुन्हा साइन इन करा आणि इंटरनेट चालू ठेवून ॲप उघडा, म्हणजे त्या पाठवल्या जातील. मग या खात्याने साइन इन करा. | {count, plural, =1{आधीच्या खात्याची १ नोंद अजून पाठवायची बाकी आहे.} other{आधीच्या खात्याच्या {count} नोंदी अजून पाठवायच्या बाकी आहेत.}} त्या खात्याने पुन्हा लॉगिन करा आणि इंटरनेट चालू ठेवून ॲप उघडा, म्हणजे त्या पाठवल्या जातील. मग या खात्याने लॉगिन करा. | consistency: साइन इन → लॉगिन, as on every other screen |
+| mr | `labTestNextDueHint` | आठवण कार्य हवे असेल तरच तारीख निवडा. | आठवणीचे काम हवे असेल तरच तारीख निवडा. | calque: आठवण कार्य was a calque of "reminder task" |
+| mr | `lookalikesCheckLine` | खात्री हवी? फोटो घ्या, निरीक्षण नोंदीत लिहा आणि निर्णय घेण्याआधी प्रयोगशाळा किंवा तज्ज्ञांकडून तपासून घ्या. | खात्री हवी? फोटो घ्या, पाहणी नोंदीत लिहा आणि निर्णय घेण्याआधी प्रयोगशाळा किंवा तज्ज्ञांकडून तपासून घ्या. | consistency: निरीक्षण नोंद → पाहणी नोंद (the scouting log name) |
+| mr | `lookalikesLogThis` | निरीक्षण नोंदीत लिहा | पाहणी नोंदीत लिहा | consistency: पाहणी नोंद is the scouting log name |
+| mr | `feedFilterAll` | सगळे | सर्व | consistency: सर्व, as in every other filter |
+| hi | `spraysEmpty` | पहले छिड़काव की नोंद यहाँ करें। | पहले छिड़काव का रिकॉर्ड यहाँ दर्ज करें। | word: नोंद is Marathi; रिकॉर्ड as elsewhere in hi |
+| hi | `fieldLogTitle` | खेत की नोंदें | खेत के रिकॉर्ड | word: नोंद is Marathi |
+| hi | `fieldLogEmpty` | खाद या सिंचाई की पहली नोंद जोड़ें। | खाद या सिंचाई का पहला रिकॉर्ड जोड़ें। | word: नोंद is Marathi |
+| hi | `labourEmpty` | मज़दूरी की पहली नोंद जोड़ें। | मज़दूरी का पहला रिकॉर्ड जोड़ें। | word: नोंद is Marathi |
+| hi | `harvestEmpty` | तुड़ाई की पहली नोंद जोड़ें। | तुड़ाई का पहला रिकॉर्ड जोड़ें। | word: नोंद is Marathi |
+| hi | `compareEmpty` | बहार शुरू करें और नोंदें जोड़ें, फिर सीज़न की तुलना दिखेगी। | बहार शुरू करें और रिकॉर्ड जोड़ें, फिर सीज़न की तुलना दिखेगी। | word: नोंद is Marathi |
+| hi | `onboardingConsentData` | ऐप चलाने के लिए बागमित्र मेरे बाग की नोंदें सहेजे, इसकी मेरी सहमति है। | ऐप चलाने के लिए बागमित्र मेरे बाग के रिकॉर्ड सहेजे, इसकी मेरी सहमति है। | word: नोंद is Marathi |
+| hi | `directoryEmpty` | नोंदें यहाँ दिखेंगी। | जानकारी यहाँ दिखेगी। | word: नोंद is Marathi |
+| hi | `scoutingTitle` | निरीक्षण नोंद | निरीक्षण रिकॉर्ड | word: नोंद is Marathi; matches lookalikes text |
+| hi | `walkthroughPlotsTitle` | आपके प्लॉट और बहार कैलेंडर | आपके बाग और बहार कैलेंडर | consistency: प्लॉट → बाग |
+| hi | `walkthroughPlotsBody` | अपने प्लॉट जोड़ें। हर बहार के लिए मौसम का कैलेंडर और करने वाले कामों की सूची दिखेगी। | अपने बाग जोड़ें। हर बहार के लिए मौसम का कैलेंडर और करने वाले कामों की सूची दिखेगी। | consistency: प्लॉट → बाग |
+| hi | `walkthroughWeatherTitle` | आपके प्लॉट के लिए मौसम सूचना | आपके बाग के लिए मौसम सूचना | consistency: प्लॉट → बाग |
+| hi | `walkthroughWeatherBody` | अपने प्लॉट का मौसम देखें। बारिश या धूप पर ध्यान देना हो तब सूचना मिलेगी। | अपने बाग का मौसम देखें। बारिश या धूप पर ध्यान देना हो तब सूचना मिलेगी। | consistency: प्लॉट → बाग |
+| hi | `syncEntryName` | {entity, select, farmer_profile{प्रोफ़ाइल} plot{प्लॉट} bahar_cycle{बहार} expense{खर्च} income{बिक्री} spray_record{छिड़काव} input_record{खाद / इनपुट} irrigation_record{सिंचाई} harvest_record{तुड़ाई} labour_record{मज़दूरी} farm_task{काम} scouting_record{निरीक्षण} insurance_policy{बीमा} lab_test{लैब जाँच} other{एंट्री}} | {entity, select, farmer_profile{प्रोफ़ाइल} plot{बाग} bahar_cycle{बहार} expense{खर्च} income{बिक्री} spray_record{छिड़काव} input_record{खाद / इनपुट} irrigation_record{सिंचाई} harvest_record{तुड़ाई} labour_record{मज़दूरी} farm_task{काम} scouting_record{निरीक्षण} insurance_policy{बीमा} lab_test{लैब जाँच} other{एंट्री}} | consistency: plot{प्लॉट} → plot{बाग}; select unchanged |
+| hi | `plotPointCapture` | मैं बाग में खड़ा हूँ — जगह लें | मैं बाग में हूँ — जगह लें | grammar: खड़ा is male-only |
+| hi | `plotPointWhy` | इस हिस्से के मौसम और चेतावनियों के लिए। केवल अभी एक बार ली जाती है। | इस बाग के मौसम और चेतावनियों के लिए। जगह केवल अभी एक बार ली जाती है। | consistency: हिस्सा → बाग |
+| hi | `plotPointDenied` | हिस्से की जगह सेव करने के लिए अनुमति दें। | बाग की जगह सेव करने के लिए अनुमति दें। | consistency: हिस्सा → बाग |
+| hi | `plotPointLater` | हिस्सा अभी सेव करें; जगह बाद में कभी भी ले सकते हैं। | बाग अभी सेव करें; जगह बाद में कभी भी ले सकते हैं। | consistency: हिस्सा → बाग |
+| hi | `tasksOverdue` | देर हो चुकी | बाकी | positive: calm wording |
+| hi | `taskOverdue` | देर | आज ही करें | positive: action first |
+| hi | `harvestKg` | मात्रा (किलो) | वज़न (किलो) | consistency: as in the sale form |
+| hi | `loadingLabel` | लोड हो रहा है | जानकारी आ रही है | jargon: लोड |
+| hi | `claimKitNoGps` | GPS अनुपलब्ध | GPS के बिना | positive: neutral fact |
+| hi | `profileConsentDataNote` | आपके रिकॉर्ड सहेजने और सुरक्षित रखने के लिए यह सहमति ज़रूरी है। इसे यहाँ बंद नहीं किया जा सकता। | आपके रिकॉर्ड सहेजने और सुरक्षित रखने के लिए यह सहमति ज़रूरी है, इसलिए यह हमेशा चालू रहती है। | positive: "stays on" |
+| hi | `labelInfoBanner` | यह जानकारी पंजीकृत लेबल (CIB&RC) पर छपी है। यह सिफ़ारिश नहीं है। किसी भी उपयोग से पहले उत्पाद का लेबल पढ़ें और अपने कृषि विज्ञान केंद्र (KVK) या कृषि अधिकारी से पुष्टि करें। | यह जानकारी पंजीकृत लेबल (CIB&RC) पर छपी है; यह केवल लेबल की जानकारी है, सिफ़ारिश नहीं। किसी भी उपयोग से पहले उत्पाद का लेबल पढ़ें और अपने कृषि विज्ञान केंद्र (KVK) या कृषि अधिकारी से पुष्टि करें। | positive: information first; disclaimer kept |
+| hi | `marketEmpty` | फ़ोन ऑनलाइन होने और भाव का स्रोत जुड़ने पर भाव आएँगे। | फ़ोन ऑनलाइन होने और मंडी भाव सेवा चालू होने पर भाव यहाँ दिखेंगे। | jargon: developer text |
+| hi | `boundaryDeniedForever` | लोकेशन बंद है। फ़ोन की ऐप सेटिंग में अनुमति दें। | फ़ोन की ऐप सेटिंग में लोकेशन की अनुमति दें। | positive: action first |
+| hi | `accountBlockedBody` | {count, plural, =1{पिछले खाते का 1 रिकॉर्ड अभी भेजना बाकी है।} other{पिछले खाते के {count} रिकॉर्ड अभी भेजने बाकी हैं।}} उस खाते से फिर से साइन इन करें और इंटरनेट चालू रखकर ऐप खोलें ताकि वे भेजे जाएँ। फिर इस खाते से साइन इन करें। | {count, plural, =1{पिछले खाते का 1 रिकॉर्ड अभी भेजना बाकी है।} other{पिछले खाते के {count} रिकॉर्ड अभी भेजने बाकी हैं।}} उस खाते से फिर से लॉगिन करें और इंटरनेट चालू रखकर ऐप खोलें ताकि वे भेजे जाएँ। फिर इस खाते से लॉगिन करें। | consistency: साइन इन → लॉगिन |
+| hi | `feedCheckPrivacy` | यह पाठ आपके फ़ोन पर सहेजा नहीं जाता. | यह पाठ केवल जाँच के लिए इस्तेमाल होता है; यह फ़ोन पर सहेजा नहीं जाता। | positive: purpose first; । ending |
+| hi | `takePhoto` | फोटो लें | फ़ोटो लें | consistency: फ़ोटो spelling used everywhere else in hi |
+| hi | `feedReplacedBy` | वापस लिया गया. इसकी जगह अब: {replacement} | वापस लिया गया। इसकी जगह अब: {replacement} | punctuation: । instead of . (the rest of hi uses ।) |
+| hi | `feedFooter` | कुछ भी करने से पहले आधिकारिक GR/पोर्टल देखें. | कुछ भी करने से पहले आधिकारिक GR/पोर्टल देखें। | punctuation: । instead of . (the rest of hi uses ।) |
+| hi | `feedEmpty` | फ़ोन ऑनलाइन होने पर संदेश आएँगे. | फ़ोन ऑनलाइन होने पर संदेश आएँगे। | punctuation: । instead of . (the rest of hi uses ।) |
+| hi | `feedLinkCopied` | लिंक कॉपी हो गया. ब्राउज़र में खोलें. | लिंक कॉपी हो गया। ब्राउज़र में खोलें। | punctuation: । instead of . (the rest of hi uses ।) |
+| hi | `feedNotFound` | यह संदेश सहेजी सूची से हट गया है. | यह संदेश सहेजी सूची से हट गया है। | punctuation: । instead of . (the rest of hi uses ।) |
+| hi | `feedDismissed` | आपकी सूची से हटा दिया. | आपकी सूची से हटा दिया। | punctuation: । instead of . (the rest of hi uses ।) |
+| hi | `feedPrefsDigestHint` | हफ़्ते में एक बार नई जानकारी का एक संदेश. | हफ़्ते में एक बार नई जानकारी का एक संदेश। | punctuation: । instead of . (the rest of hi uses ।) |
+| hi | `feedPrefsSaved` | सेटिंग सहेज ली गई. | सेटिंग सहेज ली गई। | punctuation: । instead of . (the rest of hi uses ।) |
+| hi | `feedPrefsSaveFailed` | इंटरनेट आने पर फिर से सहेजें. | इंटरनेट आने पर फिर से सहेजें। | punctuation: । instead of . (the rest of hi uses ।) |
+| hi | `feedPrefsOffline` | ये आपकी आख़िरी सहेजी सेटिंग हैं. बदलाव सहेजने के लिए इंटरनेट चालू करें. | ये आपकी आख़िरी सहेजी सेटिंग हैं। बदलाव सहेजने के लिए इंटरनेट चालू करें। | punctuation: । instead of . (the rest of hi uses ।) |
+| hi | `feedCheckIntro` | WhatsApp पर GR या योजना का संदेश आया? यहाँ पेस्ट करें, हम आधिकारिक GR ढूँढेंगे. | WhatsApp पर GR या योजना का संदेश आया? यहाँ पेस्ट करें, हम आधिकारिक GR ढूँढेंगे। | punctuation: । instead of . (the rest of hi uses ।) |
+| hi | `feedCheckFailed` | जाँच के लिए इंटरनेट चाहिए; इंटरनेट आने पर फिर कोशिश करें. | जाँच के लिए इंटरनेट चाहिए; इंटरनेट आने पर फिर कोशिश करें। | punctuation: । instead of . (the rest of hi uses ।) |
+| hi | `feedCheckNoMatch` | मेल खाता आधिकारिक संदेश नहीं मिला. | मेल खाता आधिकारिक संदेश नहीं मिला। | punctuation: । instead of . (the rest of hi uses ।) |
+| hi | `feedCheckPortal` | कुछ करने से पहले आधिकारिक पोर्टल जाँचें. | कुछ करने से पहले आधिकारिक पोर्टल जाँचें। | punctuation: । instead of . (the rest of hi uses ।) |
