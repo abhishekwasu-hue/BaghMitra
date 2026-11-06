@@ -22,8 +22,11 @@ services:
     # Tables are created / updated by the migrations on every start; the knowledge seed only adds
     # draft cards and sources (it never overwrites a reviewed card). Uvicorn's own access log is
     # off (it would store every caller's IP and full query string, OPS-01); the API logs method,
-    # path, status and duration itself, without IP or query.
-    command: sh -c "alembic upgrade head && python -m bagmitra_api.kb.seed && uvicorn bagmitra_api.asgi:app --host 0.0.0.0 --port 8000 --proxy-headers --forwarded-allow-ips='*' --no-access-log"
+    # path, status and duration itself, without IP or query. Forwarded headers (client IP,
+    # https) are trusted only from the proxy (OPS-11): FORWARDED_ALLOW_IPS in .env when set,
+    # else the networks this container is on (its own Caddy's, or the shared `edge` one),
+    # never any address ('*'). See api/src/bagmitra_api/core/proxy_trust.py.
+    command: sh -c "alembic upgrade head && python -m bagmitra_api.kb.seed && uvicorn bagmitra_api.asgi:app --host 0.0.0.0 --port 8000 --proxy-headers --forwarded-allow-ips=$$(python -m bagmitra_api.core.proxy_trust) --no-access-log"
     logging: *logging
     expose: ["8000"]
     # Admin web (OPS-02): deploy.sh unpacks the CI build here; served at /admin/. Runbook
@@ -32,8 +35,10 @@ services:
     volumes:
       - ./admin-web:/srv/admin-web:ro
       - /srv/bagmitra-apk:/srv/bagmitra-apk:ro
+    # Healthy only while the database answers too (OPS-08: /health/ready runs SELECT 1;
+    # /health/live stays for a bare "process is up" check).
     healthcheck:
-      test: ["CMD", "python", "-c", "import urllib.request as u; u.urlopen('http://localhost:8000/health/live', timeout=3)"]
+      test: ["CMD", "python", "-c", "import urllib.request as u; u.urlopen('http://localhost:8000/health/ready', timeout=3)"]
       interval: 30s
       timeout: 5s
       retries: 5
