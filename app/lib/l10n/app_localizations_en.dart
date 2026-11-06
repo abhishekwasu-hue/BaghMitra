@@ -2725,6 +2725,11 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String labelInfoDilutionPrinted(String value) {
+    return 'Water on label: $value';
+  }
+
+  @override
   String labelInfoBrands(String names) {
     return 'Brand names (A–Z, a plain list): $names';
   }

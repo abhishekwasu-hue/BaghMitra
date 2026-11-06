@@ -1125,6 +1125,8 @@
   "labelInfoBio": "🌿 Organic / bio (registered biopesticides)",
   "labelInfoDilution": "Water on label: {value} L per hectare",
   "@labelInfoDilution": {"placeholders": {"value": {"type": "String"}}},
+  "labelInfoDilutionPrinted": "Water on label: {value}",
+  "@labelInfoDilutionPrinted": {"placeholders": {"value": {"type": "String"}}},
   "labelInfoBrands": "Brand names (A–Z, a plain list): {names}",
   "@labelInfoBrands": {"placeholders": {"names": {"type": "String"}}},
   "labelInfoMakerPage": "Maker's product page",

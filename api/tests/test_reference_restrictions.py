@@ -34,4 +34,5 @@ async def test_lists_restrictions_and_trade_names(
     assert by_ai["chlorpyrifos"]["kind"] == "restricted"
     assert "citrus" in by_ai["chlorpyrifos"]["crops"]
     assert by_ai["dicofol"]["notification"]
-    assert body["synonyms"] == [{"name": "Nuvan", "active_ingredient": "dichlorvos"}]
+    assert {"name": "Nuvan", "active_ingredient": "dichlorvos"} in body["synonyms"]
+    assert {"name": "Gamma-HCH", "active_ingredient": "lindane"} in body["synonyms"]

@@ -55,6 +55,8 @@ class RestrictionSeed(BaseModel):
     effective_from: datetime
     # Trade / brand names and spellings the gazette or the registrant list gives for it.
     synonyms: list[str] = []
+    # Where the entry is printed in the PPQS list (not stored; for the reviewer).
+    page_ref: str | None = None
 
 
 class TopicSeed(BaseModel):
@@ -185,7 +187,7 @@ async def seed_restrictions(session: AsyncSession) -> None:
             synonyms[name] = syn
             session.add(syn)
         row = existing.get((seed.active_ingredient, seed.kind)) or KbRestriction(id=uuid.uuid4())
-        for field, value in seed.model_dump(exclude={"synonyms"}).items():
+        for field, value in seed.model_dump(exclude={"synonyms", "page_ref"}).items():
             setattr(row, field, value)
         if row.effective_from.tzinfo is None:
             row.effective_from = row.effective_from.replace(tzinfo=UTC)

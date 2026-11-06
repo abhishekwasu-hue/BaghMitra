@@ -221,6 +221,70 @@
         "sooty mould",
         "sooty mold"
       ]
+    },
+    {
+      "key": "brown_rot",
+      "labels": {
+        "en": "Brown rot (fruit)",
+        "mr": "तपकिरी फळकूज",
+        "hi": "भूरा फल सड़न (ब्राउन रॉट)"
+      },
+      "match": [
+        "brown rot"
+      ]
+    },
+    {
+      "key": "leaf_spot",
+      "labels": {
+        "en": "Leaf spot",
+        "mr": "पानांवरील ठिपके",
+        "hi": "पत्ती धब्बा"
+      },
+      "match": [
+        "leaf spot",
+        "leafspot"
+      ]
+    },
+    {
+      "key": "greasy_spot",
+      "labels": {
+        "en": "Greasy spot",
+        "mr": "ग्रीसी स्पॉट (पानांवरील तेलकट ठिपके)",
+        "hi": "ग्रीसी स्पॉट"
+      },
+      "match": [
+        "greasy spot"
+      ]
+    },
+    {
+      "key": "post_harvest_rot",
+      "labels": {
+        "en": "Post-harvest fruit rot",
+        "mr": "तोडणीनंतरची फळकूज",
+        "hi": "तुड़ाई के बाद फल सड़न"
+      },
+      "match": [
+        "post harvest",
+        "postharvest"
+      ]
+    },
+    {
+      "key": "weeds",
+      "labels": {
+        "en": "Weeds",
+        "mr": "तण",
+        "hi": "खरपतवार"
+      },
+      "match": [
+        "weed",
+        "euphorbia",
+        "convolvulus",
+        "cyperus",
+        "tribulus",
+        "amaranthus",
+        "digera",
+        "commelina"
+      ]
     }
   ],
   "practice_sections": {

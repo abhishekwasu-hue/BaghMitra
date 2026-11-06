@@ -168,6 +168,7 @@ void main() {
         {
           ...claim(ai: 'Bio B', target: 'Gummosis', dose: '2.5 kg/ha'),
           'category': 'bio',
+          'dilution': '5 liter/tree',
         },
       ],
       'blocked': [
@@ -220,9 +221,11 @@ void main() {
       expect(dose.data, '500 g/ha');
       expect(dose.style!.fontWeight, FontWeight.w700);
       final dilution = tester.widget<Text>(
-        find.byKey(const Key('label-dilution')),
+        find.byKey(const Key('label-dilution')).first,
       );
       expect(dilution.data, 'Water on label: 500-1000 L per hectare');
+      // A cell with its own unit is shown exactly as printed, without "L per hectare".
+      expect(find.text('Water on label: 5 liter/tree'), findsOneWidget);
       expect(dilution.style!.fontWeight, FontWeight.w700);
       expect(find.byKey(const Key('label-bio-gummosis')), findsOneWidget);
       expect(find.text('Chemical'), findsOneWidget);
@@ -360,6 +363,42 @@ void main() {
     expect(data.keyFor('Die-back'), 'anthracnose_dieback');
     expect(data.keyFor('Thrips'), 'thrips');
     expect(data.keyFor('Leaf miner'), 'leaf_miner');
+    // Every citrus target printed in the CIB&RC Major Uses documents read so far
+    // (api/.../label_claims_citrus.csv, as on 30.09.2026) has a display key.
+    const printed = {
+      'Gummosis': 'gummosis',
+      'Brown rot': 'brown_rot',
+      'Scab': 'scab',
+      'Leaf spot': 'leaf_spot',
+      'Canker': 'canker',
+      'Post harvest fruit rot complex of fungi Grey mould Botrytis cinerea '
+              'Blue mould Penicillium sp Fruit rot Diplodia sp Colletotrichum '
+              'Alternaria':
+          'post_harvest_rot',
+      'Citrus canker': 'canker',
+      'Powdery mildew': 'powdery_mildew',
+      'Greasy spot': 'greasy_spot',
+      'Twig blight, Sooty mould, Anthracnose fruit rot and Anthracnose leaf '
+              'spot':
+          'anthracnose_dieback',
+      'Bacterial Canker and Alternaria Spot': 'canker',
+      'Gemmosis (Foot Rot) (Phytophthora palmivora)': 'gummosis',
+      'Phytopthora disease viz, Foot rot/gummosis, Root rot, Crown rot, Leaf '
+              'fall and Brown rot':
+          'gummosis',
+      'Phytophthora foot rot': 'gummosis',
+      'Mealybug (Planococcus citri)': 'mealybug',
+      'Euphorbia spp., Convolvulus arvensis, Coronopus didymus, Amaranthus '
+              'viridis, Oxalis corniculata, Tribulus terrestris, Fumaria '
+              'parviflora, Sonchus arvensis':
+          'weeds',
+      'Cyperus iria, Tribulus Terristris, Digera arvensis, Commelina '
+              'nudiflora, Cocumis trigonus':
+          'weeds',
+    };
+    for (final e in printed.entries) {
+      expect(data.keyFor(e.key), e.value, reason: e.key);
+    }
     // Every link points at a defined key; every key has en, mr and hi names.
     final keys = {for (final t in data.targets) t.key};
     for (final list in [

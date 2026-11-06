@@ -26,6 +26,11 @@
 | Bark borer (bark-eating caterpillar) | साल खाणारी अळी | साल पोखरणारी अळी | Matches the usual Indian English name (bark-eating caterpillar) and keeps पोखरणारी for the leaf miner (पाने पोखरणारी अळी), so the two pests are not confused. |
 | Root rot / foot rot | मूळकूज / खोडकूज | मुळकुज, मुळकूज | One spelling with the full noun मूळ, as in the look-alike cards; खोडकूज follows the same pattern. |
 | Gummosis (Phytophthora) | डिंक्या | — | Already used in all files. |
+| Brown rot (Phytophthora fruit rot) | तपकिरी फळकूज | — | Label target (CIB&RC); follows the -कूज pattern of मूळकूज / खोडकूज. |
+| Leaf spot | पानांवरील ठिपके | — | Label target; plain description of what is seen. |
+| Greasy spot | ग्रीसी स्पॉट (पानांवरील तेलकट ठिपके) | — | Label target; the English name is kept because growers see it on the label, with a plain description. |
+| Post-harvest fruit rot | तोडणीनंतरची फळकूज | काढणीनंतर … | Follows the harvest term तोडणी. |
+| Weeds | तण | — | The everyday word. |
 | Free lime / CaCO3 in soil | मुक्त चुना (CaCO3) | चुनखडी (for CaCO3 %) | The soil report shortcut in `lab_parameters.json` is मुक्त चुना, so the grower can match the number on the report. चुनखडीचे खडे stays for lime nodules (item 1). |
 | Bloom vs bahar | बहर = flowering; बहार = the crop season (आंबिया / मृग / हस्त बहार) | — | Two different words; both are correct where used. |
 | KVK | कृषी विज्ञान केंद्र (KVK); short: KVK | केव्हीके | Full name once, then the abbreviation the grower sees on boards. "Ask your KVK" = "आपल्या KVK ला विचारा". |

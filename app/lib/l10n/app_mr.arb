@@ -772,6 +772,7 @@
   "labelInfoChemical": "रासायनिक",
   "labelInfoBio": "🌿 जैविक (नोंदणीकृत जैविक कीटकनाशके)",
   "labelInfoDilution": "लेबलवरील पाणी: {value} लिटर प्रति हेक्टर",
+  "labelInfoDilutionPrinted": "लेबलवरील पाणी: {value}",
   "labelInfoBrands": "बाजारातील नावे (अकारविल्हे, फक्त यादी): {names}",
   "labelInfoMakerPage": "उत्पादकाचे उत्पादन पान",
   "labelInfoTargetPrinted": "लेबलवरील कीड/रोग: {target}",

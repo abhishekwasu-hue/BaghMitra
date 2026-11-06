@@ -187,6 +187,62 @@ def test_shipped_extract_parses_and_names_its_sources() -> None:
         assert r["crop"].lower() not in {"acid lime", "lemon"}, r
 
 
+def _shipped() -> tuple[list[dict[str, str]], dict[str, dict[str, object]]]:
+    import json  # noqa: PLC0415
+    from importlib import resources  # noqa: PLC0415
+
+    from bagmitra_api.kb.seed import label_claim_seed_text  # noqa: PLC0415
+
+    rows = list(csv.DictReader(io.StringIO(label_claim_seed_text())))
+    log = json.loads(
+        resources.files("bagmitra_api.kb.seed_data")
+        .joinpath("label_claims_fetch_log.json")
+        .read_text("utf-8")
+    )
+    return rows, {d["source_key"]: d for d in log["documents"]}
+
+
+# Citrus rows read from each PPQS / CIB&RC document (edition as on 30.09.2026), owner Q57.
+EXPECTED_ROWS = {
+    "cibrc_fungicides_2026_09": 15,
+    "cibrc_bio_fungicides_2026_09": 0,
+    "cibrc_bio_insecticides_2026_09": 1,
+    "cibrc_herbicides_2026_09": 2,
+    "cibrc_pgr_2026_09": 0,
+}
+
+
+def test_shipped_extract_row_counts_match_each_read_document() -> None:
+    rows, docs = _shipped()
+    counts = {key: sum(r["source_key"] == key for r in rows) for key in docs}
+    for key, expected in EXPECTED_ROWS.items():
+        assert docs[key]["status"] == "read", key
+        assert docs[key]["edition"] == "as on 30.09.2026", key
+        assert docs[key]["rows"] == expected == counts[key], key
+    assert docs["cibrc_insecticides_2026_09"]["status"] == "pending_owner_upload"
+    assert counts["cibrc_insecticides_2026_09"] == 0
+    assert sum(EXPECTED_ROWS.values()) == len(rows)
+
+
+def test_shipped_extract_has_no_acid_lime_or_lemon_row_and_keeps_doses_as_printed() -> None:
+    from bagmitra_api.kb.seed import label_claim_seed_text  # noqa: PLC0415
+
+    rows, _ = _shipped()
+    parsed = parse_label_claims(label_claim_seed_text())
+    assert len(parsed) == len(rows)
+    for r, claim in zip(rows, parsed, strict=True):
+        printed = " ".join((r["crop"], r["target"], r["description"])).lower()
+        assert not any(w in printed for w in ("acid lime", "lemon", "kagzi")), r
+        assert r["crop"] in {"citrus", "mandarin", "orange", "sweet orange", "sweet lime"}, r
+        assert claim.dose == r["dose"]  # never rebuilt or rounded
+        assert r["formulation_qty"] in r["dose"], r  # the printed cell is inside the dose
+        if r["dose_ai"]:
+            assert f"(a.i. {r['dose_ai']})" in r["dose"], r
+        # No official registrant list was reachable: no brand names, no maker links.
+        assert not r["brand_names"], r
+        assert not r["maker_url"], r
+
+
 async def test_seed_imports_only_sources_with_rows(engine: AsyncEngine) -> None:
     from bagmitra_api.kb.seed import seed_label_claims  # noqa: PLC0415
 

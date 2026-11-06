@@ -1,58 +1,873 @@
 {
-  "_note": "Addendum v1.3 §3.8 (checked 2026-10-12). Re-verify against the gazette; the PPQS importer supersedes this file.",
+  "_note": "Every entry of the PPQS 'List of pesticides which are banned, refused registration and restricted in use' (owner download from ppqs.gov.in, 2026-11-06), page by page. effective_from is the notification date printed for the entry; where the list prints none it is the list's own date. Kinds: banned (I.A, I.B, and III entries that ban all agricultural use), withdrawn (I.C, DDT in agriculture), refused (II), restricted (III, crop- or user-specific). Synonyms only where the list prints another name or spelling. A 'restricted' entry with no crops never blocks a citrus row (it limits who or which formulation, not the crop).",
   "source_key": "ppqs_banned_restricted",
+  "edition": "Updated on 31.03.2024",
   "restrictions": [
+    {
+      "active_ingredient": "alachlor",
+      "kind": "banned",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "I.A Banned for manufacture, import and use (S.O. 3951(E) dated 8th August, 2018)",
+      "effective_from": "2018-08-08",
+      "page_ref": "p. 1",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "aldicarb",
+      "kind": "banned",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "I.A Banned for manufacture, import and use (S.O. 682(E) dated 17th July 2001)",
+      "effective_from": "2001-07-17",
+      "page_ref": "p. 1",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "aldrin",
+      "kind": "banned",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "I.A Banned for manufacture, import and use. Listed without a notification; in force as on the list date (Updated on 31.03.2024)",
+      "effective_from": "2024-03-31",
+      "page_ref": "p. 1",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "benzene hexachloride",
+      "kind": "banned",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "I.A Banned for manufacture, import and use. Listed without a notification; in force as on the list date (Updated on 31.03.2024)",
+      "effective_from": "2024-03-31",
+      "page_ref": "p. 1",
+      "synonyms": []
+    },
     {
       "active_ingredient": "benomyl",
       "kind": "banned",
       "crops": [],
       "crop_groups": [],
-      "notification": "S.O. 3951(E), 8 Aug 2018",
-      "effective_from": "2018-08-08"
+      "notification": "I.A Banned for manufacture, import and use (S.O. 3951(E) dated 8th August, 2018)",
+      "effective_from": "2018-08-08",
+      "page_ref": "p. 1",
+      "synonyms": []
     },
     {
-      "active_ingredient": "phorate",
+      "active_ingredient": "calcium cyanide",
       "kind": "banned",
       "crops": [],
       "crop_groups": [],
-      "notification": "S.O. 3951(E), 8 Aug 2018",
-      "effective_from": "2018-08-08"
+      "notification": "I.A Banned for manufacture, import and use. Listed without a notification; in force as on the list date (Updated on 31.03.2024)",
+      "effective_from": "2024-03-31",
+      "page_ref": "p. 1",
+      "synonyms": []
     },
     {
-      "active_ingredient": "methyl parathion",
+      "active_ingredient": "carbaryl",
       "kind": "banned",
       "crops": [],
       "crop_groups": [],
-      "notification": "S.O. 3951(E), 8 Aug 2018",
-      "effective_from": "2018-08-08"
+      "notification": "I.A Banned for manufacture, import and use (S.O. 3951(E) dated 8th August, 2018)",
+      "effective_from": "2018-08-08",
+      "page_ref": "p. 1",
+      "synonyms": []
     },
     {
-      "active_ingredient": "dichlorvos",
+      "active_ingredient": "chlorbenzilate",
       "kind": "banned",
       "crops": [],
       "crop_groups": [],
-      "notification": "S.O. 3951(E), 8 Aug 2018; export-only manufacture S.O. 1196(E), 2020",
-      "effective_from": "2018-08-08"
+      "notification": "I.A Banned for manufacture, import and use (S.O. 682(E) dated 17th July 2001)",
+      "effective_from": "2001-07-17",
+      "page_ref": "p. 1",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "chlordane",
+      "kind": "banned",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "I.A Banned for manufacture, import and use. Listed without a notification; in force as on the list date (Updated on 31.03.2024)",
+      "effective_from": "2024-03-31",
+      "page_ref": "p. 1",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "chlorofenvinphos",
+      "kind": "banned",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "I.A Banned for manufacture, import and use. Listed without a notification; in force as on the list date (Updated on 31.03.2024)",
+      "effective_from": "2024-03-31",
+      "page_ref": "p. 1",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "copper acetoarsenite",
+      "kind": "banned",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "I.A Banned for manufacture, import and use. Listed without a notification; in force as on the list date (Updated on 31.03.2024)",
+      "effective_from": "2024-03-31",
+      "page_ref": "p. 1",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "diazinon",
+      "kind": "banned",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "I.A Banned for manufacture, import and use (S.O. 3951(E) dated 8th August, 2018)",
+      "effective_from": "2018-08-08",
+      "page_ref": "p. 1",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "dibromochloropropane",
+      "kind": "banned",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "I.A Banned for manufacture, import and use (S.O. 569(E) dated 25th July 1989)",
+      "effective_from": "1989-07-25",
+      "page_ref": "p. 1",
+      "synonyms": [
+        "DBCP"
+      ]
     },
     {
       "active_ingredient": "dicofol",
       "kind": "banned",
       "crops": [],
       "crop_groups": [],
-      "notification": "S.O. 4294(E), 3 Oct 2023",
-      "effective_from": "2023-10-03"
+      "notification": "I.A Banned for manufacture, import and use (S.O. 4294(E) dated 3rd October, 2023)",
+      "effective_from": "2023-10-03",
+      "page_ref": "p. 1",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "dieldrin",
+      "kind": "banned",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "I.A Banned for manufacture, import and use (S.O. 682(E) dated 17th July 2001)",
+      "effective_from": "2001-07-17",
+      "page_ref": "p. 1",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "dinocap",
+      "kind": "banned",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "I.A Banned for manufacture, import and use (S.O. 4294(E) dated 3rd October, 2023)",
+      "effective_from": "2023-10-03",
+      "page_ref": "p. 1",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "endrin",
+      "kind": "banned",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "I.A Banned for manufacture, import and use. Listed without a notification; in force as on the list date (Updated on 31.03.2024)",
+      "effective_from": "2024-03-31",
+      "page_ref": "p. 1",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "ethyl mercury chloride",
+      "kind": "banned",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "I.A Banned for manufacture, import and use. Listed without a notification; in force as on the list date (Updated on 31.03.2024)",
+      "effective_from": "2024-03-31",
+      "page_ref": "p. 1",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "ethyl parathion",
+      "kind": "banned",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "I.A Banned for manufacture, import and use. Listed without a notification; in force as on the list date (Updated on 31.03.2024)",
+      "effective_from": "2024-03-31",
+      "page_ref": "p. 1",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "ethylene dibromide",
+      "kind": "banned",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "I.A Banned for manufacture, import and use (S.O. 682(E) dated 17th July 2001)",
+      "effective_from": "2001-07-17",
+      "page_ref": "p. 1",
+      "synonyms": [
+        "EDB"
+      ]
+    },
+    {
+      "active_ingredient": "fenarimol",
+      "kind": "banned",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "I.A Banned for manufacture, import and use (S.O. 3951(E) dated 8th August, 2018)",
+      "effective_from": "2018-08-08",
+      "page_ref": "p. 1",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "fenthion",
+      "kind": "banned",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "I.A Banned for manufacture, import and use (S.O. 3951(E) dated 8th August, 2018)",
+      "effective_from": "2018-08-08",
+      "page_ref": "p. 1",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "heptachlor",
+      "kind": "banned",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "I.A Banned for manufacture, import and use. Listed without a notification; in force as on the list date (Updated on 31.03.2024)",
+      "effective_from": "2024-03-31",
+      "page_ref": "p. 1",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "lindane",
+      "kind": "banned",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "I.A Banned for manufacture, import and use. Listed without a notification; in force as on the list date (Updated on 31.03.2024)",
+      "effective_from": "2024-03-31",
+      "page_ref": "p. 1",
+      "synonyms": [
+        "Gamma-HCH"
+      ]
+    },
+    {
+      "active_ingredient": "linuron",
+      "kind": "banned",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "I.A Banned for manufacture, import and use (S.O. 3951(E) dated 8th August, 2018)",
+      "effective_from": "2018-08-08",
+      "page_ref": "p. 1",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "maleic hydrazide",
+      "kind": "banned",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "I.A Banned for manufacture, import and use (S.O. 682(E) dated 17th July 2001)",
+      "effective_from": "2001-07-17",
+      "page_ref": "p. 1",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "menazon",
+      "kind": "banned",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "I.A Banned for manufacture, import and use. Listed without a notification; in force as on the list date (Updated on 31.03.2024)",
+      "effective_from": "2024-03-31",
+      "page_ref": "p. 1",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "methomyl",
+      "kind": "banned",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "I.A Banned for manufacture, import and use (S.O. 4294(E) dated 3rd October, 2023)",
+      "effective_from": "2023-10-03",
+      "page_ref": "p. 1",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "methoxy ethyl mercury chloride",
+      "kind": "banned",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "I.A Banned for manufacture, import and use (S.O. 3951(E) dated 8th August, 2018)",
+      "effective_from": "2018-08-08",
+      "page_ref": "p. 1",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "methyl parathion",
+      "kind": "banned",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "I.A Banned for manufacture, import and use (S.O. 3951(E) dated 8th August, 2018)",
+      "effective_from": "2018-08-08",
+      "page_ref": "p. 1",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "metoxuron",
+      "kind": "banned",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "I.A Banned for manufacture, import and use. Listed without a notification; in force as on the list date (Updated on 31.03.2024)",
+      "effective_from": "2024-03-31",
+      "page_ref": "p. 1",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "nitrofen",
+      "kind": "banned",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "I.A Banned for manufacture, import and use. Listed without a notification; in force as on the list date (Updated on 31.03.2024)",
+      "effective_from": "2024-03-31",
+      "page_ref": "p. 2",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "paraquat dimethyl sulphate",
+      "kind": "banned",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "I.A Banned for manufacture, import and use. Listed without a notification; in force as on the list date (Updated on 31.03.2024)",
+      "effective_from": "2024-03-31",
+      "page_ref": "p. 2",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "pentachloro nitrobenzene",
+      "kind": "banned",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "I.A Banned for manufacture, import and use (S.O. 569(E) dated 25th July 1989)",
+      "effective_from": "1989-07-25",
+      "page_ref": "p. 2",
+      "synonyms": [
+        "PCNB"
+      ]
+    },
+    {
+      "active_ingredient": "pentachlorophenol",
+      "kind": "banned",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "I.A Banned for manufacture, import and use. Listed without a notification; in force as on the list date (Updated on 31.03.2024)",
+      "effective_from": "2024-03-31",
+      "page_ref": "p. 2",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "phenyl mercury acetate",
+      "kind": "banned",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "I.A Banned for manufacture, import and use. Listed without a notification; in force as on the list date (Updated on 31.03.2024)",
+      "effective_from": "2024-03-31",
+      "page_ref": "p. 2",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "phosphamidon",
+      "kind": "banned",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "I.A Banned for manufacture, import and use (S.O. 3951(E) dated 8th August, 2018)",
+      "effective_from": "2018-08-08",
+      "page_ref": "p. 2",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "sodium methane arsonate",
+      "kind": "banned",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "I.A Banned for manufacture, import and use. Listed without a notification; in force as on the list date (Updated on 31.03.2024)",
+      "effective_from": "2024-03-31",
+      "page_ref": "p. 2",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "tetradifon",
+      "kind": "banned",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "I.A Banned for manufacture, import and use. Listed without a notification; in force as on the list date (Updated on 31.03.2024)",
+      "effective_from": "2024-03-31",
+      "page_ref": "p. 2",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "thiometon",
+      "kind": "banned",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "I.A Banned for manufacture, import and use (S.O. 3951(E) dated 8th August, 2018)",
+      "effective_from": "2018-08-08",
+      "page_ref": "p. 2",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "toxaphene",
+      "kind": "banned",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "I.A Banned for manufacture, import and use (S.O. 569(E) dated 25th July 1989)",
+      "effective_from": "1989-07-25",
+      "page_ref": "p. 2",
+      "synonyms": [
+        "Camphechlor"
+      ]
+    },
+    {
+      "active_ingredient": "tridemorph",
+      "kind": "banned",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "I.A Banned for manufacture, import and use (S.O. 3951(E) dated 8th August, 2018)",
+      "effective_from": "2018-08-08",
+      "page_ref": "p. 2",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "trichloro acetic acid",
+      "kind": "banned",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "I.A Banned for manufacture, import and use (S.O. 682(E) dated 17th July 2001)",
+      "effective_from": "2001-07-17",
+      "page_ref": "p. 2",
+      "synonyms": [
+        "TCA"
+      ]
+    },
+    {
+      "active_ingredient": "trichlorfon",
+      "kind": "banned",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "I.A Banned for manufacture, import and use (S.O. 3951(E) dated 8th August, 2018)",
+      "effective_from": "2018-08-08",
+      "page_ref": "p. 2",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "dichlorvos",
+      "kind": "banned",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "I.A Banned for manufacture, import and use (printed 'Dichlorovos', S.O. 3951(E) dated 08.08.2018); I.B banned for use, manufacture for export only (S.O. 1196(E) dated 20th March 2020)",
+      "effective_from": "2018-08-08",
+      "page_ref": "p. 1-2",
+      "synonyms": [
+        "Dichlorovos"
+      ]
+    },
+    {
+      "active_ingredient": "endosulfan",
+      "kind": "banned",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "I.A Banned (printed 'Endosulfron'): ad-Interim order of the Supreme Court of India in WP (Civil) No. 213 of 2011 dated 13th May, 2011, finally disposed of 10th January, 2017",
+      "effective_from": "2011-05-13",
+      "page_ref": "p. 1",
+      "synonyms": [
+        "Endosulfron"
+      ]
+    },
+    {
+      "active_ingredient": "phorate",
+      "kind": "banned",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "I.A Banned for manufacture, import and use (S.O. 3951(E) dated 08.08.2018); I.B banned for use, manufacture for export only (S.O. 1196(E) dated 20th March 2020)",
+      "effective_from": "2018-08-08",
+      "page_ref": "p. 2",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "triazophos",
+      "kind": "banned",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "I.A Banned for manufacture, import and use (S.O. 3951(E) dated 08.08.2018); I.B banned for use, manufacture for export only (S.O. 1196(E) dated 20th March 2020)",
+      "effective_from": "2018-08-08",
+      "page_ref": "p. 2",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "sodium cyanide",
+      "kind": "banned",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "I.A Banned for manufacture, import and use: banned for Insecticidal purpose only (S.O 3951(E) dated 8th August, 2018). * Regulation to be continued in the extant manner for non-insecticidal uses.",
+      "effective_from": "2018-08-08",
+      "page_ref": "p. 2",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "captafol",
+      "kind": "banned",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "I.B Captafol 80% Powder: banned for use but continued to manufacture for export (S.O. 679(E) dated 17th July 2001). III.2: use as foliar spray banned; only as seed dresser (S.O. 569(E) dated 25th July 1989)",
+      "effective_from": "1989-07-25",
+      "page_ref": "p. 2, 4",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "nicotin sulfate",
+      "kind": "banned",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "I.B Banned for use but continued to manufacture for export (S.O. 325(E) dated 11th May 1992)",
+      "effective_from": "1992-05-11",
+      "page_ref": "p. 2",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "dalapon",
+      "kind": "withdrawn",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "I.C Withdrawn (may become inoperative once the required data is submitted and accepted by the Registration Committee) (S.O 915(E) dated 15th Jun, 2006)",
+      "effective_from": "2006-06-15",
+      "page_ref": "p. 2",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "ferbam",
+      "kind": "withdrawn",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "I.C Withdrawn (may become inoperative once the required data is submitted and accepted by the Registration Committee) (S.O 915(E) dated 15th Jun, 2006)",
+      "effective_from": "2006-06-15",
+      "page_ref": "p. 2",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "formothion",
+      "kind": "withdrawn",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "I.C Withdrawn (may become inoperative once the required data is submitted and accepted by the Registration Committee) (S.O 915(E) dated 15th Jun, 2006)",
+      "effective_from": "2006-06-15",
+      "page_ref": "p. 2",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "nickel chloride",
+      "kind": "withdrawn",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "I.C Withdrawn (may become inoperative once the required data is submitted and accepted by the Registration Committee) (S.O 915(E) dated 15th Jun, 2006)",
+      "effective_from": "2006-06-15",
+      "page_ref": "p. 2",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "paradichlorobenzene",
+      "kind": "withdrawn",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "I.C Withdrawn (may become inoperative once the required data is submitted and accepted by the Registration Committee) (S.O 915(E) dated 15th Jun, 2006)",
+      "effective_from": "2006-06-15",
+      "page_ref": "p. 2",
+      "synonyms": [
+        "PDCB"
+      ]
+    },
+    {
+      "active_ingredient": "simazine",
+      "kind": "withdrawn",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "I.C Withdrawn (may become inoperative once the required data is submitted and accepted by the Registration Committee) (S.O 915(E) dated 15th Jun, 2006)",
+      "effective_from": "2006-06-15",
+      "page_ref": "p. 2",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "sirmate",
+      "kind": "withdrawn",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "I.C Withdrawn (may become inoperative once the required data is submitted and accepted by the Registration Committee) (S.O. 2485(E) dated 24th September 2014)",
+      "effective_from": "2014-09-24",
+      "page_ref": "p. 2",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "warfarin",
+      "kind": "withdrawn",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "I.C Withdrawn (may become inoperative once the required data is submitted and accepted by the Registration Committee) (S.O. 915(E) dated 15th June 2006)",
+      "effective_from": "2006-06-15",
+      "page_ref": "p. 2",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "2,4,5-t",
+      "kind": "refused",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "II Refused registration. Listed without a notification; in force as on the list date (Updated on 31.03.2024)",
+      "effective_from": "2024-03-31",
+      "page_ref": "p. 3",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "ammonium sulphamate",
+      "kind": "refused",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "II Refused registration. Listed without a notification; in force as on the list date (Updated on 31.03.2024)",
+      "effective_from": "2024-03-31",
+      "page_ref": "p. 3",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "azinphos ethyl",
+      "kind": "refused",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "II Refused registration. Listed without a notification; in force as on the list date (Updated on 31.03.2024)",
+      "effective_from": "2024-03-31",
+      "page_ref": "p. 3",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "azinphos methyl",
+      "kind": "refused",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "II Refused registration. Listed without a notification; in force as on the list date (Updated on 31.03.2024)",
+      "effective_from": "2024-03-31",
+      "page_ref": "p. 3",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "binapacryl",
+      "kind": "refused",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "II Refused registration. Listed without a notification; in force as on the list date (Updated on 31.03.2024)",
+      "effective_from": "2024-03-31",
+      "page_ref": "p. 3",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "calcium arsenate",
+      "kind": "refused",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "II Refused registration. Listed without a notification; in force as on the list date (Updated on 31.03.2024)",
+      "effective_from": "2024-03-31",
+      "page_ref": "p. 3",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "carbophenothion",
+      "kind": "refused",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "II Refused registration. Listed without a notification; in force as on the list date (Updated on 31.03.2024)",
+      "effective_from": "2024-03-31",
+      "page_ref": "p. 3",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "chinomethionate",
+      "kind": "refused",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "II Refused registration. Listed without a notification; in force as on the list date (Updated on 31.03.2024)",
+      "effective_from": "2024-03-31",
+      "page_ref": "p. 3",
+      "synonyms": [
+        "Morestan"
+      ]
+    },
+    {
+      "active_ingredient": "dicrotophos",
+      "kind": "refused",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "II Refused registration. Listed without a notification; in force as on the list date (Updated on 31.03.2024)",
+      "effective_from": "2024-03-31",
+      "page_ref": "p. 3",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "epn",
+      "kind": "refused",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "II Refused registration. Listed without a notification; in force as on the list date (Updated on 31.03.2024)",
+      "effective_from": "2024-03-31",
+      "page_ref": "p. 3",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "fentin acetate",
+      "kind": "refused",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "II Refused registration. Listed without a notification; in force as on the list date (Updated on 31.03.2024)",
+      "effective_from": "2024-03-31",
+      "page_ref": "p. 3",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "fentin hydroxide",
+      "kind": "refused",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "II Refused registration. Listed without a notification; in force as on the list date (Updated on 31.03.2024)",
+      "effective_from": "2024-03-31",
+      "page_ref": "p. 3",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "lead arsenate",
+      "kind": "refused",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "II Refused registration. Listed without a notification; in force as on the list date (Updated on 31.03.2024)",
+      "effective_from": "2024-03-31",
+      "page_ref": "p. 3",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "leptophos",
+      "kind": "refused",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "II Refused registration. Listed without a notification; in force as on the list date (Updated on 31.03.2024)",
+      "effective_from": "2024-03-31",
+      "page_ref": "p. 3",
+      "synonyms": [
+        "Phosvel"
+      ]
+    },
+    {
+      "active_ingredient": "mephosfolan",
+      "kind": "refused",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "II Refused registration. Listed without a notification; in force as on the list date (Updated on 31.03.2024)",
+      "effective_from": "2024-03-31",
+      "page_ref": "p. 3",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "mevinphos",
+      "kind": "refused",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "II Refused registration. Listed without a notification; in force as on the list date (Updated on 31.03.2024)",
+      "effective_from": "2024-03-31",
+      "page_ref": "p. 3",
+      "synonyms": [
+        "Phosdrin"
+      ]
+    },
+    {
+      "active_ingredient": "thiodemeton",
+      "kind": "refused",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "II Refused registration. Listed without a notification; in force as on the list date (Updated on 31.03.2024)",
+      "effective_from": "2024-03-31",
+      "page_ref": "p. 3",
+      "synonyms": [
+        "Disulfoton"
+      ]
+    },
+    {
+      "active_ingredient": "vamidothion",
+      "kind": "refused",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "II Refused registration. Listed without a notification; in force as on the list date (Updated on 31.03.2024)",
+      "effective_from": "2024-03-31",
+      "page_ref": "p. 3",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "aluminium phosphide",
+      "kind": "restricted",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "III Restricted: pest control operations only by Govt. / Govt. undertakings / pest control operators under expert supervision, except 15% 12 g and 6% tablets (RC circular 21-09-1984; G.S.R. 371(E) 20 May 1999); 10/20-tablet 3 g tube packs banned (S.O. 677(E) 17 July 2001)",
+      "effective_from": "1984-09-21",
+      "page_ref": "p. 4",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "carbofuran",
+      "kind": "restricted",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "III Restricted: all other formulations of Carbofuran except Carbofuran three percent Encapsulated granule (CG) along with the crop labels may be stopped from use (S.O. 4294(E) dated 3rd October, 2023)",
+      "effective_from": "2023-10-03",
+      "page_ref": "p. 4",
+      "synonyms": []
     },
     {
       "active_ingredient": "chlorpyrifos",
       "kind": "restricted",
       "crops": [
-        "citrus",
         "ber",
+        "citrus",
         "tobacco"
       ],
       "crop_groups": [],
-      "notification": "S.O. 4294(E), 3 Oct 2023 (prohibited on citrus, ber, tobacco)",
-      "effective_from": "2023-10-03"
+      "notification": "III Restricted: Chlorpyriphos is banned for use in Ber, Citrus and Tobacco (S.O. 4294(E) dated 3rd October, 2023)",
+      "effective_from": "2023-10-03",
+      "page_ref": "p. 4",
+      "synonyms": [
+        "Chlorpyriphos"
+      ]
+    },
+    {
+      "active_ingredient": "cypermethrin",
+      "kind": "restricted",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "III Restricted: Cypermethrin 3% Smoke Generator only through Pest Control Operators, not by the General Public (Delhi High Court WP(C) 10052 of 2009 dated '1407- 2009' as printed; LPA-429/2009 dated 08-09-2009)",
+      "effective_from": "2009-09-08",
+      "page_ref": "p. 4",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "dazomet",
+      "kind": "restricted",
+      "crops": [
+        "tea"
+      ],
+      "crop_groups": [],
+      "notification": "III Restricted: the use of Dazomet is not permitted on Tea (S.O.3006(E) dated 31st Dec, 2008)",
+      "effective_from": "2008-12-31",
+      "page_ref": "p. 4",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "ddt",
+      "kind": "withdrawn",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "III.7 DDT (printed 'Dicohlro Diphenyl Trichloroethane (DDT)'): use in Agriculture is withdrawn; only under expert Govt. supervision in very special circumstances (S.O.378(E) 26 May 1989). Public health use capped (S.O.295(E) 8 March 2006)",
+      "effective_from": "1989-05-26",
+      "page_ref": "p. 5",
+      "synonyms": [
+        "Dicohlro Diphenyl Trichloroethane"
+      ]
     },
     {
       "active_ingredient": "dimethoate",
@@ -62,8 +877,69 @@
         "fruit_eaten_raw",
         "vegetable_eaten_raw"
       ],
-      "notification": "S.O. 4294(E), 3 Oct 2023 (prohibited on fruits/vegetables eaten raw)",
-      "effective_from": "2023-10-03"
+      "notification": "III Restricted: Dimethoate is banned for use in fruits and vegetables that are consumed as raw food items (S.O. 4294(E) dated 3rd October, 2023)",
+      "effective_from": "2023-10-03",
+      "page_ref": "p. 5",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "fenitrothion",
+      "kind": "banned",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "III.9 The use of Fenitrothion is banned in Agriculture except for locust control in scheduled desert area and public health (S.O.706(E) dated 03rd May, 2007)",
+      "effective_from": "2007-05-03",
+      "page_ref": "p. 5",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "malathion",
+      "kind": "restricted",
+      "crops": [
+        "sorghum",
+        "pea",
+        "soybean",
+        "castor",
+        "sunflower",
+        "bhindi",
+        "brinjal",
+        "cauliflower",
+        "radish",
+        "turnip",
+        "tomato",
+        "apple",
+        "mango",
+        "grape"
+      ],
+      "crop_groups": [],
+      "notification": "III Restricted: banned for use on Sorghum, Pea, Soybean, Castor, Sunflower, Bhindi, Brinjal, Cauliflower, Radish, Turnip, Tomato, Apple, Mango and Grape (S.O. 4294(E) dated 3rd October, 2023)",
+      "effective_from": "2023-10-03",
+      "page_ref": "p. 5",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "mancozeb",
+      "kind": "restricted",
+      "crops": [
+        "guava",
+        "jowar",
+        "tapioca"
+      ],
+      "crop_groups": [],
+      "notification": "III Restricted: Mancozeb is banned for use on Guava, Jowar and Tapioca (S.O. 4294(E) dated 3rd October, 2023)",
+      "effective_from": "2023-10-03",
+      "page_ref": "p. 5",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "methyl bromide",
+      "kind": "restricted",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "III Restricted: only by Govt. / Govt. undertakings / Govt. organizations / pest control operators under the strict supervision of Govt. experts (G.S.R.371(E) dated 20th May, 1999 and earlier RC decision)",
+      "effective_from": "1999-05-20",
+      "page_ref": "p. 5",
+      "synonyms": []
     },
     {
       "active_ingredient": "monocrotophos",
@@ -72,8 +948,47 @@
       "crop_groups": [
         "vegetable"
       ],
-      "notification": "S.O. 1482(E), 2005 (vegetables); 36% SL phase-out S.O. 4294(E) [exact gazette date to verify; year-start used so the block applies no later than the real date]",
-      "effective_from": "2005-01-01"
+      "notification": "III Restricted: banned for use on vegetables (S.O.1482(E) dated 10th Oct, 2005); 36% SL to be discontinued, its registrations cancelled after one year, existing stock only till expiry (S.O. 4294(E) dated 3rd October, 2023)",
+      "effective_from": "2005-10-10",
+      "page_ref": "p. 6",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "oxyfluorfen",
+      "kind": "restricted",
+      "crops": [
+        "potato",
+        "groundnut"
+      ],
+      "crop_groups": [],
+      "notification": "III Restricted: Oxyfluorfen is banned for use on Potato and Groundnut (S.O. 4294(E) dated 3rd October, 2023)",
+      "effective_from": "2023-10-03",
+      "page_ref": "p. 6",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "quinalphos",
+      "kind": "restricted",
+      "crops": [
+        "jute",
+        "cardamom",
+        "sorghum"
+      ],
+      "crop_groups": [],
+      "notification": "III Restricted: Quinalphos is banned for use on Jute, Cardamom and Sorghum (S.O. 4294(E) dated 3rd October, 2023)",
+      "effective_from": "2023-10-03",
+      "page_ref": "p. 6",
+      "synonyms": []
+    },
+    {
+      "active_ingredient": "trifluralin",
+      "kind": "banned",
+      "crops": [],
+      "crop_groups": [],
+      "notification": "III.16 Registration, import, manufacture, formulation, transport, sale and all uses except use in wheat prohibited and completely banned from 8th August, 2018 (S.O 3951(E) dated 8th August, 2018)",
+      "effective_from": "2018-08-08",
+      "page_ref": "p. 6",
+      "synonyms": []
     }
   ]
 }

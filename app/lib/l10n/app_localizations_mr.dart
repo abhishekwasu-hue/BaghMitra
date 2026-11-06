@@ -2721,6 +2721,11 @@ class AppLocalizationsMr extends AppLocalizations {
   }
 
   @override
+  String labelInfoDilutionPrinted(String value) {
+    return 'लेबलवरील पाणी: $value';
+  }
+
+  @override
   String labelInfoBrands(String names) {
     return 'बाजारातील नावे (अकारविल्हे, फक्त यादी): $names';
   }

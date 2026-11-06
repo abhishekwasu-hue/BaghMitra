@@ -4,7 +4,9 @@
 `category` (chemical | bio), `dilution` (water L/ha as printed), `page_ref` (where the row
 sits in the source document), `description` (mode of action from the label / official
 source), `brand_names` (plain list), `maker_url` (the maker's official product page) and
-`photo_url` (an optional owner-set photo; no copied images).
+`photo_url` (an optional owner-set photo; no copied images). `target` widens from 120 to 300
+characters: some printed targets (a list of fungi or weed species) are longer, and they are kept
+whole as printed.
 
 Idempotent: each column is added only when missing; the downgrade drops only those present.
 
@@ -48,10 +50,13 @@ def _columns() -> set[str]:
 def upgrade() -> None:
     present = _columns()
     missing = [c for c in _new_columns() if c.name not in present]
-    if missing:
-        with op.batch_alter_table(TABLE) as batch:
-            for column in missing:
-                batch.add_column(column)
+    with op.batch_alter_table(TABLE) as batch:
+        for column in missing:
+            batch.add_column(column)
+        # Widening is idempotent; the downgrade keeps the width (narrowing could cut rows).
+        batch.alter_column(
+            "target", existing_type=sa.String(120), type_=sa.String(300), existing_nullable=False
+        )
 
 
 def downgrade() -> None:

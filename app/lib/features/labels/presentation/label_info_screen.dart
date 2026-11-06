@@ -276,6 +276,9 @@ class _SubHeading extends StatelessWidget {
   );
 }
 
+/// A dilution cell that is only a number or a range ("750", "750-1000").
+final _bareLitres = RegExp(r'^\d+(\.\d+)?(\s*[-–]\s*\d+(\.\d+)?)?$');
+
 class _ClaimCard extends ConsumerWidget {
   const _ClaimCard({required this.claim, required this.lang});
 
@@ -319,7 +322,11 @@ class _ClaimCard extends ConsumerWidget {
             ),
             if (claim.dilution case final d?)
               Text(
-                t.labelInfoDilution(d),
+                // A bare number sits under the printed heading "Dilution in water (L)" of
+                // "Dosage per ha"; a cell with its own unit (per tree, '**') is shown as printed.
+                _bareLitres.hasMatch(d)
+                    ? t.labelInfoDilution(d)
+                    : t.labelInfoDilutionPrinted(d),
                 key: const Key('label-dilution'),
                 style: strong,
               ),

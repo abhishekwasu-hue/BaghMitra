@@ -111,7 +111,8 @@ class KbLabelClaim(TimestampMixin, Base):
     active_ingredient: Mapped[str] = mapped_column(String(120), index=True)
     formulation: Mapped[str] = mapped_column(String(60))
     crop: Mapped[str] = mapped_column(String(60))
-    target: Mapped[str] = mapped_column(String(120))
+    # The pest / disease / weed list exactly as printed (some Major Uses cells run long).
+    target: Mapped[str] = mapped_column(String(300))
     dose: Mapped[str] = mapped_column(String(200))
     interval_days: Mapped[int | None] = mapped_column(Integer)
     phi_days: Mapped[int | None] = mapped_column(Integer)

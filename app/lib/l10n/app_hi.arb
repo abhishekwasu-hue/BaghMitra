@@ -772,6 +772,7 @@
   "labelInfoChemical": "रासायनिक",
   "labelInfoBio": "🌿 जैविक (पंजीकृत जैव-कीटनाशक)",
   "labelInfoDilution": "लेबल पर पानी: {value} लीटर प्रति हेक्टेयर",
+  "labelInfoDilutionPrinted": "लेबल पर पानी: {value}",
   "labelInfoBrands": "बाज़ार के नाम (वर्णक्रम में, केवल सूची): {names}",
   "labelInfoMakerPage": "निर्माता का उत्पाद पेज",
   "labelInfoTargetPrinted": "लेबल पर कीट/रोग: {target}",

@@ -4738,6 +4738,12 @@ abstract class AppLocalizations {
   /// **'Water on label: {value} L per hectare'**
   String labelInfoDilution(String value);
 
+  /// No description provided for @labelInfoDilutionPrinted.
+  ///
+  /// In en, this message translates to:
+  /// **'Water on label: {value}'**
+  String labelInfoDilutionPrinted(String value);
+
   /// No description provided for @labelInfoBrands.
   ///
   /// In en, this message translates to:

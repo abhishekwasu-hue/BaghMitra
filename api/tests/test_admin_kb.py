@@ -168,7 +168,7 @@ async def test_sources_are_listed_with_licence(
         await seed_sources(session)
         await session.commit()
     sources = (await client.get(f"{BASE}/sources", headers=ADMIN)).json()["sources"]
-    assert len(sources) == 51
+    assert len(sources) == 57
     assert {"key", "tier", "allowed_use", "verification"} <= set(sources[0])
 
 
