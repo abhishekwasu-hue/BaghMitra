@@ -84,8 +84,20 @@ jobs:
             fi
           done
           flutter pub get
-          flutter build apk --release $defines
-          flutter build apk --release --split-per-abi $defines
+          # Every APK of this run (universal and per-CPU) gets the run number as its version code, so
+          # any newer test APK installs over any older one, whichever file each was (audit BG-08).
+          flutter build apk --release --android-project-arg=force-version-code-ignoring-abi=true $defines
+          flutter build apk --release --split-per-abi --android-project-arg=force-version-code-ignoring-abi=true $defines
+      - name: Check version codes (one code per run, BG-08)
+        env:
+          CODE: ${{ github.run_number }}
+        run: |
+          tools=$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -1)
+          for apk in app/build/app/outputs/flutter-apk/*-release.apk; do
+            got=$("$tools/aapt2" dump badging "$apk" | sed -n "s/.*versionCode='\([0-9]*\)'.*/\1/p" | head -1)
+            [ "$got" = "$CODE" ] || { echo "::error::$(basename "$apk") versionCode is $got, expected $CODE"; exit 1; }
+            echo "$(basename "$apk"): versionCode $got"
+          done
       - name: Name the files
         run: |
           out=release-files

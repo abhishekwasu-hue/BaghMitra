@@ -54,8 +54,11 @@ sign in with `9800000001` and OTP `123456`).
    legacy shared secret instead, copy the JWT secret. The API accepts either.
 4. **Database schema and RLS.** Never create tables in the dashboard. From a checkout, run the
    migrations (they enable row-level security on every table with its policies):
-   `cd api && DATABASE_URL=postgresql+asyncpg://postgres:<password>@db.<ref>.supabase.co:5432/postgres alembic upgrade head`
-   (use the *direct* connection string, not the pooler, for migrations).
+   `cd api && DATABASE_URL=postgresql+asyncpg://postgres.<ref>:<password>@<pooler-host>.pooler.supabase.com:5432/postgres alembic upgrade head`
+   Use the **Session pooler** string (Connect → Session pooler, port 5432), the same one the deploy uses: the
+   direct `db.<ref>.supabase.co` host is IPv6-only unless the IPv4 add-on is bought, and the VPS reaches the
+   database through the pooler. Session mode runs migrations normally. Never the Transaction pooler (port 6543):
+   asyncpg's prepared statements need session mode. The deploy runs the migrations itself on start.
 5. **Storage buckets** (all **private**; created later when features need them):
    `plot-photos`, `diagnosis-photos`, `voice-notes`, `kb-documents` (admin only), `exports`.
    Each gets an owner-only policy (`(storage.foldername(name))[1] = auth.uid()::text`) added by a
@@ -74,7 +77,7 @@ sign in with `9800000001` and OTP `123456`).
    | `SUPABASE_SERVICE_ROLE_KEY` | secret / service-role key | staff-role script only, **never the app** |
    | `SUPABASE_JWT_SECRET` | JWT Keys (legacy secret) | API (if not using JWKS) |
    | `SUPABASE_JWKS_URL` | JWT Keys | API |
-   | `DATABASE_URL` | Database → Connection string (direct, with `postgresql+asyncpg://`) | API, migrations |
+   | `DATABASE_URL` | Connect → **Session pooler** string (port 5432), with `postgresql+asyncpg://` | API, migrations |
 
 8. **App build.** `flutter build apk --dart-define=SUPABASE_URL=... --dart-define=SUPABASE_ANON_KEY=...`
    (and `--dart-define-from-file=product.env`). With `SUPABASE_URL` unset the app runs in demo mode.

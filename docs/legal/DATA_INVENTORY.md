@@ -52,7 +52,7 @@ Policy text: `api/src/bagmitra_api/public_pages/privacy.py`. Keep both in step.
 | Voice (STT) | Android recogniser via `speech_to_text`; `SpeechListenOptions` sets only `localeId` (no on-device flag), so the phone's recognition service (Google on most phones) may process audio online. Audio never reaches our API. Cloud engine is a stub | `app/lib/features/voice/data/on_device_speech.dart:8-10,29-31`; `app/lib/features/voice/data/cloud_speech.dart:3-15` |
 | Text-to-speech | `flutter_tts` on the phone | `app/lib/features/voice/data/on_device_speech.dart:47-50` |
 | Reminders | local notifications scheduled on the phone | `app/lib/features/reminders/data/local_notifications.dart:7-9` |
-| Permissions | INTERNET, fine / coarse location, RECORD_AUDIO, POST_NOTIFICATIONS, RECEIVE_BOOT_COMPLETED | `app/android/app/src/main/AndroidManifest.xml:3-11` |
+| Permissions | INTERNET, fine / coarse location, RECORD_AUDIO, POST_NOTIFICATIONS, RECEIVE_BOOT_COMPLETED (plus VIBRATE from the notifications plugin); no camera, storage or exact-alarm permission | `app/android/app/src/main/AndroidManifest.xml` (`uses-permission`); `app/test/android/release_config_test.dart` |
 | Android backup | off: `android:allowBackup="false"`, and backup / device-transfer rules exclude every domain, so no app data goes to Google backup | `app/android/app/src/main/AndroidManifest.xml`; `app/android/app/src/main/res/xml/` |
 | On-phone log | newest 256 KB, leaves the phone only through "Send logs" (share sheet) | `app/lib/core/app_log.dart:3,20`; `app/lib/features/settings/presentation/settings_screen.dart:49-58` |
 | Exports | accounts CSV and PDF reports through the share sheet | `app/lib/features/export/data/file_sharer.dart:5-6`; `app/lib/features/export/domain/accounts_csv.dart` |

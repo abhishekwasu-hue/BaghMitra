@@ -70,9 +70,46 @@ Migration: नाही. मागे जाणे: `bash deploy/deploy.sh --rev
   ने तपासले जाईल (repo च्या tests मध्ये mocked HTTP).
 - आधीचे roles आणि `app_metadata` मधील इतर keys तशाच राहतात; पुन्हा चालवले तरी काही बिघडत नाही
   ("nothing changed").
-- role काढायचा असेल तर Supabase dashboard → Users → त्या व्यक्तीचे `app_metadata` हाताने बदला.
+- role काढणे: `--remove --roles <role>` (खाली §५अ). `--remove` ला `--roles` आवश्यक आहे.
 - role दिल्यावर / काढल्यावर admin पानात **Sign out करून पुन्हा Sign in** करा. जुना access token
   संपेपर्यंत (Supabase JWT expiry) जुने roles चालू राहतात (audit LG-07).
+
+## ५अ. Staff roles: कोणते आहेत, देणे, काढणे (LG-07)
+
+**कोणते roles.** Role हे Supabase खात्याच्या `app_metadata.roles` मध्ये असतात. ते फक्त service role key
+नेच बदलता येतात; ॲपमध्ये लॉगिन करून कोणालाही role मिळत नाही. API प्रत्येक admin call वर role तपासते
+(`require_role`, `api/src/bagmitra_api/routers/admin_*.py`). Role नसेल तर उत्तर `403`.
+
+| Role | काय करू शकतो |
+|---|---|
+| `feed_admin` | सरकारी संदेश (Govt feed): GR / बातमी टाकणे, मजकूर, तारखा, लक्ष्य शेतकरी, approve, publish, withdraw |
+| `kb_admin` | माहिती कार्ड (KB): स्रोत दस्तऐवज टाकणे, import, कार्ड publish करणे, KB alerts सोडवणे |
+| `kb_reviewer` | KB कार्डचे तज्ज्ञ परीक्षण. सोबत `app_metadata.reviewer_role` = `agronomist`, `plant_pathologist` किंवा `entomologist` हवे; ते नसेल तर review ला `403` (हे script देत नाही: supabase-setup.md मधील `PUT /auth/v1/admin/users/<id>` पद्धत) |
+| `market_admin` | Agmarknet वर नसलेला बाजारभाव हाताने भरणे (`market-prices.md`) |
+| `billing_admin` | प्लॅन व सदस्यता (billing) पाहणे, प्लॅन बदलणे, खात्याला सुविधा देणे / परत घेणे (grants) |
+
+**देणे.** §४ चा block, फक्त `--roles` बदलून (उदा. `--roles market_admin`). आधीचे roles तसेच राहतात.
+
+**काढणे.** तोच block, शेवटी `--remove --roles <role>` जोडून:
+
+```bash
+cd /opt/bagmitra/deploy
+read -rsp 'Supabase service role key: ' SUPABASE_SERVICE_ROLE_KEY; echo; export SUPABASE_SERVICE_ROLE_KEY
+docker compose exec -T -e SUPABASE_SERVICE_ROLE_KEY api python -m bagmitra_api.auth.grant_roles --supabase-url 'https://<ref>.supabase.co' --email '<त्या-व्यक्तीचा-email>' --remove --roles '<role>'
+unset SUPABASE_SERVICE_ROLE_KEY
+```
+
+अपेक्षित: `roles ['feed_admin', 'kb_admin'] -> ['feed_admin']` असे. फक्त नाव दिलेले role जातात, बाकीचे
+roles आणि `app_metadata` मधील इतर keys राहतात. आधी पाहायचे असेल तर शेवटी `--dry-run` जोडा (काही लिहीत नाही).
+
+**बदल कधी लागू होतो (token).** Role access token मध्ये असतो. Token लॉगिनच्या वेळी (आणि ॲप / पान तो
+आपोआप refresh करते तेव्हा) बनतो. म्हणून:
+- role दिल्यावर: त्या व्यक्तीने admin पानात **Sign out → पुन्हा Sign in** करावे; तेव्हाच नवा role चालतो.
+- role काढल्यावर: जुना token संपेपर्यंत (Supabase → Authentication मधील JWT expiry; Supabase चा
+  default 1 तास, या project चे खरे मूल्य तिथेच पाहा) तो role चालू राहू शकतो. त्यानंतरचा नवा token
+  role शिवाय येतो.
+- कोणाला कोणता role कधी दिला / काढला याची नोंद script ठेवत नाही; वरील block ची output (`roles … -> …`)
+  तारखेसह स्वतःच्या नोंदवहीत ठेवा.
 
 ## ६. तपासणी
 - `https://<API_DOMAIN>/admin/` → लॉगिन पान; role असलेल्या खात्याने लॉगिन → Govt feed / KB विभाग.
