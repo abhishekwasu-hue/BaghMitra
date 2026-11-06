@@ -7,9 +7,11 @@
 # then runs without its own Caddy and joins that shared network (docker-compose.shared-caddy.yml,
 # runbook "Sharing the server").
 # It checks .env, pulls the code, rebuilds and restarts the containers (migrations run on
-# start), waits until https://$API_DOMAIN/health/live answers, and adds the daily weather and
-# nightly backup cron lines once, plus each scheduled job whose switch in .env is on (market
-# pull, feed reminders, feed news, KB re-gate; install_cron). It never prints .env values.
+# start), waits until https://$API_DOMAIN/health/ready answers (API and database up), and adds
+# the daily weather and nightly backup cron lines once, plus each scheduled job whose switch
+# in .env is on (market pull, feed reminders, feed news, KB re-gate, sync retention;
+# install_cron), and keeps the job logs rotated (install_logrotate). It never prints .env
+# values.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -34,6 +36,22 @@ FEED_ALERTS_CRON_LINE="17 3,11 * * * $JOB bagmitra_api.feed.alert_job >> /var/lo
 FEED_NEWS_CRON_LINE="23 1,7,13,19 * * * $JOB bagmitra_api.feed.news_job >> /var/log/bagmitra-feed-news.log 2>&1"
 # Nightly KB re-gate (kb/regate.py): 20:50 UTC (02:20 IST); on with CRON_KB_REGATE=on.
 KB_REGATE_CRON_LINE="50 20 * * * $JOB bagmitra_api.kb.regate >> /var/log/bagmitra-kb-regate.log 2>&1"
+# Sync audit log retention (LD-09, sync/retention.py): 22:13 UTC (03:43 IST), after the
+# nightly backup; on unless CRON_SYNC_RETENTION=off. Keeps SYNC_PAYLOAD_RETENTION_DAYS days.
+SYNC_RETENTION_CRON_LINE="13 22 * * * $JOB bagmitra_api.sync.retention >> /var/log/bagmitra-sync-retention.log 2>&1"
+# Job logs (BG-05): every /var/log/bagmitra-*.log above is rotated weekly or past 10 MB, 8 old
+# copies kept compressed. Written by install_logrotate; LOGROTATE_FILE is overridable (tests).
+LOGROTATE_FILE="${LOGROTATE_FILE:-/etc/logrotate.d/bagmitra}"
+LOGROTATE_CONF='/var/log/bagmitra-*.log {
+    weekly
+    maxsize 10M
+    rotate 8
+    compress
+    delaycompress
+    missingok
+    notifempty
+    su root root
+}'
 REQUIRED=(API_DOMAIN DATABASE_URL ENTITLEMENT_SIGNING_KEY)
 
 say() { printf '\n== %s\n' "$*"; }
@@ -119,7 +137,7 @@ restart() {
 wait_healthy() {
   local domain url
   domain="$(env_value API_DOMAIN)"
-  url="https://$domain/health/live"
+  url="https://$domain/health/ready"
   say "Waiting for $url"
   for _ in $(seq 1 60); do
     if curl -fsS --max-time 5 "$url" > /dev/null 2>&1; then
@@ -177,6 +195,20 @@ install_cron() {
   cron_job_if "$on" "bagmitra_api.feed.news_job" "$FEED_NEWS_CRON_LINE" "feed news (every 6 h)"
   on=1; switch_on CRON_KB_REGATE && on=0
   cron_job_if "$on" "bagmitra_api.kb.regate" "$KB_REGATE_CRON_LINE" "KB re-gate (nightly 20:50 UTC)"
+  on=1; switch_on CRON_SYNC_RETENTION && on=0
+  cron_job_if "$on" "bagmitra_api.sync.retention" "$SYNC_RETENTION_CRON_LINE" "sync retention (nightly 22:13 UTC)"
+}
+
+install_logrotate() { # writes the drop-in only when it is missing or different
+  if [[ -f "$LOGROTATE_FILE" && "$(cat "$LOGROTATE_FILE")" == "$LOGROTATE_CONF" ]]; then
+    echo "log rotation already set ($LOGROTATE_FILE)"
+  elif printf '%s\n' "$LOGROTATE_CONF" 2> /dev/null > "$LOGROTATE_FILE"; then
+    chmod 644 "$LOGROTATE_FILE"
+    echo "log rotation set for /var/log/bagmitra-*.log ($LOGROTATE_FILE)"
+  else
+    echo "note: could not write $LOGROTATE_FILE (run deploy.sh as root); job logs are not rotated"
+  fi
+  command -v logrotate > /dev/null || echo "note: logrotate is not installed (apt-get install logrotate)"
 }
 
 # Admin web (OPS-02, runbook docs/runbooks/admin-web.md): the "Admin web" workflow pushes each
@@ -213,6 +245,7 @@ main() {
   restart
   wait_healthy
   install_cron
+  install_logrotate
   say "Done. Check the app, then: bash deploy/deploy.sh status"
 }
 

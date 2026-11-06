@@ -116,3 +116,27 @@ def init_error_reporting(settings: Settings) -> bool:
     )
     log.info("error_reporting_on", environment=settings.environment)
     return True
+
+
+def start_job_reporting(settings: Settings) -> bool:
+    """For a cron job (`python -m ...`): JSON logs like the API and, when SENTRY_DSN is set,
+    error reporting. Returns whether reporting is on."""
+    from bagmitra_api.core.logging import configure_logging  # noqa: PLC0415
+
+    configure_logging(settings.log_level)
+    return init_error_reporting(settings)
+
+
+def report_job_failure(job: str, reporting: bool, **counts: int) -> None:
+    """A scheduled job ended with failures (audit BG-05): one `job_failed` error line in the
+    job's log and, when reporting is on, one Sentry event. Only the job name and counts go
+    out: no locations, URLs or provider messages (they can carry keys)."""
+    log.error("job_failed", job=job, **counts)
+    if not reporting:
+        return
+    import sentry_sdk  # noqa: PLC0415 - only when reporting is on
+
+    with sentry_sdk.new_scope() as scope:
+        scope.set_tag("job", job)
+        scope.set_context("job_summary", dict(counts))
+        sentry_sdk.capture_message(f"scheduled job failed: {job}", level="error")

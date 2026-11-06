@@ -10,7 +10,7 @@ from __future__ import annotations
 
 from html import escape
 
-LAST_UPDATED = {"mr": "५ नोव्हेंबर २०२६", "en": "5 November 2026"}
+LAST_UPDATED = {"mr": "६ नोव्हेंबर २०२६", "en": "6 November 2026"}
 DELETION_DAYS = {"mr": "३० दिवसांत", "en": "within 30 days"}
 
 _IF = {"mr": "चालू केले असल्यास", "en": "if turned on"}
@@ -32,8 +32,12 @@ def contact_line(lang: str, email: str) -> str:
     )
 
 
-def _mr(email: str) -> str:
+_MARATHI_DIGITS = str.maketrans("0123456789", "०१२३४५६७८९")
+
+
+def _mr(email: str, retention_days: int) -> str:
     i = _if("mr")
+    retention_days_mr = str(retention_days).translate(_MARATHI_DIGITS)
     return f"""
 <h2 id="mr-about">१. हे धोरण कशाबद्दल</h2>
 <p>बागमित्र हे संत्रा आणि मोसंबी बागायतदारांसाठी बागेच्या नोंदींचे ॲप आहे. हे धोरण ॲप आणि
@@ -107,8 +111,9 @@ Google त्याच्या संमती-पानावर दाखव�
 
 <h2 id="mr-keep">५. किती काळ ठेवतो</h2>
 <ul><li>खाते चालू आहे तोपर्यंत. ॲपमध्ये नोंद काढल्यावर सर्व्हर ती "काढलेली" म्हणून खूण ठेवतो (इतर
-फोनवरूनही ती जावी म्हणून) आणि sync साठी बदलांचा इतिहास ठेवतो. सर्व्हरने नाकारलेल्या बदलांचा
-मजकूर ठेवला जात नाही; फक्त त्याची ओळख-खूण (hash) आणि आकार.</li>
+फोनवरूनही ती जावी म्हणून) आणि sync साठी बदलांचा इतिहास ठेवतो. इतिहासातील बदलांचा मजकूर
+{retention_days_mr} दिवसांनंतर पुसला जातो; त्यानंतर फक्त त्याची ओळख-खूण (hash) आणि आकार राहतो. सर्व्हरने
+नाकारलेल्या बदलांचा मजकूर ठेवला जात नाही; फक्त त्याची ओळख-खूण (hash) आणि आकार.</li>
 <li>खाते काढल्यावर (ॲपमधून किंवा विनंतीने) सर्व्हरवरच्या नोंदी, इतिहास, फोनची नोंदणी, सूचनांच्या
 खुणा आणि बॅकअप घेतलेले फोटो लगेच पुसले जातात. लॉगिन खाते (Supabase Auth) आपोआप किंवा
 {DELETION_DAYS["mr"]} आम्ही हाताने काढतो. आमच्या रोजच्या डेटाबेस बॅकअपमधील प्रत १४ दिवसांत
@@ -159,7 +164,7 @@ security हे आणखी एक संरक्षण म्हणून च
 """
 
 
-def _en(email: str) -> str:
+def _en(email: str, retention_days: int) -> str:
     i = _if("en")
     return f"""
 <h2 id="en-about">1. About this policy</h2>
@@ -238,8 +243,9 @@ grower data.</li>
 <h2 id="en-keep">5. How long we keep it</h2>
 <ul><li>While your account is active. When you delete a record in the app, the server keeps a
 "deleted" mark (so it disappears from your other phones too) and a history of changes used for
-sync. For a change the server rejects, only a fingerprint (hash) and its size are kept, not its
-contents.</li>
+sync. The contents of a change in that history are erased after {retention_days} days; only a
+fingerprint (hash) and its size remain. For a change the server rejects, only a fingerprint (hash)
+and its size are kept, not its contents.</li>
 <li>When the account is deleted (in the app or on request), the server records, history,
 registered devices, notice marks and backed-up photos are erased at once. The sign-in account
 (Supabase Auth) is removed automatically, or by us by hand {DELETION_DAYS["en"]}. Copies in our
@@ -295,7 +301,8 @@ app.</li></ul>
 """
 
 
-def section(lang: str, email: str) -> str:
-    """One language's full policy as a `<section>` (anchor `#mr` or `#en`)."""
-    body = _mr(email) if lang == "mr" else _en(email)
+def section(lang: str, email: str, retention_days: int) -> str:
+    """One language's full policy as a `<section>` (anchor `#mr` or `#en`).
+    `retention_days`: SYNC_PAYLOAD_RETENTION_DAYS (LD-09)."""
+    body = _mr(email, retention_days) if lang == "mr" else _en(email, retention_days)
     return f'<section id="{lang}" lang="{lang}">{body}</section>'

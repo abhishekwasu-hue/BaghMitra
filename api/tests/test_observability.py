@@ -12,6 +12,7 @@ from bagmitra_api.core.observability import (
     init_error_reporting,
     scrub_breadcrumb,
     scrub_event,
+    start_job_reporting,
 )
 from bagmitra_api.core.settings import Settings
 
@@ -110,3 +111,12 @@ def test_secret_parameters_in_messages_are_masked() -> None:
     assert "S2" not in repr(out)
     assert "S3" not in repr(out)
     assert out["exception"]["values"][0]["value"] == f"GET /r?api-key={FILTERED}&x=1"
+
+
+def test_cron_jobs_start_reporting_only_with_a_dsn(sentry_init_calls: list[dict[str, Any]]) -> None:
+    """BG-05: a scheduled job sets up the same JSON logs and, with SENTRY_DSN, reporting."""
+    assert start_job_reporting(Settings(log_level="WARNING")) is False
+    assert sentry_init_calls == []
+    dsn = SecretStr("https://public@errors.example.org/1")
+    assert start_job_reporting(Settings(log_level="WARNING", sentry_dsn=dsn)) is True
+    assert len(sentry_init_calls) == 1

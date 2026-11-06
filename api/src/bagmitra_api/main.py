@@ -38,7 +38,16 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     configure_logging(settings.log_level)
     init_error_reporting(settings)
 
-    app = FastAPI(title=f"{settings.product_name} API", version="0.1.0")
+    # OPS-07: no interactive docs or schema on the production server (they publish the whole
+    # admin surface). The schema the app client is built from comes from `export_openapi`.
+    public_docs = settings.environment != "production"
+    app = FastAPI(
+        title=f"{settings.product_name} API",
+        version="0.1.0",
+        docs_url="/docs" if public_docs else None,
+        redoc_url="/redoc" if public_docs else None,
+        openapi_url="/openapi.json" if public_docs else None,
+    )
     app.dependency_overrides[get_settings] = lambda: settings
     if settings.cors_origins:
         app.add_middleware(

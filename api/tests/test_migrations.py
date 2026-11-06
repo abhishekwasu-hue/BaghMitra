@@ -224,7 +224,7 @@ def test_postgres_client_roles_lose_every_grant() -> None:
         ).scalar_one()
         assert rls is True
         # The migrating / API role still reads and writes alembic_version and the tables.
-        assert conn.execute(text("SELECT version_num FROM alembic_version")).scalar_one() == "0026"
+        assert conn.execute(text("SELECT version_num FROM alembic_version")).scalar_one() == "0027"
         assert conn.execute(text("SELECT count(*) FROM account_deletions")).scalar_one() == 0
     # Reversible, and a revert never hands the privileges back.
     command.downgrade(cfg, "0024")
@@ -265,3 +265,27 @@ def _assert_owner_isolation(conn: Connection) -> None:
         visible = conn.execute(text("SELECT id::text FROM farmers")).scalars().all()
         assert visible == [me]
         tx.rollback()
+
+
+def test_0027_is_idempotent_and_reversible(tmp_path: Path) -> None:
+    """LD-09: re-running 0027 over a half-applied state adds nothing twice; the downgrade
+    removes the column and index and can run on a database that never had them."""
+    url = f"sqlite+aiosqlite:///{tmp_path / 'm.db'}"
+    cfg = _config(url)
+    command.upgrade(cfg, "0027")
+    engine = create_engine(_sync_url(url))
+    with engine.begin() as conn:
+        conn.execute(text("UPDATE alembic_version SET version_num = '0026'"))
+    command.upgrade(cfg, "0027")  # column and index already there: skipped
+    with engine.connect() as conn:
+        cols = {c["name"] for c in inspect(conn).get_columns("sync_mutations")}
+        idx = {i["name"] for i in inspect(conn).get_indexes("sync_mutations")}
+    assert "payload_purged_at" in cols
+    assert "ix_sync_mutations_unpurged_received_at" in idx
+    command.downgrade(cfg, "0026")
+    with engine.begin() as conn:
+        cols = {c["name"] for c in inspect(conn).get_columns("sync_mutations")}
+        assert "payload_purged_at" not in cols
+        conn.execute(text("UPDATE alembic_version SET version_num = '0027'"))
+    command.downgrade(cfg, "0026")  # nothing left to drop: no error
+    engine.dispose()

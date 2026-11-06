@@ -29,6 +29,7 @@ import httpx
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from bagmitra_api.core.observability import report_job_failure, start_job_reporting
 from bagmitra_api.core.settings import Settings, get_settings
 from bagmitra_api.db.base import utcnow
 from bagmitra_api.db.models import Plot, PlotRiskAlert
@@ -131,8 +132,23 @@ async def run_daily_pull(
     return summary
 
 
+def report_failures(summary: PullSummary, reporting: bool) -> int:
+    """Exit code of the job; failed cells also reach the log / Sentry (BG-05)."""
+    if not summary.failed_cells:
+        return 0
+    report_job_failure(
+        "weather_pull",
+        reporting,
+        cells=summary.cells,
+        failed_cells=summary.failed_cells,
+        stale_cells=summary.stale_cells,
+    )
+    return 1
+
+
 async def main() -> int:  # pragma: no cover - thin CLI wrapper
     settings = get_settings()
+    reporting = start_job_reporting(settings)
     async with get_sessionmaker()() as session, httpx.AsyncClient(timeout=10) as http:
         provider = OpenMeteoClient(
             http,
@@ -141,7 +157,7 @@ async def main() -> int:  # pragma: no cover - thin CLI wrapper
         )
         summary = await run_daily_pull(session, provider, settings, utcnow())
     print(summary.to_json())
-    return 1 if summary.failed_cells else 0
+    return report_failures(summary, reporting)
 
 
 if __name__ == "__main__":  # pragma: no cover

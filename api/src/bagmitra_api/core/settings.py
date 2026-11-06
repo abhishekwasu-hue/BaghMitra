@@ -27,6 +27,10 @@ class Settings(BaseSettings):
     # https://<ref>.supabase.co/auth/v1/.well-known/jwks.json. Empty: only the shared secret.
     supabase_jwks_url: str = ""
     jwt_audience: str = "authenticated"
+    # Clock skew allowed on the token's exp / nbf / iat checks (audit LG-04): a VPS clock a
+    # few seconds behind Supabase must not turn a just-issued token into a 401. Small on
+    # purpose: an expired token stays usable for at most this long.
+    jwt_leeway_seconds: int = Field(default=30, ge=0, le=300)
     # Ed25519 seed (URL-safe base64) that signs entitlement snapshots; empty = unsigned (dev).
     entitlement_signing_key: SecretStr = Field(default=SecretStr(""))
 
@@ -47,6 +51,12 @@ class Settings(BaseSettings):
     sync_max_batch_payload_bytes: int = Field(default=2 * 1024 * 1024, ge=1024)
     # Rows per pull response; the phone keeps pulling from the returned cursor until empty.
     sync_pull_page_size: int = Field(default=500, ge=1)
+    # Retention of the sync audit log (LD-09): the nightly job `bagmitra_api.sync.retention`
+    # replaces the payload (farmer records, names, phone) of an applied or stale write older
+    # than this with its {sha256, bytes} digest. The row stays (duplicate check, pull cursor);
+    # the live records in the entity tables are not touched.
+    sync_payload_retention_days: int = Field(default=90, ge=1)
+    sync_retention_batch_size: int = Field(default=500, ge=1)
 
     # Weather (M4): free Open-Meteo endpoint by default; the commercial endpoint
     # (customer-api.open-meteo.com) needs WEATHER_API_KEY (OPEN_QUESTIONS Q25).
