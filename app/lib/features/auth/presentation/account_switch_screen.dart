@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../app/providers.dart';
+import '../../../design_system/app_bar_title.dart';
 import '../../../design_system/bottom_actions.dart';
 import '../../../design_system/empty_state.dart';
 import '../../../design_system/glyphs.dart';
@@ -53,7 +54,9 @@ class _AccountSwitchScreenState extends ConsumerState<AccountSwitchScreen> {
       key: Key(blocked ? 'account-blocked' : 'account-switch'),
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text(blocked ? t.accountBlockedTitle : t.accountSwitchTitle),
+        title: AppBarTitle(
+          blocked ? t.accountBlockedTitle : t.accountSwitchTitle,
+        ),
       ),
       bottomNavigationBar: BottomActions(
         children: [

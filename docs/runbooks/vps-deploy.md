@@ -36,7 +36,7 @@ cp .env.example .env
 nano .env          # भरा, Ctrl+O, Enter, Ctrl+X
 chmod 600 .env
 ```
-`.env` मध्ये: `API_DOMAIN`, `DATABASE_URL` (Supabase चा direct connection string, सुरुवात `postgresql+asyncpg://`), `SUPABASE_JWKS_URL`, `ENTITLEMENT_SIGNING_KEY` (`openssl rand -base64 32 | tr '+/' '-_' | tr -d '='` ने बनवा). **`.env` कुणालाही पाठवू नका आणि GitHub वर टाकू नका.**
+`.env` मध्ये: `API_DOMAIN`, `DATABASE_URL` (Supabase → Connect → **Session pooler** चा connection string, port `5432`, user `postgres.<project-ref>`; सुरुवातीचे `postgresql://` बदलून `postgresql+asyncpg://` करा. Transaction pooler (port `6543`) नको. Pool चा आकार `DB_POOL_SIZE` / `DB_MAX_OVERFLOW`, default 5 + 5, `.env.example` पाहा), `SUPABASE_JWKS_URL`, `ENTITLEMENT_SIGNING_KEY` (`openssl rand -base64 32 | tr '+/' '-_' | tr -d '='` ने बनवा). **`.env` कुणालाही पाठवू नका आणि GitHub वर टाकू नका.**
 
 ऐच्छिक (नसले तरी API चालते): `MARKET_API_KEY` (data.gov.in वरची मोफत key, बाजारभावासाठी). हवामानाला key लागत नाही (मोफत Open-Meteo; व्यावसायिक प्लॅन घेतल्यावर `WEATHER_BASE_URL` + `WEATHER_API_KEY`, Q25). `SENTRY_DSN` (त्रुटी अहवाल, पायरी ६अ-२; रिकामा = बंद).
 
@@ -97,7 +97,7 @@ cookies, विनंतीचा मजकूर (शेतकऱ्यां�
 5. Play Store आधी: धोरणाचा मजकूर वकिलाकडून तपासून घ्या (Q52). तपशील: `docs/legal/DATA_INVENTORY.md`.
 
 ## ६ब. बाजारभाव हाताने भरणारी व्यक्ती
-Supabase → Authentication → Users → त्या व्यक्तीचे `app_metadata` = `{"roles": ["market_admin"]}` (service role नेच बदलता येते). पायऱ्या: `docs/runbooks/market-prices.md`. Admin पान (`/admin/`) आणि role देणारी script: `docs/runbooks/admin-web.md`.
+`market_admin` role script ने द्या: `docs/runbooks/admin-web.md` §५अ (सर्व staff roles, देणे / काढणे, नवे लॉगिन). पायऱ्या: `docs/runbooks/market-prices.md`. Admin पान (`/admin/`) आणि role देणारी script: `docs/runbooks/admin-web.md`.
 
 ## ६क. deploy आधीची यादी
 - [ ] DNS A record काम करतो (`ping api.तुमचे-डोमेन.com` ने VPS चा IP दिसतो)

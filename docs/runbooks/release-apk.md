@@ -65,8 +65,11 @@ seven is missing, the Release APK run stops with a red error naming it; it never
 4. सर्व्हरवर APK टाका: `docs/runbooks/vps-deploy.md` → "६इ. नवीन APK शेतकऱ्यांना देणे".
 
 Version code = the Release APK run number. It only rises, and both APKs of one run carry the same code, so
-any newer release installs over any older one, and the update check compares one number (audit R5). Do not
-rename or delete this workflow file: the run number would start again from 1.
+any newer release installs over any older one (`arm64-v8a` or `armeabi-v7a`, whichever the phone has), and the
+update check compares one number (audits R5 / BG-08). The run checks every APK's code before it publishes. Do
+not rename or delete this workflow file: the run number would start again from 1. The Test APK uses the same
+rule with its own run number (`test-apk.md` §2); test and release APKs never install over each other (§४).
+Google Play also needs a rising code per upload, so Play uploads come only from this workflow.
 
 Debug symbols (needed to read an obfuscated crash stack) are kept as the run artifact
 `bagmitra-symbols-<name>-<code>` for 7 days; download them if you will need them longer.

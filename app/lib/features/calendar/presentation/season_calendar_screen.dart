@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../app/providers.dart';
 import '../../../core/formatting.dart';
+import '../../../design_system/app_bar_title.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../../bahar/data/bahar_catalog.dart';
@@ -44,7 +45,7 @@ class SeasonCalendarScreen extends ConsumerWidget {
     };
 
     return Scaffold(
-      appBar: AppBar(title: Text(t.calendarTitle)),
+      appBar: AppBar(title: AppBarTitle(t.calendarTitle)),
       body: ListView(
         padding: const EdgeInsets.all(BmSpace.lg),
         children: [

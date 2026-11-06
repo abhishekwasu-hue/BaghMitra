@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../app/providers.dart';
 import '../../../core/formatting.dart';
+import '../../../design_system/app_bar_title.dart';
 import '../../../design_system/cards.dart';
 import '../../../design_system/empty_state.dart';
 import '../../../design_system/info_note.dart';
@@ -104,7 +105,7 @@ class _DirectoryScreenState extends ConsumerState<_DirectoryScreen> {
     final prefix = widget.keyPrefix;
     final entries = data?.inDistrict(_district) ?? const <DirectoryEntry>[];
     return Scaffold(
-      appBar: AppBar(title: Text(widget.title)),
+      appBar: AppBar(title: AppBarTitle(widget.title)),
       body: data == null
           ? LoadingState(label: t.loadingLabel)
           : ListView(

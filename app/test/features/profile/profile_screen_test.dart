@@ -43,12 +43,14 @@ Future<AppDatabase> openProfile(
   WidgetTester tester, {
   AuthSession session = signedIn,
   Locale? locale = const Locale('en'),
+  AuthRepository? auth,
   List<Override> overrides = const [],
 }) async {
   final db = await pumpApp(
     tester,
     locale: locale,
     session: session,
+    auth: auth,
     onboarded: false,
     seed: (db) => seedProfile(db, id: session.userId),
     overrides: overrides,

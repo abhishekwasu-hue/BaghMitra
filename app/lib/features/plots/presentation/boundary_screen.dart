@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../app/providers.dart';
 import '../../../core/formatting.dart';
+import '../../../design_system/app_bar_title.dart';
 import '../../../design_system/bottom_actions.dart';
 import '../../../design_system/cards.dart';
 import '../../../l10n/app_localizations.dart';
@@ -60,7 +61,7 @@ class _BoundaryScreenState extends ConsumerState<BoundaryScreen> {
       null => null,
     };
     return Scaffold(
-      appBar: AppBar(title: Text(t.boundaryTitle)),
+      appBar: AppBar(title: AppBarTitle(t.boundaryTitle)),
       body: ListView(
         padding: const EdgeInsets.all(BmSpace.lg),
         children: [

@@ -323,6 +323,15 @@ class _HomeBody extends ConsumerWidget {
                           null => null,
                         },
                         changeCaption: t.vsLastWeek,
+                        changeLabel: switch (m.weeklyChangePct) {
+                          final int pct when pct < 0 => t.priceChangeDown(
+                            formatPercent(pct.abs(), lang),
+                          ),
+                          final int pct => t.priceChangeUp(
+                            formatPercent(pct, lang),
+                          ),
+                          null => null,
+                        },
                         rising: (m.weeklyChangePct ?? 0) >= 0,
                       ),
                     )

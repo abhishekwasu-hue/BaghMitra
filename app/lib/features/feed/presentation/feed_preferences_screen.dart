@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../app/providers.dart';
+import '../../../design_system/app_bar_title.dart';
 import '../../../design_system/sync_banner.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
@@ -89,7 +90,7 @@ class _FeedPreferencesScreenState extends ConsumerState<FeedPreferencesScreen> {
       'window_open': t.feedPrefsCatWindowOpen,
     };
     return Scaffold(
-      appBar: AppBar(title: Text(t.feedPrefsTitle)),
+      appBar: AppBar(title: AppBarTitle(t.feedPrefsTitle)),
       body: p == null
           ? const Center(child: CircularProgressIndicator())
           : ListView(

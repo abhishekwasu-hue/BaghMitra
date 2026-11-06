@@ -6,6 +6,7 @@ import '../../../app/providers.dart';
 import '../../../app/refresh.dart';
 import '../../../app/router.dart';
 import '../../../core/formatting.dart';
+import '../../../design_system/app_bar_title.dart';
 import '../../../design_system/bottom_actions.dart';
 import '../../../design_system/empty_state.dart';
 import '../../../design_system/glyphs.dart';
@@ -81,7 +82,7 @@ class _TasksScreenState extends ConsumerState<TasksScreen> {
     }
     return Scaffold(
       appBar: AppBar(
-        title: Text(t.tasksTitle),
+        title: AppBarTitle(t.tasksTitle),
         actions: [
           IconButton(
             key: const Key('open-calendar'),

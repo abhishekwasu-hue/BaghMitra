@@ -21,6 +21,17 @@ class Settings(BaseSettings):
     log_level: str = "INFO"
 
     database_url: str = "sqlite+aiosqlite:///./bagmitra-local.db"
+    # Connection pool for PostgreSQL (audit OPS-10). Production reaches Supabase through the
+    # Session pooler, where every open connection holds one of the project's pooler slots, and
+    # the cron jobs (`docker compose exec`) open their own pool next to the API's. So the pool
+    # stays small: at most db_pool_size + db_max_overflow connections per process. pre_ping
+    # drops connections the pooler closed; recycle replaces them before an idle timeout does.
+    # Ignored for SQLite (local runs and tests).
+    db_pool_size: int = Field(default=5, ge=1, le=50)
+    db_max_overflow: int = Field(default=5, ge=0, le=50)
+    db_pool_timeout_seconds: float = Field(default=30.0, gt=0, le=300)
+    db_pool_recycle_seconds: int = Field(default=1800, ge=-1)
+    db_pool_pre_ping: bool = True
 
     supabase_jwt_secret: SecretStr = Field(default=SecretStr(""))
     # Supabase signs tokens with asymmetric keys (ES256/RS256) published here, e.g.

@@ -28,7 +28,12 @@ void main() {
   late List<RemoteChange> applied;
   late SyncEngine engine;
 
-  SyncEngine build({int batchSize = 50}) => SyncEngine(
+  late List<String> log;
+
+  SyncEngine build({
+    int batchSize = 50,
+    Duration writeDebounce = const Duration(seconds: 3),
+  }) => SyncEngine(
     db: db,
     transport: server,
     appliers: {'farmer_profile': (c) async => applied.add(c)},
@@ -40,6 +45,8 @@ void main() {
     ),
     random: _MaxRandom(),
     batchSize: batchSize,
+    writeDebounce: writeDebounce,
+    log: log.add,
   );
 
   Future<String> enqueue({
@@ -60,6 +67,7 @@ void main() {
     clock = TestClock();
     outbox = Outbox(db, clock: clock.call);
     applied = [];
+    log = [];
     engine = build();
   });
 
@@ -261,4 +269,66 @@ void main() {
     expect(await rows(), isEmpty);
     expect(await engine.watchRejected().first, isEmpty);
   });
+
+  test('a local write syncs soon, a burst of writes in one run', () async {
+    await engine.dispose();
+    engine = build(writeDebounce: const Duration(milliseconds: 40));
+    engine.start(interval: const Duration(hours: 1));
+    await engine.sync();
+    final before = server.pushCalls;
+    await enqueue(id: 'a');
+    await enqueue(id: 'b');
+    await Future<void>.delayed(const Duration(milliseconds: 10));
+    expect(server.pushCalls, before, reason: 'waits for the burst to end');
+    await Future<void>.delayed(const Duration(milliseconds: 150));
+    expect(server.pushCalls, before + 1);
+    expect(await rows(), isEmpty);
+    // The engine's own outbox updates and deletes never start another run.
+    await Future<void>.delayed(const Duration(milliseconds: 150));
+    expect(server.pushCalls, before + 1);
+  });
+
+  test(
+    'each run writes one line of counts to the app log, no payloads',
+    () async {
+      await enqueue();
+      await engine.sync();
+      server.online = false;
+      await enqueue(id: 'u2');
+      await engine.sync();
+      server.online = true;
+      server.serverDown = true;
+      await engine.sync();
+      server.serverDown = false;
+      server.unauthorized = true;
+      await engine.sync();
+      expect(log, hasLength(4));
+      expect(log[0], startsWith('sync: ok pushed=1 pulled='));
+      expect(log[1], startsWith('sync: offline pending='));
+      expect(log[2], startsWith('sync: serverError'));
+      expect(log[3], startsWith('sync: signedOut'));
+      expect(log.join(), isNot(contains('language')));
+      expect(log.join(), isNot(contains('u2')));
+    },
+  );
+
+  test('an unexpected failure is logged by type and rethrown', () async {
+    await engine.dispose();
+    engine = SyncEngine(
+      db: db,
+      transport: _BrokenTransport(),
+      appliers: const {},
+      outbox: outbox,
+      clock: clock.call,
+      log: log.add,
+    );
+    await enqueue();
+    await expectLater(engine.sync(), throwsStateError);
+    expect(log.single, startsWith('sync: failed StateError'));
+  });
+}
+
+class _BrokenTransport implements SyncTransport {
+  @override
+  dynamic noSuchMethod(Invocation invocation) => throw StateError('broken');
 }

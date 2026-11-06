@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../app/providers.dart';
 import '../../../app/router.dart';
+import '../../../design_system/app_bar_title.dart';
 import '../../../design_system/cards.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
@@ -186,7 +187,7 @@ class MoreScreen extends ConsumerWidget {
     ];
 
     return Scaffold(
-      appBar: AppBar(title: Text(t.moreTitle)),
+      appBar: AppBar(title: AppBarTitle(t.moreTitle)),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(
           BmSpace.lg,

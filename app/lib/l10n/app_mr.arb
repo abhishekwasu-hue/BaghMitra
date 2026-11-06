@@ -763,5 +763,7 @@
   "requiredSprayProduct": "औषधाचे नाव लिहा",
   "requiredInputProduct": "उत्पादनाचे नाव लिहा",
   "requiredBuyer": "व्यापाऱ्याचे नाव लिहा",
-  "claimKitGpsOk": "ठिकाण जोडले"
+  "claimKitGpsOk": "ठिकाण जोडले",
+  "priceChangeUp": "गेल्या आठवड्यापेक्षा {pct} वाढ",
+  "priceChangeDown": "गेल्या आठवड्यापेक्षा {pct} घट"
 }

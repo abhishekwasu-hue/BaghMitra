@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../app/providers.dart';
 import '../../../app/router.dart';
+import '../../../design_system/app_bar_title.dart';
 import '../../../design_system/bottom_actions.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
@@ -71,7 +72,7 @@ class _AddTaskScreenState extends ConsumerState<AddTaskScreen> {
     final kinds = ref.watch(taskKindsProvider).value ?? const [];
     final now = ref.watch(clockProvider)();
     return Scaffold(
-      appBar: AppBar(title: Text(t.addTask)),
+      appBar: AppBar(title: AppBarTitle(t.addTask)),
       body: Form(
         key: _form,
         child: ListView(

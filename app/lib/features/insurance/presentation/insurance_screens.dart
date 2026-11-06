@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import '../../../app/providers.dart';
 import '../../../app/router.dart';
 import '../../../core/formatting.dart';
+import '../../../design_system/app_bar_title.dart';
 import '../../../design_system/bottom_actions.dart';
 import '../../../design_system/cards.dart';
 import '../../../design_system/empty_state.dart';
@@ -121,7 +122,7 @@ class InsuranceScreen extends ConsumerWidget {
     );
 
     return Scaffold(
-      appBar: AppBar(title: Text(t.insuranceTitle)),
+      appBar: AppBar(title: AppBarTitle(t.insuranceTitle)),
       body: !policiesAsync.hasValue
           ? LoadingState(label: t.loadingLabel)
           : empty
@@ -386,7 +387,9 @@ class _PolicyFormScreenState extends ConsumerState<PolicyFormScreen> {
     );
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.policyId == null ? t.insuranceAdd : t.insuranceEdit),
+        title: AppBarTitle(
+          widget.policyId == null ? t.insuranceAdd : t.insuranceEdit,
+        ),
         actions: [
           if (widget.policyId != null)
             IconButton(

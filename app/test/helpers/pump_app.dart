@@ -124,8 +124,9 @@ Future<AppDatabase> pumpApp(
   ScoutingPhotos? photos,
   AuthRepository? auth,
   List<Override> overrides = const [],
+  Size size = phoneSize,
 }) async {
-  tester.view.physicalSize = phoneSize * 3;
+  tester.view.physicalSize = size * 3;
   tester.view.devicePixelRatio = 3;
   tester.view.padding = const FakeViewPadding(top: 24 * 3);
   addTearDown(tester.view.reset);

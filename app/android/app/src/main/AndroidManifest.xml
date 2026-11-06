@@ -8,7 +8,13 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
     <!-- Android 13+: asked when the first task reminder is scheduled. Reminders are local to the phone. -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <!-- Not asked: lets ScheduledNotificationBootReceiver (below) put the task reminders back after a phone restart. -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <!-- Deliberately absent (RL-05; checked by test/android/release_config_test.dart): CAMERA (photos use the
+         phone's own camera app through image_picker), storage permissions (photo picker, share sheet and app
+         folders need none), SCHEDULE_EXACT_ALARM / USE_EXACT_ALARM (reminders are inexact), background
+         location. flutter_local_notifications adds VIBRATE (a normal, not asked permission) through its own
+         manifest. -->
     <!-- No Android backup or device transfer of app data (S-09): see res/xml/*_rules.xml. -->
     <application
         android:label="@string/app_name"

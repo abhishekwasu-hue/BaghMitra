@@ -38,7 +38,7 @@ Future<void> main() async {
       url: config.supabaseUrl,
       publishableKey: config.supabaseAnonKey,
     );
-    auth = SupabaseAuthRepository(Supabase.instance.client);
+    auth = SupabaseAuthRepository(Supabase.instance.client, log: log.log);
   }
   runApp(
     ProviderScope(

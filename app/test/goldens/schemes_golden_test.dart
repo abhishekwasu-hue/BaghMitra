@@ -13,13 +13,19 @@ import '../features/schemes/schemes_test.dart' show schemeFeed;
 import '../helpers/pump_app.dart';
 
 void main() {
-  for (final (name, location) in [
-    ('schemes_mr_light', '/schemes'),
-    ('scheme_detail_mr_light', '/schemes/pm_kisan'),
+  for (final (name, location, scale) in [
+    ('schemes_mr_light', '/schemes', 1.0),
+    ('scheme_detail_mr_light', '/schemes/pm_kisan', 1.0),
+    // On a 360 dp phone at 1.3x text, a long Marathi scheme name wraps to two lines
+    // instead of "पीएम-किसान सन्मान …".
+    ('scheme_detail_mr_x13', '/schemes/pm_kisan', 1.3),
   ]) {
     testWidgets(name, (tester) async {
+      tester.platformDispatcher.textScaleFactorTestValue = scale;
+      addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
       await pumpApp(
         tester,
+        size: scale > 1 ? const Size(360, 800) : phoneSize,
         initialLocation: location,
         seed: (db) async {
           final store = SchemeTicksStore(db);

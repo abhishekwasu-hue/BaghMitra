@@ -10,6 +10,7 @@ class PriceHeroCard extends StatelessWidget {
     required this.caption,
     this.change,
     this.changeCaption,
+    this.changeLabel,
     this.rising = true,
   });
 
@@ -19,6 +20,10 @@ class PriceHeroCard extends StatelessWidget {
   /// The weekly change chip; left out when there is no published change.
   final String? change;
   final String? changeCaption;
+
+  /// What TalkBack says for the change chip ("8% up from last week"), instead of reading
+  /// the arrow symbol and the caption apart.
+  final String? changeLabel;
   final bool rising;
 
   @override
@@ -48,32 +53,37 @@ class PriceHeroCard extends StatelessWidget {
             ),
           ),
           if (change case final change?)
-            Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: BmSpace.sm,
-                vertical: BmSpace.xs,
-              ),
-              decoration: BoxDecoration(
-                color: c.onBrand.withValues(alpha: 0.14),
-                borderRadius: BorderRadius.circular(14),
-              ),
-              child: Column(
-                children: [
-                  Text(
-                    '${rising ? '▲' : '▼'} $change',
-                    style: BmType.alertTitle.copyWith(
-                      fontSize: 19,
-                      color: c.sun,
+            Semantics(
+              container: true,
+              label: changeLabel,
+              excludeSemantics: changeLabel != null,
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: BmSpace.sm,
+                  vertical: BmSpace.xs,
+                ),
+                decoration: BoxDecoration(
+                  color: c.onBrand.withValues(alpha: 0.14),
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                child: Column(
+                  children: [
+                    Text(
+                      '${rising ? '▲' : '▼'} $change',
+                      style: BmType.alertTitle.copyWith(
+                        fontSize: 19,
+                        color: c.sun,
+                      ),
                     ),
-                  ),
-                  Text(
-                    changeCaption ?? '',
-                    style: BmType.label.copyWith(
-                      fontSize: 12,
-                      color: c.onBrand.withValues(alpha: 0.9),
+                    Text(
+                      changeCaption ?? '',
+                      style: BmType.label.copyWith(
+                        fontSize: 12,
+                        color: c.onBrand.withValues(alpha: 0.9),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
         ],

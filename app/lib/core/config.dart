@@ -12,6 +12,7 @@ class AppConfig {
     this.sarkariSandesh = '',
     this.phoneLogin = false,
     this.push = false,
+    this.entitlementPublicKey = '',
   });
 
   factory AppConfig.fromEnvironment() => const AppConfig(
@@ -40,6 +41,9 @@ class AppConfig {
     // Off unless defined at build time; the analyzer only sees the false default.
     // ignore: avoid_redundant_argument_values
     push: bool.fromEnvironment('PUSH'),
+    // Empty unless defined at build time; the analyzer only sees the empty default.
+    // ignore: avoid_redundant_argument_values
+    entitlementPublicKey: String.fromEnvironment('ENTITLEMENT_PUBLIC_KEY'),
   );
 
   final String productName;
@@ -80,6 +84,12 @@ class AppConfig {
 
   /// Push alerts need the server, so never in demo mode.
   bool get pushEnabled => push && !demoMode;
+
+  /// The server's Ed25519 public key for entitlement snapshots, URL-safe base64
+  /// (`--dart-define=ENTITLEMENT_PUBLIC_KEY=...`; the API holds the matching
+  /// ENTITLEMENT_SIGNING_KEY). Empty: no snapshot verifies, so only the always-free features
+  /// are open.
+  final String entitlementPublicKey;
 
   bool get isTestBuild => testBuild.isNotEmpty;
 

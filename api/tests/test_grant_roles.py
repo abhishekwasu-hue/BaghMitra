@@ -151,3 +151,23 @@ def test_url_from_environment(monkeypatch: pytest.MonkeyPatch) -> None:
     args = ["--email", "owner@example.com", "--roles", "kb_admin"]
     assert grant_roles.main(args, transport=fake.transport) == 0
     assert fake.users[0]["app_metadata"]["roles"] == ["kb_admin"]
+
+
+def test_remove_takes_only_the_named_roles_away(capsys: pytest.CaptureFixture[str]) -> None:
+    fake = FakeAuth([owner({"provider": "email", "roles": ["feed_admin", "kb_admin"]})])
+    assert run(fake, "--remove", "--roles", "kb_admin", "--dry-run") == 0
+    assert all(r.method == "GET" for r in fake.requests)
+    assert run(fake, "--remove", "--roles", "kb_admin") == 0
+    assert fake.users[0]["app_metadata"] == {"provider": "email", "roles": ["feed_admin"]}
+    assert "['feed_admin', 'kb_admin'] -> ['feed_admin']" in capsys.readouterr().out
+    fake.requests.clear()
+    assert run(fake, "--remove", "--roles", "kb_admin") == 0
+    assert all(r.method == "GET" for r in fake.requests)
+    assert "nothing changed" in capsys.readouterr().out
+
+
+def test_remove_without_roles_is_refused(capsys: pytest.CaptureFixture[str]) -> None:
+    fake = FakeAuth([owner({"roles": ["feed_admin"]})])
+    assert run(fake, "--remove") == 2
+    assert fake.requests == []
+    assert "--remove needs --roles" in capsys.readouterr().err

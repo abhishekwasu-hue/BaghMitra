@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../app/providers.dart';
 import '../../../core/formatting.dart';
+import '../../../design_system/app_bar_title.dart';
 import '../../../design_system/cards.dart';
 import '../../../design_system/empty_state.dart';
 import '../../../design_system/glyphs.dart';
@@ -87,7 +88,9 @@ class CompareScreen extends ConsumerWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(title: Text('${t.compareTitle} · ${plot?.name ?? ''}')),
+      appBar: AppBar(
+        title: AppBarTitle('${t.compareTitle} · ${plot?.name ?? ''}'),
+      ),
       body: loaded.isLoading && !loaded.hasValue
           ? LoadingState(label: t.loadingLabel)
           : results.isEmpty

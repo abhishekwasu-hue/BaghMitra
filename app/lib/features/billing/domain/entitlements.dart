@@ -32,6 +32,20 @@ class EntitlementSnapshot {
         validUntil: DateTime.parse(json['valid_until']! as String),
       );
 
+  /// The server's payload (`GET /v1/billing/entitlements`): each feature is
+  /// `{enabled, limit}`; only enabled ones are kept.
+  factory EntitlementSnapshot.fromServer(Map<String, Object?> json) =>
+      EntitlementSnapshot(
+        features: {
+          for (final e in (json['features']! as Map).entries)
+            if ((e.value as Map)['enabled'] == true)
+              e.key as String: (e.value as Map)['limit'] as int?,
+        },
+        plans: [...(json['plans']! as List).cast<String>()],
+        computedAt: DateTime.parse(json['computed_at']! as String),
+        validUntil: DateTime.parse(json['valid_until']! as String),
+      );
+
   /// Feature key -> limit; a null limit means unlimited.
   final Map<String, int?> features;
   final List<String> plans;

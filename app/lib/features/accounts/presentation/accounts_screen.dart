@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../app/providers.dart';
 import '../../../app/router.dart';
 import '../../../core/formatting.dart';
+import '../../../design_system/app_bar_title.dart';
 import '../../../design_system/bottom_actions.dart';
 import '../../../design_system/cards.dart';
 import '../../../design_system/empty_state.dart';
@@ -142,7 +143,7 @@ class _AccountsScreenState extends ConsumerState<AccountsScreen> {
     ];
     return Scaffold(
       appBar: AppBar(
-        title: Text('${t.accountsTitle} · ${plot?.name ?? ''}'),
+        title: AppBarTitle('${t.accountsTitle} · ${plot?.name ?? ''}'),
         actions: [
           IconButton(
             tooltip: t.exportSharePdf,

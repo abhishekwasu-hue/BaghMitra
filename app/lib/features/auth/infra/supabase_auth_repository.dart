@@ -39,9 +39,13 @@ AuthFailureKind authFailureKindFor(
 /// [AuthRepository] contract tests run against the demo implementation, and the error
 /// mapping by [authFailureKindFor]'s tests.
 class SupabaseAuthRepository implements AuthRepository {
-  SupabaseAuthRepository(this._client);
+  SupabaseAuthRepository(this._client, {void Function(String)? log})
+    : _log = log ?? _noLog;
 
   final sb.SupabaseClient _client;
+  final void Function(String) _log;
+
+  static void _noLog(String _) {}
 
   static AuthSession? _map(sb.Session? s) => s == null
       ? null
@@ -110,6 +114,14 @@ class SupabaseAuthRepository implements AuthRepository {
     }
   }
 
+  /// Never throws. Supabase drops the phone's session first and only then tells the server;
+  /// offline that second step fails, which is fine: the server's session simply expires.
   @override
-  Future<void> signOut() => _client.auth.signOut();
+  Future<void> signOut() async {
+    try {
+      await _client.auth.signOut();
+    } on Object catch (e) {
+      _log('auth: sign-out kept local only (${e.runtimeType})');
+    }
+  }
 }

@@ -2690,4 +2690,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get claimKitGpsOk => 'Location added';
+
+  @override
+  String priceChangeUp(String pct) {
+    return '$pct up from last week';
+  }
+
+  @override
+  String priceChangeDown(String pct) {
+    return '$pct down from last week';
+  }
 }

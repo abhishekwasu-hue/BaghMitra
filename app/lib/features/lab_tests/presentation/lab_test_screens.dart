@@ -8,6 +8,7 @@ import 'package:path/path.dart' as p;
 import '../../../app/providers.dart';
 import '../../../app/router.dart';
 import '../../../core/formatting.dart';
+import '../../../design_system/app_bar_title.dart';
 import '../../../design_system/bottom_actions.dart';
 import '../../../design_system/cards.dart';
 import '../../../design_system/empty_state.dart';
@@ -154,7 +155,7 @@ class LabTestsScreen extends ConsumerWidget {
     final lang = Localizations.localeOf(context).languageCode;
     final tests = ref.watch(labTestsProvider(plotId));
     return Scaffold(
-      appBar: AppBar(title: Text(t.labTestsTitle)),
+      appBar: AppBar(title: AppBarTitle(t.labTestsTitle)),
       body: switch (tests) {
         AsyncData(:final value) when value.isEmpty => EmptyState(
           glyph: BmGlyph.drop,
@@ -260,7 +261,7 @@ class LabTestDetailScreen extends ConsumerWidget {
     final tests = ref.watch(labTestsProvider(plotId));
     if (!tests.hasValue) {
       return Scaffold(
-        appBar: AppBar(title: Text(t.labTestsTitle)),
+        appBar: AppBar(title: AppBarTitle(t.labTestsTitle)),
         body: LoadingState(label: t.loadingLabel),
       );
     }
@@ -270,7 +271,7 @@ class LabTestDetailScreen extends ConsumerWidget {
     }
     if (test == null) {
       return Scaffold(
-        appBar: AppBar(title: Text(t.labTestsTitle)),
+        appBar: AppBar(title: AppBarTitle(t.labTestsTitle)),
         body: EmptyState(glyph: BmGlyph.drop, message: t.labTestsEmpty),
       );
     }
@@ -300,7 +301,7 @@ class LabTestDetailScreen extends ConsumerWidget {
     );
     return Scaffold(
       appBar: AppBar(
-        title: Text(labTestTitle(t, record.testType)),
+        title: AppBarTitle(labTestTitle(t, record.testType)),
         actions: [
           ShareSpeakButtons(shareText: shareText, keyPrefix: 'lab-test'),
         ],
@@ -706,7 +707,9 @@ class _LabTestFormScreenState extends ConsumerState<LabTestFormScreen> {
     final report = _shownReport;
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.testId == null ? t.labTestAdd : t.labTestEdit),
+        title: AppBarTitle(
+          widget.testId == null ? t.labTestAdd : t.labTestEdit,
+        ),
         actions: [
           if (widget.testId != null)
             IconButton(

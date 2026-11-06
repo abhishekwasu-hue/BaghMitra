@@ -67,11 +67,28 @@ shows the phone path, since any six digits sign in locally there.
 (किंवा WhatsApp / Drive ने फोनवर पाठवा). "Install unknown apps" ला परवानगी द्या आणि फाइल उघडून Install करा.
 अपडेटसाठी नवीन APK जुन्यावरच इन्स्टॉल करा; डेटा तसाच राहील.
 
+**Version code (BG-08).** Every APK of one Test APK run (universal and per-CPU) carries the same version code:
+that run's number, which only rises. So any newer test APK installs over any older one, whichever file you
+picked each time (a phone that has the `arm64-v8a` file can take the next `universal` file and the other way
+round). The run checks this before it publishes. The Release APK follows the same rule with its own run number
+(`release-apk.md` §3); a test APK and a release APK never install over each other because their keys differ (§5).
+
+**Once, after this change:** a phone that has an older *per-CPU* test file (`arm64-v8a`, `armeabi-v7a` or
+`x86_64`; those carried 1000 × CPU + run number) refuses the next test APK as a downgrade ("App not installed").
+On that phone only: let everything sync, uninstall, install the newest `universal` file, sign in again. Phones
+with the `universal` file are not affected.
+
+मराठी: एकाच run मधील सर्व test APK (universal आणि CPU नुसार) यांचा version code एकच (run चा नंबर) असतो,
+म्हणून कोणताही नवा test APK कोणत्याही जुन्यावर install होतो. ज्या फोनवर आधी CPU नुसारची (`arm64-v8a` इ.)
+जुनी फाइल आहे, तिथे **एकदाच**: sync होऊ द्या, uninstall करा, नवी `universal` फाइल install करून लॉगिन करा.
+
 ## 3. Permissions the app asks for
 
-- **Location**: only when you tap "Add this corner" while walking the boundary of a block. Nothing is tracked in the background.
-- **Camera / microphone**: when photo and voice notes arrive in later releases.
-- **Storage / share**: through the phone's share sheet when you export a PDF or CSV; no broad storage access.
+- **Location** (precise and approximate): only when you tap "Add this corner" while walking the boundary of a block. Nothing is tracked in the background.
+- **Microphone**: only when you tap the microphone next to a field; the phone's speech recogniser turns speech into text. The app does not record or store audio.
+- **Notifications** (Android 13+): when the first task reminder is set. Reminders are local to the phone and come back after a restart (a "run at startup" permission that is not asked).
+- **Internet**: the server and sync.
+- Not asked at all: camera (a photo opens the phone's own camera app), storage (photo picker and the share sheet for PDF / CSV), exact alarms, background location. The list is checked by `app/test/android/release_config_test.dart`.
 
 ## 4. Reporting a bug
 

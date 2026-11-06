@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import '../../../app/providers.dart';
 import '../../../app/router.dart';
 import '../../../core/formatting.dart';
+import '../../../design_system/app_bar_title.dart';
 import '../../../design_system/cards.dart';
 import '../../../design_system/empty_state.dart';
 import '../../../design_system/glyphs.dart';
@@ -65,7 +66,7 @@ class SchemesScreen extends ConsumerWidget {
     final lang = Localizations.localeOf(context).languageCode;
     final data = ref.watch(schemesProvider);
     return Scaffold(
-      appBar: AppBar(title: Text(t.schemesTitle)),
+      appBar: AppBar(title: AppBarTitle(t.schemesTitle)),
       body: switch (data) {
         AsyncData(:final value) when value.schemes.isEmpty => EmptyState(
           glyph: BmGlyph.ledger,
@@ -165,14 +166,14 @@ class SchemeDetailScreen extends ConsumerWidget {
     final ticks = ref.watch(schemeTicksProvider(schemeId));
     if (data == null || !ticks.hasValue) {
       return Scaffold(
-        appBar: AppBar(title: Text(t.schemesTitle)),
+        appBar: AppBar(title: AppBarTitle(t.schemesTitle)),
         body: LoadingState(label: t.loadingLabel),
       );
     }
     final scheme = data.byId(schemeId);
     if (scheme == null) {
       return Scaffold(
-        appBar: AppBar(title: Text(t.schemesTitle)),
+        appBar: AppBar(title: AppBarTitle(t.schemesTitle)),
         body: EmptyState(glyph: BmGlyph.ledger, message: t.schemesIntro),
       );
     }
@@ -231,7 +232,7 @@ class SchemeDetailScreen extends ConsumerWidget {
     );
     return Scaffold(
       appBar: AppBar(
-        title: Text(scheme.name(lang)),
+        title: AppBarTitle(scheme.name(lang)),
         actions: [
           ShareSpeakButtons(
             keyPrefix: 'scheme',

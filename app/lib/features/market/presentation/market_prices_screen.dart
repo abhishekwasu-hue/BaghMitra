@@ -7,6 +7,7 @@ import '../../../app/providers.dart';
 import '../../../app/refresh.dart';
 import '../../../app/router.dart';
 import '../../../core/formatting.dart';
+import '../../../design_system/app_bar_title.dart';
 import '../../../design_system/empty_state.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../sync/presentation/refresh_note.dart';
@@ -49,7 +50,7 @@ class _MarketPricesScreenState extends ConsumerState<MarketPricesScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(t.marketPricesTitle),
+        title: AppBarTitle(t.marketPricesTitle),
         actions: [
           IconButton(
             key: const Key('open-market-directory'),
