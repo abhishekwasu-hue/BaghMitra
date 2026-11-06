@@ -8,11 +8,17 @@ import pytest
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker
 
+from bagmitra_api.core.logging import configure_logging
 from bagmitra_api.core.settings import Settings
 from bagmitra_api.db.models import Plot, PlotRiskAlert
 from bagmitra_api.risk.engine import load_rules, parse_rules
 from bagmitra_api.weather.open_meteo import DailyWeather, WeatherUnavailableError
-from bagmitra_api.weather.pull_job import run_daily_pull
+from bagmitra_api.weather.pull_job import (
+    CellFailure,
+    PullSummary,
+    report_failures,
+    run_daily_pull,
+)
 
 TODAY = date(2026, 3, 14)
 NOW = datetime(2026, 3, 14, 0, 0, tzinfo=UTC)
@@ -196,3 +202,30 @@ async def test_rolling_degree_day_alert_is_stored_once_per_window(
     assert first.new_alerts == 1
     assert next_day.new_alerts == 0, "same rule, same plot, still inside the window"
     assert len(await alerts(maker)) == 1
+
+
+def test_failed_cells_reach_the_log_and_sentry_with_counts_only(
+    monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    """BG-05: a pull with failed cells exits 1, writes one `job_failed` error line and, when
+    reporting is on, sends one Sentry event; no cell location or provider message."""
+    configure_logging("INFO")
+    sent: list[tuple[str, str]] = []
+    monkeypatch.setattr(
+        "sentry_sdk.capture_message", lambda message, level=None: sent.append((message, level))
+    )
+    failed = PullSummary(cells=3, plots=5, failed_cells=1)
+    failed.failures.append(CellFailure(CELL_A, "HTTP 503 https://x?apikey=secret"))
+    assert report_failures(failed, reporting=False) == 1
+    assert sent == []
+    line = json.loads(capsys.readouterr().out.strip().splitlines()[-1])
+    assert line["event"] == "job_failed"
+    assert line["level"] == "error"
+    assert (line["job"], line["cells"], line["failed_cells"]) == ("weather_pull", 3, 1)
+    assert report_failures(failed, reporting=True) == 1
+    assert sent == [("scheduled job failed: weather_pull", "error")]
+    out = capsys.readouterr().out
+    assert "secret" not in out
+    assert str(CELL_A[0]) not in out
+    assert report_failures(PullSummary(cells=3), reporting=True) == 0
+    assert len(sent) == 1

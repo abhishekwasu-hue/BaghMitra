@@ -30,7 +30,7 @@ Policy text: `api/src/bagmitra_api/public_pages/privacy.py`. Keep both in step.
 | Lab test | lab name, typed values | `api/src/bagmitra_api/db/models/lab_test.py:17-28` |
 | Bahar cycle, farm task | dates, titles, notes | `api/src/bagmitra_api/db/models/bahar.py:32-43`; `api/src/bagmitra_api/db/models/tasks.py:15-27` |
 | **Deletes are soft** | a delete sets `deleted_at`; the row stays on the server | `api/src/bagmitra_api/sync/registry.py:248-252`; `api/src/bagmitra_api/db/base.py:49-56` |
-| **Sync audit log** | applied and stale writes keep their payload in `sync_mutations`; rejected ones keep only `{sha256, bytes}`. A payload over 64 KiB is rejected, a batch over 2 MiB of payloads is refused (413); no purge job exists | `api/src/bagmitra_api/sync/service.py` (`_digest`, `payload_size`); `api/src/bagmitra_api/core/settings.py` (`sync_max_payload_bytes`) |
+| **Sync audit log** | applied and stale writes keep their payload in `sync_mutations`; rejected ones keep only `{sha256, bytes}`. A payload over 64 KiB is rejected, a batch over 2 MiB of payloads is refused (413). Retention (LD-09): a nightly job replaces the payload of every write older than `SYNC_PAYLOAD_RETENTION_DAYS` (default 90) with its `{sha256, bytes}` digest and sets `payload_purged_at`; the row (ids, entity, op, times, status) stays for the duplicate check and the pull cursor | `api/src/bagmitra_api/sync/service.py` (`payload_digest`, `payload_size`); `api/src/bagmitra_api/sync/retention.py`; `api/src/bagmitra_api/core/settings.py` (`sync_max_payload_bytes`, `sync_payload_retention_days`); `deploy/deploy.sh` (cron, `CRON_SYNC_RETENTION`) |
 | Ownership | API checks owner in code; Postgres RLS as second wall | `api/src/bagmitra_api/db/rls.py:1-4` |
 
 ## 3. Photos and files

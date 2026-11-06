@@ -51,6 +51,12 @@ class Settings(BaseSettings):
     sync_max_batch_payload_bytes: int = Field(default=2 * 1024 * 1024, ge=1024)
     # Rows per pull response; the phone keeps pulling from the returned cursor until empty.
     sync_pull_page_size: int = Field(default=500, ge=1)
+    # Retention of the sync audit log (LD-09): the nightly job `bagmitra_api.sync.retention`
+    # replaces the payload (farmer records, names, phone) of an applied or stale write older
+    # than this with its {sha256, bytes} digest. The row stays (duplicate check, pull cursor);
+    # the live records in the entity tables are not touched.
+    sync_payload_retention_days: int = Field(default=90, ge=1)
+    sync_retention_batch_size: int = Field(default=500, ge=1)
 
     # Weather (M4): free Open-Meteo endpoint by default; the commercial endpoint
     # (customer-api.open-meteo.com) needs WEATHER_API_KEY (OPEN_QUESTIONS Q25).

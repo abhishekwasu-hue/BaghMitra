@@ -6,8 +6,8 @@ from pathlib import Path
 import httpx
 
 from bagmitra_api.core.settings import Settings
-from bagmitra_api.main import create_app
 from bagmitra_api.export_openapi import render_openapi
+from bagmitra_api.main import create_app
 
 SPEC_PATH = Path(__file__).resolve().parents[2] / "docs" / "api" / "openapi.json"
 

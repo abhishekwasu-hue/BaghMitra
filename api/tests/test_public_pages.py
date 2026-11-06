@@ -97,6 +97,9 @@ async def test_privacy_page_matches_the_code(pages: httpx.AsyncClient) -> None:
     assert "१४ दिवस ठेवला जातो" in body
     # P-7 / S-07: rejected changes are not kept in full.
     assert "only a fingerprint (hash)" in body
+    # LD-09: the sync history's contents are erased after the configured days.
+    assert "erased after 90 days" in body
+    assert "९० दिवसांनंतर पुसला जातो" in body
     # P-6: both link lifetimes.
     assert "within two hours" in body
     # P-1 / S-02: the Data API is closed.

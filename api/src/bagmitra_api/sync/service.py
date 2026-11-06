@@ -65,7 +65,7 @@ def payload_size(payload: dict[str, Any]) -> int:
     return len(_compact(payload))
 
 
-def _digest(payload: dict[str, Any]) -> dict[str, Any]:
+def payload_digest(payload: dict[str, Any]) -> dict[str, Any]:
     """What is kept of a rejected payload: enough to recognise a repeat, none of the content."""
     raw = _compact(payload)
     return {"sha256": hashlib.sha256(raw).hexdigest(), "bytes": len(raw)}
@@ -84,7 +84,7 @@ async def _record(
         entity=m.entity,
         entity_id=m.entity_id,
         op=m.op,
-        payload=_digest(m.payload) if status == "rejected" else m.payload,
+        payload=payload_digest(m.payload) if status == "rejected" else m.payload,
         client_updated_at=m.client_updated_at,
         status=status,
         error=error,

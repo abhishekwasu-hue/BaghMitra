@@ -4,7 +4,7 @@ import uuid
 from datetime import datetime
 from typing import Any
 
-from sqlalchemy import JSON, BigInteger, DateTime, Integer, String, UniqueConstraint
+from sqlalchemy import JSON, BigInteger, DateTime, Index, Integer, String, UniqueConstraint, text
 from sqlalchemy.orm import Mapped, mapped_column
 
 from bagmitra_api.db.base import Base, utcnow
@@ -13,11 +13,21 @@ from bagmitra_api.db.base import Base, utcnow
 class SyncMutation(Base):
     """Audit log of every client write received, including stale and rejected ones.
 
-    The autoincrement `seq` doubles as the global, monotonic pull cursor.
+    The autoincrement `seq` doubles as the global, monotonic pull cursor. After
+    `sync_payload_retention_days` the retention job (sync/retention.py, LD-09) replaces an
+    applied / stale payload with its digest and sets `payload_purged_at`; the row stays.
     """
 
     __tablename__ = "sync_mutations"
-    __table_args__ = (UniqueConstraint("owner_id", "client_mutation_id"),)
+    __table_args__ = (
+        UniqueConstraint("owner_id", "client_mutation_id"),
+        Index(
+            "ix_sync_mutations_unpurged_received_at",
+            "received_at",
+            postgresql_where=text("payload_purged_at IS NULL"),
+            sqlite_where=text("payload_purged_at IS NULL"),
+        ),
+    )
     owner_column = "owner_id"
 
     seq: Mapped[int] = mapped_column(
@@ -33,3 +43,4 @@ class SyncMutation(Base):
     received_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
     status: Mapped[str] = mapped_column(String(16))
     error: Mapped[str | None] = mapped_column(String(64))
+    payload_purged_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))

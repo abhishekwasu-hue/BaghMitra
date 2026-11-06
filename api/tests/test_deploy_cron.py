@@ -31,6 +31,7 @@ MARKERS = {
     "alerts": "bagmitra_api.feed.alert_job",
     "news": "bagmitra_api.feed.news_job",
     "regate": "bagmitra_api.kb.regate",
+    "retention": "bagmitra_api.sync.retention",
 }
 
 
@@ -62,6 +63,7 @@ def jobs(lines: list[str]) -> set[str]:
 def test_only_weather_and_backup_with_every_switch_off(tmp_path: Path) -> None:
     env = (
         "API_DOMAIN=x\nMARKET_API_KEY=\nCRON_FEED_ALERTS=off\nCRON_FEED_NEWS=no\nCRON_KB_REGATE=0\n"
+        "CRON_SYNC_RETENTION=false\n"
     )
     out, lines = run_install(tmp_path, env)
     assert jobs(lines) == {"weather", "backup"}
@@ -72,17 +74,17 @@ def test_only_weather_and_backup_with_every_switch_off(tmp_path: Path) -> None:
 def test_unset_switches_are_on_by_default(tmp_path: Path) -> None:
     # Owner default: the feed and KB jobs run unless a switch says off.
     _, lines = run_install(tmp_path, "API_DOMAIN=x\nMARKET_API_KEY=\n")
-    assert jobs(lines) == {"weather", "backup", "alerts", "news", "regate"}
+    assert jobs(lines) == {"weather", "backup", "alerts", "news", "regate", "retention"}
 
 
 def test_each_switch_adds_its_job_once_and_never_prints_values(tmp_path: Path) -> None:
     env = (
         'MARKET_API_KEY="secret-market-key-123"\n'
-        "CRON_FEED_ALERTS=on\nCRON_FEED_NEWS=TRUE\nCRON_KB_REGATE=1\n"
+        "CRON_FEED_ALERTS=on\nCRON_FEED_NEWS=TRUE\nCRON_KB_REGATE=1\nCRON_SYNC_RETENTION=on\n"
     )
     out, lines = run_install(tmp_path, env)
     assert jobs(lines) == set(MARKERS)
-    assert len(lines) == 6
+    assert len(lines) == 7
     assert "secret-market-key-123" not in out
     assert not any("secret-market-key-123" in ln for ln in lines)
     out_again, lines_again = run_install(tmp_path, env)
@@ -92,7 +94,7 @@ def test_each_switch_adds_its_job_once_and_never_prints_values(tmp_path: Path) -
     assert market.startswith("35 2,8,14,20 * * * cd ")
     assert market.endswith(">> /var/log/bagmitra-market-pull.log 2>&1")
     # None of the new jobs shares the 00:00 weather or 21:40 backup slot.
-    for name in ("market", "alerts", "news", "regate"):
+    for name in ("market", "alerts", "news", "regate", "retention"):
         line = next(ln for ln in lines if MARKERS[name] in ln)
         minute, hour = line.split()[:2]
         assert (minute, hour) != ("0", "0")
@@ -102,18 +104,57 @@ def test_each_switch_adds_its_job_once_and_never_prints_values(tmp_path: Path) -
 def test_turning_a_switch_off_removes_only_its_line(tmp_path: Path) -> None:
     run_install(tmp_path, "MARKET_API_KEY=k\nCRON_FEED_NEWS=on\nCRON_KB_REGATE=on\n")
     out, lines = run_install(tmp_path, "MARKET_API_KEY=k\nCRON_FEED_NEWS=off\nCRON_KB_REGATE=on\n")
-    assert jobs(lines) == {"weather", "backup", "market", "alerts", "regate"}
+    assert jobs(lines) == {"weather", "backup", "market", "alerts", "regate", "retention"}
     assert "feed news (every 6 h) cron line removed" in out
     _, cleared = run_install(
-        tmp_path, "MARKET_API_KEY=\nCRON_FEED_ALERTS=off\nCRON_FEED_NEWS=off\nCRON_KB_REGATE=off\n"
+        tmp_path,
+        "MARKET_API_KEY=\nCRON_FEED_ALERTS=off\nCRON_FEED_NEWS=off\nCRON_KB_REGATE=off\n"
+        "CRON_SYNC_RETENTION=off\n",
     )
     assert jobs(cleared) == {"weather", "backup"}
 
 
 def test_other_cron_lines_are_kept(tmp_path: Path) -> None:
     (tmp_path / "cron.txt").write_text("5 4 * * * /usr/local/bin/other-project\n")
-    off = "CRON_FEED_ALERTS=off\nCRON_FEED_NEWS=off\n"
+    off = "CRON_FEED_ALERTS=off\nCRON_FEED_NEWS=off\nCRON_SYNC_RETENTION=off\n"
     run_install(tmp_path, off + "CRON_KB_REGATE=on\n")
     _, lines = run_install(tmp_path, off + "CRON_KB_REGATE=no\n")
     assert lines[0] == "5 4 * * * /usr/local/bin/other-project"
     assert jobs(lines) == {"weather", "backup"}
+
+
+def run_logrotate(target: Path) -> str:
+    script = f'source "{DEPLOY / "deploy.sh"}"; LOGROTATE_FILE="{target}"; install_logrotate'
+    return subprocess.run(  # noqa: S603 - fixed arguments, test only
+        [str(BASH), "-c", script], capture_output=True, text=True, check=True
+    ).stdout
+
+
+def test_job_logs_get_a_logrotate_drop_in_once(tmp_path: Path) -> None:
+    """BG-05: every /var/log/bagmitra-*.log the cron lines write is rotated and capped."""
+    target = tmp_path / "logrotate-bagmitra"
+    assert "log rotation set" in run_logrotate(target)
+    conf = target.read_text()
+    assert conf.startswith("/var/log/bagmitra-*.log {")
+    for directive in ("weekly", "maxsize 10M", "rotate 8", "compress", "missingok"):
+        assert f"    {directive}\n" in conf
+    assert "already set" in run_logrotate(target)
+    script = (DEPLOY / "deploy.sh").read_text()
+    logs = {part.split()[0] for part in script.split(">> ")[1:]}
+    assert len(logs) >= 7, "every cron line appends to a log file"
+    assert all(log.startswith("/var/log/bagmitra-") and log.endswith(".log") for log in logs)
+
+
+def test_an_unwritable_logrotate_path_does_not_stop_the_deploy(tmp_path: Path) -> None:
+    assert "could not write" in run_logrotate(tmp_path / "missing-dir" / "bagmitra")
+
+
+def test_deploy_waits_for_the_database_ready_check() -> None:
+    """OPS-08: deploy's wait and the container healthcheck use /health/ready (DB); OPS-11:
+    uvicorn no longer trusts forwarded headers from any address."""
+    script = (DEPLOY / "deploy.sh").read_text()
+    compose = (DEPLOY / "docker-compose.yml").read_text()
+    assert 'url="https://$domain/health/ready"' in script
+    assert "localhost:8000/health/ready" in compose
+    assert "forwarded-allow-ips='*'" not in compose
+    assert "--forwarded-allow-ips=$$(python -m bagmitra_api.core.proxy_trust)" in compose

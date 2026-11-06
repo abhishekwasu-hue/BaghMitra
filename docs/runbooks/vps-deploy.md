@@ -44,15 +44,15 @@ chmod 600 .env
 ```
 docker compose up -d --build
 docker compose ps
-curl https://api.तुमचे-डोमेन.com/health/live
+curl https://api.तुमचे-डोमेन.com/health/ready
 ```
-पहिल्यांदा ५–१० मिनिटे लागतात. `{"status":"ok",...}` दिसले की API चालू आहे. अडल्यास: `docker compose logs --tail 100 api`.
+पहिल्यांदा ५–१० मिनिटे लागतात. `{"status":"ok","database":"ok"}` दिसले की API आणि database दोन्ही चालू आहेत (`/health/ready`; फक्त API साठी `/health/live`). अडल्यास: `docker compose logs --tail 100 api`.
 
 ## ६. नंतर अपडेट (एक कमांड)
 ```
 cd /opt/bagmitra && bash deploy/deploy.sh
 ```
-ही script `.env` तपासते (मूल्ये छापत नाही), नवीन कोड आणते, containers पुन्हा बांधून सुरू करते, `https://API_DOMAIN/health/live` उत्तर देईपर्यंत थांबते आणि cron ओळी एकदाच जोडते (हवामान, बॅकअप, आणि `.env` मध्ये चालू केलेली कामे — पायरी ६अ). काही बिघडले तर मागच्या आवृत्तीवर परत: `bash deploy/deploy.sh --revert`. पहिल्यांदाही (पायरी ४ नंतर) हीच कमांड चालते.
+ही script `.env` तपासते (मूल्ये छापत नाही), नवीन कोड आणते, containers पुन्हा बांधून सुरू करते, `https://API_DOMAIN/health/ready` (API + database) उत्तर देईपर्यंत थांबते, cron ओळी एकदाच जोडते (हवामान, बॅकअप, आणि `.env` मध्ये चालू केलेली कामे — पायरी ६अ) आणि `/etc/logrotate.d/bagmitra` लिहिते (cron log फाइली आठवड्याला किंवा 10 MB झाल्यावर फिरवल्या जातात, ८ जुन्या प्रती; root म्हणून चालवा). काही बिघडले तर मागच्या आवृत्तीवर परत: `bash deploy/deploy.sh --revert`. पहिल्यांदाही (पायरी ४ नंतर) हीच कमांड चालते.
 टेबलचे बदल (migration) प्रत्येक सुरुवातीला आपोआप होतात.
 
 ## ६अ. ठरलेल्या वेळची कामे (cron)
@@ -68,6 +68,7 @@ cd /opt/bagmitra && bash deploy/deploy.sh
 | KB कार्डांची रात्रीची फेरतपासणी (`kb.regate`) | नेहमी (बंद: `CRON_KB_REGATE=off`) | रोज 20:50 = 02:20 | `/var/log/bagmitra-kb-regate.log` |
 | सरकारी सूचनांच्या आठवणी (`feed.alert_job`) | नेहमी (बंद: `CRON_FEED_ALERTS=off`) | रोज 03:17 व 11:17 = 08:47 व 16:47 | `/var/log/bagmitra-feed-alerts.log` |
 | बातम्यांचे मथळे (`feed.news_job`) | नेहमी (बंद: `CRON_FEED_NEWS=off`); अटी `allowed` असलेल्या स्रोतांकडूनच मथळे येतात | दर ६ तासांनी 01:23, 07:23, 13:23, 19:23 | `/var/log/bagmitra-feed-news.log` |
+| sync इतिहासातील जुना मजकूर पुसणे (`sync.retention`) | नेहमी (बंद: `CRON_SYNC_RETENTION=off`); `SYNC_PAYLOAD_RETENTION_DAYS` (default 90) दिवसांपेक्षा जुन्या बदलांचा मजकूर hash मध्ये बदलतो | रोज 22:13 = 03:43 | `/var/log/bagmitra-sync-retention.log` |
 
 - ही तिन्ही कामे default चालू आहेत: `.env` मध्ये काहीही न लिहिता `bash deploy/deploy.sh` ने ओळी लागतात
   ("... cron line added").
@@ -100,7 +101,7 @@ Supabase → Authentication → Users → त्या व्यक्तीच�
 ## ६क. deploy आधीची यादी
 - [ ] DNS A record काम करतो (`ping api.तुमचे-डोमेन.com` ने VPS चा IP दिसतो)
 - [ ] `.env` भरलेली, `chmod 600`, GitHub वर नाही
-- [ ] `docker compose ps` मध्ये `api` healthy, `curl https://api.तुमचे-डोमेन.com/health/live` → `ok`
+- [ ] `docker compose ps` मध्ये `api` healthy (database सह), `curl https://api.तुमचे-डोमेन.com/health/ready` → `"database":"ok"`
 - [ ] `docker compose logs api | grep -i "alembic"` मध्ये migration त्रुटी नाही
 - [ ] `crontab -l | grep bagmitra` मध्ये हवामान व बॅकअप ओळी (deploy नंतर आपोआप); हवामान हाताने एकदा चालवले (`new_alerts`, `failed_cells: 0`)
 - [ ] नियोजित कामे (पायरी ६अ) default चालू; नको असलेले `off` करा

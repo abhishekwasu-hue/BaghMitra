@@ -290,7 +290,7 @@ async def test_small_clock_skew_is_tolerated_on_both_token_kinds() -> None:
     cfg = settings()
     now = int(time.time())
     skew = cfg.jwt_leeway_seconds // 2
-    skewed = {"iat": now + skew, "nbf": now + skew, "exp": now - skew}
+    skewed: dict[str, Any] = {"iat": now + skew, "nbf": now + skew, "exp": now - skew}
     user = uuid.uuid4()
     for token in (make_token(user, **skewed), sign(private, "k1", user, **skewed)):
         assert (await verify_token_async(token, cfg, keys)).id == user
@@ -302,8 +302,16 @@ async def test_skew_beyond_the_leeway_is_still_rejected() -> None:
     cfg = settings()
     now = int(time.time())
     beyond = cfg.jwt_leeway_seconds + 30
-    for extra in ({"exp": now - beyond}, {"nbf": now + beyond}, {"iat": now + beyond}):
-        for token in (make_token(uuid.uuid4(), **extra), sign(private, "k1", uuid.uuid4(), **extra)):
+    cases: list[dict[str, Any]] = [
+        {"exp": now - beyond},
+        {"nbf": now + beyond},
+        {"iat": now + beyond},
+    ]
+    for extra in cases:
+        for token in (
+            make_token(uuid.uuid4(), **extra),
+            sign(private, "k1", uuid.uuid4(), **extra),
+        ):
             with pytest.raises(ApiError):
                 await verify_token_async(token, cfg, keys)
 
