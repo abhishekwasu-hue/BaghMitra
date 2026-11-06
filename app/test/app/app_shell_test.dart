@@ -76,7 +76,7 @@ void main() {
     await _tab(tester, 'विचारा');
     expect(find.byType(PracticesScreen), findsOneWidget);
     expect(_selected(tester), 3);
-    await _tab(tester, 'घर');
+    await _tab(tester, 'मुख्य पान');
     expect(find.byType(HomeScreen), findsOneWidget);
     expect(_selected(tester), 0);
     await unmountApp(tester);
