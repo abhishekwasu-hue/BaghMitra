@@ -32,6 +32,7 @@ MARKERS = {
     "news": "bagmitra_api.feed.news_job",
     "regate": "bagmitra_api.kb.regate",
     "retention": "bagmitra_api.sync.retention",
+    "push": "bagmitra_api.push.deliver",
 }
 
 
@@ -81,10 +82,11 @@ def test_each_switch_adds_its_job_once_and_never_prints_values(tmp_path: Path) -
     env = (
         'MARKET_API_KEY="secret-market-key-123"\n'
         "CRON_FEED_ALERTS=on\nCRON_FEED_NEWS=TRUE\nCRON_KB_REGATE=1\nCRON_SYNC_RETENTION=on\n"
+        "FCM_PROJECT_ID=demo-project\n"
     )
     out, lines = run_install(tmp_path, env)
     assert jobs(lines) == set(MARKERS)
-    assert len(lines) == 7
+    assert len(lines) == 8
     assert "secret-market-key-123" not in out
     assert not any("secret-market-key-123" in ln for ln in lines)
     out_again, lines_again = run_install(tmp_path, env)
@@ -94,11 +96,26 @@ def test_each_switch_adds_its_job_once_and_never_prints_values(tmp_path: Path) -
     assert market.startswith("35 2,8,14,20 * * * cd ")
     assert market.endswith(">> /var/log/bagmitra-market-pull.log 2>&1")
     # None of the new jobs shares the 00:00 weather or 21:40 backup slot.
-    for name in ("market", "alerts", "news", "regate", "retention"):
+    for name in ("market", "alerts", "news", "regate", "retention", "push"):
         line = next(ln for ln in lines if MARKERS[name] in ln)
         minute, hour = line.split()[:2]
         assert (minute, hour) != ("0", "0")
         assert not (minute == "40" and "21" in hour.split(","))
+
+
+def test_weather_alert_pushes_run_only_with_fcm_set(tmp_path: Path) -> None:
+    """BG-01: the deliver job is added once FCM_PROJECT_ID is set, after the 00:00 UTC weather
+    pull and outside the default quiet hours (21:00-07:00 IST); removed when it is cleared."""
+    key = "FCM_SERVICE_ACCOUNT_B64=c2VjcmV0LWtleS1ibG9i\n"
+    out, lines = run_install(tmp_path, "FCM_PROJECT_ID=demo-project\n" + key)
+    line = next(ln for ln in lines if MARKERS["push"] in ln)
+    assert line.startswith("37 1 * * * cd ")
+    assert line.endswith(">> /var/log/bagmitra-push-deliver.log 2>&1")
+    assert "c2VjcmV0LWtleS1ibG9i" not in out
+    assert not any("c2VjcmV0LWtleS1ibG9i" in ln for ln in lines)
+    out, lines = run_install(tmp_path, "FCM_PROJECT_ID=\n" + key)
+    assert "push" not in jobs(lines)
+    assert "weather alert pushes (01:37 UTC = 07:07 IST) cron line removed" in out
 
 
 def test_turning_a_switch_off_removes_only_its_line(tmp_path: Path) -> None:
@@ -141,7 +158,7 @@ def test_job_logs_get_a_logrotate_drop_in_once(tmp_path: Path) -> None:
     assert "already set" in run_logrotate(target)
     script = (DEPLOY / "deploy.sh").read_text()
     logs = {part.split()[0] for part in script.split(">> ")[1:]}
-    assert len(logs) >= 7, "every cron line appends to a log file"
+    assert len(logs) >= 8, "every cron line appends to a log file"
     assert all(log.startswith("/var/log/bagmitra-") and log.endswith(".log") for log in logs)
 
 

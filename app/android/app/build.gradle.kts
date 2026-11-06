@@ -4,6 +4,14 @@ plugins {
     id("dev.flutter.flutter-gradle-plugin")
 }
 
+// Push alerts (audit BG-01, runbook docs/runbooks/push-notifications.md): the Google services
+// plugin reads app/google-services.json (never committed). Without that file the plugin is not
+// applied and the APK builds and runs exactly as before; the app also starts Firebase only in a
+// build made with --dart-define=PUSH=true.
+if (file("google-services.json").exists()) {
+    apply(plugin = "com.google.gms.google-services")
+}
+
 // Signing (audit RL-02 / R4):
 // - Production APKs (the "Release APK" workflow, RELEASE_BUILD=true) are signed with the owner's
 //   release keystore (docs/runbooks/release-apk.md). Without it the build stops: never the debug key.

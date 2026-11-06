@@ -7,10 +7,12 @@ import json
 import uuid
 from datetime import UTC, date, datetime, time, timedelta
 
+import httpx
 import pytest
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker
 
+from bagmitra_api.core.settings import Settings
 from bagmitra_api.db.models import Farmer, Plot, PushDevice
 from bagmitra_api.feed.alert_job import configured_sender
 from bagmitra_api.feed.alerts import INDIA, AlertSummary, run_alerts
@@ -137,7 +139,8 @@ async def run(
 
 
 async def test_without_a_sender_it_only_plans(maker: async_sessionmaker[AsyncSession]) -> None:
-    assert configured_sender() is None
+    async with httpx.AsyncClient() as http:
+        assert configured_sender(http, Settings(fcm_project_id="")) is None
     await add_item(maker)
     await add_farmer(maker)
     summary = await run(maker, None)

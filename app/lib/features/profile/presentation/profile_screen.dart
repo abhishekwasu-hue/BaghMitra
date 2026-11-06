@@ -130,6 +130,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     if (ok != true || !mounted) return;
     ref.read(languagePreviewProvider.notifier).set(null);
     // Only the session ends: the records stay on this phone, as before.
+    // Push alerts for this account stop on this phone (no-op with push off).
+    await ref.read(pushRegistrarProvider).beforeSignOut();
     await ref.read(authRepositoryProvider).signOut();
   }
 

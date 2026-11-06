@@ -36,6 +36,8 @@ class _AccountSwitchScreenState extends ConsumerState<AccountSwitchScreen> {
 
   Future<void> _signOut() async {
     ref.read(languagePreviewProvider.notifier).set(null);
+    // Push alerts for this account stop on this phone (no-op with push off).
+    await ref.read(pushRegistrarProvider).beforeSignOut();
     await ref.read(authRepositoryProvider).signOut();
   }
 
