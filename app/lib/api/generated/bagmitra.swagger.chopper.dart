@@ -1004,6 +1004,32 @@ their profile; undoes a dismiss. Only for a published item that has a date.''',
   }
 
   @override
+  Future<Response<GrowerCardsResponse>> _v1KnowledgeCardsGet({
+    String? crop,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'The general part of every live knowledge card (newest version per topic and crop).',
+      summary: 'Cards',
+      operationId: 'knowledge_cards',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["knowledge"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/knowledge/cards');
+    final Map<String, dynamic> $params = <String, dynamic>{'crop': crop};
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+      tag: swaggerMetaData,
+    );
+    return client.send<GrowerCardsResponse, GrowerCardsResponse>($request);
+  }
+
+  @override
   Future<Response<MarketPrices>> _v1MarketPricesGet({
     required String? crop,
     String? scope,

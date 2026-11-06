@@ -459,6 +459,198 @@ extension $CardOutExtension on CardOut {
 }
 
 @JsonSerializable(explicitToJson: true)
+class CardSourceOut {
+  const CardSourceOut({
+    required this.checked,
+    required this.publisher,
+    required this.title,
+    required this.url,
+  });
+
+  factory CardSourceOut.fromJson(Map<String, dynamic> json) =>
+      _$CardSourceOutFromJson(json);
+
+  static const toJsonFactory = _$CardSourceOutToJson;
+  Map<String, dynamic> toJson() => _$CardSourceOutToJson(this);
+
+  @JsonKey(name: 'checked', includeIfNull: false, toJson: _dateToJson)
+  final DateTime? checked;
+  @JsonKey(name: 'publisher', includeIfNull: false)
+  final String publisher;
+  @JsonKey(name: 'title', includeIfNull: false)
+  final String title;
+  @JsonKey(name: 'url', includeIfNull: false)
+  final String url;
+  static const fromJsonFactory = _$CardSourceOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is CardSourceOut &&
+            (identical(other.checked, checked) ||
+                const DeepCollectionEquality().equals(
+                  other.checked,
+                  checked,
+                )) &&
+            (identical(other.publisher, publisher) ||
+                const DeepCollectionEquality().equals(
+                  other.publisher,
+                  publisher,
+                )) &&
+            (identical(other.title, title) ||
+                const DeepCollectionEquality().equals(other.title, title)) &&
+            (identical(other.url, url) ||
+                const DeepCollectionEquality().equals(other.url, url)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(checked) ^
+      const DeepCollectionEquality().hash(publisher) ^
+      const DeepCollectionEquality().hash(title) ^
+      const DeepCollectionEquality().hash(url) ^
+      runtimeType.hashCode;
+}
+
+extension $CardSourceOutExtension on CardSourceOut {
+  CardSourceOut copyWith({
+    DateTime? checked,
+    String? publisher,
+    String? title,
+    String? url,
+  }) {
+    return CardSourceOut(
+      checked: checked ?? this.checked,
+      publisher: publisher ?? this.publisher,
+      title: title ?? this.title,
+      url: url ?? this.url,
+    );
+  }
+
+  CardSourceOut copyWithWrapped({
+    Wrapped<DateTime?>? checked,
+    Wrapped<String>? publisher,
+    Wrapped<String>? title,
+    Wrapped<String>? url,
+  }) {
+    return CardSourceOut(
+      checked: (checked != null ? checked.value : this.checked),
+      publisher: (publisher != null ? publisher.value : this.publisher),
+      title: (title != null ? title.value : this.title),
+      url: (url != null ? url.value : this.url),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class CardText {
+  const CardText({
+    this.cultural,
+    this.summary,
+    this.title,
+    this.warnings,
+    this.whenToCallExpert,
+  });
+
+  factory CardText.fromJson(Map<String, dynamic> json) =>
+      _$CardTextFromJson(json);
+
+  static const toJsonFactory = _$CardTextToJson;
+  Map<String, dynamic> toJson() => _$CardTextToJson(this);
+
+  @JsonKey(name: 'cultural', includeIfNull: false)
+  final String? cultural;
+  @JsonKey(name: 'summary', includeIfNull: false)
+  final String? summary;
+  @JsonKey(name: 'title', includeIfNull: false)
+  final String? title;
+  @JsonKey(name: 'warnings', includeIfNull: false)
+  final String? warnings;
+  @JsonKey(name: 'when_to_call_expert', includeIfNull: false)
+  final String? whenToCallExpert;
+  static const fromJsonFactory = _$CardTextFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is CardText &&
+            (identical(other.cultural, cultural) ||
+                const DeepCollectionEquality().equals(
+                  other.cultural,
+                  cultural,
+                )) &&
+            (identical(other.summary, summary) ||
+                const DeepCollectionEquality().equals(
+                  other.summary,
+                  summary,
+                )) &&
+            (identical(other.title, title) ||
+                const DeepCollectionEquality().equals(other.title, title)) &&
+            (identical(other.warnings, warnings) ||
+                const DeepCollectionEquality().equals(
+                  other.warnings,
+                  warnings,
+                )) &&
+            (identical(other.whenToCallExpert, whenToCallExpert) ||
+                const DeepCollectionEquality().equals(
+                  other.whenToCallExpert,
+                  whenToCallExpert,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(cultural) ^
+      const DeepCollectionEquality().hash(summary) ^
+      const DeepCollectionEquality().hash(title) ^
+      const DeepCollectionEquality().hash(warnings) ^
+      const DeepCollectionEquality().hash(whenToCallExpert) ^
+      runtimeType.hashCode;
+}
+
+extension $CardTextExtension on CardText {
+  CardText copyWith({
+    String? cultural,
+    String? summary,
+    String? title,
+    String? warnings,
+    String? whenToCallExpert,
+  }) {
+    return CardText(
+      cultural: cultural ?? this.cultural,
+      summary: summary ?? this.summary,
+      title: title ?? this.title,
+      warnings: warnings ?? this.warnings,
+      whenToCallExpert: whenToCallExpert ?? this.whenToCallExpert,
+    );
+  }
+
+  CardText copyWithWrapped({
+    Wrapped<String?>? cultural,
+    Wrapped<String?>? summary,
+    Wrapped<String?>? title,
+    Wrapped<String?>? warnings,
+    Wrapped<String?>? whenToCallExpert,
+  }) {
+    return CardText(
+      cultural: (cultural != null ? cultural.value : this.cultural),
+      summary: (summary != null ? summary.value : this.summary),
+      title: (title != null ? title.value : this.title),
+      warnings: (warnings != null ? warnings.value : this.warnings),
+      whenToCallExpert: (whenToCallExpert != null
+          ? whenToCallExpert.value
+          : this.whenToCallExpert),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class CardsResponse {
   const CardsResponse({required this.cards});
 
@@ -4176,6 +4368,188 @@ extension $GrantInExtension on GrantIn {
       reason: (reason != null ? reason.value : this.reason),
       subjectId: (subjectId != null ? subjectId.value : this.subjectId),
       subjectType: (subjectType != null ? subjectType.value : this.subjectType),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class GrowerCardOut {
+  const GrowerCardOut({
+    required this.crop,
+    required this.reviewed,
+    required this.sources,
+    required this.text,
+    required this.topic,
+    required this.topicKind,
+    required this.topicLabels,
+  });
+
+  factory GrowerCardOut.fromJson(Map<String, dynamic> json) =>
+      _$GrowerCardOutFromJson(json);
+
+  static const toJsonFactory = _$GrowerCardOutToJson;
+  Map<String, dynamic> toJson() => _$GrowerCardOutToJson(this);
+
+  @JsonKey(name: 'crop', includeIfNull: false)
+  final String crop;
+  @JsonKey(name: 'reviewed', includeIfNull: false)
+  final bool reviewed;
+  @JsonKey(
+    name: 'sources',
+    includeIfNull: false,
+    defaultValue: <CardSourceOut>[],
+  )
+  final List<CardSourceOut> sources;
+  @JsonKey(name: 'text', includeIfNull: false)
+  final Map<String, dynamic> text;
+  @JsonKey(name: 'topic', includeIfNull: false)
+  final String topic;
+  @JsonKey(name: 'topic_kind', includeIfNull: false)
+  final String topicKind;
+  @JsonKey(name: 'topic_labels', includeIfNull: false)
+  final Map<String, dynamic> topicLabels;
+  static const fromJsonFactory = _$GrowerCardOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is GrowerCardOut &&
+            (identical(other.crop, crop) ||
+                const DeepCollectionEquality().equals(other.crop, crop)) &&
+            (identical(other.reviewed, reviewed) ||
+                const DeepCollectionEquality().equals(
+                  other.reviewed,
+                  reviewed,
+                )) &&
+            (identical(other.sources, sources) ||
+                const DeepCollectionEquality().equals(
+                  other.sources,
+                  sources,
+                )) &&
+            (identical(other.text, text) ||
+                const DeepCollectionEquality().equals(other.text, text)) &&
+            (identical(other.topic, topic) ||
+                const DeepCollectionEquality().equals(other.topic, topic)) &&
+            (identical(other.topicKind, topicKind) ||
+                const DeepCollectionEquality().equals(
+                  other.topicKind,
+                  topicKind,
+                )) &&
+            (identical(other.topicLabels, topicLabels) ||
+                const DeepCollectionEquality().equals(
+                  other.topicLabels,
+                  topicLabels,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(crop) ^
+      const DeepCollectionEquality().hash(reviewed) ^
+      const DeepCollectionEquality().hash(sources) ^
+      const DeepCollectionEquality().hash(text) ^
+      const DeepCollectionEquality().hash(topic) ^
+      const DeepCollectionEquality().hash(topicKind) ^
+      const DeepCollectionEquality().hash(topicLabels) ^
+      runtimeType.hashCode;
+}
+
+extension $GrowerCardOutExtension on GrowerCardOut {
+  GrowerCardOut copyWith({
+    String? crop,
+    bool? reviewed,
+    List<CardSourceOut>? sources,
+    Map<String, dynamic>? text,
+    String? topic,
+    String? topicKind,
+    Map<String, dynamic>? topicLabels,
+  }) {
+    return GrowerCardOut(
+      crop: crop ?? this.crop,
+      reviewed: reviewed ?? this.reviewed,
+      sources: sources ?? this.sources,
+      text: text ?? this.text,
+      topic: topic ?? this.topic,
+      topicKind: topicKind ?? this.topicKind,
+      topicLabels: topicLabels ?? this.topicLabels,
+    );
+  }
+
+  GrowerCardOut copyWithWrapped({
+    Wrapped<String>? crop,
+    Wrapped<bool>? reviewed,
+    Wrapped<List<CardSourceOut>>? sources,
+    Wrapped<Map<String, dynamic>>? text,
+    Wrapped<String>? topic,
+    Wrapped<String>? topicKind,
+    Wrapped<Map<String, dynamic>>? topicLabels,
+  }) {
+    return GrowerCardOut(
+      crop: (crop != null ? crop.value : this.crop),
+      reviewed: (reviewed != null ? reviewed.value : this.reviewed),
+      sources: (sources != null ? sources.value : this.sources),
+      text: (text != null ? text.value : this.text),
+      topic: (topic != null ? topic.value : this.topic),
+      topicKind: (topicKind != null ? topicKind.value : this.topicKind),
+      topicLabels: (topicLabels != null ? topicLabels.value : this.topicLabels),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class GrowerCardsResponse {
+  const GrowerCardsResponse({required this.cards, this.kind});
+
+  factory GrowerCardsResponse.fromJson(Map<String, dynamic> json) =>
+      _$GrowerCardsResponseFromJson(json);
+
+  static const toJsonFactory = _$GrowerCardsResponseToJson;
+  Map<String, dynamic> toJson() => _$GrowerCardsResponseToJson(this);
+
+  @JsonKey(name: 'cards', includeIfNull: false, defaultValue: <GrowerCardOut>[])
+  final List<GrowerCardOut> cards;
+  @JsonKey(name: 'kind', includeIfNull: false)
+  final String? kind;
+  static const fromJsonFactory = _$GrowerCardsResponseFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is GrowerCardsResponse &&
+            (identical(other.cards, cards) ||
+                const DeepCollectionEquality().equals(other.cards, cards)) &&
+            (identical(other.kind, kind) ||
+                const DeepCollectionEquality().equals(other.kind, kind)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(cards) ^
+      const DeepCollectionEquality().hash(kind) ^
+      runtimeType.hashCode;
+}
+
+extension $GrowerCardsResponseExtension on GrowerCardsResponse {
+  GrowerCardsResponse copyWith({List<GrowerCardOut>? cards, String? kind}) {
+    return GrowerCardsResponse(
+      cards: cards ?? this.cards,
+      kind: kind ?? this.kind,
+    );
+  }
+
+  GrowerCardsResponse copyWithWrapped({
+    Wrapped<List<GrowerCardOut>>? cards,
+    Wrapped<String?>? kind,
+  }) {
+    return GrowerCardsResponse(
+      cards: (cards != null ? cards.value : this.cards),
+      kind: (kind != null ? kind.value : this.kind),
     );
   }
 }
