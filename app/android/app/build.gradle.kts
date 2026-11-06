@@ -28,7 +28,13 @@ if (productionBuild) {
 
 android {
     namespace = "app.bagmitra.bagmitra"
-    compileSdk = flutter.compileSdkVersion
+    // SDK levels are pinned here, not taken from the Flutter defaults, so a Flutter upgrade never
+    // changes them silently (audit RL-05). targetSdk 36 (Android 16): Google Play requires it for new
+    // apps and app updates from 31 Aug 2026 (developer.android.com/google/play/requirements/target-sdk).
+    // minSdk 24 (Android 7.0) is the lowest level the plugins accept (flutter_local_notifications,
+    // flutter_tts, app_links, image_picker_android, url_launcher_android). Raise them together with
+    // test/android/release_config_test.dart.
+    compileSdk = 36
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
@@ -43,15 +49,15 @@ android {
         applicationId = "app.bagmitra.bagmitra"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = flutter.minSdkVersion
-        targetSdk = flutter.targetSdkVersion
+        minSdk = 24
+        targetSdk = 36
         // Uses the version code from pubspec.yaml. When using split APKs, 1000 * ABI_VERSION
         // is added automatically by Flutter. (https://developer.android.com/studio/build/configure-apk-splits#configure-APK-versions)
         // You can force using the value of versionCode by specifying the `-P force-version-code-ignoring-abi=true`
         // flag during build.
-        // CI passes the run number so every build installs over the previous one. The Release APK
-        // workflow also passes -P force-version-code-ignoring-abi=true, so its arm64-v8a and
-        // armeabi-v7a APKs carry the same, ever-rising code (audit R5) that /v1/app/version compares.
+        // CI passes the run number so every build installs over the previous one. Both APK workflows
+        // also pass -P force-version-code-ignoring-abi=true, so every APK of one run (universal and
+        // per-CPU) carries the same, ever-rising code (audits R5 / BG-08); /v1/app/version compares it.
         versionCode = System.getenv("BUILD_NUMBER")?.toIntOrNull() ?: flutter.versionCode
         versionName = System.getenv("BUILD_NAME") ?: flutter.versionName
     }

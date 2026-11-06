@@ -7,7 +7,7 @@ name: Release APK
 #   (never the debug key), and the signature is checked after the build.
 # - arm64-v8a and armeabi-v7a only (no x86_64, no universal), obfuscated, symbols kept briefly.
 # - Both APKs carry the same version code: this workflow's run number, which only rises.
-# The Test APK workflow (release-test-apk.yml) is unchanged and stays the testers' build.
+# The Test APK workflow (release-test-apk.yml) stays the testers' build (same version-code rule).
 on:
   workflow_dispatch:
     inputs:

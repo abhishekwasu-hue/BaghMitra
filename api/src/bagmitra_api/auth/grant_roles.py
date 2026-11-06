@@ -12,8 +12,10 @@ Run once by hand, inside the API container on the server:
 The service role key is read from the environment only: never an argument (it would land in
 the shell history and the process list), never stored, never printed. The script finds the
 user by email with the Auth admin API and adds the roles to `app_metadata.roles`, keeping every
-role (and every other app_metadata key) already there. `--dry-run` only shows the change.
-The user signs out and in again so the new access token carries the roles.
+role (and every other app_metadata key) already there. `--remove --roles <list>` takes the
+listed roles away instead and keeps the rest (audit LG-07). `--dry-run` only shows the change.
+The user signs out and in again so the new access token carries the change; until then (at
+most the token's lifetime) the old token keeps the old roles.
 """
 
 from __future__ import annotations
@@ -80,15 +82,21 @@ def find_user(client: httpx.Client, email: str) -> dict[str, Any]:
 
 
 def grant(
-    client: httpx.Client, email: str, roles: Sequence[str], *, dry_run: bool = False
+    client: httpx.Client,
+    email: str,
+    roles: Sequence[str],
+    *,
+    dry_run: bool = False,
+    remove: bool = False,
 ) -> tuple[list[str], list[str]]:
-    """Return (roles before, roles after) for the user; writes only when something changes."""
+    """Return (roles before, roles after) for the user; writes only when something changes.
+    With `remove` the roles are taken away instead of added."""
     user = find_user(client, email)
     meta = user.get("app_metadata")
     meta = meta if isinstance(meta, dict) else {}
     current = meta.get("roles")
     before = sorted(r for r in current if isinstance(r, str)) if isinstance(current, list) else []
-    after = sorted(set(before) | set(roles))
+    after = sorted(set(before) - set(roles)) if remove else sorted(set(before) | set(roles))
     if after != before and not dry_run:
         # The whole app_metadata goes back with only `roles` changed, so every other key is
         # kept whether the server merges or replaces it.
@@ -104,7 +112,12 @@ def main(argv: Sequence[str] | None = None, *, transport: httpx.BaseTransport | 
     parser = argparse.ArgumentParser(description=__doc__.split("\n\n", 1)[0])
     parser.add_argument("--supabase-url", default=os.environ.get("SUPABASE_URL", ""))
     parser.add_argument("--email", required=True)
-    parser.add_argument("--roles", default=",".join(DEFAULT_ROLES), help="comma separated")
+    parser.add_argument(
+        "--roles", default=None, help=f"comma separated (default {','.join(DEFAULT_ROLES)})"
+    )
+    parser.add_argument(
+        "--remove", action="store_true", help="take the --roles away instead of adding them"
+    )
     parser.add_argument("--dry-run", action="store_true", help="show the change, write nothing")
     args = parser.parse_args(argv)
     key = os.environ.get(KEY_ENV, "").strip()
@@ -112,11 +125,15 @@ def main(argv: Sequence[str] | None = None, *, transport: httpx.BaseTransport | 
         if not key:
             raise GrantError(f"set {KEY_ENV} in the environment (read -rs, never an argument)")
         base_url = _check_url(args.supabase_url)
-        roles = _check_roles(args.roles.split(","))
+        if args.remove and args.roles is None:
+            raise GrantError("--remove needs --roles: name the role(s) to take away")
+        roles = _check_roles((args.roles or ",".join(DEFAULT_ROLES)).split(","))
         with httpx.Client(
             base_url=base_url, headers=_headers(key), timeout=20, transport=transport
         ) as client:
-            before, after = grant(client, args.email, roles, dry_run=args.dry_run)
+            before, after = grant(
+                client, args.email, roles, dry_run=args.dry_run, remove=args.remove
+            )
     except GrantError as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
         return 2
@@ -125,7 +142,7 @@ def main(argv: Sequence[str] | None = None, *, transport: httpx.BaseTransport | 
         print(f"ERROR: Supabase request failed: {type(exc).__name__}", file=sys.stderr)
         return 1
     if before == after:
-        print(f"{args.email}: already has {after}; nothing changed")
+        print(f"{args.email}: roles already {after}; nothing changed")
     elif args.dry_run:
         print(f"{args.email}: would change roles {before} -> {after} (dry run, nothing written)")
     else:
