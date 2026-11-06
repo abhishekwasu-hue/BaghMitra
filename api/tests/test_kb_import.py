@@ -3,6 +3,8 @@ version-dated with a diff report; removals end-date rows instead of deleting the
 
 from __future__ import annotations
 
+import csv
+import io
 from datetime import UTC, date, datetime
 
 import pytest
@@ -114,3 +116,92 @@ async def test_unknown_source_is_refused(engine: AsyncEngine) -> None:
 def test_duplicate_claim_rows_are_rejected() -> None:
     with pytest.raises(KbImportError, match="duplicate"):
         parse_label_claims(CLAIMS_V1 + "Imidacloprid,17.8 SL,Citrus,Psylla,per label,,15,\n")
+
+
+DETAIL_HEADER = (
+    "source_key,edition,page_ref,crop,target,active_ingredient,formulation,category,"
+    "formulation_qty,dose_ai,dose,dilution,interval_days,phi_days,max_sprays,description,"
+    "brand_names,maker_url,photo_url\n"
+)
+# The shape of seed_data/label_claims_citrus.csv; values are test fixtures, not label data.
+DETAIL_SAMPLE = DETAIL_HEADER + (
+    "cibrc_fungicides_2024,as on 31.03.2024,p. 9 S.No. 4,citrus,gummosis,fixture a,50 WP,"
+    "chemical,500 g,250 g,,500-1000,,30,,Contact.,zeta brand; Alpha brand;beta,"
+    "https://maker.example/a,\n"
+    "cibrc_fungicides_2024,as on 31.03.2024,p. 70 S.No. 2,citrus,foot rot,fixture bio,1% WP,"
+    "bio,,,2.5 kg/ha,,,,,Living fungus.,,,\n"
+)
+
+
+def test_detail_columns_are_parsed_as_printed() -> None:
+    rows = parse_label_claims(DETAIL_SAMPLE, "cibrc_fungicides_2024")
+    chem, bio = rows
+    assert chem.dose == "500 g/ha (a.i. 250 g/ha)"  # built from the two printed columns
+    assert (chem.dilution, chem.page_ref, chem.phi_days) == ("500-1000", "p. 9 S.No. 4", 30)
+    assert chem.brand_names == ("Alpha brand", "beta", "zeta brand")  # alphabetical, no rank
+    assert (chem.category, chem.maker_url, chem.photo_url) == (
+        "chemical",
+        "https://maker.example/a",
+        None,
+    )
+    assert (bio.category, bio.dose, bio.brand_names) == ("bio", "2.5 kg/ha", ())
+
+
+@pytest.mark.parametrize(
+    ("old", "new", "message"),
+    [
+        ("https://maker.example/a", "http://maker.example/a", "https://"),
+        (",chemical,", ",pesticide,", "unknown category"),
+        ("cibrc_fungicides_2024,as on 31.03.2024,p. 9", "other_doc,x,p. 9", "not 'cibrc"),
+    ],
+)
+def test_detail_columns_are_validated(old: str, new: str, message: str) -> None:
+    with pytest.raises(KbImportError, match=message):
+        parse_label_claims(DETAIL_SAMPLE.replace(old, new, 1), "cibrc_fungicides_2024")
+
+
+def test_shipped_extract_parses_and_names_its_sources() -> None:
+    """The shipped CSV is only ever filled from a fetched document: every row names a
+    source that is registered and marked read in the fetch log."""
+    import json  # noqa: PLC0415
+    from importlib import resources  # noqa: PLC0415
+
+    from bagmitra_api.kb.seed import label_claim_seed_text, source_seeds  # noqa: PLC0415
+
+    text = label_claim_seed_text()
+    assert text.splitlines()[0] + "\n" == DETAIL_HEADER
+    rows = list(csv.DictReader(io.StringIO(text)))
+    parse_label_claims(text)
+    log = json.loads(
+        resources.files("bagmitra_api.kb.seed_data")
+        .joinpath("label_claims_fetch_log.json")
+        .read_text("utf-8")
+    )
+    status = {d["source_key"]: d["status"] for d in log["documents"]}
+    registered = {s.key for s in source_seeds()}
+    assert set(status) <= registered
+    for r in rows:
+        assert status.get(r["source_key"]) == "read", r
+        assert r["edition"], r
+        assert r["page_ref"], r
+        assert r["crop"].lower() not in {"acid lime", "lemon"}, r
+
+
+async def test_seed_imports_only_sources_with_rows(engine: AsyncEngine) -> None:
+    from bagmitra_api.kb.seed import seed_label_claims  # noqa: PLC0415
+
+    async with async_sessionmaker(engine)() as session:
+        await seed_sources(session)
+        await import_label_claims(session, "cibrc_insecticides_pgr", CLAIMS_V1, T1)
+        assert await seed_label_claims(session, T2, DETAIL_HEADER) == {}  # empty: no-op
+        diffs = await seed_label_claims(session, T2, DETAIL_SAMPLE)
+        assert list(diffs) == ["cibrc_fungicides_2024"]
+        assert diffs["cibrc_fungicides_2024"].added == 2
+        await session.commit()
+        ctx = await load_context(
+            session, crop_aliases=frozenset({"citrus"}), crop_groups=frozenset(), now=T2
+        )
+    by_ai = {c.active_ingredient: c for c in ctx.claims}
+    assert {"imidacloprid", "copper oxychloride"} <= set(by_ai)  # admin upload kept
+    assert by_ai["fixture bio"].category == "bio"
+    assert by_ai["fixture a"].brand_names == ("Alpha brand", "beta", "zeta brand")

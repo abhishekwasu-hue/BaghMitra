@@ -2710,4 +2710,52 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get labelReadNote => 'छिड़काव से पहले पैकेट पर लिखा लेबल पढ़ें।';
+
+  @override
+  String get labelInfoChemical => 'रासायनिक';
+
+  @override
+  String get labelInfoBio => '🌿 जैविक (पंजीकृत जैव-कीटनाशक)';
+
+  @override
+  String labelInfoDilution(String value) {
+    return 'लेबल पर पानी: $value लीटर प्रति हेक्टेयर';
+  }
+
+  @override
+  String labelInfoBrands(String names) {
+    return 'बाज़ार के नाम (वर्णक्रम में, केवल सूची): $names';
+  }
+
+  @override
+  String get labelInfoMakerPage => 'निर्माता का उत्पाद पेज';
+
+  @override
+  String labelInfoTargetPrinted(String target) {
+    return 'लेबल पर कीट/रोग: $target';
+  }
+
+  @override
+  String labelInfoPage(String page) {
+    return 'स्रोत में पृष्ठ: $page';
+  }
+
+  @override
+  String labelInfoNoClaim(String target) {
+    return '$target: नींबू वर्गीय फसलों के लिए कोई पंजीकृत लेबल जानकारी नहीं।';
+  }
+
+  @override
+  String get labelInfoBanned => 'प्रतिबंधित: उपयोग न करें';
+
+  @override
+  String get labelInfoRestricted => 'इस फसल के लिए सीमित: उपयोग न करें';
+
+  @override
+  String get labelInfoAllTargets => 'सभी कीट और रोग';
+
+  @override
+  String labelInfoOpenFor(String target) {
+    return 'लेबल जानकारी: $target';
+  }
 }

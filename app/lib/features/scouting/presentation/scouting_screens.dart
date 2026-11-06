@@ -15,6 +15,7 @@ import '../../../design_system/glyphs.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../../bahar/presentation/cycle_chips.dart';
+import '../../labels/presentation/label_info_screen.dart';
 import '../../voice/presentation/voice_mic_button.dart';
 import '../data/scouting_photos.dart';
 import '../domain/scouting_record.dart';
@@ -108,6 +109,7 @@ class ScoutingScreen extends ConsumerWidget {
     final lang = Localizations.localeOf(context).languageCode;
     final loaded = ref.watch(scoutingRecordsProvider(plotId));
     final records = loaded.value ?? const [];
+    final labelLinks = ref.watch(labelTargetsProvider).value?.scoutingItems;
     Color tone(String severity) => switch (severity) {
       'high' => c.danger,
       'medium' => c.soil,
@@ -169,6 +171,15 @@ class ScoutingScreen extends ConsumerWidget {
                               Text(
                                 r.note!,
                                 style: BmType.body.copyWith(color: c.inkMuted),
+                              ),
+                            ],
+                            // Registered label information for what was seen (Q57).
+                            if (labelLinks?[r.item] case final keys?) ...[
+                              const SizedBox(height: BmSpace.xs),
+                              LabelInfoLinks(
+                                keys: keys,
+                                plotId: plotId,
+                                idPrefix: 'scouting-label-${r.id}',
                               ),
                             ],
                           ],

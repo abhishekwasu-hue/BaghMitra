@@ -768,5 +768,17 @@
   "priceChangeDown": "पिछले सप्ताह से {pct} गिरावट",
   "generalInfoNote": "सार्वजनिक स्रोतों से सामान्य जानकारी। अमल से पहले अपने KVK से पुष्टि करें।",
   "generalInfoSource": "स्रोत: {source} · जाँचा {date}",
-  "labelReadNote": "छिड़काव से पहले पैकेट पर लिखा लेबल पढ़ें।"
+  "labelReadNote": "छिड़काव से पहले पैकेट पर लिखा लेबल पढ़ें।",
+  "labelInfoChemical": "रासायनिक",
+  "labelInfoBio": "🌿 जैविक (पंजीकृत जैव-कीटनाशक)",
+  "labelInfoDilution": "लेबल पर पानी: {value} लीटर प्रति हेक्टेयर",
+  "labelInfoBrands": "बाज़ार के नाम (वर्णक्रम में, केवल सूची): {names}",
+  "labelInfoMakerPage": "निर्माता का उत्पाद पेज",
+  "labelInfoTargetPrinted": "लेबल पर कीट/रोग: {target}",
+  "labelInfoPage": "स्रोत में पृष्ठ: {page}",
+  "labelInfoNoClaim": "{target}: नींबू वर्गीय फसलों के लिए कोई पंजीकृत लेबल जानकारी नहीं।",
+  "labelInfoBanned": "प्रतिबंधित: उपयोग न करें",
+  "labelInfoRestricted": "इस फसल के लिए सीमित: उपयोग न करें",
+  "labelInfoAllTargets": "सभी कीट और रोग",
+  "labelInfoOpenFor": "लेबल जानकारी: {target}"
 }

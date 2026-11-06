@@ -16,6 +16,7 @@ import 'package:bagmitra/features/field_work/data/field_work_options.dart';
 import 'package:bagmitra/features/home/data/demo_home_repository.dart';
 import 'package:bagmitra/features/inputs/data/input_kinds.dart';
 import 'package:bagmitra/features/lab_tests/data/lab_parameters.dart';
+import 'package:bagmitra/features/labels/data/label_targets.dart';
 import 'package:bagmitra/features/lookalikes/data/lookalike_cards.dart';
 import 'package:bagmitra/features/plots/data/crop_catalog.dart';
 import 'package:bagmitra/features/plots/data/location_service.dart';
@@ -213,6 +214,9 @@ Future<AppDatabase> pumpApp(
         ),
         lookalikeCardsConfigProvider.overrideWithValue(
           LookalikeCardsConfig(bundle: FileAssetBundle()),
+        ),
+        labelTargetsConfigProvider.overrideWithValue(
+          LabelTargetsConfig(bundle: FileAssetBundle()),
         ),
         labDirectoryConfigProvider.overrideWithValue(
           DirectoryConfig(DirectoryConfig.labs, bundle: FileAssetBundle()),

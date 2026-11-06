@@ -4719,6 +4719,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Read the label on the packet before spraying.'**
   String get labelReadNote;
+
+  /// No description provided for @labelInfoChemical.
+  ///
+  /// In en, this message translates to:
+  /// **'Chemical'**
+  String get labelInfoChemical;
+
+  /// No description provided for @labelInfoBio.
+  ///
+  /// In en, this message translates to:
+  /// **'🌿 Organic / bio (registered biopesticides)'**
+  String get labelInfoBio;
+
+  /// No description provided for @labelInfoDilution.
+  ///
+  /// In en, this message translates to:
+  /// **'Water on label: {value} L per hectare'**
+  String labelInfoDilution(String value);
+
+  /// No description provided for @labelInfoBrands.
+  ///
+  /// In en, this message translates to:
+  /// **'Brand names (A–Z, a plain list): {names}'**
+  String labelInfoBrands(String names);
+
+  /// No description provided for @labelInfoMakerPage.
+  ///
+  /// In en, this message translates to:
+  /// **'Maker\'s product page'**
+  String get labelInfoMakerPage;
+
+  /// No description provided for @labelInfoTargetPrinted.
+  ///
+  /// In en, this message translates to:
+  /// **'Target on label: {target}'**
+  String labelInfoTargetPrinted(String target);
+
+  /// No description provided for @labelInfoPage.
+  ///
+  /// In en, this message translates to:
+  /// **'Page in source: {page}'**
+  String labelInfoPage(String page);
+
+  /// No description provided for @labelInfoNoClaim.
+  ///
+  /// In en, this message translates to:
+  /// **'No registered label claim for {target} on citrus.'**
+  String labelInfoNoClaim(String target);
+
+  /// No description provided for @labelInfoBanned.
+  ///
+  /// In en, this message translates to:
+  /// **'Banned: do not use'**
+  String get labelInfoBanned;
+
+  /// No description provided for @labelInfoRestricted.
+  ///
+  /// In en, this message translates to:
+  /// **'Restricted for this crop: do not use'**
+  String get labelInfoRestricted;
+
+  /// No description provided for @labelInfoAllTargets.
+  ///
+  /// In en, this message translates to:
+  /// **'All pests and diseases'**
+  String get labelInfoAllTargets;
+
+  /// No description provided for @labelInfoOpenFor.
+  ///
+  /// In en, this message translates to:
+  /// **'Label information: {target}'**
+  String labelInfoOpenFor(String target);
 }
 
 class _AppLocalizationsDelegate

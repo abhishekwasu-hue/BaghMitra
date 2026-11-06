@@ -62,3 +62,21 @@ async def test_restrictions_need_their_source(engine: AsyncEngine) -> None:
     async with async_sessionmaker(engine)() as session:
         with pytest.raises(LookupError, match="ppqs_banned_restricted"):
             await seed_restrictions(session)
+
+
+async def test_restriction_seed_synonyms_become_kb_synonyms(
+    engine: AsyncEngine, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from bagmitra_api.kb import seed as seed_mod  # noqa: PLC0415
+    from bagmitra_api.kb.models import KbSynonym  # noqa: PLC0415
+
+    key, rows = seed_mod.restriction_seeds()
+    rows[0] = rows[0].model_copy(update={"synonyms": ["Fixture Trade Name"]})
+    monkeypatch.setattr(seed_mod, "restriction_seeds", lambda: (key, rows))
+    async with async_sessionmaker(engine)() as session:
+        await seed_mod.seed_sources(session)
+        await seed_mod.seed_restrictions(session)
+        await seed_mod.seed_restrictions(session)  # idempotent
+        await session.commit()
+        names = [(s.name, s.active_ingredient) for s in await session.scalars(select(KbSynonym))]
+    assert names == [("Fixture Trade Name", rows[0].active_ingredient)]

@@ -768,5 +768,17 @@
   "priceChangeDown": "गेल्या आठवड्यापेक्षा {pct} घट",
   "generalInfoNote": "सार्वजनिक स्रोतांतील सर्वसाधारण माहिती. अमलात आणण्यापूर्वी आपल्या KVK कडून खात्री करा.",
   "generalInfoSource": "स्रोत: {source} · तपासले {date}",
-  "labelReadNote": "फवारणीपूर्वी पाकिटावरील लेबल वाचा."
+  "labelReadNote": "फवारणीपूर्वी पाकिटावरील लेबल वाचा.",
+  "labelInfoChemical": "रासायनिक",
+  "labelInfoBio": "🌿 जैविक (नोंदणीकृत जैविक कीटकनाशके)",
+  "labelInfoDilution": "लेबलवरील पाणी: {value} लिटर प्रति हेक्टर",
+  "labelInfoBrands": "बाजारातील नावे (अकारविल्हे, फक्त यादी): {names}",
+  "labelInfoMakerPage": "उत्पादकाचे उत्पादन पान",
+  "labelInfoTargetPrinted": "लेबलवरील कीड/रोग: {target}",
+  "labelInfoPage": "स्रोतातील पान: {page}",
+  "labelInfoNoClaim": "{target}: लिंबूवर्गीय पिकांसाठी नोंदणीकृत लेबल माहिती नाही.",
+  "labelInfoBanned": "बंदी: वापरू नका",
+  "labelInfoRestricted": "या पिकासाठी निर्बंध: वापरू नका",
+  "labelInfoAllTargets": "सर्व कीड व रोग",
+  "labelInfoOpenFor": "लेबल माहिती: {target}"
 }

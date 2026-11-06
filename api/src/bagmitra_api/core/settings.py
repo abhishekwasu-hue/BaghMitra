@@ -131,11 +131,12 @@ class Settings(BaseSettings):
     kb_max_verbatim_words: int = 12
     # Our crop key -> crop names as written on CIB&RC labels, and crop groups used by
     # gazette restrictions (OPEN_QUESTIONS Q15, owner-confirmed: orange = santra/mandarin,
-    # sweet lime = mosambi). Unmapped label names never match, so the gate stays closed.
+    # sweet lime = mosambi; WP4 owner order: mosambi also = sweet orange). Acid lime / lemon
+    # are other crops. Unmapped label names never match, so the gate stays closed.
     kb_crop_label_aliases: dict[str, list[str]] = Field(
         default_factory=lambda: {
             "santra": ["citrus", "mandarin", "orange", "santra"],
-            "mosambi": ["citrus", "sweet lime", "mosambi"],
+            "mosambi": ["citrus", "sweet orange", "sweet lime", "mosambi"],
         }
     )
     # Reviewer roles accepted on a card review (addendum §6).

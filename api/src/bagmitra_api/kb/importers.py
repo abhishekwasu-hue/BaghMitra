@@ -13,6 +13,7 @@ from __future__ import annotations
 import asyncio
 import csv
 import io
+import re
 import sys
 import uuid
 from dataclasses import asdict, dataclass
@@ -35,6 +36,22 @@ CLAIM_COLUMNS = (
     "phi_days",
     "max_sprays",
 )
+# Optional (owner Q57, migration 0028): the rest of the printed row and plain product facts.
+# `brand_names` is ";"-separated. `source_key` / `edition` say which document a row came from;
+# a row naming another source than the one being imported is refused.
+DETAIL_COLUMNS = (
+    "category",
+    "dilution",
+    "page_ref",
+    "description",
+    "brand_names",
+    "maker_url",
+    "photo_url",
+)
+# The Major Uses table prints "Dosage/ha: a.i. (g)" and "Formulation (g or ml)" apart: when
+# `dose` is empty it is built from `formulation_qty` and `dose_ai` exactly as printed,
+# e.g. "500 g/ha (a.i. 250 g/ha)".
+CATEGORIES = frozenset({"chemical", "bio"})
 RESTRICTION_COLUMNS = (
     "active_ingredient",
     "kind",
@@ -62,6 +79,13 @@ class ClaimRow:
     interval_days: int | None
     phi_days: int | None
     max_sprays: int | None
+    category: str = "chemical"
+    dilution: str | None = None
+    page_ref: str | None = None
+    description: str | None = None
+    brand_names: tuple[str, ...] = ()
+    maker_url: str | None = None
+    photo_url: str | None = None
 
     @property
     def key(self) -> tuple[str, str, str, str]:
@@ -84,6 +108,9 @@ class ImportDiff:
     changed: int
     removed: int
     unchanged: int
+
+
+_SPACE = re.compile(r"\s+")
 
 
 def _norm(text: str) -> str:
@@ -116,12 +143,41 @@ def _split(value: str) -> tuple[str, ...]:
     return tuple(sorted({_norm(v) for v in value.split(";") if v.strip()}))
 
 
-def parse_label_claims(text: str) -> list[ClaimRow]:
+def _opt(row: dict[str, str], name: str) -> str | None:
+    return row.get(name) or None
+
+
+def _url(row: dict[str, str], name: str) -> str | None:
+    value = _opt(row, name)
+    if value is not None and (not value.startswith("https://") or any(c.isspace() for c in value)):
+        raise ValueError(f"{name} must be an https:// link: {value!r}")
+    return value
+
+
+def _brands(value: str) -> tuple[str, ...]:
+    """A plain alphabetical list, no ranking (owner Q57)."""
+    names = {_SPACE.sub(" ", v.strip()) for v in value.split(";") if v.strip()}
+    return tuple(sorted(names, key=lambda b: (b.casefold(), b)))
+
+
+def _category(row: dict[str, str]) -> str:
+    value = (row.get("category") or "chemical").lower()
+    if value not in CATEGORIES:
+        raise ValueError(f"unknown category {value!r}")
+    return value
+
+
+def parse_label_claims(text: str, source_key: str | None = None) -> list[ClaimRow]:
     out: list[ClaimRow] = []
     errors: list[str] = []
     for n, r in _rows(text, CLAIM_COLUMNS):
         try:
+            if not r["dose"] and r.get("formulation_qty"):
+                ai = r.get("dose_ai")
+                r["dose"] = f"{r['formulation_qty']}/ha" + (f" (a.i. {ai}/ha)" if ai else "")
             _required(r, CLAIM_COLUMNS[:5])
+            if source_key is not None and r.get("source_key") not in (None, "", source_key):
+                raise ValueError(f"row is from {r['source_key']!r}, not {source_key!r}")
             row = ClaimRow(
                 active_ingredient=_norm(r["active_ingredient"]),
                 formulation=_norm(r["formulation"]),
@@ -131,6 +187,13 @@ def parse_label_claims(text: str) -> list[ClaimRow]:
                 interval_days=_int(r["interval_days"]),
                 phi_days=_int(r["phi_days"]),
                 max_sprays=_int(r["max_sprays"]),
+                category=_category(r),
+                dilution=_opt(r, "dilution"),
+                page_ref=_opt(r, "page_ref"),
+                description=_opt(r, "description"),
+                brand_names=_brands(r.get("brand_names", "")),
+                maker_url=_url(r, "maker_url"),
+                photo_url=_url(r, "photo_url"),
             )
         except ValueError as exc:
             errors.append(f"row {n}: {exc}")
@@ -185,7 +248,20 @@ def _claim_of(row: KbLabelClaim) -> ClaimRow:
         row.interval_days,
         row.phi_days,
         row.max_sprays,
+        row.category,
+        row.dilution,
+        row.page_ref,
+        row.description,
+        tuple(row.brand_names or ()),
+        row.maker_url,
+        row.photo_url,
     )
+
+
+def _stored(claim: ClaimRow) -> dict[str, object]:
+    values: dict[str, object] = {c: getattr(claim, c) for c in CLAIM_COLUMNS + DETAIL_COLUMNS}
+    values["brand_names"] = list(claim.brand_names)
+    return values
 
 
 async def _record(session: AsyncSession, what: str, diff: ImportDiff, at: datetime) -> None:
@@ -199,7 +275,7 @@ async def import_label_claims(
     session: AsyncSession, source_key: str, text: str, at: datetime
 ) -> ImportDiff:
     source = await _source(session, source_key)
-    incoming = {c.key: c for c in parse_label_claims(text)}
+    incoming = {c.key: c for c in parse_label_claims(text, source_key)}
     current = {
         (r.active_ingredient, r.formulation, r.crop, r.target): r
         for r in await session.scalars(
@@ -226,7 +302,7 @@ async def import_label_claims(
         session.add(
             KbLabelClaim(
                 id=uuid.uuid4(),
-                **{c: getattr(claim, c) for c in CLAIM_COLUMNS},
+                **_stored(claim),
                 source_id=source.id,
                 valid_from=at,
             )

@@ -1,0 +1,46 @@
+{
+  "_note": "Owner decision Q57 / WP4. Every CIB&RC / PPQS document the citrus label extract in label_claims_citrus.csv must come from. A row is added to the CSV only from a document whose status is 'read', with its source_key, edition and page_ref; nothing is written from memory or from secondary sites. Brand names and maker links only from an official registrant list or the maker's own product page for that active ingredient.",
+  "crop_rules": {
+    "santra": "rows printed as citrus, mandarin, orange (acid lime / lemon rows excluded)",
+    "mosambi": "rows printed as citrus, sweet orange, sweet lime, mosambi (acid lime / lemon rows excluded)"
+  },
+  "csv_columns": "dose: as printed; when empty it is built from formulation_qty and dose_ai exactly as printed, e.g. '500 g/ha (a.i. 250 g/ha)'. dilution: 'Dilution in water (L/ha)' as printed. category: chemical | bio. brand_names: ';'-separated, shown alphabetically.",
+  "documents": [
+    {
+      "source_key": "cibrc_fungicides_2024",
+      "what": "Major Uses of Pesticides: fungicides (incl. bio-fungicides)",
+      "edition": "as on 31.03.2024",
+      "url": "https://ppqs.gov.in/sites/default/files/fungicides_31.03.2024.pdf",
+      "status": "fetch_failed",
+      "attempted": "2026-11-06",
+      "reason": "HTTP 403 from ppqs.gov.in to the cloud development environment; the web-fetch tool cannot resolve the host"
+    },
+    {
+      "source_key": "cibrc_bio_insecticides_2024",
+      "what": "Major Uses of Pesticides: insecticides and bio-insecticides",
+      "edition": "as on 31.03.2024",
+      "url": "https://ppqs.gov.in/sites/default/files/major_uses_of_pesticides_insecticides_bio_insecticides_as_on_31.03.2024.pdf",
+      "status": "fetch_failed",
+      "attempted": "2026-11-06",
+      "reason": "HTTP 403 from ppqs.gov.in to the cloud development environment; the web-fetch tool cannot resolve the host"
+    },
+    {
+      "source_key": "cibrc_insecticides_pgr",
+      "what": "Public notice: updation of Major Uses (index of the current PDFs)",
+      "edition": "not known until read",
+      "url": "https://ppqs.gov.in/sites/default/files/public_notice-updation.pdf",
+      "status": "fetch_failed",
+      "attempted": "2026-11-06",
+      "reason": "HTTP 403 from ppqs.gov.in to the cloud development environment"
+    },
+    {
+      "source_key": "ppqs_banned_restricted",
+      "what": "List of pesticides banned, refused registration and restricted in use",
+      "edition": "not known until read",
+      "url": "https://ppqs.gov.in/sites/default/files/list_of_pesticides_which_are_banned_refused_registration_and_restricted_in_use_0.pdf",
+      "status": "fetch_failed",
+      "attempted": "2026-11-06",
+      "reason": "HTTP 403 from ppqs.gov.in to the cloud development environment; restrictions.json therefore keeps its 8 rows from addendum v1.3 §3.8 and no synonyms were added"
+    }
+  ]
+}

@@ -4,6 +4,20 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:collection/collection.dart';
 
+enum BlockedClaimOutReason {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('banned')
+  banned('banned'),
+  @JsonValue('restricted_for_crop')
+  restrictedForCrop('restricted_for_crop');
+
+  final String? value;
+
+  const BlockedClaimOutReason(this.value);
+}
+
 enum ChangeOp {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
@@ -128,6 +142,20 @@ enum GrantInSubjectType {
   final String? value;
 
   const GrantInSubjectType(this.value);
+}
+
+enum LabelClaimOutCategory {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('chemical')
+  chemical('chemical'),
+  @JsonValue('bio')
+  bio('bio');
+
+  final String? value;
+
+  const LabelClaimOutCategory(this.value);
 }
 
 enum MutationOp {

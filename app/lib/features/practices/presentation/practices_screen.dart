@@ -7,6 +7,7 @@ import '../../../app/router.dart';
 import '../../../design_system/app_bar_title.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
+import '../../labels/presentation/label_info_screen.dart';
 import '../data/practice_cards.dart';
 
 /// Non-chemical orchard practices from published sources, grouped by problem. Every practice
@@ -20,6 +21,7 @@ class PracticesScreen extends ConsumerWidget {
     final c = context.bm;
     final lang = Localizations.localeOf(context).languageCode;
     final data = ref.watch(practiceCardsProvider).value;
+    final labelLinks = ref.watch(labelTargetsProvider).value?.practiceSections;
 
     String evidence(String e) => switch (e) {
       'official' => t.practicesEvidenceOfficial,
@@ -82,7 +84,18 @@ class PracticesScreen extends ConsumerWidget {
                     childrenPadding: EdgeInsets.zero,
                     expandedCrossAxisAlignment: CrossAxisAlignment.start,
                     title: Text(s.label(lang), style: BmType.bodyStrong),
-                    children: [for (final p in s.items) item(p)],
+                    children: [
+                      for (final p in s.items) item(p),
+                      // Registered label information for this section's pests (Q57).
+                      if (labelLinks?[s.key] case final keys?)
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: BmSpace.md),
+                          child: LabelInfoLinks(
+                            keys: keys,
+                            idPrefix: 'practice-label-${s.key}',
+                          ),
+                        ),
+                    ],
                   ),
                 if (data.gaps.isNotEmpty) ...[
                   const SizedBox(height: BmSpace.lg),

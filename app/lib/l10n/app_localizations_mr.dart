@@ -2708,4 +2708,52 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get labelReadNote => 'फवारणीपूर्वी पाकिटावरील लेबल वाचा.';
+
+  @override
+  String get labelInfoChemical => 'रासायनिक';
+
+  @override
+  String get labelInfoBio => '🌿 जैविक (नोंदणीकृत जैविक कीटकनाशके)';
+
+  @override
+  String labelInfoDilution(String value) {
+    return 'लेबलवरील पाणी: $value लिटर प्रति हेक्टर';
+  }
+
+  @override
+  String labelInfoBrands(String names) {
+    return 'बाजारातील नावे (अकारविल्हे, फक्त यादी): $names';
+  }
+
+  @override
+  String get labelInfoMakerPage => 'उत्पादकाचे उत्पादन पान';
+
+  @override
+  String labelInfoTargetPrinted(String target) {
+    return 'लेबलवरील कीड/रोग: $target';
+  }
+
+  @override
+  String labelInfoPage(String page) {
+    return 'स्रोतातील पान: $page';
+  }
+
+  @override
+  String labelInfoNoClaim(String target) {
+    return '$target: लिंबूवर्गीय पिकांसाठी नोंदणीकृत लेबल माहिती नाही.';
+  }
+
+  @override
+  String get labelInfoBanned => 'बंदी: वापरू नका';
+
+  @override
+  String get labelInfoRestricted => 'या पिकासाठी निर्बंध: वापरू नका';
+
+  @override
+  String get labelInfoAllTargets => 'सर्व कीड व रोग';
+
+  @override
+  String labelInfoOpenFor(String target) {
+    return 'लेबल माहिती: $target';
+  }
 }

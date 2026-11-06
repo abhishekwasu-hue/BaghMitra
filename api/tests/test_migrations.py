@@ -224,7 +224,7 @@ def test_postgres_client_roles_lose_every_grant() -> None:
         ).scalar_one()
         assert rls is True
         # The migrating / API role still reads and writes alembic_version and the tables.
-        assert conn.execute(text("SELECT version_num FROM alembic_version")).scalar_one() == "0027"
+        assert conn.execute(text("SELECT version_num FROM alembic_version")).scalar_one() == "0028"
         assert conn.execute(text("SELECT count(*) FROM account_deletions")).scalar_one() == 0
     # Reversible, and a revert never hands the privileges back.
     command.downgrade(cfg, "0024")
@@ -288,4 +288,48 @@ def test_0027_is_idempotent_and_reversible(tmp_path: Path) -> None:
         assert "payload_purged_at" not in cols
         conn.execute(text("UPDATE alembic_version SET version_num = '0027'"))
     command.downgrade(cfg, "0026")  # nothing left to drop: no error
+    engine.dispose()
+
+
+def test_0028_label_claim_details_idempotent_and_reversible(tmp_path: Path) -> None:
+    """WP4: the label-claim detail columns are added once, keep existing rows (category
+    'chemical', no brand names), and the downgrade can run twice."""
+    url = f"sqlite+aiosqlite:///{tmp_path / 'm.db'}"
+    cfg = _config(url)
+    command.upgrade(cfg, "0027")
+    engine = create_engine(_sync_url(url))
+    with engine.begin() as conn:
+        conn.execute(
+            text(
+                "INSERT INTO kb_sources (id, key, title, publisher, url, tier, licence, "
+                "allowed_use, verification, fetch_status, created_at, updated_at) VALUES "
+                "('s1', 'src', 't', 'p', 'https://x', 'tier2', 'l', 'cite_only', 'V', "
+                "'not_fetched', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)"
+            )
+        )
+        conn.execute(
+            text(
+                "INSERT INTO kb_label_claims (id, active_ingredient, formulation, crop, target, "
+                "dose, source_id, valid_from, created_at, updated_at) VALUES ('c1', 'x', '50 WP', "
+                "'citrus', 'canker', 'd', 's1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, "
+                "CURRENT_TIMESTAMP)"
+            )
+        )
+    command.upgrade(cfg, "0028")
+    new = {"category", "dilution", "page_ref", "description", "brand_names", "maker_url"}
+    new |= {"photo_url"}
+    with engine.begin() as conn:
+        cols = {c["name"] for c in inspect(conn).get_columns("kb_label_claims")}
+        assert new <= cols
+        row = conn.execute(text("SELECT category, brand_names FROM kb_label_claims")).one()
+        assert (row[0], row[1]) == ("chemical", "[]")
+        conn.execute(text("UPDATE alembic_version SET version_num = '0027'"))
+    command.upgrade(cfg, "0028")  # columns already there: skipped
+    command.downgrade(cfg, "0027")
+    with engine.begin() as conn:
+        cols = {c["name"] for c in inspect(conn).get_columns("kb_label_claims")}
+        assert not (new & cols)
+        assert conn.execute(text("SELECT count(*) FROM kb_label_claims")).scalar_one() == 1
+        conn.execute(text("UPDATE alembic_version SET version_num = '0028'"))
+    command.downgrade(cfg, "0027")  # nothing left to drop: no error
     engine.dispose()

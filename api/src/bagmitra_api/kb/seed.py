@@ -8,6 +8,8 @@ PPQS/CIB&RC importers (K1b) supersede the restriction seed once they run.
 from __future__ import annotations
 
 import asyncio
+import csv
+import io
 import json
 import uuid
 from datetime import UTC, datetime
@@ -19,7 +21,17 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from bagmitra_api.db.session import get_sessionmaker
-from bagmitra_api.kb.models import KbCard, KbConflict, KbRestriction, KbSource, KbTopic
+from bagmitra_api.kb.importers import ImportDiff, import_label_claims
+from bagmitra_api.kb.models import (
+    KbCard,
+    KbConflict,
+    KbRestriction,
+    KbSource,
+    KbSynonym,
+    KbTopic,
+)
+
+LABEL_CLAIMS_CSV = "label_claims_citrus.csv"
 
 
 class SourceSeed(BaseModel):
@@ -41,6 +53,8 @@ class RestrictionSeed(BaseModel):
     crop_groups: list[str]
     notification: str
     effective_from: datetime
+    # Trade / brand names and spellings the gazette or the registrant list gives for it.
+    synonyms: list[str] = []
 
 
 class TopicSeed(BaseModel):
@@ -163,9 +177,15 @@ async def seed_restrictions(session: AsyncSession) -> None:
             select(KbRestriction).where(KbRestriction.source_id == source.id)
         )
     }
+    synonyms = {s.name: s for s in await session.scalars(select(KbSynonym))}
     for seed in seeds:
+        for name in seed.synonyms:
+            syn = synonyms.get(name) or KbSynonym(id=uuid.uuid4(), name=name)
+            syn.active_ingredient = seed.active_ingredient
+            synonyms[name] = syn
+            session.add(syn)
         row = existing.get((seed.active_ingredient, seed.kind)) or KbRestriction(id=uuid.uuid4())
-        for field, value in seed.model_dump().items():
+        for field, value in seed.model_dump(exclude={"synonyms"}).items():
             setattr(row, field, value)
         if row.effective_from.tzinfo is None:
             row.effective_from = row.effective_from.replace(tzinfo=UTC)
@@ -174,11 +194,39 @@ async def seed_restrictions(session: AsyncSession) -> None:
     await session.flush()
 
 
+def label_claim_seed_text(name: str = LABEL_CLAIMS_CSV) -> str:
+    return resources.files("bagmitra_api.kb.seed_data").joinpath(name).read_text("utf-8")
+
+
+async def seed_label_claims(
+    session: AsyncSession, at: datetime, text: str | None = None
+) -> dict[str, ImportDiff]:
+    """Imports the checked CIB&RC extract shipped with the code, one source at a time, through
+    the same importer an admin uses. Only sources that have rows in the file are touched, so an
+    empty extract (documents not yet fetched) never end-dates claims an admin uploaded."""
+    reader = csv.DictReader(io.StringIO(text if text is not None else label_claim_seed_text()))
+    fields = list(reader.fieldnames or [])
+    groups: dict[str, list[dict[str, str]]] = {}
+    for row in reader:
+        groups.setdefault((row.get("source_key") or "").strip(), []).append(row)
+    if "" in groups:
+        raise LookupError(f"{LABEL_CLAIMS_CSV}: every row needs a source_key")
+    diffs: dict[str, ImportDiff] = {}
+    for key, rows in sorted(groups.items()):
+        out = io.StringIO()
+        writer = csv.DictWriter(out, fieldnames=fields, lineterminator="\n")
+        writer.writeheader()
+        writer.writerows(rows)
+        diffs[key] = await import_label_claims(session, key, out.getvalue(), at)
+    return diffs
+
+
 async def main() -> None:  # pragma: no cover - thin CLI wrapper
     async with get_sessionmaker()() as session:
         await seed_sources(session)
         await seed_restrictions(session)
         await seed_knowledge(session)
+        await seed_label_claims(session, datetime.now(UTC))
         await session.commit()
 
 

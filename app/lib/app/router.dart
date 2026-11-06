@@ -107,7 +107,20 @@ abstract final class Routes {
       '/plots/$plotId/irrigation-guide';
   static String sprays(String plotId) => '/plots/$plotId/sprays';
   static String addSpray(String plotId) => '/plots/$plotId/sprays/new';
-  static String labels(String plotId) => '/plots/$plotId/labels';
+  static String labels(String plotId, {String? target}) =>
+      '/plots/$plotId/labels${target == null ? '' : '?target=$target'}';
+
+  /// Label information without a block (practices, look-alikes): crop and target chosen.
+  static const labelsAll = '/labels';
+  static String labelsFor({String? plotId, String? crop, String? target}) {
+    if (plotId != null) return labels(plotId, target: target);
+    final q = {'crop': ?crop, 'target': ?target};
+    return Uri(
+      path: labelsAll,
+      queryParameters: q.isEmpty ? null : q,
+    ).toString();
+  }
+
   static String labour(String plotId) => '/plots/$plotId/labour';
   static String addLabour(String plotId) => '/plots/$plotId/labour/new';
   static String harvest(String plotId) => '/plots/$plotId/harvest';
@@ -301,7 +314,17 @@ GoRouter buildRouter(
       ),
       GoRoute(
         path: '/plots/:id/labels',
-        builder: (_, s) => LabelInfoScreen(plotId: s.pathParameters['id']!),
+        builder: (_, s) => LabelInfoScreen(
+          plotId: s.pathParameters['id'],
+          target: s.uri.queryParameters['target'],
+        ),
+      ),
+      GoRoute(
+        path: Routes.labelsAll,
+        builder: (_, s) => LabelInfoScreen(
+          crop: s.uri.queryParameters['crop'],
+          target: s.uri.queryParameters['target'],
+        ),
       ),
       GoRoute(
         path: '/plots/:id/labour',

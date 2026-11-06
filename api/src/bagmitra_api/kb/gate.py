@@ -37,6 +37,14 @@ class LabelClaim:
     phi_days: int | None
     max_sprays: int | None
     source_key: str
+    # Display-only details of the row (owner Q57); the gate never decides on them.
+    category: str = "chemical"
+    dilution: str | None = None
+    page_ref: str | None = None
+    description: str | None = None
+    brand_names: tuple[str, ...] = ()
+    maker_url: str | None = None
+    photo_url: str | None = None
 
 
 @dataclass(frozen=True, slots=True)
