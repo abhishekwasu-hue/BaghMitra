@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../app/providers.dart';
 import '../../../app/router.dart';
 import '../../../core/formatting.dart';
+import '../../../design_system/app_bar_title.dart';
 import '../../../design_system/bottom_actions.dart';
 import '../../../design_system/cards.dart';
 import '../../../design_system/empty_state.dart';
@@ -36,7 +37,9 @@ class SprayLogScreen extends ConsumerWidget {
         ref.watch(restrictionsProvider).value ?? RestrictionList.empty();
     final crop = cropRulesFor(ref, plot?.crop);
     return Scaffold(
-      appBar: AppBar(title: Text('${t.sprayLogTitle} · ${plot?.name ?? ''}')),
+      appBar: AppBar(
+        title: AppBarTitle('${t.sprayLogTitle} · ${plot?.name ?? ''}'),
+      ),
       body: loaded.isLoading && !loaded.hasValue
           ? LoadingState(label: t.loadingLabel)
           : sprays.isEmpty

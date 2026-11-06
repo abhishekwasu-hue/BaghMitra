@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../app/providers.dart';
 import '../../../app/router.dart';
 import '../../../core/formatting.dart';
+import '../../../design_system/app_bar_title.dart';
 import '../../../design_system/bottom_actions.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
@@ -95,7 +96,7 @@ class _StartBaharScreenState extends ConsumerState<StartBaharScreen> {
     final label = BmType.formLabel.copyWith(color: c.ink);
     const gap = SizedBox(height: BmSpace.lg);
     return Scaffold(
-      appBar: AppBar(title: Text(t.startBahar)),
+      appBar: AppBar(title: AppBarTitle(t.startBahar)),
       body: ListView(
         padding: const EdgeInsets.all(BmSpace.lg),
         children: [

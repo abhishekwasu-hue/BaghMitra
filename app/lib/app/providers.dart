@@ -22,6 +22,7 @@ import '../features/bahar/data/bahar_compare.dart';
 import '../features/bahar/data/bahar_repository.dart';
 import '../features/bahar/domain/bahar_cycle.dart';
 import '../features/billing/data/entitlements_cache.dart';
+import '../features/billing/data/snapshot_signature.dart';
 import '../features/billing/domain/entitlements.dart';
 import '../features/dev/sample_orchard.dart';
 import '../features/directory/data/directory_config.dart';
@@ -412,6 +413,9 @@ final entitlementsCacheProvider = Provider<EntitlementsCache>(
   (ref) => EntitlementsCache(
     ref.watch(databaseProvider),
     api: ref.watch(apiProvider),
+    verifier: SnapshotVerifier(
+      ref.watch(appConfigProvider).entitlementPublicKey,
+    ),
   ),
 );
 
@@ -710,6 +714,7 @@ final fileSharerProvider = Provider<FileSharer>(
 final syncEngineProvider = Provider<SyncEngine>((ref) {
   final engine = SyncEngine(
     db: ref.watch(databaseProvider),
+    log: (line) => ref.read(appLogProvider).log(line),
     transport: HttpSyncTransport(ref.watch(apiProvider)),
     appliers: {
       ProfileRepository.entity: ref

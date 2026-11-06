@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import '../../../app/providers.dart';
 import '../../../app/router.dart';
 import '../../../core/formatting.dart';
+import '../../../design_system/app_bar_title.dart';
 import '../../../design_system/bottom_actions.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
@@ -89,7 +90,7 @@ class _AddInputScreenState extends ConsumerState<AddInputScreen> {
     final label = BmType.formLabel.copyWith(color: c.ink);
     const gap = SizedBox(height: BmSpace.md);
     return Scaffold(
-      appBar: AppBar(title: Text(t.addInput)),
+      appBar: AppBar(title: AppBarTitle(t.addInput)),
       body: Form(
         key: _form,
         child: ListView(
@@ -237,7 +238,7 @@ class _AddIrrigationScreenState extends ConsumerState<AddIrrigationScreen> {
     final t = AppLocalizations.of(context);
     const decimal = TextInputType.numberWithOptions(decimal: true);
     return Scaffold(
-      appBar: AppBar(title: Text(t.logIrrigation)),
+      appBar: AppBar(title: AppBarTitle(t.logIrrigation)),
       body: Form(
         key: _form,
         child: ListView(

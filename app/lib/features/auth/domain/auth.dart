@@ -37,6 +37,9 @@ abstract interface class AuthRepository {
   /// Opens Google sign-in. The session arrives later through [sessions] once the grower
   /// comes back to the app; throws [AuthFailure] if the sign-in page cannot be opened.
   Future<void> signInWithGoogle();
+
+  /// Ends the session on this phone. Never throws, also offline: the router then shows the
+  /// login screen.
   Future<void> signOut();
 }
 

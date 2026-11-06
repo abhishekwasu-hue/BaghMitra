@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../app/providers.dart';
 import '../../../core/formatting.dart';
+import '../../../design_system/app_bar_title.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../data/irrigation_guide.dart';
@@ -40,7 +41,7 @@ class _IrrigationGuideScreenState extends ConsumerState<IrrigationGuideScreen> {
               .firstOrNull;
     final thisYear = ref.watch(clockProvider)().year;
 
-    final appBar = AppBar(title: Text(t.irrigationGuideTitle));
+    final appBar = AppBar(title: AppBarTitle(t.irrigationGuideTitle));
     if (data == null) {
       return Scaffold(
         appBar: appBar,

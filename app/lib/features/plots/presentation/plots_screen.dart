@@ -6,6 +6,7 @@ import '../../../app/providers.dart';
 import '../../../app/refresh.dart';
 import '../../../app/router.dart';
 import '../../../core/formatting.dart';
+import '../../../design_system/app_bar_title.dart';
 import '../../../design_system/bottom_actions.dart';
 import '../../../design_system/cards.dart';
 import '../../../design_system/empty_state.dart';
@@ -27,7 +28,7 @@ class PlotsScreen extends ConsumerWidget {
     final crops = ref.watch(cropsProvider).value ?? const <CropOption>[];
     final lang = Localizations.localeOf(context).languageCode;
     return Scaffold(
-      appBar: AppBar(title: Text(t.myOrchard)),
+      appBar: AppBar(title: AppBarTitle(t.myOrchard)),
       body: loaded.isLoading && !loaded.hasValue
           ? LoadingState(label: t.loadingLabel)
           : plots.isEmpty

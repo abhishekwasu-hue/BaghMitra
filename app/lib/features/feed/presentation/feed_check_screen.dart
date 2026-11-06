@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../app/providers.dart';
 import '../../../core/formatting.dart';
+import '../../../design_system/app_bar_title.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../data/feed_repository.dart';
@@ -69,7 +70,7 @@ class _FeedCheckScreenState extends ConsumerState<FeedCheckScreen> {
     final c = context.bm;
     final result = _result;
     return Scaffold(
-      appBar: AppBar(title: Text(t.feedCheckTitle)),
+      appBar: AppBar(title: AppBarTitle(t.feedCheckTitle)),
       body: ListView(
         padding: const EdgeInsets.all(BmSpace.lg),
         children: [

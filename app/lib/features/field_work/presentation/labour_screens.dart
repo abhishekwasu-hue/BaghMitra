@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import '../../../app/providers.dart';
 import '../../../app/router.dart';
 import '../../../core/formatting.dart';
+import '../../../design_system/app_bar_title.dart';
 import '../../../design_system/bottom_actions.dart';
 import '../../../design_system/cards.dart';
 import '../../../design_system/empty_state.dart';
@@ -44,7 +45,7 @@ class LabourScreen extends ConsumerWidget {
                   ?.label(lang) ??
               slug;
     return Scaffold(
-      appBar: AppBar(title: Text(t.labourTitle)),
+      appBar: AppBar(title: AppBarTitle(t.labourTitle)),
       body: loaded.isLoading && !loaded.hasValue
           ? LoadingState(label: t.loadingLabel)
           : days.isEmpty
@@ -207,7 +208,7 @@ class _AddLabourScreenState extends ConsumerState<AddLabourScreen> {
     const gap = SizedBox(height: BmSpace.md);
     const money = TextInputType.numberWithOptions(decimal: true);
     return Scaffold(
-      appBar: AppBar(title: Text(t.labourAddDay)),
+      appBar: AppBar(title: AppBarTitle(t.labourAddDay)),
       body: Form(
         key: _form,
         child: ListView(
@@ -366,7 +367,7 @@ class _AddHarvestScreenState extends ConsumerState<AddHarvestScreen> {
       ],
     );
     return Scaffold(
-      appBar: AppBar(title: Text(t.harvestAdd)),
+      appBar: AppBar(title: AppBarTitle(t.harvestAdd)),
       body: Form(
         key: _form,
         child: ListView(

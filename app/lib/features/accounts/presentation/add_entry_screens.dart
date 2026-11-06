@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import '../../../app/providers.dart';
 import '../../../app/router.dart';
 import '../../../core/formatting.dart';
+import '../../../design_system/app_bar_title.dart';
 import '../../../design_system/bottom_actions.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
@@ -93,7 +94,7 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
     final bahars = ref.watch(baharOptionsProvider).value;
     final label = BmType.formLabel.copyWith(color: c.ink);
     return Scaffold(
-      appBar: AppBar(title: Text(t.addExpense)),
+      appBar: AppBar(title: AppBarTitle(t.addExpense)),
       body: Form(
         key: _form,
         child: ListView(
@@ -246,7 +247,7 @@ class _AddSaleScreenState extends ConsumerState<AddSaleScreen> {
     final rate = parseRupeesToPaise(_rate.text) ?? 0;
     final now = ref.watch(clockProvider)();
     return Scaffold(
-      appBar: AppBar(title: Text(t.addSale)),
+      appBar: AppBar(title: AppBarTitle(t.addSale)),
       body: Form(
         key: _form,
         child: ListView(

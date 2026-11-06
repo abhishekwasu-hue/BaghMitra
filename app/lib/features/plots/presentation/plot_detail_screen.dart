@@ -6,6 +6,7 @@ import '../../../app/providers.dart';
 import '../../../app/refresh.dart';
 import '../../../app/router.dart';
 import '../../../core/formatting.dart';
+import '../../../design_system/app_bar_title.dart';
 import '../../../design_system/glyphs.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
@@ -64,7 +65,7 @@ class PlotDetailScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(plot.name),
+        title: AppBarTitle(plot.name),
         actions: [
           IconButton(
             key: const Key('edit-plot'),

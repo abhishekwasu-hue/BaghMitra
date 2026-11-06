@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../app/providers.dart';
 import '../../../app/router.dart';
+import '../../../design_system/app_bar_title.dart';
 import '../../../design_system/cards.dart';
 import '../../../design_system/empty_state.dart';
 import '../../../design_system/glyphs.dart';
@@ -30,7 +31,7 @@ class LookalikesScreen extends ConsumerWidget {
     final plot = plotId ?? ref.watch(plotsProvider).value?.firstOrNull?.id;
     return Scaffold(
       appBar: AppBar(
-        title: Text(t.lookalikesTitle),
+        title: AppBarTitle(t.lookalikesTitle),
         actions: [
           IconButton(
             key: const Key('open-labs'),

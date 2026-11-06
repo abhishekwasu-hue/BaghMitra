@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../app/providers.dart';
 import '../../../app/router.dart';
 import '../../../core/formatting.dart';
+import '../../../design_system/app_bar_title.dart';
 import '../../../design_system/bottom_actions.dart';
 import '../../../design_system/cards.dart';
 import '../../../design_system/empty_state.dart';
@@ -36,7 +37,7 @@ class BaharScreen extends ConsumerWidget {
     void start() => context.push(Routes.startBahar(plotId));
     return Scaffold(
       appBar: AppBar(
-        title: Text(plot?.name ?? ''),
+        title: AppBarTitle(plot?.name ?? ''),
         actions: [
           // One labelled menu instead of icon-only buttons: every record book of the block,
           // each with its icon and its name.

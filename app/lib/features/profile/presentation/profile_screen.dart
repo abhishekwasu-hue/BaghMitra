@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../app/providers.dart';
 import '../../../app/router.dart';
+import '../../../design_system/app_bar_title.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../../auth/domain/auth.dart';
@@ -194,7 +195,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         if (didPop) ref.read(languagePreviewProvider.notifier).set(null);
       },
       child: Scaffold(
-        appBar: AppBar(title: Text(t.profileTitle)),
+        appBar: AppBar(title: AppBarTitle(t.profileTitle)),
         body: p == null
             ? const SizedBox.shrink()
             : ListView(

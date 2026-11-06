@@ -91,11 +91,14 @@ class BmBottomBar extends StatelessWidget {
           ),
           Positioned(
             bottom: 10 + bottomInset,
-            child: Text(
-              cameraLabel,
-              style: BmType.label.copyWith(
-                color: c.accentInk,
-                fontWeight: FontWeight.w700,
+            // The camera button below already says this to TalkBack; read it once.
+            child: ExcludeSemantics(
+              child: Text(
+                cameraLabel,
+                style: BmType.label.copyWith(
+                  color: c.accentInk,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
             ),
           ),

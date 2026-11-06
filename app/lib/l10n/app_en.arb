@@ -1112,5 +1112,9 @@
   "requiredSprayProduct": "Write the product name",
   "requiredInputProduct": "Write the product name",
   "requiredBuyer": "Write the buyer's name",
-  "claimKitGpsOk": "Location added"
+  "claimKitGpsOk": "Location added",
+  "priceChangeUp": "{pct} up from last week",
+  "@priceChangeUp": {"placeholders": {"pct": {"type": "String"}}},
+  "priceChangeDown": "{pct} down from last week",
+  "@priceChangeDown": {"placeholders": {"pct": {"type": "String"}}}
 }

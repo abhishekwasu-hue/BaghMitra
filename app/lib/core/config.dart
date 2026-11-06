@@ -11,6 +11,7 @@ class AppConfig {
     required this.speechEngine,
     this.sarkariSandesh = '',
     this.phoneLogin = false,
+    this.entitlementPublicKey = '',
   });
 
   factory AppConfig.fromEnvironment() => const AppConfig(
@@ -36,6 +37,9 @@ class AppConfig {
     // Off unless defined at build time; the analyzer only sees the false default.
     // ignore: avoid_redundant_argument_values
     phoneLogin: bool.fromEnvironment('PHONE_LOGIN'),
+    // Empty unless defined at build time; the analyzer only sees the empty default.
+    // ignore: avoid_redundant_argument_values
+    entitlementPublicKey: String.fromEnvironment('ENTITLEMENT_PUBLIC_KEY'),
   );
 
   final String productName;
@@ -68,6 +72,12 @@ class AppConfig {
   /// Phone OTP sign-in is offered when the build enables it, and always in demo mode (any
   /// six digits sign in locally, nothing is sent).
   bool get phoneLoginEnabled => phoneLogin || demoMode;
+
+  /// The server's Ed25519 public key for entitlement snapshots, URL-safe base64
+  /// (`--dart-define=ENTITLEMENT_PUBLIC_KEY=...`; the API holds the matching
+  /// ENTITLEMENT_SIGNING_KEY). Empty: no snapshot verifies, so only the always-free features
+  /// are open.
+  final String entitlementPublicKey;
 
   bool get isTestBuild => testBuild.isNotEmpty;
 

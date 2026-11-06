@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import '../../../app/providers.dart';
 import '../../../app/router.dart';
 import '../../../core/formatting.dart';
+import '../../../design_system/app_bar_title.dart';
 import '../../../design_system/bottom_actions.dart';
 import '../../../design_system/cards.dart';
 import '../../../design_system/info_note.dart';
@@ -192,7 +193,7 @@ class _ClaimKitScreenState extends ConsumerState<ClaimKitScreen> {
     final lang = Localizations.localeOf(context).languageCode;
     final plotsAsync = ref.watch(plotsProvider);
     if (_loading || !plotsAsync.hasValue) {
-      return Scaffold(appBar: AppBar(title: Text(t.claimKitTitle)));
+      return Scaffold(appBar: AppBar(title: AppBarTitle(t.claimKitTitle)));
     }
     final plots = plotsAsync.value ?? const [];
     final today = _today;
@@ -200,7 +201,7 @@ class _ClaimKitScreenState extends ConsumerState<ClaimKitScreen> {
     final label = BmType.formLabel.copyWith(color: c.ink);
     return Scaffold(
       appBar: AppBar(
-        title: Text(t.claimKitTitle),
+        title: AppBarTitle(t.claimKitTitle),
         actions: [
           if (widget.claimId != null)
             IconButton(

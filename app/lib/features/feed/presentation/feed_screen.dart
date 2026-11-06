@@ -7,6 +7,7 @@ import '../../../app/providers.dart';
 import '../../../app/refresh.dart';
 import '../../../app/router.dart';
 import '../../../core/formatting.dart';
+import '../../../design_system/app_bar_title.dart';
 import '../../../design_system/empty_state.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../sync/presentation/refresh_note.dart';
@@ -20,7 +21,7 @@ import '../domain/feed_item.dart';
 
 /// Sarkari Sandesh: official GRs, circulars, schemes and alerts, plus clearly marked news,
 /// newest first, from the phone's cache so it works offline. Information, not advice: the
-/// "check the official GR/portal" footer is always on screen.
+/// "check the official GR/portal" line heads the list and follows every item's source.
 class FeedScreen extends ConsumerStatefulWidget {
   const FeedScreen({super.key});
 
@@ -57,6 +58,8 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
 
     // The filters and notes above the items; the items are built as they scroll in.
     final head = <Widget>[
+      FeedFooter(serverFooter: cached?.page.footer),
+      const SizedBox(height: BmSpace.sm),
       Wrap(
         spacing: BmSpace.xs,
         runSpacing: BmSpace.xs,
@@ -85,7 +88,7 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
     ];
     return Scaffold(
       appBar: AppBar(
-        title: Text(t.feedTitle),
+        title: AppBarTitle(t.feedTitle),
         actions: [
           IconButton(
             key: const Key('feed-open-check'),
@@ -101,7 +104,6 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
           ),
         ],
       ),
-      bottomNavigationBar: FeedFooter(serverFooter: cached?.page.footer),
       body: RefreshIndicator(
         onRefresh: refresh,
         child: ListView.builder(
@@ -284,7 +286,8 @@ class _Banner extends StatelessWidget {
 }
 
 /// The standing "check the official GR/portal before acting" line (plus the server's own
-/// footer when it says something else), pinned to the bottom so it is always visible.
+/// footer when it says something else), as one muted line in the list: it stays readable
+/// without taking a fixed strip of the screen at large text sizes.
 class FeedFooter extends StatelessWidget {
   const FeedFooter({super.key, this.serverFooter});
 
@@ -295,29 +298,28 @@ class FeedFooter extends StatelessWidget {
     final t = AppLocalizations.of(context);
     final c = context.bm;
     final extra = serverFooter;
-    return SafeArea(
-      child: DecoratedBox(
-        key: const Key('feed-footer'),
-        decoration: BoxDecoration(
-          color: c.card,
-          border: Border(top: BorderSide(color: c.line)),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: BmSpace.lg,
-            vertical: BmSpace.sm,
+    final style = BmType.meta.copyWith(color: c.inkMuted);
+    return Row(
+      key: const Key('feed-footer'),
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        ExcludeSemantics(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 2, right: BmSpace.xs),
+            child: Icon(Icons.info_outline, size: 16, color: c.inkMuted),
           ),
+        ),
+        Expanded(
           child: Column(
-            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(t.feedFooter, style: BmType.bodyStrong),
+              Text(t.feedFooter, style: style),
               if (extra != null && extra.isNotEmpty && extra != t.feedFooter)
-                Text(extra, style: BmType.meta),
+                Text(extra, style: style),
             ],
           ),
         ),
-      ),
+      ],
     );
   }
 }
@@ -448,8 +450,7 @@ class _FeedItemScreenState extends ConsumerState<FeedItemScreen> {
         tasks.any((task) => task.source == feedTaskSource(item));
 
     return Scaffold(
-      appBar: AppBar(title: Text(t.feedTitle)),
-      bottomNavigationBar: FeedFooter(serverFooter: cached?.page.footer),
+      appBar: AppBar(title: AppBarTitle(t.feedTitle)),
       body: item == null
           ? loaded.isLoading && !loaded.hasValue
                 ? LoadingState(label: t.loadingLabel)
@@ -460,6 +461,8 @@ class _FeedItemScreenState extends ConsumerState<FeedItemScreen> {
                 _ItemBody(item: item, now: now, lang: lang, detail: true),
                 const SizedBox(height: BmSpace.md),
                 _SourceLink(url: item.url),
+                const SizedBox(height: BmSpace.xs),
+                FeedFooter(serverFooter: cached?.page.footer),
                 const SizedBox(height: BmSpace.md),
                 Wrap(
                   spacing: BmSpace.xs,
