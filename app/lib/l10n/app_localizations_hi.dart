@@ -2698,4 +2698,16 @@ class AppLocalizationsHi extends AppLocalizations {
   String priceChangeDown(String pct) {
     return 'पिछले सप्ताह से $pct गिरावट';
   }
+
+  @override
+  String get generalInfoNote =>
+      'सार्वजनिक स्रोतों से सामान्य जानकारी। अमल से पहले अपने KVK से पुष्टि करें।';
+
+  @override
+  String generalInfoSource(String source, String date) {
+    return 'स्रोत: $source · जाँचा $date';
+  }
+
+  @override
+  String get labelReadNote => 'छिड़काव से पहले पैकेट पर लिखा लेबल पढ़ें।';
 }

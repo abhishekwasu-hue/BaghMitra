@@ -765,5 +765,8 @@
   "requiredBuyer": "व्यापारी का नाम लिखें",
   "claimKitGpsOk": "जगह जुड़ी",
   "priceChangeUp": "पिछले सप्ताह से {pct} बढ़त",
-  "priceChangeDown": "पिछले सप्ताह से {pct} गिरावट"
+  "priceChangeDown": "पिछले सप्ताह से {pct} गिरावट",
+  "generalInfoNote": "सार्वजनिक स्रोतों से सामान्य जानकारी। अमल से पहले अपने KVK से पुष्टि करें।",
+  "generalInfoSource": "स्रोत: {source} · जाँचा {date}",
+  "labelReadNote": "छिड़काव से पहले पैकेट पर लिखा लेबल पढ़ें।"
 }

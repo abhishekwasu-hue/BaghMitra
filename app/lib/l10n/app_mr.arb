@@ -765,5 +765,8 @@
   "requiredBuyer": "व्यापाऱ्याचे नाव लिहा",
   "claimKitGpsOk": "ठिकाण जोडले",
   "priceChangeUp": "गेल्या आठवड्यापेक्षा {pct} वाढ",
-  "priceChangeDown": "गेल्या आठवड्यापेक्षा {pct} घट"
+  "priceChangeDown": "गेल्या आठवड्यापेक्षा {pct} घट",
+  "generalInfoNote": "सार्वजनिक स्रोतांतील सर्वसाधारण माहिती. अमलात आणण्यापूर्वी आपल्या KVK कडून खात्री करा.",
+  "generalInfoSource": "स्रोत: {source} · तपासले {date}",
+  "labelReadNote": "फवारणीपूर्वी पाकिटावरील लेबल वाचा."
 }
