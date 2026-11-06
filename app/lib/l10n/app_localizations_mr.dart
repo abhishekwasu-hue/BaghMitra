@@ -2789,4 +2789,22 @@ class AppLocalizationsMr extends AppLocalizations {
   @override
   String get practicesSourcesLineAll =>
       'स्रोत: NHB, NIPHM, ICAR, डॉ. पंदेकृवि, MPKV, TNAU व इतर. प्रत्येक पद्धतीखाली तपशील.';
+
+  @override
+  String get schemeGeneralSource => 'शेवटी दिलेली अधिकृत पाने';
+
+  @override
+  String get schemeFacts => 'अधिकृत पानावरील मुख्य माहिती';
+
+  @override
+  String schemeFactSource(String source) {
+    return 'स्रोत: $source';
+  }
+
+  @override
+  String get labNormsTitle => 'मृदा आरोग्य पत्रिकेतील श्रेणी';
+
+  @override
+  String get labNormsHint =>
+      'आपल्या अहवालातील आकडा या श्रेणींशी जुळवून पाहा. पुढे काय करायचे ते KVK किंवा प्रयोगशाळेला विचारा.';
 }

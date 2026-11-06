@@ -792,5 +792,10 @@
   "knowledgeWarnings": "सावधानी",
   "knowledgeCallExpert": "विशेषज्ञ से कब पूछें",
   "knowledgeSources": "स्रोत",
-  "practicesSourcesLineAll": "स्रोत: NHB, NIPHM, ICAR, पीडीकेवी, MPKV, TNAU और अन्य। हर पद्धति के नीचे विवरण।"
+  "practicesSourcesLineAll": "स्रोत: NHB, NIPHM, ICAR, पीडीकेवी, MPKV, TNAU और अन्य। हर पद्धति के नीचे विवरण।",
+  "schemeGeneralSource": "अंत में दिए गए आधिकारिक पेज",
+  "schemeFacts": "आधिकारिक पेज की मुख्य जानकारी",
+  "schemeFactSource": "स्रोत: {source}",
+  "labNormsTitle": "मृदा स्वास्थ्य कार्ड की श्रेणियाँ",
+  "labNormsHint": "अपनी रिपोर्ट का आंकड़ा इन श्रेणियों से मिलाकर देखें। आगे क्या करें, यह KVK या लैब से पूछें।"
 }

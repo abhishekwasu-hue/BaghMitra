@@ -792,5 +792,10 @@
   "knowledgeWarnings": "काळजी घ्या",
   "knowledgeCallExpert": "तज्ज्ञांना केव्हा विचारावे",
   "knowledgeSources": "स्रोत",
-  "practicesSourcesLineAll": "स्रोत: NHB, NIPHM, ICAR, डॉ. पंदेकृवि, MPKV, TNAU व इतर. प्रत्येक पद्धतीखाली तपशील."
+  "practicesSourcesLineAll": "स्रोत: NHB, NIPHM, ICAR, डॉ. पंदेकृवि, MPKV, TNAU व इतर. प्रत्येक पद्धतीखाली तपशील.",
+  "schemeGeneralSource": "शेवटी दिलेली अधिकृत पाने",
+  "schemeFacts": "अधिकृत पानावरील मुख्य माहिती",
+  "schemeFactSource": "स्रोत: {source}",
+  "labNormsTitle": "मृदा आरोग्य पत्रिकेतील श्रेणी",
+  "labNormsHint": "आपल्या अहवालातील आकडा या श्रेणींशी जुळवून पाहा. पुढे काय करायचे ते KVK किंवा प्रयोगशाळेला विचारा."
 }

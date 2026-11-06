@@ -29,16 +29,35 @@ class SchemeApplyPlace {
 }
 
 class SchemeSource {
-  const SchemeSource(this.title, this.url, {required this.official});
+  const SchemeSource(
+    this.title,
+    this.url, {
+    required this.official,
+    this.checked,
+  });
 
   final String title;
   final String url;
   final bool official;
+
+  /// The day this page itself was read, when it was.
+  final DateTime? checked;
+}
+
+/// A key fact (an amount, a rate, a limit or a rule) exactly as an official page states it.
+/// [source] indexes [Scheme.sources]: the page it was read on.
+class SchemeFact {
+  const SchemeFact(this.texts, {required this.source});
+
+  final Labels texts;
+  final int source;
+
+  String text(String lang) => _pick(texts, lang);
 }
 
 /// A scheme relevant to santra / mosambi growers: what it is, who can apply in general
-/// terms, the documents usually asked for and where to apply. Never an eligibility
-/// decision and never an amount.
+/// terms, the documents usually asked for, where to apply and the key facts an official
+/// page states. Never an eligibility decision.
 class Scheme {
   const Scheme({
     required this.id,
@@ -49,6 +68,7 @@ class Scheme {
     required this.apply,
     required this.feedKeywords,
     required this.sources,
+    this.facts = const [],
   });
 
   final String id;
@@ -61,6 +81,9 @@ class Scheme {
   /// Lower-case words that mark a govt feed item as about this scheme.
   final List<String> feedKeywords;
   final List<SchemeSource> sources;
+
+  /// Facts read on an official page, each with its source.
+  final List<SchemeFact> facts;
 
   String name(String lang) => _pick(names, lang);
   String summary(String lang) => _pick(summaries, lang);
@@ -152,7 +175,15 @@ class SchemeCatalog {
                   src['title'] as String,
                   src['url'] as String,
                   official: src['official'] as bool,
+                  checked: switch (src['checked']) {
+                    final String d => DateTime.parse(d),
+                    _ => null,
+                  },
                 ),
+            ],
+            facts: [
+              for (final f in list(s['facts']))
+                SchemeFact(labels(f['text']), source: f['source'] as int),
             ],
           ),
       ],

@@ -2791,4 +2791,22 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get practicesSourcesLineAll =>
       'स्रोत: NHB, NIPHM, ICAR, पीडीकेवी, MPKV, TNAU और अन्य। हर पद्धति के नीचे विवरण।';
+
+  @override
+  String get schemeGeneralSource => 'अंत में दिए गए आधिकारिक पेज';
+
+  @override
+  String get schemeFacts => 'आधिकारिक पेज की मुख्य जानकारी';
+
+  @override
+  String schemeFactSource(String source) {
+    return 'स्रोत: $source';
+  }
+
+  @override
+  String get labNormsTitle => 'मृदा स्वास्थ्य कार्ड की श्रेणियाँ';
+
+  @override
+  String get labNormsHint =>
+      'अपनी रिपोर्ट का आंकड़ा इन श्रेणियों से मिलाकर देखें। आगे क्या करें, यह KVK या लैब से पूछें।';
 }

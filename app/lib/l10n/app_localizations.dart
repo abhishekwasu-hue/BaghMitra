@@ -4863,6 +4863,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sources: NHB, NIPHM, ICAR, Dr. PDKV, MPKV, TNAU and others. Details under each practice.'**
   String get practicesSourcesLineAll;
+
+  /// No description provided for @schemeGeneralSource.
+  ///
+  /// In en, this message translates to:
+  /// **'the official pages listed at the end'**
+  String get schemeGeneralSource;
+
+  /// No description provided for @schemeFacts.
+  ///
+  /// In en, this message translates to:
+  /// **'Key facts from the official page'**
+  String get schemeFacts;
+
+  /// No description provided for @schemeFactSource.
+  ///
+  /// In en, this message translates to:
+  /// **'From: {source}'**
+  String schemeFactSource(String source);
+
+  /// No description provided for @labNormsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Soil Health Card rating ranges'**
+  String get labNormsTitle;
+
+  /// No description provided for @labNormsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Compare the value on your report with these ranges. For what to do next, ask your KVK or the lab.'**
+  String get labNormsHint;
 }
 
 class _AppLocalizationsDelegate

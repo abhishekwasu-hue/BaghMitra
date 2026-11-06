@@ -1,9 +1,10 @@
 {
-  "_note": "Markets, buyers and processing for santra / mosambi (research gap #3). Only entries found on an official page ('source', read on 'checked'); the list is kept short rather than guessed. No individual APMC or FPO page could be opened from an official site, so APMCs are reached through the state marketing board's APMC profile page; Kalamna is listed as not yet checked. No in-app trading, no price forecasts. OPEN_QUESTIONS Q47.",
+  "_note": "Markets, buyers and processing for santra / mosambi (research gap #3). Only entries found on an official page ('source', read on 'checked'); the list is kept short rather than guessed. APMC address, phone and main commodities are read from each committee's record behind the MSAMB APMC profile page (ProfileDetail, 2026-11-06; register docs/research/WP3_SOURCES.md). Morshi's phone field (STD 07228, phone 7228299006) is not shown because it cannot be read as one number. No in-app trading, no price forecasts. OPEN_QUESTIONS Q47.",
   "status": "draft",
   "districts": {
     "maharashtra": {"en": "All Maharashtra", "mr": "संपूर्ण महाराष्ट्र", "hi": "पूरा महाराष्ट्र"},
-    "nagpur": {"en": "Nagpur", "mr": "नागपूर", "hi": "नागपुर"}
+    "nagpur": {"en": "Nagpur", "mr": "नागपूर", "hi": "नागपुर"},
+    "amravati": {"en": "Amravati", "mr": "अमरावती", "hi": "अमरावती"}
   },
   "entries": [
     {
@@ -87,19 +88,104 @@
       "kind": "apmc",
       "district": "nagpur",
       "name": {
-        "en": "APMC Nagpur, Kalamna market yard (orange and fruit market)",
-        "mr": "कृषी उत्पन्न बाजार समिती नागपूर, कळमना बाजार (संत्रा व फळ बाजार)",
-        "hi": "कृषि उपज मंडी समिति नागपुर, कलमना मंडी (संतरा व फल मंडी)"
+        "en": "APMC Nagpur, Kalamna market yard",
+        "mr": "कृषी उत्पन्न बाजार समिती नागपूर, कळमना बाजार",
+        "hi": "कृषि उपज मंडी समिति नागपुर, कलमना मंडी"
       },
       "offers": {
-        "en": "Wholesale market yard where Nagpur oranges arrive in season. Check its details on the MSAMB APMC profile page.",
-        "mr": "हंगामात नागपुरी संत्री येणारा घाऊक बाजार. तपशील MSAMB च्या बाजार समिती प्रोफाइल पानावर तपासा.",
-        "hi": "थोक मंडी जहाँ मौसम में नागपुरी संतरे आते हैं। विवरण MSAMB के मंडी समिति प्रोफ़ाइल पेज पर जाँचें।"
+        "en": "Pt. Jawaharlal Nehru market yard at Kalamna. Its MSAMB profile lists mosambi (sweet lime) and other fruits among the main commodities.",
+        "mr": "कळमना येथील पं. जवाहरलाल नेहरू बाजार आवार. MSAMB प्रोफाइलवर मुख्य शेतमालात मोसंबी व इतर फळे नोंदलेली आहेत.",
+        "hi": "कलमना का पं. जवाहरलाल नेहरू मंडी परिसर। MSAMB प्रोफ़ाइल पर मुख्य उपज में मौसंबी और अन्य फल दर्ज हैं।"
       },
       "url": "https://www.msamb.com/ApmcDetail/Profile",
-      "source": "https://www.thehitavada.com/Encyc/2022/11/10/Incessant-rains-damage-orange-crop-by-50-per-cent.html",
-      "verified": false,
-      "checked": "2026-10-28"
+      "address": "Pt. Jawaharlal Nehru Market Yard, Kalamna, Nagpur – 440035",
+      "phone": "0712-2680280",
+      "source": "https://www.msamb.com/ApmcDetail/ProfileDetail?apmcId=06390500",
+      "verified": true,
+      "checked": "2026-11-06"
+    },
+    {
+      "id": "apmc_katol",
+      "kind": "apmc",
+      "district": "nagpur",
+      "name": {
+        "en": "APMC Katol",
+        "mr": "कृषी उत्पन्न बाजार समिती, काटोल",
+        "hi": "कृषि उपज मंडी समिति, काटोल"
+      },
+      "offers": {
+        "en": "Market committee in the Nagpur orange belt (sub-market Kondhali). Its MSAMB profile lists orange and mosambi (sweet lime) among the main commodities.",
+        "mr": "नागपूर संत्रा पट्ट्यातील बाजार समिती (उपबाजार कोंढाळी). MSAMB प्रोफाइलवर मुख्य शेतमालात संत्री व मोसंबी नोंदलेली आहेत.",
+        "hi": "नागपुर संतरा पट्टी की मंडी समिति (उप-मंडी कोंढाली)। MSAMB प्रोफ़ाइल पर मुख्य उपज में संतरा और मौसंबी दर्ज हैं।"
+      },
+      "url": "https://www.msamb.com/ApmcDetail/Profile",
+      "address": "Krushi Utpanna Bazar Samiti, Katol, Dist. Nagpur – 441302",
+      "phone": "07112-222031",
+      "source": "https://www.msamb.com/ApmcDetail/ProfileDetail?apmcId=06390300",
+      "verified": true,
+      "checked": "2026-11-06"
+    },
+    {
+      "id": "apmc_narkhed",
+      "kind": "apmc",
+      "district": "nagpur",
+      "name": {
+        "en": "APMC Narkhed",
+        "mr": "कृषी उत्पन्न बाजार समिती, नरखेड",
+        "hi": "कृषि उपज मंडी समिति, नरखेड"
+      },
+      "offers": {
+        "en": "Market committee in Nagpur district. Its MSAMB profile lists orange among the main commodities.",
+        "mr": "नागपूर जिल्ह्यातील बाजार समिती. MSAMB प्रोफाइलवर मुख्य शेतमालात संत्री नोंदलेली आहेत.",
+        "hi": "नागपुर जिले की मंडी समिति। MSAMB प्रोफ़ाइल पर मुख्य उपज में संतरा दर्ज है।"
+      },
+      "url": "https://www.msamb.com/ApmcDetail/Profile",
+      "address": "Krushi Utpanna Bazar Samiti, Narkhed, Dist. Nagpur – 441304",
+      "phone": "07105-232233",
+      "source": "https://www.msamb.com/ApmcDetail/ProfileDetail?apmcId=06390600",
+      "verified": true,
+      "checked": "2026-11-06"
+    },
+    {
+      "id": "apmc_warud",
+      "kind": "apmc",
+      "district": "amravati",
+      "name": {
+        "en": "APMC Warud",
+        "mr": "कृषी उत्पन्न बाजार समिती, वरुड",
+        "hi": "कृषि उपज मंडी समिति, वरुड"
+      },
+      "offers": {
+        "en": "Market committee in the Amravati orange belt (sub-markets Rajura Bazar, Loni). Its MSAMB profile lists orange among the main commodities.",
+        "mr": "अमरावती संत्रा पट्ट्यातील बाजार समिती (उपबाजार राजुरा बाजार, लोणी). MSAMB प्रोफाइलवर मुख्य शेतमालात संत्री नोंदलेली आहेत.",
+        "hi": "अमरावती संतरा पट्टी की मंडी समिति (उप-मंडी राजुरा बाज़ार, लोणी)। MSAMB प्रोफ़ाइल पर मुख्य उपज में संतरा दर्ज है।"
+      },
+      "url": "https://www.msamb.com/ApmcDetail/Profile",
+      "address": "Agricultural Produce Market Committee, Warud, Tq. Warud, Dist. Amravati – 444906",
+      "phone": "07229-232024",
+      "source": "https://www.msamb.com/ApmcDetail/ProfileDetail?apmcId=05331200",
+      "verified": true,
+      "checked": "2026-11-06"
+    },
+    {
+      "id": "apmc_morshi",
+      "kind": "apmc",
+      "district": "amravati",
+      "name": {
+        "en": "APMC Morshi",
+        "mr": "कृषी उत्पन्न बाजार समिती, मोर्शी",
+        "hi": "कृषि उपज मंडी समिति, मोर्शी"
+      },
+      "offers": {
+        "en": "Market committee in Amravati district (sub-market Lehegaon). Orange is not among the main commodities on its MSAMB profile; ask the committee before you go. The phone on the profile could not be read clearly, so none is shown.",
+        "mr": "अमरावती जिल्ह्यातील बाजार समिती (उपबाजार लेहेंगाव). MSAMB प्रोफाइलवरील मुख्य शेतमालात संत्री नाहीत; जाण्यापूर्वी समितीकडे विचारा. प्रोफाइलवरील फोन क्रमांक स्पष्ट वाचता आला नाही, म्हणून दिलेला नाही.",
+        "hi": "अमरावती जिले की मंडी समिति (उप-मंडी लेहेंगाव)। MSAMB प्रोफ़ाइल की मुख्य उपज में संतरा नहीं है; जाने से पहले समिति से पूछें। प्रोफ़ाइल का फ़ोन नंबर साफ़ नहीं पढ़ा जा सका, इसलिए नहीं दिया।"
+      },
+      "url": "https://www.msamb.com/ApmcDetail/Profile",
+      "address": "Krushi Utpanna Bazar Samiti, Morshi, Tq. Morshi, Dist. Amravati – 444905",
+      "source": "https://www.msamb.com/ApmcDetail/ProfileDetail?apmcId=05330900",
+      "verified": true,
+      "checked": "2026-11-06"
     }
   ]
 }

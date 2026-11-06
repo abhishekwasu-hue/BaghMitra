@@ -1145,5 +1145,11 @@
   "knowledgeWarnings": "Take care",
   "knowledgeCallExpert": "When to ask an expert",
   "knowledgeSources": "Sources",
-  "practicesSourcesLineAll": "Sources: NHB, NIPHM, ICAR, Dr. PDKV, MPKV, TNAU and others. Details under each practice."
+  "practicesSourcesLineAll": "Sources: NHB, NIPHM, ICAR, Dr. PDKV, MPKV, TNAU and others. Details under each practice.",
+  "schemeGeneralSource": "the official pages listed at the end",
+  "schemeFacts": "Key facts from the official page",
+  "schemeFactSource": "From: {source}",
+  "@schemeFactSource": {"placeholders": {"source": {"type": "String"}}},
+  "labNormsTitle": "Soil Health Card rating ranges",
+  "labNormsHint": "Compare the value on your report with these ranges. For what to do next, ask your KVK or the lab."
 }
