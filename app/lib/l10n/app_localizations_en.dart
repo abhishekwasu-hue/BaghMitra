@@ -2712,4 +2712,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get labelReadNote => 'Read the label on the packet before spraying.';
+
+  @override
+  String get schemeGeneralSource => 'the official pages listed at the end';
+
+  @override
+  String get schemeFacts => 'Key facts from the official page';
+
+  @override
+  String schemeFactSource(String source) {
+    return 'From: $source';
+  }
+
+  @override
+  String get labNormsTitle => 'Soil Health Card rating ranges';
+
+  @override
+  String get labNormsHint =>
+      'Compare the value on your report with these ranges. The app does not rate your values and gives no fertiliser advice; ask your KVK or lab what to do.';
 }

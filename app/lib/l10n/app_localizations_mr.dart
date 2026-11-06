@@ -2708,4 +2708,22 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get labelReadNote => 'फवारणीपूर्वी पाकिटावरील लेबल वाचा.';
+
+  @override
+  String get schemeGeneralSource => 'शेवटी दिलेली अधिकृत पाने';
+
+  @override
+  String get schemeFacts => 'अधिकृत पानावरील मुख्य माहिती';
+
+  @override
+  String schemeFactSource(String source) {
+    return 'स्रोत: $source';
+  }
+
+  @override
+  String get labNormsTitle => 'मृदा आरोग्य पत्रिकेतील श्रेणी';
+
+  @override
+  String get labNormsHint =>
+      'आपल्या अहवालातील आकडा या श्रेणींशी जुळवून पाहा. ॲप आपल्या आकड्यांचे मूल्यमापन करत नाही व खताचा सल्ला देत नाही; पुढे काय करायचे ते KVK किंवा प्रयोगशाळेला विचारा.';
 }

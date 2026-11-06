@@ -4719,6 +4719,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Read the label on the packet before spraying.'**
   String get labelReadNote;
+
+  /// No description provided for @schemeGeneralSource.
+  ///
+  /// In en, this message translates to:
+  /// **'the official pages listed at the end'**
+  String get schemeGeneralSource;
+
+  /// No description provided for @schemeFacts.
+  ///
+  /// In en, this message translates to:
+  /// **'Key facts from the official page'**
+  String get schemeFacts;
+
+  /// No description provided for @schemeFactSource.
+  ///
+  /// In en, this message translates to:
+  /// **'From: {source}'**
+  String schemeFactSource(String source);
+
+  /// No description provided for @labNormsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Soil Health Card rating ranges'**
+  String get labNormsTitle;
+
+  /// No description provided for @labNormsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Compare the value on your report with these ranges. The app does not rate your values and gives no fertiliser advice; ask your KVK or lab what to do.'**
+  String get labNormsHint;
 }
 
 class _AppLocalizationsDelegate

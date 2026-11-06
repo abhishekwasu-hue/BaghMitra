@@ -2710,4 +2710,22 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get labelReadNote => 'छिड़काव से पहले पैकेट पर लिखा लेबल पढ़ें।';
+
+  @override
+  String get schemeGeneralSource => 'अंत में दिए गए आधिकारिक पेज';
+
+  @override
+  String get schemeFacts => 'आधिकारिक पेज की मुख्य जानकारी';
+
+  @override
+  String schemeFactSource(String source) {
+    return 'स्रोत: $source';
+  }
+
+  @override
+  String get labNormsTitle => 'मृदा स्वास्थ्य कार्ड की श्रेणियाँ';
+
+  @override
+  String get labNormsHint =>
+      'अपनी रिपोर्ट का आंकड़ा इन श्रेणियों से मिलाकर देखें। ऐप आपके आंकड़ों का मूल्यांकन नहीं करता और खाद की सलाह नहीं देता; आगे क्या करें, यह KVK या लैब से पूछें।';
 }

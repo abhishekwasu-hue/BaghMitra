@@ -39,6 +39,9 @@ const schemeIds = [
   'micro_irrigation',
   'falbag',
   'kcc',
+  'pocra',
+  'midh',
+  'smam',
 ];
 
 void main() {
@@ -48,9 +51,9 @@ void main() {
     data = await SchemeCatalog(bundle: FileAssetBundle()).load();
   });
 
-  test('the catalog has the six schemes in three languages', () {
+  test('the catalog has the nine schemes in three languages', () {
     expect([for (final s in data.schemes) s.id], schemeIds);
-    expect(data.checkedOn, DateTime(2026, 10, 28));
+    expect(data.checkedOn, DateTime(2026, 11, 6));
     for (final s in data.schemes) {
       for (final labels in [s.names, s.summaries, s.who]) {
         expect(labels.keys.toSet(), {'en', 'mr', 'hi'}, reason: s.id);
@@ -77,21 +80,36 @@ void main() {
     expect(data.documentLabel('unknown', 'mr'), 'unknown');
   });
 
-  test('no amounts, rates or advice in the scheme content', () {
-    final raw = File(SchemeCatalog.asset).readAsStringSync();
-    final json = jsonDecode(raw) as Map<String, dynamic>;
-    final shown = jsonEncode({
-      'documents': json['documents'],
-      'schemes': [
-        for (final s in (json['schemes'] as List).cast<Map<String, dynamic>>())
-          {'names': s['names'], 'summary': s['summary'], 'who': s['who']},
-      ],
-    });
-    for (final word in ['₹', 'Rs', 'रु', 'lakh', 'लाख', '%', 'हेक्टर']) {
-      expect(shown, isNot(contains(word)), reason: word);
-    }
-    expect(json['status'], 'draft');
-  });
+  test(
+    'amounts and limits only as sourced facts, read on an official page',
+    () {
+      final raw = File(SchemeCatalog.asset).readAsStringSync();
+      final json = jsonDecode(raw) as Map<String, dynamic>;
+      final shown = jsonEncode({
+        'documents': json['documents'],
+        'schemes': [
+          for (final s
+              in (json['schemes'] as List).cast<Map<String, dynamic>>())
+            {'names': s['names'], 'summary': s['summary'], 'who': s['who']},
+        ],
+      });
+      for (final word in ['₹', 'Rs', 'रु', 'lakh', 'लाख', '%', 'हेक्टर']) {
+        expect(shown, isNot(contains(word)), reason: word);
+      }
+      expect(json['status'], 'draft');
+      // Facts (amounts, rates, limits) each cite an official page read on a known day.
+      for (final s in data.schemes) {
+        for (final f in s.facts) {
+          expect(f.texts.keys.toSet(), {'en', 'mr', 'hi'}, reason: s.id);
+          final src = s.sources[f.source];
+          expect(src.official, isTrue, reason: s.id);
+          expect(src.checked, isNotNull, reason: '${s.id}: ${src.url}');
+        }
+      }
+      expect(data.byId('crop_insurance')!.facts, isNotEmpty);
+      expect(data.byId('pocra')!.facts.first.text('mr'), contains('हेक्टर'));
+    },
+  );
 
   test('feed items match a scheme by its words, live items only', () {
     final pmKisan = data.byId('pm_kisan')!;
@@ -177,11 +195,24 @@ void main() {
 
     expect(find.text('PM-Kisan Samman Nidhi'), findsOne);
     expect(find.text('In general terms. Check the official page.'), findsOne);
+    expect(find.byKey(const Key('scheme-general-info')), findsOne);
+    expect(find.textContaining('₹6,000 a year'), findsOne);
     expect(find.text('0 of 5 ready'), findsOne);
-    expect(find.textContaining('Visit your nearest Setu Kendra'), findsOne);
+    await tester.scrollUntilVisible(
+      find.byKey(const Key('scheme-doc-aadhaar')),
+      200,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.ensureVisible(find.byKey(const Key('scheme-doc-aadhaar')));
+    await settle(tester);
     await tester.tap(find.byKey(const Key('scheme-doc-aadhaar')));
     await settle(tester);
-    expect(find.text('1 of 5 ready'), findsOne);
+    await tester.scrollUntilVisible(
+      find.byKey(const Key('scheme-setu-note')),
+      200,
+      scrollable: find.byType(Scrollable).first,
+    );
+    expect(find.textContaining('Visit your nearest Setu Kendra'), findsOne);
     expect(await tester.runAsync(() => SchemeTicksStore(db).load('pm_kisan')), {
       'aadhaar',
     });
@@ -202,7 +233,7 @@ void main() {
       200,
       scrollable: find.byType(Scrollable).first,
     );
-    expect(find.text('Sources (checked on 28 Oct 2026)'), findsOne);
+    expect(find.text('Sources (checked on 6 Nov 2026)'), findsOne);
     await tester.tap(find.byKey(const Key('scheme-source-0')));
     await settle(tester);
     expect(find.text('Link copied. Open it in your browser.'), findsOne);

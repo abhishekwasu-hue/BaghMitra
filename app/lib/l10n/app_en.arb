@@ -1120,5 +1120,11 @@
   "generalInfoNote": "General information from public sources. Check with your KVK before acting.",
   "generalInfoSource": "Source: {source} · checked {date}",
   "@generalInfoSource": {"placeholders": {"source": {"type": "String"}, "date": {"type": "String"}}},
-  "labelReadNote": "Read the label on the packet before spraying."
+  "labelReadNote": "Read the label on the packet before spraying.",
+  "schemeGeneralSource": "the official pages listed at the end",
+  "schemeFacts": "Key facts from the official page",
+  "schemeFactSource": "From: {source}",
+  "@schemeFactSource": {"placeholders": {"source": {"type": "String"}}},
+  "labNormsTitle": "Soil Health Card rating ranges",
+  "labNormsHint": "Compare the value on your report with these ranges. The app does not rate your values and gives no fertiliser advice; ask your KVK or lab what to do."
 }
