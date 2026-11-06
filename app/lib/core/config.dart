@@ -11,6 +11,7 @@ class AppConfig {
     required this.speechEngine,
     this.sarkariSandesh = '',
     this.phoneLogin = false,
+    this.push = false,
     this.entitlementPublicKey = '',
   });
 
@@ -37,6 +38,9 @@ class AppConfig {
     // Off unless defined at build time; the analyzer only sees the false default.
     // ignore: avoid_redundant_argument_values
     phoneLogin: bool.fromEnvironment('PHONE_LOGIN'),
+    // Off unless defined at build time; the analyzer only sees the false default.
+    // ignore: avoid_redundant_argument_values
+    push: bool.fromEnvironment('PUSH'),
     // Empty unless defined at build time; the analyzer only sees the empty default.
     // ignore: avoid_redundant_argument_values
     entitlementPublicKey: String.fromEnvironment('ENTITLEMENT_PUBLIC_KEY'),
@@ -72,6 +76,14 @@ class AppConfig {
   /// Phone OTP sign-in is offered when the build enables it, and always in demo mode (any
   /// six digits sign in locally, nothing is sent).
   bool get phoneLoginEnabled => phoneLogin || demoMode;
+
+  /// `--dart-define=PUSH=true` for a build that carries the Firebase project's
+  /// `android/app/google-services.json` (runbook docs/runbooks/push-notifications.md). Off by
+  /// default: the app then never starts Firebase and nothing changes for the grower.
+  final bool push;
+
+  /// Push alerts need the server, so never in demo mode.
+  bool get pushEnabled => push && !demoMode;
 
   /// The server's Ed25519 public key for entitlement snapshots, URL-safe base64
   /// (`--dart-define=ENTITLEMENT_PUBLIC_KEY=...`; the API holds the matching

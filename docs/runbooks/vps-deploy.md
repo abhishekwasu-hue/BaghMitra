@@ -65,6 +65,7 @@ cd /opt/bagmitra && bash deploy/deploy.sh
 | हवामान व धोका सूचना (`weather.pull_job`) | नेहमी | रोज 00:00 = 05:30 | `/var/log/bagmitra-weather-pull.log` |
 | database बॅकअप (`deploy/backup.sh`) | नेहमी | रोज 21:40 = 03:10 | `/var/log/bagmitra-backup.log` |
 | बाजारभाव ओढणे (`market.pull_job`) | `MARKET_API_KEY` भरलेली असेल तर | दर ६ तासांनी 02:35, 08:35, 14:35, 20:35 = 08:05, 14:05, 20:05, 02:05 | `/var/log/bagmitra-market-pull.log` |
+| हवामान धोका सूचना फोनवर पाठवणे (`push.deliver`) | `FCM_PROJECT_ID` भरलेले असेल तर (runbook `push-notifications.md`) | रोज 01:37 = 07:07 | `/var/log/bagmitra-push-deliver.log` |
 | KB कार्डांची रात्रीची फेरतपासणी (`kb.regate`) | नेहमी (बंद: `CRON_KB_REGATE=off`) | रोज 20:50 = 02:20 | `/var/log/bagmitra-kb-regate.log` |
 | सरकारी सूचनांच्या आठवणी (`feed.alert_job`) | नेहमी (बंद: `CRON_FEED_ALERTS=off`) | रोज 03:17 व 11:17 = 08:47 व 16:47 | `/var/log/bagmitra-feed-alerts.log` |
 | बातम्यांचे मथळे (`feed.news_job`) | नेहमी (बंद: `CRON_FEED_NEWS=off`); अटी `allowed` असलेल्या स्रोतांकडूनच मथळे येतात | दर ६ तासांनी 01:23, 07:23, 13:23, 19:23 | `/var/log/bagmitra-feed-news.log` |

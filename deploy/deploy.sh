@@ -34,6 +34,9 @@ FEED_ALERTS_CRON_LINE="17 3,11 * * * $JOB bagmitra_api.feed.alert_job >> /var/lo
 # News headlines (govt-feed.md §9): every 6 h at 01:23, 07:23, 13:23, 19:23 UTC; on with
 # CRON_FEED_NEWS=on (only after the source terms are recorded).
 FEED_NEWS_CRON_LINE="23 1,7,13,19 * * * $JOB bagmitra_api.feed.news_job >> /var/log/bagmitra-feed-news.log 2>&1"
+# Weather / risk alert pushes (push/deliver.py): 01:37 UTC (07:07 IST), after the 00:00 UTC
+# weather pull and just after the default quiet hours (21:00-07:00 IST); on once FCM_PROJECT_ID is set.
+PUSH_DELIVER_CRON_LINE="37 1 * * * $JOB bagmitra_api.push.deliver >> /var/log/bagmitra-push-deliver.log 2>&1"
 # Nightly KB re-gate (kb/regate.py): 20:50 UTC (02:20 IST); on with CRON_KB_REGATE=on.
 KB_REGATE_CRON_LINE="50 20 * * * $JOB bagmitra_api.kb.regate >> /var/log/bagmitra-kb-regate.log 2>&1"
 # Sync audit log retention (LD-09, sync/retention.py): 22:13 UTC (03:43 IST), after the
@@ -189,6 +192,8 @@ install_cron() {
   local on
   on=1; [[ -n "$(env_value MARKET_API_KEY)" ]] && on=0
   cron_job_if "$on" "bagmitra_api.market.pull_job" "$MARKET_CRON_LINE" "market prices (every 6 h)"
+  on=1; [[ -n "$(env_value FCM_PROJECT_ID)" ]] && on=0
+  cron_job_if "$on" "bagmitra_api.push.deliver" "$PUSH_DELIVER_CRON_LINE" "weather alert pushes (01:37 UTC = 07:07 IST)"
   on=1; switch_on CRON_FEED_ALERTS && on=0
   cron_job_if "$on" "bagmitra_api.feed.alert_job" "$FEED_ALERTS_CRON_LINE" "feed reminders (03:17, 11:17 UTC)"
   on=1; switch_on CRON_FEED_NEWS && on=0

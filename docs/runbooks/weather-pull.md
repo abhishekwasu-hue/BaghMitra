@@ -6,9 +6,10 @@ and stores new alerts in `plot_risk_alerts` (one row per plot, rule and first da
 stores nothing twice). It prints one JSON line (`cells`, `plots`, `new_alerts`,
 `failed_cells`, `stale_cells`, `failures`) and exits 1 if any cell failed; other cells still run.
 
-Push delivery (`bagmitra_api.push.deliver.run_delivery`) is built and tested, but it has no
-sender until FCM credentials exist (OPEN_QUESTIONS Q32): until then rows keep `notified_at`
-empty and nothing reaches phones. Phones register with `POST /v1/me/devices`.
+Push delivery (`python -m bagmitra_api.push.deliver`, cron 01:37 UTC once `FCM_PROJECT_ID` is
+set) sends each new alert to the owner's phones through FCM and stamps `notified_at` only after
+at least one phone got it. Without FCM credentials rows keep `notified_at` empty and nothing
+reaches phones. Phones register with `POST /v1/me/devices`. Setup: `push-notifications.md`.
 
 ## Schedule on the VPS (you run this; nothing is run on the server for you)
 

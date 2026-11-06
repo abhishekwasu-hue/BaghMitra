@@ -77,8 +77,9 @@ Google त्याच्या संमती-पानावर दाखव�
 <ul><li>"संदेश तपासा": चिकटवलेला मजकूर अधिकृत सूचनांशी जुळवण्यासाठी सर्व्हरला जातो आणि कुठेही
 साठवला जात नाही; फक्त त्याची लांबी आणि निकाल log मध्ये नोंदतो.</li>
 <li>सरकारी सूचना पाहिली / बाजूला केली / आठवण हवी, आणि सूचना-वेळेच्या पसंती.</li>
-<li>Push सूचना {i}: फोनचा push token (Firebase Cloud Messaging). सध्या हे चालू नाही;
-आठवणी फोनवरच ठरतात.</li>
+<li>Push सूचना {i}: फोनचा push token (Firebase Cloud Messaging), म्हणजे हवामान धोका सूचना
+आणि सरकारी योजनांच्या आठवणी फोनवर येतात. साइन-आउट केल्यावर किंवा खाते काढल्यावर token काढला
+जातो. कामांच्या आठवणी फोनवरच ठरतात.</li>
 <li>सर्व्हर log: प्रत्येक विनंतीची वेळ, मार्ग, निकाल आणि लागलेला वेळ — सुरक्षा आणि अडचणी
 शोधण्यासाठी. IP पत्ता, query आणि नोंदींचा मजकूर log मध्ये नसतो. Log ला आकाराची मर्यादा आहे
 (प्रत्येक सेवेसाठी सुमारे ५० MB); त्यापुढे जुने log आपोआप पुसले जातात. त्रुटी अहवाल सेवा
@@ -209,8 +210,9 @@ Reading aloud happens on the phone.</li></ul>
 notices and is not stored anywhere; only its length and the result are logged.</li>
 <li>Which government notices you saw, dismissed or asked to be reminded of, and your
 notification preferences.</li>
-<li>Push alerts {i}: your phone's push token (Firebase Cloud Messaging). Not active yet;
-reminders are scheduled on the phone.</li>
+<li>Push alerts {i}: your phone's push token (Firebase Cloud Messaging), so weather risk
+alerts and government scheme reminders reach your phone. It is removed when you sign out or
+delete your account. Task reminders are scheduled on the phone.</li>
 <li>Server logs: time, path, result and duration of each request, for security and
 troubleshooting. They do not contain your IP address, query strings or record contents. Logs
 are capped in size (about 50 MB per service); older lines are deleted automatically. Error

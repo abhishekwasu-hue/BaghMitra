@@ -160,7 +160,8 @@ window_close), one push on a payment / window-open date (up to 2 days late), eac
 stage once; withdrawn or expired items cancel what was pending; quiet hours hold a push until
 their end; the weekly digest lists new items for the farmer from the last 7 days. Text: title,
 "Last date: …", "Check the official GR/portal before acting." in the farmer's language
-(English fallback). Until the FCM sender exists (Q32) the summary says
+(English fallback). Pushes go through FCM once its credentials are set (runbook
+`push-notifications.md`); until then the summary says
 `"skipped_reason": "no push sender configured (FCM credentials)"` and nothing is stamped.
 
 Cron on the VPS: on by default; `bash deploy/deploy.sh` adds it (set `CRON_FEED_ALERTS=off` in `deploy/.env` to stop); it

@@ -13,6 +13,7 @@ import 'core/config.dart';
 import 'features/auth/data/demo_auth_repository.dart';
 import 'features/auth/domain/auth.dart';
 import 'features/auth/infra/supabase_auth_repository.dart';
+import 'features/push/data/firebase_push.dart';
 import 'features/reminders/data/local_notifications.dart';
 
 Future<void> main() async {
@@ -48,6 +49,12 @@ Future<void> main() async {
         reminderSchedulerProvider.overrideWithValue(
           LocalNotificationScheduler(),
         ),
+        // Push alerts only in a build made with PUSH=true (and google-services.json);
+        // otherwise Firebase is never touched.
+        if (config.pushEnabled)
+          pushMessagingProvider.overrideWithValue(
+            FirebasePushMessaging(log: log),
+          ),
       ],
       child: const BagMitraApp(),
     ),

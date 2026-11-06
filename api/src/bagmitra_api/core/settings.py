@@ -221,6 +221,23 @@ class Settings(BaseSettings):
     app_min_version_code: int = Field(default=0, ge=0)
     app_download_dir: str = "/srv/bagmitra-apk"
     app_download_url: str = ""
+    # Push alerts (audit BG-01, OPEN_QUESTIONS Q32; runbook docs/runbooks/push-notifications.md):
+    # off unless FCM_PROJECT_ID and a service-account key are both set. The key is the
+    # downloaded JSON file, base64-encoded in FCM_SERVICE_ACCOUNT_B64 (wins), or a path the API
+    # can read in FCM_SERVICE_ACCOUNT_FILE. Never logged.
+    fcm_project_id: str = ""
+    fcm_service_account_b64: SecretStr = Field(default=SecretStr(""))
+    fcm_service_account_file: str = ""
+    fcm_base_url: str = "https://fcm.googleapis.com"
+    fcm_timeout_seconds: float = Field(default=15.0, gt=0)
+
+    @property
+    def push_enabled(self) -> bool:
+        has_key = bool(
+            self.fcm_service_account_b64.get_secret_value().strip()
+            or self.fcm_service_account_file.strip()
+        )
+        return bool(self.fcm_project_id.strip()) and has_key
 
     @property
     def photo_storage_enabled(self) -> bool:

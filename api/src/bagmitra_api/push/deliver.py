@@ -1,7 +1,9 @@
 """Push delivery: send every new stored risk alert to the owner's phones and stamp it.
 
-Meant to run right after the daily weather pull; it gets a command and a cron line once an
-FCM sender exists (OPEN_QUESTIONS Q32, runbook: docs/runbooks/weather-pull.md). The text is the
+Runs after the daily weather pull (cron line from deploy.sh once FCM_PROJECT_ID is set;
+OPEN_QUESTIONS Q32, runbook docs/runbooks/push-notifications.md):
+    python -m bagmitra_api.push.deliver
+The text is the
 rule's label in the farmer's language (English if missing), so a push says exactly what the
 app's weather card says: the risk and what to check, never a chemical.
 
@@ -13,6 +15,7 @@ configured sender (no FCM credentials yet) nothing is sent and nothing is stampe
 
 from __future__ import annotations
 
+import asyncio
 import json
 import uuid
 from collections import defaultdict
@@ -20,10 +23,16 @@ from collections.abc import Sequence
 from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta
 
+import httpx
 from sqlalchemy import delete, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from bagmitra_api.core.observability import report_job_failure, start_job_reporting
+from bagmitra_api.core.settings import get_settings
+from bagmitra_api.db.base import utcnow
 from bagmitra_api.db.models import Farmer, PlotRiskAlert, PushDevice
+from bagmitra_api.db.session import get_sessionmaker
+from bagmitra_api.push.fcm import fcm_sender
 from bagmitra_api.push.sender import PushMessage, PushSender, PushUnavailableError, SendResult
 from bagmitra_api.risk.engine import RiskRule, load_rules
 
@@ -137,3 +146,27 @@ async def run_delivery(
     summary.invalid_tokens = len(invalid)
     await session.commit()
     return summary
+
+
+def exit_code(summary: DeliverySummary, reporting: bool) -> int:
+    """1 when alerts stayed unsent because the push service failed (BG-05 style notice)."""
+    if not summary.failed:
+        return 0
+    report_job_failure("push_deliver", reporting, alerts=summary.alerts, failed=summary.failed)
+    return 1
+
+
+async def main() -> int:  # pragma: no cover - thin CLI wrapper
+    settings = get_settings()
+    reporting = start_job_reporting(settings)
+    async with (
+        get_sessionmaker()() as session,
+        httpx.AsyncClient(timeout=settings.fcm_timeout_seconds) as http,
+    ):
+        summary = await run_delivery(session, fcm_sender(settings, http), utcnow())
+    print(summary.to_json())
+    return exit_code(summary, reporting)
+
+
+if __name__ == "__main__":  # pragma: no cover
+    raise SystemExit(asyncio.run(main()))

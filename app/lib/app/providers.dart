@@ -64,6 +64,8 @@ import '../features/profile/data/account_deletion.dart';
 import '../features/profile/data/language_catalog.dart';
 import '../features/profile/data/profile_repository.dart';
 import '../features/profile/domain/farmer_profile.dart';
+import '../features/push/data/push_device_api.dart';
+import '../features/push/domain/push.dart';
 import '../features/reminders/domain/reminders.dart';
 import '../features/schemes/data/scheme_catalog.dart';
 import '../features/schemes/data/scheme_ticks_store.dart';
@@ -704,6 +706,45 @@ final reminderSyncProvider = Provider<void>((ref) {
         .catchError(
           (Object e) => ref.read(appLogProvider).log('reminders: $e'),
         ),
+  );
+});
+
+/// The phone's push service. `main` swaps in Firebase only in a build with push on; the
+/// default (and tests) is off.
+final pushMessagingProvider = Provider<PushMessaging>(
+  (ref) => const NoPushMessaging(),
+);
+
+final pushDeviceApiProvider = Provider<PushDeviceApi>(
+  (ref) => HttpPushDeviceApi(ref.watch(apiProvider)),
+);
+
+final pushRegistrarProvider = Provider<PushRegistrar>((ref) {
+  final registrar = PushRegistrar(
+    messaging: ref.watch(pushMessagingProvider),
+    api: ref.watch(pushDeviceApiProvider),
+    log: ref.watch(appLogProvider),
+  );
+  ref.onDispose(registrar.dispose);
+  return registrar;
+});
+
+/// Registers this phone for push alerts once the signed-in account's records are on it
+/// (audit BG-01). Does nothing unless the build has push on. Watched once, at the app root.
+final pushRegistrationProvider = Provider<void>((ref) {
+  if (!ref.watch(appConfigProvider).pushEnabled) return;
+  final userId = ref.watch(sessionProvider.select((s) => s.value?.userId));
+  if (userId == null) {
+    ref.read(pushRegistrarProvider).signedOut();
+    return;
+  }
+  final gate = ref.watch(accountGateProvider.select((g) => g.value));
+  if (gate != AccountCheck.same) return;
+  unawaited(
+    ref
+        .read(pushRegistrarProvider)
+        .signedIn(userId)
+        .catchError((Object e) => ref.read(appLogProvider).log('push: $e')),
   );
 });
 
