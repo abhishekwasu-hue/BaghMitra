@@ -192,11 +192,11 @@ is `min: 0` while its label says 1–4 years (a block planted this year falls in
 
 ## Gaps
 
-- Winter and rainy-season litres for young and middle trees, santra and mosambi: only the May (summer)
-  figures were read [AW18]; the CCRI monthly advisories that have the other months are blocked here, and
-  the only other month-wise table is the Jain brochure (kept out).
-- Middle band 5–7 y: AW18 gives only the 8-year figure.
 - No FAO-56 style litres stated for mosambi in central India in a readable source (CH24 shows them only in
   figures; Pawar et al. 2020 still unread).
+- Closed on 2026-11-06 (WP1): winter (November–February) and rainy (July–September) litres for young and middle
+  trees, both crops, and the 5–7 year trees, from the Dr. PDKV month-wise drip table for santra and mosambi
+  (S. Patil & N. Ramteke, Agrowon 26 Dec 2024, key AW24D; read in full): rows s30–s34 / m30–m34. The table's
+  1st-year row is 0 for January–May (a June planting), so the 1st-year winter figure is November–December only.
 - Closed on 2026-10-27: summer litres for young and middle trees (both crops) [AW18]; mosambi bahar
   stress length [MP25, AW24, AW23, VK].

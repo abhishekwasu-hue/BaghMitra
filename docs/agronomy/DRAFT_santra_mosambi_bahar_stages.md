@@ -231,3 +231,64 @@ Research date: 2026-10-12. Prepared for BaghMitra crop-stage template seeding.
 - Store min/max ranges together with soil class.
 - Attach the source ID to each field.
 - Mark L-confidence values as "needs verification" until a person confirms each primary PDF.
+
+---
+
+## 11. Seeded stage windows (WP1, read 2026-11-06; owner decision Q57)
+
+Seeded as general information from public sources into `crop_stage_templates` (API seed
+`api/src/bagmitra_api/bahar/seed_data/stage_templates.json`, run by `python -m bagmitra_api.kb.seed`) and
+bundled in the app (`app/assets/config/stage_templates.json`; a test keeps both equal). Every value below was
+read in the full text of the source unless marked. Season year = the year the bahar flowers;
+`season_start` = 1 January of that year, counted in a 365-day reference year.
+
+| Crop / bahar | Stage | Window | Sources |
+|---|---|---|---|
+| Santra Ambia | Stress starts | 2nd week of December (8–14 Dec, year before) | AW23, AW24D (Dr. PDKV) |
+| | Stress ends (water again) | 35–75 days after stress start (light 35–45, medium 45–60, heavy 55–75) | AW23, AW24D |
+| | Flowering | 20–25 days after the stress ends | AW23, AW24D |
+| | Harvest | October–December | KAL22 (abstract via search results only; full text not reachable) |
+| Santra Mrig | Stress starts | April–May | N1 (rest in April–May); C05 (40–50 days stress in May–June) |
+| | Stress ends | 15–50 days after stress start | N1 (about a month; 2–3 weeks light soil), VKM (light 15–20, medium well-drained 30, medium 1–1.5 m deep 50), C05 (40–50) |
+| | Flowering | June–July | AW23, AW24D, VKM, QRT |
+| | Harvest | February–March (next year) | N1, C03, VKM ("before 31 March") |
+| Santra Hasta | Flowering | October | N1, AW23, AW24D |
+| Mosambi Ambia | Stress starts | November–December (year before) | AW24 (Badnapur); AW23 (2nd week of December, inside the window) |
+| | Stress ends | 35–75 days after stress start (same soil table) | AW24, AW23 |
+| | Flowering | 20–25 days after the stress ends | AW24, VKB, AW23 |
+| | Harvest | September–October | AW24 |
+| Mosambi Mrig | Flowering | June–July | LM11, AW23, AW24D |
+| | Harvest | March–April (next year) | LM11 (also: harvestable 240 days after fruit set) |
+| Mosambi Hasta | Flowering | October | AW23, AW24D |
+
+**Not published in any source read (left for the grower to date):** fruit set for every crop × bahar;
+santra Hasta stress, stress end and harvest (ICAR-CCRI's QRT names only Mrig and Ambia as the two main
+flowering seasons of Nagpur mandarin); mosambi Mrig stress start and length; mosambi Hasta stress and harvest
+(NIASM 140 says only that Hasta fruit is on the tree in May).
+
+**Conflicts kept visible:** santra Ambia stress start: 2nd week of December (PDKV) vs 15 November to end of
+December, 40–60 days (NHB C05); santra Mrig flowering: June (N1 §5.13), June–July (PDKV, Krishi Vibhag,
+CCRI QRT), July (C05), and N1 also says July–August in the same paragraph; mosambi Ambia stress start:
+November–December (Badnapur) vs 2nd week of December (PDKV).
+
+**Sources (new keys; also in the KB source registry `kb/seed_data/sources.json`):**
+- C03 NHB Citrus: Disorders, https://www.nhb.gov.in/pdf/fruits/citrus/cit003.pdf
+- C05 NHB Citrus: Intercultural operations / bahar treatment, https://www.nhb.gov.in/pdf/fruits/citrus/cit005.pdf
+- AW24D S. Patil & N. Ramteke (Dr. PDKV), Agrowon 26 Dec 2024, https://agrowon.esakal.com/agro-special/effective-management-of-ambia-bahar-in-citrus-fruit-cultivation-article-on-agrowon (also the month-wise drip table used in the irrigation guide)
+- VKM Vikaspedia (Marathi), santra Mrig bahar management, source Krishi Vibhag, Maharashtra
+- VKB Vikaspedia (Marathi), mosambi stress, M. B. Patil, Mosambi Research Station Badnapur
+- LM11 Ladaniya & Mahalle 2011, IJAgS 81(6), https://epubs.icar.org.in/index.php/IJAgS/article/download/6568/2473/14236
+- KAL22 Kalatippi et al. 2022, Current Horticulture 10(2), https://indianjournals.com/article/chr-10-2-005
+- QRT ICAR-CCRI VI Quinquennial Review Team report 2013–18, https://icar.org.in/sites/default/files/2022-07/QRT-NAGPUR-01.pdf
+- N1, AW23, AW24 as in §9 / DRAFT_irrigation.md.
+
+Not reachable from this environment on 2026-11-06: ccri.icar.gov.in (monthly advisories), journals.acspublisher.com.
+
+**Stage operations** (`app/assets/config/task_templates.json`, cultural only, no product or dose): pick old
+fruit before the stress, cut water down step by step (AW23, AW24D, AW24, VKB); heavy soil: harrow clean and a
+light ploughing between rows (AW23, AW24D, AW24, VKB); Mrig: keep drains open, water at once if the Mrig rains
+fail, no harrowing while the bahar sets (VKM); 25 % leaf fall = stress set (AW23, AW24D, AW24, C05); mosambi:
+cut dry twigs before ending the stress (AW24); basins before the first water, double ring (AW24, C02); light
+water, second after 5–7 days, then full (AW23, AW24D, AW24, VKB); water around flowering and after fruit set
+(C06); grass mulch about 6 cm in the basin (AW24D); harvest with clippers leaving a little stalk (C04, N1); no
+harvest in wet weather (N1, mandarin); after harvest remove dead, diseased and crossing branches (N1, AW18).

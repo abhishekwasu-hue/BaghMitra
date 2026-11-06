@@ -314,7 +314,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get baharEmptyBody =>
-      'बहार चुनें और अपनी तारीखें लिखें। विशेषज्ञ द्वारा जाँचा गया कैलेंडर तैयार होने पर सुझाई गई तारीखें मिलेंगी।';
+      'बहार चुनें। हर चरण के लिए सार्वजनिक स्रोतों से सुझाया समय दिखता है; हर तारीख आप बदल सकते हैं।';
 
   @override
   String get baharWhich => 'कौन सा बहार?';
@@ -2710,6 +2710,26 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get labelReadNote => 'छिड़काव से पहले पैकेट पर लिखा लेबल पढ़ें।';
+
+  @override
+  String baharSuggestedWindow(String from, String to) {
+    return 'सुझाया समय: $from – $to';
+  }
+
+  @override
+  String get baharNoWindow =>
+      'अपनी तारीख दर्ज करें: स्रोतों में केवल दूसरे चरणों का समय दिया है';
+
+  @override
+  String get baharFillSuggested => 'सुझाई तारीखें भरें';
+
+  @override
+  String get baharSuggestedHelp =>
+      'सुझाया समय सार्वजनिक स्रोतों से है। अपने बाग के अनुसार कोई भी तारीख बदलें।';
+
+  @override
+  String get baharStressBySoil =>
+      'तनाव कितने दिन देना है यह मिट्टी पर निर्भर है: हल्की मिट्टी में कम दिन, भारी मिट्टी में ज़्यादा।';
 
   @override
   String get schemeGeneralSource => 'अंत में दिए गए आधिकारिक पेज';
