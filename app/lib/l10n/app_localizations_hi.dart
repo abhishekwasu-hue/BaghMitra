@@ -120,7 +120,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get vsLastWeek => 'पिछले सप्ताह से';
 
   @override
-  String get takePhoto => 'फोटो लें';
+  String get takePhoto => 'फ़ोटो लें';
 
   @override
   String get navHome => 'होम';
@@ -787,7 +787,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get addSpray => 'छिड़काव दर्ज करें';
 
   @override
-  String get spraysEmpty => 'पहले छिड़काव की नोंद यहाँ करें।';
+  String get spraysEmpty => 'पहले छिड़काव का रिकॉर्ड यहाँ दर्ज करें।';
 
   @override
   String get sprayProduct => 'दवा का नाम';
@@ -847,7 +847,7 @@ class AppLocalizationsHi extends AppLocalizations {
   }
 
   @override
-  String get fieldLogTitle => 'खेत की नोंदें';
+  String get fieldLogTitle => 'खेत के रिकॉर्ड';
 
   @override
   String get addInput => 'खाद जोड़ें';
@@ -880,7 +880,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get irrigationLitres => 'पानी लीटर में (वैकल्पिक)';
 
   @override
-  String get fieldLogEmpty => 'खाद या सिंचाई की पहली नोंद जोड़ें।';
+  String get fieldLogEmpty => 'खाद या सिंचाई का पहला रिकॉर्ड जोड़ें।';
 
   @override
   String inputLine(String quantity, String unit) {
@@ -920,7 +920,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get labourMarkPaid => 'पूरा दिया';
 
   @override
-  String get labourEmpty => 'मज़दूरी की पहली नोंद जोड़ें।';
+  String get labourEmpty => 'मज़दूरी का पहला रिकॉर्ड जोड़ें।';
 
   @override
   String get labourTotalDue => 'मज़दूरों को देना';
@@ -937,7 +937,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get harvestAdd => 'तुड़ाई जोड़ें';
 
   @override
-  String get harvestKg => 'मात्रा (किलो)';
+  String get harvestKg => 'वज़न (किलो)';
 
   @override
   String get harvestGrade => 'ग्रेड (वैकल्पिक)';
@@ -946,7 +946,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get harvestSize => 'आकार (वैकल्पिक)';
 
   @override
-  String get harvestEmpty => 'तुड़ाई की पहली नोंद जोड़ें।';
+  String get harvestEmpty => 'तुड़ाई का पहला रिकॉर्ड जोड़ें।';
 
   @override
   String harvestTotal(String kg) {
@@ -966,7 +966,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get compareEmpty =>
-      'बहार शुरू करें और नोंदें जोड़ें, फिर सीज़न की तुलना दिखेगी।';
+      'बहार शुरू करें और रिकॉर्ड जोड़ें, फिर सीज़न की तुलना दिखेगी।';
 
   @override
   String compareVs(String bahar, String change) {
@@ -1039,7 +1039,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get onboardingConsentData =>
-      'ऐप चलाने के लिए बागमित्र मेरे बाग की नोंदें सहेजे, इसकी मेरी सहमति है।';
+      'ऐप चलाने के लिए बागमित्र मेरे बाग के रिकॉर्ड सहेजे, इसकी मेरी सहमति है।';
 
   @override
   String get onboardingConsentWhatsapp =>
@@ -1053,7 +1053,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get profileConsentDataNote =>
-      'आपके रिकॉर्ड सहेजने और सुरक्षित रखने के लिए यह सहमति ज़रूरी है। इसे यहाँ बंद नहीं किया जा सकता।';
+      'आपके रिकॉर्ड सहेजने और सुरक्षित रखने के लिए यह सहमति ज़रूरी है, इसलिए यह हमेशा चालू रहती है।';
 
   @override
   String get profilePhoneSignedIn => 'आप इसी नंबर से लॉगिन करते हैं।';
@@ -1154,7 +1154,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get boundaryDeniedForever =>
-      'लोकेशन बंद है। फ़ोन की ऐप सेटिंग में अनुमति दें।';
+      'फ़ोन की ऐप सेटिंग में लोकेशन की अनुमति दें।';
 
   @override
   String get boundaryFailed =>
@@ -1225,18 +1225,18 @@ class AppLocalizationsHi extends AppLocalizations {
   String get walkthroughStart => 'शुरू करें';
 
   @override
-  String get walkthroughPlotsTitle => 'आपके प्लॉट और बहार कैलेंडर';
+  String get walkthroughPlotsTitle => 'आपके बाग और बहार कैलेंडर';
 
   @override
   String get walkthroughPlotsBody =>
-      'अपने प्लॉट जोड़ें। हर बहार के लिए मौसम का कैलेंडर और करने वाले कामों की सूची दिखेगी।';
+      'अपने बाग जोड़ें। हर बहार के लिए मौसम का कैलेंडर और करने वाले कामों की सूची दिखेगी।';
 
   @override
-  String get walkthroughWeatherTitle => 'आपके प्लॉट के लिए मौसम सूचना';
+  String get walkthroughWeatherTitle => 'आपके बाग के लिए मौसम सूचना';
 
   @override
   String get walkthroughWeatherBody =>
-      'अपने प्लॉट का मौसम देखें। बारिश या धूप पर ध्यान देना हो तब सूचना मिलेगी।';
+      'अपने बाग का मौसम देखें। बारिश या धूप पर ध्यान देना हो तब सूचना मिलेगी।';
 
   @override
   String get walkthroughMarketTitle => 'पूरे भारत के मंडी भाव';
@@ -1308,7 +1308,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get tasksEmpty => '+ बटन से पहला काम जोड़ें।';
 
   @override
-  String get tasksOverdue => 'देर हो चुकी';
+  String get tasksOverdue => 'बाकी';
 
   @override
   String get tasksToday => 'आज';
@@ -1323,7 +1323,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get noTasksToday => 'आज का दिन खाली';
 
   @override
-  String get taskOverdue => 'देर';
+  String get taskOverdue => 'आज ही करें';
 
   @override
   String dueInDays(int n) {
@@ -1346,11 +1346,11 @@ class AppLocalizationsHi extends AppLocalizations {
   String get plotLocation => 'जगह';
 
   @override
-  String get plotPointCapture => 'मैं बाग में खड़ा हूँ — जगह लें';
+  String get plotPointCapture => 'मैं बाग में हूँ — जगह लें';
 
   @override
   String get plotPointWhy =>
-      'इस हिस्से के मौसम और चेतावनियों के लिए। केवल अभी एक बार ली जाती है।';
+      'इस बाग के मौसम और चेतावनियों के लिए। जगह केवल अभी एक बार ली जाती है।';
 
   @override
   String get plotPointReading => 'जगह ली जा रही है…';
@@ -1362,7 +1362,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get plotPointRetake => 'जगह फिर से लें';
 
   @override
-  String get plotPointDenied => 'हिस्से की जगह सेव करने के लिए अनुमति दें।';
+  String get plotPointDenied => 'बाग की जगह सेव करने के लिए अनुमति दें।';
 
   @override
   String get plotPointOpenSettings => 'सेटिंग्स खोलें';
@@ -1372,7 +1372,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get plotPointLater =>
-      'हिस्सा अभी सेव करें; जगह बाद में कभी भी ले सकते हैं।';
+      'बाग अभी सेव करें; जगह बाद में कभी भी ले सकते हैं।';
 
   @override
   String get boundaryWalkOptional => 'सीमा चलकर दर्ज करें (वैकल्पिक)';
@@ -1454,7 +1454,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get labelInfoBanner =>
-      'यह जानकारी पंजीकृत लेबल (CIB&RC) पर छपी है। यह सिफ़ारिश नहीं है। किसी भी उपयोग से पहले उत्पाद का लेबल पढ़ें और अपने कृषि विज्ञान केंद्र (KVK) या कृषि अधिकारी से पुष्टि करें।';
+      'यह जानकारी पंजीकृत लेबल (CIB&RC) पर छपी है; यह केवल लेबल की जानकारी है, सिफ़ारिश नहीं। किसी भी उपयोग से पहले उत्पाद का लेबल पढ़ें और अपने कृषि विज्ञान केंद्र (KVK) या कृषि अधिकारी से पुष्टि करें।';
 
   @override
   String get labelInfoEmpty =>
@@ -1548,7 +1548,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get marketEmpty =>
-      'फ़ोन ऑनलाइन होने और भाव का स्रोत जुड़ने पर भाव आएँगे।';
+      'फ़ोन ऑनलाइन होने और मंडी भाव सेवा चालू होने पर भाव यहाँ दिखेंगे।';
 
   @override
   String get practicesOpen => 'बाग प्रबंधन पद्धतियाँ (रसायन-रहित)';
@@ -1581,7 +1581,7 @@ class AppLocalizationsHi extends AppLocalizations {
       'स्रोत: NHB और डॉ. पीडीकेवी, अकोला। हर पद्धति के नीचे विवरण।';
 
   @override
-  String get scoutingTitle => 'निरीक्षण नोंद';
+  String get scoutingTitle => 'निरीक्षण रिकॉर्ड';
 
   @override
   String get scoutingAdd => 'निरीक्षण जोड़ें';
@@ -1729,7 +1729,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String feedReplacedBy(String replacement) {
-    return 'वापस लिया गया. इसकी जगह अब: $replacement';
+    return 'वापस लिया गया। इसकी जगह अब: $replacement';
   }
 
   @override
@@ -1743,7 +1743,7 @@ class AppLocalizationsHi extends AppLocalizations {
   }
 
   @override
-  String get feedFooter => 'कुछ भी करने से पहले आधिकारिक GR/पोर्टल देखें.';
+  String get feedFooter => 'कुछ भी करने से पहले आधिकारिक GR/पोर्टल देखें।';
 
   @override
   String feedDeadline(String date) {
@@ -1756,7 +1756,7 @@ class AppLocalizationsHi extends AppLocalizations {
   }
 
   @override
-  String get feedEmpty => 'फ़ोन ऑनलाइन होने पर संदेश आएँगे.';
+  String get feedEmpty => 'फ़ोन ऑनलाइन होने पर संदेश आएँगे।';
 
   @override
   String get feedRemindMe => 'मुझे याद दिलाएँ';
@@ -1776,7 +1776,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get feedCopyLink => 'स्रोत लिंक कॉपी करें';
 
   @override
-  String get feedLinkCopied => 'लिंक कॉपी हो गया. ब्राउज़र में खोलें.';
+  String get feedLinkCopied => 'लिंक कॉपी हो गया। ब्राउज़र में खोलें।';
 
   @override
   String feedSource(String url) {
@@ -1784,7 +1784,7 @@ class AppLocalizationsHi extends AppLocalizations {
   }
 
   @override
-  String get feedNotFound => 'यह संदेश सहेजी सूची से हट गया है.';
+  String get feedNotFound => 'यह संदेश सहेजी सूची से हट गया है।';
 
   @override
   String get feedUnseen => 'नया';
@@ -1793,7 +1793,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get feedDismiss => 'मेरी सूची से हटाएँ';
 
   @override
-  String get feedDismissed => 'आपकी सूची से हटा दिया.';
+  String get feedDismissed => 'आपकी सूची से हटा दिया।';
 
   @override
   String get feedPrefsTitle => 'सूचना सेटिंग';
@@ -1834,27 +1834,27 @@ class AppLocalizationsHi extends AppLocalizations {
   String get feedPrefsDigest => 'हफ़्ते का सार';
 
   @override
-  String get feedPrefsDigestHint => 'हफ़्ते में एक बार नई जानकारी का एक संदेश.';
+  String get feedPrefsDigestHint => 'हफ़्ते में एक बार नई जानकारी का एक संदेश।';
 
   @override
   String get feedPrefsSave => 'सहेजें';
 
   @override
-  String get feedPrefsSaved => 'सेटिंग सहेज ली गई.';
+  String get feedPrefsSaved => 'सेटिंग सहेज ली गई।';
 
   @override
-  String get feedPrefsSaveFailed => 'इंटरनेट आने पर फिर से सहेजें.';
+  String get feedPrefsSaveFailed => 'इंटरनेट आने पर फिर से सहेजें।';
 
   @override
   String get feedPrefsOffline =>
-      'ये आपकी आख़िरी सहेजी सेटिंग हैं. बदलाव सहेजने के लिए इंटरनेट चालू करें.';
+      'ये आपकी आख़िरी सहेजी सेटिंग हैं। बदलाव सहेजने के लिए इंटरनेट चालू करें।';
 
   @override
   String get feedCheckTitle => 'संदेश जाँचें';
 
   @override
   String get feedCheckIntro =>
-      'WhatsApp पर GR या योजना का संदेश आया? यहाँ पेस्ट करें, हम आधिकारिक GR ढूँढेंगे.';
+      'WhatsApp पर GR या योजना का संदेश आया? यहाँ पेस्ट करें, हम आधिकारिक GR ढूँढेंगे।';
 
   @override
   String get feedCheckHint => 'संदेश यहाँ पेस्ट करें';
@@ -1866,11 +1866,12 @@ class AppLocalizationsHi extends AppLocalizations {
   String get feedCheckButton => 'जाँचें';
 
   @override
-  String get feedCheckPrivacy => 'यह पाठ आपके फ़ोन पर सहेजा नहीं जाता.';
+  String get feedCheckPrivacy =>
+      'यह पाठ केवल जाँच के लिए इस्तेमाल होता है; यह फ़ोन पर सहेजा नहीं जाता।';
 
   @override
   String get feedCheckFailed =>
-      'जाँच के लिए इंटरनेट चाहिए; इंटरनेट आने पर फिर कोशिश करें.';
+      'जाँच के लिए इंटरनेट चाहिए; इंटरनेट आने पर फिर कोशिश करें।';
 
   @override
   String get feedCheckOfficial => 'आधिकारिक GR मिला';
@@ -1879,10 +1880,10 @@ class AppLocalizationsHi extends AppLocalizations {
   String get feedCheckPossible => 'शायद जुड़े हुए आधिकारिक संदेश';
 
   @override
-  String get feedCheckNoMatch => 'मेल खाता आधिकारिक संदेश नहीं मिला.';
+  String get feedCheckNoMatch => 'मेल खाता आधिकारिक संदेश नहीं मिला।';
 
   @override
-  String get feedCheckPortal => 'कुछ करने से पहले आधिकारिक पोर्टल जाँचें.';
+  String get feedCheckPortal => 'कुछ करने से पहले आधिकारिक पोर्टल जाँचें।';
 
   @override
   String get shareAction => 'भेजें';
@@ -1923,7 +1924,7 @@ class AppLocalizationsHi extends AppLocalizations {
   }
 
   @override
-  String get loadingLabel => 'लोड हो रहा है';
+  String get loadingLabel => 'जानकारी आ रही है';
 
   @override
   String get accountSwitchTitle => 'दूसरे खाते के रिकॉर्ड';
@@ -1946,7 +1947,7 @@ class AppLocalizationsHi extends AppLocalizations {
       other: 'पिछले खाते के $count रिकॉर्ड अभी भेजने बाकी हैं।',
       one: 'पिछले खाते का 1 रिकॉर्ड अभी भेजना बाकी है।',
     );
-    return '$_temp0 उस खाते से फिर से साइन इन करें और इंटरनेट चालू रखकर ऐप खोलें ताकि वे भेजे जाएँ। फिर इस खाते से साइन इन करें।';
+    return '$_temp0 उस खाते से फिर से लॉगिन करें और इंटरनेट चालू रखकर ऐप खोलें ताकि वे भेजे जाएँ। फिर इस खाते से लॉगिन करें।';
   }
 
   @override
@@ -2086,7 +2087,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get claimKitNoPhotos => 'नुकसान की फ़ोटो लें; वे यहाँ दिखेंगी।';
 
   @override
-  String get claimKitNoGps => 'GPS अनुपलब्ध';
+  String get claimKitNoGps => 'GPS के बिना';
 
   @override
   String get claimKitRemovePhoto => 'फ़ोटो हटाएँ';
@@ -2480,7 +2481,7 @@ class AppLocalizationsHi extends AppLocalizations {
       'जानकारी दिखाई गई तारीख को आधिकारिक पेजों से ली गई है। जाने से पहले फ़ोन करके या पेज देखकर पुष्टि करें।';
 
   @override
-  String get directoryEmpty => 'नोंदें यहाँ दिखेंगी।';
+  String get directoryEmpty => 'जानकारी यहाँ दिखेगी।';
 
   @override
   String get directoryKindResearch => 'अनुसंधान संस्थान';
@@ -2600,7 +2601,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String syncEntryName(String entity) {
     String _temp0 = intl.Intl.selectLogic(entity, {
       'farmer_profile': 'प्रोफ़ाइल',
-      'plot': 'प्लॉट',
+      'plot': 'बाग',
       'bahar_cycle': 'बहार',
       'expense': 'खर्च',
       'income': 'बिक्री',

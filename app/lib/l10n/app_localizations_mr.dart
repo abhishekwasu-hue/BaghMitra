@@ -44,7 +44,7 @@ class AppLocalizationsMr extends AppLocalizations {
         intl.NumberFormat.decimalPattern(localeName);
     final String percentString = percentNumberFormat.format(percent);
 
-    return 'माती ओली $percentString%';
+    return 'मातीतील ओलावा $percentString%';
   }
 
   @override
@@ -64,7 +64,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get todaysTasks => 'आजची कामे';
 
   @override
-  String get seeAll => 'सगळी पाहा';
+  String get seeAll => 'सर्व पहा';
 
   @override
   String marketTitle(String market) {
@@ -105,7 +105,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get homeStageAddDates => 'टप्प्यांच्या तारखा लिहा, इथे दिवस दिसतील.';
 
   @override
-  String get homeOpenMarket => 'बाजारभाव पाहा';
+  String get homeOpenMarket => 'बाजारभाव पहा';
 
   @override
   String get choosePlot => 'बाग निवडा';
@@ -123,7 +123,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get takePhoto => 'फोटो काढा';
 
   @override
-  String get navHome => 'घर';
+  String get navHome => 'मुख्य पान';
 
   @override
   String get navOrchard => 'बाग';
@@ -255,7 +255,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get plotCrop => 'पीक';
 
   @override
-  String get plotVariety => 'जात (ऐच्छिक)';
+  String get plotVariety => 'वाण (ऐच्छिक)';
 
   @override
   String get plotAreaAcres => 'क्षेत्र (एकर)';
@@ -314,7 +314,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get baharEmptyBody =>
-      'बहार निवडा आणि तुमच्या तारखा लिहा. तज्ञांनी तपासलेले कॅलेंडर तयार झाल्यावर सुचवलेल्या तारखा मिळतील.';
+      'बहार निवडा आणि तुमच्या तारखा लिहा. तज्ज्ञांनी तपासलेले कॅलेंडर तयार झाल्यावर सुचवलेल्या तारखा मिळतील.';
 
   @override
   String get baharWhich => 'कोणता बहार?';
@@ -828,7 +828,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String sprayWarnBannedBody(String notification) {
-    return 'हा घटक बंदी असलेला आहे ($notification). तो वापरू नका. जवळच्या KVK किंवा तज्ञांना विचारा.';
+    return 'हा घटक बंदी असलेला आहे ($notification). तो वापरू नका. जवळच्या KVK किंवा तज्ज्ञांना विचारा.';
   }
 
   @override
@@ -836,7 +836,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String sprayWarnRestrictedBody(String notification) {
-    return 'या पिकासाठी हा घटक प्रतिबंधित आहे ($notification). लेबल पाहा आणि स्थानिक तज्ञांना विचारा.';
+    return 'या पिकासाठी हा घटक प्रतिबंधित आहे ($notification). लेबल पहा आणि स्थानिक तज्ज्ञांना विचारा.';
   }
 
   @override
@@ -897,7 +897,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get labourTitle => 'मजुरी';
 
   @override
-  String get labourAddDay => 'मजूर दिवस जोडा';
+  String get labourAddDay => 'मजुराचा दिवस जोडा';
 
   @override
   String get labourWorker => 'मजुराचे नाव';
@@ -938,7 +938,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get harvestAdd => 'तोडणी जोडा';
 
   @override
-  String get harvestKg => 'प्रमाण (किलो)';
+  String get harvestKg => 'वजन (किलो)';
 
   @override
   String get harvestGrade => 'ग्रेड (ऐच्छिक)';
@@ -1054,7 +1054,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get profileConsentDataNote =>
-      'तुमच्या नोंदी साठवण्यासाठी आणि सुरक्षित ठेवण्यासाठी ही संमती लागते. ती इथे बंद करता येत नाही.';
+      'तुमच्या नोंदी साठवण्यासाठी आणि सुरक्षित ठेवण्यासाठी ही संमती लागते, म्हणून ती नेहमी चालू राहते.';
 
   @override
   String get profilePhoneSignedIn => 'या नंबरने तुम्ही लॉगिन करता.';
@@ -1155,7 +1155,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get boundaryDeniedForever =>
-      'लोकेशन बंद केलेले आहे. फोनच्या अॅप सेटिंगमध्ये परवानगी द्या.';
+      'फोनच्या ॲप सेटिंगमध्ये लोकेशनला परवानगी द्या.';
 
   @override
   String get boundaryFailed =>
@@ -1257,11 +1257,11 @@ class AppLocalizationsMr extends AppLocalizations {
   String get settingsShowWalkthrough => 'ॲपची ओळख पुन्हा पहा';
 
   @override
-  String get settingsPhotoMobileData => 'मोबाइल डेटावरही फोटोचा बॅकअप घ्या';
+  String get settingsPhotoMobileData => 'मोबाईल डेटावरही फोटोचा बॅकअप घ्या';
 
   @override
   String get settingsPhotoMobileDataHint =>
-      'पाहणीच्या फोटोंचा बॅकअप वाय-फायवर होतो. मोबाइल डेटाही वापरायचा असेल तर हे चालू करा.';
+      'पाहणीच्या फोटोंचा बॅकअप वाय-फायवर होतो. मोबाईल डेटाही वापरायचा असेल तर हे चालू करा.';
 
   @override
   String buildLabel(String sha) {
@@ -1269,10 +1269,10 @@ class AppLocalizationsMr extends AppLocalizations {
   }
 
   @override
-  String get seedOrchard => 'नमुना बाग भरा';
+  String get seedOrchard => 'नमुना बाग जोडा';
 
   @override
-  String get seedOrchardDone => 'नमुना बाग भरला';
+  String get seedOrchardDone => 'नमुना बाग जोडली';
 
   @override
   String get voiceUnavailable =>
@@ -1309,7 +1309,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get tasksEmpty => '+ बटणाने पहिले काम जोडा.';
 
   @override
-  String get tasksOverdue => 'उशीर झालेली';
+  String get tasksOverdue => 'राहिलेली';
 
   @override
   String get tasksToday => 'आज';
@@ -1324,7 +1324,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get noTasksToday => 'आजचा दिवस मोकळा';
 
   @override
-  String get taskOverdue => 'उशीर';
+  String get taskOverdue => 'आजच करा';
 
   @override
   String dueInDays(int n) {
@@ -1332,13 +1332,13 @@ class AppLocalizationsMr extends AppLocalizations {
   }
 
   @override
-  String get editPlot => 'बाग संपादित करा';
+  String get editPlot => 'बागेची माहिती बदला';
 
   @override
-  String get plotOpenRecords => 'बहार, फवारणी आणि हिशेब';
+  String get plotOpenRecords => 'बहार, फवारणी आणि हिशोब';
 
   @override
-  String get plotBoundaryNone => 'हद्द नोंदवा';
+  String get plotBoundaryNone => 'सीमा नोंदवा';
 
   @override
   String get plotCentre => 'मध्यबिंदू';
@@ -1347,11 +1347,11 @@ class AppLocalizationsMr extends AppLocalizations {
   String get plotLocation => 'ठिकाण';
 
   @override
-  String get plotPointCapture => 'मी बागेत उभा आहे — ठिकाण घ्या';
+  String get plotPointCapture => 'मी बागेत आहे — ठिकाण घ्या';
 
   @override
   String get plotPointWhy =>
-      'या भागाच्या हवामान व इशाऱ्यांसाठी. फक्त आत्ता एकदाच घेतले जाते.';
+      'या बागेच्या हवामान व इशाऱ्यांसाठी. ठिकाण फक्त आत्ता एकदाच घेतले जाते.';
 
   @override
   String get plotPointReading => 'ठिकाण घेत आहे…';
@@ -1363,7 +1363,8 @@ class AppLocalizationsMr extends AppLocalizations {
   String get plotPointRetake => 'ठिकाण पुन्हा घ्या';
 
   @override
-  String get plotPointDenied => 'भागाचे ठिकाण घेण्यासाठी परवानगी द्या.';
+  String get plotPointDenied =>
+      'बागेचे ठिकाण जतन करण्यासाठी लोकेशनला परवानगी द्या.';
 
   @override
   String get plotPointOpenSettings => 'सेटिंग्ज उघडा';
@@ -1372,13 +1373,13 @@ class AppLocalizationsMr extends AppLocalizations {
   String get plotPointTryAgain => 'पुन्हा प्रयत्न करा';
 
   @override
-  String get plotPointLater => 'भाग आत्ता जतन करा; ठिकाण नंतर कधीही घेता येईल.';
+  String get plotPointLater => 'बाग आत्ता जतन करा; ठिकाण नंतर कधीही घेता येईल.';
 
   @override
   String get boundaryWalkOptional => 'सीमा चालत नोंदवा (ऐच्छिक)';
 
   @override
-  String get calendarTitle => 'हंगाम दिनदर्शिका';
+  String get calendarTitle => 'हंगामाचे कॅलेंडर';
 
   @override
   String get calendarIntro =>
@@ -1394,7 +1395,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get calendarStageDone => 'झाले';
 
   @override
-  String get calendarOpen => 'हंगाम दिनदर्शिका';
+  String get calendarOpen => 'हंगामाचे कॅलेंडर';
 
   @override
   String get baharCompareTitle => 'बहारांची तुलना';
@@ -1441,7 +1442,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String weatherRain(String mm) {
-    return '$mm मिमी पाऊस';
+    return '$mm मि.मी. पाऊस';
   }
 
   @override
@@ -1454,7 +1455,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get labelInfoBanner =>
-      'ही माहिती नोंदणीकृत लेबलवर (CIB&RC) छापलेली आहे. ही शिफारस नाही. कोणताही वापर करण्यापूर्वी उत्पादनाचे लेबल वाचा आणि तुमच्या कृषी विज्ञान केंद्र (KVK) किंवा कृषी अधिकाऱ्याकडून खात्री करून घ्या.';
+      'ही माहिती नोंदणीकृत लेबलवर (CIB&RC) छापलेली आहे; ती फक्त लेबलवरील माहिती आहे, शिफारस नाही. कोणताही वापर करण्यापूर्वी उत्पादनाचे लेबल वाचा आणि तुमच्या कृषी विज्ञान केंद्राकडून (KVK) किंवा कृषी अधिकाऱ्याकडून खात्री करून घ्या.';
 
   @override
   String get labelInfoEmpty =>
@@ -1547,7 +1548,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get marketEmpty =>
-      'फोन ऑनलाइन असताना आणि भावांचा स्रोत जोडलेला असताना भाव येतील.';
+      'फोन ऑनलाइन असताना आणि बाजारभाव सेवा सुरू असताना भाव इथे दिसतील.';
 
   @override
   String get practicesOpen => 'बाग व्यवस्थापन पद्धती (रसायनविरहित)';
@@ -1613,7 +1614,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get scoutingGallery => 'गॅलरी';
 
   @override
-  String get scoutingRemovePhoto => 'फोटो काढा';
+  String get scoutingRemovePhoto => 'फोटो हटवा';
 
   @override
   String get scoutingPhotoFailed => 'कृपया फोटो पुन्हा घ्या.';
@@ -1699,7 +1700,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get feedOpenHint => 'अधिकृत GR, योजना आणि शेवटच्या तारखा';
 
   @override
-  String get feedFilterAll => 'सगळे';
+  String get feedFilterAll => 'सर्व';
 
   @override
   String get feedFilterOfficial => 'अधिकृत';
@@ -1863,7 +1864,8 @@ class AppLocalizationsMr extends AppLocalizations {
   String get feedCheckButton => 'तपासा';
 
   @override
-  String get feedCheckPrivacy => 'हा मजकूर तुमच्या फोनवर जतन होत नाही.';
+  String get feedCheckPrivacy =>
+      'हा मजकूर फक्त तपासणीसाठी वापरला जातो; तो फोनवर साठवला जात नाही.';
 
   @override
   String get feedCheckFailed =>
@@ -1920,7 +1922,7 @@ class AppLocalizationsMr extends AppLocalizations {
   }
 
   @override
-  String get loadingLabel => 'लोड होत आहे';
+  String get loadingLabel => 'माहिती येत आहे';
 
   @override
   String get accountSwitchTitle => 'दुसऱ्या खात्याच्या नोंदी';
@@ -1943,7 +1945,7 @@ class AppLocalizationsMr extends AppLocalizations {
       other: 'आधीच्या खात्याच्या $count नोंदी अजून पाठवायच्या बाकी आहेत.',
       one: 'आधीच्या खात्याची १ नोंद अजून पाठवायची बाकी आहे.',
     );
-    return '$_temp0 त्या खात्याने पुन्हा साइन इन करा आणि इंटरनेट चालू ठेवून ॲप उघडा, म्हणजे त्या पाठवल्या जातील. मग या खात्याने साइन इन करा.';
+    return '$_temp0 त्या खात्याने पुन्हा लॉगिन करा आणि इंटरनेट चालू ठेवून ॲप उघडा, म्हणजे त्या पाठवल्या जातील. मग या खात्याने लॉगिन करा.';
   }
 
   @override
@@ -1956,7 +1958,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get insuranceEmpty =>
-      'या बागेसाठी घेतलेला पीक विमा नोंदवा, किंवा नुकसान झाल्यावर क्लेम किट उघडा.';
+      'या बागेसाठी घेतलेला पीक विमा नोंदवा, किंवा नुकसान झाल्यावर नुकसान नोंद किट उघडा.';
 
   @override
   String get insurancePoliciesNone => 'पहिली विमा पॉलिसी नोंदवा.';
@@ -2062,10 +2064,10 @@ class AppLocalizationsMr extends AppLocalizations {
   }
 
   @override
-  String get claimKitTitle => 'क्लेम किट';
+  String get claimKitTitle => 'नुकसान नोंद किट';
 
   @override
-  String get claimKitFromAlert => 'नुकसानीचे फोटो · क्लेम किट';
+  String get claimKitFromAlert => 'नुकसानीचे फोटो · नुकसान नोंद किट';
 
   @override
   String get claimKitPlot => 'बाग';
@@ -2083,7 +2085,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get claimKitNoPhotos => 'नुकसानीचे फोटो घ्या; ते इथे दिसतील.';
 
   @override
-  String get claimKitNoGps => 'GPS अनुपलब्ध';
+  String get claimKitNoGps => 'GPS शिवाय';
 
   @override
   String get claimKitRemovePhoto => 'फोटो हटवा';
@@ -2274,7 +2276,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get labTestNextDue => 'पुढील तपासणी (आठवण)';
 
   @override
-  String get labTestNextDueHint => 'आठवण कार्य हवे असेल तरच तारीख निवडा.';
+  String get labTestNextDueHint => 'आठवणीचे काम हवे असेल तरच तारीख निवडा.';
 
   @override
   String get labTestNextDueClear => 'आठवणीची तारीख काढा';
@@ -2407,10 +2409,10 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get lookalikesCheckLine =>
-      'खात्री हवी? फोटो घ्या, निरीक्षण नोंदीत लिहा आणि निर्णय घेण्याआधी प्रयोगशाळा किंवा तज्ज्ञांकडून तपासून घ्या.';
+      'खात्री हवी? फोटो घ्या, पाहणी नोंदीत लिहा आणि निर्णय घेण्याआधी प्रयोगशाळा किंवा तज्ज्ञांकडून तपासून घ्या.';
 
   @override
-  String get lookalikesLogThis => 'निरीक्षण नोंदीत लिहा';
+  String get lookalikesLogThis => 'पाहणी नोंदीत लिहा';
 
   @override
   String get lookalikesFindLab => 'प्रयोगशाळा / तज्ज्ञ शोधा';

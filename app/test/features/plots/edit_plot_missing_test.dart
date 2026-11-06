@@ -21,7 +21,7 @@ void main() {
     await pumpApp(tester, initialLocation: '/plots/p1/edit', seed: seedPlot);
     await settle(tester);
     expect(find.byType(AddPlotScreen), findsOneWidget);
-    expect(find.text('बाग संपादित करा'), findsOneWidget);
+    expect(find.text('बागेची माहिती बदला'), findsOneWidget);
     await unmountApp(tester);
   });
 }

@@ -176,7 +176,7 @@ void main() {
   testWidgets('labour register in Marathi', (tester) async {
     await pumpApp(tester, initialLocation: '/plots/p1/labour', seed: seedWork);
     await settle(tester);
-    expect(find.text('मजूर दिवस जोडा'), findsOneWidget);
+    expect(find.text('मजुराचा दिवस जोडा'), findsOneWidget);
     expect(find.text('पूर्ण दिले'), findsOneWidget);
     await unmountApp(tester);
   });
