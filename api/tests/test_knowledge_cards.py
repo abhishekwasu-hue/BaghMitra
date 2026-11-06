@@ -153,3 +153,15 @@ async def test_retired_cards_and_older_versions_are_left_out(
         await session.commit()
     after = (await client.get("/v1/knowledge/cards?crop=santra", headers=auth_headers)).json()
     assert after["cards"] == []
+
+
+def test_marathi_uses_the_glossary_terms() -> None:
+    # docs/agronomy/GLOSSARY_mr.md: variant -> term.
+    variants = {"काढणी", "सिल्ला", "पालवी", "शेंडेमर", "फांदी करपा", "कॅन्कर", "मुळकुज", "सेंमी"}
+    data = knowledge_seeds()
+    texts = [t.labels["mr"] for t in data.topics] + [
+        text for c in data.cards for text in c.content["mr"].values()
+    ]
+    for text in texts:
+        for variant in variants:
+            assert variant not in text, (variant, text)

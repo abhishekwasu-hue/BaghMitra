@@ -2708,4 +2708,65 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get labelReadNote => 'फवारणीपूर्वी पाकिटावरील लेबल वाचा.';
+
+  @override
+  String get practicesSee => 'काय दिसते';
+
+  @override
+  String get practicesWhen => 'केव्हा येते';
+
+  @override
+  String get practicesScout => 'पाहणी कशी करावी';
+
+  @override
+  String get practicesActionLevel => 'नुकसान पातळी';
+
+  @override
+  String get practicesNoActionLevel =>
+      'नुकसान पातळीसाठी आपल्या KVK ला विचारा; वाचलेल्या स्रोतांत तिचा उल्लेख अजून सापडायचा आहे.';
+
+  @override
+  String get practicesWhatToDo => 'काय करावे';
+
+  @override
+  String get practicesBioTitle => 'सेंद्रिय / जैविक';
+
+  @override
+  String get practicesBioRegistered =>
+      'नोंदणीकृत उत्पादन: मात्रा फक्त त्याच्या लेबलवरूनच.';
+
+  @override
+  String get practicesBioHome => 'घरगुती, प्रकाशित पद्धतीप्रमाणे';
+
+  @override
+  String get practicesHowToPrepare => 'कसे तयार करावे';
+
+  @override
+  String get practicesLabelLink => 'लेबलप्रमाणे मंजूर औषधे';
+
+  @override
+  String get practicesKnowledgeCard => 'ज्ञान कार्ड';
+
+  @override
+  String get knowledgeTitle => 'ज्ञान कार्ड';
+
+  @override
+  String get knowledgeIntro =>
+      'बहार, कीड, रोग, पोषण, पाणी आणि तोडणी यांवर थोडक्यात माहिती. उत्पादने व मात्रा लेबल स्क्रीनवर पाहा.';
+
+  @override
+  String get knowledgeEmpty => 'फोन ऑनलाइन झाल्यावर ज्ञान कार्ड येथे दिसतील.';
+
+  @override
+  String get knowledgeWarnings => 'काळजी घ्या';
+
+  @override
+  String get knowledgeCallExpert => 'तज्ज्ञांना केव्हा विचारावे';
+
+  @override
+  String get knowledgeSources => 'स्रोत';
+
+  @override
+  String get practicesSourcesLineAll =>
+      'स्रोत: NHB, NIPHM, ICAR, डॉ. पंदेकृवि, MPKV, TNAU व इतर. प्रत्येक पद्धतीखाली तपशील.';
 }

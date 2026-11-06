@@ -48,6 +48,45 @@ void _expectClean(Map<String, String> labels, String what) {
   }
 }
 
+/// Synthetic pesticides, fertilisers and doses that may never appear in an organic / bio text.
+const _synthetic = [
+  'imidacloprid',
+  'thiamethoxam',
+  'dimethoate',
+  'malathion',
+  'monocrotophos',
+  'chlorpyri',
+  'acephate',
+  'abamectin',
+  'novaluron',
+  'spinosad',
+  'quinalphos',
+  'dicofol',
+  'carbendazim',
+  'mancozeb',
+  'copper',
+  'bordeaux',
+  'sulphur',
+  'sulfur',
+  'streptocycline',
+  'tetracycline',
+  'urea',
+  'phosphate',
+  'potash',
+  'petroleum',
+  'kerosene',
+];
+
+void _expectBio(Map<String, String> labels, String what) {
+  for (final lang in ['en', 'mr', 'hi']) {
+    expect(labels[lang]?.trim(), isNotEmpty, reason: '$what has no $lang');
+  }
+  final en = labels['en']!.toLowerCase();
+  for (final w in _synthetic) {
+    expect(en.contains(w), isFalse, reason: '$what en names "$w"');
+  }
+}
+
 void main() {
   late PracticeCardsData data;
 
@@ -57,10 +96,10 @@ void main() {
 
   test('every practice is sourced, translated and free of chemical advice', () {
     expect(data.isDraft, isTrue);
-    expect(data.sections, hasLength(13));
+    expect(data.sections, hasLength(25));
     final items = [for (final s in data.sections) ...s.items];
-    expect(items, hasLength(70));
-    expect(items.map((i) => i.id).toSet(), hasLength(70));
+    expect(items, hasLength(108));
+    expect(items.map((i) => i.id).toSet(), hasLength(108));
     for (final s in data.sections) {
       _expectClean(s.labels, 'section ${s.key}');
     }
@@ -85,6 +124,90 @@ void main() {
       _expectClean(g, 'gap $n');
     }
   });
+
+  test(
+    'problem profiles are sourced, dated, clean and link to the label screen',
+    () {
+      final profiled = [
+        for (final s in data.sections)
+          if (s.profile case final p?) (s, p),
+      ];
+      // The WP2 gaps closed with a profile (owner decision Q57).
+      expect(profiled.map((sp) => sp.$1.key).toSet(), {
+        'phytophthora',
+        'canker',
+        'psylla',
+        'greening',
+        'powdery_mildew',
+        'anthracnose',
+        'black_fly',
+        'mites',
+        'aphids',
+        'thrips',
+        'mealybug',
+        'leaf_miner',
+        'fruit_fly',
+        'heat_drop',
+        'nutrition',
+        'mosambi',
+      });
+      for (final (s, p) in profiled) {
+        expect(PracticeProfile.kinds, contains(p.kind), reason: s.key);
+        expect(p.checked, isNotNull, reason: '${s.key} has no date read');
+        for (final part in [p.symptoms, p.when, p.scouting, p.actionLevel]) {
+          if (part == null) continue;
+          _expectClean(part.labels, '${s.key} profile');
+          expect(part.source, isNotEmpty);
+          expect(part.sourceKeys, isNotEmpty, reason: s.key);
+        }
+        if (p.kind == 'pest' || p.kind == 'disease') {
+          expect(p.labelTarget, isNotNull, reason: '${s.key} label link');
+        }
+        for (final k in p.sourceKeys) {
+          expect(data.sources, contains(k), reason: '${s.key} cites $k');
+          expect(data.sources[k]!.publisher, isNotNull, reason: k);
+          expect(data.sources[k]!.checked, isNotNull, reason: k);
+        }
+        for (final b in p.bio) {
+          _expectBio(b.labels, '${s.key} ${b.id}');
+          expect(PracticeBio.kinds, contains(b.kind), reason: b.id);
+          expect(b.sourceKeys, isNotEmpty, reason: b.id);
+          for (final e in b.evidence) {
+            expect(PracticeCardsData.evidenceKinds, contains(e));
+          }
+          if (b.kind == 'registered') {
+            // A registered product is named without a dose or strength: the dose is
+            // the label's.
+            expect(
+              RegExp(r'\d+(?:\.\d+)?\s*(?:%|ppm|ml|g\b|kg|l\b|litre)')
+                  .hasMatch(b.labels['en']!),
+              isFalse,
+              reason: '${b.id} carries a dose',
+            );
+            expect(b.preparation, isNull, reason: b.id);
+          }
+          if (b.preparation case final prep?) {
+            expect(data.preparations, contains(prep), reason: b.id);
+          }
+        }
+      }
+      // Only one published action level was found (mealybug, ICAR-NRC Citrus review).
+      expect(
+        [
+          for (final (s, p) in profiled)
+            if (p.actionLevel != null) s.key,
+        ],
+        ['mealybug'],
+      );
+      expect(data.preparations.keys, {'nske_5', 'neem_oil_1'});
+      for (final prep in data.preparations.values) {
+        _expectBio(prep.labels, 'preparation');
+        expect(prep.sourceKeys, isNotEmpty);
+      }
+      final ids = [for (final (_, p) in profiled) ...p.bio.map((b) => b.id)];
+      expect(ids.toSet(), hasLength(ids.length));
+    },
+  );
 
   test('labels fall back to English', () {
     const item = PracticeItem(
@@ -130,7 +253,8 @@ void main() {
     await tester.scrollUntilVisible(sourcesLine, 300);
     expect(
       find.text(
-        'Sources: NHB and Dr. PDKV, Akola. Details under each practice.',
+        'Sources: NHB, NIPHM, ICAR, Dr. PDKV, MPKV, TNAU and others. '
+        'Details under each practice.',
       ),
       findsOneWidget,
     );
@@ -150,6 +274,70 @@ void main() {
       findsOneWidget,
     );
     expect(find.text('विद्यापीठ'), findsWidgets);
+    await unmountApp(tester);
+  });
+
+  testWidgets(
+    'a problem section shows its profile, bio list and links in Marathi',
+    (tester) async {
+      await pumpApp(tester, initialLocation: '/practices', seed: seedPlot);
+      await settle(tester);
+      final thrips = find.byKey(const Key('practices-thrips'));
+      await tester.scrollUntilVisible(thrips, 300);
+      await tester.tap(thrips);
+      await settle(tester);
+      expect(find.byKey(const Key('practices-general-thrips')), findsOneWidget);
+      expect(
+        find.textContaining('सार्वजनिक स्रोतांतील सर्वसाधारण माहिती'),
+        findsWidgets,
+      );
+      expect(find.text('काय दिसते'), findsOneWidget);
+      expect(find.text('पाहणी कशी करावी'), findsOneWidget);
+      expect(
+        find.byKey(const Key('practices-no-action-thrips')),
+        findsOneWidget,
+      );
+      final link = find.byKey(const Key('practices-labels-thrips'));
+      await tester.scrollUntilVisible(link, 200);
+      expect(find.text('लेबलप्रमाणे मंजूर औषधे'), findsOneWidget);
+      expect(find.byKey(const Key('practices-bio-thrips')), findsOneWidget);
+      expect(find.textContaining('नोंदणीकृत उत्पादन'), findsOneWidget);
+      await unmountApp(tester);
+    },
+  );
+
+  testWidgets('a home-made option shows its preparation as published', (
+    tester,
+  ) async {
+    await pumpApp(
+      tester,
+      locale: const Locale('en'),
+      initialLocation: '/practices',
+      seed: seedPlot,
+    );
+    await settle(tester);
+    final miner = find.byKey(const Key('practices-leaf_miner'));
+    await tester.scrollUntilVisible(miner, 300);
+    await tester.tap(miner);
+    await settle(tester);
+    final prep = find.byKey(const Key('practice-prep-b3'));
+    await tester.scrollUntilVisible(prep, 200);
+    await tester.ensureVisible(prep);
+    await tester.pumpAndSettle();
+    await tester.tap(prep);
+    await settle(tester);
+    expect(
+      find.textContaining('5 kg well-dried neem seed kernels'),
+      findsOneWidget,
+    );
+    expect(find.text('Home-made, as published'), findsWidgets);
+    final link = find.byKey(const Key('practices-labels-leaf_miner'));
+    await tester.scrollUntilVisible(link, 200);
+    await tester.ensureVisible(link);
+    await tester.pumpAndSettle();
+    await tester.tap(link);
+    await settle(tester);
+    expect(find.text('Label information'), findsWidgets);
     await unmountApp(tester);
   });
 }
