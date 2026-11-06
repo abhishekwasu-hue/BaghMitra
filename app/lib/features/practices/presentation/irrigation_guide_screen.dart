@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../app/providers.dart';
 import '../../../core/formatting.dart';
 import '../../../design_system/app_bar_title.dart';
+import '../../../design_system/general_info_note.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../data/irrigation_guide.dart';
@@ -92,6 +93,15 @@ class _IrrigationGuideScreenState extends ConsumerState<IrrigationGuideScreen> {
       body: ListView(
         padding: const EdgeInsets.all(BmSpace.lg),
         children: [
+          GeneralInfoNote(
+            key: const Key('irrigation-general-info'),
+            source: data.generalSource,
+            checked: switch (data.checked) {
+              final d? => formatDate(d, lang),
+              null => null,
+            },
+          ),
+          const SizedBox(height: BmSpace.sm),
           Text(
             t.irrigationCaveat,
             key: const Key('irrigation-caveat'),

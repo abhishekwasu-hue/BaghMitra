@@ -315,7 +315,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get baharEmptyBody =>
-      'Choose a bahar and write down your own dates. Suggested dates will come once an expert-checked calendar is ready.';
+      'Choose a bahar. Each stage shows a suggested window from public sources; every date stays yours to change.';
 
   @override
   String get baharWhich => 'Which bahar?';
@@ -2712,6 +2712,26 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get labelReadNote => 'Read the label on the packet before spraying.';
+
+  @override
+  String baharSuggestedWindow(String from, String to) {
+    return 'Suggested: $from – $to';
+  }
+
+  @override
+  String get baharNoWindow =>
+      'Enter your own date: the sources give windows for the other stages only';
+
+  @override
+  String get baharFillSuggested => 'Fill in the suggested dates';
+
+  @override
+  String get baharSuggestedHelp =>
+      'Suggested windows are from public sources. Change any date to suit your orchard.';
+
+  @override
+  String get baharStressBySoil =>
+      'How long the stress lasts depends on the soil: fewer days in light soil, more in heavy soil.';
 
   @override
   String get practicesSee => 'What you see';

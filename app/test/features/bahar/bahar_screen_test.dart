@@ -73,8 +73,13 @@ void main() {
         db.outboxEntries,
       )..where((t) => t.entity.equals('farm_task'))).get(),
     );
-    final task = jsonDecode(tasks!.single.payload) as Map<String, Object?>;
-    expect(task['kind'], 'scouting');
+    final made = [
+      for (final t in tasks!) jsonDecode(t.payload) as Map<String, Object?>,
+    ];
+    // The stage reminder, plus the cultural operations for flowering (general information).
+    final task = made.singleWhere((t) => t['kind'] == 'scouting');
+    expect(made.where((t) => t['kind'] == 'irrigation'), isNotEmpty);
+    expect(made.map((t) => t['kind']), isNot(contains('spray')));
     expect(task['plot_id'], 'p1');
     expect(task['title'], contains('Flowering today (Mrig bahar)'));
     await unmountApp(tester);

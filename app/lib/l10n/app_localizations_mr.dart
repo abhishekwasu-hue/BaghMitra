@@ -314,7 +314,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get baharEmptyBody =>
-      'बहार निवडा आणि तुमच्या तारखा लिहा. तज्ज्ञांनी तपासलेले कॅलेंडर तयार झाल्यावर सुचवलेल्या तारखा मिळतील.';
+      'बहार निवडा. प्रत्येक टप्प्यासाठी सार्वजनिक स्रोतांतून सुचवलेला काळ दिसतो; प्रत्येक तारीख तुम्ही बदलू शकता.';
 
   @override
   String get baharWhich => 'कोणता बहार?';
@@ -2708,6 +2708,26 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get labelReadNote => 'फवारणीपूर्वी पाकिटावरील लेबल वाचा.';
+
+  @override
+  String baharSuggestedWindow(String from, String to) {
+    return 'सुचवलेला काळ: $from – $to';
+  }
+
+  @override
+  String get baharNoWindow =>
+      'तुमची तारीख नोंदवा: स्रोतांमध्ये फक्त इतर टप्प्यांचा काळ दिला आहे';
+
+  @override
+  String get baharFillSuggested => 'सुचवलेल्या तारखा भरा';
+
+  @override
+  String get baharSuggestedHelp =>
+      'सुचवलेला काळ सार्वजनिक स्रोतांतून आहे. तुमच्या बागेनुसार कोणतीही तारीख बदला.';
+
+  @override
+  String get baharStressBySoil =>
+      'ताण किती दिवस द्यायचा हे जमिनीवर अवलंबून: हलक्या जमिनीत कमी दिवस, भारी जमिनीत जास्त.';
 
   @override
   String get practicesSee => 'काय दिसते';

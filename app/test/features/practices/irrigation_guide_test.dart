@@ -148,8 +148,27 @@ void main() {
     expect(notes, isNot(contains('mn7')));
     expect(byId['m1']!.sourceKeys, ['NI', 'AW18']);
     expect(byId, isNot(contains('m8')));
-    // The bahar-length gap is closed; only the winter / rainy litres gap stays.
-    expect(m.gaps, hasLength(1));
+    // The bahar-length gap and the winter / rainy litres gap are closed (PDKV table, AW24D),
+    // including the 5–7 year trees.
+    expect(m.gaps, isEmpty);
+    expect(data.crops['santra']!.gaps, isEmpty);
+    for (final (band, season) in [
+      ('young', 'winter'),
+      ('young', 'rainy'),
+      ('middle', 'winter'),
+      ('middle', 'rainy'),
+    ]) {
+      for (final c in data.crops.values) {
+        expect(
+          c.rowsFor(band, season).where((r) => r.sourceKeys.contains('AW24D')),
+          hasLength(1),
+          reason: '$band $season',
+        );
+      }
+    }
+    expect(byId['m34']!.label('en'), contains('6 years: 87–147'));
+    expect(data.sources['AW24D']!.url, startsWith('https://agrowon'));
+    expect(data.checked, DateTime(2026, 11, 6));
     // Santra young and middle now have a summer row too.
     final s = data.crops['santra']!;
     expect([
@@ -208,7 +227,10 @@ void main() {
 
     expect(find.text('Irrigation guide'), findsOneWidget);
     expect(find.byKey(const Key('irrigation-caveat')), findsOneWidget);
-    expect(find.textContaining('Check with your KVK'), findsOneWidget);
+    // The general-information mark (Q57) and the caveat both point to the KVK.
+    expect(find.byKey(const Key('irrigation-general-info')), findsOneWidget);
+    expect(find.textContaining('checked 6 Nov 2026'), findsOneWidget);
+    expect(find.textContaining('Check with your KVK'), findsNWidgets(2));
     expect(find.text('Planted in 2019: about 7 years old'), findsOneWidget);
     // A block has one crop: no crop chooser.
     expect(find.byKey(const Key('irrigation-crop-mosambi')), findsNothing);
@@ -287,9 +309,7 @@ void main() {
     final m1 = find.byKey(const Key('irrigation-m1'));
     await tester.scrollUntilVisible(m1, 300);
     expect(m1, findsOneWidget);
-    final gaps = find.text('Still to be found in the sources');
-    await tester.scrollUntilVisible(gaps, 300);
-    expect(gaps, findsOneWidget);
+    expect(find.text('Still to be found in the sources'), findsNothing);
     await unmountApp(tester);
   });
 
@@ -313,7 +333,9 @@ void main() {
     await tester.tap(find.byKey(const Key('irrigation-crop-mosambi')));
     await settle(tester);
     expect(find.text('दर झाडाला दररोज सुमारे ५–१५ लिटर.'), findsNothing);
-    expect(find.text('दर १०–१२ दिवसांनी पाणी.'), findsOneWidget);
+    final basin = find.text('दर १०–१२ दिवसांनी पाणी.');
+    await tester.scrollUntilVisible(basin, 300);
+    expect(basin, findsOneWidget);
     await unmountApp(tester);
   });
 

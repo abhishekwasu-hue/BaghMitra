@@ -189,6 +189,127 @@
       "notes": null
     },
     {
+      "key": "nhb_orange_report",
+      "title": "NHB Model Project Report: Orange (Mandarin), §5.13 Crop regulation and Export",
+      "publisher": "National Horticulture Board",
+      "url": "https://nhb.gov.in/model-project-reports/Horticulture%20Crops/orange/orange1.htm",
+      "tier": "tier1",
+      "licence": "unknown (government)",
+      "allowed_use": "summarise_cite",
+      "verification": "V",
+      "notes": "Read 2026-11-06 (full text). Bahar stage windows / irrigation litres (WP1); app key N1."
+    },
+    {
+      "key": "nhb_citrus_disorders",
+      "title": "NHB Citrus: Disorders (oleocellosis in the Mrig crop harvested February–March)",
+      "publisher": "National Horticulture Board",
+      "url": "https://www.nhb.gov.in/pdf/fruits/citrus/cit003.pdf",
+      "tier": "tier1",
+      "licence": "unknown (government)",
+      "allowed_use": "summarise_cite",
+      "verification": "V",
+      "notes": "Read 2026-11-06 (full text). Bahar stage windows / irrigation litres (WP1); app key C03."
+    },
+    {
+      "key": "nhb_citrus_intercultural",
+      "title": "NHB Citrus: Intercultural operations, Regulation of flowering (bahar treatment)",
+      "publisher": "National Horticulture Board",
+      "url": "https://www.nhb.gov.in/pdf/fruits/citrus/cit005.pdf",
+      "tier": "tier1",
+      "licence": "unknown (government)",
+      "allowed_use": "summarise_cite",
+      "verification": "V",
+      "notes": "Read 2026-11-06 (full text). Bahar stage windows / irrigation litres (WP1); app key C05."
+    },
+    {
+      "key": "agrowon_pdkv_bahar_stress_2023",
+      "title": "Surendra Patil (Dr. PDKV, Akola): Points for the bahar stress in santra and mosambi, Agrowon, 6 Jan 2023",
+      "publisher": "Agrowon; author from Dr. PDKV, Akola",
+      "url": "https://agrowon.esakal.com/agroguide/keep-these-things-in-mind-while-managemet-of-orange-mosambi-orchard",
+      "tier": "tier1",
+      "licence": "unknown (press article)",
+      "allowed_use": "summarise_cite",
+      "verification": "V",
+      "notes": "Read 2026-11-06 (full text). Bahar stage windows / irrigation litres (WP1); app key AW23."
+    },
+    {
+      "key": "agrowon_pdkv_bahar_drip_2024",
+      "title": "Surendra Patil & Narendra Ramteke (Dr. PDKV, Akola): Bahar planning in santra and mosambi, with a month-wise drip table, Agrowon, 26 Dec 2024",
+      "publisher": "Agrowon; authors from Dr. PDKV, Akola",
+      "url": "https://agrowon.esakal.com/agro-special/effective-management-of-ambia-bahar-in-citrus-fruit-cultivation-article-on-agrowon",
+      "tier": "tier1",
+      "licence": "unknown (press article)",
+      "allowed_use": "summarise_cite",
+      "verification": "V",
+      "notes": "Read 2026-11-06 (full text). Bahar stage windows / irrigation litres (WP1); app key AW24D."
+    },
+    {
+      "key": "agrowon_badnapur_mosambi_ambia_2024",
+      "title": "Sanjay Patil (Mosambi Research Station, Badnapur): Ambia bahar management in mosambi, Agrowon, 30 Nov 2024",
+      "publisher": "Agrowon; author from VNMKV Mosambi Research Station, Badnapur",
+      "url": "https://agrowon.esakal.com/agro-special/management-of-ambia-blossom-in-mosambi-article-on-agrowon",
+      "tier": "tier1",
+      "licence": "unknown (press article)",
+      "allowed_use": "summarise_cite",
+      "verification": "V",
+      "notes": "Read 2026-11-06 (full text). Bahar stage windows / irrigation litres (WP1); app key AW24."
+    },
+    {
+      "key": "vikaspedia_santra_mrig",
+      "title": "Vikaspedia (Marathi): Santra Mrig bahar management (source: Agriculture Department, Government of Maharashtra)",
+      "publisher": "Vikaspedia; Krishi Vibhag, Maharashtra",
+      "url": "https://mr.vikaspedia.in/viewcontent/agriculture/crop-production/92b933947/93890292494d93093e-92e94391792c93993e93093e91a947-93594d92f93593894d92593e92a928?lgn=mr",
+      "tier": "tier1",
+      "licence": "unknown (Vikaspedia, MeitY)",
+      "allowed_use": "summarise_cite",
+      "verification": "V",
+      "notes": "Read 2026-11-06 (full text). Bahar stage windows / irrigation litres (WP1); app key VKM."
+    },
+    {
+      "key": "vikaspedia_mosambi_stress",
+      "title": "Vikaspedia (Marathi): Give the mosambi tree the right stress (M. B. Patil, Mosambi Research Station, Badnapur; from Agrowon)",
+      "publisher": "Vikaspedia; VNMKV Mosambi Research Station, Badnapur",
+      "url": "https://mr.vikaspedia.in/viewcontent/agriculture/crop-production/92b933947/92e94b93890292c940-93893294d93293e-92e94b93890292c94091a94d92f93e-91d93e92193e93293e-92694d92f93e-92f94b91794d92f-92a94d93091593e930947-92493e923",
+      "tier": "tier1",
+      "licence": "unknown (Vikaspedia, MeitY)",
+      "allowed_use": "summarise_cite",
+      "verification": "V",
+      "notes": "Read 2026-11-06 (full text). Bahar stage windows / irrigation litres (WP1); app key VKB."
+    },
+    {
+      "key": "ladaniya_mahalle_2011",
+      "title": "Ladaniya & Mahalle: Fruit maturation in Mosambi orange (monsoon blossom), Indian J. Agric. Sci. 81(6): 494–499, 2011",
+      "publisher": "ICAR-NRC for Citrus, Nagpur",
+      "url": "https://epubs.icar.org.in/index.php/IJAgS/article/download/6568/2473/14236",
+      "tier": "tier1",
+      "licence": "unknown (government)",
+      "allowed_use": "summarise_cite",
+      "verification": "V",
+      "notes": "Read 2026-11-06 (full text). Bahar stage windows / irrigation litres (WP1); app key LM11."
+    },
+    {
+      "key": "kalatippi_2022",
+      "title": "Kalatippi, Pandey, Huchche & Hota: Tree storage of Nagpur mandarin fruits, Current Horticulture 10(2): 27–29, 2022",
+      "publisher": "ICAR-CCRI, Nagpur",
+      "url": "https://indianjournals.com/article/chr-10-2-005",
+      "tier": "tier1",
+      "licence": "unknown (journal)",
+      "allowed_use": "summarise_cite",
+      "verification": "S",
+      "notes": "Read 2026-11-06 (harvest months from the paper's abstract as quoted in search results; the full text was not reachable). Bahar stage windows / irrigation litres (WP1); app key KAL22."
+    },
+    {
+      "key": "ccri_qrt_2013_18",
+      "title": "ICAR-CCRI Nagpur: Report of the VI Quinquennial Review Team (2013–18)",
+      "publisher": "ICAR-CCRI, Nagpur",
+      "url": "https://icar.org.in/sites/default/files/2022-07/QRT-NAGPUR-01.pdf",
+      "tier": "tier1",
+      "licence": "unknown (government)",
+      "allowed_use": "summarise_cite",
+      "verification": "V",
+      "notes": "Read 2026-11-06 (full text). Bahar stage windows / irrigation litres (WP1); app key QRT."
+    },
+    {
       "key": "niphm_ipm_citrus",
       "title": "NIPHM AESA-based IPM package: Citrus (2014)",
       "publisher": "NIPHM, Hyderabad",
