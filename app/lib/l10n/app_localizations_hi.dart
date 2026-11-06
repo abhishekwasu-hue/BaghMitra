@@ -2732,6 +2732,67 @@ class AppLocalizationsHi extends AppLocalizations {
       'तनाव कितने दिन देना है यह मिट्टी पर निर्भर है: हल्की मिट्टी में कम दिन, भारी मिट्टी में ज़्यादा।';
 
   @override
+  String get practicesSee => 'क्या दिखता है';
+
+  @override
+  String get practicesWhen => 'कब आता है';
+
+  @override
+  String get practicesScout => 'निगरानी कैसे करें';
+
+  @override
+  String get practicesActionLevel => 'सीमा-स्तर';
+
+  @override
+  String get practicesNoActionLevel =>
+      'सीमा-स्तर के लिए अपने KVK से पूछें; पढ़े गए स्रोतों में इसका उल्लेख अभी मिलना बाकी है।';
+
+  @override
+  String get practicesWhatToDo => 'क्या करें';
+
+  @override
+  String get practicesBioTitle => 'जैविक उपाय';
+
+  @override
+  String get practicesBioRegistered =>
+      'पंजीकृत उत्पाद: मात्रा केवल उसके लेबल से।';
+
+  @override
+  String get practicesBioHome => 'घर पर बना, प्रकाशित विधि अनुसार';
+
+  @override
+  String get practicesHowToPrepare => 'कैसे तैयार करें';
+
+  @override
+  String get practicesLabelLink => 'लेबल अनुसार स्वीकृत दवाएँ';
+
+  @override
+  String get practicesKnowledgeCard => 'ज्ञान कार्ड';
+
+  @override
+  String get knowledgeTitle => 'ज्ञान कार्ड';
+
+  @override
+  String get knowledgeIntro =>
+      'बहार, कीट, रोग, पोषण, पानी और तुड़ाई पर संक्षिप्त जानकारी। उत्पाद और मात्रा लेबल स्क्रीन पर देखें।';
+
+  @override
+  String get knowledgeEmpty => 'फ़ोन ऑनलाइन होने पर ज्ञान कार्ड यहाँ दिखेंगे।';
+
+  @override
+  String get knowledgeWarnings => 'सावधानी';
+
+  @override
+  String get knowledgeCallExpert => 'विशेषज्ञ से कब पूछें';
+
+  @override
+  String get knowledgeSources => 'स्रोत';
+
+  @override
+  String get practicesSourcesLineAll =>
+      'स्रोत: NHB, NIPHM, ICAR, पीडीकेवी, MPKV, TNAU और अन्य। हर पद्धति के नीचे विवरण।';
+
+  @override
   String get schemeGeneralSource => 'अंत में दिए गए आधिकारिक पेज';
 
   @override

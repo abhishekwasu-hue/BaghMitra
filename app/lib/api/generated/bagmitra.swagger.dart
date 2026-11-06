@@ -1236,6 +1236,37 @@ their profile; undoes a dismiss. Only for a published item that has a date.''',
     ),
   });
 
+  ///Cards
+  ///@param crop
+  Future<chopper.Response<GrowerCardsResponse>> v1KnowledgeCardsGet({
+    String? crop,
+  }) {
+    generatedMapping.putIfAbsent(
+      GrowerCardsResponse,
+      () => GrowerCardsResponse.fromJsonFactory,
+    );
+
+    return _v1KnowledgeCardsGet(crop: crop);
+  }
+
+  ///Cards
+  ///@param crop
+  @GET(path: '/v1/knowledge/cards')
+  Future<chopper.Response<GrowerCardsResponse>> _v1KnowledgeCardsGet({
+    @Query('crop') String? crop,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'The general part of every live knowledge card (newest version per topic and crop).',
+      summary: 'Cards',
+      operationId: 'knowledge_cards',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["knowledge"],
+      deprecated: false,
+    ),
+  });
+
   ///Get Market Prices
   ///@param crop
   ///@param scope
