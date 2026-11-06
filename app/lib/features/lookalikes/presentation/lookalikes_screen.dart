@@ -13,6 +13,7 @@ import '../../../design_system/glyphs.dart';
 import '../../../design_system/info_note.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
+import '../../labels/presentation/label_info_screen.dart';
 import '../data/lookalike_cards.dart';
 
 /// Symptoms that look alike in santra / mosambi, as sourced cards: what the grower may
@@ -72,7 +73,7 @@ class LookalikesScreen extends ConsumerWidget {
   }
 }
 
-class _LookalikeCardView extends StatelessWidget {
+class _LookalikeCardView extends ConsumerWidget {
   const _LookalikeCardView({
     required this.card,
     required this.data,
@@ -84,10 +85,16 @@ class _LookalikeCardView extends StatelessWidget {
   final String? plotId;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final t = AppLocalizations.of(context);
     final c = context.bm;
     final lang = Localizations.localeOf(context).languageCode;
+    final labelKeys =
+        ref
+            .watch(labelTargetsProvider)
+            .value
+            ?.scoutingItems[card.scoutingItem] ??
+        const <String>[];
     final cited = [for (final k in card.sourceKeys) ?data.sources[k]];
     final checked = [for (final s in cited) ?s.checked]..sort();
     Widget part(String heading, Map<String, String> field) => Padding(
@@ -146,6 +153,12 @@ class _LookalikeCardView extends StatelessWidget {
                   icon: const Icon(Icons.photo_camera_outlined),
                   label: Text(t.lookalikesLogThis),
                 ),
+              // Registered label information for the pests on this card (Q57).
+              LabelInfoLinks(
+                keys: labelKeys,
+                plotId: plotId,
+                idPrefix: 'lookalike-label-${card.id}',
+              ),
               OutlinedButton.icon(
                 key: Key('lookalike-labs-${card.id}'),
                 onPressed: () => context.push(Routes.labs),

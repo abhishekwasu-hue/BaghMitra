@@ -17,7 +17,7 @@ from bagmitra_api.db.base import utcnow
 from bagmitra_api.db.models import CropStageTemplate
 from bagmitra_api.db.session import DbSession
 from bagmitra_api.kb.context import load_context
-from bagmitra_api.kb.gate import crop_claims, normalise_ai, restriction_reasons
+from bagmitra_api.kb.gate import LabelClaim, crop_claims, normalise_ai, restriction_reasons
 from bagmitra_api.kb.models import KbRestriction, KbSource, KbSynonym
 
 router = APIRouter(
@@ -111,12 +111,33 @@ class LabelClaimOut(BaseModel):
     source_key: str
     source_title: str
     source_url: str
+    # Owner Q57: the rest of the printed row and plain product facts (migration 0028).
+    category: Literal["chemical", "bio"] = "chemical"
+    dilution: str | None = None
+    page_ref: str | None = None
+    description: str | None = None
+    brand_names: list[str] = []
+    maker_url: str | None = None
+    photo_url: str | None = None
+
+
+class BlockedClaimOut(BaseModel):
+    """A label row whose active ingredient is banned, or restricted for this crop: shown in
+    red so the grower knows it, never with a dose."""
+
+    active_ingredient: str
+    formulation: str
+    target: str
+    label_crop: str
+    reason: Literal["banned", "restricted_for_crop"]
+    notification: str
 
 
 class LabelClaimsResponse(BaseModel):
     # Always "label_information": these are registered label facts, not a recommendation.
     kind: Literal["label_information"] = "label_information"
     claims: list[LabelClaimOut]
+    blocked: list[BlockedClaimOut] = []
 
 
 @router.get("/label-claims", operation_id="reference_label_claims")
@@ -142,12 +163,33 @@ async def label_claims(
         now=utcnow(),
     )
     ingredients = {normalise_ai(c.active_ingredient, ctx.synonyms) for c in ctx.claims}
-    legal = [
-        c
+    reasons = {ai: restriction_reasons(ai, ctx) for ai in ingredients}
+
+    def wanted(c: LabelClaim) -> bool:
+        return target is None or c.target.strip().lower() == target.strip().lower()
+
+    legal = [c for ai in ingredients if not reasons[ai] for c in crop_claims(ai, ctx) if wanted(c)]
+    blocked = [
+        BlockedClaimOut(
+            active_ingredient=c.active_ingredient,
+            formulation=c.formulation,
+            target=c.target,
+            label_crop=c.crop,
+            reason="banned" if "banned" in reasons[ai] else "restricted_for_crop",
+            notification="; ".join(
+                sorted(
+                    {
+                        r.notification
+                        for r in ctx.restrictions
+                        if normalise_ai(r.active_ingredient, {}) == ai
+                    }
+                )
+            ),
+        )
         for ai in ingredients
-        if not restriction_reasons(ai, ctx)
+        if reasons[ai]
         for c in crop_claims(ai, ctx)
-        if target is None or c.target.strip().lower() == target.strip().lower()
+        if wanted(c)
     ]
     sources = {
         s.key: s
@@ -170,9 +212,17 @@ async def label_claims(
                     source_key=c.source_key,
                     source_title=sources[c.source_key].title,
                     source_url=sources[c.source_key].url,
+                    category="bio" if c.category == "bio" else "chemical",
+                    dilution=c.dilution,
+                    page_ref=c.page_ref,
+                    description=c.description,
+                    brand_names=sorted(c.brand_names, key=lambda b: (b.casefold(), b)),
+                    maker_url=c.maker_url,
+                    photo_url=c.photo_url,
                 )
                 for c in legal
             ),
             key=lambda c: (c.active_ingredient, c.target, c.formulation),
-        )
+        ),
+        blocked=sorted(blocked, key=lambda b: (b.target, b.active_ingredient, b.formulation)),
     )

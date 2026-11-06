@@ -9,6 +9,7 @@ import '../../../design_system/app_bar_title.dart';
 import '../../../design_system/general_info_note.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
+import '../../labels/presentation/label_info_screen.dart';
 import '../data/practice_cards.dart';
 
 /// Non-chemical orchard practices from published sources, grouped by problem. Every practice
@@ -26,6 +27,7 @@ class PracticesScreen extends ConsumerWidget {
     final c = context.bm;
     final lang = Localizations.localeOf(context).languageCode;
     final data = ref.watch(practiceCardsProvider).value;
+    final labelLinks = ref.watch(labelTargetsProvider).value?.practiceSections;
     final plot = ref.watch(plotsProvider).value?.firstOrNull?.id;
 
     String evidence(String e) => switch (e) {
@@ -176,11 +178,12 @@ class PracticesScreen extends ConsumerWidget {
           spacing: BmSpace.xs,
           runSpacing: BmSpace.xs,
           children: [
-            if ((p.labelTarget, plot) case (final target?, final id?))
+            // Opens the label screen for this target, with or without a block (WP4).
+            if (p.labelTarget case final target?)
               OutlinedButton.icon(
                 key: Key('practices-labels-${s.key}'),
                 onPressed: () => context.push(
-                  '${Routes.labels(id)}?target=${Uri.encodeQueryComponent(target)}',
+                  Routes.labelsFor(plotId: plot, target: target),
                 ),
                 icon: const Icon(Icons.verified_outlined),
                 label: Text(t.practicesLabelLink),
@@ -237,8 +240,18 @@ class PracticesScreen extends ConsumerWidget {
                     children: [
                       if (s.profile case final p?)
                         ...profiled(s, p)
-                      else
+                      else ...[
                         for (final p in s.items) item(p),
+                        // Registered label information for this section's pests (Q57).
+                        if (labelLinks?[s.key] case final keys?)
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: BmSpace.md),
+                            child: LabelInfoLinks(
+                              keys: keys,
+                              idPrefix: 'practice-label-${s.key}',
+                            ),
+                          ),
+                      ],
                     ],
                   ),
                 if (data.gaps.isNotEmpty) ...[

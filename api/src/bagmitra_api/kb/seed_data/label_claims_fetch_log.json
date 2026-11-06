@@ -1,0 +1,150 @@
+{
+  "_note": "Owner decision Q57 / WP4. Every CIB&RC / PPQS document the citrus label extract in label_claims_citrus.csv must come from. A row is added to the CSV only from a document whose status is 'read', with its source_key, edition and page_ref; nothing is written from memory or from secondary sites. Brand names and maker links only from an official registrant list or the maker's own product page for that active ingredient.",
+  "crop_rules": {
+    "santra": "rows printed as citrus, mandarin, orange (acid lime / lemon rows excluded)",
+    "mosambi": "rows printed as citrus, sweet orange, sweet lime, mosambi (acid lime / lemon rows excluded)"
+  },
+  "csv_columns": "dose: the formulation cell, then '(a.i. <a.i. cell>)', both exactly as printed; ' per ha' (the printed column heading 'Dosage per ha' / 'Dosage/ha' / 'Dose/ha') is added only to a cell with no '/', '%' or 'ppm' of its own and only when no '**' footnote applies to the row. formulation_qty / dose_ai: the two printed cells. dilution: the printed cell ('Dilution in water (L)' under 'Dosage per ha'); a cell with its own unit (per tree, Lt, **) is kept as printed. phi_days: the printed waiting period when it is a whole number of days; 'NA' or '>6 months' is kept in description as 'Waiting period on label: ...'; '-' is left empty. description: only text the document prints for that row (method such as soil drench, footnote, strain, crop as printed). category: chemical | bio (by document). brand_names / maker_url: empty, because no official registrant list was reachable (ppqs.gov.in answers 403 to this environment).",
+  "documents": [
+    {
+      "source_key": "cibrc_fungicides_2026_09",
+      "what": "Major Uses of Pesticides: fungicides (single products p. 2-41, combinations p. 42-79)",
+      "edition": "as on 30.09.2026",
+      "printed_date": "(UPTO - 30/09/2026)",
+      "url": "https://ppqs.gov.in/",
+      "file": "Fungicide_MUP__as_on_30.09.2026.pdf",
+      "status": "read",
+      "source": "owner download from ppqs.gov.in, 2026-11-06",
+      "pages": 91,
+      "rows": 15,
+      "rows_by_crop": {
+        "citrus": 14,
+        "mandarin": 1
+      },
+      "excluded": "none (no acid lime / lemon row in this document)"
+    },
+    {
+      "source_key": "cibrc_bio_fungicides_2026_09",
+      "what": "Major Uses of Pesticides: bio-fungicides",
+      "edition": "as on 30.09.2026",
+      "printed_date": "(UPTO - 30/09/2026)",
+      "url": "https://ppqs.gov.in/",
+      "file": "3._bio_fungicides_MUP_as_on_30.09.2026.pdf",
+      "status": "read",
+      "source": "owner download from ppqs.gov.in, 2026-11-06",
+      "pages": 20,
+      "rows": 0,
+      "excluded": "no citrus, mandarin, orange, sweet orange, mosambi or sweet lime row; checked on every page"
+    },
+    {
+      "source_key": "cibrc_bio_insecticides_2026_09",
+      "what": "Major Uses of Pesticides: bio-insecticides",
+      "edition": "as on 30.09.2026",
+      "printed_date": "(UPTO - 30/09/2026)",
+      "url": "https://ppqs.gov.in/",
+      "file": "MUP_bio_insecticide_30.09.2026.pdf",
+      "status": "read",
+      "source": "owner download from ppqs.gov.in, 2026-11-06",
+      "pages": 19,
+      "rows": 1,
+      "rows_by_crop": {
+        "citrus": 1
+      },
+      "excluded": "p. 10-11: Nemastin row printed for 'Acid lime' (Citrus nematodes) - acid lime is excluded"
+    },
+    {
+      "source_key": "cibrc_herbicides_2026_09",
+      "what": "Major Uses of Pesticides: herbicides",
+      "edition": "as on 30.09.2026",
+      "printed_date": "(UPTO - 30/09/2026)",
+      "url": "https://ppqs.gov.in/",
+      "file": "4._Herbicides_MUP_as_on_30.09.2026.pdf",
+      "status": "read",
+      "source": "owner download from ppqs.gov.in, 2026-11-06",
+      "pages": 79,
+      "rows": 2,
+      "rows_by_crop": {
+        "citrus": 1,
+        "sweet orange": 1
+      }
+    },
+    {
+      "source_key": "cibrc_pgr_2026_09",
+      "what": "Major Uses of Pesticides: plant growth regulators",
+      "edition": "as on 30.09.2026",
+      "printed_date": "(UPTO - 30/09/2026)",
+      "url": "https://ppqs.gov.in/",
+      "file": "5._PGR_MUP_as_on_30.09.2026.pdf",
+      "status": "read",
+      "source": "owner download from ppqs.gov.in, 2026-11-06",
+      "pages": 14,
+      "rows": 0,
+      "excluded": "no citrus, mandarin, orange, sweet orange, mosambi or sweet lime row. p. 5 has a Gibberellic Acid Technical (90% w/w) row for 'Grape fruit' (fruit set, June drop, pre-harvest drop): grapefruit is not in the santra / mosambi crop list, so it is not imported (flagged for the owner)"
+    },
+    {
+      "source_key": "cibrc_insecticides_2026_09",
+      "what": "CIB&RC Major Uses of Pesticides – Insecticides, upto 30.09.2026 (agriculture single products, combinations, public health, household, FAO locust list)",
+      "edition": "as on 30.09.2026",
+      "printed_date": "(UPTO – 30.09.2026)",
+      "url": "https://ppqs.gov.in/",
+      "file": "docs/research/sources/cibrc/MUP_insecticides_upto_2026-09-30.txt (text extracted from the PDF; on main)",
+      "sha256": "30f845a53e5966c9da050acd4627b9ee84615fe670ce9835bd786255fe8a542b",
+      "status": "read",
+      "source": "owner upload, 2026-11-06 (text extracted from the official PDF)",
+      "page_ref_unit": "line number in the text file",
+      "rows": 12,
+      "rows_by_crop": {
+        "citrus": 11,
+        "mandarin": 1
+      },
+      "excluded": "line 878: Chlorpyrifos 20 % EC on Citrus (Black citrus, Aphid) - chlorpyriphos is banned for use in citrus (PPQS list III.4). No acid lime / lemon row in this file.",
+      "flagged": "line 2353 'Citrus butterfly 0.025% ...' follows the 'Citrus Scale' row; the flattened text cannot show whether 'Citrus' is the crop cell repeated or part of the pest name; read as crop Citrus, pest 'Citrus butterfly'. Check against the PDF page."
+    },
+    {
+      "source_key": "cibrc_fungicides_2024",
+      "what": "Major Uses of Pesticides: fungicides (incl. bio-fungicides)",
+      "edition": "as on 31.03.2024",
+      "url": "https://ppqs.gov.in/sites/default/files/fungicides_31.03.2024.pdf",
+      "status": "superseded",
+      "attempted": "2026-11-06",
+      "reason": "HTTP 403 from ppqs.gov.in to the cloud development environment; the web-fetch tool cannot resolve the host",
+      "superseded_by": "cibrc_fungicides_2026_09",
+      "earlier_status": "fetch_failed"
+    },
+    {
+      "source_key": "cibrc_bio_insecticides_2024",
+      "what": "Major Uses of Pesticides: insecticides and bio-insecticides",
+      "edition": "as on 31.03.2024",
+      "url": "https://ppqs.gov.in/sites/default/files/major_uses_of_pesticides_insecticides_bio_insecticides_as_on_31.03.2024.pdf",
+      "status": "superseded",
+      "attempted": "2026-11-06",
+      "reason": "HTTP 403 from ppqs.gov.in to the cloud development environment; the web-fetch tool cannot resolve the host",
+      "superseded_by": "cibrc_bio_insecticides_2026_09",
+      "earlier_status": "fetch_failed"
+    },
+    {
+      "source_key": "cibrc_insecticides_pgr",
+      "what": "Public notice: updation of Major Uses (index of the current PDFs)",
+      "edition": "not known until read",
+      "url": "https://ppqs.gov.in/sites/default/files/public_notice-updation.pdf",
+      "status": "fetch_failed",
+      "attempted": "2026-11-06",
+      "reason": "HTTP 403 from ppqs.gov.in to the cloud development environment"
+    },
+    {
+      "source_key": "ppqs_banned_restricted",
+      "what": "List of pesticides banned, refused registration and restricted in use",
+      "edition": "Updated on 31.03.2024",
+      "url": "https://ppqs.gov.in/sites/default/files/list_of_pesticides_which_are_banned_refused_registration_and_restricted_in_use_0.pdf",
+      "status": "read",
+      "attempted": "2026-11-06",
+      "reason": "Read in full; every entry is in restrictions.json with its page. The document prints 'Updated on 31.03.2024', not 30.09.2026.",
+      "printed_date": "(Updated on 31.03.2024)",
+      "source": "owner download from ppqs.gov.in, 2026-11-06",
+      "file": "list_of_pesticides_which_are_banned_refused_registration_and_restricted_in_use_0.pdf",
+      "pages": 6,
+      "rows": 0,
+      "restriction_entries": 92
+    }
+  ]
+}

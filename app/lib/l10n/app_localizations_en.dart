@@ -2812,4 +2812,57 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get labNormsHint =>
       'Compare the value on your report with these ranges. For what to do next, ask your KVK or the lab.';
+
+  @override
+  String get labelInfoChemical => 'Chemical';
+
+  @override
+  String get labelInfoBio => '🌿 Organic / bio (registered biopesticides)';
+
+  @override
+  String labelInfoDilution(String value) {
+    return 'Water on label: $value L per hectare';
+  }
+
+  @override
+  String labelInfoDilutionPrinted(String value) {
+    return 'Water on label: $value';
+  }
+
+  @override
+  String labelInfoBrands(String names) {
+    return 'Brand names (A–Z, a plain list): $names';
+  }
+
+  @override
+  String get labelInfoMakerPage => 'Maker\'s product page';
+
+  @override
+  String labelInfoTargetPrinted(String target) {
+    return 'Target on label: $target';
+  }
+
+  @override
+  String labelInfoPage(String page) {
+    return 'Page in source: $page';
+  }
+
+  @override
+  String labelInfoNoClaim(String target) {
+    return 'No registered label claim for $target on citrus.';
+  }
+
+  @override
+  String get labelInfoBanned => 'Banned: do not use';
+
+  @override
+  String get labelInfoRestricted => 'Restricted for this crop: do not use';
+
+  @override
+  String get labelInfoAllTargets => 'All pests and diseases';
+
+  @override
+  String labelInfoOpenFor(String target) {
+    return 'Label information: $target';
+  }
 }

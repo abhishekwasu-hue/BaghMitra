@@ -431,6 +431,72 @@
       "notes": "Mirrored at https://spices.res.in/pages/pesticides-formulations-banned-in-india [V]."
     },
     {
+      "key": "cibrc_fungicides_2026_09",
+      "title": "CIB&RC Major Uses of Pesticides: fungicides (as on 30.09.2026)",
+      "publisher": "PPQS / CIB&RC",
+      "url": "https://ppqs.gov.in/",
+      "tier": "tier2",
+      "licence": "government publication",
+      "allowed_use": "cite_only",
+      "verification": "V",
+      "notes": "Edition 'UPTO - 30/09/2026'. File Fungicide_MUP__as_on_30.09.2026.pdf, downloaded by the owner from ppqs.gov.in (the host answers 403 to the cloud environment, so the exact file URL is not recorded)."
+    },
+    {
+      "key": "cibrc_bio_fungicides_2026_09",
+      "title": "CIB&RC Major Uses of Pesticides: bio-fungicides (as on 30.09.2026)",
+      "publisher": "PPQS / CIB&RC",
+      "url": "https://ppqs.gov.in/",
+      "tier": "tier2",
+      "licence": "government publication",
+      "allowed_use": "cite_only",
+      "verification": "V",
+      "notes": "Edition 'UPTO - 30/09/2026'. File 3._bio_fungicides_MUP_as_on_30.09.2026.pdf, downloaded by the owner from ppqs.gov.in (the host answers 403 to the cloud environment, so the exact file URL is not recorded)."
+    },
+    {
+      "key": "cibrc_bio_insecticides_2026_09",
+      "title": "CIB&RC Major Uses of Pesticides: bio-insecticides (as on 30.09.2026)",
+      "publisher": "PPQS / CIB&RC",
+      "url": "https://ppqs.gov.in/",
+      "tier": "tier2",
+      "licence": "government publication",
+      "allowed_use": "cite_only",
+      "verification": "V",
+      "notes": "Edition 'UPTO - 30/09/2026'. File MUP_bio_insecticide_30.09.2026.pdf, downloaded by the owner from ppqs.gov.in (the host answers 403 to the cloud environment, so the exact file URL is not recorded)."
+    },
+    {
+      "key": "cibrc_herbicides_2026_09",
+      "title": "CIB&RC Major Uses of Pesticides: herbicides (as on 30.09.2026)",
+      "publisher": "PPQS / CIB&RC",
+      "url": "https://ppqs.gov.in/",
+      "tier": "tier2",
+      "licence": "government publication",
+      "allowed_use": "cite_only",
+      "verification": "V",
+      "notes": "Edition 'UPTO - 30/09/2026'. File 4._Herbicides_MUP_as_on_30.09.2026.pdf, downloaded by the owner from ppqs.gov.in (the host answers 403 to the cloud environment, so the exact file URL is not recorded)."
+    },
+    {
+      "key": "cibrc_pgr_2026_09",
+      "title": "CIB&RC Major Uses of Pesticides: plant growth regulators (as on 30.09.2026)",
+      "publisher": "PPQS / CIB&RC",
+      "url": "https://ppqs.gov.in/",
+      "tier": "tier2",
+      "licence": "government publication",
+      "allowed_use": "cite_only",
+      "verification": "V",
+      "notes": "Edition 'UPTO - 30/09/2026'. File 5._PGR_MUP_as_on_30.09.2026.pdf, downloaded by the owner from ppqs.gov.in (the host answers 403 to the cloud environment, so the exact file URL is not recorded)."
+    },
+    {
+      "key": "cibrc_insecticides_2026_09",
+      "title": "CIB&RC Major Uses of Pesticides – Insecticides, upto 30.09.2026",
+      "publisher": "PPQS / CIB&RC",
+      "url": "https://ppqs.gov.in/",
+      "tier": "tier2",
+      "licence": "government publication",
+      "allowed_use": "cite_only",
+      "verification": "V",
+      "notes": "Owner upload; text extracted from the PDF is kept at docs/research/sources/cibrc/MUP_insecticides_upto_2026-09-30.txt (sha256 30f845a5…). Row refs are line numbers in that file."
+    },
+    {
       "key": "fssai_mrl_2020",
       "title": "FSSAI Contaminants, Toxins and Residues compendium (v.2020)",
       "publisher": "FSSAI",

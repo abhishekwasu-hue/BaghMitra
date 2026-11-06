@@ -66,6 +66,26 @@ Map<String, dynamic> _$AppVersionResponseToJson(AppVersionResponse instance) =>
       'min_version_code': instance.minVersionCode,
     };
 
+BlockedClaimOut _$BlockedClaimOutFromJson(Map<String, dynamic> json) =>
+    BlockedClaimOut(
+      activeIngredient: json['active_ingredient'] as String,
+      formulation: json['formulation'] as String,
+      labelCrop: json['label_crop'] as String,
+      notification: json['notification'] as String,
+      reason: blockedClaimOutReasonFromJson(json['reason']),
+      target: json['target'] as String,
+    );
+
+Map<String, dynamic> _$BlockedClaimOutToJson(BlockedClaimOut instance) =>
+    <String, dynamic>{
+      'active_ingredient': instance.activeIngredient,
+      'formulation': instance.formulation,
+      'label_crop': instance.labelCrop,
+      'notification': instance.notification,
+      'reason': ?blockedClaimOutReasonToJson(instance.reason),
+      'target': instance.target,
+    };
+
 CardOut _$CardOutFromJson(Map<String, dynamic> json) => CardOut(
   crop: json['crop'] as String,
   hasChemicalOptions: json['has_chemical_options'] as bool,
@@ -1003,12 +1023,25 @@ Map<String, dynamic> _$InsuranceDeadlinesResponseToJson(
 LabelClaimOut _$LabelClaimOutFromJson(Map<String, dynamic> json) =>
     LabelClaimOut(
       activeIngredient: json['active_ingredient'] as String,
+      brandNames:
+          (json['brand_names'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          [],
+      category: LabelClaimOut.labelClaimOutCategoryCategoryNullableFromJson(
+        json['category'],
+      ),
+      description: json['description'] as String?,
+      dilution: json['dilution'] as String?,
       dose: json['dose'] as String,
       formulation: json['formulation'] as String,
       intervalDays: (json['interval_days'] as num?)?.toInt(),
       labelCrop: json['label_crop'] as String,
+      makerUrl: json['maker_url'] as String?,
       maxSprays: (json['max_sprays'] as num?)?.toInt(),
+      pageRef: json['page_ref'] as String?,
       phiDays: (json['phi_days'] as num?)?.toInt(),
+      photoUrl: json['photo_url'] as String?,
       sourceKey: json['source_key'] as String,
       sourceTitle: json['source_title'] as String,
       sourceUrl: json['source_url'] as String,
@@ -1018,12 +1051,19 @@ LabelClaimOut _$LabelClaimOutFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$LabelClaimOutToJson(LabelClaimOut instance) =>
     <String, dynamic>{
       'active_ingredient': instance.activeIngredient,
+      'brand_names': ?instance.brandNames,
+      'category': ?labelClaimOutCategoryNullableToJson(instance.category),
+      'description': ?instance.description,
+      'dilution': ?instance.dilution,
       'dose': instance.dose,
       'formulation': instance.formulation,
       'interval_days': ?instance.intervalDays,
       'label_crop': instance.labelCrop,
+      'maker_url': ?instance.makerUrl,
       'max_sprays': ?instance.maxSprays,
+      'page_ref': ?instance.pageRef,
       'phi_days': ?instance.phiDays,
+      'photo_url': ?instance.photoUrl,
       'source_key': instance.sourceKey,
       'source_title': instance.sourceTitle,
       'source_url': instance.sourceUrl,
@@ -1032,6 +1072,11 @@ Map<String, dynamic> _$LabelClaimOutToJson(LabelClaimOut instance) =>
 
 LabelClaimsResponse _$LabelClaimsResponseFromJson(Map<String, dynamic> json) =>
     LabelClaimsResponse(
+      blocked:
+          (json['blocked'] as List<dynamic>?)
+              ?.map((e) => BlockedClaimOut.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
       claims:
           (json['claims'] as List<dynamic>?)
               ?.map((e) => LabelClaimOut.fromJson(e as Map<String, dynamic>))
@@ -1043,6 +1088,7 @@ LabelClaimsResponse _$LabelClaimsResponseFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$LabelClaimsResponseToJson(
   LabelClaimsResponse instance,
 ) => <String, dynamic>{
+  'blocked': ?instance.blocked?.map((e) => e.toJson()).toList(),
   'claims': instance.claims.map((e) => e.toJson()).toList(),
   'kind': ?instance.kind,
 };

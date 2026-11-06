@@ -797,5 +797,18 @@
   "schemeFacts": "आधिकारिक पेज की मुख्य जानकारी",
   "schemeFactSource": "स्रोत: {source}",
   "labNormsTitle": "मृदा स्वास्थ्य कार्ड की श्रेणियाँ",
-  "labNormsHint": "अपनी रिपोर्ट का आंकड़ा इन श्रेणियों से मिलाकर देखें। आगे क्या करें, यह KVK या लैब से पूछें।"
+  "labNormsHint": "अपनी रिपोर्ट का आंकड़ा इन श्रेणियों से मिलाकर देखें। आगे क्या करें, यह KVK या लैब से पूछें।",
+  "labelInfoChemical": "रासायनिक",
+  "labelInfoBio": "🌿 जैविक (पंजीकृत जैव-कीटनाशक)",
+  "labelInfoDilution": "लेबल पर पानी: {value} लीटर प्रति हेक्टेयर",
+  "labelInfoDilutionPrinted": "लेबल पर पानी: {value}",
+  "labelInfoBrands": "बाज़ार के नाम (वर्णक्रम में, केवल सूची): {names}",
+  "labelInfoMakerPage": "निर्माता का उत्पाद पेज",
+  "labelInfoTargetPrinted": "लेबल पर कीट/रोग: {target}",
+  "labelInfoPage": "स्रोत में पृष्ठ: {page}",
+  "labelInfoNoClaim": "{target}: नींबू वर्गीय फसलों के लिए कोई पंजीकृत लेबल जानकारी नहीं।",
+  "labelInfoBanned": "प्रतिबंधित: उपयोग न करें",
+  "labelInfoRestricted": "इस फसल के लिए सीमित: उपयोग न करें",
+  "labelInfoAllTargets": "सभी कीट और रोग",
+  "labelInfoOpenFor": "लेबल जानकारी: {target}"
 }

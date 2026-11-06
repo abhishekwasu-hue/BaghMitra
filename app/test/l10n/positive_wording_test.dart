@@ -18,6 +18,11 @@ const allowNegative = {
   'feedCheckNoMatch',
   // Claim PDF legal note: a grower's record, not an insurer's document.
   'claimPdfMade',
+  // Label screen (owner Q57): "no registered label claim for this target" is the fact the
+  // owner asked to show plainly; banned / restricted rows say "do not use" in red.
+  'labelInfoNoClaim',
+  'labelInfoBanned',
+  'labelInfoRestricted',
 };
 
 final _negative = <String, RegExp>{

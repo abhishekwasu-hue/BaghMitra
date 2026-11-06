@@ -54,6 +54,7 @@ import '../features/lab_tests/data/lab_report_files.dart';
 import '../features/lab_tests/data/lab_test_repository.dart';
 import '../features/lab_tests/domain/lab_test.dart';
 import '../features/labels/data/label_claims_cache.dart';
+import '../features/labels/data/label_targets.dart';
 import '../features/lookalikes/data/lookalike_cards.dart';
 import '../features/market/data/market_prices_cache.dart';
 import '../features/plots/data/crop_catalog.dart';
@@ -404,6 +405,16 @@ final restrictionsProvider = FutureProvider<RestrictionList>((ref) async {
   }
   return cached;
 });
+
+final labelTargetsConfigProvider = Provider<LabelTargetsConfig>(
+  (ref) => LabelTargetsConfig(),
+);
+
+/// Display keys and Marathi / Hindi names for label targets, and the links from practice
+/// sections and scouting items (owner Q57).
+final labelTargetsProvider = FutureProvider<LabelTargetsData>(
+  (ref) => ref.watch(labelTargetsConfigProvider).load(),
+);
 
 final knowledgeCardsCacheProvider = Provider<KnowledgeCardsCache>(
   (ref) => KnowledgeCardsCache(

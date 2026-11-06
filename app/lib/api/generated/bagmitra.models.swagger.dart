@@ -330,6 +330,128 @@ extension $AppVersionResponseExtension on AppVersionResponse {
 }
 
 @JsonSerializable(explicitToJson: true)
+class BlockedClaimOut {
+  const BlockedClaimOut({
+    required this.activeIngredient,
+    required this.formulation,
+    required this.labelCrop,
+    required this.notification,
+    required this.reason,
+    required this.target,
+  });
+
+  factory BlockedClaimOut.fromJson(Map<String, dynamic> json) =>
+      _$BlockedClaimOutFromJson(json);
+
+  static const toJsonFactory = _$BlockedClaimOutToJson;
+  Map<String, dynamic> toJson() => _$BlockedClaimOutToJson(this);
+
+  @JsonKey(name: 'active_ingredient', includeIfNull: false)
+  final String activeIngredient;
+  @JsonKey(name: 'formulation', includeIfNull: false)
+  final String formulation;
+  @JsonKey(name: 'label_crop', includeIfNull: false)
+  final String labelCrop;
+  @JsonKey(name: 'notification', includeIfNull: false)
+  final String notification;
+  @JsonKey(
+    name: 'reason',
+    includeIfNull: false,
+    toJson: blockedClaimOutReasonToJson,
+    fromJson: blockedClaimOutReasonFromJson,
+  )
+  final enums.BlockedClaimOutReason reason;
+  @JsonKey(name: 'target', includeIfNull: false)
+  final String target;
+  static const fromJsonFactory = _$BlockedClaimOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is BlockedClaimOut &&
+            (identical(other.activeIngredient, activeIngredient) ||
+                const DeepCollectionEquality().equals(
+                  other.activeIngredient,
+                  activeIngredient,
+                )) &&
+            (identical(other.formulation, formulation) ||
+                const DeepCollectionEquality().equals(
+                  other.formulation,
+                  formulation,
+                )) &&
+            (identical(other.labelCrop, labelCrop) ||
+                const DeepCollectionEquality().equals(
+                  other.labelCrop,
+                  labelCrop,
+                )) &&
+            (identical(other.notification, notification) ||
+                const DeepCollectionEquality().equals(
+                  other.notification,
+                  notification,
+                )) &&
+            (identical(other.reason, reason) ||
+                const DeepCollectionEquality().equals(other.reason, reason)) &&
+            (identical(other.target, target) ||
+                const DeepCollectionEquality().equals(other.target, target)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(activeIngredient) ^
+      const DeepCollectionEquality().hash(formulation) ^
+      const DeepCollectionEquality().hash(labelCrop) ^
+      const DeepCollectionEquality().hash(notification) ^
+      const DeepCollectionEquality().hash(reason) ^
+      const DeepCollectionEquality().hash(target) ^
+      runtimeType.hashCode;
+}
+
+extension $BlockedClaimOutExtension on BlockedClaimOut {
+  BlockedClaimOut copyWith({
+    String? activeIngredient,
+    String? formulation,
+    String? labelCrop,
+    String? notification,
+    enums.BlockedClaimOutReason? reason,
+    String? target,
+  }) {
+    return BlockedClaimOut(
+      activeIngredient: activeIngredient ?? this.activeIngredient,
+      formulation: formulation ?? this.formulation,
+      labelCrop: labelCrop ?? this.labelCrop,
+      notification: notification ?? this.notification,
+      reason: reason ?? this.reason,
+      target: target ?? this.target,
+    );
+  }
+
+  BlockedClaimOut copyWithWrapped({
+    Wrapped<String>? activeIngredient,
+    Wrapped<String>? formulation,
+    Wrapped<String>? labelCrop,
+    Wrapped<String>? notification,
+    Wrapped<enums.BlockedClaimOutReason>? reason,
+    Wrapped<String>? target,
+  }) {
+    return BlockedClaimOut(
+      activeIngredient: (activeIngredient != null
+          ? activeIngredient.value
+          : this.activeIngredient),
+      formulation: (formulation != null ? formulation.value : this.formulation),
+      labelCrop: (labelCrop != null ? labelCrop.value : this.labelCrop),
+      notification: (notification != null
+          ? notification.value
+          : this.notification),
+      reason: (reason != null ? reason.value : this.reason),
+      target: (target != null ? target.value : this.target),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class CardOut {
   const CardOut({
     required this.crop,
@@ -4920,12 +5042,19 @@ extension $InsuranceDeadlinesResponseExtension on InsuranceDeadlinesResponse {
 class LabelClaimOut {
   const LabelClaimOut({
     required this.activeIngredient,
+    this.brandNames,
+    this.category,
+    this.description,
+    this.dilution,
     required this.dose,
     required this.formulation,
     required this.intervalDays,
     required this.labelCrop,
+    this.makerUrl,
     required this.maxSprays,
+    this.pageRef,
     required this.phiDays,
+    this.photoUrl,
     required this.sourceKey,
     required this.sourceTitle,
     required this.sourceUrl,
@@ -4940,6 +5069,26 @@ class LabelClaimOut {
 
   @JsonKey(name: 'active_ingredient', includeIfNull: false)
   final String activeIngredient;
+  @JsonKey(name: 'brand_names', includeIfNull: false, defaultValue: <String>[])
+  final List<String>? brandNames;
+  @JsonKey(
+    name: 'category',
+    includeIfNull: false,
+    toJson: labelClaimOutCategoryNullableToJson,
+    fromJson: labelClaimOutCategoryCategoryNullableFromJson,
+  )
+  final enums.LabelClaimOutCategory? category;
+  static enums.LabelClaimOutCategory?
+  labelClaimOutCategoryCategoryNullableFromJson(Object? value) =>
+      labelClaimOutCategoryNullableFromJson(
+        value,
+        enums.LabelClaimOutCategory.chemical,
+      );
+
+  @JsonKey(name: 'description', includeIfNull: false)
+  final String? description;
+  @JsonKey(name: 'dilution', includeIfNull: false)
+  final String? dilution;
   @JsonKey(name: 'dose', includeIfNull: false)
   final String dose;
   @JsonKey(name: 'formulation', includeIfNull: false)
@@ -4948,10 +5097,16 @@ class LabelClaimOut {
   final int? intervalDays;
   @JsonKey(name: 'label_crop', includeIfNull: false)
   final String labelCrop;
+  @JsonKey(name: 'maker_url', includeIfNull: false)
+  final String? makerUrl;
   @JsonKey(name: 'max_sprays', includeIfNull: false)
   final int? maxSprays;
+  @JsonKey(name: 'page_ref', includeIfNull: false)
+  final String? pageRef;
   @JsonKey(name: 'phi_days', includeIfNull: false)
   final int? phiDays;
+  @JsonKey(name: 'photo_url', includeIfNull: false)
+  final String? photoUrl;
   @JsonKey(name: 'source_key', includeIfNull: false)
   final String sourceKey;
   @JsonKey(name: 'source_title', includeIfNull: false)
@@ -4971,6 +5126,26 @@ class LabelClaimOut {
                   other.activeIngredient,
                   activeIngredient,
                 )) &&
+            (identical(other.brandNames, brandNames) ||
+                const DeepCollectionEquality().equals(
+                  other.brandNames,
+                  brandNames,
+                )) &&
+            (identical(other.category, category) ||
+                const DeepCollectionEquality().equals(
+                  other.category,
+                  category,
+                )) &&
+            (identical(other.description, description) ||
+                const DeepCollectionEquality().equals(
+                  other.description,
+                  description,
+                )) &&
+            (identical(other.dilution, dilution) ||
+                const DeepCollectionEquality().equals(
+                  other.dilution,
+                  dilution,
+                )) &&
             (identical(other.dose, dose) ||
                 const DeepCollectionEquality().equals(other.dose, dose)) &&
             (identical(other.formulation, formulation) ||
@@ -4988,15 +5163,30 @@ class LabelClaimOut {
                   other.labelCrop,
                   labelCrop,
                 )) &&
+            (identical(other.makerUrl, makerUrl) ||
+                const DeepCollectionEquality().equals(
+                  other.makerUrl,
+                  makerUrl,
+                )) &&
             (identical(other.maxSprays, maxSprays) ||
                 const DeepCollectionEquality().equals(
                   other.maxSprays,
                   maxSprays,
                 )) &&
+            (identical(other.pageRef, pageRef) ||
+                const DeepCollectionEquality().equals(
+                  other.pageRef,
+                  pageRef,
+                )) &&
             (identical(other.phiDays, phiDays) ||
                 const DeepCollectionEquality().equals(
                   other.phiDays,
                   phiDays,
+                )) &&
+            (identical(other.photoUrl, photoUrl) ||
+                const DeepCollectionEquality().equals(
+                  other.photoUrl,
+                  photoUrl,
                 )) &&
             (identical(other.sourceKey, sourceKey) ||
                 const DeepCollectionEquality().equals(
@@ -5023,12 +5213,19 @@ class LabelClaimOut {
   @override
   int get hashCode =>
       const DeepCollectionEquality().hash(activeIngredient) ^
+      const DeepCollectionEquality().hash(brandNames) ^
+      const DeepCollectionEquality().hash(category) ^
+      const DeepCollectionEquality().hash(description) ^
+      const DeepCollectionEquality().hash(dilution) ^
       const DeepCollectionEquality().hash(dose) ^
       const DeepCollectionEquality().hash(formulation) ^
       const DeepCollectionEquality().hash(intervalDays) ^
       const DeepCollectionEquality().hash(labelCrop) ^
+      const DeepCollectionEquality().hash(makerUrl) ^
       const DeepCollectionEquality().hash(maxSprays) ^
+      const DeepCollectionEquality().hash(pageRef) ^
       const DeepCollectionEquality().hash(phiDays) ^
+      const DeepCollectionEquality().hash(photoUrl) ^
       const DeepCollectionEquality().hash(sourceKey) ^
       const DeepCollectionEquality().hash(sourceTitle) ^
       const DeepCollectionEquality().hash(sourceUrl) ^
@@ -5039,12 +5236,19 @@ class LabelClaimOut {
 extension $LabelClaimOutExtension on LabelClaimOut {
   LabelClaimOut copyWith({
     String? activeIngredient,
+    List<String>? brandNames,
+    enums.LabelClaimOutCategory? category,
+    String? description,
+    String? dilution,
     String? dose,
     String? formulation,
     int? intervalDays,
     String? labelCrop,
+    String? makerUrl,
     int? maxSprays,
+    String? pageRef,
     int? phiDays,
+    String? photoUrl,
     String? sourceKey,
     String? sourceTitle,
     String? sourceUrl,
@@ -5052,12 +5256,19 @@ extension $LabelClaimOutExtension on LabelClaimOut {
   }) {
     return LabelClaimOut(
       activeIngredient: activeIngredient ?? this.activeIngredient,
+      brandNames: brandNames ?? this.brandNames,
+      category: category ?? this.category,
+      description: description ?? this.description,
+      dilution: dilution ?? this.dilution,
       dose: dose ?? this.dose,
       formulation: formulation ?? this.formulation,
       intervalDays: intervalDays ?? this.intervalDays,
       labelCrop: labelCrop ?? this.labelCrop,
+      makerUrl: makerUrl ?? this.makerUrl,
       maxSprays: maxSprays ?? this.maxSprays,
+      pageRef: pageRef ?? this.pageRef,
       phiDays: phiDays ?? this.phiDays,
+      photoUrl: photoUrl ?? this.photoUrl,
       sourceKey: sourceKey ?? this.sourceKey,
       sourceTitle: sourceTitle ?? this.sourceTitle,
       sourceUrl: sourceUrl ?? this.sourceUrl,
@@ -5067,12 +5278,19 @@ extension $LabelClaimOutExtension on LabelClaimOut {
 
   LabelClaimOut copyWithWrapped({
     Wrapped<String>? activeIngredient,
+    Wrapped<List<String>?>? brandNames,
+    Wrapped<enums.LabelClaimOutCategory?>? category,
+    Wrapped<String?>? description,
+    Wrapped<String?>? dilution,
     Wrapped<String>? dose,
     Wrapped<String>? formulation,
     Wrapped<int?>? intervalDays,
     Wrapped<String>? labelCrop,
+    Wrapped<String?>? makerUrl,
     Wrapped<int?>? maxSprays,
+    Wrapped<String?>? pageRef,
     Wrapped<int?>? phiDays,
+    Wrapped<String?>? photoUrl,
     Wrapped<String>? sourceKey,
     Wrapped<String>? sourceTitle,
     Wrapped<String>? sourceUrl,
@@ -5082,14 +5300,21 @@ extension $LabelClaimOutExtension on LabelClaimOut {
       activeIngredient: (activeIngredient != null
           ? activeIngredient.value
           : this.activeIngredient),
+      brandNames: (brandNames != null ? brandNames.value : this.brandNames),
+      category: (category != null ? category.value : this.category),
+      description: (description != null ? description.value : this.description),
+      dilution: (dilution != null ? dilution.value : this.dilution),
       dose: (dose != null ? dose.value : this.dose),
       formulation: (formulation != null ? formulation.value : this.formulation),
       intervalDays: (intervalDays != null
           ? intervalDays.value
           : this.intervalDays),
       labelCrop: (labelCrop != null ? labelCrop.value : this.labelCrop),
+      makerUrl: (makerUrl != null ? makerUrl.value : this.makerUrl),
       maxSprays: (maxSprays != null ? maxSprays.value : this.maxSprays),
+      pageRef: (pageRef != null ? pageRef.value : this.pageRef),
       phiDays: (phiDays != null ? phiDays.value : this.phiDays),
+      photoUrl: (photoUrl != null ? photoUrl.value : this.photoUrl),
       sourceKey: (sourceKey != null ? sourceKey.value : this.sourceKey),
       sourceTitle: (sourceTitle != null ? sourceTitle.value : this.sourceTitle),
       sourceUrl: (sourceUrl != null ? sourceUrl.value : this.sourceUrl),
@@ -5100,7 +5325,7 @@ extension $LabelClaimOutExtension on LabelClaimOut {
 
 @JsonSerializable(explicitToJson: true)
 class LabelClaimsResponse {
-  const LabelClaimsResponse({required this.claims, this.kind});
+  const LabelClaimsResponse({this.blocked, required this.claims, this.kind});
 
   factory LabelClaimsResponse.fromJson(Map<String, dynamic> json) =>
       _$LabelClaimsResponseFromJson(json);
@@ -5108,6 +5333,12 @@ class LabelClaimsResponse {
   static const toJsonFactory = _$LabelClaimsResponseToJson;
   Map<String, dynamic> toJson() => _$LabelClaimsResponseToJson(this);
 
+  @JsonKey(
+    name: 'blocked',
+    includeIfNull: false,
+    defaultValue: <BlockedClaimOut>[],
+  )
+  final List<BlockedClaimOut>? blocked;
   @JsonKey(
     name: 'claims',
     includeIfNull: false,
@@ -5122,6 +5353,11 @@ class LabelClaimsResponse {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other is LabelClaimsResponse &&
+            (identical(other.blocked, blocked) ||
+                const DeepCollectionEquality().equals(
+                  other.blocked,
+                  blocked,
+                )) &&
             (identical(other.claims, claims) ||
                 const DeepCollectionEquality().equals(other.claims, claims)) &&
             (identical(other.kind, kind) ||
@@ -5133,24 +5369,32 @@ class LabelClaimsResponse {
 
   @override
   int get hashCode =>
+      const DeepCollectionEquality().hash(blocked) ^
       const DeepCollectionEquality().hash(claims) ^
       const DeepCollectionEquality().hash(kind) ^
       runtimeType.hashCode;
 }
 
 extension $LabelClaimsResponseExtension on LabelClaimsResponse {
-  LabelClaimsResponse copyWith({List<LabelClaimOut>? claims, String? kind}) {
+  LabelClaimsResponse copyWith({
+    List<BlockedClaimOut>? blocked,
+    List<LabelClaimOut>? claims,
+    String? kind,
+  }) {
     return LabelClaimsResponse(
+      blocked: blocked ?? this.blocked,
       claims: claims ?? this.claims,
       kind: kind ?? this.kind,
     );
   }
 
   LabelClaimsResponse copyWithWrapped({
+    Wrapped<List<BlockedClaimOut>?>? blocked,
     Wrapped<List<LabelClaimOut>>? claims,
     Wrapped<String?>? kind,
   }) {
     return LabelClaimsResponse(
+      blocked: (blocked != null ? blocked.value : this.blocked),
       claims: (claims != null ? claims.value : this.claims),
       kind: (kind != null ? kind.value : this.kind),
     );
@@ -8065,6 +8309,84 @@ extension $WeatherDayExtension on WeatherDay {
   }
 }
 
+String? blockedClaimOutReasonNullableToJson(
+  enums.BlockedClaimOutReason? blockedClaimOutReason,
+) {
+  return blockedClaimOutReason?.value;
+}
+
+String? blockedClaimOutReasonToJson(
+  enums.BlockedClaimOutReason blockedClaimOutReason,
+) {
+  return blockedClaimOutReason.value;
+}
+
+enums.BlockedClaimOutReason blockedClaimOutReasonFromJson(
+  Object? blockedClaimOutReason, [
+  enums.BlockedClaimOutReason? defaultValue,
+]) {
+  return enums.BlockedClaimOutReason.values.firstWhereOrNull(
+        (e) => e.value == blockedClaimOutReason,
+      ) ??
+      defaultValue ??
+      enums.BlockedClaimOutReason.swaggerGeneratedUnknown;
+}
+
+enums.BlockedClaimOutReason? blockedClaimOutReasonNullableFromJson(
+  Object? blockedClaimOutReason, [
+  enums.BlockedClaimOutReason? defaultValue,
+]) {
+  if (blockedClaimOutReason == null) {
+    return null;
+  }
+  return enums.BlockedClaimOutReason.values.firstWhereOrNull(
+        (e) => e.value == blockedClaimOutReason,
+      ) ??
+      defaultValue;
+}
+
+String blockedClaimOutReasonExplodedListToJson(
+  List<enums.BlockedClaimOutReason>? blockedClaimOutReason,
+) {
+  return blockedClaimOutReason?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> blockedClaimOutReasonListToJson(
+  List<enums.BlockedClaimOutReason>? blockedClaimOutReason,
+) {
+  if (blockedClaimOutReason == null) {
+    return [];
+  }
+
+  return blockedClaimOutReason.map((e) => e.value!).toList();
+}
+
+List<enums.BlockedClaimOutReason> blockedClaimOutReasonListFromJson(
+  List? blockedClaimOutReason, [
+  List<enums.BlockedClaimOutReason>? defaultValue,
+]) {
+  if (blockedClaimOutReason == null) {
+    return defaultValue ?? [];
+  }
+
+  return blockedClaimOutReason
+      .map((e) => blockedClaimOutReasonFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.BlockedClaimOutReason>? blockedClaimOutReasonNullableListFromJson(
+  List? blockedClaimOutReason, [
+  List<enums.BlockedClaimOutReason>? defaultValue,
+]) {
+  if (blockedClaimOutReason == null) {
+    return defaultValue;
+  }
+
+  return blockedClaimOutReason
+      .map((e) => blockedClaimOutReasonFromJson(e.toString()))
+      .toList();
+}
+
 String? changeOpNullableToJson(enums.ChangeOp? changeOp) {
   return changeOp?.value;
 }
@@ -8667,6 +8989,84 @@ List<enums.GrantInSubjectType>? grantInSubjectTypeNullableListFromJson(
 
   return grantInSubjectType
       .map((e) => grantInSubjectTypeFromJson(e.toString()))
+      .toList();
+}
+
+String? labelClaimOutCategoryNullableToJson(
+  enums.LabelClaimOutCategory? labelClaimOutCategory,
+) {
+  return labelClaimOutCategory?.value;
+}
+
+String? labelClaimOutCategoryToJson(
+  enums.LabelClaimOutCategory labelClaimOutCategory,
+) {
+  return labelClaimOutCategory.value;
+}
+
+enums.LabelClaimOutCategory labelClaimOutCategoryFromJson(
+  Object? labelClaimOutCategory, [
+  enums.LabelClaimOutCategory? defaultValue,
+]) {
+  return enums.LabelClaimOutCategory.values.firstWhereOrNull(
+        (e) => e.value == labelClaimOutCategory,
+      ) ??
+      defaultValue ??
+      enums.LabelClaimOutCategory.swaggerGeneratedUnknown;
+}
+
+enums.LabelClaimOutCategory? labelClaimOutCategoryNullableFromJson(
+  Object? labelClaimOutCategory, [
+  enums.LabelClaimOutCategory? defaultValue,
+]) {
+  if (labelClaimOutCategory == null) {
+    return null;
+  }
+  return enums.LabelClaimOutCategory.values.firstWhereOrNull(
+        (e) => e.value == labelClaimOutCategory,
+      ) ??
+      defaultValue;
+}
+
+String labelClaimOutCategoryExplodedListToJson(
+  List<enums.LabelClaimOutCategory>? labelClaimOutCategory,
+) {
+  return labelClaimOutCategory?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> labelClaimOutCategoryListToJson(
+  List<enums.LabelClaimOutCategory>? labelClaimOutCategory,
+) {
+  if (labelClaimOutCategory == null) {
+    return [];
+  }
+
+  return labelClaimOutCategory.map((e) => e.value!).toList();
+}
+
+List<enums.LabelClaimOutCategory> labelClaimOutCategoryListFromJson(
+  List? labelClaimOutCategory, [
+  List<enums.LabelClaimOutCategory>? defaultValue,
+]) {
+  if (labelClaimOutCategory == null) {
+    return defaultValue ?? [];
+  }
+
+  return labelClaimOutCategory
+      .map((e) => labelClaimOutCategoryFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.LabelClaimOutCategory>? labelClaimOutCategoryNullableListFromJson(
+  List? labelClaimOutCategory, [
+  List<enums.LabelClaimOutCategory>? defaultValue,
+]) {
+  if (labelClaimOutCategory == null) {
+    return defaultValue;
+  }
+
+  return labelClaimOutCategory
+      .map((e) => labelClaimOutCategoryFromJson(e.toString()))
       .toList();
 }
 

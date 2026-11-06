@@ -5,10 +5,17 @@ import '../../../data/local/database.dart';
 
 /// The registered-label facts for one crop, with the time the phone saved them.
 class CachedLabelClaims {
-  const CachedLabelClaims(this.claims, this.savedAt);
+  const CachedLabelClaims(
+    this.claims,
+    this.savedAt, {
+    this.blocked = const <BlockedClaimOut>[],
+  });
 
   final List<LabelClaimOut> claims;
   final DateTime savedAt;
+
+  /// Label rows whose active ingredient is banned or restricted for the crop (shown red).
+  final List<BlockedClaimOut> blocked;
 }
 
 /// CIB&RC label information per crop, cached on the phone so it reads offline. This is
@@ -32,6 +39,7 @@ class LabelClaimsCache {
     return CachedLabelClaims(
       res.claims,
       DateTime.parse(j['saved_at']! as String),
+      blocked: res.blocked ?? const <BlockedClaimOut>[],
     );
   }
 

@@ -797,5 +797,18 @@
   "schemeFacts": "अधिकृत पानावरील मुख्य माहिती",
   "schemeFactSource": "स्रोत: {source}",
   "labNormsTitle": "मृदा आरोग्य पत्रिकेतील श्रेणी",
-  "labNormsHint": "आपल्या अहवालातील आकडा या श्रेणींशी जुळवून पाहा. पुढे काय करायचे ते KVK किंवा प्रयोगशाळेला विचारा."
+  "labNormsHint": "आपल्या अहवालातील आकडा या श्रेणींशी जुळवून पाहा. पुढे काय करायचे ते KVK किंवा प्रयोगशाळेला विचारा.",
+  "labelInfoChemical": "रासायनिक",
+  "labelInfoBio": "🌿 जैविक (नोंदणीकृत जैविक कीटकनाशके)",
+  "labelInfoDilution": "लेबलवरील पाणी: {value} लिटर प्रति हेक्टर",
+  "labelInfoDilutionPrinted": "लेबलवरील पाणी: {value}",
+  "labelInfoBrands": "बाजारातील नावे (अकारविल्हे, फक्त यादी): {names}",
+  "labelInfoMakerPage": "उत्पादकाचे उत्पादन पान",
+  "labelInfoTargetPrinted": "लेबलवरील कीड/रोग: {target}",
+  "labelInfoPage": "स्रोतातील पान: {page}",
+  "labelInfoNoClaim": "{target}: लिंबूवर्गीय पिकांसाठी नोंदणीकृत लेबल माहिती नाही.",
+  "labelInfoBanned": "बंदी: वापरू नका",
+  "labelInfoRestricted": "या पिकासाठी निर्बंध: वापरू नका",
+  "labelInfoAllTargets": "सर्व कीड व रोग",
+  "labelInfoOpenFor": "लेबल माहिती: {target}"
 }

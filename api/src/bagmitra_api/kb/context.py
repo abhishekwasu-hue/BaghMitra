@@ -37,6 +37,13 @@ async def load_context(
             phi_days=c.phi_days,
             max_sprays=c.max_sprays,
             source_key=key,
+            category=c.category,
+            dilution=c.dilution,
+            page_ref=c.page_ref,
+            description=c.description,
+            brand_names=tuple(c.brand_names or ()),
+            maker_url=c.maker_url,
+            photo_url=c.photo_url,
         )
         for c, key in claim_rows.all()
     ]

@@ -38,3 +38,25 @@ hosts under **Allowed domains** in the environment's network settings, or upload
 
 Until a document is fetched or uploaded the draft cards built from it rest on addendum v1.3 §3
 (which was read and verified on 2026-10-12) and every card says so in its source locator.
+
+## Citrus label claims (WP4, owner decision Q57)
+
+`api/src/bagmitra_api/kb/seed_data/label_claims_citrus.csv` is the checked extract of every
+citrus row of the CIB&RC / PPQS "Major Uses of Pesticides" documents (insecticides,
+fungicides, bio-pesticides). Columns: `source_key, edition, page_ref, crop` (as printed),
+`target, active_ingredient, formulation, category` (`chemical` | `bio`), `formulation_qty,
+dose_ai` (or `dose` as printed), `dilution` (water L/ha), `interval_days, phi_days,
+max_sprays, description` (mode of action from the label / official source), `brand_names`
+(`;`-separated; shown A–Z), `maker_url, photo_url` (https only; no copied images).
+Rows for acid lime / lemon are left out. A row is added only from a document whose status in
+`label_claims_fetch_log.json` is `read`; brand names and maker links only from an official
+registrant list or the maker's own product page (a test enforces the source rule).
+
+`python -m bagmitra_api.kb.seed` imports the file through `kb/importers.py`, one source at a
+time; only sources that have rows are touched, so an empty file never end-dates an admin's
+upload. Admin upload of the same CSV: `POST /v1/admin/kb/imports/claims`.
+
+State on 2026-11-06: every PPQS document answered HTTP 403 to the development environment,
+so the file holds the header only and all four documents are `fetch_failed` in the log.
+To fill it, download the PDFs where ppqs.gov.in answers (a browser in India), then either
+upload them to a session for extraction or upload each with the "Upload by hand" step above.

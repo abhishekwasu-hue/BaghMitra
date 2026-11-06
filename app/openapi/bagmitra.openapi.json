@@ -112,6 +112,49 @@
         "title": "AppVersionResponse",
         "type": "object"
       },
+      "BlockedClaimOut": {
+        "description": "A label row whose active ingredient is banned, or restricted for this crop: shown in\nred so the grower knows it, never with a dose.",
+        "properties": {
+          "active_ingredient": {
+            "title": "Active Ingredient",
+            "type": "string"
+          },
+          "formulation": {
+            "title": "Formulation",
+            "type": "string"
+          },
+          "label_crop": {
+            "title": "Label Crop",
+            "type": "string"
+          },
+          "notification": {
+            "title": "Notification",
+            "type": "string"
+          },
+          "reason": {
+            "enum": [
+              "banned",
+              "restricted_for_crop"
+            ],
+            "title": "Reason",
+            "type": "string"
+          },
+          "target": {
+            "title": "Target",
+            "type": "string"
+          }
+        },
+        "required": [
+          "active_ingredient",
+          "formulation",
+          "target",
+          "label_crop",
+          "reason",
+          "notification"
+        ],
+        "title": "BlockedClaimOut",
+        "type": "object"
+      },
       "CardOut": {
         "properties": {
           "crop": {
@@ -2320,6 +2363,45 @@
             "title": "Active Ingredient",
             "type": "string"
           },
+          "brand_names": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Brand Names",
+            "type": "array"
+          },
+          "category": {
+            "default": "chemical",
+            "enum": [
+              "chemical",
+              "bio"
+            ],
+            "title": "Category",
+            "type": "string"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "dilution": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dilution"
+          },
           "dose": {
             "title": "Dose",
             "type": "string"
@@ -2343,6 +2425,17 @@
             "title": "Label Crop",
             "type": "string"
           },
+          "maker_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Maker Url"
+          },
           "max_sprays": {
             "anyOf": [
               {
@@ -2354,6 +2447,17 @@
             ],
             "title": "Max Sprays"
           },
+          "page_ref": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Page Ref"
+          },
           "phi_days": {
             "anyOf": [
               {
@@ -2364,6 +2468,17 @@
               }
             ],
             "title": "Phi Days"
+          },
+          "photo_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Photo Url"
           },
           "source_key": {
             "title": "Source Key",
@@ -2400,6 +2515,14 @@
       },
       "LabelClaimsResponse": {
         "properties": {
+          "blocked": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/BlockedClaimOut"
+            },
+            "title": "Blocked",
+            "type": "array"
+          },
           "claims": {
             "items": {
               "$ref": "#/components/schemas/LabelClaimOut"

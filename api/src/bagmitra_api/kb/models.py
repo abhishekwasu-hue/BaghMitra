@@ -111,7 +111,8 @@ class KbLabelClaim(TimestampMixin, Base):
     active_ingredient: Mapped[str] = mapped_column(String(120), index=True)
     formulation: Mapped[str] = mapped_column(String(60))
     crop: Mapped[str] = mapped_column(String(60))
-    target: Mapped[str] = mapped_column(String(120))
+    # The pest / disease / weed list exactly as printed (some Major Uses cells run long).
+    target: Mapped[str] = mapped_column(String(300))
     dose: Mapped[str] = mapped_column(String(200))
     interval_days: Mapped[int | None] = mapped_column(Integer)
     phi_days: Mapped[int | None] = mapped_column(Integer)
@@ -119,6 +120,20 @@ class KbLabelClaim(TimestampMixin, Base):
     source_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("kb_sources.id"))
     valid_from: Mapped[datetime] = mapped_column(DateTime(timezone=True))
     valid_to: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    # Owner Q57 (migration 0028): the label row as printed plus plain product facts.
+    # "chemical" or "bio" (a CIB&RC-registered biopesticide, shown in its own group).
+    category: Mapped[str] = mapped_column(String(16), default="chemical", server_default="chemical")
+    # "Dilution in water (L/ha)" as printed in the Major Uses table.
+    dilution: Mapped[str | None] = mapped_column(String(120))
+    # Where the row sits in the source document, e.g. "p. 41, S.No. 23".
+    page_ref: Mapped[str | None] = mapped_column(String(60))
+    # Mode of action etc. from the label / official source, never advice.
+    description: Mapped[str | None] = mapped_column(Text)
+    # Market brand names for this a.i. (official registrant list or maker pages), no ranking.
+    brand_names: Mapped[list[str]] = mapped_column(JSON, default=list)
+    maker_url: Mapped[str | None] = mapped_column(String(500))
+    # Optional owner-set photo; no copied product images.
+    photo_url: Mapped[str | None] = mapped_column(String(500))
 
 
 class KbRestriction(TimestampMixin, Base):
