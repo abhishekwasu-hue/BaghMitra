@@ -169,6 +169,103 @@
         "title": "CardOut",
         "type": "object"
       },
+      "CardSourceOut": {
+        "properties": {
+          "checked": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Checked"
+          },
+          "publisher": {
+            "title": "Publisher",
+            "type": "string"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "url": {
+            "title": "Url",
+            "type": "string"
+          }
+        },
+        "required": [
+          "title",
+          "publisher",
+          "url",
+          "checked"
+        ],
+        "title": "CardSourceOut",
+        "type": "object"
+      },
+      "CardText": {
+        "properties": {
+          "cultural": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cultural"
+          },
+          "summary": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Summary"
+          },
+          "title": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Title"
+          },
+          "warnings": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Warnings"
+          },
+          "when_to_call_expert": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "When To Call Expert"
+          }
+        },
+        "title": "CardText",
+        "type": "object"
+      },
       "CardsResponse": {
         "properties": {
           "cards": {
@@ -2012,6 +2109,80 @@
           "reason"
         ],
         "title": "GrantIn",
+        "type": "object"
+      },
+      "GrowerCardOut": {
+        "properties": {
+          "crop": {
+            "title": "Crop",
+            "type": "string"
+          },
+          "reviewed": {
+            "title": "Reviewed",
+            "type": "boolean"
+          },
+          "sources": {
+            "items": {
+              "$ref": "#/components/schemas/CardSourceOut"
+            },
+            "title": "Sources",
+            "type": "array"
+          },
+          "text": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/CardText"
+            },
+            "title": "Text",
+            "type": "object"
+          },
+          "topic": {
+            "title": "Topic",
+            "type": "string"
+          },
+          "topic_kind": {
+            "title": "Topic Kind",
+            "type": "string"
+          },
+          "topic_labels": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Topic Labels",
+            "type": "object"
+          }
+        },
+        "required": [
+          "topic",
+          "topic_kind",
+          "topic_labels",
+          "crop",
+          "reviewed",
+          "text",
+          "sources"
+        ],
+        "title": "GrowerCardOut",
+        "type": "object"
+      },
+      "GrowerCardsResponse": {
+        "properties": {
+          "cards": {
+            "items": {
+              "$ref": "#/components/schemas/GrowerCardOut"
+            },
+            "title": "Cards",
+            "type": "array"
+          },
+          "kind": {
+            "const": "general_information",
+            "default": "general_information",
+            "title": "Kind",
+            "type": "string"
+          }
+        },
+        "required": [
+          "cards"
+        ],
+        "title": "GrowerCardsResponse",
         "type": "object"
       },
       "HTTPValidationError": {
@@ -6402,6 +6573,72 @@
         "summary": "Deadlines",
         "tags": [
           "insurance"
+        ]
+      }
+    },
+    "/v1/knowledge/cards": {
+      "get": {
+        "description": "The general part of every live knowledge card (newest version per topic and crop).",
+        "operationId": "knowledge_cards",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "crop",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "pattern": "^[a-z_]{2,32}$",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Crop"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GrowerCardsResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Cards",
+        "tags": [
+          "knowledge"
         ]
       }
     },

@@ -1,5 +1,5 @@
 {
-  "_note": "Weather risk rules (knowledge addendum v1.3 §3.7). Starting points for local calibration; draft until the expert reviewer approves (OPEN_QUESTIONS Q12). Alert texts state the risk and what to check, never a chemical. Storm rules (hail / wind / heavy or unseasonal rain) only say what weather is expected and link to the claim kit (action claim_kit); thresholds are drafts to calibrate (OPEN_QUESTIONS Q38).",
+  "_note": "Weather risk rules (knowledge addendum v1.3 §3.7). Starting points for local calibration; draft until the expert reviewer approves (OPEN_QUESTIONS Q12). Alert texts state the risk and what to check, never a chemical. Storm rules (hail / wind / heavy or unseasonal rain) only say what weather is expected and link to the claim kit (action claim_kit); thresholds are drafts to calibrate (OPEN_QUESTIONS Q38). Cold-wave (IMD) and humidity (NIPHM) rules added 2026-11-06 with sourced thresholds; a fruit-split rule is left out because no public source gives a weather threshold for it (NHB names only 'high humidity following heavy rains or heavy irrigation during hot weather').",
   "rules": [
     {
       "key": "heat_fruit_drop",
@@ -101,6 +101,36 @@
         "en": "Unseasonal rain of 15.6 mm or more expected outside the monsoon: risk to flowers and fruit. If the orchard is damaged, take loss photos now and open the claim kit. Check your policy for how to report a loss.",
         "mr": "पावसाळ्याबाहेर १५.६ मि.मी. किंवा अधिक अवकाळी पावसाचा अंदाज: फुले व फळांना धोका. बागेचे नुकसान झाल्यास लगेच नुकसानीचे फोटो काढा आणि क्लेम किट उघडा. नुकसान कसे कळवायचे ते तुमच्या पॉलिसीत तपासा.",
         "hi": "मानसून के बाहर 15.6 मिमी या अधिक बेमौसम बारिश का अनुमान: फूल और फल को जोखिम। बाग को नुकसान हो तो अभी नुकसान की फ़ोटो लें और क्लेम किट खोलें। नुकसान की सूचना कैसे दें, अपनी पॉलिसी में देखें।"
+      }
+    },
+    {
+      "key": "cold_wave",
+      "kind": "threshold",
+      "field": "t_min_c",
+      "op": "<=",
+      "value": 4,
+      "min_days": 1,
+      "status": "draft",
+      "source": "IMD cold-wave criteria for plains (IMD Pune hazard atlas, cold.pdf, read 2026-11-06): cold wave when the minimum temperature is 4 °C or less (severe at 2 °C or less). The departure-from-normal test (4.5 to 6.4 °C below normal at 10 °C or less) needs station normals and is not used. Draft: no citrus-specific cold threshold was found in a public source.",
+      "labels": {
+        "en": "Cold wave expected (minimum 4 °C or less, IMD). Look over young plants, the nursery and new flush after the cold night. Verify with your local expert.",
+        "mr": "थंडीच्या लाटेचा अंदाज (किमान तापमान ४ °C किंवा कमी, IMD). थंड रात्रीनंतर लहान झाडे, रोपवाटिका आणि नवती पाहा. स्थानिक तज्ज्ञांकडून खात्री करा.",
+        "hi": "शीत लहर का अनुमान (न्यूनतम तापमान 4 °C या कम, IMD)। ठंडी रात के बाद छोटे पौधे, नर्सरी और नई फुटान देखें। स्थानीय विशेषज्ञ से पुष्टि करें।"
+      }
+    },
+    {
+      "key": "high_humidity",
+      "kind": "threshold",
+      "field": "rh_mean_pct",
+      "op": ">=",
+      "value": 80,
+      "min_days": 1,
+      "status": "draft",
+      "source": "NIPHM and Directorate of Plant Protection, Quarantine & Storage, AESA based IPM for citrus (Vikaspedia 'Diseases and symptoms', read 2026-11-06): powdery mildew and anthracnose are favoured by a long period of relative humidity above 80 % with mist, in cool weather (about 20 °C). The source gives no number of days: one day of daily mean humidity is a draft to calibrate (Open-Meteo relative_humidity_2m_mean).",
+      "labels": {
+        "en": "Humid weather expected (average humidity 80 % or more): it favours fungal diseases such as powdery mildew and anthracnose. Look over new leaves and young fruit. Verify with your local expert.",
+        "mr": "दमट हवामानाचा अंदाज (सरासरी आर्द्रता ८० % किंवा अधिक): भुरी आणि ॲन्थ्रॅकनोज यांसारख्या बुरशीजन्य रोगांना अनुकूल. नवीन पाने व लहान फळे पाहा. स्थानिक तज्ज्ञांकडून खात्री करा.",
+        "hi": "नम मौसम का अनुमान (औसत आर्द्रता 80 % या अधिक): यह चूर्णिल आसिता और एन्थ्रेक्नोज़ जैसे फफूंद रोगों के अनुकूल है। नई पत्तियाँ और छोटे फल देखें। स्थानीय विशेषज्ञ से पुष्टि करें।"
       }
     }
   ]

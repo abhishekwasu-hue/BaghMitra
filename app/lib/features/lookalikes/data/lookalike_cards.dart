@@ -8,10 +8,18 @@ class LookalikeSource {
     required this.title,
     required this.url,
     required this.verified,
+    this.publisher,
+    this.checked,
   });
 
   final String title;
   final String url;
+
+  /// A short publisher name for the "general information" mark.
+  final String? publisher;
+
+  /// The day the page was read.
+  final DateTime? checked;
 
   /// False until the page itself has been read; cards citing it show as drafts.
   final bool verified;
@@ -82,6 +90,10 @@ class LookalikeCardsConfig {
             title: (v as Map<String, dynamic>)['title'] as String,
             url: v['url'] as String,
             verified: v['verified'] == true,
+            publisher: v['publisher'] as String?,
+            checked: v['checked'] is String
+                ? DateTime.tryParse(v['checked'] as String)
+                : null,
           ),
         ),
       ),

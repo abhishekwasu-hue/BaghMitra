@@ -44,6 +44,6 @@ strings (कामं, झाडं, झालं).
   "72 hours". Suggested en: "Inform the insurer, your bank or the CSC about the loss as soon as possible; check your
   policy for the time limit." (mr: "नुकसानीची माहिती विमा कंपनी, तुमची बँक किंवा CSC केंद्राला शक्य तितक्या लवकर
   द्या; किती दिवसांत कळवायचे ते तुमच्या पॉलिसीत तपासा.")
-- `walkthroughWeatherBody` (`app_en.arb:591`, `app_mr.arb:331`, `app_hi.arb:331`; audit C12): it promises "cold" alerts; `rules.json` has no cold rule.
-  Drop "or cold" in en / mr / hi.
+- `walkthroughWeatherBody` (`app_en.arb:591`, `app_mr.arb:331`, `app_hi.arb:331`; audit C12): it promises "cold" alerts. Since WP2
+  (2026-11-06) `rules.json` has a draft `cold_wave` rule (IMD: minimum 4 °C or less), so the word can stay.
 - The mr demo file `app/assets/demo/home_demo.json` uses सिल्ला (audit C1 owns that file).

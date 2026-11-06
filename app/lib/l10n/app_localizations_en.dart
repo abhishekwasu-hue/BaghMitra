@@ -2732,4 +2732,66 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get baharStressBySoil =>
       'How long the stress lasts depends on the soil: fewer days in light soil, more in heavy soil.';
+
+  @override
+  String get practicesSee => 'What you see';
+
+  @override
+  String get practicesWhen => 'When it comes';
+
+  @override
+  String get practicesScout => 'How to scout';
+
+  @override
+  String get practicesActionLevel => 'Action level';
+
+  @override
+  String get practicesNoActionLevel =>
+      'Ask your KVK for the action level: the sources read so far are silent on it.';
+
+  @override
+  String get practicesWhatToDo => 'What to do';
+
+  @override
+  String get practicesBioTitle => 'Organic / bio';
+
+  @override
+  String get practicesBioRegistered =>
+      'Registered product: the dose comes only from its label.';
+
+  @override
+  String get practicesBioHome => 'Home-made, as published';
+
+  @override
+  String get practicesHowToPrepare => 'How to prepare';
+
+  @override
+  String get practicesLabelLink => 'Label-approved products';
+
+  @override
+  String get practicesKnowledgeCard => 'Knowledge card';
+
+  @override
+  String get knowledgeTitle => 'Knowledge cards';
+
+  @override
+  String get knowledgeIntro =>
+      'Short notes on bahar, pests, diseases, feeding, water and harvest. Products and doses are on the label screen.';
+
+  @override
+  String get knowledgeEmpty =>
+      'Knowledge cards appear here once the phone has been online.';
+
+  @override
+  String get knowledgeWarnings => 'Take care';
+
+  @override
+  String get knowledgeCallExpert => 'When to ask an expert';
+
+  @override
+  String get knowledgeSources => 'Sources';
+
+  @override
+  String get practicesSourcesLineAll =>
+      'Sources: NHB, NIPHM, ICAR, Dr. PDKV, MPKV, TNAU and others. Details under each practice.';
 }

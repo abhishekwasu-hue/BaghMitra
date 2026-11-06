@@ -168,3 +168,21 @@ def test_shipped_storm_rules_point_to_the_claim_kit() -> None:
     assert fired(day(date(2026, 7, 10), precip_mm=80)) == {"heavy_rain"}
     # Out of season (March), a smaller fall already alerts.
     assert fired(day(START, precip_mm=30)) == {"unseasonal_rain"}
+
+
+def test_cold_wave_and_humidity_rules_use_their_sourced_thresholds() -> None:
+    by_key = {r.key: r for r in load_rules()}
+    cold, humid = by_key["cold_wave"], by_key["high_humidity"]
+    assert (cold.field, cold.op, cold.value) == ("t_min_c", "<=", 4)
+    assert (humid.field, humid.op, humid.value) == ("rh_mean_pct", ">=", 80)
+    assert cold.status == humid.status == "draft"
+    assert "IMD" in cold.source
+    assert "NIPHM" in humid.source
+    assert cold.action is None
+    assert humid.action is None
+    night = DailyWeather(START, 22, 3.5, 0.0, 60.0, None)
+    mild = DailyWeather(START, 28, 12, 0.0, 70.0, None)
+    damp = DailyWeather(START, 26, 18, 0.0, 85.0, None)
+    assert [a.rule_key for a in evaluate([cold, humid], [mild])] == []
+    assert [a.rule_key for a in evaluate([cold, humid], [night])] == ["cold_wave"]
+    assert [a.rule_key for a in evaluate([cold, humid], [damp])] == ["high_humidity"]

@@ -262,3 +262,46 @@ finding, not yet a full recommendation.
 - Conflicts to resolve: lowest-branch height (N1 50 cm vs C05 45 cm); stress length (N1 "about a month" vs C05 40–60 / 40–50 days vs P1 50 days); intercropping (#63).
 - NHB pages are old (N1 file metadata 2005–2006) and also name chemicals that are now banned. Only their cultural parts are used here.
 - P2 (Marathi crop-wise PDF) uses a legacy font that does not extract to Unicode; only items confirmed in the English books are cited.
+
+---
+
+## WP2 (2026-11-06): orchard health library, owner decision Q57
+
+Grower text lives in `app/assets/config/practice_cards.json` (sections with a `profile`), `lookalike_cards.json`
+(4 new cards), `api/src/bagmitra_api/risk/rules.json` (2 new rules) and the KB grower view
+(`GET /v1/knowledge/cards`, `kb/grower_view.py`). Every item is shown as "सर्वसाधारण माहिती" with source and date.
+
+### Sources read on 2026-11-06 (plain curl through the session proxy)
+
+| Key | Title | URL | Used for |
+|---|---|---|---|
+| VK-NIPHM-STAGE / -PESTS / -DIS / -NE | NIPHM and DPPQS, AESA based IPM for citrus, Vikaspedia copy (crop-stage-wise IPM; insect and nematode pests; diseases and symptoms; natural enemies) | https://en.vikaspedia.in/viewcontent/agriculture/crop-production/integrated-pest-managment/ipm-for-fruit-crops/ipm-strategies-for-citrus/ (pages `crop-stage-wise-ipm`, `insect-and-nematode-pests-management`, `diseases-and-symptoms`, `natural-enemies`) | symptoms, favourable weather, cultural / mechanical items, natural enemies, humidity rule (RH > 80 %) |
+| VK-NSKE | Vikaspedia "Neem seed kernel extract (NSKE)", source TNAU Agritech | https://en.vikaspedia.in/viewcontent/agriculture/agri-inputs/bio-inputs/production-of-ipm-inputs/neem-seed-kernal-extract-nske?lgn=en | NSKE 5 % preparation (the page says both "200 g detergent" and "1 % detergent"; both are quoted) |
+| TNAU-PESTS | TNAU Agritech: Pests of citrus | https://agritech.tnau.ac.in/crop_protection/crop_prot_crop_insectpest%20_-Citrus_pest&disease.html | aphid, thrips, mealybug, cottony cushion scale symptoms |
+| TNAU-E331 | TNAU e-course ENTO 331 lecture 17 (eagri.org; read on its GitHub mirror, the original host did not answer) | https://eagriorg.github.io/eagri50/ENTO331/lecture17/014.html (and 001, 002, 011, 012) | mite peaks (March–June, Sept–Oct), alternate hosts, Menochilus release, NSKE 5 % for psylla in March and September |
+| MPKV-AICRP | MPKV Rahuri, AICRP on Fruits | https://mpkv.ac.in/Uploads/Research/35.%20AICRP%20on%20Fruits_20250926041209.pdf | mosambi: Phule Mosambi, Ambia drip / stress, organic module, azadirachtin, neem oil at colour break |
+| NRCC-MB | Rao, Shivankar, Shyam Singh 2006, NRC Citrus Nagpur, mealybug review, Agric. Rev. 27(2) | https://arccarticles.s3.amazonaws.com/webArticle/articles/ar272008.pdf | mealybug action level 5–10 % (summer) / 15 % (autumn) infested fruit |
+| UC-THRIPS | UC IPM: Citrus thrips | https://ipm.ucanr.edu/agriculture/citrus/citrus-thrips/ | thrips window (petal fall to 3.7 cm), fruit sampling method |
+| IMD cold | IMD Pune hazard atlas, cold wave criteria | https://imdpune.gov.in/hazardatlas/cold.pdf | cold-wave rule (minimum 4 °C or less, plains) |
+| P1, R13–R25, C02, C03, C06, C08 | already registered above; re-read for WP2 | see table above | gummosis bio-agents (R21 #23), leaf-miner NSKE (R23 #38), neem oil module (R25 #32), waibar split (R25 #20), botanicals (P1) |
+
+Not reachable from this environment on 2026-11-06: ccri.icar.gov.in, niphm.gov.in (the package was read through
+its Vikaspedia copy), ncof.dacnet.nic.in, krishi.icar.gov.in, kiran.nic.in, farmer.gov.in; web.archive.org answered 429.
+
+### Rules applied
+
+- Synthetic pesticides, fertiliser products and doses: left out (the sources' chemical lines are not copied).
+- Registered bio-agents / botanicals (Trichoderma harzianum, Pseudomonas fluorescens, azadirachtin): named only where a
+  public source links them to that problem on citrus, without a dose; the card points to the label screen.
+- Home-made preparations (NSKE 5 %, neem oil 1 %): only with the preparation and rate as published (TNAU via
+  Vikaspedia; PDKV R25 #32 and P1).
+- Not used for lack of a public citrus link that could be read: Beauveria and Verticillium for mites / mealybug (an ICAR
+  KIRAN page was cited by search but could not be fetched), Bacillus thuringiensis, Metarhizium.
+
+### Gaps left (no public source read)
+
+- Action levels for psylla, aphids, thrips, mites, leaf miner (only mealybug has one).
+- Greasy spot, Alternaria, P. palmivora, waibar symptoms: no non-chemical practice.
+- Fruit-split weather rule: no numeric threshold in a public source (NHB C03 names only "high humidity following
+  heavy rains or heavy irrigation during hot weather").
+- ICAR-CCRI monthly advisories (host not reachable).

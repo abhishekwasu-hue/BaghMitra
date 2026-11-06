@@ -4749,6 +4749,120 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'How long the stress lasts depends on the soil: fewer days in light soil, more in heavy soil.'**
   String get baharStressBySoil;
+
+  /// No description provided for @practicesSee.
+  ///
+  /// In en, this message translates to:
+  /// **'What you see'**
+  String get practicesSee;
+
+  /// No description provided for @practicesWhen.
+  ///
+  /// In en, this message translates to:
+  /// **'When it comes'**
+  String get practicesWhen;
+
+  /// No description provided for @practicesScout.
+  ///
+  /// In en, this message translates to:
+  /// **'How to scout'**
+  String get practicesScout;
+
+  /// No description provided for @practicesActionLevel.
+  ///
+  /// In en, this message translates to:
+  /// **'Action level'**
+  String get practicesActionLevel;
+
+  /// No description provided for @practicesNoActionLevel.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask your KVK for the action level: the sources read so far are silent on it.'**
+  String get practicesNoActionLevel;
+
+  /// No description provided for @practicesWhatToDo.
+  ///
+  /// In en, this message translates to:
+  /// **'What to do'**
+  String get practicesWhatToDo;
+
+  /// No description provided for @practicesBioTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Organic / bio'**
+  String get practicesBioTitle;
+
+  /// No description provided for @practicesBioRegistered.
+  ///
+  /// In en, this message translates to:
+  /// **'Registered product: the dose comes only from its label.'**
+  String get practicesBioRegistered;
+
+  /// No description provided for @practicesBioHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Home-made, as published'**
+  String get practicesBioHome;
+
+  /// No description provided for @practicesHowToPrepare.
+  ///
+  /// In en, this message translates to:
+  /// **'How to prepare'**
+  String get practicesHowToPrepare;
+
+  /// No description provided for @practicesLabelLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Label-approved products'**
+  String get practicesLabelLink;
+
+  /// No description provided for @practicesKnowledgeCard.
+  ///
+  /// In en, this message translates to:
+  /// **'Knowledge card'**
+  String get practicesKnowledgeCard;
+
+  /// No description provided for @knowledgeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Knowledge cards'**
+  String get knowledgeTitle;
+
+  /// No description provided for @knowledgeIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Short notes on bahar, pests, diseases, feeding, water and harvest. Products and doses are on the label screen.'**
+  String get knowledgeIntro;
+
+  /// No description provided for @knowledgeEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Knowledge cards appear here once the phone has been online.'**
+  String get knowledgeEmpty;
+
+  /// No description provided for @knowledgeWarnings.
+  ///
+  /// In en, this message translates to:
+  /// **'Take care'**
+  String get knowledgeWarnings;
+
+  /// No description provided for @knowledgeCallExpert.
+  ///
+  /// In en, this message translates to:
+  /// **'When to ask an expert'**
+  String get knowledgeCallExpert;
+
+  /// No description provided for @knowledgeSources.
+  ///
+  /// In en, this message translates to:
+  /// **'Sources'**
+  String get knowledgeSources;
+
+  /// No description provided for @practicesSourcesLineAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Sources: NHB, NIPHM, ICAR, Dr. PDKV, MPKV, TNAU and others. Details under each practice.'**
+  String get practicesSourcesLineAll;
 }
 
 class _AppLocalizationsDelegate
