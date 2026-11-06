@@ -13,7 +13,8 @@ class CropStageTemplate(TimestampMixin, Base):
     """Admin-managed reference data: ordered stages of one bahar for one crop.
 
     Every stage offset carries source ids (spec §5). Only `published` templates reach the
-    app; nothing is published until its sources are verified (docs/agronomy).
+    app. Seeded from `bahar/seed_data/stage_templates.json` as general information from public
+    sources (owner decision Q57); an expert review later replaces the mark.
     """
 
     __tablename__ = "crop_stage_templates"
