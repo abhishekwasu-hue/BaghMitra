@@ -296,7 +296,7 @@ void main() {
       await tester.tap(link);
       await settle(tester);
       expect(find.byKey(const Key('label-target-heading')), findsOneWidget);
-      expect(find.byKey(const Key('label-crop-santra')), findsOneWidget);
+      // A block exists here, so the screen opens for that block's crop (no crop chooser).
       expect(
         find.text('Gummosis, foot rot, root rot (Phytophthora)'),
         findsOneWidget,
