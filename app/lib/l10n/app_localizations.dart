@@ -4701,6 +4701,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{pct} down from last week'**
   String priceChangeDown(String pct);
+
+  /// No description provided for @generalInfoNote.
+  ///
+  /// In en, this message translates to:
+  /// **'General information from public sources. Check with your KVK before acting.'**
+  String get generalInfoNote;
+
+  /// No description provided for @generalInfoSource.
+  ///
+  /// In en, this message translates to:
+  /// **'Source: {source} · checked {date}'**
+  String generalInfoSource(String source, String date);
+
+  /// No description provided for @labelReadNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Read the label on the packet before spraying.'**
+  String get labelReadNote;
 }
 
 class _AppLocalizationsDelegate

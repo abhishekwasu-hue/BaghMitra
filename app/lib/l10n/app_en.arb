@@ -1116,5 +1116,9 @@
   "priceChangeUp": "{pct} up from last week",
   "@priceChangeUp": {"placeholders": {"pct": {"type": "String"}}},
   "priceChangeDown": "{pct} down from last week",
-  "@priceChangeDown": {"placeholders": {"pct": {"type": "String"}}}
+  "@priceChangeDown": {"placeholders": {"pct": {"type": "String"}}},
+  "generalInfoNote": "General information from public sources. Check with your KVK before acting.",
+  "generalInfoSource": "Source: {source} · checked {date}",
+  "@generalInfoSource": {"placeholders": {"source": {"type": "String"}, "date": {"type": "String"}}},
+  "labelReadNote": "Read the label on the packet before spraying."
 }

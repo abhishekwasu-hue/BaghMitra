@@ -2700,4 +2700,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String priceChangeDown(String pct) {
     return '$pct down from last week';
   }
+
+  @override
+  String get generalInfoNote =>
+      'General information from public sources. Check with your KVK before acting.';
+
+  @override
+  String generalInfoSource(String source, String date) {
+    return 'Source: $source · checked $date';
+  }
+
+  @override
+  String get labelReadNote => 'Read the label on the packet before spraying.';
 }
