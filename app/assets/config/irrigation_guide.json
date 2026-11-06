@@ -1,6 +1,7 @@
 {
-  "_note": "Irrigation guide (ओलित तक्ता) per crop and tree age, from docs/agronomy/DRAFT_irrigation.md. Sourced DRAFT, not expert-reviewed (OPEN_QUESTIONS Q35). Only numbers read in the fetched source are here; search-snippet numbers stay in the doc. No fertiliser or chemical content. Months only describe when a source measured something, never a date to act on. Where sources differ for the same condition, one row states the range and names every source (docs/agronomy/DRAFT_irrigation.md, \"Reconciled rows\"). Marathi terms follow docs/agronomy/GLOSSARY_mr.md.",
+  "_note": "Irrigation guide (ओलित तक्ता) per crop and tree age, from docs/agronomy/DRAFT_irrigation.md. Sourced, not expert-reviewed (Q35); shown as general information from public sources with the date read (Q57). Only numbers read in the fetched source are here; search-snippet numbers stay in the doc. No fertiliser or chemical content. Months only describe when a source measured something, never a date to act on. Where sources differ for the same condition, one row states the range and names every source (docs/agronomy/DRAFT_irrigation.md, \"Reconciled rows\"). Marathi terms follow docs/agronomy/GLOSSARY_mr.md.",
   "status": "draft",
+  "general_info": {"source": "NHB, Dr. PDKV Akola, ICAR-CCRI Nagpur, MPKV Rahuri, VNMKV Badnapur", "checked": "2026-11-06"},
   "sources": {
     "N1": {"title": "NHB Model Project Report: Orange (Mandarin)", "publisher": "National Horticulture Board", "url": "https://nhb.gov.in/model-project-reports/Horticulture%20Crops/orange/orange1.htm"},
     "C02": {"title": "NHB Citrus: Diseases", "publisher": "National Horticulture Board", "url": "https://www.nhb.gov.in/pdf/fruits/citrus/cit002.pdf"},
@@ -20,7 +21,8 @@
     "AW23": {"title": "Surendra Patil (Dr. PDKV Akola): Points for the bahar stress in santra and mosambi, Agrowon (Marathi)", "publisher": "Agrowon; author from Dr. PDKV, Akola", "year": 2023, "url": "https://agrowon.esakal.com/agroguide/keep-these-things-in-mind-while-managemet-of-orange-mosambi-orchard"},
     "MP25": {"title": "MPKV Rahuri, AICRP on Fruits: scheme profile and recommendations", "publisher": "Mahatma Phule Krishi Vidyapeeth, Rahuri", "year": 2025, "url": "https://mpkv.ac.in/Uploads/Research/35.%20AICRP%20on%20Fruits_20250926041209.pdf"},
     "VK": {"title": "Vikaspedia: Sweet Orange (package of practices)", "publisher": "Vikaspedia (MeitY / C-DAC)", "year": 2024, "url": "https://en.vikaspedia.in/viewcontent/agriculture/crop-production/package-of-practices/fruits-1/sweet-orange-1"},
-    "CH24": {"title": "Choudhary et al.: Water volumes and mulches in young sweet orange cv. Mosambi, Sci. Rep. 14: 23919", "publisher": "Agriculture University, Kota (Jhalawar, Rajasthan)", "year": 2024, "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11471785/"}
+    "CH24": {"title": "Choudhary et al.: Water volumes and mulches in young sweet orange cv. Mosambi, Sci. Rep. 14: 23919", "publisher": "Agriculture University, Kota (Jhalawar, Rajasthan)", "year": 2024, "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11471785/"},
+    "AW24D": {"title": "Surendra Patil & Narendra Ramteke (Dr. PDKV, Akola): Bahar planning in santra and mosambi, month-wise drip litres by tree age, Agrowon (Marathi)", "publisher": "Agrowon; authors from Dr. PDKV, Akola", "year": 2024, "url": "https://agrowon.esakal.com/agro-special/effective-management-of-ambia-bahar-in-citrus-fruit-cultivation-article-on-agrowon", "read": "2026-11-06"}
   },
   "age_bands": [
     {"key": "young", "min": 0, "max": 4, "labels": {"en": "Young (1–4 years)", "mr": "लहान (१–४ वर्षे)", "hi": "छोटे (1–4 साल)"}},
@@ -75,7 +77,17 @@
         {"id": "s20", "ages": ["young"], "season": "summer", "method": "any", "source": "AW18 (May)", "source_keys": ["AW18"],
          "labels": {"en": "Hot weather (May) advisory: 1-year-old trees about 17, 2-year 34, 3-year 51, 4-year 74 litres per tree per day.", "mr": "उन्हाळा (मे) सल्ला: १ वर्षाच्या झाडाला दररोज सुमारे १७, २ वर्षे ३४, ३ वर्षे ५१, ४ वर्षे ७४ लिटर.", "hi": "गर्मी (मई) सलाह: 1 साल के पेड़ को रोज़ लगभग 17, 2 साल 34, 3 साल 51, 4 साल 74 लीटर।"}},
         {"id": "s21", "ages": ["middle"], "season": "summer", "method": "any", "source": "AW18 (May)", "source_keys": ["AW18"],
-         "labels": {"en": "Hot weather (May) advisory: 8-year-old trees about 188 litres per tree per day.", "mr": "उन्हाळा (मे) सल्ला: ८ वर्षांच्या झाडाला दररोज सुमारे १८८ लिटर.", "hi": "गर्मी (मई) सलाह: 8 साल के पेड़ को रोज़ लगभग 188 लीटर।"}}
+         "labels": {"en": "Hot weather (May) advisory: 8-year-old trees about 188 litres per tree per day.", "mr": "उन्हाळा (मे) सल्ला: ८ वर्षांच्या झाडाला दररोज सुमारे १८८ लिटर.", "hi": "गर्मी (मई) सलाह: 8 साल के पेड़ को रोज़ लगभग 188 लीटर।"}},
+        {"id": "s30", "ages": ["young"], "season": "winter", "method": "drip", "source": "AW24D (table, santra and mosambi)", "source_keys": ["AW24D"],
+         "labels": {"en": "November–February, litres per tree per day by tree age: 1 year: 17–19 (November–December); 2 years: 22–30; 3 years: 26–35; 4 years: 31–49. During a bahar rest, follow the rest.", "mr": "नोव्हेंबर–फेब्रुवारी, दर झाडाला दररोज लिटर, झाडाच्या वयानुसार: १ वर्ष: १७–१९ (नोव्हेंबर–डिसेंबर); २ वर्षे: २२–३०; ३ वर्षे: २६–३५; ४ वर्षे: ३१–४९. बहाराचा ताण चालू असेल तर ताणाप्रमाणे करा.", "hi": "नवंबर–फ़रवरी, हर पेड़ को रोज़ लीटर, पेड़ की उम्र के अनुसार: 1 साल: 17–19 (नवंबर–दिसंबर); 2 साल: 22–30; 3 साल: 26–35; 4 साल: 31–49। बहार का तनाव चल रहा हो तो तनाव के अनुसार करें।"}},
+        {"id": "s31", "ages": ["young"], "season": "rainy", "method": "drip", "source": "AW24D (table, santra and mosambi)", "source_keys": ["AW24D"],
+         "labels": {"en": "July–September, litres per tree per day by tree age: 1 year: 16–20; 2 years: 21–27; 3 years: 25–32; 4 years: 30–39. In June the same table gives 37, 49, 58 and 71.", "mr": "जुलै–सप्टेंबर, दर झाडाला दररोज लिटर, झाडाच्या वयानुसार: १ वर्ष: १६–२०; २ वर्षे: २१–२७; ३ वर्षे: २५–३२; ४ वर्षे: ३०–३९. जूनमध्ये याच तक्त्यात ३७, ४९, ५८ व ७१.", "hi": "जुलाई–सितंबर, हर पेड़ को रोज़ लीटर, पेड़ की उम्र के अनुसार: 1 साल: 16–20; 2 साल: 21–27; 3 साल: 25–32; 4 साल: 30–39। जून में इसी तालिका में 37, 49, 58 और 71।"}},
+        {"id": "s32", "ages": ["middle"], "season": "winter", "method": "drip", "source": "AW24D (table, santra and mosambi)", "source_keys": ["AW24D"],
+         "labels": {"en": "November–February, litres per tree per day by tree age: 5 years: 33–51; 6 years: 36–56; 7 years: 37–59; 8 years: 40–63. During a bahar rest, follow the rest.", "mr": "नोव्हेंबर–फेब्रुवारी, दर झाडाला दररोज लिटर, झाडाच्या वयानुसार: ५ वर्षे: ३३–५१; ६ वर्षे: ३६–५६; ७ वर्षे: ३७–५९; ८ वर्षे: ४०–६३. बहाराचा ताण चालू असेल तर ताणाप्रमाणे करा.", "hi": "नवंबर–फ़रवरी, हर पेड़ को रोज़ लीटर, पेड़ की उम्र के अनुसार: 5 साल: 33–51; 6 साल: 36–56; 7 साल: 37–59; 8 साल: 40–63। बहार का तनाव चल रहा हो तो तनाव के अनुसार करें।"}},
+        {"id": "s33", "ages": ["middle"], "season": "rainy", "method": "drip", "source": "AW24D (table, santra and mosambi)", "source_keys": ["AW24D"],
+         "labels": {"en": "July–September, litres per tree per day by tree age: 5 years: 31–41; 6 years: 34–44; 7 years: 36–46; 8 years: 39–50. In June the same table gives 74, 81, 85 and 92.", "mr": "जुलै–सप्टेंबर, दर झाडाला दररोज लिटर, झाडाच्या वयानुसार: ५ वर्षे: ३१–४१; ६ वर्षे: ३४–४४; ७ वर्षे: ३६–४६; ८ वर्षे: ३९–५०. जूनमध्ये याच तक्त्यात ७४, ८१, ८५ व ९२.", "hi": "जुलाई–सितंबर, हर पेड़ को रोज़ लीटर, पेड़ की उम्र के अनुसार: 5 साल: 31–41; 6 साल: 34–44; 7 साल: 36–46; 8 साल: 39–50। जून में इसी तालिका में 74, 81, 85 और 92।"}},
+        {"id": "s34", "ages": ["middle"], "season": "summer", "method": "drip", "source": "AW24D (table, santra and mosambi)", "source_keys": ["AW24D"],
+         "labels": {"en": "March–May, litres per tree per day by tree age: 5 years: 80–134; 6 years: 87–147; 7 years: 91–154; 8 years: 99–166.", "mr": "मार्च–मे, दर झाडाला दररोज लिटर, झाडाच्या वयानुसार: ५ वर्षे: ८०–१३४; ६ वर्षे: ८७–१४७; ७ वर्षे: ९१–१५४; ८ वर्षे: ९९–१६६.", "hi": "मार्च–मई, हर पेड़ को रोज़ लीटर, पेड़ की उम्र के अनुसार: 5 साल: 80–134; 6 साल: 87–147; 7 साल: 91–154; 8 साल: 99–166।"}}
       ],
       "notes": [
         {"id": "sn1", "source": "C06", "source_keys": ["C06"],
@@ -93,9 +105,7 @@
         {"id": "sn7", "source": "N1 §5.13; S8; P1 Horticulture recs; AW23 (PDKV)", "source_keys": ["N1", "S8", "P1", "AW23"],
          "labels": {"en": "Bahar rest length, the sources differ: about a month before flowering, until the leaves wilt, and 2–3 weeks in light, sandy or shallow soil (NHB model report); 30–45 days before the expected flowering (CCRI trial); 50 days for Mrig bahar on medium soil (PDKV); by soil for santra and mosambi, light 35–45, medium 45–60, heavy 55–75 days (PDKV scientist).", "mr": "बहाराच्या ताणाचा कालावधी, स्रोतांमध्ये फरक आहे: फुलोऱ्याआधी सुमारे एक महिना, पाने मलूल होईपर्यंत, आणि हलक्या, वाळूच्या किंवा उथळ जमिनीत २–३ आठवडे (NHB प्रकल्प अहवाल); अपेक्षित फुलोऱ्याआधी ३०–४५ दिवस (CCRI प्रयोग); मध्यम जमिनीत मृग बहारासाठी ५० दिवस (डॉ. पंदेकृवि); संत्रा व मोसंबीसाठी जमिनीनुसार, हलकी ३५–४५, मध्यम ४५–६०, भारी ५५–७५ दिवस (डॉ. पंदेकृवि शास्त्रज्ञ).", "hi": "बहार के तनाव की अवधि, स्रोतों में अंतर है: फूल आने से पहले लगभग एक महीना, पत्तियाँ मुरझाने तक, और हल्की, रेतीली या उथली मिट्टी में 2–3 हफ्ते (NHB मॉडल रिपोर्ट); अपेक्षित फूल आने से पहले 30–45 दिन (CCRI प्रयोग); मध्यम मिट्टी में मृग बहार के लिए 50 दिन (PDKV); संतरा और मौसंबी के लिए मिट्टी के अनुसार, हल्की 35–45, मध्यम 45–60, भारी 55–75 दिन (PDKV वैज्ञानिक)।"}}
       ],
-      "gaps": [
-        {"en": "Winter and rainy-season litres for young and middle trees are still to be added; the summer litres are from a hot-weather (May) advisory.", "mr": "लहान व मध्यम झाडांसाठी हिवाळा व पावसाळ्याचे लिटर पुढे जोडले जातील; उन्हाळ्याचे लिटर मे महिन्याच्या सल्ल्यातील आहेत.", "hi": "छोटे और मध्यम पेड़ों के लिए सर्दी और बरसात के लीटर आगे जोड़े जाएँगे; गर्मी के लीटर मई की सलाह से हैं।"}
-      ]
+      "gaps": []
     },
     "mosambi": {
       "rows": [
@@ -116,7 +126,17 @@
         {"id": "m11", "ages": ["middle", "mature"], "season": "year", "method": "drip", "source": "MP25 §8a", "source_keys": ["MP25"],
          "labels": {"en": "MPKV Rahuri (western Maharashtra, Ambia bahar): drip at 80% of evaporation through the growing period (January–October).", "mr": "म.फु.कृ.वि. राहुरी (पश्चिम महाराष्ट्र, आंबिया बहार): वाढीच्या काळात (जानेवारी–ऑक्टोबर) बाष्पीभवनाच्या ८०% ठिबक.", "hi": "MPKV राहुरी (पश्चिम महाराष्ट्र, आंबिया बहार): बढ़वार के समय (जनवरी–अक्टूबर) वाष्पीकरण का 80% ड्रिप।"}},
         {"id": "m12", "ages": ["young", "middle", "mature"], "season": "year", "method": "any", "source": "VK (Andhra Pradesh, Tamil Nadu)", "source_keys": ["VK"],
-         "labels": {"en": "Andhra Pradesh / Tamil Nadu package: water once in 10 days; in the rains, drain standing water away from the plant.", "mr": "आंध्र प्रदेश / तमिळनाडू शिफारस: दर १० दिवसांनी एकदा पाणी; पावसाळ्यात झाडाजवळ साचलेले पाणी काढून द्या.", "hi": "आंध्र प्रदेश / तमिलनाडु सिफ़ारिश: हर 10 दिन में एक बार पानी; बरसात में पेड़ के पास रुका पानी निकाल दें।"}}
+         "labels": {"en": "Andhra Pradesh / Tamil Nadu package: water once in 10 days; in the rains, drain standing water away from the plant.", "mr": "आंध्र प्रदेश / तमिळनाडू शिफारस: दर १० दिवसांनी एकदा पाणी; पावसाळ्यात झाडाजवळ साचलेले पाणी काढून द्या.", "hi": "आंध्र प्रदेश / तमिलनाडु सिफ़ारिश: हर 10 दिन में एक बार पानी; बरसात में पेड़ के पास रुका पानी निकाल दें।"}},
+        {"id": "m30", "ages": ["young"], "season": "winter", "method": "drip", "source": "AW24D (table, santra and mosambi)", "source_keys": ["AW24D"],
+         "labels": {"en": "November–February, litres per tree per day by tree age: 1 year: 17–19 (November–December); 2 years: 22–30; 3 years: 26–35; 4 years: 31–49. During a bahar rest, follow the rest.", "mr": "नोव्हेंबर–फेब्रुवारी, दर झाडाला दररोज लिटर, झाडाच्या वयानुसार: १ वर्ष: १७–१९ (नोव्हेंबर–डिसेंबर); २ वर्षे: २२–३०; ३ वर्षे: २६–३५; ४ वर्षे: ३१–४९. बहाराचा ताण चालू असेल तर ताणाप्रमाणे करा.", "hi": "नवंबर–फ़रवरी, हर पेड़ को रोज़ लीटर, पेड़ की उम्र के अनुसार: 1 साल: 17–19 (नवंबर–दिसंबर); 2 साल: 22–30; 3 साल: 26–35; 4 साल: 31–49। बहार का तनाव चल रहा हो तो तनाव के अनुसार करें।"}},
+        {"id": "m31", "ages": ["young"], "season": "rainy", "method": "drip", "source": "AW24D (table, santra and mosambi)", "source_keys": ["AW24D"],
+         "labels": {"en": "July–September, litres per tree per day by tree age: 1 year: 16–20; 2 years: 21–27; 3 years: 25–32; 4 years: 30–39. In June the same table gives 37, 49, 58 and 71.", "mr": "जुलै–सप्टेंबर, दर झाडाला दररोज लिटर, झाडाच्या वयानुसार: १ वर्ष: १६–२०; २ वर्षे: २१–२७; ३ वर्षे: २५–३२; ४ वर्षे: ३०–३९. जूनमध्ये याच तक्त्यात ३७, ४९, ५८ व ७१.", "hi": "जुलाई–सितंबर, हर पेड़ को रोज़ लीटर, पेड़ की उम्र के अनुसार: 1 साल: 16–20; 2 साल: 21–27; 3 साल: 25–32; 4 साल: 30–39। जून में इसी तालिका में 37, 49, 58 और 71।"}},
+        {"id": "m32", "ages": ["middle"], "season": "winter", "method": "drip", "source": "AW24D (table, santra and mosambi)", "source_keys": ["AW24D"],
+         "labels": {"en": "November–February, litres per tree per day by tree age: 5 years: 33–51; 6 years: 36–56; 7 years: 37–59; 8 years: 40–63. During a bahar rest, follow the rest.", "mr": "नोव्हेंबर–फेब्रुवारी, दर झाडाला दररोज लिटर, झाडाच्या वयानुसार: ५ वर्षे: ३३–५१; ६ वर्षे: ३६–५६; ७ वर्षे: ३७–५९; ८ वर्षे: ४०–६३. बहाराचा ताण चालू असेल तर ताणाप्रमाणे करा.", "hi": "नवंबर–फ़रवरी, हर पेड़ को रोज़ लीटर, पेड़ की उम्र के अनुसार: 5 साल: 33–51; 6 साल: 36–56; 7 साल: 37–59; 8 साल: 40–63। बहार का तनाव चल रहा हो तो तनाव के अनुसार करें।"}},
+        {"id": "m33", "ages": ["middle"], "season": "rainy", "method": "drip", "source": "AW24D (table, santra and mosambi)", "source_keys": ["AW24D"],
+         "labels": {"en": "July–September, litres per tree per day by tree age: 5 years: 31–41; 6 years: 34–44; 7 years: 36–46; 8 years: 39–50. In June the same table gives 74, 81, 85 and 92.", "mr": "जुलै–सप्टेंबर, दर झाडाला दररोज लिटर, झाडाच्या वयानुसार: ५ वर्षे: ३१–४१; ६ वर्षे: ३४–४४; ७ वर्षे: ३६–४६; ८ वर्षे: ३९–५०. जूनमध्ये याच तक्त्यात ७४, ८१, ८५ व ९२.", "hi": "जुलाई–सितंबर, हर पेड़ को रोज़ लीटर, पेड़ की उम्र के अनुसार: 5 साल: 31–41; 6 साल: 34–44; 7 साल: 36–46; 8 साल: 39–50। जून में इसी तालिका में 74, 81, 85 और 92।"}},
+        {"id": "m34", "ages": ["middle"], "season": "summer", "method": "drip", "source": "AW24D (table, santra and mosambi)", "source_keys": ["AW24D"],
+         "labels": {"en": "March–May, litres per tree per day by tree age: 5 years: 80–134; 6 years: 87–147; 7 years: 91–154; 8 years: 99–166.", "mr": "मार्च–मे, दर झाडाला दररोज लिटर, झाडाच्या वयानुसार: ५ वर्षे: ८०–१३४; ६ वर्षे: ८७–१४७; ७ वर्षे: ९१–१५४; ८ वर्षे: ९९–१६६.", "hi": "मार्च–मई, हर पेड़ को रोज़ लीटर, पेड़ की उम्र के अनुसार: 5 साल: 80–134; 6 साल: 87–147; 7 साल: 91–154; 8 साल: 99–166।"}}
       ],
       "notes": [
         {"id": "mn1", "source": "C06 (all citrus)", "source_keys": ["C06"],
@@ -134,9 +154,7 @@
         {"id": "mn8", "source": "AW24", "source_keys": ["AW24"],
          "labels": {"en": "Cut water down slowly to start the rest and raise it slowly to end it; keep the stress within limits.", "mr": "ताण देताना पाणी हळूहळू कमी करा आणि ताण सोडताना हळूहळू वाढवा; ताण मर्यादेतच ठेवा.", "hi": "तनाव देते समय पानी धीरे-धीरे घटाएँ और छोड़ते समय धीरे-धीरे बढ़ाएँ; तनाव सीमा में ही रखें।"}}
       ],
-      "gaps": [
-        {"en": "Winter and rainy-season litres for young and middle mosambi trees are still to be added; the litres shown are from a hot-weather (May) advisory.", "mr": "लहान व मध्यम मोसंबी झाडांसाठी हिवाळा व पावसाळ्यातील लिटर पुढे जोडले जातील; दाखवलेले लिटर मे महिन्याच्या सल्ल्यातील आहेत.", "hi": "छोटे और मध्यम मौसंबी पेड़ों के लिए सर्दी और बरसात के लीटर आगे जोड़े जाएँगे; दिखाए गए लीटर मई की सलाह से हैं।"}
-      ]
+      "gaps": []
     }
   }
 }

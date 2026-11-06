@@ -45,7 +45,16 @@ void main() {
         isNotEmpty,
         reason: 'sources disagree: both sides are shown',
       );
-      expect(data.pointsFor('hasta', const {}), isEmpty);
+      // Hasta now has public-source points (flowering month, CCRI's two main seasons), and
+      // the mosambi water point shows when water is short.
+      final hasta = data.pointsFor('hasta', const {});
+      expect(hasta, hasLength(2));
+      expect(
+        data.pointsFor('hasta', const {'water_apr_may': 'short'}),
+        hasLength(3),
+      );
+      expect(hasta.first.labels['en'], contains('October'));
+      expect(hasta.every((p) => p.source.contains('read 2026-11-06')), isTrue);
     },
   );
 
@@ -68,9 +77,10 @@ void main() {
 
     await tester.tap(find.byKey(const Key('answer-water_apr_may-short')));
     await settle(tester);
-    expect(find.textContaining('NHB'), findsWidgets);
-
     await tester.scrollUntilVisible(find.byKey(const Key('use-mrig')), 200);
+    expect(find.textContaining('NHB'), findsWidgets);
+    await tester.ensureVisible(find.byKey(const Key('use-mrig')));
+    await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('use-mrig')));
     await settle(tester);
     expect(find.text('Start a bahar'), findsOneWidget);

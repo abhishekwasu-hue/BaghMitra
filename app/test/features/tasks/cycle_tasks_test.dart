@@ -94,18 +94,95 @@ void main() {
       await run();
       await run();
       final tasks = await repo.watchAll().first;
-      expect(
-        tasks,
-        hasLength(3),
-      ); // stress_start has no planned date here; fruit_set does
-      expect(tasks.map((t) => t.kind).toSet(), {'scouting', 'harvest'});
+      // 3 stage reminders (stress_start has no planned date here; fruit_set does) and the
+      // stage operations for any crop: flowering water, harvest with clippers, pruning after.
+      expect(tasks, hasLength(6));
+      expect(tasks.map((t) => t.kind).toSet(), {
+        'scouting',
+        'harvest',
+        'irrigation',
+        'pruning',
+      });
       expect(tasks.first.title, contains('मृग बहार'));
 
       await repo.setDone(tasks.first, done: true);
       await run();
       final after = await repo.watchAll().first;
-      expect(after, hasLength(3));
+      expect(after, hasLength(6));
       expect(after.firstWhere((t) => t.id == tasks.first.id).isDone, isTrue);
+    },
+  );
+
+  test(
+    'stage operations: crop and bahar limits, own ids, offset and source',
+    () {
+      const ops = [
+        TaskTemplate(
+          stage: 'flowering',
+          kind: 'irrigation',
+          titles: {'en': 'Water at {stage}'},
+          id: 'water',
+          offsetDays: 2,
+          source: 'General information: NHB',
+        ),
+        TaskTemplate(
+          stage: 'flowering',
+          kind: 'other',
+          titles: {'en': 'Santra only'},
+          id: 'santra',
+          crops: ['santra'],
+        ),
+        TaskTemplate(
+          stage: 'flowering',
+          kind: 'other',
+          titles: {'en': 'Ambia only'},
+          id: 'ambia',
+          bahars: ['ambia'],
+        ),
+      ];
+      List<String> titles(String? crop) => [
+        for (final t in tasksForCycle(
+          cycle(),
+          templates: [...templates, ...ops],
+          source: 'BagMitra stage reminder',
+          lang: 'en',
+          baharLabel: 'Mrig bahar',
+          stageLabels: const {'flowering': 'Flowering'},
+          crop: crop,
+        ))
+          t.title,
+      ];
+      expect(titles('mosambi'), isNot(contains('Santra only')));
+      expect(titles('santra'), contains('Santra only'));
+      expect(titles(null), isNot(contains('Santra only')));
+      expect(
+        titles('santra'),
+        isNot(contains('Ambia only')),
+      ); // the cycle is Mrig
+      final water = tasksForCycle(
+        cycle(),
+        templates: ops,
+        source: 'BagMitra stage reminder',
+        lang: 'en',
+        baharLabel: 'Mrig bahar',
+        stageLabels: const {'flowering': 'Flowering'},
+      ).single;
+      expect(water.dueOn, DateTime(2026, 6, 27));
+      expect(water.source, 'General information: NHB');
+      expect(water.id, cycleTaskId(cycle().id, 'flowering', 'water'));
+      expect(water.id, isNot(cycleTaskId(cycle().id, 'flowering')));
+    },
+  );
+
+  test(
+    'bundled stage operations are cultural only and name a source',
+    () async {
+      final bundle = FileAssetBundle();
+      final text = await bundle.loadString(CycleTasksService.asset);
+      for (final word in ['spray', 'फवार', 'ppm', 'fungicide', 'insecticide']) {
+        expect(text.toLowerCase(), isNot(contains(word)), reason: word);
+      }
+      expect(text, contains('read 2026-11-06'));
     },
   );
 }
