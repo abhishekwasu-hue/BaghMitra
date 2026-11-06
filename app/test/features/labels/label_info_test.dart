@@ -289,9 +289,8 @@ void main() {
       await open(tester, '/practices');
       await tester.tap(find.byKey(const Key('practices-phytophthora')));
       await settle(tester);
-      final link = find.byKey(
-        const Key('practice-label-phytophthora-gummosis'),
-      );
+      // Phytophthora has a WP2 profile: its own label button opens the target.
+      final link = find.byKey(const Key('practices-labels-phytophthora'));
       await tester.ensureVisible(link);
       await tester.pumpAndSettle();
       await tester.tap(link);

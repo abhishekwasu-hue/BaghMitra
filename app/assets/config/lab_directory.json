@@ -1,5 +1,5 @@
 {
-  "_note": "Labs and experts near Nagpur / Vidarbha / Marathwada (research gap #8). Only institutions found on an official page; 'source' is the page where name, address and phone were read on 'checked'. A phone or address is given only when it is on that page. 'verified': false = not yet seen on an official page; the screen marks it. No chemical or treatment content. OPEN_QUESTIONS Q46.",
+  "_note": "Labs and experts near Nagpur / Vidarbha / Marathwada (research gap #8). Only institutions found on an official page (re-read 2026-11-06, register docs/research/WP3_SOURCES.md); 'source' is the page where name, address and phone were read on 'checked'. A phone or address is given only when it is on that page. 'verified': false = not yet seen on an official page; the screen marks it. District soil testing labs are not listed: the Soil Health Card portal refused the request (403) and the state list linked on krishi.maharashtra.gov.in (\"मृदा तपासणी प्रयोगशाळा ठिकाणे\") returns 404; add them once an official list is read. No chemical or treatment content. OPEN_QUESTIONS Q46.",
   "status": "draft",
   "districts": {
     "nagpur": {"en": "Nagpur", "mr": "नागपूर", "hi": "नागपुर"},
@@ -28,7 +28,7 @@
       "address": "Amravati Road, Nagpur – 440033",
       "source": "https://www.icar.org.in/en/institutes-networks",
       "verified": true,
-      "checked": "2026-10-28"
+      "checked": "2026-11-06"
     },
     {
       "id": "kvk_nagpur",
@@ -49,7 +49,27 @@
       "phone": "07103-275537",
       "source": "https://www.kvknagpur.org.in/Contact.html",
       "verified": true,
-      "checked": "2026-10-28"
+      "checked": "2026-11-06"
+    },
+    {
+      "id": "kvk_dudhbardi",
+      "kind": "kvk",
+      "district": "nagpur",
+      "name": {
+        "en": "Krishi Vigyan Kendra (KVK), Dudhbardi (Kalmeshwar), Nagpur",
+        "mr": "कृषी विज्ञान केंद्र (KVK), दुधबर्डी (कळमेश्वर), नागपूर",
+        "hi": "कृषि विज्ञान केंद्र (KVK), दुधबर्डी (कलमेश्वर), नागपुर"
+      },
+      "offers": {
+        "en": "Second KVK of Nagpur district, under the Maharashtra Animal and Fishery Sciences University (MAFSU): farmer advice and training.",
+        "mr": "नागपूर जिल्ह्याचे दुसरे KVK, महाराष्ट्र पशु व मत्स्य विज्ञान विद्यापीठ (MAFSU) अंतर्गत: शेतकऱ्यांना सल्ला व प्रशिक्षण.",
+        "hi": "नागपुर जिले का दूसरा KVK, महाराष्ट्र पशु एवं मत्स्य विज्ञान विश्वविद्यालय (MAFSU) के अंतर्गत: किसानों को सलाह और प्रशिक्षण।"
+      },
+      "url": "https://icar.org.in/en/node/15040",
+      "address": "Village Dudhbardi, Tq. Kalmeshwar, Dist. Nagpur",
+      "source": "https://icar.org.in/en/node/15040",
+      "verified": true,
+      "checked": "2026-11-06"
     },
     {
       "id": "pdkv_ars_katol",
@@ -68,7 +88,7 @@
       "url": "https://www.pdkv.ac.in/?page_id=126",
       "source": "https://www.pdkv.ac.in/?page_id=126",
       "verified": true,
-      "checked": "2026-10-28"
+      "checked": "2026-11-06"
     },
     {
       "id": "pdkv_atic",
@@ -88,7 +108,7 @@
       "phone": "0724-2259262",
       "source": "https://www.pdkv.ac.in/?page_id=2207",
       "verified": true,
-      "checked": "2026-10-28"
+      "checked": "2026-11-06"
     },
     {
       "id": "pdkv_akola",
@@ -109,7 +129,7 @@
       "phone": "0724-2258372",
       "source": "https://www.pdkv.ac.in/?page_id=44",
       "verified": true,
-      "checked": "2026-10-28"
+      "checked": "2026-11-06"
     },
     {
       "id": "kvk_selsura",
@@ -130,7 +150,7 @@
       "phone": "9970070944",
       "source": "https://kvkselsura.pdkv.ac.in/?page_id=39",
       "verified": true,
-      "checked": "2026-10-28"
+      "checked": "2026-11-06"
     },
     {
       "id": "kvk_ghatkhed",
@@ -151,7 +171,7 @@
       "phone": "07221-227070",
       "source": "https://www.pdkv.ac.in/?p=2217",
       "verified": true,
-      "checked": "2026-10-28"
+      "checked": "2026-11-06"
     },
     {
       "id": "kvk_durgapur",
@@ -172,7 +192,7 @@
       "phone": "0721-281560",
       "source": "https://www.pdkv.ac.in/?p=2217",
       "verified": true,
-      "checked": "2026-10-28"
+      "checked": "2026-11-06"
     },
     {
       "id": "kvk_kharpudi",
@@ -192,7 +212,7 @@
       "address": "Post Box No. 45, Jalna – 431203",
       "source": "https://icar.org.in/en/node/15040",
       "verified": true,
-      "checked": "2026-10-28"
+      "checked": "2026-11-06"
     },
     {
       "id": "kvk_badnapur",
@@ -212,7 +232,7 @@
       "address": "Badnapur, Tq. Badnapur, Dist. Jalna",
       "source": "https://icar.org.in/en/node/15040",
       "verified": true,
-      "checked": "2026-10-28"
+      "checked": "2026-11-06"
     },
     {
       "id": "soil_health_portal",

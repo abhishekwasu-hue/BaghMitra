@@ -12,6 +12,7 @@ import '../../../design_system/app_bar_title.dart';
 import '../../../design_system/bottom_actions.dart';
 import '../../../design_system/cards.dart';
 import '../../../design_system/empty_state.dart';
+import '../../../design_system/general_info_note.dart';
 import '../../../design_system/glyphs.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
@@ -90,6 +91,116 @@ class _AskExpertNote extends StatelessWidget {
               AppLocalizations.of(context).labTestAskExpert,
               style: BmType.bodyStrong.copyWith(color: c.ink),
             ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// General rating ranges per test type (Soil Health Card manual), read from config.
+final labNormsProvider = FutureProvider<Map<String, LabNorms>>(
+  (ref) => ref.watch(labParametersCatalogProvider).loadNorms(),
+);
+
+/// The official rating ranges of a test type as a closed-by-default reference table, marked
+/// as general information with its source and date (Q57). It never rates the grower's own
+/// values and never suggests a fertiliser.
+class _LabNormsCard extends ConsumerWidget {
+  const _LabNormsCard(this.type);
+
+  final String type;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final norms = ref.watch(labNormsProvider).value?[type];
+    if (norms == null) return const SizedBox.shrink();
+    final t = AppLocalizations.of(context);
+    final c = context.bm;
+    final lang = Localizations.localeOf(context).languageCode;
+    final names = {
+      for (final p
+          in ref.watch(labParametersProvider).value?[type] ??
+              const <LabParameter>[])
+        p.key: p.label(lang),
+    };
+    Color tone(String tone) => switch (tone) {
+      'ok' => c.brandStrong,
+      'mid' => c.caution,
+      _ => c.danger,
+    };
+    return BmCard(
+      elevated: false,
+      radius: BmRadius.card,
+      padding: EdgeInsets.zero,
+      child: ExpansionTile(
+        key: const Key('lab-norms'),
+        shape: const Border(),
+        collapsedShape: const Border(),
+        tilePadding: const EdgeInsets.symmetric(horizontal: BmSpace.md),
+        childrenPadding: const EdgeInsets.fromLTRB(
+          BmSpace.md,
+          0,
+          BmSpace.md,
+          BmSpace.md,
+        ),
+        expandedCrossAxisAlignment: CrossAxisAlignment.start,
+        leading: Icon(Icons.table_chart_outlined, color: c.brand),
+        title: Text(t.labNormsTitle, style: BmType.bodyStrong),
+        children: [
+          GeneralInfoNote(
+            source: norms.sourceShort,
+            checked: formatDate(norms.checked, lang),
+          ),
+          const SizedBox(height: BmSpace.xs),
+          Text(t.labNormsHint, style: BmType.meta.copyWith(color: c.inkMuted)),
+          for (final r in norms.rows)
+            Container(
+              key: Key('lab-norm-${r.key}'),
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(vertical: BmSpace.xs),
+              decoration: BoxDecoration(
+                border: Border(bottom: BorderSide(color: c.line)),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    [names[r.key] ?? r.key, ?r.unit].join(' · '),
+                    style: BmType.bodyStrong,
+                  ),
+                  const SizedBox(height: BmSpace.xxs),
+                  Wrap(
+                    spacing: BmSpace.xs,
+                    runSpacing: BmSpace.xxs,
+                    children: [
+                      for (final g in r.ranges)
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: BmSpace.xs,
+                            vertical: BmSpace.xxs,
+                          ),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: tone(g.tone)),
+                            borderRadius: BorderRadius.circular(BmRadius.chip),
+                          ),
+                          child: Text(
+                            '${g.label(lang)}  ${localDigits(g.range, lang)}',
+                            style: BmType.meta.copyWith(
+                              color: tone(g.tone),
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          const SizedBox(height: BmSpace.xs),
+          Text(
+            norms.gapIn(lang),
+            style: BmType.meta.copyWith(color: c.inkMuted),
           ),
         ],
       ),
@@ -341,6 +452,8 @@ class LabTestDetailScreen extends ConsumerWidget {
                 ],
               ),
             ),
+          const SizedBox(height: BmSpace.md),
+          _LabNormsCard(record.testType),
           if (record.note != null) ...[
             section(t.labTestNote),
             Text(record.note!, style: BmType.body),

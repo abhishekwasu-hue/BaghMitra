@@ -110,6 +110,40 @@ Map<String, dynamic> _$CardOutToJson(CardOut instance) => <String, dynamic>{
   'version': instance.version,
 };
 
+CardSourceOut _$CardSourceOutFromJson(Map<String, dynamic> json) =>
+    CardSourceOut(
+      checked: json['checked'] == null
+          ? null
+          : DateTime.parse(json['checked'] as String),
+      publisher: json['publisher'] as String,
+      title: json['title'] as String,
+      url: json['url'] as String,
+    );
+
+Map<String, dynamic> _$CardSourceOutToJson(CardSourceOut instance) =>
+    <String, dynamic>{
+      'checked': ?_dateToJson(instance.checked),
+      'publisher': instance.publisher,
+      'title': instance.title,
+      'url': instance.url,
+    };
+
+CardText _$CardTextFromJson(Map<String, dynamic> json) => CardText(
+  cultural: json['cultural'] as String?,
+  summary: json['summary'] as String?,
+  title: json['title'] as String?,
+  warnings: json['warnings'] as String?,
+  whenToCallExpert: json['when_to_call_expert'] as String?,
+);
+
+Map<String, dynamic> _$CardTextToJson(CardText instance) => <String, dynamic>{
+  'cultural': ?instance.cultural,
+  'summary': ?instance.summary,
+  'title': ?instance.title,
+  'warnings': ?instance.warnings,
+  'when_to_call_expert': ?instance.whenToCallExpert,
+};
+
 CardsResponse _$CardsResponseFromJson(Map<String, dynamic> json) =>
     CardsResponse(
       cards:
@@ -862,6 +896,49 @@ Map<String, dynamic> _$GrantInToJson(GrantIn instance) => <String, dynamic>{
   'reason': instance.reason,
   'subject_id': instance.subjectId,
   'subject_type': ?grantInSubjectTypeToJson(instance.subjectType),
+};
+
+GrowerCardOut _$GrowerCardOutFromJson(Map<String, dynamic> json) =>
+    GrowerCardOut(
+      crop: json['crop'] as String,
+      reviewed: json['reviewed'] as bool,
+      sources:
+          (json['sources'] as List<dynamic>?)
+              ?.map((e) => CardSourceOut.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+      text: json['text'] as Map<String, dynamic>,
+      topic: json['topic'] as String,
+      topicKind: json['topic_kind'] as String,
+      topicLabels: json['topic_labels'] as Map<String, dynamic>,
+    );
+
+Map<String, dynamic> _$GrowerCardOutToJson(GrowerCardOut instance) =>
+    <String, dynamic>{
+      'crop': instance.crop,
+      'reviewed': instance.reviewed,
+      'sources': instance.sources.map((e) => e.toJson()).toList(),
+      'text': instance.text,
+      'topic': instance.topic,
+      'topic_kind': instance.topicKind,
+      'topic_labels': instance.topicLabels,
+    };
+
+GrowerCardsResponse _$GrowerCardsResponseFromJson(Map<String, dynamic> json) =>
+    GrowerCardsResponse(
+      cards:
+          (json['cards'] as List<dynamic>?)
+              ?.map((e) => GrowerCardOut.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+      kind: json['kind'] as String?,
+    );
+
+Map<String, dynamic> _$GrowerCardsResponseToJson(
+  GrowerCardsResponse instance,
+) => <String, dynamic>{
+  'cards': instance.cards.map((e) => e.toJson()).toList(),
+  'kind': ?instance.kind,
 };
 
 HTTPValidationError _$HTTPValidationErrorFromJson(Map<String, dynamic> json) =>

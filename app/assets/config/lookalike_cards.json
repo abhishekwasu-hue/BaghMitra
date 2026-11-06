@@ -7,63 +7,96 @@
       "url": "https://www.nhb.gov.in/pdf/fruits/citrus/cit002.pdf",
       "kind": "official",
       "verified": true,
-      "checked": "2026-10-28"
+      "checked": "2026-10-28",
+      "publisher": "NHB"
     },
     "NHB-C03": {
       "title": "National Horticulture Board: Citrus disorders (fruit drop, die-back / decline)",
       "url": "https://www.nhb.gov.in/pdf/fruits/citrus/cit003.pdf",
       "kind": "official",
       "verified": true,
-      "checked": "2026-10-28"
+      "checked": "2026-10-28",
+      "publisher": "NHB"
     },
     "NHB-C08": {
       "title": "National Horticulture Board: Citrus pests",
       "url": "https://www.nhb.gov.in/pdf/fruits/citrus/cit008.pdf",
       "kind": "official",
       "verified": true,
-      "checked": "2026-10-28"
+      "checked": "2026-10-28",
+      "publisher": "NHB"
     },
     "PDKV-HLB": {
       "title": "Deshmukh et al. 2022, Dr. PDKV Akola: Rapid detection of citrus greening by iodine kit and PCR (IJCMAS 11(2): 127-132, doi 10.20546/ijcmas.2022.1102.016)",
       "url": "https://www.ijcmas.com/11-2-2022/Snehal%20Sanjayrao%20Deshmukh,%20et%20al.pdf",
       "kind": "research",
       "verified": true,
-      "checked": "2026-10-28"
+      "checked": "2026-10-28",
+      "publisher": "Dr. PDKV"
     },
     "PDKV-AICRP": {
       "title": "Dr. PDKV Akola: AICRP (Tropical Fruits) on Citrus, aims include finding the causes of citrus decline and die-back",
       "url": "https://www.pdkv.ac.in/?page_id=4604",
       "kind": "university",
       "verified": true,
-      "checked": "2026-10-28"
+      "checked": "2026-10-28",
+      "publisher": "Dr. PDKV"
     },
     "CCRI-2022": {
       "title": "AESA: ICAR-CCRI Nagpur NABARD-sponsored training for citrus growers, July 2022 (fruit drop from heat, untimely rain and hail)",
       "url": "https://aesanetwork.org/capacity-development-of-citrus-growers-of-nagpur-nabard-sponsored-training-program-on-advanced-production-technologies-of-citrus-12-14-july-2022/",
       "kind": "extension",
       "verified": true,
-      "checked": "2026-10-28"
+      "checked": "2026-10-28",
+      "publisher": "ICAR-CCRI"
     },
     "UF-PP328": {
       "title": "UF/IFAS Extension PP328: HLB (citrus greening) and nutrient deficiency identification (reviewed 01/2025)",
       "url": "https://edis.ifas.ufl.edu/publication/PP328",
       "kind": "extension",
       "verified": true,
-      "checked": "2026-10-28"
+      "checked": "2026-10-28",
+      "publisher": "UF/IFAS"
     },
     "UC-THRIPS": {
       "title": "UC IPM (University of California): Citrus thrips",
       "url": "https://ipm.ucanr.edu/agriculture/citrus/citrus-thrips/",
       "kind": "extension",
       "verified": true,
-      "checked": "2026-10-28"
+      "checked": "2026-10-28",
+      "publisher": "UC IPM"
     },
     "UC-WIND": {
       "title": "UC IPM (University of California): Identification and confirmation of wind injury",
       "url": "https://ipm.ucanr.edu/home-and-landscape/identification-and-confirmation-wind-injury/",
       "kind": "extension",
       "verified": true,
-      "checked": "2026-10-28"
+      "checked": "2026-10-28",
+      "publisher": "UC IPM"
+    },
+    "NIPHM-DIS": {
+      "title": "NIPHM and Directorate of Plant Protection, Quarantine & Storage: AESA based IPM for citrus, diseases and symptoms (Vikaspedia copy)",
+      "url": "https://en.vikaspedia.in/viewcontent/agriculture/crop-production/integrated-pest-managment/ipm-for-fruit-crops/ipm-strategies-for-citrus/diseases-and-symptoms?lgn=en",
+      "kind": "official",
+      "verified": true,
+      "checked": "2026-11-06",
+      "publisher": "NIPHM"
+    },
+    "NIPHM-PESTS": {
+      "title": "NIPHM and DPPQS: AESA based IPM for citrus, insect pests (Vikaspedia copy)",
+      "url": "https://en.vikaspedia.in/viewcontent/agriculture/crop-production/integrated-pest-managment/ipm-for-fruit-crops/ipm-strategies-for-citrus/insect-and-nematode-pests-management?lgn=en",
+      "kind": "official",
+      "verified": true,
+      "checked": "2026-11-06",
+      "publisher": "NIPHM"
+    },
+    "TNAU-PESTS": {
+      "title": "TNAU Agritech portal: Pests of citrus",
+      "url": "https://agritech.tnau.ac.in/crop_protection/crop_prot_crop_insectpest%20_-Citrus_pest&disease.html",
+      "kind": "university",
+      "verified": true,
+      "checked": "2026-11-06",
+      "publisher": "TNAU"
     }
   },
   "cards": [
@@ -90,7 +123,11 @@
         "mr": "ग्रीनिंगची खात्री फक्त पानांच्या नमुन्याच्या प्रयोगशाळा चाचणीने (PCR) होते; अन्नद्रव्य कमतरतेची खात्री पान किंवा माती चाचणीने. आपल्या KVK, डॉ. पंदेकृवि किंवा ICAR-CCRI ला विचारा.",
         "hi": "ग्रीनिंग की पुष्टि केवल पत्तियों के नमूने की लैब जाँच (PCR) से होती है; पोषक तत्व की कमी की पुष्टि पत्ती या मिट्टी जाँच से। अपने KVK, डॉ. पीडीकेवी या ICAR-CCRI से पूछें।"
       },
-      "sources": ["NHB-C02", "PDKV-HLB", "UF-PP328"]
+      "sources": [
+        "NHB-C02",
+        "PDKV-HLB",
+        "UF-PP328"
+      ]
     },
     {
       "id": "gummosis_vs_bark",
@@ -115,7 +152,10 @@
         "mr": "कोणता प्रकार आहे हे फक्त साल, मूळ किंवा मातीच्या नमुन्याची प्रयोगशाळा चाचणी किंवा झाड प्रत्यक्ष पाहणारे तज्ज्ञच सांगू शकतात. आपल्या KVK, डॉ. पंदेकृवि किंवा ICAR-CCRI ला विचारा.",
         "hi": "कौन-सा है यह केवल छाल, जड़ या मिट्टी के नमूने की लैब जाँच या पेड़ को खुद देखने वाले विशेषज्ञ ही बता सकते हैं। अपने KVK, डॉ. पीडीकेवी या ICAR-CCRI से पूछें।"
       },
-      "sources": ["NHB-C02", "NHB-C08"]
+      "sources": [
+        "NHB-C02",
+        "NHB-C08"
+      ]
     },
     {
       "id": "die_back_causes",
@@ -140,7 +180,11 @@
         "mr": "खरे कारण फक्त माती, मुळे किंवा पानांच्या प्रयोगशाळा चाचणीने किंवा तज्ज्ञांनी बागेला भेट दिल्यावरच कळू शकते.",
         "hi": "असली कारण केवल मिट्टी, जड़ों या पत्तियों की लैब जाँच से, या विशेषज्ञ के बाग में आने पर ही पता चल सकता है।"
       },
-      "sources": ["NHB-C03", "NHB-C02", "PDKV-AICRP"]
+      "sources": [
+        "NHB-C03",
+        "NHB-C02",
+        "PDKV-AICRP"
+      ]
     },
     {
       "id": "fruit_drop_types",
@@ -165,7 +209,11 @@
         "mr": "कोणते कारण आहे हे तज्ज्ञांनी गळलेली फळे व झाड पाहूनच सांगता येते; प्रयोगशाळा गळलेल्या फळांची रोगासाठी चाचणी करू शकते.",
         "hi": "कौन-सा कारण है यह विशेषज्ञ झड़े फल और पेड़ देखकर ही बता सकते हैं; लैब झड़े फलों की रोग के लिए जाँच कर सकती है।"
       },
-      "sources": ["NHB-C03", "NHB-C02", "CCRI-2022"]
+      "sources": [
+        "NHB-C03",
+        "NHB-C02",
+        "CCRI-2022"
+      ]
     },
     {
       "id": "psylla_vs_leaf_miner",
@@ -190,7 +238,9 @@
         "mr": "जवळून पाहा, स्पष्ट फोटो घ्या आणि आपल्या KVK मधील तज्ज्ञांना दाखवा; ते फोटो किंवा नमुन्यावरून कीड निश्चित करू शकतात.",
         "hi": "पास से देखें, साफ़ फ़ोटो लें और अपने KVK के विशेषज्ञ को दिखाएँ; वे फ़ोटो या नमूने से कीट की पुष्टि कर सकते हैं।"
       },
-      "sources": ["NHB-C08"]
+      "sources": [
+        "NHB-C08"
+      ]
     },
     {
       "id": "mites_thrips_scarring",
@@ -215,7 +265,122 @@
         "mr": "कोळी व फुलकिडे अतिशय लहान असतात: भिंग वापरणारे तज्ज्ञ किंवा प्रयोगशाळाच खात्री करू शकते.",
         "hi": "माइट और थ्रिप्स बहुत छोटे होते हैं: लेंस से देखने वाले विशेषज्ञ या लैब ही पुष्टि कर सकते हैं।"
       },
-      "sources": ["NHB-C08", "UC-THRIPS", "UC-WIND"]
+      "sources": [
+        "NHB-C08",
+        "UC-THRIPS",
+        "UC-WIND"
+      ]
+    },
+    {
+      "id": "canker_vs_scab",
+      "scouting_item": "other",
+      "title": {
+        "en": "Corky spots on leaves and fruit: canker or scab?",
+        "mr": "पाने व फळांवर बुचासारखे डाग: कँकर की खरूज (स्कॅब)?",
+        "hi": "पत्तियों और फलों पर कॉर्क जैसे धब्बे: कैंकर या स्कैब?"
+      },
+      "see": {
+        "en": "Raised, rough, corky brown spots on leaves, twigs or fruit.",
+        "mr": "पाने, काड्या किंवा फळांवर उंचवट्याचे, खरबरीत, बुचासारखे तपकिरी डाग.",
+        "hi": "पत्तियों, टहनियों या फलों पर उभरे, खुरदरे, कॉर्क जैसे भूरे धब्बे।"
+      },
+      "confused_with": {
+        "en": "Canker spots start as small water-soaked yellow spots and have a yellow halo on leaves; on fruit there is no halo and the spot stays in the rind. Scab starts as small see-through dots on the underside of leaves that become sharp, raised pustules, with a sunken pink to red centre on the other side; the leaves wrinkle and twist, and fruit get corky outgrowths that break into scabs.",
+        "mr": "कँकरचे डाग लहान पाणथळ पिवळ्या ठिपक्यांपासून सुरू होतात आणि पानांवर त्यांच्याभोवती पिवळे वलय असते; फळांवर वलय नसते आणि डाग सालीतच राहतो. खरूज पानांच्या खालच्या बाजूला लहान पारदर्शक ठिपक्यांपासून सुरू होऊन टोकदार, उंच फोडांसारखी होते, आणि दुसऱ्या बाजूला गुलाबी ते लाल मध्य असलेला खोलगट भाग दिसतो; पाने सुरकुततात व वाकडी होतात, आणि फळांवर बुचासारखी वाढ होऊन तिचे खपले पडतात.",
+        "hi": "कैंकर के धब्बे छोटे पानी भरे पीले बिंदुओं से शुरू होते हैं और पत्तियों पर उनके चारों ओर पीला घेरा होता है; फलों पर घेरा नहीं होता और धब्बा छिलके तक रहता है। स्कैब पत्तियों की निचली सतह पर छोटे पारदर्शी बिंदुओं से शुरू होकर नुकीले, उभरे फफोले बनता है, और दूसरी तरफ़ गुलाबी से लाल बीच वाला धँसा भाग दिखता है; पत्तियाँ सिकुड़ती और ऐंठती हैं, और फलों पर कॉर्क जैसी बढ़वार होकर पपड़ी बनती है।"
+      },
+      "confirm": {
+        "en": "Only a lab test of a sample or an expert can tell them apart for sure. Photograph both sides of the leaf and ask your KVK or Dr. PDKV.",
+        "mr": "नमुन्याची प्रयोगशाळा चाचणी किंवा तज्ज्ञच हे खात्रीने ओळखू शकतात. पानाच्या दोन्ही बाजूंचे फोटो घ्या आणि आपल्या KVK ला किंवा डॉ. पंदेकृविला विचारा.",
+        "hi": "केवल नमूने की लैब जाँच या विशेषज्ञ ही इन्हें पक्के तौर पर अलग बता सकते हैं। पत्ती के दोनों तरफ़ के फोटो लें और अपने KVK या डॉ. पीडीकेवी से पूछें।"
+      },
+      "sources": [
+        "NHB-C02",
+        "NIPHM-DIS"
+      ]
+    },
+    {
+      "id": "mealybug_vs_cottony_scale",
+      "scouting_item": "other",
+      "title": {
+        "en": "White cottony insects: mealybug or cottony cushion scale?",
+        "mr": "पांढरे कापसासारखे कीटक: पिठ्या ढेकूण की कॉटनी कुशन स्केल?",
+        "hi": "सफ़ेद रुई जैसे कीट: मिलीबग या कॉटनी कुशन स्केल?"
+      },
+      "see": {
+        "en": "White, waxy or cottony masses on twigs, leaves or fruit, with sticky honeydew and black sooty mould.",
+        "mr": "काड्या, पाने किंवा फळांवर पांढरे, मेणचट किंवा कापसासारखे पुंजके, सोबत चिकट स्राव व काळी बुरशी.",
+        "hi": "टहनियों, पत्तियों या फलों पर सफ़ेद, मोमी या रुई जैसे ढेर, साथ में चिपचिपा मधुरस और काली फफूंद।"
+      },
+      "confused_with": {
+        "en": "Mealybugs are oval, wingless insects with a white waxy coat and short wax threads round the edge, in clusters on tender twigs, fruit and leaf veins; their egg masses are cottony. Cottony cushion scale has white, ribbed masses that hold up to 800 red eggs; its young are red with black legs and the adults are covered in white hair.",
+        "mr": "पिठ्या ढेकूण अंडाकृती, पंख नसलेले कीटक असून त्यांच्यावर पांढरे मेणाचे आवरण व कडेने आखूड मेणाचे धागे असतात, ते कोवळ्या काड्या, फळे व पानांच्या शिरांवर पुंजक्यांत असतात; त्यांचे अंडीपुंज कापसासारखे असतात. कॉटनी कुशन स्केलचे पांढरे, रेषा असलेले पुंजके असतात, ज्यांत ८०० पर्यंत लाल अंडी असतात; पिल्ले लाल व पाय काळे असतात आणि प्रौढांवर पांढरे केस असतात.",
+        "hi": "मिलीबग अंडाकार, बिना पंख के कीट हैं जिन पर सफ़ेद मोमी परत और किनारे पर छोटे मोमी धागे होते हैं, ये कोमल टहनियों, फलों और पत्ती की नसों पर गुच्छों में रहते हैं; इनके अंडे के ढेर रुई जैसे होते हैं। कॉटनी कुशन स्केल के सफ़ेद, धारीदार ढेर होते हैं जिनमें 800 तक लाल अंडे होते हैं; शिशु लाल और पैर काले होते हैं और वयस्कों पर सफ़ेद बाल होते हैं।"
+      },
+      "confirm": {
+        "en": "An expert or a lab can name the insect for sure; take a close-up photo and show it to your KVK.",
+        "mr": "कीटक खात्रीने कोणता ते तज्ज्ञ किंवा प्रयोगशाळाच सांगू शकते; जवळून फोटो घ्या आणि आपल्या KVK ला दाखवा.",
+        "hi": "कीट कौन सा है यह पक्के तौर पर विशेषज्ञ या लैब ही बता सकती है; पास से फोटो लें और अपने KVK को दिखाएँ।"
+      },
+      "sources": [
+        "TNAU-PESTS",
+        "NIPHM-PESTS"
+      ]
+    },
+    {
+      "id": "powdery_mildew_vs_sooty_mould",
+      "scouting_item": "other",
+      "title": {
+        "en": "White powder or black coating on leaves: powdery mildew or sooty mould?",
+        "mr": "पानांवर पांढरी भुकटी की काळा थर: भुरी की काळी बुरशी?",
+        "hi": "पत्तियों पर सफ़ेद चूर्ण या काली परत: चूर्णिल आसिता या काली फफूंद?"
+      },
+      "see": {
+        "en": "A coating on the upper side of leaves, on young shoots or on fruit.",
+        "mr": "पानांच्या वरच्या बाजूला, कोवळ्या फुटव्यांवर किंवा फळांवर थर.",
+        "hi": "पत्तियों की ऊपरी सतह, नई टहनियों या फलों पर परत।"
+      },
+      "confused_with": {
+        "en": "Powdery mildew is a white powder on young leaves and young fruit; the leaves turn pale grey-green, twist and curl, and young fruit fall early. Sooty mould is a black, velvety coating that can be peeled or scraped off; it grows on the honeydew of sucking insects such as black fly, mealybugs, scale insects and aphids, so look for those insects too.",
+        "mr": "भुरी ही कोवळ्या पानांवर व लहान फळांवर पांढरी भुकटी असते; पाने फिकट राखाडी-हिरवी होऊन वळतात व गुंडाळतात, आणि लहान फळे लवकर गळतात. काळी बुरशी हा काळा, मखमली थर असतो जो सोलून किंवा खरवडून निघतो; तो काळी माशी, पिठ्या ढेकूण, खवले कीड व मावा यांसारख्या रस शोषणाऱ्या किडींच्या चिकट स्रावावर वाढतो, म्हणून त्या किडीही शोधा.",
+        "hi": "चूर्णिल आसिता नई पत्तियों और छोटे फलों पर सफ़ेद चूर्ण है; पत्तियाँ हल्की धूसर-हरी होकर ऐंठती और मुड़ती हैं, और छोटे फल जल्दी गिरते हैं। काली फफूंद काली, मखमली परत है जो छीलकर या खुरचकर निकल जाती है; यह काली मक्खी, मिलीबग, शल्क कीट और माहू जैसे रस चूसक कीटों के मधुरस पर उगती है, इसलिए उन कीटों को भी देखें।"
+      },
+      "confirm": {
+        "en": "An expert or a plant clinic lab can confirm the cause; photograph the coating and the underside of the leaves and ask your KVK.",
+        "mr": "कारणाची खात्री तज्ज्ञ किंवा वनस्पती चिकित्सा प्रयोगशाळा करू शकते; थराचा व पानांच्या खालच्या बाजूचा फोटो घ्या आणि आपल्या KVK ला विचारा.",
+        "hi": "कारण की पुष्टि विशेषज्ञ या पौध क्लिनिक लैब कर सकती है; परत और पत्तियों की निचली सतह का फोटो लें और अपने KVK से पूछें।"
+      },
+      "sources": [
+        "NHB-C02",
+        "NIPHM-DIS"
+      ]
+    },
+    {
+      "id": "fruit_moth_vs_fruit_fly",
+      "scouting_item": "fruit_drop",
+      "title": {
+        "en": "Holes in ripening fruit: fruit-sucking moth or fruit fly?",
+        "mr": "पिकणाऱ्या फळांना छिद्रे: रस शोषणारा पतंग की फळमाशी?",
+        "hi": "पकते फलों में छेद: फल-चूसक पतंगा या फल मक्खी?"
+      },
+      "see": {
+        "en": "Ripening fruit with small punctures that rot at the spot, and fruit falling.",
+        "mr": "पिकणाऱ्या फळांवर लहान छिद्रे, त्या जागी सड, आणि फळगळ.",
+        "hi": "पकते फलों पर छोटे छेद, उस जगह सड़न, और फल गिरना।"
+      },
+      "confused_with": {
+        "en": "The fruit-sucking moth comes at dusk and at night when fruit are about to ripen, pierces ripe fruit and sucks the juice; the fruit rot at the hole and usually fall within a few days. The fruit fly punctures the rind before harvest and lays eggs inside; maggots feed on the pulp, and the fruit fail to ripen and drop early.",
+        "mr": "रस शोषणारा पतंग फळे पिकण्याच्या वेळी संध्याकाळी व रात्री येतो, पिकलेल्या फळांना छिद्र पाडून रस शोषतो; छिद्राजवळ फळ सडते आणि सहसा काही दिवसांत गळते. फळमाशी तोडणीपूर्वी सालीला छिद्र पाडून आत अंडी घालते; अळ्या गर खातात, आणि फळे पिकत नाहीत व लवकर गळतात.",
+        "hi": "फल-चूसक पतंगा फल पकने के समय शाम और रात में आता है, पके फलों में छेद कर रस चूसता है; छेद पर फल सड़ता है और आम तौर पर कुछ दिनों में गिर जाता है। फल मक्खी तुड़ाई से पहले छिलके में छेद कर अंदर अंडे देती है; इल्लियाँ गूदा खाती हैं, और फल पकते नहीं व जल्दी गिरते हैं।"
+      },
+      "confirm": {
+        "en": "Your KVK or an expert can confirm which pest it is; bring a fallen fruit or a photo.",
+        "mr": "कोणती कीड आहे याची खात्री आपला KVK किंवा तज्ज्ञ करू शकतात; गळलेले फळ किंवा फोटो घेऊन जा.",
+        "hi": "कौन सा कीट है इसकी पुष्टि आपका KVK या विशेषज्ञ कर सकता है; गिरा फल या फोटो ले जाएँ।"
+      },
+      "sources": [
+        "NHB-C08"
+      ]
     }
   ]
 }

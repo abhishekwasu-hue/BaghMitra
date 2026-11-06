@@ -26,6 +26,7 @@ import '../features/inputs/presentation/add_input_screens.dart';
 import '../features/inputs/presentation/field_log_screen.dart';
 import '../features/insurance/presentation/claim_kit_screen.dart';
 import '../features/insurance/presentation/insurance_screens.dart';
+import '../features/knowledge/presentation/knowledge_cards_screen.dart';
 import '../features/lab_tests/presentation/lab_test_screens.dart';
 import '../features/labels/presentation/label_info_screen.dart';
 import '../features/lookalikes/presentation/lookalikes_screen.dart';
@@ -90,6 +91,9 @@ abstract final class Routes {
   /// "All features": an entry to every screen (audit H1).
   static const more = '/more';
   static const irrigation = '/irrigation';
+  static const knowledge = '/knowledge';
+  static String knowledgeTopic(String topic) =>
+      '$knowledge?topic=${Uri.encodeQueryComponent(topic)}';
   static const lookalikes = '/lookalikes';
   static String lookalikesFor(String? plotId) =>
       plotId == null ? lookalikes : '$lookalikes?plot=$plotId';
@@ -276,6 +280,11 @@ GoRouter buildRouter(
       GoRoute(
         path: Routes.irrigation,
         builder: (_, _) => const IrrigationGuideScreen(),
+      ),
+      GoRoute(
+        path: Routes.knowledge,
+        builder: (_, s) =>
+            KnowledgeCardsScreen(topic: s.uri.queryParameters['topic']),
       ),
       GoRoute(
         path: Routes.lookalikes,

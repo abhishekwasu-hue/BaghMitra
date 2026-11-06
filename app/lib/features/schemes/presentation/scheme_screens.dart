@@ -9,6 +9,7 @@ import '../../../core/formatting.dart';
 import '../../../design_system/app_bar_title.dart';
 import '../../../design_system/cards.dart';
 import '../../../design_system/empty_state.dart';
+import '../../../design_system/general_info_note.dart';
 import '../../../design_system/glyphs.dart';
 import '../../../design_system/info_note.dart';
 import '../../../l10n/app_localizations.dart';
@@ -256,10 +257,59 @@ class SchemeDetailScreen extends ConsumerWidget {
         ),
         children: [
           Text(scheme.summary(lang), style: BmType.body),
+          const SizedBox(height: BmSpace.xs),
+          GeneralInfoNote(
+            key: const Key('scheme-general-info'),
+            source: t.schemeGeneralSource,
+            checked: formatDate(data.checkedOn, lang),
+          ),
           section(t.schemeWho),
           Text(scheme.whoCanApply(lang), style: BmType.body),
           const SizedBox(height: BmSpace.xxs),
           InfoNote(t.schemeWhoCheck, style: BmType.bodyStrong),
+          if (scheme.facts.isNotEmpty) ...[
+            section(t.schemeFacts),
+            for (final (i, f) in scheme.facts.indexed)
+              Padding(
+                key: Key('scheme-fact-$i'),
+                padding: const EdgeInsets.only(bottom: BmSpace.xs),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 2),
+                      child: Icon(
+                        Icons.check_circle_outline_rounded,
+                        size: 18,
+                        color: c.brandStrong,
+                      ),
+                    ),
+                    const SizedBox(width: BmSpace.xs),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            localDigits(f.text(lang), lang),
+                            style: BmType.body,
+                          ),
+                          // One source line per run of facts read on the same page.
+                          if (f.source < scheme.sources.length &&
+                              (i + 1 == scheme.facts.length ||
+                                  scheme.facts[i + 1].source != f.source))
+                            Text(
+                              t.schemeFactSource(
+                                scheme.sources[f.source].title,
+                              ),
+                              style: notConfirmed,
+                            ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+          ],
           section(t.schemeDocuments),
           Text(
             t.schemeDocumentsHint,

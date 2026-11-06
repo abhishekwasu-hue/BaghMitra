@@ -4,9 +4,11 @@ import 'package:go_router/go_router.dart';
 
 import '../../../app/providers.dart';
 import '../../../app/router.dart';
+import '../../../core/formatting.dart';
 import '../../../design_system/app_bar_title.dart';
 import '../../../design_system/cards.dart';
 import '../../../design_system/empty_state.dart';
+import '../../../design_system/general_info_note.dart';
 import '../../../design_system/glyphs.dart';
 import '../../../design_system/info_note.dart';
 import '../../../l10n/app_localizations.dart';
@@ -93,6 +95,8 @@ class _LookalikeCardView extends ConsumerWidget {
             .value
             ?.scoutingItems[card.scoutingItem] ??
         const <String>[];
+    final cited = [for (final k in card.sourceKeys) ?data.sources[k]];
+    final checked = [for (final s in cited) ?s.checked]..sort();
     Widget part(String heading, Map<String, String> field) => Padding(
       padding: const EdgeInsets.only(top: BmSpace.sm),
       child: Column(
@@ -118,6 +122,15 @@ class _LookalikeCardView extends ConsumerWidget {
               padding: const EdgeInsets.only(top: BmSpace.xxs),
               child: InfoNote(t.lookalikesDraft),
             ),
+          // Owner decision Q57: general information from public sources, with source and date.
+          Padding(
+            padding: const EdgeInsets.only(top: BmSpace.xxs),
+            child: GeneralInfoNote(
+              key: Key('lookalike-general-${card.id}'),
+              source: {for (final s in cited) ?s.publisher}.join(', '),
+              checked: checked.isEmpty ? null : formatDate(checked.last, lang),
+            ),
+          ),
           part(t.lookalikesSee, card.see),
           part(t.lookalikesConfusedWith, card.confusedWith),
           part(t.lookalikesConfirm, card.confirm),

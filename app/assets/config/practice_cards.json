@@ -1,110 +1,222 @@
 {
-  "_note": "Non-chemical IPM / orchard practices for santra and mosambi, from docs/agronomy/DRAFT_ipm_practices.md. Sourced DRAFT, not expert-reviewed (OPEN_QUESTIONS Q28, Q29). No chemical advice: no pesticide, fungicide, PGR or bio-product names, doses or remedy types, and no pointer to where a source gives them; where a source uses a product the item says to check the registered label information in the app or to ask the KVK. Marathi terms follow docs/agronomy/GLOSSARY_mr.md; every number in en is also in mr and hi (test).",
+  "_note": "Non-chemical IPM / orchard practices for santra and mosambi, from docs/agronomy/DRAFT_ipm_practices.md. Sourced DRAFT, not expert-reviewed (OPEN_QUESTIONS Q28, Q29). No chemical advice: no pesticide, fungicide, PGR or bio-product names, doses or remedy types, and no pointer to where a source gives them; where a source uses a product the item says to check the registered label information in the app or to ask the KVK. Marathi terms follow docs/agronomy/GLOSSARY_mr.md; every number in en is also in mr and hi (test). WP2 (2026-11-06, owner decision Q57): problem sections carry a 'profile' (what you see, when it comes, how to scout, a published action level where one exists, an organic / bio list and the label-screen target); each is shown as general information with its sources and the date read. The organic / bio list names registered bio-agents and botanicals only where a public source links them to that problem on citrus, without a dose (dose from the label), and home-made preparations only with the preparation and rate as published (top-level 'preparations'). Synthetic pesticides stay out of this file.",
   "status": "draft",
   "sources": {
     "C02": {
       "title": "NHB Citrus: Diseases",
-      "url": "https://www.nhb.gov.in/pdf/fruits/citrus/cit002.pdf"
+      "url": "https://www.nhb.gov.in/pdf/fruits/citrus/cit002.pdf",
+      "publisher": "NHB",
+      "checked": "2026-10-26"
     },
     "C03": {
       "title": "NHB Citrus: Disorders",
-      "url": "https://www.nhb.gov.in/pdf/fruits/citrus/cit003.pdf"
+      "url": "https://www.nhb.gov.in/pdf/fruits/citrus/cit003.pdf",
+      "publisher": "NHB",
+      "checked": "2026-10-26"
     },
     "C04": {
       "title": "NHB Citrus: Harvesting",
-      "url": "https://www.nhb.gov.in/pdf/fruits/citrus/cit004.pdf"
+      "url": "https://www.nhb.gov.in/pdf/fruits/citrus/cit004.pdf",
+      "publisher": "NHB",
+      "checked": "2026-10-26"
     },
     "C05": {
       "title": "NHB Citrus: Intercultural operations",
-      "url": "https://www.nhb.gov.in/pdf/fruits/citrus/cit005.pdf"
+      "url": "https://www.nhb.gov.in/pdf/fruits/citrus/cit005.pdf",
+      "publisher": "NHB",
+      "checked": "2026-10-26"
     },
     "C06": {
       "title": "NHB Citrus: Irrigation",
-      "url": "https://www.nhb.gov.in/pdf/fruits/citrus/cit006.pdf"
+      "url": "https://www.nhb.gov.in/pdf/fruits/citrus/cit006.pdf",
+      "publisher": "NHB",
+      "checked": "2026-10-26"
     },
     "C08": {
       "title": "NHB Citrus: Pests",
-      "url": "https://www.nhb.gov.in/pdf/fruits/citrus/cit008.pdf"
+      "url": "https://www.nhb.gov.in/pdf/fruits/citrus/cit008.pdf",
+      "publisher": "NHB",
+      "checked": "2026-10-26"
     },
     "C09": {
       "title": "NHB Citrus: Post-harvest technology",
-      "url": "https://www.nhb.gov.in/pdf/fruits/citrus/cit009.pdf"
+      "url": "https://www.nhb.gov.in/pdf/fruits/citrus/cit009.pdf",
+      "publisher": "NHB",
+      "checked": "2026-10-26"
     },
     "C10": {
       "title": "NHB Citrus: Planting",
-      "url": "https://www.nhb.gov.in/pdf/fruits/citrus/cit010.pdf"
+      "url": "https://www.nhb.gov.in/pdf/fruits/citrus/cit010.pdf",
+      "publisher": "NHB",
+      "checked": "2026-10-26"
     },
     "C11": {
       "title": "NHB Citrus: Propagation (rootstock table)",
-      "url": "https://www.nhb.gov.in/pdf/fruits/citrus/cit011.pdf"
+      "url": "https://www.nhb.gov.in/pdf/fruits/citrus/cit011.pdf",
+      "publisher": "NHB",
+      "checked": "2026-10-26"
     },
     "C12": {
       "title": "NHB Citrus: Soil & climate",
-      "url": "https://www.nhb.gov.in/pdf/fruits/citrus/cit012.pdf"
+      "url": "https://www.nhb.gov.in/pdf/fruits/citrus/cit012.pdf",
+      "publisher": "NHB",
+      "checked": "2026-10-26"
     },
     "N1": {
       "title": "NHB Model Project Report: Orange (Mandarin), page 1",
-      "url": "https://nhb.gov.in/model-project-reports/Horticulture%20Crops/orange/orange1.htm"
+      "url": "https://nhb.gov.in/model-project-reports/Horticulture%20Crops/orange/orange1.htm",
+      "publisher": "NHB",
+      "checked": "2026-10-26"
     },
     "P1": {
       "title": "PDKV: AICRP (Tropical Fruits) on Citrus, Akola: recommendations and transfer of technology",
-      "url": "https://www.pdkv.ac.in/?page_id=4604"
+      "url": "https://www.pdkv.ac.in/?page_id=4604",
+      "publisher": "Dr. PDKV",
+      "checked": "2026-10-26"
     },
     "P2": {
       "title": "PDKV: crop-wise research recommendations 2009–2018, Citrus (Marathi)",
-      "url": "https://www.pdkv.ac.in/pkv_journal/recommend/Horticulture/Citrus.pdf"
+      "url": "https://www.pdkv.ac.in/pkv_journal/recommend/Horticulture/Citrus.pdf",
+      "publisher": "Dr. PDKV",
+      "checked": "2026-10-26"
     },
     "R12": {
       "title": "PDKV Joint Agresco research recommendations 2012 (English)",
-      "url": "https://www.pdkv.ac.in/wp-content/uploads/pdf_files/ResReco2012English.pdf"
+      "url": "https://www.pdkv.ac.in/wp-content/uploads/pdf_files/ResReco2012English.pdf",
+      "publisher": "Dr. PDKV",
+      "checked": "2026-10-26"
     },
     "R13": {
       "title": "PDKV Joint Agresco research recommendations 2013 (English)",
-      "url": "https://www.pdkv.ac.in/Circulars/Recom2013%20English.pdf"
+      "url": "https://www.pdkv.ac.in/Circulars/Recom2013%20English.pdf",
+      "publisher": "Dr. PDKV",
+      "checked": "2026-10-26"
     },
     "R14": {
       "title": "PDKV Joint Agresco research recommendations 2014 (English)",
-      "url": "https://www.pdkv.ac.in/Circulars/Recom-2014English.pdf"
+      "url": "https://www.pdkv.ac.in/Circulars/Recom-2014English.pdf",
+      "publisher": "Dr. PDKV",
+      "checked": "2026-10-26"
     },
     "R15": {
       "title": "PDKV Joint Agresco research recommendations 2015 (English)",
-      "url": "https://www.pdkv.ac.in/Circulars/Recom-2015English.pdf"
+      "url": "https://www.pdkv.ac.in/Circulars/Recom-2015English.pdf",
+      "publisher": "Dr. PDKV",
+      "checked": "2026-10-26"
     },
     "R16": {
       "title": "PDKV Joint Agresco research recommendations 2016 (English)",
-      "url": "https://www.pdkv.ac.in/Circulars/Recom-2016English.pdf"
+      "url": "https://www.pdkv.ac.in/Circulars/Recom-2016English.pdf",
+      "publisher": "Dr. PDKV",
+      "checked": "2026-10-26"
     },
     "R17": {
       "title": "PDKV Joint Agresco research recommendations 2017 (English)",
-      "url": "https://www.pdkv.ac.in/Circulars/Recom-2017English.pdf"
+      "url": "https://www.pdkv.ac.in/Circulars/Recom-2017English.pdf",
+      "publisher": "Dr. PDKV",
+      "checked": "2026-10-26"
     },
     "R20": {
       "title": "PDKV Joint Agresco research recommendations 2020 (English)",
-      "url": "https://www.pdkv.ac.in/Circulars/Recom-2020English.pdf"
+      "url": "https://www.pdkv.ac.in/Circulars/Recom-2020English.pdf",
+      "publisher": "Dr. PDKV",
+      "checked": "2026-10-26"
     },
     "R21": {
       "title": "PDKV Joint Agresco research recommendations 2021 (English)",
-      "url": "https://www.pdkv.ac.in/Circulars/Recom-2021English.pdf"
+      "url": "https://www.pdkv.ac.in/Circulars/Recom-2021English.pdf",
+      "publisher": "Dr. PDKV",
+      "checked": "2026-10-26"
     },
     "R22": {
       "title": "PDKV Joint Agresco research recommendations 2022 (English)",
-      "url": "https://www.pdkv.ac.in/Circulars/Recom-2022English.pdf"
+      "url": "https://www.pdkv.ac.in/Circulars/Recom-2022English.pdf",
+      "publisher": "Dr. PDKV",
+      "checked": "2026-10-26"
     },
     "R23": {
       "title": "PDKV Joint Agresco research recommendations 2023 (English)",
-      "url": "https://www.pdkv.ac.in/Circulars/Recom-2023English.pdf"
+      "url": "https://www.pdkv.ac.in/Circulars/Recom-2023English.pdf",
+      "publisher": "Dr. PDKV",
+      "checked": "2026-10-26"
     },
     "R24": {
       "title": "PDKV Joint Agresco research recommendations 2024 (English)",
-      "url": "https://www.pdkv.ac.in/Circulars/Recom-2024English.pdf"
+      "url": "https://www.pdkv.ac.in/Circulars/Recom-2024English.pdf",
+      "publisher": "Dr. PDKV",
+      "checked": "2026-10-26"
     },
     "R25": {
       "title": "PDKV Joint Agresco research recommendations 2025 (English)",
-      "url": "https://www.pdkv.ac.in/Circulars/Recom-2025English.pdf"
+      "url": "https://www.pdkv.ac.in/Circulars/Recom-2025English.pdf",
+      "publisher": "Dr. PDKV",
+      "checked": "2026-10-26"
     },
     "AW23": {
       "title": "Surendra Patil (Dr. PDKV Akola): Points for the bahar stress in santra and mosambi, Agrowon (Marathi), 2023",
-      "url": "https://agrowon.esakal.com/agroguide/keep-these-things-in-mind-while-managemet-of-orange-mosambi-orchard"
+      "url": "https://agrowon.esakal.com/agroguide/keep-these-things-in-mind-while-managemet-of-orange-mosambi-orchard",
+      "publisher": "Agrowon",
+      "checked": "2026-10-26"
+    },
+    "VK-NIPHM-STAGE": {
+      "title": "NIPHM and Directorate of Plant Protection, Quarantine & Storage: AESA based IPM for citrus, crop-stage-wise IPM (Vikaspedia copy)",
+      "url": "https://en.vikaspedia.in/viewcontent/agriculture/crop-production/integrated-pest-managment/ipm-for-fruit-crops/ipm-strategies-for-citrus/crop-stage-wise-ipm?lgn=en",
+      "publisher": "NIPHM",
+      "checked": "2026-11-06"
+    },
+    "VK-NIPHM-PESTS": {
+      "title": "NIPHM and DPPQS: AESA based IPM for citrus, insect and nematode pests (Vikaspedia copy)",
+      "url": "https://en.vikaspedia.in/viewcontent/agriculture/crop-production/integrated-pest-managment/ipm-for-fruit-crops/ipm-strategies-for-citrus/insect-and-nematode-pests-management?lgn=en",
+      "publisher": "NIPHM",
+      "checked": "2026-11-06"
+    },
+    "VK-NIPHM-DIS": {
+      "title": "NIPHM and DPPQS: AESA based IPM for citrus, diseases and symptoms (Vikaspedia copy)",
+      "url": "https://en.vikaspedia.in/viewcontent/agriculture/crop-production/integrated-pest-managment/ipm-for-fruit-crops/ipm-strategies-for-citrus/diseases-and-symptoms?lgn=en",
+      "publisher": "NIPHM",
+      "checked": "2026-11-06"
+    },
+    "VK-NIPHM-NE": {
+      "title": "NIPHM and DPPQS: AESA based IPM for citrus, natural enemies (Vikaspedia copy)",
+      "url": "https://en.vikaspedia.in/viewcontent/agriculture/crop-production/integrated-pest-managment/ipm-for-fruit-crops/ipm-strategies-for-citrus/natural-enemies?lgn=en",
+      "publisher": "NIPHM",
+      "checked": "2026-11-06"
+    },
+    "VK-NSKE": {
+      "title": "Neem seed kernel extract (NSKE): preparation (Vikaspedia, source: TNAU Agritech portal)",
+      "url": "https://en.vikaspedia.in/viewcontent/agriculture/agri-inputs/bio-inputs/production-of-ipm-inputs/neem-seed-kernal-extract-nske?lgn=en",
+      "publisher": "TNAU",
+      "checked": "2026-11-06"
+    },
+    "TNAU-PESTS": {
+      "title": "TNAU Agritech portal: Pests of citrus",
+      "url": "https://agritech.tnau.ac.in/crop_protection/crop_prot_crop_insectpest%20_-Citrus_pest&disease.html",
+      "publisher": "TNAU",
+      "checked": "2026-11-06"
+    },
+    "TNAU-E331": {
+      "title": "TNAU e-course ENTO 331, lecture 17: Pests of citrus (aphid, thrips, leaf mite, rust mite, psyllid, leaf miner; eagri.org, read on its mirror)",
+      "url": "https://eagriorg.github.io/eagri50/ENTO331/lecture17/014.html",
+      "publisher": "TNAU",
+      "checked": "2026-11-06"
+    },
+    "MPKV-AICRP": {
+      "title": "MPKV Rahuri: AICRP on Fruits, varieties and technology recommendations (sweet orange)",
+      "url": "https://mpkv.ac.in/Uploads/Research/35.%20AICRP%20on%20Fruits_20250926041209.pdf",
+      "publisher": "MPKV",
+      "checked": "2026-11-06"
+    },
+    "NRCC-MB": {
+      "title": "Rao, Shivankar and Shyam Singh 2006, National Research Centre for Citrus, Nagpur: Citrus mealy bug management, a review (Agric. Rev. 27(2): 142-146)",
+      "url": "https://arccarticles.s3.amazonaws.com/webArticle/articles/ar272008.pdf",
+      "publisher": "ICAR-NRC Citrus",
+      "checked": "2026-11-06"
+    },
+    "UC-THRIPS": {
+      "title": "UC IPM (University of California): Citrus thrips, damage and monitoring",
+      "url": "https://ipm.ucanr.edu/agriculture/citrus/citrus-thrips/",
+      "publisher": "UC IPM",
+      "checked": "2026-11-06"
     }
   },
   "sections": [
@@ -521,6 +633,364 @@
           "evidence": [
             "university"
           ]
+        },
+        {
+          "id": 108,
+          "labels": {
+            "en": "Remove the diseased bark together with a buffer strip of healthy, light-brown to greenish bark round its edges.",
+            "mr": "रोगट साल तिच्या कडेभोवतीच्या निरोगी, फिकट तपकिरी ते हिरवट सालीच्या पट्टीसह काढून टाका.",
+            "hi": "रोगी छाल को उसके किनारों के आसपास की स्वस्थ, हल्की भूरी से हरी छाल की पट्टी के साथ हटाएँ।"
+          },
+          "source": "VK-NIPHM-STAGE \"Gummosis\"",
+          "source_keys": [
+            "VK-NIPHM-STAGE"
+          ],
+          "evidence": [
+            "official"
+          ]
+        }
+      ],
+      "profile": {
+        "kind": "disease",
+        "crops": [
+          "santra",
+          "mosambi"
+        ],
+        "checked": "2026-11-06",
+        "label_target": "gummosis",
+        "kb_topic": "phytophthora",
+        "symptoms": {
+          "labels": {
+            "en": "Water-soaked patches at the base of the trunk near the ground; the bark dries, cracks and peels in vertical strips, with heavy gum. Leaves turn yellow. Severe gumming girdles the trunk and the tree dries; a dying tree often flowers heavily.",
+            "mr": "जमिनीजवळ खोडाच्या तळाशी पाणथळ चट्टे; साल वाळते, तडकते आणि उभ्या पट्ट्यांत सुटते, भरपूर डिंक येतो. पाने पिवळी पडतात. जास्त डिंकामुळे खोडाला वेढा पडून झाड वाळते; मरणारे झाड अनेकदा भरपूर फुलते.",
+            "hi": "ज़मीन के पास तने के आधार पर पानी भरे धब्बे; छाल सूखती, फटती और खड़ी पट्टियों में उखड़ती है, भारी गोंद निकलता है। पत्तियाँ पीली पड़ती हैं। ज़्यादा गोंद से तना घिर जाता है और पेड़ सूखता है; मरता पेड़ अक्सर भारी फूलता है।"
+          },
+          "source": "C02 \"Foot Rot or Gummosis\"; VK-NIPHM-DIS \"Gummosis\"",
+          "source_keys": [
+            "C02",
+            "VK-NIPHM-DIS"
+          ]
+        },
+        "when": {
+          "labels": {
+            "en": "Moist, cool conditions favour it; splashed water carries it to the trunk, and most infection comes from infected planting material.",
+            "mr": "ओलसर, थंड परिस्थिती अनुकूल; उडणाऱ्या पाण्याने तो खोडावर पोहोचतो आणि बाधित लागवड साहित्य हा मुख्य स्रोत आहे.",
+            "hi": "नम, ठंडी परिस्थितियाँ अनुकूल; उछलता पानी इसे तने तक ले जाता है, और संक्रमित रोपण सामग्री मुख्य स्रोत है।"
+          },
+          "source": "VK-NIPHM-DIS \"Gummosis\"; C02 \"Foot Rot or Gummosis\"",
+          "source_keys": [
+            "VK-NIPHM-DIS",
+            "C02"
+          ]
+        },
+        "scouting": {
+          "labels": {
+            "en": "Look at the trunk base and the bud union for wet patches and gum, above all after rain and where irrigation water reaches the trunk.",
+            "mr": "खोडाचा तळ व डोळ्याचा जोड, विशेषतः पावसानंतर आणि जिथे ओलिताचे पाणी खोडाला पोहोचते तिथे, पाणथळ चट्टे व डिंक पाहा.",
+            "hi": "तने का आधार और आँख का जोड़, ख़ासकर बारिश के बाद और जहाँ सिंचाई का पानी तने तक पहुँचता है, पानी भरे धब्बे और गोंद के लिए देखें।"
+          },
+          "source": "C02 \"Foot Rot or Gummosis\"; VK-NIPHM-DIS \"Gummosis\"",
+          "source_keys": [
+            "C02",
+            "VK-NIPHM-DIS"
+          ]
+        },
+        "bio": [
+          {
+            "id": "b12",
+            "kind": "registered",
+            "labels": {
+              "en": "Trichoderma harzianum and Pseudomonas fluorescens, mixed with FYM and put round the tree at the first signs of gummosis (PDKV, Nagpur mandarin; NIPHM also lists both for soil use); check the label screen for the crop and dose.",
+              "mr": "डिंक्याची पहिली लक्षणे दिसताच शेणखतात मिसळून झाडाभोवती ट्रायकोडर्मा हर्जियानम व स्यूडोमोनास फ्लुरोसन्स (डॉ. पंदेकृवि, नागपुरी संत्रा; NIPHM नेही जमिनीत वापरासाठी दोन्ही दिले आहेत); पीक व मात्रेसाठी लेबल स्क्रीन पाहा.",
+              "hi": "गमोसिस के पहले लक्षण पर गोबर खाद में मिलाकर पेड़ के चारों ओर ट्राइकोडर्मा हर्ज़ियानम और स्यूडोमोनास फ्लोरेसेंस (पीडीकेवी, नागपुरी संतरा; NIPHM भी मिट्टी में दोनों बताता है); फसल और मात्रा के लिए लेबल स्क्रीन देखें।"
+            },
+            "source": "R21 p.6 #23; VK-NIPHM-STAGE (note on Trichoderma and Pseudomonas)",
+            "source_keys": [
+              "R21",
+              "VK-NIPHM-STAGE"
+            ],
+            "evidence": [
+              "official",
+              "university"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "key": "canker",
+      "labels": {
+        "en": "Canker",
+        "mr": "कँकर",
+        "hi": "कैंकर"
+      },
+      "profile": {
+        "kind": "disease",
+        "crops": [
+          "santra",
+          "mosambi"
+        ],
+        "checked": "2026-11-06",
+        "label_target": "canker",
+        "kb_topic": "citrus_canker",
+        "symptoms": {
+          "labels": {
+            "en": "Small water-soaked yellow spots on leaves, twigs and fruit stalks that become raised, rough, brown, corky spots with a yellow halo; on fruit the spots have no halo and stay in the rind, but the fruit loses market value. Severe attack causes leaf fall and dieback of twigs.",
+            "mr": "पाने, काड्या व फळांच्या देठांवर लहान, पाणथळ पिवळे ठिपके, जे वाढून उंचवट्याचे, खरबरीत, तपकिरी, बुचासारखे डाग होतात व त्यांच्याभोवती पिवळे वलय असते; फळांवरील डागांना वलय नसते आणि ते सालीतच राहतात, पण फळाचा बाजारभाव घटतो. जास्त प्रादुर्भावात पानगळ व काड्यांचा फांदीमर होतो.",
+            "hi": "पत्तियों, टहनियों और फल के डंठलों पर छोटे, पानी भरे पीले धब्बे, जो उभरे, खुरदरे, भूरे, कॉर्क जैसे धब्बे बनते हैं और उनके चारों ओर पीला घेरा होता है; फलों के धब्बों में घेरा नहीं होता और वे छिलके तक रहते हैं, पर फल का बाज़ार भाव घटता है। भारी हमले में पत्ते गिरते हैं और टहनियाँ सूखती हैं।"
+          },
+          "source": "C02 \"Citrus Canker\"; VK-NIPHM-DIS \"Citrus canker\"",
+          "source_keys": [
+            "C02",
+            "VK-NIPHM-DIS"
+          ]
+        },
+        "when": {
+          "labels": {
+            "en": "NHB: most serious in the rainy season. NIPHM: the spring flush is favourable, and leaf-miner damage helps it spread.",
+            "mr": "NHB: पावसाळ्यात सर्वाधिक गंभीर. NIPHM: वसंतातील नवती अनुकूल, आणि पाने पोखरणाऱ्या अळीचे नुकसान प्रसारास मदत करते.",
+            "hi": "NHB: बरसात में सबसे गंभीर। NIPHM: वसंत की फुटान अनुकूल है, और पत्ती सुरंगक का नुकसान फैलाव में मदद करता है।"
+          },
+          "source": "C02 \"Citrus Canker\"; VK-NIPHM-DIS \"Citrus canker\"",
+          "source_keys": [
+            "C02",
+            "VK-NIPHM-DIS"
+          ]
+        },
+        "scouting": {
+          "labels": {
+            "en": "Check new flush and young fruit for raised, corky spots with a yellow halo, above all after rain; compare with scab on the look-alike card.",
+            "mr": "नवती व लहान फळांवर, विशेषतः पावसानंतर, पिवळ्या वलयाचे उंचवट्याचे बुचासारखे डाग पाहा; सारखी लक्षणे कार्डवर खरूज (स्कॅब) शी तुलना करा.",
+            "hi": "नई फुटान और छोटे फलों पर, ख़ासकर बारिश के बाद, पीले घेरे वाले उभरे कॉर्क जैसे धब्बे देखें; मिलते-जुलते लक्षण कार्ड पर स्कैब से मिलाएँ।"
+          },
+          "source": "C02 \"Citrus Canker\", \"Scab\"; VK-NIPHM-DIS",
+          "source_keys": [
+            "C02",
+            "VK-NIPHM-DIS"
+          ]
+        },
+        "bio": []
+      },
+      "items": [
+        {
+          "id": 87,
+          "labels": {
+            "en": "Plant only canker-free seedlings.",
+            "mr": "फक्त कँकरमुक्त रोपेच लावा.",
+            "hi": "केवल कैंकर-मुक्त पौधे ही लगाएँ।"
+          },
+          "source": "VK-NIPHM-STAGE \"Citrus canker\"",
+          "source_keys": [
+            "VK-NIPHM-STAGE"
+          ],
+          "evidence": [
+            "official"
+          ]
+        },
+        {
+          "id": 88,
+          "labels": {
+            "en": "Train and prune for good air flow, so the leaves stay wet for a shorter time.",
+            "mr": "हवा खेळती राहील अशी वळण व छाटणी करा, म्हणजे पाने कमी वेळ ओली राहतील.",
+            "hi": "अच्छी हवा के लिए साधाई और छँटाई करें, ताकि पत्तियाँ कम समय गीली रहें।"
+          },
+          "source": "VK-NIPHM-STAGE \"Citrus canker\"",
+          "source_keys": [
+            "VK-NIPHM-STAGE"
+          ],
+          "evidence": [
+            "official"
+          ]
+        },
+        {
+          "id": 89,
+          "labels": {
+            "en": "Keep leaf miner in check on new flush, because its mines open the way for canker.",
+            "mr": "नवतीवरील पाने पोखरणाऱ्या अळीला आळा घाला, कारण तिचे बोगदे कँकरला वाट करून देतात.",
+            "hi": "नई फुटान पर पत्ती सुरंगक को काबू में रखें, क्योंकि उसकी सुरंगें कैंकर को रास्ता देती हैं।"
+          },
+          "source": "C08 \"Citrus Leaf Miner\"; VK-NIPHM-DIS \"Citrus canker\"",
+          "source_keys": [
+            "C08",
+            "VK-NIPHM-DIS"
+          ],
+          "evidence": [
+            "official"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "powdery_mildew",
+      "labels": {
+        "en": "Powdery mildew",
+        "mr": "भुरी",
+        "hi": "चूर्णिल आसिता (पाउडरी मिल्ड्यू)"
+      },
+      "profile": {
+        "kind": "disease",
+        "crops": [
+          "santra",
+          "mosambi"
+        ],
+        "checked": "2026-11-06",
+        "label_target": "powdery_mildew",
+        "kb_topic": "powdery_mildew",
+        "symptoms": {
+          "labels": {
+            "en": "White powder, mostly on the upper side of young leaves and on young fruit. Young leaves turn pale grey-green, twist and curl; shoots die back; infected fruit fall early.",
+            "mr": "मुख्यतः कोवळ्या पानांच्या वरच्या बाजूला व लहान फळांवर पांढरी भुकटी. कोवळी पाने फिकट राखाडी-हिरवी होऊन वळतात व गुंडाळतात; फुटवे वाळतात; बाधित फळे लवकर गळतात.",
+            "hi": "ज़्यादातर नई पत्तियों की ऊपरी सतह और छोटे फलों पर सफ़ेद चूर्ण। नई पत्तियाँ हल्की धूसर-हरी होकर ऐंठती और मुड़ती हैं; टहनियाँ सूखती हैं; संक्रमित फल जल्दी गिरते हैं।"
+          },
+          "source": "VK-NIPHM-DIS \"Powdery mildew\"; C02 \"Powdery Mildew\"",
+          "source_keys": [
+            "VK-NIPHM-DIS",
+            "C02"
+          ]
+        },
+        "when": {
+          "labels": {
+            "en": "Cool, damp weather (about 20 °C) with long spells of humidity above 80 % and mist or fog.",
+            "mr": "थंड, दमट हवामान (सुमारे २० °C) आणि ८० % पेक्षा जास्त आर्द्रतेचा दीर्घ काळ, धुके किंवा दव.",
+            "hi": "ठंडा, नम मौसम (लगभग 20 °C) और 80 % से अधिक आर्द्रता का लंबा दौर, धुंध या कोहरा।"
+          },
+          "source": "VK-NIPHM-DIS \"Powdery mildew\" (favourable conditions)",
+          "source_keys": [
+            "VK-NIPHM-DIS"
+          ]
+        },
+        "scouting": {
+          "labels": {
+            "en": "In cool, humid or misty spells, look at young leaves and young fruit for white powder.",
+            "mr": "थंड, दमट किंवा धुक्याच्या काळात कोवळ्या पानांवर व लहान फळांवर पांढरी भुकटी पाहा.",
+            "hi": "ठंडे, नम या धुंध वाले दौर में नई पत्तियों और छोटे फलों पर सफ़ेद चूर्ण देखें।"
+          },
+          "source": "VK-NIPHM-DIS \"Powdery mildew\"",
+          "source_keys": [
+            "VK-NIPHM-DIS"
+          ]
+        },
+        "bio": []
+      },
+      "items": [
+        {
+          "id": 93,
+          "labels": {
+            "en": "Do not give more nitrogen than needed: dense, leafy growth makes powdery mildew worse.",
+            "mr": "गरजेपेक्षा जास्त नत्र देऊ नका: दाट, पानांची जास्त वाढ भुरी वाढवते.",
+            "hi": "ज़रूरत से ज़्यादा नाइट्रोजन न दें: घनी, पत्तेदार बढ़वार चूर्णिल आसिता बढ़ाती है।"
+          },
+          "source": "VK-NIPHM-STAGE \"Powdery mildew\"",
+          "source_keys": [
+            "VK-NIPHM-STAGE"
+          ],
+          "evidence": [
+            "official"
+          ]
+        },
+        {
+          "id": 94,
+          "labels": {
+            "en": "Remove badly affected shoots and keep the canopy open.",
+            "mr": "जास्त बाधित फुटवे काढा आणि झाडाचा घेर मोकळा ठेवा.",
+            "hi": "बहुत प्रभावित टहनियाँ हटाएँ और छतरी खुली रखें।"
+          },
+          "source": "C02 \"Powdery Mildew\" (twig dieback); VK-NIPHM-DIS",
+          "source_keys": [
+            "C02",
+            "VK-NIPHM-DIS"
+          ],
+          "evidence": [
+            "official",
+            "inferred"
+          ]
+        },
+        {
+          "id": 95,
+          "labels": {
+            "en": "The spores travel on wind, clothes, hands and pruning tools: clean tools after working on affected trees.",
+            "mr": "बीजाणू वारा, कपडे, हात व छाटणीच्या अवजारांवरून पसरतात: बाधित झाडांवर काम केल्यानंतर अवजारे स्वच्छ करा.",
+            "hi": "बीजाणु हवा, कपड़ों, हाथों और छँटाई के औज़ारों से फैलते हैं: प्रभावित पेड़ों पर काम के बाद औज़ार साफ़ करें।"
+          },
+          "source": "VK-NIPHM-DIS \"Powdery mildew\" (survival and spread)",
+          "source_keys": [
+            "VK-NIPHM-DIS"
+          ],
+          "evidence": [
+            "official",
+            "inferred"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "anthracnose",
+      "labels": {
+        "en": "Anthracnose (wither tip)",
+        "mr": "ॲन्थ्रॅकनोज (शेंडा वाळणे)",
+        "hi": "एन्थ्रेक्नोज़ (टहनी सूखना)"
+      },
+      "profile": {
+        "kind": "disease",
+        "crops": [
+          "santra",
+          "mosambi"
+        ],
+        "checked": "2026-11-06",
+        "label_target": "anthracnose_dieback",
+        "kb_topic": null,
+        "symptoms": {
+          "labels": {
+            "en": "On leaves, round, flat, light-tan patches with a purple edge that later show tiny black dots; dead twig parts turn silvery grey. On fruit, brown to black spots, mostly where the fruit was already hurt by sunburn, pests or bruising; affected flower buds do not set fruit.",
+            "mr": "पानांवर गोल, सपाट, फिकट तपकिरी चट्टे, कडा जांभळी, नंतर त्यांवर बारीक काळे ठिपके; काडीचा मेलेला भाग चंदेरी राखाडी होतो. फळांवर तपकिरी ते काळे डाग, मुख्यतः उन्हाचा चटका, कीड किंवा मार लागलेल्या जागी; बाधित कळ्यांना फळ लागत नाही.",
+            "hi": "पत्तियों पर गोल, सपाट, हल्के भूरे धब्बे, किनारा बैंगनी, बाद में उन पर बारीक काले बिंदु; टहनी का मरा भाग चाँदी जैसा धूसर हो जाता है। फलों पर भूरे से काले धब्बे, ज़्यादातर जहाँ फल पहले से धूप, कीट या चोट से घायल हो; प्रभावित कलियों में फल नहीं लगता।"
+          },
+          "source": "VK-NIPHM-DIS \"Anthracnose\"; C02 \"Anthracnose or Wither Tip\"",
+          "source_keys": [
+            "VK-NIPHM-DIS",
+            "C02"
+          ]
+        },
+        "when": {
+          "labels": {
+            "en": "Cool weather (about 20 °C) with long spells of humidity above 80 % and mist.",
+            "mr": "थंड हवामान (सुमारे २० °C) आणि ८० % पेक्षा जास्त आर्द्रतेचा दीर्घ काळ व धुके.",
+            "hi": "ठंडा मौसम (लगभग 20 °C) और 80 % से अधिक आर्द्रता का लंबा दौर व धुंध।"
+          },
+          "source": "VK-NIPHM-DIS \"Anthracnose\" (favourable conditions)",
+          "source_keys": [
+            "VK-NIPHM-DIS"
+          ]
+        },
+        "scouting": {
+          "labels": {
+            "en": "Look at twig tips, leaves and fruit with old injuries for tan patches with a purple edge and dark spots.",
+            "mr": "काड्यांचे शेंडे, पाने आणि जुन्या इजा असलेल्या फळांवर जांभळ्या कडेचे तपकिरी चट्टे व काळे डाग पाहा.",
+            "hi": "टहनी के सिरों, पत्तियों और पुरानी चोट वाले फलों पर बैंगनी किनारे वाले भूरे धब्बे और काले दाग देखें।"
+          },
+          "source": "VK-NIPHM-DIS \"Anthracnose\"",
+          "source_keys": [
+            "VK-NIPHM-DIS"
+          ]
+        },
+        "bio": []
+      },
+      "items": [
+        {
+          "id": 96,
+          "labels": {
+            "en": "Keep the orchard healthy with enough irrigation, manuring and pruning of diseased twigs, and avoid hurting fruit (sunburn, pest damage, bruising).",
+            "mr": "पुरेसे ओलित, खत आणि रोगट काड्यांची छाटणी करून बाग निरोगी ठेवा, आणि फळांना इजा टाळा (उन्हाचा चटका, किडीचे नुकसान, मार).",
+            "hi": "पर्याप्त सिंचाई, खाद और रोगी टहनियों की छँटाई से बाग स्वस्थ रखें, और फलों को चोट से बचाएँ (धूप की जलन, कीट नुकसान, चोट)।"
+          },
+          "source": "C02 \"Anthracnose or Wither Tip\"; VK-NIPHM-DIS \"Anthracnose\"",
+          "source_keys": [
+            "C02",
+            "VK-NIPHM-DIS"
+          ],
+          "evidence": [
+            "official"
+          ]
         }
       ]
     },
@@ -590,6 +1060,221 @@
           "source": "C02 \"Greening\"",
           "source_keys": [
             "C02"
+          ],
+          "evidence": [
+            "official"
+          ]
+        },
+        {
+          "id": 107,
+          "labels": {
+            "en": "Conserve the psylla parasitoid Tamarixia radiata and predators such as lacewings, ladybird beetles and hover flies.",
+            "mr": "सायलाचा परोपजीवी टॅमॅरिक्सिया रेडिएटा आणि क्रायसोपा, ढालकिडे व सिर्फिड माश्या यांसारख्या भक्षकांचे जतन करा.",
+            "hi": "सिल्ला के परजीवी टैमैरिक्सिया रेडिएटा और लेसविंग, लेडीबर्ड भृंग व होवर मक्खियों जैसे शिकारियों को बचाएँ।"
+          },
+          "source": "VK-NIPHM-STAGE \"Citrus psylla\"; VK-NIPHM-NE",
+          "source_keys": [
+            "VK-NIPHM-STAGE",
+            "VK-NIPHM-NE"
+          ],
+          "evidence": [
+            "official"
+          ]
+        }
+      ],
+      "profile": {
+        "kind": "pest",
+        "crops": [
+          "santra",
+          "mosambi"
+        ],
+        "checked": "2026-11-06",
+        "label_target": "psylla",
+        "kb_topic": "psylla",
+        "symptoms": {
+          "labels": {
+            "en": "Nymphs and adults suck sap from buds, tender leaves and shoots; new leaves twist, curl and fall. Flat yellow-orange nymphs crowd on shoot tips with white waxy threads and honeydew, and sooty mould follows. It carries greening.",
+            "mr": "पिल्ले व प्रौढ कळ्या, कोवळी पाने व फुटव्यांतून रस शोषतात; नवीन पाने वळतात, गुंडाळतात व गळतात. चपटी पिवळी-नारिंगी पिल्ले शेंड्यांवर पांढऱ्या मेणचट धाग्यांसह व चिकट स्रावासह गर्दी करतात आणि मागून काळी बुरशी येते. तो ग्रीनिंग पसरवतो.",
+            "hi": "शिशु और वयस्क कलियों, कोमल पत्तियों और टहनियों से रस चूसते हैं; नई पत्तियाँ ऐंठती, मुड़ती और गिरती हैं। चपटे पीले-नारंगी शिशु सिरों पर सफ़ेद मोमी धागों और मधुरस के साथ जमा होते हैं, और फिर काली फफूंद आती है। यह ग्रीनिंग फैलाता है।"
+          },
+          "source": "C08 \"Citrus Psylla\"; TNAU-PESTS \"Citrus psyllid\"; VK-NIPHM-PESTS \"Citrus psylla\"",
+          "source_keys": [
+            "C08",
+            "TNAU-PESTS",
+            "VK-NIPHM-PESTS"
+          ]
+        },
+        "when": {
+          "labels": {
+            "en": "Summer and the rainy season favour it; it breeds on each new flush.",
+            "mr": "उन्हाळा व पावसाळा अनुकूल; प्रत्येक नवतीवर त्याची पैदास होते.",
+            "hi": "गर्मी और बरसात अनुकूल; हर नई फुटान पर यह पनपता है।"
+          },
+          "source": "VK-NIPHM-PESTS \"Citrus psylla\" (favourable conditions); R25 p.10 #32",
+          "source_keys": [
+            "VK-NIPHM-PESTS",
+            "R25"
+          ]
+        },
+        "scouting": {
+          "labels": {
+            "en": "Check every new flush, mainly the shoot tips, for flat yellow-orange nymphs, white waxy threads and twisted new leaves.",
+            "mr": "प्रत्येक नवती, मुख्यतः शेंडे, चपटी पिवळी-नारिंगी पिल्ले, पांढरे मेणचट धागे व वळलेली नवीन पाने यांसाठी तपासा.",
+            "hi": "हर नई फुटान, ख़ासकर सिरे, चपटे पीले-नारंगी शिशु, सफ़ेद मोमी धागे और ऐंठी नई पत्तियों के लिए जाँचें।"
+          },
+          "source": "VK-NIPHM-PESTS \"Citrus psylla\"; TNAU-PESTS",
+          "source_keys": [
+            "VK-NIPHM-PESTS",
+            "TNAU-PESTS"
+          ]
+        },
+        "bio": [
+          {
+            "id": "b9",
+            "kind": "home",
+            "labels": {
+              "en": "PDKV's Ambia module for Nagpur mandarin starts with neem oil 1 % on the new flush in the first week of June.",
+              "mr": "नागपुरी संत्र्यासाठी डॉ. पंदेकृविची आंबिया पद्धत जूनच्या पहिल्या आठवड्यात नवतीवर १ % निंबोळी तेलाने सुरू होते.",
+              "hi": "नागपुरी संतरे के लिए पीडीकेवी की अंबिया पद्धति जून के पहले सप्ताह में नई फुटान पर 1 % नीम तेल से शुरू होती है।"
+            },
+            "source": "R25 p.10 #32",
+            "source_keys": [
+              "R25"
+            ],
+            "evidence": [
+              "university"
+            ],
+            "preparation": "neem_oil_1"
+          },
+          {
+            "id": "b10",
+            "kind": "home",
+            "labels": {
+              "en": "TNAU lists NSKE 5 % against citrus psylla in March and again in September.",
+              "mr": "TNAU नुसार सिट्रस सायलाविरुद्ध मार्चमध्ये व पुन्हा सप्टेंबरमध्ये ५ % निंबोळी अर्क.",
+              "hi": "TNAU के अनुसार सिट्रस सिल्ला के विरुद्ध मार्च में और फिर सितंबर में 5 % नीम बीज अर्क।"
+            },
+            "source": "TNAU-E331 \"Shoot psyllid\"",
+            "source_keys": [
+              "TNAU-E331"
+            ],
+            "evidence": [
+              "university"
+            ],
+            "preparation": "nske_5"
+          },
+          {
+            "id": "b11",
+            "kind": "registered",
+            "labels": {
+              "en": "Azadirachtin (a neem-based registered botanical): MPKV used it against psylla on sweet orange; check the label screen for the crop and dose.",
+              "mr": "ॲझाडिरॅक्टिन (निंबावर आधारित नोंदणीकृत वनस्पतिजन्य घटक): MPKV ने मोसंबीवरील सायलाविरुद्ध वापरले; पीक व मात्रेसाठी लेबल स्क्रीन पाहा.",
+              "hi": "एज़ाडिरेक्टिन (नीम-आधारित पंजीकृत वनस्पति उत्पाद): MPKV ने मोसंबी पर सिल्ला के विरुद्ध इस्तेमाल किया; फसल और मात्रा के लिए लेबल स्क्रीन देखें।"
+            },
+            "source": "MPKV-AICRP §8 l",
+            "source_keys": [
+              "MPKV-AICRP"
+            ],
+            "evidence": [
+              "university"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "key": "greening",
+      "labels": {
+        "en": "Greening (HLB): the disease",
+        "mr": "ग्रीनिंग (HLB): रोग",
+        "hi": "ग्रीनिंग (HLB): रोग"
+      },
+      "profile": {
+        "kind": "disease",
+        "crops": [
+          "santra",
+          "mosambi"
+        ],
+        "checked": "2026-11-06",
+        "label_target": "greening",
+        "kb_topic": "hlb_greening",
+        "symptoms": {
+          "labels": {
+            "en": "Yellow leaves with small green islands (mottling); heavy leaf fall as summer starts; some branches die back while others look normal. Fruit stay small, lopsided and green even when mature, with a bitter taste and poor, dark seeds.",
+            "mr": "लहान हिरव्या बेटांसारखे चट्टे असलेली पिवळी पाने; उन्हाळ्याच्या सुरुवातीला जास्त पानगळ; काही फांद्या वाळतात तर इतर सामान्य दिसतात. फळे लहान, एका बाजूला वाढलेली आणि पिकल्यावरही हिरवी राहतात, चव कडू आणि बिया कमकुवत, काळसर.",
+            "hi": "छोटे हरे द्वीपों जैसे धब्बों वाली पीली पत्तियाँ; गर्मी शुरू होते ही भारी पत्ती गिरना; कुछ डालियाँ सूखती हैं जबकि बाकी सामान्य दिखती हैं। फल छोटे, एक तरफ़ बढ़े और पकने पर भी हरे रहते हैं, स्वाद कड़वा और बीज कमज़ोर, काले।"
+          },
+          "source": "VK-NIPHM-DIS \"Greening or Huanglongbing\"; C02 \"Greening\"",
+          "source_keys": [
+            "VK-NIPHM-DIS",
+            "C02"
+          ]
+        },
+        "when": {
+          "labels": {
+            "en": "It spreads by grafting with infected budwood and by citrus psylla.",
+            "mr": "बाधित डोळ्यांनी कलम केल्याने आणि सिट्रस सायलामुळे तो पसरतो.",
+            "hi": "यह संक्रमित आँख (बडवुड) से कलम करने और सिट्रस सिल्ला से फैलता है।"
+          },
+          "source": "C02 \"Greening\"",
+          "source_keys": [
+            "C02"
+          ]
+        },
+        "scouting": {
+          "labels": {
+            "en": "Look for branches with mottled leaves and green, lopsided fruit next to normal branches. Only a lab test confirms greening: see the look-alike card.",
+            "mr": "सामान्य फांद्यांशेजारी चट्टेदार पाने व हिरवी, वाकडी फळे असलेल्या फांद्या पाहा. ग्रीनिंगची खात्री फक्त प्रयोगशाळा चाचणीने होते: सारखी लक्षणे कार्ड पाहा.",
+            "hi": "सामान्य डालियों के पास धब्बेदार पत्तियों और हरे, टेढ़े फलों वाली डालियाँ देखें। ग्रीनिंग की पुष्टि केवल लैब जाँच से होती है: मिलते-जुलते लक्षण कार्ड देखें।"
+          },
+          "source": "C02 \"Greening\"; look-alike card \"greening_vs_deficiency\" (lab test)",
+          "source_keys": [
+            "C02"
+          ]
+        },
+        "bio": []
+      },
+      "items": [
+        {
+          "id": 90,
+          "labels": {
+            "en": "High budding on a well-drained site: keep the bud union 30 to 46 cm or more above ground.",
+            "mr": "चांगल्या निचऱ्याच्या जागी उंच डोळा भरणे: डोळ्याचा जोड जमिनीपासून ३० ते ४६ सें.मी. किंवा अधिक वर ठेवा.",
+            "hi": "अच्छी जल-निकासी वाली जगह पर ऊँची कलिका: आँख का जोड़ ज़मीन से 30 से 46 सें.मी. या अधिक ऊपर रखें।"
+          },
+          "source": "VK-NIPHM-STAGE \"Greening\"",
+          "source_keys": [
+            "VK-NIPHM-STAGE"
+          ],
+          "evidence": [
+            "official"
+          ]
+        },
+        {
+          "id": 91,
+          "labels": {
+            "en": "Keep an inner ring of about 45 cm round the trunk so moist soil and irrigation water do not touch it (double-ring basin).",
+            "mr": "खोडाभोवती सुमारे ४५ सें.मी. चे आतले वर्तुळ ठेवा, म्हणजे ओली माती व ओलिताचे पाणी खोडाला लागणार नाही (दुहेरी आळे).",
+            "hi": "तने के चारों ओर लगभग 45 सें.मी. का भीतरी घेरा रखें ताकि गीली मिट्टी और सिंचाई का पानी तने को न छुए (डबल रिंग)।"
+          },
+          "source": "VK-NIPHM-STAGE \"Greening\"",
+          "source_keys": [
+            "VK-NIPHM-STAGE"
+          ],
+          "evidence": [
+            "official"
+          ]
+        },
+        {
+          "id": 92,
+          "labels": {
+            "en": "Avoid injuring the crown roots or the stem base during field work.",
+            "mr": "मशागतीच्या कामात मुकुटाजवळील मुळांना किंवा खोडाच्या तळाला इजा टाळा.",
+            "hi": "खेत के काम के दौरान ऊपरी जड़ों या तने के आधार को चोट न पहुँचाएँ।"
+          },
+          "source": "VK-NIPHM-STAGE \"Greening\"",
+          "source_keys": [
+            "VK-NIPHM-STAGE"
           ],
           "evidence": [
             "official"
@@ -666,7 +1351,52 @@
             "research"
           ]
         }
-      ]
+      ],
+      "profile": {
+        "kind": "pest",
+        "crops": [
+          "santra",
+          "mosambi"
+        ],
+        "checked": "2026-11-06",
+        "label_target": "black_fly",
+        "kb_topic": "whitefly_blackfly",
+        "bio": [
+          {
+            "id": "b13",
+            "kind": "home",
+            "labels": {
+              "en": "Neem oil 1 % (emulsified) worked best against black fly nymphs in PDKV trials, followed by NSKE 5 %.",
+              "mr": "डॉ. पंदेकृविच्या प्रयोगांत काळ्या माशीच्या पिल्लांविरुद्ध १ % निंबोळी तेल (इमल्शन) सर्वोत्तम ठरले, त्यानंतर ५ % निंबोळी अर्क.",
+              "hi": "पीडीकेवी प्रयोगों में काली मक्खी के शिशुओं पर 1 % नीम तेल (इमल्शन) सबसे अच्छा रहा, उसके बाद 5 % नीम बीज अर्क।"
+            },
+            "source": "P1 Entomology recs (neem products against black fly nymphs)",
+            "source_keys": [
+              "P1"
+            ],
+            "evidence": [
+              "university"
+            ],
+            "preparation": "neem_oil_1"
+          },
+          {
+            "id": "b14",
+            "kind": "registered",
+            "labels": {
+              "en": "Azadirachtin (a neem-based registered botanical): PDKV times it after half the eggs have hatched, with a second round 15 days later; check the label screen for the crop and dose.",
+              "mr": "ॲझाडिरॅक्टिन (निंबावर आधारित नोंदणीकृत वनस्पतिजन्य घटक): डॉ. पंदेकृवि निम्मी अंडी उबल्यानंतर आणि १५ दिवसांनी दुसऱ्यांदा अशी वेळ सांगते; पीक व मात्रेसाठी लेबल स्क्रीन पाहा.",
+              "hi": "एज़ाडिरेक्टिन (नीम-आधारित पंजीकृत वनस्पति उत्पाद): पीडीकेवी आधे अंडे फूटने के बाद और 15 दिन बाद दूसरी बार का समय बताता है; फसल और मात्रा के लिए लेबल स्क्रीन देखें।"
+            },
+            "source": "P1 Entomology recs (black fly, after 50 % egg hatch)",
+            "source_keys": [
+              "P1"
+            ],
+            "evidence": [
+              "university"
+            ]
+          }
+        ]
+      }
     },
     {
       "key": "other_pests",
@@ -756,6 +1486,640 @@
       ]
     },
     {
+      "key": "mites",
+      "labels": {
+        "en": "Mites (citrus mite, russeting)",
+        "mr": "कोळी (सिट्रस माइट, साल खरबरीत होणे)",
+        "hi": "माइट (सिट्रस माइट, छिलका खुरदरा होना)"
+      },
+      "profile": {
+        "kind": "pest",
+        "crops": [
+          "santra",
+          "mosambi"
+        ],
+        "checked": "2026-11-06",
+        "label_target": "mites",
+        "kb_topic": "mites",
+        "symptoms": {
+          "labels": {
+            "en": "Mites suck sap mostly from the upper side of leaves: pale-yellow areas start along the midrib and spread along the veins, fine webbing makes the leaves look dusty, and leaves drop. On fruit they cause russeting, which makes fruit unfit for export.",
+            "mr": "कोळी मुख्यतः पानांच्या वरच्या बाजूने रस शोषतात: मधल्या शिरेपासून फिकट पिवळे भाग सुरू होऊन शिरांच्या बाजूने पसरतात, बारीक जाळ्यामुळे पाने धुळकट दिसतात आणि पाने गळतात. फळांवर साल खरबरीत (रसेटिंग) होते, त्यामुळे फळ निर्यातीस अयोग्य ठरते.",
+            "hi": "माइट ज़्यादातर पत्तियों की ऊपरी सतह से रस चूसते हैं: बीच की नस से हल्के पीले हिस्से शुरू होकर नसों के साथ फैलते हैं, बारीक जाले से पत्तियाँ धूल भरी दिखती हैं और गिर जाती हैं। फलों पर छिलका खुरदरा (रसेटिंग) होता है, जिससे फल निर्यात लायक नहीं रहता।"
+          },
+          "source": "TNAU-E331 \"Citrus leaf mite\"; C08 \"Citrus Mite\"",
+          "source_keys": [
+            "TNAU-E331",
+            "C08"
+          ]
+        },
+        "when": {
+          "labels": {
+            "en": "Most numerous in March–June and September–October. Water stress, especially in late summer, makes it worse.",
+            "mr": "मार्च–जून आणि सप्टेंबर–ऑक्टोबरमध्ये संख्या सर्वाधिक. पाण्याचा ताण, विशेषतः उन्हाळ्याच्या शेवटी, प्रादुर्भाव वाढवतो.",
+            "hi": "मार्च–जून और सितंबर–अक्टूबर में संख्या सबसे अधिक। पानी का तनाव, ख़ासकर गर्मी के आख़िर में, इसे बढ़ाता है।"
+          },
+          "source": "TNAU-E331 \"Citrus leaf mite\" (peak population); VK-NIPHM-STAGE \"Mite\" (water stress)",
+          "source_keys": [
+            "TNAU-E331",
+            "VK-NIPHM-STAGE"
+          ]
+        },
+        "scouting": {
+          "labels": {
+            "en": "Look at the upper side of leaves along the midrib and veins for pale-yellow, dusty patches; the lower side stays green. Look at young fruit for rough, russeted skin.",
+            "mr": "पानांच्या वरच्या बाजूला मधली शीर व शिरांच्या कडेने फिकट पिवळे, धुळकट चट्टे पाहा; खालची बाजू हिरवी राहते. लहान फळांची साल खरबरीत झाली आहे का ते पाहा.",
+            "hi": "पत्तियों की ऊपरी सतह पर बीच की नस और नसों के साथ हल्के पीले, धूल भरे धब्बे देखें; निचली सतह हरी रहती है। छोटे फलों पर खुरदरा छिलका देखें।"
+          },
+          "source": "TNAU-E331 \"Citrus leaf mite\"; C08 \"Citrus Mite\"",
+          "source_keys": [
+            "TNAU-E331",
+            "C08"
+          ]
+        },
+        "bio": []
+      },
+      "items": [
+        {
+          "id": 71,
+          "labels": {
+            "en": "Irrigate with care in summer so trees do not suffer water stress; stress makes mites flare up.",
+            "mr": "उन्हाळ्यात झाडांना पाण्याचा ताण पडू नये असे काळजीपूर्वक ओलित करा; ताणामुळे कोळी झपाट्याने वाढतात.",
+            "hi": "गर्मी में सावधानी से सिंचाई करें ताकि पेड़ों पर पानी का तनाव न पड़े; तनाव से माइट तेज़ी से बढ़ते हैं।"
+          },
+          "source": "TNAU-E331 \"Citrus leaf mite\"; VK-NIPHM-STAGE \"Mite\"",
+          "source_keys": [
+            "TNAU-E331",
+            "VK-NIPHM-STAGE"
+          ],
+          "evidence": [
+            "official",
+            "university"
+          ]
+        },
+        {
+          "id": 72,
+          "labels": {
+            "en": "Remove the mite's other host plants near the orchard, such as castor and amaltas (Cassia fistula).",
+            "mr": "बागेजवळील कोळ्यांची इतर यजमान झाडे, उदा. एरंड आणि बहावा (Cassia fistula), काढून टाका.",
+            "hi": "बाग के पास माइट के दूसरे मेज़बान पौधे, जैसे अरंडी और अमलतास (Cassia fistula), हटाएँ।"
+          },
+          "source": "TNAU-E331 \"Citrus leaf mite\"",
+          "source_keys": [
+            "TNAU-E331"
+          ],
+          "evidence": [
+            "university"
+          ]
+        },
+        {
+          "id": 73,
+          "labels": {
+            "en": "Conserve the mite's natural enemies: small ladybird beetles (Stethorus, Scymnus), predatory thrips and predatory mites.",
+            "mr": "कोळ्यांच्या मित्रकीटकांचे जतन करा: लहान ढालकिडे (स्टेथोरस, सिम्नस), भक्षक फुलकिडे आणि भक्षक कोळी.",
+            "hi": "माइट के प्राकृतिक शत्रुओं को बचाएँ: छोटे लेडीबर्ड भृंग (स्टेथोरस, सिम्नस), शिकारी थ्रिप्स और शिकारी माइट।"
+          },
+          "source": "TNAU-E331 \"Citrus leaf mite\"; VK-NIPHM-STAGE \"Mite\" (predatory mites)",
+          "source_keys": [
+            "TNAU-E331",
+            "VK-NIPHM-STAGE"
+          ],
+          "evidence": [
+            "official",
+            "university"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "aphids",
+      "labels": {
+        "en": "Aphids (tristeza vector)",
+        "mr": "मावा (ट्रिस्टेझाचा वाहक)",
+        "hi": "माहू (ट्रिस्टेज़ा वाहक)"
+      },
+      "profile": {
+        "kind": "pest",
+        "crops": [
+          "santra",
+          "mosambi"
+        ],
+        "checked": "2026-11-06",
+        "label_target": "aphids",
+        "kb_topic": "tristeza",
+        "symptoms": {
+          "labels": {
+            "en": "Colonies of small black or brown aphids on tender shoots, flowers and newly set fruit. Leaves curl, turn cup-shaped and crinkled, shoots wilt and flowers drop; honeydew brings sooty mould.",
+            "mr": "कोवळे फुटवे, फुले व नुकत्याच लागलेल्या फळांवर लहान काळ्या किंवा तपकिरी माव्याच्या वसाहती. पाने गुंडाळतात, वाटीसारखी व सुरकुतलेली होतात, फुटवे कोमेजतात आणि फुले गळतात; चिकट स्रावामुळे काळी बुरशी येते.",
+            "hi": "कोमल टहनियों, फूलों और नए लगे फलों पर छोटे काले या भूरे माहू की कॉलोनियाँ। पत्तियाँ मुड़कर कटोरी जैसी और सिकुड़ी हो जाती हैं, टहनियाँ मुरझाती हैं और फूल गिरते हैं; मधुरस से काली फफूंद आती है।"
+          },
+          "source": "TNAU-PESTS \"Citrus aphids\"; TNAU-E331 \"Aphid\"; VK-NIPHM-PESTS \"Citrus aphid\"",
+          "source_keys": [
+            "TNAU-PESTS",
+            "TNAU-E331",
+            "VK-NIPHM-PESTS"
+          ]
+        },
+        "when": {
+          "labels": {
+            "en": "On new growth and flowers. Development is best at 20 to 25 °C; winter cold and summer heat above 30 °C slow it. Aphids carry the tristeza virus.",
+            "mr": "नवीन वाढ व फुलांवर. २० ते २५ °C ला वाढ सर्वाधिक; हिवाळ्यातील थंडी आणि ३० °C पेक्षा जास्त उन्हाळी उष्णतेत वाढ मंदावते. मावा ट्रिस्टेझा विषाणू पसरवतो.",
+            "hi": "नई बढ़वार और फूलों पर। 20 से 25 °C पर विकास सबसे अच्छा; सर्दी की ठंड और 30 °C से ऊपर गर्मी में धीमा। माहू ट्रिस्टेज़ा वायरस फैलाता है।"
+          },
+          "source": "VK-NIPHM-PESTS \"Citrus aphid\" (favourable conditions); C08 \"Aphids\"",
+          "source_keys": [
+            "VK-NIPHM-PESTS",
+            "C08"
+          ]
+        },
+        "scouting": {
+          "labels": {
+            "en": "Look at new shoots, flower clusters and young fruit for colonies and for curled, crinkled leaves.",
+            "mr": "नवीन फुटवे, फुलांचे घोस व लहान फळांवर वसाहती आणि गुंडाळलेली, सुरकुतलेली पाने पाहा.",
+            "hi": "नई टहनियों, फूलों के गुच्छों और छोटे फलों पर कॉलोनियाँ और मुड़ी, सिकुड़ी पत्तियाँ देखें।"
+          },
+          "source": "TNAU-E331 \"Aphid\"; VK-NIPHM-PESTS \"Citrus aphid\"",
+          "source_keys": [
+            "TNAU-E331",
+            "VK-NIPHM-PESTS"
+          ]
+        },
+        "bio": [
+          {
+            "id": "b1",
+            "kind": "registered",
+            "labels": {
+              "en": "Azadirachtin (a neem-based registered botanical): an MPKV (AICRP) citrus trial used it as the first step against aphids, thrips and black fly; check the label screen for the crop and dose.",
+              "mr": "ॲझाडिरॅक्टिन (निंबावर आधारित नोंदणीकृत वनस्पतिजन्य घटक): MPKV (AICRP) च्या लिंबूवर्गीय प्रयोगात मावा, फुलकिडे व काळ्या माशीविरुद्ध पहिली पायरी म्हणून वापरले; पीक व मात्रेसाठी लेबल स्क्रीन पाहा.",
+              "hi": "एज़ाडिरेक्टिन (नीम-आधारित पंजीकृत वनस्पति उत्पाद): MPKV (AICRP) के नींबूवर्गीय प्रयोग में माहू, थ्रिप्स और काली मक्खी के विरुद्ध पहले कदम के रूप में इस्तेमाल; फसल और मात्रा के लिए लेबल स्क्रीन देखें।"
+            },
+            "source": "MPKV-AICRP §8 n",
+            "source_keys": [
+              "MPKV-AICRP"
+            ],
+            "evidence": [
+              "university"
+            ]
+          }
+        ]
+      },
+      "items": [
+        {
+          "id": 74,
+          "labels": {
+            "en": "Hang yellow sticky traps.",
+            "mr": "पिवळे चिकट सापळे लावा.",
+            "hi": "पीले चिपचिपे ट्रैप लगाएँ।"
+          },
+          "source": "VK-NIPHM-STAGE \"Citrus aphid\"; TNAU-PESTS \"Citrus aphids\"",
+          "source_keys": [
+            "VK-NIPHM-STAGE",
+            "TNAU-PESTS"
+          ],
+          "evidence": [
+            "official",
+            "university"
+          ]
+        },
+        {
+          "id": 75,
+          "labels": {
+            "en": "Conserve predators: ladybird beetles, lacewings, hover flies, earwigs and spiders.",
+            "mr": "भक्षकांचे जतन करा: ढालकिडे, क्रायसोपा (लेसविंग), सिर्फिड माश्या, कानकिडे आणि कोळी (स्पायडर).",
+            "hi": "शिकारियों को बचाएँ: लेडीबर्ड भृंग, लेसविंग, होवर मक्खियाँ, कनखजूरे (ईयरविग) और मकड़ियाँ।"
+          },
+          "source": "VK-NIPHM-NE \"Citrus aphid\"; TNAU-PESTS",
+          "source_keys": [
+            "VK-NIPHM-NE",
+            "TNAU-PESTS"
+          ],
+          "evidence": [
+            "official",
+            "university"
+          ]
+        },
+        {
+          "id": 76,
+          "labels": {
+            "en": "TNAU lists the release of the ladybird beetle Menochilus sexmaculatus at about 50 per tree.",
+            "mr": "TNAU नुसार मेनोकायलस सेक्समॅक्युलॅटस हा ढालकिडा झाडामागे सुमारे ५० सोडावा.",
+            "hi": "TNAU के अनुसार लेडीबर्ड भृंग मेनोकाइलस सेक्समैकुलेटस प्रति पेड़ लगभग 50 छोड़ें।"
+          },
+          "source": "TNAU-E331 \"Aphid\"",
+          "source_keys": [
+            "TNAU-E331"
+          ],
+          "evidence": [
+            "university"
+          ]
+        },
+        {
+          "id": 77,
+          "labels": {
+            "en": "Grow flowering plants that draw natural enemies, such as marigold, mustard, sunflower and plants of the carrot family.",
+            "mr": "मित्रकीटकांना आकर्षित करणारी फुलझाडे लावा, उदा. झेंडू, मोहरी, सूर्यफूल आणि गाजर कुळातील झाडे.",
+            "hi": "प्राकृतिक शत्रुओं को खींचने वाले फूलदार पौधे लगाएँ, जैसे गेंदा, सरसों, सूरजमुखी और गाजर कुल के पौधे।"
+          },
+          "source": "VK-NIPHM-NE \"Citrus aphid\" (attractant plants)",
+          "source_keys": [
+            "VK-NIPHM-NE"
+          ],
+          "evidence": [
+            "official"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "thrips",
+      "labels": {
+        "en": "Thrips (flowering and young fruit)",
+        "mr": "फुलकिडे (बहर व लहान फळे)",
+        "hi": "थ्रिप्स (फूल और छोटे फल)"
+      },
+      "profile": {
+        "kind": "pest",
+        "crops": [
+          "santra",
+          "mosambi"
+        ],
+        "checked": "2026-11-06",
+        "label_target": "thrips",
+        "kb_topic": null,
+        "symptoms": {
+          "labels": {
+            "en": "Nymphs and adults rasp the rind: a ring-like scar round the fruit stalk and irregular mottled patches on the skin; leaves may curl.",
+            "mr": "पिल्ले व प्रौढ साल खरवडतात: देठाभोवती गोल व्रणासारखा डाग आणि सालीवर अनियमित चट्टे; पाने गुंडाळू शकतात.",
+            "hi": "शिशु और वयस्क छिलका खुरचते हैं: डंठल के चारों ओर छल्ले जैसा निशान और छिलके पर अनियमित धब्बे; पत्तियाँ मुड़ सकती हैं।"
+          },
+          "source": "TNAU-PESTS \"Citrus thrips\"; TNAU-E331 \"Thrips\"",
+          "source_keys": [
+            "TNAU-PESTS",
+            "TNAU-E331"
+          ]
+        },
+        "when": {
+          "labels": {
+            "en": "Fruit are most at risk from petal fall until they are about 3.7 cm across (University of California guideline).",
+            "mr": "पाकळ्या गळल्यापासून फळ सुमारे ३.७ सें.मी. व्यासाचे होईपर्यंत सर्वाधिक धोका (कॅलिफोर्निया विद्यापीठाचे मार्गदर्शन).",
+            "hi": "पंखुड़ियाँ गिरने से लेकर फल लगभग 3.7 सें.मी. व्यास का होने तक सबसे अधिक जोखिम (कैलिफ़ोर्निया विश्वविद्यालय मार्गदर्शिका)।"
+          },
+          "source": "UC-THRIPS \"Damage\"",
+          "source_keys": [
+            "UC-THRIPS"
+          ]
+        },
+        "scouting": {
+          "labels": {
+            "en": "From petal fall, look under the button (calyx) of young fruit on outside, sunny branches for small wingless young thrips, and note how many fruit carry them. UC IPM samples 100 fruit: 25 from each corner of the block, on trees 3 to 4 rows in.",
+            "mr": "पाकळ्या गळल्यापासून, बाहेरच्या उन्हातील फांद्यांवरील लहान फळांच्या देठाखाली (कॅलिक्स) पंख नसलेले लहान फुलकिडे पाहा आणि किती फळांवर ते आहेत ते नोंदवा. UC IPM १०० फळे पाहते: बागेच्या प्रत्येक कोपऱ्यातून २५, कडेपासून ३ ते ४ ओळी आतील झाडांवरून.",
+            "hi": "पंखुड़ियाँ गिरने के बाद, बाहर की धूप वाली डालियों के छोटे फलों के डंठल (कैलिक्स) के नीचे बिना पंख के छोटे थ्रिप्स देखें और कितने फलों पर हैं यह लिखें। UC IPM 100 फल देखता है: बाग के हर कोने से 25, किनारे से 3 से 4 कतार अंदर के पेड़ों से।"
+          },
+          "source": "UC-THRIPS \"Monitoring fruit for citrus thrips\"",
+          "source_keys": [
+            "UC-THRIPS"
+          ]
+        },
+        "bio": [
+          {
+            "id": "b2",
+            "kind": "registered",
+            "labels": {
+              "en": "Azadirachtin (a neem-based registered botanical): an MPKV (AICRP) citrus trial used it as the first step against thrips, aphids and black fly; check the label screen for the crop and dose.",
+              "mr": "ॲझाडिरॅक्टिन (निंबावर आधारित नोंदणीकृत वनस्पतिजन्य घटक): MPKV (AICRP) च्या लिंबूवर्गीय प्रयोगात फुलकिडे, मावा व काळ्या माशीविरुद्ध पहिली पायरी म्हणून वापरले; पीक व मात्रेसाठी लेबल स्क्रीन पाहा.",
+              "hi": "एज़ाडिरेक्टिन (नीम-आधारित पंजीकृत वनस्पति उत्पाद): MPKV (AICRP) के नींबूवर्गीय प्रयोग में थ्रिप्स, माहू और काली मक्खी के विरुद्ध पहले कदम के रूप में इस्तेमाल; फसल और मात्रा के लिए लेबल स्क्रीन देखें।"
+            },
+            "source": "MPKV-AICRP §8 n",
+            "source_keys": [
+              "MPKV-AICRP"
+            ],
+            "evidence": [
+              "university"
+            ]
+          }
+        ]
+      },
+      "items": [
+        {
+          "id": 78,
+          "labels": {
+            "en": "Collect and destroy damaged plant parts.",
+            "mr": "खराब झालेले भाग गोळा करून नष्ट करा.",
+            "hi": "क्षतिग्रस्त हिस्से इकट्ठा कर नष्ट करें।"
+          },
+          "source": "TNAU-PESTS \"Citrus thrips\"",
+          "source_keys": [
+            "TNAU-PESTS"
+          ],
+          "evidence": [
+            "university"
+          ]
+        },
+        {
+          "id": 79,
+          "labels": {
+            "en": "Conserve natural enemies such as hover flies (syrphids) and lacewings (chrysopids).",
+            "mr": "सिर्फिड माश्या आणि क्रायसोपा (लेसविंग) यांसारख्या मित्रकीटकांचे जतन करा.",
+            "hi": "होवर मक्खियाँ (सिर्फिड) और लेसविंग (क्राइसोपा) जैसे प्राकृतिक शत्रुओं को बचाएँ।"
+          },
+          "source": "TNAU-PESTS \"Citrus thrips\"",
+          "source_keys": [
+            "TNAU-PESTS"
+          ],
+          "evidence": [
+            "university"
+          ]
+        },
+        {
+          "id": 80,
+          "labels": {
+            "en": "Scars are more common on fruit on the outside of the canopy, where wind rub and sunburn also mark fruit: compare with the look-alike card before deciding what caused them.",
+            "mr": "झाडाच्या बाहेरील बाजूच्या फळांवर व्रण जास्त दिसतात, जिथे वाऱ्याने घासणे व उन्हाचा चटका यानेही डाग पडतात: कारण ठरवण्यापूर्वी सारखी लक्षणे कार्ड पाहा.",
+            "hi": "छतरी के बाहरी हिस्से के फलों पर निशान अधिक होते हैं, जहाँ हवा की रगड़ और धूप की जलन से भी दाग पड़ते हैं: कारण तय करने से पहले मिलते-जुलते लक्षण कार्ड देखें।"
+          },
+          "source": "UC-THRIPS \"Damage\"",
+          "source_keys": [
+            "UC-THRIPS"
+          ],
+          "evidence": [
+            "university"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "mealybug",
+      "labels": {
+        "en": "Mealybug",
+        "mr": "पिठ्या ढेकूण",
+        "hi": "मिलीबग"
+      },
+      "profile": {
+        "kind": "pest",
+        "crops": [
+          "santra",
+          "mosambi"
+        ],
+        "checked": "2026-11-06",
+        "label_target": "mealybug",
+        "kb_topic": "mealybug",
+        "symptoms": {
+          "labels": {
+            "en": "White, waxy, cotton-like insects in clusters on tender twigs, fruit and along leaf veins; white cottony egg masses on the trunk and stems. Affected parts turn pale, wilt and dry; honeydew brings sooty mould, and heavy attack causes leaf drop, fruit drop and twig dieback.",
+            "mr": "कोवळ्या काड्या, फळे व पानांच्या शिरांवर पांढऱ्या, मेणचट, कापसासारख्या किडींचे पुंजके; खोड व फांद्यांवर पांढरे कापसासारखे अंडीपुंज. बाधित भाग फिकट होतात, कोमेजतात व वाळतात; चिकट स्रावामुळे काळी बुरशी येते आणि जास्त प्रादुर्भावात पानगळ, फळगळ व फांदीमर होते.",
+            "hi": "कोमल टहनियों, फलों और पत्ती की नसों पर सफ़ेद, मोमी, रुई जैसे कीटों के गुच्छे; तने और डालियों पर सफ़ेद रुई जैसे अंडे के ढेर। प्रभावित हिस्से पीले पड़कर मुरझाते और सूखते हैं; मधुरस से काली फफूंद आती है, और भारी हमले में पत्ते, फल गिरते हैं व टहनियाँ सूखती हैं।"
+          },
+          "source": "TNAU-PESTS \"Mealy bug\"; VK-NIPHM-PESTS \"Mealy bug\"",
+          "source_keys": [
+            "TNAU-PESTS",
+            "VK-NIPHM-PESTS"
+          ]
+        },
+        "when": {
+          "labels": {
+            "en": "Sporadic; mostly in older, well-shaded orchards on heavy soils. Ants protect and spread it.",
+            "mr": "अधूनमधून येणारी कीड; मुख्यतः भारी जमिनीवरील जुन्या, जास्त सावलीच्या बागांत. मुंग्या तिचे संरक्षण करतात व पसरवतात.",
+            "hi": "कभी-कभार आने वाला कीट; ज़्यादातर भारी मिट्टी पर पुराने, घनी छाया वाले बागों में। चींटियाँ इसकी रक्षा करती और फैलाती हैं।"
+          },
+          "source": "VK-NIPHM-PESTS \"Mealy bug\"; VK-NIPHM-STAGE \"Mealybug\" (ants)",
+          "source_keys": [
+            "VK-NIPHM-PESTS",
+            "VK-NIPHM-STAGE"
+          ]
+        },
+        "scouting": {
+          "labels": {
+            "en": "Look at fruit, tender twigs and the trunk for white cottony masses and for ants going up and down; note how many fruit out of every 100 carry mealybugs.",
+            "mr": "फळे, कोवळ्या काड्या व खोडावर पांढरे कापसासारखे पुंजके आणि वर-खाली जाणाऱ्या मुंग्या पाहा; दर १०० फळांपैकी किती फळांवर पिठ्या ढेकूण आहे ते नोंदवा.",
+            "hi": "फलों, कोमल टहनियों और तने पर सफ़ेद रुई जैसे ढेर और ऊपर-नीचे जाती चींटियाँ देखें; हर 100 फलों में से कितनों पर मिलीबग है यह लिखें।"
+          },
+          "source": "VK-NIPHM-PESTS \"Mealy bug\"; NRCC-MB (threshold as share of infested fruit)",
+          "source_keys": [
+            "VK-NIPHM-PESTS",
+            "NRCC-MB"
+          ]
+        },
+        "action_level": {
+          "labels": {
+            "en": "A National Research Centre for Citrus (Nagpur) review reports an intervention level on Nagpur mandarin of 5–10 % infested fruits in summer and 15 % infested fruits in autumn.",
+            "mr": "राष्ट्रीय लिंबूवर्गीय संशोधन केंद्र (नागपूर) च्या आढाव्यानुसार नागपुरी संत्र्यावर उपाययोजनेची पातळी उन्हाळ्यात ५–१० % बाधित फळे आणि शरद ऋतूत १५ % बाधित फळे आहे.",
+            "hi": "राष्ट्रीय नींबूवर्गीय अनुसंधान केंद्र (नागपुर) की समीक्षा के अनुसार नागपुरी संतरे पर हस्तक्षेप स्तर गर्मी में 5–10 % प्रभावित फल और शरद में 15 % प्रभावित फल है।"
+          },
+          "source": "NRCC-MB p.143 (after Shyam Singh et al. 2002)",
+          "source_keys": [
+            "NRCC-MB"
+          ]
+        },
+        "bio": []
+      },
+      "items": [
+        {
+          "id": 81,
+          "labels": {
+            "en": "Prune affected shoots in winter, and collect and destroy damaged leaves, twigs and stems.",
+            "mr": "हिवाळ्यात बाधित फुटवे छाटा, आणि खराब पाने, काड्या व फांद्या गोळा करून नष्ट करा.",
+            "hi": "सर्दियों में प्रभावित टहनियाँ काटें, और क्षतिग्रस्त पत्तियाँ, टहनियाँ व तने इकट्ठा कर नष्ट करें।"
+          },
+          "source": "VK-NIPHM-STAGE \"Mealybug\"; TNAU-PESTS \"Mealy bug\"",
+          "source_keys": [
+            "VK-NIPHM-STAGE",
+            "TNAU-PESTS"
+          ],
+          "evidence": [
+            "official",
+            "university"
+          ]
+        },
+        {
+          "id": 82,
+          "labels": {
+            "en": "Destroy ant colonies, and put a sticky band (about 5 cm wide) round the trunk so ants and crawlers cannot climb.",
+            "mr": "मुंग्यांची वारुळे नष्ट करा, आणि मुंग्या व पिल्ले वर चढू नयेत म्हणून खोडाभोवती सुमारे ५ सें.मी. रुंद चिकट पट्टा लावा.",
+            "hi": "चींटियों की बस्तियाँ नष्ट करें, और तने पर लगभग 5 सें.मी. चौड़ी चिपचिपी पट्टी लगाएँ ताकि चींटियाँ और शिशु ऊपर न चढ़ें।"
+          },
+          "source": "VK-NIPHM-STAGE \"Mealybug\" (sticky barrier 5 cm on trunk)",
+          "source_keys": [
+            "VK-NIPHM-STAGE"
+          ],
+          "evidence": [
+            "official"
+          ]
+        },
+        {
+          "id": 83,
+          "labels": {
+            "en": "Release the Australian ladybird beetle Cryptolaemus montrouzieri at 10 beetles per tree; it does not do well in severe winter.",
+            "mr": "ऑस्ट्रेलियन ढालकिडा क्रिप्टोलिमस माँट्रोझिएरी झाडामागे १० भुंगे सोडा; कडक हिवाळ्यात तो चांगला टिकत नाही.",
+            "hi": "ऑस्ट्रेलियाई लेडीबर्ड भृंग क्रिप्टोलेमस मोंट्रोज़िएरी प्रति पेड़ 10 भृंग छोड़ें; कड़ी सर्दी में यह ठीक नहीं टिकता।"
+          },
+          "source": "VK-NIPHM-STAGE \"Mealybug\" (10 beetles per tree); NRCC-MB p.144 (winter)",
+          "source_keys": [
+            "VK-NIPHM-STAGE",
+            "NRCC-MB"
+          ],
+          "evidence": [
+            "official",
+            "research"
+          ]
+        },
+        {
+          "id": 84,
+          "labels": {
+            "en": "Grow coriander and cornflower near the orchard: they draw the parasitic wasps that attack mealybugs.",
+            "mr": "बागेजवळ कोथिंबीर व कॉर्नफ्लॉवर लावा: पिठ्या ढेकणावर हल्ला करणाऱ्या परोपजीवी गांधीलमाश्या त्याकडे आकर्षित होतात.",
+            "hi": "बाग के पास धनिया और कॉर्नफ्लावर लगाएँ: ये मिलीबग पर हमला करने वाली परजीवी ततैयों को खींचते हैं।"
+          },
+          "source": "VK-NIPHM-STAGE \"Mealybug\"; VK-NIPHM-NE \"Mealy bug\"",
+          "source_keys": [
+            "VK-NIPHM-STAGE",
+            "VK-NIPHM-NE"
+          ],
+          "evidence": [
+            "official"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "leaf_miner",
+      "labels": {
+        "en": "Leaf miner",
+        "mr": "पाने पोखरणारी अळी",
+        "hi": "पत्ती सुरंगक (लीफ माइनर)"
+      },
+      "profile": {
+        "kind": "pest",
+        "crops": [
+          "santra",
+          "mosambi"
+        ],
+        "checked": "2026-11-06",
+        "label_target": "leaf_miner",
+        "kb_topic": "leaf_miner",
+        "symptoms": {
+          "labels": {
+            "en": "Silvery, zig-zag mines in tender leaves; the leaves turn pale, curl, distort and dry. The damage helps canker to infect.",
+            "mr": "कोवळ्या पानांत चंदेरी, नागमोडी बोगदे; पाने फिकट होतात, गुंडाळतात, वेडीवाकडी होऊन वाळतात. या नुकसानामुळे कँकरला शिरकाव मिळतो.",
+            "hi": "कोमल पत्तियों में चाँदी जैसी, टेढ़ी-मेढ़ी सुरंगें; पत्तियाँ पीली पड़ती, मुड़ती, बिगड़ती और सूखती हैं। इस नुकसान से कैंकर को संक्रमण का रास्ता मिलता है।"
+          },
+          "source": "C08 \"Citrus Leaf Miner\"; TNAU-E331 \"Citrus leaf miner\"",
+          "source_keys": [
+            "C08",
+            "TNAU-E331"
+          ]
+        },
+        "when": {
+          "labels": {
+            "en": "On every new flush. Most serious in nurseries and young plantings; trees older than about 4 years usually tolerate the leaf damage.",
+            "mr": "प्रत्येक नवतीवर. रोपवाटिका व नवीन लागवडीत सर्वात गंभीर; सुमारे ४ वर्षांपेक्षा जुनी झाडे पानांचे नुकसान सहसा सहन करतात.",
+            "hi": "हर नई फुटान पर। नर्सरी और नए बागों में सबसे गंभीर; लगभग 4 वर्ष से पुराने पेड़ पत्तियों का नुकसान आम तौर पर सह लेते हैं।"
+          },
+          "source": "VK-NIPHM-PESTS \"Citrus leaf miner\"; C08",
+          "source_keys": [
+            "VK-NIPHM-PESTS",
+            "C08"
+          ]
+        },
+        "scouting": {
+          "labels": {
+            "en": "Check the tender leaves of each new flush, above all in the nursery and on young trees, for silvery mines.",
+            "mr": "प्रत्येक नवतीची कोवळी पाने, विशेषतः रोपवाटिकेत व लहान झाडांवर, चंदेरी बोगद्यांसाठी तपासा.",
+            "hi": "हर नई फुटान की कोमल पत्तियाँ, ख़ासकर नर्सरी और छोटे पेड़ों पर, चाँदी जैसी सुरंगों के लिए जाँचें।"
+          },
+          "source": "C08 \"Citrus Leaf Miner\"; VK-NIPHM-PESTS",
+          "source_keys": [
+            "C08",
+            "VK-NIPHM-PESTS"
+          ]
+        },
+        "bio": [
+          {
+            "id": "b3",
+            "kind": "home",
+            "labels": {
+              "en": "NSKE 5 % in the Nagpur mandarin nursery, 30 days after the buds sprout (PDKV).",
+              "mr": "नागपुरी संत्र्याच्या रोपवाटिकेत डोळे फुटल्यानंतर ३० दिवसांनी ५ % निंबोळी अर्क (डॉ. पंदेकृवि).",
+              "hi": "नागपुरी संतरे की नर्सरी में आँख फूटने के 30 दिन बाद 5 % नीम बीज अर्क (पीडीकेवी)।"
+            },
+            "source": "R23 p.8 #38",
+            "source_keys": [
+              "R23"
+            ],
+            "evidence": [
+              "university"
+            ],
+            "preparation": "nske_5"
+          },
+          {
+            "id": "b4",
+            "kind": "home",
+            "labels": {
+              "en": "Neem oil 1 % as soon as the attack begins (PDKV AICRP citrus).",
+              "mr": "प्रादुर्भाव सुरू होताच १ % निंबोळी तेल (डॉ. पंदेकृवि AICRP लिंबूवर्गीय).",
+              "hi": "हमला शुरू होते ही 1 % नीम तेल (पीडीकेवी AICRP नींबूवर्गीय)।"
+            },
+            "source": "P1 Entomology recs (leaf miner)",
+            "source_keys": [
+              "P1"
+            ],
+            "evidence": [
+              "university"
+            ],
+            "preparation": "neem_oil_1"
+          },
+          {
+            "id": "b5",
+            "kind": "registered",
+            "labels": {
+              "en": "Azadirachtin (a neem-based registered botanical): used by MPKV (AICRP) on nursery and young orchards during new flush; check the label screen for the crop and dose.",
+              "mr": "ॲझाडिरॅक्टिन (निंबावर आधारित नोंदणीकृत वनस्पतिजन्य घटक): MPKV (AICRP) ने रोपवाटिका व लहान बागांत नवतीच्या काळात वापरले; पीक व मात्रेसाठी लेबल स्क्रीन पाहा.",
+              "hi": "एज़ाडिरेक्टिन (नीम-आधारित पंजीकृत वनस्पति उत्पाद): MPKV (AICRP) ने नर्सरी और छोटे बागों में नई फुटान के समय इस्तेमाल किया; फसल और मात्रा के लिए लेबल स्क्रीन देखें।"
+            },
+            "source": "MPKV-AICRP §8 m",
+            "source_keys": [
+              "MPKV-AICRP"
+            ],
+            "evidence": [
+              "university"
+            ]
+          }
+        ]
+      },
+      "items": [
+        {
+          "id": 85,
+          "labels": {
+            "en": "Hang pheromone traps (about 5 per acre).",
+            "mr": "फेरोमोन सापळे लावा (एकरी सुमारे ५).",
+            "hi": "फेरोमोन ट्रैप लगाएँ (लगभग 5 प्रति एकड़)।"
+          },
+          "source": "VK-NIPHM-STAGE \"Citrus leaf miner\"",
+          "source_keys": [
+            "VK-NIPHM-STAGE"
+          ],
+          "evidence": [
+            "official"
+          ]
+        },
+        {
+          "id": 86,
+          "labels": {
+            "en": "Pluck affected young leaves, prune affected parts in winter and burn them.",
+            "mr": "बाधित कोवळी पाने तोडा, हिवाळ्यात बाधित भाग छाटा आणि जाळा.",
+            "hi": "प्रभावित कोमल पत्तियाँ तोड़ें, सर्दियों में प्रभावित हिस्से काटें और जला दें।"
+          },
+          "source": "VK-NIPHM-STAGE \"Citrus leaf miner\"; C08",
+          "source_keys": [
+            "VK-NIPHM-STAGE",
+            "C08"
+          ],
+          "evidence": [
+            "official"
+          ]
+        }
+      ]
+    },
+    {
       "key": "fruit_fly",
       "labels": {
         "en": "Fruit fly and fruit-sucking moth",
@@ -808,7 +2172,52 @@
             "official"
           ]
         }
-      ]
+      ],
+      "profile": {
+        "kind": "pest",
+        "crops": [
+          "santra",
+          "mosambi"
+        ],
+        "checked": "2026-11-06",
+        "label_target": "fruit_sucking_moth",
+        "kb_topic": "fruit_sucking_moth",
+        "bio": [
+          {
+            "id": "b15",
+            "kind": "home",
+            "labels": {
+              "en": "Fruit-sucking moth: PDKV recommends NSKE 5 % or neem oil 1 %.",
+              "mr": "फळातील रस शोषणारा पतंग: डॉ. पंदेकृवि ५ % निंबोळी अर्क किंवा १ % निंबोळी तेलाची शिफारस करते.",
+              "hi": "फल-चूसक पतंगा: पीडीकेवी 5 % नीम बीज अर्क या 1 % नीम तेल की सिफ़ारिश करता है।"
+            },
+            "source": "P1 Entomology recs (fruit-sucking moth)",
+            "source_keys": [
+              "P1"
+            ],
+            "evidence": [
+              "university"
+            ],
+            "preparation": "nske_5"
+          },
+          {
+            "id": "b16",
+            "kind": "registered",
+            "labels": {
+              "en": "Azadirachtin (a neem-based registered botanical) is in the same PDKV list for the fruit-sucking moth; check the label screen for the crop and dose.",
+              "mr": "ॲझाडिरॅक्टिन (निंबावर आधारित नोंदणीकृत वनस्पतिजन्य घटक) फळातील रस शोषणाऱ्या पतंगासाठी डॉ. पंदेकृविच्या त्याच यादीत आहे; पीक व मात्रेसाठी लेबल स्क्रीन पाहा.",
+              "hi": "एज़ाडिरेक्टिन (नीम-आधारित पंजीकृत वनस्पति उत्पाद) फल-चूसक पतंगे के लिए पीडीकेवी की उसी सूची में है; फसल और मात्रा के लिए लेबल स्क्रीन देखें।"
+            },
+            "source": "P1 Entomology recs (fruit-sucking moth)",
+            "source_keys": [
+              "P1"
+            ],
+            "evidence": [
+              "university"
+            ]
+          }
+        ]
+      }
     },
     {
       "key": "canker_decline",
@@ -975,6 +2384,79 @@
           "source": "C03 \"Fruit Splitting\"",
           "source_keys": [
             "C03"
+          ],
+          "evidence": [
+            "official"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "heat_drop",
+      "labels": {
+        "en": "Fruit drop from heat (May–June)",
+        "mr": "उष्णतेमुळे फळगळ (मे–जून)",
+        "hi": "गर्मी से फल गिरना (मई–जून)"
+      },
+      "profile": {
+        "kind": "disorder",
+        "crops": [
+          "santra",
+          "mosambi"
+        ],
+        "checked": "2026-11-06",
+        "label_target": null,
+        "kb_topic": "fruit_drop",
+        "symptoms": {
+          "labels": {
+            "en": "A second wave of heavy fruit drop when hot summer weather sets in.",
+            "mr": "उन्हाळ्याची उष्णता सुरू होताच जोरदार फळगळीची दुसरी लाट.",
+            "hi": "गर्मी का मौसम शुरू होते ही भारी फल गिरने की दूसरी लहर।"
+          },
+          "source": "C03 \"Fruit Drop\"",
+          "source_keys": [
+            "C03"
+          ]
+        },
+        "when": {
+          "labels": {
+            "en": "May–June.",
+            "mr": "मे–जून.",
+            "hi": "मई–जून।"
+          },
+          "source": "C03 \"Fruit Drop\"",
+          "source_keys": [
+            "C03"
+          ]
+        },
+        "bio": []
+      },
+      "items": [
+        {
+          "id": 97,
+          "labels": {
+            "en": "In summer give frequent, light irrigations: they lower the soil temperature and raise the humidity round the tree.",
+            "mr": "उन्हाळ्यात वारंवार, हलके ओलित द्या: त्यामुळे जमिनीचे तापमान कमी होते आणि झाडाभोवती आर्द्रता वाढते.",
+            "hi": "गर्मी में बार-बार, हल्की सिंचाई करें: इससे मिट्टी का तापमान घटता है और पेड़ के आसपास नमी बढ़ती है।"
+          },
+          "source": "C06 (critical period: summer)",
+          "source_keys": [
+            "C06"
+          ],
+          "evidence": [
+            "official"
+          ]
+        },
+        {
+          "id": 98,
+          "labels": {
+            "en": "NHB (citrus in general): watering every 5 to 6 days in summer and every 10 to 12 days in winter works well; the irrigation guide gives litres for your trees.",
+            "mr": "NHB (लिंबूवर्गीय, सर्वसाधारण): उन्हाळ्यात दर ५ ते ६ दिवसांनी आणि हिवाळ्यात दर १० ते १२ दिवसांनी पाणी देणे चांगले ठरते; आपल्या झाडांसाठी लिटर ओलित तक्त्यात आहेत.",
+            "hi": "NHB (नींबूवर्गीय, सामान्य): गर्मी में हर 5 से 6 दिन और सर्दी में हर 10 से 12 दिन पानी देना ठीक रहता है; अपने पेड़ों के लिए लीटर सिंचाई गाइड में हैं।"
+          },
+          "source": "C06",
+          "source_keys": [
+            "C06"
           ],
           "evidence": [
             "official"
@@ -1214,6 +2696,87 @@
       ]
     },
     {
+      "key": "nutrition",
+      "labels": {
+        "en": "Nutrition: when and how to feed",
+        "mr": "पोषण: केव्हा व कसे द्यावे",
+        "hi": "पोषण: कब और कैसे दें"
+      },
+      "profile": {
+        "kind": "nutrition",
+        "crops": [
+          "santra",
+          "mosambi"
+        ],
+        "checked": "2026-11-06",
+        "label_target": null,
+        "kb_topic": "nutrition_bearing",
+        "bio": []
+      },
+      "items": [
+        {
+          "id": 103,
+          "labels": {
+            "en": "Nagpur mandarin (PDKV): give the feeding in two parts: the first when the bahar stress ends, the rest about two months after fruit set. Ask your KVK or a soil-testing lab for the quantities.",
+            "mr": "नागपुरी संत्रा (डॉ. पंदेकृवि): पोषण दोन भागांत द्या: पहिला बहाराचा ताण संपताना, उरलेला फळधारणेनंतर सुमारे दोन महिन्यांनी. मात्रेसाठी आपल्या KVK ला किंवा माती परीक्षण प्रयोगशाळेला विचारा.",
+            "hi": "नागपुरी संतरा (पीडीकेवी): पोषण दो भागों में दें: पहला बहार का तनाव ख़त्म होने पर, बाकी फल लगने के लगभग दो महीने बाद। मात्रा के लिए अपने KVK या मिट्टी जाँच प्रयोगशाला से पूछें।"
+          },
+          "source": "P1 Horticulture recs (two splits: end of stress, two months after fruit set)",
+          "source_keys": [
+            "P1"
+          ],
+          "evidence": [
+            "university"
+          ]
+        },
+        {
+          "id": 104,
+          "labels": {
+            "en": "Young trees (1–5 years): give manures in 2 to 3 equal parts, in December–January, June–July and September, by the ring method.",
+            "mr": "लहान झाडे (१–५ वर्षे): खत २ ते ३ समान भागांत, डिसेंबर–जानेवारी, जून–जुलै व सप्टेंबरमध्ये, आळे (रिंग) पद्धतीने द्या.",
+            "hi": "छोटे पेड़ (1–5 वर्ष): खाद 2 से 3 बराबर भागों में, दिसंबर–जनवरी, जून–जुलाई और सितंबर में, रिंग विधि से दें।"
+          },
+          "source": "VK-NIPHM-STAGE \"Vegetative growth stage (1-5 years)\"",
+          "source_keys": [
+            "VK-NIPHM-STAGE"
+          ],
+          "evidence": [
+            "official"
+          ]
+        },
+        {
+          "id": 105,
+          "labels": {
+            "en": "Put the manure in the active root zone, cover it with soil and give a light irrigation.",
+            "mr": "खत सक्रिय मुळांच्या भागात द्या, मातीने झाका आणि हलके ओलित द्या.",
+            "hi": "खाद सक्रिय जड़ क्षेत्र में डालें, मिट्टी से ढकें और हल्की सिंचाई करें।"
+          },
+          "source": "P1 Horticulture recs (organic mixture in the active root zone)",
+          "source_keys": [
+            "P1"
+          ],
+          "evidence": [
+            "university"
+          ]
+        },
+        {
+          "id": 106,
+          "labels": {
+            "en": "Waibar disorder (PDKV, Vidarbha): the feeding is split into three parts: at stress release in January, a month later in February and a month after that in March. Ask your KVK for the quantities.",
+            "mr": "वायबार विकृती (डॉ. पंदेकृवि, विदर्भ): पोषण तीन भागांत: जानेवारीत ताण सोडताना, महिनाभराने फेब्रुवारीत आणि त्यानंतर महिनाभराने मार्चमध्ये. मात्रेसाठी आपल्या KVK ला विचारा.",
+            "hi": "वायबार विकार (पीडीकेवी, विदर्भ): पोषण तीन भागों में: जनवरी में तनाव छोड़ते समय, एक महीने बाद फरवरी में और उसके एक महीने बाद मार्च में। मात्रा के लिए अपने KVK से पूछें।"
+          },
+          "source": "R25 p.9 #20",
+          "source_keys": [
+            "R25"
+          ],
+          "evidence": [
+            "university"
+          ]
+        }
+      ]
+    },
+    {
       "key": "harvest",
       "labels": {
         "en": "Harvest and post-harvest hygiene",
@@ -1333,63 +2896,179 @@
           ]
         }
       ]
+    },
+    {
+      "key": "mosambi",
+      "labels": {
+        "en": "Mosambi (sweet orange): specific practices",
+        "mr": "मोसंबी: विशेष माहिती",
+        "hi": "मोसंबी: विशेष पद्धतियाँ"
+      },
+      "profile": {
+        "kind": "crop",
+        "crops": [
+          "mosambi"
+        ],
+        "checked": "2026-11-06",
+        "label_target": null,
+        "kb_topic": "bahar_mosambi",
+        "bio": [
+          {
+            "id": "b6",
+            "kind": "registered",
+            "labels": {
+              "en": "Trichoderma harzianum and Pseudomonas fluorescens (soil) with azadirachtin (spray) in January are part of MPKV's organic module for Ambia sweet orange on medium black soil; check the label screen for the crop and dose.",
+              "mr": "मध्यम काळ्या जमिनीतील आंबिया मोसंबीसाठी MPKV च्या सेंद्रिय पद्धतीत जानेवारीत ट्रायकोडर्मा हर्जियानम व स्यूडोमोनास फ्लुरोसन्स (जमिनीत) आणि ॲझाडिरॅक्टिन (फवारणी) आहेत; पीक व मात्रेसाठी लेबल स्क्रीन पाहा.",
+              "hi": "मध्यम काली मिट्टी में अंबिया मोसंबी के लिए MPKV की जैविक पद्धति में जनवरी में ट्राइकोडर्मा हर्ज़ियानम और स्यूडोमोनास फ्लोरेसेंस (मिट्टी में) और एज़ाडिरेक्टिन (छिड़काव) हैं; फसल और मात्रा के लिए लेबल स्क्रीन देखें।"
+            },
+            "source": "MPKV-AICRP §8 d",
+            "source_keys": [
+              "MPKV-AICRP"
+            ],
+            "evidence": [
+              "university"
+            ]
+          },
+          {
+            "id": "b7",
+            "kind": "registered",
+            "labels": {
+              "en": "Azadirachtin (a neem-based registered botanical) against psylla on sweet orange, twice 15 days apart at the pest's peak (MPKV); check the label screen for the crop and dose.",
+              "mr": "ॲझाडिरॅक्टिन (निंबावर आधारित नोंदणीकृत वनस्पतिजन्य घटक) मोसंबीवरील सायलाविरुद्ध, किडीच्या शिखर काळात १५ दिवसांच्या अंतराने दोनदा (MPKV); पीक व मात्रेसाठी लेबल स्क्रीन पाहा.",
+              "hi": "एज़ाडिरेक्टिन (नीम-आधारित पंजीकृत वनस्पति उत्पाद) मोसंबी पर सिल्ला के विरुद्ध, कीट के चरम समय में 15 दिन के अंतर पर दो बार (MPKV); फसल और मात्रा के लिए लेबल स्क्रीन देखें।"
+            },
+            "source": "MPKV-AICRP §8 l",
+            "source_keys": [
+              "MPKV-AICRP"
+            ],
+            "evidence": [
+              "university"
+            ]
+          },
+          {
+            "id": "b8",
+            "kind": "home",
+            "labels": {
+              "en": "Neem oil 1 % (10 ml per litre) at colour break against the fruit-sucking moth on sweet orange; in MPKV trials it cut fruit drop by 10–24 %.",
+              "mr": "मोसंबीवरील फळातील रस शोषणाऱ्या पतंगाविरुद्ध फळे रंग बदलू लागताना १ % निंबोळी तेल (प्रति लिटर १० मि.ली.); MPKV च्या प्रयोगांत फळगळ १०–२४ % कमी झाली.",
+              "hi": "मोसंबी पर फल-चूसक पतंगे के विरुद्ध रंग बदलते समय 1 % नीम तेल (प्रति लीटर 10 मि.ली.); MPKV प्रयोगों में फल गिरना 10–24 % घटा।"
+            },
+            "source": "MPKV-AICRP §8 o",
+            "source_keys": [
+              "MPKV-AICRP"
+            ],
+            "evidence": [
+              "university"
+            ],
+            "preparation": "neem_oil_1"
+          }
+        ]
+      },
+      "items": [
+        {
+          "id": 99,
+          "labels": {
+            "en": "Phule Mosambi is the sweet orange variety MPKV, Rahuri released in 2008.",
+            "mr": "फुले मोसंबी ही MPKV, राहुरीने २००८ मध्ये प्रसारित केलेली मोसंबीची जात आहे.",
+            "hi": "फुले मोसंबी MPKV, राहुरी द्वारा 2008 में जारी मोसंबी की किस्म है।"
+          },
+          "source": "MPKV-AICRP §7",
+          "source_keys": [
+            "MPKV-AICRP"
+          ],
+          "evidence": [
+            "university"
+          ]
+        },
+        {
+          "id": 100,
+          "labels": {
+            "en": "Ambia bahar in western Maharashtra: drip at 80 % of evaporation from January to October, with water stress in November–December (MPKV).",
+            "mr": "पश्चिम महाराष्ट्रात आंबिया बहार: जानेवारी ते ऑक्टोबर बाष्पीभवनाच्या ८० % ठिबक, नोव्हेंबर–डिसेंबरमध्ये पाण्याचा ताण (MPKV).",
+            "hi": "पश्चिमी महाराष्ट्र में अंबिया बहार: जनवरी से अक्टूबर वाष्पीकरण का 80 % ड्रिप, नवंबर–दिसंबर में पानी का तनाव (MPKV)।"
+          },
+          "source": "MPKV-AICRP §8 a",
+          "source_keys": [
+            "MPKV-AICRP"
+          ],
+          "evidence": [
+            "university"
+          ]
+        },
+        {
+          "id": 101,
+          "labels": {
+            "en": "Sweet orange gives a lot of gum with gummosis: check the trunk base of mosambi trees closely, above all in wet spells.",
+            "mr": "डिंक्या रोगात मोसंबीतून भरपूर डिंक येतो: मोसंबीच्या खोडाचा तळ, विशेषतः ओल्या काळात, बारकाईने तपासा.",
+            "hi": "गमोसिस में मोसंबी से बहुत गोंद निकलता है: मोसंबी के तने का आधार, ख़ासकर गीले दौर में, ध्यान से जाँचें।"
+          },
+          "source": "VK-NIPHM-DIS \"Gummosis\"",
+          "source_keys": [
+            "VK-NIPHM-DIS"
+          ],
+          "evidence": [
+            "official",
+            "inferred"
+          ]
+        },
+        {
+          "id": 102,
+          "labels": {
+            "en": "MPKV's organic module for Ambia sweet orange supplies 75 % of the nitrogen of the recommended dose as vermicompost, given in January.",
+            "mr": "आंबिया मोसंबीसाठी MPKV च्या सेंद्रिय पद्धतीत शिफारस केलेल्या मात्रेतील ७५ % नत्र गांडूळखतातून, जानेवारीत दिले जाते.",
+            "hi": "अंबिया मोसंबी के लिए MPKV की जैविक पद्धति में अनुशंसित मात्रा का 75 % नाइट्रोजन वर्मीकम्पोस्ट से, जनवरी में दिया जाता है।"
+          },
+          "source": "MPKV-AICRP §8 d",
+          "source_keys": [
+            "MPKV-AICRP"
+          ],
+          "evidence": [
+            "university"
+          ]
+        }
+      ]
     }
   ],
   "gaps": [
     {
-      "en": "Mites (citrus mite, russeting): practices still to be added; ask your KVK.",
-      "mr": "कोळी (सिट्रस माइट, साल खरबरीत होणे): माहिती पुढे जोडली जाईल; आपल्या KVK ला विचारा.",
-      "hi": "माइट (सिट्रस माइट, छिलका खुरदरा होना): जानकारी आगे जोड़ी जाएगी; अपने KVK से पूछें।"
+      "en": "Action levels for psylla, aphids, thrips, mites and leaf miner on Nagpur mandarin or mosambi: none published in the sources read; ask your KVK.",
+      "mr": "नागपुरी संत्रा किंवा मोसंबीवर सायला, मावा, फुलकिडे, कोळी व पाने पोखरणारी अळी यांची नुकसान पातळी: वाचलेल्या स्रोतांत प्रकाशित नाही; आपल्या KVK ला विचारा.",
+      "hi": "नागपुरी संतरे या मोसंबी पर सिल्ला, माहू, थ्रिप्स, माइट और पत्ती सुरंगक का सीमा-स्तर: पढ़े गए स्रोतों में प्रकाशित नहीं; अपने KVK से पूछें।"
     },
     {
-      "en": "Aphids (tristeza vector), thrips, mealybugs: practices still to be added; ask your KVK.",
-      "mr": "मावा (ट्रिस्टेझाचा वाहक), फुलकिडे, पिठ्या ढेकूण: माहिती पुढे जोडली जाईल; आपल्या KVK ला विचारा.",
-      "hi": "माहू (ट्रिस्टेज़ा वाहक), थ्रिप्स, मिलीबग: जानकारी आगे जोड़ी जाएगी; अपने KVK से पूछें।"
+      "en": "Greasy spot, Alternaria, leaf fall / fruit rot (P. palmivora) and waibar symptoms: no non-chemical practice in the sources read; ask your KVK.",
+      "mr": "ग्रीसी स्पॉट, अल्टरनेरिया, पानगळ / फळकूज (P. palmivora) आणि वायबारची लक्षणे: वाचलेल्या स्रोतांत रसायनविरहित माहिती नाही; आपल्या KVK ला विचारा.",
+      "hi": "ग्रीसी स्पॉट, अल्टरनेरिया, पत्ती गिरना / फल सड़न (P. palmivora) और वायबार के लक्षण: पढ़े गए स्रोतों में बिना रसायन की जानकारी नहीं; अपने KVK से पूछें।"
     },
     {
-      "en": "Psylla: a scouting count and action level are still to be added; until then, use natural-enemy conservation and sticky traps above.",
-      "mr": "सायला: पाहणीची संख्या आणि नुकसान पातळी पुढे जोडली जाईल; तोपर्यंत वरील मित्रकीटकांचे जतन आणि चिकट सापळे वापरा.",
-      "hi": "सिल्ला: निगरानी गिनती और सीमा-स्तर आगे जोड़े जाएँगे; तब तक ऊपर दिए मित्र कीटों का संरक्षण और चिपचिपे ट्रैप अपनाएँ।"
-    },
-    {
-      "en": "Leaf miner, beyond winter pruning: more practices still to be added; ask your KVK.",
-      "mr": "पाने पोखरणारी अळी, हिवाळी छाटणीशिवाय: अधिक माहिती पुढे जोडली जाईल; आपल्या KVK ला विचारा.",
-      "hi": "पत्ती सुरंगक, सर्दियों की छँटाई के अलावा: और जानकारी आगे जोड़ी जाएगी; अपने KVK से पूछें।"
-    },
-    {
-      "en": "Fruit drop from heat (May–June wave): the causes are above; ways to reduce it are still to be added; ask your KVK.",
-      "mr": "उष्णतेमुळे होणारी फळगळ (मे–जून): कारणे वर दिली आहेत; ती कमी करण्याचे उपाय पुढे जोडले जातील; आपल्या KVK ला विचारा.",
-      "hi": "गर्मी से फल गिरना (मई–जून की लहर): कारण ऊपर दिए हैं; इसे घटाने के उपाय आगे जोड़े जाएँगे; अपने KVK से पूछें।"
-    },
-    {
-      "en": "Waibar disorder, greasy spot, powdery mildew, Alternaria, leaf fall / fruit rot (P. palmivora), greening (disease): practices still to be added; ask your KVK.",
-      "mr": "वायबार विकृती, ग्रीसी स्पॉट, भुरी, अल्टरनेरिया, पानगळ / फळकूज (P. palmivora), ग्रीनिंग (रोग): माहिती पुढे जोडली जाईल; आपल्या KVK ला विचारा.",
-      "hi": "वायबार विकार, ग्रीसी स्पॉट, चूर्णिल आसिता, अल्टरनेरिया, पत्ती गिरना / फल सड़न (P. palmivora), ग्रीनिंग (रोग): जानकारी आगे जोड़ी जाएगी; अपने KVK से पूछें।"
-    },
-    {
-      "en": "Canker: more practices still to be added; ask your KVK.",
-      "mr": "कँकर: अधिक माहिती पुढे जोडली जाईल; आपल्या KVK ला विचारा.",
-      "hi": "कैंकर: और जानकारी आगे जोड़ी जाएगी; अपने KVK से पूछें।"
-    },
-    {
-      "en": "Mosambi: the mosambi items here are UV-C after harvest, maturity signs, spacing and the tristeza note; more mosambi practices are still to be added.",
-      "mr": "मोसंबी: येथे तोडणीनंतरचे यूव्ही-सी, पक्वतेची लक्षणे, अंतर आणि ट्रिस्टेझाची नोंद आहे; मोसंबीसाठी अधिक माहिती पुढे जोडली जाईल.",
-      "hi": "मोसंबी: यहाँ तुड़ाई के बाद यूवी-सी, पकने के संकेत, दूरी और ट्रिस्टेज़ा टिप्पणी हैं; मोसंबी के लिए और जानकारी आगे जोड़ी जाएगी।"
-    },
-    {
-      "en": "Action levels and scouting methods for citrus pests: still to be added.",
-      "mr": "लिंबूवर्गीय किडींसाठी नुकसान पातळी व पाहणी पद्धत: पुढे जोडली जाईल.",
-      "hi": "नींबूवर्गीय कीटों के लिए सीमा-स्तर और निगरानी पद्धति: आगे जोड़ी जाएगी।"
-    },
-    {
-      "en": "Nutrition practices: still to be added; ask your KVK or a soil-testing lab.",
-      "mr": "पोषण व्यवस्थापन: माहिती पुढे जोडली जाईल; आपल्या KVK ला किंवा माती परीक्षण प्रयोगशाळेला विचारा.",
-      "hi": "पोषण पद्धति: जानकारी आगे जोड़ी जाएगी; अपने KVK या मिट्टी जाँच प्रयोगशाला से पूछें।"
-    },
-    {
-      "en": "ICAR-CCRI and NIPHM guidance (monthly advisories, citrus IPM package): to be added once read from their sites.",
-      "mr": "ICAR-CCRI व NIPHM ची माहिती (मासिक सल्ला, लिंबूवर्गीय IPM पॅकेज): त्यांच्या संकेतस्थळावरून वाचल्यानंतर जोडली जाईल.",
-      "hi": "ICAR-CCRI और NIPHM की सामग्री (मासिक सलाह, नींबूवर्गीय IPM पैकेज): उनकी साइट से पढ़ने के बाद जोड़ी जाएगी।"
+      "en": "ICAR-CCRI monthly advisories: to be added once read from the CCRI site. The NIPHM citrus IPM package was read through its Vikaspedia copy.",
+      "mr": "ICAR-CCRI चे मासिक सल्ले: CCRI च्या संकेतस्थळावरून वाचल्यानंतर जोडले जातील. NIPHM चे लिंबूवर्गीय IPM पॅकेज त्याच्या विकासपीडिया प्रतीतून वाचले.",
+      "hi": "ICAR-CCRI की मासिक सलाह: CCRI की साइट से पढ़ने के बाद जोड़ी जाएगी। NIPHM का नींबूवर्गीय IPM पैकेज उसकी विकासपीडिया प्रति से पढ़ा गया।"
     }
-  ]
+  ],
+  "preparations": {
+    "nske_5": {
+      "labels": {
+        "en": "NSKE 5 % for 100 litres: 5 kg well-dried neem seed kernels, 100 litres of water, 200 g detergent and a muslin cloth. Grind the kernels gently to powder and soak overnight in 10 litres of water. In the morning stir with a wooden plank till the liquid turns milky white, filter through a double layer of muslin cloth and make it up to 100 litres. Make the detergent into a paste and mix it in (the same page also says \"add 1 % detergent\"). Use kernels not older than eight months, use the extract fresh and spray after 3.30 pm.",
+        "mr": "१०० लिटरसाठी ५ % निंबोळी अर्क (NSKE): चांगल्या वाळलेल्या निंबोळीचे गर ५ किलो, पाणी १०० लिटर, डिटर्जंट २०० ग्रॅम आणि मलमलचे कापड. गर हलके कुटून भुकटी करा आणि १० लिटर पाण्यात रात्रभर भिजवा. सकाळी लाकडी फळीने द्रावण दुधाळ पांढरे होईपर्यंत ढवळा, मलमलच्या दुहेरी कापडातून गाळा आणि १०० लिटर करा. डिटर्जंटची पेस्ट करून मिसळा (त्याच पानावर \"१ % डिटर्जंट घाला\" असेही लिहिले आहे). आठ महिन्यांपेक्षा जुने गर वापरू नका, अर्क ताजा वापरा आणि दुपारी ३.३० नंतर फवारा.",
+        "hi": "100 लीटर के लिए 5 % नीम बीज गिरी अर्क (NSKE): अच्छी सूखी नीम गिरी 5 किलो, पानी 100 लीटर, डिटर्जेंट 200 ग्राम और मलमल का कपड़ा। गिरी को हल्का कूटकर चूर्ण करें और 10 लीटर पानी में रात भर भिगोएँ। सुबह लकड़ी के पटरे से घोल दूधिया सफ़ेद होने तक हिलाएँ, मलमल की दोहरी परत से छानें और 100 लीटर बनाएँ। डिटर्जेंट का पेस्ट बनाकर मिलाएँ (उसी पेज पर \"1 % डिटर्जेंट डालें\" भी लिखा है)। आठ महीने से पुरानी गिरी न लें, अर्क ताज़ा इस्तेमाल करें और दोपहर 3.30 बजे के बाद छिड़कें।"
+      },
+      "source": "Vikaspedia, source TNAU Agritech portal: \"Neem seed kernel extract (NSKE)\"",
+      "source_keys": [
+        "VK-NSKE"
+      ]
+    },
+    "neem_oil_1": {
+      "labels": {
+        "en": "Neem oil 1 %: 10 ml neem oil per litre of water, with detergent powder to mix the oil (PDKV, Nagpur mandarin). The PDKV AICRP citrus page names Teepol or detergent washing powder as the emulsifier \"(1:10)\".",
+        "mr": "१ % निंबोळी तेल: प्रति लिटर पाण्यात १० मि.ली. निंबोळी तेल, तेल मिसळण्यासाठी डिटर्जंट पावडरसह (डॉ. पंदेकृवि, नागपुरी संत्रा). डॉ. पंदेकृविच्या AICRP लिंबूवर्गीय पानावर तेल मिसळण्यासाठी टिपॉल किंवा कपडे धुण्याची पावडर \"(१:१०)\" असे दिले आहे.",
+        "hi": "1 % नीम तेल: प्रति लीटर पानी में 10 मि.ली. नीम तेल, तेल घोलने के लिए डिटर्जेंट पाउडर के साथ (पीडीकेवी, नागपुरी संतरा)। पीडीकेवी के AICRP नींबूवर्गीय पेज पर तेल घोलने के लिए टीपॉल या कपड़े धोने का पाउडर \"(1:10)\" लिखा है।"
+      },
+      "source": "R25 p.10 #32 (neem oil 10 ml / L (1 %) with detergent powder); P1 Entomology recs (emulsifier)",
+      "source_keys": [
+        "R25",
+        "P1"
+      ]
+    }
+  }
 }

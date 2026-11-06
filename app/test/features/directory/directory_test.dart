@@ -83,6 +83,7 @@ void main() {
         'kvk_ghatkhed',
         'kvk_selsura',
         'kvk_kharpudi',
+        'kvk_dudhbardi',
       ]) {
         expect(ids, contains(id));
       }
@@ -104,6 +105,15 @@ void main() {
         bundle: FileAssetBundle(),
       ).load();
       _expectSound(data, 'markets');
+      final ids = data.entries.map((e) => e.id);
+      for (final id in [
+        'apmc_nagpur_kalamna',
+        'apmc_katol',
+        'apmc_warud',
+        'apmc_morshi',
+      ]) {
+        expect(ids, contains(id));
+      }
       for (final e in data.entries.where((e) => e.verified)) {
         final host = Uri.parse(e.source).host;
         expect(
@@ -209,7 +219,7 @@ void main() {
   );
 
   testWidgets(
-    'market directory marks entries not checked on an official page',
+    'market directory: an APMC read on MSAMB shows its phone; unread entries are marked',
     (tester) async {
       await pumpApp(
         tester,
@@ -221,13 +231,35 @@ void main() {
       await settle(tester);
       expect(find.text('Markets and buyers'), findsOneWidget);
       expect(find.text('MSAMB: APMC arrivals and prices'), findsOneWidget);
-      final kalamna = find.byKey(
-        const Key('markets-entry-apmc_nagpur_kalamna'),
-      );
-      await tester.scrollUntilVisible(kalamna, 300);
+      final warud = find.byKey(const Key('markets-entry-apmc_warud'));
+      await tester.scrollUntilVisible(warud, 300);
       expect(
         find.descendant(
-          of: kalamna,
+          of: warud,
+          matching: find.textContaining('07229-232024'),
+        ),
+        findsOneWidget,
+      );
+      expect(
+        find.descendant(
+          of: warud,
+          matching: find.text('Please confirm on the official page'),
+        ),
+        findsNothing,
+      );
+      await unmountApp(tester);
+
+      await pumpApp(
+        tester,
+        locale: const Locale('en'),
+        initialLocation: '/labs',
+      );
+      await settle(tester);
+      final portal = find.byKey(const Key('labs-entry-soil_health_portal'));
+      await tester.scrollUntilVisible(portal, 300);
+      expect(
+        find.descendant(
+          of: portal,
           matching: find.text('Please confirm on the official page'),
         ),
         findsOneWidget,

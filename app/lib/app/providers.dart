@@ -48,6 +48,7 @@ import '../features/insurance/data/insurance_deadlines_cache.dart';
 import '../features/insurance/data/insurance_repository.dart';
 import '../features/insurance/domain/claim_kit.dart';
 import '../features/insurance/domain/insurance_policy.dart';
+import '../features/knowledge/data/knowledge_cards_cache.dart';
 import '../features/lab_tests/data/lab_parameters.dart';
 import '../features/lab_tests/data/lab_report_files.dart';
 import '../features/lab_tests/data/lab_test_repository.dart';
@@ -414,6 +415,31 @@ final labelTargetsConfigProvider = Provider<LabelTargetsConfig>(
 final labelTargetsProvider = FutureProvider<LabelTargetsData>(
   (ref) => ref.watch(labelTargetsConfigProvider).load(),
 );
+
+final knowledgeCardsCacheProvider = Provider<KnowledgeCardsCache>(
+  (ref) => KnowledgeCardsCache(
+    ref.watch(databaseProvider),
+    api: ref.watch(apiProvider),
+    clock: ref.watch(clockProvider),
+  ),
+);
+
+/// Knowledge cards as general information (owner decision Q57). The cached copy is returned
+/// when there is one and refreshed in the background online (not demo); with no cached copy
+/// the first refresh is awaited.
+final knowledgeCardsProvider = FutureProvider<CachedKnowledgeCards?>((
+  ref,
+) async {
+  final cache = ref.watch(knowledgeCardsCacheProvider);
+  final cached = await cache.load();
+  if (ref.watch(appConfigProvider).demoMode) return cached;
+  if (cached != null) {
+    unawaited(cache.refresh());
+    return cached;
+  }
+  await cache.refresh();
+  return cache.load();
+});
 
 final labelClaimsCacheProvider = Provider<LabelClaimsCache>(
   (ref) => LabelClaimsCache(

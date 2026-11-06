@@ -97,7 +97,18 @@ void main() {
       'fruit_drop_types',
       'psylla_vs_leaf_miner',
       'mites_thrips_scarring',
+      'canker_vs_scab',
+      'mealybug_vs_cottony_scale',
+      'powdery_mildew_vs_sooty_mould',
+      'fruit_moth_vs_fruit_fly',
     ]);
+    // Owner decision Q57: every card is general information with a dated source.
+    for (final c in data.cards) {
+      for (final k in c.sourceKeys) {
+        expect(data.sources[k]!.publisher, isNotEmpty, reason: k);
+        expect(data.sources[k]!.checked, isNotNull, reason: k);
+      }
+    }
     // Every card ends in "only a lab or an expert can confirm".
     for (final c in data.cards) {
       final en = c.confirm['en']!.toLowerCase();

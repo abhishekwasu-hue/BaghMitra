@@ -2734,6 +2734,86 @@ class AppLocalizationsEn extends AppLocalizations {
       'How long the stress lasts depends on the soil: fewer days in light soil, more in heavy soil.';
 
   @override
+  String get practicesSee => 'What you see';
+
+  @override
+  String get practicesWhen => 'When it comes';
+
+  @override
+  String get practicesScout => 'How to scout';
+
+  @override
+  String get practicesActionLevel => 'Action level';
+
+  @override
+  String get practicesNoActionLevel =>
+      'Ask your KVK for the action level: the sources read so far are silent on it.';
+
+  @override
+  String get practicesWhatToDo => 'What to do';
+
+  @override
+  String get practicesBioTitle => 'Organic / bio';
+
+  @override
+  String get practicesBioRegistered =>
+      'Registered product: the dose comes only from its label.';
+
+  @override
+  String get practicesBioHome => 'Home-made, as published';
+
+  @override
+  String get practicesHowToPrepare => 'How to prepare';
+
+  @override
+  String get practicesLabelLink => 'Label-approved products';
+
+  @override
+  String get practicesKnowledgeCard => 'Knowledge card';
+
+  @override
+  String get knowledgeTitle => 'Knowledge cards';
+
+  @override
+  String get knowledgeIntro =>
+      'Short notes on bahar, pests, diseases, feeding, water and harvest. Products and doses are on the label screen.';
+
+  @override
+  String get knowledgeEmpty =>
+      'Knowledge cards appear here once the phone has been online.';
+
+  @override
+  String get knowledgeWarnings => 'Take care';
+
+  @override
+  String get knowledgeCallExpert => 'When to ask an expert';
+
+  @override
+  String get knowledgeSources => 'Sources';
+
+  @override
+  String get practicesSourcesLineAll =>
+      'Sources: NHB, NIPHM, ICAR, Dr. PDKV, MPKV, TNAU and others. Details under each practice.';
+
+  @override
+  String get schemeGeneralSource => 'the official pages listed at the end';
+
+  @override
+  String get schemeFacts => 'Key facts from the official page';
+
+  @override
+  String schemeFactSource(String source) {
+    return 'From: $source';
+  }
+
+  @override
+  String get labNormsTitle => 'Soil Health Card rating ranges';
+
+  @override
+  String get labNormsHint =>
+      'Compare the value on your report with these ranges. For what to do next, ask your KVK or the lab.';
+
+  @override
   String get labelInfoChemical => 'Chemical';
 
   @override

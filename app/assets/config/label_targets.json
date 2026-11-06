@@ -212,6 +212,18 @@
       ]
     },
     {
+      "key": "greening",
+      "labels": {
+        "en": "Greening (HLB)",
+        "mr": "ग्रीनिंग (HLB)",
+        "hi": "ग्रीनिंग (HLB)"
+      },
+      "match": [
+        "greening",
+        "huanglongbing"
+      ]
+    },
+    {
       "key": "sooty_mould",
       "labels": {
         "en": "Sooty mould",
