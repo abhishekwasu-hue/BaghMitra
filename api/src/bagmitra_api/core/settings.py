@@ -114,6 +114,11 @@ class Settings(BaseSettings):
     market_max_age_hours: int = 12
     # Per request to data.gov.in; one pull makes at most market_max_pages requests per commodity.
     market_timeout_seconds: float = Field(default=15.0, gt=0)
+    # data.gov.in answers 502 to the default "python-httpx" User-Agent (seen from the VPS on
+    # 2026-11-06; curl and other agents get 200 in under a second), so the pull names itself.
+    market_user_agent: str = Field(
+        default="BagMitra/1.0 (+https://bagmitra.aialgodesk.org)", min_length=1
+    )
     market_window_days: int = 14
     # Our crop key -> Agmarknet commodity names.
     market_commodities: dict[str, list[str]] = Field(

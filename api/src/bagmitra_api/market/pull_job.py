@@ -142,9 +142,12 @@ async def run_locked(
 def market_http(
     settings: Settings, transport: httpx.AsyncBaseTransport | None = None
 ) -> httpx.AsyncClient:
-    """The HTTP client of a run: every request bounded by MARKET_TIMEOUT_SECONDS."""
+    """The HTTP client of a run: every request bounded by MARKET_TIMEOUT_SECONDS and sent with
+    MARKET_USER_AGENT (data.gov.in refuses the default python-httpx agent with 502)."""
     return httpx.AsyncClient(
-        timeout=httpx.Timeout(settings.market_timeout_seconds), transport=transport
+        timeout=httpx.Timeout(settings.market_timeout_seconds),
+        headers={"User-Agent": settings.market_user_agent},
+        transport=transport,
     )
 
 

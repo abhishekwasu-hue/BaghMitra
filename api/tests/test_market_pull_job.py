@@ -153,6 +153,9 @@ async def test_one_run_respects_max_pages_and_the_timeout(engine: AsyncEngine) -
             summary = await run_market_pull(session, market_client(http, settings), settings, NOW)
     assert len(requests) == 3
     assert [r.url.params["offset"] for r in requests] == ["0", "500", "1000"]
+    # data.gov.in answers 502 to "python-httpx"; every request names BagMitra instead.
+    assert {r.headers["user-agent"] for r in requests} == {settings.market_user_agent}
+    assert "python-httpx" not in settings.market_user_agent
     assert summary.commodities[0].rows == 3 * PAGE_LIMIT
     assert summary.failed == 0
 
