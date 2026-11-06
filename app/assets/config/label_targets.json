@@ -9,7 +9,8 @@
         "hi": "सिट्रस सिल्ला"
       },
       "match": [
-        "psylla"
+        "psylla",
+        "psyllid"
       ]
     },
     {
@@ -220,6 +221,18 @@
       "match": [
         "sooty mould",
         "sooty mold"
+      ]
+    },
+    {
+      "key": "snails",
+      "labels": {
+        "en": "Snails and slugs",
+        "mr": "गोगलगाय",
+        "hi": "घोंघा"
+      },
+      "match": [
+        "snail",
+        "slug"
       ]
     },
     {

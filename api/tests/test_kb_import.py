@@ -209,6 +209,7 @@ EXPECTED_ROWS = {
     "cibrc_bio_insecticides_2026_09": 1,
     "cibrc_herbicides_2026_09": 2,
     "cibrc_pgr_2026_09": 0,
+    "cibrc_insecticides_2026_09": 12,
 }
 
 
@@ -219,8 +220,6 @@ def test_shipped_extract_row_counts_match_each_read_document() -> None:
         assert docs[key]["status"] == "read", key
         assert docs[key]["edition"] == "as on 30.09.2026", key
         assert docs[key]["rows"] == expected == counts[key], key
-    assert docs["cibrc_insecticides_2026_09"]["status"] == "pending_owner_upload"
-    assert counts["cibrc_insecticides_2026_09"] == 0
     assert sum(EXPECTED_ROWS.values()) == len(rows)
 
 
@@ -235,12 +234,25 @@ def test_shipped_extract_has_no_acid_lime_or_lemon_row_and_keeps_doses_as_printe
         assert not any(w in printed for w in ("acid lime", "lemon", "kagzi")), r
         assert r["crop"] in {"citrus", "mandarin", "orange", "sweet orange", "sweet lime"}, r
         assert claim.dose == r["dose"]  # never rebuilt or rounded
+        assert len(r["page_ref"]) <= 60, r
         assert r["formulation_qty"] in r["dose"], r  # the printed cell is inside the dose
         if r["dose_ai"]:
             assert f"(a.i. {r['dose_ai']})" in r["dose"], r
         # No official registrant list was reachable: no brand names, no maker links.
         assert not r["brand_names"], r
         assert not r["maker_url"], r
+    # No row names an active ingredient the PPQS list bans, withdraws or refuses, or restricts on
+    # citrus (e.g. chlorpyriphos, III.4: its printed citrus row is left out).
+    from bagmitra_api.kb.seed import restriction_seeds  # noqa: PLC0415
+
+    blocked = {
+        r.active_ingredient
+        for r in restriction_seeds()[1]
+        if r.kind != "restricted" or {"citrus", "mandarin", "sweet orange"} & set(r.crops)
+    }
+    for r in rows:
+        parts = {p.strip().lower() for p in r["active_ingredient"].split("+")}
+        assert not parts & blocked, r
 
 
 async def test_seed_imports_only_sources_with_rows(engine: AsyncEngine) -> None:

@@ -83,12 +83,22 @@
     },
     {
       "source_key": "cibrc_insecticides_2026_09",
-      "what": "Major Uses of Pesticides: insecticides (chemical)",
+      "what": "CIB&RC Major Uses of Pesticides – Insecticides, upto 30.09.2026 (agriculture single products, combinations, public health, household, FAO locust list)",
       "edition": "as on 30.09.2026",
+      "printed_date": "(UPTO – 30.09.2026)",
       "url": "https://ppqs.gov.in/",
-      "status": "pending_owner_upload",
-      "rows": 0,
-      "reason": "Not among the documents the owner sent on 2026-11-06; the owner will send it. No row is written until it is read."
+      "file": "docs/research/sources/cibrc/MUP_insecticides_upto_2026-09-30.txt (text extracted from the PDF; on main)",
+      "sha256": "30f845a53e5966c9da050acd4627b9ee84615fe670ce9835bd786255fe8a542b",
+      "status": "read",
+      "source": "owner upload, 2026-11-06 (text extracted from the official PDF)",
+      "page_ref_unit": "line number in the text file",
+      "rows": 12,
+      "rows_by_crop": {
+        "citrus": 11,
+        "mandarin": 1
+      },
+      "excluded": "line 878: Chlorpyrifos 20 % EC on Citrus (Black citrus, Aphid) - chlorpyriphos is banned for use in citrus (PPQS list III.4). No acid lime / lemon row in this file.",
+      "flagged": "line 2353 'Citrus butterfly 0.025% ...' follows the 'Citrus Scale' row; the flattened text cannot show whether 'Citrus' is the crop cell repeated or part of the pest name; read as crop Citrus, pest 'Citrus butterfly'. Check against the PDF page."
     },
     {
       "source_key": "cibrc_fungicides_2024",

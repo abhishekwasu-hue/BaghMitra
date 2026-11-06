@@ -366,14 +366,14 @@
     },
     {
       "key": "cibrc_insecticides_2026_09",
-      "title": "CIB&RC Major Uses of Pesticides: insecticides (as on 30.09.2026)",
+      "title": "CIB&RC Major Uses of Pesticides – Insecticides, upto 30.09.2026",
       "publisher": "PPQS / CIB&RC",
       "url": "https://ppqs.gov.in/",
       "tier": "tier2",
       "licence": "government publication",
       "allowed_use": "cite_only",
-      "verification": "S",
-      "notes": "Pending: the owner will upload the chemical insecticides document; no row is read from it yet."
+      "verification": "V",
+      "notes": "Owner upload; text extracted from the PDF is kept at docs/research/sources/cibrc/MUP_insecticides_upto_2026-09-30.txt (sha256 30f845a5…). Row refs are line numbers in that file."
     },
     {
       "key": "fssai_mrl_2020",

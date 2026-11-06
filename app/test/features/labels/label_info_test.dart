@@ -396,6 +396,24 @@ void main() {
               'nudiflora, Cocumis trigonus':
           'weeds',
     };
+    const insecticides = {
+      'Nematode': 'nematode',
+      'Leaf miner': 'leaf_miner',
+      'Soft greens scale': 'scales',
+      'Citrus Psylla (Diaphorina citri) & Thrips (Scirtothrips dorsalis)':
+          'psylla',
+      'Mites': 'mites',
+      'Leaf miner, Psylla': 'psylla',
+      'Snails, Slugs, Giant, African snails': 'snails',
+      'Scale': 'scales',
+      'Citrus butterfly': 'lemon_butterfly',
+      'Psylla and Mites': 'psylla',
+      'Psylla': 'psylla',
+      'Psyllids, Thrips and Leaf miner)': 'psylla',
+    };
+    for (final e in insecticides.entries) {
+      expect(data.keyFor(e.key), e.value, reason: e.key);
+    }
     for (final e in printed.entries) {
       expect(data.keyFor(e.key), e.value, reason: e.key);
     }

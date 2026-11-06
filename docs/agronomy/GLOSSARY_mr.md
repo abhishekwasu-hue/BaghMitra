@@ -31,6 +31,7 @@
 | Greasy spot | ग्रीसी स्पॉट (पानांवरील तेलकट ठिपके) | — | Label target; the English name is kept because growers see it on the label, with a plain description. |
 | Post-harvest fruit rot | तोडणीनंतरची फळकूज | काढणीनंतर … | Follows the harvest term तोडणी. |
 | Weeds | तण | — | The everyday word. |
+| Snails and slugs | गोगलगाय | — | Label target (metaldehyde); the everyday word. |
 | Free lime / CaCO3 in soil | मुक्त चुना (CaCO3) | चुनखडी (for CaCO3 %) | The soil report shortcut in `lab_parameters.json` is मुक्त चुना, so the grower can match the number on the report. चुनखडीचे खडे stays for lime nodules (item 1). |
 | Bloom vs bahar | बहर = flowering; बहार = the crop season (आंबिया / मृग / हस्त बहार) | — | Two different words; both are correct where used. |
 | KVK | कृषी विज्ञान केंद्र (KVK); short: KVK | केव्हीके | Full name once, then the abbreviation the grower sees on boards. "Ask your KVK" = "आपल्या KVK ला विचारा". |
