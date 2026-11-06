@@ -1,5 +1,5 @@
 {
-  "_note": "Bahar comparison points (decision support, never a recommendation). Every point names its source; sources disagree on Ambia vs Mrig for Vidarbha, so both sides are kept (docs/agronomy/DRAFT_santra_mosambi_bahar_stages.md §8). Draft until the expert reviewer checks them (OPEN_QUESTIONS Q10, Q12). No chemical or timing advice here.",
+  "_note": "Bahar comparison points (decision support, never a recommendation). Every point names its source; sources disagree on Ambia vs Mrig for Vidarbha, so both sides are kept (docs/agronomy/DRAFT_santra_mosambi_bahar_stages.md §8). Shown as general information from public sources with the date read (Q57) until the expert reviewer checks them (Q10, Q12). No chemical or timing advice here.",
   "status": "draft",
   "questions": [
     {
@@ -49,6 +49,41 @@
       "when": {"water_apr_may": "short"},
       "labels": {"en": "NHB says that where water is short in April–May, growers in central India prefer Mrig bahar.", "mr": "NHB नुसार मध्य भारतात एप्रिल–मे मध्ये पाणी कमी असेल तर शेतकरी मृग बहार पसंत करतात.", "hi": "NHB के अनुसार मध्य भारत में अप्रैल–मई में पानी कम हो तो किसान मृग बहार पसंद करते हैं।"},
       "source": "NHB, Orange model project report"
+    },
+    {
+      "bahar": "hasta",
+      "when": {},
+      "labels": {"en": "Hasta flowering comes in October, after the rains end (santra and mosambi).", "mr": "हस्त बहराची फुले पावसाळा संपल्यानंतर ऑक्टोबरमध्ये येतात (संत्रा व मोसंबी).", "hi": "हस्त बहार के फूल बारिश खत्म होने के बाद अक्टूबर में आते हैं (संतरा और मौसंबी)।"},
+      "source": "Dr. PDKV Akola, Agrowon (6 Jan 2023; 26 Dec 2024); NHB, Orange model project report (read 2026-11-06)",
+      "source_urls": ["https://agrowon.esakal.com/agroguide/keep-these-things-in-mind-while-managemet-of-orange-mosambi-orchard", "https://agrowon.esakal.com/agro-special/effective-management-of-ambia-bahar-in-citrus-fruit-cultivation-article-on-agrowon", "https://nhb.gov.in/model-project-reports/Horticulture%20Crops/orange/orange1.htm"]
+    },
+    {
+      "bahar": "hasta",
+      "when": {},
+      "labels": {"en": "For Nagpur mandarin, ICAR-CCRI names two main flowering seasons: Mrig (June–July) and Ambia (January–February).", "mr": "नागपुरी संत्र्यासाठी ICAR-CCRI दोन मुख्य फुलोऱ्याचे हंगाम सांगते: मृग (जून–जुलै) आणि आंबिया (जानेवारी–फेब्रुवारी).", "hi": "नागपुरी संतरे के लिए ICAR-CCRI फूल आने के दो मुख्य मौसम बताता है: मृग (जून–जुलाई) और अंबिया (जनवरी–फ़रवरी)।"},
+      "source": "ICAR-CCRI Nagpur, Quinquennial Review Team report 2013–18 (read 2026-11-06)",
+      "source_urls": ["https://icar.org.in/sites/default/files/2022-07/QRT-NAGPUR-01.pdf"]
+    },
+    {
+      "bahar": "hasta",
+      "when": {"water_apr_may": "short"},
+      "labels": {"en": "Mosambi: Hasta-bahar fruit is still on the tree in May; an ICAR-NIASM advisory gives such trees 100–120 litres of water per tree per day then.", "mr": "मोसंबी: हस्त बहराची फळे मे महिन्यात झाडावर असतात; ICAR-NIASM च्या सल्ल्यानुसार तेव्हा अशा झाडांना दर झाडाला दररोज १००–१२० लिटर पाणी लागते.", "hi": "मौसंबी: हस्त बहार के फल मई में पेड़ पर होते हैं; ICAR-NIASM की सलाह के अनुसार तब ऐसे पेड़ों को हर पेड़ को रोज़ 100–120 लीटर पानी चाहिए।"},
+      "source": "ICAR-NIASM Baramati, Agro-Advisory 140 (May 2026) (read 2026-11-06)",
+      "source_urls": ["https://niam.res.in/sites/default/files/pdfs/Agro-Advisory-140.pdf"]
+    },
+    {
+      "bahar": "ambia",
+      "when": {},
+      "labels": {"en": "Mosambi: the Badnapur research station calls Ambia the assured bahar, because its watering does not depend on the rains.", "mr": "मोसंबी: बदनापूर संशोधन केंद्रानुसार आंबिया हा खात्रीचा बहार आहे, कारण त्याचे पाणी पावसावर अवलंबून नसते.", "hi": "मौसंबी: बदनापुर अनुसंधान केंद्र के अनुसार अंबिया भरोसेमंद बहार है, क्योंकि इसकी सिंचाई बारिश पर निर्भर नहीं होती।"},
+      "source": "Mosambi Research Station, Badnapur: Agrowon (30 Nov 2024); Vikaspedia (read 2026-11-06)",
+      "source_urls": ["https://agrowon.esakal.com/agro-special/management-of-ambia-blossom-in-mosambi-article-on-agrowon", "https://mr.vikaspedia.in/viewcontent/agriculture/crop-production/92b933947/92e94b93890292c940-93893294d93293e-92e94b93890292c94091a94d92f93e-91d93e92193e93293e-92694d92f93e-92f94b91794d92f-92a94d93091593e930947-92493e923"]
+    },
+    {
+      "bahar": "mrig",
+      "when": {},
+      "labels": {"en": "Mosambi: ending the Mrig stress depends on the rains, so the Badnapur research station says this bahar is often not assured.", "mr": "मोसंबी: मृग बहराचा ताण सुटणे पावसावर अवलंबून असते, म्हणून बदनापूर संशोधन केंद्रानुसार हा बहार बऱ्याच वेळा खात्रीचा ठरत नाही.", "hi": "मौसंबी: मृग बहार का तनाव टूटना बारिश पर निर्भर है, इसलिए बदनापुर अनुसंधान केंद्र के अनुसार यह बहार अक्सर भरोसेमंद नहीं होता।"},
+      "source": "Mosambi Research Station, Badnapur (Vikaspedia) (read 2026-11-06)",
+      "source_urls": ["https://mr.vikaspedia.in/viewcontent/agriculture/crop-production/92b933947/92e94b93890292c940-93893294d93293e-92e94b93890292c94091a94d92f93e-91d93e92193e93293e-92694d92f93e-92f94b91794d92f-92a94d93091593e930947-92493e923"]
     }
   ]
 }

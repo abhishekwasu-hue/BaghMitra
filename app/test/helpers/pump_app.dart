@@ -10,6 +10,7 @@ import 'package:bagmitra/features/accounts/data/expense_categories.dart';
 import 'package:bagmitra/features/auth/data/demo_auth_repository.dart';
 import 'package:bagmitra/features/auth/domain/auth.dart';
 import 'package:bagmitra/features/bahar/data/bahar_catalog.dart';
+import 'package:bagmitra/features/bahar/data/stage_templates.dart';
 import 'package:bagmitra/features/directory/data/directory_config.dart';
 import 'package:bagmitra/features/export/data/file_sharer.dart';
 import 'package:bagmitra/features/field_work/data/field_work_options.dart';
@@ -205,6 +206,13 @@ Future<AppDatabase> pumpApp(
         ),
         irrigationGuideConfigProvider.overrideWithValue(
           IrrigationGuideConfig(bundle: FileAssetBundle()),
+        ),
+        stageTemplatesStoreProvider.overrideWith(
+          (ref) => StageTemplatesStore(
+            ref.watch(databaseProvider),
+            api: ref.watch(apiProvider),
+            bundle: FileAssetBundle(),
+          ),
         ),
         labParametersCatalogProvider.overrideWithValue(
           LabParameters(bundle: FileAssetBundle()),

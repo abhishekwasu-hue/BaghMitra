@@ -30,6 +30,11 @@ class CycleTasksService {
             stage: t['stage'] as String,
             kind: t['kind'] as String,
             titles: (t['titles'] as Map).cast<String, String>(),
+            id: t['id'] as String?,
+            crops: ((t['crops'] as List?) ?? const []).cast<String>(),
+            bahars: ((t['bahars'] as List?) ?? const []).cast<String>(),
+            offsetDays: (t['offset_days'] as int?) ?? 0,
+            source: t['source'] as String?,
           ),
       ],
     );
@@ -40,6 +45,7 @@ class CycleTasksService {
     required String lang,
     required String baharLabel,
     required Map<String, String> stageLabels,
+    String? crop,
   }) async {
     final cfg = await _load();
     final existing = {for (final t in await _tasks.watchAll().first) t.id: t};
@@ -50,6 +56,7 @@ class CycleTasksService {
       lang: lang,
       baharLabel: baharLabel,
       stageLabels: stageLabels,
+      crop: crop,
     )) {
       if (existing[task.id]?.isDone ?? false) continue;
       await _tasks.save(task);

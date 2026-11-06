@@ -20,6 +20,7 @@ from pydantic import BaseModel, HttpUrl
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from bagmitra_api.bahar.seed import seed_stage_templates
 from bagmitra_api.db.session import get_sessionmaker
 from bagmitra_api.kb.importers import ImportDiff, import_label_claims
 from bagmitra_api.kb.models import (
@@ -229,6 +230,7 @@ async def main() -> None:  # pragma: no cover - thin CLI wrapper
         await seed_restrictions(session)
         await seed_knowledge(session)
         await seed_label_claims(session, datetime.now(UTC))
+        await seed_stage_templates(session)
         await session.commit()
 
 

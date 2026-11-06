@@ -20,6 +20,7 @@ import '../features/auth/domain/auth.dart';
 import '../features/bahar/data/bahar_catalog.dart';
 import '../features/bahar/data/bahar_compare.dart';
 import '../features/bahar/data/bahar_repository.dart';
+import '../features/bahar/data/stage_templates.dart';
 import '../features/bahar/domain/bahar_cycle.dart';
 import '../features/billing/data/entitlements_cache.dart';
 import '../features/billing/data/snapshot_signature.dart';
@@ -285,6 +286,24 @@ final allBaharCyclesProvider = StreamProvider<List<BaharCycle>>(
 );
 
 final baharCatalogProvider = Provider<BaharCatalog>((ref) => BaharCatalog());
+
+final stageTemplatesStoreProvider = Provider<StageTemplatesStore>(
+  (ref) => StageTemplatesStore(
+    ref.watch(databaseProvider),
+    api: ref.watch(apiProvider),
+  ),
+);
+
+/// Bahar stage windows from public sources (Q57): the bundled set, overlaid by the published
+/// copy cached from the API. Online (not demo) the cache is refreshed in the background.
+final stageTemplatesProvider = FutureProvider<StageTemplateSet>((ref) async {
+  final store = ref.watch(stageTemplatesStoreProvider);
+  final templates = await store.load();
+  if (!ref.watch(appConfigProvider).demoMode) {
+    unawaited(store.refresh());
+  }
+  return templates;
+});
 
 final baharOptionsProvider = FutureProvider<BaharCatalogData>(
   (ref) => ref.watch(baharCatalogProvider).load(),

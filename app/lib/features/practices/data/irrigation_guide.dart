@@ -83,6 +83,8 @@ class IrrigationGuideData {
     required this.methods,
     required this.crops,
     this.isDraft = true,
+    this.generalSource,
+    this.checked,
   });
 
   final Map<String, PracticeSource> sources;
@@ -95,6 +97,10 @@ class IrrigationGuideData {
 
   /// Kept for the reviewer; the screen does not show it (Q30 / Q35).
   final bool isDraft;
+
+  /// The publishers named in the general-information mark (Q57), and when they were read.
+  final String? generalSource;
+  final DateTime? checked;
 
   /// The band for trees planted in [plantingYear], or null when unknown or in the future.
   IrrigationAgeBand? bandFor(int? plantingYear, int thisYear) {
@@ -187,6 +193,10 @@ class IrrigationGuideConfig {
         );
       }),
       isDraft: json['status'] != 'reviewed',
+      generalSource: (json['general_info'] as Map?)?['source'] as String?,
+      checked: DateTime.tryParse(
+        ((json['general_info'] as Map?)?['checked'] as String?) ?? '',
+      ),
     );
   }
 }

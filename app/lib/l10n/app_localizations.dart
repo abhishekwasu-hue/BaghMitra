@@ -565,7 +565,7 @@ abstract class AppLocalizations {
   /// No description provided for @baharEmptyBody.
   ///
   /// In en, this message translates to:
-  /// **'Choose a bahar and write down your own dates. Suggested dates will come once an expert-checked calendar is ready.'**
+  /// **'Choose a bahar. Each stage shows a suggested window from public sources; every date stays yours to change.'**
   String get baharEmptyBody;
 
   /// No description provided for @baharWhich.
@@ -4719,6 +4719,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Read the label on the packet before spraying.'**
   String get labelReadNote;
+
+  /// No description provided for @baharSuggestedWindow.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggested: {from} – {to}'**
+  String baharSuggestedWindow(String from, String to);
+
+  /// No description provided for @baharNoWindow.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your own date: the sources give windows for the other stages only'**
+  String get baharNoWindow;
+
+  /// No description provided for @baharFillSuggested.
+  ///
+  /// In en, this message translates to:
+  /// **'Fill in the suggested dates'**
+  String get baharFillSuggested;
+
+  /// No description provided for @baharSuggestedHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggested windows are from public sources. Change any date to suit your orchard.'**
+  String get baharSuggestedHelp;
+
+  /// No description provided for @baharStressBySoil.
+  ///
+  /// In en, this message translates to:
+  /// **'How long the stress lasts depends on the soil: fewer days in light soil, more in heavy soil.'**
+  String get baharStressBySoil;
 
   /// No description provided for @labelInfoChemical.
   ///

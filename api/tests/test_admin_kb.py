@@ -10,7 +10,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncEngine, async_sessionmaker
 
 from bagmitra_api.kb.models import KbCard, KbSource, KbTopic
-from bagmitra_api.kb.seed import seed_sources
+from bagmitra_api.kb.seed import seed_sources, source_seeds
 from tests.conftest import make_token
 from tests.test_kb_import import CLAIMS_V1
 
@@ -168,7 +168,7 @@ async def test_sources_are_listed_with_licence(
         await seed_sources(session)
         await session.commit()
     sources = (await client.get(f"{BASE}/sources", headers=ADMIN)).json()["sources"]
-    assert len(sources) == 57
+    assert len(sources) == len(source_seeds())  # every registry entry, WP1 stage sources included
     assert {"key", "tier", "allowed_use", "verification"} <= set(sources[0])
 
 
