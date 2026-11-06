@@ -161,6 +161,18 @@ void main() {
     await chip('all');
     expect(find.text('Title news1'), findsOneWidget);
     expect(find.byKey(const Key('feed-footer')), findsOneWidget);
+    // One muted line at the head of the list, not a strip pinned over the screen (L6).
+    expect(
+      find.descendant(
+        of: find.byType(ListView),
+        matching: find.byKey(const Key('feed-footer')),
+      ),
+      findsOneWidget,
+    );
+    expect(
+      tester.widget<Scaffold>(find.byType(Scaffold).last).bottomNavigationBar,
+      isNull,
+    );
     await unmountApp(tester);
   });
 

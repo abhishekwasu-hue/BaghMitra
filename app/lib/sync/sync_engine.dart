@@ -66,7 +66,10 @@ class SyncEngine {
     this._backoff = const Backoff(),
     Random? random,
     this.batchSize = 50,
+    this.writeDebounce = const Duration(seconds: 3),
+    void Function(String)? log,
   }) : _db = db,
+       _log = log ?? _noLog,
        _outbox = outbox ?? Outbox(db, clock: clock),
        _clock = clock,
        _random = random ?? Random();
@@ -82,12 +85,21 @@ class SyncEngine {
   final Random _random;
   final int batchSize;
 
+  /// How long after a local write the engine waits before syncing, so a burst of writes
+  /// (a form saving several rows) goes up in one run.
+  final Duration writeDebounce;
+  final void Function(String) _log;
+
+  static void _noLog(String _) {}
+
   final _status = StreamController<SyncStatus>.broadcast();
   SyncStatus _current = const SyncStatus();
   Future<SyncRunResult>? _running;
   StreamSubscription<int>? _pendingSub;
   StreamSubscription<int>? _rejectedSub;
   Timer? _timer;
+  Timer? _writeTimer;
+  StreamSubscription<Set<TableUpdate>>? _writesSub;
 
   SyncStatus get status => _current;
   Stream<SyncStatus> get statusStream => _status.stream;
@@ -106,11 +118,38 @@ class SyncEngine {
         .watchCount(OutboxState.rejected)
         .listen((n) => _emit(_current.copyWith(rejected: n)));
     _timer ??= Timer.periodic(interval, (_) => unawaited(sync()));
+    // Every local write queues an outbox row (an insert): sync soon after it instead of
+    // waiting for the next periodic run. Sync's own outbox changes are updates and deletes.
+    _writesSub ??= _db
+        .tableUpdates(
+          TableUpdateQuery.onTable(
+            _db.outboxEntries,
+            limitUpdateKind: UpdateKind.insert,
+          ),
+        )
+        .listen((_) => _scheduleSoon());
     unawaited(sync());
+  }
+
+  void _scheduleSoon() {
+    _writeTimer?.cancel();
+    _writeTimer = Timer(writeDebounce, () {
+      // A run already under way may have read the outbox before this write: go again after.
+      final running = _running;
+      unawaited(
+        running == null
+            ? sync()
+            : running
+                  .catchError((Object _) => const SyncRunResult())
+                  .then((_) => sync()),
+      );
+    });
   }
 
   Future<void> dispose() async {
     _timer?.cancel();
+    _writeTimer?.cancel();
+    await _writesSub?.cancel();
     await _pendingSub?.cancel();
     await _rejectedSub?.cancel();
     await _status.close();
@@ -130,21 +169,29 @@ class SyncEngine {
           lastSuccessAt: _clock(),
         ),
       );
+      _logRun('ok pushed=$pushed pulled=$pulled');
       return SyncRunResult(pushed: pushed, pulled: pulled);
     } on SyncUnavailableException catch (e) {
-      _emit(
-        _current.copyWith(
-          connectivity: e.serverSide
-              ? Connectivity.serverError
-              : Connectivity.offline,
-        ),
-      );
+      final connectivity = e.serverSide
+          ? Connectivity.serverError
+          : Connectivity.offline;
+      _emit(_current.copyWith(connectivity: connectivity));
+      _logRun(connectivity.name);
       return const SyncRunResult(offline: true);
     } on SyncUnauthorizedException {
       _emit(_current.copyWith(connectivity: Connectivity.signedOut));
+      _logRun(Connectivity.signedOut.name);
       return const SyncRunResult(offline: true);
+    } on Object catch (e) {
+      _logRun('failed ${e.runtimeType}');
+      rethrow;
     }
   }
+
+  /// One short line per run for "send logs": the outcome and counts only, never a record.
+  void _logRun(String outcome) => _log(
+    'sync: $outcome pending=${_current.pending} rejected=${_current.rejected}',
+  );
 
   /// The writes the server turned down, oldest first, for the grower to resend or delete.
   Stream<List<OutboxEntry>> watchRejected() => _outbox.watchRejected();

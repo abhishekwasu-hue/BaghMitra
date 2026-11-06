@@ -2684,4 +2684,14 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get claimKitGpsOk => 'ठिकाण जोडले';
+
+  @override
+  String priceChangeUp(String pct) {
+    return 'गेल्या आठवड्यापेक्षा $pct वाढ';
+  }
+
+  @override
+  String priceChangeDown(String pct) {
+    return 'गेल्या आठवड्यापेक्षा $pct घट';
+  }
 }

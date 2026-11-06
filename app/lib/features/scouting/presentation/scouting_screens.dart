@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import '../../../app/providers.dart';
 import '../../../app/router.dart';
 import '../../../core/formatting.dart';
+import '../../../design_system/app_bar_title.dart';
 import '../../../design_system/bottom_actions.dart';
 import '../../../design_system/cards.dart';
 import '../../../design_system/empty_state.dart';
@@ -115,7 +116,7 @@ class ScoutingScreen extends ConsumerWidget {
     };
     return Scaffold(
       appBar: AppBar(
-        title: Text(t.scoutingTitle),
+        title: AppBarTitle(t.scoutingTitle),
         actions: [
           IconButton(
             key: const Key('open-lookalikes'),
@@ -334,7 +335,7 @@ class _AddScoutingScreenState extends ConsumerState<AddScoutingScreen> {
       ],
     );
     return Scaffold(
-      appBar: AppBar(title: Text(t.scoutingAdd)),
+      appBar: AppBar(title: AppBarTitle(t.scoutingAdd)),
       body: ListView(
         padding: const EdgeInsets.all(BmSpace.lg),
         children: [

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../design_system/alert_banner.dart';
+import '../../design_system/app_bar_title.dart';
 import '../../design_system/cards.dart';
 import '../../design_system/glyphs.dart';
 import '../../design_system/navigation.dart';
@@ -21,7 +22,7 @@ class ComponentGalleryScreen extends StatelessWidget {
     final c = context.bm;
     const gap = SizedBox(height: BmSpace.md);
     return Scaffold(
-      appBar: AppBar(title: Text(t.galleryTitle)),
+      appBar: AppBar(title: AppBarTitle(t.galleryTitle)),
       body: ListView(
         padding: const EdgeInsets.all(BmSpace.lg),
         children: [

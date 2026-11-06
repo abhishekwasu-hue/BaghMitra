@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../app/providers.dart';
 import '../../../app/router.dart';
+import '../../../design_system/app_bar_title.dart';
 import '../../../design_system/bottom_actions.dart';
 import '../../../design_system/empty_state.dart';
 import '../../../l10n/app_localizations.dart';
@@ -160,7 +161,7 @@ class _AddPlotScreenState extends ConsumerState<AddPlotScreen> {
           });
         }
         return Scaffold(
-          appBar: AppBar(title: Text(t.editPlot)),
+          appBar: AppBar(title: AppBarTitle(t.editPlot)),
           body: LoadingState(label: t.loadingLabel),
         );
       }
@@ -181,7 +182,7 @@ class _AddPlotScreenState extends ConsumerState<AddPlotScreen> {
     const gap = SizedBox(height: BmSpace.md);
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.plotId == null ? t.addPlot : t.editPlot),
+        title: AppBarTitle(widget.plotId == null ? t.addPlot : t.editPlot),
         actions: [
           if (widget.plotId != null)
             IconButton(

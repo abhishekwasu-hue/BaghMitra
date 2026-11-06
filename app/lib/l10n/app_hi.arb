@@ -763,5 +763,7 @@
   "requiredSprayProduct": "दवा का नाम लिखें",
   "requiredInputProduct": "उत्पाद का नाम लिखें",
   "requiredBuyer": "व्यापारी का नाम लिखें",
-  "claimKitGpsOk": "जगह जुड़ी"
+  "claimKitGpsOk": "जगह जुड़ी",
+  "priceChangeUp": "पिछले सप्ताह से {pct} बढ़त",
+  "priceChangeDown": "पिछले सप्ताह से {pct} गिरावट"
 }

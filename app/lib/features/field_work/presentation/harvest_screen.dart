@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../app/providers.dart';
 import '../../../app/router.dart';
 import '../../../core/formatting.dart';
+import '../../../design_system/app_bar_title.dart';
 import '../../../design_system/bottom_actions.dart';
 import '../../../design_system/cards.dart';
 import '../../../design_system/empty_state.dart';
@@ -30,7 +31,7 @@ class HarvestScreen extends ConsumerWidget {
     String name(List<LabeledOption>? items, String slug) =>
         items?.where((x) => x.slug == slug).firstOrNull?.label(lang) ?? slug;
     return Scaffold(
-      appBar: AppBar(title: Text(t.harvestTitle)),
+      appBar: AppBar(title: AppBarTitle(t.harvestTitle)),
       body: loaded.isLoading && !loaded.hasValue
           ? LoadingState(label: t.loadingLabel)
           : lots.isEmpty

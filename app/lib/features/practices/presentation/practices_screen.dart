@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../app/providers.dart';
 import '../../../app/router.dart';
+import '../../../design_system/app_bar_title.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../data/practice_cards.dart';
@@ -53,7 +54,7 @@ class PracticesScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(t.practicesTitle),
+        title: AppBarTitle(t.practicesTitle),
         actions: [
           IconButton(
             key: const Key('open-lookalikes-all'),

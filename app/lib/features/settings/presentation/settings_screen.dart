@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../app/providers.dart';
 import '../../../app/router.dart';
+import '../../../design_system/app_bar_title.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../../app_update/data/app_update_providers.dart';
@@ -21,7 +22,7 @@ class SettingsScreen extends ConsumerWidget {
     final t = AppLocalizations.of(context);
     final config = ref.watch(appConfigProvider);
     return Scaffold(
-      appBar: AppBar(title: Text(t.settingsTitle)),
+      appBar: AppBar(title: AppBarTitle(t.settingsTitle)),
       body: ListView(
         padding: const EdgeInsets.all(BmSpace.lg),
         children: [

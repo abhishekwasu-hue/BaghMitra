@@ -7,6 +7,7 @@ import '../../../app/providers.dart';
 import '../../../app/router.dart';
 import '../../../core/formatting.dart';
 import '../../../design_system/alert_banner.dart';
+import '../../../design_system/app_bar_title.dart';
 import '../../../design_system/bottom_actions.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
@@ -135,7 +136,7 @@ class _AddSprayScreenState extends ConsumerState<AddSprayScreen> {
     const gap = SizedBox(height: BmSpace.md);
     const decimal = TextInputType.numberWithOptions(decimal: true);
     return Scaffold(
-      appBar: AppBar(title: Text(t.addSpray)),
+      appBar: AppBar(title: AppBarTitle(t.addSpray)),
       body: Form(
         key: _form,
         child: ListView(

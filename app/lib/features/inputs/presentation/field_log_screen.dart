@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../app/providers.dart';
 import '../../../app/router.dart';
 import '../../../core/formatting.dart';
+import '../../../design_system/app_bar_title.dart';
 import '../../../design_system/bottom_actions.dart';
 import '../../../design_system/empty_state.dart';
 import '../../../design_system/glyphs.dart';
@@ -69,7 +70,9 @@ class FieldLogScreen extends ConsumerWidget {
     ]..sort((a, b) => b.$1.compareTo(a.$1));
 
     return Scaffold(
-      appBar: AppBar(title: Text('${t.fieldLogTitle} · ${plot?.name ?? ''}')),
+      appBar: AppBar(
+        title: AppBarTitle('${t.fieldLogTitle} · ${plot?.name ?? ''}'),
+      ),
       body: loading
           ? LoadingState(label: t.loadingLabel)
           : rows.isEmpty

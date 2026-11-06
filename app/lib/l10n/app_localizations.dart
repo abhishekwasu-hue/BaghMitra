@@ -4689,6 +4689,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Location added'**
   String get claimKitGpsOk;
+
+  /// No description provided for @priceChangeUp.
+  ///
+  /// In en, this message translates to:
+  /// **'{pct} up from last week'**
+  String priceChangeUp(String pct);
+
+  /// No description provided for @priceChangeDown.
+  ///
+  /// In en, this message translates to:
+  /// **'{pct} down from last week'**
+  String priceChangeDown(String pct);
 }
 
 class _AppLocalizationsDelegate
