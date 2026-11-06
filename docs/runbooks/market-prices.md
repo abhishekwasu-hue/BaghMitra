@@ -11,7 +11,9 @@ python -m bagmitra_api.market.pull_job     # JSON summary per commodity; exit 1 
 ```
 Fetches every commodity in `MARKET_COMMODITIES` India-wide (at most `MARKET_MAX_PAGES` pages of
 500 rows, each request bounded by `MARKET_TIMEOUT_SECONDS`, default 15 s), stores the rows and
-records each outcome in table `market_pulls` (migration `0026`). One failing commodity does not
+records each outcome in table `market_pulls` (migration `0026`). Every request carries `MARKET_USER_AGENT`
+(default `BagMitra/1.0 (+https://bagmitra.aialgodesk.org)`): data.gov.in answers `HTTP 502` to the
+default `python-httpx` agent (checked from the VPS: curl 200 in 0.4 s, python-httpx 502 after 60 s). One failing commodity does not
 stop the others. Two runs never overlap: a Postgres advisory lock is held for the whole run, and
 a second run exits at once with `"skipped_reason": "another market pull is running"`. Without
 `MARKET_API_KEY` it does nothing.
