@@ -4747,7 +4747,7 @@ abstract class AppLocalizations {
   /// No description provided for @labNormsHint.
   ///
   /// In en, this message translates to:
-  /// **'Compare the value on your report with these ranges. The app does not rate your values and gives no fertiliser advice; ask your KVK or lab what to do.'**
+  /// **'Compare the value on your report with these ranges. For what to do next, ask your KVK or the lab.'**
   String get labNormsHint;
 }
 
