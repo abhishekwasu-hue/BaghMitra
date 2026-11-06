@@ -176,6 +176,7 @@ async def verify_token_async(
             algorithms=[algorithm],
             audience=settings.jwt_audience,
             options={"require": ["sub", "exp", "aud"]},
+            leeway=settings.jwt_leeway_seconds,
         )
     except jwt.PyJWTError as exc:
         raise _unauthorized("invalid or expired token") from exc
@@ -193,6 +194,7 @@ def verify_token(token: str, settings: Settings) -> AuthenticatedUser:
             algorithms=["HS256"],
             audience=settings.jwt_audience,
             options={"require": ["sub", "exp", "aud"]},
+            leeway=settings.jwt_leeway_seconds,
         )
     except jwt.PyJWTError as exc:
         raise _unauthorized("invalid or expired token") from exc

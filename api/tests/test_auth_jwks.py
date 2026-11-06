@@ -260,7 +260,7 @@ async def test_the_legacy_shared_secret_still_works_and_unsigned_tokens_do_not()
 async def test_expired_and_wrong_audience_asymmetric_tokens_are_rejected() -> None:
     private, jwk = new_key("k1")
     keys = JwksKeys(FakeJwks(jwk))
-    for extra in ({"exp": int(time.time()) - 10}, {"aud": "anon"}):
+    for extra in ({"exp": int(time.time()) - 120}, {"aud": "anon"}):
         with pytest.raises(ApiError):
             await verify_token_async(sign(private, "k1", uuid.uuid4(), **extra), settings(), keys)
 
@@ -280,3 +280,36 @@ async def test_the_api_accepts_an_asymmetric_token_end_to_end(engine: AsyncEngin
     ) as client:
         res = await client.get("/v1/me", headers={"Authorization": f"Bearer {token}"})
     assert res.status_code == 404  # signed in, no profile yet; a 401 would mean rejected
+
+
+async def test_small_clock_skew_is_tolerated_on_both_token_kinds() -> None:
+    """LG-04: the VPS clock a little behind or ahead of Supabase: a token issued "in the
+    future" (iat / nbf) or expired a few seconds ago still verifies, within the leeway."""
+    private, jwk = new_key("k1")
+    keys = JwksKeys(FakeJwks(jwk))
+    cfg = settings()
+    now = int(time.time())
+    skew = cfg.jwt_leeway_seconds // 2
+    skewed = {"iat": now + skew, "nbf": now + skew, "exp": now - skew}
+    user = uuid.uuid4()
+    for token in (make_token(user, **skewed), sign(private, "k1", user, **skewed)):
+        assert (await verify_token_async(token, cfg, keys)).id == user
+
+
+async def test_skew_beyond_the_leeway_is_still_rejected() -> None:
+    private, jwk = new_key("k1")
+    keys = JwksKeys(FakeJwks(jwk))
+    cfg = settings()
+    now = int(time.time())
+    beyond = cfg.jwt_leeway_seconds + 30
+    for extra in ({"exp": now - beyond}, {"nbf": now + beyond}, {"iat": now + beyond}):
+        for token in (make_token(uuid.uuid4(), **extra), sign(private, "k1", uuid.uuid4(), **extra)):
+            with pytest.raises(ApiError):
+                await verify_token_async(token, cfg, keys)
+
+
+async def test_zero_leeway_rejects_a_token_expired_a_moment_ago() -> None:
+    cfg = settings(jwt_leeway_seconds=0)
+    token = make_token(uuid.uuid4(), exp_offset=-5)
+    with pytest.raises(ApiError):
+        await verify_token_async(token, cfg, JwksKeys(FakeJwks()))

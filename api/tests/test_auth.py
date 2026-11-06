@@ -19,7 +19,7 @@ async def test_me_requires_bearer_token(client: httpx.AsyncClient) -> None:
     [
         make_token(uuid.uuid4(), secret="wrong-secret-wrong-secret-wrong-secret-xx"),
         make_token(uuid.uuid4(), aud="anon"),
-        make_token(uuid.uuid4(), exp_offset=-10),
+        make_token(uuid.uuid4(), exp_offset=-120),
         make_token("not-a-uuid"),
         "garbage",
     ],
