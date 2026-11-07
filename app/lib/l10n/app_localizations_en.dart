@@ -3210,6 +3210,95 @@ class AppLocalizationsEn extends AppLocalizations {
   String get adminMlKindCrateSupplier => 'Crate supplier';
 
   @override
+  String get adminMlChecks => 'Checks';
+
+  @override
+  String get adminMlChecksNote =>
+      'Open the official page, paste the number (it is copied), check by hand and record the result. A badge says only what was checked and when.';
+
+  @override
+  String get adminMlOpenPage => 'Open official page';
+
+  @override
+  String get adminMlCallNow => 'Call';
+
+  @override
+  String get adminMlRecordResult => 'Record result';
+
+  @override
+  String adminMlNumberCopied(String number) {
+    return 'Number copied: $number';
+  }
+
+  @override
+  String get adminMlResultPassed => 'Passed';
+
+  @override
+  String get adminMlResultFailed => 'Failed';
+
+  @override
+  String get adminMlResultCancelled => 'Cancelled / deactivated';
+
+  @override
+  String get adminMlRegisteredYear => 'GST registration year (optional)';
+
+  @override
+  String get adminMlNoChecks => 'Checks you record show here';
+
+  @override
+  String get adminMlCheckApmc => 'APMC licence';
+
+  @override
+  String get adminMlCheckPhoneCall => 'Phone call';
+
+  @override
+  String get adminMlCheckPlacePhoto => 'Place photo';
+
+  @override
+  String adminMlRegisteredSince(String year) {
+    return 'registered $year';
+  }
+
+  @override
+  String get adminMlFlags => 'Look before approving';
+
+  @override
+  String get adminMlFlagDuplicate => 'Same number on another profile';
+
+  @override
+  String get adminMlFlagReturning => 'Matches a suspended profile';
+
+  @override
+  String get adminMlFlagMock => 'Location looked fake (mock)';
+
+  @override
+  String get adminMlFlagOtherDistrict =>
+      'Registered outside the stated district';
+
+  @override
+  String get adminMlFlagNoPlace => 'Place name blank from the phone';
+
+  @override
+  String get adminMlWhyName => 'same name';
+
+  @override
+  String get adminMlWhyGps => 'registered nearby';
+
+  @override
+  String get adminMlWhyAccount => 'same sign-in';
+
+  @override
+  String get adminMlRechecks => 'Re-checks due';
+
+  @override
+  String get adminMlRechecksEmpty => 'All yearly re-checks are done';
+
+  @override
+  String adminMlLastChecked(String date) {
+    return 'last checked $date';
+  }
+
+  @override
   String adminMlDocumentCount(int n) {
     return 'Documents: $n';
   }
@@ -4269,4 +4358,34 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mlCopyToAccounts => 'Note in my accounts';
+
+  @override
+  String mlBadgeGstChecked(String date) {
+    return 'GST checked on $date';
+  }
+
+  @override
+  String mlBadgeGstSince(String date, String year) {
+    return 'GST checked on $date · registered since $year';
+  }
+
+  @override
+  String mlBadgeApmcSeen(String date) {
+    return 'APMC licence seen on $date';
+  }
+
+  @override
+  String mlBadgeFssaiChecked(String date) {
+    return 'FSSAI checked on $date';
+  }
+
+  @override
+  String mlBadgeIecActive(String date) {
+    return 'IEC active, checked on $date';
+  }
+
+  @override
+  String mlBadgeApedaListed(String date) {
+    return 'APEDA listed, checked on $date';
+  }
 }

@@ -54,6 +54,8 @@ MarketProfile sampleTrader({String id = 'b1', int deals = 12}) => MarketProfile(
   badges: [
     ProfileBadge('checked', _on),
     ProfileBadge('registered_from', _on, place: 'वरुड, अमरावती'),
+    ProfileBadge('gst_checked', _on, sinceYear: 2016),
+    ProfileBadge('apmc_seen', _on),
   ],
 );
 
