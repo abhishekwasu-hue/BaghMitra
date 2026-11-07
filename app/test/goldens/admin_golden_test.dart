@@ -108,8 +108,24 @@ void main() {
       await tester.pumpAndSettle();
       await _shot(tester, 'ml_subject_$mode');
 
+      // L7: the per-check panel with one GST check recorded.
+      await tester.ensureVisible(find.byKey(const ValueKey('record-gstin')));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const ValueKey('record-gstin')));
+      await tester.pumpAndSettle();
+      await tester.enterText(find.byKey(const Key('registered-year')), '2016');
+      await tester.tap(find.widgetWithText(FilledButton, 'Record result').last);
+      await tester.pumpAndSettle();
+      await tester.ensureVisible(find.textContaining('GSTIN · Passed'));
+      await tester.pumpAndSettle();
+      await _shot(tester, 'ml_checks_$mode');
+
       await tester.pageBack();
       await tester.pumpAndSettle();
+      await tester.tap(find.text('Re-checks due'));
+      await tester.pumpAndSettle();
+      await _shot(tester, 'ml_rechecks_$mode');
+
       await tester.tap(find.text('Rating tags'));
       await tester.pumpAndSettle();
       await _shot(tester, 'ml_tags_$mode');

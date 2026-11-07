@@ -82,11 +82,19 @@ async def delete_me(
     session: DbSession,
     storage: Annotated[PhotoStorage | None, Depends(get_photo_storage)],
     auth_admin: Annotated[AuthAdmin | None, Depends(get_auth_admin)],
+    settings: Annotated[Settings, Depends(get_settings)],
 ) -> AccountDeleted:
     """Erase the caller's account: every record, the sync history, devices, notice receipts,
-    backed-up photos and (when configured) the sign-in account. It cannot be undone."""
+    backed-up photos and (when configured) the sign-in account. It cannot be undone.
+    Market-link profiles and lots are hidden at once and erased after 180 days (Q68)."""
     try:
-        result = await erase_account(session, user.id, storage=storage, auth_admin=auth_admin)
+        result = await erase_account(
+            session,
+            user.id,
+            storage=storage,
+            auth_admin=auth_admin,
+            market_link_days=settings.market_link_erase_after_days,
+        )
     except PhotoStorageError as exc:
         log.warning("account_photo_delete_failed", reason=str(exc))
         raise ApiError(502, "photo_storage_unavailable", "try again later") from exc

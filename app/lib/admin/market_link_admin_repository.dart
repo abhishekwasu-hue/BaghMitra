@@ -7,7 +7,8 @@ import 'kb_admin_repository.dart' show KbAdminException, adminErrorMessage;
 const marketLinkAdminRole = 'market_link_admin';
 
 /// Market linkage admin operations (API `/v1/admin/market-link`, role `market_link_admin`,
-/// legal gate `MARKET_LINK_ENABLED`): the verification queue and the rating tags. Online only.
+/// legal gate `MARKET_LINK_ENABLED`): the verification queue, per-check records, the yearly
+/// re-check list and the rating tags. Online only.
 abstract interface class MarketLinkAdminRepository {
   /// Subjects waiting for a check, oldest first; [type] is buyer / broker / provider.
   Future<List<SubjectOut>> queue({String? type});
@@ -20,6 +21,20 @@ abstract interface class MarketLinkAdminRepository {
     required bool approve,
     String? reason,
   });
+
+  /// Records one check done by hand on the official page (L7, spec §4): [kind] is gstin /
+  /// apmc / fssai / iec / apeda / phone_call / place_photo; [result] passed / failed /
+  /// cancelled; [registeredYear] for GST only.
+  Future<SubjectDetailOut> recordCheck(
+    String type,
+    String id, {
+    required String kind,
+    required String result,
+    int? registeredYear,
+  });
+
+  /// Passed checks older than a year, waiting for their re-check.
+  Future<List<RecheckItemOut>> rechecks();
 
   /// A short-lived signed URL for the subject's document at [index].
   Future<String> documentUrl(String type, String id, int index);
@@ -76,6 +91,32 @@ class ApiMarketLinkAdminRepository implements MarketLinkAdminRepository {
       ),
     ),
   );
+
+  @override
+  Future<SubjectDetailOut> recordCheck(
+    String type,
+    String id, {
+    required String kind,
+    required String result,
+    int? registeredYear,
+  }) async => _ok(
+    await _api.v1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPost(
+      subjectType:
+          V1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPostSubjectType
+              .values
+              .byName(type),
+      subjectId: id,
+      body: CheckIn(
+        kind: CheckInKind.values.firstWhere((k) => k.value == kind),
+        result: CheckInResult.values.byName(result),
+        registeredYear: registeredYear,
+      ),
+    ),
+  );
+
+  @override
+  Future<List<RecheckItemOut>> rechecks() async =>
+      _ok(await _api.v1AdminMarketLinkRechecksGet()).items;
 
   @override
   Future<String> documentUrl(String type, String id, int index) async => _ok(

@@ -11,6 +11,8 @@ import '../l10n/app_localizations.dart';
 import '../theme/app_theme.dart';
 import 'kb_admin_repository.dart' show KbAdminException;
 import 'market_link_admin_repository.dart';
+import 'market_link_checks.dart';
+import 'market_link_flags.dart';
 
 /// Opens a signed document URL (a new browser tab on the admin web).
 typedef OpenUrl = Future<void> Function(Uri url);
@@ -69,6 +71,24 @@ String _fieldValue(AppLocalizations t, Object? value) => switch (value) {
   _ => '$value',
 };
 
+/// Opens one subject's detail page (queue and re-check list).
+Future<void> openVerificationDetail(
+  BuildContext context, {
+  required MarketLinkAdminRepository repo,
+  required String type,
+  required String id,
+  OpenUrl? openUrl,
+}) => Navigator.of(context).push(
+  MaterialPageRoute<void>(
+    builder: (_) => VerificationDetailPage(
+      repo: repo,
+      type: type,
+      id: id,
+      openUrl: openUrl ?? _launch,
+    ),
+  ),
+);
+
 void _say(ScaffoldMessengerState messenger, String text) =>
     messenger.showSnackBar(SnackBar(content: Text(text)));
 
@@ -120,15 +140,12 @@ class _VerificationQueuePageState extends State<VerificationQueuePage> {
       widget.repo.queue(type: _type.isEmpty ? null : _type);
 
   Future<void> _open(SubjectOut s) async {
-    await Navigator.of(context).push(
-      MaterialPageRoute<void>(
-        builder: (_) => VerificationDetailPage(
-          repo: widget.repo,
-          type: s.subjectType,
-          id: s.subjectId,
-          openUrl: widget.openUrl ?? _launch,
-        ),
-      ),
+    await openVerificationDetail(
+      context,
+      repo: widget.repo,
+      type: s.subjectType,
+      id: s.subjectId,
+      openUrl: widget.openUrl,
     );
     if (mounted) {
       setState(() {
@@ -177,7 +194,12 @@ class _VerificationQueuePageState extends State<VerificationQueuePage> {
                           _typeLabel(t, s.subjectType),
                           ?s.fields['district'] as String?,
                           t.adminMlDocumentCount(s.documentKeys.length),
+                          for (final f in s.flags ?? const <String>[])
+                            flagLabel(t, f),
                         ].join(' · '),
+                        style: (s.flags ?? const []).isEmpty
+                            ? null
+                            : TextStyle(color: context.bm.danger),
                       ),
                       trailing: Text(
                         t.adminMlWaitingSince(_date(s.waitingSince)),
@@ -195,7 +217,8 @@ class _VerificationQueuePageState extends State<VerificationQueuePage> {
   }
 }
 
-/// One subject: submitted fields, documents, every past check, and Approve / Reject.
+/// One subject: flags, submitted fields, documents, the per-check panel, every past
+/// decision, and Approve / Reject.
 class VerificationDetailPage extends StatefulWidget {
   const VerificationDetailPage({
     required this.repo,
@@ -245,6 +268,24 @@ class _VerificationDetailPageState extends State<VerificationDetailPage> {
         widget.id,
         approve: approve,
         reason: reason,
+      );
+      if (mounted) setState(() => _detail = next);
+      _say(messenger, t.adminDone);
+    } on KbAdminException catch (e) {
+      _say(messenger, e.message);
+    }
+  }
+
+  Future<void> _record(String kind, String result, int? year) async {
+    final t = AppLocalizations.of(context);
+    final messenger = ScaffoldMessenger.of(context);
+    try {
+      final next = await widget.repo.recordCheck(
+        widget.type,
+        widget.id,
+        kind: kind,
+        result: result,
+        registeredYear: year,
       );
       if (mounted) setState(() => _detail = next);
       _say(messenger, t.adminDone);
@@ -316,6 +357,7 @@ class _VerificationDetailPageState extends State<VerificationDetailPage> {
           ],
         ),
         const SizedBox(height: BmSpace.lg),
+        FlagsSection(subject: s),
         SectionHeader(title: t.adminMlFields),
         BmCard(
           elevated: false,
@@ -364,6 +406,8 @@ class _VerificationDetailPageState extends State<VerificationDetailPage> {
           ),
         const SizedBox(height: BmSpace.sm),
         InfoNote(t.adminMlBadgeNote),
+        const SizedBox(height: BmSpace.lg),
+        ChecksSection(detail: d, openUrl: widget.openUrl, onRecord: _record),
         const SizedBox(height: BmSpace.lg),
         SectionHeader(title: t.adminFeedHistory),
         for (final v in d.history)
