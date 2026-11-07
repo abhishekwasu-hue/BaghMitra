@@ -215,6 +215,42 @@ void main() {
     expect(marketCommodityLabel('Banana', 'mr'), 'Banana');
   });
 
+  test(
+    'variety line only when it says something (not "Other", not the crop name)',
+    () {
+      expect(marketVarietyIsInformative('Nagpuri', 'Orange'), isTrue);
+      expect(marketVarietyIsInformative('Other', 'Orange'), isFalse);
+      expect(marketVarietyIsInformative(' other ', 'Orange'), isFalse);
+      expect(marketVarietyIsInformative('', 'Orange'), isFalse);
+      expect(marketVarietyIsInformative('Orange', 'Orange'), isFalse);
+      expect(
+        marketVarietyIsInformative('Mousambi', 'Mousambi(Sweet Lime)'),
+        isFalse,
+      );
+      expect(marketVarietyIsInformative('Nagpur', 'Orange'), isTrue);
+    },
+  );
+
+  testWidgets('a row with variety "Other" shows no variety line', (
+    tester,
+  ) async {
+    final body = samplePrices();
+    final rows = (body['prices']! as List).cast<Map<String, Object?>>();
+    body['prices'] = [
+      {...rows[0], 'variety': 'Other'},
+      ...rows.skip(1),
+    ];
+    await pumpApp(
+      tester,
+      initialLocation: '/market',
+      seed: (db) => seedPrices(db, body: body),
+    );
+    await settle(tester);
+    expect(find.text('वरूड'), findsOneWidget);
+    expect(find.textContaining('वाण:'), findsNothing);
+    await unmountApp(tester);
+  });
+
   testWidgets('in Marathi the rows read mandi, state and variety in Marathi', (
     tester,
   ) async {
