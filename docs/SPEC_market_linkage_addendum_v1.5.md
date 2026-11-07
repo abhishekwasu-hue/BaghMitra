@@ -104,16 +104,57 @@ contact number and ratings — that a grower can read easily. This narrows the g
   the deal's completion**; after that it is locked (owner decision 2026-11-07, Q66). Ratings under an open dispute show "disputed".
   A rated person who disagrees uses the dispute flow (§3 step 9), which goes to admin, not public.
 
-## 4. Verification
-- **Buyer**: name, firm, phone (OTP), market(s) and district, APMC licence number and copy (if
-  held), GST number (if held), photo of shop / office. Badge only after admin check.
-- **Broker**: name, phone (OTP), village and service area, photo ID shown to admin only.
+## 4. Verification — zero-cost checks only (owner decision 2026-11-07)
+Owner: BagMitra is a startup; no paid third-party KYC. Use only free official public checks, done by
+the admin by hand from a link the admin page opens. Research: MARKET_LINKAGE_RESEARCH.md §5.
+- **No Aadhaar** number, card image or OTP is collected anywhere (Aadhaar authentication by a private
+  entity needs government approval; DPDP Rules 2025). DigiLocker consent pull is a later option once
+  BagMitra has its registered company and GSTIN (API Setu verifies the entity's GSTN) — not built now.
+- **Never automate** the government portals (they use captchas; no scraping). The admin page shows a
+  button that opens the official page with the number to check; the admin records the result.
+- Checks and the badge each one gives (badge text says what was checked and on which date — "checked
+  on the public register on <date>", never "guaranteed"):
+
+| Check (free) | Who | How the admin checks | Badge |
+|---|---|---|---|
+| Phone OTP | all | sign-in (exists) | — (required) |
+| GSTIN | trader, exporter (if held) | GST portal public "Search Taxpayer": legal name matches, active (not cancelled), registration date, return-filing record | "GST checked" + registered since <year> |
+| APMC trader licence | trader (if held) | licence copy; market committee contact from MSAMB profile | "APMC licence seen" |
+| FSSAI licence | trader, exporter (if held) | FoSCoS public check | "FSSAI checked" |
+| IEC | exporter (required for the exporter type) | DGFT "View IEC Status": name matches, Active | "IEC active" |
+| APEDA registration | exporter (if held) | APEDA exporter directory | "APEDA listed" |
+| Shop / office photo | trader, exporter, broker | in-app camera only, time + GPS | "Place photo" |
+| Track record | all | computed: completed BagMitra deals and ratings | deal count, stars |
+
+- **Turnover is not collected or shown** (not on any public register; self-declared figures cannot be
+  checked). Business age = GST registration date; activity = public return-filing record.
+- A trader / exporter is "verified" (sees lots) after phone OTP + admin check of at least one of
+  GSTIN / APMC licence / IEC (exporter: IEC required). A broker: phone OTP + place photo + admin phone
+  call.
+- **Report fraud** button on every trader, broker, exporter and provider profile → admin queue
+  (predefined reasons to tick, photos optional; no free text, same as ratings). Admin can suspend.
+- Re-check yearly; GST "cancelled" or IEC "deactivated" found on re-check removes the badge.
 - **Weighbridge**: location, owner phone, Legal Metrology verification certificate photo and
   valid-until date. The app warns both parties when the date has passed.
 - **Transporter**: vehicle number(s), capacity, refrigerated yes / no, owner phone; common-carrier
   registration number when held (Carriage by Road Act 2007).
 - **Labour gang / crate supplier**: leader name, phone, village, service area.
-- Verification state, who checked and when are stored; nothing is shown as "verified" without it.
+- Verification state, what was checked, by whom and when are stored; nothing is shown as "verified"
+  without it.
+
+## 4A. Export information (information only — owner 2026-11-07: BagMitra takes no part in any trade)
+- **Export page per crop**: destinations with value share, source and year; season fit (Ambia vs
+  Mrig as quoted by an exporter); buyer specs as quoted (size, look); rules a grower meets (HortiNet
+  farm registration through the State Horticulture Department, APEDA-approved packhouse, residue test
+  at an accredited lab, phytosanitary certificate). Every line shows its source and date; facts from
+  research §4 only; folded behind details per the UI rules.
+- **Exporters** join as the existing "exporter" buyer type (IEC required, §4). No new trade flow.
+- **Official links**: APEDA exporter directory, HortiNet, DGFT IEC status (open in browser).
+- **Foreign prices**: none stored until the publisher's reuse terms are checked and recorded (same
+  rule as the GR feed, QG1). Kalimati (Nepal, official committee) is the first candidate; until terms
+  are recorded, show only a link-out. **Never UN Comtrade data** (licence bars commercial reuse).
+- **Export record PDF**: from the grower's own spray log, label-claim check and PHI dates already in
+  the app — a dated record the grower can hand to an exporter. Information only; no compliance claim.
 
 ## 5. Legal gate (must hold before production)
 - Feature flag `MARKET_LINK_ENABLED` (default **off** in production; on in test builds).
@@ -153,6 +194,8 @@ Hindi / English goldens at phone size.
 | L4 | Offers, compare, accept, deal sheet PDF |
 | L5 | Service requests, weigh slip, dispatch |
 | L6 | Payment record into Accounts, ratings (§3A), disputes |
+| L7 | Verification badges and admin checks (§4), report-fraud queue, yearly re-check reminder |
+| L8 | Export information page, official links, export record PDF (§4A); foreign prices only after terms are recorded |
 
 ## 9. Suggestions for the owner (OWNER_RULES D.1 — not part of the build until decided)
 - **Village coordinator**: one trusted person per village / weighbridge who helps growers create
