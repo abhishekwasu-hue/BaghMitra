@@ -38,6 +38,7 @@ import '../features/market_link/domain/registration.dart';
 import '../features/market_link/presentation/lot_form_screen.dart';
 import '../features/market_link/presentation/my_lots_screen.dart';
 import '../features/market_link/presentation/my_profiles_screen.dart';
+import '../features/market_link/presentation/offer_screens.dart';
 import '../features/market_link/presentation/people_screen.dart';
 import '../features/market_link/presentation/registration_screen.dart';
 import '../features/market_link/presentation/role_home_screen.dart';
@@ -136,6 +137,10 @@ abstract final class Routes {
   static String newMarketLot({String? plotId}) =>
       '$marketLots/new${plotId == null ? '' : '?plot=$plotId'}';
   static String marketLot(String lotId) => '$marketLots/$lotId';
+
+  /// Traders' and brokers' side (L4): published lots and own offers.
+  static const marketBrowse = '$marketLink/market';
+  static const marketMyOffers = '$marketLink/offers';
 
   /// Market link (flag MARKET_LINK only): the five role cards, a role's own home, and the
   /// terms screen pushed by `ensureMarketRoleAccepted` (it returns true when accepted).
@@ -357,6 +362,14 @@ GoRouter buildRouter(
       GoRoute(
         path: '${Routes.marketLots}/:lotId',
         builder: (_, s) => LotFormScreen(lotId: s.pathParameters['lotId']),
+      ),
+      GoRoute(
+        path: Routes.marketBrowse,
+        builder: (_, _) => const BrowseLotsScreen(),
+      ),
+      GoRoute(
+        path: Routes.marketMyOffers,
+        builder: (_, _) => const MyInterestsScreen(),
       ),
       GoRoute(path: Routes.settings, builder: (_, _) => const SettingsScreen()),
       GoRoute(path: Routes.profile, builder: (_, _) => const ProfileScreen()),

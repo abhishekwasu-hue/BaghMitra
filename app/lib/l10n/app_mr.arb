@@ -1165,5 +1165,14 @@
   "adminMlTargetUser": "वापरकर्ता",
   "adminMlReceived": "{date} रोजी आली",
   "adminMlPhoto": "फोटो {n}",
-  "adminMlAppealReason": "अपील: {reason}"
+  "adminMlAppealReason": "अपील: {reason}",
+  "mlBrowseTitle": "विक्रीसाठी माल",
+  "mlBrowseEmpty": "शेतकऱ्यांनी दाखवलेला माल येथे दिसेल.",
+  "mlNotVerified": "BagMitra ने तुमची नोंदणी तपासल्यावर माल येथे दिसेल.",
+  "mlMyOffersTitle": "माझ्या ऑफर",
+  "mlMyOffersEmpty": "मालावर दिलेल्या तुमच्या ऑफर येथे दिसतील.",
+  "mlOfferOpen": "शेतकऱ्याच्या निर्णयाची वाट",
+  "mlOfferAccepted": "स्वीकारली",
+  "mlOfferClosed": "बंद: शेतकऱ्याने दुसरी ऑफर निवडली किंवा माल यादीतून काढला.",
+  "mlHarvestOn": "तोडणी {date}"
 }

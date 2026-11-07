@@ -7101,6 +7101,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Appeal: {reason}'**
   String adminMlAppealReason(String reason);
+
+  /// No description provided for @mlBrowseTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Produce on sale'**
+  String get mlBrowseTitle;
+
+  /// No description provided for @mlBrowseEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Produce shown by growers appears here.'**
+  String get mlBrowseEmpty;
+
+  /// No description provided for @mlNotVerified.
+  ///
+  /// In en, this message translates to:
+  /// **'Produce shows here once BagMitra has checked your registration.'**
+  String get mlNotVerified;
+
+  /// No description provided for @mlMyOffersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'My offers'**
+  String get mlMyOffersTitle;
+
+  /// No description provided for @mlMyOffersEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Offers you make on produce appear here.'**
+  String get mlMyOffersEmpty;
+
+  /// No description provided for @mlOfferOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for the grower'**
+  String get mlOfferOpen;
+
+  /// No description provided for @mlOfferAccepted.
+  ///
+  /// In en, this message translates to:
+  /// **'Accepted'**
+  String get mlOfferAccepted;
+
+  /// No description provided for @mlOfferClosed.
+  ///
+  /// In en, this message translates to:
+  /// **'Closed: the grower chose another offer or took the produce off the list.'**
+  String get mlOfferClosed;
+
+  /// No description provided for @mlHarvestOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Harvest {date}'**
+  String mlHarvestOn(String date);
 }
 
 class _AppLocalizationsDelegate

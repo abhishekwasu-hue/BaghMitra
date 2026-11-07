@@ -4062,4 +4062,35 @@ class AppLocalizationsEn extends AppLocalizations {
   String adminMlAppealReason(String reason) {
     return 'Appeal: $reason';
   }
+
+  @override
+  String get mlBrowseTitle => 'Produce on sale';
+
+  @override
+  String get mlBrowseEmpty => 'Produce shown by growers appears here.';
+
+  @override
+  String get mlNotVerified =>
+      'Produce shows here once BagMitra has checked your registration.';
+
+  @override
+  String get mlMyOffersTitle => 'My offers';
+
+  @override
+  String get mlMyOffersEmpty => 'Offers you make on produce appear here.';
+
+  @override
+  String get mlOfferOpen => 'Waiting for the grower';
+
+  @override
+  String get mlOfferAccepted => 'Accepted';
+
+  @override
+  String get mlOfferClosed =>
+      'Closed: the grower chose another offer or took the produce off the list.';
+
+  @override
+  String mlHarvestOn(String date) {
+    return 'Harvest $date';
+  }
 }
