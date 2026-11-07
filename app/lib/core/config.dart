@@ -12,6 +12,7 @@ class AppConfig {
     this.sarkariSandesh = '',
     this.phoneLogin = false,
     this.push = false,
+    this.marketLink = false,
     this.entitlementPublicKey = '',
   });
 
@@ -41,6 +42,9 @@ class AppConfig {
     // Off unless defined at build time; the analyzer only sees the false default.
     // ignore: avoid_redundant_argument_values
     push: bool.fromEnvironment('PUSH'),
+    // Off unless defined at build time; the analyzer only sees the false default.
+    // ignore: avoid_redundant_argument_values
+    marketLink: bool.fromEnvironment('MARKET_LINK'),
     // Empty unless defined at build time; the analyzer only sees the empty default.
     // ignore: avoid_redundant_argument_values
     entitlementPublicKey: String.fromEnvironment('ENTITLEMENT_PUBLIC_KEY'),
@@ -84,6 +88,12 @@ class AppConfig {
 
   /// Push alerts need the server, so never in demo mode.
   bool get pushEnabled => push && !demoMode;
+
+  /// `--dart-define=MARKET_LINK=true` for test builds of the market linkage module (spec
+  /// v1.5 §5, decision j). Off by default: no market screen or menu entry appears. The server
+  /// gate `MARKET_LINK_ENABLED` stays off in production until the owner records the legal and
+  /// CA opinions.
+  final bool marketLink;
 
   /// The server's Ed25519 public key for entitlement snapshots, URL-safe base64
   /// (`--dart-define=ENTITLEMENT_PUBLIC_KEY=...`; the API holds the matching

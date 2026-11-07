@@ -252,6 +252,10 @@ class Settings(BaseSettings):
     fcm_service_account_file: str = ""
     fcm_base_url: str = "https://fcm.googleapis.com"
     fcm_timeout_seconds: float = Field(default=15.0, gt=0)
+    # Market linkage legal gate (spec v1.5 §5, decision j): off unless MARKET_LINK_ENABLED is
+    # set. Off, every /v1/market-link/* endpoint answers 404. Production stays off until the
+    # owner records the legal and CA opinions.
+    market_link_enabled: bool = False
 
     @property
     def push_enabled(self) -> bool:

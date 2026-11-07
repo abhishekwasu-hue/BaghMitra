@@ -1030,6 +1030,29 @@ their profile; undoes a dismiss. Only for a published item that has a date.''',
   }
 
   @override
+  Future<Response<RatingTagsResponse>> _v1MarketLinkRatingTagsGet({
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'The active tick list under each rating question (spec §3A); the app caches it.',
+      summary: 'Rating Tags',
+      operationId: 'market_link_rating_tags',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/market-link/rating-tags');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<RatingTagsResponse, RatingTagsResponse>($request);
+  }
+
+  @override
   Future<Response<MarketPrices>> _v1MarketPricesGet({
     required String? crop,
     String? scope,

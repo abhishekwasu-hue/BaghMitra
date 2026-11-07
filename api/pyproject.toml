@@ -42,6 +42,7 @@ where = ["src"]
 "bagmitra_api.billing.seed_data" = ["*.json"]
 "bagmitra_api.feed.seed_data" = ["*.json"]
 "bagmitra_api.kb.seed_data" = ["*.json", "*.csv"]
+"bagmitra_api.market_link.seed_data" = ["*.json"]
 "bagmitra_api.risk" = ["*.json"]
 
 [tool.ruff]

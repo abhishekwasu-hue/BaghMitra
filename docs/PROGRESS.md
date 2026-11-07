@@ -14,3 +14,16 @@
 - Blockers (owner, none block development): hosted Supabase + VPS hostname for real login/sync; CCRI PDFs; expert reviewer; consent legal review.
 - Actions minutes: repo is public (no minute cap) since 2026-10-20; record usage weekly here anyway.
 - History: `docs/progress/archive-2026-10.md`.
+
+## Market linkage audit 2026-11-07 (build prompt §1, before L0)
+- Accounts sales and buyer dues: `app/lib/features/accounts/domain/accounts.dart` (`Income.duesPaise`), `accounts_summary.dart`, `data/accounts_repository.dart`; server `incomes` (`api/src/bagmitra_api/db/models/accounts.py`, money as whole paise BIGINT). Reuse for L6; `deal_payments.accounts_sale_id` points at `incomes.id` (a column named `income_id` would break decision c's /income/ check).
+- Fair-price check (Q48): `app/lib/features/accounts/domain/fair_price.dart` (`FairPriceComparison`, same-day modal price) + `app/lib/features/market/data/market_prices_cache.dart`. Reuse for L3 / L4.
+- Photos: `app/lib/features/scouting/data/scouting_photos.dart` (`PhotoSource.camera` / `gallery` via image_picker; L3 must offer camera only) and `photo_backup.dart`; API `routers/scouting_photos.py` + `photos/storage.py` (private bucket, signed upload / download URLs, key derived on the server); migration 0021 (`photo_key`). Scouting keeps the date only; `market_lot_photos` adds `captured_at`, `lat`, `lon` (no accuracy, as Q53).
+- Bahar stages (harvest window default): `app/lib/features/bahar/` (`domain/bahar_cycle.dart`, `data/stage_templates.dart`), server templates `api/src/bagmitra_api/bahar/seed.py` + `seed_data/stage_templates.json`.
+- PDF export: `app/lib/features/export/data/pdf_builder.dart` does NOT embed fonts: pages are drawn by Flutter (correct Devanagari shaping) and embedded as PNG images; fonts are the app's Baloo 2 / Mukta assets (`app/pubspec.yaml`). The L4 deal sheet reuses this.
+- Admin web: `app/lib/main_admin.dart`, `app/lib/admin/` (`feed_pages.dart` + `feed_admin_repository.dart` pattern); API `routers/admin_*.py` with `require_role` (`auth/jwt.py`), roles in `auth/grant_roles.py` `KNOWN_ROLES` (no `market_link_admin` yet: L0b).
+- RLS: `api/src/bagmitra_api/db/rls.py` (owner / reference / private / feed helpers + client-role revoke); Postgres harness `api/tests/test_migrations.py` (CI job `migrations-postgres`, `pytest -m postgres`). L0a adds `enable_policy_rls` for per-role policies.
+- Flags: server bools in `api/src/bagmitra_api/core/settings.py`; app dart-defines in `app/lib/core/config.dart` (`SARKARI_SANDESH` string on/off, `PUSH` / `PHONE_LOGIN` bools). L0a adds `market_link_enabled` and `MARKET_LINK` (bool, default off).
+- Push: `api/src/bagmitra_api/push/` (`deliver.py`, `fcm.py`, `sender.py`, `models.py`) and `app/lib/features/push/`. Reuse for L5 service requests.
+- Design components: `app/lib/design_system/` (`cards.dart`, `bottom_actions.dart`, `empty_state.dart`, `sync_banner.dart`, `alert_banner.dart`, `glyphs.dart`, `info_note.dart`, `sources_disclosure.dart`, `price_card.dart`). UI from L2 on.
+- Account erasure (`api/src/bagmitra_api/account/erase.py`) deletes every `owner_column` table: it now covers `market_lots` / `market_lot_photos` but not profiles or deal rows (Q68).

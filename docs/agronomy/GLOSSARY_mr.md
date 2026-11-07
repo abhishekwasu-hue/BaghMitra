@@ -37,6 +37,13 @@
 | KVK | कृषी विज्ञान केंद्र (KVK); short: KVK | केव्हीके | Full name once, then the abbreviation the grower sees on boards. "Ask your KVK" = "आपल्या KVK ला विचारा". |
 | PDKV | डॉ. पंदेकृवि | — | The university's own short name. |
 | Units | सें.मी., मि.मी., कि.मी., लिटर, % / टक्के | सेंमी, मिमी, किमी | Dotted abbreviations are the majority form (19 uses); the alerts and the irrigation guide now match. |
+| Trader (buyer of produce) | व्यापारी | खरेदीदार (for a person) | Market linkage (spec v1.5); Accounts already shows व्यापारी for the sale buyer (`saleBuyer`). खरेदीदार stays only in the directory title "बाजार व खरेदीदार". Draft, for native review. |
+| Broker | दलाल | एजंट, मध्यस्थ | The grower's own word (spec v1.5 §1.1). The app never shows a broker's commission (Q64). Draft. |
+| Deal (grower–trader agreement) | व्यवहार | सौदा (mr), डील | Rating tags use व्यवहार; Hindi keeps सौदा. Draft. |
+| Agreed terms / conditions | ठरलेल्या अटी; ठरल्याप्रमाणे | शर्ती | Rating tags "ठरलेल्या अटी पाळल्या". Draft. |
+| Produce on sale | माल | — | Everyday market word (उत्पादन stays for yield) ("माल फोटो व वर्णनाप्रमाणे"). Draft. |
+| Advance payment / balance | उचल / बाकी पैसे | अॅडव्हान्स | उचल is the village word for money paid before harvest; to confirm by the native reviewer. Draft. |
+| Weighing / crate count | वजन / क्रेट मोजणी; weighbridge: वजनकाटा | — | Rating tags and later the weigh slip (L5). Draft. |
 
 Written register: config texts use the written forms (कामे, झाडे, झाले). The arb uses spoken forms in about 16
 strings (कामं, झाडं, झालं).
