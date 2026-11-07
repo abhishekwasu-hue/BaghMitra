@@ -193,7 +193,8 @@ GoRouter buildRouter(
         return Routes.home;
       }
       // Market-link screens exist only in builds with the flag on (spec v1.5 §5, decision j).
-      if ((loc.startsWith(Routes.marketLink) || loc.startsWith(Routes.exportInfo)) &&
+      if ((loc.startsWith(Routes.marketLink) ||
+              loc.startsWith(Routes.exportInfo)) &&
           !config.marketLink) {
         return Routes.home;
       }
