@@ -49,6 +49,9 @@
 | Weighing / crate count | वजन / क्रेट मोजणी; weighbridge: वजनकाटा | — | Rating tags and later the weigh slip (L5). Draft. |
 | Service provider kinds | वजनकाटा, वाहतूकदार, मजूर टोळी, क्रेट पुरवठादार (सेवा देणारे) | — | Market linkage admin (L0b) and the provider directory (L1). Hindi: धर्मकांटा, ट्रांसपोर्टर, मज़दूर टोली, क्रेट आपूर्तिकर्ता. Draft. |
 | Rating tag; draft / active / retired | रेटिंग टॅग; मसुदा / चालू / बंद | — | Admin web only (L0b). Draft. |
+| Exporter | निर्यातदार | एक्स्पोर्टर | Market linkage role card (spec v1.5 §2.1). Draft, for native review. |
+| Service providers (role card) | सेवा देणारे | सर्व्हिस प्रोव्हायडर | L2 registration and directory; kinds as in the row "Service provider kinds". Draft. |
+| Registration / check by BagMitra | नोंदणी / तपासणी ("BagMitra ने <तारीख> रोजी तपासले") | हमी, खात्रीशीर, व्हेरिफाइड | Badges say what was checked and when, never a guarantee (spec v1.5 §4). Draft. |
 
 Written register: config texts use the written forms (कामे, झाडे, झाले). The arb uses spoken forms in about 16
 strings (कामं, झाडं, झालं).

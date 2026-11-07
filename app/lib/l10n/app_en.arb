@@ -1280,6 +1280,216 @@
   "adminMlKindCrateSupplier": "Crate supplier",
   "adminMlDocumentCount": "Documents: {n}",
   "@adminMlDocumentCount": {"placeholders": {"n": {"type": "int"}}},
+  "mlRoleTrader": "Trader",
+  "mlRoleExporter": "Exporter",
+  "mlRoleBroker": "Broker",
+  "mlRoleProvider": "Service provider",
+  "mlKindWeighbridge": "Weighbridge",
+  "mlKindTransporter": "Transport",
+  "mlKindLabourGang": "Labour gang",
+  "mlKindCrateSupplier": "Crate supplier",
+  "mlRegisterTrader": "Trader registration",
+  "mlRegisterExporter": "Exporter registration",
+  "mlRegisterBroker": "Broker registration",
+  "mlRegisterProvider": "Service provider registration",
+  "mlRegisterAs": "Register as",
+  "mlFixTitle": "Location at registration",
+  "mlFixWhy": "To finish registration, the phone takes your current location once. This keeps fake registrations away.",
+  "mlFixOnce": "Taken once, right now. Your public profile shows only village, taluka and district; the exact point is for BagMitra's check.",
+  "mlPhonePublicNote": "After the check, your name, firm and contact number are shown to registered growers.",
+  "mlFixTake": "Take location",
+  "mlFixTaking": "Taking location…",
+  "mlFixDenied": "Allow location to finish registration.",
+  "mlFixTaken": "Location taken: {place} (±{metres} m)",
+  "@mlFixTaken": {
+    "placeholders": {
+      "place": {
+        "type": "String"
+      },
+      "metres": {
+        "type": "String"
+      }
+    }
+  },
+  "mlPickKind": "What service do you give?",
+  "mlFieldName": "Name",
+  "mlFieldPhone": "Contact number",
+  "mlFieldFirm": "Firm name (optional)",
+  "mlFieldVillage": "Village",
+  "mlFieldTaluka": "Taluka",
+  "mlFieldDistrict": "District",
+  "mlFieldMarkets": "Markets / villages (comma between)",
+  "mlFieldAreas": "Areas you serve (comma between)",
+  "mlFieldCrops": "Crops",
+  "mlFieldAddress": "Address (optional)",
+  "mlFieldGst": "GSTIN",
+  "mlFieldApmc": "APMC licence no.",
+  "mlFieldFssai": "FSSAI licence no.",
+  "mlFieldIec": "IEC no.",
+  "mlFieldApeda": "APEDA registration no.",
+  "mlFieldVehicles": "Vehicle numbers (comma between)",
+  "mlFieldCapacity": "Capacity (tonnes)",
+  "mlFieldRefrigerated": "Refrigerated vehicle",
+  "mlFieldCertUntil": "Certificate valid until",
+  "mlCertUntilValue": "Certificate valid until {date}",
+  "@mlCertUntilValue": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "mlNumbersNote": "Give at least one: GSTIN, APMC licence or IEC. BagMitra checks it on the official public register.",
+  "mlIecRequired": "An exporter registers with an IEC number.",
+  "mlBrokerCallNote": "BagMitra calls you on this number to complete the check.",
+  "mlErrPhone": "Write a 10-digit mobile number",
+  "mlErrGst": "Write the 15-character GSTIN",
+  "mlErrIec": "Write the 10-character IEC",
+  "mlErrFssai": "Write the 14-digit FSSAI number",
+  "mlErrCapacity": "Write the capacity in tonnes (up to 100)",
+  "mlErrOneNumber": "Write a GSTIN, APMC licence or IEC number",
+  "mlErrPickKind": "Pick the service you give",
+  "mlErrCertDate": "Pick the certificate's valid-until date",
+  "mlErrFixStale": "Take the location again, then send",
+  "mlErrExists": "You are already registered in this role; see My market registration",
+  "mlErrCheckFields": "Check the entries and send again",
+  "mlSubmit": "Send registration",
+  "mlSubmitted": "Registration sent. BagMitra will check it.",
+  "mlOffline": "Connect to the internet to see this",
+  "mlServerBusy": "The server is busy; try again in a while",
+  "mlRetry": "Try again",
+  "mlMyProfilesTitle": "My market registration",
+  "mlMyProfilesEmpty": "Register below as a trader, exporter, broker or service provider.",
+  "mlStatusPending": "Check pending",
+  "mlStatusApproved": "Checked by BagMitra",
+  "mlStatusRejected": "Sent back; see the reason",
+  "mlCheckNote": "Your profile is shown to growers after BagMitra's check. Document photos help the check.",
+  "mlDocsCount": "Document photos: {count}",
+  "@mlDocsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "mlDocCertificate": "Weighbridge certificate",
+  "mlCertExpired": "Certificate date passed ({date})",
+  "@mlCertExpired": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "mlAddressAdd": "Add address",
+  "mlAddressEdit": "Change address",
+  "mlCancel": "Cancel",
+  "mlSave": "Save",
+  "mlPeopleTitle": "Traders and brokers",
+  "mlPeopleEmpty": "Checked traders and brokers of this area will show here.",
+  "mlAreaTaluka": "Taluka {taluka}",
+  "@mlAreaTaluka": {
+    "placeholders": {
+      "taluka": {
+        "type": "String"
+      }
+    }
+  },
+  "mlAreaDistrict": "District {district}",
+  "@mlAreaDistrict": {
+    "placeholders": {
+      "district": {
+        "type": "String"
+      }
+    }
+  },
+  "mlSortRating": "By rating",
+  "mlSortDeals": "By deals",
+  "mlDeals": "Deals done: {count}",
+  "@mlDeals": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "mlStars": "{average}/5 ({count})",
+  "@mlStars": {
+    "placeholders": {
+      "average": {
+        "type": "String"
+      },
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "mlDistanceKm": "{km} km",
+  "@mlDistanceKm": {
+    "placeholders": {
+      "km": {
+        "type": "String"
+      }
+    }
+  },
+  "mlBadgeChecked": "Checked by BagMitra on {date}",
+  "@mlBadgeChecked": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "mlBadgeRegisteredFrom": "Registered from {place} on {date}",
+  "@mlBadgeRegisteredFrom": {
+    "placeholders": {
+      "place": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "mlBadgePlacePhoto": "Place photo by a BagMitra representative on {date}",
+  "@mlBadgePlacePhoto": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "mlBadgeNote": "A badge says what BagMitra checked and when. You settle the deal terms directly with each other.",
+  "mlCall": "Call",
+  "mlCallNumber": "Call {phone}",
+  "@mlCallNumber": {
+    "placeholders": {
+      "phone": {
+        "type": "String"
+      }
+    }
+  },
+  "mlRatingsTitle": "Ratings",
+  "mlQTraderOnDate": "Came on the agreed harvest date",
+  "mlQTraderWeighing": "Weighing / crate count correct",
+  "mlQTraderPaid": "Paid advance and balance as agreed",
+  "mlQTraderConditions": "Kept the other conditions",
+  "mlQBrokerHonest": "Represented the deal honestly",
+  "mlQBrokerTraderKept": "The trader they brought kept the deal",
+  "mlAreaAll": "All areas",
+  "mlMarkets": "Markets / villages",
+  "mlAreas": "Areas served",
+  "mlServicesTitle": "Service providers",
+  "mlServicesEmpty": "Checked weighbridges, transport, labour gangs and crate suppliers near you will show here.",
+  "mlServicesNote": "Call them and agree directly; rates and payment are between you.",
+  "mlNearPlot": "Near {name}",
+  "@mlNearPlot": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "mlDisclaimerShort": "BagMitra is not a buyer, seller, middleman (broker) or transporter, does not hold money and does not guarantee payment or quality.",
   "mlOpen": "Show produce for sale",
   "mlMyLotsTitle": "My produce for sale",
