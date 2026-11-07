@@ -35,24 +35,30 @@ class FairPriceComparison {
 bool _sameDay(DateTime a, DateTime b) =>
     a.year == b.year && a.month == b.month && a.day == b.day;
 
+/// The modal price published for [day]: a local APMC first, then a major market, then the
+/// first listed. Null when no price was published that day (no nearest-day guess).
+MandiPrice? mandiPriceOn(DateTime day, Iterable<MandiPrice> prices) {
+  final sameDay = [
+    for (final p in prices)
+      if (_sameDay(p.day, day) && p.modalRsPerQuintal > 0) p,
+  ];
+  if (sameDay.isEmpty) return null;
+  return sameDay.where((p) => p.isLocal).firstOrNull ??
+      sameDay.where((p) => p.isMajor).firstOrNull ??
+      sameDay.first;
+}
+
 /// Compares a sale rate (paise per quintal) with the modal price published for the sale
-/// day: a local APMC first, then a major market, then the first listed. Null when no
-/// price was published that day (no nearest-day guess, no forecast) or there is no rate.
+/// day ([mandiPriceOn]). Null when no price was published that day (no nearest-day guess,
+/// no forecast) or there is no rate.
 FairPriceComparison? compareWithMandi({
   required int ratePaisePerQuintal,
   required DateTime soldOn,
   required Iterable<MandiPrice> prices,
 }) {
   if (ratePaisePerQuintal <= 0) return null;
-  final sameDay = [
-    for (final p in prices)
-      if (_sameDay(p.day, soldOn) && p.modalRsPerQuintal > 0) p,
-  ];
-  if (sameDay.isEmpty) return null;
-  final pick =
-      sameDay.where((p) => p.isLocal).firstOrNull ??
-      sameDay.where((p) => p.isMajor).firstOrNull ??
-      sameDay.first;
+  final pick = mandiPriceOn(soldOn, prices);
+  if (pick == null) return null;
   final modalPaise = pick.modalRsPerQuintal * 100;
   return FairPriceComparison(
     market: pick.market,

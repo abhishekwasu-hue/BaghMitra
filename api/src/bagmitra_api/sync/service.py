@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import hashlib
 import json
+import uuid
+from datetime import UTC, datetime
 from typing import Any
 
 import structlog
@@ -150,6 +152,30 @@ async def apply_mutation(
             await HANDLERS[m.entity].resend(session, user, m.entity_id, row.seq)
         log.info("sync_mutation_not_applied", entity=m.entity, status=status, error=error)
     return MutationResult(client_mutation_id=m.client_mutation_id, status=status, error=error)
+
+
+async def record_server_write(
+    session: AsyncSession, owner: AuthenticatedUser, entity: str, entity_id: str, action: str
+) -> SyncMutation:
+    """Audit a change the server itself makes to an owner's synced row (a lot published by
+    an online call) and hand out its seq under the owner's lock (LD-08), so the owner's
+    phones pull the changed row. The caller sets the row's `last_seq` to the returned seq
+    and its `client_updated_at` to the returned time, then commits."""
+    await _lock_owner(session, owner)
+    now = datetime.now(UTC)
+    row = SyncMutation(
+        client_mutation_id=uuid.uuid4(),
+        owner_id=owner.id,
+        entity=entity,
+        entity_id=entity_id,
+        op="upsert",
+        payload={"server_action": action},
+        client_updated_at=now,
+        status="applied",
+    )
+    session.add(row)
+    await session.flush()
+    return row
 
 
 async def push(
