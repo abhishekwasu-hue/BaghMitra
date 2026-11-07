@@ -2896,4 +2896,40 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get labelInfoDetailsTitle => 'लेबलवरील पूर्ण माहिती';
+
+  @override
+  String get noPlotTitle => 'आधी तुमची बाग जोडा';
+
+  @override
+  String get noPlotBody =>
+      'प्रत्येक नोंद बागेनुसार ठेवली जाते. एकदा बाग जोडून जतन केली की हे लगेच उघडेल.';
+
+  @override
+  String plotAddressNear(String place) {
+    return 'जवळचे ठिकाण: $place';
+  }
+
+  @override
+  String plotAddressDistrict(String district) {
+    return 'जि. $district';
+  }
+
+  @override
+  String get plotAddressLooking => 'गावाचे नाव शोधत आहे…';
+
+  @override
+  String get plotAddressMissing =>
+      'ठिकाण जतन होईल. गावाचे नाव पाहण्यासाठी नेट सुरू ठेवून \'ठिकाण पुन्हा घ्या\' दाबा.';
+
+  @override
+  String get onboardingNameHint => 'तुमचे नाव मराठीत लिहा (उदा. अभिषेक)';
+
+  @override
+  String get nameScriptPromptTitle => 'तुमचे नाव मराठीत लिहा';
+
+  @override
+  String get nameScriptFieldLabel => 'नाव (उदा. अभिषेक)';
+
+  @override
+  String get nameScriptLater => 'नको';
 }

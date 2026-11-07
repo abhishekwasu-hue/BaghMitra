@@ -5031,6 +5031,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Full label details'**
   String get labelInfoDetailsTitle;
+
+  /// Bottom sheet title when a per-block action is tapped with no block yet.
+  ///
+  /// In en, this message translates to:
+  /// **'Add your orchard block first'**
+  String get noPlotTitle;
+
+  /// Bottom sheet body under noPlotTitle; after saving the block the requested action opens.
+  ///
+  /// In en, this message translates to:
+  /// **'Every record is kept for a block. Save your block once, and this opens straight after.'**
+  String get noPlotBody;
+
+  /// Add-block form: the place the phone geocoder names for the location. Display only, never stored.
+  ///
+  /// In en, this message translates to:
+  /// **'Nearby place: {place}'**
+  String plotAddressNear(String place);
+
+  /// District part of the nearby-place line.
+  ///
+  /// In en, this message translates to:
+  /// **'Dist. {district}'**
+  String plotAddressDistrict(String district);
+
+  /// Add-block form: while the place name is being looked up.
+  ///
+  /// In en, this message translates to:
+  /// **'Finding the place name…'**
+  String get plotAddressLooking;
+
+  /// Add-block form: no place name (offline / no result); saving is not blocked.
+  ///
+  /// In en, this message translates to:
+  /// **'The location will be saved. For the place name, turn on the internet and tap \'Take location again\'.'**
+  String get plotAddressMissing;
+
+  /// Helper under the name field: asks for the name in the app language script. Empty in English (no helper shown).
+  ///
+  /// In en, this message translates to:
+  /// **''**
+  String get onboardingNameHint;
+
+  /// Home card when a Marathi/Hindi user saved a name in Latin letters: write it in the language script.
+  ///
+  /// In en, this message translates to:
+  /// **'Write your name in your language'**
+  String get nameScriptPromptTitle;
+
+  /// Name field label in the home name card, with an example in the script.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get nameScriptFieldLabel;
+
+  /// Hides the home name card for this language.
+  ///
+  /// In en, this message translates to:
+  /// **'Later'**
+  String get nameScriptLater;
 }
 
 class _AppLocalizationsDelegate

@@ -60,6 +60,7 @@ import '../features/market/data/market_prices_cache.dart';
 import '../features/market/domain/market_crops.dart';
 import '../features/plots/data/crop_catalog.dart';
 import '../features/plots/data/location_service.dart';
+import '../features/plots/data/place_geocoder.dart';
 import '../features/plots/data/plot_repository.dart';
 import '../features/plots/domain/plot.dart';
 import '../features/practices/data/irrigation_guide.dart';
@@ -256,6 +257,11 @@ final languagesProvider = FutureProvider<List<LabeledOption>>(
 
 final locationServiceProvider = Provider<LocationService>(
   (ref) => const GeolocatorLocationService(),
+);
+
+/// The phone's geocoder that names the place at a block's location (display only, Q59).
+final placeGeocoderProvider = Provider<PlaceGeocoder>(
+  (ref) => const PlatformPlaceGeocoder(),
 );
 
 final plotRepositoryProvider = Provider<PlotRepository>(

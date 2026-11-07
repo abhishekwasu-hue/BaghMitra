@@ -14,7 +14,7 @@ import '../../plots/domain/plot.dart';
 /// "All features" (audit H1): one list with an entry to every screen of the app, so no
 /// feature is reachable only from deep inside another one. Entries only; nothing new.
 /// A block's records open for the grower's block (a short "choose a block" sheet when
-/// there are several, the add-block form when there is none yet).
+/// there are several; with none yet, a short "add your block first" sheet, then the record).
 class MoreScreen extends ConsumerWidget {
   const MoreScreen({super.key});
 
@@ -31,7 +31,12 @@ class MoreScreen extends ConsumerWidget {
       IconData icon,
       String title,
       String Function(String plotId) route,
-    ) => (id, icon, title, () => openForPlot(context, plots, route));
+    ) => (
+      id,
+      icon,
+      title,
+      () => openForPlot(context, plots, route, action: title),
+    );
 
     final sections = <(String, List<_Entry>)>[
       (

@@ -2898,4 +2898,40 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get labelInfoDetailsTitle => 'लेबल की पूरी जानकारी';
+
+  @override
+  String get noPlotTitle => 'पहले अपना बाग जोड़ें';
+
+  @override
+  String get noPlotBody =>
+      'हर रिकॉर्ड बाग के अनुसार रखा जाता है। एक बार बाग जोड़कर सहेजें, फिर यह तुरंत खुलेगा।';
+
+  @override
+  String plotAddressNear(String place) {
+    return 'पास की जगह: $place';
+  }
+
+  @override
+  String plotAddressDistrict(String district) {
+    return 'ज़िला $district';
+  }
+
+  @override
+  String get plotAddressLooking => 'गाँव का नाम खोज रहे हैं…';
+
+  @override
+  String get plotAddressMissing =>
+      'जगह सहेजी जाएगी। गाँव का नाम देखने के लिए इंटरनेट चालू रखकर \'जगह फिर से लें\' दबाएँ।';
+
+  @override
+  String get onboardingNameHint => 'अपना नाम हिंदी में लिखें (उदा. अभिषेक)';
+
+  @override
+  String get nameScriptPromptTitle => 'अपना नाम हिंदी में लिखें';
+
+  @override
+  String get nameScriptFieldLabel => 'नाम (उदा. अभिषेक)';
+
+  @override
+  String get nameScriptLater => 'बाद में';
 }

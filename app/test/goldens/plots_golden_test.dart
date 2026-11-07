@@ -14,6 +14,7 @@ import '../features/inputs/field_log_test.dart' show seedLog;
 import '../features/plots/boundary_screen_test.dart'
     show ScriptedLocation, walkOf;
 import '../features/plots/geo_test.dart' show square;
+import '../features/plots/place_address_test.dart' show katol;
 import '../features/plots/plots_screen_test.dart' show seedTwo, settle;
 import '../features/spray/spray_screen_test.dart' show seedWithSpray;
 import '../helpers/pump_app.dart';
@@ -67,11 +68,13 @@ void main() {
     });
   }
 
-  // After standing in the block: the point as numbers, with its accuracy.
+  // After standing in the block: the point as numbers, with its accuracy and the nearby
+  // place the phone's geocoder names (display only, Q59).
   testWidgets('add_plot_point_mr_light', (tester) async {
     await pumpApp(
       tester,
       initialLocation: '/plots/new',
+      geocoder: FakeGeocoder(katol),
       location: ScriptedLocation(
         const [],
         fixes: const [

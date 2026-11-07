@@ -820,5 +820,15 @@
   "labelInfoOpenFor": "लेबल माहिती: {target}",
   "labelInfoSources": "माहितीचे स्रोत ({count})",
   "labelInfoOpenDetails": "लेबलची पूर्ण माहिती पाहण्यासाठी दाबा",
-  "labelInfoDetailsTitle": "लेबलवरील पूर्ण माहिती"
+  "labelInfoDetailsTitle": "लेबलवरील पूर्ण माहिती",
+  "noPlotTitle": "आधी तुमची बाग जोडा",
+  "noPlotBody": "प्रत्येक नोंद बागेनुसार ठेवली जाते. एकदा बाग जोडून जतन केली की हे लगेच उघडेल.",
+  "plotAddressNear": "जवळचे ठिकाण: {place}",
+  "plotAddressDistrict": "जि. {district}",
+  "plotAddressLooking": "गावाचे नाव शोधत आहे…",
+  "plotAddressMissing": "ठिकाण जतन होईल. गावाचे नाव पाहण्यासाठी नेट सुरू ठेवून 'ठिकाण पुन्हा घ्या' दाबा.",
+  "onboardingNameHint": "तुमचे नाव मराठीत लिहा (उदा. अभिषेक)",
+  "nameScriptPromptTitle": "तुमचे नाव मराठीत लिहा",
+  "nameScriptFieldLabel": "नाव (उदा. अभिषेक)",
+  "nameScriptLater": "नको"
 }
