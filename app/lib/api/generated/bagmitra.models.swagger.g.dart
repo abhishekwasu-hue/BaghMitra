@@ -52,6 +52,31 @@ Map<String, dynamic> _$AccountDeletedToJson(AccountDeleted instance) =>
       'sign_in_account_removed': instance.signInAccountRemoved,
     };
 
+AdminFixOut _$AdminFixOutFromJson(Map<String, dynamic> json) => AdminFixOut(
+  accuracyM: (json['accuracy_m'] as num).toDouble(),
+  capturedAt: DateTime.parse(json['captured_at'] as String),
+  district: json['district'] as String?,
+  isMocked: json['is_mocked'] as bool,
+  lat: (json['lat'] as num).toDouble(),
+  lon: (json['lon'] as num).toDouble(),
+  pin: json['pin'] as String?,
+  place: json['place'] as String?,
+  state: json['state'] as String?,
+);
+
+Map<String, dynamic> _$AdminFixOutToJson(AdminFixOut instance) =>
+    <String, dynamic>{
+      'accuracy_m': instance.accuracyM,
+      'captured_at': instance.capturedAt.toIso8601String(),
+      'district': ?instance.district,
+      'is_mocked': instance.isMocked,
+      'lat': instance.lat,
+      'lon': instance.lon,
+      'pin': ?instance.pin,
+      'place': ?instance.place,
+      'state': ?instance.state,
+    };
+
 AlertOut _$AlertOutFromJson(Map<String, dynamic> json) => AlertOut(
   cardId: json['card_id'] as String?,
   createdAt: DateTime.parse(json['created_at'] as String),
@@ -1846,7 +1871,12 @@ SubjectOut _$SubjectOutFromJson(Map<String, dynamic> json) => SubjectOut(
           .toList() ??
       [],
   fields: json['fields'] as Map<String, dynamic>,
+  flags:
+      (json['flags'] as List<dynamic>?)?.map((e) => e as String).toList() ?? [],
   name: json['name'] as String,
+  registrationFix: json['registration_fix'] == null
+      ? null
+      : AdminFixOut.fromJson(json['registration_fix'] as Map<String, dynamic>),
   status: json['status'] as String,
   subjectId: json['subject_id'] as String,
   subjectType: json['subject_type'] as String,
@@ -1857,7 +1887,9 @@ Map<String, dynamic> _$SubjectOutToJson(SubjectOut instance) =>
     <String, dynamic>{
       'document_keys': instance.documentKeys,
       'fields': instance.fields,
+      'flags': ?instance.flags,
       'name': instance.name,
+      'registration_fix': ?instance.registrationFix?.toJson(),
       'status': instance.status,
       'subject_id': instance.subjectId,
       'subject_type': instance.subjectType,
