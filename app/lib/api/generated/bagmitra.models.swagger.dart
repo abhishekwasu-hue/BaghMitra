@@ -214,6 +214,251 @@ extension $AcceptanceOutExtension on AcceptanceOut {
 }
 
 @JsonSerializable(explicitToJson: true)
+class AccountActionOut {
+  const AccountActionOut({
+    required this.actedAt,
+    required this.action,
+    required this.appealDecidedAt,
+    required this.appealPhotoCount,
+    required this.appealReason,
+    required this.appealState,
+    required this.appealedAt,
+    required this.canAppeal,
+    required this.id,
+    required this.reasonCode,
+    required this.subjectId,
+    required this.subjectType,
+  });
+
+  factory AccountActionOut.fromJson(Map<String, dynamic> json) =>
+      _$AccountActionOutFromJson(json);
+
+  static const toJsonFactory = _$AccountActionOutToJson;
+  Map<String, dynamic> toJson() => _$AccountActionOutToJson(this);
+
+  @JsonKey(name: 'acted_at', includeIfNull: false)
+  final DateTime actedAt;
+  @JsonKey(name: 'action', includeIfNull: false)
+  final String action;
+  @JsonKey(name: 'appeal_decided_at', includeIfNull: false)
+  final DateTime? appealDecidedAt;
+  @JsonKey(name: 'appeal_photo_count', includeIfNull: false)
+  final int appealPhotoCount;
+  @JsonKey(name: 'appeal_reason', includeIfNull: false)
+  final String? appealReason;
+  @JsonKey(name: 'appeal_state', includeIfNull: false)
+  final String appealState;
+  @JsonKey(name: 'appealed_at', includeIfNull: false)
+  final DateTime? appealedAt;
+  @JsonKey(name: 'can_appeal', includeIfNull: false)
+  final bool canAppeal;
+  @JsonKey(name: 'id', includeIfNull: false)
+  final String id;
+  @JsonKey(name: 'reason_code', includeIfNull: false)
+  final String reasonCode;
+  @JsonKey(name: 'subject_id', includeIfNull: false)
+  final String subjectId;
+  @JsonKey(name: 'subject_type', includeIfNull: false)
+  final String subjectType;
+  static const fromJsonFactory = _$AccountActionOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is AccountActionOut &&
+            (identical(other.actedAt, actedAt) ||
+                const DeepCollectionEquality().equals(
+                  other.actedAt,
+                  actedAt,
+                )) &&
+            (identical(other.action, action) ||
+                const DeepCollectionEquality().equals(other.action, action)) &&
+            (identical(other.appealDecidedAt, appealDecidedAt) ||
+                const DeepCollectionEquality().equals(
+                  other.appealDecidedAt,
+                  appealDecidedAt,
+                )) &&
+            (identical(other.appealPhotoCount, appealPhotoCount) ||
+                const DeepCollectionEquality().equals(
+                  other.appealPhotoCount,
+                  appealPhotoCount,
+                )) &&
+            (identical(other.appealReason, appealReason) ||
+                const DeepCollectionEquality().equals(
+                  other.appealReason,
+                  appealReason,
+                )) &&
+            (identical(other.appealState, appealState) ||
+                const DeepCollectionEquality().equals(
+                  other.appealState,
+                  appealState,
+                )) &&
+            (identical(other.appealedAt, appealedAt) ||
+                const DeepCollectionEquality().equals(
+                  other.appealedAt,
+                  appealedAt,
+                )) &&
+            (identical(other.canAppeal, canAppeal) ||
+                const DeepCollectionEquality().equals(
+                  other.canAppeal,
+                  canAppeal,
+                )) &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.reasonCode, reasonCode) ||
+                const DeepCollectionEquality().equals(
+                  other.reasonCode,
+                  reasonCode,
+                )) &&
+            (identical(other.subjectId, subjectId) ||
+                const DeepCollectionEquality().equals(
+                  other.subjectId,
+                  subjectId,
+                )) &&
+            (identical(other.subjectType, subjectType) ||
+                const DeepCollectionEquality().equals(
+                  other.subjectType,
+                  subjectType,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(actedAt) ^
+      const DeepCollectionEquality().hash(action) ^
+      const DeepCollectionEquality().hash(appealDecidedAt) ^
+      const DeepCollectionEquality().hash(appealPhotoCount) ^
+      const DeepCollectionEquality().hash(appealReason) ^
+      const DeepCollectionEquality().hash(appealState) ^
+      const DeepCollectionEquality().hash(appealedAt) ^
+      const DeepCollectionEquality().hash(canAppeal) ^
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(reasonCode) ^
+      const DeepCollectionEquality().hash(subjectId) ^
+      const DeepCollectionEquality().hash(subjectType) ^
+      runtimeType.hashCode;
+}
+
+extension $AccountActionOutExtension on AccountActionOut {
+  AccountActionOut copyWith({
+    DateTime? actedAt,
+    String? action,
+    DateTime? appealDecidedAt,
+    int? appealPhotoCount,
+    String? appealReason,
+    String? appealState,
+    DateTime? appealedAt,
+    bool? canAppeal,
+    String? id,
+    String? reasonCode,
+    String? subjectId,
+    String? subjectType,
+  }) {
+    return AccountActionOut(
+      actedAt: actedAt ?? this.actedAt,
+      action: action ?? this.action,
+      appealDecidedAt: appealDecidedAt ?? this.appealDecidedAt,
+      appealPhotoCount: appealPhotoCount ?? this.appealPhotoCount,
+      appealReason: appealReason ?? this.appealReason,
+      appealState: appealState ?? this.appealState,
+      appealedAt: appealedAt ?? this.appealedAt,
+      canAppeal: canAppeal ?? this.canAppeal,
+      id: id ?? this.id,
+      reasonCode: reasonCode ?? this.reasonCode,
+      subjectId: subjectId ?? this.subjectId,
+      subjectType: subjectType ?? this.subjectType,
+    );
+  }
+
+  AccountActionOut copyWithWrapped({
+    Wrapped<DateTime>? actedAt,
+    Wrapped<String>? action,
+    Wrapped<DateTime?>? appealDecidedAt,
+    Wrapped<int>? appealPhotoCount,
+    Wrapped<String?>? appealReason,
+    Wrapped<String>? appealState,
+    Wrapped<DateTime?>? appealedAt,
+    Wrapped<bool>? canAppeal,
+    Wrapped<String>? id,
+    Wrapped<String>? reasonCode,
+    Wrapped<String>? subjectId,
+    Wrapped<String>? subjectType,
+  }) {
+    return AccountActionOut(
+      actedAt: (actedAt != null ? actedAt.value : this.actedAt),
+      action: (action != null ? action.value : this.action),
+      appealDecidedAt: (appealDecidedAt != null
+          ? appealDecidedAt.value
+          : this.appealDecidedAt),
+      appealPhotoCount: (appealPhotoCount != null
+          ? appealPhotoCount.value
+          : this.appealPhotoCount),
+      appealReason: (appealReason != null
+          ? appealReason.value
+          : this.appealReason),
+      appealState: (appealState != null ? appealState.value : this.appealState),
+      appealedAt: (appealedAt != null ? appealedAt.value : this.appealedAt),
+      canAppeal: (canAppeal != null ? canAppeal.value : this.canAppeal),
+      id: (id != null ? id.value : this.id),
+      reasonCode: (reasonCode != null ? reasonCode.value : this.reasonCode),
+      subjectId: (subjectId != null ? subjectId.value : this.subjectId),
+      subjectType: (subjectType != null ? subjectType.value : this.subjectType),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class AccountActionsResponse {
+  const AccountActionsResponse({required this.actions});
+
+  factory AccountActionsResponse.fromJson(Map<String, dynamic> json) =>
+      _$AccountActionsResponseFromJson(json);
+
+  static const toJsonFactory = _$AccountActionsResponseToJson;
+  Map<String, dynamic> toJson() => _$AccountActionsResponseToJson(this);
+
+  @JsonKey(
+    name: 'actions',
+    includeIfNull: false,
+    defaultValue: <AccountActionOut>[],
+  )
+  final List<AccountActionOut> actions;
+  static const fromJsonFactory = _$AccountActionsResponseFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is AccountActionsResponse &&
+            (identical(other.actions, actions) ||
+                const DeepCollectionEquality().equals(other.actions, actions)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(actions) ^ runtimeType.hashCode;
+}
+
+extension $AccountActionsResponseExtension on AccountActionsResponse {
+  AccountActionsResponse copyWith({List<AccountActionOut>? actions}) {
+    return AccountActionsResponse(actions: actions ?? this.actions);
+  }
+
+  AccountActionsResponse copyWithWrapped({
+    Wrapped<List<AccountActionOut>>? actions,
+  }) {
+    return AccountActionsResponse(
+      actions: (actions != null ? actions.value : this.actions),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class AccountDeleted {
   const AccountDeleted({
     required this.photosDeleted,
@@ -293,6 +538,418 @@ extension $AccountDeletedExtension on AccountDeleted {
       signInAccountRemoved: (signInAccountRemoved != null
           ? signInAccountRemoved.value
           : this.signInAccountRemoved),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ActionIn {
+  const ActionIn({
+    required this.action,
+    required this.reasonCode,
+    required this.subjectId,
+    required this.subjectType,
+  });
+
+  factory ActionIn.fromJson(Map<String, dynamic> json) =>
+      _$ActionInFromJson(json);
+
+  static const toJsonFactory = _$ActionInToJson;
+  Map<String, dynamic> toJson() => _$ActionInToJson(this);
+
+  @JsonKey(
+    name: 'action',
+    includeIfNull: false,
+    toJson: actionInActionToJson,
+    fromJson: actionInActionFromJson,
+  )
+  final enums.ActionInAction action;
+  @JsonKey(
+    name: 'reason_code',
+    includeIfNull: false,
+    toJson: actionInReasonCodeToJson,
+    fromJson: actionInReasonCodeFromJson,
+  )
+  final enums.ActionInReasonCode reasonCode;
+  @JsonKey(name: 'subject_id', includeIfNull: false)
+  final String subjectId;
+  @JsonKey(
+    name: 'subject_type',
+    includeIfNull: false,
+    toJson: actionInSubjectTypeToJson,
+    fromJson: actionInSubjectTypeFromJson,
+  )
+  final enums.ActionInSubjectType subjectType;
+  static const fromJsonFactory = _$ActionInFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is ActionIn &&
+            (identical(other.action, action) ||
+                const DeepCollectionEquality().equals(other.action, action)) &&
+            (identical(other.reasonCode, reasonCode) ||
+                const DeepCollectionEquality().equals(
+                  other.reasonCode,
+                  reasonCode,
+                )) &&
+            (identical(other.subjectId, subjectId) ||
+                const DeepCollectionEquality().equals(
+                  other.subjectId,
+                  subjectId,
+                )) &&
+            (identical(other.subjectType, subjectType) ||
+                const DeepCollectionEquality().equals(
+                  other.subjectType,
+                  subjectType,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(action) ^
+      const DeepCollectionEquality().hash(reasonCode) ^
+      const DeepCollectionEquality().hash(subjectId) ^
+      const DeepCollectionEquality().hash(subjectType) ^
+      runtimeType.hashCode;
+}
+
+extension $ActionInExtension on ActionIn {
+  ActionIn copyWith({
+    enums.ActionInAction? action,
+    enums.ActionInReasonCode? reasonCode,
+    String? subjectId,
+    enums.ActionInSubjectType? subjectType,
+  }) {
+    return ActionIn(
+      action: action ?? this.action,
+      reasonCode: reasonCode ?? this.reasonCode,
+      subjectId: subjectId ?? this.subjectId,
+      subjectType: subjectType ?? this.subjectType,
+    );
+  }
+
+  ActionIn copyWithWrapped({
+    Wrapped<enums.ActionInAction>? action,
+    Wrapped<enums.ActionInReasonCode>? reasonCode,
+    Wrapped<String>? subjectId,
+    Wrapped<enums.ActionInSubjectType>? subjectType,
+  }) {
+    return ActionIn(
+      action: (action != null ? action.value : this.action),
+      reasonCode: (reasonCode != null ? reasonCode.value : this.reasonCode),
+      subjectId: (subjectId != null ? subjectId.value : this.subjectId),
+      subjectType: (subjectType != null ? subjectType.value : this.subjectType),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ActionOut {
+  const ActionOut({
+    required this.ackOverdue,
+    required this.actedAt,
+    required this.action,
+    required this.actorId,
+    required this.appealAcknowledgedAt,
+    required this.appealDecidedAt,
+    required this.appealDecidedBy,
+    required this.appealPhotoCount,
+    required this.appealReason,
+    required this.appealState,
+    required this.appealedAt,
+    required this.closeOverdue,
+    required this.id,
+    required this.reasonCode,
+    required this.subjectId,
+    required this.subjectType,
+    required this.userId,
+  });
+
+  factory ActionOut.fromJson(Map<String, dynamic> json) =>
+      _$ActionOutFromJson(json);
+
+  static const toJsonFactory = _$ActionOutToJson;
+  Map<String, dynamic> toJson() => _$ActionOutToJson(this);
+
+  @JsonKey(name: 'ack_overdue', includeIfNull: false)
+  final bool ackOverdue;
+  @JsonKey(name: 'acted_at', includeIfNull: false)
+  final DateTime actedAt;
+  @JsonKey(name: 'action', includeIfNull: false)
+  final String action;
+  @JsonKey(name: 'actor_id', includeIfNull: false)
+  final String actorId;
+  @JsonKey(name: 'appeal_acknowledged_at', includeIfNull: false)
+  final DateTime? appealAcknowledgedAt;
+  @JsonKey(name: 'appeal_decided_at', includeIfNull: false)
+  final DateTime? appealDecidedAt;
+  @JsonKey(name: 'appeal_decided_by', includeIfNull: false)
+  final String? appealDecidedBy;
+  @JsonKey(name: 'appeal_photo_count', includeIfNull: false)
+  final int appealPhotoCount;
+  @JsonKey(name: 'appeal_reason', includeIfNull: false)
+  final String? appealReason;
+  @JsonKey(name: 'appeal_state', includeIfNull: false)
+  final String appealState;
+  @JsonKey(name: 'appealed_at', includeIfNull: false)
+  final DateTime? appealedAt;
+  @JsonKey(name: 'close_overdue', includeIfNull: false)
+  final bool closeOverdue;
+  @JsonKey(name: 'id', includeIfNull: false)
+  final String id;
+  @JsonKey(name: 'reason_code', includeIfNull: false)
+  final String reasonCode;
+  @JsonKey(name: 'subject_id', includeIfNull: false)
+  final String subjectId;
+  @JsonKey(name: 'subject_type', includeIfNull: false)
+  final String subjectType;
+  @JsonKey(name: 'user_id', includeIfNull: false)
+  final String? userId;
+  static const fromJsonFactory = _$ActionOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is ActionOut &&
+            (identical(other.ackOverdue, ackOverdue) ||
+                const DeepCollectionEquality().equals(
+                  other.ackOverdue,
+                  ackOverdue,
+                )) &&
+            (identical(other.actedAt, actedAt) ||
+                const DeepCollectionEquality().equals(
+                  other.actedAt,
+                  actedAt,
+                )) &&
+            (identical(other.action, action) ||
+                const DeepCollectionEquality().equals(other.action, action)) &&
+            (identical(other.actorId, actorId) ||
+                const DeepCollectionEquality().equals(
+                  other.actorId,
+                  actorId,
+                )) &&
+            (identical(other.appealAcknowledgedAt, appealAcknowledgedAt) ||
+                const DeepCollectionEquality().equals(
+                  other.appealAcknowledgedAt,
+                  appealAcknowledgedAt,
+                )) &&
+            (identical(other.appealDecidedAt, appealDecidedAt) ||
+                const DeepCollectionEquality().equals(
+                  other.appealDecidedAt,
+                  appealDecidedAt,
+                )) &&
+            (identical(other.appealDecidedBy, appealDecidedBy) ||
+                const DeepCollectionEquality().equals(
+                  other.appealDecidedBy,
+                  appealDecidedBy,
+                )) &&
+            (identical(other.appealPhotoCount, appealPhotoCount) ||
+                const DeepCollectionEquality().equals(
+                  other.appealPhotoCount,
+                  appealPhotoCount,
+                )) &&
+            (identical(other.appealReason, appealReason) ||
+                const DeepCollectionEquality().equals(
+                  other.appealReason,
+                  appealReason,
+                )) &&
+            (identical(other.appealState, appealState) ||
+                const DeepCollectionEquality().equals(
+                  other.appealState,
+                  appealState,
+                )) &&
+            (identical(other.appealedAt, appealedAt) ||
+                const DeepCollectionEquality().equals(
+                  other.appealedAt,
+                  appealedAt,
+                )) &&
+            (identical(other.closeOverdue, closeOverdue) ||
+                const DeepCollectionEquality().equals(
+                  other.closeOverdue,
+                  closeOverdue,
+                )) &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.reasonCode, reasonCode) ||
+                const DeepCollectionEquality().equals(
+                  other.reasonCode,
+                  reasonCode,
+                )) &&
+            (identical(other.subjectId, subjectId) ||
+                const DeepCollectionEquality().equals(
+                  other.subjectId,
+                  subjectId,
+                )) &&
+            (identical(other.subjectType, subjectType) ||
+                const DeepCollectionEquality().equals(
+                  other.subjectType,
+                  subjectType,
+                )) &&
+            (identical(other.userId, userId) ||
+                const DeepCollectionEquality().equals(other.userId, userId)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(ackOverdue) ^
+      const DeepCollectionEquality().hash(actedAt) ^
+      const DeepCollectionEquality().hash(action) ^
+      const DeepCollectionEquality().hash(actorId) ^
+      const DeepCollectionEquality().hash(appealAcknowledgedAt) ^
+      const DeepCollectionEquality().hash(appealDecidedAt) ^
+      const DeepCollectionEquality().hash(appealDecidedBy) ^
+      const DeepCollectionEquality().hash(appealPhotoCount) ^
+      const DeepCollectionEquality().hash(appealReason) ^
+      const DeepCollectionEquality().hash(appealState) ^
+      const DeepCollectionEquality().hash(appealedAt) ^
+      const DeepCollectionEquality().hash(closeOverdue) ^
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(reasonCode) ^
+      const DeepCollectionEquality().hash(subjectId) ^
+      const DeepCollectionEquality().hash(subjectType) ^
+      const DeepCollectionEquality().hash(userId) ^
+      runtimeType.hashCode;
+}
+
+extension $ActionOutExtension on ActionOut {
+  ActionOut copyWith({
+    bool? ackOverdue,
+    DateTime? actedAt,
+    String? action,
+    String? actorId,
+    DateTime? appealAcknowledgedAt,
+    DateTime? appealDecidedAt,
+    String? appealDecidedBy,
+    int? appealPhotoCount,
+    String? appealReason,
+    String? appealState,
+    DateTime? appealedAt,
+    bool? closeOverdue,
+    String? id,
+    String? reasonCode,
+    String? subjectId,
+    String? subjectType,
+    String? userId,
+  }) {
+    return ActionOut(
+      ackOverdue: ackOverdue ?? this.ackOverdue,
+      actedAt: actedAt ?? this.actedAt,
+      action: action ?? this.action,
+      actorId: actorId ?? this.actorId,
+      appealAcknowledgedAt: appealAcknowledgedAt ?? this.appealAcknowledgedAt,
+      appealDecidedAt: appealDecidedAt ?? this.appealDecidedAt,
+      appealDecidedBy: appealDecidedBy ?? this.appealDecidedBy,
+      appealPhotoCount: appealPhotoCount ?? this.appealPhotoCount,
+      appealReason: appealReason ?? this.appealReason,
+      appealState: appealState ?? this.appealState,
+      appealedAt: appealedAt ?? this.appealedAt,
+      closeOverdue: closeOverdue ?? this.closeOverdue,
+      id: id ?? this.id,
+      reasonCode: reasonCode ?? this.reasonCode,
+      subjectId: subjectId ?? this.subjectId,
+      subjectType: subjectType ?? this.subjectType,
+      userId: userId ?? this.userId,
+    );
+  }
+
+  ActionOut copyWithWrapped({
+    Wrapped<bool>? ackOverdue,
+    Wrapped<DateTime>? actedAt,
+    Wrapped<String>? action,
+    Wrapped<String>? actorId,
+    Wrapped<DateTime?>? appealAcknowledgedAt,
+    Wrapped<DateTime?>? appealDecidedAt,
+    Wrapped<String?>? appealDecidedBy,
+    Wrapped<int>? appealPhotoCount,
+    Wrapped<String?>? appealReason,
+    Wrapped<String>? appealState,
+    Wrapped<DateTime?>? appealedAt,
+    Wrapped<bool>? closeOverdue,
+    Wrapped<String>? id,
+    Wrapped<String>? reasonCode,
+    Wrapped<String>? subjectId,
+    Wrapped<String>? subjectType,
+    Wrapped<String?>? userId,
+  }) {
+    return ActionOut(
+      ackOverdue: (ackOverdue != null ? ackOverdue.value : this.ackOverdue),
+      actedAt: (actedAt != null ? actedAt.value : this.actedAt),
+      action: (action != null ? action.value : this.action),
+      actorId: (actorId != null ? actorId.value : this.actorId),
+      appealAcknowledgedAt: (appealAcknowledgedAt != null
+          ? appealAcknowledgedAt.value
+          : this.appealAcknowledgedAt),
+      appealDecidedAt: (appealDecidedAt != null
+          ? appealDecidedAt.value
+          : this.appealDecidedAt),
+      appealDecidedBy: (appealDecidedBy != null
+          ? appealDecidedBy.value
+          : this.appealDecidedBy),
+      appealPhotoCount: (appealPhotoCount != null
+          ? appealPhotoCount.value
+          : this.appealPhotoCount),
+      appealReason: (appealReason != null
+          ? appealReason.value
+          : this.appealReason),
+      appealState: (appealState != null ? appealState.value : this.appealState),
+      appealedAt: (appealedAt != null ? appealedAt.value : this.appealedAt),
+      closeOverdue: (closeOverdue != null
+          ? closeOverdue.value
+          : this.closeOverdue),
+      id: (id != null ? id.value : this.id),
+      reasonCode: (reasonCode != null ? reasonCode.value : this.reasonCode),
+      subjectId: (subjectId != null ? subjectId.value : this.subjectId),
+      subjectType: (subjectType != null ? subjectType.value : this.subjectType),
+      userId: (userId != null ? userId.value : this.userId),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ActionsResponse {
+  const ActionsResponse({required this.actions});
+
+  factory ActionsResponse.fromJson(Map<String, dynamic> json) =>
+      _$ActionsResponseFromJson(json);
+
+  static const toJsonFactory = _$ActionsResponseToJson;
+  Map<String, dynamic> toJson() => _$ActionsResponseToJson(this);
+
+  @JsonKey(name: 'actions', includeIfNull: false, defaultValue: <ActionOut>[])
+  final List<ActionOut> actions;
+  static const fromJsonFactory = _$ActionsResponseFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is ActionsResponse &&
+            (identical(other.actions, actions) ||
+                const DeepCollectionEquality().equals(other.actions, actions)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(actions) ^ runtimeType.hashCode;
+}
+
+extension $ActionsResponseExtension on ActionsResponse {
+  ActionsResponse copyWith({List<ActionOut>? actions}) {
+    return ActionsResponse(actions: actions ?? this.actions);
+  }
+
+  ActionsResponse copyWithWrapped({Wrapped<List<ActionOut>>? actions}) {
+    return ActionsResponse(
+      actions: (actions != null ? actions.value : this.actions),
     );
   }
 }
@@ -944,6 +1601,100 @@ extension $AppVersionResponseExtension on AppVersionResponse {
 }
 
 @JsonSerializable(explicitToJson: true)
+class AppealDecisionIn {
+  const AppealDecisionIn({required this.outcome});
+
+  factory AppealDecisionIn.fromJson(Map<String, dynamic> json) =>
+      _$AppealDecisionInFromJson(json);
+
+  static const toJsonFactory = _$AppealDecisionInToJson;
+  Map<String, dynamic> toJson() => _$AppealDecisionInToJson(this);
+
+  @JsonKey(
+    name: 'outcome',
+    includeIfNull: false,
+    toJson: appealDecisionInOutcomeToJson,
+    fromJson: appealDecisionInOutcomeFromJson,
+  )
+  final enums.AppealDecisionInOutcome outcome;
+  static const fromJsonFactory = _$AppealDecisionInFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is AppealDecisionIn &&
+            (identical(other.outcome, outcome) ||
+                const DeepCollectionEquality().equals(other.outcome, outcome)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(outcome) ^ runtimeType.hashCode;
+}
+
+extension $AppealDecisionInExtension on AppealDecisionIn {
+  AppealDecisionIn copyWith({enums.AppealDecisionInOutcome? outcome}) {
+    return AppealDecisionIn(outcome: outcome ?? this.outcome);
+  }
+
+  AppealDecisionIn copyWithWrapped({
+    Wrapped<enums.AppealDecisionInOutcome>? outcome,
+  }) {
+    return AppealDecisionIn(
+      outcome: (outcome != null ? outcome.value : this.outcome),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class AppealIn {
+  const AppealIn({required this.reason});
+
+  factory AppealIn.fromJson(Map<String, dynamic> json) =>
+      _$AppealInFromJson(json);
+
+  static const toJsonFactory = _$AppealInToJson;
+  Map<String, dynamic> toJson() => _$AppealInToJson(this);
+
+  @JsonKey(
+    name: 'reason',
+    includeIfNull: false,
+    toJson: appealInReasonToJson,
+    fromJson: appealInReasonFromJson,
+  )
+  final enums.AppealInReason reason;
+  static const fromJsonFactory = _$AppealInFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is AppealIn &&
+            (identical(other.reason, reason) ||
+                const DeepCollectionEquality().equals(other.reason, reason)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(reason) ^ runtimeType.hashCode;
+}
+
+extension $AppealInExtension on AppealIn {
+  AppealIn copyWith({enums.AppealInReason? reason}) {
+    return AppealIn(reason: reason ?? this.reason);
+  }
+
+  AppealIn copyWithWrapped({Wrapped<enums.AppealInReason>? reason}) {
+    return AppealIn(reason: (reason != null ? reason.value : this.reason));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class BadgeOut {
   const BadgeOut({required this.kind, required this.on, this.place});
 
@@ -1129,6 +1880,60 @@ extension $BlockedClaimOutExtension on BlockedClaimOut {
           : this.notification),
       reason: (reason != null ? reason.value : this.reason),
       target: (target != null ? target.value : this.target),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class BlocksResponse {
+  const BlocksResponse({required this.blockedUserIds});
+
+  factory BlocksResponse.fromJson(Map<String, dynamic> json) =>
+      _$BlocksResponseFromJson(json);
+
+  static const toJsonFactory = _$BlocksResponseToJson;
+  Map<String, dynamic> toJson() => _$BlocksResponseToJson(this);
+
+  @JsonKey(
+    name: 'blocked_user_ids',
+    includeIfNull: false,
+    defaultValue: <String>[],
+  )
+  final List<String> blockedUserIds;
+  static const fromJsonFactory = _$BlocksResponseFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is BlocksResponse &&
+            (identical(other.blockedUserIds, blockedUserIds) ||
+                const DeepCollectionEquality().equals(
+                  other.blockedUserIds,
+                  blockedUserIds,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(blockedUserIds) ^
+      runtimeType.hashCode;
+}
+
+extension $BlocksResponseExtension on BlocksResponse {
+  BlocksResponse copyWith({List<String>? blockedUserIds}) {
+    return BlocksResponse(
+      blockedUserIds: blockedUserIds ?? this.blockedUserIds,
+    );
+  }
+
+  BlocksResponse copyWithWrapped({Wrapped<List<String>>? blockedUserIds}) {
+    return BlocksResponse(
+      blockedUserIds: (blockedUserIds != null
+          ? blockedUserIds.value
+          : this.blockedUserIds),
     );
   }
 }
@@ -11199,6 +12004,625 @@ extension $RegistrationFixInExtension on RegistrationFixIn {
 }
 
 @JsonSerializable(explicitToJson: true)
+class ReportAdminOut {
+  const ReportAdminOut({
+    required this.ackOverdue,
+    required this.acknowledgedAt,
+    required this.adminActionId,
+    required this.closeOverdue,
+    required this.createdAt,
+    required this.decidedAt,
+    required this.decidedBy,
+    required this.id,
+    required this.photoCount,
+    required this.reason,
+    required this.reporterId,
+    required this.status,
+    required this.subjectId,
+    required this.subjectType,
+    required this.subjectUserId,
+  });
+
+  factory ReportAdminOut.fromJson(Map<String, dynamic> json) =>
+      _$ReportAdminOutFromJson(json);
+
+  static const toJsonFactory = _$ReportAdminOutToJson;
+  Map<String, dynamic> toJson() => _$ReportAdminOutToJson(this);
+
+  @JsonKey(name: 'ack_overdue', includeIfNull: false)
+  final bool ackOverdue;
+  @JsonKey(name: 'acknowledged_at', includeIfNull: false)
+  final DateTime? acknowledgedAt;
+  @JsonKey(name: 'admin_action_id', includeIfNull: false)
+  final String? adminActionId;
+  @JsonKey(name: 'close_overdue', includeIfNull: false)
+  final bool closeOverdue;
+  @JsonKey(name: 'created_at', includeIfNull: false)
+  final DateTime createdAt;
+  @JsonKey(name: 'decided_at', includeIfNull: false)
+  final DateTime? decidedAt;
+  @JsonKey(name: 'decided_by', includeIfNull: false)
+  final String? decidedBy;
+  @JsonKey(name: 'id', includeIfNull: false)
+  final String id;
+  @JsonKey(name: 'photo_count', includeIfNull: false)
+  final int photoCount;
+  @JsonKey(name: 'reason', includeIfNull: false)
+  final String reason;
+  @JsonKey(name: 'reporter_id', includeIfNull: false)
+  final String reporterId;
+  @JsonKey(name: 'status', includeIfNull: false)
+  final String status;
+  @JsonKey(name: 'subject_id', includeIfNull: false)
+  final String subjectId;
+  @JsonKey(name: 'subject_type', includeIfNull: false)
+  final String subjectType;
+  @JsonKey(name: 'subject_user_id', includeIfNull: false)
+  final String? subjectUserId;
+  static const fromJsonFactory = _$ReportAdminOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is ReportAdminOut &&
+            (identical(other.ackOverdue, ackOverdue) ||
+                const DeepCollectionEquality().equals(
+                  other.ackOverdue,
+                  ackOverdue,
+                )) &&
+            (identical(other.acknowledgedAt, acknowledgedAt) ||
+                const DeepCollectionEquality().equals(
+                  other.acknowledgedAt,
+                  acknowledgedAt,
+                )) &&
+            (identical(other.adminActionId, adminActionId) ||
+                const DeepCollectionEquality().equals(
+                  other.adminActionId,
+                  adminActionId,
+                )) &&
+            (identical(other.closeOverdue, closeOverdue) ||
+                const DeepCollectionEquality().equals(
+                  other.closeOverdue,
+                  closeOverdue,
+                )) &&
+            (identical(other.createdAt, createdAt) ||
+                const DeepCollectionEquality().equals(
+                  other.createdAt,
+                  createdAt,
+                )) &&
+            (identical(other.decidedAt, decidedAt) ||
+                const DeepCollectionEquality().equals(
+                  other.decidedAt,
+                  decidedAt,
+                )) &&
+            (identical(other.decidedBy, decidedBy) ||
+                const DeepCollectionEquality().equals(
+                  other.decidedBy,
+                  decidedBy,
+                )) &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.photoCount, photoCount) ||
+                const DeepCollectionEquality().equals(
+                  other.photoCount,
+                  photoCount,
+                )) &&
+            (identical(other.reason, reason) ||
+                const DeepCollectionEquality().equals(other.reason, reason)) &&
+            (identical(other.reporterId, reporterId) ||
+                const DeepCollectionEquality().equals(
+                  other.reporterId,
+                  reporterId,
+                )) &&
+            (identical(other.status, status) ||
+                const DeepCollectionEquality().equals(other.status, status)) &&
+            (identical(other.subjectId, subjectId) ||
+                const DeepCollectionEquality().equals(
+                  other.subjectId,
+                  subjectId,
+                )) &&
+            (identical(other.subjectType, subjectType) ||
+                const DeepCollectionEquality().equals(
+                  other.subjectType,
+                  subjectType,
+                )) &&
+            (identical(other.subjectUserId, subjectUserId) ||
+                const DeepCollectionEquality().equals(
+                  other.subjectUserId,
+                  subjectUserId,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(ackOverdue) ^
+      const DeepCollectionEquality().hash(acknowledgedAt) ^
+      const DeepCollectionEquality().hash(adminActionId) ^
+      const DeepCollectionEquality().hash(closeOverdue) ^
+      const DeepCollectionEquality().hash(createdAt) ^
+      const DeepCollectionEquality().hash(decidedAt) ^
+      const DeepCollectionEquality().hash(decidedBy) ^
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(photoCount) ^
+      const DeepCollectionEquality().hash(reason) ^
+      const DeepCollectionEquality().hash(reporterId) ^
+      const DeepCollectionEquality().hash(status) ^
+      const DeepCollectionEquality().hash(subjectId) ^
+      const DeepCollectionEquality().hash(subjectType) ^
+      const DeepCollectionEquality().hash(subjectUserId) ^
+      runtimeType.hashCode;
+}
+
+extension $ReportAdminOutExtension on ReportAdminOut {
+  ReportAdminOut copyWith({
+    bool? ackOverdue,
+    DateTime? acknowledgedAt,
+    String? adminActionId,
+    bool? closeOverdue,
+    DateTime? createdAt,
+    DateTime? decidedAt,
+    String? decidedBy,
+    String? id,
+    int? photoCount,
+    String? reason,
+    String? reporterId,
+    String? status,
+    String? subjectId,
+    String? subjectType,
+    String? subjectUserId,
+  }) {
+    return ReportAdminOut(
+      ackOverdue: ackOverdue ?? this.ackOverdue,
+      acknowledgedAt: acknowledgedAt ?? this.acknowledgedAt,
+      adminActionId: adminActionId ?? this.adminActionId,
+      closeOverdue: closeOverdue ?? this.closeOverdue,
+      createdAt: createdAt ?? this.createdAt,
+      decidedAt: decidedAt ?? this.decidedAt,
+      decidedBy: decidedBy ?? this.decidedBy,
+      id: id ?? this.id,
+      photoCount: photoCount ?? this.photoCount,
+      reason: reason ?? this.reason,
+      reporterId: reporterId ?? this.reporterId,
+      status: status ?? this.status,
+      subjectId: subjectId ?? this.subjectId,
+      subjectType: subjectType ?? this.subjectType,
+      subjectUserId: subjectUserId ?? this.subjectUserId,
+    );
+  }
+
+  ReportAdminOut copyWithWrapped({
+    Wrapped<bool>? ackOverdue,
+    Wrapped<DateTime?>? acknowledgedAt,
+    Wrapped<String?>? adminActionId,
+    Wrapped<bool>? closeOverdue,
+    Wrapped<DateTime>? createdAt,
+    Wrapped<DateTime?>? decidedAt,
+    Wrapped<String?>? decidedBy,
+    Wrapped<String>? id,
+    Wrapped<int>? photoCount,
+    Wrapped<String>? reason,
+    Wrapped<String>? reporterId,
+    Wrapped<String>? status,
+    Wrapped<String>? subjectId,
+    Wrapped<String>? subjectType,
+    Wrapped<String?>? subjectUserId,
+  }) {
+    return ReportAdminOut(
+      ackOverdue: (ackOverdue != null ? ackOverdue.value : this.ackOverdue),
+      acknowledgedAt: (acknowledgedAt != null
+          ? acknowledgedAt.value
+          : this.acknowledgedAt),
+      adminActionId: (adminActionId != null
+          ? adminActionId.value
+          : this.adminActionId),
+      closeOverdue: (closeOverdue != null
+          ? closeOverdue.value
+          : this.closeOverdue),
+      createdAt: (createdAt != null ? createdAt.value : this.createdAt),
+      decidedAt: (decidedAt != null ? decidedAt.value : this.decidedAt),
+      decidedBy: (decidedBy != null ? decidedBy.value : this.decidedBy),
+      id: (id != null ? id.value : this.id),
+      photoCount: (photoCount != null ? photoCount.value : this.photoCount),
+      reason: (reason != null ? reason.value : this.reason),
+      reporterId: (reporterId != null ? reporterId.value : this.reporterId),
+      status: (status != null ? status.value : this.status),
+      subjectId: (subjectId != null ? subjectId.value : this.subjectId),
+      subjectType: (subjectType != null ? subjectType.value : this.subjectType),
+      subjectUserId: (subjectUserId != null
+          ? subjectUserId.value
+          : this.subjectUserId),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ReportDecisionIn {
+  const ReportDecisionIn({required this.action, required this.reasonCode});
+
+  factory ReportDecisionIn.fromJson(Map<String, dynamic> json) =>
+      _$ReportDecisionInFromJson(json);
+
+  static const toJsonFactory = _$ReportDecisionInToJson;
+  Map<String, dynamic> toJson() => _$ReportDecisionInToJson(this);
+
+  @JsonKey(
+    name: 'action',
+    includeIfNull: false,
+    toJson: reportDecisionInActionToJson,
+    fromJson: reportDecisionInActionFromJson,
+  )
+  final enums.ReportDecisionInAction action;
+  @JsonKey(
+    name: 'reason_code',
+    includeIfNull: false,
+    toJson: reportDecisionInReasonCodeToJson,
+    fromJson: reportDecisionInReasonCodeFromJson,
+  )
+  final enums.ReportDecisionInReasonCode reasonCode;
+  static const fromJsonFactory = _$ReportDecisionInFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is ReportDecisionIn &&
+            (identical(other.action, action) ||
+                const DeepCollectionEquality().equals(other.action, action)) &&
+            (identical(other.reasonCode, reasonCode) ||
+                const DeepCollectionEquality().equals(
+                  other.reasonCode,
+                  reasonCode,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(action) ^
+      const DeepCollectionEquality().hash(reasonCode) ^
+      runtimeType.hashCode;
+}
+
+extension $ReportDecisionInExtension on ReportDecisionIn {
+  ReportDecisionIn copyWith({
+    enums.ReportDecisionInAction? action,
+    enums.ReportDecisionInReasonCode? reasonCode,
+  }) {
+    return ReportDecisionIn(
+      action: action ?? this.action,
+      reasonCode: reasonCode ?? this.reasonCode,
+    );
+  }
+
+  ReportDecisionIn copyWithWrapped({
+    Wrapped<enums.ReportDecisionInAction>? action,
+    Wrapped<enums.ReportDecisionInReasonCode>? reasonCode,
+  }) {
+    return ReportDecisionIn(
+      action: (action != null ? action.value : this.action),
+      reasonCode: (reasonCode != null ? reasonCode.value : this.reasonCode),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ReportIn {
+  const ReportIn({
+    required this.reason,
+    required this.subjectId,
+    required this.subjectType,
+  });
+
+  factory ReportIn.fromJson(Map<String, dynamic> json) =>
+      _$ReportInFromJson(json);
+
+  static const toJsonFactory = _$ReportInToJson;
+  Map<String, dynamic> toJson() => _$ReportInToJson(this);
+
+  @JsonKey(
+    name: 'reason',
+    includeIfNull: false,
+    toJson: reportInReasonToJson,
+    fromJson: reportInReasonFromJson,
+  )
+  final enums.ReportInReason reason;
+  @JsonKey(name: 'subject_id', includeIfNull: false)
+  final String subjectId;
+  @JsonKey(
+    name: 'subject_type',
+    includeIfNull: false,
+    toJson: reportInSubjectTypeToJson,
+    fromJson: reportInSubjectTypeFromJson,
+  )
+  final enums.ReportInSubjectType subjectType;
+  static const fromJsonFactory = _$ReportInFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is ReportIn &&
+            (identical(other.reason, reason) ||
+                const DeepCollectionEquality().equals(other.reason, reason)) &&
+            (identical(other.subjectId, subjectId) ||
+                const DeepCollectionEquality().equals(
+                  other.subjectId,
+                  subjectId,
+                )) &&
+            (identical(other.subjectType, subjectType) ||
+                const DeepCollectionEquality().equals(
+                  other.subjectType,
+                  subjectType,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(reason) ^
+      const DeepCollectionEquality().hash(subjectId) ^
+      const DeepCollectionEquality().hash(subjectType) ^
+      runtimeType.hashCode;
+}
+
+extension $ReportInExtension on ReportIn {
+  ReportIn copyWith({
+    enums.ReportInReason? reason,
+    String? subjectId,
+    enums.ReportInSubjectType? subjectType,
+  }) {
+    return ReportIn(
+      reason: reason ?? this.reason,
+      subjectId: subjectId ?? this.subjectId,
+      subjectType: subjectType ?? this.subjectType,
+    );
+  }
+
+  ReportIn copyWithWrapped({
+    Wrapped<enums.ReportInReason>? reason,
+    Wrapped<String>? subjectId,
+    Wrapped<enums.ReportInSubjectType>? subjectType,
+  }) {
+    return ReportIn(
+      reason: (reason != null ? reason.value : this.reason),
+      subjectId: (subjectId != null ? subjectId.value : this.subjectId),
+      subjectType: (subjectType != null ? subjectType.value : this.subjectType),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ReportOut {
+  const ReportOut({
+    required this.createdAt,
+    required this.decidedAt,
+    required this.id,
+    required this.photoCount,
+    required this.reason,
+    required this.status,
+    required this.subjectId,
+    required this.subjectType,
+  });
+
+  factory ReportOut.fromJson(Map<String, dynamic> json) =>
+      _$ReportOutFromJson(json);
+
+  static const toJsonFactory = _$ReportOutToJson;
+  Map<String, dynamic> toJson() => _$ReportOutToJson(this);
+
+  @JsonKey(name: 'created_at', includeIfNull: false)
+  final DateTime createdAt;
+  @JsonKey(name: 'decided_at', includeIfNull: false)
+  final DateTime? decidedAt;
+  @JsonKey(name: 'id', includeIfNull: false)
+  final String id;
+  @JsonKey(name: 'photo_count', includeIfNull: false)
+  final int photoCount;
+  @JsonKey(name: 'reason', includeIfNull: false)
+  final String reason;
+  @JsonKey(name: 'status', includeIfNull: false)
+  final String status;
+  @JsonKey(name: 'subject_id', includeIfNull: false)
+  final String subjectId;
+  @JsonKey(name: 'subject_type', includeIfNull: false)
+  final String subjectType;
+  static const fromJsonFactory = _$ReportOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is ReportOut &&
+            (identical(other.createdAt, createdAt) ||
+                const DeepCollectionEquality().equals(
+                  other.createdAt,
+                  createdAt,
+                )) &&
+            (identical(other.decidedAt, decidedAt) ||
+                const DeepCollectionEquality().equals(
+                  other.decidedAt,
+                  decidedAt,
+                )) &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.photoCount, photoCount) ||
+                const DeepCollectionEquality().equals(
+                  other.photoCount,
+                  photoCount,
+                )) &&
+            (identical(other.reason, reason) ||
+                const DeepCollectionEquality().equals(other.reason, reason)) &&
+            (identical(other.status, status) ||
+                const DeepCollectionEquality().equals(other.status, status)) &&
+            (identical(other.subjectId, subjectId) ||
+                const DeepCollectionEquality().equals(
+                  other.subjectId,
+                  subjectId,
+                )) &&
+            (identical(other.subjectType, subjectType) ||
+                const DeepCollectionEquality().equals(
+                  other.subjectType,
+                  subjectType,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(createdAt) ^
+      const DeepCollectionEquality().hash(decidedAt) ^
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(photoCount) ^
+      const DeepCollectionEquality().hash(reason) ^
+      const DeepCollectionEquality().hash(status) ^
+      const DeepCollectionEquality().hash(subjectId) ^
+      const DeepCollectionEquality().hash(subjectType) ^
+      runtimeType.hashCode;
+}
+
+extension $ReportOutExtension on ReportOut {
+  ReportOut copyWith({
+    DateTime? createdAt,
+    DateTime? decidedAt,
+    String? id,
+    int? photoCount,
+    String? reason,
+    String? status,
+    String? subjectId,
+    String? subjectType,
+  }) {
+    return ReportOut(
+      createdAt: createdAt ?? this.createdAt,
+      decidedAt: decidedAt ?? this.decidedAt,
+      id: id ?? this.id,
+      photoCount: photoCount ?? this.photoCount,
+      reason: reason ?? this.reason,
+      status: status ?? this.status,
+      subjectId: subjectId ?? this.subjectId,
+      subjectType: subjectType ?? this.subjectType,
+    );
+  }
+
+  ReportOut copyWithWrapped({
+    Wrapped<DateTime>? createdAt,
+    Wrapped<DateTime?>? decidedAt,
+    Wrapped<String>? id,
+    Wrapped<int>? photoCount,
+    Wrapped<String>? reason,
+    Wrapped<String>? status,
+    Wrapped<String>? subjectId,
+    Wrapped<String>? subjectType,
+  }) {
+    return ReportOut(
+      createdAt: (createdAt != null ? createdAt.value : this.createdAt),
+      decidedAt: (decidedAt != null ? decidedAt.value : this.decidedAt),
+      id: (id != null ? id.value : this.id),
+      photoCount: (photoCount != null ? photoCount.value : this.photoCount),
+      reason: (reason != null ? reason.value : this.reason),
+      status: (status != null ? status.value : this.status),
+      subjectId: (subjectId != null ? subjectId.value : this.subjectId),
+      subjectType: (subjectType != null ? subjectType.value : this.subjectType),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ReportsAdminResponse {
+  const ReportsAdminResponse({required this.reports});
+
+  factory ReportsAdminResponse.fromJson(Map<String, dynamic> json) =>
+      _$ReportsAdminResponseFromJson(json);
+
+  static const toJsonFactory = _$ReportsAdminResponseToJson;
+  Map<String, dynamic> toJson() => _$ReportsAdminResponseToJson(this);
+
+  @JsonKey(
+    name: 'reports',
+    includeIfNull: false,
+    defaultValue: <ReportAdminOut>[],
+  )
+  final List<ReportAdminOut> reports;
+  static const fromJsonFactory = _$ReportsAdminResponseFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is ReportsAdminResponse &&
+            (identical(other.reports, reports) ||
+                const DeepCollectionEquality().equals(other.reports, reports)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(reports) ^ runtimeType.hashCode;
+}
+
+extension $ReportsAdminResponseExtension on ReportsAdminResponse {
+  ReportsAdminResponse copyWith({List<ReportAdminOut>? reports}) {
+    return ReportsAdminResponse(reports: reports ?? this.reports);
+  }
+
+  ReportsAdminResponse copyWithWrapped({
+    Wrapped<List<ReportAdminOut>>? reports,
+  }) {
+    return ReportsAdminResponse(
+      reports: (reports != null ? reports.value : this.reports),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ReportsResponse {
+  const ReportsResponse({required this.reports});
+
+  factory ReportsResponse.fromJson(Map<String, dynamic> json) =>
+      _$ReportsResponseFromJson(json);
+
+  static const toJsonFactory = _$ReportsResponseToJson;
+  Map<String, dynamic> toJson() => _$ReportsResponseToJson(this);
+
+  @JsonKey(name: 'reports', includeIfNull: false, defaultValue: <ReportOut>[])
+  final List<ReportOut> reports;
+  static const fromJsonFactory = _$ReportsResponseFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is ReportsResponse &&
+            (identical(other.reports, reports) ||
+                const DeepCollectionEquality().equals(other.reports, reports)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(reports) ^ runtimeType.hashCode;
+}
+
+extension $ReportsResponseExtension on ReportsResponse {
+  ReportsResponse copyWith({List<ReportOut>? reports}) {
+    return ReportsResponse(reports: reports ?? this.reports);
+  }
+
+  ReportsResponse copyWithWrapped({Wrapped<List<ReportOut>>? reports}) {
+    return ReportsResponse(
+      reports: (reports != null ? reports.value : this.reports),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class RestrictionOut {
   const RestrictionOut({
     required this.activeIngredient,
@@ -13474,6 +14898,234 @@ List<enums.AcceptInRole>? acceptInRoleNullableListFromJson(
   return acceptInRole.map((e) => acceptInRoleFromJson(e.toString())).toList();
 }
 
+String? actionInActionNullableToJson(enums.ActionInAction? actionInAction) {
+  return actionInAction?.value;
+}
+
+String? actionInActionToJson(enums.ActionInAction actionInAction) {
+  return actionInAction.value;
+}
+
+enums.ActionInAction actionInActionFromJson(
+  Object? actionInAction, [
+  enums.ActionInAction? defaultValue,
+]) {
+  return enums.ActionInAction.values.firstWhereOrNull(
+        (e) => e.value == actionInAction,
+      ) ??
+      defaultValue ??
+      enums.ActionInAction.swaggerGeneratedUnknown;
+}
+
+enums.ActionInAction? actionInActionNullableFromJson(
+  Object? actionInAction, [
+  enums.ActionInAction? defaultValue,
+]) {
+  if (actionInAction == null) {
+    return null;
+  }
+  return enums.ActionInAction.values.firstWhereOrNull(
+        (e) => e.value == actionInAction,
+      ) ??
+      defaultValue;
+}
+
+String actionInActionExplodedListToJson(
+  List<enums.ActionInAction>? actionInAction,
+) {
+  return actionInAction?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> actionInActionListToJson(
+  List<enums.ActionInAction>? actionInAction,
+) {
+  if (actionInAction == null) {
+    return [];
+  }
+
+  return actionInAction.map((e) => e.value!).toList();
+}
+
+List<enums.ActionInAction> actionInActionListFromJson(
+  List? actionInAction, [
+  List<enums.ActionInAction>? defaultValue,
+]) {
+  if (actionInAction == null) {
+    return defaultValue ?? [];
+  }
+
+  return actionInAction
+      .map((e) => actionInActionFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.ActionInAction>? actionInActionNullableListFromJson(
+  List? actionInAction, [
+  List<enums.ActionInAction>? defaultValue,
+]) {
+  if (actionInAction == null) {
+    return defaultValue;
+  }
+
+  return actionInAction
+      .map((e) => actionInActionFromJson(e.toString()))
+      .toList();
+}
+
+String? actionInReasonCodeNullableToJson(
+  enums.ActionInReasonCode? actionInReasonCode,
+) {
+  return actionInReasonCode?.value;
+}
+
+String? actionInReasonCodeToJson(enums.ActionInReasonCode actionInReasonCode) {
+  return actionInReasonCode.value;
+}
+
+enums.ActionInReasonCode actionInReasonCodeFromJson(
+  Object? actionInReasonCode, [
+  enums.ActionInReasonCode? defaultValue,
+]) {
+  return enums.ActionInReasonCode.values.firstWhereOrNull(
+        (e) => e.value == actionInReasonCode,
+      ) ??
+      defaultValue ??
+      enums.ActionInReasonCode.swaggerGeneratedUnknown;
+}
+
+enums.ActionInReasonCode? actionInReasonCodeNullableFromJson(
+  Object? actionInReasonCode, [
+  enums.ActionInReasonCode? defaultValue,
+]) {
+  if (actionInReasonCode == null) {
+    return null;
+  }
+  return enums.ActionInReasonCode.values.firstWhereOrNull(
+        (e) => e.value == actionInReasonCode,
+      ) ??
+      defaultValue;
+}
+
+String actionInReasonCodeExplodedListToJson(
+  List<enums.ActionInReasonCode>? actionInReasonCode,
+) {
+  return actionInReasonCode?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> actionInReasonCodeListToJson(
+  List<enums.ActionInReasonCode>? actionInReasonCode,
+) {
+  if (actionInReasonCode == null) {
+    return [];
+  }
+
+  return actionInReasonCode.map((e) => e.value!).toList();
+}
+
+List<enums.ActionInReasonCode> actionInReasonCodeListFromJson(
+  List? actionInReasonCode, [
+  List<enums.ActionInReasonCode>? defaultValue,
+]) {
+  if (actionInReasonCode == null) {
+    return defaultValue ?? [];
+  }
+
+  return actionInReasonCode
+      .map((e) => actionInReasonCodeFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.ActionInReasonCode>? actionInReasonCodeNullableListFromJson(
+  List? actionInReasonCode, [
+  List<enums.ActionInReasonCode>? defaultValue,
+]) {
+  if (actionInReasonCode == null) {
+    return defaultValue;
+  }
+
+  return actionInReasonCode
+      .map((e) => actionInReasonCodeFromJson(e.toString()))
+      .toList();
+}
+
+String? actionInSubjectTypeNullableToJson(
+  enums.ActionInSubjectType? actionInSubjectType,
+) {
+  return actionInSubjectType?.value;
+}
+
+String? actionInSubjectTypeToJson(
+  enums.ActionInSubjectType actionInSubjectType,
+) {
+  return actionInSubjectType.value;
+}
+
+enums.ActionInSubjectType actionInSubjectTypeFromJson(
+  Object? actionInSubjectType, [
+  enums.ActionInSubjectType? defaultValue,
+]) {
+  return enums.ActionInSubjectType.values.firstWhereOrNull(
+        (e) => e.value == actionInSubjectType,
+      ) ??
+      defaultValue ??
+      enums.ActionInSubjectType.swaggerGeneratedUnknown;
+}
+
+enums.ActionInSubjectType? actionInSubjectTypeNullableFromJson(
+  Object? actionInSubjectType, [
+  enums.ActionInSubjectType? defaultValue,
+]) {
+  if (actionInSubjectType == null) {
+    return null;
+  }
+  return enums.ActionInSubjectType.values.firstWhereOrNull(
+        (e) => e.value == actionInSubjectType,
+      ) ??
+      defaultValue;
+}
+
+String actionInSubjectTypeExplodedListToJson(
+  List<enums.ActionInSubjectType>? actionInSubjectType,
+) {
+  return actionInSubjectType?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> actionInSubjectTypeListToJson(
+  List<enums.ActionInSubjectType>? actionInSubjectType,
+) {
+  if (actionInSubjectType == null) {
+    return [];
+  }
+
+  return actionInSubjectType.map((e) => e.value!).toList();
+}
+
+List<enums.ActionInSubjectType> actionInSubjectTypeListFromJson(
+  List? actionInSubjectType, [
+  List<enums.ActionInSubjectType>? defaultValue,
+]) {
+  if (actionInSubjectType == null) {
+    return defaultValue ?? [];
+  }
+
+  return actionInSubjectType
+      .map((e) => actionInSubjectTypeFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.ActionInSubjectType>? actionInSubjectTypeNullableListFromJson(
+  List? actionInSubjectType, [
+  List<enums.ActionInSubjectType>? defaultValue,
+]) {
+  if (actionInSubjectType == null) {
+    return defaultValue;
+  }
+
+  return actionInSubjectType
+      .map((e) => actionInSubjectTypeFromJson(e.toString()))
+      .toList();
+}
+
 String? adminProviderInKindNullableToJson(
   enums.AdminProviderInKind? adminProviderInKind,
 ) {
@@ -13549,6 +15201,159 @@ List<enums.AdminProviderInKind>? adminProviderInKindNullableListFromJson(
 
   return adminProviderInKind
       .map((e) => adminProviderInKindFromJson(e.toString()))
+      .toList();
+}
+
+String? appealDecisionInOutcomeNullableToJson(
+  enums.AppealDecisionInOutcome? appealDecisionInOutcome,
+) {
+  return appealDecisionInOutcome?.value;
+}
+
+String? appealDecisionInOutcomeToJson(
+  enums.AppealDecisionInOutcome appealDecisionInOutcome,
+) {
+  return appealDecisionInOutcome.value;
+}
+
+enums.AppealDecisionInOutcome appealDecisionInOutcomeFromJson(
+  Object? appealDecisionInOutcome, [
+  enums.AppealDecisionInOutcome? defaultValue,
+]) {
+  return enums.AppealDecisionInOutcome.values.firstWhereOrNull(
+        (e) => e.value == appealDecisionInOutcome,
+      ) ??
+      defaultValue ??
+      enums.AppealDecisionInOutcome.swaggerGeneratedUnknown;
+}
+
+enums.AppealDecisionInOutcome? appealDecisionInOutcomeNullableFromJson(
+  Object? appealDecisionInOutcome, [
+  enums.AppealDecisionInOutcome? defaultValue,
+]) {
+  if (appealDecisionInOutcome == null) {
+    return null;
+  }
+  return enums.AppealDecisionInOutcome.values.firstWhereOrNull(
+        (e) => e.value == appealDecisionInOutcome,
+      ) ??
+      defaultValue;
+}
+
+String appealDecisionInOutcomeExplodedListToJson(
+  List<enums.AppealDecisionInOutcome>? appealDecisionInOutcome,
+) {
+  return appealDecisionInOutcome?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> appealDecisionInOutcomeListToJson(
+  List<enums.AppealDecisionInOutcome>? appealDecisionInOutcome,
+) {
+  if (appealDecisionInOutcome == null) {
+    return [];
+  }
+
+  return appealDecisionInOutcome.map((e) => e.value!).toList();
+}
+
+List<enums.AppealDecisionInOutcome> appealDecisionInOutcomeListFromJson(
+  List? appealDecisionInOutcome, [
+  List<enums.AppealDecisionInOutcome>? defaultValue,
+]) {
+  if (appealDecisionInOutcome == null) {
+    return defaultValue ?? [];
+  }
+
+  return appealDecisionInOutcome
+      .map((e) => appealDecisionInOutcomeFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.AppealDecisionInOutcome>?
+appealDecisionInOutcomeNullableListFromJson(
+  List? appealDecisionInOutcome, [
+  List<enums.AppealDecisionInOutcome>? defaultValue,
+]) {
+  if (appealDecisionInOutcome == null) {
+    return defaultValue;
+  }
+
+  return appealDecisionInOutcome
+      .map((e) => appealDecisionInOutcomeFromJson(e.toString()))
+      .toList();
+}
+
+String? appealInReasonNullableToJson(enums.AppealInReason? appealInReason) {
+  return appealInReason?.value;
+}
+
+String? appealInReasonToJson(enums.AppealInReason appealInReason) {
+  return appealInReason.value;
+}
+
+enums.AppealInReason appealInReasonFromJson(
+  Object? appealInReason, [
+  enums.AppealInReason? defaultValue,
+]) {
+  return enums.AppealInReason.values.firstWhereOrNull(
+        (e) => e.value == appealInReason,
+      ) ??
+      defaultValue ??
+      enums.AppealInReason.swaggerGeneratedUnknown;
+}
+
+enums.AppealInReason? appealInReasonNullableFromJson(
+  Object? appealInReason, [
+  enums.AppealInReason? defaultValue,
+]) {
+  if (appealInReason == null) {
+    return null;
+  }
+  return enums.AppealInReason.values.firstWhereOrNull(
+        (e) => e.value == appealInReason,
+      ) ??
+      defaultValue;
+}
+
+String appealInReasonExplodedListToJson(
+  List<enums.AppealInReason>? appealInReason,
+) {
+  return appealInReason?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> appealInReasonListToJson(
+  List<enums.AppealInReason>? appealInReason,
+) {
+  if (appealInReason == null) {
+    return [];
+  }
+
+  return appealInReason.map((e) => e.value!).toList();
+}
+
+List<enums.AppealInReason> appealInReasonListFromJson(
+  List? appealInReason, [
+  List<enums.AppealInReason>? defaultValue,
+]) {
+  if (appealInReason == null) {
+    return defaultValue ?? [];
+  }
+
+  return appealInReason
+      .map((e) => appealInReasonFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.AppealInReason>? appealInReasonNullableListFromJson(
+  List? appealInReason, [
+  List<enums.AppealInReason>? defaultValue,
+]) {
+  if (appealInReason == null) {
+    return defaultValue;
+  }
+
+  return appealInReason
+      .map((e) => appealInReasonFromJson(e.toString()))
       .toList();
 }
 
@@ -14889,6 +16694,315 @@ List<enums.RatingTagInStatus>? ratingTagInStatusNullableListFromJson(
       .toList();
 }
 
+String? reportDecisionInActionNullableToJson(
+  enums.ReportDecisionInAction? reportDecisionInAction,
+) {
+  return reportDecisionInAction?.value;
+}
+
+String? reportDecisionInActionToJson(
+  enums.ReportDecisionInAction reportDecisionInAction,
+) {
+  return reportDecisionInAction.value;
+}
+
+enums.ReportDecisionInAction reportDecisionInActionFromJson(
+  Object? reportDecisionInAction, [
+  enums.ReportDecisionInAction? defaultValue,
+]) {
+  return enums.ReportDecisionInAction.values.firstWhereOrNull(
+        (e) => e.value == reportDecisionInAction,
+      ) ??
+      defaultValue ??
+      enums.ReportDecisionInAction.swaggerGeneratedUnknown;
+}
+
+enums.ReportDecisionInAction? reportDecisionInActionNullableFromJson(
+  Object? reportDecisionInAction, [
+  enums.ReportDecisionInAction? defaultValue,
+]) {
+  if (reportDecisionInAction == null) {
+    return null;
+  }
+  return enums.ReportDecisionInAction.values.firstWhereOrNull(
+        (e) => e.value == reportDecisionInAction,
+      ) ??
+      defaultValue;
+}
+
+String reportDecisionInActionExplodedListToJson(
+  List<enums.ReportDecisionInAction>? reportDecisionInAction,
+) {
+  return reportDecisionInAction?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> reportDecisionInActionListToJson(
+  List<enums.ReportDecisionInAction>? reportDecisionInAction,
+) {
+  if (reportDecisionInAction == null) {
+    return [];
+  }
+
+  return reportDecisionInAction.map((e) => e.value!).toList();
+}
+
+List<enums.ReportDecisionInAction> reportDecisionInActionListFromJson(
+  List? reportDecisionInAction, [
+  List<enums.ReportDecisionInAction>? defaultValue,
+]) {
+  if (reportDecisionInAction == null) {
+    return defaultValue ?? [];
+  }
+
+  return reportDecisionInAction
+      .map((e) => reportDecisionInActionFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.ReportDecisionInAction>? reportDecisionInActionNullableListFromJson(
+  List? reportDecisionInAction, [
+  List<enums.ReportDecisionInAction>? defaultValue,
+]) {
+  if (reportDecisionInAction == null) {
+    return defaultValue;
+  }
+
+  return reportDecisionInAction
+      .map((e) => reportDecisionInActionFromJson(e.toString()))
+      .toList();
+}
+
+String? reportDecisionInReasonCodeNullableToJson(
+  enums.ReportDecisionInReasonCode? reportDecisionInReasonCode,
+) {
+  return reportDecisionInReasonCode?.value;
+}
+
+String? reportDecisionInReasonCodeToJson(
+  enums.ReportDecisionInReasonCode reportDecisionInReasonCode,
+) {
+  return reportDecisionInReasonCode.value;
+}
+
+enums.ReportDecisionInReasonCode reportDecisionInReasonCodeFromJson(
+  Object? reportDecisionInReasonCode, [
+  enums.ReportDecisionInReasonCode? defaultValue,
+]) {
+  return enums.ReportDecisionInReasonCode.values.firstWhereOrNull(
+        (e) => e.value == reportDecisionInReasonCode,
+      ) ??
+      defaultValue ??
+      enums.ReportDecisionInReasonCode.swaggerGeneratedUnknown;
+}
+
+enums.ReportDecisionInReasonCode? reportDecisionInReasonCodeNullableFromJson(
+  Object? reportDecisionInReasonCode, [
+  enums.ReportDecisionInReasonCode? defaultValue,
+]) {
+  if (reportDecisionInReasonCode == null) {
+    return null;
+  }
+  return enums.ReportDecisionInReasonCode.values.firstWhereOrNull(
+        (e) => e.value == reportDecisionInReasonCode,
+      ) ??
+      defaultValue;
+}
+
+String reportDecisionInReasonCodeExplodedListToJson(
+  List<enums.ReportDecisionInReasonCode>? reportDecisionInReasonCode,
+) {
+  return reportDecisionInReasonCode?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> reportDecisionInReasonCodeListToJson(
+  List<enums.ReportDecisionInReasonCode>? reportDecisionInReasonCode,
+) {
+  if (reportDecisionInReasonCode == null) {
+    return [];
+  }
+
+  return reportDecisionInReasonCode.map((e) => e.value!).toList();
+}
+
+List<enums.ReportDecisionInReasonCode> reportDecisionInReasonCodeListFromJson(
+  List? reportDecisionInReasonCode, [
+  List<enums.ReportDecisionInReasonCode>? defaultValue,
+]) {
+  if (reportDecisionInReasonCode == null) {
+    return defaultValue ?? [];
+  }
+
+  return reportDecisionInReasonCode
+      .map((e) => reportDecisionInReasonCodeFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.ReportDecisionInReasonCode>?
+reportDecisionInReasonCodeNullableListFromJson(
+  List? reportDecisionInReasonCode, [
+  List<enums.ReportDecisionInReasonCode>? defaultValue,
+]) {
+  if (reportDecisionInReasonCode == null) {
+    return defaultValue;
+  }
+
+  return reportDecisionInReasonCode
+      .map((e) => reportDecisionInReasonCodeFromJson(e.toString()))
+      .toList();
+}
+
+String? reportInReasonNullableToJson(enums.ReportInReason? reportInReason) {
+  return reportInReason?.value;
+}
+
+String? reportInReasonToJson(enums.ReportInReason reportInReason) {
+  return reportInReason.value;
+}
+
+enums.ReportInReason reportInReasonFromJson(
+  Object? reportInReason, [
+  enums.ReportInReason? defaultValue,
+]) {
+  return enums.ReportInReason.values.firstWhereOrNull(
+        (e) => e.value == reportInReason,
+      ) ??
+      defaultValue ??
+      enums.ReportInReason.swaggerGeneratedUnknown;
+}
+
+enums.ReportInReason? reportInReasonNullableFromJson(
+  Object? reportInReason, [
+  enums.ReportInReason? defaultValue,
+]) {
+  if (reportInReason == null) {
+    return null;
+  }
+  return enums.ReportInReason.values.firstWhereOrNull(
+        (e) => e.value == reportInReason,
+      ) ??
+      defaultValue;
+}
+
+String reportInReasonExplodedListToJson(
+  List<enums.ReportInReason>? reportInReason,
+) {
+  return reportInReason?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> reportInReasonListToJson(
+  List<enums.ReportInReason>? reportInReason,
+) {
+  if (reportInReason == null) {
+    return [];
+  }
+
+  return reportInReason.map((e) => e.value!).toList();
+}
+
+List<enums.ReportInReason> reportInReasonListFromJson(
+  List? reportInReason, [
+  List<enums.ReportInReason>? defaultValue,
+]) {
+  if (reportInReason == null) {
+    return defaultValue ?? [];
+  }
+
+  return reportInReason
+      .map((e) => reportInReasonFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.ReportInReason>? reportInReasonNullableListFromJson(
+  List? reportInReason, [
+  List<enums.ReportInReason>? defaultValue,
+]) {
+  if (reportInReason == null) {
+    return defaultValue;
+  }
+
+  return reportInReason
+      .map((e) => reportInReasonFromJson(e.toString()))
+      .toList();
+}
+
+String? reportInSubjectTypeNullableToJson(
+  enums.ReportInSubjectType? reportInSubjectType,
+) {
+  return reportInSubjectType?.value;
+}
+
+String? reportInSubjectTypeToJson(
+  enums.ReportInSubjectType reportInSubjectType,
+) {
+  return reportInSubjectType.value;
+}
+
+enums.ReportInSubjectType reportInSubjectTypeFromJson(
+  Object? reportInSubjectType, [
+  enums.ReportInSubjectType? defaultValue,
+]) {
+  return enums.ReportInSubjectType.values.firstWhereOrNull(
+        (e) => e.value == reportInSubjectType,
+      ) ??
+      defaultValue ??
+      enums.ReportInSubjectType.swaggerGeneratedUnknown;
+}
+
+enums.ReportInSubjectType? reportInSubjectTypeNullableFromJson(
+  Object? reportInSubjectType, [
+  enums.ReportInSubjectType? defaultValue,
+]) {
+  if (reportInSubjectType == null) {
+    return null;
+  }
+  return enums.ReportInSubjectType.values.firstWhereOrNull(
+        (e) => e.value == reportInSubjectType,
+      ) ??
+      defaultValue;
+}
+
+String reportInSubjectTypeExplodedListToJson(
+  List<enums.ReportInSubjectType>? reportInSubjectType,
+) {
+  return reportInSubjectType?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> reportInSubjectTypeListToJson(
+  List<enums.ReportInSubjectType>? reportInSubjectType,
+) {
+  if (reportInSubjectType == null) {
+    return [];
+  }
+
+  return reportInSubjectType.map((e) => e.value!).toList();
+}
+
+List<enums.ReportInSubjectType> reportInSubjectTypeListFromJson(
+  List? reportInSubjectType, [
+  List<enums.ReportInSubjectType>? defaultValue,
+]) {
+  if (reportInSubjectType == null) {
+    return defaultValue ?? [];
+  }
+
+  return reportInSubjectType
+      .map((e) => reportInSubjectTypeFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.ReportInSubjectType>? reportInSubjectTypeNullableListFromJson(
+  List? reportInSubjectType, [
+  List<enums.ReportInSubjectType>? defaultValue,
+]) {
+  if (reportInSubjectType == null) {
+    return defaultValue;
+  }
+
+  return reportInSubjectType
+      .map((e) => reportInSubjectTypeFromJson(e.toString()))
+      .toList();
+}
+
 String? reviewInDecisionNullableToJson(
   enums.ReviewInDecision? reviewInDecision,
 ) {
@@ -15285,6 +17399,174 @@ v1AdminKbImportsKindPostKindNullableListFromJson(
 
   return v1AdminKbImportsKindPostKind
       .map((e) => v1AdminKbImportsKindPostKindFromJson(e.toString()))
+      .toList();
+}
+
+String? v1AdminMarketLinkAppealsGetStateNullableToJson(
+  enums.V1AdminMarketLinkAppealsGetState? v1AdminMarketLinkAppealsGetState,
+) {
+  return v1AdminMarketLinkAppealsGetState?.value;
+}
+
+String? v1AdminMarketLinkAppealsGetStateToJson(
+  enums.V1AdminMarketLinkAppealsGetState v1AdminMarketLinkAppealsGetState,
+) {
+  return v1AdminMarketLinkAppealsGetState.value;
+}
+
+enums.V1AdminMarketLinkAppealsGetState v1AdminMarketLinkAppealsGetStateFromJson(
+  Object? v1AdminMarketLinkAppealsGetState, [
+  enums.V1AdminMarketLinkAppealsGetState? defaultValue,
+]) {
+  return enums.V1AdminMarketLinkAppealsGetState.values.firstWhereOrNull(
+        (e) => e.value == v1AdminMarketLinkAppealsGetState,
+      ) ??
+      defaultValue ??
+      enums.V1AdminMarketLinkAppealsGetState.swaggerGeneratedUnknown;
+}
+
+enums.V1AdminMarketLinkAppealsGetState?
+v1AdminMarketLinkAppealsGetStateNullableFromJson(
+  Object? v1AdminMarketLinkAppealsGetState, [
+  enums.V1AdminMarketLinkAppealsGetState? defaultValue,
+]) {
+  if (v1AdminMarketLinkAppealsGetState == null) {
+    return null;
+  }
+  return enums.V1AdminMarketLinkAppealsGetState.values.firstWhereOrNull(
+        (e) => e.value == v1AdminMarketLinkAppealsGetState,
+      ) ??
+      defaultValue;
+}
+
+String v1AdminMarketLinkAppealsGetStateExplodedListToJson(
+  List<enums.V1AdminMarketLinkAppealsGetState>?
+  v1AdminMarketLinkAppealsGetState,
+) {
+  return v1AdminMarketLinkAppealsGetState?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> v1AdminMarketLinkAppealsGetStateListToJson(
+  List<enums.V1AdminMarketLinkAppealsGetState>?
+  v1AdminMarketLinkAppealsGetState,
+) {
+  if (v1AdminMarketLinkAppealsGetState == null) {
+    return [];
+  }
+
+  return v1AdminMarketLinkAppealsGetState.map((e) => e.value!).toList();
+}
+
+List<enums.V1AdminMarketLinkAppealsGetState>
+v1AdminMarketLinkAppealsGetStateListFromJson(
+  List? v1AdminMarketLinkAppealsGetState, [
+  List<enums.V1AdminMarketLinkAppealsGetState>? defaultValue,
+]) {
+  if (v1AdminMarketLinkAppealsGetState == null) {
+    return defaultValue ?? [];
+  }
+
+  return v1AdminMarketLinkAppealsGetState
+      .map((e) => v1AdminMarketLinkAppealsGetStateFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.V1AdminMarketLinkAppealsGetState>?
+v1AdminMarketLinkAppealsGetStateNullableListFromJson(
+  List? v1AdminMarketLinkAppealsGetState, [
+  List<enums.V1AdminMarketLinkAppealsGetState>? defaultValue,
+]) {
+  if (v1AdminMarketLinkAppealsGetState == null) {
+    return defaultValue;
+  }
+
+  return v1AdminMarketLinkAppealsGetState
+      .map((e) => v1AdminMarketLinkAppealsGetStateFromJson(e.toString()))
+      .toList();
+}
+
+String? v1AdminMarketLinkReportsGetStatusNullableToJson(
+  enums.V1AdminMarketLinkReportsGetStatus? v1AdminMarketLinkReportsGetStatus,
+) {
+  return v1AdminMarketLinkReportsGetStatus?.value;
+}
+
+String? v1AdminMarketLinkReportsGetStatusToJson(
+  enums.V1AdminMarketLinkReportsGetStatus v1AdminMarketLinkReportsGetStatus,
+) {
+  return v1AdminMarketLinkReportsGetStatus.value;
+}
+
+enums.V1AdminMarketLinkReportsGetStatus
+v1AdminMarketLinkReportsGetStatusFromJson(
+  Object? v1AdminMarketLinkReportsGetStatus, [
+  enums.V1AdminMarketLinkReportsGetStatus? defaultValue,
+]) {
+  return enums.V1AdminMarketLinkReportsGetStatus.values.firstWhereOrNull(
+        (e) => e.value == v1AdminMarketLinkReportsGetStatus,
+      ) ??
+      defaultValue ??
+      enums.V1AdminMarketLinkReportsGetStatus.swaggerGeneratedUnknown;
+}
+
+enums.V1AdminMarketLinkReportsGetStatus?
+v1AdminMarketLinkReportsGetStatusNullableFromJson(
+  Object? v1AdminMarketLinkReportsGetStatus, [
+  enums.V1AdminMarketLinkReportsGetStatus? defaultValue,
+]) {
+  if (v1AdminMarketLinkReportsGetStatus == null) {
+    return null;
+  }
+  return enums.V1AdminMarketLinkReportsGetStatus.values.firstWhereOrNull(
+        (e) => e.value == v1AdminMarketLinkReportsGetStatus,
+      ) ??
+      defaultValue;
+}
+
+String v1AdminMarketLinkReportsGetStatusExplodedListToJson(
+  List<enums.V1AdminMarketLinkReportsGetStatus>?
+  v1AdminMarketLinkReportsGetStatus,
+) {
+  return v1AdminMarketLinkReportsGetStatus?.map((e) => e.value!).join(',') ??
+      '';
+}
+
+List<String> v1AdminMarketLinkReportsGetStatusListToJson(
+  List<enums.V1AdminMarketLinkReportsGetStatus>?
+  v1AdminMarketLinkReportsGetStatus,
+) {
+  if (v1AdminMarketLinkReportsGetStatus == null) {
+    return [];
+  }
+
+  return v1AdminMarketLinkReportsGetStatus.map((e) => e.value!).toList();
+}
+
+List<enums.V1AdminMarketLinkReportsGetStatus>
+v1AdminMarketLinkReportsGetStatusListFromJson(
+  List? v1AdminMarketLinkReportsGetStatus, [
+  List<enums.V1AdminMarketLinkReportsGetStatus>? defaultValue,
+]) {
+  if (v1AdminMarketLinkReportsGetStatus == null) {
+    return defaultValue ?? [];
+  }
+
+  return v1AdminMarketLinkReportsGetStatus
+      .map((e) => v1AdminMarketLinkReportsGetStatusFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.V1AdminMarketLinkReportsGetStatus>?
+v1AdminMarketLinkReportsGetStatusNullableListFromJson(
+  List? v1AdminMarketLinkReportsGetStatus, [
+  List<enums.V1AdminMarketLinkReportsGetStatus>? defaultValue,
+]) {
+  if (v1AdminMarketLinkReportsGetStatus == null) {
+    return defaultValue;
+  }
+
+  return v1AdminMarketLinkReportsGetStatus
+      .map((e) => v1AdminMarketLinkReportsGetStatusFromJson(e.toString()))
       .toList();
 }
 
