@@ -160,3 +160,16 @@ docs/SPEC_market_linkage_addendum_v1.5.md §4 (rewritten) and §4A (new), and §
 4. Build L7 and L8 after L6, same rules as the main prompt (tests first, ≤ 400 lines per PR, self-review,
    Marathi phone screenshots light + dark, match the existing UI, uncluttered).
 ```
+
+## Addendum 2 2026-11-07 — paste this too
+
+```
+ADDENDUM 2 (owner 2026-11-07): office / place address is OPTIONAL for everyone. The person can enter
+and update their own address. A new role "BagMitra representative" (granted by admin, role name
+market_link_rep) can add a place photo (in-app camera, time + GPS) and address to a profile they
+visited; every upload stores who and when; the badge shows it. Brokers no longer need a place photo
+(phone OTP + admin call). Re-read spec v1.5 §2 and §4 on main. Tests: profile saves without address;
+only market_link_rep or the profile owner can set the address; only market_link_rep can add a
+representative photo.
+```
+
