@@ -1307,6 +1307,66 @@ upload URL for lot photos, so no stored lot photo can keep its metadata.''',
   }
 
   @override
+  Future<Response<LotPhotoUrl>> _v1MarketLinkLotPhotosPhotoIdUrlGet({
+    required String? photoId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''A short-lived download URL for an uploaded lot photo: for the grower, or for a
+verified buyer / broker while the lot is published. Only the derived key is signed.''',
+      summary: 'Lot Photo Url',
+      operationId: 'market_link_lot_photo_url',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/market-link/lot-photos/${photoId}/url');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<LotPhotoUrl, LotPhotoUrl>($request);
+  }
+
+  @override
+  Future<Response<BuyerLotsResponse>> _v1MarketLinkLotsGet({
+    String? district,
+    String? taluka,
+    String? crop,
+    String? before,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Published lots, newest first, for admin-verified buyers and brokers only (403
+`not_verified` for anyone else). Page with `before` = the last `published_at` seen.''',
+      summary: 'List Lots',
+      operationId: 'market_link_lots',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/market-link/lots');
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'district': district,
+      'taluka': taluka,
+      'crop': crop,
+      'before': before,
+    };
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+      tag: swaggerMetaData,
+    );
+    return client.send<BuyerLotsResponse, BuyerLotsResponse>($request);
+  }
+
+  @override
   Future<Response<GrowerLotOut>> _v1MarketLinkLotsLotIdClosePost({
     required String? lotId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(

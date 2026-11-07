@@ -13,11 +13,11 @@ phone, plot or the photos' GPS points (decision g: those wait for an accepted de
 from __future__ import annotations
 
 import uuid
-from datetime import UTC, datetime
+from datetime import UTC, date, datetime
 from typing import Annotated
 
 import structlog
-from fastapi import APIRouter, Depends, Request
+from fastapi import APIRouter, Depends, Query, Request
 from pydantic import BaseModel
 from sqlalchemy import select
 
@@ -26,16 +26,18 @@ from bagmitra_api.core.errors import ApiError, ErrorResponse
 from bagmitra_api.core.settings import Settings, get_settings
 from bagmitra_api.db.models import Farmer, Plot
 from bagmitra_api.db.session import DbSession
+from bagmitra_api.market_link.guards import is_verified_viewer
 from bagmitra_api.market_link.models import (
     LOT_MAX_PHOTOS,
     LOT_MIN_PHOTOS,
+    ORCHARD_OK,
     MarketLot,
     MarketLotPhoto,
 )
 from bagmitra_api.market_link.orchard import orchard_check
 from bagmitra_api.market_link.terms import require_role_accepted
 from bagmitra_api.photos.exif import NotJpegError, strip_jpeg_metadata
-from bagmitra_api.photos.storage import PhotoStorage, PhotoStorageError
+from bagmitra_api.photos.storage import PhotoNotFoundError, PhotoStorage, PhotoStorageError
 from bagmitra_api.routers.market_link import require_market_link
 from bagmitra_api.routers.scouting_photos import (
     PHOTO_CONTENT_TYPE,
@@ -80,6 +82,38 @@ class GrowerLotOut(BaseModel):
     village: str | None
     taluka: str | None
     district: str | None
+
+
+class LotPhotoView(BaseModel):
+    """A lot photo as a buyer sees it: no GPS point (it would show where the plot is)."""
+
+    id: uuid.UUID
+    captured_at: datetime
+
+
+class BuyerLotOut(BaseModel):
+    """A published lot for a verified buyer / broker. Deliberately no owner, name, phone,
+    plot or point (decision g); `asking_rate_paise` is per tonne, per crate or the whole
+    amount, by `basis`, and only when the grower gave one."""
+
+    id: uuid.UUID
+    crop: str
+    variety: str | None
+    quantity_t: float
+    quality: str | None
+    harvest_from: date
+    harvest_to: date
+    basis: str
+    asking_rate_paise: int | None
+    village: str | None
+    taluka: str | None
+    district: str | None
+    published_at: datetime
+    photos: list[LotPhotoView]
+
+
+class BuyerLotsResponse(BaseModel):
+    lots: list[BuyerLotOut]
 
 
 async def _own_lot(session: DbSession, user: CurrentUser, lot_id: uuid.UUID) -> MarketLot:
@@ -176,6 +210,61 @@ async def close_lot(lot_id: uuid.UUID, user: CurrentUser, session: DbSession) ->
     return _grower_view(lot)
 
 
+@router.get("/lots", operation_id="market_link_lots")
+async def list_lots(  # noqa: PLR0913 - query parameters and dependencies
+    user: CurrentUser,
+    session: DbSession,
+    district: Annotated[str | None, Query(max_length=120)] = None,
+    taluka: Annotated[str | None, Query(max_length=120)] = None,
+    crop: Annotated[str | None, Query(max_length=32)] = None,
+    before: Annotated[datetime | None, Query()] = None,
+) -> BuyerLotsResponse:
+    """Published lots, newest first, for admin-verified buyers and brokers only (403
+    `not_verified` for anyone else). Page with `before` = the last `published_at` seen."""
+    if not await is_verified_viewer(session, user.id):
+        raise ApiError(403, "not_verified")
+    query = select(MarketLot).where(
+        MarketLot.status == "published",
+        MarketLot.deleted_at.is_(None),
+        MarketLot.orchard_check.in_(ORCHARD_OK),
+    )
+    for column, value in (
+        (MarketLot.district, district),
+        (MarketLot.taluka, taluka),
+        (MarketLot.crop, crop),
+    ):
+        if value:
+            query = query.where(column == value)
+    if before is not None:
+        query = query.where(MarketLot.published_at < before)
+    lots = list(
+        await session.scalars(
+            query.order_by(MarketLot.published_at.desc(), MarketLot.id).limit(LOT_PAGE)
+        )
+    )
+    photos: dict[uuid.UUID, list[LotPhotoView]] = {lot.id: [] for lot in lots}
+    if lots:
+        rows = await session.scalars(
+            select(MarketLotPhoto)
+            .where(MarketLotPhoto.lot_id.in_(photos), MarketLotPhoto.deleted_at.is_(None))
+            .order_by(MarketLotPhoto.captured_at, MarketLotPhoto.id)
+        )
+        for p in rows:
+            if p.photo_key == photo_key_for(p.owner_id, p.id):
+                photos[p.lot_id].append(LotPhotoView(id=p.id, captured_at=p.captured_at))
+    return BuyerLotsResponse(
+        lots=[
+            BuyerLotOut.model_validate(
+                {
+                    **{f: getattr(lot, f) for f in BuyerLotOut.model_fields if f != "photos"},
+                    "photos": photos[lot.id],
+                }
+            )
+            for lot in lots
+        ]
+    )
+
+
 def _storage(ctx: PhotoContext) -> PhotoStorage:
     if ctx.storage is None:
         raise ApiError(503, "photo_backup_not_configured", "photo backup not configured")
@@ -194,6 +283,13 @@ class LotPhotoStored(BaseModel):
     """The stored photo's key, to record on the photo through the outbox."""
 
     photo_key: str
+
+
+class LotPhotoUrl(BaseModel):
+    """A short-lived link to a lot photo (no key, no point: spec v1.5 §4B)."""
+
+    url: str
+    expires_in: int
 
 
 @router.put(
@@ -241,3 +337,39 @@ async def upload_lot_photo(
         log.warning("lot_photo_upload_failed", reason=str(exc))
         raise ApiError(502, "photo_storage_unavailable") from exc
     return LotPhotoStored(photo_key=key)
+
+
+@router.get(
+    "/lot-photos/{photo_id}/url",
+    operation_id="market_link_lot_photo_url",
+    responses=_PHOTO_RESPONSES,
+)
+async def lot_photo_url(
+    photo_id: uuid.UUID,
+    user: CurrentUser,
+    session: DbSession,
+    ctx: Annotated[PhotoContext, Depends(get_photo_context)],
+) -> LotPhotoUrl:
+    """A short-lived download URL for an uploaded lot photo: for the grower, or for a
+    verified buyer / broker while the lot is published. Only the derived key is signed."""
+    storage = _storage(ctx)
+    photo = await session.get(MarketLotPhoto, photo_id)
+    lot = None if photo is None else await session.get(MarketLot, photo.lot_id)
+    if photo is None or lot is None or photo.deleted_at is not None or lot.deleted_at is not None:
+        raise ApiError(404, "lot_photo_not_found")
+    own = photo.owner_id == user.id and lot.owner_id == user.id
+    shown = lot.status == "published" and lot.orchard_check in ORCHARD_OK
+    if not own and not (shown and await is_verified_viewer(session, user.id)):
+        raise ApiError(404, "lot_photo_not_found")
+    key = photo_key_for(photo.owner_id, photo.id)
+    if photo.photo_key != key:
+        raise ApiError(404, "photo_not_found")
+    expires = ctx.settings.photo_download_expiry_seconds
+    try:
+        signed = await storage.signed_download_url(key, expires)
+    except PhotoNotFoundError as exc:
+        raise ApiError(404, "photo_not_found") from exc
+    except PhotoStorageError as exc:
+        log.warning("lot_photo_download_sign_failed", reason=str(exc))
+        raise ApiError(502, "photo_storage_unavailable") from exc
+    return LotPhotoUrl(url=signed.url, expires_in=signed.expires_in)
