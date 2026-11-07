@@ -3,7 +3,8 @@
 Same standing rules as the main spec §0 and OWNER_RULES.md (English only in this file; the app shows
 Marathi / Hindi / English; test-first; PRs ≤ 400 production lines with self-review; offline-first;
 log questions in `docs/OPEN_QUESTIONS.md` with a default and continue). Research behind every fact
-here: `docs/research/MARKET_LINKAGE_RESEARCH.md`. **Status: draft for owner review — not built.**
+here: `docs/research/MARKET_LINKAGE_RESEARCH.md`. **Status: approved by the owner 2026-11-07; building (L0a merged, #155).** Audit 2026-11-07:
+research §6.
 
 ## 1. Owner decision (2026-11-07)
 - BagMitra has **no capital**. It never buys, sells, owns or stores produce and never holds money.
@@ -164,6 +165,15 @@ the admin by hand from a link the admin page opens. Research: MARKET_LINKAGE_RES
   are recorded, show only a link-out. **Never UN Comtrade data** (licence bars commercial reuse).
 - **Export record PDF**: from the grower's own spray log, label-claim check and PHI dates already in
   the app — a dated record the grower can hand to an exporter. Information only; no compliance claim.
+
+## 4B. Fixes from the 2026-11-07 audit (enforce decisions already taken)
+- **No plot location before acceptance**: EXIF is stripped from every uploaded photo; lot photo
+  lat/lon and the plot pin never appear in any API response to a buyer or broker before the grower
+  accepts their offer (research §6.2-1).
+- **No contact details in lot text**: lot text fields refuse phone-number and URL patterns, so the
+  grower's identity stays hidden (§6.2-2).
+- Data model also holds: registration GPS fields (§4), exporter IEC, `market_link_rep` role uploads,
+  fraud reports (predefined reasons, photos, status, admin decision).
 
 ## 5. Legal gate (must hold before production)
 - Feature flag `MARKET_LINK_ENABLED` (default **off** in production; on in test builds).
