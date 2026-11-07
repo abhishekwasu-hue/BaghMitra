@@ -44,6 +44,11 @@
 | Produce on sale | माल | — | Everyday market word (उत्पादन stays for yield) ("माल फोटो व वर्णनाप्रमाणे"). Draft. |
 | Advance payment / balance | उचल / बाकी पैसे | अॅडव्हान्स | उचल is the village word for money paid before harvest; to confirm by the native reviewer. Draft. |
 | Weighing / crate count | वजन / क्रेट मोजणी; weighbridge: वजनकाटा | — | Rating tags and later the weigh slip (L5). Draft. |
+| Exporter | निर्यातदार | — | Role card (spec v1.5 §2.1, L1). Draft. |
+| Service provider | सेवा देणारे (वजनकाटा, वाहतूक, मजूर, क्रेट) | — | Role card with its four kinds on a sub-line (owner's words). Draft. |
+| Role / switch role | भूमिका / भूमिका बदला | रोल | L1 role cards and the app bar switch. Draft. |
+| Grievance officer | तक्रार अधिकारी | — | IT Rules 2021 (spec v1.5 §4C); default the owner ("BagMitra चे मालक"). Draft. |
+| Transaction (in the disclaimer) | व्यवहार | सौदा (all languages) | Owner L1 order: "use व्यवहार, never सौदा"; new Hindi strings use लेन-देन. Draft. |
 | Service provider kinds | वजनकाटा, वाहतूकदार, मजूर टोळी, क्रेट पुरवठादार (सेवा देणारे) | — | Market linkage admin (L0b) and the provider directory (L1). Hindi: धर्मकांटा, ट्रांसपोर्टर, मज़दूर टोली, क्रेट आपूर्तिकर्ता. Draft. |
 | Rating tag; draft / active / retired | रेटिंग टॅग; मसुदा / चालू / बंद | — | Admin web only (L0b). Draft. |
 | Exporter | निर्यातदार | एक्स्पोर्टर | Market linkage role card (spec v1.5 §2.1). Draft, for native review. |
