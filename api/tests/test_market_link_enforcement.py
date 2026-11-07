@@ -12,9 +12,11 @@ from typing import Any
 import httpx
 
 from bagmitra_api.account.models import DeferredErasure
+from bagmitra_api.market_link.models import PartyVerification, Rating, ServiceProvider
 from tests.test_market_interests import ml, party, published, send, sender
+from tests.test_market_link_profiles import _deal
 from tests.test_market_link_reports import ADMIN, ADMIN_BASE
-from tests.test_market_lots_sync import LOTS
+from tests.test_market_lots_sync import LOTS, headers
 
 __all__ = ["ml", "sender"]  # fixtures used by name
 
@@ -150,3 +152,114 @@ async def test_a_broker_cannot_bring_a_hidden_trader(ml: Any) -> None:
     await act(ml, "buyer", trader.profile, "hide", "fake_identity")
     r = await send(ml, lot_id, broker, trader_id=str(trader.profile))
     assert (r.status_code, r.json()["error"]["code"]) == (404, "trader_not_found")
+
+
+async def provider(c: Any, user: uuid.UUID) -> uuid.UUID:
+    """A verified weighbridge owned by `user`."""
+    async with c.maker() as s:
+        row = ServiceProvider(
+            user_id=user,
+            kind="weighbridge",
+            name="Kata",
+            phone="+919800000002",
+            district="Amravati",
+        )
+        s.add(row)
+        await s.flush()
+        s.add(
+            PartyVerification(
+                subject_type="provider",
+                subject_id=row.id,
+                document_keys=[],
+                status="approved",
+                checked_by=uuid.uuid4(),
+                checked_at=datetime.now(UTC),
+            )
+        )
+        await s.commit()
+        return row.id
+
+
+async def listed(c: Any, h: dict[str, str]) -> set[str]:
+    out: set[str] = set()
+    for path, params in (("profiles", {"role": "trader"}), ("providers", {})):
+        r = await c.get(f"{ML}/{path}", params=params, headers=h)
+        assert r.status_code == 200, r.text
+        out |= {p["id"] for p in r.json()["profiles"]}
+    return out
+
+
+async def test_profiles_and_providers_follow_hide_suspend_and_block(ml: Any) -> None:
+    viewer = uuid.uuid4()
+    vh = headers(viewer)
+    trader, owner = await party(ml), uuid.uuid4()
+    kata = await provider(ml, owner)
+    ids = {str(trader.profile), str(kata)}
+    assert ids <= await listed(ml, vh)
+    one = f"{ML}/profiles/buyer/{trader.profile}"
+    assert (await ml.get(one, headers=vh)).status_code == 200
+    # Hidden profile, suspended user, a block either way: gone from both lists and the page.
+    await act(ml, "buyer", trader.profile, "hide", "fake_identity")
+    await act(ml, "user", owner, "suspend", "abuse")
+    assert not ids & await listed(ml, vh)
+    assert (await ml.get(one, headers=vh)).status_code == 404
+    await act(ml, "buyer", trader.profile, "restore", "checks_passed")
+    await act(ml, "user", owner, "restore", "checks_passed")
+    assert ids <= await listed(ml, vh)
+    for blocker, blocked in ((vh, trader.user), (trader.h, viewer)):
+        assert (await ml.put(f"{ML}/blocks/{blocked}", headers=blocker)).status_code == 204
+        assert str(trader.profile) not in await listed(ml, vh)
+        assert (await ml.get(one, headers=vh)).status_code == 404
+        assert (await ml.delete(f"{ML}/blocks/{blocked}", headers=blocker)).status_code == 204
+    assert ids <= await listed(ml, vh)
+
+
+async def test_the_grower_does_not_see_interests_of_blocked_or_suspended_traders(
+    ml: Any,
+) -> None:
+    _, lot_id, gh = await published(ml)
+    blocked, suspended, kept = await party(ml), await party(ml), await party(ml, name="Kale")
+    for t in (blocked, suspended, kept):
+        assert (await send(ml, lot_id, t)).status_code == 201
+
+    async def names() -> list[str]:
+        r = await ml.get(f"{LOTS}/{lot_id}/interests", headers=gh)
+        assert r.status_code == 200, r.text
+        return sorted(i["trader"]["id"] for i in r.json()["interests"])
+
+    everyone = sorted(str(t.profile) for t in (blocked, suspended, kept))
+    assert await names() == everyone
+    assert (await ml.put(f"{ML}/blocks/{blocked.user}", headers=gh)).status_code == 204
+    await act(ml, "user", suspended.user, "suspend", "abuse")
+    assert await names() == [str(kept.profile)]
+    assert (await ml.delete(f"{ML}/blocks/{blocked.user}", headers=gh)).status_code == 204
+    await act(ml, "user", suspended.user, "restore", "checks_passed")
+    assert await names() == everyone
+
+
+async def test_ratings_of_a_suspended_or_deleted_rater_still_count(ml: Any) -> None:
+    trader = await party(ml)
+    raters = (uuid.uuid4(), uuid.uuid4())
+    async with ml.maker() as s:
+        for rater in raters:
+            deal = await _deal(ml.maker, trader.user, None, done=True)
+            s.add(
+                Rating(
+                    deal_id=deal,
+                    rater_id=rater,
+                    ratee_id=trader.user,
+                    ratee_role="trader",
+                    question_key="trader_on_date",
+                    stars=4,
+                    tag_ids=[],
+                )
+            )
+        now = datetime.now(UTC)
+        s.add(DeferredErasure(user_id=raters[1], requested_at=now, erase_after=now))
+        await s.commit()
+    await act(ml, "user", raters[0], "suspend", "abuse")
+    r = await ml.get(f"{ML}/profiles/buyer/{trader.profile}", headers=headers(uuid.uuid4()))
+    assert r.status_code == 200, r.text
+    body = r.json()
+    assert body["stars"] == [{"question_key": "trader_on_date", "average": 4.0, "count": 2}]
+    assert not {str(x) for x in raters} & set(str(body).split("'"))  # no rater named
