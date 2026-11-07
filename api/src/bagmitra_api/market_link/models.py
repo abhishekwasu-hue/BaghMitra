@@ -86,6 +86,10 @@ LOT_MAX_PHOTOS = 8
 # Real orchard check (spec §4C): only inside / near lots reach traders and brokers.
 ORCHARD_CHECKS = ("inside", "near", "outside", "unmapped")
 ORCHARD_OK = ("inside", "near")
+# One admin check by hand on a free official page (spec §4, L7): the kind, and what was found.
+CHECK_KINDS = ("gstin", "apmc", "fssai", "iec", "apeda", "phone_call", "place_photo")
+# `cancelled`: GST cancelled / IEC deactivated / licence no longer valid (found on a re-check).
+CHECK_RESULTS = ("passed", "failed", "cancelled")
 
 
 def one_of(column: str, values: tuple[str, ...]) -> CheckConstraint:
@@ -474,6 +478,44 @@ class UserBlock(_Row, Base):
 
     blocker_id: Mapped[uuid.UUID] = mapped_column(index=True)
     blocked_id: Mapped[uuid.UUID] = mapped_column(index=True)
+
+
+class VerificationCheck(_Row, Base):
+    """One check the admin did by hand (spec §4, L7): kind, the number checked, the result,
+    the official page opened, who and when. Never edited; the latest row per subject and kind
+    decides, so a re-check that finds GST cancelled or IEC deactivated removes the badge.
+    `recheck_listed_at`: set by the yearly re-check job (recheck_job.py) on a stale pass."""
+
+    __tablename__ = "verification_checks"
+    __table_args__ = (
+        one_of("subject_type", SUBJECT_TYPES),
+        one_of("kind", CHECK_KINDS),
+        one_of("result", CHECK_RESULTS),
+    )
+
+    subject_type: Mapped[str] = mapped_column(String(16))
+    subject_id: Mapped[uuid.UUID] = mapped_column(index=True)
+    kind: Mapped[str] = mapped_column(String(16))
+    number: Mapped[str | None] = mapped_column(String(40))
+    result: Mapped[str] = mapped_column(String(16))
+    # GST only: the registration year on the public record ("registered since <year>").
+    registered_year: Mapped[int | None] = mapped_column(SmallInteger)
+    official_url: Mapped[str | None] = mapped_column(String(300))
+    checked_by: Mapped[uuid.UUID] = mapped_column()
+    checked_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), index=True)
+    recheck_listed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+
+
+class DeviceSighting(_Row, Base):
+    """An account seen on a phone: the SHA-256 of its push token, written when the phone
+    registers for push while the module is on (spec §4C "same phone cannot rate", Q100).
+    A push token row moves to the latest account, so this keeps who else used the phone."""
+
+    __tablename__ = "device_sightings"
+    __table_args__ = (UniqueConstraint("device_hash", "user_id"),)
+
+    device_hash: Mapped[str] = mapped_column(String(64), index=True)
+    user_id: Mapped[uuid.UUID] = mapped_column(index=True)
 
 
 # Every table defined above (the schema and RLS tests walk this list).

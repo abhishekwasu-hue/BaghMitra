@@ -155,7 +155,17 @@ enum BadgeOutKind {
   @JsonValue('registered_from')
   registeredFrom('registered_from'),
   @JsonValue('place_photo')
-  placePhoto('place_photo');
+  placePhoto('place_photo'),
+  @JsonValue('gst_checked')
+  gstChecked('gst_checked'),
+  @JsonValue('apmc_seen')
+  apmcSeen('apmc_seen'),
+  @JsonValue('fssai_checked')
+  fssaiChecked('fssai_checked'),
+  @JsonValue('iec_active')
+  iecActive('iec_active'),
+  @JsonValue('apeda_listed')
+  apedaListed('apeda_listed');
 
   final String? value;
 
@@ -188,6 +198,46 @@ enum ChangeOp {
   final String? value;
 
   const ChangeOp(this.value);
+}
+
+enum CheckInKind {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('gstin')
+  gstin('gstin'),
+  @JsonValue('apmc')
+  apmc('apmc'),
+  @JsonValue('fssai')
+  fssai('fssai'),
+  @JsonValue('iec')
+  iec('iec'),
+  @JsonValue('apeda')
+  apeda('apeda'),
+  @JsonValue('phone_call')
+  phoneCall('phone_call'),
+  @JsonValue('place_photo')
+  placePhoto('place_photo');
+
+  final String? value;
+
+  const CheckInKind(this.value);
+}
+
+enum CheckInResult {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('passed')
+  passed('passed'),
+  @JsonValue('failed')
+  failed('failed'),
+  @JsonValue('cancelled')
+  cancelled('cancelled');
+
+  final String? value;
+
+  const CheckInResult(this.value);
 }
 
 enum DealStateOutMyRole {
@@ -684,6 +734,24 @@ enum V1AdminMarketLinkVerificationsSubjectTypeSubjectIdGetSubjectType {
   final String? value;
 
   const V1AdminMarketLinkVerificationsSubjectTypeSubjectIdGetSubjectType(
+    this.value,
+  );
+}
+
+enum V1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPostSubjectType {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('buyer')
+  buyer('buyer'),
+  @JsonValue('broker')
+  broker('broker'),
+  @JsonValue('provider')
+  provider('provider');
+
+  final String? value;
+
+  const V1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPostSubjectType(
     this.value,
   );
 }
