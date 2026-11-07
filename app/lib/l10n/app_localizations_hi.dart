@@ -2555,6 +2555,68 @@ class AppLocalizationsHi extends AppLocalizations {
   String get exportLinksTitle => 'आधिकारिक पेज';
 
   @override
+  String get exportRecordTitle => 'निर्यात रिकॉर्ड';
+
+  @override
+  String get exportRecordAction => 'निर्यात रिकॉर्ड (PDF) बनाएँ';
+
+  @override
+  String get exportRecordPlot => 'बाग';
+
+  @override
+  String get exportRecordBahar => 'बहार';
+
+  @override
+  String get exportRecordAllBahars => 'सभी छिड़काव';
+
+  @override
+  String exportRecordCount(String count) {
+    return '$count छिड़काव';
+  }
+
+  @override
+  String exportRecordLastPhi(String date) {
+    return 'आख़िरी PHI $date को समाप्त';
+  }
+
+  @override
+  String get exportRecordShare => 'PDF शेयर करें';
+
+  @override
+  String get exportRecordNoPlot =>
+      'पहले बाग जोड़ें; उसका छिड़काव रिकॉर्ड यहाँ दिखेगा।';
+
+  @override
+  String get exportRecordEmpty =>
+      'इस बहार के छिड़काव दर्ज होने पर यहाँ दिखेंगे।';
+
+  @override
+  String get exportRecordDate => 'तारीख';
+
+  @override
+  String get exportRecordProduct => 'दवा · घटक · मात्रा';
+
+  @override
+  String get exportRecordLabel => 'लेबल जाँच';
+
+  @override
+  String get exportRecordPhiEnd => 'PHI समाप्त';
+
+  @override
+  String get exportLabelListed => 'इस फसल के लिए लेबल पर';
+
+  @override
+  String get exportLabelCheck => 'लेबल जाँचें';
+
+  @override
+  String exportRecordMade(String date) {
+    return '$date को किसान के अपने छिड़काव रिकॉर्ड से बना।';
+  }
+
+  @override
+  String get exportRecordFooter => 'जानकारी हेतु रिकॉर्ड, प्रमाणपत्र नहीं।';
+
+  @override
   String fairPriceMandi(Object date, Object market, Object price) {
     return '$market मंडी, $date: मॉडल भाव $price प्रति क्विंटल';
   }
@@ -3147,4 +3209,119 @@ class AppLocalizationsHi extends AppLocalizations {
   String adminMlDocumentCount(int n) {
     return 'दस्तावेज़: $n';
   }
+
+  @override
+  String get mlRolesTitle => 'अपनी भूमिका चुनें';
+
+  @override
+  String get mlRolesIntro =>
+      'हर भूमिका के लिए एक ही साइन-इन। भूमिका कभी भी बदल सकते हैं।';
+
+  @override
+  String get mlRoleGrower => 'किसान';
+
+  @override
+  String get mlRoleTrader => 'व्यापारी';
+
+  @override
+  String get mlRoleBroker => 'मध्यस्थ (दलाल)';
+
+  @override
+  String get mlRoleExporter => 'निर्यातक';
+
+  @override
+  String get mlRoleProvider => 'सेवा देने वाले';
+
+  @override
+  String get mlRoleProviderKinds => 'धर्मकांटा, परिवहन, मज़दूर, क्रेट';
+
+  @override
+  String get mlRoleCurrent => 'मौजूदा भूमिका';
+
+  @override
+  String get mlSwitchRole => 'भूमिका बदलें';
+
+  @override
+  String get mlHomeLinkTitle => 'बाज़ार जुड़ाव';
+
+  @override
+  String get mlHomeLinkHint =>
+      'व्यापारी, मध्यस्थ, निर्यातक, सेवा: भूमिका चुनें';
+
+  @override
+  String get mlTermsTitle => 'शुरू करने से पहले';
+
+  @override
+  String mlTermsRole(String role) {
+    return 'भूमिका: $role';
+  }
+
+  @override
+  String get mlTermsIntroOnly =>
+      'BagMitra केवल जानकारी देता है और आपको व्यापारियों, मध्यस्थों (दलाल) और बाज़ार से मिलवाता है।';
+
+  @override
+  String get mlTermsNotParty =>
+      'BagMitra खरीदार, विक्रेता, कमीशन एजेंट या ट्रांसपोर्टर नहीं है।';
+
+  @override
+  String get mlTermsNoMoney =>
+      'यह कोई पैसा नहीं रखता और भुगतान या माल की गुणवत्ता की गारंटी नहीं देता।';
+
+  @override
+  String get mlTermsNoGainLoss =>
+      'आपके लेन-देन में इस ऐप का कोई लाभ या नुकसान नहीं है।';
+
+  @override
+  String get mlTermsNoPart =>
+      'आपके लेन-देन या किसी भी विवाद में BagMitra भाग नहीं लेता।';
+
+  @override
+  String get mlTermsAfterDeal =>
+      'लेन-देन के बाद क्या दर्ज करना है, यह आपकी इच्छा है।';
+
+  @override
+  String get mlTermsPublicPhone =>
+      'आपका फ़ोन नंबर आपकी प्रोफ़ाइल पर सबको दिखेगा, ताकि किसान आपको सीधे फ़ोन कर सकें।';
+
+  @override
+  String get mlTermsGpsOnce =>
+      'पंजीकरण के समय धोखाधड़ी रोकने के लिए आपका स्थान (GPS) एक बार लिया जाएगा।';
+
+  @override
+  String get mlTermsFull => 'उपयोग की पूरी शर्तें';
+
+  @override
+  String get mlTermsAdult => 'मेरी उम्र 18 वर्ष से अधिक है';
+
+  @override
+  String get mlTermsAgree => 'मैंने पढ़ा और मैं सहमत हूँ';
+
+  @override
+  String get mlTermsAccept => 'स्वीकार करें और आगे बढ़ें';
+
+  @override
+  String get mlTermsBack => 'पीछे';
+
+  @override
+  String get mlRoleHomeSoon => 'इस भूमिका की सुविधाएँ जल्द ही यहाँ दिखेंगी।';
+
+  @override
+  String get mlSafetyNotice =>
+      'BagMitra कभी भी पैसे, OTP या बैंक विवरण नहीं माँगता।';
+
+  @override
+  String get mlGrievanceTitle => 'शिकायत अधिकारी';
+
+  @override
+  String get mlGrievanceOwner => 'BagMitra के मालिक';
+
+  @override
+  String mlGrievanceContact(String contact) {
+    return 'संपर्क: $contact';
+  }
+
+  @override
+  String get mlGrievanceTimes =>
+      'शिकायत की पावती 24 घंटे में और निपटारा 15 दिन में।';
 }
