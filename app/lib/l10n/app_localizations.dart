@@ -6387,6 +6387,306 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Near {name}'**
   String mlNearPlot(String name);
+
+  /// No description provided for @mlDisclaimerShort.
+  ///
+  /// In en, this message translates to:
+  /// **'BagMitra is not a buyer, seller, middleman (broker) or transporter, does not hold money and does not guarantee payment or quality.'**
+  String get mlDisclaimerShort;
+
+  /// No description provided for @mlOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Show produce for sale'**
+  String get mlOpen;
+
+  /// No description provided for @mlMyLotsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'My produce for sale'**
+  String get mlMyLotsTitle;
+
+  /// No description provided for @mlLotsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Show your produce here with photos; verified traders and middlemen (brokers) see it.'**
+  String get mlLotsEmpty;
+
+  /// No description provided for @mlLotFormTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Produce for sale'**
+  String get mlLotFormTitle;
+
+  /// No description provided for @mlNoPlot.
+  ///
+  /// In en, this message translates to:
+  /// **'Add your orchard first.'**
+  String get mlNoPlot;
+
+  /// No description provided for @mlPlot.
+  ///
+  /// In en, this message translates to:
+  /// **'Orchard'**
+  String get mlPlot;
+
+  /// No description provided for @mlBahar.
+  ///
+  /// In en, this message translates to:
+  /// **'Bahar'**
+  String get mlBahar;
+
+  /// No description provided for @mlQuantity.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated quantity (tonnes)'**
+  String get mlQuantity;
+
+  /// No description provided for @mlQuality.
+  ///
+  /// In en, this message translates to:
+  /// **'Size and quality'**
+  String get mlQuality;
+
+  /// No description provided for @mlHarvestWindow.
+  ///
+  /// In en, this message translates to:
+  /// **'Harvest window'**
+  String get mlHarvestWindow;
+
+  /// No description provided for @mlWindowFromBahar.
+  ///
+  /// In en, this message translates to:
+  /// **'{from} – {to} (bahar)'**
+  String mlWindowFromBahar(String from, String to);
+
+  /// No description provided for @mlWindowPick.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose dates'**
+  String get mlWindowPick;
+
+  /// No description provided for @mlWindowRange.
+  ///
+  /// In en, this message translates to:
+  /// **'{from} – {to}'**
+  String mlWindowRange(String from, String to);
+
+  /// No description provided for @mlBasis.
+  ///
+  /// In en, this message translates to:
+  /// **'Sale basis'**
+  String get mlBasis;
+
+  /// No description provided for @mlBasisPerTonne.
+  ///
+  /// In en, this message translates to:
+  /// **'Per tonne'**
+  String get mlBasisPerTonne;
+
+  /// No description provided for @mlBasisPerCrate.
+  ///
+  /// In en, this message translates to:
+  /// **'Per crate'**
+  String get mlBasisPerCrate;
+
+  /// No description provided for @mlBasisLumpSum.
+  ///
+  /// In en, this message translates to:
+  /// **'Whole orchard'**
+  String get mlBasisLumpSum;
+
+  /// No description provided for @mlAskingRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Asking rate in ₹ (optional)'**
+  String get mlAskingRate;
+
+  /// No description provided for @mlPhotos.
+  ///
+  /// In en, this message translates to:
+  /// **'Photos'**
+  String get mlPhotos;
+
+  /// No description provided for @mlPhotosHint.
+  ///
+  /// In en, this message translates to:
+  /// **'{min} to {max} photos from the app camera'**
+  String mlPhotosHint(String min, String max);
+
+  /// No description provided for @mlAddPhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Take photo'**
+  String get mlAddPhoto;
+
+  /// No description provided for @mlRemovePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove photo'**
+  String get mlRemovePhoto;
+
+  /// No description provided for @mlPhotoNoGps.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on GPS and take the photo again: each photo needs its location.'**
+  String get mlPhotoNoGps;
+
+  /// No description provided for @mlPrivacy.
+  ///
+  /// In en, this message translates to:
+  /// **'Traders see only your village, taluka and district; your name, phone and orchard location stay private.'**
+  String get mlPrivacy;
+
+  /// No description provided for @mlSaveDraft.
+  ///
+  /// In en, this message translates to:
+  /// **'Save draft'**
+  String get mlSaveDraft;
+
+  /// No description provided for @mlPublish.
+  ///
+  /// In en, this message translates to:
+  /// **'Show to traders'**
+  String get mlPublish;
+
+  /// No description provided for @mlClose.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop showing'**
+  String get mlClose;
+
+  /// No description provided for @mlStatusDraft.
+  ///
+  /// In en, this message translates to:
+  /// **'Draft'**
+  String get mlStatusDraft;
+
+  /// No description provided for @mlStatusPublished.
+  ///
+  /// In en, this message translates to:
+  /// **'Shown to traders'**
+  String get mlStatusPublished;
+
+  /// No description provided for @mlStatusReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for check'**
+  String get mlStatusReview;
+
+  /// No description provided for @mlStatusClosed.
+  ///
+  /// In en, this message translates to:
+  /// **'Closed'**
+  String get mlStatusClosed;
+
+  /// No description provided for @mlTonnes.
+  ///
+  /// In en, this message translates to:
+  /// **'{value} t'**
+  String mlTonnes(String value);
+
+  /// No description provided for @mlRatePerTonne.
+  ///
+  /// In en, this message translates to:
+  /// **'{rate} per tonne'**
+  String mlRatePerTonne(String rate);
+
+  /// No description provided for @mlRatePerCrate.
+  ///
+  /// In en, this message translates to:
+  /// **'{rate} per crate'**
+  String mlRatePerCrate(String rate);
+
+  /// No description provided for @mlRateLumpSum.
+  ///
+  /// In en, this message translates to:
+  /// **'{rate} for the orchard'**
+  String mlRateLumpSum(String rate);
+
+  /// No description provided for @mlPublished.
+  ///
+  /// In en, this message translates to:
+  /// **'Now shown to verified traders and middlemen (brokers).'**
+  String get mlPublished;
+
+  /// No description provided for @mlClosed.
+  ///
+  /// In en, this message translates to:
+  /// **'Taken off the traders\' list.'**
+  String get mlClosed;
+
+  /// No description provided for @mlPublishOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'This needs internet. Your draft is saved; try again when online.'**
+  String get mlPublishOffline;
+
+  /// No description provided for @mlPublishNeedPhotos.
+  ///
+  /// In en, this message translates to:
+  /// **'Add {min} to {max} photos first.'**
+  String mlPublishNeedPhotos(String min, String max);
+
+  /// No description provided for @mlPublishPhotoMissing.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove that photo and take it again: its file is missing on this phone.'**
+  String get mlPublishPhotoMissing;
+
+  /// No description provided for @mlPublishNotAccepted.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept the grower terms first, then try again.'**
+  String get mlPublishNotAccepted;
+
+  /// No description provided for @mlPublishFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again in a little while.'**
+  String get mlPublishFailed;
+
+  /// No description provided for @mlChooseOne.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose one'**
+  String get mlChooseOne;
+
+  /// No description provided for @mlDeleteDraft.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete draft'**
+  String get mlDeleteDraft;
+
+  /// No description provided for @mlNoContacts.
+  ///
+  /// In en, this message translates to:
+  /// **'Write only about the produce here; phone numbers and links are shared after you accept an offer.'**
+  String get mlNoContacts;
+
+  /// No description provided for @mlPublishOrchardCheck.
+  ///
+  /// In en, this message translates to:
+  /// **'Published; traders see it after a check, because the photos were taken outside your mapped orchard.'**
+  String get mlPublishOrchardCheck;
+
+  /// No description provided for @mlSize.
+  ///
+  /// In en, this message translates to:
+  /// **'Size'**
+  String get mlSize;
+
+  /// No description provided for @mlGrade.
+  ///
+  /// In en, this message translates to:
+  /// **'Grade'**
+  String get mlGrade;
+
+  /// No description provided for @mlQualityLine.
+  ///
+  /// In en, this message translates to:
+  /// **'A short line (optional)'**
+  String get mlQualityLine;
 }
 
 class _AppLocalizationsDelegate

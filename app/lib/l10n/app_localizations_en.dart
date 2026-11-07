@@ -3665,4 +3665,180 @@ class AppLocalizationsEn extends AppLocalizations {
   String mlNearPlot(String name) {
     return 'Near $name';
   }
+
+  @override
+  String get mlDisclaimerShort =>
+      'BagMitra is not a buyer, seller, middleman (broker) or transporter, does not hold money and does not guarantee payment or quality.';
+
+  @override
+  String get mlOpen => 'Show produce for sale';
+
+  @override
+  String get mlMyLotsTitle => 'My produce for sale';
+
+  @override
+  String get mlLotsEmpty =>
+      'Show your produce here with photos; verified traders and middlemen (brokers) see it.';
+
+  @override
+  String get mlLotFormTitle => 'Produce for sale';
+
+  @override
+  String get mlNoPlot => 'Add your orchard first.';
+
+  @override
+  String get mlPlot => 'Orchard';
+
+  @override
+  String get mlBahar => 'Bahar';
+
+  @override
+  String get mlQuantity => 'Estimated quantity (tonnes)';
+
+  @override
+  String get mlQuality => 'Size and quality';
+
+  @override
+  String get mlHarvestWindow => 'Harvest window';
+
+  @override
+  String mlWindowFromBahar(String from, String to) {
+    return '$from – $to (bahar)';
+  }
+
+  @override
+  String get mlWindowPick => 'Choose dates';
+
+  @override
+  String mlWindowRange(String from, String to) {
+    return '$from – $to';
+  }
+
+  @override
+  String get mlBasis => 'Sale basis';
+
+  @override
+  String get mlBasisPerTonne => 'Per tonne';
+
+  @override
+  String get mlBasisPerCrate => 'Per crate';
+
+  @override
+  String get mlBasisLumpSum => 'Whole orchard';
+
+  @override
+  String get mlAskingRate => 'Asking rate in ₹ (optional)';
+
+  @override
+  String get mlPhotos => 'Photos';
+
+  @override
+  String mlPhotosHint(String min, String max) {
+    return '$min to $max photos from the app camera';
+  }
+
+  @override
+  String get mlAddPhoto => 'Take photo';
+
+  @override
+  String get mlRemovePhoto => 'Remove photo';
+
+  @override
+  String get mlPhotoNoGps =>
+      'Turn on GPS and take the photo again: each photo needs its location.';
+
+  @override
+  String get mlPrivacy =>
+      'Traders see only your village, taluka and district; your name, phone and orchard location stay private.';
+
+  @override
+  String get mlSaveDraft => 'Save draft';
+
+  @override
+  String get mlPublish => 'Show to traders';
+
+  @override
+  String get mlClose => 'Stop showing';
+
+  @override
+  String get mlStatusDraft => 'Draft';
+
+  @override
+  String get mlStatusPublished => 'Shown to traders';
+
+  @override
+  String get mlStatusReview => 'Waiting for check';
+
+  @override
+  String get mlStatusClosed => 'Closed';
+
+  @override
+  String mlTonnes(String value) {
+    return '$value t';
+  }
+
+  @override
+  String mlRatePerTonne(String rate) {
+    return '$rate per tonne';
+  }
+
+  @override
+  String mlRatePerCrate(String rate) {
+    return '$rate per crate';
+  }
+
+  @override
+  String mlRateLumpSum(String rate) {
+    return '$rate for the orchard';
+  }
+
+  @override
+  String get mlPublished =>
+      'Now shown to verified traders and middlemen (brokers).';
+
+  @override
+  String get mlClosed => 'Taken off the traders\' list.';
+
+  @override
+  String get mlPublishOffline =>
+      'This needs internet. Your draft is saved; try again when online.';
+
+  @override
+  String mlPublishNeedPhotos(String min, String max) {
+    return 'Add $min to $max photos first.';
+  }
+
+  @override
+  String get mlPublishPhotoMissing =>
+      'Remove that photo and take it again: its file is missing on this phone.';
+
+  @override
+  String get mlPublishNotAccepted =>
+      'Accept the grower terms first, then try again.';
+
+  @override
+  String get mlPublishFailed => 'Try again in a little while.';
+
+  @override
+  String get mlChooseOne => 'Choose one';
+
+  @override
+  String get mlDeleteDraft => 'Delete draft';
+
+  @override
+  String get mlNoContacts =>
+      'Write only about the produce here; phone numbers and links are shared after you accept an offer.';
+
+  @override
+  String get mlPublishOrchardCheck =>
+      'Published; traders see it after a check, because the photos were taken outside your mapped orchard.';
+
+  @override
+  String get mlSize => 'Size';
+
+  @override
+  String get mlGrade => 'Grade';
+
+  @override
+  String get mlQualityLine => 'A short line (optional)';
 }
