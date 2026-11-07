@@ -1,15 +1,17 @@
 from __future__ import annotations
 
-from typing import Literal
+from typing import Annotated, Literal
 
-from fastapi import APIRouter, Response
+from fastapi import APIRouter, Depends, Response
 from pydantic import BaseModel, Field
 from sqlalchemy import delete, select
 
 from bagmitra_api.auth.jwt import CurrentUser
 from bagmitra_api.core.errors import ErrorResponse
+from bagmitra_api.core.settings import Settings, get_settings
 from bagmitra_api.db.models import PushDevice
 from bagmitra_api.db.session import DbSession
+from bagmitra_api.market_link.trust import record_sighting
 
 router = APIRouter(prefix="/v1", tags=["profile"])
 
@@ -29,13 +31,22 @@ class DeviceOut(BaseModel):
     status_code=204,
     responses={401: {"model": ErrorResponse}},
 )
-async def register_device(body: DeviceIn, user: CurrentUser, session: DbSession) -> Response:
-    """Register this phone for push alerts; repeating it is harmless."""
+async def register_device(
+    body: DeviceIn,
+    user: CurrentUser,
+    session: DbSession,
+    settings: Annotated[Settings, Depends(get_settings)],
+) -> Response:
+    """Register this phone for push alerts; repeating it is harmless. With the market link on,
+    the account is also remembered on this phone (hashed token) so that two accounts on one
+    phone cannot rate each other (spec v1.5 §4C, Q100)."""
     row = await session.scalar(select(PushDevice).where(PushDevice.token == body.token))
     if row is None:
         session.add(PushDevice(owner_id=user.id, token=body.token, platform=body.platform))
     else:
         row.owner_id, row.platform = user.id, body.platform
+    if settings.market_link_enabled:
+        await record_sighting(session, body.token, user.id)
     await session.commit()
     return Response(status_code=204)
 

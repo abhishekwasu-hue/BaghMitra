@@ -20,7 +20,7 @@ from datetime import UTC, date, datetime
 from typing import Annotated
 
 import structlog
-from fastapi import APIRouter, Depends, Query, Request
+from fastapi import APIRouter, BackgroundTasks, Depends, Query, Request
 from pydantic import BaseModel
 from sqlalchemy import select
 
@@ -33,9 +33,13 @@ from bagmitra_api.market_link.guards import is_verified_viewer
 from bagmitra_api.market_link.models import (
     LOT_MAX_PHOTOS,
     LOT_MIN_PHOTOS,
+    DealParty,
+    MarketDeal,
     MarketLot,
     MarketLotPhoto,
+    MarketOffer,
 )
+from bagmitra_api.market_link.notify import PushFactory, get_push_factory, messages, send_all
 from bagmitra_api.market_link.orchard import orchard_check
 from bagmitra_api.market_link.package import (
     grant_active,
@@ -79,6 +83,7 @@ GROWER_WRITE = [Depends(require_role_accepted("grower"))]
 LOT_PAGE = 100
 SQ_M_PER_ACRE = 4046.8564224
 Clock = Annotated[Callable[[], datetime], Depends(get_clock)]
+Push = Annotated[PushFactory, Depends(get_push_factory)]
 
 
 class GrowerLotOut(BaseModel):
@@ -215,15 +220,42 @@ async def publish_lot(
 @router.post(
     "/lots/{lot_id}/close", operation_id="market_link_close_lot", dependencies=GROWER_WRITE
 )
-async def close_lot(lot_id: uuid.UUID, user: CurrentUser, session: DbSession) -> GrowerLotOut:
-    """Takes a published lot off the buyers' list (the grower sold it or changed their mind)."""
+async def close_lot(
+    lot_id: uuid.UUID, user: CurrentUser, session: DbSession, tasks: BackgroundTasks, push: Push
+) -> GrowerLotOut:
+    """Takes a published lot off the buyers' list (the grower sold it or changed their mind);
+    its open interests are closed and their senders get a notice (L4)."""
     lot = await _own_lot(session, user, lot_id)
     if lot.status != "published":
         raise ApiError(409, "lot_not_published")
     lot.status = "closed"
+    others = await close_open_offers(session, lot.id)
     await _server_write(session, user, lot, "close")
+    batch = await messages(session, "closed", others, {"lot_id": str(lot.id)})
     await session.commit()
+    tasks.add_task(send_all, push, batch)
     return _grower_view(lot)
+
+
+async def _deal_party(session: DbSession, lot_id: uuid.UUID, user_id: uuid.UUID) -> bool:
+    """The user is a party of an accepted interest on the lot (L4): they keep its photos."""
+    party = await session.scalar(
+        select(DealParty.id)
+        .join(MarketDeal, MarketDeal.id == DealParty.deal_id)
+        .where(MarketDeal.lot_id == lot_id, DealParty.user_id == user_id)
+    )
+    return party is not None
+
+
+async def close_open_offers(session: DbSession, lot_id: uuid.UUID) -> set[uuid.UUID]:
+    """Closes every open interest on the lot; returns their traders and brokers to notify."""
+    users: set[uuid.UUID] = set()
+    for o in await session.scalars(
+        select(MarketOffer).where(MarketOffer.lot_id == lot_id, MarketOffer.status == "open")
+    ):
+        o.status = "closed"
+        users.update(u for u in (o.buyer_user_id, o.broker_user_id) if u is not None)
+    return users
 
 
 @router.get("/lots", operation_id="market_link_lots")
@@ -404,16 +436,20 @@ async def lot_photo_url(
     clock: Clock,
 ) -> LotPhotoUrl:
     """A short-lived download URL for an uploaded lot photo: for the grower, or for a
-    verified buyer / broker while `lot_visible_to_traders` shows the lot. Only the derived
-    key is signed."""
+    verified buyer / broker while `lot_visible_to_traders` shows the lot, or for the parties
+    of an accepted interest on it (L4). Only the derived key is signed."""
     storage = _storage(ctx)
     photo = await session.get(MarketLotPhoto, photo_id)
     lot = None if photo is None else await session.get(MarketLot, photo.lot_id)
     if photo is None or lot is None or photo.deleted_at is not None or lot.deleted_at is not None:
         raise ApiError(404, "lot_photo_not_found")
     own = photo.owner_id == user.id and lot.owner_id == user.id
-    if not own and not (
-        await lot_shown(session, lot.id, clock()) and await is_verified_viewer(session, user.id)
+    if (
+        not own
+        and not (
+            await lot_shown(session, lot.id, clock()) and await is_verified_viewer(session, user.id)
+        )
+        and not await _deal_party(session, lot.id, user.id)
     ):
         raise ApiError(404, "lot_photo_not_found")
     key = photo_key_for(photo.owner_id, photo.id)

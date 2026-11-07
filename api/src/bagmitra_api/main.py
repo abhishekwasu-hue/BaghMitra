@@ -15,6 +15,8 @@ from bagmitra_api.routers import (
     admin_kb,
     admin_market,
     admin_market_link,
+    admin_market_link_checks,
+    admin_market_link_safety,
     admin_package,
     admin_web,
     app_release,
@@ -27,7 +29,12 @@ from bagmitra_api.routers import (
     insurance,
     knowledge,
     market,
+    market_deals,
+    market_interests,
     market_link,
+    market_link_profiles,
+    market_link_registration,
+    market_link_safety,
     market_lots,
     me,
     public_pages,
@@ -75,6 +82,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         admin_kb,
         admin_market,
         admin_market_link,
+        admin_market_link_checks,
+        admin_market_link_safety,
         admin_package,
         admin_web,
         app_release,
@@ -87,7 +96,12 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         insurance,
         knowledge,
         market,
+        market_deals,
+        market_interests,
         market_link,
+        market_link_profiles,
+        market_link_registration,
+        market_link_safety,
         market_lots,
         me,
         public_pages,
@@ -97,6 +111,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         weather,
     ):
         app.include_router(module.router)
+    app.include_router(market_link_registration.admin_router)
     # Last, so `/admin/config.json` (admin_web router) wins over the static files.
     admin_files = admin_web.admin_web_files(settings)
     if admin_files is not None:

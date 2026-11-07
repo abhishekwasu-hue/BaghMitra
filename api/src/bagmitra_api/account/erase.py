@@ -9,6 +9,10 @@ Order, so that a failure never leaves an untracked half:
 3. the Supabase sign-in account (when the service role key is set); on success the
    follow-up is cleared, otherwise it stays for the owner.
 
+Market link (Q68, `market_link/erasure.py`): the user's market-link data is hidden at once
+(`deferred_erasures` row, published lots withdrawn) and erased by a nightly job after 180 days;
+the lot tables are therefore skipped here.
+
 Kept on purpose: the billing ledger (`subscriptions`, `billing_events`), which holds no
 personal data beyond the account id and may have to be kept for accounting (owner decision).
 """
@@ -25,8 +29,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from bagmitra_api.account.auth_admin import AuthAdmin, AuthAdminError
 from bagmitra_api.account.models import AccountDeletion
 from bagmitra_api.billing.models import EntitlementSnapshot
-from bagmitra_api.db.base import Base
+from bagmitra_api.db.base import Base, utcnow
 from bagmitra_api.db.models import ScoutingRecord
+from bagmitra_api.market_link.erasure import DEFERRED_TABLES, defer_market_link
 from bagmitra_api.market_link.models import MarketLotPhoto
 from bagmitra_api.photos.storage import PhotoStorage
 
@@ -77,6 +82,7 @@ async def erase_account(
     *,
     storage: PhotoStorage | None,
     auth_admin: AuthAdmin | None,
+    market_link_days: int = 180,
 ) -> ErasureResult:
     """Erase the account. Raises PhotoStorageError (before any row is touched) when storage
     is configured but fails."""
@@ -92,7 +98,10 @@ async def erase_account(
         followups.append(FOLLOWUP_PHOTOS)
 
     rows = 0
+    await defer_market_link(session, user_id, utcnow(), market_link_days)
     for table, column in owner_tables():
+        if table.name in DEFERRED_TABLES:
+            continue
         result = await session.execute(delete(table).where(table.c[column] == user_id))
         rows += max(result.rowcount or 0, 0)
     snapshots = await session.execute(
