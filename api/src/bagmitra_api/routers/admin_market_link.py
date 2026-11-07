@@ -32,6 +32,7 @@ from bagmitra_api.market_link.models import (
     ServiceProvider,
 )
 from bagmitra_api.market_link.registration import AdminFixOut, admin_fix, fix_flags, latest_fixes
+from bagmitra_api.market_link.safety import new_action
 from bagmitra_api.routers.market_link import require_market_link
 from bagmitra_api.routers.scouting_photos import (
     PhotoContext,
@@ -305,6 +306,18 @@ async def decide(  # noqa: PLR0913 - path, body and dependencies
             updated_at=now,
         )
     )
+    if body.status == "approved":  # every verify is in the open action log too (§4C)
+        session.add(
+            new_action(
+                subject_type=subject_type,
+                subject_id=subject.id,
+                user_id=subject.user_id,
+                action="verify",
+                reason_code="checks_passed",
+                actor_id=admin.id,
+                now=now,
+            )
+        )
     await session.commit()
     return await _detail(session, subject_type, subject)
 

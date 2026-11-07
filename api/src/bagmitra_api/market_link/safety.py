@@ -1,17 +1,20 @@
 """Trust and safety shared by the user and admin routers (spec v1.5 §4, §4C; L6): who a
-report or action is about, and report / appeal photos.
+report or action is about, the action log, the grievance timeline and report / appeal photos.
 """
 
 from __future__ import annotations
 
 import uuid
+from datetime import datetime, timedelta
 from typing import Any
 
 from fastapi import Request
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from bagmitra_api.core.errors import ApiError
+from bagmitra_api.core.settings import Settings
 from bagmitra_api.market_link.models import (
+    AdminAction,
     BrokerProfile,
     BuyerProfile,
     MarketLot,
@@ -44,6 +47,51 @@ async def subject_user(
         raise ApiError(404, "subject_not_found")
     owner: uuid.UUID | None = getattr(row, column)
     return owner
+
+
+def new_action(  # noqa: PLR0913 - one log row
+    *,
+    subject_type: str,
+    subject_id: uuid.UUID,
+    user_id: uuid.UUID | None,
+    action: str,
+    reason_code: str,
+    actor_id: uuid.UUID,
+    now: datetime,
+) -> AdminAction:
+    return AdminAction(
+        id=uuid.uuid4(),
+        subject_type=subject_type,
+        subject_id=subject_id,
+        user_id=user_id,
+        action=action,
+        reason_code=reason_code,
+        actor_id=actor_id,
+        acted_at=now,
+        appeal_state="none",
+        appeal_photo_keys=[],
+        created_at=now,
+        updated_at=now,
+    )
+
+
+def overdue(
+    settings: Settings,
+    now: datetime,
+    since: datetime | None,
+    acknowledged_at: datetime | None,
+    closed: bool,
+) -> tuple[bool, bool]:
+    """(acknowledgement overdue, closing overdue) for a complaint received at `since`."""
+    if since is None:
+        return False, False
+    if since.tzinfo is None:  # SQLite returns naive UTC
+        since = since.replace(tzinfo=now.tzinfo)
+    ack_late = acknowledged_at is None and now - since > timedelta(
+        hours=settings.market_link_ack_hours
+    )
+    close_late = not closed and now - since > timedelta(days=settings.market_link_close_days)
+    return ack_late and not closed, close_late
 
 
 async def store_photo(request: Request, ctx: PhotoContext, key: str) -> None:

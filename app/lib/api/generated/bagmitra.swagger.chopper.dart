@@ -765,6 +765,172 @@ is the raw file; only its hash, size and time are kept.''',
   }
 
   @override
+  Future<Response<ActionsResponse>> _v1AdminMarketLinkActionsGet({
+    String? subjectId,
+    String? userId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'The action log, newest first (at most 200 rows).',
+      summary: 'Actions',
+      operationId: 'admin_market_link_actions',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/market-link/actions');
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'subject_id': subjectId,
+      'user_id': userId,
+    };
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+      tag: swaggerMetaData,
+    );
+    return client.send<ActionsResponse, ActionsResponse>($request);
+  }
+
+  @override
+  Future<Response<ActionOut>> _v1AdminMarketLinkActionsPost({
+    required ActionIn? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'An action without a report (e.g. restore after a check, or hide a duplicate user).',
+      summary: 'Act',
+      operationId: 'admin_market_link_act',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/market-link/actions');
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<ActionOut, ActionOut>($request);
+  }
+
+  @override
+  Future<Response<ActionsResponse>> _v1AdminMarketLinkAppealsGet({
+    String? state,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Appeals in one state, oldest appeal first.',
+      summary: 'Appeals',
+      operationId: 'admin_market_link_appeals',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/market-link/appeals');
+    final Map<String, dynamic> $params = <String, dynamic>{'state': state};
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+      tag: swaggerMetaData,
+    );
+    return client.send<ActionsResponse, ActionsResponse>($request);
+  }
+
+  @override
+  Future<Response<ActionOut>> _v1AdminMarketLinkAppealsActionIdAcknowledgePost({
+    required String? actionId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Acknowledge Appeal',
+      operationId: 'admin_market_link_appeal_ack',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse(
+      '/v1/admin/market-link/appeals/${actionId}/acknowledge',
+    );
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<ActionOut, ActionOut>($request);
+  }
+
+  @override
+  Future<Response<ActionOut>> _v1AdminMarketLinkAppealsActionIdDecisionPost({
+    required String? actionId,
+    required AppealDecisionIn? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Uphold (a hide / suspend is lifted by a new restore row, reason `appeal_upheld`) or
+reject. Decided once.''',
+      summary: 'Decide Appeal',
+      operationId: 'admin_market_link_appeal_decide',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse(
+      '/v1/admin/market-link/appeals/${actionId}/decision',
+    );
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<ActionOut, ActionOut>($request);
+  }
+
+  @override
+  Future<Response<PhotoDownloadUrl>>
+  _v1AdminMarketLinkAppealsActionIdPhotosIndexUrlGet({
+    required String? actionId,
+    required int? index,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Appeal Photo Url',
+      operationId: 'admin_market_link_appeal_photo',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse(
+      '/v1/admin/market-link/appeals/${actionId}/photos/${index}/url',
+    );
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<PhotoDownloadUrl, PhotoDownloadUrl>($request);
+  }
+
+  @override
   Future<Response<MyProfileOut>> _v1AdminMarketLinkProvidersPost({
     required AdminProviderIn? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -841,6 +1007,150 @@ for a decision like any other (Q72).''',
       tag: swaggerMetaData,
     );
     return client.send<RatingTagAdminOut, RatingTagAdminOut>($request);
+  }
+
+  @override
+  Future<Response<ReportsAdminResponse>> _v1AdminMarketLinkReportsGet({
+    String? status,
+    String? subjectType,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Reports in one state, oldest first (the grievance timeline runs from creation).',
+      summary: 'Reports',
+      operationId: 'admin_market_link_reports',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/market-link/reports');
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'status': status,
+      'subject_type': subjectType,
+    };
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+      tag: swaggerMetaData,
+    );
+    return client.send<ReportsAdminResponse, ReportsAdminResponse>($request);
+  }
+
+  @override
+  Future<Response<ReportAdminOut>>
+  _v1AdminMarketLinkReportsReportIdAcknowledgePost({
+    required String? reportId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Acknowledge Report',
+      operationId: 'admin_market_link_report_ack',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse(
+      '/v1/admin/market-link/reports/${reportId}/acknowledge',
+    );
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<ReportAdminOut, ReportAdminOut>($request);
+  }
+
+  @override
+  Future<Response<ReportAdminOut>>
+  _v1AdminMarketLinkReportsReportIdDecisionPost({
+    required String? reportId,
+    required ReportDecisionIn? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Warn, hide or suspend the reported subject with a reason code; this closes every open
+report of the same subject with that action.''',
+      summary: 'Decide Report',
+      operationId: 'admin_market_link_report_decide',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse(
+      '/v1/admin/market-link/reports/${reportId}/decision',
+    );
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<ReportAdminOut, ReportAdminOut>($request);
+  }
+
+  @override
+  Future<Response<ReportAdminOut>>
+  _v1AdminMarketLinkReportsReportIdDismissPost({
+    required String? reportId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description:
+          'No platform rule is broken: the report closes without an action.',
+      summary: 'Dismiss Report',
+      operationId: 'admin_market_link_report_dismiss',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse(
+      '/v1/admin/market-link/reports/${reportId}/dismiss',
+    );
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<ReportAdminOut, ReportAdminOut>($request);
+  }
+
+  @override
+  Future<Response<PhotoDownloadUrl>>
+  _v1AdminMarketLinkReportsReportIdPhotosIndexUrlGet({
+    required String? reportId,
+    required int? index,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Report Photo Url',
+      operationId: 'admin_market_link_report_photo',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse(
+      '/v1/admin/market-link/reports/${reportId}/photos/${index}/url',
+    );
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<PhotoDownloadUrl, PhotoDownloadUrl>($request);
   }
 
   @override
