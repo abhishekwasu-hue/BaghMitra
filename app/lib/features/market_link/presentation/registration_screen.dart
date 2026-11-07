@@ -224,11 +224,12 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
     setState(() => _sending = true);
     try {
       await ref.read(registrationApiProvider).register(_role, _body());
+      ref.invalidate(myMarketProfilesProvider);
       if (!mounted) return;
       ScaffoldMessenger.of(context)
         ..hideCurrentSnackBar()
         ..showSnackBar(SnackBar(content: Text(t.mlSubmitted)));
-      context.canPop() ? context.pop() : context.go(Routes.home);
+      context.go(Routes.marketLinkMine);
     } on MarketCallException catch (e) {
       if (!mounted) return;
       setState(() {

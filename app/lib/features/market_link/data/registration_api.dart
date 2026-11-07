@@ -25,10 +25,26 @@ class MarketCallException implements Exception {
 }
 
 /// The phone's view of the L2 endpoints. An interface so screens and tests never reach a
-/// server. Online only: registration needs the fix taken now and the server's check. Later
-/// L2 parts add the user's own profiles, the taluka list and the directory.
+/// server. Online only: registration needs the fix taken now and the server's check.
 abstract interface class RegistrationApi {
   Future<void> register(RegistrationRole role, Map<String, Object?> body);
+
+  Future<List<MarketProfile>> mine();
+
+  Future<MarketProfile> setAddress(
+    String subjectType,
+    String id,
+    String? address,
+  );
+
+  /// Sends one photo; the server strips EXIF before storing it (spec §4B).
+  Future<MarketProfile> addDocument(
+    String subjectType,
+    String id,
+    DocKind doc,
+    List<int> jpeg, {
+    DateTime? validUntil,
+  });
 }
 
 class HttpRegistrationApi implements RegistrationApi {
@@ -77,11 +93,58 @@ class HttpRegistrationApi implements RegistrationApi {
     throw MarketCallException(MarketCallProblem.refused, code);
   }
 
+  MarketProfile _one(Object? json) =>
+      MarketProfile.fromJson((json! as Map).cast<String, Object?>());
+
+  List<MarketProfile> _list(Object? json) => [
+    for (final m in ((json! as Map)['profiles'] as List))
+      MarketProfile.fromJson((m as Map).cast<String, Object?>()),
+  ];
+
   @override
   Future<void> register(RegistrationRole role, Map<String, Object?> body) =>
       _send('POST', '/${role.path}', body: jsonEncode(body), headers: _json);
 
   static const _json = {'Content-Type': 'application/json'};
+
+  @override
+  Future<List<MarketProfile>> mine() async =>
+      _list(await _send('GET', '/me/profiles'));
+
+  @override
+  Future<MarketProfile> setAddress(
+    String subjectType,
+    String id,
+    String? address,
+  ) async => _one(
+    await _send(
+      'PUT',
+      '/profiles/$subjectType/$id/address',
+      body: jsonEncode({'address': address}),
+      headers: _json,
+    ),
+  );
+
+  @override
+  Future<MarketProfile> addDocument(
+    String subjectType,
+    String id,
+    DocKind doc,
+    List<int> jpeg, {
+    DateTime? validUntil,
+  }) async => _one(
+    await _send(
+      'POST',
+      '/profiles/$subjectType/$id/documents',
+      body: jpeg,
+      query: {
+        'doc': doc.name,
+        if (validUntil != null)
+          'valid_until': validUntil.toIso8601String().substring(0, 10),
+      },
+      headers: const {'Content-Type': 'image/jpeg'},
+    ),
+  );
 }
 
 /// Why no fix could be taken; [problem] is the phone's location problem.
@@ -120,4 +183,9 @@ Future<RegistrationFix> takeRegistrationFix(
 
 final registrationApiProvider = Provider<RegistrationApi>(
   (ref) => HttpRegistrationApi(ref.watch(apiProvider)),
+);
+
+/// The signed-in user's own market-link profiles (online).
+final myMarketProfilesProvider = FutureProvider<List<MarketProfile>>(
+  (ref) => ref.watch(registrationApiProvider).mine(),
 );

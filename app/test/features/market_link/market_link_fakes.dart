@@ -26,16 +26,51 @@ const marketLinkConfig = AppConfig(
 const smallPhone = Size(360, 780);
 
 class FakeRegistrationApi implements RegistrationApi {
+  FakeRegistrationApi({this.own = const [], this.error});
+
+  List<MarketProfile> own;
+  Object? error;
   final registered = <(RegistrationRole, Map<String, Object?>)>[];
+  final documents = <(String, DocKind, int, DateTime?)>[];
   MarketCallException? refuseWith;
+
+  void _fail() {
+    if (error != null) throw error!;
+  }
 
   @override
   Future<void> register(
     RegistrationRole role,
     Map<String, Object?> body,
   ) async {
+    _fail();
     if (refuseWith case final e?) throw e;
     registered.add((role, body));
+  }
+
+  @override
+  Future<List<MarketProfile>> mine() async {
+    _fail();
+    return own;
+  }
+
+  @override
+  Future<MarketProfile> setAddress(
+    String subjectType,
+    String id,
+    String? address,
+  ) async => own.first;
+
+  @override
+  Future<MarketProfile> addDocument(
+    String subjectType,
+    String id,
+    DocKind doc,
+    List<int> jpeg, {
+    DateTime? validUntil,
+  }) async {
+    documents.add((id, doc, jpeg.length, validUntil));
+    return own.first;
   }
 }
 
