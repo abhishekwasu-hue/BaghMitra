@@ -1252,6 +1252,30 @@ their profile; undoes a dismiss. Only for a published item that has a date.''',
   }
 
   @override
+  Future<Response<IntroductionOut>> _v1MarketLinkDealsDealIdGet({
+    required String? dealId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'The introduction, for its grower, trader and broker only (404 for anyone else).',
+      summary: 'Introduction',
+      operationId: 'market_link_introduction',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/market-link/deals/${dealId}');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<IntroductionOut, IntroductionOut>($request);
+  }
+
+  @override
   Future<Response<MyProfileOut>> _v1MarketLinkExportersPost({
     required BuyerIn? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -1303,6 +1327,34 @@ grower accepted another or closed the lot.''',
   }
 
   @override
+  Future<Response<IntroductionOut>> _v1MarketLinkInterestsInterestIdAcceptPost({
+    required String? interestId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''The lot\'s grower accepts one open interest: the introduction is recorded, the other
+open interests are closed (their senders get a notice), the lot leaves the traders\' list
+and both sides see each other\'s contacts. Anyone but the lot\'s grower gets 404.''',
+      summary: 'Accept Interest',
+      operationId: 'market_link_accept_interest',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse(
+      '/v1/market-link/interests/${interestId}/accept',
+    );
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<IntroductionOut, IntroductionOut>($request);
+  }
+
+  @override
   Future<Response<LotPhotoStored>> _v1MarketLinkLotPhotosPhotoIdPhotoPut({
     required String? photoId,
     required Object? body,
@@ -1336,7 +1388,8 @@ upload URL for lot photos, so no stored lot photo can keep its metadata.''',
     required String? photoId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''A short-lived download URL for an uploaded lot photo: for the grower, or for a
-verified buyer / broker while the lot is published. Only the derived key is signed.''',
+verified buyer / broker while the lot is published, or for the parties of an accepted
+interest on it (L4). Only the derived key is signed.''',
       summary: 'Lot Photo Url',
       operationId: 'market_link_lot_photo_url',
       consumes: [],
@@ -1395,7 +1448,8 @@ verified buyer / broker while the lot is published. Only the derived key is sign
   Future<Response<GrowerLotOut>> _v1MarketLinkLotsLotIdClosePost({
     required String? lotId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: 'Takes a published lot off the buyers\' list (the grower sold it or changed their mind).',
+      description: '''Takes a published lot off the buyers\' list (the grower sold it or changed their mind);
+its open interests are closed and their senders get a notice (L4).''',
       summary: 'Close Lot',
       operationId: 'market_link_close_lot',
       consumes: [],
@@ -1447,7 +1501,7 @@ interest whose trader or broker is no longer verified is left out (decision h).'
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''An interest on a published lot from a verified trader / exporter (optionally naming a
 verified broker) or from a verified broker for a named verified trader. A trader\'s new
-interest replaces their open one on the same lot.''',
+interest replaces their open one on the same lot. The grower gets a push.''',
       summary: 'Send Interest',
       operationId: 'market_link_send_interest',
       consumes: [],

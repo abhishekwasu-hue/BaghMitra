@@ -6071,6 +6071,123 @@ extension $GrowerCardsResponseExtension on GrowerCardsResponse {
 }
 
 @JsonSerializable(explicitToJson: true)
+class GrowerContactOut {
+  const GrowerContactOut({
+    required this.district,
+    required this.name,
+    required this.phone,
+    required this.pin,
+    required this.plotName,
+    required this.taluka,
+    required this.village,
+  });
+
+  factory GrowerContactOut.fromJson(Map<String, dynamic> json) =>
+      _$GrowerContactOutFromJson(json);
+
+  static const toJsonFactory = _$GrowerContactOutToJson;
+  Map<String, dynamic> toJson() => _$GrowerContactOutToJson(this);
+
+  @JsonKey(name: 'district', includeIfNull: false)
+  final String? district;
+  @JsonKey(name: 'name', includeIfNull: false)
+  final String? name;
+  @JsonKey(name: 'phone', includeIfNull: false)
+  final String? phone;
+  @JsonKey(name: 'pin', includeIfNull: false)
+  final PinOut? pin;
+  @JsonKey(name: 'plot_name', includeIfNull: false)
+  final String? plotName;
+  @JsonKey(name: 'taluka', includeIfNull: false)
+  final String? taluka;
+  @JsonKey(name: 'village', includeIfNull: false)
+  final String? village;
+  static const fromJsonFactory = _$GrowerContactOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is GrowerContactOut &&
+            (identical(other.district, district) ||
+                const DeepCollectionEquality().equals(
+                  other.district,
+                  district,
+                )) &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.phone, phone) ||
+                const DeepCollectionEquality().equals(other.phone, phone)) &&
+            (identical(other.pin, pin) ||
+                const DeepCollectionEquality().equals(other.pin, pin)) &&
+            (identical(other.plotName, plotName) ||
+                const DeepCollectionEquality().equals(
+                  other.plotName,
+                  plotName,
+                )) &&
+            (identical(other.taluka, taluka) ||
+                const DeepCollectionEquality().equals(other.taluka, taluka)) &&
+            (identical(other.village, village) ||
+                const DeepCollectionEquality().equals(other.village, village)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(district) ^
+      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(phone) ^
+      const DeepCollectionEquality().hash(pin) ^
+      const DeepCollectionEquality().hash(plotName) ^
+      const DeepCollectionEquality().hash(taluka) ^
+      const DeepCollectionEquality().hash(village) ^
+      runtimeType.hashCode;
+}
+
+extension $GrowerContactOutExtension on GrowerContactOut {
+  GrowerContactOut copyWith({
+    String? district,
+    String? name,
+    String? phone,
+    PinOut? pin,
+    String? plotName,
+    String? taluka,
+    String? village,
+  }) {
+    return GrowerContactOut(
+      district: district ?? this.district,
+      name: name ?? this.name,
+      phone: phone ?? this.phone,
+      pin: pin ?? this.pin,
+      plotName: plotName ?? this.plotName,
+      taluka: taluka ?? this.taluka,
+      village: village ?? this.village,
+    );
+  }
+
+  GrowerContactOut copyWithWrapped({
+    Wrapped<String?>? district,
+    Wrapped<String?>? name,
+    Wrapped<String?>? phone,
+    Wrapped<PinOut?>? pin,
+    Wrapped<String?>? plotName,
+    Wrapped<String?>? taluka,
+    Wrapped<String?>? village,
+  }) {
+    return GrowerContactOut(
+      district: (district != null ? district.value : this.district),
+      name: (name != null ? name.value : this.name),
+      phone: (phone != null ? phone.value : this.phone),
+      pin: (pin != null ? pin.value : this.pin),
+      plotName: (plotName != null ? plotName.value : this.plotName),
+      taluka: (taluka != null ? taluka.value : this.taluka),
+      village: (village != null ? village.value : this.village),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class GrowerInterestOut {
   const GrowerInterestOut({
     required this.basis,
@@ -7026,6 +7143,123 @@ extension $InterestOutExtension on InterestOut {
       ratePaise: (ratePaise != null ? ratePaise.value : this.ratePaise),
       status: (status != null ? status.value : this.status),
       viaBroker: (viaBroker != null ? viaBroker.value : this.viaBroker),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class IntroductionOut {
+  const IntroductionOut({
+    required this.acceptedAt,
+    required this.broker,
+    required this.dealId,
+    required this.grower,
+    required this.interest,
+    required this.lot,
+    required this.trader,
+  });
+
+  factory IntroductionOut.fromJson(Map<String, dynamic> json) =>
+      _$IntroductionOutFromJson(json);
+
+  static const toJsonFactory = _$IntroductionOutToJson;
+  Map<String, dynamic> toJson() => _$IntroductionOutToJson(this);
+
+  @JsonKey(name: 'accepted_at', includeIfNull: false)
+  final DateTime acceptedAt;
+  @JsonKey(name: 'broker', includeIfNull: false)
+  final PartyContactOut? broker;
+  @JsonKey(name: 'deal_id', includeIfNull: false)
+  final String dealId;
+  @JsonKey(name: 'grower', includeIfNull: false)
+  final GrowerContactOut grower;
+  @JsonKey(name: 'interest', includeIfNull: false)
+  final InterestOut interest;
+  @JsonKey(name: 'lot', includeIfNull: false)
+  final LotBrief lot;
+  @JsonKey(name: 'trader', includeIfNull: false)
+  final PartyContactOut trader;
+  static const fromJsonFactory = _$IntroductionOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is IntroductionOut &&
+            (identical(other.acceptedAt, acceptedAt) ||
+                const DeepCollectionEquality().equals(
+                  other.acceptedAt,
+                  acceptedAt,
+                )) &&
+            (identical(other.broker, broker) ||
+                const DeepCollectionEquality().equals(other.broker, broker)) &&
+            (identical(other.dealId, dealId) ||
+                const DeepCollectionEquality().equals(other.dealId, dealId)) &&
+            (identical(other.grower, grower) ||
+                const DeepCollectionEquality().equals(other.grower, grower)) &&
+            (identical(other.interest, interest) ||
+                const DeepCollectionEquality().equals(
+                  other.interest,
+                  interest,
+                )) &&
+            (identical(other.lot, lot) ||
+                const DeepCollectionEquality().equals(other.lot, lot)) &&
+            (identical(other.trader, trader) ||
+                const DeepCollectionEquality().equals(other.trader, trader)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(acceptedAt) ^
+      const DeepCollectionEquality().hash(broker) ^
+      const DeepCollectionEquality().hash(dealId) ^
+      const DeepCollectionEquality().hash(grower) ^
+      const DeepCollectionEquality().hash(interest) ^
+      const DeepCollectionEquality().hash(lot) ^
+      const DeepCollectionEquality().hash(trader) ^
+      runtimeType.hashCode;
+}
+
+extension $IntroductionOutExtension on IntroductionOut {
+  IntroductionOut copyWith({
+    DateTime? acceptedAt,
+    PartyContactOut? broker,
+    String? dealId,
+    GrowerContactOut? grower,
+    InterestOut? interest,
+    LotBrief? lot,
+    PartyContactOut? trader,
+  }) {
+    return IntroductionOut(
+      acceptedAt: acceptedAt ?? this.acceptedAt,
+      broker: broker ?? this.broker,
+      dealId: dealId ?? this.dealId,
+      grower: grower ?? this.grower,
+      interest: interest ?? this.interest,
+      lot: lot ?? this.lot,
+      trader: trader ?? this.trader,
+    );
+  }
+
+  IntroductionOut copyWithWrapped({
+    Wrapped<DateTime>? acceptedAt,
+    Wrapped<PartyContactOut?>? broker,
+    Wrapped<String>? dealId,
+    Wrapped<GrowerContactOut>? grower,
+    Wrapped<InterestOut>? interest,
+    Wrapped<LotBrief>? lot,
+    Wrapped<PartyContactOut>? trader,
+  }) {
+    return IntroductionOut(
+      acceptedAt: (acceptedAt != null ? acceptedAt.value : this.acceptedAt),
+      broker: (broker != null ? broker.value : this.broker),
+      dealId: (dealId != null ? dealId.value : this.dealId),
+      grower: (grower != null ? grower.value : this.grower),
+      interest: (interest != null ? interest.value : this.interest),
+      lot: (lot != null ? lot.value : this.lot),
+      trader: (trader != null ? trader.value : this.trader),
     );
   }
 }
@@ -9023,6 +9257,73 @@ extension $NumbersOutExtension on NumbersOut {
 }
 
 @JsonSerializable(explicitToJson: true)
+class PartyContactOut {
+  const PartyContactOut({
+    required this.firm,
+    required this.name,
+    required this.phone,
+  });
+
+  factory PartyContactOut.fromJson(Map<String, dynamic> json) =>
+      _$PartyContactOutFromJson(json);
+
+  static const toJsonFactory = _$PartyContactOutToJson;
+  Map<String, dynamic> toJson() => _$PartyContactOutToJson(this);
+
+  @JsonKey(name: 'firm', includeIfNull: false)
+  final String? firm;
+  @JsonKey(name: 'name', includeIfNull: false)
+  final String name;
+  @JsonKey(name: 'phone', includeIfNull: false)
+  final String phone;
+  static const fromJsonFactory = _$PartyContactOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is PartyContactOut &&
+            (identical(other.firm, firm) ||
+                const DeepCollectionEquality().equals(other.firm, firm)) &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.phone, phone) ||
+                const DeepCollectionEquality().equals(other.phone, phone)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(firm) ^
+      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(phone) ^
+      runtimeType.hashCode;
+}
+
+extension $PartyContactOutExtension on PartyContactOut {
+  PartyContactOut copyWith({String? firm, String? name, String? phone}) {
+    return PartyContactOut(
+      firm: firm ?? this.firm,
+      name: name ?? this.name,
+      phone: phone ?? this.phone,
+    );
+  }
+
+  PartyContactOut copyWithWrapped({
+    Wrapped<String?>? firm,
+    Wrapped<String>? name,
+    Wrapped<String>? phone,
+  }) {
+    return PartyContactOut(
+      firm: (firm != null ? firm.value : this.firm),
+      name: (name != null ? name.value : this.name),
+      phone: (phone != null ? phone.value : this.phone),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class PhotoDownloadUrl {
   const PhotoDownloadUrl({
     required this.expiresIn,
@@ -9258,6 +9559,54 @@ extension $PhotoUploadUrlExtension on PhotoUploadUrl {
       maxBytes: (maxBytes != null ? maxBytes.value : this.maxBytes),
       photoKey: (photoKey != null ? photoKey.value : this.photoKey),
       uploadUrl: (uploadUrl != null ? uploadUrl.value : this.uploadUrl),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class PinOut {
+  const PinOut({required this.lat, required this.lon});
+
+  factory PinOut.fromJson(Map<String, dynamic> json) => _$PinOutFromJson(json);
+
+  static const toJsonFactory = _$PinOutToJson;
+  Map<String, dynamic> toJson() => _$PinOutToJson(this);
+
+  @JsonKey(name: 'lat', includeIfNull: false)
+  final double lat;
+  @JsonKey(name: 'lon', includeIfNull: false)
+  final double lon;
+  static const fromJsonFactory = _$PinOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is PinOut &&
+            (identical(other.lat, lat) ||
+                const DeepCollectionEquality().equals(other.lat, lat)) &&
+            (identical(other.lon, lon) ||
+                const DeepCollectionEquality().equals(other.lon, lon)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(lat) ^
+      const DeepCollectionEquality().hash(lon) ^
+      runtimeType.hashCode;
+}
+
+extension $PinOutExtension on PinOut {
+  PinOut copyWith({double? lat, double? lon}) {
+    return PinOut(lat: lat ?? this.lat, lon: lon ?? this.lon);
+  }
+
+  PinOut copyWithWrapped({Wrapped<double>? lat, Wrapped<double>? lon}) {
+    return PinOut(
+      lat: (lat != null ? lat.value : this.lat),
+      lon: (lon != null ? lon.value : this.lon),
     );
   }
 }
