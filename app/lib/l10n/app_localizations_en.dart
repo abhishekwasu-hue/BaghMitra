@@ -2885,4 +2885,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String labelInfoOpenFor(String target) {
     return 'Label information: $target';
   }
+
+  @override
+  String labelInfoSources(String count) {
+    return 'Source documents ($count)';
+  }
+
+  @override
+  String get labelInfoOpenDetails => 'Tap to see the full label details';
+
+  @override
+  String get labelInfoDetailsTitle => 'Full label details';
 }

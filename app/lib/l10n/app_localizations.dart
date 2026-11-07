@@ -5001,6 +5001,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Label information: {target}'**
   String labelInfoOpenFor(String target);
+
+  /// No description provided for @labelInfoSources.
+  ///
+  /// In en, this message translates to:
+  /// **'Source documents ({count})'**
+  String labelInfoSources(String count);
+
+  /// No description provided for @labelInfoOpenDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to see the full label details'**
+  String get labelInfoOpenDetails;
+
+  /// No description provided for @labelInfoDetailsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Full label details'**
+  String get labelInfoDetailsTitle;
 }
 
 class _AppLocalizationsDelegate

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 from datetime import date
 from typing import Annotated, Literal
 
@@ -57,8 +58,8 @@ async def get_market_prices(
     if not commodities:
         raise ApiError(404, "crop_not_priced", f"no market commodity configured for {crop}")
     view = await prices_for_commodities(session, ctx, commodities)
-    local = set(ctx.settings.market_local_markets)
-    major = set(ctx.settings.market_major_markets)
+    local = ctx.settings.market_local_markets
+    major = ctx.settings.market_major_markets
     rows = [
         MarketPriceOut(
             day=p.day,
@@ -72,8 +73,8 @@ async def get_market_prices(
             max_rs_per_quintal=p.max_rs_per_quintal,
             modal_rs_per_quintal=p.modal_rs_per_quintal,
             source=p.source,
-            is_local=p.market in local,
-            is_major=p.market in major,
+            is_local=market_matches(p.market, local),
+            is_major=market_matches(p.market, major),
         )
         for p in view.prices
     ]
@@ -83,3 +84,18 @@ async def get_market_prices(
         rows = [r for r in rows if r.is_major]
     rows.sort(key=lambda r: (not r.is_local, not r.is_major, r.state, r.market, r.variety or ""))
     return MarketPrices(prices=rows, stale=view.stale, reason=view.reason)
+
+
+def _words(text: str) -> list[str]:
+    return re.findall(r"[a-z]+", text.casefold())
+
+
+def market_matches(market: str, names: list[str]) -> bool:
+    """True when one configured name appears as whole word(s) in the mandi name as Agmarknet
+    prints it: "APMC Nagpur", "Mumbai- Fruit Market", "Pune(Moshi)" (live names, 2026-11-07)."""
+    words = _words(market)
+    for name in names:
+        want = _words(name)
+        if want and any(words[i : i + len(want)] == want for i in range(len(words))):
+            return True
+    return False

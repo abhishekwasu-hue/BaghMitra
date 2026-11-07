@@ -22,6 +22,7 @@ from bagmitra_api.market.agmarknet import (
 )
 from bagmitra_api.market.pull_job import run_market_pull
 from bagmitra_api.market.service import REASON_NOT_PULLED, REASON_OVERDUE
+from bagmitra_api.routers.market import market_matches
 from bagmitra_api.weather.service import get_clock
 from tests.conftest import make_token
 
@@ -327,3 +328,18 @@ async def test_manual_upload_takes_todays_india_date_before_utc_midnight(
         later = {"prices": [manual_row("Kalamna", "2026-10-28", 3500)]}
         r = await c.post(url, json=later, headers=admin("market_admin"))
         assert r.status_code == 422
+
+
+def test_mandi_names_match_as_printed_by_agmarknet() -> None:
+    # Live Maharashtra names from the pull of 2026-11-07.
+    s = Settings()
+    local, major = s.market_local_markets, s.market_major_markets
+    assert market_matches("APMC Nagpur", local)  # the Kalamna yard
+    assert market_matches("Kalamna", local)
+    assert not market_matches("APMC Hingna", local)
+    assert not market_matches("APMC Jalgaon", local)
+    assert market_matches("Mumbai- Fruit Market", major)
+    assert market_matches("Pune(Moshi)", major)
+    assert market_matches("APMC Pune", major)
+    assert not market_matches("APMC Nasik", major)
+    assert not market_matches("Punesar", major), "whole words only"

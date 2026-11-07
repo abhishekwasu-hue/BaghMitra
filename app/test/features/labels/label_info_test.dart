@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:bagmitra/api/api_client.dart';
+import 'package:bagmitra/data/local/database.dart';
 import 'package:bagmitra/features/app_update/data/app_update_providers.dart';
 import 'package:bagmitra/features/labels/data/label_claims_cache.dart';
 import 'package:bagmitra/features/labels/data/label_targets.dart';
@@ -52,6 +53,18 @@ Map<String, Object?> sampleClaims() => {
     claim(ai: 'Mancozeb', target: 'Anthracnose', dose: '2 g/L', phi: 7),
   ],
 };
+
+/// A block with cached santra label rows (used by the tap-target / contrast checks too).
+Future<void> seedLabels(AppDatabase db) async {
+  await seedPlot(db);
+  await db.writeMeta(
+    LabelClaimsCache.keyFor('santra'),
+    jsonEncode({
+      'saved_at': '2026-10-26T06:00:00.000Z',
+      'response': sampleClaims(),
+    }),
+  );
+}
 
 void main() {
   test('refresh stores claims for the crop; load works offline', () async {
@@ -110,23 +123,38 @@ void main() {
     await settle(tester);
 
     expect(find.textContaining('It is not a recommendation'), findsOneWidget);
-    expect(find.text('1.0 ml/L (500 L water/ha)'), findsOneWidget);
+    // Each row is a compact tile: product, the dose right below it, PHI as a chip.
+    expect(find.textContaining('1.0 ml/L (500 L water/ha)'), findsOneWidget);
     expect(find.textContaining('14 days before harvest'), findsOneWidget);
-    expect(find.textContaining('10 days'), findsWidgets);
     expect(find.textContaining('Updated'), findsOneWidget);
-    // One heading per target (the grower's name for it), both anthracnose claims under it;
-    // the target as printed stays on every row.
+    // One heading per target (the grower's name for it), both anthracnose claims under it.
     const anthracnose = 'Anthracnose, twig blight, dieback';
     expect(find.text(anthracnose), findsOneWidget);
     expect(find.text('Fruit fly'), findsOneWidget);
-    expect(find.text('Target on label: Anthracnose'), findsNWidgets(2));
     final heading = tester.getTopLeft(find.text(anthracnose)).dy;
     final fly = tester.getTopLeft(find.text('Fruit fly')).dy;
     expect(
-      tester.getTopLeft(find.text('2 g/L')).dy,
+      tester.getTopLeft(find.textContaining('2 g/L')).dy,
       inInclusiveRange(heading, fly),
     );
-    expect(find.textContaining('CIB&RC major uses'), findsWidgets);
+    // The source documents are listed once, in the notice at the top.
+    await tester.tap(find.byKey(const Key('label-sources')));
+    await tester.pumpAndSettle();
+    expect(find.textContaining('CIB&RC major uses'), findsOneWidget);
+    // The target as printed, interval and source stay on every row, in its detail card.
+    expect(find.text('Target on label: Anthracnose'), findsNothing);
+    await tester.tap(find.byKey(const Key('label-row-0')));
+    await tester.pumpAndSettle();
+    final sheet = find.byKey(const Key('label-detail-0'));
+    expect(sheet, findsOneWidget);
+    Finder inSheet(Finder f) => find.descendant(of: sheet, matching: f);
+    expect(inSheet(find.text('Target on label: Anthracnose')), findsOneWidget);
+    expect(inSheet(find.text('Interval: 10 days')), findsOneWidget);
+    expect(inSheet(find.text('Max sprays: 2')), findsOneWidget);
+    expect(
+      inSheet(find.text('Source: CIB&RC major uses of pesticides')),
+      findsOneWidget,
+    );
     await unmountApp(tester);
   });
 
@@ -210,23 +238,41 @@ void main() {
       return opened;
     }
 
-    testWidgets('dose and dilution bold; bio apart; banned red; maker link', (
+    testWidgets('tile: name and bold dose; bio apart; banned red; one notice', (
       tester,
     ) async {
-      final opened = await open(tester, '/plots/p1/labels?target=gummosis');
+      await open(tester, '/plots/p1/labels?target=gummosis');
       expect(find.byKey(const Key('label-target-heading')), findsOneWidget);
-      final dose = tester.widget<Text>(
-        find.byKey(const Key('label-dose')).first,
+      // The tile: product in a large style, the dose in bold right below it, PHI as a chip.
+      final tile = find.byKey(const Key('label-row-0'));
+      final name = tester.widget<Text>(
+        find.descendant(of: tile, matching: find.text('Chem A 25% SC')),
       );
-      expect(dose.data, '500 g/ha');
+      expect(name.style!.fontSize, greaterThanOrEqualTo(16.5));
+      final doseSpan =
+          tester
+                  .widget<Text>(find.byKey(const Key('label-row-dose-0')))
+                  .textSpan!
+              as TextSpan;
+      final dose = doseSpan.children!.whereType<TextSpan>().last;
+      expect(dose.text, '500 g/ha');
       expect(dose.style!.fontWeight, FontWeight.w700);
-      final dilution = tester.widget<Text>(
-        find.byKey(const Key('label-dilution')).first,
+      expect(
+        tester.getTopLeft(find.byKey(const Key('label-row-dose-0'))).dy,
+        greaterThan(tester.getTopLeft(find.text('Chem A 25% SC')).dy),
       );
-      expect(dilution.data, 'Water on label: 500-1000 L per hectare');
-      // A cell with its own unit is shown exactly as printed, without "L per hectare".
-      expect(find.text('Water on label: 5 liter/tree'), findsOneWidget);
-      expect(dilution.style!.fontWeight, FontWeight.w700);
+      expect(
+        find.descendant(
+          of: tile,
+          matching: find.text('PHI: 30 days before harvest'),
+        ),
+        findsOneWidget,
+      );
+      expect(tester.getSize(tile).height, greaterThanOrEqualTo(48));
+      // The long fields wait in the detail card.
+      expect(find.byKey(const Key('label-dilution')), findsNothing);
+      expect(find.text('Contact fungicide.'), findsNothing);
+
       expect(find.byKey(const Key('label-bio-gummosis')), findsOneWidget);
       expect(find.text('Chemical'), findsOneWidget);
       // Bio row is under the bio heading, after the chemical row.
@@ -234,23 +280,19 @@ void main() {
         tester.getTopLeft(find.text('Bio B 25% SC')).dy,
         greaterThan(tester.getTopLeft(find.text('Chem A 25% SC')).dy),
       );
+
+      // One notice at the top: the banner, the pack-label line and the sources, once.
+      expect(find.byKey(const Key('label-banner')), findsOneWidget);
+      expect(find.textContaining('It is not a recommendation'), findsOneWidget);
       expect(
-        find.text('Brand names (A–Z, a plain list): Alpha, beta, Zeta'),
+        find.descendant(
+          of: find.byKey(const Key('label-banner')),
+          matching: find.text('Read the label on the packet before spraying.'),
+        ),
         findsOneWidget,
       );
-      expect(find.text('Contact fungicide.'), findsOneWidget);
-      expect(find.text('Page in source: p. 9'), findsOneWidget);
-      expect(
-        find.text('Read the label on the packet before spraying.'),
-        findsOneWidget,
-      );
-      final general = find.textContaining('General information');
-      await tester.scrollUntilVisible(
-        general,
-        300,
-        scrollable: find.byType(Scrollable).first,
-      );
-      expect(general, findsOneWidget);
+      expect(find.textContaining('General information'), findsNothing);
+      expect(find.text('Source documents (1)'), findsOneWidget);
 
       final box = tester.widget<DecoratedBox>(
         find.byKey(const Key('label-blocked-Banned C')),
@@ -262,11 +304,82 @@ void main() {
       expect(find.text('Banned: do not use'), findsOneWidget);
       final banned = tester.widget<Text>(find.text('Banned C 20% EC'));
       expect(banned.style!.color, danger);
+      expect(find.text('500 g/ha'), findsNothing);
+      await unmountApp(tester);
+    });
 
-      await tester.ensureVisible(find.byKey(const Key('label-maker-page')));
+    testWidgets('tapping a tile opens every field in the detail card', (
+      tester,
+    ) async {
+      final opened = await open(tester, '/plots/p1/labels?target=gummosis');
+      final handle = tester.ensureSemantics();
+      expect(
+        tester.getSemantics(find.byKey(const Key('label-row-0'))),
+        matchesSemantics(
+          isButton: true,
+          hasTapAction: true,
+          hint: 'Tap to see the full label details',
+          isFocusable: true,
+          hasFocusAction: true,
+          label: 'Chem A 25% SC\nDose on label: 500 g/ha\nPHI: 30 days before harvest',
+        ),
+      );
+      handle.dispose();
+      await tester.tap(find.byKey(const Key('label-row-0')));
       await tester.pumpAndSettle();
-      await tester.tap(find.byKey(const Key('label-maker-page')));
+      final sheet = find.byKey(const Key('label-detail-0'));
+      expect(sheet, findsOneWidget);
+      Finder inSheet(Finder f) => find.descendant(of: sheet, matching: f);
+      expect(inSheet(find.text('Full label details')), findsOneWidget);
+      expect(inSheet(find.text('Chem A 25% SC')), findsOneWidget);
+      final dose = tester.widget<Text>(
+        inSheet(find.byKey(const Key('label-dose'))),
+      );
+      expect(dose.data, '500 g/ha');
+      expect(dose.style!.fontWeight, FontWeight.w700);
+      final dilution = tester.widget<Text>(
+        inSheet(find.byKey(const Key('label-dilution'))),
+      );
+      expect(dilution.data, 'Water on label: 500-1000 L per hectare');
+      expect(dilution.style!.fontWeight, FontWeight.w700);
+      expect(inSheet(find.text('PHI: 30 days before harvest')), findsOneWidget);
+      expect(inSheet(find.text('Contact fungicide.')), findsOneWidget);
+      expect(
+        inSheet(
+          find.text('Brand names (A–Z, a plain list): Alpha, beta, Zeta'),
+        ),
+        findsOneWidget,
+      );
+      expect(inSheet(find.text('Target on label: Foot rot')), findsOneWidget);
+      expect(inSheet(find.text('Label crop: Citrus')), findsOneWidget);
+      expect(
+        inSheet(find.text('Source: CIB&RC major uses of pesticides')),
+        findsOneWidget,
+      );
+      expect(inSheet(find.text('Page in source: p. 9')), findsOneWidget);
+      expect(
+        inSheet(find.text('https://ppqs.gov.in/major-uses')),
+        findsOneWidget,
+      );
+      // The notice is not repeated in the card.
+      expect(find.textContaining('It is not a recommendation'), findsOneWidget);
+      await tester.tap(inSheet(find.byKey(const Key('label-maker-page'))));
       expect(opened.single, Uri.parse('https://maker.example/a'));
+
+      // The bio row's water cell has its own unit: shown exactly as printed.
+      Navigator.of(tester.element(sheet)).pop();
+      await tester.pumpAndSettle();
+      await tester.ensureVisible(find.byKey(const Key('label-row-1')));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const Key('label-row-1')));
+      await tester.pumpAndSettle();
+      expect(
+        find.descendant(
+          of: find.byKey(const Key('label-detail-1')),
+          matching: find.text('Water on label: 5 liter/tree'),
+        ),
+        findsOneWidget,
+      );
       await unmountApp(tester);
     });
 
