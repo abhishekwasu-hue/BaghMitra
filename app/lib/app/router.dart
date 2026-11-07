@@ -33,6 +33,7 @@ import '../features/labels/presentation/label_info_screen.dart';
 import '../features/lookalikes/presentation/lookalikes_screen.dart';
 import '../features/market/presentation/market_prices_screen.dart';
 import '../features/market_link/domain/registration.dart';
+import '../features/market_link/presentation/my_profiles_screen.dart';
 import '../features/market_link/presentation/registration_screen.dart';
 import '../features/more/presentation/more_screen.dart';
 import '../features/plots/presentation/add_plot_screen.dart';
@@ -104,6 +105,7 @@ abstract final class Routes {
   static const marketDirectory = '/market/directory';
   // Market linkage (L2), behind AppConfig.marketLink (decision j).
   static const marketLink = '/market-link';
+  static const marketLinkMine = '/market-link/me';
   static String marketLinkRegister(String role) =>
       '/market-link/register/$role';
   static const exportInfo = '/market/export';
@@ -312,10 +314,14 @@ GoRouter buildRouter(
         builder: (_, _) => const MarketDirectoryScreen(),
       ),
       GoRoute(
+        path: Routes.marketLinkMine,
+        builder: (_, _) => const MyProfilesScreen(),
+      ),
+      GoRoute(
         path: '/market-link/register/:role',
         redirect: (_, s) =>
             RegistrationRole.fromName(s.pathParameters['role']) == null
-            ? Routes.home
+            ? Routes.marketLinkMine
             : null,
         builder: (_, s) => RegistrationScreen(
           role: RegistrationRole.fromName(s.pathParameters['role'])!,

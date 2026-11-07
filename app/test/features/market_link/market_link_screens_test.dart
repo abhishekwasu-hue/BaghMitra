@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:bagmitra/app/providers.dart';
 import 'package:bagmitra/features/market_link/data/registration_api.dart';
@@ -7,6 +8,7 @@ import 'package:bagmitra/features/market_link/domain/registration.dart';
 import 'package:bagmitra/features/plots/data/location_service.dart';
 import 'package:bagmitra/features/plots/data/place_geocoder.dart';
 import 'package:bagmitra/features/plots/domain/geo.dart';
+import 'package:bagmitra/features/scouting/data/scouting_photos.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -29,6 +31,24 @@ ScriptedLocation _at({bool mocked = false}) => ScriptedLocation([
     isMocked: mocked,
   ),
 ]);
+
+class _CameraPhotos implements ScoutingPhotos {
+  _CameraPhotos(this.path);
+  final String path;
+  final sources = <PhotoSource>[];
+
+  @override
+  Future<String?> pick(PhotoSource source) async {
+    sources.add(source);
+    return path;
+  }
+
+  @override
+  Future<String> keep(String pickedPath, String recordId) async => pickedPath;
+
+  @override
+  Future<void> discard(String path) async {}
+}
 
 /// Scrolls [f] to the middle of its list (clear of the app bar), then taps it.
 Future<void> _tap(WidgetTester tester, Finder f) async {
@@ -56,9 +76,9 @@ Future<void> _type(WidgetTester tester, String key, String text) async {
 }
 
 void main() {
-  testWidgets('flag off: the registration route goes home', (tester) async {
-    await pumpApp(tester, initialLocation: '/market-link/register/broker');
-    expect(find.byKey(const Key('ml-take-fix')), findsNothing);
+  testWidgets('flag off: the market-link routes go home', (tester) async {
+    await pumpApp(tester, initialLocation: '/market-link/me');
+    expect(find.text('माझी बाजार नोंदणी'), findsNothing);
     await unmountApp(tester);
   });
 
@@ -115,8 +135,8 @@ void main() {
       (true, '444906', 9.0),
     );
     expect(jsonEncode(body), isNot(matches(RegExp('aadhaar|commission'))));
-    // On success the form closes with a note that BagMitra will check it.
-    expect(find.byKey(const Key('ml-submit')), findsNothing);
+    // On success the user lands on "my registration".
+    expect(find.text('माझी बाजार नोंदणी'), findsWidgets);
     await unmountApp(tester);
   });
 
@@ -239,6 +259,66 @@ void main() {
     );
     await _tap(tester, find.byKey(const Key('ml-submit')));
     expect(api.registered.single.$2['cert_valid_until'], '2026-10-13');
+    await unmountApp(tester);
+  });
+
+  testWidgets('my registration: status, camera-only document photo, address', (
+    tester,
+  ) async {
+    final dir = await tester.runAsync(
+      () => Directory.systemTemp.createTemp('ml'),
+    );
+    final file = File('${dir!.path}/doc.jpg')
+      ..writeAsBytesSync([0xff, 0xd8, 0xff, 0xd9]);
+    addTearDown(() => dir.deleteSync(recursive: true));
+    final photos = _CameraPhotos(file.path);
+    const own = MarketProfile(
+      subjectType: 'buyer',
+      id: 'b1',
+      kind: 'trader',
+      name: 'रमेश पाटील',
+      phone: '+919800000001',
+      district: 'अमरावती',
+      status: 'rejected',
+      reason: 'GSTIN रद्द',
+    );
+    final api = FakeRegistrationApi(own: [own]);
+    await pumpApp(
+      tester,
+      config: marketLinkConfig,
+      initialLocation: '/market-link/me',
+      size: smallPhone,
+      photos: photos,
+      overrides: [registrationApiProvider.overrideWithValue(api)],
+    );
+    await settle(tester);
+    expect(find.text('परत पाठवले; कारण पहा'), findsOneWidget);
+    expect(find.text('GSTIN रद्द'), findsOneWidget);
+    // One buyer profile: neither trader nor exporter is offered again (Q89).
+    expect(find.byKey(const Key('ml-register-trader')), findsNothing);
+    expect(find.byKey(const Key('ml-register-exporter')), findsNothing);
+    expect(find.byKey(const Key('ml-register-broker')), findsOneWidget);
+    await tester.runAsync(() async {
+      await tester.tap(find.byKey(const Key('ml-doc-gst-b1')));
+      await Future<void>.delayed(const Duration(milliseconds: 100));
+    });
+    await settle(tester);
+    expect(photos.sources, [PhotoSource.camera]);
+    expect(api.documents.single.$2, DocKind.gst);
+    expect(api.documents.single.$3, 4);
+    await _tap(tester, find.byKey(const Key('ml-address-b1')));
+    await tester.enterText(find.byKey(const Key('ml-address-input')), 'पेठ');
+    await _tap(tester, find.byKey(const Key('ml-address-save')));
+    await unmountApp(tester);
+  });
+
+  testWidgets('my registration: empty shows the role cards; tap opens one', (
+    tester,
+  ) async {
+    await pumpMarketLink(tester, '/market-link/me', api: FakeRegistrationApi());
+    expect(find.byKey(const Key('ml-register-trader')), findsOneWidget);
+    await _tap(tester, find.byKey(const Key('ml-register-provider')));
+    expect(find.byKey(const Key('ml-take-fix')), findsOneWidget);
     await unmountApp(tester);
   });
 }
