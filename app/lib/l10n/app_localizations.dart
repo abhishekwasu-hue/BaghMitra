@@ -5005,7 +5005,7 @@ abstract class AppLocalizations {
   /// Add-block form: no place name (offline / no result); saving is not blocked.
   ///
   /// In en, this message translates to:
-  /// **'Place name not found; the location will still be saved.'**
+  /// **'The location will be saved. For the place name, turn on the internet and tap \'Take location again\'.'**
   String get plotAddressMissing;
 }
 

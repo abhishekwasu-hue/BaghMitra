@@ -816,5 +816,5 @@
   "plotAddressNear": "पास की जगह: {place}",
   "plotAddressDistrict": "ज़िला {district}",
   "plotAddressLooking": "गाँव का नाम खोज रहे हैं…",
-  "plotAddressMissing": "पता नहीं मिला; जगह फिर भी सहेजी जाएगी।"
+  "plotAddressMissing": "जगह सहेजी जाएगी। गाँव का नाम देखने के लिए इंटरनेट चालू रखकर 'जगह फिर से लें' दबाएँ।"
 }

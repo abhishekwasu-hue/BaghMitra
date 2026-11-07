@@ -1182,6 +1182,6 @@
   "@plotAddressDistrict": {"description": "District part of the nearby-place line.", "placeholders": {"district": {"type": "String"}}},
   "plotAddressLooking": "Finding the place name…",
   "@plotAddressLooking": {"description": "Add-block form: while the place name is being looked up."},
-  "plotAddressMissing": "Place name not found; the location will still be saved.",
+  "plotAddressMissing": "The location will be saved. For the place name, turn on the internet and tap 'Take location again'.",
   "@plotAddressMissing": {"description": "Add-block form: no place name (offline / no result); saving is not blocked."}
 }

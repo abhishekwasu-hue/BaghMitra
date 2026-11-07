@@ -2888,5 +2888,5 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get plotAddressMissing =>
-      'Place name not found; the location will still be saved.';
+      'The location will be saved. For the place name, turn on the internet and tap \'Take location again\'.';
 }

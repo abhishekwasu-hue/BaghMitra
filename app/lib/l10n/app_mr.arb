@@ -816,5 +816,5 @@
   "plotAddressNear": "जवळचे ठिकाण: {place}",
   "plotAddressDistrict": "जि. {district}",
   "plotAddressLooking": "गावाचे नाव शोधत आहे…",
-  "plotAddressMissing": "पत्ता मिळाला नाही; ठिकाण तरीही जतन होईल."
+  "plotAddressMissing": "ठिकाण जतन होईल. गावाचे नाव पाहण्यासाठी नेट सुरू ठेवून 'ठिकाण पुन्हा घ्या' दाबा."
 }

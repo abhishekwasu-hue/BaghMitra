@@ -2882,5 +2882,6 @@ class AppLocalizationsMr extends AppLocalizations {
   String get plotAddressLooking => 'गावाचे नाव शोधत आहे…';
 
   @override
-  String get plotAddressMissing => 'पत्ता मिळाला नाही; ठिकाण तरीही जतन होईल.';
+  String get plotAddressMissing =>
+      'ठिकाण जतन होईल. गावाचे नाव पाहण्यासाठी नेट सुरू ठेवून \'ठिकाण पुन्हा घ्या\' दाबा.';
 }

@@ -101,34 +101,38 @@ void main() {
     },
   );
 
-  testWidgets('no name found: a short line, and saving still works', (
-    tester,
-  ) async {
-    final db = await pumpApp(
-      tester,
-      locale: const Locale('en'),
-      initialLocation: '/plots/new',
-      geocoder: FakeGeocoder(),
-      location: ScriptedLocation(
-        const [],
-        fixes: [
-          [at(here, 6)],
-        ],
-      ),
-    );
-    await settle(tester);
-    await tester.tap(find.byKey(const Key('point-take')));
-    await settle(tester);
-    expect(
-      find.text('Place name not found; the location will still be saved.'),
-      findsOneWidget,
-    );
-    await fillAndSave(tester);
-    final p = await plotPayload(tester, db);
-    expect(p['name'], 'North block');
-    expect(p['centroid_lat'], here.lat);
-    await unmountApp(tester);
-  });
+  testWidgets(
+    'no name found: a short line on what to do, and saving still works',
+    (tester) async {
+      final db = await pumpApp(
+        tester,
+        locale: const Locale('en'),
+        initialLocation: '/plots/new',
+        geocoder: FakeGeocoder(),
+        location: ScriptedLocation(
+          const [],
+          fixes: [
+            [at(here, 6)],
+          ],
+        ),
+      );
+      await settle(tester);
+      await tester.tap(find.byKey(const Key('point-take')));
+      await settle(tester);
+      expect(
+        find.text(
+          'The location will be saved. For the place name, turn on the '
+          "internet and tap 'Take location again'.",
+        ),
+        findsOneWidget,
+      );
+      await fillAndSave(tester);
+      final p = await plotPayload(tester, db);
+      expect(p['name'], 'North block');
+      expect(p['centroid_lat'], here.lat);
+      await unmountApp(tester);
+    },
+  );
 
   testWidgets('a walked boundary asks again for its centre', (tester) async {
     final corners = square(100);
