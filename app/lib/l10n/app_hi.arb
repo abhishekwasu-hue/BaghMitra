@@ -948,5 +948,6 @@
   "mlGrade": "ग्रेड",
   "mlQualityLine": "छोटी जानकारी (वैकल्पिक)",
   "mlPackageActiveUntil": "पैकेज {date} तक चालू",
-  "mlPackageNotActive": "पैकेज चालू नहीं"
+  "mlPackageNotActive": "पैकेज चालू नहीं",
+  "mlPackageHiddenNow": "व्यापारियों को अभी नहीं दिखता"
 }

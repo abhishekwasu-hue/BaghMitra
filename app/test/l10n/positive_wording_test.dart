@@ -32,6 +32,8 @@ const allowNegative = {
   'mlDisclaimerShort',
   // Spec v1.5 §4E names this exact status: "Package active until <date>" or "Not active".
   'mlPackageNotActive',
+  // The lot is hidden from traders while the package is not active (§4E); said plainly.
+  'mlPackageHiddenNow',
 };
 
 final _negative = <String, RegExp>{

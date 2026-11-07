@@ -3330,4 +3330,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get mlPackageNotActive => 'पैकेज चालू नहीं';
+
+  @override
+  String get mlPackageHiddenNow => 'व्यापारियों को अभी नहीं दिखता';
 }

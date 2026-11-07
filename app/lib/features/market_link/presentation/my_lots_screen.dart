@@ -132,7 +132,11 @@ class LotCard extends ConsumerWidget {
                     ),
                   ),
                   const SizedBox(width: BmSpace.xs),
-                  LotStatusChip(lot.status, awaitingCheck: lot.awaitingCheck),
+                  PackagedLotStatusChip(
+                    lot.id,
+                    lot.status,
+                    awaitingCheck: lot.awaitingCheck,
+                  ),
                 ],
               ),
               const SizedBox(height: BmSpace.xs),

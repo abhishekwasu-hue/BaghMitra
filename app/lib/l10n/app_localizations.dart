@@ -5799,6 +5799,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Package not active'**
   String get mlPackageNotActive;
+
+  /// Lot status chip when the season package switch is ON and no active package covers a published lot (traders do not see it). No price, pay, UPI or QR words.
+  ///
+  /// In en, this message translates to:
+  /// **'Not shown to traders now'**
+  String get mlPackageHiddenNow;
 }
 
 class _AppLocalizationsDelegate

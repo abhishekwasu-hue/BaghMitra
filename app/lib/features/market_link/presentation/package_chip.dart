@@ -5,6 +5,7 @@ import '../../../core/formatting.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../data/package_status.dart';
+import 'lot_widgets.dart';
 
 /// "पॅकेज `date` पर्यंत चालू" / "पॅकेज चालू नाही" on a published lot, only while the season
 /// package switch is ON (spec v1.5 §4E). Dates only: never a price, pay button or UPI text.
@@ -55,6 +56,36 @@ class PackageChip extends ConsumerWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+/// The lot's status chip, told whether the season package hides a published lot from
+/// traders (switch ON and no active package for it): then it reads "not shown to traders
+/// now" instead of "shown to traders". Unknown status (offline) keeps the plain chip.
+class PackagedLotStatusChip extends ConsumerWidget {
+  const PackagedLotStatusChip(
+    this.lotId,
+    this.status, {
+    this.awaitingCheck = false,
+    super.key,
+  });
+  final String lotId;
+  final String status;
+  final bool awaitingCheck;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final package = ref.watch(packageStatusProvider).value;
+    final hidden =
+        status == 'published' &&
+        package != null &&
+        package.switchOn &&
+        package.untilFor(lotId) == null;
+    return LotStatusChip(
+      status,
+      awaitingCheck: awaitingCheck,
+      hiddenByPackage: hidden,
     );
   }
 }
