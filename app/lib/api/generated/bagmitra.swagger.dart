@@ -1125,6 +1125,36 @@ GSTIN, UPI ID, price or validity is empty.''',
     ),
   });
 
+  ///Grant Receipt
+  ///@param grant_id
+  Future<chopper.Response<ReceiptOut>>
+  v1AdminMarketLinkPackageGrantsGrantIdReceiptGet({required String? grantId}) {
+    generatedMapping.putIfAbsent(ReceiptOut, () => ReceiptOut.fromJsonFactory);
+
+    return _v1AdminMarketLinkPackageGrantsGrantIdReceiptGet(grantId: grantId);
+  }
+
+  ///Grant Receipt
+  ///@param grant_id
+  @GET(path: '/v1/admin/market-link/package/grants/{grant_id}/receipt')
+  Future<chopper.Response<ReceiptOut>>
+  _v1AdminMarketLinkPackageGrantsGrantIdReceiptGet({
+    @Path('grant_id') required String? grantId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''What the receipt PDF shows (the admin web draws it): company profile, receipt number,
+grower, amount, GST line only when GSTIN and GST rate are set, payment reference and
+validity. 409 `company_profile_empty` while legal name or address is empty.''',
+      summary: 'Grant Receipt',
+      operationId: 'package_grant_receipt',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
   ///Revoke
   ///@param grant_id
   Future<chopper.Response<PackageGrantOut>>
@@ -2001,6 +2031,33 @@ grower\'s profile (village, taluka, district; never the plot\'s point).''',
       description: 'What the signed-in user accepted, and the roles it opens.',
       summary: 'My Acceptances',
       operationId: 'market_link_my_acceptances',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  });
+
+  ///Package Status
+  Future<chopper.Response<PackageStatus>> v1MarketLinkPackageGet() {
+    generatedMapping.putIfAbsent(
+      PackageStatus,
+      () => PackageStatus.fromJsonFactory,
+    );
+
+    return _v1MarketLinkPackageGet();
+  }
+
+  ///Package Status
+  @GET(path: '/v1/market-link/package')
+  Future<chopper.Response<PackageStatus>> _v1MarketLinkPackageGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''While the switch is ON, the caller\'s active packages (end dates); the app shows
+"package active until <date>" or "not active" on each published lot.''',
+      summary: 'Package Status',
+      operationId: 'market_link_package_status',
       consumes: [],
       produces: [],
       security: ["HTTPBearer"],

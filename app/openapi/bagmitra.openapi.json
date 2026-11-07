@@ -3719,6 +3719,34 @@
         "title": "PackageCompanyOut",
         "type": "object"
       },
+      "PackageCover": {
+        "description": "An active package: one lot, or every lot of the grower when `lot_id` is null.",
+        "properties": {
+          "lot_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lot Id"
+          },
+          "valid_until": {
+            "format": "date-time",
+            "title": "Valid Until",
+            "type": "string"
+          }
+        },
+        "required": [
+          "lot_id",
+          "valid_until"
+        ],
+        "title": "PackageCover",
+        "type": "object"
+      },
       "PackageGrantIn": {
         "properties": {
           "amount_paise": {
@@ -4138,6 +4166,28 @@
           "missing"
         ],
         "title": "PackageSettingsOut",
+        "type": "object"
+      },
+      "PackageStatus": {
+        "description": "The grower's own season package status (spec v1.5 §4E): dates only. No amount, price,\nUPI ID or payment detail ever reaches the app (consumption-only).",
+        "properties": {
+          "active": {
+            "items": {
+              "$ref": "#/components/schemas/PackageCover"
+            },
+            "title": "Active",
+            "type": "array"
+          },
+          "switch_on": {
+            "title": "Switch On",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "switch_on",
+          "active"
+        ],
+        "title": "PackageStatus",
         "type": "object"
       },
       "PhotoDownloadUrl": {
@@ -4622,6 +4672,180 @@
           "database"
         ],
         "title": "ReadyResponse",
+        "type": "object"
+      },
+      "ReceiptGst": {
+        "description": "GST included in the amount received (shown only with GSTIN and a rate).",
+        "properties": {
+          "gst_paise": {
+            "title": "Gst Paise",
+            "type": "integer"
+          },
+          "rate_percent": {
+            "title": "Rate Percent",
+            "type": "string"
+          },
+          "taxable_paise": {
+            "title": "Taxable Paise",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "rate_percent",
+          "taxable_paise",
+          "gst_paise"
+        ],
+        "title": "ReceiptGst",
+        "type": "object"
+      },
+      "ReceiptOut": {
+        "properties": {
+          "address": {
+            "title": "Address",
+            "type": "string"
+          },
+          "amount_paise": {
+            "title": "Amount Paise",
+            "type": "integer"
+          },
+          "grower_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Grower Name"
+          },
+          "grower_phone": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Grower Phone"
+          },
+          "gst": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ReceiptGst"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "gstin": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Gstin"
+          },
+          "issued_on": {
+            "format": "date",
+            "title": "Issued On",
+            "type": "string"
+          },
+          "legal_name": {
+            "title": "Legal Name",
+            "type": "string"
+          },
+          "lot": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lot"
+          },
+          "method": {
+            "title": "Method",
+            "type": "string"
+          },
+          "paid_on": {
+            "format": "date",
+            "title": "Paid On",
+            "type": "string"
+          },
+          "pan": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pan"
+          },
+          "payment_ref": {
+            "title": "Payment Ref",
+            "type": "string"
+          },
+          "receipt_no": {
+            "title": "Receipt No",
+            "type": "string"
+          },
+          "revoked": {
+            "title": "Revoked",
+            "type": "boolean"
+          },
+          "trade_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trade Name"
+          },
+          "valid_from": {
+            "format": "date",
+            "title": "Valid From",
+            "type": "string"
+          },
+          "valid_until": {
+            "format": "date",
+            "title": "Valid Until",
+            "type": "string"
+          }
+        },
+        "required": [
+          "receipt_no",
+          "issued_on",
+          "legal_name",
+          "trade_name",
+          "address",
+          "gstin",
+          "pan",
+          "grower_name",
+          "grower_phone",
+          "lot",
+          "amount_paise",
+          "method",
+          "payment_ref",
+          "paid_on",
+          "valid_from",
+          "valid_until",
+          "revoked",
+          "gst"
+        ],
+        "title": "ReceiptOut",
         "type": "object"
       },
       "RestrictionOut": {
@@ -8235,6 +8459,95 @@
         ]
       }
     },
+    "/v1/admin/market-link/package/grants/{grant_id}/receipt": {
+      "get": {
+        "description": "What the receipt PDF shows (the admin web draws it): company profile, receipt number,\ngrower, amount, GST line only when GSTIN and GST rate are set, payment reference and\nvalidity. 409 `company_profile_empty` while legal name or address is empty.",
+        "operationId": "package_grant_receipt",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "grant_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Grant Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReceiptOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Grant Receipt",
+        "tags": [
+          "admin"
+        ]
+      }
+    },
     "/v1/admin/market-link/package/grants/{grant_id}/revoke": {
       "post": {
         "description": "Ends the grant now with a reason (logged); the lot hides from traders if no other\ngrant covers it.",
@@ -10453,6 +10766,83 @@
           }
         ],
         "summary": "My Acceptances",
+        "tags": [
+          "market-link"
+        ]
+      }
+    },
+    "/v1/market-link/package": {
+      "get": {
+        "description": "While the switch is ON, the caller's active packages (end dates); the app shows\n\"package active until <date>\" or \"not active\" on each published lot.",
+        "operationId": "market_link_package_status",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PackageStatus"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Package Status",
         "tags": [
           "market-link"
         ]

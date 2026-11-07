@@ -929,6 +929,35 @@ GSTIN, UPI ID, price or validity is empty.''',
   }
 
   @override
+  Future<Response<ReceiptOut>>
+  _v1AdminMarketLinkPackageGrantsGrantIdReceiptGet({
+    required String? grantId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''What the receipt PDF shows (the admin web draws it): company profile, receipt number,
+grower, amount, GST line only when GSTIN and GST rate are set, payment reference and
+validity. 409 `company_profile_empty` while legal name or address is empty.''',
+      summary: 'Grant Receipt',
+      operationId: 'package_grant_receipt',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse(
+      '/v1/admin/market-link/package/grants/${grantId}/receipt',
+    );
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<ReceiptOut, ReceiptOut>($request);
+  }
+
+  @override
   Future<Response<PackageGrantOut>>
   _v1AdminMarketLinkPackageGrantsGrantIdRevokePost({
     required String? grantId,
@@ -1630,6 +1659,30 @@ grower\'s profile (village, taluka, district; never the plot\'s point).''',
       tag: swaggerMetaData,
     );
     return client.send<MyAcceptancesOut, MyAcceptancesOut>($request);
+  }
+
+  @override
+  Future<Response<PackageStatus>> _v1MarketLinkPackageGet({
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''While the switch is ON, the caller\'s active packages (end dates); the app shows
+"package active until <date>" or "not active" on each published lot.''',
+      summary: 'Package Status',
+      operationId: 'market_link_package_status',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/market-link/package');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<PackageStatus, PackageStatus>($request);
   }
 
   @override

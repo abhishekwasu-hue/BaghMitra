@@ -37,7 +37,13 @@ from bagmitra_api.market_link.models import (
     MarketLotPhoto,
 )
 from bagmitra_api.market_link.orchard import orchard_check
-from bagmitra_api.market_link.package import lot_shown, lot_visible_to_traders, package_on
+from bagmitra_api.market_link.package import (
+    grant_active,
+    lot_shown,
+    lot_visible_to_traders,
+    package_on,
+)
+from bagmitra_api.market_link.package_models import PackageGrant
 from bagmitra_api.market_link.terms import require_role_accepted
 from bagmitra_api.photos.exif import NotJpegError, strip_jpeg_metadata
 from bagmitra_api.photos.storage import PhotoNotFoundError, PhotoStorage, PhotoStorageError
@@ -274,6 +280,40 @@ async def list_lots(  # noqa: PLR0913 - query parameters and dependencies
             )
             for lot, name, area in rows
         ]
+    )
+
+
+class PackageCover(BaseModel):
+    """An active package: one lot, or every lot of the grower when `lot_id` is null."""
+
+    lot_id: uuid.UUID | None
+    valid_until: datetime
+
+
+class PackageStatus(BaseModel):
+    """The grower's own season package status (spec v1.5 §4E): dates only. No amount, price,
+    UPI ID or payment detail ever reaches the app (consumption-only)."""
+
+    switch_on: bool
+    active: list[PackageCover]
+
+
+@router.get("/package", operation_id="market_link_package_status")
+async def package_status(user: CurrentUser, session: DbSession, clock: Clock) -> PackageStatus:
+    """While the switch is ON, the caller's active packages (end dates); the app shows
+    "package active until <date>" or "not active" on each published lot."""
+    on = await package_on(session)
+    rows: list[tuple[uuid.UUID | None, datetime]] = []
+    if on:
+        result = await session.execute(
+            select(PackageGrant.lot_id, PackageGrant.valid_until)
+            .where(PackageGrant.grower_id == user.id, grant_active(clock()))
+            .order_by(PackageGrant.valid_until)
+        )
+        rows = list(result.tuples())
+    return PackageStatus(
+        switch_on=on,
+        active=[PackageCover(lot_id=lot, valid_until=until) for lot, until in rows],
     )
 
 
