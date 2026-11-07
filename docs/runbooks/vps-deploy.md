@@ -204,6 +204,8 @@ MARKET_LINK_ENABLED=true
 2. GitHub → repository **Settings → Secrets and variables → Actions → Variables** → **New repository variable**:
    नाव `MARKET_LINK`, value `true`. यानंतरचा Test APK (main वर push, किंवा Actions → Test APK → Run workflow)
    market link दाखवतो. variable नसेल तर Test APK `MARKET_LINK=false` ने बनतो.
+   हाच variable admin web (`admin-web.yml`) मधली market-link पाने (पडताळणी रांग, सुरक्षा, package) दाखवतो; variable
+   लावल्यानंतर admin web पुन्हा build झाला पाहिजे (Actions → Admin web → Run workflow, किंवा main वरचा पुढचा App build).
 
 **बंद करणे:**
 1. सर्व्हर: `.env` मधील ओळ `MARKET_LINK_ENABLED=false` करा (किंवा काढून टाका), मग पुन्हा deploy. बंद असताना प्रत्येक
