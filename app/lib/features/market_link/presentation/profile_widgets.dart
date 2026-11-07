@@ -89,6 +89,8 @@ String questionLabel(AppLocalizations t, String key) => switch (key) {
   'trader_kept_conditions' => t.mlQTraderConditions,
   'broker_honest' => t.mlQBrokerHonest,
   'broker_trader_kept_deal' => t.mlQBrokerTraderKept,
+  'grower_produce_matched' => t.mlQGrowerProduce,
+  'grower_ready_on_date' => t.mlQGrowerReady,
   _ => key,
 };
 
