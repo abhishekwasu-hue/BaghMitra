@@ -14,11 +14,25 @@ here: `docs/research/MARKET_LINKAGE_RESEARCH.md`. **Status: draft for owner revi
 - Goal: more growers register because the app brings them buyers and services.
 - This replaces OPEN_QUESTIONS Q47 "no in-app trading or offers" for this module only.
 
+### 1.1 How the trade works today (owner's village, stated 2026-11-07)
+1. A local or nearby **broker (dalal)** brings a **trader** to the orchard, shows it, and negotiates
+   with the grower. The broker takes a **2 % commission**.
+2. The trader fixes a **harvest date** and the **deal basis**: by the tonne, by the crate (crates
+   filled and counted), or one lump sum for the whole orchard.
+3. The deal and the agreed give-and-take conditions are written on **rough paper** (no bond paper).
+4. After harvest the trader either sells on the spot to a **bigger trader** or sends the fruit by
+   transport to a **mandi**.
+
+Owner's aim: bring **trader, broker and grower onto one platform**, so good traders meet good
+growers, good brokers get more work, and each broker and trader has a public profile — name,
+contact number and ratings — that a grower can read easily. This narrows the gap between them.
+
 ## 2. Roles
 | Role | Who | Joins by |
 |---|---|---|
 | Grower | Existing BagMitra user with a plot and bahar | Already registered |
-| Buyer | Mandi trader, commission agent, exporter, processor | Self-registers; admin verifies before any lot is visible |
+| Buyer (trader) | Village / mandi trader, bigger trader, commission agent, exporter, processor | Self-registers; admin verifies before any lot is visible |
+| Broker (dalal) | Local or nearby broker who brings traders to orchards | Self-registers; admin verifies |
 | Service provider | Weighbridge, transporter / truck owner, harvest labour gang, crate / packing supplier | Self-registers or admin adds; admin verifies |
 | Admin (BagMitra) | Owner / staff | Admin web (ADR 0006) |
 
@@ -29,16 +43,23 @@ here: `docs/research/MARKET_LINKAGE_RESEARCH.md`. **Status: draft for owner revi
    taken **in the app camera only** (reusing the scouting photo capture, which today stores only
    the date — lots add capture time and GPS, new). The lot
    screen shows the day's mandi modal price (Q48 fair-price check) beside the asking rate.
-2. **Visibility** — only verified buyers see lots. They see village / taluka, never the grower's
-   phone, name or plot pin until the grower accepts an offer.
-3. **Offer** — a buyer sends: rate and basis, quantity, harvest date, weighing place (a listed
+2. **Visibility** — only verified buyers and brokers see lots. They see village / taluka, never the
+   grower's phone, name or plot pin until the grower accepts an offer. A grower can also invite a
+   chosen broker or trader straight from their public profile (§3A).
+3. **Offer** — a buyer sends, directly or **through a broker** (the broker is named on the offer
+   and the deal): rate and basis, quantity, harvest date, weighing place (a listed
    weighbridge), who pays harvest labour / crates / transport, advance amount and date, balance
    date, rejection rule (free text). Several offers per lot.
 4. **Compare and accept** — grower sees offers side by side (rate, terms, buyer's verified badge,
    past deals and ratings, mandi price that day). Accepting one creates a **Deal**; contacts and plot
    pin are revealed to both; other offers are closed with a notice.
-5. **Deal sheet** — both confirm the same terms in the app; a PDF deal sheet (mr / hi / en) is
-   generated for both. Any later change is a new version both confirm.
+5. **Deal sheet** (replaces the rough paper) — fields: grower, trader, broker (if any) and the
+   broker's commission % as agreed (2 % is the usual figure the owner states; entered per deal,
+   with who pays it — Q64), basis (per tonne / per crate / lump sum), rate or lump-sum amount,
+   harvest date, weighing place, who pays labour / crates / transport, advance and balance dates,
+   other agreed conditions (free text). Every party on the deal confirms the same version in the
+   app; a PDF deal sheet (mr / hi / en) is generated for all of them. A photo of a paper note can
+   be attached. Any later change is a new version all confirm.
 6. **Services** — from the deal, either side requests listed providers near the plot: weighbridge,
    truck, labour gang, crates. The request goes to the provider (push / SMS / WhatsApp link); the
    provider confirms or declines in the app. **Providers set their own rates and are paid directly**
@@ -49,13 +70,30 @@ here: `docs/research/MARKET_LINKAGE_RESEARCH.md`. **Status: draft for owner revi
    each payment received; entries flow into the existing Accounts sale and buyer-dues ledger with
    reminders on the balance date. BagMitra never receives the money (RBI PA Directions 2025, §1.3
    of the research).
-9. **Close** — both rate each other and each provider used. A dispute can be logged with photos;
-   admin reviews. A buyer with an unresolved non-payment dispute is hidden from new lots until the
-   admin decides.
+9. **Close** — every party rates the others and each provider used (§3A). A dispute can be
+   logged with photos; admin reviews. A buyer with an unresolved non-payment dispute is hidden from
+   new lots until the admin decides.
+10. **Onward sale** — the trader's sale to a bigger trader or dispatch to a mandi is outside the
+   grower's deal; whether the app also lists it is Q65.
+
+## 3A. Public profiles and ratings (owner request)
+- Every verified **trader** and **broker** has a profile any registered grower can open: name, firm
+  (if any), village / market, **contact number**, crops and areas, number of completed deals,
+  average rating and recent rating notes. A list per taluka, sortable by rating and deals.
+- Grower profiles are not public; a grower's contact is shown only to parties of an accepted deal.
+- **Only a party to a completed deal can rate**, once per deal, so ratings come from real trades.
+- Rating questions follow the deal terms the owner listed, each 1–5 plus a short note:
+  - Trader: came on the agreed harvest date; weighing / crate count was correct; paid advance and
+    balance as agreed; kept the other conditions.
+  - Broker: represented the deal honestly; the trader they brought kept the deal.
+  - Grower: produce matched the photos and description; ready on the agreed date.
+- A rating cannot be edited after 7 days; the rated person can add one public reply; admin can hide
+  abusive text (not the score) and logs why. Ratings under an open dispute show "disputed".
 
 ## 4. Verification
 - **Buyer**: name, firm, phone (OTP), market(s) and district, APMC licence number and copy (if
   held), GST number (if held), photo of shop / office. Badge only after admin check.
+- **Broker**: name, phone (OTP), village and service area, photo ID shown to admin only.
 - **Weighbridge**: location, owner phone, Legal Metrology verification certificate photo and
   valid-until date. The app warns both parties when the date has passed.
 - **Transporter**: vehicle number(s), capacity, refrigerated yes / no, owner phone; common-carrier
@@ -67,13 +105,16 @@ here: `docs/research/MARKET_LINKAGE_RESEARCH.md`. **Status: draft for owner revi
 - Feature flag `MARKET_LINK_ENABLED` (default **off** in production; on in test builds).
 - It is switched on only after the owner records in admin: (a) a written legal opinion on
   Maharashtra APMC Act s.6(2A) as substituted by Mah. 52 of 2025 and s.5D for this link-only model;
-  (b) a CA opinion on GST for any fee; (c) the terms of use for growers, buyers and providers.
+  (b) a CA opinion on GST for any fee; (c) the terms of use for growers, buyers, brokers and
+  providers; (d) the lawyer's view on public named ratings (intermediary duties under the IT Act
+  and its rules, defamation risk) [UV].
 - In-app wording on every lot, offer and deal: BagMitra is not a buyer, seller, commission agent or
   transporter, does not hold money and does not guarantee payment or quality.
 - No e-way bill flow (fresh citrus is exempt) — confirm before go-live.
 
 ## 6. Data model (additions)
-`market_lots`, `market_lot_photos`, `buyer_profiles`, `party_verifications` (buyer or provider,
+`market_lots`, `market_lot_photos`, `buyer_profiles`, `broker_profiles`, `deal_parties` (grower,
+trader, broker, commission %, commission payer), `party_verifications` (buyer or provider,
 documents, checked_by, checked_at, status), `market_offers`, `market_deals` (versioned terms),
 `deal_confirmations`, `deal_events` (append-only), `service_providers`, `service_requests`,
 `weigh_slips`, `deal_payments` (links to Accounts incomes), `ratings`, `disputes`. RLS: a grower
@@ -83,7 +124,8 @@ requests sent to them; contact fields are unlocked by an accepted deal. Update
 
 ## 7. Tests (CI)
 Unverified buyer sees no lot; grower contact hidden until acceptance; accepting closes other
-offers; deal change needs both confirmations; expired weighbridge certificate warns; payment
+offers; deal change needs every party's confirmation; only deal parties can rate, once per
+deal; broker commission appears on the deal sheet; expired weighbridge certificate warns; payment
 entries reach Accounts; flag off hides every screen and endpoint; RLS tests per role; Marathi /
 Hindi / English goldens at phone size.
 
@@ -92,11 +134,11 @@ Hindi / English goldens at phone size.
 |---|---|
 | L0 | Flag, data model, RLS, admin verification queue |
 | L1 | Service-provider registration and directory near a plot |
-| L2 | Buyer registration and verification |
+| L2 | Trader and broker registration, verification, public profiles |
 | L3 | Grower lot with in-app photos and mandi price beside the asking rate |
 | L4 | Offers, compare, accept, deal sheet PDF |
 | L5 | Service requests, weigh slip, dispatch |
-| L6 | Payment record into Accounts, ratings, disputes |
+| L6 | Payment record into Accounts, ratings (§3A), disputes |
 
 ## 9. Suggestions for the owner (OWNER_RULES D.1 — not part of the build until decided)
 - **Village coordinator**: one trusted person per village / weighbridge who helps growers create
