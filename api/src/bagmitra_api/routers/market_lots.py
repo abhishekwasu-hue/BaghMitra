@@ -272,7 +272,7 @@ async def list_lots(  # noqa: PLR0913 - query parameters and dependencies
     package (§4E). Page with `before` = the last `published_at` seen."""
     if not await is_verified_viewer(session, user.id):
         raise ApiError(403, "not_verified")
-    rule = lot_visible_to_traders(MarketLot, clock(), await package_on(session))
+    rule = lot_visible_to_traders(MarketLot, clock(), await package_on(session), user.id)
     query = (
         select(MarketLot, Farmer.display_name, Plot.area_sq_m)
         .outerjoin(Farmer, Farmer.id == MarketLot.owner_id)
@@ -447,7 +447,8 @@ async def lot_photo_url(
     if (
         not own
         and not (
-            await lot_shown(session, lot.id, clock()) and await is_verified_viewer(session, user.id)
+            await lot_shown(session, lot.id, clock(), user.id)
+            and await is_verified_viewer(session, user.id)
         )
         and not await _deal_party(session, lot.id, user.id)
     ):

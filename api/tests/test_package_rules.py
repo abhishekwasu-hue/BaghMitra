@@ -128,7 +128,7 @@ async def test_lot_visible_to_traders(
     pkg.now[0] = NOW + moves
     assert (str(lot_id) in await listed(pkg)) is shown
     async with pkg.maker() as s:
-        rule = lot_visible_to_traders(MarketLot, pkg.now[0], switch)
+        rule = lot_visible_to_traders(MarketLot, pkg.now[0], switch, uuid.uuid4())
         hit = await s.scalar(select(MarketLot.id).where(MarketLot.id == lot_id, rule))
         assert (hit is not None) is shown
         assert await s.get(MarketLot, lot_id) is not None  # hiding never deletes the lot
