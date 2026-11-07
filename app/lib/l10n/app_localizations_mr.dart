@@ -3203,6 +3203,56 @@ class AppLocalizationsMr extends AppLocalizations {
   String get adminMlKindCrateSupplier => 'क्रेट पुरवठादार';
 
   @override
+  String get adminMlChecks => 'तपासण्या';
+
+  @override
+  String get adminMlChecksNote =>
+      'अधिकृत पान उघडा, नंबर पेस्ट करा (तो कॉपी झालेला असतो), स्वतः तपासा आणि निकाल नोंदवा. बॅज फक्त काय व कधी तपासले ते सांगतो.';
+
+  @override
+  String get adminMlOpenPage => 'अधिकृत पान उघडा';
+
+  @override
+  String get adminMlCallNow => 'फोन करा';
+
+  @override
+  String get adminMlRecordResult => 'निकाल नोंदवा';
+
+  @override
+  String adminMlNumberCopied(String number) {
+    return 'नंबर कॉपी झाला: $number';
+  }
+
+  @override
+  String get adminMlResultPassed => 'योग्य आढळले';
+
+  @override
+  String get adminMlResultFailed => 'चुकीचे आढळले';
+
+  @override
+  String get adminMlResultCancelled => 'रद्द / बंद';
+
+  @override
+  String get adminMlRegisteredYear => 'GST नोंदणी वर्ष (ऐच्छिक)';
+
+  @override
+  String get adminMlNoChecks => 'नोंदलेल्या तपासण्या इथे दिसतील';
+
+  @override
+  String get adminMlCheckApmc => 'APMC परवाना';
+
+  @override
+  String get adminMlCheckPhoneCall => 'फोन कॉल';
+
+  @override
+  String get adminMlCheckPlacePhoto => 'ठिकाणाचा फोटो';
+
+  @override
+  String adminMlRegisteredSince(String year) {
+    return 'नोंदणी $year';
+  }
+
+  @override
   String adminMlDocumentCount(int n) {
     return 'कागदपत्रे: $n';
   }

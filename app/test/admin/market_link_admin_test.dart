@@ -9,6 +9,7 @@ import 'package:bagmitra/api/generated/bagmitra.swagger.dart';
 import 'package:bagmitra/l10n/app_localizations.dart';
 import 'package:bagmitra/theme/app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
@@ -28,10 +29,43 @@ const _buyer = {
     'district': 'Nagpur',
     'crops': 'santra',
     'apmc_licence_no': 'APMC-42',
+    'gst_no': '27ABCDE1234F1Z5',
   },
   'document_keys': ['docs/apmc.jpg', 'docs/shop.jpg'],
   'waiting_since': '2026-11-01T09:00:00Z',
   'status': 'pending',
+  'flags': ['duplicate_number'],
+  'related': [
+    {
+      'flag': 'duplicate_number',
+      'why': 'apmc_licence_no',
+      'subject_type': 'buyer',
+      'subject_id': 'b9',
+      'name': 'Other Traders',
+    },
+  ],
+};
+
+const _links = [
+  {
+    'kind': 'gstin',
+    'number': '27ABCDE1234F1Z5',
+    'url': 'https://services.gst.gov.in/services/searchtp',
+  },
+  {'kind': 'phone_call', 'number': '919800000001', 'url': 'tel:919800000001'},
+  {'kind': 'place_photo', 'number': null, 'url': null},
+];
+
+Map<String, dynamic> _checkRow(String kind, String result, {int? year}) => {
+  'id': 'c-$kind-$result',
+  'kind': kind,
+  'number': kind == 'gstin' ? '27ABCDE1234F1Z5' : null,
+  'result': result,
+  'registered_year': year,
+  'official_url': null,
+  'checked_by': 'admin-1',
+  'checked_at': '2026-11-03T10:00:00Z',
+  'recheck_listed_at': null,
 };
 
 const _provider = {
@@ -92,6 +126,7 @@ class FakeMarketLinkAdmin implements MarketLinkAdminRepository {
   final decisions = <(String, String, bool, String?)>[];
   final opened = <int>[];
   final saved = <(String, RatingTagIn)>[];
+  final checks = <(String, String, int?)>[];
   late final tags = _tags();
 
   SubjectOut _subject(String id) =>
@@ -118,7 +153,26 @@ class FakeMarketLinkAdmin implements MarketLinkAdminRepository {
           ),
           VerificationOut.fromJson(_row('pending')),
         ],
+        links: id == 'b1'
+            ? [for (final l in _links) OfficialLinkOut.fromJson(l)]
+            : [],
+        checks: [
+          for (final (kind, result, year) in checks.reversed)
+            CheckOut.fromJson(_checkRow(kind, result, year: year)),
+        ],
       );
+
+  @override
+  Future<SubjectDetailOut> recordCheck(
+    String type,
+    String id, {
+    required String kind,
+    required String result,
+    int? registeredYear,
+  }) async {
+    checks.add((kind, result, registeredYear));
+    return subject(type, id);
+  }
 
   @override
   Future<SubjectDetailOut> decide(
@@ -272,9 +326,16 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('APMC licence no.'), findsOneWidget);
     expect(find.text('APMC-42'), findsOneWidget);
+    await tester.dragUntilVisible(
+      find.textContaining('Licence copy unreadable'),
+      find.byType(ListView).last,
+      const Offset(0, -200),
+    );
     expect(find.textContaining('Licence copy unreadable'), findsOneWidget);
     expect(find.textContaining('by admin-1'), findsOneWidget);
 
+    await tester.ensureVisible(find.byKey(const ValueKey('document-0')));
+    await tester.pumpAndSettle();
     await tester.tap(find.byKey(const ValueKey('document-0')));
     await tester.pumpAndSettle();
     expect(opened, [Uri.parse('https://storage.test/doc-0')]);
@@ -310,6 +371,76 @@ void main() {
     await tester.tap(find.text('Cancel'));
     await tester.pumpAndSettle();
     expect(repo.decisions, hasLength(2));
+  });
+
+  testWidgets('official page and record a check (L7)', (tester) async {
+    await _wide(tester);
+    final repo = FakeMarketLinkAdmin();
+    final opened = <Uri>[];
+    String? copied;
+    tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+      SystemChannels.platform,
+      (call) async {
+        if (call.method == 'Clipboard.setData') {
+          copied = (call.arguments as Map)['text'] as String?;
+        }
+        return null;
+      },
+    );
+    await tester.pumpWidget(
+      _page(
+        VerificationQueuePage(repo: repo, openUrl: (u) async => opened.add(u)),
+      ),
+    );
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Ramesh Traders'));
+    await tester.pumpAndSettle();
+    expect(find.text('Checks you record show here'), findsOneWidget);
+    // No page for the place photo: record only.
+    expect(find.byKey(const ValueKey('open-place_photo')), findsNothing);
+
+    await tester.ensureVisible(find.byKey(const ValueKey('open-gstin')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const ValueKey('open-gstin')));
+    await tester.pumpAndSettle();
+    expect(copied, '27ABCDE1234F1Z5');
+    expect(opened.single.host, 'services.gst.gov.in');
+    await tester.ensureVisible(find.byKey(const ValueKey('open-phone_call')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const ValueKey('open-phone_call')));
+    await tester.pumpAndSettle();
+    expect(opened.last.scheme, 'tel');
+
+    await tester.ensureVisible(find.byKey(const ValueKey('record-gstin')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const ValueKey('record-gstin')));
+    await tester.pumpAndSettle();
+    await tester.enterText(find.byKey(const Key('registered-year')), '2016');
+    await tester.tap(
+      find.descendant(
+        of: find.byType(AlertDialog),
+        matching: find.widgetWithText(FilledButton, 'Record result'),
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(repo.checks.single, ('gstin', 'passed', 2016));
+    expect(find.text('GSTIN · Passed · registered 2016'), findsOneWidget);
+
+    await tester.ensureVisible(find.byKey(const ValueKey('record-phone_call')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const ValueKey('record-phone_call')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Cancelled / deactivated'));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('registered-year')), findsNothing);
+    await tester.tap(
+      find.descendant(
+        of: find.byType(AlertDialog),
+        matching: find.widgetWithText(FilledButton, 'Record result'),
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(repo.checks.last, ('phone_call', 'cancelled', null));
   });
 
   testWidgets('provider values are shown in words', (tester) async {
@@ -414,6 +545,30 @@ void main() {
         sent.last.url.path,
         '/v1/admin/market-link/verifications/provider/p1',
       );
+    });
+
+    test('record a check', () async {
+      final r = repo(200, {
+        'subject': _buyer,
+        'history': <Object>[],
+        'checks': [_checkRow('gstin', 'passed', year: 2016)],
+        'links': _links,
+      });
+      final d = await r.recordCheck(
+        'buyer',
+        'b1',
+        kind: 'phone_call',
+        result: 'passed',
+      );
+      expect(d.checks!.single.registeredYear, 2016);
+      expect(
+        sent.single.url.path,
+        '/v1/admin/market-link/verifications/buyer/b1/checks',
+      );
+      expect(jsonDecode(sent.single.body), {
+        'kind': 'phone_call',
+        'result': 'passed',
+      });
     });
 
     test('document url, tags and errors', () async {
