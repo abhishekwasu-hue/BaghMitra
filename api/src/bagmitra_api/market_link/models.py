@@ -55,8 +55,8 @@ TAG_POLARITIES = ("positive", "negative")
 TAG_STATUSES = ("draft", "active", "retired")
 # Who registers with the one GPS fix (spec §4): profiles, plus a representative (user id).
 FIX_SUBJECT_TYPES = (*SUBJECT_TYPES, "representative")
-# Report / admin action targets (spec §4, §4C): a profile, a lot, or a user.
-REPORT_SUBJECT_TYPES = (*SUBJECT_TYPES, "lot", "user")
+# Report / admin action targets (spec §4, §3A, §4C): a profile, a lot, a rating, or a user.
+REPORT_SUBJECT_TYPES = (*SUBJECT_TYPES, "lot", "rating", "user")
 REPORT_REASONS = ("fake_identity", "fake_lot", "impersonation", "fake_rating", "abuse")
 REPORT_STATUSES = ("open", "actioned", "dismissed")
 ADMIN_ACTIONS = ("verify", "warn", "hide", "suspend", "restore")
@@ -68,6 +68,25 @@ ADMIN_SUBJECT_TYPES = (*REPORT_SUBJECT_TYPES, *PACKAGE_SUBJECTS)
 ADMIN_ACTION_KINDS = (*ADMIN_ACTIONS, *PACKAGE_ACTIONS)
 ADMIN_REASON_CODES = (*ADMIN_REASONS, *PACKAGE_REASONS)
 APPEAL_STATES = ("none", "appealed", "upheld", "rejected")
+# Which reason codes each action may carry (§1 core principle, Addendum 5): warn / hide /
+# suspend only on platform rules, never on a payment, weight or quality quarrel.
+PLATFORM_REASONS = (*REPORT_REASONS, "duplicate_user")
+ACTION_REASONS: dict[str, tuple[str, ...]] = {
+    "verify": ("checks_passed",),
+    "warn": PLATFORM_REASONS,
+    "hide": PLATFORM_REASONS,
+    "suspend": PLATFORM_REASONS,
+    "restore": ("checks_passed", "appeal_upheld"),
+}
+APPEALABLE_ACTIONS = ("warn", "hide", "suspend")
+# The one appeal: a predefined reason, no free text (§4C, Q92).
+APPEAL_REASONS = (
+    "identity_genuine",
+    "lot_genuine",
+    "rating_genuine",
+    "behaviour_proper",
+    "not_duplicate",
+)
 TERMS_ROLES = ("grower", "trader", "exporter", "broker", "provider", "representative")
 TERMS_DOCS = ("terms", "privacy", "disclaimer")
 # A lot is published with 3 to 8 in-app photos (spec v1.5 §3 step 1).
@@ -76,6 +95,10 @@ LOT_MAX_PHOTOS = 8
 # Real orchard check (spec §4C): only inside / near lots reach traders and brokers.
 ORCHARD_CHECKS = ("inside", "near", "outside", "unmapped")
 ORCHARD_OK = ("inside", "near")
+# One admin check by hand on a free official page (spec §4, L7): the kind, and what was found.
+CHECK_KINDS = ("gstin", "apmc", "fssai", "iec", "apeda", "phone_call", "place_photo")
+# `cancelled`: GST cancelled / IEC deactivated / licence no longer valid (found on a re-check).
+CHECK_RESULTS = ("passed", "failed", "cancelled")
 
 
 def one_of(column: str, values: tuple[str, ...]) -> CheckConstraint:
@@ -396,13 +419,18 @@ class FraudReport(_Row, Base):
     status: Mapped[str] = mapped_column(String(16), index=True)
     decided_by: Mapped[uuid.UUID | None] = mapped_column()
     decided_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    # Grievance timeline (IT Rules 2021, §4C): acknowledged within 24 h, closed (decided)
+    # within 15 days; the admin list flags an overdue one.
+    acknowledged_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     admin_action_id: Mapped[uuid.UUID | None] = mapped_column(ForeignKey("admin_actions.id"))
 
 
 class AdminAction(_Row, Base):
     """Every verify / warn / hide / suspend / restore, with a reason code the user sees, the
-    actor and the time; one appeal through the grievance officer (spec §4C). Season package
-    settings changes and grants carry `detail` = {"old": ..., "new": ...} (§4E)."""
+    actor and the time; one appeal through the grievance officer (spec §4C). The action
+    columns never change and no row is deleted (Postgres trigger, 0033); only the appeal
+    columns move (none -> appealed -> upheld / rejected). Season package settings changes and
+    grants carry `detail` = {"old": ..., "new": ...} (§4E)."""
 
     __tablename__ = "admin_actions"
     __table_args__ = (
@@ -410,6 +438,7 @@ class AdminAction(_Row, Base):
         one_of("action", ADMIN_ACTION_KINDS),
         one_of("reason_code", ADMIN_REASON_CODES),
         one_of("appeal_state", APPEAL_STATES),
+        one_of("appeal_reason", APPEAL_REASONS),  # NULL passes a CHECK: no appeal yet
     )
 
     subject_type: Mapped[str] = mapped_column(String(16))
@@ -422,6 +451,9 @@ class AdminAction(_Row, Base):
     acted_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
     appeal_state: Mapped[str] = mapped_column(String(16), default="none")
     appealed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    appeal_reason: Mapped[str | None] = mapped_column(String(32))
+    appeal_photo_keys: Mapped[list[str]] = mapped_column(JSON, default=list)
+    appeal_acknowledged_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     appeal_decided_by: Mapped[uuid.UUID | None] = mapped_column()
     appeal_decided_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     detail: Mapped[dict[str, Any] | None] = mapped_column(JSON)
@@ -457,6 +489,44 @@ class UserBlock(_Row, Base):
 
     blocker_id: Mapped[uuid.UUID] = mapped_column(index=True)
     blocked_id: Mapped[uuid.UUID] = mapped_column(index=True)
+
+
+class VerificationCheck(_Row, Base):
+    """One check the admin did by hand (spec §4, L7): kind, the number checked, the result,
+    the official page opened, who and when. Never edited; the latest row per subject and kind
+    decides, so a re-check that finds GST cancelled or IEC deactivated removes the badge.
+    `recheck_listed_at`: set by the yearly re-check job (recheck_job.py) on a stale pass."""
+
+    __tablename__ = "verification_checks"
+    __table_args__ = (
+        one_of("subject_type", SUBJECT_TYPES),
+        one_of("kind", CHECK_KINDS),
+        one_of("result", CHECK_RESULTS),
+    )
+
+    subject_type: Mapped[str] = mapped_column(String(16))
+    subject_id: Mapped[uuid.UUID] = mapped_column(index=True)
+    kind: Mapped[str] = mapped_column(String(16))
+    number: Mapped[str | None] = mapped_column(String(40))
+    result: Mapped[str] = mapped_column(String(16))
+    # GST only: the registration year on the public record ("registered since <year>").
+    registered_year: Mapped[int | None] = mapped_column(SmallInteger)
+    official_url: Mapped[str | None] = mapped_column(String(300))
+    checked_by: Mapped[uuid.UUID] = mapped_column()
+    checked_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), index=True)
+    recheck_listed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+
+
+class DeviceSighting(_Row, Base):
+    """An account seen on a phone: the SHA-256 of its push token, written when the phone
+    registers for push while the module is on (spec §4C "same phone cannot rate", Q100).
+    A push token row moves to the latest account, so this keeps who else used the phone."""
+
+    __tablename__ = "device_sightings"
+    __table_args__ = (UniqueConstraint("device_hash", "user_id"),)
+
+    device_hash: Mapped[str] = mapped_column(String(64), index=True)
+    user_id: Mapped[uuid.UUID] = mapped_column(index=True)
 
 
 # Every table defined above (the schema and RLS tests walk this list).

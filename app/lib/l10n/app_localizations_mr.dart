@@ -2552,6 +2552,67 @@ class AppLocalizationsMr extends AppLocalizations {
   String get exportLinksTitle => 'अधिकृत संकेतस्थळे';
 
   @override
+  String get exportRecordTitle => 'निर्यात नोंद';
+
+  @override
+  String get exportRecordAction => 'निर्यात नोंद (PDF) बनवा';
+
+  @override
+  String get exportRecordPlot => 'बाग';
+
+  @override
+  String get exportRecordBahar => 'बहार';
+
+  @override
+  String get exportRecordAllBahars => 'सर्व फवारण्या';
+
+  @override
+  String exportRecordCount(String count) {
+    return '$count फवारण्या';
+  }
+
+  @override
+  String exportRecordLastPhi(String date) {
+    return 'शेवटचा PHI कालावधी $date ला संपतो';
+  }
+
+  @override
+  String get exportRecordShare => 'PDF शेअर करा';
+
+  @override
+  String get exportRecordNoPlot => 'आधी बाग जोडा; तिची फवारणी नोंद इथे दिसेल.';
+
+  @override
+  String get exportRecordEmpty =>
+      'या बहाराच्या फवारण्या नोंदवल्यावर इथे दिसतील.';
+
+  @override
+  String get exportRecordDate => 'तारीख';
+
+  @override
+  String get exportRecordProduct => 'औषध · घटक · मात्रा';
+
+  @override
+  String get exportRecordLabel => 'लेबल तपासणी';
+
+  @override
+  String get exportRecordPhiEnd => 'PHI संपते';
+
+  @override
+  String get exportLabelListed => 'या पिकासाठी लेबलवर';
+
+  @override
+  String get exportLabelCheck => 'लेबल तपासा';
+
+  @override
+  String exportRecordMade(String date) {
+    return '$date रोजी शेतकऱ्याच्या स्वतःच्या फवारणी नोंदीतून तयार.';
+  }
+
+  @override
+  String get exportRecordFooter => 'माहितीसाठी नोंद, प्रमाणपत्र नाही.';
+
+  @override
   String fairPriceMandi(Object date, Object market, Object price) {
     return '$market बाजार, $date: सर्वसाधारण भाव $price प्रति क्विंटल';
   }
@@ -3142,8 +3203,548 @@ class AppLocalizationsMr extends AppLocalizations {
   String get adminMlKindCrateSupplier => 'क्रेट पुरवठादार';
 
   @override
+  String get adminMlChecks => 'तपासण्या';
+
+  @override
+  String get adminMlChecksNote =>
+      'अधिकृत पान उघडा, नंबर पेस्ट करा (तो कॉपी झालेला असतो), स्वतः तपासा आणि निकाल नोंदवा. बॅज फक्त काय व कधी तपासले ते सांगतो.';
+
+  @override
+  String get adminMlOpenPage => 'अधिकृत पान उघडा';
+
+  @override
+  String get adminMlCallNow => 'फोन करा';
+
+  @override
+  String get adminMlRecordResult => 'निकाल नोंदवा';
+
+  @override
+  String adminMlNumberCopied(String number) {
+    return 'नंबर कॉपी झाला: $number';
+  }
+
+  @override
+  String get adminMlResultPassed => 'योग्य आढळले';
+
+  @override
+  String get adminMlResultFailed => 'चुकीचे आढळले';
+
+  @override
+  String get adminMlResultCancelled => 'रद्द / बंद';
+
+  @override
+  String get adminMlRegisteredYear => 'GST नोंदणी वर्ष (ऐच्छिक)';
+
+  @override
+  String get adminMlNoChecks => 'नोंदलेल्या तपासण्या इथे दिसतील';
+
+  @override
+  String get adminMlCheckApmc => 'APMC परवाना';
+
+  @override
+  String get adminMlCheckPhoneCall => 'फोन कॉल';
+
+  @override
+  String get adminMlCheckPlacePhoto => 'ठिकाणाचा फोटो';
+
+  @override
+  String adminMlRegisteredSince(String year) {
+    return 'नोंदणी $year';
+  }
+
+  @override
+  String get adminMlFlags => 'मंजुरीआधी पाहा';
+
+  @override
+  String get adminMlFlagDuplicate => 'हाच नंबर दुसऱ्या प्रोफाइलवर';
+
+  @override
+  String get adminMlFlagReturning => 'निलंबित प्रोफाइलशी जुळते';
+
+  @override
+  String get adminMlFlagMock => 'ठिकाण बनावट (mock) दिसले';
+
+  @override
+  String get adminMlFlagOtherDistrict => 'सांगितलेल्या जिल्ह्याबाहेरून नोंदणी';
+
+  @override
+  String get adminMlFlagNoPlace => 'फोनकडून ठिकाणाचे नाव रिकामे';
+
+  @override
+  String get adminMlWhyName => 'तेच नाव';
+
+  @override
+  String get adminMlWhyGps => 'जवळून नोंदणी';
+
+  @override
+  String get adminMlWhyAccount => 'तेच खाते';
+
+  @override
+  String get adminMlRechecks => 'पुन्हा तपासायचे';
+
+  @override
+  String get adminMlRechecksEmpty => 'सर्व वार्षिक पुन्हा तपासण्या पूर्ण';
+
+  @override
+  String adminMlLastChecked(String date) {
+    return 'मागील तपासणी $date';
+  }
+
+  @override
   String adminMlDocumentCount(int n) {
     return 'कागदपत्रे: $n';
+  }
+
+  @override
+  String get mlRolesTitle => 'तुमची भूमिका निवडा';
+
+  @override
+  String get mlRolesIntro =>
+      'सर्व भूमिकांसाठी एकच साइन-इन. भूमिका कधीही बदलता येते.';
+
+  @override
+  String get mlRoleGrower => 'शेतकरी';
+
+  @override
+  String get mlRoleTrader => 'व्यापारी';
+
+  @override
+  String get mlRoleBroker => 'मध्यस्थ (दलाल)';
+
+  @override
+  String get mlRoleExporter => 'निर्यातदार';
+
+  @override
+  String get mlRoleProvider => 'सेवा देणारे';
+
+  @override
+  String get mlRoleProviderKinds => 'वजनकाटा, वाहतूक, मजूर, क्रेट';
+
+  @override
+  String get mlRoleCurrent => 'सध्याची भूमिका';
+
+  @override
+  String get mlSwitchRole => 'भूमिका बदला';
+
+  @override
+  String get mlHomeLinkTitle => 'बाजार जोडणी';
+
+  @override
+  String get mlHomeLinkHint =>
+      'व्यापारी, मध्यस्थ, निर्यातदार, सेवा: भूमिका निवडा';
+
+  @override
+  String get mlTermsTitle => 'सुरू करण्यापूर्वी';
+
+  @override
+  String mlTermsRole(String role) {
+    return 'भूमिका: $role';
+  }
+
+  @override
+  String get mlTermsIntroOnly =>
+      'BagMitra फक्त माहिती देते आणि तुमची व्यापारी, मध्यस्थ (दलाल) व बाजाराशी ओळख करून देते.';
+
+  @override
+  String get mlTermsNotParty =>
+      'BagMitra खरेदीदार, विक्रेता, कमिशन एजंट किंवा वाहतूकदार नाही.';
+
+  @override
+  String get mlTermsNoMoney =>
+      'ते कोणतेही पैसे ठेवत नाही आणि पैसे मिळण्याची किंवा मालाच्या दर्जाची हमी देत नाही.';
+
+  @override
+  String get mlTermsNoGainLoss =>
+      'तुमच्या व्यवहारात या ॲपचा कोणताही लाभ किंवा नुकसान नाही.';
+
+  @override
+  String get mlTermsNoPart =>
+      'तुमच्या व्यवहारात किंवा कोणत्याही वादात BagMitra भाग घेत नाही.';
+
+  @override
+  String get mlTermsAfterDeal => 'व्यवहारानंतर काय नोंदवायचे ते तुमची इच्छा.';
+
+  @override
+  String get mlTermsPublicPhone =>
+      'तुमचा फोन नंबर तुमच्या प्रोफाइलवर सर्वांना दिसेल, म्हणजे शेतकरी तुम्हाला थेट फोन करू शकतील.';
+
+  @override
+  String get mlTermsGpsOnce =>
+      'नोंदणीच्या वेळी फसवणूक टाळण्यासाठी तुमचे ठिकाण (GPS) एकदाच घेतले जाईल.';
+
+  @override
+  String get mlTermsFull => 'वापराच्या पूर्ण अटी';
+
+  @override
+  String get mlTermsAdult => 'मी १८ वर्षांपेक्षा मोठा आहे';
+
+  @override
+  String get mlTermsAgree => 'मी वाचले व मान्य करतो';
+
+  @override
+  String get mlTermsAccept => 'मान्य करा व पुढे चला';
+
+  @override
+  String get mlTermsBack => 'मागे';
+
+  @override
+  String get mlRoleHomeSoon => 'या भूमिकेच्या सुविधा लवकरच इथे दिसतील.';
+
+  @override
+  String get mlSafetyNotice =>
+      'BagMitra कधीही पैसे, OTP किंवा बँक तपशील मागत नाही.';
+
+  @override
+  String get mlGrievanceTitle => 'तक्रार अधिकारी';
+
+  @override
+  String get mlGrievanceOwner => 'BagMitra चे मालक';
+
+  @override
+  String mlGrievanceContact(String contact) {
+    return 'संपर्क: $contact';
+  }
+
+  @override
+  String get mlGrievanceTimes =>
+      'तक्रारीची पोच 24 तासांत आणि निवारण 15 दिवसांत.';
+
+  @override
+  String get mlKindWeighbridge => 'वजनकाटा';
+
+  @override
+  String get mlKindTransporter => 'वाहतूकदार';
+
+  @override
+  String get mlKindLabourGang => 'मजूर टोळी';
+
+  @override
+  String get mlKindCrateSupplier => 'क्रेट पुरवठादार';
+
+  @override
+  String get mlRegisterTrader => 'व्यापारी नोंदणी';
+
+  @override
+  String get mlRegisterExporter => 'निर्यातदार नोंदणी';
+
+  @override
+  String get mlRegisterBroker => 'मध्यस्थ (दलाल) नोंदणी';
+
+  @override
+  String get mlRegisterProvider => 'सेवा देणारे नोंदणी';
+
+  @override
+  String get mlRegisterAs => 'नोंदणी करा';
+
+  @override
+  String get mlFixTitle => 'नोंदणीच्या ठिकाणाचे स्थान';
+
+  @override
+  String get mlFixWhy =>
+      'नोंदणी पूर्ण करण्यासाठी फोन तुमचे सध्याचे स्थान एकदा घेतो. यामुळे बनावट नोंदणी दूर राहते.';
+
+  @override
+  String get mlFixOnce =>
+      'स्थान फक्त एकदा, आत्ता घेतले जाते. सार्वजनिक प्रोफाइलवर फक्त गाव, तालुका व जिल्हा दिसतो; अचूक स्थान फक्त BagMitra च्या तपासणीसाठी.';
+
+  @override
+  String get mlPhonePublicNote =>
+      'तपासणीनंतर तुमचे नाव, फर्म व संपर्क क्रमांक नोंदणीकृत शेतकऱ्यांना दिसतात.';
+
+  @override
+  String get mlFixTake => 'स्थान घ्या';
+
+  @override
+  String get mlFixTaking => 'स्थान घेत आहे…';
+
+  @override
+  String get mlFixDenied => 'नोंदणी पूर्ण करण्यासाठी लोकेशनला परवानगी द्या.';
+
+  @override
+  String mlFixTaken(String place, String metres) {
+    return 'स्थान घेतले: $place (±$metres मी.)';
+  }
+
+  @override
+  String get mlPickKind => 'तुम्ही कोणती सेवा देता?';
+
+  @override
+  String get mlFieldName => 'नाव';
+
+  @override
+  String get mlFieldPhone => 'संपर्क क्रमांक';
+
+  @override
+  String get mlFieldFirm => 'फर्मचे नाव (ऐच्छिक)';
+
+  @override
+  String get mlFieldVillage => 'गाव';
+
+  @override
+  String get mlFieldTaluka => 'तालुका';
+
+  @override
+  String get mlFieldDistrict => 'जिल्हा';
+
+  @override
+  String get mlFieldMarkets => 'बाजार / गावे (मध्ये स्वल्पविराम)';
+
+  @override
+  String get mlFieldAreas => 'सेवा देणारी गावे / भाग (मध्ये स्वल्पविराम)';
+
+  @override
+  String get mlFieldCrops => 'पिके';
+
+  @override
+  String get mlFieldAddress => 'पत्ता (ऐच्छिक)';
+
+  @override
+  String get mlFieldGst => 'GSTIN';
+
+  @override
+  String get mlFieldApmc => 'APMC परवाना क्र.';
+
+  @override
+  String get mlFieldFssai => 'FSSAI परवाना क्र.';
+
+  @override
+  String get mlFieldIec => 'IEC क्र.';
+
+  @override
+  String get mlFieldApeda => 'APEDA नोंदणी क्र.';
+
+  @override
+  String get mlFieldVehicles => 'वाहन क्रमांक (मध्ये स्वल्पविराम)';
+
+  @override
+  String get mlFieldCapacity => 'क्षमता (टन)';
+
+  @override
+  String get mlFieldRefrigerated => 'शीत वाहन';
+
+  @override
+  String get mlFieldCertUntil => 'प्रमाणपत्र वैध तारीख';
+
+  @override
+  String mlCertUntilValue(String date) {
+    return 'प्रमाणपत्र $date पर्यंत वैध';
+  }
+
+  @override
+  String get mlNumbersNote =>
+      'किमान एक लिहा: GSTIN, APMC परवाना किंवा IEC. BagMitra तो अधिकृत सार्वजनिक नोंदीवर तपासते.';
+
+  @override
+  String get mlIecRequired => 'निर्यातदार नोंदणीसाठी IEC क्रमांक लागतो.';
+
+  @override
+  String get mlBrokerCallNote =>
+      'तपासणी पूर्ण करण्यासाठी BagMitra या क्रमांकावर तुम्हाला फोन करेल.';
+
+  @override
+  String get mlErrPhone => '10 अंकी मोबाईल क्रमांक लिहा';
+
+  @override
+  String get mlErrGst => '15 अक्षरी GSTIN लिहा';
+
+  @override
+  String get mlErrIec => '10 अक्षरी IEC लिहा';
+
+  @override
+  String get mlErrFssai => '14 अंकी FSSAI क्रमांक लिहा';
+
+  @override
+  String get mlErrCapacity => 'क्षमता टनात लिहा (100 पर्यंत)';
+
+  @override
+  String get mlErrOneNumber => 'GSTIN, APMC परवाना किंवा IEC क्रमांक लिहा';
+
+  @override
+  String get mlErrPickKind => 'तुमची सेवा निवडा';
+
+  @override
+  String get mlErrCertDate => 'प्रमाणपत्राची वैध तारीख निवडा';
+
+  @override
+  String get mlErrFixStale => 'स्थान पुन्हा घ्या आणि मग पाठवा';
+
+  @override
+  String get mlErrExists =>
+      'या भूमिकेत तुमची नोंदणी आधीच आहे; माझी बाजार नोंदणी पहा';
+
+  @override
+  String get mlErrCheckFields => 'माहिती तपासा व पुन्हा पाठवा';
+
+  @override
+  String get mlSubmit => 'नोंदणी पाठवा';
+
+  @override
+  String get mlSubmitted => 'नोंदणी पाठवली. BagMitra तपासणी करेल.';
+
+  @override
+  String get mlOffline => 'हे पाहण्यासाठी इंटरनेट सुरू करा';
+
+  @override
+  String get mlServerBusy =>
+      'सर्व्हर व्यस्त आहे; थोड्या वेळाने पुन्हा प्रयत्न करा';
+
+  @override
+  String get mlRetry => 'पुन्हा प्रयत्न करा';
+
+  @override
+  String get mlMyProfilesTitle => 'माझी बाजार नोंदणी';
+
+  @override
+  String get mlMyProfilesEmpty =>
+      'खाली व्यापारी, निर्यातदार, मध्यस्थ किंवा सेवा देणारे म्हणून नोंदणी करा.';
+
+  @override
+  String get mlStatusPending => 'तपासणी बाकी';
+
+  @override
+  String get mlStatusApproved => 'BagMitra ने तपासले';
+
+  @override
+  String get mlStatusRejected => 'परत पाठवले; कारण पहा';
+
+  @override
+  String get mlCheckNote =>
+      'BagMitra च्या तपासणीनंतर तुमची प्रोफाइल शेतकऱ्यांना दिसते. कागदपत्रांचे फोटो तपासणीला मदत करतात.';
+
+  @override
+  String mlDocsCount(String count) {
+    return 'कागदपत्रांचे फोटो: $count';
+  }
+
+  @override
+  String get mlDocCertificate => 'वजनकाटा प्रमाणपत्र';
+
+  @override
+  String mlCertExpired(String date) {
+    return 'प्रमाणपत्राची तारीख संपली ($date)';
+  }
+
+  @override
+  String get mlAddressAdd => 'पत्ता लिहा';
+
+  @override
+  String get mlAddressEdit => 'पत्ता बदला';
+
+  @override
+  String get mlCancel => 'रद्द करा';
+
+  @override
+  String get mlSave => 'जतन करा';
+
+  @override
+  String get mlPeopleTitle => 'व्यापारी व मध्यस्थ';
+
+  @override
+  String get mlPeopleEmpty =>
+      'या भागातील तपासलेले व्यापारी व मध्यस्थ येथे दिसतील.';
+
+  @override
+  String mlAreaTaluka(String taluka) {
+    return 'तालुका $taluka';
+  }
+
+  @override
+  String mlAreaDistrict(String district) {
+    return 'जिल्हा $district';
+  }
+
+  @override
+  String get mlSortRating => 'रेटिंगनुसार';
+
+  @override
+  String get mlSortDeals => 'व्यवहारांनुसार';
+
+  @override
+  String mlDeals(String count) {
+    return '$count पूर्ण व्यवहार';
+  }
+
+  @override
+  String mlStars(String average, String count) {
+    return '$average/५ ($count)';
+  }
+
+  @override
+  String mlDistanceKm(String km) {
+    return '$km कि.मी.';
+  }
+
+  @override
+  String mlBadgeChecked(String date) {
+    return 'BagMitra ने $date रोजी तपासले';
+  }
+
+  @override
+  String mlBadgeRegisteredFrom(String place, String date) {
+    return '$place येथून $date रोजी नोंदणी';
+  }
+
+  @override
+  String mlBadgePlacePhoto(String date) {
+    return 'BagMitra प्रतिनिधीने $date रोजी ठिकाणाचा फोटो घेतला';
+  }
+
+  @override
+  String get mlBadgeNote =>
+      'बॅज BagMitra ने काय व कधी तपासले ते सांगतो. व्यवहाराच्या अटी तुम्ही थेट आपसात ठरवता.';
+
+  @override
+  String get mlCall => 'फोन करा';
+
+  @override
+  String mlCallNumber(String phone) {
+    return '$phone वर फोन करा';
+  }
+
+  @override
+  String get mlRatingsTitle => 'रेटिंग';
+
+  @override
+  String get mlQTraderOnDate => 'ठरलेल्या तोडणी तारखेला आले';
+
+  @override
+  String get mlQTraderWeighing => 'वजन / क्रेट मोजणी बरोबर';
+
+  @override
+  String get mlQTraderPaid => 'ठरल्याप्रमाणे उचल व बाकी पैसे दिले';
+
+  @override
+  String get mlQTraderConditions => 'इतर अटी पाळल्या';
+
+  @override
+  String get mlQBrokerHonest => 'व्यवहार प्रामाणिकपणे सांगितला';
+
+  @override
+  String get mlQBrokerTraderKept => 'आणलेल्या व्यापाऱ्याने व्यवहार पाळला';
+
+  @override
+  String get mlAreaAll => 'सर्व भाग';
+
+  @override
+  String get mlMarkets => 'बाजार / गावे';
+
+  @override
+  String get mlAreas => 'सेवा भाग';
+
+  @override
+  String get mlServicesTitle => 'सेवा देणारे';
+
+  @override
+  String get mlServicesEmpty =>
+      'जवळचे तपासलेले वजनकाटे, वाहतूक, मजूर टोळ्या व क्रेट पुरवठादार येथे दिसतील.';
+
+  @override
+  String get mlServicesNote =>
+      'फोन करून थेट ठरवा; दर व पैसे तुमच्या आपसातील विषय.';
+
+  @override
+  String mlNearPlot(String name) {
+    return '$name जवळ';
   }
 
   @override
@@ -3320,6 +3921,460 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get mlQualityLine => 'थोडक्यात माहिती (ऐच्छिक)';
+
+  @override
+  String get mlSafetyReport => 'तक्रार करा';
+
+  @override
+  String get mlSafetyReportTitle => 'बागमित्रकडे तक्रार';
+
+  @override
+  String get mlSafetyReportWhy => 'कारण निवडा';
+
+  @override
+  String get mlSafetyReportNote =>
+      'बागमित्र फक्त ओळख करून देते. खोटी ओळख, खोटा माल, बागमित्र असल्याचे भासवणे, खोटे रेटिंग किंवा गैरवर्तन यासाठी तक्रार करा; व्यवहारातील पैसे, वजन आणि दर्जा तुम्ही आपसात ठरवा.';
+
+  @override
+  String get mlSafetyPhoto => 'फोटो जोडा (हवा असल्यास)';
+
+  @override
+  String get mlSafetyPhotoAdded => 'फोटो जोडला';
+
+  @override
+  String get mlSafetySend => 'तक्रार पाठवा';
+
+  @override
+  String get mlSafetySent => 'तक्रार मिळाली. बागमित्र तपासेल.';
+
+  @override
+  String get mlSafetyRetry => 'नेट तपासून पुन्हा प्रयत्न करा';
+
+  @override
+  String get mlReasonFakeIdentity => 'खोटी ओळख';
+
+  @override
+  String get mlReasonFakeLot => 'खोटा माल किंवा दुसऱ्या बागेचे फोटो';
+
+  @override
+  String get mlReasonImpersonation => 'बागमित्र असल्याचे भासवते';
+
+  @override
+  String get mlReasonFakeRating => 'खोटे रेटिंग';
+
+  @override
+  String get mlReasonAbuse => 'अपमानास्पद वागणूक';
+
+  @override
+  String get mlReasonDuplicateUser => 'एकाच व्यक्तीची दोन खाती';
+
+  @override
+  String get mlReasonChecksPassed => 'तपासणी पूर्ण';
+
+  @override
+  String get mlReasonAppealUpheld => 'अपील मान्य';
+
+  @override
+  String get mlActionVerify => 'पडताळणी झाली';
+
+  @override
+  String get mlActionWarn => 'इशारा';
+
+  @override
+  String get mlActionHide => 'यादीतून लपवले';
+
+  @override
+  String get mlActionSuspend => 'खाते तात्पुरते थांबवले';
+
+  @override
+  String get mlActionRestore => 'पुन्हा सुरू';
+
+  @override
+  String get mlAppealIdentityGenuine => 'माझी ओळख खरी आहे';
+
+  @override
+  String get mlAppealLotGenuine => 'माझा माल आणि फोटो खरे आहेत';
+
+  @override
+  String get mlAppealRatingGenuine => 'हे रेटिंग खऱ्या व्यवहाराचे आहे';
+
+  @override
+  String get mlAppealBehaviourProper => 'माझे वागणे योग्य होते';
+
+  @override
+  String get mlAppealNotDuplicate => 'हे माझे एकमेव खाते आहे';
+
+  @override
+  String get mlAppealStateAppealed => 'अपील तक्रार अधिकाऱ्याकडे';
+
+  @override
+  String get mlAppealStateUpheld => 'अपील मान्य';
+
+  @override
+  String get mlAppealStateRejected => 'निर्णय कायम';
+
+  @override
+  String get mlActionsTitle => 'माझ्या खात्यावरील कारवाई';
+
+  @override
+  String get mlActionsEmpty => 'तुमचे खाते सुरळीत आहे.';
+
+  @override
+  String mlActionReason(String reason) {
+    return 'कारण: $reason';
+  }
+
+  @override
+  String mlActionDate(String date) {
+    return '$date रोजी';
+  }
+
+  @override
+  String get mlAppeal => 'अपील करा';
+
+  @override
+  String get mlAppealTitle => 'अपील (एकदाच)';
+
+  @override
+  String get mlAppealNote =>
+      'तक्रार अधिकारी २४ तासांत पोच देतील आणि १५ दिवसांत निर्णय देतील.';
+
+  @override
+  String get mlAppealSend => 'अपील पाठवा';
+
+  @override
+  String get mlAppealSent => 'अपील मिळाले';
+
+  @override
+  String get mlGrievanceDefault => 'बागमित्रचे मालक';
+
+  @override
+  String get mlBlock => 'ब्लॉक करा';
+
+  @override
+  String get mlUnblock => 'ब्लॉक काढा';
+
+  @override
+  String get mlBlockTitle => 'या व्यक्तीला ब्लॉक करायचे?';
+
+  @override
+  String get mlBlockNote =>
+      'तुम्ही दोघे एकमेकांच्या यादीतून आणि मागणीतून दूर राहाल. कधीही ब्लॉक काढता येईल.';
+
+  @override
+  String get mlBlocked => 'ब्लॉक केले';
+
+  @override
+  String get mlUnblocked => 'ब्लॉक काढला';
+
+  @override
+  String get mlMoreOptions => 'आणखी पर्याय';
+
+  @override
+  String get adminMlReports => 'तक्रारी';
+
+  @override
+  String get adminMlAppeals => 'अपील';
+
+  @override
+  String get adminMlReportsEmpty => 'सर्व तक्रारी हाताळल्या';
+
+  @override
+  String get adminMlAppealsEmpty => 'सर्व अपील निकाली';
+
+  @override
+  String get adminMlAckOverdue => 'पोच: २४ तास उलटले';
+
+  @override
+  String get adminMlCloseOverdue => 'निर्णय: १५ दिवस उलटले';
+
+  @override
+  String get adminMlAcknowledge => 'पोच द्या';
+
+  @override
+  String get adminMlAct => 'कारवाई करा';
+
+  @override
+  String get adminMlDismiss => 'फेटाळा';
+
+  @override
+  String get adminMlUphold => 'अपील मान्य करा';
+
+  @override
+  String get adminMlKeepDecision => 'निर्णय कायम ठेवा';
+
+  @override
+  String get adminMlActionTitle => 'कारण-संकेतासह कारवाई';
+
+  @override
+  String get adminMlActionNote =>
+      'फक्त प्लॅटफॉर्मचे नियम: खोटी किंवा दुहेरी खाती, खोटा माल, भासवणे, गैरवर्तन. पैसे, वजन, दर्जा यांचे वाद पक्षांमध्येच राहतात.';
+
+  @override
+  String get adminMlStatusOpen => 'खुली';
+
+  @override
+  String get adminMlStatusActioned => 'कारवाई झाली';
+
+  @override
+  String get adminMlStatusDismissed => 'फेटाळली';
+
+  @override
+  String get adminMlTargetLot => 'माल (लॉट)';
+
+  @override
+  String get adminMlTargetRating => 'रेटिंग';
+
+  @override
+  String get adminMlTargetUser => 'वापरकर्ता';
+
+  @override
+  String adminMlReceived(String date) {
+    return '$date रोजी आली';
+  }
+
+  @override
+  String adminMlPhoto(int n) {
+    return 'फोटो $n';
+  }
+
+  @override
+  String adminMlAppealReason(String reason) {
+    return 'अपील: $reason';
+  }
+
+  @override
+  String get mlBrowseTitle => 'विक्रीसाठी माल';
+
+  @override
+  String get mlBrowseEmpty => 'शेतकऱ्यांनी दाखवलेला माल येथे दिसेल.';
+
+  @override
+  String get mlNotVerified =>
+      'BagMitra ने तुमची नोंदणी तपासल्यावर माल येथे दिसेल.';
+
+  @override
+  String get mlMyOffersTitle => 'माझ्या ऑफर';
+
+  @override
+  String get mlMyOffersEmpty => 'मालावर दिलेल्या तुमच्या ऑफर येथे दिसतील.';
+
+  @override
+  String get mlOfferOpen => 'शेतकऱ्याच्या निर्णयाची वाट';
+
+  @override
+  String get mlOfferAccepted => 'स्वीकारली';
+
+  @override
+  String get mlOfferClosed =>
+      'बंद: शेतकऱ्याने दुसरी ऑफर निवडली किंवा माल यादीतून काढला.';
+
+  @override
+  String mlHarvestOn(String date) {
+    return 'तोडणी $date';
+  }
+
+  @override
+  String get mlMakeOffer => 'ऑफर द्या';
+
+  @override
+  String get mlOfferTitle => 'तुमची ऑफर';
+
+  @override
+  String get mlOfferRate => 'दर ₹';
+
+  @override
+  String get mlOfferQuantity => 'माल टनात (ऐच्छिक)';
+
+  @override
+  String get mlOfferHarvestDate => 'प्रस्तावित तोडणी तारीख';
+
+  @override
+  String get mlOfferThroughBroker => 'मध्यस्थ (दलाल) मार्फत';
+
+  @override
+  String get mlOfferForTrader => 'कोणत्या व्यापाऱ्यासाठी';
+
+  @override
+  String get mlOfferDirect => 'थेट';
+
+  @override
+  String get mlOfferOnlyThese =>
+      'शेतकऱ्याला फक्त दर, माल व तारीख जाते; बाकी सर्व समोरासमोर ठरवा.';
+
+  @override
+  String get mlOfferSend => 'ऑफर पाठवा';
+
+  @override
+  String get mlOfferSent =>
+      'ऑफर पाठवली. शेतकऱ्याने निर्णय घेतल्यावर सूचना येईल.';
+
+  @override
+  String get mlErrRate => 'दर रुपयांत लिहा';
+
+  @override
+  String get mlErrQuantity => 'टन लिहा (10,000 पर्यंत)';
+
+  @override
+  String get mlErrPickTrader => 'व्यापारी निवडा';
+
+  @override
+  String get mlErrLotGone => 'हा माल यादीतून काढला आहे.';
+
+  @override
+  String get mlOffersTitle => 'तुमच्या मालावरील ऑफर';
+
+  @override
+  String get mlOffersEmpty =>
+      'तपासलेल्या व्यापाऱ्यांच्या ऑफर येथे शेजारी-शेजारी दिसतील.';
+
+  @override
+  String get mlSeeOffers => 'ऑफर पहा';
+
+  @override
+  String mlYourAsk(String rate) {
+    return 'तुमचा अपेक्षित दर: $rate';
+  }
+
+  @override
+  String get mlAcceptPick => 'निवडण्यासाठी एका ऑफरवर टॅप करा';
+
+  @override
+  String get mlAccept => 'निवडलेली ऑफर स्वीकारा';
+
+  @override
+  String get mlAcceptConfirmTitle => 'ही ऑफर स्वीकारायची?';
+
+  @override
+  String get mlAcceptConfirmBody =>
+      'या व्यापाऱ्याला (व नाव दिलेल्या मध्यस्थाला) तुमचे नाव, फोन व बागेचे ठिकाण दिसेल. इतर ऑफर बंद होतील. पुढील व्यवहार तुम्ही थेट आपसात ठरवा.';
+
+  @override
+  String get mlAcceptYes => 'स्वीकारा';
+
+  @override
+  String get mlAccepted => 'स्वीकारली. आता दोघांना एकमेकांचे संपर्क दिसतात.';
+
+  @override
+  String get mlAcceptChanged => 'ऑफर बदलली आहे; यादी पुन्हा उघडा.';
+
+  @override
+  String get mlIntroOpen => 'संपर्क पहा';
+
+  @override
+  String get mlIntroTitle => 'संपर्क';
+
+  @override
+  String get mlIntroGrower => 'शेतकरी';
+
+  @override
+  String get mlIntroOpenMap => 'बाग नकाशावर उघडा';
+
+  @override
+  String mlIntroAcceptedOn(String date) {
+    return '$date रोजी स्वीकारली';
+  }
+
+  @override
+  String get mlIntroOffApp =>
+      'आता वजन, क्रेट, वाहतूक व पैसे हा व्यवहार तुम्ही आपसात ठरवता.';
+
+  @override
+  String get mlDealDone => 'व्यवहार झाला';
+
+  @override
+  String get mlDealDoneAsk => 'व्यवहार झाला असे नोंदवायचे?';
+
+  @override
+  String get mlDealDoneAskBody =>
+      'तुमच्यातील व्यवहार पूर्ण झाल्यावरच दाबा. शेतकरी व व्यापारी दोघांनी दाबल्यावर रेटिंग उघडते.';
+
+  @override
+  String get mlDealSaidDone => 'व्यवहार झाला म्हणाले';
+
+  @override
+  String get mlDealNotYet => 'वाट पाहत आहे';
+
+  @override
+  String get mlDealWaitOther =>
+      'दुसऱ्या बाजूनेही “व्यवहार झाला” दाबल्यावर रेटिंग उघडेल.';
+
+  @override
+  String get mlDealWaitBoth =>
+      'शेतकरी व व्यापारी दोघांनी “व्यवहार झाला” दाबल्यावर रेटिंग उघडेल.';
+
+  @override
+  String get mlRateOpen => 'रेटिंग द्या';
+
+  @override
+  String mlRateUntil(String date) {
+    return '$date पर्यंत देता किंवा बदलता येईल';
+  }
+
+  @override
+  String mlRateLocked(String date) {
+    return 'रेटिंग $date ला बंद झाले';
+  }
+
+  @override
+  String get mlRateNoText => 'फक्त स्टार द्या व खुणा करा.';
+
+  @override
+  String mlRateStarsOf(int count) {
+    return '५ पैकी $count स्टार';
+  }
+
+  @override
+  String get mlRateSave => 'रेटिंग जतन करा';
+
+  @override
+  String get mlRateAnswerAll => 'प्रत्येक ओळीला स्टार द्या';
+
+  @override
+  String get mlRateSaved => 'रेटिंग जतन झाले';
+
+  @override
+  String get mlRateRefused =>
+      'दोघांनी “व्यवहार झाला” दाबल्यानंतर ७ दिवसांतच रेटिंग जतन होते.';
+
+  @override
+  String get mlQGrowerProduce => 'माल फोटो व वर्णनाप्रमाणे होता';
+
+  @override
+  String get mlQGrowerReady => 'ठरलेल्या तारखेला माल तयार होता';
+
+  @override
+  String get mlCopyToAccounts => 'माझ्या हिशोबात नोंदवा';
+
+  @override
+  String mlBadgeGstChecked(String date) {
+    return 'GST $date रोजी तपासला';
+  }
+
+  @override
+  String mlBadgeGstSince(String date, String year) {
+    return 'GST $date रोजी तपासला · $year पासून नोंदणी';
+  }
+
+  @override
+  String mlBadgeApmcSeen(String date) {
+    return 'APMC परवाना $date रोजी पाहिला';
+  }
+
+  @override
+  String mlBadgeFssaiChecked(String date) {
+    return 'FSSAI $date रोजी तपासले';
+  }
+
+  @override
+  String mlBadgeIecActive(String date) {
+    return 'IEC चालू, $date रोजी तपासले';
+  }
+
+  @override
+  String mlBadgeApedaListed(String date) {
+    return 'APEDA यादीत, $date रोजी तपासले';
+  }
 
   @override
   String mlPackageActiveUntil(String date) {

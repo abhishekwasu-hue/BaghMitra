@@ -39,6 +39,10 @@
 | Units | सें.मी., मि.मी., कि.मी., लिटर, % / टक्के | सेंमी, मिमी, किमी | Dotted abbreviations are the majority form (19 uses); the alerts and the irrigation guide now match. |
 | Trader (buyer of produce) | व्यापारी | खरेदीदार (for a person) | Market linkage (spec v1.5); Accounts already shows व्यापारी for the sale buyer (`saleBuyer`). खरेदीदार stays only in the directory title "बाजार व खरेदीदार". Draft, for native review. |
 | Broker | मध्यस्थ (दलाल) | अडत्या, एजंट | Owner 2026-11-07 (spec v1.5 §2.1): "मध्यस्थ" with "(दलाल)" under it; never "अडत्या" (APMC licensed commission agent). The app never shows a broker's commission (Q64). Draft. |
+| Grievance officer | तक्रार अधिकारी | तक्रार निवारण अधिकारी | IT Rules 2021 (spec v1.5 §4C, L6). Short and plain. Draft. |
+| Report (to admin) / appeal | तक्रार / अपील (एकदाच) | रिपोर्ट, फिर्याद | L6: predefined reasons only; one appeal per action. Draft. |
+| Admin action: warn / hide / suspend / restore | इशारा / यादीतून लपवले / खाते तात्पुरते थांबवले / पुन्हा सुरू | निलंबन, बंदी | Plain words a grower understands; positive wording. Draft. |
+| Block (a user) | ब्लॉक करा / ब्लॉक काढा | अडवा | App word users already know from phones. Draft. |
 | Deal (grower–trader agreement) | व्यवहार | सौदा (mr), डील | Rating tags use व्यवहार; Hindi keeps सौदा. **Owner 2026-11-07 (Q75): व्यवहार is the preferred term for the disclaimer and every user-facing deal / transaction text ("सौदा नंतर नको"); the Hindi disclaimer uses लेन-देन.** Draft. |
 | Transporter | वाहतूकदार | ट्रान्सपोर्टर | Lot disclaimer note (decision k) and later service providers. Draft. |
 | Lot draft | मसुदा | ड्राफ्ट | A lot saved on the phone, not yet shown to traders (L3). Draft. |
@@ -47,8 +51,21 @@
 | Produce on sale | माल | — | Everyday market word (उत्पादन stays for yield) ("माल फोटो व वर्णनाप्रमाणे"). Draft. |
 | Advance payment / balance | उचल / बाकी पैसे | अॅडव्हान्स | उचल is the village word for money paid before harvest; to confirm by the native reviewer. Draft. |
 | Weighing / crate count | वजन / क्रेट मोजणी; weighbridge: वजनकाटा | — | Rating tags and later the weigh slip (L5). Draft. |
+| Exporter | निर्यातदार | — | Role card (spec v1.5 §2.1, L1). Draft. |
+| Service provider | सेवा देणारे (वजनकाटा, वाहतूक, मजूर, क्रेट) | — | Role card with its four kinds on a sub-line (owner's words). Draft. |
+| Role / switch role | भूमिका / भूमिका बदला | रोल | L1 role cards and the app bar switch. Draft. |
+| Grievance officer | तक्रार अधिकारी | — | IT Rules 2021 (spec v1.5 §4C); default the owner ("BagMitra चे मालक"). Draft. |
+| Transaction (in the disclaimer) | व्यवहार | सौदा (all languages) | Owner L1 order: "use व्यवहार, never सौदा"; new Hindi strings use लेन-देन. Draft. |
 | Service provider kinds | वजनकाटा, वाहतूकदार, मजूर टोळी, क्रेट पुरवठादार (सेवा देणारे) | — | Market linkage admin (L0b) and the provider directory (L1). Hindi: धर्मकांटा, ट्रांसपोर्टर, मज़दूर टोली, क्रेट आपूर्तिकर्ता. Draft. |
 | Rating tag; draft / active / retired | रेटिंग टॅग; मसुदा / चालू / बंद | — | Admin web only (L0b). Draft. |
+| Interest (a trader's offer on a lot) | ऑफर (hi ऑफ़र) | बोली, मागणी | L4 (spec v1.5 §3 step 3); L3 already said "ऑफर स्वीकारल्यानंतर". Accept = स्वीकारा; contacts after acceptance = संपर्क. Draft, for native review. |
+| Proposed harvest date | प्रस्तावित तोडणी तारीख | — | L4 offer form; तोडणी as in the harvest-window row. Draft. |
+| Deal done (both sides say the deal is settled) | व्यवहार झाला (hi लेन-देन हो गया) | सौदा झाला, डील पूर्ण | L5 button and status (spec v1.5 §3 step 7, Q67); never सौदा (Q75). Draft. |
+| Rating stars; ticks | स्टार; खुणा (hi स्टार; निशान) | तारे, गुण | L5 rating screen ("फक्त स्टार द्या व खुणा करा"); रेटिंग as already used in profiles. Draft. |
+| Note in my accounts (copy a sale) | माझ्या हिशोबात नोंदवा (hi मेरे हिसाब में दर्ज करें) | खात्यात टाका | L5 copy to own Accounts; हिशोब as the Accounts tab. Draft. |
+| Exporter | निर्यातदार | एक्स्पोर्टर | Market linkage role card (spec v1.5 §2.1). Draft, for native review. |
+| Service providers (role card) | सेवा देणारे | सर्व्हिस प्रोव्हायडर | L2 registration and directory; kinds as in the row "Service provider kinds". Draft. |
+| Registration / check by BagMitra | नोंदणी / तपासणी ("BagMitra ने <तारीख> रोजी तपासले") | हमी, खात्रीशीर, व्हेरिफाइड | Badges say what was checked and when, never a guarantee (spec v1.5 §4). Draft. |
 
 Written register: config texts use the written forms (कामे, झाडे, झाले). The arb uses spoken forms in about 16
 strings (कामं, झाडं, झालं).
