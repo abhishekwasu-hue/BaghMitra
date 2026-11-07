@@ -5007,6 +5007,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The location will be saved. For the place name, turn on the internet and tap \'Take location again\'.'**
   String get plotAddressMissing;
+
+  /// Helper under the name field: asks for the name in the app language script. Empty in English (no helper shown).
+  ///
+  /// In en, this message translates to:
+  /// **''**
+  String get onboardingNameHint;
+
+  /// Home card when a Marathi/Hindi user saved a name in Latin letters: write it in the language script.
+  ///
+  /// In en, this message translates to:
+  /// **'Write your name in your language'**
+  String get nameScriptPromptTitle;
+
+  /// Name field label in the home name card, with an example in the script.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get nameScriptFieldLabel;
+
+  /// Hides the home name card for this language.
+  ///
+  /// In en, this message translates to:
+  /// **'Later'**
+  String get nameScriptLater;
 }
 
 class _AppLocalizationsDelegate

@@ -1183,5 +1183,13 @@
   "plotAddressLooking": "Finding the place name…",
   "@plotAddressLooking": {"description": "Add-block form: while the place name is being looked up."},
   "plotAddressMissing": "The location will be saved. For the place name, turn on the internet and tap 'Take location again'.",
-  "@plotAddressMissing": {"description": "Add-block form: no place name (offline / no result); saving is not blocked."}
+  "@plotAddressMissing": {"description": "Add-block form: no place name (offline / no result); saving is not blocked."},
+  "onboardingNameHint": "",
+  "@onboardingNameHint": {"description": "Helper under the name field: asks for the name in the app language script. Empty in English (no helper shown)."},
+  "nameScriptPromptTitle": "Write your name in your language",
+  "@nameScriptPromptTitle": {"description": "Home card when a Marathi/Hindi user saved a name in Latin letters: write it in the language script."},
+  "nameScriptFieldLabel": "Name",
+  "@nameScriptFieldLabel": {"description": "Name field label in the home name card, with an example in the script."},
+  "nameScriptLater": "Later",
+  "@nameScriptLater": {"description": "Hides the home name card for this language."}
 }

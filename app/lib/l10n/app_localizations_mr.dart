@@ -2884,4 +2884,16 @@ class AppLocalizationsMr extends AppLocalizations {
   @override
   String get plotAddressMissing =>
       'ठिकाण जतन होईल. गावाचे नाव पाहण्यासाठी नेट सुरू ठेवून \'ठिकाण पुन्हा घ्या\' दाबा.';
+
+  @override
+  String get onboardingNameHint => 'तुमचे नाव मराठीत लिहा (उदा. अभिषेक)';
+
+  @override
+  String get nameScriptPromptTitle => 'तुमचे नाव मराठीत लिहा';
+
+  @override
+  String get nameScriptFieldLabel => 'नाव (उदा. अभिषेक)';
+
+  @override
+  String get nameScriptLater => 'नको';
 }

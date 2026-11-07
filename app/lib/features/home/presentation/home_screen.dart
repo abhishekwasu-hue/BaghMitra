@@ -16,6 +16,7 @@ import '../../../l10n/app_localizations.dart';
 import '../../../sync/presentation/sync_status_banner.dart';
 import '../../../theme/app_theme.dart';
 import '../../plots/domain/plot.dart';
+import '../../profile/presentation/name_script_prompt.dart';
 import '../../tasks/domain/farm_task.dart';
 import '../../tasks/presentation/tasks_screen.dart' show todaysTasksShareText;
 import '../../voice/presentation/share_speak_buttons.dart';
@@ -279,6 +280,9 @@ class _HomeBody extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  // A name saved in Latin letters, in Marathi / Hindi: write it once in
+                  // the script (owner request; no machine transliteration).
+                  if (!snapshot.isDemo) const NameScriptPrompt(),
                   _stageBlock(context, t),
                   const SizedBox(height: BmSpace.sm),
                   if (banner != null) ...[

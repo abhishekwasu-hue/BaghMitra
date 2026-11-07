@@ -2886,4 +2886,16 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get plotAddressMissing =>
       'जगह सहेजी जाएगी। गाँव का नाम देखने के लिए इंटरनेट चालू रखकर \'जगह फिर से लें\' दबाएँ।';
+
+  @override
+  String get onboardingNameHint => 'अपना नाम हिंदी में लिखें (उदा. अभिषेक)';
+
+  @override
+  String get nameScriptPromptTitle => 'अपना नाम हिंदी में लिखें';
+
+  @override
+  String get nameScriptFieldLabel => 'नाम (उदा. अभिषेक)';
+
+  @override
+  String get nameScriptLater => 'बाद में';
 }

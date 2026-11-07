@@ -2889,4 +2889,16 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get plotAddressMissing =>
       'The location will be saved. For the place name, turn on the internet and tap \'Take location again\'.';
+
+  @override
+  String get onboardingNameHint => '';
+
+  @override
+  String get nameScriptPromptTitle => 'Write your name in your language';
+
+  @override
+  String get nameScriptFieldLabel => 'Name';
+
+  @override
+  String get nameScriptLater => 'Later';
 }
