@@ -13,6 +13,9 @@ research §6.
   exist locally but are not organised — truck owners, weighbridges, and the like. BagMitra
   organises them in one place.
 - Goal: more growers register because the app brings them buyers and services.
+- **Business model (owner 2026-11-07)**: monthly subscription fee per user for using the app — never a
+  commission or share of any deal. Tiers designed later: low for growers, low for brokers, higher for
+  exporters (Q62). Build no fee until then; it will use the billing addendum's entitlement layer.
 - This replaces OPEN_QUESTIONS Q47 "no in-app trading or offers" for this module only.
 - **Core principle (owner, 2026-11-07, restated firmly): BagMitra only introduces grower, trader and
   broker to each other. It never enters their transaction or their disputes — weighing, transport,
