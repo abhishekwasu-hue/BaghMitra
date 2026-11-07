@@ -18,6 +18,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from bagmitra_api.auth.jwt import AuthenticatedUser
+from bagmitra_api.core.settings import get_settings
 from bagmitra_api.db.base import OwnedSyncedRowMixin
 from bagmitra_api.db.models import (
     BaharCycle,
@@ -35,6 +36,8 @@ from bagmitra_api.db.models import (
     ScoutingRecord,
     SprayRecord,
 )
+from bagmitra_api.market_link.models import MarketLot, MarketLotPhoto
+from bagmitra_api.market_link.terms import accepted_roles, current_versions
 from bagmitra_api.sync.payloads import (
     BaharCyclePayload,
     ExpensePayload,
@@ -47,6 +50,8 @@ from bagmitra_api.sync.payloads import (
     IrrigationRecordPayload,
     LabourRecordPayload,
     LabTestPayload,
+    MarketLotPayload,
+    MarketLotPhotoPayload,
     PlotPayload,
     RowPayload,
     ScoutingRecordPayload,
@@ -299,6 +304,132 @@ def check_photo_key(user: AuthenticatedUser, entity_id: str, payload: BaseModel)
         raise RejectedError("invalid_photo_key")
 
 
+# Columns the server sets on a lot; pulled with the lot, never taken from a phone write.
+LOT_SERVER_FIELDS = ("crop", "variety", "status", "published_at", "orchard_check")
+
+
+async def _grower_may_write(session: AsyncSession, user: AuthenticatedUser) -> None:
+    """Lot writes wait for the accepted terms, privacy notice and disclaimer of the grower
+    role with 18+ (spec v1.5 §4C, L1a `require_role_accepted`)."""
+    if "grower" not in await accepted_roles(session, user.id, current_versions(get_settings())):
+        raise RejectedError("terms_not_accepted")
+
+
+async def _draft_lot(
+    session: AsyncSession, user: AuthenticatedUser, lot_id: uuid.UUID
+) -> MarketLot:
+    """The caller's own live lot, still a draft: a published or closed lot (and its photos)
+    changes only through the publish / close calls (spec v1.5 §3 step 1)."""
+    lot = await session.get(MarketLot, lot_id)
+    if lot is None or lot.owner_id != user.id or lot.deleted_at is not None:
+        raise RejectedError("invalid_reference")
+    if lot.status != "draft":
+        raise RejectedError("lot_not_draft")
+    return lot
+
+
+@dataclass(frozen=True)
+class MarketLotHandler(OwnedEntityHandler):
+    """A lot drafted offline. Crop and variety are copied from the plot; a new lot starts as
+    a draft; once published only the server changes it."""
+
+    name: str = "market_lot"
+    model: type[OwnedSyncedRowMixin] = MarketLot
+    payload_model: type[RowPayload] = MarketLotPayload
+    parents: tuple[tuple[str, type[OwnedSyncedRowMixin]], ...] = (
+        ("plot_id", Plot),
+        ("bahar_cycle_id", BaharCycle),
+    )
+
+    async def current_version(
+        self, session: AsyncSession, user: AuthenticatedUser, entity_id: str
+    ) -> datetime | None:
+        row = await self._row(session, user, entity_id)
+        if isinstance(row, MarketLot) and row.deleted_at is None and row.status != "draft":
+            raise RejectedError("lot_not_draft")
+        return row.client_updated_at if row else None
+
+    async def check_references(
+        self, session: AsyncSession, user: AuthenticatedUser, payload: BaseModel
+    ) -> None:
+        await _grower_may_write(session, user)
+        await super().check_references(session, user, payload)
+        if not isinstance(payload, MarketLotPayload):
+            raise TypeError("market_lot: needs a MarketLotPayload")
+        if payload.bahar_cycle_id is not None:
+            cycle = await session.get(BaharCycle, payload.bahar_cycle_id)
+            if cycle is None or cycle.plot_id != payload.plot_id:
+                raise RejectedError("invalid_reference")
+
+    async def apply(
+        self, session: AsyncSession, user: AuthenticatedUser, write: ValidatedWrite
+    ) -> None:
+        if write.op == "delete":
+            await super().apply(session, user, write)
+            return
+        if not isinstance(write.payload, MarketLotPayload):
+            raise TypeError("market_lot: upsert needs a MarketLotPayload")
+        plot = await session.get(Plot, write.payload.plot_id)
+        if plot is None:  # checked in check_references
+            raise TypeError("market_lot: plot vanished")
+        existing = await self._row(session, user, write.entity_id)
+        await super().apply(session, user, write)
+        # A new row is still pending (not flushed): its NOT NULL server fields are set here.
+        lot = existing or next(
+            o for o in session.new if isinstance(o, MarketLot) and str(o.id) == write.entity_id
+        )
+        if not isinstance(lot, MarketLot):
+            raise TypeError("market_lot: row is not a lot")
+        lot.crop, lot.variety = plot.crop, plot.variety
+        if not lot.status:
+            lot.status = "draft"
+
+    async def changed_since(
+        self, session: AsyncSession, user: AuthenticatedUser, since: int, limit: int
+    ) -> list[RowChange]:
+        changes = await super().changed_since(session, user, since, limit)
+        if not changes:
+            return changes
+        ids = [uuid.UUID(c.entity_id) for c in changes if c.op == "upsert"]
+        found = await session.scalars(select(MarketLot).where(MarketLot.id.in_(ids)))
+        rows = {r.id: r for r in found}
+        for c in changes:
+            if c.op == "upsert":
+                row = rows[uuid.UUID(c.entity_id)]
+                c.data.update({f: getattr(row, f) for f in LOT_SERVER_FIELDS})
+        return changes
+
+
+@dataclass(frozen=True)
+class MarketLotPhotoHandler(OwnedEntityHandler):
+    """A lot photo, written only while its lot is a draft. The 3 to 8 count is checked at
+    publish (a phone may hold a ninth for a moment while the grower swaps one)."""
+
+    name: str = "market_lot_photo"
+    model: type[OwnedSyncedRowMixin] = MarketLotPhoto
+    payload_model: type[RowPayload] = MarketLotPhotoPayload
+    payload_check: Callable[[AuthenticatedUser, str, BaseModel], None] | None = None
+
+    def check_payload(self, user: AuthenticatedUser, entity_id: str, payload: BaseModel) -> None:
+        check_photo_key(user, entity_id, payload)
+
+    async def current_version(
+        self, session: AsyncSession, user: AuthenticatedUser, entity_id: str
+    ) -> datetime | None:
+        row = await self._row(session, user, entity_id)
+        if isinstance(row, MarketLotPhoto):
+            await _draft_lot(session, user, row.lot_id)
+        return row.client_updated_at if row else None
+
+    async def check_references(
+        self, session: AsyncSession, user: AuthenticatedUser, payload: BaseModel
+    ) -> None:
+        if not isinstance(payload, MarketLotPhotoPayload):
+            raise TypeError("market_lot_photo: needs a MarketLotPhotoPayload")
+        await _grower_may_write(session, user)
+        await _draft_lot(session, user, payload.lot_id)
+
+
 HANDLERS: dict[str, EntityHandler] = {
     h.name: h
     for h in (
@@ -377,5 +508,7 @@ HANDLERS: dict[str, EntityHandler] = {
             payload_model=LabTestPayload,
             parents=(("plot_id", Plot),),
         ),
+        MarketLotHandler(),
+        MarketLotPhotoHandler(),
     )
 }

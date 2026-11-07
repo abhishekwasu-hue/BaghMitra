@@ -27,6 +27,7 @@ from bagmitra_api.account.models import AccountDeletion
 from bagmitra_api.billing.models import EntitlementSnapshot
 from bagmitra_api.db.base import Base
 from bagmitra_api.db.models import ScoutingRecord
+from bagmitra_api.market_link.models import MarketLotPhoto
 from bagmitra_api.photos.storage import PhotoStorage
 
 log = structlog.get_logger("bagmitra.account")
@@ -54,9 +55,17 @@ def owner_tables() -> list[tuple[Table, str]]:
 
 
 async def _photo_keys(session: AsyncSession, user_id: uuid.UUID) -> list[str]:
-    stored = await session.scalars(
-        select(ScoutingRecord.photo_key).where(
-            ScoutingRecord.owner_id == user_id, ScoutingRecord.photo_key.is_not(None)
+    stored = list(
+        await session.scalars(
+            select(ScoutingRecord.photo_key).where(
+                ScoutingRecord.owner_id == user_id, ScoutingRecord.photo_key.is_not(None)
+            )
+        )
+    )
+    # Lot photos share the bucket and the `<owner_id>/` folder (market linkage L3).
+    stored += await session.scalars(
+        select(MarketLotPhoto.photo_key).where(
+            MarketLotPhoto.owner_id == user_id, MarketLotPhoto.photo_key.is_not(None)
         )
     )
     return sorted({k for k in stored if k})

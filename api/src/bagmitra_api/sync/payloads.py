@@ -4,9 +4,11 @@ from __future__ import annotations
 
 import uuid
 from datetime import date
-from typing import Annotated, Any, Literal
+from typing import Annotated, Any, Literal, Self
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import AwareDatetime, BaseModel, ConfigDict, Field, field_validator, model_validator
+
+from bagmitra_api.market_link.guards import MarketLinkIn, has_contact_details
 
 
 class RowPayload(BaseModel):
@@ -254,3 +256,45 @@ class LabTestPayload(RowPayload):
     reported_on: date | None = None
     readings: list[LabReading] = Field(default_factory=list, max_length=40)
     note: str | None = Field(default=None, max_length=500)
+
+
+class MarketLotPayload(RowPayload, MarketLinkIn):
+    """A grower's lot as drafted on the phone (spec v1.5 §3 step 1). Unknown keys and any
+    commission / income key are refused (MarketLinkIn, decision c). Crop and variety are
+    copied from the plot by the server; status, publish time and place names are the
+    server's (publish is an online call, never a synced write)."""
+
+    plot_id: uuid.UUID
+    bahar_cycle_id: uuid.UUID | None = None
+    # Sanity bounds on input only, not agronomy values.
+    quantity_t: float = Field(gt=0, le=100_000)
+    quality: str | None = Field(default=None, max_length=500)
+    harvest_from: date
+    harvest_to: date
+    basis: Literal["per_tonne", "per_crate", "lump_sum"]
+    asking_rate_paise: Paise | None = Field(default=None, ge=1)
+
+    @field_validator("quality")
+    @classmethod
+    def _no_contact_details(cls, value: str | None) -> str | None:
+        # A buyer reads this before acceptance: no phone number or link (spec v1.5 §4B).
+        if value is not None and has_contact_details(value):
+            raise ValueError("no phone number or link in lot text")
+        return value
+
+    @model_validator(mode="after")
+    def _window_in_order(self) -> Self:
+        if self.harvest_to < self.harvest_from:
+            raise ValueError("harvest_to is before harvest_from")
+        return self
+
+
+class MarketLotPhotoPayload(RowPayload, MarketLinkIn):
+    """One in-app camera photo of a lot: when and where it was taken (no accuracy, Q53).
+    `photo_key` is the uploaded object `<owner_id>/<photo_id>.jpg` (checked by the handler)."""
+
+    lot_id: uuid.UUID
+    captured_at: AwareDatetime
+    lat: float = Field(ge=-90, le=90)
+    lon: float = Field(ge=-180, le=180)
+    photo_key: str | None = Field(default=None, pattern=PHOTO_KEY_PATTERN)
