@@ -7,13 +7,15 @@ import '../theme/app_theme.dart';
 import 'kb_admin_repository.dart' show KbAdminException;
 import 'package_admin_repository.dart';
 import 'package_pages.dart';
+import 'package_print.dart';
 import 'package_strings.dart';
 
 /// Admin activation (§4E): find the grower by phone, choose a lot or all lots, enter the
 /// payment received outside the app, save. Lists the grower's recorded payments.
 class PackageActivationPage extends StatefulWidget {
-  const PackageActivationPage({required this.repo, super.key});
+  const PackageActivationPage({required this.repo, this.saveFile, super.key});
   final PackageAdminRepository repo;
+  final SaveFile? saveFile;
 
   @override
   State<PackageActivationPage> createState() => _PackageActivationPageState();
@@ -43,7 +45,10 @@ class _PackageActivationPageState extends State<PackageActivationPage> {
     try {
       await call();
     } on PackageAdminException catch (e) {
-      final code = e.code == 'duplicate_payment_ref' ? e.code! : e.message;
+      final code = switch (e.code) {
+        'duplicate_payment_ref' || 'company_profile_empty' => e.code!,
+        _ => e.message,
+      };
       if (mounted) packageSay(context, packageErrorText(s, code));
     } on KbAdminException catch (e) {
       if (mounted) packageSay(context, e.message);
@@ -96,6 +101,18 @@ class _PackageActivationPageState extends State<PackageActivationPage> {
     _ref.clear();
     await _loadGrants();
   });
+
+  /// The receipt PDF from the company profile (the server refuses while it is empty).
+  Future<void> _receipt(PackageGrantOut g) async {
+    final s = PackageStrings.of(context);
+    final view = View.of(context);
+    await _guard(() async {
+      final r = await widget.repo.receipt(g.id);
+      final pdf = await printPage(ReceiptSheet(r, s), view);
+      final name = r.receiptNo.replaceAll(RegExp('[^A-Za-z0-9-]'), '-');
+      await (widget.saveFile ?? savePdf)('receipt-$name.pdf', pdf);
+    });
+  }
 
   Future<void> _revoke(PackageGrantOut g) async {
     final reason = await showDialog<String>(
@@ -241,7 +258,12 @@ class _PackageActivationPageState extends State<PackageActivationPage> {
         if (_grants.isNotEmpty) ...[
           const SizedBox(height: BmSpace.md),
           SectionHeader(title: s['grants']),
-          for (final x in _grants) _GrantTile(x, onRevoke: () => _revoke(x)),
+          for (final x in _grants)
+            _GrantTile(
+              x,
+              onRevoke: () => _revoke(x),
+              onReceipt: () => _receipt(x),
+            ),
         ],
       ],
     );
@@ -249,9 +271,14 @@ class _PackageActivationPageState extends State<PackageActivationPage> {
 }
 
 class _GrantTile extends StatelessWidget {
-  const _GrantTile(this.grant, {required this.onRevoke});
+  const _GrantTile(
+    this.grant, {
+    required this.onRevoke,
+    required this.onReceipt,
+  });
   final PackageGrantOut grant;
   final VoidCallback onRevoke;
+  final VoidCallback onReceipt;
 
   @override
   Widget build(BuildContext context) {
@@ -280,6 +307,11 @@ class _GrantTile extends StatelessWidget {
         crossAxisAlignment: WrapCrossAlignment.center,
         children: [
           Text(label, style: BmType.meta.copyWith(color: colour)),
+          TextButton(
+            key: ValueKey('receipt-${g.id}'),
+            onPressed: onReceipt,
+            child: Text(s['receipt_pdf']),
+          ),
           if (active) TextButton(onPressed: onRevoke, child: Text(s['revoke'])),
         ],
       ),
