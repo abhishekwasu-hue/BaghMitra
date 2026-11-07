@@ -9,25 +9,29 @@ from __future__ import annotations
 
 import uuid
 from collections.abc import Callable
+from dataclasses import dataclass
 from datetime import datetime
 from typing import Annotated, Any, Literal, cast
 
 from fastapi import APIRouter, Depends, Query
 from pydantic import BaseModel, Field, model_validator
-from sqlalchemy import func, select
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from bagmitra_api.auth.jwt import AuthenticatedUser, require_role
 from bagmitra_api.core.errors import ApiError, ErrorResponse
 from bagmitra_api.db.session import DbSession
-from bagmitra_api.market_link.guards import MarketLinkIn
+from bagmitra_api.market_link.guards import MarketLinkIn, latest_verifications
 from bagmitra_api.market_link.models import (
     BrokerProfile,
     BuyerProfile,
     PartyVerification,
     RatingTag,
+    RegistrationFix,
+    RepresentativeUpload,
     ServiceProvider,
 )
+from bagmitra_api.market_link.registration import AdminFixOut, admin_fix, fix_flags, latest_fixes
 from bagmitra_api.routers.market_link import require_market_link
 from bagmitra_api.routers.scouting_photos import (
     PhotoContext,
@@ -60,7 +64,7 @@ MODELS: dict[str, type[Subject]] = {
 FIELDS: dict[str, tuple[str, ...]] = {
     "buyer": (
         *("kind", "name", "firm", "phone", "markets", "district", "taluka", "crops"),
-        *("apmc_licence_no", "gst_no", "iec_no", "address"),
+        *("apmc_licence_no", "gst_no", "iec_no", "fssai_no", "apeda_no", "address"),
     ),
     "broker": (
         *("name", "phone", "village", "district", "taluka", "service_areas", "crops"),
@@ -94,6 +98,10 @@ class SubjectOut(BaseModel):
     # When the subject entered the queue: its pending record, else its registration.
     waiting_since: datetime
     status: str
+    # The registration GPS fix with exact coordinates (admin only, addendum 3) and why the
+    # admin must look at it before any badge: mock location, another district, no place (L2).
+    registration_fix: AdminFixOut | None = None
+    flags: list[str] = []
 
 
 class QueueResponse(BaseModel):
@@ -150,51 +158,63 @@ def _text(value: Any) -> str | None:
     return str(value)
 
 
-def _documents(subject: Subject, latest: PartyVerification | None) -> list[str]:
+@dataclass(frozen=True)
+class _Extras:
+    """Per subject: the registration GPS fix and representative place-photo keys (L2)."""
+
+    fixes: dict[uuid.UUID, RegistrationFix]
+    place_keys: dict[uuid.UUID, list[str]]
+
+
+async def _extras(session: AsyncSession, kind: str, ids: list[uuid.UUID]) -> _Extras:
+    place_keys: dict[uuid.UUID, list[str]] = {}
+    if ids:
+        uploads = await session.scalars(
+            select(RepresentativeUpload)
+            .where(
+                RepresentativeUpload.subject_type == kind,
+                RepresentativeUpload.subject_id.in_(ids),
+                RepresentativeUpload.photo_key.is_not(None),
+            )
+            .order_by(RepresentativeUpload.created_at)
+        )
+        for upload in uploads:
+            if upload.photo_key is not None:
+                place_keys.setdefault(upload.subject_id, []).append(upload.photo_key)
+    return _Extras(await latest_fixes(session, kind, ids), place_keys)
+
+
+def _documents(subject: Subject, latest: PartyVerification | None, extras: _Extras) -> list[str]:
     keys = list(latest.document_keys) if latest is not None else []
-    if isinstance(subject, ServiceProvider) and subject.cert_photo_key:
-        keys.append(subject.cert_photo_key)
-    return keys
+    cert = subject.cert_photo_key if isinstance(subject, ServiceProvider) else None
+    if cert and cert not in keys:
+        keys.append(cert)
+    return keys + extras.place_keys.get(subject.id, [])
 
 
-def _subject_out(kind: str, subject: Subject, latest: PartyVerification | None) -> SubjectOut:
+def _subject_out(
+    kind: str, subject: Subject, latest: PartyVerification | None, extras: _Extras
+) -> SubjectOut:
     fields = {f: t for f in FIELDS[kind] if (t := _text(getattr(subject, f))) is not None}
     pending = latest is None or latest.status == "pending"
+    fix = extras.fixes.get(subject.id)
     return SubjectOut(
         subject_type=kind,
         subject_id=subject.id,
         name=subject.name,
         fields=fields,
-        document_keys=_documents(subject, latest),
+        document_keys=_documents(subject, latest, extras),
         waiting_since=latest.created_at if latest is not None and pending else subject.created_at,
         status=latest.status if latest is not None else "pending",
+        registration_fix=admin_fix(fix),
+        flags=fix_flags(fix, subject.district),
     )
 
 
 async def _latest(
     session: AsyncSession, kind: str, ids: list[uuid.UUID]
 ) -> dict[uuid.UUID, PartyVerification]:
-    if not ids:
-        return {}
-    rank = (
-        func.row_number()
-        .over(
-            partition_by=PartyVerification.subject_id,
-            order_by=PartyVerification.created_at.desc(),
-        )
-        .label("rank")
-    )
-    ranked = (
-        select(PartyVerification.id, rank)
-        .where(PartyVerification.subject_type == kind, PartyVerification.subject_id.in_(ids))
-        .subquery()
-    )
-    rows = await session.scalars(
-        select(PartyVerification)
-        .join(ranked, ranked.c.id == PartyVerification.id)
-        .where(ranked.c.rank == 1)
-    )
-    return {row.subject_id: row for row in rows}
+    return await latest_verifications(session, kind, ids)
 
 
 async def _subject(session: AsyncSession, kind: str, subject_id: uuid.UUID) -> Subject:
@@ -216,7 +236,12 @@ async def _detail(session: AsyncSession, kind: str, subject: Subject) -> Subject
         )
     )
     return SubjectDetailOut(
-        subject=_subject_out(kind, subject, history[0] if history else None),
+        subject=_subject_out(
+            kind,
+            subject,
+            history[0] if history else None,
+            await _extras(session, kind, [subject.id]),
+        ),
         history=[VerificationOut.model_validate(v, from_attributes=True) for v in history],
     )
 
@@ -233,10 +258,11 @@ async def queue(
     for kind in kinds:
         subjects = cast(list[Subject], list(await session.scalars(select(MODELS[kind]))))
         latest = await _latest(session, kind, [s.id for s in subjects])
+        extras = await _extras(session, kind, [s.id for s in subjects])
         for subject in subjects:
             row = latest.get(subject.id)
             if row is None or row.status == "pending":
-                waiting.append(_subject_out(kind, subject, row))
+                waiting.append(_subject_out(kind, subject, row, extras))
     waiting.sort(key=lambda s: s.waiting_since)
     return QueueResponse(subjects=waiting)
 
@@ -299,7 +325,7 @@ async def document_url(
     """A short-lived signed URL for one stored document; only keys on record are signed."""
     subject = await _subject(session, subject_type, subject_id)
     latest = (await _latest(session, subject_type, [subject.id])).get(subject.id)
-    keys = _documents(subject, latest)
+    keys = _documents(subject, latest, await _extras(session, subject_type, [subject.id]))
     if not 0 <= index < len(keys):
         raise ApiError(404, "photo_not_found")
     return await signed_download(ctx, keys[index])
