@@ -12,6 +12,7 @@ Last updated: 2026-10-26. Owner: Abhi. Purpose: one compact place for every rese
 | `bagmitra_home_mockup.html/.png` | Reference home screen | UI work |
 | `ATP_journal_module_spec_FULL.md` | ATP F&O Journal module spec (v1 + v1.1 merged; addendum wins) | ATP journal work |
 | `docs/research/MARKET_LINKAGE_RESEARCH.md` | Market linkage research 2026-11-07: APMC s.6(2A)/5D after Mah. 52 of 2025, MSAMB DML/PML terms, RBI PA 2025, santra market facts, Vegrow/e-NAM, models A/B/C (Q61) | Any selling / buyer / transport work |
+| `docs/research/ASSISTANT_CHATBOT_RESEARCH.md` | In-app assistant research 2026-11-07: existing KB / gate / AI adapter, free AI options (Gemini free tier trains on data; Cloudflare 10k neurons/day), proposal Level 1 no-AI search, Level 2 AI wording behind admin switch | Any chatbot / assistant / voice work |
 | `docs/SPEC_market_linkage_addendum_v1.5.md` | Market linkage spec (owner decision 2026-11-07: link-only, no capital, third-party services): flow, verification, legal gate, data model, L0–L6 | Building the market linkage module |
 
 ## 1. BagMitra — product and stack [D]
