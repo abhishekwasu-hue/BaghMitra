@@ -7192,6 +7192,366 @@ abstract class AppLocalizations {
   /// **'Appeal: {reason}'**
   String adminMlAppealReason(String reason);
 
+  /// No description provided for @mlBrowseTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Produce on sale'**
+  String get mlBrowseTitle;
+
+  /// No description provided for @mlBrowseEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Produce shown by growers appears here.'**
+  String get mlBrowseEmpty;
+
+  /// No description provided for @mlNotVerified.
+  ///
+  /// In en, this message translates to:
+  /// **'Produce shows here once BagMitra has checked your registration.'**
+  String get mlNotVerified;
+
+  /// No description provided for @mlMyOffersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'My offers'**
+  String get mlMyOffersTitle;
+
+  /// No description provided for @mlMyOffersEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Offers you make on produce appear here.'**
+  String get mlMyOffersEmpty;
+
+  /// No description provided for @mlOfferOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for the grower'**
+  String get mlOfferOpen;
+
+  /// No description provided for @mlOfferAccepted.
+  ///
+  /// In en, this message translates to:
+  /// **'Accepted'**
+  String get mlOfferAccepted;
+
+  /// No description provided for @mlOfferClosed.
+  ///
+  /// In en, this message translates to:
+  /// **'Closed: the grower chose another offer or took the produce off the list.'**
+  String get mlOfferClosed;
+
+  /// No description provided for @mlHarvestOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Harvest {date}'**
+  String mlHarvestOn(String date);
+
+  /// No description provided for @mlMakeOffer.
+  ///
+  /// In en, this message translates to:
+  /// **'Make an offer'**
+  String get mlMakeOffer;
+
+  /// No description provided for @mlOfferTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your offer'**
+  String get mlOfferTitle;
+
+  /// No description provided for @mlOfferRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate ₹'**
+  String get mlOfferRate;
+
+  /// No description provided for @mlOfferQuantity.
+  ///
+  /// In en, this message translates to:
+  /// **'Quantity in tonnes (optional)'**
+  String get mlOfferQuantity;
+
+  /// No description provided for @mlOfferHarvestDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Proposed harvest date'**
+  String get mlOfferHarvestDate;
+
+  /// No description provided for @mlOfferThroughBroker.
+  ///
+  /// In en, this message translates to:
+  /// **'Through a middleman (broker)'**
+  String get mlOfferThroughBroker;
+
+  /// No description provided for @mlOfferForTrader.
+  ///
+  /// In en, this message translates to:
+  /// **'For which trader'**
+  String get mlOfferForTrader;
+
+  /// No description provided for @mlOfferDirect.
+  ///
+  /// In en, this message translates to:
+  /// **'Directly'**
+  String get mlOfferDirect;
+
+  /// No description provided for @mlOfferOnlyThese.
+  ///
+  /// In en, this message translates to:
+  /// **'Only the rate, quantity and date go to the grower; settle everything else face to face.'**
+  String get mlOfferOnlyThese;
+
+  /// No description provided for @mlOfferSend.
+  ///
+  /// In en, this message translates to:
+  /// **'Send offer'**
+  String get mlOfferSend;
+
+  /// No description provided for @mlOfferSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Offer sent. A notice comes when the grower decides.'**
+  String get mlOfferSent;
+
+  /// No description provided for @mlErrRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Write the rate in rupees'**
+  String get mlErrRate;
+
+  /// No description provided for @mlErrQuantity.
+  ///
+  /// In en, this message translates to:
+  /// **'Write the tonnes (up to 10,000)'**
+  String get mlErrQuantity;
+
+  /// No description provided for @mlErrPickTrader.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick the trader'**
+  String get mlErrPickTrader;
+
+  /// No description provided for @mlErrLotGone.
+  ///
+  /// In en, this message translates to:
+  /// **'This produce has left the list.'**
+  String get mlErrLotGone;
+
+  /// No description provided for @mlOffersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Offers on your produce'**
+  String get mlOffersTitle;
+
+  /// No description provided for @mlOffersEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Offers from checked traders appear here, one beside the other.'**
+  String get mlOffersEmpty;
+
+  /// No description provided for @mlSeeOffers.
+  ///
+  /// In en, this message translates to:
+  /// **'See offers'**
+  String get mlSeeOffers;
+
+  /// No description provided for @mlYourAsk.
+  ///
+  /// In en, this message translates to:
+  /// **'Your asking rate: {rate}'**
+  String mlYourAsk(String rate);
+
+  /// No description provided for @mlAcceptPick.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap one offer to choose it'**
+  String get mlAcceptPick;
+
+  /// No description provided for @mlAccept.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept chosen offer'**
+  String get mlAccept;
+
+  /// No description provided for @mlAcceptConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept this offer?'**
+  String get mlAcceptConfirmTitle;
+
+  /// No description provided for @mlAcceptConfirmBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This trader (and the middleman, if named) will see your name, phone and orchard location. The other offers close. You settle the rest of the transaction directly.'**
+  String get mlAcceptConfirmBody;
+
+  /// No description provided for @mlAcceptYes.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept'**
+  String get mlAcceptYes;
+
+  /// No description provided for @mlAccepted.
+  ///
+  /// In en, this message translates to:
+  /// **'Accepted. You both see each other\'s contacts now.'**
+  String get mlAccepted;
+
+  /// No description provided for @mlAcceptChanged.
+  ///
+  /// In en, this message translates to:
+  /// **'The offer changed; open the list again.'**
+  String get mlAcceptChanged;
+
+  /// No description provided for @mlIntroOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'See contacts'**
+  String get mlIntroOpen;
+
+  /// No description provided for @mlIntroTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Contacts'**
+  String get mlIntroTitle;
+
+  /// No description provided for @mlIntroGrower.
+  ///
+  /// In en, this message translates to:
+  /// **'Grower'**
+  String get mlIntroGrower;
+
+  /// No description provided for @mlIntroOpenMap.
+  ///
+  /// In en, this message translates to:
+  /// **'Open orchard on map'**
+  String get mlIntroOpenMap;
+
+  /// No description provided for @mlIntroAcceptedOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Accepted on {date}'**
+  String mlIntroAcceptedOn(String date);
+
+  /// No description provided for @mlIntroOffApp.
+  ///
+  /// In en, this message translates to:
+  /// **'From here on, weighing, crates, transport and payment are settled between you.'**
+  String get mlIntroOffApp;
+
+  /// No description provided for @mlDealDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Deal done'**
+  String get mlDealDone;
+
+  /// No description provided for @mlDealDoneAsk.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark the deal as done?'**
+  String get mlDealDoneAsk;
+
+  /// No description provided for @mlDealDoneAskBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap only once the deal between you is settled. Rating opens when both the grower and the trader tap.'**
+  String get mlDealDoneAskBody;
+
+  /// No description provided for @mlDealSaidDone.
+  ///
+  /// In en, this message translates to:
+  /// **'said deal done'**
+  String get mlDealSaidDone;
+
+  /// No description provided for @mlDealNotYet.
+  ///
+  /// In en, this message translates to:
+  /// **'waiting'**
+  String get mlDealNotYet;
+
+  /// No description provided for @mlDealWaitOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Rating opens when the other side also taps “Deal done”.'**
+  String get mlDealWaitOther;
+
+  /// No description provided for @mlDealWaitBoth.
+  ///
+  /// In en, this message translates to:
+  /// **'Rating opens when both the grower and the trader tap “Deal done”.'**
+  String get mlDealWaitBoth;
+
+  /// No description provided for @mlRateOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Give rating'**
+  String get mlRateOpen;
+
+  /// No description provided for @mlRateUntil.
+  ///
+  /// In en, this message translates to:
+  /// **'Can be given or changed until {date}'**
+  String mlRateUntil(String date);
+
+  /// No description provided for @mlRateLocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Rating closed on {date}'**
+  String mlRateLocked(String date);
+
+  /// No description provided for @mlRateNoText.
+  ///
+  /// In en, this message translates to:
+  /// **'Only stars and ticks.'**
+  String get mlRateNoText;
+
+  /// No description provided for @mlRateStarsOf.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} of 5 stars'**
+  String mlRateStarsOf(int count);
+
+  /// No description provided for @mlRateSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save rating'**
+  String get mlRateSave;
+
+  /// No description provided for @mlRateAnswerAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Give stars on every line'**
+  String get mlRateAnswerAll;
+
+  /// No description provided for @mlRateSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Rating saved'**
+  String get mlRateSaved;
+
+  /// No description provided for @mlRateRefused.
+  ///
+  /// In en, this message translates to:
+  /// **'Rating is saved only within 7 days after both tap “Deal done”.'**
+  String get mlRateRefused;
+
+  /// No description provided for @mlQGrowerProduce.
+  ///
+  /// In en, this message translates to:
+  /// **'Produce matched the photos and description'**
+  String get mlQGrowerProduce;
+
+  /// No description provided for @mlQGrowerReady.
+  ///
+  /// In en, this message translates to:
+  /// **'Produce ready on the agreed date'**
+  String get mlQGrowerReady;
+
+  /// No description provided for @mlCopyToAccounts.
+  ///
+  /// In en, this message translates to:
+  /// **'Note in my accounts'**
+  String get mlCopyToAccounts;
+
   /// No description provided for @mlBadgeGstChecked.
   ///
   /// In en, this message translates to:

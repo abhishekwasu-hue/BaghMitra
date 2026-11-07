@@ -4106,6 +4106,209 @@ class AppLocalizationsMr extends AppLocalizations {
   }
 
   @override
+  String get mlBrowseTitle => 'विक्रीसाठी माल';
+
+  @override
+  String get mlBrowseEmpty => 'शेतकऱ्यांनी दाखवलेला माल येथे दिसेल.';
+
+  @override
+  String get mlNotVerified =>
+      'BagMitra ने तुमची नोंदणी तपासल्यावर माल येथे दिसेल.';
+
+  @override
+  String get mlMyOffersTitle => 'माझ्या ऑफर';
+
+  @override
+  String get mlMyOffersEmpty => 'मालावर दिलेल्या तुमच्या ऑफर येथे दिसतील.';
+
+  @override
+  String get mlOfferOpen => 'शेतकऱ्याच्या निर्णयाची वाट';
+
+  @override
+  String get mlOfferAccepted => 'स्वीकारली';
+
+  @override
+  String get mlOfferClosed =>
+      'बंद: शेतकऱ्याने दुसरी ऑफर निवडली किंवा माल यादीतून काढला.';
+
+  @override
+  String mlHarvestOn(String date) {
+    return 'तोडणी $date';
+  }
+
+  @override
+  String get mlMakeOffer => 'ऑफर द्या';
+
+  @override
+  String get mlOfferTitle => 'तुमची ऑफर';
+
+  @override
+  String get mlOfferRate => 'दर ₹';
+
+  @override
+  String get mlOfferQuantity => 'माल टनात (ऐच्छिक)';
+
+  @override
+  String get mlOfferHarvestDate => 'प्रस्तावित तोडणी तारीख';
+
+  @override
+  String get mlOfferThroughBroker => 'मध्यस्थ (दलाल) मार्फत';
+
+  @override
+  String get mlOfferForTrader => 'कोणत्या व्यापाऱ्यासाठी';
+
+  @override
+  String get mlOfferDirect => 'थेट';
+
+  @override
+  String get mlOfferOnlyThese =>
+      'शेतकऱ्याला फक्त दर, माल व तारीख जाते; बाकी सर्व समोरासमोर ठरवा.';
+
+  @override
+  String get mlOfferSend => 'ऑफर पाठवा';
+
+  @override
+  String get mlOfferSent =>
+      'ऑफर पाठवली. शेतकऱ्याने निर्णय घेतल्यावर सूचना येईल.';
+
+  @override
+  String get mlErrRate => 'दर रुपयांत लिहा';
+
+  @override
+  String get mlErrQuantity => 'टन लिहा (10,000 पर्यंत)';
+
+  @override
+  String get mlErrPickTrader => 'व्यापारी निवडा';
+
+  @override
+  String get mlErrLotGone => 'हा माल यादीतून काढला आहे.';
+
+  @override
+  String get mlOffersTitle => 'तुमच्या मालावरील ऑफर';
+
+  @override
+  String get mlOffersEmpty =>
+      'तपासलेल्या व्यापाऱ्यांच्या ऑफर येथे शेजारी-शेजारी दिसतील.';
+
+  @override
+  String get mlSeeOffers => 'ऑफर पहा';
+
+  @override
+  String mlYourAsk(String rate) {
+    return 'तुमचा अपेक्षित दर: $rate';
+  }
+
+  @override
+  String get mlAcceptPick => 'निवडण्यासाठी एका ऑफरवर टॅप करा';
+
+  @override
+  String get mlAccept => 'निवडलेली ऑफर स्वीकारा';
+
+  @override
+  String get mlAcceptConfirmTitle => 'ही ऑफर स्वीकारायची?';
+
+  @override
+  String get mlAcceptConfirmBody =>
+      'या व्यापाऱ्याला (व नाव दिलेल्या मध्यस्थाला) तुमचे नाव, फोन व बागेचे ठिकाण दिसेल. इतर ऑफर बंद होतील. पुढील व्यवहार तुम्ही थेट आपसात ठरवा.';
+
+  @override
+  String get mlAcceptYes => 'स्वीकारा';
+
+  @override
+  String get mlAccepted => 'स्वीकारली. आता दोघांना एकमेकांचे संपर्क दिसतात.';
+
+  @override
+  String get mlAcceptChanged => 'ऑफर बदलली आहे; यादी पुन्हा उघडा.';
+
+  @override
+  String get mlIntroOpen => 'संपर्क पहा';
+
+  @override
+  String get mlIntroTitle => 'संपर्क';
+
+  @override
+  String get mlIntroGrower => 'शेतकरी';
+
+  @override
+  String get mlIntroOpenMap => 'बाग नकाशावर उघडा';
+
+  @override
+  String mlIntroAcceptedOn(String date) {
+    return '$date रोजी स्वीकारली';
+  }
+
+  @override
+  String get mlIntroOffApp =>
+      'आता वजन, क्रेट, वाहतूक व पैसे हा व्यवहार तुम्ही आपसात ठरवता.';
+
+  @override
+  String get mlDealDone => 'व्यवहार झाला';
+
+  @override
+  String get mlDealDoneAsk => 'व्यवहार झाला असे नोंदवायचे?';
+
+  @override
+  String get mlDealDoneAskBody =>
+      'तुमच्यातील व्यवहार पूर्ण झाल्यावरच दाबा. शेतकरी व व्यापारी दोघांनी दाबल्यावर रेटिंग उघडते.';
+
+  @override
+  String get mlDealSaidDone => 'व्यवहार झाला म्हणाले';
+
+  @override
+  String get mlDealNotYet => 'वाट पाहत आहे';
+
+  @override
+  String get mlDealWaitOther =>
+      'दुसऱ्या बाजूनेही “व्यवहार झाला” दाबल्यावर रेटिंग उघडेल.';
+
+  @override
+  String get mlDealWaitBoth =>
+      'शेतकरी व व्यापारी दोघांनी “व्यवहार झाला” दाबल्यावर रेटिंग उघडेल.';
+
+  @override
+  String get mlRateOpen => 'रेटिंग द्या';
+
+  @override
+  String mlRateUntil(String date) {
+    return '$date पर्यंत देता किंवा बदलता येईल';
+  }
+
+  @override
+  String mlRateLocked(String date) {
+    return 'रेटिंग $date ला बंद झाले';
+  }
+
+  @override
+  String get mlRateNoText => 'फक्त स्टार द्या व खुणा करा.';
+
+  @override
+  String mlRateStarsOf(int count) {
+    return '५ पैकी $count स्टार';
+  }
+
+  @override
+  String get mlRateSave => 'रेटिंग जतन करा';
+
+  @override
+  String get mlRateAnswerAll => 'प्रत्येक ओळीला स्टार द्या';
+
+  @override
+  String get mlRateSaved => 'रेटिंग जतन झाले';
+
+  @override
+  String get mlRateRefused =>
+      'दोघांनी “व्यवहार झाला” दाबल्यानंतर ७ दिवसांतच रेटिंग जतन होते.';
+
+  @override
+  String get mlQGrowerProduce => 'माल फोटो व वर्णनाप्रमाणे होता';
+
+  @override
+  String get mlQGrowerReady => 'ठरलेल्या तारखेला माल तयार होता';
+
+  @override
+  String get mlCopyToAccounts => 'माझ्या हिशोबात नोंदवा';
+
+  @override
   String mlBadgeGstChecked(String date) {
     return 'GST $date रोजी तपासला';
   }

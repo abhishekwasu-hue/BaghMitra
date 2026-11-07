@@ -4114,6 +4114,209 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get mlBrowseTitle => 'Produce on sale';
+
+  @override
+  String get mlBrowseEmpty => 'Produce shown by growers appears here.';
+
+  @override
+  String get mlNotVerified =>
+      'Produce shows here once BagMitra has checked your registration.';
+
+  @override
+  String get mlMyOffersTitle => 'My offers';
+
+  @override
+  String get mlMyOffersEmpty => 'Offers you make on produce appear here.';
+
+  @override
+  String get mlOfferOpen => 'Waiting for the grower';
+
+  @override
+  String get mlOfferAccepted => 'Accepted';
+
+  @override
+  String get mlOfferClosed =>
+      'Closed: the grower chose another offer or took the produce off the list.';
+
+  @override
+  String mlHarvestOn(String date) {
+    return 'Harvest $date';
+  }
+
+  @override
+  String get mlMakeOffer => 'Make an offer';
+
+  @override
+  String get mlOfferTitle => 'Your offer';
+
+  @override
+  String get mlOfferRate => 'Rate ₹';
+
+  @override
+  String get mlOfferQuantity => 'Quantity in tonnes (optional)';
+
+  @override
+  String get mlOfferHarvestDate => 'Proposed harvest date';
+
+  @override
+  String get mlOfferThroughBroker => 'Through a middleman (broker)';
+
+  @override
+  String get mlOfferForTrader => 'For which trader';
+
+  @override
+  String get mlOfferDirect => 'Directly';
+
+  @override
+  String get mlOfferOnlyThese =>
+      'Only the rate, quantity and date go to the grower; settle everything else face to face.';
+
+  @override
+  String get mlOfferSend => 'Send offer';
+
+  @override
+  String get mlOfferSent =>
+      'Offer sent. A notice comes when the grower decides.';
+
+  @override
+  String get mlErrRate => 'Write the rate in rupees';
+
+  @override
+  String get mlErrQuantity => 'Write the tonnes (up to 10,000)';
+
+  @override
+  String get mlErrPickTrader => 'Pick the trader';
+
+  @override
+  String get mlErrLotGone => 'This produce has left the list.';
+
+  @override
+  String get mlOffersTitle => 'Offers on your produce';
+
+  @override
+  String get mlOffersEmpty =>
+      'Offers from checked traders appear here, one beside the other.';
+
+  @override
+  String get mlSeeOffers => 'See offers';
+
+  @override
+  String mlYourAsk(String rate) {
+    return 'Your asking rate: $rate';
+  }
+
+  @override
+  String get mlAcceptPick => 'Tap one offer to choose it';
+
+  @override
+  String get mlAccept => 'Accept chosen offer';
+
+  @override
+  String get mlAcceptConfirmTitle => 'Accept this offer?';
+
+  @override
+  String get mlAcceptConfirmBody =>
+      'This trader (and the middleman, if named) will see your name, phone and orchard location. The other offers close. You settle the rest of the transaction directly.';
+
+  @override
+  String get mlAcceptYes => 'Accept';
+
+  @override
+  String get mlAccepted => 'Accepted. You both see each other\'s contacts now.';
+
+  @override
+  String get mlAcceptChanged => 'The offer changed; open the list again.';
+
+  @override
+  String get mlIntroOpen => 'See contacts';
+
+  @override
+  String get mlIntroTitle => 'Contacts';
+
+  @override
+  String get mlIntroGrower => 'Grower';
+
+  @override
+  String get mlIntroOpenMap => 'Open orchard on map';
+
+  @override
+  String mlIntroAcceptedOn(String date) {
+    return 'Accepted on $date';
+  }
+
+  @override
+  String get mlIntroOffApp =>
+      'From here on, weighing, crates, transport and payment are settled between you.';
+
+  @override
+  String get mlDealDone => 'Deal done';
+
+  @override
+  String get mlDealDoneAsk => 'Mark the deal as done?';
+
+  @override
+  String get mlDealDoneAskBody =>
+      'Tap only once the deal between you is settled. Rating opens when both the grower and the trader tap.';
+
+  @override
+  String get mlDealSaidDone => 'said deal done';
+
+  @override
+  String get mlDealNotYet => 'waiting';
+
+  @override
+  String get mlDealWaitOther =>
+      'Rating opens when the other side also taps “Deal done”.';
+
+  @override
+  String get mlDealWaitBoth =>
+      'Rating opens when both the grower and the trader tap “Deal done”.';
+
+  @override
+  String get mlRateOpen => 'Give rating';
+
+  @override
+  String mlRateUntil(String date) {
+    return 'Can be given or changed until $date';
+  }
+
+  @override
+  String mlRateLocked(String date) {
+    return 'Rating closed on $date';
+  }
+
+  @override
+  String get mlRateNoText => 'Only stars and ticks.';
+
+  @override
+  String mlRateStarsOf(int count) {
+    return '$count of 5 stars';
+  }
+
+  @override
+  String get mlRateSave => 'Save rating';
+
+  @override
+  String get mlRateAnswerAll => 'Give stars on every line';
+
+  @override
+  String get mlRateSaved => 'Rating saved';
+
+  @override
+  String get mlRateRefused =>
+      'Rating is saved only within 7 days after both tap “Deal done”.';
+
+  @override
+  String get mlQGrowerProduce => 'Produce matched the photos and description';
+
+  @override
+  String get mlQGrowerReady => 'Produce ready on the agreed date';
+
+  @override
+  String get mlCopyToAccounts => 'Note in my accounts';
+
+  @override
   String mlBadgeGstChecked(String date) {
     return 'GST checked on $date';
   }
