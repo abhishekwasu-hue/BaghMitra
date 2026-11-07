@@ -169,13 +169,12 @@ class MoreScreen extends ConsumerWidget {
               t.mlOpen,
               Routes.marketLots,
             ),
-            if (config.marketLink)
-              page(
-                'export-info',
-                Icons.flight_takeoff_outlined,
-                t.exportInfoTitle,
-                Routes.exportInfo,
-              ),
+            page(
+              'export-info',
+              Icons.flight_takeoff_outlined,
+              t.exportInfoTitle,
+              Routes.exportInfo,
+            ),
           ],
         ],
       ),
