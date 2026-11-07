@@ -11,6 +11,7 @@ import '../../../design_system/empty_state.dart';
 import '../../../design_system/general_info_note.dart';
 import '../../../design_system/glyphs.dart';
 import '../../../design_system/info_note.dart';
+import '../../../design_system/sources_disclosure.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../../labels/presentation/label_info_screen.dart';
@@ -96,7 +97,6 @@ class _LookalikeCardView extends ConsumerWidget {
             ?.scoutingItems[card.scoutingItem] ??
         const <String>[];
     final cited = [for (final k in card.sourceKeys) ?data.sources[k]];
-    final checked = [for (final s in cited) ?s.checked]..sort();
     Widget part(String heading, Map<String, String> field) => Padding(
       padding: const EdgeInsets.only(top: BmSpace.sm),
       child: Column(
@@ -122,24 +122,32 @@ class _LookalikeCardView extends ConsumerWidget {
               padding: const EdgeInsets.only(top: BmSpace.xxs),
               child: InfoNote(t.lookalikesDraft),
             ),
-          // Owner decision Q57: general information from public sources, with source and date.
+          // Owner decision Q57: general information from public sources. The source and
+          // date fold into the one "See sources" line at the end of the card.
           Padding(
             padding: const EdgeInsets.only(top: BmSpace.xxs),
-            child: GeneralInfoNote(
-              key: Key('lookalike-general-${card.id}'),
-              source: {for (final s in cited) ?s.publisher}.join(', '),
-              checked: checked.isEmpty ? null : formatDate(checked.last, lang),
-            ),
+            child: GeneralInfoNote(key: Key('lookalike-general-${card.id}')),
           ),
           part(t.lookalikesSee, card.see),
           part(t.lookalikesConfusedWith, card.confusedWith),
           part(t.lookalikesConfirm, card.confirm),
-          const SizedBox(height: BmSpace.sm),
-          Text(t.lookalikesSources, style: BmType.meta),
-          for (final k in card.sourceKeys)
-            if (data.sources[k] case final s?)
-              Text(s.title, style: BmType.meta.copyWith(color: c.inkMuted)),
-          const SizedBox(height: BmSpace.sm),
+          const SizedBox(height: BmSpace.xs),
+          SourcesDisclosure(
+            key: Key('lookalike-sources-${card.id}'),
+            sources: [
+              for (final s in cited)
+                SourceRef(
+                  s.title,
+                  url: s.url,
+                  publisher: s.publisher,
+                  checked: switch (s.checked) {
+                    final d? => formatDate(d, lang),
+                    null => null,
+                  },
+                ),
+            ],
+          ),
+          const SizedBox(height: BmSpace.xs),
           Wrap(
             spacing: BmSpace.xs,
             runSpacing: BmSpace.xs,

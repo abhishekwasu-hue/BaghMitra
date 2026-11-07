@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../helpers/pump_app.dart';
+import '../../helpers/sources.dart';
 import '../plots/plots_screen_test.dart' show settle;
 
 // No fertiliser or chemical content in the irrigation guide.
@@ -229,8 +230,18 @@ void main() {
     expect(find.byKey(const Key('irrigation-caveat')), findsOneWidget);
     // The general-information mark (Q57) and the caveat both point to the KVK.
     expect(find.byKey(const Key('irrigation-general-info')), findsOneWidget);
+    expect(find.textContaining('confirm with your KVK'), findsOneWidget);
+    expect(find.textContaining('Check with your KVK'), findsOneWidget);
+    // The source and date are one tap away (folded, owner request).
+    expect(find.textContaining('checked 6 Nov 2026'), findsNothing);
+    await tester.tap(
+      find.descendant(
+        of: find.byKey(const Key('irrigation-general-info')),
+        matching: find.byKey(const Key('sources-toggle')),
+      ),
+    );
+    await tester.pump();
     expect(find.textContaining('checked 6 Nov 2026'), findsOneWidget);
-    expect(find.textContaining('Check with your KVK'), findsNWidgets(2));
     expect(find.text('Planted in 2019: about 7 years old'), findsOneWidget);
     // A block has one crop: no crop chooser.
     expect(find.byKey(const Key('irrigation-crop-mosambi')), findsNothing);
@@ -243,6 +254,8 @@ void main() {
     expect(middle.selected, isTrue);
     expect(find.text('About 35–105 litres per tree per day.'), findsOneWidget);
     expect(find.text('About 5–15 litres per tree per day.'), findsNothing);
+    expect(find.textContaining('N1: NHB Model Project Report'), findsNothing);
+    await openAllSources(tester);
     expect(find.textContaining('N1: NHB Model Project Report'), findsWidgets);
 
     await tester.tap(find.byKey(const Key('irrigation-age-young')));
@@ -294,6 +307,9 @@ void main() {
       find.byKey(const Key('irrigation-age-middle')),
       -300,
     );
+    // The shorter, folded source lines can leave the chip under the app bar.
+    await tester.ensureVisible(find.byKey(const Key('irrigation-age-middle')));
+    await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('irrigation-age-middle')));
     await settle(tester);
     final m1Middle = find.byKey(const Key('irrigation-m1'));
@@ -304,6 +320,9 @@ void main() {
       find.byKey(const Key('irrigation-age-mature')),
       -300,
     );
+    // The shorter, folded source lines can leave the chip under the app bar.
+    await tester.ensureVisible(find.byKey(const Key('irrigation-age-mature')));
+    await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('irrigation-age-mature')));
     await settle(tester);
     final m1 = find.byKey(const Key('irrigation-m1'));

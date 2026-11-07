@@ -14,7 +14,7 @@ Widget _host(Widget child, Locale locale) => MaterialApp(
 
 void main() {
   testWidgets(
-    'shows the general-information line and the source with its date',
+    'shows the short general-information line; source and date fold away',
     (tester) async {
       await tester.pumpWidget(
         _host(
@@ -27,9 +27,12 @@ void main() {
       );
       await tester.pumpAndSettle();
       expect(
-        find.textContaining('General information from public sources'),
+        find.text('General information · confirm with your KVK first'),
         findsOneWidget,
       );
+      expect(find.textContaining('ICAR-CCRI'), findsNothing);
+      await tester.tap(find.text('See sources'));
+      await tester.pump();
       expect(
         find.textContaining('Source: ICAR-CCRI Nagpur · checked 6 Nov 2026'),
         findsOneWidget,
@@ -44,5 +47,6 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.textContaining('सर्वसाधारण माहिती'), findsOneWidget);
     expect(find.textContaining('स्रोत:'), findsNothing);
+    expect(find.byKey(const Key('sources-toggle')), findsNothing);
   });
 }

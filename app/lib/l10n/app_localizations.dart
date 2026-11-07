@@ -4756,6 +4756,36 @@ abstract class AppLocalizations {
   /// **'Source: {source} · checked {date}'**
   String generalInfoSource(String source, String date);
 
+  /// The one-line general-information mark (owner Q57); the source details fold into SourcesDisclosure.
+  ///
+  /// In en, this message translates to:
+  /// **'General information · confirm with your KVK first'**
+  String get generalInfoMark;
+
+  /// No description provided for @sourcesShow.
+  ///
+  /// In en, this message translates to:
+  /// **'See sources'**
+  String get sourcesShow;
+
+  /// No description provided for @sourcesShowCount.
+  ///
+  /// In en, this message translates to:
+  /// **'See sources ({count})'**
+  String sourcesShowCount(String count);
+
+  /// No description provided for @sourcesHide.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide sources'**
+  String get sourcesHide;
+
+  /// No description provided for @sourcesChecked.
+  ///
+  /// In en, this message translates to:
+  /// **'read {date}'**
+  String sourcesChecked(String date);
+
   /// No description provided for @labelReadNote.
   ///
   /// In en, this message translates to:

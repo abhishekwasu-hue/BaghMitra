@@ -2732,6 +2732,25 @@ class AppLocalizationsMr extends AppLocalizations {
   }
 
   @override
+  String get generalInfoMark => 'सर्वसाधारण माहिती · आधी KVK कडून खात्री करा';
+
+  @override
+  String get sourcesShow => 'स्रोत पहा';
+
+  @override
+  String sourcesShowCount(String count) {
+    return 'स्रोत पहा ($count)';
+  }
+
+  @override
+  String get sourcesHide => 'स्रोत लपवा';
+
+  @override
+  String sourcesChecked(String date) {
+    return 'वाचले $date';
+  }
+
+  @override
   String get labelReadNote => 'फवारणीपूर्वी पाकिटावरील लेबल वाचा.';
 
   @override

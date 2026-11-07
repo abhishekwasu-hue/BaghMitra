@@ -2736,6 +2736,26 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get generalInfoMark =>
+      'General information · confirm with your KVK first';
+
+  @override
+  String get sourcesShow => 'See sources';
+
+  @override
+  String sourcesShowCount(String count) {
+    return 'See sources ($count)';
+  }
+
+  @override
+  String get sourcesHide => 'Hide sources';
+
+  @override
+  String sourcesChecked(String date) {
+    return 'read $date';
+  }
+
+  @override
   String get labelReadNote => 'Read the label on the packet before spraying.';
 
   @override

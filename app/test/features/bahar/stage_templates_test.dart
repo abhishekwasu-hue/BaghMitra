@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../helpers/pump_app.dart';
+import '../../helpers/sources.dart';
 import '../plots/plots_screen_test.dart' show settle;
 import 'bahar_screen_test.dart' show seedPlot;
 
@@ -117,6 +118,9 @@ void main() {
     final note = find.byKey(const Key('stage-general-info'));
     await tester.scrollUntilVisible(note, 200);
     expect(note, findsOneWidget);
+    // Source and date are one tap away, once for the screen (owner request).
+    expect(find.textContaining('checked 6 Nov 2026'), findsNothing);
+    await openAllSources(tester);
     expect(find.textContaining('checked 6 Nov 2026'), findsOneWidget);
 
     await tester.scrollUntilVisible(

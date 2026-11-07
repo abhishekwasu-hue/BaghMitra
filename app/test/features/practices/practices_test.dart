@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../helpers/pump_app.dart';
+import '../../helpers/sources.dart';
 import '../bahar/bahar_screen_test.dart' show seedPlot;
 import '../plots/plots_screen_test.dart' show settle;
 
@@ -235,7 +236,7 @@ void main() {
     await settle(tester);
 
     expect(find.text('Orchard practices'), findsOneWidget);
-    // Owner 2026-10-26 (Q30): no draft banner; sources show under each practice instead.
+    // Owner 2026-10-26 (Q30): no draft banner; sources sit under each practice instead.
     expect(find.textContaining('Draft'), findsNothing);
     expect(find.textContaining('not yet checked'), findsNothing);
 
@@ -245,6 +246,10 @@ void main() {
       find.textContaining('Soil solarisation of nursery beds'),
       findsOneWidget,
     );
+    // Sources fold behind one "See sources" line per practice (owner request).
+    expect(find.textContaining('P1 Plant Pathology recs'), findsNothing);
+    expect(find.textContaining('See sources'), findsWidgets);
+    await openAllSources(tester);
     expect(find.textContaining('P1 Plant Pathology recs'), findsWidgets);
     expect(find.textContaining('PDKV: AICRP'), findsWidgets);
     expect(find.text('University'), findsWidgets);
@@ -273,6 +278,8 @@ void main() {
       ),
       findsOneWidget,
     );
+    expect(find.text('विद्यापीठ'), findsNothing);
+    await openAllSources(tester);
     expect(find.text('विद्यापीठ'), findsWidgets);
     await unmountApp(tester);
   });
@@ -288,9 +295,10 @@ void main() {
       await settle(tester);
       expect(find.byKey(const Key('practices-general-thrips')), findsOneWidget);
       expect(
-        find.textContaining('सार्वजनिक स्रोतांतील सर्वसाधारण माहिती'),
+        find.text('सर्वसाधारण माहिती · आधी KVK कडून खात्री करा'),
         findsWidgets,
       );
+      expect(find.textContaining('स्रोत पहा'), findsWidgets);
       expect(find.text('काय दिसते'), findsOneWidget);
       expect(find.text('पाहणी कशी करावी'), findsOneWidget);
       expect(
