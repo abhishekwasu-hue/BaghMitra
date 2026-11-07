@@ -1621,5 +1621,11 @@
   "mlAcceptYes": "Accept",
   "mlAccepted": "Accepted. You both see each other's contacts now.",
   "mlAcceptChanged": "The offer changed; open the list again.",
-  "mlIntroOpen": "See contacts"
+  "mlIntroOpen": "See contacts",
+  "mlIntroTitle": "Contacts",
+  "mlIntroGrower": "Grower",
+  "mlIntroOpenMap": "Open orchard on map",
+  "mlIntroAcceptedOn": "Accepted on {date}",
+  "@mlIntroAcceptedOn": {"placeholders": {"date": {"type": "String"}}},
+  "mlIntroOffApp": "From here on, weighing, crates, transport and payment are settled between you."
 }

@@ -122,7 +122,32 @@ class FakeInterestApi implements InterestApi {
     accepted.add(interestId);
     return 'd1';
   }
+
+  @override
+  Future<Introduction> introduction(String dealId) async {
+    _fail();
+    return sampleIntroduction();
+  }
 }
+
+Introduction sampleIntroduction({bool broker = true}) => Introduction(
+  dealId: 'd1',
+  acceptedAt: DateTime.utc(2026, 11, 7, 6),
+  lot: sampleLotBrief,
+  interest: sampleInterest(status: InterestStatus.accepted, dealId: 'd1'),
+  grower: const Contact(name: 'रमेश पाटील', phone: '+919812345678'),
+  growerPlace: 'वरुड, अमरावती',
+  plotName: 'घराजवळची बाग',
+  pin: (lat: 21.2751, lon: 78.5853),
+  trader: const Contact(
+    name: 'सुनील शिंदे',
+    firm: 'शिंदे फ्रुट्स',
+    phone: '+919800000001',
+  ),
+  broker: broker
+      ? const Contact(name: 'सुरेश वानखडे', phone: '+919800000002')
+      : null,
+);
 
 /// Keeps the import of the shared fakes used (sample people for the pickers).
 final samplePeople = [sampleTrader(), sampleBroker()];

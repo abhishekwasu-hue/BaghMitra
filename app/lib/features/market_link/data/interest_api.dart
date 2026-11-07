@@ -32,6 +32,8 @@ abstract interface class InterestApi {
 
   /// Accepts one open interest on the grower's own lot; the introduction's deal id.
   Future<String> accept(String interestId);
+
+  Future<Introduction> introduction(String dealId);
 }
 
 class HttpInterestApi implements InterestApi {
@@ -99,6 +101,12 @@ class HttpInterestApi implements InterestApi {
             await marketLinkSend(_api, 'POST', '/interests/$interestId/accept'),
           )['deal_id']!
           as String;
+
+  @override
+  Future<Introduction> introduction(String dealId) async =>
+      Introduction.fromJson(
+        _map(await marketLinkSend(_api, 'GET', '/deals/$dealId')),
+      );
 }
 
 final interestApiProvider = Provider<InterestApi>(
@@ -116,4 +124,9 @@ final myInterestsProvider = FutureProvider.autoDispose<List<SentInterest>>(
 final lotInterestsProvider = FutureProvider.autoDispose
     .family<List<LotInterest>, String>(
       (ref, lotId) => ref.watch(interestApiProvider).onLot(lotId),
+    );
+
+final introductionProvider = FutureProvider.autoDispose
+    .family<Introduction, String>(
+      (ref, dealId) => ref.watch(interestApiProvider).introduction(dealId),
     );

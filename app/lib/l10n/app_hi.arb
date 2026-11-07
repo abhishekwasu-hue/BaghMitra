@@ -1201,5 +1201,10 @@
   "mlAcceptYes": "स्वीकार करें",
   "mlAccepted": "स्वीकार हुआ। अब दोनों को एक-दूसरे के संपर्क दिखते हैं।",
   "mlAcceptChanged": "ऑफ़र बदल गया है; सूची फिर से खोलें।",
-  "mlIntroOpen": "संपर्क देखें"
+  "mlIntroOpen": "संपर्क देखें",
+  "mlIntroTitle": "संपर्क",
+  "mlIntroGrower": "किसान",
+  "mlIntroOpenMap": "बाग नक्शे पर खोलें",
+  "mlIntroAcceptedOn": "{date} को स्वीकार",
+  "mlIntroOffApp": "अब तौल, क्रेट, ढुलाई और पैसे का लेन-देन आप आपस में तय करते हैं।"
 }

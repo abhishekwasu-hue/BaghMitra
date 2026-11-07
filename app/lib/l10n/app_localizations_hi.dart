@@ -4175,4 +4175,22 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get mlIntroOpen => 'संपर्क देखें';
+
+  @override
+  String get mlIntroTitle => 'संपर्क';
+
+  @override
+  String get mlIntroGrower => 'किसान';
+
+  @override
+  String get mlIntroOpenMap => 'बाग नक्शे पर खोलें';
+
+  @override
+  String mlIntroAcceptedOn(String date) {
+    return '$date को स्वीकार';
+  }
+
+  @override
+  String get mlIntroOffApp =>
+      'अब तौल, क्रेट, ढुलाई और पैसे का लेन-देन आप आपस में तय करते हैं।';
 }

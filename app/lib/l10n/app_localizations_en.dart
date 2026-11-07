@@ -4180,4 +4180,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mlIntroOpen => 'See contacts';
+
+  @override
+  String get mlIntroTitle => 'Contacts';
+
+  @override
+  String get mlIntroGrower => 'Grower';
+
+  @override
+  String get mlIntroOpenMap => 'Open orchard on map';
+
+  @override
+  String mlIntroAcceptedOn(String date) {
+    return 'Accepted on $date';
+  }
+
+  @override
+  String get mlIntroOffApp =>
+      'From here on, weighing, crates, transport and payment are settled between you.';
 }

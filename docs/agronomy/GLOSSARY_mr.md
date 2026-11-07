@@ -58,6 +58,8 @@
 | Transaction (in the disclaimer) | व्यवहार | सौदा (all languages) | Owner L1 order: "use व्यवहार, never सौदा"; new Hindi strings use लेन-देन. Draft. |
 | Service provider kinds | वजनकाटा, वाहतूकदार, मजूर टोळी, क्रेट पुरवठादार (सेवा देणारे) | — | Market linkage admin (L0b) and the provider directory (L1). Hindi: धर्मकांटा, ट्रांसपोर्टर, मज़दूर टोली, क्रेट आपूर्तिकर्ता. Draft. |
 | Rating tag; draft / active / retired | रेटिंग टॅग; मसुदा / चालू / बंद | — | Admin web only (L0b). Draft. |
+| Interest (a trader's offer on a lot) | ऑफर (hi ऑफ़र) | बोली, मागणी | L4 (spec v1.5 §3 step 3); L3 already said "ऑफर स्वीकारल्यानंतर". Accept = स्वीकारा; contacts after acceptance = संपर्क. Draft, for native review. |
+| Proposed harvest date | प्रस्तावित तोडणी तारीख | — | L4 offer form; तोडणी as in the harvest-window row. Draft. |
 | Exporter | निर्यातदार | एक्स्पोर्टर | Market linkage role card (spec v1.5 §2.1). Draft, for native review. |
 | Service providers (role card) | सेवा देणारे | सर्व्हिस प्रोव्हायडर | L2 registration and directory; kinds as in the row "Service provider kinds". Draft. |
 | Registration / check by BagMitra | नोंदणी / तपासणी ("BagMitra ने <तारीख> रोजी तपासले") | हमी, खात्रीशीर, व्हेरिफाइड | Badges say what was checked and when, never a guarantee (spec v1.5 §4). Draft. |

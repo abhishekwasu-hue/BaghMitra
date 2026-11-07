@@ -203,3 +203,19 @@ New terms to check: निर्यात नोंद (export record), नि�
 पॅकहाउस (packhouse), अवशेष चाचणी (residue test), फायटोसॅनिटरी प्रमाणपत्र (phytosanitary certificate),
 PHI संपते (PHI ends), लेबल तपासा (check the label), "माहितीसाठी नोंद, प्रमाणपत्र नाही" (footer).
 A deal is व्यवहार in Marathi (glossary), never सौदा.
+
+## Market linkage interests and introduction (L4, draft, for native review)
+
+Strings `ml*` in `app/lib/l10n/app_{mr,hi,en}.arb`; व्यवहार only (never सौदा; Hindi लेन-देन); broker "मध्यस्थ (दलाल)".
+
+| Key | mr | hi |
+|---|---|---|
+| mlBrowseTitle / mlMyOffersTitle / mlOffersTitle | विक्रीसाठी माल / माझ्या ऑफर / तुमच्या मालावरील ऑफर | बिक्री के लिए माल / मेरे ऑफ़र / आपके माल पर ऑफ़र |
+| mlMakeOffer / mlOfferSend | ऑफर द्या / ऑफर पाठवा | ऑफ़र दें / ऑफ़र भेजें |
+| mlOfferHarvestDate / mlOfferThroughBroker | प्रस्तावित तोडणी तारीख / मध्यस्थ (दलाल) मार्फत | प्रस्तावित तुड़ाई तारीख / मध्यस्थ (दलाल) के ज़रिए |
+| mlOfferOnlyThese | शेतकऱ्याला फक्त दर, माल व तारीख जाते; बाकी सर्व समोरासमोर ठरवा. | किसान को सिर्फ़ दर, माल और तारीख जाती है; बाकी सब आमने-सामने तय करें। |
+| mlOfferOpen / mlOfferAccepted / mlOfferClosed | शेतकऱ्याच्या निर्णयाची वाट / स्वीकारली / बंद: शेतकऱ्याने दुसरी ऑफर निवडली किंवा माल यादीतून काढला. | किसान के फ़ैसले का इंतज़ार / स्वीकार हुआ / बंद: किसान ने दूसरा ऑफ़र चुना या माल सूची से हटाया। |
+| mlAcceptConfirmBody | या व्यापाऱ्याला (व नाव दिलेल्या मध्यस्थाला) तुमचे नाव, फोन व बागेचे ठिकाण दिसेल. इतर ऑफर बंद होतील. पुढील व्यवहार तुम्ही थेट आपसात ठरवा. | … आगे का लेन-देन आप सीधे आपस में तय करें। |
+| mlIntroTitle / mlIntroOpenMap | संपर्क / बाग नकाशावर उघडा | संपर्क / बाग नक्शे पर खोलें |
+| mlIntroOffApp | आता वजन, क्रेट, वाहतूक व पैसे हा व्यवहार तुम्ही आपसात ठरवता. | अब तौल, क्रेट, ढुलाई और पैसे का लेन-देन आप आपस में तय करते हैं। |
+| Pushes (API `market_link/notify.py`) | बागमित्र: नवी ऑफर / ऑफर स्वीकारली / माल बंद | बागमित्र: नया ऑफ़र / ऑफ़र स्वीकार हुआ / माल बंद |
