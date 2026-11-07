@@ -32,7 +32,15 @@ import httpx
 KEY_ENV = "SUPABASE_SERVICE_ROLE_KEY"
 # Every role the API checks (`require_role` in routers/admin_*.py).
 KNOWN_ROLES = frozenset(
-    {"billing_admin", "feed_admin", "kb_admin", "kb_reviewer", "market_admin", "market_link_admin"}
+    {
+        "billing_admin",
+        "feed_admin",
+        "kb_admin",
+        "kb_reviewer",
+        "market_admin",
+        "market_link_admin",
+        "market_link_rep",
+    }
 )
 DEFAULT_ROLES = ("feed_admin", "market_admin", "kb_admin")
 PER_PAGE = 200

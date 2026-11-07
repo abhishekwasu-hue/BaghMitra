@@ -1,13 +1,16 @@
 """Market linkage tables (spec v1.5 §6). Records and matching only (decisions a, m).
 
-BagMitra never holds money: amounts are what the parties agreed or what the grower records as
-received, in whole paise like Accounts. No table has a commission or income column (Q64,
-decision c; `test_market_link_schema.py`). Ratings hold stars and tag ids only (Q66, decision d).
+Introduction only (spec v1.5 §1 core principle, Addendum 5): BagMitra introduces grower, trader
+and broker and never enters their transaction or disputes, so no table holds deal terms,
+payments, weigh slips, service bookings or disputes (dropped in 0030). An interest's rate is in
+whole paise like Accounts. No table has a commission, income, payment or Aadhaar column (Q64,
+decision c, addendum 1; `test_market_link_schema.py`). Ratings hold stars and tag ids only (Q66).
 
-RLS kind `custom_rls`: each table has its own policies (migration 0029): a grower sees own
-lots and the offers on them; verified buyers / brokers see published lots; deal parties see
-their deal; a provider sees only requests sent to it. Contacts stay in `farmers` / `plots`
-(owner-only RLS) and are revealed by the API to deal parties only.
+RLS kind `custom_rls`: each table has its own policies (migrations 0029, 0030): a grower sees
+own lots and the interests on them; verified buyers / brokers see published lots; deal parties
+see their deal; each user sees only their own registration fix, reports, blocks, acceptances
+and the admin actions about them. Contacts stay in `farmers` / `plots` (owner-only RLS) and are
+revealed by the API to the parties of an accepted interest only.
 """
 
 from __future__ import annotations
@@ -35,25 +38,42 @@ from bagmitra_api.db.base import Base, OwnedSyncedRowMixin, TimestampMixin, utcn
 
 LOT_STATUSES = ("draft", "published", "closed", "withdrawn")
 BASES = ("per_tonne", "per_crate", "lump_sum")
-PAYERS = ("grower", "trader", "none")
 OFFER_STATUSES = ("open", "accepted", "closed", "withdrawn")
 DEAL_STATUSES = ("active", "completed", "cancelled")
 PARTY_ROLES = ("grower", "trader", "broker")
 SUBJECT_TYPES = ("buyer", "broker", "provider")
 VERIFICATION_STATUSES = ("pending", "approved", "rejected")
 PROVIDER_KINDS = ("weighbridge", "transporter", "labour_gang", "crate_supplier")
-REQUEST_STATUSES = ("sent", "confirmed", "declined", "cancelled")
-PAYMENT_KINDS = ("advance", "balance")
-RATEE_ROLES = ("grower", "trader", "broker", "provider")
+BUYER_KINDS = ("trader", "exporter")
+RATEE_ROLES = ("grower", "trader", "broker")
 TAG_POLARITIES = ("positive", "negative")
 TAG_STATUSES = ("draft", "active", "retired")
-DISPUTE_KINDS = ("non_payment", "weight", "quality", "terms", "other")
-DISPUTE_STATUSES = ("open", "resolved")
+# Who registers with the one GPS fix (spec §4): profiles, plus a representative (user id).
+FIX_SUBJECT_TYPES = (*SUBJECT_TYPES, "representative")
+# Report / admin action targets (spec §4, §4C): a profile, a lot, or a user.
+REPORT_SUBJECT_TYPES = (*SUBJECT_TYPES, "lot", "user")
+REPORT_REASONS = ("fake_identity", "fake_lot", "impersonation", "fake_rating", "abuse")
+REPORT_STATUSES = ("open", "actioned", "dismissed")
+ADMIN_ACTIONS = ("verify", "warn", "hide", "suspend", "restore")
+# Reason codes shown to the user (§4C): the report reasons, plus a duplicate registration and
+# the two that close a check or an appeal.
+ADMIN_REASONS = (*REPORT_REASONS, "duplicate_user", "checks_passed", "appeal_upheld")
+APPEAL_STATES = ("none", "appealed", "upheld", "rejected")
+TERMS_ROLES = ("grower", "trader", "exporter", "broker", "provider", "representative")
+TERMS_DOCS = ("terms", "privacy", "disclaimer")
 
 
 def one_of(column: str, values: tuple[str, ...]) -> CheckConstraint:
     allowed = ", ".join(f"'{v}'" for v in values)
     return CheckConstraint(f"{column} IN ({allowed})", name=column)
+
+
+class AddressMixin:
+    """Optional place address (addendum 2): set by the person or a market_link_rep."""
+
+    address: Mapped[str | None] = mapped_column(String(300))
+    address_set_by: Mapped[uuid.UUID | None] = mapped_column()
+    address_set_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
 
 
 class _Row(TimestampMixin):
@@ -102,8 +122,15 @@ class MarketLotPhoto(OwnedSyncedRowMixin, Base):
     photo_key: Mapped[str | None] = mapped_column(String(160))
 
 
-class BuyerProfile(_Row, Base):
+class BuyerProfile(AddressMixin, _Row, Base):
+    """A trader or an exporter (IEC required for an exporter, spec §4). Registration numbers
+    are indexed, not unique: a second claim of the same number must reach admin (§4C, Q80)."""
+
     __tablename__ = "buyer_profiles"
+    __table_args__ = (
+        one_of("kind", BUYER_KINDS),
+        CheckConstraint("kind <> 'exporter' OR iec_no IS NOT NULL", name="exporter_iec"),
+    )
 
     user_id: Mapped[uuid.UUID] = mapped_column(unique=True)
     name: Mapped[str] = mapped_column(String(120))
@@ -113,11 +140,13 @@ class BuyerProfile(_Row, Base):
     district: Mapped[str] = mapped_column(String(120), index=True)
     taluka: Mapped[str | None] = mapped_column(String(120), index=True)
     crops: Mapped[list[str]] = mapped_column(JSON, default=list)
-    apmc_licence_no: Mapped[str | None] = mapped_column(String(40))
-    gst_no: Mapped[str | None] = mapped_column(String(20))
+    kind: Mapped[str] = mapped_column(String(16), default="trader")
+    apmc_licence_no: Mapped[str | None] = mapped_column(String(40), index=True)
+    gst_no: Mapped[str | None] = mapped_column(String(20), index=True)
+    iec_no: Mapped[str | None] = mapped_column(String(10), index=True)
 
 
-class BrokerProfile(_Row, Base):
+class BrokerProfile(AddressMixin, _Row, Base):
     __tablename__ = "broker_profiles"
 
     user_id: Mapped[uuid.UUID] = mapped_column(unique=True)
@@ -149,9 +178,10 @@ class PartyVerification(_Row, Base):
     checked_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
 
 
-class ServiceProvider(_Row, Base):
+class ServiceProvider(AddressMixin, _Row, Base):
     """Weighbridge, transporter, labour gang or crate supplier (spec §4). `user_id` is None
-    when admin added it. Providers set their own rates; BagMitra stores none."""
+    when admin added it. A directory entry with a phone number only, no booking (spec §3
+    step 6); providers set their own rates and BagMitra stores none."""
 
     __tablename__ = "service_providers"
     __table_args__ = (one_of("kind", PROVIDER_KINDS),)
@@ -175,37 +205,18 @@ class ServiceProvider(_Row, Base):
     carrier_reg_no: Mapped[str | None] = mapped_column(String(40))
 
 
-class DealTermsMixin:
-    """Terms shared by an offer and a deal version (spec §3 steps 3 and 5). `rate_paise` is
-    per tonne, per crate, or the whole amount for a lump sum, by `basis`."""
+class MarketOffer(_Row, Base):
+    """A trader's interest in a lot, direct or through a named broker (spec §3 step 3): rate
+    and basis, quantity, proposed harvest date; everything else is settled off the app.
+    `rate_paise` is per tonne, per crate, or the whole amount for a lump sum, by `basis`."""
+
+    __tablename__ = "market_offers"
+    __table_args__ = (one_of("basis", BASES), one_of("status", OFFER_STATUSES))
 
     basis: Mapped[str] = mapped_column(String(16))
     rate_paise: Mapped[int] = mapped_column(BigInteger)
     quantity_t: Mapped[float | None] = mapped_column(Float)
     harvest_date: Mapped[date] = mapped_column(Date)
-    weighing_provider_id: Mapped[uuid.UUID | None] = mapped_column(
-        ForeignKey("service_providers.id")
-    )
-    labour_paid_by: Mapped[str] = mapped_column(String(16))
-    crates_paid_by: Mapped[str] = mapped_column(String(16))
-    transport_paid_by: Mapped[str] = mapped_column(String(16))
-    advance_paise: Mapped[int | None] = mapped_column(BigInteger)
-    advance_date: Mapped[date | None] = mapped_column(Date)
-    balance_date: Mapped[date | None] = mapped_column(Date)
-    rejection_rule: Mapped[str | None] = mapped_column(String(1000))
-
-
-def _terms_checks() -> tuple[CheckConstraint, ...]:
-    payers = (one_of(c, PAYERS) for c in ("labour_paid_by", "crates_paid_by", "transport_paid_by"))
-    return (one_of("basis", BASES), *payers)
-
-
-class MarketOffer(DealTermsMixin, _Row, Base):
-    """A buyer's offer on a lot, direct or through a named broker."""
-
-    __tablename__ = "market_offers"
-    __table_args__ = (*_terms_checks(), one_of("status", OFFER_STATUSES))
-
     lot_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("market_lots.id"), index=True)
     buyer_user_id: Mapped[uuid.UUID] = mapped_column(index=True)
     broker_user_id: Mapped[uuid.UUID | None] = mapped_column(index=True)
@@ -214,7 +225,8 @@ class MarketOffer(DealTermsMixin, _Row, Base):
 
 
 class MarketDeal(_Row, Base):
-    """An accepted offer. Terms live in versioned `deal_versions` rows."""
+    """An introduction: the grower accepted an interest (contacts revealed). No terms. It
+    completes when both grower and trader tap "deal done" (Q67); rating opens then."""
 
     __tablename__ = "market_deals"
     __table_args__ = (one_of("status", DEAL_STATUSES),)
@@ -222,13 +234,15 @@ class MarketDeal(_Row, Base):
     lot_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("market_lots.id"), index=True)
     offer_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("market_offers.id"), unique=True)
     status: Mapped[str] = mapped_column(String(16), index=True)
-    current_version: Mapped[int] = mapped_column(Integer, default=1)
+    accepted_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+    grower_done_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    trader_done_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    # Set when both taps are in (the later of the two).
     completed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
 
 
 class DealParty(_Row, Base):
-    """Grower, trader and (when there is one) broker of a deal. No commission column (Q64).
-    `closed_at`: when this party marked the deal closed (completion default, Q67)."""
+    """Grower, trader and (when there is one) broker of a deal. No commission column (Q64)."""
 
     __tablename__ = "deal_parties"
     __table_args__ = (UniqueConstraint("deal_id", "role"), one_of("role", PARTY_ROLES))
@@ -236,29 +250,6 @@ class DealParty(_Row, Base):
     deal_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("market_deals.id"), index=True)
     role: Mapped[str] = mapped_column(String(16))
     user_id: Mapped[uuid.UUID] = mapped_column(index=True)
-    closed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
-
-
-class DealVersion(DealTermsMixin, _Row, Base):
-    """One immutable set of deal terms; a change is a new version every party confirms."""
-
-    __tablename__ = "deal_versions"
-    __table_args__ = (UniqueConstraint("deal_id", "version"), *_terms_checks())
-
-    deal_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("market_deals.id"), index=True)
-    version: Mapped[int] = mapped_column(Integer)
-    created_by: Mapped[uuid.UUID] = mapped_column()
-    other_conditions: Mapped[str | None] = mapped_column(String(1000))
-    paper_note_photo_key: Mapped[str | None] = mapped_column(String(160))
-
-
-class DealConfirmation(_Row, Base):
-    __tablename__ = "deal_confirmations"
-    __table_args__ = (UniqueConstraint("deal_version_id", "user_id"),)
-
-    deal_version_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("deal_versions.id"), index=True)
-    user_id: Mapped[uuid.UUID] = mapped_column()
-    confirmed_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
 
 
 class DealEvent(Base):
@@ -273,51 +264,6 @@ class DealEvent(Base):
     kind: Mapped[str] = mapped_column(String(32))
     detail: Mapped[dict[str, Any]] = mapped_column(JSON, default=dict)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
-
-
-class ServiceRequest(_Row, Base):
-    __tablename__ = "service_requests"
-    __table_args__ = (one_of("status", REQUEST_STATUSES),)
-
-    deal_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("market_deals.id"), index=True)
-    provider_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("service_providers.id"), index=True)
-    requested_by: Mapped[uuid.UUID] = mapped_column()
-    needed_on: Mapped[date | None] = mapped_column(Date)
-    status: Mapped[str] = mapped_column(String(16))
-    responded_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
-
-
-class WeighSlip(_Row, Base):
-    """Weighbridge slip: kg typed by hand from the photo, confirmed by each side."""
-
-    __tablename__ = "weigh_slips"
-
-    deal_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("market_deals.id"), index=True)
-    weighbridge_id: Mapped[uuid.UUID | None] = mapped_column(ForeignKey("service_providers.id"))
-    photo_key: Mapped[str | None] = mapped_column(String(160))
-    gross_kg: Mapped[int] = mapped_column(Integer)
-    tare_kg: Mapped[int] = mapped_column(Integer)
-    net_kg: Mapped[int] = mapped_column(Integer)
-    truck_number: Mapped[str | None] = mapped_column(String(20))
-    dispatched_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
-    entered_by: Mapped[uuid.UUID] = mapped_column()
-    grower_confirmed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
-    trader_confirmed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
-
-
-class DealPayment(_Row, Base):
-    """A payment the grower marks as received (buyer -> grower directly, decision a).
-    `accounts_sale_id` is the Accounts sale row (`incomes.id`) it flows into."""
-
-    __tablename__ = "deal_payments"
-    __table_args__ = (one_of("kind", PAYMENT_KINDS),)
-
-    deal_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("market_deals.id"), index=True)
-    kind: Mapped[str] = mapped_column(String(16))
-    amount_paise: Mapped[int] = mapped_column(BigInteger)
-    received_on: Mapped[date] = mapped_column(Date)
-    accounts_sale_id: Mapped[uuid.UUID | None] = mapped_column()
-    recorded_by: Mapped[uuid.UUID] = mapped_column()
 
 
 class Rating(_Row, Base):
@@ -356,21 +302,134 @@ class RatingTag(_Row, Base):
     sort_order: Mapped[int] = mapped_column(Integer, default=0)
 
 
-class Dispute(_Row, Base):
-    """A dispute goes to admin only (spec §3 step 9)."""
+class RegistrationFix(_Row, Base):
+    """The one foreground GPS fix taken when a trader, exporter, broker, provider or
+    representative registers (spec §4, addendum 3): no background or repeated tracking. A
+    table of its own, not profile columns, because verified profile rows are readable by any
+    signed-in client (RLS cannot hide columns) and exact coordinates are admin-only (Q79)."""
 
-    __tablename__ = "disputes"
-    __table_args__ = (one_of("kind", DISPUTE_KINDS), one_of("status", DISPUTE_STATUSES))
+    __tablename__ = "registration_fixes"
+    __table_args__ = (one_of("subject_type", FIX_SUBJECT_TYPES),)
 
-    deal_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("market_deals.id"), index=True)
-    raised_by: Mapped[uuid.UUID] = mapped_column(index=True)
-    against_user_id: Mapped[uuid.UUID | None] = mapped_column(index=True)
-    kind: Mapped[str] = mapped_column(String(16))
-    status: Mapped[str] = mapped_column(String(16), index=True)
+    subject_type: Mapped[str] = mapped_column(String(16))
+    subject_id: Mapped[uuid.UUID] = mapped_column(index=True)
+    user_id: Mapped[uuid.UUID] = mapped_column(index=True)
+    lat: Mapped[float] = mapped_column(Float)
+    lon: Mapped[float] = mapped_column(Float)
+    accuracy_m: Mapped[float] = mapped_column(Float)
+    captured_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+    # The phone's own geocoder (place_geocoder.dart); None when it named nothing.
+    place: Mapped[str | None] = mapped_column(String(120))
+    district: Mapped[str | None] = mapped_column(String(120))
+    state: Mapped[str | None] = mapped_column(String(120))
+    pin: Mapped[str | None] = mapped_column(String(6))
+    # The location plugin reported a mock (fake-GPS) position.
+    is_mocked: Mapped[bool] = mapped_column(default=False)
+
+
+class RepresentativeUpload(_Row, Base):
+    """A place photo (in-app camera, capture time + GPS) and / or address a BagMitra
+    representative added to a profile they visited (addendum 2); who and when are stored."""
+
+    __tablename__ = "representative_uploads"
+    __table_args__ = (
+        one_of("subject_type", SUBJECT_TYPES),
+        CheckConstraint("photo_key IS NOT NULL OR address IS NOT NULL", name="something"),
+        CheckConstraint(
+            "photo_key IS NULL OR (captured_at IS NOT NULL AND lat IS NOT NULL "
+            "AND lon IS NOT NULL)",
+            name="photo_time_gps",
+        ),
+    )
+
+    subject_type: Mapped[str] = mapped_column(String(16))
+    subject_id: Mapped[uuid.UUID] = mapped_column(index=True)
+    uploaded_by: Mapped[uuid.UUID] = mapped_column(index=True)
+    photo_key: Mapped[str | None] = mapped_column(String(160))
+    captured_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    lat: Mapped[float | None] = mapped_column(Float)
+    lon: Mapped[float | None] = mapped_column(Float)
+    address: Mapped[str | None] = mapped_column(String(300))
+
+
+class FraudReport(_Row, Base):
+    """A report on a profile, lot or user (spec §4): predefined reason, optional photos, no
+    free text. Admin acts on platform rules only, never on a business quarrel (§1)."""
+
+    __tablename__ = "fraud_reports"
+    __table_args__ = (
+        one_of("subject_type", REPORT_SUBJECT_TYPES),
+        one_of("reason", REPORT_REASONS),
+        one_of("status", REPORT_STATUSES),
+    )
+
+    reporter_id: Mapped[uuid.UUID] = mapped_column(index=True)
+    subject_type: Mapped[str] = mapped_column(String(16))
+    subject_id: Mapped[uuid.UUID] = mapped_column(index=True)
+    reason: Mapped[str] = mapped_column(String(32))
     photo_keys: Mapped[list[str]] = mapped_column(JSON, default=list)
-    decision_note: Mapped[str | None] = mapped_column(String(1000))
+    status: Mapped[str] = mapped_column(String(16), index=True)
     decided_by: Mapped[uuid.UUID | None] = mapped_column()
     decided_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    admin_action_id: Mapped[uuid.UUID | None] = mapped_column(ForeignKey("admin_actions.id"))
+
+
+class AdminAction(_Row, Base):
+    """Every verify / warn / hide / suspend / restore, with a reason code the user sees, the
+    actor and the time; one appeal through the grievance officer (spec §4C)."""
+
+    __tablename__ = "admin_actions"
+    __table_args__ = (
+        one_of("subject_type", REPORT_SUBJECT_TYPES),
+        one_of("action", ADMIN_ACTIONS),
+        one_of("reason_code", ADMIN_REASONS),
+        one_of("appeal_state", APPEAL_STATES),
+    )
+
+    subject_type: Mapped[str] = mapped_column(String(16))
+    subject_id: Mapped[uuid.UUID] = mapped_column(index=True)
+    # The user the action is about (who sees the reason code and may appeal).
+    user_id: Mapped[uuid.UUID | None] = mapped_column(index=True)
+    action: Mapped[str] = mapped_column(String(16))
+    reason_code: Mapped[str] = mapped_column(String(32))
+    actor_id: Mapped[uuid.UUID] = mapped_column()
+    acted_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+    appeal_state: Mapped[str] = mapped_column(String(16), default="none")
+    appealed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    appeal_decided_by: Mapped[uuid.UUID | None] = mapped_column()
+    appeal_decided_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+
+
+class TermsAcceptance(_Row, Base):
+    """Terms, privacy notice or disclaimer accepted for a role before it is used (spec §4C):
+    versioned and time-stamped, with the 18+ declaration (minors cannot contract)."""
+
+    __tablename__ = "terms_acceptances"
+    __table_args__ = (
+        UniqueConstraint("user_id", "role", "doc_kind", "version"),
+        one_of("role", TERMS_ROLES),
+        one_of("doc_kind", TERMS_DOCS),
+    )
+
+    user_id: Mapped[uuid.UUID] = mapped_column(index=True)
+    role: Mapped[str] = mapped_column(String(16))
+    doc_kind: Mapped[str] = mapped_column(String(16))
+    version: Mapped[str] = mapped_column(String(20))
+    accepted_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+    adult_declared: Mapped[bool] = mapped_column()
+
+
+class UserBlock(_Row, Base):
+    """One user blocked another in the app (Google Play UGC, spec §4C)."""
+
+    __tablename__ = "user_blocks"
+    __table_args__ = (
+        UniqueConstraint("blocker_id", "blocked_id"),
+        CheckConstraint("blocker_id <> blocked_id", name="not_self"),
+    )
+
+    blocker_id: Mapped[uuid.UUID] = mapped_column(index=True)
+    blocked_id: Mapped[uuid.UUID] = mapped_column(index=True)
 
 
 # Every table defined above (the schema and RLS tests walk this list).

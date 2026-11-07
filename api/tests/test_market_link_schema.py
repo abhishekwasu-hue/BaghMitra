@@ -1,7 +1,9 @@
-"""Market linkage L0: owner decisions c, d, h and the draft rating-tag seed (spec v1.5)."""
+"""Market linkage L0: owner decisions c, d, h, the introduction-only data model (Addendum 5,
+migration 0030) and the draft rating-tag seed (spec v1.5)."""
 
 from __future__ import annotations
 
+import re
 import uuid
 from datetime import UTC, datetime, timedelta
 
@@ -25,22 +27,89 @@ SPEC_TABLES = {
     "party_verifications",
     "market_offers",
     "market_deals",
-    "deal_versions",
-    "deal_confirmations",
     "deal_events",
     "service_providers",
-    "service_requests",
-    "weigh_slips",
-    "deal_payments",
     "ratings",
     "rating_tags",
+    # Added in 0030 (spec §4, §4C, §6).
+    "registration_fixes",
+    "representative_uploads",
+    "fraud_reports",
+    "admin_actions",
+    "terms_acceptances",
+    "user_blocks",
+}
+# Dropped in 0030: BagMitra never enters the transaction or its disputes (§1 core principle).
+DROPPED_TABLES = {
+    "deal_versions",
+    "deal_confirmations",
+    "weigh_slips",
+    "deal_payments",
+    "service_requests",
     "disputes",
 }
+NOT_ALLOWED = re.compile(
+    r"commission|brokerage|income|dalali|aadhaar|uid|payment|paid|advance|balance|"
+    r"weighing|rejection|dispute",
+    re.IGNORECASE,
+)
 
 
 def test_every_spec_section_6_table_exists() -> None:
     assert set(MARKET_LINK_TABLES) == SPEC_TABLES
     assert set(Base.metadata.tables) >= SPEC_TABLES
+
+
+def test_dropped_tables_are_gone() -> None:
+    assert not DROPPED_TABLES & set(Base.metadata.tables)
+
+
+def test_no_column_holds_commission_income_aadhaar_or_deal_payment() -> None:
+    """Q64, addendum 1, Addendum 5: no commission, income, Aadhaar / UID, payment, weighing
+    place, rejection rule or dispute anywhere in the market-link tables."""
+    for name in MARKET_LINK_TABLES:
+        bad = [c.name for c in Base.metadata.tables[name].columns if NOT_ALLOWED.search(c.name)]
+        assert bad == [], f"{name}: {bad}"
+    offer = set(Base.metadata.tables["market_offers"].columns.keys())
+    assert {"basis", "rate_paise", "quantity_t", "harvest_date", "broker_user_id"} <= offer
+    deal = set(Base.metadata.tables["market_deals"].columns.keys())
+    assert {"accepted_at", "grower_done_at", "trader_done_at", "completed_at"} <= deal
+    assert "current_version" not in deal
+    assert "closed_at" not in Base.metadata.tables["deal_parties"].columns
+
+
+def test_reports_and_admin_actions_hold_codes_not_text() -> None:
+    """§4, §4C: predefined reasons only, no free text; admin acts with a reason code."""
+    for name in ("fraud_reports", "admin_actions", "user_blocks", "terms_acceptances"):
+        table = Base.metadata.tables[name]
+        for column in table.columns:
+            assert not isinstance(column.type, Text), (name, column.name)
+            assert not any(w in column.name for w in ("text", "comment", "note")), column.name
+            if isinstance(column.type, String):
+                assert (column.type.length or 0) <= 32, (name, column.name)
+
+
+def test_exporter_needs_an_iec_and_numbers_are_not_db_unique() -> None:
+    """§4: IEC required for an exporter; §4C: a second GSTIN / IEC / APMC claim reaches admin,
+    so the numbers are indexed but not unique (Q80)."""
+    table = Base.metadata.tables["buyer_profiles"]
+    checks = {str(c.sqltext) for c in table.constraints if isinstance(c, CheckConstraint)}
+    assert "kind <> 'exporter' OR iec_no IS NOT NULL" in checks
+    for column in ("gst_no", "iec_no", "apmc_licence_no"):
+        assert table.c[column].index is True
+        assert not table.c[column].unique
+
+
+@pytest.mark.parametrize("key", ["aadhaar_no", "AadhaarPhoto", "uid", "uid_otp"])
+def test_request_bodies_refuse_aadhaar_keys(key: str) -> None:
+    class ProfileIn(MarketLinkIn):
+        name: str
+        extra: dict[str, str] | None = None
+
+    with pytest.raises(ValidationError, match="aadhaar / uid"):
+        ProfileIn.model_validate({"name": "a", "extra": {key: "1"}})
+    with pytest.raises(ValidationError):
+        ProfileIn.model_validate({"name": "a", key: "1"})
 
 
 def test_c_no_market_link_column_holds_commission_or_income() -> None:

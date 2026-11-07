@@ -14,25 +14,36 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from bagmitra_api.market_link.models import SUBJECT_TYPES, PartyVerification
 
 FORBIDDEN_KEY = re.compile(r"commission|brokerage|income|dalali", re.IGNORECASE)
+# Zero-cost verification (addendum 1): no Aadhaar number, card image or OTP anywhere.
+AADHAAR_KEY = re.compile(r"aadhaar|uid", re.IGNORECASE)
+
+
+def _keys_matching(data: Any, pattern: re.Pattern[str]) -> list[str]:
+    found: list[str] = []
+    if isinstance(data, dict):
+        for key, value in data.items():
+            if isinstance(key, str) and pattern.search(key):
+                found.append(key)
+            found.extend(_keys_matching(value, pattern))
+    elif isinstance(data, list):
+        for item in data:
+            found.extend(_keys_matching(item, pattern))
+    return found
 
 
 def forbidden_keys(data: Any) -> list[str]:
     """Every key, at any depth of dicts and lists, that names a commission or income."""
-    found: list[str] = []
-    if isinstance(data, dict):
-        for key, value in data.items():
-            if isinstance(key, str) and FORBIDDEN_KEY.search(key):
-                found.append(key)
-            found.extend(forbidden_keys(value))
-    elif isinstance(data, list):
-        for item in data:
-            found.extend(forbidden_keys(item))
-    return found
+    return _keys_matching(data, FORBIDDEN_KEY)
+
+
+def aadhaar_keys(data: Any) -> list[str]:
+    """Every key, at any depth, that names an Aadhaar / UID field."""
+    return _keys_matching(data, AADHAAR_KEY)
 
 
 class MarketLinkIn(BaseModel):
     """Base of every market-link request body: unknown keys are refused, and a key naming a
-    commission or income is refused even inside a nested dict."""
+    commission, income or Aadhaar / UID is refused even inside a nested dict."""
 
     model_config = ConfigDict(extra="forbid")
 
@@ -42,6 +53,8 @@ class MarketLinkIn(BaseModel):
         bad = forbidden_keys(data)
         if bad:
             raise ValueError(f"commission / income fields are not allowed: {sorted(bad)}")
+        if aadhaar := aadhaar_keys(data):
+            raise ValueError(f"aadhaar / uid fields are not allowed: {sorted(aadhaar)}")
         return data
 
 
