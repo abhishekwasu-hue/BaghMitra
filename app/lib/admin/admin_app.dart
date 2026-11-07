@@ -10,7 +10,10 @@ import 'feed_pages.dart';
 import 'kb_admin_repository.dart';
 import 'kb_pages.dart';
 import 'market_link_admin_repository.dart';
+import 'market_link_appeals_page.dart';
 import 'market_link_pages.dart';
+import 'market_link_safety_admin.dart';
+import 'market_link_safety_pages.dart';
 
 /// Admin web shell (ADR 0006). Sections map to the config tables that keep business
 /// values out of code (spec §0.5); editors arrive with the milestones that own them.
@@ -22,6 +25,7 @@ class AdminApp extends StatelessWidget {
     this.feed,
     this.documents,
     this.marketLink,
+    this.safety,
     this.auth,
   });
 
@@ -40,6 +44,9 @@ class AdminApp extends StatelessWidget {
   /// `MARKET_LINK` on (decision j). Shown only to role `market_link_admin`.
   final MarketLinkAdminRepository? marketLink;
 
+  /// Market linkage reports and appeals (L6); same gate and role as [marketLink].
+  final MarketLinkSafetyAdmin? safety;
+
   /// When set, the shell is shown only to a signed-in staff account.
   final AdminAuth? auth;
 
@@ -57,6 +64,7 @@ class AdminApp extends StatelessWidget {
         feed: feed,
         documents: documents,
         marketLink: marketLink,
+        safety: safety,
       ),
       final a => StreamBuilder<void>(
         stream: a.changes,
@@ -68,6 +76,7 @@ class AdminApp extends StatelessWidget {
                 feed: feed,
                 documents: documents,
                 marketLink: marketLink,
+                safety: safety,
                 roles: a.roles,
                 onSignOut: a.signOut,
               ),
@@ -84,6 +93,7 @@ class AdminShell extends StatefulWidget {
     this.feed,
     this.documents,
     this.marketLink,
+    this.safety,
     this.roles = const {},
     this.onSignOut,
   });
@@ -93,6 +103,7 @@ class AdminShell extends StatefulWidget {
   final FeedAdminRepository? feed;
   final DocumentPicker? documents;
   final MarketLinkAdminRepository? marketLink;
+  final MarketLinkSafetyAdmin? safety;
 
   /// Supabase app_metadata roles of the signed-in account (gates the feed section).
   final Set<String> roles;
@@ -150,6 +161,10 @@ class _AdminShellState extends State<AdminShell> {
           VerificationQueuePage(repo: ml),
         ),
         (t.adminMlTags, Icons.sell_rounded, RatingTagsPage(repo: ml)),
+        if (widget.safety case final safety?) ...[
+          (t.adminMlReports, Icons.flag_rounded, ReportsPage(repo: safety)),
+          (t.adminMlAppeals, Icons.gavel_rounded, AppealsPage(repo: safety)),
+        ],
       ],
       (t.adminCropTemplates, Icons.eco_rounded, soon(1)),
       (t.adminRiskRules, Icons.thunderstorm_rounded, soon(4)),
@@ -177,14 +192,27 @@ class _AdminShellState extends State<AdminShell> {
       ),
       body: Row(
         children: [
-          NavigationRail(
-            selectedIndex: _index,
-            onDestinationSelected: (i) => setState(() => _index = i),
-            labelType: NavigationRailLabelType.all,
-            destinations: [
-              for (final (label, icon, _) in sections)
-                NavigationRailDestination(icon: Icon(icon), label: Text(label)),
-            ],
+          // Scrolls when the sections outgrow a short window (a laptop at 800 px).
+          LayoutBuilder(
+            builder: (context, box) => SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: box.maxHeight),
+                child: IntrinsicHeight(
+                  child: NavigationRail(
+                    selectedIndex: _index,
+                    onDestinationSelected: (i) => setState(() => _index = i),
+                    labelType: NavigationRailLabelType.all,
+                    destinations: [
+                      for (final (label, icon, _) in sections)
+                        NavigationRailDestination(
+                          icon: Icon(icon),
+                          label: Text(label),
+                        ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
           ),
           VerticalDivider(width: 1, color: c.line),
           Expanded(

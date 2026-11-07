@@ -367,3 +367,45 @@ def test_deal_events_are_append_only(conn: Connection) -> None:
         _insert(conn, "deal_events", deal_id=i["deal"], kind="version_confirmed")
         assert conn.execute(text("SELECT count(*) FROM deal_events")).scalar_one() == 2
         tx.rollback()
+
+
+def test_admin_actions_are_append_only_except_the_appeal(conn: Connection) -> None:
+    """§4C open admin actions (0033): the action, its reason code, actor and time never
+    change and no row is deleted; only the one appeal moves."""
+    with conn.begin() as tx:
+        action = _insert(
+            conn,
+            "admin_actions",
+            subject_type="user",
+            subject_id=uuid.uuid4(),
+            user_id=uuid.uuid4(),
+            action="hide",
+            reason_code="abuse",
+            actor_id=uuid.uuid4(),
+            appeal_state="none",
+        )
+        conn.execute(
+            text(
+                "UPDATE admin_actions SET appeal_state = 'appealed', "
+                "appeal_reason = 'behaviour_proper', appealed_at = now(), updated_at = now() "
+                "WHERE id = :i"
+            ),
+            {"i": action},
+        )
+        for stmt in (
+            "UPDATE admin_actions SET reason_code = 'fake_lot'",
+            "UPDATE admin_actions SET action = 'restore'",
+            "UPDATE admin_actions SET actor_id = gen_random_uuid()",
+            "DELETE FROM admin_actions",
+            "TRUNCATE admin_actions CASCADE",
+        ):
+            with (
+                pytest.raises(sa_exc.ProgrammingError, match="append-only"),
+                conn.begin_nested(),
+            ):
+                conn.execute(text(stmt))
+        state = conn.execute(text("SELECT appeal_state FROM admin_actions")).scalar_one()
+        assert state == "appealed"
+        with pytest.raises(sa_exc.IntegrityError), conn.begin_nested():
+            conn.execute(text("UPDATE admin_actions SET appeal_reason = 'paid_late'"))
+        tx.rollback()
