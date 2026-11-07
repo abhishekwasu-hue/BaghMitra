@@ -77,3 +77,22 @@ async def is_verified(session: AsyncSession, subject_type: str, subject_id: uuid
         and latest.checked_by is not None
         and latest.checked_at is not None
     )
+
+
+# Spec v1.5 §4B: lot text a buyer reads before acceptance must not carry a way to reach the
+# grower. A phone number is 10 or more digits in a row, separators allowed ("98 220 12345",
+# "+91-98220-12345", Devanagari digits too); a link is a scheme, "www.", a web domain, a chat
+# link or an e-mail address.
+_DIGITS = str.maketrans("०१२३४५६७८९", "0123456789")
+_PHONE = re.compile(r"(?:\d[\s\-.()+/]*){10,}")
+_LINK = re.compile(
+    r"https?://|www\.|wa\.me|t\.me|\S+@\S+\.\w{2,}"
+    r"|\b[a-z0-9-]+\.(?:com|in|net|org|co|info|biz|me|io|app|link|ly|xyz|online|site|shop)\b",
+    re.IGNORECASE,
+)
+
+
+def has_contact_details(text: str) -> bool:
+    """True when `text` holds something like a phone number or a link (§4B)."""
+    plain = text.translate(_DIGITS)
+    return bool(_PHONE.search(plain) or _LINK.search(plain))

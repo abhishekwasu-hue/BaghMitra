@@ -61,6 +61,12 @@ ADMIN_REASONS = (*REPORT_REASONS, "duplicate_user", "checks_passed", "appeal_uph
 APPEAL_STATES = ("none", "appealed", "upheld", "rejected")
 TERMS_ROLES = ("grower", "trader", "exporter", "broker", "provider", "representative")
 TERMS_DOCS = ("terms", "privacy", "disclaimer")
+# A lot is published with 3 to 8 in-app photos (spec v1.5 §3 step 1).
+LOT_MIN_PHOTOS = 3
+LOT_MAX_PHOTOS = 8
+# Real orchard check (spec §4C): only inside / near lots reach traders and brokers.
+ORCHARD_CHECKS = ("inside", "near", "outside", "unmapped")
+ORCHARD_OK = ("inside", "near")
 
 
 def one_of(column: str, values: tuple[str, ...]) -> CheckConstraint:
@@ -88,7 +94,11 @@ class MarketLot(OwnedSyncedRowMixin, Base):
     Place names are copied from the grower's profile at publish so buyers never read it."""
 
     __tablename__ = "market_lots"
-    __table_args__ = (one_of("status", LOT_STATUSES), one_of("basis", BASES))
+    __table_args__ = (
+        one_of("status", LOT_STATUSES),
+        one_of("basis", BASES),
+        one_of("orchard_check", ORCHARD_CHECKS),
+    )
     custom_rls = True
 
     plot_id: Mapped[uuid.UUID] = mapped_column(index=True)
@@ -106,6 +116,9 @@ class MarketLot(OwnedSyncedRowMixin, Base):
     district: Mapped[str | None] = mapped_column(String(120), index=True)
     status: Mapped[str] = mapped_column(String(16), index=True)
     published_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    # Set at publish (spec §4C, migration 0032): a lot that is not inside / near the mapped
+    # plot stays out of the traders' list and waits for an admin check.
+    orchard_check: Mapped[str | None] = mapped_column(String(16))
 
 
 class MarketLotPhoto(OwnedSyncedRowMixin, Base):

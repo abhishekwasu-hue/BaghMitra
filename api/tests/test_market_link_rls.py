@@ -67,7 +67,9 @@ def _terms() -> dict[str, Any]:
     }
 
 
-def _lot(conn: Connection, owner: uuid.UUID, status: str) -> uuid.UUID:
+def _lot(
+    conn: Connection, owner: uuid.UUID, status: str, orchard: str | None = "inside"
+) -> uuid.UUID:
     return _insert(
         conn,
         "market_lots",
@@ -79,6 +81,7 @@ def _lot(conn: Connection, owner: uuid.UUID, status: str) -> uuid.UUID:
         harvest_to=date(2026, 12, 15),
         basis="per_tonne",
         status=status,
+        orchard_check=orchard if status == "published" else None,
     )
 
 
@@ -107,6 +110,8 @@ def _fixture(conn: Connection) -> dict[str, uuid.UUID]:
     ids["lot_pub"] = _lot(conn, u["grower"], "published")
     ids["lot_draft"] = _lot(conn, u["grower"], "draft")
     ids["lot_other"] = _lot(conn, u["grower2"], "published")
+    # Photographed away from the mapped plot (spec §4C, 0032): waits for an admin check.
+    ids["lot_review"] = _lot(conn, u["grower2"], "published", orchard="outside")
     photo = {"captured_at": NOW, "lat": 21.1, "lon": 77.7}
     ids["photo_pub"] = _insert(
         conn, "market_lot_photos", owner_id=u["grower"], lot_id=ids["lot_pub"], **photo
@@ -289,7 +294,8 @@ def test_rls_per_role(conn: Connection) -> None:
         assert _seen(conn, g, "buyer_profiles") == {i["buyer_p"]}
         assert _seen(conn, g, "broker_profiles") == {i["broker_p"]}
         assert _seen(conn, g, "rating_tags") == {i["tag_active"]}
-        # Verified buyer: every published lot and its photos, never a draft; own offers/deals.
+        # Verified buyer: every published lot that passed the orchard check and its photos,
+        # never a draft or a lot waiting for an admin check; own offers / deals.
         b = i["buyer"]
         assert _seen(conn, b, lots) == {i["lot_pub"], i["lot_other"]}
         assert _seen(conn, b, "market_lot_photos") == {i["photo_pub"]}
@@ -322,7 +328,7 @@ def test_rls_per_role(conn: Connection) -> None:
         for table in (lots, "market_deals", "market_offers", "registration_fixes"):
             assert _seen(conn, p, table) == set(), table
         # Another grower sees only their own lot and deal.
-        assert _seen(conn, i["grower2"], lots) == {i["lot_other"]}
+        assert _seen(conn, i["grower2"], lots) == {i["lot_other"], i["lot_review"]}
         assert _seen(conn, i["grower2"], "market_deals") == {i["deal_other"]}
         # Not signed in: nothing, not even active tags or verified profiles.
         for table in (
@@ -337,7 +343,7 @@ def test_rls_per_role(conn: Connection) -> None:
         ):
             assert _seen(conn, None, table) == set(), table
         # Admin works through the API's privileged role (RLS bypassed), which sees every row.
-        assert conn.execute(text("SELECT count(*) FROM market_lots")).scalar_one() == 3
+        assert conn.execute(text("SELECT count(*) FROM market_lots")).scalar_one() == 4
         # A later rejection revokes the badge: the buyer loses every lot it is not party to.
         _verify(conn, "buyer", i["buyer_p"], "rejected", NOW + timedelta(seconds=1))
         assert _seen(conn, b, lots) == {i["lot_pub"], i["lot_other"]}  # deal parties keep theirs
