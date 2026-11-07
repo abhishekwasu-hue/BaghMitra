@@ -4259,7 +4259,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mlRateSameDevice =>
-      'Accounts used on the same phone cannot rate each other.';
+      'Ratings are given between accounts on different phones.';
 
   @override
   String get mlQGrowerProduce => 'Produce matched the photos and description';

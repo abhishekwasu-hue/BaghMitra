@@ -4251,7 +4251,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get mlRateSameDevice =>
-      'एकाच फोनवर वापरलेली खाती एकमेकांना रेटिंग देऊ शकत नाहीत.';
+      'रेटिंग वेगवेगळ्या फोनवरील खात्यांमध्येच देता येते.';
 
   @override
   String get mlQGrowerProduce => 'माल फोटो व वर्णनाप्रमाणे होता';

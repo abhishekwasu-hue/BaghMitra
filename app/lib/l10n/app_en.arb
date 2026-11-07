@@ -1647,7 +1647,7 @@
   "mlRateAnswerAll": "Give stars on every line",
   "mlRateSaved": "Rating saved",
   "mlRateRefused": "Rating is saved only within 7 days after both tap “Deal done”.",
-  "mlRateSameDevice": "Accounts used on the same phone cannot rate each other.",
+  "mlRateSameDevice": "Ratings are given between accounts on different phones.",
   "mlQGrowerProduce": "Produce matched the photos and description",
   "mlQGrowerReady": "Produce ready on the agreed date",
   "mlCopyToAccounts": "Note in my accounts"

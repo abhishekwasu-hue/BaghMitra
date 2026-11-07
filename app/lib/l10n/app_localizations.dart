@@ -7447,7 +7447,7 @@ abstract class AppLocalizations {
   /// No description provided for @mlRateSameDevice.
   ///
   /// In en, this message translates to:
-  /// **'Accounts used on the same phone cannot rate each other.'**
+  /// **'Ratings are given between accounts on different phones.'**
   String get mlRateSameDevice;
 
   /// No description provided for @mlQGrowerProduce.

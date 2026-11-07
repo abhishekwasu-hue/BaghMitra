@@ -125,7 +125,7 @@ void main() {
     await tester.tap(find.byKey(const Key('ml-rate-save')));
     await settle(tester);
     expect(
-      find.text('एकाच फोनवर वापरलेली खाती एकमेकांना रेटिंग देऊ शकत नाहीत.'),
+      find.text('रेटिंग वेगवेगळ्या फोनवरील खात्यांमध्येच देता येते.'),
       findsOneWidget,
     );
     await unmountApp(tester);
