@@ -9,6 +9,7 @@ import '../theme/app_theme.dart';
 import 'kb_admin_repository.dart' show KbAdminException;
 import 'package_activation_page.dart';
 import 'package_admin_repository.dart';
+import 'package_print.dart';
 import 'package_strings.dart';
 
 /// A picked QR image: bytes and content type; null when cancelled.
@@ -56,8 +57,9 @@ const _companyFields = [
 
 /// The admin web's "Sale package" section: settings, then activation (§4E).
 class PackageSection extends StatelessWidget {
-  const PackageSection({required this.repo, super.key});
+  const PackageSection({required this.repo, this.saveFile, super.key});
   final PackageAdminRepository repo;
+  final SaveFile? saveFile;
 
   @override
   Widget build(BuildContext context) {
@@ -79,8 +81,8 @@ class PackageSection extends StatelessWidget {
           Expanded(
             child: TabBarView(
               children: [
-                PackageSettingsPage(repo: repo),
-                PackageActivationPage(repo: repo),
+                PackageSettingsPage(repo: repo, saveFile: saveFile),
+                PackageActivationPage(repo: repo, saveFile: saveFile),
               ],
             ),
           ),
@@ -93,9 +95,15 @@ class PackageSection extends StatelessWidget {
 /// Company profile and package settings (§4E). The switch cannot turn ON while legal
 /// name, GSTIN, UPI ID or price is empty; the page names the missing fields.
 class PackageSettingsPage extends StatefulWidget {
-  const PackageSettingsPage({required this.repo, this.pickQr, super.key});
+  const PackageSettingsPage({
+    required this.repo,
+    this.pickQr,
+    this.saveFile,
+    super.key,
+  });
   final PackageAdminRepository repo;
   final PickQr? pickQr;
+  final SaveFile? saveFile;
 
   @override
   State<PackageSettingsPage> createState() => _PackageSettingsPageState();
@@ -207,6 +215,25 @@ class _PackageSettingsPageState extends State<PackageSettingsPage> {
     await _run(() async {
       final saved = await widget.repo.uploadQr(picked.$1, picked.$2);
       setState(() => _company = saved);
+    });
+  }
+
+  /// The representatives' printed QR card (admin web only): needs the merchant QR.
+  Future<void> _qrCard() async {
+    final s = PackageStrings.of(context);
+    final company = _company;
+    if (company == null || !company.merchantQr) {
+      packageSay(context, s['no_qr']);
+      return;
+    }
+    final view = View.of(context);
+    await _run(() async {
+      final qr = await decodeImage(await widget.repo.merchantQr());
+      final pdf = await printPage(
+        QrCardSheet(company: company, qr: qr, s: s),
+        view,
+      );
+      await (widget.saveFile ?? savePdf)('bagmitra-qr-card.pdf', pdf);
     });
   }
 
@@ -335,14 +362,20 @@ class _PackageSettingsPageState extends State<PackageSettingsPage> {
                     style: BmType.body,
                   ),
                   const Spacer(),
-                  SizedBox(
-                    width: 220,
-                    child: OutlinedButton(
-                      key: const Key('pkg-upload-qr'),
-                      onPressed: _uploadQr,
-                      child: Text(s['upload_qr']),
+                  for (final (key, label, action) in [
+                    ('pkg-upload-qr', s['upload_qr'], _uploadQr),
+                    ('pkg-qr-card', s['qr_card'], _qrCard),
+                  ]) ...[
+                    const SizedBox(width: BmSpace.sm),
+                    SizedBox(
+                      width: 200,
+                      child: OutlinedButton(
+                        key: Key(key),
+                        onPressed: action,
+                        child: Text(label),
+                      ),
                     ),
-                  ),
+                  ],
                 ],
               ),
               const SizedBox(height: BmSpace.sm),

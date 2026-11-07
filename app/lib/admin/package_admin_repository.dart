@@ -21,6 +21,9 @@ abstract interface class PackageAdminRepository {
   Future<PackageGrantOut> recordGrant(PackageGrantIn body);
   Future<List<PackageGrantOut>> grants(String growerId);
   Future<PackageGrantOut> revoke(String grantId, String reason);
+
+  /// What the receipt PDF shows; refused while the company profile is empty.
+  Future<ReceiptOut> receipt(String grantId);
 }
 
 /// The API's error code and message (the page shows the message; `missing: ...` names the
@@ -121,6 +124,13 @@ class ApiPackageAdminRepository implements PackageAdminRepository {
     await _api.v1AdminMarketLinkPackageGrantsGrantIdRevokePost(
       grantId: grantId,
       body: PackageRevokeIn(reason: reason),
+    ),
+  );
+
+  @override
+  Future<ReceiptOut> receipt(String grantId) async => _ok(
+    await _api.v1AdminMarketLinkPackageGrantsGrantIdReceiptGet(
+      grantId: grantId,
     ),
   );
 }

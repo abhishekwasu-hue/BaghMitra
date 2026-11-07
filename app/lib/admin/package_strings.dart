@@ -5,10 +5,10 @@ import 'package:flutter/widgets.dart';
 /// feature (consumption-only, research §7.1; test/l10n/package_consumption_only_test.dart).
 /// Marathi first; English is the fallback.
 class PackageStrings {
-  const PackageStrings._(this._lang);
+  const PackageStrings.forLanguage(this._lang);
 
   factory PackageStrings.of(BuildContext context) =>
-      PackageStrings._(Localizations.localeOf(context).languageCode);
+      PackageStrings.forLanguage(Localizations.localeOf(context).languageCode);
 
   final String _lang;
 
@@ -71,6 +71,20 @@ const Map<String, Map<String, String>> _text = {
     'ended': 'संपले',
     'back': 'मागे',
     'duplicate_payment_ref': 'हा UTR आधीच नोंदला आहे',
+    'receipt_pdf': 'पावती PDF',
+    'receipt_title': 'पावती — विक्री पॅकेज',
+    'issued_on': 'दिनांक',
+    'received_from': 'यांच्याकडून मिळाले',
+    'for': 'कशासाठी',
+    'service': 'लॉट व्यापाऱ्यांना दाखवणे (विक्री पॅकेज)',
+    'total': 'एकूण मिळाले',
+    'taxable': 'करपात्र मूल्य',
+    'gst_line': 'जीएसटी {v}% (समाविष्ट)',
+    'validity': 'पॅकेज मुदत',
+    'qr_card': 'QR कार्ड छापा',
+    'qr_scan': 'कोणत्याही UPI ॲपने स्कॅन करा',
+    'no_qr': 'आधी मर्चंट QR अपलोड करा',
+    'company_profile_empty': 'आधी कंपनी माहिती भरा',
   },
   'hi': {
     'section': 'बिक्री पैकेज',
@@ -123,6 +137,20 @@ const Map<String, Map<String, String>> _text = {
     'ended': 'समाप्त',
     'back': 'वापस',
     'duplicate_payment_ref': 'यह UTR पहले से दर्ज है',
+    'receipt_pdf': 'रसीद PDF',
+    'receipt_title': 'रसीद — बिक्री पैकेज',
+    'issued_on': 'दिनांक',
+    'received_from': 'से प्राप्त',
+    'for': 'किसके लिए',
+    'service': 'लॉट व्यापारियों को दिखाना (बिक्री पैकेज)',
+    'total': 'कुल प्राप्त',
+    'taxable': 'कर योग्य मूल्य',
+    'gst_line': 'जीएसटी {v}% (शामिल)',
+    'validity': 'पैकेज अवधि',
+    'qr_card': 'QR कार्ड छापें',
+    'qr_scan': 'किसी भी UPI ऐप से स्कैन करें',
+    'no_qr': 'पहले मर्चेंट QR अपलोड करें',
+    'company_profile_empty': 'पहले कंपनी जानकारी भरें',
   },
   'en': {
     'section': 'Sale package',
@@ -175,6 +203,20 @@ const Map<String, Map<String, String>> _text = {
     'ended': 'Ended',
     'back': 'Back',
     'duplicate_payment_ref': 'This UTR is already recorded',
+    'receipt_pdf': 'Receipt PDF',
+    'receipt_title': 'Receipt — sale package',
+    'issued_on': 'Date',
+    'received_from': 'Received from',
+    'for': 'For',
+    'service': 'Showing the lot to traders (sale package)',
+    'total': 'Total received',
+    'taxable': 'Taxable value',
+    'gst_line': 'GST {v}% (included)',
+    'validity': 'Package valid',
+    'qr_card': 'Print QR card',
+    'qr_scan': 'Scan with any UPI app',
+    'no_qr': 'Upload the merchant QR first',
+    'company_profile_empty': 'Fill the company profile first',
   },
 };
 

@@ -1,10 +1,13 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:bagmitra/admin/admin_app.dart';
 import 'package:bagmitra/admin/kb_admin_repository.dart';
+import 'package:bagmitra/admin/package_activation_page.dart';
 import 'package:bagmitra/admin/package_admin_repository.dart';
 import 'package:bagmitra/admin/package_pages.dart';
+import 'package:bagmitra/admin/package_print.dart';
 import 'package:bagmitra/admin/package_strings.dart';
 import 'package:bagmitra/api/api_client.dart';
 import 'package:bagmitra/api/generated/bagmitra.swagger.dart';
@@ -48,6 +51,30 @@ PackageGrantOut grantOut(String id, {String? revokedAt, int days = 45}) =>
       'revoked_at': revokedAt,
       'revoked_reason': null,
       'admin_id': 'a1',
+    });
+
+ReceiptOut sampleReceipt({bool gst = true, bool revoked = false}) =>
+    ReceiptOut.fromJson({
+      'receipt_no': 'BM/26-27/00001',
+      'issued_on': '2026-11-20',
+      'legal_name': 'BagMitra Agritech Pvt Ltd',
+      'trade_name': 'BagMitra',
+      'address': 'Main Road, Warud, Amravati, Maharashtra 444906',
+      'gstin': '27AABCB1234F1Z5',
+      'pan': 'AABCB1234F',
+      'grower_name': 'रमेश पाटील',
+      'grower_phone': '+919812345678',
+      'lot': 'santra · nagpur',
+      'amount_paise': 150000,
+      'method': 'upi',
+      'payment_ref': 'UTR412345678901',
+      'paid_on': '2026-11-19',
+      'valid_from': '2026-11-20',
+      'valid_until': '2027-01-04',
+      'revoked': revoked,
+      'gst': gst
+          ? {'rate_percent': '18', 'taxable_paise': 127119, 'gst_paise': 22881}
+          : null,
     });
 
 /// In-memory package admin: the guard as the server applies it.
@@ -98,7 +125,8 @@ class FakePackageAdmin implements PackageAdminRepository {
   }
 
   @override
-  Future<Uint8List> merchantQr() async => Uint8List(0);
+  Future<Uint8List> merchantQr() async =>
+      File('assets/icon/icon.png').readAsBytesSync();
 
   @override
   Future<PackageSettingsOut> settings() async =>
@@ -155,6 +183,17 @@ class FakePackageAdmin implements PackageAdminRepository {
 
   @override
   Future<List<PackageGrantOut>> grants(String growerId) async => grantList;
+
+  @override
+  Future<ReceiptOut> receipt(String grantId) async {
+    if (profile['legal_name'] == null) {
+      throw const PackageAdminException(
+        'missing: legal_name',
+        'company_profile_empty',
+      );
+    }
+    return sampleReceipt(gst: profile['gst_rate_percent'] != null);
+  }
 
   @override
   Future<PackageGrantOut> revoke(String grantId, String reason) async {
@@ -332,6 +371,86 @@ void main() {
     await tester.pumpAndSettle();
     expect(fake.revoked, [('1', 'bounced')]);
     expect(find.text('Revoked'), findsOneWidget);
+  });
+
+  testWidgets('receipt PDF and QR card are print files for the admin', (
+    tester,
+  ) async {
+    final fake = FakePackageAdmin(filled: true);
+    final saved = <(String, Uint8List)>[];
+    tester.view.physicalSize = const Size(1280, 1400);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
+    Future<void> page(Widget child) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          theme: BmTheme.light(),
+          home: Scaffold(body: child),
+        ),
+      );
+      await tester.pumpAndSettle();
+    }
+
+    Future<void> tapAndWait(Finder f) async {
+      await tester.runAsync(() async {
+        await tester.tap(f);
+        for (var i = 0; i < 50 && saved.isEmpty; i++) {
+          await Future<void>.delayed(const Duration(milliseconds: 20));
+          await tester.pump();
+        }
+      });
+      await tester.pumpAndSettle();
+    }
+
+    Future<void> save(String name, Uint8List bytes) async =>
+        saved.add((name, bytes));
+    await page(PackageSettingsPage(repo: fake, saveFile: save));
+    await tapAndWait(find.byKey(const Key('pkg-qr-card')));
+    expect(saved.single.$1, 'bagmitra-qr-card.pdf');
+    expect(ascii.decode(saved.single.$2.sublist(0, 4)), '%PDF');
+
+    saved.clear();
+    fake.grantList.add(grantOut('1'));
+    await page(PackageActivationPage(repo: fake, saveFile: save));
+    await tester.enterText(find.byKey(const Key('pkg-phone')), '9812345678');
+    await tester.tap(find.byKey(const Key('pkg-find')));
+    await tester.pumpAndSettle();
+    await tapAndWait(find.byKey(const ValueKey('receipt-1')));
+    expect(saved.single.$1, 'receipt-BM-26-27-00001.pdf');
+    expect(ascii.decode(saved.single.$2.sublist(0, 4)), '%PDF');
+
+    // Never with an empty company profile; no QR card without the QR.
+    saved.clear();
+    fake.profile['legal_name'] = null;
+    await tester.tap(find.byKey(const ValueKey('receipt-1')));
+    await tester.pumpAndSettle();
+    expect(find.text('Fill the company profile first'), findsOneWidget);
+    fake.profile['merchant_qr'] = false;
+    await page(PackageSettingsPage(repo: fake, saveFile: save));
+    await tester.tap(find.byKey(const Key('pkg-qr-card')));
+    await tester.pumpAndSettle();
+    expect(find.text('Upload the merchant QR first'), findsOneWidget);
+    expect(saved, isEmpty);
+  });
+
+  testWidgets('the receipt shows the GST line only when the server sends it', (
+    tester,
+  ) async {
+    const s = PackageStrings.forLanguage('en');
+    for (final (gst, revoked) in [(true, false), (false, true)]) {
+      await tester.pumpWidget(
+        Directionality(
+          textDirection: TextDirection.ltr,
+          child: ReceiptSheet(sampleReceipt(gst: gst, revoked: revoked), s),
+        ),
+      );
+      expect(
+        find.text('GST 18% (included)'),
+        gst ? findsOneWidget : findsNothing,
+      );
+      expect(find.text('Revoked'), revoked ? findsOneWidget : findsNothing);
+      expect(find.text('रमेश पाटील · +919812345678'), findsOneWidget);
+    }
   });
 
   test('the API repository calls the package endpoints', () async {
