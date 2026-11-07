@@ -36,6 +36,7 @@ import '../features/market/presentation/market_prices_screen.dart';
 import '../features/market_link/domain/market_link.dart';
 import '../features/market_link/domain/registration.dart';
 import '../features/market_link/presentation/lot_form_screen.dart';
+import '../features/market_link/presentation/my_lots_screen.dart';
 import '../features/market_link/presentation/my_profiles_screen.dart';
 import '../features/market_link/presentation/people_screen.dart';
 import '../features/market_link/presentation/registration_screen.dart';
@@ -322,6 +323,7 @@ GoRouter buildRouter(
         builder: (_, s) => FeedItemScreen(itemId: s.pathParameters['id']!),
       ),
       GoRoute(path: Routes.more, builder: (_, _) => const MoreScreen()),
+      GoRoute(path: Routes.marketLots, builder: (_, _) => const MyLotsScreen()),
       GoRoute(
         path: '${Routes.marketLots}/new',
         builder: (_, s) => LotFormScreen(plotId: s.uri.queryParameters['plot']),

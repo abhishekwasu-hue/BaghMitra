@@ -18,18 +18,21 @@ import '../../bahar/data/bahar_catalog.dart';
 import '../../bahar/data/stage_templates.dart';
 import '../../bahar/presentation/cycle_chips.dart';
 import '../../plots/domain/plot.dart';
+import '../../scouting/data/scouting_photos.dart';
 import '../../voice/presentation/voice_mic_button.dart';
+import '../data/lot_publisher.dart';
 import '../domain/lot_form_rules.dart';
 import '../domain/market_link_role.dart';
 import '../domain/market_lot.dart';
+import 'lot_photo_strip.dart';
 import 'lot_widgets.dart';
 import 'market_link_entry.dart';
 
 /// One lot of produce for sale (spec v1.5 §3 step 1): orchard and bahar as big choices,
 /// crop and variety from the orchard, tonnes, size / quality (typed or spoken), harvest
 /// window (from the bahar's harvest stage by default), basis, an optional asking rate with
-/// today's mandi price beside it. Saved as a draft on the phone. A published lot is read
-/// only. (Photos and "show to traders" come in the next part, L3-7.)
+/// today's mandi price beside it, and 3 to 8 photos from the app camera. Saved as a draft
+/// on the phone; "show to traders" is an online step. A published lot is read only.
 class LotFormScreen extends StatelessWidget {
   const LotFormScreen({this.lotId, this.plotId, super.key});
 
@@ -71,6 +74,8 @@ class _LotFormState extends ConsumerState<_LotForm> {
   StageWindow? _custom;
   String _status = 'draft';
   bool _awaitingCheck = false;
+  final _photos = <LotPhoto>[];
+  final _removed = <String>{};
   bool _tried = false;
   bool _busy = false;
   late bool _loading = widget.lotId != null;
@@ -83,27 +88,31 @@ class _LotFormState extends ConsumerState<_LotForm> {
     if (id == null) return;
     final repo = ref.read(marketLotRepositoryProvider);
     // The chip options are needed to read the size / grade back from the lot text.
-    Future.wait([repo.find(id), ref.read(fieldWorkOptionsProvider.future)])
-        .then((r) {
-          if (!mounted) return;
-          final lot = r[0] as MarketLot?;
-          setState(() {
-            _loading = false;
-            if (lot == null) return;
-            _plot = lot.plotId;
-            _cycle = lot.baharCycleId;
-            _basis = lot.basis;
-            _status = lot.status;
-            _awaitingCheck = lot.awaitingCheck;
-            final q = lot.quantityT;
-            _tonnes.text = q == q.roundToDouble() ? '${q.round()}' : '$q';
-            _quality.text = _readQuality(lot.quality);
-            _rate.text = lot.askingRatePaise == null
-                ? ''
-                : plainRupees(lot.askingRatePaise!).replaceAll('.00', '');
-            _custom = StageWindow(lot.harvestFrom, lot.harvestTo);
-          });
-        });
+    Future.wait([
+      repo.find(id),
+      repo.photosOf(id),
+      ref.read(fieldWorkOptionsProvider.future),
+    ]).then((r) {
+      if (!mounted) return;
+      final lot = r[0] as MarketLot?;
+      setState(() {
+        _loading = false;
+        if (lot == null) return;
+        _plot = lot.plotId;
+        _cycle = lot.baharCycleId;
+        _basis = lot.basis;
+        _status = lot.status;
+        _awaitingCheck = lot.awaitingCheck;
+        final q = lot.quantityT;
+        _tonnes.text = q == q.roundToDouble() ? '${q.round()}' : '$q';
+        _quality.text = _readQuality(lot.quality);
+        _rate.text = lot.askingRatePaise == null
+            ? ''
+            : plainRupees(lot.askingRatePaise!).replaceAll('.00', '');
+        _custom = StageWindow(lot.harvestFrom, lot.harvestTo);
+        _photos.addAll(r[1] as List<LotPhoto>);
+      });
+    });
   }
 
   @override
@@ -177,6 +186,51 @@ class _LotFormState extends ConsumerState<_LotForm> {
     return double.tryParse(ascii);
   }
 
+  /// The in-app camera only (spec v1.5 §3 step 1): no gallery. Each photo gets the time
+  /// and the phone's GPS point; without a point it is not kept.
+  Future<void> _addPhoto() async {
+    if (_busy || _photos.length >= lotMaxPhotos) return;
+    setState(() => _busy = true);
+    try {
+      final photos = ref.read(lotPhotosProvider);
+      final picked = await photos.pick(PhotoSource.camera);
+      if (picked == null) return;
+      final at = ref.read(clockProvider)();
+      final reading = await ref.read(locationServiceProvider).current();
+      final point = reading.position;
+      if (point == null) {
+        await photos.discard(picked);
+        _say((t) => t.mlPhotoNoGps);
+        return;
+      }
+      final photoId = ref.read(marketLotRepositoryProvider).newId();
+      final kept = await photos.keep(picked, photoId);
+      if (!mounted) return;
+      setState(
+        () => _photos.add(
+          LotPhoto(
+            id: photoId,
+            lotId: _id,
+            capturedAt: at,
+            lat: point.lat,
+            lon: point.lon,
+            photoPath: kept,
+          ),
+        ),
+      );
+    } on Object catch (e) {
+      ref.read(appLogProvider).log('lot photo: ${e.runtimeType}');
+      _say((t) => t.scoutingPhotoFailed);
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
+  }
+
+  void _removePhoto(LotPhoto p) => setState(() {
+    _photos.removeWhere((x) => x.id == p.id);
+    _removed.add(p.id);
+  });
+
   Future<void> _pickWindow(StageWindow? start) async {
     final now = ref.read(clockProvider)();
     final today = DateTime(now.year, now.month, now.day);
@@ -207,6 +261,7 @@ class _LotFormState extends ConsumerState<_LotForm> {
     final repo = ref.read(marketLotRepositoryProvider);
     final quality = _composeQuality();
     final rate = parseRupeesToPaise(_rate.text);
+    // The lot first: its photos refer to it on the server.
     await repo.save(
       MarketLot(
         id: _id,
@@ -222,6 +277,14 @@ class _LotFormState extends ConsumerState<_LotForm> {
         askingRatePaise: rate == null || rate == 0 ? null : rate,
       ),
     );
+    final saved = {for (final p in await repo.photosOf(_id)) p.id};
+    for (final p in _photos) {
+      if (!saved.contains(p.id)) await repo.savePhoto(p);
+    }
+    for (final id in _removed) {
+      if (saved.contains(id)) await repo.deletePhoto(id);
+    }
+    _removed.clear();
     return true;
   }
 
@@ -238,6 +301,53 @@ class _LotFormState extends ConsumerState<_LotForm> {
     } finally {
       _busy = false;
     }
+  }
+
+  Future<void> _publish(Plot? plot, StageWindow? window) async {
+    if (_busy) return;
+    setState(() => _busy = true);
+    try {
+      if (!await _save(plot, window)) return;
+      final outcome = await ref.read(lotPublisherProvider).publish(_id);
+      _sayOutcome(outcome);
+      final done =
+          outcome == PublishOutcome.published ||
+          outcome == PublishOutcome.orchardCheck;
+      if (done && mounted) _back();
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
+  }
+
+  Future<void> _close() async {
+    if (_busy) return;
+    setState(() => _busy = true);
+    try {
+      final outcome = await ref.read(lotPublisherProvider).close(_id);
+      _sayOutcome(outcome);
+      if (outcome == PublishOutcome.closed && mounted) _back();
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
+  }
+
+  void _sayOutcome(PublishOutcome o) {
+    final lang = Localizations.localeOf(context).languageCode;
+    _say(
+      (t) => switch (o) {
+        PublishOutcome.published => t.mlPublished,
+        PublishOutcome.closed => t.mlClosed,
+        PublishOutcome.offline => t.mlPublishOffline,
+        PublishOutcome.photosNeeded => t.mlPublishNeedPhotos(
+          formatInt(lotMinPhotos, lang),
+          formatInt(lotMaxPhotos, lang),
+        ),
+        PublishOutcome.photoMissing => t.mlPublishPhotoMissing,
+        PublishOutcome.notAccepted => t.mlPublishNotAccepted,
+        PublishOutcome.orchardCheck => t.mlPublishOrchardCheck,
+        PublishOutcome.failed => t.mlPublishFailed,
+      },
+    );
   }
 
   Future<void> _delete() async {
@@ -464,6 +574,22 @@ class _LotFormState extends ConsumerState<_LotForm> {
           basis: _basis,
           ratePaise: parseRupeesToPaise(_rate.text) ?? 0,
         ),
+      title('${t.mlPhotos} · ${formatInt(_photos.length, lang)}'),
+      Text(photosHint(t, lang), style: BmType.meta),
+      const SizedBox(height: BmSpace.xs),
+      LotPhotoStrip(photos: _photos, onRemove: draft ? _removePhoto : null),
+      if (draft && _photos.length < lotMaxPhotos) ...[
+        const SizedBox(height: BmSpace.xs),
+        Align(
+          alignment: AlignmentDirectional.centerStart,
+          child: OutlinedButton.icon(
+            key: const Key('lot-add-photo'),
+            onPressed: _busy ? null : _addPhoto,
+            icon: const Icon(Icons.photo_camera_outlined),
+            label: Text(t.mlAddPhoto),
+          ),
+        ),
+      ],
       gap,
       InfoNote(t.mlPrivacy),
       if (draft && widget.lotId != null)
@@ -477,6 +603,7 @@ class _LotFormState extends ConsumerState<_LotForm> {
         ),
     ];
 
+    final ready = _photos.length >= lotMinPhotos;
     return Scaffold(
       appBar: AppBar(
         title: AppBarTitle(t.mlLotFormTitle),
@@ -501,17 +628,41 @@ class _LotFormState extends ConsumerState<_LotForm> {
           children: children,
         ),
       ),
-      bottomNavigationBar: _status == 'draft'
-          ? BottomActions(
-              children: [
-                FilledButton(
-                  key: const Key('lot-save'),
-                  onPressed: _busy ? null : () => _saveDraft(plot, window),
-                  child: Text(t.mlSaveDraft),
-                ),
-              ],
-            )
-          : null,
+      bottomNavigationBar: switch (_status) {
+        'draft' => BottomActions(
+          stacked: true,
+          children: [
+            if (ready)
+              FilledButton(
+                key: const Key('lot-publish'),
+                onPressed: _busy ? null : () => _publish(plot, window),
+                child: Text(t.mlPublish),
+              ),
+            if (ready)
+              OutlinedButton(
+                key: const Key('lot-save'),
+                onPressed: _busy ? null : () => _saveDraft(plot, window),
+                child: Text(t.mlSaveDraft),
+              )
+            else
+              FilledButton(
+                key: const Key('lot-save'),
+                onPressed: _busy ? null : () => _saveDraft(plot, window),
+                child: Text(t.mlSaveDraft),
+              ),
+          ],
+        ),
+        'published' => BottomActions(
+          children: [
+            OutlinedButton(
+              key: const Key('lot-close'),
+              onPressed: _busy ? null : _close,
+              child: Text(t.mlClose),
+            ),
+          ],
+        ),
+        _ => null,
+      },
     );
   }
 }
