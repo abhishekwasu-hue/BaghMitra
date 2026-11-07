@@ -44,7 +44,7 @@ Policy text: `api/src/bagmitra_api/public_pages/privacy.py`. Keep both in step.
 | Claim kit (photos, notes, GPS stamp) | phone only, not synced | `app/lib/features/insurance/data/claim_kit_repository.dart:11-12`; OPEN_QUESTIONS Q37 |
 | Lab report photo / file | phone only, path never synced | `app/lib/features/lab_tests/data/lab_report_files.dart:3-5`; `api/src/bagmitra_api/db/models/lab_test.py:1-4` |
 
-## 3A. Market linkage data model (migrations 0029–0030; off in production: `market_link_enabled`)
+## 3A. Market linkage data model (migrations 0029–0033; off in production: `market_link_enabled`)
 
 | Item | Behaviour | Reference |
 |---|---|---|
@@ -53,6 +53,9 @@ Policy text: `api/src/bagmitra_api/public_pages/privacy.py`. Keep both in step.
 | **Registration GPS fix (precise location)** | table ready (`registration_fixes`): one fix per registration, exact coordinates admin-only, own row readable by the registrant; collected from L2 | `api/src/bagmitra_api/market_link/models.py` (`RegistrationFix`) |
 | Representative uploads | place photo (capture time + GPS) and / or address, with who and when | `RepresentativeUpload` |
 | Reports, admin actions, blocks, terms acceptances | predefined reason codes only (no text); acceptances are versioned and time-stamped with the 18+ declaration | `FraudReport`, `AdminAction`, `UserBlock`, `TermsAcceptance` |
+| Report and appeal photos (L6) | optional, at most `MARKET_LINK_REPORT_MAX_PHOTOS` (default 3) each; uploaded through the API, which strips EXIF (GPS, phone, time) before storing in the private bucket under the user's folder; shown to admin only by a short-lived link | `api/src/bagmitra_api/market_link/safety.py` (`store_photo`); `api/src/bagmitra_api/market_link/photos.py` |
+| Admin action log (L6) | every verify / warn / hide / suspend / restore with reason code, actor and time; Postgres refuses edits of the action and any delete (only the one appeal moves: reason code, photos, acknowledged / decided times); kept after an account deletion (user id only) | `api/alembic/versions/0033_market_link_safety.py`; `api/src/bagmitra_api/routers/admin_market_link_safety.py` |
+| **Account deletion, market link (Q68)** | at `DELETE /v1/me` the user's market-link data is hidden at once (`deferred_erasures`, published lots withdrawn); after `MARKET_LINK_ERASE_AFTER_DAYS` (default 180) a nightly job erases profiles, verification records and documents, registration fixes, representative uploads, terms acceptances, blocks, reports, lot photos and lots without an introduction; a lot with an introduction stays without its photos and text; ratings given stay, shown without name | `api/src/bagmitra_api/market_link/erasure.py`; `api/src/bagmitra_api/market_link/erase_job.py`; `deploy/deploy.sh` (`CRON_MARKET_LINK_ERASE`) |
 
 ## 4. Device features
 
