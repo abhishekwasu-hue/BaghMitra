@@ -1049,5 +1049,14 @@
   "mlPublishOrchardCheck": "माल दर्ज हुआ; फ़ोटो नक्शे वाले बाग के बाहर ली गईं, इसलिए जाँच के बाद व्यापारियों को दिखेगा।",
   "mlSize": "आकार",
   "mlGrade": "ग्रेड",
-  "mlQualityLine": "छोटी जानकारी (वैकल्पिक)"
+  "mlQualityLine": "छोटी जानकारी (वैकल्पिक)",
+  "mlBrowseTitle": "बिक्री के लिए माल",
+  "mlBrowseEmpty": "किसानों का दिखाया माल यहाँ दिखेगा।",
+  "mlNotVerified": "BagMitra के आपका पंजीकरण जाँचने के बाद माल यहाँ दिखेगा।",
+  "mlMyOffersTitle": "मेरे ऑफ़र",
+  "mlMyOffersEmpty": "माल पर दिए आपके ऑफ़र यहाँ दिखेंगे।",
+  "mlOfferOpen": "किसान के फ़ैसले का इंतज़ार",
+  "mlOfferAccepted": "स्वीकार हुआ",
+  "mlOfferClosed": "बंद: किसान ने दूसरा ऑफ़र चुना या माल सूची से हटाया।",
+  "mlHarvestOn": "तुड़ाई {date}"
 }

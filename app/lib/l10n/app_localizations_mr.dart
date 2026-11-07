@@ -3670,4 +3670,35 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get mlQualityLine => 'थोडक्यात माहिती (ऐच्छिक)';
+
+  @override
+  String get mlBrowseTitle => 'विक्रीसाठी माल';
+
+  @override
+  String get mlBrowseEmpty => 'शेतकऱ्यांनी दाखवलेला माल येथे दिसेल.';
+
+  @override
+  String get mlNotVerified =>
+      'BagMitra ने तुमची नोंदणी तपासल्यावर माल येथे दिसेल.';
+
+  @override
+  String get mlMyOffersTitle => 'माझ्या ऑफर';
+
+  @override
+  String get mlMyOffersEmpty => 'मालावर दिलेल्या तुमच्या ऑफर येथे दिसतील.';
+
+  @override
+  String get mlOfferOpen => 'शेतकऱ्याच्या निर्णयाची वाट';
+
+  @override
+  String get mlOfferAccepted => 'स्वीकारली';
+
+  @override
+  String get mlOfferClosed =>
+      'बंद: शेतकऱ्याने दुसरी ऑफर निवडली किंवा माल यादीतून काढला.';
+
+  @override
+  String mlHarvestOn(String date) {
+    return 'तोडणी $date';
+  }
 }

@@ -1547,5 +1547,15 @@
   "mlPublishOrchardCheck": "Published; traders see it after a check, because the photos were taken outside your mapped orchard.",
   "mlSize": "Size",
   "mlGrade": "Grade",
-  "mlQualityLine": "A short line (optional)"
+  "mlQualityLine": "A short line (optional)",
+  "mlBrowseTitle": "Produce on sale",
+  "mlBrowseEmpty": "Produce shown by growers appears here.",
+  "mlNotVerified": "Produce shows here once BagMitra has checked your registration.",
+  "mlMyOffersTitle": "My offers",
+  "mlMyOffersEmpty": "Offers you make on produce appear here.",
+  "mlOfferOpen": "Waiting for the grower",
+  "mlOfferAccepted": "Accepted",
+  "mlOfferClosed": "Closed: the grower chose another offer or took the produce off the list.",
+  "mlHarvestOn": "Harvest {date}",
+  "@mlHarvestOn": {"placeholders": {"date": {"type": "String"}}}
 }

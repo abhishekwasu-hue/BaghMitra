@@ -3671,4 +3671,35 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get mlQualityLine => 'छोटी जानकारी (वैकल्पिक)';
+
+  @override
+  String get mlBrowseTitle => 'बिक्री के लिए माल';
+
+  @override
+  String get mlBrowseEmpty => 'किसानों का दिखाया माल यहाँ दिखेगा।';
+
+  @override
+  String get mlNotVerified =>
+      'BagMitra के आपका पंजीकरण जाँचने के बाद माल यहाँ दिखेगा।';
+
+  @override
+  String get mlMyOffersTitle => 'मेरे ऑफ़र';
+
+  @override
+  String get mlMyOffersEmpty => 'माल पर दिए आपके ऑफ़र यहाँ दिखेंगे।';
+
+  @override
+  String get mlOfferOpen => 'किसान के फ़ैसले का इंतज़ार';
+
+  @override
+  String get mlOfferAccepted => 'स्वीकार हुआ';
+
+  @override
+  String get mlOfferClosed =>
+      'बंद: किसान ने दूसरा ऑफ़र चुना या माल सूची से हटाया।';
+
+  @override
+  String mlHarvestOn(String date) {
+    return 'तुड़ाई $date';
+  }
 }
