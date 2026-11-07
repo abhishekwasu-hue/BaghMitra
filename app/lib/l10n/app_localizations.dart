@@ -2734,6 +2734,36 @@ abstract class AppLocalizations {
   /// **'Prices load when the phone is online and the price source is connected.'**
   String get marketEmpty;
 
+  /// No description provided for @marketSearchOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Find a mandi'**
+  String get marketSearchOpen;
+
+  /// No description provided for @marketSearchClose.
+  ///
+  /// In en, this message translates to:
+  /// **'Close search'**
+  String get marketSearchClose;
+
+  /// No description provided for @marketSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Mandi, district or state'**
+  String get marketSearchHint;
+
+  /// No description provided for @marketSearchClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get marketSearchClear;
+
+  /// No description provided for @marketSearchEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Try another mandi, district or state name instead of “{query}”.'**
+  String marketSearchEmpty(String query);
+
   /// No description provided for @practicesOpen.
   ///
   /// In en, this message translates to:

@@ -223,4 +223,129 @@ void main() {
     expect(find.textContaining('Warud'), findsNothing);
     await unmountApp(tester);
   });
+
+  test(
+    'mandi search: name, district and state; punctuation and APMC ignored',
+    () {
+      bool hit(String market, String district, String state, String q) =>
+          marketSearchMatches(
+            marketSearchText(market: market, district: district, state: state),
+            q,
+          );
+      expect(hit('Pune(Moshi)', 'Pune', 'Maharashtra', 'moshi'), isTrue);
+      expect(hit('Pune(Moshi)', 'Pune', 'Maharashtra', 'PUNE'), isTrue);
+      expect(
+        hit('Mumbai- Fruit Market', 'Mumbai', 'Maharashtra', 'fruit'),
+        isTrue,
+      );
+      expect(
+        hit('APMC Nagpur', 'Nagpur', 'Maharashtra', 'apmc nagpur'),
+        isTrue,
+      );
+      expect(hit('APMC Hingna', 'Nagpur', 'Maharashtra', 'nagpur'), isTrue);
+      expect(hit('Kalamna', 'Nagpur', 'Maharashtra', 'kalamna'), isTrue);
+      expect(hit('Azadpur', 'North Delhi', 'NCT of Delhi', 'delhi'), isTrue);
+      // Marathi / Hindi only through the names this app already knows.
+      expect(hit('APMC Nagpur', 'Nagpur', 'Maharashtra', 'नागपूर'), isTrue);
+      expect(hit('Pune(Moshi)', 'Pune', 'Maharashtra', 'पुणे'), isTrue);
+      expect(
+        hit('APMC Jalgaon', 'Jalgaon', 'Maharashtra', 'महाराष्ट्र'),
+        isTrue,
+      );
+      expect(hit('APMC Jalgaon', 'Jalgaon', 'Maharashtra', 'pune'), isFalse);
+      expect(hit('APMC Jalgaon', 'Jalgaon', 'Maharashtra', ' - '), isTrue);
+    },
+  );
+
+  testWidgets('search filters the loaded rows within the scope; clear resets', (
+    tester,
+  ) async {
+    Map<String, Object?> row(
+      String market,
+      String district, {
+      bool major = false,
+    }) => {
+      'day': '2026-10-24',
+      'market': market,
+      'state': 'Maharashtra',
+      'district': district,
+      'commodity': 'Orange',
+      'modal_rs_per_quintal': 3000,
+      'source': 'agmarknet',
+      'is_local': !major,
+      'is_major': major,
+    };
+    await pumpApp(
+      tester,
+      locale: const Locale('en'),
+      initialLocation: '/market',
+      seed: (db) async {
+        await seedPrices(
+          db,
+          body: {
+            'prices': [
+              row('APMC Nagpur', 'Nagpur'),
+              row('APMC Hingna', 'Nagpur'),
+              row('Pune(Moshi)', 'Pune', major: true),
+            ],
+            'stale': false,
+          },
+        );
+        await seedPrices(
+          db,
+          scope: V1MarketPricesGetScope.major,
+          body: {
+            'prices': [row('Pune(Moshi)', 'Pune', major: true)],
+            'stale': false,
+          },
+        );
+      },
+    );
+    await settle(tester);
+    expect(find.byKey(const Key('market-search-field')), findsNothing);
+    await tester.tap(find.byKey(const Key('market-search-open')));
+    await settle(tester);
+    final field = find.byKey(const Key('market-search-field'));
+
+    await tester.enterText(field, 'moshi');
+    await settle(tester);
+    expect(find.text('Pune(Moshi)'), findsOneWidget);
+    expect(find.text('APMC Nagpur'), findsNothing);
+
+    await tester.enterText(field, 'nagpur'); // district finds Hingna too
+    await settle(tester);
+    expect(find.text('APMC Nagpur'), findsOneWidget);
+    expect(find.text('APMC Hingna'), findsOneWidget);
+    expect(find.text('Pune(Moshi)'), findsNothing);
+
+    await tester.enterText(field, 'maharashtra');
+    await settle(tester);
+    expect(find.text('Pune(Moshi)'), findsOneWidget);
+    expect(find.text('APMC Hingna'), findsOneWidget);
+
+    // Within the major scope only its own rows are searched.
+    await tester.enterText(field, 'nagpur');
+    await tester.tap(find.byKey(const Key('market-scope-major')));
+    await settle(tester);
+    expect(find.text('APMC Nagpur'), findsNothing);
+    expect(
+      find.text(
+        'Try another mandi, district or state name instead of “nagpur”.',
+      ),
+      findsOneWidget,
+    );
+
+    await tester.tap(find.byKey(const Key('market-search-clear')));
+    await settle(tester);
+    expect(find.text('Pune(Moshi)'), findsOneWidget);
+    expect(find.byKey(const Key('market-search-clear')), findsNothing);
+
+    // Closing the search shows every row of the scope again.
+    await tester.enterText(field, 'zzz');
+    await tester.tap(find.byKey(const Key('market-search-open')));
+    await settle(tester);
+    expect(find.byKey(const Key('market-search-field')), findsNothing);
+    expect(find.text('Pune(Moshi)'), findsOneWidget);
+    await unmountApp(tester);
+  });
 }

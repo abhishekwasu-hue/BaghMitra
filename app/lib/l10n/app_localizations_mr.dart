@@ -1551,6 +1551,23 @@ class AppLocalizationsMr extends AppLocalizations {
       'फोन ऑनलाइन असताना आणि बाजारभाव सेवा सुरू असताना भाव इथे दिसतील.';
 
   @override
+  String get marketSearchOpen => 'मंडी शोधा';
+
+  @override
+  String get marketSearchClose => 'शोध बंद करा';
+
+  @override
+  String get marketSearchHint => 'मंडी, जिल्हा किंवा राज्य';
+
+  @override
+  String get marketSearchClear => 'पुसा';
+
+  @override
+  String marketSearchEmpty(String query) {
+    return '“$query” ऐवजी दुसरे मंडी, जिल्हा किंवा राज्याचे नाव लिहून पाहा.';
+  }
+
+  @override
   String get practicesOpen => 'बाग व्यवस्थापन पद्धती (रसायनविरहित)';
 
   @override

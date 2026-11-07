@@ -29,6 +29,22 @@ class MarketPricesScreen extends ConsumerStatefulWidget {
 class _MarketPricesScreenState extends ConsumerState<MarketPricesScreen> {
   var _scope = V1MarketPricesGetScope.all;
 
+  /// The mandi search (owner: "a search button at the top to find a mandi"): it filters the
+  /// rows already loaded for this crop and scope on the phone; it never calls the API.
+  var _searchOpen = false;
+  final _query = TextEditingController();
+
+  @override
+  void dispose() {
+    _query.dispose();
+    super.dispose();
+  }
+
+  void _toggleSearch() => setState(() {
+    _searchOpen = !_searchOpen;
+    if (!_searchOpen) _query.clear();
+  });
+
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
@@ -38,6 +54,21 @@ class _MarketPricesScreenState extends ConsumerState<MarketPricesScreen> {
     final loaded = ref.watch(marketPricesProvider((crop, _scope)));
     final cached = loaded.value;
     final prices = cached?.prices.prices ?? const <MarketPriceOut>[];
+    final query = _searchOpen ? _query.text.trim() : '';
+    final shown = query.isEmpty
+        ? prices
+        : [
+            for (final p in prices)
+              if (marketSearchMatches(
+                marketSearchText(
+                  market: p.market,
+                  district: p.district,
+                  state: p.state,
+                ),
+                query,
+              ))
+                p,
+          ];
     String rs(int? v) => v == null ? '–' : formatRupees(v, lang);
     Future<void> refresh() =>
         ref.read(refresherProvider).marketPrices(crop, _scope);
@@ -53,6 +84,15 @@ class _MarketPricesScreenState extends ConsumerState<MarketPricesScreen> {
         title: AppBarTitle(t.marketPricesTitle),
         actions: [
           IconButton(
+            key: const Key('market-search-open'),
+            tooltip: _searchOpen ? t.marketSearchClose : t.marketSearchOpen,
+            icon: Icon(
+              _searchOpen ? Icons.search_off_rounded : Icons.search_rounded,
+              color: c.brand,
+            ),
+            onPressed: _toggleSearch,
+          ),
+          IconButton(
             key: const Key('open-market-directory'),
             tooltip: t.marketDirectoryOpen,
             icon: Icon(Icons.store_mall_directory_outlined, color: c.brand),
@@ -66,6 +106,30 @@ class _MarketPricesScreenState extends ConsumerState<MarketPricesScreen> {
           physics: const AlwaysScrollableScrollPhysics(),
           padding: const EdgeInsets.all(BmSpace.lg),
           children: [
+            if (_searchOpen)
+              Padding(
+                padding: const EdgeInsets.only(bottom: BmSpace.sm),
+                child: TextField(
+                  key: const Key('market-search-field'),
+                  controller: _query,
+                  autofocus: true,
+                  textInputAction: TextInputAction.search,
+                  style: BmType.body,
+                  onChanged: (_) => setState(() {}),
+                  decoration: InputDecoration(
+                    hintText: t.marketSearchHint,
+                    prefixIcon: const Icon(Icons.search_rounded),
+                    suffixIcon: _query.text.isEmpty
+                        ? null
+                        : IconButton(
+                            key: const Key('market-search-clear'),
+                            tooltip: t.marketSearchClear,
+                            icon: const Icon(Icons.close_rounded),
+                            onPressed: () => setState(_query.clear),
+                          ),
+                  ),
+                ),
+              ),
             Wrap(
               spacing: BmSpace.xs,
               children: [
@@ -97,8 +161,10 @@ class _MarketPricesScreenState extends ConsumerState<MarketPricesScreen> {
             if (prices.isEmpty)
               loaded.isLoading && !loaded.hasValue
                   ? LoadingState(label: t.loadingLabel)
-                  : EmptyNote(t.marketEmpty),
-            for (final p in prices)
+                  : EmptyNote(t.marketEmpty)
+            else if (shown.isEmpty)
+              EmptyNote(t.marketSearchEmpty(query)),
+            for (final p in shown)
               // A plain row, not a ListTile: a ListTile caps the trailing price's height,
               // which clipped it at larger text sizes.
               Padding(

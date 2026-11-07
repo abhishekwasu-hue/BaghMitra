@@ -95,3 +95,44 @@ String marketCommodityLabel(String source, String lang) =>
 /// A variety's name in [lang]; the source text when it is not listed.
 String marketVarietyLabel(String source, String lang) =>
     _label(_varieties, source, lang);
+
+/// Letters and digits in any script (Latin, Devanagari with its vowel signs); everything
+/// else — "-", "(", ")", "." and spaces — separates words.
+final _wordBreak = RegExp(r'[^\p{L}\p{M}\p{N}]+', unicode: true);
+
+/// "APMC" is in front of most Agmarknet mandi names, so it never decides a match.
+const _ignoredWords = {'apmc'};
+
+List<String> _words(String text) => [
+  for (final w in text.toLowerCase().split(_wordBreak))
+    if (w.isNotEmpty && !_ignoredWords.contains(w)) w,
+];
+
+/// The text a mandi row is found by: its mandi, district and state as the source wrote
+/// them, plus the Marathi and Hindi names this file already knows for those words
+/// (e.g. "APMC Nagpur" also reads "नागपूर" / "नागपुर"). Nothing is transliterated.
+String marketSearchText({
+  required String market,
+  required String district,
+  required String state,
+}) {
+  final words = <String>{};
+  for (final source in [market, district]) {
+    final whole = _markets[source.trim().toLowerCase()];
+    if (whole != null) words.addAll(_words('${whole.mr} ${whole.hi}'));
+    for (final w in _words(source)) {
+      words.add(w);
+      if (_markets[w] case final n?) words.addAll(_words('${n.mr} ${n.hi}'));
+    }
+  }
+  words.addAll(_words(state));
+  if (_states[state.trim().toLowerCase()] case final n?) {
+    words.addAll(_words('${n.mr} ${n.hi}'));
+  }
+  return words.join(' ');
+}
+
+/// Whether every word the grower typed is part of [searchText] (from [marketSearchText]),
+/// ignoring case and punctuation. An empty query matches every row.
+bool marketSearchMatches(String searchText, String query) =>
+    _words(query).every(searchText.contains);
