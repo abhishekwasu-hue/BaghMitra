@@ -4258,6 +4258,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'Rating is saved only within 7 days after both tap “Deal done”.';
 
   @override
+  String get mlRateSameDevice =>
+      'Accounts used on the same phone cannot rate each other.';
+
+  @override
   String get mlQGrowerProduce => 'Produce matched the photos and description';
 
   @override

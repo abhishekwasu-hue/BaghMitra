@@ -4250,6 +4250,10 @@ class AppLocalizationsMr extends AppLocalizations {
       'दोघांनी “व्यवहार झाला” दाबल्यानंतर ७ दिवसांतच रेटिंग जतन होते.';
 
   @override
+  String get mlRateSameDevice =>
+      'एकाच फोनवर वापरलेली खाती एकमेकांना रेटिंग देऊ शकत नाहीत.';
+
+  @override
   String get mlQGrowerProduce => 'माल फोटो व वर्णनाप्रमाणे होता';
 
   @override

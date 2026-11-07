@@ -20,9 +20,11 @@ from pydantic import BaseModel
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from bagmitra_api.core.errors import ApiError
 from bagmitra_api.db.base import as_utc
-from bagmitra_api.market_link.models import DealParty, MarketDeal
+from bagmitra_api.market_link.models import DealEvent, DealParty, MarketDeal
 from bagmitra_api.market_link.seed import rating_tag_seeds
+from bagmitra_api.market_link.trust import pair_only, same_device
 
 PartyRole = Literal["grower", "trader", "broker"]
 RATING_DAYS = 7
@@ -34,6 +36,8 @@ RATES: dict[str, tuple[PartyRole, ...]] = {
 }
 # Roles that tap "deal done" (Q67, Q81).
 TAPPERS = ("grower", "trader")
+# Deal event kind: the rater and ratee only ever complete deals with each other (§4C, Q115).
+PAIR_ONLY = "pair_only"
 
 
 @cache
@@ -94,8 +98,25 @@ def deal_state(
 
 
 async def rating_guard(
-    session: AsyncSession, deal: MarketDeal, rater_id: uuid.UUID, ratee_id: uuid.UUID
+    session: AsyncSession,
+    deal: MarketDeal,
+    rater_id: uuid.UUID,
+    ratee_id: uuid.UUID,
+    pair_min_deals: int,
 ) -> None:
-    """Hook for the L7 fake-deal checks (spec §4C: same phone / device, a pair that only
-    trades with each other; Q113). Raise `ApiError` to refuse a rating. Allows all for now."""
-    del session, deal, rater_id, ratee_id
+    """The fake-deal checks before a rating is saved (spec §4C, Q100, Q113, Q115).
+
+    - Accounts ever seen on one phone cannot rate each other: 409 `same_device`.
+    - A pair that only ever completes deals with each other is flagged to admin, not refused:
+      the rating is saved and the deal gets one `pair_only` event per rater and ratee (no
+      actor; the caller commits)."""
+    if await same_device(session, rater_id, ratee_id):
+        raise ApiError(409, "same_device", "Accounts on the same phone cannot rate each other")
+    if not await pair_only(session, rater_id, ratee_id, pair_min_deals):
+        return
+    detail = {"rater_id": str(rater_id), "ratee_id": str(ratee_id)}
+    flagged = await session.scalars(
+        select(DealEvent.detail).where(DealEvent.deal_id == deal.id, DealEvent.kind == PAIR_ONLY)
+    )
+    if detail not in list(flagged):
+        session.add(DealEvent(deal_id=deal.id, actor_id=None, kind=PAIR_ONLY, detail=detail))

@@ -2342,7 +2342,8 @@ both have tapped, the deal is completed and rating opens for 7 days (Q66, Q67).'
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Give or change the caller\'s rating of one party of a completed deal: every question
-of that role once. Only within 7 days of completion, then 409 `rating_locked`.''',
+of that role once. Only within 7 days of completion, then 409 `rating_locked`; accounts
+seen on one phone cannot rate each other (409 `same_device`, spec §4C).''',
       summary: 'Rate',
       operationId: 'market_link_rate',
       consumes: [],

@@ -4253,6 +4253,10 @@ class AppLocalizationsHi extends AppLocalizations {
       'दोनों के “लेन-देन हो गया” दबाने के बाद 7 दिनों में ही रेटिंग सहेजी जाती है।';
 
   @override
+  String get mlRateSameDevice =>
+      'एक ही फ़ोन पर इस्तेमाल हुए खाते एक-दूसरे को रेटिंग नहीं दे सकते।';
+
+  @override
   String get mlQGrowerProduce => 'माल फोटो और विवरण जैसा था';
 
   @override
