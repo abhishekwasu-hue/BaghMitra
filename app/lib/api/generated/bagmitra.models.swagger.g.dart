@@ -2125,6 +2125,244 @@ Map<String, dynamic> _$OfficialLinkOutToJson(OfficialLinkOut instance) =>
       'url': ?instance.url,
     };
 
+PackageCompanyIn _$PackageCompanyInFromJson(Map<String, dynamic> json) =>
+    PackageCompanyIn(
+      address: json['address'] as String?,
+      bankAccountLast4: json['bank_account_last4'] as String?,
+      bankAccountName: json['bank_account_name'] as String?,
+      bankIfsc: json['bank_ifsc'] as String?,
+      gstRatePercent: json['gst_rate_percent'] as String?,
+      gstin: json['gstin'] as String?,
+      invoicePrefix: json['invoice_prefix'] as String?,
+      legalName: json['legal_name'] as String?,
+      pan: json['pan'] as String?,
+      tradeName: json['trade_name'] as String?,
+      upiId: json['upi_id'] as String?,
+    );
+
+Map<String, dynamic> _$PackageCompanyInToJson(PackageCompanyIn instance) =>
+    <String, dynamic>{
+      'address': ?instance.address,
+      'bank_account_last4': ?instance.bankAccountLast4,
+      'bank_account_name': ?instance.bankAccountName,
+      'bank_ifsc': ?instance.bankIfsc,
+      'gst_rate_percent': ?instance.gstRatePercent,
+      'gstin': ?instance.gstin,
+      'invoice_prefix': ?instance.invoicePrefix,
+      'legal_name': ?instance.legalName,
+      'pan': ?instance.pan,
+      'trade_name': ?instance.tradeName,
+      'upi_id': ?instance.upiId,
+    };
+
+PackageCompanyOut _$PackageCompanyOutFromJson(Map<String, dynamic> json) =>
+    PackageCompanyOut(
+      address: json['address'] as String?,
+      bankAccountLast4: json['bank_account_last4'] as String?,
+      bankAccountName: json['bank_account_name'] as String?,
+      bankIfsc: json['bank_ifsc'] as String?,
+      gstRatePercent: json['gst_rate_percent'] as String?,
+      gstin: json['gstin'] as String?,
+      invoicePrefix: json['invoice_prefix'] as String?,
+      legalName: json['legal_name'] as String?,
+      merchantQr: json['merchant_qr'] as bool,
+      pan: json['pan'] as String?,
+      tradeName: json['trade_name'] as String?,
+      upiId: json['upi_id'] as String?,
+    );
+
+Map<String, dynamic> _$PackageCompanyOutToJson(PackageCompanyOut instance) =>
+    <String, dynamic>{
+      'address': ?instance.address,
+      'bank_account_last4': ?instance.bankAccountLast4,
+      'bank_account_name': ?instance.bankAccountName,
+      'bank_ifsc': ?instance.bankIfsc,
+      'gst_rate_percent': ?instance.gstRatePercent,
+      'gstin': ?instance.gstin,
+      'invoice_prefix': ?instance.invoicePrefix,
+      'legal_name': ?instance.legalName,
+      'merchant_qr': instance.merchantQr,
+      'pan': ?instance.pan,
+      'trade_name': ?instance.tradeName,
+      'upi_id': ?instance.upiId,
+    };
+
+PackageGrantIn _$PackageGrantInFromJson(Map<String, dynamic> json) =>
+    PackageGrantIn(
+      amountPaise: (json['amount_paise'] as num).toInt(),
+      growerId: json['grower_id'] as String,
+      lotId: json['lot_id'] as String?,
+      method: packageGrantInMethodFromJson(json['method']),
+      paidOn: DateTime.parse(json['paid_on'] as String),
+      paymentRef: json['payment_ref'] as String,
+    );
+
+Map<String, dynamic> _$PackageGrantInToJson(PackageGrantIn instance) =>
+    <String, dynamic>{
+      'amount_paise': instance.amountPaise,
+      'grower_id': instance.growerId,
+      'lot_id': ?instance.lotId,
+      'method': ?packageGrantInMethodToJson(instance.method),
+      'paid_on': ?_dateToJson(instance.paidOn),
+      'payment_ref': instance.paymentRef,
+    };
+
+PackageGrantOut _$PackageGrantOutFromJson(Map<String, dynamic> json) =>
+    PackageGrantOut(
+      activatedAt: DateTime.parse(json['activated_at'] as String),
+      adminId: json['admin_id'] as String,
+      amountPaise: (json['amount_paise'] as num).toInt(),
+      growerId: json['grower_id'] as String,
+      id: json['id'] as String,
+      lotId: json['lot_id'] as String?,
+      method: json['method'] as String,
+      paidOn: DateTime.parse(json['paid_on'] as String),
+      paymentRef: json['payment_ref'] as String,
+      receiptNo: json['receipt_no'] as String,
+      revokedAt: json['revoked_at'] == null
+          ? null
+          : DateTime.parse(json['revoked_at'] as String),
+      revokedReason: json['revoked_reason'] as String?,
+      validUntil: DateTime.parse(json['valid_until'] as String),
+    );
+
+Map<String, dynamic> _$PackageGrantOutToJson(PackageGrantOut instance) =>
+    <String, dynamic>{
+      'activated_at': instance.activatedAt.toIso8601String(),
+      'admin_id': instance.adminId,
+      'amount_paise': instance.amountPaise,
+      'grower_id': instance.growerId,
+      'id': instance.id,
+      'lot_id': ?instance.lotId,
+      'method': instance.method,
+      'paid_on': ?_dateToJson(instance.paidOn),
+      'payment_ref': instance.paymentRef,
+      'receipt_no': instance.receiptNo,
+      'revoked_at': ?instance.revokedAt?.toIso8601String(),
+      'revoked_reason': ?instance.revokedReason,
+      'valid_until': instance.validUntil.toIso8601String(),
+    };
+
+PackageGrantsResponse _$PackageGrantsResponseFromJson(
+  Map<String, dynamic> json,
+) => PackageGrantsResponse(
+  grants:
+      (json['grants'] as List<dynamic>?)
+          ?.map((e) => PackageGrantOut.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      [],
+);
+
+Map<String, dynamic> _$PackageGrantsResponseToJson(
+  PackageGrantsResponse instance,
+) => <String, dynamic>{
+  'grants': instance.grants.map((e) => e.toJson()).toList(),
+};
+
+PackageGrowerLot _$PackageGrowerLotFromJson(Map<String, dynamic> json) =>
+    PackageGrowerLot(
+      crop: json['crop'] as String,
+      id: json['id'] as String,
+      status: json['status'] as String,
+      variety: json['variety'] as String?,
+    );
+
+Map<String, dynamic> _$PackageGrowerLotToJson(PackageGrowerLot instance) =>
+    <String, dynamic>{
+      'crop': instance.crop,
+      'id': instance.id,
+      'status': instance.status,
+      'variety': ?instance.variety,
+    };
+
+PackageGrowerOut _$PackageGrowerOutFromJson(Map<String, dynamic> json) =>
+    PackageGrowerOut(
+      district: json['district'] as String?,
+      id: json['id'] as String,
+      lots:
+          (json['lots'] as List<dynamic>?)
+              ?.map((e) => PackageGrowerLot.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+      name: json['name'] as String?,
+      phone: json['phone'] as String?,
+      village: json['village'] as String?,
+    );
+
+Map<String, dynamic> _$PackageGrowerOutToJson(PackageGrowerOut instance) =>
+    <String, dynamic>{
+      'district': ?instance.district,
+      'id': instance.id,
+      'lots': instance.lots.map((e) => e.toJson()).toList(),
+      'name': ?instance.name,
+      'phone': ?instance.phone,
+      'village': ?instance.village,
+    };
+
+PackageGrowersResponse _$PackageGrowersResponseFromJson(
+  Map<String, dynamic> json,
+) => PackageGrowersResponse(
+  growers:
+      (json['growers'] as List<dynamic>?)
+          ?.map((e) => PackageGrowerOut.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      [],
+);
+
+Map<String, dynamic> _$PackageGrowersResponseToJson(
+  PackageGrowersResponse instance,
+) => <String, dynamic>{
+  'growers': instance.growers.map((e) => e.toJson()).toList(),
+};
+
+PackageRevokeIn _$PackageRevokeInFromJson(Map<String, dynamic> json) =>
+    PackageRevokeIn(reason: json['reason'] as String);
+
+Map<String, dynamic> _$PackageRevokeInToJson(PackageRevokeIn instance) =>
+    <String, dynamic>{'reason': instance.reason};
+
+PackageSettingsIn _$PackageSettingsInFromJson(Map<String, dynamic> json) =>
+    PackageSettingsIn(
+      enabled: json['enabled'] as bool,
+      pricePaise: (json['price_paise'] as num?)?.toInt(),
+      startsAt: json['starts_at'] == null
+          ? null
+          : DateTime.parse(json['starts_at'] as String),
+      validityDays: (json['validity_days'] as num?)?.toInt(),
+    );
+
+Map<String, dynamic> _$PackageSettingsInToJson(PackageSettingsIn instance) =>
+    <String, dynamic>{
+      'enabled': instance.enabled,
+      'price_paise': ?instance.pricePaise,
+      'starts_at': ?_dateToJson(instance.startsAt),
+      'validity_days': ?instance.validityDays,
+    };
+
+PackageSettingsOut _$PackageSettingsOutFromJson(Map<String, dynamic> json) =>
+    PackageSettingsOut(
+      enabled: json['enabled'] as bool,
+      missing:
+          (json['missing'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          [],
+      pricePaise: (json['price_paise'] as num?)?.toInt(),
+      startsAt: json['starts_at'] == null
+          ? null
+          : DateTime.parse(json['starts_at'] as String),
+      validityDays: (json['validity_days'] as num?)?.toInt(),
+    );
+
+Map<String, dynamic> _$PackageSettingsOutToJson(PackageSettingsOut instance) =>
+    <String, dynamic>{
+      'enabled': instance.enabled,
+      'missing': instance.missing,
+      'price_paise': ?instance.pricePaise,
+      'starts_at': ?_dateToJson(instance.startsAt),
+      'validity_days': ?instance.validityDays,
+    };
+
 PartyContactOut _$PartyContactOutFromJson(Map<String, dynamic> json) =>
     PartyContactOut(
       firm: json['firm'] as String?,

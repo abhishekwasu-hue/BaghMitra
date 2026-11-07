@@ -931,6 +931,279 @@ reject. Decided once.''',
   }
 
   @override
+  Future<Response<PackageCompanyOut>>
+  _v1AdminMarketLinkPackageCompanyProfileGet({
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get Company Profile',
+      operationId: 'package_company_profile',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/market-link/package/company-profile');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<PackageCompanyOut, PackageCompanyOut>($request);
+  }
+
+  @override
+  Future<Response<PackageCompanyOut>>
+  _v1AdminMarketLinkPackageCompanyProfilePut({
+    required PackageCompanyIn? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Saves the fields sent (an empty string clears one). While the switch is ON a guard
+field cannot be cleared.''',
+      summary: 'Save Company Profile',
+      operationId: 'package_save_company_profile',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/market-link/package/company-profile');
+    final $body = body;
+    final Request $request = Request(
+      'PUT',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<PackageCompanyOut, PackageCompanyOut>($request);
+  }
+
+  @override
+  Future<Response<dynamic>>
+  _v1AdminMarketLinkPackageCompanyProfileMerchantQrGet({
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Merchant Qr',
+      operationId: 'package_merchant_qr',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse(
+      '/v1/admin/market-link/package/company-profile/merchant-qr',
+    );
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<PackageCompanyOut>>
+  _v1AdminMarketLinkPackageCompanyProfileMerchantQrPut({
+    required Object? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'The bank\'s merchant QR image (PNG / JPEG) for the representatives\' printed card.',
+      summary: 'Upload Merchant Qr',
+      operationId: 'package_upload_merchant_qr',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse(
+      '/v1/admin/market-link/package/company-profile/merchant-qr',
+    );
+    final $body = body;
+    final Request $request = Request(
+      'PUT',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<PackageCompanyOut, PackageCompanyOut>($request);
+  }
+
+  @override
+  Future<Response<PackageGrantsResponse>> _v1AdminMarketLinkPackageGrantsGet({
+    String? growerId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Grants newest first (one grower\'s with `grower_id`).',
+      summary: 'List Grants',
+      operationId: 'package_grants',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/market-link/package/grants');
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'grower_id': growerId,
+    };
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+      tag: swaggerMetaData,
+    );
+    return client.send<PackageGrantsResponse, PackageGrantsResponse>($request);
+  }
+
+  @override
+  Future<Response<PackageGrantOut>> _v1AdminMarketLinkPackageGrantsPost({
+    required PackageGrantIn? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Records a payment received outside the app and activates the package: the lot (or
+every lot of the grower) is shown to traders until `valid_until`. 409
+`duplicate_payment_ref` for a used UTR; 409 `package_fields_missing` while legal name,
+GSTIN, UPI ID, price or validity is empty.''',
+      summary: 'Create Grant',
+      operationId: 'package_record_grant',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/market-link/package/grants');
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<PackageGrantOut, PackageGrantOut>($request);
+  }
+
+  @override
+  Future<Response<PackageGrantOut>>
+  _v1AdminMarketLinkPackageGrantsGrantIdRevokePost({
+    required String? grantId,
+    required PackageRevokeIn? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Ends the grant now with a reason (logged); the lot hides from traders if no other
+grant covers it.''',
+      summary: 'Revoke',
+      operationId: 'package_revoke_grant',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse(
+      '/v1/admin/market-link/package/grants/${grantId}/revoke',
+    );
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<PackageGrantOut, PackageGrantOut>($request);
+  }
+
+  @override
+  Future<Response<PackageGrowersResponse>> _v1AdminMarketLinkPackageGrowersGet({
+    required String? phone,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Growers with this mobile number (10 digits, with or without +91) and their lots.',
+      summary: 'Find Grower',
+      operationId: 'package_find_grower',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/market-link/package/growers');
+    final Map<String, dynamic> $params = <String, dynamic>{'phone': phone};
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+      tag: swaggerMetaData,
+    );
+    return client.send<PackageGrowersResponse, PackageGrowersResponse>(
+      $request,
+    );
+  }
+
+  @override
+  Future<Response<PackageSettingsOut>> _v1AdminMarketLinkPackageSettingsGet({
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get Package Settings',
+      operationId: 'package_settings',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/market-link/package/settings');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<PackageSettingsOut, PackageSettingsOut>($request);
+  }
+
+  @override
+  Future<Response<PackageSettingsOut>> _v1AdminMarketLinkPackageSettingsPut({
+    required PackageSettingsIn? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Switch, price, validity, start date. The switch cannot turn (or stay) ON while legal
+name, GSTIN, UPI ID or price is empty: 409 `package_fields_missing` names the fields.''',
+      summary: 'Save Settings',
+      operationId: 'package_save_settings',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/market-link/package/settings');
+    final $body = body;
+    final Request $request = Request(
+      'PUT',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<PackageSettingsOut, PackageSettingsOut>($request);
+  }
+
+  @override
   Future<Response<MyProfileOut>> _v1AdminMarketLinkProvidersPost({
     required AdminProviderIn? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(

@@ -49,6 +49,12 @@ calendar), Files and docs (lab-report files stay on the phone, DI §3), Audio (v
 own speech service, never to our API, DI §4), Web browsing, Installed apps, Emails, SMS or MMS, Purchase
 history, Credit score, Race / religion / political / sexual orientation, Crash logs from the app (no crash SDK).
 
+Season sale package (spec v1.5 §4E, off by default): the grower pays the company **outside the app** (UPI /
+cash / bank); an admin records the payment in the admin web. The app collects no payment, amount, UPI ID or
+receipt and shows only "package active until <date>" / "not active", so **Purchase history** and
+**Financial info → Purchase history / Payment info** stay **No**. Confirm before the switch is turned ON in
+production (Play Console check, spec §4D "Needs before go-live").
+
 ## 3. Why every row says "Shared: No"
 
 | Recipient | Why it is not "sharing" in Play's sense | DI ref |

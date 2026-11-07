@@ -44,7 +44,7 @@ Policy text: `api/src/bagmitra_api/public_pages/privacy.py`. Keep both in step.
 | Claim kit (photos, notes, GPS stamp) | phone only, not synced | `app/lib/features/insurance/data/claim_kit_repository.dart:11-12`; OPEN_QUESTIONS Q37 |
 | Lab report photo / file | phone only, path never synced | `app/lib/features/lab_tests/data/lab_report_files.dart:3-5`; `api/src/bagmitra_api/db/models/lab_test.py:1-4` |
 
-## 3A. Market linkage data model (migrations 0029–0034; off in production: `market_link_enabled` / `MARKET_LINK`)
+## 3A. Market linkage data model (migrations 0029–0035; off in production: `market_link_enabled` / `MARKET_LINK`)
 
 | Item | Behaviour | Reference |
 |---|---|---|
@@ -63,6 +63,9 @@ Policy text: `api/src/bagmitra_api/public_pages/privacy.py`. Keep both in step.
 | Report and appeal photos (L6) | optional, at most `MARKET_LINK_REPORT_MAX_PHOTOS` (default 3) each; uploaded through the API, which strips EXIF (GPS, phone, time) before storing in the private bucket under the user's folder; shown to admin only by a short-lived link | `api/src/bagmitra_api/market_link/safety.py` (`store_photo`); `api/src/bagmitra_api/market_link/photos.py` |
 | Admin action log (L6) | every verify / warn / hide / suspend / restore with reason code, actor and time; Postgres refuses edits of the action and any delete (only the one appeal moves: reason code, photos, acknowledged / decided times); kept after an account deletion (user id only) | `api/alembic/versions/0033_market_link_safety.py`; `api/src/bagmitra_api/routers/admin_market_link_safety.py` |
 | **Account deletion, market link (Q68)** | at `DELETE /v1/me` the user's market-link data is hidden at once (`deferred_erasures`, published lots withdrawn); after `MARKET_LINK_ERASE_AFTER_DAYS` (default 180) a nightly job erases profiles, verification records and documents, registration fixes, representative uploads, terms acceptances, blocks, reports, lot photos and lots without an introduction; a lot with an introduction stays without its photos and text; ratings given stay, shown without name | `api/src/bagmitra_api/market_link/erasure.py`; `api/src/bagmitra_api/market_link/erase_job.py`; `deploy/deploy.sh` (`CRON_MARKET_LINK_ERASE`) |
+| What traders see of a lot (spec v1.5 §4E) | grower's **first name only**, crop / variety, orchard acres, tonnes, quality, photos (EXIF stripped), harvest window, **district**; never surname, phone, village, plot or GPS before the grower accepts that trader's interest | `api/src/bagmitra_api/routers/market_lots.py` (`BuyerLotOut`); `api/tests/test_package.py` |
+| **Season sale package grants** (migration 0035; switch OFF by default) | per payment the grower made OUTSIDE the app (UPI / cash / bank to the company): grower id, lot (or all lots), amount (paise), method, payment reference (UTR, unique), paid date, validity, receipt number, revoke time and reason, the admin who recorded it. Entered by an admin in the admin web only; the app collects nothing and reads only "active until <date>" / "not active" for its own grower. RLS: grower reads own rows, admin full, traders none. Every grant / revoke is logged in `admin_actions` (old / new, who, when; not shown to the grower) | `api/src/bagmitra_api/market_link/package_models.py`; `api/src/bagmitra_api/routers/admin_package.py`; `api/alembic/versions/0035_season_package.py` |
+| Company profile (season package) | the company's legal / trade name, address, GSTIN, PAN, bank account name, IFSC and **last 4 digits only**, UPI ID, merchant QR image, receipt prefix, GST rate; one row, starts empty, admin-only (private RLS), used for receipts and the representatives' printed QR card | `CompanyProfile`, `SeasonPackageSettings` |
 
 ## 4. Device features
 

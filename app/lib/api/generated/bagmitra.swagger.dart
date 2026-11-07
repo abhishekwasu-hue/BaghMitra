@@ -1147,6 +1147,317 @@ reject. Decided once.''',
     ),
   });
 
+  ///Get Company Profile
+  Future<chopper.Response<PackageCompanyOut>>
+  v1AdminMarketLinkPackageCompanyProfileGet() {
+    generatedMapping.putIfAbsent(
+      PackageCompanyOut,
+      () => PackageCompanyOut.fromJsonFactory,
+    );
+
+    return _v1AdminMarketLinkPackageCompanyProfileGet();
+  }
+
+  ///Get Company Profile
+  @GET(path: '/v1/admin/market-link/package/company-profile')
+  Future<chopper.Response<PackageCompanyOut>>
+  _v1AdminMarketLinkPackageCompanyProfileGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get Company Profile',
+      operationId: 'package_company_profile',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Save Company Profile
+  Future<chopper.Response<PackageCompanyOut>>
+  v1AdminMarketLinkPackageCompanyProfilePut({required PackageCompanyIn? body}) {
+    generatedMapping.putIfAbsent(
+      PackageCompanyOut,
+      () => PackageCompanyOut.fromJsonFactory,
+    );
+
+    return _v1AdminMarketLinkPackageCompanyProfilePut(body: body);
+  }
+
+  ///Save Company Profile
+  @PUT(
+    path: '/v1/admin/market-link/package/company-profile',
+    optionalBody: true,
+  )
+  Future<chopper.Response<PackageCompanyOut>>
+  _v1AdminMarketLinkPackageCompanyProfilePut({
+    @Body() required PackageCompanyIn? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Saves the fields sent (an empty string clears one). While the switch is ON a guard
+field cannot be cleared.''',
+      summary: 'Save Company Profile',
+      operationId: 'package_save_company_profile',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Merchant Qr
+  Future<chopper.Response>
+  v1AdminMarketLinkPackageCompanyProfileMerchantQrGet() {
+    return _v1AdminMarketLinkPackageCompanyProfileMerchantQrGet();
+  }
+
+  ///Merchant Qr
+  @GET(path: '/v1/admin/market-link/package/company-profile/merchant-qr')
+  Future<chopper.Response>
+  _v1AdminMarketLinkPackageCompanyProfileMerchantQrGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Merchant Qr',
+      operationId: 'package_merchant_qr',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Upload Merchant Qr
+  Future<chopper.Response<PackageCompanyOut>>
+  v1AdminMarketLinkPackageCompanyProfileMerchantQrPut({required Object? body}) {
+    generatedMapping.putIfAbsent(
+      PackageCompanyOut,
+      () => PackageCompanyOut.fromJsonFactory,
+    );
+
+    return _v1AdminMarketLinkPackageCompanyProfileMerchantQrPut(body: body);
+  }
+
+  ///Upload Merchant Qr
+  @PUT(
+    path: '/v1/admin/market-link/package/company-profile/merchant-qr',
+    optionalBody: true,
+  )
+  Future<chopper.Response<PackageCompanyOut>>
+  _v1AdminMarketLinkPackageCompanyProfileMerchantQrPut({
+    @Body() required Object? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'The bank\'s merchant QR image (PNG / JPEG) for the representatives\' printed card.',
+      summary: 'Upload Merchant Qr',
+      operationId: 'package_upload_merchant_qr',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///List Grants
+  ///@param grower_id
+  Future<chopper.Response<PackageGrantsResponse>>
+  v1AdminMarketLinkPackageGrantsGet({String? growerId}) {
+    generatedMapping.putIfAbsent(
+      PackageGrantsResponse,
+      () => PackageGrantsResponse.fromJsonFactory,
+    );
+
+    return _v1AdminMarketLinkPackageGrantsGet(growerId: growerId);
+  }
+
+  ///List Grants
+  ///@param grower_id
+  @GET(path: '/v1/admin/market-link/package/grants')
+  Future<chopper.Response<PackageGrantsResponse>>
+  _v1AdminMarketLinkPackageGrantsGet({
+    @Query('grower_id') String? growerId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Grants newest first (one grower\'s with `grower_id`).',
+      summary: 'List Grants',
+      operationId: 'package_grants',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Create Grant
+  Future<chopper.Response<PackageGrantOut>> v1AdminMarketLinkPackageGrantsPost({
+    required PackageGrantIn? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      PackageGrantOut,
+      () => PackageGrantOut.fromJsonFactory,
+    );
+
+    return _v1AdminMarketLinkPackageGrantsPost(body: body);
+  }
+
+  ///Create Grant
+  @POST(path: '/v1/admin/market-link/package/grants', optionalBody: true)
+  Future<chopper.Response<PackageGrantOut>>
+  _v1AdminMarketLinkPackageGrantsPost({
+    @Body() required PackageGrantIn? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Records a payment received outside the app and activates the package: the lot (or
+every lot of the grower) is shown to traders until `valid_until`. 409
+`duplicate_payment_ref` for a used UTR; 409 `package_fields_missing` while legal name,
+GSTIN, UPI ID, price or validity is empty.''',
+      summary: 'Create Grant',
+      operationId: 'package_record_grant',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Revoke
+  ///@param grant_id
+  Future<chopper.Response<PackageGrantOut>>
+  v1AdminMarketLinkPackageGrantsGrantIdRevokePost({
+    required String? grantId,
+    required PackageRevokeIn? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      PackageGrantOut,
+      () => PackageGrantOut.fromJsonFactory,
+    );
+
+    return _v1AdminMarketLinkPackageGrantsGrantIdRevokePost(
+      grantId: grantId,
+      body: body,
+    );
+  }
+
+  ///Revoke
+  ///@param grant_id
+  @POST(
+    path: '/v1/admin/market-link/package/grants/{grant_id}/revoke',
+    optionalBody: true,
+  )
+  Future<chopper.Response<PackageGrantOut>>
+  _v1AdminMarketLinkPackageGrantsGrantIdRevokePost({
+    @Path('grant_id') required String? grantId,
+    @Body() required PackageRevokeIn? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Ends the grant now with a reason (logged); the lot hides from traders if no other
+grant covers it.''',
+      summary: 'Revoke',
+      operationId: 'package_revoke_grant',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Find Grower
+  ///@param phone
+  Future<chopper.Response<PackageGrowersResponse>>
+  v1AdminMarketLinkPackageGrowersGet({required String? phone}) {
+    generatedMapping.putIfAbsent(
+      PackageGrowersResponse,
+      () => PackageGrowersResponse.fromJsonFactory,
+    );
+
+    return _v1AdminMarketLinkPackageGrowersGet(phone: phone);
+  }
+
+  ///Find Grower
+  ///@param phone
+  @GET(path: '/v1/admin/market-link/package/growers')
+  Future<chopper.Response<PackageGrowersResponse>>
+  _v1AdminMarketLinkPackageGrowersGet({
+    @Query('phone') required String? phone,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Growers with this mobile number (10 digits, with or without +91) and their lots.',
+      summary: 'Find Grower',
+      operationId: 'package_find_grower',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Get Package Settings
+  Future<chopper.Response<PackageSettingsOut>>
+  v1AdminMarketLinkPackageSettingsGet() {
+    generatedMapping.putIfAbsent(
+      PackageSettingsOut,
+      () => PackageSettingsOut.fromJsonFactory,
+    );
+
+    return _v1AdminMarketLinkPackageSettingsGet();
+  }
+
+  ///Get Package Settings
+  @GET(path: '/v1/admin/market-link/package/settings')
+  Future<chopper.Response<PackageSettingsOut>>
+  _v1AdminMarketLinkPackageSettingsGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get Package Settings',
+      operationId: 'package_settings',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Save Settings
+  Future<chopper.Response<PackageSettingsOut>>
+  v1AdminMarketLinkPackageSettingsPut({required PackageSettingsIn? body}) {
+    generatedMapping.putIfAbsent(
+      PackageSettingsOut,
+      () => PackageSettingsOut.fromJsonFactory,
+    );
+
+    return _v1AdminMarketLinkPackageSettingsPut(body: body);
+  }
+
+  ///Save Settings
+  @PUT(path: '/v1/admin/market-link/package/settings', optionalBody: true)
+  Future<chopper.Response<PackageSettingsOut>>
+  _v1AdminMarketLinkPackageSettingsPut({
+    @Body() required PackageSettingsIn? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Switch, price, validity, start date. The switch cannot turn (or stay) ON while legal
+name, GSTIN, UPI ID or price is empty: 409 `package_fields_missing` names the fields.''',
+      summary: 'Save Settings',
+      operationId: 'package_save_settings',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
   ///Admin Add Provider
   Future<chopper.Response<MyProfileOut>> v1AdminMarketLinkProvidersPost({
     required AdminProviderIn? body,
