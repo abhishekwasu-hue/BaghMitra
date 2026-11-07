@@ -444,13 +444,18 @@
         "type": "object"
       },
       "BadgeOut": {
-        "description": "What was checked and when; the app words it \"checked on <date>\", never a guarantee.\n`checked`: an admin approval on record; `registered_from`: the registration GPS fix's\nplace; `place_photo`: a BagMitra representative's visit photo.",
+        "description": "What was checked and when; the app words it \"checked on <date>\", never a guarantee.\n`checked`: an admin approval on record; `registered_from`: the registration GPS fix's\nplace; `place_photo`: a BagMitra representative's visit photo. L7, one per passed check\non a free official page (spec §4 table), shown once the profile is approved:\n`gst_checked` (with `since_year`, the GST registration year), `apmc_seen`,\n`fssai_checked`, `iec_active`, `apeda_listed`.",
         "properties": {
           "kind": {
             "enum": [
               "checked",
               "registered_from",
-              "place_photo"
+              "place_photo",
+              "gst_checked",
+              "apmc_seen",
+              "fssai_checked",
+              "iec_active",
+              "apeda_listed"
             ],
             "title": "Kind",
             "type": "string"
@@ -470,6 +475,17 @@
               }
             ],
             "title": "Place"
+          },
+          "since_year": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Since Year"
           }
         },
         "required": [
@@ -969,6 +985,137 @@
           "seq"
         ],
         "title": "Change",
+        "type": "object"
+      },
+      "CheckIn": {
+        "additionalProperties": false,
+        "properties": {
+          "kind": {
+            "enum": [
+              "gstin",
+              "apmc",
+              "fssai",
+              "iec",
+              "apeda",
+              "phone_call",
+              "place_photo"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "registered_year": {
+            "anyOf": [
+              {
+                "maximum": 2100.0,
+                "minimum": 1900.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Registered Year"
+          },
+          "result": {
+            "enum": [
+              "passed",
+              "failed",
+              "cancelled"
+            ],
+            "title": "Result",
+            "type": "string"
+          }
+        },
+        "required": [
+          "kind",
+          "result"
+        ],
+        "title": "CheckIn",
+        "type": "object"
+      },
+      "CheckOut": {
+        "properties": {
+          "checked_at": {
+            "format": "date-time",
+            "title": "Checked At",
+            "type": "string"
+          },
+          "checked_by": {
+            "format": "uuid",
+            "title": "Checked By",
+            "type": "string"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "kind": {
+            "title": "Kind",
+            "type": "string"
+          },
+          "number": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Number"
+          },
+          "official_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Official Url"
+          },
+          "recheck_listed_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Recheck Listed At"
+          },
+          "registered_year": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Registered Year"
+          },
+          "result": {
+            "title": "Result",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "kind",
+          "number",
+          "result",
+          "registered_year",
+          "official_url",
+          "checked_by",
+          "checked_at",
+          "recheck_listed_at"
+        ],
+        "title": "CheckOut",
         "type": "object"
       },
       "DecisionIn": {
@@ -3868,6 +4015,44 @@
         "title": "NumbersOut",
         "type": "object"
       },
+      "OfficialLinkOut": {
+        "description": "A button on the admin page: the page to open and the number to type into it.",
+        "properties": {
+          "kind": {
+            "title": "Kind",
+            "type": "string"
+          },
+          "number": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Number"
+          },
+          "url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Url"
+          }
+        },
+        "required": [
+          "kind",
+          "number",
+          "url"
+        ],
+        "title": "OfficialLinkOut",
+        "type": "object"
+      },
       "PhotoDownloadUrl": {
         "properties": {
           "expires_in": {
@@ -5138,11 +5323,27 @@
       },
       "SubjectDetailOut": {
         "properties": {
+          "checks": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/CheckOut"
+            },
+            "title": "Checks",
+            "type": "array"
+          },
           "history": {
             "items": {
               "$ref": "#/components/schemas/VerificationOut"
             },
             "title": "History",
+            "type": "array"
+          },
+          "links": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/OfficialLinkOut"
+            },
+            "title": "Links",
             "type": "array"
           },
           "subject": {
@@ -8343,7 +8544,7 @@
     },
     "/v1/admin/market-link/verifications/{subject_type}/{subject_id}": {
       "get": {
-        "description": "The subject's submitted fields, documents and every verification record.",
+        "description": "The subject's submitted fields, documents, every verification and check record.",
         "operationId": "admin_market_link_subject",
         "parameters": [
           {
@@ -8434,9 +8635,112 @@
         ]
       }
     },
+    "/v1/admin/market-link/verifications/{subject_type}/{subject_id}/checks": {
+      "post": {
+        "description": "Record one check done by hand on the official page: a new record with who and when.",
+        "operationId": "admin_market_link_record_check",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "subject_type",
+            "required": true,
+            "schema": {
+              "enum": [
+                "buyer",
+                "broker",
+                "provider"
+              ],
+              "title": "Subject Type",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "subject_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Subject Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CheckIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubjectDetailOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Record Check",
+        "tags": [
+          "admin"
+        ]
+      }
+    },
     "/v1/admin/market-link/verifications/{subject_type}/{subject_id}/decision": {
       "post": {
-        "description": "Approve, or reject with a reason: always a new record with who and when (Q70).",
+        "description": "Approve, or reject with a reason: always a new record with who and when (Q70). An\napproval needs the spec §4 checks on record (trader: GSTIN / APMC / IEC; exporter: IEC;\nbroker: the phone call), else 422 `verified_rule_not_met`.",
         "operationId": "admin_market_link_decide",
         "parameters": [
           {

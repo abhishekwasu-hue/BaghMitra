@@ -44,7 +44,7 @@ Policy text: `api/src/bagmitra_api/public_pages/privacy.py`. Keep both in step.
 | Claim kit (photos, notes, GPS stamp) | phone only, not synced | `app/lib/features/insurance/data/claim_kit_repository.dart:11-12`; OPEN_QUESTIONS Q37 |
 | Lab report photo / file | phone only, path never synced | `app/lib/features/lab_tests/data/lab_report_files.dart:3-5`; `api/src/bagmitra_api/db/models/lab_test.py:1-4` |
 
-## 3A. Market linkage data model (migrations 0029–0031; off in production: `market_link_enabled` / `MARKET_LINK`)
+## 3A. Market linkage data model (migrations 0029–0031, 0034; off in production: `market_link_enabled` / `MARKET_LINK`)
 
 | Item | Behaviour | Reference |
 |---|---|---|
@@ -54,6 +54,8 @@ Policy text: `api/src/bagmitra_api/public_pages/privacy.py`. Keep both in step.
 | Document photos (L2) | registration-number documents (trader / exporter) and the weighbridge certificate, taken in the app camera; the API **strips EXIF / metadata before storing** in the private bucket (`market-link/<type>/<id>/...`); admin opens them by short-lived signed URL | `api/src/bagmitra_api/market_link/photos.py`; `api/tests/test_market_link_registration.py` |
 | Public profile aggregates (L2) | completed-deal count, stars per question, tag counts: computed from `market_deals` / `ratings`, nothing stored; badges only from verification records, fixes and representative uploads, with the date | `api/src/bagmitra_api/market_link/profiles.py` |
 | **Registration GPS fix (precise location)** | collected **once**, in the foreground after a permission screen, when a trader / exporter / broker / provider registers; **required; purpose: fraud prevention**. Stored in `registration_fixes`: lat, lon, accuracy, time, the phone geocoder's place / district / state / PIN, mock-location flag. Exact coordinates: admin (and the registrant's own view) only; public profiles show place + date only; the directory shows a rounded km from the grower's own plot. No background or repeated tracking | `api/src/bagmitra_api/market_link/registration.py`; `app/lib/features/market_link/`; `api/tests/test_market_link_profiles.py` |
+| Per-check records (L7) | each admin check by hand (GSTIN / APMC / FSSAI / IEC / APEDA / phone call / place photo): the number checked, result (passed / failed / cancelled), the official page opened, admin id and time, re-check listing time; badges say what was checked and the date, never "guaranteed"; no turnover; the profile's owner may read the checks on it, nobody else (RLS) | `verification_checks`, migration 0034; `api/src/bagmitra_api/market_link/checks.py`; `api/tests/test_market_link_checks.py` |
+| Device sightings (L7) | SHA-256 of the push token per account (never the token), written when a phone registers for push while the market link is on; purpose: fraud prevention (two accounts on one phone cannot rate each other, spec §4C, Q100) | `device_sightings`, migration 0034; `api/src/bagmitra_api/market_link/trust.py` |
 | Representative uploads | place photo (capture time + GPS) and / or address, with who and when | `RepresentativeUpload` |
 | Reports, admin actions, blocks, terms acceptances | predefined reason codes only (no text); acceptances are versioned and time-stamped with the 18+ declaration | `FraudReport`, `AdminAction`, `UserBlock`, `TermsAcceptance` |
 

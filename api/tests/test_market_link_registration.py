@@ -219,9 +219,22 @@ async def register(
     return response.json()
 
 
+# The check each profile needs before approval (spec §4, L7), by the number it holds.
+RULE_CHECKS = ("iec", "gstin", "apmc")
+
+
 async def approve(api: httpx.AsyncClient, subject_type: str, subject_id: str) -> None:
-    url = f"{ADMIN_BASE}/verifications/{subject_type}/{subject_id}/decision"
-    response = await api.post(url, json={"status": "approved"}, headers=ADMIN)
+    """Records the spec §4 check (trader / exporter: a number; broker: the phone call), then
+    approves."""
+    base = f"{ADMIN_BASE}/verifications/{subject_type}/{subject_id}"
+    if subject_type in ("buyer", "broker"):
+        links = (await api.get(base, headers=ADMIN)).json()["links"]
+        kinds = [link["kind"] for link in links]
+        kind = next((k for k in RULE_CHECKS if k in kinds), "phone_call")
+        body = {"kind": kind, "result": "passed"}
+        response = await api.post(f"{base}/checks", json=body, headers=ADMIN)
+        assert response.status_code == 200, response.text
+    response = await api.post(f"{base}/decision", json={"status": "approved"}, headers=ADMIN)
     assert response.status_code == 200, response.text
 
 
@@ -298,6 +311,7 @@ async def test_trader_registration_stores_fix_numbers_and_enters_the_queue(
         "kind": "registered_from",
         "on": "2026-11-07",
         "place": "Warud, Amravati",
+        "since_year": None,
     }
     async with maker() as s:
         row = await s.scalar(select(RegistrationFix))

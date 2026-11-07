@@ -242,16 +242,24 @@ async def test_approve_writes_a_new_record_and_verifies(
     buyer = subjects["buyer"]
     async with maker() as s:
         assert await is_verified(s, "buyer", buyer) is False
-    res = await api.post(
-        f"{BASE}/verifications/buyer/{buyer}/decision", headers=ADMIN, json={"status": "approved"}
+    url = f"{BASE}/verifications/buyer/{buyer}/decision"
+    # Spec §4 (L7): a trader is approved only after a check of GSTIN / APMC / IEC.
+    refused = await api.post(url, headers=ADMIN, json={"status": "approved"})
+    assert refused.status_code == 422
+    assert refused.json()["error"]["code"] == "verified_rule_not_met"
+    check = {"kind": "apmc", "result": "passed"}
+    checked = await api.post(
+        f"{BASE}/verifications/buyer/{buyer}/checks", headers=ADMIN, json=check
     )
+    assert checked.status_code == 200, checked.text
+    res = await api.post(url, headers=ADMIN, json={"status": "approved"})
     assert res.status_code == 200, res.text
     body = res.json()
     assert body["subject"]["status"] == "approved"
     newest, pending = body["history"]
     assert newest["status"] == "approved"
     assert newest["checked_by"] == str(ADMIN_ID)
-    assert newest["checked_at"].startswith("2026-11-01T09:01")
+    assert newest["checked_at"].startswith("2026-11-01T09:02")
     assert newest["document_keys"] == ["docs/apmc.jpg", "docs/shop.jpg"]
     assert pending["status"] == "pending"
     assert pending["checked_by"] is None
