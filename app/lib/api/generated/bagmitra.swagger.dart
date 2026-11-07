@@ -2136,6 +2136,37 @@ their profile; undoes a dismiss. Only for a published item that has a date.''',
     ),
   });
 
+  ///Introduction
+  ///@param deal_id
+  Future<chopper.Response<IntroductionOut>> v1MarketLinkDealsDealIdGet({
+    required String? dealId,
+  }) {
+    generatedMapping.putIfAbsent(
+      IntroductionOut,
+      () => IntroductionOut.fromJsonFactory,
+    );
+
+    return _v1MarketLinkDealsDealIdGet(dealId: dealId);
+  }
+
+  ///Introduction
+  ///@param deal_id
+  @GET(path: '/v1/market-link/deals/{deal_id}')
+  Future<chopper.Response<IntroductionOut>> _v1MarketLinkDealsDealIdGet({
+    @Path('deal_id') required String? dealId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'The introduction, for its grower, trader and broker only (404 for anyone else).',
+      summary: 'Introduction',
+      operationId: 'market_link_introduction',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  });
+
   ///Register Exporter
   Future<chopper.Response<MyProfileOut>> v1MarketLinkExportersPost({
     required BuyerIn? body,
@@ -2187,6 +2218,42 @@ lot and, once accepted, the introduction to open; a closed one is the notice tha
 grower accepted another or closed the lot.''',
       summary: 'My Interests',
       operationId: 'market_link_my_interests',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  });
+
+  ///Accept Interest
+  ///@param interest_id
+  Future<chopper.Response<IntroductionOut>>
+  v1MarketLinkInterestsInterestIdAcceptPost({required String? interestId}) {
+    generatedMapping.putIfAbsent(
+      IntroductionOut,
+      () => IntroductionOut.fromJsonFactory,
+    );
+
+    return _v1MarketLinkInterestsInterestIdAcceptPost(interestId: interestId);
+  }
+
+  ///Accept Interest
+  ///@param interest_id
+  @POST(
+    path: '/v1/market-link/interests/{interest_id}/accept',
+    optionalBody: true,
+  )
+  Future<chopper.Response<IntroductionOut>>
+  _v1MarketLinkInterestsInterestIdAcceptPost({
+    @Path('interest_id') required String? interestId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''The lot\'s grower accepts one open interest: the introduction is recorded, the other
+open interests are closed (their senders get a notice), the lot leaves the traders\' list
+and both sides see each other\'s contacts. Anyone but the lot\'s grower gets 404.''',
+      summary: 'Accept Interest',
+      operationId: 'market_link_accept_interest',
       consumes: [],
       produces: [],
       security: ["HTTPBearer"],
@@ -2253,7 +2320,8 @@ upload URL for lot photos, so no stored lot photo can keep its metadata.''',
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''A short-lived download URL for an uploaded lot photo: for the grower, or for a
-verified buyer / broker while the lot is published. Only the derived key is signed.''',
+verified buyer / broker while the lot is published, or for the parties of an accepted
+interest on it (L4). Only the derived key is signed.''',
       summary: 'Lot Photo Url',
       operationId: 'market_link_lot_photo_url',
       consumes: [],
@@ -2333,7 +2401,8 @@ verified buyer / broker while the lot is published. Only the derived key is sign
     @Path('lot_id') required String? lotId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: 'Takes a published lot off the buyers\' list (the grower sold it or changed their mind).',
+      description: '''Takes a published lot off the buyers\' list (the grower sold it or changed their mind);
+its open interests are closed and their senders get a notice (L4).''',
       summary: 'Close Lot',
       operationId: 'market_link_close_lot',
       consumes: [],
@@ -2400,7 +2469,7 @@ interest whose trader or broker is no longer verified is left out (decision h).'
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''An interest on a published lot from a verified trader / exporter (optionally naming a
 verified broker) or from a verified broker for a named verified trader. A trader\'s new
-interest replaces their open one on the same lot.''',
+interest replaces their open one on the same lot. The grower gets a push.''',
       summary: 'Send Interest',
       operationId: 'market_link_send_interest',
       consumes: [],

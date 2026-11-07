@@ -1356,6 +1356,30 @@ Map<String, dynamic> _$GrowerCardsResponseToJson(
   'kind': ?instance.kind,
 };
 
+GrowerContactOut _$GrowerContactOutFromJson(Map<String, dynamic> json) =>
+    GrowerContactOut(
+      district: json['district'] as String?,
+      name: json['name'] as String?,
+      phone: json['phone'] as String?,
+      pin: json['pin'] == null
+          ? null
+          : PinOut.fromJson(json['pin'] as Map<String, dynamic>),
+      plotName: json['plot_name'] as String?,
+      taluka: json['taluka'] as String?,
+      village: json['village'] as String?,
+    );
+
+Map<String, dynamic> _$GrowerContactOutToJson(GrowerContactOut instance) =>
+    <String, dynamic>{
+      'district': ?instance.district,
+      'name': ?instance.name,
+      'phone': ?instance.phone,
+      'pin': ?instance.pin?.toJson(),
+      'plot_name': ?instance.plotName,
+      'taluka': ?instance.taluka,
+      'village': ?instance.village,
+    };
+
 GrowerInterestOut _$GrowerInterestOutFromJson(Map<String, dynamic> json) =>
     GrowerInterestOut(
       basis: json['basis'] as String,
@@ -1540,6 +1564,30 @@ Map<String, dynamic> _$InterestOutToJson(InterestOut instance) =>
       'rate_paise': instance.ratePaise,
       'status': instance.status,
       'via_broker': instance.viaBroker,
+    };
+
+IntroductionOut _$IntroductionOutFromJson(Map<String, dynamic> json) =>
+    IntroductionOut(
+      acceptedAt: DateTime.parse(json['accepted_at'] as String),
+      broker: json['broker'] == null
+          ? null
+          : PartyContactOut.fromJson(json['broker'] as Map<String, dynamic>),
+      dealId: json['deal_id'] as String,
+      grower: GrowerContactOut.fromJson(json['grower'] as Map<String, dynamic>),
+      interest: InterestOut.fromJson(json['interest'] as Map<String, dynamic>),
+      lot: LotBrief.fromJson(json['lot'] as Map<String, dynamic>),
+      trader: PartyContactOut.fromJson(json['trader'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$IntroductionOutToJson(IntroductionOut instance) =>
+    <String, dynamic>{
+      'accepted_at': instance.acceptedAt.toIso8601String(),
+      'broker': ?instance.broker?.toJson(),
+      'deal_id': instance.dealId,
+      'grower': instance.grower.toJson(),
+      'interest': instance.interest.toJson(),
+      'lot': instance.lot.toJson(),
+      'trader': instance.trader.toJson(),
     };
 
 LabelClaimOut _$LabelClaimOutFromJson(Map<String, dynamic> json) =>
@@ -1934,6 +1982,20 @@ Map<String, dynamic> _$NumbersOutToJson(NumbersOut instance) =>
       'iec_no': ?instance.iecNo,
     };
 
+PartyContactOut _$PartyContactOutFromJson(Map<String, dynamic> json) =>
+    PartyContactOut(
+      firm: json['firm'] as String?,
+      name: json['name'] as String,
+      phone: json['phone'] as String,
+    );
+
+Map<String, dynamic> _$PartyContactOutToJson(PartyContactOut instance) =>
+    <String, dynamic>{
+      'firm': ?instance.firm,
+      'name': instance.name,
+      'phone': instance.phone,
+    };
+
 PhotoDownloadUrl _$PhotoDownloadUrlFromJson(Map<String, dynamic> json) =>
     PhotoDownloadUrl(
       expiresIn: (json['expires_in'] as num).toInt(),
@@ -1977,6 +2039,16 @@ Map<String, dynamic> _$PhotoUploadUrlToJson(PhotoUploadUrl instance) =>
       'photo_key': instance.photoKey,
       'upload_url': instance.uploadUrl,
     };
+
+PinOut _$PinOutFromJson(Map<String, dynamic> json) => PinOut(
+  lat: (json['lat'] as num).toDouble(),
+  lon: (json['lon'] as num).toDouble(),
+);
+
+Map<String, dynamic> _$PinOutToJson(PinOut instance) => <String, dynamic>{
+  'lat': instance.lat,
+  'lon': instance.lon,
+};
 
 PlanIn _$PlanInFromJson(Map<String, dynamic> json) => PlanIn(
   active: json['active'] as bool? ?? true,

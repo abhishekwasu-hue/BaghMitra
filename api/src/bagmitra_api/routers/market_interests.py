@@ -4,8 +4,10 @@ Behind the legal gate (decision j): every path answers 404 while `market_link_en
 An admin-verified trader / exporter sends an interest on a published lot, directly or naming a
 verified broker; a verified broker may send one for a named verified trader (decision h). An
 interest holds only rate and basis, quantity and proposed harvest date (§3 step 3). The grower
-compares the interests on their own lot side by side (accepting one is part 2). Everything
-after the introduction is settled between them off the app (§1 core principle, §3 step 5).
+compares the interests on their own lot and accepts one: that creates the introduction record
+(`market_deals`, no terms), closes the other interests with a notice, closes the lot and
+reveals both sides' name, phone and the plot pin to the parties only (decision g). Everything
+after that is settled between them off the app (§1 core principle, §3 step 5).
 """
 
 from __future__ import annotations
@@ -14,28 +16,38 @@ import uuid
 from datetime import date, datetime
 from typing import Annotated, Literal, cast
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, BackgroundTasks, Depends
 from pydantic import BaseModel, Field, model_validator
 from sqlalchemy import or_, select
 
 from bagmitra_api.auth.jwt import CurrentUser
 from bagmitra_api.core.errors import ApiError, ErrorResponse
 from bagmitra_api.core.settings import Settings, get_settings
+from bagmitra_api.db.models import Farmer, Plot
 from bagmitra_api.db.session import DbSession
 from bagmitra_api.market_link.guards import MarketLinkIn, is_verified
 from bagmitra_api.market_link.models import (
     ORCHARD_OK,
     BrokerProfile,
     BuyerProfile,
+    DealEvent,
+    DealParty,
     MarketDeal,
     MarketLot,
     MarketOffer,
 )
+from bagmitra_api.market_link.notify import messages, send_all
 from bagmitra_api.market_link.profiles import PublicProfileOut, Subject, public_views
 from bagmitra_api.market_link.registration import india_date
 from bagmitra_api.market_link.terms import accepted_roles, current_versions
 from bagmitra_api.routers.market_link import Clock, require_market_link
-from bagmitra_api.routers.market_lots import _own_lot
+from bagmitra_api.routers.market_lots import (
+    GROWER_WRITE,
+    Push,
+    _own_lot,
+    _server_write,
+    close_open_offers,
+)
 
 router = APIRouter(
     prefix="/v1/market-link",
@@ -120,6 +132,40 @@ class LotInterestsResponse(BaseModel):
     interests: list[GrowerInterestOut]
 
 
+class PinOut(BaseModel):
+    lat: float
+    lon: float
+
+
+class GrowerContactOut(BaseModel):
+    name: str | None
+    phone: str | None
+    village: str | None
+    taluka: str | None
+    district: str | None
+    plot_name: str | None
+    # The plot's point, revealed only to the parties of an accepted interest.
+    pin: PinOut | None
+
+
+class PartyContactOut(BaseModel):
+    name: str
+    firm: str | None
+    phone: str
+
+
+class IntroductionOut(BaseModel):
+    """Both sides' contacts after acceptance; nothing about their deal is recorded."""
+
+    deal_id: uuid.UUID
+    accepted_at: datetime
+    lot: LotBrief
+    interest: InterestOut
+    grower: GrowerContactOut
+    trader: PartyContactOut
+    broker: PartyContactOut | None
+
+
 def _interest(offer: MarketOffer, deal_id: uuid.UUID | None = None) -> dict[str, object]:
     fields = ("id", "lot_id", "basis", "rate_paise", "quantity_t", "harvest_date", "status")
     return {
@@ -153,16 +199,18 @@ async def _require_accepted(
 
 
 @router.post("/lots/{lot_id}/interests", operation_id="market_link_send_interest", status_code=201)
-async def send_interest(
+async def send_interest(  # noqa: PLR0913 - body and dependencies
     lot_id: uuid.UUID,
     body: InterestIn,
     user: CurrentUser,
     session: DbSession,
     settings: AppSettings,
+    tasks: BackgroundTasks,
+    push: Push,
 ) -> InterestOut:
     """An interest on a published lot from a verified trader / exporter (optionally naming a
     verified broker) or from a verified broker for a named verified trader. A trader's new
-    interest replaces their open one on the same lot."""
+    interest replaces their open one on the same lot. The grower gets a push."""
     if body.trader_id is not None:  # a broker brings a trader
         broker = await _verified_profile(session, BrokerProfile, user_id=user.id, pid=None)
         if broker is None:
@@ -209,7 +257,9 @@ async def send_interest(
     )
     session.add(offer)
     await session.flush()
+    batch = await messages(session, "new_interest", [lot.owner_id], {"lot_id": str(lot.id)})
     await session.commit()
+    tasks.add_task(send_all, push, batch)
     return InterestOut.model_validate(_interest(offer))
 
 
@@ -302,3 +352,117 @@ async def lot_interests(
         item = {**_interest(o, deals.get(o.id)), "trader": trader, "broker": broker}
         out.append(GrowerInterestOut.model_validate(item))
     return LotInterestsResponse(interests=out)
+
+
+@router.post(
+    "/interests/{interest_id}/accept",
+    operation_id="market_link_accept_interest",
+    dependencies=GROWER_WRITE,
+)
+async def accept_interest(
+    interest_id: uuid.UUID,
+    user: CurrentUser,
+    session: DbSession,
+    tasks: BackgroundTasks,
+    push: Push,
+) -> IntroductionOut:
+    """The lot's grower accepts one open interest: the introduction is recorded, the other
+    open interests are closed (their senders get a notice), the lot leaves the traders' list
+    and both sides see each other's contacts. Anyone but the lot's grower gets 404."""
+    offer = await session.get(MarketOffer, interest_id)
+    if offer is None:
+        raise ApiError(404, "interest_not_found")
+    lot = await session.scalar(
+        select(MarketLot).where(MarketLot.id == offer.lot_id).with_for_update()
+    )
+    if lot is None or lot.owner_id != user.id or lot.deleted_at is not None:
+        raise ApiError(404, "interest_not_found")
+    if lot.status != "published":
+        raise ApiError(409, "lot_not_published")
+    if offer.status != "open":
+        raise ApiError(409, "interest_not_open")
+    trader = await _verified_profile(session, BuyerProfile, user_id=offer.buyer_user_id, pid=None)
+    broker = (
+        await _verified_profile(session, BrokerProfile, user_id=offer.broker_user_id, pid=None)
+        if offer.broker_user_id
+        else None
+    )
+    if trader is None or (offer.broker_user_id is not None and broker is None):
+        raise ApiError(409, "party_not_verified")
+    deal = MarketDeal(lot_id=lot.id, offer_id=offer.id, status="active")
+    session.add(deal)
+    await session.flush()
+    parties = [("grower", user.id), ("trader", offer.buyer_user_id)]
+    if offer.broker_user_id is not None:
+        parties.append(("broker", offer.broker_user_id))
+    session.add_all(DealParty(deal_id=deal.id, role=r, user_id=u) for r, u in parties)
+    session.add(DealEvent(deal_id=deal.id, actor_id=user.id, kind="accepted", detail={}))
+    offer.status = "accepted"
+    others = await close_open_offers(session, lot.id)
+    lot.status = "closed"
+    await _server_write(session, user, lot, "close")
+    data = {"lot_id": str(lot.id), "deal_id": str(deal.id)}
+    batch = await messages(session, "accepted", [u for r, u in parties if r != "grower"], data)
+    batch += await messages(session, "closed", others, {"lot_id": str(lot.id)})
+    await session.commit()
+    tasks.add_task(send_all, push, batch)
+    return await _introduction(session, deal)
+
+
+async def _introduction(session: DbSession, deal: MarketDeal) -> IntroductionOut:
+    offer = await session.get(MarketOffer, deal.offer_id)
+    lot = await session.get(MarketLot, deal.lot_id)
+    if offer is None or lot is None:  # foreign keys: never
+        raise ApiError(404, "deal_not_found")
+    farmer = await session.get(Farmer, lot.owner_id)
+    plot = await session.get(Plot, lot.plot_id)
+    buyer = await session.scalar(
+        select(BuyerProfile).where(BuyerProfile.user_id == offer.buyer_user_id)
+    )
+    broker = (
+        await session.scalar(
+            select(BrokerProfile).where(BrokerProfile.user_id == offer.broker_user_id)
+        )
+        if offer.broker_user_id
+        else None
+    )
+    pin = (
+        PinOut(lat=plot.centroid_lat, lon=plot.centroid_lon)
+        if plot is not None and plot.centroid_lat is not None and plot.centroid_lon is not None
+        else None
+    )
+    return IntroductionOut(
+        deal_id=deal.id,
+        accepted_at=deal.accepted_at,
+        lot=_brief(lot),
+        interest=InterestOut.model_validate(_interest(offer, deal.id)),
+        grower=GrowerContactOut(
+            name=farmer.display_name if farmer else None,
+            phone=farmer.phone if farmer else None,
+            village=lot.village,
+            taluka=lot.taluka,
+            district=lot.district,
+            plot_name=plot.name if plot else None,
+            pin=pin,
+        ),
+        trader=PartyContactOut(
+            name=buyer.name if buyer else "",
+            firm=buyer.firm if buyer else None,
+            phone=buyer.phone if buyer else "",
+        ),
+        broker=PartyContactOut(name=broker.name, firm=None, phone=broker.phone) if broker else None,
+    )
+
+
+@router.get("/deals/{deal_id}", operation_id="market_link_introduction")
+async def introduction(
+    deal_id: uuid.UUID, user: CurrentUser, session: DbSession
+) -> IntroductionOut:
+    """The introduction, for its grower, trader and broker only (404 for anyone else)."""
+    deal = await session.get(MarketDeal, deal_id)
+    party = await session.scalar(
+        select(DealParty.id).where(DealParty.deal_id == deal_id, DealParty.user_id == user.id)
+    )
+    if deal is None or party is None:
+        raise ApiError(404, "deal_not_found")
+    return await _introduction(session, deal)
