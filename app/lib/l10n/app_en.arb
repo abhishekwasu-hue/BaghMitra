@@ -1278,6 +1278,44 @@
   "adminMlKindTransporter": "Transporter",
   "adminMlKindLabourGang": "Labour gang",
   "adminMlKindCrateSupplier": "Crate supplier",
+  "adminMlChecks": "Checks",
+  "adminMlChecksNote": "Open the official page, paste the number (it is copied), check by hand and record the result. A badge says only what was checked and when.",
+  "adminMlOpenPage": "Open official page",
+  "adminMlCallNow": "Call",
+  "adminMlRecordResult": "Record result",
+  "adminMlNumberCopied": "Number copied: {number}",
+  "@adminMlNumberCopied": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "adminMlResultPassed": "Passed",
+  "adminMlResultFailed": "Did not pass",
+  "adminMlResultCancelled": "Cancelled / deactivated",
+  "adminMlRegisteredYear": "GST registration year (optional)",
+  "adminMlNoChecks": "No check recorded yet",
+  "adminMlCheckApmc": "APMC licence",
+  "adminMlCheckPhoneCall": "Phone call",
+  "adminMlCheckPlacePhoto": "Place photo",
+  "adminMlRegisteredSince": "registered {year}",
+  "@adminMlRegisteredSince": {
+    "placeholders": {
+      "year": {
+        "type": "String"
+      }
+    }
+  },
+  "adminMlFlags": "Look before approving",
+  "adminMlFlagDuplicate": "Same number on another profile",
+  "adminMlFlagReturning": "Matches a suspended profile",
+  "adminMlFlagMock": "Location looked fake (mock)",
+  "adminMlFlagOtherDistrict": "Registered outside the stated district",
+  "adminMlFlagNoPlace": "Phone could not name the place",
+  "adminMlWhyName": "same name",
+  "adminMlWhyGps": "registered nearby",
+  "adminMlWhyAccount": "same sign-in",
   "adminMlDocumentCount": "Documents: {n}",
   "@adminMlDocumentCount": {"placeholders": {"n": {"type": "int"}}},
   "mlRoleTrader": "Trader",

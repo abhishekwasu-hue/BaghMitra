@@ -5482,6 +5482,150 @@ abstract class AppLocalizations {
   /// **'Crate supplier'**
   String get adminMlKindCrateSupplier;
 
+  /// No description provided for @adminMlChecks.
+  ///
+  /// In en, this message translates to:
+  /// **'Checks'**
+  String get adminMlChecks;
+
+  /// No description provided for @adminMlChecksNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Open the official page, paste the number (it is copied), check by hand and record the result. A badge says only what was checked and when.'**
+  String get adminMlChecksNote;
+
+  /// No description provided for @adminMlOpenPage.
+  ///
+  /// In en, this message translates to:
+  /// **'Open official page'**
+  String get adminMlOpenPage;
+
+  /// No description provided for @adminMlCallNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Call'**
+  String get adminMlCallNow;
+
+  /// No description provided for @adminMlRecordResult.
+  ///
+  /// In en, this message translates to:
+  /// **'Record result'**
+  String get adminMlRecordResult;
+
+  /// No description provided for @adminMlNumberCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Number copied: {number}'**
+  String adminMlNumberCopied(String number);
+
+  /// No description provided for @adminMlResultPassed.
+  ///
+  /// In en, this message translates to:
+  /// **'Passed'**
+  String get adminMlResultPassed;
+
+  /// No description provided for @adminMlResultFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Did not pass'**
+  String get adminMlResultFailed;
+
+  /// No description provided for @adminMlResultCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled / deactivated'**
+  String get adminMlResultCancelled;
+
+  /// No description provided for @adminMlRegisteredYear.
+  ///
+  /// In en, this message translates to:
+  /// **'GST registration year (optional)'**
+  String get adminMlRegisteredYear;
+
+  /// No description provided for @adminMlNoChecks.
+  ///
+  /// In en, this message translates to:
+  /// **'No check recorded yet'**
+  String get adminMlNoChecks;
+
+  /// No description provided for @adminMlCheckApmc.
+  ///
+  /// In en, this message translates to:
+  /// **'APMC licence'**
+  String get adminMlCheckApmc;
+
+  /// No description provided for @adminMlCheckPhoneCall.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone call'**
+  String get adminMlCheckPhoneCall;
+
+  /// No description provided for @adminMlCheckPlacePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Place photo'**
+  String get adminMlCheckPlacePhoto;
+
+  /// No description provided for @adminMlRegisteredSince.
+  ///
+  /// In en, this message translates to:
+  /// **'registered {year}'**
+  String adminMlRegisteredSince(String year);
+
+  /// No description provided for @adminMlFlags.
+  ///
+  /// In en, this message translates to:
+  /// **'Look before approving'**
+  String get adminMlFlags;
+
+  /// No description provided for @adminMlFlagDuplicate.
+  ///
+  /// In en, this message translates to:
+  /// **'Same number on another profile'**
+  String get adminMlFlagDuplicate;
+
+  /// No description provided for @adminMlFlagReturning.
+  ///
+  /// In en, this message translates to:
+  /// **'Matches a suspended profile'**
+  String get adminMlFlagReturning;
+
+  /// No description provided for @adminMlFlagMock.
+  ///
+  /// In en, this message translates to:
+  /// **'Location looked fake (mock)'**
+  String get adminMlFlagMock;
+
+  /// No description provided for @adminMlFlagOtherDistrict.
+  ///
+  /// In en, this message translates to:
+  /// **'Registered outside the stated district'**
+  String get adminMlFlagOtherDistrict;
+
+  /// No description provided for @adminMlFlagNoPlace.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone could not name the place'**
+  String get adminMlFlagNoPlace;
+
+  /// No description provided for @adminMlWhyName.
+  ///
+  /// In en, this message translates to:
+  /// **'same name'**
+  String get adminMlWhyName;
+
+  /// No description provided for @adminMlWhyGps.
+  ///
+  /// In en, this message translates to:
+  /// **'registered nearby'**
+  String get adminMlWhyGps;
+
+  /// No description provided for @adminMlWhyAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'same sign-in'**
+  String get adminMlWhyAccount;
+
   /// No description provided for @adminMlDocumentCount.
   ///
   /// In en, this message translates to:

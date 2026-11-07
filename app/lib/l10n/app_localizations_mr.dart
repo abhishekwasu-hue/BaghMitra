@@ -3142,6 +3142,83 @@ class AppLocalizationsMr extends AppLocalizations {
   String get adminMlKindCrateSupplier => 'क्रेट पुरवठादार';
 
   @override
+  String get adminMlChecks => 'तपासण्या';
+
+  @override
+  String get adminMlChecksNote =>
+      'अधिकृत पान उघडा, नंबर पेस्ट करा (तो कॉपी झालेला असतो), स्वतः तपासा आणि निकाल नोंदवा. बॅज फक्त काय व कधी तपासले ते सांगतो.';
+
+  @override
+  String get adminMlOpenPage => 'अधिकृत पान उघडा';
+
+  @override
+  String get adminMlCallNow => 'फोन करा';
+
+  @override
+  String get adminMlRecordResult => 'निकाल नोंदवा';
+
+  @override
+  String adminMlNumberCopied(String number) {
+    return 'नंबर कॉपी झाला: $number';
+  }
+
+  @override
+  String get adminMlResultPassed => 'योग्य आढळले';
+
+  @override
+  String get adminMlResultFailed => 'जुळले नाही';
+
+  @override
+  String get adminMlResultCancelled => 'रद्द / बंद';
+
+  @override
+  String get adminMlRegisteredYear => 'GST नोंदणी वर्ष (ऐच्छिक)';
+
+  @override
+  String get adminMlNoChecks => 'अजून एकही तपासणी नोंदली नाही';
+
+  @override
+  String get adminMlCheckApmc => 'APMC परवाना';
+
+  @override
+  String get adminMlCheckPhoneCall => 'फोन कॉल';
+
+  @override
+  String get adminMlCheckPlacePhoto => 'ठिकाणाचा फोटो';
+
+  @override
+  String adminMlRegisteredSince(String year) {
+    return 'नोंदणी $year';
+  }
+
+  @override
+  String get adminMlFlags => 'मंजुरीआधी पाहा';
+
+  @override
+  String get adminMlFlagDuplicate => 'हाच नंबर दुसऱ्या प्रोफाइलवर';
+
+  @override
+  String get adminMlFlagReturning => 'निलंबित प्रोफाइलशी जुळते';
+
+  @override
+  String get adminMlFlagMock => 'ठिकाण बनावट (mock) दिसले';
+
+  @override
+  String get adminMlFlagOtherDistrict => 'सांगितलेल्या जिल्ह्याबाहेरून नोंदणी';
+
+  @override
+  String get adminMlFlagNoPlace => 'फोनला ठिकाणाचे नाव मिळाले नाही';
+
+  @override
+  String get adminMlWhyName => 'तेच नाव';
+
+  @override
+  String get adminMlWhyGps => 'जवळून नोंदणी';
+
+  @override
+  String get adminMlWhyAccount => 'तेच खाते';
+
+  @override
   String adminMlDocumentCount(int n) {
     return 'कागदपत्रे: $n';
   }
