@@ -94,3 +94,38 @@ Items the **owner** must do are marked (owner); everything else is yours to prep
 - **M6d — Hardening:** security review, load test of verify/RTDN paths, failure-injection tests (Play API down, Pub/Sub retries), final Play release checklist dry run.
 
 Definition of Done for each sub-milestone is written in `docs/PLAN.md` before work starts and executed by the session at the end (emulator demo + test results recorded in `docs/PROGRESS.md`).
+
+---
+
+## 7. Owner decisions 2026-11-07 — admin switch and admin-set fees (un-parks M6b)
+
+Owner: "Build subscription billing now. Admin turns it ON / OFF from the admin login; the fee amounts are
+admin settings he fills in later; the subscription then applies to everyone."
+
+- **Global switch** `subscriptions_enabled` in admin settings (default **OFF**), with an optional start
+  date the admin sets. OFF = every signed-in user gets the full app (compute_entitlements returns the
+  full feature set; no paywall, no purchase UI). ON (from the start date) = the role's plan is required
+  for paid features. Every switch change is logged in `billing_events` with admin id, time, old / new.
+- **One monthly plan per role**: grower, trader, broker (मध्यस्थ), exporter, service provider. A person
+  with two roles needs only the higher-priced role's plan (default; entitlement covers both roles).
+  The admin page has one ₹ amount field per role (empty until the owner fills it); a role with no amount
+  stays free even when the switch is ON.
+- **Price source of truth stays Google Play** (§1): saving an amount in the admin page calls the Play
+  Developer API `monetization.subscriptions.patch` to set that role's monthly base plan price for India;
+  the admin page shows the price Play reports back. Prices are never hardcoded in the app; the paywall
+  shows Play's localized price. [V: developer.android.com/google/play/billing/price-changes]
+- **Price changes for existing subscribers follow Play's rules**, shown on the admin page before saving:
+  new purchases get the new price within hours; a decrease reaches existing subscribers at their next
+  payment; an increase for existing subscribers is opt-in by default — Google notifies users from 30
+  days before the charge, the charge comes after a 37-day notice, users who do not accept are cancelled,
+  and an **in-app notice is required** (with a deep link to the Play subscription page). Existing
+  subscribers keep the old price unless the admin explicitly runs `basePlans.migratePrices`.
+- Fees are for **using the app only** — never a commission, share or charge on any deal (market linkage
+  spec v1.5 §1). Records stay readable and exportable on the free tier at all times (§1, "data is never
+  held hostage").
+- Owner-side prerequisites (not code): Play Console organisation account with a payments profile; one
+  subscription product per role created once; a service account with the minimum Play Console
+  permissions, its key in the VPS secret store; Pub/Sub topic for RTDN. The CA's GST opinion before the
+  switch is first turned ON. Runbook to be written in `docs/runbooks/billing-play.md`.
+- Build order: M6b now (Play Billing client + server verify + RTDN + reconciliation + paywall) **plus**
+  the admin switch and per-role price page above; M6c (FPO web portal) and M6d stay parked.
