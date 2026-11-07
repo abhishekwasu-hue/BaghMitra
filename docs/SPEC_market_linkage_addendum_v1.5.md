@@ -202,7 +202,7 @@ the admin by hand from a link the admin page opens. Research: MARKET_LINKAGE_RES
 - **Account deletion (Q68)**: profile and contact data are hidden at once and erased after **180 days**
   (IT Rules 2021 retention); ratings already given stay, shown without name.
 
-## 4D. Season sale package — PROPOSED, awaiting owner approval (research §7)
+## 4D. Season sale package — APPROVED by the owner 2026-11-07 (research §7; architecture §4E)
 Owner idea 2026-11-07: in the sale season growers look for traders and traders look for good santra; a
 grower pays a **one-time** fee (not monthly) to have a lot shown to traders; paid by UPI straight to the
 company account, not through Google. Traders keep their monthly subscription.
@@ -220,6 +220,61 @@ company account, not through Google. Traders keep their monthly subscription.
 - Fee is for the listing service only — never a share of the sale (§1).
 - Needs before go-live: registered company, current account + merchant QR, CA view on GST and invoice,
   Play Console check that consumption-only still applies.
+
+## 4E. Season sale package — architecture (approved 2026-11-07)
+
+### Admin settings (admin web, `market_link_admin`)
+- **Company profile** (owner fills after company registration and GST number): legal name, trade name,
+  address, GSTIN, PAN, bank account name / IFSC / last 4 digits only, UPI ID (VPA), merchant QR image,
+  invoice prefix, GST rate % for the package (empty until the CA advises). All fields start empty.
+- **Package settings**: switch ON / OFF (default **OFF**), price ₹, validity days, start date.
+- **Guard**: the switch cannot be turned ON while legal name, GSTIN, UPI ID or price is empty; the admin
+  page says which field is missing. Every settings change is written to `admin_actions` (old / new,
+  who, when).
+
+### Visibility rule (server, one function `lot_visible_to_traders(lot, now)`)
+- Switch OFF → every published lot is visible (today's behaviour).
+- Switch ON → a lot is visible to traders, exporters and brokers only while its grower has an active
+  package covering that lot (`activated_at <= now < valid_until`). Expired → the lot hides; the grower
+  keeps the lot, its photos and all interests already received.
+- Traders always see only: first name (no surname), crop / variety, orchard acres, estimated tonnes,
+  quality ticks, photos (EXIF stripped), harvest window, district. Surname, phone, village and plot pin
+  only after the grower accepts that trader's interest (§3 step 4). Table-driven tests for every case.
+
+### Payment and activation (consumption-only, research §7.1)
+- **Nothing about price or payment inside the Android app**: no amount, no pay button, no UPI ID, no QR,
+  no link, no "pay at…" text — including in the representative role screens. The grower only sees
+  "Package active until <date>" or "Not active". (CI test: no price or UPI string in the app bundle's
+  l10n for this feature.)
+- The grower pays outside the app: a printed company QR card carried by representatives, the company
+  website, or the office.
+- **Admin activation**: admin web → find grower by phone → choose lot (or "all lots this season") →
+  enter amount, payment method (UPI / cash / bank), payment reference (UTR, unique), paid date → save.
+  Creates a `package_grants` row and a receipt; the grower gets a push "Your sale package is active
+  until <date>".
+- **Receipt / invoice PDF** (admin web, downloadable and sent to the grower's phone by the admin):
+  company profile, receipt number (prefix + running number), grower name, phone, amount, GST line only
+  when GSTIN and GST rate are set, payment reference, validity. Never generated while the company
+  profile is empty.
+- **Printable QR card** in the admin web (company name, UPI ID, merchant QR) for representatives — a
+  print file, not an app screen.
+- Refunds are not built (no rule from the owner); an admin can revoke a grant with a reason (logged).
+
+### Data model (next migration)
+`company_profile` (single row; fields above), `season_package_settings` (switch, price, validity_days,
+starts_at), `package_grants` (id, grower_id, lot_id nullable = all lots, amount_paise, method,
+payment_ref unique, paid_on, activated_at, valid_until, receipt_no unique, revoked_at, revoked_reason,
+admin_id). RLS: grower reads own grants (status and dates only); admin full; traders none.
+
+### Tests
+Switch OFF shows all lots; switch ON hides lots without an active grant; expiry hides; revoke hides;
+guard blocks ON with empty company fields; duplicate UTR refused; receipt numbers unique and gapless per
+prefix; no price / UPI / QR anywhere in the app; trader view never contains surname, phone, village or
+coordinates before acceptance; admin actions logged.
+
+### Milestone
+L9a: settings, company profile, guard, visibility rule, grants API + admin activation page.
+L9b: receipt PDF, printable QR card, grower status chip and push, tests above.
 
 ## 5. Legal gate (must hold before production)
 - Feature flag `MARKET_LINK_ENABLED` (default **off** in production; on in test builds).
