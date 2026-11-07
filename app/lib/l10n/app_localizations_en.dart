@@ -1552,6 +1552,31 @@ class AppLocalizationsEn extends AppLocalizations {
       'Prices load when the phone is online and the price source is connected.';
 
   @override
+  String get marketCrop => 'Crop';
+
+  @override
+  String marketCropSoon(String crop) {
+    return '$crop prices will show here soon. Mandi prices update on their own every 6 hours.';
+  }
+
+  @override
+  String get marketSearchOpen => 'Find a mandi';
+
+  @override
+  String get marketSearchClose => 'Close search';
+
+  @override
+  String get marketSearchHint => 'Mandi, district or state';
+
+  @override
+  String get marketSearchClear => 'Clear';
+
+  @override
+  String marketSearchEmpty(String query) {
+    return 'Try another mandi, district or state name instead of “$query”.';
+  }
+
+  @override
   String get practicesOpen => 'Orchard practices (non-chemical)';
 
   @override

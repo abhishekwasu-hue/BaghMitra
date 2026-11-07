@@ -1551,6 +1551,31 @@ class AppLocalizationsHi extends AppLocalizations {
       'फ़ोन ऑनलाइन होने और मंडी भाव सेवा चालू होने पर भाव यहाँ दिखेंगे।';
 
   @override
+  String get marketCrop => 'फसल';
+
+  @override
+  String marketCropSoon(String crop) {
+    return '$crop के भाव जल्द ही यहाँ दिखेंगे। मंडी भाव हर 6 घंटे में अपने-आप अपडेट होते हैं।';
+  }
+
+  @override
+  String get marketSearchOpen => 'मंडी खोजें';
+
+  @override
+  String get marketSearchClose => 'खोज बंद करें';
+
+  @override
+  String get marketSearchHint => 'मंडी, ज़िला या राज्य';
+
+  @override
+  String get marketSearchClear => 'साफ़ करें';
+
+  @override
+  String marketSearchEmpty(String query) {
+    return '“$query” की जगह कोई दूसरा मंडी, ज़िले या राज्य का नाम लिखकर देखें।';
+  }
+
+  @override
   String get practicesOpen => 'बाग प्रबंधन पद्धतियाँ (रसायन-रहित)';
 
   @override

@@ -57,6 +57,7 @@ import '../features/labels/data/label_claims_cache.dart';
 import '../features/labels/data/label_targets.dart';
 import '../features/lookalikes/data/lookalike_cards.dart';
 import '../features/market/data/market_prices_cache.dart';
+import '../features/market/domain/market_crops.dart';
 import '../features/plots/data/crop_catalog.dart';
 import '../features/plots/data/location_service.dart';
 import '../features/plots/data/place_geocoder.dart';
@@ -989,10 +990,19 @@ final marketPricesCacheProvider = Provider<MarketPricesCache>(
   ),
 );
 
-/// The crop whose mandi prices the grower sees: their first block's crop, else santra.
-final marketCropProvider = Provider<String>(
-  (ref) => ref.watch(plotsProvider).value?.firstOrNull?.crop ?? 'santra',
+/// The fruit whose mandi prices the grower sees: santra until he picks another on the
+/// market screen (owner); the pick is kept for the rest of the app session.
+final marketCropProvider = NotifierProvider<MarketCropPick, String>(
+  MarketCropPick.new,
 );
+
+class MarketCropPick extends Notifier<String> {
+  @override
+  String build() => defaultMarketCrop;
+
+  // ignore: use_setters_to_change_properties
+  void pick(String crop) => state = crop;
+}
 
 /// The cached mandi prices for a crop and scope, saved copy first (see [cacheFirst]);
 /// online (not demo) an old copy is fetched again in the background.
