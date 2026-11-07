@@ -11,7 +11,12 @@ from pydantic import BaseModel, ConfigDict, model_validator
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from bagmitra_api.market_link.models import SUBJECT_TYPES, PartyVerification
+from bagmitra_api.market_link.models import (
+    SUBJECT_TYPES,
+    BrokerProfile,
+    BuyerProfile,
+    PartyVerification,
+)
 
 FORBIDDEN_KEY = re.compile(r"commission|brokerage|income|dalali", re.IGNORECASE)
 # Zero-cost verification (addendum 1): no Aadhaar number, card image or OTP anywhere.
@@ -101,6 +106,16 @@ async def is_verified(session: AsyncSession, subject_type: str, subject_id: uuid
         raise ValueError(f"unknown subject type {subject_type!r}")
     latest = await latest_verifications(session, subject_type, [subject_id])
     return counts_as_verified(latest.get(subject_id))
+
+
+async def is_verified_viewer(session: AsyncSession, user_id: uuid.UUID) -> bool:
+    """True when the user is an admin-verified buyer or broker: only they see lots
+    (decision h, spec v1.5 §3 step 2; Postgres `ml_viewer_verified`)."""
+    for model, kind in ((BuyerProfile, "buyer"), (BrokerProfile, "broker")):
+        profile_id = await session.scalar(select(model.id).where(model.user_id == user_id))
+        if profile_id is not None and await is_verified(session, kind, profile_id):
+            return True
+    return False
 
 
 # Spec v1.5 §4B: lot text a buyer reads before acceptance must not carry a way to reach the
