@@ -1673,6 +1673,20 @@ Map<String, dynamic> _$PlotWeatherToJson(PlotWeather instance) =>
       'stale': instance.stale,
     };
 
+ProfilesResponse _$ProfilesResponseFromJson(Map<String, dynamic> json) =>
+    ProfilesResponse(
+      profiles:
+          (json['profiles'] as List<dynamic>?)
+              ?.map((e) => PublicProfileOut.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+    );
+
+Map<String, dynamic> _$ProfilesResponseToJson(ProfilesResponse instance) =>
+    <String, dynamic>{
+      'profiles': instance.profiles.map((e) => e.toJson()).toList(),
+    };
+
 ProviderDetailsOut _$ProviderDetailsOutFromJson(Map<String, dynamic> json) =>
     ProviderDetailsOut(
       capacityT: (json['capacity_t'] as num?)?.toDouble(),
@@ -1744,6 +1758,71 @@ Map<String, dynamic> _$ProviderInToJson(ProviderIn instance) =>
       'village': instance.village,
     };
 
+PublicProfileOut _$PublicProfileOutFromJson(
+  Map<String, dynamic> json,
+) => PublicProfileOut(
+  address: json['address'] as String?,
+  areas:
+      (json['areas'] as List<dynamic>?)?.map((e) => e as String).toList() ?? [],
+  badges:
+      (json['badges'] as List<dynamic>?)
+          ?.map((e) => BadgeOut.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      [],
+  crops:
+      (json['crops'] as List<dynamic>?)?.map((e) => e as String).toList() ?? [],
+  dealsCompleted: (json['deals_completed'] as num).toInt(),
+  distanceKm: (json['distance_km'] as num?)?.toInt(),
+  district: json['district'] as String,
+  firm: json['firm'] as String?,
+  id: json['id'] as String,
+  kind: json['kind'] as String,
+  markets:
+      (json['markets'] as List<dynamic>?)?.map((e) => e as String).toList() ??
+      [],
+  name: json['name'] as String,
+  phone: json['phone'] as String,
+  provider: json['provider'] == null
+      ? null
+      : ProviderDetailsOut.fromJson(json['provider'] as Map<String, dynamic>),
+  stars:
+      (json['stars'] as List<dynamic>?)
+          ?.map((e) => QuestionStarsOut.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      [],
+  subjectType: json['subject_type'] as String,
+  tags:
+      (json['tags'] as List<dynamic>?)
+          ?.map((e) => TagCountOut.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      [],
+  taluka: json['taluka'] as String?,
+  village: json['village'] as String?,
+);
+
+Map<String, dynamic> _$PublicProfileOutToJson(PublicProfileOut instance) =>
+    <String, dynamic>{
+      'address': ?instance.address,
+      'areas': instance.areas,
+      'badges': instance.badges.map((e) => e.toJson()).toList(),
+      'crops': instance.crops,
+      'deals_completed': instance.dealsCompleted,
+      'distance_km': ?instance.distanceKm,
+      'district': instance.district,
+      'firm': ?instance.firm,
+      'id': instance.id,
+      'kind': instance.kind,
+      'markets': instance.markets,
+      'name': instance.name,
+      'phone': instance.phone,
+      'provider': ?instance.provider?.toJson(),
+      'stars': instance.stars.map((e) => e.toJson()).toList(),
+      'subject_type': instance.subjectType,
+      'tags': instance.tags.map((e) => e.toJson()).toList(),
+      'taluka': ?instance.taluka,
+      'village': ?instance.village,
+    };
+
 PullResponse _$PullResponseFromJson(Map<String, dynamic> json) => PullResponse(
   changes:
       (json['changes'] as List<dynamic>?)
@@ -1783,6 +1862,20 @@ PushResponse _$PushResponseFromJson(Map<String, dynamic> json) => PushResponse(
 Map<String, dynamic> _$PushResponseToJson(PushResponse instance) =>
     <String, dynamic>{
       'results': instance.results.map((e) => e.toJson()).toList(),
+    };
+
+QuestionStarsOut _$QuestionStarsOutFromJson(Map<String, dynamic> json) =>
+    QuestionStarsOut(
+      average: (json['average'] as num).toDouble(),
+      count: (json['count'] as num).toInt(),
+      questionKey: json['question_key'] as String,
+    );
+
+Map<String, dynamic> _$QuestionStarsOutToJson(QuestionStarsOut instance) =>
+    <String, dynamic>{
+      'average': instance.average,
+      'count': instance.count,
+      'question_key': instance.questionKey,
     };
 
 QueueResponse _$QueueResponseFromJson(Map<String, dynamic> json) =>
@@ -2171,6 +2264,29 @@ Map<String, dynamic> _$SynonymOutToJson(SynonymOut instance) =>
     <String, dynamic>{
       'active_ingredient': instance.activeIngredient,
       'name': instance.name,
+    };
+
+TagCountOut _$TagCountOutFromJson(Map<String, dynamic> json) => TagCountOut(
+  count: (json['count'] as num).toInt(),
+  key: json['key'] as String,
+  labelEn: json['label_en'] as String,
+  labelHi: json['label_hi'] as String,
+  labelMr: json['label_mr'] as String,
+  polarity: json['polarity'] as String,
+  questionKey: json['question_key'] as String,
+  tagId: json['tag_id'] as String,
+);
+
+Map<String, dynamic> _$TagCountOutToJson(TagCountOut instance) =>
+    <String, dynamic>{
+      'count': instance.count,
+      'key': instance.key,
+      'label_en': instance.labelEn,
+      'label_hi': instance.labelHi,
+      'label_mr': instance.labelMr,
+      'polarity': instance.polarity,
+      'question_key': instance.questionKey,
+      'tag_id': instance.tagId,
     };
 
 TemplateStage _$TemplateStageFromJson(Map<String, dynamic> json) =>

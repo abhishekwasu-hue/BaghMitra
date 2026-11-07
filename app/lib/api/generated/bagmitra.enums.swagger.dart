@@ -490,6 +490,52 @@ enum V1InsuranceDeadlinesGetLang {
   const V1InsuranceDeadlinesGetLang(this.value);
 }
 
+enum V1MarketLinkProfilesGetRole {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('trader')
+  trader('trader'),
+  @JsonValue('exporter')
+  exporter('exporter'),
+  @JsonValue('broker')
+  broker('broker');
+
+  final String? value;
+
+  const V1MarketLinkProfilesGetRole(this.value);
+}
+
+enum V1MarketLinkProfilesGetSort {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('rating')
+  rating('rating'),
+  @JsonValue('deals')
+  deals('deals');
+
+  final String? value;
+
+  const V1MarketLinkProfilesGetSort(this.value);
+}
+
+enum V1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('buyer')
+  buyer('buyer'),
+  @JsonValue('broker')
+  broker('broker'),
+  @JsonValue('provider')
+  provider('provider');
+
+  final String? value;
+
+  const V1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType(this.value);
+}
+
 enum V1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
@@ -504,6 +550,64 @@ enum V1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectType {
   final String? value;
 
   const V1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectType(
+    this.value,
+  );
+}
+
+enum V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('buyer')
+  buyer('buyer'),
+  @JsonValue('broker')
+  broker('broker'),
+  @JsonValue('provider')
+  provider('provider');
+
+  final String? value;
+
+  const V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType(
+    this.value,
+  );
+}
+
+enum V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('gst')
+  gst('gst'),
+  @JsonValue('apmc')
+  apmc('apmc'),
+  @JsonValue('fssai')
+  fssai('fssai'),
+  @JsonValue('iec')
+  iec('iec'),
+  @JsonValue('apeda')
+  apeda('apeda'),
+  @JsonValue('certificate')
+  certificate('certificate');
+
+  final String? value;
+
+  const V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc(this.value);
+}
+
+enum V1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('buyer')
+  buyer('buyer'),
+  @JsonValue('broker')
+  broker('broker'),
+  @JsonValue('provider')
+  provider('provider');
+
+  final String? value;
+
+  const V1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType(
     this.value,
   );
 }

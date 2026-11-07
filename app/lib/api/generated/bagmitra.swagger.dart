@@ -1638,6 +1638,97 @@ their profile; undoes a dismiss. Only for a published item that has a date.''',
     ),
   });
 
+  ///Profiles
+  ///@param role
+  ///@param district
+  ///@param taluka
+  ///@param sort
+  Future<chopper.Response<ProfilesResponse>> v1MarketLinkProfilesGet({
+    required enums.V1MarketLinkProfilesGetRole? role,
+    String? district,
+    String? taluka,
+    enums.V1MarketLinkProfilesGetSort? sort,
+  }) {
+    generatedMapping.putIfAbsent(
+      ProfilesResponse,
+      () => ProfilesResponse.fromJsonFactory,
+    );
+
+    return _v1MarketLinkProfilesGet(
+      role: role?.value?.toString(),
+      district: district,
+      taluka: taluka,
+      sort: sort?.value?.toString(),
+    );
+  }
+
+  ///Profiles
+  ///@param role
+  ///@param district
+  ///@param taluka
+  ///@param sort
+  @GET(path: '/v1/market-link/profiles')
+  Future<chopper.Response<ProfilesResponse>> _v1MarketLinkProfilesGet({
+    @Query('role') required String? role,
+    @Query('district') String? district,
+    @Query('taluka') String? taluka,
+    @Query('sort') String? sort,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''The list per taluka (decision g): verified traders, exporters or brokers, by rating
+(mean of the question averages; unrated last) or by completed deals.''',
+      summary: 'Profiles',
+      operationId: 'market_link_profiles',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  });
+
+  ///Profile
+  ///@param subject_type
+  ///@param subject_id
+  Future<chopper.Response<PublicProfileOut>>
+  v1MarketLinkProfilesSubjectTypeSubjectIdGet({
+    required enums.V1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType?
+    subjectType,
+    required String? subjectId,
+  }) {
+    generatedMapping.putIfAbsent(
+      PublicProfileOut,
+      () => PublicProfileOut.fromJsonFactory,
+    );
+
+    return _v1MarketLinkProfilesSubjectTypeSubjectIdGet(
+      subjectType: subjectType?.value?.toString(),
+      subjectId: subjectId,
+    );
+  }
+
+  ///Profile
+  ///@param subject_type
+  ///@param subject_id
+  @GET(path: '/v1/market-link/profiles/{subject_type}/{subject_id}')
+  Future<chopper.Response<PublicProfileOut>>
+  _v1MarketLinkProfilesSubjectTypeSubjectIdGet({
+    @Path('subject_type') required String? subjectType,
+    @Path('subject_id') required String? subjectId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description:
+          'One verified profile; an unverified one answers 404 as if absent.',
+      summary: 'Profile',
+      operationId: 'market_link_profile',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  });
+
   ///Set Address
   ///@param subject_type
   ///@param subject_id
@@ -1678,6 +1769,174 @@ their profile; undoes a dismiss. Only for a published item that has a date.''',
 (addendum 2); who and when are stored, and a representative\'s entry is also a record.''',
       summary: 'Set Address',
       operationId: 'market_link_profile_address',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  });
+
+  ///Add Document
+  ///@param subject_type
+  ///@param subject_id
+  ///@param doc
+  ///@param valid_until
+  Future<chopper.Response<MyProfileOut>>
+  v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPost({
+    required enums.V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType?
+    subjectType,
+    required String? subjectId,
+    required enums.V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc?
+    doc,
+    String? validUntil,
+    required Object? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      MyProfileOut,
+      () => MyProfileOut.fromJsonFactory,
+    );
+
+    return _v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPost(
+      subjectType: subjectType?.value?.toString(),
+      subjectId: subjectId,
+      doc: doc?.value?.toString(),
+      validUntil: validUntil,
+      body: body,
+    );
+  }
+
+  ///Add Document
+  ///@param subject_type
+  ///@param subject_id
+  ///@param doc
+  ///@param valid_until
+  @POST(
+    path: '/v1/market-link/profiles/{subject_type}/{subject_id}/documents',
+    optionalBody: true,
+  )
+  Future<chopper.Response<MyProfileOut>>
+  _v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPost({
+    @Path('subject_type') required String? subjectType,
+    @Path('subject_id') required String? subjectId,
+    @Query('doc') required String? doc,
+    @Query('valid_until') String? validUntil,
+    @Body() required Object? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''A document photo for the admin\'s check (in-app camera): GSTIN / APMC / FSSAI / IEC /
+APEDA for a trader or exporter, the Legal Metrology certificate (with its valid-until
+date) for a weighbridge. Owner only; EXIF stripped before storage (spec §4B).''',
+      summary: 'Add Document',
+      operationId: 'market_link_profile_document',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  });
+
+  ///Place Photo
+  ///@param subject_type
+  ///@param subject_id
+  ///@param captured_at
+  ///@param lat
+  ///@param lon
+  Future<chopper.Response>
+  v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPost({
+    required enums.V1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType?
+    subjectType,
+    required String? subjectId,
+    required DateTime? capturedAt,
+    required num? lat,
+    required num? lon,
+    required Object? body,
+  }) {
+    return _v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPost(
+      subjectType: subjectType?.value?.toString(),
+      subjectId: subjectId,
+      capturedAt: capturedAt,
+      lat: lat,
+      lon: lon,
+      body: body,
+    );
+  }
+
+  ///Place Photo
+  ///@param subject_type
+  ///@param subject_id
+  ///@param captured_at
+  ///@param lat
+  ///@param lon
+  @POST(
+    path: '/v1/market-link/profiles/{subject_type}/{subject_id}/place-photo',
+    optionalBody: true,
+  )
+  Future<chopper.Response>
+  _v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPost({
+    @Path('subject_type') required String? subjectType,
+    @Path('subject_id') required String? subjectId,
+    @Query('captured_at') required DateTime? capturedAt,
+    @Query('lat') required num? lat,
+    @Query('lon') required num? lon,
+    @Body() required Object? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''A representative\'s place photo from a visit (in-app camera, time + GPS): who and when
+are stored; EXIF is stripped before storage (addendum 2, spec §4B).''',
+      summary: 'Place Photo',
+      operationId: 'market_link_profile_place_photo',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  });
+
+  ///Directory
+  ///@param type
+  ///@param district
+  ///@param taluka
+  ///@param plot_id
+  Future<chopper.Response<ProfilesResponse>> v1MarketLinkProvidersGet({
+    String? type,
+    String? district,
+    String? taluka,
+    String? plotId,
+  }) {
+    generatedMapping.putIfAbsent(
+      ProfilesResponse,
+      () => ProfilesResponse.fromJsonFactory,
+    );
+
+    return _v1MarketLinkProvidersGet(
+      type: type,
+      district: district,
+      taluka: taluka,
+      plotId: plotId,
+    );
+  }
+
+  ///Directory
+  ///@param type
+  ///@param district
+  ///@param taluka
+  ///@param plot_id
+  @GET(path: '/v1/market-link/providers')
+  Future<chopper.Response<ProfilesResponse>> _v1MarketLinkProvidersGet({
+    @Query('type') String? type,
+    @Query('district') String? district,
+    @Query('taluka') String? taluka,
+    @Query('plot_id') String? plotId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Verified providers near the grower\'s own plot: nearest first when both have a location
+(distance in whole km from the provider\'s registration fix, Q80), the rest by district,
+taluka and name. A phone number to call; no booking.''',
+      summary: 'Directory',
+      operationId: 'market_link_providers_near',
       consumes: [],
       produces: [],
       security: ["HTTPBearer"],

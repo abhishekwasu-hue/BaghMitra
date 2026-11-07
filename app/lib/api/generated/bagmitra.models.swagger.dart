@@ -8392,6 +8392,57 @@ extension $PlotWeatherExtension on PlotWeather {
 }
 
 @JsonSerializable(explicitToJson: true)
+class ProfilesResponse {
+  const ProfilesResponse({required this.profiles});
+
+  factory ProfilesResponse.fromJson(Map<String, dynamic> json) =>
+      _$ProfilesResponseFromJson(json);
+
+  static const toJsonFactory = _$ProfilesResponseToJson;
+  Map<String, dynamic> toJson() => _$ProfilesResponseToJson(this);
+
+  @JsonKey(
+    name: 'profiles',
+    includeIfNull: false,
+    defaultValue: <PublicProfileOut>[],
+  )
+  final List<PublicProfileOut> profiles;
+  static const fromJsonFactory = _$ProfilesResponseFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is ProfilesResponse &&
+            (identical(other.profiles, profiles) ||
+                const DeepCollectionEquality().equals(
+                  other.profiles,
+                  profiles,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(profiles) ^ runtimeType.hashCode;
+}
+
+extension $ProfilesResponseExtension on ProfilesResponse {
+  ProfilesResponse copyWith({List<PublicProfileOut>? profiles}) {
+    return ProfilesResponse(profiles: profiles ?? this.profiles);
+  }
+
+  ProfilesResponse copyWithWrapped({
+    Wrapped<List<PublicProfileOut>>? profiles,
+  }) {
+    return ProfilesResponse(
+      profiles: (profiles != null ? profiles.value : this.profiles),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class ProviderDetailsOut {
   const ProviderDetailsOut({
     required this.capacityT,
@@ -8753,6 +8804,264 @@ extension $ProviderInExtension on ProviderIn {
 }
 
 @JsonSerializable(explicitToJson: true)
+class PublicProfileOut {
+  const PublicProfileOut({
+    required this.address,
+    required this.areas,
+    required this.badges,
+    required this.crops,
+    required this.dealsCompleted,
+    this.distanceKm,
+    required this.district,
+    required this.firm,
+    required this.id,
+    required this.kind,
+    required this.markets,
+    required this.name,
+    required this.phone,
+    this.provider,
+    required this.stars,
+    required this.subjectType,
+    required this.tags,
+    required this.taluka,
+    required this.village,
+  });
+
+  factory PublicProfileOut.fromJson(Map<String, dynamic> json) =>
+      _$PublicProfileOutFromJson(json);
+
+  static const toJsonFactory = _$PublicProfileOutToJson;
+  Map<String, dynamic> toJson() => _$PublicProfileOutToJson(this);
+
+  @JsonKey(name: 'address', includeIfNull: false)
+  final String? address;
+  @JsonKey(name: 'areas', includeIfNull: false, defaultValue: <String>[])
+  final List<String> areas;
+  @JsonKey(name: 'badges', includeIfNull: false, defaultValue: <BadgeOut>[])
+  final List<BadgeOut> badges;
+  @JsonKey(name: 'crops', includeIfNull: false, defaultValue: <String>[])
+  final List<String> crops;
+  @JsonKey(name: 'deals_completed', includeIfNull: false)
+  final int dealsCompleted;
+  @JsonKey(name: 'distance_km', includeIfNull: false)
+  final int? distanceKm;
+  @JsonKey(name: 'district', includeIfNull: false)
+  final String district;
+  @JsonKey(name: 'firm', includeIfNull: false)
+  final String? firm;
+  @JsonKey(name: 'id', includeIfNull: false)
+  final String id;
+  @JsonKey(name: 'kind', includeIfNull: false)
+  final String kind;
+  @JsonKey(name: 'markets', includeIfNull: false, defaultValue: <String>[])
+  final List<String> markets;
+  @JsonKey(name: 'name', includeIfNull: false)
+  final String name;
+  @JsonKey(name: 'phone', includeIfNull: false)
+  final String phone;
+  @JsonKey(name: 'provider', includeIfNull: false)
+  final ProviderDetailsOut? provider;
+  @JsonKey(
+    name: 'stars',
+    includeIfNull: false,
+    defaultValue: <QuestionStarsOut>[],
+  )
+  final List<QuestionStarsOut> stars;
+  @JsonKey(name: 'subject_type', includeIfNull: false)
+  final String subjectType;
+  @JsonKey(name: 'tags', includeIfNull: false, defaultValue: <TagCountOut>[])
+  final List<TagCountOut> tags;
+  @JsonKey(name: 'taluka', includeIfNull: false)
+  final String? taluka;
+  @JsonKey(name: 'village', includeIfNull: false)
+  final String? village;
+  static const fromJsonFactory = _$PublicProfileOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is PublicProfileOut &&
+            (identical(other.address, address) ||
+                const DeepCollectionEquality().equals(
+                  other.address,
+                  address,
+                )) &&
+            (identical(other.areas, areas) ||
+                const DeepCollectionEquality().equals(other.areas, areas)) &&
+            (identical(other.badges, badges) ||
+                const DeepCollectionEquality().equals(other.badges, badges)) &&
+            (identical(other.crops, crops) ||
+                const DeepCollectionEquality().equals(other.crops, crops)) &&
+            (identical(other.dealsCompleted, dealsCompleted) ||
+                const DeepCollectionEquality().equals(
+                  other.dealsCompleted,
+                  dealsCompleted,
+                )) &&
+            (identical(other.distanceKm, distanceKm) ||
+                const DeepCollectionEquality().equals(
+                  other.distanceKm,
+                  distanceKm,
+                )) &&
+            (identical(other.district, district) ||
+                const DeepCollectionEquality().equals(
+                  other.district,
+                  district,
+                )) &&
+            (identical(other.firm, firm) ||
+                const DeepCollectionEquality().equals(other.firm, firm)) &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.kind, kind) ||
+                const DeepCollectionEquality().equals(other.kind, kind)) &&
+            (identical(other.markets, markets) ||
+                const DeepCollectionEquality().equals(
+                  other.markets,
+                  markets,
+                )) &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.phone, phone) ||
+                const DeepCollectionEquality().equals(other.phone, phone)) &&
+            (identical(other.provider, provider) ||
+                const DeepCollectionEquality().equals(
+                  other.provider,
+                  provider,
+                )) &&
+            (identical(other.stars, stars) ||
+                const DeepCollectionEquality().equals(other.stars, stars)) &&
+            (identical(other.subjectType, subjectType) ||
+                const DeepCollectionEquality().equals(
+                  other.subjectType,
+                  subjectType,
+                )) &&
+            (identical(other.tags, tags) ||
+                const DeepCollectionEquality().equals(other.tags, tags)) &&
+            (identical(other.taluka, taluka) ||
+                const DeepCollectionEquality().equals(other.taluka, taluka)) &&
+            (identical(other.village, village) ||
+                const DeepCollectionEquality().equals(other.village, village)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(address) ^
+      const DeepCollectionEquality().hash(areas) ^
+      const DeepCollectionEquality().hash(badges) ^
+      const DeepCollectionEquality().hash(crops) ^
+      const DeepCollectionEquality().hash(dealsCompleted) ^
+      const DeepCollectionEquality().hash(distanceKm) ^
+      const DeepCollectionEquality().hash(district) ^
+      const DeepCollectionEquality().hash(firm) ^
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(kind) ^
+      const DeepCollectionEquality().hash(markets) ^
+      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(phone) ^
+      const DeepCollectionEquality().hash(provider) ^
+      const DeepCollectionEquality().hash(stars) ^
+      const DeepCollectionEquality().hash(subjectType) ^
+      const DeepCollectionEquality().hash(tags) ^
+      const DeepCollectionEquality().hash(taluka) ^
+      const DeepCollectionEquality().hash(village) ^
+      runtimeType.hashCode;
+}
+
+extension $PublicProfileOutExtension on PublicProfileOut {
+  PublicProfileOut copyWith({
+    String? address,
+    List<String>? areas,
+    List<BadgeOut>? badges,
+    List<String>? crops,
+    int? dealsCompleted,
+    int? distanceKm,
+    String? district,
+    String? firm,
+    String? id,
+    String? kind,
+    List<String>? markets,
+    String? name,
+    String? phone,
+    ProviderDetailsOut? provider,
+    List<QuestionStarsOut>? stars,
+    String? subjectType,
+    List<TagCountOut>? tags,
+    String? taluka,
+    String? village,
+  }) {
+    return PublicProfileOut(
+      address: address ?? this.address,
+      areas: areas ?? this.areas,
+      badges: badges ?? this.badges,
+      crops: crops ?? this.crops,
+      dealsCompleted: dealsCompleted ?? this.dealsCompleted,
+      distanceKm: distanceKm ?? this.distanceKm,
+      district: district ?? this.district,
+      firm: firm ?? this.firm,
+      id: id ?? this.id,
+      kind: kind ?? this.kind,
+      markets: markets ?? this.markets,
+      name: name ?? this.name,
+      phone: phone ?? this.phone,
+      provider: provider ?? this.provider,
+      stars: stars ?? this.stars,
+      subjectType: subjectType ?? this.subjectType,
+      tags: tags ?? this.tags,
+      taluka: taluka ?? this.taluka,
+      village: village ?? this.village,
+    );
+  }
+
+  PublicProfileOut copyWithWrapped({
+    Wrapped<String?>? address,
+    Wrapped<List<String>>? areas,
+    Wrapped<List<BadgeOut>>? badges,
+    Wrapped<List<String>>? crops,
+    Wrapped<int>? dealsCompleted,
+    Wrapped<int?>? distanceKm,
+    Wrapped<String>? district,
+    Wrapped<String?>? firm,
+    Wrapped<String>? id,
+    Wrapped<String>? kind,
+    Wrapped<List<String>>? markets,
+    Wrapped<String>? name,
+    Wrapped<String>? phone,
+    Wrapped<ProviderDetailsOut?>? provider,
+    Wrapped<List<QuestionStarsOut>>? stars,
+    Wrapped<String>? subjectType,
+    Wrapped<List<TagCountOut>>? tags,
+    Wrapped<String?>? taluka,
+    Wrapped<String?>? village,
+  }) {
+    return PublicProfileOut(
+      address: (address != null ? address.value : this.address),
+      areas: (areas != null ? areas.value : this.areas),
+      badges: (badges != null ? badges.value : this.badges),
+      crops: (crops != null ? crops.value : this.crops),
+      dealsCompleted: (dealsCompleted != null
+          ? dealsCompleted.value
+          : this.dealsCompleted),
+      distanceKm: (distanceKm != null ? distanceKm.value : this.distanceKm),
+      district: (district != null ? district.value : this.district),
+      firm: (firm != null ? firm.value : this.firm),
+      id: (id != null ? id.value : this.id),
+      kind: (kind != null ? kind.value : this.kind),
+      markets: (markets != null ? markets.value : this.markets),
+      name: (name != null ? name.value : this.name),
+      phone: (phone != null ? phone.value : this.phone),
+      provider: (provider != null ? provider.value : this.provider),
+      stars: (stars != null ? stars.value : this.stars),
+      subjectType: (subjectType != null ? subjectType.value : this.subjectType),
+      tags: (tags != null ? tags.value : this.tags),
+      taluka: (taluka != null ? taluka.value : this.taluka),
+      village: (village != null ? village.value : this.village),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class PullResponse {
   const PullResponse({required this.changes, required this.cursor});
 
@@ -8897,6 +9206,83 @@ extension $PushResponseExtension on PushResponse {
   PushResponse copyWithWrapped({Wrapped<List<MutationResult>>? results}) {
     return PushResponse(
       results: (results != null ? results.value : this.results),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class QuestionStarsOut {
+  const QuestionStarsOut({
+    required this.average,
+    required this.count,
+    required this.questionKey,
+  });
+
+  factory QuestionStarsOut.fromJson(Map<String, dynamic> json) =>
+      _$QuestionStarsOutFromJson(json);
+
+  static const toJsonFactory = _$QuestionStarsOutToJson;
+  Map<String, dynamic> toJson() => _$QuestionStarsOutToJson(this);
+
+  @JsonKey(name: 'average', includeIfNull: false)
+  final double average;
+  @JsonKey(name: 'count', includeIfNull: false)
+  final int count;
+  @JsonKey(name: 'question_key', includeIfNull: false)
+  final String questionKey;
+  static const fromJsonFactory = _$QuestionStarsOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is QuestionStarsOut &&
+            (identical(other.average, average) ||
+                const DeepCollectionEquality().equals(
+                  other.average,
+                  average,
+                )) &&
+            (identical(other.count, count) ||
+                const DeepCollectionEquality().equals(other.count, count)) &&
+            (identical(other.questionKey, questionKey) ||
+                const DeepCollectionEquality().equals(
+                  other.questionKey,
+                  questionKey,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(average) ^
+      const DeepCollectionEquality().hash(count) ^
+      const DeepCollectionEquality().hash(questionKey) ^
+      runtimeType.hashCode;
+}
+
+extension $QuestionStarsOutExtension on QuestionStarsOut {
+  QuestionStarsOut copyWith({
+    double? average,
+    int? count,
+    String? questionKey,
+  }) {
+    return QuestionStarsOut(
+      average: average ?? this.average,
+      count: count ?? this.count,
+      questionKey: questionKey ?? this.questionKey,
+    );
+  }
+
+  QuestionStarsOut copyWithWrapped({
+    Wrapped<double>? average,
+    Wrapped<int>? count,
+    Wrapped<String>? questionKey,
+  }) {
+    return QuestionStarsOut(
+      average: (average != null ? average.value : this.average),
+      count: (count != null ? count.value : this.count),
+      questionKey: (questionKey != null ? questionKey.value : this.questionKey),
     );
   }
 }
@@ -10765,6 +11151,142 @@ extension $SynonymOutExtension on SynonymOut {
           ? activeIngredient.value
           : this.activeIngredient),
       name: (name != null ? name.value : this.name),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class TagCountOut {
+  const TagCountOut({
+    required this.count,
+    required this.key,
+    required this.labelEn,
+    required this.labelHi,
+    required this.labelMr,
+    required this.polarity,
+    required this.questionKey,
+    required this.tagId,
+  });
+
+  factory TagCountOut.fromJson(Map<String, dynamic> json) =>
+      _$TagCountOutFromJson(json);
+
+  static const toJsonFactory = _$TagCountOutToJson;
+  Map<String, dynamic> toJson() => _$TagCountOutToJson(this);
+
+  @JsonKey(name: 'count', includeIfNull: false)
+  final int count;
+  @JsonKey(name: 'key', includeIfNull: false)
+  final String key;
+  @JsonKey(name: 'label_en', includeIfNull: false)
+  final String labelEn;
+  @JsonKey(name: 'label_hi', includeIfNull: false)
+  final String labelHi;
+  @JsonKey(name: 'label_mr', includeIfNull: false)
+  final String labelMr;
+  @JsonKey(name: 'polarity', includeIfNull: false)
+  final String polarity;
+  @JsonKey(name: 'question_key', includeIfNull: false)
+  final String questionKey;
+  @JsonKey(name: 'tag_id', includeIfNull: false)
+  final String tagId;
+  static const fromJsonFactory = _$TagCountOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is TagCountOut &&
+            (identical(other.count, count) ||
+                const DeepCollectionEquality().equals(other.count, count)) &&
+            (identical(other.key, key) ||
+                const DeepCollectionEquality().equals(other.key, key)) &&
+            (identical(other.labelEn, labelEn) ||
+                const DeepCollectionEquality().equals(
+                  other.labelEn,
+                  labelEn,
+                )) &&
+            (identical(other.labelHi, labelHi) ||
+                const DeepCollectionEquality().equals(
+                  other.labelHi,
+                  labelHi,
+                )) &&
+            (identical(other.labelMr, labelMr) ||
+                const DeepCollectionEquality().equals(
+                  other.labelMr,
+                  labelMr,
+                )) &&
+            (identical(other.polarity, polarity) ||
+                const DeepCollectionEquality().equals(
+                  other.polarity,
+                  polarity,
+                )) &&
+            (identical(other.questionKey, questionKey) ||
+                const DeepCollectionEquality().equals(
+                  other.questionKey,
+                  questionKey,
+                )) &&
+            (identical(other.tagId, tagId) ||
+                const DeepCollectionEquality().equals(other.tagId, tagId)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(count) ^
+      const DeepCollectionEquality().hash(key) ^
+      const DeepCollectionEquality().hash(labelEn) ^
+      const DeepCollectionEquality().hash(labelHi) ^
+      const DeepCollectionEquality().hash(labelMr) ^
+      const DeepCollectionEquality().hash(polarity) ^
+      const DeepCollectionEquality().hash(questionKey) ^
+      const DeepCollectionEquality().hash(tagId) ^
+      runtimeType.hashCode;
+}
+
+extension $TagCountOutExtension on TagCountOut {
+  TagCountOut copyWith({
+    int? count,
+    String? key,
+    String? labelEn,
+    String? labelHi,
+    String? labelMr,
+    String? polarity,
+    String? questionKey,
+    String? tagId,
+  }) {
+    return TagCountOut(
+      count: count ?? this.count,
+      key: key ?? this.key,
+      labelEn: labelEn ?? this.labelEn,
+      labelHi: labelHi ?? this.labelHi,
+      labelMr: labelMr ?? this.labelMr,
+      polarity: polarity ?? this.polarity,
+      questionKey: questionKey ?? this.questionKey,
+      tagId: tagId ?? this.tagId,
+    );
+  }
+
+  TagCountOut copyWithWrapped({
+    Wrapped<int>? count,
+    Wrapped<String>? key,
+    Wrapped<String>? labelEn,
+    Wrapped<String>? labelHi,
+    Wrapped<String>? labelMr,
+    Wrapped<String>? polarity,
+    Wrapped<String>? questionKey,
+    Wrapped<String>? tagId,
+  }) {
+    return TagCountOut(
+      count: (count != null ? count.value : this.count),
+      key: (key != null ? key.value : this.key),
+      labelEn: (labelEn != null ? labelEn.value : this.labelEn),
+      labelHi: (labelHi != null ? labelHi.value : this.labelHi),
+      labelMr: (labelMr != null ? labelMr.value : this.labelMr),
+      polarity: (polarity != null ? polarity.value : this.polarity),
+      questionKey: (questionKey != null ? questionKey.value : this.questionKey),
+      tagId: (tagId != null ? tagId.value : this.tagId),
     );
   }
 }
@@ -13917,6 +14439,273 @@ v1InsuranceDeadlinesGetLangNullableListFromJson(
       .toList();
 }
 
+String? v1MarketLinkProfilesGetRoleNullableToJson(
+  enums.V1MarketLinkProfilesGetRole? v1MarketLinkProfilesGetRole,
+) {
+  return v1MarketLinkProfilesGetRole?.value;
+}
+
+String? v1MarketLinkProfilesGetRoleToJson(
+  enums.V1MarketLinkProfilesGetRole v1MarketLinkProfilesGetRole,
+) {
+  return v1MarketLinkProfilesGetRole.value;
+}
+
+enums.V1MarketLinkProfilesGetRole v1MarketLinkProfilesGetRoleFromJson(
+  Object? v1MarketLinkProfilesGetRole, [
+  enums.V1MarketLinkProfilesGetRole? defaultValue,
+]) {
+  return enums.V1MarketLinkProfilesGetRole.values.firstWhereOrNull(
+        (e) => e.value == v1MarketLinkProfilesGetRole,
+      ) ??
+      defaultValue ??
+      enums.V1MarketLinkProfilesGetRole.swaggerGeneratedUnknown;
+}
+
+enums.V1MarketLinkProfilesGetRole? v1MarketLinkProfilesGetRoleNullableFromJson(
+  Object? v1MarketLinkProfilesGetRole, [
+  enums.V1MarketLinkProfilesGetRole? defaultValue,
+]) {
+  if (v1MarketLinkProfilesGetRole == null) {
+    return null;
+  }
+  return enums.V1MarketLinkProfilesGetRole.values.firstWhereOrNull(
+        (e) => e.value == v1MarketLinkProfilesGetRole,
+      ) ??
+      defaultValue;
+}
+
+String v1MarketLinkProfilesGetRoleExplodedListToJson(
+  List<enums.V1MarketLinkProfilesGetRole>? v1MarketLinkProfilesGetRole,
+) {
+  return v1MarketLinkProfilesGetRole?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> v1MarketLinkProfilesGetRoleListToJson(
+  List<enums.V1MarketLinkProfilesGetRole>? v1MarketLinkProfilesGetRole,
+) {
+  if (v1MarketLinkProfilesGetRole == null) {
+    return [];
+  }
+
+  return v1MarketLinkProfilesGetRole.map((e) => e.value!).toList();
+}
+
+List<enums.V1MarketLinkProfilesGetRole> v1MarketLinkProfilesGetRoleListFromJson(
+  List? v1MarketLinkProfilesGetRole, [
+  List<enums.V1MarketLinkProfilesGetRole>? defaultValue,
+]) {
+  if (v1MarketLinkProfilesGetRole == null) {
+    return defaultValue ?? [];
+  }
+
+  return v1MarketLinkProfilesGetRole
+      .map((e) => v1MarketLinkProfilesGetRoleFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.V1MarketLinkProfilesGetRole>?
+v1MarketLinkProfilesGetRoleNullableListFromJson(
+  List? v1MarketLinkProfilesGetRole, [
+  List<enums.V1MarketLinkProfilesGetRole>? defaultValue,
+]) {
+  if (v1MarketLinkProfilesGetRole == null) {
+    return defaultValue;
+  }
+
+  return v1MarketLinkProfilesGetRole
+      .map((e) => v1MarketLinkProfilesGetRoleFromJson(e.toString()))
+      .toList();
+}
+
+String? v1MarketLinkProfilesGetSortNullableToJson(
+  enums.V1MarketLinkProfilesGetSort? v1MarketLinkProfilesGetSort,
+) {
+  return v1MarketLinkProfilesGetSort?.value;
+}
+
+String? v1MarketLinkProfilesGetSortToJson(
+  enums.V1MarketLinkProfilesGetSort v1MarketLinkProfilesGetSort,
+) {
+  return v1MarketLinkProfilesGetSort.value;
+}
+
+enums.V1MarketLinkProfilesGetSort v1MarketLinkProfilesGetSortFromJson(
+  Object? v1MarketLinkProfilesGetSort, [
+  enums.V1MarketLinkProfilesGetSort? defaultValue,
+]) {
+  return enums.V1MarketLinkProfilesGetSort.values.firstWhereOrNull(
+        (e) => e.value == v1MarketLinkProfilesGetSort,
+      ) ??
+      defaultValue ??
+      enums.V1MarketLinkProfilesGetSort.swaggerGeneratedUnknown;
+}
+
+enums.V1MarketLinkProfilesGetSort? v1MarketLinkProfilesGetSortNullableFromJson(
+  Object? v1MarketLinkProfilesGetSort, [
+  enums.V1MarketLinkProfilesGetSort? defaultValue,
+]) {
+  if (v1MarketLinkProfilesGetSort == null) {
+    return null;
+  }
+  return enums.V1MarketLinkProfilesGetSort.values.firstWhereOrNull(
+        (e) => e.value == v1MarketLinkProfilesGetSort,
+      ) ??
+      defaultValue;
+}
+
+String v1MarketLinkProfilesGetSortExplodedListToJson(
+  List<enums.V1MarketLinkProfilesGetSort>? v1MarketLinkProfilesGetSort,
+) {
+  return v1MarketLinkProfilesGetSort?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> v1MarketLinkProfilesGetSortListToJson(
+  List<enums.V1MarketLinkProfilesGetSort>? v1MarketLinkProfilesGetSort,
+) {
+  if (v1MarketLinkProfilesGetSort == null) {
+    return [];
+  }
+
+  return v1MarketLinkProfilesGetSort.map((e) => e.value!).toList();
+}
+
+List<enums.V1MarketLinkProfilesGetSort> v1MarketLinkProfilesGetSortListFromJson(
+  List? v1MarketLinkProfilesGetSort, [
+  List<enums.V1MarketLinkProfilesGetSort>? defaultValue,
+]) {
+  if (v1MarketLinkProfilesGetSort == null) {
+    return defaultValue ?? [];
+  }
+
+  return v1MarketLinkProfilesGetSort
+      .map((e) => v1MarketLinkProfilesGetSortFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.V1MarketLinkProfilesGetSort>?
+v1MarketLinkProfilesGetSortNullableListFromJson(
+  List? v1MarketLinkProfilesGetSort, [
+  List<enums.V1MarketLinkProfilesGetSort>? defaultValue,
+]) {
+  if (v1MarketLinkProfilesGetSort == null) {
+    return defaultValue;
+  }
+
+  return v1MarketLinkProfilesGetSort
+      .map((e) => v1MarketLinkProfilesGetSortFromJson(e.toString()))
+      .toList();
+}
+
+String? v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectTypeNullableToJson(
+  enums.V1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType?
+  v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType,
+) {
+  return v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType?.value;
+}
+
+String? v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectTypeToJson(
+  enums.V1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType
+  v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType,
+) {
+  return v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType.value;
+}
+
+enums.V1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType
+v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectTypeFromJson(
+  Object? v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType, [
+  enums.V1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType? defaultValue,
+]) {
+  return enums.V1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType.values
+          .firstWhereOrNull(
+            (e) =>
+                e.value ==
+                v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType,
+          ) ??
+      defaultValue ??
+      enums
+          .V1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType
+          .swaggerGeneratedUnknown;
+}
+
+enums.V1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType?
+v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectTypeNullableFromJson(
+  Object? v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType, [
+  enums.V1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType? defaultValue,
+]) {
+  if (v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType == null) {
+    return null;
+  }
+  return enums.V1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType.values
+          .firstWhereOrNull(
+            (e) =>
+                e.value ==
+                v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType,
+          ) ??
+      defaultValue;
+}
+
+String v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectTypeExplodedListToJson(
+  List<enums.V1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType>?
+  v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType,
+) {
+  return v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType
+          ?.map((e) => e.value!)
+          .join(',') ??
+      '';
+}
+
+List<String> v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectTypeListToJson(
+  List<enums.V1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType>?
+  v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType,
+) {
+  if (v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType == null) {
+    return [];
+  }
+
+  return v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType
+      .map((e) => e.value!)
+      .toList();
+}
+
+List<enums.V1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType>
+v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectTypeListFromJson(
+  List? v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType, [
+  List<enums.V1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType>?
+  defaultValue,
+]) {
+  if (v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType == null) {
+    return defaultValue ?? [];
+  }
+
+  return v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType
+      .map(
+        (e) => v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectTypeFromJson(
+          e.toString(),
+        ),
+      )
+      .toList();
+}
+
+List<enums.V1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType>?
+v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectTypeNullableListFromJson(
+  List? v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType, [
+  List<enums.V1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType>?
+  defaultValue,
+]) {
+  if (v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType == null) {
+    return defaultValue;
+  }
+
+  return v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType
+      .map(
+        (e) => v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectTypeFromJson(
+          e.toString(),
+        ),
+      )
+      .toList();
+}
+
 String?
 v1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectTypeNullableToJson(
   enums.V1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectType?
@@ -14031,6 +14820,367 @@ v1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectTypeNullableListFromJso
       .map(
         (e) =>
             v1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectTypeFromJson(
+              e.toString(),
+            ),
+      )
+      .toList();
+}
+
+String?
+v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectTypeNullableToJson(
+  enums.V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType?
+  v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType,
+) {
+  return v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType
+      ?.value;
+}
+
+String? v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectTypeToJson(
+  enums.V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType
+  v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType,
+) {
+  return v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType.value;
+}
+
+enums.V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType
+v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectTypeFromJson(
+  Object? v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType, [
+  enums.V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType?
+  defaultValue,
+]) {
+  return enums
+          .V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType
+          .values
+          .firstWhereOrNull(
+            (e) =>
+                e.value ==
+                v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType,
+          ) ??
+      defaultValue ??
+      enums
+          .V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType
+          .swaggerGeneratedUnknown;
+}
+
+enums.V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType?
+v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectTypeNullableFromJson(
+  Object? v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType, [
+  enums.V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType?
+  defaultValue,
+]) {
+  if (v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType ==
+      null) {
+    return null;
+  }
+  return enums
+          .V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType
+          .values
+          .firstWhereOrNull(
+            (e) =>
+                e.value ==
+                v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType,
+          ) ??
+      defaultValue;
+}
+
+String
+v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectTypeExplodedListToJson(
+  List<enums.V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType>?
+  v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType,
+) {
+  return v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType
+          ?.map((e) => e.value!)
+          .join(',') ??
+      '';
+}
+
+List<String>
+v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectTypeListToJson(
+  List<enums.V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType>?
+  v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType,
+) {
+  if (v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType ==
+      null) {
+    return [];
+  }
+
+  return v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType
+      .map((e) => e.value!)
+      .toList();
+}
+
+List<enums.V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType>
+v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectTypeListFromJson(
+  List? v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType, [
+  List<enums.V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType>?
+  defaultValue,
+]) {
+  if (v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType ==
+      null) {
+    return defaultValue ?? [];
+  }
+
+  return v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType
+      .map(
+        (e) =>
+            v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectTypeFromJson(
+              e.toString(),
+            ),
+      )
+      .toList();
+}
+
+List<enums.V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType>?
+v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectTypeNullableListFromJson(
+  List? v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType, [
+  List<enums.V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType>?
+  defaultValue,
+]) {
+  if (v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType ==
+      null) {
+    return defaultValue;
+  }
+
+  return v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType
+      .map(
+        (e) =>
+            v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectTypeFromJson(
+              e.toString(),
+            ),
+      )
+      .toList();
+}
+
+String? v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDocNullableToJson(
+  enums.V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc?
+  v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc,
+) {
+  return v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc?.value;
+}
+
+String? v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDocToJson(
+  enums.V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc
+  v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc,
+) {
+  return v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc.value;
+}
+
+enums.V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc
+v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDocFromJson(
+  Object? v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc, [
+  enums.V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc? defaultValue,
+]) {
+  return enums.V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc.values
+          .firstWhereOrNull(
+            (e) =>
+                e.value ==
+                v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc,
+          ) ??
+      defaultValue ??
+      enums
+          .V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc
+          .swaggerGeneratedUnknown;
+}
+
+enums.V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc?
+v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDocNullableFromJson(
+  Object? v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc, [
+  enums.V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc? defaultValue,
+]) {
+  if (v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc == null) {
+    return null;
+  }
+  return enums.V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc.values
+          .firstWhereOrNull(
+            (e) =>
+                e.value ==
+                v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc,
+          ) ??
+      defaultValue;
+}
+
+String
+v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDocExplodedListToJson(
+  List<enums.V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc>?
+  v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc,
+) {
+  return v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc
+          ?.map((e) => e.value!)
+          .join(',') ??
+      '';
+}
+
+List<String> v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDocListToJson(
+  List<enums.V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc>?
+  v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc,
+) {
+  if (v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc == null) {
+    return [];
+  }
+
+  return v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc
+      .map((e) => e.value!)
+      .toList();
+}
+
+List<enums.V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc>
+v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDocListFromJson(
+  List? v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc, [
+  List<enums.V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc>?
+  defaultValue,
+]) {
+  if (v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc == null) {
+    return defaultValue ?? [];
+  }
+
+  return v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc
+      .map(
+        (e) => v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDocFromJson(
+          e.toString(),
+        ),
+      )
+      .toList();
+}
+
+List<enums.V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc>?
+v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDocNullableListFromJson(
+  List? v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc, [
+  List<enums.V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc>?
+  defaultValue,
+]) {
+  if (v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc == null) {
+    return defaultValue;
+  }
+
+  return v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc
+      .map(
+        (e) => v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDocFromJson(
+          e.toString(),
+        ),
+      )
+      .toList();
+}
+
+String?
+v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectTypeNullableToJson(
+  enums.V1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType?
+  v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType,
+) {
+  return v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType
+      ?.value;
+}
+
+String? v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectTypeToJson(
+  enums.V1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType
+  v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType,
+) {
+  return v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType
+      .value;
+}
+
+enums.V1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType
+v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectTypeFromJson(
+  Object? v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType, [
+  enums.V1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType?
+  defaultValue,
+]) {
+  return enums
+          .V1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType
+          .values
+          .firstWhereOrNull(
+            (e) =>
+                e.value ==
+                v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType,
+          ) ??
+      defaultValue ??
+      enums
+          .V1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType
+          .swaggerGeneratedUnknown;
+}
+
+enums.V1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType?
+v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectTypeNullableFromJson(
+  Object? v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType, [
+  enums.V1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType?
+  defaultValue,
+]) {
+  if (v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType ==
+      null) {
+    return null;
+  }
+  return enums
+          .V1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType
+          .values
+          .firstWhereOrNull(
+            (e) =>
+                e.value ==
+                v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType,
+          ) ??
+      defaultValue;
+}
+
+String
+v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectTypeExplodedListToJson(
+  List<enums.V1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType>?
+  v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType,
+) {
+  return v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType
+          ?.map((e) => e.value!)
+          .join(',') ??
+      '';
+}
+
+List<String>
+v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectTypeListToJson(
+  List<enums.V1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType>?
+  v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType,
+) {
+  if (v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType ==
+      null) {
+    return [];
+  }
+
+  return v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType
+      .map((e) => e.value!)
+      .toList();
+}
+
+List<enums.V1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType>
+v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectTypeListFromJson(
+  List? v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType, [
+  List<enums.V1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType>?
+  defaultValue,
+]) {
+  if (v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType ==
+      null) {
+    return defaultValue ?? [];
+  }
+
+  return v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType
+      .map(
+        (e) =>
+            v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectTypeFromJson(
+              e.toString(),
+            ),
+      )
+      .toList();
+}
+
+List<enums.V1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType>?
+v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectTypeNullableListFromJson(
+  List? v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType, [
+  List<enums.V1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType>?
+  defaultValue,
+]) {
+  if (v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType ==
+      null) {
+    return defaultValue;
+  }
+
+  return v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType
+      .map(
+        (e) =>
+            v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectTypeFromJson(
               e.toString(),
             ),
       )

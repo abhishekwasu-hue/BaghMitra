@@ -6,7 +6,8 @@ OR exporter profile, one broker profile and one provider per kind. Every registr
 one foreground GPS fix taken now (`registration_fixes`); a mock fix or one from another
 district is flagged in the admin queue before any badge. Registration numbers (GSTIN, APMC,
 FSSAI, IEC, APEDA) are stored for the admin's manual check only; an exporter needs an IEC. No
-Aadhaar / UID, commission or income anywhere (decision c, addendum 1). Every write needs the
+Aadhaar / UID, commission or income anywhere (decision c, addendum 1). Every photo is
+EXIF-stripped by the API before storage (spec §4B). Every write needs the
 role's terms accepted first (`require_role_accepted`, spec §4C). Behind the
 `market_link_enabled` gate (404 when off).
 """
@@ -18,8 +19,8 @@ from collections.abc import Callable
 from datetime import date, datetime
 from typing import Annotated, Literal, cast
 
-from fastapi import APIRouter, Depends
-from pydantic import BaseModel, BeforeValidator, Field, model_validator
+from fastapi import APIRouter, Depends, Query, Request
+from pydantic import AwareDatetime, BaseModel, BeforeValidator, Field, model_validator
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -27,7 +28,7 @@ from bagmitra_api.auth.jwt import AuthenticatedUser, CurrentUser, require_role
 from bagmitra_api.core.errors import ApiError, ErrorResponse
 from bagmitra_api.core.settings import Settings, get_settings
 from bagmitra_api.db.session import DbSession
-from bagmitra_api.market_link.guards import MarketLinkIn
+from bagmitra_api.market_link.guards import MarketLinkIn, latest_verifications
 from bagmitra_api.market_link.models import (
     BrokerProfile,
     BuyerProfile,
@@ -35,6 +36,7 @@ from bagmitra_api.market_link.models import (
     RepresentativeUpload,
     ServiceProvider,
 )
+from bagmitra_api.market_link.photos import JPEG_BODY, clean_jpeg, store_jpeg
 from bagmitra_api.market_link.profiles import (
     MODELS,
     MyProfileOut,
@@ -50,11 +52,13 @@ from bagmitra_api.market_link.registration import (
 )
 from bagmitra_api.market_link.terms import accepted_roles, current_versions, require_role_accepted
 from bagmitra_api.routers.market_link import require_market_link
+from bagmitra_api.routers.scouting_photos import PhotoContext, get_photo_context
 from bagmitra_api.weather.service import get_clock
 
 REP_ROLE = "market_link_rep"
 ADMIN_ROLE = "market_link_admin"
 Clock = Annotated[Callable[[], datetime], Depends(get_clock)]
+Photo = Annotated[PhotoContext, Depends(get_photo_context)]
 PhoneNo = Annotated[str, Field(pattern=r"^\+91[6-9]\d{9}$")]
 Place = Annotated[str, Field(min_length=1, max_length=120)]
 Places = Annotated[list[Place], Field(default_factory=list, max_length=20)]
@@ -71,6 +75,13 @@ Iec = Annotated[str, Upper, Field(pattern=r"^[A-Z0-9]{10}$")]
 Fssai = Annotated[str, Upper, Field(pattern=r"^\d{14}$")]
 Licence = Annotated[str, Upper, Field(min_length=1, max_length=40)]
 ProviderKind = Literal["weighbridge", "transporter", "labour_gang", "crate_supplier"]
+# Documents a registrant may photograph for the admin's check (spec §4; brokers have none).
+DocKind = Literal["gst", "apmc", "fssai", "iec", "apeda", "certificate"]
+DOCS: dict[str, frozenset[str]] = {
+    "buyer": frozenset({"gst", "apmc", "fssai", "iec", "apeda"}),
+    "broker": frozenset(),
+    "provider": frozenset({"certificate"}),
+}
 _ERRORS: dict[int | str, dict[str, object]] = {
     code: {"model": ErrorResponse} for code in (401, 403, 404, 409, 413, 422, 502, 503)
 }
@@ -365,6 +376,108 @@ async def set_address(  # noqa: PLR0913 - path, body and dependencies
         )
     await session.commit()
     return await _own(session, subject_type, subject, clock)
+
+
+async def _add_document(
+    session: AsyncSession, kind: str, subject_id: uuid.UUID, key: str, now: datetime
+) -> None:
+    """Adds the photo to the pending record; after a decision, a new pending record (with the
+    earlier documents) puts the profile back in the queue for a re-check (Q81)."""
+    latest = (await latest_verifications(session, kind, [subject_id])).get(subject_id)
+    if latest is not None and latest.status == "pending":
+        latest.document_keys = [*latest.document_keys, key]
+        return
+    session.add(
+        PartyVerification(
+            subject_type=kind,
+            subject_id=subject_id,
+            status="pending",
+            document_keys=[*(latest.document_keys if latest else []), key],
+            created_at=now,
+            updated_at=now,
+        )
+    )
+
+
+@router.post(
+    "/profiles/{subject_type}/{subject_id}/documents",
+    operation_id="market_link_profile_document",
+    openapi_extra=JPEG_BODY,
+)
+async def add_document(  # noqa: PLR0913 - path, query, body and dependencies
+    subject_type: SubjectType,
+    subject_id: uuid.UUID,
+    doc: DocKind,
+    request: Request,
+    user: CurrentUser,
+    session: DbSession,
+    clock: Clock,
+    ctx: Photo,
+    settings: Annotated[Settings, Depends(get_settings)],
+    valid_until: date | None = None,
+) -> MyProfileOut:
+    """A document photo for the admin's check (in-app camera): GSTIN / APMC / FSSAI / IEC /
+    APEDA for a trader or exporter, the Legal Metrology certificate (with its valid-until
+    date) for a weighbridge. Owner only; EXIF stripped before storage (spec §4B)."""
+    subject = await subject_of(session, subject_type, subject_id)
+    if subject.user_id != user.id:
+        raise ApiError(403, "forbidden", "only the owner")
+    await require_accepted(session, settings, user, subject_role(subject))
+    is_cert = doc == "certificate"
+    if doc not in DOCS[subject_type] or (
+        is_cert and (not isinstance(subject, ServiceProvider) or subject.kind != "weighbridge")
+    ):
+        raise ApiError(422, "document_not_for_profile", f"{doc} is not for this profile")
+    if is_cert and valid_until is None:
+        raise ApiError(422, "valid_until_required", "the certificate's valid-until date")
+    data = await clean_jpeg(request, ctx)
+    key = f"market-link/{subject_type}/{subject.id}/{doc}-{uuid.uuid4()}.jpg"
+    await store_jpeg(ctx, key, data)
+    now = clock()
+    if isinstance(subject, ServiceProvider) and is_cert:
+        subject.cert_photo_key, subject.cert_valid_until = key, valid_until
+    await _add_document(session, subject_type, subject.id, key, now)
+    await session.commit()
+    return await _own(session, subject_type, subject, clock)
+
+
+@router.post(
+    "/profiles/{subject_type}/{subject_id}/place-photo",
+    operation_id="market_link_profile_place_photo",
+    status_code=201,
+    openapi_extra=JPEG_BODY,
+)
+async def place_photo(  # noqa: PLR0913 - path, query, body and dependencies
+    subject_type: SubjectType,
+    subject_id: uuid.UUID,
+    captured_at: AwareDatetime,
+    lat: Annotated[float, Query(ge=-90, le=90)],
+    lon: Annotated[float, Query(ge=-180, le=180)],
+    request: Request,
+    rep: Annotated[AuthenticatedUser, Depends(require_role(REP_ROLE))],
+    session: DbSession,
+    ctx: Photo,
+    settings: Annotated[Settings, Depends(get_settings)],
+) -> None:
+    """A representative's place photo from a visit (in-app camera, time + GPS): who and when
+    are stored; EXIF is stripped before storage (addendum 2, spec §4B)."""
+    subject = await subject_of(session, subject_type, subject_id)
+    await require_accepted(session, settings, rep, "representative")
+    data = await clean_jpeg(request, ctx)
+    key = f"market-link/{subject_type}/{subject.id}/place-{uuid.uuid4()}.jpg"
+    await store_jpeg(ctx, key, data)
+    session.add(
+        RepresentativeUpload(
+            subject_type=subject_type,
+            subject_id=subject.id,
+            uploaded_by=rep.id,
+            photo_key=key,
+            captured_at=captured_at,
+            lat=lat,
+            lon=lon,
+        )
+    )
+    await session.commit()
 
 
 @admin_router.post("/providers", operation_id="admin_market_link_provider_add", status_code=201)
