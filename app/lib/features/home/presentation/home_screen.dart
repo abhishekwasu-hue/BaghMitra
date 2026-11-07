@@ -45,14 +45,24 @@ class HomeScreen extends ConsumerWidget {
 }
 
 /// Opens [route] for the grower's block: straight away with one block, after a short
-/// "choose a block" sheet with several, and the add-block form when there is none yet.
+/// "choose a block" sheet with several. With no block yet, a short sheet first says why a
+/// block is needed for [action] (its name as the grower tapped it); once the block is added
+/// from there, [route] opens for it at once (the add-block form returns the new block's id).
 Future<void> openForPlot(
   BuildContext context,
   List<Plot> plots,
-  String Function(String plotId) route,
-) async {
+  String Function(String plotId) route, {
+  required String action,
+}) async {
   if (plots.isEmpty) {
-    await context.push(Routes.addPlot);
+    final add = await showModalBottomSheet<bool>(
+      context: context,
+      showDragHandle: true,
+      builder: (sheet) => _NoPlotSheet(action: action),
+    );
+    if (add != true || !context.mounted) return;
+    final id = await context.push<String>(Routes.addPlot);
+    if (id != null && context.mounted) await context.push(route(id));
     return;
   }
   if (plots.length == 1) {
@@ -84,6 +94,66 @@ Future<void> openForPlot(
     ),
   );
   if (id != null && context.mounted) await context.push(route(id));
+}
+
+/// "Add your block first": names the action the grower tapped, says why, and offers the
+/// add-block form (or cancel).
+class _NoPlotSheet extends StatelessWidget {
+  const _NoPlotSheet({required this.action});
+
+  final String action;
+
+  @override
+  Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+    final c = context.bm;
+    return SafeArea(
+      child: Padding(
+        key: const Key('no-plot-sheet'),
+        padding: const EdgeInsets.fromLTRB(
+          BmSpace.lg,
+          0,
+          BmSpace.lg,
+          BmSpace.lg,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Row(
+              children: [
+                const GlyphIcon(BmGlyph.orchard),
+                const SizedBox(width: BmSpace.xs),
+                Expanded(
+                  child: Text(
+                    action,
+                    style: BmType.label.copyWith(color: c.brand),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: BmSpace.xs),
+            Text(t.noPlotTitle, style: BmType.section),
+            const SizedBox(height: BmSpace.xs),
+            Text(t.noPlotBody, style: BmType.body.copyWith(color: c.inkMuted)),
+            const SizedBox(height: BmSpace.lg),
+            FilledButton.icon(
+              key: const Key('no-plot-add'),
+              onPressed: () => Navigator.of(context).pop(true),
+              icon: const Icon(Icons.add_rounded),
+              label: Text(t.addPlot),
+            ),
+            const SizedBox(height: BmSpace.xs),
+            TextButton(
+              key: const Key('no-plot-cancel'),
+              onPressed: () => Navigator.of(context).pop(false),
+              child: Text(t.cancel),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
 
 class _HomeBody extends ConsumerWidget {
@@ -497,19 +567,30 @@ class _QuickActions extends StatelessWidget {
         key: const Key('quick-spray'),
         icon: const GlyphIcon(BmGlyph.spray),
         label: t.addSpray,
-        onTap: () => openForPlot(context, plots, Routes.addSpray),
+        onTap: () =>
+            openForPlot(context, plots, Routes.addSpray, action: t.addSpray),
       ),
       _QuickTile(
         key: const Key('quick-expense'),
         icon: const GlyphIcon(BmGlyph.ledger),
         label: t.addExpense,
-        onTap: () => openForPlot(context, plots, Routes.addExpense),
+        onTap: () => openForPlot(
+          context,
+          plots,
+          Routes.addExpense,
+          action: t.addExpense,
+        ),
       ),
       _QuickTile(
         key: const Key('quick-photo'),
         icon: const GlyphIcon(BmGlyph.camera),
         label: t.takePhoto,
-        onTap: () => openForPlot(context, plots, Routes.addScouting),
+        onTap: () => openForPlot(
+          context,
+          plots,
+          Routes.addScouting,
+          action: t.takePhoto,
+        ),
       ),
       _QuickTile(
         key: const Key('quick-market'),

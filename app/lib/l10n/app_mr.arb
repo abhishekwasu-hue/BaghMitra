@@ -810,5 +810,11 @@
   "labelInfoBanned": "बंदी: वापरू नका",
   "labelInfoRestricted": "या पिकासाठी निर्बंध: वापरू नका",
   "labelInfoAllTargets": "सर्व कीड व रोग",
-  "labelInfoOpenFor": "लेबल माहिती: {target}"
+  "labelInfoOpenFor": "लेबल माहिती: {target}",
+  "noPlotTitle": "आधी तुमची बाग जोडा",
+  "noPlotBody": "प्रत्येक नोंद बागेनुसार ठेवली जाते. एकदा बाग जोडून जतन केली की हे लगेच उघडेल.",
+  "plotAddressNear": "जवळचे ठिकाण: {place}",
+  "plotAddressDistrict": "जि. {district}",
+  "plotAddressLooking": "गावाचे नाव शोधत आहे…",
+  "plotAddressMissing": "पत्ता मिळाला नाही; ठिकाण तरीही जतन होईल."
 }

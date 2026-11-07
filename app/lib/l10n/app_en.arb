@@ -1171,5 +1171,17 @@
   "labelInfoRestricted": "Restricted for this crop: do not use",
   "labelInfoAllTargets": "All pests and diseases",
   "labelInfoOpenFor": "Label information: {target}",
-  "@labelInfoOpenFor": {"placeholders": {"target": {"type": "String"}}}
+  "@labelInfoOpenFor": {"placeholders": {"target": {"type": "String"}}},
+  "noPlotTitle": "Add your orchard block first",
+  "@noPlotTitle": {"description": "Bottom sheet title when a per-block action is tapped with no block yet."},
+  "noPlotBody": "Every record is kept for a block. Save your block once, and this opens straight after.",
+  "@noPlotBody": {"description": "Bottom sheet body under noPlotTitle; after saving the block the requested action opens."},
+  "plotAddressNear": "Nearby place: {place}",
+  "@plotAddressNear": {"description": "Add-block form: the place the phone geocoder names for the location. Display only, never stored.", "placeholders": {"place": {"type": "String"}}},
+  "plotAddressDistrict": "Dist. {district}",
+  "@plotAddressDistrict": {"description": "District part of the nearby-place line.", "placeholders": {"district": {"type": "String"}}},
+  "plotAddressLooking": "Finding the place name…",
+  "@plotAddressLooking": {"description": "Add-block form: while the place name is being looked up."},
+  "plotAddressMissing": "Place name not found; the location will still be saved.",
+  "@plotAddressMissing": {"description": "Add-block form: no place name (offline / no result); saving is not blocked."}
 }

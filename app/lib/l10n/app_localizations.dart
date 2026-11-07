@@ -4971,6 +4971,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Label information: {target}'**
   String labelInfoOpenFor(String target);
+
+  /// Bottom sheet title when a per-block action is tapped with no block yet.
+  ///
+  /// In en, this message translates to:
+  /// **'Add your orchard block first'**
+  String get noPlotTitle;
+
+  /// Bottom sheet body under noPlotTitle; after saving the block the requested action opens.
+  ///
+  /// In en, this message translates to:
+  /// **'Every record is kept for a block. Save your block once, and this opens straight after.'**
+  String get noPlotBody;
+
+  /// Add-block form: the place the phone geocoder names for the location. Display only, never stored.
+  ///
+  /// In en, this message translates to:
+  /// **'Nearby place: {place}'**
+  String plotAddressNear(String place);
+
+  /// District part of the nearby-place line.
+  ///
+  /// In en, this message translates to:
+  /// **'Dist. {district}'**
+  String plotAddressDistrict(String district);
+
+  /// Add-block form: while the place name is being looked up.
+  ///
+  /// In en, this message translates to:
+  /// **'Finding the place name…'**
+  String get plotAddressLooking;
+
+  /// Add-block form: no place name (offline / no result); saving is not blocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Place name not found; the location will still be saved.'**
+  String get plotAddressMissing;
 }
 
 class _AppLocalizationsDelegate

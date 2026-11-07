@@ -2862,4 +2862,27 @@ class AppLocalizationsHi extends AppLocalizations {
   String labelInfoOpenFor(String target) {
     return 'लेबल जानकारी: $target';
   }
+
+  @override
+  String get noPlotTitle => 'पहले अपना बाग जोड़ें';
+
+  @override
+  String get noPlotBody =>
+      'हर रिकॉर्ड बाग के अनुसार रखा जाता है। एक बार बाग जोड़कर सहेजें, फिर यह तुरंत खुलेगा।';
+
+  @override
+  String plotAddressNear(String place) {
+    return 'पास की जगह: $place';
+  }
+
+  @override
+  String plotAddressDistrict(String district) {
+    return 'ज़िला $district';
+  }
+
+  @override
+  String get plotAddressLooking => 'गाँव का नाम खोज रहे हैं…';
+
+  @override
+  String get plotAddressMissing => 'पता नहीं मिला; जगह फिर भी सहेजी जाएगी।';
 }

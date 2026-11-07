@@ -2865,4 +2865,28 @@ class AppLocalizationsEn extends AppLocalizations {
   String labelInfoOpenFor(String target) {
     return 'Label information: $target';
   }
+
+  @override
+  String get noPlotTitle => 'Add your orchard block first';
+
+  @override
+  String get noPlotBody =>
+      'Every record is kept for a block. Save your block once, and this opens straight after.';
+
+  @override
+  String plotAddressNear(String place) {
+    return 'Nearby place: $place';
+  }
+
+  @override
+  String plotAddressDistrict(String district) {
+    return 'Dist. $district';
+  }
+
+  @override
+  String get plotAddressLooking => 'Finding the place name…';
+
+  @override
+  String get plotAddressMissing =>
+      'Place name not found; the location will still be saved.';
 }

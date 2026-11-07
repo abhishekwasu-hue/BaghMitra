@@ -7,6 +7,7 @@ import '../../../design_system/cards.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../data/location_service.dart';
+import '../data/place_geocoder.dart';
 import '../domain/geo.dart';
 
 /// A block's location as the grower reads it, in locale digits: "21.23050, 77.75060" in
@@ -14,6 +15,76 @@ import '../domain/geo.dart';
 String formatLatLon(LatLon p, String languageCode) =>
     '${formatCoordinate(p.lat, languageCode)}, '
     '${formatCoordinate(p.lon, languageCode)}';
+
+/// The nearby place as one line: "पेठ, काटोल, जि. नागपूर, महाराष्ट्र ४४१३०२" (blank parts
+/// dropped, the PIN in locale digits).
+String formatPlaceAddress(
+  PlaceAddress a,
+  AppLocalizations t,
+  String languageCode,
+) {
+  final parts = [
+    ?a.area,
+    ?a.place,
+    if (a.district case final d?) t.plotAddressDistrict(d),
+    ?a.state,
+  ];
+  final pin = a.postalCode == null
+      ? null
+      : localDigits(a.postalCode!, languageCode);
+  if (pin == null) return parts.join(', ');
+  return parts.isEmpty ? pin : '${parts.join(', ')} $pin';
+}
+
+/// What the add-block form knows of the place at its point: still asking, a name, or none.
+sealed class PlaceLine {
+  const PlaceLine();
+}
+
+class PlaceLooking extends PlaceLine {
+  const PlaceLooking();
+}
+
+class PlaceFound extends PlaceLine {
+  const PlaceFound(this.address);
+  final PlaceAddress address;
+}
+
+class PlaceMissing extends PlaceLine {
+  const PlaceMissing();
+}
+
+/// The line under the block's point: "जवळचे ठिकाण: …", or a short note that no name was
+/// found (the location is saved all the same).
+class _PlaceLineText extends StatelessWidget {
+  const _PlaceLineText(this.line);
+
+  final PlaceLine line;
+
+  @override
+  Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+    final c = context.bm;
+    final lang = Localizations.localeOf(context).languageCode;
+    return switch (line) {
+      PlaceLooking() => Text(
+        t.plotAddressLooking,
+        key: const Key('point-address-looking'),
+        style: BmType.meta.copyWith(color: c.inkMuted),
+      ),
+      PlaceFound(:final address) => Text(
+        t.plotAddressNear(formatPlaceAddress(address, t, lang)),
+        key: const Key('point-address'),
+        style: BmType.body.copyWith(color: c.ink),
+      ),
+      PlaceMissing() => Text(
+        t.plotAddressMissing,
+        key: const Key('point-address-missing'),
+        style: BmType.meta.copyWith(color: c.caution),
+      ),
+    };
+  }
+}
 
 /// Taking the phone's position for a block: one settled fix, or why there is none.
 mixin _PointCapture<T extends ConsumerStatefulWidget> on ConsumerState<T> {
@@ -130,12 +201,16 @@ class PointCaptureCard extends ConsumerStatefulWidget {
   const PointCaptureCard({
     required this.point,
     required this.onCaptured,
+    this.place,
     super.key,
   });
 
   /// The block's location as the form holds it (a fix, a walked centre, or the saved one).
   final LatLon? point;
   final ValueChanged<LocationReading> onCaptured;
+
+  /// The nearby place of [point], when the form looked it up (display only, never saved).
+  final PlaceLine? place;
 
   @override
   ConsumerState<PointCaptureCard> createState() => _PointCaptureCardState();
@@ -178,6 +253,10 @@ class _PointCaptureCardState extends ConsumerState<PointCaptureCard>
                         style: BmType.bodyStrong.copyWith(color: c.ink),
                       ),
                       if (accuracy != null) _Accuracy(accuracy),
+                      if (widget.place case final place?) ...[
+                        const SizedBox(height: BmSpace.xxs),
+                        _PlaceLineText(place),
+                      ],
                     ],
                   ),
                 ),

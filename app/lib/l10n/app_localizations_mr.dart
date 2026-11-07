@@ -2860,4 +2860,27 @@ class AppLocalizationsMr extends AppLocalizations {
   String labelInfoOpenFor(String target) {
     return 'लेबल माहिती: $target';
   }
+
+  @override
+  String get noPlotTitle => 'आधी तुमची बाग जोडा';
+
+  @override
+  String get noPlotBody =>
+      'प्रत्येक नोंद बागेनुसार ठेवली जाते. एकदा बाग जोडून जतन केली की हे लगेच उघडेल.';
+
+  @override
+  String plotAddressNear(String place) {
+    return 'जवळचे ठिकाण: $place';
+  }
+
+  @override
+  String plotAddressDistrict(String district) {
+    return 'जि. $district';
+  }
+
+  @override
+  String get plotAddressLooking => 'गावाचे नाव शोधत आहे…';
+
+  @override
+  String get plotAddressMissing => 'पत्ता मिळाला नाही; ठिकाण तरीही जतन होईल.';
 }

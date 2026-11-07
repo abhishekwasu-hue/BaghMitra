@@ -810,5 +810,11 @@
   "labelInfoBanned": "प्रतिबंधित: उपयोग न करें",
   "labelInfoRestricted": "इस फसल के लिए सीमित: उपयोग न करें",
   "labelInfoAllTargets": "सभी कीट और रोग",
-  "labelInfoOpenFor": "लेबल जानकारी: {target}"
+  "labelInfoOpenFor": "लेबल जानकारी: {target}",
+  "noPlotTitle": "पहले अपना बाग जोड़ें",
+  "noPlotBody": "हर रिकॉर्ड बाग के अनुसार रखा जाता है। एक बार बाग जोड़कर सहेजें, फिर यह तुरंत खुलेगा।",
+  "plotAddressNear": "पास की जगह: {place}",
+  "plotAddressDistrict": "ज़िला {district}",
+  "plotAddressLooking": "गाँव का नाम खोज रहे हैं…",
+  "plotAddressMissing": "पता नहीं मिला; जगह फिर भी सहेजी जाएगी।"
 }
