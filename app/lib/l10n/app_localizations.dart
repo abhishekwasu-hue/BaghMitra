@@ -6549,6 +6549,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This produce has left the list.'**
   String get mlErrLotGone;
+
+  /// No description provided for @mlOffersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Offers on your produce'**
+  String get mlOffersTitle;
+
+  /// No description provided for @mlOffersEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Offers from checked traders appear here, one beside the other.'**
+  String get mlOffersEmpty;
+
+  /// No description provided for @mlSeeOffers.
+  ///
+  /// In en, this message translates to:
+  /// **'See offers'**
+  String get mlSeeOffers;
+
+  /// No description provided for @mlYourAsk.
+  ///
+  /// In en, this message translates to:
+  /// **'Your asking rate: {rate}'**
+  String mlYourAsk(String rate);
+
+  /// No description provided for @mlAcceptPick.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap one offer to choose it'**
+  String get mlAcceptPick;
+
+  /// No description provided for @mlAccept.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept chosen offer'**
+  String get mlAccept;
+
+  /// No description provided for @mlAcceptConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept this offer?'**
+  String get mlAcceptConfirmTitle;
+
+  /// No description provided for @mlAcceptConfirmBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This trader (and the middleman, if named) will see your name, phone and orchard location. The other offers close. You settle the rest of the transaction directly.'**
+  String get mlAcceptConfirmBody;
+
+  /// No description provided for @mlAcceptYes.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept'**
+  String get mlAcceptYes;
+
+  /// No description provided for @mlAccepted.
+  ///
+  /// In en, this message translates to:
+  /// **'Accepted. You both see each other\'s contacts now.'**
+  String get mlAccepted;
+
+  /// No description provided for @mlAcceptChanged.
+  ///
+  /// In en, this message translates to:
+  /// **'The offer changed; open the list again.'**
+  String get mlAcceptChanged;
+
+  /// No description provided for @mlIntroOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'See contacts'**
+  String get mlIntroOpen;
 }
 
 class _AppLocalizationsDelegate

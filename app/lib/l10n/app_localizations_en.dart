@@ -3754,4 +3754,44 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mlErrLotGone => 'This produce has left the list.';
+
+  @override
+  String get mlOffersTitle => 'Offers on your produce';
+
+  @override
+  String get mlOffersEmpty =>
+      'Offers from checked traders appear here, one beside the other.';
+
+  @override
+  String get mlSeeOffers => 'See offers';
+
+  @override
+  String mlYourAsk(String rate) {
+    return 'Your asking rate: $rate';
+  }
+
+  @override
+  String get mlAcceptPick => 'Tap one offer to choose it';
+
+  @override
+  String get mlAccept => 'Accept chosen offer';
+
+  @override
+  String get mlAcceptConfirmTitle => 'Accept this offer?';
+
+  @override
+  String get mlAcceptConfirmBody =>
+      'This trader (and the middleman, if named) will see your name, phone and orchard location. The other offers close. You settle the rest of the transaction directly.';
+
+  @override
+  String get mlAcceptYes => 'Accept';
+
+  @override
+  String get mlAccepted => 'Accepted. You both see each other\'s contacts now.';
+
+  @override
+  String get mlAcceptChanged => 'The offer changed; open the list again.';
+
+  @override
+  String get mlIntroOpen => 'See contacts';
 }

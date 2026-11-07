@@ -3748,4 +3748,44 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get mlErrLotGone => 'हा माल यादीतून काढला आहे.';
+
+  @override
+  String get mlOffersTitle => 'तुमच्या मालावरील ऑफर';
+
+  @override
+  String get mlOffersEmpty =>
+      'तपासलेल्या व्यापाऱ्यांच्या ऑफर येथे शेजारी-शेजारी दिसतील.';
+
+  @override
+  String get mlSeeOffers => 'ऑफर पहा';
+
+  @override
+  String mlYourAsk(String rate) {
+    return 'तुमचा अपेक्षित दर: $rate';
+  }
+
+  @override
+  String get mlAcceptPick => 'निवडण्यासाठी एका ऑफरवर टॅप करा';
+
+  @override
+  String get mlAccept => 'निवडलेली ऑफर स्वीकारा';
+
+  @override
+  String get mlAcceptConfirmTitle => 'ही ऑफर स्वीकारायची?';
+
+  @override
+  String get mlAcceptConfirmBody =>
+      'या व्यापाऱ्याला (व नाव दिलेल्या मध्यस्थाला) तुमचे नाव, फोन व बागेचे ठिकाण दिसेल. इतर ऑफर बंद होतील. पुढील व्यवहार तुम्ही थेट आपसात ठरवा.';
+
+  @override
+  String get mlAcceptYes => 'स्वीकारा';
+
+  @override
+  String get mlAccepted => 'स्वीकारली. आता दोघांना एकमेकांचे संपर्क दिसतात.';
+
+  @override
+  String get mlAcceptChanged => 'ऑफर बदलली आहे; यादी पुन्हा उघडा.';
+
+  @override
+  String get mlIntroOpen => 'संपर्क पहा';
 }

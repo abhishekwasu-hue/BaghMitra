@@ -34,6 +34,7 @@ import '../features/lookalikes/presentation/lookalikes_screen.dart';
 import '../features/market/presentation/market_prices_screen.dart';
 import '../features/market_link/domain/registration.dart';
 import '../features/market_link/presentation/lot_form_screen.dart';
+import '../features/market_link/presentation/lot_offers_screen.dart';
 import '../features/market_link/presentation/my_lots_screen.dart';
 import '../features/market_link/presentation/my_profiles_screen.dart';
 import '../features/market_link/presentation/offer_screens.dart';
@@ -123,6 +124,7 @@ abstract final class Routes {
   static String newMarketLot({String? plotId}) =>
       '$marketLots/new${plotId == null ? '' : '?plot=$plotId'}';
   static String marketLot(String lotId) => '$marketLots/$lotId';
+  static String marketLotOffers(String lotId) => '$marketLots/$lotId/offers';
 
   /// Traders' and brokers' side (L4): published lots, an offer on one, own offers.
   static const marketBrowse = '$marketLink/market';
@@ -312,6 +314,10 @@ GoRouter buildRouter(
       GoRoute(
         path: '${Routes.marketLots}/:lotId',
         builder: (_, s) => LotFormScreen(lotId: s.pathParameters['lotId']),
+      ),
+      GoRoute(
+        path: '${Routes.marketLots}/:lotId/offers',
+        builder: (_, s) => LotOffersScreen(lotId: s.pathParameters['lotId']!),
       ),
       GoRoute(
         path: Routes.marketBrowse,

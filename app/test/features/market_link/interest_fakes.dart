@@ -76,13 +76,16 @@ class FakeInterestApi implements InterestApi {
     this.sentList = const [],
     this.onLotList = const [],
     this.error,
+    this.acceptError,
   });
 
   List<BuyerLot> buyerLots;
   List<SentInterest> sentList;
   List<LotInterest> onLotList;
   Object? error;
+  Object? acceptError;
   final sent = <(String, InterestDraft)>[];
+  final accepted = <String>[];
 
   void _fail() {
     if (error != null) throw error!;
@@ -111,6 +114,13 @@ class FakeInterestApi implements InterestApi {
   Future<List<LotInterest>> onLot(String lotId) async {
     _fail();
     return onLotList;
+  }
+
+  @override
+  Future<String> accept(String interestId) async {
+    if (acceptError != null) throw acceptError!;
+    accepted.add(interestId);
+    return 'd1';
   }
 }
 
