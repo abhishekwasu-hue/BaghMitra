@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../features/app_update/presentation/app_update_gate.dart';
+import '../features/market_link/data/market_link_providers.dart';
+import '../features/market_link/domain/market_link.dart';
 import '../l10n/app_localizations.dart';
 import '../sync/account_guard.dart';
 import '../theme/app_theme.dart';
@@ -38,6 +40,9 @@ class _BagMitraAppState extends ConsumerState<BagMitraApp> {
   /// Whose records the phone holds for the signed-in account; null while checking.
   final _accountGate = ValueNotifier<AccountCheck?>(null);
 
+  /// The market-link role whose home `/` opens (flag MARKET_LINK only); null: the grower app.
+  final _marketRole = ValueNotifier<MarketRole?>(null);
+
   /// Reloads weather, prices and feed (when old) and syncs when the app comes back.
   late final AppLifecycleListener _lifecycle;
 
@@ -48,6 +53,7 @@ class _BagMitraAppState extends ConsumerState<BagMitraApp> {
     onboarded: _onboarded,
     walkthroughSeen: _walkthroughSeen,
     accountGate: _accountGate,
+    marketRole: _marketRole,
   );
 
   @override
@@ -84,6 +90,13 @@ class _BagMitraAppState extends ConsumerState<BagMitraApp> {
       },
       fireImmediately: true,
     );
+    if (ref.read(appConfigProvider).marketLink) {
+      ref.listenManual(
+        activeMarketRoleProvider,
+        (_, role) => _marketRole.value = role.value,
+        fireImmediately: true,
+      );
+    }
   }
 
   @override
@@ -93,6 +106,7 @@ class _BagMitraAppState extends ConsumerState<BagMitraApp> {
     _onboarded.dispose();
     _walkthroughSeen.dispose();
     _accountGate.dispose();
+    _marketRole.dispose();
     super.dispose();
   }
 

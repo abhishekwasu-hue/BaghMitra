@@ -144,13 +144,32 @@ class MoreScreen extends ConsumerWidget {
             t.marketDirectoryTitle,
             Routes.marketDirectory,
           ),
-          if (config.marketLink)
+          if (config.marketLink) ...[
+            page(
+              'market-link-people',
+              Icons.groups_outlined,
+              t.mlPeopleTitle,
+              Routes.marketLinkPeople,
+            ),
+            page(
+              'market-link-services',
+              Icons.local_shipping_outlined,
+              t.mlServicesTitle,
+              Routes.marketLinkServices,
+            ),
+            page(
+              'market-link-mine',
+              Icons.badge_outlined,
+              t.mlMyProfilesTitle,
+              Routes.marketLinkMine,
+            ),
             page(
               'export-info',
               Icons.flight_takeoff_outlined,
               t.exportInfoTitle,
               Routes.exportInfo,
             ),
+          ],
         ],
       ),
       (
