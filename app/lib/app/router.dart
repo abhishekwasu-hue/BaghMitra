@@ -44,6 +44,7 @@ import '../features/market_link/presentation/role_home_screen.dart';
 import '../features/market_link/presentation/role_picker_screen.dart';
 import '../features/market_link/presentation/services_screen.dart';
 import '../features/market_link/presentation/terms_acceptance_screen.dart';
+import '../features/market_link/safety/account_actions_screen.dart';
 import '../features/market_link/safety/safety_screens.dart';
 import '../features/more/presentation/more_screen.dart';
 import '../features/plots/presentation/add_plot_screen.dart';
@@ -99,6 +100,8 @@ abstract final class Routes {
 
   /// Market link trust and safety (L6), only with `AppConfig.marketLink`.
   static const mlSafety = '/market-link';
+  static const mlActions = '/market-link/account-actions';
+  static String mlAppeal(String actionId) => '$mlActions/$actionId/appeal';
   static String mlReport(String subjectType, String subjectId) =>
       '$mlSafety/report/$subjectType/$subjectId';
   static const practices = '/practices';
@@ -317,6 +320,15 @@ GoRouter buildRouter(
         builder: (_, _) => const MarketPricesScreen(),
       ),
       GoRoute(path: Routes.feed, builder: (_, _) => const FeedScreen()),
+      GoRoute(
+        path: Routes.mlActions,
+        builder: (_, _) => const AccountActionsScreen(),
+      ),
+      GoRoute(
+        path: '${Routes.mlActions}/:actionId/appeal',
+        builder: (_, s) =>
+            AppealScreen(actionId: s.pathParameters['actionId']!),
+      ),
       GoRoute(
         path: '${Routes.mlSafety}/report/:type/:id',
         builder: (_, s) => ReportScreen(

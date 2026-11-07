@@ -12,6 +12,9 @@ import '../helpers/pump_app.dart';
 void main() {
   for (final (name, location, scale) in [
     ('report', '/market-link/report/broker/br1', 1.0),
+    ('actions', '/market-link/account-actions', 1.0),
+    ('actions_x13', '/market-link/account-actions', 1.3),
+    ('appeal', '/market-link/account-actions/a1/appeal', 1.0),
   ]) {
     for (final dark in [false, true]) {
       final mode = dark ? 'dark' : 'light';
