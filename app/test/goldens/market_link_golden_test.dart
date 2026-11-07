@@ -1,164 +1,75 @@
-// Market linkage L2 screens at 360 dp, Marathi, light / dark / 1.3x text. Regenerate with:
+// Market link L1 (spec v1.5 §2.1, §4C): role cards, acceptance and a role home, Marathi,
+// light and dark, and at 360 dp with 1.3x text. Regenerate with:
 //   flutter test --update-goldens test/goldens/market_link_golden_test.dart
 @Tags(['golden'])
 library;
 
-import 'package:bagmitra/features/market_link/domain/registration.dart';
-import 'package:bagmitra/features/plots/data/location_service.dart';
-import 'package:bagmitra/features/plots/data/place_geocoder.dart';
-import 'package:bagmitra/features/plots/domain/geo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../features/market_link/market_link_fakes.dart';
-import '../features/plots/boundary_screen_test.dart' show ScriptedLocation;
+import '../features/market_link/market_link_screens_test.dart'
+    show seedAcceptedTrader;
+import '../features/market_link/terms_acceptance_test.dart' show marketConfig;
 import '../features/plots/plots_screen_test.dart' show settle;
 import '../helpers/pump_app.dart';
 
-final _own = [
-  MarketProfile(
-    subjectType: 'buyer',
-    id: 'b1',
-    kind: 'trader',
-    name: 'रमेश पाटील',
-    firm: 'पाटील फ्रुट कंपनी',
-    phone: '+919800000001',
-    taluka: 'वरुड',
-    district: 'अमरावती',
-    status: 'pending',
-    documents: 1,
-    badges: [
-      ProfileBadge(
-        'registered_from',
-        DateTime.utc(2026, 11, 7),
-        place: 'वरुड, अमरावती',
-      ),
-    ],
-  ),
-  MarketProfile(
-    subjectType: 'provider',
-    id: 'p1',
-    kind: 'weighbridge',
-    name: 'वरुड वजनकाटा',
-    phone: '+919800000003',
-    village: 'वरुड',
-    taluka: 'वरुड',
-    district: 'अमरावती',
-    status: 'approved',
-    certValidUntil: DateTime.utc(2026, 11, 6),
-    certificateExpired: true,
-    hasCertificatePhoto: true,
-    documents: 1,
-    badges: [ProfileBadge('checked', DateTime.utc(2026, 11, 7))],
-  ),
-];
+const _small = Size(360, 780);
 
 void main() {
-  for (final (name, location, mode, scale, tapFix) in [
+  for (final (name, location, seed, mode, scale, size) in [
+    ('l1_roles_mr_light', '/roles', null, ThemeMode.light, 1.0, phoneSize),
+    ('l1_roles_mr_dark', '/roles', null, ThemeMode.dark, 1.0, phoneSize),
+    ('l1_roles_mr_x13', '/roles', null, ThemeMode.light, 1.3, _small),
     (
-      'ml_register_fix_mr_light',
-      '/market-link/register/trader',
+      'l1_terms_mr_light',
+      '/roles/trader',
+      null,
       ThemeMode.light,
       1.0,
-      false,
+      phoneSize,
     ),
+    ('l1_terms_mr_dark', '/roles/trader', null, ThemeMode.dark, 1.0, phoneSize),
+    ('l1_terms_mr_x13', '/roles/trader', null, ThemeMode.light, 1.3, _small),
     (
-      'ml_register_trader_mr_light',
-      '/market-link/register/trader',
+      'l1_role_home_mr_light',
+      '/roles/trader',
+      seedAcceptedTrader,
       ThemeMode.light,
       1.0,
-      true,
+      phoneSize,
     ),
     (
-      'ml_register_trader_mr_x13',
-      '/market-link/register/trader',
+      'l1_role_home_mr_dark',
+      '/roles/trader',
+      seedAcceptedTrader,
+      ThemeMode.dark,
+      1.0,
+      phoneSize,
+    ),
+    (
+      'l1_role_home_mr_x13',
+      '/roles/trader',
+      seedAcceptedTrader,
       ThemeMode.light,
       1.3,
-      true,
-    ),
-    (
-      'ml_register_provider_mr_dark',
-      '/market-link/register/provider',
-      ThemeMode.dark,
-      1.0,
-      true,
-    ),
-    ('ml_my_profiles_mr_light', '/market-link/me', ThemeMode.light, 1.0, false),
-    ('ml_my_profiles_mr_dark', '/market-link/me', ThemeMode.dark, 1.0, false),
-    ('ml_people_mr_light', '/market-link/people', ThemeMode.light, 1.0, false),
-    ('ml_people_mr_dark', '/market-link/people', ThemeMode.dark, 1.0, false),
-    ('ml_people_mr_x13', '/market-link/people', ThemeMode.light, 1.3, false),
-    (
-      'ml_profile_mr_light',
-      '/market-link/profile/buyer/b1',
-      ThemeMode.light,
-      1.0,
-      false,
-    ),
-    (
-      'ml_profile_mr_dark',
-      '/market-link/profile/buyer/b1',
-      ThemeMode.dark,
-      1.0,
-      false,
-    ),
-    (
-      'ml_services_mr_light',
-      '/market-link/services',
-      ThemeMode.light,
-      1.0,
-      false,
-    ),
-    (
-      'ml_services_mr_dark',
-      '/market-link/services',
-      ThemeMode.dark,
-      1.0,
-      false,
-    ),
-    (
-      'ml_services_mr_x13',
-      '/market-link/services',
-      ThemeMode.light,
-      1.3,
-      false,
+      _small,
     ),
   ]) {
     testWidgets(name, (tester) async {
       tester.platformDispatcher.textScaleFactorTestValue = scale;
       addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
-      await pumpMarketLink(
+      await pumpApp(
         tester,
-        location,
+        config: marketConfig,
         themeMode: mode,
-        api: FakeRegistrationApi(
-          own: _own,
-          listed: [
-            sampleTrader(),
-            sampleTrader(id: 'b2', deals: 3),
-            sampleBroker(),
-          ],
-          services: [sampleWeighbridge(), sampleTransporter()],
-        ),
-        location: ScriptedLocation([
-          const LocationReading.at(LatLon(21.4717, 78.2667), accuracyM: 9),
-        ]),
-        geocoder: FakeGeocoder(
-          const PlaceAddress(
-            place: 'वरुड',
-            district: 'अमरावती',
-            postalCode: '444906',
-          ),
-        ),
+        initialLocation: location,
+        seed: seed,
+        size: size,
       );
       await settle(tester);
-      if (tapFix) {
-        await tester.tap(find.byKey(const Key('ml-take-fix')));
+      if (name.startsWith('l1_role_home')) {
+        await tester.tap(find.byKey(const Key('grievance')));
         await settle(tester);
-        if (location.endsWith('provider')) {
-          await tester.tap(find.byKey(const Key('ml-kind-transporter')));
-          await settle(tester);
-        }
       }
       await expectLater(
         find.byType(MaterialApp),
