@@ -2,9 +2,13 @@ import 'dart:convert';
 
 import 'package:bagmitra/api/api_client.dart';
 import 'package:bagmitra/api/generated/bagmitra.enums.swagger.dart';
+import 'package:bagmitra/core/net_failure.dart';
 import 'package:bagmitra/data/local/database.dart';
 import 'package:bagmitra/features/market/data/market_prices_cache.dart';
+import 'package:bagmitra/features/market/domain/market_crops.dart';
 import 'package:bagmitra/features/market/domain/market_labels.dart';
+import 'package:bagmitra/features/plots/data/plot_repository.dart';
+import 'package:bagmitra/features/plots/domain/plot.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
@@ -51,8 +55,9 @@ Future<void> seedPrices(
   AppDatabase db, {
   V1MarketPricesGetScope scope = V1MarketPricesGetScope.all,
   Map<String, Object?>? body,
+  String crop = 'santra',
 }) => db.writeMeta(
-  MarketPricesCache.keyFor('santra', scope),
+  MarketPricesCache.keyFor(crop, scope),
   jsonEncode({
     'saved_at': '2026-10-25T06:00:00.000Z',
     'prices': body ?? samplePrices(),
@@ -221,6 +226,269 @@ void main() {
     expect(find.textContaining('दिल्ली ·'), findsOneWidget);
     expect(find.textContaining('नागपुरी'), findsOneWidget);
     expect(find.textContaining('Warud'), findsNothing);
+    await unmountApp(tester);
+  });
+
+  test(
+    'mandi search: name, district and state; punctuation and APMC ignored',
+    () {
+      bool hit(String market, String district, String state, String q) =>
+          marketSearchMatches(
+            marketSearchText(market: market, district: district, state: state),
+            q,
+          );
+      expect(hit('Pune(Moshi)', 'Pune', 'Maharashtra', 'moshi'), isTrue);
+      expect(hit('Pune(Moshi)', 'Pune', 'Maharashtra', 'PUNE'), isTrue);
+      expect(
+        hit('Mumbai- Fruit Market', 'Mumbai', 'Maharashtra', 'fruit'),
+        isTrue,
+      );
+      expect(
+        hit('APMC Nagpur', 'Nagpur', 'Maharashtra', 'apmc nagpur'),
+        isTrue,
+      );
+      expect(hit('APMC Hingna', 'Nagpur', 'Maharashtra', 'nagpur'), isTrue);
+      expect(hit('Kalamna', 'Nagpur', 'Maharashtra', 'kalamna'), isTrue);
+      expect(hit('Azadpur', 'North Delhi', 'NCT of Delhi', 'delhi'), isTrue);
+      // Marathi / Hindi only through the names this app already knows.
+      expect(hit('APMC Nagpur', 'Nagpur', 'Maharashtra', 'नागपूर'), isTrue);
+      expect(hit('Pune(Moshi)', 'Pune', 'Maharashtra', 'पुणे'), isTrue);
+      expect(
+        hit('APMC Jalgaon', 'Jalgaon', 'Maharashtra', 'महाराष्ट्र'),
+        isTrue,
+      );
+      expect(hit('APMC Jalgaon', 'Jalgaon', 'Maharashtra', 'pune'), isFalse);
+      expect(hit('APMC Jalgaon', 'Jalgaon', 'Maharashtra', ' - '), isTrue);
+    },
+  );
+
+  testWidgets('search filters the loaded rows within the scope; clear resets', (
+    tester,
+  ) async {
+    Map<String, Object?> row(
+      String market,
+      String district, {
+      bool major = false,
+    }) => {
+      'day': '2026-10-24',
+      'market': market,
+      'state': 'Maharashtra',
+      'district': district,
+      'commodity': 'Orange',
+      'modal_rs_per_quintal': 3000,
+      'source': 'agmarknet',
+      'is_local': !major,
+      'is_major': major,
+    };
+    await pumpApp(
+      tester,
+      locale: const Locale('en'),
+      initialLocation: '/market',
+      seed: (db) async {
+        await seedPrices(
+          db,
+          body: {
+            'prices': [
+              row('APMC Nagpur', 'Nagpur'),
+              row('APMC Hingna', 'Nagpur'),
+              row('Pune(Moshi)', 'Pune', major: true),
+            ],
+            'stale': false,
+          },
+        );
+        await seedPrices(
+          db,
+          scope: V1MarketPricesGetScope.major,
+          body: {
+            'prices': [row('Pune(Moshi)', 'Pune', major: true)],
+            'stale': false,
+          },
+        );
+      },
+    );
+    await settle(tester);
+    expect(find.byKey(const Key('market-search-field')), findsNothing);
+    await tester.tap(find.byKey(const Key('market-search-open')));
+    await settle(tester);
+    final field = find.byKey(const Key('market-search-field'));
+
+    await tester.enterText(field, 'moshi');
+    await settle(tester);
+    expect(find.text('Pune(Moshi)'), findsOneWidget);
+    expect(find.text('APMC Nagpur'), findsNothing);
+
+    await tester.enterText(field, 'nagpur'); // district finds Hingna too
+    await settle(tester);
+    expect(find.text('APMC Nagpur'), findsOneWidget);
+    expect(find.text('APMC Hingna'), findsOneWidget);
+    expect(find.text('Pune(Moshi)'), findsNothing);
+
+    await tester.enterText(field, 'maharashtra');
+    await settle(tester);
+    expect(find.text('Pune(Moshi)'), findsOneWidget);
+    expect(find.text('APMC Hingna'), findsOneWidget);
+
+    // Within the major scope only its own rows are searched.
+    await tester.enterText(field, 'nagpur');
+    await tester.tap(find.byKey(const Key('market-scope-major')));
+    await settle(tester);
+    expect(find.text('APMC Nagpur'), findsNothing);
+    expect(
+      find.text(
+        'Try another mandi, district or state name instead of “nagpur”.',
+      ),
+      findsOneWidget,
+    );
+
+    await tester.tap(find.byKey(const Key('market-search-clear')));
+    await settle(tester);
+    expect(find.text('Pune(Moshi)'), findsOneWidget);
+    expect(find.byKey(const Key('market-search-clear')), findsNothing);
+
+    // Closing the search shows every row of the scope again.
+    await tester.enterText(field, 'zzz');
+    await tester.tap(find.byKey(const Key('market-search-open')));
+    await settle(tester);
+    expect(find.byKey(const Key('market-search-field')), findsNothing);
+    expect(find.text('Pune(Moshi)'), findsOneWidget);
+    await unmountApp(tester);
+  });
+
+  test(
+    'an older server\'s 404 crop_not_priced is stored as an empty list',
+    () async {
+      final db = memoryDb();
+      addTearDown(db.close);
+      var status = 404;
+      var code = 'crop_not_priced';
+      final api = createApi(
+        baseUrl: Uri.parse('https://api.example.test'),
+        token: () => 't',
+        httpClient: MockClient(
+          (req) async => http.Response(
+            jsonEncode({
+              'error': {'code': code, 'message': 'x', 'request_id': 'r'},
+            }),
+            status,
+          ),
+        ),
+      );
+      final cache = MarketPricesCache(
+        db,
+        api: api,
+        clock: () => DateTime.utc(2026, 10, 25, 6),
+      );
+      const all = V1MarketPricesGetScope.all;
+      expect(await cache.refreshOrFailure('guava', all), isNull);
+      final saved = (await cache.load('guava', all))!;
+      expect(saved.prices.prices, isEmpty);
+      expect(saved.prices.stale, isFalse);
+
+      // Any other 404 or error stays a failure and stores nothing.
+      code = 'not_found';
+      expect(await cache.refreshOrFailure('apple', all), NetFailure.server);
+      status = 500;
+      code = 'crop_not_priced';
+      expect(await cache.refreshOrFailure('apple', all), NetFailure.server);
+      expect(await cache.load('apple', all), isNull);
+    },
+  );
+
+  test('market crops: santra first and default, nine fruits with names', () {
+    expect(defaultMarketCrop, 'santra');
+    expect(marketCrops.map((c) => c.key), [
+      'santra',
+      'mosambi',
+      'banana',
+      'guava',
+      'pomegranate',
+      'grapes',
+      'papaya',
+      'lemon',
+      'apple',
+    ]);
+    expect(marketCropName('pomegranate', 'mr'), 'डाळिंब');
+    expect(marketCropName('guava', 'hi'), 'अमरूद');
+    expect(marketCropName('banana', 'en'), 'Banana');
+    expect(marketCropName('kiwi', 'mr'), 'kiwi');
+  });
+
+  testWidgets('santra by default, even for a mosambi block; picking a fruit '
+      'loads its prices; an empty answer reads as coming soon', (tester) async {
+    await pumpApp(
+      tester,
+      locale: const Locale('en'),
+      initialLocation: '/market',
+      seed: (db) async {
+        await PlotRepository(db).save(
+          const Plot(id: 'p1', name: 'Block 1', crop: 'mosambi', areaSqM: 4000),
+        );
+        await seedPrices(db);
+        await seedPrices(
+          db,
+          crop: 'mosambi',
+          body: {
+            'prices': [
+              {
+                'day': '2026-10-24',
+                'market': 'Pune(Moshi)',
+                'state': 'Maharashtra',
+                'district': 'Pune',
+                'commodity': 'Mousambi(Sweet Lime)',
+                'modal_rs_per_quintal': 4400,
+                'source': 'agmarknet',
+                'is_local': false,
+                'is_major': true,
+              },
+            ],
+            'stale': false,
+          },
+        );
+        await seedPrices(
+          db,
+          crop: 'guava',
+          body: {'prices': <Object?>[], 'stale': false},
+        );
+      },
+    );
+    await settle(tester);
+    expect(find.text('Santra (orange)'), findsOneWidget);
+    expect(find.text('Warud'), findsOneWidget);
+
+    Future<void> pick(String name) async {
+      await tester.tap(find.byKey(const Key('market-crop')));
+      await settle(tester);
+      await tester.tap(find.text(name).last);
+      await settle(tester);
+    }
+
+    await pick('Mosambi (sweet lime)');
+    expect(find.text('Warud'), findsNothing);
+    expect(find.text('Pune(Moshi)'), findsOneWidget);
+    expect(find.text('₹4,400'), findsOneWidget);
+
+    // Search works within the picked fruit.
+    await tester.tap(find.byKey(const Key('market-search-open')));
+    await settle(tester);
+    await tester.enterText(
+      find.byKey(const Key('market-search-field')),
+      'pune',
+    );
+    await settle(tester);
+    expect(find.text('Pune(Moshi)'), findsOneWidget);
+    await tester.tap(find.byKey(const Key('market-search-open')));
+    await settle(tester);
+
+    await pick('Guava');
+    expect(find.text('Pune(Moshi)'), findsNothing);
+    expect(
+      find.text(
+        'Guava prices will show here soon. Mandi prices update on their own '
+        'every 6 hours.',
+      ),
+      findsOneWidget,
+    );
+    expect(find.byKey(const Key('refresh-failure')), findsNothing);
     await unmountApp(tester);
   });
 }

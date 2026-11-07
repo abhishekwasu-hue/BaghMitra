@@ -49,8 +49,16 @@ class MarketPricesCache {
   ) async {
     try {
       final res = await _api.v1MarketPricesGet(crop: crop, scope: scope);
-      final body = res.body;
-      if (!res.isSuccessful) return netFailureForStatus(res.statusCode);
+      final MarketPrices? body;
+      if (res.isSuccessful) {
+        body = res.body;
+      } else if (res.statusCode == 404 && _isCropNotPriced(res.error)) {
+        // An older server answers 404 `crop_not_priced` for a fruit it does not price
+        // yet: stored as an empty list, the same as a newer server's answer.
+        body = const MarketPrices(prices: [], stale: false);
+      } else {
+        return netFailureForStatus(res.statusCode);
+      }
       if (body == null) return NetFailure.server;
       await _db.writeMeta(
         keyFor(crop, scope),
@@ -63,5 +71,19 @@ class MarketPricesCache {
     } on Object catch (e) {
       return netFailureForError(e);
     }
+  }
+
+  static bool _isCropNotPriced(Object? error) {
+    Object? decoded = error;
+    if (error is String) {
+      try {
+        decoded = jsonDecode(error);
+      } on FormatException {
+        return false;
+      }
+    }
+    return decoded is Map &&
+        decoded['error'] is Map &&
+        (decoded['error'] as Map)['code'] == 'crop_not_priced';
   }
 }
