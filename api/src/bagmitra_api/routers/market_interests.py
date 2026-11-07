@@ -41,6 +41,7 @@ from bagmitra_api.market_link.package import lot_shown
 from bagmitra_api.market_link.profiles import PublicProfileOut, Subject, public_views
 from bagmitra_api.market_link.registration import india_date
 from bagmitra_api.market_link.terms import accepted_roles, current_versions
+from bagmitra_api.market_link.visibility import is_blocked_between
 from bagmitra_api.routers.market_link import Clock, require_market_link
 from bagmitra_api.routers.market_lots import (
     GROWER_WRITE,
@@ -234,7 +235,12 @@ async def send_interest(  # noqa: PLR0913 - body and dependencies
             if broker is None:
                 raise ApiError(404, "broker_not_found")
     lot = await session.get(MarketLot, lot_id)
-    if lot is None or not await lot_shown(session, lot.id, clock()):  # §4E, the one rule
+    # The one rule (§4, §4C, §4E) for the sender; on a broker-brought interest a block
+    # between the grower and the other party counts too.
+    if lot is None or not await lot_shown(session, lot.id, clock(), user.id):
+        raise ApiError(404, "lot_not_found")
+    other = broker.user_id if broker and broker.user_id != user.id else buyer.user_id
+    if other != user.id and await is_blocked_between(session, lot.owner_id, other):
         raise ApiError(404, "lot_not_found")
     if lot.owner_id in (buyer.user_id, broker.user_id if broker else None):
         raise ApiError(409, "own_lot")
