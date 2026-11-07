@@ -298,6 +298,149 @@ extension $AccountDeletedExtension on AccountDeleted {
 }
 
 @JsonSerializable(explicitToJson: true)
+class AdminFixOut {
+  const AdminFixOut({
+    required this.accuracyM,
+    required this.capturedAt,
+    required this.district,
+    required this.isMocked,
+    required this.lat,
+    required this.lon,
+    required this.pin,
+    required this.place,
+    required this.state,
+  });
+
+  factory AdminFixOut.fromJson(Map<String, dynamic> json) =>
+      _$AdminFixOutFromJson(json);
+
+  static const toJsonFactory = _$AdminFixOutToJson;
+  Map<String, dynamic> toJson() => _$AdminFixOutToJson(this);
+
+  @JsonKey(name: 'accuracy_m', includeIfNull: false)
+  final double accuracyM;
+  @JsonKey(name: 'captured_at', includeIfNull: false)
+  final DateTime capturedAt;
+  @JsonKey(name: 'district', includeIfNull: false)
+  final String? district;
+  @JsonKey(name: 'is_mocked', includeIfNull: false)
+  final bool isMocked;
+  @JsonKey(name: 'lat', includeIfNull: false)
+  final double lat;
+  @JsonKey(name: 'lon', includeIfNull: false)
+  final double lon;
+  @JsonKey(name: 'pin', includeIfNull: false)
+  final String? pin;
+  @JsonKey(name: 'place', includeIfNull: false)
+  final String? place;
+  @JsonKey(name: 'state', includeIfNull: false)
+  final String? state;
+  static const fromJsonFactory = _$AdminFixOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is AdminFixOut &&
+            (identical(other.accuracyM, accuracyM) ||
+                const DeepCollectionEquality().equals(
+                  other.accuracyM,
+                  accuracyM,
+                )) &&
+            (identical(other.capturedAt, capturedAt) ||
+                const DeepCollectionEquality().equals(
+                  other.capturedAt,
+                  capturedAt,
+                )) &&
+            (identical(other.district, district) ||
+                const DeepCollectionEquality().equals(
+                  other.district,
+                  district,
+                )) &&
+            (identical(other.isMocked, isMocked) ||
+                const DeepCollectionEquality().equals(
+                  other.isMocked,
+                  isMocked,
+                )) &&
+            (identical(other.lat, lat) ||
+                const DeepCollectionEquality().equals(other.lat, lat)) &&
+            (identical(other.lon, lon) ||
+                const DeepCollectionEquality().equals(other.lon, lon)) &&
+            (identical(other.pin, pin) ||
+                const DeepCollectionEquality().equals(other.pin, pin)) &&
+            (identical(other.place, place) ||
+                const DeepCollectionEquality().equals(other.place, place)) &&
+            (identical(other.state, state) ||
+                const DeepCollectionEquality().equals(other.state, state)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(accuracyM) ^
+      const DeepCollectionEquality().hash(capturedAt) ^
+      const DeepCollectionEquality().hash(district) ^
+      const DeepCollectionEquality().hash(isMocked) ^
+      const DeepCollectionEquality().hash(lat) ^
+      const DeepCollectionEquality().hash(lon) ^
+      const DeepCollectionEquality().hash(pin) ^
+      const DeepCollectionEquality().hash(place) ^
+      const DeepCollectionEquality().hash(state) ^
+      runtimeType.hashCode;
+}
+
+extension $AdminFixOutExtension on AdminFixOut {
+  AdminFixOut copyWith({
+    double? accuracyM,
+    DateTime? capturedAt,
+    String? district,
+    bool? isMocked,
+    double? lat,
+    double? lon,
+    String? pin,
+    String? place,
+    String? state,
+  }) {
+    return AdminFixOut(
+      accuracyM: accuracyM ?? this.accuracyM,
+      capturedAt: capturedAt ?? this.capturedAt,
+      district: district ?? this.district,
+      isMocked: isMocked ?? this.isMocked,
+      lat: lat ?? this.lat,
+      lon: lon ?? this.lon,
+      pin: pin ?? this.pin,
+      place: place ?? this.place,
+      state: state ?? this.state,
+    );
+  }
+
+  AdminFixOut copyWithWrapped({
+    Wrapped<double>? accuracyM,
+    Wrapped<DateTime>? capturedAt,
+    Wrapped<String?>? district,
+    Wrapped<bool>? isMocked,
+    Wrapped<double>? lat,
+    Wrapped<double>? lon,
+    Wrapped<String?>? pin,
+    Wrapped<String?>? place,
+    Wrapped<String?>? state,
+  }) {
+    return AdminFixOut(
+      accuracyM: (accuracyM != null ? accuracyM.value : this.accuracyM),
+      capturedAt: (capturedAt != null ? capturedAt.value : this.capturedAt),
+      district: (district != null ? district.value : this.district),
+      isMocked: (isMocked != null ? isMocked.value : this.isMocked),
+      lat: (lat != null ? lat.value : this.lat),
+      lon: (lon != null ? lon.value : this.lon),
+      pin: (pin != null ? pin.value : this.pin),
+      place: (place != null ? place.value : this.place),
+      state: (state != null ? state.value : this.state),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class AlertOut {
   const AlertOut({
     required this.cardId,
@@ -9136,7 +9279,9 @@ class SubjectOut {
   const SubjectOut({
     required this.documentKeys,
     required this.fields,
+    this.flags,
     required this.name,
+    this.registrationFix,
     required this.status,
     required this.subjectId,
     required this.subjectType,
@@ -9157,8 +9302,12 @@ class SubjectOut {
   final List<String> documentKeys;
   @JsonKey(name: 'fields', includeIfNull: false)
   final Map<String, dynamic> fields;
+  @JsonKey(name: 'flags', includeIfNull: false, defaultValue: <String>[])
+  final List<String>? flags;
   @JsonKey(name: 'name', includeIfNull: false)
   final String name;
+  @JsonKey(name: 'registration_fix', includeIfNull: false)
+  final AdminFixOut? registrationFix;
   @JsonKey(name: 'status', includeIfNull: false)
   final String status;
   @JsonKey(name: 'subject_id', includeIfNull: false)
@@ -9180,8 +9329,15 @@ class SubjectOut {
                 )) &&
             (identical(other.fields, fields) ||
                 const DeepCollectionEquality().equals(other.fields, fields)) &&
+            (identical(other.flags, flags) ||
+                const DeepCollectionEquality().equals(other.flags, flags)) &&
             (identical(other.name, name) ||
                 const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.registrationFix, registrationFix) ||
+                const DeepCollectionEquality().equals(
+                  other.registrationFix,
+                  registrationFix,
+                )) &&
             (identical(other.status, status) ||
                 const DeepCollectionEquality().equals(other.status, status)) &&
             (identical(other.subjectId, subjectId) ||
@@ -9208,7 +9364,9 @@ class SubjectOut {
   int get hashCode =>
       const DeepCollectionEquality().hash(documentKeys) ^
       const DeepCollectionEquality().hash(fields) ^
+      const DeepCollectionEquality().hash(flags) ^
       const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(registrationFix) ^
       const DeepCollectionEquality().hash(status) ^
       const DeepCollectionEquality().hash(subjectId) ^
       const DeepCollectionEquality().hash(subjectType) ^
@@ -9220,7 +9378,9 @@ extension $SubjectOutExtension on SubjectOut {
   SubjectOut copyWith({
     List<String>? documentKeys,
     Map<String, dynamic>? fields,
+    List<String>? flags,
     String? name,
+    AdminFixOut? registrationFix,
     String? status,
     String? subjectId,
     String? subjectType,
@@ -9229,7 +9389,9 @@ extension $SubjectOutExtension on SubjectOut {
     return SubjectOut(
       documentKeys: documentKeys ?? this.documentKeys,
       fields: fields ?? this.fields,
+      flags: flags ?? this.flags,
       name: name ?? this.name,
+      registrationFix: registrationFix ?? this.registrationFix,
       status: status ?? this.status,
       subjectId: subjectId ?? this.subjectId,
       subjectType: subjectType ?? this.subjectType,
@@ -9240,7 +9402,9 @@ extension $SubjectOutExtension on SubjectOut {
   SubjectOut copyWithWrapped({
     Wrapped<List<String>>? documentKeys,
     Wrapped<Map<String, dynamic>>? fields,
+    Wrapped<List<String>?>? flags,
     Wrapped<String>? name,
+    Wrapped<AdminFixOut?>? registrationFix,
     Wrapped<String>? status,
     Wrapped<String>? subjectId,
     Wrapped<String>? subjectType,
@@ -9251,7 +9415,11 @@ extension $SubjectOutExtension on SubjectOut {
           ? documentKeys.value
           : this.documentKeys),
       fields: (fields != null ? fields.value : this.fields),
+      flags: (flags != null ? flags.value : this.flags),
       name: (name != null ? name.value : this.name),
+      registrationFix: (registrationFix != null
+          ? registrationFix.value
+          : this.registrationFix),
       status: (status != null ? status.value : this.status),
       subjectId: (subjectId != null ? subjectId.value : this.subjectId),
       subjectType: (subjectType != null ? subjectType.value : this.subjectType),

@@ -10,6 +10,8 @@ REST calls (Supabase Storage API, paths under {url}/storage/v1):
 - POST /object/sign/{bucket}/{key} {"expiresIn": n} -> {"signedURL": "/object/sign/..."}
 - POST /object/list/{bucket} {"prefix", "limit", "offset"} -> [{"name": ...}, ...]
 - DELETE /object/{bucket} {"prefixes": [key, ...]} -> [deleted objects]
+- POST /object/{bucket}/{key} <bytes> (x-upsert) -> {"Key": ...}: the server stores a photo it
+  has cleaned itself (market linkage strips EXIF before storage, spec v1.5 §4B)
 """
 
 from __future__ import annotations
@@ -49,6 +51,8 @@ class PhotoStorage(Protocol):
     async def list_folder(self, folder: str) -> list[str]: ...
 
     async def delete_objects(self, keys: list[str]) -> None: ...
+
+    async def put_object(self, key: str, data: bytes, content_type: str) -> None: ...
 
 
 class SupabaseStorageClient:
@@ -159,3 +163,16 @@ class SupabaseStorageClient:
                 )
             except PhotoNotFoundError:
                 continue  # already gone
+
+    async def put_object(self, key: str, data: bytes, content_type: str) -> None:
+        """Stores `data` at `key` with the service key (replacing an earlier object)."""
+        try:
+            response = await self._http.post(
+                f"{self._root}/object/{self._bucket}/{key}",
+                content=data,
+                headers={**self._headers, "Content-Type": content_type, "x-upsert": "true"},
+            )
+        except httpx.HTTPError as exc:
+            raise PhotoStorageError(type(exc).__name__) from exc
+        if response.status_code != httpx.codes.OK:
+            raise PhotoStorageError(f"HTTP {response.status_code}")
