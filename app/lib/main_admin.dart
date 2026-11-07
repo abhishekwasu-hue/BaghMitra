@@ -8,6 +8,7 @@ import 'admin/admin_auth.dart';
 import 'admin/admin_web_config.dart';
 import 'admin/feed_admin_repository.dart';
 import 'admin/kb_admin_repository.dart';
+import 'admin/market_link_admin_repository.dart';
 import 'api/api_client.dart';
 import 'core/config.dart';
 
@@ -45,6 +46,8 @@ Future<void> main() async {
       auth: auth,
       kb: ApiKbAdminRepository(api),
       feed: ApiFeedAdminRepository(api),
+      // Legal gate (decision j): no market linkage section unless MARKET_LINK is on.
+      marketLink: config.marketLink ? ApiMarketLinkAdminRepository(api) : null,
     ),
   );
 }

@@ -23,6 +23,10 @@ const allowNegative = {
   'labelInfoNoClaim',
   'labelInfoBanned',
   'labelInfoRestricted',
+  // Market linkage admin: the plain "No" answer to a yes / no field (refrigerated).
+  'adminMlNo',
+  // वजनकाटा (weighbridge, GLOSSARY_mr.md) only contains the letters of नका.
+  'adminMlKindWeighbridge',
 };
 
 final _negative = <String, RegExp>{

@@ -13,6 +13,22 @@ class KbAdminException implements Exception {
   String toString() => message;
 }
 
+/// The server's `error.message` from a failed admin call, if it sent one.
+String? adminErrorMessage(Object? error) {
+  Object? decoded = error;
+  if (error is String) {
+    try {
+      decoded = jsonDecode(error);
+    } on FormatException {
+      return error;
+    }
+  }
+  if (decoded case {'error': {'message': final String message}}) {
+    return message;
+  }
+  return null;
+}
+
 /// Knowledge-base admin operations (API `/v1/admin/kb`). Online only, by design.
 abstract interface class KbAdminRepository {
   Future<List<CardOut>> cards({String? status});
@@ -35,22 +51,9 @@ class ApiKbAdminRepository implements KbAdminRepository {
   static T _ok<T>(Response<T> res) {
     final body = res.body;
     if (res.isSuccessful && body != null) return body;
-    throw KbAdminException(_message(res.error) ?? 'HTTP ${res.statusCode}');
-  }
-
-  static String? _message(Object? error) {
-    Object? decoded = error;
-    if (error is String) {
-      try {
-        decoded = jsonDecode(error);
-      } on FormatException {
-        return error;
-      }
-    }
-    if (decoded case {'error': {'message': final String message}}) {
-      return message;
-    }
-    return null;
+    throw KbAdminException(
+      adminErrorMessage(res.error) ?? 'HTTP ${res.statusCode}',
+    );
   }
 
   @override
