@@ -87,9 +87,11 @@ class Settings(BaseSettings):
     # Empty = all India (owner, 2026-10-26: prices from all major mandis in the country).
     market_state: str = ""
     market_max_pages: int = 20
-    # APMCs near the santra belt (SPEC_v1 §2), shown first; names as Agmarknet spells them.
+    # APMCs near the santra belt (SPEC_v1 §2), shown first. Matched as whole words in the
+    # Agmarknet mandi name; the Kalamna yard is Nagpur APMC and is printed "APMC Nagpur"
+    # (live pull 2026-11-07), so "Nagpur" is listed with it.
     market_local_markets: list[str] = Field(
-        default_factory=lambda: ["Kalamna", "Warud", "Katol", "Morshi", "Amravati"]
+        default_factory=lambda: ["Kalamna", "Nagpur", "Warud", "Katol", "Morshi", "Amravati"]
     )
     # Big terminal markets shown next (OPEN_QUESTIONS Q27: spellings to confirm on the first
     # live pull). Every other reporting mandi is still listed after these.
