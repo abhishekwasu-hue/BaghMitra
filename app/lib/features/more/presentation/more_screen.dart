@@ -170,6 +170,18 @@ class MoreScreen extends ConsumerWidget {
               Routes.marketLots,
             ),
             page(
+              'market-browse',
+              Icons.storefront_outlined,
+              t.mlBrowseTitle,
+              Routes.marketBrowse,
+            ),
+            page(
+              'market-my-offers',
+              Icons.handshake_outlined,
+              t.mlMyOffersTitle,
+              Routes.marketMyOffers,
+            ),
+            page(
               'export-info',
               Icons.flight_takeoff_outlined,
               t.exportInfoTitle,
