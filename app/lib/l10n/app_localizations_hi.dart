@@ -2533,6 +2533,28 @@ class AppLocalizationsHi extends AppLocalizations {
   String get directoryKindProcessor => 'प्रसंस्करण';
 
   @override
+  String get exportInfoTitle => 'निर्यात जानकारी';
+
+  @override
+  String get exportInfoNote =>
+      'जानकारी के लिए। निर्यात का सौदा आपके और निर्यातक के बीच।';
+
+  @override
+  String get exportSectionDestinations => 'फल कहाँ जाता है';
+
+  @override
+  String get exportSectionSeason => 'बहार और निर्यात (निर्यातक के अनुसार)';
+
+  @override
+  String get exportSectionSpecs => 'ख़रीदारों की माँग (बताए अनुसार)';
+
+  @override
+  String get exportSectionRules => 'किसान पर लागू नियम';
+
+  @override
+  String get exportLinksTitle => 'आधिकारिक पेज';
+
+  @override
   String fairPriceMandi(Object date, Object market, Object price) {
     return '$market मंडी, $date: मॉडल भाव $price प्रति क्विंटल';
   }
