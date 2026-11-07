@@ -2959,6 +2959,178 @@ class AppLocalizationsEn extends AppLocalizations {
   String get nameScriptLater => 'Later';
 
   @override
+  String get adminMlQueue => 'Verification queue';
+
+  @override
+  String get adminMlTags => 'Rating tags';
+
+  @override
+  String get adminMlAll => 'All';
+
+  @override
+  String get adminMlBuyer => 'Trader';
+
+  @override
+  String get adminMlBroker => 'Broker';
+
+  @override
+  String get adminMlProvider => 'Service provider';
+
+  @override
+  String get adminMlQueueEmpty => 'Everyone is checked';
+
+  @override
+  String adminMlWaitingSince(String date) {
+    return 'Waiting since $date';
+  }
+
+  @override
+  String get adminMlFields => 'Submitted details';
+
+  @override
+  String get adminMlDocuments => 'Documents';
+
+  @override
+  String get adminMlNoDocuments => 'Documents appear here once sent';
+
+  @override
+  String adminMlDocument(int n) {
+    return 'Document $n';
+  }
+
+  @override
+  String get adminMlReject => 'Reject';
+
+  @override
+  String get adminMlRejectTitle => 'Reject with a reason';
+
+  @override
+  String get adminMlBadgeNote =>
+      'The verified badge shows only after approval; a later rejection removes it at once.';
+
+  @override
+  String get adminMlStatusPending => 'Waiting';
+
+  @override
+  String get adminMlStatusApproved => 'Verified';
+
+  @override
+  String get adminMlStatusRejected => 'Rejected';
+
+  @override
+  String adminMlCheckedBy(String who) {
+    return 'by $who';
+  }
+
+  @override
+  String get adminMlTagsEmpty => 'Rating tags appear here';
+
+  @override
+  String get adminMlTagsNote =>
+      'Drafts wait for a native-speaker check; only active tags reach the app.';
+
+  @override
+  String get adminMlTagDraft => 'Draft';
+
+  @override
+  String get adminMlTagActive => 'Active';
+
+  @override
+  String get adminMlTagRetired => 'Retired';
+
+  @override
+  String get adminMlPositive => 'Good';
+
+  @override
+  String get adminMlNegative => 'Problem';
+
+  @override
+  String get adminMlEditTag => 'Edit tag';
+
+  @override
+  String get adminMlLabelEn => 'English';
+
+  @override
+  String get adminMlLabelMr => 'Marathi';
+
+  @override
+  String get adminMlLabelHi => 'Hindi';
+
+  @override
+  String get adminMlYes => 'Yes';
+
+  @override
+  String get adminMlNo => 'No';
+
+  @override
+  String get adminMlFieldName => 'Name';
+
+  @override
+  String get adminMlFieldFirm => 'Firm';
+
+  @override
+  String get adminMlFieldPhone => 'Phone';
+
+  @override
+  String get adminMlFieldMarkets => 'Markets';
+
+  @override
+  String get adminMlFieldDistrict => 'District';
+
+  @override
+  String get adminMlFieldTaluka => 'Taluka';
+
+  @override
+  String get adminMlFieldVillage => 'Village';
+
+  @override
+  String get adminMlFieldCrops => 'Crops';
+
+  @override
+  String get adminMlFieldServiceAreas => 'Service area';
+
+  @override
+  String get adminMlFieldApmc => 'APMC licence no.';
+
+  @override
+  String get adminMlFieldGst => 'GST no.';
+
+  @override
+  String get adminMlFieldKind => 'Service';
+
+  @override
+  String get adminMlFieldCertValidUntil => 'Certificate valid until';
+
+  @override
+  String get adminMlFieldVehicles => 'Vehicle numbers';
+
+  @override
+  String get adminMlFieldCapacity => 'Capacity (t)';
+
+  @override
+  String get adminMlFieldRefrigerated => 'Refrigerated';
+
+  @override
+  String get adminMlFieldCarrierReg => 'Carrier registration no.';
+
+  @override
+  String get adminMlKindWeighbridge => 'Weighbridge';
+
+  @override
+  String get adminMlKindTransporter => 'Transporter';
+
+  @override
+  String get adminMlKindLabourGang => 'Labour gang';
+
+  @override
+  String get adminMlKindCrateSupplier => 'Crate supplier';
+
+  @override
+  String adminMlDocumentCount(int n) {
+    return 'Documents: $n';
+  }
+
+  @override
   String get mlRolesTitle => 'Choose your role';
 
   @override

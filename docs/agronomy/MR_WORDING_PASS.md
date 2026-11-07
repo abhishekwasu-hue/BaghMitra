@@ -153,3 +153,8 @@ are the legal point and are allow-listed in `positive_wording_test.dart`.
 | `mlTermsAgree` | मी वाचले व मान्य करतो | मैंने पढ़ा और मैं सहमत हूँ | gender-neutral form? |
 | `mlTermsGpsOnce` | नोंदणीच्या वेळी फसवणूक टाळण्यासाठी तुमचे ठिकाण (GPS) एकदाच घेतले जाईल. | … | — |
 | `mlGrievanceTimes` | तक्रारीची पोच 24 तासांत आणि निवारण 15 दिवसांत. | … | — |
+## Market linkage admin web (L0b, draft, for native review)
+Keys `adminMl*` in `app/lib/l10n/app_mr.arb` / `app_hi.arb`: तपासणी रांग, सेवा देणारे, दिलेली माहिती, कागदपत्रे,
+प्रतीक्षेत / तपासले / नाकारले, कारण देऊन नाकारा, रेटिंग टॅग (मसुदा / चालू / बंद), APMC परवाना क्र., प्रमाणपत्र वैध तारीख,
+वाहन क्रमांक, रेफ्रिजरेटेड वाहन, वाहतूकदार नोंदणी क्र., वजनकाटा, वाहतूकदार, मजूर टोळी, क्रेट पुरवठादार. Hindi: तहसील for
+taluka, धर्मकांटा for weighbridge.
