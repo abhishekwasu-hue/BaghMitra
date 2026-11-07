@@ -1,6 +1,7 @@
 # Progress
 
 ## Resume — market link (keep ≤ 10 lines)
+- **Fresh session: read `docs/HANDOVER_NOW.md` first** (in-flight audit PRs #230–#234, #231, billing branches, the owner's task verbatim).
 - Market link L0–L9 merged on main (spec `SPEC_market_linkage_addendum_v1.5.md`; build prompt `prompts/MARKET_LINKAGE_BUILD_PROMPT.md` with Addenda 1–6); Alembic migrations 0029–0035 (head `0035_season_package`).
 - Production flag `MARKET_LINK_ENABLED` stays **OFF** (legal gate, spec §5); app build flag `MARKET_LINK` off; season package switch OFF by default.
 - Open owner questions: Q99–Q115 in `OPEN_QUESTIONS.md` (defaults built).
