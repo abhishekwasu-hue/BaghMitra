@@ -103,6 +103,26 @@ depends on the structure — a CA must confirm before any fee is charged.
   e-auction, ₹11.76 lakh, e-payment through commission agents (Punekar News, 10 Aug 2025).
 - **AI grading from phone photos** exists commercially (Intello Labs, $5.9 M Series A).
 
+### 1.7 Third-party services (owner decision 2026-11-07: no capital, BagMitra only links) [S unless marked]
+- **Weighbridges** — Legal Metrology Act 2009 + state enforcement rules: weighing instruments used in
+  trade must be verified and stamped; the verification certificate of a weighbridge must be
+  displayed by the user; electronic / platform machines are valid one year, re-verification by
+  calendar quarter (Delhi Legal Metrology FAQ,
+  https://weightnmeasures.delhi.gov.in/sites/default/files/inline-files/w_m_manual_17-faqs.pdf).
+  Maharashtra's own validity period not read [UV].
+- **E-way bill** — fresh citrus (HSN 0805) is in the Rule 138(14) exempt list, so no e-way bill
+  for fresh santra (Tally summary, https://tallysolutions.com/gst/eway-bill-exemption-list/;
+  confirm against the state notification) [S].
+- **Transport liability** — Carriage by Road Act 2007: a common carrier (including booking agents
+  and brokers) needs registration; consignor gives a goods forwarding note, carrier a goods
+  receipt; liability for loss capped at 10× freight and not above declared value; transit period
+  plus 3 days (IES Arthapedia, https://ies.gov.in/arthapedia/concept/carriage-road-act-2007). If
+  BagMitra books trucks as an agent/broker it may itself fall in the definition [UV — lawyer].
+- **Grower acquisition precedent** — DeHaat began with field officers building trust in villages,
+  then local micro-entrepreneur centres: 168 centres / ~65,000 farmers in 2019, 11,000+ centres,
+  1.8 M+ farmers, 11,000+ institutional buyers now (NITI Frontier Tech,
+  https://frontiertech.niti.gov.in/story/dehaats-ai-enabled-agriculture-network-driving-market-access-and-efficiency-for-1-8-million-farmers/).
+
 ## 2. What the data does not show
 - Whether a pure listing / lead service (BagMitra never buys, never holds money) needs a s.5D
   licence or Market Committee permission under the new s.6(2A). Needs a written legal opinion.
