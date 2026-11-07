@@ -3148,6 +3148,56 @@ class AppLocalizationsEn extends AppLocalizations {
   String get adminMlKindCrateSupplier => 'Crate supplier';
 
   @override
+  String get adminMlChecks => 'Checks';
+
+  @override
+  String get adminMlChecksNote =>
+      'Open the official page, paste the number (it is copied), check by hand and record the result. A badge says only what was checked and when.';
+
+  @override
+  String get adminMlOpenPage => 'Open official page';
+
+  @override
+  String get adminMlCallNow => 'Call';
+
+  @override
+  String get adminMlRecordResult => 'Record result';
+
+  @override
+  String adminMlNumberCopied(String number) {
+    return 'Number copied: $number';
+  }
+
+  @override
+  String get adminMlResultPassed => 'Passed';
+
+  @override
+  String get adminMlResultFailed => 'Failed';
+
+  @override
+  String get adminMlResultCancelled => 'Cancelled / deactivated';
+
+  @override
+  String get adminMlRegisteredYear => 'GST registration year (optional)';
+
+  @override
+  String get adminMlNoChecks => 'Checks you record show here';
+
+  @override
+  String get adminMlCheckApmc => 'APMC licence';
+
+  @override
+  String get adminMlCheckPhoneCall => 'Phone call';
+
+  @override
+  String get adminMlCheckPlacePhoto => 'Place photo';
+
+  @override
+  String adminMlRegisteredSince(String year) {
+    return 'registered $year';
+  }
+
+  @override
   String adminMlDocumentCount(int n) {
     return 'Documents: $n';
   }

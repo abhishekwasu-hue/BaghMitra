@@ -5482,6 +5482,96 @@ abstract class AppLocalizations {
   /// **'Crate supplier'**
   String get adminMlKindCrateSupplier;
 
+  /// No description provided for @adminMlChecks.
+  ///
+  /// In en, this message translates to:
+  /// **'Checks'**
+  String get adminMlChecks;
+
+  /// No description provided for @adminMlChecksNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Open the official page, paste the number (it is copied), check by hand and record the result. A badge says only what was checked and when.'**
+  String get adminMlChecksNote;
+
+  /// No description provided for @adminMlOpenPage.
+  ///
+  /// In en, this message translates to:
+  /// **'Open official page'**
+  String get adminMlOpenPage;
+
+  /// No description provided for @adminMlCallNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Call'**
+  String get adminMlCallNow;
+
+  /// No description provided for @adminMlRecordResult.
+  ///
+  /// In en, this message translates to:
+  /// **'Record result'**
+  String get adminMlRecordResult;
+
+  /// No description provided for @adminMlNumberCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Number copied: {number}'**
+  String adminMlNumberCopied(String number);
+
+  /// No description provided for @adminMlResultPassed.
+  ///
+  /// In en, this message translates to:
+  /// **'Passed'**
+  String get adminMlResultPassed;
+
+  /// No description provided for @adminMlResultFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed'**
+  String get adminMlResultFailed;
+
+  /// No description provided for @adminMlResultCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled / deactivated'**
+  String get adminMlResultCancelled;
+
+  /// No description provided for @adminMlRegisteredYear.
+  ///
+  /// In en, this message translates to:
+  /// **'GST registration year (optional)'**
+  String get adminMlRegisteredYear;
+
+  /// No description provided for @adminMlNoChecks.
+  ///
+  /// In en, this message translates to:
+  /// **'Checks you record show here'**
+  String get adminMlNoChecks;
+
+  /// No description provided for @adminMlCheckApmc.
+  ///
+  /// In en, this message translates to:
+  /// **'APMC licence'**
+  String get adminMlCheckApmc;
+
+  /// No description provided for @adminMlCheckPhoneCall.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone call'**
+  String get adminMlCheckPhoneCall;
+
+  /// No description provided for @adminMlCheckPlacePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Place photo'**
+  String get adminMlCheckPlacePhoto;
+
+  /// No description provided for @adminMlRegisteredSince.
+  ///
+  /// In en, this message translates to:
+  /// **'registered {year}'**
+  String adminMlRegisteredSince(String year);
+
   /// No description provided for @adminMlDocumentCount.
   ///
   /// In en, this message translates to:
