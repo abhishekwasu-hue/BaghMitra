@@ -946,5 +946,7 @@
   "mlPublishOrchardCheck": "माल नोंदवला; फोटो नोंदवलेल्या बागेच्या हद्दीबाहेर काढले आहेत, म्हणून तपासणीनंतर व्यापाऱ्यांना दिसेल.",
   "mlSize": "आकार",
   "mlGrade": "दर्जा",
-  "mlQualityLine": "थोडक्यात माहिती (ऐच्छिक)"
+  "mlQualityLine": "थोडक्यात माहिती (ऐच्छिक)",
+  "mlPackageActiveUntil": "पॅकेज {date} पर्यंत चालू",
+  "mlPackageNotActive": "पॅकेज चालू नाही"
 }

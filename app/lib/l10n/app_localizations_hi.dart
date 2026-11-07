@@ -3322,4 +3322,12 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get mlQualityLine => 'छोटी जानकारी (वैकल्पिक)';
+
+  @override
+  String mlPackageActiveUntil(String date) {
+    return 'पैकेज $date तक चालू';
+  }
+
+  @override
+  String get mlPackageNotActive => 'पैकेज चालू नहीं';
 }

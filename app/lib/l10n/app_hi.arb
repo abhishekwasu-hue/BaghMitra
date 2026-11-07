@@ -946,5 +946,7 @@
   "mlPublishOrchardCheck": "माल दर्ज हुआ; फ़ोटो नक्शे वाले बाग के बाहर ली गईं, इसलिए जाँच के बाद व्यापारियों को दिखेगा।",
   "mlSize": "आकार",
   "mlGrade": "ग्रेड",
-  "mlQualityLine": "छोटी जानकारी (वैकल्पिक)"
+  "mlQualityLine": "छोटी जानकारी (वैकल्पिक)",
+  "mlPackageActiveUntil": "पैकेज {date} तक चालू",
+  "mlPackageNotActive": "पैकेज चालू नहीं"
 }

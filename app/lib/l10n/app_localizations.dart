@@ -5787,6 +5787,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'A short line (optional)'**
   String get mlQualityLine;
+
+  /// Season sale package chip on a published lot (spec v1.5 §4E). Dates only: never a price, amount, UPI, QR or pay text.
+  ///
+  /// In en, this message translates to:
+  /// **'Package active until {date}'**
+  String mlPackageActiveUntil(String date);
+
+  /// No description provided for @mlPackageNotActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Package not active'**
+  String get mlPackageNotActive;
 }
 
 class _AppLocalizationsDelegate

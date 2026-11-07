@@ -30,6 +30,8 @@ const allowNegative = {
   // Market linkage disclaimer (decision k): "BagMitra is not a buyer, seller, ..." is the
   // statement the owner asked for.
   'mlDisclaimerShort',
+  // Spec v1.5 §4E names this exact status: "Package active until <date>" or "Not active".
+  'mlPackageNotActive',
 };
 
 final _negative = <String, RegExp>{

@@ -3320,4 +3320,12 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get mlQualityLine => 'थोडक्यात माहिती (ऐच्छिक)';
+
+  @override
+  String mlPackageActiveUntil(String date) {
+    return 'पॅकेज $date पर्यंत चालू';
+  }
+
+  @override
+  String get mlPackageNotActive => 'पॅकेज चालू नाही';
 }

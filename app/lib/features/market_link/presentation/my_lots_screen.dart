@@ -18,6 +18,7 @@ import '../domain/market_lot.dart';
 import 'lot_photo_strip.dart';
 import 'lot_widgets.dart';
 import 'market_link_entry.dart';
+import 'package_chip.dart';
 
 /// The grower's lots for sale, newest first, with the sync strip when something is not
 /// sent and the short disclaimer (decision k). One main action: show a new lot.
@@ -146,6 +147,7 @@ class LotCard extends ConsumerWidget {
               ),
               if (rate != null)
                 Text(rateLabel(t, lot.basis, rate, lang), style: BmType.body),
+              if (lot.status == 'published') PackageChip(lot.id),
               if (photos.isNotEmpty) ...[
                 const SizedBox(height: BmSpace.xs),
                 LotPhotoStrip(photos: photos.take(4).toList(), size: 56),

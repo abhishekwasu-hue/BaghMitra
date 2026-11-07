@@ -1337,5 +1337,11 @@
   "mlPublishOrchardCheck": "Published; traders see it after a check, because the photos were taken outside your mapped orchard.",
   "mlSize": "Size",
   "mlGrade": "Grade",
-  "mlQualityLine": "A short line (optional)"
+  "mlQualityLine": "A short line (optional)",
+  "mlPackageActiveUntil": "Package active until {date}",
+  "@mlPackageActiveUntil": {
+    "description": "Season sale package chip on a published lot (spec v1.5 §4E). Dates only: never a price, amount, UPI, QR or pay text.",
+    "placeholders": {"date": {"type": "String"}}
+  },
+  "mlPackageNotActive": "Package not active"
 }

@@ -12,6 +12,7 @@ import 'package:bagmitra/api/generated/bagmitra.swagger.dart'
 import 'package:bagmitra/data/local/database.dart';
 import 'package:bagmitra/features/market/data/market_prices_cache.dart';
 import 'package:bagmitra/features/market_link/data/market_lot_repository.dart';
+import 'package:bagmitra/features/market_link/data/package_status.dart';
 import 'package:bagmitra/features/market_link/domain/market_lot.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -19,6 +20,7 @@ import 'package:flutter_test/flutter_test.dart';
 import '../features/bahar/bahar_screen_test.dart' show seedPlot;
 import '../features/market_link/lot_form_test.dart' show mlConfig;
 import '../features/market_link/market_lot_repository_test.dart' show sampleLot;
+import '../features/market_link/package_chip_test.dart' show FixedPackageStatus;
 import '../features/plots/plots_screen_test.dart' show settle;
 import '../helpers/pump_app.dart';
 
@@ -133,5 +135,48 @@ void main() {
         await unmountApp(tester);
       });
     }
+  }
+
+  // Season sale package chip (L9b, spec v1.5 §4E): an active and a not-active lot.
+  for (final mode in [ThemeMode.light, ThemeMode.dark]) {
+    testWidgets('l9_package_chip_mr_${mode.name}', (tester) async {
+      tester.platformDispatcher.textScaleFactorTestValue = 1.3;
+      addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+      await pumpApp(
+        tester,
+        config: mlConfig,
+        themeMode: mode,
+        initialLocation: '/market-link/lots',
+        seed: (db) async {
+          await _seedLots(db);
+          await MarketLotRepository(db).save(sampleLot(id: 'l3'));
+          await MarketLotRepository(db).keepServerState(
+            'l3',
+            status: 'published',
+            publishedAt: DateTime.utc(2026, 10, 13),
+            orchardCheck: 'inside',
+          );
+        },
+        size: _phone,
+        overrides: [
+          packageStatusSourceProvider.overrideWithValue(
+            FixedPackageStatus(
+              PackageStatus(
+                switchOn: true,
+                covers: {'l2': DateTime.utc(2026, 12, 31, 6)},
+              ),
+            ),
+          ),
+        ],
+      );
+      await settle(tester);
+      await _images(tester);
+      expect(tester.takeException(), isNull);
+      await expectLater(
+        find.byType(MaterialApp),
+        matchesGoldenFile('l9_package_chip_mr_${mode.name}.png'),
+      );
+      await unmountApp(tester);
+    });
   }
 }

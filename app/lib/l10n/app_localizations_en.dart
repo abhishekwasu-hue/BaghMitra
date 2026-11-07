@@ -3327,4 +3327,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mlQualityLine => 'A short line (optional)';
+
+  @override
+  String mlPackageActiveUntil(String date) {
+    return 'Package active until $date';
+  }
+
+  @override
+  String get mlPackageNotActive => 'Package not active';
 }
