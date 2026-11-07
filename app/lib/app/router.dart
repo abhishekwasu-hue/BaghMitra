@@ -32,6 +32,8 @@ import '../features/lab_tests/presentation/lab_test_screens.dart';
 import '../features/labels/presentation/label_info_screen.dart';
 import '../features/lookalikes/presentation/lookalikes_screen.dart';
 import '../features/market/presentation/market_prices_screen.dart';
+import '../features/market_link/domain/market_link.dart';
+import '../features/market_link/presentation/terms_acceptance_screen.dart';
 import '../features/more/presentation/more_screen.dart';
 import '../features/plots/presentation/add_plot_screen.dart';
 import '../features/plots/presentation/boundary_screen.dart';
@@ -101,6 +103,11 @@ abstract final class Routes {
   static const labs = '/labs';
   static const marketDirectory = '/market/directory';
   static const exportInfo = '/market/export';
+
+  /// Market link (flag MARKET_LINK only): the terms screen pushed by
+  /// `ensureMarketRoleAccepted` (it returns true when accepted).
+  static const roles = '/roles';
+  static String roleTerms(MarketRole role) => '$roles/${role.name}/terms';
   static const plots = '/plots';
   static const addPlot = '/plots/new';
   static const walkBoundary = '/plots/new/boundary';
@@ -195,6 +202,9 @@ GoRouter buildRouter(
         return Routes.walkthrough;
       }
       if (onWalkthrough) return null;
+      // Market link (spec v1.5 §2.1): without the flag no role screen exists.
+      final onRoles = loc.startsWith(Routes.roles);
+      if (onRoles && !config.marketLink) return Routes.home;
       if (!signedIn && !onLogin) return Routes.login;
       // Another account's records on the phone (Q36): warn (or block) before anything of
       // them shows. Unknown (still checking) waits where it is, so a sign-in stays on the
@@ -469,6 +479,11 @@ GoRouter buildRouter(
         path: Routes.onboarding,
         builder: (_, _) => const OnboardingScreen(),
       ),
+      GoRoute(
+        path: '${Routes.roles}/:role/terms',
+        redirect: (_, s) => _role(s) == null ? Routes.home : null,
+        builder: (_, s) => TermsAcceptanceScreen(role: _role(s)!),
+      ),
       GoRoute(path: Routes.login, builder: (_, _) => const PhoneLoginScreen()),
       GoRoute(
         path: Routes.otp,
@@ -482,3 +497,6 @@ GoRouter buildRouter(
     ],
   );
 }
+
+MarketRole? _role(GoRouterState s) =>
+    MarketRole.fromName(s.pathParameters['role']);

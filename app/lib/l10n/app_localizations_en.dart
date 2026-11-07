@@ -3213,4 +3213,119 @@ class AppLocalizationsEn extends AppLocalizations {
   String adminMlDocumentCount(int n) {
     return 'Documents: $n';
   }
+
+  @override
+  String get mlRolesTitle => 'Choose your role';
+
+  @override
+  String get mlRolesIntro =>
+      'One sign-in for every role. You can switch the role any time.';
+
+  @override
+  String get mlRoleGrower => 'Grower';
+
+  @override
+  String get mlRoleTrader => 'Trader';
+
+  @override
+  String get mlRoleBroker => 'Broker';
+
+  @override
+  String get mlRoleExporter => 'Exporter';
+
+  @override
+  String get mlRoleProvider => 'Service provider';
+
+  @override
+  String get mlRoleProviderKinds => 'Weighbridge, transport, labour, crates';
+
+  @override
+  String get mlRoleCurrent => 'Current role';
+
+  @override
+  String get mlSwitchRole => 'Switch role';
+
+  @override
+  String get mlHomeLinkTitle => 'Market link';
+
+  @override
+  String get mlHomeLinkHint =>
+      'Trader, broker, exporter, services: choose a role';
+
+  @override
+  String get mlTermsTitle => 'Before you start';
+
+  @override
+  String mlTermsRole(String role) {
+    return 'Role: $role';
+  }
+
+  @override
+  String get mlTermsIntroOnly =>
+      'BagMitra only gives information and introduces you to traders, brokers and the market.';
+
+  @override
+  String get mlTermsNotParty =>
+      'BagMitra is not a buyer, seller, commission agent or transporter.';
+
+  @override
+  String get mlTermsNoMoney =>
+      'It holds no money and guarantees no payment or quality.';
+
+  @override
+  String get mlTermsNoGainLoss =>
+      'This app has no gain or loss in your transaction.';
+
+  @override
+  String get mlTermsNoPart =>
+      'It takes no part in your transaction or in any dispute.';
+
+  @override
+  String get mlTermsAfterDeal =>
+      'What to record after a transaction is your choice.';
+
+  @override
+  String get mlTermsPublicPhone =>
+      'Your phone number is shown publicly on your profile, so growers can call you directly.';
+
+  @override
+  String get mlTermsGpsOnce =>
+      'Your location (GPS) is taken once, at registration, to prevent fraud.';
+
+  @override
+  String get mlTermsFull => 'Full terms of use';
+
+  @override
+  String get mlTermsAdult => 'I am over 18 years of age';
+
+  @override
+  String get mlTermsAgree => 'I have read and agree';
+
+  @override
+  String get mlTermsAccept => 'Accept and continue';
+
+  @override
+  String get mlTermsBack => 'Back';
+
+  @override
+  String get mlRoleHomeSoon => 'The tools for this role will appear here soon.';
+
+  @override
+  String get mlSafetyNotice =>
+      'BagMitra never asks for money, OTP or bank details.';
+
+  @override
+  String get mlGrievanceTitle => 'Grievance officer';
+
+  @override
+  String get mlGrievanceOwner => 'BagMitra owner';
+
+  @override
+  String mlGrievanceContact(String contact) {
+    return 'Contact: $contact';
+  }
+
+  @override
+  String get mlGrievanceTimes =>
+      'Complaints are acknowledged within 24 hours and resolved within 15 days.';
 }
