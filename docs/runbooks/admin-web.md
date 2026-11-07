@@ -64,7 +64,7 @@ Migration: नाही. मागे जाणे: `bash deploy/deploy.sh --rev
 `python -m bagmitra_api.auth.grant_roles` (`api/src/bagmitra_api/auth/grant_roles.py`):
 - `--email` (आवश्यक), `--supabase-url` (किंवा `SUPABASE_URL` env), `--roles` (comma ने;
   default `feed_admin,market_admin,kb_admin`; फक्त API ओळखते ते: `billing_admin`, `feed_admin`,
-  `kb_admin`, `kb_reviewer`, `market_admin`), `--dry-run` (फक्त बदल दाखवते).
+  `kb_admin`, `kb_reviewer`, `market_admin`, `market_link_admin`), `--dry-run` (फक्त बदल दाखवते).
 - key फक्त `SUPABASE_SERVICE_ROLE_KEY` env मधून (argument नाही). जुनी JWT `service_role` key
   आणि नवी `sb_secret_...` key दोन्ही पाठवण्याची सोय आहे; खऱ्या Supabase वर हे फक्त वरील block
   ने तपासले जाईल (repo च्या tests मध्ये mocked HTTP).
@@ -87,6 +87,7 @@ Migration: नाही. मागे जाणे: `bash deploy/deploy.sh --rev
 | `kb_reviewer` | KB कार्डचे तज्ज्ञ परीक्षण. सोबत `app_metadata.reviewer_role` = `agronomist`, `plant_pathologist` किंवा `entomologist` हवे; ते नसेल तर review ला `403` (हे script देत नाही: supabase-setup.md मधील `PUT /auth/v1/admin/users/<id>` पद्धत) |
 | `market_admin` | Agmarknet वर नसलेला बाजारभाव हाताने भरणे (`market-prices.md`) |
 | `billing_admin` | प्लॅन व सदस्यता (billing) पाहणे, प्लॅन बदलणे, खात्याला सुविधा देणे / परत घेणे (grants) |
+| `market_link_admin` | बाजार जोडणी (market linkage): व्यापारी / दलाल / सेवा देणाऱ्यांची तपासणी रांग (approve, कारणासह reject; कोणी व केव्हा नोंदते) आणि rating tags (मजकूर, draft / active). `MARKET_LINK_ENABLED` बंद असताना हे पान व API दिसत नाहीत (404) |
 
 **देणे.** §४ चा block, फक्त `--roles` बदलून (उदा. `--roles market_admin`). आधीचे roles तसेच राहतात.
 

@@ -32,6 +32,20 @@ enum ChangeOp {
   const ChangeOp(this.value);
 }
 
+enum DecisionInStatus {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('approved')
+  approved('approved'),
+  @JsonValue('rejected')
+  rejected('rejected');
+
+  final String? value;
+
+  const DecisionInStatus(this.value);
+}
+
 enum DeviceInPlatform {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
@@ -204,6 +218,22 @@ enum PlanInKind {
   const PlanInKind(this.value);
 }
 
+enum RatingTagInStatus {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('draft')
+  draft('draft'),
+  @JsonValue('active')
+  active('active'),
+  @JsonValue('retired')
+  retired('retired');
+
+  final String? value;
+
+  const RatingTagInStatus(this.value);
+}
+
 enum ReviewInDecision {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
@@ -266,6 +296,60 @@ enum V1AdminKbImportsKindPostKind {
   final String? value;
 
   const V1AdminKbImportsKindPostKind(this.value);
+}
+
+enum V1AdminMarketLinkVerificationsSubjectTypeSubjectIdGetSubjectType {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('buyer')
+  buyer('buyer'),
+  @JsonValue('broker')
+  broker('broker'),
+  @JsonValue('provider')
+  provider('provider');
+
+  final String? value;
+
+  const V1AdminMarketLinkVerificationsSubjectTypeSubjectIdGetSubjectType(
+    this.value,
+  );
+}
+
+enum V1AdminMarketLinkVerificationsSubjectTypeSubjectIdDecisionPostSubjectType {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('buyer')
+  buyer('buyer'),
+  @JsonValue('broker')
+  broker('broker'),
+  @JsonValue('provider')
+  provider('provider');
+
+  final String? value;
+
+  const V1AdminMarketLinkVerificationsSubjectTypeSubjectIdDecisionPostSubjectType(
+    this.value,
+  );
+}
+
+enum V1AdminMarketLinkVerificationsSubjectTypeSubjectIdDocumentsIndexUrlGetSubjectType {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('buyer')
+  buyer('buyer'),
+  @JsonValue('broker')
+  broker('broker'),
+  @JsonValue('provider')
+  provider('provider');
+
+  final String? value;
+
+  const V1AdminMarketLinkVerificationsSubjectTypeSubjectIdDocumentsIndexUrlGetSubjectType(
+    this.value,
+  );
 }
 
 enum V1FeedGetLang {

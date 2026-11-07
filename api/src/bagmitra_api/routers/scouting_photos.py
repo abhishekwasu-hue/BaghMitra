@@ -163,11 +163,17 @@ async def get_photo_url(
     Only the key derived from the caller and the record is ever signed (S-03): the stored
     `photo_key` is just the flag that a photo exists, and one that does not match the derived
     key (written around the sync check) is treated as no photo."""
-    configured = _configured(ctx.storage)
+    _configured(ctx.storage)
     record = await _own_record(session, user, record_id)
     key = photo_key_for(user.id, record.id)
     if not record.photo_key or record.photo_key != key:
         raise ApiError(404, "photo_not_found")
+    return await signed_download(ctx, key)
+
+
+async def signed_download(ctx: PhotoContext, key: str) -> PhotoDownloadUrl:
+    """Signs a download URL for a key the caller has already checked is on record."""
+    configured = _configured(ctx.storage)
     expires = ctx.settings.photo_download_expiry_seconds
     try:
         signed = await configured.signed_download_url(key, expires)

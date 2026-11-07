@@ -945,6 +945,236 @@ is the raw file; only its hash, size and time are kept.''',
     ),
   });
 
+  ///Rating Tags
+  Future<chopper.Response<RatingTagsAdminResponse>>
+  v1AdminMarketLinkRatingTagsGet() {
+    generatedMapping.putIfAbsent(
+      RatingTagsAdminResponse,
+      () => RatingTagsAdminResponse.fromJsonFactory,
+    );
+
+    return _v1AdminMarketLinkRatingTagsGet();
+  }
+
+  ///Rating Tags
+  @GET(path: '/v1/admin/market-link/rating-tags')
+  Future<chopper.Response<RatingTagsAdminResponse>>
+  _v1AdminMarketLinkRatingTagsGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Every tag, drafts and retired ones included.',
+      summary: 'Rating Tags',
+      operationId: 'admin_market_link_rating_tags',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Update Rating Tag
+  ///@param tag_id
+  Future<chopper.Response<RatingTagAdminOut>>
+  v1AdminMarketLinkRatingTagsTagIdPut({
+    required String? tagId,
+    required RatingTagIn? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      RatingTagAdminOut,
+      () => RatingTagAdminOut.fromJsonFactory,
+    );
+
+    return _v1AdminMarketLinkRatingTagsTagIdPut(tagId: tagId, body: body);
+  }
+
+  ///Update Rating Tag
+  ///@param tag_id
+  @PUT(path: '/v1/admin/market-link/rating-tags/{tag_id}', optionalBody: true)
+  Future<chopper.Response<RatingTagAdminOut>>
+  _v1AdminMarketLinkRatingTagsTagIdPut({
+    @Path('tag_id') required String? tagId,
+    @Body() required RatingTagIn? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Edit the three labels and set draft / active / retired (spec §3A: admin only).',
+      summary: 'Update Rating Tag',
+      operationId: 'admin_market_link_rating_tag_update',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Queue
+  ///@param subject_type
+  Future<chopper.Response<QueueResponse>> v1AdminMarketLinkVerificationsGet({
+    String? subjectType,
+  }) {
+    generatedMapping.putIfAbsent(
+      QueueResponse,
+      () => QueueResponse.fromJsonFactory,
+    );
+
+    return _v1AdminMarketLinkVerificationsGet(subjectType: subjectType);
+  }
+
+  ///Queue
+  ///@param subject_type
+  @GET(path: '/v1/admin/market-link/verifications')
+  Future<chopper.Response<QueueResponse>> _v1AdminMarketLinkVerificationsGet({
+    @Query('subject_type') String? subjectType,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Subjects waiting for a check (latest record pending, or none yet), oldest first.',
+      summary: 'Queue',
+      operationId: 'admin_market_link_queue',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Subject History
+  ///@param subject_type
+  ///@param subject_id
+  Future<chopper.Response<SubjectDetailOut>>
+  v1AdminMarketLinkVerificationsSubjectTypeSubjectIdGet({
+    required enums.V1AdminMarketLinkVerificationsSubjectTypeSubjectIdGetSubjectType?
+    subjectType,
+    required String? subjectId,
+  }) {
+    generatedMapping.putIfAbsent(
+      SubjectDetailOut,
+      () => SubjectDetailOut.fromJsonFactory,
+    );
+
+    return _v1AdminMarketLinkVerificationsSubjectTypeSubjectIdGet(
+      subjectType: subjectType?.value?.toString(),
+      subjectId: subjectId,
+    );
+  }
+
+  ///Subject History
+  ///@param subject_type
+  ///@param subject_id
+  @GET(path: '/v1/admin/market-link/verifications/{subject_type}/{subject_id}')
+  Future<chopper.Response<SubjectDetailOut>>
+  _v1AdminMarketLinkVerificationsSubjectTypeSubjectIdGet({
+    @Path('subject_type') required String? subjectType,
+    @Path('subject_id') required String? subjectId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'The subject\'s submitted fields, documents and every verification record.',
+      summary: 'Subject History',
+      operationId: 'admin_market_link_subject',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Decide
+  ///@param subject_type
+  ///@param subject_id
+  Future<chopper.Response<SubjectDetailOut>>
+  v1AdminMarketLinkVerificationsSubjectTypeSubjectIdDecisionPost({
+    required enums.V1AdminMarketLinkVerificationsSubjectTypeSubjectIdDecisionPostSubjectType?
+    subjectType,
+    required String? subjectId,
+    required DecisionIn? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      SubjectDetailOut,
+      () => SubjectDetailOut.fromJsonFactory,
+    );
+
+    return _v1AdminMarketLinkVerificationsSubjectTypeSubjectIdDecisionPost(
+      subjectType: subjectType?.value?.toString(),
+      subjectId: subjectId,
+      body: body,
+    );
+  }
+
+  ///Decide
+  ///@param subject_type
+  ///@param subject_id
+  @POST(
+    path: '/v1/admin/market-link/verifications/{subject_type}/{subject_id}/decision',
+    optionalBody: true,
+  )
+  Future<chopper.Response<SubjectDetailOut>>
+  _v1AdminMarketLinkVerificationsSubjectTypeSubjectIdDecisionPost({
+    @Path('subject_type') required String? subjectType,
+    @Path('subject_id') required String? subjectId,
+    @Body() required DecisionIn? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Approve, or reject with a reason: always a new record with who and when (Q70).',
+      summary: 'Decide',
+      operationId: 'admin_market_link_decide',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Document Url
+  ///@param subject_type
+  ///@param subject_id
+  ///@param index
+  Future<chopper.Response<PhotoDownloadUrl>>
+  v1AdminMarketLinkVerificationsSubjectTypeSubjectIdDocumentsIndexUrlGet({
+    required enums.V1AdminMarketLinkVerificationsSubjectTypeSubjectIdDocumentsIndexUrlGetSubjectType?
+    subjectType,
+    required String? subjectId,
+    required int? index,
+  }) {
+    generatedMapping.putIfAbsent(
+      PhotoDownloadUrl,
+      () => PhotoDownloadUrl.fromJsonFactory,
+    );
+
+    return _v1AdminMarketLinkVerificationsSubjectTypeSubjectIdDocumentsIndexUrlGet(
+      subjectType: subjectType?.value?.toString(),
+      subjectId: subjectId,
+      index: index,
+    );
+  }
+
+  ///Document Url
+  ///@param subject_type
+  ///@param subject_id
+  ///@param index
+  @GET(
+    path: '/v1/admin/market-link/verifications/{subject_type}/{subject_id}/documents/{index}/url',
+  )
+  Future<chopper.Response<PhotoDownloadUrl>>
+  _v1AdminMarketLinkVerificationsSubjectTypeSubjectIdDocumentsIndexUrlGet({
+    @Path('subject_type') required String? subjectType,
+    @Path('subject_id') required String? subjectId,
+    @Path('index') required int? index,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'A short-lived signed URL for one stored document; only keys on record are signed.',
+      summary: 'Document Url',
+      operationId: 'admin_market_link_document_url',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
   ///Upload Prices
   Future<chopper.Response<ManualPricesOut>> v1AdminMarketPricesPost({
     required ManualPricesIn? body,
