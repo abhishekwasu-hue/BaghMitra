@@ -1,0 +1,220 @@
+{
+  "_note": "Export information per crop (spec v1.5 §4A, information only: BagMitra takes no part in any trade). Every fact is from docs/research/MARKET_LINKAGE_RESEARCH.md §4 and names its source and the day it was read. Never UN Comtrade data or numbers derived from it (licence bars commercial reuse), so no value shares are shown (Q95). No prices are stored: Kalimati is a link-out until its reuse terms are recorded (QG1 pattern). Official links were opened and checked on 'checked'. Status draft: native-speaker review of mr / hi (MR_WORDING_PASS.md).",
+  "status": "draft",
+  "sources": {
+    "freshplaza_2025_12_08": {
+      "title": "FreshPlaza, 8 Dec 2025: Indian orange exports, exporter view (Moghesia Global Venture)",
+      "publisher": "FreshPlaza"
+    },
+    "freshplaza_2026_10_16": {
+      "title": "FreshPlaza, 16 Oct 2026: Bangladesh orange imports, quoting the Bangladesh Fresh Fruits Importers Association",
+      "publisher": "FreshPlaza"
+    },
+    "freshplaza_dubai_2020": {
+      "title": "FreshPlaza: first Nagpur orange consignment to Dubai (13 Feb 2020)",
+      "publisher": "FreshPlaza"
+    },
+    "apeda_hortinet": {
+      "title": "APEDA: HortiNet traceability",
+      "publisher": "APEDA",
+      "url": "https://apeda.gov.in/hortinet-static"
+    },
+    "apeda_packhouse": {
+      "title": "APEDA note on pack houses",
+      "publisher": "APEDA"
+    }
+  },
+  "sections": ["destinations", "season", "specs", "rules"],
+  "crops": {
+    "santra": [
+      {
+        "id": "dest_main",
+        "section": "destinations",
+        "text": {
+          "en": "Bangladesh buys the most; Nepal is second; Gulf countries also buy.",
+          "mr": "बांगलादेश सर्वाधिक खरेदी करतो; नेपाळ दुसरा; आखाती देशही खरेदी करतात.",
+          "hi": "बांग्लादेश सबसे ज़्यादा ख़रीदता है; नेपाल दूसरा; खाड़ी देश भी ख़रीदते हैं।"
+        },
+        "source": "freshplaza_2025_12_08",
+        "read": "2026-11-07"
+      },
+      {
+        "id": "dest_bd_duty",
+        "section": "destinations",
+        "text": {
+          "en": "121.78 %: Bangladesh's total import duty on oranges.",
+          "mr": "१२१.७८ %: बांगलादेशचे संत्र्यावरील एकूण आयात शुल्क.",
+          "hi": "१२१.७८ %: बांग्लादेश का संतरे पर कुल आयात शुल्क।"
+        },
+        "source": "freshplaza_2026_10_16",
+        "read": "2026-11-07"
+      },
+      {
+        "id": "dest_dubai_2020",
+        "section": "destinations",
+        "text": {
+          "en": "1,500 crates of 10 kg: the first Nagpur orange consignment to Dubai (13 Feb 2020), bought from Warud growers, graded at the APEDA-funded VHT facility, Vashi, sent in a refrigerated container.",
+          "mr": "१० किलोचे १,५०० क्रेट: दुबईला गेलेली पहिली नागपूर संत्रा खेप (१३ फेब्रु. २०२०), वरूडच्या शेतकऱ्यांकडून घेतलेली, वाशी येथील अपेडा-अर्थसहाय्यित VHT केंद्रात प्रतवारी, शीतकरण कंटेनरमधून पाठवली.",
+          "hi": "१० किलो के १,५०० क्रेट: दुबई गई पहली नागपुर संतरा खेप (१३ फ़रवरी २०२०), वरुड के किसानों से ख़रीदी, वाशी के एपीडा-वित्तपोषित VHT केंद्र में ग्रेडिंग, रेफ़्रिजरेटेड कंटेनर से भेजी।"
+        },
+        "source": "freshplaza_dubai_2020",
+        "read": "2026-11-07"
+      },
+      {
+        "id": "dest_competitors",
+        "section": "destinations",
+        "text": {
+          "en": "Competing suppliers named by the exporter: South Africa, Egypt, Bhutan.",
+          "mr": "निर्यातदाराने सांगितलेले स्पर्धक देश: दक्षिण आफ्रिका, इजिप्त, भूतान.",
+          "hi": "निर्यातक के बताए प्रतिस्पर्धी देश: दक्षिण अफ़्रीका, मिस्र, भूटान।"
+        },
+        "source": "freshplaza_2025_12_08",
+        "read": "2026-11-07"
+      },
+      {
+        "id": "season_ambia",
+        "section": "season",
+        "text": {
+          "en": "Ambia (mid-Sep to Dec): perishable; suits quick fresh sale rather than cold storage.",
+          "mr": "आंबिया (मध्य सप्टेंबर–डिसेंबर): फळ लवकर खराब होते; शीतगृहापेक्षा लगेच ताज्या विक्रीला योग्य.",
+          "hi": "आंबिया (मध्य सितंबर–दिसंबर): फल जल्दी ख़राब होता है; कोल्ड स्टोरेज के बजाय तुरंत ताज़ी बिक्री के लिए ठीक।"
+        },
+        "source": "freshplaza_2025_12_08",
+        "read": "2026-11-07"
+      },
+      {
+        "id": "season_mrig",
+        "section": "season",
+        "text": {
+          "en": "Mrig (end Jan to mid Apr): sweeter; suits long-distance shipping and cold storage.",
+          "mr": "मृग (जानेवारी अखेर–मध्य एप्रिल): अधिक गोड; लांबच्या पाठवणीला व शीतगृहाला योग्य.",
+          "hi": "मृग (जनवरी अंत–मध्य अप्रैल): ज़्यादा मीठा; लंबी दूरी और कोल्ड स्टोरेज के लिए ठीक।"
+        },
+        "source": "freshplaza_2025_12_08",
+        "read": "2026-11-07"
+      },
+      {
+        "id": "spec_size",
+        "section": "specs",
+        "text": {
+          "en": "150–225 g per fruit, shiny, uniform skin.",
+          "mr": "प्रति फळ १५०–२२५ ग्रॅम, चमकदार, एकसारखी साल.",
+          "hi": "प्रति फल १५०–२२५ ग्राम, चमकदार, एक जैसा छिलका।"
+        },
+        "source": "freshplaza_2025_12_08",
+        "read": "2026-11-07"
+      },
+      {
+        "id": "spec_gulf",
+        "section": "specs",
+        "text": {
+          "en": "Gulf buyers: uniform size, shelf life, good looks.",
+          "mr": "आखाती खरेदीदार: एकसारखा आकार, टिकाऊपणा, आकर्षक दिसणे.",
+          "hi": "खाड़ी के ख़रीदार: एक जैसा आकार, टिकाऊपन, अच्छा रूप।"
+        },
+        "source": "freshplaza_2025_12_08",
+        "read": "2026-11-07"
+      }
+    ],
+    "mosambi": []
+  },
+  "rules": [
+    {
+      "id": "rule_hortinet",
+      "section": "rules",
+      "text": {
+        "en": "HortiNet farm registration (APEDA traceability, covers citrus), done through the State Horticulture Department.",
+        "mr": "हॉर्टिनेट शेत नोंदणी (अपेडा ट्रेसेबिलिटी, लिंबूवर्गीय फळांसह), राज्य फलोत्पादन विभागामार्फत.",
+        "hi": "हॉर्टिनेट खेत पंजीकरण (एपीडा ट्रेसबिलिटी, नींबूवर्गीय फल शामिल), राज्य बागवानी विभाग के ज़रिए।"
+      },
+      "source": "apeda_hortinet",
+      "read": "2026-11-07"
+    },
+    {
+      "id": "rule_packhouse",
+      "section": "rules",
+      "text": {
+        "en": "Export lots go through an APEDA-approved packhouse.",
+        "mr": "निर्यातीचा माल अपेडा-मान्य पॅकहाउसमधून जातो.",
+        "hi": "निर्यात का माल एपीडा-मान्य पैकहाउस से जाता है।"
+      },
+      "source": "apeda_hortinet",
+      "read": "2026-11-07"
+    },
+    {
+      "id": "rule_residue",
+      "section": "rules",
+      "text": {
+        "en": "Residue test at an accredited lab.",
+        "mr": "मान्यताप्राप्त प्रयोगशाळेत अवशेष चाचणी.",
+        "hi": "मान्यता प्राप्त प्रयोगशाला में अवशेष जाँच।"
+      },
+      "source": "apeda_hortinet",
+      "read": "2026-11-07"
+    },
+    {
+      "id": "rule_phyto",
+      "section": "rules",
+      "text": {
+        "en": "Phytosanitary certificate for the lot.",
+        "mr": "मालासाठी फायटोसॅनिटरी प्रमाणपत्र.",
+        "hi": "माल के लिए फाइटोसैनिटरी प्रमाणपत्र।"
+      },
+      "source": "apeda_hortinet",
+      "read": "2026-11-07"
+    },
+    {
+      "id": "rule_eu_packhouse",
+      "section": "rules",
+      "text": {
+        "en": "Fruit for the EU: inspected at packhouses approved jointly by NPPO and APEDA; traceability records kept.",
+        "mr": "युरोपला जाणारे फळ: NPPO व अपेडा यांनी मिळून मान्य केलेल्या पॅकहाउसमध्ये तपासणी; ट्रेसेबिलिटी नोंदी ठेवल्या जातात.",
+        "hi": "यूरोप जाने वाला फल: NPPO और एपीडा द्वारा मिलकर मान्य पैकहाउस में जाँच; ट्रेसबिलिटी रिकॉर्ड रखे जाते हैं।"
+      },
+      "source": "apeda_packhouse",
+      "read": "2026-11-07"
+    }
+  ],
+  "links": [
+    {
+      "id": "apeda_exporters",
+      "label": {
+        "en": "APEDA exporter directory",
+        "mr": "अपेडा निर्यातदार यादी",
+        "hi": "एपीडा निर्यातक सूची"
+      },
+      "url": "https://apeda.gov.in/exporter-directory",
+      "checked": "2026-11-07"
+    },
+    {
+      "id": "hortinet",
+      "label": {
+        "en": "HortiNet (APEDA)",
+        "mr": "हॉर्टिनेट (अपेडा)",
+        "hi": "हॉर्टिनेट (एपीडा)"
+      },
+      "url": "https://apeda.gov.in/hortinet-static",
+      "checked": "2026-11-07"
+    },
+    {
+      "id": "dgft_iec",
+      "label": {
+        "en": "DGFT: view IEC status",
+        "mr": "DGFT: IEC स्थिती पहा",
+        "hi": "DGFT: IEC स्थिति देखें"
+      },
+      "url": "https://www.dgft.gov.in/CP/?opt=view-any-ice",
+      "checked": "2026-11-07"
+    },
+    {
+      "id": "kalimati",
+      "label": {
+        "en": "Kalimati market, Nepal: daily wholesale prices",
+        "mr": "कालीमाटी बाजार, नेपाळ: रोजचे घाऊक भाव",
+        "hi": "कालीमाटी बाज़ार, नेपाल: रोज़ के थोक भाव"
+      },
+      "url": "https://kalimatimarket.gov.np/price",
+      "checked": "2026-11-07"
+    }
+  ]
+}
