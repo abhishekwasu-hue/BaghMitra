@@ -136,3 +136,20 @@ admin activates each tag after review. New terms: GLOSSARY_mr.md (व्या�
 | broker_trader_kept_deal | आणलेल्या व्यापाऱ्याने व्यवहार पाळला / लाए गए व्यापारी ने सौदा निभाया | आणलेल्या व्यापाऱ्याने व्यवहार मोडला / लाए गए व्यापारी ने सौदा तोड़ा |
 | grower_produce_matched | माल फोटो व वर्णनाप्रमाणे / माल फ़ोटो और विवरण जैसा | माल फोटोपेक्षा वेगळा / माल फ़ोटो से अलग |
 | grower_ready_on_date | ठरलेल्या तारखेला माल तयार / तय तारीख पर माल तैयार | ठरलेल्या तारखेला माल तयार नव्हता / तय तारीख पर माल तैयार नहीं था |
+
+## Market linkage L1 role entry and acceptance (draft, for native review)
+
+Source: `app/lib/l10n/app_mr.arb` / `app_hi.arb` keys `ml*` (spec v1.5 §2.1, §4C, §5). The disclaimer lines follow the
+owner's own words; "तुमच्या व्यवहारात या ॲपचा कोणताही लाभ किंवा नुकसान नाही" and "व्यवहारानंतर काय नोंदवायचे ते तुमची
+इच्छा" are verbatim. The negatives there (and in the fixed notice "BagMitra कधीही पैसे, OTP किंवा बँक तपशील मागत नाही")
+are the legal point and are allow-listed in `positive_wording_test.dart`.
+
+| Key | mr | hi | To check |
+|---|---|---|---|
+| `mlRoleBroker` | मध्यस्थ (दलाल) | मध्यस्थ (दलाल) | never अडत्या |
+| `mlRoleProviderKinds` | वजनकाटा, वाहतूक, मजूर, क्रेट | धर्मकांटा, परिवहन, मज़दूर, क्रेट | hi word for weighbridge |
+| `mlTermsNotParty` | BagMitra खरेदीदार, विक्रेता, कमिशन एजंट किंवा वाहतूकदार नाही. | … कमीशन एजेंट या ट्रांसपोर्टर नहीं है। | "कमिशन एजंट" vs a Marathi term other than अडत्या |
+| `mlTermsAdult` | मी १८ वर्षांपेक्षा मोठा आहे | मेरी उम्र 18 वर्ष से अधिक है | owner's text uses Devanagari digits (the rest of the arb uses 0-9); gender-neutral form? |
+| `mlTermsAgree` | मी वाचले व मान्य करतो | मैंने पढ़ा और मैं सहमत हूँ | gender-neutral form? |
+| `mlTermsGpsOnce` | नोंदणीच्या वेळी फसवणूक टाळण्यासाठी तुमचे ठिकाण (GPS) एकदाच घेतले जाईल. | … | — |
+| `mlGrievanceTimes` | तक्रारीची पोच 24 तासांत आणि निवारण 15 दिवसांत. | … | — |

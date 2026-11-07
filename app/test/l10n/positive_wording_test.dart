@@ -23,6 +23,16 @@ const allowNegative = {
   'labelInfoNoClaim',
   'labelInfoBanned',
   'labelInfoRestricted',
+  // Market link (owner's disclaimer, spec v1.5 §1 / §5): what BagMitra is not and does not
+  // do is the legal point; and the fixed safety notice "never asks for money, OTP or bank
+  // details" (§4C).
+  'mlTermsNotParty',
+  'mlTermsNoMoney',
+  'mlTermsNoGainLoss',
+  'mlTermsNoPart',
+  'mlSafetyNotice',
+  // No negative: "वजनकाटा" (weighbridge, owner's word) happens to contain "नका".
+  'mlRoleProviderKinds',
 };
 
 final _negative = <String, RegExp>{

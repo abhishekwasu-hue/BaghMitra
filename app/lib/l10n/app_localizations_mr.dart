@@ -2951,4 +2951,118 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get nameScriptLater => 'नको';
+
+  @override
+  String get mlRolesTitle => 'तुमची भूमिका निवडा';
+
+  @override
+  String get mlRolesIntro =>
+      'सर्व भूमिकांसाठी एकच साइन-इन. भूमिका कधीही बदलता येते.';
+
+  @override
+  String get mlRoleGrower => 'शेतकरी';
+
+  @override
+  String get mlRoleTrader => 'व्यापारी';
+
+  @override
+  String get mlRoleBroker => 'मध्यस्थ (दलाल)';
+
+  @override
+  String get mlRoleExporter => 'निर्यातदार';
+
+  @override
+  String get mlRoleProvider => 'सेवा देणारे';
+
+  @override
+  String get mlRoleProviderKinds => 'वजनकाटा, वाहतूक, मजूर, क्रेट';
+
+  @override
+  String get mlRoleCurrent => 'सध्याची भूमिका';
+
+  @override
+  String get mlSwitchRole => 'भूमिका बदला';
+
+  @override
+  String get mlHomeLinkTitle => 'बाजार जोडणी';
+
+  @override
+  String get mlHomeLinkHint =>
+      'व्यापारी, मध्यस्थ, निर्यातदार, सेवा: भूमिका निवडा';
+
+  @override
+  String get mlTermsTitle => 'सुरू करण्यापूर्वी';
+
+  @override
+  String mlTermsRole(String role) {
+    return 'भूमिका: $role';
+  }
+
+  @override
+  String get mlTermsIntroOnly =>
+      'BagMitra फक्त माहिती देते आणि तुमची व्यापारी, मध्यस्थ (दलाल) व बाजाराशी ओळख करून देते.';
+
+  @override
+  String get mlTermsNotParty =>
+      'BagMitra खरेदीदार, विक्रेता, कमिशन एजंट किंवा वाहतूकदार नाही.';
+
+  @override
+  String get mlTermsNoMoney =>
+      'ते कोणतेही पैसे ठेवत नाही आणि पैसे मिळण्याची किंवा मालाच्या दर्जाची हमी देत नाही.';
+
+  @override
+  String get mlTermsNoGainLoss =>
+      'तुमच्या व्यवहारात या ॲपचा कोणताही लाभ किंवा नुकसान नाही.';
+
+  @override
+  String get mlTermsNoPart =>
+      'तुमच्या व्यवहारात किंवा कोणत्याही वादात BagMitra भाग घेत नाही.';
+
+  @override
+  String get mlTermsAfterDeal => 'व्यवहारानंतर काय नोंदवायचे ते तुमची इच्छा.';
+
+  @override
+  String get mlTermsPublicPhone =>
+      'तुमचा फोन नंबर तुमच्या प्रोफाइलवर सर्वांना दिसेल, म्हणजे शेतकरी तुम्हाला थेट फोन करू शकतील.';
+
+  @override
+  String get mlTermsGpsOnce =>
+      'नोंदणीच्या वेळी फसवणूक टाळण्यासाठी तुमचे ठिकाण (GPS) एकदाच घेतले जाईल.';
+
+  @override
+  String get mlTermsFull => 'वापराच्या पूर्ण अटी';
+
+  @override
+  String get mlTermsAdult => 'मी १८ वर्षांपेक्षा मोठा आहे';
+
+  @override
+  String get mlTermsAgree => 'मी वाचले व मान्य करतो';
+
+  @override
+  String get mlTermsAccept => 'मान्य करा व पुढे चला';
+
+  @override
+  String get mlTermsBack => 'मागे';
+
+  @override
+  String get mlRoleHomeSoon => 'या भूमिकेच्या सुविधा लवकरच इथे दिसतील.';
+
+  @override
+  String get mlSafetyNotice =>
+      'BagMitra कधीही पैसे, OTP किंवा बँक तपशील मागत नाही.';
+
+  @override
+  String get mlGrievanceTitle => 'तक्रार अधिकारी';
+
+  @override
+  String get mlGrievanceOwner => 'BagMitra चे मालक';
+
+  @override
+  String mlGrievanceContact(String contact) {
+    return 'संपर्क: $contact';
+  }
+
+  @override
+  String get mlGrievanceTimes =>
+      'तक्रारीची पोच 24 तासांत आणि निवारण 15 दिवसांत.';
 }
