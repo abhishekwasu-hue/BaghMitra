@@ -2557,6 +2557,68 @@ class AppLocalizationsEn extends AppLocalizations {
   String get exportLinksTitle => 'Official pages';
 
   @override
+  String get exportRecordTitle => 'Export record';
+
+  @override
+  String get exportRecordAction => 'Make export record (PDF)';
+
+  @override
+  String get exportRecordPlot => 'Plot';
+
+  @override
+  String get exportRecordBahar => 'Bahar';
+
+  @override
+  String get exportRecordAllBahars => 'All sprays';
+
+  @override
+  String exportRecordCount(String count) {
+    return '$count sprays';
+  }
+
+  @override
+  String exportRecordLastPhi(String date) {
+    return 'Last PHI ends $date';
+  }
+
+  @override
+  String get exportRecordShare => 'Share PDF';
+
+  @override
+  String get exportRecordNoPlot =>
+      'Add a plot first; its spray record appears here.';
+
+  @override
+  String get exportRecordEmpty =>
+      'Sprays of this bahar appear here once recorded.';
+
+  @override
+  String get exportRecordDate => 'Date';
+
+  @override
+  String get exportRecordProduct => 'Product · ingredient · dose';
+
+  @override
+  String get exportRecordLabel => 'Label check';
+
+  @override
+  String get exportRecordPhiEnd => 'PHI ends';
+
+  @override
+  String get exportLabelListed => 'On the label for this crop';
+
+  @override
+  String get exportLabelCheck => 'Check the label';
+
+  @override
+  String exportRecordMade(String date) {
+    return 'Made on $date from the grower\'s own spray log.';
+  }
+
+  @override
+  String get exportRecordFooter => 'Information record, not a certificate.';
+
+  @override
   String fairPriceMandi(Object date, Object market, Object price) {
     return '$market mandi, $date: modal price $price per quintal';
   }
