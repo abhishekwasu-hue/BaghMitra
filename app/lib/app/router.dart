@@ -32,6 +32,7 @@ import '../features/lab_tests/presentation/lab_test_screens.dart';
 import '../features/labels/presentation/label_info_screen.dart';
 import '../features/lookalikes/presentation/lookalikes_screen.dart';
 import '../features/market/presentation/market_prices_screen.dart';
+import '../features/market_link/safety/safety_screens.dart';
 import '../features/more/presentation/more_screen.dart';
 import '../features/plots/presentation/add_plot_screen.dart';
 import '../features/plots/presentation/boundary_screen.dart';
@@ -83,6 +84,11 @@ abstract final class Routes {
   static String feedItem(String itemId) => '/feed/$itemId';
   static const feedSettings = '/feed-settings';
   static const feedCheck = '/feed-check';
+
+  /// Market link trust and safety (L6), only with `AppConfig.marketLink`.
+  static const mlSafety = '/market-link';
+  static String mlReport(String subjectType, String subjectId) =>
+      '$mlSafety/report/$subjectType/$subjectId';
   static const practices = '/practices';
 
   /// The विचारा tab: the practices guide inside the tab shell. Tabs ([home], [plots],
@@ -185,7 +191,9 @@ GoRouter buildRouter(
         return Routes.home;
       }
       // Market-link screens exist only in builds with the flag on (spec v1.5 §5).
-      if (loc.startsWith(Routes.exportInfo) && !config.marketLink) {
+      if ((loc.startsWith(Routes.exportInfo) ||
+              loc.startsWith(Routes.mlSafety)) &&
+          !config.marketLink) {
         return Routes.home;
       }
       // First run on this phone: the short walkthrough comes before anything else. Once seen
@@ -262,6 +270,13 @@ GoRouter buildRouter(
         builder: (_, _) => const MarketPricesScreen(),
       ),
       GoRoute(path: Routes.feed, builder: (_, _) => const FeedScreen()),
+      GoRoute(
+        path: '${Routes.mlSafety}/report/:type/:id',
+        builder: (_, s) => ReportScreen(
+          subjectType: s.pathParameters['type']!,
+          subjectId: s.pathParameters['id']!,
+        ),
+      ),
       GoRoute(
         path: Routes.feedSettings,
         builder: (_, _) => const FeedPreferencesScreen(),
