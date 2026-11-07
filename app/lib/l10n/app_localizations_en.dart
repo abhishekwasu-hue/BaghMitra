@@ -3812,4 +3812,71 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get mlIntroOffApp =>
       'From here on, weighing, crates, transport and payment are settled between you.';
+
+  @override
+  String get mlDealDone => 'Deal done';
+
+  @override
+  String get mlDealDoneAsk => 'Mark the deal as done?';
+
+  @override
+  String get mlDealDoneAskBody =>
+      'Tap only once the deal between you is settled. Rating opens when both the grower and the trader tap.';
+
+  @override
+  String get mlDealSaidDone => 'said deal done';
+
+  @override
+  String get mlDealNotYet => 'waiting';
+
+  @override
+  String get mlDealWaitOther =>
+      'Rating opens when the other side also taps “Deal done”.';
+
+  @override
+  String get mlDealWaitBoth =>
+      'Rating opens when both the grower and the trader tap “Deal done”.';
+
+  @override
+  String get mlRateOpen => 'Give rating';
+
+  @override
+  String mlRateUntil(String date) {
+    return 'Can be given or changed until $date';
+  }
+
+  @override
+  String mlRateLocked(String date) {
+    return 'Rating closed on $date';
+  }
+
+  @override
+  String get mlRateNoText => 'Only stars and ticks.';
+
+  @override
+  String mlRateStarsOf(int count) {
+    return '$count of 5 stars';
+  }
+
+  @override
+  String get mlRateSave => 'Save rating';
+
+  @override
+  String get mlRateAnswerAll => 'Give stars on every line';
+
+  @override
+  String get mlRateSaved => 'Rating saved';
+
+  @override
+  String get mlRateRefused =>
+      'Rating is saved only within 7 days after both tap “Deal done”.';
+
+  @override
+  String get mlQGrowerProduce => 'Produce matched the photos and description';
+
+  @override
+  String get mlQGrowerReady => 'Produce ready on the agreed date';
+
+  @override
+  String get mlCopyToAccounts => 'Note in my accounts';
 }

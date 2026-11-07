@@ -3806,4 +3806,71 @@ class AppLocalizationsMr extends AppLocalizations {
   @override
   String get mlIntroOffApp =>
       'आता वजन, क्रेट, वाहतूक व पैसे हा व्यवहार तुम्ही आपसात ठरवता.';
+
+  @override
+  String get mlDealDone => 'व्यवहार झाला';
+
+  @override
+  String get mlDealDoneAsk => 'व्यवहार झाला असे नोंदवायचे?';
+
+  @override
+  String get mlDealDoneAskBody =>
+      'तुमच्यातील व्यवहार पूर्ण झाल्यावरच दाबा. शेतकरी व व्यापारी दोघांनी दाबल्यावर रेटिंग उघडते.';
+
+  @override
+  String get mlDealSaidDone => 'व्यवहार झाला म्हणाले';
+
+  @override
+  String get mlDealNotYet => 'वाट पाहत आहे';
+
+  @override
+  String get mlDealWaitOther =>
+      'दुसऱ्या बाजूनेही “व्यवहार झाला” दाबल्यावर रेटिंग उघडेल.';
+
+  @override
+  String get mlDealWaitBoth =>
+      'शेतकरी व व्यापारी दोघांनी “व्यवहार झाला” दाबल्यावर रेटिंग उघडेल.';
+
+  @override
+  String get mlRateOpen => 'रेटिंग द्या';
+
+  @override
+  String mlRateUntil(String date) {
+    return '$date पर्यंत देता किंवा बदलता येईल';
+  }
+
+  @override
+  String mlRateLocked(String date) {
+    return 'रेटिंग $date ला बंद झाले';
+  }
+
+  @override
+  String get mlRateNoText => 'फक्त स्टार द्या व खुणा करा.';
+
+  @override
+  String mlRateStarsOf(int count) {
+    return '५ पैकी $count स्टार';
+  }
+
+  @override
+  String get mlRateSave => 'रेटिंग जतन करा';
+
+  @override
+  String get mlRateAnswerAll => 'प्रत्येक ओळीला स्टार द्या';
+
+  @override
+  String get mlRateSaved => 'रेटिंग जतन झाले';
+
+  @override
+  String get mlRateRefused =>
+      'दोघांनी “व्यवहार झाला” दाबल्यानंतर ७ दिवसांतच रेटिंग जतन होते.';
+
+  @override
+  String get mlQGrowerProduce => 'माल फोटो व वर्णनाप्रमाणे होता';
+
+  @override
+  String get mlQGrowerReady => 'ठरलेल्या तारखेला माल तयार होता';
+
+  @override
+  String get mlCopyToAccounts => 'माझ्या हिशोबात नोंदवा';
 }
