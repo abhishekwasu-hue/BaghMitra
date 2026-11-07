@@ -3253,6 +3253,44 @@ class AppLocalizationsMr extends AppLocalizations {
   }
 
   @override
+  String get adminMlFlags => 'मंजुरीआधी पाहा';
+
+  @override
+  String get adminMlFlagDuplicate => 'हाच नंबर दुसऱ्या प्रोफाइलवर';
+
+  @override
+  String get adminMlFlagReturning => 'निलंबित प्रोफाइलशी जुळते';
+
+  @override
+  String get adminMlFlagMock => 'ठिकाण बनावट (mock) दिसले';
+
+  @override
+  String get adminMlFlagOtherDistrict => 'सांगितलेल्या जिल्ह्याबाहेरून नोंदणी';
+
+  @override
+  String get adminMlFlagNoPlace => 'फोनकडून ठिकाणाचे नाव रिकामे';
+
+  @override
+  String get adminMlWhyName => 'तेच नाव';
+
+  @override
+  String get adminMlWhyGps => 'जवळून नोंदणी';
+
+  @override
+  String get adminMlWhyAccount => 'तेच खाते';
+
+  @override
+  String get adminMlRechecks => 'पुन्हा तपासायचे';
+
+  @override
+  String get adminMlRechecksEmpty => 'सर्व वार्षिक पुन्हा तपासण्या पूर्ण';
+
+  @override
+  String adminMlLastChecked(String date) {
+    return 'मागील तपासणी $date';
+  }
+
+  @override
   String adminMlDocumentCount(int n) {
     return 'कागदपत्रे: $n';
   }

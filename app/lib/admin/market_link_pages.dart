@@ -12,6 +12,7 @@ import '../theme/app_theme.dart';
 import 'kb_admin_repository.dart' show KbAdminException;
 import 'market_link_admin_repository.dart';
 import 'market_link_checks.dart';
+import 'market_link_flags.dart';
 
 /// Opens a signed document URL (a new browser tab on the admin web).
 typedef OpenUrl = Future<void> Function(Uri url);
@@ -193,7 +194,12 @@ class _VerificationQueuePageState extends State<VerificationQueuePage> {
                           _typeLabel(t, s.subjectType),
                           ?s.fields['district'] as String?,
                           t.adminMlDocumentCount(s.documentKeys.length),
+                          for (final f in s.flags ?? const <String>[])
+                            flagLabel(t, f),
                         ].join(' · '),
+                        style: (s.flags ?? const []).isEmpty
+                            ? null
+                            : TextStyle(color: context.bm.danger),
                       ),
                       trailing: Text(
                         t.adminMlWaitingSince(_date(s.waitingSince)),
@@ -351,6 +357,7 @@ class _VerificationDetailPageState extends State<VerificationDetailPage> {
           ],
         ),
         const SizedBox(height: BmSpace.lg),
+        FlagsSection(subject: s),
         SectionHeader(title: t.adminMlFields),
         BmCard(
           elevated: false,
