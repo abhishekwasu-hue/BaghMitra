@@ -1,0 +1,46 @@
+# HANDOVER_NOW — resume here in a fresh session
+
+Read first: `OWNER_RULES.md`, the "Resume — market link" block in `docs/PROGRESS.md`, then this file.
+Reports to Abhi in plain Marathi. Never run anything on the VPS; give him ONE command block.
+
+## In flight (owner task "audit of 2026-11-07", verbatim below)
+| Step | PRs / branches | State |
+|---|---|---|
+| 1. Visibility enforcement | #230 `ml-vis-1` → #232 `ml-vis-2` → #233 `ml-vis-3` → #234 `ml-vis-4` (stacked) | Built + tested locally (339 passed after the OpenAPI regen on `ml-vis-3`); CI running. Merge in order with merge commits (not squash): mark ready (MCP `update_pull_request draft=false`), check CI green + `git merge-tree --write-tree origin/main <head>` clean, merge, retarget the next PR's base to `main`. |
+| 2. Test APK `MARKET_LINK` | #231 `ml-test-apk-flag` | Built; Q117 logged (default OFF everywhere). Dart guard test runs only in CI. Merge when green. |
+| 3. Subscription billing | branches `billing-1`, `billing-2`, … (a sub-agent was building them; plan was in the session scratchpad, not in git) | Partly built, NOT reviewed, no PRs yet. Re-read `docs/prompts/SUBSCRIPTION_BUILD_PROMPT.md` + `docs/SPEC_billing_addendum.md` §7, review each `billing-N` diff against the spec, open draft PRs, finish what is missing. |
+
+Decisions made in step 1 (state them in the report): a suspended user keeps block / unblock, appeals, accepting terms and closing an own lot; every other write → 403 `suspended` (code renamed from `account_suspended`, unused anywhere).
+
+## After the steps
+- Update the PROGRESS resume block when each step is done.
+- Test APK: builds automatically after the "BagMitra App" workflow on `main` (`release-test-apk.yml`); give Abhi the release link.
+- ONE VPS block: `cd /opt/bagmitra && bash deploy/deploy.sh && bash deploy/deploy.sh status` (deploy.sh pulls main, runs migrations — now through 0036 — and installs the cron lines incl. `CRON_MARKET_LINK_ERASE` and `CRON_ML_RECHECK`). Production `MARKET_LINK_ENABLED` stays OFF. Revert: `bash deploy/deploy.sh --revert`.
+- Owner decisions open: Q99–Q117 in `docs/OPEN_QUESTIONS.md` (Q115 pair-only rating flag, Q116 data kept after deletion, Q117 where to test the market link); plus the billing question "which information each role sees only with a plan" (default: nothing locked).
+
+## Owner task, verbatim (2026-11-07)
+
+> TASK: Fix the findings of the independent audit of 2026-11-07, in this order. Read OWNER_RULES.md and the PROGRESS resume block first. Work continuously; log any doubt in docs/OPEN_QUESTIONS.md with a default and carry on.
+>
+> 1. CRITICAL — enforce hide / suspend / delete / block in every market-link endpoint.
+> The helpers in api/src/bagmitra_api/market_link/visibility.py (visible, not_blocked, hidden_user_ids, is_suspended, require_not_suspended) are unit-tested on SQL, but NO router uses them. The audit reproduced this through the real API:
+> (a) a grower blocks a trader, and the trader still sees the grower's lot in GET /v1/market-link/lots;
+> (b) an admin suspends a verified trader, and that trader still gets 200 on GET /lots and can send interests;
+> (c) an admin hides a lot (reason fake_lot), and another verified trader still sees it in GET /lots.
+> Fix all of these:
+> - GET /lots: add visible("lot", MarketLot.id, MarketLot.owner_id) and not_blocked(viewer, MarketLot.owner_id). Do this inside the one rule, so lot_shown(), lot photo URLs and send_interest all use it. Make lot_shown take the viewer id.
+> - is_verified_viewer: false when the user is suspended, or the buyer / broker profile is hidden, or the account is waiting for erasure.
+> - Every write in the module (register, publish, interest, accept, deal done, rate, report) calls require_not_suspended. A suspended user gets 403 "suspended", with the reason visible in "My account actions".
+> - send_interest: refuse (404 lot_not_found) when either side blocked the other. A broker-brought trader who is blocked also counts.
+> - GET /profiles, GET /profiles/{type}/{id}, GET /providers: apply visible() for the profile kind and not_blocked(viewer, user_id).
+> - GET /lots/{id}/interests for the grower: hide interests from blocked or suspended users.
+> - Ratings and profile aggregates: ratings by suspended or deleted users still count, but are shown without a name (Q68).
+> Tests: API-level tests (through httpx, not helper-only) for each case above, both directions of block, and restore bringing everything back. Add a guard test that lists every market-link router function returning other people's rows and fails if one does not go through the visibility rule.
+>
+> 2. Owner testing build.
+> In release-test-apk.yml add --dart-define=MARKET_LINK=${{ vars.MARKET_LINK || 'false' }}, the same pattern as PHONE_LOGIN. The production release-apk.yml stays without it. The server flag MARKET_LINK_ENABLED stays OFF in production (legal gate, spec v1.5 §5). Log a question for the owner: turn it on only on a test server, or on the VPS for testing only. Default: OFF. In docs/runbooks/vps-deploy.md write the exact .env line and the repo variable the owner sets for a test.
+>
+> 3. Subscription billing.
+> Then execute docs/prompts/SUBSCRIPTION_BUILD_PROMPT.md end to end (billing spec §7: admin ON/OFF switch, default OFF; per-role monthly fee set by the admin and pushed to Play; M6b Play Billing). The audit found nothing of it built, and FeatureGate (app/lib/features/billing/presentation/feature_gate.dart) is used nowhere. Do NOT decide yourself which features or market-link information a plan unlocks; the owner will specify that. Build the switch, the prices and the Play flow, keep every feature open while the switch is OFF, and log the question "which information each role sees only with a plan" with the default "nothing locked".
+>
+> Rules: tests first; one feature per PR, ≤ 400 production lines; self-review every diff against the spec before pushing; run the repo checks; merge only when green; Marathi phone screenshots (light + dark) for any UI change. Update the PROGRESS resume block when each step is done.
