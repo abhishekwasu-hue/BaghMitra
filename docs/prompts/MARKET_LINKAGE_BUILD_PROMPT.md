@@ -173,3 +173,18 @@ only market_link_rep or the profile owner can set the address; only market_link_
 representative photo.
 ```
 
+## Addendum 3 2026-11-07 — paste this too
+
+```
+ADDENDUM 3 (owner 2026-11-07): every market-link registration (trader, broker, exporter, service
+provider, representative) REQUIRES a GPS fix taken at the moment of registration — one foreground fix
+after a clear permission screen, no background tracking. Store lat, lng, accuracy, time, geocoder place
+/ district / state / PIN (reuse app/lib/features/plots/data/place_geocoder.dart, the phone's own
+geocoder, no paid API) and the mock-location flag when the location plugin reports it. Public profile
+shows village / taluka / district only; exact coordinates to admin and accepted-deal parties only. Mock
+flag or a fix far from the stated area -> admin queue before any badge. Re-read spec v1.5 §4 on main.
+Update DATA_INVENTORY.md and data-safety.md (precise location, collected once, purpose: fraud
+prevention). Tests: registration blocked without a fix; coordinates absent from the public profile
+API; mock-flagged registration lands in the admin queue.
+```
+
