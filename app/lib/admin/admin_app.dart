@@ -11,6 +11,9 @@ import 'kb_admin_repository.dart';
 import 'kb_pages.dart';
 import 'market_link_admin_repository.dart';
 import 'market_link_pages.dart';
+import 'package_admin_repository.dart';
+import 'package_pages.dart';
+import 'package_strings.dart';
 
 /// Admin web shell (ADR 0006). Sections map to the config tables that keep business
 /// values out of code (spec §0.5); editors arrive with the milestones that own them.
@@ -22,6 +25,7 @@ class AdminApp extends StatelessWidget {
     this.feed,
     this.documents,
     this.marketLink,
+    this.package,
     this.auth,
   });
 
@@ -40,6 +44,9 @@ class AdminApp extends StatelessWidget {
   /// `MARKET_LINK` on (decision j). Shown only to role `market_link_admin`.
   final MarketLinkAdminRepository? marketLink;
 
+  /// Season sale package settings and activation (spec v1.5 §4E); with [marketLink] only.
+  final PackageAdminRepository? package;
+
   /// When set, the shell is shown only to a signed-in staff account.
   final AdminAuth? auth;
 
@@ -57,6 +64,7 @@ class AdminApp extends StatelessWidget {
         feed: feed,
         documents: documents,
         marketLink: marketLink,
+        package: package,
       ),
       final a => StreamBuilder<void>(
         stream: a.changes,
@@ -68,6 +76,7 @@ class AdminApp extends StatelessWidget {
                 feed: feed,
                 documents: documents,
                 marketLink: marketLink,
+                package: package,
                 roles: a.roles,
                 onSignOut: a.signOut,
               ),
@@ -84,6 +93,7 @@ class AdminShell extends StatefulWidget {
     this.feed,
     this.documents,
     this.marketLink,
+    this.package,
     this.roles = const {},
     this.onSignOut,
   });
@@ -93,6 +103,7 @@ class AdminShell extends StatefulWidget {
   final FeedAdminRepository? feed;
   final DocumentPicker? documents;
   final MarketLinkAdminRepository? marketLink;
+  final PackageAdminRepository? package;
 
   /// Supabase app_metadata roles of the signed-in account (gates the feed section).
   final Set<String> roles;
@@ -150,6 +161,12 @@ class _AdminShellState extends State<AdminShell> {
           VerificationQueuePage(repo: ml),
         ),
         (t.adminMlTags, Icons.sell_rounded, RatingTagsPage(repo: ml)),
+        if (widget.package case final pkg?)
+          (
+            PackageStrings.of(context)['section'],
+            Icons.workspace_premium_rounded,
+            PackageSection(repo: pkg),
+          ),
       ],
       (t.adminCropTemplates, Icons.eco_rounded, soon(1)),
       (t.adminRiskRules, Icons.thunderstorm_rounded, soon(4)),
@@ -177,14 +194,27 @@ class _AdminShellState extends State<AdminShell> {
       ),
       body: Row(
         children: [
-          NavigationRail(
-            selectedIndex: _index,
-            onDestinationSelected: (i) => setState(() => _index = i),
-            labelType: NavigationRailLabelType.all,
-            destinations: [
-              for (final (label, icon, _) in sections)
-                NavigationRailDestination(icon: Icon(icon), label: Text(label)),
-            ],
+          // Scrolls when the sections do not fit the window's height.
+          LayoutBuilder(
+            builder: (context, box) => SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: box.maxHeight),
+                child: IntrinsicHeight(
+                  child: NavigationRail(
+                    selectedIndex: _index,
+                    onDestinationSelected: (i) => setState(() => _index = i),
+                    labelType: NavigationRailLabelType.all,
+                    destinations: [
+                      for (final (label, icon, _) in sections)
+                        NavigationRailDestination(
+                          icon: Icon(icon),
+                          label: Text(label),
+                        ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
           ),
           VerticalDivider(width: 1, color: c.line),
           Expanded(
