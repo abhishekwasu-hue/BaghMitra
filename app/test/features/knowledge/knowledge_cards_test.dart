@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../helpers/pump_app.dart';
+import '../../helpers/sources.dart';
 import '../bahar/bahar_screen_test.dart' show seedPlot;
 import '../plots/plots_screen_test.dart' show settle;
 
@@ -77,9 +78,12 @@ void main() {
     // A field with no Marathi falls back to English.
     expect(find.text('Send photos to your KVK.'), findsOneWidget);
     expect(
-      find.textContaining('सार्वजनिक स्रोतांतील सर्वसाधारण माहिती'),
+      find.text('सर्वसाधारण माहिती · आधी KVK कडून खात्री करा'),
       findsOneWidget, // only the unreviewed card carries the mark
     );
+    // The sources fold behind one "See sources" line per card (owner request).
+    expect(find.textContaining('NIPHM'), findsNothing);
+    await openAllSources(tester);
     expect(find.textContaining('NIPHM'), findsWidgets);
     // No title in the answer: the topic label is the title.
     expect(find.text('सायला'), findsOneWidget);

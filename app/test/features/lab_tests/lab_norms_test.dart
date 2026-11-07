@@ -66,7 +66,7 @@ void main() {
     await tester.tap(card);
     await settle(tester);
     expect(
-      find.textContaining('General information from public sources'),
+      find.text('General information · confirm with your KVK first'),
       findsOne,
     );
     expect(find.byKey(const Key('lab-norm-oc')), findsOne);

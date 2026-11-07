@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../app/providers.dart';
 import '../../../core/formatting.dart';
 import '../../../design_system/app_bar_title.dart';
+import '../../../design_system/sources_disclosure.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../data/bahar_catalog.dart';
@@ -92,9 +93,9 @@ class _BaharCompareScreenState extends ConsumerState<BaharCompareScreen> {
                   contentPadding: EdgeInsets.zero,
                   leading: Icon(Icons.info_outline, color: c.inkMuted),
                   title: Text(p.label(lang), style: BmType.body),
-                  subtitle: Text(
-                    t.baharCompareSource(p.source),
-                    style: BmType.meta,
+                  // The source folds behind one "See sources" line (owner request).
+                  subtitle: SourcesDisclosure(
+                    notes: [t.baharCompareSource(p.source)],
                   ),
                 )
             else

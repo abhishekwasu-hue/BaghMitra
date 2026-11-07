@@ -5,13 +5,14 @@ import '../../../app/providers.dart';
 import '../../../core/formatting.dart';
 import '../../../design_system/app_bar_title.dart';
 import '../../../design_system/general_info_note.dart';
+import '../../../design_system/sources_disclosure.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../data/irrigation_guide.dart';
 
 /// Read-only irrigation guide (ओलित तक्ता): sourced amounts and intervals per crop, tree age and
 /// season. With a block it uses the block's crop and, when the planting year is known, its tree
-/// age. Every point names its source; no draft banner (Q30); no fertiliser or chemical content.
+/// age. Every point names its source (folded behind "See sources"); no draft banner (Q30); no fertiliser or chemical content.
 class IrrigationGuideScreen extends ConsumerStatefulWidget {
   const IrrigationGuideScreen({this.plotId, super.key});
 
@@ -55,13 +56,21 @@ class _IrrigationGuideScreenState extends ConsumerState<IrrigationGuideScreen> {
     final plotBand = data.bandFor(plot?.plantingYear, thisYear);
     final band = _band ?? plotBand?.key ?? data.ageBands.first.key;
 
-    Widget sourceLines(String source, List<String> keys) => Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(t.practicesSource(source), style: BmType.meta),
+    // Each point's sources fold behind one "See sources (n)" line (owner request).
+    Widget sourceLines(String source, List<String> keys) => SourcesDisclosure(
+      notes: [t.practicesSource(source)],
+      sources: [
         for (final k in keys)
           if (data.sources[k] case final s?)
-            Text('$k: ${s.title}', style: BmType.meta),
+            SourceRef(
+              '$k: ${s.title}',
+              url: s.url,
+              publisher: s.publisher,
+              checked: switch (s.checked) {
+                final d? => formatDate(d, lang),
+                null => null,
+              },
+            ),
       ],
     );
 
@@ -76,7 +85,6 @@ class _IrrigationGuideScreenState extends ConsumerState<IrrigationGuideScreen> {
             style: BmType.meta.copyWith(color: c.brand),
           ),
           Text(r.label(lang), style: BmType.body),
-          const SizedBox(height: BmSpace.xs),
           sourceLines(r.source, r.sourceKeys),
         ],
       ),
@@ -190,7 +198,6 @@ class _IrrigationGuideScreenState extends ConsumerState<IrrigationGuideScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(n.label(lang), style: BmType.body),
-                    const SizedBox(height: BmSpace.xs),
                     sourceLines(n.source, n.sourceKeys),
                   ],
                 ),

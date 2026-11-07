@@ -12,6 +12,7 @@ import '../../../design_system/empty_state.dart';
 import '../../../design_system/general_info_note.dart';
 import '../../../design_system/glyphs.dart';
 import '../../../design_system/info_note.dart';
+import '../../../design_system/sources_disclosure.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../../feed/domain/feed_item.dart';
@@ -293,15 +294,19 @@ class SchemeDetailScreen extends ConsumerWidget {
                             localDigits(f.text(lang), lang),
                             style: BmType.body,
                           ),
-                          // One source line per run of facts read on the same page.
+                          // One folded source line per run of facts read on the
+                          // same page (owner request: sources one tap away).
                           if (f.source < scheme.sources.length &&
                               (i + 1 == scheme.facts.length ||
                                   scheme.facts[i + 1].source != f.source))
-                            Text(
-                              t.schemeFactSource(
-                                scheme.sources[f.source].title,
-                              ),
-                              style: notConfirmed,
+                            SourcesDisclosure(
+                              key: Key('scheme-fact-source-$i'),
+                              sources: [
+                                SourceRef(
+                                  scheme.sources[f.source].title,
+                                  url: scheme.sources[f.source].url,
+                                ),
+                              ],
                             ),
                         ],
                       ),
