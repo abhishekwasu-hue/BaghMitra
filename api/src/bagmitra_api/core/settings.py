@@ -256,6 +256,9 @@ class Settings(BaseSettings):
     # set. Off, every /v1/market-link/* endpoint answers 404. Production stays off until the
     # owner records the legal and CA opinions.
     market_link_enabled: bool = False
+    # Real orchard check (spec v1.5 §4C): how far outside the mapped plot a lot photo may be
+    # taken and still count as "near" (OPEN_QUESTIONS Q76 default).
+    market_link_orchard_near_m: float = Field(default=200.0, gt=0)
     # Documents a user accepts before a market-link role is used (spec v1.5 §4C): the current
     # version of each. Raising one asks every user to accept again before that role writes.
     market_link_terms_version: str = Field(default="1", min_length=1, max_length=20)

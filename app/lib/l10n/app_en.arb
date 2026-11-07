@@ -1079,6 +1079,28 @@
   "exportSectionSpecs": "What buyers ask (as quoted)",
   "exportSectionRules": "Rules a grower meets",
   "exportLinksTitle": "Official pages",
+  "exportRecordTitle": "Export record",
+  "exportRecordAction": "Make export record (PDF)",
+  "exportRecordPlot": "Plot",
+  "exportRecordBahar": "Bahar",
+  "exportRecordAllBahars": "All sprays",
+  "exportRecordCount": "{count} sprays",
+  "@exportRecordCount": {"placeholders": {"count": {"type": "String"}}},
+  "exportRecordLastPhi": "Last PHI ends {date}",
+  "@exportRecordLastPhi": {"placeholders": {"date": {"type": "String"}}},
+  "exportRecordShare": "Share PDF",
+  "exportRecordNoPlot": "Add a plot first; its spray record appears here.",
+  "exportRecordEmpty": "Sprays of this bahar appear here once recorded.",
+  "exportRecordDate": "Date",
+  "exportRecordProduct": "Product · ingredient · dose",
+  "exportRecordLabel": "Label check",
+  "exportRecordPhiEnd": "PHI ends",
+  "exportLabelListed": "On the label for this crop",
+  "exportLabelCheck": "Check the label",
+  "exportRecordMade": "Made on {date} from the grower's own spray log.",
+  "@exportRecordMade": {"placeholders": {"date": {"type": "String"}}},
+  "exportRecordFooter": "Information record, not a certificate.",
+  "@exportRecordFooter": {"description": "Export record PDF footer (spec v1.5 §4A): information only, no compliance claim. Keeps the negative on purpose."},
   "fairPriceMandi": "{market} mandi, {date}: modal price {price} per quintal",
   "fairPriceAbove": "Your rate is {percent}% above the mandi modal price.",
   "fairPriceBelow": "Your rate is {percent}% below the mandi modal price.",
@@ -1309,10 +1331,43 @@
   },
   "adminMlDocumentCount": "Documents: {n}",
   "@adminMlDocumentCount": {"placeholders": {"n": {"type": "int"}}},
+  "mlRolesTitle": "Choose your role",
+  "mlRolesIntro": "One sign-in for every role. You can switch the role any time.",
+  "mlRoleGrower": "Grower",
   "mlRoleTrader": "Trader",
-  "mlRoleExporter": "Exporter",
   "mlRoleBroker": "Broker",
+  "mlRoleExporter": "Exporter",
   "mlRoleProvider": "Service provider",
+  "mlRoleProviderKinds": "Weighbridge, transport, labour, crates",
+  "mlRoleCurrent": "Current role",
+  "mlSwitchRole": "Switch role",
+  "mlHomeLinkTitle": "Market link",
+  "mlHomeLinkHint": "Trader, broker, exporter, services: choose a role",
+  "mlTermsTitle": "Before you start",
+  "mlTermsRole": "Role: {role}",
+  "@mlTermsRole": {"description": "Acceptance screen: the role being accepted.", "placeholders": {"role": {"type": "String"}}},
+  "mlTermsIntroOnly": "BagMitra only gives information and introduces you to traders, brokers and the market.",
+  "mlTermsNotParty": "BagMitra is not a buyer, seller, commission agent or transporter.",
+  "mlTermsNoMoney": "It holds no money and guarantees no payment or quality.",
+  "mlTermsNoGainLoss": "This app has no gain or loss in your transaction.",
+  "@mlTermsNoGainLoss": {"description": "Owner's disclaimer (mr verbatim). Uses 'transaction' (व्यवहार), never सौदा."},
+  "mlTermsNoPart": "It takes no part in your transaction or in any dispute.",
+  "mlTermsAfterDeal": "What to record after a transaction is your choice.",
+  "mlTermsPublicPhone": "Your phone number is shown publicly on your profile, so growers can call you directly.",
+  "mlTermsGpsOnce": "Your location (GPS) is taken once, at registration, to prevent fraud.",
+  "mlTermsFull": "Full terms of use",
+  "mlTermsAdult": "I am over 18 years of age",
+  "mlTermsAgree": "I have read and agree",
+  "mlTermsAccept": "Accept and continue",
+  "mlTermsBack": "Back",
+  "mlRoleHomeSoon": "The tools for this role will appear here soon.",
+  "mlSafetyNotice": "BagMitra never asks for money, OTP or bank details.",
+  "@mlSafetyNotice": {"description": "Fixed notice on every market-link role home (spec v1.5 §4C)."},
+  "mlGrievanceTitle": "Grievance officer",
+  "mlGrievanceOwner": "BagMitra owner",
+  "mlGrievanceContact": "Contact: {contact}",
+  "@mlGrievanceContact": {"description": "Role home: the grievance officer's phone or email.", "placeholders": {"contact": {"type": "String"}}},
+  "mlGrievanceTimes": "Complaints are acknowledged within 24 hours and resolved within 15 days.",
   "mlKindWeighbridge": "Weighbridge",
   "mlKindTransporter": "Transport",
   "mlKindLabourGang": "Labour gang",
@@ -1330,16 +1385,7 @@
   "mlFixTaking": "Taking location…",
   "mlFixDenied": "Allow location to finish registration.",
   "mlFixTaken": "Location taken: {place} (±{metres} m)",
-  "@mlFixTaken": {
-    "placeholders": {
-      "place": {
-        "type": "String"
-      },
-      "metres": {
-        "type": "String"
-      }
-    }
-  },
+  "@mlFixTaken": {"placeholders": {"place": {"type": "String"}, "metres": {"type": "String"}}},
   "mlPickKind": "What service do you give?",
   "mlFieldName": "Name",
   "mlFieldPhone": "Contact number",
@@ -1361,13 +1407,7 @@
   "mlFieldRefrigerated": "Refrigerated vehicle",
   "mlFieldCertUntil": "Certificate valid until",
   "mlCertUntilValue": "Certificate valid until {date}",
-  "@mlCertUntilValue": {
-    "placeholders": {
-      "date": {
-        "type": "String"
-      }
-    }
-  },
+  "@mlCertUntilValue": {"placeholders": {"date": {"type": "String"}}},
   "mlNumbersNote": "Give at least one: GSTIN, APMC licence or IEC. BagMitra checks it on the official public register.",
   "mlIecRequired": "An exporter registers with an IEC number.",
   "mlBrokerCallNote": "BagMitra calls you on this number to complete the check.",
@@ -1394,22 +1434,10 @@
   "mlStatusRejected": "Sent back; see the reason",
   "mlCheckNote": "Your profile is shown to growers after BagMitra's check. Document photos help the check.",
   "mlDocsCount": "Document photos: {count}",
-  "@mlDocsCount": {
-    "placeholders": {
-      "count": {
-        "type": "String"
-      }
-    }
-  },
+  "@mlDocsCount": {"placeholders": {"count": {"type": "String"}}},
   "mlDocCertificate": "Weighbridge certificate",
   "mlCertExpired": "Certificate date passed ({date})",
-  "@mlCertExpired": {
-    "placeholders": {
-      "date": {
-        "type": "String"
-      }
-    }
-  },
+  "@mlCertExpired": {"placeholders": {"date": {"type": "String"}}},
   "mlAddressAdd": "Add address",
   "mlAddressEdit": "Change address",
   "mlCancel": "Cancel",
@@ -1417,138 +1445,27 @@
   "mlPeopleTitle": "Traders and brokers",
   "mlPeopleEmpty": "Checked traders and brokers of this area will show here.",
   "mlAreaTaluka": "Taluka {taluka}",
-  "@mlAreaTaluka": {
-    "placeholders": {
-      "taluka": {
-        "type": "String"
-      }
-    }
-  },
+  "@mlAreaTaluka": {"placeholders": {"taluka": {"type": "String"}}},
   "mlAreaDistrict": "District {district}",
-  "@mlAreaDistrict": {
-    "placeholders": {
-      "district": {
-        "type": "String"
-      }
-    }
-  },
+  "@mlAreaDistrict": {"placeholders": {"district": {"type": "String"}}},
   "mlSortRating": "By rating",
   "mlSortDeals": "By deals",
   "mlDeals": "Deals done: {count}",
-  "@mlDeals": {
-    "placeholders": {
-      "count": {
-        "type": "String"
-      }
-    }
-  },
+  "@mlDeals": {"placeholders": {"count": {"type": "String"}}},
   "mlStars": "{average}/5 ({count})",
-  "@mlStars": {
-    "placeholders": {
-      "average": {
-        "type": "String"
-      },
-      "count": {
-        "type": "String"
-      }
-    }
-  },
+  "@mlStars": {"placeholders": {"average": {"type": "String"}, "count": {"type": "String"}}},
   "mlDistanceKm": "{km} km",
-  "@mlDistanceKm": {
-    "placeholders": {
-      "km": {
-        "type": "String"
-      }
-    }
-  },
+  "@mlDistanceKm": {"placeholders": {"km": {"type": "String"}}},
   "mlBadgeChecked": "Checked by BagMitra on {date}",
-  "@mlBadgeChecked": {
-    "placeholders": {
-      "date": {
-        "type": "String"
-      }
-    }
-  },
+  "@mlBadgeChecked": {"placeholders": {"date": {"type": "String"}}},
   "mlBadgeRegisteredFrom": "Registered from {place} on {date}",
-  "@mlBadgeRegisteredFrom": {
-    "placeholders": {
-      "place": {
-        "type": "String"
-      },
-      "date": {
-        "type": "String"
-      }
-    }
-  },
+  "@mlBadgeRegisteredFrom": {"placeholders": {"place": {"type": "String"}, "date": {"type": "String"}}},
   "mlBadgePlacePhoto": "Place photo by a BagMitra representative on {date}",
-  "@mlBadgePlacePhoto": {
-    "placeholders": {
-      "date": {
-        "type": "String"
-      }
-    }
-  },
-  "mlBadgeGstChecked": "GST checked on {date}",
-  "@mlBadgeGstChecked": {
-    "placeholders": {
-      "date": {
-        "type": "String"
-      }
-    }
-  },
-  "mlBadgeGstSince": "GST checked on {date} · registered since {year}",
-  "@mlBadgeGstSince": {
-    "placeholders": {
-      "date": {
-        "type": "String"
-      },
-      "year": {
-        "type": "String"
-      }
-    }
-  },
-  "mlBadgeApmcSeen": "APMC licence seen on {date}",
-  "@mlBadgeApmcSeen": {
-    "placeholders": {
-      "date": {
-        "type": "String"
-      }
-    }
-  },
-  "mlBadgeFssaiChecked": "FSSAI checked on {date}",
-  "@mlBadgeFssaiChecked": {
-    "placeholders": {
-      "date": {
-        "type": "String"
-      }
-    }
-  },
-  "mlBadgeIecActive": "IEC active, checked on {date}",
-  "@mlBadgeIecActive": {
-    "placeholders": {
-      "date": {
-        "type": "String"
-      }
-    }
-  },
-  "mlBadgeApedaListed": "APEDA listed, checked on {date}",
-  "@mlBadgeApedaListed": {
-    "placeholders": {
-      "date": {
-        "type": "String"
-      }
-    }
-  },
+  "@mlBadgePlacePhoto": {"placeholders": {"date": {"type": "String"}}},
   "mlBadgeNote": "A badge says what BagMitra checked and when. You settle the deal terms directly with each other.",
   "mlCall": "Call",
   "mlCallNumber": "Call {phone}",
-  "@mlCallNumber": {
-    "placeholders": {
-      "phone": {
-        "type": "String"
-      }
-    }
-  },
+  "@mlCallNumber": {"placeholders": {"phone": {"type": "String"}}},
   "mlRatingsTitle": "Ratings",
   "mlQTraderOnDate": "Came on the agreed harvest date",
   "mlQTraderWeighing": "Weighing / crate count correct",
@@ -1563,13 +1480,65 @@
   "mlServicesEmpty": "Checked weighbridges, transport, labour gangs and crate suppliers near you will show here.",
   "mlServicesNote": "Call them and agree directly; rates and payment are between you.",
   "mlNearPlot": "Near {name}",
-  "@mlNearPlot": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
+  "@mlNearPlot": {"placeholders": {"name": {"type": "String"}}},
+  "mlDisclaimerShort": "BagMitra is not a buyer, seller, middleman (broker) or transporter, does not hold money and does not guarantee payment or quality.",
+  "mlOpen": "Show produce for sale",
+  "mlMyLotsTitle": "My produce for sale",
+  "mlLotsEmpty": "Show your produce here with photos; verified traders and middlemen (brokers) see it.",
+  "mlLotFormTitle": "Produce for sale",
+  "mlNoPlot": "Add your orchard first.",
+  "mlPlot": "Orchard",
+  "mlBahar": "Bahar",
+  "mlQuantity": "Estimated quantity (tonnes)",
+  "mlQuality": "Size and quality",
+  "mlHarvestWindow": "Harvest window",
+  "mlWindowFromBahar": "{from} – {to} (bahar)",
+  "@mlWindowFromBahar": {"placeholders": {"from": {"type": "String"}, "to": {"type": "String"}}},
+  "mlWindowPick": "Choose dates",
+  "mlWindowRange": "{from} – {to}",
+  "@mlWindowRange": {"placeholders": {"from": {"type": "String"}, "to": {"type": "String"}}},
+  "mlBasis": "Sale basis",
+  "mlBasisPerTonne": "Per tonne",
+  "mlBasisPerCrate": "Per crate",
+  "mlBasisLumpSum": "Whole orchard",
+  "mlAskingRate": "Asking rate in ₹ (optional)",
+  "mlPhotos": "Photos",
+  "mlPhotosHint": "{min} to {max} photos from the app camera",
+  "@mlPhotosHint": {"placeholders": {"min": {"type": "String"}, "max": {"type": "String"}}},
+  "mlAddPhoto": "Take photo",
+  "mlRemovePhoto": "Remove photo",
+  "mlPhotoNoGps": "Turn on GPS and take the photo again: each photo needs its location.",
+  "mlPrivacy": "Traders see only your village, taluka and district; your name, phone and orchard location stay private.",
+  "mlSaveDraft": "Save draft",
+  "mlPublish": "Show to traders",
+  "mlClose": "Stop showing",
+  "mlStatusDraft": "Draft",
+  "mlStatusPublished": "Shown to traders",
+  "mlStatusReview": "Waiting for check",
+  "mlStatusClosed": "Closed",
+  "mlTonnes": "{value} t",
+  "@mlTonnes": {"placeholders": {"value": {"type": "String"}}},
+  "mlRatePerTonne": "{rate} per tonne",
+  "@mlRatePerTonne": {"placeholders": {"rate": {"type": "String"}}},
+  "mlRatePerCrate": "{rate} per crate",
+  "@mlRatePerCrate": {"placeholders": {"rate": {"type": "String"}}},
+  "mlRateLumpSum": "{rate} for the orchard",
+  "@mlRateLumpSum": {"placeholders": {"rate": {"type": "String"}}},
+  "mlPublished": "Now shown to verified traders and middlemen (brokers).",
+  "mlClosed": "Taken off the traders' list.",
+  "mlPublishOffline": "This needs internet. Your draft is saved; try again when online.",
+  "mlPublishNeedPhotos": "Add {min} to {max} photos first.",
+  "@mlPublishNeedPhotos": {"placeholders": {"min": {"type": "String"}, "max": {"type": "String"}}},
+  "mlPublishPhotoMissing": "Remove that photo and take it again: its file is missing on this phone.",
+  "mlPublishNotAccepted": "Accept the grower terms first, then try again.",
+  "mlPublishFailed": "Try again in a little while.",
+  "mlChooseOne": "Choose one",
+  "mlDeleteDraft": "Delete draft",
+  "mlNoContacts": "Write only about the produce here; phone numbers and links are shared after you accept an offer.",
+  "mlPublishOrchardCheck": "Published; traders see it after a check, because the photos were taken outside your mapped orchard.",
+  "mlSize": "Size",
+  "mlGrade": "Grade",
+  "mlQualityLine": "A short line (optional)",
   "mlSafetyReport": "Report",
   "mlSafetyReportTitle": "Report to BagMitra",
   "mlSafetyReportWhy": "Choose the reason",
@@ -1611,7 +1580,6 @@
   "mlAppealNote": "The grievance officer acknowledges within 24 hours and decides within 15 days.",
   "mlAppealSend": "Send appeal",
   "mlAppealSent": "Appeal received",
-  "mlGrievanceTitle": "Grievance officer",
   "mlGrievanceDefault": "Owner of BagMitra",
   "mlBlock": "Block",
   "mlUnblock": "Unblock",
@@ -1644,5 +1612,17 @@
   "adminMlPhoto": "Photo {n}",
   "@adminMlPhoto": {"placeholders": {"n": {"type": "int"}}},
   "adminMlAppealReason": "Appeal: {reason}",
-  "@adminMlAppealReason": {"placeholders": {"reason": {"type": "String"}}}
+  "@adminMlAppealReason": {"placeholders": {"reason": {"type": "String"}}},
+  "mlBadgeGstChecked": "GST checked on {date}",
+  "@mlBadgeGstChecked": {"placeholders": {"date": {"type": "String"}}},
+  "mlBadgeGstSince": "GST checked on {date} · registered since {year}",
+  "@mlBadgeGstSince": {"placeholders": {"date": {"type": "String"}, "year": {"type": "String"}}},
+  "mlBadgeApmcSeen": "APMC licence seen on {date}",
+  "@mlBadgeApmcSeen": {"placeholders": {"date": {"type": "String"}}},
+  "mlBadgeFssaiChecked": "FSSAI checked on {date}",
+  "@mlBadgeFssaiChecked": {"placeholders": {"date": {"type": "String"}}},
+  "mlBadgeIecActive": "IEC active, checked on {date}",
+  "@mlBadgeIecActive": {"placeholders": {"date": {"type": "String"}}},
+  "mlBadgeApedaListed": "APEDA listed, checked on {date}",
+  "@mlBadgeApedaListed": {"placeholders": {"date": {"type": "String"}}}
 }
