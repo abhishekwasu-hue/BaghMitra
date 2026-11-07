@@ -1356,6 +1356,40 @@ Map<String, dynamic> _$GrowerCardsResponseToJson(
   'kind': ?instance.kind,
 };
 
+GrowerInterestOut _$GrowerInterestOutFromJson(Map<String, dynamic> json) =>
+    GrowerInterestOut(
+      basis: json['basis'] as String,
+      broker: json['broker'] == null
+          ? null
+          : PublicProfileOut.fromJson(json['broker'] as Map<String, dynamic>),
+      createdAt: DateTime.parse(json['created_at'] as String),
+      dealId: json['deal_id'] as String?,
+      harvestDate: DateTime.parse(json['harvest_date'] as String),
+      id: json['id'] as String,
+      lotId: json['lot_id'] as String,
+      quantityT: (json['quantity_t'] as num?)?.toDouble(),
+      ratePaise: (json['rate_paise'] as num).toInt(),
+      status: json['status'] as String,
+      trader: PublicProfileOut.fromJson(json['trader'] as Map<String, dynamic>),
+      viaBroker: json['via_broker'] as bool,
+    );
+
+Map<String, dynamic> _$GrowerInterestOutToJson(GrowerInterestOut instance) =>
+    <String, dynamic>{
+      'basis': instance.basis,
+      'broker': ?instance.broker?.toJson(),
+      'created_at': instance.createdAt.toIso8601String(),
+      'deal_id': ?instance.dealId,
+      'harvest_date': ?_dateToJson(instance.harvestDate),
+      'id': instance.id,
+      'lot_id': instance.lotId,
+      'quantity_t': ?instance.quantityT,
+      'rate_paise': instance.ratePaise,
+      'status': instance.status,
+      'trader': instance.trader.toJson(),
+      'via_broker': instance.viaBroker,
+    };
+
 GrowerLotOut _$GrowerLotOutFromJson(Map<String, dynamic> json) => GrowerLotOut(
   crop: json['crop'] as String,
   district: json['district'] as String?,
@@ -1462,6 +1496,52 @@ Map<String, dynamic> _$InsuranceDeadlinesResponseToJson(
   'items': instance.items.map((e) => e.toJson()).toList(),
 };
 
+InterestIn _$InterestInFromJson(Map<String, dynamic> json) => InterestIn(
+  basis: interestInBasisFromJson(json['basis']),
+  brokerId: json['broker_id'] as String?,
+  harvestDate: DateTime.parse(json['harvest_date'] as String),
+  quantityT: (json['quantity_t'] as num?)?.toDouble(),
+  ratePaise: (json['rate_paise'] as num).toInt(),
+  traderId: json['trader_id'] as String?,
+);
+
+Map<String, dynamic> _$InterestInToJson(InterestIn instance) =>
+    <String, dynamic>{
+      'basis': ?interestInBasisToJson(instance.basis),
+      'broker_id': ?instance.brokerId,
+      'harvest_date': ?_dateToJson(instance.harvestDate),
+      'quantity_t': ?instance.quantityT,
+      'rate_paise': instance.ratePaise,
+      'trader_id': ?instance.traderId,
+    };
+
+InterestOut _$InterestOutFromJson(Map<String, dynamic> json) => InterestOut(
+  basis: json['basis'] as String,
+  createdAt: DateTime.parse(json['created_at'] as String),
+  dealId: json['deal_id'] as String?,
+  harvestDate: DateTime.parse(json['harvest_date'] as String),
+  id: json['id'] as String,
+  lotId: json['lot_id'] as String,
+  quantityT: (json['quantity_t'] as num?)?.toDouble(),
+  ratePaise: (json['rate_paise'] as num).toInt(),
+  status: json['status'] as String,
+  viaBroker: json['via_broker'] as bool,
+);
+
+Map<String, dynamic> _$InterestOutToJson(InterestOut instance) =>
+    <String, dynamic>{
+      'basis': instance.basis,
+      'created_at': instance.createdAt.toIso8601String(),
+      'deal_id': ?instance.dealId,
+      'harvest_date': ?_dateToJson(instance.harvestDate),
+      'id': instance.id,
+      'lot_id': instance.lotId,
+      'quantity_t': ?instance.quantityT,
+      'rate_paise': instance.ratePaise,
+      'status': instance.status,
+      'via_broker': instance.viaBroker,
+    };
+
 LabelClaimOut _$LabelClaimOutFromJson(Map<String, dynamic> json) =>
     LabelClaimOut(
       activeIngredient: json['active_ingredient'] as String,
@@ -1542,6 +1622,46 @@ LiveResponse _$LiveResponseFromJson(Map<String, dynamic> json) => LiveResponse(
 
 Map<String, dynamic> _$LiveResponseToJson(LiveResponse instance) =>
     <String, dynamic>{'product': instance.product, 'status': instance.status};
+
+LotBrief _$LotBriefFromJson(Map<String, dynamic> json) => LotBrief(
+  basis: json['basis'] as String,
+  crop: json['crop'] as String,
+  district: json['district'] as String?,
+  id: json['id'] as String,
+  quantityT: (json['quantity_t'] as num).toDouble(),
+  status: json['status'] as String,
+  taluka: json['taluka'] as String?,
+  variety: json['variety'] as String?,
+  village: json['village'] as String?,
+);
+
+Map<String, dynamic> _$LotBriefToJson(LotBrief instance) => <String, dynamic>{
+  'basis': instance.basis,
+  'crop': instance.crop,
+  'district': ?instance.district,
+  'id': instance.id,
+  'quantity_t': instance.quantityT,
+  'status': instance.status,
+  'taluka': ?instance.taluka,
+  'variety': ?instance.variety,
+  'village': ?instance.village,
+};
+
+LotInterestsResponse _$LotInterestsResponseFromJson(
+  Map<String, dynamic> json,
+) => LotInterestsResponse(
+  interests:
+      (json['interests'] as List<dynamic>?)
+          ?.map((e) => GrowerInterestOut.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      [],
+);
+
+Map<String, dynamic> _$LotInterestsResponseToJson(
+  LotInterestsResponse instance,
+) => <String, dynamic>{
+  'interests': instance.interests.map((e) => e.toJson()).toList(),
+};
 
 LotPhotoStored _$LotPhotoStoredFromJson(Map<String, dynamic> json) =>
     LotPhotoStored(photoKey: json['photo_key'] as String);
@@ -2449,6 +2569,52 @@ ReviewIn _$ReviewInFromJson(Map<String, dynamic> json) => ReviewIn(
 Map<String, dynamic> _$ReviewInToJson(ReviewIn instance) => <String, dynamic>{
   'comments': ?instance.comments,
   'decision': ?reviewInDecisionToJson(instance.decision),
+};
+
+SentInterestOut _$SentInterestOutFromJson(Map<String, dynamic> json) =>
+    SentInterestOut(
+      basis: json['basis'] as String,
+      createdAt: DateTime.parse(json['created_at'] as String),
+      dealId: json['deal_id'] as String?,
+      harvestDate: DateTime.parse(json['harvest_date'] as String),
+      id: json['id'] as String,
+      lot: LotBrief.fromJson(json['lot'] as Map<String, dynamic>),
+      lotId: json['lot_id'] as String,
+      quantityT: (json['quantity_t'] as num?)?.toDouble(),
+      ratePaise: (json['rate_paise'] as num).toInt(),
+      status: json['status'] as String,
+      viaBroker: json['via_broker'] as bool,
+    );
+
+Map<String, dynamic> _$SentInterestOutToJson(SentInterestOut instance) =>
+    <String, dynamic>{
+      'basis': instance.basis,
+      'created_at': instance.createdAt.toIso8601String(),
+      'deal_id': ?instance.dealId,
+      'harvest_date': ?_dateToJson(instance.harvestDate),
+      'id': instance.id,
+      'lot': instance.lot.toJson(),
+      'lot_id': instance.lotId,
+      'quantity_t': ?instance.quantityT,
+      'rate_paise': instance.ratePaise,
+      'status': instance.status,
+      'via_broker': instance.viaBroker,
+    };
+
+SentInterestsResponse _$SentInterestsResponseFromJson(
+  Map<String, dynamic> json,
+) => SentInterestsResponse(
+  interests:
+      (json['interests'] as List<dynamic>?)
+          ?.map((e) => SentInterestOut.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      [],
+);
+
+Map<String, dynamic> _$SentInterestsResponseToJson(
+  SentInterestsResponse instance,
+) => <String, dynamic>{
+  'interests': instance.interests.map((e) => e.toJson()).toList(),
 };
 
 SourceOut _$SourceOutFromJson(Map<String, dynamic> json) => SourceOut(

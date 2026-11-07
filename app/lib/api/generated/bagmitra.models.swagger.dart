@@ -6876,6 +6876,182 @@ extension $GrowerCardsResponseExtension on GrowerCardsResponse {
 }
 
 @JsonSerializable(explicitToJson: true)
+class GrowerInterestOut {
+  const GrowerInterestOut({
+    required this.basis,
+    required this.broker,
+    required this.createdAt,
+    this.dealId,
+    required this.harvestDate,
+    required this.id,
+    required this.lotId,
+    required this.quantityT,
+    required this.ratePaise,
+    required this.status,
+    required this.trader,
+    required this.viaBroker,
+  });
+
+  factory GrowerInterestOut.fromJson(Map<String, dynamic> json) =>
+      _$GrowerInterestOutFromJson(json);
+
+  static const toJsonFactory = _$GrowerInterestOutToJson;
+  Map<String, dynamic> toJson() => _$GrowerInterestOutToJson(this);
+
+  @JsonKey(name: 'basis', includeIfNull: false)
+  final String basis;
+  @JsonKey(name: 'broker', includeIfNull: false)
+  final PublicProfileOut? broker;
+  @JsonKey(name: 'created_at', includeIfNull: false)
+  final DateTime createdAt;
+  @JsonKey(name: 'deal_id', includeIfNull: false)
+  final String? dealId;
+  @JsonKey(name: 'harvest_date', includeIfNull: false, toJson: _dateToJson)
+  final DateTime harvestDate;
+  @JsonKey(name: 'id', includeIfNull: false)
+  final String id;
+  @JsonKey(name: 'lot_id', includeIfNull: false)
+  final String lotId;
+  @JsonKey(name: 'quantity_t', includeIfNull: false)
+  final double? quantityT;
+  @JsonKey(name: 'rate_paise', includeIfNull: false)
+  final int ratePaise;
+  @JsonKey(name: 'status', includeIfNull: false)
+  final String status;
+  @JsonKey(name: 'trader', includeIfNull: false)
+  final PublicProfileOut trader;
+  @JsonKey(name: 'via_broker', includeIfNull: false)
+  final bool viaBroker;
+  static const fromJsonFactory = _$GrowerInterestOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is GrowerInterestOut &&
+            (identical(other.basis, basis) ||
+                const DeepCollectionEquality().equals(other.basis, basis)) &&
+            (identical(other.broker, broker) ||
+                const DeepCollectionEquality().equals(other.broker, broker)) &&
+            (identical(other.createdAt, createdAt) ||
+                const DeepCollectionEquality().equals(
+                  other.createdAt,
+                  createdAt,
+                )) &&
+            (identical(other.dealId, dealId) ||
+                const DeepCollectionEquality().equals(other.dealId, dealId)) &&
+            (identical(other.harvestDate, harvestDate) ||
+                const DeepCollectionEquality().equals(
+                  other.harvestDate,
+                  harvestDate,
+                )) &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.lotId, lotId) ||
+                const DeepCollectionEquality().equals(other.lotId, lotId)) &&
+            (identical(other.quantityT, quantityT) ||
+                const DeepCollectionEquality().equals(
+                  other.quantityT,
+                  quantityT,
+                )) &&
+            (identical(other.ratePaise, ratePaise) ||
+                const DeepCollectionEquality().equals(
+                  other.ratePaise,
+                  ratePaise,
+                )) &&
+            (identical(other.status, status) ||
+                const DeepCollectionEquality().equals(other.status, status)) &&
+            (identical(other.trader, trader) ||
+                const DeepCollectionEquality().equals(other.trader, trader)) &&
+            (identical(other.viaBroker, viaBroker) ||
+                const DeepCollectionEquality().equals(
+                  other.viaBroker,
+                  viaBroker,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(basis) ^
+      const DeepCollectionEquality().hash(broker) ^
+      const DeepCollectionEquality().hash(createdAt) ^
+      const DeepCollectionEquality().hash(dealId) ^
+      const DeepCollectionEquality().hash(harvestDate) ^
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(lotId) ^
+      const DeepCollectionEquality().hash(quantityT) ^
+      const DeepCollectionEquality().hash(ratePaise) ^
+      const DeepCollectionEquality().hash(status) ^
+      const DeepCollectionEquality().hash(trader) ^
+      const DeepCollectionEquality().hash(viaBroker) ^
+      runtimeType.hashCode;
+}
+
+extension $GrowerInterestOutExtension on GrowerInterestOut {
+  GrowerInterestOut copyWith({
+    String? basis,
+    PublicProfileOut? broker,
+    DateTime? createdAt,
+    String? dealId,
+    DateTime? harvestDate,
+    String? id,
+    String? lotId,
+    double? quantityT,
+    int? ratePaise,
+    String? status,
+    PublicProfileOut? trader,
+    bool? viaBroker,
+  }) {
+    return GrowerInterestOut(
+      basis: basis ?? this.basis,
+      broker: broker ?? this.broker,
+      createdAt: createdAt ?? this.createdAt,
+      dealId: dealId ?? this.dealId,
+      harvestDate: harvestDate ?? this.harvestDate,
+      id: id ?? this.id,
+      lotId: lotId ?? this.lotId,
+      quantityT: quantityT ?? this.quantityT,
+      ratePaise: ratePaise ?? this.ratePaise,
+      status: status ?? this.status,
+      trader: trader ?? this.trader,
+      viaBroker: viaBroker ?? this.viaBroker,
+    );
+  }
+
+  GrowerInterestOut copyWithWrapped({
+    Wrapped<String>? basis,
+    Wrapped<PublicProfileOut?>? broker,
+    Wrapped<DateTime>? createdAt,
+    Wrapped<String?>? dealId,
+    Wrapped<DateTime>? harvestDate,
+    Wrapped<String>? id,
+    Wrapped<String>? lotId,
+    Wrapped<double?>? quantityT,
+    Wrapped<int>? ratePaise,
+    Wrapped<String>? status,
+    Wrapped<PublicProfileOut>? trader,
+    Wrapped<bool>? viaBroker,
+  }) {
+    return GrowerInterestOut(
+      basis: (basis != null ? basis.value : this.basis),
+      broker: (broker != null ? broker.value : this.broker),
+      createdAt: (createdAt != null ? createdAt.value : this.createdAt),
+      dealId: (dealId != null ? dealId.value : this.dealId),
+      harvestDate: (harvestDate != null ? harvestDate.value : this.harvestDate),
+      id: (id != null ? id.value : this.id),
+      lotId: (lotId != null ? lotId.value : this.lotId),
+      quantityT: (quantityT != null ? quantityT.value : this.quantityT),
+      ratePaise: (ratePaise != null ? ratePaise.value : this.ratePaise),
+      status: (status != null ? status.value : this.status),
+      trader: (trader != null ? trader.value : this.trader),
+      viaBroker: (viaBroker != null ? viaBroker.value : this.viaBroker),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class GrowerLotOut {
   const GrowerLotOut({
     required this.crop,
@@ -7383,6 +7559,283 @@ extension $InsuranceDeadlinesResponseExtension on InsuranceDeadlinesResponse {
 }
 
 @JsonSerializable(explicitToJson: true)
+class InterestIn {
+  const InterestIn({
+    required this.basis,
+    this.brokerId,
+    required this.harvestDate,
+    this.quantityT,
+    required this.ratePaise,
+    this.traderId,
+  });
+
+  factory InterestIn.fromJson(Map<String, dynamic> json) =>
+      _$InterestInFromJson(json);
+
+  static const toJsonFactory = _$InterestInToJson;
+  Map<String, dynamic> toJson() => _$InterestInToJson(this);
+
+  @JsonKey(
+    name: 'basis',
+    includeIfNull: false,
+    toJson: interestInBasisToJson,
+    fromJson: interestInBasisFromJson,
+  )
+  final enums.InterestInBasis basis;
+  @JsonKey(name: 'broker_id', includeIfNull: false)
+  final String? brokerId;
+  @JsonKey(name: 'harvest_date', includeIfNull: false, toJson: _dateToJson)
+  final DateTime harvestDate;
+  @JsonKey(name: 'quantity_t', includeIfNull: false)
+  final double? quantityT;
+  @JsonKey(name: 'rate_paise', includeIfNull: false)
+  final int ratePaise;
+  @JsonKey(name: 'trader_id', includeIfNull: false)
+  final String? traderId;
+  static const fromJsonFactory = _$InterestInFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is InterestIn &&
+            (identical(other.basis, basis) ||
+                const DeepCollectionEquality().equals(other.basis, basis)) &&
+            (identical(other.brokerId, brokerId) ||
+                const DeepCollectionEquality().equals(
+                  other.brokerId,
+                  brokerId,
+                )) &&
+            (identical(other.harvestDate, harvestDate) ||
+                const DeepCollectionEquality().equals(
+                  other.harvestDate,
+                  harvestDate,
+                )) &&
+            (identical(other.quantityT, quantityT) ||
+                const DeepCollectionEquality().equals(
+                  other.quantityT,
+                  quantityT,
+                )) &&
+            (identical(other.ratePaise, ratePaise) ||
+                const DeepCollectionEquality().equals(
+                  other.ratePaise,
+                  ratePaise,
+                )) &&
+            (identical(other.traderId, traderId) ||
+                const DeepCollectionEquality().equals(
+                  other.traderId,
+                  traderId,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(basis) ^
+      const DeepCollectionEquality().hash(brokerId) ^
+      const DeepCollectionEquality().hash(harvestDate) ^
+      const DeepCollectionEquality().hash(quantityT) ^
+      const DeepCollectionEquality().hash(ratePaise) ^
+      const DeepCollectionEquality().hash(traderId) ^
+      runtimeType.hashCode;
+}
+
+extension $InterestInExtension on InterestIn {
+  InterestIn copyWith({
+    enums.InterestInBasis? basis,
+    String? brokerId,
+    DateTime? harvestDate,
+    double? quantityT,
+    int? ratePaise,
+    String? traderId,
+  }) {
+    return InterestIn(
+      basis: basis ?? this.basis,
+      brokerId: brokerId ?? this.brokerId,
+      harvestDate: harvestDate ?? this.harvestDate,
+      quantityT: quantityT ?? this.quantityT,
+      ratePaise: ratePaise ?? this.ratePaise,
+      traderId: traderId ?? this.traderId,
+    );
+  }
+
+  InterestIn copyWithWrapped({
+    Wrapped<enums.InterestInBasis>? basis,
+    Wrapped<String?>? brokerId,
+    Wrapped<DateTime>? harvestDate,
+    Wrapped<double?>? quantityT,
+    Wrapped<int>? ratePaise,
+    Wrapped<String?>? traderId,
+  }) {
+    return InterestIn(
+      basis: (basis != null ? basis.value : this.basis),
+      brokerId: (brokerId != null ? brokerId.value : this.brokerId),
+      harvestDate: (harvestDate != null ? harvestDate.value : this.harvestDate),
+      quantityT: (quantityT != null ? quantityT.value : this.quantityT),
+      ratePaise: (ratePaise != null ? ratePaise.value : this.ratePaise),
+      traderId: (traderId != null ? traderId.value : this.traderId),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class InterestOut {
+  const InterestOut({
+    required this.basis,
+    required this.createdAt,
+    this.dealId,
+    required this.harvestDate,
+    required this.id,
+    required this.lotId,
+    required this.quantityT,
+    required this.ratePaise,
+    required this.status,
+    required this.viaBroker,
+  });
+
+  factory InterestOut.fromJson(Map<String, dynamic> json) =>
+      _$InterestOutFromJson(json);
+
+  static const toJsonFactory = _$InterestOutToJson;
+  Map<String, dynamic> toJson() => _$InterestOutToJson(this);
+
+  @JsonKey(name: 'basis', includeIfNull: false)
+  final String basis;
+  @JsonKey(name: 'created_at', includeIfNull: false)
+  final DateTime createdAt;
+  @JsonKey(name: 'deal_id', includeIfNull: false)
+  final String? dealId;
+  @JsonKey(name: 'harvest_date', includeIfNull: false, toJson: _dateToJson)
+  final DateTime harvestDate;
+  @JsonKey(name: 'id', includeIfNull: false)
+  final String id;
+  @JsonKey(name: 'lot_id', includeIfNull: false)
+  final String lotId;
+  @JsonKey(name: 'quantity_t', includeIfNull: false)
+  final double? quantityT;
+  @JsonKey(name: 'rate_paise', includeIfNull: false)
+  final int ratePaise;
+  @JsonKey(name: 'status', includeIfNull: false)
+  final String status;
+  @JsonKey(name: 'via_broker', includeIfNull: false)
+  final bool viaBroker;
+  static const fromJsonFactory = _$InterestOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is InterestOut &&
+            (identical(other.basis, basis) ||
+                const DeepCollectionEquality().equals(other.basis, basis)) &&
+            (identical(other.createdAt, createdAt) ||
+                const DeepCollectionEquality().equals(
+                  other.createdAt,
+                  createdAt,
+                )) &&
+            (identical(other.dealId, dealId) ||
+                const DeepCollectionEquality().equals(other.dealId, dealId)) &&
+            (identical(other.harvestDate, harvestDate) ||
+                const DeepCollectionEquality().equals(
+                  other.harvestDate,
+                  harvestDate,
+                )) &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.lotId, lotId) ||
+                const DeepCollectionEquality().equals(other.lotId, lotId)) &&
+            (identical(other.quantityT, quantityT) ||
+                const DeepCollectionEquality().equals(
+                  other.quantityT,
+                  quantityT,
+                )) &&
+            (identical(other.ratePaise, ratePaise) ||
+                const DeepCollectionEquality().equals(
+                  other.ratePaise,
+                  ratePaise,
+                )) &&
+            (identical(other.status, status) ||
+                const DeepCollectionEquality().equals(other.status, status)) &&
+            (identical(other.viaBroker, viaBroker) ||
+                const DeepCollectionEquality().equals(
+                  other.viaBroker,
+                  viaBroker,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(basis) ^
+      const DeepCollectionEquality().hash(createdAt) ^
+      const DeepCollectionEquality().hash(dealId) ^
+      const DeepCollectionEquality().hash(harvestDate) ^
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(lotId) ^
+      const DeepCollectionEquality().hash(quantityT) ^
+      const DeepCollectionEquality().hash(ratePaise) ^
+      const DeepCollectionEquality().hash(status) ^
+      const DeepCollectionEquality().hash(viaBroker) ^
+      runtimeType.hashCode;
+}
+
+extension $InterestOutExtension on InterestOut {
+  InterestOut copyWith({
+    String? basis,
+    DateTime? createdAt,
+    String? dealId,
+    DateTime? harvestDate,
+    String? id,
+    String? lotId,
+    double? quantityT,
+    int? ratePaise,
+    String? status,
+    bool? viaBroker,
+  }) {
+    return InterestOut(
+      basis: basis ?? this.basis,
+      createdAt: createdAt ?? this.createdAt,
+      dealId: dealId ?? this.dealId,
+      harvestDate: harvestDate ?? this.harvestDate,
+      id: id ?? this.id,
+      lotId: lotId ?? this.lotId,
+      quantityT: quantityT ?? this.quantityT,
+      ratePaise: ratePaise ?? this.ratePaise,
+      status: status ?? this.status,
+      viaBroker: viaBroker ?? this.viaBroker,
+    );
+  }
+
+  InterestOut copyWithWrapped({
+    Wrapped<String>? basis,
+    Wrapped<DateTime>? createdAt,
+    Wrapped<String?>? dealId,
+    Wrapped<DateTime>? harvestDate,
+    Wrapped<String>? id,
+    Wrapped<String>? lotId,
+    Wrapped<double?>? quantityT,
+    Wrapped<int>? ratePaise,
+    Wrapped<String>? status,
+    Wrapped<bool>? viaBroker,
+  }) {
+    return InterestOut(
+      basis: (basis != null ? basis.value : this.basis),
+      createdAt: (createdAt != null ? createdAt.value : this.createdAt),
+      dealId: (dealId != null ? dealId.value : this.dealId),
+      harvestDate: (harvestDate != null ? harvestDate.value : this.harvestDate),
+      id: (id != null ? id.value : this.id),
+      lotId: (lotId != null ? lotId.value : this.lotId),
+      quantityT: (quantityT != null ? quantityT.value : this.quantityT),
+      ratePaise: (ratePaise != null ? ratePaise.value : this.ratePaise),
+      status: (status != null ? status.value : this.status),
+      viaBroker: (viaBroker != null ? viaBroker.value : this.viaBroker),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class LabelClaimOut {
   const LabelClaimOut({
     required this.activeIngredient,
@@ -7799,6 +8252,197 @@ extension $LiveResponseExtension on LiveResponse {
     return LiveResponse(
       product: (product != null ? product.value : this.product),
       status: (status != null ? status.value : this.status),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class LotBrief {
+  const LotBrief({
+    required this.basis,
+    required this.crop,
+    required this.district,
+    required this.id,
+    required this.quantityT,
+    required this.status,
+    required this.taluka,
+    required this.variety,
+    required this.village,
+  });
+
+  factory LotBrief.fromJson(Map<String, dynamic> json) =>
+      _$LotBriefFromJson(json);
+
+  static const toJsonFactory = _$LotBriefToJson;
+  Map<String, dynamic> toJson() => _$LotBriefToJson(this);
+
+  @JsonKey(name: 'basis', includeIfNull: false)
+  final String basis;
+  @JsonKey(name: 'crop', includeIfNull: false)
+  final String crop;
+  @JsonKey(name: 'district', includeIfNull: false)
+  final String? district;
+  @JsonKey(name: 'id', includeIfNull: false)
+  final String id;
+  @JsonKey(name: 'quantity_t', includeIfNull: false)
+  final double quantityT;
+  @JsonKey(name: 'status', includeIfNull: false)
+  final String status;
+  @JsonKey(name: 'taluka', includeIfNull: false)
+  final String? taluka;
+  @JsonKey(name: 'variety', includeIfNull: false)
+  final String? variety;
+  @JsonKey(name: 'village', includeIfNull: false)
+  final String? village;
+  static const fromJsonFactory = _$LotBriefFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is LotBrief &&
+            (identical(other.basis, basis) ||
+                const DeepCollectionEquality().equals(other.basis, basis)) &&
+            (identical(other.crop, crop) ||
+                const DeepCollectionEquality().equals(other.crop, crop)) &&
+            (identical(other.district, district) ||
+                const DeepCollectionEquality().equals(
+                  other.district,
+                  district,
+                )) &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.quantityT, quantityT) ||
+                const DeepCollectionEquality().equals(
+                  other.quantityT,
+                  quantityT,
+                )) &&
+            (identical(other.status, status) ||
+                const DeepCollectionEquality().equals(other.status, status)) &&
+            (identical(other.taluka, taluka) ||
+                const DeepCollectionEquality().equals(other.taluka, taluka)) &&
+            (identical(other.variety, variety) ||
+                const DeepCollectionEquality().equals(
+                  other.variety,
+                  variety,
+                )) &&
+            (identical(other.village, village) ||
+                const DeepCollectionEquality().equals(other.village, village)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(basis) ^
+      const DeepCollectionEquality().hash(crop) ^
+      const DeepCollectionEquality().hash(district) ^
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(quantityT) ^
+      const DeepCollectionEquality().hash(status) ^
+      const DeepCollectionEquality().hash(taluka) ^
+      const DeepCollectionEquality().hash(variety) ^
+      const DeepCollectionEquality().hash(village) ^
+      runtimeType.hashCode;
+}
+
+extension $LotBriefExtension on LotBrief {
+  LotBrief copyWith({
+    String? basis,
+    String? crop,
+    String? district,
+    String? id,
+    double? quantityT,
+    String? status,
+    String? taluka,
+    String? variety,
+    String? village,
+  }) {
+    return LotBrief(
+      basis: basis ?? this.basis,
+      crop: crop ?? this.crop,
+      district: district ?? this.district,
+      id: id ?? this.id,
+      quantityT: quantityT ?? this.quantityT,
+      status: status ?? this.status,
+      taluka: taluka ?? this.taluka,
+      variety: variety ?? this.variety,
+      village: village ?? this.village,
+    );
+  }
+
+  LotBrief copyWithWrapped({
+    Wrapped<String>? basis,
+    Wrapped<String>? crop,
+    Wrapped<String?>? district,
+    Wrapped<String>? id,
+    Wrapped<double>? quantityT,
+    Wrapped<String>? status,
+    Wrapped<String?>? taluka,
+    Wrapped<String?>? variety,
+    Wrapped<String?>? village,
+  }) {
+    return LotBrief(
+      basis: (basis != null ? basis.value : this.basis),
+      crop: (crop != null ? crop.value : this.crop),
+      district: (district != null ? district.value : this.district),
+      id: (id != null ? id.value : this.id),
+      quantityT: (quantityT != null ? quantityT.value : this.quantityT),
+      status: (status != null ? status.value : this.status),
+      taluka: (taluka != null ? taluka.value : this.taluka),
+      variety: (variety != null ? variety.value : this.variety),
+      village: (village != null ? village.value : this.village),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class LotInterestsResponse {
+  const LotInterestsResponse({required this.interests});
+
+  factory LotInterestsResponse.fromJson(Map<String, dynamic> json) =>
+      _$LotInterestsResponseFromJson(json);
+
+  static const toJsonFactory = _$LotInterestsResponseToJson;
+  Map<String, dynamic> toJson() => _$LotInterestsResponseToJson(this);
+
+  @JsonKey(
+    name: 'interests',
+    includeIfNull: false,
+    defaultValue: <GrowerInterestOut>[],
+  )
+  final List<GrowerInterestOut> interests;
+  static const fromJsonFactory = _$LotInterestsResponseFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is LotInterestsResponse &&
+            (identical(other.interests, interests) ||
+                const DeepCollectionEquality().equals(
+                  other.interests,
+                  interests,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(interests) ^ runtimeType.hashCode;
+}
+
+extension $LotInterestsResponseExtension on LotInterestsResponse {
+  LotInterestsResponse copyWith({List<GrowerInterestOut>? interests}) {
+    return LotInterestsResponse(interests: interests ?? this.interests);
+  }
+
+  LotInterestsResponse copyWithWrapped({
+    Wrapped<List<GrowerInterestOut>>? interests,
+  }) {
+    return LotInterestsResponse(
+      interests: (interests != null ? interests.value : this.interests),
     );
   }
 }
@@ -12237,6 +12881,223 @@ extension $ReviewInExtension on ReviewIn {
 }
 
 @JsonSerializable(explicitToJson: true)
+class SentInterestOut {
+  const SentInterestOut({
+    required this.basis,
+    required this.createdAt,
+    this.dealId,
+    required this.harvestDate,
+    required this.id,
+    required this.lot,
+    required this.lotId,
+    required this.quantityT,
+    required this.ratePaise,
+    required this.status,
+    required this.viaBroker,
+  });
+
+  factory SentInterestOut.fromJson(Map<String, dynamic> json) =>
+      _$SentInterestOutFromJson(json);
+
+  static const toJsonFactory = _$SentInterestOutToJson;
+  Map<String, dynamic> toJson() => _$SentInterestOutToJson(this);
+
+  @JsonKey(name: 'basis', includeIfNull: false)
+  final String basis;
+  @JsonKey(name: 'created_at', includeIfNull: false)
+  final DateTime createdAt;
+  @JsonKey(name: 'deal_id', includeIfNull: false)
+  final String? dealId;
+  @JsonKey(name: 'harvest_date', includeIfNull: false, toJson: _dateToJson)
+  final DateTime harvestDate;
+  @JsonKey(name: 'id', includeIfNull: false)
+  final String id;
+  @JsonKey(name: 'lot', includeIfNull: false)
+  final LotBrief lot;
+  @JsonKey(name: 'lot_id', includeIfNull: false)
+  final String lotId;
+  @JsonKey(name: 'quantity_t', includeIfNull: false)
+  final double? quantityT;
+  @JsonKey(name: 'rate_paise', includeIfNull: false)
+  final int ratePaise;
+  @JsonKey(name: 'status', includeIfNull: false)
+  final String status;
+  @JsonKey(name: 'via_broker', includeIfNull: false)
+  final bool viaBroker;
+  static const fromJsonFactory = _$SentInterestOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is SentInterestOut &&
+            (identical(other.basis, basis) ||
+                const DeepCollectionEquality().equals(other.basis, basis)) &&
+            (identical(other.createdAt, createdAt) ||
+                const DeepCollectionEquality().equals(
+                  other.createdAt,
+                  createdAt,
+                )) &&
+            (identical(other.dealId, dealId) ||
+                const DeepCollectionEquality().equals(other.dealId, dealId)) &&
+            (identical(other.harvestDate, harvestDate) ||
+                const DeepCollectionEquality().equals(
+                  other.harvestDate,
+                  harvestDate,
+                )) &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.lot, lot) ||
+                const DeepCollectionEquality().equals(other.lot, lot)) &&
+            (identical(other.lotId, lotId) ||
+                const DeepCollectionEquality().equals(other.lotId, lotId)) &&
+            (identical(other.quantityT, quantityT) ||
+                const DeepCollectionEquality().equals(
+                  other.quantityT,
+                  quantityT,
+                )) &&
+            (identical(other.ratePaise, ratePaise) ||
+                const DeepCollectionEquality().equals(
+                  other.ratePaise,
+                  ratePaise,
+                )) &&
+            (identical(other.status, status) ||
+                const DeepCollectionEquality().equals(other.status, status)) &&
+            (identical(other.viaBroker, viaBroker) ||
+                const DeepCollectionEquality().equals(
+                  other.viaBroker,
+                  viaBroker,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(basis) ^
+      const DeepCollectionEquality().hash(createdAt) ^
+      const DeepCollectionEquality().hash(dealId) ^
+      const DeepCollectionEquality().hash(harvestDate) ^
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(lot) ^
+      const DeepCollectionEquality().hash(lotId) ^
+      const DeepCollectionEquality().hash(quantityT) ^
+      const DeepCollectionEquality().hash(ratePaise) ^
+      const DeepCollectionEquality().hash(status) ^
+      const DeepCollectionEquality().hash(viaBroker) ^
+      runtimeType.hashCode;
+}
+
+extension $SentInterestOutExtension on SentInterestOut {
+  SentInterestOut copyWith({
+    String? basis,
+    DateTime? createdAt,
+    String? dealId,
+    DateTime? harvestDate,
+    String? id,
+    LotBrief? lot,
+    String? lotId,
+    double? quantityT,
+    int? ratePaise,
+    String? status,
+    bool? viaBroker,
+  }) {
+    return SentInterestOut(
+      basis: basis ?? this.basis,
+      createdAt: createdAt ?? this.createdAt,
+      dealId: dealId ?? this.dealId,
+      harvestDate: harvestDate ?? this.harvestDate,
+      id: id ?? this.id,
+      lot: lot ?? this.lot,
+      lotId: lotId ?? this.lotId,
+      quantityT: quantityT ?? this.quantityT,
+      ratePaise: ratePaise ?? this.ratePaise,
+      status: status ?? this.status,
+      viaBroker: viaBroker ?? this.viaBroker,
+    );
+  }
+
+  SentInterestOut copyWithWrapped({
+    Wrapped<String>? basis,
+    Wrapped<DateTime>? createdAt,
+    Wrapped<String?>? dealId,
+    Wrapped<DateTime>? harvestDate,
+    Wrapped<String>? id,
+    Wrapped<LotBrief>? lot,
+    Wrapped<String>? lotId,
+    Wrapped<double?>? quantityT,
+    Wrapped<int>? ratePaise,
+    Wrapped<String>? status,
+    Wrapped<bool>? viaBroker,
+  }) {
+    return SentInterestOut(
+      basis: (basis != null ? basis.value : this.basis),
+      createdAt: (createdAt != null ? createdAt.value : this.createdAt),
+      dealId: (dealId != null ? dealId.value : this.dealId),
+      harvestDate: (harvestDate != null ? harvestDate.value : this.harvestDate),
+      id: (id != null ? id.value : this.id),
+      lot: (lot != null ? lot.value : this.lot),
+      lotId: (lotId != null ? lotId.value : this.lotId),
+      quantityT: (quantityT != null ? quantityT.value : this.quantityT),
+      ratePaise: (ratePaise != null ? ratePaise.value : this.ratePaise),
+      status: (status != null ? status.value : this.status),
+      viaBroker: (viaBroker != null ? viaBroker.value : this.viaBroker),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class SentInterestsResponse {
+  const SentInterestsResponse({required this.interests});
+
+  factory SentInterestsResponse.fromJson(Map<String, dynamic> json) =>
+      _$SentInterestsResponseFromJson(json);
+
+  static const toJsonFactory = _$SentInterestsResponseToJson;
+  Map<String, dynamic> toJson() => _$SentInterestsResponseToJson(this);
+
+  @JsonKey(
+    name: 'interests',
+    includeIfNull: false,
+    defaultValue: <SentInterestOut>[],
+  )
+  final List<SentInterestOut> interests;
+  static const fromJsonFactory = _$SentInterestsResponseFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is SentInterestsResponse &&
+            (identical(other.interests, interests) ||
+                const DeepCollectionEquality().equals(
+                  other.interests,
+                  interests,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(interests) ^ runtimeType.hashCode;
+}
+
+extension $SentInterestsResponseExtension on SentInterestsResponse {
+  SentInterestsResponse copyWith({List<SentInterestOut>? interests}) {
+    return SentInterestsResponse(interests: interests ?? this.interests);
+  }
+
+  SentInterestsResponse copyWithWrapped({
+    Wrapped<List<SentInterestOut>>? interests,
+  }) {
+    return SentInterestsResponse(
+      interests: (interests != null ? interests.value : this.interests),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class SourceOut {
   const SourceOut({
     required this.allowedUse,
@@ -15318,6 +16179,80 @@ List<enums.GrantInSubjectType>? grantInSubjectTypeNullableListFromJson(
 
   return grantInSubjectType
       .map((e) => grantInSubjectTypeFromJson(e.toString()))
+      .toList();
+}
+
+String? interestInBasisNullableToJson(enums.InterestInBasis? interestInBasis) {
+  return interestInBasis?.value;
+}
+
+String? interestInBasisToJson(enums.InterestInBasis interestInBasis) {
+  return interestInBasis.value;
+}
+
+enums.InterestInBasis interestInBasisFromJson(
+  Object? interestInBasis, [
+  enums.InterestInBasis? defaultValue,
+]) {
+  return enums.InterestInBasis.values.firstWhereOrNull(
+        (e) => e.value == interestInBasis,
+      ) ??
+      defaultValue ??
+      enums.InterestInBasis.swaggerGeneratedUnknown;
+}
+
+enums.InterestInBasis? interestInBasisNullableFromJson(
+  Object? interestInBasis, [
+  enums.InterestInBasis? defaultValue,
+]) {
+  if (interestInBasis == null) {
+    return null;
+  }
+  return enums.InterestInBasis.values.firstWhereOrNull(
+        (e) => e.value == interestInBasis,
+      ) ??
+      defaultValue;
+}
+
+String interestInBasisExplodedListToJson(
+  List<enums.InterestInBasis>? interestInBasis,
+) {
+  return interestInBasis?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> interestInBasisListToJson(
+  List<enums.InterestInBasis>? interestInBasis,
+) {
+  if (interestInBasis == null) {
+    return [];
+  }
+
+  return interestInBasis.map((e) => e.value!).toList();
+}
+
+List<enums.InterestInBasis> interestInBasisListFromJson(
+  List? interestInBasis, [
+  List<enums.InterestInBasis>? defaultValue,
+]) {
+  if (interestInBasis == null) {
+    return defaultValue ?? [];
+  }
+
+  return interestInBasis
+      .map((e) => interestInBasisFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.InterestInBasis>? interestInBasisNullableListFromJson(
+  List? interestInBasis, [
+  List<enums.InterestInBasis>? defaultValue,
+]) {
+  if (interestInBasis == null) {
+    return defaultValue;
+  }
+
+  return interestInBasis
+      .map((e) => interestInBasisFromJson(e.toString()))
       .toList();
 }
 

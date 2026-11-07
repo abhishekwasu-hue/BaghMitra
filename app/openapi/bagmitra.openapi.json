@@ -3418,6 +3418,98 @@
         "title": "GrowerCardsResponse",
         "type": "object"
       },
+      "GrowerInterestOut": {
+        "description": "An interest beside the others: the trader's (and broker's) public profile with the\nverified badge, completed-deal count and stars (spec §3 step 4).",
+        "properties": {
+          "basis": {
+            "title": "Basis",
+            "type": "string"
+          },
+          "broker": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PublicProfileOut"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "deal_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deal Id"
+          },
+          "harvest_date": {
+            "format": "date",
+            "title": "Harvest Date",
+            "type": "string"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "lot_id": {
+            "format": "uuid",
+            "title": "Lot Id",
+            "type": "string"
+          },
+          "quantity_t": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Quantity T"
+          },
+          "rate_paise": {
+            "title": "Rate Paise",
+            "type": "integer"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          },
+          "trader": {
+            "$ref": "#/components/schemas/PublicProfileOut"
+          },
+          "via_broker": {
+            "title": "Via Broker",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "lot_id",
+          "basis",
+          "rate_paise",
+          "quantity_t",
+          "harvest_date",
+          "status",
+          "created_at",
+          "via_broker",
+          "trader",
+          "broker"
+        ],
+        "title": "GrowerInterestOut",
+        "type": "object"
+      },
       "GrowerLotOut": {
         "description": "The server-set state of the grower's own lot after publish / close.",
         "properties": {
@@ -3645,6 +3737,152 @@
         "title": "InsuranceDeadlinesResponse",
         "type": "object"
       },
+      "InterestIn": {
+        "additionalProperties": false,
+        "description": "Spec §3 step 3, nothing more. `rate_paise` is per tonne, per crate or the whole amount,\nby `basis`. A trader may name a broker (`broker_id`); a broker names the trader\n(`trader_id`) it brings. Unknown keys (terms, commission, payer ...) are refused.",
+        "properties": {
+          "basis": {
+            "enum": [
+              "per_tonne",
+              "per_crate",
+              "lump_sum"
+            ],
+            "title": "Basis",
+            "type": "string"
+          },
+          "broker_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Broker Id"
+          },
+          "harvest_date": {
+            "format": "date",
+            "title": "Harvest Date",
+            "type": "string"
+          },
+          "quantity_t": {
+            "anyOf": [
+              {
+                "exclusiveMinimum": 0.0,
+                "maximum": 10000.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Quantity T"
+          },
+          "rate_paise": {
+            "exclusiveMinimum": 0.0,
+            "maximum": 1000000000000.0,
+            "title": "Rate Paise",
+            "type": "integer"
+          },
+          "trader_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trader Id"
+          }
+        },
+        "required": [
+          "basis",
+          "rate_paise",
+          "harvest_date"
+        ],
+        "title": "InterestIn",
+        "type": "object"
+      },
+      "InterestOut": {
+        "properties": {
+          "basis": {
+            "title": "Basis",
+            "type": "string"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "deal_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deal Id"
+          },
+          "harvest_date": {
+            "format": "date",
+            "title": "Harvest Date",
+            "type": "string"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "lot_id": {
+            "format": "uuid",
+            "title": "Lot Id",
+            "type": "string"
+          },
+          "quantity_t": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Quantity T"
+          },
+          "rate_paise": {
+            "title": "Rate Paise",
+            "type": "integer"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          },
+          "via_broker": {
+            "title": "Via Broker",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "lot_id",
+          "basis",
+          "rate_paise",
+          "quantity_t",
+          "harvest_date",
+          "status",
+          "created_at",
+          "via_broker"
+        ],
+        "title": "InterestOut",
+        "type": "object"
+      },
       "LabelClaimOut": {
         "properties": {
           "active_ingredient": {
@@ -3847,6 +4085,105 @@
           "product"
         ],
         "title": "LiveResponse",
+        "type": "object"
+      },
+      "LotBrief": {
+        "description": "What the sender already saw in the lot list: never the grower's identity.",
+        "properties": {
+          "basis": {
+            "title": "Basis",
+            "type": "string"
+          },
+          "crop": {
+            "title": "Crop",
+            "type": "string"
+          },
+          "district": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "District"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "quantity_t": {
+            "title": "Quantity T",
+            "type": "number"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          },
+          "taluka": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Taluka"
+          },
+          "variety": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Variety"
+          },
+          "village": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Village"
+          }
+        },
+        "required": [
+          "id",
+          "crop",
+          "variety",
+          "quantity_t",
+          "basis",
+          "village",
+          "taluka",
+          "district",
+          "status"
+        ],
+        "title": "LotBrief",
+        "type": "object"
+      },
+      "LotInterestsResponse": {
+        "properties": {
+          "interests": {
+            "items": {
+              "$ref": "#/components/schemas/GrowerInterestOut"
+            },
+            "title": "Interests",
+            "type": "array"
+          }
+        },
+        "required": [
+          "interests"
+        ],
+        "title": "LotInterestsResponse",
         "type": "object"
       },
       "LotPhotoStored": {
@@ -5922,6 +6259,102 @@
           "decision"
         ],
         "title": "ReviewIn",
+        "type": "object"
+      },
+      "SentInterestOut": {
+        "properties": {
+          "basis": {
+            "title": "Basis",
+            "type": "string"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "deal_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deal Id"
+          },
+          "harvest_date": {
+            "format": "date",
+            "title": "Harvest Date",
+            "type": "string"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "lot": {
+            "$ref": "#/components/schemas/LotBrief"
+          },
+          "lot_id": {
+            "format": "uuid",
+            "title": "Lot Id",
+            "type": "string"
+          },
+          "quantity_t": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Quantity T"
+          },
+          "rate_paise": {
+            "title": "Rate Paise",
+            "type": "integer"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          },
+          "via_broker": {
+            "title": "Via Broker",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "lot_id",
+          "basis",
+          "rate_paise",
+          "quantity_t",
+          "harvest_date",
+          "status",
+          "created_at",
+          "via_broker",
+          "lot"
+        ],
+        "title": "SentInterestOut",
+        "type": "object"
+      },
+      "SentInterestsResponse": {
+        "properties": {
+          "interests": {
+            "items": {
+              "$ref": "#/components/schemas/SentInterestOut"
+            },
+            "title": "Interests",
+            "type": "array"
+          }
+        },
+        "required": [
+          "interests"
+        ],
+        "title": "SentInterestsResponse",
         "type": "object"
       },
       "SourceOut": {
@@ -12288,6 +12721,83 @@
         ]
       }
     },
+    "/v1/market-link/interests/mine": {
+      "get": {
+        "description": "Interests where the caller is the trader or the named broker, newest first, with the\nlot and, once accepted, the introduction to open; a closed one is the notice that the\ngrower accepted another or closed the lot.",
+        "operationId": "market_link_my_interests",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SentInterestsResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "My Interests",
+        "tags": [
+          "market-link"
+        ]
+      }
+    },
     "/v1/market-link/lot-photos/{photo_id}/photo": {
       "put": {
         "description": "Uploads one JPEG of the caller's own draft lot through the server, which strips its\nEXIF (GPS point, phone model, time) before storing it (spec v1.5 §4B). There is no signed\nupload URL for lot photos, so no stored lot photo can keep its metadata.",
@@ -12788,6 +13298,192 @@
           }
         ],
         "summary": "Close Lot",
+        "tags": [
+          "market-link"
+        ]
+      }
+    },
+    "/v1/market-link/lots/{lot_id}/interests": {
+      "get": {
+        "description": "The interests on the caller's own lot, oldest first, to compare side by side. An open\ninterest whose trader or broker is no longer verified is left out (decision h).",
+        "operationId": "market_link_lot_interests",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "lot_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Lot Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LotInterestsResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Lot Interests",
+        "tags": [
+          "market-link"
+        ]
+      },
+      "post": {
+        "description": "An interest on a published lot from a verified trader / exporter (optionally naming a\nverified broker) or from a verified broker for a named verified trader. A trader's new\ninterest replaces their open one on the same lot.",
+        "operationId": "market_link_send_interest",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "lot_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Lot Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InterestIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InterestOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Send Interest",
         "tags": [
           "market-link"
         ]
