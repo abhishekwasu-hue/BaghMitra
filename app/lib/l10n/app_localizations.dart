@@ -5271,6 +5271,330 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Later'**
   String get nameScriptLater;
+
+  /// No description provided for @adminMlQueue.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification queue'**
+  String get adminMlQueue;
+
+  /// No description provided for @adminMlTags.
+  ///
+  /// In en, this message translates to:
+  /// **'Rating tags'**
+  String get adminMlTags;
+
+  /// No description provided for @adminMlAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get adminMlAll;
+
+  /// No description provided for @adminMlBuyer.
+  ///
+  /// In en, this message translates to:
+  /// **'Trader'**
+  String get adminMlBuyer;
+
+  /// No description provided for @adminMlBroker.
+  ///
+  /// In en, this message translates to:
+  /// **'Broker'**
+  String get adminMlBroker;
+
+  /// No description provided for @adminMlProvider.
+  ///
+  /// In en, this message translates to:
+  /// **'Service provider'**
+  String get adminMlProvider;
+
+  /// No description provided for @adminMlQueueEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Everyone is checked'**
+  String get adminMlQueueEmpty;
+
+  /// No description provided for @adminMlWaitingSince.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting since {date}'**
+  String adminMlWaitingSince(String date);
+
+  /// No description provided for @adminMlFields.
+  ///
+  /// In en, this message translates to:
+  /// **'Submitted details'**
+  String get adminMlFields;
+
+  /// No description provided for @adminMlDocuments.
+  ///
+  /// In en, this message translates to:
+  /// **'Documents'**
+  String get adminMlDocuments;
+
+  /// No description provided for @adminMlNoDocuments.
+  ///
+  /// In en, this message translates to:
+  /// **'Documents appear here once sent'**
+  String get adminMlNoDocuments;
+
+  /// No description provided for @adminMlDocument.
+  ///
+  /// In en, this message translates to:
+  /// **'Document {n}'**
+  String adminMlDocument(int n);
+
+  /// No description provided for @adminMlReject.
+  ///
+  /// In en, this message translates to:
+  /// **'Reject'**
+  String get adminMlReject;
+
+  /// No description provided for @adminMlRejectTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reject with a reason'**
+  String get adminMlRejectTitle;
+
+  /// No description provided for @adminMlBadgeNote.
+  ///
+  /// In en, this message translates to:
+  /// **'The verified badge shows only after approval; a later rejection removes it at once.'**
+  String get adminMlBadgeNote;
+
+  /// No description provided for @adminMlStatusPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting'**
+  String get adminMlStatusPending;
+
+  /// No description provided for @adminMlStatusApproved.
+  ///
+  /// In en, this message translates to:
+  /// **'Verified'**
+  String get adminMlStatusApproved;
+
+  /// No description provided for @adminMlStatusRejected.
+  ///
+  /// In en, this message translates to:
+  /// **'Rejected'**
+  String get adminMlStatusRejected;
+
+  /// No description provided for @adminMlCheckedBy.
+  ///
+  /// In en, this message translates to:
+  /// **'by {who}'**
+  String adminMlCheckedBy(String who);
+
+  /// No description provided for @adminMlTagsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Rating tags appear here'**
+  String get adminMlTagsEmpty;
+
+  /// No description provided for @adminMlTagsNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Drafts wait for a native-speaker check; only active tags reach the app.'**
+  String get adminMlTagsNote;
+
+  /// No description provided for @adminMlTagDraft.
+  ///
+  /// In en, this message translates to:
+  /// **'Draft'**
+  String get adminMlTagDraft;
+
+  /// No description provided for @adminMlTagActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get adminMlTagActive;
+
+  /// No description provided for @adminMlTagRetired.
+  ///
+  /// In en, this message translates to:
+  /// **'Retired'**
+  String get adminMlTagRetired;
+
+  /// No description provided for @adminMlPositive.
+  ///
+  /// In en, this message translates to:
+  /// **'Good'**
+  String get adminMlPositive;
+
+  /// No description provided for @adminMlNegative.
+  ///
+  /// In en, this message translates to:
+  /// **'Problem'**
+  String get adminMlNegative;
+
+  /// No description provided for @adminMlEditTag.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit tag'**
+  String get adminMlEditTag;
+
+  /// No description provided for @adminMlLabelEn.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get adminMlLabelEn;
+
+  /// No description provided for @adminMlLabelMr.
+  ///
+  /// In en, this message translates to:
+  /// **'Marathi'**
+  String get adminMlLabelMr;
+
+  /// No description provided for @adminMlLabelHi.
+  ///
+  /// In en, this message translates to:
+  /// **'Hindi'**
+  String get adminMlLabelHi;
+
+  /// No description provided for @adminMlYes.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes'**
+  String get adminMlYes;
+
+  /// No description provided for @adminMlNo.
+  ///
+  /// In en, this message translates to:
+  /// **'No'**
+  String get adminMlNo;
+
+  /// No description provided for @adminMlFieldName.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get adminMlFieldName;
+
+  /// No description provided for @adminMlFieldFirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Firm'**
+  String get adminMlFieldFirm;
+
+  /// No description provided for @adminMlFieldPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone'**
+  String get adminMlFieldPhone;
+
+  /// No description provided for @adminMlFieldMarkets.
+  ///
+  /// In en, this message translates to:
+  /// **'Markets'**
+  String get adminMlFieldMarkets;
+
+  /// No description provided for @adminMlFieldDistrict.
+  ///
+  /// In en, this message translates to:
+  /// **'District'**
+  String get adminMlFieldDistrict;
+
+  /// No description provided for @adminMlFieldTaluka.
+  ///
+  /// In en, this message translates to:
+  /// **'Taluka'**
+  String get adminMlFieldTaluka;
+
+  /// No description provided for @adminMlFieldVillage.
+  ///
+  /// In en, this message translates to:
+  /// **'Village'**
+  String get adminMlFieldVillage;
+
+  /// No description provided for @adminMlFieldCrops.
+  ///
+  /// In en, this message translates to:
+  /// **'Crops'**
+  String get adminMlFieldCrops;
+
+  /// No description provided for @adminMlFieldServiceAreas.
+  ///
+  /// In en, this message translates to:
+  /// **'Service area'**
+  String get adminMlFieldServiceAreas;
+
+  /// No description provided for @adminMlFieldApmc.
+  ///
+  /// In en, this message translates to:
+  /// **'APMC licence no.'**
+  String get adminMlFieldApmc;
+
+  /// No description provided for @adminMlFieldGst.
+  ///
+  /// In en, this message translates to:
+  /// **'GST no.'**
+  String get adminMlFieldGst;
+
+  /// No description provided for @adminMlFieldKind.
+  ///
+  /// In en, this message translates to:
+  /// **'Service'**
+  String get adminMlFieldKind;
+
+  /// No description provided for @adminMlFieldCertValidUntil.
+  ///
+  /// In en, this message translates to:
+  /// **'Certificate valid until'**
+  String get adminMlFieldCertValidUntil;
+
+  /// No description provided for @adminMlFieldVehicles.
+  ///
+  /// In en, this message translates to:
+  /// **'Vehicle numbers'**
+  String get adminMlFieldVehicles;
+
+  /// No description provided for @adminMlFieldCapacity.
+  ///
+  /// In en, this message translates to:
+  /// **'Capacity (t)'**
+  String get adminMlFieldCapacity;
+
+  /// No description provided for @adminMlFieldRefrigerated.
+  ///
+  /// In en, this message translates to:
+  /// **'Refrigerated'**
+  String get adminMlFieldRefrigerated;
+
+  /// No description provided for @adminMlFieldCarrierReg.
+  ///
+  /// In en, this message translates to:
+  /// **'Carrier registration no.'**
+  String get adminMlFieldCarrierReg;
+
+  /// No description provided for @adminMlKindWeighbridge.
+  ///
+  /// In en, this message translates to:
+  /// **'Weighbridge'**
+  String get adminMlKindWeighbridge;
+
+  /// No description provided for @adminMlKindTransporter.
+  ///
+  /// In en, this message translates to:
+  /// **'Transporter'**
+  String get adminMlKindTransporter;
+
+  /// No description provided for @adminMlKindLabourGang.
+  ///
+  /// In en, this message translates to:
+  /// **'Labour gang'**
+  String get adminMlKindLabourGang;
+
+  /// No description provided for @adminMlKindCrateSupplier.
+  ///
+  /// In en, this message translates to:
+  /// **'Crate supplier'**
+  String get adminMlKindCrateSupplier;
+
+  /// No description provided for @adminMlDocumentCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Documents: {n}'**
+  String adminMlDocumentCount(int n);
 }
 
 class _AppLocalizationsDelegate

@@ -11,6 +11,209 @@ import 'bagmitra.enums.swagger.dart' as enums;
 part 'bagmitra.models.swagger.g.dart';
 
 @JsonSerializable(explicitToJson: true)
+class AcceptIn {
+  const AcceptIn({
+    required this.adultDeclared,
+    required this.disclaimerVersion,
+    required this.privacyVersion,
+    required this.role,
+    required this.termsVersion,
+  });
+
+  factory AcceptIn.fromJson(Map<String, dynamic> json) =>
+      _$AcceptInFromJson(json);
+
+  static const toJsonFactory = _$AcceptInToJson;
+  Map<String, dynamic> toJson() => _$AcceptInToJson(this);
+
+  @JsonKey(name: 'adult_declared', includeIfNull: false)
+  final bool adultDeclared;
+  @JsonKey(name: 'disclaimer_version', includeIfNull: false)
+  final String disclaimerVersion;
+  @JsonKey(name: 'privacy_version', includeIfNull: false)
+  final String privacyVersion;
+  @JsonKey(
+    name: 'role',
+    includeIfNull: false,
+    toJson: acceptInRoleToJson,
+    fromJson: acceptInRoleFromJson,
+  )
+  final enums.AcceptInRole role;
+  @JsonKey(name: 'terms_version', includeIfNull: false)
+  final String termsVersion;
+  static const fromJsonFactory = _$AcceptInFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is AcceptIn &&
+            (identical(other.adultDeclared, adultDeclared) ||
+                const DeepCollectionEquality().equals(
+                  other.adultDeclared,
+                  adultDeclared,
+                )) &&
+            (identical(other.disclaimerVersion, disclaimerVersion) ||
+                const DeepCollectionEquality().equals(
+                  other.disclaimerVersion,
+                  disclaimerVersion,
+                )) &&
+            (identical(other.privacyVersion, privacyVersion) ||
+                const DeepCollectionEquality().equals(
+                  other.privacyVersion,
+                  privacyVersion,
+                )) &&
+            (identical(other.role, role) ||
+                const DeepCollectionEquality().equals(other.role, role)) &&
+            (identical(other.termsVersion, termsVersion) ||
+                const DeepCollectionEquality().equals(
+                  other.termsVersion,
+                  termsVersion,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(adultDeclared) ^
+      const DeepCollectionEquality().hash(disclaimerVersion) ^
+      const DeepCollectionEquality().hash(privacyVersion) ^
+      const DeepCollectionEquality().hash(role) ^
+      const DeepCollectionEquality().hash(termsVersion) ^
+      runtimeType.hashCode;
+}
+
+extension $AcceptInExtension on AcceptIn {
+  AcceptIn copyWith({
+    bool? adultDeclared,
+    String? disclaimerVersion,
+    String? privacyVersion,
+    enums.AcceptInRole? role,
+    String? termsVersion,
+  }) {
+    return AcceptIn(
+      adultDeclared: adultDeclared ?? this.adultDeclared,
+      disclaimerVersion: disclaimerVersion ?? this.disclaimerVersion,
+      privacyVersion: privacyVersion ?? this.privacyVersion,
+      role: role ?? this.role,
+      termsVersion: termsVersion ?? this.termsVersion,
+    );
+  }
+
+  AcceptIn copyWithWrapped({
+    Wrapped<bool>? adultDeclared,
+    Wrapped<String>? disclaimerVersion,
+    Wrapped<String>? privacyVersion,
+    Wrapped<enums.AcceptInRole>? role,
+    Wrapped<String>? termsVersion,
+  }) {
+    return AcceptIn(
+      adultDeclared: (adultDeclared != null
+          ? adultDeclared.value
+          : this.adultDeclared),
+      disclaimerVersion: (disclaimerVersion != null
+          ? disclaimerVersion.value
+          : this.disclaimerVersion),
+      privacyVersion: (privacyVersion != null
+          ? privacyVersion.value
+          : this.privacyVersion),
+      role: (role != null ? role.value : this.role),
+      termsVersion: (termsVersion != null
+          ? termsVersion.value
+          : this.termsVersion),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class AcceptanceOut {
+  const AcceptanceOut({
+    required this.acceptedAt,
+    required this.docKind,
+    required this.role,
+    required this.version,
+  });
+
+  factory AcceptanceOut.fromJson(Map<String, dynamic> json) =>
+      _$AcceptanceOutFromJson(json);
+
+  static const toJsonFactory = _$AcceptanceOutToJson;
+  Map<String, dynamic> toJson() => _$AcceptanceOutToJson(this);
+
+  @JsonKey(name: 'accepted_at', includeIfNull: false)
+  final DateTime acceptedAt;
+  @JsonKey(name: 'doc_kind', includeIfNull: false)
+  final String docKind;
+  @JsonKey(name: 'role', includeIfNull: false)
+  final String role;
+  @JsonKey(name: 'version', includeIfNull: false)
+  final String version;
+  static const fromJsonFactory = _$AcceptanceOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is AcceptanceOut &&
+            (identical(other.acceptedAt, acceptedAt) ||
+                const DeepCollectionEquality().equals(
+                  other.acceptedAt,
+                  acceptedAt,
+                )) &&
+            (identical(other.docKind, docKind) ||
+                const DeepCollectionEquality().equals(
+                  other.docKind,
+                  docKind,
+                )) &&
+            (identical(other.role, role) ||
+                const DeepCollectionEquality().equals(other.role, role)) &&
+            (identical(other.version, version) ||
+                const DeepCollectionEquality().equals(other.version, version)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(acceptedAt) ^
+      const DeepCollectionEquality().hash(docKind) ^
+      const DeepCollectionEquality().hash(role) ^
+      const DeepCollectionEquality().hash(version) ^
+      runtimeType.hashCode;
+}
+
+extension $AcceptanceOutExtension on AcceptanceOut {
+  AcceptanceOut copyWith({
+    DateTime? acceptedAt,
+    String? docKind,
+    String? role,
+    String? version,
+  }) {
+    return AcceptanceOut(
+      acceptedAt: acceptedAt ?? this.acceptedAt,
+      docKind: docKind ?? this.docKind,
+      role: role ?? this.role,
+      version: version ?? this.version,
+    );
+  }
+
+  AcceptanceOut copyWithWrapped({
+    Wrapped<DateTime>? acceptedAt,
+    Wrapped<String>? docKind,
+    Wrapped<String>? role,
+    Wrapped<String>? version,
+  }) {
+    return AcceptanceOut(
+      acceptedAt: (acceptedAt != null ? acceptedAt.value : this.acceptedAt),
+      docKind: (docKind != null ? docKind.value : this.docKind),
+      role: (role != null ? role.value : this.role),
+      version: (version != null ? version.value : this.version),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class AccountDeleted {
   const AccountDeleted({
     required this.photosDeleted,
@@ -4555,6 +4758,64 @@ extension $GrantInExtension on GrantIn {
 }
 
 @JsonSerializable(explicitToJson: true)
+class GrievanceOfficerOut {
+  const GrievanceOfficerOut({required this.contact, required this.name});
+
+  factory GrievanceOfficerOut.fromJson(Map<String, dynamic> json) =>
+      _$GrievanceOfficerOutFromJson(json);
+
+  static const toJsonFactory = _$GrievanceOfficerOutToJson;
+  Map<String, dynamic> toJson() => _$GrievanceOfficerOutToJson(this);
+
+  @JsonKey(name: 'contact', includeIfNull: false)
+  final String? contact;
+  @JsonKey(name: 'name', includeIfNull: false)
+  final String? name;
+  static const fromJsonFactory = _$GrievanceOfficerOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is GrievanceOfficerOut &&
+            (identical(other.contact, contact) ||
+                const DeepCollectionEquality().equals(
+                  other.contact,
+                  contact,
+                )) &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(contact) ^
+      const DeepCollectionEquality().hash(name) ^
+      runtimeType.hashCode;
+}
+
+extension $GrievanceOfficerOutExtension on GrievanceOfficerOut {
+  GrievanceOfficerOut copyWith({String? contact, String? name}) {
+    return GrievanceOfficerOut(
+      contact: contact ?? this.contact,
+      name: name ?? this.name,
+    );
+  }
+
+  GrievanceOfficerOut copyWithWrapped({
+    Wrapped<String?>? contact,
+    Wrapped<String?>? name,
+  }) {
+    return GrievanceOfficerOut(
+      contact: (contact != null ? contact.value : this.contact),
+      name: (name != null ? name.value : this.name),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class GrowerCardOut {
   const GrowerCardOut({
     required this.crop,
@@ -6234,6 +6495,71 @@ extension $MutationResultExtension on MutationResult {
           : this.clientMutationId),
       error: (error != null ? error.value : this.error),
       status: (status != null ? status.value : this.status),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class MyAcceptancesOut {
+  const MyAcceptancesOut({required this.acceptances, required this.roles});
+
+  factory MyAcceptancesOut.fromJson(Map<String, dynamic> json) =>
+      _$MyAcceptancesOutFromJson(json);
+
+  static const toJsonFactory = _$MyAcceptancesOutToJson;
+  Map<String, dynamic> toJson() => _$MyAcceptancesOutToJson(this);
+
+  @JsonKey(
+    name: 'acceptances',
+    includeIfNull: false,
+    defaultValue: <AcceptanceOut>[],
+  )
+  final List<AcceptanceOut> acceptances;
+  @JsonKey(name: 'roles', includeIfNull: false, defaultValue: <String>[])
+  final List<String> roles;
+  static const fromJsonFactory = _$MyAcceptancesOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is MyAcceptancesOut &&
+            (identical(other.acceptances, acceptances) ||
+                const DeepCollectionEquality().equals(
+                  other.acceptances,
+                  acceptances,
+                )) &&
+            (identical(other.roles, roles) ||
+                const DeepCollectionEquality().equals(other.roles, roles)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(acceptances) ^
+      const DeepCollectionEquality().hash(roles) ^
+      runtimeType.hashCode;
+}
+
+extension $MyAcceptancesOutExtension on MyAcceptancesOut {
+  MyAcceptancesOut copyWith({
+    List<AcceptanceOut>? acceptances,
+    List<String>? roles,
+  }) {
+    return MyAcceptancesOut(
+      acceptances: acceptances ?? this.acceptances,
+      roles: roles ?? this.roles,
+    );
+  }
+
+  MyAcceptancesOut copyWithWrapped({
+    Wrapped<List<AcceptanceOut>>? acceptances,
+    Wrapped<List<String>>? roles,
+  }) {
+    return MyAcceptancesOut(
+      acceptances: (acceptances != null ? acceptances.value : this.acceptances),
+      roles: (roles != null ? roles.value : this.roles),
     );
   }
 }
@@ -8765,6 +9091,152 @@ extension $TemplateStageExtension on TemplateStage {
 }
 
 @JsonSerializable(explicitToJson: true)
+class TermsDocOut {
+  const TermsDocOut({
+    required this.kind,
+    required this.url,
+    required this.version,
+  });
+
+  factory TermsDocOut.fromJson(Map<String, dynamic> json) =>
+      _$TermsDocOutFromJson(json);
+
+  static const toJsonFactory = _$TermsDocOutToJson;
+  Map<String, dynamic> toJson() => _$TermsDocOutToJson(this);
+
+  @JsonKey(
+    name: 'kind',
+    includeIfNull: false,
+    toJson: termsDocOutKindToJson,
+    fromJson: termsDocOutKindFromJson,
+  )
+  final enums.TermsDocOutKind kind;
+  @JsonKey(name: 'url', includeIfNull: false)
+  final String? url;
+  @JsonKey(name: 'version', includeIfNull: false)
+  final String version;
+  static const fromJsonFactory = _$TermsDocOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is TermsDocOut &&
+            (identical(other.kind, kind) ||
+                const DeepCollectionEquality().equals(other.kind, kind)) &&
+            (identical(other.url, url) ||
+                const DeepCollectionEquality().equals(other.url, url)) &&
+            (identical(other.version, version) ||
+                const DeepCollectionEquality().equals(other.version, version)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(kind) ^
+      const DeepCollectionEquality().hash(url) ^
+      const DeepCollectionEquality().hash(version) ^
+      runtimeType.hashCode;
+}
+
+extension $TermsDocOutExtension on TermsDocOut {
+  TermsDocOut copyWith({
+    enums.TermsDocOutKind? kind,
+    String? url,
+    String? version,
+  }) {
+    return TermsDocOut(
+      kind: kind ?? this.kind,
+      url: url ?? this.url,
+      version: version ?? this.version,
+    );
+  }
+
+  TermsDocOut copyWithWrapped({
+    Wrapped<enums.TermsDocOutKind>? kind,
+    Wrapped<String?>? url,
+    Wrapped<String>? version,
+  }) {
+    return TermsDocOut(
+      kind: (kind != null ? kind.value : this.kind),
+      url: (url != null ? url.value : this.url),
+      version: (version != null ? version.value : this.version),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class TermsOut {
+  const TermsOut({required this.documents, required this.grievanceOfficer});
+
+  factory TermsOut.fromJson(Map<String, dynamic> json) =>
+      _$TermsOutFromJson(json);
+
+  static const toJsonFactory = _$TermsOutToJson;
+  Map<String, dynamic> toJson() => _$TermsOutToJson(this);
+
+  @JsonKey(
+    name: 'documents',
+    includeIfNull: false,
+    defaultValue: <TermsDocOut>[],
+  )
+  final List<TermsDocOut> documents;
+  @JsonKey(name: 'grievance_officer', includeIfNull: false)
+  final GrievanceOfficerOut grievanceOfficer;
+  static const fromJsonFactory = _$TermsOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is TermsOut &&
+            (identical(other.documents, documents) ||
+                const DeepCollectionEquality().equals(
+                  other.documents,
+                  documents,
+                )) &&
+            (identical(other.grievanceOfficer, grievanceOfficer) ||
+                const DeepCollectionEquality().equals(
+                  other.grievanceOfficer,
+                  grievanceOfficer,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(documents) ^
+      const DeepCollectionEquality().hash(grievanceOfficer) ^
+      runtimeType.hashCode;
+}
+
+extension $TermsOutExtension on TermsOut {
+  TermsOut copyWith({
+    List<TermsDocOut>? documents,
+    GrievanceOfficerOut? grievanceOfficer,
+  }) {
+    return TermsOut(
+      documents: documents ?? this.documents,
+      grievanceOfficer: grievanceOfficer ?? this.grievanceOfficer,
+    );
+  }
+
+  TermsOut copyWithWrapped({
+    Wrapped<List<TermsDocOut>>? documents,
+    Wrapped<GrievanceOfficerOut>? grievanceOfficer,
+  }) {
+    return TermsOut(
+      documents: (documents != null ? documents.value : this.documents),
+      grievanceOfficer: (grievanceOfficer != null
+          ? grievanceOfficer.value
+          : this.grievanceOfficer),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class ValidationError {
   const ValidationError({
     required this.loc,
@@ -9208,6 +9680,72 @@ extension $WeatherDayExtension on WeatherDay {
       windGustKmh: (windGustKmh != null ? windGustKmh.value : this.windGustKmh),
     );
   }
+}
+
+String? acceptInRoleNullableToJson(enums.AcceptInRole? acceptInRole) {
+  return acceptInRole?.value;
+}
+
+String? acceptInRoleToJson(enums.AcceptInRole acceptInRole) {
+  return acceptInRole.value;
+}
+
+enums.AcceptInRole acceptInRoleFromJson(
+  Object? acceptInRole, [
+  enums.AcceptInRole? defaultValue,
+]) {
+  return enums.AcceptInRole.values.firstWhereOrNull(
+        (e) => e.value == acceptInRole,
+      ) ??
+      defaultValue ??
+      enums.AcceptInRole.swaggerGeneratedUnknown;
+}
+
+enums.AcceptInRole? acceptInRoleNullableFromJson(
+  Object? acceptInRole, [
+  enums.AcceptInRole? defaultValue,
+]) {
+  if (acceptInRole == null) {
+    return null;
+  }
+  return enums.AcceptInRole.values.firstWhereOrNull(
+        (e) => e.value == acceptInRole,
+      ) ??
+      defaultValue;
+}
+
+String acceptInRoleExplodedListToJson(List<enums.AcceptInRole>? acceptInRole) {
+  return acceptInRole?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> acceptInRoleListToJson(List<enums.AcceptInRole>? acceptInRole) {
+  if (acceptInRole == null) {
+    return [];
+  }
+
+  return acceptInRole.map((e) => e.value!).toList();
+}
+
+List<enums.AcceptInRole> acceptInRoleListFromJson(
+  List? acceptInRole, [
+  List<enums.AcceptInRole>? defaultValue,
+]) {
+  if (acceptInRole == null) {
+    return defaultValue ?? [];
+  }
+
+  return acceptInRole.map((e) => acceptInRoleFromJson(e.toString())).toList();
+}
+
+List<enums.AcceptInRole>? acceptInRoleNullableListFromJson(
+  List? acceptInRole, [
+  List<enums.AcceptInRole>? defaultValue,
+]) {
+  if (acceptInRole == null) {
+    return defaultValue;
+  }
+
+  return acceptInRole.map((e) => acceptInRoleFromJson(e.toString())).toList();
 }
 
 String? blockedClaimOutReasonNullableToJson(
@@ -10406,6 +10944,80 @@ List<enums.ReviewInDecision>? reviewInDecisionNullableListFromJson(
 
   return reviewInDecision
       .map((e) => reviewInDecisionFromJson(e.toString()))
+      .toList();
+}
+
+String? termsDocOutKindNullableToJson(enums.TermsDocOutKind? termsDocOutKind) {
+  return termsDocOutKind?.value;
+}
+
+String? termsDocOutKindToJson(enums.TermsDocOutKind termsDocOutKind) {
+  return termsDocOutKind.value;
+}
+
+enums.TermsDocOutKind termsDocOutKindFromJson(
+  Object? termsDocOutKind, [
+  enums.TermsDocOutKind? defaultValue,
+]) {
+  return enums.TermsDocOutKind.values.firstWhereOrNull(
+        (e) => e.value == termsDocOutKind,
+      ) ??
+      defaultValue ??
+      enums.TermsDocOutKind.swaggerGeneratedUnknown;
+}
+
+enums.TermsDocOutKind? termsDocOutKindNullableFromJson(
+  Object? termsDocOutKind, [
+  enums.TermsDocOutKind? defaultValue,
+]) {
+  if (termsDocOutKind == null) {
+    return null;
+  }
+  return enums.TermsDocOutKind.values.firstWhereOrNull(
+        (e) => e.value == termsDocOutKind,
+      ) ??
+      defaultValue;
+}
+
+String termsDocOutKindExplodedListToJson(
+  List<enums.TermsDocOutKind>? termsDocOutKind,
+) {
+  return termsDocOutKind?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> termsDocOutKindListToJson(
+  List<enums.TermsDocOutKind>? termsDocOutKind,
+) {
+  if (termsDocOutKind == null) {
+    return [];
+  }
+
+  return termsDocOutKind.map((e) => e.value!).toList();
+}
+
+List<enums.TermsDocOutKind> termsDocOutKindListFromJson(
+  List? termsDocOutKind, [
+  List<enums.TermsDocOutKind>? defaultValue,
+]) {
+  if (termsDocOutKind == null) {
+    return defaultValue ?? [];
+  }
+
+  return termsDocOutKind
+      .map((e) => termsDocOutKindFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.TermsDocOutKind>? termsDocOutKindNullableListFromJson(
+  List? termsDocOutKind, [
+  List<enums.TermsDocOutKind>? defaultValue,
+]) {
+  if (termsDocOutKind == null) {
+    return defaultValue;
+  }
+
+  return termsDocOutKind
+      .map((e) => termsDocOutKindFromJson(e.toString()))
       .toList();
 }
 
