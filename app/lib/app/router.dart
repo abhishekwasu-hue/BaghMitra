@@ -17,6 +17,7 @@ import '../features/calendar/presentation/season_calendar_screen.dart';
 import '../features/dev/component_gallery_screen.dart';
 import '../features/directory/presentation/directory_screen.dart';
 import '../features/export_info/presentation/export_info_screen.dart';
+import '../features/export_info/presentation/export_record_screen.dart';
 import '../features/feed/presentation/feed_check_screen.dart';
 import '../features/feed/presentation/feed_preferences_screen.dart';
 import '../features/feed/presentation/feed_screen.dart';
@@ -101,6 +102,7 @@ abstract final class Routes {
   static const labs = '/labs';
   static const marketDirectory = '/market/directory';
   static const exportInfo = '/market/export';
+  static const exportRecord = '/market/export/record';
   static const plots = '/plots';
   static const addPlot = '/plots/new';
   static const walkBoundary = '/plots/new/boundary';
@@ -305,6 +307,10 @@ GoRouter buildRouter(
       GoRoute(
         path: Routes.exportInfo,
         builder: (_, _) => const ExportInfoScreen(),
+      ),
+      GoRoute(
+        path: Routes.exportRecord,
+        builder: (_, _) => const ExportRecordScreen(),
       ),
       GoRoute(path: Routes.addPlot, builder: (_, _) => const AddPlotScreen()),
       GoRoute(
