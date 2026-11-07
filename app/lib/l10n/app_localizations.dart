@@ -4492,6 +4492,114 @@ abstract class AppLocalizations {
   /// **'Official pages'**
   String get exportLinksTitle;
 
+  /// No description provided for @exportRecordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Export record'**
+  String get exportRecordTitle;
+
+  /// No description provided for @exportRecordAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Make export record (PDF)'**
+  String get exportRecordAction;
+
+  /// No description provided for @exportRecordPlot.
+  ///
+  /// In en, this message translates to:
+  /// **'Plot'**
+  String get exportRecordPlot;
+
+  /// No description provided for @exportRecordBahar.
+  ///
+  /// In en, this message translates to:
+  /// **'Bahar'**
+  String get exportRecordBahar;
+
+  /// No description provided for @exportRecordAllBahars.
+  ///
+  /// In en, this message translates to:
+  /// **'All sprays'**
+  String get exportRecordAllBahars;
+
+  /// No description provided for @exportRecordCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} sprays'**
+  String exportRecordCount(String count);
+
+  /// No description provided for @exportRecordLastPhi.
+  ///
+  /// In en, this message translates to:
+  /// **'Last PHI ends {date}'**
+  String exportRecordLastPhi(String date);
+
+  /// No description provided for @exportRecordShare.
+  ///
+  /// In en, this message translates to:
+  /// **'Share PDF'**
+  String get exportRecordShare;
+
+  /// No description provided for @exportRecordNoPlot.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a plot first; its spray record appears here.'**
+  String get exportRecordNoPlot;
+
+  /// No description provided for @exportRecordEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Sprays of this bahar appear here once recorded.'**
+  String get exportRecordEmpty;
+
+  /// No description provided for @exportRecordDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get exportRecordDate;
+
+  /// No description provided for @exportRecordProduct.
+  ///
+  /// In en, this message translates to:
+  /// **'Product · ingredient · dose'**
+  String get exportRecordProduct;
+
+  /// No description provided for @exportRecordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Label check'**
+  String get exportRecordLabel;
+
+  /// No description provided for @exportRecordPhiEnd.
+  ///
+  /// In en, this message translates to:
+  /// **'PHI ends'**
+  String get exportRecordPhiEnd;
+
+  /// No description provided for @exportLabelListed.
+  ///
+  /// In en, this message translates to:
+  /// **'On the label for this crop'**
+  String get exportLabelListed;
+
+  /// No description provided for @exportLabelCheck.
+  ///
+  /// In en, this message translates to:
+  /// **'Check the label'**
+  String get exportLabelCheck;
+
+  /// No description provided for @exportRecordMade.
+  ///
+  /// In en, this message translates to:
+  /// **'Made on {date} from the grower\'s own spray log.'**
+  String exportRecordMade(String date);
+
+  /// Export record PDF footer (spec v1.5 §4A): information only, no compliance claim. Keeps the negative on purpose.
+  ///
+  /// In en, this message translates to:
+  /// **'Information record, not a certificate.'**
+  String get exportRecordFooter;
+
   /// No description provided for @fairPriceMandi.
   ///
   /// In en, this message translates to:

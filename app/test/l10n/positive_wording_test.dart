@@ -23,6 +23,8 @@ const allowNegative = {
   'labelInfoNoClaim',
   'labelInfoBanned',
   'labelInfoRestricted',
+  // Export record PDF footer (spec v1.5 §4A): an information record, not a certificate.
+  'exportRecordFooter',
 };
 
 final _negative = <String, RegExp>{

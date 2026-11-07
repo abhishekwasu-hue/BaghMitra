@@ -2552,6 +2552,67 @@ class AppLocalizationsMr extends AppLocalizations {
   String get exportLinksTitle => 'अधिकृत संकेतस्थळे';
 
   @override
+  String get exportRecordTitle => 'निर्यात नोंद';
+
+  @override
+  String get exportRecordAction => 'निर्यात नोंद (PDF) बनवा';
+
+  @override
+  String get exportRecordPlot => 'बाग';
+
+  @override
+  String get exportRecordBahar => 'बहार';
+
+  @override
+  String get exportRecordAllBahars => 'सर्व फवारण्या';
+
+  @override
+  String exportRecordCount(String count) {
+    return '$count फवारण्या';
+  }
+
+  @override
+  String exportRecordLastPhi(String date) {
+    return 'शेवटचा PHI कालावधी $date ला संपतो';
+  }
+
+  @override
+  String get exportRecordShare => 'PDF शेअर करा';
+
+  @override
+  String get exportRecordNoPlot => 'आधी बाग जोडा; तिची फवारणी नोंद इथे दिसेल.';
+
+  @override
+  String get exportRecordEmpty =>
+      'या बहाराच्या फवारण्या नोंदवल्यावर इथे दिसतील.';
+
+  @override
+  String get exportRecordDate => 'तारीख';
+
+  @override
+  String get exportRecordProduct => 'औषध · घटक · मात्रा';
+
+  @override
+  String get exportRecordLabel => 'लेबल तपासणी';
+
+  @override
+  String get exportRecordPhiEnd => 'PHI संपते';
+
+  @override
+  String get exportLabelListed => 'या पिकासाठी लेबलवर';
+
+  @override
+  String get exportLabelCheck => 'लेबल तपासा';
+
+  @override
+  String exportRecordMade(String date) {
+    return '$date रोजी शेतकऱ्याच्या स्वतःच्या फवारणी नोंदीतून तयार.';
+  }
+
+  @override
+  String get exportRecordFooter => 'माहितीसाठी नोंद, प्रमाणपत्र नाही.';
+
+  @override
   String fairPriceMandi(Object date, Object market, Object price) {
     return '$market बाजार, $date: सर्वसाधारण भाव $price प्रति क्विंटल';
   }

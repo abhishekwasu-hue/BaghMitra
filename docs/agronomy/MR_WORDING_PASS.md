@@ -136,3 +136,12 @@ admin activates each tag after review. New terms: GLOSSARY_mr.md (व्या�
 | broker_trader_kept_deal | आणलेल्या व्यापाऱ्याने व्यवहार पाळला / लाए गए व्यापारी ने सौदा निभाया | आणलेल्या व्यापाऱ्याने व्यवहार मोडला / लाए गए व्यापारी ने सौदा तोड़ा |
 | grower_produce_matched | माल फोटो व वर्णनाप्रमाणे / माल फ़ोटो और विवरण जैसा | माल फोटोपेक्षा वेगळा / माल फ़ोटो से अलग |
 | grower_ready_on_date | ठरलेल्या तारखेला माल तयार / तय तारीख पर माल तैयार | ठरलेल्या तारखेला माल तयार नव्हता / तय तारीख पर माल तैयार नहीं था |
+
+## Market linkage export information and export record (L8, draft, for native review)
+
+Keys `exportInfo*`, `exportSection*`, `exportLinksTitle`, `exportRecord*`, `exportLabel*` in
+`app/lib/l10n/app_mr.arb`, and the fact lines in `app/assets/config/export_info.json` (mr / hi).
+New terms to check: निर्यात नोंद (export record), निर्यातदार (exporter), हॉर्टिनेट (HortiNet),
+पॅकहाउस (packhouse), अवशेष चाचणी (residue test), फायटोसॅनिटरी प्रमाणपत्र (phytosanitary certificate),
+PHI संपते (PHI ends), लेबल तपासा (check the label), "माहितीसाठी नोंद, प्रमाणपत्र नाही" (footer).
+A deal is व्यवहार in Marathi (glossary), never सौदा.
