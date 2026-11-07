@@ -2211,6 +2211,148 @@ their profile; undoes a dismiss. Only for a published item that has a date.''',
     ),
   });
 
+  ///Introduction
+  ///@param deal_id
+  Future<chopper.Response<IntroductionOut>> v1MarketLinkDealsDealIdGet({
+    required String? dealId,
+  }) {
+    generatedMapping.putIfAbsent(
+      IntroductionOut,
+      () => IntroductionOut.fromJsonFactory,
+    );
+
+    return _v1MarketLinkDealsDealIdGet(dealId: dealId);
+  }
+
+  ///Introduction
+  ///@param deal_id
+  @GET(path: '/v1/market-link/deals/{deal_id}')
+  Future<chopper.Response<IntroductionOut>> _v1MarketLinkDealsDealIdGet({
+    @Path('deal_id') required String? dealId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'The introduction, for its grower, trader and broker only (404 for anyone else).',
+      summary: 'Introduction',
+      operationId: 'market_link_introduction',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  });
+
+  ///Deal Done
+  ///@param deal_id
+  Future<chopper.Response<IntroductionOut>> v1MarketLinkDealsDealIdDonePost({
+    required String? dealId,
+  }) {
+    generatedMapping.putIfAbsent(
+      IntroductionOut,
+      () => IntroductionOut.fromJsonFactory,
+    );
+
+    return _v1MarketLinkDealsDealIdDonePost(dealId: dealId);
+  }
+
+  ///Deal Done
+  ///@param deal_id
+  @POST(path: '/v1/market-link/deals/{deal_id}/done', optionalBody: true)
+  Future<chopper.Response<IntroductionOut>> _v1MarketLinkDealsDealIdDonePost({
+    @Path('deal_id') required String? dealId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''The grower or the trader says the deal is done (a repeat tap changes nothing). When
+both have tapped, the deal is completed and rating opens for 7 days (Q66, Q67).''',
+      summary: 'Deal Done',
+      operationId: 'market_link_deal_done',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  });
+
+  ///Deal Ratings
+  ///@param deal_id
+  Future<chopper.Response<DealRatingsOut>> v1MarketLinkDealsDealIdRatingsGet({
+    required String? dealId,
+  }) {
+    generatedMapping.putIfAbsent(
+      DealRatingsOut,
+      () => DealRatingsOut.fromJsonFactory,
+    );
+
+    return _v1MarketLinkDealsDealIdRatingsGet(dealId: dealId);
+  }
+
+  ///Deal Ratings
+  ///@param deal_id
+  @GET(path: '/v1/market-link/deals/{deal_id}/ratings')
+  Future<chopper.Response<DealRatingsOut>> _v1MarketLinkDealsDealIdRatingsGet({
+    @Path('deal_id') required String? dealId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'The caller\'s ratings on this deal, the questions to answer and the window.',
+      summary: 'Deal Ratings',
+      operationId: 'market_link_deal_ratings',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  });
+
+  ///Rate
+  ///@param deal_id
+  ///@param ratee_role
+  Future<chopper.Response<DealRatingsOut>>
+  v1MarketLinkDealsDealIdRatingsRateeRolePut({
+    required String? dealId,
+    required enums.V1MarketLinkDealsDealIdRatingsRateeRolePutRateeRole?
+    rateeRole,
+    required RatingIn? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      DealRatingsOut,
+      () => DealRatingsOut.fromJsonFactory,
+    );
+
+    return _v1MarketLinkDealsDealIdRatingsRateeRolePut(
+      dealId: dealId,
+      rateeRole: rateeRole?.value?.toString(),
+      body: body,
+    );
+  }
+
+  ///Rate
+  ///@param deal_id
+  ///@param ratee_role
+  @PUT(
+    path: '/v1/market-link/deals/{deal_id}/ratings/{ratee_role}',
+    optionalBody: true,
+  )
+  Future<chopper.Response<DealRatingsOut>>
+  _v1MarketLinkDealsDealIdRatingsRateeRolePut({
+    @Path('deal_id') required String? dealId,
+    @Path('ratee_role') required String? rateeRole,
+    @Body() required RatingIn? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Give or change the caller\'s rating of one party of a completed deal: every question
+of that role once. Only within 7 days of completion, then 409 `rating_locked`.''',
+      summary: 'Rate',
+      operationId: 'market_link_rate',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  });
+
   ///Register Exporter
   Future<chopper.Response<MyProfileOut>> v1MarketLinkExportersPost({
     required BuyerIn? body,
@@ -2232,6 +2374,72 @@ their profile; undoes a dismiss. Only for a published item that has a date.''',
       description: 'Exporter registration (IEC required, spec §4).',
       summary: 'Register Exporter',
       operationId: 'market_link_register_exporter',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  });
+
+  ///My Interests
+  Future<chopper.Response<SentInterestsResponse>>
+  v1MarketLinkInterestsMineGet() {
+    generatedMapping.putIfAbsent(
+      SentInterestsResponse,
+      () => SentInterestsResponse.fromJsonFactory,
+    );
+
+    return _v1MarketLinkInterestsMineGet();
+  }
+
+  ///My Interests
+  @GET(path: '/v1/market-link/interests/mine')
+  Future<chopper.Response<SentInterestsResponse>>
+  _v1MarketLinkInterestsMineGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Interests where the caller is the trader or the named broker, newest first, with the
+lot and, once accepted, the introduction to open; a closed one is the notice that the
+grower accepted another or closed the lot.''',
+      summary: 'My Interests',
+      operationId: 'market_link_my_interests',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  });
+
+  ///Accept Interest
+  ///@param interest_id
+  Future<chopper.Response<IntroductionOut>>
+  v1MarketLinkInterestsInterestIdAcceptPost({required String? interestId}) {
+    generatedMapping.putIfAbsent(
+      IntroductionOut,
+      () => IntroductionOut.fromJsonFactory,
+    );
+
+    return _v1MarketLinkInterestsInterestIdAcceptPost(interestId: interestId);
+  }
+
+  ///Accept Interest
+  ///@param interest_id
+  @POST(
+    path: '/v1/market-link/interests/{interest_id}/accept',
+    optionalBody: true,
+  )
+  Future<chopper.Response<IntroductionOut>>
+  _v1MarketLinkInterestsInterestIdAcceptPost({
+    @Path('interest_id') required String? interestId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''The lot\'s grower accepts one open interest: the introduction is recorded, the other
+open interests are closed (their senders get a notice), the lot leaves the traders\' list
+and both sides see each other\'s contacts. Anyone but the lot\'s grower gets 404.''',
+      summary: 'Accept Interest',
+      operationId: 'market_link_accept_interest',
       consumes: [],
       produces: [],
       security: ["HTTPBearer"],
@@ -2298,7 +2506,8 @@ upload URL for lot photos, so no stored lot photo can keep its metadata.''',
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''A short-lived download URL for an uploaded lot photo: for the grower, or for a
-verified buyer / broker while the lot is published. Only the derived key is signed.''',
+verified buyer / broker while the lot is published, or for the parties of an accepted
+interest on it (L4). Only the derived key is signed.''',
       summary: 'Lot Photo Url',
       operationId: 'market_link_lot_photo_url',
       consumes: [],
@@ -2378,9 +2587,77 @@ verified buyer / broker while the lot is published. Only the derived key is sign
     @Path('lot_id') required String? lotId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: 'Takes a published lot off the buyers\' list (the grower sold it or changed their mind).',
+      description: '''Takes a published lot off the buyers\' list (the grower sold it or changed their mind);
+its open interests are closed and their senders get a notice (L4).''',
       summary: 'Close Lot',
       operationId: 'market_link_close_lot',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  });
+
+  ///Lot Interests
+  ///@param lot_id
+  Future<chopper.Response<LotInterestsResponse>>
+  v1MarketLinkLotsLotIdInterestsGet({required String? lotId}) {
+    generatedMapping.putIfAbsent(
+      LotInterestsResponse,
+      () => LotInterestsResponse.fromJsonFactory,
+    );
+
+    return _v1MarketLinkLotsLotIdInterestsGet(lotId: lotId);
+  }
+
+  ///Lot Interests
+  ///@param lot_id
+  @GET(path: '/v1/market-link/lots/{lot_id}/interests')
+  Future<chopper.Response<LotInterestsResponse>>
+  _v1MarketLinkLotsLotIdInterestsGet({
+    @Path('lot_id') required String? lotId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''The interests on the caller\'s own lot, oldest first, to compare side by side. An open
+interest whose trader or broker is no longer verified is left out (decision h).''',
+      summary: 'Lot Interests',
+      operationId: 'market_link_lot_interests',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  });
+
+  ///Send Interest
+  ///@param lot_id
+  Future<chopper.Response<InterestOut>> v1MarketLinkLotsLotIdInterestsPost({
+    required String? lotId,
+    required InterestIn? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      InterestOut,
+      () => InterestOut.fromJsonFactory,
+    );
+
+    return _v1MarketLinkLotsLotIdInterestsPost(lotId: lotId, body: body);
+  }
+
+  ///Send Interest
+  ///@param lot_id
+  @POST(path: '/v1/market-link/lots/{lot_id}/interests', optionalBody: true)
+  Future<chopper.Response<InterestOut>> _v1MarketLinkLotsLotIdInterestsPost({
+    @Path('lot_id') required String? lotId,
+    @Body() required InterestIn? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''An interest on a published lot from a verified trader / exporter (optionally naming a
+verified broker) or from a verified broker for a named verified trader. A trader\'s new
+interest replaces their open one on the same lot. The grower gets a push.''',
+      summary: 'Send Interest',
+      operationId: 'market_link_send_interest',
       consumes: [],
       produces: [],
       security: ["HTTPBearer"],
