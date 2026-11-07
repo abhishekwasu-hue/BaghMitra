@@ -15,6 +15,10 @@ here: `docs/research/MARKET_LINKAGE_RESEARCH.md`. **Status: draft for owner revi
 - This replaces OPEN_QUESTIONS Q47 "no in-app trading or offers" for this module only.
 
 ### 1.1 How the trade works today (owner's village, stated 2026-11-07)
+Background only (owner, 2026-11-07): this is the owner's example, not a list of app rules. The app
+covers only the grower ↔ trader deal (with a broker when there is one). **What the trader does with
+the produce after buying it is outside BagMitra entirely** (Q65).
+
 1. A local or nearby **broker (dalal)** brings a **trader** to the orchard, shows it, and negotiates
    with the grower. The broker takes a commission (owner: usually 2 %). **Owner decision
    2026-11-07: the app never records, asks for or shows a broker's commission or income** — it is
@@ -76,8 +80,6 @@ contact number and ratings — that a grower can read easily. This narrows the g
 9. **Close** — every party rates the others and each provider used (§3A). A dispute can be
    logged with photos; admin reviews. A buyer with an unresolved non-payment dispute is hidden from
    new lots until the admin decides.
-10. **Onward sale** — the trader's sale to a bigger trader or dispatch to a mandi is outside the
-   grower's deal; whether the app also lists it is Q65.
 
 ## 3A. Public profiles and ratings (owner request)
 - Every verified **trader** and **broker** has a profile any registered grower can open: name, firm
