@@ -136,3 +136,27 @@ index and PROGRESS resume block.
 - Report at the end (and after each milestone in PROGRESS): what merged (PR numbers), screenshots, open
   questions added.
 ```
+
+## Addendum 2026-11-07 (after L0a, PR #155) — paste this too
+
+```
+ADDENDUM to the market linkage build (owner decisions 2026-11-07). Pull main and re-read
+docs/SPEC_market_linkage_addendum_v1.5.md §4 (rewritten) and §4A (new), and §8 rows L7 and L8.
+1. Verification is zero-cost only: no paid KYC vendor, no Aadhaar number / card image / OTP anywhere,
+   no DigiLocker now, no automation or scraping of government portals. The admin page opens the
+   official public page (GST Search Taxpayer, DGFT View IEC Status, FoSCoS, APEDA exporter directory)
+   for the number entered and the admin records the result, who and when. Badges say what was checked
+   and the date, never "guaranteed". Turnover is never collected or shown. Verified rule and broker rule
+   as in §4. Report-fraud button with predefined reasons only (no free text), admin suspend, yearly
+   re-check. Add tests: no Aadhaar-like field (/aadhaar|uid/) in any market-link table or API; badge
+   text never contains "guarantee".
+2. If L2 (registration) already collects a "photo ID" for brokers, replace it with the §4 broker rule
+   (phone OTP + place photo + admin call) before L2 merges.
+3. Export (§4A) is information only: export page per crop with sourced, dated facts from
+   docs/research/MARKET_LINKAGE_RESEARCH.md §4; exporters are the existing exporter buyer type with IEC
+   required; official link-outs; foreign prices only after the publisher's reuse terms are recorded
+   (QG1 pattern), never UN Comtrade data; export record PDF from the grower's spray log, label-claim and
+   PHI data, with no compliance claim.
+4. Build L7 and L8 after L6, same rules as the main prompt (tests first, ≤ 400 lines per PR, self-review,
+   Marathi phone screenshots light + dark, match the existing UI, uncluttered).
+```
