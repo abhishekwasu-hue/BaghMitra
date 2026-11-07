@@ -8,15 +8,22 @@ enum LocationProblem { serviceOff, denied, deniedForever, failed }
 
 /// One attempt to read the phone's position: a point with its accuracy, or why there is none.
 class LocationReading {
-  const LocationReading.at(LatLon this.position, {this.accuracyM})
-    : problem = null;
+  const LocationReading.at(
+    LatLon this.position, {
+    this.accuracyM,
+    this.isMocked = false,
+  }) : problem = null;
   const LocationReading.problem(LocationProblem this.problem)
     : position = null,
-      accuracyM = null;
+      accuracyM = null,
+      isMocked = false;
 
   final LatLon? position;
   final double? accuracyM;
   final LocationProblem? problem;
+
+  /// The plugin reported a mock (fake-GPS) position (market-link registration flags it).
+  final bool isMocked;
 }
 
 /// How long a "stand in the block" fix may take, and the accuracy that ends the wait early.
@@ -112,6 +119,7 @@ class GeolocatorLocationService implements LocationService {
       return LocationReading.at(
         LatLon(p.latitude, p.longitude),
         accuracyM: p.accuracy,
+        isMocked: p.isMocked,
       );
     } on Exception {
       return const LocationReading.problem(LocationProblem.failed);
@@ -133,6 +141,7 @@ class GeolocatorLocationService implements LocationService {
             (p) => LocationReading.at(
               LatLon(p.latitude, p.longitude),
               accuracyM: p.accuracy,
+              isMocked: p.isMocked,
             ),
           );
       return await bestFixOf(fixes, within: within, goodEnoughM: goodEnoughM);
