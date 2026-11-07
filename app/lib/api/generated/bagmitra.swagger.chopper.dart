@@ -1198,6 +1198,162 @@ their profile; undoes a dismiss. Only for a published item that has a date.''',
   }
 
   @override
+  Future<Response<AccountActionsResponse>> _v1MarketLinkAccountActionsGet({
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Every admin action about the caller, newest first, with its reason code (§4C).',
+      summary: 'Account Actions',
+      operationId: 'market_link_account_actions',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/market-link/account-actions');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<AccountActionsResponse, AccountActionsResponse>(
+      $request,
+    );
+  }
+
+  @override
+  Future<Response<AccountActionOut>>
+  _v1MarketLinkAccountActionsActionIdAppealPost({
+    required String? actionId,
+    required AppealIn? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'The one appeal against a warn, hide or suspend; the grievance officer decides.',
+      summary: 'Appeal',
+      operationId: 'market_link_appeal',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse(
+      '/v1/market-link/account-actions/${actionId}/appeal',
+    );
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<AccountActionOut, AccountActionOut>($request);
+  }
+
+  @override
+  Future<Response<AccountActionOut>>
+  _v1MarketLinkAccountActionsActionIdAppealPhotosPost({
+    required String? actionId,
+    required Object? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Adds one optional JPEG to the caller\'s open appeal (EXIF stripped by the server).',
+      summary: 'Appeal Photo',
+      operationId: 'market_link_appeal_photo',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse(
+      '/v1/market-link/account-actions/${actionId}/appeal/photos',
+    );
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<AccountActionOut, AccountActionOut>($request);
+  }
+
+  @override
+  Future<Response<BlocksResponse>> _v1MarketLinkBlocksGet({
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Blocks',
+      operationId: 'market_link_blocks',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/market-link/blocks');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<BlocksResponse, BlocksResponse>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _v1MarketLinkBlocksUserIdDelete({
+    required String? userId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Unblock',
+      operationId: 'market_link_unblock',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/market-link/blocks/${userId}');
+    final Request $request = Request(
+      'DELETE',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _v1MarketLinkBlocksUserIdPut({
+    required String? userId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Block a user: neither sees the other in lists or interests. Repeating it is a no-op.',
+      summary: 'Block',
+      operationId: 'market_link_block',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/market-link/blocks/${userId}');
+    final Request $request = Request(
+      'PUT',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
   Future<Response<MyAcceptancesOut>> _v1MarketLinkMeAcceptancesGet({
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'What the signed-in user accepted, and the roles it opens.',
@@ -1241,6 +1397,83 @@ their profile; undoes a dismiss. Only for a published item that has a date.''',
       tag: swaggerMetaData,
     );
     return client.send<RatingTagsResponse, RatingTagsResponse>($request);
+  }
+
+  @override
+  Future<Response<ReportOut>> _v1MarketLinkReportsPost({
+    required ReportIn? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Report to the admin queue. A second report of the same subject by the same person
+while the first is open returns the first.''',
+      summary: 'Report',
+      operationId: 'market_link_report',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/market-link/reports');
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<ReportOut, ReportOut>($request);
+  }
+
+  @override
+  Future<Response<ReportsResponse>> _v1MarketLinkReportsMineGet({
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'My Reports',
+      operationId: 'market_link_my_reports',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/market-link/reports/mine');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<ReportsResponse, ReportsResponse>($request);
+  }
+
+  @override
+  Future<Response<ReportOut>> _v1MarketLinkReportsReportIdPhotosPost({
+    required String? reportId,
+    required Object? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Adds one optional JPEG to the caller\'s open report (EXIF stripped by the server).',
+      summary: 'Report Photo',
+      operationId: 'market_link_report_photo',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/market-link/reports/${reportId}/photos');
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<ReportOut, ReportOut>($request);
   }
 
   @override
