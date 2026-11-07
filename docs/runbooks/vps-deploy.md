@@ -185,6 +185,32 @@ APP_MIN_VERSION_CODE=0
 होऊ द्या → test ॲप uninstall → हा APK install → त्याच खात्याने लॉगिन (`release-apk.md` §४). त्यानंतरचे सर्व
 release APK जुन्यावरच install होतात आणि डेटा राहतो.
 
+## ६ई. Testing the market link (owner only)
+बाजार जोडणी (market link) दोन ठिकाणी चालू करावी लागते: सर्व्हर (API) आणि Test APK. दोन्हीपैकी एक बंद असेल तर
+market link दिसत नाही.
+
+**production बंदच राहते:** कायदेशीर अट (legal gate, spec v1.5 §5,
+[`SPEC_market_linkage_addendum_v1.5.md`](../SPEC_market_linkage_addendum_v1.5.md)) पूर्ण होईपर्यंत शेतकऱ्यांच्या
+सर्व्हरवर `MARKET_LINK_ENABLED` बंद. production **Release APK** (`release-apk.yml`) मध्ये `MARKET_LINK` कधीच
+नसतो; ही सोय फक्त **Test APK** साठी आहे. चाचणी कोणत्या सर्व्हरवर करायची (वेगळा test सर्व्हर की production VPS
+फक्त चाचणीपुरता) हे अजून ठरायचे आहे: `docs/OPEN_QUESTIONS.md` Q117 (default: सगळीकडे बंद).
+
+**चालू करणे:**
+1. सर्व्हर: `.env` (`nano /opt/bagmitra/deploy/.env`) मध्ये ही ओळ, मग पुन्हा deploy
+   (`cd /opt/bagmitra && bash deploy/deploy.sh`):
+```
+MARKET_LINK_ENABLED=true
+```
+2. GitHub → repository **Settings → Secrets and variables → Actions → Variables** → **New repository variable**:
+   नाव `MARKET_LINK`, value `true`. यानंतरचा Test APK (main वर push, किंवा Actions → Test APK → Run workflow)
+   market link दाखवतो. variable नसेल तर Test APK `MARKET_LINK=false` ने बनतो.
+
+**बंद करणे:**
+1. सर्व्हर: `.env` मधील ओळ `MARKET_LINK_ENABLED=false` करा (किंवा काढून टाका), मग पुन्हा deploy. बंद असताना प्रत्येक
+   `/v1/market-link/*` 404 देतो.
+2. GitHub: `MARKET_LINK` variable `false` करा किंवा delete करा; पुढचा Test APK market link शिवाय बनतो. आधी install
+   केलेला Test APK नवीन Test APK install होईपर्यंत market link दाखवतो, पण सर्व्हर बंद असल्याने ते काम करत नाही.
+
 ## ७. बॅकअप आणि restore
 **रोजचा बॅकअप (आपोआप):** `deploy.sh` पहिल्यांदा चालवल्यावर cron मध्ये एक ओळ टाकतो: रोज रात्री 03:10 IST ला
 `deploy/backup.sh` चालते. ते `.env` मधील `DATABASE_URL` च्या database मधील `public` च्या सर्व tables (RLS
