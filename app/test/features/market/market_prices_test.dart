@@ -236,7 +236,10 @@ void main() {
   ) async {
     final body = samplePrices();
     final rows = (body['prices']! as List).cast<Map<String, Object?>>();
-    rows[0] = {...rows[0], 'variety': 'Other'};
+    body['prices'] = [
+      {...rows[0], 'variety': 'Other'},
+      ...rows.skip(1),
+    ];
     await pumpApp(
       tester,
       initialLocation: '/market',
