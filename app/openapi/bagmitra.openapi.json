@@ -16546,7 +16546,7 @@
     },
     "/v1/market-link/lots/{lot_id}/interests": {
       "get": {
-        "description": "The interests on the caller's own lot, oldest first, to compare side by side. An open\ninterest whose trader or broker is no longer verified is left out (decision h).",
+        "description": "The interests on the caller's own lot, oldest first, to compare side by side. An\ninterest whose trader or broker is no longer verified (decision h), is hidden, suspended\nor deleted, or blocked either way with the grower (§4C), is left out.",
         "operationId": "market_link_lot_interests",
         "parameters": [
           {
@@ -17052,7 +17052,7 @@
     },
     "/v1/market-link/profiles": {
       "get": {
-        "description": "The list per taluka (decision g): verified traders, exporters or brokers, by rating\n(mean of the question averages; unrated last) or by completed deals.",
+        "description": "The list per taluka (decision g): verified traders, exporters or brokers, by rating\n(mean of the question averages; unrated last) or by completed deals. Hidden, suspended,\ndeleted and blocked (either way) profiles are left out (§4C).",
         "operationId": "market_link_profiles",
         "parameters": [
           {
@@ -17175,7 +17175,7 @@
     },
     "/v1/market-link/profiles/{subject_type}/{subject_id}": {
       "get": {
-        "description": "One verified profile; an unverified one answers 404 as if absent.",
+        "description": "One verified profile; an unverified, hidden, suspended, deleted or blocked one answers\n404 as if absent.",
         "operationId": "market_link_profile",
         "parameters": [
           {

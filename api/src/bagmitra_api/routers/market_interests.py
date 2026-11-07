@@ -41,7 +41,12 @@ from bagmitra_api.market_link.package import lot_shown
 from bagmitra_api.market_link.profiles import PublicProfileOut, Subject, public_views
 from bagmitra_api.market_link.registration import india_date
 from bagmitra_api.market_link.terms import accepted_roles, current_versions
-from bagmitra_api.market_link.visibility import NOT_SUSPENDED, is_blocked_between, visible
+from bagmitra_api.market_link.visibility import (
+    NOT_SUSPENDED,
+    is_blocked_between,
+    not_blocked,
+    visible,
+)
 from bagmitra_api.routers.market_link import Clock, require_market_link
 from bagmitra_api.routers.market_lots import (
     GROWER_WRITE,
@@ -320,13 +325,24 @@ async def _profiles(
     model: type[BuyerProfile] | type[BrokerProfile],
     users: set[uuid.UUID],
     today: date,
+    viewer: uuid.UUID,
 ) -> dict[uuid.UUID, PublicProfileOut]:
-    """Public views (verified only, decision h) by user id."""
+    """Public views (verified only, decision h) by user id; hidden, suspended, deleted and
+    blocked (either way with `viewer`) profiles are left out (§4C)."""
     if not users:
         return {}
     kind = "buyer" if model is BuyerProfile else "broker"
     rows = cast(
-        list[Subject], list(await session.scalars(select(model).where(model.user_id.in_(users))))
+        list[Subject],
+        list(
+            await session.scalars(
+                select(model).where(
+                    model.user_id.in_(users),
+                    visible(kind, model.id, model.user_id),
+                    not_blocked(viewer, model.user_id),
+                )
+            )
+        ),
     )
     by_id = {r.id: r.user_id for r in rows}
     views = await public_views(session, kind, rows, today)
@@ -337,8 +353,9 @@ async def _profiles(
 async def lot_interests(
     lot_id: uuid.UUID, user: CurrentUser, session: DbSession, clock: Clock
 ) -> LotInterestsResponse:
-    """The interests on the caller's own lot, oldest first, to compare side by side. An open
-    interest whose trader or broker is no longer verified is left out (decision h)."""
+    """The interests on the caller's own lot, oldest first, to compare side by side. An
+    interest whose trader or broker is no longer verified (decision h), is hidden, suspended
+    or deleted, or blocked either way with the grower (§4C), is left out."""
     lot = await _own_lot(session, user, lot_id)
     offers = list(
         await session.scalars(
@@ -348,12 +365,14 @@ async def lot_interests(
         )
     )
     today = india_date(clock())
-    traders = await _profiles(session, BuyerProfile, {o.buyer_user_id for o in offers}, today)
+    buyers = {o.buyer_user_id for o in offers}
+    traders = await _profiles(session, BuyerProfile, buyers, today, user.id)
     brokers = await _profiles(
         session,
         BrokerProfile,
         {o.broker_user_id for o in offers if o.broker_user_id},
         today,
+        user.id,
     )
     deals = await _deal_ids(session, [o.id for o in offers])
     out: list[GrowerInterestOut] = []
