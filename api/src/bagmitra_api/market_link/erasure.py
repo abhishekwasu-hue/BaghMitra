@@ -10,9 +10,9 @@ Later (`erase_due`, nightly job `market_link.erase_job`): the user's trader / ex
 broker / provider profiles, verification records and documents, representative uploads about
 them, registration GPS fixes, terms acceptances, blocks and reports are deleted, with their
 stored photos; a lot without an introduction goes with its photos and interests; a lot with
-one stays as part of the other party's record without its photos and text. Kept: ratings
-(shown without name), interests and introductions of other people, and the admin action log
-(user ids only, no name or phone)."""
+one, or named by a package grant (a payment record), stays without its photos and text. Kept:
+ratings (shown without name), interests and introductions of other people, package grants,
+and the admin action log (user ids only, no name or phone)."""
 
 from __future__ import annotations
 
@@ -40,6 +40,7 @@ from bagmitra_api.market_link.models import (
     TermsAcceptance,
     UserBlock,
 )
+from bagmitra_api.market_link.package_models import PackageGrant
 from bagmitra_api.photos.storage import PhotoStorage, PhotoStorageError
 
 # Owner-scoped tables kept at deletion time and erased later (account/erase.py skips them).
@@ -123,13 +124,20 @@ async def _erase_lots(session: AsyncSession, user_id: uuid.UUID) -> None:
     introduced = set(
         await session.scalars(select(MarketDeal.lot_id).where(MarketDeal.lot_id.in_(lots)))
     )
-    free = [lot for lot in lots if lot not in introduced]
+    # A lot a package grant names stays too: the grant is a payment record pointing at it.
+    paid = set(
+        await session.scalars(select(PackageGrant.lot_id).where(PackageGrant.lot_id.in_(lots)))
+    )
+    kept = introduced | paid
+    free = [lot for lot in lots if lot not in kept]
     await session.execute(delete(MarketLotPhoto).where(MarketLotPhoto.owner_id == user_id))
-    await session.execute(delete(MarketOffer).where(MarketOffer.lot_id.in_(free)))
+    await session.execute(
+        delete(MarketOffer).where(MarketOffer.lot_id.in_([x for x in lots if x not in introduced]))
+    )
     await session.execute(delete(MarketLot).where(MarketLot.id.in_(free)))
     await session.execute(
         update(MarketLot)
-        .where(MarketLot.id.in_(introduced))
+        .where(MarketLot.id.in_(kept))
         .values(quality=None, village=None, variety=None)
     )
 
