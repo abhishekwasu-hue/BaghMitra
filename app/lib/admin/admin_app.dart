@@ -10,6 +10,7 @@ import 'feed_pages.dart';
 import 'kb_admin_repository.dart';
 import 'kb_pages.dart';
 import 'market_link_admin_repository.dart';
+import 'market_link_appeals_page.dart';
 import 'market_link_pages.dart';
 import 'market_link_safety_admin.dart';
 import 'market_link_safety_pages.dart';
@@ -160,8 +161,10 @@ class _AdminShellState extends State<AdminShell> {
           VerificationQueuePage(repo: ml),
         ),
         (t.adminMlTags, Icons.sell_rounded, RatingTagsPage(repo: ml)),
-        if (widget.safety case final safety?)
+        if (widget.safety case final safety?) ...[
           (t.adminMlReports, Icons.flag_rounded, ReportsPage(repo: safety)),
+          (t.adminMlAppeals, Icons.gavel_rounded, AppealsPage(repo: safety)),
+        ],
       ],
       (t.adminCropTemplates, Icons.eco_rounded, soon(1)),
       (t.adminRiskRules, Icons.thunderstorm_rounded, soon(4)),

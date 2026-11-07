@@ -34,6 +34,11 @@ void main() {
       await tester.tap(find.byKey(const ValueKey('code-fake_identity')));
       await tester.pumpAndSettle();
       await _shot(tester, 'admin_ml_action_mr_$mode');
+      await tester.tap(find.text(mr.adminFeedCancel));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text(mr.adminMlAppeals));
+      await tester.pumpAndSettle();
+      await _shot(tester, 'admin_ml_appeals_mr_$mode');
     });
   }
 }

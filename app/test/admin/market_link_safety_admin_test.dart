@@ -195,6 +195,24 @@ void main() {
     expect(opened.single.toString(), 'https://storage.test/r1/0');
   });
 
+  testWidgets('appeals: acknowledge and uphold', (tester) async {
+    final fake = FakeSafetyAdmin();
+    await pumpAdmin(tester, fake);
+    await tester.tap(find.text(en.adminMlAppeals));
+    await tester.pumpAndSettle();
+    expect(find.text(en.adminMlAckOverdue), findsOneWidget);
+    expect(
+      find.text(en.adminMlAppealReason(en.mlAppealLotGenuine)),
+      findsOneWidget,
+    );
+    await tester.tap(find.text(en.adminMlAcknowledge));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const ValueKey('uphold-a1')));
+    await tester.pumpAndSettle();
+    expect(fake.calls, ['ack-appeal a1', 'appeal a1 upheld']);
+    expect(find.text(en.adminMlAppealsEmpty), findsOneWidget);
+  });
+
   test('admin repository sends codes, never text', () async {
     final (api, sent) = mockApi(report('r1').toJson());
     final repo = ApiMarketLinkSafetyAdmin(api);
