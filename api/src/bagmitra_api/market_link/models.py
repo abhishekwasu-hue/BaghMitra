@@ -50,8 +50,8 @@ TAG_POLARITIES = ("positive", "negative")
 TAG_STATUSES = ("draft", "active", "retired")
 # Who registers with the one GPS fix (spec §4): profiles, plus a representative (user id).
 FIX_SUBJECT_TYPES = (*SUBJECT_TYPES, "representative")
-# Report / admin action targets (spec §4, §4C): a profile, a lot, or a user.
-REPORT_SUBJECT_TYPES = (*SUBJECT_TYPES, "lot", "user")
+# Report / admin action targets (spec §4, §3A, §4C): a profile, a lot, a rating, or a user.
+REPORT_SUBJECT_TYPES = (*SUBJECT_TYPES, "lot", "rating", "user")
 REPORT_REASONS = ("fake_identity", "fake_lot", "impersonation", "fake_rating", "abuse")
 REPORT_STATUSES = ("open", "actioned", "dismissed")
 ADMIN_ACTIONS = ("verify", "warn", "hide", "suspend", "restore")
@@ -59,6 +59,25 @@ ADMIN_ACTIONS = ("verify", "warn", "hide", "suspend", "restore")
 # the two that close a check or an appeal.
 ADMIN_REASONS = (*REPORT_REASONS, "duplicate_user", "checks_passed", "appeal_upheld")
 APPEAL_STATES = ("none", "appealed", "upheld", "rejected")
+# Which reason codes each action may carry (§1 core principle, Addendum 5): warn / hide /
+# suspend only on platform rules, never on a payment, weight or quality quarrel.
+PLATFORM_REASONS = (*REPORT_REASONS, "duplicate_user")
+ACTION_REASONS: dict[str, tuple[str, ...]] = {
+    "verify": ("checks_passed",),
+    "warn": PLATFORM_REASONS,
+    "hide": PLATFORM_REASONS,
+    "suspend": PLATFORM_REASONS,
+    "restore": ("checks_passed", "appeal_upheld"),
+}
+APPEALABLE_ACTIONS = ("warn", "hide", "suspend")
+# The one appeal: a predefined reason, no free text (§4C, Q92).
+APPEAL_REASONS = (
+    "identity_genuine",
+    "lot_genuine",
+    "rating_genuine",
+    "behaviour_proper",
+    "not_duplicate",
+)
 TERMS_ROLES = ("grower", "trader", "exporter", "broker", "provider", "representative")
 TERMS_DOCS = ("terms", "privacy", "disclaimer")
 # A lot is published with 3 to 8 in-app photos (spec v1.5 §3 step 1).
@@ -387,12 +406,17 @@ class FraudReport(_Row, Base):
     status: Mapped[str] = mapped_column(String(16), index=True)
     decided_by: Mapped[uuid.UUID | None] = mapped_column()
     decided_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    # Grievance timeline (IT Rules 2021, §4C): acknowledged within 24 h, closed (decided)
+    # within 15 days; the admin list flags an overdue one.
+    acknowledged_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     admin_action_id: Mapped[uuid.UUID | None] = mapped_column(ForeignKey("admin_actions.id"))
 
 
 class AdminAction(_Row, Base):
     """Every verify / warn / hide / suspend / restore, with a reason code the user sees, the
-    actor and the time; one appeal through the grievance officer (spec §4C)."""
+    actor and the time; one appeal through the grievance officer (spec §4C). The action
+    columns never change and no row is deleted (Postgres trigger, 0033); only the appeal
+    columns move (none -> appealed -> upheld / rejected)."""
 
     __tablename__ = "admin_actions"
     __table_args__ = (
@@ -400,6 +424,7 @@ class AdminAction(_Row, Base):
         one_of("action", ADMIN_ACTIONS),
         one_of("reason_code", ADMIN_REASONS),
         one_of("appeal_state", APPEAL_STATES),
+        one_of("appeal_reason", APPEAL_REASONS),  # NULL passes a CHECK: no appeal yet
     )
 
     subject_type: Mapped[str] = mapped_column(String(16))
@@ -412,6 +437,9 @@ class AdminAction(_Row, Base):
     acted_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
     appeal_state: Mapped[str] = mapped_column(String(16), default="none")
     appealed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    appeal_reason: Mapped[str | None] = mapped_column(String(32))
+    appeal_photo_keys: Mapped[list[str]] = mapped_column(JSON, default=list)
+    appeal_acknowledged_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     appeal_decided_by: Mapped[uuid.UUID | None] = mapped_column()
     appeal_decided_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
 

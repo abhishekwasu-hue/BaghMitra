@@ -42,6 +42,9 @@ KB_REGATE_CRON_LINE="50 20 * * * $JOB bagmitra_api.kb.regate >> /var/log/bagmitr
 # Sync audit log retention (LD-09, sync/retention.py): 22:13 UTC (03:43 IST), after the
 # nightly backup; on unless CRON_SYNC_RETENTION=off. Keeps SYNC_PAYLOAD_RETENTION_DAYS days.
 SYNC_RETENTION_CRON_LINE="13 22 * * * $JOB bagmitra_api.sync.retention >> /var/log/bagmitra-sync-retention.log 2>&1"
+# Market-link erasure of deleted accounts after 180 days (Q68, market_link/erase_job.py):
+# 22:41 UTC (04:11 IST); on unless CRON_MARKET_LINK_ERASE=off.
+MARKET_LINK_ERASE_CRON_LINE="41 22 * * * $JOB bagmitra_api.market_link.erase_job >> /var/log/bagmitra-market-link-erase.log 2>&1"
 # Job logs (BG-05): every /var/log/bagmitra-*.log above is rotated weekly or past 10 MB, 8 old
 # copies kept compressed. Written by install_logrotate; LOGROTATE_FILE is overridable (tests).
 LOGROTATE_FILE="${LOGROTATE_FILE:-/etc/logrotate.d/bagmitra}"
@@ -202,6 +205,8 @@ install_cron() {
   cron_job_if "$on" "bagmitra_api.kb.regate" "$KB_REGATE_CRON_LINE" "KB re-gate (nightly 20:50 UTC)"
   on=1; switch_on CRON_SYNC_RETENTION && on=0
   cron_job_if "$on" "bagmitra_api.sync.retention" "$SYNC_RETENTION_CRON_LINE" "sync retention (nightly 22:13 UTC)"
+  on=1; switch_on CRON_MARKET_LINK_ERASE && on=0
+  cron_job_if "$on" "bagmitra_api.market_link.erase_job" "$MARKET_LINK_ERASE_CRON_LINE" "market-link erasure (nightly 22:41 UTC)"
 }
 
 install_logrotate() { # writes the drop-in only when it is missing or different
