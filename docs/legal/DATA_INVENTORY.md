@@ -44,6 +44,16 @@ Policy text: `api/src/bagmitra_api/public_pages/privacy.py`. Keep both in step.
 | Claim kit (photos, notes, GPS stamp) | phone only, not synced | `app/lib/features/insurance/data/claim_kit_repository.dart:11-12`; OPEN_QUESTIONS Q37 |
 | Lab report photo / file | phone only, path never synced | `app/lib/features/lab_tests/data/lab_report_files.dart:3-5`; `api/src/bagmitra_api/db/models/lab_test.py:1-4` |
 
+## 3A. Market linkage data model (migrations 0029–0030; off in production: `market_link_enabled`)
+
+| Item | Behaviour | Reference |
+|---|---|---|
+| Introduction only | no deal terms, payments, weigh slips, service bookings or disputes are stored (dropped in 0030); `market_deals` holds accepted / "deal done" times only | `api/alembic/versions/0030_market_link_introduction_only.py`; `api/tests/test_market_link_schema.py` |
+| Trader / exporter / broker / provider profiles | name, phone, place, crops / areas; GSTIN, APMC licence, IEC (exporter); optional address with who / when; **no Aadhaar, commission or income** | `api/src/bagmitra_api/market_link/models.py` |
+| **Registration GPS fix (precise location)** | table ready (`registration_fixes`): one fix per registration, exact coordinates admin-only, own row readable by the registrant; collected from L2 | `api/src/bagmitra_api/market_link/models.py` (`RegistrationFix`) |
+| Representative uploads | place photo (capture time + GPS) and / or address, with who and when | `RepresentativeUpload` |
+| Reports, admin actions, blocks, terms acceptances | predefined reason codes only (no text); acceptances are versioned and time-stamped with the 18+ declaration | `FraudReport`, `AdminAction`, `UserBlock`, `TermsAcceptance` |
+
 ## 4. Device features
 
 | Item | Behaviour | Reference |

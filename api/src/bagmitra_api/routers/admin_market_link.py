@@ -59,13 +59,17 @@ MODELS: dict[str, type[Subject]] = {
 # Fields the admin checks (spec §4), in the order shown; ids and timestamps are left out.
 FIELDS: dict[str, tuple[str, ...]] = {
     "buyer": (
-        *("name", "firm", "phone", "markets", "district", "taluka", "crops"),
-        *("apmc_licence_no", "gst_no"),
+        *("kind", "name", "firm", "phone", "markets", "district", "taluka", "crops"),
+        *("apmc_licence_no", "gst_no", "iec_no", "address"),
     ),
-    "broker": ("name", "phone", "village", "district", "taluka", "service_areas", "crops"),
+    "broker": (
+        *("name", "phone", "village", "district", "taluka", "service_areas", "crops"),
+        "address",
+    ),
     "provider": (
         *("kind", "name", "phone", "village", "district", "taluka", "service_areas"),
         *("cert_valid_until", "vehicle_numbers", "capacity_t", "refrigerated", "carrier_reg_no"),
+        "address",
     ),
 }
 

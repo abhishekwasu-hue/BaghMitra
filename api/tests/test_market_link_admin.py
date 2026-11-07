@@ -164,6 +164,8 @@ async def api(
 
 def test_role_is_known_to_the_grant_script() -> None:
     assert "market_link_admin" in KNOWN_ROLES
+    # BagMitra representative (addendum 2): place photo + address only (built in L2).
+    assert "market_link_rep" in KNOWN_ROLES
 
 
 async def test_flag_off_is_404_even_for_the_admin(
@@ -224,6 +226,7 @@ async def test_queue_lists_pending_oldest_first_with_fields_and_documents(
         "district": "Nagpur",
         "crops": "santra",
         "apmc_licence_no": "APMC-42",
+        "kind": "trader",
     }
     only = await api.get(f"{BASE}/verifications?subject_type=buyer", headers=ADMIN)
     assert [s["subject_type"] for s in only.json()["subjects"]] == ["buyer"]

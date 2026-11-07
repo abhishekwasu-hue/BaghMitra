@@ -1,4 +1,4 @@
-"""Market linkage RLS per role (spec v1.5 §6, migration 0029). Postgres only; CI runs it in
+"""Market linkage RLS per role (spec v1.5 §6, migrations 0029, 0030). Postgres only; CI runs it in
 the migrations-postgres job (`pytest -m postgres`) with POSTGRES_TEST_URL set.
 
 The probe role has SELECT on every market-link table, like a client would if a grant ever
@@ -64,9 +64,6 @@ def _terms() -> dict[str, Any]:
         "basis": "per_tonne",
         "rate_paise": 2_500_000,
         "harvest_date": date(2026, 12, 1),
-        "labour_paid_by": "trader",
-        "crates_paid_by": "trader",
-        "transport_paid_by": "trader",
     }
 
 
@@ -139,7 +136,6 @@ def _fixture(conn: Connection) -> dict[str, uuid.UUID]:
         lot_id=ids["lot_pub"],
         offer_id=ids["offer"],
         status="active",
-        current_version=1,
     )
     ids["deal_other"] = _insert(
         conn,
@@ -147,43 +143,12 @@ def _fixture(conn: Connection) -> dict[str, uuid.UUID]:
         lot_id=ids["lot_other"],
         offer_id=ids["offer_other"],
         status="active",
-        current_version=1,
     )
     for role, user in (("grower", u["grower"]), ("trader", u["buyer"]), ("broker", u["broker"])):
         _insert(conn, "deal_parties", deal_id=ids["deal"], role=role, user_id=user)
     for role, user in (("grower", u["grower2"]), ("trader", u["buyer"])):
         _insert(conn, "deal_parties", deal_id=ids["deal_other"], role=role, user_id=user)
-    ids["version"] = _insert(
-        conn, "deal_versions", deal_id=ids["deal"], version=1, created_by=u["grower"], **_terms()
-    )
-    _insert(conn, "deal_confirmations", deal_version_id=ids["version"], user_id=u["grower"])
     _insert(conn, "deal_events", deal_id=ids["deal"], kind="accepted", actor_id=u["grower"])
-    ids["request"] = _insert(
-        conn,
-        "service_requests",
-        deal_id=ids["deal"],
-        provider_id=ids["sp"],
-        requested_by=u["grower"],
-        status="sent",
-    )
-    _insert(
-        conn,
-        "weigh_slips",
-        deal_id=ids["deal"],
-        gross_kg=12000,
-        tare_kg=2000,
-        net_kg=10000,
-        entered_by=u["grower"],
-    )
-    _insert(
-        conn,
-        "deal_payments",
-        deal_id=ids["deal"],
-        kind="advance",
-        amount_paise=10_000_00,
-        received_on=date(2026, 12, 1),
-        recorded_by=u["grower"],
-    )
     ids["rating"] = _insert(
         conn,
         "ratings",
@@ -194,13 +159,58 @@ def _fixture(conn: Connection) -> dict[str, uuid.UUID]:
         question_key="trader_on_date",
         stars=5,
     )
-    ids["dispute"] = _insert(
+    # 0030 tables: each user sees only their own rows.
+    ids["fix"] = _insert(
         conn,
-        "disputes",
-        deal_id=ids["deal"],
-        raised_by=u["grower"],
-        kind="weight",
+        "registration_fixes",
+        subject_type="buyer",
+        subject_id=ids["buyer_p"],
+        user_id=u["buyer"],
+        lat=21.1,
+        lon=77.7,
+        accuracy_m=10.0,
+        captured_at=NOW,
+        is_mocked=False,
+    )
+    ids["report"] = _insert(
+        conn,
+        "fraud_reports",
+        reporter_id=u["grower"],
+        subject_type="buyer",
+        subject_id=ids["buyer_p"],
+        reason="fake_identity",
         status="open",
+    )
+    ids["action"] = _insert(
+        conn,
+        "admin_actions",
+        subject_type="buyer",
+        subject_id=ids["buyer_p"],
+        user_id=u["buyer"],
+        action="warn",
+        reason_code="fake_identity",
+        actor_id=uuid.uuid4(),
+        acted_at=NOW,
+        appeal_state="none",
+    )
+    ids["terms"] = _insert(
+        conn,
+        "terms_acceptances",
+        user_id=u["buyer"],
+        role="trader",
+        doc_kind="terms",
+        version="2026-11",
+        accepted_at=NOW,
+        adult_declared=True,
+    )
+    ids["block"] = _insert(conn, "user_blocks", blocker_id=u["grower"], blocked_id=u["buyer"])
+    ids["rep_upload"] = _insert(
+        conn,
+        "representative_uploads",
+        subject_type="broker",
+        subject_id=ids["broker_p"],
+        uploaded_by=u["prov"],
+        address="Near APMC gate",
     )
     tag = {
         "question_key": "trader_on_date",
@@ -270,8 +280,10 @@ def test_rls_per_role(conn: Connection) -> None:
         assert _seen(conn, g, "market_offers") == {i["offer"]}
         assert _seen(conn, g, "market_deals") == {i["deal"]}
         assert len(_seen(conn, g, "deal_parties")) == 3
-        assert _seen(conn, g, "service_requests") == {i["request"]}
-        assert _seen(conn, g, "disputes") == {i["dispute"]}
+        assert _seen(conn, g, "fraud_reports") == {i["report"]}
+        assert _seen(conn, g, "user_blocks") == {i["block"]}
+        for table in ("registration_fixes", "admin_actions", "terms_acceptances"):
+            assert _seen(conn, g, table) == set(), table
         assert _seen(conn, g, "party_verifications") == set()
         # Public trader / broker profiles only once verified (decision g, h).
         assert _seen(conn, g, "buyer_profiles") == {i["buyer_p"]}
@@ -284,7 +296,12 @@ def test_rls_per_role(conn: Connection) -> None:
         assert _seen(conn, b, "market_offers") == {i["offer"], i["offer_other"]}
         assert _seen(conn, b, "market_deals") == {i["deal"], i["deal_other"]}
         assert _seen(conn, b, "ratings") == {i["rating"]}
-        assert _seen(conn, b, "disputes") == set()
+        # Own registration fix (exact GPS), the admin action about it, own acceptances.
+        assert _seen(conn, b, "registration_fixes") == {i["fix"]}
+        assert _seen(conn, b, "admin_actions") == {i["action"]}
+        assert _seen(conn, b, "terms_acceptances") == {i["terms"]}
+        for table in ("fraud_reports", "user_blocks", "representative_uploads"):
+            assert _seen(conn, b, table) == set(), table
         assert len(_seen(conn, b, "party_verifications")) == 1
         # Unverified buyer: no lot, no photo (spec §7); sees own pending record and profile.
         un = i["unverified"]
@@ -298,16 +315,26 @@ def test_rls_per_role(conn: Connection) -> None:
         assert _seen(conn, k, lots) == {i["lot_pub"], i["lot_other"]}
         assert _seen(conn, k, "market_offers") == {i["offer"]}
         assert _seen(conn, k, "market_deals") == {i["deal"]}
-        # Provider: only the request sent to it; no lot, deal or slip.
+        # Provider: a directory entry; no lot, deal or interest. (The same user uploaded the
+        # representative row here, so it reads that one only.)
         p = i["prov"]
-        assert _seen(conn, p, "service_requests") == {i["request"]}
-        for table in (lots, "market_deals", "weigh_slips", "deal_payments", "market_offers"):
+        assert _seen(conn, p, "representative_uploads") == {i["rep_upload"]}
+        for table in (lots, "market_deals", "market_offers", "registration_fixes"):
             assert _seen(conn, p, table) == set(), table
         # Another grower sees only their own lot and deal.
         assert _seen(conn, i["grower2"], lots) == {i["lot_other"]}
         assert _seen(conn, i["grower2"], "market_deals") == {i["deal_other"]}
         # Not signed in: nothing, not even active tags or verified profiles.
-        for table in (lots, "rating_tags", "buyer_profiles", "service_providers"):
+        for table in (
+            lots,
+            "rating_tags",
+            "buyer_profiles",
+            "service_providers",
+            "registration_fixes",
+            "fraud_reports",
+            "admin_actions",
+            "user_blocks",
+        ):
             assert _seen(conn, None, table) == set(), table
         # Admin works through the API's privileged role (RLS bypassed), which sees every row.
         assert conn.execute(text("SELECT count(*) FROM market_lots")).scalar_one() == 3
