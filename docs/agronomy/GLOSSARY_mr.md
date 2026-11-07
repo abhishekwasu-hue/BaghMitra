@@ -51,6 +51,9 @@
 | Rating tag; draft / active / retired | रेटिंग टॅग; मसुदा / चालू / बंद | — | Admin web only (L0b). Draft. |
 | Interest (a trader's offer on a lot) | ऑफर (hi ऑफ़र) | बोली, मागणी | L4 (spec v1.5 §3 step 3); L3 already said "ऑफर स्वीकारल्यानंतर". Accept = स्वीकारा; contacts after acceptance = संपर्क. Draft, for native review. |
 | Proposed harvest date | प्रस्तावित तोडणी तारीख | — | L4 offer form; तोडणी as in the harvest-window row. Draft. |
+| Deal done (both sides say the deal is settled) | व्यवहार झाला (hi लेन-देन हो गया) | सौदा झाला, डील पूर्ण | L5 button and status (spec v1.5 §3 step 7, Q67); never सौदा (Q75). Draft. |
+| Rating stars; ticks | स्टार; खुणा (hi स्टार; निशान) | तारे, गुण | L5 rating screen ("फक्त स्टार द्या व खुणा करा"); रेटिंग as already used in profiles. Draft. |
+| Note in my accounts (copy a sale) | माझ्या हिशोबात नोंदवा (hi मेरे हिसाब में दर्ज करें) | खात्यात टाका | L5 copy to own Accounts; हिशोब as the Accounts tab. Draft. |
 | Exporter | निर्यातदार | एक्स्पोर्टर | Market linkage role card (spec v1.5 §2.1). Draft, for native review. |
 | Service providers (role card) | सेवा देणारे | सर्व्हिस प्रोव्हायडर | L2 registration and directory; kinds as in the row "Service provider kinds". Draft. |
 | Registration / check by BagMitra | नोंदणी / तपासणी ("BagMitra ने <तारीख> रोजी तपासले") | हमी, खात्रीशीर, व्हेरिफाइड | Badges say what was checked and when, never a guarantee (spec v1.5 §4). Draft. |
