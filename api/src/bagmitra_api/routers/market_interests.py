@@ -28,7 +28,6 @@ from bagmitra_api.db.session import DbSession
 from bagmitra_api.market_link.deals import DealStateOut, deal_state, party_roles
 from bagmitra_api.market_link.guards import MarketLinkIn, is_verified
 from bagmitra_api.market_link.models import (
-    ORCHARD_OK,
     BrokerProfile,
     BuyerProfile,
     DealEvent,
@@ -38,6 +37,7 @@ from bagmitra_api.market_link.models import (
     MarketOffer,
 )
 from bagmitra_api.market_link.notify import messages, send_all
+from bagmitra_api.market_link.package import lot_shown
 from bagmitra_api.market_link.profiles import PublicProfileOut, Subject, public_views
 from bagmitra_api.market_link.registration import india_date
 from bagmitra_api.market_link.terms import accepted_roles, current_versions
@@ -210,6 +210,7 @@ async def send_interest(  # noqa: PLR0913 - body and dependencies
     settings: AppSettings,
     tasks: BackgroundTasks,
     push: Push,
+    clock: Clock,
 ) -> InterestOut:
     """An interest on a published lot from a verified trader / exporter (optionally naming a
     verified broker) or from a verified broker for a named verified trader. A trader's new
@@ -233,12 +234,7 @@ async def send_interest(  # noqa: PLR0913 - body and dependencies
             if broker is None:
                 raise ApiError(404, "broker_not_found")
     lot = await session.get(MarketLot, lot_id)
-    if (
-        lot is None
-        or lot.deleted_at is not None
-        or lot.status != "published"
-        or lot.orchard_check not in ORCHARD_OK
-    ):
+    if lot is None or not await lot_shown(session, lot.id, clock()):  # §4E, the one rule
         raise ApiError(404, "lot_not_found")
     if lot.owner_id in (buyer.user_id, broker.user_id if broker else None):
         raise ApiError(409, "own_lot")
