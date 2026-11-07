@@ -96,6 +96,16 @@ String marketCommodityLabel(String source, String lang) =>
 String marketVarietyLabel(String source, String lang) =>
     _label(_varieties, source, lang);
 
+/// Whether a variety tells the grower anything. Agmarknet writes "Other" when the mandi did
+/// not record a variety, and sometimes repeats the crop name ("Orange" under Orange); both
+/// read as noise ("वाण: इतर"), so the row hides the variety line for them.
+bool marketVarietyIsInformative(String variety, String commodity) {
+  final v = variety.trim().toLowerCase();
+  final c = commodity.trim().toLowerCase();
+  if (v.isEmpty || v == 'other' || v == 'others') return false;
+  return !(v == c || c.startsWith('$v(') || c.startsWith('$v '));
+}
+
 /// Letters and digits in any script (Latin, Devanagari with its vowel signs); everything
 /// else — "-", "(", ")", "." and spaces — separates words.
 final _wordBreak = RegExp(r'[^\p{L}\p{M}\p{N}]+', unicode: true);
