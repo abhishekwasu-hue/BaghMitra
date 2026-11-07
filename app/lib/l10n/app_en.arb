@@ -1171,5 +1171,9 @@
   "labelInfoRestricted": "Restricted for this crop: do not use",
   "labelInfoAllTargets": "All pests and diseases",
   "labelInfoOpenFor": "Label information: {target}",
-  "@labelInfoOpenFor": {"placeholders": {"target": {"type": "String"}}}
+  "@labelInfoOpenFor": {"placeholders": {"target": {"type": "String"}}},
+  "labelInfoSources": "Source documents ({count})",
+  "labelInfoOpenDetails": "Tap to see the full label details",
+  "labelInfoDetailsTitle": "Full label details",
+  "@labelInfoSources": {"placeholders": {"count": {"type": "String"}}}
 }

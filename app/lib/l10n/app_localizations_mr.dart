@@ -2860,4 +2860,15 @@ class AppLocalizationsMr extends AppLocalizations {
   String labelInfoOpenFor(String target) {
     return 'लेबल माहिती: $target';
   }
+
+  @override
+  String labelInfoSources(String count) {
+    return 'माहितीचे स्रोत ($count)';
+  }
+
+  @override
+  String get labelInfoOpenDetails => 'लेबलची पूर्ण माहिती पाहण्यासाठी दाबा';
+
+  @override
+  String get labelInfoDetailsTitle => 'लेबलवरील पूर्ण माहिती';
 }

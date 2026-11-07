@@ -810,5 +810,8 @@
   "labelInfoBanned": "प्रतिबंधित: उपयोग न करें",
   "labelInfoRestricted": "इस फसल के लिए सीमित: उपयोग न करें",
   "labelInfoAllTargets": "सभी कीट और रोग",
-  "labelInfoOpenFor": "लेबल जानकारी: {target}"
+  "labelInfoOpenFor": "लेबल जानकारी: {target}",
+  "labelInfoSources": "जानकारी के स्रोत ({count})",
+  "labelInfoOpenDetails": "लेबल की पूरी जानकारी देखने के लिए दबाएँ",
+  "labelInfoDetailsTitle": "लेबल की पूरी जानकारी"
 }
