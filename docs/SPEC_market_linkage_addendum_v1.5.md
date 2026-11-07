@@ -3,7 +3,8 @@
 Same standing rules as the main spec §0 and OWNER_RULES.md (English only in this file; the app shows
 Marathi / Hindi / English; test-first; PRs ≤ 400 production lines with self-review; offline-first;
 log questions in `docs/OPEN_QUESTIONS.md` with a default and continue). Research behind every fact
-here: `docs/research/MARKET_LINKAGE_RESEARCH.md`. **Status: draft for owner review — not built.**
+here: `docs/research/MARKET_LINKAGE_RESEARCH.md`. **Status: approved by the owner 2026-11-07; building (L0a merged, #155).** Audit 2026-11-07:
+research §6.
 
 ## 1. Owner decision (2026-11-07)
 - BagMitra has **no capital**. It never buys, sells, owns or stores produce and never holds money.
@@ -42,6 +43,7 @@ contact number and ratings — that a grower can read easily. This narrows the g
 | Broker (dalal) | Local or nearby broker who brings traders to orchards | Self-registers; admin verifies |
 | Service provider | Weighbridge, transporter / truck owner, harvest labour gang, crate / packing supplier | Self-registers or admin adds; admin verifies |
 | Admin (BagMitra) | Owner / staff | Admin web (ADR 0006) |
+| BagMitra representative | Field person appointed by admin | Admin grants the role; can only add a place photo and address to a trader / broker / exporter / provider profile they visited; every upload records who and when |
 
 ## 3. Flow
 1. **Lot** — grower picks a plot and bahar; crop and variety come from the plot. Fields: estimated
@@ -123,14 +125,22 @@ the admin by hand from a link the admin page opens. Research: MARKET_LINKAGE_RES
 | FSSAI licence | trader, exporter (if held) | FoSCoS public check | "FSSAI checked" |
 | IEC | exporter (required for the exporter type) | DGFT "View IEC Status": name matches, Active | "IEC active" |
 | APEDA registration | exporter (if held) | APEDA exporter directory | "APEDA listed" |
-| Shop / office photo | trader, exporter, broker | in-app camera only, time + GPS | "Place photo" |
+| **Registration GPS (required)** | trader, broker, exporter, service provider, representative | captured automatically by the phone at the moment of registration (foreground, one fix, after a clear permission screen); the nearest place is named by the phone's own geocoder (reuse `features/plots/data/place_geocoder.dart`); mock-location flag stored when the location plugin reports it | "Registered from <village / taluka> on <date>" |
+| Place address + photo (**optional**) | all | the person enters / updates the address themselves, or a BagMitra representative visits, takes the photo (in-app camera, time + GPS) and uploads it | "Place photo" + who took it and when |
 | Track record | all | computed: completed BagMitra deals and ratings | deal count, stars |
 
+- **Registration GPS (owner decision 2026-11-07)**: registration cannot finish without a location fix
+  taken at that moment; no background or repeated tracking. Stored: latitude, longitude, accuracy,
+  time, the geocoder's place / district / state / PIN, and the mock-location flag. Public profile shows
+  only village / taluka / district; exact coordinates are visible to admin and to parties of an
+  accepted deal only. A fix flagged as mock, or far from the stated area, goes to the admin queue
+  before the badge. The self-entered address (optional) is shown beside it so the admin sees both.
+  GPS can be faked on a phone; it is one check among the others, never proof by itself.
 - **Turnover is not collected or shown** (not on any public register; self-declared figures cannot be
   checked). Business age = GST registration date; activity = public return-filing record.
 - A trader / exporter is "verified" (sees lots) after phone OTP + admin check of at least one of
-  GSTIN / APMC licence / IEC (exporter: IEC required). A broker: phone OTP + place photo + admin phone
-  call.
+  GSTIN / APMC licence / IEC (exporter: IEC required). A broker: phone OTP + admin phone call
+  (place photo optional).
 - **Report fraud** button on every trader, broker, exporter and provider profile → admin queue
   (predefined reasons to tick, photos optional; no free text, same as ratings). Admin can suspend.
 - Re-check yearly; GST "cancelled" or IEC "deactivated" found on re-check removes the badge.
@@ -155,6 +165,15 @@ the admin by hand from a link the admin page opens. Research: MARKET_LINKAGE_RES
   are recorded, show only a link-out. **Never UN Comtrade data** (licence bars commercial reuse).
 - **Export record PDF**: from the grower's own spray log, label-claim check and PHI dates already in
   the app — a dated record the grower can hand to an exporter. Information only; no compliance claim.
+
+## 4B. Fixes from the 2026-11-07 audit (enforce decisions already taken)
+- **No plot location before acceptance**: EXIF is stripped from every uploaded photo; lot photo
+  lat/lon and the plot pin never appear in any API response to a buyer or broker before the grower
+  accepts their offer (research §6.2-1).
+- **No contact details in lot text**: lot text fields refuse phone-number and URL patterns, so the
+  grower's identity stays hidden (§6.2-2).
+- Data model also holds: registration GPS fields (§4), exporter IEC, `market_link_rep` role uploads,
+  fraud reports (predefined reasons, photos, status, admin decision).
 
 ## 5. Legal gate (must hold before production)
 - Feature flag `MARKET_LINK_ENABLED` (default **off** in production; on in test builds).

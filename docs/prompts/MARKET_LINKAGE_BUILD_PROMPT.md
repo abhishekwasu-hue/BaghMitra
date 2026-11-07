@@ -160,3 +160,43 @@ docs/SPEC_market_linkage_addendum_v1.5.md §4 (rewritten) and §4A (new), and §
 4. Build L7 and L8 after L6, same rules as the main prompt (tests first, ≤ 400 lines per PR, self-review,
    Marathi phone screenshots light + dark, match the existing UI, uncluttered).
 ```
+
+## Addendum 2 2026-11-07 — paste this too
+
+```
+ADDENDUM 2 (owner 2026-11-07): office / place address is OPTIONAL for everyone. The person can enter
+and update their own address. A new role "BagMitra representative" (granted by admin, role name
+market_link_rep) can add a place photo (in-app camera, time + GPS) and address to a profile they
+visited; every upload stores who and when; the badge shows it. Brokers no longer need a place photo
+(phone OTP + admin call). Re-read spec v1.5 §2 and §4 on main. Tests: profile saves without address;
+only market_link_rep or the profile owner can set the address; only market_link_rep can add a
+representative photo.
+```
+
+## Addendum 3 2026-11-07 — paste this too
+
+```
+ADDENDUM 3 (owner 2026-11-07): every market-link registration (trader, broker, exporter, service
+provider, representative) REQUIRES a GPS fix taken at the moment of registration — one foreground fix
+after a clear permission screen, no background tracking. Store lat, lng, accuracy, time, geocoder place
+/ district / state / PIN (reuse app/lib/features/plots/data/place_geocoder.dart, the phone's own
+geocoder, no paid API) and the mock-location flag when the location plugin reports it. Public profile
+shows village / taluka / district only; exact coordinates to admin and accepted-deal parties only. Mock
+flag or a fix far from the stated area -> admin queue before any badge. Re-read spec v1.5 §4 on main.
+Update DATA_INVENTORY.md and data-safety.md (precise location, collected once, purpose: fraud
+prevention). Tests: registration blocked without a fix; coordinates absent from the public profile
+API; mock-flagged registration lands in the admin queue.
+```
+
+## Addendum 4 2026-11-07 (audit fixes) — paste this too
+
+```
+ADDENDUM 4 (audit 2026-11-07, research §6.2; spec v1.5 §4B): (1) Strip EXIF from every uploaded photo
+in the market-link module (server side, before storage) and never return lot photo lat/lon or the plot
+pin to a buyer or broker before the grower accepts their offer; test it through the API. (2) Lot text
+fields (quality and any other free text a buyer can see before acceptance) reject phone-number and URL
+patterns (Devanagari and Latin digits, +91 forms, spaced digits); tests with Marathi samples. (3) Add the
+§4 data (registration GPS fields, exporter IEC, market_link_rep uploads, fraud reports) in the next
+migration if L0a lacks them. (4) Keep market_link_admin in L0b.
+```
+
