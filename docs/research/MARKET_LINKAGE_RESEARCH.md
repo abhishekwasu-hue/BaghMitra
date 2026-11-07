@@ -128,7 +128,7 @@ Local / nearby broker (dalal) brings the trader, shows the orchard, negotiates, 
 commission; trader fixes harvest date and basis (per tonne, per crate, or lump sum); terms written
 on rough paper, no bond paper; trader then sells on the spot to a bigger trader or sends the fruit
 to a mandi. This fills part of the "on-tree sale practice" gap in §2 (who pays the 2 % is not
-stated).
+stated). Owner decision 2026-11-07: the app never records a broker's commission or income (Q64).
 
 ## 2. What the data does not show
 - Whether a pure listing / lead service (BagMitra never buys, never holds money) needs a s.5D
