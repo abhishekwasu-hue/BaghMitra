@@ -100,7 +100,8 @@ contact number and ratings — that a grower can read easily. This narrows the g
   the agreed date" / "came late", "payment on time" / "payment late"). The tag list is a server
   table `rating_tags` (mr / hi / en, one Marathi term per concept per GLOSSARY_mr.md) that only
   admin edits in the admin web; the app caches it offline and shows only tags from that list.
-- A rating cannot be edited after 7 days (Q66). Ratings under an open dispute show "disputed".
+- Rating opens when the deal is completed (§3 step 9). It can be given or changed for **7 days from
+  the deal's completion**; after that it is locked (owner decision 2026-11-07, Q66). Ratings under an open dispute show "disputed".
   A rated person who disagrees uses the dispute flow (§3 step 9), which goes to admin, not public.
 
 ## 4. Verification
