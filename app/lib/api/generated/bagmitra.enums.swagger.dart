@@ -4,6 +4,28 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:collection/collection.dart';
 
+enum AcceptInRole {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('grower')
+  grower('grower'),
+  @JsonValue('trader')
+  trader('trader'),
+  @JsonValue('exporter')
+  exporter('exporter'),
+  @JsonValue('broker')
+  broker('broker'),
+  @JsonValue('provider')
+  provider('provider'),
+  @JsonValue('representative')
+  representative('representative');
+
+  final String? value;
+
+  const AcceptInRole(this.value);
+}
+
 enum BlockedClaimOutReason {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
@@ -248,6 +270,22 @@ enum ReviewInDecision {
   final String? value;
 
   const ReviewInDecision(this.value);
+}
+
+enum TermsDocOutKind {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('terms')
+  terms('terms'),
+  @JsonValue('privacy')
+  privacy('privacy'),
+  @JsonValue('disclaimer')
+  disclaimer('disclaimer');
+
+  final String? value;
+
+  const TermsDocOutKind(this.value);
 }
 
 enum V1AdminFeedItemsGetStatus {
