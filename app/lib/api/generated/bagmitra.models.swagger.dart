@@ -4998,6 +4998,151 @@ extension $GrowerCardsResponseExtension on GrowerCardsResponse {
 }
 
 @JsonSerializable(explicitToJson: true)
+class GrowerLotOut {
+  const GrowerLotOut({
+    required this.crop,
+    required this.district,
+    required this.id,
+    required this.orchardCheck,
+    required this.publishedAt,
+    required this.status,
+    required this.taluka,
+    required this.variety,
+    required this.village,
+  });
+
+  factory GrowerLotOut.fromJson(Map<String, dynamic> json) =>
+      _$GrowerLotOutFromJson(json);
+
+  static const toJsonFactory = _$GrowerLotOutToJson;
+  Map<String, dynamic> toJson() => _$GrowerLotOutToJson(this);
+
+  @JsonKey(name: 'crop', includeIfNull: false)
+  final String crop;
+  @JsonKey(name: 'district', includeIfNull: false)
+  final String? district;
+  @JsonKey(name: 'id', includeIfNull: false)
+  final String id;
+  @JsonKey(name: 'orchard_check', includeIfNull: false)
+  final String? orchardCheck;
+  @JsonKey(name: 'published_at', includeIfNull: false)
+  final DateTime? publishedAt;
+  @JsonKey(name: 'status', includeIfNull: false)
+  final String status;
+  @JsonKey(name: 'taluka', includeIfNull: false)
+  final String? taluka;
+  @JsonKey(name: 'variety', includeIfNull: false)
+  final String? variety;
+  @JsonKey(name: 'village', includeIfNull: false)
+  final String? village;
+  static const fromJsonFactory = _$GrowerLotOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is GrowerLotOut &&
+            (identical(other.crop, crop) ||
+                const DeepCollectionEquality().equals(other.crop, crop)) &&
+            (identical(other.district, district) ||
+                const DeepCollectionEquality().equals(
+                  other.district,
+                  district,
+                )) &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.orchardCheck, orchardCheck) ||
+                const DeepCollectionEquality().equals(
+                  other.orchardCheck,
+                  orchardCheck,
+                )) &&
+            (identical(other.publishedAt, publishedAt) ||
+                const DeepCollectionEquality().equals(
+                  other.publishedAt,
+                  publishedAt,
+                )) &&
+            (identical(other.status, status) ||
+                const DeepCollectionEquality().equals(other.status, status)) &&
+            (identical(other.taluka, taluka) ||
+                const DeepCollectionEquality().equals(other.taluka, taluka)) &&
+            (identical(other.variety, variety) ||
+                const DeepCollectionEquality().equals(
+                  other.variety,
+                  variety,
+                )) &&
+            (identical(other.village, village) ||
+                const DeepCollectionEquality().equals(other.village, village)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(crop) ^
+      const DeepCollectionEquality().hash(district) ^
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(orchardCheck) ^
+      const DeepCollectionEquality().hash(publishedAt) ^
+      const DeepCollectionEquality().hash(status) ^
+      const DeepCollectionEquality().hash(taluka) ^
+      const DeepCollectionEquality().hash(variety) ^
+      const DeepCollectionEquality().hash(village) ^
+      runtimeType.hashCode;
+}
+
+extension $GrowerLotOutExtension on GrowerLotOut {
+  GrowerLotOut copyWith({
+    String? crop,
+    String? district,
+    String? id,
+    String? orchardCheck,
+    DateTime? publishedAt,
+    String? status,
+    String? taluka,
+    String? variety,
+    String? village,
+  }) {
+    return GrowerLotOut(
+      crop: crop ?? this.crop,
+      district: district ?? this.district,
+      id: id ?? this.id,
+      orchardCheck: orchardCheck ?? this.orchardCheck,
+      publishedAt: publishedAt ?? this.publishedAt,
+      status: status ?? this.status,
+      taluka: taluka ?? this.taluka,
+      variety: variety ?? this.variety,
+      village: village ?? this.village,
+    );
+  }
+
+  GrowerLotOut copyWithWrapped({
+    Wrapped<String>? crop,
+    Wrapped<String?>? district,
+    Wrapped<String>? id,
+    Wrapped<String?>? orchardCheck,
+    Wrapped<DateTime?>? publishedAt,
+    Wrapped<String>? status,
+    Wrapped<String?>? taluka,
+    Wrapped<String?>? variety,
+    Wrapped<String?>? village,
+  }) {
+    return GrowerLotOut(
+      crop: (crop != null ? crop.value : this.crop),
+      district: (district != null ? district.value : this.district),
+      id: (id != null ? id.value : this.id),
+      orchardCheck: (orchardCheck != null
+          ? orchardCheck.value
+          : this.orchardCheck),
+      publishedAt: (publishedAt != null ? publishedAt.value : this.publishedAt),
+      status: (status != null ? status.value : this.status),
+      taluka: (taluka != null ? taluka.value : this.taluka),
+      variety: (variety != null ? variety.value : this.variety),
+      village: (village != null ? village.value : this.village),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class HTTPValidationError {
   const HTTPValidationError({this.detail});
 
@@ -5776,6 +5921,51 @@ extension $LiveResponseExtension on LiveResponse {
     return LiveResponse(
       product: (product != null ? product.value : this.product),
       status: (status != null ? status.value : this.status),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class LotPhotoStored {
+  const LotPhotoStored({required this.photoKey});
+
+  factory LotPhotoStored.fromJson(Map<String, dynamic> json) =>
+      _$LotPhotoStoredFromJson(json);
+
+  static const toJsonFactory = _$LotPhotoStoredToJson;
+  Map<String, dynamic> toJson() => _$LotPhotoStoredToJson(this);
+
+  @JsonKey(name: 'photo_key', includeIfNull: false)
+  final String photoKey;
+  static const fromJsonFactory = _$LotPhotoStoredFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is LotPhotoStored &&
+            (identical(other.photoKey, photoKey) ||
+                const DeepCollectionEquality().equals(
+                  other.photoKey,
+                  photoKey,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(photoKey) ^ runtimeType.hashCode;
+}
+
+extension $LotPhotoStoredExtension on LotPhotoStored {
+  LotPhotoStored copyWith({String? photoKey}) {
+    return LotPhotoStored(photoKey: photoKey ?? this.photoKey);
+  }
+
+  LotPhotoStored copyWithWrapped({Wrapped<String>? photoKey}) {
+    return LotPhotoStored(
+      photoKey: (photoKey != null ? photoKey.value : this.photoKey),
     );
   }
 }

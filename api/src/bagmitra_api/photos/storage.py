@@ -6,6 +6,7 @@ sent to Supabase only, never returned or logged.
 
 REST calls (Supabase Storage API, paths under {url}/storage/v1):
 - POST /object/upload/sign/{bucket}/{key} -> {"url": "/object/upload/sign/...?token=..."}
+- POST /object/{bucket}/{key} (raw bytes, x-upsert) -> stored (market-link photos)
 - POST /object/sign/{bucket}/{key} {"expiresIn": n} -> {"signedURL": "/object/sign/..."}
 - POST /object/list/{bucket} {"prefix", "limit", "offset"} -> [{"name": ...}, ...]
 - DELETE /object/{bucket} {"prefixes": [key, ...]} -> [deleted objects]
@@ -40,6 +41,8 @@ class SignedUrl:
 
 class PhotoStorage(Protocol):
     async def signed_upload_url(self, key: str) -> SignedUrl: ...
+
+    async def upload_object(self, key: str, data: bytes, content_type: str) -> None: ...
 
     async def signed_download_url(self, key: str, expires_in: int) -> SignedUrl: ...
 
@@ -105,6 +108,19 @@ class SupabaseStorageClient:
         except PhotoNotFoundError as exc:
             raise PhotoStorageError(str(exc)) from exc
         return SignedUrl(self._absolute(body.get("url")), SIGNED_UPLOAD_TTL_SECONDS)
+
+    async def upload_object(self, key: str, data: bytes, content_type: str) -> None:
+        """Stores bytes the server itself checked (market-link photos, EXIF stripped)."""
+        try:
+            response = await self._http.post(
+                f"{self._root}/object/{self._bucket}/{key}",
+                content=data,
+                headers={**self._headers, "Content-Type": content_type, "x-upsert": "true"},
+            )
+        except httpx.HTTPError as exc:
+            raise PhotoStorageError(type(exc).__name__) from exc
+        if response.status_code != httpx.codes.OK:
+            raise PhotoStorageError(f"HTTP {response.status_code}")
 
     async def signed_download_url(self, key: str, expires_in: int) -> SignedUrl:
         body = await self._post(f"/object/sign/{self._bucket}/{key}", {"expiresIn": expires_in})
