@@ -3836,4 +3836,428 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get mlQualityLine => 'छोटी जानकारी (वैकल्पिक)';
+
+  @override
+  String get mlSafetyReport => 'शिकायत करें';
+
+  @override
+  String get mlSafetyReportTitle => 'बागमित्र को शिकायत';
+
+  @override
+  String get mlSafetyReportWhy => 'कारण चुनें';
+
+  @override
+  String get mlSafetyReportNote =>
+      'बागमित्र सिर्फ परिचय कराता है। फर्जी पहचान, फर्जी माल, खुद को बागमित्र बताना, फर्जी रेटिंग या दुर्व्यवहार की शिकायत करें; लेन-देन का भुगतान, वजन और गुणवत्ता आप आपस में तय करें।';
+
+  @override
+  String get mlSafetyPhoto => 'फोटो जोड़ें (चाहें तो)';
+
+  @override
+  String get mlSafetyPhotoAdded => 'फोटो जुड़ा';
+
+  @override
+  String get mlSafetySend => 'शिकायत भेजें';
+
+  @override
+  String get mlSafetySent => 'शिकायत मिली। बागमित्र जांच करेगा।';
+
+  @override
+  String get mlSafetyRetry => 'इंटरनेट जांचकर फिर कोशिश करें';
+
+  @override
+  String get mlReasonFakeIdentity => 'फर्जी पहचान';
+
+  @override
+  String get mlReasonFakeLot => 'फर्जी माल या दूसरे बाग की फोटो';
+
+  @override
+  String get mlReasonImpersonation => 'खुद को बागमित्र बताता है';
+
+  @override
+  String get mlReasonFakeRating => 'फर्जी रेटिंग';
+
+  @override
+  String get mlReasonAbuse => 'अपमानजनक व्यवहार';
+
+  @override
+  String get mlReasonDuplicateUser => 'एक व्यक्ति, दो खाते';
+
+  @override
+  String get mlReasonChecksPassed => 'जांच पूरी';
+
+  @override
+  String get mlReasonAppealUpheld => 'अपील स्वीकार';
+
+  @override
+  String get mlActionVerify => 'सत्यापित';
+
+  @override
+  String get mlActionWarn => 'चेतावनी';
+
+  @override
+  String get mlActionHide => 'सूची से छिपाया';
+
+  @override
+  String get mlActionSuspend => 'खाता कुछ समय के लिए रोका';
+
+  @override
+  String get mlActionRestore => 'फिर से चालू';
+
+  @override
+  String get mlAppealIdentityGenuine => 'मेरी पहचान सच्ची है';
+
+  @override
+  String get mlAppealLotGenuine => 'मेरा माल और फोटो सच्चे हैं';
+
+  @override
+  String get mlAppealRatingGenuine => 'यह रेटिंग असली लेन-देन की है';
+
+  @override
+  String get mlAppealBehaviourProper => 'मेरा बर्ताव सही था';
+
+  @override
+  String get mlAppealNotDuplicate => 'यह मेरा एकमात्र खाता है';
+
+  @override
+  String get mlAppealStateAppealed => 'अपील शिकायत अधिकारी के पास';
+
+  @override
+  String get mlAppealStateUpheld => 'अपील स्वीकार';
+
+  @override
+  String get mlAppealStateRejected => 'निर्णय कायम';
+
+  @override
+  String get mlActionsTitle => 'मेरे खाते पर कार्रवाई';
+
+  @override
+  String get mlActionsEmpty => 'आपका खाता ठीक है।';
+
+  @override
+  String mlActionReason(String reason) {
+    return 'कारण: $reason';
+  }
+
+  @override
+  String mlActionDate(String date) {
+    return '$date को';
+  }
+
+  @override
+  String get mlAppeal => 'अपील करें';
+
+  @override
+  String get mlAppealTitle => 'अपील (एक बार)';
+
+  @override
+  String get mlAppealNote =>
+      'शिकायत अधिकारी 24 घंटे में पावती और 15 दिन में निर्णय देंगे।';
+
+  @override
+  String get mlAppealSend => 'अपील भेजें';
+
+  @override
+  String get mlAppealSent => 'अपील मिली';
+
+  @override
+  String get mlGrievanceDefault => 'बागमित्र के मालिक';
+
+  @override
+  String get mlBlock => 'ब्लॉक करें';
+
+  @override
+  String get mlUnblock => 'ब्लॉक हटाएं';
+
+  @override
+  String get mlBlockTitle => 'इस व्यक्ति को ब्लॉक करें?';
+
+  @override
+  String get mlBlockNote =>
+      'आप दोनों एक-दूसरे की सूची और रुचि से दूर रहेंगे। कभी भी ब्लॉक हटा सकते हैं।';
+
+  @override
+  String get mlBlocked => 'ब्लॉक किया';
+
+  @override
+  String get mlUnblocked => 'ब्लॉक हटाया';
+
+  @override
+  String get mlMoreOptions => 'और विकल्प';
+
+  @override
+  String get adminMlReports => 'शिकायतें';
+
+  @override
+  String get adminMlAppeals => 'अपीलें';
+
+  @override
+  String get adminMlReportsEmpty => 'सभी शिकायतें निपटाईं';
+
+  @override
+  String get adminMlAppealsEmpty => 'सभी अपीलें निपटाईं';
+
+  @override
+  String get adminMlAckOverdue => 'पावती: 24 घंटे पार';
+
+  @override
+  String get adminMlCloseOverdue => 'निर्णय: 15 दिन पार';
+
+  @override
+  String get adminMlAcknowledge => 'पावती दें';
+
+  @override
+  String get adminMlAct => 'कार्रवाई करें';
+
+  @override
+  String get adminMlDismiss => 'खारिज करें';
+
+  @override
+  String get adminMlUphold => 'अपील स्वीकार करें';
+
+  @override
+  String get adminMlKeepDecision => 'निर्णय कायम रखें';
+
+  @override
+  String get adminMlActionTitle => 'कारण-कोड के साथ कार्रवाई';
+
+  @override
+  String get adminMlActionNote =>
+      'सिर्फ प्लेटफॉर्म के नियम: फर्जी या दोहरे खाते, फर्जी माल, नकल, दुर्व्यवहार। भुगतान, वजन, गुणवत्ता के झगड़े पक्षों के बीच रहते हैं।';
+
+  @override
+  String get adminMlStatusOpen => 'खुली';
+
+  @override
+  String get adminMlStatusActioned => 'कार्रवाई हुई';
+
+  @override
+  String get adminMlStatusDismissed => 'खारिज';
+
+  @override
+  String get adminMlTargetLot => 'माल (लॉट)';
+
+  @override
+  String get adminMlTargetRating => 'रेटिंग';
+
+  @override
+  String get adminMlTargetUser => 'उपयोगकर्ता';
+
+  @override
+  String adminMlReceived(String date) {
+    return '$date को आई';
+  }
+
+  @override
+  String adminMlPhoto(int n) {
+    return 'फोटो $n';
+  }
+
+  @override
+  String adminMlAppealReason(String reason) {
+    return 'अपील: $reason';
+  }
+
+  @override
+  String get mlBrowseTitle => 'बिक्री के लिए माल';
+
+  @override
+  String get mlBrowseEmpty => 'किसानों का दिखाया माल यहाँ दिखेगा।';
+
+  @override
+  String get mlNotVerified =>
+      'BagMitra के आपका पंजीकरण जाँचने के बाद माल यहाँ दिखेगा।';
+
+  @override
+  String get mlMyOffersTitle => 'मेरे ऑफ़र';
+
+  @override
+  String get mlMyOffersEmpty => 'माल पर दिए आपके ऑफ़र यहाँ दिखेंगे।';
+
+  @override
+  String get mlOfferOpen => 'किसान के फ़ैसले का इंतज़ार';
+
+  @override
+  String get mlOfferAccepted => 'स्वीकार हुआ';
+
+  @override
+  String get mlOfferClosed =>
+      'बंद: किसान ने दूसरा ऑफ़र चुना या माल सूची से हटाया।';
+
+  @override
+  String mlHarvestOn(String date) {
+    return 'तुड़ाई $date';
+  }
+
+  @override
+  String get mlMakeOffer => 'ऑफ़र दें';
+
+  @override
+  String get mlOfferTitle => 'आपका ऑफ़र';
+
+  @override
+  String get mlOfferRate => 'दर ₹';
+
+  @override
+  String get mlOfferQuantity => 'माल टन में (वैकल्पिक)';
+
+  @override
+  String get mlOfferHarvestDate => 'प्रस्तावित तुड़ाई तारीख';
+
+  @override
+  String get mlOfferThroughBroker => 'मध्यस्थ (दलाल) के ज़रिए';
+
+  @override
+  String get mlOfferForTrader => 'किस व्यापारी के लिए';
+
+  @override
+  String get mlOfferDirect => 'सीधे';
+
+  @override
+  String get mlOfferOnlyThese =>
+      'किसान को सिर्फ़ दर, माल और तारीख जाती है; बाकी सब आमने-सामने तय करें।';
+
+  @override
+  String get mlOfferSend => 'ऑफ़र भेजें';
+
+  @override
+  String get mlOfferSent => 'ऑफ़र भेजा। किसान के फ़ैसले पर सूचना आएगी।';
+
+  @override
+  String get mlErrRate => 'दर रुपयों में लिखें';
+
+  @override
+  String get mlErrQuantity => 'टन लिखें (10,000 तक)';
+
+  @override
+  String get mlErrPickTrader => 'व्यापारी चुनें';
+
+  @override
+  String get mlErrLotGone => 'यह माल सूची से हट गया है।';
+
+  @override
+  String get mlOffersTitle => 'आपके माल पर ऑफ़र';
+
+  @override
+  String get mlOffersEmpty =>
+      'जाँचे गए व्यापारियों के ऑफ़र यहाँ साथ-साथ दिखेंगे।';
+
+  @override
+  String get mlSeeOffers => 'ऑफ़र देखें';
+
+  @override
+  String mlYourAsk(String rate) {
+    return 'आपकी अपेक्षित दर: $rate';
+  }
+
+  @override
+  String get mlAcceptPick => 'चुनने के लिए एक ऑफ़र पर टैप करें';
+
+  @override
+  String get mlAccept => 'चुना हुआ ऑफ़र स्वीकार करें';
+
+  @override
+  String get mlAcceptConfirmTitle => 'यह ऑफ़र स्वीकार करें?';
+
+  @override
+  String get mlAcceptConfirmBody =>
+      'इस व्यापारी (और नामित मध्यस्थ) को आपका नाम, फ़ोन और बाग की जगह दिखेगी। बाकी ऑफ़र बंद होंगे। आगे का लेन-देन आप सीधे आपस में तय करें।';
+
+  @override
+  String get mlAcceptYes => 'स्वीकार करें';
+
+  @override
+  String get mlAccepted =>
+      'स्वीकार हुआ। अब दोनों को एक-दूसरे के संपर्क दिखते हैं।';
+
+  @override
+  String get mlAcceptChanged => 'ऑफ़र बदल गया है; सूची फिर से खोलें।';
+
+  @override
+  String get mlIntroOpen => 'संपर्क देखें';
+
+  @override
+  String get mlIntroTitle => 'संपर्क';
+
+  @override
+  String get mlIntroGrower => 'किसान';
+
+  @override
+  String get mlIntroOpenMap => 'बाग नक्शे पर खोलें';
+
+  @override
+  String mlIntroAcceptedOn(String date) {
+    return '$date को स्वीकार';
+  }
+
+  @override
+  String get mlIntroOffApp =>
+      'अब तौल, क्रेट, ढुलाई और पैसे का लेन-देन आप आपस में तय करते हैं।';
+
+  @override
+  String get mlDealDone => 'लेन-देन हो गया';
+
+  @override
+  String get mlDealDoneAsk => 'लेन-देन हो गया, दर्ज करें?';
+
+  @override
+  String get mlDealDoneAskBody =>
+      'आपस का लेन-देन पूरा होने पर ही दबाएँ। किसान और व्यापारी दोनों के दबाने पर रेटिंग खुलती है।';
+
+  @override
+  String get mlDealSaidDone => 'लेन-देन हो गया कहा';
+
+  @override
+  String get mlDealNotYet => 'इंतज़ार है';
+
+  @override
+  String get mlDealWaitOther =>
+      'दूसरी ओर से भी “लेन-देन हो गया” दबाने पर रेटिंग खुलेगी।';
+
+  @override
+  String get mlDealWaitBoth =>
+      'किसान और व्यापारी दोनों के “लेन-देन हो गया” दबाने पर रेटिंग खुलेगी।';
+
+  @override
+  String get mlRateOpen => 'रेटिंग दें';
+
+  @override
+  String mlRateUntil(String date) {
+    return '$date तक दे या बदल सकते हैं';
+  }
+
+  @override
+  String mlRateLocked(String date) {
+    return 'रेटिंग $date को बंद हुई';
+  }
+
+  @override
+  String get mlRateNoText => 'सिर्फ़ स्टार दें और निशान लगाएँ।';
+
+  @override
+  String mlRateStarsOf(int count) {
+    return '5 में से $count स्टार';
+  }
+
+  @override
+  String get mlRateSave => 'रेटिंग सहेजें';
+
+  @override
+  String get mlRateAnswerAll => 'हर पंक्ति को स्टार दें';
+
+  @override
+  String get mlRateSaved => 'रेटिंग सहेजी गई';
+
+  @override
+  String get mlRateRefused =>
+      'दोनों के “लेन-देन हो गया” दबाने के बाद 7 दिनों में ही रेटिंग सहेजी जाती है।';
+
+  @override
+  String get mlQGrowerProduce => 'माल फोटो और विवरण जैसा था';
+
+  @override
+  String get mlQGrowerReady => 'तय तारीख पर माल तैयार था';
+
+  @override
+  String get mlCopyToAccounts => 'मेरे हिसाब में दर्ज करें';
 }

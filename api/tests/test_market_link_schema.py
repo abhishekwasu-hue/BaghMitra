@@ -38,6 +38,9 @@ SPEC_TABLES = {
     "admin_actions",
     "terms_acceptances",
     "user_blocks",
+    # Added in 0034 (L7, spec §4, §4C).
+    "verification_checks",
+    "device_sightings",
 }
 # Dropped in 0030: BagMitra never enters the transaction or its disputes (§1 core principle).
 DROPPED_TABLES = {

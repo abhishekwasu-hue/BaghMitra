@@ -16,6 +16,7 @@ from pydantic import BaseModel
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from bagmitra_api.market_link.checks import check_badges, latest_checks
 from bagmitra_api.market_link.guards import counts_as_verified, latest_verifications
 from bagmitra_api.market_link.models import (
     BrokerProfile,
@@ -28,6 +29,7 @@ from bagmitra_api.market_link.models import (
     RegistrationFix,
     RepresentativeUpload,
     ServiceProvider,
+    VerificationCheck,
 )
 from bagmitra_api.market_link.registration import (
     AdminFixOut,
@@ -51,11 +53,24 @@ RATED_ROLE = {"buyer": "trader", "broker": "broker"}
 class BadgeOut(BaseModel):
     """What was checked and when; the app words it "checked on <date>", never a guarantee.
     `checked`: an admin approval on record; `registered_from`: the registration GPS fix's
-    place; `place_photo`: a BagMitra representative's visit photo."""
+    place; `place_photo`: a BagMitra representative's visit photo. L7, one per passed check
+    on a free official page (spec §4 table), shown once the profile is approved:
+    `gst_checked` (with `since_year`, the GST registration year), `apmc_seen`,
+    `fssai_checked`, `iec_active`, `apeda_listed`."""
 
-    kind: Literal["checked", "registered_from", "place_photo"]
+    kind: Literal[
+        "checked",
+        "registered_from",
+        "place_photo",
+        "gst_checked",
+        "apmc_seen",
+        "fssai_checked",
+        "iec_active",
+        "apeda_listed",
+    ]
     on: date
     place: str | None = None
+    since_year: int | None = None
 
 
 class QuestionStarsOut(BaseModel):
@@ -144,6 +159,8 @@ class Records:
     checks: dict[uuid.UUID, PartyVerification]
     fixes: dict[uuid.UUID, RegistrationFix]
     photos: dict[uuid.UUID, RepresentativeUpload]
+    # L7: the latest per-check record of each kind.
+    kinds: dict[uuid.UUID, dict[str, VerificationCheck]]
 
 
 async def records(session: AsyncSession, kind: str, subjects: list[Subject]) -> Records:
@@ -164,6 +181,7 @@ async def records(session: AsyncSession, kind: str, subjects: list[Subject]) -> 
         checks=await latest_verifications(session, kind, ids),
         fixes=await latest_fixes(session, kind, ids),
         photos=photos,
+        kinds=await latest_checks(session, kind, ids),
     )
 
 
@@ -235,6 +253,10 @@ def _badges(subject: Subject, rec: Records) -> list[BadgeOut]:
     check = rec.checks.get(subject.id)
     if counts_as_verified(check) and check is not None and check.checked_at is not None:
         badges.append(BadgeOut(kind="checked", on=india_date(check.checked_at)))
+        latest = rec.kinds.get(subject.id, {})
+        on = {k: india_date(row.checked_at) for k, row in latest.items()}
+        for badge, day, year in check_badges(subject, latest, on):
+            badges.append(BadgeOut(kind=badge, on=day, since_year=year))
     if (fix := rec.fixes.get(subject.id)) is not None:
         place = ", ".join(p for p in (fix.place, fix.district) if p) or None
         badges.append(BadgeOut(kind="registered_from", on=india_date(fix.captured_at), place=place))
