@@ -945,6 +945,208 @@ is the raw file; only its hash, size and time are kept.''',
     ),
   });
 
+  ///Actions
+  ///@param subject_id
+  ///@param user_id
+  Future<chopper.Response<ActionsResponse>> v1AdminMarketLinkActionsGet({
+    String? subjectId,
+    String? userId,
+  }) {
+    generatedMapping.putIfAbsent(
+      ActionsResponse,
+      () => ActionsResponse.fromJsonFactory,
+    );
+
+    return _v1AdminMarketLinkActionsGet(subjectId: subjectId, userId: userId);
+  }
+
+  ///Actions
+  ///@param subject_id
+  ///@param user_id
+  @GET(path: '/v1/admin/market-link/actions')
+  Future<chopper.Response<ActionsResponse>> _v1AdminMarketLinkActionsGet({
+    @Query('subject_id') String? subjectId,
+    @Query('user_id') String? userId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'The action log, newest first (at most 200 rows).',
+      summary: 'Actions',
+      operationId: 'admin_market_link_actions',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Act
+  Future<chopper.Response<ActionOut>> v1AdminMarketLinkActionsPost({
+    required ActionIn? body,
+  }) {
+    generatedMapping.putIfAbsent(ActionOut, () => ActionOut.fromJsonFactory);
+
+    return _v1AdminMarketLinkActionsPost(body: body);
+  }
+
+  ///Act
+  @POST(path: '/v1/admin/market-link/actions', optionalBody: true)
+  Future<chopper.Response<ActionOut>> _v1AdminMarketLinkActionsPost({
+    @Body() required ActionIn? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'An action without a report (e.g. restore after a check, or hide a duplicate user).',
+      summary: 'Act',
+      operationId: 'admin_market_link_act',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Appeals
+  ///@param state
+  Future<chopper.Response<ActionsResponse>> v1AdminMarketLinkAppealsGet({
+    enums.V1AdminMarketLinkAppealsGetState? state,
+  }) {
+    generatedMapping.putIfAbsent(
+      ActionsResponse,
+      () => ActionsResponse.fromJsonFactory,
+    );
+
+    return _v1AdminMarketLinkAppealsGet(state: state?.value?.toString());
+  }
+
+  ///Appeals
+  ///@param state
+  @GET(path: '/v1/admin/market-link/appeals')
+  Future<chopper.Response<ActionsResponse>> _v1AdminMarketLinkAppealsGet({
+    @Query('state') String? state,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Appeals in one state, oldest appeal first.',
+      summary: 'Appeals',
+      operationId: 'admin_market_link_appeals',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Acknowledge Appeal
+  ///@param action_id
+  Future<chopper.Response<ActionOut>>
+  v1AdminMarketLinkAppealsActionIdAcknowledgePost({required String? actionId}) {
+    generatedMapping.putIfAbsent(ActionOut, () => ActionOut.fromJsonFactory);
+
+    return _v1AdminMarketLinkAppealsActionIdAcknowledgePost(actionId: actionId);
+  }
+
+  ///Acknowledge Appeal
+  ///@param action_id
+  @POST(
+    path: '/v1/admin/market-link/appeals/{action_id}/acknowledge',
+    optionalBody: true,
+  )
+  Future<chopper.Response<ActionOut>>
+  _v1AdminMarketLinkAppealsActionIdAcknowledgePost({
+    @Path('action_id') required String? actionId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Acknowledge Appeal',
+      operationId: 'admin_market_link_appeal_ack',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Decide Appeal
+  ///@param action_id
+  Future<chopper.Response<ActionOut>>
+  v1AdminMarketLinkAppealsActionIdDecisionPost({
+    required String? actionId,
+    required AppealDecisionIn? body,
+  }) {
+    generatedMapping.putIfAbsent(ActionOut, () => ActionOut.fromJsonFactory);
+
+    return _v1AdminMarketLinkAppealsActionIdDecisionPost(
+      actionId: actionId,
+      body: body,
+    );
+  }
+
+  ///Decide Appeal
+  ///@param action_id
+  @POST(
+    path: '/v1/admin/market-link/appeals/{action_id}/decision',
+    optionalBody: true,
+  )
+  Future<chopper.Response<ActionOut>>
+  _v1AdminMarketLinkAppealsActionIdDecisionPost({
+    @Path('action_id') required String? actionId,
+    @Body() required AppealDecisionIn? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Uphold (a hide / suspend is lifted by a new restore row, reason `appeal_upheld`) or
+reject. Decided once.''',
+      summary: 'Decide Appeal',
+      operationId: 'admin_market_link_appeal_decide',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Appeal Photo Url
+  ///@param action_id
+  ///@param index
+  Future<chopper.Response<PhotoDownloadUrl>>
+  v1AdminMarketLinkAppealsActionIdPhotosIndexUrlGet({
+    required String? actionId,
+    required int? index,
+  }) {
+    generatedMapping.putIfAbsent(
+      PhotoDownloadUrl,
+      () => PhotoDownloadUrl.fromJsonFactory,
+    );
+
+    return _v1AdminMarketLinkAppealsActionIdPhotosIndexUrlGet(
+      actionId: actionId,
+      index: index,
+    );
+  }
+
+  ///Appeal Photo Url
+  ///@param action_id
+  ///@param index
+  @GET(path: '/v1/admin/market-link/appeals/{action_id}/photos/{index}/url')
+  Future<chopper.Response<PhotoDownloadUrl>>
+  _v1AdminMarketLinkAppealsActionIdPhotosIndexUrlGet({
+    @Path('action_id') required String? actionId,
+    @Path('index') required int? index,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Appeal Photo Url',
+      operationId: 'admin_market_link_appeal_photo',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
   ///Rating Tags
   Future<chopper.Response<RatingTagsAdminResponse>>
   v1AdminMarketLinkRatingTagsGet() {
@@ -1000,6 +1202,195 @@ is the raw file; only its hash, size and time are kept.''',
       description: 'Edit the three labels and set draft / active / retired (spec §3A: admin only).',
       summary: 'Update Rating Tag',
       operationId: 'admin_market_link_rating_tag_update',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Reports
+  ///@param status
+  ///@param subject_type
+  Future<chopper.Response<ReportsAdminResponse>> v1AdminMarketLinkReportsGet({
+    enums.V1AdminMarketLinkReportsGetStatus? status,
+    String? subjectType,
+  }) {
+    generatedMapping.putIfAbsent(
+      ReportsAdminResponse,
+      () => ReportsAdminResponse.fromJsonFactory,
+    );
+
+    return _v1AdminMarketLinkReportsGet(
+      status: status?.value?.toString(),
+      subjectType: subjectType,
+    );
+  }
+
+  ///Reports
+  ///@param status
+  ///@param subject_type
+  @GET(path: '/v1/admin/market-link/reports')
+  Future<chopper.Response<ReportsAdminResponse>> _v1AdminMarketLinkReportsGet({
+    @Query('status') String? status,
+    @Query('subject_type') String? subjectType,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Reports in one state, oldest first (the grievance timeline runs from creation).',
+      summary: 'Reports',
+      operationId: 'admin_market_link_reports',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Acknowledge Report
+  ///@param report_id
+  Future<chopper.Response<ReportAdminOut>>
+  v1AdminMarketLinkReportsReportIdAcknowledgePost({required String? reportId}) {
+    generatedMapping.putIfAbsent(
+      ReportAdminOut,
+      () => ReportAdminOut.fromJsonFactory,
+    );
+
+    return _v1AdminMarketLinkReportsReportIdAcknowledgePost(reportId: reportId);
+  }
+
+  ///Acknowledge Report
+  ///@param report_id
+  @POST(
+    path: '/v1/admin/market-link/reports/{report_id}/acknowledge',
+    optionalBody: true,
+  )
+  Future<chopper.Response<ReportAdminOut>>
+  _v1AdminMarketLinkReportsReportIdAcknowledgePost({
+    @Path('report_id') required String? reportId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Acknowledge Report',
+      operationId: 'admin_market_link_report_ack',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Decide Report
+  ///@param report_id
+  Future<chopper.Response<ReportAdminOut>>
+  v1AdminMarketLinkReportsReportIdDecisionPost({
+    required String? reportId,
+    required ReportDecisionIn? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      ReportAdminOut,
+      () => ReportAdminOut.fromJsonFactory,
+    );
+
+    return _v1AdminMarketLinkReportsReportIdDecisionPost(
+      reportId: reportId,
+      body: body,
+    );
+  }
+
+  ///Decide Report
+  ///@param report_id
+  @POST(
+    path: '/v1/admin/market-link/reports/{report_id}/decision',
+    optionalBody: true,
+  )
+  Future<chopper.Response<ReportAdminOut>>
+  _v1AdminMarketLinkReportsReportIdDecisionPost({
+    @Path('report_id') required String? reportId,
+    @Body() required ReportDecisionIn? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Warn, hide or suspend the reported subject with a reason code; this closes every open
+report of the same subject with that action.''',
+      summary: 'Decide Report',
+      operationId: 'admin_market_link_report_decide',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Dismiss Report
+  ///@param report_id
+  Future<chopper.Response<ReportAdminOut>>
+  v1AdminMarketLinkReportsReportIdDismissPost({required String? reportId}) {
+    generatedMapping.putIfAbsent(
+      ReportAdminOut,
+      () => ReportAdminOut.fromJsonFactory,
+    );
+
+    return _v1AdminMarketLinkReportsReportIdDismissPost(reportId: reportId);
+  }
+
+  ///Dismiss Report
+  ///@param report_id
+  @POST(
+    path: '/v1/admin/market-link/reports/{report_id}/dismiss',
+    optionalBody: true,
+  )
+  Future<chopper.Response<ReportAdminOut>>
+  _v1AdminMarketLinkReportsReportIdDismissPost({
+    @Path('report_id') required String? reportId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description:
+          'No platform rule is broken: the report closes without an action.',
+      summary: 'Dismiss Report',
+      operationId: 'admin_market_link_report_dismiss',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Report Photo Url
+  ///@param report_id
+  ///@param index
+  Future<chopper.Response<PhotoDownloadUrl>>
+  v1AdminMarketLinkReportsReportIdPhotosIndexUrlGet({
+    required String? reportId,
+    required int? index,
+  }) {
+    generatedMapping.putIfAbsent(
+      PhotoDownloadUrl,
+      () => PhotoDownloadUrl.fromJsonFactory,
+    );
+
+    return _v1AdminMarketLinkReportsReportIdPhotosIndexUrlGet(
+      reportId: reportId,
+      index: index,
+    );
+  }
+
+  ///Report Photo Url
+  ///@param report_id
+  ///@param index
+  @GET(path: '/v1/admin/market-link/reports/{report_id}/photos/{index}/url')
+  Future<chopper.Response<PhotoDownloadUrl>>
+  _v1AdminMarketLinkReportsReportIdPhotosIndexUrlGet({
+    @Path('report_id') required String? reportId,
+    @Path('index') required int? index,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Report Photo Url',
+      operationId: 'admin_market_link_report_photo',
       consumes: [],
       produces: [],
       security: ["HTTPBearer"],
