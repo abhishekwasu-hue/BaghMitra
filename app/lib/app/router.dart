@@ -31,6 +31,7 @@ import '../features/lab_tests/presentation/lab_test_screens.dart';
 import '../features/labels/presentation/label_info_screen.dart';
 import '../features/lookalikes/presentation/lookalikes_screen.dart';
 import '../features/market/presentation/market_prices_screen.dart';
+import '../features/market_link/presentation/lot_form_screen.dart';
 import '../features/more/presentation/more_screen.dart';
 import '../features/plots/presentation/add_plot_screen.dart';
 import '../features/plots/presentation/boundary_screen.dart';
@@ -99,6 +100,13 @@ abstract final class Routes {
       plotId == null ? lookalikes : '$lookalikes?plot=$plotId';
   static const labs = '/labs';
   static const marketDirectory = '/market/directory';
+
+  /// Market linkage (spec v1.5), only while the MARKET_LINK build flag is on.
+  static const marketLink = '/market-link';
+  static const marketLots = '$marketLink/lots';
+  static String newMarketLot({String? plotId}) =>
+      '$marketLots/new${plotId == null ? '' : '?plot=$plotId'}';
+  static String marketLot(String lotId) => '$marketLots/$lotId';
   static const plots = '/plots';
   static const addPlot = '/plots/new';
   static const walkBoundary = '/plots/new/boundary';
@@ -180,6 +188,10 @@ GoRouter buildRouter(
       final onLogin = loc.startsWith(Routes.login);
       if (loc == Routes.gallery) return config.devGallery ? null : Routes.home;
       if (loc.startsWith(Routes.feed) && !config.sarkariSandeshEnabled) {
+        return Routes.home;
+      }
+      // Decision j: with the flag off no market-link screen exists.
+      if (loc.startsWith(Routes.marketLink) && !config.marketLink) {
         return Routes.home;
       }
       // First run on this phone: the short walkthrough comes before anything else. Once seen
@@ -269,6 +281,14 @@ GoRouter buildRouter(
         builder: (_, s) => FeedItemScreen(itemId: s.pathParameters['id']!),
       ),
       GoRoute(path: Routes.more, builder: (_, _) => const MoreScreen()),
+      GoRoute(
+        path: '${Routes.marketLots}/new',
+        builder: (_, s) => LotFormScreen(plotId: s.uri.queryParameters['plot']),
+      ),
+      GoRoute(
+        path: '${Routes.marketLots}/:lotId',
+        builder: (_, s) => LotFormScreen(lotId: s.pathParameters['lotId']),
+      ),
       GoRoute(path: Routes.settings, builder: (_, _) => const SettingsScreen()),
       GoRoute(path: Routes.profile, builder: (_, _) => const ProfileScreen()),
       GoRoute(
