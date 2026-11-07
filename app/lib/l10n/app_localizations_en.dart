@@ -4265,4 +4265,34 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mlCopyToAccounts => 'Note in my accounts';
+
+  @override
+  String mlBadgeGstChecked(String date) {
+    return 'GST checked on $date';
+  }
+
+  @override
+  String mlBadgeGstSince(String date, String year) {
+    return 'GST checked on $date · registered since $year';
+  }
+
+  @override
+  String mlBadgeApmcSeen(String date) {
+    return 'APMC licence seen on $date';
+  }
+
+  @override
+  String mlBadgeFssaiChecked(String date) {
+    return 'FSSAI checked on $date';
+  }
+
+  @override
+  String mlBadgeIecActive(String date) {
+    return 'IEC active, checked on $date';
+  }
+
+  @override
+  String mlBadgeApedaListed(String date) {
+    return 'APEDA listed, checked on $date';
+  }
 }

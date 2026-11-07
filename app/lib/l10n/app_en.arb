@@ -1649,5 +1649,17 @@
   "mlRateRefused": "Rating is saved only within 7 days after both tap “Deal done”.",
   "mlQGrowerProduce": "Produce matched the photos and description",
   "mlQGrowerReady": "Produce ready on the agreed date",
-  "mlCopyToAccounts": "Note in my accounts"
+  "mlCopyToAccounts": "Note in my accounts",
+  "mlBadgeGstChecked": "GST checked on {date}",
+  "@mlBadgeGstChecked": {"placeholders": {"date": {"type": "String"}}},
+  "mlBadgeGstSince": "GST checked on {date} · registered since {year}",
+  "@mlBadgeGstSince": {"placeholders": {"date": {"type": "String"}, "year": {"type": "String"}}},
+  "mlBadgeApmcSeen": "APMC licence seen on {date}",
+  "@mlBadgeApmcSeen": {"placeholders": {"date": {"type": "String"}}},
+  "mlBadgeFssaiChecked": "FSSAI checked on {date}",
+  "@mlBadgeFssaiChecked": {"placeholders": {"date": {"type": "String"}}},
+  "mlBadgeIecActive": "IEC active, checked on {date}",
+  "@mlBadgeIecActive": {"placeholders": {"date": {"type": "String"}}},
+  "mlBadgeApedaListed": "APEDA listed, checked on {date}",
+  "@mlBadgeApedaListed": {"placeholders": {"date": {"type": "String"}}}
 }

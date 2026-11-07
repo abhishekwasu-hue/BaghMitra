@@ -4257,4 +4257,34 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get mlCopyToAccounts => 'माझ्या हिशोबात नोंदवा';
+
+  @override
+  String mlBadgeGstChecked(String date) {
+    return 'GST $date रोजी तपासला';
+  }
+
+  @override
+  String mlBadgeGstSince(String date, String year) {
+    return 'GST $date रोजी तपासला · $year पासून नोंदणी';
+  }
+
+  @override
+  String mlBadgeApmcSeen(String date) {
+    return 'APMC परवाना $date रोजी पाहिला';
+  }
+
+  @override
+  String mlBadgeFssaiChecked(String date) {
+    return 'FSSAI $date रोजी तपासले';
+  }
+
+  @override
+  String mlBadgeIecActive(String date) {
+    return 'IEC चालू, $date रोजी तपासले';
+  }
+
+  @override
+  String mlBadgeApedaListed(String date) {
+    return 'APEDA यादीत, $date रोजी तपासले';
+  }
 }

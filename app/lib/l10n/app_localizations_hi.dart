@@ -4260,4 +4260,34 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get mlCopyToAccounts => 'मेरे हिसाब में दर्ज करें';
+
+  @override
+  String mlBadgeGstChecked(String date) {
+    return 'GST $date को जाँचा';
+  }
+
+  @override
+  String mlBadgeGstSince(String date, String year) {
+    return 'GST $date को जाँचा · $year से पंजीकृत';
+  }
+
+  @override
+  String mlBadgeApmcSeen(String date) {
+    return 'APMC लाइसेंस $date को देखा';
+  }
+
+  @override
+  String mlBadgeFssaiChecked(String date) {
+    return 'FSSAI $date को जाँचा';
+  }
+
+  @override
+  String mlBadgeIecActive(String date) {
+    return 'IEC चालू, $date को जाँचा';
+  }
+
+  @override
+  String mlBadgeApedaListed(String date) {
+    return 'APEDA सूची में, $date को जाँचा';
+  }
 }
