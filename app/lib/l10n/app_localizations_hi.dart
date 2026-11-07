@@ -3206,6 +3206,94 @@ class AppLocalizationsHi extends AppLocalizations {
   String get adminMlKindCrateSupplier => 'क्रेट आपूर्तिकर्ता';
 
   @override
+  String get adminMlChecks => 'जाँच';
+
+  @override
+  String get adminMlChecksNote =>
+      'आधिकारिक पेज खोलें, नंबर पेस्ट करें (वह कॉपी हो चुका है), ख़ुद जाँचें और नतीजा दर्ज करें। बैज सिर्फ़ बताता है कि क्या और कब जाँचा।';
+
+  @override
+  String get adminMlOpenPage => 'आधिकारिक पेज खोलें';
+
+  @override
+  String get adminMlCallNow => 'कॉल करें';
+
+  @override
+  String get adminMlRecordResult => 'नतीजा दर्ज करें';
+
+  @override
+  String adminMlNumberCopied(String number) {
+    return 'नंबर कॉपी हुआ: $number';
+  }
+
+  @override
+  String get adminMlResultPassed => 'सही पाया';
+
+  @override
+  String get adminMlResultFailed => 'ग़लत पाया';
+
+  @override
+  String get adminMlResultCancelled => 'रद्द / बंद';
+
+  @override
+  String get adminMlRegisteredYear => 'GST पंजीकरण वर्ष (वैकल्पिक)';
+
+  @override
+  String get adminMlNoChecks => 'दर्ज की गई जाँच यहाँ दिखेंगी';
+
+  @override
+  String get adminMlCheckApmc => 'APMC लाइसेंस';
+
+  @override
+  String get adminMlCheckPhoneCall => 'फ़ोन कॉल';
+
+  @override
+  String get adminMlCheckPlacePhoto => 'जगह की फ़ोटो';
+
+  @override
+  String adminMlRegisteredSince(String year) {
+    return 'पंजीकरण $year';
+  }
+
+  @override
+  String get adminMlFlags => 'मंज़ूरी से पहले देखें';
+
+  @override
+  String get adminMlFlagDuplicate => 'यही नंबर दूसरी प्रोफ़ाइल पर';
+
+  @override
+  String get adminMlFlagReturning => 'निलंबित प्रोफ़ाइल से मेल खाता है';
+
+  @override
+  String get adminMlFlagMock => 'जगह नकली (mock) दिखी';
+
+  @override
+  String get adminMlFlagOtherDistrict => 'बताए ज़िले के बाहर से पंजीकरण';
+
+  @override
+  String get adminMlFlagNoPlace => 'फ़ोन से जगह का नाम खाली';
+
+  @override
+  String get adminMlWhyName => 'वही नाम';
+
+  @override
+  String get adminMlWhyGps => 'पास से पंजीकरण';
+
+  @override
+  String get adminMlWhyAccount => 'वही खाता';
+
+  @override
+  String get adminMlRechecks => 'दोबारा जाँचें';
+
+  @override
+  String get adminMlRechecksEmpty => 'सभी सालाना दोबारा जाँच पूरी';
+
+  @override
+  String adminMlLastChecked(String date) {
+    return 'पिछली जाँच $date';
+  }
+
+  @override
   String adminMlDocumentCount(int n) {
     return 'दस्तावेज़: $n';
   }
@@ -4260,4 +4348,34 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get mlCopyToAccounts => 'मेरे हिसाब में दर्ज करें';
+
+  @override
+  String mlBadgeGstChecked(String date) {
+    return 'GST $date को जाँचा';
+  }
+
+  @override
+  String mlBadgeGstSince(String date, String year) {
+    return 'GST $date को जाँचा · $year से पंजीकृत';
+  }
+
+  @override
+  String mlBadgeApmcSeen(String date) {
+    return 'APMC लाइसेंस $date को देखा';
+  }
+
+  @override
+  String mlBadgeFssaiChecked(String date) {
+    return 'FSSAI $date को जाँचा';
+  }
+
+  @override
+  String mlBadgeIecActive(String date) {
+    return 'IEC चालू, $date को जाँचा';
+  }
+
+  @override
+  String mlBadgeApedaListed(String date) {
+    return 'APEDA सूची में, $date को जाँचा';
+  }
 }

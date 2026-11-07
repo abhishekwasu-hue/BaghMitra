@@ -96,6 +96,13 @@ void main() {
       false,
     ),
     (
+      'ml_profile_mr_dark',
+      '/market-link/profile/buyer/b1',
+      ThemeMode.dark,
+      1.0,
+      false,
+    ),
+    (
       'ml_services_mr_light',
       '/market-link/services',
       ThemeMode.light,
