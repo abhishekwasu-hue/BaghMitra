@@ -144,10 +144,10 @@ Map<String, dynamic> _$BlockedClaimOutToJson(BlockedClaimOut instance) =>
     };
 
 BuyerLotOut _$BuyerLotOutFromJson(Map<String, dynamic> json) => BuyerLotOut(
-  askingRatePaise: (json['asking_rate_paise'] as num?)?.toInt(),
-  basis: json['basis'] as String,
+  acres: (json['acres'] as num?)?.toDouble(),
   crop: json['crop'] as String,
   district: json['district'] as String?,
+  firstName: json['first_name'] as String?,
   harvestFrom: DateTime.parse(json['harvest_from'] as String),
   harvestTo: DateTime.parse(json['harvest_to'] as String),
   id: json['id'] as String,
@@ -159,17 +159,15 @@ BuyerLotOut _$BuyerLotOutFromJson(Map<String, dynamic> json) => BuyerLotOut(
   publishedAt: DateTime.parse(json['published_at'] as String),
   quality: json['quality'] as String?,
   quantityT: (json['quantity_t'] as num).toDouble(),
-  taluka: json['taluka'] as String?,
   variety: json['variety'] as String?,
-  village: json['village'] as String?,
 );
 
 Map<String, dynamic> _$BuyerLotOutToJson(BuyerLotOut instance) =>
     <String, dynamic>{
-      'asking_rate_paise': ?instance.askingRatePaise,
-      'basis': instance.basis,
+      'acres': ?instance.acres,
       'crop': instance.crop,
       'district': ?instance.district,
+      'first_name': ?instance.firstName,
       'harvest_from': ?_dateToJson(instance.harvestFrom),
       'harvest_to': ?_dateToJson(instance.harvestTo),
       'id': instance.id,
@@ -177,9 +175,7 @@ Map<String, dynamic> _$BuyerLotOutToJson(BuyerLotOut instance) =>
       'published_at': instance.publishedAt.toIso8601String(),
       'quality': ?instance.quality,
       'quantity_t': instance.quantityT,
-      'taluka': ?instance.taluka,
       'variety': ?instance.variety,
-      'village': ?instance.village,
     };
 
 BuyerLotsResponse _$BuyerLotsResponseFromJson(Map<String, dynamic> json) =>

@@ -317,22 +317,18 @@
         "type": "object"
       },
       "BuyerLotOut": {
-        "description": "A published lot for a verified buyer / broker. Deliberately no owner, name, phone,\nplot or point (decision g); `asking_rate_paise` is per tonne, per crate or the whole\namount, by `basis`, and only when the grower gave one.",
+        "description": "A published lot for a verified buyer / broker: exactly the fields of spec v1.5 §4E.\nThe grower's first name only; no surname, owner, phone, village, plot or point (decision\ng); `acres` is the plot's area.",
         "properties": {
-          "asking_rate_paise": {
+          "acres": {
             "anyOf": [
               {
-                "type": "integer"
+                "type": "number"
               },
               {
                 "type": "null"
               }
             ],
-            "title": "Asking Rate Paise"
-          },
-          "basis": {
-            "title": "Basis",
-            "type": "string"
+            "title": "Acres"
           },
           "crop": {
             "title": "Crop",
@@ -348,6 +344,17 @@
               }
             ],
             "title": "District"
+          },
+          "first_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "First Name"
           },
           "harvest_from": {
             "format": "date",
@@ -391,17 +398,6 @@
             "title": "Quantity T",
             "type": "number"
           },
-          "taluka": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Taluka"
-          },
           "variety": {
             "anyOf": [
               {
@@ -412,31 +408,18 @@
               }
             ],
             "title": "Variety"
-          },
-          "village": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Village"
           }
         },
         "required": [
           "id",
+          "first_name",
           "crop",
           "variety",
+          "acres",
           "quantity_t",
           "quality",
           "harvest_from",
           "harvest_to",
-          "basis",
-          "asking_rate_paise",
-          "village",
-          "taluka",
           "district",
           "published_at",
           "photos"
@@ -8411,7 +8394,7 @@
     },
     "/v1/market-link/lot-photos/{photo_id}/url": {
       "get": {
-        "description": "A short-lived download URL for an uploaded lot photo: for the grower, or for a\nverified buyer / broker while the lot is published. Only the derived key is signed.",
+        "description": "A short-lived download URL for an uploaded lot photo: for the grower, or for a\nverified buyer / broker while `lot_visible_to_traders` shows the lot. Only the derived\nkey is signed.",
         "operationId": "market_link_lot_photo_url",
         "parameters": [
           {
@@ -8540,7 +8523,7 @@
     },
     "/v1/market-link/lots": {
       "get": {
-        "description": "Published lots, newest first, for admin-verified buyers and brokers only (403\n`not_verified` for anyone else). Page with `before` = the last `published_at` seen.",
+        "description": "Published lots, newest first, for admin-verified buyers and brokers only (403\n`not_verified` for anyone else); while the season package is ON, only lots with an active\npackage (§4E). Page with `before` = the last `published_at` seen.",
         "operationId": "market_link_lots",
         "parameters": [
           {
@@ -8558,23 +8541,6 @@
                 }
               ],
               "title": "District"
-            }
-          },
-          {
-            "in": "query",
-            "name": "taluka",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "maxLength": 120,
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Taluka"
             }
           },
           {

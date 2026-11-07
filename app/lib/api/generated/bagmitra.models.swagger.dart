@@ -800,10 +800,10 @@ extension $BlockedClaimOutExtension on BlockedClaimOut {
 @JsonSerializable(explicitToJson: true)
 class BuyerLotOut {
   const BuyerLotOut({
-    required this.askingRatePaise,
-    required this.basis,
+    required this.acres,
     required this.crop,
     required this.district,
+    required this.firstName,
     required this.harvestFrom,
     required this.harvestTo,
     required this.id,
@@ -811,9 +811,7 @@ class BuyerLotOut {
     required this.publishedAt,
     required this.quality,
     required this.quantityT,
-    required this.taluka,
     required this.variety,
-    required this.village,
   });
 
   factory BuyerLotOut.fromJson(Map<String, dynamic> json) =>
@@ -822,14 +820,14 @@ class BuyerLotOut {
   static const toJsonFactory = _$BuyerLotOutToJson;
   Map<String, dynamic> toJson() => _$BuyerLotOutToJson(this);
 
-  @JsonKey(name: 'asking_rate_paise', includeIfNull: false)
-  final int? askingRatePaise;
-  @JsonKey(name: 'basis', includeIfNull: false)
-  final String basis;
+  @JsonKey(name: 'acres', includeIfNull: false)
+  final double? acres;
   @JsonKey(name: 'crop', includeIfNull: false)
   final String crop;
   @JsonKey(name: 'district', includeIfNull: false)
   final String? district;
+  @JsonKey(name: 'first_name', includeIfNull: false)
+  final String? firstName;
   @JsonKey(name: 'harvest_from', includeIfNull: false, toJson: _dateToJson)
   final DateTime harvestFrom;
   @JsonKey(name: 'harvest_to', includeIfNull: false, toJson: _dateToJson)
@@ -844,31 +842,27 @@ class BuyerLotOut {
   final String? quality;
   @JsonKey(name: 'quantity_t', includeIfNull: false)
   final double quantityT;
-  @JsonKey(name: 'taluka', includeIfNull: false)
-  final String? taluka;
   @JsonKey(name: 'variety', includeIfNull: false)
   final String? variety;
-  @JsonKey(name: 'village', includeIfNull: false)
-  final String? village;
   static const fromJsonFactory = _$BuyerLotOutFromJson;
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other is BuyerLotOut &&
-            (identical(other.askingRatePaise, askingRatePaise) ||
-                const DeepCollectionEquality().equals(
-                  other.askingRatePaise,
-                  askingRatePaise,
-                )) &&
-            (identical(other.basis, basis) ||
-                const DeepCollectionEquality().equals(other.basis, basis)) &&
+            (identical(other.acres, acres) ||
+                const DeepCollectionEquality().equals(other.acres, acres)) &&
             (identical(other.crop, crop) ||
                 const DeepCollectionEquality().equals(other.crop, crop)) &&
             (identical(other.district, district) ||
                 const DeepCollectionEquality().equals(
                   other.district,
                   district,
+                )) &&
+            (identical(other.firstName, firstName) ||
+                const DeepCollectionEquality().equals(
+                  other.firstName,
+                  firstName,
                 )) &&
             (identical(other.harvestFrom, harvestFrom) ||
                 const DeepCollectionEquality().equals(
@@ -899,15 +893,8 @@ class BuyerLotOut {
                   other.quantityT,
                   quantityT,
                 )) &&
-            (identical(other.taluka, taluka) ||
-                const DeepCollectionEquality().equals(other.taluka, taluka)) &&
             (identical(other.variety, variety) ||
-                const DeepCollectionEquality().equals(
-                  other.variety,
-                  variety,
-                )) &&
-            (identical(other.village, village) ||
-                const DeepCollectionEquality().equals(other.village, village)));
+                const DeepCollectionEquality().equals(other.variety, variety)));
   }
 
   @override
@@ -915,10 +902,10 @@ class BuyerLotOut {
 
   @override
   int get hashCode =>
-      const DeepCollectionEquality().hash(askingRatePaise) ^
-      const DeepCollectionEquality().hash(basis) ^
+      const DeepCollectionEquality().hash(acres) ^
       const DeepCollectionEquality().hash(crop) ^
       const DeepCollectionEquality().hash(district) ^
+      const DeepCollectionEquality().hash(firstName) ^
       const DeepCollectionEquality().hash(harvestFrom) ^
       const DeepCollectionEquality().hash(harvestTo) ^
       const DeepCollectionEquality().hash(id) ^
@@ -926,18 +913,16 @@ class BuyerLotOut {
       const DeepCollectionEquality().hash(publishedAt) ^
       const DeepCollectionEquality().hash(quality) ^
       const DeepCollectionEquality().hash(quantityT) ^
-      const DeepCollectionEquality().hash(taluka) ^
       const DeepCollectionEquality().hash(variety) ^
-      const DeepCollectionEquality().hash(village) ^
       runtimeType.hashCode;
 }
 
 extension $BuyerLotOutExtension on BuyerLotOut {
   BuyerLotOut copyWith({
-    int? askingRatePaise,
-    String? basis,
+    double? acres,
     String? crop,
     String? district,
+    String? firstName,
     DateTime? harvestFrom,
     DateTime? harvestTo,
     String? id,
@@ -945,15 +930,13 @@ extension $BuyerLotOutExtension on BuyerLotOut {
     DateTime? publishedAt,
     String? quality,
     double? quantityT,
-    String? taluka,
     String? variety,
-    String? village,
   }) {
     return BuyerLotOut(
-      askingRatePaise: askingRatePaise ?? this.askingRatePaise,
-      basis: basis ?? this.basis,
+      acres: acres ?? this.acres,
       crop: crop ?? this.crop,
       district: district ?? this.district,
+      firstName: firstName ?? this.firstName,
       harvestFrom: harvestFrom ?? this.harvestFrom,
       harvestTo: harvestTo ?? this.harvestTo,
       id: id ?? this.id,
@@ -961,17 +944,15 @@ extension $BuyerLotOutExtension on BuyerLotOut {
       publishedAt: publishedAt ?? this.publishedAt,
       quality: quality ?? this.quality,
       quantityT: quantityT ?? this.quantityT,
-      taluka: taluka ?? this.taluka,
       variety: variety ?? this.variety,
-      village: village ?? this.village,
     );
   }
 
   BuyerLotOut copyWithWrapped({
-    Wrapped<int?>? askingRatePaise,
-    Wrapped<String>? basis,
+    Wrapped<double?>? acres,
     Wrapped<String>? crop,
     Wrapped<String?>? district,
+    Wrapped<String?>? firstName,
     Wrapped<DateTime>? harvestFrom,
     Wrapped<DateTime>? harvestTo,
     Wrapped<String>? id,
@@ -979,17 +960,13 @@ extension $BuyerLotOutExtension on BuyerLotOut {
     Wrapped<DateTime>? publishedAt,
     Wrapped<String?>? quality,
     Wrapped<double>? quantityT,
-    Wrapped<String?>? taluka,
     Wrapped<String?>? variety,
-    Wrapped<String?>? village,
   }) {
     return BuyerLotOut(
-      askingRatePaise: (askingRatePaise != null
-          ? askingRatePaise.value
-          : this.askingRatePaise),
-      basis: (basis != null ? basis.value : this.basis),
+      acres: (acres != null ? acres.value : this.acres),
       crop: (crop != null ? crop.value : this.crop),
       district: (district != null ? district.value : this.district),
+      firstName: (firstName != null ? firstName.value : this.firstName),
       harvestFrom: (harvestFrom != null ? harvestFrom.value : this.harvestFrom),
       harvestTo: (harvestTo != null ? harvestTo.value : this.harvestTo),
       id: (id != null ? id.value : this.id),
@@ -997,9 +974,7 @@ extension $BuyerLotOutExtension on BuyerLotOut {
       publishedAt: (publishedAt != null ? publishedAt.value : this.publishedAt),
       quality: (quality != null ? quality.value : this.quality),
       quantityT: (quantityT != null ? quantityT.value : this.quantityT),
-      taluka: (taluka != null ? taluka.value : this.taluka),
       variety: (variety != null ? variety.value : this.variety),
-      village: (village != null ? village.value : this.village),
     );
   }
 }

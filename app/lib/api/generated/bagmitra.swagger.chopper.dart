@@ -1231,7 +1231,8 @@ upload URL for lot photos, so no stored lot photo can keep its metadata.''',
     required String? photoId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''A short-lived download URL for an uploaded lot photo: for the grower, or for a
-verified buyer / broker while the lot is published. Only the derived key is signed.''',
+verified buyer / broker while `lot_visible_to_traders` shows the lot. Only the derived
+key is signed.''',
       summary: 'Lot Photo Url',
       operationId: 'market_link_lot_photo_url',
       consumes: [],
@@ -1254,12 +1255,12 @@ verified buyer / broker while the lot is published. Only the derived key is sign
   @override
   Future<Response<BuyerLotsResponse>> _v1MarketLinkLotsGet({
     String? district,
-    String? taluka,
     String? crop,
     String? before,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Published lots, newest first, for admin-verified buyers and brokers only (403
-`not_verified` for anyone else). Page with `before` = the last `published_at` seen.''',
+`not_verified` for anyone else); while the season package is ON, only lots with an active
+package (§4E). Page with `before` = the last `published_at` seen.''',
       summary: 'List Lots',
       operationId: 'market_link_lots',
       consumes: [],
@@ -1272,7 +1273,6 @@ verified buyer / broker while the lot is published. Only the derived key is sign
     final Uri $url = Uri.parse('/v1/market-link/lots');
     final Map<String, dynamic> $params = <String, dynamic>{
       'district': district,
-      'taluka': taluka,
       'crop': crop,
       'before': before,
     };
