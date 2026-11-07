@@ -8,15 +8,18 @@ Every change and grant is written to `admin_actions` (old / new, who, when)."""
 from __future__ import annotations
 
 import uuid
+from collections.abc import AsyncIterator
 from datetime import date, datetime
 from typing import Annotated, Literal
 
+import httpx
 from fastapi import APIRouter, Depends, Query, Request, Response
 from pydantic import BaseModel, Field
 from sqlalchemy import or_, select
 from sqlalchemy.exc import IntegrityError
 
 from bagmitra_api.core.errors import ApiError, ErrorResponse
+from bagmitra_api.core.settings import Settings, get_settings
 from bagmitra_api.db.models import Farmer
 from bagmitra_api.db.session import DbSession
 from bagmitra_api.market_link.models import MarketLot
@@ -37,6 +40,14 @@ from bagmitra_api.market_link.package_models import (
     PackageGrant,
     SeasonPackageSettings,
 )
+from bagmitra_api.market_link.package_notice import (
+    ReceiptOut,
+    ReceiptRefusedError,
+    build_receipt,
+    notify_grant,
+)
+from bagmitra_api.push.fcm import fcm_sender
+from bagmitra_api.push.sender import PushSender
 from bagmitra_api.routers.admin_market_link import Clock, MarketLinkAdmin
 from bagmitra_api.routers.market_link import require_market_link
 
@@ -317,9 +328,24 @@ async def find_grower(
     return PackageGrowersResponse(growers=out)
 
 
+async def get_push_sender(
+    settings: Annotated[Settings, Depends(get_settings)],
+) -> AsyncIterator[PushSender | None]:
+    """The FCM sender when its credentials are set (Q32); else None (no push)."""
+    async with httpx.AsyncClient(timeout=settings.fcm_timeout_seconds) as http:
+        yield fcm_sender(settings, http)
+
+
+Sender = Annotated[PushSender | None, Depends(get_push_sender)]
+
+
 @router.post("/grants", operation_id="package_record_grant", status_code=201)
 async def create_grant(
-    body: PackageGrantIn, admin: MarketLinkAdmin, session: DbSession, clock: Clock
+    body: PackageGrantIn,
+    admin: MarketLinkAdmin,
+    session: DbSession,
+    clock: Clock,
+    sender: Sender,
 ) -> PackageGrantOut:
     """Records a payment received outside the app and activates the package: the lot (or
     every lot of the grower) is shown to traders until `valid_until`. 409
@@ -338,7 +364,10 @@ async def create_grant(
     except IntegrityError as exc:  # a second admin saved the same UTR or number just now
         await session.rollback()
         raise ApiError(409, "grant_conflict", "saved by someone else just now; try again") from exc
-    return PackageGrantOut.model_validate(grant, from_attributes=True)
+    out = PackageGrantOut.model_validate(grant, from_attributes=True)
+    # L9b: "your sale package is active until <date>" (no amount); never blocks the save.
+    await notify_grant(session, sender, grant, clock())
+    return out
 
 
 @router.get("/grants", operation_id="package_grants")
@@ -374,3 +403,17 @@ async def revoke(
         raise _refused(exc) from exc
     await session.commit()
     return PackageGrantOut.model_validate(grant, from_attributes=True)
+
+
+@router.get("/grants/{grant_id}/receipt", operation_id="package_grant_receipt")
+async def grant_receipt(grant_id: uuid.UUID, _: MarketLinkAdmin, session: DbSession) -> ReceiptOut:
+    """What the receipt PDF shows (the admin web draws it): company profile, receipt number,
+    grower, amount, GST line only when GSTIN and GST rate are set, payment reference and
+    validity. 409 `company_profile_empty` while legal name or address is empty."""
+    grant = await session.get(PackageGrant, grant_id)
+    if grant is None:
+        raise ApiError(404, "grant_not_found")
+    try:
+        return await build_receipt(session, await company_profile(session), grant)
+    except ReceiptRefusedError as exc:
+        raise ApiError(409, "company_profile_empty", str(exc)) from exc

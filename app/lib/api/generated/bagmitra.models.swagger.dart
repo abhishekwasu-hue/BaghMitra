@@ -11175,6 +11175,64 @@ extension $PackageCompanyOutExtension on PackageCompanyOut {
 }
 
 @JsonSerializable(explicitToJson: true)
+class PackageCover {
+  const PackageCover({required this.lotId, required this.validUntil});
+
+  factory PackageCover.fromJson(Map<String, dynamic> json) =>
+      _$PackageCoverFromJson(json);
+
+  static const toJsonFactory = _$PackageCoverToJson;
+  Map<String, dynamic> toJson() => _$PackageCoverToJson(this);
+
+  @JsonKey(name: 'lot_id', includeIfNull: false)
+  final String? lotId;
+  @JsonKey(name: 'valid_until', includeIfNull: false)
+  final DateTime validUntil;
+  static const fromJsonFactory = _$PackageCoverFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is PackageCover &&
+            (identical(other.lotId, lotId) ||
+                const DeepCollectionEquality().equals(other.lotId, lotId)) &&
+            (identical(other.validUntil, validUntil) ||
+                const DeepCollectionEquality().equals(
+                  other.validUntil,
+                  validUntil,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(lotId) ^
+      const DeepCollectionEquality().hash(validUntil) ^
+      runtimeType.hashCode;
+}
+
+extension $PackageCoverExtension on PackageCover {
+  PackageCover copyWith({String? lotId, DateTime? validUntil}) {
+    return PackageCover(
+      lotId: lotId ?? this.lotId,
+      validUntil: validUntil ?? this.validUntil,
+    );
+  }
+
+  PackageCover copyWithWrapped({
+    Wrapped<String?>? lotId,
+    Wrapped<DateTime>? validUntil,
+  }) {
+    return PackageCover(
+      lotId: (lotId != null ? lotId.value : this.lotId),
+      validUntil: (validUntil != null ? validUntil.value : this.validUntil),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class PackageGrantIn {
   const PackageGrantIn({
     required this.amountPaise,
@@ -12015,6 +12073,64 @@ extension $PackageSettingsOutExtension on PackageSettingsOut {
       validityDays: (validityDays != null
           ? validityDays.value
           : this.validityDays),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class PackageStatus {
+  const PackageStatus({required this.active, required this.switchOn});
+
+  factory PackageStatus.fromJson(Map<String, dynamic> json) =>
+      _$PackageStatusFromJson(json);
+
+  static const toJsonFactory = _$PackageStatusToJson;
+  Map<String, dynamic> toJson() => _$PackageStatusToJson(this);
+
+  @JsonKey(name: 'active', includeIfNull: false, defaultValue: <PackageCover>[])
+  final List<PackageCover> active;
+  @JsonKey(name: 'switch_on', includeIfNull: false)
+  final bool switchOn;
+  static const fromJsonFactory = _$PackageStatusFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is PackageStatus &&
+            (identical(other.active, active) ||
+                const DeepCollectionEquality().equals(other.active, active)) &&
+            (identical(other.switchOn, switchOn) ||
+                const DeepCollectionEquality().equals(
+                  other.switchOn,
+                  switchOn,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(active) ^
+      const DeepCollectionEquality().hash(switchOn) ^
+      runtimeType.hashCode;
+}
+
+extension $PackageStatusExtension on PackageStatus {
+  PackageStatus copyWith({List<PackageCover>? active, bool? switchOn}) {
+    return PackageStatus(
+      active: active ?? this.active,
+      switchOn: switchOn ?? this.switchOn,
+    );
+  }
+
+  PackageStatus copyWithWrapped({
+    Wrapped<List<PackageCover>>? active,
+    Wrapped<bool>? switchOn,
+  }) {
+    return PackageStatus(
+      active: (active != null ? active.value : this.active),
+      switchOn: (switchOn != null ? switchOn.value : this.switchOn),
     );
   }
 }
@@ -14203,6 +14319,341 @@ extension $ReadyResponseExtension on ReadyResponse {
     return ReadyResponse(
       database: (database != null ? database.value : this.database),
       status: (status != null ? status.value : this.status),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ReceiptGst {
+  const ReceiptGst({
+    required this.gstPaise,
+    required this.ratePercent,
+    required this.taxablePaise,
+  });
+
+  factory ReceiptGst.fromJson(Map<String, dynamic> json) =>
+      _$ReceiptGstFromJson(json);
+
+  static const toJsonFactory = _$ReceiptGstToJson;
+  Map<String, dynamic> toJson() => _$ReceiptGstToJson(this);
+
+  @JsonKey(name: 'gst_paise', includeIfNull: false)
+  final int gstPaise;
+  @JsonKey(name: 'rate_percent', includeIfNull: false)
+  final String ratePercent;
+  @JsonKey(name: 'taxable_paise', includeIfNull: false)
+  final int taxablePaise;
+  static const fromJsonFactory = _$ReceiptGstFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is ReceiptGst &&
+            (identical(other.gstPaise, gstPaise) ||
+                const DeepCollectionEquality().equals(
+                  other.gstPaise,
+                  gstPaise,
+                )) &&
+            (identical(other.ratePercent, ratePercent) ||
+                const DeepCollectionEquality().equals(
+                  other.ratePercent,
+                  ratePercent,
+                )) &&
+            (identical(other.taxablePaise, taxablePaise) ||
+                const DeepCollectionEquality().equals(
+                  other.taxablePaise,
+                  taxablePaise,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(gstPaise) ^
+      const DeepCollectionEquality().hash(ratePercent) ^
+      const DeepCollectionEquality().hash(taxablePaise) ^
+      runtimeType.hashCode;
+}
+
+extension $ReceiptGstExtension on ReceiptGst {
+  ReceiptGst copyWith({int? gstPaise, String? ratePercent, int? taxablePaise}) {
+    return ReceiptGst(
+      gstPaise: gstPaise ?? this.gstPaise,
+      ratePercent: ratePercent ?? this.ratePercent,
+      taxablePaise: taxablePaise ?? this.taxablePaise,
+    );
+  }
+
+  ReceiptGst copyWithWrapped({
+    Wrapped<int>? gstPaise,
+    Wrapped<String>? ratePercent,
+    Wrapped<int>? taxablePaise,
+  }) {
+    return ReceiptGst(
+      gstPaise: (gstPaise != null ? gstPaise.value : this.gstPaise),
+      ratePercent: (ratePercent != null ? ratePercent.value : this.ratePercent),
+      taxablePaise: (taxablePaise != null
+          ? taxablePaise.value
+          : this.taxablePaise),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ReceiptOut {
+  const ReceiptOut({
+    required this.address,
+    required this.amountPaise,
+    required this.growerName,
+    required this.growerPhone,
+    required this.gst,
+    required this.gstin,
+    required this.issuedOn,
+    required this.legalName,
+    required this.lot,
+    required this.method,
+    required this.paidOn,
+    required this.pan,
+    required this.paymentRef,
+    required this.receiptNo,
+    required this.revoked,
+    required this.tradeName,
+    required this.validFrom,
+    required this.validUntil,
+  });
+
+  factory ReceiptOut.fromJson(Map<String, dynamic> json) =>
+      _$ReceiptOutFromJson(json);
+
+  static const toJsonFactory = _$ReceiptOutToJson;
+  Map<String, dynamic> toJson() => _$ReceiptOutToJson(this);
+
+  @JsonKey(name: 'address', includeIfNull: false)
+  final String address;
+  @JsonKey(name: 'amount_paise', includeIfNull: false)
+  final int amountPaise;
+  @JsonKey(name: 'grower_name', includeIfNull: false)
+  final String? growerName;
+  @JsonKey(name: 'grower_phone', includeIfNull: false)
+  final String? growerPhone;
+  @JsonKey(name: 'gst', includeIfNull: false)
+  final ReceiptGst? gst;
+  @JsonKey(name: 'gstin', includeIfNull: false)
+  final String? gstin;
+  @JsonKey(name: 'issued_on', includeIfNull: false, toJson: _dateToJson)
+  final DateTime issuedOn;
+  @JsonKey(name: 'legal_name', includeIfNull: false)
+  final String legalName;
+  @JsonKey(name: 'lot', includeIfNull: false)
+  final String? lot;
+  @JsonKey(name: 'method', includeIfNull: false)
+  final String method;
+  @JsonKey(name: 'paid_on', includeIfNull: false, toJson: _dateToJson)
+  final DateTime paidOn;
+  @JsonKey(name: 'pan', includeIfNull: false)
+  final String? pan;
+  @JsonKey(name: 'payment_ref', includeIfNull: false)
+  final String paymentRef;
+  @JsonKey(name: 'receipt_no', includeIfNull: false)
+  final String receiptNo;
+  @JsonKey(name: 'revoked', includeIfNull: false)
+  final bool revoked;
+  @JsonKey(name: 'trade_name', includeIfNull: false)
+  final String? tradeName;
+  @JsonKey(name: 'valid_from', includeIfNull: false, toJson: _dateToJson)
+  final DateTime validFrom;
+  @JsonKey(name: 'valid_until', includeIfNull: false, toJson: _dateToJson)
+  final DateTime validUntil;
+  static const fromJsonFactory = _$ReceiptOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is ReceiptOut &&
+            (identical(other.address, address) ||
+                const DeepCollectionEquality().equals(
+                  other.address,
+                  address,
+                )) &&
+            (identical(other.amountPaise, amountPaise) ||
+                const DeepCollectionEquality().equals(
+                  other.amountPaise,
+                  amountPaise,
+                )) &&
+            (identical(other.growerName, growerName) ||
+                const DeepCollectionEquality().equals(
+                  other.growerName,
+                  growerName,
+                )) &&
+            (identical(other.growerPhone, growerPhone) ||
+                const DeepCollectionEquality().equals(
+                  other.growerPhone,
+                  growerPhone,
+                )) &&
+            (identical(other.gst, gst) ||
+                const DeepCollectionEquality().equals(other.gst, gst)) &&
+            (identical(other.gstin, gstin) ||
+                const DeepCollectionEquality().equals(other.gstin, gstin)) &&
+            (identical(other.issuedOn, issuedOn) ||
+                const DeepCollectionEquality().equals(
+                  other.issuedOn,
+                  issuedOn,
+                )) &&
+            (identical(other.legalName, legalName) ||
+                const DeepCollectionEquality().equals(
+                  other.legalName,
+                  legalName,
+                )) &&
+            (identical(other.lot, lot) ||
+                const DeepCollectionEquality().equals(other.lot, lot)) &&
+            (identical(other.method, method) ||
+                const DeepCollectionEquality().equals(other.method, method)) &&
+            (identical(other.paidOn, paidOn) ||
+                const DeepCollectionEquality().equals(other.paidOn, paidOn)) &&
+            (identical(other.pan, pan) ||
+                const DeepCollectionEquality().equals(other.pan, pan)) &&
+            (identical(other.paymentRef, paymentRef) ||
+                const DeepCollectionEquality().equals(
+                  other.paymentRef,
+                  paymentRef,
+                )) &&
+            (identical(other.receiptNo, receiptNo) ||
+                const DeepCollectionEquality().equals(
+                  other.receiptNo,
+                  receiptNo,
+                )) &&
+            (identical(other.revoked, revoked) ||
+                const DeepCollectionEquality().equals(
+                  other.revoked,
+                  revoked,
+                )) &&
+            (identical(other.tradeName, tradeName) ||
+                const DeepCollectionEquality().equals(
+                  other.tradeName,
+                  tradeName,
+                )) &&
+            (identical(other.validFrom, validFrom) ||
+                const DeepCollectionEquality().equals(
+                  other.validFrom,
+                  validFrom,
+                )) &&
+            (identical(other.validUntil, validUntil) ||
+                const DeepCollectionEquality().equals(
+                  other.validUntil,
+                  validUntil,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(address) ^
+      const DeepCollectionEquality().hash(amountPaise) ^
+      const DeepCollectionEquality().hash(growerName) ^
+      const DeepCollectionEquality().hash(growerPhone) ^
+      const DeepCollectionEquality().hash(gst) ^
+      const DeepCollectionEquality().hash(gstin) ^
+      const DeepCollectionEquality().hash(issuedOn) ^
+      const DeepCollectionEquality().hash(legalName) ^
+      const DeepCollectionEquality().hash(lot) ^
+      const DeepCollectionEquality().hash(method) ^
+      const DeepCollectionEquality().hash(paidOn) ^
+      const DeepCollectionEquality().hash(pan) ^
+      const DeepCollectionEquality().hash(paymentRef) ^
+      const DeepCollectionEquality().hash(receiptNo) ^
+      const DeepCollectionEquality().hash(revoked) ^
+      const DeepCollectionEquality().hash(tradeName) ^
+      const DeepCollectionEquality().hash(validFrom) ^
+      const DeepCollectionEquality().hash(validUntil) ^
+      runtimeType.hashCode;
+}
+
+extension $ReceiptOutExtension on ReceiptOut {
+  ReceiptOut copyWith({
+    String? address,
+    int? amountPaise,
+    String? growerName,
+    String? growerPhone,
+    ReceiptGst? gst,
+    String? gstin,
+    DateTime? issuedOn,
+    String? legalName,
+    String? lot,
+    String? method,
+    DateTime? paidOn,
+    String? pan,
+    String? paymentRef,
+    String? receiptNo,
+    bool? revoked,
+    String? tradeName,
+    DateTime? validFrom,
+    DateTime? validUntil,
+  }) {
+    return ReceiptOut(
+      address: address ?? this.address,
+      amountPaise: amountPaise ?? this.amountPaise,
+      growerName: growerName ?? this.growerName,
+      growerPhone: growerPhone ?? this.growerPhone,
+      gst: gst ?? this.gst,
+      gstin: gstin ?? this.gstin,
+      issuedOn: issuedOn ?? this.issuedOn,
+      legalName: legalName ?? this.legalName,
+      lot: lot ?? this.lot,
+      method: method ?? this.method,
+      paidOn: paidOn ?? this.paidOn,
+      pan: pan ?? this.pan,
+      paymentRef: paymentRef ?? this.paymentRef,
+      receiptNo: receiptNo ?? this.receiptNo,
+      revoked: revoked ?? this.revoked,
+      tradeName: tradeName ?? this.tradeName,
+      validFrom: validFrom ?? this.validFrom,
+      validUntil: validUntil ?? this.validUntil,
+    );
+  }
+
+  ReceiptOut copyWithWrapped({
+    Wrapped<String>? address,
+    Wrapped<int>? amountPaise,
+    Wrapped<String?>? growerName,
+    Wrapped<String?>? growerPhone,
+    Wrapped<ReceiptGst?>? gst,
+    Wrapped<String?>? gstin,
+    Wrapped<DateTime>? issuedOn,
+    Wrapped<String>? legalName,
+    Wrapped<String?>? lot,
+    Wrapped<String>? method,
+    Wrapped<DateTime>? paidOn,
+    Wrapped<String?>? pan,
+    Wrapped<String>? paymentRef,
+    Wrapped<String>? receiptNo,
+    Wrapped<bool>? revoked,
+    Wrapped<String?>? tradeName,
+    Wrapped<DateTime>? validFrom,
+    Wrapped<DateTime>? validUntil,
+  }) {
+    return ReceiptOut(
+      address: (address != null ? address.value : this.address),
+      amountPaise: (amountPaise != null ? amountPaise.value : this.amountPaise),
+      growerName: (growerName != null ? growerName.value : this.growerName),
+      growerPhone: (growerPhone != null ? growerPhone.value : this.growerPhone),
+      gst: (gst != null ? gst.value : this.gst),
+      gstin: (gstin != null ? gstin.value : this.gstin),
+      issuedOn: (issuedOn != null ? issuedOn.value : this.issuedOn),
+      legalName: (legalName != null ? legalName.value : this.legalName),
+      lot: (lot != null ? lot.value : this.lot),
+      method: (method != null ? method.value : this.method),
+      paidOn: (paidOn != null ? paidOn.value : this.paidOn),
+      pan: (pan != null ? pan.value : this.pan),
+      paymentRef: (paymentRef != null ? paymentRef.value : this.paymentRef),
+      receiptNo: (receiptNo != null ? receiptNo.value : this.receiptNo),
+      revoked: (revoked != null ? revoked.value : this.revoked),
+      tradeName: (tradeName != null ? tradeName.value : this.tradeName),
+      validFrom: (validFrom != null ? validFrom.value : this.validFrom),
+      validUntil: (validUntil != null ? validUntil.value : this.validUntil),
     );
   }
 }

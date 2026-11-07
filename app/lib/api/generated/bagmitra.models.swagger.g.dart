@@ -2187,6 +2187,17 @@ Map<String, dynamic> _$PackageCompanyOutToJson(PackageCompanyOut instance) =>
       'upi_id': ?instance.upiId,
     };
 
+PackageCover _$PackageCoverFromJson(Map<String, dynamic> json) => PackageCover(
+  lotId: json['lot_id'] as String?,
+  validUntil: DateTime.parse(json['valid_until'] as String),
+);
+
+Map<String, dynamic> _$PackageCoverToJson(PackageCover instance) =>
+    <String, dynamic>{
+      'lot_id': ?instance.lotId,
+      'valid_until': instance.validUntil.toIso8601String(),
+    };
+
 PackageGrantIn _$PackageGrantInFromJson(Map<String, dynamic> json) =>
     PackageGrantIn(
       amountPaise: (json['amount_paise'] as num).toInt(),
@@ -2361,6 +2372,22 @@ Map<String, dynamic> _$PackageSettingsOutToJson(PackageSettingsOut instance) =>
       'price_paise': ?instance.pricePaise,
       'starts_at': ?_dateToJson(instance.startsAt),
       'validity_days': ?instance.validityDays,
+    };
+
+PackageStatus _$PackageStatusFromJson(Map<String, dynamic> json) =>
+    PackageStatus(
+      active:
+          (json['active'] as List<dynamic>?)
+              ?.map((e) => PackageCover.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+      switchOn: json['switch_on'] as bool,
+    );
+
+Map<String, dynamic> _$PackageStatusToJson(PackageStatus instance) =>
+    <String, dynamic>{
+      'active': instance.active.map((e) => e.toJson()).toList(),
+      'switch_on': instance.switchOn,
     };
 
 PartyContactOut _$PartyContactOutFromJson(Map<String, dynamic> json) =>
@@ -2831,6 +2858,64 @@ ReadyResponse _$ReadyResponseFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$ReadyResponseToJson(ReadyResponse instance) =>
     <String, dynamic>{'database': instance.database, 'status': instance.status};
+
+ReceiptGst _$ReceiptGstFromJson(Map<String, dynamic> json) => ReceiptGst(
+  gstPaise: (json['gst_paise'] as num).toInt(),
+  ratePercent: json['rate_percent'] as String,
+  taxablePaise: (json['taxable_paise'] as num).toInt(),
+);
+
+Map<String, dynamic> _$ReceiptGstToJson(ReceiptGst instance) =>
+    <String, dynamic>{
+      'gst_paise': instance.gstPaise,
+      'rate_percent': instance.ratePercent,
+      'taxable_paise': instance.taxablePaise,
+    };
+
+ReceiptOut _$ReceiptOutFromJson(Map<String, dynamic> json) => ReceiptOut(
+  address: json['address'] as String,
+  amountPaise: (json['amount_paise'] as num).toInt(),
+  growerName: json['grower_name'] as String?,
+  growerPhone: json['grower_phone'] as String?,
+  gst: json['gst'] == null
+      ? null
+      : ReceiptGst.fromJson(json['gst'] as Map<String, dynamic>),
+  gstin: json['gstin'] as String?,
+  issuedOn: DateTime.parse(json['issued_on'] as String),
+  legalName: json['legal_name'] as String,
+  lot: json['lot'] as String?,
+  method: json['method'] as String,
+  paidOn: DateTime.parse(json['paid_on'] as String),
+  pan: json['pan'] as String?,
+  paymentRef: json['payment_ref'] as String,
+  receiptNo: json['receipt_no'] as String,
+  revoked: json['revoked'] as bool,
+  tradeName: json['trade_name'] as String?,
+  validFrom: DateTime.parse(json['valid_from'] as String),
+  validUntil: DateTime.parse(json['valid_until'] as String),
+);
+
+Map<String, dynamic> _$ReceiptOutToJson(ReceiptOut instance) =>
+    <String, dynamic>{
+      'address': instance.address,
+      'amount_paise': instance.amountPaise,
+      'grower_name': ?instance.growerName,
+      'grower_phone': ?instance.growerPhone,
+      'gst': ?instance.gst?.toJson(),
+      'gstin': ?instance.gstin,
+      'issued_on': ?_dateToJson(instance.issuedOn),
+      'legal_name': instance.legalName,
+      'lot': ?instance.lot,
+      'method': instance.method,
+      'paid_on': ?_dateToJson(instance.paidOn),
+      'pan': ?instance.pan,
+      'payment_ref': instance.paymentRef,
+      'receipt_no': instance.receiptNo,
+      'revoked': instance.revoked,
+      'trade_name': ?instance.tradeName,
+      'valid_from': ?_dateToJson(instance.validFrom),
+      'valid_until': ?_dateToJson(instance.validUntil),
+    };
 
 RecheckItemOut _$RecheckItemOutFromJson(Map<String, dynamic> json) =>
     RecheckItemOut(
