@@ -157,6 +157,9 @@ class BuyerProfile(AddressMixin, _Row, Base):
     apmc_licence_no: Mapped[str | None] = mapped_column(String(40), index=True)
     gst_no: Mapped[str | None] = mapped_column(String(20), index=True)
     iec_no: Mapped[str | None] = mapped_column(String(10), index=True)
+    # Kept for the admin's manual check on FoSCoS / the APEDA directory (spec §4, 0031).
+    fssai_no: Mapped[str | None] = mapped_column(String(14), index=True)
+    apeda_no: Mapped[str | None] = mapped_column(String(40), index=True)
 
 
 class BrokerProfile(AddressMixin, _Row, Base):

@@ -8,7 +8,7 @@ import uuid
 from typing import Any
 
 from pydantic import BaseModel, ConfigDict, model_validator
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from bagmitra_api.market_link.models import SUBJECT_TYPES, PartyVerification
@@ -58,25 +58,49 @@ class MarketLinkIn(BaseModel):
         return data
 
 
+async def latest_verifications(
+    session: AsyncSession, kind: str, ids: list[uuid.UUID]
+) -> dict[uuid.UUID, PartyVerification]:
+    """The latest verification record of each subject (the one that decides, Q70)."""
+    if not ids:
+        return {}
+    rank = (
+        func.row_number()
+        .over(
+            partition_by=PartyVerification.subject_id,
+            order_by=PartyVerification.created_at.desc(),
+        )
+        .label("rank")
+    )
+    ranked = (
+        select(PartyVerification.id, rank)
+        .where(PartyVerification.subject_type == kind, PartyVerification.subject_id.in_(ids))
+        .subquery()
+    )
+    rows = await session.scalars(
+        select(PartyVerification)
+        .join(ranked, ranked.c.id == PartyVerification.id)
+        .where(ranked.c.rank == 1)
+    )
+    return {row.subject_id: row for row in rows}
+
+
+def counts_as_verified(row: PartyVerification | None) -> bool:
+    """Decision h: approved by an admin, with who and when on the record."""
+    return (
+        row is not None
+        and row.status == "approved"
+        and row.checked_by is not None
+        and row.checked_at is not None
+    )
+
+
 async def is_verified(session: AsyncSession, subject_type: str, subject_id: uuid.UUID) -> bool:
     """True only when the subject's latest verification record is approved by an admin."""
     if subject_type not in SUBJECT_TYPES:
         raise ValueError(f"unknown subject type {subject_type!r}")
-    latest = await session.scalar(
-        select(PartyVerification)
-        .where(
-            PartyVerification.subject_type == subject_type,
-            PartyVerification.subject_id == subject_id,
-        )
-        .order_by(PartyVerification.created_at.desc())
-        .limit(1)
-    )
-    return (
-        latest is not None
-        and latest.status == "approved"
-        and latest.checked_by is not None
-        and latest.checked_at is not None
-    )
+    latest = await latest_verifications(session, subject_type, [subject_id])
+    return counts_as_verified(latest.get(subject_id))
 
 
 # Spec v1.5 §4B: lot text a buyer reads before acceptance must not carry a way to reach the

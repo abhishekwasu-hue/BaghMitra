@@ -104,6 +104,88 @@
         "title": "AccountDeleted",
         "type": "object"
       },
+      "AdminFixOut": {
+        "properties": {
+          "accuracy_m": {
+            "title": "Accuracy M",
+            "type": "number"
+          },
+          "captured_at": {
+            "format": "date-time",
+            "title": "Captured At",
+            "type": "string"
+          },
+          "district": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "District"
+          },
+          "is_mocked": {
+            "title": "Is Mocked",
+            "type": "boolean"
+          },
+          "lat": {
+            "title": "Lat",
+            "type": "number"
+          },
+          "lon": {
+            "title": "Lon",
+            "type": "number"
+          },
+          "pin": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pin"
+          },
+          "place": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Place"
+          },
+          "state": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "State"
+          }
+        },
+        "required": [
+          "lat",
+          "lon",
+          "accuracy_m",
+          "captured_at",
+          "place",
+          "district",
+          "state",
+          "pin",
+          "is_mocked"
+        ],
+        "title": "AdminFixOut",
+        "type": "object"
+      },
       "AlertOut": {
         "properties": {
           "card_id": {
@@ -3987,9 +4069,27 @@
             "title": "Fields",
             "type": "object"
           },
+          "flags": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Flags",
+            "type": "array"
+          },
           "name": {
             "title": "Name",
             "type": "string"
+          },
+          "registration_fix": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AdminFixOut"
+              },
+              {
+                "type": "null"
+              }
+            ]
           },
           "status": {
             "title": "Status",
