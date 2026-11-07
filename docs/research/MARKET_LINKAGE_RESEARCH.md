@@ -283,3 +283,29 @@ migration 0029 (#155), api tests test_market_link_*, OPEN_QUESTIONS Q61–Q71, P
   a fixed safety notice "BagMitra never asks for money, OTP or bank details".
 - **Opaque admin actions**: every verify / suspend / un-suspend logged with reason code; the user sees
   the reason and can appeal once through the grievance path.
+
+## 7. Season sale package (one-time grower fee, paid by UPI to the company) — research 2026-11-07
+
+### 7.1 Google Play payments policy [V, support.google.com/googleplay/android-developer/answer/9858738]
+- Play billing is required for "payment for access to in-app features or services" (examples:
+  subscriptions, app functionality), unless §3 / §8 / §9 apply.
+- Play billing must **not** be used when payment is primarily for physical goods, physical services
+  (transport, cleaning, tickets…), bill remittance, peer-to-peer payments, online auctions, donations.
+- A fee to make a grower's lot visible to traders is a fee for an in-app service, not for the fruit
+  itself → it falls under "in-app features or services" (interpretation; the page has no
+  marketplace-listing example) [UV].
+- §4: an app may not lead users to another payment method, except under the §8 / §9 programmes.
+- India (Google India blog, 17 May 2023) [V]: three options — Play billing; user choice billing
+  (alternative billing beside Play's, Google's fee 4 points lower); **consumption-only**: "operate on a
+  consumption-only basis without paying a service fee, even if it is part of a paid service" — users log
+  in to use what they paid for elsewhere. Re-confirm in Play Console that this still applies [UV].
+- Consequence: a UPI-to-company payment with no Google fee is possible only as consumption-only — the
+  app shows no price, no payment button and no link or instruction to pay; payment happens outside the
+  app (representative's company UPI QR, company website, office) and the admin activates the package.
+
+### 7.2 UPI charges for the company account [S, Inc42 15 Sep 2026]
+- From 15 Oct 2026: 0.4 % MDR on P2M payments above ₹2,000 (cap ₹300 at ₹75,000+); **₹2,000 or less:
+  zero MDR**; small merchants receiving up to ₹1 lakh / month through UPI QR: zero MDR; consumers pay
+  nothing. A package priced at ₹2,000 or less costs the company nothing to collect.
+- A business current account and merchant QR need the registered company (company registration is
+  still pending) [owner context].

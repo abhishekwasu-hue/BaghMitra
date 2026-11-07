@@ -26,6 +26,24 @@ enum AcceptInRole {
   const AcceptInRole(this.value);
 }
 
+enum AdminProviderInKind {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('weighbridge')
+  weighbridge('weighbridge'),
+  @JsonValue('transporter')
+  transporter('transporter'),
+  @JsonValue('labour_gang')
+  labourGang('labour_gang'),
+  @JsonValue('crate_supplier')
+  crateSupplier('crate_supplier');
+
+  final String? value;
+
+  const AdminProviderInKind(this.value);
+}
+
 enum AppealInReason {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
@@ -44,6 +62,22 @@ enum AppealInReason {
   final String? value;
 
   const AppealInReason(this.value);
+}
+
+enum BadgeOutKind {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('checked')
+  checked('checked'),
+  @JsonValue('registered_from')
+  registeredFrom('registered_from'),
+  @JsonValue('place_photo')
+  placePhoto('place_photo');
+
+  final String? value;
+
+  const BadgeOutKind(this.value);
 }
 
 enum BlockedClaimOutReason {
@@ -258,6 +292,24 @@ enum PlanInKind {
   final String? value;
 
   const PlanInKind(this.value);
+}
+
+enum ProviderInKind {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('weighbridge')
+  weighbridge('weighbridge'),
+  @JsonValue('transporter')
+  transporter('transporter'),
+  @JsonValue('labour_gang')
+  labourGang('labour_gang'),
+  @JsonValue('crate_supplier')
+  crateSupplier('crate_supplier');
+
+  final String? value;
+
+  const ProviderInKind(this.value);
 }
 
 enum RatingTagInStatus {
@@ -498,6 +550,128 @@ enum V1InsuranceDeadlinesGetLang {
   final String? value;
 
   const V1InsuranceDeadlinesGetLang(this.value);
+}
+
+enum V1MarketLinkProfilesGetRole {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('trader')
+  trader('trader'),
+  @JsonValue('exporter')
+  exporter('exporter'),
+  @JsonValue('broker')
+  broker('broker');
+
+  final String? value;
+
+  const V1MarketLinkProfilesGetRole(this.value);
+}
+
+enum V1MarketLinkProfilesGetSort {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('rating')
+  rating('rating'),
+  @JsonValue('deals')
+  deals('deals');
+
+  final String? value;
+
+  const V1MarketLinkProfilesGetSort(this.value);
+}
+
+enum V1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('buyer')
+  buyer('buyer'),
+  @JsonValue('broker')
+  broker('broker'),
+  @JsonValue('provider')
+  provider('provider');
+
+  final String? value;
+
+  const V1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType(this.value);
+}
+
+enum V1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectType {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('buyer')
+  buyer('buyer'),
+  @JsonValue('broker')
+  broker('broker'),
+  @JsonValue('provider')
+  provider('provider');
+
+  final String? value;
+
+  const V1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectType(
+    this.value,
+  );
+}
+
+enum V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('buyer')
+  buyer('buyer'),
+  @JsonValue('broker')
+  broker('broker'),
+  @JsonValue('provider')
+  provider('provider');
+
+  final String? value;
+
+  const V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType(
+    this.value,
+  );
+}
+
+enum V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('gst')
+  gst('gst'),
+  @JsonValue('apmc')
+  apmc('apmc'),
+  @JsonValue('fssai')
+  fssai('fssai'),
+  @JsonValue('iec')
+  iec('iec'),
+  @JsonValue('apeda')
+  apeda('apeda'),
+  @JsonValue('certificate')
+  certificate('certificate');
+
+  final String? value;
+
+  const V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc(this.value);
+}
+
+enum V1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('buyer')
+  buyer('buyer'),
+  @JsonValue('broker')
+  broker('broker'),
+  @JsonValue('provider')
+  provider('provider');
+
+  final String? value;
+
+  const V1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType(
+    this.value,
+  );
 }
 
 enum V1MarketPricesGetScope {
