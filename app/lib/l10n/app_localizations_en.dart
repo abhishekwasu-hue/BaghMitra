@@ -3198,6 +3198,45 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get adminMlFlags => 'Look before approving';
+
+  @override
+  String get adminMlFlagDuplicate => 'Same number on another profile';
+
+  @override
+  String get adminMlFlagReturning => 'Matches a suspended profile';
+
+  @override
+  String get adminMlFlagMock => 'Location looked fake (mock)';
+
+  @override
+  String get adminMlFlagOtherDistrict =>
+      'Registered outside the stated district';
+
+  @override
+  String get adminMlFlagNoPlace => 'Place name blank from the phone';
+
+  @override
+  String get adminMlWhyName => 'same name';
+
+  @override
+  String get adminMlWhyGps => 'registered nearby';
+
+  @override
+  String get adminMlWhyAccount => 'same sign-in';
+
+  @override
+  String get adminMlRechecks => 'Re-checks due';
+
+  @override
+  String get adminMlRechecksEmpty => 'All yearly re-checks are done';
+
+  @override
+  String adminMlLastChecked(String date) {
+    return 'last checked $date';
+  }
+
+  @override
   String adminMlDocumentCount(int n) {
     return 'Documents: $n';
   }

@@ -5572,6 +5572,78 @@ abstract class AppLocalizations {
   /// **'registered {year}'**
   String adminMlRegisteredSince(String year);
 
+  /// No description provided for @adminMlFlags.
+  ///
+  /// In en, this message translates to:
+  /// **'Look before approving'**
+  String get adminMlFlags;
+
+  /// No description provided for @adminMlFlagDuplicate.
+  ///
+  /// In en, this message translates to:
+  /// **'Same number on another profile'**
+  String get adminMlFlagDuplicate;
+
+  /// No description provided for @adminMlFlagReturning.
+  ///
+  /// In en, this message translates to:
+  /// **'Matches a suspended profile'**
+  String get adminMlFlagReturning;
+
+  /// No description provided for @adminMlFlagMock.
+  ///
+  /// In en, this message translates to:
+  /// **'Location looked fake (mock)'**
+  String get adminMlFlagMock;
+
+  /// No description provided for @adminMlFlagOtherDistrict.
+  ///
+  /// In en, this message translates to:
+  /// **'Registered outside the stated district'**
+  String get adminMlFlagOtherDistrict;
+
+  /// No description provided for @adminMlFlagNoPlace.
+  ///
+  /// In en, this message translates to:
+  /// **'Place name blank from the phone'**
+  String get adminMlFlagNoPlace;
+
+  /// No description provided for @adminMlWhyName.
+  ///
+  /// In en, this message translates to:
+  /// **'same name'**
+  String get adminMlWhyName;
+
+  /// No description provided for @adminMlWhyGps.
+  ///
+  /// In en, this message translates to:
+  /// **'registered nearby'**
+  String get adminMlWhyGps;
+
+  /// No description provided for @adminMlWhyAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'same sign-in'**
+  String get adminMlWhyAccount;
+
+  /// No description provided for @adminMlRechecks.
+  ///
+  /// In en, this message translates to:
+  /// **'Re-checks due'**
+  String get adminMlRechecks;
+
+  /// No description provided for @adminMlRechecksEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'All yearly re-checks are done'**
+  String get adminMlRechecksEmpty;
+
+  /// No description provided for @adminMlLastChecked.
+  ///
+  /// In en, this message translates to:
+  /// **'last checked {date}'**
+  String adminMlLastChecked(String date);
+
   /// No description provided for @adminMlDocumentCount.
   ///
   /// In en, this message translates to:

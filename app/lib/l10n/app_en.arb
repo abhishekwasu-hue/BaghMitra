@@ -1307,6 +1307,25 @@
       }
     }
   },
+  "adminMlFlags": "Look before approving",
+  "adminMlFlagDuplicate": "Same number on another profile",
+  "adminMlFlagReturning": "Matches a suspended profile",
+  "adminMlFlagMock": "Location looked fake (mock)",
+  "adminMlFlagOtherDistrict": "Registered outside the stated district",
+  "adminMlFlagNoPlace": "Place name blank from the phone",
+  "adminMlWhyName": "same name",
+  "adminMlWhyGps": "registered nearby",
+  "adminMlWhyAccount": "same sign-in",
+  "adminMlRechecks": "Re-checks due",
+  "adminMlRechecksEmpty": "All yearly re-checks are done",
+  "adminMlLastChecked": "last checked {date}",
+  "@adminMlLastChecked": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
   "adminMlDocumentCount": "Documents: {n}",
   "@adminMlDocumentCount": {"placeholders": {"n": {"type": "int"}}},
   "mlRoleTrader": "Trader",

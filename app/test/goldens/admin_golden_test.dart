@@ -122,6 +122,9 @@ void main() {
 
       await tester.pageBack();
       await tester.pumpAndSettle();
+      await tester.tap(find.text('Re-checks due'));
+      await tester.pumpAndSettle();
+      await _shot(tester, 'ml_rechecks_$mode');
 
       await tester.tap(find.text('Rating tags'));
       await tester.pumpAndSettle();
