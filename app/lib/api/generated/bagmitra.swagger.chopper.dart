@@ -1252,6 +1252,30 @@ their profile; undoes a dismiss. Only for a published item that has a date.''',
   }
 
   @override
+  Future<Response<IntroductionOut>> _v1MarketLinkDealsDealIdGet({
+    required String? dealId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'The introduction, for its grower, trader and broker only (404 for anyone else).',
+      summary: 'Introduction',
+      operationId: 'market_link_introduction',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/market-link/deals/${dealId}');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<IntroductionOut, IntroductionOut>($request);
+  }
+
+  @override
   Future<Response<MyProfileOut>> _v1MarketLinkExportersPost({
     required BuyerIn? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -1275,6 +1299,59 @@ their profile; undoes a dismiss. Only for a published item that has a date.''',
       tag: swaggerMetaData,
     );
     return client.send<MyProfileOut, MyProfileOut>($request);
+  }
+
+  @override
+  Future<Response<SentInterestsResponse>> _v1MarketLinkInterestsMineGet({
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Interests where the caller is the trader or the named broker, newest first, with the
+lot and, once accepted, the introduction to open; a closed one is the notice that the
+grower accepted another or closed the lot.''',
+      summary: 'My Interests',
+      operationId: 'market_link_my_interests',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/market-link/interests/mine');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<SentInterestsResponse, SentInterestsResponse>($request);
+  }
+
+  @override
+  Future<Response<IntroductionOut>> _v1MarketLinkInterestsInterestIdAcceptPost({
+    required String? interestId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''The lot\'s grower accepts one open interest: the introduction is recorded, the other
+open interests are closed (their senders get a notice), the lot leaves the traders\' list
+and both sides see each other\'s contacts. Anyone but the lot\'s grower gets 404.''',
+      summary: 'Accept Interest',
+      operationId: 'market_link_accept_interest',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse(
+      '/v1/market-link/interests/${interestId}/accept',
+    );
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<IntroductionOut, IntroductionOut>($request);
   }
 
   @override
@@ -1311,7 +1388,8 @@ upload URL for lot photos, so no stored lot photo can keep its metadata.''',
     required String? photoId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''A short-lived download URL for an uploaded lot photo: for the grower, or for a
-verified buyer / broker while the lot is published. Only the derived key is signed.''',
+verified buyer / broker while the lot is published, or for the parties of an accepted
+interest on it (L4). Only the derived key is signed.''',
       summary: 'Lot Photo Url',
       operationId: 'market_link_lot_photo_url',
       consumes: [],
@@ -1370,7 +1448,8 @@ verified buyer / broker while the lot is published. Only the derived key is sign
   Future<Response<GrowerLotOut>> _v1MarketLinkLotsLotIdClosePost({
     required String? lotId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: 'Takes a published lot off the buyers\' list (the grower sold it or changed their mind).',
+      description: '''Takes a published lot off the buyers\' list (the grower sold it or changed their mind);
+its open interests are closed and their senders get a notice (L4).''',
       summary: 'Close Lot',
       operationId: 'market_link_close_lot',
       consumes: [],
@@ -1388,6 +1467,60 @@ verified buyer / broker while the lot is published. Only the derived key is sign
       tag: swaggerMetaData,
     );
     return client.send<GrowerLotOut, GrowerLotOut>($request);
+  }
+
+  @override
+  Future<Response<LotInterestsResponse>> _v1MarketLinkLotsLotIdInterestsGet({
+    required String? lotId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''The interests on the caller\'s own lot, oldest first, to compare side by side. An open
+interest whose trader or broker is no longer verified is left out (decision h).''',
+      summary: 'Lot Interests',
+      operationId: 'market_link_lot_interests',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/market-link/lots/${lotId}/interests');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<LotInterestsResponse, LotInterestsResponse>($request);
+  }
+
+  @override
+  Future<Response<InterestOut>> _v1MarketLinkLotsLotIdInterestsPost({
+    required String? lotId,
+    required InterestIn? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''An interest on a published lot from a verified trader / exporter (optionally naming a
+verified broker) or from a verified broker for a named verified trader. A trader\'s new
+interest replaces their open one on the same lot. The grower gets a push.''',
+      summary: 'Send Interest',
+      operationId: 'market_link_send_interest',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/market-link/lots/${lotId}/interests');
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<InterestOut, InterestOut>($request);
   }
 
   @override
