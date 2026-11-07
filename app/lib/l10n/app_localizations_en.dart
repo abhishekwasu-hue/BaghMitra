@@ -3500,4 +3500,228 @@ class AppLocalizationsEn extends AppLocalizations {
   String mlNearPlot(String name) {
     return 'Near $name';
   }
+
+  @override
+  String get mlSafetyReport => 'Report';
+
+  @override
+  String get mlSafetyReportTitle => 'Report to BagMitra';
+
+  @override
+  String get mlSafetyReportWhy => 'Choose the reason';
+
+  @override
+  String get mlSafetyReportNote =>
+      'BagMitra only introduces people. Report a fake identity, a fake lot, someone pretending to be BagMitra, a fake rating or abuse; payment, weight and quality are settled between you.';
+
+  @override
+  String get mlSafetyPhoto => 'Add a photo (if you wish)';
+
+  @override
+  String get mlSafetyPhotoAdded => 'Photo added';
+
+  @override
+  String get mlSafetySend => 'Send report';
+
+  @override
+  String get mlSafetySent => 'Report received. BagMitra will check it.';
+
+  @override
+  String get mlSafetyRetry => 'Check the internet and try again';
+
+  @override
+  String get mlReasonFakeIdentity => 'Fake identity';
+
+  @override
+  String get mlReasonFakeLot => 'Fake lot or photos from another orchard';
+
+  @override
+  String get mlReasonImpersonation => 'Pretends to be BagMitra';
+
+  @override
+  String get mlReasonFakeRating => 'Fake rating';
+
+  @override
+  String get mlReasonAbuse => 'Abusive behaviour';
+
+  @override
+  String get mlReasonDuplicateUser => 'Same person, two accounts';
+
+  @override
+  String get mlReasonChecksPassed => 'Checks passed';
+
+  @override
+  String get mlReasonAppealUpheld => 'Appeal accepted';
+
+  @override
+  String get mlActionVerify => 'Verified';
+
+  @override
+  String get mlActionWarn => 'Warning';
+
+  @override
+  String get mlActionHide => 'Hidden from lists';
+
+  @override
+  String get mlActionSuspend => 'Account paused';
+
+  @override
+  String get mlActionRestore => 'Restored';
+
+  @override
+  String get mlAppealIdentityGenuine => 'My identity is genuine';
+
+  @override
+  String get mlAppealLotGenuine => 'My lot and photos are genuine';
+
+  @override
+  String get mlAppealRatingGenuine => 'This rating is from a real deal';
+
+  @override
+  String get mlAppealBehaviourProper => 'My behaviour was proper';
+
+  @override
+  String get mlAppealNotDuplicate => 'This is my only account';
+
+  @override
+  String get mlAppealStateAppealed => 'Appeal with the grievance officer';
+
+  @override
+  String get mlAppealStateUpheld => 'Appeal accepted';
+
+  @override
+  String get mlAppealStateRejected => 'Decision stays';
+
+  @override
+  String get mlActionsTitle => 'My account actions';
+
+  @override
+  String get mlActionsEmpty => 'Your account is in good standing.';
+
+  @override
+  String mlActionReason(String reason) {
+    return 'Reason: $reason';
+  }
+
+  @override
+  String mlActionDate(String date) {
+    return 'On $date';
+  }
+
+  @override
+  String get mlAppeal => 'Appeal';
+
+  @override
+  String get mlAppealTitle => 'Appeal (once)';
+
+  @override
+  String get mlAppealNote =>
+      'The grievance officer acknowledges within 24 hours and decides within 15 days.';
+
+  @override
+  String get mlAppealSend => 'Send appeal';
+
+  @override
+  String get mlAppealSent => 'Appeal received';
+
+  @override
+  String get mlGrievanceTitle => 'Grievance officer';
+
+  @override
+  String get mlGrievanceDefault => 'Owner of BagMitra';
+
+  @override
+  String get mlBlock => 'Block';
+
+  @override
+  String get mlUnblock => 'Unblock';
+
+  @override
+  String get mlBlockTitle => 'Block this person?';
+
+  @override
+  String get mlBlockNote =>
+      'You and this person stay out of each other\'s lists and interests. Unblock any time.';
+
+  @override
+  String get mlBlocked => 'Blocked';
+
+  @override
+  String get mlUnblocked => 'Unblocked';
+
+  @override
+  String get mlMoreOptions => 'More options';
+
+  @override
+  String get adminMlReports => 'Reports';
+
+  @override
+  String get adminMlAppeals => 'Appeals';
+
+  @override
+  String get adminMlReportsEmpty => 'Every report is handled';
+
+  @override
+  String get adminMlAppealsEmpty => 'Every appeal is decided';
+
+  @override
+  String get adminMlAckOverdue => 'Acknowledge: over 24 h';
+
+  @override
+  String get adminMlCloseOverdue => 'Close: over 15 days';
+
+  @override
+  String get adminMlAcknowledge => 'Acknowledge';
+
+  @override
+  String get adminMlAct => 'Act';
+
+  @override
+  String get adminMlDismiss => 'Dismiss';
+
+  @override
+  String get adminMlUphold => 'Accept appeal';
+
+  @override
+  String get adminMlKeepDecision => 'Keep decision';
+
+  @override
+  String get adminMlActionTitle => 'Action with a reason code';
+
+  @override
+  String get adminMlActionNote =>
+      'Platform rules only: fake or duplicate users, fake lots, impersonation, abuse. Payment, weight and quality quarrels stay with the parties.';
+
+  @override
+  String get adminMlStatusOpen => 'Open';
+
+  @override
+  String get adminMlStatusActioned => 'Actioned';
+
+  @override
+  String get adminMlStatusDismissed => 'Dismissed';
+
+  @override
+  String get adminMlTargetLot => 'Lot';
+
+  @override
+  String get adminMlTargetRating => 'Rating';
+
+  @override
+  String get adminMlTargetUser => 'User';
+
+  @override
+  String adminMlReceived(String date) {
+    return 'Received $date';
+  }
+
+  @override
+  String adminMlPhoto(int n) {
+    return 'Photo $n';
+  }
+
+  @override
+  String adminMlAppealReason(String reason) {
+    return 'Appeal: $reason';
+  }
 }

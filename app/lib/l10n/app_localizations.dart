@@ -6105,6 +6105,426 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Near {name}'**
   String mlNearPlot(String name);
+
+  /// No description provided for @mlSafetyReport.
+  ///
+  /// In en, this message translates to:
+  /// **'Report'**
+  String get mlSafetyReport;
+
+  /// No description provided for @mlSafetyReportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Report to BagMitra'**
+  String get mlSafetyReportTitle;
+
+  /// No description provided for @mlSafetyReportWhy.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the reason'**
+  String get mlSafetyReportWhy;
+
+  /// No description provided for @mlSafetyReportNote.
+  ///
+  /// In en, this message translates to:
+  /// **'BagMitra only introduces people. Report a fake identity, a fake lot, someone pretending to be BagMitra, a fake rating or abuse; payment, weight and quality are settled between you.'**
+  String get mlSafetyReportNote;
+
+  /// No description provided for @mlSafetyPhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a photo (if you wish)'**
+  String get mlSafetyPhoto;
+
+  /// No description provided for @mlSafetyPhotoAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo added'**
+  String get mlSafetyPhotoAdded;
+
+  /// No description provided for @mlSafetySend.
+  ///
+  /// In en, this message translates to:
+  /// **'Send report'**
+  String get mlSafetySend;
+
+  /// No description provided for @mlSafetySent.
+  ///
+  /// In en, this message translates to:
+  /// **'Report received. BagMitra will check it.'**
+  String get mlSafetySent;
+
+  /// No description provided for @mlSafetyRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Check the internet and try again'**
+  String get mlSafetyRetry;
+
+  /// No description provided for @mlReasonFakeIdentity.
+  ///
+  /// In en, this message translates to:
+  /// **'Fake identity'**
+  String get mlReasonFakeIdentity;
+
+  /// No description provided for @mlReasonFakeLot.
+  ///
+  /// In en, this message translates to:
+  /// **'Fake lot or photos from another orchard'**
+  String get mlReasonFakeLot;
+
+  /// No description provided for @mlReasonImpersonation.
+  ///
+  /// In en, this message translates to:
+  /// **'Pretends to be BagMitra'**
+  String get mlReasonImpersonation;
+
+  /// No description provided for @mlReasonFakeRating.
+  ///
+  /// In en, this message translates to:
+  /// **'Fake rating'**
+  String get mlReasonFakeRating;
+
+  /// No description provided for @mlReasonAbuse.
+  ///
+  /// In en, this message translates to:
+  /// **'Abusive behaviour'**
+  String get mlReasonAbuse;
+
+  /// No description provided for @mlReasonDuplicateUser.
+  ///
+  /// In en, this message translates to:
+  /// **'Same person, two accounts'**
+  String get mlReasonDuplicateUser;
+
+  /// No description provided for @mlReasonChecksPassed.
+  ///
+  /// In en, this message translates to:
+  /// **'Checks passed'**
+  String get mlReasonChecksPassed;
+
+  /// No description provided for @mlReasonAppealUpheld.
+  ///
+  /// In en, this message translates to:
+  /// **'Appeal accepted'**
+  String get mlReasonAppealUpheld;
+
+  /// No description provided for @mlActionVerify.
+  ///
+  /// In en, this message translates to:
+  /// **'Verified'**
+  String get mlActionVerify;
+
+  /// No description provided for @mlActionWarn.
+  ///
+  /// In en, this message translates to:
+  /// **'Warning'**
+  String get mlActionWarn;
+
+  /// No description provided for @mlActionHide.
+  ///
+  /// In en, this message translates to:
+  /// **'Hidden from lists'**
+  String get mlActionHide;
+
+  /// No description provided for @mlActionSuspend.
+  ///
+  /// In en, this message translates to:
+  /// **'Account paused'**
+  String get mlActionSuspend;
+
+  /// No description provided for @mlActionRestore.
+  ///
+  /// In en, this message translates to:
+  /// **'Restored'**
+  String get mlActionRestore;
+
+  /// No description provided for @mlAppealIdentityGenuine.
+  ///
+  /// In en, this message translates to:
+  /// **'My identity is genuine'**
+  String get mlAppealIdentityGenuine;
+
+  /// No description provided for @mlAppealLotGenuine.
+  ///
+  /// In en, this message translates to:
+  /// **'My lot and photos are genuine'**
+  String get mlAppealLotGenuine;
+
+  /// No description provided for @mlAppealRatingGenuine.
+  ///
+  /// In en, this message translates to:
+  /// **'This rating is from a real deal'**
+  String get mlAppealRatingGenuine;
+
+  /// No description provided for @mlAppealBehaviourProper.
+  ///
+  /// In en, this message translates to:
+  /// **'My behaviour was proper'**
+  String get mlAppealBehaviourProper;
+
+  /// No description provided for @mlAppealNotDuplicate.
+  ///
+  /// In en, this message translates to:
+  /// **'This is my only account'**
+  String get mlAppealNotDuplicate;
+
+  /// No description provided for @mlAppealStateAppealed.
+  ///
+  /// In en, this message translates to:
+  /// **'Appeal with the grievance officer'**
+  String get mlAppealStateAppealed;
+
+  /// No description provided for @mlAppealStateUpheld.
+  ///
+  /// In en, this message translates to:
+  /// **'Appeal accepted'**
+  String get mlAppealStateUpheld;
+
+  /// No description provided for @mlAppealStateRejected.
+  ///
+  /// In en, this message translates to:
+  /// **'Decision stays'**
+  String get mlAppealStateRejected;
+
+  /// No description provided for @mlActionsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'My account actions'**
+  String get mlActionsTitle;
+
+  /// No description provided for @mlActionsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account is in good standing.'**
+  String get mlActionsEmpty;
+
+  /// No description provided for @mlActionReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Reason: {reason}'**
+  String mlActionReason(String reason);
+
+  /// No description provided for @mlActionDate.
+  ///
+  /// In en, this message translates to:
+  /// **'On {date}'**
+  String mlActionDate(String date);
+
+  /// No description provided for @mlAppeal.
+  ///
+  /// In en, this message translates to:
+  /// **'Appeal'**
+  String get mlAppeal;
+
+  /// No description provided for @mlAppealTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Appeal (once)'**
+  String get mlAppealTitle;
+
+  /// No description provided for @mlAppealNote.
+  ///
+  /// In en, this message translates to:
+  /// **'The grievance officer acknowledges within 24 hours and decides within 15 days.'**
+  String get mlAppealNote;
+
+  /// No description provided for @mlAppealSend.
+  ///
+  /// In en, this message translates to:
+  /// **'Send appeal'**
+  String get mlAppealSend;
+
+  /// No description provided for @mlAppealSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Appeal received'**
+  String get mlAppealSent;
+
+  /// No description provided for @mlGrievanceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Grievance officer'**
+  String get mlGrievanceTitle;
+
+  /// No description provided for @mlGrievanceDefault.
+  ///
+  /// In en, this message translates to:
+  /// **'Owner of BagMitra'**
+  String get mlGrievanceDefault;
+
+  /// No description provided for @mlBlock.
+  ///
+  /// In en, this message translates to:
+  /// **'Block'**
+  String get mlBlock;
+
+  /// No description provided for @mlUnblock.
+  ///
+  /// In en, this message translates to:
+  /// **'Unblock'**
+  String get mlUnblock;
+
+  /// No description provided for @mlBlockTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Block this person?'**
+  String get mlBlockTitle;
+
+  /// No description provided for @mlBlockNote.
+  ///
+  /// In en, this message translates to:
+  /// **'You and this person stay out of each other\'s lists and interests. Unblock any time.'**
+  String get mlBlockNote;
+
+  /// No description provided for @mlBlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Blocked'**
+  String get mlBlocked;
+
+  /// No description provided for @mlUnblocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Unblocked'**
+  String get mlUnblocked;
+
+  /// No description provided for @mlMoreOptions.
+  ///
+  /// In en, this message translates to:
+  /// **'More options'**
+  String get mlMoreOptions;
+
+  /// No description provided for @adminMlReports.
+  ///
+  /// In en, this message translates to:
+  /// **'Reports'**
+  String get adminMlReports;
+
+  /// No description provided for @adminMlAppeals.
+  ///
+  /// In en, this message translates to:
+  /// **'Appeals'**
+  String get adminMlAppeals;
+
+  /// No description provided for @adminMlReportsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Every report is handled'**
+  String get adminMlReportsEmpty;
+
+  /// No description provided for @adminMlAppealsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Every appeal is decided'**
+  String get adminMlAppealsEmpty;
+
+  /// No description provided for @adminMlAckOverdue.
+  ///
+  /// In en, this message translates to:
+  /// **'Acknowledge: over 24 h'**
+  String get adminMlAckOverdue;
+
+  /// No description provided for @adminMlCloseOverdue.
+  ///
+  /// In en, this message translates to:
+  /// **'Close: over 15 days'**
+  String get adminMlCloseOverdue;
+
+  /// No description provided for @adminMlAcknowledge.
+  ///
+  /// In en, this message translates to:
+  /// **'Acknowledge'**
+  String get adminMlAcknowledge;
+
+  /// No description provided for @adminMlAct.
+  ///
+  /// In en, this message translates to:
+  /// **'Act'**
+  String get adminMlAct;
+
+  /// No description provided for @adminMlDismiss.
+  ///
+  /// In en, this message translates to:
+  /// **'Dismiss'**
+  String get adminMlDismiss;
+
+  /// No description provided for @adminMlUphold.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept appeal'**
+  String get adminMlUphold;
+
+  /// No description provided for @adminMlKeepDecision.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep decision'**
+  String get adminMlKeepDecision;
+
+  /// No description provided for @adminMlActionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Action with a reason code'**
+  String get adminMlActionTitle;
+
+  /// No description provided for @adminMlActionNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Platform rules only: fake or duplicate users, fake lots, impersonation, abuse. Payment, weight and quality quarrels stay with the parties.'**
+  String get adminMlActionNote;
+
+  /// No description provided for @adminMlStatusOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get adminMlStatusOpen;
+
+  /// No description provided for @adminMlStatusActioned.
+  ///
+  /// In en, this message translates to:
+  /// **'Actioned'**
+  String get adminMlStatusActioned;
+
+  /// No description provided for @adminMlStatusDismissed.
+  ///
+  /// In en, this message translates to:
+  /// **'Dismissed'**
+  String get adminMlStatusDismissed;
+
+  /// No description provided for @adminMlTargetLot.
+  ///
+  /// In en, this message translates to:
+  /// **'Lot'**
+  String get adminMlTargetLot;
+
+  /// No description provided for @adminMlTargetRating.
+  ///
+  /// In en, this message translates to:
+  /// **'Rating'**
+  String get adminMlTargetRating;
+
+  /// No description provided for @adminMlTargetUser.
+  ///
+  /// In en, this message translates to:
+  /// **'User'**
+  String get adminMlTargetUser;
+
+  /// No description provided for @adminMlReceived.
+  ///
+  /// In en, this message translates to:
+  /// **'Received {date}'**
+  String adminMlReceived(String date);
+
+  /// No description provided for @adminMlPhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo {n}'**
+  String adminMlPhoto(int n);
+
+  /// No description provided for @adminMlAppealReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Appeal: {reason}'**
+  String adminMlAppealReason(String reason);
 }
 
 class _AppLocalizationsDelegate

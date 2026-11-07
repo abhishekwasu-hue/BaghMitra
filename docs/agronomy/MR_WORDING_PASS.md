@@ -150,3 +150,9 @@ taluka, धर्मकांटा for weighbridge.
 | mlBadgeChecked / mlBadgeRegisteredFrom / mlBadgePlacePhoto | BagMitra ने {date} रोजी तपासले; {place} येथून {date} रोजी नोंदणी; BagMitra प्रतिनिधीने {date} रोजी ठिकाणाचा फोटो घेतला | Never हमी / खात्रीशीर. |
 | mlKindLabourGang / mlKindCrateSupplier / mlFieldRefrigerated | मजूर टोळी; क्रेट पुरवठादार; शीत वाहन | Check the village words. |
 | mlQTraderPaid | ठरल्याप्रमाणे उचल व बाकी पैसे दिले | Glossary: उचल / बाकी पैसे. |
+
+## Market linkage report, block and appeal (L6, draft, for native review)
+Keys `ml*` and `adminMlReports` ... `adminMlAppealReason` in `app/lib/l10n/app_mr.arb` / `app_hi.arb`: बागमित्रकडे तक्रार,
+कारण निवडा, खोटी ओळख, खोटा माल किंवा दुसऱ्या बागेचे फोटो, बागमित्र असल्याचे भासवते, खोटे रेटिंग, अपमानास्पद वागणूक,
+एकाच व्यक्तीची दोन खाती, माझ्या खात्यावरील कारवाई, तक्रार अधिकारी, अपील (एकदाच), निर्णय कायम, पोच द्या, फेटाळा, ब्लॉक करा.
+"व्यवहार" is used for the deal (never "सौदा"); the broker stays "मध्यस्थ (दलाल)".

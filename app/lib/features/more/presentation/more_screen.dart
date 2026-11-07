@@ -207,6 +207,13 @@ class MoreScreen extends ConsumerWidget {
         t.moreSectionAccount,
         [
           page('profile', Icons.person_outline, t.profileTitle, Routes.profile),
+          if (config.marketLink)
+            page(
+              'ml-actions',
+              Icons.shield_outlined,
+              t.mlActionsTitle,
+              Routes.mlActions,
+            ),
           page(
             'settings',
             Icons.settings_outlined,
