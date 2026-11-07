@@ -144,20 +144,50 @@ class MoreScreen extends ConsumerWidget {
             t.marketDirectoryTitle,
             Routes.marketDirectory,
           ),
-          if (config.marketLink)
+          if (config.marketLink) ...[
+            page(
+              'market-link-people',
+              Icons.groups_outlined,
+              t.mlPeopleTitle,
+              Routes.marketLinkPeople,
+            ),
+            page(
+              'market-link-services',
+              Icons.local_shipping_outlined,
+              t.mlServicesTitle,
+              Routes.marketLinkServices,
+            ),
+            page(
+              'market-link-mine',
+              Icons.badge_outlined,
+              t.mlMyProfilesTitle,
+              Routes.marketLinkMine,
+            ),
             page(
               'market-lots',
               Icons.sell_outlined,
               t.mlOpen,
               Routes.marketLots,
             ),
-          if (config.marketLink)
+            page(
+              'market-browse',
+              Icons.storefront_outlined,
+              t.mlBrowseTitle,
+              Routes.marketBrowse,
+            ),
+            page(
+              'market-my-offers',
+              Icons.handshake_outlined,
+              t.mlMyOffersTitle,
+              Routes.marketMyOffers,
+            ),
             page(
               'export-info',
               Icons.flight_takeoff_outlined,
               t.exportInfoTitle,
               Routes.exportInfo,
             ),
+          ],
         ],
       ),
       (
@@ -195,6 +225,13 @@ class MoreScreen extends ConsumerWidget {
         t.moreSectionAccount,
         [
           page('profile', Icons.person_outline, t.profileTitle, Routes.profile),
+          if (config.marketLink)
+            page(
+              'ml-actions',
+              Icons.shield_outlined,
+              t.mlActionsTitle,
+              Routes.mlActions,
+            ),
           page(
             'settings',
             Icons.settings_outlined,

@@ -27,11 +27,12 @@ from bagmitra_api.db.rls import (
 )
 
 revision = "0035"
-down_revision = "0032"
+down_revision = "0034"
 branch_labels = None
 depends_on = None
 
-_TARGETS = "'buyer', 'broker', 'provider', 'lot', 'user'"
+# The admin_actions subjects as L6 (0033) leaves them ('rating' added there).
+_TARGETS = "'buyer', 'broker', 'provider', 'lot', 'rating', 'user'"
 _ACTIONS = "'verify', 'warn', 'hide', 'suspend', 'restore'"
 _REASONS = (
     "'fake_identity', 'fake_lot', 'impersonation', 'fake_rating', 'abuse', "

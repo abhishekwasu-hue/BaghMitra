@@ -137,11 +137,32 @@ admin activates each tag after review. New terms: GLOSSARY_mr.md (व्या�
 | grower_produce_matched | माल फोटो व वर्णनाप्रमाणे / माल फ़ोटो और विवरण जैसा | माल फोटोपेक्षा वेगळा / माल फ़ोटो से अलग |
 | grower_ready_on_date | ठरलेल्या तारखेला माल तयार / तय तारीख पर माल तैयार | ठरलेल्या तारखेला माल तयार नव्हता / तय तारीख पर माल तैयार नहीं था |
 
+## Market linkage L1 role entry and acceptance (draft, for native review)
+
+Source: `app/lib/l10n/app_mr.arb` / `app_hi.arb` keys `ml*` (spec v1.5 §2.1, §4C, §5). The disclaimer lines follow the
+owner's own words; "तुमच्या व्यवहारात या ॲपचा कोणताही लाभ किंवा नुकसान नाही" and "व्यवहारानंतर काय नोंदवायचे ते तुमची
+इच्छा" are verbatim. The negatives there (and in the fixed notice "BagMitra कधीही पैसे, OTP किंवा बँक तपशील मागत नाही")
+are the legal point and are allow-listed in `positive_wording_test.dart`.
+
+| Key | mr | hi | To check |
+|---|---|---|---|
+| `mlRoleBroker` | मध्यस्थ (दलाल) | मध्यस्थ (दलाल) | never अडत्या |
+| `mlRoleProviderKinds` | वजनकाटा, वाहतूक, मजूर, क्रेट | धर्मकांटा, परिवहन, मज़दूर, क्रेट | hi word for weighbridge |
+| `mlTermsNotParty` | BagMitra खरेदीदार, विक्रेता, कमिशन एजंट किंवा वाहतूकदार नाही. | … कमीशन एजेंट या ट्रांसपोर्टर नहीं है। | "कमिशन एजंट" vs a Marathi term other than अडत्या |
+| `mlTermsAdult` | मी १८ वर्षांपेक्षा मोठा आहे | मेरी उम्र 18 वर्ष से अधिक है | owner's text uses Devanagari digits (the rest of the arb uses 0-9); gender-neutral form? |
+| `mlTermsAgree` | मी वाचले व मान्य करतो | मैंने पढ़ा और मैं सहमत हूँ | gender-neutral form? |
+| `mlTermsGpsOnce` | नोंदणीच्या वेळी फसवणूक टाळण्यासाठी तुमचे ठिकाण (GPS) एकदाच घेतले जाईल. | … | — |
+| `mlGrievanceTimes` | तक्रारीची पोच 24 तासांत आणि निवारण 15 दिवसांत. | … | — |
 ## Market linkage admin web (L0b, draft, for native review)
 Keys `adminMl*` in `app/lib/l10n/app_mr.arb` / `app_hi.arb`: तपासणी रांग, सेवा देणारे, दिलेली माहिती, कागदपत्रे,
 प्रतीक्षेत / तपासले / नाकारले, कारण देऊन नाकारा, रेटिंग टॅग (मसुदा / चालू / बंद), APMC परवाना क्र., प्रमाणपत्र वैध तारीख,
 वाहन क्रमांक, रेफ्रिजरेटेड वाहन, वाहतूकदार नोंदणी क्र., वजनकाटा, वाहतूकदार, मजूर टोळी, क्रेट पुरवठादार. Hindi: तहसील for
 taluka, धर्मकांटा for weighbridge.
+## Market linkage report, block and appeal (L6, draft, for native review)
+Keys `ml*` and `adminMlReports` ... `adminMlAppealReason` in `app/lib/l10n/app_mr.arb` / `app_hi.arb`: बागमित्रकडे तक्रार,
+कारण निवडा, खोटी ओळख, खोटा माल किंवा दुसऱ्या बागेचे फोटो, बागमित्र असल्याचे भासवते, खोटे रेटिंग, अपमानास्पद वागणूक,
+एकाच व्यक्तीची दोन खाती, माझ्या खात्यावरील कारवाई, तक्रार अधिकारी, अपील (एकदाच), निर्णय कायम, पोच द्या, फेटाळा, ब्लॉक करा.
+"व्यवहार" is used for the deal (never "सौदा"); the broker stays "मध्यस्थ (दलाल)".
 
 ## Market linkage lot screens (L3, draft, for native review)
 
@@ -164,3 +185,54 @@ Strings `ml*` in `app/lib/l10n/app_{mr,hi,en}.arb`. Brokers are "मध्यस
 | mlStatus* | मसुदा / व्यापाऱ्यांना दिसतो / तपासणी बाकी / बंद | मसौदा / व्यापारियों को दिखता है / जाँच बाकी / बंद |
 | mlPublishOrchardCheck | माल नोंदवला; फोटो नोंदवलेल्या बागेच्या हद्दीबाहेर काढले आहेत, म्हणून तपासणीनंतर व्यापाऱ्यांना दिसेल. | माल दर्ज हुआ; फ़ोटो नक्शे वाले बाग के बाहर ली गईं, इसलिए जाँच के बाद व्यापारियों को दिखेगा। |
 | mlLotsEmpty | फोटोसह तुमचा माल येथे दाखवा; तपासलेले व्यापारी व मध्यस्थ (दलाल) तो पाहतात. | फ़ोटो के साथ अपना माल यहाँ दिखाएँ; जाँचे गए व्यापारी और मध्यस्थ (दलाल) उसे देखते हैं। |
+
+### Market linkage L2 (registration, public profiles, service directory) — for native review
+
+| Key | Marathi | Note |
+|---|---|---|
+| mlFixWhy / mlFixOnce | नोंदणी पूर्ण करण्यासाठी फोन तुमचे सध्याचे स्थान एकदा घेतो… | One GPS fix at registration (addendum 3). |
+| mlBadgeChecked / mlBadgeRegisteredFrom / mlBadgePlacePhoto | BagMitra ने {date} रोजी तपासले; {place} येथून {date} रोजी नोंदणी; BagMitra प्रतिनिधीने {date} रोजी ठिकाणाचा फोटो घेतला | Never हमी / खात्रीशीर. |
+| mlKindLabourGang / mlKindCrateSupplier / mlFieldRefrigerated | मजूर टोळी; क्रेट पुरवठादार; शीत वाहन | Check the village words. |
+| mlQTraderPaid | ठरल्याप्रमाणे उचल व बाकी पैसे दिले | Glossary: उचल / बाकी पैसे. |
+
+## Market linkage export information and export record (L8, draft, for native review)
+
+Keys `exportInfo*`, `exportSection*`, `exportLinksTitle`, `exportRecord*`, `exportLabel*` in
+`app/lib/l10n/app_mr.arb`, and the fact lines in `app/assets/config/export_info.json` (mr / hi).
+New terms to check: निर्यात नोंद (export record), निर्यातदार (exporter), हॉर्टिनेट (HortiNet),
+पॅकहाउस (packhouse), अवशेष चाचणी (residue test), फायटोसॅनिटरी प्रमाणपत्र (phytosanitary certificate),
+PHI संपते (PHI ends), लेबल तपासा (check the label), "माहितीसाठी नोंद, प्रमाणपत्र नाही" (footer).
+A deal is व्यवहार in Marathi (glossary), never सौदा.
+
+## Market linkage interests and introduction (L4, draft, for native review)
+
+Strings `ml*` in `app/lib/l10n/app_{mr,hi,en}.arb`; व्यवहार only (never सौदा; Hindi लेन-देन); broker "मध्यस्थ (दलाल)".
+
+| Key | mr | hi |
+|---|---|---|
+| mlBrowseTitle / mlMyOffersTitle / mlOffersTitle | विक्रीसाठी माल / माझ्या ऑफर / तुमच्या मालावरील ऑफर | बिक्री के लिए माल / मेरे ऑफ़र / आपके माल पर ऑफ़र |
+| mlMakeOffer / mlOfferSend | ऑफर द्या / ऑफर पाठवा | ऑफ़र दें / ऑफ़र भेजें |
+| mlOfferHarvestDate / mlOfferThroughBroker | प्रस्तावित तोडणी तारीख / मध्यस्थ (दलाल) मार्फत | प्रस्तावित तुड़ाई तारीख / मध्यस्थ (दलाल) के ज़रिए |
+| mlOfferOnlyThese | शेतकऱ्याला फक्त दर, माल व तारीख जाते; बाकी सर्व समोरासमोर ठरवा. | किसान को सिर्फ़ दर, माल और तारीख जाती है; बाकी सब आमने-सामने तय करें। |
+| mlOfferOpen / mlOfferAccepted / mlOfferClosed | शेतकऱ्याच्या निर्णयाची वाट / स्वीकारली / बंद: शेतकऱ्याने दुसरी ऑफर निवडली किंवा माल यादीतून काढला. | किसान के फ़ैसले का इंतज़ार / स्वीकार हुआ / बंद: किसान ने दूसरा ऑफ़र चुना या माल सूची से हटाया। |
+| mlAcceptConfirmBody | या व्यापाऱ्याला (व नाव दिलेल्या मध्यस्थाला) तुमचे नाव, फोन व बागेचे ठिकाण दिसेल. इतर ऑफर बंद होतील. पुढील व्यवहार तुम्ही थेट आपसात ठरवा. | … आगे का लेन-देन आप सीधे आपस में तय करें। |
+| mlIntroTitle / mlIntroOpenMap | संपर्क / बाग नकाशावर उघडा | संपर्क / बाग नक्शे पर खोलें |
+| mlIntroOffApp | आता वजन, क्रेट, वाहतूक व पैसे हा व्यवहार तुम्ही आपसात ठरवता. | अब तौल, क्रेट, ढुलाई और पैसे का लेन-देन आप आपस में तय करते हैं। |
+| Pushes (API `market_link/notify.py`) | बागमित्र: नवी ऑफर / ऑफर स्वीकारली / माल बंद | बागमित्र: नया ऑफ़र / ऑफ़र स्वीकार हुआ / माल बंद |
+
+## Market linkage "deal done" and ratings (L5, draft, for native review)
+
+Strings `ml*` in `app/lib/l10n/app_{mr,hi,en}.arb`; व्यवहार only (never सौदा; Hindi लेन-देन); broker "मध्यस्थ (दलाल)".
+
+| Key | mr | hi |
+|---|---|---|
+| mlDealDone / mlDealDoneAsk | व्यवहार झाला / व्यवहार झाला असे नोंदवायचे? | लेन-देन हो गया / लेन-देन हो गया, दर्ज करें? |
+| mlDealDoneAskBody | तुमच्यातील व्यवहार पूर्ण झाल्यावरच दाबा. शेतकरी व व्यापारी दोघांनी दाबल्यावर रेटिंग उघडते. | आपस का लेन-देन पूरा होने पर ही दबाएँ। किसान और व्यापारी दोनों के दबाने पर रेटिंग खुलती है। |
+| mlDealSaidDone / mlDealNotYet | व्यवहार झाला म्हणाले / वाट पाहत आहे | लेन-देन हो गया कहा / इंतज़ार है |
+| mlDealWaitOther / mlDealWaitBoth | दुसऱ्या बाजूनेही “व्यवहार झाला” दाबल्यावर रेटिंग उघडेल. / शेतकरी व व्यापारी दोघांनी “व्यवहार झाला” दाबल्यावर रेटिंग उघडेल. | दूसरी ओर से भी “लेन-देन हो गया” दबाने पर रेटिंग खुलेगी। / किसान और व्यापारी दोनों के “लेन-देन हो गया” दबाने पर रेटिंग खुलेगी। |
+| mlRateOpen / mlRateSave / mlRateSaved | रेटिंग द्या / रेटिंग जतन करा / रेटिंग जतन झाले | रेटिंग दें / रेटिंग सहेजें / रेटिंग सहेजी गई |
+| mlRateUntil / mlRateLocked | {date} पर्यंत देता किंवा बदलता येईल / रेटिंग {date} ला बंद झाले | {date} तक दे या बदल सकते हैं / रेटिंग {date} को बंद हुई |
+| mlRateNoText / mlRateAnswerAll / mlRateStarsOf | फक्त स्टार द्या व खुणा करा. / प्रत्येक ओळीला स्टार द्या / ५ पैकी {count} स्टार | सिर्फ़ स्टार दें और निशान लगाएँ। / हर पंक्ति को स्टार दें / 5 में से {count} स्टार |
+| mlRateRefused | दोघांनी “व्यवहार झाला” दाबल्यानंतर ७ दिवसांतच रेटिंग जतन होते. | दोनों के “लेन-देन हो गया” दबाने के बाद 7 दिनों में ही रेटिंग सहेजी जाती है। |
+| mlQGrowerProduce / mlQGrowerReady | माल फोटो व वर्णनाप्रमाणे होता / ठरलेल्या तारखेला माल तयार होता | माल फोटो और विवरण जैसा था / तय तारीख पर माल तैयार था |
+| mlCopyToAccounts | माझ्या हिशोबात नोंदवा | मेरे हिसाब में दर्ज करें |

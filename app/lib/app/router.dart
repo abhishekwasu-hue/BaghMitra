@@ -17,6 +17,7 @@ import '../features/calendar/presentation/season_calendar_screen.dart';
 import '../features/dev/component_gallery_screen.dart';
 import '../features/directory/presentation/directory_screen.dart';
 import '../features/export_info/presentation/export_info_screen.dart';
+import '../features/export_info/presentation/export_record_screen.dart';
 import '../features/feed/presentation/feed_check_screen.dart';
 import '../features/feed/presentation/feed_preferences_screen.dart';
 import '../features/feed/presentation/feed_screen.dart';
@@ -32,8 +33,24 @@ import '../features/lab_tests/presentation/lab_test_screens.dart';
 import '../features/labels/presentation/label_info_screen.dart';
 import '../features/lookalikes/presentation/lookalikes_screen.dart';
 import '../features/market/presentation/market_prices_screen.dart';
+import '../features/market_link/domain/market_link.dart';
+import '../features/market_link/domain/market_link_role.dart';
+import '../features/market_link/domain/registration.dart';
+import '../features/market_link/presentation/introduction_screen.dart';
 import '../features/market_link/presentation/lot_form_screen.dart';
+import '../features/market_link/presentation/lot_offers_screen.dart';
 import '../features/market_link/presentation/my_lots_screen.dart';
+import '../features/market_link/presentation/my_profiles_screen.dart';
+import '../features/market_link/presentation/offer_screens.dart';
+import '../features/market_link/presentation/people_screen.dart';
+import '../features/market_link/presentation/rating_screen.dart';
+import '../features/market_link/presentation/registration_screen.dart';
+import '../features/market_link/presentation/role_home_screen.dart';
+import '../features/market_link/presentation/role_picker_screen.dart';
+import '../features/market_link/presentation/services_screen.dart';
+import '../features/market_link/presentation/terms_acceptance_screen.dart';
+import '../features/market_link/safety/account_actions_screen.dart';
+import '../features/market_link/safety/safety_screens.dart';
 import '../features/more/presentation/more_screen.dart';
 import '../features/plots/presentation/add_plot_screen.dart';
 import '../features/plots/presentation/boundary_screen.dart';
@@ -85,6 +102,13 @@ abstract final class Routes {
   static String feedItem(String itemId) => '/feed/$itemId';
   static const feedSettings = '/feed-settings';
   static const feedCheck = '/feed-check';
+
+  /// Market link trust and safety (L6), only with `AppConfig.marketLink`.
+  static const mlSafety = '/market-link';
+  static const mlActions = '/market-link/account-actions';
+  static String mlAppeal(String actionId) => '$mlActions/$actionId/appeal';
+  static String mlReport(String subjectType, String subjectId) =>
+      '$mlSafety/report/$subjectType/$subjectId';
   static const practices = '/practices';
 
   /// The विचारा tab: the practices guide inside the tab shell. Tabs ([home], [plots],
@@ -102,14 +126,41 @@ abstract final class Routes {
       plotId == null ? lookalikes : '$lookalikes?plot=$plotId';
   static const labs = '/labs';
   static const marketDirectory = '/market/directory';
-  static const exportInfo = '/market/export';
-
-  /// Market linkage (spec v1.5), only while the MARKET_LINK build flag is on.
+  // Market linkage (L2), behind AppConfig.marketLink (decision j).
   static const marketLink = '/market-link';
+  static const marketLinkMine = '/market-link/me';
+  static const marketLinkPeople = '/market-link/people';
+  static String marketLinkProfile(String type, String id) =>
+      '/market-link/profile/$type/$id';
+  static const marketLinkServices = '/market-link/services';
+  static String marketLinkRegister(String role) =>
+      '/market-link/register/$role';
+  static const exportInfo = '/market/export';
+  static const exportRecord = '/market/export/record';
   static const marketLots = '$marketLink/lots';
   static String newMarketLot({String? plotId}) =>
       '$marketLots/new${plotId == null ? '' : '?plot=$plotId'}';
   static String marketLot(String lotId) => '$marketLots/$lotId';
+  static String marketLotOffers(String lotId) => '$marketLots/$lotId/offers';
+
+  /// Traders' and brokers' side (L4): published lots, an offer on one, own offers.
+  static const marketBrowse = '$marketLink/market';
+  static String marketOffer(String lotId) => '$marketBrowse/$lotId/offer';
+  static const marketMyOffers = '$marketLink/offers';
+
+  /// The introduction (contacts) after an acceptance, opened as the grower or the trader.
+  static String marketIntro(String dealId, {bool asGrower = false}) =>
+      '$marketLink/deals/$dealId${asGrower ? '?as=grower' : ''}';
+
+  /// Rating after both tapped "deal done" (L5), as the grower or the trader / broker.
+  static String marketRate(String dealId, {bool asGrower = false}) =>
+      '$marketLink/deals/$dealId/rate${asGrower ? '?as=grower' : ''}';
+
+  /// Market link (flag MARKET_LINK only): the five role cards, a role's own home, and the
+  /// terms screen pushed by `ensureMarketRoleAccepted` (it returns true when accepted).
+  static const roles = '/roles';
+  static String roleHome(MarketRole role) => '$roles/${role.name}';
+  static String roleTerms(MarketRole role) => '$roles/${role.name}/terms';
   static const plots = '/plots';
   static const addPlot = '/plots/new';
   static const walkBoundary = '/plots/new/boundary';
@@ -165,7 +216,24 @@ abstract final class Routes {
   static String accounts(String plotId) => '/plots/$plotId/accounts';
   static String compare(String plotId) => '/plots/$plotId/compare';
   static String addExpense(String plotId) => '/plots/$plotId/accounts/expense';
-  static String addSale(String plotId) => '/plots/$plotId/accounts/sale';
+
+  /// The sale form; the market-link copy fills buyer, kg and rate (L5, Q114).
+  static String addSale(
+    String plotId, {
+    String? buyer,
+    double? kg,
+    int? ratePaise,
+  }) {
+    final q = {
+      'buyer': ?buyer,
+      if (kg != null) 'kg': kg.toStringAsFixed(kg % 1 == 0 ? 0 : 1),
+      if (ratePaise != null) 'rate': (ratePaise / 100).toStringAsFixed(2),
+    };
+    return Uri(
+      path: '/plots/$plotId/accounts/sale',
+      queryParameters: q.isEmpty ? null : q,
+    ).toString();
+  }
 }
 
 GoRouter buildRouter(
@@ -175,6 +243,7 @@ GoRouter buildRouter(
   ValueListenable<bool?>? onboarded,
   ValueListenable<bool?>? walkthroughSeen,
   ValueListenable<AccountCheck?>? accountGate,
+  ValueListenable<MarketRole?>? marketRole,
 }) {
   final refresh = _AuthListenable(auth.sessions());
   return GoRouter(
@@ -184,6 +253,7 @@ GoRouter buildRouter(
       ?onboarded,
       ?walkthroughSeen,
       ?accountGate,
+      ?marketRole,
     ]),
     redirect: (context, state) {
       final signedIn = auth.current != null;
@@ -195,7 +265,8 @@ GoRouter buildRouter(
       }
       // Market-link screens exist only in builds with the flag on (spec v1.5 §5, decision j).
       if ((loc.startsWith(Routes.marketLink) ||
-              loc.startsWith(Routes.exportInfo)) &&
+              loc.startsWith(Routes.exportInfo) ||
+              loc.startsWith(Routes.mlSafety)) &&
           !config.marketLink) {
         return Routes.home;
       }
@@ -206,7 +277,14 @@ GoRouter buildRouter(
         return Routes.walkthrough;
       }
       if (onWalkthrough) return null;
-      if (!signedIn && !onLogin) return Routes.login;
+      // Market link (spec v1.5 §2.1, Q86): signed out, the five role cards come first and the
+      // card leads to the same sign-in. Without the flag no role screen exists.
+      final onRoles = loc.startsWith(Routes.roles);
+      if (onRoles && !config.marketLink) return Routes.home;
+      if (!signedIn && !onLogin) {
+        if (!config.marketLink) return Routes.login;
+        return loc == Routes.roles ? null : Routes.roles;
+      }
       // Another account's records on the phone (Q36): warn (or block) before anything of
       // them shows. Unknown (still checking) waits where it is, so a sign-in stays on the
       // login screen until the check is done.
@@ -224,6 +302,11 @@ GoRouter buildRouter(
       final onOnboarding = loc == Routes.onboarding;
       if (signedIn && done == false && !onOnboarding) return Routes.onboarding;
       if (signedIn && done == true && onOnboarding) return Routes.home;
+      // The chosen role's own home opens at `/`; the grower role is the grower app itself.
+      final role = config.marketLink ? marketRole?.value : null;
+      if (loc == Routes.home && role != null && role != MarketRole.grower) {
+        return Routes.roleHome(role);
+      }
       return null;
     },
     routes: [
@@ -274,6 +357,22 @@ GoRouter buildRouter(
       ),
       GoRoute(path: Routes.feed, builder: (_, _) => const FeedScreen()),
       GoRoute(
+        path: Routes.mlActions,
+        builder: (_, _) => const AccountActionsScreen(),
+      ),
+      GoRoute(
+        path: '${Routes.mlActions}/:actionId/appeal',
+        builder: (_, s) =>
+            AppealScreen(actionId: s.pathParameters['actionId']!),
+      ),
+      GoRoute(
+        path: '${Routes.mlSafety}/report/:type/:id',
+        builder: (_, s) => ReportScreen(
+          subjectType: s.pathParameters['type']!,
+          subjectId: s.pathParameters['id']!,
+        ),
+      ),
+      GoRoute(
         path: Routes.feedSettings,
         builder: (_, _) => const FeedPreferencesScreen(),
       ),
@@ -294,6 +393,45 @@ GoRouter buildRouter(
       GoRoute(
         path: '${Routes.marketLots}/:lotId',
         builder: (_, s) => LotFormScreen(lotId: s.pathParameters['lotId']),
+      ),
+      GoRoute(
+        path: '${Routes.marketLots}/:lotId/offers',
+        builder: (_, s) => LotOffersScreen(
+          lotId: s.pathParameters['lotId']!,
+          onIntroduced: (context, dealId) =>
+              context.push(Routes.marketIntro(dealId, asGrower: true)),
+        ),
+      ),
+      GoRoute(
+        path: '${Routes.marketLink}/deals/:dealId',
+        builder: (_, s) => IntroductionScreen(
+          dealId: s.pathParameters['dealId']!,
+          role: s.uri.queryParameters['as'] == 'grower'
+              ? MarketLinkRole.grower
+              : MarketLinkRole.trader,
+        ),
+      ),
+      GoRoute(
+        path: '${Routes.marketLink}/deals/:dealId/rate',
+        builder: (_, s) => RatingScreen(
+          dealId: s.pathParameters['dealId']!,
+          role: s.uri.queryParameters['as'] == 'grower'
+              ? MarketLinkRole.grower
+              : MarketLinkRole.trader,
+        ),
+      ),
+      GoRoute(
+        path: Routes.marketBrowse,
+        builder: (_, _) => const BrowseLotsScreen(),
+      ),
+      GoRoute(
+        path: '${Routes.marketBrowse}/:lotId/offer',
+        builder: (_, s) =>
+            SendInterestScreen(lotId: s.pathParameters['lotId']!),
+      ),
+      GoRoute(
+        path: Routes.marketMyOffers,
+        builder: (_, _) => const MyInterestsScreen(),
       ),
       GoRoute(path: Routes.settings, builder: (_, _) => const SettingsScreen()),
       GoRoute(path: Routes.profile, builder: (_, _) => const ProfileScreen()),
@@ -323,8 +461,41 @@ GoRouter buildRouter(
         builder: (_, _) => const MarketDirectoryScreen(),
       ),
       GoRoute(
+        path: Routes.marketLinkMine,
+        builder: (_, _) => const MyProfilesScreen(),
+      ),
+      GoRoute(
+        path: '/market-link/register/:role',
+        redirect: (_, s) =>
+            RegistrationRole.fromName(s.pathParameters['role']) == null
+            ? Routes.marketLinkMine
+            : null,
+        builder: (_, s) => RegistrationScreen(
+          role: RegistrationRole.fromName(s.pathParameters['role'])!,
+        ),
+      ),
+      GoRoute(
+        path: Routes.marketLinkPeople,
+        builder: (_, _) => const PeopleScreen(),
+      ),
+      GoRoute(
+        path: '/market-link/profile/:type/:id',
+        builder: (_, s) => ProfileDetailScreen(
+          subjectType: s.pathParameters['type']!,
+          id: s.pathParameters['id']!,
+        ),
+      ),
+      GoRoute(
+        path: Routes.marketLinkServices,
+        builder: (_, _) => const ServicesScreen(),
+      ),
+      GoRoute(
         path: Routes.exportInfo,
         builder: (_, _) => const ExportInfoScreen(),
+      ),
+      GoRoute(
+        path: Routes.exportRecord,
+        builder: (_, _) => const ExportRecordScreen(),
       ),
       GoRoute(path: Routes.addPlot, builder: (_, _) => const AddPlotScreen()),
       GoRoute(
@@ -470,7 +641,12 @@ GoRouter buildRouter(
       ),
       GoRoute(
         path: '/plots/:id/accounts/sale',
-        builder: (_, s) => AddSaleScreen(plotId: s.pathParameters['id']!),
+        builder: (_, s) => AddSaleScreen(
+          plotId: s.pathParameters['id']!,
+          buyer: s.uri.queryParameters['buyer'],
+          kg: s.uri.queryParameters['kg'],
+          rate: s.uri.queryParameters['rate'],
+        ),
       ),
       GoRoute(
         path: '/plots/:id/bahar/new',
@@ -489,6 +665,23 @@ GoRouter buildRouter(
         path: Routes.onboarding,
         builder: (_, _) => const OnboardingScreen(),
       ),
+      // Before `/roles/:role`, so the terms page is not read as a role home.
+      GoRoute(
+        path: '${Routes.roles}/:role/terms',
+        redirect: (_, s) => _role(s) == null ? Routes.roles : null,
+        builder: (_, s) => TermsAcceptanceScreen(role: _role(s)!),
+      ),
+      GoRoute(path: Routes.roles, builder: (_, _) => const RolePickerScreen()),
+      // The grower's home is the grower app itself.
+      GoRoute(
+        path: '${Routes.roles}/:role',
+        redirect: (_, s) => switch (_role(s)) {
+          null => Routes.roles,
+          MarketRole.grower => Routes.home,
+          _ => null,
+        },
+        builder: (_, s) => RoleHomeScreen(role: _role(s)!),
+      ),
       GoRoute(path: Routes.login, builder: (_, _) => const PhoneLoginScreen()),
       GoRoute(
         path: Routes.otp,
@@ -502,3 +695,6 @@ GoRouter buildRouter(
     ],
   );
 }
+
+MarketRole? _role(GoRouterState s) =>
+    MarketRole.fromName(s.pathParameters['role']);
