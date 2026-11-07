@@ -10160,6 +10160,46 @@ extension $MarketPricesExtension on MarketPrices {
 }
 
 @JsonSerializable(explicitToJson: true)
+class MigrateIn {
+  const MigrateIn({required this.confirm});
+
+  factory MigrateIn.fromJson(Map<String, dynamic> json) =>
+      _$MigrateInFromJson(json);
+
+  static const toJsonFactory = _$MigrateInToJson;
+  Map<String, dynamic> toJson() => _$MigrateInToJson(this);
+
+  @JsonKey(name: 'confirm', includeIfNull: false)
+  final bool confirm;
+  static const fromJsonFactory = _$MigrateInFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is MigrateIn &&
+            (identical(other.confirm, confirm) ||
+                const DeepCollectionEquality().equals(other.confirm, confirm)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(confirm) ^ runtimeType.hashCode;
+}
+
+extension $MigrateInExtension on MigrateIn {
+  MigrateIn copyWith({bool? confirm}) {
+    return MigrateIn(confirm: confirm ?? this.confirm);
+  }
+
+  MigrateIn copyWithWrapped({Wrapped<bool>? confirm}) {
+    return MigrateIn(confirm: (confirm != null ? confirm.value : this.confirm));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class Mutation {
   const Mutation({
     required this.clientMutationId,
@@ -16203,6 +16243,51 @@ extension $ReviewInExtension on ReviewIn {
 }
 
 @JsonSerializable(explicitToJson: true)
+class RoleAmountIn {
+  const RoleAmountIn({required this.amountPaise});
+
+  factory RoleAmountIn.fromJson(Map<String, dynamic> json) =>
+      _$RoleAmountInFromJson(json);
+
+  static const toJsonFactory = _$RoleAmountInToJson;
+  Map<String, dynamic> toJson() => _$RoleAmountInToJson(this);
+
+  @JsonKey(name: 'amount_paise', includeIfNull: false)
+  final int? amountPaise;
+  static const fromJsonFactory = _$RoleAmountInFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is RoleAmountIn &&
+            (identical(other.amountPaise, amountPaise) ||
+                const DeepCollectionEquality().equals(
+                  other.amountPaise,
+                  amountPaise,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(amountPaise) ^ runtimeType.hashCode;
+}
+
+extension $RoleAmountInExtension on RoleAmountIn {
+  RoleAmountIn copyWith({int? amountPaise}) {
+    return RoleAmountIn(amountPaise: amountPaise ?? this.amountPaise);
+  }
+
+  RoleAmountIn copyWithWrapped({Wrapped<int?>? amountPaise}) {
+    return RoleAmountIn(
+      amountPaise: (amountPaise != null ? amountPaise.value : this.amountPaise),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class RolePriceOut {
   const RolePriceOut({
     required this.amountPaise,
@@ -21125,6 +21210,194 @@ List<enums.TermsDocOutKind>? termsDocOutKindNullableListFromJson(
 
   return termsDocOutKind
       .map((e) => termsDocOutKindFromJson(e.toString()))
+      .toList();
+}
+
+String? v1AdminBillingRolesRoleAmountPutRoleNullableToJson(
+  enums.V1AdminBillingRolesRoleAmountPutRole?
+  v1AdminBillingRolesRoleAmountPutRole,
+) {
+  return v1AdminBillingRolesRoleAmountPutRole?.value;
+}
+
+String? v1AdminBillingRolesRoleAmountPutRoleToJson(
+  enums.V1AdminBillingRolesRoleAmountPutRole
+  v1AdminBillingRolesRoleAmountPutRole,
+) {
+  return v1AdminBillingRolesRoleAmountPutRole.value;
+}
+
+enums.V1AdminBillingRolesRoleAmountPutRole
+v1AdminBillingRolesRoleAmountPutRoleFromJson(
+  Object? v1AdminBillingRolesRoleAmountPutRole, [
+  enums.V1AdminBillingRolesRoleAmountPutRole? defaultValue,
+]) {
+  return enums.V1AdminBillingRolesRoleAmountPutRole.values.firstWhereOrNull(
+        (e) => e.value == v1AdminBillingRolesRoleAmountPutRole,
+      ) ??
+      defaultValue ??
+      enums.V1AdminBillingRolesRoleAmountPutRole.swaggerGeneratedUnknown;
+}
+
+enums.V1AdminBillingRolesRoleAmountPutRole?
+v1AdminBillingRolesRoleAmountPutRoleNullableFromJson(
+  Object? v1AdminBillingRolesRoleAmountPutRole, [
+  enums.V1AdminBillingRolesRoleAmountPutRole? defaultValue,
+]) {
+  if (v1AdminBillingRolesRoleAmountPutRole == null) {
+    return null;
+  }
+  return enums.V1AdminBillingRolesRoleAmountPutRole.values.firstWhereOrNull(
+        (e) => e.value == v1AdminBillingRolesRoleAmountPutRole,
+      ) ??
+      defaultValue;
+}
+
+String v1AdminBillingRolesRoleAmountPutRoleExplodedListToJson(
+  List<enums.V1AdminBillingRolesRoleAmountPutRole>?
+  v1AdminBillingRolesRoleAmountPutRole,
+) {
+  return v1AdminBillingRolesRoleAmountPutRole?.map((e) => e.value!).join(',') ??
+      '';
+}
+
+List<String> v1AdminBillingRolesRoleAmountPutRoleListToJson(
+  List<enums.V1AdminBillingRolesRoleAmountPutRole>?
+  v1AdminBillingRolesRoleAmountPutRole,
+) {
+  if (v1AdminBillingRolesRoleAmountPutRole == null) {
+    return [];
+  }
+
+  return v1AdminBillingRolesRoleAmountPutRole.map((e) => e.value!).toList();
+}
+
+List<enums.V1AdminBillingRolesRoleAmountPutRole>
+v1AdminBillingRolesRoleAmountPutRoleListFromJson(
+  List? v1AdminBillingRolesRoleAmountPutRole, [
+  List<enums.V1AdminBillingRolesRoleAmountPutRole>? defaultValue,
+]) {
+  if (v1AdminBillingRolesRoleAmountPutRole == null) {
+    return defaultValue ?? [];
+  }
+
+  return v1AdminBillingRolesRoleAmountPutRole
+      .map((e) => v1AdminBillingRolesRoleAmountPutRoleFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.V1AdminBillingRolesRoleAmountPutRole>?
+v1AdminBillingRolesRoleAmountPutRoleNullableListFromJson(
+  List? v1AdminBillingRolesRoleAmountPutRole, [
+  List<enums.V1AdminBillingRolesRoleAmountPutRole>? defaultValue,
+]) {
+  if (v1AdminBillingRolesRoleAmountPutRole == null) {
+    return defaultValue;
+  }
+
+  return v1AdminBillingRolesRoleAmountPutRole
+      .map((e) => v1AdminBillingRolesRoleAmountPutRoleFromJson(e.toString()))
+      .toList();
+}
+
+String? v1AdminBillingRolesRoleMigratePricesPostRoleNullableToJson(
+  enums.V1AdminBillingRolesRoleMigratePricesPostRole?
+  v1AdminBillingRolesRoleMigratePricesPostRole,
+) {
+  return v1AdminBillingRolesRoleMigratePricesPostRole?.value;
+}
+
+String? v1AdminBillingRolesRoleMigratePricesPostRoleToJson(
+  enums.V1AdminBillingRolesRoleMigratePricesPostRole
+  v1AdminBillingRolesRoleMigratePricesPostRole,
+) {
+  return v1AdminBillingRolesRoleMigratePricesPostRole.value;
+}
+
+enums.V1AdminBillingRolesRoleMigratePricesPostRole
+v1AdminBillingRolesRoleMigratePricesPostRoleFromJson(
+  Object? v1AdminBillingRolesRoleMigratePricesPostRole, [
+  enums.V1AdminBillingRolesRoleMigratePricesPostRole? defaultValue,
+]) {
+  return enums.V1AdminBillingRolesRoleMigratePricesPostRole.values
+          .firstWhereOrNull(
+            (e) => e.value == v1AdminBillingRolesRoleMigratePricesPostRole,
+          ) ??
+      defaultValue ??
+      enums
+          .V1AdminBillingRolesRoleMigratePricesPostRole
+          .swaggerGeneratedUnknown;
+}
+
+enums.V1AdminBillingRolesRoleMigratePricesPostRole?
+v1AdminBillingRolesRoleMigratePricesPostRoleNullableFromJson(
+  Object? v1AdminBillingRolesRoleMigratePricesPostRole, [
+  enums.V1AdminBillingRolesRoleMigratePricesPostRole? defaultValue,
+]) {
+  if (v1AdminBillingRolesRoleMigratePricesPostRole == null) {
+    return null;
+  }
+  return enums.V1AdminBillingRolesRoleMigratePricesPostRole.values
+          .firstWhereOrNull(
+            (e) => e.value == v1AdminBillingRolesRoleMigratePricesPostRole,
+          ) ??
+      defaultValue;
+}
+
+String v1AdminBillingRolesRoleMigratePricesPostRoleExplodedListToJson(
+  List<enums.V1AdminBillingRolesRoleMigratePricesPostRole>?
+  v1AdminBillingRolesRoleMigratePricesPostRole,
+) {
+  return v1AdminBillingRolesRoleMigratePricesPostRole
+          ?.map((e) => e.value!)
+          .join(',') ??
+      '';
+}
+
+List<String> v1AdminBillingRolesRoleMigratePricesPostRoleListToJson(
+  List<enums.V1AdminBillingRolesRoleMigratePricesPostRole>?
+  v1AdminBillingRolesRoleMigratePricesPostRole,
+) {
+  if (v1AdminBillingRolesRoleMigratePricesPostRole == null) {
+    return [];
+  }
+
+  return v1AdminBillingRolesRoleMigratePricesPostRole
+      .map((e) => e.value!)
+      .toList();
+}
+
+List<enums.V1AdminBillingRolesRoleMigratePricesPostRole>
+v1AdminBillingRolesRoleMigratePricesPostRoleListFromJson(
+  List? v1AdminBillingRolesRoleMigratePricesPostRole, [
+  List<enums.V1AdminBillingRolesRoleMigratePricesPostRole>? defaultValue,
+]) {
+  if (v1AdminBillingRolesRoleMigratePricesPostRole == null) {
+    return defaultValue ?? [];
+  }
+
+  return v1AdminBillingRolesRoleMigratePricesPostRole
+      .map(
+        (e) =>
+            v1AdminBillingRolesRoleMigratePricesPostRoleFromJson(e.toString()),
+      )
+      .toList();
+}
+
+List<enums.V1AdminBillingRolesRoleMigratePricesPostRole>?
+v1AdminBillingRolesRoleMigratePricesPostRoleNullableListFromJson(
+  List? v1AdminBillingRolesRoleMigratePricesPostRole, [
+  List<enums.V1AdminBillingRolesRoleMigratePricesPostRole>? defaultValue,
+]) {
+  if (v1AdminBillingRolesRoleMigratePricesPostRole == null) {
+    return defaultValue;
+  }
+
+  return v1AdminBillingRolesRoleMigratePricesPostRole
+      .map(
+        (e) =>
+            v1AdminBillingRolesRoleMigratePricesPostRoleFromJson(e.toString()),
+      )
       .toList();
 }
 

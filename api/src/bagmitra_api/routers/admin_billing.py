@@ -15,6 +15,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from bagmitra_api.auth.jwt import AuthenticatedUser, require_role
 from bagmitra_api.billing.models import BillingEvent, BillingPlan, Subscription
+from bagmitra_api.billing.play import PlayError, PlayPublisher, play_publisher
 from bagmitra_api.billing.service import (
     GrantNotFoundError,
     GrantRequest,
@@ -27,8 +28,18 @@ from bagmitra_api.billing.service import (
     replace_plan,
     revoke_grant,
 )
-from bagmitra_api.billing.switch import billing_settings, change_switch, role_prices
+from bagmitra_api.billing.switch import (
+    NoPlayPriceError,
+    PlayNotSetUpError,
+    PlayPlan,
+    billing_settings,
+    change_switch,
+    migrate_role_prices,
+    role_prices,
+    set_role_amount,
+)
 from bagmitra_api.core.errors import ApiError, ErrorResponse
+from bagmitra_api.core.settings import Settings, get_settings
 from bagmitra_api.db.base import as_utc
 from bagmitra_api.db.session import DbSession
 from bagmitra_api.sync.payloads import Slug
@@ -40,6 +51,9 @@ router = APIRouter(
 )
 BillingAdmin = Annotated[AuthenticatedUser, Depends(require_role("billing_admin"))]
 FeatureLimit = Annotated[int, Field(ge=0, le=10**9)]
+Play = Annotated[PlayPublisher | None, Depends(play_publisher)]
+AppSettings = Annotated[Settings, Depends(get_settings)]
+Role = Literal["grower", "trader", "broker", "exporter", "provider"]
 
 
 class FeatureConfig(BaseModel):
@@ -289,6 +303,79 @@ async def get_billing_settings(_: BillingAdmin, session: DbSession) -> BillingSe
 @router.put("/settings", operation_id="admin_billing_put_switch")
 async def put_switch(body: SwitchIn, admin: BillingAdmin, session: DbSession) -> BillingSettingsOut:
     await change_switch(session, admin.id, enabled=body.enabled, starts_on=body.starts_on)
+    out = await _settings_out(session)
+    await session.commit()
+    return out
+
+
+class RoleAmountIn(BaseModel):
+    # Monthly amount in paise; null clears it (the role is free again; Play is not touched).
+    amount_paise: Annotated[int | None, Field(gt=0, le=10**8)]
+
+
+class MigrateIn(BaseModel):
+    # The admin confirmed after reading Play's price-change rules on the page.
+    confirm: Literal[True]
+
+
+def _play_plan(settings: Settings, role: str) -> PlayPlan:
+    return PlayPlan(settings.play_product_prefix + role, settings.play_base_plan_id)
+
+
+@router.put(
+    "/roles/{role}/amount",
+    operation_id="admin_billing_put_role_amount",
+    responses={502: {"model": ErrorResponse}, 503: {"model": ErrorResponse}},
+)
+async def put_role_amount(  # noqa: PLR0913 - path, body and dependencies
+    role: Role,
+    body: RoleAmountIn,
+    admin: BillingAdmin,
+    session: DbSession,
+    play: Play,
+    settings: AppSettings,
+) -> BillingSettingsOut:
+    try:
+        await set_role_amount(
+            session,
+            play,
+            role,
+            body.amount_paise,
+            _play_plan(settings, role),
+            admin_id=admin.id,
+            now=datetime.now(UTC),
+        )
+    except PlayNotSetUpError as exc:
+        raise ApiError(503, "play_not_set_up", "Google Play is not set up yet") from exc
+    except PlayError as exc:
+        raise ApiError(502, "play_error", "Google Play did not accept the price") from exc
+    out = await _settings_out(session)
+    await session.commit()
+    return out
+
+
+@router.post(
+    "/roles/{role}/migrate-prices",
+    operation_id="admin_billing_migrate_prices",
+    responses={409: {"model": ErrorResponse}, 502: {"model": ErrorResponse}},
+)
+async def migrate_prices(
+    role: Role,
+    _confirmed: MigrateIn,
+    admin: BillingAdmin,
+    session: DbSession,
+    play: Play,
+    settings: AppSettings,
+) -> BillingSettingsOut:
+    plan = _play_plan(settings, role)
+    try:
+        await migrate_role_prices(session, play, role, plan, admin_id=admin.id)
+    except NoPlayPriceError as exc:
+        raise ApiError(409, "no_play_price", "no price has been set in Google Play yet") from exc
+    except PlayNotSetUpError as exc:
+        raise ApiError(503, "play_not_set_up", "Google Play is not set up yet") from exc
+    except PlayError as exc:
+        raise ApiError(502, "play_error", "Google Play did not accept the migration") from exc
     out = await _settings_out(session)
     await session.commit()
     return out

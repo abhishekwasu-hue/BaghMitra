@@ -257,6 +257,85 @@ abstract class Bagmitra extends ChopperService {
     ),
   });
 
+  ///Put Role Amount
+  ///@param role
+  Future<chopper.Response<BillingSettingsOut>>
+  v1AdminBillingRolesRoleAmountPut({
+    required enums.V1AdminBillingRolesRoleAmountPutRole? role,
+    required RoleAmountIn? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      BillingSettingsOut,
+      () => BillingSettingsOut.fromJsonFactory,
+    );
+
+    return _v1AdminBillingRolesRoleAmountPut(
+      role: role?.value?.toString(),
+      body: body,
+    );
+  }
+
+  ///Put Role Amount
+  ///@param role
+  @PUT(path: '/v1/admin/billing/roles/{role}/amount', optionalBody: true)
+  Future<chopper.Response<BillingSettingsOut>>
+  _v1AdminBillingRolesRoleAmountPut({
+    @Path('role') required String? role,
+    @Body() required RoleAmountIn? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Put Role Amount',
+      operationId: 'admin_billing_put_role_amount',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Migrate Prices
+  ///@param role
+  Future<chopper.Response<BillingSettingsOut>>
+  v1AdminBillingRolesRoleMigratePricesPost({
+    required enums.V1AdminBillingRolesRoleMigratePricesPostRole? role,
+    required MigrateIn? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      BillingSettingsOut,
+      () => BillingSettingsOut.fromJsonFactory,
+    );
+
+    return _v1AdminBillingRolesRoleMigratePricesPost(
+      role: role?.value?.toString(),
+      body: body,
+    );
+  }
+
+  ///Migrate Prices
+  ///@param role
+  @POST(
+    path: '/v1/admin/billing/roles/{role}/migrate-prices',
+    optionalBody: true,
+  )
+  Future<chopper.Response<BillingSettingsOut>>
+  _v1AdminBillingRolesRoleMigratePricesPost({
+    @Path('role') required String? role,
+    @Body() required MigrateIn? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Migrate Prices',
+      operationId: 'admin_billing_migrate_prices',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
   ///Get Billing Settings
   Future<chopper.Response<BillingSettingsOut>> v1AdminBillingSettingsGet() {
     generatedMapping.putIfAbsent(

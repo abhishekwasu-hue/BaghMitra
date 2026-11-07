@@ -1990,6 +1990,13 @@ Map<String, dynamic> _$MarketPricesToJson(MarketPrices instance) =>
       'stale': instance.stale,
     };
 
+MigrateIn _$MigrateInFromJson(Map<String, dynamic> json) =>
+    MigrateIn(confirm: json['confirm'] as bool);
+
+Map<String, dynamic> _$MigrateInToJson(MigrateIn instance) => <String, dynamic>{
+  'confirm': instance.confirm,
+};
+
 Mutation _$MutationFromJson(Map<String, dynamic> json) => Mutation(
   clientMutationId: json['client_mutation_id'] as String,
   clientUpdatedAt: DateTime.parse(json['client_updated_at'] as String),
@@ -3220,6 +3227,12 @@ Map<String, dynamic> _$ReviewInToJson(ReviewIn instance) => <String, dynamic>{
   'comments': ?instance.comments,
   'decision': ?reviewInDecisionToJson(instance.decision),
 };
+
+RoleAmountIn _$RoleAmountInFromJson(Map<String, dynamic> json) =>
+    RoleAmountIn(amountPaise: (json['amount_paise'] as num?)?.toInt());
+
+Map<String, dynamic> _$RoleAmountInToJson(RoleAmountIn instance) =>
+    <String, dynamic>{'amount_paise': ?instance.amountPaise};
 
 RolePriceOut _$RolePriceOutFromJson(Map<String, dynamic> json) => RolePriceOut(
   amountPaise: (json['amount_paise'] as num?)?.toInt(),

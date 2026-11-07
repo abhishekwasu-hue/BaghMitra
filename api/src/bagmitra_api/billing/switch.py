@@ -5,7 +5,8 @@ find which roles a user holds."""
 from __future__ import annotations
 
 import uuid
-from datetime import date
+from dataclasses import dataclass
+from datetime import date, datetime
 from typing import Any
 
 from sqlalchemy import select
@@ -13,6 +14,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from bagmitra_api.billing.entitlements import BILLING_ROLES, BillingPolicy
 from bagmitra_api.billing.models import BillingEvent, BillingRolePrice, BillingSettings
+from bagmitra_api.billing.play import PlayPublisher
 from bagmitra_api.db.models.plot import Plot
 from bagmitra_api.market_link.models import BrokerProfile, BuyerProfile, ServiceProvider
 
@@ -98,3 +100,66 @@ async def user_roles(session: AsyncSession, user_id: uuid.UUID) -> tuple[str, ..
     if not roles or await session.scalar(plot):
         roles.insert(0, "grower")
     return tuple(roles)
+
+
+@dataclass(frozen=True, slots=True)
+class PlayPlan:
+    product_id: str
+    base_plan_id: str
+
+
+class PlayNotSetUpError(Exception):
+    pass
+
+
+class NoPlayPriceError(Exception):
+    pass
+
+
+async def set_role_amount(  # noqa: PLR0913 - session, Play, role, amount, plan, admin, clock
+    session: AsyncSession,
+    publisher: PlayPublisher | None,
+    role: str,
+    amount_paise: int | None,
+    plan: PlayPlan,
+    *,
+    admin_id: uuid.UUID,
+    now: datetime,
+) -> BillingRolePrice:
+    """Save a role's monthly amount. An amount is first written to Play (the price source of
+    truth) and the price Play reports is stored; nothing is saved when Play refuses. Clearing
+    the amount (the role becomes free) does not touch Play."""
+    row = (await role_prices(session))[role]
+    old = {"role": role, "amount_paise": row.amount_paise, "play_price_paise": row.play_price_paise}
+    if amount_paise is not None:
+        if publisher is None:
+            raise PlayNotSetUpError(role)
+        price = await publisher.set_monthly_price(plan.product_id, plan.base_plan_id, amount_paise)
+        row.play_price_paise, row.play_currency = price.paise, price.currency
+        row.play_synced_at = now
+    row.amount_paise = amount_paise
+    new = {**old, "amount_paise": amount_paise, "play_price_paise": row.play_price_paise}
+    log_admin_change(session, "role_price_changed", admin_id, old, new)
+    await session.flush()
+    return row
+
+
+async def migrate_role_prices(
+    session: AsyncSession,
+    publisher: PlayPublisher | None,
+    role: str,
+    plan: PlayPlan,
+    *,
+    admin_id: uuid.UUID,
+) -> None:
+    """The admin's confirmed action: existing subscribers of the role move to the price set
+    last (Play's opt-in increase: notice first, cancelled when not accepted)."""
+    row = (await role_prices(session))[role]
+    if row.play_synced_at is None:
+        raise NoPlayPriceError(role)
+    if publisher is None:
+        raise PlayNotSetUpError(role)
+    await publisher.migrate_prices(plan.product_id, plan.base_plan_id, row.play_synced_at)
+    new = {"role": role, "play_price_paise": row.play_price_paise}
+    log_admin_change(session, "prices_migrated", admin_id, None, new)
+    await session.flush()
