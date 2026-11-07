@@ -71,8 +71,9 @@ cd /opt/bagmitra && bash deploy/deploy.sh
 | बातम्यांचे मथळे (`feed.news_job`) | नेहमी (बंद: `CRON_FEED_NEWS=off`); अटी `allowed` असलेल्या स्रोतांकडूनच मथळे येतात | दर ६ तासांनी 01:23, 07:23, 13:23, 19:23 | `/var/log/bagmitra-feed-news.log` |
 | sync इतिहासातील जुना मजकूर पुसणे (`sync.retention`) | नेहमी (बंद: `CRON_SYNC_RETENTION=off`); `SYNC_PAYLOAD_RETENTION_DAYS` (default 90) दिवसांपेक्षा जुन्या बदलांचा मजकूर hash मध्ये बदलतो | रोज 22:13 = 03:43 | `/var/log/bagmitra-sync-retention.log` |
 | खाते काढलेल्या व्यक्तीची बाजार-जोडणी माहिती पुसणे (`market_link.erase_job`) | नेहमी (बंद: `CRON_MARKET_LINK_ERASE=off`); माहिती लगेच लपते आणि `MARKET_LINK_ERASE_AFTER_DAYS` (default 180) दिवसांनी पुसली जाते | रोज 22:41 = 04:11 | `/var/log/bagmitra-market-link-erase.log` |
+| बाजार जोडणी: वर्षाने पुन्हा तपासायच्या नोंदींची यादी (`market_link.recheck_job`) | नेहमी (बंद: `CRON_ML_RECHECK=off`); `MARKET_LINK_ENABLED` बंद असताना काहीच करत नाही; `MARKET_LINK_RECHECK_DAYS` (default 365) दिवसांपेक्षा जुन्या तपासण्या admin च्या यादीत येतात | रोज 23:19 = 04:49 | `/var/log/bagmitra-ml-recheck.log` |
 
-- ही तिन्ही कामे default चालू आहेत: `.env` मध्ये काहीही न लिहिता `bash deploy/deploy.sh` ने ओळी लागतात
+- ही पाचही कामे (सूचना, बातम्या, sync पुसणे, बाजार-जोडणी पुसणे, पुन्हा तपासणी यादी) default चालू आहेत: `.env` मध्ये काहीही न लिहिता `bash deploy/deploy.sh` ने ओळी लागतात
   ("... cron line added").
 - बंद करणे: `deploy/.env` मध्ये उदा. `CRON_FEED_NEWS=off` (`off` / `false` / `no` / `0` चालते) लिहा आणि पुन्हा
   deploy: "... cron line removed" दिसते.

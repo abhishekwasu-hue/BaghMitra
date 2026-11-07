@@ -1010,6 +1010,29 @@ for a decision like any other (Q72).''',
   }
 
   @override
+  Future<Response<RecheckResponse>> _v1AdminMarketLinkRechecksGet({
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Checks the yearly job listed as due and not re-checked since, oldest first.',
+      summary: 'Rechecks',
+      operationId: 'admin_market_link_rechecks',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/market-link/rechecks');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<RecheckResponse, RecheckResponse>($request);
+  }
+
+  @override
   Future<Response<ReportsAdminResponse>> _v1AdminMarketLinkReportsGet({
     String? status,
     String? subjectType,
@@ -2350,8 +2373,9 @@ Market-link profiles and lots are hidden at once and erased after 180 days (Q68)
   Future<Response<dynamic>> _v1MeDevicesPost({
     required DeviceIn? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          'Register this phone for push alerts; repeating it is harmless.',
+      description: '''Register this phone for push alerts; repeating it is harmless. With the market link on,
+the account is also remembered on this phone (hashed token) so that two accounts on one
+phone cannot rate each other (spec v1.5 §4C, Q100).''',
       summary: 'Register Device',
       operationId: 'me_device_register',
       consumes: [],
