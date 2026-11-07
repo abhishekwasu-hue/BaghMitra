@@ -124,9 +124,17 @@ the admin by hand from a link the admin page opens. Research: MARKET_LINKAGE_RES
 | FSSAI licence | trader, exporter (if held) | FoSCoS public check | "FSSAI checked" |
 | IEC | exporter (required for the exporter type) | DGFT "View IEC Status": name matches, Active | "IEC active" |
 | APEDA registration | exporter (if held) | APEDA exporter directory | "APEDA listed" |
+| **Registration GPS (required)** | trader, broker, exporter, service provider, representative | captured automatically by the phone at the moment of registration (foreground, one fix, after a clear permission screen); the nearest place is named by the phone's own geocoder (reuse `features/plots/data/place_geocoder.dart`); mock-location flag stored when the location plugin reports it | "Registered from <village / taluka> on <date>" |
 | Place address + photo (**optional**) | all | the person enters / updates the address themselves, or a BagMitra representative visits, takes the photo (in-app camera, time + GPS) and uploads it | "Place photo" + who took it and when |
 | Track record | all | computed: completed BagMitra deals and ratings | deal count, stars |
 
+- **Registration GPS (owner decision 2026-11-07)**: registration cannot finish without a location fix
+  taken at that moment; no background or repeated tracking. Stored: latitude, longitude, accuracy,
+  time, the geocoder's place / district / state / PIN, and the mock-location flag. Public profile shows
+  only village / taluka / district; exact coordinates are visible to admin and to parties of an
+  accepted deal only. A fix flagged as mock, or far from the stated area, goes to the admin queue
+  before the badge. The self-entered address (optional) is shown beside it so the admin sees both.
+  GPS can be faked on a phone; it is one check among the others, never proof by itself.
 - **Turnover is not collected or shown** (not on any public register; self-declared figures cannot be
   checked). Business age = GST registration date; activity = public return-filing record.
 - A trader / exporter is "verified" (sees lots) after phone OTP + admin check of at least one of
