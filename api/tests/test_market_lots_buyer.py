@@ -100,12 +100,13 @@ async def test_verified_sees_published_only_without_identity(ml: Any, kind: str)
     [item] = r.json()["lots"]
     assert item["id"] == str(published)
     assert set(item) == set(BuyerLotOut.model_fields)
-    assert (item["crop"], item["quantity_t"], item["basis"]) == ("santra", 12.5, "per_tonne")
-    assert (item["village"], item["district"]) == ("Warud", "Amravati")
+    assert (item["crop"], item["quantity_t"]) == ("santra", 12.5)
+    # Spec v1.5 §4E: first name and district only; no surname, village or phone.
+    assert (item["first_name"], item["district"]) == ("Ramesh", "Amravati")
     assert {p["id"] for p in item["photos"]} == {str(p) for p in photos}
     assert set(item["photos"][0]) == {"id", "captured_at"}
     text = r.text
-    for secret in (str(grower), "Ramesh", "+919812345678", "21.2751", "78.5853", "Bag 1"):
+    for secret in (str(grower), "Patil", "Warud", "+919812345678", "21.2751", "78.5853", "Bag 1"):
         assert secret not in text
     # Filters
     assert (await ml.get(LOTS, headers=v, params={"district": "Nagpur"})).json()["lots"] == []
@@ -114,7 +115,10 @@ async def test_verified_sees_published_only_without_identity(ml: Any, kind: str)
 
 def test_buyer_schema_has_no_identity_fields() -> None:
     names = set(BuyerLotOut.model_fields) | set(LotPhotoView.model_fields)
-    for banned in ("owner_id", "plot_id", "name", "display_name", "phone", "lat", "lon", "pin"):
+    for banned in (
+        *("owner_id", "plot_id", "name", "display_name", "phone", "lat", "lon", "pin"),
+        *("village", "taluka", "surname"),
+    ):
         assert banned not in names
     assert not any("commission" in n or "income" in n for n in names)
 

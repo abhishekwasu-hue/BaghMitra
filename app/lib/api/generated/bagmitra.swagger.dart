@@ -2506,8 +2506,8 @@ upload URL for lot photos, so no stored lot photo can keep its metadata.''',
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''A short-lived download URL for an uploaded lot photo: for the grower, or for a
-verified buyer / broker while the lot is published, or for the parties of an accepted
-interest on it (L4). Only the derived key is signed.''',
+verified buyer / broker while `lot_visible_to_traders` shows the lot, or for the parties
+of an accepted interest on it (L4). Only the derived key is signed.''',
       summary: 'Lot Photo Url',
       operationId: 'market_link_lot_photo_url',
       consumes: [],
@@ -2520,12 +2520,10 @@ interest on it (L4). Only the derived key is signed.''',
 
   ///List Lots
   ///@param district
-  ///@param taluka
   ///@param crop
   ///@param before
   Future<chopper.Response<BuyerLotsResponse>> v1MarketLinkLotsGet({
     String? district,
-    String? taluka,
     String? crop,
     String? before,
   }) {
@@ -2534,29 +2532,23 @@ interest on it (L4). Only the derived key is signed.''',
       () => BuyerLotsResponse.fromJsonFactory,
     );
 
-    return _v1MarketLinkLotsGet(
-      district: district,
-      taluka: taluka,
-      crop: crop,
-      before: before,
-    );
+    return _v1MarketLinkLotsGet(district: district, crop: crop, before: before);
   }
 
   ///List Lots
   ///@param district
-  ///@param taluka
   ///@param crop
   ///@param before
   @GET(path: '/v1/market-link/lots')
   Future<chopper.Response<BuyerLotsResponse>> _v1MarketLinkLotsGet({
     @Query('district') String? district,
-    @Query('taluka') String? taluka,
     @Query('crop') String? crop,
     @Query('before') String? before,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Published lots, newest first, for admin-verified buyers and brokers only (403
-`not_verified` for anyone else). Page with `before` = the last `published_at` seen.''',
+`not_verified` for anyone else); while the season package is ON, only lots with an active
+package (§4E). Page with `before` = the last `published_at` seen.''',
       summary: 'List Lots',
       operationId: 'market_link_lots',
       consumes: [],

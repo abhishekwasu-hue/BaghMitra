@@ -6,13 +6,16 @@ A grower drafts a lot and its photos offline (sync entities `market_lot`,
 to buyers from a queued write. Lot photos use the scouting photo bucket and its signed URLs
 (key `<owner_id>/<photo_id>.jpg`, derived here); they are uploaded through the server,
 which strips EXIF first (spec v1.5 §4B). Only admin-verified buyers and brokers list
-published lots (decision h); they see place names, crop and terms, never the grower's name,
-phone, plot or the photos' GPS points (decision g: those wait for an accepted deal, L4).
+published lots (decision h), and only the lots `lot_visible_to_traders` allows (season
+package, §4E). They see exactly the §4E fields: first name, crop / variety, orchard acres,
+tonnes, quality, photos, harvest window and district; never the surname, phone, village, plot
+or the photos' GPS points (decision g: those wait for an accepted interest, L4).
 """
 
 from __future__ import annotations
 
 import uuid
+from collections.abc import Callable
 from datetime import UTC, date, datetime
 from typing import Annotated
 
@@ -30,7 +33,6 @@ from bagmitra_api.market_link.guards import is_verified_viewer
 from bagmitra_api.market_link.models import (
     LOT_MAX_PHOTOS,
     LOT_MIN_PHOTOS,
-    ORCHARD_OK,
     DealParty,
     MarketDeal,
     MarketLot,
@@ -39,6 +41,7 @@ from bagmitra_api.market_link.models import (
 )
 from bagmitra_api.market_link.notify import PushFactory, get_push_factory, messages, send_all
 from bagmitra_api.market_link.orchard import orchard_check
+from bagmitra_api.market_link.package import lot_shown, lot_visible_to_traders, package_on
 from bagmitra_api.market_link.terms import require_role_accepted
 from bagmitra_api.photos.exif import NotJpegError, strip_jpeg_metadata
 from bagmitra_api.photos.storage import PhotoNotFoundError, PhotoStorage, PhotoStorageError
@@ -50,6 +53,7 @@ from bagmitra_api.routers.scouting_photos import (
     photo_key_for,
 )
 from bagmitra_api.sync.service import record_server_write
+from bagmitra_api.weather.service import get_clock
 
 router = APIRouter(
     prefix="/v1/market-link",
@@ -71,6 +75,8 @@ LOT_ENTITY = "market_lot"
 GROWER_WRITE = [Depends(require_role_accepted("grower"))]
 # Published lots per page of the buyer list.
 LOT_PAGE = 100
+SQ_M_PER_ACRE = 4046.8564224
+Clock = Annotated[Callable[[], datetime], Depends(get_clock)]
 Push = Annotated[PushFactory, Depends(get_push_factory)]
 
 
@@ -97,24 +103,28 @@ class LotPhotoView(BaseModel):
 
 
 class BuyerLotOut(BaseModel):
-    """A published lot for a verified buyer / broker. Deliberately no owner, name, phone,
-    plot or point (decision g); `asking_rate_paise` is per tonne, per crate or the whole
-    amount, by `basis`, and only when the grower gave one."""
+    """A published lot for a verified buyer / broker: exactly the fields of spec v1.5 §4E.
+    The grower's first name only; no surname, owner, phone, village, plot or point (decision
+    g); `acres` is the plot's area."""
 
     id: uuid.UUID
+    first_name: str | None
     crop: str
     variety: str | None
+    acres: float | None
     quantity_t: float
     quality: str | None
     harvest_from: date
     harvest_to: date
-    basis: str
-    asking_rate_paise: int | None
-    village: str | None
-    taluka: str | None
     district: str | None
     published_at: datetime
     photos: list[LotPhotoView]
+
+
+def first_name(display_name: str | None) -> str | None:
+    """The first word of the grower's name (§4E: never the surname)."""
+    words = (display_name or "").split()
+    return words[0] if words else None
 
 
 class BuyerLotsResponse(BaseModel):
@@ -246,53 +256,55 @@ async def close_open_offers(session: DbSession, lot_id: uuid.UUID) -> set[uuid.U
 async def list_lots(  # noqa: PLR0913 - query parameters and dependencies
     user: CurrentUser,
     session: DbSession,
+    clock: Clock,
     district: Annotated[str | None, Query(max_length=120)] = None,
-    taluka: Annotated[str | None, Query(max_length=120)] = None,
     crop: Annotated[str | None, Query(max_length=32)] = None,
     before: Annotated[datetime | None, Query()] = None,
 ) -> BuyerLotsResponse:
     """Published lots, newest first, for admin-verified buyers and brokers only (403
-    `not_verified` for anyone else). Page with `before` = the last `published_at` seen."""
+    `not_verified` for anyone else); while the season package is ON, only lots with an active
+    package (§4E). Page with `before` = the last `published_at` seen."""
     if not await is_verified_viewer(session, user.id):
         raise ApiError(403, "not_verified")
-    query = select(MarketLot).where(
-        MarketLot.status == "published",
-        MarketLot.deleted_at.is_(None),
-        MarketLot.orchard_check.in_(ORCHARD_OK),
+    rule = lot_visible_to_traders(MarketLot, clock(), await package_on(session))
+    query = (
+        select(MarketLot, Farmer.display_name, Plot.area_sq_m)
+        .outerjoin(Farmer, Farmer.id == MarketLot.owner_id)
+        .outerjoin(Plot, Plot.id == MarketLot.plot_id)
+        .where(rule)
     )
-    for column, value in (
-        (MarketLot.district, district),
-        (MarketLot.taluka, taluka),
-        (MarketLot.crop, crop),
-    ):
+    for column, value in ((MarketLot.district, district), (MarketLot.crop, crop)):
         if value:
             query = query.where(column == value)
     if before is not None:
         query = query.where(MarketLot.published_at < before)
-    lots = list(
-        await session.scalars(
-            query.order_by(MarketLot.published_at.desc(), MarketLot.id).limit(LOT_PAGE)
-        )
+    rows = list(
+        (
+            await session.execute(
+                query.order_by(MarketLot.published_at.desc(), MarketLot.id).limit(LOT_PAGE)
+            )
+        ).tuples()
     )
-    photos: dict[uuid.UUID, list[LotPhotoView]] = {lot.id: [] for lot in lots}
-    if lots:
-        rows = await session.scalars(
+    photos: dict[uuid.UUID, list[LotPhotoView]] = {lot.id: [] for lot, _, _ in rows}
+    if rows:
+        found = await session.scalars(
             select(MarketLotPhoto)
             .where(MarketLotPhoto.lot_id.in_(photos), MarketLotPhoto.deleted_at.is_(None))
             .order_by(MarketLotPhoto.captured_at, MarketLotPhoto.id)
         )
-        for p in rows:
+        for p in found:
             if p.photo_key == photo_key_for(p.owner_id, p.id):
                 photos[p.lot_id].append(LotPhotoView(id=p.id, captured_at=p.captured_at))
+    plain = ("id", "crop", "variety", "quantity_t", "quality", "harvest_from", "harvest_to")
     return BuyerLotsResponse(
         lots=[
-            BuyerLotOut.model_validate(
-                {
-                    **{f: getattr(lot, f) for f in BuyerLotOut.model_fields if f != "photos"},
-                    "photos": photos[lot.id],
-                }
+            BuyerLotOut(
+                **{f: getattr(lot, f) for f in (*plain, "district", "published_at")},
+                first_name=first_name(name),
+                acres=None if area is None else round(area / SQ_M_PER_ACRE, 1),
+                photos=photos[lot.id],
             )
-            for lot in lots
+            for lot, name, area in rows
         ]
     )
 
@@ -381,20 +393,22 @@ async def lot_photo_url(
     user: CurrentUser,
     session: DbSession,
     ctx: Annotated[PhotoContext, Depends(get_photo_context)],
+    clock: Clock,
 ) -> LotPhotoUrl:
     """A short-lived download URL for an uploaded lot photo: for the grower, or for a
-    verified buyer / broker while the lot is published, or for the parties of an accepted
-    interest on it (L4). Only the derived key is signed."""
+    verified buyer / broker while `lot_visible_to_traders` shows the lot, or for the parties
+    of an accepted interest on it (L4). Only the derived key is signed."""
     storage = _storage(ctx)
     photo = await session.get(MarketLotPhoto, photo_id)
     lot = None if photo is None else await session.get(MarketLot, photo.lot_id)
     if photo is None or lot is None or photo.deleted_at is not None or lot.deleted_at is not None:
         raise ApiError(404, "lot_photo_not_found")
     own = photo.owner_id == user.id and lot.owner_id == user.id
-    shown = lot.status == "published" and lot.orchard_check in ORCHARD_OK
     if (
         not own
-        and not (shown and await is_verified_viewer(session, user.id))
+        and not (
+            await lot_shown(session, lot.id, clock()) and await is_verified_viewer(session, user.id)
+        )
         and not await _deal_party(session, lot.id, user.id)
     ):
         raise ApiError(404, "lot_photo_not_found")
