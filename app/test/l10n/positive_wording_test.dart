@@ -23,6 +23,10 @@ const allowNegative = {
   'labelInfoNoClaim',
   'labelInfoBanned',
   'labelInfoRestricted',
+  // Market linkage admin: the plain "No" answer to a yes / no field (refrigerated).
+  'adminMlNo',
+  // वजनकाटा (weighbridge, GLOSSARY_mr.md) only contains the letters of नका.
+  'adminMlKindWeighbridge',
   // Export record PDF footer (spec v1.5 §4A): an information record, not a certificate.
   'exportRecordFooter',
 };

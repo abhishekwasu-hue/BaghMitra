@@ -256,6 +256,18 @@ class Settings(BaseSettings):
     # set. Off, every /v1/market-link/* endpoint answers 404. Production stays off until the
     # owner records the legal and CA opinions.
     market_link_enabled: bool = False
+    # Documents a user accepts before a market-link role is used (spec v1.5 §4C): the current
+    # version of each. Raising one asks every user to accept again before that role writes.
+    market_link_terms_version: str = Field(default="1", min_length=1, max_length=20)
+    market_link_privacy_version: str = Field(default="1", min_length=1, max_length=20)
+    market_link_disclaimer_version: str = Field(default="1", min_length=1, max_length=20)
+    # The full terms of use page (the lawyer's text, spec §5 c, Q84). Empty: the app shows its
+    # short points and the privacy page only.
+    market_link_terms_url: str = ""
+    # Grievance officer shown in the app (IT Rules 2021, spec §4C). Empty: the owner, reached at
+    # PRIVACY_CONTACT_EMAIL. TODO(Q83): an admin-editable record in the admin web.
+    market_link_grievance_name: str = Field(default="", max_length=120)
+    market_link_grievance_contact: str = Field(default="", max_length=120)
 
     @property
     def push_enabled(self) -> bool:

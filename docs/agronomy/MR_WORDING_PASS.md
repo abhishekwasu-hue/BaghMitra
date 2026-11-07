@@ -137,6 +137,11 @@ admin activates each tag after review. New terms: GLOSSARY_mr.md (व्या�
 | grower_produce_matched | माल फोटो व वर्णनाप्रमाणे / माल फ़ोटो और विवरण जैसा | माल फोटोपेक्षा वेगळा / माल फ़ोटो से अलग |
 | grower_ready_on_date | ठरलेल्या तारखेला माल तयार / तय तारीख पर माल तैयार | ठरलेल्या तारखेला माल तयार नव्हता / तय तारीख पर माल तैयार नहीं था |
 
+## Market linkage admin web (L0b, draft, for native review)
+Keys `adminMl*` in `app/lib/l10n/app_mr.arb` / `app_hi.arb`: तपासणी रांग, सेवा देणारे, दिलेली माहिती, कागदपत्रे,
+प्रतीक्षेत / तपासले / नाकारले, कारण देऊन नाकारा, रेटिंग टॅग (मसुदा / चालू / बंद), APMC परवाना क्र., प्रमाणपत्र वैध तारीख,
+वाहन क्रमांक, रेफ्रिजरेटेड वाहन, वाहतूकदार नोंदणी क्र., वजनकाटा, वाहतूकदार, मजूर टोळी, क्रेट पुरवठादार. Hindi: तहसील for
+taluka, धर्मकांटा for weighbridge.
 ## Market linkage export information and export record (L8, draft, for native review)
 
 Keys `exportInfo*`, `exportSection*`, `exportLinksTitle`, `exportRecord*`, `exportLabel*` in
