@@ -24,6 +24,49 @@ class MarketCallException implements Exception {
   String toString() => 'market link call: ${problem.name} $code';
 }
 
+/// One call to `/v1/market-link<path>`: the decoded JSON (null when empty), or a
+/// [MarketCallException] for no network, a server failure or the server's refusal code.
+Future<Object?> marketLinkSend(
+  Bagmitra api,
+  String method,
+  String path, {
+  Object? body,
+  Map<String, dynamic> query = const {},
+  Map<String, String> headers = const {},
+}) async {
+  final chopper.Response<String> res;
+  try {
+    res = await api.client.send<String, String>(
+      chopper.Request(
+        method,
+        Uri.parse('/v1/market-link$path'),
+        api.client.baseUrl,
+        body: body,
+        parameters: query,
+        headers: headers,
+      ),
+    );
+  } on SocketException {
+    throw const MarketCallException(MarketCallProblem.offline);
+  } on TimeoutException {
+    throw const MarketCallException(MarketCallProblem.offline);
+  } on chopper.ChopperException {
+    throw const MarketCallException(MarketCallProblem.server);
+  }
+  final text = res.bodyString;
+  if (res.isSuccessful) return text.isEmpty ? null : jsonDecode(text);
+  if (res.statusCode >= 500) {
+    throw const MarketCallException(MarketCallProblem.server);
+  }
+  String? code;
+  try {
+    code = ((jsonDecode(text) as Map)['error'] as Map?)?['code'] as String?;
+  } on Object {
+    code = null;
+  }
+  throw MarketCallException(MarketCallProblem.refused, code);
+}
+
 /// The phone's view of the L2 endpoints. An interface so screens and tests never reach a
 /// server. Online only: registration needs the fix taken now and the server's check.
 abstract interface class RegistrationApi {
@@ -69,7 +112,6 @@ class HttpRegistrationApi implements RegistrationApi {
   HttpRegistrationApi(this._api);
 
   final Bagmitra _api;
-  static const _base = '/v1/market-link';
 
   Future<Object?> _send(
     String method,
@@ -77,39 +119,14 @@ class HttpRegistrationApi implements RegistrationApi {
     Object? body,
     Map<String, dynamic> query = const {},
     Map<String, String> headers = const {},
-  }) async {
-    final chopper.Response<String> res;
-    try {
-      res = await _api.client.send<String, String>(
-        chopper.Request(
-          method,
-          Uri.parse('$_base$path'),
-          _api.client.baseUrl,
-          body: body,
-          parameters: query,
-          headers: headers,
-        ),
-      );
-    } on SocketException {
-      throw const MarketCallException(MarketCallProblem.offline);
-    } on TimeoutException {
-      throw const MarketCallException(MarketCallProblem.offline);
-    } on chopper.ChopperException {
-      throw const MarketCallException(MarketCallProblem.server);
-    }
-    final text = res.bodyString;
-    if (res.isSuccessful) return text.isEmpty ? null : jsonDecode(text);
-    if (res.statusCode >= 500) {
-      throw const MarketCallException(MarketCallProblem.server);
-    }
-    String? code;
-    try {
-      code = ((jsonDecode(text) as Map)['error'] as Map?)?['code'] as String?;
-    } on Object {
-      code = null;
-    }
-    throw MarketCallException(MarketCallProblem.refused, code);
-  }
+  }) => marketLinkSend(
+    _api,
+    method,
+    path,
+    body: body,
+    query: query,
+    headers: headers,
+  );
 
   MarketProfile _one(Object? json) =>
       MarketProfile.fromJson((json! as Map).cast<String, Object?>());

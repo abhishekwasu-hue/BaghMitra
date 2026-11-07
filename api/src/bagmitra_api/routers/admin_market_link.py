@@ -20,7 +20,16 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from bagmitra_api.auth.jwt import AuthenticatedUser, require_role
 from bagmitra_api.core.errors import ApiError, ErrorResponse
+from bagmitra_api.core.settings import Settings, get_settings
 from bagmitra_api.db.session import DbSession
+from bagmitra_api.market_link.checks import (
+    CheckOut,
+    OfficialLinkOut,
+    latest_checks,
+    meets_verified_rule,
+    official_links,
+    passed_kinds,
+)
 from bagmitra_api.market_link.guards import MarketLinkIn, latest_verifications
 from bagmitra_api.market_link.models import (
     BrokerProfile,
@@ -30,8 +39,11 @@ from bagmitra_api.market_link.models import (
     RegistrationFix,
     RepresentativeUpload,
     ServiceProvider,
+    VerificationCheck,
 )
 from bagmitra_api.market_link.registration import AdminFixOut, admin_fix, fix_flags, latest_fixes
+from bagmitra_api.market_link.safety import new_action
+from bagmitra_api.market_link.trust import RelatedOut, trust_flags
 from bagmitra_api.routers.market_link import require_market_link
 from bagmitra_api.routers.scouting_photos import (
     PhotoContext,
@@ -53,6 +65,7 @@ router = APIRouter(
 )
 MarketLinkAdmin = Annotated[AuthenticatedUser, Depends(require_role("market_link_admin"))]
 Clock = Annotated[Callable[[], datetime], Depends(get_clock)]
+AppSettings = Annotated[Settings, Depends(get_settings)]
 SubjectType = Literal["buyer", "broker", "provider"]
 Subject = BuyerProfile | BrokerProfile | ServiceProvider
 MODELS: dict[str, type[Subject]] = {
@@ -102,6 +115,8 @@ class SubjectOut(BaseModel):
     # admin must look at it before any badge: mock location, another district, no place (L2).
     registration_fix: AdminFixOut | None = None
     flags: list[str] = []
+    # L7 (spec §4C): the other profiles behind a duplicate_number / returning_suspended flag.
+    related: list[RelatedOut] = []
 
 
 class QueueResponse(BaseModel):
@@ -112,6 +127,9 @@ class SubjectDetailOut(BaseModel):
     subject: SubjectOut
     # Every verification record, newest first.
     history: list[VerificationOut]
+    # L7: every per-check record, newest first, and the official page of each check.
+    checks: list[CheckOut] = []
+    links: list[OfficialLinkOut] = []
 
 
 class DecisionIn(MarketLinkIn):
@@ -193,7 +211,11 @@ def _documents(subject: Subject, latest: PartyVerification | None, extras: _Extr
 
 
 def _subject_out(
-    kind: str, subject: Subject, latest: PartyVerification | None, extras: _Extras
+    kind: str,
+    subject: Subject,
+    latest: PartyVerification | None,
+    extras: _Extras,
+    related: list[RelatedOut] | None = None,
 ) -> SubjectOut:
     fields = {f: t for f in FIELDS[kind] if (t := _text(getattr(subject, f))) is not None}
     pending = latest is None or latest.status == "pending"
@@ -207,7 +229,8 @@ def _subject_out(
         waiting_since=latest.created_at if latest is not None and pending else subject.created_at,
         status=latest.status if latest is not None else "pending",
         registration_fix=admin_fix(fix),
-        flags=fix_flags(fix, subject.district),
+        flags=[*fix_flags(fix, subject.district), *dict.fromkeys(r.flag for r in related or [])],
+        related=related or [],
     )
 
 
@@ -224,7 +247,9 @@ async def _subject(session: AsyncSession, kind: str, subject_id: uuid.UUID) -> S
     return subject
 
 
-async def _detail(session: AsyncSession, kind: str, subject: Subject) -> SubjectDetailOut:
+async def _detail(
+    session: AsyncSession, kind: str, subject: Subject, km: float
+) -> SubjectDetailOut:
     history = list(
         await session.scalars(
             select(PartyVerification)
@@ -235,14 +260,23 @@ async def _detail(session: AsyncSession, kind: str, subject: Subject) -> Subject
             .order_by(PartyVerification.created_at.desc())
         )
     )
+    checks = await session.scalars(
+        select(VerificationCheck)
+        .where(VerificationCheck.subject_type == kind, VerificationCheck.subject_id == subject.id)
+        .order_by(VerificationCheck.checked_at.desc(), VerificationCheck.created_at.desc())
+    )
+    related = (await trust_flags(session, kind, [subject], km)).get(subject.id, [])
     return SubjectDetailOut(
         subject=_subject_out(
             kind,
             subject,
             history[0] if history else None,
             await _extras(session, kind, [subject.id]),
+            related,
         ),
         history=[VerificationOut.model_validate(v, from_attributes=True) for v in history],
+        checks=[CheckOut.model_validate(c, from_attributes=True) for c in checks],
+        links=official_links(kind, subject),
     )
 
 
@@ -250,6 +284,7 @@ async def _detail(session: AsyncSession, kind: str, subject: Subject) -> Subject
 async def queue(
     _admin: MarketLinkAdmin,
     session: DbSession,
+    settings: AppSettings,
     subject_type: Annotated[SubjectType | None, Query()] = None,
 ) -> QueueResponse:
     """Subjects waiting for a check (latest record pending, or none yet), oldest first."""
@@ -259,20 +294,28 @@ async def queue(
         subjects = cast(list[Subject], list(await session.scalars(select(MODELS[kind]))))
         latest = await _latest(session, kind, [s.id for s in subjects])
         extras = await _extras(session, kind, [s.id for s in subjects])
-        for subject in subjects:
-            row = latest.get(subject.id)
-            if row is None or row.status == "pending":
-                waiting.append(_subject_out(kind, subject, row, extras))
+        pending = [s for s in subjects if (r := latest.get(s.id)) is None or r.status == "pending"]
+        related = await trust_flags(session, kind, pending, settings.market_link_returning_km)
+        for subject in pending:
+            out = _subject_out(
+                kind, subject, latest.get(subject.id), extras, related.get(subject.id)
+            )
+            waiting.append(out)
     waiting.sort(key=lambda s: s.waiting_since)
     return QueueResponse(subjects=waiting)
 
 
 @router.get("/verifications/{subject_type}/{subject_id}", operation_id="admin_market_link_subject")
 async def subject_history(
-    subject_type: SubjectType, subject_id: uuid.UUID, _admin: MarketLinkAdmin, session: DbSession
+    subject_type: SubjectType,
+    subject_id: uuid.UUID,
+    _admin: MarketLinkAdmin,
+    session: DbSession,
+    settings: AppSettings,
 ) -> SubjectDetailOut:
-    """The subject's submitted fields, documents and every verification record."""
-    return await _detail(session, subject_type, await _subject(session, subject_type, subject_id))
+    """The subject's submitted fields, documents, every verification and check record."""
+    subject = await _subject(session, subject_type, subject_id)
+    return await _detail(session, subject_type, subject, settings.market_link_returning_km)
 
 
 @router.post(
@@ -287,9 +330,16 @@ async def decide(  # noqa: PLR0913 - path, body and dependencies
     admin: MarketLinkAdmin,
     session: DbSession,
     clock: Clock,
+    settings: AppSettings,
 ) -> SubjectDetailOut:
-    """Approve, or reject with a reason: always a new record with who and when (Q70)."""
+    """Approve, or reject with a reason: always a new record with who and when (Q70). An
+    approval needs the spec §4 checks on record (trader: GSTIN / APMC / IEC; exporter: IEC;
+    broker: the phone call), else 422 `verified_rule_not_met`."""
     subject = await _subject(session, subject_type, subject_id)
+    if body.status == "approved":
+        checks = (await latest_checks(session, subject_type, [subject.id])).get(subject.id, {})
+        if not meets_verified_rule(subject, passed_kinds(subject, checks)):
+            raise ApiError(422, "verified_rule_not_met", "record the required check first")
     latest = (await _latest(session, subject_type, [subject.id])).get(subject.id)
     now = clock()
     session.add(
@@ -305,8 +355,20 @@ async def decide(  # noqa: PLR0913 - path, body and dependencies
             updated_at=now,
         )
     )
+    if body.status == "approved":  # every verify is in the open action log too (§4C)
+        session.add(
+            new_action(
+                subject_type=subject_type,
+                subject_id=subject.id,
+                user_id=subject.user_id,
+                action="verify",
+                reason_code="checks_passed",
+                actor_id=admin.id,
+                now=now,
+            )
+        )
     await session.commit()
-    return await _detail(session, subject_type, subject)
+    return await _detail(session, subject_type, subject, settings.market_link_returning_km)
 
 
 @router.get(
