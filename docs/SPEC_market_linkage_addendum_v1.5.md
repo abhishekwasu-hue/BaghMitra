@@ -42,6 +42,7 @@ contact number and ratings — that a grower can read easily. This narrows the g
 | Broker (dalal) | Local or nearby broker who brings traders to orchards | Self-registers; admin verifies |
 | Service provider | Weighbridge, transporter / truck owner, harvest labour gang, crate / packing supplier | Self-registers or admin adds; admin verifies |
 | Admin (BagMitra) | Owner / staff | Admin web (ADR 0006) |
+| BagMitra representative | Field person appointed by admin | Admin grants the role; can only add a place photo and address to a trader / broker / exporter / provider profile they visited; every upload records who and when |
 
 ## 3. Flow
 1. **Lot** — grower picks a plot and bahar; crop and variety come from the plot. Fields: estimated
@@ -123,14 +124,14 @@ the admin by hand from a link the admin page opens. Research: MARKET_LINKAGE_RES
 | FSSAI licence | trader, exporter (if held) | FoSCoS public check | "FSSAI checked" |
 | IEC | exporter (required for the exporter type) | DGFT "View IEC Status": name matches, Active | "IEC active" |
 | APEDA registration | exporter (if held) | APEDA exporter directory | "APEDA listed" |
-| Shop / office photo | trader, exporter, broker | in-app camera only, time + GPS | "Place photo" |
+| Place address + photo (**optional**) | all | the person enters / updates the address themselves, or a BagMitra representative visits, takes the photo (in-app camera, time + GPS) and uploads it | "Place photo" + who took it and when |
 | Track record | all | computed: completed BagMitra deals and ratings | deal count, stars |
 
 - **Turnover is not collected or shown** (not on any public register; self-declared figures cannot be
   checked). Business age = GST registration date; activity = public return-filing record.
 - A trader / exporter is "verified" (sees lots) after phone OTP + admin check of at least one of
-  GSTIN / APMC licence / IEC (exporter: IEC required). A broker: phone OTP + place photo + admin phone
-  call.
+  GSTIN / APMC licence / IEC (exporter: IEC required). A broker: phone OTP + admin phone call
+  (place photo optional).
 - **Report fraud** button on every trader, broker, exporter and provider profile → admin queue
   (predefined reasons to tick, photos optional; no free text, same as ratings). Admin can suspend.
 - Re-check yearly; GST "cancelled" or IEC "deactivated" found on re-check removes the badge.
