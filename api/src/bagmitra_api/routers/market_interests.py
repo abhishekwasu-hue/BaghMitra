@@ -41,7 +41,7 @@ from bagmitra_api.market_link.package import lot_shown
 from bagmitra_api.market_link.profiles import PublicProfileOut, Subject, public_views
 from bagmitra_api.market_link.registration import india_date
 from bagmitra_api.market_link.terms import accepted_roles, current_versions
-from bagmitra_api.market_link.visibility import is_blocked_between
+from bagmitra_api.market_link.visibility import NOT_SUSPENDED, is_blocked_between, visible
 from bagmitra_api.routers.market_link import Clock, require_market_link
 from bagmitra_api.routers.market_lots import (
     GROWER_WRITE,
@@ -187,9 +187,12 @@ def _brief(lot: MarketLot) -> LotBrief:
 async def _verified_profile[P: (BuyerProfile, BrokerProfile)](
     session: DbSession, model: type[P], *, user_id: uuid.UUID | None = None, pid: uuid.UUID | None
 ) -> P | None:
-    query = select(model).where(model.user_id == user_id if pid is None else model.id == pid)
-    profile = await session.scalar(query)
     kind = "buyer" if model is BuyerProfile else "broker"
+    query = select(model).where(
+        model.user_id == user_id if pid is None else model.id == pid,
+        visible(kind, model.id, model.user_id),  # not hidden, suspended nor deleted
+    )
+    profile = await session.scalar(query)
     if profile is None or not await is_verified(session, kind, profile.id):
         return None
     return profile
@@ -202,7 +205,12 @@ async def _require_accepted(
         raise ApiError(403, "terms_not_accepted", f"Accept the current terms for {role}")
 
 
-@router.post("/lots/{lot_id}/interests", operation_id="market_link_send_interest", status_code=201)
+@router.post(
+    "/lots/{lot_id}/interests",
+    operation_id="market_link_send_interest",
+    dependencies=NOT_SUSPENDED,
+    status_code=201,
+)
 async def send_interest(  # noqa: PLR0913 - body and dependencies
     lot_id: uuid.UUID,
     body: InterestIn,
@@ -362,7 +370,7 @@ async def lot_interests(
 @router.post(
     "/interests/{interest_id}/accept",
     operation_id="market_link_accept_interest",
-    dependencies=GROWER_WRITE,
+    dependencies=[*NOT_SUSPENDED, *GROWER_WRITE],
 )
 async def accept_interest(  # noqa: PLR0913 - path and dependencies
     interest_id: uuid.UUID,

@@ -6,10 +6,12 @@ is gone for every trader; restore and unblock bring everything back."""
 from __future__ import annotations
 
 import uuid
+from datetime import UTC, datetime
 from typing import Any
 
 import httpx
 
+from bagmitra_api.account.models import DeferredErasure
 from tests.test_market_interests import ml, party, published, send, sender
 from tests.test_market_link_reports import ADMIN, ADMIN_BASE
 from tests.test_market_lots_sync import LOTS
@@ -84,3 +86,67 @@ async def test_a_suspended_grower_lots_are_gone(ml: Any) -> None:
     assert str(lot_id) not in await lot_ids(ml, trader.h)
     await act(ml, "user", grower, "restore", "checks_passed")
     assert str(lot_id) in await lot_ids(ml, trader.h)
+
+
+SOME = uuid.UUID(int=7)
+# Every market-link write a suspended account may not make (register, publish, interest,
+# accept, deal done, rate, report). Blocks, appeals, terms and closing an own lot stay open.
+WRITES = (
+    ("POST", "/traders"),
+    ("POST", "/exporters"),
+    ("POST", "/brokers"),
+    ("POST", "/providers"),
+    ("PUT", f"/profiles/buyer/{SOME}/address"),
+    ("POST", f"/profiles/buyer/{SOME}/documents"),
+    ("POST", f"/profiles/buyer/{SOME}/place-photo"),
+    ("POST", f"/lots/{SOME}/publish"),
+    ("PUT", f"/lot-photos/{SOME}/photo"),
+    ("POST", f"/lots/{SOME}/interests"),
+    ("POST", f"/interests/{SOME}/accept"),
+    ("POST", f"/deals/{SOME}/done"),
+    ("PUT", f"/deals/{SOME}/ratings/buyer"),
+    ("POST", "/reports"),
+    ("POST", f"/reports/{SOME}/photos"),
+)
+
+
+async def test_a_suspended_account_makes_no_write_and_sees_why(ml: Any) -> None:
+    trader = await party(ml)
+    await act(ml, "buyer", trader.profile, "suspend", "fake_identity")
+    for method, path in WRITES:
+        r = await ml.request(method, f"{ML}{path}", json={}, headers=trader.h)
+        assert (r.status_code, r.json()["error"]["code"]) == (403, "suspended"), (path, r.text)
+    mine = (await ml.get(f"{ML}/account-actions", headers=trader.h)).json()["actions"]
+    assert [(a["action"], a["reason_code"]) for a in mine] == [("suspend", "fake_identity")]
+    await act(ml, "buyer", trader.profile, "restore", "checks_passed")
+    r = await ml.post(f"{ML}/reports", json={}, headers=trader.h)
+    assert r.status_code == 422  # past the guard again
+
+
+async def test_a_suspended_hidden_or_deleted_viewer_sees_no_lot(ml: Any) -> None:
+    _, lot_id, _ = await published(ml)
+    suspended, hidden, deleted = await party(ml), await party(ml), await party(ml)
+    await act(ml, "user", suspended.user, "suspend", "abuse")
+    await act(ml, "buyer", hidden.profile, "hide", "fake_identity")
+    async with ml.maker() as s:
+        now = datetime.now(UTC)
+        s.add(DeferredErasure(user_id=deleted.user, requested_at=now, erase_after=now))
+        await s.commit()
+    for p in (suspended, hidden, deleted):
+        r = await ml.get(LOTS, headers=p.h)
+        assert (r.status_code, r.json()["error"]["code"]) == (403, "not_verified")
+        assert await photo_status(ml, p.h) == 404
+    r = await send(ml, lot_id, hidden)
+    assert (r.status_code, r.json()["error"]["code"]) == (403, "not_verified")
+    await act(ml, "user", suspended.user, "restore", "checks_passed")
+    await act(ml, "buyer", hidden.profile, "restore", "checks_passed")
+    for p in (suspended, hidden):
+        assert str(lot_id) in await lot_ids(ml, p.h)
+
+
+async def test_a_broker_cannot_bring_a_hidden_trader(ml: Any) -> None:
+    _, lot_id, _ = await published(ml)
+    trader, broker = await party(ml), await party(ml, kind="broker")
+    await act(ml, "buyer", trader.profile, "hide", "fake_identity")
+    r = await send(ml, lot_id, broker, trader_id=str(trader.profile))
+    assert (r.status_code, r.json()["error"]["code"]) == (404, "trader_not_found")

@@ -33,6 +33,7 @@ from bagmitra_api.market_link.deals import (
 )
 from bagmitra_api.market_link.guards import MarketLinkIn
 from bagmitra_api.market_link.models import DealEvent, MarketDeal, Rating, RatingTag
+from bagmitra_api.market_link.visibility import NOT_SUSPENDED
 from bagmitra_api.routers.market_interests import IntroductionOut, introduction_for
 from bagmitra_api.routers.market_link import Clock, require_market_link
 
@@ -98,7 +99,9 @@ async def _party(
     return deal, role, parties
 
 
-@router.post("/deals/{deal_id}/done", operation_id="market_link_deal_done")
+@router.post(
+    "/deals/{deal_id}/done", operation_id="market_link_deal_done", dependencies=NOT_SUSPENDED
+)
 async def deal_done(
     deal_id: uuid.UUID, user: CurrentUser, session: DbSession, clock: Clock
 ) -> IntroductionOut:
@@ -184,7 +187,11 @@ async def _check_tags(session: DbSession, answers: list[AnswerIn]) -> None:
             raise ApiError(422, "unknown_tag", "Tick only tags listed under the question")
 
 
-@router.put("/deals/{deal_id}/ratings/{ratee_role}", operation_id="market_link_rate")
+@router.put(
+    "/deals/{deal_id}/ratings/{ratee_role}",
+    operation_id="market_link_rate",
+    dependencies=NOT_SUSPENDED,
+)
 async def rate(  # noqa: PLR0913 - path, body and dependencies
     deal_id: uuid.UUID,
     ratee_role: PartyRole,

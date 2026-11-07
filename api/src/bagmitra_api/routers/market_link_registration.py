@@ -51,6 +51,7 @@ from bagmitra_api.market_link.registration import (
     new_fix,
 )
 from bagmitra_api.market_link.terms import accepted_roles, current_versions, require_role_accepted
+from bagmitra_api.market_link.visibility import NOT_SUSPENDED
 from bagmitra_api.routers.market_link import require_market_link
 from bagmitra_api.routers.scouting_photos import PhotoContext, get_photo_context
 from bagmitra_api.weather.service import get_clock
@@ -244,7 +245,12 @@ async def _buyer(
     return await _own(session, "buyer", profile, clock)
 
 
-@router.post("/traders", operation_id="market_link_register_trader", status_code=201)
+@router.post(
+    "/traders",
+    operation_id="market_link_register_trader",
+    dependencies=NOT_SUSPENDED,
+    status_code=201,
+)
 async def register_trader(
     body: BuyerIn,
     user: Annotated[AuthenticatedUser, Depends(require_role_accepted("trader"))],
@@ -255,7 +261,12 @@ async def register_trader(
     return await _buyer("trader", body, user, session, clock)
 
 
-@router.post("/exporters", operation_id="market_link_register_exporter", status_code=201)
+@router.post(
+    "/exporters",
+    operation_id="market_link_register_exporter",
+    dependencies=NOT_SUSPENDED,
+    status_code=201,
+)
 async def register_exporter(
     body: BuyerIn,
     user: Annotated[AuthenticatedUser, Depends(require_role_accepted("exporter"))],
@@ -266,7 +277,12 @@ async def register_exporter(
     return await _buyer("exporter", body, user, session, clock)
 
 
-@router.post("/brokers", operation_id="market_link_register_broker", status_code=201)
+@router.post(
+    "/brokers",
+    operation_id="market_link_register_broker",
+    dependencies=NOT_SUSPENDED,
+    status_code=201,
+)
 async def register_broker(
     body: BrokerIn,
     user: Annotated[AuthenticatedUser, Depends(require_role_accepted("broker"))],
@@ -284,7 +300,12 @@ async def register_broker(
     return await _own(session, "broker", profile, clock)
 
 
-@router.post("/providers", operation_id="market_link_register_provider", status_code=201)
+@router.post(
+    "/providers",
+    operation_id="market_link_register_provider",
+    dependencies=NOT_SUSPENDED,
+    status_code=201,
+)
 async def register_provider(
     body: ProviderIn,
     user: Annotated[AuthenticatedUser, Depends(require_role_accepted("provider"))],
@@ -339,7 +360,9 @@ async def subject_of(session: AsyncSession, kind: str, subject_id: uuid.UUID) ->
 
 
 @router.put(
-    "/profiles/{subject_type}/{subject_id}/address", operation_id="market_link_profile_address"
+    "/profiles/{subject_type}/{subject_id}/address",
+    operation_id="market_link_profile_address",
+    dependencies=NOT_SUSPENDED,
 )
 async def set_address(  # noqa: PLR0913 - path, body and dependencies
     subject_type: SubjectType,
@@ -402,6 +425,7 @@ async def _add_document(
 @router.post(
     "/profiles/{subject_type}/{subject_id}/documents",
     operation_id="market_link_profile_document",
+    dependencies=NOT_SUSPENDED,
     openapi_extra=JPEG_BODY,
 )
 async def add_document(  # noqa: PLR0913 - path, query, body and dependencies
@@ -444,6 +468,7 @@ async def add_document(  # noqa: PLR0913 - path, query, body and dependencies
 @router.post(
     "/profiles/{subject_type}/{subject_id}/place-photo",
     operation_id="market_link_profile_place_photo",
+    dependencies=NOT_SUSPENDED,
     status_code=201,
     openapi_extra=JPEG_BODY,
 )
