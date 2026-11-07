@@ -15334,7 +15334,7 @@
     },
     "/v1/market-link/deals/{deal_id}/ratings/{ratee_role}": {
       "put": {
-        "description": "Give or change the caller's rating of one party of a completed deal: every question\nof that role once. Only within 7 days of completion, then 409 `rating_locked`.",
+        "description": "Give or change the caller's rating of one party of a completed deal: every question\nof that role once. Only within 7 days of completion, then 409 `rating_locked`; accounts\nseen on one phone cannot rate each other (409 `same_device`, spec §4C).",
         "operationId": "market_link_rate",
         "parameters": [
           {

@@ -11,7 +11,7 @@ from __future__ import annotations
 
 import uuid
 from datetime import datetime
-from typing import cast
+from typing import Annotated, cast
 
 from fastapi import APIRouter, Depends
 from pydantic import BaseModel, Field
@@ -19,6 +19,7 @@ from sqlalchemy import select
 
 from bagmitra_api.auth.jwt import CurrentUser
 from bagmitra_api.core.errors import ApiError, ErrorResponse
+from bagmitra_api.core.settings import Settings, get_settings
 from bagmitra_api.db.session import DbSession
 from bagmitra_api.market_link.deals import (
     TAPPERS,
@@ -191,9 +192,11 @@ async def rate(  # noqa: PLR0913 - path, body and dependencies
     user: CurrentUser,
     session: DbSession,
     clock: Clock,
+    settings: Annotated[Settings, Depends(get_settings)],
 ) -> DealRatingsOut:
     """Give or change the caller's rating of one party of a completed deal: every question
-    of that role once. Only within 7 days of completion, then 409 `rating_locked`."""
+    of that role once. Only within 7 days of completion, then 409 `rating_locked`; accounts
+    seen on one phone cannot rate each other (409 `same_device`, spec §4C)."""
     deal, role, parties = await _party(session, user, deal_id, lock=True)
     now = clock()
     state = deal_state(deal, role, parties, now)
@@ -208,7 +211,7 @@ async def rate(  # noqa: PLR0913 - path, body and dependencies
         raise ApiError(422, "questions_mismatch", "Answer every question once")
     await _check_tags(session, body.answers)
     ratee = parties[ratee_role]
-    await rating_guard(session, deal, user.id, ratee)
+    await rating_guard(session, deal, user.id, ratee, settings.market_link_pair_min_deals)
     existing = {
         r.question_key: r
         for r in await session.scalars(

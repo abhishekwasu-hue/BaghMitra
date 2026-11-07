@@ -7606,6 +7606,12 @@ abstract class AppLocalizations {
   /// **'Rating is saved only within 7 days after both tap “Deal done”.'**
   String get mlRateRefused;
 
+  /// No description provided for @mlRateSameDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'Ratings are given between accounts on different phones.'**
+  String get mlRateSameDevice;
+
   /// No description provided for @mlQGrowerProduce.
   ///
   /// In en, this message translates to:
