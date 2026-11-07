@@ -231,3 +231,55 @@ link-out; never Comtrade data.
 - No public register shows a trader's or exporter's turnover or transaction history. GST return
   filing regularity and registration date show only that a business exists and files.
 - Self-declared turnover cannot be verified by BagMitra.
+
+## 6. Audit of the market-linkage work — 2026-11-07
+
+Scope read: spec v1.5 (as of #159), this research file, docs/prompts/MARKET_LINKAGE_BUILD_PROMPT.md,
+migration 0029 (#155), api tests test_market_link_*, OPEN_QUESTIONS Q61–Q71, PROGRESS audit block.
+
+### 6.1 Checked and in line with owner decisions [V, from the repo]
+- No money held; flags default off (`market_link_enabled`, `MARKET_LINK`); RLS per role on every table.
+- No commission column; test refuses commission / brokerage / income / dalali keys.
+- `ratings` has stars + tag_ids only, no text column; `rating_tags` admin table seeded.
+- Deal terms versioned (`market_deal_versions`), append-only `deal_events`; disputes have kind,
+  photos, status; admin-only `decision_note`.
+
+### 6.2 Gaps against decisions already taken (fix, no new decision needed)
+1. **Plot location leak**: `market_lot_photos` stores lat/lon and photos may carry EXIF GPS. The spec
+   promises the plot pin stays hidden until a deal is accepted → photo GPS and EXIF must never reach
+   buyers / brokers before acceptance (strip EXIF on upload; lat/lon not in the pre-deal API).
+2. **Identity leak through free text**: lot `quality` (500 chars) is shown to every verified buyer;
+   a phone number typed there defeats the hidden-identity rule → reject phone-number / URL patterns
+   in lot text.
+3. Spec status line still says "draft — not built"; §6 data model and §7 tests lack the §4 additions
+   (registration GPS, exporter IEC, representative role, fraud reports).
+4. `market_link_admin` role not yet in KNOWN_ROLES (planned L0b) — keep on the list.
+
+### 6.3 Legal / policy duties found [V or S as marked]
+- **IT (Intermediary) Rules 2021** (iPleaders summary) [S]: publish a grievance officer's name and
+  contact; acknowledge complaints within 24 h and resolve within 15 days; inform users at least yearly
+  of terms / privacy changes; remove unlawful content within 36 h of a court / government order;
+  **keep registration records 180 days after a user cancels registration** — bears on Q68 deletion.
+- **Google Play UGC policy** [V, support.google.com/googleplay/android-developer/answer/9876937]: users
+  accept terms before posting; in-app reporting of content and users; apps with 1:1 interaction need
+  in-app blocking; ongoing moderation; act on complaints.
+- **DPDP Rules 2025** (§5.1): notice and consent per purpose (public phone number on profiles,
+  registration GPS), breach notice, minimum data.
+- **Contracts by minors are void** in India (Indian Contract Act 1872, s.11 — competence requires
+  majority) [stated as law; lawyer to confirm use]: market-link registration should be 18+ by
+  declaration.
+
+### 6.4 Fraud paths not yet covered (proposals, owner decides)
+- Fake **grower** lots (fraud against traders): no check that the lot belongs to a real orchard.
+  Zero-cost check: lot photos' capture GPS must fall inside / near the grower's mapped plot.
+- **Fake deals to inflate ratings** (two accounts trading with each other): count a deal toward
+  ratings only when it has a weigh slip photo and a dispatch record; parties on the same phone /
+  device cannot rate each other.
+- **One registration number, many profiles**: GSTIN / IEC / APMC licence number unique across
+  profiles; a second claim goes to admin.
+- **Banned users returning** under a new number: registration GPS + name + registration numbers
+  compared with suspended profiles → admin queue.
+- **Fake "BagMitra representative"** asking for money: rep profiles with a verifiable in-app badge;
+  a fixed safety notice "BagMitra never asks for money, OTP or bank details".
+- **Opaque admin actions**: every verify / suspend / un-suspend logged with reason code; the user sees
+  the reason and can appeal once through the grievance path.
