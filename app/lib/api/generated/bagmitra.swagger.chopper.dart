@@ -1187,7 +1187,7 @@ report of the same subject with that action.''',
     required String? subjectType,
     required String? subjectId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: 'The subject\'s submitted fields, documents and every verification record.',
+      description: 'The subject\'s submitted fields, documents, every verification and check record.',
       summary: 'Subject History',
       operationId: 'admin_market_link_subject',
       consumes: [],
@@ -1211,12 +1211,45 @@ report of the same subject with that action.''',
 
   @override
   Future<Response<SubjectDetailOut>>
+  _v1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPost({
+    required String? subjectType,
+    required String? subjectId,
+    required CheckIn? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Record one check done by hand on the official page: a new record with who and when.',
+      summary: 'Record Check',
+      operationId: 'admin_market_link_record_check',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse(
+      '/v1/admin/market-link/verifications/${subjectType}/${subjectId}/checks',
+    );
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<SubjectDetailOut, SubjectDetailOut>($request);
+  }
+
+  @override
+  Future<Response<SubjectDetailOut>>
   _v1AdminMarketLinkVerificationsSubjectTypeSubjectIdDecisionPost({
     required String? subjectType,
     required String? subjectId,
     required DecisionIn? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: 'Approve, or reject with a reason: always a new record with who and when (Q70).',
+      description: '''Approve, or reject with a reason: always a new record with who and when (Q70). An
+approval needs the spec §4 checks on record (trader: GSTIN / APMC / IEC; exporter: IEC;
+broker: the phone call), else 422 `verified_rule_not_met`.''',
       summary: 'Decide',
       operationId: 'admin_market_link_decide',
       consumes: [],

@@ -1490,9 +1490,56 @@ report of the same subject with that action.''',
     @Path('subject_id') required String? subjectId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: 'The subject\'s submitted fields, documents and every verification record.',
+      description: 'The subject\'s submitted fields, documents, every verification and check record.',
       summary: 'Subject History',
       operationId: 'admin_market_link_subject',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Record Check
+  ///@param subject_type
+  ///@param subject_id
+  Future<chopper.Response<SubjectDetailOut>>
+  v1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPost({
+    required enums.V1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPostSubjectType?
+    subjectType,
+    required String? subjectId,
+    required CheckIn? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      SubjectDetailOut,
+      () => SubjectDetailOut.fromJsonFactory,
+    );
+
+    return _v1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPost(
+      subjectType: subjectType?.value?.toString(),
+      subjectId: subjectId,
+      body: body,
+    );
+  }
+
+  ///Record Check
+  ///@param subject_type
+  ///@param subject_id
+  @POST(
+    path: '/v1/admin/market-link/verifications/{subject_type}/{subject_id}/checks',
+    optionalBody: true,
+  )
+  Future<chopper.Response<SubjectDetailOut>>
+  _v1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPost({
+    @Path('subject_type') required String? subjectType,
+    @Path('subject_id') required String? subjectId,
+    @Body() required CheckIn? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Record one check done by hand on the official page: a new record with who and when.',
+      summary: 'Record Check',
+      operationId: 'admin_market_link_record_check',
       consumes: [],
       produces: [],
       security: ["HTTPBearer"],
@@ -1537,7 +1584,9 @@ report of the same subject with that action.''',
     @Body() required DecisionIn? body,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: 'Approve, or reject with a reason: always a new record with who and when (Q70).',
+      description: '''Approve, or reject with a reason: always a new record with who and when (Q70). An
+approval needs the spec §4 checks on record (trader: GSTIN / APMC / IEC; exporter: IEC;
+broker: the phone call), else 422 `verified_rule_not_met`.''',
       summary: 'Decide',
       operationId: 'admin_market_link_decide',
       consumes: [],

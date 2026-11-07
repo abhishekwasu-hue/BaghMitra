@@ -84,8 +84,14 @@ async def test_only_verified_profiles_are_public_and_without_coordinates(
         ["Warud APMC"],
     )
     assert p["badges"] == [
-        {"kind": "checked", "on": "2026-11-07", "place": None},
-        {"kind": "registered_from", "on": "2026-11-07", "place": "Warud, Amravati"},
+        {"kind": "checked", "on": "2026-11-07", "place": None, "since_year": None},
+        {"kind": "gst_checked", "on": "2026-11-07", "place": None, "since_year": None},
+        {
+            "kind": "registered_from",
+            "on": "2026-11-07",
+            "place": "Warud, Amravati",
+            "since_year": None,
+        },
     ]
     assert (p["deals_completed"], p["stars"], p["tags"]) == (0, [], [])
     for other in (pending, rejected):

@@ -290,8 +290,12 @@ async def test_a_verify_is_logged_and_not_appealable(
     async with maker() as s:
         s.add(PartyVerification(subject_type="broker", subject_id=ids["broker"], status="pending"))
         await s.commit()
+    # Spec §4 (L7): a broker is approved only on a passed phone-call check.
+    check = {"kind": "phone_call", "result": "passed"}
+    base = f"{ADMIN_BASE}/verifications/broker/{ids['broker']}"
+    assert (await api.post(f"{base}/checks", json=check, headers=ADMIN)).status_code == 200
     r = await api.post(
-        f"{ADMIN_BASE}/verifications/broker/{ids['broker']}/decision",
+        f"{base}/decision",
         json={"status": "approved"},
         headers=ADMIN,
     )

@@ -323,12 +323,14 @@ BadgeOut _$BadgeOutFromJson(Map<String, dynamic> json) => BadgeOut(
   kind: badgeOutKindFromJson(json['kind']),
   on: DateTime.parse(json['on'] as String),
   place: json['place'] as String?,
+  sinceYear: (json['since_year'] as num?)?.toInt(),
 );
 
 Map<String, dynamic> _$BadgeOutToJson(BadgeOut instance) => <String, dynamic>{
   'kind': ?badgeOutKindToJson(instance.kind),
   'on': ?_dateToJson(instance.on),
   'place': ?instance.place,
+  'since_year': ?instance.sinceYear,
 };
 
 BlockedClaimOut _$BlockedClaimOutFromJson(Map<String, dynamic> json) =>
@@ -515,6 +517,44 @@ Map<String, dynamic> _$ChangeToJson(Change instance) => <String, dynamic>{
   'op': ?changeOpToJson(instance.op),
   'seq': instance.seq,
   'updated_at': instance.updatedAt.toIso8601String(),
+};
+
+CheckIn _$CheckInFromJson(Map<String, dynamic> json) => CheckIn(
+  kind: checkInKindFromJson(json['kind']),
+  registeredYear: (json['registered_year'] as num?)?.toInt(),
+  result: checkInResultFromJson(json['result']),
+);
+
+Map<String, dynamic> _$CheckInToJson(CheckIn instance) => <String, dynamic>{
+  'kind': ?checkInKindToJson(instance.kind),
+  'registered_year': ?instance.registeredYear,
+  'result': ?checkInResultToJson(instance.result),
+};
+
+CheckOut _$CheckOutFromJson(Map<String, dynamic> json) => CheckOut(
+  checkedAt: DateTime.parse(json['checked_at'] as String),
+  checkedBy: json['checked_by'] as String,
+  id: json['id'] as String,
+  kind: json['kind'] as String,
+  number: json['number'] as String?,
+  officialUrl: json['official_url'] as String?,
+  recheckListedAt: json['recheck_listed_at'] == null
+      ? null
+      : DateTime.parse(json['recheck_listed_at'] as String),
+  registeredYear: (json['registered_year'] as num?)?.toInt(),
+  result: json['result'] as String,
+);
+
+Map<String, dynamic> _$CheckOutToJson(CheckOut instance) => <String, dynamic>{
+  'checked_at': instance.checkedAt.toIso8601String(),
+  'checked_by': instance.checkedBy,
+  'id': instance.id,
+  'kind': instance.kind,
+  'number': ?instance.number,
+  'official_url': ?instance.officialUrl,
+  'recheck_listed_at': ?instance.recheckListedAt?.toIso8601String(),
+  'registered_year': ?instance.registeredYear,
+  'result': instance.result,
 };
 
 DecisionIn _$DecisionInFromJson(Map<String, dynamic> json) => DecisionIn(
@@ -1711,6 +1751,20 @@ Map<String, dynamic> _$NumbersOutToJson(NumbersOut instance) =>
       'iec_no': ?instance.iecNo,
     };
 
+OfficialLinkOut _$OfficialLinkOutFromJson(Map<String, dynamic> json) =>
+    OfficialLinkOut(
+      kind: json['kind'] as String,
+      number: json['number'] as String?,
+      url: json['url'] as String?,
+    );
+
+Map<String, dynamic> _$OfficialLinkOutToJson(OfficialLinkOut instance) =>
+    <String, dynamic>{
+      'kind': instance.kind,
+      'number': ?instance.number,
+      'url': ?instance.url,
+    };
+
 PhotoDownloadUrl _$PhotoDownloadUrlFromJson(Map<String, dynamic> json) =>
     PhotoDownloadUrl(
       expiresIn: (json['expires_in'] as num).toInt(),
@@ -2440,9 +2494,19 @@ Map<String, dynamic> _$StageTemplatesResponseToJson(
 
 SubjectDetailOut _$SubjectDetailOutFromJson(Map<String, dynamic> json) =>
     SubjectDetailOut(
+      checks:
+          (json['checks'] as List<dynamic>?)
+              ?.map((e) => CheckOut.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
       history:
           (json['history'] as List<dynamic>?)
               ?.map((e) => VerificationOut.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+      links:
+          (json['links'] as List<dynamic>?)
+              ?.map((e) => OfficialLinkOut.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
       subject: SubjectOut.fromJson(json['subject'] as Map<String, dynamic>),
@@ -2450,7 +2514,9 @@ SubjectDetailOut _$SubjectDetailOutFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$SubjectDetailOutToJson(SubjectDetailOut instance) =>
     <String, dynamic>{
+      'checks': ?instance.checks?.map((e) => e.toJson()).toList(),
       'history': instance.history.map((e) => e.toJson()).toList(),
+      'links': ?instance.links?.map((e) => e.toJson()).toList(),
       'subject': instance.subject.toJson(),
     };
 
