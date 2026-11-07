@@ -346,3 +346,19 @@ async def test_a_grower_cannot_send_on_own_lot(ml: Any) -> None:
     await accept(ml, me.h, "trader")
     r = await send(ml, lot_id, me)
     assert (r.status_code, r.json()["error"]["code"]) == (409, "own_lot")
+
+
+async def test_a_lot_hidden_by_the_package_rule_takes_no_interest(ml: Any) -> None:
+    """Spec v1.5 §4E: while the package switch is ON, a lot without an active grant is
+    hidden from traders, so an interest on it is refused like any lot they cannot see."""
+    from tests.test_package_rules import configure, give  # noqa: PLC0415 - shared helpers
+
+    ml.now = [datetime.now(UTC)]
+    await configure(ml, switch=True)
+    grower, lot_id, _ = await published(ml)
+    trader = await party(ml)
+    r = await send(ml, lot_id, trader)
+    assert r.status_code == 404, r.text
+    assert r.json()["error"]["code"] == "lot_not_found"
+    await give(ml, grower, "UTR246824682468")
+    assert (await send(ml, lot_id, trader)).status_code == 201
