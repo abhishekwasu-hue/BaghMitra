@@ -2,9 +2,13 @@ import 'dart:convert';
 
 import 'package:bagmitra/api/api_client.dart';
 import 'package:bagmitra/api/generated/bagmitra.enums.swagger.dart';
+import 'package:bagmitra/core/net_failure.dart';
 import 'package:bagmitra/data/local/database.dart';
 import 'package:bagmitra/features/market/data/market_prices_cache.dart';
+import 'package:bagmitra/features/market/domain/market_crops.dart';
 import 'package:bagmitra/features/market/domain/market_labels.dart';
+import 'package:bagmitra/features/plots/data/plot_repository.dart';
+import 'package:bagmitra/features/plots/domain/plot.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
@@ -51,8 +55,9 @@ Future<void> seedPrices(
   AppDatabase db, {
   V1MarketPricesGetScope scope = V1MarketPricesGetScope.all,
   Map<String, Object?>? body,
+  String crop = 'santra',
 }) => db.writeMeta(
-  MarketPricesCache.keyFor('santra', scope),
+  MarketPricesCache.keyFor(crop, scope),
   jsonEncode({
     'saved_at': '2026-10-25T06:00:00.000Z',
     'prices': body ?? samplePrices(),
@@ -346,6 +351,144 @@ void main() {
     await settle(tester);
     expect(find.byKey(const Key('market-search-field')), findsNothing);
     expect(find.text('Pune(Moshi)'), findsOneWidget);
+    await unmountApp(tester);
+  });
+
+  test(
+    'an older server\'s 404 crop_not_priced is stored as an empty list',
+    () async {
+      final db = memoryDb();
+      addTearDown(db.close);
+      var status = 404;
+      var code = 'crop_not_priced';
+      final api = createApi(
+        baseUrl: Uri.parse('https://api.example.test'),
+        token: () => 't',
+        httpClient: MockClient(
+          (req) async => http.Response(
+            jsonEncode({
+              'error': {'code': code, 'message': 'x', 'request_id': 'r'},
+            }),
+            status,
+          ),
+        ),
+      );
+      final cache = MarketPricesCache(
+        db,
+        api: api,
+        clock: () => DateTime.utc(2026, 10, 25, 6),
+      );
+      const all = V1MarketPricesGetScope.all;
+      expect(await cache.refreshOrFailure('guava', all), isNull);
+      final saved = (await cache.load('guava', all))!;
+      expect(saved.prices.prices, isEmpty);
+      expect(saved.prices.stale, isFalse);
+
+      // Any other 404 or error stays a failure and stores nothing.
+      code = 'not_found';
+      expect(await cache.refreshOrFailure('apple', all), NetFailure.server);
+      status = 500;
+      code = 'crop_not_priced';
+      expect(await cache.refreshOrFailure('apple', all), NetFailure.server);
+      expect(await cache.load('apple', all), isNull);
+    },
+  );
+
+  test('market crops: santra first and default, nine fruits with names', () {
+    expect(defaultMarketCrop, 'santra');
+    expect(marketCrops.map((c) => c.key), [
+      'santra',
+      'mosambi',
+      'banana',
+      'guava',
+      'pomegranate',
+      'grapes',
+      'papaya',
+      'lemon',
+      'apple',
+    ]);
+    expect(marketCropName('pomegranate', 'mr'), 'डाळिंब');
+    expect(marketCropName('guava', 'hi'), 'अमरूद');
+    expect(marketCropName('banana', 'en'), 'Banana');
+    expect(marketCropName('kiwi', 'mr'), 'kiwi');
+  });
+
+  testWidgets('santra by default, even for a mosambi block; picking a fruit '
+      'loads its prices; an empty answer reads as coming soon', (tester) async {
+    await pumpApp(
+      tester,
+      locale: const Locale('en'),
+      initialLocation: '/market',
+      seed: (db) async {
+        await PlotRepository(db).save(
+          const Plot(id: 'p1', name: 'Block 1', crop: 'mosambi', areaSqM: 4000),
+        );
+        await seedPrices(db);
+        await seedPrices(
+          db,
+          crop: 'mosambi',
+          body: {
+            'prices': [
+              {
+                'day': '2026-10-24',
+                'market': 'Pune(Moshi)',
+                'state': 'Maharashtra',
+                'district': 'Pune',
+                'commodity': 'Mousambi(Sweet Lime)',
+                'modal_rs_per_quintal': 4400,
+                'source': 'agmarknet',
+                'is_local': false,
+                'is_major': true,
+              },
+            ],
+            'stale': false,
+          },
+        );
+        await seedPrices(
+          db,
+          crop: 'guava',
+          body: {'prices': <Object?>[], 'stale': false},
+        );
+      },
+    );
+    await settle(tester);
+    expect(find.text('Santra (orange)'), findsOneWidget);
+    expect(find.text('Warud'), findsOneWidget);
+
+    Future<void> pick(String name) async {
+      await tester.tap(find.byKey(const Key('market-crop')));
+      await settle(tester);
+      await tester.tap(find.text(name).last);
+      await settle(tester);
+    }
+
+    await pick('Mosambi (sweet lime)');
+    expect(find.text('Warud'), findsNothing);
+    expect(find.text('Pune(Moshi)'), findsOneWidget);
+    expect(find.text('₹4,400'), findsOneWidget);
+
+    // Search works within the picked fruit.
+    await tester.tap(find.byKey(const Key('market-search-open')));
+    await settle(tester);
+    await tester.enterText(
+      find.byKey(const Key('market-search-field')),
+      'pune',
+    );
+    await settle(tester);
+    expect(find.text('Pune(Moshi)'), findsOneWidget);
+    await tester.tap(find.byKey(const Key('market-search-open')));
+    await settle(tester);
+
+    await pick('Guava');
+    expect(find.text('Pune(Moshi)'), findsNothing);
+    expect(
+      find.text(
+        'Guava prices will show here soon. Mandi prices update on their own '
+        'every 6 hours.',
+      ),
+      findsOneWidget,
+    );
+    expect(find.byKey(const Key('refresh-failure')), findsNothing);
     await unmountApp(tester);
   });
 }

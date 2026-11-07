@@ -14,6 +14,7 @@ import '../../../sync/presentation/refresh_note.dart';
 import '../../../theme/app_theme.dart';
 import '../../voice/presentation/share_speak_buttons.dart';
 import '../data/market_prices_cache.dart';
+import '../domain/market_crops.dart';
 import '../domain/market_labels.dart';
 
 /// Mandi prices for the grower's crop, exactly as the API published them (never estimated),
@@ -106,6 +107,30 @@ class _MarketPricesScreenState extends ConsumerState<MarketPricesScreen> {
           physics: const AlwaysScrollableScrollPhysics(),
           padding: const EdgeInsets.all(BmSpace.lg),
           children: [
+            // Owner: the grower picks the fruit whose prices he wants; santra by default.
+            Padding(
+              padding: const EdgeInsets.only(bottom: BmSpace.sm),
+              child: DropdownButtonFormField<String>(
+                key: const Key('market-crop'),
+                initialValue: crop,
+                isExpanded: true,
+                decoration: InputDecoration(labelText: t.marketCrop),
+                items: [
+                  for (final o in marketCrops)
+                    DropdownMenuItem(
+                      key: Key('market-crop-${o.key}'),
+                      value: o.key,
+                      child: Text(
+                        marketCropName(o.key, lang),
+                        style: BmType.body,
+                      ),
+                    ),
+                ],
+                onChanged: (v) {
+                  if (v != null) ref.read(marketCropProvider.notifier).pick(v);
+                },
+              ),
+            ),
             if (_searchOpen)
               Padding(
                 padding: const EdgeInsets.only(bottom: BmSpace.sm),
@@ -161,7 +186,13 @@ class _MarketPricesScreenState extends ConsumerState<MarketPricesScreen> {
             if (prices.isEmpty)
               loaded.isLoading && !loaded.hasValue
                   ? LoadingState(label: t.loadingLabel)
-                  : EmptyNote(t.marketEmpty)
+                  : cached == null
+                  ? EmptyNote(t.marketEmpty)
+                  // The server answered, with no prices for this fruit yet.
+                  : EmptyNote(
+                      t.marketCropSoon(marketCropName(crop, lang)),
+                      key: const Key('market-crop-soon'),
+                    )
             else if (shown.isEmpty)
               EmptyNote(t.marketSearchEmpty(query)),
             for (final p in shown)

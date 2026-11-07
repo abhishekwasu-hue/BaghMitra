@@ -1551,6 +1551,14 @@ class AppLocalizationsMr extends AppLocalizations {
       'फोन ऑनलाइन असताना आणि बाजारभाव सेवा सुरू असताना भाव इथे दिसतील.';
 
   @override
+  String get marketCrop => 'पीक';
+
+  @override
+  String marketCropSoon(String crop) {
+    return '$crop पिकाचे भाव लवकरच इथे दिसतील. बाजारभाव दर ६ तासांनी आपोआप अद्ययावत होतात.';
+  }
+
+  @override
   String get marketSearchOpen => 'मंडी शोधा';
 
   @override

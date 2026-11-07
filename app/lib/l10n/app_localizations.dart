@@ -2734,6 +2734,18 @@ abstract class AppLocalizations {
   /// **'Prices load when the phone is online and the price source is connected.'**
   String get marketEmpty;
 
+  /// No description provided for @marketCrop.
+  ///
+  /// In en, this message translates to:
+  /// **'Crop'**
+  String get marketCrop;
+
+  /// No description provided for @marketCropSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'{crop} prices will show here soon. Mandi prices update on their own every 6 hours.'**
+  String marketCropSoon(String crop);
+
   /// No description provided for @marketSearchOpen.
   ///
   /// In en, this message translates to:
