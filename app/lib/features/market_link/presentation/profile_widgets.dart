@@ -68,7 +68,17 @@ String badgeText(AppLocalizations t, ProfileBadge b, String lang) {
   return switch (b.kind) {
     'checked' => t.mlBadgeChecked(on),
     'registered_from' => t.mlBadgeRegisteredFrom(b.place ?? '—', on),
-    _ => t.mlBadgePlacePhoto(on),
+    'place_photo' => t.mlBadgePlacePhoto(on),
+    'gst_checked' => switch (b.sinceYear) {
+      final year? => t.mlBadgeGstSince(on, formatYear(year, lang)),
+      null => t.mlBadgeGstChecked(on),
+    },
+    'apmc_seen' => t.mlBadgeApmcSeen(on),
+    'fssai_checked' => t.mlBadgeFssaiChecked(on),
+    'iec_active' => t.mlBadgeIecActive(on),
+    'apeda_listed' => t.mlBadgeApedaListed(on),
+    // A kind this app version does not know: say only that BagMitra checked, and when.
+    _ => t.mlBadgeChecked(on),
   };
 }
 
@@ -79,6 +89,8 @@ String questionLabel(AppLocalizations t, String key) => switch (key) {
   'trader_kept_conditions' => t.mlQTraderConditions,
   'broker_honest' => t.mlQBrokerHonest,
   'broker_trader_kept_deal' => t.mlQBrokerTraderKept,
+  'grower_produce_matched' => t.mlQGrowerProduce,
+  'grower_ready_on_date' => t.mlQGrowerReady,
   _ => key,
 };
 
