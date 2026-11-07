@@ -82,16 +82,24 @@ contact number and ratings — that a grower can read easily. This narrows the g
 ## 3A. Public profiles and ratings (owner request)
 - Every verified **trader** and **broker** has a profile any registered grower can open: name, firm
   (if any), village / market, **contact number**, crops and areas, number of completed deals,
-  average rating and recent rating notes. A list per taluka, sortable by rating and deals.
+  average rating per question and the count of each ticked tag. A list per taluka, sortable by
+  rating and deals.
 - Grower profiles are not public; a grower's contact is shown only to parties of an accepted deal.
 - **Only a party to a completed deal can rate**, once per deal, so ratings come from real trades.
-- Rating questions follow the deal terms the owner listed, each 1–5 plus a short note:
+- **No typing in ratings (owner decision 2026-11-07).** A rater only gives stars and ticks tags from
+  a list BagMitra defines, so abusive words can never appear and the admin does not read each
+  rating. There is no free-text field, no comment and no public reply anywhere in ratings.
+- Rating questions follow the deal terms the owner listed, each 1–5 stars:
   - Trader: came on the agreed harvest date; weighing / crate count was correct; paid advance and
     balance as agreed; kept the other conditions.
   - Broker: represented the deal honestly; the trader they brought kept the deal.
   - Grower: produce matched the photos and description; ready on the agreed date.
-- A rating cannot be edited after 7 days; the rated person can add one public reply; admin can hide
-  abusive text (not the score) and logs why. Ratings under an open dispute show "disputed".
+- **Tags**: under each question an optional set of predefined tags to tick (for example "came on
+  the agreed date" / "came late", "payment on time" / "payment late"). The tag list is a server
+  table `rating_tags` (mr / hi / en, one Marathi term per concept per GLOSSARY_mr.md) that only
+  admin edits in the admin web; the app caches it offline and shows only tags from that list.
+- A rating cannot be edited after 7 days (Q66). Ratings under an open dispute show "disputed".
+  A rated person who disagrees uses the dispute flow (§3 step 9), which goes to admin, not public.
 
 ## 4. Verification
 - **Buyer**: name, firm, phone (OTP), market(s) and district, APMC licence number and copy (if
@@ -120,7 +128,7 @@ contact number and ratings — that a grower can read easily. This narrows the g
 trader, broker — no commission column), `party_verifications` (buyer or provider,
 documents, checked_by, checked_at, status), `market_offers`, `market_deals` (versioned terms),
 `deal_confirmations`, `deal_events` (append-only), `service_providers`, `service_requests`,
-`weigh_slips`, `deal_payments` (links to Accounts incomes), `ratings`, `disputes`. RLS: a grower
+`weigh_slips`, `deal_payments` (links to Accounts incomes), `ratings` (stars and tag ids only, no text column), `rating_tags`, `disputes`. RLS: a grower
 sees own lots and offers on them; a buyer sees published lots and own offers; a provider sees only
 requests sent to them; contact fields are unlocked by an accepted deal. Update
 `docs/legal/DATA_INVENTORY.md` and the Play data-safety form for the new data.
@@ -128,7 +136,7 @@ requests sent to them; contact fields are unlocked by an accepted deal. Update
 ## 7. Tests (CI)
 Unverified buyer sees no lot; grower contact hidden until acceptance; accepting closes other
 offers; deal change needs every party's confirmation; only deal parties can rate, once per
-deal; no schema field, API field, screen or PDF holds a broker commission or income; expired weighbridge certificate warns; payment
+deal; the rating API rejects any text and any tag not in the config list; no schema field, API field, screen or PDF holds a broker commission or income; expired weighbridge certificate warns; payment
 entries reach Accounts; flag off hides every screen and endpoint; RLS tests per role; Marathi /
 Hindi / English goldens at phone size.
 
