@@ -13,6 +13,7 @@ from typing import Any
 
 from sqlalchemy import (
     JSON,
+    Boolean,
     Date,
     DateTime,
     Float,
@@ -22,6 +23,7 @@ from sqlalchemy import (
     Text,
     Time,
     UniqueConstraint,
+    false,
 )
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -75,6 +77,8 @@ class FeedItem(TimestampMixin, Base):
     gr_number: Mapped[str | None] = mapped_column(String(120))
     department: Mapped[str | None] = mapped_column(String(200))
     published_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), index=True)
+    # True: the source gave no date (e.g. PIB RSS), so published_at is when we first stored it.
+    date_is_first_seen: Mapped[bool] = mapped_column(Boolean, default=False, server_default=false())
     url: Mapped[str] = mapped_column(String(1000))
     raw_hash: Mapped[str | None] = mapped_column(String(64), index=True)
     raw_bytes: Mapped[int | None] = mapped_column(Integer)

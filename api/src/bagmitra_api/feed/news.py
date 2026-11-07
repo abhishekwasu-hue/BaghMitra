@@ -12,6 +12,10 @@ text endpoint) and approves before anything is published. Dedupe: the item's ext
 the SHA-256 of the entry's guid (Atom id), or of its link when it has none; a link already
 stored as news from any source is not added again.
 
+Undated RSS items (PIB items carry no pubDate / dc:date): published_at is the time our fetcher
+first stored the item, and the item is marked `date_is_first_seen`; no publication date is ever
+invented. An item whose date is present but unreadable is still skipped.
+
 XML safety (no `defusedxml` dependency): the parser refuses any DOCTYPE, entity declaration
 or external entity reference before it is expanded, so entity bombs (billion laughs) and
 external entities (XXE) cannot work; feeds over MAX_FEED_BYTES are refused unread.
@@ -120,7 +124,8 @@ def safe_parse(data: bytes) -> Node:
 class NewsEntry:
     title: str
     link: str
-    published: datetime
+    # None: an RSS item without a date; it is stored with its first-seen time, marked as such.
+    published: datetime | None
     guid: str | None
 
 
@@ -160,11 +165,17 @@ def _text_of(node: Node | None) -> str | None:
 
 
 def _entry(
-    title: str | None, link: str | None, when: str | None, guid: str | None
+    title: str | None,
+    link: str | None,
+    when: str | None,
+    guid: str | None,
+    *,
+    undated_ok: bool = False,
 ) -> NewsEntry | None:
     clean = _clean_title(title or "")
     published = _parse_when(when)
-    if not clean or link is None or published is None:
+    undated = undated_ok and not (when and when.strip())
+    if not clean or link is None or (published is None and not undated):
         return None  # nothing is guessed
     return NewsEntry(clean, link, published, guid or None)
 
@@ -178,6 +189,7 @@ def _rss_entries(root: Node, base_url: str) -> list[NewsEntry | None]:
             _web_link(_text_of(item.child("link")), base_url),
             _text_of(item.child("pubDate", _DC_DATE)),
             _text_of(item.child("guid")),
+            undated_ok=True,
         )
         for item in items
     ]
@@ -204,8 +216,9 @@ def _atom_entries(root: Node, base_url: str) -> list[NewsEntry | None]:
 
 
 def parse_feed(data: bytes, base_url: str) -> list[NewsEntry]:
-    """Entries of an RSS 2.0 or Atom feed, in feed order; entries lacking a headline, a web
-    link or a readable date are skipped."""
+    """Entries of an RSS 2.0 or Atom feed, in feed order; entries lacking a headline or a web
+    link, Atom entries without a readable date and RSS items with an unreadable date are
+    skipped. An RSS item with no date at all is kept with `published` None."""
     root = safe_parse(data)
     if root.tag == "rss":
         found = _rss_entries(root, base_url)
@@ -232,13 +245,16 @@ class NewsFeedAdapter(GrPortalAdapter):
             raise FetchFailedError("fetch_failed", f"unsafe or unreadable feed: {exc}") from exc
 
 
-def _add_entry(session: AsyncSession, source: FeedSource, entry: NewsEntry, key: str) -> None:
+def _add_entry(
+    session: AsyncSession, source: FeedSource, entry: NewsEntry, key: str, seen_at: datetime
+) -> None:
     item = FeedItem(
         id=uuid.uuid4(),
         type="news",
         source_id=source.id,
         external_id=key,
-        published_at=entry.published,
+        published_at=entry.published or seen_at,
+        date_is_first_seen=entry.published is None,
         url=entry.link,
         status="in_review",
         trust_level="news",
@@ -284,16 +300,17 @@ async def fetch_news_source(
     )
     known_links = set(await session.scalars(select(FeedItem.url).where(FeedItem.type == "news")))
     added = 0
+    seen_at = datetime.now(UTC)
     for entry in entries:
         key = entry_key(entry)
         if key in known_keys or entry.link in known_links:
             continue
         known_keys.add(key)
         known_links.add(entry.link)
-        _add_entry(session, source, entry, key)
+        _add_entry(session, source, entry, key, seen_at)
         added += 1
     source.fetch_status = "ok"
     source.last_error = None
-    source.last_ok_at = datetime.now(UTC)
+    source.last_ok_at = seen_at
     await session.flush()
     return FetchOutcome(source.key, "ok", added=added)

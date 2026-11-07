@@ -240,8 +240,9 @@ async def test_upload_review_publish_and_feed(
     assert set(shown) == {
         "id", "type", "trust", "title", "summary", "department", "gr_number", "published_at",
         "url", "deadline", "valid_to", "replaced_by", "may_be_eligible_because",
-        "seen",
+        "seen", "date_is_first_seen",
     }  # fmt: skip
+    assert shown["date_is_first_seen"] is False
     assert shown["title"] == "फळबाग लागवड अनुदान"
     assert shown["trust"] == "official"
     assert shown["replaced_by"] is None

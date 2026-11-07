@@ -5166,6 +5166,7 @@ class FeedAdminItemOut {
     required this.approved,
     required this.card,
     required this.checkIssues,
+    this.dateIsFirstSeen,
     required this.deadline,
     required this.department,
     required this.events,
@@ -5208,6 +5209,12 @@ class FeedAdminItemOut {
     defaultValue: <FeedAdminCheckIssue>[],
   )
   final List<FeedAdminCheckIssue> checkIssues;
+  @JsonKey(
+    name: 'date_is_first_seen',
+    includeIfNull: false,
+    defaultValue: false,
+  )
+  final bool? dateIsFirstSeen;
   @JsonKey(name: 'deadline', includeIfNull: false, toJson: _dateToJson)
   final DateTime? deadline;
   @JsonKey(name: 'department', includeIfNull: false)
@@ -5285,6 +5292,11 @@ class FeedAdminItemOut {
                 const DeepCollectionEquality().equals(
                   other.checkIssues,
                   checkIssues,
+                )) &&
+            (identical(other.dateIsFirstSeen, dateIsFirstSeen) ||
+                const DeepCollectionEquality().equals(
+                  other.dateIsFirstSeen,
+                  dateIsFirstSeen,
                 )) &&
             (identical(other.deadline, deadline) ||
                 const DeepCollectionEquality().equals(
@@ -5389,6 +5401,7 @@ class FeedAdminItemOut {
       const DeepCollectionEquality().hash(approved) ^
       const DeepCollectionEquality().hash(card) ^
       const DeepCollectionEquality().hash(checkIssues) ^
+      const DeepCollectionEquality().hash(dateIsFirstSeen) ^
       const DeepCollectionEquality().hash(deadline) ^
       const DeepCollectionEquality().hash(department) ^
       const DeepCollectionEquality().hash(events) ^
@@ -5421,6 +5434,7 @@ extension $FeedAdminItemOutExtension on FeedAdminItemOut {
     bool? approved,
     FeedAdminCardOut? card,
     List<FeedAdminCheckIssue>? checkIssues,
+    bool? dateIsFirstSeen,
     DateTime? deadline,
     String? department,
     List<FeedAdminEventOut>? events,
@@ -5450,6 +5464,7 @@ extension $FeedAdminItemOutExtension on FeedAdminItemOut {
       approved: approved ?? this.approved,
       card: card ?? this.card,
       checkIssues: checkIssues ?? this.checkIssues,
+      dateIsFirstSeen: dateIsFirstSeen ?? this.dateIsFirstSeen,
       deadline: deadline ?? this.deadline,
       department: department ?? this.department,
       events: events ?? this.events,
@@ -5482,6 +5497,7 @@ extension $FeedAdminItemOutExtension on FeedAdminItemOut {
     Wrapped<bool>? approved,
     Wrapped<FeedAdminCardOut?>? card,
     Wrapped<List<FeedAdminCheckIssue>>? checkIssues,
+    Wrapped<bool?>? dateIsFirstSeen,
     Wrapped<DateTime?>? deadline,
     Wrapped<String?>? department,
     Wrapped<List<FeedAdminEventOut>>? events,
@@ -5511,6 +5527,9 @@ extension $FeedAdminItemOutExtension on FeedAdminItemOut {
       approved: (approved != null ? approved.value : this.approved),
       card: (card != null ? card.value : this.card),
       checkIssues: (checkIssues != null ? checkIssues.value : this.checkIssues),
+      dateIsFirstSeen: (dateIsFirstSeen != null
+          ? dateIsFirstSeen.value
+          : this.dateIsFirstSeen),
       deadline: (deadline != null ? deadline.value : this.deadline),
       department: (department != null ? department.value : this.department),
       events: (events != null ? events.value : this.events),
@@ -5550,6 +5569,7 @@ class FeedAdminItemSummaryOut {
   const FeedAdminItemSummaryOut({
     required this.approved,
     required this.checkIssues,
+    this.dateIsFirstSeen,
     required this.department,
     required this.grNumber,
     required this.id,
@@ -5574,6 +5594,12 @@ class FeedAdminItemSummaryOut {
     defaultValue: <FeedAdminCheckIssue>[],
   )
   final List<FeedAdminCheckIssue> checkIssues;
+  @JsonKey(
+    name: 'date_is_first_seen',
+    includeIfNull: false,
+    defaultValue: false,
+  )
+  final bool? dateIsFirstSeen;
   @JsonKey(name: 'department', includeIfNull: false)
   final String? department;
   @JsonKey(name: 'gr_number', includeIfNull: false)
@@ -5605,6 +5631,11 @@ class FeedAdminItemSummaryOut {
                 const DeepCollectionEquality().equals(
                   other.checkIssues,
                   checkIssues,
+                )) &&
+            (identical(other.dateIsFirstSeen, dateIsFirstSeen) ||
+                const DeepCollectionEquality().equals(
+                  other.dateIsFirstSeen,
+                  dateIsFirstSeen,
                 )) &&
             (identical(other.department, department) ||
                 const DeepCollectionEquality().equals(
@@ -5640,6 +5671,7 @@ class FeedAdminItemSummaryOut {
   int get hashCode =>
       const DeepCollectionEquality().hash(approved) ^
       const DeepCollectionEquality().hash(checkIssues) ^
+      const DeepCollectionEquality().hash(dateIsFirstSeen) ^
       const DeepCollectionEquality().hash(department) ^
       const DeepCollectionEquality().hash(grNumber) ^
       const DeepCollectionEquality().hash(id) ^
@@ -5655,6 +5687,7 @@ extension $FeedAdminItemSummaryOutExtension on FeedAdminItemSummaryOut {
   FeedAdminItemSummaryOut copyWith({
     bool? approved,
     List<FeedAdminCheckIssue>? checkIssues,
+    bool? dateIsFirstSeen,
     String? department,
     String? grNumber,
     String? id,
@@ -5667,6 +5700,7 @@ extension $FeedAdminItemSummaryOutExtension on FeedAdminItemSummaryOut {
     return FeedAdminItemSummaryOut(
       approved: approved ?? this.approved,
       checkIssues: checkIssues ?? this.checkIssues,
+      dateIsFirstSeen: dateIsFirstSeen ?? this.dateIsFirstSeen,
       department: department ?? this.department,
       grNumber: grNumber ?? this.grNumber,
       id: id ?? this.id,
@@ -5681,6 +5715,7 @@ extension $FeedAdminItemSummaryOutExtension on FeedAdminItemSummaryOut {
   FeedAdminItemSummaryOut copyWithWrapped({
     Wrapped<bool>? approved,
     Wrapped<List<FeedAdminCheckIssue>>? checkIssues,
+    Wrapped<bool?>? dateIsFirstSeen,
     Wrapped<String?>? department,
     Wrapped<String?>? grNumber,
     Wrapped<String>? id,
@@ -5693,6 +5728,9 @@ extension $FeedAdminItemSummaryOutExtension on FeedAdminItemSummaryOut {
     return FeedAdminItemSummaryOut(
       approved: (approved != null ? approved.value : this.approved),
       checkIssues: (checkIssues != null ? checkIssues.value : this.checkIssues),
+      dateIsFirstSeen: (dateIsFirstSeen != null
+          ? dateIsFirstSeen.value
+          : this.dateIsFirstSeen),
       department: (department != null ? department.value : this.department),
       grNumber: (grNumber != null ? grNumber.value : this.grNumber),
       id: (id != null ? id.value : this.id),
@@ -6653,6 +6691,7 @@ extension $FeedCheckResponseExtension on FeedCheckResponse {
 @JsonSerializable(explicitToJson: true)
 class FeedItemOut {
   const FeedItemOut({
+    this.dateIsFirstSeen,
     required this.deadline,
     required this.department,
     required this.grNumber,
@@ -6675,6 +6714,12 @@ class FeedItemOut {
   static const toJsonFactory = _$FeedItemOutToJson;
   Map<String, dynamic> toJson() => _$FeedItemOutToJson(this);
 
+  @JsonKey(
+    name: 'date_is_first_seen',
+    includeIfNull: false,
+    defaultValue: false,
+  )
+  final bool? dateIsFirstSeen;
   @JsonKey(name: 'deadline', includeIfNull: false, toJson: _dateToJson)
   final DateTime? deadline;
   @JsonKey(name: 'department', includeIfNull: false)
@@ -6718,6 +6763,11 @@ class FeedItemOut {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other is FeedItemOut &&
+            (identical(other.dateIsFirstSeen, dateIsFirstSeen) ||
+                const DeepCollectionEquality().equals(
+                  other.dateIsFirstSeen,
+                  dateIsFirstSeen,
+                )) &&
             (identical(other.deadline, deadline) ||
                 const DeepCollectionEquality().equals(
                   other.deadline,
@@ -6774,6 +6824,7 @@ class FeedItemOut {
 
   @override
   int get hashCode =>
+      const DeepCollectionEquality().hash(dateIsFirstSeen) ^
       const DeepCollectionEquality().hash(deadline) ^
       const DeepCollectionEquality().hash(department) ^
       const DeepCollectionEquality().hash(grNumber) ^
@@ -6793,6 +6844,7 @@ class FeedItemOut {
 
 extension $FeedItemOutExtension on FeedItemOut {
   FeedItemOut copyWith({
+    bool? dateIsFirstSeen,
     DateTime? deadline,
     String? department,
     String? grNumber,
@@ -6809,6 +6861,7 @@ extension $FeedItemOutExtension on FeedItemOut {
     DateTime? validTo,
   }) {
     return FeedItemOut(
+      dateIsFirstSeen: dateIsFirstSeen ?? this.dateIsFirstSeen,
       deadline: deadline ?? this.deadline,
       department: department ?? this.department,
       grNumber: grNumber ?? this.grNumber,
@@ -6827,6 +6880,7 @@ extension $FeedItemOutExtension on FeedItemOut {
   }
 
   FeedItemOut copyWithWrapped({
+    Wrapped<bool?>? dateIsFirstSeen,
     Wrapped<DateTime?>? deadline,
     Wrapped<String?>? department,
     Wrapped<String?>? grNumber,
@@ -6843,6 +6897,9 @@ extension $FeedItemOutExtension on FeedItemOut {
     Wrapped<DateTime?>? validTo,
   }) {
     return FeedItemOut(
+      dateIsFirstSeen: (dateIsFirstSeen != null
+          ? dateIsFirstSeen.value
+          : this.dateIsFirstSeen),
       deadline: (deadline != null ? deadline.value : this.deadline),
       department: (department != null ? department.value : this.department),
       grNumber: (grNumber != null ? grNumber.value : this.grNumber),

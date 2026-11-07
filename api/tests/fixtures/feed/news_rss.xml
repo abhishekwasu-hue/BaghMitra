@@ -19,8 +19,13 @@
       <description>ARTICLE BODY MUST NOT BE STORED.</description>
     </item>
     <item>
-      <title>Release without a date is skipped</title>
+      <title>Release without a date is kept with its first-seen time</title>
       <link>https://pib.gov.in/PressReleasePage.aspx?PRID=1000003</link>
+    </item>
+    <item>
+      <title>Release with an unreadable date is skipped</title>
+      <link>https://pib.gov.in/PressReleasePage.aspx?PRID=1000006</link>
+      <pubDate>soon</pubDate>
     </item>
     <item>
       <title>Release with a non-web link is skipped</title>
