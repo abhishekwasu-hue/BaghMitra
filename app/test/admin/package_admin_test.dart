@@ -1,14 +1,22 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:bagmitra/admin/admin_app.dart';
 import 'package:bagmitra/admin/kb_admin_repository.dart';
 import 'package:bagmitra/admin/package_admin_repository.dart';
+import 'package:bagmitra/admin/package_pages.dart';
 import 'package:bagmitra/admin/package_strings.dart';
 import 'package:bagmitra/api/api_client.dart';
 import 'package:bagmitra/api/generated/bagmitra.swagger.dart';
+import 'package:bagmitra/theme/app_theme.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
+
+import 'admin_sign_in_test.dart' show FakeAdminAuth;
+import 'kb_admin_test.dart' show FakeKbAdmin;
+import 'market_link_admin_test.dart' show FakeMarketLinkAdmin;
 
 const _empty = {
   'legal_name': null,
@@ -42,6 +50,147 @@ PackageGrantOut grantOut(String id, {String? revokedAt, int days = 45}) =>
       'admin_id': 'a1',
     });
 
+/// In-memory package admin: the guard as the server applies it.
+class FakePackageAdmin implements PackageAdminRepository {
+  FakePackageAdmin({this.filled = false});
+  final bool filled;
+  late Map<String, dynamic> profile = {
+    ..._empty,
+    if (filled) ...{
+      'legal_name': 'BagMitra Agritech Pvt Ltd',
+      'address': 'Warud, Amravati',
+      'gstin': '27AABCB1234F1Z5',
+      'upi_id': 'bagmitra@okaxis',
+      'invoice_prefix': 'BM/26-27/',
+      'merchant_qr': true,
+    },
+  };
+  late Map<String, dynamic> stored = {
+    'enabled': false,
+    'price_paise': filled ? 150000 : null,
+    'validity_days': filled ? 45 : null,
+    'starts_at': null,
+  };
+  final recorded = <PackageGrantIn>[];
+  final revoked = <(String, String)>[];
+  final grantList = <PackageGrantOut>[];
+
+  List<String> get _missing => [
+    for (final f in ['legal_name', 'gstin', 'upi_id'])
+      if (profile[f] == null) f,
+    if (stored['price_paise'] == null) 'price_paise',
+  ];
+
+  @override
+  Future<PackageCompanyOut> company() async =>
+      PackageCompanyOut.fromJson(profile);
+
+  @override
+  Future<PackageCompanyOut> saveCompany(PackageCompanyIn body) async {
+    body.toJson().forEach((k, v) => profile[k] = v == '' ? null : v);
+    return company();
+  }
+
+  @override
+  Future<PackageCompanyOut> uploadQr(Uint8List bytes, String type) async {
+    profile['merchant_qr'] = true;
+    return company();
+  }
+
+  @override
+  Future<Uint8List> merchantQr() async => Uint8List(0);
+
+  @override
+  Future<PackageSettingsOut> settings() async =>
+      PackageSettingsOut.fromJson({...stored, 'missing': _missing});
+
+  @override
+  Future<PackageSettingsOut> saveSettings(PackageSettingsIn body) async {
+    final before = Map.of(stored);
+    stored = {...stored, ...body.toJson()};
+    stored['price_paise'] = body.pricePaise;
+    if (body.enabled && _missing.isNotEmpty) {
+      stored = before;
+      throw PackageAdminException(
+        'missing: ${_missing.join(', ')}',
+        'package_fields_missing',
+      );
+    }
+    return settings();
+  }
+
+  @override
+  Future<List<PackageGrowerOut>> findGrower(String phone) async => [
+    if (phone.endsWith('9812345678'))
+      PackageGrowerOut.fromJson({
+        'id': 'g1',
+        'name': 'Ramesh Patil',
+        'phone': '+919812345678',
+        'village': 'Warud',
+        'district': 'Amravati',
+        'lots': [
+          {
+            'id': 'l1',
+            'crop': 'santra',
+            'variety': 'nagpur',
+            'status': 'published',
+          },
+        ],
+      }),
+  ];
+
+  @override
+  Future<PackageGrantOut> recordGrant(PackageGrantIn body) async {
+    if (recorded.any((r) => r.paymentRef == body.paymentRef)) {
+      throw const PackageAdminException(
+        'this payment reference is recorded',
+        'duplicate_payment_ref',
+      );
+    }
+    recorded.add(body);
+    final g = grantOut('${recorded.length}');
+    grantList.insert(0, g);
+    return g;
+  }
+
+  @override
+  Future<List<PackageGrantOut>> grants(String growerId) async => grantList;
+
+  @override
+  Future<PackageGrantOut> revoke(String grantId, String reason) async {
+    revoked.add((grantId, reason));
+    final i = grantList.indexWhere((g) => g.id == grantId);
+    grantList[i] = grantOut(grantId, revokedAt: '2026-11-21T06:00:00Z');
+    return grantList[i];
+  }
+}
+
+Future<void> pumpPackage(
+  WidgetTester tester,
+  FakePackageAdmin fake, {
+  String? tab,
+}) async {
+  tester.view.physicalSize = const Size(1280, 1400);
+  tester.view.devicePixelRatio = 1;
+  addTearDown(tester.view.reset);
+  await tester.pumpWidget(
+    AdminApp(
+      productName: 'BagMitra',
+      auth: FakeAdminAuth(signedIn: true, roles: {'market_link_admin'}),
+      kb: FakeKbAdmin(),
+      marketLink: FakeMarketLinkAdmin(),
+      package: fake,
+    ),
+  );
+  await tester.pumpAndSettle();
+  await tester.tap(find.text('Sale package'));
+  await tester.pumpAndSettle();
+  if (tab != null) {
+    await tester.tap(find.text(tab));
+    await tester.pumpAndSettle();
+  }
+}
+
 void main() {
   test('every language has the same package strings', () {
     final tables = packageStringTables;
@@ -53,6 +202,88 @@ void main() {
         reason: lang,
       );
     }
+  });
+
+  test('rupees become paise; empty or zero is no amount', () {
+    expect(rupeesToPaise('1500'), 150000);
+    expect(rupeesToPaise(''), isNull);
+    expect(rupeesToPaise('0'), isNull);
+  });
+
+  testWidgets('starts empty and names the fields the switch needs', (
+    tester,
+  ) async {
+    final fake = FakePackageAdmin();
+    await pumpPackage(tester, fake);
+    expect(
+      find.text(
+        'Cannot turn ON — fill first: Legal name, GSTIN, UPI ID, Price ₹',
+      ),
+      findsOneWidget,
+    );
+    expect(
+      tester.widget<SwitchListTile>(find.byKey(const Key('pkg-switch'))).value,
+      isFalse,
+    );
+    await tester.tap(find.byKey(const Key('pkg-switch')));
+    await tester.tap(find.byKey(const Key('pkg-save-settings')));
+    await tester.pumpAndSettle();
+    expect(fake.stored['enabled'], isFalse);
+    expect(
+      find.text(
+        'Cannot turn ON — fill first: Legal name, GSTIN, UPI ID, Price ₹',
+      ),
+      findsNWidgets(2), // the banner and the refusal
+    );
+  });
+
+  testWidgets('saving the profile and price lets the switch turn ON', (
+    tester,
+  ) async {
+    final fake = FakePackageAdmin();
+    await pumpPackage(tester, fake);
+    for (final (key, value) in [
+      ('legal_name', 'BagMitra Agritech Pvt Ltd'),
+      ('gstin', '27aabcb1234f1z5'),
+      ('upi_id', 'bagmitra@okaxis'),
+    ]) {
+      await tester.enterText(find.byKey(Key('pkg-$key')), value);
+    }
+    await tester.tap(find.byKey(const Key('pkg-save-company')));
+    await tester.pumpAndSettle();
+    expect(fake.profile['gstin'], '27AABCB1234F1Z5');
+    await tester.enterText(find.byKey(const Key('pkg-price_paise')), '1500');
+    await tester.enterText(find.byKey(const Key('pkg-validity_days')), '45');
+    await tester.tap(find.byKey(const Key('pkg-switch')));
+    await tester.tap(find.byKey(const Key('pkg-save-settings')));
+    await tester.pumpAndSettle();
+    expect(fake.stored['enabled'], isTrue);
+    expect(fake.stored['price_paise'], 150000);
+    expect(find.text('Saved'), findsOneWidget);
+    expect(find.textContaining('Cannot turn ON'), findsNothing);
+  });
+
+  testWidgets('uploads the merchant QR image', (tester) async {
+    final fake = FakePackageAdmin();
+    tester.view.physicalSize = const Size(1280, 1400);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: BmTheme.light(),
+        home: Scaffold(
+          body: PackageSettingsPage(
+            repo: fake,
+            pickQr: () async => (Uint8List.fromList([1]), 'image/png'),
+          ),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(find.text('Merchant QR image: No QR'), findsOneWidget);
+    await tester.tap(find.byKey(const Key('pkg-upload-qr')));
+    await tester.pumpAndSettle();
+    expect(find.text('Merchant QR image: QR saved'), findsOneWidget);
   });
 
   test('the API repository calls the package endpoints', () async {

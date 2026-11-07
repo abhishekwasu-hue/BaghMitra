@@ -9,6 +9,7 @@ import '../admin/admin_sign_in_test.dart' show FakeAdminAuth;
 import '../admin/feed_admin_test.dart' show FakeFeedAdmin;
 import '../admin/kb_admin_test.dart' show FakeKbAdmin;
 import '../admin/market_link_admin_test.dart' show FakeMarketLinkAdmin;
+import '../admin/package_admin_test.dart' show FakePackageAdmin;
 
 Future<void> _pump(WidgetTester tester, Widget app) async {
   tester.view.physicalSize = const Size(1280, 800);
@@ -129,6 +130,30 @@ void main() {
       await tester.tap(find.text('Rating tags'));
       await tester.pumpAndSettle();
       await _shot(tester, 'ml_tags_$mode');
+    });
+  }
+
+  for (final dark in [false, true]) {
+    final mode = dark ? 'dark' : 'light';
+    testWidgets('admin_package_$mode', (tester) async {
+      tester.platformDispatcher.platformBrightnessTestValue = dark
+          ? Brightness.dark
+          : Brightness.light;
+      addTearDown(tester.platformDispatcher.clearPlatformBrightnessTestValue);
+      final fake = FakePackageAdmin(filled: dark);
+      await _pump(
+        tester,
+        AdminApp(
+          productName: 'BagMitra',
+          auth: FakeAdminAuth(signedIn: true, roles: {'market_link_admin'}),
+          kb: FakeKbAdmin(),
+          marketLink: FakeMarketLinkAdmin(),
+          package: fake,
+        ),
+      );
+      await tester.tap(find.text('Sale package'));
+      await tester.pumpAndSettle();
+      await _shot(tester, 'package_settings_$mode');
     });
   }
 }

@@ -10,6 +10,7 @@ import 'admin/feed_admin_repository.dart';
 import 'admin/kb_admin_repository.dart';
 import 'admin/market_link_admin_repository.dart';
 import 'admin/market_link_safety_admin.dart';
+import 'admin/package_admin_repository.dart';
 import 'api/api_client.dart';
 import 'core/config.dart';
 
@@ -50,6 +51,7 @@ Future<void> main() async {
       // Legal gate (decision j): no market linkage section unless MARKET_LINK is on.
       marketLink: config.marketLink ? ApiMarketLinkAdminRepository(api) : null,
       safety: config.marketLink ? ApiMarketLinkSafetyAdmin(api) : null,
+      package: config.marketLink ? ApiPackageAdminRepository(api) : null,
     ),
   );
 }

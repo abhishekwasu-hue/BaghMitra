@@ -15,6 +15,9 @@ import 'market_link_pages.dart';
 import 'market_link_rechecks.dart';
 import 'market_link_safety_admin.dart';
 import 'market_link_safety_pages.dart';
+import 'package_admin_repository.dart';
+import 'package_pages.dart';
+import 'package_strings.dart';
 
 /// Admin web shell (ADR 0006). Sections map to the config tables that keep business
 /// values out of code (spec §0.5); editors arrive with the milestones that own them.
@@ -27,6 +30,7 @@ class AdminApp extends StatelessWidget {
     this.documents,
     this.marketLink,
     this.safety,
+    this.package,
     this.auth,
   });
 
@@ -48,6 +52,9 @@ class AdminApp extends StatelessWidget {
   /// Market linkage reports and appeals (L6); same gate and role as [marketLink].
   final MarketLinkSafetyAdmin? safety;
 
+  /// Season sale package settings and activation (spec v1.5 §4E); with [marketLink] only.
+  final PackageAdminRepository? package;
+
   /// When set, the shell is shown only to a signed-in staff account.
   final AdminAuth? auth;
 
@@ -66,6 +73,7 @@ class AdminApp extends StatelessWidget {
         documents: documents,
         marketLink: marketLink,
         safety: safety,
+        package: package,
       ),
       final a => StreamBuilder<void>(
         stream: a.changes,
@@ -78,6 +86,7 @@ class AdminApp extends StatelessWidget {
                 documents: documents,
                 marketLink: marketLink,
                 safety: safety,
+                package: package,
                 roles: a.roles,
                 onSignOut: a.signOut,
               ),
@@ -95,6 +104,7 @@ class AdminShell extends StatefulWidget {
     this.documents,
     this.marketLink,
     this.safety,
+    this.package,
     this.roles = const {},
     this.onSignOut,
   });
@@ -105,6 +115,7 @@ class AdminShell extends StatefulWidget {
   final DocumentPicker? documents;
   final MarketLinkAdminRepository? marketLink;
   final MarketLinkSafetyAdmin? safety;
+  final PackageAdminRepository? package;
 
   /// Supabase app_metadata roles of the signed-in account (gates the feed section).
   final Set<String> roles;
@@ -171,6 +182,12 @@ class _AdminShellState extends State<AdminShell> {
           (t.adminMlReports, Icons.flag_rounded, ReportsPage(repo: safety)),
           (t.adminMlAppeals, Icons.gavel_rounded, AppealsPage(repo: safety)),
         ],
+        if (widget.package case final pkg?)
+          (
+            PackageStrings.of(context)['section'],
+            Icons.workspace_premium_rounded,
+            PackageSection(repo: pkg),
+          ),
       ],
       (t.adminCropTemplates, Icons.eco_rounded, soon(1)),
       (t.adminRiskRules, Icons.thunderstorm_rounded, soon(4)),
