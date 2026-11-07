@@ -3037,6 +3037,97 @@
         "title": "GrowerCardsResponse",
         "type": "object"
       },
+      "GrowerContactOut": {
+        "properties": {
+          "district": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "District"
+          },
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          },
+          "phone": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phone"
+          },
+          "pin": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PinOut"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "plot_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Plot Name"
+          },
+          "taluka": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Taluka"
+          },
+          "village": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Village"
+          }
+        },
+        "required": [
+          "name",
+          "phone",
+          "village",
+          "taluka",
+          "district",
+          "plot_name",
+          "pin"
+        ],
+        "title": "GrowerContactOut",
+        "type": "object"
+      },
       "GrowerInterestOut": {
         "description": "An interest beside the others: the trader's (and broker's) public profile with the\nverified badge, completed-deal count and stars (spec §3 step 4).",
         "properties": {
@@ -3500,6 +3591,54 @@
           "via_broker"
         ],
         "title": "InterestOut",
+        "type": "object"
+      },
+      "IntroductionOut": {
+        "description": "Both sides' contacts after acceptance; nothing about their deal is recorded.",
+        "properties": {
+          "accepted_at": {
+            "format": "date-time",
+            "title": "Accepted At",
+            "type": "string"
+          },
+          "broker": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PartyContactOut"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "deal_id": {
+            "format": "uuid",
+            "title": "Deal Id",
+            "type": "string"
+          },
+          "grower": {
+            "$ref": "#/components/schemas/GrowerContactOut"
+          },
+          "interest": {
+            "$ref": "#/components/schemas/InterestOut"
+          },
+          "lot": {
+            "$ref": "#/components/schemas/LotBrief"
+          },
+          "trader": {
+            "$ref": "#/components/schemas/PartyContactOut"
+          }
+        },
+        "required": [
+          "deal_id",
+          "accepted_at",
+          "lot",
+          "interest",
+          "grower",
+          "trader",
+          "broker"
+        ],
+        "title": "IntroductionOut",
         "type": "object"
       },
       "LabelClaimOut": {
@@ -4501,6 +4640,36 @@
         "title": "NumbersOut",
         "type": "object"
       },
+      "PartyContactOut": {
+        "properties": {
+          "firm": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Firm"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "phone": {
+            "title": "Phone",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "firm",
+          "phone"
+        ],
+        "title": "PartyContactOut",
+        "type": "object"
+      },
       "PhotoDownloadUrl": {
         "properties": {
           "expires_in": {
@@ -4575,6 +4744,24 @@
           "max_bytes"
         ],
         "title": "PhotoUploadUrl",
+        "type": "object"
+      },
+      "PinOut": {
+        "properties": {
+          "lat": {
+            "title": "Lat",
+            "type": "number"
+          },
+          "lon": {
+            "title": "Lon",
+            "type": "number"
+          }
+        },
+        "required": [
+          "lat",
+          "lon"
+        ],
+        "title": "PinOut",
         "type": "object"
       },
       "PlanIn": {
@@ -10200,6 +10387,95 @@
         ]
       }
     },
+    "/v1/market-link/deals/{deal_id}": {
+      "get": {
+        "description": "The introduction, for its grower, trader and broker only (404 for anyone else).",
+        "operationId": "market_link_introduction",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "deal_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Deal Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IntroductionOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Introduction",
+        "tags": [
+          "market-link"
+        ]
+      }
+    },
     "/v1/market-link/exporters": {
       "post": {
         "description": "Exporter registration (IEC required, spec §4).",
@@ -10394,6 +10670,95 @@
         ]
       }
     },
+    "/v1/market-link/interests/{interest_id}/accept": {
+      "post": {
+        "description": "The lot's grower accepts one open interest: the introduction is recorded, the other\nopen interests are closed (their senders get a notice), the lot leaves the traders' list\nand both sides see each other's contacts. Anyone but the lot's grower gets 404.",
+        "operationId": "market_link_accept_interest",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "interest_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Interest Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IntroductionOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Accept Interest",
+        "tags": [
+          "market-link"
+        ]
+      }
+    },
     "/v1/market-link/lot-photos/{photo_id}/photo": {
       "put": {
         "description": "Uploads one JPEG of the caller's own draft lot through the server, which strips its\nEXIF (GPS point, phone model, time) before storing it (spec v1.5 §4B). There is no signed\nupload URL for lot photos, so no stored lot photo can keep its metadata.",
@@ -10536,7 +10901,7 @@
     },
     "/v1/market-link/lot-photos/{photo_id}/url": {
       "get": {
-        "description": "A short-lived download URL for an uploaded lot photo: for the grower, or for a\nverified buyer / broker while the lot is published. Only the derived key is signed.",
+        "description": "A short-lived download URL for an uploaded lot photo: for the grower, or for a\nverified buyer / broker while the lot is published, or for the parties of an accepted\ninterest on it (L4). Only the derived key is signed.",
         "operationId": "market_link_lot_photo_url",
         "parameters": [
           {
@@ -10812,7 +11177,7 @@
     },
     "/v1/market-link/lots/{lot_id}/close": {
       "post": {
-        "description": "Takes a published lot off the buyers' list (the grower sold it or changed their mind).",
+        "description": "Takes a published lot off the buyers' list (the grower sold it or changed their mind);\nits open interests are closed and their senders get a notice (L4).",
         "operationId": "market_link_close_lot",
         "parameters": [
           {
@@ -10988,7 +11353,7 @@
         ]
       },
       "post": {
-        "description": "An interest on a published lot from a verified trader / exporter (optionally naming a\nverified broker) or from a verified broker for a named verified trader. A trader's new\ninterest replaces their open one on the same lot.",
+        "description": "An interest on a published lot from a verified trader / exporter (optionally naming a\nverified broker) or from a verified broker for a named verified trader. A trader's new\ninterest replaces their open one on the same lot. The grower gets a push.",
         "operationId": "market_link_send_interest",
         "parameters": [
           {
