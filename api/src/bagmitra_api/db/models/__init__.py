@@ -65,6 +65,11 @@ from bagmitra_api.market_link.models import (
     TermsAcceptance,
     UserBlock,
 )
+from bagmitra_api.market_link.package_models import (
+    CompanyProfile,
+    PackageGrant,
+    SeasonPackageSettings,
+)
 from bagmitra_api.push.models import PushDevice
 from bagmitra_api.risk.models import PlotRiskAlert
 from bagmitra_api.weather.models import WeatherDaily
@@ -77,6 +82,7 @@ __all__ = [
     "BillingPlan",
     "BrokerProfile",
     "BuyerProfile",
+    "CompanyProfile",
     "CropStageTemplate",
     "DealEvent",
     "DealParty",
@@ -115,6 +121,7 @@ __all__ = [
     "MarketOffer",
     "MarketPrice",
     "MarketPull",
+    "PackageGrant",
     "PartyVerification",
     "PlanEntitlement",
     "Plot",
@@ -125,6 +132,7 @@ __all__ = [
     "RegistrationFix",
     "RepresentativeUpload",
     "ScoutingRecord",
+    "SeasonPackageSettings",
     "ServiceProvider",
     "SprayRecord",
     "Subscription",
