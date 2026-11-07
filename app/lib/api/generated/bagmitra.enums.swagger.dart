@@ -26,6 +26,74 @@ enum AcceptInRole {
   const AcceptInRole(this.value);
 }
 
+enum ActionInAction {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('verify')
+  verify('verify'),
+  @JsonValue('warn')
+  warn('warn'),
+  @JsonValue('hide')
+  hide('hide'),
+  @JsonValue('suspend')
+  suspend('suspend'),
+  @JsonValue('restore')
+  restore('restore');
+
+  final String? value;
+
+  const ActionInAction(this.value);
+}
+
+enum ActionInReasonCode {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('fake_identity')
+  fakeIdentity('fake_identity'),
+  @JsonValue('fake_lot')
+  fakeLot('fake_lot'),
+  @JsonValue('impersonation')
+  impersonation('impersonation'),
+  @JsonValue('fake_rating')
+  fakeRating('fake_rating'),
+  @JsonValue('abuse')
+  abuse('abuse'),
+  @JsonValue('duplicate_user')
+  duplicateUser('duplicate_user'),
+  @JsonValue('checks_passed')
+  checksPassed('checks_passed'),
+  @JsonValue('appeal_upheld')
+  appealUpheld('appeal_upheld');
+
+  final String? value;
+
+  const ActionInReasonCode(this.value);
+}
+
+enum ActionInSubjectType {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('buyer')
+  buyer('buyer'),
+  @JsonValue('broker')
+  broker('broker'),
+  @JsonValue('provider')
+  provider('provider'),
+  @JsonValue('lot')
+  lot('lot'),
+  @JsonValue('rating')
+  rating('rating'),
+  @JsonValue('user')
+  user('user');
+
+  final String? value;
+
+  const ActionInSubjectType(this.value);
+}
+
 enum AdminProviderInKind {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
@@ -44,6 +112,40 @@ enum AdminProviderInKind {
   const AdminProviderInKind(this.value);
 }
 
+enum AppealDecisionInOutcome {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('upheld')
+  upheld('upheld'),
+  @JsonValue('rejected')
+  rejected('rejected');
+
+  final String? value;
+
+  const AppealDecisionInOutcome(this.value);
+}
+
+enum AppealInReason {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('identity_genuine')
+  identityGenuine('identity_genuine'),
+  @JsonValue('lot_genuine')
+  lotGenuine('lot_genuine'),
+  @JsonValue('rating_genuine')
+  ratingGenuine('rating_genuine'),
+  @JsonValue('behaviour_proper')
+  behaviourProper('behaviour_proper'),
+  @JsonValue('not_duplicate')
+  notDuplicate('not_duplicate');
+
+  final String? value;
+
+  const AppealInReason(this.value);
+}
+
 enum BadgeOutKind {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
@@ -53,7 +155,17 @@ enum BadgeOutKind {
   @JsonValue('registered_from')
   registeredFrom('registered_from'),
   @JsonValue('place_photo')
-  placePhoto('place_photo');
+  placePhoto('place_photo'),
+  @JsonValue('gst_checked')
+  gstChecked('gst_checked'),
+  @JsonValue('apmc_seen')
+  apmcSeen('apmc_seen'),
+  @JsonValue('fssai_checked')
+  fssaiChecked('fssai_checked'),
+  @JsonValue('iec_active')
+  iecActive('iec_active'),
+  @JsonValue('apeda_listed')
+  apedaListed('apeda_listed');
 
   final String? value;
 
@@ -86,6 +198,78 @@ enum ChangeOp {
   final String? value;
 
   const ChangeOp(this.value);
+}
+
+enum CheckInKind {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('gstin')
+  gstin('gstin'),
+  @JsonValue('apmc')
+  apmc('apmc'),
+  @JsonValue('fssai')
+  fssai('fssai'),
+  @JsonValue('iec')
+  iec('iec'),
+  @JsonValue('apeda')
+  apeda('apeda'),
+  @JsonValue('phone_call')
+  phoneCall('phone_call'),
+  @JsonValue('place_photo')
+  placePhoto('place_photo');
+
+  final String? value;
+
+  const CheckInKind(this.value);
+}
+
+enum CheckInResult {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('passed')
+  passed('passed'),
+  @JsonValue('failed')
+  failed('failed'),
+  @JsonValue('cancelled')
+  cancelled('cancelled');
+
+  final String? value;
+
+  const CheckInResult(this.value);
+}
+
+enum DealStateOutMyRole {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('grower')
+  grower('grower'),
+  @JsonValue('trader')
+  trader('trader'),
+  @JsonValue('broker')
+  broker('broker');
+
+  final String? value;
+
+  const DealStateOutMyRole(this.value);
+}
+
+enum DealStateOutRates {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('grower')
+  grower('grower'),
+  @JsonValue('trader')
+  trader('trader'),
+  @JsonValue('broker')
+  broker('broker');
+
+  final String? value;
+
+  const DealStateOutRates(this.value);
 }
 
 enum DecisionInStatus {
@@ -200,6 +384,22 @@ enum FeedPreferencesBodyOptedOut {
   const FeedPreferencesBodyOptedOut(this.value);
 }
 
+enum GivenRatingOutRateeRole {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('grower')
+  grower('grower'),
+  @JsonValue('trader')
+  trader('trader'),
+  @JsonValue('broker')
+  broker('broker');
+
+  final String? value;
+
+  const GivenRatingOutRateeRole(this.value);
+}
+
 enum GrantInSubjectType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
@@ -212,6 +412,22 @@ enum GrantInSubjectType {
   final String? value;
 
   const GrantInSubjectType(this.value);
+}
+
+enum InterestInBasis {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('per_tonne')
+  perTonne('per_tonne'),
+  @JsonValue('per_crate')
+  perCrate('per_crate'),
+  @JsonValue('lump_sum')
+  lumpSum('lump_sum');
+
+  final String? value;
+
+  const InterestInBasis(this.value);
 }
 
 enum LabelClaimOutCategory {
@@ -308,6 +524,90 @@ enum RatingTagInStatus {
   const RatingTagInStatus(this.value);
 }
 
+enum ReportDecisionInAction {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('warn')
+  warn('warn'),
+  @JsonValue('hide')
+  hide('hide'),
+  @JsonValue('suspend')
+  suspend('suspend');
+
+  final String? value;
+
+  const ReportDecisionInAction(this.value);
+}
+
+enum ReportDecisionInReasonCode {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('fake_identity')
+  fakeIdentity('fake_identity'),
+  @JsonValue('fake_lot')
+  fakeLot('fake_lot'),
+  @JsonValue('impersonation')
+  impersonation('impersonation'),
+  @JsonValue('fake_rating')
+  fakeRating('fake_rating'),
+  @JsonValue('abuse')
+  abuse('abuse'),
+  @JsonValue('duplicate_user')
+  duplicateUser('duplicate_user'),
+  @JsonValue('checks_passed')
+  checksPassed('checks_passed'),
+  @JsonValue('appeal_upheld')
+  appealUpheld('appeal_upheld');
+
+  final String? value;
+
+  const ReportDecisionInReasonCode(this.value);
+}
+
+enum ReportInReason {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('fake_identity')
+  fakeIdentity('fake_identity'),
+  @JsonValue('fake_lot')
+  fakeLot('fake_lot'),
+  @JsonValue('impersonation')
+  impersonation('impersonation'),
+  @JsonValue('fake_rating')
+  fakeRating('fake_rating'),
+  @JsonValue('abuse')
+  abuse('abuse');
+
+  final String? value;
+
+  const ReportInReason(this.value);
+}
+
+enum ReportInSubjectType {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('buyer')
+  buyer('buyer'),
+  @JsonValue('broker')
+  broker('broker'),
+  @JsonValue('provider')
+  provider('provider'),
+  @JsonValue('lot')
+  lot('lot'),
+  @JsonValue('rating')
+  rating('rating'),
+  @JsonValue('user')
+  user('user');
+
+  final String? value;
+
+  const ReportInSubjectType(this.value);
+}
+
 enum ReviewInDecision {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
@@ -388,6 +688,38 @@ enum V1AdminKbImportsKindPostKind {
   const V1AdminKbImportsKindPostKind(this.value);
 }
 
+enum V1AdminMarketLinkAppealsGetState {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('appealed')
+  appealed('appealed'),
+  @JsonValue('upheld')
+  upheld('upheld'),
+  @JsonValue('rejected')
+  rejected('rejected');
+
+  final String? value;
+
+  const V1AdminMarketLinkAppealsGetState(this.value);
+}
+
+enum V1AdminMarketLinkReportsGetStatus {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('open')
+  open('open'),
+  @JsonValue('actioned')
+  actioned('actioned'),
+  @JsonValue('dismissed')
+  dismissed('dismissed');
+
+  final String? value;
+
+  const V1AdminMarketLinkReportsGetStatus(this.value);
+}
+
 enum V1AdminMarketLinkVerificationsSubjectTypeSubjectIdGetSubjectType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
@@ -402,6 +734,24 @@ enum V1AdminMarketLinkVerificationsSubjectTypeSubjectIdGetSubjectType {
   final String? value;
 
   const V1AdminMarketLinkVerificationsSubjectTypeSubjectIdGetSubjectType(
+    this.value,
+  );
+}
+
+enum V1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPostSubjectType {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('buyer')
+  buyer('buyer'),
+  @JsonValue('broker')
+  broker('broker'),
+  @JsonValue('provider')
+  provider('provider');
+
+  final String? value;
+
+  const V1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPostSubjectType(
     this.value,
   );
 }
@@ -488,6 +838,22 @@ enum V1InsuranceDeadlinesGetLang {
   final String? value;
 
   const V1InsuranceDeadlinesGetLang(this.value);
+}
+
+enum V1MarketLinkDealsDealIdRatingsRateeRolePutRateeRole {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('grower')
+  grower('grower'),
+  @JsonValue('trader')
+  trader('trader'),
+  @JsonValue('broker')
+  broker('broker');
+
+  final String? value;
+
+  const V1MarketLinkDealsDealIdRatingsRateeRolePutRateeRole(this.value);
 }
 
 enum V1MarketLinkProfilesGetRole {

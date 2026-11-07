@@ -46,6 +46,8 @@ const allowNegative = {
   'mlServicesEmpty',
   // Export record PDF footer (spec v1.5 §4A): an information record, not a certificate.
   'exportRecordFooter',
+  // False match: "नकाशावर" (on the map) contains "नका".
+  'mlIntroOpenMap',
 };
 
 final _negative = <String, RegExp>{
