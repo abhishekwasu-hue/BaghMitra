@@ -2557,6 +2557,68 @@ class AppLocalizationsEn extends AppLocalizations {
   String get exportLinksTitle => 'Official pages';
 
   @override
+  String get exportRecordTitle => 'Export record';
+
+  @override
+  String get exportRecordAction => 'Make export record (PDF)';
+
+  @override
+  String get exportRecordPlot => 'Plot';
+
+  @override
+  String get exportRecordBahar => 'Bahar';
+
+  @override
+  String get exportRecordAllBahars => 'All sprays';
+
+  @override
+  String exportRecordCount(String count) {
+    return '$count sprays';
+  }
+
+  @override
+  String exportRecordLastPhi(String date) {
+    return 'Last PHI ends $date';
+  }
+
+  @override
+  String get exportRecordShare => 'Share PDF';
+
+  @override
+  String get exportRecordNoPlot =>
+      'Add a plot first; its spray record appears here.';
+
+  @override
+  String get exportRecordEmpty =>
+      'Sprays of this bahar appear here once recorded.';
+
+  @override
+  String get exportRecordDate => 'Date';
+
+  @override
+  String get exportRecordProduct => 'Product · ingredient · dose';
+
+  @override
+  String get exportRecordLabel => 'Label check';
+
+  @override
+  String get exportRecordPhiEnd => 'PHI ends';
+
+  @override
+  String get exportLabelListed => 'On the label for this crop';
+
+  @override
+  String get exportLabelCheck => 'Check the label';
+
+  @override
+  String exportRecordMade(String date) {
+    return 'Made on $date from the grower\'s own spray log.';
+  }
+
+  @override
+  String get exportRecordFooter => 'Information record, not a certificate.';
+
+  @override
   String fairPriceMandi(Object date, Object market, Object price) {
     return '$market mandi, $date: modal price $price per quintal';
   }
@@ -3151,4 +3213,119 @@ class AppLocalizationsEn extends AppLocalizations {
   String adminMlDocumentCount(int n) {
     return 'Documents: $n';
   }
+
+  @override
+  String get mlRolesTitle => 'Choose your role';
+
+  @override
+  String get mlRolesIntro =>
+      'One sign-in for every role. You can switch the role any time.';
+
+  @override
+  String get mlRoleGrower => 'Grower';
+
+  @override
+  String get mlRoleTrader => 'Trader';
+
+  @override
+  String get mlRoleBroker => 'Broker';
+
+  @override
+  String get mlRoleExporter => 'Exporter';
+
+  @override
+  String get mlRoleProvider => 'Service provider';
+
+  @override
+  String get mlRoleProviderKinds => 'Weighbridge, transport, labour, crates';
+
+  @override
+  String get mlRoleCurrent => 'Current role';
+
+  @override
+  String get mlSwitchRole => 'Switch role';
+
+  @override
+  String get mlHomeLinkTitle => 'Market link';
+
+  @override
+  String get mlHomeLinkHint =>
+      'Trader, broker, exporter, services: choose a role';
+
+  @override
+  String get mlTermsTitle => 'Before you start';
+
+  @override
+  String mlTermsRole(String role) {
+    return 'Role: $role';
+  }
+
+  @override
+  String get mlTermsIntroOnly =>
+      'BagMitra only gives information and introduces you to traders, brokers and the market.';
+
+  @override
+  String get mlTermsNotParty =>
+      'BagMitra is not a buyer, seller, commission agent or transporter.';
+
+  @override
+  String get mlTermsNoMoney =>
+      'It holds no money and guarantees no payment or quality.';
+
+  @override
+  String get mlTermsNoGainLoss =>
+      'This app has no gain or loss in your transaction.';
+
+  @override
+  String get mlTermsNoPart =>
+      'It takes no part in your transaction or in any dispute.';
+
+  @override
+  String get mlTermsAfterDeal =>
+      'What to record after a transaction is your choice.';
+
+  @override
+  String get mlTermsPublicPhone =>
+      'Your phone number is shown publicly on your profile, so growers can call you directly.';
+
+  @override
+  String get mlTermsGpsOnce =>
+      'Your location (GPS) is taken once, at registration, to prevent fraud.';
+
+  @override
+  String get mlTermsFull => 'Full terms of use';
+
+  @override
+  String get mlTermsAdult => 'I am over 18 years of age';
+
+  @override
+  String get mlTermsAgree => 'I have read and agree';
+
+  @override
+  String get mlTermsAccept => 'Accept and continue';
+
+  @override
+  String get mlTermsBack => 'Back';
+
+  @override
+  String get mlRoleHomeSoon => 'The tools for this role will appear here soon.';
+
+  @override
+  String get mlSafetyNotice =>
+      'BagMitra never asks for money, OTP or bank details.';
+
+  @override
+  String get mlGrievanceTitle => 'Grievance officer';
+
+  @override
+  String get mlGrievanceOwner => 'BagMitra owner';
+
+  @override
+  String mlGrievanceContact(String contact) {
+    return 'Contact: $contact';
+  }
+
+  @override
+  String get mlGrievanceTimes =>
+      'Complaints are acknowledged within 24 hours and resolved within 15 days.';
 }

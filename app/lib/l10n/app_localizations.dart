@@ -4492,6 +4492,114 @@ abstract class AppLocalizations {
   /// **'Official pages'**
   String get exportLinksTitle;
 
+  /// No description provided for @exportRecordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Export record'**
+  String get exportRecordTitle;
+
+  /// No description provided for @exportRecordAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Make export record (PDF)'**
+  String get exportRecordAction;
+
+  /// No description provided for @exportRecordPlot.
+  ///
+  /// In en, this message translates to:
+  /// **'Plot'**
+  String get exportRecordPlot;
+
+  /// No description provided for @exportRecordBahar.
+  ///
+  /// In en, this message translates to:
+  /// **'Bahar'**
+  String get exportRecordBahar;
+
+  /// No description provided for @exportRecordAllBahars.
+  ///
+  /// In en, this message translates to:
+  /// **'All sprays'**
+  String get exportRecordAllBahars;
+
+  /// No description provided for @exportRecordCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} sprays'**
+  String exportRecordCount(String count);
+
+  /// No description provided for @exportRecordLastPhi.
+  ///
+  /// In en, this message translates to:
+  /// **'Last PHI ends {date}'**
+  String exportRecordLastPhi(String date);
+
+  /// No description provided for @exportRecordShare.
+  ///
+  /// In en, this message translates to:
+  /// **'Share PDF'**
+  String get exportRecordShare;
+
+  /// No description provided for @exportRecordNoPlot.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a plot first; its spray record appears here.'**
+  String get exportRecordNoPlot;
+
+  /// No description provided for @exportRecordEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Sprays of this bahar appear here once recorded.'**
+  String get exportRecordEmpty;
+
+  /// No description provided for @exportRecordDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get exportRecordDate;
+
+  /// No description provided for @exportRecordProduct.
+  ///
+  /// In en, this message translates to:
+  /// **'Product · ingredient · dose'**
+  String get exportRecordProduct;
+
+  /// No description provided for @exportRecordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Label check'**
+  String get exportRecordLabel;
+
+  /// No description provided for @exportRecordPhiEnd.
+  ///
+  /// In en, this message translates to:
+  /// **'PHI ends'**
+  String get exportRecordPhiEnd;
+
+  /// No description provided for @exportLabelListed.
+  ///
+  /// In en, this message translates to:
+  /// **'On the label for this crop'**
+  String get exportLabelListed;
+
+  /// No description provided for @exportLabelCheck.
+  ///
+  /// In en, this message translates to:
+  /// **'Check the label'**
+  String get exportLabelCheck;
+
+  /// No description provided for @exportRecordMade.
+  ///
+  /// In en, this message translates to:
+  /// **'Made on {date} from the grower\'s own spray log.'**
+  String exportRecordMade(String date);
+
+  /// Export record PDF footer (spec v1.5 §4A): information only, no compliance claim. Keeps the negative on purpose.
+  ///
+  /// In en, this message translates to:
+  /// **'Information record, not a certificate.'**
+  String get exportRecordFooter;
+
   /// No description provided for @fairPriceMandi.
   ///
   /// In en, this message translates to:
@@ -5487,6 +5595,204 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Documents: {n}'**
   String adminMlDocumentCount(int n);
+
+  /// No description provided for @mlRolesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose your role'**
+  String get mlRolesTitle;
+
+  /// No description provided for @mlRolesIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'One sign-in for every role. You can switch the role any time.'**
+  String get mlRolesIntro;
+
+  /// No description provided for @mlRoleGrower.
+  ///
+  /// In en, this message translates to:
+  /// **'Grower'**
+  String get mlRoleGrower;
+
+  /// No description provided for @mlRoleTrader.
+  ///
+  /// In en, this message translates to:
+  /// **'Trader'**
+  String get mlRoleTrader;
+
+  /// No description provided for @mlRoleBroker.
+  ///
+  /// In en, this message translates to:
+  /// **'Broker'**
+  String get mlRoleBroker;
+
+  /// No description provided for @mlRoleExporter.
+  ///
+  /// In en, this message translates to:
+  /// **'Exporter'**
+  String get mlRoleExporter;
+
+  /// No description provided for @mlRoleProvider.
+  ///
+  /// In en, this message translates to:
+  /// **'Service provider'**
+  String get mlRoleProvider;
+
+  /// No description provided for @mlRoleProviderKinds.
+  ///
+  /// In en, this message translates to:
+  /// **'Weighbridge, transport, labour, crates'**
+  String get mlRoleProviderKinds;
+
+  /// No description provided for @mlRoleCurrent.
+  ///
+  /// In en, this message translates to:
+  /// **'Current role'**
+  String get mlRoleCurrent;
+
+  /// No description provided for @mlSwitchRole.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch role'**
+  String get mlSwitchRole;
+
+  /// No description provided for @mlHomeLinkTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Market link'**
+  String get mlHomeLinkTitle;
+
+  /// No description provided for @mlHomeLinkHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Trader, broker, exporter, services: choose a role'**
+  String get mlHomeLinkHint;
+
+  /// No description provided for @mlTermsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Before you start'**
+  String get mlTermsTitle;
+
+  /// Acceptance screen: the role being accepted.
+  ///
+  /// In en, this message translates to:
+  /// **'Role: {role}'**
+  String mlTermsRole(String role);
+
+  /// No description provided for @mlTermsIntroOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'BagMitra only gives information and introduces you to traders, brokers and the market.'**
+  String get mlTermsIntroOnly;
+
+  /// No description provided for @mlTermsNotParty.
+  ///
+  /// In en, this message translates to:
+  /// **'BagMitra is not a buyer, seller, commission agent or transporter.'**
+  String get mlTermsNotParty;
+
+  /// No description provided for @mlTermsNoMoney.
+  ///
+  /// In en, this message translates to:
+  /// **'It holds no money and guarantees no payment or quality.'**
+  String get mlTermsNoMoney;
+
+  /// Owner's disclaimer (mr verbatim). Uses 'transaction' (व्यवहार), never सौदा.
+  ///
+  /// In en, this message translates to:
+  /// **'This app has no gain or loss in your transaction.'**
+  String get mlTermsNoGainLoss;
+
+  /// No description provided for @mlTermsNoPart.
+  ///
+  /// In en, this message translates to:
+  /// **'It takes no part in your transaction or in any dispute.'**
+  String get mlTermsNoPart;
+
+  /// No description provided for @mlTermsAfterDeal.
+  ///
+  /// In en, this message translates to:
+  /// **'What to record after a transaction is your choice.'**
+  String get mlTermsAfterDeal;
+
+  /// No description provided for @mlTermsPublicPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Your phone number is shown publicly on your profile, so growers can call you directly.'**
+  String get mlTermsPublicPhone;
+
+  /// No description provided for @mlTermsGpsOnce.
+  ///
+  /// In en, this message translates to:
+  /// **'Your location (GPS) is taken once, at registration, to prevent fraud.'**
+  String get mlTermsGpsOnce;
+
+  /// No description provided for @mlTermsFull.
+  ///
+  /// In en, this message translates to:
+  /// **'Full terms of use'**
+  String get mlTermsFull;
+
+  /// No description provided for @mlTermsAdult.
+  ///
+  /// In en, this message translates to:
+  /// **'I am over 18 years of age'**
+  String get mlTermsAdult;
+
+  /// No description provided for @mlTermsAgree.
+  ///
+  /// In en, this message translates to:
+  /// **'I have read and agree'**
+  String get mlTermsAgree;
+
+  /// No description provided for @mlTermsAccept.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept and continue'**
+  String get mlTermsAccept;
+
+  /// No description provided for @mlTermsBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get mlTermsBack;
+
+  /// No description provided for @mlRoleHomeSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'The tools for this role will appear here soon.'**
+  String get mlRoleHomeSoon;
+
+  /// Fixed notice on every market-link role home (spec v1.5 §4C).
+  ///
+  /// In en, this message translates to:
+  /// **'BagMitra never asks for money, OTP or bank details.'**
+  String get mlSafetyNotice;
+
+  /// No description provided for @mlGrievanceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Grievance officer'**
+  String get mlGrievanceTitle;
+
+  /// No description provided for @mlGrievanceOwner.
+  ///
+  /// In en, this message translates to:
+  /// **'BagMitra owner'**
+  String get mlGrievanceOwner;
+
+  /// Role home: the grievance officer's phone or email.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact: {contact}'**
+  String mlGrievanceContact(String contact);
+
+  /// No description provided for @mlGrievanceTimes.
+  ///
+  /// In en, this message translates to:
+  /// **'Complaints are acknowledged within 24 hours and resolved within 15 days.'**
+  String get mlGrievanceTimes;
 }
 
 class _AppLocalizationsDelegate

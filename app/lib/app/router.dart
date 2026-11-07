@@ -17,6 +17,7 @@ import '../features/calendar/presentation/season_calendar_screen.dart';
 import '../features/dev/component_gallery_screen.dart';
 import '../features/directory/presentation/directory_screen.dart';
 import '../features/export_info/presentation/export_info_screen.dart';
+import '../features/export_info/presentation/export_record_screen.dart';
 import '../features/feed/presentation/feed_check_screen.dart';
 import '../features/feed/presentation/feed_preferences_screen.dart';
 import '../features/feed/presentation/feed_screen.dart';
@@ -32,6 +33,10 @@ import '../features/lab_tests/presentation/lab_test_screens.dart';
 import '../features/labels/presentation/label_info_screen.dart';
 import '../features/lookalikes/presentation/lookalikes_screen.dart';
 import '../features/market/presentation/market_prices_screen.dart';
+import '../features/market_link/domain/market_link.dart';
+import '../features/market_link/presentation/role_home_screen.dart';
+import '../features/market_link/presentation/role_picker_screen.dart';
+import '../features/market_link/presentation/terms_acceptance_screen.dart';
 import '../features/more/presentation/more_screen.dart';
 import '../features/plots/presentation/add_plot_screen.dart';
 import '../features/plots/presentation/boundary_screen.dart';
@@ -101,6 +106,13 @@ abstract final class Routes {
   static const labs = '/labs';
   static const marketDirectory = '/market/directory';
   static const exportInfo = '/market/export';
+  static const exportRecord = '/market/export/record';
+
+  /// Market link (flag MARKET_LINK only): the five role cards, a role's own home, and the
+  /// terms screen pushed by `ensureMarketRoleAccepted` (it returns true when accepted).
+  static const roles = '/roles';
+  static String roleHome(MarketRole role) => '$roles/${role.name}';
+  static String roleTerms(MarketRole role) => '$roles/${role.name}/terms';
   static const plots = '/plots';
   static const addPlot = '/plots/new';
   static const walkBoundary = '/plots/new/boundary';
@@ -166,6 +178,7 @@ GoRouter buildRouter(
   ValueListenable<bool?>? onboarded,
   ValueListenable<bool?>? walkthroughSeen,
   ValueListenable<AccountCheck?>? accountGate,
+  ValueListenable<MarketRole?>? marketRole,
 }) {
   final refresh = _AuthListenable(auth.sessions());
   return GoRouter(
@@ -175,6 +188,7 @@ GoRouter buildRouter(
       ?onboarded,
       ?walkthroughSeen,
       ?accountGate,
+      ?marketRole,
     ]),
     redirect: (context, state) {
       final signedIn = auth.current != null;
@@ -195,7 +209,14 @@ GoRouter buildRouter(
         return Routes.walkthrough;
       }
       if (onWalkthrough) return null;
-      if (!signedIn && !onLogin) return Routes.login;
+      // Market link (spec v1.5 §2.1, Q86): signed out, the five role cards come first and the
+      // card leads to the same sign-in. Without the flag no role screen exists.
+      final onRoles = loc.startsWith(Routes.roles);
+      if (onRoles && !config.marketLink) return Routes.home;
+      if (!signedIn && !onLogin) {
+        if (!config.marketLink) return Routes.login;
+        return loc == Routes.roles ? null : Routes.roles;
+      }
       // Another account's records on the phone (Q36): warn (or block) before anything of
       // them shows. Unknown (still checking) waits where it is, so a sign-in stays on the
       // login screen until the check is done.
@@ -213,6 +234,11 @@ GoRouter buildRouter(
       final onOnboarding = loc == Routes.onboarding;
       if (signedIn && done == false && !onOnboarding) return Routes.onboarding;
       if (signedIn && done == true && onOnboarding) return Routes.home;
+      // The chosen role's own home opens at `/`; the grower role is the grower app itself.
+      final role = config.marketLink ? marketRole?.value : null;
+      if (loc == Routes.home && role != null && role != MarketRole.grower) {
+        return Routes.roleHome(role);
+      }
       return null;
     },
     routes: [
@@ -305,6 +331,10 @@ GoRouter buildRouter(
       GoRoute(
         path: Routes.exportInfo,
         builder: (_, _) => const ExportInfoScreen(),
+      ),
+      GoRoute(
+        path: Routes.exportRecord,
+        builder: (_, _) => const ExportRecordScreen(),
       ),
       GoRoute(path: Routes.addPlot, builder: (_, _) => const AddPlotScreen()),
       GoRoute(
@@ -469,6 +499,23 @@ GoRouter buildRouter(
         path: Routes.onboarding,
         builder: (_, _) => const OnboardingScreen(),
       ),
+      // Before `/roles/:role`, so the terms page is not read as a role home.
+      GoRoute(
+        path: '${Routes.roles}/:role/terms',
+        redirect: (_, s) => _role(s) == null ? Routes.roles : null,
+        builder: (_, s) => TermsAcceptanceScreen(role: _role(s)!),
+      ),
+      GoRoute(path: Routes.roles, builder: (_, _) => const RolePickerScreen()),
+      // The grower's home is the grower app itself.
+      GoRoute(
+        path: '${Routes.roles}/:role',
+        redirect: (_, s) => switch (_role(s)) {
+          null => Routes.roles,
+          MarketRole.grower => Routes.home,
+          _ => null,
+        },
+        builder: (_, s) => RoleHomeScreen(role: _role(s)!),
+      ),
       GoRoute(path: Routes.login, builder: (_, _) => const PhoneLoginScreen()),
       GoRoute(
         path: Routes.otp,
@@ -482,3 +529,6 @@ GoRouter buildRouter(
     ],
   );
 }
+
+MarketRole? _role(GoRouterState s) =>
+    MarketRole.fromName(s.pathParameters['role']);
