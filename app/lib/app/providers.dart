@@ -58,6 +58,9 @@ import '../features/labels/data/label_targets.dart';
 import '../features/lookalikes/data/lookalike_cards.dart';
 import '../features/market/data/market_prices_cache.dart';
 import '../features/market/domain/market_crops.dart';
+import '../features/market_link/data/lot_publisher.dart';
+import '../features/market_link/data/market_lot_repository.dart';
+import '../features/market_link/domain/market_lot.dart';
 import '../features/plots/data/crop_catalog.dart';
 import '../features/plots/data/location_service.dart';
 import '../features/plots/data/place_geocoder.dart';
@@ -815,6 +818,40 @@ final fileSharerProvider = Provider<FileSharer>(
   (ref) => const SharePlusFileSharer(),
 );
 
+/// Lot photos from the in-app camera, kept in their own folder on the phone.
+final lotPhotosProvider = Provider<ScoutingPhotos>(
+  (ref) => DeviceScoutingPhotos(folderName: 'market_lot_photos'),
+);
+
+final marketLotRepositoryProvider = Provider<MarketLotRepository>(
+  (ref) => MarketLotRepository(
+    ref.watch(databaseProvider),
+    clock: ref.watch(clockProvider),
+    photos: ref.watch(lotPhotosProvider),
+  ),
+);
+
+final marketLotsProvider = StreamProvider<List<MarketLot>>(
+  (ref) => ref.watch(marketLotRepositoryProvider).watchAll(),
+);
+
+final lotPhotosStreamProvider = StreamProvider.family<List<LotPhoto>, String>(
+  (ref, lotId) => ref.watch(marketLotRepositoryProvider).watchPhotos(lotId),
+);
+
+/// Publishing and closing a lot (online steps). Tests override it.
+final lotPublisherProvider = Provider<LotPublisher>((ref) {
+  final db = ref.watch(databaseProvider);
+  return LotPublisher(
+    repo: ref.watch(marketLotRepositoryProvider),
+    api: HttpLotApi(ref.watch(apiProvider)),
+    files: DevicePhotoFiles(),
+    outbox: Outbox(db, clock: ref.watch(clockProvider)),
+    sync: () => ref.read(syncEngineProvider).sync(),
+    log: (line) => ref.read(appLogProvider).log(line),
+  );
+});
+
 final syncEngineProvider = Provider<SyncEngine>((ref) {
   final engine = SyncEngine(
     db: ref.watch(databaseProvider),
@@ -855,6 +892,12 @@ final syncEngineProvider = Provider<SyncEngine>((ref) {
       LabTestRepository.entity: ref
           .watch(labTestRepositoryProvider)
           .applyRemote,
+      MarketLotRepository.lotEntity: ref
+          .watch(marketLotRepositoryProvider)
+          .applyRemoteLot,
+      MarketLotRepository.photoEntity: ref
+          .watch(marketLotRepositoryProvider)
+          .applyRemotePhoto,
     },
   );
   // Nothing syncs until the phone's records are known to be this account's (Q36).
