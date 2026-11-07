@@ -34,11 +34,16 @@ import '../features/labels/presentation/label_info_screen.dart';
 import '../features/lookalikes/presentation/lookalikes_screen.dart';
 import '../features/market/presentation/market_prices_screen.dart';
 import '../features/market_link/domain/market_link.dart';
+import '../features/market_link/domain/market_link_role.dart';
 import '../features/market_link/domain/registration.dart';
+import '../features/market_link/presentation/introduction_screen.dart';
 import '../features/market_link/presentation/lot_form_screen.dart';
+import '../features/market_link/presentation/lot_offers_screen.dart';
 import '../features/market_link/presentation/my_lots_screen.dart';
 import '../features/market_link/presentation/my_profiles_screen.dart';
+import '../features/market_link/presentation/offer_screens.dart';
 import '../features/market_link/presentation/people_screen.dart';
+import '../features/market_link/presentation/rating_screen.dart';
 import '../features/market_link/presentation/registration_screen.dart';
 import '../features/market_link/presentation/role_home_screen.dart';
 import '../features/market_link/presentation/role_picker_screen.dart';
@@ -136,6 +141,20 @@ abstract final class Routes {
   static String newMarketLot({String? plotId}) =>
       '$marketLots/new${plotId == null ? '' : '?plot=$plotId'}';
   static String marketLot(String lotId) => '$marketLots/$lotId';
+  static String marketLotOffers(String lotId) => '$marketLots/$lotId/offers';
+
+  /// Traders' and brokers' side (L4): published lots, an offer on one, own offers.
+  static const marketBrowse = '$marketLink/market';
+  static String marketOffer(String lotId) => '$marketBrowse/$lotId/offer';
+  static const marketMyOffers = '$marketLink/offers';
+
+  /// The introduction (contacts) after an acceptance, opened as the grower or the trader.
+  static String marketIntro(String dealId, {bool asGrower = false}) =>
+      '$marketLink/deals/$dealId${asGrower ? '?as=grower' : ''}';
+
+  /// Rating after both tapped "deal done" (L5), as the grower or the trader / broker.
+  static String marketRate(String dealId, {bool asGrower = false}) =>
+      '$marketLink/deals/$dealId/rate${asGrower ? '?as=grower' : ''}';
 
   /// Market link (flag MARKET_LINK only): the five role cards, a role's own home, and the
   /// terms screen pushed by `ensureMarketRoleAccepted` (it returns true when accepted).
@@ -197,7 +216,24 @@ abstract final class Routes {
   static String accounts(String plotId) => '/plots/$plotId/accounts';
   static String compare(String plotId) => '/plots/$plotId/compare';
   static String addExpense(String plotId) => '/plots/$plotId/accounts/expense';
-  static String addSale(String plotId) => '/plots/$plotId/accounts/sale';
+
+  /// The sale form; the market-link copy fills buyer, kg and rate (L5, Q114).
+  static String addSale(
+    String plotId, {
+    String? buyer,
+    double? kg,
+    int? ratePaise,
+  }) {
+    final q = {
+      'buyer': ?buyer,
+      if (kg != null) 'kg': kg.toStringAsFixed(kg % 1 == 0 ? 0 : 1),
+      if (ratePaise != null) 'rate': (ratePaise / 100).toStringAsFixed(2),
+    };
+    return Uri(
+      path: '/plots/$plotId/accounts/sale',
+      queryParameters: q.isEmpty ? null : q,
+    ).toString();
+  }
 }
 
 GoRouter buildRouter(
@@ -357,6 +393,45 @@ GoRouter buildRouter(
       GoRoute(
         path: '${Routes.marketLots}/:lotId',
         builder: (_, s) => LotFormScreen(lotId: s.pathParameters['lotId']),
+      ),
+      GoRoute(
+        path: '${Routes.marketLots}/:lotId/offers',
+        builder: (_, s) => LotOffersScreen(
+          lotId: s.pathParameters['lotId']!,
+          onIntroduced: (context, dealId) =>
+              context.push(Routes.marketIntro(dealId, asGrower: true)),
+        ),
+      ),
+      GoRoute(
+        path: '${Routes.marketLink}/deals/:dealId',
+        builder: (_, s) => IntroductionScreen(
+          dealId: s.pathParameters['dealId']!,
+          role: s.uri.queryParameters['as'] == 'grower'
+              ? MarketLinkRole.grower
+              : MarketLinkRole.trader,
+        ),
+      ),
+      GoRoute(
+        path: '${Routes.marketLink}/deals/:dealId/rate',
+        builder: (_, s) => RatingScreen(
+          dealId: s.pathParameters['dealId']!,
+          role: s.uri.queryParameters['as'] == 'grower'
+              ? MarketLinkRole.grower
+              : MarketLinkRole.trader,
+        ),
+      ),
+      GoRoute(
+        path: Routes.marketBrowse,
+        builder: (_, _) => const BrowseLotsScreen(),
+      ),
+      GoRoute(
+        path: '${Routes.marketBrowse}/:lotId/offer',
+        builder: (_, s) =>
+            SendInterestScreen(lotId: s.pathParameters['lotId']!),
+      ),
+      GoRoute(
+        path: Routes.marketMyOffers,
+        builder: (_, _) => const MyInterestsScreen(),
       ),
       GoRoute(path: Routes.settings, builder: (_, _) => const SettingsScreen()),
       GoRoute(path: Routes.profile, builder: (_, _) => const ProfileScreen()),
@@ -566,7 +641,12 @@ GoRouter buildRouter(
       ),
       GoRoute(
         path: '/plots/:id/accounts/sale',
-        builder: (_, s) => AddSaleScreen(plotId: s.pathParameters['id']!),
+        builder: (_, s) => AddSaleScreen(
+          plotId: s.pathParameters['id']!,
+          buyer: s.uri.queryParameters['buyer'],
+          kg: s.uri.queryParameters['kg'],
+          rate: s.uri.queryParameters['rate'],
+        ),
       ),
       GoRoute(
         path: '/plots/:id/bahar/new',
