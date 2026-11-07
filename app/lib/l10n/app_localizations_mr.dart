@@ -4379,4 +4379,15 @@ class AppLocalizationsMr extends AppLocalizations {
   String mlBadgeApedaListed(String date) {
     return 'APEDA यादीत, $date रोजी तपासले';
   }
+
+  @override
+  String mlPackageActiveUntil(String date) {
+    return 'पॅकेज $date पर्यंत चालू';
+  }
+
+  @override
+  String get mlPackageNotActive => 'पॅकेज चालू नाही';
+
+  @override
+  String get mlPackageHiddenNow => 'व्यापाऱ्यांना सध्या दिसत नाही';
 }

@@ -1259,5 +1259,8 @@
   "mlRateSameDevice": "रेटिंग वेगवेगळ्या फोनवरील खात्यांमध्येच देता येते.",
   "mlQGrowerProduce": "माल फोटो व वर्णनाप्रमाणे होता",
   "mlQGrowerReady": "ठरलेल्या तारखेला माल तयार होता",
-  "mlCopyToAccounts": "माझ्या हिशोबात नोंदवा"
+  "mlCopyToAccounts": "माझ्या हिशोबात नोंदवा",
+  "mlPackageActiveUntil": "पॅकेज {date} पर्यंत चालू",
+  "mlPackageNotActive": "पॅकेज चालू नाही",
+  "mlPackageHiddenNow": "व्यापाऱ्यांना सध्या दिसत नाही"
 }

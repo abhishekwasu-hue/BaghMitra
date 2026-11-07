@@ -7665,6 +7665,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'APEDA listed, checked on {date}'**
   String mlBadgeApedaListed(String date);
+
+  /// Season sale package chip on a published lot (spec v1.5 §4E). Dates only: never a price, amount, UPI, QR or pay text.
+  ///
+  /// In en, this message translates to:
+  /// **'Package active until {date}'**
+  String mlPackageActiveUntil(String date);
+
+  /// No description provided for @mlPackageNotActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Package not active'**
+  String get mlPackageNotActive;
+
+  /// Lot status chip when the season package switch is ON and no active package covers a published lot (traders do not see it). No price, pay, UPI or QR words.
+  ///
+  /// In en, this message translates to:
+  /// **'Not shown to traders now'**
+  String get mlPackageHiddenNow;
 }
 
 class _AppLocalizationsDelegate

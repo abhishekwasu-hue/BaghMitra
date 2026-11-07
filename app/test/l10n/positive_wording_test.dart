@@ -40,6 +40,10 @@ const allowNegative = {
   // Market linkage disclaimer (decision k): "BagMitra is not a buyer, seller, ..." is the
   // statement the owner asked for.
   'mlDisclaimerShort',
+  // Spec v1.5 §4E names this exact status: "Package active until <date>" or "Not active".
+  'mlPackageNotActive',
+  // The lot is hidden from traders while the package is not active (§4E); said plainly.
+  'mlPackageHiddenNow',
   // False match, not a negative: "वजनकाटा" (weighbridge, GLOSSARY_mr.md) contains "नका".
   'mlKindWeighbridge',
   'mlDocCertificate',

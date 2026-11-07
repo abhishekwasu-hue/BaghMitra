@@ -4382,4 +4382,15 @@ class AppLocalizationsHi extends AppLocalizations {
   String mlBadgeApedaListed(String date) {
     return 'APEDA सूची में, $date को जाँचा';
   }
+
+  @override
+  String mlPackageActiveUntil(String date) {
+    return 'पैकेज $date तक चालू';
+  }
+
+  @override
+  String get mlPackageNotActive => 'पैकेज चालू नहीं';
+
+  @override
+  String get mlPackageHiddenNow => 'व्यापारियों को अभी नहीं दिखता';
 }

@@ -1710,5 +1710,10 @@
   "mlBadgeIecActive": "IEC active, checked on {date}",
   "@mlBadgeIecActive": {"placeholders": {"date": {"type": "String"}}},
   "mlBadgeApedaListed": "APEDA listed, checked on {date}",
-  "@mlBadgeApedaListed": {"placeholders": {"date": {"type": "String"}}}
+  "@mlBadgeApedaListed": {"placeholders": {"date": {"type": "String"}}},
+  "mlPackageActiveUntil": "Package active until {date}",
+  "@mlPackageActiveUntil": {"description": "Season sale package chip on a published lot (spec v1.5 §4E). Dates only: never a price, amount, UPI, QR or pay text.", "placeholders": {"date": {"type": "String"}}},
+  "mlPackageNotActive": "Package not active",
+  "mlPackageHiddenNow": "Not shown to traders now",
+  "@mlPackageHiddenNow": {"description": "Lot status chip when the season package switch is ON and no active package covers a published lot (traders do not see it). No price, pay, UPI or QR words."}
 }

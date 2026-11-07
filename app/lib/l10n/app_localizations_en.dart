@@ -4388,4 +4388,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String mlBadgeApedaListed(String date) {
     return 'APEDA listed, checked on $date';
   }
+
+  @override
+  String mlPackageActiveUntil(String date) {
+    return 'Package active until $date';
+  }
+
+  @override
+  String get mlPackageNotActive => 'Package not active';
+
+  @override
+  String get mlPackageHiddenNow => 'Not shown to traders now';
 }

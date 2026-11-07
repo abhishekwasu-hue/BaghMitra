@@ -27,6 +27,7 @@ import '../domain/market_lot.dart';
 import 'lot_photo_strip.dart';
 import 'lot_widgets.dart';
 import 'market_link_entry.dart';
+import 'package_chip.dart';
 
 /// One lot of produce for sale (spec v1.5 §3 step 1): orchard and bahar as big choices,
 /// crop and variety from the orchard, tonnes, size / quality (typed or spoken), harvest
@@ -611,7 +612,11 @@ class _LotFormState extends ConsumerState<_LotForm> {
           Padding(
             padding: const EdgeInsets.only(right: BmSpace.md),
             child: Center(
-              child: LotStatusChip(_status, awaitingCheck: _awaitingCheck),
+              child: PackagedLotStatusChip(
+                _id,
+                _status,
+                awaitingCheck: _awaitingCheck,
+              ),
             ),
           ),
         ],
