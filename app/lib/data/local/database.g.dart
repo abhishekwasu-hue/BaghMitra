@@ -10981,6 +10981,1402 @@ class LabTestsCompanion extends UpdateCompanion<LabTestRow> {
   }
 }
 
+class $MarketLotsTable extends MarketLots
+    with TableInfo<$MarketLotsTable, MarketLotRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $MarketLotsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _plotIdMeta = const VerificationMeta('plotId');
+  @override
+  late final GeneratedColumn<String> plotId = GeneratedColumn<String>(
+    'plot_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _baharCycleIdMeta = const VerificationMeta(
+    'baharCycleId',
+  );
+  @override
+  late final GeneratedColumn<String> baharCycleId = GeneratedColumn<String>(
+    'bahar_cycle_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _cropMeta = const VerificationMeta('crop');
+  @override
+  late final GeneratedColumn<String> crop = GeneratedColumn<String>(
+    'crop',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _varietyMeta = const VerificationMeta(
+    'variety',
+  );
+  @override
+  late final GeneratedColumn<String> variety = GeneratedColumn<String>(
+    'variety',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _quantityTMeta = const VerificationMeta(
+    'quantityT',
+  );
+  @override
+  late final GeneratedColumn<double> quantityT = GeneratedColumn<double>(
+    'quantity_t',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _qualityMeta = const VerificationMeta(
+    'quality',
+  );
+  @override
+  late final GeneratedColumn<String> quality = GeneratedColumn<String>(
+    'quality',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _harvestFromMeta = const VerificationMeta(
+    'harvestFrom',
+  );
+  @override
+  late final GeneratedColumn<DateTime> harvestFrom = GeneratedColumn<DateTime>(
+    'harvest_from',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _harvestToMeta = const VerificationMeta(
+    'harvestTo',
+  );
+  @override
+  late final GeneratedColumn<DateTime> harvestTo = GeneratedColumn<DateTime>(
+    'harvest_to',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _basisMeta = const VerificationMeta('basis');
+  @override
+  late final GeneratedColumn<String> basis = GeneratedColumn<String>(
+    'basis',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _askingRatePaiseMeta = const VerificationMeta(
+    'askingRatePaise',
+  );
+  @override
+  late final GeneratedColumn<int> askingRatePaise = GeneratedColumn<int>(
+    'asking_rate_paise',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _statusMeta = const VerificationMeta('status');
+  @override
+  late final GeneratedColumn<String> status = GeneratedColumn<String>(
+    'status',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('draft'),
+  );
+  static const VerificationMeta _publishedAtMeta = const VerificationMeta(
+    'publishedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> publishedAt = GeneratedColumn<DateTime>(
+    'published_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _orchardCheckMeta = const VerificationMeta(
+    'orchardCheck',
+  );
+  @override
+  late final GeneratedColumn<String> orchardCheck = GeneratedColumn<String>(
+    'orchard_check',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _clientUpdatedAtMeta = const VerificationMeta(
+    'clientUpdatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> clientUpdatedAt =
+      GeneratedColumn<DateTime>(
+        'client_updated_at',
+        aliasedName,
+        false,
+        type: DriftSqlType.dateTime,
+        requiredDuringInsert: true,
+      );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    plotId,
+    baharCycleId,
+    crop,
+    variety,
+    quantityT,
+    quality,
+    harvestFrom,
+    harvestTo,
+    basis,
+    askingRatePaise,
+    status,
+    publishedAt,
+    orchardCheck,
+    clientUpdatedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'market_lots';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<MarketLotRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('plot_id')) {
+      context.handle(
+        _plotIdMeta,
+        plotId.isAcceptableOrUnknown(data['plot_id']!, _plotIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_plotIdMeta);
+    }
+    if (data.containsKey('bahar_cycle_id')) {
+      context.handle(
+        _baharCycleIdMeta,
+        baharCycleId.isAcceptableOrUnknown(
+          data['bahar_cycle_id']!,
+          _baharCycleIdMeta,
+        ),
+      );
+    }
+    if (data.containsKey('crop')) {
+      context.handle(
+        _cropMeta,
+        crop.isAcceptableOrUnknown(data['crop']!, _cropMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_cropMeta);
+    }
+    if (data.containsKey('variety')) {
+      context.handle(
+        _varietyMeta,
+        variety.isAcceptableOrUnknown(data['variety']!, _varietyMeta),
+      );
+    }
+    if (data.containsKey('quantity_t')) {
+      context.handle(
+        _quantityTMeta,
+        quantityT.isAcceptableOrUnknown(data['quantity_t']!, _quantityTMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_quantityTMeta);
+    }
+    if (data.containsKey('quality')) {
+      context.handle(
+        _qualityMeta,
+        quality.isAcceptableOrUnknown(data['quality']!, _qualityMeta),
+      );
+    }
+    if (data.containsKey('harvest_from')) {
+      context.handle(
+        _harvestFromMeta,
+        harvestFrom.isAcceptableOrUnknown(
+          data['harvest_from']!,
+          _harvestFromMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_harvestFromMeta);
+    }
+    if (data.containsKey('harvest_to')) {
+      context.handle(
+        _harvestToMeta,
+        harvestTo.isAcceptableOrUnknown(data['harvest_to']!, _harvestToMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_harvestToMeta);
+    }
+    if (data.containsKey('basis')) {
+      context.handle(
+        _basisMeta,
+        basis.isAcceptableOrUnknown(data['basis']!, _basisMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_basisMeta);
+    }
+    if (data.containsKey('asking_rate_paise')) {
+      context.handle(
+        _askingRatePaiseMeta,
+        askingRatePaise.isAcceptableOrUnknown(
+          data['asking_rate_paise']!,
+          _askingRatePaiseMeta,
+        ),
+      );
+    }
+    if (data.containsKey('status')) {
+      context.handle(
+        _statusMeta,
+        status.isAcceptableOrUnknown(data['status']!, _statusMeta),
+      );
+    }
+    if (data.containsKey('published_at')) {
+      context.handle(
+        _publishedAtMeta,
+        publishedAt.isAcceptableOrUnknown(
+          data['published_at']!,
+          _publishedAtMeta,
+        ),
+      );
+    }
+    if (data.containsKey('orchard_check')) {
+      context.handle(
+        _orchardCheckMeta,
+        orchardCheck.isAcceptableOrUnknown(
+          data['orchard_check']!,
+          _orchardCheckMeta,
+        ),
+      );
+    }
+    if (data.containsKey('client_updated_at')) {
+      context.handle(
+        _clientUpdatedAtMeta,
+        clientUpdatedAt.isAcceptableOrUnknown(
+          data['client_updated_at']!,
+          _clientUpdatedAtMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_clientUpdatedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  MarketLotRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return MarketLotRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      plotId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}plot_id'],
+      )!,
+      baharCycleId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}bahar_cycle_id'],
+      ),
+      crop: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}crop'],
+      )!,
+      variety: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}variety'],
+      ),
+      quantityT: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}quantity_t'],
+      )!,
+      quality: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}quality'],
+      ),
+      harvestFrom: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}harvest_from'],
+      )!,
+      harvestTo: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}harvest_to'],
+      )!,
+      basis: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}basis'],
+      )!,
+      askingRatePaise: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}asking_rate_paise'],
+      ),
+      status: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}status'],
+      )!,
+      publishedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}published_at'],
+      ),
+      orchardCheck: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}orchard_check'],
+      ),
+      clientUpdatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}client_updated_at'],
+      )!,
+    );
+  }
+
+  @override
+  $MarketLotsTable createAlias(String alias) {
+    return $MarketLotsTable(attachedDatabase, alias);
+  }
+}
+
+class MarketLotRow extends DataClass implements Insertable<MarketLotRow> {
+  final String id;
+  final String plotId;
+  final String? baharCycleId;
+  final String crop;
+  final String? variety;
+  final double quantityT;
+  final String? quality;
+  final DateTime harvestFrom;
+  final DateTime harvestTo;
+  final String basis;
+  final int? askingRatePaise;
+  final String status;
+  final DateTime? publishedAt;
+
+  /// inside / near / outside / unmapped, set by the server at publish (spec §4C).
+  final String? orchardCheck;
+  final DateTime clientUpdatedAt;
+  const MarketLotRow({
+    required this.id,
+    required this.plotId,
+    this.baharCycleId,
+    required this.crop,
+    this.variety,
+    required this.quantityT,
+    this.quality,
+    required this.harvestFrom,
+    required this.harvestTo,
+    required this.basis,
+    this.askingRatePaise,
+    required this.status,
+    this.publishedAt,
+    this.orchardCheck,
+    required this.clientUpdatedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['plot_id'] = Variable<String>(plotId);
+    if (!nullToAbsent || baharCycleId != null) {
+      map['bahar_cycle_id'] = Variable<String>(baharCycleId);
+    }
+    map['crop'] = Variable<String>(crop);
+    if (!nullToAbsent || variety != null) {
+      map['variety'] = Variable<String>(variety);
+    }
+    map['quantity_t'] = Variable<double>(quantityT);
+    if (!nullToAbsent || quality != null) {
+      map['quality'] = Variable<String>(quality);
+    }
+    map['harvest_from'] = Variable<DateTime>(harvestFrom);
+    map['harvest_to'] = Variable<DateTime>(harvestTo);
+    map['basis'] = Variable<String>(basis);
+    if (!nullToAbsent || askingRatePaise != null) {
+      map['asking_rate_paise'] = Variable<int>(askingRatePaise);
+    }
+    map['status'] = Variable<String>(status);
+    if (!nullToAbsent || publishedAt != null) {
+      map['published_at'] = Variable<DateTime>(publishedAt);
+    }
+    if (!nullToAbsent || orchardCheck != null) {
+      map['orchard_check'] = Variable<String>(orchardCheck);
+    }
+    map['client_updated_at'] = Variable<DateTime>(clientUpdatedAt);
+    return map;
+  }
+
+  MarketLotsCompanion toCompanion(bool nullToAbsent) {
+    return MarketLotsCompanion(
+      id: Value(id),
+      plotId: Value(plotId),
+      baharCycleId: baharCycleId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(baharCycleId),
+      crop: Value(crop),
+      variety: variety == null && nullToAbsent
+          ? const Value.absent()
+          : Value(variety),
+      quantityT: Value(quantityT),
+      quality: quality == null && nullToAbsent
+          ? const Value.absent()
+          : Value(quality),
+      harvestFrom: Value(harvestFrom),
+      harvestTo: Value(harvestTo),
+      basis: Value(basis),
+      askingRatePaise: askingRatePaise == null && nullToAbsent
+          ? const Value.absent()
+          : Value(askingRatePaise),
+      status: Value(status),
+      publishedAt: publishedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(publishedAt),
+      orchardCheck: orchardCheck == null && nullToAbsent
+          ? const Value.absent()
+          : Value(orchardCheck),
+      clientUpdatedAt: Value(clientUpdatedAt),
+    );
+  }
+
+  factory MarketLotRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return MarketLotRow(
+      id: serializer.fromJson<String>(json['id']),
+      plotId: serializer.fromJson<String>(json['plotId']),
+      baharCycleId: serializer.fromJson<String?>(json['baharCycleId']),
+      crop: serializer.fromJson<String>(json['crop']),
+      variety: serializer.fromJson<String?>(json['variety']),
+      quantityT: serializer.fromJson<double>(json['quantityT']),
+      quality: serializer.fromJson<String?>(json['quality']),
+      harvestFrom: serializer.fromJson<DateTime>(json['harvestFrom']),
+      harvestTo: serializer.fromJson<DateTime>(json['harvestTo']),
+      basis: serializer.fromJson<String>(json['basis']),
+      askingRatePaise: serializer.fromJson<int?>(json['askingRatePaise']),
+      status: serializer.fromJson<String>(json['status']),
+      publishedAt: serializer.fromJson<DateTime?>(json['publishedAt']),
+      orchardCheck: serializer.fromJson<String?>(json['orchardCheck']),
+      clientUpdatedAt: serializer.fromJson<DateTime>(json['clientUpdatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'plotId': serializer.toJson<String>(plotId),
+      'baharCycleId': serializer.toJson<String?>(baharCycleId),
+      'crop': serializer.toJson<String>(crop),
+      'variety': serializer.toJson<String?>(variety),
+      'quantityT': serializer.toJson<double>(quantityT),
+      'quality': serializer.toJson<String?>(quality),
+      'harvestFrom': serializer.toJson<DateTime>(harvestFrom),
+      'harvestTo': serializer.toJson<DateTime>(harvestTo),
+      'basis': serializer.toJson<String>(basis),
+      'askingRatePaise': serializer.toJson<int?>(askingRatePaise),
+      'status': serializer.toJson<String>(status),
+      'publishedAt': serializer.toJson<DateTime?>(publishedAt),
+      'orchardCheck': serializer.toJson<String?>(orchardCheck),
+      'clientUpdatedAt': serializer.toJson<DateTime>(clientUpdatedAt),
+    };
+  }
+
+  MarketLotRow copyWith({
+    String? id,
+    String? plotId,
+    Value<String?> baharCycleId = const Value.absent(),
+    String? crop,
+    Value<String?> variety = const Value.absent(),
+    double? quantityT,
+    Value<String?> quality = const Value.absent(),
+    DateTime? harvestFrom,
+    DateTime? harvestTo,
+    String? basis,
+    Value<int?> askingRatePaise = const Value.absent(),
+    String? status,
+    Value<DateTime?> publishedAt = const Value.absent(),
+    Value<String?> orchardCheck = const Value.absent(),
+    DateTime? clientUpdatedAt,
+  }) => MarketLotRow(
+    id: id ?? this.id,
+    plotId: plotId ?? this.plotId,
+    baharCycleId: baharCycleId.present ? baharCycleId.value : this.baharCycleId,
+    crop: crop ?? this.crop,
+    variety: variety.present ? variety.value : this.variety,
+    quantityT: quantityT ?? this.quantityT,
+    quality: quality.present ? quality.value : this.quality,
+    harvestFrom: harvestFrom ?? this.harvestFrom,
+    harvestTo: harvestTo ?? this.harvestTo,
+    basis: basis ?? this.basis,
+    askingRatePaise: askingRatePaise.present
+        ? askingRatePaise.value
+        : this.askingRatePaise,
+    status: status ?? this.status,
+    publishedAt: publishedAt.present ? publishedAt.value : this.publishedAt,
+    orchardCheck: orchardCheck.present ? orchardCheck.value : this.orchardCheck,
+    clientUpdatedAt: clientUpdatedAt ?? this.clientUpdatedAt,
+  );
+  MarketLotRow copyWithCompanion(MarketLotsCompanion data) {
+    return MarketLotRow(
+      id: data.id.present ? data.id.value : this.id,
+      plotId: data.plotId.present ? data.plotId.value : this.plotId,
+      baharCycleId: data.baharCycleId.present
+          ? data.baharCycleId.value
+          : this.baharCycleId,
+      crop: data.crop.present ? data.crop.value : this.crop,
+      variety: data.variety.present ? data.variety.value : this.variety,
+      quantityT: data.quantityT.present ? data.quantityT.value : this.quantityT,
+      quality: data.quality.present ? data.quality.value : this.quality,
+      harvestFrom: data.harvestFrom.present
+          ? data.harvestFrom.value
+          : this.harvestFrom,
+      harvestTo: data.harvestTo.present ? data.harvestTo.value : this.harvestTo,
+      basis: data.basis.present ? data.basis.value : this.basis,
+      askingRatePaise: data.askingRatePaise.present
+          ? data.askingRatePaise.value
+          : this.askingRatePaise,
+      status: data.status.present ? data.status.value : this.status,
+      publishedAt: data.publishedAt.present
+          ? data.publishedAt.value
+          : this.publishedAt,
+      orchardCheck: data.orchardCheck.present
+          ? data.orchardCheck.value
+          : this.orchardCheck,
+      clientUpdatedAt: data.clientUpdatedAt.present
+          ? data.clientUpdatedAt.value
+          : this.clientUpdatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MarketLotRow(')
+          ..write('id: $id, ')
+          ..write('plotId: $plotId, ')
+          ..write('baharCycleId: $baharCycleId, ')
+          ..write('crop: $crop, ')
+          ..write('variety: $variety, ')
+          ..write('quantityT: $quantityT, ')
+          ..write('quality: $quality, ')
+          ..write('harvestFrom: $harvestFrom, ')
+          ..write('harvestTo: $harvestTo, ')
+          ..write('basis: $basis, ')
+          ..write('askingRatePaise: $askingRatePaise, ')
+          ..write('status: $status, ')
+          ..write('publishedAt: $publishedAt, ')
+          ..write('orchardCheck: $orchardCheck, ')
+          ..write('clientUpdatedAt: $clientUpdatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    plotId,
+    baharCycleId,
+    crop,
+    variety,
+    quantityT,
+    quality,
+    harvestFrom,
+    harvestTo,
+    basis,
+    askingRatePaise,
+    status,
+    publishedAt,
+    orchardCheck,
+    clientUpdatedAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is MarketLotRow &&
+          other.id == this.id &&
+          other.plotId == this.plotId &&
+          other.baharCycleId == this.baharCycleId &&
+          other.crop == this.crop &&
+          other.variety == this.variety &&
+          other.quantityT == this.quantityT &&
+          other.quality == this.quality &&
+          other.harvestFrom == this.harvestFrom &&
+          other.harvestTo == this.harvestTo &&
+          other.basis == this.basis &&
+          other.askingRatePaise == this.askingRatePaise &&
+          other.status == this.status &&
+          other.publishedAt == this.publishedAt &&
+          other.orchardCheck == this.orchardCheck &&
+          other.clientUpdatedAt == this.clientUpdatedAt);
+}
+
+class MarketLotsCompanion extends UpdateCompanion<MarketLotRow> {
+  final Value<String> id;
+  final Value<String> plotId;
+  final Value<String?> baharCycleId;
+  final Value<String> crop;
+  final Value<String?> variety;
+  final Value<double> quantityT;
+  final Value<String?> quality;
+  final Value<DateTime> harvestFrom;
+  final Value<DateTime> harvestTo;
+  final Value<String> basis;
+  final Value<int?> askingRatePaise;
+  final Value<String> status;
+  final Value<DateTime?> publishedAt;
+  final Value<String?> orchardCheck;
+  final Value<DateTime> clientUpdatedAt;
+  final Value<int> rowid;
+  const MarketLotsCompanion({
+    this.id = const Value.absent(),
+    this.plotId = const Value.absent(),
+    this.baharCycleId = const Value.absent(),
+    this.crop = const Value.absent(),
+    this.variety = const Value.absent(),
+    this.quantityT = const Value.absent(),
+    this.quality = const Value.absent(),
+    this.harvestFrom = const Value.absent(),
+    this.harvestTo = const Value.absent(),
+    this.basis = const Value.absent(),
+    this.askingRatePaise = const Value.absent(),
+    this.status = const Value.absent(),
+    this.publishedAt = const Value.absent(),
+    this.orchardCheck = const Value.absent(),
+    this.clientUpdatedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  MarketLotsCompanion.insert({
+    required String id,
+    required String plotId,
+    this.baharCycleId = const Value.absent(),
+    required String crop,
+    this.variety = const Value.absent(),
+    required double quantityT,
+    this.quality = const Value.absent(),
+    required DateTime harvestFrom,
+    required DateTime harvestTo,
+    required String basis,
+    this.askingRatePaise = const Value.absent(),
+    this.status = const Value.absent(),
+    this.publishedAt = const Value.absent(),
+    this.orchardCheck = const Value.absent(),
+    required DateTime clientUpdatedAt,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       plotId = Value(plotId),
+       crop = Value(crop),
+       quantityT = Value(quantityT),
+       harvestFrom = Value(harvestFrom),
+       harvestTo = Value(harvestTo),
+       basis = Value(basis),
+       clientUpdatedAt = Value(clientUpdatedAt);
+  static Insertable<MarketLotRow> custom({
+    Expression<String>? id,
+    Expression<String>? plotId,
+    Expression<String>? baharCycleId,
+    Expression<String>? crop,
+    Expression<String>? variety,
+    Expression<double>? quantityT,
+    Expression<String>? quality,
+    Expression<DateTime>? harvestFrom,
+    Expression<DateTime>? harvestTo,
+    Expression<String>? basis,
+    Expression<int>? askingRatePaise,
+    Expression<String>? status,
+    Expression<DateTime>? publishedAt,
+    Expression<String>? orchardCheck,
+    Expression<DateTime>? clientUpdatedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (plotId != null) 'plot_id': plotId,
+      if (baharCycleId != null) 'bahar_cycle_id': baharCycleId,
+      if (crop != null) 'crop': crop,
+      if (variety != null) 'variety': variety,
+      if (quantityT != null) 'quantity_t': quantityT,
+      if (quality != null) 'quality': quality,
+      if (harvestFrom != null) 'harvest_from': harvestFrom,
+      if (harvestTo != null) 'harvest_to': harvestTo,
+      if (basis != null) 'basis': basis,
+      if (askingRatePaise != null) 'asking_rate_paise': askingRatePaise,
+      if (status != null) 'status': status,
+      if (publishedAt != null) 'published_at': publishedAt,
+      if (orchardCheck != null) 'orchard_check': orchardCheck,
+      if (clientUpdatedAt != null) 'client_updated_at': clientUpdatedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  MarketLotsCompanion copyWith({
+    Value<String>? id,
+    Value<String>? plotId,
+    Value<String?>? baharCycleId,
+    Value<String>? crop,
+    Value<String?>? variety,
+    Value<double>? quantityT,
+    Value<String?>? quality,
+    Value<DateTime>? harvestFrom,
+    Value<DateTime>? harvestTo,
+    Value<String>? basis,
+    Value<int?>? askingRatePaise,
+    Value<String>? status,
+    Value<DateTime?>? publishedAt,
+    Value<String?>? orchardCheck,
+    Value<DateTime>? clientUpdatedAt,
+    Value<int>? rowid,
+  }) {
+    return MarketLotsCompanion(
+      id: id ?? this.id,
+      plotId: plotId ?? this.plotId,
+      baharCycleId: baharCycleId ?? this.baharCycleId,
+      crop: crop ?? this.crop,
+      variety: variety ?? this.variety,
+      quantityT: quantityT ?? this.quantityT,
+      quality: quality ?? this.quality,
+      harvestFrom: harvestFrom ?? this.harvestFrom,
+      harvestTo: harvestTo ?? this.harvestTo,
+      basis: basis ?? this.basis,
+      askingRatePaise: askingRatePaise ?? this.askingRatePaise,
+      status: status ?? this.status,
+      publishedAt: publishedAt ?? this.publishedAt,
+      orchardCheck: orchardCheck ?? this.orchardCheck,
+      clientUpdatedAt: clientUpdatedAt ?? this.clientUpdatedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (plotId.present) {
+      map['plot_id'] = Variable<String>(plotId.value);
+    }
+    if (baharCycleId.present) {
+      map['bahar_cycle_id'] = Variable<String>(baharCycleId.value);
+    }
+    if (crop.present) {
+      map['crop'] = Variable<String>(crop.value);
+    }
+    if (variety.present) {
+      map['variety'] = Variable<String>(variety.value);
+    }
+    if (quantityT.present) {
+      map['quantity_t'] = Variable<double>(quantityT.value);
+    }
+    if (quality.present) {
+      map['quality'] = Variable<String>(quality.value);
+    }
+    if (harvestFrom.present) {
+      map['harvest_from'] = Variable<DateTime>(harvestFrom.value);
+    }
+    if (harvestTo.present) {
+      map['harvest_to'] = Variable<DateTime>(harvestTo.value);
+    }
+    if (basis.present) {
+      map['basis'] = Variable<String>(basis.value);
+    }
+    if (askingRatePaise.present) {
+      map['asking_rate_paise'] = Variable<int>(askingRatePaise.value);
+    }
+    if (status.present) {
+      map['status'] = Variable<String>(status.value);
+    }
+    if (publishedAt.present) {
+      map['published_at'] = Variable<DateTime>(publishedAt.value);
+    }
+    if (orchardCheck.present) {
+      map['orchard_check'] = Variable<String>(orchardCheck.value);
+    }
+    if (clientUpdatedAt.present) {
+      map['client_updated_at'] = Variable<DateTime>(clientUpdatedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MarketLotsCompanion(')
+          ..write('id: $id, ')
+          ..write('plotId: $plotId, ')
+          ..write('baharCycleId: $baharCycleId, ')
+          ..write('crop: $crop, ')
+          ..write('variety: $variety, ')
+          ..write('quantityT: $quantityT, ')
+          ..write('quality: $quality, ')
+          ..write('harvestFrom: $harvestFrom, ')
+          ..write('harvestTo: $harvestTo, ')
+          ..write('basis: $basis, ')
+          ..write('askingRatePaise: $askingRatePaise, ')
+          ..write('status: $status, ')
+          ..write('publishedAt: $publishedAt, ')
+          ..write('orchardCheck: $orchardCheck, ')
+          ..write('clientUpdatedAt: $clientUpdatedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $MarketLotPhotosTable extends MarketLotPhotos
+    with TableInfo<$MarketLotPhotosTable, MarketLotPhotoRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $MarketLotPhotosTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _lotIdMeta = const VerificationMeta('lotId');
+  @override
+  late final GeneratedColumn<String> lotId = GeneratedColumn<String>(
+    'lot_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _capturedAtMeta = const VerificationMeta(
+    'capturedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> capturedAt = GeneratedColumn<DateTime>(
+    'captured_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _latMeta = const VerificationMeta('lat');
+  @override
+  late final GeneratedColumn<double> lat = GeneratedColumn<double>(
+    'lat',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _lonMeta = const VerificationMeta('lon');
+  @override
+  late final GeneratedColumn<double> lon = GeneratedColumn<double>(
+    'lon',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _photoPathMeta = const VerificationMeta(
+    'photoPath',
+  );
+  @override
+  late final GeneratedColumn<String> photoPath = GeneratedColumn<String>(
+    'photo_path',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _photoKeyMeta = const VerificationMeta(
+    'photoKey',
+  );
+  @override
+  late final GeneratedColumn<String> photoKey = GeneratedColumn<String>(
+    'photo_key',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _clientUpdatedAtMeta = const VerificationMeta(
+    'clientUpdatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> clientUpdatedAt =
+      GeneratedColumn<DateTime>(
+        'client_updated_at',
+        aliasedName,
+        false,
+        type: DriftSqlType.dateTime,
+        requiredDuringInsert: true,
+      );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    lotId,
+    capturedAt,
+    lat,
+    lon,
+    photoPath,
+    photoKey,
+    clientUpdatedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'market_lot_photos';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<MarketLotPhotoRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('lot_id')) {
+      context.handle(
+        _lotIdMeta,
+        lotId.isAcceptableOrUnknown(data['lot_id']!, _lotIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_lotIdMeta);
+    }
+    if (data.containsKey('captured_at')) {
+      context.handle(
+        _capturedAtMeta,
+        capturedAt.isAcceptableOrUnknown(data['captured_at']!, _capturedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_capturedAtMeta);
+    }
+    if (data.containsKey('lat')) {
+      context.handle(
+        _latMeta,
+        lat.isAcceptableOrUnknown(data['lat']!, _latMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_latMeta);
+    }
+    if (data.containsKey('lon')) {
+      context.handle(
+        _lonMeta,
+        lon.isAcceptableOrUnknown(data['lon']!, _lonMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_lonMeta);
+    }
+    if (data.containsKey('photo_path')) {
+      context.handle(
+        _photoPathMeta,
+        photoPath.isAcceptableOrUnknown(data['photo_path']!, _photoPathMeta),
+      );
+    }
+    if (data.containsKey('photo_key')) {
+      context.handle(
+        _photoKeyMeta,
+        photoKey.isAcceptableOrUnknown(data['photo_key']!, _photoKeyMeta),
+      );
+    }
+    if (data.containsKey('client_updated_at')) {
+      context.handle(
+        _clientUpdatedAtMeta,
+        clientUpdatedAt.isAcceptableOrUnknown(
+          data['client_updated_at']!,
+          _clientUpdatedAtMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_clientUpdatedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  MarketLotPhotoRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return MarketLotPhotoRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      lotId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}lot_id'],
+      )!,
+      capturedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}captured_at'],
+      )!,
+      lat: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}lat'],
+      )!,
+      lon: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}lon'],
+      )!,
+      photoPath: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}photo_path'],
+      ),
+      photoKey: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}photo_key'],
+      ),
+      clientUpdatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}client_updated_at'],
+      )!,
+    );
+  }
+
+  @override
+  $MarketLotPhotosTable createAlias(String alias) {
+    return $MarketLotPhotosTable(attachedDatabase, alias);
+  }
+}
+
+class MarketLotPhotoRow extends DataClass
+    implements Insertable<MarketLotPhotoRow> {
+  final String id;
+  final String lotId;
+  final DateTime capturedAt;
+  final double lat;
+  final double lon;
+  final String? photoPath;
+  final String? photoKey;
+  final DateTime clientUpdatedAt;
+  const MarketLotPhotoRow({
+    required this.id,
+    required this.lotId,
+    required this.capturedAt,
+    required this.lat,
+    required this.lon,
+    this.photoPath,
+    this.photoKey,
+    required this.clientUpdatedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['lot_id'] = Variable<String>(lotId);
+    map['captured_at'] = Variable<DateTime>(capturedAt);
+    map['lat'] = Variable<double>(lat);
+    map['lon'] = Variable<double>(lon);
+    if (!nullToAbsent || photoPath != null) {
+      map['photo_path'] = Variable<String>(photoPath);
+    }
+    if (!nullToAbsent || photoKey != null) {
+      map['photo_key'] = Variable<String>(photoKey);
+    }
+    map['client_updated_at'] = Variable<DateTime>(clientUpdatedAt);
+    return map;
+  }
+
+  MarketLotPhotosCompanion toCompanion(bool nullToAbsent) {
+    return MarketLotPhotosCompanion(
+      id: Value(id),
+      lotId: Value(lotId),
+      capturedAt: Value(capturedAt),
+      lat: Value(lat),
+      lon: Value(lon),
+      photoPath: photoPath == null && nullToAbsent
+          ? const Value.absent()
+          : Value(photoPath),
+      photoKey: photoKey == null && nullToAbsent
+          ? const Value.absent()
+          : Value(photoKey),
+      clientUpdatedAt: Value(clientUpdatedAt),
+    );
+  }
+
+  factory MarketLotPhotoRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return MarketLotPhotoRow(
+      id: serializer.fromJson<String>(json['id']),
+      lotId: serializer.fromJson<String>(json['lotId']),
+      capturedAt: serializer.fromJson<DateTime>(json['capturedAt']),
+      lat: serializer.fromJson<double>(json['lat']),
+      lon: serializer.fromJson<double>(json['lon']),
+      photoPath: serializer.fromJson<String?>(json['photoPath']),
+      photoKey: serializer.fromJson<String?>(json['photoKey']),
+      clientUpdatedAt: serializer.fromJson<DateTime>(json['clientUpdatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'lotId': serializer.toJson<String>(lotId),
+      'capturedAt': serializer.toJson<DateTime>(capturedAt),
+      'lat': serializer.toJson<double>(lat),
+      'lon': serializer.toJson<double>(lon),
+      'photoPath': serializer.toJson<String?>(photoPath),
+      'photoKey': serializer.toJson<String?>(photoKey),
+      'clientUpdatedAt': serializer.toJson<DateTime>(clientUpdatedAt),
+    };
+  }
+
+  MarketLotPhotoRow copyWith({
+    String? id,
+    String? lotId,
+    DateTime? capturedAt,
+    double? lat,
+    double? lon,
+    Value<String?> photoPath = const Value.absent(),
+    Value<String?> photoKey = const Value.absent(),
+    DateTime? clientUpdatedAt,
+  }) => MarketLotPhotoRow(
+    id: id ?? this.id,
+    lotId: lotId ?? this.lotId,
+    capturedAt: capturedAt ?? this.capturedAt,
+    lat: lat ?? this.lat,
+    lon: lon ?? this.lon,
+    photoPath: photoPath.present ? photoPath.value : this.photoPath,
+    photoKey: photoKey.present ? photoKey.value : this.photoKey,
+    clientUpdatedAt: clientUpdatedAt ?? this.clientUpdatedAt,
+  );
+  MarketLotPhotoRow copyWithCompanion(MarketLotPhotosCompanion data) {
+    return MarketLotPhotoRow(
+      id: data.id.present ? data.id.value : this.id,
+      lotId: data.lotId.present ? data.lotId.value : this.lotId,
+      capturedAt: data.capturedAt.present
+          ? data.capturedAt.value
+          : this.capturedAt,
+      lat: data.lat.present ? data.lat.value : this.lat,
+      lon: data.lon.present ? data.lon.value : this.lon,
+      photoPath: data.photoPath.present ? data.photoPath.value : this.photoPath,
+      photoKey: data.photoKey.present ? data.photoKey.value : this.photoKey,
+      clientUpdatedAt: data.clientUpdatedAt.present
+          ? data.clientUpdatedAt.value
+          : this.clientUpdatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MarketLotPhotoRow(')
+          ..write('id: $id, ')
+          ..write('lotId: $lotId, ')
+          ..write('capturedAt: $capturedAt, ')
+          ..write('lat: $lat, ')
+          ..write('lon: $lon, ')
+          ..write('photoPath: $photoPath, ')
+          ..write('photoKey: $photoKey, ')
+          ..write('clientUpdatedAt: $clientUpdatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    lotId,
+    capturedAt,
+    lat,
+    lon,
+    photoPath,
+    photoKey,
+    clientUpdatedAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is MarketLotPhotoRow &&
+          other.id == this.id &&
+          other.lotId == this.lotId &&
+          other.capturedAt == this.capturedAt &&
+          other.lat == this.lat &&
+          other.lon == this.lon &&
+          other.photoPath == this.photoPath &&
+          other.photoKey == this.photoKey &&
+          other.clientUpdatedAt == this.clientUpdatedAt);
+}
+
+class MarketLotPhotosCompanion extends UpdateCompanion<MarketLotPhotoRow> {
+  final Value<String> id;
+  final Value<String> lotId;
+  final Value<DateTime> capturedAt;
+  final Value<double> lat;
+  final Value<double> lon;
+  final Value<String?> photoPath;
+  final Value<String?> photoKey;
+  final Value<DateTime> clientUpdatedAt;
+  final Value<int> rowid;
+  const MarketLotPhotosCompanion({
+    this.id = const Value.absent(),
+    this.lotId = const Value.absent(),
+    this.capturedAt = const Value.absent(),
+    this.lat = const Value.absent(),
+    this.lon = const Value.absent(),
+    this.photoPath = const Value.absent(),
+    this.photoKey = const Value.absent(),
+    this.clientUpdatedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  MarketLotPhotosCompanion.insert({
+    required String id,
+    required String lotId,
+    required DateTime capturedAt,
+    required double lat,
+    required double lon,
+    this.photoPath = const Value.absent(),
+    this.photoKey = const Value.absent(),
+    required DateTime clientUpdatedAt,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       lotId = Value(lotId),
+       capturedAt = Value(capturedAt),
+       lat = Value(lat),
+       lon = Value(lon),
+       clientUpdatedAt = Value(clientUpdatedAt);
+  static Insertable<MarketLotPhotoRow> custom({
+    Expression<String>? id,
+    Expression<String>? lotId,
+    Expression<DateTime>? capturedAt,
+    Expression<double>? lat,
+    Expression<double>? lon,
+    Expression<String>? photoPath,
+    Expression<String>? photoKey,
+    Expression<DateTime>? clientUpdatedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (lotId != null) 'lot_id': lotId,
+      if (capturedAt != null) 'captured_at': capturedAt,
+      if (lat != null) 'lat': lat,
+      if (lon != null) 'lon': lon,
+      if (photoPath != null) 'photo_path': photoPath,
+      if (photoKey != null) 'photo_key': photoKey,
+      if (clientUpdatedAt != null) 'client_updated_at': clientUpdatedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  MarketLotPhotosCompanion copyWith({
+    Value<String>? id,
+    Value<String>? lotId,
+    Value<DateTime>? capturedAt,
+    Value<double>? lat,
+    Value<double>? lon,
+    Value<String?>? photoPath,
+    Value<String?>? photoKey,
+    Value<DateTime>? clientUpdatedAt,
+    Value<int>? rowid,
+  }) {
+    return MarketLotPhotosCompanion(
+      id: id ?? this.id,
+      lotId: lotId ?? this.lotId,
+      capturedAt: capturedAt ?? this.capturedAt,
+      lat: lat ?? this.lat,
+      lon: lon ?? this.lon,
+      photoPath: photoPath ?? this.photoPath,
+      photoKey: photoKey ?? this.photoKey,
+      clientUpdatedAt: clientUpdatedAt ?? this.clientUpdatedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (lotId.present) {
+      map['lot_id'] = Variable<String>(lotId.value);
+    }
+    if (capturedAt.present) {
+      map['captured_at'] = Variable<DateTime>(capturedAt.value);
+    }
+    if (lat.present) {
+      map['lat'] = Variable<double>(lat.value);
+    }
+    if (lon.present) {
+      map['lon'] = Variable<double>(lon.value);
+    }
+    if (photoPath.present) {
+      map['photo_path'] = Variable<String>(photoPath.value);
+    }
+    if (photoKey.present) {
+      map['photo_key'] = Variable<String>(photoKey.value);
+    }
+    if (clientUpdatedAt.present) {
+      map['client_updated_at'] = Variable<DateTime>(clientUpdatedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MarketLotPhotosCompanion(')
+          ..write('id: $id, ')
+          ..write('lotId: $lotId, ')
+          ..write('capturedAt: $capturedAt, ')
+          ..write('lat: $lat, ')
+          ..write('lon: $lon, ')
+          ..write('photoPath: $photoPath, ')
+          ..write('photoKey: $photoKey, ')
+          ..write('clientUpdatedAt: $clientUpdatedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -11006,6 +12402,10 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $ClaimKitsTable claimKits = $ClaimKitsTable(this);
   late final $ClaimPhotosTable claimPhotos = $ClaimPhotosTable(this);
   late final $LabTestsTable labTests = $LabTestsTable(this);
+  late final $MarketLotsTable marketLots = $MarketLotsTable(this);
+  late final $MarketLotPhotosTable marketLotPhotos = $MarketLotPhotosTable(
+    this,
+  );
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -11029,6 +12429,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     claimKits,
     claimPhotos,
     labTests,
+    marketLots,
+    marketLotPhotos,
   ];
   @override
   DriftDatabaseOptions get options =>
@@ -16561,6 +17963,691 @@ typedef $$LabTestsTableProcessedTableManager =
       LabTestRow,
       PrefetchHooks Function()
     >;
+typedef $$MarketLotsTableCreateCompanionBuilder = MarketLotsCompanion Function({
+  required String id,
+  required String plotId,
+  Value<String?> baharCycleId,
+  required String crop,
+  Value<String?> variety,
+  required double quantityT,
+  Value<String?> quality,
+  required DateTime harvestFrom,
+  required DateTime harvestTo,
+  required String basis,
+  Value<int?> askingRatePaise,
+  Value<String> status,
+  Value<DateTime?> publishedAt,
+  Value<String?> orchardCheck,
+  required DateTime clientUpdatedAt,
+  Value<int> rowid,
+});
+typedef $$MarketLotsTableUpdateCompanionBuilder = MarketLotsCompanion Function({
+  Value<String> id,
+  Value<String> plotId,
+  Value<String?> baharCycleId,
+  Value<String> crop,
+  Value<String?> variety,
+  Value<double> quantityT,
+  Value<String?> quality,
+  Value<DateTime> harvestFrom,
+  Value<DateTime> harvestTo,
+  Value<String> basis,
+  Value<int?> askingRatePaise,
+  Value<String> status,
+  Value<DateTime?> publishedAt,
+  Value<String?> orchardCheck,
+  Value<DateTime> clientUpdatedAt,
+  Value<int> rowid,
+});
+
+class $$MarketLotsTableFilterComposer
+    extends Composer<_$AppDatabase, $MarketLotsTable> {
+  $$MarketLotsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get plotId => $composableBuilder(
+    column: $table.plotId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get baharCycleId => $composableBuilder(
+    column: $table.baharCycleId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get crop => $composableBuilder(
+    column: $table.crop,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get variety => $composableBuilder(
+    column: $table.variety,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get quantityT => $composableBuilder(
+    column: $table.quantityT,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get quality => $composableBuilder(
+    column: $table.quality,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get harvestFrom => $composableBuilder(
+    column: $table.harvestFrom,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get harvestTo => $composableBuilder(
+    column: $table.harvestTo,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get basis => $composableBuilder(
+    column: $table.basis,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get askingRatePaise => $composableBuilder(
+    column: $table.askingRatePaise,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get publishedAt => $composableBuilder(
+    column: $table.publishedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get orchardCheck => $composableBuilder(
+    column: $table.orchardCheck,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get clientUpdatedAt => $composableBuilder(
+    column: $table.clientUpdatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$MarketLotsTableOrderingComposer
+    extends Composer<_$AppDatabase, $MarketLotsTable> {
+  $$MarketLotsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get plotId => $composableBuilder(
+    column: $table.plotId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get baharCycleId => $composableBuilder(
+    column: $table.baharCycleId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get crop => $composableBuilder(
+    column: $table.crop,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get variety => $composableBuilder(
+    column: $table.variety,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get quantityT => $composableBuilder(
+    column: $table.quantityT,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get quality => $composableBuilder(
+    column: $table.quality,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get harvestFrom => $composableBuilder(
+    column: $table.harvestFrom,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get harvestTo => $composableBuilder(
+    column: $table.harvestTo,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get basis => $composableBuilder(
+    column: $table.basis,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get askingRatePaise => $composableBuilder(
+    column: $table.askingRatePaise,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get publishedAt => $composableBuilder(
+    column: $table.publishedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get orchardCheck => $composableBuilder(
+    column: $table.orchardCheck,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get clientUpdatedAt => $composableBuilder(
+    column: $table.clientUpdatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$MarketLotsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $MarketLotsTable> {
+  $$MarketLotsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get plotId =>
+      $composableBuilder(column: $table.plotId, builder: (column) => column);
+
+  GeneratedColumn<String> get baharCycleId => $composableBuilder(
+    column: $table.baharCycleId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get crop =>
+      $composableBuilder(column: $table.crop, builder: (column) => column);
+
+  GeneratedColumn<String> get variety =>
+      $composableBuilder(column: $table.variety, builder: (column) => column);
+
+  GeneratedColumn<double> get quantityT =>
+      $composableBuilder(column: $table.quantityT, builder: (column) => column);
+
+  GeneratedColumn<String> get quality =>
+      $composableBuilder(column: $table.quality, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get harvestFrom => $composableBuilder(
+    column: $table.harvestFrom,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get harvestTo =>
+      $composableBuilder(column: $table.harvestTo, builder: (column) => column);
+
+  GeneratedColumn<String> get basis =>
+      $composableBuilder(column: $table.basis, builder: (column) => column);
+
+  GeneratedColumn<int> get askingRatePaise => $composableBuilder(
+    column: $table.askingRatePaise,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get status =>
+      $composableBuilder(column: $table.status, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get publishedAt => $composableBuilder(
+    column: $table.publishedAt,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get orchardCheck => $composableBuilder(
+    column: $table.orchardCheck,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get clientUpdatedAt => $composableBuilder(
+    column: $table.clientUpdatedAt,
+    builder: (column) => column,
+  );
+}
+
+class $$MarketLotsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $MarketLotsTable,
+          MarketLotRow,
+          $$MarketLotsTableFilterComposer,
+          $$MarketLotsTableOrderingComposer,
+          $$MarketLotsTableAnnotationComposer,
+          $$MarketLotsTableCreateCompanionBuilder,
+          $$MarketLotsTableUpdateCompanionBuilder,
+          (
+            MarketLotRow,
+            BaseReferences<_$AppDatabase, $MarketLotsTable, MarketLotRow>,
+          ),
+          MarketLotRow,
+          PrefetchHooks Function()
+        > {
+  $$MarketLotsTableTableManager(_$AppDatabase db, $MarketLotsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$MarketLotsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$MarketLotsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$MarketLotsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> plotId = const Value.absent(),
+                Value<String?> baharCycleId = const Value.absent(),
+                Value<String> crop = const Value.absent(),
+                Value<String?> variety = const Value.absent(),
+                Value<double> quantityT = const Value.absent(),
+                Value<String?> quality = const Value.absent(),
+                Value<DateTime> harvestFrom = const Value.absent(),
+                Value<DateTime> harvestTo = const Value.absent(),
+                Value<String> basis = const Value.absent(),
+                Value<int?> askingRatePaise = const Value.absent(),
+                Value<String> status = const Value.absent(),
+                Value<DateTime?> publishedAt = const Value.absent(),
+                Value<String?> orchardCheck = const Value.absent(),
+                Value<DateTime> clientUpdatedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => MarketLotsCompanion(
+                id: id,
+                plotId: plotId,
+                baharCycleId: baharCycleId,
+                crop: crop,
+                variety: variety,
+                quantityT: quantityT,
+                quality: quality,
+                harvestFrom: harvestFrom,
+                harvestTo: harvestTo,
+                basis: basis,
+                askingRatePaise: askingRatePaise,
+                status: status,
+                publishedAt: publishedAt,
+                orchardCheck: orchardCheck,
+                clientUpdatedAt: clientUpdatedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String plotId,
+                Value<String?> baharCycleId = const Value.absent(),
+                required String crop,
+                Value<String?> variety = const Value.absent(),
+                required double quantityT,
+                Value<String?> quality = const Value.absent(),
+                required DateTime harvestFrom,
+                required DateTime harvestTo,
+                required String basis,
+                Value<int?> askingRatePaise = const Value.absent(),
+                Value<String> status = const Value.absent(),
+                Value<DateTime?> publishedAt = const Value.absent(),
+                Value<String?> orchardCheck = const Value.absent(),
+                required DateTime clientUpdatedAt,
+                Value<int> rowid = const Value.absent(),
+              }) => MarketLotsCompanion.insert(
+                id: id,
+                plotId: plotId,
+                baharCycleId: baharCycleId,
+                crop: crop,
+                variety: variety,
+                quantityT: quantityT,
+                quality: quality,
+                harvestFrom: harvestFrom,
+                harvestTo: harvestTo,
+                basis: basis,
+                askingRatePaise: askingRatePaise,
+                status: status,
+                publishedAt: publishedAt,
+                orchardCheck: orchardCheck,
+                clientUpdatedAt: clientUpdatedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$MarketLotsTable, MarketLotRow>(table),
+                  BaseReferences<_$AppDatabase, $MarketLotsTable, MarketLotRow>(
+                    db,
+                    table,
+                    e,
+                  ),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$MarketLotsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $MarketLotsTable,
+      MarketLotRow,
+      $$MarketLotsTableFilterComposer,
+      $$MarketLotsTableOrderingComposer,
+      $$MarketLotsTableAnnotationComposer,
+      $$MarketLotsTableCreateCompanionBuilder,
+      $$MarketLotsTableUpdateCompanionBuilder,
+      (
+        MarketLotRow,
+        BaseReferences<_$AppDatabase, $MarketLotsTable, MarketLotRow>,
+      ),
+      MarketLotRow,
+      PrefetchHooks Function()
+    >;
+typedef $$MarketLotPhotosTableCreateCompanionBuilder =
+    MarketLotPhotosCompanion Function({
+      required String id,
+      required String lotId,
+      required DateTime capturedAt,
+      required double lat,
+      required double lon,
+      Value<String?> photoPath,
+      Value<String?> photoKey,
+      required DateTime clientUpdatedAt,
+      Value<int> rowid,
+    });
+typedef $$MarketLotPhotosTableUpdateCompanionBuilder =
+    MarketLotPhotosCompanion Function({
+      Value<String> id,
+      Value<String> lotId,
+      Value<DateTime> capturedAt,
+      Value<double> lat,
+      Value<double> lon,
+      Value<String?> photoPath,
+      Value<String?> photoKey,
+      Value<DateTime> clientUpdatedAt,
+      Value<int> rowid,
+    });
+
+class $$MarketLotPhotosTableFilterComposer
+    extends Composer<_$AppDatabase, $MarketLotPhotosTable> {
+  $$MarketLotPhotosTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get lotId => $composableBuilder(
+    column: $table.lotId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get capturedAt => $composableBuilder(
+    column: $table.capturedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get lat => $composableBuilder(
+    column: $table.lat,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get lon => $composableBuilder(
+    column: $table.lon,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get photoPath => $composableBuilder(
+    column: $table.photoPath,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get photoKey => $composableBuilder(
+    column: $table.photoKey,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get clientUpdatedAt => $composableBuilder(
+    column: $table.clientUpdatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$MarketLotPhotosTableOrderingComposer
+    extends Composer<_$AppDatabase, $MarketLotPhotosTable> {
+  $$MarketLotPhotosTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get lotId => $composableBuilder(
+    column: $table.lotId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get capturedAt => $composableBuilder(
+    column: $table.capturedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get lat => $composableBuilder(
+    column: $table.lat,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get lon => $composableBuilder(
+    column: $table.lon,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get photoPath => $composableBuilder(
+    column: $table.photoPath,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get photoKey => $composableBuilder(
+    column: $table.photoKey,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get clientUpdatedAt => $composableBuilder(
+    column: $table.clientUpdatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$MarketLotPhotosTableAnnotationComposer
+    extends Composer<_$AppDatabase, $MarketLotPhotosTable> {
+  $$MarketLotPhotosTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get lotId =>
+      $composableBuilder(column: $table.lotId, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get capturedAt => $composableBuilder(
+    column: $table.capturedAt,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<double> get lat =>
+      $composableBuilder(column: $table.lat, builder: (column) => column);
+
+  GeneratedColumn<double> get lon =>
+      $composableBuilder(column: $table.lon, builder: (column) => column);
+
+  GeneratedColumn<String> get photoPath =>
+      $composableBuilder(column: $table.photoPath, builder: (column) => column);
+
+  GeneratedColumn<String> get photoKey =>
+      $composableBuilder(column: $table.photoKey, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get clientUpdatedAt => $composableBuilder(
+    column: $table.clientUpdatedAt,
+    builder: (column) => column,
+  );
+}
+
+class $$MarketLotPhotosTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $MarketLotPhotosTable,
+          MarketLotPhotoRow,
+          $$MarketLotPhotosTableFilterComposer,
+          $$MarketLotPhotosTableOrderingComposer,
+          $$MarketLotPhotosTableAnnotationComposer,
+          $$MarketLotPhotosTableCreateCompanionBuilder,
+          $$MarketLotPhotosTableUpdateCompanionBuilder,
+          (
+            MarketLotPhotoRow,
+            BaseReferences<
+              _$AppDatabase,
+              $MarketLotPhotosTable,
+              MarketLotPhotoRow
+            >,
+          ),
+          MarketLotPhotoRow,
+          PrefetchHooks Function()
+        > {
+  $$MarketLotPhotosTableTableManager(
+    _$AppDatabase db,
+    $MarketLotPhotosTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$MarketLotPhotosTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$MarketLotPhotosTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$MarketLotPhotosTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> lotId = const Value.absent(),
+                Value<DateTime> capturedAt = const Value.absent(),
+                Value<double> lat = const Value.absent(),
+                Value<double> lon = const Value.absent(),
+                Value<String?> photoPath = const Value.absent(),
+                Value<String?> photoKey = const Value.absent(),
+                Value<DateTime> clientUpdatedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => MarketLotPhotosCompanion(
+                id: id,
+                lotId: lotId,
+                capturedAt: capturedAt,
+                lat: lat,
+                lon: lon,
+                photoPath: photoPath,
+                photoKey: photoKey,
+                clientUpdatedAt: clientUpdatedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String lotId,
+                required DateTime capturedAt,
+                required double lat,
+                required double lon,
+                Value<String?> photoPath = const Value.absent(),
+                Value<String?> photoKey = const Value.absent(),
+                required DateTime clientUpdatedAt,
+                Value<int> rowid = const Value.absent(),
+              }) => MarketLotPhotosCompanion.insert(
+                id: id,
+                lotId: lotId,
+                capturedAt: capturedAt,
+                lat: lat,
+                lon: lon,
+                photoPath: photoPath,
+                photoKey: photoKey,
+                clientUpdatedAt: clientUpdatedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$MarketLotPhotosTable, MarketLotPhotoRow>(table),
+                  BaseReferences<
+                    _$AppDatabase,
+                    $MarketLotPhotosTable,
+                    MarketLotPhotoRow
+                  >(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$MarketLotPhotosTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $MarketLotPhotosTable,
+      MarketLotPhotoRow,
+      $$MarketLotPhotosTableFilterComposer,
+      $$MarketLotPhotosTableOrderingComposer,
+      $$MarketLotPhotosTableAnnotationComposer,
+      $$MarketLotPhotosTableCreateCompanionBuilder,
+      $$MarketLotPhotosTableUpdateCompanionBuilder,
+      (
+        MarketLotPhotoRow,
+        BaseReferences<_$AppDatabase, $MarketLotPhotosTable, MarketLotPhotoRow>,
+      ),
+      MarketLotPhotoRow,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -16601,4 +18688,8 @@ class $AppDatabaseManager {
       $$ClaimPhotosTableTableManager(_db, _db.claimPhotos);
   $$LabTestsTableTableManager get labTests =>
       $$LabTestsTableTableManager(_db, _db.labTests);
+  $$MarketLotsTableTableManager get marketLots =>
+      $$MarketLotsTableTableManager(_db, _db.marketLots);
+  $$MarketLotPhotosTableTableManager get marketLotPhotos =>
+      $$MarketLotPhotosTableTableManager(_db, _db.marketLotPhotos);
 }
