@@ -1,0 +1,467 @@
+import 'dart:convert';
+
+import 'package:bagmitra/admin/admin_app.dart';
+import 'package:bagmitra/admin/kb_admin_repository.dart';
+import 'package:bagmitra/admin/market_link_admin_repository.dart';
+import 'package:bagmitra/admin/market_link_pages.dart';
+import 'package:bagmitra/api/api_client.dart';
+import 'package:bagmitra/api/generated/bagmitra.swagger.dart';
+import 'package:bagmitra/l10n/app_localizations.dart';
+import 'package:bagmitra/theme/app_theme.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:http/http.dart' as http;
+import 'package:http/testing.dart';
+
+import 'admin_sign_in_test.dart' show FakeAdminAuth;
+import 'kb_admin_test.dart' show FakeKbAdmin;
+
+const _buyer = {
+  'subject_type': 'buyer',
+  'subject_id': 'b1',
+  'name': 'Ramesh Traders',
+  'fields': {
+    'name': 'Ramesh Traders',
+    'firm': 'RT & Sons',
+    'phone': '919800000001',
+    'markets': 'Kalamna',
+    'district': 'Nagpur',
+    'crops': 'santra',
+    'apmc_licence_no': 'APMC-42',
+  },
+  'document_keys': ['docs/apmc.jpg', 'docs/shop.jpg'],
+  'waiting_since': '2026-11-01T09:00:00Z',
+  'status': 'pending',
+};
+
+const _provider = {
+  'subject_type': 'provider',
+  'subject_id': 'p1',
+  'name': 'Warud Kata',
+  'fields': {
+    'kind': 'weighbridge',
+    'name': 'Warud Kata',
+    'phone': '919800000003',
+    'district': 'Amravati',
+    'refrigerated': 'no',
+  },
+  'document_keys': <String>[],
+  'waiting_since': '2026-10-28T09:00:00Z',
+  'status': 'pending',
+};
+
+Map<String, dynamic> _row(String status, {String? reason, String? by}) => {
+  'id': 'v-$status',
+  'status': status,
+  'reason': reason,
+  'document_keys': ['docs/apmc.jpg'],
+  'checked_by': by,
+  'checked_at': by == null ? null : '2026-11-02T10:00:00Z',
+  'created_at': '2026-11-01T09:00:00Z',
+};
+
+List<RatingTagAdminOut> _tags() => [
+  for (final (key, q, pol, mr, status) in const [
+    (
+      'trader_on_date_yes',
+      'trader_on_date',
+      'positive',
+      'ठरल्या दिवशी आले',
+      'active',
+    ),
+    ('trader_on_date_no', 'trader_on_date', 'negative', 'उशिरा आले', 'draft'),
+    ('trader_paid_yes', 'trader_paid', 'positive', 'पैसे वेळेवर', 'draft'),
+  ])
+    RatingTagAdminOut.fromJson({
+      'id': key,
+      'key': key,
+      'question_key': q,
+      'polarity': pol,
+      'label_mr': mr,
+      'label_hi': 'हिंदी $key',
+      'label_en': 'English $key',
+      'status': status,
+      'sort_order': 0,
+    }),
+];
+
+class FakeMarketLinkAdmin implements MarketLinkAdminRepository {
+  FakeMarketLinkAdmin({this.empty = false});
+  final bool empty;
+  final queries = <String?>[];
+  final decisions = <(String, String, bool, String?)>[];
+  final opened = <int>[];
+  final saved = <(String, RatingTagIn)>[];
+  late final tags = _tags();
+
+  SubjectOut _subject(String id) =>
+      SubjectOut.fromJson(id == 'b1' ? _buyer : _provider);
+
+  @override
+  Future<List<SubjectOut>> queue({String? type}) async {
+    queries.add(type);
+    if (empty) return [];
+    final all = [_subject('p1'), _subject('b1')];
+    return [
+      for (final s in all)
+        if (type == null || s.subjectType == type) s,
+    ];
+  }
+
+  @override
+  Future<SubjectDetailOut> subject(String type, String id) async =>
+      SubjectDetailOut(
+        subject: _subject(id),
+        history: [
+          VerificationOut.fromJson(
+            _row('rejected', reason: 'Licence copy unreadable', by: 'admin-1'),
+          ),
+          VerificationOut.fromJson(_row('pending')),
+        ],
+      );
+
+  @override
+  Future<SubjectDetailOut> decide(
+    String type,
+    String id, {
+    required bool approve,
+    String? reason,
+  }) async {
+    decisions.add((type, id, approve, reason));
+    final base = await subject(type, id);
+    return SubjectDetailOut(
+      subject: base.subject.copyWith(status: approve ? 'approved' : 'rejected'),
+      history: [
+        VerificationOut.fromJson(
+          _row(
+            approve ? 'approved' : 'rejected',
+            reason: reason,
+            by: 'admin-1',
+          ),
+        ),
+        ...base.history,
+      ],
+    );
+  }
+
+  @override
+  Future<String> documentUrl(String type, String id, int index) async {
+    opened.add(index);
+    if (index > 0) throw const KbAdminException('photo backup not configured');
+    return 'https://storage.test/doc-$index';
+  }
+
+  @override
+  Future<List<RatingTagAdminOut>> ratingTags() async => empty ? [] : tags;
+
+  @override
+  Future<RatingTagAdminOut> saveRatingTag(String id, RatingTagIn body) async {
+    saved.add((id, body));
+    return tags.first;
+  }
+}
+
+Widget _page(Widget child) => MaterialApp(
+  theme: BmTheme.light(),
+  supportedLocales: AppLocalizations.supportedLocales,
+  localizationsDelegates: AppLocalizations.localizationsDelegates,
+  home: Scaffold(
+    body: Padding(padding: const EdgeInsets.all(16), child: child),
+  ),
+);
+
+Future<void> _wide(WidgetTester tester) async {
+  tester.view.physicalSize = const Size(1280, 900);
+  tester.view.devicePixelRatio = 1;
+  addTearDown(tester.view.reset);
+}
+
+void main() {
+  group('menu entries', () {
+    Future<void> pumpShell(
+      WidgetTester tester, {
+      MarketLinkAdminRepository? repo,
+      Set<String> roles = const {},
+    }) async {
+      await _wide(tester);
+      await tester.pumpWidget(
+        AdminApp(
+          productName: 'BagMitra',
+          auth: FakeAdminAuth(signedIn: true, roles: {'kb_admin', ...roles}),
+          kb: FakeKbAdmin(),
+          marketLink: repo,
+        ),
+      );
+      await tester.pumpAndSettle();
+    }
+
+    testWidgets('hidden while the MARKET_LINK flag is off (no repository)', (
+      tester,
+    ) async {
+      await pumpShell(tester, roles: {marketLinkAdminRole});
+      expect(find.text('Verification queue'), findsNothing);
+      expect(find.text('Rating tags'), findsNothing);
+    });
+
+    testWidgets('hidden without the market_link_admin role', (tester) async {
+      await pumpShell(
+        tester,
+        repo: FakeMarketLinkAdmin(),
+        roles: {'feed_admin'},
+      );
+      expect(find.text('Verification queue'), findsNothing);
+    });
+
+    testWidgets('shown with the flag and the role', (tester) async {
+      await pumpShell(
+        tester,
+        repo: FakeMarketLinkAdmin(),
+        roles: {marketLinkAdminRole},
+      );
+      await tester.tap(find.text('Rating tags'));
+      await tester.pumpAndSettle();
+      expect(find.text('उशिरा आले'), findsOneWidget);
+      await tester.tap(find.text('Verification queue').first);
+      await tester.pumpAndSettle();
+      expect(find.text('Ramesh Traders'), findsOneWidget);
+    });
+  });
+
+  testWidgets('queue lists oldest first and filters by type', (tester) async {
+    await _wide(tester);
+    final repo = FakeMarketLinkAdmin();
+    await tester.pumpWidget(_page(VerificationQueuePage(repo: repo)));
+    await tester.pumpAndSettle();
+    final warud = tester.getTopLeft(find.text('Warud Kata')).dy;
+    final ramesh = tester.getTopLeft(find.text('Ramesh Traders')).dy;
+    expect(warud, lessThan(ramesh));
+    expect(find.text('Waiting since 2026-11-01'), findsOneWidget);
+    await tester.tap(find.text('Trader'));
+    await tester.pumpAndSettle();
+    expect(repo.queries, [null, 'buyer']);
+    expect(find.text('Warud Kata'), findsNothing);
+  });
+
+  testWidgets('empty queue shows the empty state', (tester) async {
+    await _wide(tester);
+    await tester.pumpWidget(
+      _page(VerificationQueuePage(repo: FakeMarketLinkAdmin(empty: true))),
+    );
+    await tester.pumpAndSettle();
+    expect(find.text('Everyone is checked'), findsOneWidget);
+    await tester.pumpWidget(
+      _page(RatingTagsPage(repo: FakeMarketLinkAdmin(empty: true))),
+    );
+    await tester.pumpAndSettle();
+    expect(find.text('Rating tags appear here'), findsOneWidget);
+  });
+
+  testWidgets('detail: fields, documents, history, approve and reject', (
+    tester,
+  ) async {
+    await _wide(tester);
+    final repo = FakeMarketLinkAdmin();
+    final opened = <Uri>[];
+    await tester.pumpWidget(
+      _page(
+        VerificationQueuePage(repo: repo, openUrl: (u) async => opened.add(u)),
+      ),
+    );
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Ramesh Traders'));
+    await tester.pumpAndSettle();
+    expect(find.text('APMC licence no.'), findsOneWidget);
+    expect(find.text('APMC-42'), findsOneWidget);
+    expect(find.textContaining('Licence copy unreadable'), findsOneWidget);
+    expect(find.textContaining('by admin-1'), findsOneWidget);
+
+    await tester.tap(find.byKey(const ValueKey('document-0')));
+    await tester.pumpAndSettle();
+    expect(opened, [Uri.parse('https://storage.test/doc-0')]);
+    await tester.tap(find.byKey(const ValueKey('document-1')));
+    await tester.pumpAndSettle();
+    expect(find.text('photo backup not configured'), findsOneWidget);
+
+    // Reject needs a reason: the button stays off until one is typed.
+    await tester.tap(find.text('Reject'));
+    await tester.pumpAndSettle();
+    final dialogReject = find.descendant(
+      of: find.byType(AlertDialog),
+      matching: find.widgetWithText(FilledButton, 'Reject'),
+    );
+    expect(tester.widget<FilledButton>(dialogReject).onPressed, isNull);
+    await tester.enterText(
+      find.byKey(const Key('reject-reason')),
+      ' No shop photo ',
+    );
+    await tester.pump();
+    await tester.tap(dialogReject);
+    await tester.pumpAndSettle();
+    expect(repo.decisions.single, ('buyer', 'b1', false, 'No shop photo'));
+
+    await tester.tap(find.text('Approve'));
+    await tester.pumpAndSettle();
+    expect(repo.decisions.last, ('buyer', 'b1', true, null));
+    expect(find.text('Verified'), findsWidgets);
+
+    // Cancelling the reject dialog writes nothing.
+    await tester.tap(find.text('Reject'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Cancel'));
+    await tester.pumpAndSettle();
+    expect(repo.decisions, hasLength(2));
+  });
+
+  testWidgets('provider values are shown in words', (tester) async {
+    await _wide(tester);
+    await tester.pumpWidget(
+      _page(
+        VerificationDetailPage(
+          repo: FakeMarketLinkAdmin(),
+          type: 'provider',
+          id: 'p1',
+          openUrl: (_) async {},
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(find.text('Weighbridge'), findsOneWidget);
+    expect(find.text('Documents appear here once sent'), findsOneWidget);
+    expect(find.text('No'), findsOneWidget);
+  });
+
+  testWidgets('rating tags: edit labels and activate', (tester) async {
+    await _wide(tester);
+    final repo = FakeMarketLinkAdmin();
+    await tester.pumpWidget(_page(RatingTagsPage(repo: repo)));
+    await tester.pumpAndSettle();
+    expect(find.text('trader_on_date'), findsOneWidget);
+    expect(find.text('trader_paid'), findsOneWidget);
+    await tester.tap(find.byKey(const ValueKey('tag-trader_on_date_no')));
+    await tester.pumpAndSettle();
+    await tester.enterText(
+      find.byKey(const Key('tag-mr')),
+      ' उशिरा आले (बदल) ',
+    );
+    await tester.tap(
+      find.descendant(
+        of: find.byType(AlertDialog),
+        matching: find.text('Active'),
+      ),
+    );
+    await tester.pump();
+    await tester.enterText(find.byKey(const Key('tag-en')), '');
+    await tester.pump();
+    final save = find.widgetWithText(FilledButton, 'Save');
+    expect(tester.widget<FilledButton>(save).onPressed, isNull);
+    await tester.enterText(find.byKey(const Key('tag-en')), 'Came late');
+    await tester.pump();
+    await tester.tap(save);
+    await tester.pumpAndSettle();
+    final (id, body) = repo.saved.single;
+    expect(id, 'trader_on_date_no');
+    expect(body.labelMr, 'उशिरा आले (बदल)');
+    expect(body.labelEn, 'Came late');
+    expect(body.status, RatingTagInStatus.active);
+    expect(find.text('Done'), findsOneWidget);
+  });
+
+  group('ApiMarketLinkAdminRepository', () {
+    late List<http.Request> sent;
+    ApiMarketLinkAdminRepository repo(int status, Object body) {
+      sent = [];
+      return ApiMarketLinkAdminRepository(
+        createApi(
+          baseUrl: Uri.parse('https://api.example.test'),
+          token: () => 'tok',
+          httpClient: MockClient((req) async {
+            sent.add(req);
+            return http.Response(
+              jsonEncode(body),
+              status,
+              headers: {'content-type': 'application/json'},
+            );
+          }),
+        ),
+      );
+    }
+
+    test('queue filter and decision body', () async {
+      var r = repo(200, {
+        'subjects': [_buyer],
+      });
+      final queue = await r.queue(type: 'buyer');
+      expect(queue.single.name, 'Ramesh Traders');
+      expect(sent.single.url.path, '/v1/admin/market-link/verifications');
+      expect(sent.single.url.queryParameters, {'subject_type': 'buyer'});
+
+      r = repo(200, {
+        'subject': _buyer,
+        'history': [_row('rejected', reason: 'x', by: 'a')],
+      });
+      await r.decide('buyer', 'b1', approve: false, reason: 'x');
+      expect(sent.single.method, 'POST');
+      expect(
+        sent.single.url.path,
+        '/v1/admin/market-link/verifications/buyer/b1/decision',
+      );
+      expect(jsonDecode(sent.single.body), {
+        'status': 'rejected',
+        'reason': 'x',
+      });
+      await r.subject('provider', 'p1');
+      expect(
+        sent.last.url.path,
+        '/v1/admin/market-link/verifications/provider/p1',
+      );
+    });
+
+    test('document url, tags and errors', () async {
+      var r = repo(200, {
+        'url': 'https://s/x',
+        'photo_key': 'k',
+        'expires_in': 300,
+      });
+      expect(await r.documentUrl('broker', 'k1', 2), 'https://s/x');
+      expect(
+        sent.single.url.path,
+        '/v1/admin/market-link/verifications/broker/k1/documents/2/url',
+      );
+      r = repo(200, {
+        'tags': [_tags().first.toJson()],
+      });
+      expect((await r.ratingTags()).single.key, 'trader_on_date_yes');
+      r = repo(200, _tags().first.toJson());
+      await r.saveRatingTag(
+        'trader_on_date_yes',
+        const RatingTagIn(
+          labelEn: 'a',
+          labelMr: 'b',
+          labelHi: 'c',
+          status: RatingTagInStatus.retired,
+        ),
+      );
+      expect(sent.single.method, 'PUT');
+      expect(
+        (jsonDecode(sent.single.body) as Map<String, dynamic>)['status'],
+        'retired',
+      );
+      r = repo(403, {
+        'error': {
+          'code': 'forbidden',
+          'message': 'requires role market_link_admin',
+        },
+      });
+      await expectLater(
+        r.ratingTags(),
+        throwsA(
+          isA<KbAdminException>().having(
+            (e) => e.message,
+            'message',
+            'requires role market_link_admin',
+          ),
+        ),
+      );
+    });
+  });
+}

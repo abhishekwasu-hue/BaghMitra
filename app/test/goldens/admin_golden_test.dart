@@ -8,6 +8,7 @@ import 'package:flutter_test/flutter_test.dart';
 import '../admin/admin_sign_in_test.dart' show FakeAdminAuth;
 import '../admin/feed_admin_test.dart' show FakeFeedAdmin;
 import '../admin/kb_admin_test.dart' show FakeKbAdmin;
+import '../admin/market_link_admin_test.dart' show FakeMarketLinkAdmin;
 
 Future<void> _pump(WidgetTester tester, Widget app) async {
   tester.view.physicalSize = const Size(1280, 800);
@@ -79,4 +80,39 @@ void main() {
     await tester.pumpAndSettle();
     await _shot(tester, 'feed_item');
   });
+
+  for (final dark in [false, true]) {
+    final mode = dark ? 'dark' : 'light';
+    testWidgets('admin_market_link_$mode', (tester) async {
+      tester.platformDispatcher.platformBrightnessTestValue = dark
+          ? Brightness.dark
+          : Brightness.light;
+      addTearDown(tester.platformDispatcher.clearPlatformBrightnessTestValue);
+      await _pump(
+        tester,
+        AdminApp(
+          productName: 'BagMitra',
+          auth: FakeAdminAuth(
+            signedIn: true,
+            roles: {'kb_admin', 'market_link_admin'},
+          ),
+          kb: FakeKbAdmin(),
+          marketLink: FakeMarketLinkAdmin(),
+        ),
+      );
+      await tester.tap(find.text('Verification queue'));
+      await tester.pumpAndSettle();
+      await _shot(tester, 'ml_queue_$mode');
+
+      await tester.tap(find.text('Ramesh Traders'));
+      await tester.pumpAndSettle();
+      await _shot(tester, 'ml_subject_$mode');
+
+      await tester.pageBack();
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Rating tags'));
+      await tester.pumpAndSettle();
+      await _shot(tester, 'ml_tags_$mode');
+    });
+  }
 }

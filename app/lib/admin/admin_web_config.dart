@@ -39,6 +39,7 @@ Future<AppConfig> resolveAdminConfig(
       testBuild: base.testBuild,
       speechEngine: base.speechEngine,
       sarkariSandesh: base.sarkariSandesh,
+      marketLink: base.marketLink,
     );
   } on Object {
     return base;

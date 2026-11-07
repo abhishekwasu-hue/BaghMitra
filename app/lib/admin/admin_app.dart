@@ -9,6 +9,8 @@ import 'feed_admin_repository.dart';
 import 'feed_pages.dart';
 import 'kb_admin_repository.dart';
 import 'kb_pages.dart';
+import 'market_link_admin_repository.dart';
+import 'market_link_pages.dart';
 
 /// Admin web shell (ADR 0006). Sections map to the config tables that keep business
 /// values out of code (spec §0.5); editors arrive with the milestones that own them.
@@ -19,6 +21,7 @@ class AdminApp extends StatelessWidget {
     this.kb,
     this.feed,
     this.documents,
+    this.marketLink,
     this.auth,
   });
 
@@ -32,6 +35,10 @@ class AdminApp extends StatelessWidget {
 
   /// GR document picker for the feed upload (defaults to `file_picker`).
   final DocumentPicker? documents;
+
+  /// Market linkage verification queue and rating tags; null unless the build has
+  /// `MARKET_LINK` on (decision j). Shown only to role `market_link_admin`.
+  final MarketLinkAdminRepository? marketLink;
 
   /// When set, the shell is shown only to a signed-in staff account.
   final AdminAuth? auth;
@@ -49,6 +56,7 @@ class AdminApp extends StatelessWidget {
         kb: kb,
         feed: feed,
         documents: documents,
+        marketLink: marketLink,
       ),
       final a => StreamBuilder<void>(
         stream: a.changes,
@@ -59,6 +67,7 @@ class AdminApp extends StatelessWidget {
                 kb: kb,
                 feed: feed,
                 documents: documents,
+                marketLink: marketLink,
                 roles: a.roles,
                 onSignOut: a.signOut,
               ),
@@ -74,6 +83,7 @@ class AdminShell extends StatefulWidget {
     this.kb,
     this.feed,
     this.documents,
+    this.marketLink,
     this.roles = const {},
     this.onSignOut,
   });
@@ -82,6 +92,7 @@ class AdminShell extends StatefulWidget {
   final KbAdminRepository? kb;
   final FeedAdminRepository? feed;
   final DocumentPicker? documents;
+  final MarketLinkAdminRepository? marketLink;
 
   /// Supabase app_metadata roles of the signed-in account (gates the feed section).
   final Set<String> roles;
@@ -131,6 +142,15 @@ class _AdminShellState extends State<AdminShell> {
           Icons.campaign_rounded,
           FeedAdminSection(feed: feed, documents: widget.documents),
         ),
+      if (widget.marketLink case final ml?
+          when widget.roles.contains(marketLinkAdminRole)) ...[
+        (
+          t.adminMlQueue,
+          Icons.verified_user_rounded,
+          VerificationQueuePage(repo: ml),
+        ),
+        (t.adminMlTags, Icons.sell_rounded, RatingTagsPage(repo: ml)),
+      ],
       (t.adminCropTemplates, Icons.eco_rounded, soon(1)),
       (t.adminRiskRules, Icons.thunderstorm_rounded, soon(4)),
       (t.adminPrompts, Icons.auto_awesome_rounded, soon(3)),
