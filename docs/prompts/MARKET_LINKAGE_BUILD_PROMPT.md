@@ -200,3 +200,29 @@ patterns (Devanagari and Latin digits, +91 forms, spaced digits); tests with Mar
 migration if L0a lacks them. (4) Keep market_link_admin in L0b.
 ```
 
+## Addendum 5 2026-11-07 (introduction-only revision) — paste this too; it overrides earlier text where they differ
+
+```
+ADDENDUM 5 (owner 2026-11-07): BagMitra ONLY introduces grower, trader and broker. It never enters
+their transaction or disputes. Re-read spec v1.5 on main: §1 core principle, §2.1 (five role cards:
+शेतकरी, व्यापारी, मध्यस्थ (दलाल), निर्यातदार, सेवा देणारे; one sign-in; role switch), §3 (new flow:
+lot -> interest -> accept = contacts revealed -> off-app -> both tap "deal done" -> rating 7 days), §4C
+(trust and safety + legal duties + 180-day deletion), §6 (keep / add / DROP list), §7, §8 (new L0b–L8).
+Do now:
+1. L0b follow-up migration: DROP market_deal_versions, deal_confirmations, weigh_slips, deal_payments,
+   service_requests, disputes and the offer columns for payer fields, advance, balance, weighing place and
+   rejection rule; ADD registration GPS fields, exporter IEC, fraud_reports, admin_actions,
+   terms_acceptances, user_blocks, representative uploads, market_deals "deal done" taps; roles
+   market_link_admin and market_link_rep in KNOWN_ROLES. Update RLS and tests (dropped tables gone).
+2. Remove from the build everything the main prompt listed for deal sheet PDF, deal versions and
+   confirmations, service requests / booking, weigh slip, payment records inside deals, and admin
+   dispute decisions. Admin acts only on platform rules (fake / duplicate users, fake lots,
+   impersonation, abuse) with reason codes and one appeal.
+3. Service providers are a directory with phone numbers only (no booking).
+4. Glossary: broker label "मध्यस्थ (दलाल)" (docs/agronomy/GLOSSARY_mr.md); never "अडत्या".
+5. Q67 decided: a deal completes when both grower and trader tap "deal done". Q68: hide at once, erase
+   after 180 days. Q69 superseded (no disputes).
+Same quality rules as before: tests first, ≤ 400 lines per PR, self-review, Marathi phone screenshots
+light + dark, match the existing UI, uncluttered.
+```
+
