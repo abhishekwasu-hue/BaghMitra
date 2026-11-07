@@ -39,7 +39,10 @@
 | Units | सें.मी., मि.मी., कि.मी., लिटर, % / टक्के | सेंमी, मिमी, किमी | Dotted abbreviations are the majority form (19 uses); the alerts and the irrigation guide now match. |
 | Trader (buyer of produce) | व्यापारी | खरेदीदार (for a person) | Market linkage (spec v1.5); Accounts already shows व्यापारी for the sale buyer (`saleBuyer`). खरेदीदार stays only in the directory title "बाजार व खरेदीदार". Draft, for native review. |
 | Broker | मध्यस्थ (दलाल) | अडत्या, एजंट | Owner 2026-11-07 (spec v1.5 §2.1): "मध्यस्थ" with "(दलाल)" under it; never "अडत्या" (APMC licensed commission agent). The app never shows a broker's commission (Q64). Draft. |
-| Deal (grower–trader agreement) | व्यवहार | सौदा (mr), डील | Rating tags use व्यवहार; Hindi keeps सौदा. Draft. |
+| Deal (grower–trader agreement) | व्यवहार | सौदा (mr), डील | Rating tags use व्यवहार; Hindi keeps सौदा. **Owner 2026-11-07 (Q75): व्यवहार is the preferred term for the disclaimer and every user-facing deal / transaction text ("सौदा नंतर नको"); the Hindi disclaimer uses लेन-देन.** Draft. |
+| Transporter | वाहतूकदार | ट्रान्सपोर्टर | Lot disclaimer note (decision k) and later service providers. Draft. |
+| Lot draft | मसुदा | ड्राफ्ट | A lot saved on the phone, not yet shown to traders (L3). Draft. |
+| Harvest window | तोडणीचा काळ | काढणीचा काळ | L3 lot form; तोडणी as in the arb merger note above. Draft. |
 | Agreed terms / conditions | ठरलेल्या अटी; ठरल्याप्रमाणे | शर्ती | Rating tags "ठरलेल्या अटी पाळल्या". Draft. |
 | Produce on sale | माल | — | Everyday market word (उत्पादन stays for yield) ("माल फोटो व वर्णनाप्रमाणे"). Draft. |
 | Advance payment / balance | उचल / बाकी पैसे | अॅडव्हान्स | उचल is the village word for money paid before harvest; to confirm by the native reviewer. Draft. |

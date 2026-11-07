@@ -144,6 +144,13 @@ class MoreScreen extends ConsumerWidget {
             t.marketDirectoryTitle,
             Routes.marketDirectory,
           ),
+          if (config.marketLink)
+            page(
+              'market-lots',
+              Icons.sell_outlined,
+              t.mlOpen,
+              Routes.marketLots,
+            ),
         ],
       ),
       (
