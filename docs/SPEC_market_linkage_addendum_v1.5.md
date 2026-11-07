@@ -202,6 +202,25 @@ the admin by hand from a link the admin page opens. Research: MARKET_LINKAGE_RES
 - **Account deletion (Q68)**: profile and contact data are hidden at once and erased after **180 days**
   (IT Rules 2021 retention); ratings already given stay, shown without name.
 
+## 4D. Season sale package — PROPOSED, awaiting owner approval (research §7)
+Owner idea 2026-11-07: in the sale season growers look for traders and traders look for good santra; a
+grower pays a **one-time** fee (not monthly) to have a lot shown to traders; paid by UPI straight to the
+company account, not through Google. Traders keep their monthly subscription.
+- **What a trader sees in a packaged lot**: grower's first name only (no surname), crop / variety,
+  orchard area (acres, from the plot), estimated tonnes, quality ticks, photos (EXIF stripped), harvest
+  window, **district only**. Hidden: surname, phone, village, plot pin. Contact appears only after the
+  grower accepts that trader's interest (§3 step 4).
+- **Admin settings**: package ON / OFF (default OFF = every lot visible free), price (₹), validity
+  (days); a lot without an active package is not shown to traders while the switch is ON.
+- **Payment, consumption-only** (§7.1): the app shows no price, no pay button, no payment link or
+  instruction. The grower pays outside the app (company UPI QR carried by a BagMitra representative, the
+  company website, or the office). The admin activates the package against the grower's phone number in
+  the admin web (reuses the billing manual-grant path, provider `manual_grant`, with payment reference,
+  amount, date, admin id). A ₹2,000-or-lower price has zero UPI MDR (§7.2).
+- Fee is for the listing service only — never a share of the sale (§1).
+- Needs before go-live: registered company, current account + merchant QR, CA view on GST and invoice,
+  Play Console check that consumption-only still applies.
+
 ## 5. Legal gate (must hold before production)
 - Feature flag `MARKET_LINK_ENABLED` (default **off** in production; on in test builds).
 - It is switched on only after the owner records in admin: (a) a written legal opinion on
