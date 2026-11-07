@@ -16,7 +16,10 @@ here: `docs/research/MARKET_LINKAGE_RESEARCH.md`. **Status: draft for owner revi
 
 ### 1.1 How the trade works today (owner's village, stated 2026-11-07)
 1. A local or nearby **broker (dalal)** brings a **trader** to the orchard, shows it, and negotiates
-   with the grower. The broker takes a **2 % commission**.
+   with the grower. The broker takes a commission (owner: usually 2 %). **Owner decision
+   2026-11-07: the app never records, asks for or shows a broker's commission or income** — it is
+   their private matter, and recording it would bring income-tax / GST worries that make brokers
+   avoid the app.
 2. The trader fixes a **harvest date** and the **deal basis**: by the tonne, by the crate (crates
    filled and counted), or one lump sum for the whole orchard.
 3. The deal and the agreed give-and-take conditions are written on **rough paper** (no bond paper).
@@ -53,9 +56,9 @@ contact number and ratings — that a grower can read easily. This narrows the g
 4. **Compare and accept** — grower sees offers side by side (rate, terms, buyer's verified badge,
    past deals and ratings, mandi price that day). Accepting one creates a **Deal**; contacts and plot
    pin are revealed to both; other offers are closed with a notice.
-5. **Deal sheet** (replaces the rough paper) — fields: grower, trader, broker (if any) and the
-   broker's commission % as agreed (2 % is the usual figure the owner states; entered per deal,
-   with who pays it — Q64), basis (per tonne / per crate / lump sum), rate or lump-sum amount,
+5. **Deal sheet** (replaces the rough paper) — fields: grower, trader, broker (if any; name only,
+   **no commission field anywhere** — §1.1), basis (per tonne / per crate / lump sum), rate or
+   lump-sum amount,
    harvest date, weighing place, who pays labour / crates / transport, advance and balance dates,
    other agreed conditions (free text). Every party on the deal confirms the same version in the
    app; a PDF deal sheet (mr / hi / en) is generated for all of them. A photo of a paper note can
@@ -114,7 +117,7 @@ contact number and ratings — that a grower can read easily. This narrows the g
 
 ## 6. Data model (additions)
 `market_lots`, `market_lot_photos`, `buyer_profiles`, `broker_profiles`, `deal_parties` (grower,
-trader, broker, commission %, commission payer), `party_verifications` (buyer or provider,
+trader, broker — no commission column), `party_verifications` (buyer or provider,
 documents, checked_by, checked_at, status), `market_offers`, `market_deals` (versioned terms),
 `deal_confirmations`, `deal_events` (append-only), `service_providers`, `service_requests`,
 `weigh_slips`, `deal_payments` (links to Accounts incomes), `ratings`, `disputes`. RLS: a grower
@@ -125,7 +128,7 @@ requests sent to them; contact fields are unlocked by an accepted deal. Update
 ## 7. Tests (CI)
 Unverified buyer sees no lot; grower contact hidden until acceptance; accepting closes other
 offers; deal change needs every party's confirmation; only deal parties can rate, once per
-deal; broker commission appears on the deal sheet; expired weighbridge certificate warns; payment
+deal; no schema field, API field, screen or PDF holds a broker commission or income; expired weighbridge certificate warns; payment
 entries reach Accounts; flag off hides every screen and endpoint; RLS tests per role; Marathi /
 Hindi / English goldens at phone size.
 
