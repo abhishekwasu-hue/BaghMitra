@@ -8,6 +8,7 @@ import '../../../core/formatting.dart';
 import '../../../design_system/app_bar_title.dart';
 import '../../../design_system/bottom_actions.dart';
 import '../../../design_system/general_info_note.dart';
+import '../../../design_system/sources_disclosure.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../data/bahar_catalog.dart';
@@ -123,6 +124,10 @@ class _StartBaharScreenState extends ConsumerState<StartBaharScreen> {
         : ref.watch(stageTemplatesProvider).value?[templateKey(crop, _bahar!)];
     final windows = template?.windows(_season!, _dates) ?? const {};
     final checked = template?.checked();
+    final stages =
+        template?.withStages(catalog?.stages ?? const []) ??
+        catalog?.stages ??
+        const <LabeledOption>[];
     final label = BmType.formLabel.copyWith(color: c.ink);
     const gap = SizedBox(height: BmSpace.lg);
     return Scaffold(
@@ -189,10 +194,7 @@ class _StartBaharScreenState extends ConsumerState<StartBaharScreen> {
                 }),
               ),
             ),
-          for (final stage
-              in template?.withStages(catalog?.stages ?? const []) ??
-                  catalog?.stages ??
-                  const <LabeledOption>[])
+          for (final stage in stages)
             ListTile(
               key: Key('stage-${stage.key}'),
               contentPadding: EdgeInsets.zero,
@@ -201,7 +203,6 @@ class _StartBaharScreenState extends ConsumerState<StartBaharScreen> {
                   ? null
                   : _StageHint(
                       window: windows[stage.key],
-                      sources: template.sourcesFor(stage.key),
                       bySoil:
                           stage.key == 'irrigation_restart' &&
                           windows.containsKey(stage.key),
@@ -216,10 +217,35 @@ class _StartBaharScreenState extends ConsumerState<StartBaharScreen> {
             const SizedBox(height: BmSpace.sm),
             Text(t.baharSuggestedHelp, style: BmType.meta),
             const SizedBox(height: BmSpace.sm),
-            GeneralInfoNote(
-              key: const Key('stage-general-info'),
-              source: template.sourceNames().join(', '),
-              checked: checked == null ? null : formatDate(checked, lang),
+            const GeneralInfoNote(key: Key('stage-general-info')),
+            // Each stage's sources, once for the screen and folded (owner request).
+            SourcesDisclosure(
+              key: const Key('stage-sources'),
+              notes: [
+                t.generalInfoSource(
+                  template.sourceNames().join(', '),
+                  checked == null ? '–' : formatDate(checked, lang),
+                ),
+                for (final stage in stages)
+                  if (template.sourcesFor(stage.key) case final src
+                      when src.isNotEmpty)
+                    '${stage.label(lang)}: '
+                        '${src.map((s) => s.name).join(', ')}',
+              ],
+              sources: [
+                for (final src in {
+                  for (final stage in stages) ...template.sourcesFor(stage.key),
+                })
+                  SourceRef(
+                    src.title,
+                    url: src.url,
+                    publisher: src.name,
+                    checked: switch (src.read) {
+                      final d? => formatDate(d, lang),
+                      null => null,
+                    },
+                  ),
+              ],
             ),
           ],
         ],
@@ -236,16 +262,12 @@ class _StartBaharScreenState extends ConsumerState<StartBaharScreen> {
   }
 }
 
-/// The suggested window of one stage and where it comes from, or a plain "not published".
+/// The suggested window of one stage, or a plain "not published". Its sources are listed
+/// once, folded, under the stage list.
 class _StageHint extends StatelessWidget {
-  const _StageHint({
-    required this.window,
-    required this.sources,
-    required this.bySoil,
-  });
+  const _StageHint({required this.window, required this.bySoil});
 
   final StageWindow? window;
-  final List<TemplateSource> sources;
   final bool bySoil;
 
   @override
@@ -265,10 +287,6 @@ class _StageHint extends StatelessWidget {
           style: BmType.meta.copyWith(color: context.bm.ink),
         ),
         if (bySoil) Text(t.baharStressBySoil, style: BmType.meta),
-        Text(
-          t.practicesSource(sources.map((s) => s.name).join(', ')),
-          style: BmType.meta,
-        ),
       ],
     );
   }

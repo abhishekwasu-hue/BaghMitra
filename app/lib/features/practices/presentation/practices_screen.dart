@@ -7,13 +7,15 @@ import '../../../app/router.dart';
 import '../../../core/formatting.dart';
 import '../../../design_system/app_bar_title.dart';
 import '../../../design_system/general_info_note.dart';
+import '../../../design_system/sources_disclosure.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../../labels/presentation/label_info_screen.dart';
 import '../data/practice_cards.dart';
 
 /// Non-chemical orchard practices from published sources, grouped by problem. Every practice
-/// names its source and evidence level. No synthetic chemical advice (owner Q28); no draft
+/// names its source and evidence level behind one "See sources" line (folded, owner request).
+/// No synthetic chemical advice (owner Q28); no draft
 /// banner (Q30). A problem section with a profile also says what the grower sees, when it
 /// comes, how to scout and any published action level, lists organic / bio options as
 /// published, links to the label screen for that target, and carries the "general
@@ -37,22 +39,27 @@ class PracticesScreen extends ConsumerWidget {
       _ => t.practicesEvidenceInferred,
     };
 
-    Widget sources(List<String> keys) => Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        for (final k in keys)
-          if (data?.sources[k] case final s?)
-            Text('$k: ${s.title}', style: BmType.meta),
-      ],
-    );
-
-    Widget evidenceRow(List<String> kinds) => Wrap(
-      spacing: BmSpace.xs,
-      children: [
-        for (final e in kinds)
-          Text(evidence(e), style: BmType.meta.copyWith(color: c.brand)),
-      ],
-    );
+    // Sources fold behind one quiet "See sources (n)" line per point (owner request);
+    // one tap shows the citation, each source with its publisher, date read and link, and
+    // the evidence level, as before.
+    Widget sources(String source, List<String> keys, [List<String>? kinds]) =>
+        SourcesDisclosure(
+          notes: [t.practicesSource(source)],
+          sources: [
+            for (final k in keys)
+              if (data?.sources[k] case final s?)
+                SourceRef(
+                  '$k: ${s.title}',
+                  url: s.url,
+                  publisher: s.publisher,
+                  checked: switch (s.checked) {
+                    final d? => formatDate(d, lang),
+                    null => null,
+                  },
+                ),
+          ],
+          kinds: [for (final e in kinds ?? const <String>[]) evidence(e)],
+        );
 
     Widget item(PracticeItem p) => Padding(
       key: Key('practice-${p.id}'),
@@ -61,11 +68,7 @@ class PracticesScreen extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(p.label(lang), style: BmType.body),
-          const SizedBox(height: BmSpace.xs),
-          Text(t.practicesSource(p.source), style: BmType.meta),
-          sources(p.sourceKeys),
-          const SizedBox(height: BmSpace.xs),
-          evidenceRow(p.evidence),
+          sources(p.source, p.sourceKeys, p.evidence),
         ],
       ),
     );
@@ -95,8 +98,7 @@ class PracticesScreen extends ConsumerWidget {
       children: [
         heading(title),
         Text(p.label(lang), style: BmType.body),
-        const SizedBox(height: BmSpace.xxs),
-        Text(t.practicesSource(p.source), style: BmType.meta),
+        sources(p.source, p.sourceKeys),
       ],
     );
 
@@ -116,8 +118,7 @@ class PracticesScreen extends ConsumerWidget {
                   : t.practicesBioHome,
               style: BmType.meta.copyWith(color: c.inkMuted),
             ),
-            Text(t.practicesSource(b.source), style: BmType.meta),
-            evidenceRow(b.evidence),
+            sources(b.source, b.sourceKeys, b.evidence),
             if (prep != null)
               ExpansionTile(
                 key: Key('practice-prep-${b.id}'),
@@ -127,9 +128,7 @@ class PracticesScreen extends ConsumerWidget {
                 title: Text(t.practicesHowToPrepare, style: BmType.label),
                 children: [
                   Text(prep.label(lang), style: BmType.body),
-                  const SizedBox(height: BmSpace.xxs),
-                  Text(t.practicesSource(prep.source), style: BmType.meta),
-                  sources(prep.sourceKeys),
+                  sources(prep.source, prep.sourceKeys),
                 ],
               ),
           ],

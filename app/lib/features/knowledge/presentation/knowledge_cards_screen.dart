@@ -9,6 +9,7 @@ import '../../../design_system/cards.dart';
 import '../../../design_system/empty_state.dart';
 import '../../../design_system/general_info_note.dart';
 import '../../../design_system/glyphs.dart';
+import '../../../design_system/sources_disclosure.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 
@@ -80,9 +81,6 @@ class _KnowledgeCardView extends StatelessWidget {
         pick((x) => x.title) ??
         (card.topicLabels[lang] ?? card.topicLabels['en'] ?? card.topic)
             as String;
-    final checked = [for (final s in card.sources) ?s.checked];
-    checked.sort();
-    final publishers = {for (final s in card.sources) s.publisher};
 
     Widget part(String? heading, String? body) => body == null
         ? const SizedBox.shrink()
@@ -114,26 +112,31 @@ class _KnowledgeCardView extends StatelessWidget {
           if (!card.reviewed)
             Padding(
               padding: const EdgeInsets.only(top: BmSpace.xxs),
+              // The source and date fold into "See sources" at the end of the card.
               child: GeneralInfoNote(
-                source: publishers.join(', '),
-                checked: checked.isEmpty
-                    ? null
-                    : formatDate(checked.last, lang),
+                key: Key('knowledge-general-${card.topic}-${card.crop}'),
               ),
             ),
           part(null, pick((x) => x.summary)),
           part(t.practicesWhatToDo, pick((x) => x.cultural)),
           part(t.knowledgeWarnings, pick((x) => x.warnings)),
           part(t.knowledgeCallExpert, pick((x) => x.whenToCallExpert)),
-          const SizedBox(height: BmSpace.sm),
-          Text(t.knowledgeSources, style: BmType.meta),
-          for (final s in card.sources)
-            Text(
-              s.checked == null
-                  ? s.title
-                  : '${s.title} · ${formatDate(s.checked!, lang)}',
-              style: BmType.meta.copyWith(color: c.inkMuted),
-            ),
+          const SizedBox(height: BmSpace.xs),
+          SourcesDisclosure(
+            key: Key('knowledge-sources-${card.topic}-${card.crop}'),
+            sources: [
+              for (final s in card.sources)
+                SourceRef(
+                  s.title,
+                  url: s.url,
+                  publisher: s.publisher,
+                  checked: switch (s.checked) {
+                    final d? => formatDate(d, lang),
+                    null => null,
+                  },
+                ),
+            ],
+          ),
         ],
       ),
     );

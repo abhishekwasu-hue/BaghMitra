@@ -172,6 +172,28 @@ void main() {
     expect(find.text('Can be confused with'), findsWidgets);
     expect(find.text('Who can confirm it'), findsWidgets);
 
+    // The card's sources fold into one "See sources (n)" line; one tap shows them all.
+    const nhb = 'National Horticulture Board: Citrus diseases';
+    final sources = find.byKey(
+      const Key('lookalike-sources-greening_vs_deficiency'),
+    );
+    await tester.scrollUntilVisible(sources, 300);
+    expect(
+      find.descendant(of: sources, matching: find.text('See sources (3)')),
+      findsOneWidget,
+    );
+    expect(find.text(nhb), findsNothing);
+    await tester.tap(
+      find.descendant(of: sources, matching: find.text('See sources (3)')),
+    );
+    await tester.pump();
+    expect(find.text(nhb), findsOneWidget);
+    expect(find.text('NHB · read 28 Oct 2026'), findsOneWidget);
+    expect(
+      find.text('https://www.nhb.gov.in/pdf/fruits/citrus/cit002.pdf'),
+      findsOneWidget,
+    );
+
     // "Log this" opens the scouting form with the card's item already picked.
     final log = find.byKey(const Key('lookalike-log-psylla_vs_leaf_miner'));
     await tester.scrollUntilVisible(log, 300);
