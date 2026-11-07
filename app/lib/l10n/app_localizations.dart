@@ -6004,6 +6004,42 @@ abstract class AppLocalizations {
   /// **'Place photo by a BagMitra representative on {date}'**
   String mlBadgePlacePhoto(String date);
 
+  /// No description provided for @mlBadgeGstChecked.
+  ///
+  /// In en, this message translates to:
+  /// **'GST checked on {date}'**
+  String mlBadgeGstChecked(String date);
+
+  /// No description provided for @mlBadgeGstSince.
+  ///
+  /// In en, this message translates to:
+  /// **'GST checked on {date} · registered since {year}'**
+  String mlBadgeGstSince(String date, String year);
+
+  /// No description provided for @mlBadgeApmcSeen.
+  ///
+  /// In en, this message translates to:
+  /// **'APMC licence seen on {date}'**
+  String mlBadgeApmcSeen(String date);
+
+  /// No description provided for @mlBadgeFssaiChecked.
+  ///
+  /// In en, this message translates to:
+  /// **'FSSAI checked on {date}'**
+  String mlBadgeFssaiChecked(String date);
+
+  /// No description provided for @mlBadgeIecActive.
+  ///
+  /// In en, this message translates to:
+  /// **'IEC active, checked on {date}'**
+  String mlBadgeIecActive(String date);
+
+  /// No description provided for @mlBadgeApedaListed.
+  ///
+  /// In en, this message translates to:
+  /// **'APEDA listed, checked on {date}'**
+  String mlBadgeApedaListed(String date);
+
   /// No description provided for @mlBadgeNote.
   ///
   /// In en, this message translates to:

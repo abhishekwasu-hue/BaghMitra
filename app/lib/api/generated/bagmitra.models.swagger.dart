@@ -945,7 +945,12 @@ extension $AppVersionResponseExtension on AppVersionResponse {
 
 @JsonSerializable(explicitToJson: true)
 class BadgeOut {
-  const BadgeOut({required this.kind, required this.on, this.place});
+  const BadgeOut({
+    required this.kind,
+    required this.on,
+    this.place,
+    this.sinceYear,
+  });
 
   factory BadgeOut.fromJson(Map<String, dynamic> json) =>
       _$BadgeOutFromJson(json);
@@ -964,6 +969,8 @@ class BadgeOut {
   final DateTime on;
   @JsonKey(name: 'place', includeIfNull: false)
   final String? place;
+  @JsonKey(name: 'since_year', includeIfNull: false)
+  final int? sinceYear;
   static const fromJsonFactory = _$BadgeOutFromJson;
 
   @override
@@ -975,7 +982,12 @@ class BadgeOut {
             (identical(other.on, on) ||
                 const DeepCollectionEquality().equals(other.on, on)) &&
             (identical(other.place, place) ||
-                const DeepCollectionEquality().equals(other.place, place)));
+                const DeepCollectionEquality().equals(other.place, place)) &&
+            (identical(other.sinceYear, sinceYear) ||
+                const DeepCollectionEquality().equals(
+                  other.sinceYear,
+                  sinceYear,
+                )));
   }
 
   @override
@@ -986,15 +998,22 @@ class BadgeOut {
       const DeepCollectionEquality().hash(kind) ^
       const DeepCollectionEquality().hash(on) ^
       const DeepCollectionEquality().hash(place) ^
+      const DeepCollectionEquality().hash(sinceYear) ^
       runtimeType.hashCode;
 }
 
 extension $BadgeOutExtension on BadgeOut {
-  BadgeOut copyWith({enums.BadgeOutKind? kind, DateTime? on, String? place}) {
+  BadgeOut copyWith({
+    enums.BadgeOutKind? kind,
+    DateTime? on,
+    String? place,
+    int? sinceYear,
+  }) {
     return BadgeOut(
       kind: kind ?? this.kind,
       on: on ?? this.on,
       place: place ?? this.place,
+      sinceYear: sinceYear ?? this.sinceYear,
     );
   }
 
@@ -1002,11 +1021,13 @@ extension $BadgeOutExtension on BadgeOut {
     Wrapped<enums.BadgeOutKind>? kind,
     Wrapped<DateTime>? on,
     Wrapped<String?>? place,
+    Wrapped<int?>? sinceYear,
   }) {
     return BadgeOut(
       kind: (kind != null ? kind.value : this.kind),
       on: (on != null ? on.value : this.on),
       place: (place != null ? place.value : this.place),
+      sinceYear: (sinceYear != null ? sinceYear.value : this.sinceYear),
     );
   }
 }
@@ -1948,6 +1969,242 @@ extension $ChangeExtension on Change {
       op: (op != null ? op.value : this.op),
       seq: (seq != null ? seq.value : this.seq),
       updatedAt: (updatedAt != null ? updatedAt.value : this.updatedAt),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class CheckIn {
+  const CheckIn({
+    required this.kind,
+    this.registeredYear,
+    required this.result,
+  });
+
+  factory CheckIn.fromJson(Map<String, dynamic> json) =>
+      _$CheckInFromJson(json);
+
+  static const toJsonFactory = _$CheckInToJson;
+  Map<String, dynamic> toJson() => _$CheckInToJson(this);
+
+  @JsonKey(
+    name: 'kind',
+    includeIfNull: false,
+    toJson: checkInKindToJson,
+    fromJson: checkInKindFromJson,
+  )
+  final enums.CheckInKind kind;
+  @JsonKey(name: 'registered_year', includeIfNull: false)
+  final int? registeredYear;
+  @JsonKey(
+    name: 'result',
+    includeIfNull: false,
+    toJson: checkInResultToJson,
+    fromJson: checkInResultFromJson,
+  )
+  final enums.CheckInResult result;
+  static const fromJsonFactory = _$CheckInFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is CheckIn &&
+            (identical(other.kind, kind) ||
+                const DeepCollectionEquality().equals(other.kind, kind)) &&
+            (identical(other.registeredYear, registeredYear) ||
+                const DeepCollectionEquality().equals(
+                  other.registeredYear,
+                  registeredYear,
+                )) &&
+            (identical(other.result, result) ||
+                const DeepCollectionEquality().equals(other.result, result)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(kind) ^
+      const DeepCollectionEquality().hash(registeredYear) ^
+      const DeepCollectionEquality().hash(result) ^
+      runtimeType.hashCode;
+}
+
+extension $CheckInExtension on CheckIn {
+  CheckIn copyWith({
+    enums.CheckInKind? kind,
+    int? registeredYear,
+    enums.CheckInResult? result,
+  }) {
+    return CheckIn(
+      kind: kind ?? this.kind,
+      registeredYear: registeredYear ?? this.registeredYear,
+      result: result ?? this.result,
+    );
+  }
+
+  CheckIn copyWithWrapped({
+    Wrapped<enums.CheckInKind>? kind,
+    Wrapped<int?>? registeredYear,
+    Wrapped<enums.CheckInResult>? result,
+  }) {
+    return CheckIn(
+      kind: (kind != null ? kind.value : this.kind),
+      registeredYear: (registeredYear != null
+          ? registeredYear.value
+          : this.registeredYear),
+      result: (result != null ? result.value : this.result),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class CheckOut {
+  const CheckOut({
+    required this.checkedAt,
+    required this.checkedBy,
+    required this.id,
+    required this.kind,
+    required this.number,
+    required this.officialUrl,
+    required this.recheckListedAt,
+    required this.registeredYear,
+    required this.result,
+  });
+
+  factory CheckOut.fromJson(Map<String, dynamic> json) =>
+      _$CheckOutFromJson(json);
+
+  static const toJsonFactory = _$CheckOutToJson;
+  Map<String, dynamic> toJson() => _$CheckOutToJson(this);
+
+  @JsonKey(name: 'checked_at', includeIfNull: false)
+  final DateTime checkedAt;
+  @JsonKey(name: 'checked_by', includeIfNull: false)
+  final String checkedBy;
+  @JsonKey(name: 'id', includeIfNull: false)
+  final String id;
+  @JsonKey(name: 'kind', includeIfNull: false)
+  final String kind;
+  @JsonKey(name: 'number', includeIfNull: false)
+  final String? number;
+  @JsonKey(name: 'official_url', includeIfNull: false)
+  final String? officialUrl;
+  @JsonKey(name: 'recheck_listed_at', includeIfNull: false)
+  final DateTime? recheckListedAt;
+  @JsonKey(name: 'registered_year', includeIfNull: false)
+  final int? registeredYear;
+  @JsonKey(name: 'result', includeIfNull: false)
+  final String result;
+  static const fromJsonFactory = _$CheckOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is CheckOut &&
+            (identical(other.checkedAt, checkedAt) ||
+                const DeepCollectionEquality().equals(
+                  other.checkedAt,
+                  checkedAt,
+                )) &&
+            (identical(other.checkedBy, checkedBy) ||
+                const DeepCollectionEquality().equals(
+                  other.checkedBy,
+                  checkedBy,
+                )) &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.kind, kind) ||
+                const DeepCollectionEquality().equals(other.kind, kind)) &&
+            (identical(other.number, number) ||
+                const DeepCollectionEquality().equals(other.number, number)) &&
+            (identical(other.officialUrl, officialUrl) ||
+                const DeepCollectionEquality().equals(
+                  other.officialUrl,
+                  officialUrl,
+                )) &&
+            (identical(other.recheckListedAt, recheckListedAt) ||
+                const DeepCollectionEquality().equals(
+                  other.recheckListedAt,
+                  recheckListedAt,
+                )) &&
+            (identical(other.registeredYear, registeredYear) ||
+                const DeepCollectionEquality().equals(
+                  other.registeredYear,
+                  registeredYear,
+                )) &&
+            (identical(other.result, result) ||
+                const DeepCollectionEquality().equals(other.result, result)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(checkedAt) ^
+      const DeepCollectionEquality().hash(checkedBy) ^
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(kind) ^
+      const DeepCollectionEquality().hash(number) ^
+      const DeepCollectionEquality().hash(officialUrl) ^
+      const DeepCollectionEquality().hash(recheckListedAt) ^
+      const DeepCollectionEquality().hash(registeredYear) ^
+      const DeepCollectionEquality().hash(result) ^
+      runtimeType.hashCode;
+}
+
+extension $CheckOutExtension on CheckOut {
+  CheckOut copyWith({
+    DateTime? checkedAt,
+    String? checkedBy,
+    String? id,
+    String? kind,
+    String? number,
+    String? officialUrl,
+    DateTime? recheckListedAt,
+    int? registeredYear,
+    String? result,
+  }) {
+    return CheckOut(
+      checkedAt: checkedAt ?? this.checkedAt,
+      checkedBy: checkedBy ?? this.checkedBy,
+      id: id ?? this.id,
+      kind: kind ?? this.kind,
+      number: number ?? this.number,
+      officialUrl: officialUrl ?? this.officialUrl,
+      recheckListedAt: recheckListedAt ?? this.recheckListedAt,
+      registeredYear: registeredYear ?? this.registeredYear,
+      result: result ?? this.result,
+    );
+  }
+
+  CheckOut copyWithWrapped({
+    Wrapped<DateTime>? checkedAt,
+    Wrapped<String>? checkedBy,
+    Wrapped<String>? id,
+    Wrapped<String>? kind,
+    Wrapped<String?>? number,
+    Wrapped<String?>? officialUrl,
+    Wrapped<DateTime?>? recheckListedAt,
+    Wrapped<int?>? registeredYear,
+    Wrapped<String>? result,
+  }) {
+    return CheckOut(
+      checkedAt: (checkedAt != null ? checkedAt.value : this.checkedAt),
+      checkedBy: (checkedBy != null ? checkedBy.value : this.checkedBy),
+      id: (id != null ? id.value : this.id),
+      kind: (kind != null ? kind.value : this.kind),
+      number: (number != null ? number.value : this.number),
+      officialUrl: (officialUrl != null ? officialUrl.value : this.officialUrl),
+      recheckListedAt: (recheckListedAt != null
+          ? recheckListedAt.value
+          : this.recheckListedAt),
+      registeredYear: (registeredYear != null
+          ? registeredYear.value
+          : this.registeredYear),
+      result: (result != null ? result.value : this.result),
     );
   }
 }
@@ -7829,6 +8086,73 @@ extension $NumbersOutExtension on NumbersOut {
 }
 
 @JsonSerializable(explicitToJson: true)
+class OfficialLinkOut {
+  const OfficialLinkOut({
+    required this.kind,
+    required this.number,
+    required this.url,
+  });
+
+  factory OfficialLinkOut.fromJson(Map<String, dynamic> json) =>
+      _$OfficialLinkOutFromJson(json);
+
+  static const toJsonFactory = _$OfficialLinkOutToJson;
+  Map<String, dynamic> toJson() => _$OfficialLinkOutToJson(this);
+
+  @JsonKey(name: 'kind', includeIfNull: false)
+  final String kind;
+  @JsonKey(name: 'number', includeIfNull: false)
+  final String? number;
+  @JsonKey(name: 'url', includeIfNull: false)
+  final String? url;
+  static const fromJsonFactory = _$OfficialLinkOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is OfficialLinkOut &&
+            (identical(other.kind, kind) ||
+                const DeepCollectionEquality().equals(other.kind, kind)) &&
+            (identical(other.number, number) ||
+                const DeepCollectionEquality().equals(other.number, number)) &&
+            (identical(other.url, url) ||
+                const DeepCollectionEquality().equals(other.url, url)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(kind) ^
+      const DeepCollectionEquality().hash(number) ^
+      const DeepCollectionEquality().hash(url) ^
+      runtimeType.hashCode;
+}
+
+extension $OfficialLinkOutExtension on OfficialLinkOut {
+  OfficialLinkOut copyWith({String? kind, String? number, String? url}) {
+    return OfficialLinkOut(
+      kind: kind ?? this.kind,
+      number: number ?? this.number,
+      url: url ?? this.url,
+    );
+  }
+
+  OfficialLinkOut copyWithWrapped({
+    Wrapped<String>? kind,
+    Wrapped<String?>? number,
+    Wrapped<String?>? url,
+  }) {
+    return OfficialLinkOut(
+      kind: (kind != null ? kind.value : this.kind),
+      number: (number != null ? number.value : this.number),
+      url: (url != null ? url.value : this.url),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class PhotoDownloadUrl {
   const PhotoDownloadUrl({
     required this.expiresIn,
@@ -9862,6 +10186,186 @@ extension $ReadyResponseExtension on ReadyResponse {
 }
 
 @JsonSerializable(explicitToJson: true)
+class RecheckItemOut {
+  const RecheckItemOut({
+    required this.checkId,
+    required this.checkedAt,
+    required this.kind,
+    required this.listedAt,
+    required this.name,
+    required this.number,
+    required this.subjectId,
+    required this.subjectType,
+  });
+
+  factory RecheckItemOut.fromJson(Map<String, dynamic> json) =>
+      _$RecheckItemOutFromJson(json);
+
+  static const toJsonFactory = _$RecheckItemOutToJson;
+  Map<String, dynamic> toJson() => _$RecheckItemOutToJson(this);
+
+  @JsonKey(name: 'check_id', includeIfNull: false)
+  final String checkId;
+  @JsonKey(name: 'checked_at', includeIfNull: false)
+  final DateTime checkedAt;
+  @JsonKey(name: 'kind', includeIfNull: false)
+  final String kind;
+  @JsonKey(name: 'listed_at', includeIfNull: false)
+  final DateTime listedAt;
+  @JsonKey(name: 'name', includeIfNull: false)
+  final String name;
+  @JsonKey(name: 'number', includeIfNull: false)
+  final String? number;
+  @JsonKey(name: 'subject_id', includeIfNull: false)
+  final String subjectId;
+  @JsonKey(name: 'subject_type', includeIfNull: false)
+  final String subjectType;
+  static const fromJsonFactory = _$RecheckItemOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is RecheckItemOut &&
+            (identical(other.checkId, checkId) ||
+                const DeepCollectionEquality().equals(
+                  other.checkId,
+                  checkId,
+                )) &&
+            (identical(other.checkedAt, checkedAt) ||
+                const DeepCollectionEquality().equals(
+                  other.checkedAt,
+                  checkedAt,
+                )) &&
+            (identical(other.kind, kind) ||
+                const DeepCollectionEquality().equals(other.kind, kind)) &&
+            (identical(other.listedAt, listedAt) ||
+                const DeepCollectionEquality().equals(
+                  other.listedAt,
+                  listedAt,
+                )) &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.number, number) ||
+                const DeepCollectionEquality().equals(other.number, number)) &&
+            (identical(other.subjectId, subjectId) ||
+                const DeepCollectionEquality().equals(
+                  other.subjectId,
+                  subjectId,
+                )) &&
+            (identical(other.subjectType, subjectType) ||
+                const DeepCollectionEquality().equals(
+                  other.subjectType,
+                  subjectType,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(checkId) ^
+      const DeepCollectionEquality().hash(checkedAt) ^
+      const DeepCollectionEquality().hash(kind) ^
+      const DeepCollectionEquality().hash(listedAt) ^
+      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(number) ^
+      const DeepCollectionEquality().hash(subjectId) ^
+      const DeepCollectionEquality().hash(subjectType) ^
+      runtimeType.hashCode;
+}
+
+extension $RecheckItemOutExtension on RecheckItemOut {
+  RecheckItemOut copyWith({
+    String? checkId,
+    DateTime? checkedAt,
+    String? kind,
+    DateTime? listedAt,
+    String? name,
+    String? number,
+    String? subjectId,
+    String? subjectType,
+  }) {
+    return RecheckItemOut(
+      checkId: checkId ?? this.checkId,
+      checkedAt: checkedAt ?? this.checkedAt,
+      kind: kind ?? this.kind,
+      listedAt: listedAt ?? this.listedAt,
+      name: name ?? this.name,
+      number: number ?? this.number,
+      subjectId: subjectId ?? this.subjectId,
+      subjectType: subjectType ?? this.subjectType,
+    );
+  }
+
+  RecheckItemOut copyWithWrapped({
+    Wrapped<String>? checkId,
+    Wrapped<DateTime>? checkedAt,
+    Wrapped<String>? kind,
+    Wrapped<DateTime>? listedAt,
+    Wrapped<String>? name,
+    Wrapped<String?>? number,
+    Wrapped<String>? subjectId,
+    Wrapped<String>? subjectType,
+  }) {
+    return RecheckItemOut(
+      checkId: (checkId != null ? checkId.value : this.checkId),
+      checkedAt: (checkedAt != null ? checkedAt.value : this.checkedAt),
+      kind: (kind != null ? kind.value : this.kind),
+      listedAt: (listedAt != null ? listedAt.value : this.listedAt),
+      name: (name != null ? name.value : this.name),
+      number: (number != null ? number.value : this.number),
+      subjectId: (subjectId != null ? subjectId.value : this.subjectId),
+      subjectType: (subjectType != null ? subjectType.value : this.subjectType),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class RecheckResponse {
+  const RecheckResponse({required this.items});
+
+  factory RecheckResponse.fromJson(Map<String, dynamic> json) =>
+      _$RecheckResponseFromJson(json);
+
+  static const toJsonFactory = _$RecheckResponseToJson;
+  Map<String, dynamic> toJson() => _$RecheckResponseToJson(this);
+
+  @JsonKey(
+    name: 'items',
+    includeIfNull: false,
+    defaultValue: <RecheckItemOut>[],
+  )
+  final List<RecheckItemOut> items;
+  static const fromJsonFactory = _$RecheckResponseFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is RecheckResponse &&
+            (identical(other.items, items) ||
+                const DeepCollectionEquality().equals(other.items, items)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(items) ^ runtimeType.hashCode;
+}
+
+extension $RecheckResponseExtension on RecheckResponse {
+  RecheckResponse copyWith({List<RecheckItemOut>? items}) {
+    return RecheckResponse(items: items ?? this.items);
+  }
+
+  RecheckResponse copyWithWrapped({Wrapped<List<RecheckItemOut>>? items}) {
+    return RecheckResponse(items: (items != null ? items.value : this.items));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class RegistrationFixIn {
   const RegistrationFixIn({
     required this.accuracyM,
@@ -10000,6 +10504,103 @@ extension $RegistrationFixInExtension on RegistrationFixIn {
       pin: (pin != null ? pin.value : this.pin),
       place: (place != null ? place.value : this.place),
       state: (state != null ? state.value : this.state),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class RelatedOut {
+  const RelatedOut({
+    required this.flag,
+    required this.name,
+    required this.subjectId,
+    required this.subjectType,
+    required this.why,
+  });
+
+  factory RelatedOut.fromJson(Map<String, dynamic> json) =>
+      _$RelatedOutFromJson(json);
+
+  static const toJsonFactory = _$RelatedOutToJson;
+  Map<String, dynamic> toJson() => _$RelatedOutToJson(this);
+
+  @JsonKey(name: 'flag', includeIfNull: false)
+  final String flag;
+  @JsonKey(name: 'name', includeIfNull: false)
+  final String name;
+  @JsonKey(name: 'subject_id', includeIfNull: false)
+  final String subjectId;
+  @JsonKey(name: 'subject_type', includeIfNull: false)
+  final String subjectType;
+  @JsonKey(name: 'why', includeIfNull: false)
+  final String why;
+  static const fromJsonFactory = _$RelatedOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is RelatedOut &&
+            (identical(other.flag, flag) ||
+                const DeepCollectionEquality().equals(other.flag, flag)) &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.subjectId, subjectId) ||
+                const DeepCollectionEquality().equals(
+                  other.subjectId,
+                  subjectId,
+                )) &&
+            (identical(other.subjectType, subjectType) ||
+                const DeepCollectionEquality().equals(
+                  other.subjectType,
+                  subjectType,
+                )) &&
+            (identical(other.why, why) ||
+                const DeepCollectionEquality().equals(other.why, why)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(flag) ^
+      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(subjectId) ^
+      const DeepCollectionEquality().hash(subjectType) ^
+      const DeepCollectionEquality().hash(why) ^
+      runtimeType.hashCode;
+}
+
+extension $RelatedOutExtension on RelatedOut {
+  RelatedOut copyWith({
+    String? flag,
+    String? name,
+    String? subjectId,
+    String? subjectType,
+    String? why,
+  }) {
+    return RelatedOut(
+      flag: flag ?? this.flag,
+      name: name ?? this.name,
+      subjectId: subjectId ?? this.subjectId,
+      subjectType: subjectType ?? this.subjectType,
+      why: why ?? this.why,
+    );
+  }
+
+  RelatedOut copyWithWrapped({
+    Wrapped<String>? flag,
+    Wrapped<String>? name,
+    Wrapped<String>? subjectId,
+    Wrapped<String>? subjectType,
+    Wrapped<String>? why,
+  }) {
+    return RelatedOut(
+      flag: (flag != null ? flag.value : this.flag),
+      name: (name != null ? name.value : this.name),
+      subjectId: (subjectId != null ? subjectId.value : this.subjectId),
+      subjectType: (subjectType != null ? subjectType.value : this.subjectType),
+      why: (why != null ? why.value : this.why),
     );
   }
 }
@@ -10672,7 +11273,12 @@ extension $StageTemplatesResponseExtension on StageTemplatesResponse {
 
 @JsonSerializable(explicitToJson: true)
 class SubjectDetailOut {
-  const SubjectDetailOut({required this.history, required this.subject});
+  const SubjectDetailOut({
+    this.checks,
+    required this.history,
+    this.links,
+    required this.subject,
+  });
 
   factory SubjectDetailOut.fromJson(Map<String, dynamic> json) =>
       _$SubjectDetailOutFromJson(json);
@@ -10680,12 +11286,20 @@ class SubjectDetailOut {
   static const toJsonFactory = _$SubjectDetailOutToJson;
   Map<String, dynamic> toJson() => _$SubjectDetailOutToJson(this);
 
+  @JsonKey(name: 'checks', includeIfNull: false, defaultValue: <CheckOut>[])
+  final List<CheckOut>? checks;
   @JsonKey(
     name: 'history',
     includeIfNull: false,
     defaultValue: <VerificationOut>[],
   )
   final List<VerificationOut> history;
+  @JsonKey(
+    name: 'links',
+    includeIfNull: false,
+    defaultValue: <OfficialLinkOut>[],
+  )
+  final List<OfficialLinkOut>? links;
   @JsonKey(name: 'subject', includeIfNull: false)
   final SubjectOut subject;
   static const fromJsonFactory = _$SubjectDetailOutFromJson;
@@ -10694,11 +11308,15 @@ class SubjectDetailOut {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other is SubjectDetailOut &&
+            (identical(other.checks, checks) ||
+                const DeepCollectionEquality().equals(other.checks, checks)) &&
             (identical(other.history, history) ||
                 const DeepCollectionEquality().equals(
                   other.history,
                   history,
                 )) &&
+            (identical(other.links, links) ||
+                const DeepCollectionEquality().equals(other.links, links)) &&
             (identical(other.subject, subject) ||
                 const DeepCollectionEquality().equals(other.subject, subject)));
   }
@@ -10708,28 +11326,38 @@ class SubjectDetailOut {
 
   @override
   int get hashCode =>
+      const DeepCollectionEquality().hash(checks) ^
       const DeepCollectionEquality().hash(history) ^
+      const DeepCollectionEquality().hash(links) ^
       const DeepCollectionEquality().hash(subject) ^
       runtimeType.hashCode;
 }
 
 extension $SubjectDetailOutExtension on SubjectDetailOut {
   SubjectDetailOut copyWith({
+    List<CheckOut>? checks,
     List<VerificationOut>? history,
+    List<OfficialLinkOut>? links,
     SubjectOut? subject,
   }) {
     return SubjectDetailOut(
+      checks: checks ?? this.checks,
       history: history ?? this.history,
+      links: links ?? this.links,
       subject: subject ?? this.subject,
     );
   }
 
   SubjectDetailOut copyWithWrapped({
+    Wrapped<List<CheckOut>?>? checks,
     Wrapped<List<VerificationOut>>? history,
+    Wrapped<List<OfficialLinkOut>?>? links,
     Wrapped<SubjectOut>? subject,
   }) {
     return SubjectDetailOut(
+      checks: (checks != null ? checks.value : this.checks),
       history: (history != null ? history.value : this.history),
+      links: (links != null ? links.value : this.links),
       subject: (subject != null ? subject.value : this.subject),
     );
   }
@@ -10743,6 +11371,7 @@ class SubjectOut {
     this.flags,
     required this.name,
     this.registrationFix,
+    this.related,
     required this.status,
     required this.subjectId,
     required this.subjectType,
@@ -10769,6 +11398,8 @@ class SubjectOut {
   final String name;
   @JsonKey(name: 'registration_fix', includeIfNull: false)
   final AdminFixOut? registrationFix;
+  @JsonKey(name: 'related', includeIfNull: false, defaultValue: <RelatedOut>[])
+  final List<RelatedOut>? related;
   @JsonKey(name: 'status', includeIfNull: false)
   final String status;
   @JsonKey(name: 'subject_id', includeIfNull: false)
@@ -10799,6 +11430,11 @@ class SubjectOut {
                   other.registrationFix,
                   registrationFix,
                 )) &&
+            (identical(other.related, related) ||
+                const DeepCollectionEquality().equals(
+                  other.related,
+                  related,
+                )) &&
             (identical(other.status, status) ||
                 const DeepCollectionEquality().equals(other.status, status)) &&
             (identical(other.subjectId, subjectId) ||
@@ -10828,6 +11464,7 @@ class SubjectOut {
       const DeepCollectionEquality().hash(flags) ^
       const DeepCollectionEquality().hash(name) ^
       const DeepCollectionEquality().hash(registrationFix) ^
+      const DeepCollectionEquality().hash(related) ^
       const DeepCollectionEquality().hash(status) ^
       const DeepCollectionEquality().hash(subjectId) ^
       const DeepCollectionEquality().hash(subjectType) ^
@@ -10842,6 +11479,7 @@ extension $SubjectOutExtension on SubjectOut {
     List<String>? flags,
     String? name,
     AdminFixOut? registrationFix,
+    List<RelatedOut>? related,
     String? status,
     String? subjectId,
     String? subjectType,
@@ -10853,6 +11491,7 @@ extension $SubjectOutExtension on SubjectOut {
       flags: flags ?? this.flags,
       name: name ?? this.name,
       registrationFix: registrationFix ?? this.registrationFix,
+      related: related ?? this.related,
       status: status ?? this.status,
       subjectId: subjectId ?? this.subjectId,
       subjectType: subjectType ?? this.subjectType,
@@ -10866,6 +11505,7 @@ extension $SubjectOutExtension on SubjectOut {
     Wrapped<List<String>?>? flags,
     Wrapped<String>? name,
     Wrapped<AdminFixOut?>? registrationFix,
+    Wrapped<List<RelatedOut>?>? related,
     Wrapped<String>? status,
     Wrapped<String>? subjectId,
     Wrapped<String>? subjectType,
@@ -10881,6 +11521,7 @@ extension $SubjectOutExtension on SubjectOut {
       registrationFix: (registrationFix != null
           ? registrationFix.value
           : this.registrationFix),
+      related: (related != null ? related.value : this.related),
       status: (status != null ? status.value : this.status),
       subjectId: (subjectId != null ? subjectId.value : this.subjectId),
       subjectType: (subjectType != null ? subjectType.value : this.subjectType),
@@ -12345,6 +12986,140 @@ List<enums.ChangeOp>? changeOpNullableListFromJson(
   }
 
   return changeOp.map((e) => changeOpFromJson(e.toString())).toList();
+}
+
+String? checkInKindNullableToJson(enums.CheckInKind? checkInKind) {
+  return checkInKind?.value;
+}
+
+String? checkInKindToJson(enums.CheckInKind checkInKind) {
+  return checkInKind.value;
+}
+
+enums.CheckInKind checkInKindFromJson(
+  Object? checkInKind, [
+  enums.CheckInKind? defaultValue,
+]) {
+  return enums.CheckInKind.values.firstWhereOrNull(
+        (e) => e.value == checkInKind,
+      ) ??
+      defaultValue ??
+      enums.CheckInKind.swaggerGeneratedUnknown;
+}
+
+enums.CheckInKind? checkInKindNullableFromJson(
+  Object? checkInKind, [
+  enums.CheckInKind? defaultValue,
+]) {
+  if (checkInKind == null) {
+    return null;
+  }
+  return enums.CheckInKind.values.firstWhereOrNull(
+        (e) => e.value == checkInKind,
+      ) ??
+      defaultValue;
+}
+
+String checkInKindExplodedListToJson(List<enums.CheckInKind>? checkInKind) {
+  return checkInKind?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> checkInKindListToJson(List<enums.CheckInKind>? checkInKind) {
+  if (checkInKind == null) {
+    return [];
+  }
+
+  return checkInKind.map((e) => e.value!).toList();
+}
+
+List<enums.CheckInKind> checkInKindListFromJson(
+  List? checkInKind, [
+  List<enums.CheckInKind>? defaultValue,
+]) {
+  if (checkInKind == null) {
+    return defaultValue ?? [];
+  }
+
+  return checkInKind.map((e) => checkInKindFromJson(e.toString())).toList();
+}
+
+List<enums.CheckInKind>? checkInKindNullableListFromJson(
+  List? checkInKind, [
+  List<enums.CheckInKind>? defaultValue,
+]) {
+  if (checkInKind == null) {
+    return defaultValue;
+  }
+
+  return checkInKind.map((e) => checkInKindFromJson(e.toString())).toList();
+}
+
+String? checkInResultNullableToJson(enums.CheckInResult? checkInResult) {
+  return checkInResult?.value;
+}
+
+String? checkInResultToJson(enums.CheckInResult checkInResult) {
+  return checkInResult.value;
+}
+
+enums.CheckInResult checkInResultFromJson(
+  Object? checkInResult, [
+  enums.CheckInResult? defaultValue,
+]) {
+  return enums.CheckInResult.values.firstWhereOrNull(
+        (e) => e.value == checkInResult,
+      ) ??
+      defaultValue ??
+      enums.CheckInResult.swaggerGeneratedUnknown;
+}
+
+enums.CheckInResult? checkInResultNullableFromJson(
+  Object? checkInResult, [
+  enums.CheckInResult? defaultValue,
+]) {
+  if (checkInResult == null) {
+    return null;
+  }
+  return enums.CheckInResult.values.firstWhereOrNull(
+        (e) => e.value == checkInResult,
+      ) ??
+      defaultValue;
+}
+
+String checkInResultExplodedListToJson(
+  List<enums.CheckInResult>? checkInResult,
+) {
+  return checkInResult?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> checkInResultListToJson(List<enums.CheckInResult>? checkInResult) {
+  if (checkInResult == null) {
+    return [];
+  }
+
+  return checkInResult.map((e) => e.value!).toList();
+}
+
+List<enums.CheckInResult> checkInResultListFromJson(
+  List? checkInResult, [
+  List<enums.CheckInResult>? defaultValue,
+]) {
+  if (checkInResult == null) {
+    return defaultValue ?? [];
+  }
+
+  return checkInResult.map((e) => checkInResultFromJson(e.toString())).toList();
+}
+
+List<enums.CheckInResult>? checkInResultNullableListFromJson(
+  List? checkInResult, [
+  List<enums.CheckInResult>? defaultValue,
+]) {
+  if (checkInResult == null) {
+    return defaultValue;
+  }
+
+  return checkInResult.map((e) => checkInResultFromJson(e.toString())).toList();
 }
 
 String? decisionInStatusNullableToJson(
@@ -13922,6 +14697,149 @@ v1AdminMarketLinkVerificationsSubjectTypeSubjectIdGetSubjectTypeNullableListFrom
       .map(
         (e) =>
             v1AdminMarketLinkVerificationsSubjectTypeSubjectIdGetSubjectTypeFromJson(
+              e.toString(),
+            ),
+      )
+      .toList();
+}
+
+String?
+v1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPostSubjectTypeNullableToJson(
+  enums.V1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPostSubjectType?
+  v1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPostSubjectType,
+) {
+  return v1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPostSubjectType
+      ?.value;
+}
+
+String?
+v1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPostSubjectTypeToJson(
+  enums.V1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPostSubjectType
+  v1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPostSubjectType,
+) {
+  return v1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPostSubjectType
+      .value;
+}
+
+enums.V1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPostSubjectType
+v1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPostSubjectTypeFromJson(
+  Object?
+  v1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPostSubjectType, [
+  enums.V1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPostSubjectType?
+  defaultValue,
+]) {
+  return enums
+          .V1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPostSubjectType
+          .values
+          .firstWhereOrNull(
+            (e) =>
+                e.value ==
+                v1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPostSubjectType,
+          ) ??
+      defaultValue ??
+      enums
+          .V1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPostSubjectType
+          .swaggerGeneratedUnknown;
+}
+
+enums.V1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPostSubjectType?
+v1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPostSubjectTypeNullableFromJson(
+  Object?
+  v1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPostSubjectType, [
+  enums.V1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPostSubjectType?
+  defaultValue,
+]) {
+  if (v1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPostSubjectType ==
+      null) {
+    return null;
+  }
+  return enums
+          .V1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPostSubjectType
+          .values
+          .firstWhereOrNull(
+            (e) =>
+                e.value ==
+                v1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPostSubjectType,
+          ) ??
+      defaultValue;
+}
+
+String
+v1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPostSubjectTypeExplodedListToJson(
+  List<
+    enums.V1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPostSubjectType
+  >?
+  v1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPostSubjectType,
+) {
+  return v1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPostSubjectType
+          ?.map((e) => e.value!)
+          .join(',') ??
+      '';
+}
+
+List<String>
+v1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPostSubjectTypeListToJson(
+  List<
+    enums.V1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPostSubjectType
+  >?
+  v1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPostSubjectType,
+) {
+  if (v1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPostSubjectType ==
+      null) {
+    return [];
+  }
+
+  return v1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPostSubjectType
+      .map((e) => e.value!)
+      .toList();
+}
+
+List<
+  enums.V1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPostSubjectType
+>
+v1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPostSubjectTypeListFromJson(
+  List?
+  v1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPostSubjectType, [
+  List<
+    enums.V1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPostSubjectType
+  >?
+  defaultValue,
+]) {
+  if (v1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPostSubjectType ==
+      null) {
+    return defaultValue ?? [];
+  }
+
+  return v1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPostSubjectType
+      .map(
+        (e) =>
+            v1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPostSubjectTypeFromJson(
+              e.toString(),
+            ),
+      )
+      .toList();
+}
+
+List<
+  enums.V1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPostSubjectType
+>?
+v1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPostSubjectTypeNullableListFromJson(
+  List?
+  v1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPostSubjectType, [
+  List<
+    enums.V1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPostSubjectType
+  >?
+  defaultValue,
+]) {
+  if (v1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPostSubjectType ==
+      null) {
+    return defaultValue;
+  }
+
+  return v1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPostSubjectType
+      .map(
+        (e) =>
+            v1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPostSubjectTypeFromJson(
               e.toString(),
             ),
       )

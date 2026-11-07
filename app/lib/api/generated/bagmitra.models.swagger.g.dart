@@ -182,12 +182,14 @@ BadgeOut _$BadgeOutFromJson(Map<String, dynamic> json) => BadgeOut(
   kind: badgeOutKindFromJson(json['kind']),
   on: DateTime.parse(json['on'] as String),
   place: json['place'] as String?,
+  sinceYear: (json['since_year'] as num?)?.toInt(),
 );
 
 Map<String, dynamic> _$BadgeOutToJson(BadgeOut instance) => <String, dynamic>{
   'kind': ?badgeOutKindToJson(instance.kind),
   'on': ?_dateToJson(instance.on),
   'place': ?instance.place,
+  'since_year': ?instance.sinceYear,
 };
 
 BlockedClaimOut _$BlockedClaimOutFromJson(Map<String, dynamic> json) =>
@@ -362,6 +364,44 @@ Map<String, dynamic> _$ChangeToJson(Change instance) => <String, dynamic>{
   'op': ?changeOpToJson(instance.op),
   'seq': instance.seq,
   'updated_at': instance.updatedAt.toIso8601String(),
+};
+
+CheckIn _$CheckInFromJson(Map<String, dynamic> json) => CheckIn(
+  kind: checkInKindFromJson(json['kind']),
+  registeredYear: (json['registered_year'] as num?)?.toInt(),
+  result: checkInResultFromJson(json['result']),
+);
+
+Map<String, dynamic> _$CheckInToJson(CheckIn instance) => <String, dynamic>{
+  'kind': ?checkInKindToJson(instance.kind),
+  'registered_year': ?instance.registeredYear,
+  'result': ?checkInResultToJson(instance.result),
+};
+
+CheckOut _$CheckOutFromJson(Map<String, dynamic> json) => CheckOut(
+  checkedAt: DateTime.parse(json['checked_at'] as String),
+  checkedBy: json['checked_by'] as String,
+  id: json['id'] as String,
+  kind: json['kind'] as String,
+  number: json['number'] as String?,
+  officialUrl: json['official_url'] as String?,
+  recheckListedAt: json['recheck_listed_at'] == null
+      ? null
+      : DateTime.parse(json['recheck_listed_at'] as String),
+  registeredYear: (json['registered_year'] as num?)?.toInt(),
+  result: json['result'] as String,
+);
+
+Map<String, dynamic> _$CheckOutToJson(CheckOut instance) => <String, dynamic>{
+  'checked_at': instance.checkedAt.toIso8601String(),
+  'checked_by': instance.checkedBy,
+  'id': instance.id,
+  'kind': instance.kind,
+  'number': ?instance.number,
+  'official_url': ?instance.officialUrl,
+  'recheck_listed_at': ?instance.recheckListedAt?.toIso8601String(),
+  'registered_year': ?instance.registeredYear,
+  'result': instance.result,
 };
 
 DecisionIn _$DecisionInFromJson(Map<String, dynamic> json) => DecisionIn(
@@ -1558,6 +1598,20 @@ Map<String, dynamic> _$NumbersOutToJson(NumbersOut instance) =>
       'iec_no': ?instance.iecNo,
     };
 
+OfficialLinkOut _$OfficialLinkOutFromJson(Map<String, dynamic> json) =>
+    OfficialLinkOut(
+      kind: json['kind'] as String,
+      number: json['number'] as String?,
+      url: json['url'] as String?,
+    );
+
+Map<String, dynamic> _$OfficialLinkOutToJson(OfficialLinkOut instance) =>
+    <String, dynamic>{
+      'kind': instance.kind,
+      'number': ?instance.number,
+      'url': ?instance.url,
+    };
+
 PhotoDownloadUrl _$PhotoDownloadUrlFromJson(Map<String, dynamic> json) =>
     PhotoDownloadUrl(
       expiresIn: (json['expires_in'] as num).toInt(),
@@ -1991,6 +2045,42 @@ ReadyResponse _$ReadyResponseFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$ReadyResponseToJson(ReadyResponse instance) =>
     <String, dynamic>{'database': instance.database, 'status': instance.status};
 
+RecheckItemOut _$RecheckItemOutFromJson(Map<String, dynamic> json) =>
+    RecheckItemOut(
+      checkId: json['check_id'] as String,
+      checkedAt: DateTime.parse(json['checked_at'] as String),
+      kind: json['kind'] as String,
+      listedAt: DateTime.parse(json['listed_at'] as String),
+      name: json['name'] as String,
+      number: json['number'] as String?,
+      subjectId: json['subject_id'] as String,
+      subjectType: json['subject_type'] as String,
+    );
+
+Map<String, dynamic> _$RecheckItemOutToJson(RecheckItemOut instance) =>
+    <String, dynamic>{
+      'check_id': instance.checkId,
+      'checked_at': instance.checkedAt.toIso8601String(),
+      'kind': instance.kind,
+      'listed_at': instance.listedAt.toIso8601String(),
+      'name': instance.name,
+      'number': ?instance.number,
+      'subject_id': instance.subjectId,
+      'subject_type': instance.subjectType,
+    };
+
+RecheckResponse _$RecheckResponseFromJson(Map<String, dynamic> json) =>
+    RecheckResponse(
+      items:
+          (json['items'] as List<dynamic>?)
+              ?.map((e) => RecheckItemOut.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+    );
+
+Map<String, dynamic> _$RecheckResponseToJson(RecheckResponse instance) =>
+    <String, dynamic>{'items': instance.items.map((e) => e.toJson()).toList()};
+
 RegistrationFixIn _$RegistrationFixInFromJson(Map<String, dynamic> json) =>
     RegistrationFixIn(
       accuracyM: (json['accuracy_m'] as num).toDouble(),
@@ -2015,6 +2105,23 @@ Map<String, dynamic> _$RegistrationFixInToJson(RegistrationFixIn instance) =>
       'pin': ?instance.pin,
       'place': ?instance.place,
       'state': ?instance.state,
+    };
+
+RelatedOut _$RelatedOutFromJson(Map<String, dynamic> json) => RelatedOut(
+  flag: json['flag'] as String,
+  name: json['name'] as String,
+  subjectId: json['subject_id'] as String,
+  subjectType: json['subject_type'] as String,
+  why: json['why'] as String,
+);
+
+Map<String, dynamic> _$RelatedOutToJson(RelatedOut instance) =>
+    <String, dynamic>{
+      'flag': instance.flag,
+      'name': instance.name,
+      'subject_id': instance.subjectId,
+      'subject_type': instance.subjectType,
+      'why': instance.why,
     };
 
 RestrictionOut _$RestrictionOutFromJson(Map<String, dynamic> json) =>
@@ -2167,9 +2274,19 @@ Map<String, dynamic> _$StageTemplatesResponseToJson(
 
 SubjectDetailOut _$SubjectDetailOutFromJson(Map<String, dynamic> json) =>
     SubjectDetailOut(
+      checks:
+          (json['checks'] as List<dynamic>?)
+              ?.map((e) => CheckOut.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
       history:
           (json['history'] as List<dynamic>?)
               ?.map((e) => VerificationOut.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+      links:
+          (json['links'] as List<dynamic>?)
+              ?.map((e) => OfficialLinkOut.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
       subject: SubjectOut.fromJson(json['subject'] as Map<String, dynamic>),
@@ -2177,7 +2294,9 @@ SubjectDetailOut _$SubjectDetailOutFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$SubjectDetailOutToJson(SubjectDetailOut instance) =>
     <String, dynamic>{
+      'checks': ?instance.checks?.map((e) => e.toJson()).toList(),
       'history': instance.history.map((e) => e.toJson()).toList(),
+      'links': ?instance.links?.map((e) => e.toJson()).toList(),
       'subject': instance.subject.toJson(),
     };
 
@@ -2194,6 +2313,11 @@ SubjectOut _$SubjectOutFromJson(Map<String, dynamic> json) => SubjectOut(
   registrationFix: json['registration_fix'] == null
       ? null
       : AdminFixOut.fromJson(json['registration_fix'] as Map<String, dynamic>),
+  related:
+      (json['related'] as List<dynamic>?)
+          ?.map((e) => RelatedOut.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      [],
   status: json['status'] as String,
   subjectId: json['subject_id'] as String,
   subjectType: json['subject_type'] as String,
@@ -2207,6 +2331,7 @@ Map<String, dynamic> _$SubjectOutToJson(SubjectOut instance) =>
       'flags': ?instance.flags,
       'name': instance.name,
       'registration_fix': ?instance.registrationFix?.toJson(),
+      'related': ?instance.related?.map((e) => e.toJson()).toList(),
       'status': instance.status,
       'subject_id': instance.subjectId,
       'subject_type': instance.subjectType,

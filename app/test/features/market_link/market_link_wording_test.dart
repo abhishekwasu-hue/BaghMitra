@@ -26,7 +26,16 @@ void main() {
           if (bad.hasMatch(e.value)) e.key,
       ], isEmpty);
       // Badges say what was checked and when.
-      for (final k in ['mlBadgeChecked', 'mlBadgePlacePhoto']) {
+      for (final k in [
+        'mlBadgeChecked',
+        'mlBadgePlacePhoto',
+        'mlBadgeGstChecked',
+        'mlBadgeGstSince',
+        'mlBadgeApmcSeen',
+        'mlBadgeFssaiChecked',
+        'mlBadgeIecActive',
+        'mlBadgeApedaListed',
+      ]) {
         expect(ml[k], contains('{date}'), reason: k);
       }
     });

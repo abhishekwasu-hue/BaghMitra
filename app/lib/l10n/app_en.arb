@@ -1459,6 +1459,57 @@
       }
     }
   },
+  "mlBadgeGstChecked": "GST checked on {date}",
+  "@mlBadgeGstChecked": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "mlBadgeGstSince": "GST checked on {date} · registered since {year}",
+  "@mlBadgeGstSince": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "year": {
+        "type": "String"
+      }
+    }
+  },
+  "mlBadgeApmcSeen": "APMC licence seen on {date}",
+  "@mlBadgeApmcSeen": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "mlBadgeFssaiChecked": "FSSAI checked on {date}",
+  "@mlBadgeFssaiChecked": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "mlBadgeIecActive": "IEC active, checked on {date}",
+  "@mlBadgeIecActive": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "mlBadgeApedaListed": "APEDA listed, checked on {date}",
+  "@mlBadgeApedaListed": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
   "mlBadgeNote": "A badge says what BagMitra checked and when. You settle the deal terms directly with each other.",
   "mlCall": "Call",
   "mlCallNumber": "Call {phone}",

@@ -844,6 +844,29 @@ for a decision like any other (Q72).''',
   }
 
   @override
+  Future<Response<RecheckResponse>> _v1AdminMarketLinkRechecksGet({
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Checks the yearly job listed as due and not re-checked since, oldest first.',
+      summary: 'Rechecks',
+      operationId: 'admin_market_link_rechecks',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/market-link/rechecks');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<RecheckResponse, RecheckResponse>($request);
+  }
+
+  @override
   Future<Response<QueueResponse>> _v1AdminMarketLinkVerificationsGet({
     String? subjectType,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -877,7 +900,7 @@ for a decision like any other (Q72).''',
     required String? subjectType,
     required String? subjectId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: 'The subject\'s submitted fields, documents and every verification record.',
+      description: 'The subject\'s submitted fields, documents, every verification and check record.',
       summary: 'Subject History',
       operationId: 'admin_market_link_subject',
       consumes: [],
@@ -901,12 +924,45 @@ for a decision like any other (Q72).''',
 
   @override
   Future<Response<SubjectDetailOut>>
+  _v1AdminMarketLinkVerificationsSubjectTypeSubjectIdChecksPost({
+    required String? subjectType,
+    required String? subjectId,
+    required CheckIn? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Record one check done by hand on the official page: a new record with who and when.',
+      summary: 'Record Check',
+      operationId: 'admin_market_link_record_check',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse(
+      '/v1/admin/market-link/verifications/${subjectType}/${subjectId}/checks',
+    );
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<SubjectDetailOut, SubjectDetailOut>($request);
+  }
+
+  @override
+  Future<Response<SubjectDetailOut>>
   _v1AdminMarketLinkVerificationsSubjectTypeSubjectIdDecisionPost({
     required String? subjectType,
     required String? subjectId,
     required DecisionIn? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: 'Approve, or reject with a reason: always a new record with who and when (Q70).',
+      description: '''Approve, or reject with a reason: always a new record with who and when (Q70). An
+approval needs the spec §4 checks on record (trader: GSTIN / APMC / IEC; exporter: IEC;
+broker: the phone call), else 422 `verified_rule_not_met`.''',
       summary: 'Decide',
       operationId: 'admin_market_link_decide',
       consumes: [],
@@ -1773,8 +1829,9 @@ backed-up photos and (when configured) the sign-in account. It cannot be undone.
   Future<Response<dynamic>> _v1MeDevicesPost({
     required DeviceIn? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          'Register this phone for push alerts; repeating it is harmless.',
+      description: '''Register this phone for push alerts; repeating it is harmless. With the market link on,
+the account is also remembered on this phone (hashed token) so that two accounts on one
+phone cannot rate each other (spec v1.5 §4C, Q100).''',
       summary: 'Register Device',
       operationId: 'me_device_register',
       consumes: [],
