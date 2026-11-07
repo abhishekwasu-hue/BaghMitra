@@ -45,6 +45,9 @@ SYNC_RETENTION_CRON_LINE="13 22 * * * $JOB bagmitra_api.sync.retention >> /var/l
 # Market-link erasure of deleted accounts after 180 days (Q68, market_link/erase_job.py):
 # 22:41 UTC (04:11 IST); on unless CRON_MARKET_LINK_ERASE=off.
 MARKET_LINK_ERASE_CRON_LINE="41 22 * * * $JOB bagmitra_api.market_link.erase_job >> /var/log/bagmitra-market-link-erase.log 2>&1"
+# Market-link yearly re-check list (market_link/recheck_job.py, spec v1.5 §4): 23:19 UTC
+# (04:49 IST); on unless CRON_ML_RECHECK=off. Does nothing while MARKET_LINK_ENABLED is off.
+ML_RECHECK_CRON_LINE="19 23 * * * $JOB bagmitra_api.market_link.recheck_job >> /var/log/bagmitra-ml-recheck.log 2>&1"
 # Job logs (BG-05): every /var/log/bagmitra-*.log above is rotated weekly or past 10 MB, 8 old
 # copies kept compressed. Written by install_logrotate; LOGROTATE_FILE is overridable (tests).
 LOGROTATE_FILE="${LOGROTATE_FILE:-/etc/logrotate.d/bagmitra}"
@@ -207,6 +210,8 @@ install_cron() {
   cron_job_if "$on" "bagmitra_api.sync.retention" "$SYNC_RETENTION_CRON_LINE" "sync retention (nightly 22:13 UTC)"
   on=1; switch_on CRON_MARKET_LINK_ERASE && on=0
   cron_job_if "$on" "bagmitra_api.market_link.erase_job" "$MARKET_LINK_ERASE_CRON_LINE" "market-link erasure (nightly 22:41 UTC)"
+  on=1; switch_on CRON_ML_RECHECK && on=0
+  cron_job_if "$on" "bagmitra_api.market_link.recheck_job" "$ML_RECHECK_CRON_LINE" "market-link re-check list (nightly 23:19 UTC)"
 }
 
 install_logrotate() { # writes the drop-in only when it is missing or different

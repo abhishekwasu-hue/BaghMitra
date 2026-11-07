@@ -12,6 +12,7 @@ import 'kb_pages.dart';
 import 'market_link_admin_repository.dart';
 import 'market_link_appeals_page.dart';
 import 'market_link_pages.dart';
+import 'market_link_rechecks.dart';
 import 'market_link_safety_admin.dart';
 import 'market_link_safety_pages.dart';
 
@@ -159,6 +160,11 @@ class _AdminShellState extends State<AdminShell> {
           t.adminMlQueue,
           Icons.verified_user_rounded,
           VerificationQueuePage(repo: ml),
+        ),
+        (
+          t.adminMlRechecks,
+          Icons.event_repeat_rounded,
+          RecheckListPage(repo: ml),
         ),
         (t.adminMlTags, Icons.sell_rounded, RatingTagsPage(repo: ml)),
         if (widget.safety case final safety?) ...[

@@ -2598,6 +2598,42 @@ ReadyResponse _$ReadyResponseFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$ReadyResponseToJson(ReadyResponse instance) =>
     <String, dynamic>{'database': instance.database, 'status': instance.status};
 
+RecheckItemOut _$RecheckItemOutFromJson(Map<String, dynamic> json) =>
+    RecheckItemOut(
+      checkId: json['check_id'] as String,
+      checkedAt: DateTime.parse(json['checked_at'] as String),
+      kind: json['kind'] as String,
+      listedAt: DateTime.parse(json['listed_at'] as String),
+      name: json['name'] as String,
+      number: json['number'] as String?,
+      subjectId: json['subject_id'] as String,
+      subjectType: json['subject_type'] as String,
+    );
+
+Map<String, dynamic> _$RecheckItemOutToJson(RecheckItemOut instance) =>
+    <String, dynamic>{
+      'check_id': instance.checkId,
+      'checked_at': instance.checkedAt.toIso8601String(),
+      'kind': instance.kind,
+      'listed_at': instance.listedAt.toIso8601String(),
+      'name': instance.name,
+      'number': ?instance.number,
+      'subject_id': instance.subjectId,
+      'subject_type': instance.subjectType,
+    };
+
+RecheckResponse _$RecheckResponseFromJson(Map<String, dynamic> json) =>
+    RecheckResponse(
+      items:
+          (json['items'] as List<dynamic>?)
+              ?.map((e) => RecheckItemOut.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+    );
+
+Map<String, dynamic> _$RecheckResponseToJson(RecheckResponse instance) =>
+    <String, dynamic>{'items': instance.items.map((e) => e.toJson()).toList()};
+
 RegistrationFixIn _$RegistrationFixInFromJson(Map<String, dynamic> json) =>
     RegistrationFixIn(
       accuracyM: (json['accuracy_m'] as num).toDouble(),
@@ -2622,6 +2658,23 @@ Map<String, dynamic> _$RegistrationFixInToJson(RegistrationFixIn instance) =>
       'pin': ?instance.pin,
       'place': ?instance.place,
       'state': ?instance.state,
+    };
+
+RelatedOut _$RelatedOutFromJson(Map<String, dynamic> json) => RelatedOut(
+  flag: json['flag'] as String,
+  name: json['name'] as String,
+  subjectId: json['subject_id'] as String,
+  subjectType: json['subject_type'] as String,
+  why: json['why'] as String,
+);
+
+Map<String, dynamic> _$RelatedOutToJson(RelatedOut instance) =>
+    <String, dynamic>{
+      'flag': instance.flag,
+      'name': instance.name,
+      'subject_id': instance.subjectId,
+      'subject_type': instance.subjectType,
+      'why': instance.why,
     };
 
 ReportAdminOut _$ReportAdminOutFromJson(Map<String, dynamic> json) =>
@@ -2979,6 +3032,11 @@ SubjectOut _$SubjectOutFromJson(Map<String, dynamic> json) => SubjectOut(
   registrationFix: json['registration_fix'] == null
       ? null
       : AdminFixOut.fromJson(json['registration_fix'] as Map<String, dynamic>),
+  related:
+      (json['related'] as List<dynamic>?)
+          ?.map((e) => RelatedOut.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      [],
   status: json['status'] as String,
   subjectId: json['subject_id'] as String,
   subjectType: json['subject_type'] as String,
@@ -2992,6 +3050,7 @@ Map<String, dynamic> _$SubjectOutToJson(SubjectOut instance) =>
       'flags': ?instance.flags,
       'name': instance.name,
       'registration_fix': ?instance.registrationFix?.toJson(),
+      'related': ?instance.related?.map((e) => e.toJson()).toList(),
       'status': instance.status,
       'subject_id': instance.subjectId,
       'subject_type': instance.subjectType,
