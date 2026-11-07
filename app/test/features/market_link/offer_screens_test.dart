@@ -68,6 +68,58 @@ void main() {
     await unmountApp(tester);
   });
 
+  testWidgets('an offer sends rate, basis, quantity and date only', (
+    tester,
+  ) async {
+    final api = FakeInterestApi(buyerLots: [sampleBuyerLot()]);
+    await _pump(tester, '/market-link/market/l1/offer', api: api);
+    expect(find.byKey(const Key('ml-disclaimer-note')), findsOneWidget);
+    await tester.tap(find.byKey(const Key('ml-offer-send')));
+    await settle(tester);
+    expect(api.sent, isEmpty); // the rate is needed
+    await tester.enterText(find.byKey(const Key('ml-offer-rate')), '32000');
+    await tester.enterText(find.byKey(const Key('ml-offer-tonnes')), '12');
+    await tester.tap(find.byKey(const Key('ml-offer-basis-per_crate')));
+    await settle(tester);
+    await tester.tap(find.byKey(const Key('ml-offer-send')));
+    await settle(tester);
+    final (lotId, d) = api.sent.single;
+    expect(lotId, 'l1');
+    expect((d.basis, d.ratePaise, d.quantityT), ('per_crate', 3200000, 12.0));
+    expect(d.harvestDate, DateTime(2026, 12));
+    expect((d.brokerId, d.traderId), (null, null));
+    expect(find.text('माझ्या ऑफर'), findsWidgets); // on to "my offers"
+    await unmountApp(tester);
+  });
+
+  testWidgets('a broker must name the trader it brings', (tester) async {
+    final api = FakeInterestApi(buyerLots: [sampleBuyerLot()]);
+    await _pump(
+      tester,
+      '/market-link/market/l1/offer',
+      api: api,
+      people: FakeRegistrationApi(own: [ownBroker()], listed: [sampleTrader()]),
+    );
+    await tester.enterText(find.byKey(const Key('ml-offer-rate')), '32000');
+    await tester.tap(find.byKey(const Key('ml-offer-send')));
+    await settle(tester);
+    expect(api.sent, isEmpty);
+    await tester.scrollUntilVisible(
+      find.byKey(const Key('ml-offer-party')),
+      200,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.tap(find.byKey(const Key('ml-offer-party')));
+    await settle(tester);
+    await tester.tap(find.byKey(const Key('ml-party-b1')));
+    await settle(tester);
+    await tester.ensureVisible(find.byKey(const Key('ml-offer-send')));
+    await tester.tap(find.byKey(const Key('ml-offer-send')));
+    await settle(tester);
+    expect(api.sent.single.$2.traderId, 'b1');
+    await unmountApp(tester);
+  });
+
   testWidgets('my offers: waiting, accepted and the closed notice', (
     tester,
   ) async {

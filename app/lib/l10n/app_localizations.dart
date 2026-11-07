@@ -7155,6 +7155,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Harvest {date}'**
   String mlHarvestOn(String date);
+
+  /// No description provided for @mlMakeOffer.
+  ///
+  /// In en, this message translates to:
+  /// **'Make an offer'**
+  String get mlMakeOffer;
+
+  /// No description provided for @mlOfferTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your offer'**
+  String get mlOfferTitle;
+
+  /// No description provided for @mlOfferRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate ₹'**
+  String get mlOfferRate;
+
+  /// No description provided for @mlOfferQuantity.
+  ///
+  /// In en, this message translates to:
+  /// **'Quantity in tonnes (optional)'**
+  String get mlOfferQuantity;
+
+  /// No description provided for @mlOfferHarvestDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Proposed harvest date'**
+  String get mlOfferHarvestDate;
+
+  /// No description provided for @mlOfferThroughBroker.
+  ///
+  /// In en, this message translates to:
+  /// **'Through a middleman (broker)'**
+  String get mlOfferThroughBroker;
+
+  /// No description provided for @mlOfferForTrader.
+  ///
+  /// In en, this message translates to:
+  /// **'For which trader'**
+  String get mlOfferForTrader;
+
+  /// No description provided for @mlOfferDirect.
+  ///
+  /// In en, this message translates to:
+  /// **'Directly'**
+  String get mlOfferDirect;
+
+  /// No description provided for @mlOfferOnlyThese.
+  ///
+  /// In en, this message translates to:
+  /// **'Only the rate, quantity and date go to the grower; settle everything else face to face.'**
+  String get mlOfferOnlyThese;
+
+  /// No description provided for @mlOfferSend.
+  ///
+  /// In en, this message translates to:
+  /// **'Send offer'**
+  String get mlOfferSend;
+
+  /// No description provided for @mlOfferSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Offer sent. A notice comes when the grower decides.'**
+  String get mlOfferSent;
+
+  /// No description provided for @mlErrRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Write the rate in rupees'**
+  String get mlErrRate;
+
+  /// No description provided for @mlErrQuantity.
+  ///
+  /// In en, this message translates to:
+  /// **'Write the tonnes (up to 10,000)'**
+  String get mlErrQuantity;
+
+  /// No description provided for @mlErrPickTrader.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick the trader'**
+  String get mlErrPickTrader;
+
+  /// No description provided for @mlErrLotGone.
+  ///
+  /// In en, this message translates to:
+  /// **'This produce has left the list.'**
+  String get mlErrLotGone;
 }
 
 class _AppLocalizationsDelegate

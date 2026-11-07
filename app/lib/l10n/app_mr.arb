@@ -1174,5 +1174,20 @@
   "mlOfferOpen": "शेतकऱ्याच्या निर्णयाची वाट",
   "mlOfferAccepted": "स्वीकारली",
   "mlOfferClosed": "बंद: शेतकऱ्याने दुसरी ऑफर निवडली किंवा माल यादीतून काढला.",
-  "mlHarvestOn": "तोडणी {date}"
+  "mlHarvestOn": "तोडणी {date}",
+  "mlMakeOffer": "ऑफर द्या",
+  "mlOfferTitle": "तुमची ऑफर",
+  "mlOfferRate": "दर ₹",
+  "mlOfferQuantity": "माल टनात (ऐच्छिक)",
+  "mlOfferHarvestDate": "प्रस्तावित तोडणी तारीख",
+  "mlOfferThroughBroker": "मध्यस्थ (दलाल) मार्फत",
+  "mlOfferForTrader": "कोणत्या व्यापाऱ्यासाठी",
+  "mlOfferDirect": "थेट",
+  "mlOfferOnlyThese": "शेतकऱ्याला फक्त दर, माल व तारीख जाते; बाकी सर्व समोरासमोर ठरवा.",
+  "mlOfferSend": "ऑफर पाठवा",
+  "mlOfferSent": "ऑफर पाठवली. शेतकऱ्याने निर्णय घेतल्यावर सूचना येईल.",
+  "mlErrRate": "दर रुपयांत लिहा",
+  "mlErrQuantity": "टन लिहा (10,000 पर्यंत)",
+  "mlErrPickTrader": "व्यापारी निवडा",
+  "mlErrLotGone": "हा माल यादीतून काढला आहे."
 }
