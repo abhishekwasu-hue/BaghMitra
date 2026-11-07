@@ -1198,6 +1198,29 @@ their profile; undoes a dismiss. Only for a published item that has a date.''',
   }
 
   @override
+  Future<Response<MyAcceptancesOut>> _v1MarketLinkMeAcceptancesGet({
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'What the signed-in user accepted, and the roles it opens.',
+      summary: 'My Acceptances',
+      operationId: 'market_link_my_acceptances',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/market-link/me/acceptances');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<MyAcceptancesOut, MyAcceptancesOut>($request);
+  }
+
+  @override
   Future<Response<RatingTagsResponse>> _v1MarketLinkRatingTagsGet({
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'The active tick list under each rating question (spec §3A); the app caches it.',
@@ -1218,6 +1241,57 @@ their profile; undoes a dismiss. Only for a published item that has a date.''',
       tag: swaggerMetaData,
     );
     return client.send<RatingTagsResponse, RatingTagsResponse>($request);
+  }
+
+  @override
+  Future<Response<TermsOut>> _v1MarketLinkTermsGet({
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''The current version of each document accepted before a role is used, and the
+grievance officer shown on every role home (spec §4C).''',
+      summary: 'Terms',
+      operationId: 'market_link_terms',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/market-link/terms');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<TermsOut, TermsOut>($request);
+  }
+
+  @override
+  Future<Response<MyAcceptancesOut>> _v1MarketLinkTermsAcceptPost({
+    required AcceptIn? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Record the acceptance of every document for one role. A version that is no longer
+current answers 409 `terms_version_changed`, so the app shows the new text again.''',
+      summary: 'Accept Terms',
+      operationId: 'market_link_accept_terms',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/market-link/terms/accept');
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<MyAcceptancesOut, MyAcceptancesOut>($request);
   }
 
   @override

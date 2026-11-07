@@ -6,6 +6,38 @@ part of 'bagmitra.models.swagger.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+AcceptIn _$AcceptInFromJson(Map<String, dynamic> json) => AcceptIn(
+  adultDeclared: json['adult_declared'] as bool,
+  disclaimerVersion: json['disclaimer_version'] as String,
+  privacyVersion: json['privacy_version'] as String,
+  role: acceptInRoleFromJson(json['role']),
+  termsVersion: json['terms_version'] as String,
+);
+
+Map<String, dynamic> _$AcceptInToJson(AcceptIn instance) => <String, dynamic>{
+  'adult_declared': instance.adultDeclared,
+  'disclaimer_version': instance.disclaimerVersion,
+  'privacy_version': instance.privacyVersion,
+  'role': ?acceptInRoleToJson(instance.role),
+  'terms_version': instance.termsVersion,
+};
+
+AcceptanceOut _$AcceptanceOutFromJson(Map<String, dynamic> json) =>
+    AcceptanceOut(
+      acceptedAt: DateTime.parse(json['accepted_at'] as String),
+      docKind: json['doc_kind'] as String,
+      role: json['role'] as String,
+      version: json['version'] as String,
+    );
+
+Map<String, dynamic> _$AcceptanceOutToJson(AcceptanceOut instance) =>
+    <String, dynamic>{
+      'accepted_at': instance.acceptedAt.toIso8601String(),
+      'doc_kind': instance.docKind,
+      'role': instance.role,
+      'version': instance.version,
+    };
+
 AccountDeleted _$AccountDeletedFromJson(Map<String, dynamic> json) =>
     AccountDeleted(
       photosDeleted: (json['photos_deleted'] as num).toInt(),
@@ -909,6 +941,16 @@ Map<String, dynamic> _$GrantInToJson(GrantIn instance) => <String, dynamic>{
   'subject_type': ?grantInSubjectTypeToJson(instance.subjectType),
 };
 
+GrievanceOfficerOut _$GrievanceOfficerOutFromJson(Map<String, dynamic> json) =>
+    GrievanceOfficerOut(
+      contact: json['contact'] as String?,
+      name: json['name'] as String?,
+    );
+
+Map<String, dynamic> _$GrievanceOfficerOutToJson(
+  GrievanceOfficerOut instance,
+) => <String, dynamic>{'contact': ?instance.contact, 'name': ?instance.name};
+
 GrowerCardOut _$GrowerCardOutFromJson(Map<String, dynamic> json) =>
     GrowerCardOut(
       crop: json['crop'] as String,
@@ -1241,6 +1283,24 @@ Map<String, dynamic> _$MutationResultToJson(MutationResult instance) =>
       'client_mutation_id': instance.clientMutationId,
       'error': ?instance.error,
       'status': ?mutationResultStatusToJson(instance.status),
+    };
+
+MyAcceptancesOut _$MyAcceptancesOutFromJson(Map<String, dynamic> json) =>
+    MyAcceptancesOut(
+      acceptances:
+          (json['acceptances'] as List<dynamic>?)
+              ?.map((e) => AcceptanceOut.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+      roles:
+          (json['roles'] as List<dynamic>?)?.map((e) => e as String).toList() ??
+          [],
+    );
+
+Map<String, dynamic> _$MyAcceptancesOutToJson(MyAcceptancesOut instance) =>
+    <String, dynamic>{
+      'acceptances': instance.acceptances.map((e) => e.toJson()).toList(),
+      'roles': instance.roles,
     };
 
 PhotoDownloadUrl _$PhotoDownloadUrlFromJson(Map<String, dynamic> json) =>
@@ -1777,6 +1837,35 @@ Map<String, dynamic> _$TemplateStageToJson(TemplateStage instance) =>
       'offset_days_min': instance.offsetDaysMin,
       'source_ids': instance.sourceIds,
     };
+
+TermsDocOut _$TermsDocOutFromJson(Map<String, dynamic> json) => TermsDocOut(
+  kind: termsDocOutKindFromJson(json['kind']),
+  url: json['url'] as String?,
+  version: json['version'] as String,
+);
+
+Map<String, dynamic> _$TermsDocOutToJson(TermsDocOut instance) =>
+    <String, dynamic>{
+      'kind': ?termsDocOutKindToJson(instance.kind),
+      'url': ?instance.url,
+      'version': instance.version,
+    };
+
+TermsOut _$TermsOutFromJson(Map<String, dynamic> json) => TermsOut(
+  documents:
+      (json['documents'] as List<dynamic>?)
+          ?.map((e) => TermsDocOut.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      [],
+  grievanceOfficer: GrievanceOfficerOut.fromJson(
+    json['grievance_officer'] as Map<String, dynamic>,
+  ),
+);
+
+Map<String, dynamic> _$TermsOutToJson(TermsOut instance) => <String, dynamic>{
+  'documents': instance.documents.map((e) => e.toJson()).toList(),
+  'grievance_officer': instance.grievanceOfficer.toJson(),
+};
 
 ValidationError _$ValidationErrorFromJson(
   Map<String, dynamic> json,

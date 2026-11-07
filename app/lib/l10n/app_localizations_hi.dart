@@ -2975,4 +2975,176 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get nameScriptLater => 'बाद में';
+
+  @override
+  String get adminMlQueue => 'जाँच कतार';
+
+  @override
+  String get adminMlTags => 'रेटिंग टैग';
+
+  @override
+  String get adminMlAll => 'सभी';
+
+  @override
+  String get adminMlBuyer => 'व्यापारी';
+
+  @override
+  String get adminMlBroker => 'दलाल';
+
+  @override
+  String get adminMlProvider => 'सेवा प्रदाता';
+
+  @override
+  String get adminMlQueueEmpty => 'सभी की जाँच हो चुकी है';
+
+  @override
+  String adminMlWaitingSince(String date) {
+    return '$date से प्रतीक्षा में';
+  }
+
+  @override
+  String get adminMlFields => 'दी गई जानकारी';
+
+  @override
+  String get adminMlDocuments => 'दस्तावेज़';
+
+  @override
+  String get adminMlNoDocuments => 'भेजे गए दस्तावेज़ यहाँ दिखेंगे';
+
+  @override
+  String adminMlDocument(int n) {
+    return 'दस्तावेज़ $n';
+  }
+
+  @override
+  String get adminMlReject => 'अस्वीकार करें';
+
+  @override
+  String get adminMlRejectTitle => 'कारण देकर अस्वीकार करें';
+
+  @override
+  String get adminMlBadgeNote =>
+      'मंज़ूरी के बाद ही सत्यापित चिह्न दिखता है; बाद में अस्वीकार करने पर तुरंत हट जाता है।';
+
+  @override
+  String get adminMlStatusPending => 'प्रतीक्षा में';
+
+  @override
+  String get adminMlStatusApproved => 'सत्यापित';
+
+  @override
+  String get adminMlStatusRejected => 'अस्वीकृत';
+
+  @override
+  String adminMlCheckedBy(String who) {
+    return 'जाँचकर्ता $who';
+  }
+
+  @override
+  String get adminMlTagsEmpty => 'रेटिंग टैग यहाँ दिखेंगे';
+
+  @override
+  String get adminMlTagsNote =>
+      'ड्राफ़्ट टैग भाषा जाँच के लिए रुकते हैं; केवल सक्रिय टैग ऐप में दिखते हैं।';
+
+  @override
+  String get adminMlTagDraft => 'ड्राफ़्ट';
+
+  @override
+  String get adminMlTagActive => 'सक्रिय';
+
+  @override
+  String get adminMlTagRetired => 'बंद';
+
+  @override
+  String get adminMlPositive => 'अच्छा';
+
+  @override
+  String get adminMlNegative => 'शिकायत';
+
+  @override
+  String get adminMlEditTag => 'टैग बदलें';
+
+  @override
+  String get adminMlLabelEn => 'अंग्रेज़ी';
+
+  @override
+  String get adminMlLabelMr => 'मराठी';
+
+  @override
+  String get adminMlLabelHi => 'हिंदी';
+
+  @override
+  String get adminMlYes => 'हाँ';
+
+  @override
+  String get adminMlNo => 'नहीं';
+
+  @override
+  String get adminMlFieldName => 'नाम';
+
+  @override
+  String get adminMlFieldFirm => 'फ़र्म';
+
+  @override
+  String get adminMlFieldPhone => 'मोबाइल नंबर';
+
+  @override
+  String get adminMlFieldMarkets => 'मंडी';
+
+  @override
+  String get adminMlFieldDistrict => 'ज़िला';
+
+  @override
+  String get adminMlFieldTaluka => 'तहसील';
+
+  @override
+  String get adminMlFieldVillage => 'गाँव';
+
+  @override
+  String get adminMlFieldCrops => 'फ़सलें';
+
+  @override
+  String get adminMlFieldServiceAreas => 'सेवा क्षेत्र';
+
+  @override
+  String get adminMlFieldApmc => 'APMC लाइसेंस नं.';
+
+  @override
+  String get adminMlFieldGst => 'GST नं.';
+
+  @override
+  String get adminMlFieldKind => 'सेवा';
+
+  @override
+  String get adminMlFieldCertValidUntil => 'प्रमाणपत्र वैध तिथि';
+
+  @override
+  String get adminMlFieldVehicles => 'वाहन नंबर';
+
+  @override
+  String get adminMlFieldCapacity => 'क्षमता (टन)';
+
+  @override
+  String get adminMlFieldRefrigerated => 'रेफ़्रिजरेटेड';
+
+  @override
+  String get adminMlFieldCarrierReg => 'कैरियर पंजीकरण नं.';
+
+  @override
+  String get adminMlKindWeighbridge => 'धर्मकांटा';
+
+  @override
+  String get adminMlKindTransporter => 'ट्रांसपोर्टर';
+
+  @override
+  String get adminMlKindLabourGang => 'मज़दूर टोली';
+
+  @override
+  String get adminMlKindCrateSupplier => 'क्रेट आपूर्तिकर्ता';
+
+  @override
+  String adminMlDocumentCount(int n) {
+    return 'दस्तावेज़: $n';
+  }
 }
