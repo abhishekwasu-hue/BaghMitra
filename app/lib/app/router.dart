@@ -36,9 +36,11 @@ import '../features/market/presentation/market_prices_screen.dart';
 import '../features/market_link/domain/market_link.dart';
 import '../features/market_link/domain/registration.dart';
 import '../features/market_link/presentation/my_profiles_screen.dart';
+import '../features/market_link/presentation/people_screen.dart';
 import '../features/market_link/presentation/registration_screen.dart';
 import '../features/market_link/presentation/role_home_screen.dart';
 import '../features/market_link/presentation/role_picker_screen.dart';
+import '../features/market_link/presentation/services_screen.dart';
 import '../features/market_link/presentation/terms_acceptance_screen.dart';
 import '../features/more/presentation/more_screen.dart';
 import '../features/plots/presentation/add_plot_screen.dart';
@@ -111,6 +113,10 @@ abstract final class Routes {
   // Market linkage (L2), behind AppConfig.marketLink (decision j).
   static const marketLink = '/market-link';
   static const marketLinkMine = '/market-link/me';
+  static const marketLinkPeople = '/market-link/people';
+  static String marketLinkProfile(String type, String id) =>
+      '/market-link/profile/$type/$id';
+  static const marketLinkServices = '/market-link/services';
   static String marketLinkRegister(String role) =>
       '/market-link/register/$role';
   static const exportInfo = '/market/export';
@@ -352,6 +358,21 @@ GoRouter buildRouter(
         builder: (_, s) => RegistrationScreen(
           role: RegistrationRole.fromName(s.pathParameters['role'])!,
         ),
+      ),
+      GoRoute(
+        path: Routes.marketLinkPeople,
+        builder: (_, _) => const PeopleScreen(),
+      ),
+      GoRoute(
+        path: '/market-link/profile/:type/:id',
+        builder: (_, s) => ProfileDetailScreen(
+          subjectType: s.pathParameters['type']!,
+          id: s.pathParameters['id']!,
+        ),
+      ),
+      GoRoute(
+        path: Routes.marketLinkServices,
+        builder: (_, _) => const ServicesScreen(),
       ),
       GoRoute(
         path: Routes.exportInfo,
