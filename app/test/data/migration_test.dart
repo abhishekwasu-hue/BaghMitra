@@ -7,10 +7,14 @@ import '../helpers/test_db.dart';
 
 /// Tables added in v12 (crop insurance and claim kits) and later.
 const v12Tables =
-    "('insurance_policies', 'claim_kits', 'claim_photos', 'lab_tests')";
+    "('insurance_policies', 'claim_kits', 'claim_photos', 'lab_tests', "
+    "'market_lots', 'market_lot_photos')";
 
-/// Tables added in v13 (soil, water and leaf tests).
-const v13Tables = "('lab_tests')";
+/// Tables added in v13 (soil, water and leaf tests) and later.
+const v13Tables = "('lab_tests', 'market_lots', 'market_lot_photos')";
+
+/// Tables added in v14 (market linkage lots and their photos).
+const v14Tables = "('market_lots', 'market_lot_photos')";
 
 /// Upgrading from schema v1 (M0) must keep existing data and add later tables.
 void main() {
@@ -217,7 +221,7 @@ void main() {
         },
       ),
     );
-    expect(db.schemaVersion, 13);
+    expect(db.schemaVersion, greaterThanOrEqualTo(13));
     expect(await db.select(db.plots).get(), hasLength(1));
     expect(await db.select(db.insurancePolicies).get(), hasLength(1));
     await db
@@ -234,6 +238,54 @@ void main() {
     final row = await db.select(db.labTests).getSingle();
     expect(row.readings, '[]');
     expect(row.reportPath, isNull);
+    await db.close();
+  });
+
+  test('v13 -> v14 adds market lots and their photos, keeps data', () async {
+    final fresh = memoryDb();
+    final ddl = await fresh
+        .customSelect(
+          "SELECT sql FROM sqlite_master WHERE type = 'table' "
+          "AND name NOT LIKE 'sqlite_%' AND name NOT IN $v14Tables",
+        )
+        .map((r) => r.read<String>('sql'))
+        .get();
+    await fresh.close();
+    expect(ddl.join(), isNot(contains('market_lots')));
+
+    driftRuntimeOptions.dontWarnAboutMultipleDatabases = true;
+    final db = AppDatabase(
+      NativeDatabase.memory(
+        setup: (raw) {
+          for (final stmt in ddl) {
+            raw.execute(stmt);
+          }
+          raw.execute(
+            'INSERT INTO plots (id, name, crop, area_sq_m, client_updated_at) '
+            "VALUES ('p1', 'Bag 1', 'santra', 100, '2026-01-01T00:00:00.000Z')",
+          );
+          raw.execute('PRAGMA user_version = 13');
+        },
+      ),
+    );
+    expect(db.schemaVersion, 14);
+    expect(await db.select(db.plots).get(), hasLength(1));
+    await db
+        .into(db.marketLots)
+        .insert(
+          MarketLotsCompanion.insert(
+            id: 'l1',
+            plotId: 'p1',
+            crop: 'santra',
+            quantityT: 10,
+            harvestFrom: DateTime(2026, 12),
+            harvestTo: DateTime(2026, 12, 20),
+            basis: 'per_tonne',
+            clientUpdatedAt: DateTime.utc(2026),
+          ),
+        );
+    expect((await db.select(db.marketLots).getSingle()).status, 'draft');
+    expect(await db.select(db.marketLotPhotos).get(), isEmpty);
     await db.close();
   });
 }
