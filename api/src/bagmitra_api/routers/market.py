@@ -74,7 +74,8 @@ async def get_market_prices(
             modal_rs_per_quintal=p.modal_rs_per_quintal,
             source=p.source,
             is_local=market_matches(p.market, local),
-            is_major=market_matches(p.market, major),
+            is_major=market_matches(p.market, major)
+            or state_matches(p.state, ctx.settings.market_major_states),
         )
         for p in view.prices
     ]
@@ -99,3 +100,8 @@ def market_matches(market: str, names: list[str]) -> bool:
         if want and any(words[i : i + len(want)] == want for i in range(len(words))):
             return True
     return False
+
+
+def state_matches(state: str, names: list[str]) -> bool:
+    """True when the state Agmarknet prints is one of `names` (case and spaces ignored)."""
+    return state.strip().casefold() in {n.strip().casefold() for n in names}
