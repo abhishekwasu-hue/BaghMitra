@@ -79,6 +79,8 @@ class _RatingState extends ConsumerState<_Rating> {
     } on MarketCallException catch (e) {
       say = switch (e.problem) {
         MarketCallProblem.offline => t.mlOffline,
+        MarketCallProblem.refused when e.code == 'same_device' =>
+          t.mlRateSameDevice,
         MarketCallProblem.refused => t.mlRateRefused,
         MarketCallProblem.server => t.mlServerBusy,
       };

@@ -1,4 +1,5 @@
 import 'package:bagmitra/features/market_link/data/interest_api.dart';
+import 'package:bagmitra/features/market_link/data/registration_api.dart';
 import 'package:bagmitra/features/market_link/domain/deal_rating.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -100,6 +101,33 @@ void main() {
     final [(role, answers)] = api.rated;
     expect(role, DealRole.grower);
     expect(answers.map((a) => '${a.stars}${a.tagIds}'), ['3[x]', '5[]']);
+    await unmountApp(tester);
+  });
+
+  testWidgets('same phone: the server refusal is said plainly', (tester) async {
+    final api = await _pump(
+      tester,
+      ratings: sampleRatings(
+        state: sampleState(role: DealRole.trader, grower: true, trader: true),
+        given: {
+          DealRole.grower: const [
+            RatingAnswer('grower_produce_matched', 3),
+            RatingAnswer('grower_ready_on_date', 2),
+          ],
+        },
+      ),
+      route: '/market-link/deals/d1/rate',
+    );
+    api.error = const MarketCallException(
+      MarketCallProblem.refused,
+      'same_device',
+    );
+    await tester.tap(find.byKey(const Key('ml-rate-save')));
+    await settle(tester);
+    expect(
+      find.text('रेटिंग वेगवेगळ्या फोनवरील खात्यांमध्येच देता येते.'),
+      findsOneWidget,
+    );
     await unmountApp(tester);
   });
 
