@@ -44,6 +44,26 @@ enum AdminProviderInKind {
   const AdminProviderInKind(this.value);
 }
 
+enum AppealInReason {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('identity_genuine')
+  identityGenuine('identity_genuine'),
+  @JsonValue('lot_genuine')
+  lotGenuine('lot_genuine'),
+  @JsonValue('rating_genuine')
+  ratingGenuine('rating_genuine'),
+  @JsonValue('behaviour_proper')
+  behaviourProper('behaviour_proper'),
+  @JsonValue('not_duplicate')
+  notDuplicate('not_duplicate');
+
+  final String? value;
+
+  const AppealInReason(this.value);
+}
+
 enum BadgeOutKind {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
@@ -306,6 +326,48 @@ enum RatingTagInStatus {
   final String? value;
 
   const RatingTagInStatus(this.value);
+}
+
+enum ReportInReason {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('fake_identity')
+  fakeIdentity('fake_identity'),
+  @JsonValue('fake_lot')
+  fakeLot('fake_lot'),
+  @JsonValue('impersonation')
+  impersonation('impersonation'),
+  @JsonValue('fake_rating')
+  fakeRating('fake_rating'),
+  @JsonValue('abuse')
+  abuse('abuse');
+
+  final String? value;
+
+  const ReportInReason(this.value);
+}
+
+enum ReportInSubjectType {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('buyer')
+  buyer('buyer'),
+  @JsonValue('broker')
+  broker('broker'),
+  @JsonValue('provider')
+  provider('provider'),
+  @JsonValue('lot')
+  lot('lot'),
+  @JsonValue('rating')
+  rating('rating'),
+  @JsonValue('user')
+  user('user');
+
+  final String? value;
+
+  const ReportInSubjectType(this.value);
 }
 
 enum ReviewInDecision {

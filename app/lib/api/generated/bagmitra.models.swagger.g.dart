@@ -38,6 +38,58 @@ Map<String, dynamic> _$AcceptanceOutToJson(AcceptanceOut instance) =>
       'version': instance.version,
     };
 
+AccountActionOut _$AccountActionOutFromJson(Map<String, dynamic> json) =>
+    AccountActionOut(
+      actedAt: DateTime.parse(json['acted_at'] as String),
+      action: json['action'] as String,
+      appealDecidedAt: json['appeal_decided_at'] == null
+          ? null
+          : DateTime.parse(json['appeal_decided_at'] as String),
+      appealPhotoCount: (json['appeal_photo_count'] as num).toInt(),
+      appealReason: json['appeal_reason'] as String?,
+      appealState: json['appeal_state'] as String,
+      appealedAt: json['appealed_at'] == null
+          ? null
+          : DateTime.parse(json['appealed_at'] as String),
+      canAppeal: json['can_appeal'] as bool,
+      id: json['id'] as String,
+      reasonCode: json['reason_code'] as String,
+      subjectId: json['subject_id'] as String,
+      subjectType: json['subject_type'] as String,
+    );
+
+Map<String, dynamic> _$AccountActionOutToJson(AccountActionOut instance) =>
+    <String, dynamic>{
+      'acted_at': instance.actedAt.toIso8601String(),
+      'action': instance.action,
+      'appeal_decided_at': ?instance.appealDecidedAt?.toIso8601String(),
+      'appeal_photo_count': instance.appealPhotoCount,
+      'appeal_reason': ?instance.appealReason,
+      'appeal_state': instance.appealState,
+      'appealed_at': ?instance.appealedAt?.toIso8601String(),
+      'can_appeal': instance.canAppeal,
+      'id': instance.id,
+      'reason_code': instance.reasonCode,
+      'subject_id': instance.subjectId,
+      'subject_type': instance.subjectType,
+    };
+
+AccountActionsResponse _$AccountActionsResponseFromJson(
+  Map<String, dynamic> json,
+) => AccountActionsResponse(
+  actions:
+      (json['actions'] as List<dynamic>?)
+          ?.map((e) => AccountActionOut.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      [],
+);
+
+Map<String, dynamic> _$AccountActionsResponseToJson(
+  AccountActionsResponse instance,
+) => <String, dynamic>{
+  'actions': instance.actions.map((e) => e.toJson()).toList(),
+};
+
 AccountDeleted _$AccountDeletedFromJson(Map<String, dynamic> json) =>
     AccountDeleted(
       photosDeleted: (json['photos_deleted'] as num).toInt(),
@@ -178,6 +230,13 @@ Map<String, dynamic> _$AppVersionResponseToJson(AppVersionResponse instance) =>
       'min_version_code': instance.minVersionCode,
     };
 
+AppealIn _$AppealInFromJson(Map<String, dynamic> json) =>
+    AppealIn(reason: appealInReasonFromJson(json['reason']));
+
+Map<String, dynamic> _$AppealInToJson(AppealIn instance) => <String, dynamic>{
+  'reason': ?appealInReasonToJson(instance.reason),
+};
+
 BadgeOut _$BadgeOutFromJson(Map<String, dynamic> json) => BadgeOut(
   kind: badgeOutKindFromJson(json['kind']),
   on: DateTime.parse(json['on'] as String),
@@ -209,6 +268,18 @@ Map<String, dynamic> _$BlockedClaimOutToJson(BlockedClaimOut instance) =>
       'reason': ?blockedClaimOutReasonToJson(instance.reason),
       'target': instance.target,
     };
+
+BlocksResponse _$BlocksResponseFromJson(Map<String, dynamic> json) =>
+    BlocksResponse(
+      blockedUserIds:
+          (json['blocked_user_ids'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          [],
+    );
+
+Map<String, dynamic> _$BlocksResponseToJson(BlocksResponse instance) =>
+    <String, dynamic>{'blocked_user_ids': instance.blockedUserIds};
 
 BrokerIn _$BrokerInFromJson(Map<String, dynamic> json) => BrokerIn(
   address: json['address'] as String?,
@@ -2118,6 +2189,56 @@ Map<String, dynamic> _$RegistrationFixInToJson(RegistrationFixIn instance) =>
       'pin': ?instance.pin,
       'place': ?instance.place,
       'state': ?instance.state,
+    };
+
+ReportIn _$ReportInFromJson(Map<String, dynamic> json) => ReportIn(
+  reason: reportInReasonFromJson(json['reason']),
+  subjectId: json['subject_id'] as String,
+  subjectType: reportInSubjectTypeFromJson(json['subject_type']),
+);
+
+Map<String, dynamic> _$ReportInToJson(ReportIn instance) => <String, dynamic>{
+  'reason': ?reportInReasonToJson(instance.reason),
+  'subject_id': instance.subjectId,
+  'subject_type': ?reportInSubjectTypeToJson(instance.subjectType),
+};
+
+ReportOut _$ReportOutFromJson(Map<String, dynamic> json) => ReportOut(
+  createdAt: DateTime.parse(json['created_at'] as String),
+  decidedAt: json['decided_at'] == null
+      ? null
+      : DateTime.parse(json['decided_at'] as String),
+  id: json['id'] as String,
+  photoCount: (json['photo_count'] as num).toInt(),
+  reason: json['reason'] as String,
+  status: json['status'] as String,
+  subjectId: json['subject_id'] as String,
+  subjectType: json['subject_type'] as String,
+);
+
+Map<String, dynamic> _$ReportOutToJson(ReportOut instance) => <String, dynamic>{
+  'created_at': instance.createdAt.toIso8601String(),
+  'decided_at': ?instance.decidedAt?.toIso8601String(),
+  'id': instance.id,
+  'photo_count': instance.photoCount,
+  'reason': instance.reason,
+  'status': instance.status,
+  'subject_id': instance.subjectId,
+  'subject_type': instance.subjectType,
+};
+
+ReportsResponse _$ReportsResponseFromJson(Map<String, dynamic> json) =>
+    ReportsResponse(
+      reports:
+          (json['reports'] as List<dynamic>?)
+              ?.map((e) => ReportOut.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+    );
+
+Map<String, dynamic> _$ReportsResponseToJson(ReportsResponse instance) =>
+    <String, dynamic>{
+      'reports': instance.reports.map((e) => e.toJson()).toList(),
     };
 
 RestrictionOut _$RestrictionOutFromJson(Map<String, dynamic> json) =>
