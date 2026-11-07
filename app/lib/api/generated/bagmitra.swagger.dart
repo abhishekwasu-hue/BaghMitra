@@ -1497,6 +1497,32 @@ their profile; undoes a dismiss. Only for a published item that has a date.''',
     ),
   });
 
+  ///My Acceptances
+  Future<chopper.Response<MyAcceptancesOut>> v1MarketLinkMeAcceptancesGet() {
+    generatedMapping.putIfAbsent(
+      MyAcceptancesOut,
+      () => MyAcceptancesOut.fromJsonFactory,
+    );
+
+    return _v1MarketLinkMeAcceptancesGet();
+  }
+
+  ///My Acceptances
+  @GET(path: '/v1/market-link/me/acceptances')
+  Future<chopper.Response<MyAcceptancesOut>> _v1MarketLinkMeAcceptancesGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'What the signed-in user accepted, and the roles it opens.',
+      summary: 'My Acceptances',
+      operationId: 'market_link_my_acceptances',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  });
+
   ///Rating Tags
   Future<chopper.Response<RatingTagsResponse>> v1MarketLinkRatingTagsGet() {
     generatedMapping.putIfAbsent(
@@ -1515,6 +1541,60 @@ their profile; undoes a dismiss. Only for a published item that has a date.''',
       description: 'The active tick list under each rating question (spec §3A); the app caches it.',
       summary: 'Rating Tags',
       operationId: 'market_link_rating_tags',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  });
+
+  ///Terms
+  Future<chopper.Response<TermsOut>> v1MarketLinkTermsGet() {
+    generatedMapping.putIfAbsent(TermsOut, () => TermsOut.fromJsonFactory);
+
+    return _v1MarketLinkTermsGet();
+  }
+
+  ///Terms
+  @GET(path: '/v1/market-link/terms')
+  Future<chopper.Response<TermsOut>> _v1MarketLinkTermsGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''The current version of each document accepted before a role is used, and the
+grievance officer shown on every role home (spec §4C).''',
+      summary: 'Terms',
+      operationId: 'market_link_terms',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  });
+
+  ///Accept Terms
+  Future<chopper.Response<MyAcceptancesOut>> v1MarketLinkTermsAcceptPost({
+    required AcceptIn? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      MyAcceptancesOut,
+      () => MyAcceptancesOut.fromJsonFactory,
+    );
+
+    return _v1MarketLinkTermsAcceptPost(body: body);
+  }
+
+  ///Accept Terms
+  @POST(path: '/v1/market-link/terms/accept', optionalBody: true)
+  Future<chopper.Response<MyAcceptancesOut>> _v1MarketLinkTermsAcceptPost({
+    @Body() required AcceptIn? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Record the acceptance of every document for one role. A version that is no longer
+current answers 409 `terms_version_changed`, so the app shows the new text again.''',
+      summary: 'Accept Terms',
+      operationId: 'market_link_accept_terms',
       consumes: [],
       produces: [],
       security: ["HTTPBearer"],

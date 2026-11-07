@@ -1,6 +1,85 @@
 {
   "components": {
     "schemas": {
+      "AcceptIn": {
+        "additionalProperties": false,
+        "description": "The versions the user read on the acceptance screen, for one role. The 18+ declaration\nmust be true (minors cannot contract).",
+        "properties": {
+          "adult_declared": {
+            "const": true,
+            "title": "Adult Declared",
+            "type": "boolean"
+          },
+          "disclaimer_version": {
+            "maxLength": 20,
+            "minLength": 1,
+            "title": "Disclaimer Version",
+            "type": "string"
+          },
+          "privacy_version": {
+            "maxLength": 20,
+            "minLength": 1,
+            "title": "Privacy Version",
+            "type": "string"
+          },
+          "role": {
+            "enum": [
+              "grower",
+              "trader",
+              "exporter",
+              "broker",
+              "provider",
+              "representative"
+            ],
+            "title": "Role",
+            "type": "string"
+          },
+          "terms_version": {
+            "maxLength": 20,
+            "minLength": 1,
+            "title": "Terms Version",
+            "type": "string"
+          }
+        },
+        "required": [
+          "role",
+          "adult_declared",
+          "terms_version",
+          "privacy_version",
+          "disclaimer_version"
+        ],
+        "title": "AcceptIn",
+        "type": "object"
+      },
+      "AcceptanceOut": {
+        "properties": {
+          "accepted_at": {
+            "format": "date-time",
+            "title": "Accepted At",
+            "type": "string"
+          },
+          "doc_kind": {
+            "title": "Doc Kind",
+            "type": "string"
+          },
+          "role": {
+            "title": "Role",
+            "type": "string"
+          },
+          "version": {
+            "title": "Version",
+            "type": "string"
+          }
+        },
+        "required": [
+          "role",
+          "doc_kind",
+          "version",
+          "accepted_at"
+        ],
+        "title": "AcceptanceOut",
+        "type": "object"
+      },
       "AccountDeleted": {
         "description": "The server holds none of the grower's records or photos any more.\n`sign_in_account_removed` is false when the sign-in account is left for the owner to\nremove by hand (no service role key configured, or Supabase did not answer).",
         "properties": {
@@ -2184,6 +2263,39 @@
         "title": "GrantIn",
         "type": "object"
       },
+      "GrievanceOfficerOut": {
+        "description": "IT Rules 2021 grievance officer. `name` null: the owner (default, spec §4C).",
+        "properties": {
+          "contact": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Contact"
+          },
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          }
+        },
+        "required": [
+          "name",
+          "contact"
+        ],
+        "title": "GrievanceOfficerOut",
+        "type": "object"
+      },
       "GrowerCardOut": {
         "properties": {
           "crop": {
@@ -2936,6 +3048,30 @@
           "status"
         ],
         "title": "MutationResult",
+        "type": "object"
+      },
+      "MyAcceptancesOut": {
+        "properties": {
+          "acceptances": {
+            "items": {
+              "$ref": "#/components/schemas/AcceptanceOut"
+            },
+            "title": "Acceptances",
+            "type": "array"
+          },
+          "roles": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Roles",
+            "type": "array"
+          }
+        },
+        "required": [
+          "roles",
+          "acceptances"
+        ],
+        "title": "MyAcceptancesOut",
         "type": "object"
       },
       "PhotoDownloadUrl": {
@@ -3914,6 +4050,61 @@
           "source_ids"
         ],
         "title": "TemplateStage",
+        "type": "object"
+      },
+      "TermsDocOut": {
+        "properties": {
+          "kind": {
+            "enum": [
+              "terms",
+              "privacy",
+              "disclaimer"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Url"
+          },
+          "version": {
+            "title": "Version",
+            "type": "string"
+          }
+        },
+        "required": [
+          "kind",
+          "version",
+          "url"
+        ],
+        "title": "TermsDocOut",
+        "type": "object"
+      },
+      "TermsOut": {
+        "properties": {
+          "documents": {
+            "items": {
+              "$ref": "#/components/schemas/TermsDocOut"
+            },
+            "title": "Documents",
+            "type": "array"
+          },
+          "grievance_officer": {
+            "$ref": "#/components/schemas/GrievanceOfficerOut"
+          }
+        },
+        "required": [
+          "documents",
+          "grievance_officer"
+        ],
+        "title": "TermsOut",
         "type": "object"
       },
       "ValidationError": {
@@ -7682,6 +7873,53 @@
         ]
       }
     },
+    "/v1/market-link/me/acceptances": {
+      "get": {
+        "description": "What the signed-in user accepted, and the roles it opens.",
+        "operationId": "market_link_my_acceptances",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MyAcceptancesOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "My Acceptances",
+        "tags": [
+          "market-link"
+        ]
+      }
+    },
     "/v1/market-link/rating-tags": {
       "get": {
         "description": "The active tick list under each rating question (spec §3A); the app caches it.",
@@ -7724,6 +7962,130 @@
           }
         ],
         "summary": "Rating Tags",
+        "tags": [
+          "market-link"
+        ]
+      }
+    },
+    "/v1/market-link/terms": {
+      "get": {
+        "description": "The current version of each document accepted before a role is used, and the\ngrievance officer shown on every role home (spec §4C).",
+        "operationId": "market_link_terms",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TermsOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Terms",
+        "tags": [
+          "market-link"
+        ]
+      }
+    },
+    "/v1/market-link/terms/accept": {
+      "post": {
+        "description": "Record the acceptance of every document for one role. A version that is no longer\ncurrent answers 409 `terms_version_changed`, so the app shows the new text again.",
+        "operationId": "market_link_accept_terms",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AcceptIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MyAcceptancesOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Accept Terms",
         "tags": [
           "market-link"
         ]
