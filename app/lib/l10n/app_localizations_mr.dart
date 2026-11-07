@@ -3835,6 +3835,227 @@ class AppLocalizationsMr extends AppLocalizations {
   String get mlQualityLine => 'थोडक्यात माहिती (ऐच्छिक)';
 
   @override
+  String get mlSafetyReport => 'तक्रार करा';
+
+  @override
+  String get mlSafetyReportTitle => 'बागमित्रकडे तक्रार';
+
+  @override
+  String get mlSafetyReportWhy => 'कारण निवडा';
+
+  @override
+  String get mlSafetyReportNote =>
+      'बागमित्र फक्त ओळख करून देते. खोटी ओळख, खोटा माल, बागमित्र असल्याचे भासवणे, खोटे रेटिंग किंवा गैरवर्तन यासाठी तक्रार करा; व्यवहारातील पैसे, वजन आणि दर्जा तुम्ही आपसात ठरवा.';
+
+  @override
+  String get mlSafetyPhoto => 'फोटो जोडा (हवा असल्यास)';
+
+  @override
+  String get mlSafetyPhotoAdded => 'फोटो जोडला';
+
+  @override
+  String get mlSafetySend => 'तक्रार पाठवा';
+
+  @override
+  String get mlSafetySent => 'तक्रार मिळाली. बागमित्र तपासेल.';
+
+  @override
+  String get mlSafetyRetry => 'नेट तपासून पुन्हा प्रयत्न करा';
+
+  @override
+  String get mlReasonFakeIdentity => 'खोटी ओळख';
+
+  @override
+  String get mlReasonFakeLot => 'खोटा माल किंवा दुसऱ्या बागेचे फोटो';
+
+  @override
+  String get mlReasonImpersonation => 'बागमित्र असल्याचे भासवते';
+
+  @override
+  String get mlReasonFakeRating => 'खोटे रेटिंग';
+
+  @override
+  String get mlReasonAbuse => 'अपमानास्पद वागणूक';
+
+  @override
+  String get mlReasonDuplicateUser => 'एकाच व्यक्तीची दोन खाती';
+
+  @override
+  String get mlReasonChecksPassed => 'तपासणी पूर्ण';
+
+  @override
+  String get mlReasonAppealUpheld => 'अपील मान्य';
+
+  @override
+  String get mlActionVerify => 'पडताळणी झाली';
+
+  @override
+  String get mlActionWarn => 'इशारा';
+
+  @override
+  String get mlActionHide => 'यादीतून लपवले';
+
+  @override
+  String get mlActionSuspend => 'खाते तात्पुरते थांबवले';
+
+  @override
+  String get mlActionRestore => 'पुन्हा सुरू';
+
+  @override
+  String get mlAppealIdentityGenuine => 'माझी ओळख खरी आहे';
+
+  @override
+  String get mlAppealLotGenuine => 'माझा माल आणि फोटो खरे आहेत';
+
+  @override
+  String get mlAppealRatingGenuine => 'हे रेटिंग खऱ्या व्यवहाराचे आहे';
+
+  @override
+  String get mlAppealBehaviourProper => 'माझे वागणे योग्य होते';
+
+  @override
+  String get mlAppealNotDuplicate => 'हे माझे एकमेव खाते आहे';
+
+  @override
+  String get mlAppealStateAppealed => 'अपील तक्रार अधिकाऱ्याकडे';
+
+  @override
+  String get mlAppealStateUpheld => 'अपील मान्य';
+
+  @override
+  String get mlAppealStateRejected => 'निर्णय कायम';
+
+  @override
+  String get mlActionsTitle => 'माझ्या खात्यावरील कारवाई';
+
+  @override
+  String get mlActionsEmpty => 'तुमचे खाते सुरळीत आहे.';
+
+  @override
+  String mlActionReason(String reason) {
+    return 'कारण: $reason';
+  }
+
+  @override
+  String mlActionDate(String date) {
+    return '$date रोजी';
+  }
+
+  @override
+  String get mlAppeal => 'अपील करा';
+
+  @override
+  String get mlAppealTitle => 'अपील (एकदाच)';
+
+  @override
+  String get mlAppealNote =>
+      'तक्रार अधिकारी २४ तासांत पोच देतील आणि १५ दिवसांत निर्णय देतील.';
+
+  @override
+  String get mlAppealSend => 'अपील पाठवा';
+
+  @override
+  String get mlAppealSent => 'अपील मिळाले';
+
+  @override
+  String get mlGrievanceDefault => 'बागमित्रचे मालक';
+
+  @override
+  String get mlBlock => 'ब्लॉक करा';
+
+  @override
+  String get mlUnblock => 'ब्लॉक काढा';
+
+  @override
+  String get mlBlockTitle => 'या व्यक्तीला ब्लॉक करायचे?';
+
+  @override
+  String get mlBlockNote =>
+      'तुम्ही दोघे एकमेकांच्या यादीतून आणि मागणीतून दूर राहाल. कधीही ब्लॉक काढता येईल.';
+
+  @override
+  String get mlBlocked => 'ब्लॉक केले';
+
+  @override
+  String get mlUnblocked => 'ब्लॉक काढला';
+
+  @override
+  String get mlMoreOptions => 'आणखी पर्याय';
+
+  @override
+  String get adminMlReports => 'तक्रारी';
+
+  @override
+  String get adminMlAppeals => 'अपील';
+
+  @override
+  String get adminMlReportsEmpty => 'सर्व तक्रारी हाताळल्या';
+
+  @override
+  String get adminMlAppealsEmpty => 'सर्व अपील निकाली';
+
+  @override
+  String get adminMlAckOverdue => 'पोच: २४ तास उलटले';
+
+  @override
+  String get adminMlCloseOverdue => 'निर्णय: १५ दिवस उलटले';
+
+  @override
+  String get adminMlAcknowledge => 'पोच द्या';
+
+  @override
+  String get adminMlAct => 'कारवाई करा';
+
+  @override
+  String get adminMlDismiss => 'फेटाळा';
+
+  @override
+  String get adminMlUphold => 'अपील मान्य करा';
+
+  @override
+  String get adminMlKeepDecision => 'निर्णय कायम ठेवा';
+
+  @override
+  String get adminMlActionTitle => 'कारण-संकेतासह कारवाई';
+
+  @override
+  String get adminMlActionNote =>
+      'फक्त प्लॅटफॉर्मचे नियम: खोटी किंवा दुहेरी खाती, खोटा माल, भासवणे, गैरवर्तन. पैसे, वजन, दर्जा यांचे वाद पक्षांमध्येच राहतात.';
+
+  @override
+  String get adminMlStatusOpen => 'खुली';
+
+  @override
+  String get adminMlStatusActioned => 'कारवाई झाली';
+
+  @override
+  String get adminMlStatusDismissed => 'फेटाळली';
+
+  @override
+  String get adminMlTargetLot => 'माल (लॉट)';
+
+  @override
+  String get adminMlTargetRating => 'रेटिंग';
+
+  @override
+  String get adminMlTargetUser => 'वापरकर्ता';
+
+  @override
+  String adminMlReceived(String date) {
+    return '$date रोजी आली';
+  }
+
+  @override
+  String adminMlPhoto(int n) {
+    return 'फोटो $n';
+  }
+
+  @override
+  String adminMlAppealReason(String reason) {
+    return 'अपील: $reason';
+  }
+
+  @override
   String get mlBrowseTitle => 'विक्रीसाठी माल';
 
   @override
