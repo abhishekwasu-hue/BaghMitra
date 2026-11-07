@@ -5,7 +5,7 @@
 - Market link L0–L9 merged on main (spec `SPEC_market_linkage_addendum_v1.5.md`; build prompt `prompts/MARKET_LINKAGE_BUILD_PROMPT.md` with Addenda 1–6); Alembic migrations 0029–0035 (head `0035_season_package`).
 - Production flag `MARKET_LINK_ENABLED` stays **OFF** (legal gate, spec §5); app build flag `MARKET_LINK` off; season package switch OFF by default.
 - Open owner questions: Q99–Q115 in `OPEN_QUESTIONS.md` (defaults built).
-- Open PR: #226 (§4E interest visibility: an interest needs the lot visible under the §4E rule).
+- Audit 2026-11-07 step 1 (hide / suspend / delete / block enforced in every market-link endpoint): PRs #230 lot rule, #232 suspended / hidden accounts, then profiles + grower interests, then the guard test `test_market_link_visibility_guard.py`; API tests `test_market_link_enforcement.py`. Step 2 (Test APK `MARKET_LINK` from a repo variable, Q117): #231. Step 3 (subscription billing): in progress.
 - Data docs: `legal/DATA_INVENTORY.md` §3A, `store/data-safety.md` §2 / §2A; owner point DI §8.5 (`device_sightings`, `package_grants` not erased; grant FK vs the erase job).
 
 ## Resume point (keep ≤ 15 lines)
