@@ -11,6 +11,7 @@ import '../../../design_system/empty_state.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../../voice/presentation/voice_mic_button.dart';
+import '../data/place_geocoder.dart';
 import '../domain/geo.dart';
 import '../domain/plot.dart';
 import 'plot_point.dart';
@@ -43,6 +44,11 @@ class _AddPlotScreenState extends ConsumerState<AddPlotScreen> {
   Plot? _editing;
   bool _filled = false;
 
+  /// The nearby place of [_placeFor], looked up after each new fix or walk. Shown only,
+  /// never saved or synced (Q53, Q59).
+  LatLon? _placeFor;
+  PlaceLine? _place;
+
   @override
   void dispose() {
     for (final c in [_name, _variety, _acres, _trees, _year]) {
@@ -73,9 +79,10 @@ class _AddPlotScreenState extends ConsumerState<AddPlotScreen> {
   Future<void> _save() async {
     if (!_form.currentState!.validate()) return;
     final repo = ref.read(plotRepositoryProvider);
+    final id = _editing?.id ?? repo.newId();
     await repo.save(
       Plot(
-        id: _editing?.id ?? repo.newId(),
+        id: id,
         // What the form does not show (water, soil, irrigation) is kept as it was.
         irrigationType: _editing?.irrigationType,
         waterSource: _editing?.waterSource,
@@ -99,8 +106,10 @@ class _AddPlotScreenState extends ConsumerState<AddPlotScreen> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(AppLocalizations.of(context).plotSaved)),
     );
-    // Opened directly (e.g. from a notification) there is nothing to pop.
-    context.canPop() ? context.pop() : context.go(Routes.plots);
+    // The block's id goes back to the page that opened the form, so an action started
+    // with no block yet can open for it (see openForPlot). Opened directly (e.g. from a
+    // notification) there is nothing to pop.
+    context.canPop() ? context.pop(id) : context.go(Routes.plots);
   }
 
   /// Deleting a block, from its edit screen: asks first, then returns to the block list
@@ -131,6 +140,29 @@ class _AddPlotScreenState extends ConsumerState<AddPlotScreen> {
     if (mounted) context.go(Routes.plots);
   }
 
+  /// Asks the phone's geocoder for the place at [point]; a later point wins. Any failure
+  /// ends as "not found" and never stops the form.
+  Future<void> _lookUpPlace(LatLon point) async {
+    final lang = Localizations.localeOf(context).languageCode;
+    setState(() {
+      _placeFor = point;
+      _place = const PlaceLooking();
+    });
+    PlaceAddress? address;
+    try {
+      address = await ref
+          .read(placeGeocoderProvider)
+          .addressOf(point, languageCode: lang);
+    } on Object {
+      address = null;
+    }
+    if (!mounted || _placeFor != point) return;
+    setState(
+      () =>
+          _place = address == null ? const PlaceMissing() : PlaceFound(address),
+    );
+  }
+
   Future<void> _walkBoundary() async {
     final corners = await context.push<List<LatLon>>(Routes.walkBoundary);
     if (corners == null || !mounted) return;
@@ -140,6 +172,7 @@ class _AddPlotScreenState extends ConsumerState<AddPlotScreen> {
       // The walked area fills the field; the grower can still see and correct it.
       _acres.text = sqMToAcres(polygonAreaSqM(corners)).toStringAsFixed(2);
     });
+    await _lookUpPlace(_centre!);
   }
 
   @override
@@ -200,7 +233,11 @@ class _AddPlotScreenState extends ConsumerState<AddPlotScreen> {
           children: [
             PointCaptureCard(
               point: _centre,
-              onCaptured: (fix) => setState(() => _centre = fix.position),
+              place: _centre != null && _centre == _placeFor ? _place : null,
+              onCaptured: (fix) {
+                setState(() => _centre = fix.position);
+                _lookUpPlace(fix.position!);
+              },
             ),
             gap,
             TextFormField(

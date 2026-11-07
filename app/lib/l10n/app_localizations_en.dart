@@ -2896,4 +2896,40 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get labelInfoDetailsTitle => 'Full label details';
+
+  @override
+  String get noPlotTitle => 'Add your orchard block first';
+
+  @override
+  String get noPlotBody =>
+      'Every record is kept for a block. Save your block once, and this opens straight after.';
+
+  @override
+  String plotAddressNear(String place) {
+    return 'Nearby place: $place';
+  }
+
+  @override
+  String plotAddressDistrict(String district) {
+    return 'Dist. $district';
+  }
+
+  @override
+  String get plotAddressLooking => 'Finding the place name…';
+
+  @override
+  String get plotAddressMissing =>
+      'The location will be saved. For the place name, turn on the internet and tap \'Take location again\'.';
+
+  @override
+  String get onboardingNameHint => '';
+
+  @override
+  String get nameScriptPromptTitle => 'Write your name in your language';
+
+  @override
+  String get nameScriptFieldLabel => 'Name';
+
+  @override
+  String get nameScriptLater => 'Later';
 }
