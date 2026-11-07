@@ -434,6 +434,18 @@ class _HomeBody extends ConsumerWidget {
                       onTap: () => context.push(Routes.feed),
                     ),
                   ],
+                  // Market link (flag only, spec v1.5 §2.1): the five role cards.
+                  if (config.marketLink) ...[
+                    const SizedBox(height: BmSpace.md),
+                    _linkCard(
+                      context,
+                      key: const Key('open-roles'),
+                      icon: Icons.handshake_outlined,
+                      title: t.mlHomeLinkTitle,
+                      subtitle: t.mlHomeLinkHint,
+                      onTap: () => context.push(Routes.roles),
+                    ),
+                  ],
                   const SizedBox(height: BmSpace.md),
                   _linkCard(
                     context,
