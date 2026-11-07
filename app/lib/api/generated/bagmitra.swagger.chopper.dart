@@ -1800,6 +1800,145 @@ their profile; undoes a dismiss. Only for a published item that has a date.''',
   }
 
   @override
+  Future<Response<LotPhotoStored>> _v1MarketLinkLotPhotosPhotoIdPhotoPut({
+    required String? photoId,
+    required Object? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Uploads one JPEG of the caller\'s own draft lot through the server, which strips its
+EXIF (GPS point, phone model, time) before storing it (spec v1.5 §4B). There is no signed
+upload URL for lot photos, so no stored lot photo can keep its metadata.''',
+      summary: 'Upload Lot Photo',
+      operationId: 'market_link_upload_lot_photo',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/market-link/lot-photos/${photoId}/photo');
+    final $body = body;
+    final Request $request = Request(
+      'PUT',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<LotPhotoStored, LotPhotoStored>($request);
+  }
+
+  @override
+  Future<Response<LotPhotoUrl>> _v1MarketLinkLotPhotosPhotoIdUrlGet({
+    required String? photoId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''A short-lived download URL for an uploaded lot photo: for the grower, or for a
+verified buyer / broker while the lot is published. Only the derived key is signed.''',
+      summary: 'Lot Photo Url',
+      operationId: 'market_link_lot_photo_url',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/market-link/lot-photos/${photoId}/url');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<LotPhotoUrl, LotPhotoUrl>($request);
+  }
+
+  @override
+  Future<Response<BuyerLotsResponse>> _v1MarketLinkLotsGet({
+    String? district,
+    String? taluka,
+    String? crop,
+    String? before,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Published lots, newest first, for admin-verified buyers and brokers only (403
+`not_verified` for anyone else). Page with `before` = the last `published_at` seen.''',
+      summary: 'List Lots',
+      operationId: 'market_link_lots',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/market-link/lots');
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'district': district,
+      'taluka': taluka,
+      'crop': crop,
+      'before': before,
+    };
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+      tag: swaggerMetaData,
+    );
+    return client.send<BuyerLotsResponse, BuyerLotsResponse>($request);
+  }
+
+  @override
+  Future<Response<GrowerLotOut>> _v1MarketLinkLotsLotIdClosePost({
+    required String? lotId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Takes a published lot off the buyers\' list (the grower sold it or changed their mind).',
+      summary: 'Close Lot',
+      operationId: 'market_link_close_lot',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/market-link/lots/${lotId}/close');
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<GrowerLotOut, GrowerLotOut>($request);
+  }
+
+  @override
+  Future<Response<GrowerLotOut>> _v1MarketLinkLotsLotIdPublishPost({
+    required String? lotId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Shows a draft lot to verified buyers and brokers. Needs 3 to 8 live photos, each
+uploaded; crop and variety are copied from the plot again and the place names from the
+grower\'s profile (village, taluka, district; never the plot\'s point).''',
+      summary: 'Publish Lot',
+      operationId: 'market_link_publish_lot',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/market-link/lots/${lotId}/publish');
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<GrowerLotOut, GrowerLotOut>($request);
+  }
+
+  @override
   Future<Response<MyAcceptancesOut>> _v1MarketLinkMeAcceptancesGet({
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'What the signed-in user accepted, and the roles it opens.',

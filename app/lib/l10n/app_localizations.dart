@@ -4492,6 +4492,114 @@ abstract class AppLocalizations {
   /// **'Official pages'**
   String get exportLinksTitle;
 
+  /// No description provided for @exportRecordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Export record'**
+  String get exportRecordTitle;
+
+  /// No description provided for @exportRecordAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Make export record (PDF)'**
+  String get exportRecordAction;
+
+  /// No description provided for @exportRecordPlot.
+  ///
+  /// In en, this message translates to:
+  /// **'Plot'**
+  String get exportRecordPlot;
+
+  /// No description provided for @exportRecordBahar.
+  ///
+  /// In en, this message translates to:
+  /// **'Bahar'**
+  String get exportRecordBahar;
+
+  /// No description provided for @exportRecordAllBahars.
+  ///
+  /// In en, this message translates to:
+  /// **'All sprays'**
+  String get exportRecordAllBahars;
+
+  /// No description provided for @exportRecordCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} sprays'**
+  String exportRecordCount(String count);
+
+  /// No description provided for @exportRecordLastPhi.
+  ///
+  /// In en, this message translates to:
+  /// **'Last PHI ends {date}'**
+  String exportRecordLastPhi(String date);
+
+  /// No description provided for @exportRecordShare.
+  ///
+  /// In en, this message translates to:
+  /// **'Share PDF'**
+  String get exportRecordShare;
+
+  /// No description provided for @exportRecordNoPlot.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a plot first; its spray record appears here.'**
+  String get exportRecordNoPlot;
+
+  /// No description provided for @exportRecordEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Sprays of this bahar appear here once recorded.'**
+  String get exportRecordEmpty;
+
+  /// No description provided for @exportRecordDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get exportRecordDate;
+
+  /// No description provided for @exportRecordProduct.
+  ///
+  /// In en, this message translates to:
+  /// **'Product · ingredient · dose'**
+  String get exportRecordProduct;
+
+  /// No description provided for @exportRecordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Label check'**
+  String get exportRecordLabel;
+
+  /// No description provided for @exportRecordPhiEnd.
+  ///
+  /// In en, this message translates to:
+  /// **'PHI ends'**
+  String get exportRecordPhiEnd;
+
+  /// No description provided for @exportLabelListed.
+  ///
+  /// In en, this message translates to:
+  /// **'On the label for this crop'**
+  String get exportLabelListed;
+
+  /// No description provided for @exportLabelCheck.
+  ///
+  /// In en, this message translates to:
+  /// **'Check the label'**
+  String get exportLabelCheck;
+
+  /// No description provided for @exportRecordMade.
+  ///
+  /// In en, this message translates to:
+  /// **'Made on {date} from the grower\'s own spray log.'**
+  String exportRecordMade(String date);
+
+  /// Export record PDF footer (spec v1.5 §4A): information only, no compliance claim. Keeps the negative on purpose.
+  ///
+  /// In en, this message translates to:
+  /// **'Information record, not a certificate.'**
+  String get exportRecordFooter;
+
   /// No description provided for @fairPriceMandi.
   ///
   /// In en, this message translates to:
@@ -5650,17 +5758,29 @@ abstract class AppLocalizations {
   /// **'Documents: {n}'**
   String adminMlDocumentCount(int n);
 
+  /// No description provided for @mlRolesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose your role'**
+  String get mlRolesTitle;
+
+  /// No description provided for @mlRolesIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'One sign-in for every role. You can switch the role any time.'**
+  String get mlRolesIntro;
+
+  /// No description provided for @mlRoleGrower.
+  ///
+  /// In en, this message translates to:
+  /// **'Grower'**
+  String get mlRoleGrower;
+
   /// No description provided for @mlRoleTrader.
   ///
   /// In en, this message translates to:
   /// **'Trader'**
   String get mlRoleTrader;
-
-  /// No description provided for @mlRoleExporter.
-  ///
-  /// In en, this message translates to:
-  /// **'Exporter'**
-  String get mlRoleExporter;
 
   /// No description provided for @mlRoleBroker.
   ///
@@ -5668,11 +5788,173 @@ abstract class AppLocalizations {
   /// **'Broker'**
   String get mlRoleBroker;
 
+  /// No description provided for @mlRoleExporter.
+  ///
+  /// In en, this message translates to:
+  /// **'Exporter'**
+  String get mlRoleExporter;
+
   /// No description provided for @mlRoleProvider.
   ///
   /// In en, this message translates to:
   /// **'Service provider'**
   String get mlRoleProvider;
+
+  /// No description provided for @mlRoleProviderKinds.
+  ///
+  /// In en, this message translates to:
+  /// **'Weighbridge, transport, labour, crates'**
+  String get mlRoleProviderKinds;
+
+  /// No description provided for @mlRoleCurrent.
+  ///
+  /// In en, this message translates to:
+  /// **'Current role'**
+  String get mlRoleCurrent;
+
+  /// No description provided for @mlSwitchRole.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch role'**
+  String get mlSwitchRole;
+
+  /// No description provided for @mlHomeLinkTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Market link'**
+  String get mlHomeLinkTitle;
+
+  /// No description provided for @mlHomeLinkHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Trader, broker, exporter, services: choose a role'**
+  String get mlHomeLinkHint;
+
+  /// No description provided for @mlTermsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Before you start'**
+  String get mlTermsTitle;
+
+  /// Acceptance screen: the role being accepted.
+  ///
+  /// In en, this message translates to:
+  /// **'Role: {role}'**
+  String mlTermsRole(String role);
+
+  /// No description provided for @mlTermsIntroOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'BagMitra only gives information and introduces you to traders, brokers and the market.'**
+  String get mlTermsIntroOnly;
+
+  /// No description provided for @mlTermsNotParty.
+  ///
+  /// In en, this message translates to:
+  /// **'BagMitra is not a buyer, seller, commission agent or transporter.'**
+  String get mlTermsNotParty;
+
+  /// No description provided for @mlTermsNoMoney.
+  ///
+  /// In en, this message translates to:
+  /// **'It holds no money and guarantees no payment or quality.'**
+  String get mlTermsNoMoney;
+
+  /// Owner's disclaimer (mr verbatim). Uses 'transaction' (व्यवहार), never सौदा.
+  ///
+  /// In en, this message translates to:
+  /// **'This app has no gain or loss in your transaction.'**
+  String get mlTermsNoGainLoss;
+
+  /// No description provided for @mlTermsNoPart.
+  ///
+  /// In en, this message translates to:
+  /// **'It takes no part in your transaction or in any dispute.'**
+  String get mlTermsNoPart;
+
+  /// No description provided for @mlTermsAfterDeal.
+  ///
+  /// In en, this message translates to:
+  /// **'What to record after a transaction is your choice.'**
+  String get mlTermsAfterDeal;
+
+  /// No description provided for @mlTermsPublicPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Your phone number is shown publicly on your profile, so growers can call you directly.'**
+  String get mlTermsPublicPhone;
+
+  /// No description provided for @mlTermsGpsOnce.
+  ///
+  /// In en, this message translates to:
+  /// **'Your location (GPS) is taken once, at registration, to prevent fraud.'**
+  String get mlTermsGpsOnce;
+
+  /// No description provided for @mlTermsFull.
+  ///
+  /// In en, this message translates to:
+  /// **'Full terms of use'**
+  String get mlTermsFull;
+
+  /// No description provided for @mlTermsAdult.
+  ///
+  /// In en, this message translates to:
+  /// **'I am over 18 years of age'**
+  String get mlTermsAdult;
+
+  /// No description provided for @mlTermsAgree.
+  ///
+  /// In en, this message translates to:
+  /// **'I have read and agree'**
+  String get mlTermsAgree;
+
+  /// No description provided for @mlTermsAccept.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept and continue'**
+  String get mlTermsAccept;
+
+  /// No description provided for @mlTermsBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get mlTermsBack;
+
+  /// No description provided for @mlRoleHomeSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'The tools for this role will appear here soon.'**
+  String get mlRoleHomeSoon;
+
+  /// Fixed notice on every market-link role home (spec v1.5 §4C).
+  ///
+  /// In en, this message translates to:
+  /// **'BagMitra never asks for money, OTP or bank details.'**
+  String get mlSafetyNotice;
+
+  /// No description provided for @mlGrievanceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Grievance officer'**
+  String get mlGrievanceTitle;
+
+  /// No description provided for @mlGrievanceOwner.
+  ///
+  /// In en, this message translates to:
+  /// **'BagMitra owner'**
+  String get mlGrievanceOwner;
+
+  /// Role home: the grievance officer's phone or email.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact: {contact}'**
+  String mlGrievanceContact(String contact);
+
+  /// No description provided for @mlGrievanceTimes.
+  ///
+  /// In en, this message translates to:
+  /// **'Complaints are acknowledged within 24 hours and resolved within 15 days.'**
+  String get mlGrievanceTimes;
 
   /// No description provided for @mlKindWeighbridge.
   ///
@@ -6166,42 +6448,6 @@ abstract class AppLocalizations {
   /// **'Place photo by a BagMitra representative on {date}'**
   String mlBadgePlacePhoto(String date);
 
-  /// No description provided for @mlBadgeGstChecked.
-  ///
-  /// In en, this message translates to:
-  /// **'GST checked on {date}'**
-  String mlBadgeGstChecked(String date);
-
-  /// No description provided for @mlBadgeGstSince.
-  ///
-  /// In en, this message translates to:
-  /// **'GST checked on {date} · registered since {year}'**
-  String mlBadgeGstSince(String date, String year);
-
-  /// No description provided for @mlBadgeApmcSeen.
-  ///
-  /// In en, this message translates to:
-  /// **'APMC licence seen on {date}'**
-  String mlBadgeApmcSeen(String date);
-
-  /// No description provided for @mlBadgeFssaiChecked.
-  ///
-  /// In en, this message translates to:
-  /// **'FSSAI checked on {date}'**
-  String mlBadgeFssaiChecked(String date);
-
-  /// No description provided for @mlBadgeIecActive.
-  ///
-  /// In en, this message translates to:
-  /// **'IEC active, checked on {date}'**
-  String mlBadgeIecActive(String date);
-
-  /// No description provided for @mlBadgeApedaListed.
-  ///
-  /// In en, this message translates to:
-  /// **'APEDA listed, checked on {date}'**
-  String mlBadgeApedaListed(String date);
-
   /// No description provided for @mlBadgeNote.
   ///
   /// In en, this message translates to:
@@ -6303,6 +6549,306 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Near {name}'**
   String mlNearPlot(String name);
+
+  /// No description provided for @mlDisclaimerShort.
+  ///
+  /// In en, this message translates to:
+  /// **'BagMitra is not a buyer, seller, middleman (broker) or transporter, does not hold money and does not guarantee payment or quality.'**
+  String get mlDisclaimerShort;
+
+  /// No description provided for @mlOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Show produce for sale'**
+  String get mlOpen;
+
+  /// No description provided for @mlMyLotsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'My produce for sale'**
+  String get mlMyLotsTitle;
+
+  /// No description provided for @mlLotsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Show your produce here with photos; verified traders and middlemen (brokers) see it.'**
+  String get mlLotsEmpty;
+
+  /// No description provided for @mlLotFormTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Produce for sale'**
+  String get mlLotFormTitle;
+
+  /// No description provided for @mlNoPlot.
+  ///
+  /// In en, this message translates to:
+  /// **'Add your orchard first.'**
+  String get mlNoPlot;
+
+  /// No description provided for @mlPlot.
+  ///
+  /// In en, this message translates to:
+  /// **'Orchard'**
+  String get mlPlot;
+
+  /// No description provided for @mlBahar.
+  ///
+  /// In en, this message translates to:
+  /// **'Bahar'**
+  String get mlBahar;
+
+  /// No description provided for @mlQuantity.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated quantity (tonnes)'**
+  String get mlQuantity;
+
+  /// No description provided for @mlQuality.
+  ///
+  /// In en, this message translates to:
+  /// **'Size and quality'**
+  String get mlQuality;
+
+  /// No description provided for @mlHarvestWindow.
+  ///
+  /// In en, this message translates to:
+  /// **'Harvest window'**
+  String get mlHarvestWindow;
+
+  /// No description provided for @mlWindowFromBahar.
+  ///
+  /// In en, this message translates to:
+  /// **'{from} – {to} (bahar)'**
+  String mlWindowFromBahar(String from, String to);
+
+  /// No description provided for @mlWindowPick.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose dates'**
+  String get mlWindowPick;
+
+  /// No description provided for @mlWindowRange.
+  ///
+  /// In en, this message translates to:
+  /// **'{from} – {to}'**
+  String mlWindowRange(String from, String to);
+
+  /// No description provided for @mlBasis.
+  ///
+  /// In en, this message translates to:
+  /// **'Sale basis'**
+  String get mlBasis;
+
+  /// No description provided for @mlBasisPerTonne.
+  ///
+  /// In en, this message translates to:
+  /// **'Per tonne'**
+  String get mlBasisPerTonne;
+
+  /// No description provided for @mlBasisPerCrate.
+  ///
+  /// In en, this message translates to:
+  /// **'Per crate'**
+  String get mlBasisPerCrate;
+
+  /// No description provided for @mlBasisLumpSum.
+  ///
+  /// In en, this message translates to:
+  /// **'Whole orchard'**
+  String get mlBasisLumpSum;
+
+  /// No description provided for @mlAskingRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Asking rate in ₹ (optional)'**
+  String get mlAskingRate;
+
+  /// No description provided for @mlPhotos.
+  ///
+  /// In en, this message translates to:
+  /// **'Photos'**
+  String get mlPhotos;
+
+  /// No description provided for @mlPhotosHint.
+  ///
+  /// In en, this message translates to:
+  /// **'{min} to {max} photos from the app camera'**
+  String mlPhotosHint(String min, String max);
+
+  /// No description provided for @mlAddPhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Take photo'**
+  String get mlAddPhoto;
+
+  /// No description provided for @mlRemovePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove photo'**
+  String get mlRemovePhoto;
+
+  /// No description provided for @mlPhotoNoGps.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on GPS and take the photo again: each photo needs its location.'**
+  String get mlPhotoNoGps;
+
+  /// No description provided for @mlPrivacy.
+  ///
+  /// In en, this message translates to:
+  /// **'Traders see only your village, taluka and district; your name, phone and orchard location stay private.'**
+  String get mlPrivacy;
+
+  /// No description provided for @mlSaveDraft.
+  ///
+  /// In en, this message translates to:
+  /// **'Save draft'**
+  String get mlSaveDraft;
+
+  /// No description provided for @mlPublish.
+  ///
+  /// In en, this message translates to:
+  /// **'Show to traders'**
+  String get mlPublish;
+
+  /// No description provided for @mlClose.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop showing'**
+  String get mlClose;
+
+  /// No description provided for @mlStatusDraft.
+  ///
+  /// In en, this message translates to:
+  /// **'Draft'**
+  String get mlStatusDraft;
+
+  /// No description provided for @mlStatusPublished.
+  ///
+  /// In en, this message translates to:
+  /// **'Shown to traders'**
+  String get mlStatusPublished;
+
+  /// No description provided for @mlStatusReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for check'**
+  String get mlStatusReview;
+
+  /// No description provided for @mlStatusClosed.
+  ///
+  /// In en, this message translates to:
+  /// **'Closed'**
+  String get mlStatusClosed;
+
+  /// No description provided for @mlTonnes.
+  ///
+  /// In en, this message translates to:
+  /// **'{value} t'**
+  String mlTonnes(String value);
+
+  /// No description provided for @mlRatePerTonne.
+  ///
+  /// In en, this message translates to:
+  /// **'{rate} per tonne'**
+  String mlRatePerTonne(String rate);
+
+  /// No description provided for @mlRatePerCrate.
+  ///
+  /// In en, this message translates to:
+  /// **'{rate} per crate'**
+  String mlRatePerCrate(String rate);
+
+  /// No description provided for @mlRateLumpSum.
+  ///
+  /// In en, this message translates to:
+  /// **'{rate} for the orchard'**
+  String mlRateLumpSum(String rate);
+
+  /// No description provided for @mlPublished.
+  ///
+  /// In en, this message translates to:
+  /// **'Now shown to verified traders and middlemen (brokers).'**
+  String get mlPublished;
+
+  /// No description provided for @mlClosed.
+  ///
+  /// In en, this message translates to:
+  /// **'Taken off the traders\' list.'**
+  String get mlClosed;
+
+  /// No description provided for @mlPublishOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'This needs internet. Your draft is saved; try again when online.'**
+  String get mlPublishOffline;
+
+  /// No description provided for @mlPublishNeedPhotos.
+  ///
+  /// In en, this message translates to:
+  /// **'Add {min} to {max} photos first.'**
+  String mlPublishNeedPhotos(String min, String max);
+
+  /// No description provided for @mlPublishPhotoMissing.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove that photo and take it again: its file is missing on this phone.'**
+  String get mlPublishPhotoMissing;
+
+  /// No description provided for @mlPublishNotAccepted.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept the grower terms first, then try again.'**
+  String get mlPublishNotAccepted;
+
+  /// No description provided for @mlPublishFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again in a little while.'**
+  String get mlPublishFailed;
+
+  /// No description provided for @mlChooseOne.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose one'**
+  String get mlChooseOne;
+
+  /// No description provided for @mlDeleteDraft.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete draft'**
+  String get mlDeleteDraft;
+
+  /// No description provided for @mlNoContacts.
+  ///
+  /// In en, this message translates to:
+  /// **'Write only about the produce here; phone numbers and links are shared after you accept an offer.'**
+  String get mlNoContacts;
+
+  /// No description provided for @mlPublishOrchardCheck.
+  ///
+  /// In en, this message translates to:
+  /// **'Published; traders see it after a check, because the photos were taken outside your mapped orchard.'**
+  String get mlPublishOrchardCheck;
+
+  /// No description provided for @mlSize.
+  ///
+  /// In en, this message translates to:
+  /// **'Size'**
+  String get mlSize;
+
+  /// No description provided for @mlGrade.
+  ///
+  /// In en, this message translates to:
+  /// **'Grade'**
+  String get mlGrade;
+
+  /// No description provided for @mlQualityLine.
+  ///
+  /// In en, this message translates to:
+  /// **'A short line (optional)'**
+  String get mlQualityLine;
 
   /// No description provided for @mlSafetyReport.
   ///
@@ -6538,12 +7084,6 @@ abstract class AppLocalizations {
   /// **'Appeal received'**
   String get mlAppealSent;
 
-  /// No description provided for @mlGrievanceTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Grievance officer'**
-  String get mlGrievanceTitle;
-
   /// No description provided for @mlGrievanceDefault.
   ///
   /// In en, this message translates to:
@@ -6723,6 +7263,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Appeal: {reason}'**
   String adminMlAppealReason(String reason);
+
+  /// No description provided for @mlBadgeGstChecked.
+  ///
+  /// In en, this message translates to:
+  /// **'GST checked on {date}'**
+  String mlBadgeGstChecked(String date);
+
+  /// No description provided for @mlBadgeGstSince.
+  ///
+  /// In en, this message translates to:
+  /// **'GST checked on {date} · registered since {year}'**
+  String mlBadgeGstSince(String date, String year);
+
+  /// No description provided for @mlBadgeApmcSeen.
+  ///
+  /// In en, this message translates to:
+  /// **'APMC licence seen on {date}'**
+  String mlBadgeApmcSeen(String date);
+
+  /// No description provided for @mlBadgeFssaiChecked.
+  ///
+  /// In en, this message translates to:
+  /// **'FSSAI checked on {date}'**
+  String mlBadgeFssaiChecked(String date);
+
+  /// No description provided for @mlBadgeIecActive.
+  ///
+  /// In en, this message translates to:
+  /// **'IEC active, checked on {date}'**
+  String mlBadgeIecActive(String date);
+
+  /// No description provided for @mlBadgeApedaListed.
+  ///
+  /// In en, this message translates to:
+  /// **'APEDA listed, checked on {date}'**
+  String mlBadgeApedaListed(String date);
 }
 
 class _AppLocalizationsDelegate

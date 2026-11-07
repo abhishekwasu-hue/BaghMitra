@@ -21,9 +21,13 @@ void main() {
         'guarantee|guaranteed|हमी|गारंटी|खात्रीशीर',
         caseSensitive: false,
       );
+      // The disclaimers (decision k, L1 terms) say BagMitra gives NO guarantee: the only keys
+      // that may name the word.
+      const statesNoGuarantee = {'mlDisclaimerShort', 'mlTermsNoMoney'};
       expect([
         for (final e in ml.entries)
-          if (bad.hasMatch(e.value)) e.key,
+          if (bad.hasMatch(e.value) && !statesNoGuarantee.contains(e.key))
+            e.key,
       ], isEmpty);
       // Badges say what was checked and when.
       for (final k in [

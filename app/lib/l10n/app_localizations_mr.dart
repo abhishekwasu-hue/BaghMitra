@@ -2552,6 +2552,67 @@ class AppLocalizationsMr extends AppLocalizations {
   String get exportLinksTitle => 'अधिकृत संकेतस्थळे';
 
   @override
+  String get exportRecordTitle => 'निर्यात नोंद';
+
+  @override
+  String get exportRecordAction => 'निर्यात नोंद (PDF) बनवा';
+
+  @override
+  String get exportRecordPlot => 'बाग';
+
+  @override
+  String get exportRecordBahar => 'बहार';
+
+  @override
+  String get exportRecordAllBahars => 'सर्व फवारण्या';
+
+  @override
+  String exportRecordCount(String count) {
+    return '$count फवारण्या';
+  }
+
+  @override
+  String exportRecordLastPhi(String date) {
+    return 'शेवटचा PHI कालावधी $date ला संपतो';
+  }
+
+  @override
+  String get exportRecordShare => 'PDF शेअर करा';
+
+  @override
+  String get exportRecordNoPlot => 'आधी बाग जोडा; तिची फवारणी नोंद इथे दिसेल.';
+
+  @override
+  String get exportRecordEmpty =>
+      'या बहाराच्या फवारण्या नोंदवल्यावर इथे दिसतील.';
+
+  @override
+  String get exportRecordDate => 'तारीख';
+
+  @override
+  String get exportRecordProduct => 'औषध · घटक · मात्रा';
+
+  @override
+  String get exportRecordLabel => 'लेबल तपासणी';
+
+  @override
+  String get exportRecordPhiEnd => 'PHI संपते';
+
+  @override
+  String get exportLabelListed => 'या पिकासाठी लेबलवर';
+
+  @override
+  String get exportLabelCheck => 'लेबल तपासा';
+
+  @override
+  String exportRecordMade(String date) {
+    return '$date रोजी शेतकऱ्याच्या स्वतःच्या फवारणी नोंदीतून तयार.';
+  }
+
+  @override
+  String get exportRecordFooter => 'माहितीसाठी नोंद, प्रमाणपत्र नाही.';
+
+  @override
   String fairPriceMandi(Object date, Object market, Object price) {
     return '$market बाजार, $date: सर्वसाधारण भाव $price प्रति क्विंटल';
   }
@@ -3235,16 +3296,118 @@ class AppLocalizationsMr extends AppLocalizations {
   }
 
   @override
-  String get mlRoleTrader => 'व्यापारी';
+  String get mlRolesTitle => 'तुमची भूमिका निवडा';
 
   @override
-  String get mlRoleExporter => 'निर्यातदार';
+  String get mlRolesIntro =>
+      'सर्व भूमिकांसाठी एकच साइन-इन. भूमिका कधीही बदलता येते.';
+
+  @override
+  String get mlRoleGrower => 'शेतकरी';
+
+  @override
+  String get mlRoleTrader => 'व्यापारी';
 
   @override
   String get mlRoleBroker => 'मध्यस्थ (दलाल)';
 
   @override
+  String get mlRoleExporter => 'निर्यातदार';
+
+  @override
   String get mlRoleProvider => 'सेवा देणारे';
+
+  @override
+  String get mlRoleProviderKinds => 'वजनकाटा, वाहतूक, मजूर, क्रेट';
+
+  @override
+  String get mlRoleCurrent => 'सध्याची भूमिका';
+
+  @override
+  String get mlSwitchRole => 'भूमिका बदला';
+
+  @override
+  String get mlHomeLinkTitle => 'बाजार जोडणी';
+
+  @override
+  String get mlHomeLinkHint =>
+      'व्यापारी, मध्यस्थ, निर्यातदार, सेवा: भूमिका निवडा';
+
+  @override
+  String get mlTermsTitle => 'सुरू करण्यापूर्वी';
+
+  @override
+  String mlTermsRole(String role) {
+    return 'भूमिका: $role';
+  }
+
+  @override
+  String get mlTermsIntroOnly =>
+      'BagMitra फक्त माहिती देते आणि तुमची व्यापारी, मध्यस्थ (दलाल) व बाजाराशी ओळख करून देते.';
+
+  @override
+  String get mlTermsNotParty =>
+      'BagMitra खरेदीदार, विक्रेता, कमिशन एजंट किंवा वाहतूकदार नाही.';
+
+  @override
+  String get mlTermsNoMoney =>
+      'ते कोणतेही पैसे ठेवत नाही आणि पैसे मिळण्याची किंवा मालाच्या दर्जाची हमी देत नाही.';
+
+  @override
+  String get mlTermsNoGainLoss =>
+      'तुमच्या व्यवहारात या ॲपचा कोणताही लाभ किंवा नुकसान नाही.';
+
+  @override
+  String get mlTermsNoPart =>
+      'तुमच्या व्यवहारात किंवा कोणत्याही वादात BagMitra भाग घेत नाही.';
+
+  @override
+  String get mlTermsAfterDeal => 'व्यवहारानंतर काय नोंदवायचे ते तुमची इच्छा.';
+
+  @override
+  String get mlTermsPublicPhone =>
+      'तुमचा फोन नंबर तुमच्या प्रोफाइलवर सर्वांना दिसेल, म्हणजे शेतकरी तुम्हाला थेट फोन करू शकतील.';
+
+  @override
+  String get mlTermsGpsOnce =>
+      'नोंदणीच्या वेळी फसवणूक टाळण्यासाठी तुमचे ठिकाण (GPS) एकदाच घेतले जाईल.';
+
+  @override
+  String get mlTermsFull => 'वापराच्या पूर्ण अटी';
+
+  @override
+  String get mlTermsAdult => 'मी १८ वर्षांपेक्षा मोठा आहे';
+
+  @override
+  String get mlTermsAgree => 'मी वाचले व मान्य करतो';
+
+  @override
+  String get mlTermsAccept => 'मान्य करा व पुढे चला';
+
+  @override
+  String get mlTermsBack => 'मागे';
+
+  @override
+  String get mlRoleHomeSoon => 'या भूमिकेच्या सुविधा लवकरच इथे दिसतील.';
+
+  @override
+  String get mlSafetyNotice =>
+      'BagMitra कधीही पैसे, OTP किंवा बँक तपशील मागत नाही.';
+
+  @override
+  String get mlGrievanceTitle => 'तक्रार अधिकारी';
+
+  @override
+  String get mlGrievanceOwner => 'BagMitra चे मालक';
+
+  @override
+  String mlGrievanceContact(String contact) {
+    return 'संपर्क: $contact';
+  }
+
+  @override
+  String get mlGrievanceTimes =>
+      'तक्रारीची पोच 24 तासांत आणि निवारण 15 दिवसांत.';
 
   @override
   String get mlKindWeighbridge => 'वजनकाटा';
@@ -3527,36 +3690,6 @@ class AppLocalizationsMr extends AppLocalizations {
   }
 
   @override
-  String mlBadgeGstChecked(String date) {
-    return 'GST $date रोजी तपासला';
-  }
-
-  @override
-  String mlBadgeGstSince(String date, String year) {
-    return 'GST $date रोजी तपासला · $year पासून नोंदणी';
-  }
-
-  @override
-  String mlBadgeApmcSeen(String date) {
-    return 'APMC परवाना $date रोजी पाहिला';
-  }
-
-  @override
-  String mlBadgeFssaiChecked(String date) {
-    return 'FSSAI $date रोजी तपासले';
-  }
-
-  @override
-  String mlBadgeIecActive(String date) {
-    return 'IEC चालू, $date रोजी तपासले';
-  }
-
-  @override
-  String mlBadgeApedaListed(String date) {
-    return 'APEDA यादीत, $date रोजी तपासले';
-  }
-
-  @override
   String get mlBadgeNote =>
       'बॅज BagMitra ने काय व कधी तपासले ते सांगतो. व्यवहाराच्या अटी तुम्ही थेट आपसात ठरवता.';
 
@@ -3613,6 +3746,181 @@ class AppLocalizationsMr extends AppLocalizations {
   String mlNearPlot(String name) {
     return '$name जवळ';
   }
+
+  @override
+  String get mlDisclaimerShort =>
+      'बागमित्र खरेदीदार, विक्रेता, मध्यस्थ (दलाल) किंवा वाहतूकदार नाही; पैसे ठेवत नाही; पैशांची किंवा दर्जाची हमी देत नाही.';
+
+  @override
+  String get mlOpen => 'माल विक्रीसाठी दाखवा';
+
+  @override
+  String get mlMyLotsTitle => 'माझा विक्रीचा माल';
+
+  @override
+  String get mlLotsEmpty =>
+      'फोटोसह तुमचा माल येथे दाखवा; तपासलेले व्यापारी व मध्यस्थ (दलाल) तो पाहतात.';
+
+  @override
+  String get mlLotFormTitle => 'विक्रीचा माल';
+
+  @override
+  String get mlNoPlot => 'आधी तुमची बाग जोडा.';
+
+  @override
+  String get mlPlot => 'बाग';
+
+  @override
+  String get mlBahar => 'बहार';
+
+  @override
+  String get mlQuantity => 'अंदाजे माल (टन)';
+
+  @override
+  String get mlQuality => 'आकार व दर्जा';
+
+  @override
+  String get mlHarvestWindow => 'तोडणीचा काळ';
+
+  @override
+  String mlWindowFromBahar(String from, String to) {
+    return '$from – $to (बहारप्रमाणे)';
+  }
+
+  @override
+  String get mlWindowPick => 'तारखा निवडा';
+
+  @override
+  String mlWindowRange(String from, String to) {
+    return '$from – $to';
+  }
+
+  @override
+  String get mlBasis => 'विक्रीची पद्धत';
+
+  @override
+  String get mlBasisPerTonne => 'प्रति टन';
+
+  @override
+  String get mlBasisPerCrate => 'प्रति क्रेट';
+
+  @override
+  String get mlBasisLumpSum => 'संपूर्ण बाग';
+
+  @override
+  String get mlAskingRate => 'अपेक्षित दर ₹ (ऐच्छिक)';
+
+  @override
+  String get mlPhotos => 'फोटो';
+
+  @override
+  String mlPhotosHint(String min, String max) {
+    return 'ॲपच्या कॅमेऱ्याने $min ते $max फोटो';
+  }
+
+  @override
+  String get mlAddPhoto => 'फोटो काढा';
+
+  @override
+  String get mlRemovePhoto => 'फोटो काढून टाका';
+
+  @override
+  String get mlPhotoNoGps =>
+      'GPS चालू करून पुन्हा फोटो काढा: प्रत्येक फोटोला ठिकाण लागते.';
+
+  @override
+  String get mlPrivacy =>
+      'व्यापाऱ्यांना फक्त गाव, तालुका व जिल्हा दिसतो; तुमचे नाव, फोन व बागेचे ठिकाण गुप्त राहते.';
+
+  @override
+  String get mlSaveDraft => 'मसुदा जतन करा';
+
+  @override
+  String get mlPublish => 'व्यापाऱ्यांना दाखवा';
+
+  @override
+  String get mlClose => 'दाखवणे बंद करा';
+
+  @override
+  String get mlStatusDraft => 'मसुदा';
+
+  @override
+  String get mlStatusPublished => 'व्यापाऱ्यांना दिसतो';
+
+  @override
+  String get mlStatusReview => 'तपासणी बाकी';
+
+  @override
+  String get mlStatusClosed => 'बंद';
+
+  @override
+  String mlTonnes(String value) {
+    return '$value टन';
+  }
+
+  @override
+  String mlRatePerTonne(String rate) {
+    return '$rate प्रति टन';
+  }
+
+  @override
+  String mlRatePerCrate(String rate) {
+    return '$rate प्रति क्रेट';
+  }
+
+  @override
+  String mlRateLumpSum(String rate) {
+    return 'संपूर्ण बागेसाठी $rate';
+  }
+
+  @override
+  String get mlPublished =>
+      'तपासलेल्या व्यापारी व मध्यस्थांना (दलाल) माल दिसू लागला.';
+
+  @override
+  String get mlClosed => 'माल व्यापाऱ्यांच्या यादीतून काढला.';
+
+  @override
+  String get mlPublishOffline =>
+      'यासाठी इंटरनेट लागते. मसुदा जतन आहे; इंटरनेट आल्यावर पुन्हा करा.';
+
+  @override
+  String mlPublishNeedPhotos(String min, String max) {
+    return 'आधी $min ते $max फोटो जोडा.';
+  }
+
+  @override
+  String get mlPublishPhotoMissing =>
+      'तो फोटो काढून टाका व पुन्हा काढा: त्याची फाईल या फोनवरून हरवली आहे.';
+
+  @override
+  String get mlPublishNotAccepted => 'आधी शेतकरी अटी मान्य करा, मग पुन्हा करा.';
+
+  @override
+  String get mlPublishFailed => 'थोड्या वेळाने पुन्हा करा.';
+
+  @override
+  String get mlChooseOne => 'एक निवडा';
+
+  @override
+  String get mlDeleteDraft => 'मसुदा हटवा';
+
+  @override
+  String get mlNoContacts =>
+      'येथे फक्त मालाबद्दल लिहा; फोन नंबर व लिंक ऑफर स्वीकारल्यानंतर मिळतात.';
+
+  @override
+  String get mlPublishOrchardCheck =>
+      'माल नोंदवला; फोटो नोंदवलेल्या बागेच्या हद्दीबाहेर काढले आहेत, म्हणून तपासणीनंतर व्यापाऱ्यांना दिसेल.';
+
+  @override
+  String get mlSize => 'आकार';
+
+  @override
+  String get mlGrade => 'दर्जा';
+
+  @override
+  String get mlQualityLine => 'थोडक्यात माहिती (ऐच्छिक)';
 
   @override
   String get mlSafetyReport => 'तक्रार करा';
@@ -3738,9 +4046,6 @@ class AppLocalizationsMr extends AppLocalizations {
   String get mlAppealSent => 'अपील मिळाले';
 
   @override
-  String get mlGrievanceTitle => 'तक्रार अधिकारी';
-
-  @override
   String get mlGrievanceDefault => 'बागमित्रचे मालक';
 
   @override
@@ -3836,5 +4141,35 @@ class AppLocalizationsMr extends AppLocalizations {
   @override
   String adminMlAppealReason(String reason) {
     return 'अपील: $reason';
+  }
+
+  @override
+  String mlBadgeGstChecked(String date) {
+    return 'GST $date रोजी तपासला';
+  }
+
+  @override
+  String mlBadgeGstSince(String date, String year) {
+    return 'GST $date रोजी तपासला · $year पासून नोंदणी';
+  }
+
+  @override
+  String mlBadgeApmcSeen(String date) {
+    return 'APMC परवाना $date रोजी पाहिला';
+  }
+
+  @override
+  String mlBadgeFssaiChecked(String date) {
+    return 'FSSAI $date रोजी तपासले';
+  }
+
+  @override
+  String mlBadgeIecActive(String date) {
+    return 'IEC चालू, $date रोजी तपासले';
+  }
+
+  @override
+  String mlBadgeApedaListed(String date) {
+    return 'APEDA यादीत, $date रोजी तपासले';
   }
 }

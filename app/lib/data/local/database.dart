@@ -325,6 +325,50 @@ class LabTests extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
+/// A grower's produce lot for the market link (mirror of the API `market_lot` entity).
+/// [crop], [variety], [status] and [publishedAt] are the server's: filled from the plot
+/// when drafting, then taken from the server (publish is an online call).
+@DataClassName('MarketLotRow')
+class MarketLots extends Table {
+  TextColumn get id => text()();
+  TextColumn get plotId => text()();
+  TextColumn get baharCycleId => text().nullable()();
+  TextColumn get crop => text()();
+  TextColumn get variety => text().nullable()();
+  RealColumn get quantityT => real()();
+  TextColumn get quality => text().nullable()();
+  DateTimeColumn get harvestFrom => dateTime()();
+  DateTimeColumn get harvestTo => dateTime()();
+  TextColumn get basis => text()();
+  IntColumn get askingRatePaise => integer().nullable()();
+  TextColumn get status => text().withDefault(const Constant('draft'))();
+  DateTimeColumn get publishedAt => dateTime().nullable()();
+
+  /// inside / near / outside / unmapped, set by the server at publish (spec §4C).
+  TextColumn get orchardCheck => text().nullable()();
+  DateTimeColumn get clientUpdatedAt => dateTime()();
+
+  @override
+  Set<Column<Object>> get primaryKey => {id};
+}
+
+/// One in-app camera photo of a lot, with when and where it was taken (no accuracy, Q53).
+/// [photoPath] is local only; [photoKey] is the uploaded object, synced.
+@DataClassName('MarketLotPhotoRow')
+class MarketLotPhotos extends Table {
+  TextColumn get id => text()();
+  TextColumn get lotId => text()();
+  DateTimeColumn get capturedAt => dateTime()();
+  RealColumn get lat => real()();
+  RealColumn get lon => real()();
+  TextColumn get photoPath => text().nullable()();
+  TextColumn get photoKey => text().nullable()();
+  DateTimeColumn get clientUpdatedAt => dateTime()();
+
+  @override
+  Set<Column<Object>> get primaryKey => {id};
+}
+
 /// Small key/value store for sync cursors and similar bookkeeping.
 class SyncMeta extends Table {
   TextColumn get key => text()();
@@ -354,6 +398,8 @@ class SyncMeta extends Table {
     ClaimKits,
     ClaimPhotos,
     LabTests,
+    MarketLots,
+    MarketLotPhotos,
   ],
 )
 class AppDatabase extends _$AppDatabase {
@@ -362,7 +408,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.open(String name) : super(driftDatabase(name: name));
 
   @override
-  int get schemaVersion => 13;
+  int get schemaVersion => 14;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -398,6 +444,10 @@ class AppDatabase extends _$AppDatabase {
         await m.createTable(claimPhotos);
       }
       if (from < 13) await m.createTable(labTests);
+      if (from < 14) {
+        await m.createTable(marketLots);
+        await m.createTable(marketLotPhotos);
+      }
     },
   );
 
