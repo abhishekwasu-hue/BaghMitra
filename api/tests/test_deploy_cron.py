@@ -33,6 +33,7 @@ MARKERS = {
     "regate": "bagmitra_api.kb.regate",
     "retention": "bagmitra_api.sync.retention",
     "push": "bagmitra_api.push.deliver",
+    "erase": "bagmitra_api.market_link.erase_job",
 }
 
 
@@ -64,7 +65,7 @@ def jobs(lines: list[str]) -> set[str]:
 def test_only_weather_and_backup_with_every_switch_off(tmp_path: Path) -> None:
     env = (
         "API_DOMAIN=x\nMARKET_API_KEY=\nCRON_FEED_ALERTS=off\nCRON_FEED_NEWS=no\nCRON_KB_REGATE=0\n"
-        "CRON_SYNC_RETENTION=false\n"
+        "CRON_SYNC_RETENTION=false\nCRON_MARKET_LINK_ERASE=off\n"
     )
     out, lines = run_install(tmp_path, env)
     assert jobs(lines) == {"weather", "backup"}
@@ -75,7 +76,7 @@ def test_only_weather_and_backup_with_every_switch_off(tmp_path: Path) -> None:
 def test_unset_switches_are_on_by_default(tmp_path: Path) -> None:
     # Owner default: the feed and KB jobs run unless a switch says off.
     _, lines = run_install(tmp_path, "API_DOMAIN=x\nMARKET_API_KEY=\n")
-    assert jobs(lines) == {"weather", "backup", "alerts", "news", "regate", "retention"}
+    assert jobs(lines) == {"weather", "backup", "alerts", "news", "regate", "retention", "erase"}
 
 
 def test_each_switch_adds_its_job_once_and_never_prints_values(tmp_path: Path) -> None:
@@ -86,7 +87,7 @@ def test_each_switch_adds_its_job_once_and_never_prints_values(tmp_path: Path) -
     )
     out, lines = run_install(tmp_path, env)
     assert jobs(lines) == set(MARKERS)
-    assert len(lines) == 8
+    assert len(lines) == 9
     assert "secret-market-key-123" not in out
     assert not any("secret-market-key-123" in ln for ln in lines)
     out_again, lines_again = run_install(tmp_path, env)
@@ -96,7 +97,7 @@ def test_each_switch_adds_its_job_once_and_never_prints_values(tmp_path: Path) -
     assert market.startswith("35 2,8,14,20 * * * cd ")
     assert market.endswith(">> /var/log/bagmitra-market-pull.log 2>&1")
     # None of the new jobs shares the 00:00 weather or 21:40 backup slot.
-    for name in ("market", "alerts", "news", "regate", "retention", "push"):
+    for name in ("market", "alerts", "news", "regate", "retention", "push", "erase"):
         line = next(ln for ln in lines if MARKERS[name] in ln)
         minute, hour = line.split()[:2]
         assert (minute, hour) != ("0", "0")
@@ -121,19 +122,22 @@ def test_weather_alert_pushes_run_only_with_fcm_set(tmp_path: Path) -> None:
 def test_turning_a_switch_off_removes_only_its_line(tmp_path: Path) -> None:
     run_install(tmp_path, "MARKET_API_KEY=k\nCRON_FEED_NEWS=on\nCRON_KB_REGATE=on\n")
     out, lines = run_install(tmp_path, "MARKET_API_KEY=k\nCRON_FEED_NEWS=off\nCRON_KB_REGATE=on\n")
-    assert jobs(lines) == {"weather", "backup", "market", "alerts", "regate", "retention"}
+    assert jobs(lines) == {"weather", "backup", "market", "alerts", "regate", "retention", "erase"}
     assert "feed news (every 6 h) cron line removed" in out
     _, cleared = run_install(
         tmp_path,
         "MARKET_API_KEY=\nCRON_FEED_ALERTS=off\nCRON_FEED_NEWS=off\nCRON_KB_REGATE=off\n"
-        "CRON_SYNC_RETENTION=off\n",
+        "CRON_SYNC_RETENTION=off\nCRON_MARKET_LINK_ERASE=off\n",
     )
     assert jobs(cleared) == {"weather", "backup"}
 
 
 def test_other_cron_lines_are_kept(tmp_path: Path) -> None:
     (tmp_path / "cron.txt").write_text("5 4 * * * /usr/local/bin/other-project\n")
-    off = "CRON_FEED_ALERTS=off\nCRON_FEED_NEWS=off\nCRON_SYNC_RETENTION=off\n"
+    off = (
+        "CRON_FEED_ALERTS=off\nCRON_FEED_NEWS=off\nCRON_SYNC_RETENTION=off\n"
+        "CRON_MARKET_LINK_ERASE=off\n"
+    )
     run_install(tmp_path, off + "CRON_KB_REGATE=on\n")
     _, lines = run_install(tmp_path, off + "CRON_KB_REGATE=no\n")
     assert lines[0] == "5 4 * * * /usr/local/bin/other-project"
