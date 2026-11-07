@@ -298,6 +298,46 @@ extension $AccountDeletedExtension on AccountDeleted {
 }
 
 @JsonSerializable(explicitToJson: true)
+class AddressIn {
+  const AddressIn({this.address});
+
+  factory AddressIn.fromJson(Map<String, dynamic> json) =>
+      _$AddressInFromJson(json);
+
+  static const toJsonFactory = _$AddressInToJson;
+  Map<String, dynamic> toJson() => _$AddressInToJson(this);
+
+  @JsonKey(name: 'address', includeIfNull: false)
+  final String? address;
+  static const fromJsonFactory = _$AddressInFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is AddressIn &&
+            (identical(other.address, address) ||
+                const DeepCollectionEquality().equals(other.address, address)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(address) ^ runtimeType.hashCode;
+}
+
+extension $AddressInExtension on AddressIn {
+  AddressIn copyWith({String? address}) {
+    return AddressIn(address: address ?? this.address);
+  }
+
+  AddressIn copyWithWrapped({Wrapped<String?>? address}) {
+    return AddressIn(address: (address != null ? address.value : this.address));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class AdminFixOut {
   const AdminFixOut({
     required this.accuracyM,
@@ -436,6 +476,234 @@ extension $AdminFixOutExtension on AdminFixOut {
       pin: (pin != null ? pin.value : this.pin),
       place: (place != null ? place.value : this.place),
       state: (state != null ? state.value : this.state),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class AdminProviderIn {
+  const AdminProviderIn({
+    this.address,
+    this.capacityT,
+    this.carrierRegNo,
+    this.certValidUntil,
+    required this.district,
+    this.fix,
+    required this.kind,
+    required this.name,
+    required this.phone,
+    this.refrigerated,
+    this.serviceAreas,
+    this.taluka,
+    this.vehicleNumbers,
+    required this.village,
+  });
+
+  factory AdminProviderIn.fromJson(Map<String, dynamic> json) =>
+      _$AdminProviderInFromJson(json);
+
+  static const toJsonFactory = _$AdminProviderInToJson;
+  Map<String, dynamic> toJson() => _$AdminProviderInToJson(this);
+
+  @JsonKey(name: 'address', includeIfNull: false)
+  final String? address;
+  @JsonKey(name: 'capacity_t', includeIfNull: false)
+  final double? capacityT;
+  @JsonKey(name: 'carrier_reg_no', includeIfNull: false)
+  final String? carrierRegNo;
+  @JsonKey(name: 'cert_valid_until', includeIfNull: false, toJson: _dateToJson)
+  final DateTime? certValidUntil;
+  @JsonKey(name: 'district', includeIfNull: false)
+  final String district;
+  @JsonKey(name: 'fix', includeIfNull: false)
+  final RegistrationFixIn? fix;
+  @JsonKey(
+    name: 'kind',
+    includeIfNull: false,
+    toJson: adminProviderInKindToJson,
+    fromJson: adminProviderInKindFromJson,
+  )
+  final enums.AdminProviderInKind kind;
+  @JsonKey(name: 'name', includeIfNull: false)
+  final String name;
+  @JsonKey(name: 'phone', includeIfNull: false)
+  final String phone;
+  @JsonKey(name: 'refrigerated', includeIfNull: false)
+  final bool? refrigerated;
+  @JsonKey(
+    name: 'service_areas',
+    includeIfNull: false,
+    defaultValue: <String>[],
+  )
+  final List<String>? serviceAreas;
+  @JsonKey(name: 'taluka', includeIfNull: false)
+  final String? taluka;
+  @JsonKey(
+    name: 'vehicle_numbers',
+    includeIfNull: false,
+    defaultValue: <String>[],
+  )
+  final List<String>? vehicleNumbers;
+  @JsonKey(name: 'village', includeIfNull: false)
+  final String village;
+  static const fromJsonFactory = _$AdminProviderInFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is AdminProviderIn &&
+            (identical(other.address, address) ||
+                const DeepCollectionEquality().equals(
+                  other.address,
+                  address,
+                )) &&
+            (identical(other.capacityT, capacityT) ||
+                const DeepCollectionEquality().equals(
+                  other.capacityT,
+                  capacityT,
+                )) &&
+            (identical(other.carrierRegNo, carrierRegNo) ||
+                const DeepCollectionEquality().equals(
+                  other.carrierRegNo,
+                  carrierRegNo,
+                )) &&
+            (identical(other.certValidUntil, certValidUntil) ||
+                const DeepCollectionEquality().equals(
+                  other.certValidUntil,
+                  certValidUntil,
+                )) &&
+            (identical(other.district, district) ||
+                const DeepCollectionEquality().equals(
+                  other.district,
+                  district,
+                )) &&
+            (identical(other.fix, fix) ||
+                const DeepCollectionEquality().equals(other.fix, fix)) &&
+            (identical(other.kind, kind) ||
+                const DeepCollectionEquality().equals(other.kind, kind)) &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.phone, phone) ||
+                const DeepCollectionEquality().equals(other.phone, phone)) &&
+            (identical(other.refrigerated, refrigerated) ||
+                const DeepCollectionEquality().equals(
+                  other.refrigerated,
+                  refrigerated,
+                )) &&
+            (identical(other.serviceAreas, serviceAreas) ||
+                const DeepCollectionEquality().equals(
+                  other.serviceAreas,
+                  serviceAreas,
+                )) &&
+            (identical(other.taluka, taluka) ||
+                const DeepCollectionEquality().equals(other.taluka, taluka)) &&
+            (identical(other.vehicleNumbers, vehicleNumbers) ||
+                const DeepCollectionEquality().equals(
+                  other.vehicleNumbers,
+                  vehicleNumbers,
+                )) &&
+            (identical(other.village, village) ||
+                const DeepCollectionEquality().equals(other.village, village)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(address) ^
+      const DeepCollectionEquality().hash(capacityT) ^
+      const DeepCollectionEquality().hash(carrierRegNo) ^
+      const DeepCollectionEquality().hash(certValidUntil) ^
+      const DeepCollectionEquality().hash(district) ^
+      const DeepCollectionEquality().hash(fix) ^
+      const DeepCollectionEquality().hash(kind) ^
+      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(phone) ^
+      const DeepCollectionEquality().hash(refrigerated) ^
+      const DeepCollectionEquality().hash(serviceAreas) ^
+      const DeepCollectionEquality().hash(taluka) ^
+      const DeepCollectionEquality().hash(vehicleNumbers) ^
+      const DeepCollectionEquality().hash(village) ^
+      runtimeType.hashCode;
+}
+
+extension $AdminProviderInExtension on AdminProviderIn {
+  AdminProviderIn copyWith({
+    String? address,
+    double? capacityT,
+    String? carrierRegNo,
+    DateTime? certValidUntil,
+    String? district,
+    RegistrationFixIn? fix,
+    enums.AdminProviderInKind? kind,
+    String? name,
+    String? phone,
+    bool? refrigerated,
+    List<String>? serviceAreas,
+    String? taluka,
+    List<String>? vehicleNumbers,
+    String? village,
+  }) {
+    return AdminProviderIn(
+      address: address ?? this.address,
+      capacityT: capacityT ?? this.capacityT,
+      carrierRegNo: carrierRegNo ?? this.carrierRegNo,
+      certValidUntil: certValidUntil ?? this.certValidUntil,
+      district: district ?? this.district,
+      fix: fix ?? this.fix,
+      kind: kind ?? this.kind,
+      name: name ?? this.name,
+      phone: phone ?? this.phone,
+      refrigerated: refrigerated ?? this.refrigerated,
+      serviceAreas: serviceAreas ?? this.serviceAreas,
+      taluka: taluka ?? this.taluka,
+      vehicleNumbers: vehicleNumbers ?? this.vehicleNumbers,
+      village: village ?? this.village,
+    );
+  }
+
+  AdminProviderIn copyWithWrapped({
+    Wrapped<String?>? address,
+    Wrapped<double?>? capacityT,
+    Wrapped<String?>? carrierRegNo,
+    Wrapped<DateTime?>? certValidUntil,
+    Wrapped<String>? district,
+    Wrapped<RegistrationFixIn?>? fix,
+    Wrapped<enums.AdminProviderInKind>? kind,
+    Wrapped<String>? name,
+    Wrapped<String>? phone,
+    Wrapped<bool?>? refrigerated,
+    Wrapped<List<String>?>? serviceAreas,
+    Wrapped<String?>? taluka,
+    Wrapped<List<String>?>? vehicleNumbers,
+    Wrapped<String>? village,
+  }) {
+    return AdminProviderIn(
+      address: (address != null ? address.value : this.address),
+      capacityT: (capacityT != null ? capacityT.value : this.capacityT),
+      carrierRegNo: (carrierRegNo != null
+          ? carrierRegNo.value
+          : this.carrierRegNo),
+      certValidUntil: (certValidUntil != null
+          ? certValidUntil.value
+          : this.certValidUntil),
+      district: (district != null ? district.value : this.district),
+      fix: (fix != null ? fix.value : this.fix),
+      kind: (kind != null ? kind.value : this.kind),
+      name: (name != null ? name.value : this.name),
+      phone: (phone != null ? phone.value : this.phone),
+      refrigerated: (refrigerated != null
+          ? refrigerated.value
+          : this.refrigerated),
+      serviceAreas: (serviceAreas != null
+          ? serviceAreas.value
+          : this.serviceAreas),
+      taluka: (taluka != null ? taluka.value : this.taluka),
+      vehicleNumbers: (vehicleNumbers != null
+          ? vehicleNumbers.value
+          : this.vehicleNumbers),
+      village: (village != null ? village.value : this.village),
     );
   }
 }
@@ -676,6 +944,74 @@ extension $AppVersionResponseExtension on AppVersionResponse {
 }
 
 @JsonSerializable(explicitToJson: true)
+class BadgeOut {
+  const BadgeOut({required this.kind, required this.on, this.place});
+
+  factory BadgeOut.fromJson(Map<String, dynamic> json) =>
+      _$BadgeOutFromJson(json);
+
+  static const toJsonFactory = _$BadgeOutToJson;
+  Map<String, dynamic> toJson() => _$BadgeOutToJson(this);
+
+  @JsonKey(
+    name: 'kind',
+    includeIfNull: false,
+    toJson: badgeOutKindToJson,
+    fromJson: badgeOutKindFromJson,
+  )
+  final enums.BadgeOutKind kind;
+  @JsonKey(name: 'on', includeIfNull: false, toJson: _dateToJson)
+  final DateTime on;
+  @JsonKey(name: 'place', includeIfNull: false)
+  final String? place;
+  static const fromJsonFactory = _$BadgeOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is BadgeOut &&
+            (identical(other.kind, kind) ||
+                const DeepCollectionEquality().equals(other.kind, kind)) &&
+            (identical(other.on, on) ||
+                const DeepCollectionEquality().equals(other.on, on)) &&
+            (identical(other.place, place) ||
+                const DeepCollectionEquality().equals(other.place, place)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(kind) ^
+      const DeepCollectionEquality().hash(on) ^
+      const DeepCollectionEquality().hash(place) ^
+      runtimeType.hashCode;
+}
+
+extension $BadgeOutExtension on BadgeOut {
+  BadgeOut copyWith({enums.BadgeOutKind? kind, DateTime? on, String? place}) {
+    return BadgeOut(
+      kind: kind ?? this.kind,
+      on: on ?? this.on,
+      place: place ?? this.place,
+    );
+  }
+
+  BadgeOut copyWithWrapped({
+    Wrapped<enums.BadgeOutKind>? kind,
+    Wrapped<DateTime>? on,
+    Wrapped<String?>? place,
+  }) {
+    return BadgeOut(
+      kind: (kind != null ? kind.value : this.kind),
+      on: (on != null ? on.value : this.on),
+      place: (place != null ? place.value : this.place),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class BlockedClaimOut {
   const BlockedClaimOut({
     required this.activeIngredient,
@@ -793,6 +1129,353 @@ extension $BlockedClaimOutExtension on BlockedClaimOut {
           : this.notification),
       reason: (reason != null ? reason.value : this.reason),
       target: (target != null ? target.value : this.target),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class BrokerIn {
+  const BrokerIn({
+    this.address,
+    this.crops,
+    required this.district,
+    required this.fix,
+    required this.name,
+    required this.phone,
+    this.serviceAreas,
+    this.taluka,
+    required this.village,
+  });
+
+  factory BrokerIn.fromJson(Map<String, dynamic> json) =>
+      _$BrokerInFromJson(json);
+
+  static const toJsonFactory = _$BrokerInToJson;
+  Map<String, dynamic> toJson() => _$BrokerInToJson(this);
+
+  @JsonKey(name: 'address', includeIfNull: false)
+  final String? address;
+  @JsonKey(name: 'crops', includeIfNull: false, defaultValue: <String>[])
+  final List<String>? crops;
+  @JsonKey(name: 'district', includeIfNull: false)
+  final String district;
+  @JsonKey(name: 'fix', includeIfNull: false)
+  final RegistrationFixIn fix;
+  @JsonKey(name: 'name', includeIfNull: false)
+  final String name;
+  @JsonKey(name: 'phone', includeIfNull: false)
+  final String phone;
+  @JsonKey(
+    name: 'service_areas',
+    includeIfNull: false,
+    defaultValue: <String>[],
+  )
+  final List<String>? serviceAreas;
+  @JsonKey(name: 'taluka', includeIfNull: false)
+  final String? taluka;
+  @JsonKey(name: 'village', includeIfNull: false)
+  final String village;
+  static const fromJsonFactory = _$BrokerInFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is BrokerIn &&
+            (identical(other.address, address) ||
+                const DeepCollectionEquality().equals(
+                  other.address,
+                  address,
+                )) &&
+            (identical(other.crops, crops) ||
+                const DeepCollectionEquality().equals(other.crops, crops)) &&
+            (identical(other.district, district) ||
+                const DeepCollectionEquality().equals(
+                  other.district,
+                  district,
+                )) &&
+            (identical(other.fix, fix) ||
+                const DeepCollectionEquality().equals(other.fix, fix)) &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.phone, phone) ||
+                const DeepCollectionEquality().equals(other.phone, phone)) &&
+            (identical(other.serviceAreas, serviceAreas) ||
+                const DeepCollectionEquality().equals(
+                  other.serviceAreas,
+                  serviceAreas,
+                )) &&
+            (identical(other.taluka, taluka) ||
+                const DeepCollectionEquality().equals(other.taluka, taluka)) &&
+            (identical(other.village, village) ||
+                const DeepCollectionEquality().equals(other.village, village)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(address) ^
+      const DeepCollectionEquality().hash(crops) ^
+      const DeepCollectionEquality().hash(district) ^
+      const DeepCollectionEquality().hash(fix) ^
+      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(phone) ^
+      const DeepCollectionEquality().hash(serviceAreas) ^
+      const DeepCollectionEquality().hash(taluka) ^
+      const DeepCollectionEquality().hash(village) ^
+      runtimeType.hashCode;
+}
+
+extension $BrokerInExtension on BrokerIn {
+  BrokerIn copyWith({
+    String? address,
+    List<String>? crops,
+    String? district,
+    RegistrationFixIn? fix,
+    String? name,
+    String? phone,
+    List<String>? serviceAreas,
+    String? taluka,
+    String? village,
+  }) {
+    return BrokerIn(
+      address: address ?? this.address,
+      crops: crops ?? this.crops,
+      district: district ?? this.district,
+      fix: fix ?? this.fix,
+      name: name ?? this.name,
+      phone: phone ?? this.phone,
+      serviceAreas: serviceAreas ?? this.serviceAreas,
+      taluka: taluka ?? this.taluka,
+      village: village ?? this.village,
+    );
+  }
+
+  BrokerIn copyWithWrapped({
+    Wrapped<String?>? address,
+    Wrapped<List<String>?>? crops,
+    Wrapped<String>? district,
+    Wrapped<RegistrationFixIn>? fix,
+    Wrapped<String>? name,
+    Wrapped<String>? phone,
+    Wrapped<List<String>?>? serviceAreas,
+    Wrapped<String?>? taluka,
+    Wrapped<String>? village,
+  }) {
+    return BrokerIn(
+      address: (address != null ? address.value : this.address),
+      crops: (crops != null ? crops.value : this.crops),
+      district: (district != null ? district.value : this.district),
+      fix: (fix != null ? fix.value : this.fix),
+      name: (name != null ? name.value : this.name),
+      phone: (phone != null ? phone.value : this.phone),
+      serviceAreas: (serviceAreas != null
+          ? serviceAreas.value
+          : this.serviceAreas),
+      taluka: (taluka != null ? taluka.value : this.taluka),
+      village: (village != null ? village.value : this.village),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class BuyerIn {
+  const BuyerIn({
+    this.address,
+    this.apedaNo,
+    this.apmcLicenceNo,
+    this.crops,
+    required this.district,
+    this.firm,
+    required this.fix,
+    this.fssaiNo,
+    this.gstNo,
+    this.iecNo,
+    this.markets,
+    required this.name,
+    required this.phone,
+    this.taluka,
+  });
+
+  factory BuyerIn.fromJson(Map<String, dynamic> json) =>
+      _$BuyerInFromJson(json);
+
+  static const toJsonFactory = _$BuyerInToJson;
+  Map<String, dynamic> toJson() => _$BuyerInToJson(this);
+
+  @JsonKey(name: 'address', includeIfNull: false)
+  final String? address;
+  @JsonKey(name: 'apeda_no', includeIfNull: false)
+  final String? apedaNo;
+  @JsonKey(name: 'apmc_licence_no', includeIfNull: false)
+  final String? apmcLicenceNo;
+  @JsonKey(name: 'crops', includeIfNull: false, defaultValue: <String>[])
+  final List<String>? crops;
+  @JsonKey(name: 'district', includeIfNull: false)
+  final String district;
+  @JsonKey(name: 'firm', includeIfNull: false)
+  final String? firm;
+  @JsonKey(name: 'fix', includeIfNull: false)
+  final RegistrationFixIn fix;
+  @JsonKey(name: 'fssai_no', includeIfNull: false)
+  final String? fssaiNo;
+  @JsonKey(name: 'gst_no', includeIfNull: false)
+  final String? gstNo;
+  @JsonKey(name: 'iec_no', includeIfNull: false)
+  final String? iecNo;
+  @JsonKey(name: 'markets', includeIfNull: false, defaultValue: <String>[])
+  final List<String>? markets;
+  @JsonKey(name: 'name', includeIfNull: false)
+  final String name;
+  @JsonKey(name: 'phone', includeIfNull: false)
+  final String phone;
+  @JsonKey(name: 'taluka', includeIfNull: false)
+  final String? taluka;
+  static const fromJsonFactory = _$BuyerInFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is BuyerIn &&
+            (identical(other.address, address) ||
+                const DeepCollectionEquality().equals(
+                  other.address,
+                  address,
+                )) &&
+            (identical(other.apedaNo, apedaNo) ||
+                const DeepCollectionEquality().equals(
+                  other.apedaNo,
+                  apedaNo,
+                )) &&
+            (identical(other.apmcLicenceNo, apmcLicenceNo) ||
+                const DeepCollectionEquality().equals(
+                  other.apmcLicenceNo,
+                  apmcLicenceNo,
+                )) &&
+            (identical(other.crops, crops) ||
+                const DeepCollectionEquality().equals(other.crops, crops)) &&
+            (identical(other.district, district) ||
+                const DeepCollectionEquality().equals(
+                  other.district,
+                  district,
+                )) &&
+            (identical(other.firm, firm) ||
+                const DeepCollectionEquality().equals(other.firm, firm)) &&
+            (identical(other.fix, fix) ||
+                const DeepCollectionEquality().equals(other.fix, fix)) &&
+            (identical(other.fssaiNo, fssaiNo) ||
+                const DeepCollectionEquality().equals(
+                  other.fssaiNo,
+                  fssaiNo,
+                )) &&
+            (identical(other.gstNo, gstNo) ||
+                const DeepCollectionEquality().equals(other.gstNo, gstNo)) &&
+            (identical(other.iecNo, iecNo) ||
+                const DeepCollectionEquality().equals(other.iecNo, iecNo)) &&
+            (identical(other.markets, markets) ||
+                const DeepCollectionEquality().equals(
+                  other.markets,
+                  markets,
+                )) &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.phone, phone) ||
+                const DeepCollectionEquality().equals(other.phone, phone)) &&
+            (identical(other.taluka, taluka) ||
+                const DeepCollectionEquality().equals(other.taluka, taluka)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(address) ^
+      const DeepCollectionEquality().hash(apedaNo) ^
+      const DeepCollectionEquality().hash(apmcLicenceNo) ^
+      const DeepCollectionEquality().hash(crops) ^
+      const DeepCollectionEquality().hash(district) ^
+      const DeepCollectionEquality().hash(firm) ^
+      const DeepCollectionEquality().hash(fix) ^
+      const DeepCollectionEquality().hash(fssaiNo) ^
+      const DeepCollectionEquality().hash(gstNo) ^
+      const DeepCollectionEquality().hash(iecNo) ^
+      const DeepCollectionEquality().hash(markets) ^
+      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(phone) ^
+      const DeepCollectionEquality().hash(taluka) ^
+      runtimeType.hashCode;
+}
+
+extension $BuyerInExtension on BuyerIn {
+  BuyerIn copyWith({
+    String? address,
+    String? apedaNo,
+    String? apmcLicenceNo,
+    List<String>? crops,
+    String? district,
+    String? firm,
+    RegistrationFixIn? fix,
+    String? fssaiNo,
+    String? gstNo,
+    String? iecNo,
+    List<String>? markets,
+    String? name,
+    String? phone,
+    String? taluka,
+  }) {
+    return BuyerIn(
+      address: address ?? this.address,
+      apedaNo: apedaNo ?? this.apedaNo,
+      apmcLicenceNo: apmcLicenceNo ?? this.apmcLicenceNo,
+      crops: crops ?? this.crops,
+      district: district ?? this.district,
+      firm: firm ?? this.firm,
+      fix: fix ?? this.fix,
+      fssaiNo: fssaiNo ?? this.fssaiNo,
+      gstNo: gstNo ?? this.gstNo,
+      iecNo: iecNo ?? this.iecNo,
+      markets: markets ?? this.markets,
+      name: name ?? this.name,
+      phone: phone ?? this.phone,
+      taluka: taluka ?? this.taluka,
+    );
+  }
+
+  BuyerIn copyWithWrapped({
+    Wrapped<String?>? address,
+    Wrapped<String?>? apedaNo,
+    Wrapped<String?>? apmcLicenceNo,
+    Wrapped<List<String>?>? crops,
+    Wrapped<String>? district,
+    Wrapped<String?>? firm,
+    Wrapped<RegistrationFixIn>? fix,
+    Wrapped<String?>? fssaiNo,
+    Wrapped<String?>? gstNo,
+    Wrapped<String?>? iecNo,
+    Wrapped<List<String>?>? markets,
+    Wrapped<String>? name,
+    Wrapped<String>? phone,
+    Wrapped<String?>? taluka,
+  }) {
+    return BuyerIn(
+      address: (address != null ? address.value : this.address),
+      apedaNo: (apedaNo != null ? apedaNo.value : this.apedaNo),
+      apmcLicenceNo: (apmcLicenceNo != null
+          ? apmcLicenceNo.value
+          : this.apmcLicenceNo),
+      crops: (crops != null ? crops.value : this.crops),
+      district: (district != null ? district.value : this.district),
+      firm: (firm != null ? firm.value : this.firm),
+      fix: (fix != null ? fix.value : this.fix),
+      fssaiNo: (fssaiNo != null ? fssaiNo.value : this.fssaiNo),
+      gstNo: (gstNo != null ? gstNo.value : this.gstNo),
+      iecNo: (iecNo != null ? iecNo.value : this.iecNo),
+      markets: (markets != null ? markets.value : this.markets),
+      name: (name != null ? name.value : this.name),
+      phone: (phone != null ? phone.value : this.phone),
+      taluka: (taluka != null ? taluka.value : this.taluka),
     );
   }
 }
@@ -7233,6 +7916,444 @@ extension $MyAcceptancesOutExtension on MyAcceptancesOut {
 }
 
 @JsonSerializable(explicitToJson: true)
+class MyProfileOut {
+  const MyProfileOut({
+    required this.address,
+    required this.areas,
+    required this.badges,
+    required this.crops,
+    required this.district,
+    required this.documents,
+    required this.firm,
+    required this.fix,
+    required this.flags,
+    required this.hasCertificatePhoto,
+    required this.id,
+    required this.kind,
+    required this.markets,
+    required this.name,
+    required this.numbers,
+    required this.phone,
+    this.provider,
+    required this.reason,
+    required this.status,
+    required this.subjectType,
+    required this.taluka,
+    required this.village,
+  });
+
+  factory MyProfileOut.fromJson(Map<String, dynamic> json) =>
+      _$MyProfileOutFromJson(json);
+
+  static const toJsonFactory = _$MyProfileOutToJson;
+  Map<String, dynamic> toJson() => _$MyProfileOutToJson(this);
+
+  @JsonKey(name: 'address', includeIfNull: false)
+  final String? address;
+  @JsonKey(name: 'areas', includeIfNull: false, defaultValue: <String>[])
+  final List<String> areas;
+  @JsonKey(name: 'badges', includeIfNull: false, defaultValue: <BadgeOut>[])
+  final List<BadgeOut> badges;
+  @JsonKey(name: 'crops', includeIfNull: false, defaultValue: <String>[])
+  final List<String> crops;
+  @JsonKey(name: 'district', includeIfNull: false)
+  final String district;
+  @JsonKey(name: 'documents', includeIfNull: false)
+  final int documents;
+  @JsonKey(name: 'firm', includeIfNull: false)
+  final String? firm;
+  @JsonKey(name: 'fix', includeIfNull: false)
+  final AdminFixOut? fix;
+  @JsonKey(name: 'flags', includeIfNull: false, defaultValue: <String>[])
+  final List<String> flags;
+  @JsonKey(name: 'has_certificate_photo', includeIfNull: false)
+  final bool hasCertificatePhoto;
+  @JsonKey(name: 'id', includeIfNull: false)
+  final String id;
+  @JsonKey(name: 'kind', includeIfNull: false)
+  final String kind;
+  @JsonKey(name: 'markets', includeIfNull: false, defaultValue: <String>[])
+  final List<String> markets;
+  @JsonKey(name: 'name', includeIfNull: false)
+  final String name;
+  @JsonKey(name: 'numbers', includeIfNull: false)
+  final NumbersOut? numbers;
+  @JsonKey(name: 'phone', includeIfNull: false)
+  final String phone;
+  @JsonKey(name: 'provider', includeIfNull: false)
+  final ProviderDetailsOut? provider;
+  @JsonKey(name: 'reason', includeIfNull: false)
+  final String? reason;
+  @JsonKey(name: 'status', includeIfNull: false)
+  final String status;
+  @JsonKey(name: 'subject_type', includeIfNull: false)
+  final String subjectType;
+  @JsonKey(name: 'taluka', includeIfNull: false)
+  final String? taluka;
+  @JsonKey(name: 'village', includeIfNull: false)
+  final String? village;
+  static const fromJsonFactory = _$MyProfileOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is MyProfileOut &&
+            (identical(other.address, address) ||
+                const DeepCollectionEquality().equals(
+                  other.address,
+                  address,
+                )) &&
+            (identical(other.areas, areas) ||
+                const DeepCollectionEquality().equals(other.areas, areas)) &&
+            (identical(other.badges, badges) ||
+                const DeepCollectionEquality().equals(other.badges, badges)) &&
+            (identical(other.crops, crops) ||
+                const DeepCollectionEquality().equals(other.crops, crops)) &&
+            (identical(other.district, district) ||
+                const DeepCollectionEquality().equals(
+                  other.district,
+                  district,
+                )) &&
+            (identical(other.documents, documents) ||
+                const DeepCollectionEquality().equals(
+                  other.documents,
+                  documents,
+                )) &&
+            (identical(other.firm, firm) ||
+                const DeepCollectionEquality().equals(other.firm, firm)) &&
+            (identical(other.fix, fix) ||
+                const DeepCollectionEquality().equals(other.fix, fix)) &&
+            (identical(other.flags, flags) ||
+                const DeepCollectionEquality().equals(other.flags, flags)) &&
+            (identical(other.hasCertificatePhoto, hasCertificatePhoto) ||
+                const DeepCollectionEquality().equals(
+                  other.hasCertificatePhoto,
+                  hasCertificatePhoto,
+                )) &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.kind, kind) ||
+                const DeepCollectionEquality().equals(other.kind, kind)) &&
+            (identical(other.markets, markets) ||
+                const DeepCollectionEquality().equals(
+                  other.markets,
+                  markets,
+                )) &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.numbers, numbers) ||
+                const DeepCollectionEquality().equals(
+                  other.numbers,
+                  numbers,
+                )) &&
+            (identical(other.phone, phone) ||
+                const DeepCollectionEquality().equals(other.phone, phone)) &&
+            (identical(other.provider, provider) ||
+                const DeepCollectionEquality().equals(
+                  other.provider,
+                  provider,
+                )) &&
+            (identical(other.reason, reason) ||
+                const DeepCollectionEquality().equals(other.reason, reason)) &&
+            (identical(other.status, status) ||
+                const DeepCollectionEquality().equals(other.status, status)) &&
+            (identical(other.subjectType, subjectType) ||
+                const DeepCollectionEquality().equals(
+                  other.subjectType,
+                  subjectType,
+                )) &&
+            (identical(other.taluka, taluka) ||
+                const DeepCollectionEquality().equals(other.taluka, taluka)) &&
+            (identical(other.village, village) ||
+                const DeepCollectionEquality().equals(other.village, village)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(address) ^
+      const DeepCollectionEquality().hash(areas) ^
+      const DeepCollectionEquality().hash(badges) ^
+      const DeepCollectionEquality().hash(crops) ^
+      const DeepCollectionEquality().hash(district) ^
+      const DeepCollectionEquality().hash(documents) ^
+      const DeepCollectionEquality().hash(firm) ^
+      const DeepCollectionEquality().hash(fix) ^
+      const DeepCollectionEquality().hash(flags) ^
+      const DeepCollectionEquality().hash(hasCertificatePhoto) ^
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(kind) ^
+      const DeepCollectionEquality().hash(markets) ^
+      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(numbers) ^
+      const DeepCollectionEquality().hash(phone) ^
+      const DeepCollectionEquality().hash(provider) ^
+      const DeepCollectionEquality().hash(reason) ^
+      const DeepCollectionEquality().hash(status) ^
+      const DeepCollectionEquality().hash(subjectType) ^
+      const DeepCollectionEquality().hash(taluka) ^
+      const DeepCollectionEquality().hash(village) ^
+      runtimeType.hashCode;
+}
+
+extension $MyProfileOutExtension on MyProfileOut {
+  MyProfileOut copyWith({
+    String? address,
+    List<String>? areas,
+    List<BadgeOut>? badges,
+    List<String>? crops,
+    String? district,
+    int? documents,
+    String? firm,
+    AdminFixOut? fix,
+    List<String>? flags,
+    bool? hasCertificatePhoto,
+    String? id,
+    String? kind,
+    List<String>? markets,
+    String? name,
+    NumbersOut? numbers,
+    String? phone,
+    ProviderDetailsOut? provider,
+    String? reason,
+    String? status,
+    String? subjectType,
+    String? taluka,
+    String? village,
+  }) {
+    return MyProfileOut(
+      address: address ?? this.address,
+      areas: areas ?? this.areas,
+      badges: badges ?? this.badges,
+      crops: crops ?? this.crops,
+      district: district ?? this.district,
+      documents: documents ?? this.documents,
+      firm: firm ?? this.firm,
+      fix: fix ?? this.fix,
+      flags: flags ?? this.flags,
+      hasCertificatePhoto: hasCertificatePhoto ?? this.hasCertificatePhoto,
+      id: id ?? this.id,
+      kind: kind ?? this.kind,
+      markets: markets ?? this.markets,
+      name: name ?? this.name,
+      numbers: numbers ?? this.numbers,
+      phone: phone ?? this.phone,
+      provider: provider ?? this.provider,
+      reason: reason ?? this.reason,
+      status: status ?? this.status,
+      subjectType: subjectType ?? this.subjectType,
+      taluka: taluka ?? this.taluka,
+      village: village ?? this.village,
+    );
+  }
+
+  MyProfileOut copyWithWrapped({
+    Wrapped<String?>? address,
+    Wrapped<List<String>>? areas,
+    Wrapped<List<BadgeOut>>? badges,
+    Wrapped<List<String>>? crops,
+    Wrapped<String>? district,
+    Wrapped<int>? documents,
+    Wrapped<String?>? firm,
+    Wrapped<AdminFixOut?>? fix,
+    Wrapped<List<String>>? flags,
+    Wrapped<bool>? hasCertificatePhoto,
+    Wrapped<String>? id,
+    Wrapped<String>? kind,
+    Wrapped<List<String>>? markets,
+    Wrapped<String>? name,
+    Wrapped<NumbersOut?>? numbers,
+    Wrapped<String>? phone,
+    Wrapped<ProviderDetailsOut?>? provider,
+    Wrapped<String?>? reason,
+    Wrapped<String>? status,
+    Wrapped<String>? subjectType,
+    Wrapped<String?>? taluka,
+    Wrapped<String?>? village,
+  }) {
+    return MyProfileOut(
+      address: (address != null ? address.value : this.address),
+      areas: (areas != null ? areas.value : this.areas),
+      badges: (badges != null ? badges.value : this.badges),
+      crops: (crops != null ? crops.value : this.crops),
+      district: (district != null ? district.value : this.district),
+      documents: (documents != null ? documents.value : this.documents),
+      firm: (firm != null ? firm.value : this.firm),
+      fix: (fix != null ? fix.value : this.fix),
+      flags: (flags != null ? flags.value : this.flags),
+      hasCertificatePhoto: (hasCertificatePhoto != null
+          ? hasCertificatePhoto.value
+          : this.hasCertificatePhoto),
+      id: (id != null ? id.value : this.id),
+      kind: (kind != null ? kind.value : this.kind),
+      markets: (markets != null ? markets.value : this.markets),
+      name: (name != null ? name.value : this.name),
+      numbers: (numbers != null ? numbers.value : this.numbers),
+      phone: (phone != null ? phone.value : this.phone),
+      provider: (provider != null ? provider.value : this.provider),
+      reason: (reason != null ? reason.value : this.reason),
+      status: (status != null ? status.value : this.status),
+      subjectType: (subjectType != null ? subjectType.value : this.subjectType),
+      taluka: (taluka != null ? taluka.value : this.taluka),
+      village: (village != null ? village.value : this.village),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class MyProfilesResponse {
+  const MyProfilesResponse({required this.profiles});
+
+  factory MyProfilesResponse.fromJson(Map<String, dynamic> json) =>
+      _$MyProfilesResponseFromJson(json);
+
+  static const toJsonFactory = _$MyProfilesResponseToJson;
+  Map<String, dynamic> toJson() => _$MyProfilesResponseToJson(this);
+
+  @JsonKey(
+    name: 'profiles',
+    includeIfNull: false,
+    defaultValue: <MyProfileOut>[],
+  )
+  final List<MyProfileOut> profiles;
+  static const fromJsonFactory = _$MyProfilesResponseFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is MyProfilesResponse &&
+            (identical(other.profiles, profiles) ||
+                const DeepCollectionEquality().equals(
+                  other.profiles,
+                  profiles,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(profiles) ^ runtimeType.hashCode;
+}
+
+extension $MyProfilesResponseExtension on MyProfilesResponse {
+  MyProfilesResponse copyWith({List<MyProfileOut>? profiles}) {
+    return MyProfilesResponse(profiles: profiles ?? this.profiles);
+  }
+
+  MyProfilesResponse copyWithWrapped({Wrapped<List<MyProfileOut>>? profiles}) {
+    return MyProfilesResponse(
+      profiles: (profiles != null ? profiles.value : this.profiles),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class NumbersOut {
+  const NumbersOut({
+    required this.apedaNo,
+    required this.apmcLicenceNo,
+    required this.fssaiNo,
+    required this.gstNo,
+    required this.iecNo,
+  });
+
+  factory NumbersOut.fromJson(Map<String, dynamic> json) =>
+      _$NumbersOutFromJson(json);
+
+  static const toJsonFactory = _$NumbersOutToJson;
+  Map<String, dynamic> toJson() => _$NumbersOutToJson(this);
+
+  @JsonKey(name: 'apeda_no', includeIfNull: false)
+  final String? apedaNo;
+  @JsonKey(name: 'apmc_licence_no', includeIfNull: false)
+  final String? apmcLicenceNo;
+  @JsonKey(name: 'fssai_no', includeIfNull: false)
+  final String? fssaiNo;
+  @JsonKey(name: 'gst_no', includeIfNull: false)
+  final String? gstNo;
+  @JsonKey(name: 'iec_no', includeIfNull: false)
+  final String? iecNo;
+  static const fromJsonFactory = _$NumbersOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is NumbersOut &&
+            (identical(other.apedaNo, apedaNo) ||
+                const DeepCollectionEquality().equals(
+                  other.apedaNo,
+                  apedaNo,
+                )) &&
+            (identical(other.apmcLicenceNo, apmcLicenceNo) ||
+                const DeepCollectionEquality().equals(
+                  other.apmcLicenceNo,
+                  apmcLicenceNo,
+                )) &&
+            (identical(other.fssaiNo, fssaiNo) ||
+                const DeepCollectionEquality().equals(
+                  other.fssaiNo,
+                  fssaiNo,
+                )) &&
+            (identical(other.gstNo, gstNo) ||
+                const DeepCollectionEquality().equals(other.gstNo, gstNo)) &&
+            (identical(other.iecNo, iecNo) ||
+                const DeepCollectionEquality().equals(other.iecNo, iecNo)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(apedaNo) ^
+      const DeepCollectionEquality().hash(apmcLicenceNo) ^
+      const DeepCollectionEquality().hash(fssaiNo) ^
+      const DeepCollectionEquality().hash(gstNo) ^
+      const DeepCollectionEquality().hash(iecNo) ^
+      runtimeType.hashCode;
+}
+
+extension $NumbersOutExtension on NumbersOut {
+  NumbersOut copyWith({
+    String? apedaNo,
+    String? apmcLicenceNo,
+    String? fssaiNo,
+    String? gstNo,
+    String? iecNo,
+  }) {
+    return NumbersOut(
+      apedaNo: apedaNo ?? this.apedaNo,
+      apmcLicenceNo: apmcLicenceNo ?? this.apmcLicenceNo,
+      fssaiNo: fssaiNo ?? this.fssaiNo,
+      gstNo: gstNo ?? this.gstNo,
+      iecNo: iecNo ?? this.iecNo,
+    );
+  }
+
+  NumbersOut copyWithWrapped({
+    Wrapped<String?>? apedaNo,
+    Wrapped<String?>? apmcLicenceNo,
+    Wrapped<String?>? fssaiNo,
+    Wrapped<String?>? gstNo,
+    Wrapped<String?>? iecNo,
+  }) {
+    return NumbersOut(
+      apedaNo: (apedaNo != null ? apedaNo.value : this.apedaNo),
+      apmcLicenceNo: (apmcLicenceNo != null
+          ? apmcLicenceNo.value
+          : this.apmcLicenceNo),
+      fssaiNo: (fssaiNo != null ? fssaiNo.value : this.fssaiNo),
+      gstNo: (gstNo != null ? gstNo.value : this.gstNo),
+      iecNo: (iecNo != null ? iecNo.value : this.iecNo),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class PhotoDownloadUrl {
   const PhotoDownloadUrl({
     required this.expiresIn,
@@ -7796,6 +8917,676 @@ extension $PlotWeatherExtension on PlotWeather {
 }
 
 @JsonSerializable(explicitToJson: true)
+class ProfilesResponse {
+  const ProfilesResponse({required this.profiles});
+
+  factory ProfilesResponse.fromJson(Map<String, dynamic> json) =>
+      _$ProfilesResponseFromJson(json);
+
+  static const toJsonFactory = _$ProfilesResponseToJson;
+  Map<String, dynamic> toJson() => _$ProfilesResponseToJson(this);
+
+  @JsonKey(
+    name: 'profiles',
+    includeIfNull: false,
+    defaultValue: <PublicProfileOut>[],
+  )
+  final List<PublicProfileOut> profiles;
+  static const fromJsonFactory = _$ProfilesResponseFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is ProfilesResponse &&
+            (identical(other.profiles, profiles) ||
+                const DeepCollectionEquality().equals(
+                  other.profiles,
+                  profiles,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(profiles) ^ runtimeType.hashCode;
+}
+
+extension $ProfilesResponseExtension on ProfilesResponse {
+  ProfilesResponse copyWith({List<PublicProfileOut>? profiles}) {
+    return ProfilesResponse(profiles: profiles ?? this.profiles);
+  }
+
+  ProfilesResponse copyWithWrapped({
+    Wrapped<List<PublicProfileOut>>? profiles,
+  }) {
+    return ProfilesResponse(
+      profiles: (profiles != null ? profiles.value : this.profiles),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ProviderDetailsOut {
+  const ProviderDetailsOut({
+    required this.capacityT,
+    required this.carrierRegNo,
+    required this.certValidUntil,
+    required this.certificateExpired,
+    required this.refrigerated,
+    required this.vehicleNumbers,
+  });
+
+  factory ProviderDetailsOut.fromJson(Map<String, dynamic> json) =>
+      _$ProviderDetailsOutFromJson(json);
+
+  static const toJsonFactory = _$ProviderDetailsOutToJson;
+  Map<String, dynamic> toJson() => _$ProviderDetailsOutToJson(this);
+
+  @JsonKey(name: 'capacity_t', includeIfNull: false)
+  final double? capacityT;
+  @JsonKey(name: 'carrier_reg_no', includeIfNull: false)
+  final String? carrierRegNo;
+  @JsonKey(name: 'cert_valid_until', includeIfNull: false, toJson: _dateToJson)
+  final DateTime? certValidUntil;
+  @JsonKey(name: 'certificate_expired', includeIfNull: false)
+  final bool certificateExpired;
+  @JsonKey(name: 'refrigerated', includeIfNull: false)
+  final bool? refrigerated;
+  @JsonKey(
+    name: 'vehicle_numbers',
+    includeIfNull: false,
+    defaultValue: <String>[],
+  )
+  final List<String> vehicleNumbers;
+  static const fromJsonFactory = _$ProviderDetailsOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is ProviderDetailsOut &&
+            (identical(other.capacityT, capacityT) ||
+                const DeepCollectionEquality().equals(
+                  other.capacityT,
+                  capacityT,
+                )) &&
+            (identical(other.carrierRegNo, carrierRegNo) ||
+                const DeepCollectionEquality().equals(
+                  other.carrierRegNo,
+                  carrierRegNo,
+                )) &&
+            (identical(other.certValidUntil, certValidUntil) ||
+                const DeepCollectionEquality().equals(
+                  other.certValidUntil,
+                  certValidUntil,
+                )) &&
+            (identical(other.certificateExpired, certificateExpired) ||
+                const DeepCollectionEquality().equals(
+                  other.certificateExpired,
+                  certificateExpired,
+                )) &&
+            (identical(other.refrigerated, refrigerated) ||
+                const DeepCollectionEquality().equals(
+                  other.refrigerated,
+                  refrigerated,
+                )) &&
+            (identical(other.vehicleNumbers, vehicleNumbers) ||
+                const DeepCollectionEquality().equals(
+                  other.vehicleNumbers,
+                  vehicleNumbers,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(capacityT) ^
+      const DeepCollectionEquality().hash(carrierRegNo) ^
+      const DeepCollectionEquality().hash(certValidUntil) ^
+      const DeepCollectionEquality().hash(certificateExpired) ^
+      const DeepCollectionEquality().hash(refrigerated) ^
+      const DeepCollectionEquality().hash(vehicleNumbers) ^
+      runtimeType.hashCode;
+}
+
+extension $ProviderDetailsOutExtension on ProviderDetailsOut {
+  ProviderDetailsOut copyWith({
+    double? capacityT,
+    String? carrierRegNo,
+    DateTime? certValidUntil,
+    bool? certificateExpired,
+    bool? refrigerated,
+    List<String>? vehicleNumbers,
+  }) {
+    return ProviderDetailsOut(
+      capacityT: capacityT ?? this.capacityT,
+      carrierRegNo: carrierRegNo ?? this.carrierRegNo,
+      certValidUntil: certValidUntil ?? this.certValidUntil,
+      certificateExpired: certificateExpired ?? this.certificateExpired,
+      refrigerated: refrigerated ?? this.refrigerated,
+      vehicleNumbers: vehicleNumbers ?? this.vehicleNumbers,
+    );
+  }
+
+  ProviderDetailsOut copyWithWrapped({
+    Wrapped<double?>? capacityT,
+    Wrapped<String?>? carrierRegNo,
+    Wrapped<DateTime?>? certValidUntil,
+    Wrapped<bool>? certificateExpired,
+    Wrapped<bool?>? refrigerated,
+    Wrapped<List<String>>? vehicleNumbers,
+  }) {
+    return ProviderDetailsOut(
+      capacityT: (capacityT != null ? capacityT.value : this.capacityT),
+      carrierRegNo: (carrierRegNo != null
+          ? carrierRegNo.value
+          : this.carrierRegNo),
+      certValidUntil: (certValidUntil != null
+          ? certValidUntil.value
+          : this.certValidUntil),
+      certificateExpired: (certificateExpired != null
+          ? certificateExpired.value
+          : this.certificateExpired),
+      refrigerated: (refrigerated != null
+          ? refrigerated.value
+          : this.refrigerated),
+      vehicleNumbers: (vehicleNumbers != null
+          ? vehicleNumbers.value
+          : this.vehicleNumbers),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ProviderIn {
+  const ProviderIn({
+    this.address,
+    this.capacityT,
+    this.carrierRegNo,
+    this.certValidUntil,
+    required this.district,
+    required this.fix,
+    required this.kind,
+    required this.name,
+    required this.phone,
+    this.refrigerated,
+    this.serviceAreas,
+    this.taluka,
+    this.vehicleNumbers,
+    required this.village,
+  });
+
+  factory ProviderIn.fromJson(Map<String, dynamic> json) =>
+      _$ProviderInFromJson(json);
+
+  static const toJsonFactory = _$ProviderInToJson;
+  Map<String, dynamic> toJson() => _$ProviderInToJson(this);
+
+  @JsonKey(name: 'address', includeIfNull: false)
+  final String? address;
+  @JsonKey(name: 'capacity_t', includeIfNull: false)
+  final double? capacityT;
+  @JsonKey(name: 'carrier_reg_no', includeIfNull: false)
+  final String? carrierRegNo;
+  @JsonKey(name: 'cert_valid_until', includeIfNull: false, toJson: _dateToJson)
+  final DateTime? certValidUntil;
+  @JsonKey(name: 'district', includeIfNull: false)
+  final String district;
+  @JsonKey(name: 'fix', includeIfNull: false)
+  final RegistrationFixIn fix;
+  @JsonKey(
+    name: 'kind',
+    includeIfNull: false,
+    toJson: providerInKindToJson,
+    fromJson: providerInKindFromJson,
+  )
+  final enums.ProviderInKind kind;
+  @JsonKey(name: 'name', includeIfNull: false)
+  final String name;
+  @JsonKey(name: 'phone', includeIfNull: false)
+  final String phone;
+  @JsonKey(name: 'refrigerated', includeIfNull: false)
+  final bool? refrigerated;
+  @JsonKey(
+    name: 'service_areas',
+    includeIfNull: false,
+    defaultValue: <String>[],
+  )
+  final List<String>? serviceAreas;
+  @JsonKey(name: 'taluka', includeIfNull: false)
+  final String? taluka;
+  @JsonKey(
+    name: 'vehicle_numbers',
+    includeIfNull: false,
+    defaultValue: <String>[],
+  )
+  final List<String>? vehicleNumbers;
+  @JsonKey(name: 'village', includeIfNull: false)
+  final String village;
+  static const fromJsonFactory = _$ProviderInFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is ProviderIn &&
+            (identical(other.address, address) ||
+                const DeepCollectionEquality().equals(
+                  other.address,
+                  address,
+                )) &&
+            (identical(other.capacityT, capacityT) ||
+                const DeepCollectionEquality().equals(
+                  other.capacityT,
+                  capacityT,
+                )) &&
+            (identical(other.carrierRegNo, carrierRegNo) ||
+                const DeepCollectionEquality().equals(
+                  other.carrierRegNo,
+                  carrierRegNo,
+                )) &&
+            (identical(other.certValidUntil, certValidUntil) ||
+                const DeepCollectionEquality().equals(
+                  other.certValidUntil,
+                  certValidUntil,
+                )) &&
+            (identical(other.district, district) ||
+                const DeepCollectionEquality().equals(
+                  other.district,
+                  district,
+                )) &&
+            (identical(other.fix, fix) ||
+                const DeepCollectionEquality().equals(other.fix, fix)) &&
+            (identical(other.kind, kind) ||
+                const DeepCollectionEquality().equals(other.kind, kind)) &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.phone, phone) ||
+                const DeepCollectionEquality().equals(other.phone, phone)) &&
+            (identical(other.refrigerated, refrigerated) ||
+                const DeepCollectionEquality().equals(
+                  other.refrigerated,
+                  refrigerated,
+                )) &&
+            (identical(other.serviceAreas, serviceAreas) ||
+                const DeepCollectionEquality().equals(
+                  other.serviceAreas,
+                  serviceAreas,
+                )) &&
+            (identical(other.taluka, taluka) ||
+                const DeepCollectionEquality().equals(other.taluka, taluka)) &&
+            (identical(other.vehicleNumbers, vehicleNumbers) ||
+                const DeepCollectionEquality().equals(
+                  other.vehicleNumbers,
+                  vehicleNumbers,
+                )) &&
+            (identical(other.village, village) ||
+                const DeepCollectionEquality().equals(other.village, village)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(address) ^
+      const DeepCollectionEquality().hash(capacityT) ^
+      const DeepCollectionEquality().hash(carrierRegNo) ^
+      const DeepCollectionEquality().hash(certValidUntil) ^
+      const DeepCollectionEquality().hash(district) ^
+      const DeepCollectionEquality().hash(fix) ^
+      const DeepCollectionEquality().hash(kind) ^
+      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(phone) ^
+      const DeepCollectionEquality().hash(refrigerated) ^
+      const DeepCollectionEquality().hash(serviceAreas) ^
+      const DeepCollectionEquality().hash(taluka) ^
+      const DeepCollectionEquality().hash(vehicleNumbers) ^
+      const DeepCollectionEquality().hash(village) ^
+      runtimeType.hashCode;
+}
+
+extension $ProviderInExtension on ProviderIn {
+  ProviderIn copyWith({
+    String? address,
+    double? capacityT,
+    String? carrierRegNo,
+    DateTime? certValidUntil,
+    String? district,
+    RegistrationFixIn? fix,
+    enums.ProviderInKind? kind,
+    String? name,
+    String? phone,
+    bool? refrigerated,
+    List<String>? serviceAreas,
+    String? taluka,
+    List<String>? vehicleNumbers,
+    String? village,
+  }) {
+    return ProviderIn(
+      address: address ?? this.address,
+      capacityT: capacityT ?? this.capacityT,
+      carrierRegNo: carrierRegNo ?? this.carrierRegNo,
+      certValidUntil: certValidUntil ?? this.certValidUntil,
+      district: district ?? this.district,
+      fix: fix ?? this.fix,
+      kind: kind ?? this.kind,
+      name: name ?? this.name,
+      phone: phone ?? this.phone,
+      refrigerated: refrigerated ?? this.refrigerated,
+      serviceAreas: serviceAreas ?? this.serviceAreas,
+      taluka: taluka ?? this.taluka,
+      vehicleNumbers: vehicleNumbers ?? this.vehicleNumbers,
+      village: village ?? this.village,
+    );
+  }
+
+  ProviderIn copyWithWrapped({
+    Wrapped<String?>? address,
+    Wrapped<double?>? capacityT,
+    Wrapped<String?>? carrierRegNo,
+    Wrapped<DateTime?>? certValidUntil,
+    Wrapped<String>? district,
+    Wrapped<RegistrationFixIn>? fix,
+    Wrapped<enums.ProviderInKind>? kind,
+    Wrapped<String>? name,
+    Wrapped<String>? phone,
+    Wrapped<bool?>? refrigerated,
+    Wrapped<List<String>?>? serviceAreas,
+    Wrapped<String?>? taluka,
+    Wrapped<List<String>?>? vehicleNumbers,
+    Wrapped<String>? village,
+  }) {
+    return ProviderIn(
+      address: (address != null ? address.value : this.address),
+      capacityT: (capacityT != null ? capacityT.value : this.capacityT),
+      carrierRegNo: (carrierRegNo != null
+          ? carrierRegNo.value
+          : this.carrierRegNo),
+      certValidUntil: (certValidUntil != null
+          ? certValidUntil.value
+          : this.certValidUntil),
+      district: (district != null ? district.value : this.district),
+      fix: (fix != null ? fix.value : this.fix),
+      kind: (kind != null ? kind.value : this.kind),
+      name: (name != null ? name.value : this.name),
+      phone: (phone != null ? phone.value : this.phone),
+      refrigerated: (refrigerated != null
+          ? refrigerated.value
+          : this.refrigerated),
+      serviceAreas: (serviceAreas != null
+          ? serviceAreas.value
+          : this.serviceAreas),
+      taluka: (taluka != null ? taluka.value : this.taluka),
+      vehicleNumbers: (vehicleNumbers != null
+          ? vehicleNumbers.value
+          : this.vehicleNumbers),
+      village: (village != null ? village.value : this.village),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class PublicProfileOut {
+  const PublicProfileOut({
+    required this.address,
+    required this.areas,
+    required this.badges,
+    required this.crops,
+    required this.dealsCompleted,
+    this.distanceKm,
+    required this.district,
+    required this.firm,
+    required this.id,
+    required this.kind,
+    required this.markets,
+    required this.name,
+    required this.phone,
+    this.provider,
+    required this.stars,
+    required this.subjectType,
+    required this.tags,
+    required this.taluka,
+    required this.village,
+  });
+
+  factory PublicProfileOut.fromJson(Map<String, dynamic> json) =>
+      _$PublicProfileOutFromJson(json);
+
+  static const toJsonFactory = _$PublicProfileOutToJson;
+  Map<String, dynamic> toJson() => _$PublicProfileOutToJson(this);
+
+  @JsonKey(name: 'address', includeIfNull: false)
+  final String? address;
+  @JsonKey(name: 'areas', includeIfNull: false, defaultValue: <String>[])
+  final List<String> areas;
+  @JsonKey(name: 'badges', includeIfNull: false, defaultValue: <BadgeOut>[])
+  final List<BadgeOut> badges;
+  @JsonKey(name: 'crops', includeIfNull: false, defaultValue: <String>[])
+  final List<String> crops;
+  @JsonKey(name: 'deals_completed', includeIfNull: false)
+  final int dealsCompleted;
+  @JsonKey(name: 'distance_km', includeIfNull: false)
+  final int? distanceKm;
+  @JsonKey(name: 'district', includeIfNull: false)
+  final String district;
+  @JsonKey(name: 'firm', includeIfNull: false)
+  final String? firm;
+  @JsonKey(name: 'id', includeIfNull: false)
+  final String id;
+  @JsonKey(name: 'kind', includeIfNull: false)
+  final String kind;
+  @JsonKey(name: 'markets', includeIfNull: false, defaultValue: <String>[])
+  final List<String> markets;
+  @JsonKey(name: 'name', includeIfNull: false)
+  final String name;
+  @JsonKey(name: 'phone', includeIfNull: false)
+  final String phone;
+  @JsonKey(name: 'provider', includeIfNull: false)
+  final ProviderDetailsOut? provider;
+  @JsonKey(
+    name: 'stars',
+    includeIfNull: false,
+    defaultValue: <QuestionStarsOut>[],
+  )
+  final List<QuestionStarsOut> stars;
+  @JsonKey(name: 'subject_type', includeIfNull: false)
+  final String subjectType;
+  @JsonKey(name: 'tags', includeIfNull: false, defaultValue: <TagCountOut>[])
+  final List<TagCountOut> tags;
+  @JsonKey(name: 'taluka', includeIfNull: false)
+  final String? taluka;
+  @JsonKey(name: 'village', includeIfNull: false)
+  final String? village;
+  static const fromJsonFactory = _$PublicProfileOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is PublicProfileOut &&
+            (identical(other.address, address) ||
+                const DeepCollectionEquality().equals(
+                  other.address,
+                  address,
+                )) &&
+            (identical(other.areas, areas) ||
+                const DeepCollectionEquality().equals(other.areas, areas)) &&
+            (identical(other.badges, badges) ||
+                const DeepCollectionEquality().equals(other.badges, badges)) &&
+            (identical(other.crops, crops) ||
+                const DeepCollectionEquality().equals(other.crops, crops)) &&
+            (identical(other.dealsCompleted, dealsCompleted) ||
+                const DeepCollectionEquality().equals(
+                  other.dealsCompleted,
+                  dealsCompleted,
+                )) &&
+            (identical(other.distanceKm, distanceKm) ||
+                const DeepCollectionEquality().equals(
+                  other.distanceKm,
+                  distanceKm,
+                )) &&
+            (identical(other.district, district) ||
+                const DeepCollectionEquality().equals(
+                  other.district,
+                  district,
+                )) &&
+            (identical(other.firm, firm) ||
+                const DeepCollectionEquality().equals(other.firm, firm)) &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.kind, kind) ||
+                const DeepCollectionEquality().equals(other.kind, kind)) &&
+            (identical(other.markets, markets) ||
+                const DeepCollectionEquality().equals(
+                  other.markets,
+                  markets,
+                )) &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.phone, phone) ||
+                const DeepCollectionEquality().equals(other.phone, phone)) &&
+            (identical(other.provider, provider) ||
+                const DeepCollectionEquality().equals(
+                  other.provider,
+                  provider,
+                )) &&
+            (identical(other.stars, stars) ||
+                const DeepCollectionEquality().equals(other.stars, stars)) &&
+            (identical(other.subjectType, subjectType) ||
+                const DeepCollectionEquality().equals(
+                  other.subjectType,
+                  subjectType,
+                )) &&
+            (identical(other.tags, tags) ||
+                const DeepCollectionEquality().equals(other.tags, tags)) &&
+            (identical(other.taluka, taluka) ||
+                const DeepCollectionEquality().equals(other.taluka, taluka)) &&
+            (identical(other.village, village) ||
+                const DeepCollectionEquality().equals(other.village, village)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(address) ^
+      const DeepCollectionEquality().hash(areas) ^
+      const DeepCollectionEquality().hash(badges) ^
+      const DeepCollectionEquality().hash(crops) ^
+      const DeepCollectionEquality().hash(dealsCompleted) ^
+      const DeepCollectionEquality().hash(distanceKm) ^
+      const DeepCollectionEquality().hash(district) ^
+      const DeepCollectionEquality().hash(firm) ^
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(kind) ^
+      const DeepCollectionEquality().hash(markets) ^
+      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(phone) ^
+      const DeepCollectionEquality().hash(provider) ^
+      const DeepCollectionEquality().hash(stars) ^
+      const DeepCollectionEquality().hash(subjectType) ^
+      const DeepCollectionEquality().hash(tags) ^
+      const DeepCollectionEquality().hash(taluka) ^
+      const DeepCollectionEquality().hash(village) ^
+      runtimeType.hashCode;
+}
+
+extension $PublicProfileOutExtension on PublicProfileOut {
+  PublicProfileOut copyWith({
+    String? address,
+    List<String>? areas,
+    List<BadgeOut>? badges,
+    List<String>? crops,
+    int? dealsCompleted,
+    int? distanceKm,
+    String? district,
+    String? firm,
+    String? id,
+    String? kind,
+    List<String>? markets,
+    String? name,
+    String? phone,
+    ProviderDetailsOut? provider,
+    List<QuestionStarsOut>? stars,
+    String? subjectType,
+    List<TagCountOut>? tags,
+    String? taluka,
+    String? village,
+  }) {
+    return PublicProfileOut(
+      address: address ?? this.address,
+      areas: areas ?? this.areas,
+      badges: badges ?? this.badges,
+      crops: crops ?? this.crops,
+      dealsCompleted: dealsCompleted ?? this.dealsCompleted,
+      distanceKm: distanceKm ?? this.distanceKm,
+      district: district ?? this.district,
+      firm: firm ?? this.firm,
+      id: id ?? this.id,
+      kind: kind ?? this.kind,
+      markets: markets ?? this.markets,
+      name: name ?? this.name,
+      phone: phone ?? this.phone,
+      provider: provider ?? this.provider,
+      stars: stars ?? this.stars,
+      subjectType: subjectType ?? this.subjectType,
+      tags: tags ?? this.tags,
+      taluka: taluka ?? this.taluka,
+      village: village ?? this.village,
+    );
+  }
+
+  PublicProfileOut copyWithWrapped({
+    Wrapped<String?>? address,
+    Wrapped<List<String>>? areas,
+    Wrapped<List<BadgeOut>>? badges,
+    Wrapped<List<String>>? crops,
+    Wrapped<int>? dealsCompleted,
+    Wrapped<int?>? distanceKm,
+    Wrapped<String>? district,
+    Wrapped<String?>? firm,
+    Wrapped<String>? id,
+    Wrapped<String>? kind,
+    Wrapped<List<String>>? markets,
+    Wrapped<String>? name,
+    Wrapped<String>? phone,
+    Wrapped<ProviderDetailsOut?>? provider,
+    Wrapped<List<QuestionStarsOut>>? stars,
+    Wrapped<String>? subjectType,
+    Wrapped<List<TagCountOut>>? tags,
+    Wrapped<String?>? taluka,
+    Wrapped<String?>? village,
+  }) {
+    return PublicProfileOut(
+      address: (address != null ? address.value : this.address),
+      areas: (areas != null ? areas.value : this.areas),
+      badges: (badges != null ? badges.value : this.badges),
+      crops: (crops != null ? crops.value : this.crops),
+      dealsCompleted: (dealsCompleted != null
+          ? dealsCompleted.value
+          : this.dealsCompleted),
+      distanceKm: (distanceKm != null ? distanceKm.value : this.distanceKm),
+      district: (district != null ? district.value : this.district),
+      firm: (firm != null ? firm.value : this.firm),
+      id: (id != null ? id.value : this.id),
+      kind: (kind != null ? kind.value : this.kind),
+      markets: (markets != null ? markets.value : this.markets),
+      name: (name != null ? name.value : this.name),
+      phone: (phone != null ? phone.value : this.phone),
+      provider: (provider != null ? provider.value : this.provider),
+      stars: (stars != null ? stars.value : this.stars),
+      subjectType: (subjectType != null ? subjectType.value : this.subjectType),
+      tags: (tags != null ? tags.value : this.tags),
+      taluka: (taluka != null ? taluka.value : this.taluka),
+      village: (village != null ? village.value : this.village),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class PullResponse {
   const PullResponse({required this.changes, required this.cursor});
 
@@ -7940,6 +9731,83 @@ extension $PushResponseExtension on PushResponse {
   PushResponse copyWithWrapped({Wrapped<List<MutationResult>>? results}) {
     return PushResponse(
       results: (results != null ? results.value : this.results),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class QuestionStarsOut {
+  const QuestionStarsOut({
+    required this.average,
+    required this.count,
+    required this.questionKey,
+  });
+
+  factory QuestionStarsOut.fromJson(Map<String, dynamic> json) =>
+      _$QuestionStarsOutFromJson(json);
+
+  static const toJsonFactory = _$QuestionStarsOutToJson;
+  Map<String, dynamic> toJson() => _$QuestionStarsOutToJson(this);
+
+  @JsonKey(name: 'average', includeIfNull: false)
+  final double average;
+  @JsonKey(name: 'count', includeIfNull: false)
+  final int count;
+  @JsonKey(name: 'question_key', includeIfNull: false)
+  final String questionKey;
+  static const fromJsonFactory = _$QuestionStarsOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is QuestionStarsOut &&
+            (identical(other.average, average) ||
+                const DeepCollectionEquality().equals(
+                  other.average,
+                  average,
+                )) &&
+            (identical(other.count, count) ||
+                const DeepCollectionEquality().equals(other.count, count)) &&
+            (identical(other.questionKey, questionKey) ||
+                const DeepCollectionEquality().equals(
+                  other.questionKey,
+                  questionKey,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(average) ^
+      const DeepCollectionEquality().hash(count) ^
+      const DeepCollectionEquality().hash(questionKey) ^
+      runtimeType.hashCode;
+}
+
+extension $QuestionStarsOutExtension on QuestionStarsOut {
+  QuestionStarsOut copyWith({
+    double? average,
+    int? count,
+    String? questionKey,
+  }) {
+    return QuestionStarsOut(
+      average: average ?? this.average,
+      count: count ?? this.count,
+      questionKey: questionKey ?? this.questionKey,
+    );
+  }
+
+  QuestionStarsOut copyWithWrapped({
+    Wrapped<double>? average,
+    Wrapped<int>? count,
+    Wrapped<String>? questionKey,
+  }) {
+    return QuestionStarsOut(
+      average: (average != null ? average.value : this.average),
+      count: (count != null ? count.value : this.count),
+      questionKey: (questionKey != null ? questionKey.value : this.questionKey),
     );
   }
 }
@@ -8514,6 +10382,149 @@ extension $ReadyResponseExtension on ReadyResponse {
     return ReadyResponse(
       database: (database != null ? database.value : this.database),
       status: (status != null ? status.value : this.status),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class RegistrationFixIn {
+  const RegistrationFixIn({
+    required this.accuracyM,
+    required this.capturedAt,
+    this.district,
+    this.isMocked,
+    required this.lat,
+    required this.lon,
+    this.pin,
+    this.place,
+    this.state,
+  });
+
+  factory RegistrationFixIn.fromJson(Map<String, dynamic> json) =>
+      _$RegistrationFixInFromJson(json);
+
+  static const toJsonFactory = _$RegistrationFixInToJson;
+  Map<String, dynamic> toJson() => _$RegistrationFixInToJson(this);
+
+  @JsonKey(name: 'accuracy_m', includeIfNull: false)
+  final double accuracyM;
+  @JsonKey(name: 'captured_at', includeIfNull: false)
+  final DateTime capturedAt;
+  @JsonKey(name: 'district', includeIfNull: false)
+  final String? district;
+  @JsonKey(name: 'is_mocked', includeIfNull: false, defaultValue: false)
+  final bool? isMocked;
+  @JsonKey(name: 'lat', includeIfNull: false)
+  final double lat;
+  @JsonKey(name: 'lon', includeIfNull: false)
+  final double lon;
+  @JsonKey(name: 'pin', includeIfNull: false)
+  final String? pin;
+  @JsonKey(name: 'place', includeIfNull: false)
+  final String? place;
+  @JsonKey(name: 'state', includeIfNull: false)
+  final String? state;
+  static const fromJsonFactory = _$RegistrationFixInFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is RegistrationFixIn &&
+            (identical(other.accuracyM, accuracyM) ||
+                const DeepCollectionEquality().equals(
+                  other.accuracyM,
+                  accuracyM,
+                )) &&
+            (identical(other.capturedAt, capturedAt) ||
+                const DeepCollectionEquality().equals(
+                  other.capturedAt,
+                  capturedAt,
+                )) &&
+            (identical(other.district, district) ||
+                const DeepCollectionEquality().equals(
+                  other.district,
+                  district,
+                )) &&
+            (identical(other.isMocked, isMocked) ||
+                const DeepCollectionEquality().equals(
+                  other.isMocked,
+                  isMocked,
+                )) &&
+            (identical(other.lat, lat) ||
+                const DeepCollectionEquality().equals(other.lat, lat)) &&
+            (identical(other.lon, lon) ||
+                const DeepCollectionEquality().equals(other.lon, lon)) &&
+            (identical(other.pin, pin) ||
+                const DeepCollectionEquality().equals(other.pin, pin)) &&
+            (identical(other.place, place) ||
+                const DeepCollectionEquality().equals(other.place, place)) &&
+            (identical(other.state, state) ||
+                const DeepCollectionEquality().equals(other.state, state)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(accuracyM) ^
+      const DeepCollectionEquality().hash(capturedAt) ^
+      const DeepCollectionEquality().hash(district) ^
+      const DeepCollectionEquality().hash(isMocked) ^
+      const DeepCollectionEquality().hash(lat) ^
+      const DeepCollectionEquality().hash(lon) ^
+      const DeepCollectionEquality().hash(pin) ^
+      const DeepCollectionEquality().hash(place) ^
+      const DeepCollectionEquality().hash(state) ^
+      runtimeType.hashCode;
+}
+
+extension $RegistrationFixInExtension on RegistrationFixIn {
+  RegistrationFixIn copyWith({
+    double? accuracyM,
+    DateTime? capturedAt,
+    String? district,
+    bool? isMocked,
+    double? lat,
+    double? lon,
+    String? pin,
+    String? place,
+    String? state,
+  }) {
+    return RegistrationFixIn(
+      accuracyM: accuracyM ?? this.accuracyM,
+      capturedAt: capturedAt ?? this.capturedAt,
+      district: district ?? this.district,
+      isMocked: isMocked ?? this.isMocked,
+      lat: lat ?? this.lat,
+      lon: lon ?? this.lon,
+      pin: pin ?? this.pin,
+      place: place ?? this.place,
+      state: state ?? this.state,
+    );
+  }
+
+  RegistrationFixIn copyWithWrapped({
+    Wrapped<double>? accuracyM,
+    Wrapped<DateTime>? capturedAt,
+    Wrapped<String?>? district,
+    Wrapped<bool?>? isMocked,
+    Wrapped<double>? lat,
+    Wrapped<double>? lon,
+    Wrapped<String?>? pin,
+    Wrapped<String?>? place,
+    Wrapped<String?>? state,
+  }) {
+    return RegistrationFixIn(
+      accuracyM: (accuracyM != null ? accuracyM.value : this.accuracyM),
+      capturedAt: (capturedAt != null ? capturedAt.value : this.capturedAt),
+      district: (district != null ? district.value : this.district),
+      isMocked: (isMocked != null ? isMocked.value : this.isMocked),
+      lat: (lat != null ? lat.value : this.lat),
+      lon: (lon != null ? lon.value : this.lon),
+      pin: (pin != null ? pin.value : this.pin),
+      place: (place != null ? place.value : this.place),
+      state: (state != null ? state.value : this.state),
     );
   }
 }
@@ -9670,6 +11681,142 @@ extension $SynonymOutExtension on SynonymOut {
 }
 
 @JsonSerializable(explicitToJson: true)
+class TagCountOut {
+  const TagCountOut({
+    required this.count,
+    required this.key,
+    required this.labelEn,
+    required this.labelHi,
+    required this.labelMr,
+    required this.polarity,
+    required this.questionKey,
+    required this.tagId,
+  });
+
+  factory TagCountOut.fromJson(Map<String, dynamic> json) =>
+      _$TagCountOutFromJson(json);
+
+  static const toJsonFactory = _$TagCountOutToJson;
+  Map<String, dynamic> toJson() => _$TagCountOutToJson(this);
+
+  @JsonKey(name: 'count', includeIfNull: false)
+  final int count;
+  @JsonKey(name: 'key', includeIfNull: false)
+  final String key;
+  @JsonKey(name: 'label_en', includeIfNull: false)
+  final String labelEn;
+  @JsonKey(name: 'label_hi', includeIfNull: false)
+  final String labelHi;
+  @JsonKey(name: 'label_mr', includeIfNull: false)
+  final String labelMr;
+  @JsonKey(name: 'polarity', includeIfNull: false)
+  final String polarity;
+  @JsonKey(name: 'question_key', includeIfNull: false)
+  final String questionKey;
+  @JsonKey(name: 'tag_id', includeIfNull: false)
+  final String tagId;
+  static const fromJsonFactory = _$TagCountOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is TagCountOut &&
+            (identical(other.count, count) ||
+                const DeepCollectionEquality().equals(other.count, count)) &&
+            (identical(other.key, key) ||
+                const DeepCollectionEquality().equals(other.key, key)) &&
+            (identical(other.labelEn, labelEn) ||
+                const DeepCollectionEquality().equals(
+                  other.labelEn,
+                  labelEn,
+                )) &&
+            (identical(other.labelHi, labelHi) ||
+                const DeepCollectionEquality().equals(
+                  other.labelHi,
+                  labelHi,
+                )) &&
+            (identical(other.labelMr, labelMr) ||
+                const DeepCollectionEquality().equals(
+                  other.labelMr,
+                  labelMr,
+                )) &&
+            (identical(other.polarity, polarity) ||
+                const DeepCollectionEquality().equals(
+                  other.polarity,
+                  polarity,
+                )) &&
+            (identical(other.questionKey, questionKey) ||
+                const DeepCollectionEquality().equals(
+                  other.questionKey,
+                  questionKey,
+                )) &&
+            (identical(other.tagId, tagId) ||
+                const DeepCollectionEquality().equals(other.tagId, tagId)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(count) ^
+      const DeepCollectionEquality().hash(key) ^
+      const DeepCollectionEquality().hash(labelEn) ^
+      const DeepCollectionEquality().hash(labelHi) ^
+      const DeepCollectionEquality().hash(labelMr) ^
+      const DeepCollectionEquality().hash(polarity) ^
+      const DeepCollectionEquality().hash(questionKey) ^
+      const DeepCollectionEquality().hash(tagId) ^
+      runtimeType.hashCode;
+}
+
+extension $TagCountOutExtension on TagCountOut {
+  TagCountOut copyWith({
+    int? count,
+    String? key,
+    String? labelEn,
+    String? labelHi,
+    String? labelMr,
+    String? polarity,
+    String? questionKey,
+    String? tagId,
+  }) {
+    return TagCountOut(
+      count: count ?? this.count,
+      key: key ?? this.key,
+      labelEn: labelEn ?? this.labelEn,
+      labelHi: labelHi ?? this.labelHi,
+      labelMr: labelMr ?? this.labelMr,
+      polarity: polarity ?? this.polarity,
+      questionKey: questionKey ?? this.questionKey,
+      tagId: tagId ?? this.tagId,
+    );
+  }
+
+  TagCountOut copyWithWrapped({
+    Wrapped<int>? count,
+    Wrapped<String>? key,
+    Wrapped<String>? labelEn,
+    Wrapped<String>? labelHi,
+    Wrapped<String>? labelMr,
+    Wrapped<String>? polarity,
+    Wrapped<String>? questionKey,
+    Wrapped<String>? tagId,
+  }) {
+    return TagCountOut(
+      count: (count != null ? count.value : this.count),
+      key: (key != null ? key.value : this.key),
+      labelEn: (labelEn != null ? labelEn.value : this.labelEn),
+      labelHi: (labelHi != null ? labelHi.value : this.labelHi),
+      labelMr: (labelMr != null ? labelMr.value : this.labelMr),
+      polarity: (polarity != null ? polarity.value : this.polarity),
+      questionKey: (questionKey != null ? questionKey.value : this.questionKey),
+      tagId: (tagId != null ? tagId.value : this.tagId),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class TemplateStage {
   const TemplateStage({
     required this.anchor,
@@ -10439,6 +12586,150 @@ List<enums.AcceptInRole>? acceptInRoleNullableListFromJson(
   }
 
   return acceptInRole.map((e) => acceptInRoleFromJson(e.toString())).toList();
+}
+
+String? adminProviderInKindNullableToJson(
+  enums.AdminProviderInKind? adminProviderInKind,
+) {
+  return adminProviderInKind?.value;
+}
+
+String? adminProviderInKindToJson(
+  enums.AdminProviderInKind adminProviderInKind,
+) {
+  return adminProviderInKind.value;
+}
+
+enums.AdminProviderInKind adminProviderInKindFromJson(
+  Object? adminProviderInKind, [
+  enums.AdminProviderInKind? defaultValue,
+]) {
+  return enums.AdminProviderInKind.values.firstWhereOrNull(
+        (e) => e.value == adminProviderInKind,
+      ) ??
+      defaultValue ??
+      enums.AdminProviderInKind.swaggerGeneratedUnknown;
+}
+
+enums.AdminProviderInKind? adminProviderInKindNullableFromJson(
+  Object? adminProviderInKind, [
+  enums.AdminProviderInKind? defaultValue,
+]) {
+  if (adminProviderInKind == null) {
+    return null;
+  }
+  return enums.AdminProviderInKind.values.firstWhereOrNull(
+        (e) => e.value == adminProviderInKind,
+      ) ??
+      defaultValue;
+}
+
+String adminProviderInKindExplodedListToJson(
+  List<enums.AdminProviderInKind>? adminProviderInKind,
+) {
+  return adminProviderInKind?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> adminProviderInKindListToJson(
+  List<enums.AdminProviderInKind>? adminProviderInKind,
+) {
+  if (adminProviderInKind == null) {
+    return [];
+  }
+
+  return adminProviderInKind.map((e) => e.value!).toList();
+}
+
+List<enums.AdminProviderInKind> adminProviderInKindListFromJson(
+  List? adminProviderInKind, [
+  List<enums.AdminProviderInKind>? defaultValue,
+]) {
+  if (adminProviderInKind == null) {
+    return defaultValue ?? [];
+  }
+
+  return adminProviderInKind
+      .map((e) => adminProviderInKindFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.AdminProviderInKind>? adminProviderInKindNullableListFromJson(
+  List? adminProviderInKind, [
+  List<enums.AdminProviderInKind>? defaultValue,
+]) {
+  if (adminProviderInKind == null) {
+    return defaultValue;
+  }
+
+  return adminProviderInKind
+      .map((e) => adminProviderInKindFromJson(e.toString()))
+      .toList();
+}
+
+String? badgeOutKindNullableToJson(enums.BadgeOutKind? badgeOutKind) {
+  return badgeOutKind?.value;
+}
+
+String? badgeOutKindToJson(enums.BadgeOutKind badgeOutKind) {
+  return badgeOutKind.value;
+}
+
+enums.BadgeOutKind badgeOutKindFromJson(
+  Object? badgeOutKind, [
+  enums.BadgeOutKind? defaultValue,
+]) {
+  return enums.BadgeOutKind.values.firstWhereOrNull(
+        (e) => e.value == badgeOutKind,
+      ) ??
+      defaultValue ??
+      enums.BadgeOutKind.swaggerGeneratedUnknown;
+}
+
+enums.BadgeOutKind? badgeOutKindNullableFromJson(
+  Object? badgeOutKind, [
+  enums.BadgeOutKind? defaultValue,
+]) {
+  if (badgeOutKind == null) {
+    return null;
+  }
+  return enums.BadgeOutKind.values.firstWhereOrNull(
+        (e) => e.value == badgeOutKind,
+      ) ??
+      defaultValue;
+}
+
+String badgeOutKindExplodedListToJson(List<enums.BadgeOutKind>? badgeOutKind) {
+  return badgeOutKind?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> badgeOutKindListToJson(List<enums.BadgeOutKind>? badgeOutKind) {
+  if (badgeOutKind == null) {
+    return [];
+  }
+
+  return badgeOutKind.map((e) => e.value!).toList();
+}
+
+List<enums.BadgeOutKind> badgeOutKindListFromJson(
+  List? badgeOutKind, [
+  List<enums.BadgeOutKind>? defaultValue,
+]) {
+  if (badgeOutKind == null) {
+    return defaultValue ?? [];
+  }
+
+  return badgeOutKind.map((e) => badgeOutKindFromJson(e.toString())).toList();
+}
+
+List<enums.BadgeOutKind>? badgeOutKindNullableListFromJson(
+  List? badgeOutKind, [
+  List<enums.BadgeOutKind>? defaultValue,
+]) {
+  if (badgeOutKind == null) {
+    return defaultValue;
+  }
+
+  return badgeOutKind.map((e) => badgeOutKindFromJson(e.toString())).toList();
 }
 
 String? blockedClaimOutReasonNullableToJson(
@@ -11486,6 +13777,80 @@ List<enums.PlanInKind>? planInKindNullableListFromJson(
   }
 
   return planInKind.map((e) => planInKindFromJson(e.toString())).toList();
+}
+
+String? providerInKindNullableToJson(enums.ProviderInKind? providerInKind) {
+  return providerInKind?.value;
+}
+
+String? providerInKindToJson(enums.ProviderInKind providerInKind) {
+  return providerInKind.value;
+}
+
+enums.ProviderInKind providerInKindFromJson(
+  Object? providerInKind, [
+  enums.ProviderInKind? defaultValue,
+]) {
+  return enums.ProviderInKind.values.firstWhereOrNull(
+        (e) => e.value == providerInKind,
+      ) ??
+      defaultValue ??
+      enums.ProviderInKind.swaggerGeneratedUnknown;
+}
+
+enums.ProviderInKind? providerInKindNullableFromJson(
+  Object? providerInKind, [
+  enums.ProviderInKind? defaultValue,
+]) {
+  if (providerInKind == null) {
+    return null;
+  }
+  return enums.ProviderInKind.values.firstWhereOrNull(
+        (e) => e.value == providerInKind,
+      ) ??
+      defaultValue;
+}
+
+String providerInKindExplodedListToJson(
+  List<enums.ProviderInKind>? providerInKind,
+) {
+  return providerInKind?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> providerInKindListToJson(
+  List<enums.ProviderInKind>? providerInKind,
+) {
+  if (providerInKind == null) {
+    return [];
+  }
+
+  return providerInKind.map((e) => e.value!).toList();
+}
+
+List<enums.ProviderInKind> providerInKindListFromJson(
+  List? providerInKind, [
+  List<enums.ProviderInKind>? defaultValue,
+]) {
+  if (providerInKind == null) {
+    return defaultValue ?? [];
+  }
+
+  return providerInKind
+      .map((e) => providerInKindFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.ProviderInKind>? providerInKindNullableListFromJson(
+  List? providerInKind, [
+  List<enums.ProviderInKind>? defaultValue,
+]) {
+  if (providerInKind == null) {
+    return defaultValue;
+  }
+
+  return providerInKind
+      .map((e) => providerInKindFromJson(e.toString()))
+      .toList();
 }
 
 String? ratingTagInStatusNullableToJson(
@@ -12596,6 +14961,754 @@ v1InsuranceDeadlinesGetLangNullableListFromJson(
 
   return v1InsuranceDeadlinesGetLang
       .map((e) => v1InsuranceDeadlinesGetLangFromJson(e.toString()))
+      .toList();
+}
+
+String? v1MarketLinkProfilesGetRoleNullableToJson(
+  enums.V1MarketLinkProfilesGetRole? v1MarketLinkProfilesGetRole,
+) {
+  return v1MarketLinkProfilesGetRole?.value;
+}
+
+String? v1MarketLinkProfilesGetRoleToJson(
+  enums.V1MarketLinkProfilesGetRole v1MarketLinkProfilesGetRole,
+) {
+  return v1MarketLinkProfilesGetRole.value;
+}
+
+enums.V1MarketLinkProfilesGetRole v1MarketLinkProfilesGetRoleFromJson(
+  Object? v1MarketLinkProfilesGetRole, [
+  enums.V1MarketLinkProfilesGetRole? defaultValue,
+]) {
+  return enums.V1MarketLinkProfilesGetRole.values.firstWhereOrNull(
+        (e) => e.value == v1MarketLinkProfilesGetRole,
+      ) ??
+      defaultValue ??
+      enums.V1MarketLinkProfilesGetRole.swaggerGeneratedUnknown;
+}
+
+enums.V1MarketLinkProfilesGetRole? v1MarketLinkProfilesGetRoleNullableFromJson(
+  Object? v1MarketLinkProfilesGetRole, [
+  enums.V1MarketLinkProfilesGetRole? defaultValue,
+]) {
+  if (v1MarketLinkProfilesGetRole == null) {
+    return null;
+  }
+  return enums.V1MarketLinkProfilesGetRole.values.firstWhereOrNull(
+        (e) => e.value == v1MarketLinkProfilesGetRole,
+      ) ??
+      defaultValue;
+}
+
+String v1MarketLinkProfilesGetRoleExplodedListToJson(
+  List<enums.V1MarketLinkProfilesGetRole>? v1MarketLinkProfilesGetRole,
+) {
+  return v1MarketLinkProfilesGetRole?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> v1MarketLinkProfilesGetRoleListToJson(
+  List<enums.V1MarketLinkProfilesGetRole>? v1MarketLinkProfilesGetRole,
+) {
+  if (v1MarketLinkProfilesGetRole == null) {
+    return [];
+  }
+
+  return v1MarketLinkProfilesGetRole.map((e) => e.value!).toList();
+}
+
+List<enums.V1MarketLinkProfilesGetRole> v1MarketLinkProfilesGetRoleListFromJson(
+  List? v1MarketLinkProfilesGetRole, [
+  List<enums.V1MarketLinkProfilesGetRole>? defaultValue,
+]) {
+  if (v1MarketLinkProfilesGetRole == null) {
+    return defaultValue ?? [];
+  }
+
+  return v1MarketLinkProfilesGetRole
+      .map((e) => v1MarketLinkProfilesGetRoleFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.V1MarketLinkProfilesGetRole>?
+v1MarketLinkProfilesGetRoleNullableListFromJson(
+  List? v1MarketLinkProfilesGetRole, [
+  List<enums.V1MarketLinkProfilesGetRole>? defaultValue,
+]) {
+  if (v1MarketLinkProfilesGetRole == null) {
+    return defaultValue;
+  }
+
+  return v1MarketLinkProfilesGetRole
+      .map((e) => v1MarketLinkProfilesGetRoleFromJson(e.toString()))
+      .toList();
+}
+
+String? v1MarketLinkProfilesGetSortNullableToJson(
+  enums.V1MarketLinkProfilesGetSort? v1MarketLinkProfilesGetSort,
+) {
+  return v1MarketLinkProfilesGetSort?.value;
+}
+
+String? v1MarketLinkProfilesGetSortToJson(
+  enums.V1MarketLinkProfilesGetSort v1MarketLinkProfilesGetSort,
+) {
+  return v1MarketLinkProfilesGetSort.value;
+}
+
+enums.V1MarketLinkProfilesGetSort v1MarketLinkProfilesGetSortFromJson(
+  Object? v1MarketLinkProfilesGetSort, [
+  enums.V1MarketLinkProfilesGetSort? defaultValue,
+]) {
+  return enums.V1MarketLinkProfilesGetSort.values.firstWhereOrNull(
+        (e) => e.value == v1MarketLinkProfilesGetSort,
+      ) ??
+      defaultValue ??
+      enums.V1MarketLinkProfilesGetSort.swaggerGeneratedUnknown;
+}
+
+enums.V1MarketLinkProfilesGetSort? v1MarketLinkProfilesGetSortNullableFromJson(
+  Object? v1MarketLinkProfilesGetSort, [
+  enums.V1MarketLinkProfilesGetSort? defaultValue,
+]) {
+  if (v1MarketLinkProfilesGetSort == null) {
+    return null;
+  }
+  return enums.V1MarketLinkProfilesGetSort.values.firstWhereOrNull(
+        (e) => e.value == v1MarketLinkProfilesGetSort,
+      ) ??
+      defaultValue;
+}
+
+String v1MarketLinkProfilesGetSortExplodedListToJson(
+  List<enums.V1MarketLinkProfilesGetSort>? v1MarketLinkProfilesGetSort,
+) {
+  return v1MarketLinkProfilesGetSort?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> v1MarketLinkProfilesGetSortListToJson(
+  List<enums.V1MarketLinkProfilesGetSort>? v1MarketLinkProfilesGetSort,
+) {
+  if (v1MarketLinkProfilesGetSort == null) {
+    return [];
+  }
+
+  return v1MarketLinkProfilesGetSort.map((e) => e.value!).toList();
+}
+
+List<enums.V1MarketLinkProfilesGetSort> v1MarketLinkProfilesGetSortListFromJson(
+  List? v1MarketLinkProfilesGetSort, [
+  List<enums.V1MarketLinkProfilesGetSort>? defaultValue,
+]) {
+  if (v1MarketLinkProfilesGetSort == null) {
+    return defaultValue ?? [];
+  }
+
+  return v1MarketLinkProfilesGetSort
+      .map((e) => v1MarketLinkProfilesGetSortFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.V1MarketLinkProfilesGetSort>?
+v1MarketLinkProfilesGetSortNullableListFromJson(
+  List? v1MarketLinkProfilesGetSort, [
+  List<enums.V1MarketLinkProfilesGetSort>? defaultValue,
+]) {
+  if (v1MarketLinkProfilesGetSort == null) {
+    return defaultValue;
+  }
+
+  return v1MarketLinkProfilesGetSort
+      .map((e) => v1MarketLinkProfilesGetSortFromJson(e.toString()))
+      .toList();
+}
+
+String? v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectTypeNullableToJson(
+  enums.V1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType?
+  v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType,
+) {
+  return v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType?.value;
+}
+
+String? v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectTypeToJson(
+  enums.V1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType
+  v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType,
+) {
+  return v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType.value;
+}
+
+enums.V1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType
+v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectTypeFromJson(
+  Object? v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType, [
+  enums.V1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType? defaultValue,
+]) {
+  return enums.V1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType.values
+          .firstWhereOrNull(
+            (e) =>
+                e.value ==
+                v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType,
+          ) ??
+      defaultValue ??
+      enums
+          .V1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType
+          .swaggerGeneratedUnknown;
+}
+
+enums.V1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType?
+v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectTypeNullableFromJson(
+  Object? v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType, [
+  enums.V1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType? defaultValue,
+]) {
+  if (v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType == null) {
+    return null;
+  }
+  return enums.V1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType.values
+          .firstWhereOrNull(
+            (e) =>
+                e.value ==
+                v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType,
+          ) ??
+      defaultValue;
+}
+
+String v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectTypeExplodedListToJson(
+  List<enums.V1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType>?
+  v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType,
+) {
+  return v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType
+          ?.map((e) => e.value!)
+          .join(',') ??
+      '';
+}
+
+List<String> v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectTypeListToJson(
+  List<enums.V1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType>?
+  v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType,
+) {
+  if (v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType == null) {
+    return [];
+  }
+
+  return v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType
+      .map((e) => e.value!)
+      .toList();
+}
+
+List<enums.V1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType>
+v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectTypeListFromJson(
+  List? v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType, [
+  List<enums.V1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType>?
+  defaultValue,
+]) {
+  if (v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType == null) {
+    return defaultValue ?? [];
+  }
+
+  return v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType
+      .map(
+        (e) => v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectTypeFromJson(
+          e.toString(),
+        ),
+      )
+      .toList();
+}
+
+List<enums.V1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType>?
+v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectTypeNullableListFromJson(
+  List? v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType, [
+  List<enums.V1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType>?
+  defaultValue,
+]) {
+  if (v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType == null) {
+    return defaultValue;
+  }
+
+  return v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType
+      .map(
+        (e) => v1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectTypeFromJson(
+          e.toString(),
+        ),
+      )
+      .toList();
+}
+
+String?
+v1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectTypeNullableToJson(
+  enums.V1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectType?
+  v1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectType,
+) {
+  return v1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectType?.value;
+}
+
+String? v1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectTypeToJson(
+  enums.V1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectType
+  v1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectType,
+) {
+  return v1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectType.value;
+}
+
+enums.V1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectType
+v1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectTypeFromJson(
+  Object? v1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectType, [
+  enums.V1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectType?
+  defaultValue,
+]) {
+  return enums
+          .V1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectType
+          .values
+          .firstWhereOrNull(
+            (e) =>
+                e.value ==
+                v1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectType,
+          ) ??
+      defaultValue ??
+      enums
+          .V1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectType
+          .swaggerGeneratedUnknown;
+}
+
+enums.V1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectType?
+v1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectTypeNullableFromJson(
+  Object? v1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectType, [
+  enums.V1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectType?
+  defaultValue,
+]) {
+  if (v1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectType == null) {
+    return null;
+  }
+  return enums
+          .V1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectType
+          .values
+          .firstWhereOrNull(
+            (e) =>
+                e.value ==
+                v1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectType,
+          ) ??
+      defaultValue;
+}
+
+String
+v1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectTypeExplodedListToJson(
+  List<enums.V1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectType>?
+  v1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectType,
+) {
+  return v1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectType
+          ?.map((e) => e.value!)
+          .join(',') ??
+      '';
+}
+
+List<String>
+v1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectTypeListToJson(
+  List<enums.V1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectType>?
+  v1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectType,
+) {
+  if (v1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectType == null) {
+    return [];
+  }
+
+  return v1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectType
+      .map((e) => e.value!)
+      .toList();
+}
+
+List<enums.V1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectType>
+v1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectTypeListFromJson(
+  List? v1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectType, [
+  List<enums.V1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectType>?
+  defaultValue,
+]) {
+  if (v1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectType == null) {
+    return defaultValue ?? [];
+  }
+
+  return v1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectType
+      .map(
+        (e) =>
+            v1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectTypeFromJson(
+              e.toString(),
+            ),
+      )
+      .toList();
+}
+
+List<enums.V1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectType>?
+v1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectTypeNullableListFromJson(
+  List? v1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectType, [
+  List<enums.V1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectType>?
+  defaultValue,
+]) {
+  if (v1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectType == null) {
+    return defaultValue;
+  }
+
+  return v1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectType
+      .map(
+        (e) =>
+            v1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectTypeFromJson(
+              e.toString(),
+            ),
+      )
+      .toList();
+}
+
+String?
+v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectTypeNullableToJson(
+  enums.V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType?
+  v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType,
+) {
+  return v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType
+      ?.value;
+}
+
+String? v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectTypeToJson(
+  enums.V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType
+  v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType,
+) {
+  return v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType.value;
+}
+
+enums.V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType
+v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectTypeFromJson(
+  Object? v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType, [
+  enums.V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType?
+  defaultValue,
+]) {
+  return enums
+          .V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType
+          .values
+          .firstWhereOrNull(
+            (e) =>
+                e.value ==
+                v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType,
+          ) ??
+      defaultValue ??
+      enums
+          .V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType
+          .swaggerGeneratedUnknown;
+}
+
+enums.V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType?
+v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectTypeNullableFromJson(
+  Object? v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType, [
+  enums.V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType?
+  defaultValue,
+]) {
+  if (v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType ==
+      null) {
+    return null;
+  }
+  return enums
+          .V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType
+          .values
+          .firstWhereOrNull(
+            (e) =>
+                e.value ==
+                v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType,
+          ) ??
+      defaultValue;
+}
+
+String
+v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectTypeExplodedListToJson(
+  List<enums.V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType>?
+  v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType,
+) {
+  return v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType
+          ?.map((e) => e.value!)
+          .join(',') ??
+      '';
+}
+
+List<String>
+v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectTypeListToJson(
+  List<enums.V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType>?
+  v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType,
+) {
+  if (v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType ==
+      null) {
+    return [];
+  }
+
+  return v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType
+      .map((e) => e.value!)
+      .toList();
+}
+
+List<enums.V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType>
+v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectTypeListFromJson(
+  List? v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType, [
+  List<enums.V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType>?
+  defaultValue,
+]) {
+  if (v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType ==
+      null) {
+    return defaultValue ?? [];
+  }
+
+  return v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType
+      .map(
+        (e) =>
+            v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectTypeFromJson(
+              e.toString(),
+            ),
+      )
+      .toList();
+}
+
+List<enums.V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType>?
+v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectTypeNullableListFromJson(
+  List? v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType, [
+  List<enums.V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType>?
+  defaultValue,
+]) {
+  if (v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType ==
+      null) {
+    return defaultValue;
+  }
+
+  return v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType
+      .map(
+        (e) =>
+            v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectTypeFromJson(
+              e.toString(),
+            ),
+      )
+      .toList();
+}
+
+String? v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDocNullableToJson(
+  enums.V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc?
+  v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc,
+) {
+  return v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc?.value;
+}
+
+String? v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDocToJson(
+  enums.V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc
+  v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc,
+) {
+  return v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc.value;
+}
+
+enums.V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc
+v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDocFromJson(
+  Object? v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc, [
+  enums.V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc? defaultValue,
+]) {
+  return enums.V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc.values
+          .firstWhereOrNull(
+            (e) =>
+                e.value ==
+                v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc,
+          ) ??
+      defaultValue ??
+      enums
+          .V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc
+          .swaggerGeneratedUnknown;
+}
+
+enums.V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc?
+v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDocNullableFromJson(
+  Object? v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc, [
+  enums.V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc? defaultValue,
+]) {
+  if (v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc == null) {
+    return null;
+  }
+  return enums.V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc.values
+          .firstWhereOrNull(
+            (e) =>
+                e.value ==
+                v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc,
+          ) ??
+      defaultValue;
+}
+
+String
+v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDocExplodedListToJson(
+  List<enums.V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc>?
+  v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc,
+) {
+  return v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc
+          ?.map((e) => e.value!)
+          .join(',') ??
+      '';
+}
+
+List<String> v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDocListToJson(
+  List<enums.V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc>?
+  v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc,
+) {
+  if (v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc == null) {
+    return [];
+  }
+
+  return v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc
+      .map((e) => e.value!)
+      .toList();
+}
+
+List<enums.V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc>
+v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDocListFromJson(
+  List? v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc, [
+  List<enums.V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc>?
+  defaultValue,
+]) {
+  if (v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc == null) {
+    return defaultValue ?? [];
+  }
+
+  return v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc
+      .map(
+        (e) => v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDocFromJson(
+          e.toString(),
+        ),
+      )
+      .toList();
+}
+
+List<enums.V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc>?
+v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDocNullableListFromJson(
+  List? v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc, [
+  List<enums.V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc>?
+  defaultValue,
+]) {
+  if (v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc == null) {
+    return defaultValue;
+  }
+
+  return v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc
+      .map(
+        (e) => v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDocFromJson(
+          e.toString(),
+        ),
+      )
+      .toList();
+}
+
+String?
+v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectTypeNullableToJson(
+  enums.V1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType?
+  v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType,
+) {
+  return v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType
+      ?.value;
+}
+
+String? v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectTypeToJson(
+  enums.V1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType
+  v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType,
+) {
+  return v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType
+      .value;
+}
+
+enums.V1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType
+v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectTypeFromJson(
+  Object? v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType, [
+  enums.V1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType?
+  defaultValue,
+]) {
+  return enums
+          .V1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType
+          .values
+          .firstWhereOrNull(
+            (e) =>
+                e.value ==
+                v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType,
+          ) ??
+      defaultValue ??
+      enums
+          .V1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType
+          .swaggerGeneratedUnknown;
+}
+
+enums.V1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType?
+v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectTypeNullableFromJson(
+  Object? v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType, [
+  enums.V1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType?
+  defaultValue,
+]) {
+  if (v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType ==
+      null) {
+    return null;
+  }
+  return enums
+          .V1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType
+          .values
+          .firstWhereOrNull(
+            (e) =>
+                e.value ==
+                v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType,
+          ) ??
+      defaultValue;
+}
+
+String
+v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectTypeExplodedListToJson(
+  List<enums.V1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType>?
+  v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType,
+) {
+  return v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType
+          ?.map((e) => e.value!)
+          .join(',') ??
+      '';
+}
+
+List<String>
+v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectTypeListToJson(
+  List<enums.V1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType>?
+  v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType,
+) {
+  if (v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType ==
+      null) {
+    return [];
+  }
+
+  return v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType
+      .map((e) => e.value!)
+      .toList();
+}
+
+List<enums.V1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType>
+v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectTypeListFromJson(
+  List? v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType, [
+  List<enums.V1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType>?
+  defaultValue,
+]) {
+  if (v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType ==
+      null) {
+    return defaultValue ?? [];
+  }
+
+  return v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType
+      .map(
+        (e) =>
+            v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectTypeFromJson(
+              e.toString(),
+            ),
+      )
+      .toList();
+}
+
+List<enums.V1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType>?
+v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectTypeNullableListFromJson(
+  List? v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType, [
+  List<enums.V1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType>?
+  defaultValue,
+]) {
+  if (v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType ==
+      null) {
+    return defaultValue;
+  }
+
+  return v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType
+      .map(
+        (e) =>
+            v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectTypeFromJson(
+              e.toString(),
+            ),
+      )
       .toList();
 }
 

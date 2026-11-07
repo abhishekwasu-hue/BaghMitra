@@ -945,6 +945,36 @@ is the raw file; only its hash, size and time are kept.''',
     ),
   });
 
+  ///Admin Add Provider
+  Future<chopper.Response<MyProfileOut>> v1AdminMarketLinkProvidersPost({
+    required AdminProviderIn? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      MyProfileOut,
+      () => MyProfileOut.fromJsonFactory,
+    );
+
+    return _v1AdminMarketLinkProvidersPost(body: body);
+  }
+
+  ///Admin Add Provider
+  @POST(path: '/v1/admin/market-link/providers', optionalBody: true)
+  Future<chopper.Response<MyProfileOut>> _v1AdminMarketLinkProvidersPost({
+    @Body() required AdminProviderIn? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Admin adds a provider it knows (no account of its own, spec §2); it waits in the queue
+for a decision like any other (Q72).''',
+      summary: 'Admin Add Provider',
+      operationId: 'admin_market_link_provider_add',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
   ///Rating Tags
   Future<chopper.Response<RatingTagsAdminResponse>>
   v1AdminMarketLinkRatingTagsGet() {
@@ -1497,6 +1527,65 @@ their profile; undoes a dismiss. Only for a published item that has a date.''',
     ),
   });
 
+  ///Register Broker
+  Future<chopper.Response<MyProfileOut>> v1MarketLinkBrokersPost({
+    required BrokerIn? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      MyProfileOut,
+      () => MyProfileOut.fromJsonFactory,
+    );
+
+    return _v1MarketLinkBrokersPost(body: body);
+  }
+
+  ///Register Broker
+  @POST(path: '/v1/market-link/brokers', optionalBody: true)
+  Future<chopper.Response<MyProfileOut>> _v1MarketLinkBrokersPost({
+    @Body() required BrokerIn? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Broker (मध्यस्थ (दलाल)) registration: phone sign-in + GPS fix; the admin then calls
+(spec §4 broker rule; no photo ID, no place photo needed).''',
+      summary: 'Register Broker',
+      operationId: 'market_link_register_broker',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  });
+
+  ///Register Exporter
+  Future<chopper.Response<MyProfileOut>> v1MarketLinkExportersPost({
+    required BuyerIn? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      MyProfileOut,
+      () => MyProfileOut.fromJsonFactory,
+    );
+
+    return _v1MarketLinkExportersPost(body: body);
+  }
+
+  ///Register Exporter
+  @POST(path: '/v1/market-link/exporters', optionalBody: true)
+  Future<chopper.Response<MyProfileOut>> _v1MarketLinkExportersPost({
+    @Body() required BuyerIn? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Exporter registration (IEC required, spec §4).',
+      summary: 'Register Exporter',
+      operationId: 'market_link_register_exporter',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  });
+
   ///Upload Lot Photo
   ///@param photo_id
   Future<chopper.Response<LotPhotoStored>>
@@ -1698,6 +1787,368 @@ grower\'s profile (village, taluka, district; never the plot\'s point).''',
     ),
   });
 
+  ///My Profiles
+  Future<chopper.Response<MyProfilesResponse>> v1MarketLinkMeProfilesGet() {
+    generatedMapping.putIfAbsent(
+      MyProfilesResponse,
+      () => MyProfilesResponse.fromJsonFactory,
+    );
+
+    return _v1MarketLinkMeProfilesGet();
+  }
+
+  ///My Profiles
+  @GET(path: '/v1/market-link/me/profiles')
+  Future<chopper.Response<MyProfilesResponse>> _v1MarketLinkMeProfilesGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Every market-link profile of the signed-in user, with its check status.',
+      summary: 'My Profiles',
+      operationId: 'market_link_my_profiles',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  });
+
+  ///Profiles
+  ///@param role
+  ///@param district
+  ///@param taluka
+  ///@param sort
+  Future<chopper.Response<ProfilesResponse>> v1MarketLinkProfilesGet({
+    required enums.V1MarketLinkProfilesGetRole? role,
+    String? district,
+    String? taluka,
+    enums.V1MarketLinkProfilesGetSort? sort,
+  }) {
+    generatedMapping.putIfAbsent(
+      ProfilesResponse,
+      () => ProfilesResponse.fromJsonFactory,
+    );
+
+    return _v1MarketLinkProfilesGet(
+      role: role?.value?.toString(),
+      district: district,
+      taluka: taluka,
+      sort: sort?.value?.toString(),
+    );
+  }
+
+  ///Profiles
+  ///@param role
+  ///@param district
+  ///@param taluka
+  ///@param sort
+  @GET(path: '/v1/market-link/profiles')
+  Future<chopper.Response<ProfilesResponse>> _v1MarketLinkProfilesGet({
+    @Query('role') required String? role,
+    @Query('district') String? district,
+    @Query('taluka') String? taluka,
+    @Query('sort') String? sort,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''The list per taluka (decision g): verified traders, exporters or brokers, by rating
+(mean of the question averages; unrated last) or by completed deals.''',
+      summary: 'Profiles',
+      operationId: 'market_link_profiles',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  });
+
+  ///Profile
+  ///@param subject_type
+  ///@param subject_id
+  Future<chopper.Response<PublicProfileOut>>
+  v1MarketLinkProfilesSubjectTypeSubjectIdGet({
+    required enums.V1MarketLinkProfilesSubjectTypeSubjectIdGetSubjectType?
+    subjectType,
+    required String? subjectId,
+  }) {
+    generatedMapping.putIfAbsent(
+      PublicProfileOut,
+      () => PublicProfileOut.fromJsonFactory,
+    );
+
+    return _v1MarketLinkProfilesSubjectTypeSubjectIdGet(
+      subjectType: subjectType?.value?.toString(),
+      subjectId: subjectId,
+    );
+  }
+
+  ///Profile
+  ///@param subject_type
+  ///@param subject_id
+  @GET(path: '/v1/market-link/profiles/{subject_type}/{subject_id}')
+  Future<chopper.Response<PublicProfileOut>>
+  _v1MarketLinkProfilesSubjectTypeSubjectIdGet({
+    @Path('subject_type') required String? subjectType,
+    @Path('subject_id') required String? subjectId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description:
+          'One verified profile; an unverified one answers 404 as if absent.',
+      summary: 'Profile',
+      operationId: 'market_link_profile',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  });
+
+  ///Set Address
+  ///@param subject_type
+  ///@param subject_id
+  Future<chopper.Response<MyProfileOut>>
+  v1MarketLinkProfilesSubjectTypeSubjectIdAddressPut({
+    required enums.V1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectType?
+    subjectType,
+    required String? subjectId,
+    required AddressIn? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      MyProfileOut,
+      () => MyProfileOut.fromJsonFactory,
+    );
+
+    return _v1MarketLinkProfilesSubjectTypeSubjectIdAddressPut(
+      subjectType: subjectType?.value?.toString(),
+      subjectId: subjectId,
+      body: body,
+    );
+  }
+
+  ///Set Address
+  ///@param subject_type
+  ///@param subject_id
+  @PUT(
+    path: '/v1/market-link/profiles/{subject_type}/{subject_id}/address',
+    optionalBody: true,
+  )
+  Future<chopper.Response<MyProfileOut>>
+  _v1MarketLinkProfilesSubjectTypeSubjectIdAddressPut({
+    @Path('subject_type') required String? subjectType,
+    @Path('subject_id') required String? subjectId,
+    @Body() required AddressIn? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''The optional address: only the profile owner or a BagMitra representative sets it
+(addendum 2); who and when are stored, and a representative\'s entry is also a record.''',
+      summary: 'Set Address',
+      operationId: 'market_link_profile_address',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  });
+
+  ///Add Document
+  ///@param subject_type
+  ///@param subject_id
+  ///@param doc
+  ///@param valid_until
+  Future<chopper.Response<MyProfileOut>>
+  v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPost({
+    required enums.V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostSubjectType?
+    subjectType,
+    required String? subjectId,
+    required enums.V1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPostDoc?
+    doc,
+    String? validUntil,
+    required Object? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      MyProfileOut,
+      () => MyProfileOut.fromJsonFactory,
+    );
+
+    return _v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPost(
+      subjectType: subjectType?.value?.toString(),
+      subjectId: subjectId,
+      doc: doc?.value?.toString(),
+      validUntil: validUntil,
+      body: body,
+    );
+  }
+
+  ///Add Document
+  ///@param subject_type
+  ///@param subject_id
+  ///@param doc
+  ///@param valid_until
+  @POST(
+    path: '/v1/market-link/profiles/{subject_type}/{subject_id}/documents',
+    optionalBody: true,
+  )
+  Future<chopper.Response<MyProfileOut>>
+  _v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPost({
+    @Path('subject_type') required String? subjectType,
+    @Path('subject_id') required String? subjectId,
+    @Query('doc') required String? doc,
+    @Query('valid_until') String? validUntil,
+    @Body() required Object? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''A document photo for the admin\'s check (in-app camera): GSTIN / APMC / FSSAI / IEC /
+APEDA for a trader or exporter, the Legal Metrology certificate (with its valid-until
+date) for a weighbridge. Owner only; EXIF stripped before storage (spec §4B).''',
+      summary: 'Add Document',
+      operationId: 'market_link_profile_document',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  });
+
+  ///Place Photo
+  ///@param subject_type
+  ///@param subject_id
+  ///@param captured_at
+  ///@param lat
+  ///@param lon
+  Future<chopper.Response>
+  v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPost({
+    required enums.V1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPostSubjectType?
+    subjectType,
+    required String? subjectId,
+    required DateTime? capturedAt,
+    required num? lat,
+    required num? lon,
+    required Object? body,
+  }) {
+    return _v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPost(
+      subjectType: subjectType?.value?.toString(),
+      subjectId: subjectId,
+      capturedAt: capturedAt,
+      lat: lat,
+      lon: lon,
+      body: body,
+    );
+  }
+
+  ///Place Photo
+  ///@param subject_type
+  ///@param subject_id
+  ///@param captured_at
+  ///@param lat
+  ///@param lon
+  @POST(
+    path: '/v1/market-link/profiles/{subject_type}/{subject_id}/place-photo',
+    optionalBody: true,
+  )
+  Future<chopper.Response>
+  _v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPost({
+    @Path('subject_type') required String? subjectType,
+    @Path('subject_id') required String? subjectId,
+    @Query('captured_at') required DateTime? capturedAt,
+    @Query('lat') required num? lat,
+    @Query('lon') required num? lon,
+    @Body() required Object? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''A representative\'s place photo from a visit (in-app camera, time + GPS): who and when
+are stored; EXIF is stripped before storage (addendum 2, spec §4B).''',
+      summary: 'Place Photo',
+      operationId: 'market_link_profile_place_photo',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  });
+
+  ///Directory
+  ///@param type
+  ///@param district
+  ///@param taluka
+  ///@param plot_id
+  Future<chopper.Response<ProfilesResponse>> v1MarketLinkProvidersGet({
+    String? type,
+    String? district,
+    String? taluka,
+    String? plotId,
+  }) {
+    generatedMapping.putIfAbsent(
+      ProfilesResponse,
+      () => ProfilesResponse.fromJsonFactory,
+    );
+
+    return _v1MarketLinkProvidersGet(
+      type: type,
+      district: district,
+      taluka: taluka,
+      plotId: plotId,
+    );
+  }
+
+  ///Directory
+  ///@param type
+  ///@param district
+  ///@param taluka
+  ///@param plot_id
+  @GET(path: '/v1/market-link/providers')
+  Future<chopper.Response<ProfilesResponse>> _v1MarketLinkProvidersGet({
+    @Query('type') String? type,
+    @Query('district') String? district,
+    @Query('taluka') String? taluka,
+    @Query('plot_id') String? plotId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Verified providers near the grower\'s own plot: nearest first when both have a location
+(distance in whole km from the provider\'s registration fix, Q80), the rest by district,
+taluka and name. A phone number to call; no booking.''',
+      summary: 'Directory',
+      operationId: 'market_link_providers_near',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  });
+
+  ///Register Provider
+  Future<chopper.Response<MyProfileOut>> v1MarketLinkProvidersPost({
+    required ProviderIn? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      MyProfileOut,
+      () => MyProfileOut.fromJsonFactory,
+    );
+
+    return _v1MarketLinkProvidersPost(body: body);
+  }
+
+  ///Register Provider
+  @POST(path: '/v1/market-link/providers', optionalBody: true)
+  Future<chopper.Response<MyProfileOut>> _v1MarketLinkProvidersPost({
+    @Body() required ProviderIn? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Service provider registration (one per kind per user) with the GPS fix.',
+      summary: 'Register Provider',
+      operationId: 'market_link_register_provider',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  });
+
   ///Rating Tags
   Future<chopper.Response<RatingTagsResponse>> v1MarketLinkRatingTagsGet() {
     generatedMapping.putIfAbsent(
@@ -1770,6 +2221,35 @@ grievance officer shown on every role home (spec §4C).''',
 current answers 409 `terms_version_changed`, so the app shows the new text again.''',
       summary: 'Accept Terms',
       operationId: 'market_link_accept_terms',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  });
+
+  ///Register Trader
+  Future<chopper.Response<MyProfileOut>> v1MarketLinkTradersPost({
+    required BuyerIn? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      MyProfileOut,
+      () => MyProfileOut.fromJsonFactory,
+    );
+
+    return _v1MarketLinkTradersPost(body: body);
+  }
+
+  ///Register Trader
+  @POST(path: '/v1/market-link/traders', optionalBody: true)
+  Future<chopper.Response<MyProfileOut>> _v1MarketLinkTradersPost({
+    @Body() required BuyerIn? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Trader registration with the GPS fix; lands in the verification queue.',
+      summary: 'Register Trader',
+      operationId: 'market_link_register_trader',
       consumes: [],
       produces: [],
       security: ["HTTPBearer"],
