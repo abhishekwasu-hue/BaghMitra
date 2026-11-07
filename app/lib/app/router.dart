@@ -32,7 +32,9 @@ import '../features/lab_tests/presentation/lab_test_screens.dart';
 import '../features/labels/presentation/label_info_screen.dart';
 import '../features/lookalikes/presentation/lookalikes_screen.dart';
 import '../features/market/presentation/market_prices_screen.dart';
+import '../features/market_link/domain/market_link_role.dart';
 import '../features/market_link/domain/registration.dart';
+import '../features/market_link/presentation/introduction_screen.dart';
 import '../features/market_link/presentation/lot_form_screen.dart';
 import '../features/market_link/presentation/lot_offers_screen.dart';
 import '../features/market_link/presentation/my_lots_screen.dart';
@@ -130,6 +132,10 @@ abstract final class Routes {
   static const marketBrowse = '$marketLink/market';
   static String marketOffer(String lotId) => '$marketBrowse/$lotId/offer';
   static const marketMyOffers = '$marketLink/offers';
+
+  /// The introduction (contacts) after an acceptance, opened as the grower or the trader.
+  static String marketIntro(String dealId, {bool asGrower = false}) =>
+      '$marketLink/deals/$dealId${asGrower ? '?as=grower' : ''}';
   static const plots = '/plots';
   static const addPlot = '/plots/new';
   static const walkBoundary = '/plots/new/boundary';
@@ -317,7 +323,20 @@ GoRouter buildRouter(
       ),
       GoRoute(
         path: '${Routes.marketLots}/:lotId/offers',
-        builder: (_, s) => LotOffersScreen(lotId: s.pathParameters['lotId']!),
+        builder: (_, s) => LotOffersScreen(
+          lotId: s.pathParameters['lotId']!,
+          onIntroduced: (context, dealId) =>
+              context.push(Routes.marketIntro(dealId, asGrower: true)),
+        ),
+      ),
+      GoRoute(
+        path: '${Routes.marketLink}/deals/:dealId',
+        builder: (_, s) => IntroductionScreen(
+          dealId: s.pathParameters['dealId']!,
+          role: s.uri.queryParameters['as'] == 'grower'
+              ? MarketLinkRole.grower
+              : MarketLinkRole.trader,
+        ),
       ),
       GoRoute(
         path: Routes.marketBrowse,

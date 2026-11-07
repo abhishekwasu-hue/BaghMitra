@@ -31,6 +31,8 @@ const allowNegative = {
   'mlKindWeighbridge',
   'mlDocCertificate',
   'mlServicesEmpty',
+  // False match: "नकाशावर" (on the map) contains "नका".
+  'mlIntroOpenMap',
   // Market linkage disclaimer (decision k): "BagMitra is not a buyer, seller, ..." is the
   // statement the owner asked for.
   'mlDisclaimerShort',

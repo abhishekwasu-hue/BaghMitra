@@ -177,3 +177,79 @@ class LotInterest {
   final MarketProfile trader;
   final MarketProfile? broker;
 }
+
+class Contact {
+  const Contact({required this.name, required this.phone, this.firm});
+
+  factory Contact.fromJson(Map<String, Object?> j) => Contact(
+    name: _s(j['name']) ?? '',
+    firm: _s(j['firm']),
+    phone: _s(j['phone']),
+  );
+
+  final String name;
+  final String? firm;
+
+  /// Null when the grower signed in without a phone number.
+  final String? phone;
+}
+
+/// Both sides' contacts after the grower accepted (decision g). Nothing about their deal.
+class Introduction {
+  const Introduction({
+    required this.dealId,
+    required this.acceptedAt,
+    required this.lot,
+    required this.interest,
+    required this.grower,
+    required this.growerPlace,
+    required this.trader,
+    this.plotName,
+    this.pin,
+    this.broker,
+  });
+
+  factory Introduction.fromJson(Map<String, Object?> j) {
+    final g = (j['grower']! as Map).cast<String, Object?>();
+    final pin = (g['pin'] as Map?)?.cast<String, Object?>();
+    return Introduction(
+      dealId: j['deal_id']! as String,
+      acceptedAt: DateTime.parse(j['accepted_at']! as String),
+      lot: LotBrief.fromJson((j['lot']! as Map).cast<String, Object?>()),
+      interest: Interest.fromJson(
+        (j['interest']! as Map).cast<String, Object?>(),
+      ),
+      grower: Contact.fromJson(g),
+      growerPlace: _place([
+        _s(g['village']),
+        _s(g['taluka']),
+        _s(g['district']),
+      ]),
+      plotName: _s(g['plot_name']),
+      pin: pin == null
+          ? null
+          : (
+              lat: (pin['lat']! as num).toDouble(),
+              lon: (pin['lon']! as num).toDouble(),
+            ),
+      trader: Contact.fromJson((j['trader']! as Map).cast<String, Object?>()),
+      broker: switch (j['broker']) {
+        final Map<Object?, Object?> m => Contact.fromJson(
+          m.cast<String, Object?>(),
+        ),
+        _ => null,
+      },
+    );
+  }
+
+  final String dealId;
+  final DateTime acceptedAt;
+  final LotBrief lot;
+  final Interest interest;
+  final Contact grower;
+  final String growerPlace;
+  final String? plotName;
+  final ({double lat, double lon})? pin;
+  final Contact trader;
+  final Contact? broker;
+}

@@ -494,6 +494,17 @@ class _Mine extends ConsumerWidget {
                     ),
                     const SizedBox(height: BmSpace.xs),
                     InterestStateLine(s.interest),
+                    if (s.interest.dealId case final dealId?)
+                      Align(
+                        alignment: AlignmentDirectional.centerStart,
+                        child: TextButton.icon(
+                          key: Key('ml-sent-intro-${s.interest.id}'),
+                          onPressed: () =>
+                              context.push(Routes.marketIntro(dealId)),
+                          icon: const Icon(Icons.contacts_outlined),
+                          label: Text(t.mlIntroOpen),
+                        ),
+                      ),
                   ],
                 ),
               ),

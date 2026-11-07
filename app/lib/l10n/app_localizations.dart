@@ -6621,6 +6621,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'See contacts'**
   String get mlIntroOpen;
+
+  /// No description provided for @mlIntroTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Contacts'**
+  String get mlIntroTitle;
+
+  /// No description provided for @mlIntroGrower.
+  ///
+  /// In en, this message translates to:
+  /// **'Grower'**
+  String get mlIntroGrower;
+
+  /// No description provided for @mlIntroOpenMap.
+  ///
+  /// In en, this message translates to:
+  /// **'Open orchard on map'**
+  String get mlIntroOpenMap;
+
+  /// No description provided for @mlIntroAcceptedOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Accepted on {date}'**
+  String mlIntroAcceptedOn(String date);
+
+  /// No description provided for @mlIntroOffApp.
+  ///
+  /// In en, this message translates to:
+  /// **'From here on, weighing, crates, transport and payment are settled between you.'**
+  String get mlIntroOffApp;
 }
 
 class _AppLocalizationsDelegate
