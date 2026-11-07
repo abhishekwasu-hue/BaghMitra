@@ -765,6 +765,33 @@ is the raw file; only its hash, size and time are kept.''',
   }
 
   @override
+  Future<Response<MyProfileOut>> _v1AdminMarketLinkProvidersPost({
+    required AdminProviderIn? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Admin adds a provider it knows (no account of its own, spec §2); it waits in the queue
+for a decision like any other (Q72).''',
+      summary: 'Admin Add Provider',
+      operationId: 'admin_market_link_provider_add',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/market-link/providers');
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<MyProfileOut, MyProfileOut>($request);
+  }
+
+  @override
   Future<Response<RatingTagsAdminResponse>> _v1AdminMarketLinkRatingTagsGet({
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'Every tag, drafts and retired ones included.',
@@ -1198,6 +1225,198 @@ their profile; undoes a dismiss. Only for a published item that has a date.''',
   }
 
   @override
+  Future<Response<MyProfileOut>> _v1MarketLinkBrokersPost({
+    required BrokerIn? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Broker (मध्यस्थ (दलाल)) registration: phone sign-in + GPS fix; the admin then calls
+(spec §4 broker rule; no photo ID, no place photo needed).''',
+      summary: 'Register Broker',
+      operationId: 'market_link_register_broker',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/market-link/brokers');
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<MyProfileOut, MyProfileOut>($request);
+  }
+
+  @override
+  Future<Response<MyProfileOut>> _v1MarketLinkExportersPost({
+    required BuyerIn? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Exporter registration (IEC required, spec §4).',
+      summary: 'Register Exporter',
+      operationId: 'market_link_register_exporter',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/market-link/exporters');
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<MyProfileOut, MyProfileOut>($request);
+  }
+
+  @override
+  Future<Response<LotPhotoStored>> _v1MarketLinkLotPhotosPhotoIdPhotoPut({
+    required String? photoId,
+    required Object? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Uploads one JPEG of the caller\'s own draft lot through the server, which strips its
+EXIF (GPS point, phone model, time) before storing it (spec v1.5 §4B). There is no signed
+upload URL for lot photos, so no stored lot photo can keep its metadata.''',
+      summary: 'Upload Lot Photo',
+      operationId: 'market_link_upload_lot_photo',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/market-link/lot-photos/${photoId}/photo');
+    final $body = body;
+    final Request $request = Request(
+      'PUT',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<LotPhotoStored, LotPhotoStored>($request);
+  }
+
+  @override
+  Future<Response<LotPhotoUrl>> _v1MarketLinkLotPhotosPhotoIdUrlGet({
+    required String? photoId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''A short-lived download URL for an uploaded lot photo: for the grower, or for a
+verified buyer / broker while the lot is published. Only the derived key is signed.''',
+      summary: 'Lot Photo Url',
+      operationId: 'market_link_lot_photo_url',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/market-link/lot-photos/${photoId}/url');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<LotPhotoUrl, LotPhotoUrl>($request);
+  }
+
+  @override
+  Future<Response<BuyerLotsResponse>> _v1MarketLinkLotsGet({
+    String? district,
+    String? taluka,
+    String? crop,
+    String? before,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Published lots, newest first, for admin-verified buyers and brokers only (403
+`not_verified` for anyone else). Page with `before` = the last `published_at` seen.''',
+      summary: 'List Lots',
+      operationId: 'market_link_lots',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/market-link/lots');
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'district': district,
+      'taluka': taluka,
+      'crop': crop,
+      'before': before,
+    };
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+      tag: swaggerMetaData,
+    );
+    return client.send<BuyerLotsResponse, BuyerLotsResponse>($request);
+  }
+
+  @override
+  Future<Response<GrowerLotOut>> _v1MarketLinkLotsLotIdClosePost({
+    required String? lotId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Takes a published lot off the buyers\' list (the grower sold it or changed their mind).',
+      summary: 'Close Lot',
+      operationId: 'market_link_close_lot',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/market-link/lots/${lotId}/close');
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<GrowerLotOut, GrowerLotOut>($request);
+  }
+
+  @override
+  Future<Response<GrowerLotOut>> _v1MarketLinkLotsLotIdPublishPost({
+    required String? lotId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Shows a draft lot to verified buyers and brokers. Needs 3 to 8 live photos, each
+uploaded; crop and variety are copied from the plot again and the place names from the
+grower\'s profile (village, taluka, district; never the plot\'s point).''',
+      summary: 'Publish Lot',
+      operationId: 'market_link_publish_lot',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/market-link/lots/${lotId}/publish');
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<GrowerLotOut, GrowerLotOut>($request);
+  }
+
+  @override
   Future<Response<MyAcceptancesOut>> _v1MarketLinkMeAcceptancesGet({
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: 'What the signed-in user accepted, and the roles it opens.',
@@ -1218,6 +1437,268 @@ their profile; undoes a dismiss. Only for a published item that has a date.''',
       tag: swaggerMetaData,
     );
     return client.send<MyAcceptancesOut, MyAcceptancesOut>($request);
+  }
+
+  @override
+  Future<Response<MyProfilesResponse>> _v1MarketLinkMeProfilesGet({
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Every market-link profile of the signed-in user, with its check status.',
+      summary: 'My Profiles',
+      operationId: 'market_link_my_profiles',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/market-link/me/profiles');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<MyProfilesResponse, MyProfilesResponse>($request);
+  }
+
+  @override
+  Future<Response<ProfilesResponse>> _v1MarketLinkProfilesGet({
+    required String? role,
+    String? district,
+    String? taluka,
+    String? sort,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''The list per taluka (decision g): verified traders, exporters or brokers, by rating
+(mean of the question averages; unrated last) or by completed deals.''',
+      summary: 'Profiles',
+      operationId: 'market_link_profiles',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/market-link/profiles');
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'role': role,
+      'district': district,
+      'taluka': taluka,
+      'sort': sort,
+    };
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+      tag: swaggerMetaData,
+    );
+    return client.send<ProfilesResponse, ProfilesResponse>($request);
+  }
+
+  @override
+  Future<Response<PublicProfileOut>>
+  _v1MarketLinkProfilesSubjectTypeSubjectIdGet({
+    required String? subjectType,
+    required String? subjectId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description:
+          'One verified profile; an unverified one answers 404 as if absent.',
+      summary: 'Profile',
+      operationId: 'market_link_profile',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse(
+      '/v1/market-link/profiles/${subjectType}/${subjectId}',
+    );
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<PublicProfileOut, PublicProfileOut>($request);
+  }
+
+  @override
+  Future<Response<MyProfileOut>>
+  _v1MarketLinkProfilesSubjectTypeSubjectIdAddressPut({
+    required String? subjectType,
+    required String? subjectId,
+    required AddressIn? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''The optional address: only the profile owner or a BagMitra representative sets it
+(addendum 2); who and when are stored, and a representative\'s entry is also a record.''',
+      summary: 'Set Address',
+      operationId: 'market_link_profile_address',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse(
+      '/v1/market-link/profiles/${subjectType}/${subjectId}/address',
+    );
+    final $body = body;
+    final Request $request = Request(
+      'PUT',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<MyProfileOut, MyProfileOut>($request);
+  }
+
+  @override
+  Future<Response<MyProfileOut>>
+  _v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPost({
+    required String? subjectType,
+    required String? subjectId,
+    required String? doc,
+    String? validUntil,
+    required Object? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''A document photo for the admin\'s check (in-app camera): GSTIN / APMC / FSSAI / IEC /
+APEDA for a trader or exporter, the Legal Metrology certificate (with its valid-until
+date) for a weighbridge. Owner only; EXIF stripped before storage (spec §4B).''',
+      summary: 'Add Document',
+      operationId: 'market_link_profile_document',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse(
+      '/v1/market-link/profiles/${subjectType}/${subjectId}/documents',
+    );
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'doc': doc,
+      'valid_until': validUntil,
+    };
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      parameters: $params,
+      tag: swaggerMetaData,
+    );
+    return client.send<MyProfileOut, MyProfileOut>($request);
+  }
+
+  @override
+  Future<Response<dynamic>>
+  _v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPost({
+    required String? subjectType,
+    required String? subjectId,
+    required DateTime? capturedAt,
+    required num? lat,
+    required num? lon,
+    required Object? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''A representative\'s place photo from a visit (in-app camera, time + GPS): who and when
+are stored; EXIF is stripped before storage (addendum 2, spec §4B).''',
+      summary: 'Place Photo',
+      operationId: 'market_link_profile_place_photo',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse(
+      '/v1/market-link/profiles/${subjectType}/${subjectId}/place-photo',
+    );
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'captured_at': capturedAt,
+      'lat': lat,
+      'lon': lon,
+    };
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      parameters: $params,
+      tag: swaggerMetaData,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<ProfilesResponse>> _v1MarketLinkProvidersGet({
+    String? type,
+    String? district,
+    String? taluka,
+    String? plotId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Verified providers near the grower\'s own plot: nearest first when both have a location
+(distance in whole km from the provider\'s registration fix, Q80), the rest by district,
+taluka and name. A phone number to call; no booking.''',
+      summary: 'Directory',
+      operationId: 'market_link_providers_near',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/market-link/providers');
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'type': type,
+      'district': district,
+      'taluka': taluka,
+      'plot_id': plotId,
+    };
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+      tag: swaggerMetaData,
+    );
+    return client.send<ProfilesResponse, ProfilesResponse>($request);
+  }
+
+  @override
+  Future<Response<MyProfileOut>> _v1MarketLinkProvidersPost({
+    required ProviderIn? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Service provider registration (one per kind per user) with the GPS fix.',
+      summary: 'Register Provider',
+      operationId: 'market_link_register_provider',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/market-link/providers');
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<MyProfileOut, MyProfileOut>($request);
   }
 
   @override
@@ -1292,6 +1773,32 @@ current answers 409 `terms_version_changed`, so the app shows the new text again
       tag: swaggerMetaData,
     );
     return client.send<MyAcceptancesOut, MyAcceptancesOut>($request);
+  }
+
+  @override
+  Future<Response<MyProfileOut>> _v1MarketLinkTradersPost({
+    required BuyerIn? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Trader registration with the GPS fix; lands in the verification queue.',
+      summary: 'Register Trader',
+      operationId: 'market_link_register_trader',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/market-link/traders');
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<MyProfileOut, MyProfileOut>($request);
   }
 
   @override
