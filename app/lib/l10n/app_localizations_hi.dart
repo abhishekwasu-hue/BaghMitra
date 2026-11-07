@@ -4193,4 +4193,71 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get mlIntroOffApp =>
       'अब तौल, क्रेट, ढुलाई और पैसे का लेन-देन आप आपस में तय करते हैं।';
+
+  @override
+  String get mlDealDone => 'लेन-देन हो गया';
+
+  @override
+  String get mlDealDoneAsk => 'लेन-देन हो गया, दर्ज करें?';
+
+  @override
+  String get mlDealDoneAskBody =>
+      'आपस का लेन-देन पूरा होने पर ही दबाएँ। किसान और व्यापारी दोनों के दबाने पर रेटिंग खुलती है।';
+
+  @override
+  String get mlDealSaidDone => 'लेन-देन हो गया कहा';
+
+  @override
+  String get mlDealNotYet => 'इंतज़ार है';
+
+  @override
+  String get mlDealWaitOther =>
+      'दूसरी ओर से भी “लेन-देन हो गया” दबाने पर रेटिंग खुलेगी।';
+
+  @override
+  String get mlDealWaitBoth =>
+      'किसान और व्यापारी दोनों के “लेन-देन हो गया” दबाने पर रेटिंग खुलेगी।';
+
+  @override
+  String get mlRateOpen => 'रेटिंग दें';
+
+  @override
+  String mlRateUntil(String date) {
+    return '$date तक दे या बदल सकते हैं';
+  }
+
+  @override
+  String mlRateLocked(String date) {
+    return 'रेटिंग $date को बंद हुई';
+  }
+
+  @override
+  String get mlRateNoText => 'सिर्फ़ स्टार दें और निशान लगाएँ।';
+
+  @override
+  String mlRateStarsOf(int count) {
+    return '5 में से $count स्टार';
+  }
+
+  @override
+  String get mlRateSave => 'रेटिंग सहेजें';
+
+  @override
+  String get mlRateAnswerAll => 'हर पंक्ति को स्टार दें';
+
+  @override
+  String get mlRateSaved => 'रेटिंग सहेजी गई';
+
+  @override
+  String get mlRateRefused =>
+      'दोनों के “लेन-देन हो गया” दबाने के बाद 7 दिनों में ही रेटिंग सहेजी जाती है।';
+
+  @override
+  String get mlQGrowerProduce => 'माल फोटो और विवरण जैसा था';
+
+  @override
+  String get mlQGrowerReady => 'तय तारीख पर माल तैयार था';
+
+  @override
+  String get mlCopyToAccounts => 'मेरे हिसाब में दर्ज करें';
 }

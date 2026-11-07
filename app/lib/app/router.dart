@@ -43,6 +43,7 @@ import '../features/market_link/presentation/my_lots_screen.dart';
 import '../features/market_link/presentation/my_profiles_screen.dart';
 import '../features/market_link/presentation/offer_screens.dart';
 import '../features/market_link/presentation/people_screen.dart';
+import '../features/market_link/presentation/rating_screen.dart';
 import '../features/market_link/presentation/registration_screen.dart';
 import '../features/market_link/presentation/role_home_screen.dart';
 import '../features/market_link/presentation/role_picker_screen.dart';
@@ -150,6 +151,10 @@ abstract final class Routes {
   /// The introduction (contacts) after an acceptance, opened as the grower or the trader.
   static String marketIntro(String dealId, {bool asGrower = false}) =>
       '$marketLink/deals/$dealId${asGrower ? '?as=grower' : ''}';
+
+  /// Rating after both tapped "deal done" (L5), as the grower or the trader / broker.
+  static String marketRate(String dealId, {bool asGrower = false}) =>
+      '$marketLink/deals/$dealId/rate${asGrower ? '?as=grower' : ''}';
 
   /// Market link (flag MARKET_LINK only): the five role cards, a role's own home, and the
   /// terms screen pushed by `ensureMarketRoleAccepted` (it returns true when accepted).
@@ -383,6 +388,15 @@ GoRouter buildRouter(
       GoRoute(
         path: '${Routes.marketLink}/deals/:dealId',
         builder: (_, s) => IntroductionScreen(
+          dealId: s.pathParameters['dealId']!,
+          role: s.uri.queryParameters['as'] == 'grower'
+              ? MarketLinkRole.grower
+              : MarketLinkRole.trader,
+        ),
+      ),
+      GoRoute(
+        path: '${Routes.marketLink}/deals/:dealId/rate',
+        builder: (_, s) => RatingScreen(
           dealId: s.pathParameters['dealId']!,
           role: s.uri.queryParameters['as'] == 'grower'
               ? MarketLinkRole.grower

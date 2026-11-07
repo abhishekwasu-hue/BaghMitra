@@ -7347,6 +7347,120 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'From here on, weighing, crates, transport and payment are settled between you.'**
   String get mlIntroOffApp;
+
+  /// No description provided for @mlDealDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Deal done'**
+  String get mlDealDone;
+
+  /// No description provided for @mlDealDoneAsk.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark the deal as done?'**
+  String get mlDealDoneAsk;
+
+  /// No description provided for @mlDealDoneAskBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap only once the deal between you is settled. Rating opens when both the grower and the trader tap.'**
+  String get mlDealDoneAskBody;
+
+  /// No description provided for @mlDealSaidDone.
+  ///
+  /// In en, this message translates to:
+  /// **'said deal done'**
+  String get mlDealSaidDone;
+
+  /// No description provided for @mlDealNotYet.
+  ///
+  /// In en, this message translates to:
+  /// **'waiting'**
+  String get mlDealNotYet;
+
+  /// No description provided for @mlDealWaitOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Rating opens when the other side also taps “Deal done”.'**
+  String get mlDealWaitOther;
+
+  /// No description provided for @mlDealWaitBoth.
+  ///
+  /// In en, this message translates to:
+  /// **'Rating opens when both the grower and the trader tap “Deal done”.'**
+  String get mlDealWaitBoth;
+
+  /// No description provided for @mlRateOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Give rating'**
+  String get mlRateOpen;
+
+  /// No description provided for @mlRateUntil.
+  ///
+  /// In en, this message translates to:
+  /// **'Can be given or changed until {date}'**
+  String mlRateUntil(String date);
+
+  /// No description provided for @mlRateLocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Rating closed on {date}'**
+  String mlRateLocked(String date);
+
+  /// No description provided for @mlRateNoText.
+  ///
+  /// In en, this message translates to:
+  /// **'Only stars and ticks.'**
+  String get mlRateNoText;
+
+  /// No description provided for @mlRateStarsOf.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} of 5 stars'**
+  String mlRateStarsOf(int count);
+
+  /// No description provided for @mlRateSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save rating'**
+  String get mlRateSave;
+
+  /// No description provided for @mlRateAnswerAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Give stars on every line'**
+  String get mlRateAnswerAll;
+
+  /// No description provided for @mlRateSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Rating saved'**
+  String get mlRateSaved;
+
+  /// No description provided for @mlRateRefused.
+  ///
+  /// In en, this message translates to:
+  /// **'Rating is saved only within 7 days after both tap “Deal done”.'**
+  String get mlRateRefused;
+
+  /// No description provided for @mlQGrowerProduce.
+  ///
+  /// In en, this message translates to:
+  /// **'Produce matched the photos and description'**
+  String get mlQGrowerProduce;
+
+  /// No description provided for @mlQGrowerReady.
+  ///
+  /// In en, this message translates to:
+  /// **'Produce ready on the agreed date'**
+  String get mlQGrowerReady;
+
+  /// No description provided for @mlCopyToAccounts.
+  ///
+  /// In en, this message translates to:
+  /// **'Note in my accounts'**
+  String get mlCopyToAccounts;
 }
 
 class _AppLocalizationsDelegate
