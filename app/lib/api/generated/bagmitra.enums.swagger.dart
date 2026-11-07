@@ -26,6 +26,40 @@ enum AcceptInRole {
   const AcceptInRole(this.value);
 }
 
+enum AdminProviderInKind {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('weighbridge')
+  weighbridge('weighbridge'),
+  @JsonValue('transporter')
+  transporter('transporter'),
+  @JsonValue('labour_gang')
+  labourGang('labour_gang'),
+  @JsonValue('crate_supplier')
+  crateSupplier('crate_supplier');
+
+  final String? value;
+
+  const AdminProviderInKind(this.value);
+}
+
+enum BadgeOutKind {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('checked')
+  checked('checked'),
+  @JsonValue('registered_from')
+  registeredFrom('registered_from'),
+  @JsonValue('place_photo')
+  placePhoto('place_photo');
+
+  final String? value;
+
+  const BadgeOutKind(this.value);
+}
+
 enum BlockedClaimOutReason {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
@@ -240,6 +274,24 @@ enum PlanInKind {
   const PlanInKind(this.value);
 }
 
+enum ProviderInKind {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('weighbridge')
+  weighbridge('weighbridge'),
+  @JsonValue('transporter')
+  transporter('transporter'),
+  @JsonValue('labour_gang')
+  labourGang('labour_gang'),
+  @JsonValue('crate_supplier')
+  crateSupplier('crate_supplier');
+
+  final String? value;
+
+  const ProviderInKind(this.value);
+}
+
 enum RatingTagInStatus {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
@@ -436,6 +488,24 @@ enum V1InsuranceDeadlinesGetLang {
   final String? value;
 
   const V1InsuranceDeadlinesGetLang(this.value);
+}
+
+enum V1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectType {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('buyer')
+  buyer('buyer'),
+  @JsonValue('broker')
+  broker('broker'),
+  @JsonValue('provider')
+  provider('provider');
+
+  final String? value;
+
+  const V1MarketLinkProfilesSubjectTypeSubjectIdAddressPutSubjectType(
+    this.value,
+  );
 }
 
 enum V1MarketPricesGetScope {
