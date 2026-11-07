@@ -11,6 +11,7 @@ Last updated: 2026-10-26. Owner: Abhi. Purpose: one compact place for every rese
 | `bagmitra_phone_testing_message.md` | Test APK workflow, test flavour, demo mode, runbook | Release/test build work |
 | `bagmitra_home_mockup.html/.png` | Reference home screen | UI work |
 | `ATP_journal_module_spec_FULL.md` | ATP F&O Journal module spec (v1 + v1.1 merged; addendum wins) | ATP journal work |
+| `docs/research/MARKET_LINKAGE_RESEARCH.md` | Market linkage research 2026-11-07: APMC s.6(2A)/5D after Mah. 52 of 2025, MSAMB DML/PML terms, RBI PA 2025, santra market facts, Vegrow/e-NAM, models A/B/C (Q61) | Any selling / buyer / transport work |
 
 ## 1. BagMitra — product and stack [D]
 - Android-first app for fruit-orchard growers, Nagpur mandarin (santra) first. Owner's orchard: Shindi Khurd, Chandur Bazar, Amravati.
