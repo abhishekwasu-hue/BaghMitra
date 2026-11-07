@@ -2985,7 +2985,8 @@ pull; a request never fetches). `stale` says they are not current and `reason` s
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Erase the caller\'s account: every record, the sync history, devices, notice receipts,
-backed-up photos and (when configured) the sign-in account. It cannot be undone.''',
+backed-up photos and (when configured) the sign-in account. It cannot be undone.
+Market-link profiles and lots are hidden at once and erased after 180 days (Q68).''',
       summary: 'Delete Me',
       operationId: 'me_delete',
       consumes: [],

@@ -14603,7 +14603,7 @@
     },
     "/v1/me": {
       "delete": {
-        "description": "Erase the caller's account: every record, the sync history, devices, notice receipts,\nbacked-up photos and (when configured) the sign-in account. It cannot be undone.",
+        "description": "Erase the caller's account: every record, the sync history, devices, notice receipts,\nbacked-up photos and (when configured) the sign-in account. It cannot be undone.\nMarket-link profiles and lots are hidden at once and erased after 180 days (Q68).",
         "operationId": "me_delete",
         "responses": {
           "200": {
