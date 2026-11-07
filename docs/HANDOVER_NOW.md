@@ -6,8 +6,8 @@ Reports to Abhi in plain Marathi. Never run anything on the VPS; give him ONE co
 ## In flight (owner task "audit of 2026-11-07", verbatim below) — owner: take no new work, finish what is running
 | Step | PRs / branches | State |
 |---|---|---|
-| 1. Visibility enforcement | #230 ✅ merged, #232 ✅ merged; #233 `ml-vis-3` (base main) → #234 `ml-vis-4` (base `ml-vis-3`) | #233/#234 built + tested locally (339 passed after the OpenAPI + Dart regen); CI running. Merge #233 when green, retarget #234 to `main`, merge when green. Merge commits only (not squash): mark ready (MCP `update_pull_request draft=false`), check CI green + `git merge-tree --write-tree origin/main <head>` clean. |
-| 2. Test APK `MARKET_LINK` | #231 `ml-test-apk-flag` | Formatting fix pushed (03437b5); CI running. Merge when green. Q117 logged (default OFF everywhere). |
+| 1. Visibility enforcement | #230, #232, #233, #234 ✅ merged | Done. |
+| 2. Test APK `MARKET_LINK` | #231 ✅ merged | Done. Q117 open (default OFF everywhere). |
 | 3. Subscription billing | `billing-1` ef3416a (from main) → `billing-2` 3a8b2ed → `billing-3` f4cd0ec — API only, NOT reviewed, no PRs | See "Billing status" below. |
 
 ## Billing status (sub-agent report; stopped on the owner's order)
@@ -15,7 +15,7 @@ Reports to Abhi in plain Marathi. Never run anything on the VPS; give him ONE co
 - billing-2 (~360): `PUT /v1/admin/billing/roles/{role}/amount` → Play `monetization.subscriptions.patch` (India monthly), stores Play's price; 503 not set up / 502 refused ⇒ nothing saved; `POST …/migrate-prices` needs `confirm: true`. Env names only: `PLAY_SERVICE_ACCOUNT_B64`, `PLAY_PACKAGE_NAME` (`deploy/.env.example`).
 - billing-3 (345): migration 0038 (`subscriptions.price_change`); `POST /v1/billing/google/verify` (Play is the truth, 8 states mapped, token stored hashed, 409 / 403 on misuse, acknowledge, rate limit); `/plan` returns the account id + pending price change.
 - Tests: 110 passed on billing-3 (fake publisher, mocked HTTP; Google never called). Three M6a tests in `test_billing_api.py` changed to "full app while the switch is OFF" (addendum §7).
-- Check before merging: migration numbers 0037 / 0038 against main; **Q117 is used twice** (Test APK question in #231 and the billing "which information each role sees only with a plan" question) — renumber the billing ones (and Q118 "how a user's role is known": default from market-link registrations, grower if a plot or no other role).
+- Check before merging: migration numbers 0037 / 0038 against main; **Q117 is used twice** (owner decided the plan question 2026-11-07: nothing locked — now Q118 on main; renumber the billing branches' Q117 → Q118 decided, Q118 → Q119) (Test APK question in #231 and the billing "which information each role sees only with a plan" question) — renumber the billing ones (and Q118 "how a user's role is known": default from market-link registrations, grower if a plot or no other role).
 - Production risk: deploy never runs `python -m bagmitra_api.billing.seed`; an empty plans table breaks `GET /v1/billing/entitlements`. Add the seed to the deploy step / runbook.
 - Not built yet: admin web page (switch, amounts, price-change rules, confirmed migrate) + goldens; app `in_app_purchase` adapter + fake, purchase / restore / startup reconcile, Billing Library ≥ 8 CI check; paywall with Play's localized price, price-increase notice, Manage subscription link (Marathi screenshots light + dark); RTDN endpoint (OIDC), reconciliation job, voided-purchases poll; `docs/runbooks/billing-play.md` (CA GST opinion before the first switch ON) and an ADR; re-check Google policy / API shapes (developers.google.com was blocked in this session).
 
