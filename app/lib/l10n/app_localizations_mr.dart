@@ -3123,4 +3123,179 @@ class AppLocalizationsMr extends AppLocalizations {
   String adminMlDocumentCount(int n) {
     return 'कागदपत्रे: $n';
   }
+
+  @override
+  String get mlDisclaimerShort =>
+      'बागमित्र खरेदीदार, विक्रेता, मध्यस्थ (दलाल) किंवा वाहतूकदार नाही; पैसे ठेवत नाही; पैशांची किंवा दर्जाची हमी देत नाही.';
+
+  @override
+  String get mlOpen => 'माल विक्रीसाठी दाखवा';
+
+  @override
+  String get mlMyLotsTitle => 'माझा विक्रीचा माल';
+
+  @override
+  String get mlLotsEmpty =>
+      'फोटोसह तुमचा माल येथे दाखवा; तपासलेले व्यापारी व मध्यस्थ (दलाल) तो पाहतात.';
+
+  @override
+  String get mlLotFormTitle => 'विक्रीचा माल';
+
+  @override
+  String get mlNoPlot => 'आधी तुमची बाग जोडा.';
+
+  @override
+  String get mlPlot => 'बाग';
+
+  @override
+  String get mlBahar => 'बहार';
+
+  @override
+  String get mlQuantity => 'अंदाजे माल (टन)';
+
+  @override
+  String get mlQuality => 'आकार व दर्जा';
+
+  @override
+  String get mlHarvestWindow => 'तोडणीचा काळ';
+
+  @override
+  String mlWindowFromBahar(String from, String to) {
+    return '$from – $to (बहारप्रमाणे)';
+  }
+
+  @override
+  String get mlWindowPick => 'तारखा निवडा';
+
+  @override
+  String mlWindowRange(String from, String to) {
+    return '$from – $to';
+  }
+
+  @override
+  String get mlBasis => 'विक्रीची पद्धत';
+
+  @override
+  String get mlBasisPerTonne => 'प्रति टन';
+
+  @override
+  String get mlBasisPerCrate => 'प्रति क्रेट';
+
+  @override
+  String get mlBasisLumpSum => 'संपूर्ण बाग';
+
+  @override
+  String get mlAskingRate => 'अपेक्षित दर ₹ (ऐच्छिक)';
+
+  @override
+  String get mlPhotos => 'फोटो';
+
+  @override
+  String mlPhotosHint(String min, String max) {
+    return 'ॲपच्या कॅमेऱ्याने $min ते $max फोटो';
+  }
+
+  @override
+  String get mlAddPhoto => 'फोटो काढा';
+
+  @override
+  String get mlRemovePhoto => 'फोटो काढून टाका';
+
+  @override
+  String get mlPhotoNoGps =>
+      'GPS चालू करून पुन्हा फोटो काढा: प्रत्येक फोटोला ठिकाण लागते.';
+
+  @override
+  String get mlPrivacy =>
+      'व्यापाऱ्यांना फक्त गाव, तालुका व जिल्हा दिसतो; तुमचे नाव, फोन व बागेचे ठिकाण गुप्त राहते.';
+
+  @override
+  String get mlSaveDraft => 'मसुदा जतन करा';
+
+  @override
+  String get mlPublish => 'व्यापाऱ्यांना दाखवा';
+
+  @override
+  String get mlClose => 'दाखवणे बंद करा';
+
+  @override
+  String get mlStatusDraft => 'मसुदा';
+
+  @override
+  String get mlStatusPublished => 'व्यापाऱ्यांना दिसतो';
+
+  @override
+  String get mlStatusReview => 'तपासणी बाकी';
+
+  @override
+  String get mlStatusClosed => 'बंद';
+
+  @override
+  String mlTonnes(String value) {
+    return '$value टन';
+  }
+
+  @override
+  String mlRatePerTonne(String rate) {
+    return '$rate प्रति टन';
+  }
+
+  @override
+  String mlRatePerCrate(String rate) {
+    return '$rate प्रति क्रेट';
+  }
+
+  @override
+  String mlRateLumpSum(String rate) {
+    return 'संपूर्ण बागेसाठी $rate';
+  }
+
+  @override
+  String get mlPublished =>
+      'तपासलेल्या व्यापारी व मध्यस्थांना (दलाल) माल दिसू लागला.';
+
+  @override
+  String get mlClosed => 'माल व्यापाऱ्यांच्या यादीतून काढला.';
+
+  @override
+  String get mlPublishOffline =>
+      'यासाठी इंटरनेट लागते. मसुदा जतन आहे; इंटरनेट आल्यावर पुन्हा करा.';
+
+  @override
+  String mlPublishNeedPhotos(String min, String max) {
+    return 'आधी $min ते $max फोटो जोडा.';
+  }
+
+  @override
+  String get mlPublishPhotoMissing =>
+      'तो फोटो काढून टाका व पुन्हा काढा: त्याची फाईल या फोनवरून हरवली आहे.';
+
+  @override
+  String get mlPublishNotAccepted => 'आधी शेतकरी अटी मान्य करा, मग पुन्हा करा.';
+
+  @override
+  String get mlPublishFailed => 'थोड्या वेळाने पुन्हा करा.';
+
+  @override
+  String get mlChooseOne => 'एक निवडा';
+
+  @override
+  String get mlDeleteDraft => 'मसुदा हटवा';
+
+  @override
+  String get mlNoContacts =>
+      'येथे फक्त मालाबद्दल लिहा; फोन नंबर व लिंक ऑफर स्वीकारल्यानंतर मिळतात.';
+
+  @override
+  String get mlPublishOrchardCheck =>
+      'माल नोंदवला; फोटो नोंदवलेल्या बागेच्या हद्दीबाहेर काढले आहेत, म्हणून तपासणीनंतर व्यापाऱ्यांना दिसेल.';
+
+  @override
+  String get mlSize => 'आकार';
+
+  @override
+  String get mlGrade => 'दर्जा';
+
+  @override
+  String get mlQualityLine => 'थोडक्यात माहिती (ऐच्छिक)';
 }

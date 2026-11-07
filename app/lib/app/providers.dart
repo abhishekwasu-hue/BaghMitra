@@ -58,6 +58,7 @@ import '../features/labels/data/label_targets.dart';
 import '../features/lookalikes/data/lookalike_cards.dart';
 import '../features/market/data/market_prices_cache.dart';
 import '../features/market/domain/market_crops.dart';
+import '../features/market_link/data/lot_publisher.dart';
 import '../features/market_link/data/market_lot_repository.dart';
 import '../features/market_link/domain/market_lot.dart';
 import '../features/plots/data/crop_catalog.dart';
@@ -837,6 +838,19 @@ final marketLotsProvider = StreamProvider<List<MarketLot>>(
 final lotPhotosStreamProvider = StreamProvider.family<List<LotPhoto>, String>(
   (ref, lotId) => ref.watch(marketLotRepositoryProvider).watchPhotos(lotId),
 );
+
+/// Publishing and closing a lot (online steps). Tests override it.
+final lotPublisherProvider = Provider<LotPublisher>((ref) {
+  final db = ref.watch(databaseProvider);
+  return LotPublisher(
+    repo: ref.watch(marketLotRepositoryProvider),
+    api: HttpLotApi(ref.watch(apiProvider)),
+    files: DevicePhotoFiles(),
+    outbox: Outbox(db, clock: ref.watch(clockProvider)),
+    sync: () => ref.read(syncEngineProvider).sync(),
+    log: (line) => ref.read(appLogProvider).log(line),
+  );
+});
 
 final syncEngineProvider = Provider<SyncEngine>((ref) {
   final engine = SyncEngine(
