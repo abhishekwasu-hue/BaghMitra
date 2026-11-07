@@ -1588,6 +1588,117 @@ their profile; undoes a dismiss. Only for a published item that has a date.''',
     ),
   });
 
+  ///Deal Done
+  ///@param deal_id
+  Future<chopper.Response<IntroductionOut>> v1MarketLinkDealsDealIdDonePost({
+    required String? dealId,
+  }) {
+    generatedMapping.putIfAbsent(
+      IntroductionOut,
+      () => IntroductionOut.fromJsonFactory,
+    );
+
+    return _v1MarketLinkDealsDealIdDonePost(dealId: dealId);
+  }
+
+  ///Deal Done
+  ///@param deal_id
+  @POST(path: '/v1/market-link/deals/{deal_id}/done', optionalBody: true)
+  Future<chopper.Response<IntroductionOut>> _v1MarketLinkDealsDealIdDonePost({
+    @Path('deal_id') required String? dealId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''The grower or the trader says the deal is done (a repeat tap changes nothing). When
+both have tapped, the deal is completed and rating opens for 7 days (Q66, Q67).''',
+      summary: 'Deal Done',
+      operationId: 'market_link_deal_done',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  });
+
+  ///Deal Ratings
+  ///@param deal_id
+  Future<chopper.Response<DealRatingsOut>> v1MarketLinkDealsDealIdRatingsGet({
+    required String? dealId,
+  }) {
+    generatedMapping.putIfAbsent(
+      DealRatingsOut,
+      () => DealRatingsOut.fromJsonFactory,
+    );
+
+    return _v1MarketLinkDealsDealIdRatingsGet(dealId: dealId);
+  }
+
+  ///Deal Ratings
+  ///@param deal_id
+  @GET(path: '/v1/market-link/deals/{deal_id}/ratings')
+  Future<chopper.Response<DealRatingsOut>> _v1MarketLinkDealsDealIdRatingsGet({
+    @Path('deal_id') required String? dealId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'The caller\'s ratings on this deal, the questions to answer and the window.',
+      summary: 'Deal Ratings',
+      operationId: 'market_link_deal_ratings',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  });
+
+  ///Rate
+  ///@param deal_id
+  ///@param ratee_role
+  Future<chopper.Response<DealRatingsOut>>
+  v1MarketLinkDealsDealIdRatingsRateeRolePut({
+    required String? dealId,
+    required enums.V1MarketLinkDealsDealIdRatingsRateeRolePutRateeRole?
+    rateeRole,
+    required RatingIn? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      DealRatingsOut,
+      () => DealRatingsOut.fromJsonFactory,
+    );
+
+    return _v1MarketLinkDealsDealIdRatingsRateeRolePut(
+      dealId: dealId,
+      rateeRole: rateeRole?.value?.toString(),
+      body: body,
+    );
+  }
+
+  ///Rate
+  ///@param deal_id
+  ///@param ratee_role
+  @PUT(
+    path: '/v1/market-link/deals/{deal_id}/ratings/{ratee_role}',
+    optionalBody: true,
+  )
+  Future<chopper.Response<DealRatingsOut>>
+  _v1MarketLinkDealsDealIdRatingsRateeRolePut({
+    @Path('deal_id') required String? dealId,
+    @Path('ratee_role') required String? rateeRole,
+    @Body() required RatingIn? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Give or change the caller\'s rating of one party of a completed deal: every question
+of that role once. Only within 7 days of completion, then 409 `rating_locked`.''',
+      summary: 'Rate',
+      operationId: 'market_link_rate',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  });
+
   ///Register Exporter
   Future<chopper.Response<MyProfileOut>> v1MarketLinkExportersPost({
     required BuyerIn? body,

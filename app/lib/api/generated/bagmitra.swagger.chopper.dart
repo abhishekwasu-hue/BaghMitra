@@ -1276,6 +1276,86 @@ their profile; undoes a dismiss. Only for a published item that has a date.''',
   }
 
   @override
+  Future<Response<IntroductionOut>> _v1MarketLinkDealsDealIdDonePost({
+    required String? dealId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''The grower or the trader says the deal is done (a repeat tap changes nothing). When
+both have tapped, the deal is completed and rating opens for 7 days (Q66, Q67).''',
+      summary: 'Deal Done',
+      operationId: 'market_link_deal_done',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/market-link/deals/${dealId}/done');
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<IntroductionOut, IntroductionOut>($request);
+  }
+
+  @override
+  Future<Response<DealRatingsOut>> _v1MarketLinkDealsDealIdRatingsGet({
+    required String? dealId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'The caller\'s ratings on this deal, the questions to answer and the window.',
+      summary: 'Deal Ratings',
+      operationId: 'market_link_deal_ratings',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/market-link/deals/${dealId}/ratings');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<DealRatingsOut, DealRatingsOut>($request);
+  }
+
+  @override
+  Future<Response<DealRatingsOut>> _v1MarketLinkDealsDealIdRatingsRateeRolePut({
+    required String? dealId,
+    required String? rateeRole,
+    required RatingIn? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Give or change the caller\'s rating of one party of a completed deal: every question
+of that role once. Only within 7 days of completion, then 409 `rating_locked`.''',
+      summary: 'Rate',
+      operationId: 'market_link_rate',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse(
+      '/v1/market-link/deals/${dealId}/ratings/${rateeRole}',
+    );
+    final $body = body;
+    final Request $request = Request(
+      'PUT',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<DealRatingsOut, DealRatingsOut>($request);
+  }
+
+  @override
   Future<Response<MyProfileOut>> _v1MarketLinkExportersPost({
     required BuyerIn? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
