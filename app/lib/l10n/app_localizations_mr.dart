@@ -2862,6 +2862,17 @@ class AppLocalizationsMr extends AppLocalizations {
   }
 
   @override
+  String labelInfoSources(String count) {
+    return 'माहितीचे स्रोत ($count)';
+  }
+
+  @override
+  String get labelInfoOpenDetails => 'लेबलची पूर्ण माहिती पाहण्यासाठी दाबा';
+
+  @override
+  String get labelInfoDetailsTitle => 'लेबलवरील पूर्ण माहिती';
+
+  @override
   String get noPlotTitle => 'आधी तुमची बाग जोडा';
 
   @override

@@ -158,3 +158,24 @@ async def test_client_pulls_all_india_by_default_and_pages_until_a_short_page() 
 
     assert len(prices) == PAGE_LIMIT + 3
     assert offsets == ["0", str(PAGE_LIMIT), "0"]
+
+
+async def test_client_keeps_only_the_exact_commodity() -> None:
+    # data.gov.in matches the filter as free text: "Mousambi(Sweet Lime)" also returned
+    # "Sweet Pumpkin" rows on the live pull (2026-11-07).
+    base = SAMPLE["records"][0]
+    rows = [
+        {**base, "commodity": "Mousambi(Sweet Lime)"},
+        {**base, "commodity": "Sweet Pumpkin"},
+        {**base, "commodity": "mousambi(sweet lime) "},
+    ]
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        return httpx.Response(200, json={"records": rows})
+
+    async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as http:
+        client = AgmarknetClient(http, base_url="https://x.test", resource_id="r", api_key="k")
+        prices = await client.prices(commodity="Mousambi(Sweet Lime)")
+
+    assert len(prices) == 2
+    assert all("pumpkin" not in p.commodity.lower() for p in prices)

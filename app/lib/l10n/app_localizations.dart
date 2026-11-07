@@ -4972,6 +4972,24 @@ abstract class AppLocalizations {
   /// **'Label information: {target}'**
   String labelInfoOpenFor(String target);
 
+  /// No description provided for @labelInfoSources.
+  ///
+  /// In en, this message translates to:
+  /// **'Source documents ({count})'**
+  String labelInfoSources(String count);
+
+  /// No description provided for @labelInfoOpenDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to see the full label details'**
+  String get labelInfoOpenDetails;
+
+  /// No description provided for @labelInfoDetailsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Full label details'**
+  String get labelInfoDetailsTitle;
+
   /// Bottom sheet title when a per-block action is tapped with no block yet.
   ///
   /// In en, this message translates to:

@@ -2867,6 +2867,17 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String labelInfoSources(String count) {
+    return 'Source documents ($count)';
+  }
+
+  @override
+  String get labelInfoOpenDetails => 'Tap to see the full label details';
+
+  @override
+  String get labelInfoDetailsTitle => 'Full label details';
+
+  @override
   String get noPlotTitle => 'Add your orchard block first';
 
   @override

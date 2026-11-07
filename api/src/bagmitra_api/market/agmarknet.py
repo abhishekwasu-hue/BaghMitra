@@ -138,7 +138,13 @@ class AgmarknetClient:
         prices: list[MandiPrice] = []
         for page in range(self._max_pages):
             payload = await self._page({**params, "offset": page * PAGE_LIMIT})
-            prices.extend(parse_records(payload))
+            # The API matches filters as free text ("Mousambi(Sweet Lime)" also returns
+            # "Sweet Pumpkin" rows, seen live 2026-11-07), so keep only the exact commodity.
+            prices.extend(p for p in parse_records(payload) if _same(p.commodity, commodity))
             if len(payload["records"]) < PAGE_LIMIT:
                 break
         return prices
+
+
+def _same(a: str, b: str) -> bool:
+    return a.strip().casefold() == b.strip().casefold()
