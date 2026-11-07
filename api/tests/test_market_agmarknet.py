@@ -179,3 +179,18 @@ async def test_client_keeps_only_the_exact_commodity() -> None:
 
     assert len(prices) == 2
     assert all("pumpkin" not in p.commodity.lower() for p in prices)
+
+
+def test_settings_price_the_owners_fruit_list() -> None:
+    # Owner 2026-11-07: santra (default), mosambi and seven more fruits.
+    assert set(Settings().market_commodities) == {
+        "santra",
+        "mosambi",
+        "banana",
+        "guava",
+        "pomegranate",
+        "grapes",
+        "papaya",
+        "lemon",
+        "apple",
+    }

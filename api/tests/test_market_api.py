@@ -82,9 +82,14 @@ def market() -> FakeMarket:
     return FakeMarket()
 
 
+TWO_CROPS = {"santra": ["Orange"], "mosambi": ["Mousambi(Sweet Lime)"]}
+
+
 @pytest.fixture
 def keyed(settings: Settings) -> Settings:
-    return settings.model_copy(update={"market_api_key": SecretStr("market-test-key")})
+    return settings.model_copy(
+        update={"market_api_key": SecretStr("market-test-key"), "market_commodities": TWO_CROPS}
+    )
 
 
 async def pull(engine: AsyncEngine, market: FakeMarket, settings: Settings, now: datetime) -> None:
@@ -224,7 +229,7 @@ async def test_an_empty_successful_pull_is_current_not_an_error(
 async def test_unknown_crop_bad_scope_and_no_token_are_refused(
     api: httpx.AsyncClient, auth_headers: dict[str, str]
 ) -> None:
-    r = await api.get("/v1/market/prices?crop=banana", headers=auth_headers)
+    r = await api.get("/v1/market/prices?crop=litchi", headers=auth_headers)
     assert r.status_code == 404
     assert r.json()["error"]["code"] == "crop_not_priced"
     bad = await api.get("/v1/market/prices?crop=santra&scope=world", headers=auth_headers)
@@ -294,7 +299,7 @@ async def test_manual_upload_is_validated_and_needs_the_market_admin_role(
     assert (await api.post(url, json=ok)).status_code == 401
 
     bad_cases = [
-        manual_row("Kalamna", "2026-10-25", 3500, commodity="Banana"),
+        manual_row("Kalamna", "2026-10-25", 3500, commodity="Litchi"),
         manual_row("Kalamna", "2026-10-27", 3500),  # after today (NOW is 2026-10-26)
         manual_row("Kalamna", "2026-10-25", 3500, min_rs_per_quintal=3600),
         manual_row("Kalamna", "2026-10-25", 3500, max_rs_per_quintal=3400),
