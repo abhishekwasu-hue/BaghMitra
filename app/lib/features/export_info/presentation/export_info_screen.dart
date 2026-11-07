@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../app/providers.dart';
+import '../../../app/router.dart';
 import '../../../core/formatting.dart';
 import '../../../design_system/app_bar_title.dart';
+import '../../../design_system/bottom_actions.dart';
 import '../../../design_system/cards.dart';
 import '../../../design_system/empty_state.dart';
 import '../../../design_system/info_note.dart';
@@ -57,6 +60,16 @@ class _ExportInfoScreenState extends ConsumerState<ExportInfoScreen> {
     final crops = ref.watch(cropsProvider).value ?? const [];
     return Scaffold(
       appBar: AppBar(title: AppBarTitle(t.exportInfoTitle)),
+      bottomNavigationBar: BottomActions(
+        children: [
+          FilledButton.icon(
+            key: const Key('export-record-open'),
+            onPressed: () => context.push(Routes.exportRecord),
+            icon: const Icon(Icons.picture_as_pdf_outlined),
+            label: Text(t.exportRecordAction),
+          ),
+        ],
+      ),
       body: info == null
           ? LoadingState(label: t.loadingLabel)
           : ListView(

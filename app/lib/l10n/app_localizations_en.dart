@@ -2557,6 +2557,68 @@ class AppLocalizationsEn extends AppLocalizations {
   String get exportLinksTitle => 'Official pages';
 
   @override
+  String get exportRecordTitle => 'Export record';
+
+  @override
+  String get exportRecordAction => 'Make export record (PDF)';
+
+  @override
+  String get exportRecordPlot => 'Plot';
+
+  @override
+  String get exportRecordBahar => 'Bahar';
+
+  @override
+  String get exportRecordAllBahars => 'All sprays';
+
+  @override
+  String exportRecordCount(String count) {
+    return '$count sprays';
+  }
+
+  @override
+  String exportRecordLastPhi(String date) {
+    return 'Last PHI ends $date';
+  }
+
+  @override
+  String get exportRecordShare => 'Share PDF';
+
+  @override
+  String get exportRecordNoPlot =>
+      'Add a plot first; its spray record appears here.';
+
+  @override
+  String get exportRecordEmpty =>
+      'Sprays of this bahar appear here once recorded.';
+
+  @override
+  String get exportRecordDate => 'Date';
+
+  @override
+  String get exportRecordProduct => 'Product · ingredient · dose';
+
+  @override
+  String get exportRecordLabel => 'Label check';
+
+  @override
+  String get exportRecordPhiEnd => 'PHI ends';
+
+  @override
+  String get exportLabelListed => 'On the label for this crop';
+
+  @override
+  String get exportLabelCheck => 'Check the label';
+
+  @override
+  String exportRecordMade(String date) {
+    return 'Made on $date from the grower\'s own spray log.';
+  }
+
+  @override
+  String get exportRecordFooter => 'Information record, not a certificate.';
+
+  @override
   String fairPriceMandi(Object date, Object market, Object price) {
     return '$market mandi, $date: modal price $price per quintal';
   }
@@ -3150,5 +3212,457 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String adminMlDocumentCount(int n) {
     return 'Documents: $n';
+  }
+
+  @override
+  String get mlRolesTitle => 'Choose your role';
+
+  @override
+  String get mlRolesIntro =>
+      'One sign-in for every role. You can switch the role any time.';
+
+  @override
+  String get mlRoleGrower => 'Grower';
+
+  @override
+  String get mlRoleTrader => 'Trader';
+
+  @override
+  String get mlRoleBroker => 'Broker';
+
+  @override
+  String get mlRoleExporter => 'Exporter';
+
+  @override
+  String get mlRoleProvider => 'Service provider';
+
+  @override
+  String get mlRoleProviderKinds => 'Weighbridge, transport, labour, crates';
+
+  @override
+  String get mlRoleCurrent => 'Current role';
+
+  @override
+  String get mlSwitchRole => 'Switch role';
+
+  @override
+  String get mlHomeLinkTitle => 'Market link';
+
+  @override
+  String get mlHomeLinkHint =>
+      'Trader, broker, exporter, services: choose a role';
+
+  @override
+  String get mlTermsTitle => 'Before you start';
+
+  @override
+  String mlTermsRole(String role) {
+    return 'Role: $role';
+  }
+
+  @override
+  String get mlTermsIntroOnly =>
+      'BagMitra only gives information and introduces you to traders, brokers and the market.';
+
+  @override
+  String get mlTermsNotParty =>
+      'BagMitra is not a buyer, seller, commission agent or transporter.';
+
+  @override
+  String get mlTermsNoMoney =>
+      'It holds no money and guarantees no payment or quality.';
+
+  @override
+  String get mlTermsNoGainLoss =>
+      'This app has no gain or loss in your transaction.';
+
+  @override
+  String get mlTermsNoPart =>
+      'It takes no part in your transaction or in any dispute.';
+
+  @override
+  String get mlTermsAfterDeal =>
+      'What to record after a transaction is your choice.';
+
+  @override
+  String get mlTermsPublicPhone =>
+      'Your phone number is shown publicly on your profile, so growers can call you directly.';
+
+  @override
+  String get mlTermsGpsOnce =>
+      'Your location (GPS) is taken once, at registration, to prevent fraud.';
+
+  @override
+  String get mlTermsFull => 'Full terms of use';
+
+  @override
+  String get mlTermsAdult => 'I am over 18 years of age';
+
+  @override
+  String get mlTermsAgree => 'I have read and agree';
+
+  @override
+  String get mlTermsAccept => 'Accept and continue';
+
+  @override
+  String get mlTermsBack => 'Back';
+
+  @override
+  String get mlRoleHomeSoon => 'The tools for this role will appear here soon.';
+
+  @override
+  String get mlSafetyNotice =>
+      'BagMitra never asks for money, OTP or bank details.';
+
+  @override
+  String get mlGrievanceTitle => 'Grievance officer';
+
+  @override
+  String get mlGrievanceOwner => 'BagMitra owner';
+
+  @override
+  String mlGrievanceContact(String contact) {
+    return 'Contact: $contact';
+  }
+
+  @override
+  String get mlGrievanceTimes =>
+      'Complaints are acknowledged within 24 hours and resolved within 15 days.';
+
+  @override
+  String get mlKindWeighbridge => 'Weighbridge';
+
+  @override
+  String get mlKindTransporter => 'Transport';
+
+  @override
+  String get mlKindLabourGang => 'Labour gang';
+
+  @override
+  String get mlKindCrateSupplier => 'Crate supplier';
+
+  @override
+  String get mlRegisterTrader => 'Trader registration';
+
+  @override
+  String get mlRegisterExporter => 'Exporter registration';
+
+  @override
+  String get mlRegisterBroker => 'Broker registration';
+
+  @override
+  String get mlRegisterProvider => 'Service provider registration';
+
+  @override
+  String get mlRegisterAs => 'Register as';
+
+  @override
+  String get mlFixTitle => 'Location at registration';
+
+  @override
+  String get mlFixWhy =>
+      'To finish registration, the phone takes your current location once. This keeps fake registrations away.';
+
+  @override
+  String get mlFixOnce =>
+      'Taken once, right now. Your public profile shows only village, taluka and district; the exact point is for BagMitra\'s check.';
+
+  @override
+  String get mlPhonePublicNote =>
+      'After the check, your name, firm and contact number are shown to registered growers.';
+
+  @override
+  String get mlFixTake => 'Take location';
+
+  @override
+  String get mlFixTaking => 'Taking location…';
+
+  @override
+  String get mlFixDenied => 'Allow location to finish registration.';
+
+  @override
+  String mlFixTaken(String place, String metres) {
+    return 'Location taken: $place (±$metres m)';
+  }
+
+  @override
+  String get mlPickKind => 'What service do you give?';
+
+  @override
+  String get mlFieldName => 'Name';
+
+  @override
+  String get mlFieldPhone => 'Contact number';
+
+  @override
+  String get mlFieldFirm => 'Firm name (optional)';
+
+  @override
+  String get mlFieldVillage => 'Village';
+
+  @override
+  String get mlFieldTaluka => 'Taluka';
+
+  @override
+  String get mlFieldDistrict => 'District';
+
+  @override
+  String get mlFieldMarkets => 'Markets / villages (comma between)';
+
+  @override
+  String get mlFieldAreas => 'Areas you serve (comma between)';
+
+  @override
+  String get mlFieldCrops => 'Crops';
+
+  @override
+  String get mlFieldAddress => 'Address (optional)';
+
+  @override
+  String get mlFieldGst => 'GSTIN';
+
+  @override
+  String get mlFieldApmc => 'APMC licence no.';
+
+  @override
+  String get mlFieldFssai => 'FSSAI licence no.';
+
+  @override
+  String get mlFieldIec => 'IEC no.';
+
+  @override
+  String get mlFieldApeda => 'APEDA registration no.';
+
+  @override
+  String get mlFieldVehicles => 'Vehicle numbers (comma between)';
+
+  @override
+  String get mlFieldCapacity => 'Capacity (tonnes)';
+
+  @override
+  String get mlFieldRefrigerated => 'Refrigerated vehicle';
+
+  @override
+  String get mlFieldCertUntil => 'Certificate valid until';
+
+  @override
+  String mlCertUntilValue(String date) {
+    return 'Certificate valid until $date';
+  }
+
+  @override
+  String get mlNumbersNote =>
+      'Give at least one: GSTIN, APMC licence or IEC. BagMitra checks it on the official public register.';
+
+  @override
+  String get mlIecRequired => 'An exporter registers with an IEC number.';
+
+  @override
+  String get mlBrokerCallNote =>
+      'BagMitra calls you on this number to complete the check.';
+
+  @override
+  String get mlErrPhone => 'Write a 10-digit mobile number';
+
+  @override
+  String get mlErrGst => 'Write the 15-character GSTIN';
+
+  @override
+  String get mlErrIec => 'Write the 10-character IEC';
+
+  @override
+  String get mlErrFssai => 'Write the 14-digit FSSAI number';
+
+  @override
+  String get mlErrCapacity => 'Write the capacity in tonnes (up to 100)';
+
+  @override
+  String get mlErrOneNumber => 'Write a GSTIN, APMC licence or IEC number';
+
+  @override
+  String get mlErrPickKind => 'Pick the service you give';
+
+  @override
+  String get mlErrCertDate => 'Pick the certificate\'s valid-until date';
+
+  @override
+  String get mlErrFixStale => 'Take the location again, then send';
+
+  @override
+  String get mlErrExists =>
+      'You are already registered in this role; see My market registration';
+
+  @override
+  String get mlErrCheckFields => 'Check the entries and send again';
+
+  @override
+  String get mlSubmit => 'Send registration';
+
+  @override
+  String get mlSubmitted => 'Registration sent. BagMitra will check it.';
+
+  @override
+  String get mlOffline => 'Connect to the internet to see this';
+
+  @override
+  String get mlServerBusy => 'The server is busy; try again in a while';
+
+  @override
+  String get mlRetry => 'Try again';
+
+  @override
+  String get mlMyProfilesTitle => 'My market registration';
+
+  @override
+  String get mlMyProfilesEmpty =>
+      'Register below as a trader, exporter, broker or service provider.';
+
+  @override
+  String get mlStatusPending => 'Check pending';
+
+  @override
+  String get mlStatusApproved => 'Checked by BagMitra';
+
+  @override
+  String get mlStatusRejected => 'Sent back; see the reason';
+
+  @override
+  String get mlCheckNote =>
+      'Your profile is shown to growers after BagMitra\'s check. Document photos help the check.';
+
+  @override
+  String mlDocsCount(String count) {
+    return 'Document photos: $count';
+  }
+
+  @override
+  String get mlDocCertificate => 'Weighbridge certificate';
+
+  @override
+  String mlCertExpired(String date) {
+    return 'Certificate date passed ($date)';
+  }
+
+  @override
+  String get mlAddressAdd => 'Add address';
+
+  @override
+  String get mlAddressEdit => 'Change address';
+
+  @override
+  String get mlCancel => 'Cancel';
+
+  @override
+  String get mlSave => 'Save';
+
+  @override
+  String get mlPeopleTitle => 'Traders and brokers';
+
+  @override
+  String get mlPeopleEmpty =>
+      'Checked traders and brokers of this area will show here.';
+
+  @override
+  String mlAreaTaluka(String taluka) {
+    return 'Taluka $taluka';
+  }
+
+  @override
+  String mlAreaDistrict(String district) {
+    return 'District $district';
+  }
+
+  @override
+  String get mlSortRating => 'By rating';
+
+  @override
+  String get mlSortDeals => 'By deals';
+
+  @override
+  String mlDeals(String count) {
+    return 'Deals done: $count';
+  }
+
+  @override
+  String mlStars(String average, String count) {
+    return '$average/5 ($count)';
+  }
+
+  @override
+  String mlDistanceKm(String km) {
+    return '$km km';
+  }
+
+  @override
+  String mlBadgeChecked(String date) {
+    return 'Checked by BagMitra on $date';
+  }
+
+  @override
+  String mlBadgeRegisteredFrom(String place, String date) {
+    return 'Registered from $place on $date';
+  }
+
+  @override
+  String mlBadgePlacePhoto(String date) {
+    return 'Place photo by a BagMitra representative on $date';
+  }
+
+  @override
+  String get mlBadgeNote =>
+      'A badge says what BagMitra checked and when. You settle the deal terms directly with each other.';
+
+  @override
+  String get mlCall => 'Call';
+
+  @override
+  String mlCallNumber(String phone) {
+    return 'Call $phone';
+  }
+
+  @override
+  String get mlRatingsTitle => 'Ratings';
+
+  @override
+  String get mlQTraderOnDate => 'Came on the agreed harvest date';
+
+  @override
+  String get mlQTraderWeighing => 'Weighing / crate count correct';
+
+  @override
+  String get mlQTraderPaid => 'Paid advance and balance as agreed';
+
+  @override
+  String get mlQTraderConditions => 'Kept the other conditions';
+
+  @override
+  String get mlQBrokerHonest => 'Represented the deal honestly';
+
+  @override
+  String get mlQBrokerTraderKept => 'The trader they brought kept the deal';
+
+  @override
+  String get mlAreaAll => 'All areas';
+
+  @override
+  String get mlMarkets => 'Markets / villages';
+
+  @override
+  String get mlAreas => 'Areas served';
+
+  @override
+  String get mlServicesTitle => 'Service providers';
+
+  @override
+  String get mlServicesEmpty =>
+      'Checked weighbridges, transport, labour gangs and crate suppliers near you will show here.';
+
+  @override
+  String get mlServicesNote =>
+      'Call them and agree directly; rates and payment are between you.';
+
+  @override
+  String mlNearPlot(String name) {
+    return 'Near $name';
   }
 }
