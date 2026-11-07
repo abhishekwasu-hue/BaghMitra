@@ -171,8 +171,21 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
 /// Records one sale: buyer, kg, rate per quintal, deductions and what was received.
 /// Payment status follows from the amounts, so the grower never has to pick it.
 class AddSaleScreen extends ConsumerStatefulWidget {
-  const AddSaleScreen({required this.plotId, super.key});
+  const AddSaleScreen({
+    required this.plotId,
+    super.key,
+    this.buyer,
+    this.kg,
+    this.rate,
+  });
   final String plotId;
+
+  /// Filled from a market-link introduction (L5 copy to own Accounts); all editable.
+  final String? buyer;
+  final String? kg;
+
+  /// Rupees per quintal.
+  final String? rate;
 
   @override
   ConsumerState<AddSaleScreen> createState() => _AddSaleScreenState();
@@ -180,9 +193,9 @@ class AddSaleScreen extends ConsumerStatefulWidget {
 
 class _AddSaleScreenState extends ConsumerState<AddSaleScreen> {
   final _form = GlobalKey<FormState>();
-  final _buyer = TextEditingController();
-  final _kg = TextEditingController();
-  final _rate = TextEditingController();
+  late final _buyer = TextEditingController(text: widget.buyer);
+  late final _kg = TextEditingController(text: widget.kg);
+  late final _rate = TextEditingController(text: widget.rate);
   final _deductions = TextEditingController();
   final _paid = TextEditingController();
 
