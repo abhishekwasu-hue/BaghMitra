@@ -37,7 +37,11 @@ from bagmitra_api.market.service import market_client
 NOW = datetime(2026, 11, 5, 4, 35, tzinfo=UTC)
 
 
+TWO_CROPS = {"santra": ["Orange"], "mosambi": ["Mousambi(Sweet Lime)"]}
+
+
 def keyed(**extra: Any) -> Settings:
+    extra.setdefault("market_commodities", TWO_CROPS)
     return Settings(market_api_key=SecretStr("market-test-key"), **extra)
 
 
@@ -118,7 +122,9 @@ async def test_a_failure_after_a_success_keeps_the_last_success(engine: AsyncEng
 async def test_without_a_key_the_run_does_nothing(engine: AsyncEngine) -> None:
     provider = Provider()
     async with async_sessionmaker(engine)() as session:
-        summary = await run_market_pull(session, provider, Settings(), NOW)
+        summary = await run_market_pull(
+            session, provider, Settings(market_commodities=TWO_CROPS), NOW
+        )
         assert summary.skipped_reason == SKIPPED_NO_KEY
         assert (await session.scalars(select(MarketPull))).all() == []
     assert provider.calls == []
