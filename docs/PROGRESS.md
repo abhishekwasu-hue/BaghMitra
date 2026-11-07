@@ -1,5 +1,12 @@
 # Progress
 
+## Resume — market link (keep ≤ 10 lines)
+- Market link L0–L9 merged on main (spec `SPEC_market_linkage_addendum_v1.5.md`; build prompt `prompts/MARKET_LINKAGE_BUILD_PROMPT.md` with Addenda 1–6); Alembic migrations 0029–0035 (head `0035_season_package`).
+- Production flag `MARKET_LINK_ENABLED` stays **OFF** (legal gate, spec §5); app build flag `MARKET_LINK` off; season package switch OFF by default.
+- Open owner questions: Q99–Q115 in `OPEN_QUESTIONS.md` (defaults built).
+- Open PR: #226 (§4E interest visibility: an interest needs the lot visible under the §4E rule).
+- Data docs: `legal/DATA_INVENTORY.md` §3A, `store/data-safety.md` §2 / §2A; owner point DI §8.5 (`device_sightings`, `package_grants` not erased; grant FK vs the erase job).
+
 ## Resume point (keep ≤ 15 lines)
 - Read first: this block, `docs/research/RESEARCH_DIGEST.md`, then only the spec section the item needs (`grep -n`).
 - Done 2026-10-26: #60 CI efficiency; #61 season calendar; #62 bahar compare (Q24); M4: #63 Open-Meteo adapter (Q25), #64 risk engine (`risk/rules.json`: heat, psylla DD; drafts, no chemicals), #65 `weather_daily` + `GET /v1/plots/{id}/weather`, #66 plot weather card (offline cache); M5: #67 Agmarknet adapter (Q26, needs `MARKET_API_KEY`).
