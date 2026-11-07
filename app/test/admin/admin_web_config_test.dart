@@ -47,8 +47,35 @@ void main() {
       expect(config.supabaseUrl, 'https://ref.supabase.co');
       expect(config.supabaseAnonKey, 'anon');
       expect(config.apiBaseUrl, 'https://bagmitra.example.com');
+      expect(config.marketLink, isFalse);
     },
   );
+
+  test('a MARKET_LINK build define survives config.json', () async {
+    final client = MockClient(
+      (_) async => http.Response(
+        jsonEncode({'supabase_url': 'https://r.co', 'supabase_anon_key': 'a'}),
+        200,
+      ),
+    );
+    final on = AppConfig(
+      productName: _base.productName,
+      apiBaseUrl: _base.apiBaseUrl,
+      supabaseUrl: '',
+      supabaseAnonKey: '',
+      devGallery: false,
+      testBuild: '',
+      speechEngine: 'on_device',
+      marketLink: true,
+    );
+    final config = await resolveAdminConfig(
+      on,
+      isWeb: true,
+      pageUri: _page,
+      client: client,
+    );
+    expect(config.marketLink, isTrue);
+  });
 
   test('keeps build-time defines and never asks off the web', () async {
     var calls = 0;
