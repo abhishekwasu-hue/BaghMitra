@@ -120,9 +120,18 @@ class LotMandiNote extends ConsumerWidget {
 
 /// Short status chip of a lot: draft, shown to traders, or closed.
 class LotStatusChip extends StatelessWidget {
-  const LotStatusChip(this.status, {this.awaitingCheck = false, super.key});
+  const LotStatusChip(
+    this.status, {
+    this.awaitingCheck = false,
+    this.hiddenByPackage = false,
+    super.key,
+  });
 
   final String status;
+
+  /// Published, but the season package switch is ON and no active package covers the lot,
+  /// so traders do not see it (spec v1.5 §4E): never say "shown to traders" then.
+  final bool hiddenByPackage;
 
   /// Published, but waiting for the admin's orchard check (spec §4C).
   final bool awaitingCheck;
@@ -137,6 +146,11 @@ class LotStatusChip extends StatelessWidget {
         c.warnTitle,
         c.nowTint,
       ),
+      'published' when hiddenByPackage => (
+        t.mlPackageHiddenNow,
+        c.inkMuted,
+        c.card,
+      ),
       'published' => (t.mlStatusPublished, c.brandStrong, c.doneTint),
       'closed' => (t.mlStatusClosed, c.inkMuted, c.card),
       _ => (t.mlStatusDraft, c.warnTitle, c.nowTint),
@@ -148,6 +162,9 @@ class LotStatusChip extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         color: bg,
+        border: status == 'published' && hiddenByPackage
+            ? Border.all(color: c.line)
+            : null,
         borderRadius: BorderRadius.circular(BmRadius.chip),
       ),
       child: Text(label, style: BmType.label.copyWith(color: fg)),

@@ -22,6 +22,7 @@ Future<void> _pump(
   WidgetTester tester,
   PackageStatus? status, {
   String lot = 'l1',
+  Widget? child,
 }) async {
   await tester.pumpWidget(
     ProviderScope(
@@ -35,7 +36,7 @@ Future<void> _pump(
         locale: const Locale('mr'),
         supportedLocales: AppLocalizations.supportedLocales,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
-        home: Scaffold(body: PackageChip(lot)),
+        home: Scaffold(body: child ?? PackageChip(lot)),
       ),
     ),
   );
@@ -73,6 +74,35 @@ void main() {
       await _pump(tester, status);
       expect(find.byKey(const Key('package-l1')), findsNothing);
     }
+  });
+
+  testWidgets('switch ON, no package: the status chip never says "shown"', (
+    tester,
+  ) async {
+    const chip = PackagedLotStatusChip('l1', 'published');
+    await _pump(tester, const PackageStatus(switchOn: true), child: chip);
+    expect(find.text('व्यापाऱ्यांना सध्या दिसत नाही'), findsOneWidget);
+    expect(find.text('व्यापाऱ्यांना दिसतो'), findsNothing);
+    // Covered, switch OFF or offline: shown to traders, as before.
+    for (final status in [
+      PackageStatus(switchOn: true, covers: {null: until}),
+      const PackageStatus(switchOn: false),
+      null,
+    ]) {
+      await _pump(tester, status, child: chip);
+      expect(
+        find.text('व्यापाऱ्यांना दिसतो'),
+        findsOneWidget,
+        reason: '$status',
+      );
+    }
+    // A draft is unaffected.
+    await _pump(
+      tester,
+      const PackageStatus(switchOn: true),
+      child: const PackagedLotStatusChip('l1', 'draft'),
+    );
+    expect(find.text('व्यापाऱ्यांना सध्या दिसत नाही'), findsNothing);
   });
 
   test('the later end date wins', () {

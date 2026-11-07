@@ -3335,4 +3335,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mlPackageNotActive => 'Package not active';
+
+  @override
+  String get mlPackageHiddenNow => 'Not shown to traders now';
 }

@@ -948,5 +948,6 @@
   "mlGrade": "दर्जा",
   "mlQualityLine": "थोडक्यात माहिती (ऐच्छिक)",
   "mlPackageActiveUntil": "पॅकेज {date} पर्यंत चालू",
-  "mlPackageNotActive": "पॅकेज चालू नाही"
+  "mlPackageNotActive": "पॅकेज चालू नाही",
+  "mlPackageHiddenNow": "व्यापाऱ्यांना सध्या दिसत नाही"
 }

@@ -79,7 +79,7 @@ void main() {
     for (final lang in ['mr', 'hi', 'en']) {
       final keys = _arb(lang).entries
           .where((e) => e.key.startsWith('mlPackage'));
-      expect(keys.length, 2, reason: lang);
+      expect(keys.length, 3, reason: lang);
       for (final e in keys) {
         expect(
           _paymentWords.hasMatch(e.value),
