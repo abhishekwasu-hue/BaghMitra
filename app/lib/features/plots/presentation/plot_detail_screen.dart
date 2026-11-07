@@ -117,14 +117,15 @@ class PlotDetailScreen extends ConsumerWidget {
 
 /// The way into a block's records: Bahar as the one primary tile, then a two-column grid
 /// of labelled tiles, one per screen, each opened with one tap.
-class PlotTiles extends StatelessWidget {
+class PlotTiles extends ConsumerWidget {
   const PlotTiles({required this.plotId, super.key});
 
   final String plotId;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final t = AppLocalizations.of(context);
+    final marketLink = ref.watch(appConfigProvider).marketLink;
     final tiles = <_TileSpec>[
       (
         key: 'open-sprays',
@@ -186,6 +187,13 @@ class PlotTiles extends StatelessWidget {
         label: t.practicesOpen,
         route: Routes.practices,
       ),
+      if (marketLink)
+        (
+          key: 'open-market-lot',
+          icon: const Icon(Icons.sell_outlined),
+          label: t.mlOpen,
+          route: Routes.newMarketLot(plotId: plotId),
+        ),
     ];
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,

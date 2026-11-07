@@ -431,6 +431,57 @@ Map<String, dynamic> _$BuyerInToJson(BuyerIn instance) => <String, dynamic>{
   'taluka': ?instance.taluka,
 };
 
+BuyerLotOut _$BuyerLotOutFromJson(Map<String, dynamic> json) => BuyerLotOut(
+  askingRatePaise: (json['asking_rate_paise'] as num?)?.toInt(),
+  basis: json['basis'] as String,
+  crop: json['crop'] as String,
+  district: json['district'] as String?,
+  harvestFrom: DateTime.parse(json['harvest_from'] as String),
+  harvestTo: DateTime.parse(json['harvest_to'] as String),
+  id: json['id'] as String,
+  photos:
+      (json['photos'] as List<dynamic>?)
+          ?.map((e) => LotPhotoView.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      [],
+  publishedAt: DateTime.parse(json['published_at'] as String),
+  quality: json['quality'] as String?,
+  quantityT: (json['quantity_t'] as num).toDouble(),
+  taluka: json['taluka'] as String?,
+  variety: json['variety'] as String?,
+  village: json['village'] as String?,
+);
+
+Map<String, dynamic> _$BuyerLotOutToJson(BuyerLotOut instance) =>
+    <String, dynamic>{
+      'asking_rate_paise': ?instance.askingRatePaise,
+      'basis': instance.basis,
+      'crop': instance.crop,
+      'district': ?instance.district,
+      'harvest_from': ?_dateToJson(instance.harvestFrom),
+      'harvest_to': ?_dateToJson(instance.harvestTo),
+      'id': instance.id,
+      'photos': instance.photos.map((e) => e.toJson()).toList(),
+      'published_at': instance.publishedAt.toIso8601String(),
+      'quality': ?instance.quality,
+      'quantity_t': instance.quantityT,
+      'taluka': ?instance.taluka,
+      'variety': ?instance.variety,
+      'village': ?instance.village,
+    };
+
+BuyerLotsResponse _$BuyerLotsResponseFromJson(Map<String, dynamic> json) =>
+    BuyerLotsResponse(
+      lots:
+          (json['lots'] as List<dynamic>?)
+              ?.map((e) => BuyerLotOut.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+    );
+
+Map<String, dynamic> _$BuyerLotsResponseToJson(BuyerLotsResponse instance) =>
+    <String, dynamic>{'lots': instance.lots.map((e) => e.toJson()).toList()};
+
 CardOut _$CardOutFromJson(Map<String, dynamic> json) => CardOut(
   crop: json['crop'] as String,
   hasChemicalOptions: json['has_chemical_options'] as bool,
@@ -1345,6 +1396,33 @@ Map<String, dynamic> _$GrowerCardsResponseToJson(
   'kind': ?instance.kind,
 };
 
+GrowerLotOut _$GrowerLotOutFromJson(Map<String, dynamic> json) => GrowerLotOut(
+  crop: json['crop'] as String,
+  district: json['district'] as String?,
+  id: json['id'] as String,
+  orchardCheck: json['orchard_check'] as String?,
+  publishedAt: json['published_at'] == null
+      ? null
+      : DateTime.parse(json['published_at'] as String),
+  status: json['status'] as String,
+  taluka: json['taluka'] as String?,
+  variety: json['variety'] as String?,
+  village: json['village'] as String?,
+);
+
+Map<String, dynamic> _$GrowerLotOutToJson(GrowerLotOut instance) =>
+    <String, dynamic>{
+      'crop': instance.crop,
+      'district': ?instance.district,
+      'id': instance.id,
+      'orchard_check': ?instance.orchardCheck,
+      'published_at': ?instance.publishedAt?.toIso8601String(),
+      'status': instance.status,
+      'taluka': ?instance.taluka,
+      'variety': ?instance.variety,
+      'village': ?instance.village,
+    };
+
 HTTPValidationError _$HTTPValidationErrorFromJson(Map<String, dynamic> json) =>
     HTTPValidationError(
       detail:
@@ -1504,6 +1582,31 @@ LiveResponse _$LiveResponseFromJson(Map<String, dynamic> json) => LiveResponse(
 
 Map<String, dynamic> _$LiveResponseToJson(LiveResponse instance) =>
     <String, dynamic>{'product': instance.product, 'status': instance.status};
+
+LotPhotoStored _$LotPhotoStoredFromJson(Map<String, dynamic> json) =>
+    LotPhotoStored(photoKey: json['photo_key'] as String);
+
+Map<String, dynamic> _$LotPhotoStoredToJson(LotPhotoStored instance) =>
+    <String, dynamic>{'photo_key': instance.photoKey};
+
+LotPhotoUrl _$LotPhotoUrlFromJson(Map<String, dynamic> json) => LotPhotoUrl(
+  expiresIn: (json['expires_in'] as num).toInt(),
+  url: json['url'] as String,
+);
+
+Map<String, dynamic> _$LotPhotoUrlToJson(LotPhotoUrl instance) =>
+    <String, dynamic>{'expires_in': instance.expiresIn, 'url': instance.url};
+
+LotPhotoView _$LotPhotoViewFromJson(Map<String, dynamic> json) => LotPhotoView(
+  capturedAt: DateTime.parse(json['captured_at'] as String),
+  id: json['id'] as String,
+);
+
+Map<String, dynamic> _$LotPhotoViewToJson(LotPhotoView instance) =>
+    <String, dynamic>{
+      'captured_at': instance.capturedAt.toIso8601String(),
+      'id': instance.id,
+    };
 
 ManualPriceIn _$ManualPriceInFromJson(Map<String, dynamic> json) =>
     ManualPriceIn(
