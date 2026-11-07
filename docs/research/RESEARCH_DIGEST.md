@@ -1,5 +1,5 @@
 # Research Digest — BagMitra, ATP Journal, company setup
-Last updated: 2026-10-26. Owner: Abhi. Purpose: one compact place for every research finding and decision, so sessions read this instead of re-researching or re-reading long specs. Each line points to the full source when detail is needed. Tags: [V] verified from an official/primary page on the date shown; [S] secondary source; [UV] not verified (fetch blocked or not checked); [D] decision taken.
+Last updated: 2026-11-07. Owner: Abhi. Purpose: one compact place for every research finding and decision, so sessions read this instead of re-researching or re-reading long specs. Each line points to the full source when detail is needed. Tags: [V] verified from an official/primary page on the date shown; [S] secondary source; [UV] not verified (fetch blocked or not checked); [D] decision taken.
 
 ## 0. File index (read the full file only when the task needs it)
 | File | What it holds | Read when |
@@ -11,9 +11,13 @@ Last updated: 2026-10-26. Owner: Abhi. Purpose: one compact place for every rese
 | `bagmitra_phone_testing_message.md` | Test APK workflow, test flavour, demo mode, runbook | Release/test build work |
 | `bagmitra_home_mockup.html/.png` | Reference home screen | UI work |
 | `ATP_journal_module_spec_FULL.md` | ATP F&O Journal module spec (v1 + v1.1 merged; addendum wins) | ATP journal work |
-| `docs/research/MARKET_LINKAGE_RESEARCH.md` | Market linkage research 2026-11-07: APMC s.6(2A)/5D after Mah. 52 of 2025, MSAMB DML/PML terms, RBI PA 2025, santra market facts, Vegrow/e-NAM, models A/B/C (Q61) | Any selling / buyer / transport work |
+| `docs/research/MARKET_LINKAGE_RESEARCH.md` | Market linkage research 2026-11-07: APMC s.6(2A)/5D after Mah. 52 of 2025, MSAMB DML/PML terms, RBI PA 2025, santra market facts, Vegrow/e-NAM, models A/B/C (Q61); §4 export linkage, §5 stopping fake traders / exporters, §6 audit of the market-link work, §7 season sale package (consumption-only) | Any selling / buyer / transport / verification / package work |
 | `docs/research/ASSISTANT_CHATBOT_RESEARCH.md` | In-app assistant research 2026-11-07: existing KB / gate / AI adapter, free AI options (Gemini free tier trains on data; Cloudflare 10k neurons/day), proposal Level 1 no-AI search, Level 2 AI wording behind admin switch | Any chatbot / assistant / voice work |
-| `docs/SPEC_market_linkage_addendum_v1.5.md` | Market linkage spec (owner decision 2026-11-07: link-only, no capital, third-party services): flow, verification, legal gate, data model, L0–L6 | Building the market linkage module |
+| `docs/SPEC_market_linkage_addendum_v1.5.md` | Market linkage spec (owner decision 2026-11-07: link-only, introduction only, no capital, third-party services): flow, §3A profiles and ratings, §4 verification, §4A export information, §4C trust and safety, §4D/§4E season sale package, §5 legal gate, data model, milestones L0–L8 (L9a/L9b = §4D/§4E, build prompt Addendum 6) | Building the market linkage module |
+| `docs/prompts/MARKET_LINKAGE_BUILD_PROMPT.md` | Build prompt for the market link L0–L9, with Addenda 1–6 (Addendum 5 = introduction-only revision, overrides earlier text; Addendum 6 = season sale package L9a/L9b). All merged on main, migrations 0029–0035 | Changing or extending the market link |
+| `docs/legal/DATA_INVENTORY.md` §3A | Every market-link table holding personal data: what, who sees it (RLS / API), deletion after `MARKET_LINK_ERASE_AFTER_DAYS` (default 180) and what is kept | Privacy policy, data-safety form, any market-link data change |
+| `docs/store/data-safety.md` | Play Data safety answers incl. the market link (§2, §2A) and the consumption-only season package | Play Console form, before turning the market link on |
+| `docs/OPEN_QUESTIONS.md` Q61–Q115 | Market-link owner questions with the default built for each (L7–L9 and later L4–L5 items: Q99–Q115) | Before deciding a market-link change |
 
 ## 1. BagMitra — product and stack [D]
 - Android-first app for fruit-orchard growers, Nagpur mandarin (santra) first. Owner's orchard: Shindi Khurd, Chandur Bazar, Amravati.
