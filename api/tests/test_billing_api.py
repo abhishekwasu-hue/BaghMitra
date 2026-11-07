@@ -92,8 +92,9 @@ async def test_everyone_starts_on_the_free_plan(engine: AsyncEngine) -> None:
     snapshot = body["entitlements"]
     assert isinstance(snapshot, dict)
     assert snapshot["plans"] == ["free"]
-    assert "records" in snapshot["features"]
-    assert "ai" not in snapshot["features"]
+    # Switch OFF (default, addendum §7): the full app, every feature without a limit.
+    assert snapshot["features"]["records"] == {"enabled": True, "limit": None}
+    assert snapshot["features"]["ai"] == {"enabled": True, "limit": None}
     assert body["signature"] is None  # no signing key configured
 
 
@@ -115,7 +116,6 @@ async def test_only_billing_admins_may_grant_or_configure(engine: AsyncEngine) -
 async def test_a_manual_grant_unlocks_the_plan_until_it_ends(engine: AsyncEngine) -> None:
     user = uuid.uuid4()
     async with api(engine) as client:
-        assert "calendar" not in (await entitlements(client, user))["entitlements"]["features"]  # type: ignore[index]
         res = await grant(client, user, days=30)
         assert res.status_code == 201, res.text
         assert res.json()["state"] == "ACTIVE"
@@ -179,7 +179,6 @@ async def test_plan_limits_are_config_not_code(engine: AsyncEngine) -> None:
     user = uuid.uuid4()
     async with api(engine) as client:
         await grant(client, user)
-        before = (await entitlements(client, user))["entitlements"]["features"]["ai"]  # type: ignore[index]
         plans = (await client.get(f"{BASE}/plans", headers=ADMIN)).json()["plans"]
         pro = next(p for p in plans if p["key"] == "grower_pro")
         features = {f["feature"]: f["limit"] for f in pro["features"]}
@@ -196,9 +195,12 @@ async def test_plan_limits_are_config_not_code(engine: AsyncEngine) -> None:
             },
         )
         assert res.status_code == 200, res.text
+        saved = (await client.get(f"{BASE}/plans", headers=ADMIN)).json()["plans"]
+        pro = next(p for p in saved if p["key"] == "grower_pro")
+        assert {"feature": "ai", "limit": 7} in pro["features"]
+        # While the switch is OFF (addendum §7) a plan limit does not reach the user.
         after = (await entitlements(client, user))["entitlements"]["features"]["ai"]  # type: ignore[index]
-        assert before != after
-        assert after == {"enabled": True, "limit": 7}
+        assert after == {"enabled": True, "limit": None}
 
 
 async def test_plan_config_is_validated_and_inactive_plans_are_not_granted(

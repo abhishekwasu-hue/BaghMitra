@@ -44,6 +44,11 @@ class Settings(BaseSettings):
     jwt_leeway_seconds: int = Field(default=30, ge=0, le=300)
     # Ed25519 seed (URL-safe base64) that signs entitlement snapshots; empty = unsigned (dev).
     entitlement_signing_key: SecretStr = Field(default=SecretStr(""))
+    # Google Play subscriptions (addendum §7, runbook docs/runbooks/billing-play.md): one
+    # product per role, `<prefix><role>`, each with one monthly base plan. Config, not code.
+    play_package_name: str = ""
+    play_product_prefix: str = "bagmitra_"
+    play_base_plan_id: str = "monthly"
 
     cors_origins: list[str] = Field(default_factory=list)
     sentry_dsn: SecretStr | None = None

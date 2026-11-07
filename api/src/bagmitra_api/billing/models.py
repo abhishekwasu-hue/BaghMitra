@@ -5,10 +5,22 @@ grower or signed-in client can read them, the API returns the computed entitleme
 from __future__ import annotations
 
 import uuid
-from datetime import datetime
+from datetime import date, datetime
 from typing import Any
 
-from sqlalchemy import JSON, Boolean, DateTime, ForeignKey, Integer, String, Text, UniqueConstraint
+from sqlalchemy import (
+    JSON,
+    BigInteger,
+    Boolean,
+    CheckConstraint,
+    Date,
+    DateTime,
+    ForeignKey,
+    Integer,
+    String,
+    Text,
+    UniqueConstraint,
+)
 from sqlalchemy.orm import Mapped, mapped_column
 
 from bagmitra_api.db.base import Base, TimestampMixin
@@ -93,3 +105,31 @@ class EntitlementSnapshot(TimestampMixin, Base):
     computed: Mapped[dict[str, Any]] = mapped_column(JSON)
     valid_until: Mapped[datetime] = mapped_column(DateTime(timezone=True))
     signature: Mapped[str | None] = mapped_column(Text)
+
+
+class BillingSettings(TimestampMixin, Base):
+    """The admin's subscription switch (addendum §7): default OFF = the full app for everyone;
+    ON from `starts_on` (India date, optional). One row."""
+
+    __tablename__ = "billing_settings"
+    __table_args__ = (CheckConstraint("id = 1", name="single_row"),)
+    private_table = True
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, default=1)
+    enabled: Mapped[bool] = mapped_column(Boolean, default=False)
+    starts_on: Mapped[date | None] = mapped_column(Date)
+
+
+class BillingRolePrice(TimestampMixin, Base):
+    """One monthly amount per role, set by the admin (empty = the role stays free), and the
+    price Google Play reported back for the role's monthly base plan in India."""
+
+    __tablename__ = "billing_role_prices"
+    __table_args__ = (CheckConstraint("amount_paise IS NULL OR amount_paise > 0", name="amount"),)
+    private_table = True
+
+    role: Mapped[str] = mapped_column(String(16), primary_key=True)
+    amount_paise: Mapped[int | None] = mapped_column(BigInteger)
+    play_price_paise: Mapped[int | None] = mapped_column(BigInteger)
+    play_currency: Mapped[str | None] = mapped_column(String(3))
+    play_synced_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))

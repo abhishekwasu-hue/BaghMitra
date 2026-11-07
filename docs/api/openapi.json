@@ -918,6 +918,39 @@
         "title": "BadgeOut",
         "type": "object"
       },
+      "BillingSettingsOut": {
+        "properties": {
+          "enabled": {
+            "title": "Enabled",
+            "type": "boolean"
+          },
+          "roles": {
+            "items": {
+              "$ref": "#/components/schemas/RolePriceOut"
+            },
+            "title": "Roles",
+            "type": "array"
+          },
+          "starts_on": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Starts On"
+          }
+        },
+        "required": [
+          "enabled",
+          "roles"
+        ],
+        "title": "BillingSettingsOut",
+        "type": "object"
+      },
       "BlockedClaimOut": {
         "description": "A label row whose active ingredient is banned, or restricted for this crop: shown in\nred so the grower knows it, never with a dose.",
         "properties": {
@@ -6349,6 +6382,69 @@
         "title": "PlanIn",
         "type": "object"
       },
+      "PlanOfferOut": {
+        "description": "Subscription page (§7) only while ON and a role is priced; the price is Play's own.",
+        "properties": {
+          "base_plan_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Base Plan Id"
+          },
+          "covered": {
+            "title": "Covered",
+            "type": "boolean"
+          },
+          "in_force": {
+            "title": "In Force",
+            "type": "boolean"
+          },
+          "locked": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Locked",
+            "type": "array"
+          },
+          "product_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Product Id"
+          },
+          "role": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Role"
+          }
+        },
+        "required": [
+          "in_force",
+          "role",
+          "product_id",
+          "base_plan_id",
+          "covered",
+          "locked"
+        ],
+        "title": "PlanOfferOut",
+        "type": "object"
+      },
       "PlanOut": {
         "properties": {
           "active": {
@@ -7900,6 +7996,68 @@
         "title": "ReviewIn",
         "type": "object"
       },
+      "RolePriceOut": {
+        "properties": {
+          "amount_paise": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Amount Paise"
+          },
+          "play_currency": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Play Currency"
+          },
+          "play_price_paise": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Play Price Paise"
+          },
+          "play_synced_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Play Synced At"
+          },
+          "role": {
+            "title": "Role",
+            "type": "string"
+          }
+        },
+        "required": [
+          "role",
+          "amount_paise",
+          "play_price_paise",
+          "play_currency",
+          "play_synced_at"
+        ],
+        "title": "RolePriceOut",
+        "type": "object"
+      },
       "SentInterestOut": {
         "properties": {
           "basis": {
@@ -8369,6 +8527,31 @@
           "subscriptions"
         ],
         "title": "SubscriptionsResponse",
+        "type": "object"
+      },
+      "SwitchIn": {
+        "properties": {
+          "enabled": {
+            "title": "Enabled",
+            "type": "boolean"
+          },
+          "starts_on": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Starts On"
+          }
+        },
+        "required": [
+          "enabled"
+        ],
+        "title": "SwitchIn",
         "type": "object"
       },
       "SynonymOut": {
@@ -9217,6 +9400,116 @@
           }
         ],
         "summary": "Put Plan",
+        "tags": [
+          "admin"
+        ]
+      }
+    },
+    "/v1/admin/billing/settings": {
+      "get": {
+        "operationId": "admin_billing_settings",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BillingSettingsOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Get Billing Settings",
+        "tags": [
+          "admin"
+        ]
+      },
+      "put": {
+        "operationId": "admin_billing_put_switch",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SwitchIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BillingSettingsOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Put Switch",
         "tags": [
           "admin"
         ]
@@ -14258,6 +14551,42 @@
           }
         ],
         "summary": "Entitlements",
+        "tags": [
+          "billing"
+        ]
+      }
+    },
+    "/v1/billing/plan": {
+      "get": {
+        "operationId": "billing_plan",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlanOfferOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Plan",
         "tags": [
           "billing"
         ]

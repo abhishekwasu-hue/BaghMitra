@@ -25,6 +25,7 @@ from bagmitra_api.billing.models import (
     Subscription,
 )
 from bagmitra_api.billing.signing import sign_snapshot
+from bagmitra_api.billing.switch import load_policy, user_roles
 from bagmitra_api.db.base import as_utc
 
 
@@ -116,7 +117,10 @@ async def entitlements_for(
         )
         for r in rows
     ]
-    return compute_entitlements(facts, plans, now=now)
+    roles = await user_roles(session, subject_id) if subject_type == "farmer" else ()
+    return compute_entitlements(
+        facts, plans, now=now, policy=await load_policy(session), roles=roles
+    )
 
 
 async def snapshot_for(
