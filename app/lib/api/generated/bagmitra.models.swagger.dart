@@ -1502,6 +1502,142 @@ extension $AlertsResponseExtension on AlertsResponse {
 }
 
 @JsonSerializable(explicitToJson: true)
+class AnswerIn {
+  const AnswerIn({required this.questionKey, required this.stars, this.tagIds});
+
+  factory AnswerIn.fromJson(Map<String, dynamic> json) =>
+      _$AnswerInFromJson(json);
+
+  static const toJsonFactory = _$AnswerInToJson;
+  Map<String, dynamic> toJson() => _$AnswerInToJson(this);
+
+  @JsonKey(name: 'question_key', includeIfNull: false)
+  final String questionKey;
+  @JsonKey(name: 'stars', includeIfNull: false)
+  final int stars;
+  @JsonKey(name: 'tag_ids', includeIfNull: false, defaultValue: <String>[])
+  final List<String>? tagIds;
+  static const fromJsonFactory = _$AnswerInFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is AnswerIn &&
+            (identical(other.questionKey, questionKey) ||
+                const DeepCollectionEquality().equals(
+                  other.questionKey,
+                  questionKey,
+                )) &&
+            (identical(other.stars, stars) ||
+                const DeepCollectionEquality().equals(other.stars, stars)) &&
+            (identical(other.tagIds, tagIds) ||
+                const DeepCollectionEquality().equals(other.tagIds, tagIds)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(questionKey) ^
+      const DeepCollectionEquality().hash(stars) ^
+      const DeepCollectionEquality().hash(tagIds) ^
+      runtimeType.hashCode;
+}
+
+extension $AnswerInExtension on AnswerIn {
+  AnswerIn copyWith({String? questionKey, int? stars, List<String>? tagIds}) {
+    return AnswerIn(
+      questionKey: questionKey ?? this.questionKey,
+      stars: stars ?? this.stars,
+      tagIds: tagIds ?? this.tagIds,
+    );
+  }
+
+  AnswerIn copyWithWrapped({
+    Wrapped<String>? questionKey,
+    Wrapped<int>? stars,
+    Wrapped<List<String>?>? tagIds,
+  }) {
+    return AnswerIn(
+      questionKey: (questionKey != null ? questionKey.value : this.questionKey),
+      stars: (stars != null ? stars.value : this.stars),
+      tagIds: (tagIds != null ? tagIds.value : this.tagIds),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class AnswerOut {
+  const AnswerOut({
+    required this.questionKey,
+    required this.stars,
+    required this.tagIds,
+  });
+
+  factory AnswerOut.fromJson(Map<String, dynamic> json) =>
+      _$AnswerOutFromJson(json);
+
+  static const toJsonFactory = _$AnswerOutToJson;
+  Map<String, dynamic> toJson() => _$AnswerOutToJson(this);
+
+  @JsonKey(name: 'question_key', includeIfNull: false)
+  final String questionKey;
+  @JsonKey(name: 'stars', includeIfNull: false)
+  final int stars;
+  @JsonKey(name: 'tag_ids', includeIfNull: false, defaultValue: <String>[])
+  final List<String> tagIds;
+  static const fromJsonFactory = _$AnswerOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is AnswerOut &&
+            (identical(other.questionKey, questionKey) ||
+                const DeepCollectionEquality().equals(
+                  other.questionKey,
+                  questionKey,
+                )) &&
+            (identical(other.stars, stars) ||
+                const DeepCollectionEquality().equals(other.stars, stars)) &&
+            (identical(other.tagIds, tagIds) ||
+                const DeepCollectionEquality().equals(other.tagIds, tagIds)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(questionKey) ^
+      const DeepCollectionEquality().hash(stars) ^
+      const DeepCollectionEquality().hash(tagIds) ^
+      runtimeType.hashCode;
+}
+
+extension $AnswerOutExtension on AnswerOut {
+  AnswerOut copyWith({String? questionKey, int? stars, List<String>? tagIds}) {
+    return AnswerOut(
+      questionKey: questionKey ?? this.questionKey,
+      stars: stars ?? this.stars,
+      tagIds: tagIds ?? this.tagIds,
+    );
+  }
+
+  AnswerOut copyWithWrapped({
+    Wrapped<String>? questionKey,
+    Wrapped<int>? stars,
+    Wrapped<List<String>>? tagIds,
+  }) {
+    return AnswerOut(
+      questionKey: (questionKey != null ? questionKey.value : this.questionKey),
+      stars: (stars != null ? stars.value : this.stars),
+      tagIds: (tagIds != null ? tagIds.value : this.tagIds),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class AppVersionResponse {
   const AppVersionResponse({
     required this.downloadUrl,
@@ -3000,6 +3136,226 @@ extension $ChangeExtension on Change {
       op: (op != null ? op.value : this.op),
       seq: (seq != null ? seq.value : this.seq),
       updatedAt: (updatedAt != null ? updatedAt.value : this.updatedAt),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class DealRatingsOut {
+  const DealRatingsOut({
+    required this.given,
+    required this.questions,
+    required this.state,
+  });
+
+  factory DealRatingsOut.fromJson(Map<String, dynamic> json) =>
+      _$DealRatingsOutFromJson(json);
+
+  static const toJsonFactory = _$DealRatingsOutToJson;
+  Map<String, dynamic> toJson() => _$DealRatingsOutToJson(this);
+
+  @JsonKey(
+    name: 'given',
+    includeIfNull: false,
+    defaultValue: <GivenRatingOut>[],
+  )
+  final List<GivenRatingOut> given;
+  @JsonKey(name: 'questions', includeIfNull: false)
+  final Map<String, dynamic> questions;
+  @JsonKey(name: 'state', includeIfNull: false)
+  final DealStateOut state;
+  static const fromJsonFactory = _$DealRatingsOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is DealRatingsOut &&
+            (identical(other.given, given) ||
+                const DeepCollectionEquality().equals(other.given, given)) &&
+            (identical(other.questions, questions) ||
+                const DeepCollectionEquality().equals(
+                  other.questions,
+                  questions,
+                )) &&
+            (identical(other.state, state) ||
+                const DeepCollectionEquality().equals(other.state, state)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(given) ^
+      const DeepCollectionEquality().hash(questions) ^
+      const DeepCollectionEquality().hash(state) ^
+      runtimeType.hashCode;
+}
+
+extension $DealRatingsOutExtension on DealRatingsOut {
+  DealRatingsOut copyWith({
+    List<GivenRatingOut>? given,
+    Map<String, dynamic>? questions,
+    DealStateOut? state,
+  }) {
+    return DealRatingsOut(
+      given: given ?? this.given,
+      questions: questions ?? this.questions,
+      state: state ?? this.state,
+    );
+  }
+
+  DealRatingsOut copyWithWrapped({
+    Wrapped<List<GivenRatingOut>>? given,
+    Wrapped<Map<String, dynamic>>? questions,
+    Wrapped<DealStateOut>? state,
+  }) {
+    return DealRatingsOut(
+      given: (given != null ? given.value : this.given),
+      questions: (questions != null ? questions.value : this.questions),
+      state: (state != null ? state.value : this.state),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class DealStateOut {
+  const DealStateOut({
+    required this.completedAt,
+    required this.growerDoneAt,
+    required this.myRole,
+    required this.rates,
+    required this.ratingLocked,
+    required this.ratingUntil,
+    required this.traderDoneAt,
+  });
+
+  factory DealStateOut.fromJson(Map<String, dynamic> json) =>
+      _$DealStateOutFromJson(json);
+
+  static const toJsonFactory = _$DealStateOutToJson;
+  Map<String, dynamic> toJson() => _$DealStateOutToJson(this);
+
+  @JsonKey(name: 'completed_at', includeIfNull: false)
+  final DateTime? completedAt;
+  @JsonKey(name: 'grower_done_at', includeIfNull: false)
+  final DateTime? growerDoneAt;
+  @JsonKey(
+    name: 'my_role',
+    includeIfNull: false,
+    toJson: dealStateOutMyRoleToJson,
+    fromJson: dealStateOutMyRoleFromJson,
+  )
+  final enums.DealStateOutMyRole myRole;
+  @JsonKey(
+    name: 'rates',
+    includeIfNull: false,
+    toJson: dealStateOutRatesListToJson,
+    fromJson: dealStateOutRatesListFromJson,
+  )
+  final List<enums.DealStateOutRates> rates;
+  @JsonKey(name: 'rating_locked', includeIfNull: false)
+  final bool ratingLocked;
+  @JsonKey(name: 'rating_until', includeIfNull: false)
+  final DateTime? ratingUntil;
+  @JsonKey(name: 'trader_done_at', includeIfNull: false)
+  final DateTime? traderDoneAt;
+  static const fromJsonFactory = _$DealStateOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is DealStateOut &&
+            (identical(other.completedAt, completedAt) ||
+                const DeepCollectionEquality().equals(
+                  other.completedAt,
+                  completedAt,
+                )) &&
+            (identical(other.growerDoneAt, growerDoneAt) ||
+                const DeepCollectionEquality().equals(
+                  other.growerDoneAt,
+                  growerDoneAt,
+                )) &&
+            (identical(other.myRole, myRole) ||
+                const DeepCollectionEquality().equals(other.myRole, myRole)) &&
+            (identical(other.rates, rates) ||
+                const DeepCollectionEquality().equals(other.rates, rates)) &&
+            (identical(other.ratingLocked, ratingLocked) ||
+                const DeepCollectionEquality().equals(
+                  other.ratingLocked,
+                  ratingLocked,
+                )) &&
+            (identical(other.ratingUntil, ratingUntil) ||
+                const DeepCollectionEquality().equals(
+                  other.ratingUntil,
+                  ratingUntil,
+                )) &&
+            (identical(other.traderDoneAt, traderDoneAt) ||
+                const DeepCollectionEquality().equals(
+                  other.traderDoneAt,
+                  traderDoneAt,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(completedAt) ^
+      const DeepCollectionEquality().hash(growerDoneAt) ^
+      const DeepCollectionEquality().hash(myRole) ^
+      const DeepCollectionEquality().hash(rates) ^
+      const DeepCollectionEquality().hash(ratingLocked) ^
+      const DeepCollectionEquality().hash(ratingUntil) ^
+      const DeepCollectionEquality().hash(traderDoneAt) ^
+      runtimeType.hashCode;
+}
+
+extension $DealStateOutExtension on DealStateOut {
+  DealStateOut copyWith({
+    DateTime? completedAt,
+    DateTime? growerDoneAt,
+    enums.DealStateOutMyRole? myRole,
+    List<enums.DealStateOutRates>? rates,
+    bool? ratingLocked,
+    DateTime? ratingUntil,
+    DateTime? traderDoneAt,
+  }) {
+    return DealStateOut(
+      completedAt: completedAt ?? this.completedAt,
+      growerDoneAt: growerDoneAt ?? this.growerDoneAt,
+      myRole: myRole ?? this.myRole,
+      rates: rates ?? this.rates,
+      ratingLocked: ratingLocked ?? this.ratingLocked,
+      ratingUntil: ratingUntil ?? this.ratingUntil,
+      traderDoneAt: traderDoneAt ?? this.traderDoneAt,
+    );
+  }
+
+  DealStateOut copyWithWrapped({
+    Wrapped<DateTime?>? completedAt,
+    Wrapped<DateTime?>? growerDoneAt,
+    Wrapped<enums.DealStateOutMyRole>? myRole,
+    Wrapped<List<enums.DealStateOutRates>>? rates,
+    Wrapped<bool>? ratingLocked,
+    Wrapped<DateTime?>? ratingUntil,
+    Wrapped<DateTime?>? traderDoneAt,
+  }) {
+    return DealStateOut(
+      completedAt: (completedAt != null ? completedAt.value : this.completedAt),
+      growerDoneAt: (growerDoneAt != null
+          ? growerDoneAt.value
+          : this.growerDoneAt),
+      myRole: (myRole != null ? myRole.value : this.myRole),
+      rates: (rates != null ? rates.value : this.rates),
+      ratingLocked: (ratingLocked != null
+          ? ratingLocked.value
+          : this.ratingLocked),
+      ratingUntil: (ratingUntil != null ? ratingUntil.value : this.ratingUntil),
+      traderDoneAt: (traderDoneAt != null
+          ? traderDoneAt.value
+          : this.traderDoneAt),
     );
   }
 }
@@ -6528,6 +6884,75 @@ extension $FeedResponseExtension on FeedResponse {
 }
 
 @JsonSerializable(explicitToJson: true)
+class GivenRatingOut {
+  const GivenRatingOut({required this.answers, required this.rateeRole});
+
+  factory GivenRatingOut.fromJson(Map<String, dynamic> json) =>
+      _$GivenRatingOutFromJson(json);
+
+  static const toJsonFactory = _$GivenRatingOutToJson;
+  Map<String, dynamic> toJson() => _$GivenRatingOutToJson(this);
+
+  @JsonKey(name: 'answers', includeIfNull: false, defaultValue: <AnswerOut>[])
+  final List<AnswerOut> answers;
+  @JsonKey(
+    name: 'ratee_role',
+    includeIfNull: false,
+    toJson: givenRatingOutRateeRoleToJson,
+    fromJson: givenRatingOutRateeRoleFromJson,
+  )
+  final enums.GivenRatingOutRateeRole rateeRole;
+  static const fromJsonFactory = _$GivenRatingOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is GivenRatingOut &&
+            (identical(other.answers, answers) ||
+                const DeepCollectionEquality().equals(
+                  other.answers,
+                  answers,
+                )) &&
+            (identical(other.rateeRole, rateeRole) ||
+                const DeepCollectionEquality().equals(
+                  other.rateeRole,
+                  rateeRole,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(answers) ^
+      const DeepCollectionEquality().hash(rateeRole) ^
+      runtimeType.hashCode;
+}
+
+extension $GivenRatingOutExtension on GivenRatingOut {
+  GivenRatingOut copyWith({
+    List<AnswerOut>? answers,
+    enums.GivenRatingOutRateeRole? rateeRole,
+  }) {
+    return GivenRatingOut(
+      answers: answers ?? this.answers,
+      rateeRole: rateeRole ?? this.rateeRole,
+    );
+  }
+
+  GivenRatingOut copyWithWrapped({
+    Wrapped<List<AnswerOut>>? answers,
+    Wrapped<enums.GivenRatingOutRateeRole>? rateeRole,
+  }) {
+    return GivenRatingOut(
+      answers: (answers != null ? answers.value : this.answers),
+      rateeRole: (rateeRole != null ? rateeRole.value : this.rateeRole),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class GrantIn {
   const GrantIn({
     required this.periodEnd,
@@ -7961,6 +8386,7 @@ class IntroductionOut {
     required this.grower,
     required this.interest,
     required this.lot,
+    required this.state,
     required this.trader,
   });
 
@@ -7982,6 +8408,8 @@ class IntroductionOut {
   final InterestOut interest;
   @JsonKey(name: 'lot', includeIfNull: false)
   final LotBrief lot;
+  @JsonKey(name: 'state', includeIfNull: false)
+  final DealStateOut state;
   @JsonKey(name: 'trader', includeIfNull: false)
   final PartyContactOut trader;
   static const fromJsonFactory = _$IntroductionOutFromJson;
@@ -8008,6 +8436,8 @@ class IntroductionOut {
                 )) &&
             (identical(other.lot, lot) ||
                 const DeepCollectionEquality().equals(other.lot, lot)) &&
+            (identical(other.state, state) ||
+                const DeepCollectionEquality().equals(other.state, state)) &&
             (identical(other.trader, trader) ||
                 const DeepCollectionEquality().equals(other.trader, trader)));
   }
@@ -8023,6 +8453,7 @@ class IntroductionOut {
       const DeepCollectionEquality().hash(grower) ^
       const DeepCollectionEquality().hash(interest) ^
       const DeepCollectionEquality().hash(lot) ^
+      const DeepCollectionEquality().hash(state) ^
       const DeepCollectionEquality().hash(trader) ^
       runtimeType.hashCode;
 }
@@ -8035,6 +8466,7 @@ extension $IntroductionOutExtension on IntroductionOut {
     GrowerContactOut? grower,
     InterestOut? interest,
     LotBrief? lot,
+    DealStateOut? state,
     PartyContactOut? trader,
   }) {
     return IntroductionOut(
@@ -8044,6 +8476,7 @@ extension $IntroductionOutExtension on IntroductionOut {
       grower: grower ?? this.grower,
       interest: interest ?? this.interest,
       lot: lot ?? this.lot,
+      state: state ?? this.state,
       trader: trader ?? this.trader,
     );
   }
@@ -8055,6 +8488,7 @@ extension $IntroductionOutExtension on IntroductionOut {
     Wrapped<GrowerContactOut>? grower,
     Wrapped<InterestOut>? interest,
     Wrapped<LotBrief>? lot,
+    Wrapped<DealStateOut>? state,
     Wrapped<PartyContactOut>? trader,
   }) {
     return IntroductionOut(
@@ -8064,6 +8498,7 @@ extension $IntroductionOutExtension on IntroductionOut {
       grower: (grower != null ? grower.value : this.grower),
       interest: (interest != null ? interest.value : this.interest),
       lot: (lot != null ? lot.value : this.lot),
+      state: (state != null ? state.value : this.state),
       trader: (trader != null ? trader.value : this.trader),
     );
   }
@@ -11677,6 +12112,46 @@ extension $QueueResponseExtension on QueueResponse {
     return QueueResponse(
       subjects: (subjects != null ? subjects.value : this.subjects),
     );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class RatingIn {
+  const RatingIn({required this.answers});
+
+  factory RatingIn.fromJson(Map<String, dynamic> json) =>
+      _$RatingInFromJson(json);
+
+  static const toJsonFactory = _$RatingInToJson;
+  Map<String, dynamic> toJson() => _$RatingInToJson(this);
+
+  @JsonKey(name: 'answers', includeIfNull: false, defaultValue: <AnswerIn>[])
+  final List<AnswerIn> answers;
+  static const fromJsonFactory = _$RatingInFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is RatingIn &&
+            (identical(other.answers, answers) ||
+                const DeepCollectionEquality().equals(other.answers, answers)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(answers) ^ runtimeType.hashCode;
+}
+
+extension $RatingInExtension on RatingIn {
+  RatingIn copyWith({List<AnswerIn>? answers}) {
+    return RatingIn(answers: answers ?? this.answers);
+  }
+
+  RatingIn copyWithWrapped({Wrapped<List<AnswerIn>>? answers}) {
+    return RatingIn(answers: (answers != null ? answers.value : this.answers));
   }
 }
 
@@ -15912,6 +16387,158 @@ List<enums.ChangeOp>? changeOpNullableListFromJson(
   return changeOp.map((e) => changeOpFromJson(e.toString())).toList();
 }
 
+String? dealStateOutMyRoleNullableToJson(
+  enums.DealStateOutMyRole? dealStateOutMyRole,
+) {
+  return dealStateOutMyRole?.value;
+}
+
+String? dealStateOutMyRoleToJson(enums.DealStateOutMyRole dealStateOutMyRole) {
+  return dealStateOutMyRole.value;
+}
+
+enums.DealStateOutMyRole dealStateOutMyRoleFromJson(
+  Object? dealStateOutMyRole, [
+  enums.DealStateOutMyRole? defaultValue,
+]) {
+  return enums.DealStateOutMyRole.values.firstWhereOrNull(
+        (e) => e.value == dealStateOutMyRole,
+      ) ??
+      defaultValue ??
+      enums.DealStateOutMyRole.swaggerGeneratedUnknown;
+}
+
+enums.DealStateOutMyRole? dealStateOutMyRoleNullableFromJson(
+  Object? dealStateOutMyRole, [
+  enums.DealStateOutMyRole? defaultValue,
+]) {
+  if (dealStateOutMyRole == null) {
+    return null;
+  }
+  return enums.DealStateOutMyRole.values.firstWhereOrNull(
+        (e) => e.value == dealStateOutMyRole,
+      ) ??
+      defaultValue;
+}
+
+String dealStateOutMyRoleExplodedListToJson(
+  List<enums.DealStateOutMyRole>? dealStateOutMyRole,
+) {
+  return dealStateOutMyRole?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> dealStateOutMyRoleListToJson(
+  List<enums.DealStateOutMyRole>? dealStateOutMyRole,
+) {
+  if (dealStateOutMyRole == null) {
+    return [];
+  }
+
+  return dealStateOutMyRole.map((e) => e.value!).toList();
+}
+
+List<enums.DealStateOutMyRole> dealStateOutMyRoleListFromJson(
+  List? dealStateOutMyRole, [
+  List<enums.DealStateOutMyRole>? defaultValue,
+]) {
+  if (dealStateOutMyRole == null) {
+    return defaultValue ?? [];
+  }
+
+  return dealStateOutMyRole
+      .map((e) => dealStateOutMyRoleFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.DealStateOutMyRole>? dealStateOutMyRoleNullableListFromJson(
+  List? dealStateOutMyRole, [
+  List<enums.DealStateOutMyRole>? defaultValue,
+]) {
+  if (dealStateOutMyRole == null) {
+    return defaultValue;
+  }
+
+  return dealStateOutMyRole
+      .map((e) => dealStateOutMyRoleFromJson(e.toString()))
+      .toList();
+}
+
+String? dealStateOutRatesNullableToJson(
+  enums.DealStateOutRates? dealStateOutRates,
+) {
+  return dealStateOutRates?.value;
+}
+
+String? dealStateOutRatesToJson(enums.DealStateOutRates dealStateOutRates) {
+  return dealStateOutRates.value;
+}
+
+enums.DealStateOutRates dealStateOutRatesFromJson(
+  Object? dealStateOutRates, [
+  enums.DealStateOutRates? defaultValue,
+]) {
+  return enums.DealStateOutRates.values.firstWhereOrNull(
+        (e) => e.value == dealStateOutRates,
+      ) ??
+      defaultValue ??
+      enums.DealStateOutRates.swaggerGeneratedUnknown;
+}
+
+enums.DealStateOutRates? dealStateOutRatesNullableFromJson(
+  Object? dealStateOutRates, [
+  enums.DealStateOutRates? defaultValue,
+]) {
+  if (dealStateOutRates == null) {
+    return null;
+  }
+  return enums.DealStateOutRates.values.firstWhereOrNull(
+        (e) => e.value == dealStateOutRates,
+      ) ??
+      defaultValue;
+}
+
+String dealStateOutRatesExplodedListToJson(
+  List<enums.DealStateOutRates>? dealStateOutRates,
+) {
+  return dealStateOutRates?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> dealStateOutRatesListToJson(
+  List<enums.DealStateOutRates>? dealStateOutRates,
+) {
+  if (dealStateOutRates == null) {
+    return [];
+  }
+
+  return dealStateOutRates.map((e) => e.value!).toList();
+}
+
+List<enums.DealStateOutRates> dealStateOutRatesListFromJson(
+  List? dealStateOutRates, [
+  List<enums.DealStateOutRates>? defaultValue,
+]) {
+  if (dealStateOutRates == null) {
+    return defaultValue ?? [];
+  }
+
+  return dealStateOutRates
+      .map((e) => dealStateOutRatesFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.DealStateOutRates>? dealStateOutRatesNullableListFromJson(
+  List? dealStateOutRates, [
+  List<enums.DealStateOutRates>? defaultValue,
+]) {
+  if (dealStateOutRates == null) {
+    return defaultValue;
+  }
+
+  return dealStateOutRates
+      .map((e) => dealStateOutRatesFromJson(e.toString()))
+      .toList();
+}
+
 String? decisionInStatusNullableToJson(
   enums.DecisionInStatus? decisionInStatus,
 ) {
@@ -16452,6 +17079,85 @@ feedPreferencesBodyOptedOutNullableListFromJson(
 
   return feedPreferencesBodyOptedOut
       .map((e) => feedPreferencesBodyOptedOutFromJson(e.toString()))
+      .toList();
+}
+
+String? givenRatingOutRateeRoleNullableToJson(
+  enums.GivenRatingOutRateeRole? givenRatingOutRateeRole,
+) {
+  return givenRatingOutRateeRole?.value;
+}
+
+String? givenRatingOutRateeRoleToJson(
+  enums.GivenRatingOutRateeRole givenRatingOutRateeRole,
+) {
+  return givenRatingOutRateeRole.value;
+}
+
+enums.GivenRatingOutRateeRole givenRatingOutRateeRoleFromJson(
+  Object? givenRatingOutRateeRole, [
+  enums.GivenRatingOutRateeRole? defaultValue,
+]) {
+  return enums.GivenRatingOutRateeRole.values.firstWhereOrNull(
+        (e) => e.value == givenRatingOutRateeRole,
+      ) ??
+      defaultValue ??
+      enums.GivenRatingOutRateeRole.swaggerGeneratedUnknown;
+}
+
+enums.GivenRatingOutRateeRole? givenRatingOutRateeRoleNullableFromJson(
+  Object? givenRatingOutRateeRole, [
+  enums.GivenRatingOutRateeRole? defaultValue,
+]) {
+  if (givenRatingOutRateeRole == null) {
+    return null;
+  }
+  return enums.GivenRatingOutRateeRole.values.firstWhereOrNull(
+        (e) => e.value == givenRatingOutRateeRole,
+      ) ??
+      defaultValue;
+}
+
+String givenRatingOutRateeRoleExplodedListToJson(
+  List<enums.GivenRatingOutRateeRole>? givenRatingOutRateeRole,
+) {
+  return givenRatingOutRateeRole?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> givenRatingOutRateeRoleListToJson(
+  List<enums.GivenRatingOutRateeRole>? givenRatingOutRateeRole,
+) {
+  if (givenRatingOutRateeRole == null) {
+    return [];
+  }
+
+  return givenRatingOutRateeRole.map((e) => e.value!).toList();
+}
+
+List<enums.GivenRatingOutRateeRole> givenRatingOutRateeRoleListFromJson(
+  List? givenRatingOutRateeRole, [
+  List<enums.GivenRatingOutRateeRole>? defaultValue,
+]) {
+  if (givenRatingOutRateeRole == null) {
+    return defaultValue ?? [];
+  }
+
+  return givenRatingOutRateeRole
+      .map((e) => givenRatingOutRateeRoleFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.GivenRatingOutRateeRole>?
+givenRatingOutRateeRoleNullableListFromJson(
+  List? givenRatingOutRateeRole, [
+  List<enums.GivenRatingOutRateeRole>? defaultValue,
+]) {
+  if (givenRatingOutRateeRole == null) {
+    return defaultValue;
+  }
+
+  return givenRatingOutRateeRole
+      .map((e) => givenRatingOutRateeRoleFromJson(e.toString()))
       .toList();
 }
 
@@ -18552,6 +19258,111 @@ v1InsuranceDeadlinesGetLangNullableListFromJson(
 
   return v1InsuranceDeadlinesGetLang
       .map((e) => v1InsuranceDeadlinesGetLangFromJson(e.toString()))
+      .toList();
+}
+
+String? v1MarketLinkDealsDealIdRatingsRateeRolePutRateeRoleNullableToJson(
+  enums.V1MarketLinkDealsDealIdRatingsRateeRolePutRateeRole?
+  v1MarketLinkDealsDealIdRatingsRateeRolePutRateeRole,
+) {
+  return v1MarketLinkDealsDealIdRatingsRateeRolePutRateeRole?.value;
+}
+
+String? v1MarketLinkDealsDealIdRatingsRateeRolePutRateeRoleToJson(
+  enums.V1MarketLinkDealsDealIdRatingsRateeRolePutRateeRole
+  v1MarketLinkDealsDealIdRatingsRateeRolePutRateeRole,
+) {
+  return v1MarketLinkDealsDealIdRatingsRateeRolePutRateeRole.value;
+}
+
+enums.V1MarketLinkDealsDealIdRatingsRateeRolePutRateeRole
+v1MarketLinkDealsDealIdRatingsRateeRolePutRateeRoleFromJson(
+  Object? v1MarketLinkDealsDealIdRatingsRateeRolePutRateeRole, [
+  enums.V1MarketLinkDealsDealIdRatingsRateeRolePutRateeRole? defaultValue,
+]) {
+  return enums.V1MarketLinkDealsDealIdRatingsRateeRolePutRateeRole.values
+          .firstWhereOrNull(
+            (e) =>
+                e.value == v1MarketLinkDealsDealIdRatingsRateeRolePutRateeRole,
+          ) ??
+      defaultValue ??
+      enums
+          .V1MarketLinkDealsDealIdRatingsRateeRolePutRateeRole
+          .swaggerGeneratedUnknown;
+}
+
+enums.V1MarketLinkDealsDealIdRatingsRateeRolePutRateeRole?
+v1MarketLinkDealsDealIdRatingsRateeRolePutRateeRoleNullableFromJson(
+  Object? v1MarketLinkDealsDealIdRatingsRateeRolePutRateeRole, [
+  enums.V1MarketLinkDealsDealIdRatingsRateeRolePutRateeRole? defaultValue,
+]) {
+  if (v1MarketLinkDealsDealIdRatingsRateeRolePutRateeRole == null) {
+    return null;
+  }
+  return enums.V1MarketLinkDealsDealIdRatingsRateeRolePutRateeRole.values
+          .firstWhereOrNull(
+            (e) =>
+                e.value == v1MarketLinkDealsDealIdRatingsRateeRolePutRateeRole,
+          ) ??
+      defaultValue;
+}
+
+String v1MarketLinkDealsDealIdRatingsRateeRolePutRateeRoleExplodedListToJson(
+  List<enums.V1MarketLinkDealsDealIdRatingsRateeRolePutRateeRole>?
+  v1MarketLinkDealsDealIdRatingsRateeRolePutRateeRole,
+) {
+  return v1MarketLinkDealsDealIdRatingsRateeRolePutRateeRole
+          ?.map((e) => e.value!)
+          .join(',') ??
+      '';
+}
+
+List<String> v1MarketLinkDealsDealIdRatingsRateeRolePutRateeRoleListToJson(
+  List<enums.V1MarketLinkDealsDealIdRatingsRateeRolePutRateeRole>?
+  v1MarketLinkDealsDealIdRatingsRateeRolePutRateeRole,
+) {
+  if (v1MarketLinkDealsDealIdRatingsRateeRolePutRateeRole == null) {
+    return [];
+  }
+
+  return v1MarketLinkDealsDealIdRatingsRateeRolePutRateeRole
+      .map((e) => e.value!)
+      .toList();
+}
+
+List<enums.V1MarketLinkDealsDealIdRatingsRateeRolePutRateeRole>
+v1MarketLinkDealsDealIdRatingsRateeRolePutRateeRoleListFromJson(
+  List? v1MarketLinkDealsDealIdRatingsRateeRolePutRateeRole, [
+  List<enums.V1MarketLinkDealsDealIdRatingsRateeRolePutRateeRole>? defaultValue,
+]) {
+  if (v1MarketLinkDealsDealIdRatingsRateeRolePutRateeRole == null) {
+    return defaultValue ?? [];
+  }
+
+  return v1MarketLinkDealsDealIdRatingsRateeRolePutRateeRole
+      .map(
+        (e) => v1MarketLinkDealsDealIdRatingsRateeRolePutRateeRoleFromJson(
+          e.toString(),
+        ),
+      )
+      .toList();
+}
+
+List<enums.V1MarketLinkDealsDealIdRatingsRateeRolePutRateeRole>?
+v1MarketLinkDealsDealIdRatingsRateeRolePutRateeRoleNullableListFromJson(
+  List? v1MarketLinkDealsDealIdRatingsRateeRolePutRateeRole, [
+  List<enums.V1MarketLinkDealsDealIdRatingsRateeRolePutRateeRole>? defaultValue,
+]) {
+  if (v1MarketLinkDealsDealIdRatingsRateeRolePutRateeRole == null) {
+    return defaultValue;
+  }
+
+  return v1MarketLinkDealsDealIdRatingsRateeRolePutRateeRole
+      .map(
+        (e) => v1MarketLinkDealsDealIdRatingsRateeRolePutRateeRoleFromJson(
+          e.toString(),
+        ),
+      )
       .toList();
 }
 

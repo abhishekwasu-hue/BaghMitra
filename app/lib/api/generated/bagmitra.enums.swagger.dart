@@ -190,6 +190,38 @@ enum ChangeOp {
   const ChangeOp(this.value);
 }
 
+enum DealStateOutMyRole {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('grower')
+  grower('grower'),
+  @JsonValue('trader')
+  trader('trader'),
+  @JsonValue('broker')
+  broker('broker');
+
+  final String? value;
+
+  const DealStateOutMyRole(this.value);
+}
+
+enum DealStateOutRates {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('grower')
+  grower('grower'),
+  @JsonValue('trader')
+  trader('trader'),
+  @JsonValue('broker')
+  broker('broker');
+
+  final String? value;
+
+  const DealStateOutRates(this.value);
+}
+
 enum DecisionInStatus {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
@@ -300,6 +332,22 @@ enum FeedPreferencesBodyOptedOut {
   final String? value;
 
   const FeedPreferencesBodyOptedOut(this.value);
+}
+
+enum GivenRatingOutRateeRole {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('grower')
+  grower('grower'),
+  @JsonValue('trader')
+  trader('trader'),
+  @JsonValue('broker')
+  broker('broker');
+
+  final String? value;
+
+  const GivenRatingOutRateeRole(this.value);
 }
 
 enum GrantInSubjectType {
@@ -722,6 +770,22 @@ enum V1InsuranceDeadlinesGetLang {
   final String? value;
 
   const V1InsuranceDeadlinesGetLang(this.value);
+}
+
+enum V1MarketLinkDealsDealIdRatingsRateeRolePutRateeRole {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('grower')
+  grower('grower'),
+  @JsonValue('trader')
+  trader('trader'),
+  @JsonValue('broker')
+  broker('broker');
+
+  final String? value;
+
+  const V1MarketLinkDealsDealIdRatingsRateeRolePutRateeRole(this.value);
 }
 
 enum V1MarketLinkProfilesGetRole {
