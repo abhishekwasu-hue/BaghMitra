@@ -218,17 +218,33 @@ void main() {
       expect(sent.single.headers['Authorization'], 'Bearer tok');
     });
 
-    test('own profiles and the address', () async {
+    test('lists send their filters', () async {
       // One body that reads both as a list and as one profile.
       final api = apiAnswering(200, {
         ..._profile,
         'profiles': [_profile],
       });
+      await api.people(role: 'broker', taluka: 'Warud', sort: 'deals');
+      expect(sent.last.url.queryParameters, {
+        'role': 'broker',
+        'sort': 'deals',
+        'taluka': 'Warud',
+      });
+      final listed = await api.providers(
+        kind: ProviderKind.weighbridge,
+        plotId: 'p1',
+      );
+      expect(listed, hasLength(1));
+      expect(sent.last.url.path, '/v1/market-link/providers');
+      expect(sent.last.url.queryParameters, {
+        'type': 'weighbridge',
+        'plot_id': 'p1',
+      });
       expect((await api.mine()).single.id, 'b1');
-      expect(sent.last.url.path, '/v1/market-link/me/profiles');
+      await api.profile('buyer', 'b1');
+      expect(sent.last.url.path, '/v1/market-link/profiles/buyer/b1');
       await api.setAddress('broker', 'k1', 'Main road');
       expect(sent.last.method, 'PUT');
-      expect(sent.last.url.path, '/v1/market-link/profiles/broker/k1/address');
       expect(jsonDecode(sent.last.body), {'address': 'Main road'});
     });
 

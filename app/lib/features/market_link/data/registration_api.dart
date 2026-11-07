@@ -31,6 +31,24 @@ abstract interface class RegistrationApi {
 
   Future<List<MarketProfile>> mine();
 
+  /// Verified traders / exporters / brokers in a taluka ([role] trader, exporter or broker).
+  Future<List<MarketProfile>> people({
+    required String role,
+    String? taluka,
+    String? district,
+    String sort = 'rating',
+  });
+
+  Future<MarketProfile> profile(String subjectType, String id);
+
+  /// Verified providers, nearest to [plotId] first when it has a pin.
+  Future<List<MarketProfile>> providers({
+    ProviderKind? kind,
+    String? district,
+    String? taluka,
+    String? plotId,
+  });
+
   Future<MarketProfile> setAddress(
     String subjectType,
     String id,
@@ -110,6 +128,48 @@ class HttpRegistrationApi implements RegistrationApi {
   @override
   Future<List<MarketProfile>> mine() async =>
       _list(await _send('GET', '/me/profiles'));
+
+  @override
+  Future<List<MarketProfile>> people({
+    required String role,
+    String? taluka,
+    String? district,
+    String sort = 'rating',
+  }) async => _list(
+    await _send(
+      'GET',
+      '/profiles',
+      query: {
+        'role': role,
+        'sort': sort,
+        'taluka': ?taluka,
+        'district': ?district,
+      },
+    ),
+  );
+
+  @override
+  Future<MarketProfile> profile(String subjectType, String id) async =>
+      _one(await _send('GET', '/profiles/$subjectType/$id'));
+
+  @override
+  Future<List<MarketProfile>> providers({
+    ProviderKind? kind,
+    String? district,
+    String? taluka,
+    String? plotId,
+  }) async => _list(
+    await _send(
+      'GET',
+      '/providers',
+      query: {
+        'type': ?kind?.api,
+        'district': ?district,
+        'taluka': ?taluka,
+        'plot_id': ?plotId,
+      },
+    ),
+  );
 
   @override
   Future<MarketProfile> setAddress(

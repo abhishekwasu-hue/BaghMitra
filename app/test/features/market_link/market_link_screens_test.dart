@@ -76,9 +76,26 @@ Future<void> _type(WidgetTester tester, String key, String text) async {
 }
 
 void main() {
-  testWidgets('flag off: the market-link routes go home', (tester) async {
+  testWidgets('flag off: no market-link menu entry and the routes go home', (
+    tester,
+  ) async {
     await pumpApp(tester, initialLocation: '/market-link/me');
     expect(find.text('माझी बाजार नोंदणी'), findsNothing);
+    await unmountApp(tester);
+    await pumpApp(tester, initialLocation: '/more');
+    expect(find.byKey(const Key('more-market-link-people')), findsNothing);
+    await unmountApp(tester);
+  });
+
+  testWidgets('flag on: the More screen lists the three market-link pages', (
+    tester,
+  ) async {
+    await pumpMarketLink(tester, '/more', api: FakeRegistrationApi());
+    for (final page in ['people', 'services', 'mine']) {
+      final entry = find.byKey(Key('more-market-link-$page'));
+      await tester.scrollUntilVisible(entry, 200);
+      expect(entry, findsOneWidget);
+    }
     await unmountApp(tester);
   });
 
@@ -319,6 +336,91 @@ void main() {
     expect(find.byKey(const Key('ml-register-trader')), findsOneWidget);
     await _tap(tester, find.byKey(const Key('ml-register-provider')));
     expect(find.byKey(const Key('ml-take-fix')), findsOneWidget);
+    await unmountApp(tester);
+  });
+
+  testWidgets('people list: role and sort chips, tap-to-call, detail', (
+    tester,
+  ) async {
+    final api = FakeRegistrationApi(listed: [sampleTrader(), sampleBroker()]);
+    final dialled = <String>[];
+    await pumpMarketLink(
+      tester,
+      '/market-link/people',
+      api: api,
+      dialled: dialled,
+    );
+    await settle(tester);
+    // The list starts at the grower's own taluka.
+    expect(api.queries.last, {
+      'role': 'trader',
+      'taluka': 'वरुड',
+      'district': 'अमरावती',
+      'sort': 'rating',
+    });
+    expect(find.text('रमेश पाटील'), findsOneWidget);
+    expect(find.textContaining('BagMitra ने'), findsWidgets);
+    await _tap(tester, find.byKey(const Key('ml-call-b1')));
+    expect(dialled, ['+919800000001']);
+    await _tap(tester, find.byKey(const Key('ml-sort-deals')));
+    await _tap(tester, find.byKey(const Key('ml-role-broker')));
+    await _tap(tester, find.byKey(const Key('ml-area-all')));
+    expect(api.queries.last, {
+      'role': 'broker',
+      'taluka': null,
+      'district': null,
+      'sort': 'deals',
+    });
+    await _tap(tester, find.text('रमेश पाटील'));
+    expect(find.text('रेटिंग'), findsOneWidget);
+    await _tap(tester, find.byKey(const Key('ml-call-main')));
+    expect(dialled.last, '+919800000001');
+    await unmountApp(tester);
+  });
+
+  testWidgets('people list: empty and offline states', (tester) async {
+    final api = FakeRegistrationApi();
+    await pumpMarketLink(tester, '/market-link/people', api: api);
+    await settle(tester);
+    expect(
+      find.text('या भागातील तपासलेले व्यापारी व मध्यस्थ येथे दिसतील.'),
+      findsOneWidget,
+    );
+    await unmountApp(tester);
+    await pumpMarketLink(
+      tester,
+      '/market-link/people',
+      api: FakeRegistrationApi(
+        error: const MarketCallException(MarketCallProblem.offline),
+      ),
+    );
+    await settle(tester);
+    expect(find.text('हे पाहण्यासाठी इंटरनेट सुरू करा'), findsOneWidget);
+    await unmountApp(tester);
+  });
+
+  testWidgets('services: kinds, distance, expired certificate, no booking', (
+    tester,
+  ) async {
+    final api = FakeRegistrationApi(
+      services: [sampleWeighbridge(), sampleTransporter()],
+    );
+    final dialled = <String>[];
+    await pumpMarketLink(
+      tester,
+      '/market-link/services',
+      api: api,
+      dialled: dialled,
+    );
+    await settle(tester);
+    expect(find.textContaining('२ कि.मी.'), findsOneWidget);
+    expect(find.byKey(const Key('ml-cert-expired-p1')), findsOneWidget);
+    expect(find.textContaining('बुक'), findsNothing);
+    await _tap(tester, find.byKey(const Key('ml-call-p2')));
+    expect(dialled, ['+919800000004']);
+    await _tap(tester, find.byKey(const Key('ml-type-transporter')));
+    expect(find.text('वरुड वजनकाटा'), findsNothing);
+    expect(api.queries.last['type'], 'transporter');
     await unmountApp(tester);
   });
 }
