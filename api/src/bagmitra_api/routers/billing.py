@@ -1,21 +1,34 @@
 """What the signed-in user may use (billing addendum §2.4). The app downloads a snapshot, caches
-it for offline use and never decides entitlements itself."""
+it for offline use and never decides entitlements itself. A Play purchase is unlocked only after
+the server verified it with Google (`POST /v1/billing/google/verify`)."""
 
 from __future__ import annotations
 
+import uuid
 from datetime import UTC, datetime
 from typing import Annotated, Any
 
-from fastapi import APIRouter, Depends
-from pydantic import BaseModel
+from fastapi import APIRouter, Depends, Request
+from pydantic import BaseModel, Field
+from sqlalchemy import select
 
 from bagmitra_api.auth.jwt import CurrentUser
 from bagmitra_api.billing.entitlements import ROLE_PLAN_PREFIX
+from bagmitra_api.billing.models import Subscription
+from bagmitra_api.billing.play import PlayError, PlayPublisher, play_publisher
+from bagmitra_api.billing.purchases import (
+    AccountMismatchError,
+    TokenOwnedError,
+    UnknownProductError,
+    account_id,
+    sync_purchase,
+)
 from bagmitra_api.billing.service import entitlements_for, snapshot_for
 from bagmitra_api.billing.switch import load_policy, user_roles
-from bagmitra_api.core.errors import ErrorResponse
+from bagmitra_api.core.errors import ApiError, ErrorResponse
 from bagmitra_api.core.settings import Settings, get_settings
 from bagmitra_api.db.session import DbSession
+from bagmitra_api.feed.check import RateLimiter
 
 router = APIRouter(
     prefix="/v1/billing", tags=["billing"], responses={401: {"model": ErrorResponse}}
@@ -59,6 +72,14 @@ async def entitlements(
     )
 
 
+class PriceChangeOut(BaseModel):
+    # OUTSTANDING (not yet accepted), CONFIRMED or APPLIED, as Play reports it.
+    state: str | None
+    new_price_paise: int
+    currency: str | None
+    charge_time: str | None
+
+
 class PlanOfferOut(BaseModel):
     """Subscription page (§7) only while ON and a role is priced; the price is Play's own."""
 
@@ -70,6 +91,14 @@ class PlanOfferOut(BaseModel):
     covered: bool
     # Features locked right now (empty while the gate map is empty, OPEN_QUESTIONS Q117).
     locked: list[str]
+    # Passed to Play's billing flow as the obfuscated account id (never the user id itself).
+    account_id: str
+    # A price change Play announced for the user's subscription: the app must show a notice.
+    price_change: PriceChangeOut | None
+
+
+class VerifyIn(BaseModel):
+    purchase_token: str = Field(min_length=10, max_length=1000)
 
 
 @router.get("/plan", operation_id="billing_plan")
@@ -88,4 +117,77 @@ async def plan(user: CurrentUser, session: DbSession, settings: AppSettings) -> 
         base_plan_id=settings.play_base_plan_id if role else None,
         covered=role is not None and role in policy.covered_roles(roles, plan_roles),
         locked=sorted(k for k, f in ent.features.items() if not f.enabled),
+        account_id=account_id(user.id),
+        price_change=await _price_change(session, user.id),
     )
+
+
+async def _price_change(session: DbSession, user_id: uuid.UUID) -> PriceChangeOut | None:
+    rows = await session.scalars(
+        select(Subscription).where(
+            Subscription.subject_id == user_id,
+            Subscription.provider == "google_play",
+            Subscription.state.in_(("ACTIVE", "IN_GRACE_PERIOD")),
+            Subscription.price_change.is_not(None),
+        )
+    )
+    for row in rows:
+        if row.price_change and row.price_change.get("state") != "APPLIED":
+            return PriceChangeOut.model_validate(row.price_change)
+    return None
+
+
+def get_verify_limiter(request: Request, settings: AppSettings) -> RateLimiter:
+    limiter: RateLimiter | None = getattr(request.app.state, "billing_verify_limiter", None)
+    if limiter is None:
+        limiter = RateLimiter(settings.billing_verify_rate_limit, 3600)
+        request.app.state.billing_verify_limiter = limiter
+    return limiter
+
+
+@router.post(
+    "/google/verify",
+    operation_id="billing_google_verify",
+    responses={
+        403: {"model": ErrorResponse},
+        409: {"model": ErrorResponse},
+        422: {"model": ErrorResponse},
+        429: {"model": ErrorResponse},
+        502: {"model": ErrorResponse},
+        503: {"model": ErrorResponse},
+    },
+)
+async def verify(  # noqa: PLR0913 - body and dependencies
+    body: VerifyIn,
+    user: CurrentUser,
+    session: DbSession,
+    settings: AppSettings,
+    play: Annotated[PlayPublisher | None, Depends(play_publisher)],
+    limiter: Annotated[RateLimiter, Depends(get_verify_limiter)],
+) -> EntitlementsResponse:
+    """The app sends the purchase token; only after Google confirms it does the snapshot
+    change. The server acknowledges the purchase."""
+    if not limiter.allow(str(user.id)):
+        raise ApiError(429, "rate_limited", "too many checks; try again later")
+    if play is None:
+        raise ApiError(503, "play_not_set_up", "Google Play is not set up yet")
+    try:
+        await sync_purchase(
+            session,
+            play,
+            body.purchase_token,
+            subject_id=user.id,
+            now=datetime.now(UTC),
+            product_prefix=settings.play_product_prefix,
+        )
+    except TokenOwnedError as exc:
+        raise ApiError(409, "token_in_use", "this purchase belongs to another account") from exc
+    except AccountMismatchError as exc:
+        raise ApiError(
+            403, "account_mismatch", "this purchase was made for another account"
+        ) from exc
+    except UnknownProductError as exc:
+        raise ApiError(422, "unknown_product", "not a BagMitra subscription") from exc
+    except PlayError as exc:
+        raise ApiError(502, "play_error", "Google Play could not confirm the purchase") from exc
+    return await entitlements(user, session, settings)

@@ -2508,22 +2508,28 @@ Map<String, dynamic> _$PlanInToJson(PlanIn instance) => <String, dynamic>{
 };
 
 PlanOfferOut _$PlanOfferOutFromJson(Map<String, dynamic> json) => PlanOfferOut(
+  accountId: json['account_id'] as String,
   basePlanId: json['base_plan_id'] as String?,
   covered: json['covered'] as bool,
   inForce: json['in_force'] as bool,
   locked:
       (json['locked'] as List<dynamic>?)?.map((e) => e as String).toList() ??
       [],
+  priceChange: json['price_change'] == null
+      ? null
+      : PriceChangeOut.fromJson(json['price_change'] as Map<String, dynamic>),
   productId: json['product_id'] as String?,
   role: json['role'] as String?,
 );
 
 Map<String, dynamic> _$PlanOfferOutToJson(PlanOfferOut instance) =>
     <String, dynamic>{
+      'account_id': instance.accountId,
       'base_plan_id': ?instance.basePlanId,
       'covered': instance.covered,
       'in_force': instance.inForce,
       'locked': instance.locked,
+      'price_change': ?instance.priceChange?.toJson(),
       'product_id': ?instance.productId,
       'role': ?instance.role,
     };
@@ -2581,6 +2587,22 @@ Map<String, dynamic> _$PlotWeatherToJson(PlotWeather instance) =>
       'alerts': instance.alerts.map((e) => e.toJson()).toList(),
       'days': instance.days.map((e) => e.toJson()).toList(),
       'stale': instance.stale,
+    };
+
+PriceChangeOut _$PriceChangeOutFromJson(Map<String, dynamic> json) =>
+    PriceChangeOut(
+      chargeTime: json['charge_time'] as String?,
+      currency: json['currency'] as String?,
+      newPricePaise: (json['new_price_paise'] as num).toInt(),
+      state: json['state'] as String?,
+    );
+
+Map<String, dynamic> _$PriceChangeOutToJson(PriceChangeOut instance) =>
+    <String, dynamic>{
+      'charge_time': ?instance.chargeTime,
+      'currency': ?instance.currency,
+      'new_price_paise': instance.newPricePaise,
+      'state': ?instance.state,
     };
 
 ProfilesResponse _$ProfilesResponseFromJson(Map<String, dynamic> json) =>
@@ -3638,6 +3660,13 @@ Map<String, dynamic> _$VerificationOutToJson(VerificationOut instance) =>
       'reason': ?instance.reason,
       'status': instance.status,
     };
+
+VerifyIn _$VerifyInFromJson(Map<String, dynamic> json) =>
+    VerifyIn(purchaseToken: json['purchase_token'] as String);
+
+Map<String, dynamic> _$VerifyInToJson(VerifyIn instance) => <String, dynamic>{
+  'purchase_token': instance.purchaseToken,
+};
 
 WeatherAlert _$WeatherAlertFromJson(Map<String, dynamic> json) => WeatherAlert(
   action: json['action'] as String?,

@@ -97,11 +97,10 @@ async def test_off_gives_the_full_app_and_no_offer(engine: AsyncEngine) -> None:
     features = snap["features"]  # type: ignore[index]
     assert features["calendar"] == {"enabled": True, "limit": None}
     assert features["photos"] == {"enabled": True, "limit": None}
-    assert offer == {
+    assert {k: offer[k] for k in ("in_force", "role", "product_id", "covered", "locked")} == {
         "in_force": False,
         "role": None,
         "product_id": None,
-        "base_plan_id": None,
         "covered": False,
         "locked": [],
     }

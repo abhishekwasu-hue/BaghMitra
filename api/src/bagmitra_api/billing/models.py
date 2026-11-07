@@ -73,6 +73,8 @@ class Subscription(TimestampMixin, Base):
     last_verified_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     reason: Mapped[str | None] = mapped_column(Text)
     granted_by: Mapped[uuid.UUID | None] = mapped_column()
+    # Play's pending price change (state, new price, charge time) for the in-app notice (§7).
+    price_change: Mapped[dict[str, Any] | None] = mapped_column(JSON)
 
 
 class BillingEvent(TimestampMixin, Base):
