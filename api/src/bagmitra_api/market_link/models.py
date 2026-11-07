@@ -35,6 +35,11 @@ from sqlalchemy import (
 from sqlalchemy.orm import Mapped, mapped_column
 
 from bagmitra_api.db.base import Base, OwnedSyncedRowMixin, TimestampMixin, utcnow
+from bagmitra_api.market_link.package_models import (
+    PACKAGE_ACTIONS,
+    PACKAGE_REASONS,
+    PACKAGE_SUBJECTS,
+)
 
 LOT_STATUSES = ("draft", "published", "closed", "withdrawn")
 BASES = ("per_tonne", "per_crate", "lump_sum")
@@ -58,6 +63,10 @@ ADMIN_ACTIONS = ("verify", "warn", "hide", "suspend", "restore")
 # Reason codes shown to the user (§4C): the report reasons, plus a duplicate registration and
 # the two that close a check or an appeal.
 ADMIN_REASONS = (*REPORT_REASONS, "duplicate_user", "checks_passed", "appeal_upheld")
+# The season sale package logs its settings changes and grants here too (§4E, 0035).
+ADMIN_SUBJECT_TYPES = (*REPORT_SUBJECT_TYPES, *PACKAGE_SUBJECTS)
+ADMIN_ACTION_KINDS = (*ADMIN_ACTIONS, *PACKAGE_ACTIONS)
+ADMIN_REASON_CODES = (*ADMIN_REASONS, *PACKAGE_REASONS)
 APPEAL_STATES = ("none", "appealed", "upheld", "rejected")
 # Which reason codes each action may carry (§1 core principle, Addendum 5): warn / hide /
 # suspend only on platform rules, never on a payment, weight or quality quarrel.
@@ -420,13 +429,14 @@ class AdminAction(_Row, Base):
     """Every verify / warn / hide / suspend / restore, with a reason code the user sees, the
     actor and the time; one appeal through the grievance officer (spec §4C). The action
     columns never change and no row is deleted (Postgres trigger, 0033); only the appeal
-    columns move (none -> appealed -> upheld / rejected)."""
+    columns move (none -> appealed -> upheld / rejected). Season package settings changes and
+    grants carry `detail` = {"old": ..., "new": ...} (§4E)."""
 
     __tablename__ = "admin_actions"
     __table_args__ = (
-        one_of("subject_type", REPORT_SUBJECT_TYPES),
-        one_of("action", ADMIN_ACTIONS),
-        one_of("reason_code", ADMIN_REASONS),
+        one_of("subject_type", ADMIN_SUBJECT_TYPES),
+        one_of("action", ADMIN_ACTION_KINDS),
+        one_of("reason_code", ADMIN_REASON_CODES),
         one_of("appeal_state", APPEAL_STATES),
         one_of("appeal_reason", APPEAL_REASONS),  # NULL passes a CHECK: no appeal yet
     )
@@ -446,6 +456,7 @@ class AdminAction(_Row, Base):
     appeal_acknowledged_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     appeal_decided_by: Mapped[uuid.UUID | None] = mapped_column()
     appeal_decided_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    detail: Mapped[dict[str, Any] | None] = mapped_column(JSON)
 
 
 class TermsAcceptance(_Row, Base):

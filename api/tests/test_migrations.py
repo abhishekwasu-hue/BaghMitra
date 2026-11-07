@@ -225,7 +225,7 @@ def test_postgres_client_roles_lose_every_grant() -> None:
         ).scalar_one()
         assert rls is True
         # The migrating / API role still reads and writes alembic_version and the tables.
-        assert conn.execute(text("SELECT version_num FROM alembic_version")).scalar_one() == "0034"
+        assert conn.execute(text("SELECT version_num FROM alembic_version")).scalar_one() == "0035"
         assert conn.execute(text("SELECT count(*) FROM account_deletions")).scalar_one() == 0
     # Reversible, and a revert never hands the privileges back.
     command.downgrade(cfg, "0024")
