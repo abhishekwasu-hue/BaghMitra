@@ -1586,6 +1586,36 @@ their profile; undoes a dismiss. Only for a published item that has a date.''',
     ),
   });
 
+  ///My Interests
+  Future<chopper.Response<SentInterestsResponse>>
+  v1MarketLinkInterestsMineGet() {
+    generatedMapping.putIfAbsent(
+      SentInterestsResponse,
+      () => SentInterestsResponse.fromJsonFactory,
+    );
+
+    return _v1MarketLinkInterestsMineGet();
+  }
+
+  ///My Interests
+  @GET(path: '/v1/market-link/interests/mine')
+  Future<chopper.Response<SentInterestsResponse>>
+  _v1MarketLinkInterestsMineGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Interests where the caller is the trader or the named broker, newest first, with the
+lot and, once accepted, the introduction to open; a closed one is the notice that the
+grower accepted another or closed the lot.''',
+      summary: 'My Interests',
+      operationId: 'market_link_my_interests',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  });
+
   ///Upload Lot Photo
   ///@param photo_id
   Future<chopper.Response<LotPhotoStored>>
@@ -1727,6 +1757,73 @@ verified buyer / broker while the lot is published. Only the derived key is sign
       description: 'Takes a published lot off the buyers\' list (the grower sold it or changed their mind).',
       summary: 'Close Lot',
       operationId: 'market_link_close_lot',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  });
+
+  ///Lot Interests
+  ///@param lot_id
+  Future<chopper.Response<LotInterestsResponse>>
+  v1MarketLinkLotsLotIdInterestsGet({required String? lotId}) {
+    generatedMapping.putIfAbsent(
+      LotInterestsResponse,
+      () => LotInterestsResponse.fromJsonFactory,
+    );
+
+    return _v1MarketLinkLotsLotIdInterestsGet(lotId: lotId);
+  }
+
+  ///Lot Interests
+  ///@param lot_id
+  @GET(path: '/v1/market-link/lots/{lot_id}/interests')
+  Future<chopper.Response<LotInterestsResponse>>
+  _v1MarketLinkLotsLotIdInterestsGet({
+    @Path('lot_id') required String? lotId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''The interests on the caller\'s own lot, oldest first, to compare side by side. An open
+interest whose trader or broker is no longer verified is left out (decision h).''',
+      summary: 'Lot Interests',
+      operationId: 'market_link_lot_interests',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  });
+
+  ///Send Interest
+  ///@param lot_id
+  Future<chopper.Response<InterestOut>> v1MarketLinkLotsLotIdInterestsPost({
+    required String? lotId,
+    required InterestIn? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      InterestOut,
+      () => InterestOut.fromJsonFactory,
+    );
+
+    return _v1MarketLinkLotsLotIdInterestsPost(lotId: lotId, body: body);
+  }
+
+  ///Send Interest
+  ///@param lot_id
+  @POST(path: '/v1/market-link/lots/{lot_id}/interests', optionalBody: true)
+  Future<chopper.Response<InterestOut>> _v1MarketLinkLotsLotIdInterestsPost({
+    @Path('lot_id') required String? lotId,
+    @Body() required InterestIn? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''An interest on a published lot from a verified trader / exporter (optionally naming a
+verified broker) or from a verified broker for a named verified trader. A trader\'s new
+interest replaces their open one on the same lot.''',
+      summary: 'Send Interest',
+      operationId: 'market_link_send_interest',
       consumes: [],
       produces: [],
       security: ["HTTPBearer"],

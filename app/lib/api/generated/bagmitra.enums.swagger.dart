@@ -214,6 +214,22 @@ enum GrantInSubjectType {
   const GrantInSubjectType(this.value);
 }
 
+enum InterestInBasis {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('per_tonne')
+  perTonne('per_tonne'),
+  @JsonValue('per_crate')
+  perCrate('per_crate'),
+  @JsonValue('lump_sum')
+  lumpSum('lump_sum');
+
+  final String? value;
+
+  const InterestInBasis(this.value);
+}
+
 enum LabelClaimOutCategory {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
