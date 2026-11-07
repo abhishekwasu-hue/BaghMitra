@@ -3707,4 +3707,51 @@ class AppLocalizationsEn extends AppLocalizations {
   String mlHarvestOn(String date) {
     return 'Harvest $date';
   }
+
+  @override
+  String get mlMakeOffer => 'Make an offer';
+
+  @override
+  String get mlOfferTitle => 'Your offer';
+
+  @override
+  String get mlOfferRate => 'Rate ₹';
+
+  @override
+  String get mlOfferQuantity => 'Quantity in tonnes (optional)';
+
+  @override
+  String get mlOfferHarvestDate => 'Proposed harvest date';
+
+  @override
+  String get mlOfferThroughBroker => 'Through a middleman (broker)';
+
+  @override
+  String get mlOfferForTrader => 'For which trader';
+
+  @override
+  String get mlOfferDirect => 'Directly';
+
+  @override
+  String get mlOfferOnlyThese =>
+      'Only the rate, quantity and date go to the grower; settle everything else face to face.';
+
+  @override
+  String get mlOfferSend => 'Send offer';
+
+  @override
+  String get mlOfferSent =>
+      'Offer sent. A notice comes when the grower decides.';
+
+  @override
+  String get mlErrRate => 'Write the rate in rupees';
+
+  @override
+  String get mlErrQuantity => 'Write the tonnes (up to 10,000)';
+
+  @override
+  String get mlErrPickTrader => 'Pick the trader';
+
+  @override
+  String get mlErrLotGone => 'This produce has left the list.';
 }

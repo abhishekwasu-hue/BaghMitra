@@ -124,8 +124,9 @@ abstract final class Routes {
       '$marketLots/new${plotId == null ? '' : '?plot=$plotId'}';
   static String marketLot(String lotId) => '$marketLots/$lotId';
 
-  /// Traders' and brokers' side (L4): published lots and own offers.
+  /// Traders' and brokers' side (L4): published lots, an offer on one, own offers.
   static const marketBrowse = '$marketLink/market';
+  static String marketOffer(String lotId) => '$marketBrowse/$lotId/offer';
   static const marketMyOffers = '$marketLink/offers';
   static const plots = '/plots';
   static const addPlot = '/plots/new';
@@ -315,6 +316,11 @@ GoRouter buildRouter(
       GoRoute(
         path: Routes.marketBrowse,
         builder: (_, _) => const BrowseLotsScreen(),
+      ),
+      GoRoute(
+        path: '${Routes.marketBrowse}/:lotId/offer',
+        builder: (_, s) =>
+            SendInterestScreen(lotId: s.pathParameters['lotId']!),
       ),
       GoRoute(
         path: Routes.marketMyOffers,

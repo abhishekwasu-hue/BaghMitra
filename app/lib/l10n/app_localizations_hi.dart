@@ -3702,4 +3702,50 @@ class AppLocalizationsHi extends AppLocalizations {
   String mlHarvestOn(String date) {
     return 'तुड़ाई $date';
   }
+
+  @override
+  String get mlMakeOffer => 'ऑफ़र दें';
+
+  @override
+  String get mlOfferTitle => 'आपका ऑफ़र';
+
+  @override
+  String get mlOfferRate => 'दर ₹';
+
+  @override
+  String get mlOfferQuantity => 'माल टन में (वैकल्पिक)';
+
+  @override
+  String get mlOfferHarvestDate => 'प्रस्तावित तुड़ाई तारीख';
+
+  @override
+  String get mlOfferThroughBroker => 'मध्यस्थ (दलाल) के ज़रिए';
+
+  @override
+  String get mlOfferForTrader => 'किस व्यापारी के लिए';
+
+  @override
+  String get mlOfferDirect => 'सीधे';
+
+  @override
+  String get mlOfferOnlyThese =>
+      'किसान को सिर्फ़ दर, माल और तारीख जाती है; बाकी सब आमने-सामने तय करें।';
+
+  @override
+  String get mlOfferSend => 'ऑफ़र भेजें';
+
+  @override
+  String get mlOfferSent => 'ऑफ़र भेजा। किसान के फ़ैसले पर सूचना आएगी।';
+
+  @override
+  String get mlErrRate => 'दर रुपयों में लिखें';
+
+  @override
+  String get mlErrQuantity => 'टन लिखें (10,000 तक)';
+
+  @override
+  String get mlErrPickTrader => 'व्यापारी चुनें';
+
+  @override
+  String get mlErrLotGone => 'यह माल सूची से हट गया है।';
 }
