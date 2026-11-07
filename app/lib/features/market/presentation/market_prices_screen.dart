@@ -233,7 +233,11 @@ class _MarketPricesScreenState extends ConsumerState<MarketPricesScreen> {
                               ),
                               style: BmType.meta,
                             ),
-                          if (p.variety case final variety?)
+                          if (p.variety case final variety?
+                              when marketVarietyIsInformative(
+                                variety,
+                                p.commodity,
+                              ))
                             Text(
                               t.marketVariety(
                                 marketVarietyLabel(variety, lang),
@@ -314,7 +318,8 @@ String marketPriceShareText(
     t.marketShareLine(marketLabel(p.market, lang), rs(p.modalRsPerQuintal)),
     if (p.minRsPerQuintal != null || p.maxRsPerQuintal != null)
       t.marketRange(rs(p.minRsPerQuintal), rs(p.maxRsPerQuintal)),
-    if (p.variety case final variety?)
+    if (p.variety case final variety?
+        when marketVarietyIsInformative(variety, p.commodity))
       t.marketVariety(marketVarietyLabel(variety, lang)),
     '${marketStateLabel(p.state, lang)} · ${formatDate(p.day, lang)}',
     t.shareSource(p.source),
