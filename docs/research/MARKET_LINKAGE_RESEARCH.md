@@ -158,3 +158,76 @@ bank account), lot photos with GPS and time from the existing scouting camera, s
 (Claude vision, later), harvest-window from the bahar module, the Q48 fair-price check against
 the day's mandi modal price, written deal terms (rate basis, weighing place, rejection rule,
 payment date), and per-deal ratings of traders and growers.
+
+## 4. Export linkage — research 2026-11-07 (owner: BagMitra only gives information; it takes no part in any trade)
+
+### 4.1 Where Indian citrus goes and what is known about prices
+- India's HS 0805 (citrus) exports 2023: US$25 M — Bangladesh 58 % ($14.9 M), Nepal 28 % ($7.21 M),
+  UAE 6 % ($1.53 M), Bhutan, Kuwait, Qatar, Oman, Iraq, Bahrain, Saudi Arabia (TrendEconomy, from UN
+  Comtrade, https://trendeconomy.com/data/h2/India/0805) [S].
+- **UN Comtrade licence: commercial exploitation, redistribution and publication are prohibited
+  without written UN permission** (https://comtrade.un.org/licenseagreement.html) [V] → do not put
+  Comtrade-derived numbers in the app.
+- Exporter view (FreshPlaza, 8 Dec 2025, Moghesia Global Venture): Bangladesh dominates, Nepal second,
+  Gulf wants uniform size, shelf life, looks; farm-gate US$0.20–0.25/kg mid-Sep → 0.44–0.60/kg Dec 2025;
+  Ambia (mid-Sep–Dec) perishable, not for cold storage; Mrig (end Jan–mid Apr) sweeter, suits
+  long-distance and cold storage; buyers want 150–225 g, shiny, uniform skin; competitors South
+  Africa, Egypt, Bhutan [S].
+- Bangladesh: total import duty on oranges 121.78 %; imported "malta" Tk 350–400/kg retail, Badamtali
+  wholesale (Dhaka) Tk 4,100–4,400 per 15 kg carton (FreshPlaza, 16 Oct 2026, quoting the Bangladesh
+  Fresh Fruits Importers Association) [S]. No official daily Bangladesh price source found.
+- Nepal: Kalimati Fruits and Vegetables Market Development Committee publishes daily wholesale prices;
+  "Orange (Indian)" NPR 150–200/kg, average 175, on 3 Nov 2026 (via Ratopati,
+  https://english.ratopati.com/story/85501/) [S]. The committee is official; its terms for reuse not
+  read [UV].
+- Gulf (UAE etc.): no official free wholesale price source found [UV].
+- First Nagpur orange consignment to Dubai, 13 Feb 2020: 1,500 crates of 10 kg, bought from Warud
+  growers, graded at the APEDA-funded VHT facility, Vashi, refrigerated container (FreshPlaza) [S].
+
+### 4.2 Export rules a grower meets [V unless marked]
+- **HortiNet** (APEDA traceability) covers citrus among other fruits; farms are registered by the
+  State Horticulture Department; for vegetables the exporter may only export from registered farms;
+  lots go through an APEDA-approved packhouse, residue testing at an accredited lab, and a
+  phytosanitary certificate (https://apeda.gov.in/hortinet-static).
+- **Packhouses**: EU-bound fruit is inspected at packhouses approved jointly by NPPO and APEDA;
+  traceability records required (APEDA note on pack houses).
+- APEDA and ICAR-CCRI Nagpur MoU (2021): traceability, market intelligence cell, export SOP with
+  residue control, GI Nagpur Orange promotion, FPO linkage, pest-free areas (KNN, Oct 2021) [S].
+- APEDA site has an exporter directory (filter by state, type, product; data source "Export
+  Return"; result fields and reuse terms not read) [UV].
+
+### 4.3 What BagMitra can do without taking part
+Information only: an export page per crop (destinations with source and year, season fit, buyer
+specs as quoted, rules: HortiNet farm registration, packhouse, residue testing, phytosanitary);
+a link to the official exporter directory; verified exporters can join as buyers in the existing
+market-linkage module (spec v1.5 already lists "exporter" as a buyer type); the grower's spray log,
+PHI and label-claim checks already in the app can produce an "export record" PDF the grower hands to
+an exporter. Foreign prices only from an official publisher whose terms allow reuse, otherwise a
+link-out; never Comtrade data.
+
+## 5. Stopping fake traders and exporters — research 2026-11-07
+
+### 5.1 What can legally be checked [V unless marked]
+- **Aadhaar authentication** by a private entity needs Central Government approval of a proposal
+  through a Ministry, assessed by UIDAI (Aadhaar Authentication for Good Governance Amendment Rules,
+  31 Jan 2025; Khaitan & Co summary) [S]. Not available to BagMitra now.
+- **DigiLocker (Entity Locker / API Setu)**: an organisation can pull, with the user's consent,
+  e-Aadhaar XML and PAN details; the entity's **GSTN is verified at API Setu sign-up**; Aadhaar PDF not
+  given "due to DPDP rules" (DigiLocker onboarding FAQ). BagMitra needs its registered company and
+  GSTIN first. Licensed KYC vendors also resell DigiLocker flows (paid) [S].
+- **GSTIN public search** (no login): legal name, trade name, registration date, constitution,
+  principal place of business, cancellation date, return-filing record by year. **Turnover is not
+  shown publicly** (GST portal manual).
+- **IEC** (exporters): DGFT "View IEC Status" is public: name and status (Active / Deactivated)
+  (Skydo summary) [S].
+- **FSSAI licence**: public check on FoSCoS (several secondary guides) [S].
+- **APMC trader licence**: copy + market committee record (MSAMB profile pages give committee
+  contacts) [V, §1.2].
+- **DPDP Rules 2025** notified Nov 2025, phased over 12–18 months; consent and notice duties; breach
+  notice to users and the Board; penalties up to ₹250 crore (YourStory) [S]. Collect the minimum,
+  never store a full Aadhaar number.
+
+### 5.2 What the data does not give
+- No public register shows a trader's or exporter's turnover or transaction history. GST return
+  filing regularity and registration date show only that a business exists and files.
+- Self-declared turnover cannot be verified by BagMitra.
