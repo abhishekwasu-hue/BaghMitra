@@ -75,20 +75,23 @@ class RegistrationFix {
 }
 
 /// A badge from a stored record, with its date: [kind] `checked` (admin approval),
-/// `registered_from` (the registration fix's place) or `place_photo` (a BagMitra
-/// representative's visit). Never a guarantee.
+/// `registered_from` (the registration fix's place), `place_photo` (a BagMitra
+/// representative's visit) or a per-check badge (L7: `gst_checked` with [sinceYear],
+/// `apmc_seen`, `fssai_checked`, `iec_active`, `apeda_listed`). Never a guarantee.
 class ProfileBadge {
-  const ProfileBadge(this.kind, this.on, {this.place});
+  const ProfileBadge(this.kind, this.on, {this.place, this.sinceYear});
 
   factory ProfileBadge.fromJson(Map<String, Object?> j) => ProfileBadge(
     j['kind']! as String,
     DateTime.parse(j['on']! as String),
     place: j['place'] as String?,
+    sinceYear: j['since_year'] as int?,
   );
 
   final String kind;
   final DateTime on;
   final String? place;
+  final int? sinceYear;
 }
 
 class QuestionStars {
