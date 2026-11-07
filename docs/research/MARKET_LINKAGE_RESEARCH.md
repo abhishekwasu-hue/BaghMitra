@@ -123,6 +123,13 @@ depends on the structure — a CA must confirm before any fee is charged.
   1.8 M+ farmers, 11,000+ institutional buyers now (NITI Frontier Tech,
   https://frontiertech.niti.gov.in/story/dehaats-ai-enabled-agriculture-network-driving-market-access-and-efficiency-for-1-8-million-farmers/).
 
+### 1.8 Owner's field observation (his village, stated 2026-11-07) [owner]
+Local / nearby broker (dalal) brings the trader, shows the orchard, negotiates, takes 2 %
+commission; trader fixes harvest date and basis (per tonne, per crate, or lump sum); terms written
+on rough paper, no bond paper; trader then sells on the spot to a bigger trader or sends the fruit
+to a mandi. This fills part of the "on-tree sale practice" gap in §2 (who pays the 2 % is not
+stated).
+
 ## 2. What the data does not show
 - Whether a pure listing / lead service (BagMitra never buys, never holds money) needs a s.5D
   licence or Market Committee permission under the new s.6(2A). Needs a written legal opinion.
