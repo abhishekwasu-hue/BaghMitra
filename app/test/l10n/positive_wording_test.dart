@@ -37,6 +37,10 @@ const allowNegative = {
   'adminMlNo',
   // वजनकाटा (weighbridge, GLOSSARY_mr.md) only contains the letters of नका.
   'adminMlKindWeighbridge',
+  // False match, not a negative: "वजनकाटा" (weighbridge, GLOSSARY_mr.md) contains "नका".
+  'mlKindWeighbridge',
+  'mlDocCertificate',
+  'mlServicesEmpty',
   // Export record PDF footer (spec v1.5 §4A): an information record, not a certificate.
   'exportRecordFooter',
 };
