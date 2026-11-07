@@ -10,7 +10,11 @@ import 'feed_pages.dart';
 import 'kb_admin_repository.dart';
 import 'kb_pages.dart';
 import 'market_link_admin_repository.dart';
+import 'market_link_appeals_page.dart';
 import 'market_link_pages.dart';
+import 'market_link_rechecks.dart';
+import 'market_link_safety_admin.dart';
+import 'market_link_safety_pages.dart';
 import 'package_admin_repository.dart';
 import 'package_pages.dart';
 import 'package_strings.dart';
@@ -25,6 +29,7 @@ class AdminApp extends StatelessWidget {
     this.feed,
     this.documents,
     this.marketLink,
+    this.safety,
     this.package,
     this.auth,
   });
@@ -43,6 +48,9 @@ class AdminApp extends StatelessWidget {
   /// Market linkage verification queue and rating tags; null unless the build has
   /// `MARKET_LINK` on (decision j). Shown only to role `market_link_admin`.
   final MarketLinkAdminRepository? marketLink;
+
+  /// Market linkage reports and appeals (L6); same gate and role as [marketLink].
+  final MarketLinkSafetyAdmin? safety;
 
   /// Season sale package settings and activation (spec v1.5 §4E); with [marketLink] only.
   final PackageAdminRepository? package;
@@ -64,6 +72,7 @@ class AdminApp extends StatelessWidget {
         feed: feed,
         documents: documents,
         marketLink: marketLink,
+        safety: safety,
         package: package,
       ),
       final a => StreamBuilder<void>(
@@ -76,6 +85,7 @@ class AdminApp extends StatelessWidget {
                 feed: feed,
                 documents: documents,
                 marketLink: marketLink,
+                safety: safety,
                 package: package,
                 roles: a.roles,
                 onSignOut: a.signOut,
@@ -93,6 +103,7 @@ class AdminShell extends StatefulWidget {
     this.feed,
     this.documents,
     this.marketLink,
+    this.safety,
     this.package,
     this.roles = const {},
     this.onSignOut,
@@ -103,6 +114,7 @@ class AdminShell extends StatefulWidget {
   final FeedAdminRepository? feed;
   final DocumentPicker? documents;
   final MarketLinkAdminRepository? marketLink;
+  final MarketLinkSafetyAdmin? safety;
   final PackageAdminRepository? package;
 
   /// Supabase app_metadata roles of the signed-in account (gates the feed section).
@@ -160,7 +172,16 @@ class _AdminShellState extends State<AdminShell> {
           Icons.verified_user_rounded,
           VerificationQueuePage(repo: ml),
         ),
+        (
+          t.adminMlRechecks,
+          Icons.event_repeat_rounded,
+          RecheckListPage(repo: ml),
+        ),
         (t.adminMlTags, Icons.sell_rounded, RatingTagsPage(repo: ml)),
+        if (widget.safety case final safety?) ...[
+          (t.adminMlReports, Icons.flag_rounded, ReportsPage(repo: safety)),
+          (t.adminMlAppeals, Icons.gavel_rounded, AppealsPage(repo: safety)),
+        ],
         if (widget.package case final pkg?)
           (
             PackageStrings.of(context)['section'],
@@ -194,7 +215,7 @@ class _AdminShellState extends State<AdminShell> {
       ),
       body: Row(
         children: [
-          // Scrolls when the sections do not fit the window's height.
+          // Scrolls when the sections outgrow a short window (a laptop at 800 px).
           LayoutBuilder(
             builder: (context, box) => SingleChildScrollView(
               child: ConstrainedBox(

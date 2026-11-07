@@ -271,6 +271,21 @@ class Settings(BaseSettings):
     # PRIVACY_CONTACT_EMAIL. TODO(Q83): an admin-editable record in the admin web.
     market_link_grievance_name: str = Field(default="", max_length=120)
     market_link_grievance_contact: str = Field(default="", max_length=120)
+    # Trust and safety (spec v1.5 §4C, IT Rules 2021): a report or appeal is acknowledged
+    # within these hours and closed within these days (the admin list flags an overdue one);
+    # a deleted account's market-link data is erased after these days (Q68); photos per
+    # report or appeal (optional).
+    market_link_ack_hours: int = Field(default=24, ge=1)
+    market_link_close_days: int = Field(default=15, ge=1)
+    market_link_erase_after_days: int = Field(default=180, ge=1)
+    market_link_report_max_photos: int = Field(default=3, ge=0)
+    # L7 (spec §4, §4C). A passed check older than this goes on the admin's re-check list
+    # (yearly re-check). A new registration whose GPS fix lies within this distance of a
+    # suspended profile's fix goes to the admin before any badge (Q101). A pair is flagged when
+    # one side has at least this many completed deals, every one with the other side (Q100).
+    market_link_recheck_days: int = Field(default=365, ge=1)
+    market_link_returning_km: float = Field(default=1.0, gt=0)
+    market_link_pair_min_deals: int = Field(default=3, ge=1)
 
     @property
     def push_enabled(self) -> bool:

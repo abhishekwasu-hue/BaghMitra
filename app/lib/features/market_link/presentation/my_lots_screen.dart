@@ -156,6 +156,18 @@ class LotCard extends ConsumerWidget {
                 const SizedBox(height: BmSpace.xs),
                 LotPhotoStrip(photos: photos.take(4).toList(), size: 56),
               ],
+              // Offers come only on a lot traders have seen (L4).
+              if (lot.status != 'draft')
+                Align(
+                  alignment: AlignmentDirectional.centerStart,
+                  child: TextButton.icon(
+                    key: Key('lot-offers-${lot.id}'),
+                    onPressed: () =>
+                        context.push(Routes.marketLotOffers(lot.id)),
+                    icon: const Icon(Icons.compare_arrows_rounded),
+                    label: Text(t.mlSeeOffers),
+                  ),
+                ),
             ],
           ),
         ),
