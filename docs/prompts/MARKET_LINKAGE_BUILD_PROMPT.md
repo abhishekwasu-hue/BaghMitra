@@ -188,3 +188,15 @@ prevention). Tests: registration blocked without a fix; coordinates absent from 
 API; mock-flagged registration lands in the admin queue.
 ```
 
+## Addendum 4 2026-11-07 (audit fixes) — paste this too
+
+```
+ADDENDUM 4 (audit 2026-11-07, research §6.2; spec v1.5 §4B): (1) Strip EXIF from every uploaded photo
+in the market-link module (server side, before storage) and never return lot photo lat/lon or the plot
+pin to a buyer or broker before the grower accepts their offer; test it through the API. (2) Lot text
+fields (quality and any other free text a buyer can see before acceptance) reject phone-number and URL
+patterns (Devanagari and Latin digits, +91 forms, spaced digits); tests with Marathi samples. (3) Add the
+§4 data (registration GPS fields, exporter IEC, market_link_rep uploads, fraud reports) in the next
+migration if L0a lacks them. (4) Keep market_link_admin in L0b.
+```
+
