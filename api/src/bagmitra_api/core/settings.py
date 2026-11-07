@@ -123,8 +123,22 @@ class Settings(BaseSettings):
     )
     market_window_days: int = 14
     # Our crop key -> Agmarknet commodity names.
+    # Other fruits (owner 2026-11-07: prices for banana, guava, pomegranate, grapes, papaya,
+    # lemon and apple; santra stays the default in the app). Names are Agmarknet commodity
+    # names, matched exactly; "Banana" was seen on the live feed 2026-11-07, the others are
+    # to be confirmed on a later pull (a wrong name only yields no rows, never other crops).
     market_commodities: dict[str, list[str]] = Field(
-        default_factory=lambda: {"santra": ["Orange"], "mosambi": ["Mousambi(Sweet Lime)"]}
+        default_factory=lambda: {
+            "santra": ["Orange"],
+            "mosambi": ["Mousambi(Sweet Lime)"],
+            "banana": ["Banana"],
+            "guava": ["Guava"],
+            "pomegranate": ["Pomegranate"],
+            "grapes": ["Grapes"],
+            "papaya": ["Papaya"],
+            "lemon": ["Lemon"],
+            "apple": ["Apple"],
+        }
     )
 
     # Knowledge base (addendum v1.3 §5-§6): review validity and licence span limit.
