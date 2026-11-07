@@ -4134,4 +4134,45 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get mlErrLotGone => 'यह माल सूची से हट गया है।';
+
+  @override
+  String get mlOffersTitle => 'आपके माल पर ऑफ़र';
+
+  @override
+  String get mlOffersEmpty =>
+      'जाँचे गए व्यापारियों के ऑफ़र यहाँ साथ-साथ दिखेंगे।';
+
+  @override
+  String get mlSeeOffers => 'ऑफ़र देखें';
+
+  @override
+  String mlYourAsk(String rate) {
+    return 'आपकी अपेक्षित दर: $rate';
+  }
+
+  @override
+  String get mlAcceptPick => 'चुनने के लिए एक ऑफ़र पर टैप करें';
+
+  @override
+  String get mlAccept => 'चुना हुआ ऑफ़र स्वीकार करें';
+
+  @override
+  String get mlAcceptConfirmTitle => 'यह ऑफ़र स्वीकार करें?';
+
+  @override
+  String get mlAcceptConfirmBody =>
+      'इस व्यापारी (और नामित मध्यस्थ) को आपका नाम, फ़ोन और बाग की जगह दिखेगी। बाकी ऑफ़र बंद होंगे। आगे का लेन-देन आप सीधे आपस में तय करें।';
+
+  @override
+  String get mlAcceptYes => 'स्वीकार करें';
+
+  @override
+  String get mlAccepted =>
+      'स्वीकार हुआ। अब दोनों को एक-दूसरे के संपर्क दिखते हैं।';
+
+  @override
+  String get mlAcceptChanged => 'ऑफ़र बदल गया है; सूची फिर से खोलें।';
+
+  @override
+  String get mlIntroOpen => 'संपर्क देखें';
 }

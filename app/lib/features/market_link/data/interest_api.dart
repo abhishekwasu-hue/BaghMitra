@@ -17,8 +17,8 @@ typedef InterestDraft = ({
   String? traderId,
 });
 
-/// The phone's view of the L4 endpoints. Online only: an interest is decided by the server
-/// (verified sender, lot still published), never queued.
+/// The phone's view of the L4 endpoints. Online only: an interest and an acceptance are
+/// decided by the server (verified, lot still published), never queued.
 abstract interface class InterestApi {
   /// Published lots for a verified trader / broker (403 `not_verified` otherwise).
   Future<List<BuyerLot>> lots();
@@ -29,6 +29,9 @@ abstract interface class InterestApi {
 
   /// The interests on the grower's own lot, to compare.
   Future<List<LotInterest>> onLot(String lotId);
+
+  /// Accepts one open interest on the grower's own lot; the introduction's deal id.
+  Future<String> accept(String interestId);
 }
 
 class HttpInterestApi implements InterestApi {
@@ -89,6 +92,13 @@ class HttpInterestApi implements InterestApi {
     ))
       LotInterest.fromJson(m),
   ];
+
+  @override
+  Future<String> accept(String interestId) async =>
+      _map(
+            await marketLinkSend(_api, 'POST', '/interests/$interestId/accept'),
+          )['deal_id']!
+          as String;
 }
 
 final interestApiProvider = Provider<InterestApi>(

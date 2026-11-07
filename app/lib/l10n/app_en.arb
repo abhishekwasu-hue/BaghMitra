@@ -1608,5 +1608,18 @@
   "mlErrRate": "Write the rate in rupees",
   "mlErrQuantity": "Write the tonnes (up to 10,000)",
   "mlErrPickTrader": "Pick the trader",
-  "mlErrLotGone": "This produce has left the list."
+  "mlErrLotGone": "This produce has left the list.",
+  "mlOffersTitle": "Offers on your produce",
+  "mlOffersEmpty": "Offers from checked traders appear here, one beside the other.",
+  "mlSeeOffers": "See offers",
+  "mlYourAsk": "Your asking rate: {rate}",
+  "@mlYourAsk": {"placeholders": {"rate": {"type": "String"}}},
+  "mlAcceptPick": "Tap one offer to choose it",
+  "mlAccept": "Accept chosen offer",
+  "mlAcceptConfirmTitle": "Accept this offer?",
+  "mlAcceptConfirmBody": "This trader (and the middleman, if named) will see your name, phone and orchard location. The other offers close. You settle the rest of the transaction directly.",
+  "mlAcceptYes": "Accept",
+  "mlAccepted": "Accepted. You both see each other's contacts now.",
+  "mlAcceptChanged": "The offer changed; open the list again.",
+  "mlIntroOpen": "See contacts"
 }
