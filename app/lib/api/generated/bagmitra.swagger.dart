@@ -1586,6 +1586,107 @@ their profile; undoes a dismiss. Only for a published item that has a date.''',
     ),
   });
 
+  ///Upload Lot Photo
+  ///@param photo_id
+  Future<chopper.Response<LotPhotoStored>>
+  v1MarketLinkLotPhotosPhotoIdPhotoPut({
+    required String? photoId,
+    required Object? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      LotPhotoStored,
+      () => LotPhotoStored.fromJsonFactory,
+    );
+
+    return _v1MarketLinkLotPhotosPhotoIdPhotoPut(photoId: photoId, body: body);
+  }
+
+  ///Upload Lot Photo
+  ///@param photo_id
+  @PUT(path: '/v1/market-link/lot-photos/{photo_id}/photo', optionalBody: true)
+  Future<chopper.Response<LotPhotoStored>>
+  _v1MarketLinkLotPhotosPhotoIdPhotoPut({
+    @Path('photo_id') required String? photoId,
+    @Body() required Object? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Uploads one JPEG of the caller\'s own draft lot through the server, which strips its
+EXIF (GPS point, phone model, time) before storing it (spec v1.5 §4B). There is no signed
+upload URL for lot photos, so no stored lot photo can keep its metadata.''',
+      summary: 'Upload Lot Photo',
+      operationId: 'market_link_upload_lot_photo',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  });
+
+  ///Close Lot
+  ///@param lot_id
+  Future<chopper.Response<GrowerLotOut>> v1MarketLinkLotsLotIdClosePost({
+    required String? lotId,
+  }) {
+    generatedMapping.putIfAbsent(
+      GrowerLotOut,
+      () => GrowerLotOut.fromJsonFactory,
+    );
+
+    return _v1MarketLinkLotsLotIdClosePost(lotId: lotId);
+  }
+
+  ///Close Lot
+  ///@param lot_id
+  @POST(path: '/v1/market-link/lots/{lot_id}/close', optionalBody: true)
+  Future<chopper.Response<GrowerLotOut>> _v1MarketLinkLotsLotIdClosePost({
+    @Path('lot_id') required String? lotId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Takes a published lot off the buyers\' list (the grower sold it or changed their mind).',
+      summary: 'Close Lot',
+      operationId: 'market_link_close_lot',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  });
+
+  ///Publish Lot
+  ///@param lot_id
+  Future<chopper.Response<GrowerLotOut>> v1MarketLinkLotsLotIdPublishPost({
+    required String? lotId,
+  }) {
+    generatedMapping.putIfAbsent(
+      GrowerLotOut,
+      () => GrowerLotOut.fromJsonFactory,
+    );
+
+    return _v1MarketLinkLotsLotIdPublishPost(lotId: lotId);
+  }
+
+  ///Publish Lot
+  ///@param lot_id
+  @POST(path: '/v1/market-link/lots/{lot_id}/publish', optionalBody: true)
+  Future<chopper.Response<GrowerLotOut>> _v1MarketLinkLotsLotIdPublishPost({
+    @Path('lot_id') required String? lotId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Shows a draft lot to verified buyers and brokers. Needs 3 to 8 live photos, each
+uploaded; crop and variety are copied from the plot again and the place names from the
+grower\'s profile (village, taluka, district; never the plot\'s point).''',
+      summary: 'Publish Lot',
+      operationId: 'market_link_publish_lot',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  });
+
   ///My Acceptances
   Future<chopper.Response<MyAcceptancesOut>> v1MarketLinkMeAcceptancesGet() {
     generatedMapping.putIfAbsent(

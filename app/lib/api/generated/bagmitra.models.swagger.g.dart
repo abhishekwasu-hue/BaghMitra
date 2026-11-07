@@ -1152,6 +1152,33 @@ Map<String, dynamic> _$GrowerCardsResponseToJson(
   'kind': ?instance.kind,
 };
 
+GrowerLotOut _$GrowerLotOutFromJson(Map<String, dynamic> json) => GrowerLotOut(
+  crop: json['crop'] as String,
+  district: json['district'] as String?,
+  id: json['id'] as String,
+  orchardCheck: json['orchard_check'] as String?,
+  publishedAt: json['published_at'] == null
+      ? null
+      : DateTime.parse(json['published_at'] as String),
+  status: json['status'] as String,
+  taluka: json['taluka'] as String?,
+  variety: json['variety'] as String?,
+  village: json['village'] as String?,
+);
+
+Map<String, dynamic> _$GrowerLotOutToJson(GrowerLotOut instance) =>
+    <String, dynamic>{
+      'crop': instance.crop,
+      'district': ?instance.district,
+      'id': instance.id,
+      'orchard_check': ?instance.orchardCheck,
+      'published_at': ?instance.publishedAt?.toIso8601String(),
+      'status': instance.status,
+      'taluka': ?instance.taluka,
+      'variety': ?instance.variety,
+      'village': ?instance.village,
+    };
+
 HTTPValidationError _$HTTPValidationErrorFromJson(Map<String, dynamic> json) =>
     HTTPValidationError(
       detail:
@@ -1311,6 +1338,12 @@ LiveResponse _$LiveResponseFromJson(Map<String, dynamic> json) => LiveResponse(
 
 Map<String, dynamic> _$LiveResponseToJson(LiveResponse instance) =>
     <String, dynamic>{'product': instance.product, 'status': instance.status};
+
+LotPhotoStored _$LotPhotoStoredFromJson(Map<String, dynamic> json) =>
+    LotPhotoStored(photoKey: json['photo_key'] as String);
+
+Map<String, dynamic> _$LotPhotoStoredToJson(LotPhotoStored instance) =>
+    <String, dynamic>{'photo_key': instance.photoKey};
 
 ManualPriceIn _$ManualPriceInFromJson(Map<String, dynamic> json) =>
     ManualPriceIn(
