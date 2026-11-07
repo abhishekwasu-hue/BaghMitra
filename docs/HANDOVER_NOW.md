@@ -3,12 +3,12 @@
 Read first: `OWNER_RULES.md`, the "Resume — market link" block in `docs/PROGRESS.md`, then this file.
 Reports to Abhi in plain Marathi. Never run anything on the VPS; give him ONE command block.
 
-## In flight (owner task "audit of 2026-11-07", verbatim below)
+## In flight (owner task "audit of 2026-11-07", verbatim below) — owner: take no new work, finish what is running
 | Step | PRs / branches | State |
 |---|---|---|
-| 1. Visibility enforcement | #230 `ml-vis-1` → #232 `ml-vis-2` → #233 `ml-vis-3` → #234 `ml-vis-4` (stacked) | Built + tested locally (339 passed after the OpenAPI regen on `ml-vis-3`); CI running. Merge in order with merge commits (not squash): mark ready (MCP `update_pull_request draft=false`), check CI green + `git merge-tree --write-tree origin/main <head>` clean, merge, retarget the next PR's base to `main`. |
-| 2. Test APK `MARKET_LINK` | #231 `ml-test-apk-flag` | Built; Q117 logged (default OFF everywhere). Dart guard test runs only in CI. Merge when green. |
-| 3. Subscription billing | branches `billing-1`, `billing-2`, … (a sub-agent was building them; plan was in the session scratchpad, not in git) | Partly built, NOT reviewed, no PRs yet. Re-read `docs/prompts/SUBSCRIPTION_BUILD_PROMPT.md` + `docs/SPEC_billing_addendum.md` §7, review each `billing-N` diff against the spec, open draft PRs, finish what is missing. |
+| 1. Visibility enforcement | #230 ✅ merged, #232 ✅ merged; #233 `ml-vis-3` (base main) → #234 `ml-vis-4` (base `ml-vis-3`) | #233/#234 built + tested locally (339 passed after the OpenAPI + Dart regen); CI running. Merge #233 when green, retarget #234 to `main`, merge when green. Merge commits only (not squash): mark ready (MCP `update_pull_request draft=false`), check CI green + `git merge-tree --write-tree origin/main <head>` clean. |
+| 2. Test APK `MARKET_LINK` | #231 `ml-test-apk-flag` | Formatting fix pushed (03437b5); CI running. Merge when green. Q117 logged (default OFF everywhere). |
+| 3. Subscription billing | branches `billing-1`, … (sub-agent told to finish only its current branch and stop) | NOT reviewed, no PRs. Next session: re-read `docs/prompts/SUBSCRIPTION_BUILD_PROMPT.md` + `docs/SPEC_billing_addendum.md` §7, review each `billing-N` diff against the spec, open draft PRs, finish what is missing. Nothing locked by a plan (owner decides later). |
 
 Decisions made in step 1 (state them in the report): a suspended user keeps block / unblock, appeals, accepting terms and closing an own lot; every other write → 403 `suspended` (code renamed from `account_suspended`, unused anywhere).
 
