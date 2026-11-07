@@ -3226,6 +3226,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String get adminMlWhyAccount => 'same sign-in';
 
   @override
+  String get adminMlRechecks => 'Re-checks due';
+
+  @override
+  String get adminMlRechecksEmpty => 'No check is due for its yearly re-check';
+
+  @override
+  String adminMlLastChecked(String date) {
+    return 'last checked $date';
+  }
+
+  @override
   String adminMlDocumentCount(int n) {
     return 'Documents: $n';
   }

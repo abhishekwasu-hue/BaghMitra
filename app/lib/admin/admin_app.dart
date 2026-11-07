@@ -11,6 +11,7 @@ import 'kb_admin_repository.dart';
 import 'kb_pages.dart';
 import 'market_link_admin_repository.dart';
 import 'market_link_pages.dart';
+import 'market_link_rechecks.dart';
 
 /// Admin web shell (ADR 0006). Sections map to the config tables that keep business
 /// values out of code (spec §0.5); editors arrive with the milestones that own them.
@@ -149,6 +150,11 @@ class _AdminShellState extends State<AdminShell> {
           Icons.verified_user_rounded,
           VerificationQueuePage(repo: ml),
         ),
+        (
+          t.adminMlRechecks,
+          Icons.event_repeat_rounded,
+          RecheckListPage(repo: ml),
+        ),
         (t.adminMlTags, Icons.sell_rounded, RatingTagsPage(repo: ml)),
       ],
       (t.adminCropTemplates, Icons.eco_rounded, soon(1)),
@@ -181,6 +187,8 @@ class _AdminShellState extends State<AdminShell> {
             selectedIndex: _index,
             onDestinationSelected: (i) => setState(() => _index = i),
             labelType: NavigationRailLabelType.all,
+            // Many sections (feed, KB, market link): scroll rather than overflow.
+            scrollable: true,
             destinations: [
               for (final (label, icon, _) in sections)
                 NavigationRailDestination(icon: Icon(icon), label: Text(label)),

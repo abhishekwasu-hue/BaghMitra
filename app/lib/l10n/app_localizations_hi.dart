@@ -3221,6 +3221,17 @@ class AppLocalizationsHi extends AppLocalizations {
   String get adminMlWhyAccount => 'वही खाता';
 
   @override
+  String get adminMlRechecks => 'दोबारा जाँचें';
+
+  @override
+  String get adminMlRechecksEmpty => 'कोई सालाना दोबारा जाँच बाकी नहीं';
+
+  @override
+  String adminMlLastChecked(String date) {
+    return 'पिछली जाँच $date';
+  }
+
+  @override
   String adminMlDocumentCount(int n) {
     return 'दस्तावेज़: $n';
   }

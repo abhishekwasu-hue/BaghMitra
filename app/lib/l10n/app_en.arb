@@ -1316,6 +1316,16 @@
   "adminMlWhyName": "same name",
   "adminMlWhyGps": "registered nearby",
   "adminMlWhyAccount": "same sign-in",
+  "adminMlRechecks": "Re-checks due",
+  "adminMlRechecksEmpty": "No check is due for its yearly re-check",
+  "adminMlLastChecked": "last checked {date}",
+  "@adminMlLastChecked": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
   "adminMlDocumentCount": "Documents: {n}",
   "@adminMlDocumentCount": {"placeholders": {"n": {"type": "int"}}},
   "mlRoleTrader": "Trader",

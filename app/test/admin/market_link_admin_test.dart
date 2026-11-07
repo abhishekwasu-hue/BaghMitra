@@ -4,6 +4,7 @@ import 'package:bagmitra/admin/admin_app.dart';
 import 'package:bagmitra/admin/kb_admin_repository.dart';
 import 'package:bagmitra/admin/market_link_admin_repository.dart';
 import 'package:bagmitra/admin/market_link_pages.dart';
+import 'package:bagmitra/admin/market_link_rechecks.dart';
 import 'package:bagmitra/api/api_client.dart';
 import 'package:bagmitra/api/generated/bagmitra.swagger.dart';
 import 'package:bagmitra/l10n/app_localizations.dart';
@@ -173,6 +174,21 @@ class FakeMarketLinkAdmin implements MarketLinkAdminRepository {
     checks.add((kind, result, registeredYear));
     return subject(type, id);
   }
+
+  @override
+  Future<List<RecheckItemOut>> rechecks() async => [
+    if (!empty)
+      RecheckItemOut.fromJson({
+        'subject_type': 'buyer',
+        'subject_id': 'b1',
+        'name': 'Ramesh Traders',
+        'check_id': 'c1',
+        'kind': 'gstin',
+        'number': '27ABCDE1234F1Z5',
+        'checked_at': '2025-11-01T09:00:00Z',
+        'listed_at': '2026-11-07T00:00:00Z',
+      }),
+  ];
 
   @override
   Future<SubjectDetailOut> decide(
@@ -449,6 +465,34 @@ void main() {
     expect(repo.checks.last, ('phone_call', 'cancelled', null));
   });
 
+  testWidgets('re-check list opens the subject', (tester) async {
+    await _wide(tester);
+    final repo = FakeMarketLinkAdmin();
+    await tester.pumpWidget(
+      _page(RecheckListPage(repo: repo, openUrl: (_) async {})),
+    );
+    await tester.pumpAndSettle();
+    expect(find.text('last checked 2025-11-01'), findsOneWidget);
+    await tester.tap(find.text('Ramesh Traders'));
+    await tester.pumpAndSettle();
+    expect(find.text('Checks'), findsOneWidget);
+    await tester.pageBack();
+    await tester.pumpAndSettle();
+    await tester.pumpWidget(
+      _page(
+        RecheckListPage(
+          key: const ValueKey('empty'),
+          repo: FakeMarketLinkAdmin(empty: true),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(
+      find.text('No check is due for its yearly re-check'),
+      findsOneWidget,
+    );
+  });
+
   testWidgets('provider values are shown in words', (tester) async {
     await _wide(tester);
     await tester.pumpWidget(
@@ -553,8 +597,8 @@ void main() {
       );
     });
 
-    test('record a check', () async {
-      final r = repo(200, {
+    test('record a check and the re-check list', () async {
+      var r = repo(200, {
         'subject': _buyer,
         'history': <Object>[],
         'checks': [_checkRow('gstin', 'passed', year: 2016)],
@@ -575,6 +619,9 @@ void main() {
         'kind': 'phone_call',
         'result': 'passed',
       });
+      r = repo(200, {'items': <Object>[]});
+      expect(await r.rechecks(), isEmpty);
+      expect(sent.single.url.path, '/v1/admin/market-link/rechecks');
     });
 
     test('document url, tags and errors', () async {

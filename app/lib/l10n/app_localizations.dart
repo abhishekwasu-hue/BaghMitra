@@ -5626,6 +5626,24 @@ abstract class AppLocalizations {
   /// **'same sign-in'**
   String get adminMlWhyAccount;
 
+  /// No description provided for @adminMlRechecks.
+  ///
+  /// In en, this message translates to:
+  /// **'Re-checks due'**
+  String get adminMlRechecks;
+
+  /// No description provided for @adminMlRechecksEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No check is due for its yearly re-check'**
+  String get adminMlRechecksEmpty;
+
+  /// No description provided for @adminMlLastChecked.
+  ///
+  /// In en, this message translates to:
+  /// **'last checked {date}'**
+  String adminMlLastChecked(String date);
+
   /// No description provided for @adminMlDocumentCount.
   ///
   /// In en, this message translates to:
