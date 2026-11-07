@@ -210,15 +210,24 @@ void main() {
       await unmountApp(tester);
     });
 
-    testWidgets('with no block yet, the camera and हिशोब add the first one', (
-      tester,
-    ) async {
-      await _pumpReal(tester);
-      await tester.tap(find.byType(CameraButton));
-      await settle(tester);
-      expect(find.byType(AddPlotScreen), findsOneWidget);
-      await unmountApp(tester);
-    });
+    testWidgets(
+      'with no block yet, the camera and हिशोब say so first, then add one',
+      (tester) async {
+        await _pumpReal(tester);
+        await tester.tap(find.byType(CameraButton));
+        await settle(tester);
+        expect(find.byKey(const Key('no-plot-sheet')), findsOneWidget);
+        await tester.tap(find.byKey(const Key('no-plot-cancel')));
+        await settle(tester);
+        expect(find.byKey(const Key('no-plot-sheet')), findsNothing);
+        await _tapNav(tester, 'हिशोब');
+        expect(find.byKey(const Key('no-plot-sheet')), findsOneWidget);
+        await tester.tap(find.byKey(const Key('no-plot-add')));
+        await settle(tester);
+        expect(find.byType(AddPlotScreen), findsOneWidget);
+        await unmountApp(tester);
+      },
+    );
 
     testWidgets('a production build never opens the dev gallery', (
       tester,

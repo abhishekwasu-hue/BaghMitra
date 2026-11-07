@@ -21,6 +21,8 @@ import 'package:bagmitra/features/labels/data/label_targets.dart';
 import 'package:bagmitra/features/lookalikes/data/lookalike_cards.dart';
 import 'package:bagmitra/features/plots/data/crop_catalog.dart';
 import 'package:bagmitra/features/plots/data/location_service.dart';
+import 'package:bagmitra/features/plots/data/place_geocoder.dart';
+import 'package:bagmitra/features/plots/domain/geo.dart';
 import 'package:bagmitra/features/practices/data/irrigation_guide.dart';
 import 'package:bagmitra/features/practices/data/practice_cards.dart';
 import 'package:bagmitra/features/profile/data/language_catalog.dart';
@@ -99,6 +101,23 @@ class RecordingSharer implements FileSharer {
       shared.add((fileName: fileName, bytes: bytes, mimeType: mimeType));
 }
 
+/// A geocoder that answers [address] (null: "not found") and remembers what it was asked.
+class FakeGeocoder implements PlaceGeocoder {
+  FakeGeocoder([this.address]);
+
+  final PlaceAddress? address;
+  final asked = <({LatLon point, String languageCode})>[];
+
+  @override
+  Future<PlaceAddress?> addressOf(
+    LatLon point, {
+    required String languageCode,
+  }) async {
+    asked.add((point: point, languageCode: languageCode));
+    return address;
+  }
+}
+
 const signedIn = AuthSession(
   userId: 'u1',
   phone: '+919800000000',
@@ -120,6 +139,7 @@ Future<AppDatabase> pumpApp(
   bool onboarded = true,
   bool walkthroughSeen = true,
   LocationService? location,
+  PlaceGeocoder? geocoder,
   AppConfig config = testConfig,
   AppLog? log,
   SpeechRecognizer? recognizer,
@@ -164,6 +184,8 @@ Future<AppDatabase> pumpApp(
         if (photos != null) scoutingPhotosProvider.overrideWithValue(photos),
         if (location != null)
           locationServiceProvider.overrideWithValue(location),
+        // The phone's geocoder is never asked in widget tests: no name unless a test gives one.
+        placeGeocoderProvider.overrideWithValue(geocoder ?? FakeGeocoder()),
         databaseProvider.overrideWithValue(db),
         // Widget tests never reach a real server: a build with a backend configured gets a
         // server that answers 503, so sync and refreshes end at once in fake time.

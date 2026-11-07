@@ -87,16 +87,26 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     final t = AppLocalizations.of(context);
     final c = context.bm;
     final languages = ref.watch(languagesProvider).value ?? const [];
-    Widget field(String key, TextEditingController controller, String label) =>
-        Padding(
-          padding: const EdgeInsets.only(bottom: BmSpace.sm),
-          child: TextField(
-            key: Key(key),
-            controller: controller,
-            maxLength: 120,
-            decoration: InputDecoration(counterText: '', labelText: label),
-          ),
-        );
+    Widget field(
+      String key,
+      TextEditingController controller,
+      String label, {
+      String? helper,
+    }) => Padding(
+      padding: const EdgeInsets.only(bottom: BmSpace.sm),
+      child: TextField(
+        key: Key(key),
+        controller: controller,
+        maxLength: 120,
+        decoration: InputDecoration(
+          counterText: '',
+          labelText: label,
+          // In Marathi / Hindi: the name in that script, written by the grower himself.
+          helperText: helper == null || helper.isEmpty ? null : helper,
+          helperMaxLines: 2,
+        ),
+      ),
+    );
     return Scaffold(
       body: SafeArea(
         child: ListView(
@@ -124,7 +134,12 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
               ],
             ),
             const SizedBox(height: BmSpace.lg),
-            field('profile-name', _name, t.onboardingName),
+            field(
+              'profile-name',
+              _name,
+              t.onboardingName,
+              helper: t.onboardingNameHint,
+            ),
             field('profile-village', _village, t.onboardingVillage),
             field('profile-taluka', _taluka, t.onboardingTaluka),
             field('profile-district', _district, t.onboardingDistrict),

@@ -84,11 +84,15 @@ void main() {
       });
     }
 
-    testWidgets('with no block yet, a record action adds the first one', (
+    testWidgets('with no block yet, a record action says so, then adds one', (
       tester,
     ) async {
       await _pump(tester, withPlot: false);
       await _open(tester, const Key('quick-spray'));
+      expect(find.byKey(const Key('no-plot-sheet')), findsOneWidget);
+      expect(find.byType(AddPlotScreen), findsNothing);
+      await tester.tap(find.byKey(const Key('no-plot-add')));
+      await settle(tester);
       expect(find.byType(AddPlotScreen), findsOneWidget);
       await unmountApp(tester);
     });

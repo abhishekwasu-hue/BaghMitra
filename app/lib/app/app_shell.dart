@@ -47,7 +47,12 @@ class AppShell extends ConsumerWidget {
           onSelect: (i) {
             final branch = branchOfItem[i];
             if (branch == null) {
-              openForPlot(context, plots, Routes.accounts);
+              openForPlot(
+                context,
+                plots,
+                Routes.accounts,
+                action: t.navAccounts,
+              );
               return;
             }
             // A second tap on the open tab brings it back to its first page.
@@ -58,7 +63,12 @@ class AppShell extends ConsumerWidget {
           },
           cameraLabel: t.takePhoto,
           // A scouting record with a photo, for the grower's block.
-          onCamera: () => openForPlot(context, plots, Routes.addScouting),
+          onCamera: () => openForPlot(
+            context,
+            plots,
+            Routes.addScouting,
+            action: t.takePhoto,
+          ),
           onCameraLongPress: config.devGallery
               ? () => context.push(Routes.gallery)
               : null,
