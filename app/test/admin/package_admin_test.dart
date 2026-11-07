@@ -286,6 +286,54 @@ void main() {
     expect(find.text('Merchant QR image: QR saved'), findsOneWidget);
   });
 
+  testWidgets('activation: find by phone, record, duplicate UTR, revoke', (
+    tester,
+  ) async {
+    final fake = FakePackageAdmin(filled: true);
+    await pumpPackage(tester, fake, tab: 'Package activation');
+    await tester.enterText(find.byKey(const Key('pkg-phone')), '9800000000');
+    await tester.tap(find.byKey(const Key('pkg-find')));
+    await tester.pumpAndSettle();
+    expect(find.text('No grower with this number'), findsOneWidget);
+    await tester.enterText(find.byKey(const Key('pkg-phone')), '9812345678');
+    await tester.tap(find.byKey(const Key('pkg-find')));
+    await tester.pumpAndSettle();
+    expect(find.text('Ramesh Patil · +919812345678'), findsOneWidget);
+    Future<void> fill(String ref) async {
+      await tester.enterText(find.byKey(const Key('pkg-amount')), '1500');
+      await tester.enterText(find.byKey(const Key('pkg-ref')), ref);
+      await tester.pump();
+    }
+
+    await fill('UTR123456789');
+    final activate = find.byKey(const Key('pkg-activate'));
+    expect(tester.widget<FilledButton>(activate).onPressed, isNull);
+    await tester.tap(find.byKey(const Key('pkg-paid-on')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('OK'));
+    await tester.pumpAndSettle();
+    await tester.tap(activate);
+    await tester.pumpAndSettle();
+    expect(fake.recorded.single.amountPaise, 150000);
+    expect(fake.recorded.single.lotId, isNull); // all lots
+    expect(find.textContaining('BM/26-27/00001 · ₹1500 · UPI'), findsOneWidget);
+    await fill('UTR123456789');
+    await tester.tap(activate);
+    await tester.pumpAndSettle();
+    expect(find.text('This UTR is already recorded'), findsOneWidget);
+    await tester.tap(find.text('Revoke'));
+    await tester.pumpAndSettle();
+    await tester.enterText(
+      find.byKey(const Key('pkg-revoke-reason')),
+      'bounced',
+    );
+    await tester.pump();
+    await tester.tap(find.widgetWithText(FilledButton, 'Revoke'));
+    await tester.pumpAndSettle();
+    expect(fake.revoked, [('1', 'bounced')]);
+    expect(find.text('Revoked'), findsOneWidget);
+  });
+
   test('the API repository calls the package endpoints', () async {
     final sent = <http.Request>[];
     Object body = _empty;

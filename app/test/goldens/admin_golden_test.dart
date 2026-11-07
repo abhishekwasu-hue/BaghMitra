@@ -154,6 +154,19 @@ void main() {
       await tester.tap(find.text('Sale package'));
       await tester.pumpAndSettle();
       await _shot(tester, 'package_settings_$mode');
+
+      await tester.tap(find.text('Package activation'));
+      await tester.pumpAndSettle();
+      await tester.enterText(find.byKey(const Key('pkg-phone')), '9812345678');
+      await tester.tap(find.byKey(const Key('pkg-find')));
+      await tester.pumpAndSettle();
+      await tester.enterText(find.byKey(const Key('pkg-amount')), '1500');
+      await tester.enterText(
+        find.byKey(const Key('pkg-ref')),
+        'UTR412345678901',
+      );
+      await tester.pumpAndSettle();
+      await _shot(tester, 'package_activation_$mode');
     });
   }
 }

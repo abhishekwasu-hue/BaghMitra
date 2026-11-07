@@ -7,6 +7,7 @@ import '../design_system/cards.dart';
 import '../design_system/empty_state.dart';
 import '../theme/app_theme.dart';
 import 'kb_admin_repository.dart' show KbAdminException;
+import 'package_activation_page.dart';
 import 'package_admin_repository.dart';
 import 'package_strings.dart';
 
@@ -53,13 +54,40 @@ const _companyFields = [
   'gst_rate',
 ];
 
-/// The admin web's "Sale package" section (§4E).
+/// The admin web's "Sale package" section: settings, then activation (§4E).
 class PackageSection extends StatelessWidget {
   const PackageSection({required this.repo, super.key});
   final PackageAdminRepository repo;
 
   @override
-  Widget build(BuildContext context) => PackageSettingsPage(repo: repo);
+  Widget build(BuildContext context) {
+    final s = PackageStrings.of(context);
+    return DefaultTabController(
+      length: 2,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          TabBar(
+            isScrollable: true,
+            tabAlignment: TabAlignment.start,
+            tabs: [
+              Tab(text: s['settings']),
+              Tab(text: s['activation']),
+            ],
+          ),
+          const SizedBox(height: BmSpace.md),
+          Expanded(
+            child: TabBarView(
+              children: [
+                PackageSettingsPage(repo: repo),
+                PackageActivationPage(repo: repo),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 /// Company profile and package settings (§4E). The switch cannot turn ON while legal
