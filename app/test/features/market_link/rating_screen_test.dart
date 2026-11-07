@@ -127,4 +127,16 @@ void main() {
     expect(find.byKey(const Key('ml-rate-save')), findsNothing);
     await unmountApp(tester);
   });
+
+  testWidgets('flag off: the rating and deal routes go home', (tester) async {
+    for (final route in [
+      '/market-link/deals/d1/rate?as=grower',
+      '/market-link/deals/d1?as=grower',
+    ]) {
+      await pumpApp(tester, initialLocation: route);
+      expect(find.byKey(const Key('ml-rate-save')), findsNothing);
+      expect(find.byKey(const Key('ml-deal-done-card')), findsNothing);
+      await unmountApp(tester);
+    }
+  });
 }

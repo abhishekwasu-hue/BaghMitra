@@ -196,7 +196,24 @@ abstract final class Routes {
   static String accounts(String plotId) => '/plots/$plotId/accounts';
   static String compare(String plotId) => '/plots/$plotId/compare';
   static String addExpense(String plotId) => '/plots/$plotId/accounts/expense';
-  static String addSale(String plotId) => '/plots/$plotId/accounts/sale';
+
+  /// The sale form; the market-link copy fills buyer, kg and rate (L5, Q114).
+  static String addSale(
+    String plotId, {
+    String? buyer,
+    double? kg,
+    int? ratePaise,
+  }) {
+    final q = {
+      'buyer': ?buyer,
+      if (kg != null) 'kg': kg.toStringAsFixed(kg % 1 == 0 ? 0 : 1),
+      if (ratePaise != null) 'rate': (ratePaise / 100).toStringAsFixed(2),
+    };
+    return Uri(
+      path: '/plots/$plotId/accounts/sale',
+      queryParameters: q.isEmpty ? null : q,
+    ).toString();
+  }
 }
 
 GoRouter buildRouter(
@@ -569,7 +586,12 @@ GoRouter buildRouter(
       ),
       GoRoute(
         path: '/plots/:id/accounts/sale',
-        builder: (_, s) => AddSaleScreen(plotId: s.pathParameters['id']!),
+        builder: (_, s) => AddSaleScreen(
+          plotId: s.pathParameters['id']!,
+          buyer: s.uri.queryParameters['buyer'],
+          kg: s.uri.queryParameters['kg'],
+          rate: s.uri.queryParameters['rate'],
+        ),
       ),
       GoRoute(
         path: '/plots/:id/bahar/new',

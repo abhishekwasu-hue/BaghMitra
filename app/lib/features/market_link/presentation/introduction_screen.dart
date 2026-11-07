@@ -14,6 +14,7 @@ import '../../market/domain/market_crops.dart';
 import '../data/interest_api.dart';
 import '../domain/interest.dart';
 import '../domain/market_link_role.dart';
+import 'deal_done_card.dart';
 import 'lot_widgets.dart';
 import 'market_link_entry.dart';
 import 'profile_widgets.dart';
@@ -181,6 +182,8 @@ class _Intro extends ConsumerWidget {
                 ],
                 const SizedBox(height: BmSpace.sm),
                 InfoNote(t.mlIntroOffApp),
+                const SizedBox(height: BmSpace.sm),
+                DealDoneCard(intro),
               ],
             ),
       bottomNavigationBar: callee == null
