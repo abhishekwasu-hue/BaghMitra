@@ -144,6 +144,13 @@ class MoreScreen extends ConsumerWidget {
             t.marketDirectoryTitle,
             Routes.marketDirectory,
           ),
+          if (config.marketLink)
+            page(
+              'export-info',
+              Icons.flight_takeoff_outlined,
+              t.exportInfoTitle,
+              Routes.exportInfo,
+            ),
         ],
       ),
       (
