@@ -226,6 +226,22 @@ enum MutationResultStatus {
   const MutationResultStatus(this.value);
 }
 
+enum PackageGrantInMethod {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('upi')
+  upi('upi'),
+  @JsonValue('cash')
+  cash('cash'),
+  @JsonValue('bank')
+  bank('bank');
+
+  final String? value;
+
+  const PackageGrantInMethod(this.value);
+}
+
 enum PlanInKind {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),

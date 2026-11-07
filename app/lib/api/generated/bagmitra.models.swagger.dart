@@ -7233,6 +7233,1230 @@ extension $MyAcceptancesOutExtension on MyAcceptancesOut {
 }
 
 @JsonSerializable(explicitToJson: true)
+class PackageCompanyIn {
+  const PackageCompanyIn({
+    this.address,
+    this.bankAccountLast4,
+    this.bankAccountName,
+    this.bankIfsc,
+    this.gstRatePercent,
+    this.gstin,
+    this.invoicePrefix,
+    this.legalName,
+    this.pan,
+    this.tradeName,
+    this.upiId,
+  });
+
+  factory PackageCompanyIn.fromJson(Map<String, dynamic> json) =>
+      _$PackageCompanyInFromJson(json);
+
+  static const toJsonFactory = _$PackageCompanyInToJson;
+  Map<String, dynamic> toJson() => _$PackageCompanyInToJson(this);
+
+  @JsonKey(name: 'address', includeIfNull: false)
+  final String? address;
+  @JsonKey(name: 'bank_account_last4', includeIfNull: false)
+  final String? bankAccountLast4;
+  @JsonKey(name: 'bank_account_name', includeIfNull: false)
+  final String? bankAccountName;
+  @JsonKey(name: 'bank_ifsc', includeIfNull: false)
+  final String? bankIfsc;
+  @JsonKey(name: 'gst_rate_percent', includeIfNull: false)
+  final String? gstRatePercent;
+  @JsonKey(name: 'gstin', includeIfNull: false)
+  final String? gstin;
+  @JsonKey(name: 'invoice_prefix', includeIfNull: false)
+  final String? invoicePrefix;
+  @JsonKey(name: 'legal_name', includeIfNull: false)
+  final String? legalName;
+  @JsonKey(name: 'pan', includeIfNull: false)
+  final String? pan;
+  @JsonKey(name: 'trade_name', includeIfNull: false)
+  final String? tradeName;
+  @JsonKey(name: 'upi_id', includeIfNull: false)
+  final String? upiId;
+  static const fromJsonFactory = _$PackageCompanyInFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is PackageCompanyIn &&
+            (identical(other.address, address) ||
+                const DeepCollectionEquality().equals(
+                  other.address,
+                  address,
+                )) &&
+            (identical(other.bankAccountLast4, bankAccountLast4) ||
+                const DeepCollectionEquality().equals(
+                  other.bankAccountLast4,
+                  bankAccountLast4,
+                )) &&
+            (identical(other.bankAccountName, bankAccountName) ||
+                const DeepCollectionEquality().equals(
+                  other.bankAccountName,
+                  bankAccountName,
+                )) &&
+            (identical(other.bankIfsc, bankIfsc) ||
+                const DeepCollectionEquality().equals(
+                  other.bankIfsc,
+                  bankIfsc,
+                )) &&
+            (identical(other.gstRatePercent, gstRatePercent) ||
+                const DeepCollectionEquality().equals(
+                  other.gstRatePercent,
+                  gstRatePercent,
+                )) &&
+            (identical(other.gstin, gstin) ||
+                const DeepCollectionEquality().equals(other.gstin, gstin)) &&
+            (identical(other.invoicePrefix, invoicePrefix) ||
+                const DeepCollectionEquality().equals(
+                  other.invoicePrefix,
+                  invoicePrefix,
+                )) &&
+            (identical(other.legalName, legalName) ||
+                const DeepCollectionEquality().equals(
+                  other.legalName,
+                  legalName,
+                )) &&
+            (identical(other.pan, pan) ||
+                const DeepCollectionEquality().equals(other.pan, pan)) &&
+            (identical(other.tradeName, tradeName) ||
+                const DeepCollectionEquality().equals(
+                  other.tradeName,
+                  tradeName,
+                )) &&
+            (identical(other.upiId, upiId) ||
+                const DeepCollectionEquality().equals(other.upiId, upiId)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(address) ^
+      const DeepCollectionEquality().hash(bankAccountLast4) ^
+      const DeepCollectionEquality().hash(bankAccountName) ^
+      const DeepCollectionEquality().hash(bankIfsc) ^
+      const DeepCollectionEquality().hash(gstRatePercent) ^
+      const DeepCollectionEquality().hash(gstin) ^
+      const DeepCollectionEquality().hash(invoicePrefix) ^
+      const DeepCollectionEquality().hash(legalName) ^
+      const DeepCollectionEquality().hash(pan) ^
+      const DeepCollectionEquality().hash(tradeName) ^
+      const DeepCollectionEquality().hash(upiId) ^
+      runtimeType.hashCode;
+}
+
+extension $PackageCompanyInExtension on PackageCompanyIn {
+  PackageCompanyIn copyWith({
+    String? address,
+    String? bankAccountLast4,
+    String? bankAccountName,
+    String? bankIfsc,
+    String? gstRatePercent,
+    String? gstin,
+    String? invoicePrefix,
+    String? legalName,
+    String? pan,
+    String? tradeName,
+    String? upiId,
+  }) {
+    return PackageCompanyIn(
+      address: address ?? this.address,
+      bankAccountLast4: bankAccountLast4 ?? this.bankAccountLast4,
+      bankAccountName: bankAccountName ?? this.bankAccountName,
+      bankIfsc: bankIfsc ?? this.bankIfsc,
+      gstRatePercent: gstRatePercent ?? this.gstRatePercent,
+      gstin: gstin ?? this.gstin,
+      invoicePrefix: invoicePrefix ?? this.invoicePrefix,
+      legalName: legalName ?? this.legalName,
+      pan: pan ?? this.pan,
+      tradeName: tradeName ?? this.tradeName,
+      upiId: upiId ?? this.upiId,
+    );
+  }
+
+  PackageCompanyIn copyWithWrapped({
+    Wrapped<String?>? address,
+    Wrapped<String?>? bankAccountLast4,
+    Wrapped<String?>? bankAccountName,
+    Wrapped<String?>? bankIfsc,
+    Wrapped<String?>? gstRatePercent,
+    Wrapped<String?>? gstin,
+    Wrapped<String?>? invoicePrefix,
+    Wrapped<String?>? legalName,
+    Wrapped<String?>? pan,
+    Wrapped<String?>? tradeName,
+    Wrapped<String?>? upiId,
+  }) {
+    return PackageCompanyIn(
+      address: (address != null ? address.value : this.address),
+      bankAccountLast4: (bankAccountLast4 != null
+          ? bankAccountLast4.value
+          : this.bankAccountLast4),
+      bankAccountName: (bankAccountName != null
+          ? bankAccountName.value
+          : this.bankAccountName),
+      bankIfsc: (bankIfsc != null ? bankIfsc.value : this.bankIfsc),
+      gstRatePercent: (gstRatePercent != null
+          ? gstRatePercent.value
+          : this.gstRatePercent),
+      gstin: (gstin != null ? gstin.value : this.gstin),
+      invoicePrefix: (invoicePrefix != null
+          ? invoicePrefix.value
+          : this.invoicePrefix),
+      legalName: (legalName != null ? legalName.value : this.legalName),
+      pan: (pan != null ? pan.value : this.pan),
+      tradeName: (tradeName != null ? tradeName.value : this.tradeName),
+      upiId: (upiId != null ? upiId.value : this.upiId),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class PackageCompanyOut {
+  const PackageCompanyOut({
+    this.address,
+    this.bankAccountLast4,
+    this.bankAccountName,
+    this.bankIfsc,
+    this.gstRatePercent,
+    this.gstin,
+    this.invoicePrefix,
+    this.legalName,
+    required this.merchantQr,
+    this.pan,
+    this.tradeName,
+    this.upiId,
+  });
+
+  factory PackageCompanyOut.fromJson(Map<String, dynamic> json) =>
+      _$PackageCompanyOutFromJson(json);
+
+  static const toJsonFactory = _$PackageCompanyOutToJson;
+  Map<String, dynamic> toJson() => _$PackageCompanyOutToJson(this);
+
+  @JsonKey(name: 'address', includeIfNull: false)
+  final String? address;
+  @JsonKey(name: 'bank_account_last4', includeIfNull: false)
+  final String? bankAccountLast4;
+  @JsonKey(name: 'bank_account_name', includeIfNull: false)
+  final String? bankAccountName;
+  @JsonKey(name: 'bank_ifsc', includeIfNull: false)
+  final String? bankIfsc;
+  @JsonKey(name: 'gst_rate_percent', includeIfNull: false)
+  final String? gstRatePercent;
+  @JsonKey(name: 'gstin', includeIfNull: false)
+  final String? gstin;
+  @JsonKey(name: 'invoice_prefix', includeIfNull: false)
+  final String? invoicePrefix;
+  @JsonKey(name: 'legal_name', includeIfNull: false)
+  final String? legalName;
+  @JsonKey(name: 'merchant_qr', includeIfNull: false)
+  final bool merchantQr;
+  @JsonKey(name: 'pan', includeIfNull: false)
+  final String? pan;
+  @JsonKey(name: 'trade_name', includeIfNull: false)
+  final String? tradeName;
+  @JsonKey(name: 'upi_id', includeIfNull: false)
+  final String? upiId;
+  static const fromJsonFactory = _$PackageCompanyOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is PackageCompanyOut &&
+            (identical(other.address, address) ||
+                const DeepCollectionEquality().equals(
+                  other.address,
+                  address,
+                )) &&
+            (identical(other.bankAccountLast4, bankAccountLast4) ||
+                const DeepCollectionEquality().equals(
+                  other.bankAccountLast4,
+                  bankAccountLast4,
+                )) &&
+            (identical(other.bankAccountName, bankAccountName) ||
+                const DeepCollectionEquality().equals(
+                  other.bankAccountName,
+                  bankAccountName,
+                )) &&
+            (identical(other.bankIfsc, bankIfsc) ||
+                const DeepCollectionEquality().equals(
+                  other.bankIfsc,
+                  bankIfsc,
+                )) &&
+            (identical(other.gstRatePercent, gstRatePercent) ||
+                const DeepCollectionEquality().equals(
+                  other.gstRatePercent,
+                  gstRatePercent,
+                )) &&
+            (identical(other.gstin, gstin) ||
+                const DeepCollectionEquality().equals(other.gstin, gstin)) &&
+            (identical(other.invoicePrefix, invoicePrefix) ||
+                const DeepCollectionEquality().equals(
+                  other.invoicePrefix,
+                  invoicePrefix,
+                )) &&
+            (identical(other.legalName, legalName) ||
+                const DeepCollectionEquality().equals(
+                  other.legalName,
+                  legalName,
+                )) &&
+            (identical(other.merchantQr, merchantQr) ||
+                const DeepCollectionEquality().equals(
+                  other.merchantQr,
+                  merchantQr,
+                )) &&
+            (identical(other.pan, pan) ||
+                const DeepCollectionEquality().equals(other.pan, pan)) &&
+            (identical(other.tradeName, tradeName) ||
+                const DeepCollectionEquality().equals(
+                  other.tradeName,
+                  tradeName,
+                )) &&
+            (identical(other.upiId, upiId) ||
+                const DeepCollectionEquality().equals(other.upiId, upiId)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(address) ^
+      const DeepCollectionEquality().hash(bankAccountLast4) ^
+      const DeepCollectionEquality().hash(bankAccountName) ^
+      const DeepCollectionEquality().hash(bankIfsc) ^
+      const DeepCollectionEquality().hash(gstRatePercent) ^
+      const DeepCollectionEquality().hash(gstin) ^
+      const DeepCollectionEquality().hash(invoicePrefix) ^
+      const DeepCollectionEquality().hash(legalName) ^
+      const DeepCollectionEquality().hash(merchantQr) ^
+      const DeepCollectionEquality().hash(pan) ^
+      const DeepCollectionEquality().hash(tradeName) ^
+      const DeepCollectionEquality().hash(upiId) ^
+      runtimeType.hashCode;
+}
+
+extension $PackageCompanyOutExtension on PackageCompanyOut {
+  PackageCompanyOut copyWith({
+    String? address,
+    String? bankAccountLast4,
+    String? bankAccountName,
+    String? bankIfsc,
+    String? gstRatePercent,
+    String? gstin,
+    String? invoicePrefix,
+    String? legalName,
+    bool? merchantQr,
+    String? pan,
+    String? tradeName,
+    String? upiId,
+  }) {
+    return PackageCompanyOut(
+      address: address ?? this.address,
+      bankAccountLast4: bankAccountLast4 ?? this.bankAccountLast4,
+      bankAccountName: bankAccountName ?? this.bankAccountName,
+      bankIfsc: bankIfsc ?? this.bankIfsc,
+      gstRatePercent: gstRatePercent ?? this.gstRatePercent,
+      gstin: gstin ?? this.gstin,
+      invoicePrefix: invoicePrefix ?? this.invoicePrefix,
+      legalName: legalName ?? this.legalName,
+      merchantQr: merchantQr ?? this.merchantQr,
+      pan: pan ?? this.pan,
+      tradeName: tradeName ?? this.tradeName,
+      upiId: upiId ?? this.upiId,
+    );
+  }
+
+  PackageCompanyOut copyWithWrapped({
+    Wrapped<String?>? address,
+    Wrapped<String?>? bankAccountLast4,
+    Wrapped<String?>? bankAccountName,
+    Wrapped<String?>? bankIfsc,
+    Wrapped<String?>? gstRatePercent,
+    Wrapped<String?>? gstin,
+    Wrapped<String?>? invoicePrefix,
+    Wrapped<String?>? legalName,
+    Wrapped<bool>? merchantQr,
+    Wrapped<String?>? pan,
+    Wrapped<String?>? tradeName,
+    Wrapped<String?>? upiId,
+  }) {
+    return PackageCompanyOut(
+      address: (address != null ? address.value : this.address),
+      bankAccountLast4: (bankAccountLast4 != null
+          ? bankAccountLast4.value
+          : this.bankAccountLast4),
+      bankAccountName: (bankAccountName != null
+          ? bankAccountName.value
+          : this.bankAccountName),
+      bankIfsc: (bankIfsc != null ? bankIfsc.value : this.bankIfsc),
+      gstRatePercent: (gstRatePercent != null
+          ? gstRatePercent.value
+          : this.gstRatePercent),
+      gstin: (gstin != null ? gstin.value : this.gstin),
+      invoicePrefix: (invoicePrefix != null
+          ? invoicePrefix.value
+          : this.invoicePrefix),
+      legalName: (legalName != null ? legalName.value : this.legalName),
+      merchantQr: (merchantQr != null ? merchantQr.value : this.merchantQr),
+      pan: (pan != null ? pan.value : this.pan),
+      tradeName: (tradeName != null ? tradeName.value : this.tradeName),
+      upiId: (upiId != null ? upiId.value : this.upiId),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class PackageGrantIn {
+  const PackageGrantIn({
+    required this.amountPaise,
+    required this.growerId,
+    this.lotId,
+    required this.method,
+    required this.paidOn,
+    required this.paymentRef,
+  });
+
+  factory PackageGrantIn.fromJson(Map<String, dynamic> json) =>
+      _$PackageGrantInFromJson(json);
+
+  static const toJsonFactory = _$PackageGrantInToJson;
+  Map<String, dynamic> toJson() => _$PackageGrantInToJson(this);
+
+  @JsonKey(name: 'amount_paise', includeIfNull: false)
+  final int amountPaise;
+  @JsonKey(name: 'grower_id', includeIfNull: false)
+  final String growerId;
+  @JsonKey(name: 'lot_id', includeIfNull: false)
+  final String? lotId;
+  @JsonKey(
+    name: 'method',
+    includeIfNull: false,
+    toJson: packageGrantInMethodToJson,
+    fromJson: packageGrantInMethodFromJson,
+  )
+  final enums.PackageGrantInMethod method;
+  @JsonKey(name: 'paid_on', includeIfNull: false, toJson: _dateToJson)
+  final DateTime paidOn;
+  @JsonKey(name: 'payment_ref', includeIfNull: false)
+  final String paymentRef;
+  static const fromJsonFactory = _$PackageGrantInFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is PackageGrantIn &&
+            (identical(other.amountPaise, amountPaise) ||
+                const DeepCollectionEquality().equals(
+                  other.amountPaise,
+                  amountPaise,
+                )) &&
+            (identical(other.growerId, growerId) ||
+                const DeepCollectionEquality().equals(
+                  other.growerId,
+                  growerId,
+                )) &&
+            (identical(other.lotId, lotId) ||
+                const DeepCollectionEquality().equals(other.lotId, lotId)) &&
+            (identical(other.method, method) ||
+                const DeepCollectionEquality().equals(other.method, method)) &&
+            (identical(other.paidOn, paidOn) ||
+                const DeepCollectionEquality().equals(other.paidOn, paidOn)) &&
+            (identical(other.paymentRef, paymentRef) ||
+                const DeepCollectionEquality().equals(
+                  other.paymentRef,
+                  paymentRef,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(amountPaise) ^
+      const DeepCollectionEquality().hash(growerId) ^
+      const DeepCollectionEquality().hash(lotId) ^
+      const DeepCollectionEquality().hash(method) ^
+      const DeepCollectionEquality().hash(paidOn) ^
+      const DeepCollectionEquality().hash(paymentRef) ^
+      runtimeType.hashCode;
+}
+
+extension $PackageGrantInExtension on PackageGrantIn {
+  PackageGrantIn copyWith({
+    int? amountPaise,
+    String? growerId,
+    String? lotId,
+    enums.PackageGrantInMethod? method,
+    DateTime? paidOn,
+    String? paymentRef,
+  }) {
+    return PackageGrantIn(
+      amountPaise: amountPaise ?? this.amountPaise,
+      growerId: growerId ?? this.growerId,
+      lotId: lotId ?? this.lotId,
+      method: method ?? this.method,
+      paidOn: paidOn ?? this.paidOn,
+      paymentRef: paymentRef ?? this.paymentRef,
+    );
+  }
+
+  PackageGrantIn copyWithWrapped({
+    Wrapped<int>? amountPaise,
+    Wrapped<String>? growerId,
+    Wrapped<String?>? lotId,
+    Wrapped<enums.PackageGrantInMethod>? method,
+    Wrapped<DateTime>? paidOn,
+    Wrapped<String>? paymentRef,
+  }) {
+    return PackageGrantIn(
+      amountPaise: (amountPaise != null ? amountPaise.value : this.amountPaise),
+      growerId: (growerId != null ? growerId.value : this.growerId),
+      lotId: (lotId != null ? lotId.value : this.lotId),
+      method: (method != null ? method.value : this.method),
+      paidOn: (paidOn != null ? paidOn.value : this.paidOn),
+      paymentRef: (paymentRef != null ? paymentRef.value : this.paymentRef),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class PackageGrantOut {
+  const PackageGrantOut({
+    required this.activatedAt,
+    required this.adminId,
+    required this.amountPaise,
+    required this.growerId,
+    required this.id,
+    required this.lotId,
+    required this.method,
+    required this.paidOn,
+    required this.paymentRef,
+    required this.receiptNo,
+    required this.revokedAt,
+    required this.revokedReason,
+    required this.validUntil,
+  });
+
+  factory PackageGrantOut.fromJson(Map<String, dynamic> json) =>
+      _$PackageGrantOutFromJson(json);
+
+  static const toJsonFactory = _$PackageGrantOutToJson;
+  Map<String, dynamic> toJson() => _$PackageGrantOutToJson(this);
+
+  @JsonKey(name: 'activated_at', includeIfNull: false)
+  final DateTime activatedAt;
+  @JsonKey(name: 'admin_id', includeIfNull: false)
+  final String adminId;
+  @JsonKey(name: 'amount_paise', includeIfNull: false)
+  final int amountPaise;
+  @JsonKey(name: 'grower_id', includeIfNull: false)
+  final String growerId;
+  @JsonKey(name: 'id', includeIfNull: false)
+  final String id;
+  @JsonKey(name: 'lot_id', includeIfNull: false)
+  final String? lotId;
+  @JsonKey(name: 'method', includeIfNull: false)
+  final String method;
+  @JsonKey(name: 'paid_on', includeIfNull: false, toJson: _dateToJson)
+  final DateTime paidOn;
+  @JsonKey(name: 'payment_ref', includeIfNull: false)
+  final String paymentRef;
+  @JsonKey(name: 'receipt_no', includeIfNull: false)
+  final String receiptNo;
+  @JsonKey(name: 'revoked_at', includeIfNull: false)
+  final DateTime? revokedAt;
+  @JsonKey(name: 'revoked_reason', includeIfNull: false)
+  final String? revokedReason;
+  @JsonKey(name: 'valid_until', includeIfNull: false)
+  final DateTime validUntil;
+  static const fromJsonFactory = _$PackageGrantOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is PackageGrantOut &&
+            (identical(other.activatedAt, activatedAt) ||
+                const DeepCollectionEquality().equals(
+                  other.activatedAt,
+                  activatedAt,
+                )) &&
+            (identical(other.adminId, adminId) ||
+                const DeepCollectionEquality().equals(
+                  other.adminId,
+                  adminId,
+                )) &&
+            (identical(other.amountPaise, amountPaise) ||
+                const DeepCollectionEquality().equals(
+                  other.amountPaise,
+                  amountPaise,
+                )) &&
+            (identical(other.growerId, growerId) ||
+                const DeepCollectionEquality().equals(
+                  other.growerId,
+                  growerId,
+                )) &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.lotId, lotId) ||
+                const DeepCollectionEquality().equals(other.lotId, lotId)) &&
+            (identical(other.method, method) ||
+                const DeepCollectionEquality().equals(other.method, method)) &&
+            (identical(other.paidOn, paidOn) ||
+                const DeepCollectionEquality().equals(other.paidOn, paidOn)) &&
+            (identical(other.paymentRef, paymentRef) ||
+                const DeepCollectionEquality().equals(
+                  other.paymentRef,
+                  paymentRef,
+                )) &&
+            (identical(other.receiptNo, receiptNo) ||
+                const DeepCollectionEquality().equals(
+                  other.receiptNo,
+                  receiptNo,
+                )) &&
+            (identical(other.revokedAt, revokedAt) ||
+                const DeepCollectionEquality().equals(
+                  other.revokedAt,
+                  revokedAt,
+                )) &&
+            (identical(other.revokedReason, revokedReason) ||
+                const DeepCollectionEquality().equals(
+                  other.revokedReason,
+                  revokedReason,
+                )) &&
+            (identical(other.validUntil, validUntil) ||
+                const DeepCollectionEquality().equals(
+                  other.validUntil,
+                  validUntil,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(activatedAt) ^
+      const DeepCollectionEquality().hash(adminId) ^
+      const DeepCollectionEquality().hash(amountPaise) ^
+      const DeepCollectionEquality().hash(growerId) ^
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(lotId) ^
+      const DeepCollectionEquality().hash(method) ^
+      const DeepCollectionEquality().hash(paidOn) ^
+      const DeepCollectionEquality().hash(paymentRef) ^
+      const DeepCollectionEquality().hash(receiptNo) ^
+      const DeepCollectionEquality().hash(revokedAt) ^
+      const DeepCollectionEquality().hash(revokedReason) ^
+      const DeepCollectionEquality().hash(validUntil) ^
+      runtimeType.hashCode;
+}
+
+extension $PackageGrantOutExtension on PackageGrantOut {
+  PackageGrantOut copyWith({
+    DateTime? activatedAt,
+    String? adminId,
+    int? amountPaise,
+    String? growerId,
+    String? id,
+    String? lotId,
+    String? method,
+    DateTime? paidOn,
+    String? paymentRef,
+    String? receiptNo,
+    DateTime? revokedAt,
+    String? revokedReason,
+    DateTime? validUntil,
+  }) {
+    return PackageGrantOut(
+      activatedAt: activatedAt ?? this.activatedAt,
+      adminId: adminId ?? this.adminId,
+      amountPaise: amountPaise ?? this.amountPaise,
+      growerId: growerId ?? this.growerId,
+      id: id ?? this.id,
+      lotId: lotId ?? this.lotId,
+      method: method ?? this.method,
+      paidOn: paidOn ?? this.paidOn,
+      paymentRef: paymentRef ?? this.paymentRef,
+      receiptNo: receiptNo ?? this.receiptNo,
+      revokedAt: revokedAt ?? this.revokedAt,
+      revokedReason: revokedReason ?? this.revokedReason,
+      validUntil: validUntil ?? this.validUntil,
+    );
+  }
+
+  PackageGrantOut copyWithWrapped({
+    Wrapped<DateTime>? activatedAt,
+    Wrapped<String>? adminId,
+    Wrapped<int>? amountPaise,
+    Wrapped<String>? growerId,
+    Wrapped<String>? id,
+    Wrapped<String?>? lotId,
+    Wrapped<String>? method,
+    Wrapped<DateTime>? paidOn,
+    Wrapped<String>? paymentRef,
+    Wrapped<String>? receiptNo,
+    Wrapped<DateTime?>? revokedAt,
+    Wrapped<String?>? revokedReason,
+    Wrapped<DateTime>? validUntil,
+  }) {
+    return PackageGrantOut(
+      activatedAt: (activatedAt != null ? activatedAt.value : this.activatedAt),
+      adminId: (adminId != null ? adminId.value : this.adminId),
+      amountPaise: (amountPaise != null ? amountPaise.value : this.amountPaise),
+      growerId: (growerId != null ? growerId.value : this.growerId),
+      id: (id != null ? id.value : this.id),
+      lotId: (lotId != null ? lotId.value : this.lotId),
+      method: (method != null ? method.value : this.method),
+      paidOn: (paidOn != null ? paidOn.value : this.paidOn),
+      paymentRef: (paymentRef != null ? paymentRef.value : this.paymentRef),
+      receiptNo: (receiptNo != null ? receiptNo.value : this.receiptNo),
+      revokedAt: (revokedAt != null ? revokedAt.value : this.revokedAt),
+      revokedReason: (revokedReason != null
+          ? revokedReason.value
+          : this.revokedReason),
+      validUntil: (validUntil != null ? validUntil.value : this.validUntil),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class PackageGrantsResponse {
+  const PackageGrantsResponse({required this.grants});
+
+  factory PackageGrantsResponse.fromJson(Map<String, dynamic> json) =>
+      _$PackageGrantsResponseFromJson(json);
+
+  static const toJsonFactory = _$PackageGrantsResponseToJson;
+  Map<String, dynamic> toJson() => _$PackageGrantsResponseToJson(this);
+
+  @JsonKey(
+    name: 'grants',
+    includeIfNull: false,
+    defaultValue: <PackageGrantOut>[],
+  )
+  final List<PackageGrantOut> grants;
+  static const fromJsonFactory = _$PackageGrantsResponseFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is PackageGrantsResponse &&
+            (identical(other.grants, grants) ||
+                const DeepCollectionEquality().equals(other.grants, grants)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(grants) ^ runtimeType.hashCode;
+}
+
+extension $PackageGrantsResponseExtension on PackageGrantsResponse {
+  PackageGrantsResponse copyWith({List<PackageGrantOut>? grants}) {
+    return PackageGrantsResponse(grants: grants ?? this.grants);
+  }
+
+  PackageGrantsResponse copyWithWrapped({
+    Wrapped<List<PackageGrantOut>>? grants,
+  }) {
+    return PackageGrantsResponse(
+      grants: (grants != null ? grants.value : this.grants),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class PackageGrowerLot {
+  const PackageGrowerLot({
+    required this.crop,
+    required this.id,
+    required this.status,
+    required this.variety,
+  });
+
+  factory PackageGrowerLot.fromJson(Map<String, dynamic> json) =>
+      _$PackageGrowerLotFromJson(json);
+
+  static const toJsonFactory = _$PackageGrowerLotToJson;
+  Map<String, dynamic> toJson() => _$PackageGrowerLotToJson(this);
+
+  @JsonKey(name: 'crop', includeIfNull: false)
+  final String crop;
+  @JsonKey(name: 'id', includeIfNull: false)
+  final String id;
+  @JsonKey(name: 'status', includeIfNull: false)
+  final String status;
+  @JsonKey(name: 'variety', includeIfNull: false)
+  final String? variety;
+  static const fromJsonFactory = _$PackageGrowerLotFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is PackageGrowerLot &&
+            (identical(other.crop, crop) ||
+                const DeepCollectionEquality().equals(other.crop, crop)) &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.status, status) ||
+                const DeepCollectionEquality().equals(other.status, status)) &&
+            (identical(other.variety, variety) ||
+                const DeepCollectionEquality().equals(other.variety, variety)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(crop) ^
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(status) ^
+      const DeepCollectionEquality().hash(variety) ^
+      runtimeType.hashCode;
+}
+
+extension $PackageGrowerLotExtension on PackageGrowerLot {
+  PackageGrowerLot copyWith({
+    String? crop,
+    String? id,
+    String? status,
+    String? variety,
+  }) {
+    return PackageGrowerLot(
+      crop: crop ?? this.crop,
+      id: id ?? this.id,
+      status: status ?? this.status,
+      variety: variety ?? this.variety,
+    );
+  }
+
+  PackageGrowerLot copyWithWrapped({
+    Wrapped<String>? crop,
+    Wrapped<String>? id,
+    Wrapped<String>? status,
+    Wrapped<String?>? variety,
+  }) {
+    return PackageGrowerLot(
+      crop: (crop != null ? crop.value : this.crop),
+      id: (id != null ? id.value : this.id),
+      status: (status != null ? status.value : this.status),
+      variety: (variety != null ? variety.value : this.variety),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class PackageGrowerOut {
+  const PackageGrowerOut({
+    required this.district,
+    required this.id,
+    required this.lots,
+    required this.name,
+    required this.phone,
+    required this.village,
+  });
+
+  factory PackageGrowerOut.fromJson(Map<String, dynamic> json) =>
+      _$PackageGrowerOutFromJson(json);
+
+  static const toJsonFactory = _$PackageGrowerOutToJson;
+  Map<String, dynamic> toJson() => _$PackageGrowerOutToJson(this);
+
+  @JsonKey(name: 'district', includeIfNull: false)
+  final String? district;
+  @JsonKey(name: 'id', includeIfNull: false)
+  final String id;
+  @JsonKey(
+    name: 'lots',
+    includeIfNull: false,
+    defaultValue: <PackageGrowerLot>[],
+  )
+  final List<PackageGrowerLot> lots;
+  @JsonKey(name: 'name', includeIfNull: false)
+  final String? name;
+  @JsonKey(name: 'phone', includeIfNull: false)
+  final String? phone;
+  @JsonKey(name: 'village', includeIfNull: false)
+  final String? village;
+  static const fromJsonFactory = _$PackageGrowerOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is PackageGrowerOut &&
+            (identical(other.district, district) ||
+                const DeepCollectionEquality().equals(
+                  other.district,
+                  district,
+                )) &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.lots, lots) ||
+                const DeepCollectionEquality().equals(other.lots, lots)) &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.phone, phone) ||
+                const DeepCollectionEquality().equals(other.phone, phone)) &&
+            (identical(other.village, village) ||
+                const DeepCollectionEquality().equals(other.village, village)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(district) ^
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(lots) ^
+      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(phone) ^
+      const DeepCollectionEquality().hash(village) ^
+      runtimeType.hashCode;
+}
+
+extension $PackageGrowerOutExtension on PackageGrowerOut {
+  PackageGrowerOut copyWith({
+    String? district,
+    String? id,
+    List<PackageGrowerLot>? lots,
+    String? name,
+    String? phone,
+    String? village,
+  }) {
+    return PackageGrowerOut(
+      district: district ?? this.district,
+      id: id ?? this.id,
+      lots: lots ?? this.lots,
+      name: name ?? this.name,
+      phone: phone ?? this.phone,
+      village: village ?? this.village,
+    );
+  }
+
+  PackageGrowerOut copyWithWrapped({
+    Wrapped<String?>? district,
+    Wrapped<String>? id,
+    Wrapped<List<PackageGrowerLot>>? lots,
+    Wrapped<String?>? name,
+    Wrapped<String?>? phone,
+    Wrapped<String?>? village,
+  }) {
+    return PackageGrowerOut(
+      district: (district != null ? district.value : this.district),
+      id: (id != null ? id.value : this.id),
+      lots: (lots != null ? lots.value : this.lots),
+      name: (name != null ? name.value : this.name),
+      phone: (phone != null ? phone.value : this.phone),
+      village: (village != null ? village.value : this.village),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class PackageGrowersResponse {
+  const PackageGrowersResponse({required this.growers});
+
+  factory PackageGrowersResponse.fromJson(Map<String, dynamic> json) =>
+      _$PackageGrowersResponseFromJson(json);
+
+  static const toJsonFactory = _$PackageGrowersResponseToJson;
+  Map<String, dynamic> toJson() => _$PackageGrowersResponseToJson(this);
+
+  @JsonKey(
+    name: 'growers',
+    includeIfNull: false,
+    defaultValue: <PackageGrowerOut>[],
+  )
+  final List<PackageGrowerOut> growers;
+  static const fromJsonFactory = _$PackageGrowersResponseFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is PackageGrowersResponse &&
+            (identical(other.growers, growers) ||
+                const DeepCollectionEquality().equals(other.growers, growers)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(growers) ^ runtimeType.hashCode;
+}
+
+extension $PackageGrowersResponseExtension on PackageGrowersResponse {
+  PackageGrowersResponse copyWith({List<PackageGrowerOut>? growers}) {
+    return PackageGrowersResponse(growers: growers ?? this.growers);
+  }
+
+  PackageGrowersResponse copyWithWrapped({
+    Wrapped<List<PackageGrowerOut>>? growers,
+  }) {
+    return PackageGrowersResponse(
+      growers: (growers != null ? growers.value : this.growers),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class PackageRevokeIn {
+  const PackageRevokeIn({required this.reason});
+
+  factory PackageRevokeIn.fromJson(Map<String, dynamic> json) =>
+      _$PackageRevokeInFromJson(json);
+
+  static const toJsonFactory = _$PackageRevokeInToJson;
+  Map<String, dynamic> toJson() => _$PackageRevokeInToJson(this);
+
+  @JsonKey(name: 'reason', includeIfNull: false)
+  final String reason;
+  static const fromJsonFactory = _$PackageRevokeInFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is PackageRevokeIn &&
+            (identical(other.reason, reason) ||
+                const DeepCollectionEquality().equals(other.reason, reason)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(reason) ^ runtimeType.hashCode;
+}
+
+extension $PackageRevokeInExtension on PackageRevokeIn {
+  PackageRevokeIn copyWith({String? reason}) {
+    return PackageRevokeIn(reason: reason ?? this.reason);
+  }
+
+  PackageRevokeIn copyWithWrapped({Wrapped<String>? reason}) {
+    return PackageRevokeIn(
+      reason: (reason != null ? reason.value : this.reason),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class PackageSettingsIn {
+  const PackageSettingsIn({
+    required this.enabled,
+    this.pricePaise,
+    this.startsAt,
+    this.validityDays,
+  });
+
+  factory PackageSettingsIn.fromJson(Map<String, dynamic> json) =>
+      _$PackageSettingsInFromJson(json);
+
+  static const toJsonFactory = _$PackageSettingsInToJson;
+  Map<String, dynamic> toJson() => _$PackageSettingsInToJson(this);
+
+  @JsonKey(name: 'enabled', includeIfNull: false)
+  final bool enabled;
+  @JsonKey(name: 'price_paise', includeIfNull: false)
+  final int? pricePaise;
+  @JsonKey(name: 'starts_at', includeIfNull: false, toJson: _dateToJson)
+  final DateTime? startsAt;
+  @JsonKey(name: 'validity_days', includeIfNull: false)
+  final int? validityDays;
+  static const fromJsonFactory = _$PackageSettingsInFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is PackageSettingsIn &&
+            (identical(other.enabled, enabled) ||
+                const DeepCollectionEquality().equals(
+                  other.enabled,
+                  enabled,
+                )) &&
+            (identical(other.pricePaise, pricePaise) ||
+                const DeepCollectionEquality().equals(
+                  other.pricePaise,
+                  pricePaise,
+                )) &&
+            (identical(other.startsAt, startsAt) ||
+                const DeepCollectionEquality().equals(
+                  other.startsAt,
+                  startsAt,
+                )) &&
+            (identical(other.validityDays, validityDays) ||
+                const DeepCollectionEquality().equals(
+                  other.validityDays,
+                  validityDays,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(enabled) ^
+      const DeepCollectionEquality().hash(pricePaise) ^
+      const DeepCollectionEquality().hash(startsAt) ^
+      const DeepCollectionEquality().hash(validityDays) ^
+      runtimeType.hashCode;
+}
+
+extension $PackageSettingsInExtension on PackageSettingsIn {
+  PackageSettingsIn copyWith({
+    bool? enabled,
+    int? pricePaise,
+    DateTime? startsAt,
+    int? validityDays,
+  }) {
+    return PackageSettingsIn(
+      enabled: enabled ?? this.enabled,
+      pricePaise: pricePaise ?? this.pricePaise,
+      startsAt: startsAt ?? this.startsAt,
+      validityDays: validityDays ?? this.validityDays,
+    );
+  }
+
+  PackageSettingsIn copyWithWrapped({
+    Wrapped<bool>? enabled,
+    Wrapped<int?>? pricePaise,
+    Wrapped<DateTime?>? startsAt,
+    Wrapped<int?>? validityDays,
+  }) {
+    return PackageSettingsIn(
+      enabled: (enabled != null ? enabled.value : this.enabled),
+      pricePaise: (pricePaise != null ? pricePaise.value : this.pricePaise),
+      startsAt: (startsAt != null ? startsAt.value : this.startsAt),
+      validityDays: (validityDays != null
+          ? validityDays.value
+          : this.validityDays),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class PackageSettingsOut {
+  const PackageSettingsOut({
+    required this.enabled,
+    required this.missing,
+    this.pricePaise,
+    this.startsAt,
+    this.validityDays,
+  });
+
+  factory PackageSettingsOut.fromJson(Map<String, dynamic> json) =>
+      _$PackageSettingsOutFromJson(json);
+
+  static const toJsonFactory = _$PackageSettingsOutToJson;
+  Map<String, dynamic> toJson() => _$PackageSettingsOutToJson(this);
+
+  @JsonKey(name: 'enabled', includeIfNull: false)
+  final bool enabled;
+  @JsonKey(name: 'missing', includeIfNull: false, defaultValue: <String>[])
+  final List<String> missing;
+  @JsonKey(name: 'price_paise', includeIfNull: false)
+  final int? pricePaise;
+  @JsonKey(name: 'starts_at', includeIfNull: false, toJson: _dateToJson)
+  final DateTime? startsAt;
+  @JsonKey(name: 'validity_days', includeIfNull: false)
+  final int? validityDays;
+  static const fromJsonFactory = _$PackageSettingsOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is PackageSettingsOut &&
+            (identical(other.enabled, enabled) ||
+                const DeepCollectionEquality().equals(
+                  other.enabled,
+                  enabled,
+                )) &&
+            (identical(other.missing, missing) ||
+                const DeepCollectionEquality().equals(
+                  other.missing,
+                  missing,
+                )) &&
+            (identical(other.pricePaise, pricePaise) ||
+                const DeepCollectionEquality().equals(
+                  other.pricePaise,
+                  pricePaise,
+                )) &&
+            (identical(other.startsAt, startsAt) ||
+                const DeepCollectionEquality().equals(
+                  other.startsAt,
+                  startsAt,
+                )) &&
+            (identical(other.validityDays, validityDays) ||
+                const DeepCollectionEquality().equals(
+                  other.validityDays,
+                  validityDays,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(enabled) ^
+      const DeepCollectionEquality().hash(missing) ^
+      const DeepCollectionEquality().hash(pricePaise) ^
+      const DeepCollectionEquality().hash(startsAt) ^
+      const DeepCollectionEquality().hash(validityDays) ^
+      runtimeType.hashCode;
+}
+
+extension $PackageSettingsOutExtension on PackageSettingsOut {
+  PackageSettingsOut copyWith({
+    bool? enabled,
+    List<String>? missing,
+    int? pricePaise,
+    DateTime? startsAt,
+    int? validityDays,
+  }) {
+    return PackageSettingsOut(
+      enabled: enabled ?? this.enabled,
+      missing: missing ?? this.missing,
+      pricePaise: pricePaise ?? this.pricePaise,
+      startsAt: startsAt ?? this.startsAt,
+      validityDays: validityDays ?? this.validityDays,
+    );
+  }
+
+  PackageSettingsOut copyWithWrapped({
+    Wrapped<bool>? enabled,
+    Wrapped<List<String>>? missing,
+    Wrapped<int?>? pricePaise,
+    Wrapped<DateTime?>? startsAt,
+    Wrapped<int?>? validityDays,
+  }) {
+    return PackageSettingsOut(
+      enabled: (enabled != null ? enabled.value : this.enabled),
+      missing: (missing != null ? missing.value : this.missing),
+      pricePaise: (pricePaise != null ? pricePaise.value : this.pricePaise),
+      startsAt: (startsAt != null ? startsAt.value : this.startsAt),
+      validityDays: (validityDays != null
+          ? validityDays.value
+          : this.validityDays),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class PhotoDownloadUrl {
   const PhotoDownloadUrl({
     required this.expiresIn,
@@ -11419,6 +12643,84 @@ List<enums.MutationResultStatus>? mutationResultStatusNullableListFromJson(
 
   return mutationResultStatus
       .map((e) => mutationResultStatusFromJson(e.toString()))
+      .toList();
+}
+
+String? packageGrantInMethodNullableToJson(
+  enums.PackageGrantInMethod? packageGrantInMethod,
+) {
+  return packageGrantInMethod?.value;
+}
+
+String? packageGrantInMethodToJson(
+  enums.PackageGrantInMethod packageGrantInMethod,
+) {
+  return packageGrantInMethod.value;
+}
+
+enums.PackageGrantInMethod packageGrantInMethodFromJson(
+  Object? packageGrantInMethod, [
+  enums.PackageGrantInMethod? defaultValue,
+]) {
+  return enums.PackageGrantInMethod.values.firstWhereOrNull(
+        (e) => e.value == packageGrantInMethod,
+      ) ??
+      defaultValue ??
+      enums.PackageGrantInMethod.swaggerGeneratedUnknown;
+}
+
+enums.PackageGrantInMethod? packageGrantInMethodNullableFromJson(
+  Object? packageGrantInMethod, [
+  enums.PackageGrantInMethod? defaultValue,
+]) {
+  if (packageGrantInMethod == null) {
+    return null;
+  }
+  return enums.PackageGrantInMethod.values.firstWhereOrNull(
+        (e) => e.value == packageGrantInMethod,
+      ) ??
+      defaultValue;
+}
+
+String packageGrantInMethodExplodedListToJson(
+  List<enums.PackageGrantInMethod>? packageGrantInMethod,
+) {
+  return packageGrantInMethod?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> packageGrantInMethodListToJson(
+  List<enums.PackageGrantInMethod>? packageGrantInMethod,
+) {
+  if (packageGrantInMethod == null) {
+    return [];
+  }
+
+  return packageGrantInMethod.map((e) => e.value!).toList();
+}
+
+List<enums.PackageGrantInMethod> packageGrantInMethodListFromJson(
+  List? packageGrantInMethod, [
+  List<enums.PackageGrantInMethod>? defaultValue,
+]) {
+  if (packageGrantInMethod == null) {
+    return defaultValue ?? [];
+  }
+
+  return packageGrantInMethod
+      .map((e) => packageGrantInMethodFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.PackageGrantInMethod>? packageGrantInMethodNullableListFromJson(
+  List? packageGrantInMethod, [
+  List<enums.PackageGrantInMethod>? defaultValue,
+]) {
+  if (packageGrantInMethod == null) {
+    return defaultValue;
+  }
+
+  return packageGrantInMethod
+      .map((e) => packageGrantInMethodFromJson(e.toString()))
       .toList();
 }
 
