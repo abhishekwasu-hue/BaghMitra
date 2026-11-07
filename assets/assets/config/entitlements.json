@@ -1,0 +1,5 @@
+{
+  "_note": "Client-side rules for using the server-signed snapshot. 'always' features are never locked: a lapsed plan must not hold a grower's own records hostage (billing addendum section 1). grace_hours is the margin after valid_until during which a cached snapshot is still honoured offline.",
+  "always": ["records", "accounts", "export"],
+  "grace_hours": 72
+}

@@ -1,0 +1,37 @@
+{
+  "_note": "Expense categories a grower can pick. Config, not code. Spray, input and labour costs are recorded in the spray log, the input records and the labour register (counted as 'spray', by input kind and as 'labour'), so they have no category here.",
+  "categories": [
+    {
+      "slug": "irrigation",
+      "labels": {
+        "en": "Irrigation & power",
+        "mr": "पाणी आणि वीज",
+        "hi": "सिंचाई और बिजली"
+      }
+    },
+    {
+      "slug": "machinery",
+      "labels": {
+        "en": "Machinery & fuel",
+        "mr": "यंत्र आणि इंधन",
+        "hi": "मशीन और ईंधन"
+      }
+    },
+    {
+      "slug": "transport",
+      "labels": {
+        "en": "Transport",
+        "mr": "वाहतूक",
+        "hi": "ढुलाई"
+      }
+    },
+    {
+      "slug": "other",
+      "labels": {
+        "en": "Other",
+        "mr": "इतर",
+        "hi": "अन्य"
+      }
+    }
+  ]
+}

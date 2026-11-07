@@ -1,0 +1,188 @@
+{
+  "mr": {
+    "farmer_name": "अभिषेक",
+    "weather": {
+      "place": "काटोल",
+      "condition": "ढगाळ, दमट",
+      "temp_c": 34,
+      "max_c": 36,
+      "soil_moisture_pct": 41
+    },
+    "stage": {
+      "tag": "मृग बहार · बाग १ · ४ एकर",
+      "current_name": "फळधारणा सुरू",
+      "day": 68,
+      "milestones": [
+        {
+          "kind": "stress",
+          "label": "ताण",
+          "position": 0.0
+        },
+        {
+          "kind": "flowering",
+          "label": "फुलोरा",
+          "position": 0.33
+        },
+        {
+          "kind": "fruitSet",
+          "label": "फळधारणा",
+          "position": 0.58
+        },
+        {
+          "kind": "harvest",
+          "label": "तोडणी",
+          "position": 1.0
+        }
+      ],
+      "current_index": 2,
+      "progress": 0.58,
+      "next_name": "फळ वाढ",
+      "next_in_days": 20,
+      "harvest_month": "2027-02-01"
+    },
+    "tasks": [
+      {
+        "id": "t1",
+        "kind": "irrigation",
+        "title": "ठिबक ४ तास — बाग १",
+        "subtitle": "सकाळी ६:०० · पूर्ण",
+        "done": true
+      },
+      {
+        "id": "t3",
+        "kind": "scouting",
+        "title": "सायला पाहणी — १० झाडे",
+        "subtitle": "",
+        "done": false
+      }
+    ],
+    "alert": {
+      "title": "उद्या उष्णतेची लहर · फळगळीचा धोका",
+      "body": "पुढील ३ दिवस ३८°+"
+    }
+  },
+  "hi": {
+    "farmer_name": "अभिषेक",
+    "weather": {
+      "place": "काटोल",
+      "condition": "बादल, उमस",
+      "temp_c": 34,
+      "max_c": 36,
+      "soil_moisture_pct": 41
+    },
+    "stage": {
+      "tag": "मृग बहार · बाग 1 · 4 एकड़",
+      "current_name": "फल लगना शुरू",
+      "day": 68,
+      "milestones": [
+        {
+          "kind": "stress",
+          "label": "तनाव",
+          "position": 0.0
+        },
+        {
+          "kind": "flowering",
+          "label": "फूल",
+          "position": 0.33
+        },
+        {
+          "kind": "fruitSet",
+          "label": "फल लगना",
+          "position": 0.58
+        },
+        {
+          "kind": "harvest",
+          "label": "तुड़ाई",
+          "position": 1.0
+        }
+      ],
+      "current_index": 2,
+      "progress": 0.58,
+      "next_name": "फल बढ़वार",
+      "next_in_days": 20,
+      "harvest_month": "2027-02-01"
+    },
+    "tasks": [
+      {
+        "id": "t1",
+        "kind": "irrigation",
+        "title": "ड्रिप 4 घंटे — बाग 1",
+        "subtitle": "सुबह 6:00 · पूरा",
+        "done": true
+      },
+      {
+        "id": "t3",
+        "kind": "scouting",
+        "title": "सिल्ला जाँच — 10 पेड़",
+        "subtitle": "",
+        "done": false
+      }
+    ],
+    "alert": {
+      "title": "कल लू की लहर · फल गिरने का खतरा",
+      "body": "अगले 3 दिन 38°+"
+    }
+  },
+  "en": {
+    "farmer_name": "Abhishek",
+    "weather": {
+      "place": "Katol",
+      "condition": "Cloudy, humid",
+      "temp_c": 34,
+      "max_c": 36,
+      "soil_moisture_pct": 41
+    },
+    "stage": {
+      "tag": "Mrig bahar · Orchard 1 · 4 acres",
+      "current_name": "Fruit set under way",
+      "day": 68,
+      "milestones": [
+        {
+          "kind": "stress",
+          "label": "Stress",
+          "position": 0.0
+        },
+        {
+          "kind": "flowering",
+          "label": "Flowering",
+          "position": 0.33
+        },
+        {
+          "kind": "fruitSet",
+          "label": "Fruit set",
+          "position": 0.58
+        },
+        {
+          "kind": "harvest",
+          "label": "Harvest",
+          "position": 1.0
+        }
+      ],
+      "current_index": 2,
+      "progress": 0.58,
+      "next_name": "Fruit growth",
+      "next_in_days": 20,
+      "harvest_month": "2027-02-01"
+    },
+    "tasks": [
+      {
+        "id": "t1",
+        "kind": "irrigation",
+        "title": "Drip 4 h — Orchard 1",
+        "subtitle": "6:00 am · done",
+        "done": true
+      },
+      {
+        "id": "t3",
+        "kind": "scouting",
+        "title": "Psylla check — 10 trees",
+        "subtitle": "",
+        "done": false
+      }
+    ],
+    "alert": {
+      "title": "Heat wave tomorrow · fruit-drop risk",
+      "body": "Next 3 days 38°+"
+    }
+  }
+}
