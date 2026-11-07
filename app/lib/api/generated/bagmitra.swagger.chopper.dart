@@ -1324,6 +1324,70 @@ their profile; undoes a dismiss. Only for a published item that has a date.''',
   }
 
   @override
+  Future<Response<ProfilesResponse>> _v1MarketLinkProfilesGet({
+    required String? role,
+    String? district,
+    String? taluka,
+    String? sort,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''The list per taluka (decision g): verified traders, exporters or brokers, by rating
+(mean of the question averages; unrated last) or by completed deals.''',
+      summary: 'Profiles',
+      operationId: 'market_link_profiles',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/market-link/profiles');
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'role': role,
+      'district': district,
+      'taluka': taluka,
+      'sort': sort,
+    };
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+      tag: swaggerMetaData,
+    );
+    return client.send<ProfilesResponse, ProfilesResponse>($request);
+  }
+
+  @override
+  Future<Response<PublicProfileOut>>
+  _v1MarketLinkProfilesSubjectTypeSubjectIdGet({
+    required String? subjectType,
+    required String? subjectId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description:
+          'One verified profile; an unverified one answers 404 as if absent.',
+      summary: 'Profile',
+      operationId: 'market_link_profile',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse(
+      '/v1/market-link/profiles/${subjectType}/${subjectId}',
+    );
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<PublicProfileOut, PublicProfileOut>($request);
+  }
+
+  @override
   Future<Response<MyProfileOut>>
   _v1MarketLinkProfilesSubjectTypeSubjectIdAddressPut({
     required String? subjectType,
@@ -1353,6 +1417,123 @@ their profile; undoes a dismiss. Only for a published item that has a date.''',
       tag: swaggerMetaData,
     );
     return client.send<MyProfileOut, MyProfileOut>($request);
+  }
+
+  @override
+  Future<Response<MyProfileOut>>
+  _v1MarketLinkProfilesSubjectTypeSubjectIdDocumentsPost({
+    required String? subjectType,
+    required String? subjectId,
+    required String? doc,
+    String? validUntil,
+    required Object? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''A document photo for the admin\'s check (in-app camera): GSTIN / APMC / FSSAI / IEC /
+APEDA for a trader or exporter, the Legal Metrology certificate (with its valid-until
+date) for a weighbridge. Owner only; EXIF stripped before storage (spec §4B).''',
+      summary: 'Add Document',
+      operationId: 'market_link_profile_document',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse(
+      '/v1/market-link/profiles/${subjectType}/${subjectId}/documents',
+    );
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'doc': doc,
+      'valid_until': validUntil,
+    };
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      parameters: $params,
+      tag: swaggerMetaData,
+    );
+    return client.send<MyProfileOut, MyProfileOut>($request);
+  }
+
+  @override
+  Future<Response<dynamic>>
+  _v1MarketLinkProfilesSubjectTypeSubjectIdPlacePhotoPost({
+    required String? subjectType,
+    required String? subjectId,
+    required DateTime? capturedAt,
+    required num? lat,
+    required num? lon,
+    required Object? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''A representative\'s place photo from a visit (in-app camera, time + GPS): who and when
+are stored; EXIF is stripped before storage (addendum 2, spec §4B).''',
+      summary: 'Place Photo',
+      operationId: 'market_link_profile_place_photo',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse(
+      '/v1/market-link/profiles/${subjectType}/${subjectId}/place-photo',
+    );
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'captured_at': capturedAt,
+      'lat': lat,
+      'lon': lon,
+    };
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      parameters: $params,
+      tag: swaggerMetaData,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<ProfilesResponse>> _v1MarketLinkProvidersGet({
+    String? type,
+    String? district,
+    String? taluka,
+    String? plotId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Verified providers near the grower\'s own plot: nearest first when both have a location
+(distance in whole km from the provider\'s registration fix, Q80), the rest by district,
+taluka and name. A phone number to call; no booking.''',
+      summary: 'Directory',
+      operationId: 'market_link_providers_near',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/market-link/providers');
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'type': type,
+      'district': district,
+      'taluka': taluka,
+      'plot_id': plotId,
+    };
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+      tag: swaggerMetaData,
+    );
+    return client.send<ProfilesResponse, ProfilesResponse>($request);
   }
 
   @override

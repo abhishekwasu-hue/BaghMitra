@@ -1,7 +1,9 @@
 """Profile views of traders / exporters, brokers and providers (spec v1.5 §3A, §4; L2).
 Built only from stored records: badges from verification records, registration fixes and
-representative uploads, each with its date. The registrant's own view adds the check status,
-the flags and the exact fix; nothing else ever carries coordinates, PIN or numbers."""
+representative uploads, each with its date; deal counts and stars from `market_deals` /
+`ratings` (0 and empty until L5 writes any; never invented). The registrant's own view adds
+the check status, the flags and the exact fix; public views never carry coordinates, PIN,
+registration numbers or admin flags, and list verified profiles only (decision h)."""
 
 from __future__ import annotations
 
@@ -11,14 +13,18 @@ from datetime import date
 from typing import Literal
 
 from pydantic import BaseModel
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from bagmitra_api.market_link.guards import counts_as_verified, latest_verifications
 from bagmitra_api.market_link.models import (
     BrokerProfile,
     BuyerProfile,
+    DealParty,
+    MarketDeal,
     PartyVerification,
+    Rating,
+    RatingTag,
     RegistrationFix,
     RepresentativeUpload,
     ServiceProvider,
@@ -38,6 +44,8 @@ MODELS: dict[str, type[Subject]] = {
     "broker": BrokerProfile,
     "provider": ServiceProvider,
 }
+# The deal-party / ratee role whose deals and stars a profile shows (providers are a directory).
+RATED_ROLE = {"buyer": "trader", "broker": "broker"}
 
 
 class BadgeOut(BaseModel):
@@ -48,6 +56,23 @@ class BadgeOut(BaseModel):
     kind: Literal["checked", "registered_from", "place_photo"]
     on: date
     place: str | None = None
+
+
+class QuestionStarsOut(BaseModel):
+    question_key: str
+    average: float
+    count: int
+
+
+class TagCountOut(BaseModel):
+    tag_id: uuid.UUID
+    key: str
+    question_key: str
+    polarity: str
+    label_mr: str
+    label_hi: str
+    label_en: str
+    count: int
 
 
 class ProviderDetailsOut(BaseModel):
@@ -77,6 +102,21 @@ class ProfileBase(BaseModel):
     address: str | None
     badges: list[BadgeOut]
     provider: ProviderDetailsOut | None = None
+
+
+class PublicProfileOut(ProfileBase):
+    deals_completed: int
+    stars: list[QuestionStarsOut]
+    tags: list[TagCountOut]
+    # Whole km from the grower's plot (service directory only), never coordinates.
+    distance_km: int | None = None
+
+    @property
+    def overall(self) -> float | None:
+        """Mean of the per-question averages (the taluka list's rating order)."""
+        if not self.stars:
+            return None
+        return sum(s.average for s in self.stars) / len(self.stars)
 
 
 class NumbersOut(BaseModel):
@@ -125,6 +165,69 @@ async def records(session: AsyncSession, kind: str, subjects: list[Subject]) -> 
         fixes=await latest_fixes(session, kind, ids),
         photos=photos,
     )
+
+
+async def _deal_counts(
+    session: AsyncSession, role: str, users: list[uuid.UUID]
+) -> dict[uuid.UUID, int]:
+    rows = await session.execute(
+        select(DealParty.user_id, func.count(func.distinct(DealParty.deal_id)))
+        .join(MarketDeal, MarketDeal.id == DealParty.deal_id)
+        .where(
+            DealParty.role == role,
+            DealParty.user_id.in_(users),
+            MarketDeal.completed_at.is_not(None),
+        )
+        .group_by(DealParty.user_id)
+    )
+    return {user: int(n) for user, n in rows.tuples()}
+
+
+async def _ratings(
+    session: AsyncSession, role: str, users: list[uuid.UUID]
+) -> tuple[dict[uuid.UUID, list[QuestionStarsOut]], dict[uuid.UUID, list[TagCountOut]]]:
+    rows = list(
+        await session.scalars(
+            select(Rating).where(Rating.ratee_role == role, Rating.ratee_id.in_(users))
+        )
+    )
+    stars: dict[uuid.UUID, dict[str, list[int]]] = {}
+    ticks: dict[uuid.UUID, dict[str, int]] = {}
+    for r in rows:
+        stars.setdefault(r.ratee_id, {}).setdefault(r.question_key, []).append(r.stars)
+        for tag_id in r.tag_ids:
+            per = ticks.setdefault(r.ratee_id, {})
+            per[str(tag_id)] = per.get(str(tag_id), 0) + 1
+    tag_ids = {uuid.UUID(t) for per in ticks.values() for t in per}
+    tags = {
+        t.id: t
+        for t in (
+            await session.scalars(select(RatingTag).where(RatingTag.id.in_(tag_ids)))
+            if tag_ids
+            else []
+        )
+    }
+    star_out = {
+        user: [
+            QuestionStarsOut(question_key=q, average=round(sum(v) / len(v), 1), count=len(v))
+            for q, v in sorted(per.items())
+        ]
+        for user, per in stars.items()
+    }
+    tag_out = {
+        user: [
+            TagCountOut(
+                tag_id=tag.id,
+                count=n,
+                **{f: getattr(tag, f) for f in ("key", "question_key", "polarity")},
+                **{f"label_{c}": getattr(tag, f"label_{c}") for c in ("mr", "hi", "en")},
+            )
+            for t, n in sorted(per.items())
+            if (tag := tags.get(uuid.UUID(t))) is not None
+        ]
+        for user, per in ticks.items()
+    }
+    return star_out, tag_out
 
 
 def _badges(subject: Subject, rec: Records) -> list[BadgeOut]:
@@ -210,3 +313,30 @@ async def own_views(
             )
         )
     return out
+
+
+async def public_views(
+    session: AsyncSession, kind: str, subjects: list[Subject], today: date
+) -> list[PublicProfileOut]:
+    """Public views of the VERIFIED subjects only (decision h), in the given order."""
+    rec = await records(session, kind, subjects)
+    shown = [s for s in subjects if counts_as_verified(rec.checks.get(s.id))]
+    users = [s.user_id for s in shown if s.user_id is not None]
+    role = RATED_ROLE.get(kind)
+    deals: dict[uuid.UUID, int] = {}
+    stars: dict[uuid.UUID, list[QuestionStarsOut]] = {}
+    tags: dict[uuid.UUID, list[TagCountOut]] = {}
+    if role is not None and users:
+        deals = await _deal_counts(session, role, users)
+        stars, tags = await _ratings(session, role, users)
+    return [
+        PublicProfileOut.model_validate(
+            {
+                **base_fields(kind, s, rec, today),
+                "deals_completed": deals.get(s.user_id, 0) if s.user_id else 0,
+                "stars": stars.get(s.user_id, []) if s.user_id else [],
+                "tags": tags.get(s.user_id, []) if s.user_id else [],
+            }
+        )
+        for s in shown
+    ]
