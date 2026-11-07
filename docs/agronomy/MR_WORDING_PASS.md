@@ -137,6 +137,22 @@ admin activates each tag after review. New terms: GLOSSARY_mr.md (व्या�
 | grower_produce_matched | माल फोटो व वर्णनाप्रमाणे / माल फ़ोटो और विवरण जैसा | माल फोटोपेक्षा वेगळा / माल फ़ोटो से अलग |
 | grower_ready_on_date | ठरलेल्या तारखेला माल तयार / तय तारीख पर माल तैयार | ठरलेल्या तारखेला माल तयार नव्हता / तय तारीख पर माल तैयार नहीं था |
 
+## Market linkage L1 role entry and acceptance (draft, for native review)
+
+Source: `app/lib/l10n/app_mr.arb` / `app_hi.arb` keys `ml*` (spec v1.5 §2.1, §4C, §5). The disclaimer lines follow the
+owner's own words; "तुमच्या व्यवहारात या ॲपचा कोणताही लाभ किंवा नुकसान नाही" and "व्यवहारानंतर काय नोंदवायचे ते तुमची
+इच्छा" are verbatim. The negatives there (and in the fixed notice "BagMitra कधीही पैसे, OTP किंवा बँक तपशील मागत नाही")
+are the legal point and are allow-listed in `positive_wording_test.dart`.
+
+| Key | mr | hi | To check |
+|---|---|---|---|
+| `mlRoleBroker` | मध्यस्थ (दलाल) | मध्यस्थ (दलाल) | never अडत्या |
+| `mlRoleProviderKinds` | वजनकाटा, वाहतूक, मजूर, क्रेट | धर्मकांटा, परिवहन, मज़दूर, क्रेट | hi word for weighbridge |
+| `mlTermsNotParty` | BagMitra खरेदीदार, विक्रेता, कमिशन एजंट किंवा वाहतूकदार नाही. | … कमीशन एजेंट या ट्रांसपोर्टर नहीं है। | "कमिशन एजंट" vs a Marathi term other than अडत्या |
+| `mlTermsAdult` | मी १८ वर्षांपेक्षा मोठा आहे | मेरी उम्र 18 वर्ष से अधिक है | owner's text uses Devanagari digits (the rest of the arb uses 0-9); gender-neutral form? |
+| `mlTermsAgree` | मी वाचले व मान्य करतो | मैंने पढ़ा और मैं सहमत हूँ | gender-neutral form? |
+| `mlTermsGpsOnce` | नोंदणीच्या वेळी फसवणूक टाळण्यासाठी तुमचे ठिकाण (GPS) एकदाच घेतले जाईल. | … | — |
+| `mlGrievanceTimes` | तक्रारीची पोच 24 तासांत आणि निवारण 15 दिवसांत. | … | — |
 ## Market linkage admin web (L0b, draft, for native review)
 Keys `adminMl*` in `app/lib/l10n/app_mr.arb` / `app_hi.arb`: तपासणी रांग, सेवा देणारे, दिलेली माहिती, कागदपत्रे,
 प्रतीक्षेत / तपासले / नाकारले, कारण देऊन नाकारा, रेटिंग टॅग (मसुदा / चालू / बंद), APMC परवाना क्र., प्रमाणपत्र वैध तारीख,
@@ -147,3 +163,43 @@ Keys `ml*` and `adminMlReports` ... `adminMlAppealReason` in `app/lib/l10n/app_m
 कारण निवडा, खोटी ओळख, खोटा माल किंवा दुसऱ्या बागेचे फोटो, बागमित्र असल्याचे भासवते, खोटे रेटिंग, अपमानास्पद वागणूक,
 एकाच व्यक्तीची दोन खाती, माझ्या खात्यावरील कारवाई, तक्रार अधिकारी, अपील (एकदाच), निर्णय कायम, पोच द्या, फेटाळा, ब्लॉक करा.
 "व्यवहार" is used for the deal (never "सौदा"); the broker stays "मध्यस्थ (दलाल)".
+
+## Market linkage lot screens (L3, draft, for native review)
+
+Strings `ml*` in `app/lib/l10n/app_{mr,hi,en}.arb`. Brokers are "मध्यस्थ (दलाल)" (owner, spec v1.5 §2.1); never अडत्या.
+
+| Key | mr | hi |
+|---|---|---|
+| mlOpen | माल विक्रीसाठी दाखवा | माल बिक्री के लिए दिखाएँ |
+| mlMyLotsTitle / mlLotFormTitle | माझा विक्रीचा माल / विक्रीचा माल | मेरा बिक्री का माल / बिक्री का माल |
+| mlDisclaimerShort (decision k) | बागमित्र खरेदीदार, विक्रेता, मध्यस्थ (दलाल) किंवा वाहतूकदार नाही; पैसे ठेवत नाही; पैशांची किंवा दर्जाची हमी देत नाही. | बागमित्र ख़रीदार, विक्रेता, मध्यस्थ (दलाल) या ट्रांसपोर्टर नहीं है; पैसा नहीं रखता; भुगतान या गुणवत्ता की गारंटी नहीं देता। |
+| mlQuantity / mlQuality / mlQualityLine | अंदाजे माल (टन) / आकार व दर्जा / थोडक्यात माहिती (ऐच्छिक) | अनुमानित माल (टन) / आकार और गुणवत्ता / छोटी जानकारी (वैकल्पिक) |
+| mlHarvestWindow / mlWindowPick | तोडणीचा काळ / तारखा निवडा | तुड़ाई का समय / तारीखें चुनें |
+| mlBasis + chips | विक्रीची पद्धत: प्रति टन / प्रति क्रेट / संपूर्ण बाग | बिक्री का तरीका: प्रति टन / प्रति क्रेट / पूरा बाग |
+| mlAskingRate | अपेक्षित दर ₹ (ऐच्छिक) | अपेक्षित दर ₹ (वैकल्पिक) |
+| mlPhotosHint / mlAddPhoto | ॲपच्या कॅमेऱ्याने {min} ते {max} फोटो / फोटो काढा | ऐप के कैमरे से {min} से {max} फ़ोटो / फ़ोटो लें |
+| mlPhotoNoGps | GPS चालू करून पुन्हा फोटो काढा: प्रत्येक फोटोला ठिकाण लागते. | GPS चालू करके फिर से फ़ोटो लें: हर फ़ोटो के साथ जगह चाहिए। |
+| mlNoContacts | येथे फक्त मालाबद्दल लिहा; फोन नंबर व लिंक ऑफर स्वीकारल्यानंतर मिळतात. | यहाँ सिर्फ़ माल के बारे में लिखें; फ़ोन नंबर और लिंक ऑफ़र स्वीकार करने के बाद मिलते हैं। |
+| mlPrivacy | व्यापाऱ्यांना फक्त गाव, तालुका व जिल्हा दिसतो; तुमचे नाव, फोन व बागेचे ठिकाण गुप्त राहते. | व्यापारियों को सिर्फ़ गाँव, तहसील और ज़िला दिखता है; आपका नाम, फ़ोन और बाग की जगह गुप्त रहती है। |
+| mlPublish / mlSaveDraft / mlClose | व्यापाऱ्यांना दाखवा / मसुदा जतन करा / दाखवणे बंद करा | व्यापारियों को दिखाएँ / मसौदा सहेजें / दिखाना बंद करें |
+| mlStatus* | मसुदा / व्यापाऱ्यांना दिसतो / तपासणी बाकी / बंद | मसौदा / व्यापारियों को दिखता है / जाँच बाकी / बंद |
+| mlPublishOrchardCheck | माल नोंदवला; फोटो नोंदवलेल्या बागेच्या हद्दीबाहेर काढले आहेत, म्हणून तपासणीनंतर व्यापाऱ्यांना दिसेल. | माल दर्ज हुआ; फ़ोटो नक्शे वाले बाग के बाहर ली गईं, इसलिए जाँच के बाद व्यापारियों को दिखेगा। |
+| mlLotsEmpty | फोटोसह तुमचा माल येथे दाखवा; तपासलेले व्यापारी व मध्यस्थ (दलाल) तो पाहतात. | फ़ोटो के साथ अपना माल यहाँ दिखाएँ; जाँचे गए व्यापारी और मध्यस्थ (दलाल) उसे देखते हैं। |
+
+### Market linkage L2 (registration, public profiles, service directory) — for native review
+
+| Key | Marathi | Note |
+|---|---|---|
+| mlFixWhy / mlFixOnce | नोंदणी पूर्ण करण्यासाठी फोन तुमचे सध्याचे स्थान एकदा घेतो… | One GPS fix at registration (addendum 3). |
+| mlBadgeChecked / mlBadgeRegisteredFrom / mlBadgePlacePhoto | BagMitra ने {date} रोजी तपासले; {place} येथून {date} रोजी नोंदणी; BagMitra प्रतिनिधीने {date} रोजी ठिकाणाचा फोटो घेतला | Never हमी / खात्रीशीर. |
+| mlKindLabourGang / mlKindCrateSupplier / mlFieldRefrigerated | मजूर टोळी; क्रेट पुरवठादार; शीत वाहन | Check the village words. |
+| mlQTraderPaid | ठरल्याप्रमाणे उचल व बाकी पैसे दिले | Glossary: उचल / बाकी पैसे. |
+
+## Market linkage export information and export record (L8, draft, for native review)
+
+Keys `exportInfo*`, `exportSection*`, `exportLinksTitle`, `exportRecord*`, `exportLabel*` in
+`app/lib/l10n/app_mr.arb`, and the fact lines in `app/assets/config/export_info.json` (mr / hi).
+New terms to check: निर्यात नोंद (export record), निर्यातदार (exporter), हॉर्टिनेट (HortiNet),
+पॅकहाउस (packhouse), अवशेष चाचणी (residue test), फायटोसॅनिटरी प्रमाणपत्र (phytosanitary certificate),
+PHI संपते (PHI ends), लेबल तपासा (check the label), "माहितीसाठी नोंद, प्रमाणपत्र नाही" (footer).
+A deal is व्यवहार in Marathi (glossary), never सौदा.

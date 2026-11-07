@@ -59,6 +59,9 @@ class FakeStorage:
     async def put_object(self, key: str, data: bytes, content_type: str) -> None:  # noqa: ARG002
         raise AssertionError(key)  # pragma: no cover - the erasure never uploads
 
+    async def upload_object(self, key: str, data: bytes, content_type: str) -> None:  # noqa: ARG002
+        raise AssertionError(key)  # pragma: no cover - the erasure never uploads
+
     async def list_folder(self, folder: str) -> list[str]:  # noqa: ARG002
         return []
 

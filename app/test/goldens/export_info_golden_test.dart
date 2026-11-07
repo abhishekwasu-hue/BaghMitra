@@ -1,4 +1,5 @@
-// Export information page (market linkage L8, information only), Marathi, 360 dp phone.
+// Export information page and export record (market linkage L8, information only),
+// Marathi, 360 dp phone.
 // Regenerate with:
 //   flutter test --update-goldens test/goldens/export_info_golden_test.dart
 @Tags(['golden'])
@@ -9,10 +10,12 @@ import 'package:flutter_test/flutter_test.dart';
 
 import '../features/export_info/export_info_test.dart'
     show exportInfoAsset, linkOn;
+import '../features/export_info/export_record_screen_test.dart' show seedRecord;
 import '../features/plots/plots_screen_test.dart' show settle;
 import '../helpers/pump_app.dart';
 
 void main() {
+  exportRecordGoldens();
   for (final (name, mode, scale) in [
     ('export_info_mr_light', ThemeMode.light, 1.0),
     ('export_info_mr_dark', ThemeMode.dark, 1.0),
@@ -46,6 +49,34 @@ void main() {
       await tester.tap(find.byKey(const Key('export-section-destinations')));
       await settle(tester);
       await tester.tap(find.byKey(const Key('sources-toggle')).first);
+      await settle(tester);
+      await expectLater(
+        find.byType(MaterialApp),
+        matchesGoldenFile('$name.png'),
+      );
+      await unmountApp(tester);
+    });
+  }
+}
+
+/// The export record screen (Marathi).
+void exportRecordGoldens() {
+  for (final (name, mode, scale) in [
+    ('export_record_mr_light', ThemeMode.light, 1.0),
+    ('export_record_mr_dark', ThemeMode.dark, 1.0),
+    ('export_record_mr_x13', ThemeMode.light, 1.3),
+  ]) {
+    testWidgets(name, (tester) async {
+      tester.platformDispatcher.textScaleFactorTestValue = scale;
+      addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+      await pumpApp(
+        tester,
+        themeMode: mode,
+        config: linkOn,
+        initialLocation: '/market/export/record',
+        seed: seedRecord,
+        size: const Size(360, 800),
+      );
       await settle(tester);
       await expectLater(
         find.byType(MaterialApp),

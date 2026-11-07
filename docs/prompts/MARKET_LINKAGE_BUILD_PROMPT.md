@@ -226,3 +226,18 @@ Same quality rules as before: tests first, ≤ 400 lines per PR, self-review, Ma
 light + dark, match the existing UI, uncluttered.
 ```
 
+## Addendum 6 2026-11-07 (season sale package) — paste this too
+
+```
+ADDENDUM 6 (owner approved 2026-11-07): build the season sale package exactly as spec v1.5 §4D and §4E
+say, as milestones L9a and L9b after the current market-link PR. Key rules: one-time grower fee, paid
+OUTSIDE the app by UPI / cash / bank to the company; consumption-only — the Android app shows no price,
+pay button, UPI ID, QR, link or payment instruction anywhere (test it); admin activates a package
+against the grower's phone with amount, method, unique UTR and paid date; receipt PDF from the admin's
+company profile (GST line only when GSTIN and rate are set); printable QR card in the admin web only.
+Company profile and package settings start empty; switch default OFF; the switch cannot turn ON while
+legal name, GSTIN, UPI ID or price is empty. Switch ON: a lot is visible to traders only with an active
+grant; traders see first name, crop, acres, tonnes, quality ticks, photos (EXIF stripped), harvest
+window and district only. Log every settings change and grant in admin_actions. Same quality rules.
+```
+
