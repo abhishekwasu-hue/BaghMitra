@@ -1,3 +1,4 @@
+import 'deal_rating.dart';
 import 'registration.dart';
 
 /// Market-link interests and the introduction (spec v1.5 §3 steps 3-5, L4): the phone's
@@ -204,6 +205,7 @@ class Introduction {
     required this.grower,
     required this.growerPlace,
     required this.trader,
+    required this.state,
     this.plotName,
     this.pin,
     this.broker,
@@ -239,6 +241,7 @@ class Introduction {
         ),
         _ => null,
       },
+      state: DealState.fromJson((j['state']! as Map).cast<String, Object?>()),
     );
   }
 
@@ -252,4 +255,7 @@ class Introduction {
   final ({double lat, double lon})? pin;
   final Contact trader;
   final Contact? broker;
+
+  /// The "deal done" taps and the rating window, for the caller (L5).
+  final DealState state;
 }

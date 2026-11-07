@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../api/generated/bagmitra.swagger.dart';
 import '../../../app/providers.dart';
+import '../domain/deal_rating.dart';
 import '../domain/interest.dart';
 import 'registration_api.dart';
 
@@ -34,6 +35,21 @@ abstract interface class InterestApi {
   Future<String> accept(String interestId);
 
   Future<Introduction> introduction(String dealId);
+
+  /// The caller (grower or trader) says the deal is done (L5, Q67).
+  Future<Introduction> dealDone(String dealId);
+
+  Future<DealRatings> ratings(String dealId);
+
+  /// Gives or changes the caller's rating of one party (every question once).
+  Future<DealRatings> rate(
+    String dealId,
+    DealRole ratee,
+    List<RatingAnswer> answers,
+  );
+
+  /// The admin's active tick list under each question.
+  Future<List<RatingTagItem>> ratingTags();
 }
 
 class HttpInterestApi implements InterestApi {
@@ -107,6 +123,44 @@ class HttpInterestApi implements InterestApi {
       Introduction.fromJson(
         _map(await marketLinkSend(_api, 'GET', '/deals/$dealId')),
       );
+
+  @override
+  Future<Introduction> dealDone(String dealId) async => Introduction.fromJson(
+    _map(await marketLinkSend(_api, 'POST', '/deals/$dealId/done')),
+  );
+
+  @override
+  Future<DealRatings> ratings(String dealId) async => DealRatings.fromJson(
+    _map(await marketLinkSend(_api, 'GET', '/deals/$dealId/ratings')),
+  );
+
+  @override
+  Future<DealRatings> rate(
+    String dealId,
+    DealRole ratee,
+    List<RatingAnswer> answers,
+  ) async => DealRatings.fromJson(
+    _map(
+      await marketLinkSend(
+        _api,
+        'PUT',
+        '/deals/$dealId/ratings/${ratee.name}',
+        headers: _json,
+        body: jsonEncode({
+          'answers': [for (final a in answers) a.toJson()],
+        }),
+      ),
+    ),
+  );
+
+  @override
+  Future<List<RatingTagItem>> ratingTags() async => [
+    for (final m in _items(
+      await marketLinkSend(_api, 'GET', '/rating-tags'),
+      'tags',
+    ))
+      RatingTagItem.fromJson(m),
+  ];
 }
 
 final interestApiProvider = Provider<InterestApi>(
@@ -130,3 +184,29 @@ final introductionProvider = FutureProvider.autoDispose
     .family<Introduction, String>(
       (ref, dealId) => ref.watch(interestApiProvider).introduction(dealId),
     );
+
+final dealRatingsProvider = FutureProvider.autoDispose
+    .family<DealRatings, String>(
+      (ref, dealId) => ref.watch(interestApiProvider).ratings(dealId),
+    );
+
+/// The tag list, saved on the phone after each fetch and read from there when offline
+/// (spec §3A: the app caches it).
+final ratingTagsProvider = FutureProvider.autoDispose<List<RatingTagItem>>((
+  ref,
+) async {
+  const key = 'market_link.rating_tags';
+  final db = ref.watch(databaseProvider);
+  try {
+    final tags = await ref.watch(interestApiProvider).ratingTags();
+    await db.writeMeta(key, jsonEncode([for (final t in tags) t.toJson()]));
+    return tags;
+  } on MarketCallException {
+    final saved = await db.readMeta(key);
+    if (saved == null) rethrow;
+    return [
+      for (final m in jsonDecode(saved) as List)
+        RatingTagItem.fromJson((m as Map).cast<String, Object?>()),
+    ];
+  }
+});
