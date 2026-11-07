@@ -32,6 +32,7 @@ from bagmitra_api.market_link.models import (
     TermsAcceptance,
     UserBlock,
 )
+from bagmitra_api.market_link.package_models import PackageGrant
 from bagmitra_api.market_link.visibility import is_hidden_user, visible
 from bagmitra_api.photos.storage import PhotoStorageError, SignedUrl
 from bagmitra_api.routers.me import get_auth_admin
@@ -323,3 +324,36 @@ async def test_admin_actions_survive_erasure(
     async with maker() as s:
         await erase_due(s, FakeStorage(), datetime.now(UTC) + timedelta(days=181))
     assert await _count(maker, AdminAction) == 1
+
+
+async def test_a_paid_lot_stays_without_its_text_and_keeps_its_grant(
+    settings: Settings, maker: Maker, data: dict[str, uuid.UUID]
+) -> None:
+    """A lot named by a package grant (a payment record) is kept like an introduced lot:
+    its text goes, the row and the grant stay (package_grants.lot_id points at it)."""
+    async with maker() as s:
+        s.add(
+            PackageGrant(
+                grower_id=GROWER,
+                lot_id=data["free"],
+                amount_paise=150_000,
+                method="upi",
+                payment_ref="UTR112233445566",
+                paid_on=date(2026, 10, 30),
+                activated_at=T0,
+                valid_until=T0 + timedelta(days=45),
+                receipt_prefix="BM/",
+                receipt_seq=1,
+                receipt_no="BM/1",
+                admin_id=OTHER,
+            )
+        )
+        await s.commit()
+    await _delete_me(settings, maker, GROWER)
+    async with maker() as s:
+        done = await erase_due(s, FakeStorage(), datetime.now(UTC) + timedelta(days=181))
+    assert done.erased == 1
+    async with maker() as s:
+        kept = {lot.id: (lot.quality, lot.village) for lot in await s.scalars(select(MarketLot))}
+    assert kept == {data["free"]: (None, None), data["introduced"]: (None, None)}
+    assert await _count(maker, PackageGrant, PackageGrant.lot_id == data["free"]) == 1
