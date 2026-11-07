@@ -119,3 +119,20 @@ owner, audit C1): the demo home stage chip still says काढणी (`app/asse
 | hi | `feedCheckFailed` | जाँच के लिए इंटरनेट चाहिए; इंटरनेट आने पर फिर कोशिश करें. | जाँच के लिए इंटरनेट चाहिए; इंटरनेट आने पर फिर कोशिश करें। | punctuation: । instead of . (the rest of hi uses ।) |
 | hi | `feedCheckNoMatch` | मेल खाता आधिकारिक संदेश नहीं मिला. | मेल खाता आधिकारिक संदेश नहीं मिला। | punctuation: । instead of . (the rest of hi uses ।) |
 | hi | `feedCheckPortal` | कुछ करने से पहले आधिकारिक पोर्टल जाँचें. | कुछ करने से पहले आधिकारिक पोर्टल जाँचें। | punctuation: । instead of . (the rest of hi uses ।) |
+
+## Market linkage rating tags (draft, for native review)
+
+Source: `api/src/bagmitra_api/market_link/seed_data/rating_tags.json` (spec v1.5 §3A, Q66). Seeded as `draft`; the
+admin activates each tag after review. New terms: GLOSSARY_mr.md (व्यापारी, दलाल, व्यवहार, ठरलेल्या अटी, माल, उचल, वजन /
+क्रेट मोजणी).
+
+| Question | Positive (mr / hi) | Negative (mr / hi) |
+|---|---|---|
+| trader_on_date | ठरलेल्या तारखेला आले / तय तारीख पर आए | उशिरा आले / देर से आए |
+| trader_weighing_correct | वजन / क्रेट मोजणी बरोबर / वज़न / क्रेट गिनती सही | वजन / क्रेट मोजणीत फरक / वज़न / क्रेट गिनती में फ़र्क |
+| trader_paid_as_agreed | उचल व बाकी पैसे ठरल्याप्रमाणे / अग्रिम और बाकी भुगतान तय अनुसार | पैसे उशिरा / भुगतान में देरी |
+| trader_kept_conditions | ठरलेल्या अटी पाळल्या / तय शर्तें निभाईं | ठरलेल्या अटी पाळल्या नाहीत / तय शर्तें नहीं निभाईं |
+| broker_honest | व्यवहार प्रामाणिकपणे सांगितला / सौदा ईमानदारी से बताया | व्यवहाराची चुकीची माहिती दिली / सौदे की गलत जानकारी दी |
+| broker_trader_kept_deal | आणलेल्या व्यापाऱ्याने व्यवहार पाळला / लाए गए व्यापारी ने सौदा निभाया | आणलेल्या व्यापाऱ्याने व्यवहार मोडला / लाए गए व्यापारी ने सौदा तोड़ा |
+| grower_produce_matched | माल फोटो व वर्णनाप्रमाणे / माल फ़ोटो और विवरण जैसा | माल फोटोपेक्षा वेगळा / माल फ़ोटो से अलग |
+| grower_ready_on_date | ठरलेल्या तारखेला माल तयार / तय तारीख पर माल तैयार | ठरलेल्या तारखेला माल तयार नव्हता / तय तारीख पर माल तैयार नहीं था |

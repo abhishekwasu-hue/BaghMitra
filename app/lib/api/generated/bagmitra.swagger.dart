@@ -1267,6 +1267,32 @@ their profile; undoes a dismiss. Only for a published item that has a date.''',
     ),
   });
 
+  ///Rating Tags
+  Future<chopper.Response<RatingTagsResponse>> v1MarketLinkRatingTagsGet() {
+    generatedMapping.putIfAbsent(
+      RatingTagsResponse,
+      () => RatingTagsResponse.fromJsonFactory,
+    );
+
+    return _v1MarketLinkRatingTagsGet();
+  }
+
+  ///Rating Tags
+  @GET(path: '/v1/market-link/rating-tags')
+  Future<chopper.Response<RatingTagsResponse>> _v1MarketLinkRatingTagsGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'The active tick list under each rating question (spec §3A); the app caches it.',
+      summary: 'Rating Tags',
+      operationId: 'market_link_rating_tags',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  });
+
   ///Get Market Prices
   ///@param crop
   ///@param scope

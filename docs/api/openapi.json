@@ -3183,6 +3183,71 @@
         "title": "PushResponse",
         "type": "object"
       },
+      "RatingTagOut": {
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "key": {
+            "title": "Key",
+            "type": "string"
+          },
+          "label_en": {
+            "title": "Label En",
+            "type": "string"
+          },
+          "label_hi": {
+            "title": "Label Hi",
+            "type": "string"
+          },
+          "label_mr": {
+            "title": "Label Mr",
+            "type": "string"
+          },
+          "polarity": {
+            "title": "Polarity",
+            "type": "string"
+          },
+          "question_key": {
+            "title": "Question Key",
+            "type": "string"
+          },
+          "sort_order": {
+            "title": "Sort Order",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "key",
+          "question_key",
+          "polarity",
+          "label_mr",
+          "label_hi",
+          "label_en",
+          "sort_order"
+        ],
+        "title": "RatingTagOut",
+        "type": "object"
+      },
+      "RatingTagsResponse": {
+        "properties": {
+          "tags": {
+            "items": {
+              "$ref": "#/components/schemas/RatingTagOut"
+            },
+            "title": "Tags",
+            "type": "array"
+          }
+        },
+        "required": [
+          "tags"
+        ],
+        "title": "RatingTagsResponse",
+        "type": "object"
+      },
       "ReadyResponse": {
         "properties": {
           "database": {
@@ -6762,6 +6827,53 @@
         "summary": "Cards",
         "tags": [
           "knowledge"
+        ]
+      }
+    },
+    "/v1/market-link/rating-tags": {
+      "get": {
+        "description": "The active tick list under each rating question (spec §3A); the app caches it.",
+        "operationId": "market_link_rating_tags",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RatingTagsResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Rating Tags",
+        "tags": [
+          "market-link"
         ]
       }
     },

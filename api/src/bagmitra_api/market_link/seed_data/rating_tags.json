@@ -1,0 +1,165 @@
+{
+  "_note": "Draft rating tags (spec v1.5 §3A, Q66): one positive and one negative tag per question, status draft until a native speaker reviews them (docs/agronomy/MR_WORDING_PASS.md). Admin edits them in the admin web.",
+  "questions": {
+    "trader": [
+      "trader_on_date",
+      "trader_weighing_correct",
+      "trader_paid_as_agreed",
+      "trader_kept_conditions"
+    ],
+    "broker": [
+      "broker_honest",
+      "broker_trader_kept_deal"
+    ],
+    "grower": [
+      "grower_produce_matched",
+      "grower_ready_on_date"
+    ]
+  },
+  "tags": [
+    {
+      "key": "trader_on_date_yes",
+      "question_key": "trader_on_date",
+      "polarity": "positive",
+      "label_en": "came on the agreed harvest date",
+      "label_mr": "ठरलेल्या तारखेला आले",
+      "label_hi": "तय तारीख पर आए",
+      "sort_order": 10
+    },
+    {
+      "key": "trader_on_date_no",
+      "question_key": "trader_on_date",
+      "polarity": "negative",
+      "label_en": "came late",
+      "label_mr": "उशिरा आले",
+      "label_hi": "देर से आए",
+      "sort_order": 20
+    },
+    {
+      "key": "trader_weighing_correct_yes",
+      "question_key": "trader_weighing_correct",
+      "polarity": "positive",
+      "label_en": "weighing / crate count correct",
+      "label_mr": "वजन / क्रेट मोजणी बरोबर",
+      "label_hi": "वज़न / क्रेट गिनती सही",
+      "sort_order": 30
+    },
+    {
+      "key": "trader_weighing_correct_no",
+      "question_key": "trader_weighing_correct",
+      "polarity": "negative",
+      "label_en": "weighing / crate count differed",
+      "label_mr": "वजन / क्रेट मोजणीत फरक",
+      "label_hi": "वज़न / क्रेट गिनती में फ़र्क",
+      "sort_order": 40
+    },
+    {
+      "key": "trader_paid_as_agreed_yes",
+      "question_key": "trader_paid_as_agreed",
+      "polarity": "positive",
+      "label_en": "advance and balance paid as agreed",
+      "label_mr": "उचल व बाकी पैसे ठरल्याप्रमाणे",
+      "label_hi": "अग्रिम और बाकी भुगतान तय अनुसार",
+      "sort_order": 50
+    },
+    {
+      "key": "trader_paid_as_agreed_no",
+      "question_key": "trader_paid_as_agreed",
+      "polarity": "negative",
+      "label_en": "payment late",
+      "label_mr": "पैसे उशिरा",
+      "label_hi": "भुगतान में देरी",
+      "sort_order": 60
+    },
+    {
+      "key": "trader_kept_conditions_yes",
+      "question_key": "trader_kept_conditions",
+      "polarity": "positive",
+      "label_en": "kept the other agreed conditions",
+      "label_mr": "ठरलेल्या अटी पाळल्या",
+      "label_hi": "तय शर्तें निभाईं",
+      "sort_order": 70
+    },
+    {
+      "key": "trader_kept_conditions_no",
+      "question_key": "trader_kept_conditions",
+      "polarity": "negative",
+      "label_en": "did not keep the agreed conditions",
+      "label_mr": "ठरलेल्या अटी पाळल्या नाहीत",
+      "label_hi": "तय शर्तें नहीं निभाईं",
+      "sort_order": 80
+    },
+    {
+      "key": "broker_honest_yes",
+      "question_key": "broker_honest",
+      "polarity": "positive",
+      "label_en": "represented the deal honestly",
+      "label_mr": "व्यवहार प्रामाणिकपणे सांगितला",
+      "label_hi": "सौदा ईमानदारी से बताया",
+      "sort_order": 90
+    },
+    {
+      "key": "broker_honest_no",
+      "question_key": "broker_honest",
+      "polarity": "negative",
+      "label_en": "gave wrong information about the deal",
+      "label_mr": "व्यवहाराची चुकीची माहिती दिली",
+      "label_hi": "सौदे की गलत जानकारी दी",
+      "sort_order": 100
+    },
+    {
+      "key": "broker_trader_kept_deal_yes",
+      "question_key": "broker_trader_kept_deal",
+      "polarity": "positive",
+      "label_en": "the trader they brought kept the deal",
+      "label_mr": "आणलेल्या व्यापाऱ्याने व्यवहार पाळला",
+      "label_hi": "लाए गए व्यापारी ने सौदा निभाया",
+      "sort_order": 110
+    },
+    {
+      "key": "broker_trader_kept_deal_no",
+      "question_key": "broker_trader_kept_deal",
+      "polarity": "negative",
+      "label_en": "the trader they brought broke the deal",
+      "label_mr": "आणलेल्या व्यापाऱ्याने व्यवहार मोडला",
+      "label_hi": "लाए गए व्यापारी ने सौदा तोड़ा",
+      "sort_order": 120
+    },
+    {
+      "key": "grower_produce_matched_yes",
+      "question_key": "grower_produce_matched",
+      "polarity": "positive",
+      "label_en": "produce matched the photos and description",
+      "label_mr": "माल फोटो व वर्णनाप्रमाणे",
+      "label_hi": "माल फ़ोटो और विवरण जैसा",
+      "sort_order": 130
+    },
+    {
+      "key": "grower_produce_matched_no",
+      "question_key": "grower_produce_matched",
+      "polarity": "negative",
+      "label_en": "produce differed from the photos",
+      "label_mr": "माल फोटोपेक्षा वेगळा",
+      "label_hi": "माल फ़ोटो से अलग",
+      "sort_order": 140
+    },
+    {
+      "key": "grower_ready_on_date_yes",
+      "question_key": "grower_ready_on_date",
+      "polarity": "positive",
+      "label_en": "produce ready on the agreed date",
+      "label_mr": "ठरलेल्या तारखेला माल तयार",
+      "label_hi": "तय तारीख पर माल तैयार",
+      "sort_order": 150
+    },
+    {
+      "key": "grower_ready_on_date_no",
+      "question_key": "grower_ready_on_date",
+      "polarity": "negative",
+      "label_en": "produce not ready on the agreed date",
+      "label_mr": "ठरलेल्या तारखेला माल तयार नव्हता",
+      "label_hi": "तय तारीख पर माल तैयार नहीं था",
+      "sort_order": 160
+    }
+  ]
+}

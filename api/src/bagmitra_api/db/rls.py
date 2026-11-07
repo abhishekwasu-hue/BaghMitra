@@ -83,6 +83,31 @@ def disable_private_rls(table: str) -> list[str]:
     return [f"ALTER TABLE {_check(table)} DISABLE ROW LEVEL SECURITY"]
 
 
+_POLICY_COMMANDS = frozenset({"ALL", "SELECT"})
+
+
+def enable_policy_rls(table: str, policies: list[tuple[str, str, str]]) -> list[str]:
+    """RLS on with named policies `(name, command, USING expression)` (market linkage,
+    migration 0029). The expressions are constants written in the migration, never input;
+    FOR ALL reuses USING as WITH CHECK. Writes without a policy go through the API only."""
+    t = _check(table)
+    out = [
+        f"ALTER TABLE {t} ENABLE ROW LEVEL SECURITY",
+        f"ALTER TABLE {t} FORCE ROW LEVEL SECURITY",
+    ]
+    for name, command, using in policies:
+        if command not in _POLICY_COMMANDS:
+            raise ValueError(f"unsupported policy command: {command!r}")
+        out.append(f"CREATE POLICY {_check(f'{t}_{name}')} ON {t} FOR {command} USING ({using})")
+    return out
+
+
+def disable_policy_rls(table: str, names: list[str]) -> list[str]:
+    t = _check(table)
+    drops = [f"DROP POLICY IF EXISTS {_check(f'{t}_{n}')} ON {t}" for n in names]
+    return [*drops, f"ALTER TABLE {t} DISABLE ROW LEVEL SECURITY"]
+
+
 FEED_VISIBLE = "status IN ('published', 'withdrawn')"
 
 

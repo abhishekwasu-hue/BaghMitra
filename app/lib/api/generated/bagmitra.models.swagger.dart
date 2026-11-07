@@ -6891,6 +6891,185 @@ extension $PushResponseExtension on PushResponse {
 }
 
 @JsonSerializable(explicitToJson: true)
+class RatingTagOut {
+  const RatingTagOut({
+    required this.id,
+    required this.key,
+    required this.labelEn,
+    required this.labelHi,
+    required this.labelMr,
+    required this.polarity,
+    required this.questionKey,
+    required this.sortOrder,
+  });
+
+  factory RatingTagOut.fromJson(Map<String, dynamic> json) =>
+      _$RatingTagOutFromJson(json);
+
+  static const toJsonFactory = _$RatingTagOutToJson;
+  Map<String, dynamic> toJson() => _$RatingTagOutToJson(this);
+
+  @JsonKey(name: 'id', includeIfNull: false)
+  final String id;
+  @JsonKey(name: 'key', includeIfNull: false)
+  final String key;
+  @JsonKey(name: 'label_en', includeIfNull: false)
+  final String labelEn;
+  @JsonKey(name: 'label_hi', includeIfNull: false)
+  final String labelHi;
+  @JsonKey(name: 'label_mr', includeIfNull: false)
+  final String labelMr;
+  @JsonKey(name: 'polarity', includeIfNull: false)
+  final String polarity;
+  @JsonKey(name: 'question_key', includeIfNull: false)
+  final String questionKey;
+  @JsonKey(name: 'sort_order', includeIfNull: false)
+  final int sortOrder;
+  static const fromJsonFactory = _$RatingTagOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is RatingTagOut &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.key, key) ||
+                const DeepCollectionEquality().equals(other.key, key)) &&
+            (identical(other.labelEn, labelEn) ||
+                const DeepCollectionEquality().equals(
+                  other.labelEn,
+                  labelEn,
+                )) &&
+            (identical(other.labelHi, labelHi) ||
+                const DeepCollectionEquality().equals(
+                  other.labelHi,
+                  labelHi,
+                )) &&
+            (identical(other.labelMr, labelMr) ||
+                const DeepCollectionEquality().equals(
+                  other.labelMr,
+                  labelMr,
+                )) &&
+            (identical(other.polarity, polarity) ||
+                const DeepCollectionEquality().equals(
+                  other.polarity,
+                  polarity,
+                )) &&
+            (identical(other.questionKey, questionKey) ||
+                const DeepCollectionEquality().equals(
+                  other.questionKey,
+                  questionKey,
+                )) &&
+            (identical(other.sortOrder, sortOrder) ||
+                const DeepCollectionEquality().equals(
+                  other.sortOrder,
+                  sortOrder,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(key) ^
+      const DeepCollectionEquality().hash(labelEn) ^
+      const DeepCollectionEquality().hash(labelHi) ^
+      const DeepCollectionEquality().hash(labelMr) ^
+      const DeepCollectionEquality().hash(polarity) ^
+      const DeepCollectionEquality().hash(questionKey) ^
+      const DeepCollectionEquality().hash(sortOrder) ^
+      runtimeType.hashCode;
+}
+
+extension $RatingTagOutExtension on RatingTagOut {
+  RatingTagOut copyWith({
+    String? id,
+    String? key,
+    String? labelEn,
+    String? labelHi,
+    String? labelMr,
+    String? polarity,
+    String? questionKey,
+    int? sortOrder,
+  }) {
+    return RatingTagOut(
+      id: id ?? this.id,
+      key: key ?? this.key,
+      labelEn: labelEn ?? this.labelEn,
+      labelHi: labelHi ?? this.labelHi,
+      labelMr: labelMr ?? this.labelMr,
+      polarity: polarity ?? this.polarity,
+      questionKey: questionKey ?? this.questionKey,
+      sortOrder: sortOrder ?? this.sortOrder,
+    );
+  }
+
+  RatingTagOut copyWithWrapped({
+    Wrapped<String>? id,
+    Wrapped<String>? key,
+    Wrapped<String>? labelEn,
+    Wrapped<String>? labelHi,
+    Wrapped<String>? labelMr,
+    Wrapped<String>? polarity,
+    Wrapped<String>? questionKey,
+    Wrapped<int>? sortOrder,
+  }) {
+    return RatingTagOut(
+      id: (id != null ? id.value : this.id),
+      key: (key != null ? key.value : this.key),
+      labelEn: (labelEn != null ? labelEn.value : this.labelEn),
+      labelHi: (labelHi != null ? labelHi.value : this.labelHi),
+      labelMr: (labelMr != null ? labelMr.value : this.labelMr),
+      polarity: (polarity != null ? polarity.value : this.polarity),
+      questionKey: (questionKey != null ? questionKey.value : this.questionKey),
+      sortOrder: (sortOrder != null ? sortOrder.value : this.sortOrder),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class RatingTagsResponse {
+  const RatingTagsResponse({required this.tags});
+
+  factory RatingTagsResponse.fromJson(Map<String, dynamic> json) =>
+      _$RatingTagsResponseFromJson(json);
+
+  static const toJsonFactory = _$RatingTagsResponseToJson;
+  Map<String, dynamic> toJson() => _$RatingTagsResponseToJson(this);
+
+  @JsonKey(name: 'tags', includeIfNull: false, defaultValue: <RatingTagOut>[])
+  final List<RatingTagOut> tags;
+  static const fromJsonFactory = _$RatingTagsResponseFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is RatingTagsResponse &&
+            (identical(other.tags, tags) ||
+                const DeepCollectionEquality().equals(other.tags, tags)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(tags) ^ runtimeType.hashCode;
+}
+
+extension $RatingTagsResponseExtension on RatingTagsResponse {
+  RatingTagsResponse copyWith({List<RatingTagOut>? tags}) {
+    return RatingTagsResponse(tags: tags ?? this.tags);
+  }
+
+  RatingTagsResponse copyWithWrapped({Wrapped<List<RatingTagOut>>? tags}) {
+    return RatingTagsResponse(tags: (tags != null ? tags.value : this.tags));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class ReadyResponse {
   const ReadyResponse({required this.database, required this.status});
 

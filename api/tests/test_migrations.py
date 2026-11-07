@@ -66,10 +66,11 @@ def test_upgrade_downgrade_upgrade_on_sqlite(tmp_path: Path) -> None:
 
 
 def test_every_model_declares_its_rls_kind() -> None:
-    """Each table is owner-scoped (owner_column), read-only reference data, or private."""
+    """Each table is owner-scoped (owner_column), read-only reference data, private, or has
+    its own policies (custom_rls: market linkage, migration 0029)."""
     for mapper in Base.registry.mappers:
         cls = mapper.class_
-        if getattr(cls, "reference_table", False) or getattr(cls, "private_table", False):
+        if any(getattr(cls, k, False) for k in ("reference_table", "private_table", "custom_rls")):
             continue
         owner = getattr(cls, "owner_column", None)
         assert isinstance(owner, str), f"{cls.__name__} lacks owner_column / reference_table"
@@ -224,7 +225,7 @@ def test_postgres_client_roles_lose_every_grant() -> None:
         ).scalar_one()
         assert rls is True
         # The migrating / API role still reads and writes alembic_version and the tables.
-        assert conn.execute(text("SELECT version_num FROM alembic_version")).scalar_one() == "0028"
+        assert conn.execute(text("SELECT version_num FROM alembic_version")).scalar_one() == "0029"
         assert conn.execute(text("SELECT count(*) FROM account_deletions")).scalar_one() == 0
     # Reversible, and a revert never hands the privileges back.
     command.downgrade(cfg, "0024")

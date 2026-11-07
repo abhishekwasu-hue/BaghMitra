@@ -1388,6 +1388,41 @@ Map<String, dynamic> _$PushResponseToJson(PushResponse instance) =>
       'results': instance.results.map((e) => e.toJson()).toList(),
     };
 
+RatingTagOut _$RatingTagOutFromJson(Map<String, dynamic> json) => RatingTagOut(
+  id: json['id'] as String,
+  key: json['key'] as String,
+  labelEn: json['label_en'] as String,
+  labelHi: json['label_hi'] as String,
+  labelMr: json['label_mr'] as String,
+  polarity: json['polarity'] as String,
+  questionKey: json['question_key'] as String,
+  sortOrder: (json['sort_order'] as num).toInt(),
+);
+
+Map<String, dynamic> _$RatingTagOutToJson(RatingTagOut instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'key': instance.key,
+      'label_en': instance.labelEn,
+      'label_hi': instance.labelHi,
+      'label_mr': instance.labelMr,
+      'polarity': instance.polarity,
+      'question_key': instance.questionKey,
+      'sort_order': instance.sortOrder,
+    };
+
+RatingTagsResponse _$RatingTagsResponseFromJson(Map<String, dynamic> json) =>
+    RatingTagsResponse(
+      tags:
+          (json['tags'] as List<dynamic>?)
+              ?.map((e) => RatingTagOut.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+    );
+
+Map<String, dynamic> _$RatingTagsResponseToJson(RatingTagsResponse instance) =>
+    <String, dynamic>{'tags': instance.tags.map((e) => e.toJson()).toList()};
+
 ReadyResponse _$ReadyResponseFromJson(Map<String, dynamic> json) =>
     ReadyResponse(
       database: json['database'] as String,

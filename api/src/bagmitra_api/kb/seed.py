@@ -31,6 +31,7 @@ from bagmitra_api.kb.models import (
     KbSynonym,
     KbTopic,
 )
+from bagmitra_api.market_link.seed import seed_rating_tags
 
 LABEL_CLAIMS_CSV = "label_claims_citrus.csv"
 
@@ -231,6 +232,7 @@ async def main() -> None:  # pragma: no cover - thin CLI wrapper
         await seed_knowledge(session)
         await seed_label_claims(session, datetime.now(UTC))
         await seed_stage_templates(session)
+        await seed_rating_tags(session)
         await session.commit()
 
 
