@@ -142,3 +142,11 @@ Keys `adminMl*` in `app/lib/l10n/app_mr.arb` / `app_hi.arb`: तपासणी 
 प्रतीक्षेत / तपासले / नाकारले, कारण देऊन नाकारा, रेटिंग टॅग (मसुदा / चालू / बंद), APMC परवाना क्र., प्रमाणपत्र वैध तारीख,
 वाहन क्रमांक, रेफ्रिजरेटेड वाहन, वाहतूकदार नोंदणी क्र., वजनकाटा, वाहतूकदार, मजूर टोळी, क्रेट पुरवठादार. Hindi: तहसील for
 taluka, धर्मकांटा for weighbridge.
+### Market linkage L2 (registration, public profiles, service directory) — for native review
+
+| Key | Marathi | Note |
+|---|---|---|
+| mlFixWhy / mlFixOnce | नोंदणी पूर्ण करण्यासाठी फोन तुमचे सध्याचे स्थान एकदा घेतो… | One GPS fix at registration (addendum 3). |
+| mlBadgeChecked / mlBadgeRegisteredFrom / mlBadgePlacePhoto | BagMitra ने {date} रोजी तपासले; {place} येथून {date} रोजी नोंदणी; BagMitra प्रतिनिधीने {date} रोजी ठिकाणाचा फोटो घेतला | Never हमी / खात्रीशीर. |
+| mlKindLabourGang / mlKindCrateSupplier / mlFieldRefrigerated | मजूर टोळी; क्रेट पुरवठादार; शीत वाहन | Check the village words. |
+| mlQTraderPaid | ठरल्याप्रमाणे उचल व बाकी पैसे दिले | Glossary: उचल / बाकी पैसे. |

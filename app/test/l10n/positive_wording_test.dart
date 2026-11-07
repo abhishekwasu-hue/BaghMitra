@@ -27,6 +27,10 @@ const allowNegative = {
   'adminMlNo',
   // वजनकाटा (weighbridge, GLOSSARY_mr.md) only contains the letters of नका.
   'adminMlKindWeighbridge',
+  // False match, not a negative: "वजनकाटा" (weighbridge, GLOSSARY_mr.md) contains "नका".
+  'mlKindWeighbridge',
+  'mlDocCertificate',
+  'mlServicesEmpty',
 };
 
 final _negative = <String, RegExp>{

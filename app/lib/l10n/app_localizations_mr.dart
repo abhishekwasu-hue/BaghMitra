@@ -3145,4 +3145,354 @@ class AppLocalizationsMr extends AppLocalizations {
   String adminMlDocumentCount(int n) {
     return 'कागदपत्रे: $n';
   }
+
+  @override
+  String get mlRoleTrader => 'व्यापारी';
+
+  @override
+  String get mlRoleExporter => 'निर्यातदार';
+
+  @override
+  String get mlRoleBroker => 'मध्यस्थ (दलाल)';
+
+  @override
+  String get mlRoleProvider => 'सेवा देणारे';
+
+  @override
+  String get mlKindWeighbridge => 'वजनकाटा';
+
+  @override
+  String get mlKindTransporter => 'वाहतूकदार';
+
+  @override
+  String get mlKindLabourGang => 'मजूर टोळी';
+
+  @override
+  String get mlKindCrateSupplier => 'क्रेट पुरवठादार';
+
+  @override
+  String get mlRegisterTrader => 'व्यापारी नोंदणी';
+
+  @override
+  String get mlRegisterExporter => 'निर्यातदार नोंदणी';
+
+  @override
+  String get mlRegisterBroker => 'मध्यस्थ (दलाल) नोंदणी';
+
+  @override
+  String get mlRegisterProvider => 'सेवा देणारे नोंदणी';
+
+  @override
+  String get mlRegisterAs => 'नोंदणी करा';
+
+  @override
+  String get mlFixTitle => 'नोंदणीच्या ठिकाणाचे स्थान';
+
+  @override
+  String get mlFixWhy =>
+      'नोंदणी पूर्ण करण्यासाठी फोन तुमचे सध्याचे स्थान एकदा घेतो. यामुळे बनावट नोंदणी दूर राहते.';
+
+  @override
+  String get mlFixOnce =>
+      'स्थान फक्त एकदा, आत्ता घेतले जाते. सार्वजनिक प्रोफाइलवर फक्त गाव, तालुका व जिल्हा दिसतो; अचूक स्थान फक्त BagMitra च्या तपासणीसाठी.';
+
+  @override
+  String get mlPhonePublicNote =>
+      'तपासणीनंतर तुमचे नाव, फर्म व संपर्क क्रमांक नोंदणीकृत शेतकऱ्यांना दिसतात.';
+
+  @override
+  String get mlFixTake => 'स्थान घ्या';
+
+  @override
+  String get mlFixTaking => 'स्थान घेत आहे…';
+
+  @override
+  String get mlFixDenied => 'नोंदणी पूर्ण करण्यासाठी लोकेशनला परवानगी द्या.';
+
+  @override
+  String mlFixTaken(String place, String metres) {
+    return 'स्थान घेतले: $place (±$metres मी.)';
+  }
+
+  @override
+  String get mlPickKind => 'तुम्ही कोणती सेवा देता?';
+
+  @override
+  String get mlFieldName => 'नाव';
+
+  @override
+  String get mlFieldPhone => 'संपर्क क्रमांक';
+
+  @override
+  String get mlFieldFirm => 'फर्मचे नाव (ऐच्छिक)';
+
+  @override
+  String get mlFieldVillage => 'गाव';
+
+  @override
+  String get mlFieldTaluka => 'तालुका';
+
+  @override
+  String get mlFieldDistrict => 'जिल्हा';
+
+  @override
+  String get mlFieldMarkets => 'बाजार / गावे (मध्ये स्वल्पविराम)';
+
+  @override
+  String get mlFieldAreas => 'सेवा देणारी गावे / भाग (मध्ये स्वल्पविराम)';
+
+  @override
+  String get mlFieldCrops => 'पिके';
+
+  @override
+  String get mlFieldAddress => 'पत्ता (ऐच्छिक)';
+
+  @override
+  String get mlFieldGst => 'GSTIN';
+
+  @override
+  String get mlFieldApmc => 'APMC परवाना क्र.';
+
+  @override
+  String get mlFieldFssai => 'FSSAI परवाना क्र.';
+
+  @override
+  String get mlFieldIec => 'IEC क्र.';
+
+  @override
+  String get mlFieldApeda => 'APEDA नोंदणी क्र.';
+
+  @override
+  String get mlFieldVehicles => 'वाहन क्रमांक (मध्ये स्वल्पविराम)';
+
+  @override
+  String get mlFieldCapacity => 'क्षमता (टन)';
+
+  @override
+  String get mlFieldRefrigerated => 'शीत वाहन';
+
+  @override
+  String get mlFieldCertUntil => 'प्रमाणपत्र वैध तारीख';
+
+  @override
+  String mlCertUntilValue(String date) {
+    return 'प्रमाणपत्र $date पर्यंत वैध';
+  }
+
+  @override
+  String get mlNumbersNote =>
+      'किमान एक लिहा: GSTIN, APMC परवाना किंवा IEC. BagMitra तो अधिकृत सार्वजनिक नोंदीवर तपासते.';
+
+  @override
+  String get mlIecRequired => 'निर्यातदार नोंदणीसाठी IEC क्रमांक लागतो.';
+
+  @override
+  String get mlBrokerCallNote =>
+      'तपासणी पूर्ण करण्यासाठी BagMitra या क्रमांकावर तुम्हाला फोन करेल.';
+
+  @override
+  String get mlErrPhone => '10 अंकी मोबाईल क्रमांक लिहा';
+
+  @override
+  String get mlErrGst => '15 अक्षरी GSTIN लिहा';
+
+  @override
+  String get mlErrIec => '10 अक्षरी IEC लिहा';
+
+  @override
+  String get mlErrFssai => '14 अंकी FSSAI क्रमांक लिहा';
+
+  @override
+  String get mlErrCapacity => 'क्षमता टनात लिहा (100 पर्यंत)';
+
+  @override
+  String get mlErrOneNumber => 'GSTIN, APMC परवाना किंवा IEC क्रमांक लिहा';
+
+  @override
+  String get mlErrPickKind => 'तुमची सेवा निवडा';
+
+  @override
+  String get mlErrCertDate => 'प्रमाणपत्राची वैध तारीख निवडा';
+
+  @override
+  String get mlErrFixStale => 'स्थान पुन्हा घ्या आणि मग पाठवा';
+
+  @override
+  String get mlErrExists =>
+      'या भूमिकेत तुमची नोंदणी आधीच आहे; माझी बाजार नोंदणी पहा';
+
+  @override
+  String get mlErrCheckFields => 'माहिती तपासा व पुन्हा पाठवा';
+
+  @override
+  String get mlSubmit => 'नोंदणी पाठवा';
+
+  @override
+  String get mlSubmitted => 'नोंदणी पाठवली. BagMitra तपासणी करेल.';
+
+  @override
+  String get mlOffline => 'हे पाहण्यासाठी इंटरनेट सुरू करा';
+
+  @override
+  String get mlServerBusy =>
+      'सर्व्हर व्यस्त आहे; थोड्या वेळाने पुन्हा प्रयत्न करा';
+
+  @override
+  String get mlRetry => 'पुन्हा प्रयत्न करा';
+
+  @override
+  String get mlMyProfilesTitle => 'माझी बाजार नोंदणी';
+
+  @override
+  String get mlMyProfilesEmpty =>
+      'खाली व्यापारी, निर्यातदार, मध्यस्थ किंवा सेवा देणारे म्हणून नोंदणी करा.';
+
+  @override
+  String get mlStatusPending => 'तपासणी बाकी';
+
+  @override
+  String get mlStatusApproved => 'BagMitra ने तपासले';
+
+  @override
+  String get mlStatusRejected => 'परत पाठवले; कारण पहा';
+
+  @override
+  String get mlCheckNote =>
+      'BagMitra च्या तपासणीनंतर तुमची प्रोफाइल शेतकऱ्यांना दिसते. कागदपत्रांचे फोटो तपासणीला मदत करतात.';
+
+  @override
+  String mlDocsCount(String count) {
+    return 'कागदपत्रांचे फोटो: $count';
+  }
+
+  @override
+  String get mlDocCertificate => 'वजनकाटा प्रमाणपत्र';
+
+  @override
+  String mlCertExpired(String date) {
+    return 'प्रमाणपत्राची तारीख संपली ($date)';
+  }
+
+  @override
+  String get mlAddressAdd => 'पत्ता लिहा';
+
+  @override
+  String get mlAddressEdit => 'पत्ता बदला';
+
+  @override
+  String get mlCancel => 'रद्द करा';
+
+  @override
+  String get mlSave => 'जतन करा';
+
+  @override
+  String get mlPeopleTitle => 'व्यापारी व मध्यस्थ';
+
+  @override
+  String get mlPeopleEmpty =>
+      'या भागातील तपासलेले व्यापारी व मध्यस्थ येथे दिसतील.';
+
+  @override
+  String mlAreaTaluka(String taluka) {
+    return 'तालुका $taluka';
+  }
+
+  @override
+  String mlAreaDistrict(String district) {
+    return 'जिल्हा $district';
+  }
+
+  @override
+  String get mlSortRating => 'रेटिंगनुसार';
+
+  @override
+  String get mlSortDeals => 'व्यवहारांनुसार';
+
+  @override
+  String mlDeals(String count) {
+    return '$count पूर्ण व्यवहार';
+  }
+
+  @override
+  String mlStars(String average, String count) {
+    return '$average/५ ($count)';
+  }
+
+  @override
+  String mlDistanceKm(String km) {
+    return '$km कि.मी.';
+  }
+
+  @override
+  String mlBadgeChecked(String date) {
+    return 'BagMitra ने $date रोजी तपासले';
+  }
+
+  @override
+  String mlBadgeRegisteredFrom(String place, String date) {
+    return '$place येथून $date रोजी नोंदणी';
+  }
+
+  @override
+  String mlBadgePlacePhoto(String date) {
+    return 'BagMitra प्रतिनिधीने $date रोजी ठिकाणाचा फोटो घेतला';
+  }
+
+  @override
+  String get mlBadgeNote =>
+      'बॅज BagMitra ने काय व कधी तपासले ते सांगतो. व्यवहाराच्या अटी तुम्ही थेट आपसात ठरवता.';
+
+  @override
+  String get mlCall => 'फोन करा';
+
+  @override
+  String mlCallNumber(String phone) {
+    return '$phone वर फोन करा';
+  }
+
+  @override
+  String get mlRatingsTitle => 'रेटिंग';
+
+  @override
+  String get mlQTraderOnDate => 'ठरलेल्या तोडणी तारखेला आले';
+
+  @override
+  String get mlQTraderWeighing => 'वजन / क्रेट मोजणी बरोबर';
+
+  @override
+  String get mlQTraderPaid => 'ठरल्याप्रमाणे उचल व बाकी पैसे दिले';
+
+  @override
+  String get mlQTraderConditions => 'इतर अटी पाळल्या';
+
+  @override
+  String get mlQBrokerHonest => 'व्यवहार प्रामाणिकपणे सांगितला';
+
+  @override
+  String get mlQBrokerTraderKept => 'आणलेल्या व्यापाऱ्याने व्यवहार पाळला';
+
+  @override
+  String get mlAreaAll => 'सर्व भाग';
+
+  @override
+  String get mlMarkets => 'बाजार / गावे';
+
+  @override
+  String get mlAreas => 'सेवा भाग';
+
+  @override
+  String get mlServicesTitle => 'सेवा देणारे';
+
+  @override
+  String get mlServicesEmpty =>
+      'जवळचे तपासलेले वजनकाटे, वाहतूक, मजूर टोळ्या व क्रेट पुरवठादार येथे दिसतील.';
+
+  @override
+  String get mlServicesNote =>
+      'फोन करून थेट ठरवा; दर व पैसे तुमच्या आपसातील विषय.';
+
+  @override
+  String mlNearPlot(String name) {
+    return '$name जवळ';
+  }
 }

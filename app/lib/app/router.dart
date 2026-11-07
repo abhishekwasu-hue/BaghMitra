@@ -32,6 +32,8 @@ import '../features/lab_tests/presentation/lab_test_screens.dart';
 import '../features/labels/presentation/label_info_screen.dart';
 import '../features/lookalikes/presentation/lookalikes_screen.dart';
 import '../features/market/presentation/market_prices_screen.dart';
+import '../features/market_link/domain/registration.dart';
+import '../features/market_link/presentation/registration_screen.dart';
 import '../features/more/presentation/more_screen.dart';
 import '../features/plots/presentation/add_plot_screen.dart';
 import '../features/plots/presentation/boundary_screen.dart';
@@ -100,6 +102,10 @@ abstract final class Routes {
       plotId == null ? lookalikes : '$lookalikes?plot=$plotId';
   static const labs = '/labs';
   static const marketDirectory = '/market/directory';
+  // Market linkage (L2), behind AppConfig.marketLink (decision j).
+  static const marketLink = '/market-link';
+  static String marketLinkRegister(String role) =>
+      '/market-link/register/$role';
   static const exportInfo = '/market/export';
   static const plots = '/plots';
   static const addPlot = '/plots/new';
@@ -182,6 +188,9 @@ GoRouter buildRouter(
       final onLogin = loc.startsWith(Routes.login);
       if (loc == Routes.gallery) return config.devGallery ? null : Routes.home;
       if (loc.startsWith(Routes.feed) && !config.sarkariSandeshEnabled) {
+        return Routes.home;
+      }
+      if (loc.startsWith(Routes.marketLink) && !config.marketLink) {
         return Routes.home;
       }
       // Market-link screens exist only in builds with the flag on (spec v1.5 §5).
@@ -301,6 +310,16 @@ GoRouter buildRouter(
       GoRoute(
         path: Routes.marketDirectory,
         builder: (_, _) => const MarketDirectoryScreen(),
+      ),
+      GoRoute(
+        path: '/market-link/register/:role',
+        redirect: (_, s) =>
+            RegistrationRole.fromName(s.pathParameters['role']) == null
+            ? Routes.home
+            : null,
+        builder: (_, s) => RegistrationScreen(
+          role: RegistrationRole.fromName(s.pathParameters['role'])!,
+        ),
       ),
       GoRoute(
         path: Routes.exportInfo,
