@@ -174,6 +174,17 @@ Map<String, dynamic> _$ChangeToJson(Change instance) => <String, dynamic>{
   'updated_at': instance.updatedAt.toIso8601String(),
 };
 
+DecisionIn _$DecisionInFromJson(Map<String, dynamic> json) => DecisionIn(
+  reason: json['reason'] as String?,
+  status: decisionInStatusFromJson(json['status']),
+);
+
+Map<String, dynamic> _$DecisionInToJson(DecisionIn instance) =>
+    <String, dynamic>{
+      'reason': ?instance.reason,
+      'status': ?decisionInStatusToJson(instance.status),
+    };
+
 DeviceIn _$DeviceInFromJson(Map<String, dynamic> json) => DeviceIn(
   platform: deviceInPlatformFromJson(json['platform']),
   token: json['token'] as String,
@@ -1388,6 +1399,61 @@ Map<String, dynamic> _$PushResponseToJson(PushResponse instance) =>
       'results': instance.results.map((e) => e.toJson()).toList(),
     };
 
+QueueResponse _$QueueResponseFromJson(Map<String, dynamic> json) =>
+    QueueResponse(
+      subjects:
+          (json['subjects'] as List<dynamic>?)
+              ?.map((e) => SubjectOut.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+    );
+
+Map<String, dynamic> _$QueueResponseToJson(QueueResponse instance) =>
+    <String, dynamic>{
+      'subjects': instance.subjects.map((e) => e.toJson()).toList(),
+    };
+
+RatingTagAdminOut _$RatingTagAdminOutFromJson(Map<String, dynamic> json) =>
+    RatingTagAdminOut(
+      id: json['id'] as String,
+      key: json['key'] as String,
+      labelEn: json['label_en'] as String,
+      labelHi: json['label_hi'] as String,
+      labelMr: json['label_mr'] as String,
+      polarity: json['polarity'] as String,
+      questionKey: json['question_key'] as String,
+      sortOrder: (json['sort_order'] as num).toInt(),
+      status: json['status'] as String,
+    );
+
+Map<String, dynamic> _$RatingTagAdminOutToJson(RatingTagAdminOut instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'key': instance.key,
+      'label_en': instance.labelEn,
+      'label_hi': instance.labelHi,
+      'label_mr': instance.labelMr,
+      'polarity': instance.polarity,
+      'question_key': instance.questionKey,
+      'sort_order': instance.sortOrder,
+      'status': instance.status,
+    };
+
+RatingTagIn _$RatingTagInFromJson(Map<String, dynamic> json) => RatingTagIn(
+  labelEn: json['label_en'] as String,
+  labelHi: json['label_hi'] as String,
+  labelMr: json['label_mr'] as String,
+  status: ratingTagInStatusFromJson(json['status']),
+);
+
+Map<String, dynamic> _$RatingTagInToJson(RatingTagIn instance) =>
+    <String, dynamic>{
+      'label_en': instance.labelEn,
+      'label_hi': instance.labelHi,
+      'label_mr': instance.labelMr,
+      'status': ?ratingTagInStatusToJson(instance.status),
+    };
+
 RatingTagOut _$RatingTagOutFromJson(Map<String, dynamic> json) => RatingTagOut(
   id: json['id'] as String,
   key: json['key'] as String,
@@ -1410,6 +1476,20 @@ Map<String, dynamic> _$RatingTagOutToJson(RatingTagOut instance) =>
       'question_key': instance.questionKey,
       'sort_order': instance.sortOrder,
     };
+
+RatingTagsAdminResponse _$RatingTagsAdminResponseFromJson(
+  Map<String, dynamic> json,
+) => RatingTagsAdminResponse(
+  tags:
+      (json['tags'] as List<dynamic>?)
+          ?.map((e) => RatingTagAdminOut.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      [],
+);
+
+Map<String, dynamic> _$RatingTagsAdminResponseToJson(
+  RatingTagsAdminResponse instance,
+) => <String, dynamic>{'tags': instance.tags.map((e) => e.toJson()).toList()};
 
 RatingTagsResponse _$RatingTagsResponseFromJson(Map<String, dynamic> json) =>
     RatingTagsResponse(
@@ -1580,6 +1660,47 @@ Map<String, dynamic> _$StageTemplatesResponseToJson(
   'templates': instance.templates.map((e) => e.toJson()).toList(),
 };
 
+SubjectDetailOut _$SubjectDetailOutFromJson(Map<String, dynamic> json) =>
+    SubjectDetailOut(
+      history:
+          (json['history'] as List<dynamic>?)
+              ?.map((e) => VerificationOut.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+      subject: SubjectOut.fromJson(json['subject'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$SubjectDetailOutToJson(SubjectDetailOut instance) =>
+    <String, dynamic>{
+      'history': instance.history.map((e) => e.toJson()).toList(),
+      'subject': instance.subject.toJson(),
+    };
+
+SubjectOut _$SubjectOutFromJson(Map<String, dynamic> json) => SubjectOut(
+  documentKeys:
+      (json['document_keys'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList() ??
+      [],
+  fields: json['fields'] as Map<String, dynamic>,
+  name: json['name'] as String,
+  status: json['status'] as String,
+  subjectId: json['subject_id'] as String,
+  subjectType: json['subject_type'] as String,
+  waitingSince: DateTime.parse(json['waiting_since'] as String),
+);
+
+Map<String, dynamic> _$SubjectOutToJson(SubjectOut instance) =>
+    <String, dynamic>{
+      'document_keys': instance.documentKeys,
+      'fields': instance.fields,
+      'name': instance.name,
+      'status': instance.status,
+      'subject_id': instance.subjectId,
+      'subject_type': instance.subjectType,
+      'waiting_since': instance.waitingSince.toIso8601String(),
+    };
+
 SubscriptionOut _$SubscriptionOutFromJson(Map<String, dynamic> json) =>
     SubscriptionOut(
       id: json['id'] as String,
@@ -1670,6 +1791,34 @@ Map<String, dynamic> _$ValidationErrorToJson(ValidationError instance) =>
       'loc': instance.loc,
       'msg': instance.msg,
       'type': instance.type,
+    };
+
+VerificationOut _$VerificationOutFromJson(Map<String, dynamic> json) =>
+    VerificationOut(
+      checkedAt: json['checked_at'] == null
+          ? null
+          : DateTime.parse(json['checked_at'] as String),
+      checkedBy: json['checked_by'] as String?,
+      createdAt: DateTime.parse(json['created_at'] as String),
+      documentKeys:
+          (json['document_keys'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          [],
+      id: json['id'] as String,
+      reason: json['reason'] as String?,
+      status: json['status'] as String,
+    );
+
+Map<String, dynamic> _$VerificationOutToJson(VerificationOut instance) =>
+    <String, dynamic>{
+      'checked_at': ?instance.checkedAt?.toIso8601String(),
+      'checked_by': ?instance.checkedBy,
+      'created_at': instance.createdAt.toIso8601String(),
+      'document_keys': instance.documentKeys,
+      'id': instance.id,
+      'reason': ?instance.reason,
+      'status': instance.status,
     };
 
 WeatherAlert _$WeatherAlertFromJson(Map<String, dynamic> json) => WeatherAlert(

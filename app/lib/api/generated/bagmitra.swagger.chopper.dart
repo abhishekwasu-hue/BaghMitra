@@ -765,6 +765,174 @@ is the raw file; only its hash, size and time are kept.''',
   }
 
   @override
+  Future<Response<RatingTagsAdminResponse>> _v1AdminMarketLinkRatingTagsGet({
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Every tag, drafts and retired ones included.',
+      summary: 'Rating Tags',
+      operationId: 'admin_market_link_rating_tags',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/market-link/rating-tags');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<RatingTagsAdminResponse, RatingTagsAdminResponse>(
+      $request,
+    );
+  }
+
+  @override
+  Future<Response<RatingTagAdminOut>> _v1AdminMarketLinkRatingTagsTagIdPut({
+    required String? tagId,
+    required RatingTagIn? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Edit the three labels and set draft / active / retired (spec §3A: admin only).',
+      summary: 'Update Rating Tag',
+      operationId: 'admin_market_link_rating_tag_update',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/market-link/rating-tags/${tagId}');
+    final $body = body;
+    final Request $request = Request(
+      'PUT',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<RatingTagAdminOut, RatingTagAdminOut>($request);
+  }
+
+  @override
+  Future<Response<QueueResponse>> _v1AdminMarketLinkVerificationsGet({
+    String? subjectType,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Subjects waiting for a check (latest record pending, or none yet), oldest first.',
+      summary: 'Queue',
+      operationId: 'admin_market_link_queue',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/market-link/verifications');
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'subject_type': subjectType,
+    };
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+      tag: swaggerMetaData,
+    );
+    return client.send<QueueResponse, QueueResponse>($request);
+  }
+
+  @override
+  Future<Response<SubjectDetailOut>>
+  _v1AdminMarketLinkVerificationsSubjectTypeSubjectIdGet({
+    required String? subjectType,
+    required String? subjectId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'The subject\'s submitted fields, documents and every verification record.',
+      summary: 'Subject History',
+      operationId: 'admin_market_link_subject',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse(
+      '/v1/admin/market-link/verifications/${subjectType}/${subjectId}',
+    );
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<SubjectDetailOut, SubjectDetailOut>($request);
+  }
+
+  @override
+  Future<Response<SubjectDetailOut>>
+  _v1AdminMarketLinkVerificationsSubjectTypeSubjectIdDecisionPost({
+    required String? subjectType,
+    required String? subjectId,
+    required DecisionIn? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Approve, or reject with a reason: always a new record with who and when (Q70).',
+      summary: 'Decide',
+      operationId: 'admin_market_link_decide',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse(
+      '/v1/admin/market-link/verifications/${subjectType}/${subjectId}/decision',
+    );
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<SubjectDetailOut, SubjectDetailOut>($request);
+  }
+
+  @override
+  Future<Response<PhotoDownloadUrl>>
+  _v1AdminMarketLinkVerificationsSubjectTypeSubjectIdDocumentsIndexUrlGet({
+    required String? subjectType,
+    required String? subjectId,
+    required int? index,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'A short-lived signed URL for one stored document; only keys on record are signed.',
+      summary: 'Document Url',
+      operationId: 'admin_market_link_document_url',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse(
+      '/v1/admin/market-link/verifications/${subjectType}/${subjectId}/documents/${index}/url',
+    );
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<PhotoDownloadUrl, PhotoDownloadUrl>($request);
+  }
+
+  @override
   Future<Response<ManualPricesOut>> _v1AdminMarketPricesPost({
     required ManualPricesIn? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(

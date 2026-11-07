@@ -1,0 +1,330 @@
+"""Market linkage admin API (spec v1.5 §3A, §4): the verification queue for traders, brokers
+and service providers, and the rating-tag list only admin edits. Behind the legal gate
+`market_link_enabled` (404 while off, decision j) and role `market_link_admin`.
+
+Every decision is a NEW `party_verifications` row (who and when); an old row is never
+edited, and the latest row decides (decision h, Q70)."""
+
+from __future__ import annotations
+
+import uuid
+from collections.abc import Callable
+from datetime import datetime
+from typing import Annotated, Any, Literal, cast
+
+from fastapi import APIRouter, Depends, Query
+from pydantic import BaseModel, Field, model_validator
+from sqlalchemy import func, select
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from bagmitra_api.auth.jwt import AuthenticatedUser, require_role
+from bagmitra_api.core.errors import ApiError, ErrorResponse
+from bagmitra_api.db.session import DbSession
+from bagmitra_api.market_link.guards import MarketLinkIn
+from bagmitra_api.market_link.models import (
+    BrokerProfile,
+    BuyerProfile,
+    PartyVerification,
+    RatingTag,
+    ServiceProvider,
+)
+from bagmitra_api.routers.market_link import require_market_link
+from bagmitra_api.routers.scouting_photos import (
+    PhotoContext,
+    PhotoDownloadUrl,
+    get_photo_context,
+    signed_download,
+)
+from bagmitra_api.weather.service import get_clock
+
+router = APIRouter(
+    prefix="/v1/admin/market-link",
+    tags=["admin"],
+    dependencies=[Depends(require_market_link)],
+    responses={
+        401: {"model": ErrorResponse},
+        403: {"model": ErrorResponse},
+        404: {"model": ErrorResponse},
+    },
+)
+MarketLinkAdmin = Annotated[AuthenticatedUser, Depends(require_role("market_link_admin"))]
+Clock = Annotated[Callable[[], datetime], Depends(get_clock)]
+SubjectType = Literal["buyer", "broker", "provider"]
+Subject = BuyerProfile | BrokerProfile | ServiceProvider
+MODELS: dict[str, type[Subject]] = {
+    "buyer": BuyerProfile,
+    "broker": BrokerProfile,
+    "provider": ServiceProvider,
+}
+# Fields the admin checks (spec §4), in the order shown; ids and timestamps are left out.
+FIELDS: dict[str, tuple[str, ...]] = {
+    "buyer": (
+        *("name", "firm", "phone", "markets", "district", "taluka", "crops"),
+        *("apmc_licence_no", "gst_no"),
+    ),
+    "broker": ("name", "phone", "village", "district", "taluka", "service_areas", "crops"),
+    "provider": (
+        *("kind", "name", "phone", "village", "district", "taluka", "service_areas"),
+        *("cert_valid_until", "vehicle_numbers", "capacity_t", "refrigerated", "carrier_reg_no"),
+    ),
+}
+
+
+class VerificationOut(BaseModel):
+    id: uuid.UUID
+    status: str
+    reason: str | None
+    document_keys: list[str]
+    checked_by: uuid.UUID | None
+    checked_at: datetime | None
+    created_at: datetime
+
+
+class SubjectOut(BaseModel):
+    subject_type: str
+    subject_id: uuid.UUID
+    name: str
+    # The submitted fields as text (lists joined), only those that are filled in.
+    fields: dict[str, str]
+    document_keys: list[str]
+    # When the subject entered the queue: its pending record, else its registration.
+    waiting_since: datetime
+    status: str
+
+
+class QueueResponse(BaseModel):
+    subjects: list[SubjectOut]
+
+
+class SubjectDetailOut(BaseModel):
+    subject: SubjectOut
+    # Every verification record, newest first.
+    history: list[VerificationOut]
+
+
+class DecisionIn(MarketLinkIn):
+    status: Literal["approved", "rejected"]
+    reason: str | None = Field(default=None, max_length=500)
+
+    @model_validator(mode="after")
+    def _reason_on_reject(self) -> DecisionIn:
+        if self.status == "rejected" and not (self.reason or "").strip():
+            raise ValueError("a rejection needs a reason")
+        return self
+
+
+class RatingTagAdminOut(BaseModel):
+    id: uuid.UUID
+    key: str
+    question_key: str
+    polarity: str
+    label_mr: str
+    label_hi: str
+    label_en: str
+    status: str
+    sort_order: int
+
+
+class RatingTagsAdminResponse(BaseModel):
+    tags: list[RatingTagAdminOut]
+
+
+class RatingTagIn(MarketLinkIn):
+    label_mr: str = Field(min_length=1, max_length=120)
+    label_hi: str = Field(min_length=1, max_length=120)
+    label_en: str = Field(min_length=1, max_length=120)
+    status: Literal["draft", "active", "retired"]
+
+
+def _text(value: Any) -> str | None:
+    if value is None or value in ("", []):
+        return None
+    if isinstance(value, list):
+        return ", ".join(str(v) for v in value)
+    if isinstance(value, bool):
+        return "yes" if value else "no"
+    return str(value)
+
+
+def _documents(subject: Subject, latest: PartyVerification | None) -> list[str]:
+    keys = list(latest.document_keys) if latest is not None else []
+    if isinstance(subject, ServiceProvider) and subject.cert_photo_key:
+        keys.append(subject.cert_photo_key)
+    return keys
+
+
+def _subject_out(kind: str, subject: Subject, latest: PartyVerification | None) -> SubjectOut:
+    fields = {f: t for f in FIELDS[kind] if (t := _text(getattr(subject, f))) is not None}
+    pending = latest is None or latest.status == "pending"
+    return SubjectOut(
+        subject_type=kind,
+        subject_id=subject.id,
+        name=subject.name,
+        fields=fields,
+        document_keys=_documents(subject, latest),
+        waiting_since=latest.created_at if latest is not None and pending else subject.created_at,
+        status=latest.status if latest is not None else "pending",
+    )
+
+
+async def _latest(
+    session: AsyncSession, kind: str, ids: list[uuid.UUID]
+) -> dict[uuid.UUID, PartyVerification]:
+    if not ids:
+        return {}
+    rank = (
+        func.row_number()
+        .over(
+            partition_by=PartyVerification.subject_id,
+            order_by=PartyVerification.created_at.desc(),
+        )
+        .label("rank")
+    )
+    ranked = (
+        select(PartyVerification.id, rank)
+        .where(PartyVerification.subject_type == kind, PartyVerification.subject_id.in_(ids))
+        .subquery()
+    )
+    rows = await session.scalars(
+        select(PartyVerification)
+        .join(ranked, ranked.c.id == PartyVerification.id)
+        .where(ranked.c.rank == 1)
+    )
+    return {row.subject_id: row for row in rows}
+
+
+async def _subject(session: AsyncSession, kind: str, subject_id: uuid.UUID) -> Subject:
+    subject = cast(Subject | None, await session.get(MODELS[kind], subject_id))
+    if subject is None:
+        raise ApiError(404, "subject_not_found")
+    return subject
+
+
+async def _detail(session: AsyncSession, kind: str, subject: Subject) -> SubjectDetailOut:
+    history = list(
+        await session.scalars(
+            select(PartyVerification)
+            .where(
+                PartyVerification.subject_type == kind,
+                PartyVerification.subject_id == subject.id,
+            )
+            .order_by(PartyVerification.created_at.desc())
+        )
+    )
+    return SubjectDetailOut(
+        subject=_subject_out(kind, subject, history[0] if history else None),
+        history=[VerificationOut.model_validate(v, from_attributes=True) for v in history],
+    )
+
+
+@router.get("/verifications", operation_id="admin_market_link_queue")
+async def queue(
+    _admin: MarketLinkAdmin,
+    session: DbSession,
+    subject_type: Annotated[SubjectType | None, Query()] = None,
+) -> QueueResponse:
+    """Subjects waiting for a check (latest record pending, or none yet), oldest first."""
+    waiting: list[SubjectOut] = []
+    kinds: list[str] = [subject_type] if subject_type else list(MODELS)
+    for kind in kinds:
+        subjects = cast(list[Subject], list(await session.scalars(select(MODELS[kind]))))
+        latest = await _latest(session, kind, [s.id for s in subjects])
+        for subject in subjects:
+            row = latest.get(subject.id)
+            if row is None or row.status == "pending":
+                waiting.append(_subject_out(kind, subject, row))
+    waiting.sort(key=lambda s: s.waiting_since)
+    return QueueResponse(subjects=waiting)
+
+
+@router.get("/verifications/{subject_type}/{subject_id}", operation_id="admin_market_link_subject")
+async def subject_history(
+    subject_type: SubjectType, subject_id: uuid.UUID, _admin: MarketLinkAdmin, session: DbSession
+) -> SubjectDetailOut:
+    """The subject's submitted fields, documents and every verification record."""
+    return await _detail(session, subject_type, await _subject(session, subject_type, subject_id))
+
+
+@router.post(
+    "/verifications/{subject_type}/{subject_id}/decision",
+    operation_id="admin_market_link_decide",
+    responses={422: {"model": ErrorResponse}},
+)
+async def decide(  # noqa: PLR0913 - path, body and dependencies
+    subject_type: SubjectType,
+    subject_id: uuid.UUID,
+    body: DecisionIn,
+    admin: MarketLinkAdmin,
+    session: DbSession,
+    clock: Clock,
+) -> SubjectDetailOut:
+    """Approve, or reject with a reason: always a new record with who and when (Q70)."""
+    subject = await _subject(session, subject_type, subject_id)
+    latest = (await _latest(session, subject_type, [subject.id])).get(subject.id)
+    now = clock()
+    session.add(
+        PartyVerification(
+            subject_type=subject_type,
+            subject_id=subject.id,
+            document_keys=list(latest.document_keys) if latest is not None else [],
+            status=body.status,
+            reason=(body.reason or "").strip() or None,
+            checked_by=admin.id,
+            checked_at=now,
+            created_at=now,
+            updated_at=now,
+        )
+    )
+    await session.commit()
+    return await _detail(session, subject_type, subject)
+
+
+@router.get(
+    "/verifications/{subject_type}/{subject_id}/documents/{index}/url",
+    operation_id="admin_market_link_document_url",
+    responses={502: {"model": ErrorResponse}, 503: {"model": ErrorResponse}},
+)
+async def document_url(
+    subject_type: SubjectType,
+    subject_id: uuid.UUID,
+    index: int,
+    _admin: MarketLinkAdmin,
+    session: DbSession,
+    ctx: Annotated[PhotoContext, Depends(get_photo_context)],
+) -> PhotoDownloadUrl:
+    """A short-lived signed URL for one stored document; only keys on record are signed."""
+    subject = await _subject(session, subject_type, subject_id)
+    latest = (await _latest(session, subject_type, [subject.id])).get(subject.id)
+    keys = _documents(subject, latest)
+    if not 0 <= index < len(keys):
+        raise ApiError(404, "photo_not_found")
+    return await signed_download(ctx, keys[index])
+
+
+@router.get("/rating-tags", operation_id="admin_market_link_rating_tags")
+async def rating_tags(_admin: MarketLinkAdmin, session: DbSession) -> RatingTagsAdminResponse:
+    """Every tag, drafts and retired ones included."""
+    rows = await session.scalars(
+        select(RatingTag).order_by(RatingTag.question_key, RatingTag.sort_order, RatingTag.key)
+    )
+    return RatingTagsAdminResponse(
+        tags=[RatingTagAdminOut.model_validate(r, from_attributes=True) for r in rows]
+    )
+
+
+@router.put(
+    "/rating-tags/{tag_id}",
+    operation_id="admin_market_link_rating_tag_update",
+    responses={422: {"model": ErrorResponse}},
+)
+async def update_rating_tag(
+    tag_id: uuid.UUID, body: RatingTagIn, _admin: MarketLinkAdmin, session: DbSession
+) -> RatingTagAdminOut:
+    """Edit the three labels and set draft / active / retired (spec §3A: admin only)."""
+    tag = await session.get(RatingTag, tag_id)
+    if tag is None:
+        raise ApiError(404, "rating_tag_not_found")
+    for field, value in body.model_dump().items():
+        setattr(tag, field, value.strip() if isinstance(value, str) else value)
+    await session.commit()
+    return RatingTagAdminOut.model_validate(tag, from_attributes=True)
