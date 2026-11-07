@@ -92,8 +92,10 @@ async def latest_card(session: AsyncSession, item_id: uuid.UUID) -> FeedSchemeCa
 
 def source_text(item: FeedItem) -> str:
     """What the output check may rely on: the document text plus the metadata the admin
-    copied from the document header (GR number, publication date)."""
-    meta = [item.gr_number or "", item.published_at.date().isoformat()]
+    copied from the document header (GR number, publication date). A first-seen date is ours,
+    not the source's, so a summary cannot lean on it."""
+    seen = item.date_is_first_seen
+    meta = [item.gr_number or "", "" if seen else item.published_at.date().isoformat()]
     return "\n".join([item.extracted_text or "", *meta])
 
 

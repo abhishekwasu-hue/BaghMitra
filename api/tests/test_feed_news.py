@@ -29,6 +29,7 @@ from bagmitra_api.feed.news import (
     safe_parse,
 )
 from bagmitra_api.feed.seed import seed_feed_sources, source_seeds
+from bagmitra_api.feed.service import source_text
 from tests.test_feed_api import ADMIN, ADMIN_BASE, ai_box, api, ocr_box
 
 __all__ = ["ai_box", "api", "ocr_box"]  # fixtures used here
@@ -99,16 +100,21 @@ def test_parse_rss_keeps_headline_link_date_only() -> None:
         ),
         ("कृषी यांत्रिकीकरण अभियानाचा आढावा", "https://pib.gov.in/PressReleasePage.aspx?PRID=1000002"),
         (
+            "Release without a date is kept with its first-seen time",
+            "https://pib.gov.in/PressReleasePage.aspx?PRID=1000003",
+        ),
+        (
             "Same release listed twice",
             "https://pib.gov.in/PressReleasePage.aspx?PRID=1000001",
         ),
     ]
-    first, second, _ = entries
+    first, second, undated, _ = entries
     assert first.published == datetime(2026, 10, 26, 5, 0, tzinfo=UTC)
     assert second.published == datetime(2026, 10, 25, 9, 0, tzinfo=UTC)
+    assert undated.published is None  # never invented while parsing
     assert first.guid == "PRID-1000001"
     assert second.guid is None
-    assert entry_key(first) == entry_key(entries[2])  # same guid: one item
+    assert entry_key(first) == entry_key(entries[3])  # same guid: one item
     assert entry_key(second) != entry_key(first)
     assert len(entry_key(first)) == 64
     assert not any(BODY_MARK in repr(e) for e in entries)
@@ -132,9 +138,13 @@ def test_rss_date_formats() -> None:
         b"<item><title>B</title><link>https://x.example/b</link>"
         b"<pubDate>Thu, 01 Oct 2026 00:00:00</pubDate></item>"
         b"<item><title>C</title><link>https://x.example/c</link><pubDate>soon</pubDate></item>"
+        b"<item><title>D</title><link>https://x.example/d</link><pubDate> </pubDate></item>"
+        b"<item><title>E</title><link>https://x.example/e</link></item>"
         b"</channel></rss>"
     )
-    assert [e.title for e in parse_feed(feed, HOST)] == ["A", "B"]
+    entries = parse_feed(feed, HOST)
+    assert [e.title for e in entries] == ["A", "B", "D", "E"]  # unreadable date: skipped
+    assert [e.published for e in entries[2:]] == [None, None]  # no date: first-seen later
     assert parse_feed(b"<rss/>", HOST) == []  # no channel: nothing
 
 
@@ -229,16 +239,24 @@ async def test_ok_run_stores_headline_link_date_source_only(engine: AsyncEngine)
     async with async_sessionmaker(engine)() as session:
         source = await news_source(session)
         outcome = await fetch_news_source(session, source, adapter(server, sleeps))
-        assert (outcome.status, outcome.added) == ("ok", 2)
+        assert (outcome.status, outcome.added) == ("ok", 3)
         assert server.calls == ["/robots.txt", "/rss"]
         assert sleeps == [5.0]  # the second request waited its turn
         assert source.fetch_status == "ok"
         assert source.last_ok_at is not None
-        items = list(await session.scalars(select(FeedItem).order_by(FeedItem.published_at)))
+        items = list(
+            await session.scalars(
+                select(FeedItem)
+                .where(FeedItem.date_is_first_seen.is_(False))
+                .order_by(FeedItem.published_at)
+            )
+        )
         assert [i.url for i in items] == [
             f"{HOST}/PressReleasePage.aspx?PRID=1000002",
             "https://pib.gov.in/PressReleasePage.aspx?PRID=1000001",
         ]
+        items += list(await session.scalars(select(FeedItem).where(FeedItem.date_is_first_seen)))
+        assert items[-1].url == "https://pib.gov.in/PressReleasePage.aspx?PRID=1000003"
         for item in items:
             assert (item.type, item.trust_level, item.status) == ("news", "news", "in_review")
             assert item.source_id == source.id
@@ -249,6 +267,7 @@ async def test_ok_run_stores_headline_link_date_source_only(engine: AsyncEngine)
             assert len(item.external_id) == 64
         texts = list(await session.scalars(select(FeedItemI18n)))
         assert {(t.lang, t.summary) for t in texts} == {("en", None), ("mr", None)}
+        assert len(texts) == 3
         events = list(await session.scalars(select(FeedReviewEvent)))
         assert {e.kind for e in events} == {"created"}
         assert {e.detail["via"] for e in events} == {"news_feed"}
@@ -266,13 +285,54 @@ async def test_ok_run_stores_headline_link_date_source_only(engine: AsyncEngine)
         assert (again.status, again.added) == ("ok", 0)
 
 
+async def test_undated_rss_item_is_dated_by_first_seen_and_marked(engine: AsyncEngine) -> None:
+    feed = (
+        b"<rss><channel>"
+        b"<item><title>Dated</title><link>https://pib.gov.in/r?PRID=1</link>"
+        b"<pubDate>Mon, 26 Oct 2026 10:30:00 +0530</pubDate></item>"
+        b"<item><title>Undated</title><link>https://pib.gov.in/r?PRID=2</link></item>"
+        b"</channel></rss>"
+    )
+    async with async_sessionmaker(engine)() as session:
+        source = await news_source(session)
+        before = datetime.now(UTC)
+        outcome = await fetch_news_source(session, source, adapter(ok_server(feed)))
+        after = datetime.now(UTC)
+        assert (outcome.status, outcome.added) == ("ok", 2)
+        rows = {i.url: i for i in await session.scalars(select(FeedItem))}
+
+        def utc(when: datetime) -> datetime:  # SQLite drops the zone
+            return when if when.tzinfo else when.replace(tzinfo=UTC)
+
+        dated = rows["https://pib.gov.in/r?PRID=1"]
+        undated = rows["https://pib.gov.in/r?PRID=2"]
+        # A dated item keeps its own date and is not marked.
+        assert utc(dated.published_at) == datetime(2026, 10, 26, 5, 0, tzinfo=UTC)
+        assert dated.date_is_first_seen is False
+        # An undated item takes the time we first stored it, marked as such.
+        assert undated.date_is_first_seen is True
+        first_seen = utc(undated.published_at)
+        assert before <= first_seen <= after
+        # The output check never treats our first-seen date as a fact of the source.
+        assert first_seen.date().isoformat() not in source_text(undated)
+        assert "2026-10-26" in source_text(dated)
+        # Same review gate as every news item: nothing is published by the fetcher.
+        assert {i.status for i in rows.values()} == {"in_review"}
+
+        # A later run neither adds it again nor moves its first-seen date.
+        again = await fetch_news_source(session, source, adapter(ok_server(feed)))
+        assert again.added == 0
+        await session.refresh(undated)
+        assert utc(undated.published_at) == first_seen
+
+
 async def test_same_link_from_another_news_source_is_not_added_twice(
     engine: AsyncEngine,
 ) -> None:
     async with async_sessionmaker(engine)() as session:
         first = await news_source(session, key="first")
         second = await news_source(session, key="second")
-        assert (await fetch_news_source(session, first, adapter(ok_server()))).added == 2
+        assert (await fetch_news_source(session, first, adapter(ok_server()))).added == 3
         assert (await fetch_news_source(session, second, adapter(ok_server()))).added == 0
 
 
@@ -381,6 +441,9 @@ async def test_admin_writes_own_summary_then_publishes_as_news(
         item_id = str(item.id)
     queue = (await api.get(f"{ADMIN_BASE}/items", headers=ADMIN)).json()
     assert item_id in {i["id"] for i in queue["items"]}
+    marks = {i["title"]: i["date_is_first_seen"] for i in queue["items"]}
+    assert marks["Release without a date is kept with its first-seen time"] is True
+    assert marks["Centre releases PM-KISAN instalment to farmers"] is False
     for lang, title, summary in (
         ("en", "PM-KISAN instalment released", "The Centre released an instalment. Read more."),
         ("mr", "पीएम किसान हप्ता जारी", "केंद्राने हप्ता जारी केला. अधिक वाचा."),
@@ -401,3 +464,4 @@ async def test_admin_writes_own_summary_then_publishes_as_news(
     [shown] = feed["items"]
     assert (shown["trust"], shown["title"]) == ("news", "पीएम किसान हप्ता जारी")
     assert shown["url"] == "https://pib.gov.in/PressReleasePage.aspx?PRID=1000001"
+    assert shown["date_is_first_seen"] is False

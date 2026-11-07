@@ -2591,6 +2591,11 @@
             "title": "Check Issues",
             "type": "array"
           },
+          "date_is_first_seen": {
+            "default": false,
+            "title": "Date Is First Seen",
+            "type": "boolean"
+          },
           "deadline": {
             "anyOf": [
               {
@@ -2830,6 +2835,11 @@
             },
             "title": "Check Issues",
             "type": "array"
+          },
+          "date_is_first_seen": {
+            "default": false,
+            "title": "Date Is First Seen",
+            "type": "boolean"
           },
           "department": {
             "anyOf": [
@@ -3353,6 +3363,11 @@
       },
       "FeedItemOut": {
         "properties": {
+          "date_is_first_seen": {
+            "default": false,
+            "title": "Date Is First Seen",
+            "type": "boolean"
+          },
           "deadline": {
             "anyOf": [
               {

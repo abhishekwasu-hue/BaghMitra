@@ -183,6 +183,8 @@ class FeedAdminItemSummaryOut(BaseModel):
     gr_number: str | None
     department: str | None
     published_at: datetime
+    # True: the source gave no date; published_at is when the fetcher first stored the item.
+    date_is_first_seen: bool = False
     check_issues: list[FeedAdminCheckIssue]
     approved: bool
 
@@ -247,6 +249,7 @@ async def _summary(session: AsyncSession, item: FeedItem) -> FeedAdminItemSummar
         gr_number=item.gr_number,
         department=item.department,
         published_at=item.published_at,
+        date_is_first_seen=item.date_is_first_seen,
         check_issues=[FeedAdminCheckIssue(**c) for c in item.check_issues],
         approved=item.approved_at is not None,
     )

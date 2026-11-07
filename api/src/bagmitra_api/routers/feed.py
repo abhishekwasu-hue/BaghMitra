@@ -47,6 +47,8 @@ class FeedItemOut(BaseModel):
     department: str | None
     gr_number: str | None
     published_at: datetime
+    # True: the source gave no date; published_at is when BagMitra first saw the item.
+    date_is_first_seen: bool = False
     url: str
     deadline: date | None
     valid_to: date | None
@@ -156,6 +158,7 @@ async def feed(  # noqa: PLR0913 - query parameters and dependencies
                 department=item.department,
                 gr_number=item.gr_number,
                 published_at=item.published_at,
+                date_is_first_seen=item.date_is_first_seen,
                 url=item.url,
                 deadline=item.deadline,
                 valid_to=item.valid_to,

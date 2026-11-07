@@ -995,6 +995,7 @@ FeedAdminItemOut _$FeedAdminItemOutFromJson(
           ?.map((e) => FeedAdminCheckIssue.fromJson(e as Map<String, dynamic>))
           .toList() ??
       [],
+  dateIsFirstSeen: json['date_is_first_seen'] as bool? ?? false,
   deadline: json['deadline'] == null
       ? null
       : DateTime.parse(json['deadline'] as String),
@@ -1042,6 +1043,7 @@ Map<String, dynamic> _$FeedAdminItemOutToJson(FeedAdminItemOut instance) =>
       'approved': instance.approved,
       'card': ?instance.card?.toJson(),
       'check_issues': instance.checkIssues.map((e) => e.toJson()).toList(),
+      'date_is_first_seen': ?instance.dateIsFirstSeen,
       'deadline': ?_dateToJson(instance.deadline),
       'department': ?instance.department,
       'events': instance.events.map((e) => e.toJson()).toList(),
@@ -1077,6 +1079,7 @@ FeedAdminItemSummaryOut _$FeedAdminItemSummaryOutFromJson(
           ?.map((e) => FeedAdminCheckIssue.fromJson(e as Map<String, dynamic>))
           .toList() ??
       [],
+  dateIsFirstSeen: json['date_is_first_seen'] as bool? ?? false,
   department: json['department'] as String?,
   grNumber: json['gr_number'] as String?,
   id: json['id'] as String,
@@ -1092,6 +1095,7 @@ Map<String, dynamic> _$FeedAdminItemSummaryOutToJson(
 ) => <String, dynamic>{
   'approved': instance.approved,
   'check_issues': instance.checkIssues.map((e) => e.toJson()).toList(),
+  'date_is_first_seen': ?instance.dateIsFirstSeen,
   'department': ?instance.department,
   'gr_number': ?instance.grNumber,
   'id': instance.id,
@@ -1304,6 +1308,7 @@ Map<String, dynamic> _$FeedCheckResponseToJson(FeedCheckResponse instance) =>
     };
 
 FeedItemOut _$FeedItemOutFromJson(Map<String, dynamic> json) => FeedItemOut(
+  dateIsFirstSeen: json['date_is_first_seen'] as bool? ?? false,
   deadline: json['deadline'] == null
       ? null
       : DateTime.parse(json['deadline'] as String),
@@ -1330,6 +1335,7 @@ FeedItemOut _$FeedItemOutFromJson(Map<String, dynamic> json) => FeedItemOut(
 
 Map<String, dynamic> _$FeedItemOutToJson(FeedItemOut instance) =>
     <String, dynamic>{
+      'date_is_first_seen': ?instance.dateIsFirstSeen,
       'deadline': ?_dateToJson(instance.deadline),
       'department': ?instance.department,
       'gr_number': ?instance.grNumber,
