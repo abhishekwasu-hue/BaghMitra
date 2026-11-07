@@ -1,7 +1,7 @@
-"""Market linkage L7 admin API (spec v1.5 §4): per-check records. The admin opens the
-official public page (link on the subject detail), checks by hand and records the result
-here, with who and when; nothing is fetched or automated. Behind the legal gate
-`market_link_enabled` (404 while off) and role `market_link_admin`.
+"""Market linkage L7 admin API (spec v1.5 §4, §4C): per-check records and the yearly re-check
+list. The admin opens the official public page (link on the subject detail), checks by hand
+and records the result here, with who and when; nothing is fetched or automated. Behind the
+legal gate `market_link_enabled` (404 while off) and role `market_link_admin`.
 
 A check is never edited: each one is a new `verification_checks` row and the latest of each
 kind decides. When a re-check that did not pass leaves an approved profile short of the §4 rule
@@ -11,10 +11,12 @@ queue, so it stops counting as verified until the admin approves again (Q102).""
 from __future__ import annotations
 
 import uuid
-from typing import Literal
+from datetime import datetime
+from typing import Literal, cast
 
 from fastapi import APIRouter, Depends
-from pydantic import Field
+from pydantic import BaseModel, Field
+from sqlalchemy import select
 
 from bagmitra_api.core.errors import ApiError, ErrorResponse
 from bagmitra_api.db.session import DbSession
@@ -29,8 +31,11 @@ from bagmitra_api.market_link.checks import (
 from bagmitra_api.market_link.guards import MarketLinkIn, counts_as_verified
 from bagmitra_api.market_link.models import PartyVerification, VerificationCheck
 from bagmitra_api.routers.admin_market_link import (
+    MODELS,
+    AppSettings,
     Clock,
     MarketLinkAdmin,
+    Subject,
     SubjectDetailOut,
     SubjectType,
     _detail,
@@ -60,6 +65,21 @@ class CheckIn(MarketLinkIn):
     registered_year: int | None = Field(default=None, ge=1900, le=2100)
 
 
+class RecheckItemOut(BaseModel):
+    subject_type: str
+    subject_id: uuid.UUID
+    name: str
+    check_id: uuid.UUID
+    kind: str
+    number: str | None
+    checked_at: datetime
+    listed_at: datetime
+
+
+class RecheckResponse(BaseModel):
+    items: list[RecheckItemOut]
+
+
 @router.post(
     "/verifications/{subject_type}/{subject_id}/checks",
     operation_id="admin_market_link_record_check",
@@ -72,6 +92,7 @@ async def record_check(  # noqa: PLR0913 - path, body and dependencies
     admin: MarketLinkAdmin,
     session: DbSession,
     clock: Clock,
+    settings: AppSettings,
 ) -> SubjectDetailOut:
     """Record one check done by hand on the official page: a new record with who and when."""
     subject = await _subject(session, subject_type, subject_id)
@@ -121,4 +142,39 @@ async def record_check(  # noqa: PLR0913 - path, body and dependencies
             )
         )
     await session.commit()
-    return await _detail(session, subject_type, subject)
+    return await _detail(session, subject_type, subject, settings.market_link_returning_km)
+
+
+@router.get("/rechecks", operation_id="admin_market_link_rechecks")
+async def rechecks(_admin: MarketLinkAdmin, session: DbSession) -> RecheckResponse:
+    """Checks the yearly job listed as due and not re-checked since, oldest first."""
+    listed = list(
+        await session.scalars(
+            select(VerificationCheck).where(VerificationCheck.recheck_listed_at.is_not(None))
+        )
+    )
+    items: list[RecheckItemOut] = []
+    for kind in MODELS:
+        ids = list({c.subject_id for c in listed if c.subject_type == kind})
+        if not ids:
+            continue
+        latest = await latest_checks(session, kind, ids)
+        for sid in ids:
+            subject = cast(Subject | None, await session.get(MODELS[kind], sid))
+            for row in latest.get(sid, {}).values():
+                if row.recheck_listed_at is None or subject is None:
+                    continue
+                items.append(
+                    RecheckItemOut(
+                        subject_type=kind,
+                        subject_id=sid,
+                        name=subject.name,
+                        check_id=row.id,
+                        kind=row.kind,
+                        number=row.number,
+                        checked_at=row.checked_at,
+                        listed_at=row.recheck_listed_at,
+                    )
+                )
+    items.sort(key=lambda i: (i.checked_at.replace(tzinfo=None), i.name))
+    return RecheckResponse(items=items)

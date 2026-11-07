@@ -14,7 +14,8 @@ profile's current number; a re-check that finds GST cancelled or IEC deactivated
 from __future__ import annotations
 
 import uuid
-from datetime import date, datetime
+from collections.abc import Iterable
+from datetime import UTC, date, datetime, timedelta
 
 from pydantic import BaseModel
 from sqlalchemy import select
@@ -159,3 +160,18 @@ def check_badges(
         for kind, badge in CHECK_BADGES.items()
         if kind in passed
     ]
+
+
+def due_for_recheck(
+    latest: Iterable[VerificationCheck], now: datetime, days: int
+) -> list[VerificationCheck]:
+    """Of the latest checks given, the passes older than `days` (yearly re-check, spec §4)."""
+    cutoff = now - timedelta(days=days)
+    return [
+        row for row in latest if row.result == "passed" and _aware(row.checked_at) < _aware(cutoff)
+    ]
+
+
+def _aware(moment: datetime) -> datetime:
+    """SQLite hands back naive UTC datetimes."""
+    return moment if moment.tzinfo is not None else moment.replace(tzinfo=UTC)

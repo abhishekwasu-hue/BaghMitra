@@ -7071,6 +7071,81 @@
         "title": "ReadyResponse",
         "type": "object"
       },
+      "RecheckItemOut": {
+        "properties": {
+          "check_id": {
+            "format": "uuid",
+            "title": "Check Id",
+            "type": "string"
+          },
+          "checked_at": {
+            "format": "date-time",
+            "title": "Checked At",
+            "type": "string"
+          },
+          "kind": {
+            "title": "Kind",
+            "type": "string"
+          },
+          "listed_at": {
+            "format": "date-time",
+            "title": "Listed At",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "number": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Number"
+          },
+          "subject_id": {
+            "format": "uuid",
+            "title": "Subject Id",
+            "type": "string"
+          },
+          "subject_type": {
+            "title": "Subject Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "subject_type",
+          "subject_id",
+          "name",
+          "check_id",
+          "kind",
+          "number",
+          "checked_at",
+          "listed_at"
+        ],
+        "title": "RecheckItemOut",
+        "type": "object"
+      },
+      "RecheckResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/RecheckItemOut"
+            },
+            "title": "Items",
+            "type": "array"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "title": "RecheckResponse",
+        "type": "object"
+      },
       "RegistrationFixIn": {
         "additionalProperties": false,
         "properties": {
@@ -7157,6 +7232,41 @@
           "captured_at"
         ],
         "title": "RegistrationFixIn",
+        "type": "object"
+      },
+      "RelatedOut": {
+        "description": "Another profile this one matches, and on what.",
+        "properties": {
+          "flag": {
+            "title": "Flag",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "subject_id": {
+            "format": "uuid",
+            "title": "Subject Id",
+            "type": "string"
+          },
+          "subject_type": {
+            "title": "Subject Type",
+            "type": "string"
+          },
+          "why": {
+            "title": "Why",
+            "type": "string"
+          }
+        },
+        "required": [
+          "flag",
+          "why",
+          "subject_type",
+          "subject_id",
+          "name"
+        ],
+        "title": "RelatedOut",
         "type": "object"
       },
       "ReportAdminOut": {
@@ -7902,6 +8012,14 @@
                 "type": "null"
               }
             ]
+          },
+          "related": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/RelatedOut"
+            },
+            "title": "Related",
+            "type": "array"
           },
           "status": {
             "title": "Status",
@@ -12528,6 +12646,63 @@
           }
         ],
         "summary": "Update Rating Tag",
+        "tags": [
+          "admin"
+        ]
+      }
+    },
+    "/v1/admin/market-link/rechecks": {
+      "get": {
+        "description": "Checks the yearly job listed as due and not re-checked since, oldest first.",
+        "operationId": "admin_market_link_rechecks",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecheckResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Rechecks",
         "tags": [
           "admin"
         ]
@@ -18176,7 +18351,7 @@
         ]
       },
       "post": {
-        "description": "Register this phone for push alerts; repeating it is harmless.",
+        "description": "Register this phone for push alerts; repeating it is harmless. With the market link on,\nthe account is also remembered on this phone (hashed token) so that two accounts on one\nphone cannot rate each other (spec v1.5 §4C, Q100).",
         "operationId": "me_device_register",
         "requestBody": {
           "content": {

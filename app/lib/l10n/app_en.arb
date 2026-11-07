@@ -1300,6 +1300,54 @@
   "adminMlKindTransporter": "Transporter",
   "adminMlKindLabourGang": "Labour gang",
   "adminMlKindCrateSupplier": "Crate supplier",
+  "adminMlChecks": "Checks",
+  "adminMlChecksNote": "Open the official page, paste the number (it is copied), check by hand and record the result. A badge says only what was checked and when.",
+  "adminMlOpenPage": "Open official page",
+  "adminMlCallNow": "Call",
+  "adminMlRecordResult": "Record result",
+  "adminMlNumberCopied": "Number copied: {number}",
+  "@adminMlNumberCopied": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "adminMlResultPassed": "Passed",
+  "adminMlResultFailed": "Failed",
+  "adminMlResultCancelled": "Cancelled / deactivated",
+  "adminMlRegisteredYear": "GST registration year (optional)",
+  "adminMlNoChecks": "Checks you record show here",
+  "adminMlCheckApmc": "APMC licence",
+  "adminMlCheckPhoneCall": "Phone call",
+  "adminMlCheckPlacePhoto": "Place photo",
+  "adminMlRegisteredSince": "registered {year}",
+  "@adminMlRegisteredSince": {
+    "placeholders": {
+      "year": {
+        "type": "String"
+      }
+    }
+  },
+  "adminMlFlags": "Look before approving",
+  "adminMlFlagDuplicate": "Same number on another profile",
+  "adminMlFlagReturning": "Matches a suspended profile",
+  "adminMlFlagMock": "Location looked fake (mock)",
+  "adminMlFlagOtherDistrict": "Registered outside the stated district",
+  "adminMlFlagNoPlace": "Place name blank from the phone",
+  "adminMlWhyName": "same name",
+  "adminMlWhyGps": "registered nearby",
+  "adminMlWhyAccount": "same sign-in",
+  "adminMlRechecks": "Re-checks due",
+  "adminMlRechecksEmpty": "All yearly re-checks are done",
+  "adminMlLastChecked": "last checked {date}",
+  "@adminMlLastChecked": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
   "adminMlDocumentCount": "Documents: {n}",
   "@adminMlDocumentCount": {"placeholders": {"n": {"type": "int"}}},
   "mlRolesTitle": "Choose your role",
@@ -1649,5 +1697,17 @@
   "mlRateRefused": "Rating is saved only within 7 days after both tap “Deal done”.",
   "mlQGrowerProduce": "Produce matched the photos and description",
   "mlQGrowerReady": "Produce ready on the agreed date",
-  "mlCopyToAccounts": "Note in my accounts"
+  "mlCopyToAccounts": "Note in my accounts",
+  "mlBadgeGstChecked": "GST checked on {date}",
+  "@mlBadgeGstChecked": {"placeholders": {"date": {"type": "String"}}},
+  "mlBadgeGstSince": "GST checked on {date} · registered since {year}",
+  "@mlBadgeGstSince": {"placeholders": {"date": {"type": "String"}, "year": {"type": "String"}}},
+  "mlBadgeApmcSeen": "APMC licence seen on {date}",
+  "@mlBadgeApmcSeen": {"placeholders": {"date": {"type": "String"}}},
+  "mlBadgeFssaiChecked": "FSSAI checked on {date}",
+  "@mlBadgeFssaiChecked": {"placeholders": {"date": {"type": "String"}}},
+  "mlBadgeIecActive": "IEC active, checked on {date}",
+  "@mlBadgeIecActive": {"placeholders": {"date": {"type": "String"}}},
+  "mlBadgeApedaListed": "APEDA listed, checked on {date}",
+  "@mlBadgeApedaListed": {"placeholders": {"date": {"type": "String"}}}
 }
