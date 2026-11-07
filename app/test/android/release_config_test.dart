@@ -83,10 +83,7 @@ void main() {
       hasLength(1),
       reason: 'one base define list feeds every build',
     );
-    expect(
-      defines.single,
-      contains(r'--dart-define=MARKET_LINK=$MARKET_LINK'),
-    );
+    expect(defines.single, contains(r'--dart-define=MARKET_LINK=$MARKET_LINK'));
     final builds = RegExp(r'flutter build apk(?:\\\n|[^\n])*')
         .allMatches(testYml)
         .map((m) => m.group(0)!)
