@@ -4450,6 +4450,48 @@ abstract class AppLocalizations {
   /// **'Processing'**
   String get directoryKindProcessor;
 
+  /// Export information page title (market-link module, information only).
+  ///
+  /// In en, this message translates to:
+  /// **'Export information'**
+  String get exportInfoTitle;
+
+  /// Always-visible note: the page is information; BagMitra takes no part in the export deal.
+  ///
+  /// In en, this message translates to:
+  /// **'For information. The export deal is between you and the exporter.'**
+  String get exportInfoNote;
+
+  /// No description provided for @exportSectionDestinations.
+  ///
+  /// In en, this message translates to:
+  /// **'Where it goes'**
+  String get exportSectionDestinations;
+
+  /// No description provided for @exportSectionSeason.
+  ///
+  /// In en, this message translates to:
+  /// **'Season fit (exporter\'s view)'**
+  String get exportSectionSeason;
+
+  /// No description provided for @exportSectionSpecs.
+  ///
+  /// In en, this message translates to:
+  /// **'What buyers ask (as quoted)'**
+  String get exportSectionSpecs;
+
+  /// No description provided for @exportSectionRules.
+  ///
+  /// In en, this message translates to:
+  /// **'Rules a grower meets'**
+  String get exportSectionRules;
+
+  /// No description provided for @exportLinksTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Official pages'**
+  String get exportLinksTitle;
+
   /// No description provided for @fairPriceMandi.
   ///
   /// In en, this message translates to:

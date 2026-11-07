@@ -2535,6 +2535,28 @@ class AppLocalizationsEn extends AppLocalizations {
   String get directoryKindProcessor => 'Processing';
 
   @override
+  String get exportInfoTitle => 'Export information';
+
+  @override
+  String get exportInfoNote =>
+      'For information. The export deal is between you and the exporter.';
+
+  @override
+  String get exportSectionDestinations => 'Where it goes';
+
+  @override
+  String get exportSectionSeason => 'Season fit (exporter\'s view)';
+
+  @override
+  String get exportSectionSpecs => 'What buyers ask (as quoted)';
+
+  @override
+  String get exportSectionRules => 'Rules a grower meets';
+
+  @override
+  String get exportLinksTitle => 'Official pages';
+
+  @override
   String fairPriceMandi(Object date, Object market, Object price) {
     return '$market mandi, $date: modal price $price per quintal';
   }

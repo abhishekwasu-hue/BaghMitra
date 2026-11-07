@@ -16,6 +16,7 @@ import '../features/bahar/presentation/start_bahar_screen.dart';
 import '../features/calendar/presentation/season_calendar_screen.dart';
 import '../features/dev/component_gallery_screen.dart';
 import '../features/directory/presentation/directory_screen.dart';
+import '../features/export_info/presentation/export_info_screen.dart';
 import '../features/feed/presentation/feed_check_screen.dart';
 import '../features/feed/presentation/feed_preferences_screen.dart';
 import '../features/feed/presentation/feed_screen.dart';
@@ -101,6 +102,7 @@ abstract final class Routes {
       plotId == null ? lookalikes : '$lookalikes?plot=$plotId';
   static const labs = '/labs';
   static const marketDirectory = '/market/directory';
+  static const exportInfo = '/market/export';
 
   /// Market link (flag MARKET_LINK only): the terms screen pushed by
   /// `ensureMarketRoleAccepted` (it returns true when accepted).
@@ -187,6 +189,10 @@ GoRouter buildRouter(
       final onLogin = loc.startsWith(Routes.login);
       if (loc == Routes.gallery) return config.devGallery ? null : Routes.home;
       if (loc.startsWith(Routes.feed) && !config.sarkariSandeshEnabled) {
+        return Routes.home;
+      }
+      // Market-link screens exist only in builds with the flag on (spec v1.5 §5).
+      if (loc.startsWith(Routes.exportInfo) && !config.marketLink) {
         return Routes.home;
       }
       // First run on this phone: the short walkthrough comes before anything else. Once seen
@@ -305,6 +311,10 @@ GoRouter buildRouter(
       GoRoute(
         path: Routes.marketDirectory,
         builder: (_, _) => const MarketDirectoryScreen(),
+      ),
+      GoRoute(
+        path: Routes.exportInfo,
+        builder: (_, _) => const ExportInfoScreen(),
       ),
       GoRoute(path: Routes.addPlot, builder: (_, _) => const AddPlotScreen()),
       GoRoute(
