@@ -415,6 +415,65 @@
         "title": "AlertsResponse",
         "type": "object"
       },
+      "AnswerIn": {
+        "additionalProperties": false,
+        "description": "One question: 1-5 stars and optional tag ids (no text, Q66).",
+        "properties": {
+          "question_key": {
+            "maxLength": 40,
+            "title": "Question Key",
+            "type": "string"
+          },
+          "stars": {
+            "maximum": 5.0,
+            "minimum": 1.0,
+            "title": "Stars",
+            "type": "integer"
+          },
+          "tag_ids": {
+            "items": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "maxItems": 10,
+            "title": "Tag Ids",
+            "type": "array"
+          }
+        },
+        "required": [
+          "question_key",
+          "stars"
+        ],
+        "title": "AnswerIn",
+        "type": "object"
+      },
+      "AnswerOut": {
+        "properties": {
+          "question_key": {
+            "title": "Question Key",
+            "type": "string"
+          },
+          "stars": {
+            "title": "Stars",
+            "type": "integer"
+          },
+          "tag_ids": {
+            "items": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "title": "Tag Ids",
+            "type": "array"
+          }
+        },
+        "required": [
+          "question_key",
+          "stars",
+          "tag_ids"
+        ],
+        "title": "AnswerOut",
+        "type": "object"
+      },
       "AppVersionResponse": {
         "properties": {
           "download_url": {
@@ -1113,6 +1172,127 @@
           "seq"
         ],
         "title": "Change",
+        "type": "object"
+      },
+      "DealRatingsOut": {
+        "description": "The caller's own ratings on the deal (to show and change them) and the window.",
+        "properties": {
+          "given": {
+            "items": {
+              "$ref": "#/components/schemas/GivenRatingOut"
+            },
+            "title": "Given",
+            "type": "array"
+          },
+          "questions": {
+            "additionalProperties": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "title": "Questions",
+            "type": "object"
+          },
+          "state": {
+            "$ref": "#/components/schemas/DealStateOut"
+          }
+        },
+        "required": [
+          "state",
+          "questions",
+          "given"
+        ],
+        "title": "DealRatingsOut",
+        "type": "object"
+      },
+      "DealStateOut": {
+        "description": "Where the deal stands for the caller: who tapped \"deal done\", and the rating window.",
+        "properties": {
+          "completed_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Completed At"
+          },
+          "grower_done_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Grower Done At"
+          },
+          "my_role": {
+            "enum": [
+              "grower",
+              "trader",
+              "broker"
+            ],
+            "title": "My Role",
+            "type": "string"
+          },
+          "rates": {
+            "items": {
+              "enum": [
+                "grower",
+                "trader",
+                "broker"
+              ],
+              "type": "string"
+            },
+            "title": "Rates",
+            "type": "array"
+          },
+          "rating_locked": {
+            "title": "Rating Locked",
+            "type": "boolean"
+          },
+          "rating_until": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rating Until"
+          },
+          "trader_done_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trader Done At"
+          }
+        },
+        "required": [
+          "my_role",
+          "grower_done_at",
+          "trader_done_at",
+          "completed_at",
+          "rating_until",
+          "rating_locked",
+          "rates"
+        ],
+        "title": "DealStateOut",
         "type": "object"
       },
       "DecisionIn": {
@@ -2888,6 +3068,32 @@
         "title": "FeedResponse",
         "type": "object"
       },
+      "GivenRatingOut": {
+        "properties": {
+          "answers": {
+            "items": {
+              "$ref": "#/components/schemas/AnswerOut"
+            },
+            "title": "Answers",
+            "type": "array"
+          },
+          "ratee_role": {
+            "enum": [
+              "grower",
+              "trader",
+              "broker"
+            ],
+            "title": "Ratee Role",
+            "type": "string"
+          }
+        },
+        "required": [
+          "ratee_role",
+          "answers"
+        ],
+        "title": "GivenRatingOut",
+        "type": "object"
+      },
       "GrantIn": {
         "properties": {
           "period_end": {
@@ -3625,6 +3831,9 @@
           "lot": {
             "$ref": "#/components/schemas/LotBrief"
           },
+          "state": {
+            "$ref": "#/components/schemas/DealStateOut"
+          },
           "trader": {
             "$ref": "#/components/schemas/PartyContactOut"
           }
@@ -3636,7 +3845,8 @@
           "interest",
           "grower",
           "trader",
-          "broker"
+          "broker",
+          "state"
         ],
         "title": "IntroductionOut",
         "type": "object"
@@ -5392,6 +5602,26 @@
           "subjects"
         ],
         "title": "QueueResponse",
+        "type": "object"
+      },
+      "RatingIn": {
+        "additionalProperties": false,
+        "description": "Every question of the rated role, once each.",
+        "properties": {
+          "answers": {
+            "items": {
+              "$ref": "#/components/schemas/AnswerIn"
+            },
+            "maxItems": 10,
+            "minItems": 1,
+            "title": "Answers",
+            "type": "array"
+          }
+        },
+        "required": [
+          "answers"
+        ],
+        "title": "RatingIn",
         "type": "object"
       },
       "RatingTagAdminOut": {
@@ -10471,6 +10701,297 @@
           }
         ],
         "summary": "Introduction",
+        "tags": [
+          "market-link"
+        ]
+      }
+    },
+    "/v1/market-link/deals/{deal_id}/done": {
+      "post": {
+        "description": "The grower or the trader says the deal is done (a repeat tap changes nothing). When\nboth have tapped, the deal is completed and rating opens for 7 days (Q66, Q67).",
+        "operationId": "market_link_deal_done",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "deal_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Deal Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IntroductionOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Deal Done",
+        "tags": [
+          "market-link"
+        ]
+      }
+    },
+    "/v1/market-link/deals/{deal_id}/ratings": {
+      "get": {
+        "description": "The caller's ratings on this deal, the questions to answer and the window.",
+        "operationId": "market_link_deal_ratings",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "deal_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Deal Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DealRatingsOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Deal Ratings",
+        "tags": [
+          "market-link"
+        ]
+      }
+    },
+    "/v1/market-link/deals/{deal_id}/ratings/{ratee_role}": {
+      "put": {
+        "description": "Give or change the caller's rating of one party of a completed deal: every question\nof that role once. Only within 7 days of completion, then 409 `rating_locked`.",
+        "operationId": "market_link_rate",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "deal_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Deal Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "ratee_role",
+            "required": true,
+            "schema": {
+              "enum": [
+                "grower",
+                "trader",
+                "broker"
+              ],
+              "title": "Ratee Role",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RatingIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DealRatingsOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Rate",
         "tags": [
           "market-link"
         ]

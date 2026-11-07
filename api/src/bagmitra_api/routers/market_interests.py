@@ -25,6 +25,7 @@ from bagmitra_api.core.errors import ApiError, ErrorResponse
 from bagmitra_api.core.settings import Settings, get_settings
 from bagmitra_api.db.models import Farmer, Plot
 from bagmitra_api.db.session import DbSession
+from bagmitra_api.market_link.deals import DealStateOut, deal_state, party_roles
 from bagmitra_api.market_link.guards import MarketLinkIn, is_verified
 from bagmitra_api.market_link.models import (
     ORCHARD_OK,
@@ -164,6 +165,8 @@ class IntroductionOut(BaseModel):
     grower: GrowerContactOut
     trader: PartyContactOut
     broker: PartyContactOut | None
+    # L5: the "deal done" taps and the rating window, for the caller's role.
+    state: DealStateOut
 
 
 def _interest(offer: MarketOffer, deal_id: uuid.UUID | None = None) -> dict[str, object]:
@@ -359,12 +362,13 @@ async def lot_interests(
     operation_id="market_link_accept_interest",
     dependencies=GROWER_WRITE,
 )
-async def accept_interest(
+async def accept_interest(  # noqa: PLR0913 - path and dependencies
     interest_id: uuid.UUID,
     user: CurrentUser,
     session: DbSession,
     tasks: BackgroundTasks,
     push: Push,
+    clock: Clock,
 ) -> IntroductionOut:
     """The lot's grower accepts one open interest: the introduction is recorded, the other
     open interests are closed (their senders get a notice), the lot leaves the traders' list
@@ -406,14 +410,19 @@ async def accept_interest(
     batch += await messages(session, "closed", others, {"lot_id": str(lot.id)})
     await session.commit()
     tasks.add_task(send_all, push, batch)
-    return await _introduction(session, deal)
+    return await introduction_for(session, deal, user.id, clock())
 
 
-async def _introduction(session: DbSession, deal: MarketDeal) -> IntroductionOut:
+async def introduction_for(
+    session: DbSession, deal: MarketDeal, user_id: uuid.UUID, now: datetime
+) -> IntroductionOut:
+    """The introduction as one of its parties sees it (the caller's role and the window)."""
     offer = await session.get(MarketOffer, deal.offer_id)
     lot = await session.get(MarketLot, deal.lot_id)
     if offer is None or lot is None:  # foreign keys: never
         raise ApiError(404, "deal_not_found")
+    parties = await party_roles(session, deal.id)
+    role = next(r for r, u in parties.items() if u == user_id)
     farmer = await session.get(Farmer, lot.owner_id)
     plot = await session.get(Plot, lot.plot_id)
     buyer = await session.scalar(
@@ -451,12 +460,13 @@ async def _introduction(session: DbSession, deal: MarketDeal) -> IntroductionOut
             phone=buyer.phone if buyer else "",
         ),
         broker=PartyContactOut(name=broker.name, firm=None, phone=broker.phone) if broker else None,
+        state=deal_state(deal, role, parties, now),
     )
 
 
 @router.get("/deals/{deal_id}", operation_id="market_link_introduction")
 async def introduction(
-    deal_id: uuid.UUID, user: CurrentUser, session: DbSession
+    deal_id: uuid.UUID, user: CurrentUser, session: DbSession, clock: Clock
 ) -> IntroductionOut:
     """The introduction, for its grower, trader and broker only (404 for anyone else)."""
     deal = await session.get(MarketDeal, deal_id)
@@ -465,4 +475,4 @@ async def introduction(
     )
     if deal is None or party is None:
         raise ApiError(404, "deal_not_found")
-    return await _introduction(session, deal)
+    return await introduction_for(session, deal, user.id, clock())
