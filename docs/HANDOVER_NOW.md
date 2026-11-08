@@ -18,7 +18,12 @@ Reports to Abhi in plain Marathi. Never run anything on the VPS; give him ONE co
 | #257–#259 | In-app feedback "अभिप्राय द्या": API + migration **0039** (`app_feedback`, role `feedback_admin`), app Settings screen (offline queue, optional screenshot, phone model), admin web list |
 | #260 | Test APK checks its GitHub pre-releases and shows the update notice (releases titled `· code <run number>`) |
 | #261 | Sign-in screen shows the picked role and "भूमिका बदला" (no dead end) |
-- Owner VPS block pending: deploy (0039) + grant `billing_admin,feedback_admin` (runbook `admin-web.md` §५).
+| #263 | Test APK update picks the highest version code (GitHub's list is not date-ordered) |
+| #264 | Expense screen links spray / labour / fertiliser records; category मशागत; labour task गवत कापणी |
+| #265 | Update button and shared link on `https://<domain>/app`; VPS cron `deploy/fetch_test_apk.sh` (opt-in `TEST_APK_MIRROR=on`, **on** on the VPS since 2026-11-08) |
+| #266 | Home "बाजार जोडणी" card: buttons माल विक्रीसाठी दाखवा, व्यापारी व मध्यस्थ |
+| #267 | English role name Farmer (not Grower) |
+- Deployed through 0039 (owner, 2026-11-08). Still pending (owner): grant `billing_admin,feedback_admin` — needs the Supabase service role key, which is not on the VPS (runbook `admin-web.md` §५).
 
 ## Billing status (2026-11-08)
 - Done on main: migration 0037 (switch default OFF, start date, per-role amounts), Play price push + confirmed migrate, plans seeded on every API start (kb.seed), test fixes #245 (date) / #252 (flake).
