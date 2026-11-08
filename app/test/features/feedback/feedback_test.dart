@@ -15,11 +15,15 @@ class FakeFeedbackServer implements FeedbackServer {
   final sent = <String>[];
   final screenshots = <String>[];
 
+  /// Texts the server answers with this result instead of storing them.
+  final answers = <String, SendResult>{};
+
   @override
-  Future<bool> send(FeedbackDraft d) async {
-    if (!online) return false;
+  Future<SendResult> send(FeedbackDraft d) async {
+    if (!online) return SendResult.retryLater;
+    if (answers[d.text] case final answer?) return answer;
     sent.add('${d.kind.name}:${d.text}');
-    return true;
+    return SendResult.sent;
   }
 
   @override
@@ -59,6 +63,70 @@ void main() {
       expect(await box.pending(), isEmpty);
     },
   );
+
+  test(
+    'a refused message is removed and the next one still goes (audit M2)',
+    () async {
+      final db = memoryDb();
+      addTearDown(db.close);
+      final server = FakeFeedbackServer()..online = false;
+      var n = 0;
+      final box = FeedbackOutbox(db, server, newId: () => 'id-${n++}');
+      for (final text in ['bad', 'later', 'good']) {
+        await box.add(
+          kind: FeedbackKind.problem,
+          text: text,
+          appVersion: 'v',
+          device: 'd',
+        );
+      }
+      server
+        ..online = true
+        ..answers['bad'] = SendResult.refused;
+      expect(await box.flush(), isTrue);
+      expect(server.sent, ['problem:later', 'problem:good']);
+      expect(await box.pending(), isEmpty);
+    },
+  );
+
+  test('a 5xx keeps the message and the ones after it', () async {
+    final db = memoryDb();
+    addTearDown(db.close);
+    final server = FakeFeedbackServer()
+      ..answers['busy'] = SendResult.retryLater;
+    var n = 0;
+    final box = FeedbackOutbox(db, server, newId: () => 'id-${n++}');
+    for (final text in ['busy', 'next']) {
+      await box.add(
+        kind: FeedbackKind.problem,
+        text: text,
+        appVersion: 'v',
+        device: 'd',
+      );
+    }
+    expect((await box.pending()).map((d) => d.text), ['busy', 'next']);
+    expect(server.sent, isEmpty);
+    server.answers.clear();
+    expect(await box.flush(), isTrue);
+    expect(server.sent, ['problem:busy', 'problem:next']);
+  });
+
+  test('server answers map to sent / retry later / refused', () {
+    for (final (status, result) in [
+      (201, SendResult.sent),
+      (200, SendResult.sent),
+      (400, SendResult.refused),
+      (401, SendResult.refused),
+      (403, SendResult.refused),
+      (422, SendResult.refused),
+      (408, SendResult.retryLater),
+      (429, SendResult.retryLater),
+      (500, SendResult.retryLater),
+      (503, SendResult.retryLater),
+    ]) {
+      expect(sendResultOf(status), result, reason: '$status');
+    }
+  });
 
   test(
     'a screenshot goes after its message; a missing file is skipped',

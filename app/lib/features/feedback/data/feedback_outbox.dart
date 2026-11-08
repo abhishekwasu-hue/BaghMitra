@@ -47,10 +47,29 @@ class FeedbackDraft {
   };
 }
 
+/// The server's answer to one message (audit M2).
+enum SendResult {
+  /// Stored (a retry of the same id is answered the same way).
+  sent,
+
+  /// Offline, timeout, 408, 429 or 5xx: keep it and try again later.
+  retryLater,
+
+  /// Any other 4xx: this message will never be accepted; drop it, send the next.
+  refused,
+}
+
+SendResult sendResultOf(int status) {
+  if (status >= 200 && status < 300) return SendResult.sent;
+  if (status >= 400 && status < 500 && status != 408 && status != 429) {
+    return SendResult.refused;
+  }
+  return SendResult.retryLater;
+}
+
 /// Where a message goes: `POST /v1/feedback` and the optional screenshot.
 abstract interface class FeedbackServer {
-  /// True when the server stored it (a retry of the same id is answered the same way).
-  Future<bool> send(FeedbackDraft draft);
+  Future<SendResult> send(FeedbackDraft draft);
   Future<bool> sendScreenshot(String id, List<int> jpeg);
 }
 
@@ -59,7 +78,7 @@ class ApiFeedbackServer implements FeedbackServer {
   final Bagmitra _api;
 
   @override
-  Future<bool> send(FeedbackDraft d) async {
+  Future<SendResult> send(FeedbackDraft d) async {
     try {
       final res = await _api.v1FeedbackPost(
         body: FeedbackIn(
@@ -70,9 +89,9 @@ class ApiFeedbackServer implements FeedbackServer {
           device: d.device,
         ),
       );
-      return res.isSuccessful;
+      return sendResultOf(res.statusCode);
     } on Object {
-      return false;
+      return SendResult.retryLater;
     }
   }
 
@@ -146,13 +165,16 @@ class FeedbackOutbox {
     return flush();
   }
 
-  /// Sends what waits, oldest first; stops at the first failure (offline) and keeps the rest.
+  /// Sends what waits, oldest first. Stops at the first retry-later answer (offline, 5xx) and
+  /// keeps the rest; a refused message is removed and the next one is sent (audit M2).
   Future<bool> flush() async {
     final list = await pending();
     while (list.isNotEmpty) {
       final d = list.first;
-      if (!await _server.send(d)) break;
-      if (d.screenshotPath case final path?) {
+      final result = await _server.send(d);
+      if (result == SendResult.retryLater) break;
+      if (result == SendResult.sent && d.screenshotPath != null) {
+        final path = d.screenshotPath!;
         final file = File(path);
         if (file.existsSync()) {
           await _server.sendScreenshot(d.id, await file.readAsBytes());
