@@ -7,7 +7,8 @@ Reports to Abhi in plain Marathi. Never run anything on the VPS; give him ONE co
 | Step | PRs / branches | State |
 |---|---|---|
 | 1. Visibility enforcement | #230, #232, #233, #234 ✅ merged | Done. |
-| 2. Test APK `MARKET_LINK` | #231 ✅ merged | Done. Q117 open (default OFF everywhere). |
+| 2. Test APK `MARKET_LINK` | #231, #239 ✅ merged | Done. Owner turned the market link ON (Q117, verbatim "Market link स्विच ऑन करा"): VPS `.env` `MARKET_LINK_ENABLED=true` deployed; repo variable `MARKET_LINK=true`; Test APK and admin web build with it. Spec v1.5 §5 legal-gate records not yet in admin (owner knows). |
+| Extra | #240 ✅ merged | Market prices "मोठ्या बाजारपेठा": Bhopal and every mandi in `MARKET_MAJOR_STATES` (Kerala, Karnataka). |
 | 3. Subscription billing | `billing-1` ef3416a (from main) → `billing-2` 3a8b2ed → `billing-3` f4cd0ec — API only, NOT reviewed, no PRs | See "Billing status" below. |
 
 ## Billing status (sub-agent report; stopped on the owner's order)
@@ -15,7 +16,7 @@ Reports to Abhi in plain Marathi. Never run anything on the VPS; give him ONE co
 - billing-2 (~360): `PUT /v1/admin/billing/roles/{role}/amount` → Play `monetization.subscriptions.patch` (India monthly), stores Play's price; 503 not set up / 502 refused ⇒ nothing saved; `POST …/migrate-prices` needs `confirm: true`. Env names only: `PLAY_SERVICE_ACCOUNT_B64`, `PLAY_PACKAGE_NAME` (`deploy/.env.example`).
 - billing-3 (345): migration 0038 (`subscriptions.price_change`); `POST /v1/billing/google/verify` (Play is the truth, 8 states mapped, token stored hashed, 409 / 403 on misuse, acknowledge, rate limit); `/plan` returns the account id + pending price change.
 - Tests: 110 passed on billing-3 (fake publisher, mocked HTTP; Google never called). Three M6a tests in `test_billing_api.py` changed to "full app while the switch is OFF" (addendum §7).
-- Check before merging: migration numbers 0037 / 0038 against main; **Q117 is used twice** (owner decided the plan question 2026-11-07: nothing locked — now Q118 on main; renumber the billing branches' Q117 → Q118 decided, Q118 → Q119) (Test APK question in #231 and the billing "which information each role sees only with a plan" question) — renumber the billing ones (and Q118 "how a user's role is known": default from market-link registrations, grower if a plot or no other role).
+- Check before merging: migration numbers 0037 / 0038 against main's head (0036); the branches' duplicate "Q117" is the plan question already decided on main as **Q118 (nothing locked)**; their "how a user's role is known" question becomes **Q119** (default: from market-link registrations, grower if a plot or no other role).
 - Production risk: deploy never runs `python -m bagmitra_api.billing.seed`; an empty plans table breaks `GET /v1/billing/entitlements`. Add the seed to the deploy step / runbook.
 - Not built yet: admin web page (switch, amounts, price-change rules, confirmed migrate) + goldens; app `in_app_purchase` adapter + fake, purchase / restore / startup reconcile, Billing Library ≥ 8 CI check; paywall with Play's localized price, price-increase notice, Manage subscription link (Marathi screenshots light + dark); RTDN endpoint (OIDC), reconciliation job, voided-purchases poll; `docs/runbooks/billing-play.md` (CA GST opinion before the first switch ON) and an ADR; re-check Google policy / API shapes (developers.google.com was blocked in this session).
 
@@ -24,8 +25,8 @@ Decisions made in step 1 (state them in the report): a suspended user keeps bloc
 ## After the steps
 - Update the PROGRESS resume block when each step is done.
 - Test APK: builds automatically after the "BagMitra App" workflow on `main` (`release-test-apk.yml`); give Abhi the release link.
-- ONE VPS block: `cd /opt/bagmitra && bash deploy/deploy.sh && bash deploy/deploy.sh status` (deploy.sh pulls main, runs migrations — now through 0036 — and installs the cron lines incl. `CRON_MARKET_LINK_ERASE` and `CRON_ML_RECHECK`). Production `MARKET_LINK_ENABLED` stays OFF. Revert: `bash deploy/deploy.sh --revert`.
-- Owner decisions open: Q99–Q117 in `docs/OPEN_QUESTIONS.md` (Q115 pair-only rating flag, Q116 data kept after deletion, Q117 where to test the market link); plus the billing question "which information each role sees only with a plan" (default: nothing locked).
+- ONE VPS block: `cd /opt/bagmitra && bash deploy/deploy.sh && bash deploy/deploy.sh status` (deploy.sh pulls main, runs migrations — now through 0036 — and installs the cron lines incl. `CRON_MARKET_LINK_ERASE` and `CRON_ML_RECHECK`). Production `MARKET_LINK_ENABLED` is ON since 2026-11-07 (owner, Q117). Revert: `bash deploy/deploy.sh --revert`.
+- Owner decisions 2026-11-07: Q116 = keep `device_sightings` and `package_grants` after deletion (privacy text must say so before go-live, lawyer review Q52); Q117 = market link ON; Q118 = nothing locked by a plan (gate map empty). Still open: Q99–Q115 (defaults built).
 
 ## Owner task, verbatim (2026-11-07)
 
