@@ -150,6 +150,14 @@ class _BillingSettingsPageState extends State<BillingSettingsPage> {
                       if (d != null) setState(() => _start = d);
                     },
                   ),
+                  if (_start != null)
+                    // Removes the date (saved as null with the switch; audit L2).
+                    IconButton(
+                      key: const Key('billing-start-clear'),
+                      tooltip: s['clear_start'],
+                      icon: const Icon(Icons.close_rounded),
+                      onPressed: () => setState(() => _start = null),
+                    ),
                   const Spacer(),
                   SizedBox(
                     width: 200,
