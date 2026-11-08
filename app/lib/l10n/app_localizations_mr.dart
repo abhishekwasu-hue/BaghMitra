@@ -3048,7 +3048,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get adminMlBuyer => 'व्यापारी';
 
   @override
-  String get adminMlBroker => 'दलाल';
+  String get adminMlBroker => 'मध्यस्थ (दलाल)';
 
   @override
   String get adminMlProvider => 'सेवा देणारे';

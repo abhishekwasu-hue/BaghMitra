@@ -9,6 +9,18 @@ Map<String, dynamic> _arb(String locale) =>
 
 /// Market-link wording rules (spec v1.5 §2.1, §4; GLOSSARY_mr.md).
 void main() {
+  test(
+    'mr: the broker is "मध्यस्थ (दलाल)", never "दलाल" alone (audit L10)',
+    () {
+      // "मध्यस्थ (दलाल)" or an inflected "मध्यस्थांना (दलाल)": दलाल only in brackets.
+      final alone = RegExp(r'(?<!\()दलाल');
+      expect([
+        for (final e in _arb('mr').entries)
+          if (e.value is String && alone.hasMatch(e.value as String)) e.key,
+      ], isEmpty);
+    },
+  );
+
   for (final locale in ['en', 'mr', 'hi']) {
     test('$locale: badges and market-link text never promise a guarantee', () {
       final arb = _arb(locale);
