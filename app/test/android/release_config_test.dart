@@ -94,10 +94,13 @@ void main() {
     }
 
     final releaseYml = File('$dir/release-apk.yml').readAsStringSync();
+    // Owner 2026-11-08 ("1 b"): the Release APK carries the market link too, from the same
+    // repository variable as the Test APK (default 'false'); spec v1.5 §5 records still pending.
     expect(
       releaseYml,
-      isNot(contains('MARKET_LINK')),
-      reason: 'the production release APK never carries the market link',
+      contains(r"MARKET_LINK: ${{ vars.MARKET_LINK || 'false' }}"),
+      reason: "the Release APK takes MARKET_LINK from vars, default 'false'",
     );
+    expect(releaseYml, contains(r'--dart-define=MARKET_LINK="$MARKET_LINK"'));
   });
 }
