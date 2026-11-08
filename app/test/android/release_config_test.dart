@@ -137,7 +137,7 @@ void main() {
     expect(
       releaseYml,
       contains(
-        r"RELEASE_CERT_SHA256: ${{ vars.RELEASE_CERT_SHA256 || "
+        r'RELEASE_CERT_SHA256: ${{ vars.RELEASE_CERT_SHA256 || '
         "'C4:90:F1:8E:7B:80:C1:B3:1D:50:9B:C9:26:1C:5E:DF:1B:E4:31:74:30:3E:47:B0:B0:56:0A:BE:15:6A:A8:BA' }}",
       ),
     );
