@@ -123,6 +123,8 @@ def compute_entitlements(
             keys.append(subscription.plan_key)
     per_feature: dict[str, list[int | None]] = {}
     for key in keys:
+        if key not in plans:  # an unseeded or inactive baseline plan: nothing to add
+            continue
         for feature, limit in plans[key].features.items():
             per_feature.setdefault(feature, []).append(limit)
     return Entitlements(
