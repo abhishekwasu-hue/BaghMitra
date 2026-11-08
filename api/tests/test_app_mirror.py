@@ -3,7 +3,12 @@ cron puts it at https://<domain>/app. Parsing only; GitHub is never called in te
 
 from __future__ import annotations
 
-from bagmitra_api.app_mirror.latest import newest_release_apk, newest_test_apk, releases_url
+from bagmitra_api.app_mirror.latest import (
+    asset_sha256,
+    newest_release_apk,
+    newest_test_apk,
+    releases_url,
+)
 
 REPO = "owner/BaghMitra"
 
@@ -62,3 +67,19 @@ def test_the_releases_list_asks_for_100() -> None:
     """Audit L7: GitHub lists releases newest-created first, 30 by default; many test builds
     can push the last Release APK off a short page."""
     assert releases_url("o/r") == "https://api.github.com/repos/o/r/releases?per_page=100"
+
+
+def test_the_asset_digest_is_found_by_its_url() -> None:
+    """Audit L5: the mirror compares the downloaded file with GitHub's asset digest."""
+    url = f"https://github.com/{REPO}/releases/download/t/a-universal.apk"
+    sha = "ab" * 32
+    releases: list[dict[str, object]] = [
+        {"assets": [{"browser_download_url": "other", "digest": "sha256:" + "cd" * 32}]},
+        {"assets": [{"browser_download_url": url, "digest": f"sha256:{sha}"}]},
+    ]
+    assert asset_sha256(releases, url) == sha
+    assert asset_sha256(releases, "missing") is None
+    no_digest: list[dict[str, object]] = [{"assets": [{"browser_download_url": url}]}]
+    assert asset_sha256(no_digest, url) is None
+    bad: list[dict[str, object]] = [{"assets": [{"browser_download_url": url, "digest": "md5:x"}]}]
+    assert asset_sha256(bad, url) is None

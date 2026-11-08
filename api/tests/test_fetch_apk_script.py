@@ -4,6 +4,7 @@ Runs the real script against a fake `docker` (the newest release per channel) an
 
 from __future__ import annotations
 
+import hashlib
 import os
 import shutil
 import subprocess
@@ -18,9 +19,12 @@ pytestmark = pytest.mark.skipif(BASH is None, reason="needs bash")
 
 FAKE_DOCKER = """#!/usr/bin/env bash
 channel="${@: -1}"
-if [[ "$channel" == test ]]; then echo "$FAKE_TEST_CODE https://github.com/o/r/test.apk"; fi
+if [[ "$channel" == test ]]; then
+  echo "$FAKE_TEST_CODE https://github.com/o/r/test.apk $FAKE_TEST_SHA"
+fi
 if [[ "$channel" == release ]]; then
-  echo "$FAKE_RELEASE_CODE https://github.com/o/r/release.apk 1.0.$FAKE_RELEASE_CODE"
+  url=https://github.com/o/r/release.apk
+  echo "$FAKE_RELEASE_CODE $url $FAKE_RELEASE_SHA 1.0.$FAKE_RELEASE_CODE"
 fi
 """
 
@@ -31,7 +35,25 @@ truncate -s 10000100 "$3"
 """
 
 
-def run(tmp_path: Path, env_text: str, test_code: int = 160, release_code: int = 2) -> str:
+def sha_of(url: str) -> str:
+    """SHA-256 of what FAKE_CURL writes for this URL."""
+    data = url.encode()
+    return hashlib.sha256(data + b"\0" * (10000100 - len(data))).hexdigest()
+
+
+TEST_SHA = sha_of("https://github.com/o/r/test.apk")
+RELEASE_SHA = sha_of("https://github.com/o/r/release.apk")
+
+
+def run(
+    tmp_path: Path,
+    env_text: str,
+    test_code: int = 160,
+    release_code: int = 2,
+    test_sha: str = TEST_SHA,
+    release_sha: str = RELEASE_SHA,
+    check: bool = True,
+) -> str:
     deploy = tmp_path / "deploy"
     deploy.mkdir(exist_ok=True)
     shutil.copy(SCRIPT, deploy / "fetch_test_apk.sh")
@@ -45,13 +67,15 @@ def run(tmp_path: Path, env_text: str, test_code: int = 160, release_code: int =
         [str(BASH), str(deploy / "fetch_test_apk.sh")],
         capture_output=True,
         text=True,
-        check=True,
+        check=check,
         env={
             **os.environ,
             "PATH": f"{bin_dir}:{os.environ['PATH']}",
             "APK_DIR": str(tmp_path / "apk"),
             "FAKE_TEST_CODE": str(test_code),
             "FAKE_RELEASE_CODE": str(release_code),
+            "FAKE_TEST_SHA": test_sha,
+            "FAKE_RELEASE_SHA": release_sha,
         },
     )
     return result.stdout
@@ -111,3 +135,30 @@ def test_an_old_test_code_without_the_test_file_downloads_again(tmp_path: Path) 
     (apk / "test-code").write_text("160\n")
     run(tmp_path, "TEST_APK_MIRROR=on\n")
     assert served(tmp_path, "bagmitra-test.apk") == "https://github.com/o/r/test.apk"
+
+
+def test_a_file_that_does_not_match_the_github_digest_is_not_served(tmp_path: Path) -> None:
+    """Audit L5: serve nothing when the downloaded file's SHA-256 differs from GitHub's."""
+    apk = tmp_path / "apk"
+    apk.mkdir()
+    (apk / "bagmitra.apk").write_text("release bytes")
+    (apk / "release-code").write_text("1\n")
+    out = run(
+        tmp_path,
+        "TEST_APK_MIRROR=on\nRELEASE_APK_MIRROR=on\n",
+        test_sha="0" * 64,
+        release_sha="f" * 64,
+        check=False,
+    )
+    assert "release checksum mismatch" in out
+    assert "test checksum mismatch" in out
+    assert (apk / "bagmitra.apk").read_text() == "release bytes"
+    assert (apk / "release-code").read_text().strip() == "1"
+    assert not (apk / "bagmitra-test.apk").exists()
+    assert not list(apk.glob("*.new"))
+
+
+def test_a_release_without_a_digest_is_not_served(tmp_path: Path) -> None:
+    out = run(tmp_path, "TEST_APK_MIRROR=on\n", test_sha="", check=False)
+    assert "no test APK found" in out or "no checksum" in out
+    assert not (tmp_path / "apk" / "bagmitra-test.apk").exists()

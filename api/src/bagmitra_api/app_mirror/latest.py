@@ -3,8 +3,9 @@ handed out from our own address, https://<domain>/app, not GitHub).
 
 `deploy/fetch_test_apk.sh` (cron, with TEST_APK_MIRROR=on or RELEASE_APK_MIRROR=on) runs
 `python -m bagmitra_api.app_mirror.latest <owner/repo> [test|release]`, which prints the newest
-APK of that channel (`<code> <url>` for test, `<code> <url> <name>` for release), and downloads
-it to /srv/bagmitra-apk/bagmitra.apk when the code is newer. Public API, no key.
+APK of that channel (`<code> <url> <sha256>` for test, `<code> <url> <sha256> <name>` for
+release; the SHA-256 is GitHub's asset digest, audit L5), and the script downloads it when the
+code is newer and serves it only if the file matches the digest. Public API, no key.
 """
 
 from __future__ import annotations
@@ -51,6 +52,19 @@ def newest_release_apk(releases: list[dict[str, Any]]) -> tuple[int, str, str] |
     return best
 
 
+_SHA256 = re.compile(r"^sha256:([0-9a-f]{64})$")
+
+
+def asset_sha256(releases: list[dict[str, Any]], url: str) -> str | None:
+    """GitHub's SHA-256 digest of the asset at [url] (audit L5); None when it has none."""
+    for r in releases:
+        for a in r.get("assets") or []:
+            if a.get("browser_download_url") == url:
+                match = _SHA256.match(str(a.get("digest") or ""))
+                return match.group(1) if match else None
+    return None
+
+
 def releases_url(repo: str) -> str:
     """GitHub's largest page (audit L7): test builds must not push the last Release APK off it."""
     return f"https://api.github.com/repos/{repo}/releases?per_page=100"
@@ -61,16 +75,17 @@ def main(repo: str, channel: str) -> int:  # pragma: no cover - thin CLI wrapper
         releases_url(repo), headers={"Accept": "application/vnd.github+json"}, timeout=20
     )
     res.raise_for_status()
+    releases = res.json()
     if channel == "release":
-        found = newest_release_apk(res.json())
+        found = newest_release_apk(releases)
         if found is None:
             return 1
-        print(f"{found[0]} {found[2]} {found[1]}")
+        print(f"{found[0]} {found[2]} {asset_sha256(releases, found[2]) or '-'} {found[1]}")
         return 0
-    test = newest_test_apk(res.json())
+    test = newest_test_apk(releases)
     if test is None:
         return 1
-    print(f"{test[0]} {test[1]}")
+    print(f"{test[0]} {test[1]} {asset_sha256(releases, test[1]) or '-'}")
     return 0
 
 
