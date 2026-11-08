@@ -9,23 +9,21 @@ Reports to Abhi in plain Marathi. Never run anything on the VPS; give him ONE co
 | 1. Visibility enforcement | #230, #232, #233, #234 ✅ merged | Done. |
 | 2. Test APK `MARKET_LINK` | #231, #239 ✅ merged | Done. Owner turned the market link ON (Q117, verbatim "Market link स्विच ऑन करा"): VPS `.env` `MARKET_LINK_ENABLED=true` deployed; repo variable `MARKET_LINK=true`; Test APK and admin web build with it. Spec v1.5 §5 legal-gate records not yet in admin (owner knows). |
 | Extra | #240 ✅ merged | Market prices "मोठ्या बाजारपेठा": Bhopal and every mandi in `MARKET_MAJOR_STATES` (Kerala, Karnataka). |
-| 3. Subscription billing | `billing-1` ef3416a (from main) → `billing-2` 3a8b2ed → `billing-3` f4cd0ec — API only, NOT reviewed, no PRs | See "Billing status" below. |
+| 3. Subscription billing | merged: #242 seed on start, #243 billing-1, #244 billing-2; chain (merge in order, each built on the previous): #246 billing-3 verify (migration 0038) → #247 billing-4 RTDN → #248 billing-5 reconcile job → #249 / #250 admin web page → #251 app adapter → #253 subscription page; docs: ADR 0008 + `docs/runbooks/billing-play.md` (this PR) | See "Billing status" below. |
 
-## Billing status (sub-agent report; stopped on the owner's order)
-- billing-1 (400 prod lines): migration 0037; admin ON/OFF switch (default OFF), start date, monthly amount per role; `GET/PUT /v1/admin/billing/settings` (logged in `billing_events`); `GET /v1/billing/plan`. Switch OFF / before start / no amount ⇒ everything open; gate map empty ⇒ nothing locks even when ON.
-- billing-2 (~360): `PUT /v1/admin/billing/roles/{role}/amount` → Play `monetization.subscriptions.patch` (India monthly), stores Play's price; 503 not set up / 502 refused ⇒ nothing saved; `POST …/migrate-prices` needs `confirm: true`. Env names only: `PLAY_SERVICE_ACCOUNT_B64`, `PLAY_PACKAGE_NAME` (`deploy/.env.example`).
-- billing-3 (345): migration 0038 (`subscriptions.price_change`); `POST /v1/billing/google/verify` (Play is the truth, 8 states mapped, token stored hashed, 409 / 403 on misuse, acknowledge, rate limit); `/plan` returns the account id + pending price change.
-- Tests: 110 passed on billing-3 (fake publisher, mocked HTTP; Google never called). Three M6a tests in `test_billing_api.py` changed to "full app while the switch is OFF" (addendum §7).
-- Check before merging: migration numbers 0037 / 0038 against main's head (0036); the branches' duplicate "Q117" is the plan question already decided on main as **Q118 (nothing locked)**; their "how a user's role is known" question becomes **Q119** (default: from market-link registrations, grower if a plot or no other role).
-- Production risk: deploy never runs `python -m bagmitra_api.billing.seed`; an empty plans table breaks `GET /v1/billing/entitlements`. Add the seed to the deploy step / runbook.
-- Not built yet: admin web page (switch, amounts, price-change rules, confirmed migrate) + goldens; app `in_app_purchase` adapter + fake, purchase / restore / startup reconcile, Billing Library ≥ 8 CI check; paywall with Play's localized price, price-increase notice, Manage subscription link (Marathi screenshots light + dark); RTDN endpoint (OIDC), reconciliation job, voided-purchases poll; `docs/runbooks/billing-play.md` (CA GST opinion before the first switch ON) and an ADR; re-check Google policy / API shapes (developers.google.com was blocked in this session).
+## Billing status (2026-11-08)
+- Done on main: migration 0037 (switch default OFF, start date, per-role amounts), Play price push + confirmed migrate, plans seeded on every API start (kb.seed), test fixes #245 (date) / #252 (flake).
+- In the chain (draft PRs, CI per PR): server verify (0038), RTDN with OIDC (`PLAY_RTDN_AUDIENCE`, `PLAY_RTDN_PUSHER`), daily `billing.reconcile_job` (voided purchases + drift; cron once `PLAY_PACKAGE_NAME` is set), admin web "सदस्यता" page (role `billing_admin`), app `in_app_purchase` adapter (Billing Library 9.1.0, CI check ≥ 8), subscription page + price-increase notice + Manage subscription.
+- Google facts re-verified 2026-11-08 (ADR 0008); support.google.com unreachable from the session (owner checks fees / policy in Play Console).
+- Owner questions: Q119 role detection, Q120 tokens hashed only, Q121 paywall wording; Q118 nothing locked. CA GST opinion before the first switch ON.
+- Still open: `docs/runbooks/play-billing-testing.md` (licence testers, accelerated renewals), revenue dashboard, M6c/M6d (parked).
 
 Decisions made in step 1 (state them in the report): a suspended user keeps block / unblock, appeals, accepting terms and closing an own lot; every other write → 403 `suspended` (code renamed from `account_suspended`, unused anywhere).
 
 ## After the steps
 - Update the PROGRESS resume block when each step is done.
 - Test APK: builds automatically after the "BagMitra App" workflow on `main` (`release-test-apk.yml`); give Abhi the release link.
-- ONE VPS block: `cd /opt/bagmitra && bash deploy/deploy.sh && bash deploy/deploy.sh status` (deploy.sh pulls main, runs migrations — now through 0036 — and installs the cron lines incl. `CRON_MARKET_LINK_ERASE` and `CRON_ML_RECHECK`). Production `MARKET_LINK_ENABLED` is ON since 2026-11-07 (owner, Q117). Revert: `bash deploy/deploy.sh --revert`.
+- ONE VPS block: `cd /opt/bagmitra && bash deploy/deploy.sh && bash deploy/deploy.sh status` (deploy.sh pulls main, runs migrations — through 0037 now, 0038 once #246 merges — and installs the cron lines incl. `CRON_MARKET_LINK_ERASE` and `CRON_ML_RECHECK`). Production `MARKET_LINK_ENABLED` is ON since 2026-11-07 (owner, Q117). Revert: `bash deploy/deploy.sh --revert`.
 - Owner decisions 2026-11-07: Q116 = keep `device_sightings` and `package_grants` after deletion (privacy text must say so before go-live, lawyer review Q52); Q117 = market link ON; Q118 = nothing locked by a plan (gate map empty). Still open: Q99–Q115 (defaults built).
 
 ## Owner task, verbatim (2026-11-07)
