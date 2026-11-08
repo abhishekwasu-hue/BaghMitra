@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../admin/admin_sign_in_test.dart' show FakeAdminAuth;
+import '../admin/billing_admin_test.dart' show FakeBillingAdmin;
 import '../admin/feed_admin_test.dart' show FakeFeedAdmin;
 import '../admin/kb_admin_test.dart' show FakeKbAdmin;
 import '../admin/market_link_admin_test.dart' show FakeMarketLinkAdmin;
@@ -167,6 +168,34 @@ void main() {
       );
       await tester.pumpAndSettle();
       await _shot(tester, 'package_activation_$mode');
+    });
+  }
+
+  // Subscription settings (billing addendum §7), Marathi, light and dark.
+  for (final dark in [false, true]) {
+    final mode = dark ? 'dark' : 'light';
+    testWidgets('admin_billing_$mode', (tester) async {
+      tester.platformDispatcher.platformBrightnessTestValue = dark
+          ? Brightness.dark
+          : Brightness.light;
+      tester.platformDispatcher.localesTestValue = const [Locale('mr')];
+      addTearDown(tester.platformDispatcher.clearPlatformBrightnessTestValue);
+      addTearDown(tester.platformDispatcher.clearLocalesTestValue);
+      tester.view.physicalSize = const Size(1280, 1100);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.reset);
+      await tester.pumpWidget(
+        AdminApp(
+          productName: 'BagMitra',
+          auth: FakeAdminAuth(signedIn: true, roles: {'billing_admin'}),
+          kb: FakeKbAdmin(),
+          billing: FakeBillingAdmin(filled: dark),
+        ),
+      );
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('सदस्यता'));
+      await tester.pumpAndSettle();
+      await _shot(tester, 'billing_$mode');
     });
   }
 }

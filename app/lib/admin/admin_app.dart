@@ -4,6 +4,9 @@ import '../l10n/app_localizations.dart';
 import '../theme/app_theme.dart';
 import 'admin_auth.dart';
 import 'admin_sign_in.dart';
+import 'billing_admin_repository.dart';
+import 'billing_pages.dart';
+import 'billing_strings.dart';
 import 'document_picker.dart';
 import 'feed_admin_repository.dart';
 import 'feed_pages.dart';
@@ -31,6 +34,7 @@ class AdminApp extends StatelessWidget {
     this.marketLink,
     this.safety,
     this.package,
+    this.billing,
     this.auth,
   });
 
@@ -55,6 +59,9 @@ class AdminApp extends StatelessWidget {
   /// Season sale package settings and activation (spec v1.5 §4E); with [marketLink] only.
   final PackageAdminRepository? package;
 
+  /// Subscription switch and per-role amounts (billing addendum §7); role `billing_admin`.
+  final BillingAdminRepository? billing;
+
   /// When set, the shell is shown only to a signed-in staff account.
   final AdminAuth? auth;
 
@@ -74,6 +81,7 @@ class AdminApp extends StatelessWidget {
         marketLink: marketLink,
         safety: safety,
         package: package,
+        billing: billing,
       ),
       final a => StreamBuilder<void>(
         stream: a.changes,
@@ -87,6 +95,7 @@ class AdminApp extends StatelessWidget {
                 marketLink: marketLink,
                 safety: safety,
                 package: package,
+                billing: billing,
                 roles: a.roles,
                 onSignOut: a.signOut,
               ),
@@ -105,6 +114,7 @@ class AdminShell extends StatefulWidget {
     this.marketLink,
     this.safety,
     this.package,
+    this.billing,
     this.roles = const {},
     this.onSignOut,
   });
@@ -116,6 +126,7 @@ class AdminShell extends StatefulWidget {
   final MarketLinkAdminRepository? marketLink;
   final MarketLinkSafetyAdmin? safety;
   final PackageAdminRepository? package;
+  final BillingAdminRepository? billing;
 
   /// Supabase app_metadata roles of the signed-in account (gates the feed section).
   final Set<String> roles;
@@ -189,6 +200,13 @@ class _AdminShellState extends State<AdminShell> {
             PackageSection(repo: pkg),
           ),
       ],
+      if (widget.billing case final billing?
+          when widget.roles.contains(billingAdminRole))
+        (
+          BillingStrings.of(context)['section'],
+          Icons.card_membership_rounded,
+          BillingSettingsPage(repo: billing),
+        ),
       (t.adminCropTemplates, Icons.eco_rounded, soon(1)),
       (t.adminRiskRules, Icons.thunderstorm_rounded, soon(4)),
       (t.adminPrompts, Icons.auto_awesome_rounded, soon(3)),
