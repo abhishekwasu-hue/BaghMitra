@@ -68,6 +68,25 @@ void main() {
     expect(updateNeed(411, release), UpdateNeed.none);
   });
 
+  test('the highest code wins whatever order GitHub lists them in', () async {
+    final release = await _source([
+      _release(
+        'test-20261108-old0001',
+        'Test build test-20261108-old0001 · code 148',
+      ),
+      _release(
+        'test-20261109-new0002',
+        'Test build test-20261109-new0002 · code 151',
+      ),
+      _release(
+        'test-20261108-mid0003',
+        'Test build test-20261108-mid0003 · code 149',
+      ),
+    ], []).fetch();
+    expect(release.latestCode, 151);
+    expect(release.latestName, 'test-20261109-new0002');
+  });
+
   test('older releases without a code are no answer (silent)', () async {
     final source = _source([
       _release('test-20261107-cccc333', 'Test build x'),

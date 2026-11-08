@@ -39,6 +39,8 @@ class GitHubTestReleaseSource implements AppVersionSource {
     if (res.statusCode != 200) {
       throw StateError('test release check failed: ${res.statusCode}');
     }
+    // GitHub does not list releases strictly newest first: take the highest version code.
+    AppRelease? best;
     for (final r
         in (jsonDecode(res.body) as List).cast<Map<String, dynamic>>()) {
       final tag = r['tag_name'] as String? ?? '';
@@ -50,13 +52,17 @@ class GitHubTestReleaseSource implements AppVersionSource {
           .where((u) => u.endsWith('-universal.apk'))
           .firstOrNull;
       if (apk == null) continue; // still uploading
-      return AppRelease(
-        latestCode: int.parse(code),
-        latestName: tag,
-        minCode: 0,
-        downloadUrl: apk,
-      );
+      final n = int.parse(code);
+      if (best == null || n > best.latestCode) {
+        best = AppRelease(
+          latestCode: n,
+          latestName: tag,
+          minCode: 0,
+          downloadUrl: apk,
+        );
+      }
     }
+    if (best != null) return best;
     throw StateError('no test release with a version code yet');
   }
 }
