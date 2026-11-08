@@ -64,7 +64,7 @@ async def revoke_voided(
         row = await session.scalar(
             select(Subscription).where(Subscription.purchase_token_hash == token_hash(str(token)))
         )
-        if row is None:
+        if row is None or row.state == "REVOKED":  # already ended (e.g. by RTDN), audit L9
             continue
         key = f"voided:{order or token_hash(str(token))}"
         if await session.scalar(select(BillingEvent.id).where(BillingEvent.notification_id == key)):
