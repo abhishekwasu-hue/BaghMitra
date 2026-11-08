@@ -193,6 +193,19 @@ void main() {
     expect(fake.calls, ['switch true null']);
   });
 
+  testWidgets('the start date can be cleared (audit L2)', (tester) async {
+    final fake = FakeBillingAdmin(filled: true);
+    await _pump(tester, BillingSettingsPage(repo: fake));
+    expect(find.textContaining('2026-12-07'), findsOneWidget);
+    await tester.tap(find.byKey(const Key('billing-start-clear')));
+    await tester.pump();
+    expect(find.textContaining('2026-12-07'), findsNothing);
+    expect(find.byKey(const Key('billing-start-clear')), findsNothing);
+    await tester.tap(find.byKey(const Key('billing-save-switch')));
+    await tester.pumpAndSettle();
+    expect(fake.calls, ['switch true null']);
+  });
+
   testWidgets('moving existing subscribers needs a confirmation', (
     tester,
   ) async {
