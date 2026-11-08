@@ -21,6 +21,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from bagmitra_api.bahar.seed import seed_stage_templates
+from bagmitra_api.billing.seed import seed_plans
 from bagmitra_api.db.session import get_sessionmaker
 from bagmitra_api.kb.importers import ImportDiff, import_label_claims
 from bagmitra_api.kb.models import (
@@ -225,7 +226,7 @@ async def seed_label_claims(
     return diffs
 
 
-async def main() -> None:  # pragma: no cover - thin CLI wrapper
+async def main() -> None:
     async with get_sessionmaker()() as session:
         await seed_sources(session)
         await seed_restrictions(session)
@@ -233,6 +234,10 @@ async def main() -> None:  # pragma: no cover - thin CLI wrapper
         await seed_label_claims(session, datetime.now(UTC))
         await seed_stage_templates(session)
         await seed_rating_tags(session)
+        # Billing plans: without the baseline plan GET /v1/billing/entitlements has nothing to
+        # build from. Runs on every API start (deploy/docker-compose.yml), creating only missing
+        # plans, so admin edits are kept.
+        await seed_plans(session)
         await session.commit()
 
 
