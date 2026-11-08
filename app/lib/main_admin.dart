@@ -6,6 +6,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'admin/admin_app.dart';
 import 'admin/admin_auth.dart';
 import 'admin/admin_web_config.dart';
+import 'admin/billing_admin_repository.dart';
 import 'admin/feed_admin_repository.dart';
 import 'admin/kb_admin_repository.dart';
 import 'admin/market_link_admin_repository.dart';
@@ -52,6 +53,7 @@ Future<void> main() async {
       marketLink: config.marketLink ? ApiMarketLinkAdminRepository(api) : null,
       safety: config.marketLink ? ApiMarketLinkSafetyAdmin(api) : null,
       package: config.marketLink ? ApiPackageAdminRepository(api) : null,
+      billing: ApiBillingAdminRepository(api),
     ),
   );
 }
