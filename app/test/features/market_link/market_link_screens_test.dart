@@ -75,6 +75,9 @@ void main() {
     (tester) async {
       final db = await pumpApp(tester, session: null, config: marketConfig);
       expect(find.byType(RolePickerScreen), findsOneWidget);
+      // A welcome first (owner 2026-11-08), then the roles.
+      expect(find.byKey(const Key('role-welcome')), findsOneWidget);
+      expect(find.text('बागमित्र मध्ये आपले स्वागत'), findsOneWidget);
       for (final label in [
         'शेतकरी',
         'व्यापारी',

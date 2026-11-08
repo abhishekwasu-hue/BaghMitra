@@ -34,7 +34,8 @@ Widget roleIcon(BuildContext context, MarketRole role) {
 
 /// The five role cards (spec v1.5 §2.1, "5 darvaje"). Signed out, the card picks the role
 /// and the same sign-in follows; signed in, it switches the role. The grower card opens the
-/// existing grower app; every other role opens its own home (terms first).
+/// existing grower app; every other role opens its own home (terms first). Signed out, the
+/// page opens with a welcome (owner 2026-11-08: "Welcome to BagMitra", then the roles).
 class RolePickerScreen extends ConsumerWidget {
   const RolePickerScreen({super.key});
 
@@ -57,42 +58,139 @@ class RolePickerScreen extends ConsumerWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(title: AppBarTitle(t.mlRolesTitle)),
+      appBar: signedIn ? AppBar(title: AppBarTitle(t.mlRolesTitle)) : null,
       body: ListView(
-        padding: const EdgeInsets.all(BmSpace.lg),
+        padding: EdgeInsets.zero,
         children: [
-          Text(t.mlRolesIntro, style: BmType.body.copyWith(color: c.inkMuted)),
+          if (!signedIn) const _Welcome(),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(
+              BmSpace.lg,
+              BmSpace.lg,
+              BmSpace.lg,
+              0,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (!signedIn)
+                  Semantics(
+                    header: true,
+                    child: Text(
+                      t.mlRolesTitle,
+                      style: BmType.title.copyWith(color: c.brand),
+                    ),
+                  ),
+                if (!signedIn) const SizedBox(height: BmSpace.xxs),
+                Text(
+                  t.mlRolesIntro,
+                  style: BmType.body.copyWith(color: c.inkMuted),
+                ),
+              ],
+            ),
+          ),
           for (final role in MarketRole.values) ...[
             const SizedBox(height: BmSpace.sm),
-            BmCard(
-              elevated: false,
-              padding: EdgeInsets.zero,
-              child: Material(
-                type: MaterialType.transparency,
-                child: ListTile(
-                  key: Key('role-${role.name}'),
-                  minVerticalPadding: BmSpace.md,
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: BmSpace.lg,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: BmSpace.lg),
+              child: BmCard(
+                elevated: false,
+                padding: EdgeInsets.zero,
+                child: Material(
+                  type: MaterialType.transparency,
+                  child: ListTile(
+                    key: Key('role-${role.name}'),
+                    minVerticalPadding: BmSpace.md,
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: BmSpace.lg,
+                    ),
+                    leading: roleIcon(context, role),
+                    title: Text(roleLabel(t, role), style: BmType.section),
+                    subtitle: role == MarketRole.provider
+                        ? Text(t.mlRoleProviderKinds, style: BmType.meta)
+                        : null,
+                    trailing: role == current && signedIn
+                        ? Icon(
+                            Icons.check_circle,
+                            color: c.brand,
+                            semanticLabel: t.mlRoleCurrent,
+                          )
+                        : const Icon(Icons.chevron_right),
+                    onTap: () => pick(role),
                   ),
-                  leading: roleIcon(context, role),
-                  title: Text(roleLabel(t, role), style: BmType.section),
-                  subtitle: role == MarketRole.provider
-                      ? Text(t.mlRoleProviderKinds, style: BmType.meta)
-                      : null,
-                  trailing: role == current && signedIn
-                      ? Icon(
-                          Icons.check_circle,
-                          color: c.brand,
-                          semanticLabel: t.mlRoleCurrent,
-                        )
-                      : const Icon(Icons.chevron_right),
-                  onTap: () => pick(role),
                 ),
               ),
             ),
           ],
+          const SizedBox(height: BmSpace.xl),
         ],
+      ),
+    );
+  }
+}
+
+/// The welcome band on top of the role cards (signed out): the app's orange in a circle,
+/// "Welcome to BagMitra" and one line on what the app does, on the home header's gradient.
+class _Welcome extends StatelessWidget {
+  const _Welcome();
+
+  @override
+  Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+    final c = context.bm;
+    final topInset = MediaQuery.paddingOf(context).top;
+    return DecoratedBox(
+      key: const Key('role-welcome'),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: c.headerGradient,
+          stops: const [0, 0.7, 1],
+        ),
+        borderRadius: const BorderRadius.vertical(
+          bottom: Radius.circular(BmRadius.header),
+        ),
+      ),
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(
+          BmSpace.xl,
+          topInset + BmSpace.xl,
+          BmSpace.xl,
+          BmSpace.xl,
+        ),
+        child: Column(
+          children: [
+            Container(
+              width: 88,
+              height: 88,
+              padding: const EdgeInsets.all(18),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: c.onBrand.withValues(alpha: 0.16),
+                border: Border.all(
+                  color: c.onBrand.withValues(alpha: 0.4),
+                  width: 2,
+                ),
+              ),
+              child: const GlyphIcon(BmGlyph.orange),
+            ),
+            const SizedBox(height: BmSpace.md),
+            Text(
+              t.mlWelcomeTitle,
+              textAlign: TextAlign.center,
+              style: BmType.title.copyWith(color: c.onBrand),
+            ),
+            const SizedBox(height: BmSpace.xs),
+            Text(
+              t.mlWelcomeLine,
+              textAlign: TextAlign.center,
+              style: BmType.body.copyWith(
+                color: c.onBrand.withValues(alpha: 0.9),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

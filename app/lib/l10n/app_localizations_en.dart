@@ -4501,4 +4501,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get expenseGoInputs => 'Fertiliser and manure';
+
+  @override
+  String get mlWelcomeTitle => 'Welcome to BagMitra';
+
+  @override
+  String get mlWelcomeLine =>
+      'Orchard records, today\'s market prices and buyers, in one app.';
 }

@@ -7863,6 +7863,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Fertiliser and manure'**
   String get expenseGoInputs;
+
+  /// No description provided for @mlWelcomeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to BagMitra'**
+  String get mlWelcomeTitle;
+
+  /// No description provided for @mlWelcomeLine.
+  ///
+  /// In en, this message translates to:
+  /// **'Orchard records, today\'s market prices and buyers, in one app.'**
+  String get mlWelcomeLine;
 }
 
 class _AppLocalizationsDelegate

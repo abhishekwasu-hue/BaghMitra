@@ -1748,5 +1748,7 @@
   "expenseElsewhere": "Spray, labour and fertiliser costs go in their own records and are added to the accounts automatically.",
   "expenseGoSpray": "Spray",
   "expenseGoLabour": "Labour",
-  "expenseGoInputs": "Fertiliser and manure"
+  "expenseGoInputs": "Fertiliser and manure",
+  "mlWelcomeTitle": "Welcome to BagMitra",
+  "mlWelcomeLine": "Orchard records, today's market prices and buyers, in one app."
 }
