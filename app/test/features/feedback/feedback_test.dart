@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:bagmitra/app/router.dart';
 import 'package:bagmitra/features/feedback/data/feedback_outbox.dart';
@@ -6,6 +7,7 @@ import 'package:bagmitra/features/feedback/data/feedback_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
+import 'package:image/image.dart' as img;
 
 import '../../helpers/pump_app.dart';
 import '../../helpers/test_db.dart';
@@ -14,6 +16,7 @@ class FakeFeedbackServer implements FeedbackServer {
   bool online = true;
   final sent = <String>[];
   final screenshots = <String>[];
+  final shotBytes = <List<int>>[];
 
   /// Texts the server answers with this result instead of storing them.
   final answers = <String, SendResult>{};
@@ -32,7 +35,10 @@ class FakeFeedbackServer implements FeedbackServer {
   @override
   Future<SendResult> sendScreenshot(String id, List<int> jpeg) async {
     if (!online) return SendResult.retryLater;
-    if (shotAnswer == SendResult.sent) screenshots.add(id);
+    if (shotAnswer == SendResult.sent) {
+      screenshots.add(id);
+      shotBytes.add(jpeg);
+    }
     return shotAnswer;
   }
 }
@@ -188,6 +194,34 @@ void main() {
     );
     expect(server.sent, ['problem:a']);
     expect(await box.pending(), isEmpty);
+  });
+
+  test('a PNG screenshot goes as JPEG, transparency on white (Q124)', () async {
+    final db = memoryDb();
+    addTearDown(db.close);
+    final server = FakeFeedbackServer();
+    final dir = await Directory.systemTemp.createTemp('fb');
+    addTearDown(() => dir.delete(recursive: true));
+    final png = img.Image(width: 4, height: 4, numChannels: 4)
+      ..clear(img.ColorRgba8(0, 0, 0, 0));
+    final shot = File('${dir.path}/s.png')
+      ..writeAsBytesSync(img.encodePng(png));
+    final box = FeedbackOutbox(db, server, newId: () => 'id-0');
+    await box.add(
+      kind: FeedbackKind.problem,
+      text: 'a',
+      appVersion: 'v',
+      device: 'd',
+      screenshotPath: shot.path,
+    );
+    final sent = server.shotBytes.single;
+    expect(sent.take(2), [0xff, 0xd8]);
+    final back = img.decodeJpg(Uint8List.fromList(sent))!;
+    expect(back.getPixel(1, 1).r, greaterThan(240)); // white, not black
+  });
+
+  test('a JPEG screenshot goes unchanged', () async {
+    expect(await toJpeg([0xff, 0xd8, 0xff, 1, 2]), [0xff, 0xd8, 0xff, 1, 2]);
   });
 
   test(
