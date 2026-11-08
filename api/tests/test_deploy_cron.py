@@ -35,6 +35,7 @@ MARKERS = {
     "push": "bagmitra_api.push.deliver",
     "erase": "bagmitra_api.market_link.erase_job",
     "recheck": "bagmitra_api.market_link.recheck_job",
+    "billing": "bagmitra_api.billing.reconcile_job",
 }
 
 
@@ -93,11 +94,11 @@ def test_each_switch_adds_its_job_once_and_never_prints_values(tmp_path: Path) -
     env = (
         'MARKET_API_KEY="secret-market-key-123"\n'
         "CRON_FEED_ALERTS=on\nCRON_FEED_NEWS=TRUE\nCRON_KB_REGATE=1\nCRON_SYNC_RETENTION=on\n"
-        "FCM_PROJECT_ID=demo-project\n"
+        "FCM_PROJECT_ID=demo-project\nPLAY_PACKAGE_NAME=app.bagmitra.bagmitra\n"
     )
     out, lines = run_install(tmp_path, env)
     assert jobs(lines) == set(MARKERS)
-    assert len(lines) == 10
+    assert len(lines) == 11
     assert "secret-market-key-123" not in out
     assert not any("secret-market-key-123" in ln for ln in lines)
     out_again, lines_again = run_install(tmp_path, env)
@@ -107,7 +108,8 @@ def test_each_switch_adds_its_job_once_and_never_prints_values(tmp_path: Path) -
     assert market.startswith("35 2,8,14,20 * * * cd ")
     assert market.endswith(">> /var/log/bagmitra-market-pull.log 2>&1")
     # None of the new jobs shares the 00:00 weather or 21:40 backup slot.
-    for name in ("market", "alerts", "news", "regate", "retention", "push", "erase", "recheck"):
+    names = ("market", "alerts", "news", "regate", "retention", "push", "erase", "recheck")
+    for name in (*names, "billing"):
         line = next(ln for ln in lines if MARKERS[name] in ln)
         minute, hour = line.split()[:2]
         assert (minute, hour) != ("0", "0")
@@ -127,6 +129,16 @@ def test_weather_alert_pushes_run_only_with_fcm_set(tmp_path: Path) -> None:
     out, lines = run_install(tmp_path, "FCM_PROJECT_ID=\n" + key)
     assert "push" not in jobs(lines)
     assert "weather alert pushes (01:37 UTC = 07:07 IST) cron line removed" in out
+
+
+def test_billing_reconciliation_runs_only_with_play_set_up(tmp_path: Path) -> None:
+    _, lines = run_install(tmp_path, "PLAY_PACKAGE_NAME=app.bagmitra.bagmitra\n")
+    line = next(ln for ln in lines if MARKERS["billing"] in ln)
+    assert line.startswith("47 23 * * * cd ")
+    assert line.endswith(">> /var/log/bagmitra-billing-reconcile.log 2>&1")
+    out, lines = run_install(tmp_path, "PLAY_PACKAGE_NAME=\n")
+    assert "billing" not in jobs(lines)
+    assert "Play billing reconciliation (nightly 23:47 UTC) cron line removed" in out
 
 
 def test_turning_a_switch_off_removes_only_its_line(tmp_path: Path) -> None:

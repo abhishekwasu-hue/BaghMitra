@@ -45,12 +45,14 @@ class RecheckSummary:
 
 
 @asynccontextmanager
-async def recheck_lock(engine: AsyncEngine) -> AsyncIterator[bool]:
+async def recheck_lock(
+    engine: AsyncEngine, lock_key: int = RECHECK_LOCK_KEY
+) -> AsyncIterator[bool]:
     if engine.dialect.name != "postgresql":
         yield True
         return
     async with engine.connect() as conn:
-        key = {"k": RECHECK_LOCK_KEY}
+        key = {"k": lock_key}
         got = bool((await conn.execute(text("SELECT pg_try_advisory_lock(:k)"), key)).scalar_one())
         await conn.commit()
         try:

@@ -38,6 +38,7 @@ CURRENCY = "INR"
 _TOKEN_LIFETIME = 3600
 _REFRESH_EARLY = 120
 _NANOS_PER_PAISA = 10_000_000
+_MAX_PAGES = 50  # a runaway page token cannot loop the job forever
 
 
 class PlayError(Exception):
@@ -67,6 +68,10 @@ class PlayPublisher(Protocol):
 
     async def acknowledge(self, product_id: str, token: str) -> None:
         """Acknowledge a purchase (Google refunds one left unacknowledged for 3 days)."""
+        ...
+
+    async def list_voided(self, since: datetime) -> list[dict[str, Any]]:
+        """`purchases.voidedpurchases.list` with subscriptions (type 1), every page."""
         ...
 
 
@@ -185,6 +190,19 @@ class GooglePlayPublisher:
             f"/tokens/{quote(token, safe='')}:acknowledge"
         )
         await self.call("POST", path, json={})
+
+    async def list_voided(self, since: datetime) -> list[dict[str, Any]]:
+        start = str(int(since.timestamp() * 1000))
+        found: list[dict[str, Any]] = []
+        page: str | None = None
+        for _ in range(_MAX_PAGES):
+            params = {"type": "1", "token": page} if page else {"type": "1", "startTime": start}
+            body = await self.call("GET", "/purchases/voidedpurchases", params=params)
+            found += [v for v in body.get("voidedPurchases") or [] if isinstance(v, dict)]
+            page = (body.get("tokenPagination") or {}).get("nextPageToken")
+            if not page:
+                break
+        return found
 
 
 def _india_price(subscription: dict[str, Any], base_plan_id: str) -> PlayPrice:
