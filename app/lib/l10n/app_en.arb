@@ -1379,7 +1379,6 @@
   "mlTermsAgree": "I have read and agree",
   "mlTermsAccept": "Accept and continue",
   "mlTermsBack": "Back",
-  "mlRoleHomeSoon": "The tools for this role will appear here soon.",
   "mlSafetyNotice": "BagMitra never asks for money, OTP or bank details.",
   "@mlSafetyNotice": {"description": "Fixed notice on every market-link role home (spec v1.5 §4C)."},
   "mlGrievanceTitle": "Grievance officer",

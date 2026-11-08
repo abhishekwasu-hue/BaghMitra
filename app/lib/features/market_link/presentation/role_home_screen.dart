@@ -5,8 +5,6 @@ import 'package:go_router/go_router.dart';
 import '../../../app/router.dart';
 import '../../../design_system/app_bar_title.dart';
 import '../../../design_system/cards.dart';
-import '../../../design_system/empty_state.dart';
-import '../../../design_system/glyphs.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../data/market_link_providers.dart';
@@ -15,8 +13,8 @@ import 'role_label.dart';
 import 'terms_acceptance_screen.dart';
 
 /// A market-link role's own home (spec v1.5 §2.1). The acceptance screen comes first until
-/// the current terms are accepted for this role. For now the home holds the fixed safety
-/// notice (§4C), an empty state and the grievance officer; the role's tools come in L2–L6.
+/// the current terms are accepted for this role. The home holds the fixed safety notice
+/// (§4C), the role's own tools (screens built in L2–L7) and the grievance officer.
 class RoleHomeScreen extends ConsumerWidget {
   const RoleHomeScreen({super.key, required this.role});
 
@@ -80,11 +78,9 @@ class _Home extends ConsumerWidget {
               ],
             ),
           ),
-          EmptyState(
-            glyph: BmGlyph.home,
-            title: roleLabel(t, role),
-            message: t.mlRoleHomeSoon,
-          ),
+          const SizedBox(height: BmSpace.md),
+          _Tools(role: role),
+          const SizedBox(height: BmSpace.md),
           BmCard(
             elevated: false,
             radius: BmRadius.card,
@@ -124,6 +120,78 @@ class _Home extends ConsumerWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+/// The role's tools (spec v1.5 §2.1, §3): traders, brokers and exporters see the published
+/// lots and their offers; every role keeps its registration and its account actions.
+class _Tools extends StatelessWidget {
+  const _Tools({required this.role});
+
+  final MarketRole role;
+
+  @override
+  Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+    final c = context.bm;
+    final buys = role != MarketRole.provider;
+    final tools = <(String, IconData, String, String)>[
+      if (buys) ...[
+        (
+          'browse',
+          Icons.storefront_outlined,
+          t.mlBrowseTitle,
+          Routes.marketBrowse,
+        ),
+        (
+          'offers',
+          Icons.handshake_outlined,
+          t.mlMyOffersTitle,
+          Routes.marketMyOffers,
+        ),
+      ],
+      (
+        'mine',
+        Icons.badge_outlined,
+        t.mlMyProfilesTitle,
+        Routes.marketLinkMine,
+      ),
+      if (buys)
+        (
+          'prices',
+          Icons.trending_up_rounded,
+          t.marketPricesTitle,
+          Routes.market,
+        ),
+      if (role == MarketRole.exporter)
+        (
+          'export',
+          Icons.flight_takeoff_outlined,
+          t.exportInfoTitle,
+          Routes.exportInfo,
+        ),
+      ('actions', Icons.shield_outlined, t.mlActionsTitle, Routes.mlActions),
+    ];
+    return BmCard(
+      elevated: false,
+      padding: const EdgeInsets.symmetric(vertical: BmSpace.xxs),
+      radius: BmRadius.card,
+      child: Material(
+        type: MaterialType.transparency,
+        child: Column(
+          children: [
+            for (final (id, icon, label, route) in tools)
+              ListTile(
+                key: Key('role-tool-$id'),
+                leading: Icon(icon, color: c.brand),
+                title: Text(label, style: BmType.bodyStrong),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: () => context.push(route),
+              ),
+          ],
+        ),
       ),
     );
   }

@@ -3392,9 +3392,6 @@ class AppLocalizationsHi extends AppLocalizations {
   String get mlTermsBack => 'पीछे';
 
   @override
-  String get mlRoleHomeSoon => 'इस भूमिका की सुविधाएँ जल्द ही यहाँ दिखेंगी।';
-
-  @override
   String get mlSafetyNotice =>
       'BagMitra कभी भी पैसे, OTP या बैंक विवरण नहीं माँगता।';
 
