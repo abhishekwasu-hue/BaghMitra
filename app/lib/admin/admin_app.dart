@@ -10,6 +10,7 @@ import 'billing_strings.dart';
 import 'document_picker.dart';
 import 'feed_admin_repository.dart';
 import 'feed_pages.dart';
+import 'feedback_admin.dart';
 import 'kb_admin_repository.dart';
 import 'kb_pages.dart';
 import 'market_link_admin_repository.dart';
@@ -35,6 +36,7 @@ class AdminApp extends StatelessWidget {
     this.safety,
     this.package,
     this.billing,
+    this.feedback,
     this.auth,
   });
 
@@ -62,6 +64,9 @@ class AdminApp extends StatelessWidget {
   /// Subscription switch and per-role amounts (billing addendum §7); role `billing_admin`.
   final BillingAdminRepository? billing;
 
+  /// In-app feedback list; role `feedback_admin`.
+  final FeedbackAdminRepository? feedback;
+
   /// When set, the shell is shown only to a signed-in staff account.
   final AdminAuth? auth;
 
@@ -82,6 +87,7 @@ class AdminApp extends StatelessWidget {
         safety: safety,
         package: package,
         billing: billing,
+        feedback: feedback,
       ),
       final a => StreamBuilder<void>(
         stream: a.changes,
@@ -96,6 +102,7 @@ class AdminApp extends StatelessWidget {
                 safety: safety,
                 package: package,
                 billing: billing,
+                feedback: feedback,
                 roles: a.roles,
                 onSignOut: a.signOut,
               ),
@@ -115,6 +122,7 @@ class AdminShell extends StatefulWidget {
     this.safety,
     this.package,
     this.billing,
+    this.feedback,
     this.roles = const {},
     this.onSignOut,
   });
@@ -127,6 +135,7 @@ class AdminShell extends StatefulWidget {
   final MarketLinkSafetyAdmin? safety;
   final PackageAdminRepository? package;
   final BillingAdminRepository? billing;
+  final FeedbackAdminRepository? feedback;
 
   /// Supabase app_metadata roles of the signed-in account (gates the feed section).
   final Set<String> roles;
@@ -206,6 +215,13 @@ class _AdminShellState extends State<AdminShell> {
           BillingStrings.of(context)['section'],
           Icons.card_membership_rounded,
           BillingSettingsPage(repo: billing),
+        ),
+      if (widget.feedback case final fb?
+          when widget.roles.contains(feedbackAdminRole))
+        (
+          feedbackText(context, 'section'),
+          Icons.feedback_outlined,
+          FeedbackAdminPage(repo: fb),
         ),
       (t.adminCropTemplates, Icons.eco_rounded, soon(1)),
       (t.adminRiskRules, Icons.thunderstorm_rounded, soon(4)),

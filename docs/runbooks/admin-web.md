@@ -61,10 +61,12 @@ curl -s -o /dev/null -w 'admin page: %{http_code}\n' "https://$(grep '^API_DOMAI
 Migration: नाही. मागे जाणे: `bash deploy/deploy.sh --revert` (admin पान नवीनतम build वरच राहते).
 
 ## ५. role देणे / तपासणे (script)
+"सदस्यता" पानासाठी `billing_admin` आणि "अभिप्राय" पानासाठी `feedback_admin` हे default मध्ये नाहीत; वरील block मधील grant ओळ `--roles billing_admin,feedback_admin` जोडून एकदा चालवा (आधीचे roles राहतात), मग admin web मधून sign out करून पुन्हा sign in करा.
+
 `python -m bagmitra_api.auth.grant_roles` (`api/src/bagmitra_api/auth/grant_roles.py`):
 - `--email` (आवश्यक), `--supabase-url` (किंवा `SUPABASE_URL` env), `--roles` (comma ने;
   default `feed_admin,market_admin,kb_admin`; फक्त API ओळखते ते: `billing_admin`, `feed_admin`,
-  `kb_admin`, `kb_reviewer`, `market_admin`, `market_link_admin`), `--dry-run` (फक्त बदल दाखवते).
+  `feedback_admin`, `kb_admin`, `kb_reviewer`, `market_admin`, `market_link_admin`, `market_link_rep`), `--dry-run` (फक्त बदल दाखवते).
 - key फक्त `SUPABASE_SERVICE_ROLE_KEY` env मधून (argument नाही). जुनी JWT `service_role` key
   आणि नवी `sb_secret_...` key दोन्ही पाठवण्याची सोय आहे; खऱ्या Supabase वर हे फक्त वरील block
   ने तपासले जाईल (repo च्या tests मध्ये mocked HTTP).
