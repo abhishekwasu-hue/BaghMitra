@@ -1424,6 +1424,59 @@ Map<String, dynamic> _$FeedResponseToJson(FeedResponse instance) =>
       'items': instance.items.map((e) => e.toJson()).toList(),
     };
 
+FeedbackIn _$FeedbackInFromJson(Map<String, dynamic> json) => FeedbackIn(
+  appVersion: json['app_version'] as String,
+  clientId: json['client_id'] as String,
+  device: json['device'] as String,
+  kind: feedbackInKindFromJson(json['kind']),
+  text: json['text'] as String,
+);
+
+Map<String, dynamic> _$FeedbackInToJson(FeedbackIn instance) =>
+    <String, dynamic>{
+      'app_version': instance.appVersion,
+      'client_id': instance.clientId,
+      'device': instance.device,
+      'kind': ?feedbackInKindToJson(instance.kind),
+      'text': instance.text,
+    };
+
+FeedbackList _$FeedbackListFromJson(Map<String, dynamic> json) => FeedbackList(
+  feedback:
+      (json['feedback'] as List<dynamic>?)
+          ?.map((e) => FeedbackOut.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      [],
+);
+
+Map<String, dynamic> _$FeedbackListToJson(FeedbackList instance) =>
+    <String, dynamic>{
+      'feedback': instance.feedback.map((e) => e.toJson()).toList(),
+    };
+
+FeedbackOut _$FeedbackOutFromJson(Map<String, dynamic> json) => FeedbackOut(
+  appVersion: json['app_version'] as String,
+  createdAt: DateTime.parse(json['created_at'] as String),
+  device: json['device'] as String,
+  id: json['id'] as String,
+  kind: json['kind'] as String,
+  screenshotUrl: json['screenshot_url'] as String?,
+  status: json['status'] as String,
+  text: json['text'] as String,
+);
+
+Map<String, dynamic> _$FeedbackOutToJson(FeedbackOut instance) =>
+    <String, dynamic>{
+      'app_version': instance.appVersion,
+      'created_at': instance.createdAt.toIso8601String(),
+      'device': instance.device,
+      'id': instance.id,
+      'kind': instance.kind,
+      'screenshot_url': ?instance.screenshotUrl,
+      'status': instance.status,
+      'text': instance.text,
+    };
+
 GivenRatingOut _$GivenRatingOutFromJson(Map<String, dynamic> json) =>
     GivenRatingOut(
       answers:
@@ -3411,6 +3464,13 @@ Map<String, dynamic> _$StageTemplatesResponseToJson(
   StageTemplatesResponse instance,
 ) => <String, dynamic>{
   'templates': instance.templates.map((e) => e.toJson()).toList(),
+};
+
+StatusIn _$StatusInFromJson(Map<String, dynamic> json) =>
+    StatusIn(status: statusInStatusFromJson(json['status']));
+
+Map<String, dynamic> _$StatusInToJson(StatusIn instance) => <String, dynamic>{
+  'status': ?statusInStatusToJson(instance.status),
 };
 
 SubjectDetailOut _$SubjectDetailOutFromJson(Map<String, dynamic> json) =>

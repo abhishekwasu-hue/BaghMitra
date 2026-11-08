@@ -384,6 +384,22 @@ enum FeedPreferencesBodyOptedOut {
   const FeedPreferencesBodyOptedOut(this.value);
 }
 
+enum FeedbackInKind {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('problem')
+  problem('problem'),
+  @JsonValue('suggestion')
+  suggestion('suggestion'),
+  @JsonValue('question')
+  question('question');
+
+  final String? value;
+
+  const FeedbackInKind(this.value);
+}
+
 enum GivenRatingOutRateeRole {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
@@ -638,6 +654,22 @@ enum ReviewInDecision {
   final String? value;
 
   const ReviewInDecision(this.value);
+}
+
+enum StatusInStatus {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('new')
+  $new('new'),
+  @JsonValue('seen')
+  seen('seen'),
+  @JsonValue('done')
+  done('done');
+
+  final String? value;
+
+  const StatusInStatus(this.value);
 }
 
 enum TermsDocOutKind {

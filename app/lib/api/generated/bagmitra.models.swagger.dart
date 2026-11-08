@@ -7250,6 +7250,289 @@ extension $FeedResponseExtension on FeedResponse {
 }
 
 @JsonSerializable(explicitToJson: true)
+class FeedbackIn {
+  const FeedbackIn({
+    required this.appVersion,
+    required this.clientId,
+    required this.device,
+    required this.kind,
+    required this.text,
+  });
+
+  factory FeedbackIn.fromJson(Map<String, dynamic> json) =>
+      _$FeedbackInFromJson(json);
+
+  static const toJsonFactory = _$FeedbackInToJson;
+  Map<String, dynamic> toJson() => _$FeedbackInToJson(this);
+
+  @JsonKey(name: 'app_version', includeIfNull: false)
+  final String appVersion;
+  @JsonKey(name: 'client_id', includeIfNull: false)
+  final String clientId;
+  @JsonKey(name: 'device', includeIfNull: false)
+  final String device;
+  @JsonKey(
+    name: 'kind',
+    includeIfNull: false,
+    toJson: feedbackInKindToJson,
+    fromJson: feedbackInKindFromJson,
+  )
+  final enums.FeedbackInKind kind;
+  @JsonKey(name: 'text', includeIfNull: false)
+  final String text;
+  static const fromJsonFactory = _$FeedbackInFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is FeedbackIn &&
+            (identical(other.appVersion, appVersion) ||
+                const DeepCollectionEquality().equals(
+                  other.appVersion,
+                  appVersion,
+                )) &&
+            (identical(other.clientId, clientId) ||
+                const DeepCollectionEquality().equals(
+                  other.clientId,
+                  clientId,
+                )) &&
+            (identical(other.device, device) ||
+                const DeepCollectionEquality().equals(other.device, device)) &&
+            (identical(other.kind, kind) ||
+                const DeepCollectionEquality().equals(other.kind, kind)) &&
+            (identical(other.text, text) ||
+                const DeepCollectionEquality().equals(other.text, text)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(appVersion) ^
+      const DeepCollectionEquality().hash(clientId) ^
+      const DeepCollectionEquality().hash(device) ^
+      const DeepCollectionEquality().hash(kind) ^
+      const DeepCollectionEquality().hash(text) ^
+      runtimeType.hashCode;
+}
+
+extension $FeedbackInExtension on FeedbackIn {
+  FeedbackIn copyWith({
+    String? appVersion,
+    String? clientId,
+    String? device,
+    enums.FeedbackInKind? kind,
+    String? text,
+  }) {
+    return FeedbackIn(
+      appVersion: appVersion ?? this.appVersion,
+      clientId: clientId ?? this.clientId,
+      device: device ?? this.device,
+      kind: kind ?? this.kind,
+      text: text ?? this.text,
+    );
+  }
+
+  FeedbackIn copyWithWrapped({
+    Wrapped<String>? appVersion,
+    Wrapped<String>? clientId,
+    Wrapped<String>? device,
+    Wrapped<enums.FeedbackInKind>? kind,
+    Wrapped<String>? text,
+  }) {
+    return FeedbackIn(
+      appVersion: (appVersion != null ? appVersion.value : this.appVersion),
+      clientId: (clientId != null ? clientId.value : this.clientId),
+      device: (device != null ? device.value : this.device),
+      kind: (kind != null ? kind.value : this.kind),
+      text: (text != null ? text.value : this.text),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class FeedbackList {
+  const FeedbackList({required this.feedback});
+
+  factory FeedbackList.fromJson(Map<String, dynamic> json) =>
+      _$FeedbackListFromJson(json);
+
+  static const toJsonFactory = _$FeedbackListToJson;
+  Map<String, dynamic> toJson() => _$FeedbackListToJson(this);
+
+  @JsonKey(
+    name: 'feedback',
+    includeIfNull: false,
+    defaultValue: <FeedbackOut>[],
+  )
+  final List<FeedbackOut> feedback;
+  static const fromJsonFactory = _$FeedbackListFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is FeedbackList &&
+            (identical(other.feedback, feedback) ||
+                const DeepCollectionEquality().equals(
+                  other.feedback,
+                  feedback,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(feedback) ^ runtimeType.hashCode;
+}
+
+extension $FeedbackListExtension on FeedbackList {
+  FeedbackList copyWith({List<FeedbackOut>? feedback}) {
+    return FeedbackList(feedback: feedback ?? this.feedback);
+  }
+
+  FeedbackList copyWithWrapped({Wrapped<List<FeedbackOut>>? feedback}) {
+    return FeedbackList(
+      feedback: (feedback != null ? feedback.value : this.feedback),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class FeedbackOut {
+  const FeedbackOut({
+    required this.appVersion,
+    required this.createdAt,
+    required this.device,
+    required this.id,
+    required this.kind,
+    this.screenshotUrl,
+    required this.status,
+    required this.text,
+  });
+
+  factory FeedbackOut.fromJson(Map<String, dynamic> json) =>
+      _$FeedbackOutFromJson(json);
+
+  static const toJsonFactory = _$FeedbackOutToJson;
+  Map<String, dynamic> toJson() => _$FeedbackOutToJson(this);
+
+  @JsonKey(name: 'app_version', includeIfNull: false)
+  final String appVersion;
+  @JsonKey(name: 'created_at', includeIfNull: false)
+  final DateTime createdAt;
+  @JsonKey(name: 'device', includeIfNull: false)
+  final String device;
+  @JsonKey(name: 'id', includeIfNull: false)
+  final String id;
+  @JsonKey(name: 'kind', includeIfNull: false)
+  final String kind;
+  @JsonKey(name: 'screenshot_url', includeIfNull: false)
+  final String? screenshotUrl;
+  @JsonKey(name: 'status', includeIfNull: false)
+  final String status;
+  @JsonKey(name: 'text', includeIfNull: false)
+  final String text;
+  static const fromJsonFactory = _$FeedbackOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is FeedbackOut &&
+            (identical(other.appVersion, appVersion) ||
+                const DeepCollectionEquality().equals(
+                  other.appVersion,
+                  appVersion,
+                )) &&
+            (identical(other.createdAt, createdAt) ||
+                const DeepCollectionEquality().equals(
+                  other.createdAt,
+                  createdAt,
+                )) &&
+            (identical(other.device, device) ||
+                const DeepCollectionEquality().equals(other.device, device)) &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.kind, kind) ||
+                const DeepCollectionEquality().equals(other.kind, kind)) &&
+            (identical(other.screenshotUrl, screenshotUrl) ||
+                const DeepCollectionEquality().equals(
+                  other.screenshotUrl,
+                  screenshotUrl,
+                )) &&
+            (identical(other.status, status) ||
+                const DeepCollectionEquality().equals(other.status, status)) &&
+            (identical(other.text, text) ||
+                const DeepCollectionEquality().equals(other.text, text)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(appVersion) ^
+      const DeepCollectionEquality().hash(createdAt) ^
+      const DeepCollectionEquality().hash(device) ^
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(kind) ^
+      const DeepCollectionEquality().hash(screenshotUrl) ^
+      const DeepCollectionEquality().hash(status) ^
+      const DeepCollectionEquality().hash(text) ^
+      runtimeType.hashCode;
+}
+
+extension $FeedbackOutExtension on FeedbackOut {
+  FeedbackOut copyWith({
+    String? appVersion,
+    DateTime? createdAt,
+    String? device,
+    String? id,
+    String? kind,
+    String? screenshotUrl,
+    String? status,
+    String? text,
+  }) {
+    return FeedbackOut(
+      appVersion: appVersion ?? this.appVersion,
+      createdAt: createdAt ?? this.createdAt,
+      device: device ?? this.device,
+      id: id ?? this.id,
+      kind: kind ?? this.kind,
+      screenshotUrl: screenshotUrl ?? this.screenshotUrl,
+      status: status ?? this.status,
+      text: text ?? this.text,
+    );
+  }
+
+  FeedbackOut copyWithWrapped({
+    Wrapped<String>? appVersion,
+    Wrapped<DateTime>? createdAt,
+    Wrapped<String>? device,
+    Wrapped<String>? id,
+    Wrapped<String>? kind,
+    Wrapped<String?>? screenshotUrl,
+    Wrapped<String>? status,
+    Wrapped<String>? text,
+  }) {
+    return FeedbackOut(
+      appVersion: (appVersion != null ? appVersion.value : this.appVersion),
+      createdAt: (createdAt != null ? createdAt.value : this.createdAt),
+      device: (device != null ? device.value : this.device),
+      id: (id != null ? id.value : this.id),
+      kind: (kind != null ? kind.value : this.kind),
+      screenshotUrl: (screenshotUrl != null
+          ? screenshotUrl.value
+          : this.screenshotUrl),
+      status: (status != null ? status.value : this.status),
+      text: (text != null ? text.value : this.text),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class GivenRatingOut {
   const GivenRatingOut({required this.answers, required this.rateeRole});
 
@@ -17150,6 +17433,51 @@ extension $StageTemplatesResponseExtension on StageTemplatesResponse {
 }
 
 @JsonSerializable(explicitToJson: true)
+class StatusIn {
+  const StatusIn({required this.status});
+
+  factory StatusIn.fromJson(Map<String, dynamic> json) =>
+      _$StatusInFromJson(json);
+
+  static const toJsonFactory = _$StatusInToJson;
+  Map<String, dynamic> toJson() => _$StatusInToJson(this);
+
+  @JsonKey(
+    name: 'status',
+    includeIfNull: false,
+    toJson: statusInStatusToJson,
+    fromJson: statusInStatusFromJson,
+  )
+  final enums.StatusInStatus status;
+  static const fromJsonFactory = _$StatusInFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is StatusIn &&
+            (identical(other.status, status) ||
+                const DeepCollectionEquality().equals(other.status, status)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(status) ^ runtimeType.hashCode;
+}
+
+extension $StatusInExtension on StatusIn {
+  StatusIn copyWith({enums.StatusInStatus? status}) {
+    return StatusIn(status: status ?? this.status);
+  }
+
+  StatusIn copyWithWrapped({Wrapped<enums.StatusInStatus>? status}) {
+    return StatusIn(status: (status != null ? status.value : this.status));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class SubjectDetailOut {
   const SubjectDetailOut({
     this.checks,
@@ -20184,6 +20512,80 @@ feedPreferencesBodyOptedOutNullableListFromJson(
       .toList();
 }
 
+String? feedbackInKindNullableToJson(enums.FeedbackInKind? feedbackInKind) {
+  return feedbackInKind?.value;
+}
+
+String? feedbackInKindToJson(enums.FeedbackInKind feedbackInKind) {
+  return feedbackInKind.value;
+}
+
+enums.FeedbackInKind feedbackInKindFromJson(
+  Object? feedbackInKind, [
+  enums.FeedbackInKind? defaultValue,
+]) {
+  return enums.FeedbackInKind.values.firstWhereOrNull(
+        (e) => e.value == feedbackInKind,
+      ) ??
+      defaultValue ??
+      enums.FeedbackInKind.swaggerGeneratedUnknown;
+}
+
+enums.FeedbackInKind? feedbackInKindNullableFromJson(
+  Object? feedbackInKind, [
+  enums.FeedbackInKind? defaultValue,
+]) {
+  if (feedbackInKind == null) {
+    return null;
+  }
+  return enums.FeedbackInKind.values.firstWhereOrNull(
+        (e) => e.value == feedbackInKind,
+      ) ??
+      defaultValue;
+}
+
+String feedbackInKindExplodedListToJson(
+  List<enums.FeedbackInKind>? feedbackInKind,
+) {
+  return feedbackInKind?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> feedbackInKindListToJson(
+  List<enums.FeedbackInKind>? feedbackInKind,
+) {
+  if (feedbackInKind == null) {
+    return [];
+  }
+
+  return feedbackInKind.map((e) => e.value!).toList();
+}
+
+List<enums.FeedbackInKind> feedbackInKindListFromJson(
+  List? feedbackInKind, [
+  List<enums.FeedbackInKind>? defaultValue,
+]) {
+  if (feedbackInKind == null) {
+    return defaultValue ?? [];
+  }
+
+  return feedbackInKind
+      .map((e) => feedbackInKindFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.FeedbackInKind>? feedbackInKindNullableListFromJson(
+  List? feedbackInKind, [
+  List<enums.FeedbackInKind>? defaultValue,
+]) {
+  if (feedbackInKind == null) {
+    return defaultValue;
+  }
+
+  return feedbackInKind
+      .map((e) => feedbackInKindFromJson(e.toString()))
+      .toList();
+}
+
 String? givenRatingOutRateeRoleNullableToJson(
   enums.GivenRatingOutRateeRole? givenRatingOutRateeRole,
 ) {
@@ -21311,6 +21713,80 @@ List<enums.ReviewInDecision>? reviewInDecisionNullableListFromJson(
 
   return reviewInDecision
       .map((e) => reviewInDecisionFromJson(e.toString()))
+      .toList();
+}
+
+String? statusInStatusNullableToJson(enums.StatusInStatus? statusInStatus) {
+  return statusInStatus?.value;
+}
+
+String? statusInStatusToJson(enums.StatusInStatus statusInStatus) {
+  return statusInStatus.value;
+}
+
+enums.StatusInStatus statusInStatusFromJson(
+  Object? statusInStatus, [
+  enums.StatusInStatus? defaultValue,
+]) {
+  return enums.StatusInStatus.values.firstWhereOrNull(
+        (e) => e.value == statusInStatus,
+      ) ??
+      defaultValue ??
+      enums.StatusInStatus.swaggerGeneratedUnknown;
+}
+
+enums.StatusInStatus? statusInStatusNullableFromJson(
+  Object? statusInStatus, [
+  enums.StatusInStatus? defaultValue,
+]) {
+  if (statusInStatus == null) {
+    return null;
+  }
+  return enums.StatusInStatus.values.firstWhereOrNull(
+        (e) => e.value == statusInStatus,
+      ) ??
+      defaultValue;
+}
+
+String statusInStatusExplodedListToJson(
+  List<enums.StatusInStatus>? statusInStatus,
+) {
+  return statusInStatus?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> statusInStatusListToJson(
+  List<enums.StatusInStatus>? statusInStatus,
+) {
+  if (statusInStatus == null) {
+    return [];
+  }
+
+  return statusInStatus.map((e) => e.value!).toList();
+}
+
+List<enums.StatusInStatus> statusInStatusListFromJson(
+  List? statusInStatus, [
+  List<enums.StatusInStatus>? defaultValue,
+]) {
+  if (statusInStatus == null) {
+    return defaultValue ?? [];
+  }
+
+  return statusInStatus
+      .map((e) => statusInStatusFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.StatusInStatus>? statusInStatusNullableListFromJson(
+  List? statusInStatus, [
+  List<enums.StatusInStatus>? defaultValue,
+]) {
+  if (statusInStatus == null) {
+    return defaultValue;
+  }
+
+  return statusInStatus
+      .map((e) => statusInStatusFromJson(e.toString()))
       .toList();
 }
 

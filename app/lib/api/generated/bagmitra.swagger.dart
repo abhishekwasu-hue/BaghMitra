@@ -853,6 +853,74 @@ recorded fetch failure, so the next scheduled run tries once more.''',
     ),
   });
 
+  ///Admin List
+  ///@param status
+  ///@param limit
+  Future<chopper.Response<FeedbackList>> v1AdminFeedbackGet({
+    String? status,
+    int? limit,
+  }) {
+    generatedMapping.putIfAbsent(
+      FeedbackList,
+      () => FeedbackList.fromJsonFactory,
+    );
+
+    return _v1AdminFeedbackGet(status: status, limit: limit);
+  }
+
+  ///Admin List
+  ///@param status
+  ///@param limit
+  @GET(path: '/v1/admin/feedback')
+  Future<chopper.Response<FeedbackList>> _v1AdminFeedbackGet({
+    @Query('status') String? status,
+    @Query('limit') int? limit,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Admin List',
+      operationId: 'admin_feedback_list',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["feedback", "admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Admin Status
+  ///@param feedback_id
+  Future<chopper.Response<FeedbackOut>> v1AdminFeedbackFeedbackIdPut({
+    required String? feedbackId,
+    required StatusIn? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      FeedbackOut,
+      () => FeedbackOut.fromJsonFactory,
+    );
+
+    return _v1AdminFeedbackFeedbackIdPut(feedbackId: feedbackId, body: body);
+  }
+
+  ///Admin Status
+  ///@param feedback_id
+  @PUT(path: '/v1/admin/feedback/{feedback_id}', optionalBody: true)
+  Future<chopper.Response<FeedbackOut>> _v1AdminFeedbackFeedbackIdPut({
+    @Path('feedback_id') required String? feedbackId,
+    @Body() required StatusIn? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Admin Status',
+      operationId: 'admin_feedback_status',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["feedback", "admin"],
+      deprecated: false,
+    ),
+  });
+
   ///Alerts
   Future<chopper.Response<AlertsResponse>> v1AdminKbAlertsGet() {
     generatedMapping.putIfAbsent(
@@ -2488,6 +2556,66 @@ their profile; undoes a dismiss. Only for a published item that has a date.''',
       produces: [],
       security: ["HTTPBearer"],
       tags: ["feed"],
+      deprecated: false,
+    ),
+  });
+
+  ///Send
+  Future<chopper.Response<FeedbackOut>> v1FeedbackPost({
+    required FeedbackIn? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      FeedbackOut,
+      () => FeedbackOut.fromJsonFactory,
+    );
+
+    return _v1FeedbackPost(body: body);
+  }
+
+  ///Send
+  @POST(path: '/v1/feedback', optionalBody: true)
+  Future<chopper.Response<FeedbackOut>> _v1FeedbackPost({
+    @Body() required FeedbackIn? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Send',
+      operationId: 'feedback_send',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["feedback"],
+      deprecated: false,
+    ),
+  });
+
+  ///Screenshot
+  ///@param feedback_id
+  Future<chopper.Response> v1FeedbackFeedbackIdScreenshotPut({
+    required String? feedbackId,
+    required Object? body,
+  }) {
+    return _v1FeedbackFeedbackIdScreenshotPut(
+      feedbackId: feedbackId,
+      body: body,
+    );
+  }
+
+  ///Screenshot
+  ///@param feedback_id
+  @PUT(path: '/v1/feedback/{feedback_id}/screenshot', optionalBody: true)
+  Future<chopper.Response> _v1FeedbackFeedbackIdScreenshotPut({
+    @Path('feedback_id') required String? feedbackId,
+    @Body() required Object? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Screenshot',
+      operationId: 'feedback_screenshot',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["feedback"],
       deprecated: false,
     ),
   });
