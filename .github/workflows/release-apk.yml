@@ -173,11 +173,11 @@ jobs:
           gh release create "$tag" release-files/*.apk \
             --target "$(git rev-parse HEAD)" \
             --title "BagMitra ${{ steps.meta.outputs.name }} (version code ${{ steps.meta.outputs.code }})" \
-            --notes "Production APKs. Upload the arm64-v8a file to the server (docs/runbooks/vps-deploy.md), then set APP_LATEST_VERSION_CODE=${{ steps.meta.outputs.code }} and APP_LATEST_VERSION_NAME=${{ steps.meta.outputs.name }}." \
+            --notes "Production APKs. Nothing to set in .env: within 15 minutes the VPS mirror (RELEASE_APK_MIRROR=on, deploy/fetch_test_apk.sh) serves the arm64-v8a file at /app and writes release.json, which /v1/app/version reads." \
             || gh release upload "$tag" release-files/*.apk --clobber
           {
             echo "### BagMitra ${{ steps.meta.outputs.name }}"
             echo "- version code: **${{ steps.meta.outputs.code }}**"
             echo "- release: $tag"
-            echo "- server .env: \`APP_LATEST_VERSION_CODE=${{ steps.meta.outputs.code }}\`, \`APP_LATEST_VERSION_NAME=${{ steps.meta.outputs.name }}\`"
+            echo "- server: nothing to set in .env; the VPS mirror updates /app and release.json (version) within 15 minutes"
           } >> "$GITHUB_STEP_SUMMARY"
