@@ -25,6 +25,13 @@ Reports to Abhi in plain Marathi. Never run anything on the VPS; give him ONE co
 | #267 | English role name Farmer (not Grower) |
 - Deployed through 0039 (owner, 2026-11-08). Still pending (owner): grant `billing_admin,feedback_admin` — needs the Supabase service role key, which is not on the VPS (runbook `admin-web.md` §५).
 
+## APK distribution (2026-11-08 evening)
+- **Release APK live:** `release-1.0.0-1`, then `release-1.0.1-2` (welcome page #273). Release key created on the VPS (`/root/bagmitra-release-key/`, owner to keep an offline copy; fingerprint SHA256 C4:90:F1:8E:…:A8:BA) and set as GitHub secrets from the VPS (gh device login, logged out after).
+- VPS `.env`: `TEST_APK_MIRROR=on`, `RELEASE_APK_MIRROR=on` → cron `deploy/fetch_test_apk.sh` serves the newest Release APK (arm64-v8a) at `/app` and writes `release.json` read by `/v1/app/version`; the Test APK no longer replaces it (#265, #270).
+- Release APK carries the market link (owner "1 b", #271, Q117). Test APK carries Sarkari Sandesh (#272); Release not yet (`sarkari_sandesh=off`).
+- Release workflow is run by hand (or by a session) from main: GitHub → Actions → Release APK, `version_name` next = 1.0.2.
+- Still pending (owner): Supabase service role key → grant `billing_admin,feedback_admin,market_link_admin`; VPS reboot (kernel updates); offline copy of the release key.
+
 ## Billing status (2026-11-08)
 - Done on main: migration 0037 (switch default OFF, start date, per-role amounts), Play price push + confirmed migrate, plans seeded on every API start (kb.seed), test fixes #245 (date) / #252 (flake).
 - Merged: server verify (0038), RTDN with OIDC (`PLAY_RTDN_AUDIENCE`, `PLAY_RTDN_PUSHER`), daily `billing.reconcile_job` (voided purchases + drift; cron once `PLAY_PACKAGE_NAME` is set), admin web "सदस्यता" page (role `billing_admin`), app `in_app_purchase` adapter (Billing Library 9.1.0, CI check ≥ 8), subscription page + price-increase notice + Manage subscription.
