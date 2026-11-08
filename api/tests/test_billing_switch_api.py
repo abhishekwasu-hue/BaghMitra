@@ -123,7 +123,7 @@ async def test_on_offers_the_highest_priced_role_but_locks_nothing(engine: Async
     assert offer["product_id"] == "bagmitra_trader"
     assert offer["base_plan_id"] == "monthly"
     assert offer["covered"] is False
-    assert offer["locked"] == []  # the gate map is empty (Q117)
+    assert offer["locked"] == []  # the gate map is empty (Q118)
     assert all(f["enabled"] for f in snap["features"].values())  # type: ignore[index]
 
 

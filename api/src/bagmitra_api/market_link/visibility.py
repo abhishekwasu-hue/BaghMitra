@@ -17,6 +17,7 @@ from __future__ import annotations
 import uuid
 from typing import Any
 
+from fastapi import Depends
 from sqlalchemy import ColumnElement, Select, and_, func, or_, select, union
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import InstrumentedAttribute
@@ -111,6 +112,13 @@ async def is_suspended(session: AsyncSession, user_id: uuid.UUID) -> bool:
 
 
 async def require_not_suspended(user: CurrentUser, session: DbSession) -> None:
-    """Dependency for market-link writes: 403 `account_suspended` while suspended."""
+    """Dependency for market-link writes: 403 `suspended` while suspended (the reason is in
+    the user's "My account actions")."""
     if await is_suspended(session, user.id):
-        raise ApiError(403, "account_suspended")
+        raise ApiError(403, "suspended")
+
+
+# Route dependencies of every market-link write a suspended account may not make: register
+# (and its address / documents / place photo), publish and lot photos, interest, accept,
+# deal done, rate, report. Blocks, appeals, terms and closing an own lot stay open.
+NOT_SUSPENDED = [Depends(require_not_suspended)]

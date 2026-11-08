@@ -86,7 +86,7 @@ def _iso(value: date | None) -> str | None:
 
 async def user_roles(session: AsyncSession, user_id: uuid.UUID) -> tuple[str, ...]:
     """Trader / exporter / broker / provider from the market-link registrations; grower when
-    the user keeps a plot, or holds no other role (OPEN_QUESTIONS Q118)."""
+    the user keeps a plot, or holds no other role (OPEN_QUESTIONS Q119)."""
     roles: list[str] = []
     buyer = await session.scalar(select(BuyerProfile.kind).where(BuyerProfile.user_id == user_id))
     if buyer:

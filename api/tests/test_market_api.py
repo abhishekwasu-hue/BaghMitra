@@ -22,7 +22,7 @@ from bagmitra_api.market.agmarknet import (
 )
 from bagmitra_api.market.pull_job import run_market_pull
 from bagmitra_api.market.service import REASON_NOT_PULLED, REASON_OVERDUE
-from bagmitra_api.routers.market import market_matches
+from bagmitra_api.routers.market import market_matches, state_matches
 from bagmitra_api.weather.service import get_clock
 from tests.conftest import make_token
 
@@ -348,3 +348,14 @@ def test_mandi_names_match_as_printed_by_agmarknet() -> None:
     assert market_matches("APMC Pune", major)
     assert not market_matches("APMC Nasik", major)
     assert not market_matches("Punesar", major), "whole words only"
+
+
+def test_owner_major_markets_bhopal_jaipur_and_two_states() -> None:
+    # Owner 2026-11-07: Bhopal, Jaipur, Kerala and Karnataka mandis among the major markets.
+    s = Settings()
+    assert market_matches("Bhopal(F&V)", s.market_major_markets)
+    assert market_matches("Jaipur (F&V)", s.market_major_markets)
+    assert {"Kerala", "Karnataka"} <= set(s.market_major_states)
+    assert state_matches("Kerala", s.market_major_states)
+    assert state_matches(" karnataka ", s.market_major_states)
+    assert not state_matches("Tamil Nadu", s.market_major_states)
