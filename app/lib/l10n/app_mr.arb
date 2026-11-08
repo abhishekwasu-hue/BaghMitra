@@ -865,7 +865,7 @@
   "adminMlTags": "रेटिंग टॅग",
   "adminMlAll": "सर्व",
   "adminMlBuyer": "व्यापारी",
-  "adminMlBroker": "दलाल",
+  "adminMlBroker": "मध्यस्थ (दलाल)",
   "adminMlProvider": "सेवा देणारे",
   "adminMlQueueEmpty": "सर्वांची तपासणी झाली",
   "adminMlWaitingSince": "{date} पासून थांबले",
