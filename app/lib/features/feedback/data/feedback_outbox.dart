@@ -1,7 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:isolate';
+import 'dart:typed_data';
 
 import 'package:chopper/chopper.dart';
+import 'package:image/image.dart' as img;
 import 'package:uuid/uuid.dart';
 
 import '../../../api/generated/bagmitra.enums.swagger.dart' as enums;
@@ -84,6 +87,23 @@ SendResult sendResultOf(int status) {
     return SendResult.refused;
   }
   return SendResult.retryLater;
+}
+
+/// The screenshot as JPEG (the API takes only JPEG): a JPEG goes unchanged; another image
+/// (the gallery picker keeps PNG when it has transparency) is drawn on white and re-encoded
+/// off the UI thread (owner Q124). Unreadable bytes go as they are (the server refuses them).
+Future<List<int>> toJpeg(List<int> bytes) async {
+  if (bytes.length > 1 && bytes[0] == 0xff && bytes[1] == 0xd8) return bytes;
+  final input = Uint8List.fromList(bytes);
+  final out = await Isolate.run(() {
+    final decoded = img.decodeImage(input);
+    if (decoded == null) return null;
+    final white = img.Image(width: decoded.width, height: decoded.height)
+      ..clear(img.ColorRgb8(255, 255, 255));
+    img.compositeImage(white, decoded);
+    return img.encodeJpg(white, quality: 85);
+  });
+  return out ?? bytes;
 }
 
 /// Where a message goes: `POST /v1/feedback` and the optional screenshot.
@@ -209,7 +229,7 @@ class FeedbackOutbox {
         if (file.existsSync()) {
           final shot = await _server.sendScreenshot(
             d.id,
-            await file.readAsBytes(),
+            await toJpeg(await file.readAsBytes()),
           );
           if (shot == SendResult.retryLater) {
             i++; // keep it; the next message may still go
