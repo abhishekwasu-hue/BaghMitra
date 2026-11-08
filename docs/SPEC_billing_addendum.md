@@ -115,8 +115,10 @@ admin settings he fills in later; the subscription then applies to everyone."
   the admin page shows the price Play reports back. Prices are never hardcoded in the app; the paywall
   shows Play's localized price. [V: developer.android.com/google/play/billing/price-changes]
 - **Price changes for existing subscribers follow Play's rules**, shown on the admin page before saving:
-  new purchases get the new price within hours; a decrease reaches existing subscribers at their next
-  payment; an increase for existing subscribers is opt-in by default — Google notifies users from 30
+  new purchases get the new price within hours; existing subscribers stay on their old price for a
+  decrease too (Play's legacy price cohort) and pay the lower price only after the admin runs
+  `basePlans.migratePrices` ("Move existing subscribers"), then from their next payment (Google emails
+  them; no acceptance needed); an increase for existing subscribers is opt-in by default — Google notifies users from 30
   days before the charge, the charge comes after a 37-day notice, users who do not accept are cancelled,
   and an **in-app notice is required** (with a deep link to the Play subscription page). Existing
   subscribers keep the old price unless the admin explicitly runs `basePlans.migratePrices`.

@@ -1,6 +1,7 @@
 import 'package:bagmitra/admin/admin_app.dart';
 import 'package:bagmitra/admin/billing_admin_repository.dart';
 import 'package:bagmitra/admin/billing_pages.dart';
+import 'package:bagmitra/admin/billing_strings.dart';
 import 'package:bagmitra/admin/package_admin_repository.dart';
 import 'package:bagmitra/api/generated/bagmitra.swagger.dart';
 import 'package:bagmitra/l10n/app_localizations.dart';
@@ -89,6 +90,17 @@ Future<void> _pump(
 }
 
 void main() {
+  test('a lower price needs "Move existing subscribers" too (audit M3)', () {
+    for (final lang in ['mr', 'hi', 'en']) {
+      final s = BillingStrings.forLanguage(lang);
+      expect(s['rule_down'], contains(s['migrate']), reason: lang);
+    }
+    expect(
+      const BillingStrings.forLanguage('en')['rule_down'],
+      contains('old price'),
+    );
+  });
+
   testWidgets(
     'the switch starts OFF, every role free, rules shown before saving',
     (tester) async {
@@ -100,8 +112,9 @@ void main() {
       expect(find.text('Free (no amount)'), findsNWidgets(5));
       expect(find.byKey(const Key('billing-rules')), findsOneWidget);
       expect(
+        // For a lower and a higher price alike (audit M3).
         find.textContaining('existing subscribers keep the old price'),
-        findsOneWidget,
+        findsNWidgets(2),
       );
       expect(find.textContaining('nothing is locked today'), findsOneWidget);
       expect(find.textContaining("CA's GST opinion"), findsOneWidget);
