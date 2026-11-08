@@ -103,4 +103,21 @@ void main() {
     );
     expect(releaseYml, contains(r'--dart-define=MARKET_LINK="$MARKET_LINK"'));
   });
+
+  test('the Test APK carries the Sarkari Sandesh feed (owner 2026-11-08), '
+      'switchable by a repository variable', () {
+    final testYml = File('../.github/workflows/release-test-apk.yml')
+        .readAsStringSync();
+    expect(
+      testYml,
+      contains(r"SARKARI_SANDESH: ${{ vars.SARKARI_SANDESH || 'on' }}"),
+    );
+    final defines = RegExp(r'defines="--dart-define-from-file[^"\n]*"')
+        .firstMatch(testYml)!
+        .group(0)!;
+    expect(
+      defines,
+      contains(r'--dart-define=SARKARI_SANDESH=$SARKARI_SANDESH'),
+    );
+  });
 }
