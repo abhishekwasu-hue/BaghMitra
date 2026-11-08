@@ -1806,6 +1806,37 @@ broker: the phone call), else 422 `verified_rule_not_met`.''',
   }
 
   @override
+  Future<Response<dynamic>> _v1BillingGoogleRtdnPost({
+    String? authorization,
+    required Object? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Pub/Sub push of a Play notification (no user session: Google\'s OIDC token instead).',
+      summary: 'Rtdn',
+      operationId: 'billing_google_rtdn',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["billing"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/billing/google/rtdn');
+    final Map<String, String> $headers = {
+      if (authorization != null) 'authorization': authorization,
+    };
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      headers: $headers,
+      tag: swaggerMetaData,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
   Future<Response<EntitlementsResponse>> _v1BillingGoogleVerifyPost({
     required VerifyIn? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(

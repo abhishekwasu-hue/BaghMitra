@@ -8,11 +8,11 @@ import uuid
 from datetime import UTC, datetime
 from typing import Annotated, Any
 
-from fastapi import APIRouter, Depends, Request
+from fastapi import APIRouter, Depends, Header, Request, Response
 from pydantic import BaseModel, Field
 from sqlalchemy import select
 
-from bagmitra_api.auth.jwt import CurrentUser
+from bagmitra_api.auth.jwt import CurrentUser, JwksKeys
 from bagmitra_api.billing.entitlements import ROLE_PLAN_PREFIX
 from bagmitra_api.billing.models import Subscription
 from bagmitra_api.billing.play import PlayError, PlayPublisher, play_publisher
@@ -22,6 +22,13 @@ from bagmitra_api.billing.purchases import (
     UnknownProductError,
     account_id,
     sync_purchase,
+)
+from bagmitra_api.billing.rtdn import (
+    PushRefusedError,
+    check_push_token,
+    google_oidc_keys,
+    handle,
+    read_message,
 )
 from bagmitra_api.billing.service import entitlements_for, snapshot_for
 from bagmitra_api.billing.switch import load_policy, user_roles
@@ -199,3 +206,35 @@ async def verify(  # noqa: PLR0913 - body and dependencies
     except PlayError as exc:
         raise ApiError(502, "play_error", "Google Play could not confirm the purchase") from exc
     return await entitlements(user, session, settings)
+
+
+@router.post(
+    "/google/rtdn",
+    operation_id="billing_google_rtdn",
+    status_code=204,
+    responses={502: {"model": ErrorResponse}, 503: {"model": ErrorResponse}},
+)
+async def rtdn(  # noqa: PLR0913 - body and dependencies
+    body: dict[str, Any],
+    session: DbSession,
+    settings: AppSettings,
+    play: Annotated[PlayPublisher | None, Depends(play_publisher)],
+    keys: Annotated[JwksKeys, Depends(google_oidc_keys)],
+    authorization: Annotated[str | None, Header()] = None,
+) -> Response:
+    """Pub/Sub push of a Play notification (no user session: Google's OIDC token instead)."""
+    if not settings.play_rtdn_audience or play is None:
+        raise ApiError(503, "play_not_set_up", "Google Play notifications are not set up yet")
+    try:
+        await check_push_token(authorization, keys, settings)
+    except PushRefusedError as exc:
+        raise ApiError(401, "push_refused", "not a valid Google push") from exc
+    message_id, note = read_message(body)
+    if not message_id:
+        return Response(status_code=204)  # nothing to record it under; Pub/Sub always sends one
+    try:
+        await handle(session, play, message_id, note, settings, datetime.now(UTC))
+    except PlayError as exc:
+        raise ApiError(502, "play_error", "Google Play could not be asked; retry") from exc
+    await session.commit()
+    return Response(status_code=204)
