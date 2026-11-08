@@ -3311,7 +3311,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'One sign-in for every role. You can switch the role any time.';
 
   @override
-  String get mlRoleGrower => 'Grower';
+  String get mlRoleGrower => 'Farmer';
 
   @override
   String get mlRoleTrader => 'Trader';
@@ -4271,7 +4271,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mlIntroTitle => 'Contacts';
 
   @override
-  String get mlIntroGrower => 'Grower';
+  String get mlIntroGrower => 'Farmer';
 
   @override
   String get mlIntroOpenMap => 'Open orchard on map';

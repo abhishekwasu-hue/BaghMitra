@@ -5773,7 +5773,7 @@ abstract class AppLocalizations {
   /// No description provided for @mlRoleGrower.
   ///
   /// In en, this message translates to:
-  /// **'Grower'**
+  /// **'Farmer'**
   String get mlRoleGrower;
 
   /// No description provided for @mlRoleTrader.
@@ -7483,7 +7483,7 @@ abstract class AppLocalizations {
   /// No description provided for @mlIntroGrower.
   ///
   /// In en, this message translates to:
-  /// **'Grower'**
+  /// **'Farmer'**
   String get mlIntroGrower;
 
   /// No description provided for @mlIntroOpenMap.
