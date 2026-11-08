@@ -120,4 +120,13 @@ void main() {
       contains(r'--dart-define=SARKARI_SANDESH=$SARKARI_SANDESH'),
     );
   });
+
+  test('Release notes ask for nothing in .env: the VPS mirror updates /app '
+      'and release.json (audit L6)', () {
+    final releaseYml = File('../.github/workflows/release-apk.yml')
+        .readAsStringSync();
+    // Setting APP_LATEST_VERSION_CODE would make /v1/app/version ignore release.json.
+    expect(releaseYml, isNot(contains('APP_LATEST_VERSION_CODE')));
+    expect(releaseYml, contains('nothing to set in .env'));
+  });
 }
