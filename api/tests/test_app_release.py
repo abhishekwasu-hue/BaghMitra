@@ -134,3 +134,26 @@ async def test_download_is_not_in_the_api_contract() -> None:
     assert "/app" not in spec["paths"]
     assert spec["paths"]["/v1/app/version"]["get"]["operationId"] == "app_version"
     assert "security" not in spec["paths"]["/v1/app/version"]["get"]
+
+
+async def test_without_env_numbers_the_mirrored_release_file_answers(apk_dir: Path) -> None:
+    """Owner 2026-11-08: the VPS mirror writes release.json beside the Release APK, so a new
+    release needs no hand-typed APP_LATEST_VERSION_* in .env."""
+    (apk_dir / "release.json").write_text('{"code": 12, "name": "1.0.1"}', "utf-8")
+    async for c in _client(_settings(app_download_dir=str(apk_dir))):
+        body = (await c.get("/v1/app/version")).json()
+    assert (body["latest_version_code"], body["latest_version_name"]) == (12, "1.0.1")
+    # Values set in .env still win (the manual path keeps working).
+    settings = _settings(
+        app_download_dir=str(apk_dir), app_latest_version_code=9, app_latest_version_name="0.9.0"
+    )
+    async for c in _client(settings):
+        body = (await c.get("/v1/app/version")).json()
+    assert (body["latest_version_code"], body["latest_version_name"]) == (9, "0.9.0")
+
+
+async def test_an_unreadable_release_file_means_no_update_known(apk_dir: Path) -> None:
+    (apk_dir / "release.json").write_text("not json", "utf-8")
+    async for c in _client(_settings(app_download_dir=str(apk_dir))):
+        body = (await c.get("/v1/app/version")).json()
+    assert body["latest_version_code"] == 0

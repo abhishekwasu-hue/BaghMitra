@@ -8,6 +8,7 @@ to build a path.
 
 from __future__ import annotations
 
+import json
 from pathlib import Path
 from typing import Annotated
 
@@ -20,6 +21,7 @@ from bagmitra_api.core.settings import Settings, get_settings
 router = APIRouter(tags=["app"])
 
 APK_FILE = "bagmitra.apk"
+RELEASE_FILE = "release.json"
 APK_MEDIA_TYPE = "application/vnd.android.package-archive"
 _NOT_AVAILABLE = (
     "बागमित्र ॲप अजून इथे उपलब्ध नाही. थोड्या वेळाने पुन्हा पाहा.\n"
@@ -42,12 +44,25 @@ async def app_version(
 ) -> AppVersionResponse:
     """Latest and minimum app version codes (0 = not set) and where to download the APK."""
     response.headers["Cache-Control"] = "no-cache"
+    code, name = settings.app_latest_version_code, settings.app_latest_version_name
+    if code == 0:
+        code, name = _mirrored_release(Path(settings.app_download_dir))
     return AppVersionResponse(
-        latest_version_code=settings.app_latest_version_code,
-        latest_version_name=settings.app_latest_version_name,
+        latest_version_code=code,
+        latest_version_name=name,
         min_version_code=settings.app_min_version_code,
         download_url=settings.app_download_url or str(request.url_for("download_apk")),
     )
+
+
+def _mirrored_release(folder: Path) -> tuple[int, str]:
+    """The Release APK the VPS mirror placed (deploy/fetch_test_apk.sh writes release.json
+    beside it); (0, "") when there is none or it cannot be read."""
+    try:
+        data = json.loads((folder / RELEASE_FILE).read_text("utf-8"))
+        return int(data["code"]), str(data["name"])
+    except (OSError, ValueError, KeyError, TypeError):
+        return 0, ""
 
 
 @router.api_route("/app", methods=["GET", "HEAD"], include_in_schema=False)

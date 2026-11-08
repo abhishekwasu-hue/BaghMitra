@@ -62,7 +62,7 @@ seven is missing, the Release APK run stops with a red error naming it; it never
    - `sarkari_sandesh`: `off` (default) जोपर्यंत सरकारी संदेश सर्व्हर feed चालू नाही.
 3. Run संपल्यावर Summary मध्ये **version code** दिसतो (उदा. `3`). Releases पानावर `release-<name>-<code>` मध्ये दोन फाइली:
    `bagmitra-<name>-<code>-arm64-v8a.apk` (जवळजवळ सर्व फोन) आणि `…-armeabi-v7a.apk` (जुने ३२-bit फोन).
-4. सर्व्हरवर APK टाका: `docs/runbooks/vps-deploy.md` → "६इ. नवीन APK शेतकऱ्यांना देणे".
+4. सर्व्हरवर APK: `RELEASE_APK_MIRROR=on` असेल तर १५ मिनिटांत आपोआप `/app` वर (आणि update सूचनेचे आकडे); नाहीतर `docs/runbooks/vps-deploy.md` → "६इ. नवीन APK शेतकऱ्यांना देणे".
 
 Version code = the Release APK run number. It only rises, and both APKs of one run carry the same code, so
 any newer release installs over any older one (`arm64-v8a` or `armeabi-v7a`, whichever the phone has), and the
