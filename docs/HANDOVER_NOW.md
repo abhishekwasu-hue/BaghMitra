@@ -36,7 +36,7 @@ Reports to Abhi in plain Marathi. Never run anything on the VPS; give him ONE co
 - One finding per PR: #276 H1, #277 M1, #278 M2, #279 M3, #280 M4, #281 M5, #288 L1, #293 L2, #291 L3, #289 L4, #292 L5, #287 L6, #285 L7, #282 L8, #286 L9, #283 L10, #290 L11; L12 note only (switch stays ON). Owner decisions Q122; open questions Q123–Q125.
 - Test APK now updates from `https://<domain>/app/test` (file `bagmitra-test.apk`); `/app` stays the Release APK. The mirror serves a file only when its SHA-256 equals GitHub's asset digest.
 - VPS (owner, ONE block): `cd /opt/bagmitra && bash deploy/deploy.sh && bash deploy/fetch_test_apk.sh; ls -l /srv/bagmitra-apk; curl -sI https://bagmitra.aialgodesk.org/app/test | head -3`.
-- Owner: set repository variable `RELEASE_CERT_SHA256` (Q125).
+- Q123–Q125 answered yes and built (#295–#297). VPS deployed (Test APK 173 at `/app/test`). The release key is pinned by default; a repository variable `RELEASE_CERT_SHA256` overrides it only after a key change.
 
 ## Billing status (2026-11-08)
 - Done on main: migration 0037 (switch default OFF, start date, per-role amounts), Play price push + confirmed migrate, plans seeded on every API start (kb.seed), test fixes #245 (date) / #252 (flake).
