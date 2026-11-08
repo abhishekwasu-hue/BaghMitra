@@ -1742,5 +1742,7 @@
   "feedbackIncluded": "The app version and the phone model go with it.",
   "feedbackSend": "Send",
   "feedbackSent": "Received. Thank you!",
-  "feedbackQueued": "Saved on the phone; it goes when the internet is back."
+  "feedbackQueued": "Saved on the phone; it goes when the internet is back.",
+  "mlLoginRole": "Role: {role}",
+  "@mlLoginRole": {"description": "Sign-in screen (market link builds): the role card the user picked, with a link back to the five cards.", "placeholders": {"role": {"type": "String"}}}
 }

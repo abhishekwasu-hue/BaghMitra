@@ -65,6 +65,7 @@ void main() {
     testWidgets('signed out goes straight to sign-in', (tester) async {
       await pumpApp(tester, session: null);
       expect(find.byType(PhoneLoginScreen), findsOneWidget);
+      expect(find.byKey(const Key('login-switch-role')), findsNothing);
       await unmountApp(tester);
     });
   });
@@ -91,6 +92,10 @@ void main() {
         () => db.readMeta(MarketLinkStore.roleKey),
       );
       expect(role, 'broker');
+      // The sign-in names the picked card and leads back to the five (no dead end).
+      expect(find.text('भूमिका: मध्यस्थ (दलाल)'), findsOneWidget);
+      await _tap(tester, 'login-switch-role');
+      expect(find.byType(RolePickerScreen), findsOneWidget);
       await unmountApp(tester);
     },
   );

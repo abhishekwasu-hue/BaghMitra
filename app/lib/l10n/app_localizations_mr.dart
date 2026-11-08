@@ -4471,4 +4471,9 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get feedbackQueued => 'फोनवर जतन केले; नेट आल्यावर जाईल.';
+
+  @override
+  String mlLoginRole(String role) {
+    return 'भूमिका: $role';
+  }
 }

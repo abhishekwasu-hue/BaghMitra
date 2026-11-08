@@ -4483,4 +4483,9 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get feedbackQueued =>
       'Saved on the phone; it goes when the internet is back.';
+
+  @override
+  String mlLoginRole(String role) {
+    return 'Role: $role';
+  }
 }
