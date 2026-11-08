@@ -8,6 +8,8 @@ Run workflow.
 Files in each release: `bagmitra-test-<version>-<sha>-universal.apk` (works on every phone, use this
 one) and smaller per-CPU files (`arm64-v8a`, `armeabi-v7a`, `x86_64`).
 
+The Test APK checks its own GitHub pre-releases (at most every 6 hours, on start) and shows "नवीन आवृत्ती उपलब्ध — डाउनलोड करा" when a newer test build exists; the button opens the universal APK, then Android asks to install it. Each release title ends with `· code <run number>` (the APKs' version code); releases made before this have no code and are skipped.
+
 Only commits that change `app/**`, `docs/api/**`, `product.env` or the app workflow produce a new
 test APK, because the gate workflow only runs for those paths.
 

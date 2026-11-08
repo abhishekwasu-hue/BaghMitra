@@ -78,7 +78,7 @@ jobs:
           # testing; the production Release APK never carries it (legal gate, spec v1.5 §5).
           MARKET_LINK: ${{ vars.MARKET_LINK || 'false' }}
         run: |
-          defines="--dart-define-from-file=../product.env --dart-define=DEV_GALLERY=true --dart-define=TEST_BUILD=${{ steps.meta.outputs.sha }} --dart-define=PHONE_LOGIN=$PHONE_LOGIN --dart-define=MARKET_LINK=$MARKET_LINK"
+          defines="--dart-define-from-file=../product.env --dart-define=DEV_GALLERY=true --dart-define=TEST_BUILD=${{ steps.meta.outputs.sha }} --dart-define=TEST_RELEASES_REPO=${{ github.repository }} --dart-define=PHONE_LOGIN=$PHONE_LOGIN --dart-define=MARKET_LINK=$MARKET_LINK"
           for key in API_BASE_URL SUPABASE_URL SUPABASE_ANON_KEY; do
             if [ -n "${!key}" ]; then
               defines="$defines --dart-define=$key=${!key}"
@@ -127,5 +127,5 @@ jobs:
           tag="${{ steps.meta.outputs.tag }}"
           gh release create "$tag" release-files/*.apk \
             --prerelease --target "$(git rev-parse HEAD)" \
-            --title "Test build $tag" --generate-notes \
+            --title "Test build $tag · code ${{ github.run_number }}" --generate-notes \
             || gh release upload "$tag" release-files/*.apk --clobber
