@@ -7773,6 +7773,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Open Google Play'**
   String get billingOpenPlay;
+
+  /// No description provided for @feedbackTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Send feedback'**
+  String get feedbackTitle;
+
+  /// No description provided for @feedbackKindProblem.
+  ///
+  /// In en, this message translates to:
+  /// **'Problem'**
+  String get feedbackKindProblem;
+
+  /// No description provided for @feedbackKindSuggestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggestion'**
+  String get feedbackKindSuggestion;
+
+  /// No description provided for @feedbackKindQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Question'**
+  String get feedbackKindQuestion;
+
+  /// No description provided for @feedbackHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Write or speak what happened, or what you would like.'**
+  String get feedbackHint;
+
+  /// No description provided for @feedbackAddScreenshot.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a screenshot'**
+  String get feedbackAddScreenshot;
+
+  /// No description provided for @feedbackScreenshotAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Screenshot added'**
+  String get feedbackScreenshotAdded;
+
+  /// No description provided for @feedbackIncluded.
+  ///
+  /// In en, this message translates to:
+  /// **'The app version and the phone model go with it.'**
+  String get feedbackIncluded;
+
+  /// No description provided for @feedbackSend.
+  ///
+  /// In en, this message translates to:
+  /// **'Send'**
+  String get feedbackSend;
+
+  /// No description provided for @feedbackSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Received. Thank you!'**
+  String get feedbackSent;
+
+  /// No description provided for @feedbackQueued.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved on the phone; it goes when the internet is back.'**
+  String get feedbackQueued;
 }
 
 class _AppLocalizationsDelegate

@@ -4441,4 +4441,37 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get billingOpenPlay => 'Google Play उघडा';
+
+  @override
+  String get feedbackTitle => 'अभिप्राय द्या';
+
+  @override
+  String get feedbackKindProblem => 'अडचण';
+
+  @override
+  String get feedbackKindSuggestion => 'सूचना';
+
+  @override
+  String get feedbackKindQuestion => 'प्रश्न';
+
+  @override
+  String get feedbackHint => 'काय झाले किंवा काय हवे ते लिहा किंवा बोला.';
+
+  @override
+  String get feedbackAddScreenshot => 'screenshot जोडा';
+
+  @override
+  String get feedbackScreenshotAdded => 'screenshot जोडला';
+
+  @override
+  String get feedbackIncluded => 'app version व फोनचे मॉडेल सोबत जाते.';
+
+  @override
+  String get feedbackSend => 'पाठवा';
+
+  @override
+  String get feedbackSent => 'मिळाले, धन्यवाद!';
+
+  @override
+  String get feedbackQueued => 'फोनवर जतन केले; नेट आल्यावर जाईल.';
 }

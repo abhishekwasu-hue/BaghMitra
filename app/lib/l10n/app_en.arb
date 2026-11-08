@@ -1732,5 +1732,16 @@
   "billingChangeTitle": "Change to your subscription",
   "billingChangeBody": "Google Play has a new monthly rate for your subscription from {date}. To keep the subscription, review and accept it in Google Play.",
   "@billingChangeBody": {"description": "Required in-app notice of a Play price increase (addendum §7); no amount, the user sees it in Google Play.", "placeholders": {"date": {"type": "String"}}},
-  "billingOpenPlay": "Open Google Play"
+  "billingOpenPlay": "Open Google Play",
+  "feedbackTitle": "Send feedback",
+  "feedbackKindProblem": "Problem",
+  "feedbackKindSuggestion": "Suggestion",
+  "feedbackKindQuestion": "Question",
+  "feedbackHint": "Write or speak what happened, or what you would like.",
+  "feedbackAddScreenshot": "Add a screenshot",
+  "feedbackScreenshotAdded": "Screenshot added",
+  "feedbackIncluded": "The app version and the phone model go with it.",
+  "feedbackSend": "Send",
+  "feedbackSent": "Received. Thank you!",
+  "feedbackQueued": "Saved on the phone; it goes when the internet is back."
 }

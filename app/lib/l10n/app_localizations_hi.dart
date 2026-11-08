@@ -4444,4 +4444,37 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get billingOpenPlay => 'Google Play खोलें';
+
+  @override
+  String get feedbackTitle => 'प्रतिक्रिया दें';
+
+  @override
+  String get feedbackKindProblem => 'समस्या';
+
+  @override
+  String get feedbackKindSuggestion => 'सुझाव';
+
+  @override
+  String get feedbackKindQuestion => 'प्रश्न';
+
+  @override
+  String get feedbackHint => 'क्या हुआ या क्या चाहिए, लिखें या बोलें।';
+
+  @override
+  String get feedbackAddScreenshot => 'screenshot जोड़ें';
+
+  @override
+  String get feedbackScreenshotAdded => 'screenshot जुड़ा';
+
+  @override
+  String get feedbackIncluded => 'app version और फ़ोन का मॉडल साथ जाता है।';
+
+  @override
+  String get feedbackSend => 'भेजें';
+
+  @override
+  String get feedbackSent => 'मिल गया, धन्यवाद!';
+
+  @override
+  String get feedbackQueued => 'फ़ोन पर सहेजा; इंटरनेट आने पर जाएगा।';
 }
