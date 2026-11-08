@@ -130,8 +130,10 @@ jobs:
       - name: Check signature and version codes
         env:
           CODE: ${{ steps.meta.outputs.code }}
-          # Owner's release certificate SHA-256 (hex, colons allowed); audit L5.
-          RELEASE_CERT_SHA256: ${{ vars.RELEASE_CERT_SHA256 }}
+          # Owner's release certificate SHA-256 (hex, colons allowed); audit L5. Default: the
+          # release key (owner Q125, 2026-11-08; checked against release-1.0.1-2). A repository
+          # variable RELEASE_CERT_SHA256 overrides it (e.g. after a key change).
+          RELEASE_CERT_SHA256: ${{ vars.RELEASE_CERT_SHA256 || 'C4:90:F1:8E:7B:80:C1:B3:1D:50:9B:C9:26:1C:5E:DF:1B:E4:31:74:30:3E:47:B0:B0:56:0A:BE:15:6A:A8:BA' }}
         run: |
           tools=$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -1)
           want=$(printf '%s' "$RELEASE_CERT_SHA256" | tr -d ': ' | tr 'A-F' 'a-f')
