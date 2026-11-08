@@ -54,6 +54,8 @@ class Settings(BaseSettings):
     play_api_base_url: str = "https://androidpublisher.googleapis.com"
     play_regions_version: str = "2022/02"
     play_timeout_seconds: float = Field(default=20.0, gt=0)
+    # Purchase checks per user per hour (addendum §3 security checklist: rate limits on verify).
+    billing_verify_rate_limit: int = Field(default=20, ge=1)
 
     cors_origins: list[str] = Field(default_factory=list)
     sentry_dsn: SecretStr | None = None

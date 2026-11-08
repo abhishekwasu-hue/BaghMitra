@@ -25,6 +25,7 @@ from bagmitra_api.billing.play import (
     play_account,
     play_publisher,
 )
+from bagmitra_api.billing.seed import seed_plans
 from bagmitra_api.core.settings import Settings, get_settings
 from bagmitra_api.db.session import get_sessionmaker
 from bagmitra_api.main import create_app
@@ -131,6 +132,9 @@ async def test_play_errors_and_missing_base_plans_raise() -> None:
 @asynccontextmanager
 async def admin_api(engine: AsyncEngine, play: FakePlay | None) -> AsyncIterator[httpx.AsyncClient]:
     maker = async_sessionmaker(engine, expire_on_commit=False)
+    async with maker() as session:
+        await seed_plans(session)
+        await session.commit()
     cfg = play_settings()
     app = create_app(cfg)
     app.dependency_overrides[get_sessionmaker] = lambda: maker

@@ -6399,6 +6399,10 @@
       "PlanOfferOut": {
         "description": "Subscription page (§7) only while ON and a role is priced; the price is Play's own.",
         "properties": {
+          "account_id": {
+            "title": "Account Id",
+            "type": "string"
+          },
           "base_plan_id": {
             "anyOf": [
               {
@@ -6424,6 +6428,16 @@
             },
             "title": "Locked",
             "type": "array"
+          },
+          "price_change": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PriceChangeOut"
+              },
+              {
+                "type": "null"
+              }
+            ]
           },
           "product_id": {
             "anyOf": [
@@ -6454,7 +6468,9 @@
           "product_id",
           "base_plan_id",
           "covered",
-          "locked"
+          "locked",
+          "account_id",
+          "price_change"
         ],
         "title": "PlanOfferOut",
         "type": "object"
@@ -6546,6 +6562,66 @@
           "stale"
         ],
         "title": "PlotWeather",
+        "type": "object"
+      },
+      "PriceChangeOut": {
+        "properties": {
+          "charge_time": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Charge Time"
+          },
+          "currency": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Currency"
+          },
+          "mode": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mode"
+          },
+          "new_price_paise": {
+            "title": "New Price Paise",
+            "type": "integer"
+          },
+          "state": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "State"
+          }
+        },
+        "required": [
+          "state",
+          "new_price_paise",
+          "currency",
+          "charge_time"
+        ],
+        "title": "PriceChangeOut",
         "type": "object"
       },
       "ProfilesResponse": {
@@ -8858,6 +8934,21 @@
           "created_at"
         ],
         "title": "VerificationOut",
+        "type": "object"
+      },
+      "VerifyIn": {
+        "properties": {
+          "purchase_token": {
+            "maxLength": 1000,
+            "minLength": 10,
+            "title": "Purchase Token",
+            "type": "string"
+          }
+        },
+        "required": [
+          "purchase_token"
+        ],
+        "title": "VerifyIn",
         "type": "object"
       },
       "WeatherAlert": {
@@ -14795,6 +14886,113 @@
           }
         ],
         "summary": "Entitlements",
+        "tags": [
+          "billing"
+        ]
+      }
+    },
+    "/v1/billing/google/verify": {
+      "post": {
+        "description": "The app sends the purchase token; only after Google confirms it does the snapshot\nchange. The server acknowledges the purchase.",
+        "operationId": "billing_google_verify",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerifyIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EntitlementsResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Gateway"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Verify",
         "tags": [
           "billing"
         ]

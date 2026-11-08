@@ -12768,10 +12768,12 @@ extension $PlanInExtension on PlanIn {
 @JsonSerializable(explicitToJson: true)
 class PlanOfferOut {
   const PlanOfferOut({
+    required this.accountId,
     required this.basePlanId,
     required this.covered,
     required this.inForce,
     required this.locked,
+    required this.priceChange,
     required this.productId,
     required this.role,
   });
@@ -12782,6 +12784,8 @@ class PlanOfferOut {
   static const toJsonFactory = _$PlanOfferOutToJson;
   Map<String, dynamic> toJson() => _$PlanOfferOutToJson(this);
 
+  @JsonKey(name: 'account_id', includeIfNull: false)
+  final String accountId;
   @JsonKey(name: 'base_plan_id', includeIfNull: false)
   final String? basePlanId;
   @JsonKey(name: 'covered', includeIfNull: false)
@@ -12790,6 +12794,8 @@ class PlanOfferOut {
   final bool inForce;
   @JsonKey(name: 'locked', includeIfNull: false, defaultValue: <String>[])
   final List<String> locked;
+  @JsonKey(name: 'price_change', includeIfNull: false)
+  final PriceChangeOut? priceChange;
   @JsonKey(name: 'product_id', includeIfNull: false)
   final String? productId;
   @JsonKey(name: 'role', includeIfNull: false)
@@ -12800,6 +12806,11 @@ class PlanOfferOut {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other is PlanOfferOut &&
+            (identical(other.accountId, accountId) ||
+                const DeepCollectionEquality().equals(
+                  other.accountId,
+                  accountId,
+                )) &&
             (identical(other.basePlanId, basePlanId) ||
                 const DeepCollectionEquality().equals(
                   other.basePlanId,
@@ -12817,6 +12828,11 @@ class PlanOfferOut {
                 )) &&
             (identical(other.locked, locked) ||
                 const DeepCollectionEquality().equals(other.locked, locked)) &&
+            (identical(other.priceChange, priceChange) ||
+                const DeepCollectionEquality().equals(
+                  other.priceChange,
+                  priceChange,
+                )) &&
             (identical(other.productId, productId) ||
                 const DeepCollectionEquality().equals(
                   other.productId,
@@ -12831,10 +12847,12 @@ class PlanOfferOut {
 
   @override
   int get hashCode =>
+      const DeepCollectionEquality().hash(accountId) ^
       const DeepCollectionEquality().hash(basePlanId) ^
       const DeepCollectionEquality().hash(covered) ^
       const DeepCollectionEquality().hash(inForce) ^
       const DeepCollectionEquality().hash(locked) ^
+      const DeepCollectionEquality().hash(priceChange) ^
       const DeepCollectionEquality().hash(productId) ^
       const DeepCollectionEquality().hash(role) ^
       runtimeType.hashCode;
@@ -12842,36 +12860,44 @@ class PlanOfferOut {
 
 extension $PlanOfferOutExtension on PlanOfferOut {
   PlanOfferOut copyWith({
+    String? accountId,
     String? basePlanId,
     bool? covered,
     bool? inForce,
     List<String>? locked,
+    PriceChangeOut? priceChange,
     String? productId,
     String? role,
   }) {
     return PlanOfferOut(
+      accountId: accountId ?? this.accountId,
       basePlanId: basePlanId ?? this.basePlanId,
       covered: covered ?? this.covered,
       inForce: inForce ?? this.inForce,
       locked: locked ?? this.locked,
+      priceChange: priceChange ?? this.priceChange,
       productId: productId ?? this.productId,
       role: role ?? this.role,
     );
   }
 
   PlanOfferOut copyWithWrapped({
+    Wrapped<String>? accountId,
     Wrapped<String?>? basePlanId,
     Wrapped<bool>? covered,
     Wrapped<bool>? inForce,
     Wrapped<List<String>>? locked,
+    Wrapped<PriceChangeOut?>? priceChange,
     Wrapped<String?>? productId,
     Wrapped<String?>? role,
   }) {
     return PlanOfferOut(
+      accountId: (accountId != null ? accountId.value : this.accountId),
       basePlanId: (basePlanId != null ? basePlanId.value : this.basePlanId),
       covered: (covered != null ? covered.value : this.covered),
       inForce: (inForce != null ? inForce.value : this.inForce),
       locked: (locked != null ? locked.value : this.locked),
+      priceChange: (priceChange != null ? priceChange.value : this.priceChange),
       productId: (productId != null ? productId.value : this.productId),
       role: (role != null ? role.value : this.role),
     );
@@ -13096,6 +13122,108 @@ extension $PlotWeatherExtension on PlotWeather {
       alerts: (alerts != null ? alerts.value : this.alerts),
       days: (days != null ? days.value : this.days),
       stale: (stale != null ? stale.value : this.stale),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class PriceChangeOut {
+  const PriceChangeOut({
+    required this.chargeTime,
+    required this.currency,
+    this.mode,
+    required this.newPricePaise,
+    required this.state,
+  });
+
+  factory PriceChangeOut.fromJson(Map<String, dynamic> json) =>
+      _$PriceChangeOutFromJson(json);
+
+  static const toJsonFactory = _$PriceChangeOutToJson;
+  Map<String, dynamic> toJson() => _$PriceChangeOutToJson(this);
+
+  @JsonKey(name: 'charge_time', includeIfNull: false)
+  final String? chargeTime;
+  @JsonKey(name: 'currency', includeIfNull: false)
+  final String? currency;
+  @JsonKey(name: 'mode', includeIfNull: false)
+  final String? mode;
+  @JsonKey(name: 'new_price_paise', includeIfNull: false)
+  final int newPricePaise;
+  @JsonKey(name: 'state', includeIfNull: false)
+  final String? state;
+  static const fromJsonFactory = _$PriceChangeOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is PriceChangeOut &&
+            (identical(other.chargeTime, chargeTime) ||
+                const DeepCollectionEquality().equals(
+                  other.chargeTime,
+                  chargeTime,
+                )) &&
+            (identical(other.currency, currency) ||
+                const DeepCollectionEquality().equals(
+                  other.currency,
+                  currency,
+                )) &&
+            (identical(other.mode, mode) ||
+                const DeepCollectionEquality().equals(other.mode, mode)) &&
+            (identical(other.newPricePaise, newPricePaise) ||
+                const DeepCollectionEquality().equals(
+                  other.newPricePaise,
+                  newPricePaise,
+                )) &&
+            (identical(other.state, state) ||
+                const DeepCollectionEquality().equals(other.state, state)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(chargeTime) ^
+      const DeepCollectionEquality().hash(currency) ^
+      const DeepCollectionEquality().hash(mode) ^
+      const DeepCollectionEquality().hash(newPricePaise) ^
+      const DeepCollectionEquality().hash(state) ^
+      runtimeType.hashCode;
+}
+
+extension $PriceChangeOutExtension on PriceChangeOut {
+  PriceChangeOut copyWith({
+    String? chargeTime,
+    String? currency,
+    String? mode,
+    int? newPricePaise,
+    String? state,
+  }) {
+    return PriceChangeOut(
+      chargeTime: chargeTime ?? this.chargeTime,
+      currency: currency ?? this.currency,
+      mode: mode ?? this.mode,
+      newPricePaise: newPricePaise ?? this.newPricePaise,
+      state: state ?? this.state,
+    );
+  }
+
+  PriceChangeOut copyWithWrapped({
+    Wrapped<String?>? chargeTime,
+    Wrapped<String?>? currency,
+    Wrapped<String?>? mode,
+    Wrapped<int>? newPricePaise,
+    Wrapped<String?>? state,
+  }) {
+    return PriceChangeOut(
+      chargeTime: (chargeTime != null ? chargeTime.value : this.chargeTime),
+      currency: (currency != null ? currency.value : this.currency),
+      mode: (mode != null ? mode.value : this.mode),
+      newPricePaise: (newPricePaise != null
+          ? newPricePaise.value
+          : this.newPricePaise),
+      state: (state != null ? state.value : this.state),
     );
   }
 }
@@ -18195,6 +18323,53 @@ extension $VerificationOutExtension on VerificationOut {
       id: (id != null ? id.value : this.id),
       reason: (reason != null ? reason.value : this.reason),
       status: (status != null ? status.value : this.status),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class VerifyIn {
+  const VerifyIn({required this.purchaseToken});
+
+  factory VerifyIn.fromJson(Map<String, dynamic> json) =>
+      _$VerifyInFromJson(json);
+
+  static const toJsonFactory = _$VerifyInToJson;
+  Map<String, dynamic> toJson() => _$VerifyInToJson(this);
+
+  @JsonKey(name: 'purchase_token', includeIfNull: false)
+  final String purchaseToken;
+  static const fromJsonFactory = _$VerifyInFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is VerifyIn &&
+            (identical(other.purchaseToken, purchaseToken) ||
+                const DeepCollectionEquality().equals(
+                  other.purchaseToken,
+                  purchaseToken,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(purchaseToken) ^ runtimeType.hashCode;
+}
+
+extension $VerifyInExtension on VerifyIn {
+  VerifyIn copyWith({String? purchaseToken}) {
+    return VerifyIn(purchaseToken: purchaseToken ?? this.purchaseToken);
+  }
+
+  VerifyIn copyWithWrapped({Wrapped<String>? purchaseToken}) {
+    return VerifyIn(
+      purchaseToken: (purchaseToken != null
+          ? purchaseToken.value
+          : this.purchaseToken),
     );
   }
 }

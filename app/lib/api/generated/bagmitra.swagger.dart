@@ -2227,6 +2227,36 @@ broker: the phone call), else 422 `verified_rule_not_met`.''',
     ),
   });
 
+  ///Verify
+  Future<chopper.Response<EntitlementsResponse>> v1BillingGoogleVerifyPost({
+    required VerifyIn? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      EntitlementsResponse,
+      () => EntitlementsResponse.fromJsonFactory,
+    );
+
+    return _v1BillingGoogleVerifyPost(body: body);
+  }
+
+  ///Verify
+  @POST(path: '/v1/billing/google/verify', optionalBody: true)
+  Future<chopper.Response<EntitlementsResponse>> _v1BillingGoogleVerifyPost({
+    @Body() required VerifyIn? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''The app sends the purchase token; only after Google confirms it does the snapshot
+change. The server acknowledges the purchase.''',
+      summary: 'Verify',
+      operationId: 'billing_google_verify',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["billing"],
+      deprecated: false,
+    ),
+  });
+
   ///Plan
   Future<chopper.Response<PlanOfferOut>> v1BillingPlanGet() {
     generatedMapping.putIfAbsent(

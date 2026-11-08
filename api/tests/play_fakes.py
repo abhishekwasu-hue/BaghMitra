@@ -43,6 +43,7 @@ class FakePlay:
     def __init__(self) -> None:
         self.calls: list[tuple[str, tuple[Any, ...]]] = []
         self.fail = False
+        self.purchases = {}
 
     def _record(self, name: str, *args: Any) -> None:
         self.calls.append((name, args))
@@ -57,6 +58,51 @@ class FakePlay:
         self, product_id: str, base_plan_id: str, oldest_allowed: datetime
     ) -> None:
         self._record("migrate_prices", product_id, base_plan_id, oldest_allowed)
+
+    purchases: dict[str, dict[str, Any]]
+
+    async def get_subscription(self, token: str) -> dict[str, Any]:
+        self._record("get_subscription", token)
+        return self.purchases[token]
+
+    async def acknowledge(self, product_id: str, token: str) -> None:
+        self._record("acknowledge", product_id, token)
+
+
+def purchase(
+    account: str,
+    *,
+    state: str = "SUBSCRIPTION_STATE_ACTIVE",
+    product: str = "bagmitra_grower",
+    expiry: str = "2099-01-01T00:00:00Z",
+    acknowledged: bool = False,
+    linked: str | None = None,
+    price_change: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """A `SubscriptionPurchaseV2` as Play's REST API returns it."""
+    plan: dict[str, Any] = {"autoRenewEnabled": True}
+    if price_change:
+        plan["priceChangeDetails"] = price_change
+    body: dict[str, Any] = {
+        "kind": "androidpublisher#subscriptionPurchaseV2",
+        "startTime": "2026-11-01T00:00:00Z",
+        "subscriptionState": state,
+        "acknowledgementState": "ACKNOWLEDGEMENT_STATE_ACKNOWLEDGED"
+        if acknowledged
+        else "ACKNOWLEDGEMENT_STATE_PENDING",
+        "externalAccountIdentifiers": {"obfuscatedExternalAccountId": account},
+        "lineItems": [
+            {
+                "productId": product,
+                "expiryTime": expiry,
+                "autoRenewingPlan": plan,
+                "offerDetails": {"basePlanId": "monthly"},
+            }
+        ],
+    }
+    if linked:
+        body["linkedPurchaseToken"] = linked
+    return body
 
 
 class FakeGoogle:

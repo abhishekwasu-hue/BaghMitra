@@ -1806,6 +1806,33 @@ broker: the phone call), else 422 `verified_rule_not_met`.''',
   }
 
   @override
+  Future<Response<EntitlementsResponse>> _v1BillingGoogleVerifyPost({
+    required VerifyIn? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''The app sends the purchase token; only after Google confirms it does the snapshot
+change. The server acknowledges the purchase.''',
+      summary: 'Verify',
+      operationId: 'billing_google_verify',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["billing"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/billing/google/verify');
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<EntitlementsResponse, EntitlementsResponse>($request);
+  }
+
+  @override
   Future<Response<PlanOfferOut>> _v1BillingPlanGet({
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',

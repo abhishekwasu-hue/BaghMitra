@@ -61,6 +61,14 @@ class PlayPublisher(Protocol):
         """Move India subscribers on a price older than `oldest_allowed` to the current one."""
         ...
 
+    async def get_subscription(self, token: str) -> dict[str, Any]:
+        """`purchases.subscriptionsv2.get`: the truth about one purchase token."""
+        ...
+
+    async def acknowledge(self, product_id: str, token: str) -> None:
+        """Acknowledge a purchase (Google refunds one left unacknowledged for 3 days)."""
+        ...
+
 
 def money(paise: int) -> dict[str, Any]:
     return {"currencyCode": CURRENCY, "units": str(paise // 100), "nanos": (paise % 100) * 10**7}
@@ -167,6 +175,16 @@ class GooglePlayPublisher:
             "regionsVersion": {"version": self._regions_version},
         }
         await self.call("POST", path, json=body)
+
+    async def get_subscription(self, token: str) -> dict[str, Any]:
+        return await self.call("GET", f"/purchases/subscriptionsv2/tokens/{quote(token, safe='')}")
+
+    async def acknowledge(self, product_id: str, token: str) -> None:
+        path = (
+            f"/purchases/subscriptions/{quote(product_id, safe='')}"
+            f"/tokens/{quote(token, safe='')}:acknowledge"
+        )
+        await self.call("POST", path, json={})
 
 
 def _india_price(subscription: dict[str, Any], base_plan_id: str) -> PlayPrice:
