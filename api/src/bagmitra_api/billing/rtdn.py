@@ -35,6 +35,7 @@ from bagmitra_api.billing.play import PlayPublisher
 from bagmitra_api.billing.purchases import (
     AccountMismatchError,
     UnknownProductError,
+    UnknownStateError,
     sync_purchase,
     token_hash,
 )
@@ -175,7 +176,8 @@ async def handle(  # noqa: PLR0913 - session, Play, message, settings, clock
             now=now,
             product_prefix=settings.play_product_prefix,
         )
-    except (UnknownProductError, AccountMismatchError) as exc:
+    except (UnknownProductError, AccountMismatchError, UnknownStateError) as exc:
+        log.warning("rtdn_refused", type=kind, reason=type(exc).__name__)
         _ledger(session, message_id, "rtdn_refused", type=kind, reason=type(exc).__name__)
         return "rtdn_refused"
     if row is not None and kind == SUBSCRIPTION_REVOKED:
