@@ -19,6 +19,7 @@ class FeedbackDraft {
     required this.appVersion,
     required this.device,
     this.screenshotPath,
+    this.textSent = false,
   });
 
   factory FeedbackDraft.fromJson(Map<String, Object?> j) => FeedbackDraft(
@@ -28,6 +29,7 @@ class FeedbackDraft {
     appVersion: j['app_version']! as String,
     device: j['device']! as String,
     screenshotPath: j['screenshot'] as String?,
+    textSent: j['text_sent'] == true,
   );
 
   final String id;
@@ -37,6 +39,19 @@ class FeedbackDraft {
   final String device;
   final String? screenshotPath;
 
+  /// The server has the text; only the screenshot still waits (audit L4).
+  final bool textSent;
+
+  FeedbackDraft withTextSent() => FeedbackDraft(
+    id: id,
+    kind: kind,
+    text: text,
+    appVersion: appVersion,
+    device: device,
+    screenshotPath: screenshotPath,
+    textSent: true,
+  );
+
   Map<String, Object?> toJson() => {
     'id': id,
     'kind': kind.name,
@@ -44,6 +59,7 @@ class FeedbackDraft {
     'app_version': appVersion,
     'device': device,
     'screenshot': screenshotPath,
+    'text_sent': textSent,
   };
 }
 
@@ -70,7 +86,7 @@ SendResult sendResultOf(int status) {
 /// Where a message goes: `POST /v1/feedback` and the optional screenshot.
 abstract interface class FeedbackServer {
   Future<SendResult> send(FeedbackDraft draft);
-  Future<bool> sendScreenshot(String id, List<int> jpeg);
+  Future<SendResult> sendScreenshot(String id, List<int> jpeg);
 }
 
 class ApiFeedbackServer implements FeedbackServer {
@@ -96,7 +112,7 @@ class ApiFeedbackServer implements FeedbackServer {
   }
 
   @override
-  Future<bool> sendScreenshot(String id, List<int> jpeg) async {
+  Future<SendResult> sendScreenshot(String id, List<int> jpeg) async {
     try {
       final res = await _api.client.send<Object, Object>(
         Request(
@@ -107,9 +123,9 @@ class ApiFeedbackServer implements FeedbackServer {
           headers: {'Content-Type': 'image/jpeg'},
         ),
       );
-      return res.isSuccessful;
+      return sendResultOf(res.statusCode);
     } on Object {
-      return false;
+      return SendResult.retryLater;
     }
   }
 }
@@ -165,22 +181,40 @@ class FeedbackOutbox {
     return flush();
   }
 
-  /// Sends what waits, oldest first. Stops at the first retry-later answer (offline, 5xx) and
-  /// keeps the rest; a refused message is removed and the next one is sent (audit M2).
+  /// Sends what waits, oldest first. Stops at the first text that must wait (offline, 5xx)
+  /// and keeps the rest; a refused message is removed and the next one is sent (audit M2).
+  /// A screenshot that must wait stays queued with its text marked sent, and the next
+  /// message still goes; a refused or missing screenshot is dropped (audit L4).
   Future<bool> flush() async {
     final list = await pending();
-    while (list.isNotEmpty) {
-      final d = list.first;
-      final result = await _server.send(d);
-      if (result == SendResult.retryLater) break;
-      if (result == SendResult.sent && d.screenshotPath != null) {
-        final path = d.screenshotPath!;
+    var i = 0;
+    while (i < list.length) {
+      var d = list[i];
+      if (!d.textSent) {
+        final result = await _server.send(d);
+        if (result == SendResult.retryLater) break;
+        if (result == SendResult.refused) {
+          list.removeAt(i);
+          await _save(list);
+          continue;
+        }
+        d = list[i] = d.withTextSent();
+        await _save(list);
+      }
+      if (d.screenshotPath case final path?) {
         final file = File(path);
         if (file.existsSync()) {
-          await _server.sendScreenshot(d.id, await file.readAsBytes());
+          final shot = await _server.sendScreenshot(
+            d.id,
+            await file.readAsBytes(),
+          );
+          if (shot == SendResult.retryLater) {
+            i++; // keep it; the next message may still go
+            continue;
+          }
         }
       }
-      list.removeAt(0);
+      list.removeAt(i);
       await _save(list);
     }
     return list.isEmpty;

@@ -26,10 +26,14 @@ class FakeFeedbackServer implements FeedbackServer {
     return SendResult.sent;
   }
 
+  /// What the screenshot upload answers (audit L4).
+  SendResult shotAnswer = SendResult.sent;
+
   @override
-  Future<bool> sendScreenshot(String id, List<int> jpeg) async {
-    screenshots.add(id);
-    return true;
+  Future<SendResult> sendScreenshot(String id, List<int> jpeg) async {
+    if (!online) return SendResult.retryLater;
+    if (shotAnswer == SendResult.sent) screenshots.add(id);
+    return shotAnswer;
   }
 }
 
@@ -126,6 +130,64 @@ void main() {
     ]) {
       expect(sendResultOf(status), result, reason: '$status');
     }
+  });
+
+  test('a screenshot that could not go stays queued; its text is not sent twice and '
+      'does not hold back the next message (audit L4)', () async {
+    final db = memoryDb();
+    addTearDown(db.close);
+    final server = FakeFeedbackServer()..shotAnswer = SendResult.retryLater;
+    final dir = await Directory.systemTemp.createTemp('fb');
+    addTearDown(() => dir.delete(recursive: true));
+    final shot = File('${dir.path}/s.jpg')
+      ..writeAsBytesSync([0xff, 0xd8, 0xff]);
+    var n = 0;
+    final box = FeedbackOutbox(db, server, newId: () => 'id-${n++}');
+    expect(
+      await box.add(
+        kind: FeedbackKind.problem,
+        text: 'with shot',
+        appVersion: 'v',
+        device: 'd',
+        screenshotPath: shot.path,
+      ),
+      isFalse,
+    );
+    await box.add(
+      kind: FeedbackKind.question,
+      text: 'next',
+      appVersion: 'v',
+      device: 'd',
+    );
+    expect(server.sent, ['problem:with shot', 'question:next']);
+    expect((await box.pending()).map((d) => d.id), ['id-0']);
+    server.shotAnswer = SendResult.sent;
+    expect(await box.flush(), isTrue);
+    expect(server.screenshots, ['id-0']);
+    expect(server.sent, ['problem:with shot', 'question:next']); // text once
+    expect(await box.pending(), isEmpty);
+  });
+
+  test('a refused screenshot is dropped; the message stays sent', () async {
+    final db = memoryDb();
+    addTearDown(db.close);
+    final server = FakeFeedbackServer()..shotAnswer = SendResult.refused;
+    final dir = await Directory.systemTemp.createTemp('fb');
+    addTearDown(() => dir.delete(recursive: true));
+    final shot = File('${dir.path}/s.png')..writeAsBytesSync([0x89, 0x50]);
+    final box = FeedbackOutbox(db, server, newId: () => 'id-0');
+    expect(
+      await box.add(
+        kind: FeedbackKind.problem,
+        text: 'a',
+        appVersion: 'v',
+        device: 'd',
+        screenshotPath: shot.path,
+      ),
+      isTrue,
+    );
+    expect(server.sent, ['problem:a']);
+    expect(await box.pending(), isEmpty);
   });
 
   test(
