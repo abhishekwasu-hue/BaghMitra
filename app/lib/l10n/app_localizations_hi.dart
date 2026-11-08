@@ -4440,6 +4440,11 @@ class AppLocalizationsHi extends AppLocalizations {
   }
 
   @override
+  String billingChangeConfirmedBody(String date) {
+    return '$date से आपकी सदस्यता Google Play की नई मासिक दर पर चलेगी। आप इसे पहले ही स्वीकार कर चुके हैं।';
+  }
+
+  @override
   String get billingOpenPlay => 'Google Play खोलें';
 
   @override

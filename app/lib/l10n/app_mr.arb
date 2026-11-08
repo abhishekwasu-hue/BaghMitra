@@ -1276,6 +1276,7 @@
   "billingNeedsPlay": "हे पान Google Play असलेल्या फोनवर उघडा.",
   "billingChangeTitle": "तुमच्या सदस्यतेत बदल",
   "billingChangeBody": "{date} पासून तुमच्या सदस्यतेचा नवीन मासिक दर Google Play मध्ये आहे. सदस्यता सुरू ठेवण्यासाठी Google Play मध्ये पाहून स्वीकारा.",
+  "billingChangeConfirmedBody": "{date} पासून तुमची सदस्यता Google Play मधील नवीन मासिक दराने सुरू राहील. तुम्ही तो आधीच स्वीकारला आहे.",
   "billingOpenPlay": "Google Play उघडा",
   "feedbackTitle": "अभिप्राय द्या",
   "feedbackKindProblem": "अडचण",

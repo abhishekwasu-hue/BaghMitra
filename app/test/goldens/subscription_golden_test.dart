@@ -1,6 +1,8 @@
 @Tags(['golden'])
 library;
 
+import 'package:bagmitra/api/generated/bagmitra.swagger.dart'
+    show PriceChangeOut;
 import 'package:bagmitra/app/router.dart';
 import 'package:bagmitra/features/billing/data/subscription_flow.dart';
 import 'package:flutter/material.dart';
@@ -48,6 +50,40 @@ void main() {
       await expectLater(
         find.byType(MaterialApp),
         matchesGoldenFile('subscription_notice_mr_$name.png'),
+      );
+      await unmountApp(tester);
+    });
+  }
+
+  // An increase the user already accepted (CONFIRMED): no "accept" (audit L3).
+  for (final mode in [ThemeMode.light, ThemeMode.dark]) {
+    final name = mode == ThemeMode.light ? 'light' : 'dark';
+    testWidgets('subscription_confirmed_mr_$name', (tester) async {
+      await pumpApp(
+        tester,
+        themeMode: mode,
+        initialLocation: Routes.subscription,
+        overrides: billingOverrides(
+          plan: const PlanOffer(
+            inForce: true,
+            accountId: 'a',
+            productId: 'bagmitra_grower',
+            basePlanId: 'monthly',
+            covered: true,
+            priceChange: PriceChangeOut(
+              state: 'CONFIRMED',
+              mode: 'PRICE_INCREASE',
+              newPricePaise: 14900,
+              currency: 'INR',
+              chargeTime: '2026-12-20T00:00:00Z',
+            ),
+          ),
+          play: FakePlayBilling(),
+        ),
+      );
+      await expectLater(
+        find.byType(MaterialApp),
+        matchesGoldenFile('subscription_confirmed_mr_$name.png'),
       );
       await unmountApp(tester);
     });

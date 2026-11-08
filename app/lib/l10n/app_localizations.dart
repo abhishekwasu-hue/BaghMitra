@@ -7762,6 +7762,12 @@ abstract class AppLocalizations {
   /// **'Google Play has a new monthly rate for your subscription from {date}. To keep the subscription, review and accept it in Google Play.'**
   String billingChangeBody(String date);
 
+  /// Notice of a Play price increase the user already accepted (CONFIRMED, audit L3); no amount.
+  ///
+  /// In en, this message translates to:
+  /// **'From {date} your subscription renews at its new monthly rate in Google Play. You have already accepted it.'**
+  String billingChangeConfirmedBody(String date);
+
   /// No description provided for @billingOpenPlay.
   ///
   /// In en, this message translates to:
