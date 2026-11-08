@@ -163,6 +163,8 @@ ATP प्रकल्पात करायचा (बागमित्र र
 **सोपा मार्ग (2026-11-08 पासून):** `deploy/.env` मध्ये एकदा `RELEASE_APK_MIRROR=on` ठेवा आणि `bash deploy/deploy.sh` चालवा. मग प्रत्येक वेळी
 फक्त GitHub → Actions → **Release APK** चालवायचे: १५ मिनिटांत VPS चे काम (`deploy/fetch_test_apk.sh`) नवीन arm64-v8a APK `/app` वर
 ठेवते आणि `release.json` लिहिते; `/v1/app/version` तेच आकडे सांगतो. खालच्या पायऱ्या २–४ (scp, `.env` मध्ये आकडे) लागत नाहीत.
+`TEST_APK_MIRROR=on` असेल तर तेच काम नवीन Test APK वेगळ्या फाईलमध्ये (`bagmitra-test.apk`) ठेवते, पत्ता
+`https://<API_DOMAIN>/app/test`; Test APK चे अपडेट बटण हाच पत्ता उघडते. दोन्ही फाईल एकमेकींची जागा कधीच घेत नाहीत (audit H1).
 `.env` मध्ये `APP_LATEST_VERSION_CODE` ठेवला असेल तर तोच वापरला जातो (हाताचा मार्ग चालू राहतो).
 
 हाताचा मार्ग:
