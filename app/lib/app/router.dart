@@ -22,6 +22,7 @@ import '../features/export_info/presentation/export_record_screen.dart';
 import '../features/feed/presentation/feed_check_screen.dart';
 import '../features/feed/presentation/feed_preferences_screen.dart';
 import '../features/feed/presentation/feed_screen.dart';
+import '../features/feedback/presentation/feedback_screen.dart';
 import '../features/field_work/presentation/harvest_screen.dart';
 import '../features/field_work/presentation/labour_screens.dart';
 import '../features/home/presentation/home_screen.dart';
@@ -209,6 +210,7 @@ abstract final class Routes {
   static String scheme(String schemeId) => '$schemes/$schemeId';
   static const claimKit = '/claim-kit';
   static const subscription = '/subscription';
+  static const feedback = '/feedback';
   static String newClaimKit([String? plotId]) =>
       plotId == null ? claimKit : '$claimKit?plot=$plotId';
   static String openClaimKit(String claimId) => '$claimKit/$claimId';
@@ -608,6 +610,7 @@ GoRouter buildRouter(
         builder: (_, s) =>
             SchemeDetailScreen(schemeId: s.pathParameters['schemeId']!),
       ),
+      GoRoute(path: Routes.feedback, builder: (_, _) => const FeedbackScreen()),
       GoRoute(
         path: Routes.subscription,
         builder: (_, _) => const SubscriptionScreen(),

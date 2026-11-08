@@ -8,6 +8,7 @@ import 'package:flutter_test/flutter_test.dart';
 import '../admin/admin_sign_in_test.dart' show FakeAdminAuth;
 import '../admin/billing_admin_test.dart' show FakeBillingAdmin;
 import '../admin/feed_admin_test.dart' show FakeFeedAdmin;
+import '../admin/feedback_admin_test.dart' show FakeFeedbackAdmin;
 import '../admin/kb_admin_test.dart' show FakeKbAdmin;
 import '../admin/market_link_admin_test.dart' show FakeMarketLinkAdmin;
 import '../admin/package_admin_test.dart' show FakePackageAdmin;
@@ -196,6 +197,31 @@ void main() {
       await tester.tap(find.text('सदस्यता'));
       await tester.pumpAndSettle();
       await _shot(tester, 'billing_$mode');
+    });
+  }
+
+  // In-app feedback list (owner 2026-11-08), Marathi, light and dark.
+  for (final dark in [false, true]) {
+    final mode = dark ? 'dark' : 'light';
+    testWidgets('admin_feedback_$mode', (tester) async {
+      tester.platformDispatcher.platformBrightnessTestValue = dark
+          ? Brightness.dark
+          : Brightness.light;
+      tester.platformDispatcher.localesTestValue = const [Locale('mr')];
+      addTearDown(tester.platformDispatcher.clearPlatformBrightnessTestValue);
+      addTearDown(tester.platformDispatcher.clearLocalesTestValue);
+      await _pump(
+        tester,
+        AdminApp(
+          productName: 'BagMitra',
+          auth: FakeAdminAuth(signedIn: true, roles: {'feedback_admin'}),
+          kb: FakeKbAdmin(),
+          feedback: FakeFeedbackAdmin(),
+        ),
+      );
+      await tester.tap(find.text('अभिप्राय'));
+      await tester.pumpAndSettle();
+      await _shot(tester, 'feedback_$mode');
     });
   }
 }

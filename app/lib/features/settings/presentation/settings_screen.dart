@@ -57,6 +57,12 @@ class SettingsScreen extends ConsumerWidget {
             const SizedBox(height: BmSpace.md),
           ],
           FilledButton(
+            key: const Key('settings-feedback'),
+            onPressed: () => context.push(Routes.feedback),
+            child: Text(t.feedbackTitle),
+          ),
+          const SizedBox(height: BmSpace.md),
+          OutlinedButton(
             key: const Key('send-logs'),
             onPressed: () async {
               final text = await ref.read(appLogProvider).read();

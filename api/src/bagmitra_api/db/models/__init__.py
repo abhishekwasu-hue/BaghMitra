@@ -34,6 +34,7 @@ from bagmitra_api.feed.models import (
     FeedSchemeCard,
     FeedSource,
 )
+from bagmitra_api.feedback.models import AppFeedback
 from bagmitra_api.kb.models import (
     KbCard,
     KbConflict,
@@ -77,6 +78,7 @@ from bagmitra_api.weather.models import WeatherDaily
 __all__ = [
     "AccountDeletion",
     "AdminAction",
+    "AppFeedback",
     "BaharCycle",
     "BillingEvent",
     "BillingPlan",

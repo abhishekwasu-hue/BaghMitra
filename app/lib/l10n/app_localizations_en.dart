@@ -4447,4 +4447,40 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get billingOpenPlay => 'Open Google Play';
+
+  @override
+  String get feedbackTitle => 'Send feedback';
+
+  @override
+  String get feedbackKindProblem => 'Problem';
+
+  @override
+  String get feedbackKindSuggestion => 'Suggestion';
+
+  @override
+  String get feedbackKindQuestion => 'Question';
+
+  @override
+  String get feedbackHint =>
+      'Write or speak what happened, or what you would like.';
+
+  @override
+  String get feedbackAddScreenshot => 'Add a screenshot';
+
+  @override
+  String get feedbackScreenshotAdded => 'Screenshot added';
+
+  @override
+  String get feedbackIncluded =>
+      'The app version and the phone model go with it.';
+
+  @override
+  String get feedbackSend => 'Send';
+
+  @override
+  String get feedbackSent => 'Received. Thank you!';
+
+  @override
+  String get feedbackQueued =>
+      'Saved on the phone; it goes when the internet is back.';
 }
