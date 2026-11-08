@@ -1715,5 +1715,22 @@
   "@mlPackageActiveUntil": {"description": "Season sale package chip on a published lot (spec v1.5 §4E). Dates only: never a price, amount, UPI, QR or pay text.", "placeholders": {"date": {"type": "String"}}},
   "mlPackageNotActive": "Package not active",
   "mlPackageHiddenNow": "Not shown to traders now",
-  "@mlPackageHiddenNow": {"description": "Lot status chip when the season package switch is ON and no active package covers a published lot (traders do not see it). No price, pay, UPI or QR words."}
+  "@mlPackageHiddenNow": {"description": "Lot status chip when the season package switch is ON and no active package covers a published lot (traders do not see it). No price, pay, UPI or QR words."},
+  "billingTitle": "Subscription",
+  "billingPerMonth": "{price} a month",
+  "@billingPerMonth": {"description": "Paywall: Play's own localized price text (never built by the app), billing addendum §1.", "placeholders": {"price": {"type": "String"}}},
+  "billingIncluded": "The whole BagMitra app, every feature.",
+  "billingTerms": "Renews every month through Google Play. Cancel any time in Google Play; your own records always stay readable and exportable.",
+  "billingSubscribe": "Subscribe",
+  "billingRestore": "Restore subscription",
+  "billingManage": "Manage subscription",
+  "billingActive": "Your subscription is active.",
+  "billingPending": "Waiting for Google Play to confirm.",
+  "billingVerifying": "BagMitra is checking with Google Play…",
+  "billingRetry": "Try again, or tap Restore subscription.",
+  "billingNeedsPlay": "Open this screen on a phone with Google Play.",
+  "billingChangeTitle": "Change to your subscription",
+  "billingChangeBody": "Google Play has a new monthly rate for your subscription from {date}. To keep the subscription, review and accept it in Google Play.",
+  "@billingChangeBody": {"description": "Required in-app notice of a Play price increase (addendum §7); no amount, the user sees it in Google Play.", "placeholders": {"date": {"type": "String"}}},
+  "billingOpenPlay": "Open Google Play"
 }

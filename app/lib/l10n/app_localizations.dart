@@ -7683,6 +7683,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Not shown to traders now'**
   String get mlPackageHiddenNow;
+
+  /// No description provided for @billingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscription'**
+  String get billingTitle;
+
+  /// Paywall: Play's own localized price text (never built by the app), billing addendum §1.
+  ///
+  /// In en, this message translates to:
+  /// **'{price} a month'**
+  String billingPerMonth(String price);
+
+  /// No description provided for @billingIncluded.
+  ///
+  /// In en, this message translates to:
+  /// **'The whole BagMitra app, every feature.'**
+  String get billingIncluded;
+
+  /// No description provided for @billingTerms.
+  ///
+  /// In en, this message translates to:
+  /// **'Renews every month through Google Play. Cancel any time in Google Play; your own records always stay readable and exportable.'**
+  String get billingTerms;
+
+  /// No description provided for @billingSubscribe.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscribe'**
+  String get billingSubscribe;
+
+  /// No description provided for @billingRestore.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore subscription'**
+  String get billingRestore;
+
+  /// No description provided for @billingManage.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage subscription'**
+  String get billingManage;
+
+  /// No description provided for @billingActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Your subscription is active.'**
+  String get billingActive;
+
+  /// No description provided for @billingPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for Google Play to confirm.'**
+  String get billingPending;
+
+  /// No description provided for @billingVerifying.
+  ///
+  /// In en, this message translates to:
+  /// **'BagMitra is checking with Google Play…'**
+  String get billingVerifying;
+
+  /// No description provided for @billingRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again, or tap Restore subscription.'**
+  String get billingRetry;
+
+  /// No description provided for @billingNeedsPlay.
+  ///
+  /// In en, this message translates to:
+  /// **'Open this screen on a phone with Google Play.'**
+  String get billingNeedsPlay;
+
+  /// No description provided for @billingChangeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Change to your subscription'**
+  String get billingChangeTitle;
+
+  /// Required in-app notice of a Play price increase (addendum §7); no amount, the user sees it in Google Play.
+  ///
+  /// In en, this message translates to:
+  /// **'Google Play has a new monthly rate for your subscription from {date}. To keep the subscription, review and accept it in Google Play.'**
+  String billingChangeBody(String date);
+
+  /// No description provided for @billingOpenPlay.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Google Play'**
+  String get billingOpenPlay;
 }
 
 class _AppLocalizationsDelegate

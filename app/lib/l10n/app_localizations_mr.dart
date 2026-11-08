@@ -4390,4 +4390,55 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get mlPackageHiddenNow => 'व्यापाऱ्यांना सध्या दिसत नाही';
+
+  @override
+  String get billingTitle => 'सदस्यता';
+
+  @override
+  String billingPerMonth(String price) {
+    return '$price दरमहा';
+  }
+
+  @override
+  String get billingIncluded => 'संपूर्ण BagMitra app, सर्व सुविधा.';
+
+  @override
+  String get billingTerms =>
+      'Google Play द्वारे दर महिन्याला आपोआप नूतनीकरण. Google Play मधून कधीही रद्द करा; तुमच्या स्वतःच्या नोंदी नेहमी वाचता व export करता येतात.';
+
+  @override
+  String get billingSubscribe => 'सदस्यता घ्या';
+
+  @override
+  String get billingRestore => 'सदस्यता परत मिळवा';
+
+  @override
+  String get billingManage => 'सदस्यता व्यवस्थापन';
+
+  @override
+  String get billingActive => 'तुमची सदस्यता सुरू आहे.';
+
+  @override
+  String get billingPending => 'Google Play कडून पुष्टीची वाट पाहत आहे.';
+
+  @override
+  String get billingVerifying => 'BagMitra Google Play कडे तपासत आहे…';
+
+  @override
+  String get billingRetry =>
+      'पुन्हा प्रयत्न करा, किंवा \'सदस्यता परत मिळवा\' दाबा.';
+
+  @override
+  String get billingNeedsPlay => 'हे पान Google Play असलेल्या फोनवर उघडा.';
+
+  @override
+  String get billingChangeTitle => 'तुमच्या सदस्यतेत बदल';
+
+  @override
+  String billingChangeBody(String date) {
+    return '$date पासून तुमच्या सदस्यतेचा नवीन मासिक दर Google Play मध्ये आहे. सदस्यता सुरू ठेवण्यासाठी Google Play मध्ये पाहून स्वीकारा.';
+  }
+
+  @override
+  String get billingOpenPlay => 'Google Play उघडा';
 }

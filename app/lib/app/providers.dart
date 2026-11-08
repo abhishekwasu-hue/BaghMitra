@@ -506,6 +506,21 @@ final playBillingProvider = Provider<PlayBilling>(
   (ref) => InAppPurchasePlayBilling(),
 );
 
+/// The server's subscription offer; null in demo mode, offline, or before sign-in.
+final planOfferProvider = FutureProvider<PlanOffer?>((ref) async {
+  if (ref.watch(appConfigProvider).demoMode) return null;
+  return ref.watch(billingServerProvider).plan();
+});
+
+/// Startup reconcile (addendum §2.3): only while subscriptions are in force, so nothing asks
+/// Play while the switch is OFF.
+final subscriptionStartupProvider = FutureProvider<void>((ref) async {
+  final plan = await ref.watch(planOfferProvider.future);
+  if (plan != null && (plan.inForce || plan.covered)) {
+    await ref.read(subscriptionFlowProvider).start();
+  }
+});
+
 final billingServerProvider = Provider<BillingServer>(
   (ref) => ApiBillingServer(ref.watch(apiProvider)),
 );
