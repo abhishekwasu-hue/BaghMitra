@@ -65,6 +65,12 @@ class _BagMitraAppState extends ConsumerState<BagMitraApp> {
     // Sync runs from the app root once the records are this account's, not only while the
     // home screen is open, so a returning grower's records arrive before onboarding (LG-05).
     ref.listenManual(syncEngineProvider, (_, _) {}, fireImmediately: true);
+    // Purchases left from a killed app or another phone reach the server (billing §2.3).
+    ref.listenManual(
+      subscriptionStartupProvider,
+      (_, _) {},
+      fireImmediately: true,
+    );
     ref.listenManual(
       onboardedProvider,
       (_, done) => _onboarded.value = done,

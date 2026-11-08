@@ -4399,4 +4399,55 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mlPackageHiddenNow => 'Not shown to traders now';
+
+  @override
+  String get billingTitle => 'Subscription';
+
+  @override
+  String billingPerMonth(String price) {
+    return '$price a month';
+  }
+
+  @override
+  String get billingIncluded => 'The whole BagMitra app, every feature.';
+
+  @override
+  String get billingTerms =>
+      'Renews every month through Google Play. Cancel any time in Google Play; your own records always stay readable and exportable.';
+
+  @override
+  String get billingSubscribe => 'Subscribe';
+
+  @override
+  String get billingRestore => 'Restore subscription';
+
+  @override
+  String get billingManage => 'Manage subscription';
+
+  @override
+  String get billingActive => 'Your subscription is active.';
+
+  @override
+  String get billingPending => 'Waiting for Google Play to confirm.';
+
+  @override
+  String get billingVerifying => 'BagMitra is checking with Google Play…';
+
+  @override
+  String get billingRetry => 'Try again, or tap Restore subscription.';
+
+  @override
+  String get billingNeedsPlay =>
+      'Open this screen on a phone with Google Play.';
+
+  @override
+  String get billingChangeTitle => 'Change to your subscription';
+
+  @override
+  String billingChangeBody(String date) {
+    return 'Google Play has a new monthly rate for your subscription from $date. To keep the subscription, review and accept it in Google Play.';
+  }
+
+  @override
+  String get billingOpenPlay => 'Open Google Play';
 }

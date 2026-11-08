@@ -1262,5 +1262,20 @@
   "mlCopyToAccounts": "माझ्या हिशोबात नोंदवा",
   "mlPackageActiveUntil": "पॅकेज {date} पर्यंत चालू",
   "mlPackageNotActive": "पॅकेज चालू नाही",
-  "mlPackageHiddenNow": "व्यापाऱ्यांना सध्या दिसत नाही"
+  "mlPackageHiddenNow": "व्यापाऱ्यांना सध्या दिसत नाही",
+  "billingTitle": "सदस्यता",
+  "billingPerMonth": "{price} दरमहा",
+  "billingIncluded": "संपूर्ण BagMitra app, सर्व सुविधा.",
+  "billingTerms": "Google Play द्वारे दर महिन्याला आपोआप नूतनीकरण. Google Play मधून कधीही रद्द करा; तुमच्या स्वतःच्या नोंदी नेहमी वाचता व export करता येतात.",
+  "billingSubscribe": "सदस्यता घ्या",
+  "billingRestore": "सदस्यता परत मिळवा",
+  "billingManage": "सदस्यता व्यवस्थापन",
+  "billingActive": "तुमची सदस्यता सुरू आहे.",
+  "billingPending": "Google Play कडून पुष्टीची वाट पाहत आहे.",
+  "billingVerifying": "BagMitra Google Play कडे तपासत आहे…",
+  "billingRetry": "पुन्हा प्रयत्न करा, किंवा 'सदस्यता परत मिळवा' दाबा.",
+  "billingNeedsPlay": "हे पान Google Play असलेल्या फोनवर उघडा.",
+  "billingChangeTitle": "तुमच्या सदस्यतेत बदल",
+  "billingChangeBody": "{date} पासून तुमच्या सदस्यतेचा नवीन मासिक दर Google Play मध्ये आहे. सदस्यता सुरू ठेवण्यासाठी Google Play मध्ये पाहून स्वीकारा.",
+  "billingOpenPlay": "Google Play उघडा"
 }

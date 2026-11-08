@@ -13,6 +13,7 @@ import '../features/auth/presentation/login_screens.dart';
 import '../features/bahar/presentation/bahar_compare_screen.dart';
 import '../features/bahar/presentation/bahar_screen.dart';
 import '../features/bahar/presentation/start_bahar_screen.dart';
+import '../features/billing/presentation/subscription_screen.dart';
 import '../features/calendar/presentation/season_calendar_screen.dart';
 import '../features/dev/component_gallery_screen.dart';
 import '../features/directory/presentation/directory_screen.dart';
@@ -207,6 +208,7 @@ abstract final class Routes {
   static const schemes = '/schemes';
   static String scheme(String schemeId) => '$schemes/$schemeId';
   static const claimKit = '/claim-kit';
+  static const subscription = '/subscription';
   static String newClaimKit([String? plotId]) =>
       plotId == null ? claimKit : '$claimKit?plot=$plotId';
   static String openClaimKit(String claimId) => '$claimKit/$claimId';
@@ -605,6 +607,10 @@ GoRouter buildRouter(
         path: '${Routes.schemes}/:schemeId',
         builder: (_, s) =>
             SchemeDetailScreen(schemeId: s.pathParameters['schemeId']!),
+      ),
+      GoRoute(
+        path: Routes.subscription,
+        builder: (_, _) => const SubscriptionScreen(),
       ),
       GoRoute(
         path: Routes.claimKit,

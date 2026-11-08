@@ -23,6 +23,11 @@ class MoreScreen extends ConsumerWidget {
     final t = AppLocalizations.of(context);
     final config = ref.watch(appConfigProvider);
     final plots = ref.watch(plotsProvider).value ?? const <Plot>[];
+    // Only while subscriptions are in force for this user's role (billing addendum §7).
+    final plan = ref.watch(planOfferProvider).value;
+    final showPlan =
+        plan != null &&
+        (plan.showsPlan || plan.covered || plan.priceChange != null);
 
     _Entry page(String id, IconData icon, String title, String route) =>
         (id, icon, title, () => context.push(route));
@@ -225,6 +230,13 @@ class MoreScreen extends ConsumerWidget {
         t.moreSectionAccount,
         [
           page('profile', Icons.person_outline, t.profileTitle, Routes.profile),
+          if (showPlan)
+            page(
+              'subscription',
+              Icons.card_membership_rounded,
+              t.billingTitle,
+              Routes.subscription,
+            ),
           if (config.marketLink)
             page(
               'ml-actions',
