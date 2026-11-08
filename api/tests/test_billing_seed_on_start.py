@@ -1,12 +1,12 @@
 """Production risk from the 2026-11-07 audit: the deploy never seeded the billing plans, and with
 an empty plans table GET /v1/billing/entitlements failed. The API start command
 (deploy/docker-compose.yml) runs `python -m bagmitra_api.kb.seed`; that seed now also creates the
-missing billing plans, idempotently, and the computation tolerates a missing baseline plan."""
+missing billing plans, idempotently (the computation itself requires the baseline plan:
+tests/test_entitlements.py)."""
 
 from __future__ import annotations
 
 import uuid
-from datetime import UTC, datetime
 from pathlib import Path
 
 import httpx
@@ -14,7 +14,6 @@ import pytest
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncEngine, async_sessionmaker
 
-from bagmitra_api.billing.entitlements import compute_entitlements
 from bagmitra_api.billing.models import BillingPlan
 from bagmitra_api.billing.seed import default_plans
 from bagmitra_api.core.settings import Settings, get_settings
@@ -64,9 +63,3 @@ async def test_the_start_seed_creates_the_billing_plans_once(
         res = await client.get("/v1/billing/entitlements", headers=headers)
     assert res.status_code == 200, res.text
     assert res.json()["entitlements"]["plans"] == ["free"]
-
-
-def test_no_plans_at_all_gives_an_empty_snapshot_not_an_error() -> None:
-    result = compute_entitlements([], {}, now=datetime.now(UTC))
-    assert result.features == {}
-    assert result.plans == ("free",)
