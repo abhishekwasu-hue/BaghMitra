@@ -119,10 +119,10 @@ void main() {
           size: _phone,
         );
         await settle(tester);
+        // Decode the thumbnails in real time first, for every screen: images first built
+        // inside the test's fake time may not finish loading (l3_my_lots flaked on CI).
+        await _precacheThumbnails(tester);
         if (scroll > 0) {
-          // Decode the thumbnails in real time first: images first built inside the
-          // test's fake time never finish loading.
-          await _precacheThumbnails(tester);
           await tester.drag(find.byType(ListView).first, Offset(0, -scroll));
           await tester.pump();
         }
