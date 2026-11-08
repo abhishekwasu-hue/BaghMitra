@@ -1276,5 +1276,16 @@
   "billingNeedsPlay": "हे पान Google Play असलेल्या फोनवर उघडा.",
   "billingChangeTitle": "तुमच्या सदस्यतेत बदल",
   "billingChangeBody": "{date} पासून तुमच्या सदस्यतेचा नवीन मासिक दर Google Play मध्ये आहे. सदस्यता सुरू ठेवण्यासाठी Google Play मध्ये पाहून स्वीकारा.",
-  "billingOpenPlay": "Google Play उघडा"
+  "billingOpenPlay": "Google Play उघडा",
+  "feedbackTitle": "अभिप्राय द्या",
+  "feedbackKindProblem": "अडचण",
+  "feedbackKindSuggestion": "सूचना",
+  "feedbackKindQuestion": "प्रश्न",
+  "feedbackHint": "काय झाले किंवा काय हवे ते लिहा किंवा बोला.",
+  "feedbackAddScreenshot": "screenshot जोडा",
+  "feedbackScreenshotAdded": "screenshot जोडला",
+  "feedbackIncluded": "app version व फोनचे मॉडेल सोबत जाते.",
+  "feedbackSend": "पाठवा",
+  "feedbackSent": "मिळाले, धन्यवाद!",
+  "feedbackQueued": "फोनवर जतन केले; नेट आल्यावर जाईल."
 }

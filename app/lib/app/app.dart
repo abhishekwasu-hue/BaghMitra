@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../features/app_update/presentation/app_update_gate.dart';
+import '../features/feedback/data/feedback_providers.dart';
 import '../features/market_link/data/market_link_providers.dart';
 import '../features/market_link/domain/market_link.dart';
 import '../l10n/app_localizations.dart';
@@ -66,6 +67,8 @@ class _BagMitraAppState extends ConsumerState<BagMitraApp> {
     // home screen is open, so a returning grower's records arrive before onboarding (LG-05).
     ref.listenManual(syncEngineProvider, (_, _) {}, fireImmediately: true);
     // Purchases left from a killed app or another phone reach the server (billing §2.3).
+    // Feedback written offline goes once the app starts online.
+    ref.listenManual(feedbackStartupProvider, (_, _) {}, fireImmediately: true);
     ref.listenManual(
       subscriptionStartupProvider,
       (_, _) {},
