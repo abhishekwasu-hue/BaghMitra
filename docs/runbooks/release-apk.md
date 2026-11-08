@@ -53,8 +53,8 @@ GitHub → repository → Settings → Secrets and variables → Actions → New
 seven is missing, the Release APK run stops with a red error naming it; it never signs with the debug key.
 
 Pin the release key (audit L5): set the repository **variable** `RELEASE_CERT_SHA256` (GitHub → Settings → Secrets and
-variables → Actions → Variables) to the release certificate's SHA-256 (colons allowed). The run then fails if an APK is
-signed with any other key; while it is unset the run only warns (OPEN_QUESTIONS Q125). The VPS mirror serves an APK only
+variables → Actions → Variables) to the release certificate's SHA-256 (colons allowed) only if the key changes: the workflow already defaults to the
+owner's release key `C4:90:…:A8:BA` (Q125). The run fails if an APK is signed with any other key. The VPS mirror serves an APK only
 when its SHA-256 equals GitHub's asset digest.
 
 (GitHub CLI: `gh secret set RELEASE_KEYSTORE_BASE64 < bagmitra-release.jks.b64`, and so on.)
