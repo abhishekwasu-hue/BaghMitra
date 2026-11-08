@@ -1,0 +1,132 @@
+import 'package:flutter/widgets.dart';
+
+/// Admin-web-only strings of the subscription settings (billing addendum §7). Kept out of
+/// the app's ARB files on purpose, like `package_strings.dart`: the Android app carries no
+/// amount or price-setting text; it shows only Play's own price on its paywall.
+/// Marathi first; English is the fallback.
+class BillingStrings {
+  const BillingStrings.forLanguage(this._lang);
+
+  factory BillingStrings.of(BuildContext context) =>
+      BillingStrings.forLanguage(Localizations.localeOf(context).languageCode);
+
+  final String _lang;
+
+  String operator [](String key) =>
+      _text[_lang]?[key] ?? _text['en']![key] ?? key;
+
+  /// [key] with `{v}` replaced.
+  String fill(String key, String v) => this[key].replaceAll('{v}', v);
+}
+
+const Map<String, Map<String, String>> _text = {
+  'mr': {
+    'section': 'सदस्यता',
+    'switch_card': 'सदस्यता switch',
+    'switch': 'सदस्यता सुरू',
+    'switch_off_note': 'बंद असताना सर्वांना पूर्ण app मिळते.',
+    'nothing_locked': 'सुरू असतानाही आज काहीही बंद होत नाही (Q118): plan शिवाय काय दिसणार नाही हे मालक ठरवेपर्यंत.',
+    'gst_note': 'पहिल्यांदा सुरू करण्यापूर्वी CA चे GST मत आवश्यक.',
+    'starts_on': 'सुरुवात दिनांक',
+    'save': 'जतन करा',
+    'saved': 'जतन झाले',
+    'roles_card': 'भूमिकेनुसार मासिक रक्कम (₹)',
+    'role': 'भूमिका',
+    'amount': 'रक्कम ₹ / महिना',
+    'play_price': 'Play ची किंमत',
+    'play_synced': 'Play मध्ये बसवले',
+    'free': 'मोफत (रक्कम नाही)',
+    'migrate': 'जुन्या सदस्यांना नवी किंमत',
+    'migrate_confirm_title': 'जुन्या सदस्यांना नवी किंमत लागू करायची?',
+    'migrate_confirm_body': '{v}: Google प्रत्येक सदस्याला सूचना देईल; वाढ स्वीकारली नाही तर पुढच्या renewal ला सदस्यता बंद होईल.',
+    'confirm': 'हो, लागू करा',
+    'cancel': 'मागे',
+    'rules_card': 'किंमत बदलाचे Google Play नियम',
+    'rule_new': 'नवीन सदस्य: नवी किंमत काही तासांत.',
+    'rule_down': 'कमी केलेली किंमत: जुन्या सदस्यांना पुढच्या payment पासून.',
+    'rule_up_keep': 'वाढवलेली किंमत: जुने सदस्य आपोआप जुन्याच किमतीत राहतात; "जुन्या सदस्यांना नवी किंमत" वापरल्यासच बदल.',
+    'rule_up_notice': 'वाढ लागू केल्यास: ३७ दिवसांची सूचना (चार्जच्या ३० दिवस आधीपासून Google कडून email / push); स्वीकारली नाही तर त्या renewal ला सदस्यता बंद; app मध्ये सूचना व Play पानाचा link.',
+    'rule_no_deal':
+        'शुल्क फक्त app वापरासाठी; कोणत्याही व्यवहारावर कधीही नाही.',
+    'play_not_set_up': 'Google Play अजून जोडलेले नाही (runbook billing-play.md). काहीही जतन झाले नाही.',
+    'play_error': 'Google Play ने किंमत स्वीकारली नाही. काहीही जतन झाले नाही.',
+    'no_play_price': 'आधी या भूमिकेची रक्कम Play मध्ये बसवा.',
+    'grower': 'शेतकरी',
+    'trader': 'व्यापारी',
+    'broker': 'मध्यस्थ (दलाल)',
+    'exporter': 'निर्यातदार',
+    'provider': 'सेवा देणारे',
+  },
+  'hi': {
+    'section': 'सदस्यता',
+    'switch_card': 'सदस्यता switch',
+    'switch': 'सदस्यता चालू',
+    'switch_off_note': 'बंद रहने पर सबको पूरा app मिलता है।',
+    'nothing_locked': 'चालू रहने पर भी आज कुछ बंद नहीं होता (Q118): plan बिना क्या नहीं दिखेगा, यह मालिक तय करेंगे।',
+    'gst_note': 'पहली बार चालू करने से पहले CA की GST राय ज़रूरी।',
+    'starts_on': 'शुरुआत तारीख',
+    'save': 'सहेजें',
+    'saved': 'सहेजा गया',
+    'roles_card': 'भूमिका अनुसार मासिक राशि (₹)',
+    'role': 'भूमिका',
+    'amount': 'राशि ₹ / महीना',
+    'play_price': 'Play की कीमत',
+    'play_synced': 'Play में लगाया',
+    'free': 'मुफ़्त (राशि नहीं)',
+    'migrate': 'पुराने सदस्यों पर नई कीमत',
+    'migrate_confirm_title': 'पुराने सदस्यों पर नई कीमत लागू करें?',
+    'migrate_confirm_body': '{v}: Google हर सदस्य को सूचना देगा; बढ़ोतरी न मानने पर अगले renewal पर सदस्यता बंद होगी।',
+    'confirm': 'हाँ, लागू करें',
+    'cancel': 'वापस',
+    'rules_card': 'कीमत बदलने के Google Play नियम',
+    'rule_new': 'नए सदस्य: नई कीमत कुछ घंटों में।',
+    'rule_down': 'घटी कीमत: पुराने सदस्यों पर अगले payment से।',
+    'rule_up_keep': 'बढ़ी कीमत: पुराने सदस्य अपने-आप पुरानी कीमत पर रहते हैं; "पुराने सदस्यों पर नई कीमत" से ही बदलाव।',
+    'rule_up_notice': 'बढ़ोतरी लागू करने पर: 37 दिन की सूचना (चार्ज से 30 दिन पहले से Google का email / push); न मानने पर उस renewal पर सदस्यता बंद; app में सूचना व Play पेज का link।',
+    'rule_no_deal': 'शुल्क केवल app उपयोग के लिए; किसी भी लेन-देन पर कभी नहीं।',
+    'play_not_set_up': 'Google Play अभी जुड़ा नहीं (runbook billing-play.md)। कुछ भी सहेजा नहीं गया।',
+    'play_error': 'Google Play ने कीमत नहीं मानी। कुछ भी सहेजा नहीं गया।',
+    'no_play_price': 'पहले इस भूमिका की राशि Play में लगाएँ।',
+    'grower': 'किसान',
+    'trader': 'व्यापारी',
+    'broker': 'मध्यस्थ (दलाल)',
+    'exporter': 'निर्यातक',
+    'provider': 'सेवा देने वाले',
+  },
+  'en': {
+    'section': 'Subscriptions',
+    'switch_card': 'Subscription switch',
+    'switch': 'Subscriptions on',
+    'switch_off_note': 'While off, everyone gets the full app.',
+    'nothing_locked': 'Even when on, nothing is locked today (Q118) until the owner names what a plan unlocks.',
+    'gst_note': "A CA's GST opinion is required before the first switch on.",
+    'starts_on': 'Start date',
+    'save': 'Save',
+    'saved': 'Saved',
+    'roles_card': 'Monthly amount per role (₹)',
+    'role': 'Role',
+    'amount': 'Amount ₹ / month',
+    'play_price': 'Play price',
+    'play_synced': 'Set in Play',
+    'free': 'Free (no amount)',
+    'migrate': 'Move existing subscribers',
+    'migrate_confirm_title': 'Move existing subscribers to the new price?',
+    'migrate_confirm_body': '{v}: Google notifies every subscriber; one who does not accept an increase is cancelled at the next renewal.',
+    'confirm': 'Yes, move them',
+    'cancel': 'Back',
+    'rules_card': "Google Play's price-change rules",
+    'rule_new': 'New subscribers: the new price within hours.',
+    'rule_down': 'A lower price: existing subscribers from their next payment.',
+    'rule_up_keep': 'A higher price: existing subscribers keep the old price unless you run "Move existing subscribers".',
+    'rule_up_notice': 'Moving them to a higher price: a 37-day notice (Google emails / pushes from 30 days before the charge); a subscriber who does not accept is cancelled at that renewal; the app shows a notice with a link to Play.',
+    'rule_no_deal': 'Fees are for using the app only, never on any deal.',
+    'play_not_set_up': 'Google Play is not connected yet (runbook billing-play.md). Nothing was saved.',
+    'play_error': 'Google Play did not accept the price. Nothing was saved.',
+    'no_play_price': "Set this role's amount in Play first.",
+    'grower': 'Grower',
+    'trader': 'Trader',
+    'broker': 'Broker',
+    'exporter': 'Exporter',
+    'provider': 'Service provider',
+  },
+};
