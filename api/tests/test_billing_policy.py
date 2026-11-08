@@ -1,6 +1,6 @@
 """The admin subscription switch and per-role plans (billing addendum §7), table-driven over the
 pure `compute_entitlements`: OFF or before the start date = the full app; ON = only gated
-features lock, and the gate map is empty until the owner decides (OPEN_QUESTIONS Q117)."""
+features lock, and the gate map is empty until the owner decides (OPEN_QUESTIONS Q118)."""
 
 from __future__ import annotations
 

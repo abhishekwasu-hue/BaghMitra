@@ -25,6 +25,7 @@ from bagmitra_api.market_link.models import (
     UserBlock,
 )
 from bagmitra_api.market_link.safety import PHOTO_BODY, store_photo, subject_user
+from bagmitra_api.market_link.visibility import NOT_SUSPENDED
 from bagmitra_api.routers.admin_market_link import Clock
 from bagmitra_api.routers.market_link import require_market_link
 from bagmitra_api.routers.scouting_photos import PhotoContext, get_photo_context
@@ -131,7 +132,9 @@ def _action_out(a: AdminAction) -> AccountActionOut:
     )
 
 
-@router.post("/reports", operation_id="market_link_report", status_code=201)
+@router.post(
+    "/reports", operation_id="market_link_report", dependencies=NOT_SUSPENDED, status_code=201
+)
 async def report(body: ReportIn, user: CurrentUser, session: DbSession, clock: Clock) -> ReportOut:
     """Report to the admin queue. A second report of the same subject by the same person
     while the first is open returns the first."""
@@ -167,6 +170,7 @@ async def report(body: ReportIn, user: CurrentUser, session: DbSession, clock: C
 @router.post(
     "/reports/{report_id}/photos",
     operation_id="market_link_report_photo",
+    dependencies=NOT_SUSPENDED,
     responses=_PHOTO_RESPONSES,
     openapi_extra=PHOTO_BODY,
 )

@@ -24,6 +24,7 @@ from bagmitra_api.market_link.package_models import (
     PackageGrant,
     SeasonPackageSettings,
 )
+from bagmitra_api.market_link.visibility import not_blocked, visible
 
 INDIA = ZoneInfo("Asia/Kolkata")
 # The switch cannot turn ON while one of these is empty (§4E guard); a grant also needs the
@@ -88,17 +89,21 @@ def grant_active(now: datetime) -> ColumnElement[bool]:
 
 
 def lot_visible_to_traders(
-    lot: type[MarketLot], now: datetime, switch_on: bool
+    lot: type[MarketLot], now: datetime, switch_on: bool, viewer_id: uuid.UUID
 ) -> ColumnElement[bool]:
-    """THE rule for traders, exporters and brokers (§4E), as a SQL condition on `lot`:
-    published, not deleted, photos inside / near the orchard (§4C), and, while the package
-    switch is ON, an active grant of the lot's grower covering this lot or all their lots.
-    Switch OFF: every published lot, as before the package. Hiding never touches the lot,
-    its photos or the interests already received."""
+    """THE rule for traders, exporters and brokers (§4, §4C, §4E), as a SQL condition on
+    `lot` for one viewer: published, not deleted, photos inside / near the orchard (§4C), not
+    hidden by an admin and its grower not suspended nor deleted (`visible`), neither the
+    viewer nor the grower blocked the other (`not_blocked`), and, while the package switch is
+    ON, an active grant of the lot's grower covering this lot or all their lots. Switch OFF:
+    every such lot, as before the package. Hiding never touches the lot, its photos or the
+    interests already received."""
     base = and_(
         lot.status == "published",
         lot.deleted_at.is_(None),
         lot.orchard_check.in_(ORCHARD_OK),
+        visible("lot", lot.id, lot.owner_id),
+        not_blocked(viewer_id, lot.owner_id),
     )
     if not switch_on:
         return base
@@ -110,9 +115,11 @@ def lot_visible_to_traders(
     return and_(base, covered)
 
 
-async def lot_shown(session: AsyncSession, lot_id: uuid.UUID, now: datetime) -> bool:
-    """`lot_visible_to_traders` for one lot."""
-    rule = lot_visible_to_traders(MarketLot, now, await package_on(session))
+async def lot_shown(
+    session: AsyncSession, lot_id: uuid.UUID, now: datetime, viewer_id: uuid.UUID
+) -> bool:
+    """`lot_visible_to_traders` for one lot and one viewer."""
+    rule = lot_visible_to_traders(MarketLot, now, await package_on(session), viewer_id)
     found = await session.scalar(select(MarketLot.id).where(MarketLot.id == lot_id, rule))
     return found is not None
 

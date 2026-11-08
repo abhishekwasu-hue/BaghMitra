@@ -121,8 +121,12 @@ class Settings(BaseSettings):
             "Jaipur",
             "Lucknow",
             "Indore",
+            "Bhopal",  # owner 2026-11-07
         ]
     )
+    # Every mandi in these states counts as major too (owner 2026-11-07: "kerala, karnataka
+    # येथील mandi"); matched against the state Agmarknet prints, ignoring case and spaces.
+    market_major_states: list[str] = Field(default_factory=lambda: ["Kerala", "Karnataka"])
     # Stored prices count as current while the last successful scheduled pull (BG-04, cron
     # every 6 h: one missed run still stays inside) is younger than this.
     market_max_age_hours: int = 12

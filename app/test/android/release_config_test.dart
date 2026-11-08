@@ -64,4 +64,40 @@ void main() {
       }
     }
   });
+
+  test('only the Test APK can carry the market link, and it defaults off '
+      '(spec v1.5 §5 legal gate)', () {
+    const dir = '../.github/workflows';
+    final testYml = File('$dir/release-test-apk.yml').readAsStringSync();
+    expect(
+      testYml,
+      contains(r"MARKET_LINK: ${{ vars.MARKET_LINK || 'false' }}"),
+      reason: "the Test APK takes MARKET_LINK from vars, default 'false'",
+    );
+    final defines = RegExp(r'defines="--dart-define-from-file[^"\n]*"')
+        .allMatches(testYml)
+        .map((m) => m.group(0)!)
+        .toList();
+    expect(
+      defines,
+      hasLength(1),
+      reason: 'one base define list feeds every build',
+    );
+    expect(defines.single, contains(r'--dart-define=MARKET_LINK=$MARKET_LINK'));
+    final builds = RegExp(r'flutter build apk(?:\\\n|[^\n])*')
+        .allMatches(testYml)
+        .map((m) => m.group(0)!)
+        .toList();
+    expect(builds, isNotEmpty);
+    for (final build in builds) {
+      expect(build, contains(r'$defines'), reason: build);
+    }
+
+    final releaseYml = File('$dir/release-apk.yml').readAsStringSync();
+    expect(
+      releaseYml,
+      isNot(contains('MARKET_LINK')),
+      reason: 'the production release APK never carries the market link',
+    );
+  });
 }

@@ -17,6 +17,7 @@ from bagmitra_api.market_link.models import (
     BuyerProfile,
     PartyVerification,
 )
+from bagmitra_api.market_link.visibility import visible
 
 FORBIDDEN_KEY = re.compile(r"commission|brokerage|income|dalali", re.IGNORECASE)
 # Zero-cost verification (addendum 1): no Aadhaar number, card image or OTP anywhere.
@@ -109,10 +110,13 @@ async def is_verified(session: AsyncSession, subject_type: str, subject_id: uuid
 
 
 async def is_verified_viewer(session: AsyncSession, user_id: uuid.UUID) -> bool:
-    """True when the user is an admin-verified buyer or broker: only they see lots
-    (decision h, spec v1.5 §3 step 2; Postgres `ml_viewer_verified`)."""
+    """True when the user is an admin-verified buyer or broker whose profile is not hidden and
+    who is neither suspended nor waiting for erasure (`visible`): only they see lots
+    (decision h, spec v1.5 §3 step 2, §4C; Postgres `ml_viewer_verified`)."""
     for model, kind in ((BuyerProfile, "buyer"), (BrokerProfile, "broker")):
-        profile_id = await session.scalar(select(model.id).where(model.user_id == user_id))
+        profile_id = await session.scalar(
+            select(model.id).where(model.user_id == user_id, visible(kind, model.id, model.user_id))
+        )
         if profile_id is not None and await is_verified(session, kind, profile_id):
             return True
     return False

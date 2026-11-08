@@ -89,7 +89,7 @@ class PlanOfferOut(BaseModel):
     base_plan_id: str | None
     # A role plan of the user (or a higher-priced one) is active.
     covered: bool
-    # Features locked right now (empty while the gate map is empty, OPEN_QUESTIONS Q117).
+    # Features locked right now (empty while the gate map is empty, OPEN_QUESTIONS Q118).
     locked: list[str]
     # Passed to Play's billing flow as the obfuscated account id (never the user id itself).
     account_id: str
