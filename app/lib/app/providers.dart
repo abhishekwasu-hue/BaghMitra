@@ -513,11 +513,19 @@ final planOfferProvider = FutureProvider<PlanOffer?>((ref) async {
 });
 
 /// Startup reconcile (addendum §2.3): only while subscriptions are in force, so nothing asks
-/// Play while the switch is OFF.
+/// Play while the switch is OFF. A price increase not yet accepted (OUTSTANDING) also shows
+/// Play's own in-app message (Play shows it at most once a week; audit L3).
 final subscriptionStartupProvider = FutureProvider<void>((ref) async {
   final plan = await ref.watch(planOfferProvider.future);
   if (plan != null && (plan.inForce || plan.covered)) {
     await ref.read(subscriptionFlowProvider).start();
+  }
+  if (plan?.priceChange?.state == 'OUTSTANDING') {
+    try {
+      await ref.read(playBillingProvider).showPriceChangeMessage();
+    } on Object {
+      // Play unavailable on this phone: the notice on the subscription page remains.
+    }
   }
 });
 

@@ -1731,6 +1731,8 @@
   "billingChangeTitle": "Change to your subscription",
   "billingChangeBody": "Google Play has a new monthly rate for your subscription from {date}. To keep the subscription, review and accept it in Google Play.",
   "@billingChangeBody": {"description": "Required in-app notice of a Play price increase (addendum §7); no amount, the user sees it in Google Play.", "placeholders": {"date": {"type": "String"}}},
+  "billingChangeConfirmedBody": "From {date} your subscription renews at its new monthly rate in Google Play. You have already accepted it.",
+  "@billingChangeConfirmedBody": {"description": "Notice of a Play price increase the user already accepted (CONFIRMED, audit L3); no amount.", "placeholders": {"date": {"type": "String"}}},
   "billingOpenPlay": "Open Google Play",
   "feedbackTitle": "Send feedback",
   "feedbackKindProblem": "Problem",

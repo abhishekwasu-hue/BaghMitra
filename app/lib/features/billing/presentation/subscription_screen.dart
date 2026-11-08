@@ -53,7 +53,10 @@ class PriceChangeNotice extends StatelessWidget {
           ),
           const SizedBox(height: BmSpace.xxs),
           Text(
-            t.billingChangeBody(date),
+            // An increase the user already accepted is not asked again (audit L3).
+            plan.priceChange?.state == 'CONFIRMED'
+                ? t.billingChangeConfirmedBody(date)
+                : t.billingChangeBody(date),
             style: BmType.body.copyWith(color: c.warnBody),
           ),
           const SizedBox(height: BmSpace.sm),

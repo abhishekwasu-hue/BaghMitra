@@ -97,6 +97,60 @@ void main() {
     await unmountApp(tester);
   });
 
+  testWidgets('an accepted (CONFIRMED) increase is not asked to be accepted '
+      '(audit L3)', (tester) async {
+    const plan = PlanOffer(
+      inForce: true,
+      accountId: 'a',
+      productId: 'bagmitra_grower',
+      basePlanId: 'monthly',
+      covered: true,
+      priceChange: PriceChangeOut(
+        state: 'CONFIRMED',
+        mode: 'PRICE_INCREASE',
+        newPricePaise: 14900,
+        currency: 'INR',
+        chargeTime: '2026-12-20T00:00:00Z',
+      ),
+    );
+    final play = FakePlayBilling();
+    await pumpApp(
+      tester,
+      locale: const Locale('en'),
+      initialLocation: Routes.subscription,
+      overrides: billingOverrides(plan: plan, play: play),
+    );
+    expect(find.byKey(const Key('billing-change-notice')), findsOneWidget);
+    expect(find.textContaining('already accepted'), findsOneWidget);
+    expect(find.textContaining('accept it'), findsNothing);
+    expect(play.calls, isNot(contains('message')));
+    await unmountApp(tester);
+  });
+
+  testWidgets('an OUTSTANDING increase shows Play\'s own message at start '
+      '(audit L3)', (tester) async {
+    const plan = PlanOffer(
+      inForce: true,
+      accountId: 'a',
+      productId: 'bagmitra_grower',
+      basePlanId: 'monthly',
+      covered: true,
+      priceChange: increase,
+    );
+    final play = FakePlayBilling();
+    await pumpApp(
+      tester,
+      locale: const Locale('en'),
+      overrides: billingOverrides(plan: plan, play: play),
+    );
+    for (var i = 0; i < 5; i++) {
+      await tester.pump(const Duration(milliseconds: 200));
+    }
+    expect(play.calls.where((c) => c == 'message'), hasLength(1));
+    expect(find.textContaining('accept it in Google Play'), findsNothing);
+    await unmountApp(tester);
+  });
+
   testWidgets('All features lists Subscription only while it is in force', (
     tester,
   ) async {
