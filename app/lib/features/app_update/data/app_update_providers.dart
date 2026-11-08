@@ -1,12 +1,29 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../app/providers.dart';
+import '../../../core/config.dart';
 import '../domain/app_update.dart';
 import 'app_update_checker.dart';
+import 'test_release_source.dart';
 
-final appVersionSourceProvider = Provider<AppVersionSource>(
-  (ref) => ApiAppVersionSource(ref.watch(apiProvider)),
-);
+enum UpdateSourceKind { server, github, none }
+
+/// Release APK: our server (`GET /v1/app/version`). Test APK: its GitHub pre-releases (a
+/// test-key APK cannot install the server's release-key APK, audit BG-07). Demo: nothing.
+UpdateSourceKind updateSourceKind(AppConfig config) {
+  if (config.demoMode) return UpdateSourceKind.none;
+  if (!config.isTestBuild) return UpdateSourceKind.server;
+  return config.testReleasesRepo.isEmpty
+      ? UpdateSourceKind.none
+      : UpdateSourceKind.github;
+}
+
+final appVersionSourceProvider = Provider<AppVersionSource>((ref) {
+  final config = ref.watch(appConfigProvider);
+  return updateSourceKind(config) == UpdateSourceKind.github
+      ? GitHubTestReleaseSource(config.testReleasesRepo)
+      : ApiAppVersionSource(ref.watch(apiProvider));
+});
 
 final installedVersionCodeProvider = Provider<InstalledVersionCode>(
   (ref) => platformVersionCode,
@@ -14,12 +31,16 @@ final installedVersionCodeProvider = Provider<InstalledVersionCode>(
 
 final urlOpenerProvider = Provider<UrlOpener>((ref) => openInBrowser);
 
-/// Off in test builds (a test-key APK cannot install the release-key APK over itself, audit
-/// BG-07) and in demo builds (no server to ask).
+/// Off in demo builds (nothing to ask) and in test builds without the releases repository.
+/// A test build checks every 6 hours (new test APKs come several times a day).
 final appUpdateCheckerProvider = Provider<AppUpdateChecker?>((ref) {
   final config = ref.watch(appConfigProvider);
-  if (config.isTestBuild || config.demoMode) return null;
+  final kind = updateSourceKind(config);
+  if (kind == UpdateSourceKind.none) return null;
   return AppUpdateChecker(
+    interval: kind == UpdateSourceKind.github
+        ? const Duration(hours: 6)
+        : const Duration(hours: 24),
     source: ref.watch(appVersionSourceProvider),
     db: ref.watch(databaseProvider),
     installedCode: ref.watch(installedVersionCodeProvider),

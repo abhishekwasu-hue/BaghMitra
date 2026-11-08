@@ -14,6 +14,7 @@ class AppConfig {
     this.push = false,
     this.marketLink = false,
     this.entitlementPublicKey = '',
+    this.testReleasesRepo = '',
   });
 
   factory AppConfig.fromEnvironment() => const AppConfig(
@@ -29,6 +30,9 @@ class AppConfig {
     supabaseAnonKey: String.fromEnvironment('SUPABASE_ANON_KEY'),
     devGallery: bool.fromEnvironment('DEV_GALLERY'),
     testBuild: String.fromEnvironment('TEST_BUILD'),
+    // Empty unless defined at build time; the analyzer only sees the empty default.
+    // ignore: avoid_redundant_argument_values
+    testReleasesRepo: String.fromEnvironment('TEST_RELEASES_REPO'),
     speechEngine: String.fromEnvironment(
       'SPEECH_ENGINE',
       defaultValue: 'on_device',
@@ -100,6 +104,11 @@ class AppConfig {
   /// ENTITLEMENT_SIGNING_KEY). Empty: no snapshot verifies, so only the always-free features
   /// are open.
   final String entitlementPublicKey;
+
+  /// `owner/name` of the GitHub repository whose pre-releases hold the Test APKs
+  /// (`--dart-define=TEST_RELEASES_REPO`, set by the Test APK workflow); the test build checks
+  /// it for a newer APK. Empty in the production Release APK.
+  final String testReleasesRepo;
 
   bool get isTestBuild => testBuild.isNotEmpty;
 
