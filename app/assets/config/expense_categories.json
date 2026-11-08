@@ -1,5 +1,5 @@
 {
-  "_note": "Expense categories a grower can pick. Config, not code. Spray, input and labour costs are recorded in the spray log, the input records and the labour register (counted as 'spray', by input kind and as 'labour'), so they have no category here.",
+  "_note": "Expense categories a grower can pick. Config, not code. Spray, input and labour costs are recorded in the spray log, the input records and the labour register (counted as 'spray', by input kind and as 'labour'), so they have no category here; the expense screen links to those three forms.",
   "categories": [
     {
       "slug": "irrigation",
@@ -7,6 +7,14 @@
         "en": "Irrigation & power",
         "mr": "पाणी आणि वीज",
         "hi": "सिंचाई और बिजली"
+      }
+    },
+    {
+      "slug": "tillage",
+      "labels": {
+        "en": "Tillage (ploughing, rotavator)",
+        "mr": "मशागत (नांगरणी, रोटाव्हेटर)",
+        "hi": "जुताई (हल, रोटावेटर)"
       }
     },
     {

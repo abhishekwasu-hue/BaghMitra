@@ -4488,4 +4488,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String mlLoginRole(String role) {
     return 'Role: $role';
   }
+
+  @override
+  String get expenseElsewhere =>
+      'Spray, labour and fertiliser costs go in their own records and are added to the accounts automatically.';
+
+  @override
+  String get expenseGoSpray => 'Spray';
+
+  @override
+  String get expenseGoLabour => 'Labour';
+
+  @override
+  String get expenseGoInputs => 'Fertiliser and manure';
 }

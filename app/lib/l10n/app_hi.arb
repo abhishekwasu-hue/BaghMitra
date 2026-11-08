@@ -1288,5 +1288,9 @@
   "feedbackSend": "भेजें",
   "feedbackSent": "मिल गया, धन्यवाद!",
   "feedbackQueued": "फ़ोन पर सहेजा; इंटरनेट आने पर जाएगा।",
-  "mlLoginRole": "भूमिका: {role}"
+  "mlLoginRole": "भूमिका: {role}",
+  "expenseElsewhere": "छिड़काव, मज़दूरी और खाद का खर्च उनकी अपनी प्रविष्टि में लिखें; हिसाब में वह अपने-आप जुड़ जाता है।",
+  "expenseGoSpray": "छिड़काव",
+  "expenseGoLabour": "मज़दूरी",
+  "expenseGoInputs": "खाद और गोबर खाद"
 }

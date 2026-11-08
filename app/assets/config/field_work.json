@@ -13,6 +13,7 @@
   ],
   "tasks": [
     {"slug": "weeding", "labels": {"en": "Weeding", "mr": "निंदणी", "hi": "निराई"}},
+    {"slug": "grass_cutting", "labels": {"en": "Grass cutting", "mr": "गवत कापणी", "hi": "घास कटाई"}},
     {"slug": "pruning", "labels": {"en": "Pruning", "mr": "छाटणी", "hi": "छंटाई"}},
     {"slug": "spraying", "labels": {"en": "Spraying", "mr": "फवारणी", "hi": "छिड़काव"}},
     {"slug": "harvesting", "labels": {"en": "Harvesting", "mr": "तोडणी", "hi": "तुड़ाई"}},

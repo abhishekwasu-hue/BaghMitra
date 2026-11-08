@@ -7839,6 +7839,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Role: {role}'**
   String mlLoginRole(String role);
+
+  /// No description provided for @expenseElsewhere.
+  ///
+  /// In en, this message translates to:
+  /// **'Spray, labour and fertiliser costs go in their own records and are added to the accounts automatically.'**
+  String get expenseElsewhere;
+
+  /// No description provided for @expenseGoSpray.
+  ///
+  /// In en, this message translates to:
+  /// **'Spray'**
+  String get expenseGoSpray;
+
+  /// No description provided for @expenseGoLabour.
+  ///
+  /// In en, this message translates to:
+  /// **'Labour'**
+  String get expenseGoLabour;
+
+  /// No description provided for @expenseGoInputs.
+  ///
+  /// In en, this message translates to:
+  /// **'Fertiliser and manure'**
+  String get expenseGoInputs;
 }
 
 class _AppLocalizationsDelegate

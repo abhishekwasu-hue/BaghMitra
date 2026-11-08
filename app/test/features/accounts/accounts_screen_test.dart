@@ -77,6 +77,28 @@ void main() {
     await unmountApp(tester);
   });
 
+  testWidgets(
+    'expense screen: tillage category; spray, labour, fertiliser open '
+    'their own records (owner 2026-11-08)',
+    (tester) async {
+      await pumpApp(
+        tester,
+        initialLocation: '/plots/p1/accounts/expense',
+        seed: seedPlot,
+      );
+      await settle(tester);
+      expect(find.text('मशागत (नांगरणी, रोटाव्हेटर)'), findsOneWidget);
+      expect(find.byKey(const Key('expense-elsewhere')), findsOneWidget);
+      for (final key in ['spray', 'labour', 'inputs']) {
+        expect(find.byKey(Key('expense-go-$key')), findsOneWidget);
+      }
+      await tester.tap(find.byKey(const Key('expense-go-labour')));
+      await settle(tester);
+      expect(find.text('गवत कापणी'), findsOneWidget);
+      await unmountApp(tester);
+    },
+  );
+
   testWidgets('grower records a sale with dues', (tester) async {
     final db = await pumpApp(
       tester,
