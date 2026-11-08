@@ -68,7 +68,7 @@ enum SendResult {
   /// Stored (a retry of the same id is answered the same way).
   sent,
 
-  /// Offline, timeout, 408, 429 or 5xx: keep it and try again later.
+  /// Offline, timeout, 401, 408, 429 or 5xx: keep it and try again later.
   retryLater,
 
   /// Any other 4xx: this message will never be accepted; drop it, send the next.
@@ -77,7 +77,10 @@ enum SendResult {
 
 SendResult sendResultOf(int status) {
   if (status >= 200 && status < 300) return SendResult.sent;
-  if (status >= 400 && status < 500 && status != 408 && status != 429) {
+  // 401 waits too (owner Q123): a phone offline longer than the token's life gets 401 on its
+  // first send, before the session is refreshed.
+  const waits = {401, 408, 429};
+  if (status >= 400 && status < 500 && !waits.contains(status)) {
     return SendResult.refused;
   }
   return SendResult.retryLater;
