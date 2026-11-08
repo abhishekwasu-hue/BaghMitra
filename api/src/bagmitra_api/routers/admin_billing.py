@@ -1,10 +1,11 @@
-"""Billing admin (billing addendum §2.4): plan configuration, manual grants (course bundle, FPO
-plans, support) with an audit trail. Role `billing_admin`, set server-side in app_metadata."""
+"""Billing admin (billing addendum §2.4, §7): the subscription switch and per-role amounts, plan
+configuration, manual grants (course bundle, FPO plans, support) with an audit trail. Role
+`billing_admin`, set server-side in app_metadata."""
 
 from __future__ import annotations
 
 import uuid
-from datetime import UTC, datetime
+from datetime import UTC, date, datetime
 from typing import Annotated, Literal
 
 from fastapi import APIRouter, Depends, Query
@@ -26,6 +27,7 @@ from bagmitra_api.billing.service import (
     replace_plan,
     revoke_grant,
 )
+from bagmitra_api.billing.switch import billing_settings, change_switch, role_prices
 from bagmitra_api.core.errors import ApiError, ErrorResponse
 from bagmitra_api.db.base import as_utc
 from bagmitra_api.db.session import DbSession
@@ -108,6 +110,26 @@ class EventOut(BaseModel):
 
 class EventsResponse(BaseModel):
     events: list[EventOut]
+
+
+class SwitchIn(BaseModel):
+    # OFF = every signed-in user gets the full app; ON from `starts_on` (India date) if set.
+    enabled: bool
+    starts_on: date | None = None
+
+
+class RolePriceOut(BaseModel):
+    role: str
+    # The admin's monthly amount; null = the role stays free even when the switch is ON.
+    amount_paise: int | None
+    # What Google Play reported for the role's monthly base plan in India (the source of truth).
+    play_price_paise: int | None
+    play_currency: str | None
+    play_synced_at: datetime | None
+
+
+class BillingSettingsOut(SwitchIn):
+    roles: list[RolePriceOut]
 
 
 async def _plan_out(session: AsyncSession, plan: BillingPlan) -> PlanOut:
@@ -237,3 +259,36 @@ async def events(
             for e in rows
         ]
     )
+
+
+async def _settings_out(session: AsyncSession) -> BillingSettingsOut:
+    row = await billing_settings(session)
+    return BillingSettingsOut(
+        enabled=row.enabled,
+        starts_on=row.starts_on,
+        roles=[
+            RolePriceOut(
+                role=r.role,
+                amount_paise=r.amount_paise,
+                play_price_paise=r.play_price_paise,
+                play_currency=r.play_currency,
+                play_synced_at=as_utc(r.play_synced_at) if r.play_synced_at else None,
+            )
+            for r in (await role_prices(session)).values()
+        ],
+    )
+
+
+@router.get("/settings", operation_id="admin_billing_settings")
+async def get_billing_settings(_: BillingAdmin, session: DbSession) -> BillingSettingsOut:
+    out = await _settings_out(session)
+    await session.commit()
+    return out
+
+
+@router.put("/settings", operation_id="admin_billing_put_switch")
+async def put_switch(body: SwitchIn, admin: BillingAdmin, session: DbSession) -> BillingSettingsOut:
+    await change_switch(session, admin.id, enabled=body.enabled, starts_on=body.starts_on)
+    out = await _settings_out(session)
+    await session.commit()
+    return out

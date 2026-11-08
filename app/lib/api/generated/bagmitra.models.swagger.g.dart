@@ -361,6 +361,26 @@ Map<String, dynamic> _$BadgeOutToJson(BadgeOut instance) => <String, dynamic>{
   'since_year': ?instance.sinceYear,
 };
 
+BillingSettingsOut _$BillingSettingsOutFromJson(Map<String, dynamic> json) =>
+    BillingSettingsOut(
+      enabled: json['enabled'] as bool,
+      roles:
+          (json['roles'] as List<dynamic>?)
+              ?.map((e) => RolePriceOut.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+      startsOn: json['starts_on'] == null
+          ? null
+          : DateTime.parse(json['starts_on'] as String),
+    );
+
+Map<String, dynamic> _$BillingSettingsOutToJson(BillingSettingsOut instance) =>
+    <String, dynamic>{
+      'enabled': instance.enabled,
+      'roles': instance.roles.map((e) => e.toJson()).toList(),
+      'starts_on': ?_dateToJson(instance.startsOn),
+    };
+
 BlockedClaimOut _$BlockedClaimOutFromJson(Map<String, dynamic> json) =>
     BlockedClaimOut(
       activeIngredient: json['active_ingredient'] as String,
@@ -2480,6 +2500,27 @@ Map<String, dynamic> _$PlanInToJson(PlanIn instance) => <String, dynamic>{
   'sort_order': ?instance.sortOrder,
 };
 
+PlanOfferOut _$PlanOfferOutFromJson(Map<String, dynamic> json) => PlanOfferOut(
+  basePlanId: json['base_plan_id'] as String?,
+  covered: json['covered'] as bool,
+  inForce: json['in_force'] as bool,
+  locked:
+      (json['locked'] as List<dynamic>?)?.map((e) => e as String).toList() ??
+      [],
+  productId: json['product_id'] as String?,
+  role: json['role'] as String?,
+);
+
+Map<String, dynamic> _$PlanOfferOutToJson(PlanOfferOut instance) =>
+    <String, dynamic>{
+      'base_plan_id': ?instance.basePlanId,
+      'covered': instance.covered,
+      'in_force': instance.inForce,
+      'locked': instance.locked,
+      'product_id': ?instance.productId,
+      'role': ?instance.role,
+    };
+
 PlanOut _$PlanOutFromJson(Map<String, dynamic> json) => PlanOut(
   active: json['active'] as bool,
   features:
@@ -3180,6 +3221,25 @@ Map<String, dynamic> _$ReviewInToJson(ReviewIn instance) => <String, dynamic>{
   'decision': ?reviewInDecisionToJson(instance.decision),
 };
 
+RolePriceOut _$RolePriceOutFromJson(Map<String, dynamic> json) => RolePriceOut(
+  amountPaise: (json['amount_paise'] as num?)?.toInt(),
+  playCurrency: json['play_currency'] as String?,
+  playPricePaise: (json['play_price_paise'] as num?)?.toInt(),
+  playSyncedAt: json['play_synced_at'] == null
+      ? null
+      : DateTime.parse(json['play_synced_at'] as String),
+  role: json['role'] as String,
+);
+
+Map<String, dynamic> _$RolePriceOutToJson(RolePriceOut instance) =>
+    <String, dynamic>{
+      'amount_paise': ?instance.amountPaise,
+      'play_currency': ?instance.playCurrency,
+      'play_price_paise': ?instance.playPricePaise,
+      'play_synced_at': ?instance.playSyncedAt?.toIso8601String(),
+      'role': instance.role,
+    };
+
 SentInterestOut _$SentInterestOutFromJson(Map<String, dynamic> json) =>
     SentInterestOut(
       basis: json['basis'] as String,
@@ -3422,6 +3482,18 @@ Map<String, dynamic> _$SubscriptionsResponseToJson(
   SubscriptionsResponse instance,
 ) => <String, dynamic>{
   'subscriptions': instance.subscriptions.map((e) => e.toJson()).toList(),
+};
+
+SwitchIn _$SwitchInFromJson(Map<String, dynamic> json) => SwitchIn(
+  enabled: json['enabled'] as bool,
+  startsOn: json['starts_on'] == null
+      ? null
+      : DateTime.parse(json['starts_on'] as String),
+);
+
+Map<String, dynamic> _$SwitchInToJson(SwitchIn instance) => <String, dynamic>{
+  'enabled': instance.enabled,
+  'starts_on': ?_dateToJson(instance.startsOn),
 };
 
 SynonymOut _$SynonymOutFromJson(Map<String, dynamic> json) => SynonymOut(

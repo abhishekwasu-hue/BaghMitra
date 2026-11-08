@@ -257,6 +257,61 @@ abstract class Bagmitra extends ChopperService {
     ),
   });
 
+  ///Get Billing Settings
+  Future<chopper.Response<BillingSettingsOut>> v1AdminBillingSettingsGet() {
+    generatedMapping.putIfAbsent(
+      BillingSettingsOut,
+      () => BillingSettingsOut.fromJsonFactory,
+    );
+
+    return _v1AdminBillingSettingsGet();
+  }
+
+  ///Get Billing Settings
+  @GET(path: '/v1/admin/billing/settings')
+  Future<chopper.Response<BillingSettingsOut>> _v1AdminBillingSettingsGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get Billing Settings',
+      operationId: 'admin_billing_settings',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Put Switch
+  Future<chopper.Response<BillingSettingsOut>> v1AdminBillingSettingsPut({
+    required SwitchIn? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      BillingSettingsOut,
+      () => BillingSettingsOut.fromJsonFactory,
+    );
+
+    return _v1AdminBillingSettingsPut(body: body);
+  }
+
+  ///Put Switch
+  @PUT(path: '/v1/admin/billing/settings', optionalBody: true)
+  Future<chopper.Response<BillingSettingsOut>> _v1AdminBillingSettingsPut({
+    @Body() required SwitchIn? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Put Switch',
+      operationId: 'admin_billing_put_switch',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
   ///Subscriptions
   ///@param subject_id
   Future<chopper.Response<SubscriptionsResponse>>
@@ -2085,6 +2140,32 @@ broker: the phone call), else 422 `verified_rule_not_met`.''',
       description: '',
       summary: 'Entitlements',
       operationId: 'billing_entitlements',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["billing"],
+      deprecated: false,
+    ),
+  });
+
+  ///Plan
+  Future<chopper.Response<PlanOfferOut>> v1BillingPlanGet() {
+    generatedMapping.putIfAbsent(
+      PlanOfferOut,
+      () => PlanOfferOut.fromJsonFactory,
+    );
+
+    return _v1BillingPlanGet();
+  }
+
+  ///Plan
+  @GET(path: '/v1/billing/plan')
+  Future<chopper.Response<PlanOfferOut>> _v1BillingPlanGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Plan',
+      operationId: 'billing_plan',
       consumes: [],
       produces: [],
       security: ["HTTPBearer"],

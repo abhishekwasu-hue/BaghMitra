@@ -191,6 +191,55 @@ final class _$Bagmitra extends Bagmitra {
   }
 
   @override
+  Future<Response<BillingSettingsOut>> _v1AdminBillingSettingsGet({
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get Billing Settings',
+      operationId: 'admin_billing_settings',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/billing/settings');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<BillingSettingsOut, BillingSettingsOut>($request);
+  }
+
+  @override
+  Future<Response<BillingSettingsOut>> _v1AdminBillingSettingsPut({
+    required SwitchIn? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Put Switch',
+      operationId: 'admin_billing_put_switch',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/billing/settings');
+    final $body = body;
+    final Request $request = Request(
+      'PUT',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<BillingSettingsOut, BillingSettingsOut>($request);
+  }
+
+  @override
   Future<Response<SubscriptionsResponse>> _v1AdminBillingSubscriptionsGet({
     String? subjectId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -1697,6 +1746,29 @@ broker: the phone call), else 422 `verified_rule_not_met`.''',
       tag: swaggerMetaData,
     );
     return client.send<EntitlementsResponse, EntitlementsResponse>($request);
+  }
+
+  @override
+  Future<Response<PlanOfferOut>> _v1BillingPlanGet({
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Plan',
+      operationId: 'billing_plan',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["billing"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/billing/plan');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<PlanOfferOut, PlanOfferOut>($request);
   }
 
   @override

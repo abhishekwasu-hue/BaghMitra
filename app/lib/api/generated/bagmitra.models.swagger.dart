@@ -1920,6 +1920,83 @@ extension $BadgeOutExtension on BadgeOut {
 }
 
 @JsonSerializable(explicitToJson: true)
+class BillingSettingsOut {
+  const BillingSettingsOut({
+    required this.enabled,
+    required this.roles,
+    this.startsOn,
+  });
+
+  factory BillingSettingsOut.fromJson(Map<String, dynamic> json) =>
+      _$BillingSettingsOutFromJson(json);
+
+  static const toJsonFactory = _$BillingSettingsOutToJson;
+  Map<String, dynamic> toJson() => _$BillingSettingsOutToJson(this);
+
+  @JsonKey(name: 'enabled', includeIfNull: false)
+  final bool enabled;
+  @JsonKey(name: 'roles', includeIfNull: false, defaultValue: <RolePriceOut>[])
+  final List<RolePriceOut> roles;
+  @JsonKey(name: 'starts_on', includeIfNull: false, toJson: _dateToJson)
+  final DateTime? startsOn;
+  static const fromJsonFactory = _$BillingSettingsOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is BillingSettingsOut &&
+            (identical(other.enabled, enabled) ||
+                const DeepCollectionEquality().equals(
+                  other.enabled,
+                  enabled,
+                )) &&
+            (identical(other.roles, roles) ||
+                const DeepCollectionEquality().equals(other.roles, roles)) &&
+            (identical(other.startsOn, startsOn) ||
+                const DeepCollectionEquality().equals(
+                  other.startsOn,
+                  startsOn,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(enabled) ^
+      const DeepCollectionEquality().hash(roles) ^
+      const DeepCollectionEquality().hash(startsOn) ^
+      runtimeType.hashCode;
+}
+
+extension $BillingSettingsOutExtension on BillingSettingsOut {
+  BillingSettingsOut copyWith({
+    bool? enabled,
+    List<RolePriceOut>? roles,
+    DateTime? startsOn,
+  }) {
+    return BillingSettingsOut(
+      enabled: enabled ?? this.enabled,
+      roles: roles ?? this.roles,
+      startsOn: startsOn ?? this.startsOn,
+    );
+  }
+
+  BillingSettingsOut copyWithWrapped({
+    Wrapped<bool>? enabled,
+    Wrapped<List<RolePriceOut>>? roles,
+    Wrapped<DateTime?>? startsOn,
+  }) {
+    return BillingSettingsOut(
+      enabled: (enabled != null ? enabled.value : this.enabled),
+      roles: (roles != null ? roles.value : this.roles),
+      startsOn: (startsOn != null ? startsOn.value : this.startsOn),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class BlockedClaimOut {
   const BlockedClaimOut({
     required this.activeIngredient,
@@ -12649,6 +12726,119 @@ extension $PlanInExtension on PlanIn {
 }
 
 @JsonSerializable(explicitToJson: true)
+class PlanOfferOut {
+  const PlanOfferOut({
+    required this.basePlanId,
+    required this.covered,
+    required this.inForce,
+    required this.locked,
+    required this.productId,
+    required this.role,
+  });
+
+  factory PlanOfferOut.fromJson(Map<String, dynamic> json) =>
+      _$PlanOfferOutFromJson(json);
+
+  static const toJsonFactory = _$PlanOfferOutToJson;
+  Map<String, dynamic> toJson() => _$PlanOfferOutToJson(this);
+
+  @JsonKey(name: 'base_plan_id', includeIfNull: false)
+  final String? basePlanId;
+  @JsonKey(name: 'covered', includeIfNull: false)
+  final bool covered;
+  @JsonKey(name: 'in_force', includeIfNull: false)
+  final bool inForce;
+  @JsonKey(name: 'locked', includeIfNull: false, defaultValue: <String>[])
+  final List<String> locked;
+  @JsonKey(name: 'product_id', includeIfNull: false)
+  final String? productId;
+  @JsonKey(name: 'role', includeIfNull: false)
+  final String? role;
+  static const fromJsonFactory = _$PlanOfferOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is PlanOfferOut &&
+            (identical(other.basePlanId, basePlanId) ||
+                const DeepCollectionEquality().equals(
+                  other.basePlanId,
+                  basePlanId,
+                )) &&
+            (identical(other.covered, covered) ||
+                const DeepCollectionEquality().equals(
+                  other.covered,
+                  covered,
+                )) &&
+            (identical(other.inForce, inForce) ||
+                const DeepCollectionEquality().equals(
+                  other.inForce,
+                  inForce,
+                )) &&
+            (identical(other.locked, locked) ||
+                const DeepCollectionEquality().equals(other.locked, locked)) &&
+            (identical(other.productId, productId) ||
+                const DeepCollectionEquality().equals(
+                  other.productId,
+                  productId,
+                )) &&
+            (identical(other.role, role) ||
+                const DeepCollectionEquality().equals(other.role, role)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(basePlanId) ^
+      const DeepCollectionEquality().hash(covered) ^
+      const DeepCollectionEquality().hash(inForce) ^
+      const DeepCollectionEquality().hash(locked) ^
+      const DeepCollectionEquality().hash(productId) ^
+      const DeepCollectionEquality().hash(role) ^
+      runtimeType.hashCode;
+}
+
+extension $PlanOfferOutExtension on PlanOfferOut {
+  PlanOfferOut copyWith({
+    String? basePlanId,
+    bool? covered,
+    bool? inForce,
+    List<String>? locked,
+    String? productId,
+    String? role,
+  }) {
+    return PlanOfferOut(
+      basePlanId: basePlanId ?? this.basePlanId,
+      covered: covered ?? this.covered,
+      inForce: inForce ?? this.inForce,
+      locked: locked ?? this.locked,
+      productId: productId ?? this.productId,
+      role: role ?? this.role,
+    );
+  }
+
+  PlanOfferOut copyWithWrapped({
+    Wrapped<String?>? basePlanId,
+    Wrapped<bool>? covered,
+    Wrapped<bool>? inForce,
+    Wrapped<List<String>>? locked,
+    Wrapped<String?>? productId,
+    Wrapped<String?>? role,
+  }) {
+    return PlanOfferOut(
+      basePlanId: (basePlanId != null ? basePlanId.value : this.basePlanId),
+      covered: (covered != null ? covered.value : this.covered),
+      inForce: (inForce != null ? inForce.value : this.inForce),
+      locked: (locked != null ? locked.value : this.locked),
+      productId: (productId != null ? productId.value : this.productId),
+      role: (role != null ? role.value : this.role),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class PlanOut {
   const PlanOut({
     required this.active,
@@ -16013,6 +16203,115 @@ extension $ReviewInExtension on ReviewIn {
 }
 
 @JsonSerializable(explicitToJson: true)
+class RolePriceOut {
+  const RolePriceOut({
+    required this.amountPaise,
+    required this.playCurrency,
+    required this.playPricePaise,
+    required this.playSyncedAt,
+    required this.role,
+  });
+
+  factory RolePriceOut.fromJson(Map<String, dynamic> json) =>
+      _$RolePriceOutFromJson(json);
+
+  static const toJsonFactory = _$RolePriceOutToJson;
+  Map<String, dynamic> toJson() => _$RolePriceOutToJson(this);
+
+  @JsonKey(name: 'amount_paise', includeIfNull: false)
+  final int? amountPaise;
+  @JsonKey(name: 'play_currency', includeIfNull: false)
+  final String? playCurrency;
+  @JsonKey(name: 'play_price_paise', includeIfNull: false)
+  final int? playPricePaise;
+  @JsonKey(name: 'play_synced_at', includeIfNull: false)
+  final DateTime? playSyncedAt;
+  @JsonKey(name: 'role', includeIfNull: false)
+  final String role;
+  static const fromJsonFactory = _$RolePriceOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is RolePriceOut &&
+            (identical(other.amountPaise, amountPaise) ||
+                const DeepCollectionEquality().equals(
+                  other.amountPaise,
+                  amountPaise,
+                )) &&
+            (identical(other.playCurrency, playCurrency) ||
+                const DeepCollectionEquality().equals(
+                  other.playCurrency,
+                  playCurrency,
+                )) &&
+            (identical(other.playPricePaise, playPricePaise) ||
+                const DeepCollectionEquality().equals(
+                  other.playPricePaise,
+                  playPricePaise,
+                )) &&
+            (identical(other.playSyncedAt, playSyncedAt) ||
+                const DeepCollectionEquality().equals(
+                  other.playSyncedAt,
+                  playSyncedAt,
+                )) &&
+            (identical(other.role, role) ||
+                const DeepCollectionEquality().equals(other.role, role)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(amountPaise) ^
+      const DeepCollectionEquality().hash(playCurrency) ^
+      const DeepCollectionEquality().hash(playPricePaise) ^
+      const DeepCollectionEquality().hash(playSyncedAt) ^
+      const DeepCollectionEquality().hash(role) ^
+      runtimeType.hashCode;
+}
+
+extension $RolePriceOutExtension on RolePriceOut {
+  RolePriceOut copyWith({
+    int? amountPaise,
+    String? playCurrency,
+    int? playPricePaise,
+    DateTime? playSyncedAt,
+    String? role,
+  }) {
+    return RolePriceOut(
+      amountPaise: amountPaise ?? this.amountPaise,
+      playCurrency: playCurrency ?? this.playCurrency,
+      playPricePaise: playPricePaise ?? this.playPricePaise,
+      playSyncedAt: playSyncedAt ?? this.playSyncedAt,
+      role: role ?? this.role,
+    );
+  }
+
+  RolePriceOut copyWithWrapped({
+    Wrapped<int?>? amountPaise,
+    Wrapped<String?>? playCurrency,
+    Wrapped<int?>? playPricePaise,
+    Wrapped<DateTime?>? playSyncedAt,
+    Wrapped<String>? role,
+  }) {
+    return RolePriceOut(
+      amountPaise: (amountPaise != null ? amountPaise.value : this.amountPaise),
+      playCurrency: (playCurrency != null
+          ? playCurrency.value
+          : this.playCurrency),
+      playPricePaise: (playPricePaise != null
+          ? playPricePaise.value
+          : this.playPricePaise),
+      playSyncedAt: (playSyncedAt != null
+          ? playSyncedAt.value
+          : this.playSyncedAt),
+      role: (role != null ? role.value : this.role),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class SentInterestOut {
   const SentInterestOut({
     required this.basis,
@@ -17098,6 +17397,67 @@ extension $SubscriptionsResponseExtension on SubscriptionsResponse {
       subscriptions: (subscriptions != null
           ? subscriptions.value
           : this.subscriptions),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class SwitchIn {
+  const SwitchIn({required this.enabled, this.startsOn});
+
+  factory SwitchIn.fromJson(Map<String, dynamic> json) =>
+      _$SwitchInFromJson(json);
+
+  static const toJsonFactory = _$SwitchInToJson;
+  Map<String, dynamic> toJson() => _$SwitchInToJson(this);
+
+  @JsonKey(name: 'enabled', includeIfNull: false)
+  final bool enabled;
+  @JsonKey(name: 'starts_on', includeIfNull: false, toJson: _dateToJson)
+  final DateTime? startsOn;
+  static const fromJsonFactory = _$SwitchInFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is SwitchIn &&
+            (identical(other.enabled, enabled) ||
+                const DeepCollectionEquality().equals(
+                  other.enabled,
+                  enabled,
+                )) &&
+            (identical(other.startsOn, startsOn) ||
+                const DeepCollectionEquality().equals(
+                  other.startsOn,
+                  startsOn,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(enabled) ^
+      const DeepCollectionEquality().hash(startsOn) ^
+      runtimeType.hashCode;
+}
+
+extension $SwitchInExtension on SwitchIn {
+  SwitchIn copyWith({bool? enabled, DateTime? startsOn}) {
+    return SwitchIn(
+      enabled: enabled ?? this.enabled,
+      startsOn: startsOn ?? this.startsOn,
+    );
+  }
+
+  SwitchIn copyWithWrapped({
+    Wrapped<bool>? enabled,
+    Wrapped<DateTime?>? startsOn,
+  }) {
+    return SwitchIn(
+      enabled: (enabled != null ? enabled.value : this.enabled),
+      startsOn: (startsOn != null ? startsOn.value : this.startsOn),
     );
   }
 }
