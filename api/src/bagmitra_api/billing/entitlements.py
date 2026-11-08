@@ -13,7 +13,7 @@ The subscription switch (addendum §7) is a `BillingPolicy`: while it is OFF (or
 date) every signed-in user gets the full app, every feature without a limit. While it is ON, a
 feature locks only if the gate map lists it for one of the user's priced roles and no role plan
 covers that role. The gate map is empty until the owner says which features need a plan
-(OPEN_QUESTIONS Q117), so nothing locks today. A user's own records are never gated.
+(OPEN_QUESTIONS Q118), so nothing locks today. A user's own records are never gated.
 """
 
 from __future__ import annotations
@@ -40,7 +40,7 @@ BILLING_ROLES = ("grower", "trader", "broker", "exporter", "provider")
 ROLE_PLAN_PREFIX = "role_"
 INDIA = ZoneInfo("Asia/Kolkata")
 # Role -> features that need that role's plan while the switch is ON. Empty on purpose: the
-# owner decides what a plan unlocks (OPEN_QUESTIONS Q117, default "nothing locked").
+# owner decides what a plan unlocks (OPEN_QUESTIONS Q118: owner 2026-11-07, nothing locked).
 GATED_FEATURES: Mapping[str, frozenset[str]] = {}
 
 

@@ -49,6 +49,7 @@ from bagmitra_api.market_link.package import (
 )
 from bagmitra_api.market_link.package_models import PackageGrant
 from bagmitra_api.market_link.terms import require_role_accepted
+from bagmitra_api.market_link.visibility import NOT_SUSPENDED
 from bagmitra_api.photos.exif import NotJpegError, strip_jpeg_metadata
 from bagmitra_api.photos.storage import PhotoNotFoundError, PhotoStorage, PhotoStorageError
 from bagmitra_api.routers.market_link import require_market_link
@@ -165,7 +166,9 @@ def _grower_view(lot: MarketLot) -> GrowerLotOut:
 
 
 @router.post(
-    "/lots/{lot_id}/publish", operation_id="market_link_publish_lot", dependencies=GROWER_WRITE
+    "/lots/{lot_id}/publish",
+    operation_id="market_link_publish_lot",
+    dependencies=[*NOT_SUSPENDED, *GROWER_WRITE],
 )
 async def publish_lot(
     lot_id: uuid.UUID,
@@ -272,7 +275,7 @@ async def list_lots(  # noqa: PLR0913 - query parameters and dependencies
     package (§4E). Page with `before` = the last `published_at` seen."""
     if not await is_verified_viewer(session, user.id):
         raise ApiError(403, "not_verified")
-    rule = lot_visible_to_traders(MarketLot, clock(), await package_on(session))
+    rule = lot_visible_to_traders(MarketLot, clock(), await package_on(session), user.id)
     query = (
         select(MarketLot, Farmer.display_name, Plot.area_sq_m)
         .outerjoin(Farmer, Farmer.id == MarketLot.owner_id)
@@ -380,7 +383,7 @@ class LotPhotoUrl(BaseModel):
     "/lot-photos/{photo_id}/photo",
     operation_id="market_link_upload_lot_photo",
     responses=_PHOTO_RESPONSES,
-    dependencies=GROWER_WRITE,
+    dependencies=[*NOT_SUSPENDED, *GROWER_WRITE],
     openapi_extra={
         "requestBody": {
             "required": True,
@@ -447,7 +450,8 @@ async def lot_photo_url(
     if (
         not own
         and not (
-            await lot_shown(session, lot.id, clock()) and await is_verified_viewer(session, user.id)
+            await lot_shown(session, lot.id, clock(), user.id)
+            and await is_verified_viewer(session, user.id)
         )
         and not await _deal_party(session, lot.id, user.id)
     ):

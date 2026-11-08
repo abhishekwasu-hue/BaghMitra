@@ -41,6 +41,12 @@ from bagmitra_api.market_link.package import lot_shown
 from bagmitra_api.market_link.profiles import PublicProfileOut, Subject, public_views
 from bagmitra_api.market_link.registration import india_date
 from bagmitra_api.market_link.terms import accepted_roles, current_versions
+from bagmitra_api.market_link.visibility import (
+    NOT_SUSPENDED,
+    is_blocked_between,
+    not_blocked,
+    visible,
+)
 from bagmitra_api.routers.market_link import Clock, require_market_link
 from bagmitra_api.routers.market_lots import (
     GROWER_WRITE,
@@ -186,9 +192,12 @@ def _brief(lot: MarketLot) -> LotBrief:
 async def _verified_profile[P: (BuyerProfile, BrokerProfile)](
     session: DbSession, model: type[P], *, user_id: uuid.UUID | None = None, pid: uuid.UUID | None
 ) -> P | None:
-    query = select(model).where(model.user_id == user_id if pid is None else model.id == pid)
-    profile = await session.scalar(query)
     kind = "buyer" if model is BuyerProfile else "broker"
+    query = select(model).where(
+        model.user_id == user_id if pid is None else model.id == pid,
+        visible(kind, model.id, model.user_id),  # not hidden, suspended nor deleted
+    )
+    profile = await session.scalar(query)
     if profile is None or not await is_verified(session, kind, profile.id):
         return None
     return profile
@@ -201,7 +210,12 @@ async def _require_accepted(
         raise ApiError(403, "terms_not_accepted", f"Accept the current terms for {role}")
 
 
-@router.post("/lots/{lot_id}/interests", operation_id="market_link_send_interest", status_code=201)
+@router.post(
+    "/lots/{lot_id}/interests",
+    operation_id="market_link_send_interest",
+    dependencies=NOT_SUSPENDED,
+    status_code=201,
+)
 async def send_interest(  # noqa: PLR0913 - body and dependencies
     lot_id: uuid.UUID,
     body: InterestIn,
@@ -234,7 +248,12 @@ async def send_interest(  # noqa: PLR0913 - body and dependencies
             if broker is None:
                 raise ApiError(404, "broker_not_found")
     lot = await session.get(MarketLot, lot_id)
-    if lot is None or not await lot_shown(session, lot.id, clock()):  # §4E, the one rule
+    # The one rule (§4, §4C, §4E) for the sender; on a broker-brought interest a block
+    # between the grower and the other party counts too.
+    if lot is None or not await lot_shown(session, lot.id, clock(), user.id):
+        raise ApiError(404, "lot_not_found")
+    other = broker.user_id if broker and broker.user_id != user.id else buyer.user_id
+    if other != user.id and await is_blocked_between(session, lot.owner_id, other):
         raise ApiError(404, "lot_not_found")
     if lot.owner_id in (buyer.user_id, broker.user_id if broker else None):
         raise ApiError(409, "own_lot")
@@ -306,13 +325,24 @@ async def _profiles(
     model: type[BuyerProfile] | type[BrokerProfile],
     users: set[uuid.UUID],
     today: date,
+    viewer: uuid.UUID,
 ) -> dict[uuid.UUID, PublicProfileOut]:
-    """Public views (verified only, decision h) by user id."""
+    """Public views (verified only, decision h) by user id; hidden, suspended, deleted and
+    blocked (either way with `viewer`) profiles are left out (§4C)."""
     if not users:
         return {}
     kind = "buyer" if model is BuyerProfile else "broker"
     rows = cast(
-        list[Subject], list(await session.scalars(select(model).where(model.user_id.in_(users))))
+        list[Subject],
+        list(
+            await session.scalars(
+                select(model).where(
+                    model.user_id.in_(users),
+                    visible(kind, model.id, model.user_id),
+                    not_blocked(viewer, model.user_id),
+                )
+            )
+        ),
     )
     by_id = {r.id: r.user_id for r in rows}
     views = await public_views(session, kind, rows, today)
@@ -323,8 +353,9 @@ async def _profiles(
 async def lot_interests(
     lot_id: uuid.UUID, user: CurrentUser, session: DbSession, clock: Clock
 ) -> LotInterestsResponse:
-    """The interests on the caller's own lot, oldest first, to compare side by side. An open
-    interest whose trader or broker is no longer verified is left out (decision h)."""
+    """The interests on the caller's own lot, oldest first, to compare side by side. An
+    interest whose trader or broker is no longer verified (decision h), is hidden, suspended
+    or deleted, or blocked either way with the grower (§4C), is left out."""
     lot = await _own_lot(session, user, lot_id)
     offers = list(
         await session.scalars(
@@ -334,12 +365,14 @@ async def lot_interests(
         )
     )
     today = india_date(clock())
-    traders = await _profiles(session, BuyerProfile, {o.buyer_user_id for o in offers}, today)
+    buyers = {o.buyer_user_id for o in offers}
+    traders = await _profiles(session, BuyerProfile, buyers, today, user.id)
     brokers = await _profiles(
         session,
         BrokerProfile,
         {o.broker_user_id for o in offers if o.broker_user_id},
         today,
+        user.id,
     )
     deals = await _deal_ids(session, [o.id for o in offers])
     out: list[GrowerInterestOut] = []
@@ -356,7 +389,7 @@ async def lot_interests(
 @router.post(
     "/interests/{interest_id}/accept",
     operation_id="market_link_accept_interest",
-    dependencies=GROWER_WRITE,
+    dependencies=[*NOT_SUSPENDED, *GROWER_WRITE],
 )
 async def accept_interest(  # noqa: PLR0913 - path and dependencies
     interest_id: uuid.UUID,

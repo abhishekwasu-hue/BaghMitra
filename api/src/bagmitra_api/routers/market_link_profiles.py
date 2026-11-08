@@ -17,7 +17,7 @@ from typing import Annotated, Any, Literal, cast
 
 from fastapi import APIRouter, Depends, Query
 from pydantic import BaseModel
-from sqlalchemy import Select, func, select
+from sqlalchemy import ColumnElement, Select, and_, func, select
 
 from bagmitra_api.auth.jwt import CurrentUser
 from bagmitra_api.core.errors import ApiError, ErrorResponse
@@ -32,6 +32,7 @@ from bagmitra_api.market_link.profiles import (
     public_views,
 )
 from bagmitra_api.market_link.registration import distance_km, india_date, latest_fixes
+from bagmitra_api.market_link.visibility import not_blocked, visible
 from bagmitra_api.routers.market_link import require_market_link
 from bagmitra_api.weather.service import get_clock
 
@@ -60,9 +61,14 @@ def _in_area(
     return query
 
 
+def _shown(kind: str, model: type[Subject], viewer: uuid.UUID) -> ColumnElement[bool]:
+    """Not hidden, suspended nor deleted (`visible`) and not blocked either way (§4C)."""
+    return and_(visible(kind, model.id, model.user_id), not_blocked(viewer, model.user_id))
+
+
 @router.get("/profiles", operation_id="market_link_profiles")
 async def profiles(  # noqa: PLR0913 - filters and dependencies
-    _user: CurrentUser,
+    user: CurrentUser,
     session: DbSession,
     clock: Clock,
     role: Literal["trader", "exporter", "broker"],
@@ -71,7 +77,8 @@ async def profiles(  # noqa: PLR0913 - filters and dependencies
     sort: Literal["rating", "deals"] = "rating",
 ) -> ProfilesResponse:
     """The list per taluka (decision g): verified traders, exporters or brokers, by rating
-    (mean of the question averages; unrated last) or by completed deals."""
+    (mean of the question averages; unrated last) or by completed deals. Hidden, suspended,
+    deleted and blocked (either way) profiles are left out (§4C)."""
     model: type[Subject]
     query: Select[Any]
     if role == "broker":
@@ -80,6 +87,7 @@ async def profiles(  # noqa: PLR0913 - filters and dependencies
     else:
         model, kind = BuyerProfile, "buyer"
         query = select(BuyerProfile).where(BuyerProfile.kind == role)
+    query = query.where(_shown(kind, model, user.id))
     rows = list(await session.scalars(_in_area(query, model, district, taluka)))
     views = await public_views(session, kind, list(rows), india_date(clock()))
 
@@ -97,12 +105,19 @@ async def profiles(  # noqa: PLR0913 - filters and dependencies
 async def profile(
     subject_type: SubjectType,
     subject_id: uuid.UUID,
-    _user: CurrentUser,
+    user: CurrentUser,
     session: DbSession,
     clock: Clock,
 ) -> PublicProfileOut:
-    """One verified profile; an unverified one answers 404 as if absent."""
-    subject = cast(Subject | None, await session.get(MODELS[subject_type], subject_id))
+    """One verified profile; an unverified, hidden, suspended, deleted or blocked one answers
+    404 as if absent."""
+    model = MODELS[subject_type]
+    subject = cast(
+        Subject | None,
+        await session.scalar(
+            select(model).where(model.id == subject_id, _shown(subject_type, model, user.id))
+        ),
+    )
     views = (
         await public_views(session, subject_type, [subject], india_date(clock()))
         if subject is not None
@@ -133,7 +148,7 @@ async def directory(  # noqa: PLR0913 - filters and dependencies
             raise ApiError(404, "plot_not_found")
         if plot.centroid_lat is not None and plot.centroid_lon is not None:
             origin = (plot.centroid_lat, plot.centroid_lon)
-    query: Select[Any] = select(ServiceProvider)
+    query: Select[Any] = select(ServiceProvider).where(_shown("provider", ServiceProvider, user.id))
     if kind is not None:
         query = query.where(ServiceProvider.kind == kind)
     rows = list(await session.scalars(_in_area(query, ServiceProvider, district, taluka)))

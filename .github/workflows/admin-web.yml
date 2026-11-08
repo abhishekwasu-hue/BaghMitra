@@ -43,10 +43,15 @@ jobs:
           cache: true
       - name: Build
         working-directory: app
+        env:
+          # The admin market-link pages (verification queue, safety, package) follow the same repository
+          # variable as the Test APK; default off (spec v1.5 §5).
+          MARKET_LINK: ${{ vars.MARKET_LINK || 'false' }}
         run: |
           flutter pub get
           flutter build web --release -t lib/main_admin.dart --base-href /admin/ \
-            --no-web-resources-cdn --dart-define-from-file=../product.env
+            --no-web-resources-cdn --dart-define-from-file=../product.env \
+            --dart-define=MARKET_LINK=$MARKET_LINK
           test -f build/web/index.html
           du -sh build/web
       - name: Push the build to the ${{ env.BRANCH }} branch

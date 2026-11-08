@@ -2449,8 +2449,9 @@ its open interests are closed and their senders get a notice (L4).''',
   Future<Response<LotInterestsResponse>> _v1MarketLinkLotsLotIdInterestsGet({
     required String? lotId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''The interests on the caller\'s own lot, oldest first, to compare side by side. An open
-interest whose trader or broker is no longer verified is left out (decision h).''',
+      description: '''The interests on the caller\'s own lot, oldest first, to compare side by side. An
+interest whose trader or broker is no longer verified (decision h), is hidden, suspended
+or deleted, or blocked either way with the grower (§4C), is left out.''',
       summary: 'Lot Interests',
       operationId: 'market_link_lot_interests',
       consumes: [],
@@ -2603,7 +2604,8 @@ grower\'s profile (village, taluka, district; never the plot\'s point).''',
     String? sort,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''The list per taluka (decision g): verified traders, exporters or brokers, by rating
-(mean of the question averages; unrated last) or by completed deals.''',
+(mean of the question averages; unrated last) or by completed deals. Hidden, suspended,
+deleted and blocked (either way) profiles are left out (§4C).''',
       summary: 'Profiles',
       operationId: 'market_link_profiles',
       consumes: [],
@@ -2636,8 +2638,8 @@ grower\'s profile (village, taluka, district; never the plot\'s point).''',
     required String? subjectType,
     required String? subjectId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description:
-          'One verified profile; an unverified one answers 404 as if absent.',
+      description: '''One verified profile; an unverified, hidden, suspended, deleted or blocked one answers
+404 as if absent.''',
       summary: 'Profile',
       operationId: 'market_link_profile',
       consumes: [],
