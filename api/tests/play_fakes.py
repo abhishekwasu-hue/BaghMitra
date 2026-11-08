@@ -44,6 +44,7 @@ class FakePlay:
         self.calls: list[tuple[str, tuple[Any, ...]]] = []
         self.fail = False
         self.purchases = {}
+        self.voided: list[dict[str, Any]] = []
 
     def _record(self, name: str, *args: Any) -> None:
         self.calls.append((name, args))
@@ -67,6 +68,10 @@ class FakePlay:
 
     async def acknowledge(self, product_id: str, token: str) -> None:
         self._record("acknowledge", product_id, token)
+
+    async def list_voided(self, since: datetime) -> list[dict[str, Any]]:
+        self._record("list_voided", since)
+        return self.voided
 
 
 def purchase(
