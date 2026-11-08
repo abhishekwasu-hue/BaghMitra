@@ -9,7 +9,7 @@ Reports to Abhi in plain Marathi. Never run anything on the VPS; give him ONE co
 | 1. Visibility enforcement | #230, #232, #233, #234 ✅ merged | Done. |
 | 2. Test APK `MARKET_LINK` | #231, #239 ✅ merged | Done. Owner turned the market link ON (Q117, verbatim "Market link स्विच ऑन करा"): VPS `.env` `MARKET_LINK_ENABLED=true` deployed; repo variable `MARKET_LINK=true`; Test APK and admin web build with it. Spec v1.5 §5 legal-gate records not yet in admin (owner knows). |
 | Extra | #240 ✅ merged | Market prices "मोठ्या बाजारपेठा": Bhopal and every mandi in `MARKET_MAJOR_STATES` (Kerala, Karnataka). |
-| 3. Subscription billing | merged: #242 seed on start, #243 billing-1, #244 billing-2; chain (merge in order, each built on the previous): #246 billing-3 verify (migration 0038) → #247 billing-4 RTDN → #248 billing-5 reconcile job → #249 / #250 admin web page → #251 / #252-fix app adapter → #253 subscription page; docs: ADR 0008 + `docs/runbooks/billing-play.md` (this PR) | See "Billing status" below. |
+| 3. Subscription billing | merged: #242 seed on start, #243 billing-1, #244 billing-2; chain (merge in order, each built on the previous): #246 billing-3 verify (migration 0038) → #247 billing-4 RTDN → #248 billing-5 reconcile job → #249 / #250 admin web page → #251 app adapter → #253 subscription page; docs: ADR 0008 + `docs/runbooks/billing-play.md` (this PR) | See "Billing status" below. |
 
 ## Billing status (2026-11-08)
 - Done on main: migration 0037 (switch default OFF, start date, per-role amounts), Play price push + confirmed migrate, plans seeded on every API start (kb.seed), test fixes #245 (date) / #252 (flake).
