@@ -2227,6 +2227,37 @@ broker: the phone call), else 422 `verified_rule_not_met`.''',
     ),
   });
 
+  ///Rtdn
+  ///@param authorization
+  Future<chopper.Response> v1BillingGoogleRtdnPost({
+    String? authorization,
+    required Object? body,
+  }) {
+    return _v1BillingGoogleRtdnPost(
+      authorization: authorization?.toString(),
+      body: body,
+    );
+  }
+
+  ///Rtdn
+  ///@param authorization
+  @POST(path: '/v1/billing/google/rtdn', optionalBody: true)
+  Future<chopper.Response> _v1BillingGoogleRtdnPost({
+    @Header('authorization') String? authorization,
+    @Body() required Object? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Pub/Sub push of a Play notification (no user session: Google\'s OIDC token instead).',
+      summary: 'Rtdn',
+      operationId: 'billing_google_rtdn',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["billing"],
+      deprecated: false,
+    ),
+  });
+
   ///Verify
   Future<chopper.Response<EntitlementsResponse>> v1BillingGoogleVerifyPost({
     required VerifyIn? body,

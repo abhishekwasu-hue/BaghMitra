@@ -56,6 +56,11 @@ class Settings(BaseSettings):
     play_timeout_seconds: float = Field(default=20.0, gt=0)
     # Purchase checks per user per hour (addendum §3 security checklist: rate limits on verify).
     billing_verify_rate_limit: int = Field(default=20, ge=1)
+    # RTDN push (Pub/Sub): the OIDC audience set on the push subscription and the push service
+    # account's email; empty audience = notifications not set up (answered 503).
+    play_rtdn_audience: str = ""
+    play_rtdn_pusher: str = ""
+    google_oidc_certs_url: str = "https://www.googleapis.com/oauth2/v3/certs"
 
     cors_origins: list[str] = Field(default_factory=list)
     sentry_dsn: SecretStr | None = None
