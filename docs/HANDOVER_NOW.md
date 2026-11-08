@@ -9,11 +9,11 @@ Reports to Abhi in plain Marathi. Never run anything on the VPS; give him ONE co
 | 1. Visibility enforcement | #230, #232, #233, #234 ✅ merged | Done. |
 | 2. Test APK `MARKET_LINK` | #231, #239 ✅ merged | Done. Owner turned the market link ON (Q117, verbatim "Market link स्विच ऑन करा"): VPS `.env` `MARKET_LINK_ENABLED=true` deployed; repo variable `MARKET_LINK=true`; Test APK and admin web build with it. Spec v1.5 §5 legal-gate records not yet in admin (owner knows). |
 | Extra | #240 ✅ merged | Market prices "मोठ्या बाजारपेठा": Bhopal and every mandi in `MARKET_MAJOR_STATES` (Kerala, Karnataka). |
-| 3. Subscription billing | merged: #242 seed on start, #243 billing-1, #244 billing-2; chain (merge in order, each built on the previous): #246 billing-3 verify (migration 0038) → #247 billing-4 RTDN → #248 billing-5 reconcile job → #249 / #250 admin web page → #251 app adapter → #253 subscription page; docs: ADR 0008 + `docs/runbooks/billing-play.md` (this PR) | See "Billing status" below. |
+| 3. Subscription billing | #242–#254 ✅ merged (verify 0038, RTDN, reconcile job, admin web page, app adapter + subscription page, ADR 0008, runbook) | Done. Switch stays OFF until the owner turns it on in admin (after the CA GST opinion and the Play Console steps in `docs/runbooks/billing-play.md`). |
 
 ## Billing status (2026-11-08)
 - Done on main: migration 0037 (switch default OFF, start date, per-role amounts), Play price push + confirmed migrate, plans seeded on every API start (kb.seed), test fixes #245 (date) / #252 (flake).
-- In the chain (draft PRs, CI per PR): server verify (0038), RTDN with OIDC (`PLAY_RTDN_AUDIENCE`, `PLAY_RTDN_PUSHER`), daily `billing.reconcile_job` (voided purchases + drift; cron once `PLAY_PACKAGE_NAME` is set), admin web "सदस्यता" page (role `billing_admin`), app `in_app_purchase` adapter (Billing Library 9.1.0, CI check ≥ 8), subscription page + price-increase notice + Manage subscription.
+- Merged: server verify (0038), RTDN with OIDC (`PLAY_RTDN_AUDIENCE`, `PLAY_RTDN_PUSHER`), daily `billing.reconcile_job` (voided purchases + drift; cron once `PLAY_PACKAGE_NAME` is set), admin web "सदस्यता" page (role `billing_admin`), app `in_app_purchase` adapter (Billing Library 9.1.0, CI check ≥ 8), subscription page + price-increase notice + Manage subscription.
 - Google facts re-verified 2026-11-08 (ADR 0008); support.google.com unreachable from the session (owner checks fees / policy in Play Console).
 - Owner questions: Q119 role detection, Q120 tokens hashed only, Q121 paywall wording; Q118 nothing locked. CA GST opinion before the first switch ON.
 - Still open: `docs/runbooks/play-billing-testing.md` (licence testers, accelerated renewals), revenue dashboard, M6c/M6d (parked).
@@ -23,7 +23,7 @@ Decisions made in step 1 (state them in the report): a suspended user keeps bloc
 ## After the steps
 - Update the PROGRESS resume block when each step is done.
 - Test APK: builds automatically after the "BagMitra App" workflow on `main` (`release-test-apk.yml`); give Abhi the release link.
-- ONE VPS block: `cd /opt/bagmitra && bash deploy/deploy.sh && bash deploy/deploy.sh status` (deploy.sh pulls main, runs migrations — through 0037 now, 0038 once #246 merges — and installs the cron lines incl. `CRON_MARKET_LINK_ERASE` and `CRON_ML_RECHECK`). Production `MARKET_LINK_ENABLED` is ON since 2026-11-07 (owner, Q117). Revert: `bash deploy/deploy.sh --revert`.
+- ONE VPS block: `cd /opt/bagmitra && bash deploy/deploy.sh && bash deploy/deploy.sh status` (deploy.sh pulls main, runs migrations — now through 0038 — and installs the cron lines incl. `CRON_MARKET_LINK_ERASE` and `CRON_ML_RECHECK`). Production `MARKET_LINK_ENABLED` is ON since 2026-11-07 (owner, Q117). Revert: `bash deploy/deploy.sh --revert`.
 - Owner decisions 2026-11-07: Q116 = keep `device_sightings` and `package_grants` after deletion (privacy text must say so before go-live, lawyer review Q52); Q117 = market link ON; Q118 = nothing locked by a plan (gate map empty). Still open: Q99–Q115 (defaults built).
 
 ## Owner task, verbatim (2026-11-07)
