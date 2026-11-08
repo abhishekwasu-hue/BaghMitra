@@ -3397,9 +3397,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mlTermsBack => 'Back';
 
   @override
-  String get mlRoleHomeSoon => 'The tools for this role will appear here soon.';
-
-  @override
   String get mlSafetyNotice =>
       'BagMitra never asks for money, OTP or bank details.';
 

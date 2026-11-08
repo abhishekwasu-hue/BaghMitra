@@ -5920,12 +5920,6 @@ abstract class AppLocalizations {
   /// **'Back'**
   String get mlTermsBack;
 
-  /// No description provided for @mlRoleHomeSoon.
-  ///
-  /// In en, this message translates to:
-  /// **'The tools for this role will appear here soon.'**
-  String get mlRoleHomeSoon;
-
   /// Fixed notice on every market-link role home (spec v1.5 §4C).
   ///
   /// In en, this message translates to:
