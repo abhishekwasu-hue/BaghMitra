@@ -21,6 +21,11 @@ class FakeBillingAdmin implements BillingAdminRepository {
       _start = DateTime.utc(2026, 12, 7);
       _roles['grower'] = billingRoleJson('grower', amount: 9900, play: true);
       _roles['trader'] = billingRoleJson('trader', amount: 29900, play: true);
+      // Made free again: Play keeps its last price (audit L1).
+      _roles['broker'] = {
+        ...billingRoleJson('broker', amount: 19900, play: true),
+        'amount_paise': null,
+      };
     }
   }
 
@@ -58,7 +63,10 @@ class FakeBillingAdmin implements BillingAdminRepository {
     if (paise != null && !playSetUp) {
       throw const PackageAdminException('play_not_set_up', 'play_not_set_up');
     }
-    _roles[role] = billingRoleJson(role, amount: paise, play: paise != null);
+    // Like the server: clearing the amount (free) leaves Play's last price as it was.
+    _roles[role] = paise == null
+        ? {..._roles[role]!, 'amount_paise': null}
+        : billingRoleJson(role, amount: paise, play: true);
     return _out();
   }
 
@@ -138,6 +146,26 @@ void main() {
     expect(fake.calls, ['amount trader 29900']);
     expect(find.text('Play price: INR 299.00 · 2026-11-08'), findsOneWidget);
     expect(find.text('Saved'), findsOneWidget);
+  });
+
+  testWidgets('a cleared amount shows free, Play\'s price on a second line, '
+      'and nothing to move (audit L1)', (tester) async {
+    final fake = FakeBillingAdmin();
+    await _pump(tester, BillingSettingsPage(repo: fake));
+    final amount = find.byKey(const Key('billing-amount-trader'));
+    final migrate = find.byKey(const Key('billing-migrate-trader'));
+    await tester.enterText(amount, '299');
+    await tester.tap(find.byKey(const Key('billing-save-trader')));
+    await tester.pumpAndSettle();
+    expect(tester.widget<OutlinedButton>(migrate).onPressed, isNotNull);
+    await tester.enterText(amount, '');
+    await tester.tap(find.byKey(const Key('billing-save-trader')));
+    await tester.pumpAndSettle();
+    expect(fake.calls.last, 'amount trader null');
+    expect(find.text('Free (no amount)'), findsNWidgets(5));
+    expect(find.text('INR 299.00 in Play · 2026-11-08'), findsOneWidget);
+    expect(find.text('Play price: INR 299.00 · 2026-11-08'), findsNothing);
+    expect(tester.widget<OutlinedButton>(migrate).onPressed, isNull);
   });
 
   testWidgets('Play not set up: nothing saved, the page says why', (

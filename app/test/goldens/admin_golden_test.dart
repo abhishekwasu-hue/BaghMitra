@@ -190,7 +190,8 @@ void main() {
           productName: 'BagMitra',
           auth: FakeAdminAuth(signedIn: true, roles: {'billing_admin'}),
           kb: FakeKbAdmin(),
-          billing: FakeBillingAdmin(filled: dark),
+          // Both modes filled: a priced role, and a role made free again (audit L1).
+          billing: FakeBillingAdmin(filled: true),
         ),
       );
       await tester.pumpAndSettle();
