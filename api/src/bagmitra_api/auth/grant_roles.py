@@ -35,6 +35,7 @@ KNOWN_ROLES = frozenset(
     {
         "billing_admin",
         "feed_admin",
+        "feedback_admin",
         "kb_admin",
         "kb_reviewer",
         "market_admin",

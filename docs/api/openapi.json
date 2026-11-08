@@ -3627,6 +3627,123 @@
         "title": "FeedResponse",
         "type": "object"
       },
+      "FeedbackIn": {
+        "properties": {
+          "app_version": {
+            "maxLength": 40,
+            "minLength": 1,
+            "title": "App Version",
+            "type": "string"
+          },
+          "client_id": {
+            "format": "uuid",
+            "title": "Client Id",
+            "type": "string"
+          },
+          "device": {
+            "maxLength": 120,
+            "minLength": 1,
+            "title": "Device",
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "problem",
+              "suggestion",
+              "question"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "text": {
+            "maxLength": 2000,
+            "minLength": 1,
+            "title": "Text",
+            "type": "string"
+          }
+        },
+        "required": [
+          "client_id",
+          "kind",
+          "text",
+          "app_version",
+          "device"
+        ],
+        "title": "FeedbackIn",
+        "type": "object"
+      },
+      "FeedbackList": {
+        "properties": {
+          "feedback": {
+            "items": {
+              "$ref": "#/components/schemas/FeedbackOut"
+            },
+            "title": "Feedback",
+            "type": "array"
+          }
+        },
+        "required": [
+          "feedback"
+        ],
+        "title": "FeedbackList",
+        "type": "object"
+      },
+      "FeedbackOut": {
+        "properties": {
+          "app_version": {
+            "title": "App Version",
+            "type": "string"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "device": {
+            "title": "Device",
+            "type": "string"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "kind": {
+            "title": "Kind",
+            "type": "string"
+          },
+          "screenshot_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Screenshot Url"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          },
+          "text": {
+            "title": "Text",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "kind",
+          "text",
+          "app_version",
+          "device",
+          "status",
+          "created_at"
+        ],
+        "title": "FeedbackOut",
+        "type": "object"
+      },
       "GivenRatingOut": {
         "properties": {
           "answers": {
@@ -8448,6 +8565,24 @@
         "title": "StageTemplatesResponse",
         "type": "object"
       },
+      "StatusIn": {
+        "properties": {
+          "status": {
+            "enum": [
+              "new",
+              "seen",
+              "done"
+            ],
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status"
+        ],
+        "title": "StatusIn",
+        "type": "object"
+      },
       "SubjectDetailOut": {
         "properties": {
           "checks": {
@@ -11113,6 +11248,167 @@
         ],
         "summary": "Set Terms",
         "tags": [
+          "admin"
+        ]
+      }
+    },
+    "/v1/admin/feedback": {
+      "get": {
+        "operationId": "admin_feedback_list",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "status",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "new",
+                    "seen",
+                    "done"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Status"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 200,
+              "maximum": 500,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedbackList"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Admin List",
+        "tags": [
+          "feedback",
+          "admin"
+        ]
+      }
+    },
+    "/v1/admin/feedback/{feedback_id}": {
+      "put": {
+        "operationId": "admin_feedback_status",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "feedback_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Feedback Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StatusIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedbackOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Admin Status",
+        "tags": [
+          "feedback",
           "admin"
         ]
       }
@@ -15556,6 +15852,154 @@
         "summary": "Mark Seen",
         "tags": [
           "feed"
+        ]
+      }
+    },
+    "/v1/feedback": {
+      "post": {
+        "operationId": "feedback_send",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FeedbackIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedbackOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Send",
+        "tags": [
+          "feedback"
+        ]
+      }
+    },
+    "/v1/feedback/{feedback_id}/screenshot": {
+      "put": {
+        "operationId": "feedback_screenshot",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "feedback_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Feedback Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "image/jpeg": {
+              "schema": {
+                "format": "binary",
+                "type": "string"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Screenshot",
+        "tags": [
+          "feedback"
         ]
       }
     },

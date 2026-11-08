@@ -672,6 +672,63 @@ recorded fetch failure, so the next scheduled run tries once more.''',
   }
 
   @override
+  Future<Response<FeedbackList>> _v1AdminFeedbackGet({
+    String? status,
+    int? limit,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Admin List',
+      operationId: 'admin_feedback_list',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["feedback", "admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/feedback');
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'status': status,
+      'limit': limit,
+    };
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+      tag: swaggerMetaData,
+    );
+    return client.send<FeedbackList, FeedbackList>($request);
+  }
+
+  @override
+  Future<Response<FeedbackOut>> _v1AdminFeedbackFeedbackIdPut({
+    required String? feedbackId,
+    required StatusIn? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Admin Status',
+      operationId: 'admin_feedback_status',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["feedback", "admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/feedback/${feedbackId}');
+    final $body = body;
+    final Request $request = Request(
+      'PUT',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<FeedbackOut, FeedbackOut>($request);
+  }
+
+  @override
   Future<Response<AlertsResponse>> _v1AdminKbAlertsGet({
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
@@ -2023,6 +2080,59 @@ their profile; undoes a dismiss. Only for a published item that has a date.''',
       tag: swaggerMetaData,
     );
     return client.send<FeedReceiptOut, FeedReceiptOut>($request);
+  }
+
+  @override
+  Future<Response<FeedbackOut>> _v1FeedbackPost({
+    required FeedbackIn? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Send',
+      operationId: 'feedback_send',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["feedback"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/feedback');
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<FeedbackOut, FeedbackOut>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _v1FeedbackFeedbackIdScreenshotPut({
+    required String? feedbackId,
+    required Object? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Screenshot',
+      operationId: 'feedback_screenshot',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["feedback"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/feedback/${feedbackId}/screenshot');
+    final $body = body;
+    final Request $request = Request(
+      'PUT',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<dynamic, dynamic>($request);
   }
 
   @override
