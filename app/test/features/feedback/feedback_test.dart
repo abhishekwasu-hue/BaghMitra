@@ -126,7 +126,7 @@ void main() {
       (201, SendResult.sent),
       (200, SendResult.sent),
       (400, SendResult.refused),
-      (401, SendResult.refused),
+      (401, SendResult.retryLater), // Q123: signed-out or expired session,
       (403, SendResult.refused),
       (422, SendResult.refused),
       (408, SendResult.retryLater),
