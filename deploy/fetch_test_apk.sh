@@ -8,8 +8,9 @@
 # - TEST_APK_MIRROR=on: the newest Test APK (universal) → bagmitra-test.apk (GET /app/test),
 #   test-code. It never touches the Release files.
 # Asks the API container for the newest release of each channel (bagmitra_api.app_mirror.latest),
-# downloads only a newer version code, checks the size and moves the file in one step. Never
-# touches a served file when anything fails.
+# downloads only a newer version code, checks the size and that the file's SHA-256 equals
+# GitHub's asset digest (audit L5), and moves the file in one step. Never touches a served file
+# when anything fails.
 set -euo pipefail
 DEPLOY="$(cd "$(dirname "$0")" && pwd)"
 DIR="${APK_DIR:-/srv/bagmitra-apk}"
@@ -19,15 +20,18 @@ env_on() { grep -qiE "^$1=on\$" "$DEPLOY/.env" 2>/dev/null; }
 
 # mirror <channel> <served file name>
 mirror() {
-  local channel="$1" file="$2" code url name have
-  read -r code url name < <(docker compose exec -T api python -m bagmitra_api.app_mirror.latest "$REPO" "$channel") || true
+  local channel="$1" file="$2" code url sha name have got
+  read -r code url sha name < <(docker compose exec -T api python -m bagmitra_api.app_mirror.latest "$REPO" "$channel") || true
   [[ "${code:-}" =~ ^[0-9]+$ && "${url:-}" == https://github.com/* ]] || { echo "no $channel APK found"; return 1; }
+  [[ "${sha:-}" =~ ^[0-9a-f]{64}$ ]] || { echo "no checksum for the $channel APK; not served"; return 1; }
   have=0
   [[ -f "$DIR/$file" ]] && have="$(cat "$DIR/$channel-code" 2>/dev/null || echo 0)"
   if [[ "$code" -le "$have" ]]; then echo "$channel APK code $have is current"; return 0; fi
   mkdir -p "$DIR"
   curl -fsSL -o "$DIR/$file.new" "$url" || { rm -f "$DIR/$file.new"; echo "$channel download failed"; return 1; }
   [[ "$(stat -c %s "$DIR/$file.new")" -gt 10000000 ]] || { rm -f "$DIR/$file.new"; echo "$channel download too small"; return 1; }
+  got="$(sha256sum "$DIR/$file.new" | cut -d' ' -f1)"
+  [[ "$got" == "$sha" ]] || { rm -f "$DIR/$file.new"; echo "$channel checksum mismatch; not served"; return 1; }
   chmod 644 "$DIR/$file.new"
   mv "$DIR/$file.new" "$DIR/$file"
   if [[ "$channel" == release ]]; then

@@ -129,4 +129,16 @@ void main() {
     expect(releaseYml, isNot(contains('APP_LATEST_VERSION_CODE')));
     expect(releaseYml, contains('nothing to set in .env'));
   });
+
+  test('the Release APK signer is compared with RELEASE_CERT_SHA256; unset '
+      'only warns (audit L5)', () {
+    final releaseYml = File('../.github/workflows/release-apk.yml')
+        .readAsStringSync();
+    expect(
+      releaseYml,
+      contains(r'RELEASE_CERT_SHA256: ${{ vars.RELEASE_CERT_SHA256 }}'),
+    );
+    expect(releaseYml, contains('::warning::RELEASE_CERT_SHA256 is not set'));
+    expect(releaseYml, contains('is not the release key'));
+  });
 }

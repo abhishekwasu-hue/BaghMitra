@@ -130,8 +130,14 @@ jobs:
       - name: Check signature and version codes
         env:
           CODE: ${{ steps.meta.outputs.code }}
+          # Owner's release certificate SHA-256 (hex, colons allowed); audit L5.
+          RELEASE_CERT_SHA256: ${{ vars.RELEASE_CERT_SHA256 }}
         run: |
           tools=$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -1)
+          want=$(printf '%s' "$RELEASE_CERT_SHA256" | tr -d ': ' | tr 'A-F' 'a-f')
+          if [ -z "$want" ]; then
+            echo "::warning::RELEASE_CERT_SHA256 is not set; the signing certificate is not pinned (docs/OPEN_QUESTIONS.md Q125)"
+          fi
           apks=app/build/app/outputs/flutter-apk
           for abi in arm64-v8a armeabi-v7a; do
             apk="$apks/app-$abi-release.apk"
@@ -139,6 +145,10 @@ jobs:
             certs=$("$tools/apksigner" verify --print-certs "$apk")
             if printf '%s' "$certs" | grep -q "CN=Android Debug"; then
               echo "::error::$abi APK is signed with the debug key"; exit 1
+            fi
+            signer=$(printf '%s' "$certs" | sed -n 's/.*certificate SHA-256 digest: *//p' | head -1 | tr -d ': ' | tr 'A-F' 'a-f')
+            if [ -n "$want" ] && [ "$signer" != "$want" ]; then
+              echo "::error::$abi APK certificate $signer is not the release key"; exit 1
             fi
             got=$("$tools/aapt2" dump badging "$apk" | sed -n "s/.*versionCode='\([0-9]*\)'.*/\1/p" | head -1)
             [ "$got" = "$CODE" ] || { echo "::error::$abi versionCode is $got, expected $CODE"; exit 1; }
