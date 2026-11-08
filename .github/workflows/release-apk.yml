@@ -109,6 +109,10 @@ jobs:
           SARKARI_SANDESH: ${{ inputs.sarkari_sandesh }}
           # Phone OTP login stays hidden until an SMS provider is set up (repository variable).
           PHONE_LOGIN: ${{ vars.PHONE_LOGIN || 'false' }}
+          # Market link (spec v1.5): owner 2026-11-08 ("1 b") put it in the Release APK too, from
+          # the same repository variable as the Test APK; the spec §5 legal-gate records are
+          # still to be recorded in admin (OPEN_QUESTIONS Q117).
+          MARKET_LINK: ${{ vars.MARKET_LINK || 'false' }}
         run: |
           flutter pub get
           flutter build apk --release --split-per-abi \
@@ -121,7 +125,8 @@ jobs:
             --dart-define=SUPABASE_URL="$SUPABASE_URL" \
             --dart-define=SUPABASE_ANON_KEY="$SUPABASE_ANON_KEY" \
             --dart-define=SARKARI_SANDESH="$SARKARI_SANDESH" \
-            --dart-define=PHONE_LOGIN="$PHONE_LOGIN"
+            --dart-define=PHONE_LOGIN="$PHONE_LOGIN" \
+            --dart-define=MARKET_LINK="$MARKET_LINK"
       - name: Check signature and version codes
         env:
           CODE: ${{ steps.meta.outputs.code }}
