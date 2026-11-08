@@ -3656,7 +3656,7 @@
             "type": "string"
           },
           "text": {
-            "maxLength": 2000,
+            "maxLength": 8000,
             "minLength": 1,
             "title": "Text",
             "type": "string"

@@ -36,7 +36,9 @@ _LIMIT = RateLimiter(20, 3600)  # per user per hour
 class FeedbackIn(BaseModel):
     client_id: uuid.UUID
     kind: Kind
-    text: str = Field(min_length=1, max_length=2000)
+    # Code points (pydantic); the app limits 2000 letters, a Marathi letter is up to 4 code
+    # points (audit M1).
+    text: str = Field(min_length=1, max_length=8000)
     app_version: str = Field(min_length=1, max_length=40)
     device: str = Field(min_length=1, max_length=120)
 

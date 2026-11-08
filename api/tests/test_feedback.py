@@ -84,9 +84,30 @@ async def test_a_user_sends_feedback_once_even_when_the_phone_retries(
 
 async def test_the_text_kind_and_lengths_are_checked(engine: AsyncEngine) -> None:
     async with api(engine, None) as client:
-        for bad in ({"kind": "rant"}, {"text": ""}, {"text": "x" * 2001}):
+        for bad in ({"kind": "rant"}, {"text": ""}, {"text": "x" * 8001}):
             res = await client.post("/v1/feedback", headers=ME, json=BODY | bad)
             assert res.status_code == 422, bad
+
+
+async def test_a_2000_letter_marathi_message_is_accepted(engine: AsyncEngine) -> None:
+    """Audit M1: the app counts letters (2000), pydantic code points; "कि" is one letter of
+    two code points, so the API allows 8000 code points (4 per letter at worst)."""
+    text = "कि" * 2000
+    assert len(text) == 4000
+    async with api(engine, None) as client:
+        res = await client.post(
+            "/v1/feedback",
+            headers=ME,
+            json=BODY | {"client_id": str(uuid.uuid4()), "text": text},
+        )
+        at_limit = await client.post(
+            "/v1/feedback",
+            headers=ME,
+            json=BODY | {"client_id": str(uuid.uuid4()), "text": "x" * 8000},
+        )
+    assert res.status_code == 201, res.text
+    assert res.json()["text"] == text
+    assert at_limit.status_code == 201
 
 
 async def test_a_screenshot_is_stored_without_metadata_in_the_users_folder(
