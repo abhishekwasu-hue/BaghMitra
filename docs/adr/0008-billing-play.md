@@ -21,7 +21,9 @@ the owner checks those in Play Console (runbook `billing-play.md` §१).
    30 days back; the job sends no `startTime`, so Google's default window, the last 30 days, applies — audit M5).
 3. Price increases: opt-in by default; the user is charged after a **37-day** notice; Play
    notifies from 30 days before the charge (7 days after the change starts); a user who does not
-   accept is cancelled at that renewal. Decreases reach existing subscribers at the next payment.
+   accept is cancelled at that renewal. Decreases too keep existing subscribers on their old price
+   (legacy price cohort) until `basePlans.migratePrices`; then they pay the lower price from their
+   next payment (Google emails them; no acceptance). (Corrected 2026-11-08, audit M3.)
    Opt-out increases need an in-app notice; for opt-in, the app should tell users to accept
    (Play's in-app messaging can show it).
 4. RTDN: Pub/Sub push, base64 `DeveloperNotification`; subscription types (1)–(13), (17)–(20);
