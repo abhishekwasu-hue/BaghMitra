@@ -37,7 +37,6 @@ from bagmitra_api.market_link.recheck_job import recheck_lock
 log = structlog.get_logger(__name__)
 
 RECONCILE_LOCK_KEY = 0x6261_676D_6269_6C31  # "bagmbil1"
-VOIDED_WINDOW = timedelta(days=30)
 LATE_END = timedelta(days=1)
 STUCK = timedelta(days=3)
 SKIPPED_NOT_SET_UP = "Google Play is not set up (PLAY_PACKAGE_NAME, PLAY_SERVICE_ACCOUNT_B64)"
@@ -56,9 +55,9 @@ class ReconcileSummary:
 
 
 async def revoke_voided(
-    session: AsyncSession, play: PlayPublisher, now: datetime, summary: ReconcileSummary
+    session: AsyncSession, play: PlayPublisher, summary: ReconcileSummary
 ) -> None:
-    for voided in await play.list_voided(now - VOIDED_WINDOW):
+    for voided in await play.list_voided():
         token, order = voided.get("purchaseToken"), voided.get("orderId")
         if not token:
             continue
@@ -111,7 +110,7 @@ async def run_reconcile(
         summary.skipped_reason = SKIPPED_NOT_SET_UP
         return summary
     try:
-        await revoke_voided(session, play, now, summary)
+        await revoke_voided(session, play, summary)
     except PlayError as exc:  # the drift list still runs; the next day's poll covers the gap
         summary.play_error = str(exc)
     summary.drift = await count_drift(session, now)

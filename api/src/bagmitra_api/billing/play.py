@@ -70,8 +70,9 @@ class PlayPublisher(Protocol):
         """Acknowledge a purchase (Google refunds one left unacknowledged for 3 days)."""
         ...
 
-    async def list_voided(self, since: datetime) -> list[dict[str, Any]]:
-        """`purchases.voidedpurchases.list` with subscriptions (type 1), every page."""
+    async def list_voided(self) -> list[dict[str, Any]]:
+        """`purchases.voidedpurchases.list` with subscriptions (type 1), every page, over
+        Google's default window (the last 30 days; no startTime, audit M5)."""
         ...
 
 
@@ -191,12 +192,11 @@ class GooglePlayPublisher:
         )
         await self.call("POST", path, json={})
 
-    async def list_voided(self, since: datetime) -> list[dict[str, Any]]:
-        start = str(int(since.timestamp() * 1000))
+    async def list_voided(self) -> list[dict[str, Any]]:
         found: list[dict[str, Any]] = []
         page: str | None = None
         for _ in range(_MAX_PAGES):
-            params = {"type": "1", "token": page} if page else {"type": "1", "startTime": start}
+            params = {"type": "1", "token": page} if page else {"type": "1"}
             body = await self.call("GET", "/purchases/voidedpurchases", params=params)
             found += [v for v in body.get("voidedPurchases") or [] if isinstance(v, dict)]
             page = (body.get("tokenPagination") or {}).get("nextPageToken")

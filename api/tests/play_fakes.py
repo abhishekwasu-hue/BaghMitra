@@ -69,8 +69,8 @@ class FakePlay:
     async def acknowledge(self, product_id: str, token: str) -> None:
         self._record("acknowledge", product_id, token)
 
-    async def list_voided(self, since: datetime) -> list[dict[str, Any]]:
-        self._record("list_voided", since)
+    async def list_voided(self) -> list[dict[str, Any]]:
+        self._record("list_voided")
         return self.voided
 
 
