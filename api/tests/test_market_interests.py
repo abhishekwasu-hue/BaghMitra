@@ -25,7 +25,8 @@ from bagmitra_api.routers.market_interests import InterestIn
 from bagmitra_api.routers.scouting_photos import get_photo_storage
 from tests.test_market_lots_sync import LOTS, StoringStorage, accept, draft, headers
 
-GROWER_SECRETS = ("Ramesh", "+919812345678", "21.2", "78.5", "Bag 1")
+# Full coordinates: a short "21.2" also matched timestamps such as "...:21.234" (flaky).
+GROWER_SECRETS = ("Ramesh", "+919812345678", "21.2751", "78.5853", "Bag 1")
 
 
 class FakeSender:
