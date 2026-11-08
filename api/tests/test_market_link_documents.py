@@ -12,6 +12,7 @@ from sqlalchemy import select
 from bagmitra_api.core.settings import Settings
 from bagmitra_api.market_link.models import PartyVerification, RepresentativeUpload
 from bagmitra_api.market_link.photos import strip_jpeg_metadata
+from bagmitra_api.market_link.registration import india_date
 from tests.test_market_link_registration import (
     ADMIN,
     ADMIN_BASE,
@@ -86,9 +87,9 @@ async def test_only_a_representative_adds_a_place_photo(
     detail = await api.get(f"{ADMIN_BASE}/verifications/buyer/{out['id']}", headers=ADMIN)
     assert photo.photo_key in detail.json()["subject"]["document_keys"]
     mine = (await api.get(f"{BASE}/me/profiles", headers=ME)).json()["profiles"]
-    assert {"kind": "place_photo", "on": "2026-11-07", "place": None, "since_year": None} in mine[
-        0
-    ]["badges"]
+    # The badge carries the India date of the upload (the real clock), not a fixed day.
+    on = india_date(photo.created_at).isoformat()
+    assert {"kind": "place_photo", "on": on, "place": None, "since_year": None} in mine[0]["badges"]
 
 
 # --- document photos and the weighbridge certificate -----------------------------------------
