@@ -34,7 +34,7 @@ PLAY_STATES: dict[str, SubscriptionState] = {
 }
 ROLE_NAMES = {
     # The app's own role words (l10n mlRole*), so the plan name reads the same everywhere.
-    "grower": {"en": "Grower", "mr": "शेतकरी", "hi": "किसान"},
+    "grower": {"en": "Farmer", "mr": "शेतकरी", "hi": "किसान"},
     "trader": {"en": "Trader", "mr": "व्यापारी", "hi": "व्यापारी"},
     "broker": {"en": "Broker", "mr": "मध्यस्थ (दलाल)", "hi": "मध्यस्थ (दलाल)"},
     "exporter": {"en": "Exporter", "mr": "निर्यातदार", "hi": "निर्यातक"},

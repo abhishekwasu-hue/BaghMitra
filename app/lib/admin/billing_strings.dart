@@ -123,7 +123,7 @@ const Map<String, Map<String, String>> _text = {
     'play_not_set_up': 'Google Play is not connected yet (runbook billing-play.md). Nothing was saved.',
     'play_error': 'Google Play did not accept the price. Nothing was saved.',
     'no_play_price': "Set this role's amount in Play first.",
-    'grower': 'Grower',
+    'grower': 'Farmer',
     'trader': 'Trader',
     'broker': 'Broker',
     'exporter': 'Exporter',
