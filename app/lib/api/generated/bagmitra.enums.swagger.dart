@@ -656,6 +656,46 @@ enum TermsDocOutKind {
   const TermsDocOutKind(this.value);
 }
 
+enum V1AdminBillingRolesRoleAmountPutRole {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('grower')
+  grower('grower'),
+  @JsonValue('trader')
+  trader('trader'),
+  @JsonValue('broker')
+  broker('broker'),
+  @JsonValue('exporter')
+  exporter('exporter'),
+  @JsonValue('provider')
+  provider('provider');
+
+  final String? value;
+
+  const V1AdminBillingRolesRoleAmountPutRole(this.value);
+}
+
+enum V1AdminBillingRolesRoleMigratePricesPostRole {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('grower')
+  grower('grower'),
+  @JsonValue('trader')
+  trader('trader'),
+  @JsonValue('broker')
+  broker('broker'),
+  @JsonValue('exporter')
+  exporter('exporter'),
+  @JsonValue('provider')
+  provider('provider');
+
+  final String? value;
+
+  const V1AdminBillingRolesRoleMigratePricesPostRole(this.value);
+}
+
 enum V1AdminFeedItemsGetStatus {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),

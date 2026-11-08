@@ -49,6 +49,11 @@ class Settings(BaseSettings):
     play_package_name: str = ""
     play_product_prefix: str = "bagmitra_"
     play_base_plan_id: str = "monthly"
+    # Service-account key file, base64 (secret store only); empty = Play not set up.
+    play_service_account_b64: SecretStr = Field(default=SecretStr(""))
+    play_api_base_url: str = "https://androidpublisher.googleapis.com"
+    play_regions_version: str = "2022/02"
+    play_timeout_seconds: float = Field(default=20.0, gt=0)
 
     cors_origins: list[str] = Field(default_factory=list)
     sentry_dsn: SecretStr | None = None

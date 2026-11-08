@@ -191,6 +191,63 @@ final class _$Bagmitra extends Bagmitra {
   }
 
   @override
+  Future<Response<BillingSettingsOut>> _v1AdminBillingRolesRoleAmountPut({
+    required String? role,
+    required RoleAmountIn? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Put Role Amount',
+      operationId: 'admin_billing_put_role_amount',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/billing/roles/${role}/amount');
+    final $body = body;
+    final Request $request = Request(
+      'PUT',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<BillingSettingsOut, BillingSettingsOut>($request);
+  }
+
+  @override
+  Future<Response<BillingSettingsOut>>
+  _v1AdminBillingRolesRoleMigratePricesPost({
+    required String? role,
+    required MigrateIn? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Migrate Prices',
+      operationId: 'admin_billing_migrate_prices',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse(
+      '/v1/admin/billing/roles/${role}/migrate-prices',
+    );
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<BillingSettingsOut, BillingSettingsOut>($request);
+  }
+
+  @override
   Future<Response<BillingSettingsOut>> _v1AdminBillingSettingsGet({
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
