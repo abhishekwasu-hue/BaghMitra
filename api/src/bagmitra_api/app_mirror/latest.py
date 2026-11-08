@@ -51,9 +51,15 @@ def newest_release_apk(releases: list[dict[str, Any]]) -> tuple[int, str, str] |
     return best
 
 
+def releases_url(repo: str) -> str:
+    """GitHub's largest page (audit L7): test builds must not push the last Release APK off it."""
+    return f"https://api.github.com/repos/{repo}/releases?per_page=100"
+
+
 def main(repo: str, channel: str) -> int:  # pragma: no cover - thin CLI wrapper
-    url = f"https://api.github.com/repos/{repo}/releases?per_page=30"
-    res = httpx.get(url, headers={"Accept": "application/vnd.github+json"}, timeout=20)
+    res = httpx.get(
+        releases_url(repo), headers={"Accept": "application/vnd.github+json"}, timeout=20
+    )
     res.raise_for_status()
     if channel == "release":
         found = newest_release_apk(res.json())

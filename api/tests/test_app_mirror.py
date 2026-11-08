@@ -3,7 +3,7 @@ cron puts it at https://<domain>/app. Parsing only; GitHub is never called in te
 
 from __future__ import annotations
 
-from bagmitra_api.app_mirror.latest import newest_release_apk, newest_test_apk
+from bagmitra_api.app_mirror.latest import newest_release_apk, newest_test_apk, releases_url
 
 REPO = "owner/BaghMitra"
 
@@ -56,3 +56,9 @@ def test_the_newest_release_apk_is_the_highest_version_code_arm64() -> None:
         f"https://github.com/{REPO}/releases/download/release-1.0.1-5/b-arm64-v8a.apk",
     )
     assert newest_release_apk([release("test-9", "Test build test-9 · code 999")]) is None
+
+
+def test_the_releases_list_asks_for_100() -> None:
+    """Audit L7: GitHub lists releases newest-created first, 30 by default; many test builds
+    can push the last Release APK off a short page."""
+    assert releases_url("o/r") == "https://api.github.com/repos/o/r/releases?per_page=100"

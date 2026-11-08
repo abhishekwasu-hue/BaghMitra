@@ -36,7 +36,7 @@ class GitHubTestReleaseSource implements AppVersionSource {
     final res = await _client
         .get(
           Uri.https('api.github.com', '/repos/$repo/releases', {
-            'per_page': '10',
+            'per_page': '100', // audit L7: GitHub's largest page
           }),
           headers: {'Accept': 'application/vnd.github+json'},
         )
