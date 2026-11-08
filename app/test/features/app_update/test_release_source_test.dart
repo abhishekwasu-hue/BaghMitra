@@ -56,7 +56,7 @@ void main() {
     ], asked).fetch();
     expect(
       asked.single.toString(),
-      'https://api.github.com/repos/$_repo/releases?per_page=10',
+      'https://api.github.com/repos/$_repo/releases?per_page=100',
     );
     expect(release.latestCode, 411); // 412 is still uploading its files
     expect(release.latestName, 'test-20261108-bbbb222');
