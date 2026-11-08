@@ -32,6 +32,12 @@ Reports to Abhi in plain Marathi. Never run anything on the VPS; give him ONE co
 - Release workflow is run by hand (or by a session) from main: GitHub → Actions → Release APK, `version_name` next = 1.0.2.
 - Still pending (owner): Supabase service role key → grant `billing_admin,feedback_admin,market_link_admin`; VPS reboot (kernel updates); offline copy of the release key.
 
+## Audit 2026-11-08 fixes (all merged)
+- One finding per PR: #276 H1, #277 M1, #278 M2, #279 M3, #280 M4, #281 M5, #288 L1, #293 L2, #291 L3, #289 L4, #292 L5, #287 L6, #285 L7, #282 L8, #286 L9, #283 L10, #290 L11; L12 note only (switch stays ON). Owner decisions Q122; open questions Q123–Q125.
+- Test APK now updates from `https://<domain>/app/test` (file `bagmitra-test.apk`); `/app` stays the Release APK. The mirror serves a file only when its SHA-256 equals GitHub's asset digest.
+- VPS (owner, ONE block): `cd /opt/bagmitra && bash deploy/deploy.sh && bash deploy/fetch_test_apk.sh; ls -l /srv/bagmitra-apk; curl -sI https://bagmitra.aialgodesk.org/app/test | head -3`.
+- Owner: set repository variable `RELEASE_CERT_SHA256` (Q125).
+
 ## Billing status (2026-11-08)
 - Done on main: migration 0037 (switch default OFF, start date, per-role amounts), Play price push + confirmed migrate, plans seeded on every API start (kb.seed), test fixes #245 (date) / #252 (flake).
 - Merged: server verify (0038), RTDN with OIDC (`PLAY_RTDN_AUDIENCE`, `PLAY_RTDN_PUSHER`), daily `billing.reconcile_job` (voided purchases + drift; cron once `PLAY_PACKAGE_NAME` is set), admin web "सदस्यता" page (role `billing_admin`), app `in_app_purchase` adapter (Billing Library 9.1.0, CI check ≥ 8), subscription page + price-increase notice + Manage subscription.
