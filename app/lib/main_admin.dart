@@ -8,6 +8,7 @@ import 'admin/admin_auth.dart';
 import 'admin/admin_web_config.dart';
 import 'admin/billing_admin_repository.dart';
 import 'admin/feed_admin_repository.dart';
+import 'admin/feedback_admin.dart';
 import 'admin/kb_admin_repository.dart';
 import 'admin/market_link_admin_repository.dart';
 import 'admin/market_link_safety_admin.dart';
@@ -54,6 +55,7 @@ Future<void> main() async {
       safety: config.marketLink ? ApiMarketLinkSafetyAdmin(api) : null,
       package: config.marketLink ? ApiPackageAdminRepository(api) : null,
       billing: ApiBillingAdminRepository(api),
+      feedback: ApiFeedbackAdminRepository(api),
     ),
   );
 }
