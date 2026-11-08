@@ -36,6 +36,7 @@ MARKERS = {
     "erase": "bagmitra_api.market_link.erase_job",
     "recheck": "bagmitra_api.market_link.recheck_job",
     "billing": "bagmitra_api.billing.reconcile_job",
+    "test_apk": "deploy/fetch_test_apk.sh",
 }
 
 
@@ -95,10 +96,11 @@ def test_each_switch_adds_its_job_once_and_never_prints_values(tmp_path: Path) -
         'MARKET_API_KEY="secret-market-key-123"\n'
         "CRON_FEED_ALERTS=on\nCRON_FEED_NEWS=TRUE\nCRON_KB_REGATE=1\nCRON_SYNC_RETENTION=on\n"
         "FCM_PROJECT_ID=demo-project\nPLAY_PACKAGE_NAME=app.bagmitra.bagmitra\n"
+        "TEST_APK_MIRROR=on\n"
     )
     out, lines = run_install(tmp_path, env)
     assert jobs(lines) == set(MARKERS)
-    assert len(lines) == 11
+    assert len(lines) == 12
     assert "secret-market-key-123" not in out
     assert not any("secret-market-key-123" in ln for ln in lines)
     out_again, lines_again = run_install(tmp_path, env)
@@ -129,6 +131,18 @@ def test_weather_alert_pushes_run_only_with_fcm_set(tmp_path: Path) -> None:
     out, lines = run_install(tmp_path, "FCM_PROJECT_ID=\n" + key)
     assert "push" not in jobs(lines)
     assert "weather alert pushes (01:37 UTC = 07:07 IST) cron line removed" in out
+
+
+def test_the_test_apk_mirror_is_opt_in(tmp_path: Path) -> None:
+    _, lines = run_install(tmp_path, "API_DOMAIN=x\n")
+    assert "test_apk" not in jobs(lines)
+    _, lines = run_install(tmp_path, "TEST_APK_MIRROR=on\n")
+    line = next(ln for ln in lines if MARKERS["test_apk"] in ln)
+    assert line.startswith("*/15 * * * * bash ")
+    assert line.endswith(">> /var/log/bagmitra-test-apk.log 2>&1")
+    out, lines = run_install(tmp_path, "TEST_APK_MIRROR=off\n")
+    assert "test_apk" not in jobs(lines)
+    assert "Test APK mirror to /app (every 15 min) cron line removed" in out
 
 
 def test_billing_reconciliation_runs_only_with_play_set_up(tmp_path: Path) -> None:
