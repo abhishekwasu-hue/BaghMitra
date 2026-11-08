@@ -1,9 +1,11 @@
 """App update path (audit BG-06). `GET /v1/app/version` tells the app which version is the
-latest and which is the oldest still allowed; `GET /app` hands out the latest APK. Both are
-public: the app asks before sign-in, and a grower downloads the APK from a phone browser.
+latest and which is the oldest still allowed; `GET /app` hands out the latest Release APK and
+`GET /app/test` the latest Test APK (audit H1: two files, a Test APK cannot install a Release
+APK). All are public: the app asks before sign-in, and a grower downloads the APK from a phone
+browser.
 
-Only the fixed file APP_DOWNLOAD_DIR/bagmitra.apk is served; no part of the request is used
-to build a path.
+Only the fixed files APP_DOWNLOAD_DIR/bagmitra.apk and bagmitra-test.apk are served; no part
+of the request is used to build a path.
 """
 
 from __future__ import annotations
@@ -21,6 +23,7 @@ from bagmitra_api.core.settings import Settings, get_settings
 router = APIRouter(tags=["app"])
 
 APK_FILE = "bagmitra.apk"
+TEST_APK_FILE = "bagmitra-test.apk"
 RELEASE_FILE = "release.json"
 APK_MEDIA_TYPE = "application/vnd.android.package-archive"
 _NOT_AVAILABLE = (
@@ -67,12 +70,21 @@ def _mirrored_release(folder: Path) -> tuple[int, str]:
 
 @router.api_route("/app", methods=["GET", "HEAD"], include_in_schema=False)
 async def download_apk(settings: Annotated[Settings, Depends(get_settings)]) -> Response:
-    path = Path(settings.app_download_dir) / APK_FILE
+    return _serve(Path(settings.app_download_dir), APK_FILE)
+
+
+@router.api_route("/app/test", methods=["GET", "HEAD"], include_in_schema=False)
+async def download_test_apk(settings: Annotated[Settings, Depends(get_settings)]) -> Response:
+    return _serve(Path(settings.app_download_dir), TEST_APK_FILE)
+
+
+def _serve(folder: Path, name: str) -> Response:
+    path = folder / name
     if not path.is_file():
         return PlainTextResponse(_NOT_AVAILABLE, status_code=404)
     return FileResponse(
         path,
         media_type=APK_MEDIA_TYPE,
-        filename=APK_FILE,
+        filename=name,
         headers={"Cache-Control": "no-cache", "X-Content-Type-Options": "nosniff"},
     )
