@@ -23,7 +23,9 @@ import '../features/bahar/data/bahar_repository.dart';
 import '../features/bahar/data/stage_templates.dart';
 import '../features/bahar/domain/bahar_cycle.dart';
 import '../features/billing/data/entitlements_cache.dart';
+import '../features/billing/data/play_billing.dart';
 import '../features/billing/data/snapshot_signature.dart';
+import '../features/billing/data/subscription_flow.dart';
 import '../features/billing/domain/entitlements.dart';
 import '../features/dev/sample_orchard.dart';
 import '../features/directory/data/directory_config.dart';
@@ -497,6 +499,29 @@ final entitlementsProvider = FutureProvider<Entitlements>((ref) async {
     unawaited(cache.refresh());
   }
   return Entitlements(snapshot, rules, ref.watch(clockProvider)());
+});
+
+/// Google Play Billing on the phone (overridden with a fake in tests).
+final playBillingProvider = Provider<PlayBilling>(
+  (ref) => InAppPurchasePlayBilling(),
+);
+
+final billingServerProvider = Provider<BillingServer>(
+  (ref) => ApiBillingServer(ref.watch(apiProvider)),
+);
+
+/// Purchase / restore / reconcile; a verified purchase refreshes the entitlement snapshot.
+final subscriptionFlowProvider = Provider<SubscriptionFlow>((ref) {
+  final flow = SubscriptionFlow(
+    play: ref.watch(playBillingProvider),
+    server: ref.watch(billingServerProvider),
+    onVerified: () async {
+      await ref.read(entitlementsCacheProvider).refresh();
+      ref.invalidate(entitlementsProvider);
+    },
+  );
+  ref.onDispose(flow.dispose);
+  return flow;
 });
 
 final sampleOrchardProvider = Provider<SampleOrchard>(

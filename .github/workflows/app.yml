@@ -56,6 +56,8 @@ jobs:
           channel: stable
           cache: true
       - run: flutter pub get
+      - name: Play Billing Library is 8 or later (Google Play requirement, ADR 0008)
+        run: dart run tool/check_billing_library.dart 8
       - name: OpenAPI spec copy matches the API contract
         run: diff -u ../docs/api/openapi.json openapi/bagmitra.openapi.json
       - name: Regenerate API client, Drift code and l10n; fail on drift
