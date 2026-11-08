@@ -77,8 +77,11 @@ jobs:
           # Market link (spec v1.5) stays hidden unless the owner sets this repository variable to true for
           # testing; the production Release APK never carries it (legal gate, spec v1.5 §5).
           MARKET_LINK: ${{ vars.MARKET_LINK || 'false' }}
+          # Sarkari Sandesh feed: on in the Test APK (owner 2026-11-08) so it is checked on phones
+          # before a release carries it; repository variable SARKARI_SANDESH=off turns it off.
+          SARKARI_SANDESH: ${{ vars.SARKARI_SANDESH || 'on' }}
         run: |
-          defines="--dart-define-from-file=../product.env --dart-define=DEV_GALLERY=true --dart-define=TEST_BUILD=${{ steps.meta.outputs.sha }} --dart-define=TEST_RELEASES_REPO=${{ github.repository }} --dart-define=PHONE_LOGIN=$PHONE_LOGIN --dart-define=MARKET_LINK=$MARKET_LINK"
+          defines="--dart-define-from-file=../product.env --dart-define=DEV_GALLERY=true --dart-define=TEST_BUILD=${{ steps.meta.outputs.sha }} --dart-define=TEST_RELEASES_REPO=${{ github.repository }} --dart-define=PHONE_LOGIN=$PHONE_LOGIN --dart-define=MARKET_LINK=$MARKET_LINK --dart-define=SARKARI_SANDESH=$SARKARI_SANDESH"
           for key in API_BASE_URL SUPABASE_URL SUPABASE_ANON_KEY; do
             if [ -n "${!key}" ]; then
               defines="$defines --dart-define=$key=${!key}"
