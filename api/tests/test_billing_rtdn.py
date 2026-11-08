@@ -255,3 +255,25 @@ async def test_an_unreadable_message_is_acknowledged_and_logged(engine: AsyncEng
         )
     assert event is not None
     assert event.event_type == "rtdn_unreadable"
+
+
+async def test_an_unmapped_play_state_is_acknowledged_and_refused(engine: AsyncEngine) -> None:
+    """Audit L8: a state the code does not map (e.g. SUBSCRIPTION_STATE_UNSPECIFIED) can never
+    be applied; answering 502 made Pub/Sub redeliver it until the dead-letter topic."""
+    user = uuid.uuid4()
+    play = FakePlay()
+    async with rtdn_api(engine, play) as client:
+        await bought(client, play, user)
+        play.purchases[TOKEN] = purchase(
+            account_id(user), state="SUBSCRIPTION_STATE_UNSPECIFIED", acknowledged=True
+        )
+        res = await client.post(URL, headers=oidc(), json=push(sub_note(2), "m-8"))
+    assert res.status_code == 204, res.text
+    assert (await stored(engine)).state == "ACTIVE"  # left as it was
+    async with async_sessionmaker(engine)() as session:
+        event = await session.scalar(
+            select(BillingEvent).where(BillingEvent.notification_id == "rtdn:m-8")
+        )
+    assert event is not None
+    assert event.event_type == "rtdn_refused"
+    assert event.payload["reason"] == "UnknownStateError"

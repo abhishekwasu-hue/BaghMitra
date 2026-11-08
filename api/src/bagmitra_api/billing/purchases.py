@@ -54,6 +54,11 @@ class UnknownProductError(Exception):
     pass
 
 
+class UnknownStateError(PlayError):
+    """Play answered with a subscription state the code does not map (audit L8). A PlayError
+    for the verify call (502); the RTDN handler acknowledges it as refused."""
+
+
 def token_hash(token: str) -> str:
     return hashlib.sha256(token.encode()).hexdigest()
 
@@ -82,8 +87,10 @@ def _time(value: Any, default: datetime) -> datetime:
 
 def read_purchase(body: dict[str, Any], now: datetime) -> PlayFacts:
     items = body.get("lineItems") or []
-    if not items or body.get("subscriptionState") not in PLAY_STATES:
+    if not items:
         raise PlayError("Google Play: unexpected purchase")
+    if body.get("subscriptionState") not in PLAY_STATES:
+        raise UnknownStateError(f"Google Play: unmapped state {body.get('subscriptionState')!r}")
     item = items[0]
     plan = item.get("autoRenewingPlan") or {}
     change = plan.get("priceChangeDetails")
