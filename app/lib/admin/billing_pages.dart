@@ -208,10 +208,43 @@ class _BillingSettingsPageState extends State<BillingSettingsPage> {
     );
   }
 
-  Widget _roleRow(BuildContext context, BillingStrings s, RolePriceOut r) {
+  /// A role with no amount reads "free"; Play's last price, kept there, is a second line
+  /// "in Play" (audit L1).
+  Widget _priceText(
+    BuildContext context,
+    BillingStrings s,
+    RolePriceOut r, {
+    required bool free,
+  }) {
     final c = context.bm;
     final play = r.playPricePaise;
     final synced = r.playSyncedAt;
+    final price = play == null
+        ? null
+        : '${r.playCurrency ?? 'INR'} ${(play / 100).toStringAsFixed(2)}';
+    final when = synced == null ? '' : ' · ${packageDate(synced)}';
+    if (!free) {
+      return Text(
+        price == null ? '—' : '${s['play_price']}: $price$when',
+        style: BmType.body.copyWith(color: c.brandStrong),
+      );
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(s['free'], style: BmType.body.copyWith(color: c.inkMuted)),
+        if (price != null)
+          Text(
+            s.fill('in_play', price) + when,
+            style: BmType.meta.copyWith(color: c.inkMuted),
+          ),
+      ],
+    );
+  }
+
+  Widget _roleRow(BuildContext context, BillingStrings s, RolePriceOut r) {
+    final synced = r.playSyncedAt;
+    final free = r.amountPaise == null;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: BmSpace.xs),
       child: Wrap(
@@ -233,19 +266,7 @@ class _BillingSettingsPageState extends State<BillingSettingsPage> {
               decoration: InputDecoration(labelText: s['amount']),
             ),
           ),
-          SizedBox(
-            width: 240,
-            child: Text(
-              play == null
-                  ? s['free']
-                  : '${s['play_price']}: ${r.playCurrency ?? 'INR'} '
-                        '${(play / 100).toStringAsFixed(2)}'
-                        '${synced == null ? '' : ' · ${packageDate(synced)}'}',
-              style: BmType.body.copyWith(
-                color: play == null ? c.inkMuted : c.brandStrong,
-              ),
-            ),
-          ),
+          SizedBox(width: 240, child: _priceText(context, s, r, free: free)),
           SizedBox(
             width: 140,
             child: FilledButton(
@@ -263,7 +284,8 @@ class _BillingSettingsPageState extends State<BillingSettingsPage> {
             width: 260,
             child: OutlinedButton(
               key: Key('billing-migrate-${r.role}'),
-              onPressed: synced == null ? null : () => _migrate(r.role),
+              // Nothing to move while the role is free (audit L1).
+              onPressed: free || synced == null ? null : () => _migrate(r.role),
               child: Text(s['migrate']),
             ),
           ),
