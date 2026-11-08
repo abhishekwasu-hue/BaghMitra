@@ -11,6 +11,7 @@ from alembic import command
 from alembic.autogenerate import compare_metadata
 from alembic.config import Config
 from alembic.migration import MigrationContext
+from alembic.script import ScriptDirectory
 from sqlalchemy import Connection, create_engine, inspect, text
 from sqlalchemy import exc as sa_exc
 
@@ -225,7 +226,8 @@ def test_postgres_client_roles_lose_every_grant() -> None:
         ).scalar_one()
         assert rls is True
         # The migrating / API role still reads and writes alembic_version and the tables.
-        assert conn.execute(text("SELECT version_num FROM alembic_version")).scalar_one() == "0036"
+        head = ScriptDirectory.from_config(cfg).get_current_head()
+        assert conn.execute(text("SELECT version_num FROM alembic_version")).scalar_one() == head
         assert conn.execute(text("SELECT count(*) FROM account_deletions")).scalar_one() == 0
     # Reversible, and a revert never hands the privileges back.
     command.downgrade(cfg, "0024")
