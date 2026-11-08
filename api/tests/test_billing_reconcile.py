@@ -79,7 +79,7 @@ async def test_a_voided_purchase_is_revoked_once(engine: AsyncEngine) -> None:
     assert (first.revoked, again.revoked) == (1, 0)
     assert await state_of(engine, row) == "REVOKED"
     assert await state_of(engine, other) == "ACTIVE"
-    assert ("list_voided", (NOW - timedelta(days=30),)) in play.calls
+    assert ("list_voided", ()) in play.calls
     async with maker() as session:
         count = await session.scalar(
             select(func.count())
@@ -121,12 +121,15 @@ async def test_the_voided_list_is_paged_and_includes_subscriptions() -> None:
     assert account is not None
     async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as http:
         play = GooglePlayPublisher(http, settings=settings, account=account)
-        voided = await play.list_voided(NOW - timedelta(days=30))
+        voided = await play.list_voided()
     assert [v["purchaseToken"] for v in voided] == ["t1", "t2"]
     first, second = seen
     assert (
         first.url.path == f"/androidpublisher/v3/applications/{PACKAGE}/purchases/voidedpurchases"
     )
     assert first.url.params["type"] == "1"
-    assert first.url.params["startTime"] == str(int((NOW - timedelta(days=30)).timestamp() * 1000))
+    # Audit M5: no startTime; Google's default window is the last 30 days (a start exactly 30
+    # days back can be refused as too old).
+    assert "startTime" not in first.url.params
+    assert "startTime" not in second.url.params
     assert second.url.params["token"] == "p2"
