@@ -445,6 +445,37 @@ class _HomeBody extends ConsumerWidget {
                       subtitle: t.mlHomeLinkHint,
                       onTap: () => context.push(Routes.roles),
                     ),
+                    // One tap to the grower's lots and the checked traders (owner
+                    // 2026-11-08: both were hard to find under All features).
+                    const SizedBox(height: BmSpace.xs),
+                    Row(
+                      children: [
+                        for (final (i, (key, icon, label, route)) in [
+                          (
+                            'home-ml-lots',
+                            Icons.sell_outlined,
+                            t.mlOpen,
+                            Routes.marketLots,
+                          ),
+                          (
+                            'home-ml-people',
+                            Icons.groups_outlined,
+                            t.mlPeopleTitle,
+                            Routes.marketLinkPeople,
+                          ),
+                        ].indexed) ...[
+                          if (i > 0) const SizedBox(width: BmSpace.xs),
+                          Expanded(
+                            child: OutlinedButton.icon(
+                              key: Key(key),
+                              onPressed: () => context.push(route),
+                              icon: Icon(icon),
+                              label: Text(label, textAlign: TextAlign.center),
+                            ),
+                          ),
+                        ],
+                      ],
+                    ),
                   ],
                   const SizedBox(height: BmSpace.md),
                   _linkCard(
