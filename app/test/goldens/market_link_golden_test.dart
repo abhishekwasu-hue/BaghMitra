@@ -78,4 +78,29 @@ void main() {
       await unmountApp(tester);
     });
   }
+
+  // Signed out: the welcome band, then the role cards (owner 2026-11-08).
+  for (final (name, mode, scale, size) in [
+    ('l1_welcome_mr_light', ThemeMode.light, 1.0, phoneSize),
+    ('l1_welcome_mr_dark', ThemeMode.dark, 1.0, phoneSize),
+    ('l1_welcome_mr_x13', ThemeMode.light, 1.3, _small),
+  ]) {
+    testWidgets(name, (tester) async {
+      tester.platformDispatcher.textScaleFactorTestValue = scale;
+      addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+      await pumpApp(
+        tester,
+        session: null,
+        config: marketConfig,
+        themeMode: mode,
+        size: size,
+      );
+      await settle(tester);
+      await expectLater(
+        find.byType(MaterialApp),
+        matchesGoldenFile('$name.png'),
+      );
+      await unmountApp(tester);
+    });
+  }
 }

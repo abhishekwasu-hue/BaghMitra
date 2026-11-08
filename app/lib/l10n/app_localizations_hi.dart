@@ -4492,4 +4492,11 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get expenseGoInputs => 'खाद और गोबर खाद';
+
+  @override
+  String get mlWelcomeTitle => 'बागमित्र में आपका स्वागत है';
+
+  @override
+  String get mlWelcomeLine =>
+      'बाग के रिकॉर्ड, आज के मंडी भाव और व्यापारी, एक ही ऐप में।';
 }
