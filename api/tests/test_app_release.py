@@ -157,3 +157,33 @@ async def test_an_unreadable_release_file_means_no_update_known(apk_dir: Path) -
     async for c in _client(_settings(app_download_dir=str(apk_dir))):
         body = (await c.get("/v1/app/version")).json()
     assert body["latest_version_code"] == 0
+
+
+async def test_app_test_serves_only_the_test_apk(apk_dir: Path) -> None:
+    """Audit H1: Test APKs update from /app/test (bagmitra-test.apk), never the Release APK."""
+    (apk_dir / "bagmitra.apk").write_bytes(b"release")
+    (apk_dir / "bagmitra-test.apk").write_bytes(b"PK test apk")
+    async for c in _client(_settings(app_download_dir=str(apk_dir))):
+        resp = await c.get("/app/test")
+        head = await c.head("/app/test")
+        release = await c.get("/app")
+    assert resp.status_code == 200
+    assert resp.content == b"PK test apk"
+    assert resp.headers["content-type"] == "application/vnd.android.package-archive"
+    assert resp.headers["content-disposition"] == 'attachment; filename="bagmitra-test.apk"'
+    assert resp.headers["x-content-type-options"] == "nosniff"
+    assert resp.headers["cache-control"] == "no-cache"
+    assert head.status_code == 200
+    assert head.headers["content-length"] == str(len(b"PK test apk"))
+    assert release.content == b"release"
+
+
+async def test_app_test_without_its_file_says_not_available(apk_dir: Path) -> None:
+    (apk_dir / "bagmitra.apk").write_bytes(b"release")
+    async for c in _client(_settings(app_download_dir=str(apk_dir))):
+        resp = await c.get("/app/test")
+        spec = (await c.get("/openapi.json")).json()
+    assert resp.status_code == 404
+    assert resp.headers["content-type"].startswith("text/plain")
+    assert "BagMitra" in resp.text
+    assert "/app/test" not in spec["paths"]

@@ -88,16 +88,16 @@ void main() {
   });
 
   test(
-    'the button opens our own /app address when the build has one',
+    'the button opens our own /app/test address when the build has one',
     () async {
       expect(
         testApkServeUrl('https://bagmitra.aialgodesk.org'),
-        'https://bagmitra.aialgodesk.org/app',
+        'https://bagmitra.aialgodesk.org/app/test',
       );
       expect(testApkServeUrl('http://10.0.2.2:8000'), '');
       final release = await GitHubTestReleaseSource(
         _repo,
-        serveUrl: 'https://bagmitra.aialgodesk.org/app',
+        serveUrl: 'https://bagmitra.aialgodesk.org/app/test',
         client: MockClient(
           (_) async => http.Response(
             jsonEncode([
@@ -107,7 +107,7 @@ void main() {
           ),
         ),
       ).fetch();
-      expect(release.downloadUrl, 'https://bagmitra.aialgodesk.org/app');
+      expect(release.downloadUrl, 'https://bagmitra.aialgodesk.org/app/test');
       expect(release.latestCode, 150);
     },
   );

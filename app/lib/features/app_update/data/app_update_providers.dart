@@ -18,12 +18,13 @@ UpdateSourceKind updateSourceKind(AppConfig config) {
       : UpdateSourceKind.github;
 }
 
-/// `https://<api domain>/app` (owner 2026-11-08: our own address, not GitHub); empty for a
-/// build without an https server (the GitHub file is offered then).
+/// `https://<api domain>/app/test` (owner 2026-11-08: our own address, not GitHub; audit H1:
+/// the Test APK file, never the Release APK at `/app`); empty for a build without an https
+/// server (the GitHub file is offered then).
 String testApkServeUrl(String apiBaseUrl) {
   final base = Uri.tryParse(apiBaseUrl);
   if (base == null || base.scheme != 'https' || base.host.isEmpty) return '';
-  return '${base.origin}/app';
+  return '${base.origin}/app/test';
 }
 
 final appVersionSourceProvider = Provider<AppVersionSource>((ref) {
