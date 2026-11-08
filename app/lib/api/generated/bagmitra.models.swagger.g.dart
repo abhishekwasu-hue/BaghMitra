@@ -2593,6 +2593,7 @@ PriceChangeOut _$PriceChangeOutFromJson(Map<String, dynamic> json) =>
     PriceChangeOut(
       chargeTime: json['charge_time'] as String?,
       currency: json['currency'] as String?,
+      mode: json['mode'] as String?,
       newPricePaise: (json['new_price_paise'] as num).toInt(),
       state: json['state'] as String?,
     );
@@ -2601,6 +2602,7 @@ Map<String, dynamic> _$PriceChangeOutToJson(PriceChangeOut instance) =>
     <String, dynamic>{
       'charge_time': ?instance.chargeTime,
       'currency': ?instance.currency,
+      'mode': ?instance.mode,
       'new_price_paise': instance.newPricePaise,
       'state': ?instance.state,
     };

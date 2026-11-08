@@ -33,11 +33,12 @@ PLAY_STATES: dict[str, SubscriptionState] = {
     "SUBSCRIPTION_STATE_PENDING_PURCHASE_CANCELED": "EXPIRED",
 }
 ROLE_NAMES = {
-    "grower": {"en": "Grower", "mr": "बागायतदार", "hi": "बागवान"},
+    # The app's own role words (l10n mlRole*), so the plan name reads the same everywhere.
+    "grower": {"en": "Grower", "mr": "शेतकरी", "hi": "किसान"},
     "trader": {"en": "Trader", "mr": "व्यापारी", "hi": "व्यापारी"},
-    "broker": {"en": "Broker", "mr": "मध्यस्थ", "hi": "बिचौलिया"},
+    "broker": {"en": "Broker", "mr": "मध्यस्थ (दलाल)", "hi": "मध्यस्थ (दलाल)"},
     "exporter": {"en": "Exporter", "mr": "निर्यातदार", "hi": "निर्यातक"},
-    "provider": {"en": "Service provider", "mr": "सेवा पुरवठादार", "hi": "सेवा प्रदाता"},
+    "provider": {"en": "Service provider", "mr": "सेवा देणारे", "hi": "सेवा देने वाले"},
 }
 
 
@@ -91,6 +92,7 @@ def read_purchase(body: dict[str, Any], now: datetime) -> PlayFacts:
         price = change.get("newPrice") or {}
         price_change = {
             "state": change.get("priceChangeState"),
+            "mode": change.get("priceChangeMode"),
             "new_price_paise": paise_of(price),
             "currency": price.get("currencyCode"),
             "charge_time": change.get("expectedNewPriceChargeTime"),

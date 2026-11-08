@@ -72,9 +72,16 @@ async def entitlements(
     )
 
 
+# Play's price-change states that still need the in-app notice (spec §7); APPLIED and CANCELED
+# do not, and neither does a decrease (it reaches the subscriber at the next payment by itself).
+NOTICE_STATES = ("OUTSTANDING", "CONFIRMED")
+
+
 class PriceChangeOut(BaseModel):
-    # OUTSTANDING (not yet accepted), CONFIRMED or APPLIED, as Play reports it.
+    # OUTSTANDING (not yet accepted) or CONFIRMED, as Play reports it.
     state: str | None
+    # PRICE_INCREASE (opt-in) or OPT_OUT_PRICE_INCREASE; decreases need no notice.
+    mode: str | None = None
     new_price_paise: int
     currency: str | None
     charge_time: str | None
@@ -132,8 +139,9 @@ async def _price_change(session: DbSession, user_id: uuid.UUID) -> PriceChangeOu
         )
     )
     for row in rows:
-        if row.price_change and row.price_change.get("state") != "APPLIED":
-            return PriceChangeOut.model_validate(row.price_change)
+        change = row.price_change or {}
+        if change.get("state") in NOTICE_STATES and change.get("mode") != "PRICE_DECREASE":
+            return PriceChangeOut.model_validate(change)
     return None
 
 

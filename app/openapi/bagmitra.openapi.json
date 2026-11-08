@@ -6588,6 +6588,17 @@
             ],
             "title": "Currency"
           },
+          "mode": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mode"
+          },
           "new_price_paise": {
             "title": "New Price Paise",
             "type": "integer"

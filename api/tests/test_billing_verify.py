@@ -13,7 +13,13 @@ from sqlalchemy.ext.asyncio import AsyncEngine, async_sessionmaker
 
 from bagmitra_api.billing.models import BillingEvent, Subscription
 from bagmitra_api.billing.play import PlayError
-from bagmitra_api.billing.purchases import PLAY_STATES, account_id, read_purchase, token_hash
+from bagmitra_api.billing.purchases import (
+    PLAY_STATES,
+    ROLE_NAMES,
+    account_id,
+    read_purchase,
+    token_hash,
+)
 from tests.conftest import make_token
 from tests.play_fakes import FakePlay, purchase
 from tests.test_billing_play import admin_api
@@ -152,10 +158,44 @@ async def test_a_price_increase_reaches_the_app_for_the_notice(engine: AsyncEngi
         after = (await client.get("/v1/billing/plan", headers=headers(user))).json()
     assert after["price_change"] == {
         "state": "OUTSTANDING",
+        "mode": "PRICE_INCREASE",
         "new_price_paise": 14900,
         "currency": "INR",
         "charge_time": "2026-12-20T00:00:00Z",
     }
+
+
+@pytest.mark.parametrize(
+    ("mode", "state"),
+    [
+        ("PRICE_DECREASE", "OUTSTANDING"),  # a decrease needs no notice: it applies by itself
+        ("PRICE_INCREASE", "APPLIED"),  # already charged
+        ("PRICE_INCREASE", "CANCELED"),  # Play dropped it
+        ("OPT_OUT_PRICE_INCREASE", "CANCELED"),
+    ],
+)
+async def test_no_notice_without_a_pending_increase(
+    engine: AsyncEngine, mode: str, state: str
+) -> None:
+    user = uuid.uuid4()
+    play = FakePlay()
+    change = {
+        "newPrice": {"currencyCode": "INR", "units": "79", "nanos": 0},
+        "priceChangeMode": mode,
+        "priceChangeState": state,
+        "expectedNewPriceChargeTime": "2026-12-20T00:00:00Z",
+    }
+    play.purchases[TOKEN] = purchase(account_id(user), price_change=change)
+    async with admin_api(engine, play) as client:
+        await client.post(URL, headers=headers(user), json={"purchase_token": TOKEN})
+        offer = (await client.get("/v1/billing/plan", headers=headers(user))).json()
+    assert offer["price_change"] is None
+
+
+def test_role_plan_names_match_the_app_wording() -> None:
+    assert ROLE_NAMES["broker"]["mr"] == "मध्यस्थ (दलाल)"
+    assert ROLE_NAMES["broker"]["hi"] == "मध्यस्थ (दलाल)"
+    assert ROLE_NAMES["grower"]["mr"] == "शेतकरी"
 
 
 def test_a_purchase_without_line_items_is_rejected() -> None:

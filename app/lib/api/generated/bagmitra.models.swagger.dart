@@ -13131,6 +13131,7 @@ class PriceChangeOut {
   const PriceChangeOut({
     required this.chargeTime,
     required this.currency,
+    this.mode,
     required this.newPricePaise,
     required this.state,
   });
@@ -13145,6 +13146,8 @@ class PriceChangeOut {
   final String? chargeTime;
   @JsonKey(name: 'currency', includeIfNull: false)
   final String? currency;
+  @JsonKey(name: 'mode', includeIfNull: false)
+  final String? mode;
   @JsonKey(name: 'new_price_paise', includeIfNull: false)
   final int newPricePaise;
   @JsonKey(name: 'state', includeIfNull: false)
@@ -13165,6 +13168,8 @@ class PriceChangeOut {
                   other.currency,
                   currency,
                 )) &&
+            (identical(other.mode, mode) ||
+                const DeepCollectionEquality().equals(other.mode, mode)) &&
             (identical(other.newPricePaise, newPricePaise) ||
                 const DeepCollectionEquality().equals(
                   other.newPricePaise,
@@ -13181,6 +13186,7 @@ class PriceChangeOut {
   int get hashCode =>
       const DeepCollectionEquality().hash(chargeTime) ^
       const DeepCollectionEquality().hash(currency) ^
+      const DeepCollectionEquality().hash(mode) ^
       const DeepCollectionEquality().hash(newPricePaise) ^
       const DeepCollectionEquality().hash(state) ^
       runtimeType.hashCode;
@@ -13190,12 +13196,14 @@ extension $PriceChangeOutExtension on PriceChangeOut {
   PriceChangeOut copyWith({
     String? chargeTime,
     String? currency,
+    String? mode,
     int? newPricePaise,
     String? state,
   }) {
     return PriceChangeOut(
       chargeTime: chargeTime ?? this.chargeTime,
       currency: currency ?? this.currency,
+      mode: mode ?? this.mode,
       newPricePaise: newPricePaise ?? this.newPricePaise,
       state: state ?? this.state,
     );
@@ -13204,12 +13212,14 @@ extension $PriceChangeOutExtension on PriceChangeOut {
   PriceChangeOut copyWithWrapped({
     Wrapped<String?>? chargeTime,
     Wrapped<String?>? currency,
+    Wrapped<String?>? mode,
     Wrapped<int>? newPricePaise,
     Wrapped<String?>? state,
   }) {
     return PriceChangeOut(
       chargeTime: (chargeTime != null ? chargeTime.value : this.chargeTime),
       currency: (currency != null ? currency.value : this.currency),
+      mode: (mode != null ? mode.value : this.mode),
       newPricePaise: (newPricePaise != null
           ? newPricePaise.value
           : this.newPricePaise),
