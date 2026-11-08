@@ -142,7 +142,9 @@ def test_the_test_apk_mirror_is_opt_in(tmp_path: Path) -> None:
     assert line.endswith(">> /var/log/bagmitra-test-apk.log 2>&1")
     out, lines = run_install(tmp_path, "TEST_APK_MIRROR=off\n")
     assert "test_apk" not in jobs(lines)
-    assert "Test APK mirror to /app (every 15 min) cron line removed" in out
+    assert "APK mirror to /app (every 15 min) cron line removed" in out
+    _, lines = run_install(tmp_path, "RELEASE_APK_MIRROR=on\n")
+    assert "test_apk" in jobs(lines)
 
 
 def test_billing_reconciliation_runs_only_with_play_set_up(tmp_path: Path) -> None:
