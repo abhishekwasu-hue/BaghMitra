@@ -89,6 +89,25 @@ async def test_a_voided_purchase_is_revoked_once(engine: AsyncEngine) -> None:
     assert count == 1
 
 
+async def test_a_row_already_revoked_by_a_notification_is_skipped(engine: AsyncEngine) -> None:
+    """Audit L9: Google reports a voided purchase by notification and in the daily list; the
+    notification already revoked the row, so the job adds no second ledger row nor count."""
+    row = await add_row(engine, "tok-voided", "REVOKED", NOW + timedelta(days=20))
+    play = FakePlay()
+    play.voided = [{"purchaseToken": "tok-voided", "orderId": "GPA.9"}]
+    async with async_sessionmaker(engine, expire_on_commit=False)() as session:
+        summary = await run_reconcile(session, play, NOW)
+    assert summary.revoked == 0
+    assert await state_of(engine, row) == "REVOKED"
+    async with async_sessionmaker(engine)() as session:
+        count = await session.scalar(
+            select(func.count())
+            .select_from(BillingEvent)
+            .where(BillingEvent.notification_id == "voided:GPA.9")
+        )
+    assert count == 0
+
+
 async def test_drift_lists_rows_that_should_have_changed(engine: AsyncEngine) -> None:
     await add_row(engine, "tok-a", "ACTIVE", NOW - timedelta(days=2))  # missed renewal / expiry
     await add_row(  # stuck pending: last verified 4 days ago
