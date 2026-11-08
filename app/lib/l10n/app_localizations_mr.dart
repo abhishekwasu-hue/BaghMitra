@@ -4476,4 +4476,17 @@ class AppLocalizationsMr extends AppLocalizations {
   String mlLoginRole(String role) {
     return 'भूमिका: $role';
   }
+
+  @override
+  String get expenseElsewhere =>
+      'फवारणी, मजुरी आणि खतांचा खर्च त्यांच्या नोंदीत लिहा; हिशोबात तो आपोआप जोडला जातो.';
+
+  @override
+  String get expenseGoSpray => 'फवारणी';
+
+  @override
+  String get expenseGoLabour => 'मजुरी';
+
+  @override
+  String get expenseGoInputs => 'खते व शेणखत';
 }

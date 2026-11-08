@@ -100,6 +100,47 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
         child: ListView(
           padding: const EdgeInsets.all(BmSpace.lg),
           children: [
+            // Costs that have their own record (owner 2026-11-08: "spray, labour ... are
+            // missing"): one tap opens that form; the accounts count them already.
+            Text(
+              t.expenseElsewhere,
+              key: const Key('expense-elsewhere'),
+              style: BmType.body.copyWith(color: c.inkMuted),
+            ),
+            const SizedBox(height: BmSpace.xs),
+            Wrap(
+              spacing: BmSpace.xs,
+              runSpacing: BmSpace.xs,
+              children: [
+                for (final (key, icon, text, route) in [
+                  (
+                    'spray',
+                    Icons.water_drop_outlined,
+                    t.expenseGoSpray,
+                    Routes.addSpray(widget.plotId),
+                  ),
+                  (
+                    'labour',
+                    Icons.groups_outlined,
+                    t.expenseGoLabour,
+                    Routes.addLabour(widget.plotId),
+                  ),
+                  (
+                    'inputs',
+                    Icons.grass_outlined,
+                    t.expenseGoInputs,
+                    Routes.addInput(widget.plotId),
+                  ),
+                ])
+                  ActionChip(
+                    key: Key('expense-go-$key'),
+                    avatar: Icon(icon, color: c.brand),
+                    label: Text(text, style: BmType.bodyStrong),
+                    onPressed: () => context.push(route),
+                  ),
+              ],
+            ),
+            const SizedBox(height: BmSpace.lg),
             Text(t.expenseCategory, style: label),
             const SizedBox(height: BmSpace.xs),
             Wrap(
