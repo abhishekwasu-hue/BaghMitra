@@ -15,12 +15,17 @@ import 'app_update_checker.dart';
 class GitHubTestReleaseSource implements AppVersionSource {
   GitHubTestReleaseSource(
     this.repo, {
+    this.serveUrl = '',
     http.Client? client,
     this.timeout = const Duration(seconds: 10),
   }) : _client = client ?? http.Client();
 
   /// `owner/name`, from the build (`--dart-define=TEST_RELEASES_REPO`).
   final String repo;
+
+  /// Our own download address (`https://<domain>/app`, kept at the newest Test APK by the VPS
+  /// mirror, deploy/fetch_test_apk.sh); empty: the GitHub file itself.
+  final String serveUrl;
   final http.Client _client;
   final Duration timeout;
 
@@ -58,7 +63,7 @@ class GitHubTestReleaseSource implements AppVersionSource {
           latestCode: n,
           latestName: tag,
           minCode: 0,
-          downloadUrl: apk,
+          downloadUrl: serveUrl.isEmpty ? apk : serveUrl,
         );
       }
     }

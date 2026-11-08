@@ -51,6 +51,9 @@ ML_RECHECK_CRON_LINE="19 23 * * * $JOB bagmitra_api.market_link.recheck_job >> /
 # Play billing reconciliation (billing/reconcile_job.py: voided purchases, drift list): 23:47 UTC
 # (05:17 IST); on once PLAY_PACKAGE_NAME is set (runbook billing-play.md).
 BILLING_RECONCILE_CRON_LINE="47 23 * * * $JOB bagmitra_api.billing.reconcile_job >> /var/log/bagmitra-billing-reconcile.log 2>&1"
+# Test APK mirror (deploy/fetch_test_apk.sh): every 15 minutes, only with TEST_APK_MIRROR=on
+# (opt-in: the Release APK for growers will use the same /app file later).
+TEST_APK_CRON_LINE="*/15 * * * * bash $DEPLOY/fetch_test_apk.sh >> /var/log/bagmitra-test-apk.log 2>&1"
 # Job logs (BG-05): every /var/log/bagmitra-*.log above is rotated weekly or past 10 MB, 8 old
 # copies kept compressed. Written by install_logrotate; LOGROTATE_FILE is overridable (tests).
 LOGROTATE_FILE="${LOGROTATE_FILE:-/etc/logrotate.d/bagmitra}"
@@ -217,6 +220,8 @@ install_cron() {
   cron_job_if "$on" "bagmitra_api.market_link.recheck_job" "$ML_RECHECK_CRON_LINE" "market-link re-check list (nightly 23:19 UTC)"
   on=1; [[ -n "$(env_value PLAY_PACKAGE_NAME)" ]] && on=0
   cron_job_if "$on" "bagmitra_api.billing.reconcile_job" "$BILLING_RECONCILE_CRON_LINE" "Play billing reconciliation (nightly 23:47 UTC)"
+  on=1; [[ "$(env_value TEST_APK_MIRROR | tr '[:upper:]' '[:lower:]')" == "on" ]] && on=0
+  cron_job_if "$on" "deploy/fetch_test_apk.sh" "$TEST_APK_CRON_LINE" "Test APK mirror to /app (every 15 min)"
 }
 
 install_logrotate() { # writes the drop-in only when it is missing or different

@@ -87,6 +87,31 @@ void main() {
     expect(release.latestName, 'test-20261109-new0002');
   });
 
+  test(
+    'the button opens our own /app address when the build has one',
+    () async {
+      expect(
+        testApkServeUrl('https://bagmitra.aialgodesk.org'),
+        'https://bagmitra.aialgodesk.org/app',
+      );
+      expect(testApkServeUrl('http://10.0.2.2:8000'), '');
+      final release = await GitHubTestReleaseSource(
+        _repo,
+        serveUrl: 'https://bagmitra.aialgodesk.org/app',
+        client: MockClient(
+          (_) async => http.Response(
+            jsonEncode([
+              _release('test-1-a', 'Test build test-1-a · code 150'),
+            ]),
+            200,
+          ),
+        ),
+      ).fetch();
+      expect(release.downloadUrl, 'https://bagmitra.aialgodesk.org/app');
+      expect(release.latestCode, 150);
+    },
+  );
+
   test('older releases without a code are no answer (silent)', () async {
     final source = _source([
       _release('test-20261107-cccc333', 'Test build x'),
