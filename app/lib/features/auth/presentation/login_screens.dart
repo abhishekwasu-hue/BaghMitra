@@ -10,6 +10,8 @@ import '../../../app/router.dart';
 import '../../../design_system/glyphs.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
+import '../../market_link/data/market_link_providers.dart';
+import '../../market_link/presentation/role_label.dart';
 import '../domain/auth.dart';
 
 class _AuthScaffold extends StatelessWidget {
@@ -205,6 +207,29 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
             key: const Key('google-error'),
             textAlign: TextAlign.center,
             style: BmType.meta.copyWith(color: context.bm.danger),
+          ),
+        ],
+        // Market link (spec v1.5 §2.1): the picked role card, and the way back to the five.
+        if (config.marketLink) ...[
+          const SizedBox(height: BmSpace.lg),
+          Wrap(
+            alignment: WrapAlignment.center,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: BmSpace.xs,
+            children: [
+              if (ref.watch(activeMarketRoleProvider).value case final role?)
+                Text(
+                  t.mlLoginRole(roleLabel(t, role)),
+                  key: const Key('login-role'),
+                  style: BmType.bodyStrong,
+                ),
+              TextButton.icon(
+                key: const Key('login-switch-role'),
+                onPressed: () => context.go(Routes.roles),
+                icon: const Icon(Icons.swap_horiz),
+                label: Text(t.mlSwitchRole),
+              ),
+            ],
           ),
         ],
         if (demo) ...[

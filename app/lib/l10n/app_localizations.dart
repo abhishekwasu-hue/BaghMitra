@@ -7833,6 +7833,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Saved on the phone; it goes when the internet is back.'**
   String get feedbackQueued;
+
+  /// Sign-in screen (market link builds): the role card the user picked, with a link back to the five cards.
+  ///
+  /// In en, this message translates to:
+  /// **'Role: {role}'**
+  String mlLoginRole(String role);
 }
 
 class _AppLocalizationsDelegate

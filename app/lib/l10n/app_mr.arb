@@ -1287,5 +1287,6 @@
   "feedbackIncluded": "app version व फोनचे मॉडेल सोबत जाते.",
   "feedbackSend": "पाठवा",
   "feedbackSent": "मिळाले, धन्यवाद!",
-  "feedbackQueued": "फोनवर जतन केले; नेट आल्यावर जाईल."
+  "feedbackQueued": "फोनवर जतन केले; नेट आल्यावर जाईल.",
+  "mlLoginRole": "भूमिका: {role}"
 }

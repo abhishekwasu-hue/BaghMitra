@@ -1287,5 +1287,6 @@
   "feedbackIncluded": "app version और फ़ोन का मॉडल साथ जाता है।",
   "feedbackSend": "भेजें",
   "feedbackSent": "मिल गया, धन्यवाद!",
-  "feedbackQueued": "फ़ोन पर सहेजा; इंटरनेट आने पर जाएगा।"
+  "feedbackQueued": "फ़ोन पर सहेजा; इंटरनेट आने पर जाएगा।",
+  "mlLoginRole": "भूमिका: {role}"
 }
