@@ -18,6 +18,7 @@ import httpx
 from fastapi import Depends
 
 from bagmitra_api.core.settings import Settings, get_settings
+from bagmitra_api.feed.article import ARTICLE_PROMPT, ArticleError, ArticleSet, parse_articles
 from bagmitra_api.feed.output_check import NOT_STATED
 
 ANTHROPIC_VERSION = "2026-10-21"
@@ -65,6 +66,10 @@ class FeedClassifier(Protocol):
 
 class FeedSummariser(Protocol):
     async def summarise(self, text: str) -> Summary: ...
+
+
+class FeedArticleWriter(Protocol):
+    async def write_article(self, text: str, *, source_url: str) -> ArticleSet: ...
 
 
 CLASSIFY_PROMPT = f"""You sort Maharashtra government documents (GRs, circulars, notices) for an
@@ -148,7 +153,16 @@ class AnthropicFeedAi:
         self._http = http
         self._settings = settings
 
-    async def _ask(self, model: str, system: str, text: str, *, fallback: bool) -> str:
+    async def _ask(  # noqa: PLR0913 - one request shape for every prompt
+        self,
+        model: str,
+        system: str,
+        text: str,
+        *,
+        fallback: bool,
+        max_tokens: int | None = None,
+        source_url: str | None = None,
+    ) -> str:
         s = self._settings
         headers = {
             "x-api-key": s.feed_ai_api_key.get_secret_value(),
@@ -157,12 +171,15 @@ class AnthropicFeedAi:
         }
         body: dict[str, Any] = {
             "model": model,
-            "max_tokens": s.feed_ai_max_tokens,
+            "max_tokens": max_tokens or s.feed_ai_max_tokens,
             "system": system,
             "messages": [
                 {
                     "role": "user",
-                    "content": f"<document>\n{text[: s.feed_ai_max_source_chars]}\n</document>",
+                    "content": (
+                        (f"<source_url>{source_url}</source_url>\n" if source_url else "")
+                        + f"<document>\n{text[: s.feed_ai_max_source_chars]}\n</document>"
+                    ),
                 }
             ],
         }
@@ -189,6 +206,22 @@ class AnthropicFeedAi:
             self._settings.feed_classify_model, CLASSIFY_PROMPT, text, fallback=False
         )
         return parse_classification(_json_object(answer))
+
+    async def write_article(self, text: str, *, source_url: str) -> ArticleSet:
+        """Spec v1.6: the article set (mr / hi / en) for one news source page."""
+        s = self._settings
+        answer = await self._ask(
+            s.feed_summarise_model,
+            ARTICLE_PROMPT,
+            text,
+            fallback=True,
+            max_tokens=s.feed_article_max_tokens,
+            source_url=source_url,
+        )
+        try:
+            return parse_articles(_json_object(answer))
+        except ArticleError as exc:
+            raise AiUnavailableError(f"article JSON: {exc}") from exc
 
     async def summarise(self, text: str) -> Summary:
         answer = await self._ask(

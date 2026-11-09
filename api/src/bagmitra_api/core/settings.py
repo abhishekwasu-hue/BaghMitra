@@ -191,6 +191,8 @@ class Settings(BaseSettings):
     feed_classify_model: str = "claude-haiku-5-5"
     feed_summarise_model: str = "claude-sonnet-5-5"
     feed_ai_max_tokens: int = 2000
+    # Spec v1.6: one article set (mr / hi / en with sections, facts, charts) per news item.
+    feed_article_max_tokens: int = 8000
     feed_ai_timeout_seconds: float = 60.0
     # Source text sent to the model is cut to this many characters (cost bound).
     feed_ai_max_source_chars: int = 60_000
