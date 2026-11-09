@@ -68,6 +68,7 @@ class PracticeProfile {
     this.actionLevel,
     this.labelTarget,
     this.kbTopic,
+    this.figure,
   });
 
   static const kinds = {'pest', 'disease', 'disorder', 'crop', 'nutrition'};
@@ -89,6 +90,9 @@ class PracticeProfile {
   /// The knowledge card topic for the same problem, if there is one.
   final String? kbTopic;
 
+  /// What the grower sees, as a labelled drawing; null when there is none.
+  final PracticeFigure? figure;
+
   Iterable<String> get sourceKeys => [
     for (final p in [symptoms, when, scouting, actionLevel])
       if (p != null) ...p.sourceKeys,
@@ -97,6 +101,35 @@ class PracticeProfile {
 }
 
 /// One non-chemical orchard practice, with where it comes from and how strong that source is.
+/// A drawing the app makes for a practice or a symptom (owner 2026-11-09: show how the work
+/// is done). [values] are the measures drawn on it, in the order the kind defines; each
+/// one is stated in the practice text (tested).
+enum PracticeFigureKind {
+  gummosisTrunk,
+  drainageTrench, // values: width cm, depth cm
+  doubleRing,
+  pruneCut, // values: healthy wood cm
+  rootSun, // values: days from, days to
+  barkStrip,
+  twiceYearly,
+}
+
+class PracticeFigure {
+  const PracticeFigure(this.kind, [this.values = const []]);
+
+  static PracticeFigure? tryParse(Object? json) {
+    if (json is! Map) return null;
+    final kind = PracticeFigureKind.values.asNameMap()[json['kind']];
+    if (kind == null) return null;
+    return PracticeFigure(kind, [
+      for (final v in (json['values'] as List?) ?? const []) v as int,
+    ]);
+  }
+
+  final PracticeFigureKind kind;
+  final List<int> values;
+}
+
 class PracticeItem {
   const PracticeItem({
     required this.id,
@@ -104,7 +137,11 @@ class PracticeItem {
     required this.source,
     required this.sourceKeys,
     required this.evidence,
+    this.figure,
   });
+
+  /// How the work is done, as a drawing; null for most practices.
+  final PracticeFigure? figure;
 
   final int id;
   final Map<String, String> labels;
@@ -194,6 +231,7 @@ class PracticeCardsConfig {
             actionLevel: part(m['action_level']),
             labelTarget: m['label_target'] as String?,
             kbTopic: m['kb_topic'] as String?,
+            figure: PracticeFigure.tryParse(m['figure']),
             bio: [
               for (final b in list(m['bio']))
                 PracticeBio(
@@ -231,6 +269,7 @@ class PracticeCardsConfig {
                 source: i['source'] as String,
                 sourceKeys: keys(i['source_keys']),
                 evidence: keys(i['evidence']),
+                figure: PracticeFigure.tryParse(i['figure']),
               ),
           ], profile: profile(s['profile'])),
       ],

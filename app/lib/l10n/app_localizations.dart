@@ -4996,6 +4996,126 @@ abstract class AppLocalizations {
   /// **'When it comes'**
   String get practicesWhen;
 
+  /// No description provided for @figureGum.
+  ///
+  /// In en, this message translates to:
+  /// **'Gum oozes'**
+  String get figureGum;
+
+  /// No description provided for @figureWetPatches.
+  ///
+  /// In en, this message translates to:
+  /// **'Water-soaked patches'**
+  String get figureWetPatches;
+
+  /// No description provided for @figureBarkPeels.
+  ///
+  /// In en, this message translates to:
+  /// **'Bark peels in vertical strips'**
+  String get figureBarkPeels;
+
+  /// No description provided for @figureYellowLeaves.
+  ///
+  /// In en, this message translates to:
+  /// **'Yellow leaves'**
+  String get figureYellowLeaves;
+
+  /// No description provided for @figureWidthCm.
+  ///
+  /// In en, this message translates to:
+  /// **'{cm} cm'**
+  String figureWidthCm(String cm);
+
+  /// No description provided for @figureDepthCm.
+  ///
+  /// In en, this message translates to:
+  /// **'{cm} cm deep'**
+  String figureDepthCm(String cm);
+
+  /// No description provided for @figureDrainsAway.
+  ///
+  /// In en, this message translates to:
+  /// **'Water drains away from the trees'**
+  String get figureDrainsAway;
+
+  /// No description provided for @figureDry.
+  ///
+  /// In en, this message translates to:
+  /// **'Dry'**
+  String get figureDry;
+
+  /// No description provided for @figureWaterHere.
+  ///
+  /// In en, this message translates to:
+  /// **'Water here'**
+  String get figureWaterHere;
+
+  /// No description provided for @figureTopView.
+  ///
+  /// In en, this message translates to:
+  /// **'Seen from above'**
+  String get figureTopView;
+
+  /// No description provided for @figureDeadPart.
+  ///
+  /// In en, this message translates to:
+  /// **'Dried part'**
+  String get figureDeadPart;
+
+  /// No description provided for @figureCutHere.
+  ///
+  /// In en, this message translates to:
+  /// **'Cut here'**
+  String get figureCutHere;
+
+  /// No description provided for @figureHealthyCm.
+  ///
+  /// In en, this message translates to:
+  /// **'with {cm} cm of healthy wood'**
+  String figureHealthyCm(String cm);
+
+  /// No description provided for @figureSunDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{from}–{to} days of sun'**
+  String figureSunDays(String from, String to);
+
+  /// No description provided for @figureCutRotten.
+  ///
+  /// In en, this message translates to:
+  /// **'Cut out rotten roots'**
+  String get figureCutRotten;
+
+  /// No description provided for @figureWithBand.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove with a healthy strip'**
+  String get figureWithBand;
+
+  /// No description provided for @figureDiseasedBark.
+  ///
+  /// In en, this message translates to:
+  /// **'Diseased bark'**
+  String get figureDiseasedBark;
+
+  /// No description provided for @figureRains.
+  ///
+  /// In en, this message translates to:
+  /// **'Monsoon'**
+  String get figureRains;
+
+  /// No description provided for @figureBeforeRains.
+  ///
+  /// In en, this message translates to:
+  /// **'Before the monsoon'**
+  String get figureBeforeRains;
+
+  /// No description provided for @figureAfterRains.
+  ///
+  /// In en, this message translates to:
+  /// **'After the monsoon'**
+  String get figureAfterRains;
+
   /// No description provided for @practicesScout.
   ///
   /// In en, this message translates to:

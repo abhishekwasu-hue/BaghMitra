@@ -12,6 +12,7 @@ import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../../labels/presentation/label_info_screen.dart';
 import '../data/practice_cards.dart';
+import 'practice_figure_view.dart';
 
 /// Non-chemical orchard practices from published sources, grouped by problem. Every practice
 /// names its source and evidence level behind one "See sources" line (folded, owner request).
@@ -67,6 +68,14 @@ class PracticesScreen extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          if (p.figure case final f?) ...[
+            PracticeFigureView(
+              key: Key('practice-figure-${p.id}'),
+              figure: f,
+              lang: lang,
+            ),
+            const SizedBox(height: BmSpace.xs),
+          ],
           Text(p.label(lang), style: BmType.body),
           sources(p.source, p.sourceKeys, p.evidence),
         ],
@@ -92,15 +101,34 @@ class PracticesScreen extends ConsumerWidget {
       ),
     );
 
-    Widget part(String title, PracticePart p, String key) => Column(
-      key: Key(key),
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        heading(title),
-        Text(p.label(lang), style: BmType.body),
-        sources(p.source, p.sourceKeys),
-      ],
-    );
+    // What the grower sees / when / where to look: one coloured panel each (owner
+    // 2026-11-09: colour by meaning, readable at a glance).
+    Widget part(String title, PracticePart p, String key, [Color? tint]) =>
+        Container(
+          key: Key(key),
+          width: double.infinity,
+          margin: const EdgeInsets.only(top: BmSpace.xs),
+          padding: tint == null
+              ? EdgeInsets.zero
+              : const EdgeInsets.symmetric(
+                  horizontal: BmSpace.sm,
+                  vertical: BmSpace.xxs,
+                ),
+          decoration: tint == null
+              ? null
+              : BoxDecoration(
+                  color: tint,
+                  borderRadius: BorderRadius.circular(BmRadius.tile),
+                ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              heading(title),
+              Text(p.label(lang), style: BmType.body),
+              sources(p.source, p.sourceKeys),
+            ],
+          ),
+        );
 
     Widget bio(PracticeBio b) {
       final prep = data?.preparations[b.preparation];
@@ -147,12 +175,25 @@ class PracticesScreen extends ConsumerWidget {
           source: publishers.join(', '),
           checked: checked == null ? null : formatDate(checked, lang),
         ),
+        if (p.figure case final f?) ...[
+          const SizedBox(height: BmSpace.xs),
+          PracticeFigureView(
+            key: Key('practice-figure-${s.key}'),
+            figure: f,
+            lang: lang,
+          ),
+        ],
         if (p.symptoms case final x?)
-          part(t.practicesSee, x, 'practices-see-${s.key}'),
+          part(t.practicesSee, x, 'practices-see-${s.key}', c.accentSoft),
         if (p.when case final x?)
-          part(t.practicesWhen, x, 'practices-when-${s.key}'),
+          part(t.practicesWhen, x, 'practices-when-${s.key}', c.brandSoft),
         if (p.scouting case final x?)
-          part(t.practicesScout, x, 'practices-scout-${s.key}'),
+          part(
+            t.practicesScout,
+            x,
+            'practices-scout-${s.key}',
+            c.sky.withValues(alpha: 0.25),
+          ),
         if (p.actionLevel case final x?)
           part(t.practicesActionLevel, x, 'practices-action-${s.key}')
         else if (pest) ...[

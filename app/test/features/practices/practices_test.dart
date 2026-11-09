@@ -210,6 +210,79 @@ void main() {
     },
   );
 
+  test(
+    'every figure is a known drawing and its measures are in the practice text',
+    () {
+      final digits = RegExp(r'[0-9०-९]+');
+      int? value(String d) => int.tryParse(
+        String.fromCharCodes(
+          d.runes.map((r) => r >= 0x966 && r <= 0x96F ? r - 0x966 + 48 : r),
+        ),
+      );
+      Set<int> numbers(String text) => {
+        for (final m in digits.allMatches(text)) ?value(m[0]!),
+      };
+      final phytophthora = data.sections.firstWhere(
+        (s) => s.key == 'phytophthora',
+      );
+      expect(
+        phytophthora.profile!.figure?.kind,
+        PracticeFigureKind.gummosisTrunk,
+      );
+      final drawn = [
+        for (final s in data.sections)
+          for (final i in s.items)
+            if (i.figure case final f?) (i, f),
+      ];
+      expect(
+        [for (final (i, f) in drawn) '${i.id}:${f.kind.name}'],
+        containsAll([
+          '19:drainageTrench',
+          '20:doubleRing',
+          '21:pruneCut',
+          '22:rootSun',
+          '108:barkStrip',
+          '24:twiceYearly',
+        ]),
+      );
+      for (final (i, f) in drawn) {
+        for (final lang in ['en', 'mr', 'hi']) {
+          expect(
+            numbers(i.label(lang)),
+            containsAll(f.values),
+            reason: 'item ${i.id} ($lang) must state ${f.values}',
+          );
+        }
+      }
+    },
+  );
+
+  testWidgets('the gummosis card shows its drawings', (tester) async {
+    await pumpApp(tester, initialLocation: '/practices', seed: seedPlot);
+    await settle(tester);
+    await tester.tap(find.text('फायटोफ्थोरा: डिंक्या, खोडकूज, मूळकूज'));
+    await settle(tester);
+    expect(
+      find.byKey(const Key('practice-figure-phytophthora')),
+      findsOneWidget,
+    );
+    for (final id in [19, 20, 21, 22, 108, 24]) {
+      await tester.scrollUntilVisible(
+        find.byKey(Key('practice-figure-$id')),
+        300,
+        scrollable: find.byType(Scrollable).first,
+      );
+      expect(find.byKey(Key('practice-figure-$id')), findsOneWidget);
+    }
+    expect(
+      find.bySemanticsLabel(RegExp('६० सें.मी., ३० सें.मी. खोल')),
+      findsOneWidget,
+      reason: 'the trench drawing reads its measures out',
+    );
+    expect(tester.takeException(), isNull);
+    await unmountApp(tester);
+  });
+
   test('labels fall back to English', () {
     const item = PracticeItem(
       id: 1,
