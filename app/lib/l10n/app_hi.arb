@@ -522,7 +522,7 @@
   "feedReplacedBy": "वापस लिया गया। इसकी जगह अब: {replacement}",
   "feedExpired": "{date} को समाप्त",
   "feedMayBeEligible": "आप पात्र हो सकते हैं क्योंकि {reason}",
-  "feedFooter": "कुछ भी करने से पहले आधिकारिक GR/पोर्टल देखें।",
+  "feedFooter": "कोई भी कदम उठाने से पहले आधिकारिक GR / पोर्टल देखें।",
   "feedDeadline": "आख़िरी तारीख़: {date}",
   "feedUpdated": "{date} को अपडेट",
   "feedEmpty": "फ़ोन ऑनलाइन होने पर संदेश आएँगे।",

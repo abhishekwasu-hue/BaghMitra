@@ -1835,7 +1835,8 @@ class AppLocalizationsMr extends AppLocalizations {
   }
 
   @override
-  String get feedFooter => 'काही करण्याआधी अधिकृत GR/पोर्टल तपासा.';
+  String get feedFooter =>
+      'कोणतीही कृती करण्यापूर्वी अधिकृत शासन निर्णय (GR) / पोर्टल तपासा.';
 
   @override
   String feedDeadline(String date) {

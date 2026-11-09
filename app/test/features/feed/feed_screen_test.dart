@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:bagmitra/app/providers.dart';
 import 'package:bagmitra/core/config.dart';
@@ -12,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../../architecture/ui_guidelines_test.dart' show contrast;
 import '../../helpers/pump_app.dart';
 import '../plots/plots_screen_test.dart' show settle;
 import 'feed_data_test.dart';
@@ -277,13 +279,20 @@ void main() {
     await pumpApp(tester, initialLocation: '/feed');
     await settle(tester);
     expect(find.text('सरकारी संदेश'), findsOneWidget);
-    expect(find.text('काही करण्याआधी अधिकृत GR/पोर्टल तपासा.'), findsOneWidget);
+    expect(
+      find.text(
+        'कोणतीही कृती करण्यापूर्वी अधिकृत शासन निर्णय (GR) / पोर्टल तपासा.',
+      ),
+      findsOneWidget,
+    );
     expect(find.textContaining('नमुना GR'), findsOneWidget);
     expect(find.textContaining('अधिकृत · GR क्र.'), findsWidgets);
     expect(
       find.textContaining('बातमी — अधिकृत स्रोतावर खात्री करा'),
       findsOneWidget,
     );
+    // The server's longer footer wording takes a second line; scroll to the withdrawn item.
+    await tester.scrollUntilVisible(find.textContaining('मागे घेतले'), 200);
     expect(find.textContaining('मागे घेतले'), findsOneWidget);
     expect(find.textContaining('तुम्ही पात्र असू शकता कारण'), findsWidgets);
     expect(find.text('शेवटच्या तारखा'), findsOneWidget);
@@ -322,5 +331,92 @@ void main() {
     expect(find.byType(FeedScreen), findsNothing);
     expect(find.byKey(const Key('open-feed')), findsNothing);
     await unmountApp(tester);
+  });
+
+  testWidgets('one footer line, even when the server words it differently '
+      '(owner screenshot 2026-11-09)', (tester) async {
+    await pumpApp(
+      tester,
+      initialLocation: '/feed',
+      seed: (db) => db.writeMeta(
+        FeedCache.keyFor('mr'),
+        jsonEncode({
+          'saved_at': '2026-10-12T06:00:00.000Z',
+          'page': {
+            ...sampleFeed,
+            'footer': 'कोणतीही कृती करण्यापूर्वी अधिकृत शासन निर्णय (GR) / पोर्टल तपासा.',
+          },
+        }),
+      ),
+      overrides: [
+        feedRepositoryProvider.overrideWithValue(FakeFeedRepository(null)),
+      ],
+    );
+    await settle(tester);
+    final footer = find.byKey(const Key('feed-footer'));
+    expect(
+      find.descendant(of: footer, matching: find.byType(Text)),
+      findsOneWidget,
+    );
+    expect(
+      find.descendant(
+        of: footer,
+        matching: find.text(
+          'कोणतीही कृती करण्यापूर्वी अधिकृत शासन निर्णय (GR) / पोर्टल तपासा.',
+        ),
+      ),
+      findsOneWidget,
+      reason:
+          "the server's own words win; the app's line is the offline fallback",
+    );
+    await unmountApp(tester);
+  });
+
+  for (final mode in [ThemeMode.light, ThemeMode.dark]) {
+    testWidgets('news and official badges are readable in ${mode.name} mode '
+        '(owner screenshot 2026-11-09: news badge text vanished in dark)', (
+      tester,
+    ) async {
+      await pumpApp(
+        tester,
+        locale: const Locale('en'),
+        themeMode: mode,
+        initialLocation: '/feed',
+        seed: seedFeed,
+        overrides: [
+          feedRepositoryProvider.overrideWithValue(FakeFeedRepository(null)),
+        ],
+      );
+      await settle(tester);
+      for (final id in ['news1', 'gr1']) {
+        final badge = find.byKey(Key('feed-badge-$id'));
+        final box = tester.widget<DecoratedBox>(badge);
+        final fill = (box.decoration as BoxDecoration).color!;
+        final text = tester.widget<Text>(
+          find.descendant(of: badge, matching: find.byType(Text)),
+        );
+        expect(
+          contrast(text.style!.color!, fill),
+          greaterThanOrEqualTo(4.5),
+          reason: '$id badge in ${mode.name} mode',
+        );
+      }
+      await unmountApp(tester);
+    });
+  }
+
+  test("the app's footer is word for word the server's (api feed/texts.py), "
+      'so the list never shows the same advice twice', () {
+    final texts = File('../api/src/bagmitra_api/feed/texts.py')
+        .readAsStringSync();
+    for (final lang in ['en', 'mr', 'hi']) {
+      final server = RegExp('"$lang": "([^"]+)"')
+          .firstMatch(texts.substring(texts.indexOf('FOOTER')))!
+          .group(1)!;
+      final arb = (jsonDecode(
+        File('lib/l10n/app_$lang.arb').readAsStringSync(),
+      ) as Map)['feedFooter'];
+      expect(arb, server, reason: lang);
+    }
   });
 }
