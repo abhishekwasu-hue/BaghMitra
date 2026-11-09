@@ -219,7 +219,8 @@ with the reasons (admin web, status filter "held"). The page text is never store
 |---|---|---|
 | `FEED_AI_DAILY_ITEMS` | 30 | Articles requested from the model per UTC day |
 | `FEED_AUTO_PUBLISH` | true | `false`: checked articles wait for a `feed_admin` approval |
-| `FEED_ARTICLE_MAX_TOKENS` | 8000 | Model output limit per article set |
+| `FEED_ARTICLE_MAX_TOKENS` | 16000 | Model output limit per article set (thinking included) |
+| `FEED_ARTICLE_TIMEOUT_SECONDS` | 300 | How long one article request may take |
 
 Log: `/var/log/bagmitra-feed-news.log` (second JSON line: published / held / drafted / retry).
 Set a monthly spend limit in the Anthropic console.

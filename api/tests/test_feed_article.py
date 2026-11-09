@@ -11,7 +11,7 @@ import httpx
 import pytest
 
 from bagmitra_api.core.settings import Settings
-from bagmitra_api.feed.ai import AnthropicFeedAi
+from bagmitra_api.feed.ai import AiUnavailableError, AnthropicFeedAi
 from bagmitra_api.feed.article import (
     ARTICLE_PROMPT,
     ArticleError,
@@ -199,3 +199,46 @@ async def test_the_writer_uses_the_article_prompt_and_the_strong_model() -> None
     assert URL in body["messages"][0]["content"]
     for rule in ("not_stated", "political", "Marathi", "pie"):
         assert rule in ARTICLE_PROMPT
+
+
+async def test_the_writer_asks_for_schema_valid_json() -> None:
+    """VPS run 2026-11-09: two articles came back as broken JSON ("Expecting ','"). The
+    request now uses structured outputs (output_config.format json_schema), allows 16000
+    tokens and a long timeout, and names a cut-off answer as such."""
+    seen: list[httpx.Request] = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        seen.append(request)
+        text = json.dumps(payload(), ensure_ascii=False)
+        return httpx.Response(200, json={"content": [{"type": "text", "text": text}]})
+
+    settings = Settings(environment="test", feed_ai_api_key="sk-test-not-real")
+    http = httpx.AsyncClient(transport=httpx.MockTransport(handler))
+    await AnthropicFeedAi(http, settings).write_article(SOURCE, source_url=URL)
+    body = json.loads(seen[0].content)
+    fmt = body["output_config"]["format"]
+    assert fmt["type"] == "json_schema"
+    schema = fmt["schema"]
+    assert schema["required"] == ["relevant", "political", "lang"]
+    article = schema["$defs"]["article"]
+    assert article["additionalProperties"] is False
+    assert set(article["required"]) == set(article["properties"])
+    chart = article["properties"]["charts"]["items"]
+    assert chart["properties"]["type"]["enum"] == ["bar", "pie"]
+    # Structured outputs reject numeric / length / array-size constraints: none are sent.
+    flat = json.dumps(schema)
+    for unsupported in ("minItems", "maxItems", "minLength", "maxLength", "minimum"):
+        assert unsupported not in flat
+    assert settings.feed_article_max_tokens == 16000
+    assert seen[0].extensions["timeout"]["read"] == settings.feed_article_timeout_seconds
+
+
+async def test_a_cut_off_answer_is_reported_as_such() -> None:
+    def handler(request: httpx.Request) -> httpx.Response:
+        content = [{"type": "text", "text": '{"relevant": true, "lang": {"mr": {"head'}]
+        return httpx.Response(200, json={"content": content, "stop_reason": "max_tokens"})
+
+    settings = Settings(environment="test", feed_ai_api_key="sk-test-not-real")
+    http = httpx.AsyncClient(transport=httpx.MockTransport(handler))
+    with pytest.raises(AiUnavailableError, match="max_tokens"):
+        await AnthropicFeedAi(http, settings).write_article(SOURCE, source_url=URL)
