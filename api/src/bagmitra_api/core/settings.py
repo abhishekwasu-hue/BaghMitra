@@ -100,6 +100,9 @@ class Settings(BaseSettings):
     # issued free on data.gov.in registration and stays out of git (OPEN_QUESTIONS Q26).
     market_api_base_url: str = "https://api.data.gov.in"
     market_resource_id: str = "9ef84268-d588-465a-a308-a864a43d0070"
+    # "Variety-wise Daily Market Prices" archive: read only by the one-off history backfill
+    # (market/backfill.py, OPEN_QUESTIONS Q130); same base URL and key.
+    market_archive_resource_id: str = "35985678-0d79-46b4-9ed6-6f13308a1d24"
     market_api_key: SecretStr = Field(default=SecretStr(""))
     # Empty = all India (owner, 2026-10-26: prices from all major mandis in the country).
     market_state: str = ""
