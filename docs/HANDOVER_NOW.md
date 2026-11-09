@@ -38,6 +38,11 @@ Reports to Abhi in plain Marathi. Never run anything on the VPS; give him ONE co
 - VPS (owner, ONE block): `cd /opt/bagmitra && bash deploy/deploy.sh && bash deploy/fetch_test_apk.sh; ls -l /srv/bagmitra-apk; curl -sI https://bagmitra.aialgodesk.org/app/test | head -3`.
 - Q123–Q125 answered yes and built (#295–#297). VPS deployed (Test APK 173 at `/app/test`). The release key is pinned by default; a repository variable `RELEASE_CERT_SHA256` overrides it only after a key change.
 
+## Government news and illustrated cards (2026-11-09)
+- AI articles: `docs/SPEC_feed_ai_articles_v1.6.md`; news cron every 6 h reads Mahasamvad (`mahasamvad_news`, allowed, Q129) and writes mr / hi / en articles with structured outputs; `FEED_AI_API_KEY` is set on the VPS (owner, checked `grep -c` = 1). Published only when every check passes (Q127); held items listed in the admin web (status `held`). PIB answers 403 to the VPS. Manual run: `docker compose -f deploy/docker-compose.yml exec -T api python -m bagmitra_api.feed.news_job` (log `/var/log/bagmitra-news-now.log` when started with nohup).
+- Release 1.0.3 (code 4) turns Sarkari Sandesh on; 1.0.4 adds every card drawing. GitHub releases flakiness on 2026-11-09 (sqlite3 hook hash, Gradle 504) needed reruns.
+- Cards: drawings in `app/lib/features/practices/presentation/practice_figure_view.dart` + `symptom_figures_{a,b,c}.dart`; every measure drawn must be in the practice text (test). Next: AI check of every card point against its source (Q128).
+
 ## Billing status (2026-11-08)
 - Done on main: migration 0037 (switch default OFF, start date, per-role amounts), Play price push + confirmed migrate, plans seeded on every API start (kb.seed), test fixes #245 (date) / #252 (flake).
 - Merged: server verify (0038), RTDN with OIDC (`PLAY_RTDN_AUDIENCE`, `PLAY_RTDN_PUSHER`), daily `billing.reconcile_job` (voided purchases + drift; cron once `PLAY_PACKAGE_NAME` is set), admin web "सदस्यता" page (role `billing_admin`), app `in_app_purchase` adapter (Billing Library 9.1.0, CI check ≥ 8), subscription page + price-increase notice + Manage subscription.
