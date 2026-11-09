@@ -6,6 +6,7 @@ import '../api/generated/bagmitra.swagger.dart' show V1MarketPricesGetScope;
 import '../core/net_failure.dart';
 import '../features/feed/data/feed_cache.dart';
 import '../features/market/data/market_prices_cache.dart';
+import '../features/market/data/price_history_cache.dart';
 import '../features/weather/data/plot_weather_cache.dart';
 import '../sync/account_guard.dart';
 import '../sync/sync_engine.dart';
@@ -116,6 +117,16 @@ class Refresher {
       () => cache.refreshOrFailure(crop, scope),
     );
     if (failure == null) _ref.invalidate(marketPricesProvider((crop, scope)));
+  }
+
+  Future<void> priceHistory(PriceSeriesKey key) async {
+    if (_demo) return;
+    final cache = _ref.read(priceHistoryCacheProvider);
+    final failure = await _board.run(
+      PriceHistoryCache.keyFor(key),
+      () => cache.refreshOrFailure(key),
+    );
+    if (failure == null) _ref.invalidate(priceHistoryProvider(key));
   }
 
   Future<void> feed(String lang) async {

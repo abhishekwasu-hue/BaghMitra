@@ -59,6 +59,7 @@ import '../features/labels/data/label_claims_cache.dart';
 import '../features/labels/data/label_targets.dart';
 import '../features/lookalikes/data/lookalike_cards.dart';
 import '../features/market/data/market_prices_cache.dart';
+import '../features/market/data/price_history_cache.dart';
 import '../features/market/domain/market_crops.dart';
 import '../features/market_link/data/lot_publisher.dart';
 import '../features/market_link/data/market_lot_repository.dart';
@@ -1110,6 +1111,28 @@ final marketPricesProvider =
         load: () => cache.load(crop, scope),
         savedAt: (c) => c.savedAt,
         fetch: () => cache.refreshOrFailure(crop, scope),
+        fetchAllowed: !ref.watch(appConfigProvider).demoMode,
+      );
+    });
+
+final priceHistoryCacheProvider = Provider<PriceHistoryCache>(
+  (ref) => PriceHistoryCache(
+    ref.watch(databaseProvider),
+    api: ref.watch(apiProvider),
+    clock: ref.watch(clockProvider),
+  ),
+);
+
+/// One mandi's last 90 days for the trend chart (Q130), cache first like the prices list.
+final priceHistoryProvider =
+    FutureProvider.family<CachedPriceHistory?, PriceSeriesKey>((ref, key) {
+      final cache = ref.watch(priceHistoryCacheProvider);
+      return cacheFirst(
+        ref,
+        key: PriceHistoryCache.keyFor(key),
+        load: () => cache.load(key),
+        savedAt: (c) => c.savedAt,
+        fetch: () => cache.refreshOrFailure(key),
         fetchAllowed: !ref.watch(appConfigProvider).demoMode,
       );
     });

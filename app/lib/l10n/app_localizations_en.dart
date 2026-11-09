@@ -1535,6 +1535,53 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get marketTrendOpen => 'Price trend';
+
+  @override
+  String marketTrendTitle(String market) {
+    return 'Price trend: $market';
+  }
+
+  @override
+  String get marketTrendRange15 => '15 days';
+
+  @override
+  String get marketTrendRange30 => '1 month';
+
+  @override
+  String get marketTrendRange90 => '3 months';
+
+  @override
+  String get marketTrendHigh => 'Highest';
+
+  @override
+  String get marketTrendLow => 'Lowest';
+
+  @override
+  String get marketTrendChange15 => 'Since 15 days';
+
+  @override
+  String get marketTrendChange30 => 'Since 1 month';
+
+  @override
+  String get marketTrendHint =>
+      'Slide a finger on the chart to see each day’s price.';
+
+  @override
+  String get marketTrendCollecting =>
+      'Prices are saved every day; the chart fills in day by day.';
+
+  @override
+  String marketTrendSemantics(
+    String range,
+    String high,
+    String low,
+    String latest,
+  ) {
+    return 'Price trend, $range: highest $high, lowest $low, latest $latest per quintal';
+  }
+
+  @override
   String marketStale(String reason) {
     String _temp0 = intl.Intl.selectLogic(reason, {
       'source_not_configured': 'Mandi prices are coming soon.',

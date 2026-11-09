@@ -2716,6 +2716,83 @@ abstract class AppLocalizations {
   /// **'Updated {date}'**
   String marketUpdated(String date);
 
+  /// No description provided for @marketTrendOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Price trend'**
+  String get marketTrendOpen;
+
+  /// No description provided for @marketTrendTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Price trend: {market}'**
+  String marketTrendTitle(String market);
+
+  /// No description provided for @marketTrendRange15.
+  ///
+  /// In en, this message translates to:
+  /// **'15 days'**
+  String get marketTrendRange15;
+
+  /// No description provided for @marketTrendRange30.
+  ///
+  /// In en, this message translates to:
+  /// **'1 month'**
+  String get marketTrendRange30;
+
+  /// No description provided for @marketTrendRange90.
+  ///
+  /// In en, this message translates to:
+  /// **'3 months'**
+  String get marketTrendRange90;
+
+  /// No description provided for @marketTrendHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'Highest'**
+  String get marketTrendHigh;
+
+  /// No description provided for @marketTrendLow.
+  ///
+  /// In en, this message translates to:
+  /// **'Lowest'**
+  String get marketTrendLow;
+
+  /// No description provided for @marketTrendChange15.
+  ///
+  /// In en, this message translates to:
+  /// **'Since 15 days'**
+  String get marketTrendChange15;
+
+  /// No description provided for @marketTrendChange30.
+  ///
+  /// In en, this message translates to:
+  /// **'Since 1 month'**
+  String get marketTrendChange30;
+
+  /// No description provided for @marketTrendHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Slide a finger on the chart to see each day’s price.'**
+  String get marketTrendHint;
+
+  /// No description provided for @marketTrendCollecting.
+  ///
+  /// In en, this message translates to:
+  /// **'Prices are saved every day; the chart fills in day by day.'**
+  String get marketTrendCollecting;
+
+  /// No description provided for @marketTrendSemantics.
+  ///
+  /// In en, this message translates to:
+  /// **'Price trend, {range}: highest {high}, lowest {low}, latest {latest} per quintal'**
+  String marketTrendSemantics(
+    String range,
+    String high,
+    String low,
+    String latest,
+  );
+
   /// No description provided for @marketStale.
   ///
   /// In en, this message translates to:
