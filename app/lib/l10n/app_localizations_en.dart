@@ -2891,6 +2891,74 @@ class AppLocalizationsEn extends AppLocalizations {
   String get practicesWhen => 'When it comes';
 
   @override
+  String get figureGum => 'Gum oozes';
+
+  @override
+  String get figureWetPatches => 'Water-soaked patches';
+
+  @override
+  String get figureBarkPeels => 'Bark peels in vertical strips';
+
+  @override
+  String get figureYellowLeaves => 'Yellow leaves';
+
+  @override
+  String figureWidthCm(String cm) {
+    return '$cm cm';
+  }
+
+  @override
+  String figureDepthCm(String cm) {
+    return '$cm cm deep';
+  }
+
+  @override
+  String get figureDrainsAway => 'Water drains away from the trees';
+
+  @override
+  String get figureDry => 'Dry';
+
+  @override
+  String get figureWaterHere => 'Water here';
+
+  @override
+  String get figureTopView => 'Seen from above';
+
+  @override
+  String get figureDeadPart => 'Dried part';
+
+  @override
+  String get figureCutHere => 'Cut here';
+
+  @override
+  String figureHealthyCm(String cm) {
+    return 'with $cm cm of healthy wood';
+  }
+
+  @override
+  String figureSunDays(String from, String to) {
+    return '$from–$to days of sun';
+  }
+
+  @override
+  String get figureCutRotten => 'Cut out rotten roots';
+
+  @override
+  String get figureWithBand => 'Remove with a healthy strip';
+
+  @override
+  String get figureDiseasedBark => 'Diseased bark';
+
+  @override
+  String get figureRains => 'Monsoon';
+
+  @override
+  String get figureBeforeRains => 'Before the monsoon';
+
+  @override
+  String get figureAfterRains => 'After the monsoon';
+
+  @override
   String get practicesScout => 'How to scout';
 
   @override
