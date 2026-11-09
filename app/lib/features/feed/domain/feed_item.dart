@@ -1,5 +1,6 @@
 import '../../bahar/domain/bahar_cycle.dart';
 import '../../tasks/domain/farm_task.dart';
+import 'feed_article.dart';
 
 /// One entry of the Sarkari Sandesh feed (`GET /v1/feed`): a government GR, circular, scheme
 /// or alert ([trust] official), or a news report ([trust] news, never presented as official).
@@ -20,6 +21,7 @@ class FeedItem {
     this.replacedBy,
     this.mayBeEligibleBecause = const [],
     this.seen = false,
+    this.article,
   });
 
   factory FeedItem.fromJson(Map<String, Object?> j) => FeedItem(
@@ -44,6 +46,7 @@ class FeedItem {
         r as String,
     ],
     seen: (j['seen'] as bool?) ?? false,
+    article: FeedArticle.tryParse(j['article']),
   );
 
   final String id;
@@ -69,6 +72,9 @@ class FeedItem {
 
   /// The server's record that this grower already opened the item.
   final bool seen;
+
+  /// The AI article from the official source (spec v1.6); null for older items.
+  final FeedArticle? article;
 
   bool get isOfficial => trust == 'official';
 
@@ -97,6 +103,7 @@ class FeedItem {
     'summary': summary,
     'department': department,
     'level': level,
+    'article': article?.toJson(),
     'gr_number': grNumber,
     'published_at': publishedAt.toUtc().toIso8601String(),
     'url': url,
