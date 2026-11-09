@@ -107,11 +107,18 @@ class PracticeProfile {
 enum PracticeFigureKind {
   gummosisTrunk,
   drainageTrench, // values: width cm, depth cm
-  doubleRing,
+  doubleRing, // values: none, or inner ring cm
   pruneCut, // values: healthy wood cm
   rootSun, // values: days from, days to
   barkStrip,
   twiceYearly,
+  stickyTrap, // values: height above ground m
+  budHeight, // values: cm from, cm to
+  trunkBand, // values: band width cm
+  lureTrap, // values: renew every days from, days to
+  shadySide,
+  openCanopy,
+  manureRing,
 }
 
 class PracticeFigure {

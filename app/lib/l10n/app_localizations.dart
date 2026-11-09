@@ -5146,6 +5146,96 @@ abstract class AppLocalizations {
   /// **'After the monsoon'**
   String get figureAfterRains;
 
+  /// No description provided for @figureInnerRingCm.
+  ///
+  /// In en, this message translates to:
+  /// **'Inner ring {cm} cm'**
+  String figureInnerRingCm(String cm);
+
+  /// No description provided for @figureYellowTrap.
+  ///
+  /// In en, this message translates to:
+  /// **'Yellow sticky trap'**
+  String get figureYellowTrap;
+
+  /// No description provided for @figureHeightM.
+  ///
+  /// In en, this message translates to:
+  /// **'{m} m above ground'**
+  String figureHeightM(String m);
+
+  /// No description provided for @figureBudUnion.
+  ///
+  /// In en, this message translates to:
+  /// **'Bud union'**
+  String get figureBudUnion;
+
+  /// No description provided for @figureHeightRangeCm.
+  ///
+  /// In en, this message translates to:
+  /// **'{from}–{to} cm above ground'**
+  String figureHeightRangeCm(String from, String to);
+
+  /// No description provided for @figureStickyBand.
+  ///
+  /// In en, this message translates to:
+  /// **'Sticky band {cm} cm wide'**
+  String figureStickyBand(String cm);
+
+  /// No description provided for @figureAntsStopHere.
+  ///
+  /// In en, this message translates to:
+  /// **'Ants and crawlers stop here'**
+  String get figureAntsStopHere;
+
+  /// No description provided for @figureLureTrap.
+  ///
+  /// In en, this message translates to:
+  /// **'Lure trap'**
+  String get figureLureTrap;
+
+  /// No description provided for @figureRenewDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Renew the lure every {from}–{to} days'**
+  String figureRenewDays(String from, String to);
+
+  /// No description provided for @figureShadyFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Shady side: look here first'**
+  String get figureShadyFirst;
+
+  /// No description provided for @figureSunnySide.
+  ///
+  /// In en, this message translates to:
+  /// **'Sunny side'**
+  String get figureSunnySide;
+
+  /// No description provided for @figureOpenCentre.
+  ///
+  /// In en, this message translates to:
+  /// **'Open centre: air flows'**
+  String get figureOpenCentre;
+
+  /// No description provided for @figureCutCrowded.
+  ///
+  /// In en, this message translates to:
+  /// **'Cut crowded shoots'**
+  String get figureCutCrowded;
+
+  /// No description provided for @figureRootZone.
+  ///
+  /// In en, this message translates to:
+  /// **'Active root zone'**
+  String get figureRootZone;
+
+  /// No description provided for @figureManureHere.
+  ///
+  /// In en, this message translates to:
+  /// **'Manure here, cover with soil'**
+  String get figureManureHere;
+
   /// No description provided for @practicesScout.
   ///
   /// In en, this message translates to:

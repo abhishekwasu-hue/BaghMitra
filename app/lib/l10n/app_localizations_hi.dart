@@ -2956,6 +2956,61 @@ class AppLocalizationsHi extends AppLocalizations {
   String get figureAfterRains => 'बरसात के बाद';
 
   @override
+  String figureInnerRingCm(String cm) {
+    return 'भीतरी घेरा $cm सें.मी.';
+  }
+
+  @override
+  String get figureYellowTrap => 'पीला चिपचिपा ट्रैप';
+
+  @override
+  String figureHeightM(String m) {
+    return 'ज़मीन से $m मी.';
+  }
+
+  @override
+  String get figureBudUnion => 'आँख का जोड़';
+
+  @override
+  String figureHeightRangeCm(String from, String to) {
+    return 'ज़मीन से $from–$to सें.मी.';
+  }
+
+  @override
+  String figureStickyBand(String cm) {
+    return '$cm सें.मी. चौड़ी चिपचिपी पट्टी';
+  }
+
+  @override
+  String get figureAntsStopHere => 'चींटियाँ और शिशु यहाँ रुकते हैं';
+
+  @override
+  String get figureLureTrap => 'ल्यूर ट्रैप';
+
+  @override
+  String figureRenewDays(String from, String to) {
+    return 'ल्यूर हर $from–$to दिन में बदलें';
+  }
+
+  @override
+  String get figureShadyFirst => 'छायादार तरफ़: पहले यहाँ देखें';
+
+  @override
+  String get figureSunnySide => 'धूप की तरफ़';
+
+  @override
+  String get figureOpenCentre => 'बीच खुला: हवा चलती है';
+
+  @override
+  String get figureCutCrowded => 'घनी टहनियाँ काटें';
+
+  @override
+  String get figureRootZone => 'सक्रिय जड़ क्षेत्र';
+
+  @override
+  String get figureManureHere => 'खाद यहाँ, मिट्टी से ढकें';
+
+  @override
   String get practicesScout => 'निगरानी कैसे करें';
 
   @override
