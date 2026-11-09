@@ -13,6 +13,7 @@ from __future__ import annotations
 import asyncio
 import json
 from dataclasses import asdict, dataclass, field
+from datetime import UTC, datetime
 
 import httpx
 from sqlalchemy import select
@@ -20,9 +21,11 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from bagmitra_api.core.settings import get_settings
 from bagmitra_api.db.session import get_sessionmaker
+from bagmitra_api.feed.ai import AnthropicFeedAi
 from bagmitra_api.feed.gr_portal import FetchOutcome
 from bagmitra_api.feed.models import FeedSource
 from bagmitra_api.feed.news import NewsFeedAdapter, fetch_news_source
+from bagmitra_api.feed.news_articles import write_news_articles
 from bagmitra_api.feed.seed import seed_feed_sources
 
 
@@ -61,10 +64,19 @@ async def main() -> int:  # pragma: no cover - thin CLI wrapper
             min_interval=settings.feed_fetch_min_interval_seconds,
             timeout=settings.feed_fetch_timeout_seconds,
         )
+        # Spec v1.6: the AI writes (and, when checks pass, publishes) the new headlines.
+        writer = (
+            AnthropicFeedAi(http, settings) if settings.feed_ai_api_key.get_secret_value() else None
+        )
         async with get_sessionmaker()() as session:
             summary = await run_news(session, adapter)
             await session.commit()
+            articles = await write_news_articles(
+                session, adapter, writer, settings, datetime.now(UTC)
+            )
+            await session.commit()
     print(summary.to_json())
+    print(json.dumps(asdict(articles)))
     return 0
 
 

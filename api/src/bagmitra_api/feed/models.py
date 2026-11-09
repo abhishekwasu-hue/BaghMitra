@@ -30,7 +30,7 @@ from sqlalchemy.orm import Mapped, mapped_column
 from bagmitra_api.db.base import Base, TimestampMixin, utcnow
 
 ITEM_TYPES = ("gr", "circular", "scheme", "alert", "news")
-ITEM_STATUSES = ("draft", "in_review", "published", "withdrawn")
+ITEM_STATUSES = ("draft", "in_review", "published", "withdrawn", "held")
 LANGS = ("en", "mr", "hi")
 # feed_deadlines.kind, derived on publish: deadline -> apply_by, valid_from -> window_open,
 # valid_to -> window_close, payment_date -> payment.
@@ -110,6 +110,8 @@ class FeedItemI18n(TimestampMixin, Base):
     lang: Mapped[str] = mapped_column(String(2))
     title: Mapped[str] = mapped_column(String(500))
     summary: Mapped[str | None] = mapped_column(Text)
+    # Spec v1.6: the AI article (headline, sections, facts, charts, ...) in this language.
+    article: Mapped[dict[str, Any] | None] = mapped_column(JSON)
 
 
 class FeedSchemeCard(TimestampMixin, Base):

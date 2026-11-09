@@ -44,6 +44,51 @@ FeedLang = Literal["en", "mr", "hi"]
 FeedFilter = Literal["official", "scheme", "deadline", "news"]
 
 
+class ArticleSectionOut(BaseModel):
+    heading: str
+    body: str
+
+
+class ArticleFactOut(BaseModel):
+    label: str
+    value: str
+
+
+class ArticleChartPointOut(BaseModel):
+    label: str
+    value: float
+
+
+class ArticleChartOut(BaseModel):
+    type: str  # "bar" | "pie"
+    title: str
+    unit: str
+    data: list[ArticleChartPointOut]
+
+
+class ArticleDateOut(BaseModel):
+    date: date
+    label: str
+
+
+class ArticleSourceOut(BaseModel):
+    title: str
+    url: str
+
+
+class ArticleOut(BaseModel):
+    """Spec v1.6: the AI article from the official source, in the asked language."""
+
+    headline: str
+    standfirst: str
+    key_points: list[str]
+    sections: list[ArticleSectionOut]
+    facts: list[ArticleFactOut]
+    charts: list[ArticleChartOut]
+    key_dates: list[ArticleDateOut]
+    sources: list[ArticleSourceOut]
+
+
 class FeedItemOut(BaseModel):
     id: uuid.UUID
     type: str
@@ -65,6 +110,8 @@ class FeedItemOut(BaseModel):
     # Who issued it: "central" (Government of India) or "state" (Maharashtra), from the source;
     # None if unknown. Plain str in the contract (the app generator has no nullable enums).
     level: str | None = None  # "central" or "state" only
+    # The AI article (spec v1.6); None for items without one.
+    article: ArticleOut | None = None
 
 
 class FeedResponse(BaseModel):
@@ -183,6 +230,7 @@ async def feed(  # noqa: PLR0913 - query parameters and dependencies
                 may_be_eligible_because=eligibility_reasons(targets[item.id], profile, lang),
                 seen=item.id in seen,
                 level=levels.get(item.source_id),
+                article=ArticleOut.model_validate(text.article) if text.article else None,
             )
         )
         if len(items) >= settings.feed_page_size:

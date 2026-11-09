@@ -1831,6 +1831,519 @@ extension $AppealInExtension on AppealIn {
 }
 
 @JsonSerializable(explicitToJson: true)
+class ArticleChartOut {
+  const ArticleChartOut({
+    required this.data,
+    required this.title,
+    required this.type,
+    required this.unit,
+  });
+
+  factory ArticleChartOut.fromJson(Map<String, dynamic> json) =>
+      _$ArticleChartOutFromJson(json);
+
+  static const toJsonFactory = _$ArticleChartOutToJson;
+  Map<String, dynamic> toJson() => _$ArticleChartOutToJson(this);
+
+  @JsonKey(
+    name: 'data',
+    includeIfNull: false,
+    defaultValue: <ArticleChartPointOut>[],
+  )
+  final List<ArticleChartPointOut> data;
+  @JsonKey(name: 'title', includeIfNull: false)
+  final String title;
+  @JsonKey(name: 'type', includeIfNull: false)
+  final String type;
+  @JsonKey(name: 'unit', includeIfNull: false)
+  final String unit;
+  static const fromJsonFactory = _$ArticleChartOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is ArticleChartOut &&
+            (identical(other.data, data) ||
+                const DeepCollectionEquality().equals(other.data, data)) &&
+            (identical(other.title, title) ||
+                const DeepCollectionEquality().equals(other.title, title)) &&
+            (identical(other.type, type) ||
+                const DeepCollectionEquality().equals(other.type, type)) &&
+            (identical(other.unit, unit) ||
+                const DeepCollectionEquality().equals(other.unit, unit)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(data) ^
+      const DeepCollectionEquality().hash(title) ^
+      const DeepCollectionEquality().hash(type) ^
+      const DeepCollectionEquality().hash(unit) ^
+      runtimeType.hashCode;
+}
+
+extension $ArticleChartOutExtension on ArticleChartOut {
+  ArticleChartOut copyWith({
+    List<ArticleChartPointOut>? data,
+    String? title,
+    String? type,
+    String? unit,
+  }) {
+    return ArticleChartOut(
+      data: data ?? this.data,
+      title: title ?? this.title,
+      type: type ?? this.type,
+      unit: unit ?? this.unit,
+    );
+  }
+
+  ArticleChartOut copyWithWrapped({
+    Wrapped<List<ArticleChartPointOut>>? data,
+    Wrapped<String>? title,
+    Wrapped<String>? type,
+    Wrapped<String>? unit,
+  }) {
+    return ArticleChartOut(
+      data: (data != null ? data.value : this.data),
+      title: (title != null ? title.value : this.title),
+      type: (type != null ? type.value : this.type),
+      unit: (unit != null ? unit.value : this.unit),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ArticleChartPointOut {
+  const ArticleChartPointOut({required this.label, required this.value});
+
+  factory ArticleChartPointOut.fromJson(Map<String, dynamic> json) =>
+      _$ArticleChartPointOutFromJson(json);
+
+  static const toJsonFactory = _$ArticleChartPointOutToJson;
+  Map<String, dynamic> toJson() => _$ArticleChartPointOutToJson(this);
+
+  @JsonKey(name: 'label', includeIfNull: false)
+  final String label;
+  @JsonKey(name: 'value', includeIfNull: false)
+  final double value;
+  static const fromJsonFactory = _$ArticleChartPointOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is ArticleChartPointOut &&
+            (identical(other.label, label) ||
+                const DeepCollectionEquality().equals(other.label, label)) &&
+            (identical(other.value, value) ||
+                const DeepCollectionEquality().equals(other.value, value)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(label) ^
+      const DeepCollectionEquality().hash(value) ^
+      runtimeType.hashCode;
+}
+
+extension $ArticleChartPointOutExtension on ArticleChartPointOut {
+  ArticleChartPointOut copyWith({String? label, double? value}) {
+    return ArticleChartPointOut(
+      label: label ?? this.label,
+      value: value ?? this.value,
+    );
+  }
+
+  ArticleChartPointOut copyWithWrapped({
+    Wrapped<String>? label,
+    Wrapped<double>? value,
+  }) {
+    return ArticleChartPointOut(
+      label: (label != null ? label.value : this.label),
+      value: (value != null ? value.value : this.value),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ArticleDateOut {
+  const ArticleDateOut({required this.date, required this.label});
+
+  factory ArticleDateOut.fromJson(Map<String, dynamic> json) =>
+      _$ArticleDateOutFromJson(json);
+
+  static const toJsonFactory = _$ArticleDateOutToJson;
+  Map<String, dynamic> toJson() => _$ArticleDateOutToJson(this);
+
+  @JsonKey(name: 'date', includeIfNull: false, toJson: _dateToJson)
+  final DateTime date;
+  @JsonKey(name: 'label', includeIfNull: false)
+  final String label;
+  static const fromJsonFactory = _$ArticleDateOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is ArticleDateOut &&
+            (identical(other.date, date) ||
+                const DeepCollectionEquality().equals(other.date, date)) &&
+            (identical(other.label, label) ||
+                const DeepCollectionEquality().equals(other.label, label)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(date) ^
+      const DeepCollectionEquality().hash(label) ^
+      runtimeType.hashCode;
+}
+
+extension $ArticleDateOutExtension on ArticleDateOut {
+  ArticleDateOut copyWith({DateTime? date, String? label}) {
+    return ArticleDateOut(date: date ?? this.date, label: label ?? this.label);
+  }
+
+  ArticleDateOut copyWithWrapped({
+    Wrapped<DateTime>? date,
+    Wrapped<String>? label,
+  }) {
+    return ArticleDateOut(
+      date: (date != null ? date.value : this.date),
+      label: (label != null ? label.value : this.label),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ArticleFactOut {
+  const ArticleFactOut({required this.label, required this.value});
+
+  factory ArticleFactOut.fromJson(Map<String, dynamic> json) =>
+      _$ArticleFactOutFromJson(json);
+
+  static const toJsonFactory = _$ArticleFactOutToJson;
+  Map<String, dynamic> toJson() => _$ArticleFactOutToJson(this);
+
+  @JsonKey(name: 'label', includeIfNull: false)
+  final String label;
+  @JsonKey(name: 'value', includeIfNull: false)
+  final String value;
+  static const fromJsonFactory = _$ArticleFactOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is ArticleFactOut &&
+            (identical(other.label, label) ||
+                const DeepCollectionEquality().equals(other.label, label)) &&
+            (identical(other.value, value) ||
+                const DeepCollectionEquality().equals(other.value, value)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(label) ^
+      const DeepCollectionEquality().hash(value) ^
+      runtimeType.hashCode;
+}
+
+extension $ArticleFactOutExtension on ArticleFactOut {
+  ArticleFactOut copyWith({String? label, String? value}) {
+    return ArticleFactOut(
+      label: label ?? this.label,
+      value: value ?? this.value,
+    );
+  }
+
+  ArticleFactOut copyWithWrapped({
+    Wrapped<String>? label,
+    Wrapped<String>? value,
+  }) {
+    return ArticleFactOut(
+      label: (label != null ? label.value : this.label),
+      value: (value != null ? value.value : this.value),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ArticleOut {
+  const ArticleOut({
+    required this.charts,
+    required this.facts,
+    required this.headline,
+    required this.keyDates,
+    required this.keyPoints,
+    required this.sections,
+    required this.sources,
+    required this.standfirst,
+  });
+
+  factory ArticleOut.fromJson(Map<String, dynamic> json) =>
+      _$ArticleOutFromJson(json);
+
+  static const toJsonFactory = _$ArticleOutToJson;
+  Map<String, dynamic> toJson() => _$ArticleOutToJson(this);
+
+  @JsonKey(
+    name: 'charts',
+    includeIfNull: false,
+    defaultValue: <ArticleChartOut>[],
+  )
+  final List<ArticleChartOut> charts;
+  @JsonKey(
+    name: 'facts',
+    includeIfNull: false,
+    defaultValue: <ArticleFactOut>[],
+  )
+  final List<ArticleFactOut> facts;
+  @JsonKey(name: 'headline', includeIfNull: false)
+  final String headline;
+  @JsonKey(
+    name: 'key_dates',
+    includeIfNull: false,
+    defaultValue: <ArticleDateOut>[],
+  )
+  final List<ArticleDateOut> keyDates;
+  @JsonKey(name: 'key_points', includeIfNull: false, defaultValue: <String>[])
+  final List<String> keyPoints;
+  @JsonKey(
+    name: 'sections',
+    includeIfNull: false,
+    defaultValue: <ArticleSectionOut>[],
+  )
+  final List<ArticleSectionOut> sections;
+  @JsonKey(
+    name: 'sources',
+    includeIfNull: false,
+    defaultValue: <ArticleSourceOut>[],
+  )
+  final List<ArticleSourceOut> sources;
+  @JsonKey(name: 'standfirst', includeIfNull: false)
+  final String standfirst;
+  static const fromJsonFactory = _$ArticleOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is ArticleOut &&
+            (identical(other.charts, charts) ||
+                const DeepCollectionEquality().equals(other.charts, charts)) &&
+            (identical(other.facts, facts) ||
+                const DeepCollectionEquality().equals(other.facts, facts)) &&
+            (identical(other.headline, headline) ||
+                const DeepCollectionEquality().equals(
+                  other.headline,
+                  headline,
+                )) &&
+            (identical(other.keyDates, keyDates) ||
+                const DeepCollectionEquality().equals(
+                  other.keyDates,
+                  keyDates,
+                )) &&
+            (identical(other.keyPoints, keyPoints) ||
+                const DeepCollectionEquality().equals(
+                  other.keyPoints,
+                  keyPoints,
+                )) &&
+            (identical(other.sections, sections) ||
+                const DeepCollectionEquality().equals(
+                  other.sections,
+                  sections,
+                )) &&
+            (identical(other.sources, sources) ||
+                const DeepCollectionEquality().equals(
+                  other.sources,
+                  sources,
+                )) &&
+            (identical(other.standfirst, standfirst) ||
+                const DeepCollectionEquality().equals(
+                  other.standfirst,
+                  standfirst,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(charts) ^
+      const DeepCollectionEquality().hash(facts) ^
+      const DeepCollectionEquality().hash(headline) ^
+      const DeepCollectionEquality().hash(keyDates) ^
+      const DeepCollectionEquality().hash(keyPoints) ^
+      const DeepCollectionEquality().hash(sections) ^
+      const DeepCollectionEquality().hash(sources) ^
+      const DeepCollectionEquality().hash(standfirst) ^
+      runtimeType.hashCode;
+}
+
+extension $ArticleOutExtension on ArticleOut {
+  ArticleOut copyWith({
+    List<ArticleChartOut>? charts,
+    List<ArticleFactOut>? facts,
+    String? headline,
+    List<ArticleDateOut>? keyDates,
+    List<String>? keyPoints,
+    List<ArticleSectionOut>? sections,
+    List<ArticleSourceOut>? sources,
+    String? standfirst,
+  }) {
+    return ArticleOut(
+      charts: charts ?? this.charts,
+      facts: facts ?? this.facts,
+      headline: headline ?? this.headline,
+      keyDates: keyDates ?? this.keyDates,
+      keyPoints: keyPoints ?? this.keyPoints,
+      sections: sections ?? this.sections,
+      sources: sources ?? this.sources,
+      standfirst: standfirst ?? this.standfirst,
+    );
+  }
+
+  ArticleOut copyWithWrapped({
+    Wrapped<List<ArticleChartOut>>? charts,
+    Wrapped<List<ArticleFactOut>>? facts,
+    Wrapped<String>? headline,
+    Wrapped<List<ArticleDateOut>>? keyDates,
+    Wrapped<List<String>>? keyPoints,
+    Wrapped<List<ArticleSectionOut>>? sections,
+    Wrapped<List<ArticleSourceOut>>? sources,
+    Wrapped<String>? standfirst,
+  }) {
+    return ArticleOut(
+      charts: (charts != null ? charts.value : this.charts),
+      facts: (facts != null ? facts.value : this.facts),
+      headline: (headline != null ? headline.value : this.headline),
+      keyDates: (keyDates != null ? keyDates.value : this.keyDates),
+      keyPoints: (keyPoints != null ? keyPoints.value : this.keyPoints),
+      sections: (sections != null ? sections.value : this.sections),
+      sources: (sources != null ? sources.value : this.sources),
+      standfirst: (standfirst != null ? standfirst.value : this.standfirst),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ArticleSectionOut {
+  const ArticleSectionOut({required this.body, required this.heading});
+
+  factory ArticleSectionOut.fromJson(Map<String, dynamic> json) =>
+      _$ArticleSectionOutFromJson(json);
+
+  static const toJsonFactory = _$ArticleSectionOutToJson;
+  Map<String, dynamic> toJson() => _$ArticleSectionOutToJson(this);
+
+  @JsonKey(name: 'body', includeIfNull: false)
+  final String body;
+  @JsonKey(name: 'heading', includeIfNull: false)
+  final String heading;
+  static const fromJsonFactory = _$ArticleSectionOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is ArticleSectionOut &&
+            (identical(other.body, body) ||
+                const DeepCollectionEquality().equals(other.body, body)) &&
+            (identical(other.heading, heading) ||
+                const DeepCollectionEquality().equals(other.heading, heading)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(body) ^
+      const DeepCollectionEquality().hash(heading) ^
+      runtimeType.hashCode;
+}
+
+extension $ArticleSectionOutExtension on ArticleSectionOut {
+  ArticleSectionOut copyWith({String? body, String? heading}) {
+    return ArticleSectionOut(
+      body: body ?? this.body,
+      heading: heading ?? this.heading,
+    );
+  }
+
+  ArticleSectionOut copyWithWrapped({
+    Wrapped<String>? body,
+    Wrapped<String>? heading,
+  }) {
+    return ArticleSectionOut(
+      body: (body != null ? body.value : this.body),
+      heading: (heading != null ? heading.value : this.heading),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ArticleSourceOut {
+  const ArticleSourceOut({required this.title, required this.url});
+
+  factory ArticleSourceOut.fromJson(Map<String, dynamic> json) =>
+      _$ArticleSourceOutFromJson(json);
+
+  static const toJsonFactory = _$ArticleSourceOutToJson;
+  Map<String, dynamic> toJson() => _$ArticleSourceOutToJson(this);
+
+  @JsonKey(name: 'title', includeIfNull: false)
+  final String title;
+  @JsonKey(name: 'url', includeIfNull: false)
+  final String url;
+  static const fromJsonFactory = _$ArticleSourceOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is ArticleSourceOut &&
+            (identical(other.title, title) ||
+                const DeepCollectionEquality().equals(other.title, title)) &&
+            (identical(other.url, url) ||
+                const DeepCollectionEquality().equals(other.url, url)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(title) ^
+      const DeepCollectionEquality().hash(url) ^
+      runtimeType.hashCode;
+}
+
+extension $ArticleSourceOutExtension on ArticleSourceOut {
+  ArticleSourceOut copyWith({String? title, String? url}) {
+    return ArticleSourceOut(title: title ?? this.title, url: url ?? this.url);
+  }
+
+  ArticleSourceOut copyWithWrapped({
+    Wrapped<String>? title,
+    Wrapped<String>? url,
+  }) {
+    return ArticleSourceOut(
+      title: (title != null ? title.value : this.title),
+      url: (url != null ? url.value : this.url),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class BadgeOut {
   const BadgeOut({
     required this.kind,
@@ -6768,6 +7281,7 @@ extension $FeedCheckResponseExtension on FeedCheckResponse {
 @JsonSerializable(explicitToJson: true)
 class FeedItemOut {
   const FeedItemOut({
+    this.article,
     this.dateIsFirstSeen,
     required this.deadline,
     required this.department,
@@ -6792,6 +7306,8 @@ class FeedItemOut {
   static const toJsonFactory = _$FeedItemOutToJson;
   Map<String, dynamic> toJson() => _$FeedItemOutToJson(this);
 
+  @JsonKey(name: 'article', includeIfNull: false)
+  final ArticleOut? article;
   @JsonKey(
     name: 'date_is_first_seen',
     includeIfNull: false,
@@ -6843,6 +7359,11 @@ class FeedItemOut {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other is FeedItemOut &&
+            (identical(other.article, article) ||
+                const DeepCollectionEquality().equals(
+                  other.article,
+                  article,
+                )) &&
             (identical(other.dateIsFirstSeen, dateIsFirstSeen) ||
                 const DeepCollectionEquality().equals(
                   other.dateIsFirstSeen,
@@ -6906,6 +7427,7 @@ class FeedItemOut {
 
   @override
   int get hashCode =>
+      const DeepCollectionEquality().hash(article) ^
       const DeepCollectionEquality().hash(dateIsFirstSeen) ^
       const DeepCollectionEquality().hash(deadline) ^
       const DeepCollectionEquality().hash(department) ^
@@ -6927,6 +7449,7 @@ class FeedItemOut {
 
 extension $FeedItemOutExtension on FeedItemOut {
   FeedItemOut copyWith({
+    ArticleOut? article,
     bool? dateIsFirstSeen,
     DateTime? deadline,
     String? department,
@@ -6945,6 +7468,7 @@ extension $FeedItemOutExtension on FeedItemOut {
     DateTime? validTo,
   }) {
     return FeedItemOut(
+      article: article ?? this.article,
       dateIsFirstSeen: dateIsFirstSeen ?? this.dateIsFirstSeen,
       deadline: deadline ?? this.deadline,
       department: department ?? this.department,
@@ -6965,6 +7489,7 @@ extension $FeedItemOutExtension on FeedItemOut {
   }
 
   FeedItemOut copyWithWrapped({
+    Wrapped<ArticleOut?>? article,
     Wrapped<bool?>? dateIsFirstSeen,
     Wrapped<DateTime?>? deadline,
     Wrapped<String?>? department,
@@ -6983,6 +7508,7 @@ extension $FeedItemOutExtension on FeedItemOut {
     Wrapped<DateTime?>? validTo,
   }) {
     return FeedItemOut(
+      article: (article != null ? article.value : this.article),
       dateIsFirstSeen: (dateIsFirstSeen != null
           ? dateIsFirstSeen.value
           : this.dateIsFirstSeen),

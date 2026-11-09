@@ -347,6 +347,125 @@ Map<String, dynamic> _$AppealInToJson(AppealIn instance) => <String, dynamic>{
   'reason': ?appealInReasonToJson(instance.reason),
 };
 
+ArticleChartOut _$ArticleChartOutFromJson(Map<String, dynamic> json) =>
+    ArticleChartOut(
+      data:
+          (json['data'] as List<dynamic>?)
+              ?.map(
+                (e) => ArticleChartPointOut.fromJson(e as Map<String, dynamic>),
+              )
+              .toList() ??
+          [],
+      title: json['title'] as String,
+      type: json['type'] as String,
+      unit: json['unit'] as String,
+    );
+
+Map<String, dynamic> _$ArticleChartOutToJson(ArticleChartOut instance) =>
+    <String, dynamic>{
+      'data': instance.data.map((e) => e.toJson()).toList(),
+      'title': instance.title,
+      'type': instance.type,
+      'unit': instance.unit,
+    };
+
+ArticleChartPointOut _$ArticleChartPointOutFromJson(
+  Map<String, dynamic> json,
+) => ArticleChartPointOut(
+  label: json['label'] as String,
+  value: (json['value'] as num).toDouble(),
+);
+
+Map<String, dynamic> _$ArticleChartPointOutToJson(
+  ArticleChartPointOut instance,
+) => <String, dynamic>{'label': instance.label, 'value': instance.value};
+
+ArticleDateOut _$ArticleDateOutFromJson(Map<String, dynamic> json) =>
+    ArticleDateOut(
+      date: DateTime.parse(json['date'] as String),
+      label: json['label'] as String,
+    );
+
+Map<String, dynamic> _$ArticleDateOutToJson(ArticleDateOut instance) =>
+    <String, dynamic>{
+      'date': ?_dateToJson(instance.date),
+      'label': instance.label,
+    };
+
+ArticleFactOut _$ArticleFactOutFromJson(Map<String, dynamic> json) =>
+    ArticleFactOut(
+      label: json['label'] as String,
+      value: json['value'] as String,
+    );
+
+Map<String, dynamic> _$ArticleFactOutToJson(ArticleFactOut instance) =>
+    <String, dynamic>{'label': instance.label, 'value': instance.value};
+
+ArticleOut _$ArticleOutFromJson(Map<String, dynamic> json) => ArticleOut(
+  charts:
+      (json['charts'] as List<dynamic>?)
+          ?.map((e) => ArticleChartOut.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      [],
+  facts:
+      (json['facts'] as List<dynamic>?)
+          ?.map((e) => ArticleFactOut.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      [],
+  headline: json['headline'] as String,
+  keyDates:
+      (json['key_dates'] as List<dynamic>?)
+          ?.map((e) => ArticleDateOut.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      [],
+  keyPoints:
+      (json['key_points'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList() ??
+      [],
+  sections:
+      (json['sections'] as List<dynamic>?)
+          ?.map((e) => ArticleSectionOut.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      [],
+  sources:
+      (json['sources'] as List<dynamic>?)
+          ?.map((e) => ArticleSourceOut.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      [],
+  standfirst: json['standfirst'] as String,
+);
+
+Map<String, dynamic> _$ArticleOutToJson(ArticleOut instance) =>
+    <String, dynamic>{
+      'charts': instance.charts.map((e) => e.toJson()).toList(),
+      'facts': instance.facts.map((e) => e.toJson()).toList(),
+      'headline': instance.headline,
+      'key_dates': instance.keyDates.map((e) => e.toJson()).toList(),
+      'key_points': instance.keyPoints,
+      'sections': instance.sections.map((e) => e.toJson()).toList(),
+      'sources': instance.sources.map((e) => e.toJson()).toList(),
+      'standfirst': instance.standfirst,
+    };
+
+ArticleSectionOut _$ArticleSectionOutFromJson(Map<String, dynamic> json) =>
+    ArticleSectionOut(
+      body: json['body'] as String,
+      heading: json['heading'] as String,
+    );
+
+Map<String, dynamic> _$ArticleSectionOutToJson(ArticleSectionOut instance) =>
+    <String, dynamic>{'body': instance.body, 'heading': instance.heading};
+
+ArticleSourceOut _$ArticleSourceOutFromJson(Map<String, dynamic> json) =>
+    ArticleSourceOut(
+      title: json['title'] as String,
+      url: json['url'] as String,
+    );
+
+Map<String, dynamic> _$ArticleSourceOutToJson(ArticleSourceOut instance) =>
+    <String, dynamic>{'title': instance.title, 'url': instance.url};
+
 BadgeOut _$BadgeOutFromJson(Map<String, dynamic> json) => BadgeOut(
   kind: badgeOutKindFromJson(json['kind']),
   on: DateTime.parse(json['on'] as String),
@@ -1328,6 +1447,9 @@ Map<String, dynamic> _$FeedCheckResponseToJson(FeedCheckResponse instance) =>
     };
 
 FeedItemOut _$FeedItemOutFromJson(Map<String, dynamic> json) => FeedItemOut(
+  article: json['article'] == null
+      ? null
+      : ArticleOut.fromJson(json['article'] as Map<String, dynamic>),
   dateIsFirstSeen: json['date_is_first_seen'] as bool? ?? false,
   deadline: json['deadline'] == null
       ? null
@@ -1356,6 +1478,7 @@ FeedItemOut _$FeedItemOutFromJson(Map<String, dynamic> json) => FeedItemOut(
 
 Map<String, dynamic> _$FeedItemOutToJson(FeedItemOut instance) =>
     <String, dynamic>{
+      'article': ?instance.article?.toJson(),
       'date_is_first_seen': ?instance.dateIsFirstSeen,
       'deadline': ?_dateToJson(instance.deadline),
       'department': ?instance.department,

@@ -866,6 +866,195 @@
         "title": "AppealIn",
         "type": "object"
       },
+      "ArticleChartOut": {
+        "properties": {
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/ArticleChartPointOut"
+            },
+            "title": "Data",
+            "type": "array"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "type": {
+            "title": "Type",
+            "type": "string"
+          },
+          "unit": {
+            "title": "Unit",
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "title",
+          "unit",
+          "data"
+        ],
+        "title": "ArticleChartOut",
+        "type": "object"
+      },
+      "ArticleChartPointOut": {
+        "properties": {
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "value": {
+            "title": "Value",
+            "type": "number"
+          }
+        },
+        "required": [
+          "label",
+          "value"
+        ],
+        "title": "ArticleChartPointOut",
+        "type": "object"
+      },
+      "ArticleDateOut": {
+        "properties": {
+          "date": {
+            "format": "date",
+            "title": "Date",
+            "type": "string"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          }
+        },
+        "required": [
+          "date",
+          "label"
+        ],
+        "title": "ArticleDateOut",
+        "type": "object"
+      },
+      "ArticleFactOut": {
+        "properties": {
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "value": {
+            "title": "Value",
+            "type": "string"
+          }
+        },
+        "required": [
+          "label",
+          "value"
+        ],
+        "title": "ArticleFactOut",
+        "type": "object"
+      },
+      "ArticleOut": {
+        "description": "Spec v1.6: the AI article from the official source, in the asked language.",
+        "properties": {
+          "charts": {
+            "items": {
+              "$ref": "#/components/schemas/ArticleChartOut"
+            },
+            "title": "Charts",
+            "type": "array"
+          },
+          "facts": {
+            "items": {
+              "$ref": "#/components/schemas/ArticleFactOut"
+            },
+            "title": "Facts",
+            "type": "array"
+          },
+          "headline": {
+            "title": "Headline",
+            "type": "string"
+          },
+          "key_dates": {
+            "items": {
+              "$ref": "#/components/schemas/ArticleDateOut"
+            },
+            "title": "Key Dates",
+            "type": "array"
+          },
+          "key_points": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Key Points",
+            "type": "array"
+          },
+          "sections": {
+            "items": {
+              "$ref": "#/components/schemas/ArticleSectionOut"
+            },
+            "title": "Sections",
+            "type": "array"
+          },
+          "sources": {
+            "items": {
+              "$ref": "#/components/schemas/ArticleSourceOut"
+            },
+            "title": "Sources",
+            "type": "array"
+          },
+          "standfirst": {
+            "title": "Standfirst",
+            "type": "string"
+          }
+        },
+        "required": [
+          "headline",
+          "standfirst",
+          "key_points",
+          "sections",
+          "facts",
+          "charts",
+          "key_dates",
+          "sources"
+        ],
+        "title": "ArticleOut",
+        "type": "object"
+      },
+      "ArticleSectionOut": {
+        "properties": {
+          "body": {
+            "title": "Body",
+            "type": "string"
+          },
+          "heading": {
+            "title": "Heading",
+            "type": "string"
+          }
+        },
+        "required": [
+          "heading",
+          "body"
+        ],
+        "title": "ArticleSectionOut",
+        "type": "object"
+      },
+      "ArticleSourceOut": {
+        "properties": {
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "url": {
+            "title": "Url",
+            "type": "string"
+          }
+        },
+        "required": [
+          "title",
+          "url"
+        ],
+        "title": "ArticleSourceOut",
+        "type": "object"
+      },
       "BadgeOut": {
         "description": "What was checked and when; the app words it \"checked on <date>\", never a guarantee.\n`checked`: an admin approval on record; `registered_from`: the registration GPS fix's\nplace; `place_photo`: a BagMitra representative's visit photo. L7, one per passed check\non a free official page (spec §4 table), shown once the profile is approved:\n`gst_checked` (with `since_year`, the GST registration year), `apmc_seen`,\n`fssai_checked`, `iec_active`, `apeda_listed`.",
         "properties": {
@@ -3396,6 +3585,16 @@
       },
       "FeedItemOut": {
         "properties": {
+          "article": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ArticleOut"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "date_is_first_seen": {
             "default": false,
             "title": "Date Is First Seen",
@@ -10086,7 +10285,8 @@
                 "draft",
                 "in_review",
                 "published",
-                "withdrawn"
+                "withdrawn",
+                "held"
               ],
               "title": "Status",
               "type": "string"
