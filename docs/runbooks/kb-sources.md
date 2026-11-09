@@ -60,3 +60,21 @@ State on 2026-11-06: every PPQS document answered HTTP 403 to the development en
 so the file holds the header only and all four documents are `fetch_failed` in the log.
 To fill it, download the PDFs where ppqs.gov.in answers (a browser in India), then either
 upload them to a session for extraction or upload each with the "Upload by hand" step above.
+
+## AI check of the practice cards (owner decision Q128)
+There is no human expert: the AI checks every point of `app/assets/config/practice_cards.json`
+(card items, disease profile parts, preparations) against the source document it cites
+(`api/src/bagmitra_api/kb/card_check.py`). Per source the document is fetched once; every number
+and date in the point (en, mr, hi) must be in the cited text (no AI), and with `FEED_AI_API_KEY`
+set the model answers `supported` / `contradicted` / `not_found` with a verbatim quote that is
+checked against the source text. The tool only writes a report; it changes no card.
+
+Run once on the VPS after a deploy, in the background (about 36 sources, one model request each):
+
+```bash
+cd /opt/bagmitra && bash deploy/deploy.sh && nohup sh -c 'cd /opt/bagmitra/deploy && docker compose exec -T api python -m bagmitra_api.kb.card_check - < /opt/bagmitra/app/assets/config/practice_cards.json > /root/card_check.md 2> /root/card_check.log' > /dev/null 2>&1 &
+```
+
+Result: `head -3 /root/card_check.md` (counts), `grep -c '❌' /root/card_check.md` (points that did
+not pass), `tail -40 /root/card_check.md` (sources the server could not read). `--only C02 R25`
+after the `-` checks only those sources.
