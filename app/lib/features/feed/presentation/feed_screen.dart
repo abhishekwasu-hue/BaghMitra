@@ -254,10 +254,13 @@ class FeedBadge extends StatelessWidget {
     final t = AppLocalizations.of(context);
     final c = context.bm;
     final official = item.isOfficial;
+    // News uses the warning pair (fill, border, title ink), readable in both themes; the old
+    // santra fill put light-orange text on orange in dark mode (owner screenshot 2026-11-09).
     return DecoratedBox(
       key: Key('feed-badge-${item.id}'),
       decoration: BoxDecoration(
-        color: official ? c.brandSoft : c.accentSoft,
+        color: official ? c.brandSoft : c.warnBg.first,
+        border: official ? null : Border.all(color: c.warnBorder),
         borderRadius: BorderRadius.circular(BmRadius.chip),
       ),
       child: Padding(

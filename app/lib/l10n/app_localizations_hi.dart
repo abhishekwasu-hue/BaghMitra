@@ -1837,7 +1837,8 @@ class AppLocalizationsHi extends AppLocalizations {
   }
 
   @override
-  String get feedFooter => 'कुछ भी करने से पहले आधिकारिक GR/पोर्टल देखें।';
+  String get feedFooter =>
+      'कोई भी कदम उठाने से पहले आधिकारिक GR / पोर्टल देखें।';
 
   @override
   String feedDeadline(String date) {
