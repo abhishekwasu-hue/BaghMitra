@@ -18,7 +18,13 @@ import httpx
 from fastapi import Depends
 
 from bagmitra_api.core.settings import Settings, get_settings
-from bagmitra_api.feed.article import ARTICLE_PROMPT, ArticleError, ArticleSet, parse_articles
+from bagmitra_api.feed.article import (
+    ARTICLE_PROMPT,
+    ARTICLE_SCHEMA,
+    ArticleError,
+    ArticleSet,
+    parse_articles,
+)
 from bagmitra_api.feed.output_check import NOT_STATED
 
 ANTHROPIC_VERSION = "2026-10-21"
@@ -162,6 +168,8 @@ class AnthropicFeedAi:
         fallback: bool,
         max_tokens: int | None = None,
         source_url: str | None = None,
+        schema: dict[str, Any] | None = None,
+        wait_seconds: float | None = None,
     ) -> str:
         s = self._settings
         headers = {
@@ -183,13 +191,16 @@ class AnthropicFeedAi:
                 }
             ],
         }
+        if schema is not None:
+            # Structured outputs: the answer is JSON matching the schema (no broken JSON).
+            body["output_config"] = {"format": {"type": "json_schema", "schema": schema}}
         if fallback:
             headers["anthropic-beta"] = FALLBACK_BETA
             body["fallbacks"] = "default"
         url = f"{s.feed_ai_base_url.rstrip('/')}/v1/messages"
         try:
             response = await self._http.post(
-                url, headers=headers, json=body, timeout=s.feed_ai_timeout_seconds
+                url, headers=headers, json=body, timeout=wait_seconds or s.feed_ai_timeout_seconds
             )
         except httpx.HTTPError as exc:
             raise AiUnavailableError(f"{type(exc).__name__}: {exc}") from exc
@@ -198,6 +209,8 @@ class AnthropicFeedAi:
         payload = response.json()
         if payload.get("stop_reason") == "refusal":
             raise AiUnavailableError("model declined the request")
+        if payload.get("stop_reason") == "max_tokens":
+            raise AiUnavailableError("answer cut off at max_tokens")
         texts = [b.get("text", "") for b in payload.get("content", []) if b.get("type") == "text"]
         return "".join(texts)
 
@@ -217,6 +230,8 @@ class AnthropicFeedAi:
             fallback=True,
             max_tokens=s.feed_article_max_tokens,
             source_url=source_url,
+            schema=ARTICLE_SCHEMA,
+            wait_seconds=s.feed_article_timeout_seconds,
         )
         try:
             return parse_articles(_json_object(answer))

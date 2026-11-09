@@ -46,9 +46,9 @@ Rules:
 - "relevant" is true only if the source changes something for farmers: a scheme, a subsidy, a
   payment or relief, a deadline, crop insurance, a pesticide or fertiliser rule, market or
   procurement decisions, weather or crop advisories. Otherwise answer {"relevant": false,
-  "political": false} and nothing else.
+  "political": false, "lang": null}.
 - "political" is true if the source is about elections, parties, or praise or criticism of a
-  government, minister or person. Then write nothing else.
+  government, minister or person. Then "lang" is null.
 - Use only facts in the source. Copy every number, amount, percentage, date and scheme name
   exactly as the source states it. Never estimate, convert, add up or fill a gap from general
   knowledge. A fact the source does not state is "not_stated" in "facts" and is left out of
@@ -66,6 +66,61 @@ Rules:
   मध्यस्थ (दलाल) for a broker). Hindi and English say the same facts as the Marathi.
 - "sources": the source address first, then only addresses the source itself gives.
 - "key_dates" only dates the source states, in ISO form."""
+
+
+def _obj(properties: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "type": "object",
+        "properties": properties,
+        "required": list(properties),
+        "additionalProperties": False,
+    }
+
+
+def _list(items: dict[str, Any]) -> dict[str, Any]:
+    return {"type": "array", "items": items}
+
+
+_STR = {"type": "string"}
+# Structured outputs (output_config.format): the API returns JSON that matches this schema.
+# Counts and lengths are not expressible there; parse_articles checks them.
+ARTICLE_SCHEMA: dict[str, Any] = {
+    **_obj(
+        {
+            "relevant": {"type": "boolean"},
+            "political": {"type": "boolean"},
+            "lang": {
+                "anyOf": [
+                    _obj({lang: {"$ref": "#/$defs/article"} for lang in LANGS}),
+                    {"type": "null"},
+                ]
+            },
+        }
+    ),
+    "$defs": {
+        "article": _obj(
+            {
+                "headline": _STR,
+                "standfirst": _STR,
+                "key_points": _list(_STR),
+                "sections": _list(_obj({"heading": _STR, "body": _STR})),
+                "facts": _list(_obj({"label": _STR, "value": _STR})),
+                "charts": _list(
+                    _obj(
+                        {
+                            "type": {"type": "string", "enum": list(CHART_TYPES)},
+                            "title": _STR,
+                            "unit": _STR,
+                            "data": _list(_obj({"label": _STR, "value": {"type": "number"}})),
+                        }
+                    )
+                ),
+                "key_dates": _list(_obj({"date": _STR, "label": _STR})),
+                "sources": _list(_obj({"title": _STR, "url": _STR})),
+            }
+        )
+    },
+}
 
 
 class ArticleError(ValueError):
