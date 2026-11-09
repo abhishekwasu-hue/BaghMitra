@@ -42,7 +42,7 @@ class PracticeFigureView extends StatelessWidget {
               _Palette(
                 sky: c.sky.withValues(alpha: 0.35),
                 soil: c.soil,
-                soilDark: Color.lerp(c.soil, Colors.black, 0.35)!,
+                soilDark: Color.lerp(c.soil, BmPalette.ink, 0.45)!,
                 bark: Color.lerp(c.soil, c.ink, 0.25)!,
                 leaf: c.brand,
                 leafSick: c.sun,
@@ -122,10 +122,10 @@ class _Palette {
       gum,
       danger,
       ink;
-  static const onSoil = Color(0xFFFFF8EE);
+  static const onSoil = BmPalette.white;
 
   /// Dark text on the light water colour, in both themes.
-  static const onWater = Color(0xFF10293F);
+  static const onWater = BmPalette.ink;
 }
 
 /// Paints in a 320-wide coordinate space scaled to the widget, like the design sample.
