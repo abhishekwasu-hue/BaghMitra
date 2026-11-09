@@ -1,5 +1,6 @@
 """Registers the feed sources of addendum v1.4 §3 (idempotent). Terms stay `unknown` until
-the owner checks them; seeding never fetches anything.
+the owner checks them, unless the seed records the owner's decision (`terms_status`, e.g.
+Mahasamvad, Q129); seeding never fetches anything.
 
 Usage: python -m bagmitra_api.feed.seed
 """
@@ -32,7 +33,8 @@ async def seed_feed_sources(session: AsyncSession) -> int:
     for seed in source_seeds():
         if seed["key"] in existing:
             continue
-        session.add(FeedSource(id=uuid.uuid4(), terms_status="unknown", **seed))
+        values = {"terms_status": "unknown", **seed}
+        session.add(FeedSource(id=uuid.uuid4(), **values))
         added += 1
     await session.flush()
     return added

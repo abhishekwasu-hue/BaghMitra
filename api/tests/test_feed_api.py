@@ -190,7 +190,9 @@ async def test_sources_registry_and_terms(api: httpx.AsyncClient) -> None:
     sources = (await api.get(f"{ADMIN_BASE}/sources", headers=ADMIN)).json()["sources"]
     seeded = [s for s in sources if s["key"] != "test_news"]
     assert len(seeded) >= 9
-    assert {s["terms_status"] for s in seeded} == {"unknown"}
+    owner_allowed = {"mahasamvad_news"}  # Q129
+    assert {s["terms_status"] for s in seeded if s["key"] not in owner_allowed} == {"unknown"}
+    assert {s["terms_status"] for s in seeded if s["key"] in owner_allowed} == {"allowed"}
     res = await api.put(
         f"{ADMIN_BASE}/sources/mh_gr_portal/terms",
         json={"terms_status": "disallowed", "notes": "ToS forbids automated access"},

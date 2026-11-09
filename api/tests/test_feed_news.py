@@ -206,7 +206,17 @@ def test_pib_news_source_is_seeded_unknown_and_marked_unverified() -> None:
     assert pib["tier"] == "news"
     assert pib["fetch_method"] == "rss"
     assert "[UV]" in pib["notes"]
-    assert "terms_status" not in pib  # seeding always records unknown
+    assert "terms_status" not in pib  # seeding records unknown unless the owner decided
+
+
+def test_mahasamvad_is_seeded_allowed_by_the_owner() -> None:
+    """Owner 2026-11-09 ("बातम्यांना हो", Q129): the state news portal's RSS is read; its
+    robots.txt allows it (checked from the VPS); no separate terms page was found."""
+    [ms] = [s for s in source_seeds() if s["key"] == "mahasamvad_news"]
+    assert ms["url"] == "https://mahasamvad.in/feed/"
+    assert (ms["tier"], ms["fetch_method"], ms["level"]) == ("news", "rss", "state")
+    assert ms["terms_status"] == "allowed"
+    assert "Q129" in ms["notes"]
 
 
 # --- fetching ------------------------------------------------------------------------------
@@ -421,9 +431,10 @@ async def test_job_fetches_only_allowed_news_sources(engine: AsyncEngine) -> Non
     assert data["added"] == 2
     assert by_key["test_rss"] == {"key": "test_rss", "status": "ok", "added": 2, "error": None}
     assert by_key["pib_agriculture_news"]["status"] == "refused"  # seeded by the job, unknown
+    assert by_key["mahasamvad_news"]["status"] == "fetch_failed"  # allowed; the fake has no feed
     assert "official_allowed" not in by_key
     assert "mh_gr_portal" not in by_key
-    assert server.calls == ["/robots.txt", "/rss"]
+    assert server.calls == ["/robots.txt", "/feed/", "/robots.txt", "/rss"]
 
 
 # --- review: our own summary, then publish as "News - not official" ------------------------
