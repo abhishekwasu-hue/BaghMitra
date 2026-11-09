@@ -224,3 +224,12 @@ with the reasons (admin web, status filter "held"). The page text is never store
 
 Log: `/var/log/bagmitra-feed-news.log` (second JSON line: published / held / drafted / retry).
 Set a monthly spend limit in the Anthropic console.
+
+**Re-check held articles** (owner 2026-11-09, e.g. after the checks improved): checks every held news
+article again against its page and publishes those that now pass. It uses the saved article (no model
+call, no cost) and fetches each page once more; items held because the page could not be read are left
+as they are. One-off, safe to repeat:
+```
+cd /opt/bagmitra/deploy && docker compose exec -T api python -m bagmitra_api.feed.recheck_held
+```
+It prints `{"published": …, "held": …, "retry": …}`; reasons still failing are in admin web (status "held").

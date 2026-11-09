@@ -20,13 +20,14 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from bagmitra_api.core.settings import Settings
 from bagmitra_api.feed.ai import AiUnavailableError, FeedArticleWriter
-from bagmitra_api.feed.article import ArticleSet, check_articles
+from bagmitra_api.feed.article import ArticleError, ArticleSet, check_articles, parse_articles
 from bagmitra_api.feed.extract import html_text
 from bagmitra_api.feed.gr_portal import FetchFailedError
 from bagmitra_api.feed.models import FeedItem, FeedItemI18n, FeedReviewEvent, FeedSource
 from bagmitra_api.feed.news import NewsFeedAdapter
 
 ATTEMPT = "ai_article"
+RECHECK = "ai_article_recheck"
 MAX_PAGE_BYTES = 2 * 1024 * 1024
 # Attempts that end the item's AI step (an unavailable model is tried again next run).
 FINAL = ("published", "held", "draft", "review")
@@ -160,5 +161,55 @@ async def write_news_articles(
         run.held += outcome == "held"
         run.drafted += outcome == "draft"
         run.retry += outcome == "retry"
+        await session.flush()
+    return run
+
+
+async def _saved_articles(session: AsyncSession, item: FeedItem) -> ArticleSet | None:
+    """The article set the writer produced for a held item, as saved; None without one."""
+    rows = await session.scalars(select(FeedItemI18n).where(FeedItemI18n.item_id == item.id))
+    langs = {r.lang: r.article for r in rows if r.article}
+    try:
+        return parse_articles({"relevant": True, "political": False, "lang": langs})
+    except ArticleError:
+        return None
+
+
+async def recheck_held_articles(
+    session: AsyncSession, adapter: NewsFeedAdapter, settings: Settings
+) -> ArticleRun:
+    """Owner 2026-11-09: check the held news articles again with the current checks (e.g. after
+    the check learned number words) and publish those that now pass. The saved article is used
+    as it is (no model call, no cost); its page is fetched again because the text is never
+    stored. Items held before an article existed (page not readable) are left as they are."""
+    run = ArticleRun()
+    held = await session.scalars(
+        select(FeedItem)
+        .where(FeedItem.type == "news", FeedItem.status == "held")
+        .order_by(FeedItem.published_at.desc())
+    )
+    for item in list(held):
+        articles = await _saved_articles(session, item)
+        if articles is None:
+            continue
+        try:
+            data = await _page(adapter, item.url)
+        except FetchFailedError as exc:
+            session.add(_event(item, RECHECK, result="retry", reason=exc.reason[:300]))
+            run.retry += 1
+            continue
+        item.raw_hash, item.raw_bytes = hashlib.sha256(data).hexdigest(), len(data)
+        problems = check_articles(html_text(data), articles, source_url=item.url)
+        item.check_issues = [{"kind": "article", "text": p, "where": ""} for p in problems]
+        if problems:
+            outcome = "held"
+        elif settings.feed_auto_publish:
+            item.status, outcome = "published", "published"
+            session.add(_event(item, "auto_published"))
+        else:
+            item.status, outcome = "in_review", "review"
+        session.add(_event(item, RECHECK, result=outcome))
+        run.published += outcome == "published"
+        run.held += outcome == "held"
         await session.flush()
     return run
