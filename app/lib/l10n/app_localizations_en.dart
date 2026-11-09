@@ -1753,6 +1753,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get feedLevelState => 'Government of Maharashtra';
 
   @override
+  String get feedArticleByline =>
+      'BagMitra news desk · written by AI from official government sources';
+
+  @override
+  String get feedArticleKeyPoints => 'Key points';
+
+  @override
+  String get feedArticleFacts => 'At a glance';
+
+  @override
+  String get feedArticleKeyDates => 'Key dates';
+
+  @override
+  String get feedArticleSources => 'Sources';
+
+  @override
   String feedGrNumber(String number) {
     return 'GR $number';
   }

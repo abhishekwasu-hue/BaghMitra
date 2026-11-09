@@ -3106,6 +3106,36 @@ abstract class AppLocalizations {
   /// **'Government of Maharashtra'**
   String get feedLevelState;
 
+  /// No description provided for @feedArticleByline.
+  ///
+  /// In en, this message translates to:
+  /// **'BagMitra news desk · written by AI from official government sources'**
+  String get feedArticleByline;
+
+  /// No description provided for @feedArticleKeyPoints.
+  ///
+  /// In en, this message translates to:
+  /// **'Key points'**
+  String get feedArticleKeyPoints;
+
+  /// No description provided for @feedArticleFacts.
+  ///
+  /// In en, this message translates to:
+  /// **'At a glance'**
+  String get feedArticleFacts;
+
+  /// No description provided for @feedArticleKeyDates.
+  ///
+  /// In en, this message translates to:
+  /// **'Key dates'**
+  String get feedArticleKeyDates;
+
+  /// No description provided for @feedArticleSources.
+  ///
+  /// In en, this message translates to:
+  /// **'Sources'**
+  String get feedArticleSources;
+
   /// No description provided for @feedGrNumber.
   ///
   /// In en, this message translates to:

@@ -1751,6 +1751,22 @@ class AppLocalizationsHi extends AppLocalizations {
   String get feedLevelState => 'महाराष्ट्र सरकार';
 
   @override
+  String get feedArticleByline =>
+      'BagMitra समाचार कक्ष · सरकारी स्रोतों से AI द्वारा लिखित';
+
+  @override
+  String get feedArticleKeyPoints => 'मुख्य बातें';
+
+  @override
+  String get feedArticleFacts => 'एक नज़र में';
+
+  @override
+  String get feedArticleKeyDates => 'महत्वपूर्ण तारीखें';
+
+  @override
+  String get feedArticleSources => 'स्रोत';
+
+  @override
   String feedGrNumber(String number) {
     return 'GR सं. $number';
   }

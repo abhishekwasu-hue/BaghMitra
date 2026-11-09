@@ -18,6 +18,7 @@ import '../data/feed_cache.dart';
 import '../data/feed_receipts.dart';
 import '../data/feed_repository.dart';
 import '../domain/feed_item.dart';
+import 'feed_article_view.dart';
 
 /// Sarkari Sandesh: official GRs, circulars, schemes and alerts, plus clearly marked news,
 /// newest first, from the phone's cache so it works offline. Information, not advice: the
@@ -468,6 +469,10 @@ class _FeedItemScreenState extends ConsumerState<FeedItemScreen> {
               padding: const EdgeInsets.all(BmSpace.lg),
               children: [
                 _ItemBody(item: item, now: now, lang: lang, detail: true),
+                if (item.article case final article?) ...[
+                  const SizedBox(height: BmSpace.md),
+                  FeedArticleView(article: article, lang: lang),
+                ],
                 const SizedBox(height: BmSpace.md),
                 _SourceLink(url: item.url),
                 const SizedBox(height: BmSpace.xs),
