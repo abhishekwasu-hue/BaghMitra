@@ -77,6 +77,22 @@ _NUMBER = re.compile(
     rf"(?:\s*(?P<unit>{_UNIT})(?![^\W\d_]))?",
     re.IGNORECASE,
 )
+# Marathi and Hindi number words that appear before हजार / लाख / कोटी in government news.
+_WORDS: dict[str, int] = {
+    "एक": 1, "दोन": 2, "दो": 2, "तीन": 3, "चार": 4, "पाच": 5, "पांच": 5, "पाँच": 5,
+    "सहा": 6, "छह": 6, "सात": 7, "आठ": 8, "नऊ": 9, "नौ": 9, "दहा": 10, "दस": 10,
+    "अकरा": 11, "बारा": 12, "तेरा": 13, "चौदा": 14, "पंधरा": 15, "सोळा": 16, "सतरा": 17,
+    "अठरा": 18, "एकोणीस": 19, "वीस": 20, "बीस": 20, "पंचवीस": 25, "पच्चीस": 25,
+    "तीस": 30, "चाळीस": 40, "चालीस": 40, "पन्नास": 50, "पचास": 50, "साठ": 60,
+    "सत्तर": 70, "ऐंशी": 80, "अस्सी": 80, "नव्वद": 90, "नब्बे": 90,
+}  # fmt: skip
+_UNIT_WORDS = "हजार|हज़ार|लाख|कोटी|करोड़|करोड"
+_WORD_BEFORE_UNIT = re.compile(
+    rf"(?<![^\W\d_])({'|'.join(sorted(map(re.escape, _WORDS), key=len, reverse=True))})"
+    rf"\s+({_UNIT_WORDS})"
+)
+_LAKH_THOUSAND = re.compile(r"(?<![\d.,])(\d{1,3}) लाख (\d{1,2}) (?:हजार|हज़ार)")
+_THOUSAND_REST = re.compile(r"(?<![\d.,])(\d{1,3}) (?:हजार|हज़ार) (\d{3})(?![\d,])")
 _PLAIN_NUMBER = re.compile(r"\d+(?:,\d{2,3})*(?:\.\d+)?")
 
 
@@ -97,9 +113,22 @@ class _Facts:
     numbers: list[tuple[str, float, bool]] = field(default_factory=list)
 
 
+def _number_words(text: str) -> str:
+    """Number words before a unit become digits ("पाच हजार" -> "5 हजार"), and the "N lakh M
+    thousand" / "N thousand MMM" forms become one number ("१ हजार ६००" -> "1600"). VPS
+    2026-11-09: Mahasamvad wrote "पाच हजार रुपयांची" and "१ हजार ६०० जनावरांची" and held two
+    correct articles. A word counts only right before हजार / लाख / कोटी (so "साठी" is not 60
+    and a bare "पाच दिवसांत" is not read)."""
+    text = _WORD_BEFORE_UNIT.sub(lambda m: f"{_WORDS[m[1]]} {m[2]}", text)
+    text = _LAKH_THOUSAND.sub(lambda m: str(int(m[1]) * 100_000 + int(m[2]) * 1_000), text)
+    return _THOUSAND_REST.sub(lambda m: str(int(m[1]) * 1_000 + int(m[2])), text)
+
+
 def normalise(text: str) -> str:
-    """Devanagari digits to ASCII, unified whitespace, lower case."""
-    return re.sub(r"\s+", " ", text.translate(_DEVANAGARI_DIGITS)).strip().lower()
+    """Devanagari digits to ASCII, number words before a unit to digits, unified whitespace,
+    lower case."""
+    flat = re.sub(r"\s+", " ", text.translate(_DEVANAGARI_DIGITS)).strip().lower()
+    return _number_words(flat)
 
 
 def _date_key(year: int, month: int, day: int) -> str | None:

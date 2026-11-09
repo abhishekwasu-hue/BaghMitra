@@ -101,3 +101,31 @@ def test_mismatches_are_unique_and_serialisable() -> None:
 
 def test_normalise() -> None:
     assert normalise("  १,००,०००\n रुपये ") == "1,00,000 रुपये"
+
+
+# VPS 2026-11-09: two Mahasamvad articles were held although the AI was right; the source wrote
+# the numbers in words or in "N thousand M" form (quoted from mahasamvad.in/221207 and /221187).
+@pytest.mark.parametrize(
+    ("source", "claim"),
+    [
+        ("पात्र शेतकऱ्यांना पाच हजार रुपयांची आर्थिक मदत", "₹5,000"),
+        ("रक्कम रुपये पाच हजारांची मदत शेतकऱ्यांच्या खात्यावर", "Rs 5,000"),
+        ("सुमारे १ हजार ६०० जनावरांची चारा डेपोची मागणी", "1,600 animals"),
+        ("अनुदान दोन लाख पन्नास हजार रुपये", "₹2,50,000"),
+        ("सुमारे २ लाख ५० हजार हेक्टर", "2.5 lakh hectares"),
+        ("किसानों को पांच हजार रुपये की सहायता", "₹5,000"),
+        ("दहा हजार शेतकरी पात्र", "10,000 farmers"),
+    ],
+)
+def test_numbers_written_in_words_or_parts_match(source: str, claim: str) -> None:
+    assert check_output(source, {"en.body": claim}) == []
+
+
+def test_number_words_need_a_unit_and_other_words_stay_words() -> None:
+    # "साठी" (for) is not 60, "हजारो" (thousands of) is no number, and a bare "पाच" is not read.
+    source = "शेतकऱ्यांसाठी हजारो रुपयांची मदत; पाच दिवसांत अर्ज"
+    assert [m.text for m in check_output(source, {"en.body": "₹60, ₹1,000, 5 days"})] == [
+        "₹60",
+        "₹1,000",
+        "5",
+    ]
