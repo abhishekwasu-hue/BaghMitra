@@ -4033,6 +4033,62 @@ pull; a request never fetches). `stale` says they are not current and `reason` s
     ),
   });
 
+  ///Get Market Price History
+  ///@param crop
+  ///@param market
+  ///@param variety
+  ///@param grade
+  ///@param days
+  Future<chopper.Response<MarketPriceHistory>> v1MarketPricesHistoryGet({
+    required String? crop,
+    required String? market,
+    String? variety,
+    String? grade,
+    int? days,
+  }) {
+    generatedMapping.putIfAbsent(
+      MarketPriceHistory,
+      () => MarketPriceHistory.fromJsonFactory,
+    );
+
+    return _v1MarketPricesHistoryGet(
+      crop: crop,
+      market: market,
+      variety: variety,
+      grade: grade,
+      days: days,
+    );
+  }
+
+  ///Get Market Price History
+  ///@param crop
+  ///@param market
+  ///@param variety
+  ///@param grade
+  ///@param days
+  @GET(path: '/v1/market/prices/history')
+  Future<chopper.Response<MarketPriceHistory>> _v1MarketPricesHistoryGet({
+    @Query('crop') required String? crop,
+    @Query('market') required String? market,
+    @Query('variety') String? variety,
+    @Query('grade') String? grade,
+    @Query('days') int? days,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Owner 2026-11-09 (price trend chart): the stored price (₹ per quintal) of one mandi for
+each day of the last `days` days (at most 90), oldest first, as published. A day without a
+published price is absent, never estimated. `variety` / `grade` are as in /market/prices
+(empty when the source left them blank); `stale` / `reason` as there.''',
+      summary: 'Get Market Price History',
+      operationId: 'market_price_history_get',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market"],
+      deprecated: false,
+    ),
+  });
+
   ///Delete Me
   Future<chopper.Response<AccountDeleted>> v1MeDelete() {
     generatedMapping.putIfAbsent(
