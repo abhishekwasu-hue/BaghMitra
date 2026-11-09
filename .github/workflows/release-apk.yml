@@ -7,6 +7,9 @@ name: Release APK
 #   (never the debug key), and the signature is checked after the build.
 # - arm64-v8a and armeabi-v7a only (no x86_64, no universal), obfuscated, symbols kept briefly.
 # - Both APKs carry the same version code: this workflow's run number, which only rises.
+# - A Play App Bundle (.aab) for Google Play from the same key, run number and dart-defines: a
+#   30-day workflow artifact only, never on the public release and never sent to Play by this
+#   workflow (the owner uploads it in Play Console; docs/runbooks/release-apk.md §५).
 # The Test APK workflow (release-test-apk.yml) stays the testers' build (same version-code rule).
 on:
   workflow_dispatch:
@@ -35,7 +38,7 @@ concurrency:
 jobs:
   release-apk:
     runs-on: ubuntu-latest
-    timeout-minutes: 40
+    timeout-minutes: 60
     steps:
       - name: Check inputs and secrets
         env:
@@ -193,3 +196,88 @@ jobs:
             echo "- release: $tag"
             echo "- server: nothing to set in .env; the VPS mirror updates /app and release.json (version) within 15 minutes"
           } >> "$GITHUB_STEP_SUMMARY"
+      # Google Play takes only an App Bundle (docs/store/pre-launch-checklist.md §A). Same env, run
+      # number and dart-defines as the APKs above; its own symbol folder. Built after the APK release
+      # is published, so a bundle problem never holds back the growers' APKs.
+      - name: Build Play App Bundle
+        working-directory: app
+        env:
+          RELEASE_BUILD: "true"
+          BUILD_NUMBER: ${{ steps.meta.outputs.code }}
+          BUILD_NAME: ${{ steps.meta.outputs.name }}
+          RELEASE_KEYSTORE_PASSWORD: ${{ secrets.RELEASE_KEYSTORE_PASSWORD }}
+          RELEASE_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
+          RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
+          API_BASE_URL: ${{ secrets.API_BASE_URL }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          SARKARI_SANDESH: ${{ inputs.sarkari_sandesh }}
+          PHONE_LOGIN: ${{ vars.PHONE_LOGIN || 'false' }}
+          MARKET_LINK: ${{ vars.MARKET_LINK || 'false' }}
+        run: |
+          flutter build appbundle --release \
+            --build-number="$BUILD_NUMBER" --build-name="$BUILD_NAME" \
+            --obfuscate --split-debug-info=build/symbols-aab \
+            --dart-define-from-file=../product.env \
+            --dart-define=API_BASE_URL="$API_BASE_URL" \
+            --dart-define=SUPABASE_URL="$SUPABASE_URL" \
+            --dart-define=SUPABASE_ANON_KEY="$SUPABASE_ANON_KEY" \
+            --dart-define=SARKARI_SANDESH="$SARKARI_SANDESH" \
+            --dart-define=PHONE_LOGIN="$PHONE_LOGIN" \
+            --dart-define=MARKET_LINK="$MARKET_LINK"
+      - name: Check the App Bundle
+        env:
+          CODE: ${{ steps.meta.outputs.code }}
+          NAME: ${{ steps.meta.outputs.name }}
+          # The same pinned release certificate as the APK check above (owner Q125).
+          RELEASE_CERT_SHA256: ${{ vars.RELEASE_CERT_SHA256 || 'C4:90:F1:8E:7B:80:C1:B3:1D:50:9B:C9:26:1C:5E:DF:1B:E4:31:74:30:3E:47:B0:B0:56:0A:BE:15:6A:A8:BA' }}
+          # bundletool reads the version code from the bundle; the jar is pinned by its SHA-256.
+          BUNDLETOOL_URL: https://github.com/google/bundletool/releases/download/1.18.1/bundletool-all-1.18.1.jar
+          BUNDLETOOL_SHA256: 675786493983787ffa11550bdb7c0715679a44e1643f3ff980a529e9c822595c
+        run: |
+          aab=app/build/app/outputs/bundle/release/app-release.aab
+          [ -f "$aab" ] || { echo "::error::the App Bundle was not built"; exit 1; }
+          jarsigner -verify "$aab" | grep -q "jar verified." || { echo "::error::the App Bundle signature does not verify"; exit 1; }
+          certs=$(keytool -printcert -jarfile "$aab")
+          if printf '%s' "$certs" | grep -q "CN=Android Debug"; then
+            echo "::error::the App Bundle is signed with the debug key"; exit 1
+          fi
+          sha=$(printf '%s' "$certs" | sed -n 's/^[[:space:]]*SHA256: *//p' | head -1)
+          signer=$(printf '%s' "$sha" | tr -d ': ' | tr 'A-F' 'a-f')
+          want=$(printf '%s' "$RELEASE_CERT_SHA256" | tr -d ': ' | tr 'A-F' 'a-f')
+          if [ -z "$want" ]; then
+            echo "::warning::RELEASE_CERT_SHA256 is not set; the signing certificate is not pinned (docs/OPEN_QUESTIONS.md Q125)"
+          elif [ "$signer" != "$want" ]; then
+            echo "::error::App Bundle certificate $signer is not the release key"; exit 1
+          fi
+          curl -sSfL --retry 3 -o "$RUNNER_TEMP/bundletool.jar" "$BUNDLETOOL_URL"
+          echo "$BUNDLETOOL_SHA256  $RUNNER_TEMP/bundletool.jar" | sha256sum -c -
+          dump() { java -jar "$RUNNER_TEMP/bundletool.jar" dump manifest --bundle="$aab" --xpath="/manifest/@android:$1"; }
+          got=$(dump versionCode | tr -d '[:space:]')
+          [ "$got" = "$CODE" ] || { echo "::error::App Bundle versionCode is $got, expected $CODE"; exit 1; }
+          got_name=$(dump versionName | tr -d '[:space:]')
+          [ "$got_name" = "$NAME" ] || { echo "::error::App Bundle versionName is $got_name, expected $NAME"; exit 1; }
+          mkdir -p play-files
+          file="bagmitra-play-$NAME-$CODE.aab"
+          cp "$aab" "play-files/$file"
+          size=$(stat -c %s "play-files/$file")
+          echo "$file: $size bytes, versionName $got_name, versionCode $got, certificate SHA-256 $sha"
+          {
+            echo "### Play App Bundle"
+            echo "- file: **$file** (workflow artifact, 30 days; not on the public release)"
+            echo "- size: $size bytes ($(numfmt --to=iec "$size"))"
+            echo "- version name / code: **$got_name** / **$got**"
+            echo "- signing certificate SHA-256: \`$sha\`"
+          } >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bagmitra-play-${{ steps.meta.outputs.name }}-${{ steps.meta.outputs.code }}.aab
+          path: play-files/bagmitra-play-${{ steps.meta.outputs.name }}-${{ steps.meta.outputs.code }}.aab
+          retention-days: 30
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        continue-on-error: true
+        with:
+          name: bagmitra-play-symbols-${{ steps.meta.outputs.name }}-${{ steps.meta.outputs.code }}
+          path: app/build/symbols-aab
+          retention-days: 30

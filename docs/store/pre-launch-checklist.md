@@ -11,8 +11,9 @@ Tick a line only after checking it on the real setting (Play Console, server `.e
       `app/android/app/build.gradle.kts` (`compileSdk 36`, `targetSdk 36`, `minSdk 24`) and checked by
       `app/test/android/release_config_test.dart`. Each August Google raises the level: check
       developer.android.com/google/play/requirements/target-sdk before every yearly release.
-- [ ] **App bundle.** Play accepts only an Android App Bundle (`.aab`) for a new app; the Release APK workflow
-      builds APKs (for side-loading). An `.aab` build step is not in the repo yet (open item, see §F).
+- [x] **App bundle.** Play accepts only an Android App Bundle (`.aab`) for a new app. The Release APK workflow
+      also builds `bagmitra-play-<name>-<code>.aab` (same key, run number and dart-defines; signature, certificate
+      and version code checked) as a 30-day run artifact; upload steps in `docs/runbooks/release-apk.md` §५.
 - [ ] **Signing key.** The release keystore exists, two offline copies are kept (`docs/runbooks/release-apk.md` §१).
       In Play Console → App integrity → Play App Signing choose **"Use existing app signing key"** and upload
       this same release key (Google's PEPK tool). If Google generates a new key instead, the Play app and the
@@ -70,6 +71,6 @@ Tick a line only after checking it on the real setting (Play Console, server `.e
 
 ## F. Open items found while writing this kit (not built)
 
-1. `.aab` output for Play (§A). Default proposal: a "Play bundle" step in the Release APK workflow, same key
-   and run number, built only when asked; needs the owner's go-ahead.
+1. ~~`.aab` output for Play (§A).~~ Done: the Release APK workflow builds the bundle on every run
+   (`docs/runbooks/release-apk.md` §५).
 2. Push notifications: when they ship, the Data safety form gets "Device or other IDs" (`data-safety.md` §2).

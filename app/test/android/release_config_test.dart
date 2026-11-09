@@ -144,4 +144,93 @@ void main() {
     expect(releaseYml, contains('::warning::RELEASE_CERT_SHA256 is not set'));
     expect(releaseYml, contains('is not the release key'));
   });
+
+  group('Play App Bundle (pre-launch checklist §A "App bundle")', () {
+    final yml = File('../.github/workflows/release-apk.yml').readAsStringSync();
+
+    /// The text of one workflow step, from its `- name:` line to the next step.
+    String step(String name) {
+      final start = yml.indexOf('      - name: $name\n');
+      expect(start, isNot(-1), reason: 'step "$name"');
+      final next = yml.indexOf(RegExp(r'\n      - '), start + 1);
+      return yml.substring(start, next == -1 ? yml.length : next);
+    }
+
+    /// The `env:` lines of a step (comments dropped), and its dart-define arguments.
+    Set<String> envOf(String text) =>
+        RegExp(r'^          (\w+): (.+)$', multiLine: true)
+            .allMatches(text.split('        run: |').first)
+            .map((m) => '${m.group(1)}=${m.group(2)}')
+            .toSet();
+    Set<String> definesOf(String text) =>
+        RegExp(r'--dart-define[^\s\\]*')
+            .allMatches(text)
+            .map((m) => m.group(0)!)
+            .toSet();
+
+    test(
+      'built with the same key, run number and dart-defines as the APKs',
+      () {
+        final apk = step('Build production APKs');
+        final aab = step('Build Play App Bundle');
+        expect(
+          RegExp('flutter build appbundle --release').allMatches(yml),
+          hasLength(1),
+        );
+        expect(envOf(aab), envOf(apk));
+        expect(
+          envOf(aab),
+          contains(r'BUILD_NUMBER=${{ steps.meta.outputs.code }}'),
+        );
+        expect(
+          envOf(aab),
+          contains(r'RELEASE_KEY_ALIAS=${{ secrets.RELEASE_KEY_ALIAS }}'),
+        );
+        expect(definesOf(aab), definesOf(apk));
+        expect(
+          definesOf(aab),
+          contains(r'--dart-define=MARKET_LINK="$MARKET_LINK"'),
+        );
+        for (final flag in [
+          r'--build-number="$BUILD_NUMBER"',
+          r'--build-name="$BUILD_NAME"',
+          '--obfuscate',
+        ]) {
+          expect(aab, contains(flag));
+        }
+      },
+    );
+
+    test(
+      'its signature and version code are checked; the debug key is refused',
+      () {
+        final check = step('Check the App Bundle');
+        expect(check, contains('jarsigner -verify'));
+        expect(check, contains('CN=Android Debug'));
+        expect(check, contains(r'$RELEASE_CERT_SHA256'));
+        expect(check, contains('versionCode'));
+        expect(check, contains('GITHUB_STEP_SUMMARY'));
+      },
+    );
+
+    test('it is a 30-day workflow artifact only: never on the public release, '
+        'never sent to Play', () {
+      expect(
+        yml,
+        contains(
+          r'name: bagmitra-play-${{ steps.meta.outputs.name }}-'
+          r'${{ steps.meta.outputs.code }}.aab',
+        ),
+      );
+      final upload = yml.substring(yml.indexOf('name: bagmitra-play-'));
+      expect(
+        upload.substring(0, upload.indexOf('\n      - ')),
+        contains('retention-days: 30'),
+      );
+      expect(step('Publish release'), isNot(contains('.aab')));
+      expect(step('Publish release'), isNot(contains('play-files')));
+      expect(yml.toLowerCase(), isNot(contains('androidpublisher')));
+      expect(yml, isNot(contains('upload-google-play')));
+    });
+  });
 }

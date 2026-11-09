@@ -94,3 +94,30 @@ uninstall the test app (this deletes unsent changes and photos on the phone, hen
 release APK and sign in with the same number / Google account; records come back from the server. Photos come
 back only if photo backup is on on the server (`PHOTO_STORAGE_*`, `docs/runbooks/scouting-photos.md`).
 After that, every newer release APK installs over the previous one and keeps the data.
+
+## ५. Google Play साठी App Bundle (.aab) / The App Bundle for Google Play
+
+**मराठी:** Play Store फक्त `.aab` फाइल घेतो. वरच्या §३ प्रमाणे Release चालवला की तोच run त्याच release key ने,
+त्याच version code ने आणि त्याच सेटिंग्जने `.aab` सुद्धा बनवतो. ही फाइल सार्वजनिक Releases पानावर **येत नाही** आणि
+workflow ती Play वर पाठवतही **नाही**; ती तुम्ही स्वतः Play Console मध्ये टाकायची.
+1. §३ प्रमाणे **Release APK** workflow `main` वरून चालवा (version_name, sarkari_sandesh).
+2. Run हिरवा झाल्यावर त्या run चे पान उघडा → Summary मध्ये **Play App Bundle** भाग: फाइलचे नाव, आकार,
+   version name / code आणि सही-प्रमाणपत्राचा SHA-256 (हा `C4:90:F1:…:A8:BA` असाच हवा).
+3. त्याच पानाच्या खाली **Artifacts** मध्ये `bagmitra-play-<name>-<code>.aab` वर क्लिक करा. एक zip डाउनलोड होते;
+   ती उघडून आतली `.aab` फाइल काढा. Artifact **३० दिवस** राहतो; त्याआधी डाउनलोड करा.
+4. Play Console → BagMitra → **Test and release** → हवी ती track (आधी Internal testing) → **Create new release**
+   → App bundles मध्ये ही `.aab` टाका → release notes (मराठी / हिंदी / English) → Save → Review → Rollout.
+5. पहिल्या upload आधी Play App Signing मध्ये **"Use existing app signing key"** निवडून हीच release key द्या
+   (`docs/store/pre-launch-checklist.md` §A "Signing key"); नाहीतर Play वरचे ॲप आणि APK एकमेकांवर update होणार
+   नाहीत.
+6. Play प्रत्येक upload ला मागच्यापेक्षा मोठा version code मागतो; हा run number असल्याने नेहमी वाढतो. एकच
+   `.aab` दोनदा upload करता येत नाही: नवीन बदलासाठी workflow पुन्हा चालवा.
+
+**English:** The same Release APK run also builds `app-release.aab` with the same key, version code (run
+number) and dart-defines. The run checks it before keeping it: the signature verifies, the debug key is
+refused, the certificate matches `RELEASE_CERT_SHA256`, and bundletool reads the expected version code and
+name. It is kept only as the workflow artifact `bagmitra-play-<name>-<code>.aab` for 30 days. It is never
+attached to the public release, and the workflow never uploads to Play. Download it from the run page and
+upload it in Play Console yourself. Its Dart symbols are the artifact `bagmitra-play-symbols-<name>-<code>`,
+also kept 30 days. The bundle is built after the APK release is published, so a bundle problem never holds
+back the growers' APKs.
