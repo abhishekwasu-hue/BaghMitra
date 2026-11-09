@@ -5224,6 +5224,67 @@
         "title": "ManualPricesOut",
         "type": "object"
       },
+      "MarketPriceHistory": {
+        "properties": {
+          "days": {
+            "items": {
+              "$ref": "#/components/schemas/PriceDay"
+            },
+            "title": "Days",
+            "type": "array"
+          },
+          "grade": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Grade"
+          },
+          "market": {
+            "title": "Market",
+            "type": "string"
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason"
+          },
+          "stale": {
+            "title": "Stale",
+            "type": "boolean"
+          },
+          "variety": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Variety"
+          }
+        },
+        "required": [
+          "market",
+          "variety",
+          "grade",
+          "days",
+          "stale"
+        ],
+        "title": "MarketPriceHistory",
+        "type": "object"
+      },
       "MarketPriceOut": {
         "properties": {
           "commodity": {
@@ -6949,6 +7010,54 @@
           "charge_time"
         ],
         "title": "PriceChangeOut",
+        "type": "object"
+      },
+      "PriceDay": {
+        "properties": {
+          "day": {
+            "format": "date",
+            "title": "Day",
+            "type": "string"
+          },
+          "max_rs_per_quintal": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Rs Per Quintal"
+          },
+          "min_rs_per_quintal": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Min Rs Per Quintal"
+          },
+          "modal_rs_per_quintal": {
+            "title": "Modal Rs Per Quintal",
+            "type": "integer"
+          },
+          "source": {
+            "title": "Source",
+            "type": "string"
+          }
+        },
+        "required": [
+          "day",
+          "min_rs_per_quintal",
+          "max_rs_per_quintal",
+          "modal_rs_per_quintal",
+          "source"
+        ],
+        "title": "PriceDay",
         "type": "object"
       },
       "ProfilesResponse": {
@@ -20121,6 +20230,120 @@
           }
         ],
         "summary": "Get Market Prices",
+        "tags": [
+          "market"
+        ]
+      }
+    },
+    "/v1/market/prices/history": {
+      "get": {
+        "description": "Owner 2026-11-09 (price trend chart): the stored price (₹ per quintal) of one mandi for\neach day of the last `days` days (at most 90), oldest first, as published. A day without a\npublished price is absent, never estimated. `variety` / `grade` are as in /market/prices\n(empty when the source left them blank); `stale` / `reason` as there.",
+        "operationId": "market_price_history_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "crop",
+            "required": true,
+            "schema": {
+              "pattern": "^[a-z_]{2,32}$",
+              "title": "Crop",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "market",
+            "required": true,
+            "schema": {
+              "maxLength": 80,
+              "minLength": 1,
+              "title": "Market",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "variety",
+            "required": false,
+            "schema": {
+              "default": "",
+              "maxLength": 80,
+              "title": "Variety",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "grade",
+            "required": false,
+            "schema": {
+              "default": "",
+              "maxLength": 40,
+              "title": "Grade",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "days",
+            "required": false,
+            "schema": {
+              "default": 90,
+              "maximum": 90,
+              "minimum": 1,
+              "title": "Days",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MarketPriceHistory"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Get Market Price History",
         "tags": [
           "market"
         ]

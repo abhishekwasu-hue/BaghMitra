@@ -2117,6 +2117,30 @@ ManualPricesOut _$ManualPricesOutFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$ManualPricesOutToJson(ManualPricesOut instance) =>
     <String, dynamic>{'stored': instance.stored};
 
+MarketPriceHistory _$MarketPriceHistoryFromJson(Map<String, dynamic> json) =>
+    MarketPriceHistory(
+      days:
+          (json['days'] as List<dynamic>?)
+              ?.map((e) => PriceDay.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+      grade: json['grade'] as String?,
+      market: json['market'] as String,
+      reason: json['reason'] as String?,
+      stale: json['stale'] as bool,
+      variety: json['variety'] as String?,
+    );
+
+Map<String, dynamic> _$MarketPriceHistoryToJson(MarketPriceHistory instance) =>
+    <String, dynamic>{
+      'days': instance.days.map((e) => e.toJson()).toList(),
+      'grade': ?instance.grade,
+      'market': instance.market,
+      'reason': ?instance.reason,
+      'stale': instance.stale,
+      'variety': ?instance.variety,
+    };
+
 MarketPriceOut _$MarketPriceOutFromJson(Map<String, dynamic> json) =>
     MarketPriceOut(
       commodity: json['commodity'] as String,
@@ -2784,6 +2808,22 @@ Map<String, dynamic> _$PriceChangeOutToJson(PriceChangeOut instance) =>
       'new_price_paise': instance.newPricePaise,
       'state': ?instance.state,
     };
+
+PriceDay _$PriceDayFromJson(Map<String, dynamic> json) => PriceDay(
+  day: DateTime.parse(json['day'] as String),
+  maxRsPerQuintal: (json['max_rs_per_quintal'] as num?)?.toInt(),
+  minRsPerQuintal: (json['min_rs_per_quintal'] as num?)?.toInt(),
+  modalRsPerQuintal: (json['modal_rs_per_quintal'] as num).toInt(),
+  source: json['source'] as String,
+);
+
+Map<String, dynamic> _$PriceDayToJson(PriceDay instance) => <String, dynamic>{
+  'day': ?_dateToJson(instance.day),
+  'max_rs_per_quintal': ?instance.maxRsPerQuintal,
+  'min_rs_per_quintal': ?instance.minRsPerQuintal,
+  'modal_rs_per_quintal': instance.modalRsPerQuintal,
+  'source': instance.source,
+};
 
 ProfilesResponse _$ProfilesResponseFromJson(Map<String, dynamic> json) =>
     ProfilesResponse(

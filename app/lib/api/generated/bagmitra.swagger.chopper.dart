@@ -3273,6 +3273,45 @@ pull; a request never fetches). `stale` says they are not current and `reason` s
   }
 
   @override
+  Future<Response<MarketPriceHistory>> _v1MarketPricesHistoryGet({
+    required String? crop,
+    required String? market,
+    String? variety,
+    String? grade,
+    int? days,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Owner 2026-11-09 (price trend chart): the stored price (₹ per quintal) of one mandi for
+each day of the last `days` days (at most 90), oldest first, as published. A day without a
+published price is absent, never estimated. `variety` / `grade` are as in /market/prices
+(empty when the source left them blank); `stale` / `reason` as there.''',
+      summary: 'Get Market Price History',
+      operationId: 'market_price_history_get',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/market/prices/history');
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'crop': crop,
+      'market': market,
+      'variety': variety,
+      'grade': grade,
+      'days': days,
+    };
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+      tag: swaggerMetaData,
+    );
+    return client.send<MarketPriceHistory, MarketPriceHistory>($request);
+  }
+
+  @override
   Future<Response<AccountDeleted>> _v1MeDelete({
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Erase the caller\'s account: every record, the sync history, devices, notice receipts,

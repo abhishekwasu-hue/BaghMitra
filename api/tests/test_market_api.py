@@ -21,7 +21,13 @@ from bagmitra_api.market.agmarknet import (
     MarketUnavailableError,
 )
 from bagmitra_api.market.pull_job import run_market_pull
-from bagmitra_api.market.service import REASON_NOT_PULLED, REASON_OVERDUE
+from bagmitra_api.market.service import (
+    AGMARKNET,
+    MANUAL,
+    REASON_NOT_PULLED,
+    REASON_OVERDUE,
+    store_prices,
+)
 from bagmitra_api.routers.market import market_matches, state_matches
 from bagmitra_api.weather.service import get_clock
 from tests.conftest import make_token
@@ -359,3 +365,82 @@ def test_owner_major_markets_bhopal_jaipur_and_two_states() -> None:
     assert state_matches("Kerala", s.market_major_states)
     assert state_matches(" karnataka ", s.market_major_states)
     assert not state_matches("Tamil Nadu", s.market_major_states)
+
+
+async def test_price_history_gives_one_published_price_per_day_for_one_mandi(
+    api: httpx.AsyncClient,
+    engine: AsyncEngine,
+    market: FakeMarket,
+    keyed: Settings,
+    auth_headers: dict[str, str],
+) -> None:
+    """Owner 2026-11-09: the trend chart of one mandi over (at most) three months."""
+    await pull(engine, market, keyed, NOW - timedelta(hours=1))  # current: not stale
+    async with async_sessionmaker(engine, expire_on_commit=False)() as session:
+        old = [
+            price("Kalamna", "Maharashtra", NOW.date() - timedelta(days=d), 3000)
+            for d in (60, 89, 90)
+        ]
+        await store_prices(session, old, source=AGMARKNET, now=NOW)
+        # A manual row on a day Agmarknet also has loses; a manual-only day is kept.
+        manual = [
+            price("Kalamna", "Maharashtra", date(2026, 10, 25), 9999),
+            price("Kalamna", "Maharashtra", date(2026, 10, 20), 3100),
+        ]
+        await store_prices(session, manual, source=MANUAL, now=NOW)
+        # Another variety and another mandi stay out of this series.
+        await store_prices(
+            session,
+            [price("Kalamna", "Maharashtra", date(2026, 10, 25), 1, variety="Other")],
+            source=AGMARKNET,
+            now=NOW,
+        )
+
+    url = "/v1/market/prices/history?crop=santra&market=Kalamna&variety=Nagpuri"
+    r = await api.get(url, headers=auth_headers)
+    assert r.status_code == 200, r.text
+    body = r.json()
+    assert body["stale"] is False
+    assert (body["market"], body["variety"], body["grade"]) == ("Kalamna", "Nagpuri", None)
+    days = [(d["day"], d["modal_rs_per_quintal"], d["source"]) for d in body["days"]]
+    assert days == [
+        ((NOW.date() - timedelta(days=89)).isoformat(), 3000, "agmarknet"),  # day 90 is out
+        ((NOW.date() - timedelta(days=60)).isoformat(), 3000, "agmarknet"),
+        ("2026-10-20", 3100, "manual"),
+        ("2026-10-24", 3400, "agmarknet"),
+        ("2026-10-25", 3600, "agmarknet"),
+    ]
+    first = body["days"][-1]
+    assert (first["min_rs_per_quintal"], first["max_rs_per_quintal"]) == (2800, 4200)
+
+    short = await api.get(url + "&days=3", headers=auth_headers)
+    assert [d["day"] for d in short.json()["days"]] == ["2026-10-24", "2026-10-25"]
+    blank = await api.get(
+        "/v1/market/prices/history?crop=santra&market=Warud", headers=auth_headers
+    )
+    assert [d["modal_rs_per_quintal"] for d in blank.json()["days"]] == [3300]
+    assert blank.json()["variety"] is None
+
+
+async def test_price_history_is_refused_for_bad_input(
+    api: httpx.AsyncClient, auth_headers: dict[str, str]
+) -> None:
+    base = "/v1/market/prices/history?crop=santra&market=Kalamna"
+    assert (await api.get(base)).status_code == 401
+    assert (await api.get(base + "&days=91", headers=auth_headers)).status_code == 422
+    assert (await api.get(base + "&days=0", headers=auth_headers)).status_code == 422
+    missing = await api.get("/v1/market/prices/history?crop=santra", headers=auth_headers)
+    assert missing.status_code == 422
+    unknown = await api.get(
+        "/v1/market/prices/history?crop=coffee&market=Kalamna", headers=auth_headers
+    )
+    assert unknown.status_code == 404
+    stale = await api.get(base, headers=auth_headers)
+    assert stale.json() == {
+        "market": "Kalamna",
+        "variety": None,
+        "grade": None,
+        "days": [],
+        "stale": True,
+        "reason": REASON_NOT_PULLED,
+    }
