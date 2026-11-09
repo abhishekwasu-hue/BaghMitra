@@ -2959,6 +2959,61 @@ class AppLocalizationsEn extends AppLocalizations {
   String get figureAfterRains => 'After the monsoon';
 
   @override
+  String figureInnerRingCm(String cm) {
+    return 'Inner ring $cm cm';
+  }
+
+  @override
+  String get figureYellowTrap => 'Yellow sticky trap';
+
+  @override
+  String figureHeightM(String m) {
+    return '$m m above ground';
+  }
+
+  @override
+  String get figureBudUnion => 'Bud union';
+
+  @override
+  String figureHeightRangeCm(String from, String to) {
+    return '$from–$to cm above ground';
+  }
+
+  @override
+  String figureStickyBand(String cm) {
+    return 'Sticky band $cm cm wide';
+  }
+
+  @override
+  String get figureAntsStopHere => 'Ants and crawlers stop here';
+
+  @override
+  String get figureLureTrap => 'Lure trap';
+
+  @override
+  String figureRenewDays(String from, String to) {
+    return 'Renew the lure every $from–$to days';
+  }
+
+  @override
+  String get figureShadyFirst => 'Shady side: look here first';
+
+  @override
+  String get figureSunnySide => 'Sunny side';
+
+  @override
+  String get figureOpenCentre => 'Open centre: air flows';
+
+  @override
+  String get figureCutCrowded => 'Cut crowded shoots';
+
+  @override
+  String get figureRootZone => 'Active root zone';
+
+  @override
+  String get figureManureHere => 'Manure here, cover with soil';
+
+  @override
   String get practicesScout => 'How to scout';
 
   @override

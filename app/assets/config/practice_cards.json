@@ -832,7 +832,10 @@
           ],
           "evidence": [
             "official"
-          ]
+          ],
+          "figure": {
+            "kind": "openCanopy"
+          }
         },
         {
           "id": 89,
@@ -935,7 +938,10 @@
           "evidence": [
             "official",
             "inferred"
-          ]
+          ],
+          "figure": {
+            "kind": "openCanopy"
+          }
         },
         {
           "id": 95,
@@ -1062,7 +1068,13 @@
           ],
           "evidence": [
             "university"
-          ]
+          ],
+          "figure": {
+            "kind": "stickyTrap",
+            "values": [
+              2
+            ]
+          }
         },
         {
           "id": 27,
@@ -1280,7 +1292,14 @@
           ],
           "evidence": [
             "official"
-          ]
+          ],
+          "figure": {
+            "kind": "budHeight",
+            "values": [
+              30,
+              46
+            ]
+          }
         },
         {
           "id": 91,
@@ -1295,7 +1314,13 @@
           ],
           "evidence": [
             "official"
-          ]
+          ],
+          "figure": {
+            "kind": "doubleRing",
+            "values": [
+              45
+            ]
+          }
         },
         {
           "id": 92,
@@ -1335,7 +1360,10 @@
           ],
           "evidence": [
             "official"
-          ]
+          ],
+          "figure": {
+            "kind": "shadySide"
+          }
         },
         {
           "id": 30,
@@ -1975,7 +2003,13 @@
           ],
           "evidence": [
             "official"
-          ]
+          ],
+          "figure": {
+            "kind": "trunkBand",
+            "values": [
+              5
+            ]
+          }
         },
         {
           "id": 83,
@@ -2187,7 +2221,14 @@
           ],
           "evidence": [
             "university"
-          ]
+          ],
+          "figure": {
+            "kind": "lureTrap",
+            "values": [
+              15,
+              20
+            ]
+          }
         },
         {
           "id": 40,
@@ -2789,7 +2830,10 @@
           ],
           "evidence": [
             "university"
-          ]
+          ],
+          "figure": {
+            "kind": "manureRing"
+          }
         },
         {
           "id": 106,

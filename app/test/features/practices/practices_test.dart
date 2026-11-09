@@ -243,6 +243,16 @@ void main() {
           '22:rootSun',
           '108:barkStrip',
           '24:twiceYearly',
+          // Batch 1 (owner 2026-11-09: every card like gummosis).
+          '26:stickyTrap',
+          '90:budHeight',
+          '91:doubleRing',
+          '82:trunkBand',
+          '39:lureTrap',
+          '29:shadySide',
+          '88:openCanopy',
+          '94:openCanopy',
+          '105:manureRing',
         ]),
       );
       for (final (i, f) in drawn) {
@@ -278,6 +288,37 @@ void main() {
       find.bySemanticsLabel(RegExp('६० सें.मी., ३० सें.मी. खोल')),
       findsOneWidget,
       reason: 'the trench drawing reads its measures out',
+    );
+    expect(tester.takeException(), isNull);
+    await unmountApp(tester);
+  });
+
+  testWidgets('batch 1 drawings show on their cards', (tester) async {
+    await pumpApp(tester, initialLocation: '/practices', seed: seedPlot);
+    await settle(tester);
+    for (final (section, id) in [
+      ('पिठ्या ढेकूण', 82),
+      ('फळमाशी आणि रस शोषणारा पतंग', 39),
+    ]) {
+      await tester.scrollUntilVisible(
+        find.text(section),
+        300,
+        scrollable: find.byType(Scrollable).first,
+      );
+      await tester.tap(find.text(section));
+      await settle(tester);
+      await tester.scrollUntilVisible(
+        find.byKey(Key('practice-figure-$id')),
+        300,
+        scrollable: find.byType(Scrollable).first,
+      );
+      expect(find.byKey(Key('practice-figure-$id')), findsOneWidget);
+    }
+    expect(
+      find.bySemanticsLabel(
+        RegExp('ल्युअर सापळा, ल्युअर दर १५–२० दिवसांनी बदला'),
+      ),
+      findsOneWidget,
     );
     expect(tester.takeException(), isNull);
     await unmountApp(tester);
