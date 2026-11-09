@@ -43,6 +43,23 @@ Reports to Abhi in plain Marathi. Never run anything on the VPS; give him ONE co
 - Release 1.0.3 (code 4) turns Sarkari Sandesh on; 1.0.4 adds every card drawing. GitHub releases flakiness on 2026-11-09 (sqlite3 hook hash, Gradle 504) needed reruns.
 - Cards: drawings in `app/lib/features/practices/presentation/practice_figure_view.dart` + `symptom_figures_{a,b,c}.dart`; every measure drawn must be in the practice text (test). Next: AI check of every card point against its source (Q128).
 
+## Card check, price trend, Play bundle (2026-11-09, after #309)
+| PR | What |
+|---|---|
+| #310 | `api/src/bagmitra_api/kb/card_check.py`: AI check of every practice-card point against its cited sources (Q128). Number check (no AI) plus a structured-output verdict `supported` / `contradicted` / `not_found` with a verbatim quote; Markdown report, failing points first; no card is changed. Runbook `kb-sources.md`. First VPS run: 162 points, 59 passed, 7 contradicted, 96 not_found, no errors, all sources read. |
+| #311 | Card check: each point's citation note is sent to the model, quotes shortened with "…" are accepted, a quote not in the source is reported as `unverified_quote`, the report shows characters read per source. **Not re-run on the VPS since.** |
+| #312 | `GET /v1/market/prices/history` (Q130): stored modal / min / max per day for one mandi, `days` 1–90 (default 90), Agmarknet row over manual, no estimates, never fetches from Agmarknet. |
+| #313 | App price-trend chart sheet (Q130): chart icon on each mandi price, 15 days / 1 month / 3 months, scrub cursor, high / low and changes, last 90-day series kept offline. **Not yet in a release APK** (Release 1.0.5 was built before it was merged). |
+| #314 | Release workflow also builds the Play App Bundle as a 30-day workflow artifact (`bagmitra-play-<name>-<code>.aab`), checked against `RELEASE_CERT_SHA256`; never on the public release, nothing uploads to Play. Runbook `release-apk.md` §५. |
+- Releases 2026-11-09: 1.0.3 (code 4) and 1.0.4 (code 5) published earlier in the day; Release 1.0.5 (code 6), run 42615392236, artifact `bagmitra-play-1.0.5-6.aab`, certificate SHA-256 `C4:90:F1:8E:7B:80:C1:B3:1D:50:9B:C9:26:1C:5E:DF:1B:E4:31:74:30:3E:47:B0:B0:56:0A:BE:15:6A:A8:BA`.
+- In flight: 90-day market price backfill on branch `market-backfill`. The archive resource 35985678 was verified live; mandi names can differ from the current feed, so only matching keys are stored.
+- Next:
+  1. Run the backfill on the VPS once its PR merges.
+  2. Release 1.0.6 so the trend chart reaches phones.
+  3. Re-run the card check on the VPS and fix the cards that fail.
+  4. Check the reason for the one held news item.
+  5. Upload the `.aab` to Play Console (owner).
+
 ## Billing status (2026-11-08)
 - Done on main: migration 0037 (switch default OFF, start date, per-role amounts), Play price push + confirmed migrate, plans seeded on every API start (kb.seed), test fixes #245 (date) / #252 (flake).
 - Merged: server verify (0038), RTDN with OIDC (`PLAY_RTDN_AUDIENCE`, `PLAY_RTDN_PUSHER`), daily `billing.reconcile_job` (voided purchases + drift; cron once `PLAY_PACKAGE_NAME` is set), admin web "सदस्यता" page (role `billing_admin`), app `in_app_purchase` adapter (Billing Library 9.1.0, CI check ≥ 8), subscription page + price-increase notice + Manage subscription.
