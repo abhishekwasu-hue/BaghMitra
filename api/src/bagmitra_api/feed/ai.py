@@ -170,6 +170,7 @@ class AnthropicFeedAi:
         source_url: str | None = None,
         schema: dict[str, Any] | None = None,
         wait_seconds: float | None = None,
+        question: str | None = None,
     ) -> str:
         s = self._settings
         headers = {
@@ -187,6 +188,7 @@ class AnthropicFeedAi:
                     "content": (
                         (f"<source_url>{source_url}</source_url>\n" if source_url else "")
                         + f"<document>\n{text[: s.feed_ai_max_source_chars]}\n</document>"
+                        + (f"\n{question}" if question else "")
                     ),
                 }
             ],
@@ -237,6 +239,23 @@ class AnthropicFeedAi:
             return parse_articles(_json_object(answer))
         except ArticleError as exc:
             raise AiUnavailableError(f"article JSON: {exc}") from exc
+
+    async def ask_json(
+        self, system: str, text: str, *, question: str, schema: dict[str, Any], max_tokens: int
+    ) -> dict[str, Any]:
+        """One structured-output answer from the stronger model (Q128 card check)."""
+        s = self._settings
+        answer = await self._ask(
+            s.feed_summarise_model,
+            system,
+            text,
+            fallback=True,
+            max_tokens=max_tokens,
+            schema=schema,
+            wait_seconds=s.feed_article_timeout_seconds,
+            question=question,
+        )
+        return _json_object(answer)
 
     async def summarise(self, text: str) -> Summary:
         answer = await self._ask(
