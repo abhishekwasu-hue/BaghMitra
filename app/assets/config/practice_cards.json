@@ -801,7 +801,10 @@
             "VK-NIPHM-DIS"
           ]
         },
-        "bio": []
+        "bio": [],
+        "figure": {
+          "kind": "cankerSpots"
+        }
       },
       "items": [
         {
@@ -905,7 +908,10 @@
             "VK-NIPHM-DIS"
           ]
         },
-        "bio": []
+        "bio": [],
+        "figure": {
+          "kind": "mildewLeaf"
+        }
       },
       "items": [
         {
@@ -1011,7 +1017,10 @@
             "VK-NIPHM-DIS"
           ]
         },
-        "bio": []
+        "bio": [],
+        "figure": {
+          "kind": "anthracnoseLeaf"
+        }
       },
       "items": [
         {
@@ -1223,7 +1232,10 @@
               "university"
             ]
           }
-        ]
+        ],
+        "figure": {
+          "kind": "psyllaShoot"
+        }
       }
     },
     {
@@ -1276,7 +1288,10 @@
             "C02"
           ]
         },
-        "bio": []
+        "bio": [],
+        "figure": {
+          "kind": "greeningLeaf"
+        }
       },
       "items": [
         {
@@ -1597,7 +1612,10 @@
             "C08"
           ]
         },
-        "bio": []
+        "bio": [],
+        "figure": {
+          "kind": "mitesLeaf"
+        }
       },
       "items": [
         {
@@ -1721,7 +1739,10 @@
               "university"
             ]
           }
-        ]
+        ],
+        "figure": {
+          "kind": "aphidShoot"
+        }
       },
       "items": [
         {
@@ -1857,7 +1878,10 @@
               "university"
             ]
           }
-        ]
+        ],
+        "figure": {
+          "kind": "thripsFruit"
+        }
       },
       "items": [
         {
@@ -1970,7 +1994,10 @@
             "NRCC-MB"
           ]
         },
-        "bio": []
+        "bio": [],
+        "figure": {
+          "kind": "mealybugTwig"
+        }
       },
       "items": [
         {
@@ -2149,7 +2176,10 @@
               "university"
             ]
           }
-        ]
+        ],
+        "figure": {
+          "kind": "leafMinerLeaf"
+        }
       },
       "items": [
         {
@@ -2502,7 +2532,10 @@
             "C03"
           ]
         },
-        "bio": []
+        "bio": [],
+        "figure": {
+          "kind": "heatDropTree"
+        }
       },
       "items": [
         {

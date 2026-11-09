@@ -7,6 +7,10 @@ import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../data/practice_cards.dart';
 
+part 'symptom_figures_a.dart';
+part 'symptom_figures_b.dart';
+part 'symptom_figures_c.dart';
+
 /// A drawing of how a practice is done, or of what a disease looks like (owner 2026-11-09):
 /// simple shapes painted in the theme's colours, labelled in the app language with locale
 /// digits, and read out as one sentence for TalkBack. Works offline (nothing to download).
@@ -114,6 +118,33 @@ class PracticeFigureView extends StatelessWidget {
     PracticeFigureKind.shadySide => [t.figureShadyFirst, t.figureSunnySide],
     PracticeFigureKind.openCanopy => [t.figureOpenCentre, t.figureCutCrowded],
     PracticeFigureKind.manureRing => [t.figureRootZone, t.figureManureHere],
+    PracticeFigureKind.cankerSpots => [
+      t.figCankerSpots,
+      t.figCankerHalo,
+      t.figCankerFruit,
+    ],
+    PracticeFigureKind.mildewLeaf => [t.figMildewPowder, t.figMildewCurl],
+    PracticeFigureKind.anthracnoseLeaf => [
+      t.figAnthPatch,
+      t.figAnthDots,
+      t.figAnthTwig,
+    ],
+    PracticeFigureKind.greeningLeaf => [t.figGreeningLeaf, t.figGreeningFruit],
+    PracticeFigureKind.psyllaShoot => [
+      t.figPsyllaNymphs,
+      t.figPsyllaThreads,
+      t.figPsyllaCurl,
+    ],
+    PracticeFigureKind.aphidShoot => [t.figAphidColony, t.figAphidCup],
+    PracticeFigureKind.mealybugTwig => [t.figMealyClusters, t.figSootyMould],
+    PracticeFigureKind.leafMinerLeaf => [t.figMinerMines, t.figMinerCurl],
+    PracticeFigureKind.mitesLeaf => [
+      t.figMitesVeins,
+      t.figMitesWeb,
+      t.figMitesRind,
+    ],
+    PracticeFigureKind.thripsFruit => [t.figThripsRing, t.figThripsPatches],
+    PracticeFigureKind.heatDropTree => [t.figHeatSummer, t.figHeatDrop],
   };
 }
 
@@ -244,6 +275,28 @@ class _FigurePainter extends CustomPainter {
         _openCanopy();
       case PracticeFigureKind.manureRing:
         _manureRing();
+      case PracticeFigureKind.cankerSpots:
+        _cankerSpots();
+      case PracticeFigureKind.mildewLeaf:
+        _mildewLeaf();
+      case PracticeFigureKind.anthracnoseLeaf:
+        _anthracnoseLeaf();
+      case PracticeFigureKind.greeningLeaf:
+        _greeningLeaf();
+      case PracticeFigureKind.psyllaShoot:
+        _psyllaShoot();
+      case PracticeFigureKind.aphidShoot:
+        _aphidShoot();
+      case PracticeFigureKind.mealybugTwig:
+        _mealybugTwig();
+      case PracticeFigureKind.leafMinerLeaf:
+        _leafMinerLeaf();
+      case PracticeFigureKind.mitesLeaf:
+        _mitesLeaf();
+      case PracticeFigureKind.thripsFruit:
+        _thripsFruit();
+      case PracticeFigureKind.heatDropTree:
+        _heatDropTree();
     }
   }
 

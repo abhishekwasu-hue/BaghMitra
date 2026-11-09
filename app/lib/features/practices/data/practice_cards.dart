@@ -119,6 +119,18 @@ enum PracticeFigureKind {
   shadySide,
   openCanopy,
   manureRing,
+  // Symptom drawings (batch 2): labels are phrases of the card's symptom text.
+  cankerSpots,
+  mildewLeaf,
+  anthracnoseLeaf,
+  greeningLeaf,
+  psyllaShoot,
+  aphidShoot,
+  mealybugTwig,
+  leafMinerLeaf,
+  mitesLeaf,
+  thripsFruit,
+  heatDropTree,
 }
 
 class PracticeFigure {
