@@ -17,7 +17,7 @@ from bagmitra_api.core.settings import Settings
 from bagmitra_api.feed.ai import AiUnavailableError
 from bagmitra_api.feed.article import ArticleSet, parse_articles
 from bagmitra_api.feed.models import FeedItem, FeedItemI18n, FeedReviewEvent, FeedSource
-from bagmitra_api.feed.news_articles import write_news_articles
+from bagmitra_api.feed.news_articles import recheck_held_articles, write_news_articles
 from tests.test_feed_api import ai_box, api, approve_publish, create, ocr_box
 from tests.test_feed_article import SOURCE, payload
 from tests.test_feed_news import HOST, Server, adapter, news_source
@@ -264,3 +264,73 @@ async def test_the_feed_returns_the_article_in_the_asked_language(
     await approve_publish(api, old["id"])
     items = (await api.get("/v1/feed", headers=auth_headers)).json()["items"]
     assert [i["article"] for i in items if i["id"] == old["id"]] == [None]
+
+
+def page_with(extra: str, *paths: str) -> Server:
+    """The same page plus one more sentence (the source as it reads on a later fetch)."""
+    body = f"<html><body><article><p>{SOURCE} {extra}</p></article></body></html>"
+    routes = {"/robots.txt": httpx.Response(404)}
+    routes |= {p: httpx.Response(200, text=body) for p in paths}
+    return Server(routes)
+
+
+async def held_item(
+    session: AsyncSession, path: str = "/a1", source: FeedSource | None = None
+) -> FeedItem:
+    """An article held because it states ₹9,000, which the first page did not."""
+    source = source or await news_source(session)
+    item = await headline(session, source, path)
+    bad = sound(f"{HOST}{path}")
+    for lang in ("mr", "hi", "en"):
+        bad["lang"][lang]["key_points"][0] = "अनुदान ₹ 9,000"
+    await write_news_articles(session, adapter(pages(path)), Writer(bad), settings(), NOW)
+    assert item.status == "held"
+    return item
+
+
+async def test_a_held_article_that_now_passes_is_published_without_a_new_ai_call(
+    engine: AsyncEngine,
+) -> None:
+    """Owner 2026-11-09 ("थांबलेल्या बातम्या पुन्हा तपासून प्रकाशित करा"): after the check
+    learned number words, the held articles are checked again against their page. The saved
+    article is used as it is: the model is not asked again."""
+    async with async_sessionmaker(engine, expire_on_commit=False)() as session:
+        item = await held_item(session)
+        run = await recheck_held_articles(
+            session, adapter(page_with("एकूण नऊ हजार रुपये.", "/a1")), settings()
+        )
+        assert (run.published, run.held) == (1, 0)
+        assert item.status == "published"
+        assert item.check_issues == []
+        assert {"ai_article_recheck", "auto_published"} <= set(await kinds(session, item))
+
+
+async def test_a_held_article_that_still_fails_stays_held_with_fresh_reasons(
+    engine: AsyncEngine,
+) -> None:
+    async with async_sessionmaker(engine, expire_on_commit=False)() as session:
+        item = await held_item(session)
+        run = await recheck_held_articles(session, adapter(pages("/a1")), settings())
+        assert (run.published, run.held) == (0, 1)
+        assert item.status == "held"
+        assert any("9,000" in i["text"] for i in item.check_issues)
+        assert "ai_article_recheck" in await kinds(session, item)
+
+
+async def test_recheck_skips_items_without_a_saved_article_and_keeps_review_mode(
+    engine: AsyncEngine,
+) -> None:
+    async with async_sessionmaker(engine, expire_on_commit=False)() as session:
+        source = await news_source(session)
+        unread = await headline(session, source, "/gone")
+        unread.status = "held"
+        unread.check_issues = [{"kind": "fetch", "text": "HTTP 404", "where": "page"}]
+        item = await held_item(session, "/a2", source)
+        run = await recheck_held_articles(
+            session,
+            adapter(page_with("एकूण नऊ हजार रुपये.", "/a2")),
+            settings(feed_auto_publish=False),
+        )
+        assert (run.published, run.held) == (0, 0)
+        assert unread.status == "held"  # no article to check: left for the admin
+        assert item.status == "in_review"  # passes, waits for a feed_admin approval
