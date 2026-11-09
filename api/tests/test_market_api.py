@@ -7,7 +7,7 @@ from datetime import UTC, date, datetime, timedelta
 import httpx
 import pytest
 from pydantic import SecretStr
-from sqlalchemy import select, update
+from sqlalchemy import event, select, update
 from sqlalchemy.ext.asyncio import AsyncEngine, async_sessionmaker
 
 from bagmitra_api.core.settings import Settings
@@ -24,6 +24,7 @@ from bagmitra_api.market.pull_job import run_market_pull
 from bagmitra_api.market.service import (
     AGMARKNET,
     MANUAL,
+    MAX_BIND_PARAMS,
     REASON_NOT_PULLED,
     REASON_OVERDUE,
     store_prices,
@@ -444,3 +445,41 @@ async def test_price_history_is_refused_for_bad_input(
         "stale": True,
         "reason": REASON_NOT_PULLED,
     }
+
+
+async def test_storing_many_prices_stays_under_the_database_parameter_limit(
+    engine: AsyncEngine,
+) -> None:
+    """VPS 2026-11-09: the 90-day backfill stored ~15,000 Papaya rows at once and the lookup of
+    existing rows sent 89,310 bind parameters (Postgres takes at most 32,767). 6,000 rows x 6
+    key columns = 36,000 parameters here, over SQLite's limit as well."""
+    rows = [
+        MandiPrice(
+            market=f"Mandi {i}",
+            state="Maharashtra",
+            district="Nagpur",
+            commodity="Orange",
+            variety=None,
+            grade=None,
+            day=date(2026, 10, 1) + timedelta(days=i % 60),
+            min_rs_per_quintal=None,
+            max_rs_per_quintal=None,
+            modal_rs_per_quintal=3000 + i,
+        )
+        for i in range(6000)
+    ]
+    sizes: list[int] = []
+
+    def count(_conn: object, _cursor: object, _sql: str, params: object, *_: object) -> None:
+        sizes.append(len(params) if isinstance(params, (list, tuple, dict)) else 0)
+
+    event.listen(engine.sync_engine, "before_cursor_execute", count)
+    async with async_sessionmaker(engine, expire_on_commit=False)() as session:
+        await store_prices(session, rows, source=AGMARKNET, now=NOW)
+        # Storing the same keys again replaces them (the lookup path), never duplicates.
+        await store_prices(session, rows, source=AGMARKNET, now=NOW)
+        stored = (await session.scalars(select(MarketPrice))).all()
+    event.remove(engine.sync_engine, "before_cursor_execute", count)
+    assert max(sizes) <= MAX_BIND_PARAMS < 32767
+    assert len(stored) == 6000
+    assert {p.modal_rs_per_quintal for p in stored} == {3000 + i for i in range(6000)}
