@@ -52,13 +52,11 @@ Reports to Abhi in plain Marathi. Never run anything on the VPS; give him ONE co
 | #313 | App price-trend chart sheet (Q130): chart icon on each mandi price, 15 days / 1 month / 3 months, scrub cursor, high / low and changes, last 90-day series kept offline. **Not yet in a release APK** (Release 1.0.5 was built before it was merged). |
 | #314 | Release workflow also builds the Play App Bundle as a 30-day workflow artifact (`bagmitra-play-<name>-<code>.aab`), checked against `RELEASE_CERT_SHA256`; never on the public release, nothing uploads to Play. Runbook `release-apk.md` §५. |
 - Releases 2026-11-09: 1.0.3 (code 4) and 1.0.4 (code 5) published earlier in the day; Release 1.0.5 (code 6), run 42615392236, artifact `bagmitra-play-1.0.5-6.aab`, certificate SHA-256 `C4:90:F1:8E:7B:80:C1:B3:1D:50:9B:C9:26:1C:5E:DF:1B:E4:31:74:30:3E:47:B0:B0:56:0A:BE:15:6A:A8:BA`.
-- In flight: 90-day market price backfill on branch `market-backfill`. The archive resource 35985678 was verified live; mandi names can differ from the current feed, so only matching keys are stored.
+- Done: 90-day mandi price backfill (#316 job, #317 Postgres bind-parameter batching, #318 page retries + 90 s archive timeout). VPS run 2026-11-09: all 9 fruits `error: null`; stored (all runs) e.g. Orange 4,244, Mousambi 8,267, Banana 32,117; unmatched mandis (not in the daily feed of 6–9 Nov) are counted, never stored. Release 1.0.6 (code 7, run 42617703483) carries the trend chart; `bagmitra-play-1.0.6-7.aab` is its Play bundle.
 - Next:
-  1. Run the backfill on the VPS once its PR merges.
-  2. Release 1.0.6 so the trend chart reaches phones.
-  3. Re-run the card check on the VPS and fix the cards that fail.
-  4. Check the reason for the one held news item.
-  5. Upload the `.aab` to Play Console (owner).
+  1. Re-run the card check on the VPS and fix the cards that fail.
+  2. Check the reason for the one held news item.
+  3. Upload the `.aab` to Play Console (owner).
 
 ## Billing status (2026-11-08)
 - Done on main: migration 0037 (switch default OFF, start date, per-role amounts), Play price push + confirmed migrate, plans seeded on every API start (kb.seed), test fixes #245 (date) / #252 (flake).
