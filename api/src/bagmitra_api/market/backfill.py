@@ -61,6 +61,14 @@ ARCHIVE_PAGE_LIMIT = 1000
 ARCHIVE_MAX_PAGES = 100
 MAX_DAYS = 90  # the trend chart goes back at most three months (Q130)
 TOP_UNMATCHED = 10
+# VPS 2026-11-09: five fruits ended `source_unreachable` on one run while another run read them.
+# An unreachable page is asked again after these pauses (seconds) before the fruit fails.
+RETRY_WAITS = (10.0, 30.0)
+
+
+async def _wait(seconds: float) -> None:
+    await asyncio.sleep(seconds)
+
 
 Key = tuple[str, str, str, str]  # commodity, market, variety, grade ('' when blank)
 
@@ -72,23 +80,38 @@ class ArchiveProvider(Protocol):
 class ArchiveClient:
     """Reads the archive resource; same error codes as `AgmarknetClient`."""
 
-    def __init__(
+    def __init__(  # noqa: PLR0913 - where to read and how long to wait, all explicit
         self,
         http: httpx.AsyncClient,
         *,
         base_url: str,
         resource_id: str,
         api_key: str,
+        timeout: float,
         max_pages: int = ARCHIVE_MAX_PAGES,
     ) -> None:
         self._http = http
+        self._timeout = timeout
         self._url = f"{base_url.rstrip('/')}/resource/{resource_id}"
         self._api_key = api_key
         self._max_pages = max_pages
 
     async def _page(self, params: dict[str, str | int]) -> dict[str, Any]:
+        """One page; an unreachable answer (network error, timeout, non-200) is asked again
+        after each pause in RETRY_WAITS, a bad answer is not."""
+        for pause in RETRY_WAITS:
+            try:
+                return await self._page_once(params)
+            except MarketUnavailableError as exc:
+                if exc.code != REASON_UNREACHABLE:
+                    raise
+                log.warning("market_backfill_retry", detail=str(exc), wait=pause)
+                await _wait(pause)
+        return await self._page_once(params)
+
+    async def _page_once(self, params: dict[str, str | int]) -> dict[str, Any]:
         try:
-            response = await self._http.get(self._url, params=params)
+            response = await self._http.get(self._url, params=params, timeout=self._timeout)
         except httpx.HTTPError as exc:
             raise MarketUnavailableError(str(exc), code=REASON_UNREACHABLE) from exc
         if response.status_code != httpx.codes.OK:
@@ -149,6 +172,7 @@ def archive_client(http: httpx.AsyncClient, settings: Settings) -> ArchiveClient
         base_url=settings.market_api_base_url,
         resource_id=settings.market_archive_resource_id,
         api_key=settings.market_api_key.get_secret_value(),
+        timeout=settings.market_archive_timeout_seconds,
     )
 
 
