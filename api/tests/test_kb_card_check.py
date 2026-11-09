@@ -47,6 +47,7 @@ CARDS: dict[str, Any] = {
                         "en": "Dig a drainage channel 60 cm wide x 30 cm deep between rows.",
                         "mr": "दोन ओळींमध्ये ६० सें.मी. रुंद x ३० सें.मी. खोल चर खणा.",
                     },
+                    "source": 'C02 "Foot Rot" (60 x 30 cm)',
                     "source_keys": ["C02"],
                 },
                 {
@@ -97,7 +98,7 @@ async def test_a_supported_point_passes_and_a_wrong_number_fails() -> None:
             "item 20": ("supported", "Apply Bordeaux paste up to 60 cm of the trunk."),
         }
     )
-    results, failed = await check_cards(CARDS, http(), checker, limit=60_000)
+    results, failed, _ = await check_cards(CARDS, http(), checker, limit=60_000)
     by_id = {r.point.id: r for r in results}
     assert by_id["item 19"].passed
     # 90 cm is not in the source: the number check fails the point whatever the AI says.
@@ -116,29 +117,36 @@ async def test_a_supported_point_passes_and_a_wrong_number_fails() -> None:
 
 async def test_a_quote_not_in_the_source_is_not_trusted() -> None:
     checker = FakeChecker({"item 19": ("supported", "Channels must be one metre deep.")})
-    results, _ = await check_cards(CARDS, http(), checker, limit=60_000)
+    results, _, _ = await check_cards(CARDS, http(), checker, limit=60_000)
     item = next(r for r in results if r.point.id == "item 19")
-    assert item.verdicts["C02"] == ("not_found", "")
+    # Reported apart from not_found, with the model's own verdict kept for the reader.
+    assert item.verdicts["C02"] == (
+        "unverified_quote",
+        "[model: supported] Channels must be one metre deep.",
+    )
+    assert item.verdict == "unverified_quote"
     assert not item.passed
 
 
 async def test_without_a_key_only_the_numbers_are_checked() -> None:
-    results, _ = await check_cards(CARDS, http(), None, limit=60_000)
+    results, _, _ = await check_cards(CARDS, http(), None, limit=60_000)
     assert {r.verdict for r in results} == {"not_checked", "unreadable"}
     item = next(r for r in results if r.point.id == "item 19")
     assert item.number_issues == []  # the Marathi digits are 60 and 30 too
 
 
 async def test_the_report_lists_failures_first_and_unread_sources() -> None:
-    results, failed = await check_cards(
+    results, failed, read = await check_cards(
         CARDS, http(), FakeChecker({"item 19": ("supported", "60 cm wide")}), limit=60_000
     )
-    text = report(results, failed)
+    text = report(results, failed, read)
     assert "Points: 4 · passed: 1" in text
     rows = [line for line in text.splitlines() if line.startswith("| item")]
     assert rows[-1].startswith("| item 19 ")
     assert "✅" in rows[-1]
     assert "- GONE: HTTP 403" in text
+    assert "## Characters read per source" in text
+    assert read["C02"] > 100
 
 
 def test_long_sources_send_the_passages_that_match_the_points() -> None:
@@ -156,6 +164,11 @@ def test_quotes_match_across_spacing_case_and_line_breaks() -> None:
         "Provide drainage-channels\n60 CM wide", "provide drainage channels 60 cm wide"
     )
     assert not quote_in_source("", "anything")
+    # A quote shortened with an ellipsis counts when every part is in the source.
+    source = "Provide drainage channels 60 cm wide and 30 cm deep between rows."
+    assert quote_in_source("Provide drainage channels … 30 cm deep between rows", source)
+    assert not quote_in_source("Provide drainage channels ... 90 cm deep", source)
+    assert not quote_in_source("…", source)
 
 
 async def test_the_ai_request_uses_the_strong_model_and_a_schema(tmp_path: Path) -> None:
@@ -168,7 +181,7 @@ async def test_the_ai_request_uses_the_strong_model_and_a_schema(tmp_path: Path)
 
     settings = Settings(environment="test", feed_ai_api_key="sk-test-not-real")
     checker = AiPointChecker(httpx.AsyncClient(transport=httpx.MockTransport(handler)), settings)
-    point = Point("item 19", {"en": "Dig a drainage channel."}, ("C02",))
+    point = Point("item 19", {"en": "Dig a drainage channel."}, ("C02",), "C02 (60 cm)")
     assert await checker.check("passages", [point]) == {"item 19": ("supported", "q")}
     body = seen[0]
     assert body["model"] == settings.feed_summarise_model
@@ -176,4 +189,6 @@ async def test_the_ai_request_uses_the_strong_model_and_a_schema(tmp_path: Path)
     assert body["output_config"]["format"]["type"] == "json_schema"
     content = body["messages"][0]["content"]
     assert "<document>\npassages\n</document>" in content
-    assert "item 19: Dig a drainage channel." in content
+    assert "item 19: Dig a drainage channel. (cited as: C02 (60 cm))" in content
+    for rule in ("cited as", "judge only the part", "is supported, not contradicted", "…"):
+        assert rule in CHECK_PROMPT

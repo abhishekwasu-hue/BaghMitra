@@ -12,8 +12,12 @@ profile parts such as symptoms, preparations). For each cited source the documen
    of its cited sources (the `feed.output_check` rule the news articles use);
 2. AI check, only with FEED_AI_API_KEY: the model reads the passages of the source that share
    the most words with the points and answers per point `supported` / `contradicted` /
-   `not_found` with a verbatim quote. A quote that is not in the source text is counted as
-   `not_found`: the model is never trusted on its word.
+   `not_found` with a verbatim quote, checked against the source text: the model is never
+   trusted on its word.
+A verdict whose quote is not in the source is reported as `unverified_quote` (the model's
+own verdict is kept beside it), so a failed quote match is never mistaken for a missing point.
+The model is told what each source is cited for (the point's `source` note): a point that
+combines several sources is judged, per document, only on the part that document is cited for.
 A point passes when one cited source supports it and the number check finds nothing. The tool
 only writes a report; it changes no card.
 """
@@ -44,13 +48,16 @@ MIN_WORD_LEN = 4
 
 CHECK_PROMPT = """You check advice cards for orange and sweet-lime farmers against the official
 document each card cites. The user message has passages of that document and numbered points.
+Each point says what the document is cited for ("cited as"). A point may combine several
+sources: judge only the part this document is cited for. A range or a list that includes what
+the document states, with the rest cited to another source, is supported, not contradicted.
 For every point answer from the document text only, never from general knowledge:
 - "supported": the document gives the same advice (same measure, product, dose, timing and
   numbers). quote = the sentence(s) that say so, copied character for character.
 - "contradicted": the document says something different (another dose, timing, product or
-  number). quote = the conflicting sentence, copied character for character.
+  number for the same thing). quote = the conflicting sentence, copied character for character.
 - "not_found": the passages do not state it. quote = "".
-Never paraphrase a quote. Answer once for every id."""
+Quote one passage without "…" or gaps; never paraphrase a quote. Answer once for every id."""
 
 CHECK_SCHEMA: dict[str, Any] = {
     "type": "object",
@@ -79,6 +86,7 @@ class Point:
     id: str
     labels: Mapping[str, str]
     source_keys: tuple[str, ...]
+    cited_as: str = ""
 
 
 @dataclass(slots=True)
@@ -91,7 +99,7 @@ class Result:
     @property
     def verdict(self) -> str:
         found = {v for v, _ in self.verdicts.values()}
-        for verdict in ("supported", "contradicted", "not_found", "unreadable"):
+        for verdict in ("supported", "contradicted", "unverified_quote", "not_found", "unreadable"):
             if verdict in found:
                 return verdict
         return "not_checked"
@@ -112,7 +120,9 @@ def iter_points(node: Any, path: str = "") -> Iterator[Point]:
         if isinstance(labels, dict) and isinstance(keys, list) and keys:
             name = f"item {node['id']}" if "id" in node else path
             texts = {k: v for k, v in labels.items() if isinstance(v, str)}
-            yield Point(name, texts, tuple(str(k) for k in keys))
+            note = node.get("source")
+            cited = note if isinstance(note, str) else ""
+            yield Point(name, texts, tuple(str(k) for k in keys), cited)
         for key, value in node.items():
             if key not in ("labels", "source_keys"):
                 yield from iter_points(value, f"{path}.{key}" if path else str(key))
@@ -148,9 +158,12 @@ def _squash(text: str) -> str:
 
 
 def quote_in_source(quote: str, source: str) -> bool:
-    """A quote counts only when it is in the source (case, spacing and punctuation aside)."""
-    squashed = _squash(quote)
-    return bool(squashed) and squashed in _squash(source)
+    """A quote counts only when it is in the source (case, spacing and punctuation aside); a
+    quote the model shortened with "…" counts when every part of it is in the source."""
+    parts = [_squash(p) for p in re.split(r"…|\.{3}", quote)]
+    parts = [p for p in parts if p]
+    haystack = _squash(source)
+    return bool(parts) and all(p in haystack for p in parts)
 
 
 def number_issues(point: Point, source_text: str) -> list[str]:
@@ -185,7 +198,11 @@ class AiPointChecker:
         self._settings = settings
 
     async def check(self, passages: str, points: list[Point]) -> dict[str, tuple[str, str]]:
-        listed = "\n".join(f"{p.id}: {p.labels.get('en', '')}" for p in points)
+        listed = "\n".join(
+            f"{p.id}: {p.labels.get('en', '')}"
+            + (f" (cited as: {p.cited_as})" if p.cited_as else "")
+            for p in points
+        )
         answer = await self._ai.ask_json(
             CHECK_PROMPT,
             passages,
@@ -207,8 +224,9 @@ async def check_cards(
     *,
     limit: int,
     only: set[str] | None = None,
-) -> tuple[list[Result], dict[str, str]]:
-    """Results per point and the sources that could not be read (key -> reason)."""
+) -> tuple[list[Result], dict[str, str], dict[str, int]]:
+    """Results per point, the sources that could not be read (key -> reason) and the
+    characters of text read from each other source (a page that is mostly menu shows here)."""
     sources: Mapping[str, Any] = cards.get("sources", {})
     results = [Result(p) for p in iter_points({k: v for k, v in cards.items() if k != "sources"})]
     texts: dict[str, str] = {}
@@ -238,16 +256,18 @@ async def check_cards(
         for r in mine:
             verdict, quote = answers.get(r.point.id, ("not_found", ""))
             if verdict != "not_found" and not quote_in_source(quote, text):
-                verdict, quote = "not_found", ""
+                verdict, quote = "unverified_quote", f"[model: {verdict}] {quote}"
             r.verdicts[key] = (verdict, quote)
     for r in results:
         cited = "\n".join(texts[k] for k in r.point.source_keys if k in texts)
         if cited:
             r.number_issues = number_issues(r.point, cited)
-    return results, failed
+    return results, failed, {k: len(t) for k, t in texts.items()}
 
 
-def report(results: list[Result], failed: Mapping[str, str]) -> str:
+def report(
+    results: list[Result], failed: Mapping[str, str], read: Mapping[str, int] | None = None
+) -> str:
     counts: dict[str, int] = {}
     for r in results:
         counts[r.verdict] = counts.get(r.verdict, 0) + 1
@@ -275,6 +295,9 @@ def report(results: list[Result], failed: Mapping[str, str]) -> str:
     if failed:
         lines += ["", "## Sources not read", ""]
         lines += [f"- {k}: {v}" for k, v in sorted(failed.items())]
+    if read:
+        lines += ["", "## Characters read per source", ""]
+        lines += [" · ".join(f"{k}={v}" for k, v in sorted(read.items()))]
     return "\n".join(lines) + "\n"
 
 
@@ -289,10 +312,10 @@ async def main(argv: list[str]) -> int:  # pragma: no cover - thin CLI wrapper
         )
         if checker is None:
             print("FEED_AI_API_KEY is not set: number check only", file=sys.stderr)
-        results, failed = await check_cards(
+        results, failed, read = await check_cards(
             cards, http, checker, limit=settings.feed_ai_max_source_chars, only=only
         )
-    print(report(results, failed))
+    print(report(results, failed, read))
     return 0
 
 

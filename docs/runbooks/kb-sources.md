@@ -78,3 +78,9 @@ cd /opt/bagmitra && bash deploy/deploy.sh && nohup sh -c 'cd /opt/bagmitra/deplo
 Result: `head -3 /root/card_check.md` (counts), `grep -c '❌' /root/card_check.md` (points that did
 not pass), `tail -40 /root/card_check.md` (sources the server could not read). `--only C02 R25`
 after the `-` checks only those sources.
+
+Reading the report: `unverified_quote` means the model gave a verdict but its quote is not in the
+source text (its verdict is shown as `[model: …]`); `not_found` means the model found nothing.
+"Characters read per source" shows how much text each page gave: a small number means the page
+holds little readable text. `/root/card_check.log` lists pypdf font warnings ("fontTools … not
+installed"): harmless, the text is still read.
