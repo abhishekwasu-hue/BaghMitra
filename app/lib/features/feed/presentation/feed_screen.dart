@@ -230,9 +230,18 @@ class FeedBadge extends StatelessWidget {
 
   static String text(AppLocalizations t, FeedItem item, String lang) {
     final date = formatDate(item.publishedAt.toLocal(), lang);
-    if (!item.isOfficial) return '${t.feedBadgeNews} · $date';
+    // Central or State government (owner 2026-11-09).
+    final level = switch (item.level) {
+      'central' => t.feedLevelCentral,
+      'state' => t.feedLevelState,
+      _ => null,
+    };
+    if (!item.isOfficial) {
+      return [t.feedBadgeNews, ?level, date].join(' · ');
+    }
     return [
       t.feedBadgeOfficial,
+      ?level,
       if (item.grNumber case final n?) t.feedGrNumber(n),
       date,
       ?item.department,

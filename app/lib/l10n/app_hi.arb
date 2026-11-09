@@ -498,6 +498,8 @@
   "feedFilterDeadlines": "आख़िरी तारीख़",
   "feedFilterNews": "ख़बरें",
   "feedBadgeOfficial": "आधिकारिक",
+  "feedLevelCentral": "भारत सरकार",
+  "feedLevelState": "महाराष्ट्र सरकार",
   "feedGrNumber": "GR सं. {number}",
   "feedBadgeNews": "ख़बर — आधिकारिक स्रोत से पुष्टि करें",
   "feedReplacedBy": "वापस लिया गया। इसकी जगह अब: {replacement}",

@@ -3094,6 +3094,18 @@ abstract class AppLocalizations {
   /// **'Official'**
   String get feedBadgeOfficial;
 
+  /// No description provided for @feedLevelCentral.
+  ///
+  /// In en, this message translates to:
+  /// **'Government of India'**
+  String get feedLevelCentral;
+
+  /// No description provided for @feedLevelState.
+  ///
+  /// In en, this message translates to:
+  /// **'Government of Maharashtra'**
+  String get feedLevelState;
+
   /// No description provided for @feedGrNumber.
   ///
   /// In en, this message translates to:

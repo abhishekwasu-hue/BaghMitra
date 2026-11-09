@@ -813,6 +813,8 @@
   "feedFilterDeadlines": "Deadlines",
   "feedFilterNews": "News",
   "feedBadgeOfficial": "Official",
+  "feedLevelCentral": "Government of India",
+  "feedLevelState": "Government of Maharashtra",
   "feedGrNumber": "GR {number}",
   "feedBadgeNews": "News — check the official source",
   "feedReplacedBy": "Withdrawn. Replaced by {replacement}",

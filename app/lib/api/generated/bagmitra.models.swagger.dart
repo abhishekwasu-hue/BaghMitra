@@ -6773,6 +6773,7 @@ class FeedItemOut {
     required this.department,
     required this.grNumber,
     required this.id,
+    this.level,
     required this.mayBeEligibleBecause,
     required this.publishedAt,
     required this.replacedBy,
@@ -6805,6 +6806,8 @@ class FeedItemOut {
   final String? grNumber;
   @JsonKey(name: 'id', includeIfNull: false)
   final String id;
+  @JsonKey(name: 'level', includeIfNull: false)
+  final String? level;
   @JsonKey(
     name: 'may_be_eligible_because',
     includeIfNull: false,
@@ -6862,6 +6865,8 @@ class FeedItemOut {
                 )) &&
             (identical(other.id, id) ||
                 const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.level, level) ||
+                const DeepCollectionEquality().equals(other.level, level)) &&
             (identical(other.mayBeEligibleBecause, mayBeEligibleBecause) ||
                 const DeepCollectionEquality().equals(
                   other.mayBeEligibleBecause,
@@ -6906,6 +6911,7 @@ class FeedItemOut {
       const DeepCollectionEquality().hash(department) ^
       const DeepCollectionEquality().hash(grNumber) ^
       const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(level) ^
       const DeepCollectionEquality().hash(mayBeEligibleBecause) ^
       const DeepCollectionEquality().hash(publishedAt) ^
       const DeepCollectionEquality().hash(replacedBy) ^
@@ -6926,6 +6932,7 @@ extension $FeedItemOutExtension on FeedItemOut {
     String? department,
     String? grNumber,
     String? id,
+    String? level,
     List<String>? mayBeEligibleBecause,
     DateTime? publishedAt,
     String? replacedBy,
@@ -6943,6 +6950,7 @@ extension $FeedItemOutExtension on FeedItemOut {
       department: department ?? this.department,
       grNumber: grNumber ?? this.grNumber,
       id: id ?? this.id,
+      level: level ?? this.level,
       mayBeEligibleBecause: mayBeEligibleBecause ?? this.mayBeEligibleBecause,
       publishedAt: publishedAt ?? this.publishedAt,
       replacedBy: replacedBy ?? this.replacedBy,
@@ -6962,6 +6970,7 @@ extension $FeedItemOutExtension on FeedItemOut {
     Wrapped<String?>? department,
     Wrapped<String?>? grNumber,
     Wrapped<String>? id,
+    Wrapped<String?>? level,
     Wrapped<List<String>>? mayBeEligibleBecause,
     Wrapped<DateTime>? publishedAt,
     Wrapped<String?>? replacedBy,
@@ -6981,6 +6990,7 @@ extension $FeedItemOutExtension on FeedItemOut {
       department: (department != null ? department.value : this.department),
       grNumber: (grNumber != null ? grNumber.value : this.grNumber),
       id: (id != null ? id.value : this.id),
+      level: (level != null ? level.value : this.level),
       mayBeEligibleBecause: (mayBeEligibleBecause != null
           ? mayBeEligibleBecause.value
           : this.mayBeEligibleBecause),
