@@ -3011,6 +3011,84 @@ class AppLocalizationsHi extends AppLocalizations {
   String get figureManureHere => 'खाद यहाँ, मिट्टी से ढकें';
 
   @override
+  String get figCankerSpots => 'उभरे, खुरदरे, भूरे धब्बे';
+
+  @override
+  String get figCankerHalo => 'पीला घेरा';
+
+  @override
+  String get figCankerFruit => 'फल पर: धब्बे छिलके तक रहते हैं';
+
+  @override
+  String get figMildewPowder => 'सफ़ेद चूर्ण';
+
+  @override
+  String get figMildewCurl => 'पत्तियाँ ऐंठती और मुड़ती हैं';
+
+  @override
+  String get figAnthPatch => 'हल्का भूरा धब्बा, बैंगनी किनारा';
+
+  @override
+  String get figAnthDots => 'बारीक काले बिंदु';
+
+  @override
+  String get figAnthTwig => 'मरी टहनी: चाँदी जैसी धूसर';
+
+  @override
+  String get figGreeningLeaf => 'हरे द्वीपों वाली पीली पत्ती';
+
+  @override
+  String get figGreeningFruit => 'फल छोटा, एक तरफ़ बढ़ा, हरा';
+
+  @override
+  String get figPsyllaNymphs => 'सिरों पर पीले-नारंगी शिशु';
+
+  @override
+  String get figPsyllaThreads => 'सफ़ेद मोमी धागे';
+
+  @override
+  String get figPsyllaCurl => 'नई पत्तियाँ मुड़ती हैं';
+
+  @override
+  String get figAphidColony => 'काले या भूरे माहू की कॉलोनियाँ';
+
+  @override
+  String get figAphidCup => 'कटोरी जैसी, सिकुड़ी पत्तियाँ';
+
+  @override
+  String get figMealyClusters => 'सफ़ेद, रुई जैसे गुच्छे';
+
+  @override
+  String get figSootyMould => 'काली फफूंद';
+
+  @override
+  String get figMinerMines => 'चाँदी जैसी, टेढ़ी-मेढ़ी सुरंगें';
+
+  @override
+  String get figMinerCurl => 'पत्ती मुड़ती, बिगड़ती है';
+
+  @override
+  String get figMitesVeins => 'नसों के साथ हल्के पीले हिस्से';
+
+  @override
+  String get figMitesWeb => 'बारीक जाला: धूल भरी पत्तियाँ';
+
+  @override
+  String get figMitesRind => 'खुरदरा छिलका (रसेटिंग)';
+
+  @override
+  String get figThripsRing => 'डंठल के चारों ओर छल्ले जैसा निशान';
+
+  @override
+  String get figThripsPatches => 'छिलके पर अनियमित धब्बे';
+
+  @override
+  String get figHeatSummer => 'गर्मी का मौसम';
+
+  @override
+  String get figHeatDrop => 'फल गिरने की दूसरी लहर';
+
+  @override
   String get practicesScout => 'निगरानी कैसे करें';
 
   @override

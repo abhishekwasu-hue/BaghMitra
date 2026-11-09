@@ -3008,6 +3008,84 @@ class AppLocalizationsMr extends AppLocalizations {
   String get figureManureHere => 'खत इथे, मातीने झाका';
 
   @override
+  String get figCankerSpots => 'उंचवट्याचे, खरबरीत, तपकिरी डाग';
+
+  @override
+  String get figCankerHalo => 'पिवळे वलय';
+
+  @override
+  String get figCankerFruit => 'फळावर: डाग सालीतच राहतात';
+
+  @override
+  String get figMildewPowder => 'पांढरी भुकटी';
+
+  @override
+  String get figMildewCurl => 'पाने वळतात व गुंडाळतात';
+
+  @override
+  String get figAnthPatch => 'फिकट तपकिरी चट्टा, कडा जांभळी';
+
+  @override
+  String get figAnthDots => 'बारीक काळे ठिपके';
+
+  @override
+  String get figAnthTwig => 'मेलेली काडी: चंदेरी राखाडी';
+
+  @override
+  String get figGreeningLeaf => 'हिरव्या बेटांसारखे चट्टे असलेले पिवळे पान';
+
+  @override
+  String get figGreeningFruit => 'फळ लहान, एका बाजूला वाढलेले, हिरवे';
+
+  @override
+  String get figPsyllaNymphs => 'शेंड्यांवर पिवळी-नारिंगी पिल्ले';
+
+  @override
+  String get figPsyllaThreads => 'पांढरे मेणचट धागे';
+
+  @override
+  String get figPsyllaCurl => 'नवीन पाने गुंडाळतात';
+
+  @override
+  String get figAphidColony => 'काळ्या किंवा तपकिरी माव्याच्या वसाहती';
+
+  @override
+  String get figAphidCup => 'वाटीसारखी, सुरकुतलेली पाने';
+
+  @override
+  String get figMealyClusters => 'पांढरे, कापसासारखे पुंजके';
+
+  @override
+  String get figSootyMould => 'काळी बुरशी';
+
+  @override
+  String get figMinerMines => 'चंदेरी, नागमोडी बोगदे';
+
+  @override
+  String get figMinerCurl => 'पान गुंडाळते, वेडेवाकडे होते';
+
+  @override
+  String get figMitesVeins => 'शिरांच्या बाजूने फिकट पिवळे भाग';
+
+  @override
+  String get figMitesWeb => 'बारीक जाळे: पाने धुळकट';
+
+  @override
+  String get figMitesRind => 'खरबरीत साल (रसेटिंग)';
+
+  @override
+  String get figThripsRing => 'देठाभोवती गोल व्रणासारखा डाग';
+
+  @override
+  String get figThripsPatches => 'सालीवर अनियमित चट्टे';
+
+  @override
+  String get figHeatSummer => 'उन्हाळ्याची उष्णता';
+
+  @override
+  String get figHeatDrop => 'फळगळीची दुसरी लाट';
+
+  @override
   String get practicesScout => 'पाहणी कशी करावी';
 
   @override

@@ -23,11 +23,14 @@ const _figures = [
   PracticeFigure(PracticeFigureKind.manureRing),
 ];
 
-void main() {
+void main() => figureGallery('practice_figures_batch1', _figures);
+
+/// One golden per theme with [figures] stacked at phone width, Marathi.
+void figureGallery(String name, List<PracticeFigure> figures) {
   for (final dark in [false, true]) {
     final mode = dark ? 'dark' : 'light';
-    testWidgets('practice_figures_batch1_mr_$mode', (tester) async {
-      tester.view.physicalSize = const Size(360, 1700);
+    testWidgets('${name}_mr_$mode', (tester) async {
+      tester.view.physicalSize = Size(360, 40.0 + figures.length * 210);
       tester.view.devicePixelRatio = 1;
       addTearDown(tester.view.reset);
       await tester.pumpWidget(
@@ -46,7 +49,7 @@ void main() {
             body: ListView(
               padding: const EdgeInsets.all(16),
               children: [
-                for (final f in _figures)
+                for (final f in figures)
                   Padding(
                     padding: const EdgeInsets.only(bottom: 12),
                     child: PracticeFigureView(figure: f, lang: 'mr'),
@@ -60,7 +63,7 @@ void main() {
       expect(tester.takeException(), isNull);
       await expectLater(
         find.byType(MaterialApp),
-        matchesGoldenFile('practice_figures_batch1_mr_$mode.png'),
+        matchesGoldenFile('${name}_mr_$mode.png'),
       );
     });
   }

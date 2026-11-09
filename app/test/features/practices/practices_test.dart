@@ -229,6 +229,16 @@ void main() {
         phytophthora.profile!.figure?.kind,
         PracticeFigureKind.gummosisTrunk,
       );
+      // Batch 2: every card with a symptom text shows a symptom drawing.
+      for (final s in data.sections) {
+        if (s.profile?.symptoms != null) {
+          expect(
+            s.profile!.figure,
+            isNotNull,
+            reason: '${s.key} symptom drawing',
+          );
+        }
+      }
       final drawn = [
         for (final s in data.sections)
           for (final i in s.items)

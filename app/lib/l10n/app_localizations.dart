@@ -5236,6 +5236,162 @@ abstract class AppLocalizations {
   /// **'Manure here, cover with soil'**
   String get figureManureHere;
 
+  /// No description provided for @figCankerSpots.
+  ///
+  /// In en, this message translates to:
+  /// **'Raised, rough, brown corky spots'**
+  String get figCankerSpots;
+
+  /// No description provided for @figCankerHalo.
+  ///
+  /// In en, this message translates to:
+  /// **'Yellow halo'**
+  String get figCankerHalo;
+
+  /// No description provided for @figCankerFruit.
+  ///
+  /// In en, this message translates to:
+  /// **'On fruit: spots stay in the rind'**
+  String get figCankerFruit;
+
+  /// No description provided for @figMildewPowder.
+  ///
+  /// In en, this message translates to:
+  /// **'White powder'**
+  String get figMildewPowder;
+
+  /// No description provided for @figMildewCurl.
+  ///
+  /// In en, this message translates to:
+  /// **'Leaves twist and curl'**
+  String get figMildewCurl;
+
+  /// No description provided for @figAnthPatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Light-tan patch, purple edge'**
+  String get figAnthPatch;
+
+  /// No description provided for @figAnthDots.
+  ///
+  /// In en, this message translates to:
+  /// **'Tiny black dots'**
+  String get figAnthDots;
+
+  /// No description provided for @figAnthTwig.
+  ///
+  /// In en, this message translates to:
+  /// **'Dead twig: silvery grey'**
+  String get figAnthTwig;
+
+  /// No description provided for @figGreeningLeaf.
+  ///
+  /// In en, this message translates to:
+  /// **'Yellow leaf with green islands'**
+  String get figGreeningLeaf;
+
+  /// No description provided for @figGreeningFruit.
+  ///
+  /// In en, this message translates to:
+  /// **'Fruit small, lopsided, green'**
+  String get figGreeningFruit;
+
+  /// No description provided for @figPsyllaNymphs.
+  ///
+  /// In en, this message translates to:
+  /// **'Yellow-orange nymphs on shoot tips'**
+  String get figPsyllaNymphs;
+
+  /// No description provided for @figPsyllaThreads.
+  ///
+  /// In en, this message translates to:
+  /// **'White waxy threads'**
+  String get figPsyllaThreads;
+
+  /// No description provided for @figPsyllaCurl.
+  ///
+  /// In en, this message translates to:
+  /// **'New leaves curl'**
+  String get figPsyllaCurl;
+
+  /// No description provided for @figAphidColony.
+  ///
+  /// In en, this message translates to:
+  /// **'Black or brown aphid colonies'**
+  String get figAphidColony;
+
+  /// No description provided for @figAphidCup.
+  ///
+  /// In en, this message translates to:
+  /// **'Cup-shaped, crinkled leaves'**
+  String get figAphidCup;
+
+  /// No description provided for @figMealyClusters.
+  ///
+  /// In en, this message translates to:
+  /// **'White cottony clusters'**
+  String get figMealyClusters;
+
+  /// No description provided for @figSootyMould.
+  ///
+  /// In en, this message translates to:
+  /// **'Sooty mould'**
+  String get figSootyMould;
+
+  /// No description provided for @figMinerMines.
+  ///
+  /// In en, this message translates to:
+  /// **'Silvery zig-zag mines'**
+  String get figMinerMines;
+
+  /// No description provided for @figMinerCurl.
+  ///
+  /// In en, this message translates to:
+  /// **'Leaf curls and distorts'**
+  String get figMinerCurl;
+
+  /// No description provided for @figMitesVeins.
+  ///
+  /// In en, this message translates to:
+  /// **'Pale yellow along the veins'**
+  String get figMitesVeins;
+
+  /// No description provided for @figMitesWeb.
+  ///
+  /// In en, this message translates to:
+  /// **'Fine webbing: dusty look'**
+  String get figMitesWeb;
+
+  /// No description provided for @figMitesRind.
+  ///
+  /// In en, this message translates to:
+  /// **'Rough rind (russeting)'**
+  String get figMitesRind;
+
+  /// No description provided for @figThripsRing.
+  ///
+  /// In en, this message translates to:
+  /// **'Ring-like scar round the stalk'**
+  String get figThripsRing;
+
+  /// No description provided for @figThripsPatches.
+  ///
+  /// In en, this message translates to:
+  /// **'Irregular patches on the rind'**
+  String get figThripsPatches;
+
+  /// No description provided for @figHeatSummer.
+  ///
+  /// In en, this message translates to:
+  /// **'Hot summer'**
+  String get figHeatSummer;
+
+  /// No description provided for @figHeatDrop.
+  ///
+  /// In en, this message translates to:
+  /// **'Second wave of fruit drop'**
+  String get figHeatDrop;
+
   /// No description provided for @practicesScout.
   ///
   /// In en, this message translates to:

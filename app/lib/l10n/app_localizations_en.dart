@@ -3014,6 +3014,84 @@ class AppLocalizationsEn extends AppLocalizations {
   String get figureManureHere => 'Manure here, cover with soil';
 
   @override
+  String get figCankerSpots => 'Raised, rough, brown corky spots';
+
+  @override
+  String get figCankerHalo => 'Yellow halo';
+
+  @override
+  String get figCankerFruit => 'On fruit: spots stay in the rind';
+
+  @override
+  String get figMildewPowder => 'White powder';
+
+  @override
+  String get figMildewCurl => 'Leaves twist and curl';
+
+  @override
+  String get figAnthPatch => 'Light-tan patch, purple edge';
+
+  @override
+  String get figAnthDots => 'Tiny black dots';
+
+  @override
+  String get figAnthTwig => 'Dead twig: silvery grey';
+
+  @override
+  String get figGreeningLeaf => 'Yellow leaf with green islands';
+
+  @override
+  String get figGreeningFruit => 'Fruit small, lopsided, green';
+
+  @override
+  String get figPsyllaNymphs => 'Yellow-orange nymphs on shoot tips';
+
+  @override
+  String get figPsyllaThreads => 'White waxy threads';
+
+  @override
+  String get figPsyllaCurl => 'New leaves curl';
+
+  @override
+  String get figAphidColony => 'Black or brown aphid colonies';
+
+  @override
+  String get figAphidCup => 'Cup-shaped, crinkled leaves';
+
+  @override
+  String get figMealyClusters => 'White cottony clusters';
+
+  @override
+  String get figSootyMould => 'Sooty mould';
+
+  @override
+  String get figMinerMines => 'Silvery zig-zag mines';
+
+  @override
+  String get figMinerCurl => 'Leaf curls and distorts';
+
+  @override
+  String get figMitesVeins => 'Pale yellow along the veins';
+
+  @override
+  String get figMitesWeb => 'Fine webbing: dusty look';
+
+  @override
+  String get figMitesRind => 'Rough rind (russeting)';
+
+  @override
+  String get figThripsRing => 'Ring-like scar round the stalk';
+
+  @override
+  String get figThripsPatches => 'Irregular patches on the rind';
+
+  @override
+  String get figHeatSummer => 'Hot summer';
+
+  @override
+  String get figHeatDrop => 'Second wave of fruit drop';
+
+  @override
   String get practicesScout => 'How to scout';
 
   @override
