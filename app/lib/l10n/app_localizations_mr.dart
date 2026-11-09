@@ -1743,6 +1743,12 @@ class AppLocalizationsMr extends AppLocalizations {
   String get feedBadgeOfficial => 'अधिकृत';
 
   @override
+  String get feedLevelCentral => 'केंद्र शासन';
+
+  @override
+  String get feedLevelState => 'महाराष्ट्र शासन';
+
+  @override
   String feedGrNumber(String number) {
     return 'GR क्र. $number';
   }

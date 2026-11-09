@@ -29,6 +29,7 @@ void main() {
     ('add_task_mr_light', '/tasks/new', seedPlot, ThemeMode.light, 1.0),
     ('market_mr_light', '/market', _seedPrices, ThemeMode.light, 1.0),
     ('feed_mr_light', '/feed', _seedFeed, ThemeMode.light, 1.0),
+    ('feed_mr_dark', '/feed', _seedFeed, ThemeMode.dark, 1.0),
     (
       'plot_detail_mr_light',
       '/plots/p1',

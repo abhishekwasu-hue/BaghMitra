@@ -28,6 +28,7 @@ Map<String, Object?> feedJson(
   List<String> eligible = const [],
   String? grNumber = 'GR-1',
   String? department = 'Agriculture Dept',
+  String? level,
 }) => {
   'id': id,
   'type': type,
@@ -42,6 +43,7 @@ Map<String, Object?> feedJson(
   'valid_to': validTo,
   'replaced_by': replacedBy,
   'may_be_eligible_because': eligible,
+  'level': ?level,
 };
 
 Map<String, Object?> feedBody(List<Map<String, Object?>> items) => {
