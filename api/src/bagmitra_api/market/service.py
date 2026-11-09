@@ -34,6 +34,9 @@ AGMARKNET = "agmarknet"
 MANUAL = "manual"  # typed in by a market_admin when Agmarknet has no price
 REASON_NOT_PULLED = "source_not_pulled_yet"
 REASON_OVERDUE = "source_pull_overdue"
+# Postgres (asyncpg) takes at most 32,767 bind parameters per statement; the lookup of existing
+# rows sends six per key, so keys go in batches (VPS 2026-11-09: 89,310 in one backfill query).
+MAX_BIND_PARAMS = 6000
 
 
 class MarketProvider(Protocol):
@@ -89,9 +92,12 @@ async def store_prices(
         MarketPrice.grade,
         MarketPrice.source,
     )
-    existing = await session.scalars(select(MarketPrice).where(tuple_(*key).in_(list(rows))))
-    for row in existing:
-        await session.delete(row)
+    keys = list(rows)
+    batch = MAX_BIND_PARAMS // len(key)
+    for start in range(0, len(keys), batch):
+        part = keys[start : start + batch]
+        for row in await session.scalars(select(MarketPrice).where(tuple_(*key).in_(part))):
+            await session.delete(row)
     await session.flush()
     session.add_all(
         MarketPrice(
