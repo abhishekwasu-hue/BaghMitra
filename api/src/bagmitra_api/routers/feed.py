@@ -25,7 +25,13 @@ from bagmitra_api.core.settings import Settings, get_settings
 from bagmitra_api.db.models import Farmer, Plot
 from bagmitra_api.db.session import DbSession
 from bagmitra_api.feed.matching import Target, eligibility_reasons, passes_filter, profile_from
-from bagmitra_api.feed.models import FeedItem, FeedItemI18n, FeedItemTarget, FeedReceipt
+from bagmitra_api.feed.models import (
+    FeedItem,
+    FeedItemI18n,
+    FeedItemTarget,
+    FeedReceipt,
+    FeedSource,
+)
 from bagmitra_api.feed.texts import FOOTER
 from bagmitra_api.weather.service import get_clock
 
@@ -56,6 +62,9 @@ class FeedItemOut(BaseModel):
     may_be_eligible_because: list[str]
     # The caller marked it seen (POST /v1/feed/{id}/seen); optional for older clients.
     seen: bool = False
+    # Who issued it: "central" (Government of India) or "state" (Maharashtra), from the source;
+    # None if unknown. Plain str in the contract (the app generator has no nullable enums).
+    level: str | None = None  # "central" or "state" only
 
 
 class FeedResponse(BaseModel):
@@ -138,6 +147,14 @@ async def feed(  # noqa: PLR0913 - query parameters and dependencies
         )
     )
 
+    source_ids = {item.source_id for item in rows}
+    levels = {
+        sid: level
+        for sid, level in await session.execute(
+            select(FeedSource.id, FeedSource.level).where(FeedSource.id.in_(source_ids))
+        )
+        if level in ("central", "state")
+    }
     items: list[FeedItemOut] = []
     for item in rows:
         text = _text(texts[item.id], lang)
@@ -165,6 +182,7 @@ async def feed(  # noqa: PLR0913 - query parameters and dependencies
                 replaced_by=item.replaced_by_id,
                 may_be_eligible_because=eligibility_reasons(targets[item.id], profile, lang),
                 seen=item.id in seen,
+                level=levels.get(item.source_id),
             )
         )
         if len(items) >= settings.feed_page_size:

@@ -13,6 +13,7 @@ class FeedItem {
     required this.publishedAt,
     required this.url,
     this.department,
+    this.level,
     this.grNumber,
     this.deadline,
     this.validTo,
@@ -28,6 +29,10 @@ class FeedItem {
     title: j['title']! as String,
     summary: (j['summary'] as String?) ?? '',
     department: j['department'] as String?,
+    level: switch (j['level']) {
+      'central' || 'state' => j['level']! as String,
+      _ => null,
+    },
     grNumber: j['gr_number'] as String?,
     publishedAt: DateTime.parse(j['published_at']! as String),
     url: j['url']! as String,
@@ -51,6 +56,9 @@ class FeedItem {
   final String title;
   final String summary;
   final String? department;
+
+  /// "central" (Government of India) or "state" (Maharashtra); null when not known.
+  final String? level;
   final String? grNumber;
   final DateTime publishedAt;
   final String url;
@@ -88,6 +96,7 @@ class FeedItem {
     'title': title,
     'summary': summary,
     'department': department,
+    'level': level,
     'gr_number': grNumber,
     'published_at': publishedAt.toUtc().toIso8601String(),
     'url': url,

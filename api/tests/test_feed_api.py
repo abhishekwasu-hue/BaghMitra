@@ -21,7 +21,7 @@ from bagmitra_api.db.session import get_sessionmaker
 from bagmitra_api.feed.ai import AiUnavailableError, Classification, FeedAi, Summary, get_feed_ai
 from bagmitra_api.feed.extract import OcrError, OcrResult, get_feed_ocr
 from bagmitra_api.feed.models import FeedDeadline, FeedItem, FeedReviewEvent, FeedSource
-from bagmitra_api.feed.seed import seed_feed_sources
+from bagmitra_api.feed.seed import seed_feed_sources, source_seeds
 from bagmitra_api.main import create_app
 from bagmitra_api.routers import admin_feed
 from tests.conftest import make_token
@@ -240,8 +240,9 @@ async def test_upload_review_publish_and_feed(
     assert set(shown) == {
         "id", "type", "trust", "title", "summary", "department", "gr_number", "published_at",
         "url", "deadline", "valid_to", "replaced_by", "may_be_eligible_because",
-        "seen", "date_is_first_seen",
+        "seen", "date_is_first_seen", "level",
     }  # fmt: skip
+    assert shown["level"] == "state"  # Maharashtra GR portal
     assert shown["date_is_first_seen"] is False
     assert shown["title"] == "फळबाग लागवड अनुदान"
     assert shown["trust"] == "official"
@@ -761,3 +762,33 @@ def test_text_cap_default() -> None:
     cut, truncated = admin_feed._capped(text)
     assert truncated
     assert cut == "अ" * 66_666
+
+
+def test_every_seeded_source_says_central_or_state() -> None:
+    """Owner 2026-11-09: the feed tells Central Government items from Maharashtra ones."""
+    levels = {s["key"]: s["level"] for s in source_seeds()}
+    assert set(levels.values()) == {"central", "state"}
+    assert levels["pib_agriculture_news"] == "central"
+    assert levels["pm_kisan"] == "central"
+    assert levels["mh_gr_portal"] == "state"
+    assert levels["mahadbt"] == "state"
+
+
+async def test_an_item_from_a_source_without_a_level_has_none(
+    api: httpx.AsyncClient, auth_headers: dict[str, str]
+) -> None:
+    item = await create(
+        api,
+        type="news",
+        source_key="test_news",
+        external_id="lv-1",
+        extracted_text=None,
+        document_base64=None,
+        document_type=None,
+        card=None,
+        targets=[],
+        texts={"en": {"title": "Headline", "summary": "Our own 2-line summary."}},
+    )
+    await approve_publish(api, item["id"])
+    [shown] = (await api.get("/v1/feed", headers=auth_headers)).json()["items"]
+    assert shown["level"] is None

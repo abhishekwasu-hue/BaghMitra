@@ -3440,6 +3440,17 @@
             "title": "Id",
             "type": "string"
           },
+          "level": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Level"
+          },
           "may_be_eligible_because": {
             "items": {
               "type": "string"

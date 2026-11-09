@@ -1335,6 +1335,7 @@ FeedItemOut _$FeedItemOutFromJson(Map<String, dynamic> json) => FeedItemOut(
   department: json['department'] as String?,
   grNumber: json['gr_number'] as String?,
   id: json['id'] as String,
+  level: json['level'] as String?,
   mayBeEligibleBecause:
       (json['may_be_eligible_because'] as List<dynamic>?)
           ?.map((e) => e as String)
@@ -1360,6 +1361,7 @@ Map<String, dynamic> _$FeedItemOutToJson(FeedItemOut instance) =>
       'department': ?instance.department,
       'gr_number': ?instance.grNumber,
       'id': instance.id,
+      'level': ?instance.level,
       'may_be_eligible_because': instance.mayBeEligibleBecause,
       'published_at': instance.publishedAt.toIso8601String(),
       'replaced_by': ?instance.replacedBy,

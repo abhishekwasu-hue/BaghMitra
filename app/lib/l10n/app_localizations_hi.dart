@@ -1745,6 +1745,12 @@ class AppLocalizationsHi extends AppLocalizations {
   String get feedBadgeOfficial => 'आधिकारिक';
 
   @override
+  String get feedLevelCentral => 'भारत सरकार';
+
+  @override
+  String get feedLevelState => 'महाराष्ट्र सरकार';
+
+  @override
   String feedGrNumber(String number) {
     return 'GR सं. $number';
   }

@@ -51,6 +51,8 @@ class FeedSource(TimestampMixin, Base):
     name: Mapped[str] = mapped_column(String(300))
     url: Mapped[str] = mapped_column(String(1000))
     tier: Mapped[str] = mapped_column(String(16))
+    # "central" (Government of India) or "state" (Maharashtra); shown on every item (0040).
+    level: Mapped[str | None] = mapped_column(String(16))
     # unknown | allowed | disallowed
     terms_status: Mapped[str] = mapped_column(String(16), default="unknown")
     # portal_list | rss | manual

@@ -28,6 +28,7 @@ final sampleFeed = feedBody([
   feedJson(
     'gr1',
     grNumber: 'GR-2026-101',
+    level: 'state',
     publishedAt: '2026-10-12T06:00:00Z',
     deadline: '2026-10-30',
     eligible: ['you grow oranges'],
@@ -54,6 +55,7 @@ final sampleFeed = feedBody([
     trust: 'news',
     grNumber: null,
     department: null,
+    level: 'central',
     publishedAt: '2026-10-11T06:00:00Z',
   ),
 ]);
@@ -100,14 +102,16 @@ void main() {
 
     expect(
       find.text(
-        'Official · GR GR-2026-101 · ${en(DateTime(2026, 10, 12))} · '
+        'Official · Government of Maharashtra · GR GR-2026-101 · '
+        '${en(DateTime(2026, 10, 12))} · '
         'Agriculture Dept',
       ),
       findsOneWidget,
     );
     expect(
       find.text(
-        'News — check the official source · ${en(DateTime(2026, 10, 11))}',
+        'News — check the official source · Government of India · '
+        '${en(DateTime(2026, 10, 11))}',
       ),
       findsOneWidget,
     );
@@ -215,7 +219,8 @@ void main() {
     await settle(tester);
     expect(sharer.shared, [
       'Title gr1\n'
-          'Official · GR GR-2026-101 · ${en(DateTime(2026, 10, 12))} · '
+          'Official · Government of Maharashtra · GR GR-2026-101 · '
+          '${en(DateTime(2026, 10, 12))} · '
           'Agriculture Dept\n'
           'Last date: ${en(DateTime(2026, 10, 30))}\n'
           'Source: https://example.org/gr1\n'
@@ -244,7 +249,8 @@ void main() {
     await pumpFeed(tester, location: '/feed/news1');
     expect(
       find.text(
-        'News — check the official source · ${en(DateTime(2026, 10, 11))}',
+        'News — check the official source · Government of India · '
+        '${en(DateTime(2026, 10, 11))}',
       ),
       findsOneWidget,
     );

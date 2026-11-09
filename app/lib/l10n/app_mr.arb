@@ -498,6 +498,8 @@
   "feedFilterDeadlines": "शेवटच्या तारखा",
   "feedFilterNews": "बातम्या",
   "feedBadgeOfficial": "अधिकृत",
+  "feedLevelCentral": "केंद्र शासन",
+  "feedLevelState": "महाराष्ट्र शासन",
   "feedGrNumber": "GR क्र. {number}",
   "feedBadgeNews": "बातमी — अधिकृत स्रोतावर खात्री करा",
   "feedReplacedBy": "मागे घेतले. याच्या जागी आता: {replacement}",
