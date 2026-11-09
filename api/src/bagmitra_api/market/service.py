@@ -16,7 +16,7 @@ from __future__ import annotations
 
 from collections.abc import Callable, Sequence
 from dataclasses import dataclass
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 from typing import Annotated, Protocol
 
 import httpx
@@ -136,15 +136,13 @@ def _pull_problem(pull: MarketPull | None, now: datetime, max_age: timedelta) ->
     return pull.last_error or REASON_OVERDUE
 
 
-async def prices_for_commodities(
+async def _freshness(
     session: AsyncSession, ctx: MarketContext, commodities: Sequence[str]
-) -> PriceView:
-    """Stored prices only (no fetch); see the module docstring for the stale rule."""
+) -> tuple[bool, str | None]:
+    """(stale, reason) for the stored prices of `commodities`; see the module docstring."""
     settings, now = ctx.settings, ctx.clock()
-    since = now - timedelta(days=settings.market_window_days)
-    rows = await _latest_per_mandi(session, commodities, since)
     if not settings.market_api_key.get_secret_value():
-        return PriceView(rows, stale=True, reason=REASON_NOT_CONFIGURED)
+        return True, REASON_NOT_CONFIGURED
     pulls = {
         p.commodity: p
         for p in await session.scalars(
@@ -155,5 +153,47 @@ async def prices_for_commodities(
     for commodity in commodities:
         problem = _pull_problem(pulls.get(commodity), now, max_age)
         if problem is not None:
-            return PriceView(rows, stale=True, reason=problem)
-    return PriceView(rows, stale=False)
+            return True, problem
+    return False, None
+
+
+async def prices_for_commodities(
+    session: AsyncSession, ctx: MarketContext, commodities: Sequence[str]
+) -> PriceView:
+    """Stored prices only (no fetch); see the module docstring for the stale rule."""
+    since = ctx.clock() - timedelta(days=ctx.settings.market_window_days)
+    rows = await _latest_per_mandi(session, commodities, since)
+    stale, reason = await _freshness(session, ctx, commodities)
+    return PriceView(rows, stale=stale, reason=reason)
+
+
+async def price_history(  # noqa: PLR0913 - one mandi is named by all of these
+    session: AsyncSession,
+    ctx: MarketContext,
+    commodities: Sequence[str],
+    *,
+    market: str,
+    variety: str,
+    grade: str,
+    days: int,
+) -> PriceView:
+    """Owner 2026-11-09 (price trend): one stored price per day for one mandi (market, variety,
+    grade) over the last `days` days, oldest first. On a day with both, the Agmarknet row wins
+    over a manual one. Days without a published price are simply absent (never filled in)."""
+    since = (ctx.clock() - timedelta(days=days)).date()
+    query = (
+        select(MarketPrice)
+        .where(
+            MarketPrice.commodity.in_(commodities),
+            MarketPrice.market == market,
+            MarketPrice.variety == variety,
+            MarketPrice.grade == grade,
+            MarketPrice.day > since,
+        )
+        .order_by(MarketPrice.day, MarketPrice.source == MANUAL)
+    )
+    per_day: dict[date, MarketPrice] = {}
+    for row in (await session.scalars(query)).all():
+        per_day.setdefault(row.day, row)
+    stale, reason = await _freshness(session, ctx, commodities)
+    return PriceView(list(per_day.values()), stale=stale, reason=reason)

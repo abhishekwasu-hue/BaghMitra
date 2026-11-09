@@ -10710,6 +10710,107 @@ extension $ManualPricesOutExtension on ManualPricesOut {
 }
 
 @JsonSerializable(explicitToJson: true)
+class MarketPriceHistory {
+  const MarketPriceHistory({
+    required this.days,
+    required this.grade,
+    required this.market,
+    this.reason,
+    required this.stale,
+    required this.variety,
+  });
+
+  factory MarketPriceHistory.fromJson(Map<String, dynamic> json) =>
+      _$MarketPriceHistoryFromJson(json);
+
+  static const toJsonFactory = _$MarketPriceHistoryToJson;
+  Map<String, dynamic> toJson() => _$MarketPriceHistoryToJson(this);
+
+  @JsonKey(name: 'days', includeIfNull: false, defaultValue: <PriceDay>[])
+  final List<PriceDay> days;
+  @JsonKey(name: 'grade', includeIfNull: false)
+  final String? grade;
+  @JsonKey(name: 'market', includeIfNull: false)
+  final String market;
+  @JsonKey(name: 'reason', includeIfNull: false)
+  final String? reason;
+  @JsonKey(name: 'stale', includeIfNull: false)
+  final bool stale;
+  @JsonKey(name: 'variety', includeIfNull: false)
+  final String? variety;
+  static const fromJsonFactory = _$MarketPriceHistoryFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is MarketPriceHistory &&
+            (identical(other.days, days) ||
+                const DeepCollectionEquality().equals(other.days, days)) &&
+            (identical(other.grade, grade) ||
+                const DeepCollectionEquality().equals(other.grade, grade)) &&
+            (identical(other.market, market) ||
+                const DeepCollectionEquality().equals(other.market, market)) &&
+            (identical(other.reason, reason) ||
+                const DeepCollectionEquality().equals(other.reason, reason)) &&
+            (identical(other.stale, stale) ||
+                const DeepCollectionEquality().equals(other.stale, stale)) &&
+            (identical(other.variety, variety) ||
+                const DeepCollectionEquality().equals(other.variety, variety)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(days) ^
+      const DeepCollectionEquality().hash(grade) ^
+      const DeepCollectionEquality().hash(market) ^
+      const DeepCollectionEquality().hash(reason) ^
+      const DeepCollectionEquality().hash(stale) ^
+      const DeepCollectionEquality().hash(variety) ^
+      runtimeType.hashCode;
+}
+
+extension $MarketPriceHistoryExtension on MarketPriceHistory {
+  MarketPriceHistory copyWith({
+    List<PriceDay>? days,
+    String? grade,
+    String? market,
+    String? reason,
+    bool? stale,
+    String? variety,
+  }) {
+    return MarketPriceHistory(
+      days: days ?? this.days,
+      grade: grade ?? this.grade,
+      market: market ?? this.market,
+      reason: reason ?? this.reason,
+      stale: stale ?? this.stale,
+      variety: variety ?? this.variety,
+    );
+  }
+
+  MarketPriceHistory copyWithWrapped({
+    Wrapped<List<PriceDay>>? days,
+    Wrapped<String?>? grade,
+    Wrapped<String>? market,
+    Wrapped<String?>? reason,
+    Wrapped<bool>? stale,
+    Wrapped<String?>? variety,
+  }) {
+    return MarketPriceHistory(
+      days: (days != null ? days.value : this.days),
+      grade: (grade != null ? grade.value : this.grade),
+      market: (market != null ? market.value : this.market),
+      reason: (reason != null ? reason.value : this.reason),
+      stale: (stale != null ? stale.value : this.stale),
+      variety: (variety != null ? variety.value : this.variety),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class MarketPriceOut {
   const MarketPriceOut({
     required this.commodity,
@@ -14043,6 +14144,112 @@ extension $PriceChangeOutExtension on PriceChangeOut {
           ? newPricePaise.value
           : this.newPricePaise),
       state: (state != null ? state.value : this.state),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class PriceDay {
+  const PriceDay({
+    required this.day,
+    required this.maxRsPerQuintal,
+    required this.minRsPerQuintal,
+    required this.modalRsPerQuintal,
+    required this.source,
+  });
+
+  factory PriceDay.fromJson(Map<String, dynamic> json) =>
+      _$PriceDayFromJson(json);
+
+  static const toJsonFactory = _$PriceDayToJson;
+  Map<String, dynamic> toJson() => _$PriceDayToJson(this);
+
+  @JsonKey(name: 'day', includeIfNull: false, toJson: _dateToJson)
+  final DateTime day;
+  @JsonKey(name: 'max_rs_per_quintal', includeIfNull: false)
+  final int? maxRsPerQuintal;
+  @JsonKey(name: 'min_rs_per_quintal', includeIfNull: false)
+  final int? minRsPerQuintal;
+  @JsonKey(name: 'modal_rs_per_quintal', includeIfNull: false)
+  final int modalRsPerQuintal;
+  @JsonKey(name: 'source', includeIfNull: false)
+  final String source;
+  static const fromJsonFactory = _$PriceDayFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is PriceDay &&
+            (identical(other.day, day) ||
+                const DeepCollectionEquality().equals(other.day, day)) &&
+            (identical(other.maxRsPerQuintal, maxRsPerQuintal) ||
+                const DeepCollectionEquality().equals(
+                  other.maxRsPerQuintal,
+                  maxRsPerQuintal,
+                )) &&
+            (identical(other.minRsPerQuintal, minRsPerQuintal) ||
+                const DeepCollectionEquality().equals(
+                  other.minRsPerQuintal,
+                  minRsPerQuintal,
+                )) &&
+            (identical(other.modalRsPerQuintal, modalRsPerQuintal) ||
+                const DeepCollectionEquality().equals(
+                  other.modalRsPerQuintal,
+                  modalRsPerQuintal,
+                )) &&
+            (identical(other.source, source) ||
+                const DeepCollectionEquality().equals(other.source, source)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(day) ^
+      const DeepCollectionEquality().hash(maxRsPerQuintal) ^
+      const DeepCollectionEquality().hash(minRsPerQuintal) ^
+      const DeepCollectionEquality().hash(modalRsPerQuintal) ^
+      const DeepCollectionEquality().hash(source) ^
+      runtimeType.hashCode;
+}
+
+extension $PriceDayExtension on PriceDay {
+  PriceDay copyWith({
+    DateTime? day,
+    int? maxRsPerQuintal,
+    int? minRsPerQuintal,
+    int? modalRsPerQuintal,
+    String? source,
+  }) {
+    return PriceDay(
+      day: day ?? this.day,
+      maxRsPerQuintal: maxRsPerQuintal ?? this.maxRsPerQuintal,
+      minRsPerQuintal: minRsPerQuintal ?? this.minRsPerQuintal,
+      modalRsPerQuintal: modalRsPerQuintal ?? this.modalRsPerQuintal,
+      source: source ?? this.source,
+    );
+  }
+
+  PriceDay copyWithWrapped({
+    Wrapped<DateTime>? day,
+    Wrapped<int?>? maxRsPerQuintal,
+    Wrapped<int?>? minRsPerQuintal,
+    Wrapped<int>? modalRsPerQuintal,
+    Wrapped<String>? source,
+  }) {
+    return PriceDay(
+      day: (day != null ? day.value : this.day),
+      maxRsPerQuintal: (maxRsPerQuintal != null
+          ? maxRsPerQuintal.value
+          : this.maxRsPerQuintal),
+      minRsPerQuintal: (minRsPerQuintal != null
+          ? minRsPerQuintal.value
+          : this.minRsPerQuintal),
+      modalRsPerQuintal: (modalRsPerQuintal != null
+          ? modalRsPerQuintal.value
+          : this.modalRsPerQuintal),
+      source: (source != null ? source.value : this.source),
     );
   }
 }

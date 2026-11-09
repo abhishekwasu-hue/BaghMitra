@@ -10,9 +10,16 @@ from pydantic import BaseModel
 from bagmitra_api.auth.jwt import CurrentUser
 from bagmitra_api.core.errors import ApiError, ErrorResponse
 from bagmitra_api.db.session import DbSession
-from bagmitra_api.market.service import MarketContext, get_market_context, prices_for_commodities
+from bagmitra_api.market.service import (
+    MarketContext,
+    get_market_context,
+    price_history,
+    prices_for_commodities,
+)
 
 router = APIRouter(prefix="/v1", tags=["market"])
+# Owner 2026-11-09: the trend chart goes back three months.
+MAX_HISTORY_DAYS = 90
 
 
 class MarketPriceOut(BaseModel):
@@ -85,6 +92,67 @@ async def get_market_prices(
         rows = [r for r in rows if r.is_major]
     rows.sort(key=lambda r: (not r.is_local, not r.is_major, r.state, r.market, r.variety or ""))
     return MarketPrices(prices=rows, stale=view.stale, reason=view.reason)
+
+
+class PriceDay(BaseModel):
+    day: date
+    min_rs_per_quintal: int | None
+    max_rs_per_quintal: int | None
+    modal_rs_per_quintal: int
+    source: str
+
+
+class MarketPriceHistory(BaseModel):
+    market: str
+    variety: str | None
+    grade: str | None
+    days: list[PriceDay]
+    stale: bool
+    reason: str | None = None
+
+
+@router.get(
+    "/market/prices/history",
+    operation_id="market_price_history_get",
+    responses={401: {"model": ErrorResponse}, 404: {"model": ErrorResponse}},
+)
+async def get_market_price_history(  # noqa: PLR0913 - query parameters
+    _user: CurrentUser,
+    session: DbSession,
+    ctx: Annotated[MarketContext, Depends(get_market_context)],
+    crop: Annotated[str, Query(pattern="^[a-z_]{2,32}$")],
+    market: Annotated[str, Query(min_length=1, max_length=80)],
+    variety: Annotated[str, Query(max_length=80)] = "",
+    grade: Annotated[str, Query(max_length=40)] = "",
+    days: Annotated[int, Query(ge=1, le=MAX_HISTORY_DAYS)] = MAX_HISTORY_DAYS,
+) -> MarketPriceHistory:
+    """Owner 2026-11-09 (price trend chart): the stored price (₹ per quintal) of one mandi for
+    each day of the last `days` days (at most 90), oldest first, as published. A day without a
+    published price is absent, never estimated. `variety` / `grade` are as in /market/prices
+    (empty when the source left them blank); `stale` / `reason` as there."""
+    commodities = ctx.settings.market_commodities.get(crop)
+    if not commodities:
+        raise ApiError(404, "crop_not_priced", f"no market commodity configured for {crop}")
+    view = await price_history(
+        session, ctx, commodities, market=market, variety=variety, grade=grade, days=days
+    )
+    return MarketPriceHistory(
+        market=market,
+        variety=variety or None,
+        grade=grade or None,
+        days=[
+            PriceDay(
+                day=p.day,
+                min_rs_per_quintal=p.min_rs_per_quintal,
+                max_rs_per_quintal=p.max_rs_per_quintal,
+                modal_rs_per_quintal=p.modal_rs_per_quintal,
+                source=p.source,
+            )
+            for p in view.prices
+        ],
+        stale=view.stale,
+        reason=view.reason,
+    )
 
 
 def _words(text: str) -> list[str]:
