@@ -240,7 +240,7 @@ async def test_upload_review_publish_and_feed(
     assert set(shown) == {
         "id", "type", "trust", "title", "summary", "department", "gr_number", "published_at",
         "url", "deadline", "valid_to", "replaced_by", "may_be_eligible_because",
-        "seen", "date_is_first_seen", "level",
+        "seen", "date_is_first_seen", "level", "article",
     }  # fmt: skip
     assert shown["level"] == "state"  # Maharashtra GR portal
     assert shown["date_is_first_seen"] is False

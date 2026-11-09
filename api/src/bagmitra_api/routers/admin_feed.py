@@ -44,7 +44,7 @@ AppSettings = Annotated[Settings, Depends(get_settings)]
 Clock = Annotated[Callable[[], datetime], Depends(get_clock)]
 Lang = Literal["en", "mr", "hi"]
 ItemType = Literal["gr", "circular", "scheme", "alert", "news"]
-ItemStatus = Literal["draft", "in_review", "published", "withdrawn"]
+ItemStatus = Literal["draft", "in_review", "published", "withdrawn", "held"]
 INDIA = ZoneInfo("Asia/Kolkata")
 ERRORS: dict[int | str, dict[str, Any]] = {
     404: {"model": ErrorResponse},

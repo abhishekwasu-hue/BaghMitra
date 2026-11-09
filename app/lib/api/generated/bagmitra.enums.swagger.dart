@@ -739,7 +739,9 @@ enum V1AdminFeedItemsGetStatus {
   @JsonValue('published')
   published('published'),
   @JsonValue('withdrawn')
-  withdrawn('withdrawn');
+  withdrawn('withdrawn'),
+  @JsonValue('held')
+  held('held');
 
   final String? value;
 

@@ -173,6 +173,10 @@ class GrPortalAdapter:
                 await self._sleep(delay)
         self._last = self._clock()
 
+    async def get(self, url: str) -> httpx.Response:
+        """One polite GET (spacing, user agent); FetchFailedError on a network error."""
+        return await self._get(url)
+
     async def _get(self, url: str) -> httpx.Response:
         await self._wait_turn()
         try:

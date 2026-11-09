@@ -193,6 +193,10 @@ class Settings(BaseSettings):
     feed_ai_max_tokens: int = 2000
     # Spec v1.6: one article set (mr / hi / en with sections, facts, charts) per news item.
     feed_article_max_tokens: int = 8000
+    # At most this many article requests to the model per UTC day (cost bound).
+    feed_ai_daily_items: int = Field(default=30, ge=0)
+    # Owner Q127: a checked article is published without review; false = human approval.
+    feed_auto_publish: bool = True
     feed_ai_timeout_seconds: float = 60.0
     # Source text sent to the model is cut to this many characters (cost bound).
     feed_ai_max_source_chars: int = 60_000

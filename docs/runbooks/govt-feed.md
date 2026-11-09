@@ -207,3 +207,19 @@ note that always points to the official portal; it never calls a message fake. R
 amounts (₹ / lakh), scheme names; an amount that differs is never an official match. The text
 is not stored; the log keeps only its length and the verdict. Limit: `FEED_CHECK_RATE_LIMIT`
 checks (default 20) per user per `FEED_CHECK_RATE_WINDOW_SECONDS` (3600), in memory (HTTP 429).
+
+## 11. AI news articles (spec v1.6, owner Q127)
+With `FEED_AI_API_KEY` set in the VPS `.env`, the news cron (§9) also writes an article for each new
+headline of a source whose terms are `allowed`: it reads the page (robots, spacing, 2 MB limit),
+the AI writes the article in mr / hi / en (sections, facts table, bar / pie charts) and the item is
+**published without review** when every check passes (`feed/article.py`), otherwise it is `held`
+with the reasons (admin web, status filter "held"). The page text is never stored (hash and size only).
+
+| `.env` | Default | Meaning |
+|---|---|---|
+| `FEED_AI_DAILY_ITEMS` | 30 | Articles requested from the model per UTC day |
+| `FEED_AUTO_PUBLISH` | true | `false`: checked articles wait for a `feed_admin` approval |
+| `FEED_ARTICLE_MAX_TOKENS` | 8000 | Model output limit per article set |
+
+Log: `/var/log/bagmitra-feed-news.log` (second JSON line: published / held / drafted / retry).
+Set a monthly spend limit in the Anthropic console.
