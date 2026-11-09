@@ -24,6 +24,33 @@ key is emptied): every 6 hours at 02:35, 08:35, 14:35 and 20:35 UTC (08:05, 14:0
 hand (`cd /opt/bagmitra/deploy && docker compose exec -T api python -m bagmitra_api.market.pull_job`)
 so prices show before the first scheduled run.
 
+## 90-day backfill (Q130)
+One-off fill of the price trend chart (`GET /v1/market/prices/history`, at most 90 days) from
+the data.gov.in "Variety-wise Daily Market Prices" archive (`MARKET_ARCHIVE_RESOURCE_ID`,
+default `35985678-0d79-46b4-9ed6-6f13308a1d24`; same `MARKET_API_KEY`, `MARKET_USER_AGENT` and
+`MARKET_TIMEOUT_SECONDS`). Per commodity in `MARKET_COMMODITIES` it reads every row with
+`Arrival_Date` in the last N days (pages of 1000, at most 100 pages) and:
+- stores a row only when its (commodity, market, variety, grade) is already stored from the
+  daily pull (`source: agmarknet`). Archive market names can differ (`Pune(Moshi) APMC` vs
+  `Pune(Moshi)`) and are never mapped by guess, so no duplicate mandi appears in the list;
+- never overwrites a day that already has a row for that mandi; inserts only missing days,
+  as `source: agmarknet` (so Agmarknet still wins over a manual row);
+- counts the rest (`unmatched`) and names the top 10 unmatched markets; they are not stored.
+
+It holds the market pull lock (exits with `skipped_reason` if a pull is running: run it again),
+does not touch `market_pulls`, and is safe to repeat. Exit 2 without `MARKET_API_KEY`, 1 when
+a commodity failed. Paste on the VPS (deploy, then the backfill, all in the background, so a
+closed SSH session does not stop it):
+```
+nohup bash -c 'cd /opt/bagmitra && bash deploy/deploy.sh > /root/market_backfill_deploy.log 2>&1 && cd /opt/bagmitra/deploy && docker compose exec -T api python -m bagmitra_api.market.backfill' > /root/market_backfill.log 2>&1 &
+```
+`--days N` (1..90, default 90) after `backfill` for a shorter window. Result (deploy tail, then
+one JSON line per commodity: `read`, `stored`, `skipped_existing`, `unmatched`,
+`top_unmatched_markets`, `error`; empty while it still runs):
+```
+tail -n 3 /root/market_backfill_deploy.log; cat /root/market_backfill.log
+```
+
 ## Read rule (fallback) and `reason`
 `reason` is a stable code the app translates; the technical detail goes to the job log, never
 to the farmer.
