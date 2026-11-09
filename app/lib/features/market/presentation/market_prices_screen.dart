@@ -16,6 +16,7 @@ import '../../voice/presentation/share_speak_buttons.dart';
 import '../data/market_prices_cache.dart';
 import '../domain/market_crops.dart';
 import '../domain/market_labels.dart';
+import 'price_trend_sheet.dart';
 
 /// Mandi prices for the grower's crop, exactly as the API published them (never estimated),
 /// from the phone's cache so the list works offline. Mandi, state and variety names are
@@ -256,6 +257,18 @@ class _MarketPricesScreenState extends ConsumerState<MarketPricesScreen> {
                           style: BmType.cardTitle.copyWith(color: c.brand),
                         ),
                         Text(t.marketPerQuintal, style: BmType.meta),
+                        // Owner 2026-11-09 (Q130): the mandi's price trend.
+                        IconButton(
+                          key: Key('market-trend-${p.market}'),
+                          tooltip: t.marketTrendOpen,
+                          icon: Icon(Icons.show_chart_rounded, color: c.brand),
+                          onPressed: () => showPriceTrend(context, (
+                            crop: crop,
+                            market: p.market,
+                            variety: p.variety ?? '',
+                            grade: p.grade ?? '',
+                          )),
+                        ),
                         ShareSpeakButtons(
                           keyPrefix:
                               'market-${p.market}-${p.day.toIso8601String()}',

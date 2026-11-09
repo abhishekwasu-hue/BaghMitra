@@ -1534,6 +1534,53 @@ class AppLocalizationsMr extends AppLocalizations {
   }
 
   @override
+  String get marketTrendOpen => 'भावाचा कल';
+
+  @override
+  String marketTrendTitle(String market) {
+    return 'भावाचा कल: $market';
+  }
+
+  @override
+  String get marketTrendRange15 => '१५ दिवस';
+
+  @override
+  String get marketTrendRange30 => '१ महिना';
+
+  @override
+  String get marketTrendRange90 => '३ महिने';
+
+  @override
+  String get marketTrendHigh => 'सर्वाधिक';
+
+  @override
+  String get marketTrendLow => 'सर्वात कमी';
+
+  @override
+  String get marketTrendChange15 => '१५ दिवसांत';
+
+  @override
+  String get marketTrendChange30 => '१ महिन्यात';
+
+  @override
+  String get marketTrendHint =>
+      'प्रत्येक दिवसाचा भाव पाहण्यासाठी चार्टवर बोट फिरवा.';
+
+  @override
+  String get marketTrendCollecting =>
+      'भाव दररोज साठवला जातो; चार्ट दिवसागणिक भरत जातो.';
+
+  @override
+  String marketTrendSemantics(
+    String range,
+    String high,
+    String low,
+    String latest,
+  ) {
+    return 'भावाचा कल, $range: सर्वाधिक $high, सर्वात कमी $low, ताजा $latest प्रति क्विंटल';
+  }
+
+  @override
   String marketStale(String reason) {
     String _temp0 = intl.Intl.selectLogic(reason, {
       'source_not_configured': 'बाजारभाव सेवा लवकरच सुरू होईल.',
