@@ -140,6 +140,8 @@ class Settings(BaseSettings):
     market_max_age_hours: int = 12
     # Per request to data.gov.in; one pull makes at most market_max_pages requests per commodity.
     market_timeout_seconds: float = Field(default=15.0, gt=0)
+    # The 90-day archive (backfill, Q130) answers 1000-row pages more slowly than the daily feed.
+    market_archive_timeout_seconds: float = Field(default=90.0, gt=0)
     # data.gov.in answers 502 to the default "python-httpx" User-Agent (seen from the VPS on
     # 2026-11-06; curl and other agents get 200 in under a second), so the pull names itself.
     market_user_agent: str = Field(

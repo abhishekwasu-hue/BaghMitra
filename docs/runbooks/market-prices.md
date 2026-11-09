@@ -37,6 +37,9 @@ default `35985678-0d79-46b4-9ed6-6f13308a1d24`; same `MARKET_API_KEY`, `MARKET_U
   as `source: agmarknet` (so Agmarknet still wins over a manual row);
 - counts the rest (`unmatched`) and names the top 10 unmatched markets; they are not stored.
 
+A page that does not answer (network error, timeout, non-200) is asked again after 10 s and 30 s
+before that fruit counts as `source_unreachable`; each page may take up to
+`MARKET_ARCHIVE_TIMEOUT_SECONDS` (default 90). A failed fruit is simply run again later.
 It holds the market pull lock (exits with `skipped_reason` if a pull is running: run it again),
 does not touch `market_pulls`, and is safe to repeat. Exit 2 without `MARKET_API_KEY`, 1 when
 a commodity failed. Paste on the VPS (deploy, then the backfill, all in the background, so a

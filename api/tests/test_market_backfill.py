@@ -20,6 +20,7 @@ from bagmitra_api.core.settings import Settings
 from bagmitra_api.db.models import MarketPrice, MarketPull
 from bagmitra_api.db.session import get_sessionmaker
 from bagmitra_api.main import create_app
+from bagmitra_api.market import backfill
 from bagmitra_api.market.agmarknet import (
     REASON_BAD_RESPONSE,
     REASON_NOT_CONFIGURED,
@@ -158,6 +159,7 @@ async def test_paging_stops_at_the_page_bound(settings: Settings) -> None:
             base_url=s.market_api_base_url,
             resource_id=s.market_archive_resource_id,
             api_key="k",
+            timeout=s.market_archive_timeout_seconds,
             max_pages=2,
         )
         prices = await client.prices(commodity="Orange", since=TODAY)
@@ -225,7 +227,7 @@ async def test_string_and_number_prices_and_dd_mm_yyyy_dates_are_parsed(
     ],
 )
 async def test_a_bad_answer_is_a_market_error(
-    settings: Settings, response: httpx.Response, code: str
+    settings: Settings, response: httpx.Response, code: str, waits: list[float]
 ) -> None:
     s = keyed(settings)
     async with market_http(s, httpx.MockTransport(lambda _: response)) as http:
@@ -234,7 +236,9 @@ async def test_a_bad_answer_is_a_market_error(
     assert err.value.code == code
 
 
-async def test_an_unreachable_archive_is_a_market_error(settings: Settings) -> None:
+async def test_an_unreachable_archive_is_a_market_error(
+    settings: Settings, waits: list[float]
+) -> None:
     def handler(request: httpx.Request) -> httpx.Response:
         raise httpx.ConnectTimeout("timed out", request=request)
 
@@ -409,3 +413,70 @@ async def test_the_history_endpoint_returns_the_backfilled_days(
         ((TODAY - timedelta(days=30)).isoformat(), 3030, AGMARKNET),
         (TODAY.isoformat(), 3600, AGMARKNET),
     ]
+
+
+@pytest.fixture
+def waits(monkeypatch: pytest.MonkeyPatch) -> list[float]:
+    """The retry pauses, recorded instead of slept."""
+    seen: list[float] = []
+
+    async def fake(seconds: float) -> None:
+        seen.append(seconds)
+
+    monkeypatch.setattr(backfill, "_wait", fake)
+    return seen
+
+
+async def test_an_unreachable_page_is_tried_again_before_giving_up(
+    settings: Settings, waits: list[float]
+) -> None:
+    """VPS 2026-11-09: five fruits ended `source_unreachable` on one run while another run read
+    them. A page is asked up to three times, with pauses, before the fruit counts as failed."""
+    calls = 0
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        nonlocal calls
+        calls += 1
+        if calls < 3:
+            raise httpx.ReadTimeout("slow", request=request)
+        return httpx.Response(
+            200, json={"total": 1, "records": [archive_row("Kalamna", TODAY, 3000)]}
+        )
+
+    s = keyed(settings)
+    async with market_http(s, httpx.MockTransport(handler)) as http:
+        rows = await archive_client(http, s).prices(commodity="Orange", since=TODAY)
+    assert [r.market for r in rows] == ["Kalamna"]
+    assert calls == 3
+    assert waits == list(backfill.RETRY_WAITS)
+
+
+async def test_three_failed_tries_are_a_market_error(
+    settings: Settings, waits: list[float]
+) -> None:
+    calls = 0
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        nonlocal calls
+        calls += 1
+        return httpx.Response(503)
+
+    s = keyed(settings)
+    async with market_http(s, httpx.MockTransport(handler)) as http:
+        with pytest.raises(MarketUnavailableError) as err:
+            await archive_client(http, s).prices(commodity="Orange", since=TODAY)
+    assert err.value.code == REASON_UNREACHABLE
+    assert calls == 1 + len(backfill.RETRY_WAITS)
+
+
+async def test_archive_pages_wait_longer_than_the_daily_pull(settings: Settings) -> None:
+    seen: list[dict[str, float | None]] = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        seen.append(request.extensions["timeout"])
+        return httpx.Response(200, json={"total": 0, "records": []})
+
+    s = keyed(settings)
+    async with market_http(s, httpx.MockTransport(handler)) as http:
+        await archive_client(http, s).prices(commodity="Orange", since=TODAY)
+    assert seen[0]["read"] == s.market_archive_timeout_seconds > s.market_timeout_seconds
