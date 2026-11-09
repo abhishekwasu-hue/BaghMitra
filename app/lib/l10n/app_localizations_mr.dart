@@ -2885,6 +2885,74 @@ class AppLocalizationsMr extends AppLocalizations {
   String get practicesWhen => 'केव्हा येते';
 
   @override
+  String get figureGum => 'डिंक येतो';
+
+  @override
+  String get figureWetPatches => 'पाणथळ चट्टे';
+
+  @override
+  String get figureBarkPeels => 'साल उभ्या पट्ट्यांत सुटते';
+
+  @override
+  String get figureYellowLeaves => 'पिवळी पाने';
+
+  @override
+  String figureWidthCm(String cm) {
+    return '$cm सें.मी.';
+  }
+
+  @override
+  String figureDepthCm(String cm) {
+    return '$cm सें.मी. खोल';
+  }
+
+  @override
+  String get figureDrainsAway => 'पाणी झाडांपासून दूर वाहून जाते';
+
+  @override
+  String get figureDry => 'कोरडे';
+
+  @override
+  String get figureWaterHere => 'पाणी इथे';
+
+  @override
+  String get figureTopView => 'वरून दृश्य';
+
+  @override
+  String get figureDeadPart => 'वाळलेला भाग';
+
+  @override
+  String get figureCutHere => 'इथे कापा';
+
+  @override
+  String figureHealthyCm(String cm) {
+    return '$cm सें.मी. निरोगी भागासह';
+  }
+
+  @override
+  String figureSunDays(String from, String to) {
+    return '$from–$to दिवस ऊन';
+  }
+
+  @override
+  String get figureCutRotten => 'कुजलेली मुळे कापा';
+
+  @override
+  String get figureWithBand => 'निरोगी पट्टीसह काढा';
+
+  @override
+  String get figureDiseasedBark => 'रोगट साल';
+
+  @override
+  String get figureRains => 'पावसाळा';
+
+  @override
+  String get figureBeforeRains => 'पावसाळ्यापूर्वी';
+
+  @override
+  String get figureAfterRains => 'पावसाळ्यानंतर';
+
+  @override
   String get practicesScout => 'पाहणी कशी करावी';
 
   @override
