@@ -3028,11 +3028,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String figureStickyBand(String cm) {
-    return 'Sticky band $cm cm wide';
+    return 'Sticky barrier $cm cm';
   }
 
   @override
-  String get figureAntsStopHere => 'Ants and crawlers stop here';
+  String get figureAnts => 'Ants';
 
   @override
   String get figureLureTrap => 'Lure trap';
@@ -3115,7 +3115,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get figMinerMines => 'Silvery zig-zag mines';
 
   @override
-  String get figMinerCurl => 'Leaf curls and distorts';
+  String get figMinerDistort => 'Leaf distorts and crumples';
 
   @override
   String get figMitesVeins => 'Pale yellow along the veins';

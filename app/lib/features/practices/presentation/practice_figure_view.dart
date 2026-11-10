@@ -107,10 +107,7 @@ class PracticeFigureView extends StatelessWidget {
       t.figureBudUnion,
       t.figureHeightRangeCm(n[0], n[1]),
     ],
-    PracticeFigureKind.trunkBand => [
-      t.figureStickyBand(n[0]),
-      t.figureAntsStopHere,
-    ],
+    PracticeFigureKind.trunkBand => [t.figureStickyBand(n[0]), t.figureAnts],
     PracticeFigureKind.lureTrap => [
       t.figureLureTrap,
       t.figureRenewDays(n[0], n[1]),
@@ -137,7 +134,7 @@ class PracticeFigureView extends StatelessWidget {
     ],
     PracticeFigureKind.aphidShoot => [t.figAphidColony, t.figAphidCup],
     PracticeFigureKind.mealybugTwig => [t.figMealyClusters, t.figSootyMould],
-    PracticeFigureKind.leafMinerLeaf => [t.figMinerMines, t.figMinerCurl],
+    PracticeFigureKind.leafMinerLeaf => [t.figMinerMines, t.figMinerDistort],
     PracticeFigureKind.mitesLeaf => [
       t.figMitesVeins,
       t.figMitesWeb,

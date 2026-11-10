@@ -100,19 +100,19 @@ finding, not yet a full recommendation.
     मराठी: घन लागवडीत आंबिया बहारासाठी डिसेंबरच्या तिसऱ्या आठवड्यात १० फूट उंचीवर छाटणी करा.
 15. **Rejuvenate declining orchards with medium pruning in June** (terminal shoots cut back up to 45 cm). The same item adds fertiliser and fungicide after pruning; those are excluded. — Source: P1 Horticulture recs. Evidence: University.
     मराठी: खंगलेल्या बागेत जूनमध्ये फांद्यांची टोके ४५ सें.मी. पर्यंत छाटून बागेला नवसंजीवनी द्या.
-16. **Remove dead twigs (twig blight), diseased twigs (anthracnose), affected branches (sooty mould) and diseased portions (pink disease) and destroy them.** — Source: C02 sections Twig blight, Anthracnose, Sooty mould, Pink disease. Evidence: Official.
-    मराठी: वाळलेल्या, रोगट फांद्या कापून बागेबाहेर नेऊन नष्ट करा.
+16. **Prune dead twigs (twig blight) and diseased twigs (anthracnose); prune and destroy affected branches (sooty mould); trim diseased portions (pink disease).** The paste for the cut ends (pink disease) is a product; see label information. — Source: C02 sections Twig blight, Anthracnose, Sooty mould, Pink disease. Evidence: Official.
+    मराठी: वाळलेल्या काड्या (काडी करपा) व रोगट काड्या (ॲन्थ्रॅकनोज) छाटा; बाधित फांद्या (काळी बुरशी) छाटून नष्ट करा; रोगट भाग (पिंक रोग) छाटा आणि कापलेल्या टोकांवर लावायच्या पेस्टसाठी ॲपमधील नोंदणीकृत लेबल माहिती पाहा.
 17. **Collect and destroy diseased leaves, twigs and fruits (scab).** — Source: C02 "Scab". Evidence: Official.
     मराठी: खरूज रोगाची पाने, फांद्या, फळे गोळा करून नष्ट करा.
-18. **Disinfect grafting and pruning tools after cutting diseased trees** (exocortis). No product is named in the source. — Source: C02 "Citrus Exocortis". Evidence: Official.
-    मराठी: रोगट झाड छाटल्यानंतर कात्री, चाकू निर्जंतुक करूनच पुढच्या झाडाला लावा.
+18. **Disinfect grafting tools after pruning branches from diseased trees** (exocortis). No product is named in the source. — Source: C02 "Citrus Exocortis". Evidence: Official.
+    मराठी: रोगट झाडाच्या (एक्झोकॉर्टिस) फांद्या छाटल्यानंतर कलमाची अवजारे निर्जंतुक करूनच पुढच्या झाडाला लावा.
 
 ## 4. Phytophthora: gummosis, foot / collar rot, root rot
 
 19. **Choose a site with good drainage; dig a drainage channel between rows** (source size about 60 cm wide x 30 cm deep). — Source: C02 "Foot Rot or Gummosis"; P1 "Transfer of Technology"; R25 p.14 #57 (drainage is the biggest gap). Evidence: Official + University.
     मराठी: बागेत पाणी साचू देऊ नका; दोन ओळींमध्ये निचऱ्यासाठी चर खणा.
-20. **Use ring (double-ring) irrigation so water does not touch the trunk.** — Source: C02 "Foot Rot or Gummosis". Evidence: Official.
-    मराठी: खोडाला पाणी लागू नये म्हणून आळ्याऐवजी खोडापासून दूर गोल (रिंग) पद्धतीने पाणी द्या.
+20. **Use the ring method of irrigation so water does not touch the tree trunk.** — Source: C02 "Foot Rot or Gummosis". Evidence: Official.
+    मराठी: खोडाला पाणी लागू नये म्हणून रिंग पद्धतीने पाणी द्या.
 21. **For an infected tree: remove all its fruits, prune dried branches with about 5 cm of healthy wood, and cut shoots back 30–45 cm.** — Source: P1 "Management of Phytophthora Root Rot Infected Plants". Evidence: University.
     मराठी: रोगग्रस्त झाडावरची सर्व फळे काढा; वाळलेल्या फांद्या ५ सें.मी. निरोगी भागासह कापा.
 22. **Expose the active root zone, cut out rotten roots and leave the zone open to sun for 3–4 days.** The drench, paste and spray steps in the same package are excluded. — Source: P1 "Management of Phytophthora Root Rot Infected Plants". Evidence: University.
@@ -128,8 +128,8 @@ finding, not yet a full recommendation.
     मराठी: लेडीबर्ड (ढालकीडा) सिट्रस सायलाची पिल्ले खातो; त्यांना मारू नका.
 26. **Hang yellow sticky traps from the first week of June, about 2 m above ground, and change them monthly** (source: 30 per acre). Taken from a mixed module; its chemical parts are excluded. — Source: R25 p.10 #32. Evidence: University.
     मराठी: जूनच्या पहिल्या आठवड्यापासून जमिनीपासून २ मीटर उंचीवर पिवळे चिकट सापळे लावा, दर महिन्याला बदला.
-27. **Watch new flush closely**: psylla, black fly and leaf miner all attack new flush; PDKV ties its psylla actions to the new flush. — Source: R13 p.3 #18; R25 p.10 #32; C08 "Citrus Leaf Miner". Evidence: University + Official.
-    मराठी: नवती फुटली की पानांच्या टोकांवर सायला, काळी माशी, पाने पोखरणारी अळी आहे का ते रोज पाहा.
+27. **Watch new flush closely**: psylla and leaf miner attack new flush and tender leaves; PDKV ties its psylla actions to the new flush. — Source: R13 p.3 #18; R25 p.10 #32; C08 "Citrus Leaf Miner". Evidence: University + Official.
+    मराठी: नवतीवर बारकाईने लक्ष ठेवा: सायला आणि पाने पोखरणारी अळी नवती व कोवळ्या पानांवर येतात; डॉ. पंदेकृवि सायलाचे उपाय नवतीशी जोडते.
 28. **Greening spreads by grafting: use budwood only from greening-free parent trees.** — Source: C02 "Greening". Evidence: Official.
     मराठी: ग्रीनिंग कलमांतून पसरतो; रोगमुक्त मातृवृक्षाचेच डोळे वापरा.
 
@@ -141,8 +141,8 @@ finding, not yet a full recommendation.
     मराठी: काटोल भागात एप्रिलचा पहिला पंधरवडा, जुलैचा दुसरा व डिसेंबरचा पहिला पंधरवडा हा अंडी उबण्याचा काळ; तेव्हा बारकाईने पाहा.
 31. **Biological control: two releases of the green lacewing *Mallada boninensis* (eggs on shoots) during hasta bahar** (release rate in source). — Source: P1 Entomology recs. Evidence: University.
     मराठी: हस्त बहारात क्रायसोपा (मलाडा) या मित्रकीटकाची अंडी फांद्यांवर दोनदा सोडा.
-32. **Recognise and protect the beneficial fungus *Hypocrella raciborskii* (Aschersonia) on black fly nymphs.** A registered product exists for spraying; see label information. — Source: R25 p.10 #31; R25 p.11 #38 (research finding). Evidence: University.
-    मराठी: काळ्या माशीच्या पिल्लांवर वाढणारी मित्रबुरशी (ॲशरसोनिया) ओळखा आणि जपा.
+32. **Recognise and protect the beneficial fungus *Hypocrella raciborskii* (Aschersonia), an effective entomopathogen of citrus black fly.** A registered product exists for spraying; see label information. — Source: R25 p.10 #31. Evidence: University.
+    मराठी: काळ्या माशीवरील परिणामकारक कीटरोगकारक मित्रबुरशी Hypocrella raciborskii (ॲशरसोनिया) ओळखा आणि जपा.
 
 ## 7. Leaf miner, lemon butterfly, bark borer, scales, nematode
 
@@ -152,19 +152,19 @@ finding, not yet a full recommendation.
     मराठी: रोपवाटिकेत व नवतीवर लिंबू फुलपाखराच्या हिरव्या अळ्या हाताने वेचून नष्ट करा.
 35. **Bark borer: look for webbing of chewed wood and frass on the trunk and remove it** (Sept–Oct and Jan–Feb). The hole treatment in the source uses a banned chemical and is excluded. — Source: C08 "Bark Borer". Evidence: Official.
     मराठी: खोडावर भुसा व विष्ठेचे जाळे दिसले तर साल पोखरणारी अळी आहे; जाळे काढून छिद्र तपासा.
-36. **Soft scales are worse with poor light from overcrowding and waterlogging**; spacing, pruning and drainage address those conditions (reading drawn from the source's statement). — Source: C08 "Scale Insects". Evidence: Official (inferred practice).
-    मराठी: दाट, अंधारी आणि पाणथळ बागेत खवले कीड वाढते; हवा, ऊन खेळते ठेवा.
+36. **Soft scales become serious when there is poor light penetration due to overcrowding and waterlogged conditions.** — Source: C08 "Scale Insects". Evidence: Official.
+    मराठी: दाटीमुळे उजेड कमी पोहोचतो आणि पाणी साचते तेव्हा मऊ खवले कीड गंभीर होते.
 37. **Nematode: certified nematode-free planting material, good sanitation, 1–3 years of annual crops before replanting citrus, tolerant rootstocks (trifoliate orange, citranges), and a marigold intercrop.** — Source: C08 "Citrus Nematode"; C11 rootstock table. Evidence: Official.
     मराठी: सूत्रकृमी टाळण्यासाठी सूत्रकृमीमुक्त कलमे, जुनी बाग काढल्यावर १–३ वर्षे इतर पिके, आणि झेंडूचे आंतरपीक घ्या.
 
 ## 8. Fruit fly and fruit-sucking moth
 
-38. **Collect and destroy fallen and infested fruits regularly.** — Source: C08 "Fruit Flies", "Fruit Sucking Moths". Evidence: Official.
-    मराठी: गळलेली व किडलेली फळे रोज गोळा करून खोल पुरा किंवा नष्ट करा.
-39. **Fruit fly: lure (parapheromone) traps from early October, with the lure changed every 15–20 days.** The lure is a product; see label information (trap density in source). — Source: R25 p.10 #32. Evidence: University.
-    मराठी: ऑक्टोबरपासून फळमाशीसाठी ल्युअर सापळे लावा; ल्युअर १५–२० दिवसांनी बदला.
-40. **Fruit-sucking moth: remove its alternate host plants (weeds) from around the orchard**; the moths hide in fallen leaves and weeds by day. — Source: C08 "Fruit Sucking Moths". Evidence: Official. (The poison bait in C08 and R25 is excluded.)
-    मराठी: बागेभोवतीचे पतंगाचे पर्यायी यजमान तण काढा; पडलेला पालापाचोळा साफ ठेवा.
+38. **Collect and destroy infested and affected fruits.** — Source: C08 "Fruit Flies", "Fruit Sucking Moths". Evidence: Official.
+    मराठी: किडलेली व बाधित फळे गोळा करून नष्ट करा.
+39. **Fruit fly: lure (parapheromone) traps at 20 per hectare from the first week of October (first week of August in the alternative module), with the lure changed every 15–20 days.** The lure is a product; see label information. — Source: R25 p.10 #32. Evidence: University.
+    मराठी: फळमाशी: ऑक्टोबरच्या पहिल्या आठवड्यापासून (पर्यायी पद्धतीत ऑगस्टच्या पहिल्या आठवड्यापासून) हेक्टरी २० ल्युअर सापळे लावा आणि ल्युअर दर १५–२० दिवसांनी बदला; ल्युअरसाठी ॲपमधील नोंदणीकृत लेबल माहिती पाहा.
+40. **Fruit-sucking moth: remove its alternate host plants from around the orchard and collect and destroy affected fruit**; the moths hide in fallen leaves and weeds by day. — Source: C08 "Fruit Sucking Moths". Evidence: Official. (The poison bait in C08 and R25 is excluded.)
+    मराठी: रस शोषणारा पतंग: बागेभोवतीची त्याची पर्यायी यजमान झाडे काढा आणि बाधित फळे गोळा करून नष्ट करा; पतंग दिवसा पडलेल्या पालापाचोळ्यात व तणात लपतात.
 
 ## 9. Canker, decline, dieback, tristeza, other root diseases
 
@@ -178,8 +178,8 @@ finding, not yet a full recommendation.
     मराठी: ट्रिस्टेझा टाळायला चांगली मशागत, सुपीक जमीन व निचरा ठेवा; मोसंबीत हा विषाणू जास्त आढळतो.
 45. **Ganoderma root rot: remove dead and old stumps, collect and destroy the bracket fungi near the collar, and isolate infected trees with a trench.** — Source: C02 "Ganoderma Root-Rot". Evidence: Official.
     मराठी: बागेतील जुने बुंधे काढा; खोडाजवळ उगवणाऱ्या कानासारख्या बुरशी नष्ट करा; रोगट झाडाभोवती चर खणा.
-46. **Dry root rot: if only one or two roots are affected, cut them off and destroy them.** — Source: C02 "Dry Root Rot". Evidence: Official.
-    मराठी: एक-दोनच मुळे कुजली असतील तर ती कापून नष्ट करा.
+46. **Dry root rot: if the taproot and crown are still good and only one or two roots are affected, cut them off and destroy them.** — Source: C02 "Dry Root Rot". Evidence: Official.
+    मराठी: कोरडी मूळकूज: सोटमूळ व खोडाचा तळ (क्राऊन) अजून चांगले असतील आणि एक-दोनच मुळे बाधित असतील, तर ती कापून नष्ट करा.
 
 ## 10. Fruit drop, splitting and other disorders
 
@@ -200,12 +200,12 @@ finding, not yet a full recommendation.
     मराठी: हलक्या, उथळ जमिनीत मुळे उघडी करू नका; २–३ आठवडे पाणी तोडणे पुरेसे.
 53. **Stress length: ambia about 40–60 days (mid-Nov to end-Dec); mrig about 40–50 days in May–June (to about 25 % leaf drop); PDKV: 50 days for mrig on medium soil.** — Source: C05 "Regulation of Flowering"; P1 Horticulture recs. Evidence: Official + University. (N1 says "about a month"; the sources differ.)
     मराठी: आंबियासाठी साधारण ४०–६० दिवस, मृगासाठी ४०–५० दिवस ताण; मध्यम जमिनीत मृगासाठी ५० दिवस पुरे.
-54. **Prefer drip irrigation**: it saves water, wets only the root zone and reduces weeds; PDKV found about 30 % water saving with bigger, juicier fruit. — Source: N1 §5.7.1; C06; P1 Horticulture recs. Evidence: Official + University.
-    मराठी: ठिबक सिंचन वापरा: पाणी वाचते, तण कमी, फळे मोठी व रसाळ.
+54. **Prefer drip irrigation**: it saves water and applies it directly to the root region; PDKV found about 30 % water saving with bigger, juicier fruit. — Source: N1 §5.7.1; C06; P1 Horticulture recs. Evidence: Official + University.
+    मराठी: ठिबकला प्राधान्य द्या: पाणी वाचते आणि थेट मुळांच्या भागात दिले जाते; डॉ. पंदेकृविला सुमारे ३० टक्के पाण्याची बचत आणि मोठी, रसाळ फळे आढळली.
 55. **Schedule drip at 80 % of evapotranspiration replenishment through all growth stages** (central and western Vidarbha). — Source: R15 p.4 #14. Evidence: University.
     मराठी: ठिबकने बाष्पीभवनाच्या ८० टक्के इतके पाणी सर्व अवस्थांत द्या.
-56. **Surface irrigation on medium soil: irrigate at 40 % soil-moisture depletion** (about 60 mm cumulative pan evaporation). — Source: P1 Horticulture recs. Evidence: University.
-    मराठी: मध्यम जमिनीत ओलावा ४० टक्के कमी झाला की पाणी द्या.
+56. **Nagpur mandarin on medium soil (1 m deep): irrigate at 40 % soil-moisture depletion** (about 60 mm cumulative pan evaporation). — Source: P1 Horticulture recs. Evidence: University.
+    मराठी: मध्यम जमिनीतील (१ मी. खोल) नागपुरी संत्रा: जमिनीतील ओलावा ४० टक्के कमी झाल्यावर पाणी द्या (सुमारे ६० मि.मी. एकत्रित पॅन बाष्पीभवन).
 57. **Sprinkler irrigation can replace basin irrigation and save water** (per-tree volumes for winter and summer are in source). — Source: P1 Horticulture recs; C06. Evidence: University + Official.
     मराठी: आळे पद्धतीऐवजी तुषार सिंचनाने पाणी वाचवता येते.
 58. **Water at fruit maturity too, to avoid fruit shrinkage and dry pulp**; mild late stress raises TSS but reduces size. — Source: C06. Evidence: Official.
@@ -219,8 +219,8 @@ finding, not yet a full recommendation.
     मराठी: खरिपात ताग पेरून फुलोऱ्याआधी जमिनीत गाडा.
 61. **Supply part of the nitrogen through organic manure (FYM, cakes)** (quantities in source, not given here). — Source: N1 §5.6. Evidence: Official.
     मराठी: खताचा काही भाग शेणखत/पेंडीतून द्या (मात्रा तज्ज्ञांकडून घ्या).
-62. **Weeds: shallow cultivation only (no deeper than 10–15 cm), plus mulch.** Herbicide items in sources are excluded. — Source: C05 "Weed Control". Evidence: Official.
-    मराठी: तणासाठी उथळ (१०–१५ सें.मी.) खुरपणी करा; खोल नांगरट मुळांना हानी करते.
+62. **Weeds: 2 or 3 cross ploughings; when weeding by hand, keep tillage no deeper than 10–15 cm.** Herbicide items in sources are excluded. — Source: C05 "Weed Control". Evidence: Official.
+    मराठी: तण: २ किंवा ३ वेळा आडवी-उभी नांगरणी; हाताने खुरपणी करताना मशागत १०–१५ सें.मी. खोलीपर्यंतच करा.
 63. **Intercropping: sources conflict.** N1 allows pea, cowpea and gram, and PDKV found cowpea profitable. C05 says to avoid intercrops in Nagpur mandarin (more pests, diseases and micronutrient deficiency) and allows short crops only in the first 3–4 years elsewhere. — Source: N1 §5.11; P1; C05. Evidence: Official + University (conflict, reviewer to decide).
     मराठी: आंतरपिकाबाबत मतभेद आहेत; संत्र्यात आंतरपीक घेण्यापूर्वी तज्ज्ञांचा सल्ला घ्या.
 
@@ -232,14 +232,14 @@ finding, not yet a full recommendation.
     मराठी: फळे कात्रीने देठासह तोडा, हाताने ओढू नका; पावसात किंवा ओल्या हवामानात तोडणी करू नका.
 66. **Handle gently and keep picked fruit in shade**; cuts and bruises let storage rots in, and rough handling causes oleocellosis. — Source: C02 "Storage Rots"; C03 "Oleocellosis"; C04. Evidence: Official.
     मराठी: फळे हळुवार हाताळा, सावलीत ठेवा; खरचटलेले फळ लवकर सडते.
-67. **Cure fruit overnight before moving it to the pack house** to reduce oleocellosis (temperature in source). — Source: C03 "Oleocellosis". Evidence: Official.
-    मराठी: तोडलेली फळे एक रात्र थंड जागी ठेवून मगच पॅकहाऊसला न्या.
+67. **Cure fruit overnight at 18–20 °C for 12–24 hours before moving it to the pack house** to reduce oleocellosis. — Source: C03 "Oleocellosis". Evidence: Official.
+    मराठी: ओलिओसेलोसिस कमी करण्यासाठी तोडलेली फळे पॅकहाऊसला नेण्यापूर्वी १८–२० °C तापमानात १२–२४ तास (एक रात्र) ठेवून क्युअर करा.
 68. **Sort out damaged, decayed and diseased fruit before packing.** — Source: C09 "Grading"; N1 §6.1. Evidence: Official.
     मराठी: पॅकिंगपूर्वी खराब, सडलेली, रोगट फळे वेगळी काढा.
 69. **Fungicide-free UV-C treatment of fruit before waxing** (PDKV UV-assisted device) cuts Penicillium and Geotrichum rots in Nagpur mandarin and, at a slower conveyor speed, in **sweet orange (mosambi)**. — Source: R17 p.11 #28; R22 p.2 #6; R23 p.8 #45. Evidence: University.
     मराठी: पॅकहाऊसमध्ये बुरशीनाशकाऐवजी यूव्ही-सी प्रकाश यंत्राने फळांची सड कमी करता येते, मोसंबीलाही चालते.
-70. **UV-C tubes behind the air-handling unit of mandarin cold rooms** reduce airborne microbes and rotting. — Source: R24 p.10 #55. Evidence: University.
-    मराठी: शीतगृहात हवेच्या यंत्रामागे यूव्ही-सी ट्यूब लावल्यास साठवलेली संत्री कमी सडतात.
+70. **Tubes of 30 watts behind the 5000 CFM air-handling unit of Nagpur mandarin cold rooms, switched on 2 hours every day,** reduce airborne microbes and rotting. The lamp type in #55 was cut off in the extracted text and could not be re-read (Q128). — Source: R24 p.10 #55. Evidence: University.
+    मराठी: नागपुरी संत्र्याच्या शीतगृहात ५००० CFM हवा हाताळणी यंत्रामागे (एअर-हँडलिंग युनिट) ३० वॅटच्या ट्यूब लावून रोज २ तास चालू ठेवल्यास हवेतील सूक्ष्मजीव व सड कमी होतात.
 
 ---
 
@@ -278,7 +278,8 @@ Grower text lives in `app/assets/config/practice_cards.json` (sections with a `p
 | VK-NIPHM-STAGE / -PESTS / -DIS / -NE | NIPHM and DPPQS, AESA based IPM for citrus, Vikaspedia copy (crop-stage-wise IPM; insect and nematode pests; diseases and symptoms; natural enemies) | https://en.vikaspedia.in/viewcontent/agriculture/crop-production/integrated-pest-managment/ipm-for-fruit-crops/ipm-strategies-for-citrus/ (pages `crop-stage-wise-ipm`, `insect-and-nematode-pests-management`, `diseases-and-symptoms`, `natural-enemies`) | symptoms, favourable weather, cultural / mechanical items, natural enemies, humidity rule (RH > 80 %) |
 | VK-NSKE | Vikaspedia "Neem seed kernel extract (NSKE)", source TNAU Agritech | https://en.vikaspedia.in/viewcontent/agriculture/agri-inputs/bio-inputs/production-of-ipm-inputs/neem-seed-kernal-extract-nske?lgn=en | NSKE 5 % preparation (the page says both "200 g detergent" and "1 % detergent"; both are quoted) |
 | TNAU-PESTS | TNAU Agritech: Pests of citrus | https://agritech.tnau.ac.in/crop_protection/crop_prot_crop_insectpest%20_-Citrus_pest&disease.html | aphid, thrips, mealybug, cottony cushion scale symptoms |
-| TNAU-E331 | TNAU e-course ENTO 331 lecture 17 (eagri.org; read on its GitHub mirror, the original host did not answer) | https://eagriorg.github.io/eagri50/ENTO331/lecture17/014.html (and 001, 002, 011, 012) | mite peaks (March–June, Sept–Oct), alternate hosts, Menochilus release, NSKE 5 % for psylla in March and September |
+| TNAU-E331 | TNAU e-course ENTO 331 lecture 17, 14. Citrus leaf mite (eagri.org; read on its GitHub mirror, the original host did not answer) | https://eagriorg.github.io/eagri50/ENTO331/lecture17/014.html | mite peaks (March–June, Sept–Oct), alternate hosts, natural enemies |
+| TNAU-E331-PSY / -LM / -APH / -THR | The same lecture, one key per page (read 2026-11-10, Q128): 1. Shoot psyllid, 2. Citrus leaf miner, 11. Aphid, 12. Thrips | .../lecture17/001.html, 002.html, 011.html, 012.html | NSKE 5 % for psylla in March and September; leaf-miner symptoms; Menochilus release (50 per tree), aphid symptoms; thrips ring scar round the fruit stalk |
 | MPKV-AICRP | MPKV Rahuri, AICRP on Fruits | https://mpkv.ac.in/Uploads/Research/35.%20AICRP%20on%20Fruits_20250926041209.pdf | mosambi: Phule Mosambi, Ambia drip / stress, organic module, azadirachtin, neem oil at colour break |
 | NRCC-MB | Rao, Shivankar, Shyam Singh 2006, NRC Citrus Nagpur, mealybug review, Agric. Rev. 27(2) | https://arccarticles.s3.amazonaws.com/webArticle/articles/ar272008.pdf | mealybug action level 5–10 % (summer) / 15 % (autumn) infested fruit |
 | UC-THRIPS | UC IPM: Citrus thrips | https://ipm.ucanr.edu/agriculture/citrus/citrus-thrips/ | thrips window (petal fall to 3.7 cm), fruit sampling method |
