@@ -99,8 +99,8 @@ void main() {
     expect(data.isDraft, isTrue);
     expect(data.sections, hasLength(25));
     final items = [for (final s in data.sections) ...s.items];
-    expect(items, hasLength(108));
-    expect(items.map((i) => i.id).toSet(), hasLength(108));
+    expect(items, hasLength(107));
+    expect(items.map((i) => i.id).toSet(), hasLength(107));
     for (final s in data.sections) {
       _expectClean(s.labels, 'section ${s.key}');
     }
@@ -261,7 +261,6 @@ void main() {
           '39:lureTrap',
           '29:shadySide',
           '88:openCanopy',
-          '94:openCanopy',
           '105:manureRing',
         ]),
       );

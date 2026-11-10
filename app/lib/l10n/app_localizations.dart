@@ -5256,14 +5256,14 @@ abstract class AppLocalizations {
   /// No description provided for @figureStickyBand.
   ///
   /// In en, this message translates to:
-  /// **'Sticky band {cm} cm wide'**
+  /// **'Sticky barrier {cm} cm'**
   String figureStickyBand(String cm);
 
-  /// No description provided for @figureAntsStopHere.
+  /// No description provided for @figureAnts.
   ///
   /// In en, this message translates to:
-  /// **'Ants and crawlers stop here'**
-  String get figureAntsStopHere;
+  /// **'Ants'**
+  String get figureAnts;
 
   /// No description provided for @figureLureTrap.
   ///
@@ -5421,11 +5421,11 @@ abstract class AppLocalizations {
   /// **'Silvery zig-zag mines'**
   String get figMinerMines;
 
-  /// No description provided for @figMinerCurl.
+  /// No description provided for @figMinerDistort.
   ///
   /// In en, this message translates to:
-  /// **'Leaf curls and distorts'**
-  String get figMinerCurl;
+  /// **'Leaf distorts and crumples'**
+  String get figMinerDistort;
 
   /// No description provided for @figMitesVeins.
   ///

@@ -3026,11 +3026,11 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String figureStickyBand(String cm) {
-    return '$cm सें.मी. चौड़ी चिपचिपी पट्टी';
+    return '$cm सें.मी. चिपचिपी पट्टी';
   }
 
   @override
-  String get figureAntsStopHere => 'चींटियाँ और शिशु यहाँ रुकते हैं';
+  String get figureAnts => 'चींटियाँ';
 
   @override
   String get figureLureTrap => 'ल्यूर ट्रैप';
@@ -3113,7 +3113,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get figMinerMines => 'चाँदी जैसी, टेढ़ी-मेढ़ी सुरंगें';
 
   @override
-  String get figMinerCurl => 'पत्ती मुड़ती, बिगड़ती है';
+  String get figMinerDistort => 'पत्ती बिगड़ती, सिकुड़ती है';
 
   @override
   String get figMitesVeins => 'नसों के साथ हल्के पीले हिस्से';

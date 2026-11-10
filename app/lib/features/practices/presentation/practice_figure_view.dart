@@ -109,7 +109,7 @@ class PracticeFigureView extends StatelessWidget {
     ],
     PracticeFigureKind.trunkBand => [
       t.figureStickyBand(n[0]),
-      t.figureAntsStopHere,
+      t.figureAnts,
     ],
     PracticeFigureKind.lureTrap => [
       t.figureLureTrap,
@@ -137,7 +137,7 @@ class PracticeFigureView extends StatelessWidget {
     ],
     PracticeFigureKind.aphidShoot => [t.figAphidColony, t.figAphidCup],
     PracticeFigureKind.mealybugTwig => [t.figMealyClusters, t.figSootyMould],
-    PracticeFigureKind.leafMinerLeaf => [t.figMinerMines, t.figMinerCurl],
+    PracticeFigureKind.leafMinerLeaf => [t.figMinerMines, t.figMinerDistort],
     PracticeFigureKind.mitesLeaf => [
       t.figMitesVeins,
       t.figMitesWeb,
