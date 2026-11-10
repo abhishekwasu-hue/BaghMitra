@@ -107,10 +107,7 @@ class PracticeFigureView extends StatelessWidget {
       t.figureBudUnion,
       t.figureHeightRangeCm(n[0], n[1]),
     ],
-    PracticeFigureKind.trunkBand => [
-      t.figureStickyBand(n[0]),
-      t.figureAnts,
-    ],
+    PracticeFigureKind.trunkBand => [t.figureStickyBand(n[0]), t.figureAnts],
     PracticeFigureKind.lureTrap => [
       t.figureLureTrap,
       t.figureRenewDays(n[0], n[1]),
