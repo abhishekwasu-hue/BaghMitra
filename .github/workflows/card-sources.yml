@@ -6,6 +6,12 @@ name: Card sources
 # the numbers not found there, as a 7-day artifact for the reviewer. It changes nothing.
 on:
   workflow_dispatch:
+    inputs:
+      urls:
+        description: "Optional: extra page URLs (space-separated) whose visible text is printed, e.g. the right page of a section a card cites"
+        required: false
+        default: ""
+        type: string
 
 permissions:
   contents: read
@@ -33,8 +39,30 @@ jobs:
             --passages "$RUNNER_TEMP/card_passages.json"
           python -c "import json,sys; d=json.load(open(sys.argv[1])); print(len(d), 'points')" \
             "$RUNNER_TEMP/card_passages.json"
+          # The artifact store is not reachable from every reviewer's network; the job log is.
+          echo "::group::card_passages.json"
+          cat "$RUNNER_TEMP/card_passages.json"
+          echo "::endgroup::"
       - uses: actions/upload-artifact@v4
         with:
           name: card-passages
           path: ${{ runner.temp }}/card_passages.json
           retention-days: 7
+      - name: Print extra pages
+        if: ${{ inputs.urls != '' }}
+        env:
+          URLS: ${{ inputs.urls }}
+        run: |
+          python - <<'PY'
+          import asyncio, os
+          import httpx
+          from bagmitra_api.kb.card_check import fetch_text
+          async def main():
+              async with httpx.AsyncClient(follow_redirects=True) as http:
+                  for url in os.environ["URLS"].split():
+                      text, reason = await fetch_text(http, url)
+                      print("::group::" + url)
+                      print(reason or text[:12000])
+                      print("::endgroup::")
+          asyncio.run(main())
+          PY
