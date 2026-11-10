@@ -290,7 +290,7 @@ class AppLocalizationsMr extends AppLocalizations {
   }
 
   @override
-  String get plotSaved => 'जतन झाले. नेट आल्यावर पाठवले जाईल.';
+  String get plotSaved => 'जतन झाले.';
 
   @override
   String get deletePlot => 'बाग काढून टाका';

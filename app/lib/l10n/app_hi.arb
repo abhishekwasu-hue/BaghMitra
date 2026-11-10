@@ -70,7 +70,7 @@
   "invalidNumber": "सही संख्या डालें",
   "plotAcres": "{area} एकड़",
   "plotTrees": "{count} पेड़",
-  "plotSaved": "सहेजा गया। नेटवर्क आने पर भेजा जाएगा।",
+  "plotSaved": "सहेजा गया।",
   "deletePlot": "बाग हटाएँ",
   "deletePlotConfirm": "{name} हटाएँ? यह आपके दूसरे फ़ोन से भी हट जाएगा।",
   "cancel": "रद्द करें",
