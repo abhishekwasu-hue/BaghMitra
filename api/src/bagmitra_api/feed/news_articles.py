@@ -42,10 +42,17 @@ class ArticleRun:
     skipped_reason: str | None = None
 
 
-def _event(item: FeedItem, kind: str, **detail: object) -> FeedReviewEvent:
-    return FeedReviewEvent(
+def _event(
+    item: FeedItem, kind: str, at: datetime | None = None, **detail: object
+) -> FeedReviewEvent:
+    """`at` stamps the event with the run's clock: the daily model-call cap counts ATTEMPT
+    events from the run's day, so they must carry that clock, not the wall clock."""
+    event = FeedReviewEvent(
         id=uuid.uuid4(), item_id=item.id, actor_id=None, kind=kind, detail=detail
     )
+    if at is not None:
+        event.created_at = at
+    return event
 
 
 async def _calls_today(session: AsyncSession, now: datetime) -> int:
@@ -102,12 +109,13 @@ async def _store(session: AsyncSession, item: FeedItem, result: ArticleSet) -> N
         row.article = article.as_json()
 
 
-async def _one(
+async def _one(  # noqa: PLR0913 - one item of the run, with the run clock
     session: AsyncSession,
     item: FeedItem,
     adapter: NewsFeedAdapter,
     writer: FeedArticleWriter,
     settings: Settings,
+    now: datetime,
 ) -> str:
     try:
         data = await _page(adapter, item.url)
@@ -120,7 +128,7 @@ async def _one(
     try:
         result = await writer.write_article(text, source_url=item.url)
     except AiUnavailableError as exc:
-        session.add(_event(item, ATTEMPT, result="retry", reason=str(exc)[:300]))
+        session.add(_event(item, ATTEMPT, now, result="retry", reason=str(exc)[:300]))
         return "retry"
     if not result.relevant or result.political:
         item.status = "draft"
@@ -154,9 +162,9 @@ async def write_news_articles(
         run.skipped_reason = "daily AI limit reached"
         return run
     for item in await _waiting(session, room):
-        outcome = await _one(session, item, adapter, writer, settings)
+        outcome = await _one(session, item, adapter, writer, settings, now)
         if outcome != "retry":
-            session.add(_event(item, ATTEMPT, result=outcome))
+            session.add(_event(item, ATTEMPT, now, result=outcome))
         run.published += outcome == "published"
         run.held += outcome == "held"
         run.drafted += outcome == "draft"
