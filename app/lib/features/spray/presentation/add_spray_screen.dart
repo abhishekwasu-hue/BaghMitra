@@ -6,9 +6,9 @@ import 'package:go_router/go_router.dart';
 import '../../../app/providers.dart';
 import '../../../app/router.dart';
 import '../../../core/formatting.dart';
-import '../../../design_system/alert_banner.dart';
 import '../../../design_system/app_bar_title.dart';
 import '../../../design_system/bottom_actions.dart';
+import '../../../design_system/info_note.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../../voice/presentation/voice_mic_button.dart';
@@ -146,7 +146,17 @@ class _AddSprayScreenState extends ConsumerState<AddSprayScreen> {
               Builder(
                 builder: (_) {
                   final (title, body) = warningText(t, w, lang);
-                  return AlertBanner(title: title, body: body);
+                  return Column(
+                    key: Key('spray-note-${w.kind.name}'),
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: BmType.label.copyWith(color: c.inkMuted),
+                      ),
+                      InfoNote(body),
+                    ],
+                  );
                 },
               ),
               const SizedBox(height: BmSpace.sm),

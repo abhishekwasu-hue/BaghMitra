@@ -7,7 +7,6 @@ import '../../../app/router.dart';
 import '../../../core/formatting.dart';
 import '../../../design_system/app_bar_title.dart';
 import '../../../design_system/bottom_actions.dart';
-import '../../../design_system/general_info_note.dart';
 import '../../../design_system/sources_disclosure.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
@@ -216,8 +215,6 @@ class _StartBaharScreenState extends ConsumerState<StartBaharScreen> {
           if (template != null) ...[
             const SizedBox(height: BmSpace.sm),
             Text(t.baharSuggestedHelp, style: BmType.meta),
-            const SizedBox(height: BmSpace.sm),
-            const GeneralInfoNote(key: Key('stage-general-info')),
             // Each stage's sources, once for the screen and folded (owner request).
             SourcesDisclosure(
               key: const Key('stage-sources'),

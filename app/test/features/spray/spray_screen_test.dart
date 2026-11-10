@@ -1,10 +1,12 @@
 import 'dart:convert';
 
 import 'package:bagmitra/data/local/database.dart';
+import 'package:bagmitra/design_system/alert_banner.dart';
 import 'package:bagmitra/features/bahar/data/bahar_repository.dart';
 import 'package:bagmitra/features/bahar/domain/bahar_cycle.dart';
 import 'package:bagmitra/features/spray/data/restrictions_cache.dart';
 import 'package:bagmitra/features/spray/data/spray_repository.dart';
+import 'package:bagmitra/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -63,15 +65,29 @@ void main() {
         seed: seedPlotAndBanList,
       );
       await settle(tester);
-      expect(find.text('Banned chemical'), findsNothing);
+      expect(find.text('Outside the approved list'), findsNothing);
       await tester.enterText(
         find.byKey(const Key('spray-product')),
         'Kelthane',
       );
       await tester.enterText(find.byKey(const Key('spray-active')), 'Kelthane');
       await settle(tester);
-      expect(find.text('Banned chemical'), findsOneWidget);
+      expect(find.text('Outside the approved list'), findsOneWidget);
       expect(find.textContaining('S.O. 4294(E)'), findsOneWidget);
+      // Owner 2026-11-10: a calm, small, muted note; no alert box and no alarming words.
+      expect(find.byType(AlertBanner), findsNothing);
+      final note = tester.widget<Text>(
+        find.textContaining('outside the government'),
+      );
+      expect(note.style!.fontSize, lessThanOrEqualTo(BmType.meta.fontSize!));
+      expect(
+        note.style!.color,
+        Theme.of(tester.element(find.byKey(const Key('spray-product'))))
+            .extension<BmColors>()!
+            .inkMuted,
+      );
+      expect(find.textContaining('Do not use'), findsNothing);
+      expect(find.textContaining('banned'), findsNothing);
 
       await tester.tap(find.text('Save'));
       await settle(tester);
@@ -101,11 +117,11 @@ void main() {
     await tester.tap(find.textContaining('Ambia'));
     await tester.enterText(find.byKey(const Key('spray-phi')), '40');
     await settle(tester);
-    expect(find.text('Harvest too soon'), findsOneWidget);
+    expect(find.text('Waiting period'), findsOneWidget);
     expect(find.textContaining('22 Nov 2026'), findsOneWidget);
     await tester.enterText(find.byKey(const Key('spray-phi')), '10');
     await settle(tester);
-    expect(find.text('Harvest too soon'), findsNothing);
+    expect(find.text('Waiting period'), findsNothing);
     await unmountApp(tester);
   });
 
@@ -143,7 +159,7 @@ void main() {
     );
     await settle(tester);
     expect(find.text('Imida 17.8 SL'), findsOneWidget);
-    expect(find.text('Banned chemical'), findsOneWidget);
+    expect(find.text('Outside the approved list'), findsOneWidget);
     await unmountApp(tester);
   });
 }

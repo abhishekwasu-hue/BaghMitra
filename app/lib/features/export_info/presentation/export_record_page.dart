@@ -69,11 +69,8 @@ class ExportRecordPage extends StatelessWidget {
     final strong = body.copyWith(fontWeight: FontWeight.w700);
     final muted = body.copyWith(color: c.inkMuted);
     final k = content;
-    Color tone(LabelStatus s) => switch (s) {
-      LabelStatus.listed => c.brand,
-      LabelStatus.check => c.inkMuted,
-      _ => c.danger,
-    };
+    // Owner 2026-11-10: out-of-list rows are calm, muted text.
+    Color tone(LabelStatus s) => s == LabelStatus.listed ? c.brand : c.inkMuted;
     Widget row(
       String a,
       String b,

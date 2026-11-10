@@ -162,7 +162,8 @@ void main() {
       text,
       contains('KCC form on the PM-Kisan portal: https://pmkisan.gov.in/'),
     );
-    expect(text, contains(t.schemeWhoCheck));
+    // Owner 2026-11-10: no repeated "in general terms" line; the Setu line stays.
+    expect(text, isNot(contains('In general terms')));
     expect(text, contains(t.schemeVisitSetu));
     await unmountApp(tester);
   });
@@ -194,7 +195,11 @@ void main() {
     await settle(tester);
 
     expect(find.text('PM-Kisan Samman Nidhi'), findsOne);
-    expect(find.text('In general terms. Check the official page.'), findsOne);
+    // Owner 2026-11-10: no general-information mark and no repeated check line.
+    expect(find.textContaining('In general terms'), findsNothing);
+    expect(find.textContaining('General information'), findsNothing);
+    expect(find.textContaining('KVK'), findsNothing);
+    expect(find.text('Key facts from the official page'), findsOne);
     expect(find.byKey(const Key('scheme-general-info')), findsOne);
     expect(find.textContaining('₹6,000 a year'), findsOne);
     expect(find.text('0 of 5 ready'), findsOne);

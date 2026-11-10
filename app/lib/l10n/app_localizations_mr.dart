@@ -824,23 +824,23 @@ class AppLocalizationsMr extends AppLocalizations {
   String get sprayWhichBahar => 'कोणता बहार? (तोडणीची तारीख तपासण्यासाठी)';
 
   @override
-  String get sprayWarnBannedTitle => 'बंदी असलेले रसायन';
+  String get sprayWarnBannedTitle => 'मान्य यादीबाहेरील घटक';
 
   @override
   String sprayWarnBannedBody(String notification) {
-    return 'हा घटक बंदी असलेला आहे ($notification). तो वापरू नका. जवळच्या KVK किंवा तज्ज्ञांना विचारा.';
+    return 'हा घटक शासनाच्या मान्य यादीबाहेर आहे ($notification). नोंदणीकृत पर्याय लेबल माहितीत पाहा.';
   }
 
   @override
-  String get sprayWarnRestrictedTitle => 'या पिकासाठी निर्बंध';
+  String get sprayWarnRestrictedTitle => 'या पिकासाठी मान्य यादीबाहेर';
 
   @override
   String sprayWarnRestrictedBody(String notification) {
-    return 'या पिकासाठी हा घटक प्रतिबंधित आहे ($notification). लेबल पहा आणि स्थानिक तज्ज्ञांना विचारा.';
+    return 'या पिकासाठी हा घटक मान्य यादीबाहेर आहे ($notification). लेबल माहिती पाहा.';
   }
 
   @override
-  String get sprayWarnPhiTitle => 'तोडणी खूप लवकर';
+  String get sprayWarnPhiTitle => 'प्रतीक्षा कालावधी';
 
   @override
   String sprayWarnPhiBody(String date) {
@@ -1735,7 +1735,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get irrigationCaveat =>
-      'पाण्याचे प्रमाण जमीन, झाडाचा घेर आणि हवामानावर अवलंबून असते. पाणी देणे बदलण्याआधी आपल्या कृषी विज्ञान केंद्राला (KVK) विचारा.';
+      'पाण्याचे प्रमाण जमीन, झाडाचा घेर आणि हवामानावर अवलंबून असते.';
 
   @override
   String get irrigationCropLabel => 'पीक';
@@ -1817,7 +1817,7 @@ class AppLocalizationsMr extends AppLocalizations {
   }
 
   @override
-  String get feedBadgeNews => 'बातमी — अधिकृत स्रोतावर खात्री करा';
+  String get feedBadgeNews => 'बातमी';
 
   @override
   String feedReplacedBy(String replacement) {
@@ -2444,9 +2444,6 @@ class AppLocalizationsMr extends AppLocalizations {
   String get schemeWho => 'कोण अर्ज करू शकतो';
 
   @override
-  String get schemeWhoCheck => 'सर्वसाधारण माहिती. अधिकृत पान तपासा.';
-
-  @override
   String get schemeDocuments => 'सहसा लागणारी कागदपत्रे';
 
   @override
@@ -2491,7 +2488,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get lookalikesIntro =>
-      'बागेतील अनेक समस्या सारख्याच दिसतात. ही कार्डे तुम्हाला जे दिसते ते नेमके सांगायला मदत करतात; समस्या नक्की कोणती ते प्रयोगशाळा किंवा तज्ज्ञच सांगू शकतात.';
+      'बागेतील अनेक समस्या सारख्याच दिसतात; ही कार्डे तुम्हाला जे दिसते ते नेमके सांगायला मदत करतात.';
 
   @override
   String get lookalikesSee => 'काय दिसू शकते';
@@ -2876,16 +2873,9 @@ class AppLocalizationsMr extends AppLocalizations {
   }
 
   @override
-  String get generalInfoNote =>
-      'सार्वजनिक स्रोतांतील सर्वसाधारण माहिती. अमलात आणण्यापूर्वी आपल्या KVK कडून खात्री करा.';
-
-  @override
   String generalInfoSource(String source, String date) {
     return 'स्रोत: $source · तपासले $date';
   }
-
-  @override
-  String get generalInfoMark => 'सर्वसाधारण माहिती · आधी KVK कडून खात्री करा';
 
   @override
   String get sourcesShow => 'स्रोत पहा';
@@ -3203,8 +3193,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get labNormsTitle => 'मृदा आरोग्य पत्रिकेतील श्रेणी';
 
   @override
-  String get labNormsHint =>
-      'आपल्या अहवालातील आकडा या श्रेणींशी जुळवून पाहा. पुढे काय करायचे ते KVK किंवा प्रयोगशाळेला विचारा.';
+  String get labNormsHint => 'आपल्या अहवालातील आकडा या श्रेणींशी जुळवून पाहा.';
 
   @override
   String get labelInfoChemical => 'रासायनिक';
@@ -3246,10 +3235,10 @@ class AppLocalizationsMr extends AppLocalizations {
   }
 
   @override
-  String get labelInfoBanned => 'बंदी: वापरू नका';
+  String get labelInfoBanned => 'मान्य यादीबाहेर';
 
   @override
-  String get labelInfoRestricted => 'या पिकासाठी निर्बंध: वापरू नका';
+  String get labelInfoRestricted => 'या पिकासाठी मान्य यादीबाहेर';
 
   @override
   String get labelInfoAllTargets => 'सर्व कीड व रोग';

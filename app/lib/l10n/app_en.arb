@@ -409,8 +409,8 @@
   "sprayTarget": "For which pest or disease (optional)",
   "sprayDate": "Date",
   "sprayWhichBahar": "Which bahar? (to check harvest date)",
-  "sprayWarnBannedTitle": "Banned chemical",
-  "sprayWarnBannedBody": "This ingredient is banned ({notification}). Do not use it. Ask your local KVK or expert.",
+  "sprayWarnBannedTitle": "Outside the approved list",
+  "sprayWarnBannedBody": "This ingredient is outside the government's approved list ({notification}). See the label information for registered options.",
   "@sprayWarnBannedBody": {
     "placeholders": {
       "notification": {
@@ -418,8 +418,8 @@
       }
     }
   },
-  "sprayWarnRestrictedTitle": "Restricted for this crop",
-  "sprayWarnRestrictedBody": "This ingredient is restricted for this crop ({notification}). Check the label and ask your local expert.",
+  "sprayWarnRestrictedTitle": "Outside the approved list for this crop",
+  "sprayWarnRestrictedBody": "For this crop, this ingredient is outside the approved list ({notification}). See the label information.",
   "@sprayWarnRestrictedBody": {
     "placeholders": {
       "notification": {
@@ -427,7 +427,7 @@
       }
     }
   },
-  "sprayWarnPhiTitle": "Harvest too soon",
+  "sprayWarnPhiTitle": "Waiting period",
   "sprayWarnPhiBody": "Harvest is planned before the waiting period ends. Safe to harvest from {date}.",
   "@sprayWarnPhiBody": {
     "placeholders": {
@@ -809,7 +809,7 @@
   "scoutingSeverityHigh": "High",
   "irrigationOpen": "Irrigation guide (ओलित तक्ता)",
   "irrigationGuideTitle": "Irrigation guide",
-  "irrigationCaveat": "Amounts depend on your soil, the tree's canopy and the weather. Check with your KVK before you change your watering.",
+  "irrigationCaveat": "Amounts depend on your soil, the tree's canopy and the weather.",
   "irrigationCropLabel": "Crop",
   "irrigationAgeLabel": "Tree age",
   "irrigationPlanted": "Planted in {year}: about {years} years old",
@@ -835,7 +835,7 @@
   "feedArticleKeyDates": "Key dates",
   "feedArticleSources": "Sources",
   "feedGrNumber": "GR {number}",
-  "feedBadgeNews": "News — check the official source",
+  "feedBadgeNews": "News",
   "feedReplacedBy": "Withdrawn. Replaced by {replacement}",
   "feedExpired": "Ended on {date}",
   "feedMayBeEligible": "You may be eligible because {reason}",
@@ -1042,7 +1042,6 @@
   "schemeVisitSetu": "Visit your nearest Setu Kendra (Aaple Sarkar Seva Kendra / CSC) to apply, get documents and ask questions.",
   "@schemeVisitSetu": {"description": "Nudge to visit the nearest Setu / Aaple Sarkar Seva Kendra (CSC); shown on the scheme list and each scheme."},
   "schemeWho": "Who can apply",
-  "schemeWhoCheck": "In general terms. Check the official page.",
   "schemeDocuments": "Documents usually needed",
   "schemeDocumentsHint": "Tick what you already have. Kept on this phone only.",
   "schemeDocsReady": "{have} of {total} ready",
@@ -1058,7 +1057,7 @@
   "schemeShareMissing": "to get",
   "lookalikesTitle": "Look-alike symptoms",
   "lookalikesOpen": "Look-alike symptoms",
-  "lookalikesIntro": "Many orchard problems look alike. These cards help you describe what you see; a lab or an expert tells you what it is.",
+  "lookalikesIntro": "Many orchard problems look alike; these cards help you describe exactly what you see.",
   "lookalikesSee": "What you may see",
   "lookalikesConfusedWith": "Can be confused with",
   "lookalikesConfirm": "Who can confirm it",
@@ -1178,11 +1177,8 @@
   "@priceChangeUp": {"placeholders": {"pct": {"type": "String"}}},
   "priceChangeDown": "{pct} down from last week",
   "@priceChangeDown": {"placeholders": {"pct": {"type": "String"}}},
-  "generalInfoNote": "General information from public sources. Check with your KVK before acting.",
   "generalInfoSource": "Source: {source} · checked {date}",
   "@generalInfoSource": {"placeholders": {"source": {"type": "String"}, "date": {"type": "String"}}},
-  "generalInfoMark": "General information · confirm with your KVK first",
-  "@generalInfoMark": {"description": "The one-line general-information mark (owner Q57); the source details fold into SourcesDisclosure."},
   "sourcesShow": "See sources",
   "sourcesShowCount": "See sources ({count})",
   "@sourcesShowCount": {"placeholders": {"count": {"type": "String"}}},
@@ -1290,7 +1286,7 @@
   "schemeFactSource": "From: {source}",
   "@schemeFactSource": {"placeholders": {"source": {"type": "String"}}},
   "labNormsTitle": "Soil Health Card rating ranges",
-  "labNormsHint": "Compare the value on your report with these ranges. For what to do next, ask your KVK or the lab.",
+  "labNormsHint": "Compare the value on your report with these ranges.",
   "labelInfoChemical": "Chemical",
   "labelInfoBio": "🌿 Organic / bio (registered biopesticides)",
   "labelInfoDilution": "Water on label: {value} L per hectare",
@@ -1306,8 +1302,8 @@
   "@labelInfoPage": {"placeholders": {"page": {"type": "String"}}},
   "labelInfoNoClaim": "No registered label claim for {target} on citrus.",
   "@labelInfoNoClaim": {"placeholders": {"target": {"type": "String"}}},
-  "labelInfoBanned": "Banned: do not use",
-  "labelInfoRestricted": "Restricted for this crop: do not use",
+  "labelInfoBanned": "Outside the approved list",
+  "labelInfoRestricted": "Outside the approved list for this crop",
   "labelInfoAllTargets": "All pests and diseases",
   "labelInfoOpenFor": "Label information: {target}",
   "@labelInfoOpenFor": {"placeholders": {"target": {"type": "String"}}},

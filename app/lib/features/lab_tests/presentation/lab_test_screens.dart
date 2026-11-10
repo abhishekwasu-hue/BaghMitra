@@ -14,6 +14,7 @@ import '../../../design_system/cards.dart';
 import '../../../design_system/empty_state.dart';
 import '../../../design_system/general_info_note.dart';
 import '../../../design_system/glyphs.dart';
+import '../../../design_system/info_note.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../../scouting/data/scouting_photos.dart';
@@ -69,33 +70,16 @@ Future<FarmTask?> _openReminder(WidgetRef ref, String testId) async {
   return task == null || task.isDone ? null : task;
 }
 
-/// The "ask an expert" line every lab test screen shows: the app never reads the values.
+/// The one "ask an expert" line each lab test screen shows: the app never reads the values.
+/// A small muted note (owner 2026-11-10).
 class _AskExpertNote extends StatelessWidget {
   const _AskExpertNote();
 
   @override
-  Widget build(BuildContext context) {
-    final c = context.bm;
-    return BmCard(
-      key: const Key('lab-ask-expert'),
-      elevated: false,
-      radius: BmRadius.card,
-      padding: const EdgeInsets.all(BmSpace.md),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(Icons.support_agent_rounded, color: c.brand),
-          const SizedBox(width: BmSpace.sm),
-          Expanded(
-            child: Text(
-              AppLocalizations.of(context).labTestAskExpert,
-              style: BmType.bodyStrong.copyWith(color: c.ink),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+  Widget build(BuildContext context) => InfoNote(
+    AppLocalizations.of(context).labTestAskExpert,
+    key: const Key('lab-ask-expert'),
+  );
 }
 
 /// General rating ranges per test type (Soil Health Card manual), read from config.

@@ -825,23 +825,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sprayWhichBahar => 'Which bahar? (to check harvest date)';
 
   @override
-  String get sprayWarnBannedTitle => 'Banned chemical';
+  String get sprayWarnBannedTitle => 'Outside the approved list';
 
   @override
   String sprayWarnBannedBody(String notification) {
-    return 'This ingredient is banned ($notification). Do not use it. Ask your local KVK or expert.';
+    return 'This ingredient is outside the government\'s approved list ($notification). See the label information for registered options.';
   }
 
   @override
-  String get sprayWarnRestrictedTitle => 'Restricted for this crop';
+  String get sprayWarnRestrictedTitle =>
+      'Outside the approved list for this crop';
 
   @override
   String sprayWarnRestrictedBody(String notification) {
-    return 'This ingredient is restricted for this crop ($notification). Check the label and ask your local expert.';
+    return 'For this crop, this ingredient is outside the approved list ($notification). See the label information.';
   }
 
   @override
-  String get sprayWarnPhiTitle => 'Harvest too soon';
+  String get sprayWarnPhiTitle => 'Waiting period';
 
   @override
   String sprayWarnPhiBody(String date) {
@@ -1738,7 +1739,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get irrigationCaveat =>
-      'Amounts depend on your soil, the tree\'s canopy and the weather. Check with your KVK before you change your watering.';
+      'Amounts depend on your soil, the tree\'s canopy and the weather.';
 
   @override
   String get irrigationCropLabel => 'Crop';
@@ -1821,7 +1822,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get feedBadgeNews => 'News — check the official source';
+  String get feedBadgeNews => 'News';
 
   @override
   String feedReplacedBy(String replacement) {
@@ -2448,9 +2449,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get schemeWho => 'Who can apply';
 
   @override
-  String get schemeWhoCheck => 'In general terms. Check the official page.';
-
-  @override
   String get schemeDocuments => 'Documents usually needed';
 
   @override
@@ -2495,7 +2493,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get lookalikesIntro =>
-      'Many orchard problems look alike. These cards help you describe what you see; a lab or an expert tells you what it is.';
+      'Many orchard problems look alike; these cards help you describe exactly what you see.';
 
   @override
   String get lookalikesSee => 'What you may see';
@@ -2880,17 +2878,9 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get generalInfoNote =>
-      'General information from public sources. Check with your KVK before acting.';
-
-  @override
   String generalInfoSource(String source, String date) {
     return 'Source: $source · checked $date';
   }
-
-  @override
-  String get generalInfoMark =>
-      'General information · confirm with your KVK first';
 
   @override
   String get sourcesShow => 'See sources';
@@ -3210,7 +3200,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get labNormsHint =>
-      'Compare the value on your report with these ranges. For what to do next, ask your KVK or the lab.';
+      'Compare the value on your report with these ranges.';
 
   @override
   String get labelInfoChemical => 'Chemical';
@@ -3252,10 +3242,10 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get labelInfoBanned => 'Banned: do not use';
+  String get labelInfoBanned => 'Outside the approved list';
 
   @override
-  String get labelInfoRestricted => 'Restricted for this crop: do not use';
+  String get labelInfoRestricted => 'Outside the approved list for this crop';
 
   @override
   String get labelInfoAllTargets => 'All pests and diseases';

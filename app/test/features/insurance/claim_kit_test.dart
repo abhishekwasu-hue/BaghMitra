@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:bagmitra/app/providers.dart';
 import 'package:bagmitra/data/local/database.dart';
+import 'package:bagmitra/design_system/cards.dart';
 import 'package:bagmitra/features/insurance/data/claim_kit_repository.dart';
 import 'package:bagmitra/features/insurance/data/claim_pdf.dart';
 import 'package:bagmitra/features/insurance/domain/claim_kit.dart';
@@ -83,6 +84,14 @@ void main() {
     await settle(tester);
     expect(find.text('Take loss photos; they appear here.'), findsOne);
     expect(find.byKey(const Key('claim-check-policy')), findsOne);
+    // Owner 2026-11-10: the policy note is a plain muted line, not a card.
+    expect(
+      find.ancestor(
+        of: find.byKey(const Key('claim-check-policy')),
+        matching: find.byType(BmCard),
+      ),
+      findsNothing,
+    );
     await tester.tap(find.byKey(const Key('claim-camera')));
     await settle(tester);
     // On screen: a localized time and a location mark; coordinates stay for the PDF.

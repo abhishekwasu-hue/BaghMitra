@@ -9,7 +9,6 @@ import '../../../app/router.dart';
 import '../../../core/formatting.dart';
 import '../../../design_system/app_bar_title.dart';
 import '../../../design_system/bottom_actions.dart';
-import '../../../design_system/cards.dart';
 import '../../../design_system/info_note.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
@@ -351,16 +350,7 @@ class _ClaimKitScreenState extends ConsumerState<ClaimKitScreen> {
           const SizedBox(height: BmSpace.lg),
           Text(t.claimKitChecklist, style: label),
           const SizedBox(height: BmSpace.xs),
-          BmCard(
-            elevated: false,
-            radius: BmRadius.card,
-            padding: const EdgeInsets.all(BmSpace.md),
-            child: InfoNote(
-              t.claimKitCheckPolicy,
-              key: const Key('claim-check-policy'),
-              style: BmType.body,
-            ),
-          ),
+          InfoNote(t.claimKitCheckPolicy, key: const Key('claim-check-policy')),
           for (final k in claimChecklist)
             CheckboxListTile(
               key: Key('check-$k'),

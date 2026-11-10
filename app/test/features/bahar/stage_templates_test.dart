@@ -115,9 +115,11 @@ void main() {
     final none = find.textContaining('Enter your own date');
     await tester.scrollUntilVisible(none, 200);
     expect(none, findsOneWidget); // fruit set
-    final note = find.byKey(const Key('stage-general-info'));
+    final note = find.byKey(const Key('stage-sources'));
     await tester.scrollUntilVisible(note, 200);
     expect(note, findsOneWidget);
+    // Owner 2026-11-10: no "general information · confirm with your KVK" mark.
+    expect(find.textContaining('General information'), findsNothing);
     // Source and date are one tap away, once for the screen (owner request).
     expect(find.textContaining('checked 6 Nov 2026'), findsNothing);
     await openAllSources(tester);

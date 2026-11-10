@@ -1519,31 +1519,31 @@ abstract class AppLocalizations {
   /// No description provided for @sprayWarnBannedTitle.
   ///
   /// In en, this message translates to:
-  /// **'Banned chemical'**
+  /// **'Outside the approved list'**
   String get sprayWarnBannedTitle;
 
   /// No description provided for @sprayWarnBannedBody.
   ///
   /// In en, this message translates to:
-  /// **'This ingredient is banned ({notification}). Do not use it. Ask your local KVK or expert.'**
+  /// **'This ingredient is outside the government\'s approved list ({notification}). See the label information for registered options.'**
   String sprayWarnBannedBody(String notification);
 
   /// No description provided for @sprayWarnRestrictedTitle.
   ///
   /// In en, this message translates to:
-  /// **'Restricted for this crop'**
+  /// **'Outside the approved list for this crop'**
   String get sprayWarnRestrictedTitle;
 
   /// No description provided for @sprayWarnRestrictedBody.
   ///
   /// In en, this message translates to:
-  /// **'This ingredient is restricted for this crop ({notification}). Check the label and ask your local expert.'**
+  /// **'For this crop, this ingredient is outside the approved list ({notification}). See the label information.'**
   String sprayWarnRestrictedBody(String notification);
 
   /// No description provided for @sprayWarnPhiTitle.
   ///
   /// In en, this message translates to:
-  /// **'Harvest too soon'**
+  /// **'Waiting period'**
   String get sprayWarnPhiTitle;
 
   /// No description provided for @sprayWarnPhiBody.
@@ -3072,7 +3072,7 @@ abstract class AppLocalizations {
   /// No description provided for @irrigationCaveat.
   ///
   /// In en, this message translates to:
-  /// **'Amounts depend on your soil, the tree\'s canopy and the weather. Check with your KVK before you change your watering.'**
+  /// **'Amounts depend on your soil, the tree\'s canopy and the weather.'**
   String get irrigationCaveat;
 
   /// No description provided for @irrigationCropLabel.
@@ -3222,7 +3222,7 @@ abstract class AppLocalizations {
   /// No description provided for @feedBadgeNews.
   ///
   /// In en, this message translates to:
-  /// **'News — check the official source'**
+  /// **'News'**
   String get feedBadgeNews;
 
   /// No description provided for @feedReplacedBy.
@@ -4293,12 +4293,6 @@ abstract class AppLocalizations {
   /// **'Who can apply'**
   String get schemeWho;
 
-  /// No description provided for @schemeWhoCheck.
-  ///
-  /// In en, this message translates to:
-  /// **'In general terms. Check the official page.'**
-  String get schemeWhoCheck;
-
   /// No description provided for @schemeDocuments.
   ///
   /// In en, this message translates to:
@@ -4374,7 +4368,7 @@ abstract class AppLocalizations {
   /// No description provided for @lookalikesIntro.
   ///
   /// In en, this message translates to:
-  /// **'Many orchard problems look alike. These cards help you describe what you see; a lab or an expert tells you what it is.'**
+  /// **'Many orchard problems look alike; these cards help you describe exactly what you see.'**
   String get lookalikesIntro;
 
   /// No description provided for @lookalikesSee.
@@ -5013,23 +5007,11 @@ abstract class AppLocalizations {
   /// **'{pct} down from last week'**
   String priceChangeDown(String pct);
 
-  /// No description provided for @generalInfoNote.
-  ///
-  /// In en, this message translates to:
-  /// **'General information from public sources. Check with your KVK before acting.'**
-  String get generalInfoNote;
-
   /// No description provided for @generalInfoSource.
   ///
   /// In en, this message translates to:
   /// **'Source: {source} · checked {date}'**
   String generalInfoSource(String source, String date);
-
-  /// The one-line general-information mark (owner Q57); the source details fold into SourcesDisclosure.
-  ///
-  /// In en, this message translates to:
-  /// **'General information · confirm with your KVK first'**
-  String get generalInfoMark;
 
   /// No description provided for @sourcesShow.
   ///
@@ -5598,7 +5580,7 @@ abstract class AppLocalizations {
   /// No description provided for @labNormsHint.
   ///
   /// In en, this message translates to:
-  /// **'Compare the value on your report with these ranges. For what to do next, ask your KVK or the lab.'**
+  /// **'Compare the value on your report with these ranges.'**
   String get labNormsHint;
 
   /// No description provided for @labelInfoChemical.
@@ -5658,13 +5640,13 @@ abstract class AppLocalizations {
   /// No description provided for @labelInfoBanned.
   ///
   /// In en, this message translates to:
-  /// **'Banned: do not use'**
+  /// **'Outside the approved list'**
   String get labelInfoBanned;
 
   /// No description provided for @labelInfoRestricted.
   ///
   /// In en, this message translates to:
-  /// **'Restricted for this crop: do not use'**
+  /// **'Outside the approved list for this crop'**
   String get labelInfoRestricted;
 
   /// No description provided for @labelInfoAllTargets.

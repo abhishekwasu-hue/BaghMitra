@@ -6,8 +6,6 @@ import 'package:flutter_test/flutter_test.dart';
 /// Owner rule: "Avoid negative statement". App text tells the grower what to do or what
 /// is true. Only the keys below keep a negative, because there the negative is the point.
 const allowNegative = {
-  // Banned ingredient: "do not use it" is the safety instruction itself.
-  'sprayWarnBannedBody',
   // CIB&RC label info: the explicit "not a recommendation" disclaimer stays.
   'labelInfoBanner',
   // Consent text: says plainly that this consent cannot be switched off here.
@@ -19,10 +17,8 @@ const allowNegative = {
   // Claim PDF legal note: a grower's record, not an insurer's document.
   'claimPdfMade',
   // Label screen (owner Q57): "no registered label claim for this target" is the fact the
-  // owner asked to show plainly; banned / restricted rows say "do not use" in red.
+  // owner asked to show plainly.
   'labelInfoNoClaim',
-  'labelInfoBanned',
-  'labelInfoRestricted',
   // Market link (owner's disclaimer, spec v1.5 §1 / §5): what BagMitra is not and does not
   // do is the legal point; and the fixed safety notice "never asks for money, OTP or bank
   // details" (§4C).

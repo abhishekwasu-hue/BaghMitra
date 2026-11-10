@@ -90,9 +90,7 @@ class SprayLogScreen extends ConsumerWidget {
                             padding: const EdgeInsets.only(top: BmSpace.xs),
                             child: Text(
                               warningText(t, w, lang).$1,
-                              style: BmType.bodyStrong.copyWith(
-                                color: c.danger,
-                              ),
+                              style: BmType.meta.copyWith(color: c.inkMuted),
                             ),
                           ),
                       ],
