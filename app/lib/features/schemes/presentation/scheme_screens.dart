@@ -11,7 +11,6 @@ import '../../../design_system/cards.dart';
 import '../../../design_system/empty_state.dart';
 import '../../../design_system/general_info_note.dart';
 import '../../../design_system/glyphs.dart';
-import '../../../design_system/info_note.dart';
 import '../../../design_system/sources_disclosure.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
@@ -42,7 +41,6 @@ String schemeShareText(
   for (final a in scheme.apply)
     a.url == null ? '• ${a.label(lang)}' : '• ${a.label(lang)}: ${a.url}',
   '',
-  t.schemeWhoCheck,
   t.schemeVisitSetu,
   shareFooter(t, productName),
 ].join('\n');
@@ -266,8 +264,6 @@ class SchemeDetailScreen extends ConsumerWidget {
           ),
           section(t.schemeWho),
           Text(scheme.whoCanApply(lang), style: BmType.body),
-          const SizedBox(height: BmSpace.xxs),
-          InfoNote(t.schemeWhoCheck, style: BmType.bodyStrong),
           if (scheme.facts.isNotEmpty) ...[
             section(t.schemeFacts),
             for (final (i, f) in scheme.facts.indexed)

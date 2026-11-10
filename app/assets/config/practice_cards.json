@@ -753,9 +753,9 @@
             "id": "b12",
             "kind": "registered",
             "labels": {
-              "en": "Trichoderma harzianum, Pseudomonas fluorescens and Mycorrhiza, mixed with FYM and put round each tree at the first signs of gummosis (PDKV, Nagpur mandarin; NIPHM also lists Trichoderma and Pseudomonas for soil use); check the label screen for the crop and dose.",
-              "mr": "डिंक्याची पहिली लक्षणे दिसताच शेणखतात मिसळून प्रत्येक झाडाभोवती ट्रायकोडर्मा हर्जियानम, स्यूडोमोनास फ्लुरोसन्स व मायकोरायझा (डॉ. पंदेकृवि, नागपुरी संत्रा; NIPHM नेही जमिनीत वापरासाठी ट्रायकोडर्मा व स्यूडोमोनास दिले आहेत); पीक व मात्रेसाठी लेबल स्क्रीन पाहा.",
-              "hi": "गमोसिस के पहले लक्षण पर गोबर खाद में मिलाकर हर पेड़ के चारों ओर ट्राइकोडर्मा हर्ज़ियानम, स्यूडोमोनास फ्लोरेसेंस और माइकोराइज़ा (पीडीकेवी, नागपुरी संतरा; NIPHM भी मिट्टी में ट्राइकोडर्मा और स्यूडोमोनास बताता है); फसल और मात्रा के लिए लेबल स्क्रीन देखें।"
+              "en": "Trichoderma harzianum, Pseudomonas fluorescens and Mycorrhiza, mixed with FYM and put round each tree at the first signs of gummosis (PDKV, Nagpur mandarin; NIPHM also lists Trichoderma and Pseudomonas for soil use).",
+              "mr": "डिंक्याची पहिली लक्षणे दिसताच शेणखतात मिसळून प्रत्येक झाडाभोवती ट्रायकोडर्मा हर्जियानम, स्यूडोमोनास फ्लुरोसन्स व मायकोरायझा (डॉ. पंदेकृवि, नागपुरी संत्रा; NIPHM नेही जमिनीत वापरासाठी ट्रायकोडर्मा व स्यूडोमोनास दिले आहेत).",
+              "hi": "गमोसिस के पहले लक्षण पर गोबर खाद में मिलाकर हर पेड़ के चारों ओर ट्राइकोडर्मा हर्ज़ियानम, स्यूडोमोनास फ्लोरेसेंस और माइकोराइज़ा (पीडीकेवी, नागपुरी संतरा; NIPHM भी मिट्टी में ट्राइकोडर्मा और स्यूडोमोनास बताता है)।"
             },
             "source": "R21 p.6 #23; VK-NIPHM-STAGE (note on Trichoderma and Pseudomonas)",
             "source_keys": [
@@ -1223,9 +1223,9 @@
             "id": "b11",
             "kind": "registered",
             "labels": {
-              "en": "Azadirachtin: MPKV used it against psylla on sweet orange; check the label screen for the crop and dose.",
-              "mr": "ॲझाडिरॅक्टिन: MPKV ने मोसंबीवरील सायलाविरुद्ध वापरले; पीक व मात्रेसाठी लेबल स्क्रीन पाहा.",
-              "hi": "एज़ाडिरेक्टिन: MPKV ने मोसंबी पर सिल्ला के विरुद्ध इस्तेमाल किया; फसल और मात्रा के लिए लेबल स्क्रीन देखें।"
+              "en": "Azadirachtin: MPKV used it against psylla on sweet orange.",
+              "mr": "ॲझाडिरॅक्टिन: MPKV ने मोसंबीवरील सायलाविरुद्ध वापरले.",
+              "hi": "एज़ाडिरेक्टिन: MPKV ने मोसंबी पर सिल्ला के विरुद्ध इस्तेमाल किया।"
             },
             "source": "MPKV-AICRP §8 l",
             "source_keys": [
@@ -1461,9 +1461,9 @@
             "id": "b14",
             "kind": "registered",
             "labels": {
-              "en": "Azadirachtin: PDKV times it after half the eggs have hatched, with a second round 15 days later; check the label screen for the crop and dose.",
-              "mr": "ॲझाडिरॅक्टिन: डॉ. पंदेकृवि निम्मी अंडी उबल्यानंतर आणि १५ दिवसांनी दुसऱ्यांदा अशी वेळ सांगते; पीक व मात्रेसाठी लेबल स्क्रीन पाहा.",
-              "hi": "एज़ाडिरेक्टिन: पीडीकेवी आधे अंडे फूटने के बाद और 15 दिन बाद दूसरी बार का समय बताता है; फसल और मात्रा के लिए लेबल स्क्रीन देखें।"
+              "en": "Azadirachtin: PDKV times it after half the eggs have hatched, with a second round 15 days later.",
+              "mr": "ॲझाडिरॅक्टिन: डॉ. पंदेकृवि निम्मी अंडी उबल्यानंतर आणि १५ दिवसांनी दुसऱ्यांदा अशी वेळ सांगते.",
+              "hi": "एज़ाडिरेक्टिन: पीडीकेवी आधे अंडे फूटने के बाद और 15 दिन बाद दूसरी बार का समय बताता है।"
             },
             "source": "P1 Entomology recs (black fly, after 50 % egg hatch)",
             "source_keys": [
@@ -1730,9 +1730,9 @@
             "id": "b1",
             "kind": "registered",
             "labels": {
-              "en": "Azadirachtin: an MPKV (AICRP) citrus trial used it as the first step against aphids, thrips and black fly; check the label screen for the crop and dose.",
-              "mr": "ॲझाडिरॅक्टिन: MPKV (AICRP) च्या लिंबूवर्गीय प्रयोगात मावा, फुलकिडे व काळ्या माशीविरुद्ध पहिली पायरी म्हणून वापरले; पीक व मात्रेसाठी लेबल स्क्रीन पाहा.",
-              "hi": "एज़ाडिरेक्टिन: MPKV (AICRP) के नींबूवर्गीय प्रयोग में माहू, थ्रिप्स और काली मक्खी के विरुद्ध पहले कदम के रूप में इस्तेमाल; फसल और मात्रा के लिए लेबल स्क्रीन देखें।"
+              "en": "Azadirachtin: an MPKV (AICRP) citrus trial used it as the first step against aphids, thrips and black fly.",
+              "mr": "ॲझाडिरॅक्टिन: MPKV (AICRP) च्या लिंबूवर्गीय प्रयोगात मावा, फुलकिडे व काळ्या माशीविरुद्ध पहिली पायरी म्हणून वापरले.",
+              "hi": "एज़ाडिरेक्टिन: MPKV (AICRP) के नींबूवर्गीय प्रयोग में माहू, थ्रिप्स और काली मक्खी के विरुद्ध पहले कदम के रूप में इस्तेमाल।"
             },
             "source": "MPKV-AICRP §8 n",
             "source_keys": [
@@ -1869,9 +1869,9 @@
             "id": "b2",
             "kind": "registered",
             "labels": {
-              "en": "Azadirachtin: an MPKV (AICRP) citrus trial used it as the first step against thrips, aphids and black fly; check the label screen for the crop and dose.",
-              "mr": "ॲझाडिरॅक्टिन: MPKV (AICRP) च्या लिंबूवर्गीय प्रयोगात फुलकिडे, मावा व काळ्या माशीविरुद्ध पहिली पायरी म्हणून वापरले; पीक व मात्रेसाठी लेबल स्क्रीन पाहा.",
-              "hi": "एज़ाडिरेक्टिन: MPKV (AICRP) के नींबूवर्गीय प्रयोग में थ्रिप्स, माहू और काली मक्खी के विरुद्ध पहले कदम के रूप में इस्तेमाल; फसल और मात्रा के लिए लेबल स्क्रीन देखें।"
+              "en": "Azadirachtin: an MPKV (AICRP) citrus trial used it as the first step against thrips, aphids and black fly.",
+              "mr": "ॲझाडिरॅक्टिन: MPKV (AICRP) च्या लिंबूवर्गीय प्रयोगात फुलकिडे, मावा व काळ्या माशीविरुद्ध पहिली पायरी म्हणून वापरले.",
+              "hi": "एज़ाडिरेक्टिन: MPKV (AICRP) के नींबूवर्गीय प्रयोग में थ्रिप्स, माहू और काली मक्खी के विरुद्ध पहले कदम के रूप में इस्तेमाल।"
             },
             "source": "MPKV-AICRP §8 n",
             "source_keys": [
@@ -2167,9 +2167,9 @@
             "id": "b5",
             "kind": "registered",
             "labels": {
-              "en": "Neem formulation: used by MPKV (AICRP) against leaf miner on nursery and young orchards during new flush; check the label screen for the crop and dose.",
-              "mr": "निंबाचे फॉर्म्युलेशन: MPKV (AICRP) ने रोपवाटिका व लहान बागांत नवतीच्या काळात पाने पोखरणाऱ्या अळीविरुद्ध वापरले; पीक व मात्रेसाठी लेबल स्क्रीन पाहा.",
-              "hi": "नीम फ़ॉर्मूलेशन: MPKV (AICRP) ने नर्सरी और छोटे बागों में नई फुटान के समय पत्ती सुरंगक के विरुद्ध इस्तेमाल किया; फसल और मात्रा के लिए लेबल स्क्रीन देखें।"
+              "en": "Neem formulation: used by MPKV (AICRP) against leaf miner on nursery and young orchards during new flush.",
+              "mr": "निंबाचे फॉर्म्युलेशन: MPKV (AICRP) ने रोपवाटिका व लहान बागांत नवतीच्या काळात पाने पोखरणाऱ्या अळीविरुद्ध वापरले.",
+              "hi": "नीम फ़ॉर्मूलेशन: MPKV (AICRP) ने नर्सरी और छोटे बागों में नई फुटान के समय पत्ती सुरंगक के विरुद्ध इस्तेमाल किया।"
             },
             "source": "MPKV-AICRP §8 m",
             "source_keys": [
@@ -2310,9 +2310,9 @@
             "id": "b16",
             "kind": "registered",
             "labels": {
-              "en": "Azadirachtin is in the same PDKV list for the fruit-sucking moth; check the label screen for the crop and dose.",
-              "mr": "ॲझाडिरॅक्टिन फळातील रस शोषणाऱ्या पतंगासाठी डॉ. पंदेकृविच्या त्याच यादीत आहे; पीक व मात्रेसाठी लेबल स्क्रीन पाहा.",
-              "hi": "एज़ाडिरेक्टिन फल-चूसक पतंगे के लिए पीडीकेवी की उसी सूची में है; फसल और मात्रा के लिए लेबल स्क्रीन देखें।"
+              "en": "Azadirachtin is in the same PDKV list for the fruit-sucking moth.",
+              "mr": "ॲझाडिरॅक्टिन फळातील रस शोषणाऱ्या पतंगासाठी डॉ. पंदेकृविच्या त्याच यादीत आहे.",
+              "hi": "एज़ाडिरेक्टिन फल-चूसक पतंगे के लिए पीडीकेवी की उसी सूची में है।"
             },
             "source": "P1 Entomology recs (fruit-sucking moth)",
             "source_keys": [
@@ -3029,9 +3029,9 @@
             "id": "b6",
             "kind": "registered",
             "labels": {
-              "en": "Trichoderma harzianum and Pseudomonas fluorescens with azadirachtin (spray) in January are part of MPKV's organic module for Ambia sweet orange on medium black soil; check the label screen for the crop and dose.",
-              "mr": "मध्यम काळ्या जमिनीतील आंबिया मोसंबीसाठी MPKV च्या सेंद्रिय पद्धतीत जानेवारीत ट्रायकोडर्मा हर्जियानम व स्यूडोमोनास फ्लुरोसन्स आणि ॲझाडिरॅक्टिन (फवारणी) आहेत; पीक व मात्रेसाठी लेबल स्क्रीन पाहा.",
-              "hi": "मध्यम काली मिट्टी में अंबिया मोसंबी के लिए MPKV की जैविक पद्धति में जनवरी में ट्राइकोडर्मा हर्ज़ियानम और स्यूडोमोनास फ्लोरेसेंस और एज़ाडिरेक्टिन (छिड़काव) हैं; फसल और मात्रा के लिए लेबल स्क्रीन देखें।"
+              "en": "Trichoderma harzianum and Pseudomonas fluorescens with azadirachtin (spray) in January are part of MPKV's organic module for Ambia sweet orange on medium black soil.",
+              "mr": "मध्यम काळ्या जमिनीतील आंबिया मोसंबीसाठी MPKV च्या सेंद्रिय पद्धतीत जानेवारीत ट्रायकोडर्मा हर्जियानम व स्यूडोमोनास फ्लुरोसन्स आणि ॲझाडिरॅक्टिन (फवारणी) आहेत.",
+              "hi": "मध्यम काली मिट्टी में अंबिया मोसंबी के लिए MPKV की जैविक पद्धति में जनवरी में ट्राइकोडर्मा हर्ज़ियानम और स्यूडोमोनास फ्लोरेसेंस और एज़ाडिरेक्टिन (छिड़काव) हैं।"
             },
             "source": "MPKV-AICRP §8 d",
             "source_keys": [
@@ -3045,9 +3045,9 @@
             "id": "b7",
             "kind": "registered",
             "labels": {
-              "en": "Azadirachtin: against psylla on sweet orange, twice 15 days apart at the pest's peak (MPKV); check the label screen for the crop and dose.",
-              "mr": "ॲझाडिरॅक्टिन मोसंबीवरील सायलाविरुद्ध, किडीच्या शिखर काळात १५ दिवसांच्या अंतराने दोनदा (MPKV); पीक व मात्रेसाठी लेबल स्क्रीन पाहा.",
-              "hi": "एज़ाडिरेक्टिन मोसंबी पर सिल्ला के विरुद्ध, कीट के चरम समय में 15 दिन के अंतर पर दो बार (MPKV); फसल और मात्रा के लिए लेबल स्क्रीन देखें।"
+              "en": "Azadirachtin: against psylla on sweet orange, twice 15 days apart at the pest's peak (MPKV).",
+              "mr": "ॲझाडिरॅक्टिन मोसंबीवरील सायलाविरुद्ध, किडीच्या शिखर काळात १५ दिवसांच्या अंतराने दोनदा (MPKV).",
+              "hi": "एज़ाडिरेक्टिन मोसंबी पर सिल्ला के विरुद्ध, कीट के चरम समय में 15 दिन के अंतर पर दो बार (MPKV)।"
             },
             "source": "MPKV-AICRP §8 l",
             "source_keys": [

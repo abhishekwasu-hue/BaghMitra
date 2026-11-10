@@ -19,8 +19,8 @@ import 'practice_figure_view.dart';
 /// No synthetic chemical advice (owner Q28); no draft
 /// banner (Q30). A problem section with a profile also says what the grower sees, when it
 /// comes, how to scout and any published action level, lists organic / bio options as
-/// published, links to the label screen for that target, and carries the "general
-/// information" mark with its sources and the date read (owner decision Q57).
+/// published, links to the label screen for that target, and keeps its sources and the
+/// date read one tap away (owner 2026-11-10: no "general information" mark).
 class PracticesScreen extends ConsumerWidget {
   const PracticesScreen({super.key});
 
@@ -201,7 +201,7 @@ class PracticesScreen extends ConsumerWidget {
           Text(
             t.practicesNoActionLevel,
             key: Key('practices-no-action-${s.key}'),
-            style: BmType.meta,
+            style: BmType.meta.copyWith(color: c.inkMuted),
           ),
         ],
         if (s.items.isNotEmpty) heading(t.practicesWhatToDo),

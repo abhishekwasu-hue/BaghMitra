@@ -171,6 +171,17 @@ void main() {
     expect(find.text('What you may see'), findsWidgets);
     expect(find.text('Can be confused with'), findsWidgets);
     expect(find.text('Who can confirm it'), findsWidgets);
+    // Owner 2026-11-10: the intro keeps its first sentence; no general-information mark.
+    expect(
+      find.text(
+        'Many orchard problems look alike; these cards help you describe '
+        'exactly what you see.',
+      ),
+      findsOneWidget,
+    );
+    expect(find.textContaining('a lab or an expert tells you'), findsNothing);
+    expect(find.textContaining('General information'), findsNothing);
+    expect(find.textContaining('confirm with your KVK'), findsNothing);
 
     // The card's sources fold into one "See sources (n)" line; one tap shows them all.
     const nhb = 'National Horticulture Board: Citrus diseases';

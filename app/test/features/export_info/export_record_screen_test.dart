@@ -4,6 +4,7 @@ import 'package:bagmitra/data/local/database.dart';
 import 'package:bagmitra/features/export_info/presentation/export_record_screen.dart';
 import 'package:bagmitra/features/labels/data/label_claims_cache.dart';
 import 'package:bagmitra/features/spray/data/spray_repository.dart';
+import 'package:bagmitra/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -57,7 +58,14 @@ void main() {
       expect(find.byType(ExportRecordScreen), findsOneWidget);
       expect(find.text('3 sprays'), findsOneWidget);
       expect(find.text('1 · On the label for this crop'), findsOneWidget);
-      expect(find.text('1 · Banned chemical'), findsOneWidget);
+      expect(find.text('1 · Outside the approved list'), findsOneWidget);
+      // Owner 2026-11-10: the out-of-list count is calm, muted text, never red.
+      final out = tester.widget<Text>(
+        find.text('1 · Outside the approved list'),
+      );
+      final colors = Theme.of(tester.element(find.byType(ExportRecordScreen)))
+          .extension<BmColors>()!;
+      expect(out.style!.color, colors.inkMuted);
       await tester.tap(find.byKey(const Key('record-bahar-b1')));
       await settle(tester);
       expect(find.text('2 sprays'), findsOneWidget);

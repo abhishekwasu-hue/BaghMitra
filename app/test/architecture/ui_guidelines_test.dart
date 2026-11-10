@@ -101,7 +101,8 @@ void main() {
   }
 
   // M5: santra text is kept for actions (the camera label) and the stage hero number.
-  // Notes use InfoNote / BmColors.info, deadlines and stale lines BmColors.caution.
+  // Notes use InfoNote (small, muted; owner 2026-11-10), deadlines and stale lines
+  // BmColors.caution.
   test('accentInk is used only on actions and the stage number', () {
     final users = [
       for (final f in Directory('lib').listSync(recursive: true))

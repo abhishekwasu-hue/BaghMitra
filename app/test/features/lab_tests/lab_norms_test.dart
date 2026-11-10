@@ -65,8 +65,12 @@ void main() {
     expect(find.text('Soil Health Card rating ranges'), findsOne);
     await tester.tap(card);
     await settle(tester);
+    // Owner 2026-11-10: no general-information mark; the sources stay folded.
+    expect(find.textContaining('General information'), findsNothing);
+    expect(find.textContaining('See sources'), findsOne);
+    // One "ask an expert" line per screen: the hint keeps only the comparison.
     expect(
-      find.text('General information · confirm with your KVK first'),
+      find.text('Compare the value on your report with these ranges.'),
       findsOne,
     );
     expect(find.byKey(const Key('lab-norm-oc')), findsOne);

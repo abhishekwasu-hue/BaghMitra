@@ -7,7 +7,6 @@ import '../../../core/formatting.dart';
 import '../../../design_system/app_bar_title.dart';
 import '../../../design_system/cards.dart';
 import '../../../design_system/empty_state.dart';
-import '../../../design_system/general_info_note.dart';
 import '../../../design_system/glyphs.dart';
 import '../../../design_system/sources_disclosure.dart';
 import '../../../l10n/app_localizations.dart';
@@ -109,14 +108,6 @@ class _KnowledgeCardView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(title, style: BmType.cardTitle),
-          if (!card.reviewed)
-            Padding(
-              padding: const EdgeInsets.only(top: BmSpace.xxs),
-              // The source and date fold into "See sources" at the end of the card.
-              child: GeneralInfoNote(
-                key: Key('knowledge-general-${card.topic}-${card.crop}'),
-              ),
-            ),
           part(null, pick((x) => x.summary)),
           part(t.practicesWhatToDo, pick((x) => x.cultural)),
           part(t.knowledgeWarnings, pick((x) => x.warnings)),

@@ -238,75 +238,111 @@ void main() {
       return opened;
     }
 
-    testWidgets('tile: name and bold dose; bio apart; banned red; one notice', (
-      tester,
-    ) async {
-      await open(tester, '/plots/p1/labels?target=gummosis');
-      expect(find.byKey(const Key('label-target-heading')), findsOneWidget);
-      // The tile: product in a large style, the dose in bold right below it, PHI as a chip.
-      final tile = find.byKey(const Key('label-row-0'));
-      final name = tester.widget<Text>(
-        find.descendant(of: tile, matching: find.text('Chem A 25% SC')),
-      );
-      expect(name.style!.fontSize, greaterThanOrEqualTo(16.5));
-      final doseSpan =
-          tester
-                  .widget<Text>(find.byKey(const Key('label-row-dose-0')))
-                  .textSpan!
-              as TextSpan;
-      final dose = doseSpan.children!.whereType<TextSpan>().last;
-      expect(dose.text, '500 g/ha');
-      expect(dose.style!.fontWeight, FontWeight.w700);
-      expect(
-        tester.getTopLeft(find.byKey(const Key('label-row-dose-0'))).dy,
-        greaterThan(tester.getTopLeft(find.text('Chem A 25% SC')).dy),
-      );
-      expect(
-        find.descendant(
-          of: tile,
-          matching: find.text('PHI: 30 days before harvest'),
-        ),
-        findsOneWidget,
-      );
-      expect(tester.getSize(tile).height, greaterThanOrEqualTo(48));
-      // The long fields wait in the detail card.
-      expect(find.byKey(const Key('label-dilution')), findsNothing);
-      expect(find.text('Contact fungicide.'), findsNothing);
+    testWidgets(
+      'tile: name and bold dose; bio apart; banned calm; one notice',
+      (tester) async {
+        await open(tester, '/plots/p1/labels?target=gummosis');
+        expect(find.byKey(const Key('label-target-heading')), findsOneWidget);
+        // The tile: product in a large style, the dose in bold right below it, PHI as a chip.
+        final tile = find.byKey(const Key('label-row-0'));
+        final name = tester.widget<Text>(
+          find.descendant(of: tile, matching: find.text('Chem A 25% SC')),
+        );
+        expect(name.style!.fontSize, greaterThanOrEqualTo(16.5));
+        final doseSpan =
+            tester
+                    .widget<Text>(find.byKey(const Key('label-row-dose-0')))
+                    .textSpan!
+                as TextSpan;
+        final dose = doseSpan.children!.whereType<TextSpan>().last;
+        expect(dose.text, '500 g/ha');
+        expect(dose.style!.fontWeight, FontWeight.w700);
+        expect(
+          tester.getTopLeft(find.byKey(const Key('label-row-dose-0'))).dy,
+          greaterThan(tester.getTopLeft(find.text('Chem A 25% SC')).dy),
+        );
+        expect(
+          find.descendant(
+            of: tile,
+            matching: find.text('PHI: 30 days before harvest'),
+          ),
+          findsOneWidget,
+        );
+        expect(tester.getSize(tile).height, greaterThanOrEqualTo(48));
+        // The long fields wait in the detail card.
+        expect(find.byKey(const Key('label-dilution')), findsNothing);
+        expect(find.text('Contact fungicide.'), findsNothing);
 
-      expect(find.byKey(const Key('label-bio-gummosis')), findsOneWidget);
-      expect(find.text('Chemical'), findsOneWidget);
-      // Bio row is under the bio heading, after the chemical row.
-      expect(
-        tester.getTopLeft(find.text('Bio B 25% SC')).dy,
-        greaterThan(tester.getTopLeft(find.text('Chem A 25% SC')).dy),
-      );
+        expect(find.byKey(const Key('label-bio-gummosis')), findsOneWidget);
+        expect(find.text('Chemical'), findsOneWidget);
+        // Bio row is under the bio heading, after the chemical row.
+        expect(
+          tester.getTopLeft(find.text('Bio B 25% SC')).dy,
+          greaterThan(tester.getTopLeft(find.text('Chem A 25% SC')).dy),
+        );
 
-      // One notice at the top: the banner, the pack-label line and the sources, once.
-      expect(find.byKey(const Key('label-banner')), findsOneWidget);
-      expect(find.textContaining('It is not a recommendation'), findsOneWidget);
-      expect(
-        find.descendant(
-          of: find.byKey(const Key('label-banner')),
-          matching: find.text('Read the label on the packet before spraying.'),
-        ),
-        findsOneWidget,
-      );
-      expect(find.textContaining('General information'), findsNothing);
-      expect(find.text('Source documents (1)'), findsOneWidget);
+        // One notice at the top: the banner, the pack-label line and the sources, once.
+        expect(find.byKey(const Key('label-banner')), findsOneWidget);
+        expect(
+          find.textContaining('It is not a recommendation'),
+          findsOneWidget,
+        );
+        expect(
+          find.descendant(
+            of: find.byKey(const Key('label-banner')),
+            matching: find.text(
+              'Read the label on the packet before spraying.',
+            ),
+          ),
+          findsOneWidget,
+        );
+        expect(find.textContaining('General information'), findsNothing);
+        expect(find.text('Source documents (1)'), findsOneWidget);
+        // Owner 2026-11-10: the notice is small, muted text: no coloured box or icons
+        // (only the sources line keeps its fold arrow).
+        for (final icon in [Icons.info_outline, Icons.menu_book_outlined]) {
+          expect(
+            find.descendant(
+              of: find.byKey(const Key('label-banner')),
+              matching: find.byIcon(icon),
+            ),
+            findsNothing,
+          );
+        }
+        expect(
+          tester.widget(find.byKey(const Key('label-banner'))),
+          isNot(isA<DecoratedBox>()),
+        );
+        final readNote = tester.widget<Text>(
+          find.byKey(const Key('label-read-note')),
+        );
+        expect(
+          readNote.style!.fontSize,
+          lessThanOrEqualTo(BmType.meta.fontSize!),
+        );
+        expect(
+          readNote.style!.color,
+          Theme.of(tester.element(find.byKey(const Key('label-banner'))))
+              .extension<BmColors>()!
+              .inkMuted,
+        );
 
-      final box = tester.widget<DecoratedBox>(
-        find.byKey(const Key('label-blocked-Banned C')),
-      );
-      final danger = Theme.of(
-        tester.element(find.byKey(const Key('label-blocked-Banned C'))),
-      ).extension<BmColors>()!.danger;
-      expect((box.decoration as BoxDecoration).border!.top.color, danger);
-      expect(find.text('Banned: do not use'), findsOneWidget);
-      final banned = tester.widget<Text>(find.text('Banned C 20% EC'));
-      expect(banned.style!.color, danger);
-      expect(find.text('500 g/ha'), findsNothing);
-      await unmountApp(tester);
-    });
+        // Owner 2026-11-10: a banned row is calm: no red box, no block icon, muted text.
+        final blocked = find.byKey(const Key('label-blocked-Banned C'));
+        expect(tester.widget(blocked), isNot(isA<DecoratedBox>()));
+        expect(
+          find.descendant(of: blocked, matching: find.byType(Icon)),
+          findsNothing,
+        );
+        final colors = Theme.of(tester.element(blocked)).extension<BmColors>()!;
+        expect(find.text('Outside the approved list'), findsOneWidget);
+        expect(find.textContaining('do not use'), findsNothing);
+        final banned = tester.widget<Text>(find.text('Banned C 20% EC'));
+        expect(banned.style!.color, isNot(colors.danger));
+        expect(find.text('500 g/ha'), findsNothing);
+        await unmountApp(tester);
+      },
+    );
 
     testWidgets('tapping a tile opens every field in the detail card', (
       tester,

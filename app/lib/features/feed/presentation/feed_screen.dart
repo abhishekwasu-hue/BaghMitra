@@ -221,8 +221,8 @@ class _ItemBody extends StatelessWidget {
   }
 }
 
-/// "Official · GR no · date · department" for government items; "News — not official"
-/// (with the date) for news, so the two are never confused.
+/// "Official · GR no · date · department" for government items; "News · date" for news, in
+/// the warning colour, so the two are never confused (owner 2026-11-10: no verify line).
 class FeedBadge extends StatelessWidget {
   const FeedBadge({super.key, required this.item, required this.lang});
 
@@ -312,26 +312,13 @@ class FeedFooter extends StatelessWidget {
     final c = context.bm;
     final extra = serverFooter;
     final style = BmType.meta.copyWith(color: c.inkMuted);
-    return Row(
+    return Column(
       key: const Key('feed-footer'),
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ExcludeSemantics(
-          child: Padding(
-            padding: const EdgeInsets.only(top: 2, right: BmSpace.xs),
-            child: Icon(Icons.info_outline, size: 16, color: c.inkMuted),
-          ),
-        ),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(t.feedFooter, style: style),
-              if (extra != null && extra.isNotEmpty && extra != t.feedFooter)
-                Text(extra, style: style),
-            ],
-          ),
-        ),
+        Text(t.feedFooter, style: style),
+        if (extra != null && extra.isNotEmpty && extra != t.feedFooter)
+          Text(extra, style: style),
       ],
     );
   }

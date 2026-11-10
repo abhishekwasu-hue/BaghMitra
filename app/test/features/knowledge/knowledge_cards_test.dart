@@ -77,10 +77,8 @@ void main() {
     expect(find.text('ओलावा सारखा ठेवा.'), findsOneWidget);
     // A field with no Marathi falls back to English.
     expect(find.text('Send photos to your KVK.'), findsOneWidget);
-    expect(
-      find.text('सर्वसाधारण माहिती · आधी KVK कडून खात्री करा'),
-      findsOneWidget, // only the unreviewed card carries the mark
-    );
+    // Owner 2026-11-10: no "general information · confirm with your KVK" mark.
+    expect(find.textContaining('सर्वसाधारण माहिती'), findsNothing);
     // The sources fold behind one "See sources" line per card (owner request).
     expect(find.textContaining('NIPHM'), findsNothing);
     await openAllSources(tester);

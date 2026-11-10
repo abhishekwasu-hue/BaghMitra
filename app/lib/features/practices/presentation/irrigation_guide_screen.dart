@@ -113,7 +113,7 @@ class _IrrigationGuideScreenState extends ConsumerState<IrrigationGuideScreen> {
           Text(
             t.irrigationCaveat,
             key: const Key('irrigation-caveat'),
-            style: BmType.meta,
+            style: BmType.meta.copyWith(color: c.inkMuted),
           ),
           const SizedBox(height: BmSpace.lg),
           if (plot == null) ...[

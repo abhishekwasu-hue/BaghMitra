@@ -230,6 +230,7 @@ final _bareLitres = RegExp(r'^\d+(\.\d+)?(\s*[-–]\s*\d+(\.\d+)?)?$');
 
 /// The one notice on the screen (owner, label UX): what CIB&RC label information is (not a
 /// recommendation, check with the KVK), read the pack label, and the source documents once.
+/// Owner 2026-11-10: small, muted text, with no coloured box, border or icons.
 class _LabelNotice extends StatelessWidget {
   const _LabelNotice({required this.sources});
 
@@ -239,82 +240,44 @@ class _LabelNotice extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
     final c = context.bm;
-    final body = BmType.bodyStrong.copyWith(color: c.warnBody);
-    return DecoratedBox(
+    final note = BmType.meta.copyWith(color: c.inkMuted);
+    return Column(
       key: const Key('label-banner'),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(colors: c.warnBg),
-        border: Border.all(color: c.warnBorder, width: 1.5),
-        borderRadius: BorderRadius.circular(BmRadius.card),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(
-          BmSpace.md,
-          BmSpace.md,
-          BmSpace.md,
-          BmSpace.xs,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Icon(Icons.info_outline, color: c.warnTitle),
-                const SizedBox(width: BmSpace.sm),
-                Expanded(child: Text(t.labelInfoBanner, style: body)),
-              ],
-            ),
-            const SizedBox(height: BmSpace.xs),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Icon(Icons.menu_book_outlined, color: c.warnTitle),
-                const SizedBox(width: BmSpace.sm),
-                Expanded(
-                  child: Text(
-                    t.labelReadNote,
-                    key: const Key('label-read-note'),
-                    style: body.copyWith(color: c.warnTitle),
-                  ),
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(t.labelInfoBanner, style: note),
+        const SizedBox(height: BmSpace.xxs),
+        Text(t.labelReadNote, key: const Key('label-read-note'), style: note),
+        if (sources.isNotEmpty)
+          ExpansionTile(
+            key: const Key('label-sources'),
+            shape: const Border(),
+            collapsedShape: const Border(),
+            tilePadding: EdgeInsets.zero,
+            childrenPadding: const EdgeInsets.only(bottom: BmSpace.xs),
+            expandedCrossAxisAlignment: CrossAxisAlignment.start,
+            iconColor: c.inkMuted,
+            collapsedIconColor: c.inkMuted,
+            title: Text(
+              t.labelInfoSources(
+                formatInt(
+                  sources.length,
+                  Localizations.localeOf(context).languageCode,
                 ),
-              ],
+              ),
+              style: note,
             ),
-            if (sources.isNotEmpty)
-              ExpansionTile(
-                key: const Key('label-sources'),
-                shape: const Border(),
-                collapsedShape: const Border(),
-                tilePadding: EdgeInsets.zero,
-                childrenPadding: const EdgeInsets.only(bottom: BmSpace.xs),
-                expandedCrossAxisAlignment: CrossAxisAlignment.start,
-                iconColor: c.warnTitle,
-                collapsedIconColor: c.warnTitle,
-                title: Text(
-                  t.labelInfoSources(
-                    formatInt(
-                      sources.length,
-                      Localizations.localeOf(context).languageCode,
-                    ),
-                  ),
-                  style: BmType.meta.copyWith(color: c.warnTitle),
+            children: [
+              for (final s in sources)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: BmSpace.xxs),
+                  child: Text('• $s', style: note),
                 ),
-                children: [
-                  for (final s in sources)
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: BmSpace.xxs),
-                      child: Text(
-                        '• $s',
-                        style: BmType.meta.copyWith(color: c.warnBody),
-                      ),
-                    ),
-                ],
-              )
-            else
-              const SizedBox(height: BmSpace.xs),
-          ],
-        ),
-      ),
+            ],
+          )
+        else
+          const SizedBox(height: BmSpace.xs),
+      ],
     );
   }
 }
@@ -554,7 +517,8 @@ class _ClaimDetails extends ConsumerWidget {
   }
 }
 
-/// A banned or crop-restricted label row: red, no dose.
+/// A banned or crop-restricted label row, with no dose. Owner 2026-11-10: calm and factual,
+/// in muted text with no red box or block icon.
 class _BlockedCard extends StatelessWidget {
   const _BlockedCard({required this.row});
 
@@ -565,48 +529,24 @@ class _BlockedCard extends StatelessWidget {
     final t = AppLocalizations.of(context);
     final c = context.bm;
     final banned = row.reason == BlockedClaimOutReason.banned;
+    final meta = BmType.meta.copyWith(color: c.inkMuted);
     return Padding(
+      key: Key('label-blocked-${row.activeIngredient}'),
       padding: const EdgeInsets.only(bottom: BmSpace.sm),
-      child: DecoratedBox(
-        key: Key('label-blocked-${row.activeIngredient}'),
-        decoration: BoxDecoration(
-          color: c.danger.withValues(alpha: 0.08),
-          border: Border.all(color: c.danger, width: 1.5),
-          borderRadius: BorderRadius.circular(BmRadius.card),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(BmSpace.md),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Icon(Icons.block, color: c.danger),
-                  const SizedBox(width: BmSpace.xs),
-                  Expanded(
-                    child: Text(
-                      banned ? t.labelInfoBanned : t.labelInfoRestricted,
-                      style: BmType.bodyStrong.copyWith(color: c.danger),
-                    ),
-                  ),
-                ],
-              ),
-              Text(
-                '${row.activeIngredient} ${row.formulation}',
-                style: BmType.bodyStrong.copyWith(color: c.danger),
-              ),
-              Text(
-                t.labelInfoTargetPrinted(row.target),
-                style: BmType.meta.copyWith(color: c.danger),
-              ),
-              if (row.notification.isNotEmpty)
-                Text(
-                  row.notification,
-                  style: BmType.meta.copyWith(color: c.danger),
-                ),
-            ],
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            banned ? t.labelInfoBanned : t.labelInfoRestricted,
+            style: BmType.label.copyWith(color: c.inkMuted),
           ),
-        ),
+          Text(
+            '${row.activeIngredient} ${row.formulation}',
+            style: BmType.body.copyWith(color: c.inkMuted),
+          ),
+          Text(t.labelInfoTargetPrinted(row.target), style: meta),
+          if (row.notification.isNotEmpty) Text(row.notification, style: meta),
+        ],
       ),
     );
   }

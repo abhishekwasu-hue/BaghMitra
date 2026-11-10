@@ -186,11 +186,8 @@ class _ExportRecordScreenState extends ConsumerState<ExportRecordScreen> {
                     Text(
                       '${formatInt(n, lang)} · ${labelStatusText(t, s)}',
                       style: BmType.meta.copyWith(
-                        color: switch (s) {
-                          LabelStatus.listed => c.brand,
-                          LabelStatus.check => c.inkMuted,
-                          _ => c.danger,
-                        },
+                        // Owner 2026-11-10: out-of-list rows are calm, muted text.
+                        color: s == LabelStatus.listed ? c.brand : c.inkMuted,
                       ),
                     ),
               ],

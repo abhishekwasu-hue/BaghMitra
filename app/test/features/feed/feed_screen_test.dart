@@ -111,12 +111,17 @@ void main() {
       findsOneWidget,
     );
     expect(
-      find.text(
-        'News — check the official source · Government of India · '
-        '${en(DateTime(2026, 10, 11))}',
-      ),
+      find.text('News · Government of India · ${en(DateTime(2026, 10, 11))}'),
       findsOneWidget,
     );
+    // Owner 2026-11-10: the news badge carries no "check / verify" words.
+    final newsBadge = find.descendant(
+      of: find.byKey(const Key('feed-badge-news1')),
+      matching: find.byType(Text),
+    );
+    final badgeText = tester.widget<Text>(newsBadge).data!.toLowerCase();
+    expect(badgeText, isNot(contains('check')));
+    expect(badgeText, isNot(contains('verify')));
     expect(find.byKey(const Key('feed-replaced-old')), findsOneWidget);
     expect(find.text('Withdrawn. Replaced by GR-2026-101'), findsOneWidget);
     expect(find.byKey(const Key('feed-expired-expired')), findsOneWidget);
@@ -231,6 +236,21 @@ void main() {
     await unmountApp(tester);
   });
 
+  testWidgets('shared news still says it is news, without a verify line', (
+    tester,
+  ) async {
+    final (_, _, sharer) = await pumpFeed(tester, location: '/feed/news1');
+    await tester.tap(find.byKey(const Key('feed-share')));
+    await settle(tester);
+    expect(sharer.shared, [
+      'Title news1\n'
+          'News · Government of India · ${en(DateTime(2026, 10, 11))}\n'
+          'Source: https://example.org/news1\n'
+          'Check the official GR/portal before acting.',
+    ]);
+    await unmountApp(tester);
+  });
+
   testWidgets('copy link puts the source url on the clipboard', (tester) async {
     String? copied;
     tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
@@ -250,10 +270,7 @@ void main() {
     );
     await pumpFeed(tester, location: '/feed/news1');
     expect(
-      find.text(
-        'News — check the official source · Government of India · '
-        '${en(DateTime(2026, 10, 11))}',
-      ),
+      find.text('News · Government of India · ${en(DateTime(2026, 10, 11))}'),
       findsOneWidget,
     );
     await tester.tap(find.byKey(const Key('feed-copy-link')));
@@ -287,10 +304,9 @@ void main() {
     );
     expect(find.textContaining('नमुना GR'), findsOneWidget);
     expect(find.textContaining('अधिकृत · GR क्र.'), findsWidgets);
-    expect(
-      find.textContaining('बातमी — अधिकृत स्रोतावर खात्री करा'),
-      findsOneWidget,
-    );
+    // Owner 2026-11-10: the news badge is short; the warning colour marks news.
+    expect(find.textContaining('बातमी ·'), findsOneWidget);
+    expect(find.textContaining('खात्री'), findsNothing);
     // The server's longer footer wording takes a second line; scroll to the withdrawn item.
     await tester.scrollUntilVisible(find.textContaining('मागे घेतले'), 200);
     expect(find.textContaining('मागे घेतले'), findsOneWidget);

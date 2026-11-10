@@ -14,6 +14,7 @@ import 'package:bagmitra/features/tasks/domain/farm_task.dart';
 import 'package:bagmitra/l10n/app_localizations_en.dart';
 import 'package:bagmitra/sync/account_guard.dart';
 import 'package:bagmitra/sync/transport.dart';
+import 'package:bagmitra/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
@@ -257,6 +258,21 @@ void main() {
     await tester.tap(find.byKey(const Key('lab-test-l1')));
     await settle(tester);
     expect(find.byKey(const Key('lab-ask-expert')), findsOne);
+    // Owner 2026-11-10: notes are small and muted, with no card or icon.
+    final ask = tester.widget<Text>(
+      find.descendant(
+        of: find.byKey(const Key('lab-ask-expert')),
+        matching: find.byType(Text),
+      ),
+    );
+    expect(ask.style!.fontSize, lessThanOrEqualTo(BmType.meta.fontSize!));
+    expect(
+      find.descendant(
+        of: find.byKey(const Key('lab-ask-expert')),
+        matching: find.byType(Icon),
+      ),
+      findsNothing,
+    );
     expect(find.text('<0.5 %'), findsOne);
     expect(find.text('0.42 dS/m'), findsOne);
     expect(find.text('7.9'), findsOne);

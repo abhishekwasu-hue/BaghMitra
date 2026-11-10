@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../app/router.dart';
 import '../../../design_system/app_bar_title.dart';
 import '../../../design_system/cards.dart';
+import '../../../design_system/info_note.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../data/market_link_providers.dart';
@@ -64,20 +65,7 @@ class _Home extends ConsumerWidget {
       body: ListView(
         padding: const EdgeInsets.all(BmSpace.lg),
         children: [
-          BmCard(
-            key: const Key('safety-notice'),
-            elevated: false,
-            radius: BmRadius.card,
-            child: Row(
-              children: [
-                Icon(Icons.verified_user_outlined, color: c.brand),
-                const SizedBox(width: BmSpace.sm),
-                Expanded(
-                  child: Text(t.mlSafetyNotice, style: BmType.bodyStrong),
-                ),
-              ],
-            ),
-          ),
+          InfoNote(t.mlSafetyNotice, key: const Key('safety-notice')),
           const SizedBox(height: BmSpace.md),
           _Tools(role: role),
           const SizedBox(height: BmSpace.md),

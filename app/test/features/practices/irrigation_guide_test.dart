@@ -228,10 +228,15 @@ void main() {
 
     expect(find.text('Irrigation guide'), findsOneWidget);
     expect(find.byKey(const Key('irrigation-caveat')), findsOneWidget);
-    // The general-information mark (Q57) and the caveat both point to the KVK.
+    // Owner 2026-11-10: the caveat keeps its fact only; no KVK pointer is repeated.
     expect(find.byKey(const Key('irrigation-general-info')), findsOneWidget);
-    expect(find.textContaining('confirm with your KVK'), findsOneWidget);
-    expect(find.textContaining('Check with your KVK'), findsOneWidget);
+    expect(
+      find.text(
+        "Amounts depend on your soil, the tree's canopy and the weather.",
+      ),
+      findsOneWidget,
+    );
+    expect(find.textContaining('KVK'), findsNothing);
     // The source and date are one tap away (folded, owner request).
     expect(find.textContaining('checked 6 Nov 2026'), findsNothing);
     await tester.tap(
@@ -339,7 +344,10 @@ void main() {
     await settle(tester);
 
     expect(find.text('ओलित तक्ता'), findsOneWidget);
-    expect(find.textContaining('कृषी विज्ञान केंद्राला'), findsOneWidget);
+    expect(
+      find.text('पाण्याचे प्रमाण जमीन, झाडाचा घेर आणि हवामानावर अवलंबून असते.'),
+      findsOneWidget,
+    );
     expect(find.text('लहान (१–४ वर्षे)'), findsOneWidget);
     expect(find.text('दर झाडाला दररोज सुमारे ५–१५ लिटर.'), findsOneWidget);
     expect(find.text('ठिबक'), findsWidgets);

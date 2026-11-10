@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bagmitra/features/practices/data/practice_cards.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -123,6 +125,19 @@ void main() {
     expect(data.gaps, isNotEmpty);
     for (final (n, g) in data.gaps.indexed) {
       _expectClean(g, 'gap $n');
+    }
+  });
+
+  // Owner 2026-11-10: the "Registered product: the dose comes only from its label" line and
+  // the label button already say it once per section; no point repeats it.
+  test('no card point repeats the label-screen pointer', () {
+    final raw = File('assets/config/practice_cards.json').readAsStringSync();
+    for (final clause in [
+      'check the label screen',
+      'लेबल स्क्रीन पाहा',
+      'लेबल स्क्रीन देखें',
+    ]) {
+      expect(raw.contains(clause), isFalse, reason: clause);
     }
   });
 
@@ -417,10 +432,9 @@ void main() {
       await tester.tap(thrips);
       await settle(tester);
       expect(find.byKey(const Key('practices-general-thrips')), findsOneWidget);
-      expect(
-        find.text('सर्वसाधारण माहिती · आधी KVK कडून खात्री करा'),
-        findsWidgets,
-      );
+      // Owner 2026-11-10: no "general information · confirm with your KVK" line.
+      expect(find.textContaining('सर्वसाधारण माहिती'), findsNothing);
+      expect(find.textContaining('KVK कडून खात्री'), findsNothing);
       expect(find.textContaining('स्रोत पहा'), findsWidgets);
       expect(find.text('काय दिसते'), findsOneWidget);
       expect(find.text('पाहणी कशी करावी'), findsOneWidget);
