@@ -291,7 +291,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get plotSaved => 'Saved. It will sync when you are online.';
+  String get plotSaved => 'Saved.';
 
   @override
   String get deletePlot => 'Delete block';

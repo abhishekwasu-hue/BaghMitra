@@ -201,7 +201,7 @@
       }
     }
   },
-  "plotSaved": "Saved. It will sync when you are online.",
+  "plotSaved": "Saved.",
   "deletePlot": "Delete block",
   "deletePlotConfirm": "Delete {name}? This also removes it from your other devices.",
   "@deletePlotConfirm": {

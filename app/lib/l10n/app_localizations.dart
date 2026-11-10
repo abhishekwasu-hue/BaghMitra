@@ -523,7 +523,7 @@ abstract class AppLocalizations {
   /// No description provided for @plotSaved.
   ///
   /// In en, this message translates to:
-  /// **'Saved. It will sync when you are online.'**
+  /// **'Saved.'**
   String get plotSaved;
 
   /// No description provided for @deletePlot.
