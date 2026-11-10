@@ -129,3 +129,21 @@ def test_number_words_need_a_unit_and_other_words_stay_words() -> None:
         "₹1,000",
         "5",
     ]
+
+
+# Card check 2026-11-10: PDKV P1 writes "Seventy per cent agro-net"; the card says 70 %.
+@pytest.mark.parametrize(
+    ("source", "claim"),
+    [
+        ("Seventy per cent agro-net is recommended", "70 % agro-net"),
+        ("about twenty five percent of the trees", "25 % of trees"),
+        ("Ten thousand rupees are given", "₹10,000"),
+    ],
+)
+def test_english_number_words_before_a_unit_match(source: str, claim: str) -> None:
+    assert check_output(source, {"en.body": claim}) == []
+
+
+def test_english_number_words_without_a_unit_stay_words() -> None:
+    # "one of the" is no number: a word counts only before per cent / percent / thousand / lakh.
+    assert [m.text for m in check_output("one of the best", {"en.body": "1 tree"})] == ["1"]
