@@ -3,6 +3,7 @@ against the source document the point cites.
 
 Usage (one-off, on the VPS where FEED_AI_API_KEY is set; runbook kb-sources.md):
     python -m bagmitra_api.kb.card_check CARDS_JSON|- [--only SOURCE_KEY ...] > report.md
+    python -m bagmitra_api.kb.card_check CARDS_JSON --passages OUT.json   # reviewer file
 ("-" reads the cards file from stdin: the API image does not contain the app's assets.)
 
 A "point" is every object in the cards file with `labels` and `source_keys` (card items,
@@ -44,6 +45,7 @@ VERDICTS = ("supported", "contradicted", "not_found")
 LANGS = ("en", "mr", "hi")
 WINDOW_CHARS = 1500
 WINDOWS_PER_POINT = 4
+PASSAGE_CHARS = 6000  # per point and source in the reviewer file
 MIN_WORD_LEN = 4
 
 CHECK_PROMPT = """You check advice cards for orange and sweet-lime farmers against the official
@@ -286,6 +288,38 @@ async def check_cards(
     return results, failed, {k: len(t) for k, t in texts.items()}
 
 
+async def point_passages(
+    cards: Mapping[str, Any], http: httpx.AsyncClient, *, limit: int
+) -> dict[str, dict[str, Any]]:
+    """For a reviewer (owner 2026-11-10): per point, its English text, citation note, the
+    passages of each cited source that share the most words with it (at most `limit` characters
+    per source) and the numbers not found in the cited sources. No model call."""
+    sources: Mapping[str, Any] = cards.get("sources", {})
+    points = list(iter_points({k: v for k, v in cards.items() if k != "sources"}))
+    texts: dict[str, str] = {}
+    failed: dict[str, str] = {}
+    for key in sorted({k for p in points for k in p.source_keys}):
+        url = sources.get(key, {}).get("url") if isinstance(sources.get(key), dict) else None
+        text, reason = await fetch_text(http, url) if url else ("", "no URL in the cards file")
+        if reason:
+            failed[key] = reason
+        else:
+            texts[key] = text
+    out: dict[str, dict[str, Any]] = {}
+    for p in points:
+        cited = "\n".join(texts[k] for k in p.source_keys if k in texts)
+        out[p.id] = {
+            "en": p.labels.get("en", ""),
+            "cited_as": p.cited_as,
+            "passages": {
+                k: passages_for(texts[k], [p], limit) if k in texts else f"unreadable: {failed[k]}"
+                for k in p.source_keys
+            },
+            "number_issues": number_issues(p, cited) if cited else [],
+        }
+    return out
+
+
 def report(
     results: list[Result], failed: Mapping[str, str], read: Mapping[str, int] | None = None
 ) -> str:
@@ -327,6 +361,13 @@ async def main(argv: list[str]) -> int:  # pragma: no cover - thin CLI wrapper
     cards = json.loads(raw)
     only = set(argv[argv.index("--only") + 1 :]) if "--only" in argv else None
     settings = get_settings()
+    if "--passages" in argv:  # reviewer file, no model call: --passages OUT.json
+        async with httpx.AsyncClient(follow_redirects=True) as http:
+            found = await point_passages(cards, http, limit=PASSAGE_CHARS)
+        Path(argv[argv.index("--passages") + 1]).write_text(
+            json.dumps(found, ensure_ascii=False, indent=1), encoding="utf-8"
+        )
+        return 0
     async with httpx.AsyncClient(follow_redirects=True) as http:
         checker = (
             AiPointChecker(http, settings) if settings.feed_ai_api_key.get_secret_value() else None
