@@ -220,7 +220,7 @@ finding, not yet a full recommendation.
 61. **Supply part of the nitrogen through organic manure (FYM, cakes)** (quantities in source, not given here). — Source: N1 §5.6. Evidence: Official.
     मराठी: खताचा काही भाग शेणखत/पेंडीतून द्या (मात्रा तज्ज्ञांकडून घ्या).
 62. **Weeds: 2 or 3 cross ploughings; when weeding by hand, keep tillage no deeper than 10–15 cm.** Herbicide items in sources are excluded. — Source: C05 "Weed Control". Evidence: Official.
-    मराठी: तण: २ किंवा ३ वेळा आडवी-उभी नांगरणी; हाताने खुरपणी करताना १०–१५ सें.मी. पेक्षा खोल मशागत करू नका.
+    मराठी: तण: २ किंवा ३ वेळा आडवी-उभी नांगरणी; हाताने खुरपणी करताना मशागत १०–१५ सें.मी. खोलीपर्यंतच करा.
 63. **Intercropping: sources conflict.** N1 allows pea, cowpea and gram, and PDKV found cowpea profitable. C05 says to avoid intercrops in Nagpur mandarin (more pests, diseases and micronutrient deficiency) and allows short crops only in the first 3–4 years elsewhere. — Source: N1 §5.11; P1; C05. Evidence: Official + University (conflict, reviewer to decide).
     मराठी: आंतरपिकाबाबत मतभेद आहेत; संत्र्यात आंतरपीक घेण्यापूर्वी तज्ज्ञांचा सल्ला घ्या.
 
