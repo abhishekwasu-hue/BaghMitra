@@ -19,13 +19,17 @@ import httpx
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from bagmitra_api.core.settings import get_settings
+from bagmitra_api.core.settings import Settings, get_settings
 from bagmitra_api.db.session import get_sessionmaker
-from bagmitra_api.feed.ai import AnthropicFeedAi
+from bagmitra_api.feed.ai import AnthropicFeedAi, FeedArticleWriter
 from bagmitra_api.feed.gr_portal import FetchOutcome
 from bagmitra_api.feed.models import FeedSource
 from bagmitra_api.feed.news import NewsFeedAdapter, fetch_news_source
-from bagmitra_api.feed.news_articles import write_news_articles
+from bagmitra_api.feed.news_articles import (
+    ArticleRun,
+    recheck_held_articles,
+    write_news_articles,
+)
 from bagmitra_api.feed.seed import seed_feed_sources
 
 
@@ -55,6 +59,22 @@ async def run_news(session: AsyncSession, adapter: NewsFeedAdapter) -> NewsSumma
     return summary
 
 
+async def article_step(
+    session: AsyncSession,
+    adapter: NewsFeedAdapter,
+    writer: FeedArticleWriter | None,
+    settings: Settings,
+    now: datetime,
+) -> tuple[ArticleRun, ArticleRun]:
+    """New headlines get their article; then the held articles are checked again with the
+    current checks (owner 2026-11-10: every run, no separate command; no model call)."""
+    written = await write_news_articles(session, adapter, writer, settings, now)
+    await session.commit()
+    rechecked = await recheck_held_articles(session, adapter, settings)
+    await session.commit()
+    return written, rechecked
+
+
 async def main() -> int:  # pragma: no cover - thin CLI wrapper
     settings = get_settings()
     async with httpx.AsyncClient() as http:
@@ -71,12 +91,12 @@ async def main() -> int:  # pragma: no cover - thin CLI wrapper
         async with get_sessionmaker()() as session:
             summary = await run_news(session, adapter)
             await session.commit()
-            articles = await write_news_articles(
+            articles, rechecked = await article_step(
                 session, adapter, writer, settings, datetime.now(UTC)
             )
-            await session.commit()
     print(summary.to_json())
     print(json.dumps(asdict(articles)))
+    print(json.dumps({"recheck": asdict(rechecked)}))
     return 0
 
 
