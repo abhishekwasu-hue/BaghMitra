@@ -334,3 +334,22 @@ async def test_recheck_skips_items_without_a_saved_article_and_keeps_review_mode
         assert (run.published, run.held) == (0, 0)
         assert unread.status == "held"  # no article to check: left for the admin
         assert item.status == "in_review"  # passes, waits for a feed_admin approval
+
+
+async def test_every_news_run_also_rechecks_held_articles(engine: AsyncEngine) -> None:
+    """Owner 2026-11-10: no separate command. The scheduled news job writes new articles and
+    then checks the held ones again, so an improved check publishes them by itself."""
+    from bagmitra_api.feed.news_job import article_step  # noqa: PLC0415
+
+    async with async_sessionmaker(engine, expire_on_commit=False)() as session:
+        item = await held_item(session)
+        written, rechecked = await article_step(
+            session,
+            adapter(page_with("एकूण नऊ हजार रुपये.", "/a1")),
+            Writer(sound(f"{HOST}/a1")),
+            settings(),
+            NOW,
+        )
+        assert written.published == 0
+        assert rechecked.published == 1
+        assert item.status == "published"
