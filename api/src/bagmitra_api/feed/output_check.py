@@ -91,6 +91,43 @@ _WORD_BEFORE_UNIT = re.compile(
     rf"(?<![^\W\d_])({'|'.join(sorted(map(re.escape, _WORDS), key=len, reverse=True))})"
     rf"\s+({_UNIT_WORDS})"
 )
+# English words before a unit (card check 2026-11-10: PDKV wrote "Seventy per cent agro-net").
+_EN_SMALL = [
+    "zero",
+    "one",
+    "two",
+    "three",
+    "four",
+    "five",
+    "six",
+    "seven",
+    "eight",
+    "nine",
+    "ten",
+    "eleven",
+    "twelve",
+    "thirteen",
+    "fourteen",
+    "fifteen",
+    "sixteen",
+    "seventeen",
+    "eighteen",
+    "nineteen",
+]
+_EN_TENS = ["twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"]
+_EN_WORDS_BEFORE_UNIT = re.compile(
+    rf"\b(?:({'|'.join(_EN_TENS)})(?:[\s-]({'|'.join(_EN_SMALL[1:10])}))?"
+    rf"|({'|'.join(sorted(_EN_SMALL, key=len, reverse=True))}))"
+    r"(?=\s*(?:per\s?cent|%|thousand|lakhs?|crores?)\b|\s*%)"
+)
+
+
+def _english_value(m: re.Match[str]) -> str:
+    if m[3]:
+        return str(_EN_SMALL.index(m[3]))
+    return str((_EN_TENS.index(m[1]) + 2) * 10 + (_EN_SMALL.index(m[2]) if m[2] else 0))
+
+
 _LAKH_THOUSAND = re.compile(r"(?<![\d.,])(\d{1,3}) लाख (\d{1,2}) (?:हजार|हज़ार)")
 _THOUSAND_REST = re.compile(r"(?<![\d.,])(\d{1,3}) (?:हजार|हज़ार) (\d{3})(?![\d,])")
 _PLAIN_NUMBER = re.compile(r"\d+(?:,\d{2,3})*(?:\.\d+)?")
@@ -120,6 +157,7 @@ def _number_words(text: str) -> str:
     correct articles. A word counts only right before हजार / लाख / कोटी (so "साठी" is not 60
     and a bare "पाच दिवसांत" is not read)."""
     text = _WORD_BEFORE_UNIT.sub(lambda m: f"{_WORDS[m[1]]} {m[2]}", text)
+    text = _EN_WORDS_BEFORE_UNIT.sub(_english_value, text)
     text = _LAKH_THOUSAND.sub(lambda m: str(int(m[1]) * 100_000 + int(m[2]) * 1_000), text)
     return _THOUSAND_REST.sub(lambda m: str(int(m[1]) * 1_000 + int(m[2])), text)
 
