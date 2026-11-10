@@ -171,6 +171,26 @@ def number_issues(point: Point, source_text: str) -> list[str]:
     return [f"{m.where}: {m.text}" for m in check_output(source_text, texts)]
 
 
+_NEXT_DATA = re.compile(
+    rb'<script[^>]*id="__NEXT_DATA__"[^>]*>(.*?)</script>', re.DOTALL | re.IGNORECASE
+)
+
+
+def next_data_article(page: bytes) -> bytes | None:
+    """The article HTML a Next.js page carries in its data block, or None. Card check
+    2026-11-10: Vikaspedia pages are a JavaScript app whose visible HTML is a 60-80 character
+    shell; the article is in props.pageProps.ssrPageContent.content of the same page."""
+    found = _NEXT_DATA.search(page)
+    if found is None:
+        return None
+    try:
+        data = json.loads(found.group(1))
+        content = data["props"]["pageProps"]["ssrPageContent"]["content"]
+    except (ValueError, KeyError, TypeError):
+        return None
+    return content.encode() if isinstance(content, str) and content.strip() else None
+
+
 async def fetch_text(http: httpx.AsyncClient, url: str) -> tuple[str, str | None]:
     """(text, None) or ("", reason). Network problems are reported, never invented around."""
     try:
@@ -182,7 +202,8 @@ async def fetch_text(http: httpx.AsyncClient, url: str) -> tuple[str, str | None
     if len(response.content) > MAX_DOCUMENT_BYTES:
         return "", "document too large"
     kind = "pdf" if response.content.startswith(b"%PDF") else "html"
-    extraction = extract(response.content, kind)
+    body = (next_data_article(response.content) if kind == "html" else None) or response.content
+    extraction = extract(body, kind)
     if not extraction.text.strip():
         return "", extraction.reason or "no text"
     return extraction.text, None
