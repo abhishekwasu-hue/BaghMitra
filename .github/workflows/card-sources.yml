@@ -1,0 +1,40 @@
+name: Card sources
+
+# Owner 2026-11-10 (Q128 follow-up): the knowledge-card points that the AI did not find in their
+# cited source are reviewed by reading the sources. This run fetches every source the cards cite
+# (no secrets, no model call) and keeps, per point, the best-matching passages of each source and
+# the numbers not found there, as a 7-day artifact for the reviewer. It changes nothing.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  passages:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: api
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: api/pyproject.toml
+      - run: pip install -e .
+      - name: Fetch the cited sources and write the reviewer file
+        env:
+          ENVIRONMENT: test
+        run: |
+          python -m bagmitra_api.kb.card_check ../app/assets/config/practice_cards.json \
+            --passages "$RUNNER_TEMP/card_passages.json"
+          python -c "import json,sys; d=json.load(open(sys.argv[1])); print(len(d), 'points')" \
+            "$RUNNER_TEMP/card_passages.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: card-passages
+          path: ${{ runner.temp }}/card_passages.json
+          retention-days: 7

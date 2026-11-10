@@ -18,6 +18,7 @@ from bagmitra_api.kb.card_check import (
     fetch_text,
     iter_points,
     passages_for,
+    point_passages,
     quote_in_source,
     report,
 )
@@ -231,3 +232,16 @@ async def test_a_plain_page_is_read_as_before() -> None:
         text, reason = await fetch_text(client, "https://www.nhb.gov.in/x")
     assert reason is None
     assert "drainage channels 60 cm wide" in text
+
+
+async def test_passages_per_point_for_a_reviewer() -> None:
+    """Owner 2026-11-10: the remaining points are checked by reading their sources, fetched
+    by a GitHub workflow (no VPS block): each point gets the passages of each cited source
+    that match it best, plus the numbers not found there."""
+    out = await point_passages(CARDS, http(), limit=400)
+    item = out["item 19"]
+    assert item["en"].startswith("Dig a drainage channel")
+    assert "drainage channels 60 cm wide" in item["passages"]["C02"]
+    assert item["number_issues"] == []
+    assert out["item 20"]["passages"]["GONE"] == "unreadable: HTTP 403"
+    assert any("90" in i for i in out["item 20"]["number_issues"])
