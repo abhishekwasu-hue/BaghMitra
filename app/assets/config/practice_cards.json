@@ -2995,9 +2995,9 @@
         {
           "id": 70,
           "labels": {
-            "en": "Tubes of 30 watts fitted behind the 5000 CFM air-handling unit of Nagpur mandarin cold rooms, switched on 2 hours every day, reduce airborne microbes and rotting.",
-            "mr": "नागपुरी संत्र्याच्या शीतगृहात ५००० CFM हवा हाताळणी यंत्रामागे (एअर-हँडलिंग युनिट) ३० वॅटच्या ट्यूब लावून रोज २ तास चालू ठेवल्यास हवेतील सूक्ष्मजीव व सड कमी होतात.",
-            "hi": "नागपुरी संतरे के शीतगृहों में 5000 CFM एयर-हैंडलिंग यूनिट के पीछे 30 वॉट की ट्यूब लगाकर रोज़ 2 घंटे चालू रखने से हवा के सूक्ष्मजीव और सड़न घटते हैं।"
+            "en": "Three UV-C tubes (254 nm, 30 watts) fitted behind the 5000 CFM air-handling unit of Nagpur mandarin cold rooms, switched on 2 hours every day, reduce airborne microbes and rotting.",
+            "mr": "नागपुरी संत्र्याच्या शीतगृहात ५००० CFM हवा हाताळणी यंत्रामागे (एअर-हँडलिंग युनिट) ३० वॅटच्या तीन UV-C ट्यूब (२५४ nm) लावून रोज २ तास चालू ठेवल्यास हवेतील सूक्ष्मजीव व सड कमी होतात.",
+            "hi": "नागपुरी संतरे के शीतगृहों में 5000 CFM एयर-हैंडलिंग यूनिट के पीछे 30 वॉट की तीन UV-C ट्यूब (254 nm) लगाकर रोज़ 2 घंटे चालू रखने से हवा के सूक्ष्मजीव और सड़न घटते हैं।"
           },
           "source": "R24 p.10 #55",
           "source_keys": [
