@@ -15,6 +15,7 @@ from bagmitra_api.kb.card_check import (
     AiPointChecker,
     Point,
     check_cards,
+    fetch_text,
     iter_points,
     passages_for,
     quote_in_source,
@@ -192,3 +193,41 @@ async def test_the_ai_request_uses_the_strong_model_and_a_schema(tmp_path: Path)
     assert "item 19: Dig a drainage channel. (cited as: C02 (60 cm))" in content
     for rule in ("cited as", "judge only the part", "is supported, not contradicted", "…"):
         assert rule in CHECK_PROMPT
+
+
+# Card check 2026-11-10: Vikaspedia pages gave 60-81 characters (a JavaScript app shell). The
+# article is in the same HTML, in the Next.js data block (props.pageProps.ssrPageContent.content).
+VIKASPEDIA = (
+    "<html><body><div id='__next'>Loading</div>"
+    '<script id="__NEXT_DATA__" type="application/json">'
+    + json.dumps(
+        {
+            "props": {
+                "pageProps": {
+                    "ssrPageContent": {
+                        "title": "Citrus aphid",
+                        "content": "<p>Development is best at 20 to 25 &deg;C.</p>",
+                    }
+                }
+            }
+        }
+    )
+    + "</script></body></html>"
+)
+
+
+async def test_a_next_js_page_is_read_from_its_data_block() -> None:
+    transport = httpx.MockTransport(lambda _: httpx.Response(200, text=VIKASPEDIA))
+    async with httpx.AsyncClient(transport=transport) as client:
+        text, reason = await fetch_text(client, "https://en.vikaspedia.in/viewcontent/x")
+    assert reason is None
+    assert "Development is best at 20 to 25" in text
+    assert "Loading" not in text
+
+
+async def test_a_plain_page_is_read_as_before() -> None:
+    transport = httpx.MockTransport(lambda _: httpx.Response(200, content=SOURCE_HTML))
+    async with httpx.AsyncClient(transport=transport) as client:
+        text, reason = await fetch_text(client, "https://www.nhb.gov.in/x")
+    assert reason is None
+    assert "drainage channels 60 cm wide" in text
