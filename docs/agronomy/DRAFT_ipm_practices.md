@@ -238,7 +238,7 @@ finding, not yet a full recommendation.
     मराठी: पॅकिंगपूर्वी खराब, सडलेली, रोगट फळे वेगळी काढा.
 69. **Fungicide-free UV-C treatment of fruit before waxing** (PDKV UV-assisted device) cuts Penicillium and Geotrichum rots in Nagpur mandarin and, at a slower conveyor speed, in **sweet orange (mosambi)**. — Source: R17 p.11 #28; R22 p.2 #6; R23 p.8 #45. Evidence: University.
     मराठी: पॅकहाऊसमध्ये बुरशीनाशकाऐवजी यूव्ही-सी प्रकाश यंत्राने फळांची सड कमी करता येते, मोसंबीलाही चालते.
-70. **Tubes of 30 watts behind the 5000 CFM air-handling unit of Nagpur mandarin cold rooms, switched on 2 hours every day,** reduce airborne microbes and rotting. The lamp type in #55 was cut off in the extracted text and could not be re-read (Q128). — Source: R24 p.10 #55. Evidence: University.
+70. **Three UV-C tubes (254 nm, 30 watts) behind the 5000 CFM air-handling unit of Nagpur mandarin cold rooms, switched on 2 hours every day,** reduce airborne microbes and rotting. Re-read in full on 2026-11-10: "install 3 UV-C tubes of 254 nm wavelength and 30 watts capacity behind 5000 CFM Air Handling Unit" (Q128). — Source: R24 p.10 #55. Evidence: University.
     मराठी: नागपुरी संत्र्याच्या शीतगृहात ५००० CFM हवा हाताळणी यंत्रामागे (एअर-हँडलिंग युनिट) ३० वॅटच्या ट्यूब लावून रोज २ तास चालू ठेवल्यास हवेतील सूक्ष्मजीव व सड कमी होतात.
 
 ---

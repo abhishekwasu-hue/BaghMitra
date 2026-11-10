@@ -62,7 +62,7 @@ jobs:
                   for url in os.environ["URLS"].split():
                       text, reason = await fetch_text(http, url)
                       print("::group::" + url)
-                      print(reason or text[:12000])
+                      print(reason or text[:200000])
                       print("::endgroup::")
           asyncio.run(main())
           PY
