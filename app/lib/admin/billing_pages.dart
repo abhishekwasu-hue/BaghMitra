@@ -6,6 +6,7 @@ import '../design_system/cards.dart';
 import '../design_system/empty_state.dart';
 import '../theme/app_theme.dart';
 import 'billing_admin_repository.dart';
+import 'billing_photo_limits.dart';
 import 'billing_strings.dart';
 import 'kb_admin_repository.dart' show KbAdminException;
 import 'package_pages.dart' show packageDate, packageSay, rupeesToPaise;
@@ -14,8 +15,8 @@ String _rupees(int? paise) => paise == null ? '' : '${paise ~/ 100}';
 
 /// The admin web's "Subscriptions" section (billing addendum §7): the switch (default
 /// OFF) with an optional start date, Play's price-change rules shown before any amount is
-/// saved, one monthly ₹ amount per role (written to Play; Play's price shown) and the
-/// confirmed move of existing subscribers.
+/// saved, one monthly ₹ amount per role (written to Play; Play's price shown), the
+/// confirmed move of existing subscribers and the photo analysis limits (Q135).
 class BillingSettingsPage extends StatefulWidget {
   const BillingSettingsPage({required this.repo, super.key});
   final BillingAdminRepository repo;
@@ -212,6 +213,8 @@ class _BillingSettingsPageState extends State<BillingSettingsPage> {
             ],
           ),
         ),
+        const SizedBox(height: BmSpace.md),
+        PhotoLimitsCard(settings: settings, repo: widget.repo, run: _run),
       ],
     );
   }

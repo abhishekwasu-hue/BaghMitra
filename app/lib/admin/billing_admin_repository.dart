@@ -25,6 +25,21 @@ abstract interface class BillingAdminRepository {
 
   /// Existing subscribers of [role] move to the last Play price (opt-in increase).
   Future<BillingSettingsOut> migratePrices(String role);
+
+  /// Photo analysis limits (Q135) per farmer without a plan, and the optional overall daily
+  /// cap; null = the default (5 / 50) or, for [dailyTotal], no cap.
+  Future<BillingSettingsOut> savePhotoLimits({
+    int? freeDaily,
+    int? freeMonthly,
+    int? dailyTotal,
+  });
+
+  /// Photo analysis limits per farmer on [role]'s plan; null = the default.
+  Future<BillingSettingsOut> saveRolePhotoLimits(
+    String role, {
+    int? daily,
+    int? monthly,
+  });
 }
 
 class ApiBillingAdminRepository implements BillingAdminRepository {
@@ -72,6 +87,33 @@ class ApiBillingAdminRepository implements BillingAdminRepository {
         role,
       ),
       body: const MigrateIn(confirm: true),
+    ),
+  );
+
+  @override
+  Future<BillingSettingsOut> savePhotoLimits({
+    int? freeDaily,
+    int? freeMonthly,
+    int? dailyTotal,
+  }) async => _ok(
+    await _api.v1AdminBillingPhotoLimitsPut(
+      body: PhotoLimitsIn(
+        freeDaily: freeDaily,
+        freeMonthly: freeMonthly,
+        dailyTotal: dailyTotal,
+      ),
+    ),
+  );
+
+  @override
+  Future<BillingSettingsOut> saveRolePhotoLimits(
+    String role, {
+    int? daily,
+    int? monthly,
+  }) async => _ok(
+    await _api.v1AdminBillingRolesRolePhotoLimitsPut(
+      role: enums.V1AdminBillingRolesRolePhotoLimitsPutRole.values.byName(role),
+      body: RolePhotoLimitsIn(daily: daily, monthly: monthly),
     ),
   );
 }

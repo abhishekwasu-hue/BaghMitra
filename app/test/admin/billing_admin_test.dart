@@ -1,6 +1,7 @@
 import 'package:bagmitra/admin/admin_app.dart';
 import 'package:bagmitra/admin/billing_admin_repository.dart';
 import 'package:bagmitra/admin/billing_pages.dart';
+import 'package:bagmitra/admin/billing_photo_limits.dart';
 import 'package:bagmitra/admin/billing_strings.dart';
 import 'package:bagmitra/admin/package_admin_repository.dart';
 import 'package:bagmitra/api/generated/bagmitra.swagger.dart';
@@ -42,8 +43,39 @@ class FakeBillingAdmin implements BillingAdminRepository {
     'enabled': _enabled,
     'starts_on': _start?.toIso8601String().substring(0, 10),
     'roles': [for (final r in billingRoles) _roles[r]],
-    'photo_limits': billingPhotoLimitsJson,
+    'photo_limits': {...billingPhotoLimitsJson, ..._photo},
   });
+
+  final Map<String, Object?> _photo = {};
+
+  @override
+  Future<BillingSettingsOut> savePhotoLimits({
+    int? freeDaily,
+    int? freeMonthly,
+    int? dailyTotal,
+  }) async {
+    calls.add('photo $freeDaily $freeMonthly $dailyTotal');
+    _photo
+      ..['free_daily'] = freeDaily
+      ..['free_monthly'] = freeMonthly
+      ..['daily_total'] = dailyTotal;
+    return _out();
+  }
+
+  @override
+  Future<BillingSettingsOut> saveRolePhotoLimits(
+    String role, {
+    int? daily,
+    int? monthly,
+  }) async {
+    calls.add('photo $role $daily $monthly');
+    _roles[role] = {
+      ..._roles[role]!,
+      'photo_ai_daily': daily,
+      'photo_ai_monthly': monthly,
+    };
+    return _out();
+  }
 
   @override
   Future<BillingSettingsOut> settings() async => _out();
@@ -225,14 +257,124 @@ void main() {
     expect(fake.calls, ['migrate grower']);
   });
 
+  testWidgets('photo limits: empty shows the default, saves without a plan '
+      'and per role plan (Q135)', (tester) async {
+    final fake = FakeBillingAdmin();
+    await _pump(tester, BillingSettingsPage(repo: fake));
+    final card = find.byKey(const Key('billing-photo-limits'));
+    final page = find.byType(Scrollable).first;
+    await tester.scrollUntilVisible(card, 300, scrollable: page);
+    expect(
+      find.text('Empty = the default (day / month): 5 / 50'),
+      findsOneWidget,
+    );
+    expect(find.textContaining('India time (IST)'), findsOneWidget);
+    expect(
+      find.text('Empty = no cap'),
+      findsOneWidget,
+    ); // the overall cap's hint
+    final freeDaily = find.byKey(const Key('billing-photo-free-daily'));
+    expect(tester.widget<TextField>(freeDaily).controller!.text, '');
+    await tester.enterText(freeDaily, '3');
+    await tester.enterText(find.byKey(const Key('billing-photo-total')), '400');
+    await tester.tap(find.byKey(const Key('billing-photo-save')));
+    await tester.pumpAndSettle();
+    expect(fake.calls, ['photo 3 null 400']);
+    expect(find.text('Saved'), findsOneWidget);
+    final grower = find.byKey(const Key('billing-photo-save-grower'));
+    await tester.scrollUntilVisible(grower, 200, scrollable: page);
+    await tester.enterText(
+      find.byKey(const Key('billing-photo-daily-grower')),
+      '20',
+    );
+    await tester.enterText(
+      find.byKey(const Key('billing-photo-monthly-grower')),
+      '200',
+    );
+    await tester.tap(grower);
+    await tester.pumpAndSettle();
+    expect(fake.calls.last, 'photo grower 20 200');
+    // The saved values come back from the server into the fields.
+    expect(
+      tester
+          .widget<TextField>(
+            find.byKey(const Key('billing-photo-daily-grower')),
+          )
+          .controller!
+          .text,
+      '20',
+    );
+  });
+
+  testWidgets('photo limits card fits a phone width in Marathi', (
+    tester,
+  ) async {
+    final fake = FakeBillingAdmin();
+    final settings = await fake.settings();
+    tester.view.physicalSize = const Size(390, 2400);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: BmTheme.light(),
+        locale: const Locale('mr'),
+        supportedLocales: AppLocalizations.supportedLocales,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        home: Scaffold(
+          body: SingleChildScrollView(
+            child: PhotoLimitsCard(
+              settings: settings,
+              repo: fake,
+              run: (call) async => call(),
+            ),
+          ),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    final card = find.byKey(const Key('billing-photo-limits'));
+    expect(tester.takeException(), isNull); // no overflow
+    expect(tester.getSize(card).width, lessThanOrEqualTo(390));
+  });
+
+  test('a photo limit field: digits or empty (= default)', () {
+    expect(photoLimit(''), isNull);
+    expect(photoLimit(' 12 '), 12);
+    expect(photoLimit('0'), 0);
+  });
+
+  test('photo limit strings exist in mr, hi and en', () {
+    const keys = [
+      'photo_card',
+      'photo_no_plan',
+      'photo_daily',
+      'photo_monthly',
+      'photo_total',
+      'photo_empty',
+      'photo_total_empty',
+      'photo_ist',
+    ];
+    for (final lang in ['mr', 'hi', 'en']) {
+      final s = BillingStrings.forLanguage(lang);
+      for (final k in keys) {
+        expect(s[k], isNot(k), reason: '$lang $k');
+      }
+    }
+    expect(
+      const BillingStrings.forLanguage('mr').fill('photo_empty', '5 / 50'),
+      'रिकामे = मूळ मर्यादा (दिवस / महिना): 5 / 50',
+    );
+  });
+
   testWidgets('Marathi page uses the owner words', (tester) async {
     await _pump(
       tester,
       BillingSettingsPage(repo: FakeBillingAdmin()),
       lang: 'mr',
     );
-    expect(find.text('मध्यस्थ (दलाल)'), findsOneWidget);
-    expect(find.text('शेतकरी'), findsOneWidget);
+    // Once in the amounts card, once more in the photo limits card when it is built.
+    expect(find.text('मध्यस्थ (दलाल)'), findsWidgets);
+    expect(find.text('शेतकरी'), findsWidgets);
   });
 
   testWidgets('the section is shown only to billing_admin', (tester) async {
