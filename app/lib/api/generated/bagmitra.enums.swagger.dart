@@ -1082,6 +1082,22 @@ enum V1FeedCheckPostLang {
   const V1FeedCheckPostLang(this.value);
 }
 
+enum V1FeedThreadsThreadIdGetLang {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('en')
+  en('en'),
+  @JsonValue('mr')
+  mr('mr'),
+  @JsonValue('hi')
+  hi('hi');
+
+  final String? value;
+
+  const V1FeedThreadsThreadIdGetLang(this.value);
+}
+
 enum V1InsuranceDeadlinesGetLang {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),

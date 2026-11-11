@@ -796,6 +796,24 @@ class AppLocalizationsHi extends AppLocalizations {
   String get sprayActive => 'सक्रिय तत्व (लेबल पर)';
 
   @override
+  String get sprayActiveType => 'प्रकार (फफूंदनाशक, कीटनाशक ...)';
+
+  @override
+  String get sprayActivePick => 'सूची से चुनें';
+
+  @override
+  String get sprayActiveOther => 'अन्य';
+
+  @override
+  String get sprayActiveOtherHelp => 'लेबल पर छपा नाम लिखें।';
+
+  @override
+  String get sprayActiveSearch => 'खोजें';
+
+  @override
+  String get sprayActiveNoMatch => 'दूसरा नाम लिखने के लिए \'अन्य\' चुनें।';
+
+  @override
   String get sprayDose => 'मात्रा (वैकल्पिक)';
 
   @override
@@ -1973,6 +1991,22 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get feedUnseen => 'नया';
+
+  @override
+  String feedThreadCount(String count) {
+    return '$count ख़बरें';
+  }
+
+  @override
+  String feedThreadLatest(String date) {
+    return 'ताज़ा ख़बर: $date';
+  }
+
+  @override
+  String get feedThreadTimeline => 'सभी ख़बरें, क्रम से (पुरानी पहले)';
+
+  @override
+  String get feedThreadOpenItem => 'पूरी ख़बर पढ़ें';
 
   @override
   String get feedDismiss => 'मेरी सूची से हटाएँ';

@@ -14,7 +14,7 @@ The range binds the grower's asking rate (checked at publish; a draft may hold a
 it is on the phone) and a trader's interest ("व्यापाराच्या ऑफरवर पण ठेवा"), by the lot's crop
 and the basis chosen. A crop not listed in `CROPS` has no range.
 
-`legacy_basis` reads the old "per_tonne" basis that phones built before 0046 still send: the
+`legacy_basis` reads the old "per_tonne" basis that phones built before 0047 still send: the
 rate becomes per quintal (Rs / tonne / 10), rounded to the paisa.
 """
 

@@ -25,6 +25,12 @@ enum FeedReceiptAction {
 abstract interface class FeedRepository {
   Future<FeedPage> fetch({required String lang, FeedFilter? filter});
 
+  /// One news topic with every report, oldest first (owner Q139).
+  Future<FeedThreadPage> fetchThread({
+    required String lang,
+    required String threadId,
+  });
+
   /// Records seen / dismiss / remind for one item on the server.
   Future<void> sendReceipt(String itemId, FeedReceiptAction action);
 
@@ -94,7 +100,45 @@ class HttpFeedRepository implements FeedRepository {
     replacedBy: o.replacedBy,
     mayBeEligibleBecause: o.mayBeEligibleBecause,
     seen: o.seen ?? false,
+    threadId: o.threadId,
   );
+
+  static FeedThread _thread(FeedThreadOut o) => FeedThread(
+    id: o.id,
+    title: o.title,
+    summary: o.summary,
+    latestAt: o.latestAt,
+    itemCount: o.itemCount,
+    unseenCount: o.unseenCount,
+  );
+
+  @override
+  Future<FeedThreadPage> fetchThread({
+    required String lang,
+    required String threadId,
+  }) async {
+    final res = await _guard(
+      'bad body',
+      () => _api.v1FeedThreadsThreadIdGet(
+        threadId: threadId,
+        lang: V1FeedThreadsThreadIdGetLang.values
+            .where((l) => l.value == lang)
+            .firstOrNull,
+      ),
+    );
+    final body = res.body;
+    if (!res.isSuccessful || body == null) {
+      throw FeedUnavailableException(
+        'http ${res.statusCode}',
+        failure: netFailureForStatus(res.statusCode),
+      );
+    }
+    return FeedThreadPage(
+      thread: _thread(body.thread),
+      items: [for (final o in body.items) _item(o)],
+      footer: body.footer,
+    );
+  }
 
   @override
   Future<FeedPage> fetch({required String lang, FeedFilter? filter}) async {
@@ -115,6 +159,10 @@ class HttpFeedRepository implements FeedRepository {
     return FeedPage(
       items: [for (final o in body.items) _item(o)],
       footer: body.footer,
+      threads: {
+        for (final t in body.threads ?? const <FeedThreadOut>[])
+          t.id: _thread(t),
+      },
     );
   }
 

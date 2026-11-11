@@ -797,6 +797,24 @@ class AppLocalizationsMr extends AppLocalizations {
   String get sprayActive => 'सक्रिय घटक (लेबलवर)';
 
   @override
+  String get sprayActiveType => 'प्रकार (बुरशीनाशक, कीटकनाशक ...)';
+
+  @override
+  String get sprayActivePick => 'यादीतून निवडा';
+
+  @override
+  String get sprayActiveOther => 'इतर';
+
+  @override
+  String get sprayActiveOtherHelp => 'लेबलवर छापलेले नाव लिहा.';
+
+  @override
+  String get sprayActiveSearch => 'शोधा';
+
+  @override
+  String get sprayActiveNoMatch => 'दुसरे नाव लिहिण्यासाठी \'इतर\' निवडा.';
+
+  @override
   String get sprayDose => 'मात्रा (ऐच्छिक)';
 
   @override
@@ -1971,6 +1989,22 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get feedUnseen => 'नवीन';
+
+  @override
+  String feedThreadCount(String count) {
+    return '$count बातम्या';
+  }
+
+  @override
+  String feedThreadLatest(String date) {
+    return 'ताजी बातमी: $date';
+  }
+
+  @override
+  String get feedThreadTimeline => 'सर्व बातम्या, क्रमाने (जुनी आधी)';
+
+  @override
+  String get feedThreadOpenItem => 'पूर्ण बातमी वाचा';
 
   @override
   String get feedDismiss => 'माझ्या यादीतून काढा';

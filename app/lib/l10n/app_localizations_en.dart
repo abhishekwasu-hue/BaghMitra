@@ -798,6 +798,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sprayActive => 'Active ingredient (on the label)';
 
   @override
+  String get sprayActiveType => 'Type (fungicide, insecticide ...)';
+
+  @override
+  String get sprayActivePick => 'Choose from the list';
+
+  @override
+  String get sprayActiveOther => 'Other';
+
+  @override
+  String get sprayActiveOtherHelp => 'Write the name as printed on the label.';
+
+  @override
+  String get sprayActiveSearch => 'Search';
+
+  @override
+  String get sprayActiveNoMatch => 'To write another name, choose Other.';
+
+  @override
   String get sprayDose => 'Dose (optional)';
 
   @override
@@ -1975,6 +1993,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get feedUnseen => 'New';
+
+  @override
+  String feedThreadCount(String count) {
+    return '$count reports';
+  }
+
+  @override
+  String feedThreadLatest(String date) {
+    return 'Latest: $date';
+  }
+
+  @override
+  String get feedThreadTimeline => 'All reports, oldest first';
+
+  @override
+  String get feedThreadOpenItem => 'Read the full report';
 
   @override
   String get feedDismiss => 'Hide from my list';

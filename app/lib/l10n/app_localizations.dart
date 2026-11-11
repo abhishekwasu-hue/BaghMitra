@@ -1462,6 +1462,42 @@ abstract class AppLocalizations {
   /// **'Active ingredient (on the label)'**
   String get sprayActive;
 
+  /// No description provided for @sprayActiveType.
+  ///
+  /// In en, this message translates to:
+  /// **'Type (fungicide, insecticide ...)'**
+  String get sprayActiveType;
+
+  /// No description provided for @sprayActivePick.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose from the list'**
+  String get sprayActivePick;
+
+  /// No description provided for @sprayActiveOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get sprayActiveOther;
+
+  /// No description provided for @sprayActiveOtherHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Write the name as printed on the label.'**
+  String get sprayActiveOtherHelp;
+
+  /// No description provided for @sprayActiveSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get sprayActiveSearch;
+
+  /// No description provided for @sprayActiveNoMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'To write another name, choose Other.'**
+  String get sprayActiveNoMatch;
+
   /// No description provided for @sprayDose.
   ///
   /// In en, this message translates to:
@@ -3488,6 +3524,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'New'**
   String get feedUnseen;
+
+  /// No description provided for @feedThreadCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} reports'**
+  String feedThreadCount(String count);
+
+  /// No description provided for @feedThreadLatest.
+  ///
+  /// In en, this message translates to:
+  /// **'Latest: {date}'**
+  String feedThreadLatest(String date);
+
+  /// No description provided for @feedThreadTimeline.
+  ///
+  /// In en, this message translates to:
+  /// **'All reports, oldest first'**
+  String get feedThreadTimeline;
+
+  /// No description provided for @feedThreadOpenItem.
+  ///
+  /// In en, this message translates to:
+  /// **'Read the full report'**
+  String get feedThreadOpenItem;
 
   /// No description provided for @feedDismiss.
   ///

@@ -64,6 +64,22 @@ class FeedSource(TimestampMixin, Base):
     notes: Mapped[str | None] = mapped_column(Text)
 
 
+class FeedThread(TimestampMixin, Base):
+    """A news topic (owner Q139): related news items about one event or decision, shown as one
+    card with a dated timeline. `title` / `summary` are copied from the latest item's checked
+    text (never written new); they are what the topic matcher compares a new item with.
+    Service-only: the app reads threads through `GET /v1/feed`."""
+
+    __tablename__ = "feed_threads"
+    private_table = True
+
+    id: Mapped[uuid.UUID] = mapped_column(primary_key=True)
+    title: Mapped[str] = mapped_column(String(500))
+    summary: Mapped[str | None] = mapped_column(Text)
+    # published_at of the newest item in the thread.
+    last_item_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), index=True)
+
+
 class FeedItem(TimestampMixin, Base):
     """One GR / circular / scheme / alert / news item. News never stores article text."""
 
@@ -98,6 +114,8 @@ class FeedItem(TimestampMixin, Base):
     check_issues: Mapped[list[dict[str, str]]] = mapped_column(JSON, default=list)
     approved_by: Mapped[uuid.UUID | None] = mapped_column()
     approved_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    # News only (Q139): the topic thread; None until the threading step has decided.
+    thread_id: Mapped[uuid.UUID | None] = mapped_column(ForeignKey("feed_threads.id"), index=True)
 
 
 class FeedItemI18n(TimestampMixin, Base):

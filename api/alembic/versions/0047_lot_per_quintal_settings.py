@@ -9,8 +9,8 @@ the unit of the mandi price shown beside the asking rate, and the admin's lot fo
   basis (per quintal, per crate) and the default harvest window length; empty = the default in `market_link/lot_rules.py`.
 - `admin_actions` gains the subject `lot_settings` for their change log.
 
-Revision ID: 0046
-Revises: 0045
+Revision ID: 0047
+Revises: 0046
 Create Date: 2026-11-11
 """
 
@@ -21,8 +21,8 @@ from alembic import op
 
 from bagmitra_api.db.rls import disable_private_rls, enable_private_rls
 
-revision = "0046"
-down_revision = "0045"
+revision = "0047"
+down_revision = "0046"
 branch_labels = None
 depends_on = None
 

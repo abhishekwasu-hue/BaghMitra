@@ -43,7 +43,7 @@ from bagmitra_api.market_link.package_models import (
 
 LOT_STATUSES = ("draft", "published", "closed", "withdrawn")
 # Per quintal (owner 2026-11-11, Q138: the same unit as the mandi price shown beside it), per
-# crate, or the whole orchard. "per_tonne" was the old name (migration 0046 converted it).
+# crate, or the whole orchard. "per_tonne" was the old name (migration 0047 converted it).
 BASES = ("per_quintal", "per_crate", "lump_sum")
 OFFER_STATUSES = ("open", "accepted", "closed", "withdrawn")
 DEAL_STATUSES = ("active", "completed", "cancelled")
@@ -66,7 +66,7 @@ ADMIN_ACTIONS = ("verify", "warn", "hide", "suspend", "restore")
 # the two that close a check or an appeal.
 ADMIN_REASONS = (*REPORT_REASONS, "duplicate_user", "checks_passed", "appeal_upheld")
 # The season sale package logs its settings changes and grants here too (§4E, 0035).
-# The lot form settings (Q138, 0046) log their changes as settings_change / admin_setting.
+# The lot form settings (Q138, 0047) log their changes as settings_change / admin_setting.
 ADMIN_SUBJECT_TYPES = (*REPORT_SUBJECT_TYPES, *PACKAGE_SUBJECTS, "lot_settings")
 ADMIN_ACTION_KINDS = (*ADMIN_ACTIONS, *PACKAGE_ACTIONS)
 ADMIN_REASON_CODES = (*ADMIN_REASONS, *PACKAGE_REASONS)

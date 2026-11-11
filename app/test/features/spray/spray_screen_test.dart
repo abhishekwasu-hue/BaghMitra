@@ -13,6 +13,7 @@ import 'package:flutter_test/flutter_test.dart';
 import '../../helpers/pump_app.dart';
 import '../bahar/bahar_screen_test.dart' show seedPlot;
 import '../plots/plots_screen_test.dart' show settle;
+import 'spray_ingredient_picker_test.dart' show chooseIngredientType;
 import 'spray_records_test.dart' show SprayTestCopy, spray;
 
 /// A phone that has already cached the ban list (as after one online start).
@@ -70,6 +71,7 @@ void main() {
         find.byKey(const Key('spray-product')),
         'Kelthane',
       );
+      await chooseIngredientType(tester, 'Other');
       await tester.enterText(find.byKey(const Key('spray-active')), 'Kelthane');
       await settle(tester);
       expect(find.text('Outside the approved list'), findsOneWidget);

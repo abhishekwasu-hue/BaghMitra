@@ -1,6 +1,6 @@
 """Lot form clarity (owner 2026-11-11, Q138): per quintal instead of per tonne (old phones'
 "per_tonne" still read), the admin's rate ranges per crop and harvest window length (empty =
-default), the publish check, and migration 0046 converting stored per-tonne rates."""
+default), the publish check, and migration 0047 converting stored per-tonne rates."""
 
 from __future__ import annotations
 
@@ -246,7 +246,7 @@ OFFER_INSERT = (
 LOT_RATES = "SELECT basis, asking_rate_paise FROM market_lots ORDER BY quantity_t, plot_id"
 
 
-def test_migration_0046_converts_per_tonne_rows_and_back(tmp_path: Path) -> None:
+def test_migration_0047_converts_per_tonne_rows_and_back(tmp_path: Path) -> None:
     url = f"sqlite+aiosqlite:///{tmp_path / 'q.db'}"
     cfg = _config(url)
     command.upgrade(cfg, "0043")
@@ -266,7 +266,7 @@ def test_migration_0046_converts_per_tonne_rows_and_back(tmp_path: Path) -> None
     _exec(url, LOT_INSERT, rows)
     offer = {"id": uuid.uuid4().hex, "lot": lot_ids[0], "buyer": uuid.uuid4().hex, "at": at}
     _exec(url, OFFER_INSERT, [offer])
-    command.upgrade(cfg, "0046")
+    command.upgrade(cfg, "0047")
     assert _rows(url, LOT_RATES) == [
         ("per_quintal", 300_000),
         ("per_quintal", None),

@@ -29,6 +29,8 @@ Map<String, Object?> feedJson(
   String? grNumber = 'GR-1',
   String? department = 'Agriculture Dept',
   String? level,
+  String? threadId,
+  bool? seen,
 }) => {
   'id': id,
   'type': type,
@@ -44,6 +46,8 @@ Map<String, Object?> feedJson(
   'replaced_by': replacedBy,
   'may_be_eligible_because': eligible,
   'level': ?level,
+  'thread_id': ?threadId,
+  'seen': ?seen,
 };
 
 Map<String, Object?> feedBody(List<Map<String, Object?>> items) => {
@@ -87,6 +91,22 @@ class FakeFeedRepository implements FeedRepository {
     calls.add(lang);
     _online();
     return FeedPage.fromJson(body!);
+  }
+
+  /// Topic answers by thread id (owner Q139); a missing one is a 404-like failure.
+  final threads = <String, Map<String, Object?>>{};
+  final threadCalls = <String>[];
+
+  @override
+  Future<FeedThreadPage> fetchThread({
+    required String lang,
+    required String threadId,
+  }) async {
+    threadCalls.add('$lang/$threadId');
+    _online();
+    final body = threads[threadId];
+    if (body == null) throw const FeedUnavailableException('http 404');
+    return FeedThreadPage.fromJson(body);
   }
 
   @override

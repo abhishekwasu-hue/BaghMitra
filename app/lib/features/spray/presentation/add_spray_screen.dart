@@ -16,6 +16,7 @@ import '../../bills/presentation/bill_photo_field.dart';
 import '../../voice/presentation/voice_mic_button.dart';
 import '../domain/spray_check.dart';
 import '../domain/spray_record.dart';
+import 'spray_ingredient_picker.dart';
 import 'spray_warnings.dart';
 
 /// Records one spray. Warnings appear while typing (offline, from the cached ban list) and
@@ -225,11 +226,7 @@ class _AddSprayScreenState extends ConsumerState<AddSprayScreen>
                   (v ?? '').trim().isEmpty ? t.requiredSprayProduct : null,
             ),
             gap,
-            TextFormField(
-              key: const Key('spray-active'),
-              controller: _active,
-              decoration: InputDecoration(labelText: t.sprayActive),
-            ),
+            SprayIngredientPicker(controller: _active),
             gap,
             ListTile(
               key: const Key('spray-date'),

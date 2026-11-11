@@ -34,6 +34,7 @@ from bagmitra_api.feed.models import (
     FeedReviewEvent,
     FeedSchemeCard,
     FeedSource,
+    FeedThread,
 )
 from bagmitra_api.feedback.models import AppFeedback
 from bagmitra_api.kb.models import (
@@ -104,6 +105,7 @@ __all__ = [
     "FeedReviewEvent",
     "FeedSchemeCard",
     "FeedSource",
+    "FeedThread",
     "FraudReport",
     "HarvestRecord",
     "Income",

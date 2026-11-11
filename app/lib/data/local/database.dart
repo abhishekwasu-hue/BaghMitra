@@ -475,7 +475,7 @@ class AppDatabase extends _$AppDatabase {
   /// Lots drafted before v16 sold "per_tonne"; the basis is per quintal now (owner
   /// 2026-11-11, Q138), the unit of the mandi price. Each such lot and its queued sync
   /// payloads become per quintal, the rate divided by 10 (rounded, at least one paisa),
-  /// as the server's migration 0046 does.
+  /// as the server's migration 0047 does.
   Future<void> perTonneToPerQuintal() async {
     int? perQuintal(int? rate) {
       if (rate == null) return null;

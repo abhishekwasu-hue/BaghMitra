@@ -2264,7 +2264,8 @@ not answer; nothing is counted.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Newest first. `district` / `crop` narrow the list to items meant for them (items for
 everyone always pass); `may_be_eligible_because` is computed from the caller\'s own
-profile and plots.''',
+profile and plots. News items carry their topic `thread_id`; `threads` describes those
+threads (Q139), so the app shows one card per topic.''',
       summary: 'Feed',
       operationId: 'feed_list',
       consumes: [],
@@ -2319,6 +2320,33 @@ fake: without a match the note says none was found and points to the official po
       tag: swaggerMetaData,
     );
     return client.send<FeedCheckResponse, FeedCheckResponse>($request);
+  }
+
+  @override
+  Future<Response<FeedThreadResponse>> _v1FeedThreadsThreadIdGet({
+    required String? threadId,
+    String? lang,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Every visible item of one news topic, oldest first (the dated timeline, Q139).',
+      summary: 'Feed Thread',
+      operationId: 'feed_thread',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["feed"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/feed/threads/${threadId}');
+    final Map<String, dynamic> $params = <String, dynamic>{'lang': lang};
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+      tag: swaggerMetaData,
+    );
+    return client.send<FeedThreadResponse, FeedThreadResponse>($request);
   }
 
   @override

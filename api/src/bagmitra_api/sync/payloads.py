@@ -284,7 +284,7 @@ class MarketLotPayload(RowPayload, MarketLinkIn):
     @model_validator(mode="before")
     @classmethod
     def _old_per_tonne(cls, data: Any) -> Any:
-        # Phones built before migration 0046 still send "per_tonne" (rate / 10).
+        # Phones built before migration 0047 still send "per_tonne" (rate / 10).
         return legacy_basis(data, "asking_rate_paise")
 
     @field_validator("quality")
