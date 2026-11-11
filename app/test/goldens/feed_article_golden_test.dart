@@ -1,16 +1,22 @@
 // The AI news article screen (spec v1.6) at phone width, Marathi, 1.3x text, light and dark:
 // the top (byline, key points, sections) and the data part (facts table, charts, dates).
+// Also the same item as the live server sends it (through the HTTP repository): the level
+// chip with the article, and the end with the sources, the source link and the official note.
 //   flutter test --update-goldens test/goldens/feed_article_golden_test.dart
 @Tags(['golden'])
 library;
 
 import 'dart:convert';
 
+import 'package:bagmitra/api/api_client.dart';
 import 'package:bagmitra/app/providers.dart';
 import 'package:bagmitra/data/local/database.dart';
 import 'package:bagmitra/features/feed/data/feed_cache.dart';
+import 'package:bagmitra/features/feed/data/feed_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:http/http.dart' as http;
+import 'package:http/testing.dart';
 
 import '../features/feed/feed_data_test.dart'
     show FakeFeedRepository, feedBody, feedJson;
@@ -77,26 +83,47 @@ const _article = {
   ],
 };
 
+Map<String, Object?> _body() => feedBody([
+  {
+    ...feedJson(
+      'art1',
+      trust: 'news',
+      level: 'state',
+      grNumber: null,
+      department: null,
+      publishedAt: '2026-10-12T05:00:00Z',
+    ),
+    'title': _article['headline'],
+    'summary': _article['standfirst'],
+    'article': _article,
+  },
+]);
+
 Future<void> _seed(AppDatabase db) => db.writeMeta(
   FeedCache.keyFor('mr'),
   jsonEncode({
     'saved_at': DateTime(2026, 10, 12, 6).toUtc().toIso8601String(),
-    'page': feedBody([
-      {
-        ...feedJson(
-          'art1',
-          trust: 'news',
-          level: 'state',
-          grNumber: null,
-          department: null,
-          publishedAt: '2026-10-12T05:00:00Z',
-        ),
-        'title': _article['headline'],
-        'summary': _article['standfirst'],
-        'article': _article,
-      },
-    ]),
+    'page': _body(),
   }),
+);
+
+/// The real HTTP repository on a fake `/v1/feed` (nothing leaves the test).
+FeedRepository _server() => HttpFeedRepository(
+  createApi(
+    baseUrl: Uri.parse('https://api.example.test'),
+    token: () => 'tok',
+    httpClient: MockClient(
+      (req) async => http.Response(
+        // The server's own Marathi footer (api feed/texts.py), as it sends for lang=mr.
+        jsonEncode({
+          ..._body(),
+          'footer': 'कोणतीही कृती करण्यापूर्वी अधिकृत शासन निर्णय (GR) / पोर्टल तपासा.',
+        }),
+        200,
+        headers: {'content-type': 'application/json; charset=utf-8'},
+      ),
+    ),
+  ),
 );
 
 void main() {
@@ -129,6 +156,39 @@ void main() {
           );
           // Bring the panel's top to the top of the list.
           await tester.ensureVisible(find.byKey(Key(target)));
+          await settle(tester);
+        }
+        expect(tester.takeException(), isNull);
+        await expectLater(
+          find.byType(MaterialApp),
+          matchesGoldenFile('$name.png'),
+        );
+        await unmountApp(tester);
+      });
+    }
+    for (final part in ['top', 'end']) {
+      final name = 'feed_item_http_${part}_mr_${mode.name}';
+      testWidgets(name, (tester) async {
+        tester.platformDispatcher.textScaleFactorTestValue = 1.3;
+        addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+        await pumpApp(
+          tester,
+          themeMode: mode,
+          initialLocation: '/feed/art1',
+          size: _phone,
+          overrides: [feedRepositoryProvider.overrideWithValue(_server())],
+        );
+        await settle(tester);
+        if (part == 'end') {
+          await tester.scrollUntilVisible(
+            find.byKey(const Key('feed-footer')),
+            100,
+            scrollable: find.byType(Scrollable).first,
+          );
+          await tester.drag(
+            find.byType(Scrollable).first,
+            const Offset(0, -300),
+          );
           await settle(tester);
         }
         expect(tester.takeException(), isNull);

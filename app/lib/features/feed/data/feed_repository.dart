@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import '../../../api/generated/bagmitra.swagger.dart';
 import '../../../core/net_failure.dart';
+import '../domain/feed_article.dart';
 import '../domain/feed_check.dart';
 import '../domain/feed_item.dart';
 import '../domain/feed_preferences.dart';
@@ -85,6 +86,9 @@ class HttpFeedRepository implements FeedRepository {
     }
   }
 
+  /// Every field of the contract item the app uses. The level and the article go through
+  /// the same parsing as the phone cache ([FeedItem.fromJson]), so an unknown level or a
+  /// broken article reads as none on both paths.
   static FeedItem _item(FeedItemOut o) => FeedItem(
     id: o.id,
     type: o.type,
@@ -92,6 +96,7 @@ class HttpFeedRepository implements FeedRepository {
     title: o.title,
     summary: o.summary ?? '',
     department: o.department,
+    level: FeedItem.levelOf(o.level),
     grNumber: o.grNumber,
     publishedAt: o.publishedAt,
     url: o.url,
@@ -100,6 +105,7 @@ class HttpFeedRepository implements FeedRepository {
     replacedBy: o.replacedBy,
     mayBeEligibleBecause: o.mayBeEligibleBecause,
     seen: o.seen ?? false,
+    article: FeedArticle.tryParse(o.article?.toJson()),
     threadId: o.threadId,
   );
 
