@@ -3,6 +3,7 @@
 @Tags(['golden'])
 library;
 
+import 'package:bagmitra/features/weather/data/alert_switches.dart';
 import 'package:bagmitra/sync/sync_engine.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -21,6 +22,26 @@ void main() {
   for (final MapEntry(key: name, value: (locale, mode)) in cases.entries) {
     testWidgets(name, (tester) async {
       await pumpApp(tester, locale: locale, themeMode: mode);
+      await expectLater(
+        find.byType(MaterialApp),
+        matchesGoldenFile('$name.png'),
+      );
+      await unmountApp(tester);
+    });
+  }
+
+  // Q133: the heat alert switched off with its ⚠ button: one muted line remains.
+  for (final (name, mode) in [
+    ('home_alert_off_mr_light', ThemeMode.light),
+    ('home_alert_off_mr_dark', ThemeMode.dark),
+  ]) {
+    testWidgets(name, (tester) async {
+      await pumpApp(
+        tester,
+        themeMode: mode,
+        seed: (db) => AlertSwitches(db).setOn('heat_fruit_drop', on: false),
+      );
+      await settle(tester);
       await expectLater(
         find.byType(MaterialApp),
         matchesGoldenFile('$name.png'),

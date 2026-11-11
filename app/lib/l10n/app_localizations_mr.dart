@@ -1451,6 +1451,44 @@ class AppLocalizationsMr extends AppLocalizations {
   }
 
   @override
+  String get alertSwitchOff => 'हा अलर्ट बंद करा';
+
+  @override
+  String get alertSwitchOn => 'हा अलर्ट चालू करा';
+
+  @override
+  String alertTypeOff(String name) {
+    return '$name अलर्ट बंद';
+  }
+
+  @override
+  String get alertThisOff => 'हा अलर्ट बंद';
+
+  @override
+  String get alertNameHeat => 'उष्णता';
+
+  @override
+  String get alertNamePsylla => 'सायला';
+
+  @override
+  String get alertNameHail => 'गारपीट व वादळ';
+
+  @override
+  String get alertNameWind => 'जोरदार वारा';
+
+  @override
+  String get alertNameHeavyRain => 'मुसळधार पाऊस';
+
+  @override
+  String get alertNameUnseasonalRain => 'अवकाळी पाऊस';
+
+  @override
+  String get alertNameColdWave => 'थंडीची लाट';
+
+  @override
+  String get alertNameHumidity => 'दमट हवामान';
+
+  @override
   String get labelInfoTitle => 'लेबल माहिती';
 
   @override

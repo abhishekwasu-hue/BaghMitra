@@ -1453,6 +1453,44 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get alertSwitchOff => 'Turn this alert off';
+
+  @override
+  String get alertSwitchOn => 'Turn this alert on';
+
+  @override
+  String alertTypeOff(String name) {
+    return '$name alert off';
+  }
+
+  @override
+  String get alertThisOff => 'This alert is off';
+
+  @override
+  String get alertNameHeat => 'Heat';
+
+  @override
+  String get alertNamePsylla => 'Psylla';
+
+  @override
+  String get alertNameHail => 'Hail and storm';
+
+  @override
+  String get alertNameWind => 'Strong wind';
+
+  @override
+  String get alertNameHeavyRain => 'Heavy rain';
+
+  @override
+  String get alertNameUnseasonalRain => 'Unseasonal rain';
+
+  @override
+  String get alertNameColdWave => 'Cold wave';
+
+  @override
+  String get alertNameHumidity => 'Humid weather';
+
+  @override
   String get labelInfoTitle => 'Label information';
 
   @override
