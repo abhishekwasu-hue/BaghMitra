@@ -34,10 +34,7 @@ class FeedItem {
     title: j['title']! as String,
     summary: (j['summary'] as String?) ?? '',
     department: j['department'] as String?,
-    level: switch (j['level']) {
-      'central' || 'state' => j['level']! as String,
-      _ => null,
-    },
+    level: levelOf(j['level']),
     grNumber: j['gr_number'] as String?,
     publishedAt: DateTime.parse(j['published_at']! as String),
     url: j['url']! as String,
@@ -121,6 +118,12 @@ class FeedItem {
     'may_be_eligible_because': mayBeEligibleBecause,
     'seen': seen,
     'thread_id': threadId,
+  };
+
+  /// "central" or "state"; anything else (missing, unknown) is null.
+  static String? levelOf(Object? v) => switch (v) {
+    'central' || 'state' => v as String,
+    _ => null,
   };
 
   static DateTime? _date(Object? v) =>
