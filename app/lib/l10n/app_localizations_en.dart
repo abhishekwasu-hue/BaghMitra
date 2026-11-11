@@ -1977,6 +1977,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get feedUnseen => 'New';
 
   @override
+  String feedThreadCount(String count) {
+    return '$count reports';
+  }
+
+  @override
+  String feedThreadLatest(String date) {
+    return 'Latest: $date';
+  }
+
+  @override
+  String get feedThreadTimeline => 'All reports, oldest first';
+
+  @override
+  String get feedThreadOpenItem => 'Read the full report';
+
+  @override
   String get feedDismiss => 'Hide from my list';
 
   @override

@@ -1188,6 +1188,22 @@ final feedProvider = FutureProvider.family<CachedFeed?, String>((ref, lang) {
   );
 });
 
+/// One opened news topic (owner Q139) for (language, thread id), saved copy first like the
+/// feed; null when it was never fetched and the phone is offline (the screen then shows the
+/// topic's reports from the cached feed).
+final feedThreadProvider =
+    FutureProvider.family<CachedFeedThread?, (String, String)>((ref, key) {
+      final (lang, threadId) = key;
+      final cache = ref.watch(feedCacheProvider);
+      return cacheFirst(
+        ref,
+        key: FeedCache.threadKeyFor(lang, threadId),
+        load: () => cache.loadThread(lang, threadId),
+        savedAt: (c) => c.savedAt,
+        fetch: () => cache.refreshThreadOrFailure(lang, threadId),
+      );
+    });
+
 /// Seen / dismiss / remind receipts: on the phone at once, sent to the server when it can.
 final feedReceiptsProvider = Provider<FeedReceipts>(
   (ref) => FeedReceipts(

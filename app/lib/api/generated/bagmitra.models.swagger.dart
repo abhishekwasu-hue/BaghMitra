@@ -7943,6 +7943,7 @@ class FeedItemOut {
     required this.replacedBy,
     this.seen,
     required this.summary,
+    this.threadId,
     required this.title,
     required this.trust,
     required this.type,
@@ -7988,6 +7989,8 @@ class FeedItemOut {
   final bool? seen;
   @JsonKey(name: 'summary', includeIfNull: false)
   final String? summary;
+  @JsonKey(name: 'thread_id', includeIfNull: false)
+  final String? threadId;
   @JsonKey(name: 'title', includeIfNull: false)
   final String title;
   @JsonKey(
@@ -8060,6 +8063,11 @@ class FeedItemOut {
                   other.summary,
                   summary,
                 )) &&
+            (identical(other.threadId, threadId) ||
+                const DeepCollectionEquality().equals(
+                  other.threadId,
+                  threadId,
+                )) &&
             (identical(other.title, title) ||
                 const DeepCollectionEquality().equals(other.title, title)) &&
             (identical(other.trust, trust) ||
@@ -8089,6 +8097,7 @@ class FeedItemOut {
       const DeepCollectionEquality().hash(replacedBy) ^
       const DeepCollectionEquality().hash(seen) ^
       const DeepCollectionEquality().hash(summary) ^
+      const DeepCollectionEquality().hash(threadId) ^
       const DeepCollectionEquality().hash(title) ^
       const DeepCollectionEquality().hash(trust) ^
       const DeepCollectionEquality().hash(type) ^
@@ -8111,6 +8120,7 @@ extension $FeedItemOutExtension on FeedItemOut {
     String? replacedBy,
     bool? seen,
     String? summary,
+    String? threadId,
     String? title,
     enums.FeedItemOutTrust? trust,
     String? type,
@@ -8130,6 +8140,7 @@ extension $FeedItemOutExtension on FeedItemOut {
       replacedBy: replacedBy ?? this.replacedBy,
       seen: seen ?? this.seen,
       summary: summary ?? this.summary,
+      threadId: threadId ?? this.threadId,
       title: title ?? this.title,
       trust: trust ?? this.trust,
       type: type ?? this.type,
@@ -8151,6 +8162,7 @@ extension $FeedItemOutExtension on FeedItemOut {
     Wrapped<String?>? replacedBy,
     Wrapped<bool?>? seen,
     Wrapped<String?>? summary,
+    Wrapped<String?>? threadId,
     Wrapped<String>? title,
     Wrapped<enums.FeedItemOutTrust>? trust,
     Wrapped<String>? type,
@@ -8174,6 +8186,7 @@ extension $FeedItemOutExtension on FeedItemOut {
       replacedBy: (replacedBy != null ? replacedBy.value : this.replacedBy),
       seen: (seen != null ? seen.value : this.seen),
       summary: (summary != null ? summary.value : this.summary),
+      threadId: (threadId != null ? threadId.value : this.threadId),
       title: (title != null ? title.value : this.title),
       trust: (trust != null ? trust.value : this.trust),
       type: (type != null ? type.value : this.type),
@@ -8382,7 +8395,7 @@ extension $FeedReceiptOutExtension on FeedReceiptOut {
 
 @JsonSerializable(explicitToJson: true)
 class FeedResponse {
-  const FeedResponse({required this.footer, required this.items});
+  const FeedResponse({required this.footer, required this.items, this.threads});
 
   factory FeedResponse.fromJson(Map<String, dynamic> json) =>
       _$FeedResponseFromJson(json);
@@ -8394,6 +8407,12 @@ class FeedResponse {
   final String footer;
   @JsonKey(name: 'items', includeIfNull: false, defaultValue: <FeedItemOut>[])
   final List<FeedItemOut> items;
+  @JsonKey(
+    name: 'threads',
+    includeIfNull: false,
+    defaultValue: <FeedThreadOut>[],
+  )
+  final List<FeedThreadOut>? threads;
   static const fromJsonFactory = _$FeedResponseFromJson;
 
   @override
@@ -8403,7 +8422,9 @@ class FeedResponse {
             (identical(other.footer, footer) ||
                 const DeepCollectionEquality().equals(other.footer, footer)) &&
             (identical(other.items, items) ||
-                const DeepCollectionEquality().equals(other.items, items)));
+                const DeepCollectionEquality().equals(other.items, items)) &&
+            (identical(other.threads, threads) ||
+                const DeepCollectionEquality().equals(other.threads, threads)));
   }
 
   @override
@@ -8413,24 +8434,226 @@ class FeedResponse {
   int get hashCode =>
       const DeepCollectionEquality().hash(footer) ^
       const DeepCollectionEquality().hash(items) ^
+      const DeepCollectionEquality().hash(threads) ^
       runtimeType.hashCode;
 }
 
 extension $FeedResponseExtension on FeedResponse {
-  FeedResponse copyWith({String? footer, List<FeedItemOut>? items}) {
+  FeedResponse copyWith({
+    String? footer,
+    List<FeedItemOut>? items,
+    List<FeedThreadOut>? threads,
+  }) {
     return FeedResponse(
       footer: footer ?? this.footer,
       items: items ?? this.items,
+      threads: threads ?? this.threads,
     );
   }
 
   FeedResponse copyWithWrapped({
     Wrapped<String>? footer,
     Wrapped<List<FeedItemOut>>? items,
+    Wrapped<List<FeedThreadOut>?>? threads,
   }) {
     return FeedResponse(
       footer: (footer != null ? footer.value : this.footer),
       items: (items != null ? items.value : this.items),
+      threads: (threads != null ? threads.value : this.threads),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class FeedThreadOut {
+  const FeedThreadOut({
+    required this.hasNew,
+    required this.id,
+    required this.itemCount,
+    required this.latestAt,
+    required this.summary,
+    required this.title,
+    required this.unseenCount,
+  });
+
+  factory FeedThreadOut.fromJson(Map<String, dynamic> json) =>
+      _$FeedThreadOutFromJson(json);
+
+  static const toJsonFactory = _$FeedThreadOutToJson;
+  Map<String, dynamic> toJson() => _$FeedThreadOutToJson(this);
+
+  @JsonKey(name: 'has_new', includeIfNull: false)
+  final bool hasNew;
+  @JsonKey(name: 'id', includeIfNull: false)
+  final String id;
+  @JsonKey(name: 'item_count', includeIfNull: false)
+  final int itemCount;
+  @JsonKey(name: 'latest_at', includeIfNull: false)
+  final DateTime latestAt;
+  @JsonKey(name: 'summary', includeIfNull: false)
+  final String? summary;
+  @JsonKey(name: 'title', includeIfNull: false)
+  final String title;
+  @JsonKey(name: 'unseen_count', includeIfNull: false)
+  final int unseenCount;
+  static const fromJsonFactory = _$FeedThreadOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is FeedThreadOut &&
+            (identical(other.hasNew, hasNew) ||
+                const DeepCollectionEquality().equals(other.hasNew, hasNew)) &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.itemCount, itemCount) ||
+                const DeepCollectionEquality().equals(
+                  other.itemCount,
+                  itemCount,
+                )) &&
+            (identical(other.latestAt, latestAt) ||
+                const DeepCollectionEquality().equals(
+                  other.latestAt,
+                  latestAt,
+                )) &&
+            (identical(other.summary, summary) ||
+                const DeepCollectionEquality().equals(
+                  other.summary,
+                  summary,
+                )) &&
+            (identical(other.title, title) ||
+                const DeepCollectionEquality().equals(other.title, title)) &&
+            (identical(other.unseenCount, unseenCount) ||
+                const DeepCollectionEquality().equals(
+                  other.unseenCount,
+                  unseenCount,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(hasNew) ^
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(itemCount) ^
+      const DeepCollectionEquality().hash(latestAt) ^
+      const DeepCollectionEquality().hash(summary) ^
+      const DeepCollectionEquality().hash(title) ^
+      const DeepCollectionEquality().hash(unseenCount) ^
+      runtimeType.hashCode;
+}
+
+extension $FeedThreadOutExtension on FeedThreadOut {
+  FeedThreadOut copyWith({
+    bool? hasNew,
+    String? id,
+    int? itemCount,
+    DateTime? latestAt,
+    String? summary,
+    String? title,
+    int? unseenCount,
+  }) {
+    return FeedThreadOut(
+      hasNew: hasNew ?? this.hasNew,
+      id: id ?? this.id,
+      itemCount: itemCount ?? this.itemCount,
+      latestAt: latestAt ?? this.latestAt,
+      summary: summary ?? this.summary,
+      title: title ?? this.title,
+      unseenCount: unseenCount ?? this.unseenCount,
+    );
+  }
+
+  FeedThreadOut copyWithWrapped({
+    Wrapped<bool>? hasNew,
+    Wrapped<String>? id,
+    Wrapped<int>? itemCount,
+    Wrapped<DateTime>? latestAt,
+    Wrapped<String?>? summary,
+    Wrapped<String>? title,
+    Wrapped<int>? unseenCount,
+  }) {
+    return FeedThreadOut(
+      hasNew: (hasNew != null ? hasNew.value : this.hasNew),
+      id: (id != null ? id.value : this.id),
+      itemCount: (itemCount != null ? itemCount.value : this.itemCount),
+      latestAt: (latestAt != null ? latestAt.value : this.latestAt),
+      summary: (summary != null ? summary.value : this.summary),
+      title: (title != null ? title.value : this.title),
+      unseenCount: (unseenCount != null ? unseenCount.value : this.unseenCount),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class FeedThreadResponse {
+  const FeedThreadResponse({
+    required this.footer,
+    required this.items,
+    required this.thread,
+  });
+
+  factory FeedThreadResponse.fromJson(Map<String, dynamic> json) =>
+      _$FeedThreadResponseFromJson(json);
+
+  static const toJsonFactory = _$FeedThreadResponseToJson;
+  Map<String, dynamic> toJson() => _$FeedThreadResponseToJson(this);
+
+  @JsonKey(name: 'footer', includeIfNull: false)
+  final String footer;
+  @JsonKey(name: 'items', includeIfNull: false, defaultValue: <FeedItemOut>[])
+  final List<FeedItemOut> items;
+  @JsonKey(name: 'thread', includeIfNull: false)
+  final FeedThreadOut thread;
+  static const fromJsonFactory = _$FeedThreadResponseFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is FeedThreadResponse &&
+            (identical(other.footer, footer) ||
+                const DeepCollectionEquality().equals(other.footer, footer)) &&
+            (identical(other.items, items) ||
+                const DeepCollectionEquality().equals(other.items, items)) &&
+            (identical(other.thread, thread) ||
+                const DeepCollectionEquality().equals(other.thread, thread)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(footer) ^
+      const DeepCollectionEquality().hash(items) ^
+      const DeepCollectionEquality().hash(thread) ^
+      runtimeType.hashCode;
+}
+
+extension $FeedThreadResponseExtension on FeedThreadResponse {
+  FeedThreadResponse copyWith({
+    String? footer,
+    List<FeedItemOut>? items,
+    FeedThreadOut? thread,
+  }) {
+    return FeedThreadResponse(
+      footer: footer ?? this.footer,
+      items: items ?? this.items,
+      thread: thread ?? this.thread,
+    );
+  }
+
+  FeedThreadResponse copyWithWrapped({
+    Wrapped<String>? footer,
+    Wrapped<List<FeedItemOut>>? items,
+    Wrapped<FeedThreadOut>? thread,
+  }) {
+    return FeedThreadResponse(
+      footer: (footer != null ? footer.value : this.footer),
+      items: (items != null ? items.value : this.items),
+      thread: (thread != null ? thread.value : this.thread),
     );
   }
 }
@@ -25668,6 +25891,87 @@ List<enums.V1FeedCheckPostLang>? v1FeedCheckPostLangNullableListFromJson(
 
   return v1FeedCheckPostLang
       .map((e) => v1FeedCheckPostLangFromJson(e.toString()))
+      .toList();
+}
+
+String? v1FeedThreadsThreadIdGetLangNullableToJson(
+  enums.V1FeedThreadsThreadIdGetLang? v1FeedThreadsThreadIdGetLang,
+) {
+  return v1FeedThreadsThreadIdGetLang?.value;
+}
+
+String? v1FeedThreadsThreadIdGetLangToJson(
+  enums.V1FeedThreadsThreadIdGetLang v1FeedThreadsThreadIdGetLang,
+) {
+  return v1FeedThreadsThreadIdGetLang.value;
+}
+
+enums.V1FeedThreadsThreadIdGetLang v1FeedThreadsThreadIdGetLangFromJson(
+  Object? v1FeedThreadsThreadIdGetLang, [
+  enums.V1FeedThreadsThreadIdGetLang? defaultValue,
+]) {
+  return enums.V1FeedThreadsThreadIdGetLang.values.firstWhereOrNull(
+        (e) => e.value == v1FeedThreadsThreadIdGetLang,
+      ) ??
+      defaultValue ??
+      enums.V1FeedThreadsThreadIdGetLang.swaggerGeneratedUnknown;
+}
+
+enums.V1FeedThreadsThreadIdGetLang?
+v1FeedThreadsThreadIdGetLangNullableFromJson(
+  Object? v1FeedThreadsThreadIdGetLang, [
+  enums.V1FeedThreadsThreadIdGetLang? defaultValue,
+]) {
+  if (v1FeedThreadsThreadIdGetLang == null) {
+    return null;
+  }
+  return enums.V1FeedThreadsThreadIdGetLang.values.firstWhereOrNull(
+        (e) => e.value == v1FeedThreadsThreadIdGetLang,
+      ) ??
+      defaultValue;
+}
+
+String v1FeedThreadsThreadIdGetLangExplodedListToJson(
+  List<enums.V1FeedThreadsThreadIdGetLang>? v1FeedThreadsThreadIdGetLang,
+) {
+  return v1FeedThreadsThreadIdGetLang?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> v1FeedThreadsThreadIdGetLangListToJson(
+  List<enums.V1FeedThreadsThreadIdGetLang>? v1FeedThreadsThreadIdGetLang,
+) {
+  if (v1FeedThreadsThreadIdGetLang == null) {
+    return [];
+  }
+
+  return v1FeedThreadsThreadIdGetLang.map((e) => e.value!).toList();
+}
+
+List<enums.V1FeedThreadsThreadIdGetLang>
+v1FeedThreadsThreadIdGetLangListFromJson(
+  List? v1FeedThreadsThreadIdGetLang, [
+  List<enums.V1FeedThreadsThreadIdGetLang>? defaultValue,
+]) {
+  if (v1FeedThreadsThreadIdGetLang == null) {
+    return defaultValue ?? [];
+  }
+
+  return v1FeedThreadsThreadIdGetLang
+      .map((e) => v1FeedThreadsThreadIdGetLangFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.V1FeedThreadsThreadIdGetLang>?
+v1FeedThreadsThreadIdGetLangNullableListFromJson(
+  List? v1FeedThreadsThreadIdGetLang, [
+  List<enums.V1FeedThreadsThreadIdGetLang>? defaultValue,
+]) {
+  if (v1FeedThreadsThreadIdGetLang == null) {
+    return defaultValue;
+  }
+
+  return v1FeedThreadsThreadIdGetLang
+      .map((e) => v1FeedThreadsThreadIdGetLangFromJson(e.toString()))
       .toList();
 }
 

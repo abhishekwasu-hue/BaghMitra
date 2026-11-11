@@ -1973,6 +1973,22 @@ class AppLocalizationsMr extends AppLocalizations {
   String get feedUnseen => 'नवीन';
 
   @override
+  String feedThreadCount(String count) {
+    return '$count बातम्या';
+  }
+
+  @override
+  String feedThreadLatest(String date) {
+    return 'ताजी बातमी: $date';
+  }
+
+  @override
+  String get feedThreadTimeline => 'सर्व बातम्या, क्रमाने (जुनी आधी)';
+
+  @override
+  String get feedThreadOpenItem => 'पूर्ण बातमी वाचा';
+
+  @override
   String get feedDismiss => 'माझ्या यादीतून काढा';
 
   @override

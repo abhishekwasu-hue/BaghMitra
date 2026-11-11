@@ -3489,6 +3489,30 @@ abstract class AppLocalizations {
   /// **'New'**
   String get feedUnseen;
 
+  /// No description provided for @feedThreadCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} reports'**
+  String feedThreadCount(String count);
+
+  /// No description provided for @feedThreadLatest.
+  ///
+  /// In en, this message translates to:
+  /// **'Latest: {date}'**
+  String feedThreadLatest(String date);
+
+  /// No description provided for @feedThreadTimeline.
+  ///
+  /// In en, this message translates to:
+  /// **'All reports, oldest first'**
+  String get feedThreadTimeline;
+
+  /// No description provided for @feedThreadOpenItem.
+  ///
+  /// In en, this message translates to:
+  /// **'Read the full report'**
+  String get feedThreadOpenItem;
+
   /// No description provided for @feedDismiss.
   ///
   /// In en, this message translates to:

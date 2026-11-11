@@ -2664,7 +2664,8 @@ not answer; nothing is counted.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Newest first. `district` / `crop` narrow the list to items meant for them (items for
 everyone always pass); `may_be_eligible_because` is computed from the caller\'s own
-profile and plots.''',
+profile and plots. News items carry their topic `thread_id`; `threads` describes those
+threads (Q139), so the app shows one card per topic.''',
       summary: 'Feed',
       operationId: 'feed_list',
       consumes: [],
@@ -2701,6 +2702,44 @@ profile and plots.''',
 fake: without a match the note says none was found and points to the official portal.''',
       summary: 'Check',
       operationId: 'feed_check',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["feed"],
+      deprecated: false,
+    ),
+  });
+
+  ///Feed Thread
+  ///@param thread_id
+  ///@param lang
+  Future<chopper.Response<FeedThreadResponse>> v1FeedThreadsThreadIdGet({
+    required String? threadId,
+    enums.V1FeedThreadsThreadIdGetLang? lang,
+  }) {
+    generatedMapping.putIfAbsent(
+      FeedThreadResponse,
+      () => FeedThreadResponse.fromJsonFactory,
+    );
+
+    return _v1FeedThreadsThreadIdGet(
+      threadId: threadId,
+      lang: lang?.value?.toString(),
+    );
+  }
+
+  ///Feed Thread
+  ///@param thread_id
+  ///@param lang
+  @GET(path: '/v1/feed/threads/{thread_id}')
+  Future<chopper.Response<FeedThreadResponse>> _v1FeedThreadsThreadIdGet({
+    @Path('thread_id') required String? threadId,
+    @Query('lang') String? lang,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Every visible item of one news topic, oldest first (the dated timeline, Q139).',
+      summary: 'Feed Thread',
+      operationId: 'feed_thread',
       consumes: [],
       produces: [],
       security: ["HTTPBearer"],

@@ -160,6 +160,30 @@ class DemoFeedRepository implements FeedRepository {
     );
   }
 
+  /// The sample items carry no topic, so a topic is only ever built from them.
+  @override
+  Future<FeedThreadPage> fetchThread({
+    required String lang,
+    required String threadId,
+  }) async {
+    final page = await fetch(lang: lang);
+    final items = [
+      for (final i in page.items)
+        if (i.threadId == threadId) i,
+    ]..sort((a, b) => a.publishedAt.compareTo(b.publishedAt));
+    if (items.isEmpty) throw const FeedUnavailableException('no such topic');
+    return FeedThreadPage(
+      thread: FeedThread(
+        id: threadId,
+        title: items.last.title,
+        latestAt: items.last.publishedAt,
+        itemCount: items.length,
+      ),
+      items: items,
+      footer: page.footer,
+    );
+  }
+
   @override
   Future<void> sendReceipt(String itemId, FeedReceiptAction action) async {}
 
