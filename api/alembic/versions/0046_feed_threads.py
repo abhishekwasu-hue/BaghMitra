@@ -1,8 +1,8 @@
 """News topic threads (owner Q139): `feed_threads` (service-only) and `feed_items.thread_id`.
 Existing published news is threaded by `python -m bagmitra_api.feed.thread_backfill`.
 
-Revision ID: 0045
-Revises: 0044
+Revision ID: 0046
+Revises: 0045
 Create Date: 2026-11-11
 """
 
@@ -13,8 +13,8 @@ from alembic import op
 
 from bagmitra_api.db.rls import disable_private_rls, enable_private_rls
 
-revision = "0045"
-down_revision = "0044"
+revision = "0046"
+down_revision = "0045"
 branch_labels = None
 depends_on = None
 

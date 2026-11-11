@@ -2257,7 +2257,7 @@ abstract class AppLocalizations {
   /// No description provided for @settingsPhotoMobileDataHint.
   ///
   /// In en, this message translates to:
-  /// **'Scouting photos are backed up on Wi-Fi. Turn this on to use mobile data too.'**
+  /// **'Scouting and bill photos are backed up on Wi-Fi. Turn this on to use mobile data too.'**
   String get settingsPhotoMobileDataHint;
 
   /// No description provided for @buildLabel.
@@ -8744,6 +8744,186 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Today\'s photo checks are full; you can check again after {when}.'**
   String photoCheckLimitTotalAt(String when);
+
+  /// No description provided for @billPhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Bill photo'**
+  String get billPhoto;
+
+  /// No description provided for @billPhotoHint.
+  ///
+  /// In en, this message translates to:
+  /// **'The shop bill\'s photo stays with this record on the phone.'**
+  String get billPhotoHint;
+
+  /// No description provided for @billPhotoOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Open the bill photo'**
+  String get billPhotoOpen;
+
+  /// No description provided for @billFill.
+  ///
+  /// In en, this message translates to:
+  /// **'Fill from bill'**
+  String get billFill;
+
+  /// No description provided for @billReading.
+  ///
+  /// In en, this message translates to:
+  /// **'Reading the bill…'**
+  String get billReading;
+
+  /// No description provided for @billUnsure.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not read the bill clearly; fill in the details by hand.'**
+  String get billUnsure;
+
+  /// No description provided for @billFilled.
+  ///
+  /// In en, this message translates to:
+  /// **'Filled from the bill: {fields}. Please check once.'**
+  String billFilled(String fields);
+
+  /// No description provided for @billNothingFilled.
+  ///
+  /// In en, this message translates to:
+  /// **'These fields were already filled; they are kept as they were.'**
+  String get billNothingFilled;
+
+  /// No description provided for @billOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'Reading the bill needs internet. The photo is saved with this record on the phone.'**
+  String get billOffline;
+
+  /// No description provided for @billFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Try \'Fill from bill\' again in a while; the photo stays here.'**
+  String get billFailed;
+
+  /// No description provided for @billUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Bill reading is paused for now; fill in the details by hand.'**
+  String get billUnavailable;
+
+  /// No description provided for @billRefused.
+  ///
+  /// In en, this message translates to:
+  /// **'Please take another photo of the bill.'**
+  String get billRefused;
+
+  /// No description provided for @billSignedOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in again to read the bill.'**
+  String get billSignedOut;
+
+  /// No description provided for @billLimitDaily.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s {count} bill readings are used; you can read again tomorrow.'**
+  String billLimitDaily(String count);
+
+  /// No description provided for @billLimitDailyAt.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s {count} bill readings are used; you can read again after {when}.'**
+  String billLimitDailyAt(String count, String when);
+
+  /// No description provided for @billLimitMonthly.
+  ///
+  /// In en, this message translates to:
+  /// **'This month\'s {count} bill readings are used; you can read again from {when}.'**
+  String billLimitMonthly(String count, String when);
+
+  /// No description provided for @billLimitTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s bill readings are full; you can read again tomorrow.'**
+  String get billLimitTotal;
+
+  /// No description provided for @billLimitTotalAt.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s bill readings are full; you can read again after {when}.'**
+  String billLimitTotalAt(String when);
+
+  /// No description provided for @billPickTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a line from the bill'**
+  String get billPickTitle;
+
+  /// No description provided for @billTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Bill total'**
+  String get billTotal;
+
+  /// No description provided for @billLabelShopNo.
+  ///
+  /// In en, this message translates to:
+  /// **'{shop} bill #{no}'**
+  String billLabelShopNo(String shop, String no);
+
+  /// No description provided for @billLabelShop.
+  ///
+  /// In en, this message translates to:
+  /// **'{shop} bill'**
+  String billLabelShop(String shop);
+
+  /// No description provided for @billLabelNo.
+  ///
+  /// In en, this message translates to:
+  /// **'Bill #{no}'**
+  String billLabelNo(String no);
+
+  /// No description provided for @billFieldProduct.
+  ///
+  /// In en, this message translates to:
+  /// **'product name'**
+  String get billFieldProduct;
+
+  /// No description provided for @billFieldActive.
+  ///
+  /// In en, this message translates to:
+  /// **'active ingredient'**
+  String get billFieldActive;
+
+  /// No description provided for @billFieldDose.
+  ///
+  /// In en, this message translates to:
+  /// **'quantity'**
+  String get billFieldDose;
+
+  /// No description provided for @billFieldCost.
+  ///
+  /// In en, this message translates to:
+  /// **'cost'**
+  String get billFieldCost;
+
+  /// No description provided for @billFieldAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'amount'**
+  String get billFieldAmount;
+
+  /// No description provided for @billFieldDate.
+  ///
+  /// In en, this message translates to:
+  /// **'date'**
+  String get billFieldDate;
+
+  /// No description provided for @billFieldNote.
+  ///
+  /// In en, this message translates to:
+  /// **'note'**
+  String get billFieldNote;
 }
 
 class _AppLocalizationsDelegate

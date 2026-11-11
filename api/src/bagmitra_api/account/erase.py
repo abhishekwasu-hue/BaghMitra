@@ -30,7 +30,7 @@ from bagmitra_api.account.auth_admin import AuthAdmin, AuthAdminError
 from bagmitra_api.account.models import AccountDeletion
 from bagmitra_api.billing.models import EntitlementSnapshot
 from bagmitra_api.db.base import Base, utcnow
-from bagmitra_api.db.models import ScoutingRecord
+from bagmitra_api.db.models import Expense, ScoutingRecord, SprayRecord
 from bagmitra_api.market_link.erasure import DEFERRED_TABLES, defer_market_link
 from bagmitra_api.market_link.models import MarketLotPhoto
 from bagmitra_api.photo_ai.models import PhotoAnalysisSample
@@ -74,6 +74,13 @@ async def _photo_keys(session: AsyncSession, user_id: uuid.UUID) -> list[str]:
             MarketLotPhoto.owner_id == user_id, MarketLotPhoto.photo_key.is_not(None)
         )
     )
+    # Bill photos of spray records and expenses (Q136), also in the `<owner_id>/` folder.
+    for model in (SprayRecord, Expense):
+        stored += await session.scalars(
+            select(model.bill_photo_key).where(
+                model.owner_id == user_id, model.bill_photo_key.is_not(None)
+            )
+        )
     # Analysed crop photos (Q135) are in the same `<owner_id>/` folder.
     stored += await session.scalars(
         select(PhotoAnalysisSample.photo_key).where(

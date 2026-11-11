@@ -11,6 +11,8 @@ import '../../../design_system/cards.dart';
 import '../../../design_system/empty_state.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
+import '../../bills/data/bill_photos.dart';
+import '../../bills/presentation/bill_photo_field.dart';
 import '../../export/presentation/share_accounts.dart';
 import '../domain/accounts_summary.dart';
 import 'fair_price_note.dart';
@@ -85,6 +87,7 @@ class _AccountsScreenState extends ConsumerState<AccountsScreen> {
             categoryLabel(e.category),
             '−${money(e.amountPaise)}',
             null,
+            e.hasBillPhoto ? e : null,
           ),
       for (final i in incomes)
         if (_cycle == null || i.baharCycleId == _cycle)
@@ -93,6 +96,7 @@ class _AccountsScreenState extends ConsumerState<AccountsScreen> {
             t.saleBy(i.buyerName, formatDecimal(i.quantityKg, lang)),
             '+${money(i.netPaise)}',
             i,
+            null,
           ),
     ]..sort((a, b) => b.$1.compareTo(a.$1));
     // What sits above the entries; the entries themselves are built as they scroll in.
@@ -167,9 +171,17 @@ class _AccountsScreenState extends ConsumerState<AccountsScreen> {
         itemCount: head.length + inScope.length,
         itemBuilder: (context, i) {
           if (i < head.length) return head[i];
-          final (date, label, amount, sale) = inScope[i - head.length];
+          final (date, label, amount, sale, bill) = inScope[i - head.length];
           return ListTile(
             contentPadding: EdgeInsets.zero,
+            // The expense's bill photo (Q136): a tap opens it full screen.
+            leading: bill == null
+                ? null
+                : RecordBillThumb(
+                    kind: BillKind.expense,
+                    recordId: bill.id,
+                    path: bill.billPhotoPath,
+                  ),
             title: Text(label, style: BmType.body),
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

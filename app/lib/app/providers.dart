@@ -27,6 +27,7 @@ import '../features/billing/data/play_billing.dart';
 import '../features/billing/data/snapshot_signature.dart';
 import '../features/billing/data/subscription_flow.dart';
 import '../features/billing/domain/entitlements.dart';
+import '../features/bills/data/bill_photos.dart';
 import '../features/dev/sample_orchard.dart';
 import '../features/directory/data/directory_config.dart';
 import '../features/export/data/file_sharer.dart';
@@ -372,6 +373,7 @@ final accountsRepositoryProvider = Provider<AccountsRepository>(
   (ref) => AccountsRepository(
     ref.watch(databaseProvider),
     clock: ref.watch(clockProvider),
+    photos: ref.watch(billPhotosProvider),
   ),
 );
 
@@ -395,6 +397,7 @@ final sprayRepositoryProvider = Provider<SprayRepository>(
   (ref) => SprayRepository(
     ref.watch(databaseProvider),
     clock: ref.watch(clockProvider),
+    photos: ref.watch(billPhotosProvider),
   ),
 );
 
@@ -632,6 +635,12 @@ final scoutingPhotosProvider = Provider<ScoutingPhotos>(
   (ref) => DeviceScoutingPhotos(),
 );
 
+/// Bill photos on spray records and expenses (Q136): picked the same way, kept in their own
+/// folder (`bill_photos/`). Tests fake it.
+final billPhotosProvider = Provider<ScoutingPhotos>(
+  (ref) => DeviceScoutingPhotos(folderName: billPhotoFolder),
+);
+
 final scoutingRepositoryProvider = Provider<ScoutingRepository>(
   (ref) => ScoutingRepository(
     ref.watch(databaseProvider),
@@ -668,18 +677,42 @@ class PhotoBackupMobileData extends AsyncNotifier<bool> {
 
 /// Optional server backup of scouting photos (OPEN_QUESTIONS Q34). One per app start, so a
 /// "not configured" answer stops it until the next start. Tests override it.
+/// Bill photos (Q136) ride the same backup, with the same Wi-Fi / mobile-data rule.
 final scoutingPhotoBackupProvider = Provider<ScoutingPhotoBackup>((ref) {
   final db = ref.watch(databaseProvider);
+  final api = HttpPhotoBackupApi(ref.watch(apiProvider));
+  final billFiles = DevicePhotoFiles(folderName: billPhotoFolder);
   return ScoutingPhotoBackup(
     repo: ref.watch(scoutingRepositoryProvider),
-    api: HttpPhotoBackupApi(ref.watch(apiProvider)),
+    api: api,
     files: DevicePhotoFiles(),
     outbox: Outbox(db, clock: ref.watch(clockProvider)),
     prefs: ref.watch(photoBackupPrefsProvider),
     clock: ref.watch(clockProvider),
+    bills: [
+      BillBackupTarget(
+        kind: BillKind.spray,
+        records: ref.watch(sprayRepositoryProvider),
+        api: api,
+        files: billFiles,
+      ),
+      BillBackupTarget(
+        kind: BillKind.expense,
+        records: ref.watch(accountsRepositoryProvider),
+        api: api,
+        files: billFiles,
+      ),
+    ],
     log: (line) => ref.read(appLogProvider).log(line),
   );
 });
+
+/// The phone's copy of a record's bill photo, downloading a backed-up one when needed.
+final billPhotoFileProvider = FutureProvider.autoDispose
+    .family<String?, (BillKind, String)>(
+      (ref, key) =>
+          ref.watch(scoutingPhotoBackupProvider).localBillPhoto(key.$1, key.$2),
+    );
 
 /// The phone's copy of a scouting record's photo, downloading a backed-up one when needed
 /// (kept once fetched; tried again when the screen is opened again).

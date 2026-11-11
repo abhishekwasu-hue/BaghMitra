@@ -2008,6 +2008,65 @@ broker: the phone call), else 422 `verified_rule_not_met`.''',
   }
 
   @override
+  Future<Response<PhotoUploadUrl>> _v1BillPhotosKindRecordIdUploadUrlPost({
+    required String? kind,
+    required String? recordId,
+    required PhotoUploadIn? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''A signed upload URL for this record\'s bill photo (JPEG only, at most `max_bytes`).
+
+The phone PUTs the file to `upload_url`, then records `photo_key` as the record\'s
+`bill_photo_key` through the normal outbox.''',
+      summary: 'Create Bill Photo Upload Url',
+      operationId: 'bill_photo_upload_url',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["bill-photos"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse(
+      '/v1/bill-photos/${kind}/${recordId}/upload-url',
+    );
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<PhotoUploadUrl, PhotoUploadUrl>($request);
+  }
+
+  @override
+  Future<Response<PhotoDownloadUrl>> _v1BillPhotosKindRecordIdUrlGet({
+    required String? kind,
+    required String? recordId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''A short-lived signed download URL for a backed-up bill photo. Only the key derived
+from the caller and the record is ever signed; a stored key that differs is no photo.''',
+      summary: 'Get Bill Photo Url',
+      operationId: 'bill_photo_url',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["bill-photos"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/bill-photos/${kind}/${recordId}/url');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<PhotoDownloadUrl, PhotoDownloadUrl>($request);
+  }
+
+  @override
   Future<Response<EntitlementsResponse>> _v1BillingEntitlementsGet({
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',

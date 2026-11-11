@@ -238,7 +238,7 @@ It prints `{"published": …, "held": …, "retry": …}`; reasons still failing
 
 ## 12. News topic threads (owner Q139)
 Mahasamvad publishes one decision from many districts under different links, so related news is
-grouped: each **published news item** joins a topic thread (`feed_threads`, migration `0045`) and
+grouped: each **published news item** joins a topic thread (`feed_threads`, migration `0046`) and
 the app shows one card per topic ("N बातम्या") that opens as a dated timeline, oldest first. GR,
 circular, scheme and alert items are not threaded.
 
@@ -253,7 +253,7 @@ Rule (`feed/threads.py`; conservative, a wrong merge is worse than a duplicate):
 
 **No manual step is needed.** Every scheduled news run (§9), after the article and recheck steps,
 threads published news that has no topic yet, oldest first, **at most 50 items per run**
-(`THREADS_PER_RUN`). So after deploying 0045 the already published news is threaded by the next
+(`THREADS_PER_RUN`). So after deploying 0046 the already published news is threaded by the next
 runs on its own (50 per run, every 6 hours), with a bounded cost per run; afterwards each run
 threads its new items. Fourth JSON line in `/var/log/bagmitra-feed-news.log`:
 `{"threads": {"joined", "new", "model_calls", "ai_errors", "skipped_reason"}}`. Without

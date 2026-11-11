@@ -88,6 +88,8 @@ void main() {
       locale: const Locale('en'),
       initialLocation: '/plots/p1/accounts/expense',
       recognizer: FakeRecognizer(available: false),
+      // The note's mic sits below the bill photo (Q136).
+      size: const Size(393, 1200),
     );
     await tester.tap(find.byKey(const Key('voice-mic')));
     await tester.pump();
