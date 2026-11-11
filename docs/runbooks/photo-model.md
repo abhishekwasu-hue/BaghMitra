@@ -29,8 +29,15 @@ evaluates the **exported `.tflite`** on the held-out test set. Results:
 - Artifact **citrus-photo-model** (30 days): `citrus_v1.tflite`, `labels.txt`, `model_card.md`.
 - Job log: `model_card.md`, `labels.txt`, the sha256 and the model as base64 between
   `BEGIN_TFLITE_BASE64` / `END_TFLITE_BASE64` (collapsed groups). To rebuild the file from the log:
-  copy the lines between the markers into `m.b64`, then `base64 -d m.b64 > citrus_v1.tflite` and
-  compare `sha256sum` with the log.
+  save the job log (`gh api repos/abhishekwasu-hue/BaghMitra/actions/jobs/<job id>/logs > job.log`),
+  then
+
+  ```
+  awk '/ BEGIN_TFLITE_BASE64$/{f=1;next} / END_TFLITE_BASE64$/{f=0} f' job.log \
+    | sed 's/^[^ ]* //' | base64 -d > citrus_v1.tflite && sha256sum citrus_v1.tflite
+  ```
+
+  (the `sed` strips the log's timestamps) and compare the sha256 with the log.
 
 ## 2. Data (only licence-confirmed public sets)
 
@@ -56,6 +63,22 @@ instead of the disease.
 Sets whose licence is not confirmed (Bangladesh sweet orange, MNIT, lemon sets, Hugging Face
 mirrors, Kaggle copies) are **not** used. Attribution (CC BY): the model card lists the citations;
 the app's about / credits screen must show them when the model ships.
+
+### First model (workflow run 42966101512, 2026-11-11, commit 9a39f3a)
+
+`citrus_v1.tflite` int8, 2,735,448 bytes, sha256 `16aa4482…3ae29a`. 1,243 photos (Rauf 594 +
+Mexico 649, no repeats found), split 871 / 186 / 186. Held-out test, exported file
+(same-dataset numbers, see §6):
+
+| Class | Test | Accuracy |
+|---|---|---|
+| canker | 24 | 91.7 % |
+| greening | 71 | 90.1 % |
+| healthy | 66 | 90.9 % |
+| other (black spot) | 25 | 52.0 % (11 of 25 called greening) |
+| **all** | 186 | **85.5 %** |
+
+Per source: Pakistan field photos 76.4 % (89), Mexico white-sheet photos 93.8 % (97).
 
 ## 3. Where the model goes in the app (later PR)
 
