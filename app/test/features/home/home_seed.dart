@@ -38,8 +38,13 @@ const realDevConfig = AppConfig(
 const homePlotId = 'p1';
 
 /// One located block with a dated Mrig bahar, two tasks, cached weather with an alert and
-/// cached mandi prices. The test clock is 2026-10-13.
-Future<void> seedHomeData(AppDatabase db, {String lang = 'mr'}) async {
+/// cached mandi prices. The test clock is 2026-10-13. [current] is the saved current
+/// reading (the API's `current` block), none by default.
+Future<void> seedHomeData(
+  AppDatabase db, {
+  String lang = 'mr',
+  Map<String, Object?>? current,
+}) async {
   await (db.update(db.farmerProfiles)..where((p) => p.id.equals('u1'))).write(
     const FarmerProfilesCompanion(displayName: Value('सुनील')),
   );
@@ -117,6 +122,7 @@ Future<void> seedHomeData(AppDatabase db, {String lang = 'mr'}) async {
           },
         ],
         'stale': false,
+        'current': ?current,
       },
     }),
   );

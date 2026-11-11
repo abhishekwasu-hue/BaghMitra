@@ -4705,7 +4705,8 @@ not answer; nothing is stored or counted.''',
     @Query('lang') String? lang,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: '''Recent and forecast days for the plot\'s location, with rule-based risk alerts.
+      description: '''Recent and forecast days for the plot\'s location, with rule-based risk alerts, and
+the current reading there (null when the provider has given none).
 
 Alerts come only from the configured rules (never from AI) and carry no chemical advice.''',
       summary: 'Get Plot Weather',

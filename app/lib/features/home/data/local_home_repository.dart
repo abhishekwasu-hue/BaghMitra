@@ -31,17 +31,38 @@ HomeSnapshot buildLocalHomeSnapshot({
   final forecast = weather?.weather.days
       .where((d) => !_dateOnly(d.day).isBefore(day) && d.tMaxC != null)
       .firstOrNull;
+  // The saved current reading stands as "now" while it is under the freshness window
+  // (Q140); an older one (offline) is not shown, and the header shows today's max / min.
+  final reading = switch (weather?.weather.current) {
+    final c? when today.difference(c.observedAt) < currentReadingFreshFor => c,
+    _ => null,
+  };
   return HomeSnapshot(
     farmerName: profile?.displayName?.trim() ?? '',
     plotId: plot?.id,
-    weather: plot == null || forecast == null
+    weather: plot == null
+        ? null
+        : reading != null
+        ? WeatherNow(
+            place: plot.name,
+            tempC: reading.temperatureC.round(),
+            isCurrent: true,
+            observedAt: reading.observedAt,
+            sky: skyOf(reading.weatherCode),
+            night: reading.isDay == false,
+            maxC: forecast?.tMaxC?.round(),
+            minC: forecast?.tMinC?.round(),
+          )
+        : forecast == null
         ? null
         : WeatherNow(
             place: plot.name,
             tempC: forecast.tMaxC!.round(),
+            maxC: forecast.tMaxC!.round(),
             minC: forecast.tMinC?.round(),
           ),
-    weatherNote: plot == null || forecast != null || weatherLoading
+    weatherNote:
+        plot == null || forecast != null || reading != null || weatherLoading
         ? null
         : located
         ? WeatherNote.notYetLoaded
@@ -61,6 +82,16 @@ HomeSnapshot buildLocalHomeSnapshot({
     market: plot == null ? null : _quote(prices?.prices.prices),
   );
 }
+
+/// The sky of a WMO code, on the forecast screen's steps: 95+ thunderstorm, 51+ rain or
+/// drizzle, 2+ cloud or fog, else clear; null when the provider gave no code.
+WeatherSky? skyOf(double? code) => switch (code) {
+  null => null,
+  >= 95 => WeatherSky.storm,
+  >= 51 => WeatherSky.rain,
+  >= 2 => WeatherSky.cloudy,
+  _ => WeatherSky.clear,
+};
 
 DateTime _dateOnly(DateTime d) => DateTime(d.year, d.month, d.day);
 

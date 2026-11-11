@@ -3,9 +3,14 @@ import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 import 'glyphs.dart';
 
+/// The sky the header icon draws (with day or night for the current reading, Q140).
+enum WeatherSky { clear, cloudy, rain, storm }
+
 /// Curved gradient header: greeting, avatar, and today's weather strip. The big temperature
 /// and the soil pill share the first row; place, condition and max / min get their own
 /// full-width line below, so they keep their text at large text sizes on narrow phones (H3).
+/// The big number says what it is in [temperatureLabel] ("आत्ता" with its reading time, or
+/// "आज कमाल"), so a day's max is never read as the temperature now (owner Q140).
 class WeatherHeader extends StatelessWidget {
   const WeatherHeader({
     super.key,
@@ -13,6 +18,11 @@ class WeatherHeader extends StatelessWidget {
     required this.name,
     required this.initial,
     this.temperature,
+    this.temperatureLabel,
+    this.temperatureTime,
+    this.sky,
+    this.night = false,
+    this.skyLabel,
     this.details = const [],
     this.soilPill,
     this.weatherNote,
@@ -33,6 +43,19 @@ class WeatherHeader extends StatelessWidget {
 
   /// Null when there is no weather; [weatherNote] then says how it comes.
   final String? temperature;
+
+  /// What the big number is: "आत्ता" (now) or "आज कमाल" (today's max).
+  final String? temperatureLabel;
+
+  /// When the current reading was taken ("१८:१५ ला"); null for the max.
+  final String? temperatureTime;
+
+  /// The icon beside the number; null draws a thermometer (no sky is claimed).
+  final WeatherSky? sky;
+
+  /// After sunset: a clear sky is a moon, a cloudy one a moon behind cloud.
+  final bool night;
+  final String? skyLabel;
 
   /// Place, condition, max / min: joined with " · " on one full-width line.
   final List<String> details;
@@ -159,15 +182,39 @@ class WeatherHeader extends StatelessWidget {
                   if (temperature case final temp?) ...[
                     Row(
                       children: [
-                        const GlyphIcon(BmGlyph.sunCloud, size: 52),
+                        _skyIcon(c),
                         const SizedBox(width: BmSpace.sm),
-                        Flexible(
-                          child: Text(
-                            temp,
-                            style: BmType.heroNumber.copyWith(color: onBrand),
-                            maxLines: 1,
-                          ),
+                        Text(
+                          temp,
+                          key: const Key('weather-temperature'),
+                          style: BmType.heroNumber.copyWith(color: onBrand),
+                          maxLines: 1,
                         ),
+                        if (temperatureLabel case final label?) ...[
+                          const SizedBox(width: BmSpace.xs),
+                          Flexible(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  label,
+                                  key: const Key('weather-temperature-label'),
+                                  style: BmType.label.copyWith(color: onBrand),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                if (temperatureTime case final time?)
+                                  Text(
+                                    time,
+                                    key: const Key('weather-temperature-time'),
+                                    style: meta,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                              ],
+                            ),
+                          ),
+                        ],
                         const Spacer(),
                         if (soilPill case final pill?) _pill(c, pill),
                       ],
@@ -195,6 +242,37 @@ class WeatherHeader extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget _skyIcon(BmColors c) {
+    const size = 52.0;
+    final onBrand = c.onBrand;
+    final (IconData? icon, Color colour) = switch ((sky, night)) {
+      (null, _) => (Icons.thermostat_rounded, onBrand),
+      (WeatherSky.clear, false) => (Icons.wb_sunny_rounded, c.sun),
+      (WeatherSky.clear, true) => (Icons.nightlight_round, c.sun),
+      (WeatherSky.cloudy, false) => (null, onBrand),
+      (WeatherSky.cloudy, true) => (Icons.nights_stay_rounded, onBrand),
+      (WeatherSky.rain, _) => (Icons.water_drop_rounded, onBrand),
+      (WeatherSky.storm, _) => (Icons.thunderstorm_rounded, onBrand),
+    };
+    final key = Key(
+      'weather-sky-${sky?.name ?? 'none'}${night ? '-night' : ''}',
+    );
+    return icon == null
+        ? GlyphIcon(
+            BmGlyph.sunCloud,
+            key: key,
+            size: size,
+            semanticLabel: skyLabel,
+          )
+        : Icon(
+            icon,
+            key: key,
+            size: size,
+            color: colour,
+            semanticLabel: skyLabel,
+          );
   }
 
   Widget _pill(BmColors c, String text) {

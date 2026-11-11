@@ -8,6 +8,7 @@ import '../features/home/presentation/home_screen.dart' show openForPlot;
 import '../features/plots/domain/plot.dart';
 import '../l10n/app_localizations.dart';
 import 'providers.dart';
+import 'refresh.dart';
 import 'router.dart';
 
 /// The tab shell (audit M3): the bottom bar stays on the three top-level pages (home, the
@@ -32,7 +33,9 @@ class AppShell extends ConsumerWidget {
       // Back on another tab returns to home first; back on home leaves the app.
       canPop: shell.currentIndex == 0,
       onPopInvokedWithResult: (didPop, _) {
-        if (!didPop) shell.goBranch(0);
+        if (didPop) return;
+        ref.read(refresherProvider).homeOpened();
+        shell.goBranch(0);
       },
       child: Scaffold(
         body: shell,
@@ -54,6 +57,9 @@ class AppShell extends ConsumerWidget {
                 action: t.navAccounts,
               );
               return;
+            }
+            if (branch == 0 && shell.currentIndex != 0) {
+              ref.read(refresherProvider).homeOpened();
             }
             // A second tap on the open tab brings it back to its first page.
             shell.goBranch(

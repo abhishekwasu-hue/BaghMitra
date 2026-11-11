@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import date
+from datetime import UTC, date, datetime
 from typing import Any
 
 import httpx
@@ -8,10 +8,13 @@ import pytest
 
 from bagmitra_api.core.settings import Settings
 from bagmitra_api.weather.open_meteo import (
+    CURRENT_FIELDS,
     DAILY_FIELDS,
+    CurrentWeather,
     DailyWeather,
     OpenMeteoClient,
     WeatherUnavailableError,
+    parse_current,
     parse_daily,
 )
 
@@ -114,3 +117,99 @@ def test_settings_default_to_the_free_endpoint_without_a_key() -> None:
     s = Settings()
     assert s.weather_base_url.startswith("https://api.open-meteo.com")
     assert s.weather_api_key.get_secret_value() == ""
+
+
+# Shape of a real Open-Meteo /v1/forecast `current` response (GMT, the default timezone).
+CURRENT_SAMPLE: dict[str, Any] = {
+    "latitude": 21.25,
+    "longitude": 77.75,
+    "utc_offset_seconds": 0,
+    "timezone": "GMT",
+    "current_units": {"time": "iso8601", "temperature_2m": "°C", "is_day": ""},
+    "current": {
+        "time": "2026-11-11T12:45",
+        "interval": 900,
+        "temperature_2m": 21.4,
+        "weather_code": 0,
+        "is_day": 0,
+    },
+}
+
+
+def test_parse_current_reads_temperature_sky_night_and_time_in_utc() -> None:
+    assert parse_current(CURRENT_SAMPLE) == CurrentWeather(
+        observed_at=datetime(2026, 11, 11, 12, 45, tzinfo=UTC),
+        temperature_c=21.4,
+        weather_code=0.0,
+        is_day=False,
+    )
+
+
+def test_parse_current_turns_a_local_time_into_utc() -> None:
+    local = {
+        **CURRENT_SAMPLE,
+        "utc_offset_seconds": 19800,
+        "current": {**CURRENT_SAMPLE["current"], "time": "2026-11-11T18:15", "is_day": 1},
+    }
+    now = parse_current(local)
+    assert now.observed_at == datetime(2026, 11, 11, 12, 45, tzinfo=UTC)
+    assert now.is_day is True
+
+
+def test_parse_current_keeps_missing_sky_missing_but_needs_a_temperature() -> None:
+    no_sky = {"current": {"time": "2026-11-11T12:45", "temperature_2m": 20.0}}
+    assert parse_current(no_sky).weather_code is None
+    assert parse_current(no_sky).is_day is None
+    for bad in (
+        {"error": True, "reason": "bad"},
+        {"current": {"time": "2026-11-11T12:45", "temperature_2m": None}},
+        {"current": {"time": "not a time", "temperature_2m": 20.0}},
+        {"current": {"time": "2026-11-11T12:45", "temperature_2m": "warm"}},
+        {**CURRENT_SAMPLE, "utc_offset_seconds": "5h"},
+    ):
+        with pytest.raises(WeatherUnavailableError):
+            parse_current(bad)
+
+
+async def test_client_asks_for_the_current_block_only() -> None:
+    seen: list[httpx.Request] = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        seen.append(request)
+        return httpx.Response(200, json=CURRENT_SAMPLE)
+
+    async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as http:
+        client = OpenMeteoClient(http, base_url="https://example.test/v1", api_key="k1")
+        now = await client.current(21.25, 77.75)
+
+    assert now.temperature_c == 21.4
+    q = seen[0].url.params
+    assert seen[0].url.path == "/v1/forecast"
+    assert (q["latitude"], q["longitude"]) == ("21.25", "77.75")
+    assert q["current"] == ",".join(CURRENT_FIELDS) == "temperature_2m,weather_code,is_day"
+    assert "daily" not in q
+    assert q["apikey"] == "k1"
+
+
+async def test_client_reports_current_failures() -> None:
+    def handler(request: httpx.Request) -> httpx.Response:
+        return httpx.Response(503, json={"error": True, "reason": "busy"})
+
+    async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as http:
+        client = OpenMeteoClient(http, base_url="https://example.test/v1", api_key="")
+        with pytest.raises(WeatherUnavailableError, match="503"):
+            await client.current(21.25, 77.75)
+
+
+async def test_client_rejects_an_answer_that_is_not_an_object() -> None:
+    def handler(request: httpx.Request) -> httpx.Response:
+        return httpx.Response(200, json=[1, 2])
+
+    async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as http:
+        client = OpenMeteoClient(http, base_url="https://example.test/v1", api_key="")
+        with pytest.raises(WeatherUnavailableError, match="not an object"):
+            await client.current(21.25, 77.75)
+
+
+def test_current_cache_window_defaults_to_thirty_minutes() -> None:
+    assert Settings().weather_current_cache_minutes == 30

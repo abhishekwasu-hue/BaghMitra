@@ -98,6 +98,9 @@ class Settings(BaseSettings):
     # limit is 16). The risk rules read only the first `weather_alert_forecast_days` of them.
     weather_forecast_days: int = Field(default=15, ge=1, le=16)
     weather_alert_forecast_days: int = Field(default=7, ge=0, le=16)
+    # The current reading for the home header (Q140) is kept in memory per cell this long,
+    # so growers on nearby plots share one provider call.
+    weather_current_cache_minutes: int = Field(default=30, ge=1)
 
     # Market prices (M5): Agmarknet "current daily price" resource on data.gov.in. The key is
     # issued free on data.gov.in registration and stays out of git (OPEN_QUESTIONS Q26).

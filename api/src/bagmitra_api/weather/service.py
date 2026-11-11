@@ -1,14 +1,17 @@
 """Per-location weather storage: pull from the provider when stored days are old, otherwise
-serve what is stored. A failed pull falls back to stored days marked stale."""
+serve what is stored. A failed pull falls back to stored days marked stale. The current
+reading (Q140) is cached in memory per cell for a short window instead."""
 
 from __future__ import annotations
 
+import asyncio
 from collections.abc import AsyncIterator, Callable
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from typing import Annotated, Protocol
 
 import httpx
+import structlog
 from fastapi import Depends
 from sqlalchemy import delete, select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -16,7 +19,14 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from bagmitra_api.core.settings import Settings, get_settings
 from bagmitra_api.db.base import as_utc, utcnow
 from bagmitra_api.weather.models import WeatherDaily
-from bagmitra_api.weather.open_meteo import DailyWeather, OpenMeteoClient, WeatherUnavailableError
+from bagmitra_api.weather.open_meteo import (
+    CurrentWeather,
+    DailyWeather,
+    OpenMeteoClient,
+    WeatherUnavailableError,
+)
+
+log = structlog.get_logger("bagmitra.weather")
 
 Cell = tuple[float, float]
 
@@ -27,9 +37,17 @@ class WeatherProvider(Protocol):
     ) -> list[DailyWeather]: ...
 
 
+class CurrentWeatherProvider(Protocol):
+    async def current(self, lat: float, lon: float) -> CurrentWeather: ...
+
+
+class PlotWeatherProvider(WeatherProvider, CurrentWeatherProvider, Protocol):
+    """What the plot weather answer reads: the days and the current reading."""
+
+
 async def get_weather_provider(
     settings: Annotated[Settings, Depends(get_settings)],
-) -> AsyncIterator[WeatherProvider]:
+) -> AsyncIterator[PlotWeatherProvider]:
     async with httpx.AsyncClient(timeout=10) as http:
         yield OpenMeteoClient(
             http,
@@ -42,19 +60,59 @@ def get_clock() -> Callable[[], datetime]:
     return utcnow
 
 
+class CurrentWeatherCache:
+    """The current reading per cell, kept in this process's memory (no table: a reading is
+    worth little after an hour). Within the window every plot in the cell gets the stored
+    reading; after it the provider is asked again, and if that fails the last reading is
+    served with its own observation time, or None when there is none. Never estimated."""
+
+    def __init__(self) -> None:
+        self._entries: dict[Cell, tuple[CurrentWeather, datetime]] = {}
+        self._locks: dict[Cell, asyncio.Lock] = {}
+
+    async def get(
+        self,
+        provider: CurrentWeatherProvider,
+        cell: Cell,
+        now: datetime,
+        window: timedelta,
+    ) -> CurrentWeather | None:
+        # One call per cell at a time: concurrent requests wait and reuse its answer.
+        async with self._locks.setdefault(cell, asyncio.Lock()):
+            entry = self._entries.get(cell)
+            if entry is not None and now - entry[1] < window:
+                return entry[0]
+            try:
+                current = await provider.current(*cell)
+            except WeatherUnavailableError as exc:
+                log.warning("current_weather_unavailable", detail=str(exc))
+                return entry[0] if entry is not None else None
+            self._entries[cell] = (current, now)
+            return current
+
+
+_current_cache = CurrentWeatherCache()
+
+
+def get_current_cache() -> CurrentWeatherCache:
+    return _current_cache
+
+
 @dataclass(frozen=True)
 class WeatherContext:
     settings: Settings
-    provider: WeatherProvider
+    provider: PlotWeatherProvider
     clock: Callable[[], datetime]
+    current_cache: CurrentWeatherCache
 
 
 def get_weather_context(
     settings: Annotated[Settings, Depends(get_settings)],
-    provider: Annotated[WeatherProvider, Depends(get_weather_provider)],
+    provider: Annotated[PlotWeatherProvider, Depends(get_weather_provider)],
     clock: Annotated[Callable[[], datetime], Depends(get_clock)],
+    current_cache: Annotated[CurrentWeatherCache, Depends(get_current_cache)],
 ) -> WeatherContext:
-    return WeatherContext(settings, provider, clock)
+    return WeatherContext(settings, provider, clock, current_cache)
 
 
 def cell_for(lat: float, lon: float, decimals: int) -> Cell:

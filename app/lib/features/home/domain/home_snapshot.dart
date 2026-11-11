@@ -1,3 +1,7 @@
+import '../../../design_system/weather_header.dart' show WeatherSky;
+
+export '../../../design_system/weather_header.dart' show WeatherSky;
+
 /// Everything the "today's orchard" screen shows. In demo mode (no backend) it comes from a
 /// bundled sample; otherwise only from the grower's own profile, plots, bahar cycles, saved
 /// weather and saved mandi prices (`local_home_repository.dart`). A missing block is null.
@@ -87,16 +91,23 @@ class WeatherNow {
   const WeatherNow({
     required this.place,
     required this.tempC,
+    this.isCurrent = false,
+    this.observedAt,
+    this.sky,
+    this.night = false,
     this.condition,
     this.maxC,
     this.minC,
     this.soilMoisturePct,
   });
 
+  /// The sample's temp_c is "now" (it has no reading time).
   factory WeatherNow.fromJson(Map<String, Object?> j) => WeatherNow(
     place: j['place']! as String,
     condition: j['condition'] as String?,
     tempC: j['temp_c']! as int,
+    isCurrent: true,
+    sky: WeatherSky.values.asNameMap()[j['sky']],
     maxC: j['max_c'] as int?,
     soilMoisturePct: j['soil_moisture_pct'] as int?,
   );
@@ -104,8 +115,19 @@ class WeatherNow {
   final String place;
   final String? condition;
 
-  /// The big number. The sample shows "now"; real data shows today's forecast maximum.
+  /// The big number: the current reading when [isCurrent], else today's forecast maximum
+  /// (owner Q140: a max shown as "now" misleads at night).
   final int tempC;
+  final bool isCurrent;
+
+  /// When the provider took the current reading; null for the max and for the sample.
+  final DateTime? observedAt;
+
+  /// The sky of the current reading; null with the max (no sky is claimed for a whole day).
+  final WeatherSky? sky;
+
+  /// The current reading was taken after sunset.
+  final bool night;
   final int? maxC;
   final int? minC;
   final int? soilMoisturePct;

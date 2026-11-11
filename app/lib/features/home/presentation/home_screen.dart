@@ -233,11 +233,35 @@ class _HomeBody extends ConsumerWidget {
                     : t.greetingName(snapshot.farmerName),
                 initial: snapshot.initial,
                 temperature: w == null ? null : t.temperature(w.tempC),
+                // The big number says what it is (owner Q140): the reading now with its
+                // time, or, without a fresh one, today's max.
+                temperatureLabel: w == null
+                    ? null
+                    : w.isCurrent
+                    ? t.weatherNowLabel
+                    : t.weatherTodayMaxLabel,
+                temperatureTime: switch (w?.observedAt) {
+                  final at? => t.weatherReadingAt(
+                    formatTime(at.toLocal(), lang),
+                  ),
+                  null => null,
+                },
+                sky: w?.sky,
+                night: w?.night ?? false,
+                skyLabel: switch (w?.sky) {
+                  WeatherSky.clear =>
+                    w!.night ? t.weatherSkyClearNight : t.weatherSkyClear,
+                  WeatherSky.cloudy => t.weatherSkyCloudy,
+                  WeatherSky.rain => t.weatherSkyRain,
+                  WeatherSky.storm => t.weatherSkyStorm,
+                  null => null,
+                },
                 details: [
                   if (w != null) ...[
                     w.place,
                     ?w.condition,
-                    if (w.maxC case final max?) t.maxTemperature(max),
+                    if (w.isCurrent)
+                      if (w.maxC case final max?) t.weatherTodayMax(max),
                     if (w.minC case final min?) t.minTemperature(min),
                   ],
                 ],

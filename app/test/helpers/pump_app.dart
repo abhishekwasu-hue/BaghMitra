@@ -148,6 +148,7 @@ Future<AppDatabase> pumpApp(
   AuthRepository? auth,
   List<Override> overrides = const [],
   Size size = phoneSize,
+  DateTime Function()? clock,
 }) async {
   tester.view.physicalSize = size * 3;
   tester.view.devicePixelRatio = 3;
@@ -202,7 +203,9 @@ Future<AppDatabase> pumpApp(
         authRepositoryProvider.overrideWithValue(
           auth ?? DemoAuthRepository(initial: session),
         ),
-        clockProvider.overrideWithValue(() => DateTime.utc(2026, 10, 13, 6)),
+        clockProvider.overrideWithValue(
+          clock ?? () => DateTime.utc(2026, 10, 13, 6),
+        ),
         baharCatalogProvider.overrideWithValue(
           BaharCatalog(bundle: FileAssetBundle()),
         ),
