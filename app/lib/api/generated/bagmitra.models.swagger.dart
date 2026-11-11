@@ -3367,8 +3367,8 @@ class CandidateOut {
   final String key;
   @JsonKey(name: 'name', includeIfNull: false)
   final LocalizedText name;
-  @JsonKey(name: 'signs', includeIfNull: false, defaultValue: <String>[])
-  final List<String> signs;
+  @JsonKey(name: 'signs', includeIfNull: false)
+  final LocalizedSigns signs;
   static const fromJsonFactory = _$CandidateOutFromJson;
 
   @override
@@ -3412,7 +3412,7 @@ extension $CandidateOutExtension on CandidateOut {
     LocalizedText? explanation,
     String? key,
     LocalizedText? name,
-    List<String>? signs,
+    LocalizedSigns? signs,
   }) {
     return CandidateOut(
       confidence: confidence ?? this.confidence,
@@ -3428,7 +3428,7 @@ extension $CandidateOutExtension on CandidateOut {
     Wrapped<LocalizedText>? explanation,
     Wrapped<String>? key,
     Wrapped<LocalizedText>? name,
-    Wrapped<List<String>>? signs,
+    Wrapped<LocalizedSigns>? signs,
   }) {
     return CandidateOut(
       confidence: (confidence != null ? confidence.value : this.confidence),
@@ -10370,6 +10370,73 @@ extension $LiveResponseExtension on LiveResponse {
     return LiveResponse(
       product: (product != null ? product.value : this.product),
       status: (status != null ? status.value : this.status),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class LocalizedSigns {
+  const LocalizedSigns({required this.en, required this.hi, required this.mr});
+
+  factory LocalizedSigns.fromJson(Map<String, dynamic> json) =>
+      _$LocalizedSignsFromJson(json);
+
+  static const toJsonFactory = _$LocalizedSignsToJson;
+  Map<String, dynamic> toJson() => _$LocalizedSignsToJson(this);
+
+  @JsonKey(name: 'en', includeIfNull: false, defaultValue: <String>[])
+  final List<String> en;
+  @JsonKey(name: 'hi', includeIfNull: false, defaultValue: <String>[])
+  final List<String> hi;
+  @JsonKey(name: 'mr', includeIfNull: false, defaultValue: <String>[])
+  final List<String> mr;
+  static const fromJsonFactory = _$LocalizedSignsFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is LocalizedSigns &&
+            (identical(other.en, en) ||
+                const DeepCollectionEquality().equals(other.en, en)) &&
+            (identical(other.hi, hi) ||
+                const DeepCollectionEquality().equals(other.hi, hi)) &&
+            (identical(other.mr, mr) ||
+                const DeepCollectionEquality().equals(other.mr, mr)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(en) ^
+      const DeepCollectionEquality().hash(hi) ^
+      const DeepCollectionEquality().hash(mr) ^
+      runtimeType.hashCode;
+}
+
+extension $LocalizedSignsExtension on LocalizedSigns {
+  LocalizedSigns copyWith({
+    List<String>? en,
+    List<String>? hi,
+    List<String>? mr,
+  }) {
+    return LocalizedSigns(
+      en: en ?? this.en,
+      hi: hi ?? this.hi,
+      mr: mr ?? this.mr,
+    );
+  }
+
+  LocalizedSigns copyWithWrapped({
+    Wrapped<List<String>>? en,
+    Wrapped<List<String>>? hi,
+    Wrapped<List<String>>? mr,
+  }) {
+    return LocalizedSigns(
+      en: (en != null ? en.value : this.en),
+      hi: (hi != null ? hi.value : this.hi),
+      mr: (mr != null ? mr.value : this.mr),
     );
   }
 }

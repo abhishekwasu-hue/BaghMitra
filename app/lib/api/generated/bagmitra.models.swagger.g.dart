@@ -672,8 +672,7 @@ CandidateOut _$CandidateOutFromJson(Map<String, dynamic> json) => CandidateOut(
   ),
   key: json['key'] as String,
   name: LocalizedText.fromJson(json['name'] as Map<String, dynamic>),
-  signs:
-      (json['signs'] as List<dynamic>?)?.map((e) => e as String).toList() ?? [],
+  signs: LocalizedSigns.fromJson(json['signs'] as Map<String, dynamic>),
 );
 
 Map<String, dynamic> _$CandidateOutToJson(CandidateOut instance) =>
@@ -682,7 +681,7 @@ Map<String, dynamic> _$CandidateOutToJson(CandidateOut instance) =>
       'explanation': instance.explanation.toJson(),
       'key': instance.key,
       'name': instance.name.toJson(),
-      'signs': instance.signs,
+      'signs': instance.signs.toJson(),
     };
 
 CardOut _$CardOutFromJson(Map<String, dynamic> json) => CardOut(
@@ -2055,6 +2054,17 @@ LiveResponse _$LiveResponseFromJson(Map<String, dynamic> json) => LiveResponse(
 
 Map<String, dynamic> _$LiveResponseToJson(LiveResponse instance) =>
     <String, dynamic>{'product': instance.product, 'status': instance.status};
+
+LocalizedSigns _$LocalizedSignsFromJson(
+  Map<String, dynamic> json,
+) => LocalizedSigns(
+  en: (json['en'] as List<dynamic>?)?.map((e) => e as String).toList() ?? [],
+  hi: (json['hi'] as List<dynamic>?)?.map((e) => e as String).toList() ?? [],
+  mr: (json['mr'] as List<dynamic>?)?.map((e) => e as String).toList() ?? [],
+);
+
+Map<String, dynamic> _$LocalizedSignsToJson(LocalizedSigns instance) =>
+    <String, dynamic>{'en': instance.en, 'hi': instance.hi, 'mr': instance.mr};
 
 LocalizedText _$LocalizedTextFromJson(Map<String, dynamic> json) =>
     LocalizedText(

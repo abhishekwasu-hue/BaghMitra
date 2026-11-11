@@ -26,6 +26,7 @@ class PhotoAnalysisSample(TimestampMixin, Base):
     scouting_item: Mapped[str | None] = mapped_column(String(32))
     model: Mapped[str] = mapped_column(String(64))
     # The validated candidates as returned to the farmer (key, confidence, signs, explanation).
+    # `signs` is {en, mr, hi} lists; older rows hold a plain English list (normalised on read).
     candidates: Mapped[list[dict[str, Any]]] = mapped_column(JSON)
     unsure: Mapped[bool] = mapped_column(Boolean)
     # Object key in the photo bucket; None when photo storage is off or the upload failed.

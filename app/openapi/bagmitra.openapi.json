@@ -1626,11 +1626,7 @@
             "$ref": "#/components/schemas/LocalizedText"
           },
           "signs": {
-            "items": {
-              "type": "string"
-            },
-            "title": "Signs",
-            "type": "array"
+            "$ref": "#/components/schemas/LocalizedSigns"
           }
         },
         "required": [
@@ -5059,6 +5055,38 @@
           "product"
         ],
         "title": "LiveResponse",
+        "type": "object"
+      },
+      "LocalizedSigns": {
+        "properties": {
+          "en": {
+            "items": {
+              "type": "string"
+            },
+            "title": "En",
+            "type": "array"
+          },
+          "hi": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Hi",
+            "type": "array"
+          },
+          "mr": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Mr",
+            "type": "array"
+          }
+        },
+        "required": [
+          "en",
+          "mr",
+          "hi"
+        ],
+        "title": "LocalizedSigns",
         "type": "object"
       },
       "LocalizedText": {

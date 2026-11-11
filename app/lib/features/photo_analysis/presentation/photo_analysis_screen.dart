@@ -499,10 +499,7 @@ class _CandidateCard extends StatelessWidget {
     final c = context.bm;
     final cand = candidate;
     final healthy = cand.key == PhotoCandidate.healthy;
-    final signs = [
-      for (final s in cand.signs)
-        if (s.trim().isNotEmpty) s.trim(),
-    ];
+    final (:signs, :english) = cand.signsIn(lang);
     final signList = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -549,8 +546,9 @@ class _CandidateCard extends StatelessWidget {
             Text(text, style: BmType.body),
           ],
           if (signs.isNotEmpty)
-            // The server lists the signs in English; in Marathi and Hindi they fold away
-            // behind one quiet line, and the explanation above already says what was seen.
+            // In Marathi and Hindi the signs fold away behind one quiet line (the explanation
+            // above already says what was seen); "(in English)" only when that language had
+            // none and the English ones are shown.
             lang == 'en'
                 ? Padding(
                     padding: const EdgeInsets.only(top: BmSpace.xs),
@@ -574,8 +572,9 @@ class _CandidateCard extends StatelessWidget {
                         bottom: BmSpace.xs,
                       ),
                       expandedCrossAxisAlignment: CrossAxisAlignment.start,
+                      expandedAlignment: AlignmentDirectional.centerStart,
                       title: Text(
-                        t.photoCheckSignsEnglish,
+                        english ? t.photoCheckSignsEnglish : t.photoCheckSigns,
                         style: BmType.meta.copyWith(color: c.inkMuted),
                       ),
                       children: [signList],

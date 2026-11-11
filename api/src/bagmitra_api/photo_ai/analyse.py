@@ -4,8 +4,9 @@ One Messages API request per photo over httpx (`feed.ai.messages_text`: same hea
 version and server-side refusal fallback as the feed). The photo goes first as a base64
 image block, then the question. The answer is structured output (`output_config.format`,
 JSON schema) and is validated again here: only known keys, confidence clamped to 0..1, at most
-three candidates, best first. The model judges from what is visible and the card texts only;
-it names no chemical or dose and points to the card instead.
+three candidates, best first; the visible signs come in en / mr / hi (owner 2026-11-11). The
+model judges from what is visible and the card texts only; it names no chemical or dose and
+points to the card instead.
 """
 
 from __future__ import annotations
@@ -39,14 +40,14 @@ PARTS = ("leaf", "fruit", "trunk", "whole_tree")
 class Candidate:
     key: str
     confidence: float
-    signs: list[str]
+    signs: dict[str, list[str]]
     explanation: dict[str, str]
 
     def to_dict(self) -> dict[str, Any]:
         return {
             "key": self.key,
             "confidence": self.confidence,
-            "signs": list(self.signs),
+            "signs": {lang: list(found) for lang, found in self.signs.items()},
             "explanation": dict(self.explanation),
         }
 
@@ -63,13 +64,21 @@ class PhotoAnalyser(Protocol):
     async def analyse(self, image: bytes, media_type: str, part: str | None) -> Analysis: ...
 
 
-def _text_obj() -> dict[str, Any]:
+def _per_lang(value: dict[str, Any]) -> dict[str, Any]:
     return {
         "type": "object",
-        "properties": {lang: {"type": "string"} for lang in LANGS},
+        "properties": {lang: dict(value) for lang in LANGS},
         "required": list(LANGS),
         "additionalProperties": False,
     }
+
+
+def _text_obj() -> dict[str, Any]:
+    return _per_lang({"type": "string"})
+
+
+def _signs_obj() -> dict[str, Any]:
+    return _per_lang({"type": "array", "items": {"type": "string"}})
 
 
 def answer_schema() -> dict[str, Any]:
@@ -79,7 +88,7 @@ def answer_schema() -> dict[str, Any]:
         "properties": {
             "key": {"type": "string", "enum": list(known_keys())},
             "confidence": {"type": "number"},
-            "signs": {"type": "array", "items": {"type": "string"}},
+            "signs": _signs_obj(),
             "explanation": _text_obj(),
         },
         "required": ["key", "confidence", "signs", "explanation"],
@@ -112,8 +121,9 @@ How to judge:
 - Judge only from what is visible in the photo and from the card texts above. Do not use
   other knowledge about the disease, the season, the weather or the place, and do not guess
   what cannot be seen.
-- For each candidate, list the visible signs you actually see in this photo (short English
-  phrases), and compare them with the card text.
+- For each candidate, list the visible signs you actually see in this photo and compare them
+  with the card text. Give the same signs in English "en", Marathi "mr" and Hindi "hi": short,
+  plain phrases with the same meaning in each language, Marathi and Hindi in their own script.
 - Give up to {MAX_CANDIDATES} candidates, most likely first, each with an honest confidence
   from 0 to 1. Several weak candidates are better than one confident wrong one.
 - Set "unsure" to true when the photo is unclear (blurred, too dark, too far, the part is not
@@ -156,11 +166,20 @@ def _texts(value: object, limit: int) -> dict[str, str]:
     return out
 
 
-def _signs(value: object) -> list[str]:
+def _sign_list(value: object) -> list[str]:
     if not isinstance(value, list):
         return []
     found = [s.strip()[:MAX_SIGN_CHARS] for s in value if isinstance(s, str) and s.strip()]
     return found[:MAX_SIGNS]
+
+
+def signs_by_lang(value: object) -> dict[str, list[str]]:
+    """The signs per language, each at most MAX_SIGNS of MAX_SIGN_CHARS. A plain list (an older
+    answer or stored sample) is English, with Marathi and Hindi empty."""
+    if isinstance(value, list):
+        return {lang: _sign_list(value) if lang == "en" else [] for lang in LANGS}
+    raw = value if isinstance(value, dict) else {}
+    return {lang: _sign_list(raw.get(lang)) for lang in LANGS}
 
 
 def _with_lab_note(explanation: dict[str, str]) -> dict[str, str]:
@@ -191,7 +210,9 @@ def parse_analysis(payload: dict[str, Any]) -> Analysis:
         if key == GREENING:
             explanation = _with_lab_note(explanation)
         found.append(
-            Candidate(key, _clamp(item.get("confidence")), _signs(item.get("signs")), explanation)
+            Candidate(
+                key, _clamp(item.get("confidence")), signs_by_lang(item.get("signs")), explanation
+            )
         )
     found.sort(key=lambda c: c.confidence, reverse=True)
     best = found[:MAX_CANDIDATES]

@@ -84,7 +84,7 @@ class HttpPhotoAnalysisApi implements PhotoAnalysisApi {
                 key: c.key,
                 name: {'en': c.name.en, 'mr': c.name.mr, 'hi': c.name.hi},
                 confidence: c.confidence,
-                signs: c.signs,
+                signs: {'en': c.signs.en, 'mr': c.signs.mr, 'hi': c.signs.hi},
                 explanation: {
                   'en': c.explanation.en,
                   'mr': c.explanation.mr,

@@ -50,6 +50,8 @@ Future<http.Response> Function(http.Request) _answer(String name) =>
               confidence: 0.38,
               mr: 'ग्रीनिंग (HLB)',
               explanationMr: _explanationGreening,
+              // No Marathi signs here: the fold says the English ones are shown.
+              signs: englishOnlySigns,
             ),
           ],
         ),
@@ -75,7 +77,7 @@ Future<http.Response> Function(http.Request) _answer(String name) =>
               'healthy',
               confidence: 0.9,
               mr: 'निरोगी दिसते',
-              signs: const [],
+              signs: noSigns,
               explanationMr:
                   'पाने हिरवीगार व एकसारखी दिसतात; फोटोतील झाड निरोगी झाडासारखे '
                   'आहे.',
@@ -127,6 +129,15 @@ void main() {
       }
       await tester.tap(find.byKey(const Key('photo-check-run')));
       await settle(tester);
+      if (name == 'result') {
+        // The canker signs opened: Marathi, under the plain fold label.
+        await tester.ensureVisible(find.byKey(const Key('photo-signs-canker')));
+        await tester.tap(find.byKey(const Key('photo-signs-canker')));
+        await settle(tester);
+        // The tapped tile keeps focus; the picture shows the screen at rest.
+        FocusManager.instance.primaryFocus?.unfocus();
+        await settle(tester);
+      }
       // Let the preview decode.
       await tester.runAsync(
         () => Future<void>.delayed(const Duration(milliseconds: 200)),

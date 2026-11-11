@@ -33,7 +33,7 @@ from bagmitra_api.db.base import as_utc
 from bagmitra_api.db.models import Plot
 from bagmitra_api.db.session import DbSession
 from bagmitra_api.feed.ai import AiUnavailableError
-from bagmitra_api.photo_ai.analyse import PARTS, AnthropicPhotoAi, PhotoAnalyser
+from bagmitra_api.photo_ai.analyse import PARTS, AnthropicPhotoAi, PhotoAnalyser, signs_by_lang
 from bagmitra_api.photo_ai.limits import limit_hit
 from bagmitra_api.photo_ai.models import PhotoAnalysisSample
 from bagmitra_api.photo_ai.profiles import known_keys, names
@@ -82,12 +82,19 @@ class LocalizedText(BaseModel):
     hi: str
 
 
+class LocalizedSigns(BaseModel):
+    # What the model saw in the photo, short phrases per language; a list may be empty.
+    en: list[str]
+    mr: list[str]
+    hi: list[str]
+
+
 class CandidateOut(BaseModel):
     # A practice-card profile key, or `healthy` / `other`.
     key: str
     name: LocalizedText
     confidence: float = Field(ge=0, le=1)
-    signs: list[str]
+    signs: LocalizedSigns
     explanation: LocalizedText
 
 
@@ -126,12 +133,12 @@ class LabelIn(BaseModel):
 def _candidate_out(raw: dict[str, Any]) -> CandidateOut:
     key = str(raw["key"])
     explanation = raw.get("explanation")
-    signs = raw.get("signs")
     return CandidateOut(
         key=key,
         name=LocalizedText(**names(key)),
         confidence=float(raw.get("confidence", 0.0)),
-        signs=[str(s) for s in signs] if isinstance(signs, list) else [],
+        # Samples stored before the languages hold a plain English list.
+        signs=LocalizedSigns(**signs_by_lang(raw.get("signs"))),
         explanation=LocalizedText(**explanation)
         if isinstance(explanation, dict)
         else LocalizedText(en="", mr="", hi=""),

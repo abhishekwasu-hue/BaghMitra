@@ -36,6 +36,8 @@ from bagmitra_api.db.session import get_sessionmaker
 from bagmitra_api.main import create_app
 from bagmitra_api.photo_ai.analyse import (
     GREENING_LAB_NOTE,
+    MAX_SIGN_CHARS,
+    MAX_SIGNS,
     AnthropicPhotoAi,
     answer_schema,
     parse_analysis,
@@ -72,6 +74,12 @@ TEXTS = {
     "hi": "पत्ती पर पीले घेरे वाले छोटे उभरे भूरे धब्बे दिखते हैं। कैंकर कार्ड देखें।",
 }
 
+SIGNS = {
+    "en": ["raised brown spots", "yellow halo"],
+    "mr": ["उंचवट्याचे तपकिरी ठिपके", "पिवळी कडा"],
+    "hi": ["उभरे भूरे धब्बे", "पीला घेरा"],
+}
+
 
 def answer(candidates: list[Any], *, unsure: bool = False) -> dict[str, Any]:
     return {"unsure": unsure, "candidates": candidates}
@@ -81,7 +89,7 @@ def candidate(key: str, confidence: Any, **extra: Any) -> dict[str, Any]:
     return {
         "key": key,
         "confidence": confidence,
-        "signs": ["raised brown spots", "yellow halo"],
+        "signs": SIGNS,
         "explanation": TEXTS,
         **extra,
     }
@@ -349,7 +357,22 @@ def test_no_usable_candidate_means_unsure() -> None:
     assert parse_analysis(answer([candidate("canker", 0.3)], unsure=True)).unsure is True
     weird = parse_analysis(answer([candidate("canker", "high", signs="spots")]))
     assert weird.candidates[0].confidence == 0.0
-    assert weird.candidates[0].signs == []
+    assert weird.candidates[0].signs == {"en": [], "mr": [], "hi": []}
+
+
+def test_signs_per_language_keep_the_limits_and_a_plain_list_is_english() -> None:
+    long = "x" * (MAX_SIGN_CHARS + 50)
+    many = [f"sign {i}" for i in range(MAX_SIGNS + 3)]
+    result = parse_analysis(
+        answer([candidate("canker", 0.6, signs={"en": many, "mr": [long, " ", 7], "hi": "x"})])
+    )
+    signs = result.candidates[0].signs
+    assert signs["en"] == many[:MAX_SIGNS]
+    assert signs["mr"] == ["x" * MAX_SIGN_CHARS]
+    assert signs["hi"] == []
+    plain = parse_analysis(answer([candidate("canker", 0.6, signs=["  yellow halo ", ""])]))
+    assert plain.candidates[0].signs == {"en": ["yellow halo"], "mr": [], "hi": []}
+    assert parse_analysis(answer([candidate("canker", 0.6)])).candidates[0].signs == SIGNS
 
 
 def test_greening_always_says_a_lab_pcr_test_confirms_it() -> None:
@@ -428,7 +451,7 @@ async def test_the_farmer_gets_named_candidates_and_the_sample_is_stored(
     assert first["name"]["mr"]
     assert first["name"]["en"].lower().startswith("canker")
     assert first["confidence"] == 0.72
-    assert first["signs"] == ["raised brown spots", "yellow halo"]
+    assert first["signs"] == SIGNS
     assert first["explanation"] == TEXTS
     photo_id = uuid.UUID(out["photo_id"])
     async with async_sessionmaker(engine)() as session:
@@ -441,6 +464,7 @@ async def test_the_farmer_gets_named_candidates_and_the_sample_is_stored(
     assert row.model == "claude-opus-5-5"
     assert row.unsure is False
     assert row.candidates[0]["key"] == "canker"
+    assert row.candidates[0]["signs"] == SIGNS
     assert row.label is None
     assert row.photo_key == f"{FARMER}/analysis-{photo_id}.jpg"
     stored = storage.objects[row.photo_key]
@@ -931,6 +955,40 @@ async def test_kb_admin_labels_samples_and_exports_the_labelled_ones(engine: Asy
     assert sample["candidates"][0]["key"] == "canker"
     assert "owner_id" not in sample
     assert [s["id"] for s in todo.json()["samples"]] == [ids[1]]
+
+
+async def test_the_export_reads_old_samples_with_english_only_signs(engine: AsyncEngine) -> None:
+    """Rows stored before the languages hold `signs` as a plain list: read as English."""
+    async with async_sessionmaker(engine)() as session:
+        session.add(
+            PhotoAnalysisSample(
+                id=uuid.uuid4(),
+                owner_id=FARMER,
+                plot_id=uuid.uuid4(),
+                model="claude-opus-5-5",
+                candidates=[
+                    {
+                        "key": "canker",
+                        "confidence": 0.7,
+                        "signs": ["yellow halo"],
+                        "explanation": TEXTS,
+                    },
+                    {"key": "mites", "confidence": 0.2, "explanation": TEXTS},
+                ],
+                unsure=False,
+                label="canker",
+                label_source="expert",
+            )
+        )
+        await session.commit()
+    async with api(engine, Claude(), Storage()) as client:
+        res = await client.get("/v1/admin/photo-analysis/samples", headers=KB_ADMIN)
+    assert res.status_code == 200, res.text
+    (sample,) = res.json()["samples"]
+    assert [c["signs"] for c in sample["candidates"]] == [
+        {"en": ["yellow halo"], "mr": [], "hi": []},
+        {"en": [], "mr": [], "hi": []},
+    ]
 
 
 def test_other_error_bodies_carry_no_details_key() -> None:
