@@ -31,6 +31,7 @@ from bagmitra_api.feed.news_articles import (
     write_news_articles,
 )
 from bagmitra_api.feed.seed import seed_feed_sources
+from bagmitra_api.feed.threads import AnthropicThreader, thread_news
 
 
 @dataclass(slots=True)
@@ -94,9 +95,15 @@ async def main() -> int:  # pragma: no cover - thin CLI wrapper
             articles, rechecked = await article_step(
                 session, adapter, writer, settings, datetime.now(UTC)
             )
+            # Q139: newly published news joins its topic thread (or starts one).
+            threads = await thread_news(
+                session, AnthropicThreader(writer) if writer is not None else None
+            )
+            await session.commit()
     print(summary.to_json())
     print(json.dumps(asdict(articles)))
     print(json.dumps({"recheck": asdict(rechecked)}))
+    print(json.dumps({"threads": asdict(threads)}))
     return 0
 
 
