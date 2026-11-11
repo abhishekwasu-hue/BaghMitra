@@ -1488,6 +1488,58 @@ class AppLocalizationsHi extends AppLocalizations {
   String get alertNameHumidity => 'नम मौसम';
 
   @override
+  String get weatherForecastTitle => 'मौसम पूर्वानुमान';
+
+  @override
+  String weatherForecastNext(String days) {
+    return 'अगले $days दिन';
+  }
+
+  @override
+  String get weatherColDay => 'दिन';
+
+  @override
+  String get weatherColTemp => 'तापमान';
+
+  @override
+  String get weatherColRain => 'बारिश';
+
+  @override
+  String get weatherColWind => 'हवा';
+
+  @override
+  String get weatherColHumidity => 'नमी';
+
+  @override
+  String get weatherUnitTemp => 'अधिक/न्यून';
+
+  @override
+  String get weatherUnitRain => 'मिमी/%';
+
+  @override
+  String get weatherUnitWind => 'किमी/घं';
+
+  @override
+  String get weatherLegendRain => 'बारिश की संभावना';
+
+  @override
+  String weatherLegendHeat(String deg) {
+    return '$deg° और अधिक';
+  }
+
+  @override
+  String get weatherSkyClear => 'साफ़ आसमान';
+
+  @override
+  String get weatherSkyCloudy => 'बादल';
+
+  @override
+  String get weatherSkyRain => 'बारिश';
+
+  @override
+  String get weatherSkyStorm => 'गरज के साथ बारिश';
+
+  @override
   String get labelInfoTitle => 'लेबल जानकारी';
 
   @override

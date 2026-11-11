@@ -19,6 +19,8 @@ class WeatherHeader extends StatelessWidget {
     this.trailingAction,
     this.onAvatarTap,
     this.avatarLabel,
+    this.onWeatherTap,
+    this.weatherTapLabel,
   });
 
   final String greeting;
@@ -41,6 +43,23 @@ class WeatherHeader extends StatelessWidget {
   /// Tapping the initial (e.g. to open the profile). Only a tap target: no visual change.
   final VoidCallback? onAvatarTap;
   final String? avatarLabel;
+
+  /// Tapping the weather strip (e.g. to open the forecast). Only a tap target.
+  final VoidCallback? onWeatherTap;
+  final String? weatherTapLabel;
+
+  Widget _weatherTappable(Widget strip) => onWeatherTap == null
+      ? strip
+      : Semantics(
+          button: true,
+          label: weatherTapLabel,
+          child: GestureDetector(
+            key: const Key('open-forecast'),
+            behavior: HitTestBehavior.opaque,
+            onTap: onWeatherTap,
+            child: strip,
+          ),
+        );
 
   Widget _tappable(Widget avatar) => onAvatarTap == null
       ? avatar
@@ -133,38 +152,45 @@ class WeatherHeader extends StatelessWidget {
               ],
             ),
             const SizedBox(height: BmSpace.lg),
-            if (temperature case final temp?) ...[
-              Row(
+            _weatherTappable(
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const GlyphIcon(BmGlyph.sunCloud, size: 52),
-                  const SizedBox(width: BmSpace.sm),
-                  Flexible(
-                    child: Text(
-                      temp,
-                      style: BmType.heroNumber.copyWith(color: onBrand),
-                      maxLines: 1,
+                  if (temperature case final temp?) ...[
+                    Row(
+                      children: [
+                        const GlyphIcon(BmGlyph.sunCloud, size: 52),
+                        const SizedBox(width: BmSpace.sm),
+                        Flexible(
+                          child: Text(
+                            temp,
+                            style: BmType.heroNumber.copyWith(color: onBrand),
+                            maxLines: 1,
+                          ),
+                        ),
+                        const Spacer(),
+                        if (soilPill case final pill?) _pill(c, pill),
+                      ],
                     ),
-                  ),
-                  const Spacer(),
-                  if (soilPill case final pill?) _pill(c, pill),
+                    if (details.isNotEmpty)
+                      Text(
+                        details.join(' · '),
+                        key: const Key('weather-details'),
+                        style: meta,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                  ] else if (weatherNote case final note?)
+                    Row(
+                      children: [
+                        const GlyphIcon(BmGlyph.sunCloud, size: 36),
+                        const SizedBox(width: BmSpace.sm),
+                        Expanded(child: Text(note, style: meta, maxLines: 3)),
+                      ],
+                    ),
                 ],
               ),
-              if (details.isNotEmpty)
-                Text(
-                  details.join(' · '),
-                  key: const Key('weather-details'),
-                  style: meta,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-            ] else if (weatherNote case final note?)
-              Row(
-                children: [
-                  const GlyphIcon(BmGlyph.sunCloud, size: 36),
-                  const SizedBox(width: BmSpace.sm),
-                  Expanded(child: Text(note, style: meta, maxLines: 3)),
-                ],
-              ),
+            ),
           ],
         ),
       ),

@@ -70,7 +70,15 @@ def _to_daily(row: WeatherDaily) -> DailyWeather:
         row.rh_mean_pct,
         row.wind_gust_kmh,
         row.weather_code,
+        row.rain_prob_pct,
     )
+
+
+def alert_days(days: list[DailyWeather], settings: Settings, now: datetime) -> list[DailyWeather]:
+    """The days the risk rules read: the past days and the first `weather_alert_forecast_days`
+    forecast days. The forecast screen serves more days; the rules keep their window (Q134)."""
+    end = now.date() + timedelta(days=settings.weather_alert_forecast_days)
+    return [d for d in days if d.day <= end]
 
 
 async def _stored(session: AsyncSession, cell: Cell) -> list[WeatherDaily]:
@@ -123,6 +131,7 @@ async def weather_for_cell(
             rh_mean_pct=d.rh_mean_pct,
             wind_gust_kmh=d.wind_gust_kmh,
             weather_code=d.weather_code,
+            rain_prob_pct=d.rain_prob_pct,
             fetched_at=now,
         )
         for d in days

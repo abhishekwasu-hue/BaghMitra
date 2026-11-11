@@ -1491,6 +1491,58 @@ class AppLocalizationsEn extends AppLocalizations {
   String get alertNameHumidity => 'Humid weather';
 
   @override
+  String get weatherForecastTitle => 'Weather forecast';
+
+  @override
+  String weatherForecastNext(String days) {
+    return 'Next $days days';
+  }
+
+  @override
+  String get weatherColDay => 'Day';
+
+  @override
+  String get weatherColTemp => 'Temp.';
+
+  @override
+  String get weatherColRain => 'Rain';
+
+  @override
+  String get weatherColWind => 'Wind';
+
+  @override
+  String get weatherColHumidity => 'Humidity';
+
+  @override
+  String get weatherUnitTemp => 'max/min';
+
+  @override
+  String get weatherUnitRain => 'mm/%';
+
+  @override
+  String get weatherUnitWind => 'km/h';
+
+  @override
+  String get weatherLegendRain => 'Rain likely';
+
+  @override
+  String weatherLegendHeat(String deg) {
+    return '$deg° and above';
+  }
+
+  @override
+  String get weatherSkyClear => 'Clear sky';
+
+  @override
+  String get weatherSkyCloudy => 'Cloudy';
+
+  @override
+  String get weatherSkyRain => 'Rain';
+
+  @override
+  String get weatherSkyStorm => 'Thunderstorm';
+
+  @override
   String get labelInfoTitle => 'Label information';
 
   @override

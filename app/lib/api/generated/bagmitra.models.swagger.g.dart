@@ -3921,6 +3921,7 @@ Map<String, dynamic> _$WeatherAlertToJson(WeatherAlert instance) =>
 WeatherDay _$WeatherDayFromJson(Map<String, dynamic> json) => WeatherDay(
   day: DateTime.parse(json['day'] as String),
   precipMm: (json['precip_mm'] as num?)?.toDouble(),
+  rainProbPct: (json['rain_prob_pct'] as num?)?.toDouble(),
   rhMeanPct: (json['rh_mean_pct'] as num?)?.toDouble(),
   tMaxC: (json['t_max_c'] as num?)?.toDouble(),
   tMinC: (json['t_min_c'] as num?)?.toDouble(),
@@ -3932,6 +3933,7 @@ Map<String, dynamic> _$WeatherDayToJson(WeatherDay instance) =>
     <String, dynamic>{
       'day': ?_dateToJson(instance.day),
       'precip_mm': ?instance.precipMm,
+      'rain_prob_pct': ?instance.rainProbPct,
       'rh_mean_pct': ?instance.rhMeanPct,
       't_max_c': ?instance.tMaxC,
       't_min_c': ?instance.tMinC,

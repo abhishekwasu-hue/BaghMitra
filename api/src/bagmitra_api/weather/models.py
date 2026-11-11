@@ -25,4 +25,6 @@ class WeatherDaily(Base):
     wind_gust_kmh: Mapped[float | None] = mapped_column(Float)
     # WMO weather code (Open-Meteo `weather_code`); None for days stored before 0023.
     weather_code: Mapped[float | None] = mapped_column(Float)
+    # Chance of rain, % (Open-Meteo `precipitation_probability_max`); None before 0042.
+    rain_prob_pct: Mapped[float | None] = mapped_column(Float)
     fetched_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))

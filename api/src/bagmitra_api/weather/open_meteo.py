@@ -21,7 +21,12 @@ DAILY_FIELDS = (
     "wind_gusts_10m_max",
     # WMO weather code, the day's most severe: 95 thunderstorm, 96 / 99 with hail.
     "weather_code",
+    # Highest chance of rain in the day (%); forecast days only, past days come back null.
+    "precipitation_probability_max",
 )
+# A series the parser accepts as absent (all None): the forecast screen shows it, no rule
+# needs it, so a provider answer without it still serves the rest of the day.
+_OPTIONAL_FIELDS = frozenset({"precipitation_probability_max"})
 
 
 class WeatherUnavailableError(Exception):
@@ -37,6 +42,7 @@ class DailyWeather:
     rh_mean_pct: float | None
     wind_gust_kmh: float | None
     weather_code: float | None = None
+    rain_prob_pct: float | None = None
 
 
 def _num(value: object) -> float | None:
@@ -55,6 +61,8 @@ def parse_daily(payload: dict[str, Any]) -> list[DailyWeather]:
     series: list[list[object]] = []
     for field in DAILY_FIELDS:
         values = daily.get(field)
+        if values is None and field in _OPTIONAL_FIELDS:
+            values = [None] * len(days)
         if not isinstance(values, list) or len(values) != len(days):
             raise WeatherUnavailableError(f"series {field} missing or wrong length")
         series.append(values)

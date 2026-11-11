@@ -9485,6 +9485,17 @@
             ],
             "title": "Precip Mm"
           },
+          "rain_prob_pct": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rain Prob Pct"
+          },
           "rh_mean_pct": {
             "anyOf": [
               {

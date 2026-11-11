@@ -34,7 +34,7 @@ class FakeProvider:
     async def daily(
         self, lat: float, lon: float, *, past_days: int, forecast_days: int
     ) -> list[DailyWeather]:
-        assert (past_days, forecast_days) == (7, 7)
+        assert (past_days, forecast_days) == (7, 15)
         self.calls.append((lat, lon))
         if (lat, lon) in self.failing:
             raise WeatherUnavailableError("HTTP 503")
@@ -166,7 +166,7 @@ class RollingProvider(FakeProvider):
     async def daily(
         self, lat: float, lon: float, *, past_days: int, forecast_days: int
     ) -> list[DailyWeather]:
-        assert (past_days, forecast_days) == (7, 7)
+        assert (past_days, forecast_days) == (7, 15)
         self.calls.append((lat, lon))
         return [DailyWeather(self.start + timedelta(days=i), 30, 20, 0.0, 40, 20) for i in range(3)]
 
@@ -229,3 +229,27 @@ def test_failed_cells_reach_the_log_and_sentry_with_counts_only(
     assert str(CELL_A[0]) not in out
     assert report_failures(PullSummary(cells=3), reporting=True) == 0
     assert len(sent) == 1
+
+
+class FifteenDayProvider(FakeProvider):
+    """The full 15-day forecast, with heat only from day 8 onward."""
+
+    async def daily(
+        self, lat: float, lon: float, *, past_days: int, forecast_days: int
+    ) -> list[DailyWeather]:
+        assert (past_days, forecast_days) == (7, 15)
+        self.calls.append((lat, lon))
+        return [
+            DailyWeather(TODAY + timedelta(days=i), 40 if i >= 8 else 30, 18, 0.0, 40, 20)
+            for i in range(forecast_days)
+        ]
+
+
+async def test_alerts_keep_the_seven_forecast_day_window(
+    maker: async_sessionmaker[AsyncSession], settings: Settings
+) -> None:
+    await add_plot(maker, lat=21.2468, lon=77.7512)
+    async with maker() as s:
+        summary = await run_daily_pull(s, FifteenDayProvider(), settings, NOW, rules=HEAT)
+    assert summary.new_alerts == 0
+    assert await alerts(maker) == []

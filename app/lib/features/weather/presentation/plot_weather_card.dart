@@ -13,6 +13,7 @@ import '../../../theme/app_theme.dart';
 import '../../voice/presentation/share_speak_buttons.dart';
 import '../data/plot_weather_cache.dart';
 import 'alert_switch.dart';
+import 'weather_forecast_screen.dart' show forecastDays;
 
 /// The next days for a plot and the rule-based risk alerts, each with its source. Shows the
 /// last saved answer offline; alerts never carry chemical advice (they come from the API).
@@ -89,6 +90,17 @@ class PlotWeatherCard extends ConsumerWidget {
                     style: BmType.bodyStrong,
                   ),
                 ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: TextButton.icon(
+                  key: const Key('weather-forecast-link'),
+                  onPressed: () => context.push(Routes.weatherForecast(plotId)),
+                  icon: const Icon(Icons.calendar_view_week_rounded),
+                  label: Text(
+                    t.weatherForecastNext(formatInt(forecastDays, lang)),
+                  ),
+                ),
+              ),
               for (final ruleKey in {
                 for (final a in alerts)
                   if (off.contains(a.ruleKey)) a.ruleKey,

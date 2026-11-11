@@ -36,7 +36,13 @@ from bagmitra_api.db.models import Plot, PlotRiskAlert
 from bagmitra_api.db.session import get_sessionmaker
 from bagmitra_api.risk.engine import RiskRule, evaluate, load_rules
 from bagmitra_api.weather.open_meteo import OpenMeteoClient, WeatherUnavailableError
-from bagmitra_api.weather.service import Cell, WeatherProvider, cell_for, weather_for_cell
+from bagmitra_api.weather.service import (
+    Cell,
+    WeatherProvider,
+    alert_days,
+    cell_for,
+    weather_for_cell,
+)
 
 
 @dataclass(frozen=True)
@@ -99,7 +105,7 @@ async def run_daily_pull(
             summary.failures.append(CellFailure(cell, str(exc)))
             continue
         summary.stale_cells += stale
-        found = evaluate(active, days)
+        found = evaluate(active, alert_days(days, settings, now))
         plot_ids = [p.id for p in plots]
         window_start = now.date() - timedelta(days=settings.weather_past_days)
         existing = set(
