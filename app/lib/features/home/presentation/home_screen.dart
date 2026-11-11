@@ -20,6 +20,7 @@ import '../../profile/presentation/name_script_prompt.dart';
 import '../../tasks/domain/farm_task.dart';
 import '../../tasks/presentation/tasks_screen.dart' show todaysTasksShareText;
 import '../../voice/presentation/share_speak_buttons.dart';
+import '../../weather/presentation/alert_switch.dart';
 import '../domain/home_snapshot.dart';
 
 /// "Today's orchard": weather, bahar stage, risk alert, tasks, market price, camera.
@@ -289,8 +290,7 @@ class _HomeBody extends ConsumerWidget {
                     banner,
                     const SizedBox(height: BmSpace.sm),
                   ],
-                  if (snapshot.alert case final alert?)
-                    _alert(t, alert, config.productName),
+                  ..._alerts(t, ref, config.productName),
                   const SizedBox(height: BmSpace.xs),
                   // The core tasks one tap away, and "more" for every other screen (H1).
                   SectionHeader(
@@ -557,16 +557,44 @@ class _HomeBody extends ConsumerWidget {
     );
   }
 
-  Widget _alert(AppLocalizations t, RiskAlert alert, String productName) {
+  /// The first alert of a type switched on, as the big card; each type the grower
+  /// switched off with the ⚠ button as one muted line to switch it on again (Q133).
+  List<Widget> _alerts(AppLocalizations t, WidgetRef ref, String productName) {
+    final off = ref.watch(alertsOffProvider).value ?? const <String>{};
+    bool isOff(RiskAlert a) => a.ruleKey != null && off.contains(a.ruleKey);
+    final shown = snapshot.alerts.where((a) => !isOff(a)).firstOrNull;
+    final offKeys = {
+      for (final a in snapshot.alerts)
+        if (isOff(a)) a.ruleKey!,
+    };
+    return [
+      if (shown != null) _alert(t, ref, shown, productName),
+      for (final key in offKeys)
+        SwitchedOffAlert(ruleKey: key, keyPrefix: 'home-alert'),
+    ];
+  }
+
+  Widget _alert(
+    AppLocalizations t,
+    WidgetRef ref,
+    RiskAlert alert,
+    String productName,
+  ) {
     final body =
         alert.body ??
         [
           if (alert.firstDay case final day?) formatDate(day, lang),
           if (alert.source case final source?) t.weatherSource(source),
         ].join(' · ');
+    final ruleKey = alert.ruleKey;
     return AlertBanner(
       title: alert.title,
       body: body,
+      onToggle: ruleKey == null
+          ? null
+          : () => switchAlert(ref, ruleKey, on: false),
+      toggleLabel: t.alertSwitchOff,
+      toggleKey: ruleKey == null ? null : Key('home-alert-toggle-$ruleKey'),
       actions: ShareSpeakButtons(
         keyPrefix: 'home-alert',
         shareText: [alert.title, body, shareFooter(t, productName)].join('\n'),

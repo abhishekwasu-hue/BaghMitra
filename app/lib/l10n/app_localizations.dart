@@ -2590,6 +2590,78 @@ abstract class AppLocalizations {
   /// **'Source: {source}'**
   String weatherSource(String source);
 
+  /// No description provided for @alertSwitchOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn this alert off'**
+  String get alertSwitchOff;
+
+  /// No description provided for @alertSwitchOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn this alert on'**
+  String get alertSwitchOn;
+
+  /// No description provided for @alertTypeOff.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} alert off'**
+  String alertTypeOff(String name);
+
+  /// No description provided for @alertThisOff.
+  ///
+  /// In en, this message translates to:
+  /// **'This alert is off'**
+  String get alertThisOff;
+
+  /// No description provided for @alertNameHeat.
+  ///
+  /// In en, this message translates to:
+  /// **'Heat'**
+  String get alertNameHeat;
+
+  /// No description provided for @alertNamePsylla.
+  ///
+  /// In en, this message translates to:
+  /// **'Psylla'**
+  String get alertNamePsylla;
+
+  /// No description provided for @alertNameHail.
+  ///
+  /// In en, this message translates to:
+  /// **'Hail and storm'**
+  String get alertNameHail;
+
+  /// No description provided for @alertNameWind.
+  ///
+  /// In en, this message translates to:
+  /// **'Strong wind'**
+  String get alertNameWind;
+
+  /// No description provided for @alertNameHeavyRain.
+  ///
+  /// In en, this message translates to:
+  /// **'Heavy rain'**
+  String get alertNameHeavyRain;
+
+  /// No description provided for @alertNameUnseasonalRain.
+  ///
+  /// In en, this message translates to:
+  /// **'Unseasonal rain'**
+  String get alertNameUnseasonalRain;
+
+  /// No description provided for @alertNameColdWave.
+  ///
+  /// In en, this message translates to:
+  /// **'Cold wave'**
+  String get alertNameColdWave;
+
+  /// No description provided for @alertNameHumidity.
+  ///
+  /// In en, this message translates to:
+  /// **'Humid weather'**
+  String get alertNameHumidity;
+
   /// No description provided for @labelInfoTitle.
   ///
   /// In en, this message translates to:

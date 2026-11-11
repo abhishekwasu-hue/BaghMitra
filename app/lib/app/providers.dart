@@ -96,6 +96,7 @@ import '../features/voice/data/cloud_speech.dart';
 import '../features/voice/data/on_device_speech.dart';
 import '../features/voice/domain/speech.dart';
 import '../features/walkthrough/data/walkthrough_flag.dart';
+import '../features/weather/data/alert_switches.dart';
 import '../features/weather/data/plot_weather_cache.dart';
 import '../l10n/app_localizations.dart';
 import '../sync/account_guard.dart';
@@ -1073,6 +1074,16 @@ final plotWeatherProvider =
         fetchAllowed: !ref.watch(appConfigProvider).demoMode,
       );
     });
+
+final alertSwitchesProvider = Provider<AlertSwitches>(
+  (ref) => AlertSwitches(ref.watch(databaseProvider)),
+);
+
+/// The risk alert types (rule keys) switched off on this phone; home and the plot weather
+/// card both read it (owner Q133).
+final alertsOffProvider = StreamProvider<Set<String>>(
+  (ref) => ref.watch(alertSwitchesProvider).watch(),
+);
 
 final marketPricesCacheProvider = Provider<MarketPricesCache>(
   (ref) => MarketPricesCache(

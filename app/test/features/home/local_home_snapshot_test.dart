@@ -116,6 +116,8 @@ void main() {
     expect(s.alert!.title, 'Heat ahead');
     expect(s.alert!.source, 'ICAR');
     expect(s.alert!.firstDay, DateTime(2026, 10, 14));
+    expect(s.alert!.ruleKey, 'heat');
+    expect(s.alerts, hasLength(1));
   });
 
   test('stage from the grower dates: active beats planned, actual beats '

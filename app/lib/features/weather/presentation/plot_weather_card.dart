@@ -12,6 +12,7 @@ import '../../../sync/presentation/refresh_note.dart';
 import '../../../theme/app_theme.dart';
 import '../../voice/presentation/share_speak_buttons.dart';
 import '../data/plot_weather_cache.dart';
+import 'alert_switch.dart';
 
 /// The next days for a plot and the rule-based risk alerts, each with its source. Shows the
 /// last saved answer offline; alerts never carry chemical advice (they come from the API).
@@ -37,6 +38,12 @@ class PlotWeatherCard extends ConsumerWidget {
         if (!d.day.isBefore(DateTime(today.year, today.month, today.day))) d,
     ].take(_daysShown);
     final alerts = cached?.weather.alerts ?? const <WeatherAlert>[];
+    // Alert types switched off on this phone: one muted line each (Q133).
+    final off = ref.watch(alertsOffProvider).value ?? const <String>{};
+    final shown = [
+      for (final a in alerts)
+        if (!off.contains(a.ruleKey)) a,
+    ];
 
     return Card(
       key: const Key('plot-weather'),
@@ -82,11 +89,22 @@ class PlotWeatherCard extends ConsumerWidget {
                     style: BmType.bodyStrong,
                   ),
                 ),
-              for (final a in alerts)
+              for (final ruleKey in {
+                for (final a in alerts)
+                  if (off.contains(a.ruleKey)) a.ruleKey,
+              })
+                SwitchedOffAlert(ruleKey: ruleKey, keyPrefix: 'weather-alert'),
+              for (final a in shown)
                 ListTile(
                   key: Key('weather-alert-${a.ruleKey}'),
                   contentPadding: EdgeInsets.zero,
-                  leading: Icon(Icons.warning_amber_rounded, color: c.caution),
+                  // The ⚠ is the on / off button for this alert type (Q133).
+                  leading: IconButton(
+                    key: Key('weather-alert-toggle-${a.ruleKey}'),
+                    tooltip: t.alertSwitchOff,
+                    onPressed: () => switchAlert(ref, a.ruleKey, on: false),
+                    icon: Icon(Icons.warning_amber_rounded, color: c.caution),
+                  ),
                   title: Text(a.text, style: BmType.body),
                   subtitle: Text(t.weatherSource(a.source), style: BmType.meta),
                   trailing: ShareSpeakButtons(
@@ -100,7 +118,7 @@ class PlotWeatherCard extends ConsumerWidget {
                     speakText: weatherAlertShareText(t, a, lang, null),
                   ),
                 ),
-              for (final a in alerts)
+              for (final a in shown)
                 if (a.action == 'claim_kit')
                   Align(
                     alignment: Alignment.centerLeft,

@@ -8,7 +8,7 @@ class HomeSnapshot {
     this.stage,
     this.tasks = const [],
     this.market,
-    this.alert,
+    this.alerts = const [],
     this.isDemo = false,
     this.plotId,
     this.weatherNote,
@@ -27,7 +27,7 @@ class HomeSnapshot {
     market: j['market'] == null
         ? null
         : MarketQuote.fromJson(_map(j['market'])),
-    alert: j['alert'] == null ? null : RiskAlert.fromJson(_map(j['alert'])),
+    alerts: [if (j['alert'] case final a?) RiskAlert.fromJson(_map(a))],
     isDemo: isDemo,
   );
 
@@ -41,7 +41,10 @@ class HomeSnapshot {
   /// Sample tasks (demo only). Real tasks come from the tasks table.
   final List<TaskItem> tasks;
   final MarketQuote? market;
-  final RiskAlert? alert;
+
+  /// The saved risk alerts, in the API order; home shows the first one switched on.
+  final List<RiskAlert> alerts;
+  RiskAlert? get alert => alerts.firstOrNull;
   final bool isDemo;
 
   /// The plot the home blocks describe (the first plot); null when the grower has none.
@@ -61,7 +64,7 @@ class HomeSnapshot {
     stage: stage,
     tasks: tasks,
     market: market,
-    alert: alert,
+    alerts: alerts,
     isDemo: isDemo,
     plotId: plotId,
     weatherNote: weatherNote,
@@ -233,13 +236,26 @@ class MarketQuote {
 }
 
 class RiskAlert {
-  const RiskAlert({required this.title, this.body, this.source, this.firstDay});
+  const RiskAlert({
+    required this.title,
+    this.body,
+    this.source,
+    this.firstDay,
+    this.ruleKey,
+  });
 
-  factory RiskAlert.fromJson(Map<String, Object?> j) =>
-      RiskAlert(title: j['title']! as String, body: j['body'] as String?);
+  factory RiskAlert.fromJson(Map<String, Object?> j) => RiskAlert(
+    title: j['title']! as String,
+    body: j['body'] as String?,
+    ruleKey: j['rule_key'] as String?,
+  );
 
   final String title;
   final String? body;
+
+  /// The risk rule (e.g. `psylla_degree_days`) the grower can switch off with the ⚠
+  /// button (Q133); null keeps the alert without that button.
+  final String? ruleKey;
 
   /// Where a real (rule-based) alert comes from, and the day it starts.
   final String? source;

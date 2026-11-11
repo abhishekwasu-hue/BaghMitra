@@ -1,4 +1,5 @@
-import '../../../api/generated/bagmitra.swagger.dart' show MarketPriceOut;
+import '../../../api/generated/bagmitra.swagger.dart'
+    show MarketPriceOut, WeatherAlert;
 import '../../bahar/data/bahar_catalog.dart';
 import '../../bahar/domain/bahar_cycle.dart';
 import '../../market/data/market_prices_cache.dart';
@@ -30,7 +31,6 @@ HomeSnapshot buildLocalHomeSnapshot({
   final forecast = weather?.weather.days
       .where((d) => !_dateOnly(d.day).isBefore(day) && d.tMaxC != null)
       .firstOrNull;
-  final alert = weather?.weather.alerts.firstOrNull;
   return HomeSnapshot(
     farmerName: profile?.displayName?.trim() ?? '',
     plotId: plot?.id,
@@ -46,13 +46,15 @@ HomeSnapshot buildLocalHomeSnapshot({
         : located
         ? WeatherNote.notYetLoaded
         : WeatherNote.needsLocation,
-    alert: alert == null
-        ? null
-        : RiskAlert(
-            title: alert.text,
-            source: alert.source,
-            firstDay: alert.firstDay,
-          ),
+    alerts: [
+      for (final alert in weather?.weather.alerts ?? const <WeatherAlert>[])
+        RiskAlert(
+          title: alert.text,
+          source: alert.source,
+          firstDay: alert.firstDay,
+          ruleKey: alert.ruleKey,
+        ),
+    ],
     stage: plot == null || catalog == null
         ? null
         : _stage(plot, cycles, catalog, day, lang, acresLabel),
