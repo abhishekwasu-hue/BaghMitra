@@ -57,7 +57,7 @@
       }
     ],
     "alert": {
-      "title": "उद्या उष्णतेची लहर · फळगळीचा धोका",
+      "title": "उद्या उष्णतेची लहर · फळगळ होऊ शकते",
       "body": "पुढील ३ दिवस ३८°+"
     }
   },
@@ -119,7 +119,7 @@
       }
     ],
     "alert": {
-      "title": "कल लू की लहर · फल गिरने का खतरा",
+      "title": "कल लू की लहर · फल गिर सकते हैं",
       "body": "अगले 3 दिन 38°+"
     }
   },
@@ -181,7 +181,7 @@
       }
     ],
     "alert": {
-      "title": "Heat wave tomorrow · fruit-drop risk",
+      "title": "Heat wave tomorrow · fruit may drop",
       "body": "Next 3 days 38°+"
     }
   }
