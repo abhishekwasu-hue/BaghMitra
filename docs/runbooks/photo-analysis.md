@@ -92,3 +92,51 @@ changed profile over (same keys and texts).
 - No queue: offline or a server failure shows a calm line, and the photo stays for a one-tap retry.
 - Delete: "हा फोटो हटवा" on the result calls `DELETE /v1/photo-analysis/{photo_id}`; results are not
   stored with scouting entries (OPEN_QUESTIONS Q135, open point a).
+
+## 7. Bill reading (OPEN_QUESTIONS Q136)
+
+Owner 2026-11-11: the farmer photographs the agri-input shop bill on the spray record or on Add
+expense, and the products and costs are read from it. Server side only here; the app is its own PR.
+
+- Endpoint: `POST /v1/bills/read` (signed-in farmer; multipart, field `photo`: one JPEG / PNG, at
+  most `PHOTO_MAX_BYTES`). Answer: `shop_name`, `bill_date` (`YYYY-MM-DD`), `bill_no`, `items[]`
+  (`name`, `active_ingredient`, `quantity`, `unit`, `amount_rs`), `total_rs`, `unsure`; null where
+  the bill could not be read. Code: `api/src/bagmitra_api/routers/bills.py`, `bills/`.
+- Switch it on: nothing extra. The same key (`PHOTO_AI_API_KEY`, else `FEED_AI_API_KEY`), model
+  (`PHOTO_AI_MODEL`), `PHOTO_AI_MAX_TOKENS` and `PHOTO_AI_TIMEOUT_SECONDS` as photo analysis, and
+  the same Messages API call (fallback beta, structured output, no `thinking` field). No key: 503
+  `analysis_unavailable`.
+- The prompt: read only what is printed or written; never guess; null when a field cannot be read;
+  product names as printed; the active ingredient only when printed; rupees as numbers; ISO dates;
+  Marathi, Hindi or English bills; `unsure` when the photo is unclear or not a bill.
+- Server checks on the answer: items without a name dropped, at most 30 items, numbers finite and
+  not negative (else null), strings trimmed (shop 120, bill no 40, product 120, active ingredient
+  160, unit 16 characters), a `bill_date` more than one day after today (India) set to null.
+- Privacy: EXIF / PNG text chunks removed first. The photo and the result are **not stored** on
+  the server (no training store, no storage upload). Only `bill_reads` (id, owner, time; RLS
+  owner, migration 0044) for the limits, erased with the account. The log line has only `unsure`
+  and the number of items.
+- Errors (same problem envelope as photo analysis): 413 `photo_too_large`, 415
+  `photo_not_supported`, 429 `bill_read_limit` (`error.details {limit: daily | monthly | total,
+  max, resets_at}` + `Retry-After`), 502 `analysis_failed` (a refusal, a cut-off answer or invalid
+  JSON; nothing counted), 503 `analysis_unavailable`.
+
+### Limits (admin web → Subscription / सदस्यता, card "Bill reading limits"; role `billing_admin`)
+
+Separate from the photo analysis limits, with the same rules (India calendar days and months; a
+plan with no value and a farmer without a plan fall back to 5 a day / 50 a month; several plans:
+the most generous; empty overall cap = no cap; every change written to `billing_events` as
+`bill_limits_changed` / `role_bill_limits_changed`).
+
+| Where | API | Empty means |
+|---|---|---|
+| Per role plan: bills per day / per month | `PUT /v1/admin/billing/roles/{role}/bill-limits` `{daily, monthly}` | 5 a day / 50 a month |
+| Without a plan (also while the subscription switch is off or not started) | `PUT /v1/admin/billing/bill-limits` `{free_daily, free_monthly, daily_total}` | 5 a day / 50 a month |
+| All farmers together per day (`daily_total`) | same call | no overall cap |
+
+`GET /v1/admin/billing/settings` shows them as `roles[].bill_read_daily / bill_read_monthly` and
+`bill_limits`. Columns: `billing_role_prices.bill_read_daily / bill_read_monthly`,
+`billing_settings.bill_read_free_daily / bill_read_free_monthly / bill_read_daily_total`.
+
+Cost: one photo plus a shorter prompt than photo analysis (no card texts) and a short JSON answer;
+check the real numbers in the Anthropic console (usage by model) after the first week.

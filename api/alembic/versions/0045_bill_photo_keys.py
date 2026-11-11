@@ -3,8 +3,8 @@
 Nullable: the photo stays on the phone unless the optional photo backup uploads it to
 `<owner_id>/bill-<record_id>.jpg`; existing rows have none.
 
-Revision ID: 0044
-Revises: 0043
+Revision ID: 0045
+Revises: 0044
 Create Date: 2026-11-11
 """
 
@@ -13,8 +13,8 @@ from __future__ import annotations
 import sqlalchemy as sa
 from alembic import op
 
-revision = "0044"
-down_revision = "0043"
+revision = "0045"
+down_revision = "0044"
 branch_labels = None
 depends_on = None
 

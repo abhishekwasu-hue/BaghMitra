@@ -44,9 +44,40 @@ class FakeBillingAdmin implements BillingAdminRepository {
     'starts_on': _start?.toIso8601String().substring(0, 10),
     'roles': [for (final r in billingRoles) _roles[r]],
     'photo_limits': {...billingPhotoLimitsJson, ..._photo},
+    'bill_limits': {...billingPhotoLimitsJson, ..._bill},
   });
 
   final Map<String, Object?> _photo = {};
+  final Map<String, Object?> _bill = {};
+
+  @override
+  Future<BillingSettingsOut> saveBillLimits({
+    int? freeDaily,
+    int? freeMonthly,
+    int? dailyTotal,
+  }) async {
+    calls.add('bill $freeDaily $freeMonthly $dailyTotal');
+    _bill
+      ..['free_daily'] = freeDaily
+      ..['free_monthly'] = freeMonthly
+      ..['daily_total'] = dailyTotal;
+    return _out();
+  }
+
+  @override
+  Future<BillingSettingsOut> saveRoleBillLimits(
+    String role, {
+    int? daily,
+    int? monthly,
+  }) async {
+    calls.add('bill $role $daily $monthly');
+    _roles[role] = {
+      ..._roles[role]!,
+      'bill_read_daily': daily,
+      'bill_read_monthly': monthly,
+    };
+    return _out();
+  }
 
   @override
   Future<BillingSettingsOut> savePhotoLimits({
@@ -264,15 +295,20 @@ void main() {
     final card = find.byKey(const Key('billing-photo-limits'));
     final page = find.byType(Scrollable).first;
     await tester.scrollUntilVisible(card, 300, scrollable: page);
+    Finder inCard(Finder f) => find.descendant(of: card, matching: f);
     expect(
-      find.text('Empty = the default (day / month): 5 / 50'),
+      inCard(find.text('Empty = the default (day / month): 5 / 50')),
       findsOneWidget,
     );
-    expect(find.textContaining('India time (IST)'), findsOneWidget);
+    expect(inCard(find.textContaining('India time (IST)')), findsOneWidget);
     expect(
-      find.text('Empty = no cap'),
+      inCard(find.text('Empty = no cap')),
       findsOneWidget,
     ); // the overall cap's hint
+    expect(
+      inCard(find.text('Photo analysis limits (per farmer)')),
+      findsOneWidget,
+    );
     final freeDaily = find.byKey(const Key('billing-photo-free-daily'));
     expect(tester.widget<TextField>(freeDaily).controller!.text, '');
     await tester.enterText(freeDaily, '3');
@@ -304,6 +340,82 @@ void main() {
           .text,
       '20',
     );
+  });
+
+  testWidgets('bill reading limits: own card, own endpoints, photo limits '
+      'untouched (Q136)', (tester) async {
+    final fake = FakeBillingAdmin();
+    await _pump(tester, BillingSettingsPage(repo: fake));
+    final card = find.byKey(const Key('billing-bill-limits'));
+    final page = find.byType(Scrollable).first;
+    await tester.scrollUntilVisible(card, 300, scrollable: page);
+    Finder inCard(Finder f) => find.descendant(of: card, matching: f);
+    expect(
+      inCard(find.text('Bill reading limits (per farmer)')),
+      findsOneWidget,
+    );
+    expect(
+      inCard(find.text('Empty = the default (day / month): 5 / 50')),
+      findsOneWidget,
+    );
+    expect(inCard(find.text('Bills a day')), findsWidgets);
+    final freeMonthly = find.byKey(const Key('billing-bill-free-monthly'));
+    await tester.scrollUntilVisible(freeMonthly, 100, scrollable: page);
+    await tester.enterText(freeMonthly, '30');
+    await tester.tap(find.byKey(const Key('billing-bill-save')));
+    await tester.pumpAndSettle();
+    expect(fake.calls, ['bill null 30 null']);
+    final trader = find.byKey(const Key('billing-bill-save-trader'));
+    await tester.scrollUntilVisible(trader, 200, scrollable: page);
+    await tester.enterText(
+      find.byKey(const Key('billing-bill-daily-trader')),
+      '8',
+    );
+    await tester.tap(trader);
+    await tester.pumpAndSettle();
+    expect(fake.calls.last, 'bill trader 8 null');
+    expect(
+      tester
+          .widget<TextField>(find.byKey(const Key('billing-bill-daily-trader')))
+          .controller!
+          .text,
+      '8',
+    );
+    final settings = await fake.settings();
+    expect(settings.photoLimits.freeMonthly, isNull);
+    final row = settings.roles.firstWhere((r) => r.role == 'trader');
+    expect((row.photoAiDaily, row.billReadDaily), (null, 8));
+  });
+
+  testWidgets('bill limits card fits a phone width in Marathi', (tester) async {
+    final fake = FakeBillingAdmin();
+    final settings = await fake.settings();
+    tester.view.physicalSize = const Size(390, 2400);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: BmTheme.light(),
+        locale: const Locale('mr'),
+        supportedLocales: AppLocalizations.supportedLocales,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        home: Scaffold(
+          body: SingleChildScrollView(
+            child: PhotoLimitsCard(
+              settings: settings,
+              repo: fake,
+              run: (call) async => call(),
+              kind: LimitsKind.bill,
+            ),
+          ),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    final card = find.byKey(const Key('billing-bill-limits'));
+    expect(tester.takeException(), isNull); // no overflow
+    expect(tester.getSize(card).width, lessThanOrEqualTo(390));
+    expect(find.text('बिल वाचन मर्यादा (प्रति शेतकरी)'), findsOneWidget);
   });
 
   testWidgets('photo limits card fits a phone width in Marathi', (
@@ -353,6 +465,9 @@ void main() {
       'photo_empty',
       'photo_total_empty',
       'photo_ist',
+      'bill_card',
+      'bill_daily',
+      'bill_monthly',
     ];
     for (final lang in ['mr', 'hi', 'en']) {
       final s = BillingStrings.forLanguage(lang);

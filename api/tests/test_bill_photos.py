@@ -257,16 +257,16 @@ async def test_account_erasure_lists_bill_photo_keys(
         assert set(await _photo_keys(session, user_id)) == set(keys)
 
 
-def test_migration_0044_up_and_down(tmp_path: Path) -> None:
+def test_migration_0045_up_and_down(tmp_path: Path) -> None:
     url = f"sqlite+aiosqlite:///{tmp_path / 'b.db'}"
     cfg = _config(url)
     engine = create_engine(_sync_url(url))
-    command.upgrade(cfg, "0044")
+    command.upgrade(cfg, "0045")
     with engine.connect() as conn:
         for table in ("spray_records", "expenses"):
             columns = {c["name"]: c for c in inspect(conn).get_columns(table)}
             assert columns["bill_photo_key"]["nullable"]
-    command.downgrade(cfg, "0043")
+    command.downgrade(cfg, "0044")
     with engine.connect() as conn:
         for table in ("spray_records", "expenses"):
             assert "bill_photo_key" not in {c["name"] for c in inspect(conn).get_columns(table)}

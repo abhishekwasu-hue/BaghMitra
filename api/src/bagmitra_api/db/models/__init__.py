@@ -6,6 +6,7 @@ from bagmitra_api.billing.models import (
     PlanEntitlement,
     Subscription,
 )
+from bagmitra_api.bills.models import BillRead
 from bagmitra_api.db.models.accounts import (
     Expense,
     HarvestRecord,
@@ -81,6 +82,7 @@ __all__ = [
     "AdminAction",
     "AppFeedback",
     "BaharCycle",
+    "BillRead",
     "BillingEvent",
     "BillingPlan",
     "BrokerProfile",

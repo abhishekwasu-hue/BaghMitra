@@ -66,6 +66,9 @@ const Map<String, Map<String, String>> _text = {
     'photo_empty': 'रिकामे = मूळ मर्यादा (दिवस / महिना): {v}',
     'photo_total_empty': 'रिकामे = मर्यादा नाही',
     'photo_ist': 'दिवस व महिना भारतीय वेळेनुसार (IST) मोजले जातात.',
+    'bill_card': 'बिल वाचन मर्यादा (प्रति शेतकरी)',
+    'bill_daily': 'दिवसाला बिले',
+    'bill_monthly': 'महिन्याला बिले',
   },
   'hi': {
     'section': 'सदस्यता',
@@ -112,6 +115,9 @@ const Map<String, Map<String, String>> _text = {
     'photo_empty': 'खाली = मूल सीमा (दिन / महीना): {v}',
     'photo_total_empty': 'खाली = कोई सीमा नहीं',
     'photo_ist': 'दिन और महीना भारतीय समय (IST) से गिने जाते हैं।',
+    'bill_card': 'बिल पढ़ने की सीमा (प्रति किसान)',
+    'bill_daily': 'प्रति दिन बिल',
+    'bill_monthly': 'प्रति माह बिल',
   },
   'en': {
     'section': 'Subscriptions',
@@ -158,5 +164,8 @@ const Map<String, Map<String, String>> _text = {
     'photo_empty': 'Empty = the default (day / month): {v}',
     'photo_total_empty': 'Empty = no cap',
     'photo_ist': 'Days and months are counted in India time (IST).',
+    'bill_card': 'Bill reading limits (per farmer)',
+    'bill_daily': 'Bills a day',
+    'bill_monthly': 'Bills a month',
   },
 };

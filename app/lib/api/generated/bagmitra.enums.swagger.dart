@@ -724,6 +724,26 @@ enum V1AdminBillingRolesRoleAmountPutRole {
   const V1AdminBillingRolesRoleAmountPutRole(this.value);
 }
 
+enum V1AdminBillingRolesRoleBillLimitsPutRole {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('grower')
+  grower('grower'),
+  @JsonValue('trader')
+  trader('trader'),
+  @JsonValue('broker')
+  broker('broker'),
+  @JsonValue('exporter')
+  exporter('exporter'),
+  @JsonValue('provider')
+  provider('provider');
+
+  final String? value;
+
+  const V1AdminBillingRolesRoleBillLimitsPutRole(this.value);
+}
+
 enum V1AdminBillingRolesRoleMigratePricesPostRole {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
