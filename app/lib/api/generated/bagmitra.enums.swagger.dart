@@ -112,6 +112,62 @@ enum AdminProviderInKind {
   const AdminProviderInKind(this.value);
 }
 
+enum AdminRangeInBasis {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('per_quintal')
+  perQuintal('per_quintal'),
+  @JsonValue('per_crate')
+  perCrate('per_crate');
+
+  final String? value;
+
+  const AdminRangeInBasis(this.value);
+}
+
+enum AdminRangeInCrop {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('santra')
+  santra('santra'),
+  @JsonValue('mosambi')
+  mosambi('mosambi');
+
+  final String? value;
+
+  const AdminRangeInCrop(this.value);
+}
+
+enum AdminRangeOutBasis {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('per_quintal')
+  perQuintal('per_quintal'),
+  @JsonValue('per_crate')
+  perCrate('per_crate');
+
+  final String? value;
+
+  const AdminRangeOutBasis(this.value);
+}
+
+enum AdminRangeOutCrop {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('santra')
+  santra('santra'),
+  @JsonValue('mosambi')
+  mosambi('mosambi');
+
+  final String? value;
+
+  const AdminRangeOutCrop(this.value);
+}
+
 enum AppealDecisionInOutcome {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
@@ -568,6 +624,20 @@ enum RateRangeOutBasis {
   final String? value;
 
   const RateRangeOutBasis(this.value);
+}
+
+enum RateRangeOutCrop {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('santra')
+  santra('santra'),
+  @JsonValue('mosambi')
+  mosambi('mosambi');
+
+  final String? value;
+
+  const RateRangeOutCrop(this.value);
 }
 
 enum RatingTagInStatus {

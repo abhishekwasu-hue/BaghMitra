@@ -435,7 +435,7 @@ class _LotFormState extends ConsumerState<_LotForm> {
     final window = from == null
         ? null
         : StageWindow(from, _to ?? settings.harvestEnd(from));
-    final range = settings.rangeOf(_basis);
+    final range = settings.rangeOf(plot?.crop, _basis);
     final muted = BmType.meta.copyWith(color: c.inkMuted);
     final draft = _status == 'draft';
     final label = BmType.formLabel.copyWith(color: c.ink);
@@ -647,7 +647,9 @@ class _LotFormState extends ConsumerState<_LotForm> {
             if (text.isEmpty) return null;
             final paise = parseRupeesToPaise(text);
             if (paise == null) return t.invalidNumber;
-            if (paise > 0 && range != null && !settings.fits(_basis, paise)) {
+            if (paise > 0 &&
+                range != null &&
+                !settings.fits(plot?.crop, _basis, paise)) {
               return t.mlRateOutOfRange(
                 formatPaise(range.min, lang),
                 formatPaise(range.max, lang),

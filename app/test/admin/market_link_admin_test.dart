@@ -7,6 +7,7 @@ import 'package:bagmitra/admin/market_link_admin_repository.dart';
 import 'package:bagmitra/admin/market_link_pages.dart';
 import 'package:bagmitra/admin/market_link_rechecks.dart';
 import 'package:bagmitra/api/api_client.dart';
+import 'package:bagmitra/api/generated/bagmitra.enums.swagger.dart' as enums;
 import 'package:bagmitra/api/generated/bagmitra.swagger.dart';
 import 'package:bagmitra/l10n/app_localizations.dart';
 import 'package:bagmitra/theme/app_theme.dart';
@@ -246,22 +247,37 @@ class FakeMarketLinkAdmin implements MarketLinkAdminRepository {
 }
 
 const _lotDefaults = {
-  'per_quintal_min_paise': 250000,
-  'per_quintal_max_paise': 1000000,
-  'per_crate_min_paise': 40000,
-  'per_crate_max_paise': 120000,
-  'harvest_window_days': 15,
+  'per_quintal': (250000, 1000000),
+  'per_crate': (40000, 120000),
 };
 
-AdminLotSettingsOut lotSettingsOut(AdminLotSettingsIn s) => AdminLotSettingsOut(
-  perQuintalMinPaise: s.perQuintalMinPaise,
-  perQuintalMaxPaise: s.perQuintalMaxPaise,
-  perCrateMinPaise: s.perCrateMinPaise,
-  perCrateMaxPaise: s.perCrateMaxPaise,
-  harvestWindowDays: s.harvestWindowDays,
-  effective: _lotDefaults,
-  defaults: _lotDefaults,
-);
+/// What the server answers for [s]: every crop and basis, the stored values (null =
+/// default) beside the defaults.
+AdminLotSettingsOut lotSettingsOut(AdminLotSettingsIn s) {
+  AdminRangeIn? sent(String crop, String basis) => s.rateRanges
+      ?.where((r) => r.crop.value == crop && r.basis.value == basis)
+      .firstOrNull;
+  return AdminLotSettingsOut(
+    rateRanges: [
+      for (final crop in ['santra', 'mosambi'])
+        for (final MapEntry(key: basis, value: (lo, hi))
+            in _lotDefaults.entries)
+          AdminRangeOut(
+            crop: enums.AdminRangeOutCrop.values.byName(crop),
+            basis: enums.AdminRangeOutBasis.values.firstWhere(
+              (b) => b.value == basis,
+            ),
+            minPaise: sent(crop, basis)?.minPaise,
+            maxPaise: sent(crop, basis)?.maxPaise,
+            defaultMinPaise: lo,
+            defaultMaxPaise: hi,
+          ),
+    ],
+    harvestWindowDays: s.harvestWindowDays,
+    harvestWindowDaysDefault: 15,
+    effective: const LotSettingsOut(rateRanges: [], harvestWindowDays: 15),
+  );
+}
 
 Widget _page(Widget child) => MaterialApp(
   theme: BmTheme.light(),
@@ -577,7 +593,7 @@ void main() {
   });
 
   testWidgets(
-    'lot form settings: defaults in grey, rupees saved as paise (Q138)',
+    'lot form settings: a block per crop, defaults in grey, rupees as paise (Q138)',
     (tester) async {
       await _wide(tester);
       final repo = FakeMarketLinkAdmin();
@@ -585,12 +601,15 @@ void main() {
       await tester.pumpAndSettle();
       TextField field(String f) =>
           tester.widget<TextField>(find.byKey(Key('admin-lot-$f')));
-      expect(field('per_quintal_min_paise').decoration!.hintText, '2500');
-      expect(field('per_crate_max_paise').decoration!.hintText, '1200');
+      // A santra block and a mosambi block, the defaults in grey.
+      expect(find.text('Santra (orange)'), findsOneWidget);
+      expect(find.text('Mosambi (sweet lime)'), findsOneWidget);
+      expect(field('santra-per_quintal-min').decoration!.hintText, '2500');
+      expect(field('mosambi-per_crate-max').decoration!.hintText, '1200');
       expect(field('harvest_window_days').decoration!.hintText, '15');
-      expect(field('per_quintal_min_paise').controller!.text, isEmpty);
+      expect(field('mosambi-per_quintal-min').controller!.text, isEmpty);
       await tester.enterText(
-        find.byKey(const Key('admin-lot-per_quintal_min_paise')),
+        find.byKey(const Key('admin-lot-mosambi-per_quintal-min')),
         '3000',
       );
       await tester.enterText(
@@ -600,11 +619,15 @@ void main() {
       await tester.tap(find.byKey(const Key('admin-lot-save')));
       await tester.pumpAndSettle();
       final body = repo.lotSaves.single;
-      expect(body.perQuintalMinPaise, 300000);
-      expect(body.perQuintalMaxPaise, isNull); // empty = the default
+      AdminRangeIn sent(String crop, String basis) => body.rateRanges!
+          .singleWhere((r) => r.crop.value == crop && r.basis.value == basis);
+      expect(body.rateRanges, hasLength(4));
+      expect(sent('mosambi', 'per_quintal').minPaise, 300000);
+      expect(sent('santra', 'per_quintal').minPaise, isNull); // empty = default
+      expect(sent('mosambi', 'per_quintal').maxPaise, isNull);
       expect(body.harvestWindowDays, 20);
       expect(find.text('Done'), findsOneWidget);
-      expect(field('per_quintal_min_paise').controller!.text, '3000');
+      expect(field('mosambi-per_quintal-min').controller!.text, '3000');
       expect(rupeesToPaise(' 12 '), 1200);
       expect(rupeesToPaise(''), isNull);
     },
@@ -703,7 +726,7 @@ void main() {
       });
       expect((await r.ratingTags()).single.key, 'trader_on_date_yes');
       r = repo(200, lotSettingsOut(const AdminLotSettingsIn()).toJson());
-      expect((await r.lotSettings()).defaults['harvest_window_days'], 15);
+      expect((await r.lotSettings()).harvestWindowDaysDefault, 15);
       expect(sent.single.url.path, '/v1/admin/market-link/lot-settings');
       await r.saveLotSettings(const AdminLotSettingsIn(harvestWindowDays: 9));
       expect(sent.last.method, 'PUT');

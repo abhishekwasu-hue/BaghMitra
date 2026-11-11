@@ -27,7 +27,7 @@ from bagmitra_api.db.models import Farmer, Plot
 from bagmitra_api.db.session import DbSession
 from bagmitra_api.market_link.deals import DealStateOut, deal_state, party_roles
 from bagmitra_api.market_link.guards import MarketLinkIn, is_verified
-from bagmitra_api.market_link.lot_rules import legacy_basis
+from bagmitra_api.market_link.lot_rules import legacy_basis, lot_rules
 from bagmitra_api.market_link.models import (
     BrokerProfile,
     BuyerProfile,
@@ -235,7 +235,9 @@ async def send_interest(  # noqa: PLR0913 - body and dependencies
 ) -> InterestOut:
     """An interest on a published lot from a verified trader / exporter (optionally naming a
     verified broker) or from a verified broker for a named verified trader. A trader's new
-    interest replaces their open one on the same lot. The grower gets a push."""
+    interest replaces their open one on the same lot. The grower gets a push. A rate outside
+    the admin's range for the lot's crop and the basis is refused (422
+    `interest_rate_out_of_range`, Q138)."""
     if body.trader_id is not None:  # a broker brings a trader
         broker = await _verified_profile(session, BrokerProfile, user_id=user.id, pid=None)
         if broker is None:
@@ -264,6 +266,14 @@ async def send_interest(  # noqa: PLR0913 - body and dependencies
         raise ApiError(404, "lot_not_found")
     if lot.owner_id in (buyer.user_id, broker.user_id if broker else None):
         raise ApiError(409, "own_lot")
+    # The admin's range for the lot's crop and the basis chosen (owner 2026-11-11, Q138).
+    span = (await lot_rules(session)).out_of_range(lot.crop, body.basis, body.rate_paise)
+    if span is not None:
+        raise ApiError(
+            422,
+            "interest_rate_out_of_range",
+            f"the rate {body.basis} for {lot.crop} must be {span[0]} to {span[1]} paise",
+        )
     for old in await session.scalars(
         select(MarketOffer).where(
             MarketOffer.lot_id == lot.id,

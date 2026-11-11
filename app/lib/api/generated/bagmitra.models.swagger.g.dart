@@ -213,42 +213,41 @@ Map<String, dynamic> _$AdminFixOutToJson(AdminFixOut instance) =>
 AdminLotSettingsIn _$AdminLotSettingsInFromJson(Map<String, dynamic> json) =>
     AdminLotSettingsIn(
       harvestWindowDays: (json['harvest_window_days'] as num?)?.toInt(),
-      perCrateMaxPaise: (json['per_crate_max_paise'] as num?)?.toInt(),
-      perCrateMinPaise: (json['per_crate_min_paise'] as num?)?.toInt(),
-      perQuintalMaxPaise: (json['per_quintal_max_paise'] as num?)?.toInt(),
-      perQuintalMinPaise: (json['per_quintal_min_paise'] as num?)?.toInt(),
+      rateRanges:
+          (json['rate_ranges'] as List<dynamic>?)
+              ?.map((e) => AdminRangeIn.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
     );
 
 Map<String, dynamic> _$AdminLotSettingsInToJson(AdminLotSettingsIn instance) =>
     <String, dynamic>{
       'harvest_window_days': ?instance.harvestWindowDays,
-      'per_crate_max_paise': ?instance.perCrateMaxPaise,
-      'per_crate_min_paise': ?instance.perCrateMinPaise,
-      'per_quintal_max_paise': ?instance.perQuintalMaxPaise,
-      'per_quintal_min_paise': ?instance.perQuintalMinPaise,
+      'rate_ranges': ?instance.rateRanges?.map((e) => e.toJson()).toList(),
     };
 
 AdminLotSettingsOut _$AdminLotSettingsOutFromJson(Map<String, dynamic> json) =>
     AdminLotSettingsOut(
-      defaults: json['defaults'] as Map<String, dynamic>,
-      effective: json['effective'] as Map<String, dynamic>,
+      effective: LotSettingsOut.fromJson(
+        json['effective'] as Map<String, dynamic>,
+      ),
       harvestWindowDays: (json['harvest_window_days'] as num?)?.toInt(),
-      perCrateMaxPaise: (json['per_crate_max_paise'] as num?)?.toInt(),
-      perCrateMinPaise: (json['per_crate_min_paise'] as num?)?.toInt(),
-      perQuintalMaxPaise: (json['per_quintal_max_paise'] as num?)?.toInt(),
-      perQuintalMinPaise: (json['per_quintal_min_paise'] as num?)?.toInt(),
+      harvestWindowDaysDefault: (json['harvest_window_days_default'] as num)
+          .toInt(),
+      rateRanges:
+          (json['rate_ranges'] as List<dynamic>?)
+              ?.map((e) => AdminRangeOut.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
     );
 
 Map<String, dynamic> _$AdminLotSettingsOutToJson(
   AdminLotSettingsOut instance,
 ) => <String, dynamic>{
-  'defaults': instance.defaults,
-  'effective': instance.effective,
+  'effective': instance.effective.toJson(),
   'harvest_window_days': ?instance.harvestWindowDays,
-  'per_crate_max_paise': ?instance.perCrateMaxPaise,
-  'per_crate_min_paise': ?instance.perCrateMinPaise,
-  'per_quintal_max_paise': ?instance.perQuintalMaxPaise,
-  'per_quintal_min_paise': ?instance.perQuintalMinPaise,
+  'harvest_window_days_default': instance.harvestWindowDaysDefault,
+  'rate_ranges': instance.rateRanges.map((e) => e.toJson()).toList(),
 };
 
 AdminProviderIn _$AdminProviderInFromJson(Map<String, dynamic> json) =>
@@ -297,6 +296,41 @@ Map<String, dynamic> _$AdminProviderInToJson(AdminProviderIn instance) =>
       'taluka': ?instance.taluka,
       'vehicle_numbers': ?instance.vehicleNumbers,
       'village': instance.village,
+    };
+
+AdminRangeIn _$AdminRangeInFromJson(Map<String, dynamic> json) => AdminRangeIn(
+  basis: adminRangeInBasisFromJson(json['basis']),
+  crop: adminRangeInCropFromJson(json['crop']),
+  maxPaise: (json['max_paise'] as num?)?.toInt(),
+  minPaise: (json['min_paise'] as num?)?.toInt(),
+);
+
+Map<String, dynamic> _$AdminRangeInToJson(AdminRangeIn instance) =>
+    <String, dynamic>{
+      'basis': ?adminRangeInBasisToJson(instance.basis),
+      'crop': ?adminRangeInCropToJson(instance.crop),
+      'max_paise': ?instance.maxPaise,
+      'min_paise': ?instance.minPaise,
+    };
+
+AdminRangeOut _$AdminRangeOutFromJson(Map<String, dynamic> json) =>
+    AdminRangeOut(
+      basis: adminRangeOutBasisFromJson(json['basis']),
+      crop: adminRangeOutCropFromJson(json['crop']),
+      defaultMaxPaise: (json['default_max_paise'] as num).toInt(),
+      defaultMinPaise: (json['default_min_paise'] as num).toInt(),
+      maxPaise: (json['max_paise'] as num?)?.toInt(),
+      minPaise: (json['min_paise'] as num?)?.toInt(),
+    );
+
+Map<String, dynamic> _$AdminRangeOutToJson(AdminRangeOut instance) =>
+    <String, dynamic>{
+      'basis': ?adminRangeOutBasisToJson(instance.basis),
+      'crop': ?adminRangeOutCropToJson(instance.crop),
+      'default_max_paise': instance.defaultMaxPaise,
+      'default_min_paise': instance.defaultMinPaise,
+      'max_paise': ?instance.maxPaise,
+      'min_paise': ?instance.minPaise,
     };
 
 AlertOut _$AlertOutFromJson(Map<String, dynamic> json) => AlertOut(
@@ -3308,6 +3342,7 @@ Map<String, dynamic> _$QueueResponseToJson(QueueResponse instance) =>
 
 RateRangeOut _$RateRangeOutFromJson(Map<String, dynamic> json) => RateRangeOut(
   basis: rateRangeOutBasisFromJson(json['basis']),
+  crop: rateRangeOutCropFromJson(json['crop']),
   maxPaise: (json['max_paise'] as num).toInt(),
   minPaise: (json['min_paise'] as num).toInt(),
 );
@@ -3315,6 +3350,7 @@ RateRangeOut _$RateRangeOutFromJson(Map<String, dynamic> json) => RateRangeOut(
 Map<String, dynamic> _$RateRangeOutToJson(RateRangeOut instance) =>
     <String, dynamic>{
       'basis': ?rateRangeOutBasisToJson(instance.basis),
+      'crop': ?rateRangeOutCropToJson(instance.crop),
       'max_paise': instance.maxPaise,
       'min_paise': instance.minPaise,
     };

@@ -1,5 +1,5 @@
 """Lot form clarity (owner 2026-11-11, Q138): per quintal instead of per tonne (old phones'
-"per_tonne" still read), the admin's asking-rate ranges and harvest window length (empty =
+"per_tonne" still read), the admin's rate ranges per crop and harvest window length (empty =
 default), the publish check, and migration 0046 converting stored per-tonne rates."""
 
 from __future__ import annotations
@@ -28,25 +28,19 @@ ADMIN_ID = uuid.uuid4()
 ADMIN = {
     "Authorization": "Bearer " + make_token(ADMIN_ID, app_metadata={"roles": ["market_link_admin"]})
 }
-EMPTY = {
-    "per_quintal_min_paise": None,
-    "per_quintal_max_paise": None,
-    "per_crate_min_paise": None,
-    "per_crate_max_paise": None,
-    "harvest_window_days": None,
-}
+EMPTY: dict[str, Any] = {"rate_ranges": [], "harvest_window_days": None}
+DEFAULT_RANGES = [
+    {"crop": c, "basis": b, "min_paise": lo, "max_paise": hi}
+    for c in ("santra", "mosambi")
+    for b, lo, hi in (("per_quintal", 250_000, 1_000_000), ("per_crate", 40_000, 120_000))
+]
 
 
-async def test_app_reads_the_owner_defaults(ml: Any) -> None:
+async def test_app_reads_the_owner_defaults_for_each_crop(ml: Any) -> None:
+    """Mosambi starts at santra's numbers (the owner gave none), editable by the admin."""
     r = await ml.get(APP, headers=headers(uuid.uuid4()))
     assert r.status_code == 200, r.text
-    assert r.json() == {
-        "rate_ranges": [
-            {"basis": "per_quintal", "min_paise": 250_000, "max_paise": 1_000_000},
-            {"basis": "per_crate", "min_paise": 40_000, "max_paise": 120_000},
-        ],
-        "harvest_window_days": 15,
-    }
+    assert r.json() == {"rate_ranges": DEFAULT_RANGES, "harvest_window_days": 15}
 
 
 async def test_settings_need_sign_in_admin_role_and_the_legal_gate(
@@ -60,17 +54,27 @@ async def test_settings_need_sign_in_admin_role_and_the_legal_gate(
     assert (await client.get(ADMIN_PATH, headers=ADMIN)).status_code == 404
 
 
-async def test_admin_changes_are_served_logged_and_reset_by_empty(ml: Any) -> None:
+async def test_admin_changes_one_crop_logged_and_reset_by_empty(ml: Any) -> None:
     start = (await ml.get(ADMIN_PATH, headers=ADMIN)).json()
-    assert {k: start[k] for k in EMPTY} == EMPTY
-    assert start["effective"] == start["defaults"]
-    assert start["defaults"]["per_quintal_min_paise"] == 250_000
-    body = {**EMPTY, "per_quintal_min_paise": 300_000, "harvest_window_days": 20}
+    assert [(r["crop"], r["basis"]) for r in start["rate_ranges"]] == [
+        (r["crop"], r["basis"]) for r in DEFAULT_RANGES
+    ]
+    assert {(r["min_paise"], r["max_paise"]) for r in start["rate_ranges"]} == {(None, None)}
+    assert start["rate_ranges"][0]["default_min_paise"] == 250_000
+    assert (start["harvest_window_days"], start["harvest_window_days_default"]) == (None, 15)
+    assert start["effective"]["rate_ranges"] == DEFAULT_RANGES
+    body = {
+        "rate_ranges": [{"crop": "mosambi", "basis": "per_quintal", "min_paise": 300_000}],
+        "harvest_window_days": 20,
+    }
     r = await ml.put(ADMIN_PATH, json=body, headers=ADMIN)
     assert r.status_code == 200, r.text
-    assert r.json()["effective"]["per_quintal_min_paise"] == 300_000
     served = (await ml.get(APP, headers=headers(uuid.uuid4()))).json()
-    assert served["rate_ranges"][0]["min_paise"] == 300_000
+    ranges = {
+        (x["crop"], x["basis"]): (x["min_paise"], x["max_paise"]) for x in served["rate_ranges"]
+    }
+    assert ranges[("mosambi", "per_quintal")] == (300_000, 1_000_000)
+    assert ranges[("santra", "per_quintal")] == (250_000, 1_000_000)  # santra unchanged
     assert served["harvest_window_days"] == 20
     async with ml.maker() as s:
         [log] = (
@@ -82,13 +86,13 @@ async def test_admin_changes_are_served_logged_and_reset_by_empty(ml: Any) -> No
         ADMIN_ID,
     )
     assert log.detail == {
-        "old": {"per_quintal_min_paise": None, "harvest_window_days": None},
-        "new": {"per_quintal_min_paise": 300_000, "harvest_window_days": 20},
+        "old": {"mosambi_per_quintal_min_paise": None, "harvest_window_days": None},
+        "new": {"mosambi_per_quintal_min_paise": 300_000, "harvest_window_days": 20},
     }
     # Saving the same values logs nothing; empty goes back to the default.
     assert (await ml.put(ADMIN_PATH, json=body, headers=ADMIN)).status_code == 200
     back = (await ml.put(ADMIN_PATH, json=EMPTY, headers=ADMIN)).json()
-    assert back["effective"] == back["defaults"]
+    assert back["effective"]["rate_ranges"] == DEFAULT_RANGES
     async with ml.maker() as s:
         logs = await s.scalars(
             select(AdminAction).where(AdminAction.subject_type == "lot_settings")
@@ -96,17 +100,28 @@ async def test_admin_changes_are_served_logged_and_reset_by_empty(ml: Any) -> No
         assert len(logs.all()) == 2
 
 
+def _one(**kw: Any) -> dict[str, Any]:
+    return {"rate_ranges": [{"crop": "santra", "basis": "per_quintal", **kw}]}
+
+
 @pytest.mark.parametrize(
     "bad",
     [
-        {"per_quintal_min_paise": 1_000_000},  # equals the default maximum
-        {"per_crate_min_paise": 50_000, "per_crate_max_paise": 40_000},
-        {"per_crate_max_paise": 0},
+        _one(min_paise=1_000_000),  # equals the default maximum
+        {
+            "rate_ranges": [
+                {"crop": "mosambi", "basis": "per_crate", "min_paise": 50_000, "max_paise": 40_000}
+            ]
+        },
+        _one(max_paise=0),
+        {"rate_ranges": [{"crop": "kinnow", "basis": "per_quintal"}]},
+        {"rate_ranges": [{"crop": "santra", "basis": "lump_sum"}]},
+        {"rate_ranges": [_one()["rate_ranges"][0]] * 2},  # given twice
         {"harvest_window_days": -1},
         {"harvest_window_days": 121},
     ],
 )
-async def test_admin_values_must_make_sense(ml: Any, bad: dict[str, int]) -> None:
+async def test_admin_values_must_make_sense(ml: Any, bad: dict[str, Any]) -> None:
     r = await ml.put(ADMIN_PATH, json={**EMPTY, **bad}, headers=ADMIN)
     assert r.status_code == 422, r.text
 
@@ -148,12 +163,18 @@ async def test_publish_checks_the_asking_rate_range(
         assert (r.status_code, r.json()["error"]["code"]) == (422, "lot_rate_out_of_range")
 
 
-async def test_publish_follows_the_admin_range(ml: Any) -> None:
-    body = {**EMPTY, "per_quintal_min_paise": 400_000}
+async def test_publish_follows_the_admin_range_of_the_plot_crop(ml: Any) -> None:
+    body = {"rate_ranges": [{"crop": "mosambi", "basis": "per_quintal", "min_paise": 400_000}]}
     assert (await ml.put(ADMIN_PATH, json=body, headers=ADMIN)).status_code == 200
+    # A santra lot at Rs 3,000 per quintal still fits santra's range.
     grower = uuid.uuid4()
     h = headers(grower)
-    lot_id, _ = await draft(ml, h, grower)  # Rs 3,000 per quintal
+    lot_id, _ = await draft(ml, h, grower)
+    assert (await ml.post(f"{LOTS}/{lot_id}/publish", headers=h)).status_code == 200
+    # The same rate on a mosambi orchard is below mosambi's range.
+    grower = uuid.uuid4()
+    h = headers(grower)
+    lot_id, _ = await draft(ml, h, grower, crop="mosambi")
     r = await ml.post(f"{LOTS}/{lot_id}/publish", headers=h)
     assert r.json()["error"]["code"] == "lot_rate_out_of_range"
 
@@ -187,11 +208,13 @@ def test_old_phone_per_tonne_interest_is_read_per_quintal() -> None:
 
 
 def test_rules_without_a_range_or_a_rate_pass() -> None:
-    rules = LotRules(ranges={"per_quintal": (10, 20)}, harvest_window_days=15)
-    assert rules.out_of_range("per_quintal", 9) == (10, 20)
-    assert rules.out_of_range("per_quintal", 15) is None
-    assert rules.out_of_range("per_crate", 1) is None
-    assert rules.out_of_range("per_quintal", None) is None
+    rules = LotRules(ranges={("santra", "per_quintal"): (10, 20)}, harvest_window_days=15)
+    assert rules.out_of_range("santra", "per_quintal", 9) == (10, 20)
+    assert rules.out_of_range("santra", "per_quintal", 15) is None
+    assert rules.out_of_range("santra", "per_crate", 1) is None
+    assert rules.out_of_range("mosambi", "per_quintal", 1) is None
+    assert rules.out_of_range(None, "per_quintal", 1) is None
+    assert rules.out_of_range("santra", "per_quintal", None) is None
 
 
 def _rows(url: str, sql: str, **params: Any) -> list[tuple[Any, ...]]:

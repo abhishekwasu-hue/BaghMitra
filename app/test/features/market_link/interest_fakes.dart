@@ -5,9 +5,9 @@ import 'package:bagmitra/features/market_link/domain/registration.dart';
 
 import 'market_link_fakes.dart';
 
-BuyerLot sampleBuyerLot({String id = 'l1'}) => BuyerLot(
+BuyerLot sampleBuyerLot({String id = 'l1', String crop = 'santra'}) => BuyerLot(
   id: id,
-  crop: 'santra',
+  crop: crop,
   variety: 'नागपुरी',
   quantityT: 12.5,
   quality: 'मोठी · ए ग्रेड',
@@ -87,6 +87,9 @@ class FakeInterestApi implements InterestApi {
   List<SentInterest> sentList;
   List<LotInterest> onLotList;
   Object? error;
+
+  /// Thrown by [send] only (the lot list still loads).
+  Object? sendError;
   Object? acceptError;
   final sent = <(String, InterestDraft)>[];
   final accepted = <String>[];
@@ -109,6 +112,7 @@ class FakeInterestApi implements InterestApi {
   @override
   Future<Interest> send(String lotId, InterestDraft draft) async {
     _fail();
+    if (sendError != null) throw sendError!;
     sent.add((lotId, draft));
     return sampleInterest();
   }

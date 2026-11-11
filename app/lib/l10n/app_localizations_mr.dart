@@ -3396,7 +3396,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get adminMlLotSettingsNote =>
-      'शेतकरी लिहू शकेल त्या अपेक्षित दराची मर्यादा, प्रति क्विंटल आणि प्रति क्रेट; आणि शेतकऱ्याने निवडलेल्या सुरुवातीनंतर तोडणीचा काळ किती दिवसांचा धरायचा. रिकामे = राखाडी दिसणारे मूळ मूल्य; माल व्यापाऱ्यांना दाखवताना सर्व्हर दर पुन्हा तपासतो.';
+      'प्रत्येक पिकासाठी प्रति क्विंटल आणि प्रति क्रेट दराची मर्यादा, शेतकऱ्याच्या अपेक्षित दरासाठी आणि व्यापाऱ्याच्या ऑफरसाठी; आणि शेतकऱ्याने निवडलेल्या सुरुवातीनंतर तोडणीचा काळ किती दिवसांचा धरायचा. रिकामे = राखाडी दिसणारे मूळ मूल्य; सर्व्हर दर पुन्हा तपासतो.';
 
   @override
   String get adminMlQuintalMin => 'प्रति क्विंटल: किमान ₹';
@@ -3412,6 +3412,12 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get adminMlHarvestDays => 'तोडणीचा काळ (दिवस)';
+
+  @override
+  String get adminMlCropSantra => 'संत्रा';
+
+  @override
+  String get adminMlCropMosambi => 'मोसंबी';
 
   @override
   String get adminMlAll => 'सर्व';
@@ -4220,6 +4226,9 @@ class AppLocalizationsMr extends AppLocalizations {
   @override
   String get mlPublishRateRange =>
       'अपेक्षित दर दिलेल्या मर्यादेत लिहा, मग पुन्हा पाठवा.';
+
+  @override
+  String get mlOfferRateRange => 'दर दिलेल्या मर्यादेत लिहा, मग पुन्हा पाठवा.';
 
   @override
   String get mlPhotos => 'फोटो';

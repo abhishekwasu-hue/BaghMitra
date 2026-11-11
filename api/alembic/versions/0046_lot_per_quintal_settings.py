@@ -5,8 +5,8 @@ the unit of the mandi price shown beside the asking rate, and the admin's lot fo
   (rate / 10, rounded to the paisa) and the basis CHECK allows per_quintal instead. The
   downgrade converts back (rate x 10, exact for every rate that was converted from whole
   rupees per tonne).
-- `market_lot_settings` (one row, private): asking-rate ranges per quintal and per crate and
-  the default harvest window length; empty = the default in `market_link/lot_rules.py`.
+- `market_lot_settings` (one row, private): the rate ranges per crop (santra, mosambi) and
+  basis (per quintal, per crate) and the default harvest window length; empty = the default in `market_link/lot_rules.py`.
 - `admin_actions` gains the subject `lot_settings` for their change log.
 
 Revision ID: 0046
@@ -33,18 +33,12 @@ _TARGETS = (
     "'buyer', 'broker', 'provider', 'lot', 'rating', 'user', "
     "'company_profile', 'package_settings', 'package_grant'"
 )
-_PAISE = (
-    "per_quintal_min_paise",
-    "per_quintal_max_paise",
-    "per_crate_min_paise",
-    "per_crate_max_paise",
+_PAISE = tuple(
+    f"{c}_{b}_{e}_paise"
+    for c in ("santra", "mosambi")
+    for b in ("per_quintal", "per_crate")
+    for e in ("min", "max")
 )
-_NAMES = {
-    "per_quintal_min_paise": "quintal_min",
-    "per_quintal_max_paise": "quintal_max",
-    "per_crate_min_paise": "crate_min",
-    "per_crate_max_paise": "crate_max",
-}
 
 
 def _basis_check(table: str, unit: str) -> None:
@@ -94,7 +88,9 @@ def upgrade() -> None:
         sa.Column("updated_at", sa.DateTime(timezone=True), nullable=False),
         sa.CheckConstraint("id = 1", name=op.f(f"ck_{TABLE}_single_row")),
         *(
-            sa.CheckConstraint(f"{c} IS NULL OR {c} > 0", name=op.f(f"ck_{TABLE}_{_NAMES[c]}"))
+            sa.CheckConstraint(
+                f"{c} IS NULL OR {c} > 0", name=op.f(f"ck_{TABLE}_{c.removesuffix('_paise')}")
+            )
             for c in _PAISE
         ),
         sa.CheckConstraint(

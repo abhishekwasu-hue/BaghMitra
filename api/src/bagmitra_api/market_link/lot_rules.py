@@ -1,15 +1,18 @@
-"""Lot form settings (owner 2026-11-11, Q138): the asking-rate range per sale basis and the
+"""Lot form settings (owner 2026-11-11, Q138): the rate range per crop and sale basis, and the
 default length of the harvest window. The market-link admin sets them (admin API / admin web);
 an empty value means the default below, the owner's own numbers:
 
 - per quintal: Rs 2,500 to Rs 10,000 ("2500 ते 10000");
 - per crate: Rs 400 to Rs 1,200 ("400-1200");
 - whole orchard (lump sum): no range;
-- harvest window: the grower picks the start, the end is start + 15 days ("पंधरा दिवसाची
-  गॅप"); the grower may move the end, never before the start.
+- santra and mosambi each have their own range ("मोसंबीचे दर वेगळे असू शकतात"); the owner gave
+  no mosambi numbers, so mosambi starts at the same defaults;
+- harvest window, one for all crops: the grower picks the start, the end is start + 15 days
+  ("पंधरा दिवसाची गॅप"); the grower may move the end, never before the start.
 
-The range binds the grower's asking rate only (checked at publish; a draft may hold anything
-while it is on the phone). A trader's interest has no range (not asked for).
+The range binds the grower's asking rate (checked at publish; a draft may hold anything while
+it is on the phone) and a trader's interest ("व्यापाराच्या ऑफरवर पण ठेवा"), by the lot's crop
+and the basis chosen. A crop not listed in `CROPS` has no range.
 
 `legacy_basis` reads the old "per_tonne" basis that phones built before 0046 still send: the
 rate becomes per quintal (Rs / tonne / 10), rounded to the paisa.
@@ -26,38 +29,37 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from bagmitra_api.market_link.models import AdminAction, MarketLotSettings
 
-QUINTAL_MIN_DEFAULT = 2_500_00
-QUINTAL_MAX_DEFAULT = 10_000_00
-CRATE_MIN_DEFAULT = 400_00
-CRATE_MAX_DEFAULT = 1_200_00
+CROPS = ("santra", "mosambi")
+RANGED_BASES = ("per_quintal", "per_crate")
+# basis -> (min, max) in paise, the same for every crop until the admin changes one.
+DEFAULT_RANGES = {"per_quintal": (2_500_00, 10_000_00), "per_crate": (400_00, 1_200_00)}
 HARVEST_DAYS_DEFAULT = 15
 LOT_SETTINGS_SUBJECT = uuid.UUID("00000000-0000-4000-8000-00000000c003")
 LEGACY_BASIS = "per_tonne"
-SETTING_FIELDS = (
-    "per_quintal_min_paise",
-    "per_quintal_max_paise",
-    "per_crate_min_paise",
-    "per_crate_max_paise",
-    "harvest_window_days",
+
+
+def range_column(crop: str, basis: str, end: str) -> str:
+    """The settings column of one end ("min" / "max") of a crop's range for a basis."""
+    return f"{crop}_{basis}_{end}_paise"
+
+
+RANGE_COLUMNS = tuple(
+    range_column(c, b, e) for c in CROPS for b in RANGED_BASES for e in ("min", "max")
 )
-DEFAULTS = {
-    "per_quintal_min_paise": QUINTAL_MIN_DEFAULT,
-    "per_quintal_max_paise": QUINTAL_MAX_DEFAULT,
-    "per_crate_min_paise": CRATE_MIN_DEFAULT,
-    "per_crate_max_paise": CRATE_MAX_DEFAULT,
-    "harvest_window_days": HARVEST_DAYS_DEFAULT,
-}
+SETTING_FIELDS = (*RANGE_COLUMNS, "harvest_window_days")
 
 
 @dataclass(frozen=True, slots=True)
 class LotRules:
-    # basis -> (min, max) in paise, both inclusive; a basis not listed has no range.
-    ranges: dict[str, tuple[int, int]]
+    # (crop, basis) -> (min, max) in paise, both inclusive; a pair not listed has no range.
+    ranges: dict[tuple[str, str], tuple[int, int]]
     harvest_window_days: int
 
-    def out_of_range(self, basis: str, rate_paise: int | None) -> tuple[int, int] | None:
+    def out_of_range(
+        self, crop: str | None, basis: str, rate_paise: int | None
+    ) -> tuple[int, int] | None:
         """The range the rate misses, or None when it fits (or has no range / no rate)."""
-        span = self.ranges.get(basis)
+        span = self.ranges.get((crop or "", basis))
         if span is None or rate_paise is None or span[0] <= rate_paise <= span[1]:
             return None
         return span
@@ -73,21 +75,28 @@ async def lot_settings_row(session: AsyncSession) -> MarketLotSettings:
     return row
 
 
-def effective(row: MarketLotSettings | None) -> dict[str, int]:
+def rules_of(row: MarketLotSettings | None) -> LotRules:
     """Each setting as it applies: the admin's value, else the default."""
-    values = {f: getattr(row, f, None) if row else None for f in SETTING_FIELDS}
-    return {f: DEFAULTS[f] if v is None else v for f, v in values.items()}
+
+    def value(column: str, default: int) -> int:
+        v = getattr(row, column, None) if row else None
+        return default if v is None else int(v)
+
+    return LotRules(
+        ranges={
+            (c, b): (
+                value(range_column(c, b, "min"), DEFAULT_RANGES[b][0]),
+                value(range_column(c, b, "max"), DEFAULT_RANGES[b][1]),
+            )
+            for c in CROPS
+            for b in RANGED_BASES
+        },
+        harvest_window_days=value("harvest_window_days", HARVEST_DAYS_DEFAULT),
+    )
 
 
 async def lot_rules(session: AsyncSession) -> LotRules:
-    v = effective(await session.get(MarketLotSettings, 1))
-    return LotRules(
-        ranges={
-            "per_quintal": (v["per_quintal_min_paise"], v["per_quintal_max_paise"]),
-            "per_crate": (v["per_crate_min_paise"], v["per_crate_max_paise"]),
-        },
-        harvest_window_days=v["harvest_window_days"],
-    )
+    return rules_of(await session.get(MarketLotSettings, 1))
 
 
 def change_lot_settings(

@@ -35,46 +35,52 @@ bool hasContactDetails(String text) {
 /// One asking-rate range in paise, both ends allowed.
 typedef RateRange = ({int min, int max});
 
-/// The lot form settings the admin sets on the server (owner 2026-11-11, Q138): the
-/// asking-rate range per quintal and per crate (the whole orchard has none) and how many
-/// days after the chosen start the harvest window ends by default. The phone keeps the
-/// last copy from `/v1/market-link/lot-settings`; [bundled] (the server's defaults) is used
-/// only until the first answer arrives. The server checks the range again at publish.
+/// The lot form settings the admin sets on the server (owner 2026-11-11, Q138): the rate
+/// range per crop (santra and mosambi each their own) and basis (per quintal, per crate; the
+/// whole orchard has none), for the grower's asking rate and a trader's offer, and how many
+/// days after the chosen start the harvest window ends by default. The phone keeps the last
+/// copy from `/v1/market-link/lot-settings`; [bundled] (the server's defaults) is used only
+/// until the first answer arrives. The server checks the range again.
 class LotFormSettings {
   const LotFormSettings({
     required this.ranges,
     required this.harvestWindowDays,
   });
 
-  factory LotFormSettings.fromJson(Map<String, Object?> json) =>
-      LotFormSettings(
-        ranges: {
-          for (final r
-              in (json['rate_ranges']! as List).cast<Map<String, Object?>>())
-            r['basis']! as String: (
-              min: r['min_paise']! as int,
-              max: r['max_paise']! as int,
-            ),
-        },
-        harvestWindowDays: json['harvest_window_days']! as int,
+  factory LotFormSettings.fromJson(Map<String, Object?> json) {
+    final ranges = <String, Map<String, RateRange>>{};
+    for (final r
+        in (json['rate_ranges']! as List).cast<Map<String, Object?>>()) {
+      (ranges[r['crop']! as String] ??= {})[r['basis']! as String] = (
+        min: r['min_paise']! as int,
+        max: r['max_paise']! as int,
       );
+    }
+    return LotFormSettings(
+      ranges: ranges,
+      harvestWindowDays: json['harvest_window_days']! as int,
+    );
+  }
+
+  static const _defaults = {
+    'per_quintal': (min: 250000, max: 1000000),
+    'per_crate': (min: 40000, max: 120000),
+  };
 
   static const bundled = LotFormSettings(
-    ranges: {
-      'per_quintal': (min: 250000, max: 1000000),
-      'per_crate': (min: 40000, max: 120000),
-    },
+    ranges: {'santra': _defaults, 'mosambi': _defaults},
     harvestWindowDays: 15,
   );
 
-  final Map<String, RateRange> ranges;
+  /// crop -> basis -> range.
+  final Map<String, Map<String, RateRange>> ranges;
   final int harvestWindowDays;
 
-  RateRange? rangeOf(String? basis) => ranges[basis];
+  RateRange? rangeOf(String? crop, String? basis) => ranges[crop]?[basis];
 
-  /// True when [paise] is inside the range of [basis], or that basis has no range.
-  bool fits(String? basis, int paise) {
-    final r = rangeOf(basis);
+  /// True when [paise] is inside the range of [crop] and [basis], or there is no range.
+  bool fits(String? crop, String? basis, int paise) {
+    final r = rangeOf(crop, basis);
     return r == null || (paise >= r.min && paise <= r.max);
   }
 

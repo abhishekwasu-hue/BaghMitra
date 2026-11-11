@@ -6,6 +6,8 @@ import 'package:bagmitra/features/bahar/domain/bahar_cycle.dart';
 import 'package:bagmitra/features/market_link/data/lot_settings_store.dart';
 import 'package:bagmitra/features/market_link/data/market_lot_repository.dart';
 import 'package:bagmitra/features/market_link/domain/lot_form_rules.dart';
+import 'package:bagmitra/features/plots/data/plot_repository.dart';
+import 'package:bagmitra/features/plots/domain/plot.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -428,4 +430,35 @@ void main() {
       await unmountApp(tester);
     },
   );
+
+  testWidgets('a mosambi orchard uses the mosambi range (Q138)', (
+    tester,
+  ) async {
+    await pumpApp(
+      tester,
+      locale: const Locale('en'),
+      config: mlConfig,
+      initialLocation: '/market-link/lots/new?plot=m1',
+      seed: (db) async {
+        await PlotRepository(db).save(
+          const Plot(
+            id: 'm1',
+            name: 'Mosambi bag',
+            crop: 'mosambi',
+            areaSqM: 2 * Plot.sqMPerAcre,
+          ),
+        );
+        await db.writeMeta(
+          LotSettingsStore.key,
+          lotSettingsJson(mosambiQuintalMin: 400000),
+        );
+      },
+      size: const Size(393, 2600),
+    );
+    await settle(tester);
+    await tester.tap(find.byKey(const Key('lot-basis-per_quintal')));
+    await tester.pump();
+    expect(find.text('₹4,000 – ₹10,000 per quintal'), findsOneWidget);
+    await unmountApp(tester);
+  });
 }

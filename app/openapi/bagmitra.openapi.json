@@ -531,7 +531,7 @@
         "type": "object"
       },
       "AdminLotSettingsIn": {
-        "description": "Every field: a value, or null for the default. A minimum must stay below its maximum\n(as they apply, defaults included).",
+        "description": "Every range of every crop and the harvest window length: a value, or null for the\ndefault. A range left out is the default too. A minimum must stay below its maximum (as\nthey apply, defaults included).",
         "properties": {
           "harvest_window_days": {
             "anyOf": [
@@ -546,83 +546,27 @@
             ],
             "title": "Harvest Window Days"
           },
-          "per_crate_max_paise": {
-            "anyOf": [
-              {
-                "exclusiveMinimum": 0.0,
-                "maximum": 10000000000.0,
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Per Crate Max Paise"
-          },
-          "per_crate_min_paise": {
-            "anyOf": [
-              {
-                "exclusiveMinimum": 0.0,
-                "maximum": 10000000000.0,
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Per Crate Min Paise"
-          },
-          "per_quintal_max_paise": {
-            "anyOf": [
-              {
-                "exclusiveMinimum": 0.0,
-                "maximum": 10000000000.0,
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Per Quintal Max Paise"
-          },
-          "per_quintal_min_paise": {
-            "anyOf": [
-              {
-                "exclusiveMinimum": 0.0,
-                "maximum": 10000000000.0,
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Per Quintal Min Paise"
+          "rate_ranges": {
+            "items": {
+              "$ref": "#/components/schemas/AdminRangeIn"
+            },
+            "maxItems": 8,
+            "title": "Rate Ranges",
+            "type": "array"
           }
         },
         "title": "AdminLotSettingsIn",
         "type": "object"
       },
       "AdminLotSettingsOut": {
+        "description": "The admin's stored values (null = default), with the defaults beside them.",
         "properties": {
-          "defaults": {
-            "additionalProperties": {
-              "type": "integer"
-            },
-            "title": "Defaults",
-            "type": "object"
-          },
           "effective": {
-            "additionalProperties": {
-              "type": "integer"
-            },
-            "title": "Effective",
-            "type": "object"
+            "$ref": "#/components/schemas/LotSettingsOut"
           },
           "harvest_window_days": {
             "anyOf": [
               {
-                "maximum": 120.0,
-                "minimum": 0.0,
                 "type": "integer"
               },
               {
@@ -631,62 +575,23 @@
             ],
             "title": "Harvest Window Days"
           },
-          "per_crate_max_paise": {
-            "anyOf": [
-              {
-                "exclusiveMinimum": 0.0,
-                "maximum": 10000000000.0,
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Per Crate Max Paise"
+          "harvest_window_days_default": {
+            "title": "Harvest Window Days Default",
+            "type": "integer"
           },
-          "per_crate_min_paise": {
-            "anyOf": [
-              {
-                "exclusiveMinimum": 0.0,
-                "maximum": 10000000000.0,
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Per Crate Min Paise"
-          },
-          "per_quintal_max_paise": {
-            "anyOf": [
-              {
-                "exclusiveMinimum": 0.0,
-                "maximum": 10000000000.0,
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Per Quintal Max Paise"
-          },
-          "per_quintal_min_paise": {
-            "anyOf": [
-              {
-                "exclusiveMinimum": 0.0,
-                "maximum": 10000000000.0,
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Per Quintal Min Paise"
+          "rate_ranges": {
+            "items": {
+              "$ref": "#/components/schemas/AdminRangeOut"
+            },
+            "title": "Rate Ranges",
+            "type": "array"
           }
         },
         "required": [
-          "effective",
-          "defaults"
+          "rate_ranges",
+          "harvest_window_days",
+          "harvest_window_days_default",
+          "effective"
         ],
         "title": "AdminLotSettingsOut",
         "type": "object"
@@ -840,6 +745,120 @@
           "district"
         ],
         "title": "AdminProviderIn",
+        "type": "object"
+      },
+      "AdminRangeIn": {
+        "properties": {
+          "basis": {
+            "enum": [
+              "per_quintal",
+              "per_crate"
+            ],
+            "title": "Basis",
+            "type": "string"
+          },
+          "crop": {
+            "enum": [
+              "santra",
+              "mosambi"
+            ],
+            "title": "Crop",
+            "type": "string"
+          },
+          "max_paise": {
+            "anyOf": [
+              {
+                "exclusiveMinimum": 0.0,
+                "maximum": 10000000000.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Paise"
+          },
+          "min_paise": {
+            "anyOf": [
+              {
+                "exclusiveMinimum": 0.0,
+                "maximum": 10000000000.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Min Paise"
+          }
+        },
+        "required": [
+          "crop",
+          "basis"
+        ],
+        "title": "AdminRangeIn",
+        "type": "object"
+      },
+      "AdminRangeOut": {
+        "properties": {
+          "basis": {
+            "enum": [
+              "per_quintal",
+              "per_crate"
+            ],
+            "title": "Basis",
+            "type": "string"
+          },
+          "crop": {
+            "enum": [
+              "santra",
+              "mosambi"
+            ],
+            "title": "Crop",
+            "type": "string"
+          },
+          "default_max_paise": {
+            "title": "Default Max Paise",
+            "type": "integer"
+          },
+          "default_min_paise": {
+            "title": "Default Min Paise",
+            "type": "integer"
+          },
+          "max_paise": {
+            "anyOf": [
+              {
+                "exclusiveMinimum": 0.0,
+                "maximum": 10000000000.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Paise"
+          },
+          "min_paise": {
+            "anyOf": [
+              {
+                "exclusiveMinimum": 0.0,
+                "maximum": 10000000000.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Min Paise"
+          }
+        },
+        "required": [
+          "crop",
+          "basis",
+          "default_min_paise",
+          "default_max_paise"
+        ],
+        "title": "AdminRangeOut",
         "type": "object"
       },
       "AlertOut": {
@@ -5677,7 +5696,7 @@
         "type": "object"
       },
       "LotSettingsOut": {
-        "description": "What the lot form uses: a basis not listed (the whole orchard) has no range.",
+        "description": "What the lot and offer forms use: a crop / basis not listed (the whole orchard) has no\nrange.",
         "properties": {
           "harvest_window_days": {
             "title": "Harvest Window Days",
@@ -8286,6 +8305,14 @@
             "title": "Basis",
             "type": "string"
           },
+          "crop": {
+            "enum": [
+              "santra",
+              "mosambi"
+            ],
+            "title": "Crop",
+            "type": "string"
+          },
           "max_paise": {
             "title": "Max Paise",
             "type": "integer"
@@ -8296,6 +8323,7 @@
           }
         },
         "required": [
+          "crop",
           "basis",
           "min_paise",
           "max_paise"
@@ -14361,7 +14389,7 @@
         ]
       },
       "put": {
-        "description": "Saves every field (null = the default); each change is logged with old / new values.",
+        "description": "Saves every field (null or left out = the default); each change is logged with old /\nnew values.",
         "operationId": "admin_market_link_save_lot_settings",
         "requestBody": {
           "content": {
@@ -20256,7 +20284,7 @@
         ]
       },
       "post": {
-        "description": "An interest on a published lot from a verified trader / exporter (optionally naming a\nverified broker) or from a verified broker for a named verified trader. A trader's new\ninterest replaces their open one on the same lot. The grower gets a push.",
+        "description": "An interest on a published lot from a verified trader / exporter (optionally naming a\nverified broker) or from a verified broker for a named verified trader. A trader's new\ninterest replaces their open one on the same lot. The grower gets a push. A rate outside\nthe admin's range for the lot's crop and the basis is refused (422\n`interest_rate_out_of_range`, Q138).",
         "operationId": "market_link_send_interest",
         "parameters": [
           {

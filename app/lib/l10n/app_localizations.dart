@@ -5928,7 +5928,7 @@ abstract class AppLocalizations {
   /// No description provided for @adminMlLotSettingsNote.
   ///
   /// In en, this message translates to:
-  /// **'The asking-rate range a grower may enter per quintal and per crate (the whole orchard has none), and how many days the harvest window runs after the start the grower picks. Empty = the default shown in grey; the server checks the rate again when a lot is shown to traders.'**
+  /// **'The rate range for each crop, per quintal and per crate, for the grower\'s asking rate and a trader\'s offer (the whole orchard has none), and how many days the harvest window runs after the start the grower picks. Empty = the default shown in grey; the server checks the rate again.'**
   String get adminMlLotSettingsNote;
 
   /// No description provided for @adminMlQuintalMin.
@@ -5960,6 +5960,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Harvest window (days)'**
   String get adminMlHarvestDays;
+
+  /// No description provided for @adminMlCropSantra.
+  ///
+  /// In en, this message translates to:
+  /// **'Santra (orange)'**
+  String get adminMlCropSantra;
+
+  /// No description provided for @adminMlCropMosambi.
+  ///
+  /// In en, this message translates to:
+  /// **'Mosambi (sweet lime)'**
+  String get adminMlCropMosambi;
 
   /// No description provided for @adminMlAll.
   ///
@@ -7400,6 +7412,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Please keep the asking rate within the range shown, then send again.'**
   String get mlPublishRateRange;
+
+  /// No description provided for @mlOfferRateRange.
+  ///
+  /// In en, this message translates to:
+  /// **'Please keep the rate within the range shown, then send again.'**
+  String get mlOfferRateRange;
 
   /// No description provided for @mlPhotos.
   ///

@@ -1228,7 +1228,8 @@ reject. Decided once.''',
   Future<Response<AdminLotSettingsOut>> _v1AdminMarketLinkLotSettingsPut({
     required AdminLotSettingsIn? body,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: 'Saves every field (null = the default); each change is logged with old / new values.',
+      description: '''Saves every field (null or left out = the default); each change is logged with old /
+new values.''',
       summary: 'Save Lot Settings',
       operationId: 'admin_market_link_save_lot_settings',
       consumes: [],
@@ -3037,7 +3038,9 @@ or deleted, or blocked either way with the grower (§4C), is left out.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''An interest on a published lot from a verified trader / exporter (optionally naming a
 verified broker) or from a verified broker for a named verified trader. A trader\'s new
-interest replaces their open one on the same lot. The grower gets a push.''',
+interest replaces their open one on the same lot. The grower gets a push. A rate outside
+the admin\'s range for the lot\'s crop and the basis is refused (422
+`interest_rate_out_of_range`, Q138).''',
       summary: 'Send Interest',
       operationId: 'market_link_send_interest',
       consumes: [],

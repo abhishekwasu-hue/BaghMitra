@@ -1,4 +1,5 @@
 import 'package:bagmitra/features/market_link/data/interest_api.dart';
+import 'package:bagmitra/features/market_link/data/lot_settings_store.dart';
 import 'package:bagmitra/features/market_link/data/registration_api.dart';
 import 'package:bagmitra/features/market_link/domain/interest.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'package:flutter_test/flutter_test.dart';
 import '../../helpers/pump_app.dart';
 import '../plots/plots_screen_test.dart' show settle;
 import 'interest_fakes.dart';
+import 'lot_settings_test.dart' show lotSettingsJson;
 import 'market_link_fakes.dart';
 
 Future<void> _pump(
@@ -77,7 +79,7 @@ void main() {
     await tester.tap(find.byKey(const Key('ml-offer-send')));
     await settle(tester);
     expect(api.sent, isEmpty); // the rate is needed
-    await tester.enterText(find.byKey(const Key('ml-offer-rate')), '32000');
+    await tester.enterText(find.byKey(const Key('ml-offer-rate')), '450');
     await tester.enterText(find.byKey(const Key('ml-offer-tonnes')), '12');
     await tester.tap(find.byKey(const Key('ml-offer-basis-per_crate')));
     await settle(tester);
@@ -85,10 +87,87 @@ void main() {
     await settle(tester);
     final (lotId, d) = api.sent.single;
     expect(lotId, 'l1');
-    expect((d.basis, d.ratePaise, d.quantityT), ('per_crate', 3200000, 12.0));
+    expect((d.basis, d.ratePaise, d.quantityT), ('per_crate', 45000, 12.0));
     expect(d.harvestDate, DateTime(2026, 12));
     expect((d.brokerId, d.traderId), (null, null));
     expect(find.text('माझ्या ऑफर'), findsWidgets); // on to "my offers"
+    await unmountApp(tester);
+  });
+
+  testWidgets('the offer rate has the range of the lot crop and basis (Q138)', (
+    tester,
+  ) async {
+    final api = FakeInterestApi(
+      buyerLots: [
+        sampleBuyerLot(),
+        sampleBuyerLot(id: 'l2', crop: 'mosambi'),
+      ],
+    );
+    await pumpMarketLink(
+      tester,
+      '/market-link/market/l1/offer',
+      api: FakeRegistrationApi(own: [ownTrader()]),
+      overrides: [interestApiProvider.overrideWithValue(api)],
+      size: const Size(393, 1400),
+      // The admin gave mosambi its own range; the phone saved it.
+      seed: (db) => db.writeMeta(
+        LotSettingsStore.key,
+        lotSettingsJson(mosambiQuintalMin: 400000),
+      ),
+    );
+    await settle(tester);
+    // A santra lot per quintal: the muted range line under the field.
+    expect(find.text('₹२,५०० – ₹१०,००० प्रति क्विंटल'), findsOneWidget);
+    await tester.enterText(find.byKey(const Key('ml-offer-rate')), '20000');
+    await tester.tap(find.byKey(const Key('ml-offer-send')));
+    await settle(tester);
+    expect(api.sent, isEmpty);
+    expect(
+      find.text('कृपया दर ₹२,५०० ते ₹१०,००० या दरम्यान लिहा.'),
+      findsOneWidget,
+    );
+    // Per crate: its own range, the message follows the typing.
+    await tester.tap(find.byKey(const Key('ml-offer-basis-per_crate')));
+    await tester.enterText(find.byKey(const Key('ml-offer-rate')), '2000');
+    await settle(tester);
+    expect(
+      find.text('कृपया दर ₹४०० ते ₹१,२०० या दरम्यान लिहा.'),
+      findsOneWidget,
+    );
+    await tester.enterText(find.byKey(const Key('ml-offer-rate')), '450');
+    await settle(tester);
+    expect(find.textContaining('या दरम्यान लिहा'), findsNothing);
+    expect(find.text('₹४०० – ₹१,२०० प्रति क्रेट'), findsOneWidget);
+    // The whole orchard has no range.
+    await tester.tap(find.byKey(const Key('ml-offer-basis-lump_sum')));
+    await settle(tester);
+    expect(find.textContaining(' – ₹'), findsNothing);
+    // The server's own check (its newer admin values) answers calmly.
+    api.sendError = const MarketCallException(
+      MarketCallProblem.refused,
+      'interest_rate_out_of_range',
+    );
+    await tester.tap(find.byKey(const Key('ml-offer-send')));
+    await settle(tester);
+    expect(
+      find.text('दर दिलेल्या मर्यादेत लिहा, मग पुन्हा पाठवा.'),
+      findsOneWidget,
+    );
+    await unmountApp(tester);
+
+    // A mosambi lot uses mosambi's range.
+    await pumpMarketLink(
+      tester,
+      '/market-link/market/l2/offer',
+      api: FakeRegistrationApi(own: [ownTrader()]),
+      overrides: [interestApiProvider.overrideWithValue(api)],
+      seed: (db) => db.writeMeta(
+        LotSettingsStore.key,
+        lotSettingsJson(mosambiQuintalMin: 400000),
+      ),
+    );
+    await settle(tester);
+    expect(find.text('₹४,००० – ₹१०,००० प्रति क्विंटल'), findsOneWidget);
     await unmountApp(tester);
   });
 
@@ -100,7 +179,7 @@ void main() {
       api: api,
       people: FakeRegistrationApi(own: [ownBroker()], listed: [sampleTrader()]),
     );
-    await tester.enterText(find.byKey(const Key('ml-offer-rate')), '32000');
+    await tester.enterText(find.byKey(const Key('ml-offer-rate')), '3200');
     await tester.tap(find.byKey(const Key('ml-offer-send')));
     await settle(tester);
     expect(api.sent, isEmpty);

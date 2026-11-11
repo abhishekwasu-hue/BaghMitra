@@ -187,13 +187,14 @@ async def publish_lot(
     plot = await session.get(Plot, lot.plot_id)
     if plot is None or plot.owner_id != user.id or plot.deleted_at is not None:
         raise ApiError(409, "plot_not_found")
-    # The admin's asking-rate range for the basis (Q138); no range for the whole orchard.
-    span = (await lot_rules(session)).out_of_range(lot.basis, lot.asking_rate_paise)
+    # The admin's range for the plot's crop and the basis (Q138); none for the whole orchard.
+    rules = await lot_rules(session)
+    span = rules.out_of_range(plot.crop, lot.basis, lot.asking_rate_paise)
     if span is not None:
         raise ApiError(
             422,
             "lot_rate_out_of_range",
-            f"the asking rate {lot.basis} must be {span[0]} to {span[1]} paise",
+            f"the asking rate {lot.basis} for {plot.crop} must be {span[0]} to {span[1]} paise",
         )
     photos = await _live_photos(session, lot.id)
     if not LOT_MIN_PHOTOS <= len(photos) <= LOT_MAX_PHOTOS:

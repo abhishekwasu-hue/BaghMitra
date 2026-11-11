@@ -3403,7 +3403,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get adminMlLotSettingsNote =>
-      'The asking-rate range a grower may enter per quintal and per crate (the whole orchard has none), and how many days the harvest window runs after the start the grower picks. Empty = the default shown in grey; the server checks the rate again when a lot is shown to traders.';
+      'The rate range for each crop, per quintal and per crate, for the grower\'s asking rate and a trader\'s offer (the whole orchard has none), and how many days the harvest window runs after the start the grower picks. Empty = the default shown in grey; the server checks the rate again.';
 
   @override
   String get adminMlQuintalMin => 'Per quintal: lowest ₹';
@@ -3419,6 +3419,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get adminMlHarvestDays => 'Harvest window (days)';
+
+  @override
+  String get adminMlCropSantra => 'Santra (orange)';
+
+  @override
+  String get adminMlCropMosambi => 'Mosambi (sweet lime)';
 
   @override
   String get adminMlAll => 'All';
@@ -4229,6 +4235,10 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get mlPublishRateRange =>
       'Please keep the asking rate within the range shown, then send again.';
+
+  @override
+  String get mlOfferRateRange =>
+      'Please keep the rate within the range shown, then send again.';
 
   @override
   String get mlPhotos => 'Photos';

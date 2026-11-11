@@ -70,8 +70,8 @@ contact number and ratings — that a grower can read easily. This narrows the g
    quantity (tonnes), size / quality (chips to tick plus a short line), harvest window (one start
    date, defaulting from the bahar stage; the end follows by the admin's number of days, default 15,
    and can be changed, Q138), sale basis (per quintal / per crate / whole orchard on tree; per quintal
-   is the mandi price's unit, Q138), optional asking rate (inside the admin's range per quintal / per
-   crate, Q138),
+   is the mandi price's unit, Q138), optional asking rate (inside the admin's range per crop, per quintal /
+   per crate, Q138; a trader's offer is checked against the same range),
    3–8 photos taken **in the app camera only**, each with capture time and GPS. The lot screen shows
    the day's mandi modal price (Q48 fair-price check) beside the asking rate.
 2. **Visibility** — only verified traders, exporters and brokers see lots. They see village / taluka,

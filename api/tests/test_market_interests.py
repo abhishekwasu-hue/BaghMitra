@@ -18,11 +18,17 @@ from bagmitra_api.core.settings import Settings
 from bagmitra_api.db.models import PushDevice
 from bagmitra_api.db.session import get_sessionmaker
 from bagmitra_api.main import create_app
-from bagmitra_api.market_link.models import BrokerProfile, BuyerProfile, PartyVerification
+from bagmitra_api.market_link.models import (
+    BrokerProfile,
+    BuyerProfile,
+    MarketLot,
+    PartyVerification,
+)
 from bagmitra_api.market_link.notify import get_push_factory
 from bagmitra_api.push.sender import PushMessage, SendResult
 from bagmitra_api.routers.market_interests import InterestIn
 from bagmitra_api.routers.scouting_photos import get_photo_storage
+from tests.conftest import make_token
 from tests.test_market_lots_sync import LOTS, StoringStorage, accept, draft, headers
 
 # Full coordinates: a short "21.2" also matched timestamps such as "...:21.234" (flaky).
@@ -171,6 +177,57 @@ async def test_interest_fields_only(ml: Any) -> None:
         "broker_id",
         "trader_id",
     }
+
+
+@pytest.mark.parametrize(
+    ("basis", "paise", "ok"),
+    [
+        ("per_quintal", 249_900, False),
+        ("per_quintal", 250_000, True),
+        ("per_quintal", 1_000_000, True),
+        ("per_quintal", 1_000_100, False),
+        ("per_crate", 39_900, False),
+        ("per_crate", 40_000, True),
+        ("per_crate", 120_000, True),
+        ("per_crate", 120_100, False),
+        ("lump_sum", 100, True),  # the whole orchard has no range
+    ],
+)
+async def test_an_interest_rate_stays_in_the_crop_range(
+    ml: Any, basis: str, paise: int, ok: bool
+) -> None:
+    """Owner 2026-11-11 (Q138): "व्यापाराच्या ऑफरवर पण ठेवा", by the lot's crop (santra here)."""
+    _, lot_id, _ = await published(ml)
+    trader = await party(ml)
+    r = await send(ml, lot_id, trader, basis=basis, rate_paise=paise)
+    if ok:
+        assert r.status_code == 201, r.text
+    else:
+        assert (r.status_code, r.json()["error"]["code"]) == (422, "interest_rate_out_of_range")
+
+
+async def test_an_interest_follows_the_admin_range_of_the_lot_crop(ml: Any) -> None:
+    """Mosambi has its own range: changing it leaves santra lots as they were."""
+    admin = {
+        "Authorization": "Bearer "
+        + make_token(uuid.uuid4(), app_metadata={"roles": ["market_link_admin"]})
+    }
+    body = {
+        "rate_ranges": [{"crop": "mosambi", "basis": "per_quintal", "min_paise": 400_000}],
+    }
+    r = await ml.put("/v1/admin/market-link/lot-settings", json=body, headers=admin)
+    assert r.status_code == 200, r.text
+    _, lot_id, _ = await published(ml)  # a santra lot
+    trader = await party(ml)
+    assert (await send(ml, lot_id, trader, rate_paise=320_000)).status_code == 201
+    async with ml.maker() as s:
+        lot = await s.get(MarketLot, lot_id)
+        assert lot is not None
+        lot.crop = "mosambi"
+        await s.commit()
+    r = await send(ml, lot_id, trader, rate_paise=320_000)
+    assert r.json()["error"]["code"] == "interest_rate_out_of_range"
+    assert (await send(ml, lot_id, trader, rate_paise=400_000)).status_code == 201
 
 
 async def test_grower_compares_with_contact_hidden_until_accept(

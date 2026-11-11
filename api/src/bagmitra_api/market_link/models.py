@@ -157,32 +157,61 @@ class MarketLot(OwnedSyncedRowMixin, Base):
 
 
 class MarketLotSettings(TimestampMixin, Base):
-    """The admin's lot form settings (owner 2026-11-11, Q138), one row: the asking-rate range
-    per quintal and per crate, and how many days after the chosen start the harvest window
-    ends by default. Empty = the default in `market_link/lot_rules.py`."""
+    """The admin's lot form settings (owner 2026-11-11, Q138), one row: the rate range per
+    crop (santra, mosambi) and basis (per quintal, per crate), for the grower's asking rate and
+    a trader's interest, and how many days after the chosen start the harvest window ends by
+    default. Empty = the default in `market_link/lot_rules.py`."""
 
     __tablename__ = "market_lot_settings"
     private_table = True
     __table_args__ = (
         CheckConstraint("id = 1", name="single_row"),
         CheckConstraint(
-            "per_quintal_min_paise IS NULL OR per_quintal_min_paise > 0", name="quintal_min"
+            "santra_per_quintal_min_paise IS NULL OR santra_per_quintal_min_paise > 0",
+            name="santra_per_quintal_min",
         ),
         CheckConstraint(
-            "per_quintal_max_paise IS NULL OR per_quintal_max_paise > 0", name="quintal_max"
+            "santra_per_quintal_max_paise IS NULL OR santra_per_quintal_max_paise > 0",
+            name="santra_per_quintal_max",
         ),
-        CheckConstraint("per_crate_min_paise IS NULL OR per_crate_min_paise > 0", name="crate_min"),
-        CheckConstraint("per_crate_max_paise IS NULL OR per_crate_max_paise > 0", name="crate_max"),
+        CheckConstraint(
+            "santra_per_crate_min_paise IS NULL OR santra_per_crate_min_paise > 0",
+            name="santra_per_crate_min",
+        ),
+        CheckConstraint(
+            "santra_per_crate_max_paise IS NULL OR santra_per_crate_max_paise > 0",
+            name="santra_per_crate_max",
+        ),
+        CheckConstraint(
+            "mosambi_per_quintal_min_paise IS NULL OR mosambi_per_quintal_min_paise > 0",
+            name="mosambi_per_quintal_min",
+        ),
+        CheckConstraint(
+            "mosambi_per_quintal_max_paise IS NULL OR mosambi_per_quintal_max_paise > 0",
+            name="mosambi_per_quintal_max",
+        ),
+        CheckConstraint(
+            "mosambi_per_crate_min_paise IS NULL OR mosambi_per_crate_min_paise > 0",
+            name="mosambi_per_crate_min",
+        ),
+        CheckConstraint(
+            "mosambi_per_crate_max_paise IS NULL OR mosambi_per_crate_max_paise > 0",
+            name="mosambi_per_crate_max",
+        ),
         CheckConstraint(
             "harvest_window_days IS NULL OR harvest_window_days >= 0", name="harvest_days"
         ),
     )
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, default=1)
-    per_quintal_min_paise: Mapped[int | None] = mapped_column(BigInteger)
-    per_quintal_max_paise: Mapped[int | None] = mapped_column(BigInteger)
-    per_crate_min_paise: Mapped[int | None] = mapped_column(BigInteger)
-    per_crate_max_paise: Mapped[int | None] = mapped_column(BigInteger)
+    santra_per_quintal_min_paise: Mapped[int | None] = mapped_column(BigInteger)
+    santra_per_quintal_max_paise: Mapped[int | None] = mapped_column(BigInteger)
+    santra_per_crate_min_paise: Mapped[int | None] = mapped_column(BigInteger)
+    santra_per_crate_max_paise: Mapped[int | None] = mapped_column(BigInteger)
+    mosambi_per_quintal_min_paise: Mapped[int | None] = mapped_column(BigInteger)
+    mosambi_per_quintal_max_paise: Mapped[int | None] = mapped_column(BigInteger)
+    mosambi_per_crate_min_paise: Mapped[int | None] = mapped_column(BigInteger)
+    mosambi_per_crate_max_paise: Mapped[int | None] = mapped_column(BigInteger)
     harvest_window_days: Mapped[int | None] = mapped_column(Integer)
 
 
