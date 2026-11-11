@@ -17,6 +17,11 @@ on:
       skip_mendeley:
         description: "Skip the Mexico HLB Mendeley set (true/false)"
         default: "false"
+  # TEMPORARY: GitHub cannot dispatch a workflow that is not on the default branch until it has
+  # been registered by one run. This trigger only registers it (the job is skipped); it is
+  # removed in the next commit.
+  pull_request:
+    paths: [".github/workflows/train-photo-model.yml"]
 
 permissions:
   contents: read
@@ -27,6 +32,7 @@ concurrency:
 
 jobs:
   train:
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     timeout-minutes: 90
     defaults:
