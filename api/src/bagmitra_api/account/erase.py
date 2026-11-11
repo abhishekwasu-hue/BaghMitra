@@ -33,6 +33,7 @@ from bagmitra_api.db.base import Base, utcnow
 from bagmitra_api.db.models import ScoutingRecord
 from bagmitra_api.market_link.erasure import DEFERRED_TABLES, defer_market_link
 from bagmitra_api.market_link.models import MarketLotPhoto
+from bagmitra_api.photo_ai.models import PhotoAnalysisSample
 from bagmitra_api.photos.storage import PhotoStorage
 
 log = structlog.get_logger("bagmitra.account")
@@ -71,6 +72,12 @@ async def _photo_keys(session: AsyncSession, user_id: uuid.UUID) -> list[str]:
     stored += await session.scalars(
         select(MarketLotPhoto.photo_key).where(
             MarketLotPhoto.owner_id == user_id, MarketLotPhoto.photo_key.is_not(None)
+        )
+    )
+    # Analysed crop photos (Q135) are in the same `<owner_id>/` folder.
+    stored += await session.scalars(
+        select(PhotoAnalysisSample.photo_key).where(
+            PhotoAnalysisSample.owner_id == user_id, PhotoAnalysisSample.photo_key.is_not(None)
         )
     )
     return sorted({k for k in stored if k})

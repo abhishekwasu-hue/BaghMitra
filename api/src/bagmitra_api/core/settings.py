@@ -252,6 +252,18 @@ class Settings(BaseSettings):
     photo_download_expiry_seconds: int = Field(default=300, ge=10)
     photo_storage_timeout_seconds: float = 15.0
 
+    # Crop photo analysis (owner Q135, stage 2): off unless PHOTO_AI_API_KEY or, failing that,
+    # FEED_AI_API_KEY is set. The per-farmer photo limits are admin settings in the database
+    # (billing settings and role plans, `photo_ai/limits.py`), not environment settings.
+    photo_ai_api_key: SecretStr = Field(default=SecretStr(""))
+    photo_ai_model: str = "claude-opus-5-5"
+    # Adaptive thinking counts towards this; the JSON answer itself is short.
+    photo_ai_max_tokens: int = Field(default=8000, ge=1000)
+    photo_ai_timeout_seconds: float = 120.0
+    # Training samples (row and photo) older than this are deleted by a nightly job
+    # (`python -m bagmitra_api.photo_ai.retention`); the privacy policy states the same period.
+    photo_ai_retention_days: int = Field(default=730, ge=1)
+
     # Public privacy policy page (`GET /privacy`): the address people write to for access,
     # correction or deletion requests. Empty: the page says the contact is not published yet.
     privacy_contact_email: str = ""
@@ -335,6 +347,11 @@ class Settings(BaseSettings):
     @property
     def photo_storage_enabled(self) -> bool:
         return bool(self.photo_storage_url and self.photo_storage_service_key.get_secret_value())
+
+    @property
+    def photo_ai_key(self) -> str:
+        """PHOTO_AI_API_KEY, or FEED_AI_API_KEY when that is empty ("" = analysis off)."""
+        return self.photo_ai_api_key.get_secret_value() or self.feed_ai_api_key.get_secret_value()
 
     @property
     def auth_admin_enabled(self) -> bool:

@@ -80,6 +80,49 @@ async def change_switch(
     return row
 
 
+async def change_photo_limits(
+    session: AsyncSession,
+    admin_id: uuid.UUID,
+    *,
+    free_daily: int | None,
+    free_monthly: int | None,
+    daily_total: int | None,
+) -> BillingSettings:
+    """Photo analysis limits without a plan and the optional overall cap (Q135)."""
+    row = await billing_settings(session)
+    old = {
+        "free_daily": row.photo_ai_free_daily,
+        "free_monthly": row.photo_ai_free_monthly,
+        "daily_total": row.photo_ai_daily_total,
+    }
+    new = {"free_daily": free_daily, "free_monthly": free_monthly, "daily_total": daily_total}
+    if old != new:
+        row.photo_ai_free_daily, row.photo_ai_free_monthly = free_daily, free_monthly
+        row.photo_ai_daily_total = daily_total
+        log_admin_change(session, "photo_limits_changed", admin_id, old, new)
+    await session.flush()
+    return row
+
+
+async def set_role_photo_limits(
+    session: AsyncSession,
+    admin_id: uuid.UUID,
+    role: str,
+    *,
+    daily: int | None,
+    monthly: int | None,
+) -> BillingRolePrice:
+    """Photo analysis limits of one role's plan (Q135); None = the default."""
+    row = (await role_prices(session))[role]
+    old = {"role": role, "daily": row.photo_ai_daily, "monthly": row.photo_ai_monthly}
+    new = {"role": role, "daily": daily, "monthly": monthly}
+    if old != new:
+        row.photo_ai_daily, row.photo_ai_monthly = daily, monthly
+        log_admin_change(session, "role_photo_limits_changed", admin_id, old, new)
+    await session.flush()
+    return row
+
+
 def _iso(value: date | None) -> str | None:
     return value.isoformat() if value else None
 

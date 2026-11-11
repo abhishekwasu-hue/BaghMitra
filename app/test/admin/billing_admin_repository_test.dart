@@ -21,6 +21,15 @@ Map<String, Object?> billingRoleJson(
   'play_synced_at': play ? '2026-11-08T05:00:00Z' : null,
 };
 
+/// The photo analysis limits block of the same response (Q135): nothing set yet.
+const Map<String, Object?> billingPhotoLimitsJson = {
+  'free_daily': null,
+  'free_monthly': null,
+  'daily_total': null,
+  'default_daily': 5,
+  'default_monthly': 50,
+};
+
 void main() {
   test('every string exists in mr, hi and en', () {
     const keys = ['section', 'rule_up_notice', 'broker', 'play_not_set_up'];
@@ -38,6 +47,7 @@ void main() {
       'enabled': false,
       'starts_on': null,
       'roles': [for (final r in billingRoles) billingRoleJson(r)],
+      'photo_limits': billingPhotoLimitsJson,
     });
     final api = createApi(
       baseUrl: Uri.parse('https://api.test'),

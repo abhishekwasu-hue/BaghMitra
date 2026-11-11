@@ -152,6 +152,37 @@ def parse_summary(payload: dict[str, Any]) -> Summary:
     return Summary(title=title.strip(), summary=summary.strip(), fields=fields)
 
 
+async def messages_text(  # noqa: PLR0913 - the one Messages API call of the repo
+    http: httpx.AsyncClient,
+    *,
+    base_url: str,
+    headers: dict[str, str],
+    body: dict[str, Any],
+    fallback: bool,
+    read_seconds: float,
+) -> str:
+    """POST /v1/messages and the answer's text; AiUnavailableError for a transport error, a
+    non-200 status, a refusal or an answer cut off at max_tokens. With `fallback`, the
+    server-side refusal fallback beta routes a declined request to the default fallback."""
+    if fallback:
+        headers = {**headers, "anthropic-beta": FALLBACK_BETA}
+        body = {**body, "fallbacks": "default"}
+    url = f"{base_url.rstrip('/')}/v1/messages"
+    try:
+        response = await http.post(url, headers=headers, json=body, timeout=read_seconds)
+    except httpx.HTTPError as exc:
+        raise AiUnavailableError(f"{type(exc).__name__}: {exc}") from exc
+    if response.status_code != httpx.codes.OK:
+        raise AiUnavailableError(f"HTTP {response.status_code}")
+    payload = response.json()
+    if payload.get("stop_reason") == "refusal":
+        raise AiUnavailableError("model declined the request")
+    if payload.get("stop_reason") == "max_tokens":
+        raise AiUnavailableError("answer cut off at max_tokens")
+    texts = [b.get("text", "") for b in payload.get("content", []) if b.get("type") == "text"]
+    return "".join(texts)
+
+
 class AnthropicFeedAi:
     """Classifier (cheap model) and summariser (stronger model) over the Messages API."""
 
@@ -196,25 +227,14 @@ class AnthropicFeedAi:
         if schema is not None:
             # Structured outputs: the answer is JSON matching the schema (no broken JSON).
             body["output_config"] = {"format": {"type": "json_schema", "schema": schema}}
-        if fallback:
-            headers["anthropic-beta"] = FALLBACK_BETA
-            body["fallbacks"] = "default"
-        url = f"{s.feed_ai_base_url.rstrip('/')}/v1/messages"
-        try:
-            response = await self._http.post(
-                url, headers=headers, json=body, timeout=wait_seconds or s.feed_ai_timeout_seconds
-            )
-        except httpx.HTTPError as exc:
-            raise AiUnavailableError(f"{type(exc).__name__}: {exc}") from exc
-        if response.status_code != httpx.codes.OK:
-            raise AiUnavailableError(f"HTTP {response.status_code}")
-        payload = response.json()
-        if payload.get("stop_reason") == "refusal":
-            raise AiUnavailableError("model declined the request")
-        if payload.get("stop_reason") == "max_tokens":
-            raise AiUnavailableError("answer cut off at max_tokens")
-        texts = [b.get("text", "") for b in payload.get("content", []) if b.get("type") == "text"]
-        return "".join(texts)
+        return await messages_text(
+            self._http,
+            base_url=s.feed_ai_base_url,
+            headers=headers,
+            body=body,
+            fallback=fallback,
+            read_seconds=wait_seconds or s.feed_ai_timeout_seconds,
+        )
 
     async def classify(self, text: str) -> Classification:
         answer = await self._ask(

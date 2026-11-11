@@ -483,6 +483,9 @@ Map<String, dynamic> _$BadgeOutToJson(BadgeOut instance) => <String, dynamic>{
 BillingSettingsOut _$BillingSettingsOutFromJson(Map<String, dynamic> json) =>
     BillingSettingsOut(
       enabled: json['enabled'] as bool,
+      photoLimits: PhotoLimitsOut.fromJson(
+        json['photo_limits'] as Map<String, dynamic>,
+      ),
       roles:
           (json['roles'] as List<dynamic>?)
               ?.map((e) => RolePriceOut.fromJson(e as Map<String, dynamic>))
@@ -496,6 +499,7 @@ BillingSettingsOut _$BillingSettingsOutFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$BillingSettingsOutToJson(BillingSettingsOut instance) =>
     <String, dynamic>{
       'enabled': instance.enabled,
+      'photo_limits': instance.photoLimits.toJson(),
       'roles': instance.roles.map((e) => e.toJson()).toList(),
       'starts_on': ?_dateToJson(instance.startsOn),
     };
@@ -531,6 +535,22 @@ BlocksResponse _$BlocksResponseFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$BlocksResponseToJson(BlocksResponse instance) =>
     <String, dynamic>{'blocked_user_ids': instance.blockedUserIds};
+
+BodyPhotoAnalysisCreate _$BodyPhotoAnalysisCreateFromJson(
+  Map<String, dynamic> json,
+) => BodyPhotoAnalysisCreate(
+  $part: json['part'] as String?,
+  photo: json['photo'] as String,
+  scoutingItem: json['scouting_item'] as String?,
+);
+
+Map<String, dynamic> _$BodyPhotoAnalysisCreateToJson(
+  BodyPhotoAnalysisCreate instance,
+) => <String, dynamic>{
+  'part': ?instance.$part,
+  'photo': instance.photo,
+  'scouting_item': ?instance.scoutingItem,
+};
 
 BrokerIn _$BrokerInFromJson(Map<String, dynamic> json) => BrokerIn(
   address: json['address'] as String?,
@@ -644,6 +664,26 @@ BuyerLotsResponse _$BuyerLotsResponseFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$BuyerLotsResponseToJson(BuyerLotsResponse instance) =>
     <String, dynamic>{'lots': instance.lots.map((e) => e.toJson()).toList()};
+
+CandidateOut _$CandidateOutFromJson(Map<String, dynamic> json) => CandidateOut(
+  confidence: (json['confidence'] as num).toDouble(),
+  explanation: LocalizedText.fromJson(
+    json['explanation'] as Map<String, dynamic>,
+  ),
+  key: json['key'] as String,
+  name: LocalizedText.fromJson(json['name'] as Map<String, dynamic>),
+  signs:
+      (json['signs'] as List<dynamic>?)?.map((e) => e as String).toList() ?? [],
+);
+
+Map<String, dynamic> _$CandidateOutToJson(CandidateOut instance) =>
+    <String, dynamic>{
+      'confidence': instance.confidence,
+      'explanation': instance.explanation.toJson(),
+      'key': instance.key,
+      'name': instance.name.toJson(),
+      'signs': instance.signs,
+    };
 
 CardOut _$CardOutFromJson(Map<String, dynamic> json) => CardOut(
   crop: json['crop'] as String,
@@ -882,12 +922,14 @@ Map<String, dynamic> _$EntitlementsResponseToJson(
 
 ErrorBody _$ErrorBodyFromJson(Map<String, dynamic> json) => ErrorBody(
   code: json['code'] as String,
+  details: json['details'],
   message: json['message'] as String,
   requestId: json['request_id'] as String,
 );
 
 Map<String, dynamic> _$ErrorBodyToJson(ErrorBody instance) => <String, dynamic>{
   'code': instance.code,
+  'details': ?instance.details,
   'message': instance.message,
   'request_id': instance.requestId,
 };
@@ -1996,6 +2038,16 @@ Map<String, dynamic> _$LabelClaimsResponseToJson(
   'kind': ?instance.kind,
 };
 
+LabelIn _$LabelInFromJson(Map<String, dynamic> json) => LabelIn(
+  label: json['label'] as String,
+  source: LabelIn.labelInSourceSourceNullableFromJson(json['source']),
+);
+
+Map<String, dynamic> _$LabelInToJson(LabelIn instance) => <String, dynamic>{
+  'label': instance.label,
+  'source': ?labelInSourceNullableToJson(instance.source),
+};
+
 LiveResponse _$LiveResponseFromJson(Map<String, dynamic> json) => LiveResponse(
   product: json['product'] as String,
   status: json['status'] as String,
@@ -2003,6 +2055,16 @@ LiveResponse _$LiveResponseFromJson(Map<String, dynamic> json) => LiveResponse(
 
 Map<String, dynamic> _$LiveResponseToJson(LiveResponse instance) =>
     <String, dynamic>{'product': instance.product, 'status': instance.status};
+
+LocalizedText _$LocalizedTextFromJson(Map<String, dynamic> json) =>
+    LocalizedText(
+      en: json['en'] as String,
+      hi: json['hi'] as String,
+      mr: json['mr'] as String,
+    );
+
+Map<String, dynamic> _$LocalizedTextToJson(LocalizedText instance) =>
+    <String, dynamic>{'en': instance.en, 'hi': instance.hi, 'mr': instance.mr};
 
 LotBrief _$LotBriefFromJson(Map<String, dynamic> json) => LotBrief(
   basis: json['basis'] as String,
@@ -2639,6 +2701,24 @@ Map<String, dynamic> _$PartyContactOutToJson(PartyContactOut instance) =>
       'phone': instance.phone,
     };
 
+PhotoAnalysisOut _$PhotoAnalysisOutFromJson(Map<String, dynamic> json) =>
+    PhotoAnalysisOut(
+      candidates:
+          (json['candidates'] as List<dynamic>?)
+              ?.map((e) => CandidateOut.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+      photoId: json['photo_id'] as String,
+      unsure: json['unsure'] as bool,
+    );
+
+Map<String, dynamic> _$PhotoAnalysisOutToJson(PhotoAnalysisOut instance) =>
+    <String, dynamic>{
+      'candidates': instance.candidates.map((e) => e.toJson()).toList(),
+      'photo_id': instance.photoId,
+      'unsure': instance.unsure,
+    };
+
 PhotoDownloadUrl _$PhotoDownloadUrlFromJson(Map<String, dynamic> json) =>
     PhotoDownloadUrl(
       expiresIn: (json['expires_in'] as num).toInt(),
@@ -2651,6 +2731,38 @@ Map<String, dynamic> _$PhotoDownloadUrlToJson(PhotoDownloadUrl instance) =>
       'expires_in': instance.expiresIn,
       'photo_key': instance.photoKey,
       'url': instance.url,
+    };
+
+PhotoLimitsIn _$PhotoLimitsInFromJson(Map<String, dynamic> json) =>
+    PhotoLimitsIn(
+      dailyTotal: (json['daily_total'] as num?)?.toInt(),
+      freeDaily: (json['free_daily'] as num?)?.toInt(),
+      freeMonthly: (json['free_monthly'] as num?)?.toInt(),
+    );
+
+Map<String, dynamic> _$PhotoLimitsInToJson(PhotoLimitsIn instance) =>
+    <String, dynamic>{
+      'daily_total': ?instance.dailyTotal,
+      'free_daily': ?instance.freeDaily,
+      'free_monthly': ?instance.freeMonthly,
+    };
+
+PhotoLimitsOut _$PhotoLimitsOutFromJson(Map<String, dynamic> json) =>
+    PhotoLimitsOut(
+      dailyTotal: (json['daily_total'] as num?)?.toInt(),
+      defaultDaily: (json['default_daily'] as num?)?.toInt(),
+      defaultMonthly: (json['default_monthly'] as num?)?.toInt(),
+      freeDaily: (json['free_daily'] as num?)?.toInt(),
+      freeMonthly: (json['free_monthly'] as num?)?.toInt(),
+    );
+
+Map<String, dynamic> _$PhotoLimitsOutToJson(PhotoLimitsOut instance) =>
+    <String, dynamic>{
+      'daily_total': ?instance.dailyTotal,
+      'default_daily': ?instance.defaultDaily,
+      'default_monthly': ?instance.defaultMonthly,
+      'free_daily': ?instance.freeDaily,
+      'free_monthly': ?instance.freeMonthly,
     };
 
 PhotoUploadIn _$PhotoUploadInFromJson(Map<String, dynamic> json) =>
@@ -3476,8 +3588,19 @@ RoleAmountIn _$RoleAmountInFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$RoleAmountInToJson(RoleAmountIn instance) =>
     <String, dynamic>{'amount_paise': ?instance.amountPaise};
 
+RolePhotoLimitsIn _$RolePhotoLimitsInFromJson(Map<String, dynamic> json) =>
+    RolePhotoLimitsIn(
+      daily: (json['daily'] as num?)?.toInt(),
+      monthly: (json['monthly'] as num?)?.toInt(),
+    );
+
+Map<String, dynamic> _$RolePhotoLimitsInToJson(RolePhotoLimitsIn instance) =>
+    <String, dynamic>{'daily': ?instance.daily, 'monthly': ?instance.monthly};
+
 RolePriceOut _$RolePriceOutFromJson(Map<String, dynamic> json) => RolePriceOut(
   amountPaise: (json['amount_paise'] as num?)?.toInt(),
+  photoAiDaily: (json['photo_ai_daily'] as num?)?.toInt(),
+  photoAiMonthly: (json['photo_ai_monthly'] as num?)?.toInt(),
   playCurrency: json['play_currency'] as String?,
   playPricePaise: (json['play_price_paise'] as num?)?.toInt(),
   playSyncedAt: json['play_synced_at'] == null
@@ -3489,10 +3612,57 @@ RolePriceOut _$RolePriceOutFromJson(Map<String, dynamic> json) => RolePriceOut(
 Map<String, dynamic> _$RolePriceOutToJson(RolePriceOut instance) =>
     <String, dynamic>{
       'amount_paise': ?instance.amountPaise,
+      'photo_ai_daily': ?instance.photoAiDaily,
+      'photo_ai_monthly': ?instance.photoAiMonthly,
       'play_currency': ?instance.playCurrency,
       'play_price_paise': ?instance.playPricePaise,
       'play_synced_at': ?instance.playSyncedAt?.toIso8601String(),
       'role': instance.role,
+    };
+
+SampleOut _$SampleOutFromJson(Map<String, dynamic> json) => SampleOut(
+  candidates:
+      (json['candidates'] as List<dynamic>?)
+          ?.map((e) => CandidateOut.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      [],
+  createdAt: DateTime.parse(json['created_at'] as String),
+  id: json['id'] as String,
+  label: json['label'] as String?,
+  labelSource: json['label_source'] as String?,
+  model: json['model'] as String,
+  $part: json['part'] as String?,
+  photoUrl: json['photo_url'] as String?,
+  plotId: json['plot_id'] as String,
+  scoutingItem: json['scouting_item'] as String?,
+  unsure: json['unsure'] as bool,
+);
+
+Map<String, dynamic> _$SampleOutToJson(SampleOut instance) => <String, dynamic>{
+  'candidates': instance.candidates.map((e) => e.toJson()).toList(),
+  'created_at': instance.createdAt.toIso8601String(),
+  'id': instance.id,
+  'label': ?instance.label,
+  'label_source': ?instance.labelSource,
+  'model': instance.model,
+  'part': ?instance.$part,
+  'photo_url': ?instance.photoUrl,
+  'plot_id': instance.plotId,
+  'scouting_item': ?instance.scoutingItem,
+  'unsure': instance.unsure,
+};
+
+SamplesOut _$SamplesOutFromJson(Map<String, dynamic> json) => SamplesOut(
+  samples:
+      (json['samples'] as List<dynamic>?)
+          ?.map((e) => SampleOut.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      [],
+);
+
+Map<String, dynamic> _$SamplesOutToJson(SamplesOut instance) =>
+    <String, dynamic>{
+      'samples': instance.samples.map((e) => e.toJson()).toList(),
     };
 
 SentInterestOut _$SentInterestOutFromJson(Map<String, dynamic> json) =>

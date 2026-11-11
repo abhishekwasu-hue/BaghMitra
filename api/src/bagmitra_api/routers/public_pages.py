@@ -67,6 +67,7 @@ async def privacy_page(
         heading += " · Privacy policy"
     header = f"<h1>{heading}</h1>{_LANG_LINKS}"
     days = settings.sync_payload_retention_days
-    body = "".join(privacy.section(code, email, days) for code in langs)
+    photo_days = settings.photo_ai_retention_days
+    body = "".join(privacy.section(code, email, days, photo_days) for code in langs)
     footer = '<a href="/">बागमित्र · BagMitra</a>'
     return _html(page(lang=langs[0], title=title, header=header, body=body, footer=footer))

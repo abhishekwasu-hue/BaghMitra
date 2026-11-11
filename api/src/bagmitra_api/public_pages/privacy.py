@@ -10,7 +10,7 @@ from __future__ import annotations
 
 from html import escape
 
-LAST_UPDATED = {"mr": "६ नोव्हेंबर २०२६", "en": "6 November 2026"}
+LAST_UPDATED = {"mr": "११ नोव्हेंबर २०२६", "en": "11 November 2026"}
 DELETION_DAYS = {"mr": "३० दिवसांत", "en": "within 30 days"}
 
 _IF = {"mr": "चालू केले असल्यास", "en": "if turned on"}
@@ -35,9 +35,10 @@ def contact_line(lang: str, email: str) -> str:
 _MARATHI_DIGITS = str.maketrans("0123456789", "०१२३४५६७८९")
 
 
-def _mr(email: str, retention_days: int) -> str:
+def _mr(email: str, retention_days: int, photo_days: int) -> str:
     i = _if("mr")
     retention_days_mr = str(retention_days).translate(_MARATHI_DIGITS)
+    photo_days_mr = str(photo_days).translate(_MARATHI_DIGITS)
     return f"""
 <h2 id="mr-about">१. हे धोरण कशाबद्दल</h2>
 <p>बागमित्र हे संत्रा आणि मोसंबी बागायतदारांसाठी बागेच्या नोंदींचे ॲप आहे. हे धोरण ॲप आणि
@@ -65,6 +66,10 @@ Google त्याच्या संमती-पानावर दाखव�
 <ul><li>पाहणीचे फोटो फोनवरच राहतात. फोटो बॅकअप {i}: ते खाजगी Supabase Storage मध्ये
 जातात (Wi-Fi वर; तुम्ही निवडल्यास मोबाइल डेटावरही). फोटो उघडण्याचा दुवा काही मिनिटांत आणि
 पाठवण्याचा दुवा दोन तासांत संपतो.</li>
+<li>रोग/कीड ओळखण्यासाठी पाठवलेला पिकाचा फोटो {i}: आधी ठिकाण, वेळ व फोनची माहिती (EXIF)
+काढली जाते, मग AI सेवा (Anthropic) तो फोटो तपासते. रोग ओळख सुधारण्यासाठी फोटो व निकाल खाजगी
+साठवणीत ठेवले जातात; आमचे तज्ञ ते तपासू शकतात. नोंदणीची संमती यासाठी लागू; प्रत्येक फोटोसाठी
+परवानगी पुन्हा विचारली जात नाही.</li>
 <li>पीक-नुकसान दाव्याचे फोटो, टिपा आणि तपासणी अहवालाच्या फाइल फक्त फोनवरच राहतात.</li></ul>
 <h3>ठिकाण (location)</h3>
 <ul><li>फक्त तुम्ही बागेचे ठिकाण/सीमा नोंदवता किंवा दाव्याचा फोटो जोडता तेव्हा एकदाच वाचले
@@ -105,8 +110,8 @@ Google त्याच्या संमती-पानावर दाखव�
 <li><b>Open-Meteo</b>: हवामानासाठी बागेचे ठिकाण सुमारे १ किमी पर्यंत गोल करून पाठवले जाते; नाव
 किंवा नंबर नाही.</li>
 <li><b>data.gov.in</b> (Agmarknet): बाजारभाव आणण्यासाठी फक्त पिकाचे नाव; तुमची माहिती नाही.</li>
-<li><b>Anthropic</b> (AI सारांश) {i}: फक्त सरकारी GR/परिपत्रकाचा मजकूर; शेतकऱ्याची माहिती
-नाही.</li>
+<li><b>Anthropic</b> (AI) {i}: सरकारी GR/परिपत्रकाचा मजकूर, आणि तपासणीचा पिकाचा फोटो (EXIF
+शिवाय); नाव, नंबर किंवा बागेचे ठिकाण नाही.</li>
 <li><b>Sentry</b> {i}: त्रुटी अहवाल. <b>सर्व्हर भाड्याने देणारी कंपनी</b>: API चालवण्यासाठी.</li>
 <li>कायद्याने बंधनकारक असल्यासच सरकारी यंत्रणांना.</li></ul>
 
@@ -115,6 +120,9 @@ Google त्याच्या संमती-पानावर दाखव�
 फोनवरूनही ती जावी म्हणून) आणि sync साठी बदलांचा इतिहास ठेवतो. इतिहासातील बदलांचा मजकूर
 {retention_days_mr} दिवसांनंतर पुसला जातो; त्यानंतर फक्त त्याची ओळख-खूण (hash) आणि आकार राहतो. सर्व्हरने
 नाकारलेल्या बदलांचा मजकूर ठेवला जात नाही; फक्त त्याची ओळख-खूण (hash) आणि आकार.</li>
+<li>तपासणीचे पिकाचे फोटो व निकाल: तपासणीपासून {photo_days_mr} दिवस ठेवले जातात, नंतर आपोआप
+पुसले जातात. त्याआधी त्याची पाहणी नोंद काढून फोटो पुसता येतो; खाते काढल्यावर सर्व पुसले
+जातात.</li>
 <li>खाते काढल्यावर (ॲपमधून किंवा विनंतीने) सर्व्हरवरच्या नोंदी, इतिहास, फोनची नोंदणी, सूचनांच्या
 खुणा आणि बॅकअप घेतलेले फोटो लगेच पुसले जातात. लॉगिन खाते (Supabase Auth) आपोआप किंवा
 {DELETION_DAYS["mr"]} आम्ही हाताने काढतो. आमच्या रोजच्या डेटाबेस बॅकअपमधील प्रत १४ दिवसांत
@@ -165,7 +173,7 @@ security हे आणखी एक संरक्षण म्हणून च
 """
 
 
-def _en(email: str, retention_days: int) -> str:
+def _en(email: str, retention_days: int, photo_days: int) -> str:
     i = _if("en")
     return f"""
 <h2 id="en-about">1. About this policy</h2>
@@ -197,6 +205,10 @@ test values.</li>
 <ul><li>Scouting photos stay on your phone. Photo backup {i}: they are uploaded to a private
 Supabase Storage bucket (on Wi-Fi, or on mobile data if you allow it). A link to open a photo
 expires within minutes; a link to upload one expires within two hours.</li>
+<li>A crop photo you send to identify a disease or pest {i}: its location, time and phone
+details (EXIF) are removed first, then an AI service (Anthropic) analyses it. The photo and
+result are kept in private storage to improve disease identification; our experts may check
+them. Your signup consent covers this; it is not asked again for each photo.</li>
 <li>Crop-loss claim photos and notes, and lab report files, stay on your phone only.</li></ul>
 <h3>Location</h3>
 <ul><li>Read once, only when you mark a plot location or boundary or add a claim photo. There is
@@ -237,8 +249,8 @@ included in Google's Android backup.</li></ul>
 number.</li>
 <li><b>data.gov.in</b> (Agmarknet): only crop names, to fetch mandi prices; none of your
 data.</li>
-<li><b>Anthropic</b> (AI summaries) {i}: only the text of government GRs and circulars; no
-grower data.</li>
+<li><b>Anthropic</b> (AI) {i}: the text of government GRs and circulars, and crop photos sent
+for analysis (without EXIF); no name, number or plot location.</li>
 <li><b>Sentry</b> {i}: error reports. <b>The server hosting company</b>: to run the API.</li>
 <li>Government authorities only where the law requires it.</li></ul>
 
@@ -248,6 +260,8 @@ grower data.</li>
 sync. The contents of a change in that history are erased after {retention_days} days; only a
 fingerprint (hash) and its size remain. For a change the server rejects, only a fingerprint (hash)
 and its size are kept, not its contents.</li>
+<li>Analysed crop photos and results: kept for {photo_days} days from the analysis, then
+deleted automatically; earlier by deleting the scouting entry, and all with the account.</li>
 <li>When the account is deleted (in the app or on request), the server records, history,
 registered devices, notice marks and backed-up photos are erased at once. The sign-in account
 (Supabase Auth) is removed automatically, or by us by hand {DELETION_DAYS["en"]}. Copies in our
@@ -303,8 +317,10 @@ app.</li></ul>
 """
 
 
-def section(lang: str, email: str, retention_days: int) -> str:
+def section(lang: str, email: str, retention_days: int, photo_days: int = 730) -> str:
     """One language's full policy as a `<section>` (anchor `#mr` or `#en`).
-    `retention_days`: SYNC_PAYLOAD_RETENTION_DAYS (LD-09)."""
-    body = _mr(email, retention_days) if lang == "mr" else _en(email, retention_days)
+    `retention_days`: SYNC_PAYLOAD_RETENTION_DAYS (LD-09); `photo_days`:
+    PHOTO_AI_RETENTION_DAYS (Q135)."""
+    write = _mr if lang == "mr" else _en
+    body = write(email, retention_days, photo_days)
     return f'<section id="{lang}" lang="{lang}">{body}</section>'
