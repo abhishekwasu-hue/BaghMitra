@@ -77,3 +77,18 @@ yet (the cached prefix would be about 2,000 tokens).
 pest / disorder profile in `app/assets/config/practice_cards.json` that has a symptoms text (12
 today). The test `test_seed_matches_the_app_cards` fails when the cards change: copy the
 changed profile over (same keys and texts).
+
+## 6. The app (stage 3)
+
+- Where: the plot's scouting log → "फोटोवरून ओळखा"; the pest / disease photo form ("कीड-रोग फोटो") →
+  after a photo is picked, "फोटोवरून ओळखा" checks that photo (sends the chosen `scouting_item`).
+  Route `/plots/<id>/photo-check`; code `app/lib/features/photo_analysis/`.
+- Consent: none asked in the app (signup privacy policy). The camera is the phone's camera app through
+  `image_picker`, so the app declares no CAMERA permission.
+- Upload: the generated client's multipart method sends one JSON part named `body`, which the server
+  cannot read, so `HttpPhotoAnalysisApi` builds the request (field `photo`, plus `part`,
+  `scouting_item`) on the app's authenticated client, with its own 150 s answer wait (other calls: 20 s).
+  The photo is re-encoded on the phone to JPEG, at most 1600 px, under 2 MiB.
+- No queue: offline or a server failure shows a calm line, and the photo stays for a one-tap retry.
+- Delete: "हा फोटो हटवा" on the result calls `DELETE /v1/photo-analysis/{photo_id}`; results are not
+  stored with scouting entries (OPEN_QUESTIONS Q135, open point a).

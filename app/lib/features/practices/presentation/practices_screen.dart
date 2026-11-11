@@ -21,8 +21,12 @@ import 'practice_figure_view.dart';
 /// comes, how to scout and any published action level, lists organic / bio options as
 /// published, links to the label screen for that target, and keeps its sources and the
 /// date read one tap away (owner 2026-11-10: no "general information" mark).
+///
+/// [section] opens that card already unfolded and in view (a photo-check result, Q135).
 class PracticesScreen extends ConsumerWidget {
-  const PracticesScreen({super.key});
+  const PracticesScreen({super.key, this.section});
+
+  final String? section;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -267,51 +271,89 @@ class PracticesScreen extends ConsumerWidget {
       ),
       body: data == null
           ? const Center(child: CircularProgressIndicator())
-          : ListView(
+          // Every section is built (folded ones are cheap), so a [section] far down the
+          // guide can be scrolled into view.
+          : SingleChildScrollView(
               padding: const EdgeInsets.all(BmSpace.lg),
-              children: [
-                for (final s in data.sections)
-                  ExpansionTile(
-                    key: Key('practices-${s.key}'),
-                    tilePadding: EdgeInsets.zero,
-                    childrenPadding: EdgeInsets.zero,
-                    expandedCrossAxisAlignment: CrossAxisAlignment.start,
-                    title: Text(s.label(lang), style: BmType.bodyStrong),
-                    children: [
-                      if (s.profile case final p?)
-                        ...profiled(s, p)
-                      else ...[
-                        for (final p in s.items) item(p),
-                        // Registered label information for this section's pests (Q57).
-                        if (labelLinks?[s.key] case final keys?)
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: BmSpace.md),
-                            child: LabelInfoLinks(
-                              keys: keys,
-                              idPrefix: 'practice-label-${s.key}',
-                            ),
-                          ),
-                      ],
-                    ],
-                  ),
-                if (data.gaps.isNotEmpty) ...[
-                  const SizedBox(height: BmSpace.lg),
-                  Text(t.practicesGapsTitle, style: BmType.label),
-                  const SizedBox(height: BmSpace.xs),
-                  for (final g in data.gaps)
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: BmSpace.xs),
-                      child: Text(g[lang] ?? g['en'] ?? '', style: BmType.meta),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  for (final s in data.sections)
+                    _RevealWhen(
+                      s.key == section,
+                      child: ExpansionTile(
+                        key: Key('practices-${s.key}'),
+                        initiallyExpanded: s.key == section,
+                        tilePadding: EdgeInsets.zero,
+                        childrenPadding: EdgeInsets.zero,
+                        expandedCrossAxisAlignment: CrossAxisAlignment.start,
+                        title: Text(s.label(lang), style: BmType.bodyStrong),
+                        children: [
+                          if (s.profile case final p?)
+                            ...profiled(s, p)
+                          else ...[
+                            for (final p in s.items) item(p),
+                            // Registered label information for this section's pests (Q57).
+                            if (labelLinks?[s.key] case final keys?)
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  bottom: BmSpace.md,
+                                ),
+                                child: LabelInfoLinks(
+                                  keys: keys,
+                                  idPrefix: 'practice-label-${s.key}',
+                                ),
+                              ),
+                          ],
+                        ],
+                      ),
                     ),
+                  if (data.gaps.isNotEmpty) ...[
+                    const SizedBox(height: BmSpace.lg),
+                    Text(t.practicesGapsTitle, style: BmType.label),
+                    const SizedBox(height: BmSpace.xs),
+                    for (final g in data.gaps)
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: BmSpace.xs),
+                        child: Text(
+                          g[lang] ?? g['en'] ?? '',
+                          style: BmType.meta,
+                        ),
+                      ),
+                  ],
+                  const SizedBox(height: BmSpace.lg),
+                  Text(
+                    t.practicesSourcesLineAll,
+                    key: const Key('practices-sources'),
+                    style: BmType.meta.copyWith(color: c.inkMuted),
+                  ),
                 ],
-                const SizedBox(height: BmSpace.lg),
-                Text(
-                  t.practicesSourcesLineAll,
-                  key: const Key('practices-sources'),
-                  style: BmType.meta.copyWith(color: c.inkMuted),
-                ),
-              ],
+              ),
             ),
     );
   }
+}
+
+/// Scrolls its child to the top of the view once, after the first frame, when [reveal].
+class _RevealWhen extends StatefulWidget {
+  const _RevealWhen(this.reveal, {required this.child});
+  final bool reveal;
+  final Widget child;
+
+  @override
+  State<_RevealWhen> createState() => _RevealWhenState();
+}
+
+class _RevealWhenState extends State<_RevealWhen> {
+  @override
+  void initState() {
+    super.initState();
+    if (!widget.reveal) return;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) Scrollable.ensureVisible(context);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) => widget.child;
 }

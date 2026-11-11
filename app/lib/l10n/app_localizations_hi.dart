@@ -4855,4 +4855,123 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get mlWelcomeLine =>
       'बाग के रिकॉर्ड, आज के मंडी भाव और व्यापारी, एक ही ऐप में।';
+
+  @override
+  String get photoCheckOpen => 'फ़ोटो से पहचानें';
+
+  @override
+  String get photoCheckHint =>
+      'पत्ती, फल या तने की पास से, रोशनी में फ़ोटो लें।';
+
+  @override
+  String get photoCheckPart => 'कौन-सा हिस्सा? (वैकल्पिक)';
+
+  @override
+  String get photoCheckPartLeaf => 'पत्ती';
+
+  @override
+  String get photoCheckPartFruit => 'फल';
+
+  @override
+  String get photoCheckPartTrunk => 'तना';
+
+  @override
+  String get photoCheckPartWholeTree => 'पूरा पेड़';
+
+  @override
+  String get photoCheckRetry => 'फिर से जाँचें';
+
+  @override
+  String get photoCheckBusy =>
+      'फ़ोटो जाँच रहे हैं… इसमें एक मिनट तक लग सकता है।';
+
+  @override
+  String get photoCheckChange => 'दूसरी फ़ोटो';
+
+  @override
+  String get photoCheckBack => 'रिकॉर्ड पर वापस';
+
+  @override
+  String get photoCheckLikelyHigh => 'ज़्यादा संभावना';
+
+  @override
+  String get photoCheckLikelyMedium => 'मध्यम संभावना';
+
+  @override
+  String get photoCheckLikelyLow => 'कम संभावना';
+
+  @override
+  String get photoCheckSigns => 'फ़ोटो में दिखा';
+
+  @override
+  String get photoCheckSignsEnglish => 'फ़ोटो में दिखा (अंग्रेज़ी में)';
+
+  @override
+  String get photoCheckOpenCard => 'कार्ड खोलें';
+
+  @override
+  String get photoCheckUnsure =>
+      'और साफ़ फ़ोटो से मदद मिलेगी। रोशनी में, पास से दूसरी फ़ोटो लें या कार्डों के लक्षण देखें।';
+
+  @override
+  String get photoCheckHealthy => 'अच्छी बात: फ़ोटो में पेड़ स्वस्थ दिखता है।';
+
+  @override
+  String get photoCheckNote =>
+      'यह फ़ोटो से दिया गया अंदाज़ा है; पूरी जानकारी कार्ड में है।';
+
+  @override
+  String get photoCheckSeeCards => 'कार्ड देखें';
+
+  @override
+  String get photoCheckOffline =>
+      'फ़ोटो जाँच के लिए इंटरनेट चाहिए। फ़ोटो यहीं रखी है; इंटरनेट चालू होने पर \'फिर से जाँचें\' दबाएँ।';
+
+  @override
+  String get photoCheckFailed =>
+      'थोड़ी देर बाद फिर से जाँचें। फ़ोटो यहीं रखी है।';
+
+  @override
+  String get photoCheckUnavailable =>
+      'फ़ोटो जाँच अभी रुकी है; तब तक कार्डों के लक्षण देखें।';
+
+  @override
+  String get photoCheckRefused => 'कृपया दूसरी फ़ोटो लें।';
+
+  @override
+  String get photoCheckSignedOut => 'फ़ोटो जाँचने के लिए फिर से लॉगिन करें।';
+
+  @override
+  String get photoCheckDelete => 'यह फ़ोटो हटाएँ';
+
+  @override
+  String get photoCheckDeleted => 'फ़ोटो सर्वर से हटा दी गई।';
+
+  @override
+  String get photoCheckDeleteFailed =>
+      'इंटरनेट चालू होने पर \'यह फ़ोटो हटाएँ\' फिर से दबाएँ।';
+
+  @override
+  String photoCheckLimitDaily(String count) {
+    return 'आज की $count फ़ोटो पूरी हुईं; कल फिर से इस्तेमाल कर सकते हैं।';
+  }
+
+  @override
+  String photoCheckLimitDailyAt(String count, String when) {
+    return 'आज की $count फ़ोटो पूरी हुईं; $when के बाद फिर से इस्तेमाल कर सकते हैं।';
+  }
+
+  @override
+  String photoCheckLimitMonthly(String count, String when) {
+    return 'इस महीने की $count फ़ोटो पूरी हुईं; $when से फिर से इस्तेमाल कर सकते हैं।';
+  }
+
+  @override
+  String get photoCheckLimitTotal =>
+      'आज की फ़ोटो जाँच पूरी हुईं; कल फिर से इस्तेमाल कर सकते हैं।';
+
+  @override
+  String photoCheckLimitTotalAt(String when) {
+    return 'आज की फ़ोटो जाँच पूरी हुईं; $when के बाद फिर से इस्तेमाल कर सकते हैं।';
+  }
 }

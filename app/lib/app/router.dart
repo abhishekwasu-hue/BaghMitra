@@ -54,6 +54,7 @@ import '../features/market_link/presentation/terms_acceptance_screen.dart';
 import '../features/market_link/safety/account_actions_screen.dart';
 import '../features/market_link/safety/safety_screens.dart';
 import '../features/more/presentation/more_screen.dart';
+import '../features/photo_analysis/presentation/photo_analysis_screen.dart';
 import '../features/plots/presentation/add_plot_screen.dart';
 import '../features/plots/presentation/boundary_screen.dart';
 import '../features/plots/presentation/plot_detail_screen.dart';
@@ -113,6 +114,9 @@ abstract final class Routes {
   static String mlReport(String subjectType, String subjectId) =>
       '$mlSafety/report/$subjectType/$subjectId';
   static const practices = '/practices';
+
+  /// The practices guide opened at one card section (a photo-check result, Q135).
+  static String practicesSection(String key) => '$practices?section=$key';
 
   /// The विचारा tab: the practices guide inside the tab shell. Tabs ([home], [plots],
   /// [ask]) are opened with `go`, never pushed.
@@ -198,6 +202,10 @@ abstract final class Routes {
   static String scouting(String plotId) => '/plots/$plotId/scouting';
   static String addScouting(String plotId, {String? item}) =>
       '/plots/$plotId/scouting/new${item == null ? '' : '?item=$item'}';
+
+  /// "फोटोवरून ओळखा" for a block (Q135). The pest / disease form passes its photo as `extra`.
+  static String photoCheck(String plotId, {String? item}) =>
+      '/plots/$plotId/photo-check${item == null ? '' : '?item=$item'}';
   static String insurance(String plotId) => '/plots/$plotId/insurance';
   static String addPolicy(String plotId) => '/plots/$plotId/insurance/new';
   static String editPolicy(String plotId, String policyId) =>
@@ -347,7 +355,8 @@ GoRouter buildRouter(
       // with a back arrow to that page. A tab route cannot be pushed on top of the shell.
       GoRoute(
         path: Routes.practices,
-        builder: (_, _) => const PracticesScreen(),
+        builder: (_, s) =>
+            PracticesScreen(section: s.uri.queryParameters['section']),
       ),
       GoRoute(
         path: Routes.walkthrough,
@@ -567,6 +576,14 @@ GoRouter buildRouter(
         builder: (_, s) => AddScoutingScreen(
           plotId: s.pathParameters['id']!,
           initialItem: s.uri.queryParameters['item'],
+        ),
+      ),
+      GoRoute(
+        path: '/plots/:id/photo-check',
+        builder: (_, s) => PhotoAnalysisScreen(
+          plotId: s.pathParameters['id']!,
+          scoutingItem: s.uri.queryParameters['item'],
+          photoPath: s.extra is String ? s.extra! as String : null,
         ),
       ),
       GoRoute(

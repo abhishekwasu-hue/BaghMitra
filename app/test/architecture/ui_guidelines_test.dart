@@ -60,6 +60,7 @@ void main() {
     ('/labs', null),
     ('/market/directory', null),
     ('/plots/p1/weather', _seedForecast),
+    ('/plots/p1/photo-check', seedPlot),
   ]) {
     testWidgets('tap targets and contrast on $location', (tester) async {
       final handle = tester.ensureSemantics();
