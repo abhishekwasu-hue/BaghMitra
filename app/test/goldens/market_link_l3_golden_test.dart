@@ -152,8 +152,20 @@ void main() {
         size: _phone,
       );
       await settle(tester);
-      await tester.ensureVisible(find.byKey(const Key('lot-window-from')));
-      await tester.pump();
+      // The list builds lazily at phone height: scroll each part into view first.
+      final list = find.byType(Scrollable).first;
+      Future<void> reach(String key) async {
+        await tester.scrollUntilVisible(
+          find.byKey(Key(key)),
+          120,
+          scrollable: list,
+        );
+        // Built in the cache area is not on screen yet.
+        await tester.ensureVisible(find.byKey(Key(key)));
+        await settle(tester);
+      }
+
+      await reach('lot-window-from');
       await tester.tap(find.byKey(const Key('lot-window-from')));
       await settle(tester);
       final ok = MaterialLocalizations.of(
@@ -162,14 +174,24 @@ void main() {
       await tester.tap(find.text('१५').last);
       await tester.tap(find.text(ok));
       await settle(tester);
+      await reach('lot-basis-per_quintal');
       await tester.tap(find.byKey(const Key('lot-basis-per_quintal')));
+      await settle(tester);
+      await reach('lot-rate');
       await tester.enterText(find.byKey(const Key('lot-rate')), '3500');
-      await tester.pump();
       FocusManager.instance.primaryFocus?.unfocus();
       await settle(tester);
-      // The harvest window at the top, the rate and the mandi line below it.
-      await tester.drag(find.byType(ListView).first, const Offset(0, -320));
+      // The harvest window near the top, the rate and the mandi line below it.
+      await tester.scrollUntilVisible(
+        find.text('तोडणीचा काळ'),
+        -120,
+        scrollable: list,
+      );
+      final top = Scrollable.ensureVisible(
+        tester.element(find.text('तोडणीचा काळ')),
+      );
       await settle(tester);
+      await top;
       expect(find.text('१५ ऑक्टो – ३० ऑक्टो'), findsOneWidget);
       expect(tester.takeException(), isNull);
       await expectLater(
