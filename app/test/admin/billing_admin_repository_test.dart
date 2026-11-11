@@ -65,6 +65,14 @@ void main() {
     expect(jsonDecode(sent[0].body), {'amount_paise': 14900});
     expect(sent[1].url.path, '/v1/admin/billing/roles/broker/migrate-prices');
     expect(jsonDecode(sent[1].body), {'confirm': true});
+    // Photo analysis limits (Q135): empty fields are left out (= the default / no cap).
+    await repo.savePhotoLimits(freeDaily: 3, dailyTotal: 400);
+    await repo.saveRolePhotoLimits('grower', daily: 20, monthly: 200);
+    expect(sent[2].method, 'PUT');
+    expect(sent[2].url.path, '/v1/admin/billing/photo-limits');
+    expect(jsonDecode(sent[2].body), {'free_daily': 3, 'daily_total': 400});
+    expect(sent[3].url.path, '/v1/admin/billing/roles/grower/photo-limits');
+    expect(jsonDecode(sent[3].body), {'daily': 20, 'monthly': 200});
   });
 
   test('a 503 from the API becomes play_not_set_up', () async {
