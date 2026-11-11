@@ -1,0 +1,24 @@
+{
+  "_note": "Maps each training source's raw label to the class the on-device model outputs (OPEN_QUESTIONS Q135). Class names equal the practice-card section keys in app/assets/config/practice_cards.json where a card exists (canker, greening); 'healthy' and 'other' have no card. Black spot and melanose have no practice card, so they map to 'other'. To add a class (e.g. from field photos exported by the server), add its key to 'classes' and give it photos with --extra; the order of 'classes' is the order of labels.txt.",
+  "classes": ["canker", "greening", "healthy", "other"],
+  "sources": {
+    "citrus_leaves": {
+      "Black spot": "other",
+      "Melanose": "other",
+      "canker": "canker",
+      "greening": "greening",
+      "healthy": "healthy"
+    },
+    "mendeley_hlb_mexico": {
+      "_note": "Folder names in the Mendeley archive are matched case-insensitively as substrings, longest key first; folders that match nothing are skipped and listed in the model card.",
+      "hlb": "greening",
+      "control": "healthy",
+      "healthy": "healthy"
+    },
+    "extra": {
+      "_note": "Name of an --extra subfolder -> class. A folder whose name is already in 'classes' needs no entry here; any other name stops the run with an error.",
+      "black_spot": "other",
+      "melanose": "other"
+    }
+  }
+}
