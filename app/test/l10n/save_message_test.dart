@@ -20,4 +20,18 @@ void main() {
       expect(saved, isNot(matches(banned)), reason: '$lang: $saved');
     }
   });
+
+  test('the camera button says it opens the pest / disease record '
+      '(owner 2026-11-10: "फोटो काढा" led to the disease page)', () {
+    final words = {
+      'en': RegExp('pest', caseSensitive: false),
+      'mr': RegExp('कीड'),
+      'hi': RegExp('कीट'),
+    };
+    for (final MapEntry(key: lang, value: want) in words.entries) {
+      final text = File('lib/l10n/app_$lang.arb').readAsStringSync();
+      final arb = jsonDecode(text) as Map;
+      expect(arb['takePhoto'] as String, matches(want), reason: lang);
+    }
+  });
 }

@@ -13,7 +13,7 @@ void main() {
     expect(find.text('आजची कामे'), findsOneWidget);
     expect(find.text('फळधारणा सुरू'), findsOneWidget);
     expect(find.text('६८'), findsOneWidget);
-    expect(find.text('फोटो काढा'), findsWidgets);
+    expect(find.text('कीड-रोग फोटो'), findsWidgets);
     await unmountApp(tester);
   });
 

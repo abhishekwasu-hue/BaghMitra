@@ -235,7 +235,7 @@ abstract class AppLocalizations {
   /// No description provided for @takePhoto.
   ///
   /// In en, this message translates to:
-  /// **'Take photo'**
+  /// **'Pest/disease photo'**
   String get takePhoto;
 
   /// No description provided for @navHome.

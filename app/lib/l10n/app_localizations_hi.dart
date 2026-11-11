@@ -120,7 +120,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get vsLastWeek => 'पिछले सप्ताह से';
 
   @override
-  String get takePhoto => 'फ़ोटो लें';
+  String get takePhoto => 'कीट-रोग फ़ोटो';
 
   @override
   String get navHome => 'होम';
