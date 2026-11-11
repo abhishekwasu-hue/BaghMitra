@@ -9,6 +9,7 @@ import 'package:bagmitra/core/config.dart';
 import 'package:bagmitra/core/net_failure.dart';
 import 'package:bagmitra/data/local/database.dart';
 import 'package:bagmitra/features/market/data/market_prices_cache.dart';
+import 'package:bagmitra/features/weather/data/plot_weather_cache.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
@@ -181,6 +182,30 @@ void main() {
       expect(await modal(), 3300);
     },
   );
+
+  test('home opened: the plot weather (with its current reading) is asked '
+      'again only once older than 30 min (Q140)', () async {
+    final key = PlotWeatherCache.keyFor('p1', 'mr');
+    Future<void> seedWeather(DateTime savedAt) => db.writeMeta(
+      key,
+      jsonEncode({
+        'saved_at': savedAt.toIso8601String(),
+        'weather': {'days': <Object>[], 'alerts': <Object>[], 'stale': false},
+      }),
+    );
+    await seedWeather(clock.now.subtract(const Duration(minutes: 1)));
+    await container.read(plotWeatherProvider(('p1', 'mr')).future);
+    container.read(refresherProvider).homeOpened();
+    await container.read(plotWeatherProvider(('p1', 'mr')).future);
+    await pumpEventQueue();
+    expect(server.calls, 0);
+
+    clock.advance(const Duration(minutes: 30));
+    container.read(refresherProvider).homeOpened();
+    await container.read(plotWeatherProvider(('p1', 'mr')).future);
+    await pumpEventQueue(times: 50);
+    expect(server.calls, 1);
+  });
 
   test('demo mode never fetches', () async {
     container.dispose();

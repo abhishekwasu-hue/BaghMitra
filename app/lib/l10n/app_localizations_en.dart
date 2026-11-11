@@ -1561,6 +1561,29 @@ class AppLocalizationsEn extends AppLocalizations {
   String get weatherSkyStorm => 'Thunderstorm';
 
   @override
+  String get weatherNowLabel => 'Now';
+
+  @override
+  String weatherReadingAt(String time) {
+    return 'at $time';
+  }
+
+  @override
+  String weatherTodayMax(int degrees) {
+    final intl.NumberFormat degreesNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String degreesString = degreesNumberFormat.format(degrees);
+
+    return 'Today\'s max $degreesString°';
+  }
+
+  @override
+  String get weatherTodayMaxLabel => 'Today\'s max';
+
+  @override
+  String get weatherSkyClearNight => 'Clear night';
+
+  @override
   String get labelInfoTitle => 'Label information';
 
   @override

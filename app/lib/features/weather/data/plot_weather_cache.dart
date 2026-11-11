@@ -4,6 +4,10 @@ import '../../../api/generated/bagmitra.swagger.dart';
 import '../../../core/net_failure.dart';
 import '../../../data/local/database.dart';
 
+/// How long the saved current reading may stand as "now" on the home header (Q140). An
+/// older one (offline) gives way to today's max / min, labelled as such.
+const currentReadingFreshFor = Duration(hours: 3);
+
 /// The last weather answer for one plot, with the time the phone saved it.
 class CachedWeather {
   const CachedWeather(this.weather, this.savedAt);

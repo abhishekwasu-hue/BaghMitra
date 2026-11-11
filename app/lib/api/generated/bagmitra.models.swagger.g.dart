@@ -893,6 +893,22 @@ Map<String, dynamic> _$CheckOutToJson(CheckOut instance) => <String, dynamic>{
   'result': instance.result,
 };
 
+CurrentConditions _$CurrentConditionsFromJson(Map<String, dynamic> json) =>
+    CurrentConditions(
+      isDay: json['is_day'] as bool?,
+      observedAt: DateTime.parse(json['observed_at'] as String),
+      temperatureC: (json['temperature_c'] as num).toDouble(),
+      weatherCode: (json['weather_code'] as num?)?.toDouble(),
+    );
+
+Map<String, dynamic> _$CurrentConditionsToJson(CurrentConditions instance) =>
+    <String, dynamic>{
+      'is_day': ?instance.isDay,
+      'observed_at': instance.observedAt.toIso8601String(),
+      'temperature_c': instance.temperatureC,
+      'weather_code': ?instance.weatherCode,
+    };
+
 DealRatingsOut _$DealRatingsOutFromJson(Map<String, dynamic> json) =>
     DealRatingsOut(
       given:
@@ -2981,6 +2997,9 @@ PlotWeather _$PlotWeatherFromJson(Map<String, dynamic> json) => PlotWeather(
           ?.map((e) => WeatherAlert.fromJson(e as Map<String, dynamic>))
           .toList() ??
       [],
+  current: json['current'] == null
+      ? null
+      : CurrentConditions.fromJson(json['current'] as Map<String, dynamic>),
   days:
       (json['days'] as List<dynamic>?)
           ?.map((e) => WeatherDay.fromJson(e as Map<String, dynamic>))
@@ -2992,6 +3011,7 @@ PlotWeather _$PlotWeatherFromJson(Map<String, dynamic> json) => PlotWeather(
 Map<String, dynamic> _$PlotWeatherToJson(PlotWeather instance) =>
     <String, dynamic>{
       'alerts': instance.alerts.map((e) => e.toJson()).toList(),
+      'current': ?instance.current?.toJson(),
       'days': instance.days.map((e) => e.toJson()).toList(),
       'stale': instance.stale,
     };

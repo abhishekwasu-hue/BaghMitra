@@ -15,19 +15,29 @@ from bagmitra_api.core.settings import Settings
 from bagmitra_api.db.models import Plot, WeatherDaily
 from bagmitra_api.db.session import get_sessionmaker
 from bagmitra_api.main import create_app
-from bagmitra_api.weather.open_meteo import DailyWeather, WeatherUnavailableError
-from bagmitra_api.weather.service import cell_for, get_clock, get_weather_provider
+from bagmitra_api.weather.open_meteo import CurrentWeather, DailyWeather, WeatherUnavailableError
+from bagmitra_api.weather.service import (
+    CurrentWeatherCache,
+    cell_for,
+    get_clock,
+    get_current_cache,
+    get_weather_provider,
+)
 from tests.test_migrations import _config, _sync_url
 
 TODAY = date(2026, 3, 14)
 NOW = datetime(2026, 3, 14, 6, 0, tzinfo=UTC)
+OBSERVED = datetime(2026, 3, 14, 5, 45, tzinfo=UTC)
 
 
 class FakeProvider:
     def __init__(self, *, fail: bool = False) -> None:
         self.calls: list[tuple[float, float]] = []
+        self.current_calls: list[tuple[float, float]] = []
         self.fail = fail
+        self.current_fail = False
         self.storm = False
+        self.current_temp = 21.4
 
     async def daily(
         self, lat: float, lon: float, *, past_days: int, forecast_days: int
@@ -42,6 +52,12 @@ class FakeProvider:
             for i in range(3)
         ]
 
+    async def current(self, lat: float, lon: float) -> CurrentWeather:
+        self.current_calls.append((lat, lon))
+        if self.current_fail:
+            raise WeatherUnavailableError("HTTP 503")
+        return CurrentWeather(OBSERVED, self.current_temp, 0.0, False)
+
 
 @pytest.fixture
 def provider() -> FakeProvider:
@@ -49,14 +65,21 @@ def provider() -> FakeProvider:
 
 
 @pytest.fixture
+def clock() -> list[datetime]:
+    return [NOW]
+
+
+@pytest.fixture
 async def api(
-    settings: Settings, engine: AsyncEngine, provider: FakeProvider
+    settings: Settings, engine: AsyncEngine, provider: FakeProvider, clock: list[datetime]
 ) -> AsyncIterator[httpx.AsyncClient]:
     app = create_app(settings)
     maker = async_sessionmaker(engine, expire_on_commit=False)
+    current_cache = CurrentWeatherCache()
     app.dependency_overrides[get_sessionmaker] = lambda: maker
     app.dependency_overrides[get_weather_provider] = lambda: provider
-    app.dependency_overrides[get_clock] = lambda: (lambda: NOW)
+    app.dependency_overrides[get_clock] = lambda: (lambda: clock[0])
+    app.dependency_overrides[get_current_cache] = lambda: current_cache
     async with httpx.AsyncClient(
         transport=httpx.ASGITransport(app=app), base_url="http://test"
     ) as c:
@@ -280,3 +303,95 @@ def test_migration_0042_adds_and_drops_the_rain_probability(tmp_path: Path) -> N
     assert "rain_prob_pct" not in columns()
     assert "weather_code" in columns()
     engine.dispose()
+
+
+async def test_plot_weather_carries_the_current_reading_with_its_time(
+    api: httpx.AsyncClient,
+    engine: AsyncEngine,
+    provider: FakeProvider,
+    user_id: uuid.UUID,
+    auth_headers: dict[str, str],
+) -> None:
+    """Owner Q140: the header shows the temperature now, not today's max, at night too."""
+    plot_id = await add_plot(engine, user_id)
+    body = (await api.get(f"/v1/plots/{plot_id}/weather", headers=auth_headers)).json()
+    assert body["current"] == {
+        "temperature_c": 21.4,
+        "weather_code": 0,
+        "is_day": False,
+        "observed_at": "2026-03-14T05:45:00Z",
+    }
+    assert provider.current_calls == [(21.25, 77.75)]
+
+
+async def test_nearby_plots_share_one_current_call_within_the_cache_window(
+    api: httpx.AsyncClient,
+    engine: AsyncEngine,
+    provider: FakeProvider,
+    clock: list[datetime],
+    user_id: uuid.UUID,
+    auth_headers: dict[str, str],
+) -> None:
+    mine = await add_plot(engine, user_id)
+    neighbour = await add_plot(engine, user_id, lat=21.2471, lon=77.7509)  # same cell
+    await api.get(f"/v1/plots/{mine}/weather", headers=auth_headers)
+    clock[0] = NOW + timedelta(minutes=29)
+    await api.get(f"/v1/plots/{neighbour}/weather", headers=auth_headers)
+    assert provider.current_calls == [(21.25, 77.75)], "one call serves the cell for 30 min"
+
+    clock[0] = NOW + timedelta(minutes=30)
+    provider.current_temp = 19.0
+    body = (await api.get(f"/v1/plots/{mine}/weather", headers=auth_headers)).json()
+    assert len(provider.current_calls) == 2
+    assert body["current"]["temperature_c"] == 19.0
+
+
+async def test_current_failure_serves_the_last_reading_with_its_own_time(
+    api: httpx.AsyncClient,
+    engine: AsyncEngine,
+    provider: FakeProvider,
+    clock: list[datetime],
+    user_id: uuid.UUID,
+    auth_headers: dict[str, str],
+) -> None:
+    plot_id = await add_plot(engine, user_id)
+    await api.get(f"/v1/plots/{plot_id}/weather", headers=auth_headers)
+    clock[0] = NOW + timedelta(hours=2)
+    provider.current_fail = True
+    r = await api.get(f"/v1/plots/{plot_id}/weather", headers=auth_headers)
+    assert r.status_code == 200
+    # The old reading keeps its own observation time, so the phone can tell its age.
+    assert r.json()["current"]["observed_at"] == "2026-03-14T05:45:00Z"
+    assert r.json()["days"], "the days are served as before"
+
+
+async def test_current_failure_without_a_reading_returns_none_never_a_made_up_value(
+    api: httpx.AsyncClient,
+    engine: AsyncEngine,
+    provider: FakeProvider,
+    user_id: uuid.UUID,
+    auth_headers: dict[str, str],
+) -> None:
+    plot_id = await add_plot(engine, user_id)
+    provider.current_fail = True
+    r = await api.get(f"/v1/plots/{plot_id}/weather", headers=auth_headers)
+    assert r.status_code == 200
+    assert r.json()["current"] is None
+    assert len(r.json()["days"]) == 3
+
+
+async def test_cache_keeps_cells_apart_and_retries_after_a_failure() -> None:
+    provider = FakeProvider()
+    cache = CurrentWeatherCache()
+    window = timedelta(minutes=30)
+    a = await cache.get(provider, (21.25, 77.75), NOW, window)
+    b = await cache.get(provider, (21.3, 77.75), NOW, window)
+    assert a is not None
+    assert b is not None
+    assert provider.current_calls == [(21.25, 77.75), (21.3, 77.75)]
+    provider.current_fail = True
+    late = NOW + window
+    assert await cache.get(provider, (21.25, 77.75), late, window) == a
+    provider.current_fail = False
+    await cache.get(provider, (21.25, 77.75), late, window)
+    assert len(provider.current_calls) == 4, "a failure is not cached as fresh"

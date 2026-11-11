@@ -2234,6 +2234,50 @@
         "title": "CheckOut",
         "type": "object"
       },
+      "CurrentConditions": {
+        "description": "The provider's reading for the plot's location at `observed_at` (UTC), for the home\nheader (Q140). Served from a short per-location cache; an older reading keeps its own\ntime, so the phone can tell how old it is.",
+        "properties": {
+          "is_day": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Is Day"
+          },
+          "observed_at": {
+            "format": "date-time",
+            "title": "Observed At",
+            "type": "string"
+          },
+          "temperature_c": {
+            "title": "Temperature C",
+            "type": "number"
+          },
+          "weather_code": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Weather Code"
+          }
+        },
+        "required": [
+          "temperature_c",
+          "weather_code",
+          "is_day",
+          "observed_at"
+        ],
+        "title": "CurrentConditions",
+        "type": "object"
+      },
       "DealRatingsOut": {
         "description": "The caller's own ratings on the deal (to show and change them) and the window.",
         "properties": {
@@ -7479,6 +7523,16 @@
             },
             "title": "Alerts",
             "type": "array"
+          },
+          "current": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CurrentConditions"
+              },
+              {
+                "type": "null"
+              }
+            ]
           },
           "days": {
             "items": {
@@ -22428,7 +22482,7 @@
     },
     "/v1/plots/{plot_id}/weather": {
       "get": {
-        "description": "Recent and forecast days for the plot's location, with rule-based risk alerts.\n\nAlerts come only from the configured rules (never from AI) and carry no chemical advice.",
+        "description": "Recent and forecast days for the plot's location, with rule-based risk alerts, and\nthe current reading there (null when the provider has given none).\n\nAlerts come only from the configured rules (never from AI) and carry no chemical advice.",
         "operationId": "plot_weather_get",
         "parameters": [
           {

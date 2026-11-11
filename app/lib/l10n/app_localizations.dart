@@ -2794,6 +2794,36 @@ abstract class AppLocalizations {
   /// **'Thunderstorm'**
   String get weatherSkyStorm;
 
+  /// No description provided for @weatherNowLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Now'**
+  String get weatherNowLabel;
+
+  /// No description provided for @weatherReadingAt.
+  ///
+  /// In en, this message translates to:
+  /// **'at {time}'**
+  String weatherReadingAt(String time);
+
+  /// No description provided for @weatherTodayMax.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s max {degrees}°'**
+  String weatherTodayMax(int degrees);
+
+  /// No description provided for @weatherTodayMaxLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s max'**
+  String get weatherTodayMaxLabel;
+
+  /// No description provided for @weatherSkyClearNight.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear night'**
+  String get weatherSkyClearNight;
+
   /// No description provided for @labelInfoTitle.
   ///
   /// In en, this message translates to:

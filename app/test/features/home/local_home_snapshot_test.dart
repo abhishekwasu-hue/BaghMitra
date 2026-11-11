@@ -249,4 +249,120 @@ void main() {
     expect(any.market, 'B');
     expect(build(prices: prices(const [])).market, isNull);
   });
+
+  group('current reading (owner Q140)', () {
+    // The builder's clock is DateTime(2026, 10, 13, 6) on the phone.
+    final now = DateTime(2026, 10, 13, 6);
+
+    CachedWeather withCurrent(
+      Map<String, Object?>? current, {
+      bool forecast = true,
+    }) => CachedWeather(
+      PlotWeather.fromJson({
+        'days': [
+          if (forecast) {'day': '2026-10-13', 't_max_c': 27.2, 't_min_c': 15.6},
+        ],
+        'alerts': const <Object>[],
+        'stale': false,
+        'current': ?current,
+      }),
+      now.toUtc(),
+    );
+
+    Map<String, Object?> reading({
+      required Duration age,
+      bool isDay = true,
+      num code = 0,
+      double temp = 21.4,
+    }) => {
+      'temperature_c': temp,
+      'weather_code': code,
+      'is_day': isDay,
+      'observed_at': now.subtract(age).toUtc().toIso8601String(),
+    };
+
+    test('day: the big number is the reading now, with its time and sky', () {
+      final w = build(
+        weather: withCurrent(reading(age: const Duration(minutes: 12))),
+      ).weather!;
+      expect(w.isCurrent, isTrue);
+      expect(w.tempC, 21);
+      expect(w.observedAt, now.subtract(const Duration(minutes: 12)).toUtc());
+      expect(w.sky, WeatherSky.clear);
+      expect(w.night, isFalse);
+      // Today's max and min stay for the second line.
+      expect((w.maxC, w.minC), (27, 16));
+    });
+
+    test('night: is_day 0 marks the reading as night, cloud stays cloud', () {
+      final w = build(
+        weather: withCurrent(
+          reading(age: const Duration(minutes: 5), isDay: false, code: 3),
+        ),
+      ).weather!;
+      expect(w.isCurrent, isTrue);
+      expect(w.night, isTrue);
+      expect(w.sky, WeatherSky.cloudy);
+    });
+
+    test('offline, fresh: a saved reading under 3 hours old is still now', () {
+      final w = build(
+        weather: withCurrent(
+          reading(age: currentReadingFreshFor - const Duration(minutes: 1)),
+        ),
+      ).weather!;
+      expect(w.isCurrent, isTrue);
+      expect(w.tempC, 21);
+    });
+
+    test('offline, old: a reading 3 hours old gives way to the labelled '
+        'max / min', () {
+      expect(currentReadingFreshFor, const Duration(hours: 3));
+      final w = build(
+        weather: withCurrent(reading(age: currentReadingFreshFor)),
+      ).weather!;
+      expect(w.isCurrent, isFalse);
+      expect(w.tempC, 27, reason: "today's max");
+      expect((w.maxC, w.minC), (27, 16));
+      expect(w.observedAt, isNull);
+      expect(w.sky, isNull, reason: 'no sky is claimed for the max');
+    });
+
+    test('no reading from the server: the labelled max / min as before', () {
+      final w = build(weather: withCurrent(null)).weather!;
+      expect(w.isCurrent, isFalse);
+      expect(w.tempC, 27);
+    });
+
+    test('a fresh reading shows even without a forecast day', () {
+      final s = build(
+        weather: withCurrent(
+          reading(age: const Duration(minutes: 1)),
+          forecast: false,
+        ),
+      );
+      expect(s.weather!.isCurrent, isTrue);
+      expect(s.weather!.maxC, isNull);
+      expect(s.weatherNote, isNull);
+      expect(
+        build(
+          weather: withCurrent(
+            reading(age: const Duration(hours: 4)),
+            forecast: false,
+          ),
+        ).weather,
+        isNull,
+      );
+    });
+
+    test('sky steps follow the forecast screen', () {
+      expect(skyOf(null), isNull);
+      expect(skyOf(0), WeatherSky.clear);
+      expect(skyOf(1), WeatherSky.clear);
+      expect(skyOf(2), WeatherSky.cloudy);
+      expect(skyOf(45), WeatherSky.cloudy);
+      expect(skyOf(61), WeatherSky.rain);
+      expect(skyOf(95), WeatherSky.storm);
+    });
+  });
 }

@@ -33,6 +33,13 @@ String formatWeekday(DateTime date, String languageCode) =>
 String formatDayMonth(DateTime date, String languageCode) =>
     DateFormat('d/M', _intlLocale(languageCode)).format(date);
 
+/// Clock time only, as [formatDateTime] writes it (Marathi १८:१५, English 11:30 am).
+String formatTime(DateTime time, String languageCode) =>
+    (languageCode == 'en'
+            ? DateFormat.jm(_intlLocale(languageCode))
+            : DateFormat.Hm(_intlLocale(languageCode)))
+        .format(time);
+
 /// Day, short month and time of day in the locale's script, for "updated at" lines:
 /// "25 Oct 2026, 11:30 am" in English, a 24-hour clock elsewhere ("२५ ऑक्टो, २०२६ १८:३०"),
 /// where the locale's am / pm marks are single letters.

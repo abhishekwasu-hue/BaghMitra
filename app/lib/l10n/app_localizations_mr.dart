@@ -1559,6 +1559,29 @@ class AppLocalizationsMr extends AppLocalizations {
   String get weatherSkyStorm => 'मेघगर्जनेसह पाऊस';
 
   @override
+  String get weatherNowLabel => 'आत्ता';
+
+  @override
+  String weatherReadingAt(String time) {
+    return '$time ला';
+  }
+
+  @override
+  String weatherTodayMax(int degrees) {
+    final intl.NumberFormat degreesNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String degreesString = degreesNumberFormat.format(degrees);
+
+    return 'आज कमाल $degreesString°';
+  }
+
+  @override
+  String get weatherTodayMaxLabel => 'आज कमाल';
+
+  @override
+  String get weatherSkyClearNight => 'निरभ्र रात्र';
+
+  @override
   String get labelInfoTitle => 'लेबल माहिती';
 
   @override

@@ -5,6 +5,7 @@
       "place": "काटोल",
       "condition": "ढगाळ, दमट",
       "temp_c": 34,
+      "sky": "cloudy",
       "max_c": 36,
       "soil_moisture_pct": 41
     },
@@ -68,6 +69,7 @@
       "place": "काटोल",
       "condition": "बादल, उमस",
       "temp_c": 34,
+      "sky": "cloudy",
       "max_c": 36,
       "soil_moisture_pct": 41
     },
@@ -131,6 +133,7 @@
       "place": "Katol",
       "condition": "Cloudy, humid",
       "temp_c": 34,
+      "sky": "cloudy",
       "max_c": 36,
       "soil_moisture_pct": 41
     },

@@ -147,6 +147,11 @@ class Refresher {
     await _ref.read(syncEngineProvider).sync();
   }
 
+  /// The home tab opened again: reload the saved weather, so the header's current reading
+  /// is fetched again once it is older than [RefreshPolicy.refreshAfter] (Q140) and an old
+  /// one gives way to today's max / min.
+  void homeOpened() => _ref.invalidate(plotWeatherProvider);
+
   /// The app came back to the front: reload weather, prices and feed (each provider fetches
   /// again only when its saved copy is older than [RefreshPolicy.refreshAfter]), and sync.
   void onResume() {

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import uuid
-from datetime import date
+from datetime import date, datetime, timedelta
 from typing import Annotated
 
 import structlog
@@ -52,10 +52,25 @@ class WeatherAlert(BaseModel):
     action: str | None = None
 
 
+class CurrentConditions(BaseModel):
+    """The provider's reading for the plot's location at `observed_at` (UTC), for the home
+    header (Q140). Served from a short per-location cache; an older reading keeps its own
+    time, so the phone can tell how old it is."""
+
+    temperature_c: float
+    # WMO code (0 clear, 2-3 cloud, 51+ rain, 95+ thunderstorm); None when not given.
+    weather_code: float | None
+    # Whether the sun is up at the location; None when not given.
+    is_day: bool | None
+    observed_at: datetime
+
+
 class PlotWeather(BaseModel):
     days: list[WeatherDay]
     alerts: list[WeatherAlert]
     stale: bool
+    # The current reading; None when the provider has given none yet (older apps ignore it).
+    current: CurrentConditions | None = None
 
 
 @router.get(
@@ -75,7 +90,8 @@ async def get_plot_weather(
     ctx: Annotated[WeatherContext, Depends(get_weather_context)],
     lang: Annotated[str, Query(pattern="^[a-z]{2}$")] = "en",
 ) -> PlotWeather:
-    """Recent and forecast days for the plot's location, with rule-based risk alerts.
+    """Recent and forecast days for the plot's location, with rule-based risk alerts, and
+    the current reading there (null when the provider has given none).
 
     Alerts come only from the configured rules (never from AI) and carry no chemical advice.
     """
@@ -91,6 +107,12 @@ async def get_plot_weather(
     except WeatherUnavailableError as exc:
         log.warning("weather_source_unavailable", detail=str(exc))
         raise ApiError(503, "weather_unavailable") from exc
+    current = await ctx.current_cache.get(
+        ctx.provider,
+        cell,
+        now,
+        timedelta(minutes=ctx.settings.weather_current_cache_minutes),
+    )
     rules = {r.key: r for r in load_rules()}
     return PlotWeather(
         days=[WeatherDay.model_validate(d, from_attributes=True) for d in days],
@@ -108,4 +130,7 @@ async def get_plot_weather(
             for a in evaluate(list(rules.values()), alert_days(days, ctx.settings, now))
         ],
         stale=stale,
+        current=None
+        if current is None
+        else CurrentConditions.model_validate(current, from_attributes=True),
     )

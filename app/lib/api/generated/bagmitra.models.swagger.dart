@@ -4596,6 +4596,98 @@ extension $CheckOutExtension on CheckOut {
 }
 
 @JsonSerializable(explicitToJson: true)
+class CurrentConditions {
+  const CurrentConditions({
+    required this.isDay,
+    required this.observedAt,
+    required this.temperatureC,
+    required this.weatherCode,
+  });
+
+  factory CurrentConditions.fromJson(Map<String, dynamic> json) =>
+      _$CurrentConditionsFromJson(json);
+
+  static const toJsonFactory = _$CurrentConditionsToJson;
+  Map<String, dynamic> toJson() => _$CurrentConditionsToJson(this);
+
+  @JsonKey(name: 'is_day', includeIfNull: false)
+  final bool? isDay;
+  @JsonKey(name: 'observed_at', includeIfNull: false)
+  final DateTime observedAt;
+  @JsonKey(name: 'temperature_c', includeIfNull: false)
+  final double temperatureC;
+  @JsonKey(name: 'weather_code', includeIfNull: false)
+  final double? weatherCode;
+  static const fromJsonFactory = _$CurrentConditionsFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is CurrentConditions &&
+            (identical(other.isDay, isDay) ||
+                const DeepCollectionEquality().equals(other.isDay, isDay)) &&
+            (identical(other.observedAt, observedAt) ||
+                const DeepCollectionEquality().equals(
+                  other.observedAt,
+                  observedAt,
+                )) &&
+            (identical(other.temperatureC, temperatureC) ||
+                const DeepCollectionEquality().equals(
+                  other.temperatureC,
+                  temperatureC,
+                )) &&
+            (identical(other.weatherCode, weatherCode) ||
+                const DeepCollectionEquality().equals(
+                  other.weatherCode,
+                  weatherCode,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(isDay) ^
+      const DeepCollectionEquality().hash(observedAt) ^
+      const DeepCollectionEquality().hash(temperatureC) ^
+      const DeepCollectionEquality().hash(weatherCode) ^
+      runtimeType.hashCode;
+}
+
+extension $CurrentConditionsExtension on CurrentConditions {
+  CurrentConditions copyWith({
+    bool? isDay,
+    DateTime? observedAt,
+    double? temperatureC,
+    double? weatherCode,
+  }) {
+    return CurrentConditions(
+      isDay: isDay ?? this.isDay,
+      observedAt: observedAt ?? this.observedAt,
+      temperatureC: temperatureC ?? this.temperatureC,
+      weatherCode: weatherCode ?? this.weatherCode,
+    );
+  }
+
+  CurrentConditions copyWithWrapped({
+    Wrapped<bool?>? isDay,
+    Wrapped<DateTime>? observedAt,
+    Wrapped<double>? temperatureC,
+    Wrapped<double?>? weatherCode,
+  }) {
+    return CurrentConditions(
+      isDay: (isDay != null ? isDay.value : this.isDay),
+      observedAt: (observedAt != null ? observedAt.value : this.observedAt),
+      temperatureC: (temperatureC != null
+          ? temperatureC.value
+          : this.temperatureC),
+      weatherCode: (weatherCode != null ? weatherCode.value : this.weatherCode),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class DealRatingsOut {
   const DealRatingsOut({
     required this.given,
@@ -15083,6 +15175,7 @@ extension $PlansResponseExtension on PlansResponse {
 class PlotWeather {
   const PlotWeather({
     required this.alerts,
+    this.current,
     required this.days,
     required this.stale,
   });
@@ -15095,6 +15188,8 @@ class PlotWeather {
 
   @JsonKey(name: 'alerts', includeIfNull: false, defaultValue: <WeatherAlert>[])
   final List<WeatherAlert> alerts;
+  @JsonKey(name: 'current', includeIfNull: false)
+  final CurrentConditions? current;
   @JsonKey(name: 'days', includeIfNull: false, defaultValue: <WeatherDay>[])
   final List<WeatherDay> days;
   @JsonKey(name: 'stale', includeIfNull: false)
@@ -15107,6 +15202,11 @@ class PlotWeather {
         (other is PlotWeather &&
             (identical(other.alerts, alerts) ||
                 const DeepCollectionEquality().equals(other.alerts, alerts)) &&
+            (identical(other.current, current) ||
+                const DeepCollectionEquality().equals(
+                  other.current,
+                  current,
+                )) &&
             (identical(other.days, days) ||
                 const DeepCollectionEquality().equals(other.days, days)) &&
             (identical(other.stale, stale) ||
@@ -15119,6 +15219,7 @@ class PlotWeather {
   @override
   int get hashCode =>
       const DeepCollectionEquality().hash(alerts) ^
+      const DeepCollectionEquality().hash(current) ^
       const DeepCollectionEquality().hash(days) ^
       const DeepCollectionEquality().hash(stale) ^
       runtimeType.hashCode;
@@ -15127,11 +15228,13 @@ class PlotWeather {
 extension $PlotWeatherExtension on PlotWeather {
   PlotWeather copyWith({
     List<WeatherAlert>? alerts,
+    CurrentConditions? current,
     List<WeatherDay>? days,
     bool? stale,
   }) {
     return PlotWeather(
       alerts: alerts ?? this.alerts,
+      current: current ?? this.current,
       days: days ?? this.days,
       stale: stale ?? this.stale,
     );
@@ -15139,11 +15242,13 @@ extension $PlotWeatherExtension on PlotWeather {
 
   PlotWeather copyWithWrapped({
     Wrapped<List<WeatherAlert>>? alerts,
+    Wrapped<CurrentConditions?>? current,
     Wrapped<List<WeatherDay>>? days,
     Wrapped<bool>? stale,
   }) {
     return PlotWeather(
       alerts: (alerts != null ? alerts.value : this.alerts),
+      current: (current != null ? current.value : this.current),
       days: (days != null ? days.value : this.days),
       stale: (stale != null ? stale.value : this.stale),
     );
