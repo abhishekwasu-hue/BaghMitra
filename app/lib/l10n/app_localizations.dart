@@ -1462,6 +1462,42 @@ abstract class AppLocalizations {
   /// **'Active ingredient (on the label)'**
   String get sprayActive;
 
+  /// No description provided for @sprayActiveType.
+  ///
+  /// In en, this message translates to:
+  /// **'Type (fungicide, insecticide ...)'**
+  String get sprayActiveType;
+
+  /// No description provided for @sprayActivePick.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose from the list'**
+  String get sprayActivePick;
+
+  /// No description provided for @sprayActiveOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get sprayActiveOther;
+
+  /// No description provided for @sprayActiveOtherHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Write the name as printed on the label.'**
+  String get sprayActiveOtherHelp;
+
+  /// No description provided for @sprayActiveSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get sprayActiveSearch;
+
+  /// No description provided for @sprayActiveNoMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'To write another name, choose Other.'**
+  String get sprayActiveNoMatch;
+
   /// No description provided for @sprayDose.
   ///
   /// In en, this message translates to:

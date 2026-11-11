@@ -17,6 +17,8 @@ import 'package:flutter_test/flutter_test.dart';
 import '../features/bahar/bahar_screen_test.dart' show seedPlot;
 import '../features/plots/plots_screen_test.dart' show settle;
 import '../features/schemes/schemes_test.dart' show schemeFeed;
+import '../features/spray/spray_ingredient_picker_test.dart'
+    show chooseIngredientType;
 import '../features/spray/spray_screen_test.dart' show seedPlotAndBanList;
 import '../helpers/pump_app.dart';
 
@@ -87,6 +89,7 @@ void main() {
         );
         await settle(tester);
         if (name.startsWith('add_spray')) {
+          await chooseIngredientType(tester, 'इतर');
           await tester.enterText(
             find.byKey(const Key('spray-active')),
             'Kelthane',

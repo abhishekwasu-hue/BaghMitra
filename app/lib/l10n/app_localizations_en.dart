@@ -798,6 +798,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sprayActive => 'Active ingredient (on the label)';
 
   @override
+  String get sprayActiveType => 'Type (fungicide, insecticide ...)';
+
+  @override
+  String get sprayActivePick => 'Choose from the list';
+
+  @override
+  String get sprayActiveOther => 'Other';
+
+  @override
+  String get sprayActiveOtherHelp => 'Write the name as printed on the label.';
+
+  @override
+  String get sprayActiveSearch => 'Search';
+
+  @override
+  String get sprayActiveNoMatch => 'To write another name, choose Other.';
+
+  @override
   String get sprayDose => 'Dose (optional)';
 
   @override

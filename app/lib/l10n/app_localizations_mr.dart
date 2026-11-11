@@ -797,6 +797,24 @@ class AppLocalizationsMr extends AppLocalizations {
   String get sprayActive => 'सक्रिय घटक (लेबलवर)';
 
   @override
+  String get sprayActiveType => 'प्रकार (बुरशीनाशक, कीटकनाशक ...)';
+
+  @override
+  String get sprayActivePick => 'यादीतून निवडा';
+
+  @override
+  String get sprayActiveOther => 'इतर';
+
+  @override
+  String get sprayActiveOtherHelp => 'लेबलवर छापलेले नाव लिहा.';
+
+  @override
+  String get sprayActiveSearch => 'शोधा';
+
+  @override
+  String get sprayActiveNoMatch => 'दुसरे नाव लिहिण्यासाठी \'इतर\' निवडा.';
+
+  @override
   String get sprayDose => 'मात्रा (ऐच्छिक)';
 
   @override
