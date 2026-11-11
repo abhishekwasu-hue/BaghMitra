@@ -261,7 +261,8 @@ sync. The contents of a change in that history are erased after {retention_days}
 fingerprint (hash) and its size remain. For a change the server rejects, only a fingerprint (hash)
 and its size are kept, not its contents.</li>
 <li>Analysed crop photos and results: kept for {photo_days} days from the analysis, then
-deleted automatically; earlier with the "Delete this photo" button on the result, and all with the account.</li>
+deleted automatically; earlier with the "Delete this photo" button on the result, and all
+with the account.</li>
 <li>When the account is deleted (in the app or on request), the server records, history,
 registered devices, notice marks and backed-up photos are erased at once. The sign-in account
 (Supabase Auth) is removed automatically, or by us by hand {DELETION_DAYS["en"]}. Copies in our
