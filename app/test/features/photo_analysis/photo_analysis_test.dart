@@ -17,6 +17,22 @@ import '../bahar/bahar_screen_test.dart' show seedPlot;
 import '../plots/plots_screen_test.dart' show settle;
 import '../scouting/scouting_test.dart' show FakePhotos;
 
+/// The seen signs as the server sends them, per language.
+const seenSigns = {
+  'en': ['raised brown spots', 'yellow halo'],
+  'mr': ['उठावदार तपकिरी ठिपके', 'पिवळी कडा'],
+  'hi': ['उभरे भूरे धब्बे', 'पीला घेरा'],
+};
+
+/// Only English seen signs (Marathi and Hindi empty): the screen falls back to English.
+const englishOnlySigns = {
+  'en': ['raised brown spots', 'yellow halo'],
+  'mr': <String>[],
+  'hi': <String>[],
+};
+
+const noSigns = {'en': <String>[], 'mr': <String>[], 'hi': <String>[]};
+
 /// One candidate as the server sends it.
 Map<String, Object?> candidate(
   String key, {
@@ -24,7 +40,7 @@ Map<String, Object?> candidate(
   String mr = 'कँकर',
   String explanationMr =
       'पानावर उठावदार तपकिरी ठिपके दिसतात. कार्ड उघडून झाड तपासा.',
-  List<String> signs = const ['raised brown spots', 'yellow halo'],
+  Map<String, List<String>> signs = seenSigns,
 }) => {
   'key': key,
   'name': {'en': 'Canker', 'mr': mr, 'hi': 'कैंकर'},
@@ -103,9 +119,11 @@ Future<void> openAndPick(
   WidgetTester tester,
   FakeAnalysisServer server, {
   FakePhotos? photos,
+  Locale locale = const Locale('mr'),
 }) async {
   await pumpApp(
     tester,
+    locale: locale,
     initialLocation: '/plots/p1/photo-check',
     seed: seedPlot,
     photos: photos ?? FakePhotos(),
@@ -144,7 +162,7 @@ void main() {
       expect(result.photoId, 'ph-1');
       expect(result.candidates.single.key, 'canker');
       expect(result.candidates.single.nameIn('mr'), 'कँकर');
-      expect(result.candidates.single.signs, hasLength(2));
+      expect(result.candidates.single.signs, seenSigns);
     });
 
     test('leaves out the optional fields when not chosen', () async {
@@ -328,6 +346,68 @@ void main() {
       await unmountApp(tester);
     });
 
+    testWidgets('the seen signs come in Marathi under a plain fold label', (
+      tester,
+    ) async {
+      final server = FakeAnalysisServer((_) async => json(analysisJson(), 200));
+      await openAndPick(tester, server);
+      await identify(tester);
+      expect(find.text('फोटोत दिसलेले'), findsOneWidget);
+      expect(find.text('फोटोत दिसलेले (इंग्रजीत)'), findsNothing);
+      await tester.ensureVisible(find.byKey(const Key('photo-signs-canker')));
+      await tester.tap(find.byKey(const Key('photo-signs-canker')));
+      await settle(tester);
+      expect(find.text('• उठावदार तपकिरी ठिपके'), findsOneWidget);
+      expect(find.text('• पिवळी कडा'), findsOneWidget);
+      expect(find.text('• raised brown spots'), findsNothing);
+      await unmountApp(tester);
+    });
+
+    testWidgets('no Marathi signs: the English ones, said to be in English', (
+      tester,
+    ) async {
+      final server = FakeAnalysisServer(
+        (_) async => json(
+          analysisJson(
+            candidates: [candidate('canker', signs: englishOnlySigns)],
+          ),
+          200,
+        ),
+      );
+      await openAndPick(tester, server);
+      await identify(tester);
+      expect(find.text('फोटोत दिसलेले (इंग्रजीत)'), findsOneWidget);
+      await tester.ensureVisible(find.byKey(const Key('photo-signs-canker')));
+      await tester.tap(find.byKey(const Key('photo-signs-canker')));
+      await settle(tester);
+      expect(find.text('• raised brown spots'), findsOneWidget);
+      await unmountApp(tester);
+    });
+
+    testWidgets('Hindi signs in Hindi; English shows them open', (
+      tester,
+    ) async {
+      final hindi = FakeAnalysisServer((_) async => json(analysisJson(), 200));
+      await openAndPick(tester, hindi, locale: const Locale('hi'));
+      await identify(tester);
+      expect(find.text('फ़ोटो में दिखा'), findsOneWidget);
+      await tester.ensureVisible(find.byKey(const Key('photo-signs-canker')));
+      await tester.tap(find.byKey(const Key('photo-signs-canker')));
+      await settle(tester);
+      expect(find.text('• उभरे भूरे धब्बे'), findsOneWidget);
+      await unmountApp(tester);
+
+      final english = FakeAnalysisServer(
+        (_) async => json(analysisJson(), 200),
+      );
+      await openAndPick(tester, english, locale: const Locale('en'));
+      await identify(tester);
+      expect(find.text('Seen in the photo'), findsOneWidget);
+      expect(find.text('• yellow halo'), findsOneWidget);
+      expect(find.byKey(const Key('photo-signs-canker')), findsNothing);
+      await unmountApp(tester);
+    });
+
     testWidgets('unsure: a calm line about a clearer photo', (tester) async {
       final server = FakeAnalysisServer(
         (_) async => json(
@@ -356,7 +436,7 @@ void main() {
                 'healthy',
                 confidence: 0.9,
                 mr: 'निरोगी दिसते',
-                signs: const [],
+                signs: noSigns,
               ),
             ],
           ),
@@ -568,6 +648,41 @@ void main() {
       expect(find.byKey(const Key('photo-check-open')), findsNothing);
       expect(find.byKey(const Key('scouting-photo-check')), findsNothing);
       await unmountApp(tester);
+    });
+  });
+
+  group('signs in the app language', () {
+    PhotoCandidate cand(Map<String, List<String>> signs) => PhotoCandidate(
+      key: 'canker',
+      name: const {'en': 'Canker'},
+      confidence: 0.5,
+      signs: signs,
+      explanation: const {},
+    );
+
+    test('own language first, English only when it has none', () {
+      // A record compares its lists by identity, so it is read field by field.
+      void expectSigns(
+        ({List<String> signs, bool english}) got,
+        List<String> signs, {
+        bool english = false,
+      }) {
+        expect(got.signs, signs);
+        expect(got.english, english);
+      }
+
+      final both = cand(seenSigns);
+      for (final lang in ['en', 'mr', 'hi']) {
+        expectSigns(both.signsIn(lang), seenSigns[lang]!);
+      }
+      final enOnly = cand({
+        'en': [' yellow halo ', ''],
+        'mr': [' '],
+      });
+      expectSigns(enOnly.signsIn('mr'), ['yellow halo'], english: true);
+      expectSigns(enOnly.signsIn('hi'), ['yellow halo'], english: true);
+      expectSigns(enOnly.signsIn('en'), ['yellow halo']);
+      expectSigns(cand(noSigns).signsIn('mr'), []);
     });
   });
 }

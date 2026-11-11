@@ -51,8 +51,8 @@ class PhotoCandidate {
   final Map<String, String> name;
   final double confidence;
 
-  /// What the model saw in the photo, short English phrases (the server's schema).
-  final List<String> signs;
+  /// What the model saw in the photo, short phrases per language (`en`, `mr`, `hi`).
+  final Map<String, List<String>> signs;
   final Map<String, String> explanation;
 
   static const healthy = 'healthy';
@@ -60,6 +60,19 @@ class PhotoCandidate {
 
   String nameIn(String lang) => _pick(name, lang) ?? key;
   String explanationIn(String lang) => _pick(explanation, lang) ?? '';
+
+  /// The seen signs in [lang]; the English ones only when that language has none
+  /// (`english` is then true, so the screen can say so).
+  ({List<String> signs, bool english}) signsIn(String lang) {
+    List<String> clean(String l) => [
+      for (final s in signs[l] ?? const <String>[])
+        if (s.trim().isNotEmpty) s.trim(),
+    ];
+    final own = clean(lang);
+    if (own.isNotEmpty || lang == 'en') return (signs: own, english: false);
+    final en = clean('en');
+    return (signs: en, english: en.isNotEmpty);
+  }
 
   /// 0..100 for the screen.
   int get percent => (confidence.clamp(0, 1) * 100).round();
