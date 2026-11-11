@@ -46,6 +46,13 @@ prints the archive's whole folder tree (`[mendeley] tree:`) so the map can be ex
 photos (the same photo in two zips, resaved or rescaled) are removed before the split, so no copy
 of a test photo is trained on; copies carrying two classes are dropped.
 
+Mexico archive (version 3) as read in the runner: `Database HLB Sanas Final/HOJAS CON SINTOMAS`
+(270, → greening) and `HOJAS SANAS` (379, → healthy) are the raw photos (the paper's 270 HLB / 379
+control). The second zip holds `preprocessed_images` and `visualizations` of the same photos;
+they are **not used**: the first run that used them labelled healthy from raw photos and greening
+from processed ones, and the model scored 100 % on that source — it can learn the processing
+instead of the disease.
+
 Sets whose licence is not confirmed (Bangladesh sweet orange, MNIT, lemon sets, Hugging Face
 mirrors, Kaggle copies) are **not** used. Attribution (CC BY): the model card lists the citations;
 the app's about / credits screen must show them when the model ships.
@@ -109,7 +116,8 @@ installing TensorFlow (~600 MB) on every PR is not cheap.
   class: the app needs a confidence threshold set from field test photos and a "not sure" path.
 - Greening vs zinc / other deficiencies is a known look-alike; only PCR confirms greening
   (ICAR-CCRI Nagpur, `app/assets/config/lab_directory.json`).
-- The Mexico set's healthy (control) leaves are all on a white sheet; the model may learn the
-  background. The per-source test table shows it only partly.
+- All Mexico photos (both classes) are single leaves on a white sheet; the Pakistan photos are
+  not. Background and camera differ by source, so the model may partly learn the source; the
+  per-source test table shows each source separately.
 - Classes are small (original Rauf set: healthy 58, canker 163 leaves); one test image moves a class's accuracy by
   several points.

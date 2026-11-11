@@ -15,11 +15,9 @@
       "healthy": "healthy"
     },
     "mendeley_hlb_mexico": {
-      "_note": "Folder names in the Mendeley archive are matched case-insensitively as substrings. An image takes the class of its nearest folder that matches any key; a folder matching keys of two classes (e.g. 'HLB and Healthy', 'HLB Sanas') labels nothing, and unmatched images are skipped and listed in the model card. 'sana' is Spanish for healthy (the archive is from Mexico).",
-      "hlb": "greening",
-      "control": "healthy",
-      "healthy": "healthy",
-      "sana": "healthy"
+      "_note": "Folder names as read from the archive (version 3, run log '[mendeley] tree:'): 'Database HLB Sanas Final/HOJAS CON SINTOMAS' (leaves with symptoms, 270) and '.../HOJAS SANAS' (healthy leaves, 379) are the raw photos and match the paper's 270 HLB / 379 control. The second zip ('Database HLB and Healthy - Final') holds preprocessed_images and visualizations made from the same photos; they are left out on purpose, as a class seen only in processed form lets the model learn the processing instead of the disease. Matching is a case-insensitive substring test; an image takes the class of its nearest matching folder; a folder matching two classes labels nothing; unmatched images are skipped and listed in the model card.",
+      "hojas con sintomas": "greening",
+      "hojas sanas": "healthy"
     },
     "extra": {
       "_note": "Name of an --extra subfolder -> class. A folder whose name is already in 'classes' needs no entry here; any other name stops the run with an error.",

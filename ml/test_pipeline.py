@@ -47,12 +47,16 @@ def test_unknown_labels_fail_loudly(lm):
 
 
 def test_folder_matching_and_licence(lm, tmp_path):
-    assert tc.match_folder_label(lm, "mendeley_hlb_mexico", "HLB_leaves") == "greening"
-    assert tc.match_folder_label(lm, "mendeley_hlb_mexico", "Control") == "healthy"
-    assert tc.match_folder_label(lm, "mendeley_hlb_mexico", "misc") is None
-    assert tc.match_folder_label(lm, "mendeley_hlb_mexico", "Raw Images Healthy ") == "healthy"
-    assert tc.match_folder_label(lm, "mendeley_hlb_mexico", "Database HLB and Healthy - Final") == tc.AMBIGUOUS
-    assert tc.match_folder_label(lm, "mendeley_hlb_mexico", "Database HLB Sanas Final") == tc.AMBIGUOUS
+    def m(name):
+        return tc.match_folder_label(lm, "mendeley_hlb_mexico", name)
+
+    assert m("HOJAS CON SINTOMAS") == "greening"
+    assert m("HOJAS SANAS") == "healthy"
+    # processed copies in the second zip are never used
+    for name in ("preprocessed_images", "visualizations", "Symptoms HLB Leaves", "Raw Images Healthy "):
+        assert m(name) is None
+    mixed = {"classes": ["a", "b"], "sources": {"s": {"hlb": "a", "healthy": "b"}}}
+    assert tc.match_folder_label(mixed, "s", "Database HLB and Healthy - Final") == tc.AMBIGUOUS
     assert tc.licence_is_cc_by_4({"data_licence": {"short_name": "CC BY 4.0"}})[0]
     assert not tc.licence_is_cc_by_4({"data_licence": {"short_name": "CC BY NC 3.0"}})[0]
     assert not tc.licence_is_cc_by_4({"name": "x"})[0]
@@ -60,7 +64,8 @@ def test_folder_matching_and_licence(lm, tmp_path):
     # nested zip as Mendeley may serve it
     inner = tmp_path / "inner.zip"
     with zipfile.ZipFile(inner, "w") as z:
-        for folder in ("HLB", "Control", "notes", "HLB and Healthy/batch", "HLB and Healthy/Sanas"):
+        for folder in ("Final/HOJAS CON SINTOMAS", "Final/HOJAS SANAS", "Final/notes",
+                       "B/Symptoms HLB Leaves/preprocessed_images", "B/hojas sanas y hojas con sintomas/x"):
             src = tmp_path / "src.png"
             _img(src, (1, 2, 3))
             z.write(src, f"{folder}/a.png")
@@ -72,9 +77,9 @@ def test_folder_matching_and_licence(lm, tmp_path):
     ext.mkdir()
     tc._extract_all(raw, ext)
     recs, unmatched = tc.records_from_tree(ext, lm, "mendeley_hlb_mexico")
-    # 'notes' matches nothing; 'HLB and Healthy/batch' stops at the mixed folder
-    assert sorted(r.label for r in recs) == ["greening", "healthy", "healthy"]
-    assert sum(unmatched.values()) == 2
+    # 'notes' and the processed folder match nothing; the mixed folder labels nothing
+    assert sorted(r.label for r in recs) == ["greening", "healthy"]
+    assert sum(unmatched.values()) == 3
 
 
 def test_dedupe_drops_copies_and_conflicts(tmp_path):
