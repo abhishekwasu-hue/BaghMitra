@@ -28,6 +28,7 @@ import 'package:bagmitra/features/practices/data/practice_cards.dart';
 import 'package:bagmitra/features/profile/data/language_catalog.dart';
 import 'package:bagmitra/features/schemes/data/scheme_catalog.dart';
 import 'package:bagmitra/features/scouting/data/scouting_photos.dart';
+import 'package:bagmitra/features/spray/data/spray_ingredients.dart';
 import 'package:bagmitra/features/tasks/data/task_kinds.dart';
 import 'package:bagmitra/features/voice/domain/speech.dart';
 import 'package:bagmitra/features/walkthrough/data/walkthrough_flag.dart';
@@ -247,6 +248,9 @@ Future<AppDatabase> pumpApp(
         ),
         labelTargetsConfigProvider.overrideWithValue(
           LabelTargetsConfig(bundle: FileAssetBundle()),
+        ),
+        sprayIngredientsConfigProvider.overrideWithValue(
+          SprayIngredientsConfig(bundle: FileAssetBundle()),
         ),
         labDirectoryConfigProvider.overrideWithValue(
           DirectoryConfig(DirectoryConfig.labs, bundle: FileAssetBundle()),

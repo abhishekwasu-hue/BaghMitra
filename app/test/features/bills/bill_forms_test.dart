@@ -154,7 +154,10 @@ void main() {
       await settle(tester);
 
       expect(field(tester, 'spray-product'), 'Confidor'); // typed: kept
-      expect(field(tester, 'spray-active'), 'imidacloprid');
+      // The filled active ingredient selects its entry in the picker (Q137).
+      expect(find.byKey(const Key('spray-active')), findsNothing);
+      expect(find.text('Insecticide'), findsOneWidget);
+      expect(find.text('Imidacloprid 17.80% SL'), findsOneWidget);
       expect(field(tester, 'spray-dose'), '500 ml');
       expect(field(tester, 'spray-cost'), '650');
       expect(find.text('10 Oct 2026'), findsOneWidget);
@@ -178,6 +181,38 @@ void main() {
       expect(payload['product_name'], 'Confidor');
       expect(payload['sprayed_on'], '2026-10-10');
       expect(payload['cost_paise'], 65000);
+      expect(payload['active_ingredient'], 'Imidacloprid');
+      await unmountApp(tester);
+    });
+
+    testWidgets('a bill ingredient outside our list shows under Other', (
+      tester,
+    ) async {
+      final server = FakeBillServer(
+        (_) async => json(
+          billJson(
+            items: const [
+              {
+                'name': 'Aliette',
+                'active_ingredient': 'fosetyl-aluminium',
+                'quantity': 1,
+                'unit': 'kg',
+                'amount_rs': 900,
+              },
+            ],
+          ),
+          200,
+        ),
+      );
+      final db = await openForm(tester, sprayForm, server: server);
+      await attach(tester);
+      await fillFromBill(tester, pick: 'bill-pick-0');
+      expect(find.text('Other'), findsOneWidget);
+      expect(field(tester, 'spray-active'), 'fosetyl-aluminium');
+      await tester.tap(find.text('Save'));
+      await settle(tester);
+      final payload = await lastPayload(db, SprayRepository.entity);
+      expect(payload['active_ingredient'], 'fosetyl-aluminium');
       await unmountApp(tester);
     });
 
