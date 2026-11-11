@@ -460,6 +460,22 @@ enum LabelClaimOutCategory {
   const LabelClaimOutCategory(this.value);
 }
 
+enum LabelInSource {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('expert')
+  expert('expert'),
+  @JsonValue('farmer')
+  farmer('farmer'),
+  @JsonValue('lab')
+  lab('lab');
+
+  final String? value;
+
+  const LabelInSource(this.value);
+}
+
 enum MutationOp {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
@@ -726,6 +742,26 @@ enum V1AdminBillingRolesRoleMigratePricesPostRole {
   final String? value;
 
   const V1AdminBillingRolesRoleMigratePricesPostRole(this.value);
+}
+
+enum V1AdminBillingRolesRolePhotoLimitsPutRole {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('grower')
+  grower('grower'),
+  @JsonValue('trader')
+  trader('trader'),
+  @JsonValue('broker')
+  broker('broker'),
+  @JsonValue('exporter')
+  exporter('exporter'),
+  @JsonValue('provider')
+  provider('provider');
+
+  final String? value;
+
+  const V1AdminBillingRolesRolePhotoLimitsPutRole(this.value);
 }
 
 enum V1AdminFeedItemsGetStatus {

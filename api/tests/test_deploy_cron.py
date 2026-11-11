@@ -36,6 +36,7 @@ MARKERS = {
     "erase": "bagmitra_api.market_link.erase_job",
     "recheck": "bagmitra_api.market_link.recheck_job",
     "billing": "bagmitra_api.billing.reconcile_job",
+    "photo_retention": "bagmitra_api.photo_ai.retention",
     "test_apk": "deploy/fetch_test_apk.sh",
 }
 
@@ -69,6 +70,7 @@ def test_only_weather_and_backup_with_every_switch_off(tmp_path: Path) -> None:
     env = (
         "API_DOMAIN=x\nMARKET_API_KEY=\nCRON_FEED_ALERTS=off\nCRON_FEED_NEWS=no\nCRON_KB_REGATE=0\n"
         "CRON_SYNC_RETENTION=false\nCRON_MARKET_LINK_ERASE=off\nCRON_ML_RECHECK=off\n"
+        "CRON_PHOTO_AI_RETENTION=off\n"
     )
     out, lines = run_install(tmp_path, env)
     assert jobs(lines) == {"weather", "backup"}
@@ -88,6 +90,7 @@ def test_unset_switches_are_on_by_default(tmp_path: Path) -> None:
         "retention",
         "erase",
         "recheck",
+        "photo_retention",
     }
 
 
@@ -100,7 +103,7 @@ def test_each_switch_adds_its_job_once_and_never_prints_values(tmp_path: Path) -
     )
     out, lines = run_install(tmp_path, env)
     assert jobs(lines) == set(MARKERS)
-    assert len(lines) == 12
+    assert len(lines) == 13
     assert "secret-market-key-123" not in out
     assert not any("secret-market-key-123" in ln for ln in lines)
     out_again, lines_again = run_install(tmp_path, env)
@@ -110,7 +113,17 @@ def test_each_switch_adds_its_job_once_and_never_prints_values(tmp_path: Path) -
     assert market.startswith("35 2,8,14,20 * * * cd ")
     assert market.endswith(">> /var/log/bagmitra-market-pull.log 2>&1")
     # None of the new jobs shares the 00:00 weather or 21:40 backup slot.
-    names = ("market", "alerts", "news", "regate", "retention", "push", "erase", "recheck")
+    names = (
+        "market",
+        "alerts",
+        "news",
+        "regate",
+        "retention",
+        "push",
+        "erase",
+        "recheck",
+        "photo_retention",
+    )
     for name in (*names, "billing"):
         line = next(ln for ln in lines if MARKERS[name] in ln)
         minute, hour = line.split()[:2]
@@ -169,12 +182,14 @@ def test_turning_a_switch_off_removes_only_its_line(tmp_path: Path) -> None:
         "retention",
         "erase",
         "recheck",
+        "photo_retention",
     }
     assert "feed news (every 6 h) cron line removed" in out
     _, cleared = run_install(
         tmp_path,
         "MARKET_API_KEY=\nCRON_FEED_ALERTS=off\nCRON_FEED_NEWS=off\nCRON_KB_REGATE=off\n"
-        "CRON_SYNC_RETENTION=off\nCRON_MARKET_LINK_ERASE=off\nCRON_ML_RECHECK=off\n",
+        "CRON_SYNC_RETENTION=off\nCRON_MARKET_LINK_ERASE=off\nCRON_ML_RECHECK=off\n"
+        "CRON_PHOTO_AI_RETENTION=off\n",
     )
     assert jobs(cleared) == {"weather", "backup"}
 
@@ -183,7 +198,7 @@ def test_other_cron_lines_are_kept(tmp_path: Path) -> None:
     (tmp_path / "cron.txt").write_text("5 4 * * * /usr/local/bin/other-project\n")
     off = (
         "CRON_FEED_ALERTS=off\nCRON_FEED_NEWS=off\nCRON_SYNC_RETENTION=off\n"
-        "CRON_MARKET_LINK_ERASE=off\nCRON_ML_RECHECK=off\n"
+        "CRON_MARKET_LINK_ERASE=off\nCRON_ML_RECHECK=off\nCRON_PHOTO_AI_RETENTION=off\n"
     )
     run_install(tmp_path, off + "CRON_KB_REGATE=on\n")
     _, lines = run_install(tmp_path, off + "CRON_KB_REGATE=no\n")

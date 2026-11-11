@@ -141,6 +141,32 @@ final class _$Bagmitra extends Bagmitra {
   }
 
   @override
+  Future<Response<BillingSettingsOut>> _v1AdminBillingPhotoLimitsPut({
+    required PhotoLimitsIn? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Photo analysis limits for farmers without a plan, and the optional overall cap (Q135).',
+      summary: 'Put Photo Limits',
+      operationId: 'admin_billing_put_photo_limits',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/billing/photo-limits');
+    final $body = body;
+    final Request $request = Request(
+      'PUT',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<BillingSettingsOut, BillingSettingsOut>($request);
+  }
+
+  @override
   Future<Response<PlansResponse>> _v1AdminBillingPlansGet({
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
@@ -239,6 +265,34 @@ final class _$Bagmitra extends Bagmitra {
     final $body = body;
     final Request $request = Request(
       'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<BillingSettingsOut, BillingSettingsOut>($request);
+  }
+
+  @override
+  Future<Response<BillingSettingsOut>> _v1AdminBillingRolesRolePhotoLimitsPut({
+    required String? role,
+    required RolePhotoLimitsIn? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description:
+          'Photo analysis limits per farmer on this role\'s plan (Q135).',
+      summary: 'Put Role Photo Limits',
+      operationId: 'admin_billing_put_role_photo_limits',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/billing/roles/${role}/photo-limits');
+    final $body = body;
+    final Request $request = Request(
+      'PUT',
       $url,
       client.baseUrl,
       body: $body,
@@ -1814,6 +1868,66 @@ broker: the phone call), else 422 `verified_rule_not_met`.''',
       tag: swaggerMetaData,
     );
     return client.send<ManualPricesOut, ManualPricesOut>($request);
+  }
+
+  @override
+  Future<Response<SamplesOut>> _v1AdminPhotoAnalysisSamplesGet({
+    bool? labelled,
+    int? limit,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Training export: labelled samples with a signed photo link (1 hour) and the label.
+`labelled=false` lists the samples still to label. No owner id is listed.''',
+      summary: 'Admin Samples',
+      operationId: 'admin_photo_analysis_samples',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["photo-analysis", "admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/photo-analysis/samples');
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'labelled': labelled,
+      'limit': limit,
+    };
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+      tag: swaggerMetaData,
+    );
+    return client.send<SamplesOut, SamplesOut>($request);
+  }
+
+  @override
+  Future<Response<SampleOut>> _v1AdminPhotoAnalysisSamplesPhotoIdLabelPut({
+    required String? photoId,
+    required LabelIn? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Confirms what a sample shows (a profile key, `healthy` or `other`) for training.',
+      summary: 'Admin Label',
+      operationId: 'admin_photo_analysis_label',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["photo-analysis", "admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse(
+      '/v1/admin/photo-analysis/samples/${photoId}/label',
+    );
+    final $body = body;
+    final Request $request = Request(
+      'PUT',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<SampleOut, SampleOut>($request);
   }
 
   @override
@@ -3460,6 +3574,67 @@ phone cannot rate each other (spec v1.5 §4C, Q100).''',
       tag: swaggerMetaData,
     );
     return client.send<FeedPreferencesBody, FeedPreferencesBody>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _v1PhotoAnalysisPhotoIdDelete({
+    required String? photoId,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Deletes the caller\'s own analysed photo and its result (also when the app deletes the
+scouting entry it belongs to). 502 when storage fails; nothing is deleted then.''',
+      summary: 'Delete Sample',
+      operationId: 'photo_analysis_delete',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["photo-analysis"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/photo-analysis/${photoId}');
+    final Request $request = Request(
+      'DELETE',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<PhotoAnalysisOut>> _v1PlotsPlotIdPhotoAnalysisPost({
+    required String? plotId,
+    required BodyPhotoAnalysisCreate body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description:
+          '''Analyses one crop photo of the caller\'s own plot (owner Q135).
+
+429 `analysis_limit`: `error.details` has `limit` (daily | monthly | total), `max` and
+`resets_at` (UTC); the `Retry-After` header has the seconds until then. 503
+`analysis_unavailable`: no API key on the server. 502 `analysis_failed`: the model could
+not answer; nothing is stored or counted.''',
+      summary: 'Analyse Photo',
+      operationId: 'photo_analysis_create',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["photo-analysis"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/plots/${plotId}/photo-analysis');
+    final List<PartValue> $parts = <PartValue>[
+      PartValue<BodyPhotoAnalysisCreate>('body', body),
+    ];
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      parts: $parts,
+      multipart: true,
+      tag: swaggerMetaData,
+    );
+    return client.send<PhotoAnalysisOut, PhotoAnalysisOut>($request);
   }
 
   @override

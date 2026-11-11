@@ -10,7 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'admin_sign_in_test.dart' show FakeAdminAuth;
-import 'billing_admin_repository_test.dart' show billingRoleJson;
+import 'billing_admin_repository_test.dart'
+    show billingPhotoLimitsJson, billingRoleJson;
 import 'kb_admin_test.dart' show FakeKbAdmin;
 
 /// In-memory billing admin, answering like the API (Play is a switch: set up or not).
@@ -41,6 +42,7 @@ class FakeBillingAdmin implements BillingAdminRepository {
     'enabled': _enabled,
     'starts_on': _start?.toIso8601String().substring(0, 10),
     'roles': [for (final r in billingRoles) _roles[r]],
+    'photo_limits': billingPhotoLimitsJson,
   });
 
   @override

@@ -2436,6 +2436,7 @@ extension $BadgeOutExtension on BadgeOut {
 class BillingSettingsOut {
   const BillingSettingsOut({
     required this.enabled,
+    required this.photoLimits,
     required this.roles,
     this.startsOn,
   });
@@ -2448,6 +2449,8 @@ class BillingSettingsOut {
 
   @JsonKey(name: 'enabled', includeIfNull: false)
   final bool enabled;
+  @JsonKey(name: 'photo_limits', includeIfNull: false)
+  final PhotoLimitsOut photoLimits;
   @JsonKey(name: 'roles', includeIfNull: false, defaultValue: <RolePriceOut>[])
   final List<RolePriceOut> roles;
   @JsonKey(name: 'starts_on', includeIfNull: false, toJson: _dateToJson)
@@ -2462,6 +2465,11 @@ class BillingSettingsOut {
                 const DeepCollectionEquality().equals(
                   other.enabled,
                   enabled,
+                )) &&
+            (identical(other.photoLimits, photoLimits) ||
+                const DeepCollectionEquality().equals(
+                  other.photoLimits,
+                  photoLimits,
                 )) &&
             (identical(other.roles, roles) ||
                 const DeepCollectionEquality().equals(other.roles, roles)) &&
@@ -2478,6 +2486,7 @@ class BillingSettingsOut {
   @override
   int get hashCode =>
       const DeepCollectionEquality().hash(enabled) ^
+      const DeepCollectionEquality().hash(photoLimits) ^
       const DeepCollectionEquality().hash(roles) ^
       const DeepCollectionEquality().hash(startsOn) ^
       runtimeType.hashCode;
@@ -2486,11 +2495,13 @@ class BillingSettingsOut {
 extension $BillingSettingsOutExtension on BillingSettingsOut {
   BillingSettingsOut copyWith({
     bool? enabled,
+    PhotoLimitsOut? photoLimits,
     List<RolePriceOut>? roles,
     DateTime? startsOn,
   }) {
     return BillingSettingsOut(
       enabled: enabled ?? this.enabled,
+      photoLimits: photoLimits ?? this.photoLimits,
       roles: roles ?? this.roles,
       startsOn: startsOn ?? this.startsOn,
     );
@@ -2498,11 +2509,13 @@ extension $BillingSettingsOutExtension on BillingSettingsOut {
 
   BillingSettingsOut copyWithWrapped({
     Wrapped<bool>? enabled,
+    Wrapped<PhotoLimitsOut>? photoLimits,
     Wrapped<List<RolePriceOut>>? roles,
     Wrapped<DateTime?>? startsOn,
   }) {
     return BillingSettingsOut(
       enabled: (enabled != null ? enabled.value : this.enabled),
+      photoLimits: (photoLimits != null ? photoLimits.value : this.photoLimits),
       roles: (roles != null ? roles.value : this.roles),
       startsOn: (startsOn != null ? startsOn.value : this.startsOn),
     );
@@ -2681,6 +2694,82 @@ extension $BlocksResponseExtension on BlocksResponse {
       blockedUserIds: (blockedUserIds != null
           ? blockedUserIds.value
           : this.blockedUserIds),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class BodyPhotoAnalysisCreate {
+  const BodyPhotoAnalysisCreate({
+    this.$part,
+    required this.photo,
+    this.scoutingItem,
+  });
+
+  factory BodyPhotoAnalysisCreate.fromJson(Map<String, dynamic> json) =>
+      _$BodyPhotoAnalysisCreateFromJson(json);
+
+  static const toJsonFactory = _$BodyPhotoAnalysisCreateToJson;
+  Map<String, dynamic> toJson() => _$BodyPhotoAnalysisCreateToJson(this);
+
+  @JsonKey(name: 'part', includeIfNull: false)
+  final String? $part;
+  @JsonKey(name: 'photo', includeIfNull: false)
+  final String photo;
+  @JsonKey(name: 'scouting_item', includeIfNull: false)
+  final String? scoutingItem;
+  static const fromJsonFactory = _$BodyPhotoAnalysisCreateFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is BodyPhotoAnalysisCreate &&
+            (identical(other.$part, $part) ||
+                const DeepCollectionEquality().equals(other.$part, $part)) &&
+            (identical(other.photo, photo) ||
+                const DeepCollectionEquality().equals(other.photo, photo)) &&
+            (identical(other.scoutingItem, scoutingItem) ||
+                const DeepCollectionEquality().equals(
+                  other.scoutingItem,
+                  scoutingItem,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash($part) ^
+      const DeepCollectionEquality().hash(photo) ^
+      const DeepCollectionEquality().hash(scoutingItem) ^
+      runtimeType.hashCode;
+}
+
+extension $BodyPhotoAnalysisCreateExtension on BodyPhotoAnalysisCreate {
+  BodyPhotoAnalysisCreate copyWith({
+    String? $part,
+    String? photo,
+    String? scoutingItem,
+  }) {
+    return BodyPhotoAnalysisCreate(
+      $part: $part ?? this.$part,
+      photo: photo ?? this.photo,
+      scoutingItem: scoutingItem ?? this.scoutingItem,
+    );
+  }
+
+  BodyPhotoAnalysisCreate copyWithWrapped({
+    Wrapped<String?>? $part,
+    Wrapped<String>? photo,
+    Wrapped<String?>? scoutingItem,
+  }) {
+    return BodyPhotoAnalysisCreate(
+      $part: ($part != null ? $part.value : this.$part),
+      photo: (photo != null ? photo.value : this.photo),
+      scoutingItem: (scoutingItem != null
+          ? scoutingItem.value
+          : this.scoutingItem),
     );
   }
 }
@@ -3251,6 +3340,103 @@ extension $BuyerLotsResponseExtension on BuyerLotsResponse {
 
   BuyerLotsResponse copyWithWrapped({Wrapped<List<BuyerLotOut>>? lots}) {
     return BuyerLotsResponse(lots: (lots != null ? lots.value : this.lots));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class CandidateOut {
+  const CandidateOut({
+    required this.confidence,
+    required this.explanation,
+    required this.key,
+    required this.name,
+    required this.signs,
+  });
+
+  factory CandidateOut.fromJson(Map<String, dynamic> json) =>
+      _$CandidateOutFromJson(json);
+
+  static const toJsonFactory = _$CandidateOutToJson;
+  Map<String, dynamic> toJson() => _$CandidateOutToJson(this);
+
+  @JsonKey(name: 'confidence', includeIfNull: false)
+  final double confidence;
+  @JsonKey(name: 'explanation', includeIfNull: false)
+  final LocalizedText explanation;
+  @JsonKey(name: 'key', includeIfNull: false)
+  final String key;
+  @JsonKey(name: 'name', includeIfNull: false)
+  final LocalizedText name;
+  @JsonKey(name: 'signs', includeIfNull: false, defaultValue: <String>[])
+  final List<String> signs;
+  static const fromJsonFactory = _$CandidateOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is CandidateOut &&
+            (identical(other.confidence, confidence) ||
+                const DeepCollectionEquality().equals(
+                  other.confidence,
+                  confidence,
+                )) &&
+            (identical(other.explanation, explanation) ||
+                const DeepCollectionEquality().equals(
+                  other.explanation,
+                  explanation,
+                )) &&
+            (identical(other.key, key) ||
+                const DeepCollectionEquality().equals(other.key, key)) &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.signs, signs) ||
+                const DeepCollectionEquality().equals(other.signs, signs)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(confidence) ^
+      const DeepCollectionEquality().hash(explanation) ^
+      const DeepCollectionEquality().hash(key) ^
+      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(signs) ^
+      runtimeType.hashCode;
+}
+
+extension $CandidateOutExtension on CandidateOut {
+  CandidateOut copyWith({
+    double? confidence,
+    LocalizedText? explanation,
+    String? key,
+    LocalizedText? name,
+    List<String>? signs,
+  }) {
+    return CandidateOut(
+      confidence: confidence ?? this.confidence,
+      explanation: explanation ?? this.explanation,
+      key: key ?? this.key,
+      name: name ?? this.name,
+      signs: signs ?? this.signs,
+    );
+  }
+
+  CandidateOut copyWithWrapped({
+    Wrapped<double>? confidence,
+    Wrapped<LocalizedText>? explanation,
+    Wrapped<String>? key,
+    Wrapped<LocalizedText>? name,
+    Wrapped<List<String>>? signs,
+  }) {
+    return CandidateOut(
+      confidence: (confidence != null ? confidence.value : this.confidence),
+      explanation: (explanation != null ? explanation.value : this.explanation),
+      key: (key != null ? key.value : this.key),
+      name: (name != null ? name.value : this.name),
+      signs: (signs != null ? signs.value : this.signs),
+    );
   }
 }
 
@@ -4508,6 +4694,7 @@ extension $EntitlementsResponseExtension on EntitlementsResponse {
 class ErrorBody {
   const ErrorBody({
     required this.code,
+    this.details,
     required this.message,
     required this.requestId,
   });
@@ -4520,6 +4707,8 @@ class ErrorBody {
 
   @JsonKey(name: 'code', includeIfNull: false)
   final String code;
+  @JsonKey(name: 'details', includeIfNull: false)
+  final Object? details;
   @JsonKey(name: 'message', includeIfNull: false)
   final String message;
   @JsonKey(name: 'request_id', includeIfNull: false)
@@ -4532,6 +4721,11 @@ class ErrorBody {
         (other is ErrorBody &&
             (identical(other.code, code) ||
                 const DeepCollectionEquality().equals(other.code, code)) &&
+            (identical(other.details, details) ||
+                const DeepCollectionEquality().equals(
+                  other.details,
+                  details,
+                )) &&
             (identical(other.message, message) ||
                 const DeepCollectionEquality().equals(
                   other.message,
@@ -4550,15 +4744,22 @@ class ErrorBody {
   @override
   int get hashCode =>
       const DeepCollectionEquality().hash(code) ^
+      const DeepCollectionEquality().hash(details) ^
       const DeepCollectionEquality().hash(message) ^
       const DeepCollectionEquality().hash(requestId) ^
       runtimeType.hashCode;
 }
 
 extension $ErrorBodyExtension on ErrorBody {
-  ErrorBody copyWith({String? code, String? message, String? requestId}) {
+  ErrorBody copyWith({
+    String? code,
+    Object? details,
+    String? message,
+    String? requestId,
+  }) {
     return ErrorBody(
       code: code ?? this.code,
+      details: details ?? this.details,
       message: message ?? this.message,
       requestId: requestId ?? this.requestId,
     );
@@ -4566,11 +4767,13 @@ extension $ErrorBodyExtension on ErrorBody {
 
   ErrorBody copyWithWrapped({
     Wrapped<String>? code,
+    Wrapped<Object?>? details,
     Wrapped<String>? message,
     Wrapped<String>? requestId,
   }) {
     return ErrorBody(
       code: (code != null ? code.value : this.code),
+      details: (details != null ? details.value : this.details),
       message: (message != null ? message.value : this.message),
       requestId: (requestId != null ? requestId.value : this.requestId),
     );
@@ -10053,6 +10256,67 @@ extension $LabelClaimsResponseExtension on LabelClaimsResponse {
 }
 
 @JsonSerializable(explicitToJson: true)
+class LabelIn {
+  const LabelIn({required this.label, this.source});
+
+  factory LabelIn.fromJson(Map<String, dynamic> json) =>
+      _$LabelInFromJson(json);
+
+  static const toJsonFactory = _$LabelInToJson;
+  Map<String, dynamic> toJson() => _$LabelInToJson(this);
+
+  @JsonKey(name: 'label', includeIfNull: false)
+  final String label;
+  @JsonKey(
+    name: 'source',
+    includeIfNull: false,
+    toJson: labelInSourceNullableToJson,
+    fromJson: labelInSourceSourceNullableFromJson,
+  )
+  final enums.LabelInSource? source;
+  static enums.LabelInSource? labelInSourceSourceNullableFromJson(
+    Object? value,
+  ) => labelInSourceNullableFromJson(value, enums.LabelInSource.expert);
+
+  static const fromJsonFactory = _$LabelInFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is LabelIn &&
+            (identical(other.label, label) ||
+                const DeepCollectionEquality().equals(other.label, label)) &&
+            (identical(other.source, source) ||
+                const DeepCollectionEquality().equals(other.source, source)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(label) ^
+      const DeepCollectionEquality().hash(source) ^
+      runtimeType.hashCode;
+}
+
+extension $LabelInExtension on LabelIn {
+  LabelIn copyWith({String? label, enums.LabelInSource? source}) {
+    return LabelIn(label: label ?? this.label, source: source ?? this.source);
+  }
+
+  LabelIn copyWithWrapped({
+    Wrapped<String>? label,
+    Wrapped<enums.LabelInSource?>? source,
+  }) {
+    return LabelIn(
+      label: (label != null ? label.value : this.label),
+      source: (source != null ? source.value : this.source),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class LiveResponse {
   const LiveResponse({required this.product, required this.status});
 
@@ -10106,6 +10370,69 @@ extension $LiveResponseExtension on LiveResponse {
     return LiveResponse(
       product: (product != null ? product.value : this.product),
       status: (status != null ? status.value : this.status),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class LocalizedText {
+  const LocalizedText({required this.en, required this.hi, required this.mr});
+
+  factory LocalizedText.fromJson(Map<String, dynamic> json) =>
+      _$LocalizedTextFromJson(json);
+
+  static const toJsonFactory = _$LocalizedTextToJson;
+  Map<String, dynamic> toJson() => _$LocalizedTextToJson(this);
+
+  @JsonKey(name: 'en', includeIfNull: false)
+  final String en;
+  @JsonKey(name: 'hi', includeIfNull: false)
+  final String hi;
+  @JsonKey(name: 'mr', includeIfNull: false)
+  final String mr;
+  static const fromJsonFactory = _$LocalizedTextFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is LocalizedText &&
+            (identical(other.en, en) ||
+                const DeepCollectionEquality().equals(other.en, en)) &&
+            (identical(other.hi, hi) ||
+                const DeepCollectionEquality().equals(other.hi, hi)) &&
+            (identical(other.mr, mr) ||
+                const DeepCollectionEquality().equals(other.mr, mr)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(en) ^
+      const DeepCollectionEquality().hash(hi) ^
+      const DeepCollectionEquality().hash(mr) ^
+      runtimeType.hashCode;
+}
+
+extension $LocalizedTextExtension on LocalizedText {
+  LocalizedText copyWith({String? en, String? hi, String? mr}) {
+    return LocalizedText(
+      en: en ?? this.en,
+      hi: hi ?? this.hi,
+      mr: mr ?? this.mr,
+    );
+  }
+
+  LocalizedText copyWithWrapped({
+    Wrapped<String>? en,
+    Wrapped<String>? hi,
+    Wrapped<String>? mr,
+  }) {
+    return LocalizedText(
+      en: (en != null ? en.value : this.en),
+      hi: (hi != null ? hi.value : this.hi),
+      mr: (mr != null ? mr.value : this.mr),
     );
   }
 }
@@ -13297,6 +13624,87 @@ extension $PartyContactOutExtension on PartyContactOut {
 }
 
 @JsonSerializable(explicitToJson: true)
+class PhotoAnalysisOut {
+  const PhotoAnalysisOut({
+    required this.candidates,
+    required this.photoId,
+    required this.unsure,
+  });
+
+  factory PhotoAnalysisOut.fromJson(Map<String, dynamic> json) =>
+      _$PhotoAnalysisOutFromJson(json);
+
+  static const toJsonFactory = _$PhotoAnalysisOutToJson;
+  Map<String, dynamic> toJson() => _$PhotoAnalysisOutToJson(this);
+
+  @JsonKey(
+    name: 'candidates',
+    includeIfNull: false,
+    defaultValue: <CandidateOut>[],
+  )
+  final List<CandidateOut> candidates;
+  @JsonKey(name: 'photo_id', includeIfNull: false)
+  final String photoId;
+  @JsonKey(name: 'unsure', includeIfNull: false)
+  final bool unsure;
+  static const fromJsonFactory = _$PhotoAnalysisOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is PhotoAnalysisOut &&
+            (identical(other.candidates, candidates) ||
+                const DeepCollectionEquality().equals(
+                  other.candidates,
+                  candidates,
+                )) &&
+            (identical(other.photoId, photoId) ||
+                const DeepCollectionEquality().equals(
+                  other.photoId,
+                  photoId,
+                )) &&
+            (identical(other.unsure, unsure) ||
+                const DeepCollectionEquality().equals(other.unsure, unsure)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(candidates) ^
+      const DeepCollectionEquality().hash(photoId) ^
+      const DeepCollectionEquality().hash(unsure) ^
+      runtimeType.hashCode;
+}
+
+extension $PhotoAnalysisOutExtension on PhotoAnalysisOut {
+  PhotoAnalysisOut copyWith({
+    List<CandidateOut>? candidates,
+    String? photoId,
+    bool? unsure,
+  }) {
+    return PhotoAnalysisOut(
+      candidates: candidates ?? this.candidates,
+      photoId: photoId ?? this.photoId,
+      unsure: unsure ?? this.unsure,
+    );
+  }
+
+  PhotoAnalysisOut copyWithWrapped({
+    Wrapped<List<CandidateOut>>? candidates,
+    Wrapped<String>? photoId,
+    Wrapped<bool>? unsure,
+  }) {
+    return PhotoAnalysisOut(
+      candidates: (candidates != null ? candidates.value : this.candidates),
+      photoId: (photoId != null ? photoId.value : this.photoId),
+      unsure: (unsure != null ? unsure.value : this.unsure),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class PhotoDownloadUrl {
   const PhotoDownloadUrl({
     required this.expiresIn,
@@ -13365,6 +13773,188 @@ extension $PhotoDownloadUrlExtension on PhotoDownloadUrl {
       expiresIn: (expiresIn != null ? expiresIn.value : this.expiresIn),
       photoKey: (photoKey != null ? photoKey.value : this.photoKey),
       url: (url != null ? url.value : this.url),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class PhotoLimitsIn {
+  const PhotoLimitsIn({this.dailyTotal, this.freeDaily, this.freeMonthly});
+
+  factory PhotoLimitsIn.fromJson(Map<String, dynamic> json) =>
+      _$PhotoLimitsInFromJson(json);
+
+  static const toJsonFactory = _$PhotoLimitsInToJson;
+  Map<String, dynamic> toJson() => _$PhotoLimitsInToJson(this);
+
+  @JsonKey(name: 'daily_total', includeIfNull: false)
+  final int? dailyTotal;
+  @JsonKey(name: 'free_daily', includeIfNull: false)
+  final int? freeDaily;
+  @JsonKey(name: 'free_monthly', includeIfNull: false)
+  final int? freeMonthly;
+  static const fromJsonFactory = _$PhotoLimitsInFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is PhotoLimitsIn &&
+            (identical(other.dailyTotal, dailyTotal) ||
+                const DeepCollectionEquality().equals(
+                  other.dailyTotal,
+                  dailyTotal,
+                )) &&
+            (identical(other.freeDaily, freeDaily) ||
+                const DeepCollectionEquality().equals(
+                  other.freeDaily,
+                  freeDaily,
+                )) &&
+            (identical(other.freeMonthly, freeMonthly) ||
+                const DeepCollectionEquality().equals(
+                  other.freeMonthly,
+                  freeMonthly,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(dailyTotal) ^
+      const DeepCollectionEquality().hash(freeDaily) ^
+      const DeepCollectionEquality().hash(freeMonthly) ^
+      runtimeType.hashCode;
+}
+
+extension $PhotoLimitsInExtension on PhotoLimitsIn {
+  PhotoLimitsIn copyWith({int? dailyTotal, int? freeDaily, int? freeMonthly}) {
+    return PhotoLimitsIn(
+      dailyTotal: dailyTotal ?? this.dailyTotal,
+      freeDaily: freeDaily ?? this.freeDaily,
+      freeMonthly: freeMonthly ?? this.freeMonthly,
+    );
+  }
+
+  PhotoLimitsIn copyWithWrapped({
+    Wrapped<int?>? dailyTotal,
+    Wrapped<int?>? freeDaily,
+    Wrapped<int?>? freeMonthly,
+  }) {
+    return PhotoLimitsIn(
+      dailyTotal: (dailyTotal != null ? dailyTotal.value : this.dailyTotal),
+      freeDaily: (freeDaily != null ? freeDaily.value : this.freeDaily),
+      freeMonthly: (freeMonthly != null ? freeMonthly.value : this.freeMonthly),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class PhotoLimitsOut {
+  const PhotoLimitsOut({
+    required this.dailyTotal,
+    this.defaultDaily,
+    this.defaultMonthly,
+    required this.freeDaily,
+    required this.freeMonthly,
+  });
+
+  factory PhotoLimitsOut.fromJson(Map<String, dynamic> json) =>
+      _$PhotoLimitsOutFromJson(json);
+
+  static const toJsonFactory = _$PhotoLimitsOutToJson;
+  Map<String, dynamic> toJson() => _$PhotoLimitsOutToJson(this);
+
+  @JsonKey(name: 'daily_total', includeIfNull: false)
+  final int? dailyTotal;
+  @JsonKey(name: 'default_daily', includeIfNull: false)
+  final int? defaultDaily;
+  @JsonKey(name: 'default_monthly', includeIfNull: false)
+  final int? defaultMonthly;
+  @JsonKey(name: 'free_daily', includeIfNull: false)
+  final int? freeDaily;
+  @JsonKey(name: 'free_monthly', includeIfNull: false)
+  final int? freeMonthly;
+  static const fromJsonFactory = _$PhotoLimitsOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is PhotoLimitsOut &&
+            (identical(other.dailyTotal, dailyTotal) ||
+                const DeepCollectionEquality().equals(
+                  other.dailyTotal,
+                  dailyTotal,
+                )) &&
+            (identical(other.defaultDaily, defaultDaily) ||
+                const DeepCollectionEquality().equals(
+                  other.defaultDaily,
+                  defaultDaily,
+                )) &&
+            (identical(other.defaultMonthly, defaultMonthly) ||
+                const DeepCollectionEquality().equals(
+                  other.defaultMonthly,
+                  defaultMonthly,
+                )) &&
+            (identical(other.freeDaily, freeDaily) ||
+                const DeepCollectionEquality().equals(
+                  other.freeDaily,
+                  freeDaily,
+                )) &&
+            (identical(other.freeMonthly, freeMonthly) ||
+                const DeepCollectionEquality().equals(
+                  other.freeMonthly,
+                  freeMonthly,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(dailyTotal) ^
+      const DeepCollectionEquality().hash(defaultDaily) ^
+      const DeepCollectionEquality().hash(defaultMonthly) ^
+      const DeepCollectionEquality().hash(freeDaily) ^
+      const DeepCollectionEquality().hash(freeMonthly) ^
+      runtimeType.hashCode;
+}
+
+extension $PhotoLimitsOutExtension on PhotoLimitsOut {
+  PhotoLimitsOut copyWith({
+    int? dailyTotal,
+    int? defaultDaily,
+    int? defaultMonthly,
+    int? freeDaily,
+    int? freeMonthly,
+  }) {
+    return PhotoLimitsOut(
+      dailyTotal: dailyTotal ?? this.dailyTotal,
+      defaultDaily: defaultDaily ?? this.defaultDaily,
+      defaultMonthly: defaultMonthly ?? this.defaultMonthly,
+      freeDaily: freeDaily ?? this.freeDaily,
+      freeMonthly: freeMonthly ?? this.freeMonthly,
+    );
+  }
+
+  PhotoLimitsOut copyWithWrapped({
+    Wrapped<int?>? dailyTotal,
+    Wrapped<int?>? defaultDaily,
+    Wrapped<int?>? defaultMonthly,
+    Wrapped<int?>? freeDaily,
+    Wrapped<int?>? freeMonthly,
+  }) {
+    return PhotoLimitsOut(
+      dailyTotal: (dailyTotal != null ? dailyTotal.value : this.dailyTotal),
+      defaultDaily: (defaultDaily != null
+          ? defaultDaily.value
+          : this.defaultDaily),
+      defaultMonthly: (defaultMonthly != null
+          ? defaultMonthly.value
+          : this.defaultMonthly),
+      freeDaily: (freeDaily != null ? freeDaily.value : this.freeDaily),
+      freeMonthly: (freeMonthly != null ? freeMonthly.value : this.freeMonthly),
     );
   }
 }
@@ -17442,9 +18032,66 @@ extension $RoleAmountInExtension on RoleAmountIn {
 }
 
 @JsonSerializable(explicitToJson: true)
+class RolePhotoLimitsIn {
+  const RolePhotoLimitsIn({this.daily, this.monthly});
+
+  factory RolePhotoLimitsIn.fromJson(Map<String, dynamic> json) =>
+      _$RolePhotoLimitsInFromJson(json);
+
+  static const toJsonFactory = _$RolePhotoLimitsInToJson;
+  Map<String, dynamic> toJson() => _$RolePhotoLimitsInToJson(this);
+
+  @JsonKey(name: 'daily', includeIfNull: false)
+  final int? daily;
+  @JsonKey(name: 'monthly', includeIfNull: false)
+  final int? monthly;
+  static const fromJsonFactory = _$RolePhotoLimitsInFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is RolePhotoLimitsIn &&
+            (identical(other.daily, daily) ||
+                const DeepCollectionEquality().equals(other.daily, daily)) &&
+            (identical(other.monthly, monthly) ||
+                const DeepCollectionEquality().equals(other.monthly, monthly)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(daily) ^
+      const DeepCollectionEquality().hash(monthly) ^
+      runtimeType.hashCode;
+}
+
+extension $RolePhotoLimitsInExtension on RolePhotoLimitsIn {
+  RolePhotoLimitsIn copyWith({int? daily, int? monthly}) {
+    return RolePhotoLimitsIn(
+      daily: daily ?? this.daily,
+      monthly: monthly ?? this.monthly,
+    );
+  }
+
+  RolePhotoLimitsIn copyWithWrapped({
+    Wrapped<int?>? daily,
+    Wrapped<int?>? monthly,
+  }) {
+    return RolePhotoLimitsIn(
+      daily: (daily != null ? daily.value : this.daily),
+      monthly: (monthly != null ? monthly.value : this.monthly),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class RolePriceOut {
   const RolePriceOut({
     required this.amountPaise,
+    this.photoAiDaily,
+    this.photoAiMonthly,
     required this.playCurrency,
     required this.playPricePaise,
     required this.playSyncedAt,
@@ -17459,6 +18106,10 @@ class RolePriceOut {
 
   @JsonKey(name: 'amount_paise', includeIfNull: false)
   final int? amountPaise;
+  @JsonKey(name: 'photo_ai_daily', includeIfNull: false)
+  final int? photoAiDaily;
+  @JsonKey(name: 'photo_ai_monthly', includeIfNull: false)
+  final int? photoAiMonthly;
   @JsonKey(name: 'play_currency', includeIfNull: false)
   final String? playCurrency;
   @JsonKey(name: 'play_price_paise', includeIfNull: false)
@@ -17477,6 +18128,16 @@ class RolePriceOut {
                 const DeepCollectionEquality().equals(
                   other.amountPaise,
                   amountPaise,
+                )) &&
+            (identical(other.photoAiDaily, photoAiDaily) ||
+                const DeepCollectionEquality().equals(
+                  other.photoAiDaily,
+                  photoAiDaily,
+                )) &&
+            (identical(other.photoAiMonthly, photoAiMonthly) ||
+                const DeepCollectionEquality().equals(
+                  other.photoAiMonthly,
+                  photoAiMonthly,
                 )) &&
             (identical(other.playCurrency, playCurrency) ||
                 const DeepCollectionEquality().equals(
@@ -17503,6 +18164,8 @@ class RolePriceOut {
   @override
   int get hashCode =>
       const DeepCollectionEquality().hash(amountPaise) ^
+      const DeepCollectionEquality().hash(photoAiDaily) ^
+      const DeepCollectionEquality().hash(photoAiMonthly) ^
       const DeepCollectionEquality().hash(playCurrency) ^
       const DeepCollectionEquality().hash(playPricePaise) ^
       const DeepCollectionEquality().hash(playSyncedAt) ^
@@ -17513,6 +18176,8 @@ class RolePriceOut {
 extension $RolePriceOutExtension on RolePriceOut {
   RolePriceOut copyWith({
     int? amountPaise,
+    int? photoAiDaily,
+    int? photoAiMonthly,
     String? playCurrency,
     int? playPricePaise,
     DateTime? playSyncedAt,
@@ -17520,6 +18185,8 @@ extension $RolePriceOutExtension on RolePriceOut {
   }) {
     return RolePriceOut(
       amountPaise: amountPaise ?? this.amountPaise,
+      photoAiDaily: photoAiDaily ?? this.photoAiDaily,
+      photoAiMonthly: photoAiMonthly ?? this.photoAiMonthly,
       playCurrency: playCurrency ?? this.playCurrency,
       playPricePaise: playPricePaise ?? this.playPricePaise,
       playSyncedAt: playSyncedAt ?? this.playSyncedAt,
@@ -17529,6 +18196,8 @@ extension $RolePriceOutExtension on RolePriceOut {
 
   RolePriceOut copyWithWrapped({
     Wrapped<int?>? amountPaise,
+    Wrapped<int?>? photoAiDaily,
+    Wrapped<int?>? photoAiMonthly,
     Wrapped<String?>? playCurrency,
     Wrapped<int?>? playPricePaise,
     Wrapped<DateTime?>? playSyncedAt,
@@ -17536,6 +18205,12 @@ extension $RolePriceOutExtension on RolePriceOut {
   }) {
     return RolePriceOut(
       amountPaise: (amountPaise != null ? amountPaise.value : this.amountPaise),
+      photoAiDaily: (photoAiDaily != null
+          ? photoAiDaily.value
+          : this.photoAiDaily),
+      photoAiMonthly: (photoAiMonthly != null
+          ? photoAiMonthly.value
+          : this.photoAiMonthly),
       playCurrency: (playCurrency != null
           ? playCurrency.value
           : this.playCurrency),
@@ -17546,6 +18221,220 @@ extension $RolePriceOutExtension on RolePriceOut {
           ? playSyncedAt.value
           : this.playSyncedAt),
       role: (role != null ? role.value : this.role),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class SampleOut {
+  const SampleOut({
+    required this.candidates,
+    required this.createdAt,
+    required this.id,
+    required this.label,
+    required this.labelSource,
+    required this.model,
+    required this.$part,
+    required this.photoUrl,
+    required this.plotId,
+    required this.scoutingItem,
+    required this.unsure,
+  });
+
+  factory SampleOut.fromJson(Map<String, dynamic> json) =>
+      _$SampleOutFromJson(json);
+
+  static const toJsonFactory = _$SampleOutToJson;
+  Map<String, dynamic> toJson() => _$SampleOutToJson(this);
+
+  @JsonKey(
+    name: 'candidates',
+    includeIfNull: false,
+    defaultValue: <CandidateOut>[],
+  )
+  final List<CandidateOut> candidates;
+  @JsonKey(name: 'created_at', includeIfNull: false)
+  final DateTime createdAt;
+  @JsonKey(name: 'id', includeIfNull: false)
+  final String id;
+  @JsonKey(name: 'label', includeIfNull: false)
+  final String? label;
+  @JsonKey(name: 'label_source', includeIfNull: false)
+  final String? labelSource;
+  @JsonKey(name: 'model', includeIfNull: false)
+  final String model;
+  @JsonKey(name: 'part', includeIfNull: false)
+  final String? $part;
+  @JsonKey(name: 'photo_url', includeIfNull: false)
+  final String? photoUrl;
+  @JsonKey(name: 'plot_id', includeIfNull: false)
+  final String plotId;
+  @JsonKey(name: 'scouting_item', includeIfNull: false)
+  final String? scoutingItem;
+  @JsonKey(name: 'unsure', includeIfNull: false)
+  final bool unsure;
+  static const fromJsonFactory = _$SampleOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is SampleOut &&
+            (identical(other.candidates, candidates) ||
+                const DeepCollectionEquality().equals(
+                  other.candidates,
+                  candidates,
+                )) &&
+            (identical(other.createdAt, createdAt) ||
+                const DeepCollectionEquality().equals(
+                  other.createdAt,
+                  createdAt,
+                )) &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.label, label) ||
+                const DeepCollectionEquality().equals(other.label, label)) &&
+            (identical(other.labelSource, labelSource) ||
+                const DeepCollectionEquality().equals(
+                  other.labelSource,
+                  labelSource,
+                )) &&
+            (identical(other.model, model) ||
+                const DeepCollectionEquality().equals(other.model, model)) &&
+            (identical(other.$part, $part) ||
+                const DeepCollectionEquality().equals(other.$part, $part)) &&
+            (identical(other.photoUrl, photoUrl) ||
+                const DeepCollectionEquality().equals(
+                  other.photoUrl,
+                  photoUrl,
+                )) &&
+            (identical(other.plotId, plotId) ||
+                const DeepCollectionEquality().equals(other.plotId, plotId)) &&
+            (identical(other.scoutingItem, scoutingItem) ||
+                const DeepCollectionEquality().equals(
+                  other.scoutingItem,
+                  scoutingItem,
+                )) &&
+            (identical(other.unsure, unsure) ||
+                const DeepCollectionEquality().equals(other.unsure, unsure)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(candidates) ^
+      const DeepCollectionEquality().hash(createdAt) ^
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(label) ^
+      const DeepCollectionEquality().hash(labelSource) ^
+      const DeepCollectionEquality().hash(model) ^
+      const DeepCollectionEquality().hash($part) ^
+      const DeepCollectionEquality().hash(photoUrl) ^
+      const DeepCollectionEquality().hash(plotId) ^
+      const DeepCollectionEquality().hash(scoutingItem) ^
+      const DeepCollectionEquality().hash(unsure) ^
+      runtimeType.hashCode;
+}
+
+extension $SampleOutExtension on SampleOut {
+  SampleOut copyWith({
+    List<CandidateOut>? candidates,
+    DateTime? createdAt,
+    String? id,
+    String? label,
+    String? labelSource,
+    String? model,
+    String? $part,
+    String? photoUrl,
+    String? plotId,
+    String? scoutingItem,
+    bool? unsure,
+  }) {
+    return SampleOut(
+      candidates: candidates ?? this.candidates,
+      createdAt: createdAt ?? this.createdAt,
+      id: id ?? this.id,
+      label: label ?? this.label,
+      labelSource: labelSource ?? this.labelSource,
+      model: model ?? this.model,
+      $part: $part ?? this.$part,
+      photoUrl: photoUrl ?? this.photoUrl,
+      plotId: plotId ?? this.plotId,
+      scoutingItem: scoutingItem ?? this.scoutingItem,
+      unsure: unsure ?? this.unsure,
+    );
+  }
+
+  SampleOut copyWithWrapped({
+    Wrapped<List<CandidateOut>>? candidates,
+    Wrapped<DateTime>? createdAt,
+    Wrapped<String>? id,
+    Wrapped<String?>? label,
+    Wrapped<String?>? labelSource,
+    Wrapped<String>? model,
+    Wrapped<String?>? $part,
+    Wrapped<String?>? photoUrl,
+    Wrapped<String>? plotId,
+    Wrapped<String?>? scoutingItem,
+    Wrapped<bool>? unsure,
+  }) {
+    return SampleOut(
+      candidates: (candidates != null ? candidates.value : this.candidates),
+      createdAt: (createdAt != null ? createdAt.value : this.createdAt),
+      id: (id != null ? id.value : this.id),
+      label: (label != null ? label.value : this.label),
+      labelSource: (labelSource != null ? labelSource.value : this.labelSource),
+      model: (model != null ? model.value : this.model),
+      $part: ($part != null ? $part.value : this.$part),
+      photoUrl: (photoUrl != null ? photoUrl.value : this.photoUrl),
+      plotId: (plotId != null ? plotId.value : this.plotId),
+      scoutingItem: (scoutingItem != null
+          ? scoutingItem.value
+          : this.scoutingItem),
+      unsure: (unsure != null ? unsure.value : this.unsure),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class SamplesOut {
+  const SamplesOut({required this.samples});
+
+  factory SamplesOut.fromJson(Map<String, dynamic> json) =>
+      _$SamplesOutFromJson(json);
+
+  static const toJsonFactory = _$SamplesOutToJson;
+  Map<String, dynamic> toJson() => _$SamplesOutToJson(this);
+
+  @JsonKey(name: 'samples', includeIfNull: false, defaultValue: <SampleOut>[])
+  final List<SampleOut> samples;
+  static const fromJsonFactory = _$SamplesOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is SamplesOut &&
+            (identical(other.samples, samples) ||
+                const DeepCollectionEquality().equals(other.samples, samples)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(samples) ^ runtimeType.hashCode;
+}
+
+extension $SamplesOutExtension on SamplesOut {
+  SamplesOut copyWith({List<SampleOut>? samples}) {
+    return SamplesOut(samples: samples ?? this.samples);
+  }
+
+  SamplesOut copyWithWrapped({Wrapped<List<SampleOut>>? samples}) {
+    return SamplesOut(
+      samples: (samples != null ? samples.value : this.samples),
     );
   }
 }
@@ -21649,6 +22538,74 @@ List<enums.LabelClaimOutCategory>? labelClaimOutCategoryNullableListFromJson(
       .toList();
 }
 
+String? labelInSourceNullableToJson(enums.LabelInSource? labelInSource) {
+  return labelInSource?.value;
+}
+
+String? labelInSourceToJson(enums.LabelInSource labelInSource) {
+  return labelInSource.value;
+}
+
+enums.LabelInSource labelInSourceFromJson(
+  Object? labelInSource, [
+  enums.LabelInSource? defaultValue,
+]) {
+  return enums.LabelInSource.values.firstWhereOrNull(
+        (e) => e.value == labelInSource,
+      ) ??
+      defaultValue ??
+      enums.LabelInSource.swaggerGeneratedUnknown;
+}
+
+enums.LabelInSource? labelInSourceNullableFromJson(
+  Object? labelInSource, [
+  enums.LabelInSource? defaultValue,
+]) {
+  if (labelInSource == null) {
+    return null;
+  }
+  return enums.LabelInSource.values.firstWhereOrNull(
+        (e) => e.value == labelInSource,
+      ) ??
+      defaultValue;
+}
+
+String labelInSourceExplodedListToJson(
+  List<enums.LabelInSource>? labelInSource,
+) {
+  return labelInSource?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> labelInSourceListToJson(List<enums.LabelInSource>? labelInSource) {
+  if (labelInSource == null) {
+    return [];
+  }
+
+  return labelInSource.map((e) => e.value!).toList();
+}
+
+List<enums.LabelInSource> labelInSourceListFromJson(
+  List? labelInSource, [
+  List<enums.LabelInSource>? defaultValue,
+]) {
+  if (labelInSource == null) {
+    return defaultValue ?? [];
+  }
+
+  return labelInSource.map((e) => labelInSourceFromJson(e.toString())).toList();
+}
+
+List<enums.LabelInSource>? labelInSourceNullableListFromJson(
+  List? labelInSource, [
+  List<enums.LabelInSource>? defaultValue,
+]) {
+  if (labelInSource == null) {
+    return defaultValue;
+  }
+
+  return labelInSource.map((e) => labelInSourceFromJson(e.toString())).toList();
+}
+
 String? mutationOpNullableToJson(enums.MutationOp? mutationOp) {
   return mutationOp?.value;
 }
@@ -22804,6 +23761,103 @@ v1AdminBillingRolesRoleMigratePricesPostRoleNullableListFromJson(
       .map(
         (e) =>
             v1AdminBillingRolesRoleMigratePricesPostRoleFromJson(e.toString()),
+      )
+      .toList();
+}
+
+String? v1AdminBillingRolesRolePhotoLimitsPutRoleNullableToJson(
+  enums.V1AdminBillingRolesRolePhotoLimitsPutRole?
+  v1AdminBillingRolesRolePhotoLimitsPutRole,
+) {
+  return v1AdminBillingRolesRolePhotoLimitsPutRole?.value;
+}
+
+String? v1AdminBillingRolesRolePhotoLimitsPutRoleToJson(
+  enums.V1AdminBillingRolesRolePhotoLimitsPutRole
+  v1AdminBillingRolesRolePhotoLimitsPutRole,
+) {
+  return v1AdminBillingRolesRolePhotoLimitsPutRole.value;
+}
+
+enums.V1AdminBillingRolesRolePhotoLimitsPutRole
+v1AdminBillingRolesRolePhotoLimitsPutRoleFromJson(
+  Object? v1AdminBillingRolesRolePhotoLimitsPutRole, [
+  enums.V1AdminBillingRolesRolePhotoLimitsPutRole? defaultValue,
+]) {
+  return enums.V1AdminBillingRolesRolePhotoLimitsPutRole.values
+          .firstWhereOrNull(
+            (e) => e.value == v1AdminBillingRolesRolePhotoLimitsPutRole,
+          ) ??
+      defaultValue ??
+      enums.V1AdminBillingRolesRolePhotoLimitsPutRole.swaggerGeneratedUnknown;
+}
+
+enums.V1AdminBillingRolesRolePhotoLimitsPutRole?
+v1AdminBillingRolesRolePhotoLimitsPutRoleNullableFromJson(
+  Object? v1AdminBillingRolesRolePhotoLimitsPutRole, [
+  enums.V1AdminBillingRolesRolePhotoLimitsPutRole? defaultValue,
+]) {
+  if (v1AdminBillingRolesRolePhotoLimitsPutRole == null) {
+    return null;
+  }
+  return enums.V1AdminBillingRolesRolePhotoLimitsPutRole.values
+          .firstWhereOrNull(
+            (e) => e.value == v1AdminBillingRolesRolePhotoLimitsPutRole,
+          ) ??
+      defaultValue;
+}
+
+String v1AdminBillingRolesRolePhotoLimitsPutRoleExplodedListToJson(
+  List<enums.V1AdminBillingRolesRolePhotoLimitsPutRole>?
+  v1AdminBillingRolesRolePhotoLimitsPutRole,
+) {
+  return v1AdminBillingRolesRolePhotoLimitsPutRole
+          ?.map((e) => e.value!)
+          .join(',') ??
+      '';
+}
+
+List<String> v1AdminBillingRolesRolePhotoLimitsPutRoleListToJson(
+  List<enums.V1AdminBillingRolesRolePhotoLimitsPutRole>?
+  v1AdminBillingRolesRolePhotoLimitsPutRole,
+) {
+  if (v1AdminBillingRolesRolePhotoLimitsPutRole == null) {
+    return [];
+  }
+
+  return v1AdminBillingRolesRolePhotoLimitsPutRole
+      .map((e) => e.value!)
+      .toList();
+}
+
+List<enums.V1AdminBillingRolesRolePhotoLimitsPutRole>
+v1AdminBillingRolesRolePhotoLimitsPutRoleListFromJson(
+  List? v1AdminBillingRolesRolePhotoLimitsPutRole, [
+  List<enums.V1AdminBillingRolesRolePhotoLimitsPutRole>? defaultValue,
+]) {
+  if (v1AdminBillingRolesRolePhotoLimitsPutRole == null) {
+    return defaultValue ?? [];
+  }
+
+  return v1AdminBillingRolesRolePhotoLimitsPutRole
+      .map(
+        (e) => v1AdminBillingRolesRolePhotoLimitsPutRoleFromJson(e.toString()),
+      )
+      .toList();
+}
+
+List<enums.V1AdminBillingRolesRolePhotoLimitsPutRole>?
+v1AdminBillingRolesRolePhotoLimitsPutRoleNullableListFromJson(
+  List? v1AdminBillingRolesRolePhotoLimitsPutRole, [
+  List<enums.V1AdminBillingRolesRolePhotoLimitsPutRole>? defaultValue,
+]) {
+  if (v1AdminBillingRolesRolePhotoLimitsPutRole == null) {
+    return defaultValue;
+  }
+
+  return v1AdminBillingRolesRolePhotoLimitsPutRole
+      .map(
+        (e) => v1AdminBillingRolesRolePhotoLimitsPutRoleFromJson(e.toString()),
       )
       .toList();
 }

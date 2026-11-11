@@ -21,6 +21,9 @@ class ErrorBody(BaseModel):
     code: str
     message: str
     request_id: str
+    # Machine-readable facts for a few codes only (e.g. `analysis_limit`: which limit and when
+    # it resets); left out of the body when there are none.
+    details: dict[str, str] | None = None
 
 
 class ErrorResponse(BaseModel):
@@ -30,27 +33,55 @@ class ErrorResponse(BaseModel):
 class ApiError(HTTPException):
     """HTTP error carrying a stable machine-readable code."""
 
-    def __init__(self, status_code: int, code: str, message: str | None = None) -> None:
-        super().__init__(status_code=status_code, detail=message or code)
+    def __init__(
+        self,
+        status_code: int,
+        code: str,
+        message: str | None = None,
+        *,
+        details: dict[str, str] | None = None,
+        headers: dict[str, str] | None = None,
+    ) -> None:
+        super().__init__(status_code=status_code, detail=message or code, headers=headers)
         self.code = code
+        self.details = details
 
 
 def _default_code(status: int) -> str:
     return HTTPStatus(status).phrase.lower().replace(" ", "_")
 
 
-def _envelope(request: Request, status: int, code: str, message: str) -> JSONResponse:
+def _envelope(  # noqa: PLR0913 - the envelope and its optional extras
+    request: Request,
+    status: int,
+    code: str,
+    message: str,
+    details: dict[str, str] | None = None,
+    headers: dict[str, str] | None = None,
+) -> JSONResponse:
     body = ErrorResponse(
-        error=ErrorBody(code=code, message=message, request_id=current_request_id(request))
+        error=ErrorBody(
+            code=code, message=message, request_id=current_request_id(request), details=details
+        )
     )
-    return JSONResponse(status_code=status, content=body.model_dump())
+    return JSONResponse(
+        status_code=status, content=body.model_dump(exclude_none=True), headers=headers
+    )
 
 
 def install_error_handlers(app: FastAPI) -> None:
     @app.exception_handler(StarletteHTTPException)
     async def _http(request: Request, exc: StarletteHTTPException) -> JSONResponse:
-        code = exc.code if isinstance(exc, ApiError) else _default_code(exc.status_code)
-        return _envelope(request, exc.status_code, code, str(exc.detail))
+        if isinstance(exc, ApiError):
+            return _envelope(
+                request,
+                exc.status_code,
+                exc.code,
+                str(exc.detail),
+                exc.details,
+                dict(exc.headers) if exc.headers else None,
+            )
+        return _envelope(request, exc.status_code, _default_code(exc.status_code), str(exc.detail))
 
     @app.exception_handler(RequestValidationError)
     async def _validation(request: Request, exc: RequestValidationError) -> JSONResponse:

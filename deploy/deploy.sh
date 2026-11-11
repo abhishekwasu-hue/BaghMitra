@@ -48,6 +48,9 @@ MARKET_LINK_ERASE_CRON_LINE="41 22 * * * $JOB bagmitra_api.market_link.erase_job
 # Market-link yearly re-check list (market_link/recheck_job.py, spec v1.5 §4): 23:19 UTC
 # (04:49 IST); on unless CRON_ML_RECHECK=off. Does nothing while MARKET_LINK_ENABLED is off.
 ML_RECHECK_CRON_LINE="19 23 * * * $JOB bagmitra_api.market_link.recheck_job >> /var/log/bagmitra-ml-recheck.log 2>&1"
+# Photo analysis training samples older than PHOTO_AI_RETENTION_DAYS (Q135,
+# photo_ai/retention.py): 22:29 UTC (03:59 IST); on unless CRON_PHOTO_AI_RETENTION=off.
+PHOTO_AI_RETENTION_CRON_LINE="29 22 * * * $JOB bagmitra_api.photo_ai.retention >> /var/log/bagmitra-photo-ai-retention.log 2>&1"
 # Play billing reconciliation (billing/reconcile_job.py: voided purchases, drift list): 23:47 UTC
 # (05:17 IST); on once PLAY_PACKAGE_NAME is set (runbook billing-play.md).
 BILLING_RECONCILE_CRON_LINE="47 23 * * * $JOB bagmitra_api.billing.reconcile_job >> /var/log/bagmitra-billing-reconcile.log 2>&1"
@@ -218,6 +221,8 @@ install_cron() {
   cron_job_if "$on" "bagmitra_api.market_link.erase_job" "$MARKET_LINK_ERASE_CRON_LINE" "market-link erasure (nightly 22:41 UTC)"
   on=1; switch_on CRON_ML_RECHECK && on=0
   cron_job_if "$on" "bagmitra_api.market_link.recheck_job" "$ML_RECHECK_CRON_LINE" "market-link re-check list (nightly 23:19 UTC)"
+  on=1; switch_on CRON_PHOTO_AI_RETENTION && on=0
+  cron_job_if "$on" "bagmitra_api.photo_ai.retention" "$PHOTO_AI_RETENTION_CRON_LINE" "photo analysis retention (nightly 22:29 UTC)"
   on=1; [[ -n "$(env_value PLAY_PACKAGE_NAME)" ]] && on=0
   cron_job_if "$on" "bagmitra_api.billing.reconcile_job" "$BILLING_RECONCILE_CRON_LINE" "Play billing reconciliation (nightly 23:47 UTC)"
   on=1

@@ -15,6 +15,8 @@ dependencies = [
   "structlog==25.4.0",
   "httpx==0.28.1",
   "pypdf==6.21.2",
+  # Multipart form uploads (crop photo analysis, Q135).
+  "python-multipart==0.0.20",
   "sentry-sdk==2.74.0",
 ]
 
@@ -43,6 +45,7 @@ where = ["src"]
 "bagmitra_api.feed.seed_data" = ["*.json"]
 "bagmitra_api.kb.seed_data" = ["*.json", "*.csv"]
 "bagmitra_api.market_link.seed_data" = ["*.json"]
+"bagmitra_api.photo_ai.seed_data" = ["*.json"]
 "bagmitra_api.risk" = ["*.json"]
 
 [tool.ruff]

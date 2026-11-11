@@ -1,0 +1,229 @@
+{
+  "_note": "Copied from app/assets/config/practice_cards.json: every disease / pest / disorder section whose profile describes the symptoms (owner Q135). The photo analysis tells the model what each looks like from these texts only. Kept in step by api/tests/test_photo_analysis.py; change the cards first, then copy.",
+  "profiles": [
+    {
+      "key": "phytophthora",
+      "kind": "disease",
+      "labels": {
+        "en": "Phytophthora: gummosis, foot / collar rot, root rot",
+        "mr": "फायटोफ्थोरा: डिंक्या, खोडकूज, मूळकूज",
+        "hi": "फाइटोफ्थोरा: गोंदिया (गमोसिस), तना/कॉलर सड़न, जड़ सड़न"
+      },
+      "symptoms": {
+        "en": "Water-soaked patches at the base of the trunk near the ground; the bark dries, cracks and peels in vertical strips, with heavy gum. Leaves turn yellow. Severe gumming girdles the trunk and the tree dries; a dying tree often flowers heavily.",
+        "mr": "जमिनीजवळ खोडाच्या तळाशी पाणथळ चट्टे; साल वाळते, तडकते आणि उभ्या पट्ट्यांत सुटते, भरपूर डिंक येतो. पाने पिवळी पडतात. जास्त डिंकामुळे खोडाला वेढा पडून झाड वाळते; मरणारे झाड अनेकदा भरपूर फुलते.",
+        "hi": "ज़मीन के पास तने के आधार पर पानी भरे धब्बे; छाल सूखती, फटती और खड़ी पट्टियों में उखड़ती है, भारी गोंद निकलता है। पत्तियाँ पीली पड़ती हैं। ज़्यादा गोंद से तना घिर जाता है और पेड़ सूखता है; मरता पेड़ अक्सर भारी फूलता है।"
+      },
+      "scouting": {
+        "en": "Look at the base of the stem near ground level for water-soaked patches and gum, above all in moist, cool conditions and where irrigation water touches the trunk.",
+        "mr": "जमिनीलगत खोडाच्या तळाशी, विशेषतः ओलसर, थंड हवामानात आणि जिथे ओलिताचे पाणी खोडाला लागते तिथे, पाणथळ चट्टे व डिंक पाहा.",
+        "hi": "ज़मीन के पास तने के आधार पर, ख़ासकर नम, ठंडे मौसम में और जहाँ सिंचाई का पानी तने को छूता है, पानी भरे धब्बे और गोंद देखें।"
+      }
+    },
+    {
+      "key": "canker",
+      "kind": "disease",
+      "labels": {
+        "en": "Canker",
+        "mr": "कँकर",
+        "hi": "कैंकर"
+      },
+      "symptoms": {
+        "en": "Small water-soaked yellow spots on leaves, twigs and fruit stalks that become raised, rough, brown, corky spots with a yellow halo; on fruit the spots have no halo and stay in the rind, but the fruit loses market value. Severe attack causes leaf fall and dieback of twigs.",
+        "mr": "पाने, काड्या व फळांच्या देठांवर लहान, पाणथळ पिवळे ठिपके, जे वाढून उंचवट्याचे, खरबरीत, तपकिरी, बुचासारखे डाग होतात व त्यांच्याभोवती पिवळे वलय असते; फळांवरील डागांना वलय नसते आणि ते सालीतच राहतात, पण फळाचा बाजारभाव घटतो. जास्त प्रादुर्भावात पानगळ व काड्यांचा फांदीमर होतो.",
+        "hi": "पत्तियों, टहनियों और फल के डंठलों पर छोटे, पानी भरे पीले धब्बे, जो उभरे, खुरदरे, भूरे, कॉर्क जैसे धब्बे बनते हैं और उनके चारों ओर पीला घेरा होता है; फलों के धब्बों में घेरा नहीं होता और वे छिलके तक रहते हैं, पर फल का बाज़ार भाव घटता है। भारी हमले में पत्ते गिरते हैं और टहनियाँ सूखती हैं।"
+      },
+      "scouting": {
+        "en": "Check leaves, twigs and fruit for raised, rough brown corky spots, above all in the rainy season; on leaves the spots have a yellow halo, on fruit they do not. Compare with scab on the look-alike card.",
+        "mr": "पाने, काड्या व फळांवर, विशेषतः पावसाळ्यात, उंचवट्याचे खरबरीत तपकिरी बुचासारखे डाग पाहा; पानांवरील डागांभोवती पिवळे वलय असते, फळांवरील डागांभोवती नसते. सारखी लक्षणे कार्डवर खरूज (स्कॅब) शी तुलना करा.",
+        "hi": "पत्तियों, टहनियों और फलों पर, ख़ासकर बरसात में, उभरे खुरदरे भूरे कॉर्क जैसे धब्बे देखें; पत्तियों के धब्बों के चारों ओर पीला घेरा होता है, फलों पर नहीं। मिलते-जुलते लक्षण कार्ड पर स्कैब से मिलाएँ।"
+      }
+    },
+    {
+      "key": "powdery_mildew",
+      "kind": "disease",
+      "labels": {
+        "en": "Powdery mildew",
+        "mr": "भुरी",
+        "hi": "चूर्णिल आसिता (पाउडरी मिल्ड्यू)"
+      },
+      "symptoms": {
+        "en": "White powder, mostly on the upper side of young leaves and on young fruit. Young leaves turn pale grey-green, twist and curl; shoots die back; infected fruit fall early.",
+        "mr": "मुख्यतः कोवळ्या पानांच्या वरच्या बाजूला व लहान फळांवर पांढरी भुकटी. कोवळी पाने फिकट राखाडी-हिरवी होऊन वळतात व गुंडाळतात; फुटवे वाळतात; बाधित फळे लवकर गळतात.",
+        "hi": "ज़्यादातर नई पत्तियों की ऊपरी सतह और छोटे फलों पर सफ़ेद चूर्ण। नई पत्तियाँ हल्की धूसर-हरी होकर ऐंठती और मुड़ती हैं; टहनियाँ सूखती हैं; संक्रमित फल जल्दी गिरते हैं।"
+      },
+      "scouting": {
+        "en": "In cool, damp spells, look at young leaves and young fruit for white powder.",
+        "mr": "थंड, दमट काळात कोवळ्या पानांवर व लहान फळांवर पांढरी भुकटी पाहा.",
+        "hi": "ठंडे, नम दौर में नई पत्तियों और छोटे फलों पर सफ़ेद चूर्ण देखें।"
+      }
+    },
+    {
+      "key": "anthracnose",
+      "kind": "disease",
+      "labels": {
+        "en": "Anthracnose (wither tip)",
+        "mr": "ॲन्थ्रॅकनोज (शेंडा वाळणे)",
+        "hi": "एन्थ्रेक्नोज़ (टहनी सूखना)"
+      },
+      "symptoms": {
+        "en": "On leaves, round, flat, light-tan patches with a purple edge that later show tiny black dots; dead twig parts turn silvery grey. On fruit, brown to black spots, mostly where the fruit was already hurt by sunburn, pests or bruising; affected flower buds do not set fruit.",
+        "mr": "पानांवर गोल, सपाट, फिकट तपकिरी चट्टे, कडा जांभळी, नंतर त्यांवर बारीक काळे ठिपके; काडीचा मेलेला भाग चंदेरी राखाडी होतो. फळांवर तपकिरी ते काळे डाग, मुख्यतः उन्हाचा चटका, कीड किंवा मार लागलेल्या जागी; बाधित कळ्यांना फळ लागत नाही.",
+        "hi": "पत्तियों पर गोल, सपाट, हल्के भूरे धब्बे, किनारा बैंगनी, बाद में उन पर बारीक काले बिंदु; टहनी का मरा भाग चाँदी जैसा धूसर हो जाता है। फलों पर भूरे से काले धब्बे, ज़्यादातर जहाँ फल पहले से धूप, कीट या चोट से घायल हो; प्रभावित कलियों में फल नहीं लगता।"
+      },
+      "scouting": {
+        "en": "Look at leaves for light-tan patches with a purple edge and tiny black flecks, and at injured fruit for brown to black spots.",
+        "mr": "पानांवर जांभळ्या कडेचे फिकट तपकिरी चट्टे व बारीक काळे ठिपके, आणि इजा झालेल्या फळांवर तपकिरी ते काळे डाग पाहा.",
+        "hi": "पत्तियों पर बैंगनी किनारे वाले हल्के भूरे धब्बे और बारीक काले बिंदु, और चोट लगे फलों पर भूरे से काले दाग देखें।"
+      }
+    },
+    {
+      "key": "psylla",
+      "kind": "pest",
+      "labels": {
+        "en": "Psylla and greening",
+        "mr": "सायला आणि ग्रीनिंग",
+        "hi": "सिट्रस सिल्ला और ग्रीनिंग"
+      },
+      "symptoms": {
+        "en": "Nymphs and adults suck sap from buds, tender leaves and shoots; new leaves twist, curl and fall. Flat yellow-orange nymphs crowd on shoot tips with white waxy threads and honeydew, and sooty mould follows. It carries greening.",
+        "mr": "पिल्ले व प्रौढ कळ्या, कोवळी पाने व फुटव्यांतून रस शोषतात; नवीन पाने वळतात, गुंडाळतात व गळतात. चपटी पिवळी-नारिंगी पिल्ले शेंड्यांवर पांढऱ्या मेणचट धाग्यांसह व चिकट स्रावासह गर्दी करतात आणि मागून काळी बुरशी येते. तो ग्रीनिंग पसरवतो.",
+        "hi": "शिशु और वयस्क कलियों, कोमल पत्तियों और टहनियों से रस चूसते हैं; नई पत्तियाँ ऐंठती, मुड़ती और गिरती हैं। चपटे पीले-नारंगी शिशु सिरों पर सफ़ेद मोमी धागों और मधुरस के साथ जमा होते हैं, और फिर काली फफूंद आती है। यह ग्रीनिंग फैलाता है।"
+      },
+      "scouting": {
+        "en": "Check every new flush, mainly the shoot tips and tender leaves, for flat yellow, orange or brown nymphs, white waxy secretions and twisted, curled new leaves.",
+        "mr": "प्रत्येक नवती, मुख्यतः शेंडे व कोवळी पाने, चपटी पिवळी, नारिंगी किंवा तपकिरी पिल्ले, पांढरा मेणचट स्राव व वळलेली, गुंडाळलेली नवीन पाने यांसाठी तपासा.",
+        "hi": "हर नई फुटान, ख़ासकर सिरे और कोमल पत्तियाँ, चपटे पीले, नारंगी या भूरे शिशु, सफ़ेद मोमी स्राव और ऐंठी, मुड़ी नई पत्तियों के लिए जाँचें।"
+      }
+    },
+    {
+      "key": "greening",
+      "kind": "disease",
+      "labels": {
+        "en": "Greening (HLB): the disease",
+        "mr": "ग्रीनिंग (HLB): रोग",
+        "hi": "ग्रीनिंग (HLB): रोग"
+      },
+      "symptoms": {
+        "en": "Yellow leaves with small green islands (mottling); heavy leaf fall as summer starts; some branches die back while others look normal. Fruit stay small, lopsided and green even when mature, with a bitter taste and poor, dark seeds.",
+        "mr": "लहान हिरव्या बेटांसारखे चट्टे असलेली पिवळी पाने; उन्हाळ्याच्या सुरुवातीला जास्त पानगळ; काही फांद्या वाळतात तर इतर सामान्य दिसतात. फळे लहान, एका बाजूला वाढलेली आणि पिकल्यावरही हिरवी राहतात, चव कडू आणि बिया कमकुवत, काळसर.",
+        "hi": "छोटे हरे द्वीपों जैसे धब्बों वाली पीली पत्तियाँ; गर्मी शुरू होते ही भारी पत्ती गिरना; कुछ डालियाँ सूखती हैं जबकि बाकी सामान्य दिखती हैं। फल छोटे, एक तरफ़ बढ़े और पकने पर भी हरे रहते हैं, स्वाद कड़वा और बीज कमज़ोर, काले।"
+      },
+      "scouting": {
+        "en": "Look for branches with severe twig dieback next to branches that look normal, and fruit that stays mostly green even at maturity. Only a lab test confirms greening: see the look-alike card.",
+        "mr": "सामान्य दिसणाऱ्या फांद्यांशेजारी तीव्र फांदीमर असलेल्या फांद्या, आणि पिकल्यावरही बहुतांश हिरवी राहणारी फळे पाहा. ग्रीनिंगची खात्री फक्त प्रयोगशाळा चाचणीने होते: सारखी लक्षणे कार्ड पाहा.",
+        "hi": "सामान्य दिखने वाली डालियों के पास गंभीर टहनी-सूखा (डाईबैक) वाली डालियाँ, और पकने पर भी ज़्यादातर हरे रहने वाले फल देखें। ग्रीनिंग की पुष्टि केवल लैब जाँच से होती है: मिलते-जुलते लक्षण कार्ड देखें।"
+      }
+    },
+    {
+      "key": "mites",
+      "kind": "pest",
+      "labels": {
+        "en": "Mites (citrus mite, russeting)",
+        "mr": "कोळी (सिट्रस माइट, साल खरबरीत होणे)",
+        "hi": "माइट (सिट्रस माइट, छिलका खुरदरा होना)"
+      },
+      "symptoms": {
+        "en": "Mites suck sap mostly from the upper side of leaves: pale-yellow areas start along the midrib and spread along the veins, fine webbing makes the leaves look dusty, and leaves drop. On fruit they cause russeting, which makes fruit unfit for export.",
+        "mr": "कोळी मुख्यतः पानांच्या वरच्या बाजूने रस शोषतात: मधल्या शिरेपासून फिकट पिवळे भाग सुरू होऊन शिरांच्या बाजूने पसरतात, बारीक जाळ्यामुळे पाने धुळकट दिसतात आणि पाने गळतात. फळांवर साल खरबरीत (रसेटिंग) होते, त्यामुळे फळ निर्यातीस अयोग्य ठरते.",
+        "hi": "माइट ज़्यादातर पत्तियों की ऊपरी सतह से रस चूसते हैं: बीच की नस से हल्के पीले हिस्से शुरू होकर नसों के साथ फैलते हैं, बारीक जाले से पत्तियाँ धूल भरी दिखती हैं और गिर जाती हैं। फलों पर छिलका खुरदरा (रसेटिंग) होता है, जिससे फल निर्यात लायक नहीं रहता।"
+      },
+      "scouting": {
+        "en": "Look at the upper side of leaves along the midrib and veins for pale-yellow, dusty patches; the lower side stays green. Look at fruit for russeting or a pale (chlorotic) look.",
+        "mr": "पानांच्या वरच्या बाजूला मधली शीर व शिरांच्या कडेने फिकट पिवळे, धुळकट चट्टे पाहा; खालची बाजू हिरवी राहते. फळांवर खरबरीत साल (रसेटिंग) किंवा फिकटपणा पाहा.",
+        "hi": "पत्तियों की ऊपरी सतह पर बीच की नस और नसों के साथ हल्के पीले, धूल भरे धब्बे देखें; निचली सतह हरी रहती है। फलों पर खुरदरा छिलका (रसेटिंग) या पीलापन देखें।"
+      }
+    },
+    {
+      "key": "aphids",
+      "kind": "pest",
+      "labels": {
+        "en": "Aphids (tristeza vector)",
+        "mr": "मावा (ट्रिस्टेझाचा वाहक)",
+        "hi": "माहू (ट्रिस्टेज़ा वाहक)"
+      },
+      "symptoms": {
+        "en": "Colonies of small black or brown aphids on tender shoots, flowers and newly set fruit. Leaves curl, turn cup-shaped and crinkled, shoots wilt and flowers drop; honeydew brings sooty mould.",
+        "mr": "कोवळे फुटवे, फुले व नुकत्याच लागलेल्या फळांवर लहान काळ्या किंवा तपकिरी माव्याच्या वसाहती. पाने गुंडाळतात, वाटीसारखी व सुरकुतलेली होतात, फुटवे कोमेजतात आणि फुले गळतात; चिकट स्रावामुळे काळी बुरशी येते.",
+        "hi": "कोमल टहनियों, फूलों और नए लगे फलों पर छोटे काले या भूरे माहू की कॉलोनियाँ। पत्तियाँ मुड़कर कटोरी जैसी और सिकुड़ी हो जाती हैं, टहनियाँ मुरझाती हैं और फूल गिरते हैं; मधुरस से काली फफूंद आती है।"
+      },
+      "scouting": {
+        "en": "Look at new shoots, flower clusters and young fruit for colonies and for curled, crinkled leaves.",
+        "mr": "नवीन फुटवे, फुलांचे घोस व लहान फळांवर वसाहती आणि गुंडाळलेली, सुरकुतलेली पाने पाहा.",
+        "hi": "नई टहनियों, फूलों के गुच्छों और छोटे फलों पर कॉलोनियाँ और मुड़ी, सिकुड़ी पत्तियाँ देखें।"
+      }
+    },
+    {
+      "key": "thrips",
+      "kind": "pest",
+      "labels": {
+        "en": "Thrips (flowering and young fruit)",
+        "mr": "फुलकिडे (बहर व लहान फळे)",
+        "hi": "थ्रिप्स (फूल और छोटे फल)"
+      },
+      "symptoms": {
+        "en": "Nymphs and adults lacerate the fruit: a ring-like scar round the fruit stalk and irregular mottled patches on the rind; leaves may curl.",
+        "mr": "पिल्ले व प्रौढ फळ ओरखडतात: देठाभोवती गोल व्रणासारखा डाग आणि सालीवर अनियमित चट्टे; पाने गुंडाळू शकतात.",
+        "hi": "शिशु और वयस्क फल को खरोंचते हैं: डंठल के चारों ओर छल्ले जैसा निशान और छिलके पर अनियमित धब्बे; पत्तियाँ मुड़ सकती हैं।"
+      },
+      "scouting": {
+        "en": "From petal fall, look under the button (calyx) of young fruit on outside, sunny branches for small wingless young thrips, and note how many fruit carry them. UC IPM samples 100 fruit: 25 from each corner of the block, on trees 3 to 4 rows in.",
+        "mr": "पाकळ्या गळल्यापासून, बाहेरच्या उन्हातील फांद्यांवरील लहान फळांच्या देठाखाली (कॅलिक्स) पंख नसलेले लहान फुलकिडे पाहा आणि किती फळांवर ते आहेत ते नोंदवा. UC IPM १०० फळे पाहते: बागेच्या प्रत्येक कोपऱ्यातून २५, कडेपासून ३ ते ४ ओळी आतील झाडांवरून.",
+        "hi": "पंखुड़ियाँ गिरने के बाद, बाहर की धूप वाली डालियों के छोटे फलों के डंठल (कैलिक्स) के नीचे बिना पंख के छोटे थ्रिप्स देखें और कितने फलों पर हैं यह लिखें। UC IPM 100 फल देखता है: बाग के हर कोने से 25, किनारे से 3 से 4 कतार अंदर के पेड़ों से।"
+      }
+    },
+    {
+      "key": "mealybug",
+      "kind": "pest",
+      "labels": {
+        "en": "Mealybug",
+        "mr": "पिठ्या ढेकूण",
+        "hi": "मिलीबग"
+      },
+      "symptoms": {
+        "en": "White, waxy, cotton-like insects in clusters on tender twigs, fruit and along leaf veins; white cottony egg masses on the trunk and stems. Affected parts turn pale, wilt and dry; honeydew brings sooty mould, and heavy attack causes leaf drop, fruit drop and twig dieback.",
+        "mr": "कोवळ्या काड्या, फळे व पानांच्या शिरांवर पांढऱ्या, मेणचट, कापसासारख्या किडींचे पुंजके; खोड व फांद्यांवर पांढरे कापसासारखे अंडीपुंज. बाधित भाग फिकट होतात, कोमेजतात व वाळतात; चिकट स्रावामुळे काळी बुरशी येते आणि जास्त प्रादुर्भावात पानगळ, फळगळ व फांदीमर होते.",
+        "hi": "कोमल टहनियों, फलों और पत्ती की नसों पर सफ़ेद, मोमी, रुई जैसे कीटों के गुच्छे; तने और डालियों पर सफ़ेद रुई जैसे अंडे के ढेर। प्रभावित हिस्से पीले पड़कर मुरझाते और सूखते हैं; मधुरस से काली फफूंद आती है, और भारी हमले में पत्ते, फल गिरते हैं व टहनियाँ सूखती हैं।"
+      },
+      "scouting": {
+        "en": "Look at fruit, tender twigs and the trunk for white cottony masses and for ants going up and down; note how many fruit out of every 100 carry mealybugs.",
+        "mr": "फळे, कोवळ्या काड्या व खोडावर पांढरे कापसासारखे पुंजके आणि वर-खाली जाणाऱ्या मुंग्या पाहा; दर १०० फळांपैकी किती फळांवर पिठ्या ढेकूण आहे ते नोंदवा.",
+        "hi": "फलों, कोमल टहनियों और तने पर सफ़ेद रुई जैसे ढेर और ऊपर-नीचे जाती चींटियाँ देखें; हर 100 फलों में से कितनों पर मिलीबग है यह लिखें।"
+      }
+    },
+    {
+      "key": "leaf_miner",
+      "kind": "pest",
+      "labels": {
+        "en": "Leaf miner",
+        "mr": "पाने पोखरणारी अळी",
+        "hi": "पत्ती सुरंगक (लीफ माइनर)"
+      },
+      "symptoms": {
+        "en": "Silvery, zig-zag mines in tender leaves; the leaves turn pale, distort, crumple and dry. The damage helps canker to infect.",
+        "mr": "कोवळ्या पानांत चंदेरी, नागमोडी बोगदे; पाने फिकट होतात, वेडीवाकडी व चुरगळलेली होऊन वाळतात. या नुकसानामुळे कँकरला शिरकाव मिळतो.",
+        "hi": "कोमल पत्तियों में चाँदी जैसी, टेढ़ी-मेढ़ी सुरंगें; पत्तियाँ पीली पड़ती, बिगड़ती, सिकुड़ती और सूखती हैं। इस नुकसान से कैंकर को संक्रमण का रास्ता मिलता है।"
+      },
+      "scouting": {
+        "en": "Check the tender leaves of each new flush, above all in the nursery and on young trees, for silvery mines.",
+        "mr": "प्रत्येक नवतीची कोवळी पाने, विशेषतः रोपवाटिकेत व लहान झाडांवर, चंदेरी बोगद्यांसाठी तपासा.",
+        "hi": "हर नई फुटान की कोमल पत्तियाँ, ख़ासकर नर्सरी और छोटे पेड़ों पर, चाँदी जैसी सुरंगों के लिए जाँचें।"
+      }
+    },
+    {
+      "key": "heat_drop",
+      "kind": "disorder",
+      "labels": {
+        "en": "Fruit drop from heat (May–June)",
+        "mr": "उष्णतेमुळे फळगळ (मे–जून)",
+        "hi": "गर्मी से फल गिरना (मई–जून)"
+      },
+      "symptoms": {
+        "en": "A second wave of heavy fruit drop when hot summer weather sets in.",
+        "mr": "उन्हाळ्याची उष्णता सुरू होताच जोरदार फळगळीची दुसरी लाट.",
+        "hi": "गर्मी का मौसम शुरू होते ही भारी फल गिरने की दूसरी लहर।"
+      },
+      "scouting": null
+    }
+  ]
+}

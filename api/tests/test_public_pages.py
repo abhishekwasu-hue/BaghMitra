@@ -107,6 +107,27 @@ async def test_privacy_page_matches_the_code(pages: httpx.AsyncClient) -> None:
     assert "by database row-level security" not in body
 
 
+async def test_privacy_page_covers_crop_photo_analysis() -> None:
+    """Q135: one-time consent at signup; AI analysis; kept PHOTO_AI_RETENTION_DAYS; deletable."""
+    cfg = Settings(
+        environment="test",
+        database_url="sqlite+aiosqlite://",
+        supabase_jwt_secret=JWT_SECRET,
+        photo_ai_retention_days=400,
+    )
+    async for client in _client(cfg):
+        body = (await client.get("/privacy")).text
+    assert "then an AI service (Anthropic) analyses it" in body
+    assert "AI सेवा (Anthropic) तो फोटो तपासते" in body
+    assert "kept for 400 days from the analysis" in body
+    assert "तपासणीपासून ४०० दिवस ठेवले" in body
+    assert "deleting the scouting entry" in body
+    assert "पाहणी नोंद काढून फोटो पुसता" in body
+    assert "not asked again for each photo" in body
+    assert "प्रत्येक फोटोसाठी" in body
+    assert "(EXIF) are removed first" in body
+
+
 @pytest.mark.parametrize(("lang", "present", "absent"), [("en", "en", "mr"), ("mr", "mr", "en")])
 async def test_privacy_page_one_language(
     pages: httpx.AsyncClient, lang: str, present: str, absent: str
@@ -169,7 +190,8 @@ async def test_pages_need_no_auth_load_nothing_and_skip_openapi(pages: httpx.Asy
         assert "default-src 'none'" in resp.headers["content-security-policy"]
         assert resp.headers["x-content-type-options"] == "nosniff"
         assert resp.headers["x-request-id"]
-        assert len(resp.content) < 30_000
+        # Raised from 30 000 for the crop photo analysis text (Q135; Marathi is 3 bytes a letter).
+        assert len(resp.content) < 34_000
         head = await pages.head(path)
         assert head.status_code == 200
     spec = (await pages.get("/openapi.json")).json()

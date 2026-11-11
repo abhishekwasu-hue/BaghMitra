@@ -1113,6 +1113,9 @@
             "title": "Enabled",
             "type": "boolean"
           },
+          "photo_limits": {
+            "$ref": "#/components/schemas/PhotoLimitsOut"
+          },
           "roles": {
             "items": {
               "$ref": "#/components/schemas/RolePriceOut"
@@ -1135,7 +1138,8 @@
         },
         "required": [
           "enabled",
-          "roles"
+          "roles",
+          "photo_limits"
         ],
         "title": "BillingSettingsOut",
         "type": "object"
@@ -1198,6 +1202,47 @@
           "blocked_user_ids"
         ],
         "title": "BlocksResponse",
+        "type": "object"
+      },
+      "Body_photo_analysis_create": {
+        "properties": {
+          "part": {
+            "anyOf": [
+              {
+                "pattern": "^(leaf|fruit|trunk|whole_tree)$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "leaf | fruit | trunk | whole_tree",
+            "title": "Part"
+          },
+          "photo": {
+            "description": "One JPEG or PNG photo",
+            "format": "binary",
+            "title": "Photo",
+            "type": "string"
+          },
+          "scouting_item": {
+            "anyOf": [
+              {
+                "pattern": "^[a-z][a-z0-9_]{1,31}$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "scouting entry slug",
+            "title": "Scouting Item"
+          }
+        },
+        "required": [
+          "photo"
+        ],
+        "title": "Body_photo_analysis_create",
         "type": "object"
       },
       "BrokerIn": {
@@ -1560,6 +1605,42 @@
           "lots"
         ],
         "title": "BuyerLotsResponse",
+        "type": "object"
+      },
+      "CandidateOut": {
+        "properties": {
+          "confidence": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Confidence",
+            "type": "number"
+          },
+          "explanation": {
+            "$ref": "#/components/schemas/LocalizedText"
+          },
+          "key": {
+            "title": "Key",
+            "type": "string"
+          },
+          "name": {
+            "$ref": "#/components/schemas/LocalizedText"
+          },
+          "signs": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Signs",
+            "type": "array"
+          }
+        },
+        "required": [
+          "key",
+          "name",
+          "confidence",
+          "signs",
+          "explanation"
+        ],
+        "title": "CandidateOut",
         "type": "object"
       },
       "CardOut": {
@@ -2161,6 +2242,20 @@
           "code": {
             "title": "Code",
             "type": "string"
+          },
+          "details": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Details"
           },
           "message": {
             "title": "Message",
@@ -4923,6 +5018,31 @@
         "title": "LabelClaimsResponse",
         "type": "object"
       },
+      "LabelIn": {
+        "properties": {
+          "label": {
+            "maxLength": 32,
+            "minLength": 1,
+            "title": "Label",
+            "type": "string"
+          },
+          "source": {
+            "default": "expert",
+            "enum": [
+              "expert",
+              "farmer",
+              "lab"
+            ],
+            "title": "Source",
+            "type": "string"
+          }
+        },
+        "required": [
+          "label"
+        ],
+        "title": "LabelIn",
+        "type": "object"
+      },
       "LiveResponse": {
         "properties": {
           "product": {
@@ -4939,6 +5059,29 @@
           "product"
         ],
         "title": "LiveResponse",
+        "type": "object"
+      },
+      "LocalizedText": {
+        "properties": {
+          "en": {
+            "title": "En",
+            "type": "string"
+          },
+          "hi": {
+            "title": "Hi",
+            "type": "string"
+          },
+          "mr": {
+            "title": "Mr",
+            "type": "string"
+          }
+        },
+        "required": [
+          "en",
+          "mr",
+          "hi"
+        ],
+        "title": "LocalizedText",
         "type": "object"
       },
       "LotBrief": {
@@ -6634,6 +6777,33 @@
         "title": "PartyContactOut",
         "type": "object"
       },
+      "PhotoAnalysisOut": {
+        "properties": {
+          "candidates": {
+            "items": {
+              "$ref": "#/components/schemas/CandidateOut"
+            },
+            "title": "Candidates",
+            "type": "array"
+          },
+          "photo_id": {
+            "format": "uuid",
+            "title": "Photo Id",
+            "type": "string"
+          },
+          "unsure": {
+            "title": "Unsure",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "candidates",
+          "unsure",
+          "photo_id"
+        ],
+        "title": "PhotoAnalysisOut",
+        "type": "object"
+      },
       "PhotoDownloadUrl": {
         "properties": {
           "expires_in": {
@@ -6655,6 +6825,106 @@
           "expires_in"
         ],
         "title": "PhotoDownloadUrl",
+        "type": "object"
+      },
+      "PhotoLimitsIn": {
+        "properties": {
+          "daily_total": {
+            "anyOf": [
+              {
+                "maximum": 100000.0,
+                "minimum": 0.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Daily Total"
+          },
+          "free_daily": {
+            "anyOf": [
+              {
+                "maximum": 100000.0,
+                "minimum": 0.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Free Daily"
+          },
+          "free_monthly": {
+            "anyOf": [
+              {
+                "maximum": 100000.0,
+                "minimum": 0.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Free Monthly"
+          }
+        },
+        "title": "PhotoLimitsIn",
+        "type": "object"
+      },
+      "PhotoLimitsOut": {
+        "description": "Photo analysis limits for farmers without a role plan (or while the switch is off);\nnull = the default. `daily_total`: all farmers together per India day; null = no cap.",
+        "properties": {
+          "daily_total": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Daily Total"
+          },
+          "default_daily": {
+            "default": 5,
+            "title": "Default Daily",
+            "type": "integer"
+          },
+          "default_monthly": {
+            "default": 50,
+            "title": "Default Monthly",
+            "type": "integer"
+          },
+          "free_daily": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Free Daily"
+          },
+          "free_monthly": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Free Monthly"
+          }
+        },
+        "required": [
+          "free_daily",
+          "free_monthly",
+          "daily_total"
+        ],
+        "title": "PhotoLimitsOut",
         "type": "object"
       },
       "PhotoUploadIn": {
@@ -8544,6 +8814,38 @@
         "title": "RoleAmountIn",
         "type": "object"
       },
+      "RolePhotoLimitsIn": {
+        "properties": {
+          "daily": {
+            "anyOf": [
+              {
+                "maximum": 100000.0,
+                "minimum": 0.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Daily"
+          },
+          "monthly": {
+            "anyOf": [
+              {
+                "maximum": 100000.0,
+                "minimum": 0.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Monthly"
+          }
+        },
+        "title": "RolePhotoLimitsIn",
+        "type": "object"
+      },
       "RolePriceOut": {
         "properties": {
           "amount_paise": {
@@ -8556,6 +8858,28 @@
               }
             ],
             "title": "Amount Paise"
+          },
+          "photo_ai_daily": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Photo Ai Daily"
+          },
+          "photo_ai_monthly": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Photo Ai Monthly"
           },
           "play_currency": {
             "anyOf": [
@@ -8604,6 +8928,126 @@
           "play_synced_at"
         ],
         "title": "RolePriceOut",
+        "type": "object"
+      },
+      "SampleOut": {
+        "properties": {
+          "candidates": {
+            "items": {
+              "$ref": "#/components/schemas/CandidateOut"
+            },
+            "title": "Candidates",
+            "type": "array"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "label": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Label"
+          },
+          "label_source": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Label Source"
+          },
+          "model": {
+            "title": "Model",
+            "type": "string"
+          },
+          "part": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Part"
+          },
+          "photo_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Photo Url"
+          },
+          "plot_id": {
+            "format": "uuid",
+            "title": "Plot Id",
+            "type": "string"
+          },
+          "scouting_item": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Scouting Item"
+          },
+          "unsure": {
+            "title": "Unsure",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "plot_id",
+          "part",
+          "scouting_item",
+          "model",
+          "candidates",
+          "unsure",
+          "label",
+          "label_source",
+          "created_at",
+          "photo_url"
+        ],
+        "title": "SampleOut",
+        "type": "object"
+      },
+      "SamplesOut": {
+        "properties": {
+          "samples": {
+            "items": {
+              "$ref": "#/components/schemas/SampleOut"
+            },
+            "title": "Samples",
+            "type": "array"
+          }
+        },
+        "required": [
+          "samples"
+        ],
+        "title": "SamplesOut",
         "type": "object"
       },
       "SentInterestOut": {
@@ -9873,6 +10317,73 @@
         ]
       }
     },
+    "/v1/admin/billing/photo-limits": {
+      "put": {
+        "description": "Photo analysis limits for farmers without a plan, and the optional overall cap (Q135).",
+        "operationId": "admin_billing_put_photo_limits",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PhotoLimitsIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BillingSettingsOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Put Photo Limits",
+        "tags": [
+          "admin"
+        ]
+      }
+    },
     "/v1/admin/billing/plans": {
       "get": {
         "operationId": "admin_billing_plans",
@@ -10200,6 +10711,91 @@
           }
         ],
         "summary": "Migrate Prices",
+        "tags": [
+          "admin"
+        ]
+      }
+    },
+    "/v1/admin/billing/roles/{role}/photo-limits": {
+      "put": {
+        "description": "Photo analysis limits per farmer on this role's plan (Q135).",
+        "operationId": "admin_billing_put_role_photo_limits",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "role",
+            "required": true,
+            "schema": {
+              "enum": [
+                "grower",
+                "trader",
+                "broker",
+                "exporter",
+                "provider"
+              ],
+              "title": "Role",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RolePhotoLimitsIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BillingSettingsOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Put Role Photo Limits",
         "tags": [
           "admin"
         ]
@@ -15460,6 +16056,180 @@
         ]
       }
     },
+    "/v1/admin/photo-analysis/samples": {
+      "get": {
+        "description": "Training export: labelled samples with a signed photo link (1 hour) and the label.\n`labelled=false` lists the samples still to label. No owner id is listed.",
+        "operationId": "admin_photo_analysis_samples",
+        "parameters": [
+          {
+            "description": "true: the training export",
+            "in": "query",
+            "name": "labelled",
+            "required": false,
+            "schema": {
+              "default": true,
+              "description": "true: the training export",
+              "title": "Labelled",
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 200,
+              "maximum": 500,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SamplesOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Admin Samples",
+        "tags": [
+          "photo-analysis",
+          "admin"
+        ]
+      }
+    },
+    "/v1/admin/photo-analysis/samples/{photo_id}/label": {
+      "put": {
+        "description": "Confirms what a sample shows (a profile key, `healthy` or `other`) for training.",
+        "operationId": "admin_photo_analysis_label",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "photo_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Photo Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LabelIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SampleOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Admin Label",
+        "tags": [
+          "photo-analysis",
+          "admin"
+        ]
+      }
+    },
     "/v1/app/version": {
       "get": {
         "description": "Latest and minimum app version codes (0 = not set) and where to download the APK.",
@@ -20637,6 +21407,197 @@
         "summary": "Put Preferences",
         "tags": [
           "feed"
+        ]
+      }
+    },
+    "/v1/photo-analysis/{photo_id}": {
+      "delete": {
+        "description": "Deletes the caller's own analysed photo and its result (also when the app deletes the\nscouting entry it belongs to). 502 when storage fails; nothing is deleted then.",
+        "operationId": "photo_analysis_delete",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "photo_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Photo Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Delete Sample",
+        "tags": [
+          "photo-analysis"
+        ]
+      }
+    },
+    "/v1/plots/{plot_id}/photo-analysis": {
+      "post": {
+        "description": "Analyses one crop photo of the caller's own plot (owner Q135).\n\n429 `analysis_limit`: `error.details` has `limit` (daily | monthly | total), `max` and\n`resets_at` (UTC); the `Retry-After` header has the seconds until then. 503\n`analysis_unavailable`: no API key on the server. 502 `analysis_failed`: the model could\nnot answer; nothing is stored or counted.",
+        "operationId": "photo_analysis_create",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "plot_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Plot Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_photo_analysis_create"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PhotoAnalysisOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Request Entity Too Large"
+          },
+          "415": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unsupported Media Type"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Gateway"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Analyse Photo",
+        "tags": [
+          "photo-analysis"
         ]
       }
     },

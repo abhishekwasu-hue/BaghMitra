@@ -71,6 +71,7 @@ from bagmitra_api.market_link.package_models import (
     PackageGrant,
     SeasonPackageSettings,
 )
+from bagmitra_api.photo_ai.models import PhotoAnalysisSample
 from bagmitra_api.push.models import PushDevice
 from bagmitra_api.risk.models import PlotRiskAlert
 from bagmitra_api.weather.models import WeatherDaily
@@ -125,6 +126,7 @@ __all__ = [
     "MarketPull",
     "PackageGrant",
     "PartyVerification",
+    "PhotoAnalysisSample",
     "PlanEntitlement",
     "Plot",
     "PlotRiskAlert",

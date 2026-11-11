@@ -120,6 +120,12 @@ class BillingSettings(TimestampMixin, Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True, default=1)
     enabled: Mapped[bool] = mapped_column(Boolean, default=False)
     starts_on: Mapped[date | None] = mapped_column(Date)
+    # Photo analysis (Q135, owner 2026-11-11): photos per farmer per IST day / month for a
+    # farmer without a role plan (or while the switch is off); empty = the code default
+    # (`photo_ai/limits.py`). An optional cap on all farmers together per IST day; empty = none.
+    photo_ai_free_daily: Mapped[int | None] = mapped_column(Integer)
+    photo_ai_free_monthly: Mapped[int | None] = mapped_column(Integer)
+    photo_ai_daily_total: Mapped[int | None] = mapped_column(Integer)
 
 
 class BillingRolePrice(TimestampMixin, Base):
@@ -135,3 +141,6 @@ class BillingRolePrice(TimestampMixin, Base):
     play_price_paise: Mapped[int | None] = mapped_column(BigInteger)
     play_currency: Mapped[str | None] = mapped_column(String(3))
     play_synced_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    # Photo analysis limits for a farmer on this role's plan (Q135); empty = the code default.
+    photo_ai_daily: Mapped[int | None] = mapped_column(Integer)
+    photo_ai_monthly: Mapped[int | None] = mapped_column(Integer)

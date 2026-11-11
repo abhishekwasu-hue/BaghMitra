@@ -201,6 +201,35 @@ abstract class Bagmitra extends ChopperService {
     ),
   });
 
+  ///Put Photo Limits
+  Future<chopper.Response<BillingSettingsOut>> v1AdminBillingPhotoLimitsPut({
+    required PhotoLimitsIn? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      BillingSettingsOut,
+      () => BillingSettingsOut.fromJsonFactory,
+    );
+
+    return _v1AdminBillingPhotoLimitsPut(body: body);
+  }
+
+  ///Put Photo Limits
+  @PUT(path: '/v1/admin/billing/photo-limits', optionalBody: true)
+  Future<chopper.Response<BillingSettingsOut>> _v1AdminBillingPhotoLimitsPut({
+    @Body() required PhotoLimitsIn? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Photo analysis limits for farmers without a plan, and the optional overall cap (Q135).',
+      summary: 'Put Photo Limits',
+      operationId: 'admin_billing_put_photo_limits',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
   ///Plans
   Future<chopper.Response<PlansResponse>> v1AdminBillingPlansGet() {
     generatedMapping.putIfAbsent(
@@ -328,6 +357,45 @@ abstract class Bagmitra extends ChopperService {
       description: '',
       summary: 'Migrate Prices',
       operationId: 'admin_billing_migrate_prices',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Put Role Photo Limits
+  ///@param role
+  Future<chopper.Response<BillingSettingsOut>>
+  v1AdminBillingRolesRolePhotoLimitsPut({
+    required enums.V1AdminBillingRolesRolePhotoLimitsPutRole? role,
+    required RolePhotoLimitsIn? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      BillingSettingsOut,
+      () => BillingSettingsOut.fromJsonFactory,
+    );
+
+    return _v1AdminBillingRolesRolePhotoLimitsPut(
+      role: role?.value?.toString(),
+      body: body,
+    );
+  }
+
+  ///Put Role Photo Limits
+  ///@param role
+  @PUT(path: '/v1/admin/billing/roles/{role}/photo-limits', optionalBody: true)
+  Future<chopper.Response<BillingSettingsOut>>
+  _v1AdminBillingRolesRolePhotoLimitsPut({
+    @Path('role') required String? role,
+    @Body() required RolePhotoLimitsIn? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description:
+          'Photo analysis limits per farmer on this role\'s plan (Q135).',
+      summary: 'Put Role Photo Limits',
+      operationId: 'admin_billing_put_role_photo_limits',
       consumes: [],
       produces: [],
       security: ["HTTPBearer"],
@@ -2239,6 +2307,77 @@ broker: the phone call), else 422 `verified_rule_not_met`.''',
       produces: [],
       security: ["HTTPBearer"],
       tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Admin Samples
+  ///@param labelled true: the training export
+  ///@param limit
+  Future<chopper.Response<SamplesOut>> v1AdminPhotoAnalysisSamplesGet({
+    bool? labelled,
+    int? limit,
+  }) {
+    generatedMapping.putIfAbsent(SamplesOut, () => SamplesOut.fromJsonFactory);
+
+    return _v1AdminPhotoAnalysisSamplesGet(labelled: labelled, limit: limit);
+  }
+
+  ///Admin Samples
+  ///@param labelled true: the training export
+  ///@param limit
+  @GET(path: '/v1/admin/photo-analysis/samples')
+  Future<chopper.Response<SamplesOut>> _v1AdminPhotoAnalysisSamplesGet({
+    @Query('labelled') bool? labelled,
+    @Query('limit') int? limit,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Training export: labelled samples with a signed photo link (1 hour) and the label.
+`labelled=false` lists the samples still to label. No owner id is listed.''',
+      summary: 'Admin Samples',
+      operationId: 'admin_photo_analysis_samples',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["photo-analysis", "admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Admin Label
+  ///@param photo_id
+  Future<chopper.Response<SampleOut>>
+  v1AdminPhotoAnalysisSamplesPhotoIdLabelPut({
+    required String? photoId,
+    required LabelIn? body,
+  }) {
+    generatedMapping.putIfAbsent(SampleOut, () => SampleOut.fromJsonFactory);
+
+    return _v1AdminPhotoAnalysisSamplesPhotoIdLabelPut(
+      photoId: photoId,
+      body: body,
+    );
+  }
+
+  ///Admin Label
+  ///@param photo_id
+  @PUT(
+    path: '/v1/admin/photo-analysis/samples/{photo_id}/label',
+    optionalBody: true,
+  )
+  Future<chopper.Response<SampleOut>>
+  _v1AdminPhotoAnalysisSamplesPhotoIdLabelPut({
+    @Path('photo_id') required String? photoId,
+    @Body() required LabelIn? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Confirms what a sample shows (a profile key, `healthy` or `other`) for training.',
+      summary: 'Admin Label',
+      operationId: 'admin_photo_analysis_label',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["photo-analysis", "admin"],
       deprecated: false,
     ),
   });
@@ -4240,6 +4379,73 @@ phone cannot rate each other (spec v1.5 §4C, Q100).''',
       produces: [],
       security: ["HTTPBearer"],
       tags: ["feed"],
+      deprecated: false,
+    ),
+  });
+
+  ///Delete Sample
+  ///@param photo_id
+  Future<chopper.Response> v1PhotoAnalysisPhotoIdDelete({
+    required String? photoId,
+  }) {
+    return _v1PhotoAnalysisPhotoIdDelete(photoId: photoId);
+  }
+
+  ///Delete Sample
+  ///@param photo_id
+  @DELETE(path: '/v1/photo-analysis/{photo_id}')
+  Future<chopper.Response> _v1PhotoAnalysisPhotoIdDelete({
+    @Path('photo_id') required String? photoId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Deletes the caller\'s own analysed photo and its result (also when the app deletes the
+scouting entry it belongs to). 502 when storage fails; nothing is deleted then.''',
+      summary: 'Delete Sample',
+      operationId: 'photo_analysis_delete',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["photo-analysis"],
+      deprecated: false,
+    ),
+  });
+
+  ///Analyse Photo
+  ///@param plot_id
+  Future<chopper.Response<PhotoAnalysisOut>> v1PlotsPlotIdPhotoAnalysisPost({
+    required String? plotId,
+    required BodyPhotoAnalysisCreate body,
+  }) {
+    generatedMapping.putIfAbsent(
+      PhotoAnalysisOut,
+      () => PhotoAnalysisOut.fromJsonFactory,
+    );
+
+    return _v1PlotsPlotIdPhotoAnalysisPost(plotId: plotId, body: body);
+  }
+
+  ///Analyse Photo
+  ///@param plot_id
+  @POST(path: '/v1/plots/{plot_id}/photo-analysis', optionalBody: true)
+  @Multipart()
+  Future<chopper.Response<PhotoAnalysisOut>> _v1PlotsPlotIdPhotoAnalysisPost({
+    @Path('plot_id') required String? plotId,
+    @Part() required BodyPhotoAnalysisCreate body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description:
+          '''Analyses one crop photo of the caller\'s own plot (owner Q135).
+
+429 `analysis_limit`: `error.details` has `limit` (daily | monthly | total), `max` and
+`resets_at` (UTC); the `Retry-After` header has the seconds until then. 503
+`analysis_unavailable`: no API key on the server. 502 `analysis_failed`: the model could
+not answer; nothing is stored or counted.''',
+      summary: 'Analyse Photo',
+      operationId: 'photo_analysis_create',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["photo-analysis"],
       deprecated: false,
     ),
   });
