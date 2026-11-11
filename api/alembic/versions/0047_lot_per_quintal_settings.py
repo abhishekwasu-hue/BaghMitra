@@ -5,8 +5,9 @@ the unit of the mandi price shown beside the asking rate, and the admin's lot fo
   (rate / 10, rounded to the paisa) and the basis CHECK allows per_quintal instead. The
   downgrade converts back (rate x 10, exact for every rate that was converted from whole
   rupees per tonne).
-- `market_lot_settings` (one row, private): the rate ranges per crop (santra, mosambi) and
-  basis (per quintal, per crate) and the default harvest window length; empty = the default in `market_link/lot_rules.py`.
+- `market_lot_settings` (one row, service only: RLS forced with one policy that matches no
+  row): the rate ranges per crop (santra, mosambi) and basis (per quintal, per crate) and the
+  default harvest window length; empty = the default in `market_link/lot_rules.py`.
 - `admin_actions` gains the subject `lot_settings` for their change log.
 
 Revision ID: 0047
@@ -19,7 +20,7 @@ from __future__ import annotations
 import sqlalchemy as sa
 from alembic import op
 
-from bagmitra_api.db.rls import disable_private_rls, enable_private_rls
+from bagmitra_api.db.rls import disable_policy_rls, enable_policy_rls
 
 revision = "0047"
 down_revision = "0046"
@@ -27,6 +28,10 @@ branch_labels = None
 depends_on = None
 
 TABLE = "market_lot_settings"
+# Service only, as the season package settings: RLS forced and one policy that matches
+# no row, so client roles read nothing; the API (BYPASSRLS) serves the values. Every
+# market-link table carries at least one policy (test_market_link_rls.py).
+POLICIES = [("service_only", "SELECT", "false")]
 # Each table with a basis, and its rate column.
 RATES = {"market_lots": "asking_rate_paise", "market_offers": "rate_paise"}
 _TARGETS = (
@@ -101,14 +106,14 @@ def upgrade() -> None:
     )
     _subject_check(", 'lot_settings'")
     if op.get_bind().dialect.name == "postgresql":
-        for stmt in enable_private_rls(TABLE):
+        for stmt in enable_policy_rls(TABLE, POLICIES):
             op.execute(stmt)
 
 
 def downgrade() -> None:
     postgres = op.get_bind().dialect.name == "postgresql"
     if postgres:
-        for stmt in disable_private_rls(TABLE):
+        for stmt in disable_policy_rls(TABLE, [n for n, _, _ in POLICIES]):
             op.execute(stmt)
     # admin_actions is append-only by trigger (0033); only this downgrade removes the lot
     # settings' own rows, with the user triggers paused for that one statement.

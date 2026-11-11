@@ -163,7 +163,8 @@ class MarketLotSettings(TimestampMixin, Base):
     default. Empty = the default in `market_link/lot_rules.py`."""
 
     __tablename__ = "market_lot_settings"
-    private_table = True
+    # Service only (migration 0047): RLS forced, one policy matching no row.
+    custom_rls = True
     __table_args__ = (
         CheckConstraint("id = 1", name="single_row"),
         CheckConstraint(
