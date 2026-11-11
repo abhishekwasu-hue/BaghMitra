@@ -16,7 +16,7 @@ import '../domain/interest.dart';
 import 'lot_widgets.dart';
 
 /// The grower's own sale record from the introduction (spec §3 step 7): buyer, kilograms
-/// and the rate per quintal as Accounts keeps it. Per tonne divides by 10; a lump sum is
+/// and the rate per quintal as Accounts keeps it. Per quintal is kept as is; a lump sum is
 /// spread over the agreed (or the lot's) tonnes; per crate has no quintal rate, so the
 /// grower types it (Q114). Payment is never filled: BagMitra records nothing about it.
 ({String buyer, double kg, int? ratePaisePerQuintal}) saleFromDeal(
@@ -28,7 +28,7 @@ import 'lot_widgets.dart';
     buyer: [intro.trader.name, ?intro.trader.firm].join(' · '),
     kg: tonnes * 1000,
     ratePaisePerQuintal: switch (intro.interest.basis) {
-      'per_tonne' => (rate / 10).round(),
+      'per_quintal' => rate,
       'lump_sum' when tonnes > 0 => (rate / (tonnes * 10)).round(),
       _ => null,
     },

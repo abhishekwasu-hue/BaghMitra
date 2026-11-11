@@ -3,6 +3,7 @@ import 'package:bagmitra/data/local/database.dart';
 import 'package:bagmitra/features/bahar/data/bahar_repository.dart';
 import 'package:bagmitra/features/bahar/data/stage_templates.dart';
 import 'package:bagmitra/features/bahar/domain/bahar_cycle.dart';
+import 'package:bagmitra/features/market_link/data/lot_settings_store.dart';
 import 'package:bagmitra/features/market_link/data/market_lot_repository.dart';
 import 'package:bagmitra/features/market_link/domain/lot_form_rules.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ import 'package:flutter_test/flutter_test.dart';
 import '../../helpers/pump_app.dart';
 import '../bahar/bahar_screen_test.dart' show seedPlot;
 import '../plots/plots_screen_test.dart' show settle;
+import 'lot_settings_test.dart' show lotSettingsJson;
 import 'market_lot_repository_test.dart' show sampleLot;
 
 const mlConfig = AppConfig(
@@ -209,7 +211,7 @@ void main() {
     expect(find.byKey(const Key('lot-crop')), findsOneWidget);
     await tester.tap(find.textContaining('2026').first);
     await settle(tester);
-    expect(find.byKey(const Key('lot-window-bahar')), findsOneWidget);
+    expect(find.text('1 Oct – 16 Oct'), findsOneWidget);
     await tester.enterText(find.byKey(const Key('lot-tonnes')), '१२');
     await tester.tap(find.byKey(const Key('lot-basis-lump_sum')));
     await tester.tap(find.byKey(const Key('lot-size-large')));
@@ -221,6 +223,9 @@ void main() {
     expect(lots!.single.quantityT, 12);
     expect(lots.single.baharCycleId, 'b1');
     expect(lots.single.basis, 'lump_sum');
+    // The start from the bahar stage, the end the default 15 days later (Q138).
+    expect(lots.single.harvestFrom, DateTime(2026, 10));
+    expect(lots.single.harvestTo, DateTime(2026, 10, 16));
     expect(lots.single.status, 'draft');
     expect(lots.single.quality, 'Large · Grade A · Good colour');
     final queued = await tester.runAsync(
@@ -268,6 +273,158 @@ void main() {
       await settle(tester);
       expect(find.text('Shown to traders'), findsOneWidget);
       expect(find.byKey(const Key('lot-save')), findsNothing);
+      await unmountApp(tester);
+    },
+  );
+
+  /// The orchard, and the admin's settings as the phone last saved them: the range per
+  /// quintal Rs 3,000 to Rs 9,000 and a 20-day harvest window (not the bundled 15).
+  Future<void> seedWithSettings(AppDatabase db) async {
+    await seedPlot(db);
+    await db.writeMeta(
+      LotSettingsStore.key,
+      lotSettingsJson(quintalMin: 300000, quintalMax: 900000, days: 20),
+    );
+  }
+
+  Future<void> pickDay(WidgetTester tester, String day) async {
+    await tester.tap(find.text(day).last);
+    await tester.tap(find.text('OK'));
+    await settle(tester);
+  }
+
+  testWidgets('one start date fills the end; "Change" moves only the end', (
+    tester,
+  ) async {
+    final db = await pumpApp(
+      tester,
+      locale: const Locale('en'),
+      config: mlConfig,
+      initialLocation: '/market-link/lots/new?plot=p1',
+      seed: seedWithSettings,
+      size: const Size(393, 2600),
+    );
+    await settle(tester);
+    // No bahar: nothing chosen yet, one clear field to tap.
+    expect(find.text('Harvest from'), findsOneWidget);
+    expect(find.text('Choose a date'), findsOneWidget);
+    expect(find.byKey(const Key('lot-window-range')), findsNothing);
+    expect(find.byKey(const Key('lot-window-change-end')), findsNothing);
+
+    // One single-date picker (today is 13 Oct 2026).
+    await tester.tap(find.byKey(const Key('lot-window-from')));
+    await settle(tester);
+    expect(find.byType(DatePickerDialog), findsOneWidget);
+    expect(find.byType(DateRangePickerDialog), findsNothing);
+    await pickDay(tester, '15');
+    expect(find.text('15 Oct – 4 Nov'), findsOneWidget);
+    expect(
+      find.text('Until is set 20 days after the start; change it if you like.'),
+      findsOneWidget,
+    );
+
+    // "Change": the end only, never before the start.
+    await tester.tap(find.byKey(const Key('lot-window-change-end')));
+    await settle(tester);
+    final end = tester.widget<DatePickerDialog>(find.byType(DatePickerDialog));
+    expect(end.firstDate, DateTime(2026, 10, 15));
+    expect(end.initialDate, DateTime(2026, 11, 4));
+    await pickDay(tester, '20');
+    expect(find.text('15 Oct – 20 Nov'), findsOneWidget);
+    expect(find.byKey(const Key('lot-window-auto')), findsNothing);
+
+    // A new start fills the end again from it.
+    await tester.tap(find.byKey(const Key('lot-window-from')));
+    await settle(tester);
+    await pickDay(tester, '18');
+    expect(find.text('18 Oct – 7 Nov'), findsOneWidget);
+
+    await tester.enterText(find.byKey(const Key('lot-tonnes')), '10');
+    await tester.tap(find.byKey(const Key('lot-basis-lump_sum')));
+    await tester.tap(find.byKey(const Key('lot-save')));
+    await settle(tester);
+    final lot = (await tester.runAsync(
+      () => db.select(db.marketLots).getSingle(),
+    ))!;
+    expect(
+      (lot.harvestFrom, lot.harvestTo),
+      (DateTime(2026, 10, 18), DateTime(2026, 11, 7)),
+    );
+    await unmountApp(tester);
+  });
+
+  testWidgets(
+    'the rate label and range follow the method; outside it, a calm message',
+    (tester) async {
+      final db = await pumpApp(
+        tester,
+        locale: const Locale('en'),
+        config: mlConfig,
+        initialLocation: '/market-link/lots/new?plot=p1',
+        seed: seedWithSettings,
+        size: const Size(393, 2600),
+      );
+      await settle(tester);
+      // The three methods: per quintal first, no per tonne any more.
+      expect(find.text('Per quintal'), findsOneWidget);
+      expect(find.text('Per crate'), findsOneWidget);
+      expect(find.text('Whole orchard'), findsOneWidget);
+      expect(find.textContaining('tonne'), findsNWidgets(1)); // quantity only
+      expect(find.text('Asking rate in ₹ (optional)'), findsOneWidget);
+
+      await tester.tap(find.byKey(const Key('lot-basis-per_quintal')));
+      await tester.pump();
+      expect(find.text('Asking rate ₹ / quintal (optional)'), findsOneWidget);
+      expect(find.text('₹3,000 – ₹9,000 per quintal'), findsOneWidget);
+
+      await tester.enterText(find.byKey(const Key('lot-rate')), '2500');
+      await tester.enterText(find.byKey(const Key('lot-tonnes')), '10');
+      await tester.pump();
+      expect(
+        find.text('Please write a rate from ₹3,000 to ₹9,000.'),
+        findsOneWidget,
+      );
+      // Saving is held back too.
+      await tester.tap(find.byKey(const Key('lot-window-from')));
+      await settle(tester);
+      await pickDay(tester, '15');
+      await tester.tap(find.byKey(const Key('lot-save')));
+      await settle(tester);
+      expect(
+        await tester.runAsync(() => db.select(db.marketLots).get()),
+        isEmpty,
+      );
+
+      // Per crate: its own range (the server's default here). While the message shows
+      // it names the range; once the rate fits, the muted range line is back.
+      await tester.tap(find.byKey(const Key('lot-basis-per_crate')));
+      await tester.pump();
+      expect(find.text('Asking rate ₹ / crate (optional)'), findsOneWidget);
+      expect(
+        find.text('Please write a rate from ₹400 to ₹1,200.'),
+        findsOneWidget,
+      );
+      await tester.enterText(find.byKey(const Key('lot-rate')), '450');
+      // The message fades out.
+      await settle(tester);
+      expect(find.textContaining('Please write a rate'), findsNothing);
+      expect(find.text('₹400 – ₹1,200 per crate'), findsOneWidget);
+
+      // The whole orchard has no range.
+      await tester.tap(find.byKey(const Key('lot-basis-lump_sum')));
+      await tester.enterText(find.byKey(const Key('lot-rate')), '2500000');
+      await settle(tester);
+      expect(
+        find.text('Asking rate ₹ for the whole orchard (optional)'),
+        findsOneWidget,
+      );
+      expect(find.textContaining(' – ₹'), findsNothing);
+      await tester.tap(find.byKey(const Key('lot-save')));
+      await settle(tester);
+      final lot = (await tester.runAsync(
+        () => db.select(db.marketLots).getSingle(),
+      ))!;
+      expect((lot.basis, lot.askingRatePaise), ('lump_sum', 250000000));
       await unmountApp(tester);
     },
   );

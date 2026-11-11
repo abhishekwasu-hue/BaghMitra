@@ -1,7 +1,8 @@
 import '../../bahar/domain/bahar_cycle.dart';
 
-/// Sale basis of a lot (spec v1.5 §3 step 1): per tonne, per crate, or the whole orchard.
-const lotBases = ['per_tonne', 'per_crate', 'lump_sum'];
+/// Sale basis of a lot (spec v1.5 §3 step 1): per quintal (the unit of the mandi price
+/// shown beside the asking rate, owner 2026-11-11, Q138), per crate, or the whole orchard.
+const lotBases = ['per_quintal', 'per_crate', 'lump_sum'];
 
 /// A lot is published with 3 to 8 in-app photos (the server checks it again).
 const lotMinPhotos = 3;
@@ -91,10 +92,10 @@ class MarketLot {
   final DateTime harvestFrom;
   final DateTime harvestTo;
 
-  /// per_tonne | per_crate | lump_sum ([lotBases]).
+  /// per_quintal | per_crate | lump_sum ([lotBases]).
   final String basis;
 
-  /// Per tonne, per crate or the whole amount, by [basis]; null when not given.
+  /// Per quintal, per crate or the whole amount, by [basis]; null when not given.
   final int? askingRatePaise;
 
   /// draft | published | closed (the server's).

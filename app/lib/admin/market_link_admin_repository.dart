@@ -40,6 +40,10 @@ abstract interface class MarketLinkAdminRepository {
   Future<String> documentUrl(String type, String id, int index);
   Future<List<RatingTagAdminOut>> ratingTags();
   Future<RatingTagAdminOut> saveRatingTag(String id, RatingTagIn body);
+
+  /// The lot form settings (Q138): rate ranges and the harvest window length.
+  Future<AdminLotSettingsOut> lotSettings();
+  Future<AdminLotSettingsOut> saveLotSettings(AdminLotSettingsIn body);
 }
 
 class ApiMarketLinkAdminRepository implements MarketLinkAdminRepository {
@@ -140,4 +144,12 @@ class ApiMarketLinkAdminRepository implements MarketLinkAdminRepository {
       _ok(
         await _api.v1AdminMarketLinkRatingTagsTagIdPut(tagId: id, body: body),
       );
+
+  @override
+  Future<AdminLotSettingsOut> lotSettings() async =>
+      _ok(await _api.v1AdminMarketLinkLotSettingsGet());
+
+  @override
+  Future<AdminLotSettingsOut> saveLotSettings(AdminLotSettingsIn body) async =>
+      _ok(await _api.v1AdminMarketLinkLotSettingsPut(body: body));
 }

@@ -137,6 +137,49 @@ void main() {
     }
   }
 
+  // Sale form clarity (owner 2026-11-11, Q138): one start date picked, the end filled
+  // 15 days later with "बदला", per quintal chosen, the label and the muted range line.
+  for (final mode in [ThemeMode.light, ThemeMode.dark]) {
+    testWidgets('lot_form_quintal_mr_${mode.name}', (tester) async {
+      tester.platformDispatcher.textScaleFactorTestValue = 1.3;
+      addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+      await pumpApp(
+        tester,
+        config: mlConfig,
+        themeMode: mode,
+        initialLocation: '/market-link/lots/new?plot=p1',
+        seed: _seedLots,
+        size: _phone,
+      );
+      await settle(tester);
+      await tester.ensureVisible(find.byKey(const Key('lot-window-from')));
+      await tester.pump();
+      await tester.tap(find.byKey(const Key('lot-window-from')));
+      await settle(tester);
+      final ok = MaterialLocalizations.of(
+        tester.element(find.byType(DatePickerDialog)),
+      ).okButtonLabel;
+      await tester.tap(find.text('१५').last);
+      await tester.tap(find.text(ok));
+      await settle(tester);
+      await tester.tap(find.byKey(const Key('lot-basis-per_quintal')));
+      await tester.enterText(find.byKey(const Key('lot-rate')), '3500');
+      await tester.pump();
+      FocusManager.instance.primaryFocus?.unfocus();
+      await settle(tester);
+      // The harvest window at the top, the rate and the mandi line below it.
+      await tester.drag(find.byType(ListView).first, const Offset(0, -320));
+      await settle(tester);
+      expect(find.text('१५ ऑक्टो – ३० ऑक्टो'), findsOneWidget);
+      expect(tester.takeException(), isNull);
+      await expectLater(
+        find.byType(MaterialApp),
+        matchesGoldenFile('lot_form_quintal_mr_${mode.name}.png'),
+      );
+      await unmountApp(tester);
+    });
+  }
+
   // Season sale package chip (L9b, spec v1.5 §4E): an active and a not-active lot.
   for (final mode in [ThemeMode.light, ThemeMode.dark]) {
     testWidgets('l9_package_chip_mr_${mode.name}', (tester) async {

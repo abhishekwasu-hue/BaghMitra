@@ -210,6 +210,47 @@ Map<String, dynamic> _$AdminFixOutToJson(AdminFixOut instance) =>
       'state': ?instance.state,
     };
 
+AdminLotSettingsIn _$AdminLotSettingsInFromJson(Map<String, dynamic> json) =>
+    AdminLotSettingsIn(
+      harvestWindowDays: (json['harvest_window_days'] as num?)?.toInt(),
+      perCrateMaxPaise: (json['per_crate_max_paise'] as num?)?.toInt(),
+      perCrateMinPaise: (json['per_crate_min_paise'] as num?)?.toInt(),
+      perQuintalMaxPaise: (json['per_quintal_max_paise'] as num?)?.toInt(),
+      perQuintalMinPaise: (json['per_quintal_min_paise'] as num?)?.toInt(),
+    );
+
+Map<String, dynamic> _$AdminLotSettingsInToJson(AdminLotSettingsIn instance) =>
+    <String, dynamic>{
+      'harvest_window_days': ?instance.harvestWindowDays,
+      'per_crate_max_paise': ?instance.perCrateMaxPaise,
+      'per_crate_min_paise': ?instance.perCrateMinPaise,
+      'per_quintal_max_paise': ?instance.perQuintalMaxPaise,
+      'per_quintal_min_paise': ?instance.perQuintalMinPaise,
+    };
+
+AdminLotSettingsOut _$AdminLotSettingsOutFromJson(Map<String, dynamic> json) =>
+    AdminLotSettingsOut(
+      defaults: json['defaults'] as Map<String, dynamic>,
+      effective: json['effective'] as Map<String, dynamic>,
+      harvestWindowDays: (json['harvest_window_days'] as num?)?.toInt(),
+      perCrateMaxPaise: (json['per_crate_max_paise'] as num?)?.toInt(),
+      perCrateMinPaise: (json['per_crate_min_paise'] as num?)?.toInt(),
+      perQuintalMaxPaise: (json['per_quintal_max_paise'] as num?)?.toInt(),
+      perQuintalMinPaise: (json['per_quintal_min_paise'] as num?)?.toInt(),
+    );
+
+Map<String, dynamic> _$AdminLotSettingsOutToJson(
+  AdminLotSettingsOut instance,
+) => <String, dynamic>{
+  'defaults': instance.defaults,
+  'effective': instance.effective,
+  'harvest_window_days': ?instance.harvestWindowDays,
+  'per_crate_max_paise': ?instance.perCrateMaxPaise,
+  'per_crate_min_paise': ?instance.perCrateMinPaise,
+  'per_quintal_max_paise': ?instance.perQuintalMaxPaise,
+  'per_quintal_min_paise': ?instance.perQuintalMinPaise,
+};
+
 AdminProviderIn _$AdminProviderInFromJson(Map<String, dynamic> json) =>
     AdminProviderIn(
       address: json['address'] as String?,
@@ -2224,6 +2265,22 @@ Map<String, dynamic> _$LotPhotoViewToJson(LotPhotoView instance) =>
       'id': instance.id,
     };
 
+LotSettingsOut _$LotSettingsOutFromJson(Map<String, dynamic> json) =>
+    LotSettingsOut(
+      harvestWindowDays: (json['harvest_window_days'] as num).toInt(),
+      rateRanges:
+          (json['rate_ranges'] as List<dynamic>?)
+              ?.map((e) => RateRangeOut.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+    );
+
+Map<String, dynamic> _$LotSettingsOutToJson(LotSettingsOut instance) =>
+    <String, dynamic>{
+      'harvest_window_days': instance.harvestWindowDays,
+      'rate_ranges': instance.rateRanges.map((e) => e.toJson()).toList(),
+    };
+
 ManualPriceIn _$ManualPriceInFromJson(Map<String, dynamic> json) =>
     ManualPriceIn(
       commodity: json['commodity'] as String,
@@ -3247,6 +3304,19 @@ QueueResponse _$QueueResponseFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$QueueResponseToJson(QueueResponse instance) =>
     <String, dynamic>{
       'subjects': instance.subjects.map((e) => e.toJson()).toList(),
+    };
+
+RateRangeOut _$RateRangeOutFromJson(Map<String, dynamic> json) => RateRangeOut(
+  basis: rateRangeOutBasisFromJson(json['basis']),
+  maxPaise: (json['max_paise'] as num).toInt(),
+  minPaise: (json['min_paise'] as num).toInt(),
+);
+
+Map<String, dynamic> _$RateRangeOutToJson(RateRangeOut instance) =>
+    <String, dynamic>{
+      'basis': ?rateRangeOutBasisToJson(instance.basis),
+      'max_paise': instance.maxPaise,
+      'min_paise': instance.minPaise,
     };
 
 RatingIn _$RatingInFromJson(Map<String, dynamic> json) => RatingIn(

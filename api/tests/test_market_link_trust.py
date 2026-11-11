@@ -182,14 +182,14 @@ async def test_pair_only_deals_are_flagged(maker: Maker) -> None:
             quantity_t=5,
             harvest_from=NOW.date(),
             harvest_to=NOW.date(),
-            basis="per_tonne",
+            basis="per_quintal",
             status="closed",
         )
         s.add(lot)
         await s.flush()
         offer = MarketOffer(
             lot_id=lot.id,
-            basis="per_tonne",
+            basis="per_quintal",
             rate_paise=100,
             harvest_date=NOW.date(),
             buyer_user_id=t,

@@ -132,7 +132,7 @@ async def ids(maker: Maker) -> dict[str, uuid.UUID]:
                     quantity_t=10.0,
                     harvest_from=date(2026, 12, 1),
                     harvest_to=date(2026, 12, 15),
-                    basis="per_tonne",
+                    basis="per_quintal",
                     status="published",
                     client_updated_at=T0,
                     last_seq=1,
@@ -143,7 +143,7 @@ async def ids(maker: Maker) -> dict[str, uuid.UUID]:
         s.add(
             MarketOffer(
                 id=i["offer"],
-                basis="per_tonne",
+                basis="per_quintal",
                 rate_paise=2_500_000,
                 harvest_date=date(2026, 12, 2),
                 lot_id=i["lot"],

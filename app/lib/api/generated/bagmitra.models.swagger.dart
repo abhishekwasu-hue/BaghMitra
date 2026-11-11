@@ -1138,6 +1138,264 @@ extension $AdminFixOutExtension on AdminFixOut {
 }
 
 @JsonSerializable(explicitToJson: true)
+class AdminLotSettingsIn {
+  const AdminLotSettingsIn({
+    this.harvestWindowDays,
+    this.perCrateMaxPaise,
+    this.perCrateMinPaise,
+    this.perQuintalMaxPaise,
+    this.perQuintalMinPaise,
+  });
+
+  factory AdminLotSettingsIn.fromJson(Map<String, dynamic> json) =>
+      _$AdminLotSettingsInFromJson(json);
+
+  static const toJsonFactory = _$AdminLotSettingsInToJson;
+  Map<String, dynamic> toJson() => _$AdminLotSettingsInToJson(this);
+
+  @JsonKey(name: 'harvest_window_days', includeIfNull: false)
+  final int? harvestWindowDays;
+  @JsonKey(name: 'per_crate_max_paise', includeIfNull: false)
+  final int? perCrateMaxPaise;
+  @JsonKey(name: 'per_crate_min_paise', includeIfNull: false)
+  final int? perCrateMinPaise;
+  @JsonKey(name: 'per_quintal_max_paise', includeIfNull: false)
+  final int? perQuintalMaxPaise;
+  @JsonKey(name: 'per_quintal_min_paise', includeIfNull: false)
+  final int? perQuintalMinPaise;
+  static const fromJsonFactory = _$AdminLotSettingsInFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is AdminLotSettingsIn &&
+            (identical(other.harvestWindowDays, harvestWindowDays) ||
+                const DeepCollectionEquality().equals(
+                  other.harvestWindowDays,
+                  harvestWindowDays,
+                )) &&
+            (identical(other.perCrateMaxPaise, perCrateMaxPaise) ||
+                const DeepCollectionEquality().equals(
+                  other.perCrateMaxPaise,
+                  perCrateMaxPaise,
+                )) &&
+            (identical(other.perCrateMinPaise, perCrateMinPaise) ||
+                const DeepCollectionEquality().equals(
+                  other.perCrateMinPaise,
+                  perCrateMinPaise,
+                )) &&
+            (identical(other.perQuintalMaxPaise, perQuintalMaxPaise) ||
+                const DeepCollectionEquality().equals(
+                  other.perQuintalMaxPaise,
+                  perQuintalMaxPaise,
+                )) &&
+            (identical(other.perQuintalMinPaise, perQuintalMinPaise) ||
+                const DeepCollectionEquality().equals(
+                  other.perQuintalMinPaise,
+                  perQuintalMinPaise,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(harvestWindowDays) ^
+      const DeepCollectionEquality().hash(perCrateMaxPaise) ^
+      const DeepCollectionEquality().hash(perCrateMinPaise) ^
+      const DeepCollectionEquality().hash(perQuintalMaxPaise) ^
+      const DeepCollectionEquality().hash(perQuintalMinPaise) ^
+      runtimeType.hashCode;
+}
+
+extension $AdminLotSettingsInExtension on AdminLotSettingsIn {
+  AdminLotSettingsIn copyWith({
+    int? harvestWindowDays,
+    int? perCrateMaxPaise,
+    int? perCrateMinPaise,
+    int? perQuintalMaxPaise,
+    int? perQuintalMinPaise,
+  }) {
+    return AdminLotSettingsIn(
+      harvestWindowDays: harvestWindowDays ?? this.harvestWindowDays,
+      perCrateMaxPaise: perCrateMaxPaise ?? this.perCrateMaxPaise,
+      perCrateMinPaise: perCrateMinPaise ?? this.perCrateMinPaise,
+      perQuintalMaxPaise: perQuintalMaxPaise ?? this.perQuintalMaxPaise,
+      perQuintalMinPaise: perQuintalMinPaise ?? this.perQuintalMinPaise,
+    );
+  }
+
+  AdminLotSettingsIn copyWithWrapped({
+    Wrapped<int?>? harvestWindowDays,
+    Wrapped<int?>? perCrateMaxPaise,
+    Wrapped<int?>? perCrateMinPaise,
+    Wrapped<int?>? perQuintalMaxPaise,
+    Wrapped<int?>? perQuintalMinPaise,
+  }) {
+    return AdminLotSettingsIn(
+      harvestWindowDays: (harvestWindowDays != null
+          ? harvestWindowDays.value
+          : this.harvestWindowDays),
+      perCrateMaxPaise: (perCrateMaxPaise != null
+          ? perCrateMaxPaise.value
+          : this.perCrateMaxPaise),
+      perCrateMinPaise: (perCrateMinPaise != null
+          ? perCrateMinPaise.value
+          : this.perCrateMinPaise),
+      perQuintalMaxPaise: (perQuintalMaxPaise != null
+          ? perQuintalMaxPaise.value
+          : this.perQuintalMaxPaise),
+      perQuintalMinPaise: (perQuintalMinPaise != null
+          ? perQuintalMinPaise.value
+          : this.perQuintalMinPaise),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class AdminLotSettingsOut {
+  const AdminLotSettingsOut({
+    required this.defaults,
+    required this.effective,
+    this.harvestWindowDays,
+    this.perCrateMaxPaise,
+    this.perCrateMinPaise,
+    this.perQuintalMaxPaise,
+    this.perQuintalMinPaise,
+  });
+
+  factory AdminLotSettingsOut.fromJson(Map<String, dynamic> json) =>
+      _$AdminLotSettingsOutFromJson(json);
+
+  static const toJsonFactory = _$AdminLotSettingsOutToJson;
+  Map<String, dynamic> toJson() => _$AdminLotSettingsOutToJson(this);
+
+  @JsonKey(name: 'defaults', includeIfNull: false)
+  final Map<String, dynamic> defaults;
+  @JsonKey(name: 'effective', includeIfNull: false)
+  final Map<String, dynamic> effective;
+  @JsonKey(name: 'harvest_window_days', includeIfNull: false)
+  final int? harvestWindowDays;
+  @JsonKey(name: 'per_crate_max_paise', includeIfNull: false)
+  final int? perCrateMaxPaise;
+  @JsonKey(name: 'per_crate_min_paise', includeIfNull: false)
+  final int? perCrateMinPaise;
+  @JsonKey(name: 'per_quintal_max_paise', includeIfNull: false)
+  final int? perQuintalMaxPaise;
+  @JsonKey(name: 'per_quintal_min_paise', includeIfNull: false)
+  final int? perQuintalMinPaise;
+  static const fromJsonFactory = _$AdminLotSettingsOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is AdminLotSettingsOut &&
+            (identical(other.defaults, defaults) ||
+                const DeepCollectionEquality().equals(
+                  other.defaults,
+                  defaults,
+                )) &&
+            (identical(other.effective, effective) ||
+                const DeepCollectionEquality().equals(
+                  other.effective,
+                  effective,
+                )) &&
+            (identical(other.harvestWindowDays, harvestWindowDays) ||
+                const DeepCollectionEquality().equals(
+                  other.harvestWindowDays,
+                  harvestWindowDays,
+                )) &&
+            (identical(other.perCrateMaxPaise, perCrateMaxPaise) ||
+                const DeepCollectionEquality().equals(
+                  other.perCrateMaxPaise,
+                  perCrateMaxPaise,
+                )) &&
+            (identical(other.perCrateMinPaise, perCrateMinPaise) ||
+                const DeepCollectionEquality().equals(
+                  other.perCrateMinPaise,
+                  perCrateMinPaise,
+                )) &&
+            (identical(other.perQuintalMaxPaise, perQuintalMaxPaise) ||
+                const DeepCollectionEquality().equals(
+                  other.perQuintalMaxPaise,
+                  perQuintalMaxPaise,
+                )) &&
+            (identical(other.perQuintalMinPaise, perQuintalMinPaise) ||
+                const DeepCollectionEquality().equals(
+                  other.perQuintalMinPaise,
+                  perQuintalMinPaise,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(defaults) ^
+      const DeepCollectionEquality().hash(effective) ^
+      const DeepCollectionEquality().hash(harvestWindowDays) ^
+      const DeepCollectionEquality().hash(perCrateMaxPaise) ^
+      const DeepCollectionEquality().hash(perCrateMinPaise) ^
+      const DeepCollectionEquality().hash(perQuintalMaxPaise) ^
+      const DeepCollectionEquality().hash(perQuintalMinPaise) ^
+      runtimeType.hashCode;
+}
+
+extension $AdminLotSettingsOutExtension on AdminLotSettingsOut {
+  AdminLotSettingsOut copyWith({
+    Map<String, dynamic>? defaults,
+    Map<String, dynamic>? effective,
+    int? harvestWindowDays,
+    int? perCrateMaxPaise,
+    int? perCrateMinPaise,
+    int? perQuintalMaxPaise,
+    int? perQuintalMinPaise,
+  }) {
+    return AdminLotSettingsOut(
+      defaults: defaults ?? this.defaults,
+      effective: effective ?? this.effective,
+      harvestWindowDays: harvestWindowDays ?? this.harvestWindowDays,
+      perCrateMaxPaise: perCrateMaxPaise ?? this.perCrateMaxPaise,
+      perCrateMinPaise: perCrateMinPaise ?? this.perCrateMinPaise,
+      perQuintalMaxPaise: perQuintalMaxPaise ?? this.perQuintalMaxPaise,
+      perQuintalMinPaise: perQuintalMinPaise ?? this.perQuintalMinPaise,
+    );
+  }
+
+  AdminLotSettingsOut copyWithWrapped({
+    Wrapped<Map<String, dynamic>>? defaults,
+    Wrapped<Map<String, dynamic>>? effective,
+    Wrapped<int?>? harvestWindowDays,
+    Wrapped<int?>? perCrateMaxPaise,
+    Wrapped<int?>? perCrateMinPaise,
+    Wrapped<int?>? perQuintalMaxPaise,
+    Wrapped<int?>? perQuintalMinPaise,
+  }) {
+    return AdminLotSettingsOut(
+      defaults: (defaults != null ? defaults.value : this.defaults),
+      effective: (effective != null ? effective.value : this.effective),
+      harvestWindowDays: (harvestWindowDays != null
+          ? harvestWindowDays.value
+          : this.harvestWindowDays),
+      perCrateMaxPaise: (perCrateMaxPaise != null
+          ? perCrateMaxPaise.value
+          : this.perCrateMaxPaise),
+      perCrateMinPaise: (perCrateMinPaise != null
+          ? perCrateMinPaise.value
+          : this.perCrateMinPaise),
+      perQuintalMaxPaise: (perQuintalMaxPaise != null
+          ? perQuintalMaxPaise.value
+          : this.perQuintalMaxPaise),
+      perQuintalMinPaise: (perQuintalMinPaise != null
+          ? perQuintalMinPaise.value
+          : this.perQuintalMinPaise),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class AdminProviderIn {
   const AdminProviderIn({
     this.address,
@@ -11301,6 +11559,79 @@ extension $LotPhotoViewExtension on LotPhotoView {
 }
 
 @JsonSerializable(explicitToJson: true)
+class LotSettingsOut {
+  const LotSettingsOut({
+    required this.harvestWindowDays,
+    required this.rateRanges,
+  });
+
+  factory LotSettingsOut.fromJson(Map<String, dynamic> json) =>
+      _$LotSettingsOutFromJson(json);
+
+  static const toJsonFactory = _$LotSettingsOutToJson;
+  Map<String, dynamic> toJson() => _$LotSettingsOutToJson(this);
+
+  @JsonKey(name: 'harvest_window_days', includeIfNull: false)
+  final int harvestWindowDays;
+  @JsonKey(
+    name: 'rate_ranges',
+    includeIfNull: false,
+    defaultValue: <RateRangeOut>[],
+  )
+  final List<RateRangeOut> rateRanges;
+  static const fromJsonFactory = _$LotSettingsOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is LotSettingsOut &&
+            (identical(other.harvestWindowDays, harvestWindowDays) ||
+                const DeepCollectionEquality().equals(
+                  other.harvestWindowDays,
+                  harvestWindowDays,
+                )) &&
+            (identical(other.rateRanges, rateRanges) ||
+                const DeepCollectionEquality().equals(
+                  other.rateRanges,
+                  rateRanges,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(harvestWindowDays) ^
+      const DeepCollectionEquality().hash(rateRanges) ^
+      runtimeType.hashCode;
+}
+
+extension $LotSettingsOutExtension on LotSettingsOut {
+  LotSettingsOut copyWith({
+    int? harvestWindowDays,
+    List<RateRangeOut>? rateRanges,
+  }) {
+    return LotSettingsOut(
+      harvestWindowDays: harvestWindowDays ?? this.harvestWindowDays,
+      rateRanges: rateRanges ?? this.rateRanges,
+    );
+  }
+
+  LotSettingsOut copyWithWrapped({
+    Wrapped<int>? harvestWindowDays,
+    Wrapped<List<RateRangeOut>>? rateRanges,
+  }) {
+    return LotSettingsOut(
+      harvestWindowDays: (harvestWindowDays != null
+          ? harvestWindowDays.value
+          : this.harvestWindowDays),
+      rateRanges: (rateRanges != null ? rateRanges.value : this.rateRanges),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class ManualPriceIn {
   const ManualPriceIn({
     required this.commodity,
@@ -16295,6 +16626,88 @@ extension $QueueResponseExtension on QueueResponse {
   QueueResponse copyWithWrapped({Wrapped<List<SubjectOut>>? subjects}) {
     return QueueResponse(
       subjects: (subjects != null ? subjects.value : this.subjects),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class RateRangeOut {
+  const RateRangeOut({
+    required this.basis,
+    required this.maxPaise,
+    required this.minPaise,
+  });
+
+  factory RateRangeOut.fromJson(Map<String, dynamic> json) =>
+      _$RateRangeOutFromJson(json);
+
+  static const toJsonFactory = _$RateRangeOutToJson;
+  Map<String, dynamic> toJson() => _$RateRangeOutToJson(this);
+
+  @JsonKey(
+    name: 'basis',
+    includeIfNull: false,
+    toJson: rateRangeOutBasisToJson,
+    fromJson: rateRangeOutBasisFromJson,
+  )
+  final enums.RateRangeOutBasis basis;
+  @JsonKey(name: 'max_paise', includeIfNull: false)
+  final int maxPaise;
+  @JsonKey(name: 'min_paise', includeIfNull: false)
+  final int minPaise;
+  static const fromJsonFactory = _$RateRangeOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is RateRangeOut &&
+            (identical(other.basis, basis) ||
+                const DeepCollectionEquality().equals(other.basis, basis)) &&
+            (identical(other.maxPaise, maxPaise) ||
+                const DeepCollectionEquality().equals(
+                  other.maxPaise,
+                  maxPaise,
+                )) &&
+            (identical(other.minPaise, minPaise) ||
+                const DeepCollectionEquality().equals(
+                  other.minPaise,
+                  minPaise,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(basis) ^
+      const DeepCollectionEquality().hash(maxPaise) ^
+      const DeepCollectionEquality().hash(minPaise) ^
+      runtimeType.hashCode;
+}
+
+extension $RateRangeOutExtension on RateRangeOut {
+  RateRangeOut copyWith({
+    enums.RateRangeOutBasis? basis,
+    int? maxPaise,
+    int? minPaise,
+  }) {
+    return RateRangeOut(
+      basis: basis ?? this.basis,
+      maxPaise: maxPaise ?? this.maxPaise,
+      minPaise: minPaise ?? this.minPaise,
+    );
+  }
+
+  RateRangeOut copyWithWrapped({
+    Wrapped<enums.RateRangeOutBasis>? basis,
+    Wrapped<int>? maxPaise,
+    Wrapped<int>? minPaise,
+  }) {
+    return RateRangeOut(
+      basis: (basis != null ? basis.value : this.basis),
+      maxPaise: (maxPaise != null ? maxPaise.value : this.maxPaise),
+      minPaise: (minPaise != null ? minPaise.value : this.minPaise),
     );
   }
 }
@@ -23564,6 +23977,82 @@ List<enums.ProviderInKind>? providerInKindNullableListFromJson(
 
   return providerInKind
       .map((e) => providerInKindFromJson(e.toString()))
+      .toList();
+}
+
+String? rateRangeOutBasisNullableToJson(
+  enums.RateRangeOutBasis? rateRangeOutBasis,
+) {
+  return rateRangeOutBasis?.value;
+}
+
+String? rateRangeOutBasisToJson(enums.RateRangeOutBasis rateRangeOutBasis) {
+  return rateRangeOutBasis.value;
+}
+
+enums.RateRangeOutBasis rateRangeOutBasisFromJson(
+  Object? rateRangeOutBasis, [
+  enums.RateRangeOutBasis? defaultValue,
+]) {
+  return enums.RateRangeOutBasis.values.firstWhereOrNull(
+        (e) => e.value == rateRangeOutBasis,
+      ) ??
+      defaultValue ??
+      enums.RateRangeOutBasis.swaggerGeneratedUnknown;
+}
+
+enums.RateRangeOutBasis? rateRangeOutBasisNullableFromJson(
+  Object? rateRangeOutBasis, [
+  enums.RateRangeOutBasis? defaultValue,
+]) {
+  if (rateRangeOutBasis == null) {
+    return null;
+  }
+  return enums.RateRangeOutBasis.values.firstWhereOrNull(
+        (e) => e.value == rateRangeOutBasis,
+      ) ??
+      defaultValue;
+}
+
+String rateRangeOutBasisExplodedListToJson(
+  List<enums.RateRangeOutBasis>? rateRangeOutBasis,
+) {
+  return rateRangeOutBasis?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> rateRangeOutBasisListToJson(
+  List<enums.RateRangeOutBasis>? rateRangeOutBasis,
+) {
+  if (rateRangeOutBasis == null) {
+    return [];
+  }
+
+  return rateRangeOutBasis.map((e) => e.value!).toList();
+}
+
+List<enums.RateRangeOutBasis> rateRangeOutBasisListFromJson(
+  List? rateRangeOutBasis, [
+  List<enums.RateRangeOutBasis>? defaultValue,
+]) {
+  if (rateRangeOutBasis == null) {
+    return defaultValue ?? [];
+  }
+
+  return rateRangeOutBasis
+      .map((e) => rateRangeOutBasisFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.RateRangeOutBasis>? rateRangeOutBasisNullableListFromJson(
+  List? rateRangeOutBasis, [
+  List<enums.RateRangeOutBasis>? defaultValue,
+]) {
+  if (rateRangeOutBasis == null) {
+    return defaultValue;
+  }
+
+  return rateRangeOutBasis
+      .map((e) => rateRangeOutBasisFromJson(e.toString()))
       .toList();
 }
 

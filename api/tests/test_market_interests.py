@@ -107,7 +107,7 @@ async def published(c: Any) -> tuple[uuid.UUID, uuid.UUID, dict[str, str]]:
     return grower, lot_id, h
 
 
-BODY = {"basis": "per_tonne", "rate_paise": 3_200_000, "quantity_t": 12.0}
+BODY = {"basis": "per_quintal", "rate_paise": 320_000, "quantity_t": 12.0}
 
 
 async def send(c: Any, lot_id: uuid.UUID, p: Party, **kw: Any) -> httpx.Response:
@@ -192,7 +192,7 @@ async def test_grower_compares_with_contact_hidden_until_accept(
     assert "Shinde" not in push.body
     # Grower: rate, basis, trader's public profile with the verified badge and counts.
     [item] = (await ml.get(f"{LOTS}/{lot_id}/interests", headers=gh)).json()["interests"]
-    assert (item["rate_paise"], item["basis"], item["quantity_t"]) == (3_200_000, "per_tonne", 12.0)
+    assert (item["rate_paise"], item["basis"], item["quantity_t"]) == (320_000, "per_quintal", 12.0)
     assert (item["trader"]["name"], item["broker"]["name"]) == ("Shinde", "Kale")
     assert [b["kind"] for b in item["trader"]["badges"]] == ["checked"]
     assert (item["trader"]["deals_completed"], item["trader"]["stars"]) == (0, [])
@@ -229,9 +229,9 @@ async def test_a_new_interest_replaces_the_open_one(ml: Any) -> None:
     _, lot_id, gh = await published(ml)
     trader = await party(ml)
     await send(ml, lot_id, trader)
-    await send(ml, lot_id, trader, rate_paise=3_500_000)
+    await send(ml, lot_id, trader, rate_paise=350_000)
     [item] = (await ml.get(f"{LOTS}/{lot_id}/interests", headers=gh)).json()["interests"]
-    assert item["rate_paise"] == 3_500_000
+    assert item["rate_paise"] == 350_000
     assert (
         len((await ml.get("/v1/market-link/interests/mine", headers=trader.h)).json()["interests"])
         == 1

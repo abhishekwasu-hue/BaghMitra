@@ -192,7 +192,7 @@ void main() {
     expect(find.byKey(const Key('lot-crop')), findsOneWidget);
     await tester.tap(find.textContaining('2026').first);
     await settle(tester);
-    expect(find.byKey(const Key('lot-window-bahar')), findsOneWidget);
+    expect(find.text('1 Oct – 16 Oct'), findsOneWidget);
     await tester.enterText(find.byKey(const Key('lot-tonnes')), '१२');
     await tester.tap(find.byKey(const Key('lot-basis-lump_sum')));
     await tester.tap(find.byKey(const Key('lot-size-large')));
@@ -255,7 +255,7 @@ void main() {
     expect(find.text('Draft'), findsOneWidget);
     expect(find.text('Shown to traders'), findsOneWidget);
     expect(find.text('Waiting for check'), findsOneWidget);
-    expect(find.text('₹30,000 per tonne'), findsNWidgets(3));
+    expect(find.text('₹3,000 per quintal'), findsNWidgets(3));
     await tester.tap(find.byKey(const Key('lot-l1')));
     await settle(tester);
     expect(find.byKey(const Key('lot-save')), findsOneWidget);

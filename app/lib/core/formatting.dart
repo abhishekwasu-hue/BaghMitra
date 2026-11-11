@@ -25,6 +25,10 @@ String formatDecimal(double value, String languageCode) =>
 String formatDate(DateTime date, String languageCode) =>
     DateFormat.yMMMd(_intlLocale(languageCode)).format(date);
 
+/// Day and short month in the locale's script, e.g. "15 Nov" / "१५ नोव्हें".
+String formatDayShortMonth(DateTime date, String languageCode) =>
+    DateFormat.MMMd(_intlLocale(languageCode)).format(date);
+
 /// Short weekday in the locale's script, e.g. "Wed" / "बुध".
 String formatWeekday(DateTime date, String languageCode) =>
     DateFormat.E(_intlLocale(languageCode)).format(date);

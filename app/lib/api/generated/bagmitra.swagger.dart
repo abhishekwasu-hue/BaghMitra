@@ -1485,6 +1485,63 @@ reject. Decided once.''',
     ),
   });
 
+  ///Admin Lot Settings
+  Future<chopper.Response<AdminLotSettingsOut>>
+  v1AdminMarketLinkLotSettingsGet() {
+    generatedMapping.putIfAbsent(
+      AdminLotSettingsOut,
+      () => AdminLotSettingsOut.fromJsonFactory,
+    );
+
+    return _v1AdminMarketLinkLotSettingsGet();
+  }
+
+  ///Admin Lot Settings
+  @GET(path: '/v1/admin/market-link/lot-settings')
+  Future<chopper.Response<AdminLotSettingsOut>>
+  _v1AdminMarketLinkLotSettingsGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Admin Lot Settings',
+      operationId: 'admin_market_link_lot_settings',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Save Lot Settings
+  Future<chopper.Response<AdminLotSettingsOut>>
+  v1AdminMarketLinkLotSettingsPut({required AdminLotSettingsIn? body}) {
+    generatedMapping.putIfAbsent(
+      AdminLotSettingsOut,
+      () => AdminLotSettingsOut.fromJsonFactory,
+    );
+
+    return _v1AdminMarketLinkLotSettingsPut(body: body);
+  }
+
+  ///Save Lot Settings
+  @PUT(path: '/v1/admin/market-link/lot-settings', optionalBody: true)
+  Future<chopper.Response<AdminLotSettingsOut>>
+  _v1AdminMarketLinkLotSettingsPut({
+    @Body() required AdminLotSettingsIn? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Saves every field (null = the default); each change is logged with old / new values.',
+      summary: 'Save Lot Settings',
+      operationId: 'admin_market_link_save_lot_settings',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
   ///Get Company Profile
   Future<chopper.Response<PackageCompanyOut>>
   v1AdminMarketLinkPackageCompanyProfileGet() {
@@ -3540,6 +3597,32 @@ of an accepted interest on it (L4). Only the derived key is signed.''',
     ),
   });
 
+  ///Get Lot Settings
+  Future<chopper.Response<LotSettingsOut>> v1MarketLinkLotSettingsGet() {
+    generatedMapping.putIfAbsent(
+      LotSettingsOut,
+      () => LotSettingsOut.fromJsonFactory,
+    );
+
+    return _v1MarketLinkLotSettingsGet();
+  }
+
+  ///Get Lot Settings
+  @GET(path: '/v1/market-link/lot-settings')
+  Future<chopper.Response<LotSettingsOut>> _v1MarketLinkLotSettingsGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get Lot Settings',
+      operationId: 'market_link_lot_settings',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  });
+
   ///List Lots
   ///@param district
   ///@param crop
@@ -3703,7 +3786,8 @@ interest replaces their open one on the same lot. The grower gets a push.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Shows a draft lot to verified buyers and brokers. Needs 3 to 8 live photos, each
 uploaded; crop and variety are copied from the plot again and the place names from the
-grower\'s profile (village, taluka, district; never the plot\'s point).''',
+grower\'s profile (village, taluka, district; never the plot\'s point). An asking rate
+outside the admin\'s range for its basis is refused (422 `lot_rate_out_of_range`).''',
       summary: 'Publish Lot',
       operationId: 'market_link_publish_lot',
       consumes: [],

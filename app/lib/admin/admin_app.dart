@@ -13,6 +13,7 @@ import 'feed_pages.dart';
 import 'feedback_admin.dart';
 import 'kb_admin_repository.dart';
 import 'kb_pages.dart';
+import 'lot_settings_page.dart';
 import 'market_link_admin_repository.dart';
 import 'market_link_appeals_page.dart';
 import 'market_link_pages.dart';
@@ -198,6 +199,7 @@ class _AdminShellState extends State<AdminShell> {
           RecheckListPage(repo: ml),
         ),
         (t.adminMlTags, Icons.sell_rounded, RatingTagsPage(repo: ml)),
+        (t.adminMlLotSettings, Icons.tune_rounded, LotSettingsPage(repo: ml)),
         if (widget.safety case final safety?) ...[
           (t.adminMlReports, Icons.flag_rounded, ReportsPage(repo: safety)),
           (t.adminMlAppeals, Icons.gavel_rounded, AppealsPage(repo: safety)),

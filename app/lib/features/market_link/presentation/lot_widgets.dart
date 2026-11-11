@@ -8,11 +8,12 @@ import '../../../design_system/info_note.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../../accounts/domain/fair_price.dart';
+import '../domain/lot_form_rules.dart';
 
 String basisLabel(AppLocalizations t, String basis) => switch (basis) {
   'per_crate' => t.mlBasisPerCrate,
   'lump_sum' => t.mlBasisLumpSum,
-  _ => t.mlBasisPerTonne,
+  _ => t.mlBasisPerQuintal,
 };
 
 String rateLabel(AppLocalizations t, String basis, int paise, String lang) {
@@ -20,7 +21,32 @@ String rateLabel(AppLocalizations t, String basis, int paise, String lang) {
   return switch (basis) {
     'per_crate' => t.mlRatePerCrate(rate),
     'lump_sum' => t.mlRateLumpSum(rate),
-    _ => t.mlRatePerTonne(rate),
+    _ => t.mlRatePerQuintal(rate),
+  };
+}
+
+/// The asking-rate field's label for the chosen basis (Q138).
+String askingRateLabel(AppLocalizations t, String? basis) => switch (basis) {
+  'per_quintal' => t.mlAskingRatePerQuintal,
+  'per_crate' => t.mlAskingRatePerCrate,
+  'lump_sum' => t.mlAskingRateLumpSum,
+  _ => t.mlAskingRate,
+};
+
+/// The allowed asking-rate range of a basis as a short line, e.g. "₹२,५०० – ₹१०,००० प्रति
+/// क्विंटल"; null for a basis without a range.
+String? rateRangeLabel(
+  AppLocalizations t,
+  String? basis,
+  RateRange? range,
+  String lang,
+) {
+  if (range == null) return null;
+  final (lo, hi) = (formatPaise(range.min, lang), formatPaise(range.max, lang));
+  return switch (basis) {
+    'per_quintal' => t.mlRateRangePerQuintal(lo, hi),
+    'per_crate' => t.mlRateRangePerCrate(lo, hi),
+    _ => null,
   };
 }
 
@@ -46,7 +72,7 @@ class LotDisclaimerNote extends StatelessWidget {
 
 /// Today's mandi modal price for the crop beside the asking rate (Q48 logic): the stored
 /// published price with market and date, never a forecast; nothing when none was published
-/// today. A per-tonne rate also shows how far it is from that price.
+/// today. A per-quintal rate also shows how far it is from that price.
 class LotMandiNote extends ConsumerWidget {
   const LotMandiNote({
     required this.crop,
@@ -79,9 +105,9 @@ class LotMandiNote extends ConsumerWidget {
     final t = AppLocalizations.of(context);
     final c = context.bm;
     final lang = Localizations.localeOf(context).languageCode;
-    final comparison = basis == 'per_tonne' && ratePaise > 0
+    final comparison = basis == 'per_quintal' && ratePaise > 0
         ? compareWithMandi(
-            ratePaisePerQuintal: ratePaise ~/ 10,
+            ratePaisePerQuintal: ratePaise,
             soldOn: today,
             prices: prices,
           )

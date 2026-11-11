@@ -3396,6 +3396,28 @@ class AppLocalizationsHi extends AppLocalizations {
   String get adminMlTags => 'रेटिंग टैग';
 
   @override
+  String get adminMlLotSettings => 'बिक्री फ़ॉर्म';
+
+  @override
+  String get adminMlLotSettingsNote =>
+      'किसान जो अपेक्षित दर लिख सकता है उसकी सीमा, प्रति क्विंटल और प्रति क्रेट; और किसान की चुनी शुरुआत के बाद तुड़ाई का समय कितने दिन का रखें। खाली = धूसर दिखने वाला मूल मान; माल व्यापारियों को दिखाते समय सर्वर दर फिर जाँचता है।';
+
+  @override
+  String get adminMlQuintalMin => 'प्रति क्विंटल: न्यूनतम ₹';
+
+  @override
+  String get adminMlQuintalMax => 'प्रति क्विंटल: अधिकतम ₹';
+
+  @override
+  String get adminMlCrateMin => 'प्रति क्रेट: न्यूनतम ₹';
+
+  @override
+  String get adminMlCrateMax => 'प्रति क्रेट: अधिकतम ₹';
+
+  @override
+  String get adminMlHarvestDays => 'तुड़ाई का समय (दिन)';
+
+  @override
   String get adminMlAll => 'सभी';
 
   @override
@@ -4134,14 +4156,6 @@ class AppLocalizationsHi extends AppLocalizations {
   String get mlHarvestWindow => 'तुड़ाई का समय';
 
   @override
-  String mlWindowFromBahar(String from, String to) {
-    return '$from – $to (बहार अनुसार)';
-  }
-
-  @override
-  String get mlWindowPick => 'तारीखें चुनें';
-
-  @override
   String mlWindowRange(String from, String to) {
     return '$from – $to';
   }
@@ -4150,7 +4164,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get mlBasis => 'बिक्री का तरीका';
 
   @override
-  String get mlBasisPerTonne => 'प्रति टन';
+  String get mlBasisPerQuintal => 'प्रति क्विंटल';
 
   @override
   String get mlBasisPerCrate => 'प्रति क्रेट';
@@ -4160,6 +4174,56 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get mlAskingRate => 'अपेक्षित दर ₹ (वैकल्पिक)';
+
+  @override
+  String get mlHarvestFrom => 'तुड़ाई कब से';
+
+  @override
+  String get mlHarvestTo => 'कब तक';
+
+  @override
+  String get mlHarvestPickDate => 'तारीख चुनें';
+
+  @override
+  String mlHarvestFromBahar(String date) {
+    return '$date (बहार अनुसार)';
+  }
+
+  @override
+  String mlHarvestAutoEnd(String days) {
+    return 'कब तक: शुरुआत से $days दिन अपने आप रखे हैं; चाहें तो बदलें।';
+  }
+
+  @override
+  String get mlHarvestChangeEnd => 'बदलें';
+
+  @override
+  String get mlAskingRatePerQuintal => 'अपेक्षित दर ₹ / क्विंटल (वैकल्पिक)';
+
+  @override
+  String get mlAskingRatePerCrate => 'अपेक्षित दर ₹ / क्रेट (वैकल्पिक)';
+
+  @override
+  String get mlAskingRateLumpSum => 'अपेक्षित दर ₹ पूरे बाग के लिए (वैकल्पिक)';
+
+  @override
+  String mlRateRangePerQuintal(String min, String max) {
+    return '$min – $max प्रति क्विंटल';
+  }
+
+  @override
+  String mlRateRangePerCrate(String min, String max) {
+    return '$min – $max प्रति क्रेट';
+  }
+
+  @override
+  String mlRateOutOfRange(String min, String max) {
+    return 'कृपया दर $min से $max के बीच लिखें।';
+  }
+
+  @override
+  String get mlPublishRateRange =>
+      'अपेक्षित दर दी गई सीमा में लिखें, फिर दोबारा भेजें।';
 
   @override
   String get mlPhotos => 'फ़ोटो';
@@ -4210,8 +4274,8 @@ class AppLocalizationsHi extends AppLocalizations {
   }
 
   @override
-  String mlRatePerTonne(String rate) {
-    return '$rate प्रति टन';
+  String mlRatePerQuintal(String rate) {
+    return '$rate प्रति क्विंटल';
   }
 
   @override

@@ -39,7 +39,7 @@ def test_rls_after_acceptance(conn: Connection) -> None:
             area_sq_m=4000.0,
         )
         lot = _lot(conn, u["grower"], "closed")
-        terms = {"basis": "per_tonne", "rate_paise": 1, "harvest_date": NOW.date()}
+        terms = {"basis": "per_quintal", "rate_paise": 1, "harvest_date": NOW.date()}
         chosen = _insert(
             conn,
             "market_offers",

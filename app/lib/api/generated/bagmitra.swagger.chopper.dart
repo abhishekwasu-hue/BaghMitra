@@ -1202,6 +1202,55 @@ reject. Decided once.''',
   }
 
   @override
+  Future<Response<AdminLotSettingsOut>> _v1AdminMarketLinkLotSettingsGet({
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Admin Lot Settings',
+      operationId: 'admin_market_link_lot_settings',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/market-link/lot-settings');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<AdminLotSettingsOut, AdminLotSettingsOut>($request);
+  }
+
+  @override
+  Future<Response<AdminLotSettingsOut>> _v1AdminMarketLinkLotSettingsPut({
+    required AdminLotSettingsIn? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Saves every field (null = the default); each change is logged with old / new values.',
+      summary: 'Save Lot Settings',
+      operationId: 'admin_market_link_save_lot_settings',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/market-link/lot-settings');
+    final $body = body;
+    final Request $request = Request(
+      'PUT',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<AdminLotSettingsOut, AdminLotSettingsOut>($request);
+  }
+
+  @override
   Future<Response<PackageCompanyOut>>
   _v1AdminMarketLinkPackageCompanyProfileGet({
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -2874,6 +2923,29 @@ of an accepted interest on it (L4). Only the derived key is signed.''',
   }
 
   @override
+  Future<Response<LotSettingsOut>> _v1MarketLinkLotSettingsGet({
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get Lot Settings',
+      operationId: 'market_link_lot_settings',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["market-link"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/market-link/lot-settings');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<LotSettingsOut, LotSettingsOut>($request);
+  }
+
+  @override
   Future<Response<BuyerLotsResponse>> _v1MarketLinkLotsGet({
     String? district,
     String? crop,
@@ -2993,7 +3065,8 @@ interest replaces their open one on the same lot. The grower gets a push.''',
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Shows a draft lot to verified buyers and brokers. Needs 3 to 8 live photos, each
 uploaded; crop and variety are copied from the plot again and the place names from the
-grower\'s profile (village, taluka, district; never the plot\'s point).''',
+grower\'s profile (village, taluka, district; never the plot\'s point). An asking rate
+outside the admin\'s range for its basis is refused (422 `lot_rate_out_of_range`).''',
       summary: 'Publish Lot',
       operationId: 'market_link_publish_lot',
       consumes: [],

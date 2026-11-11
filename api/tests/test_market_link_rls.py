@@ -61,7 +61,7 @@ def _verify(conn: Connection, kind: str, subject: uuid.UUID, status: str, at: da
 
 def _terms() -> dict[str, Any]:
     return {
-        "basis": "per_tonne",
+        "basis": "per_quintal",
         "rate_paise": 2_500_000,
         "harvest_date": date(2026, 12, 1),
     }
@@ -79,7 +79,7 @@ def _lot(
         quantity_t=10.0,
         harvest_from=date(2026, 12, 1),
         harvest_to=date(2026, 12, 15),
-        basis="per_tonne",
+        basis="per_quintal",
         status=status,
         orchard_check=orchard if status == "published" else None,
     )

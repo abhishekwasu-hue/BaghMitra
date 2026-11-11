@@ -123,7 +123,7 @@ async def _deal(maker: Maker, trader: uuid.UUID, broker: uuid.UUID | None, done:
             quantity_t=10,
             harvest_from=NOW.date(),
             harvest_to=NOW.date() + timedelta(days=10),
-            basis="per_tonne",
+            basis="per_quintal",
             status="closed",
             client_updated_at=NOW,
             last_seq=1,
@@ -131,7 +131,7 @@ async def _deal(maker: Maker, trader: uuid.UUID, broker: uuid.UUID | None, done:
         s.add(lot)
         await s.flush()
         offer = MarketOffer(
-            basis="per_tonne",
+            basis="per_quintal",
             rate_paise=3_000_000,
             harvest_date=NOW.date(),
             lot_id=lot.id,

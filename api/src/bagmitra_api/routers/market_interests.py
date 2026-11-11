@@ -14,7 +14,7 @@ from __future__ import annotations
 
 import uuid
 from datetime import date, datetime
-from typing import Annotated, Literal, cast
+from typing import Annotated, Any, Literal, cast
 
 from fastapi import APIRouter, BackgroundTasks, Depends
 from pydantic import BaseModel, Field, model_validator
@@ -27,6 +27,7 @@ from bagmitra_api.db.models import Farmer, Plot
 from bagmitra_api.db.session import DbSession
 from bagmitra_api.market_link.deals import DealStateOut, deal_state, party_roles
 from bagmitra_api.market_link.guards import MarketLinkIn, is_verified
+from bagmitra_api.market_link.lot_rules import legacy_basis
 from bagmitra_api.market_link.models import (
     BrokerProfile,
     BuyerProfile,
@@ -72,16 +73,22 @@ AppSettings = Annotated[Settings, Depends(get_settings)]
 
 
 class InterestIn(MarketLinkIn):
-    """Spec §3 step 3, nothing more. `rate_paise` is per tonne, per crate or the whole amount,
-    by `basis`. A trader may name a broker (`broker_id`); a broker names the trader
-    (`trader_id`) it brings. Unknown keys (terms, commission, payer ...) are refused."""
+    """Spec §3 step 3, nothing more. `rate_paise` is per quintal, per crate or the whole
+    amount, by `basis` (Q138; an old app's "per_tonne" is read as per quintal, rate / 10). A
+    trader may name a broker (`broker_id`); a broker names the trader (`trader_id`) it brings.
+    Unknown keys (terms, commission, payer ...) are refused."""
 
-    basis: Literal["per_tonne", "per_crate", "lump_sum"]
+    basis: Literal["per_quintal", "per_crate", "lump_sum"]
     rate_paise: int = Field(gt=0, le=10**12)
     quantity_t: float | None = Field(default=None, gt=0, le=10_000)
     harvest_date: date
     broker_id: uuid.UUID | None = None
     trader_id: uuid.UUID | None = None
+
+    @model_validator(mode="before")
+    @classmethod
+    def _old_per_tonne(cls, data: Any) -> Any:
+        return legacy_basis(data, "rate_paise")
 
     @model_validator(mode="after")
     def _one_named_party(self) -> InterestIn:

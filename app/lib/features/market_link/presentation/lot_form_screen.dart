@@ -21,6 +21,7 @@ import '../../plots/domain/plot.dart';
 import '../../scouting/data/scouting_photos.dart';
 import '../../voice/presentation/voice_mic_button.dart';
 import '../data/lot_publisher.dart';
+import '../data/market_link_providers.dart';
 import '../domain/lot_form_rules.dart';
 import '../domain/market_link_role.dart';
 import '../domain/market_lot.dart';
@@ -31,9 +32,11 @@ import 'package_chip.dart';
 
 /// One lot of produce for sale (spec v1.5 §3 step 1): orchard and bahar as big choices,
 /// crop and variety from the orchard, tonnes, size / quality (typed or spoken), harvest
-/// window (from the bahar's harvest stage by default), basis, an optional asking rate with
-/// today's mandi price beside it, and 3 to 8 photos from the app camera. Saved as a draft
-/// on the phone; "show to traders" is an online step. A published lot is read only.
+/// window (one start date; the end follows by the admin's number of days and can be
+/// changed, Q138; the start defaults to the bahar's harvest stage), basis, an optional
+/// asking rate inside the admin's range for the basis, with today's mandi price beside it,
+/// and 3 to 8 photos from the app camera. Saved as a draft on the phone; "show to traders"
+/// is an online step. A published lot is read only.
 class LotFormScreen extends StatelessWidget {
   const LotFormScreen({this.lotId, this.plotId, super.key});
 
@@ -72,7 +75,10 @@ class _LotFormState extends ConsumerState<_LotForm> {
   String? _basis;
   String? _size;
   String? _grade;
-  StageWindow? _custom;
+  // The chosen start and (when changed or saved) end of the harvest window.
+  DateTime? _from;
+  DateTime? _to;
+  bool _rateTouched = false;
   String _status = 'draft';
   bool _awaitingCheck = false;
   final _photos = <LotPhoto>[];
@@ -110,7 +116,8 @@ class _LotFormState extends ConsumerState<_LotForm> {
         _rate.text = lot.askingRatePaise == null
             ? ''
             : plainRupees(lot.askingRatePaise!).replaceAll('.00', '');
-        _custom = StageWindow(lot.harvestFrom, lot.harvestTo);
+        _from = lot.harvestFrom;
+        _to = lot.harvestTo;
         _photos.addAll(r[1] as List<LotPhoto>);
       });
     });
@@ -232,19 +239,47 @@ class _LotFormState extends ConsumerState<_LotForm> {
     _removed.add(p.id);
   });
 
-  Future<void> _pickWindow(StageWindow? start) async {
+  /// One date: the start. The end follows by the settings' number of days (owner
+  /// 2026-11-11, Q138), so a new start also resets a changed end.
+  Future<void> _pickStart(DateTime? current) async {
     final now = ref.read(clockProvider)();
     final today = DateTime(now.year, now.month, now.day);
-    final range = await showDateRangePicker(
+    final first = today.subtract(const Duration(days: 31));
+    final last = DateTime(today.year + 2, today.month, today.day);
+    final initial = current == null || current.isBefore(first)
+        ? today
+        : current.isAfter(last)
+        ? last
+        : current;
+    final picked = await showDatePicker(
       context: context,
-      firstDate: today.subtract(const Duration(days: 31)),
-      lastDate: DateTime(today.year + 2, today.month, today.day),
-      initialDateRange: start == null
-          ? null
-          : DateTimeRange(start: start.from, end: start.to),
+      firstDate: first,
+      lastDate: last,
+      initialDate: initial,
+      helpText: AppLocalizations.of(context).mlHarvestFrom,
     );
-    if (range != null && mounted) {
-      setState(() => _custom = StageWindow(range.start, range.end));
+    if (picked != null && mounted) {
+      setState(() {
+        _from = picked;
+        _to = null;
+      });
+    }
+  }
+
+  /// "बदला": the end, never before the start.
+  Future<void> _pickEnd(StageWindow window) async {
+    final picked = await showDatePicker(
+      context: context,
+      firstDate: window.from,
+      lastDate: DateTime(window.from.year + 2, window.from.month),
+      initialDate: window.to,
+      helpText: AppLocalizations.of(context).mlHarvestTo,
+    );
+    if (picked != null && mounted) {
+      setState(() {
+        _from = window.from;
+        _to = picked;
+      });
     }
   }
 
@@ -346,6 +381,7 @@ class _LotFormState extends ConsumerState<_LotForm> {
         PublishOutcome.photoMissing => t.mlPublishPhotoMissing,
         PublishOutcome.notAccepted => t.mlPublishNotAccepted,
         PublishOutcome.orchardCheck => t.mlPublishOrchardCheck,
+        PublishOutcome.rateOutOfRange => t.mlPublishRateRange,
         PublishOutcome.failed => t.mlPublishFailed,
       },
     );
@@ -392,8 +428,15 @@ class _LotFormState extends ConsumerState<_LotForm> {
       for (final g in options?.grades ?? const <LabeledOption>[])
         if (g.slug != 'rejected') g,
     ];
+    final settings =
+        ref.watch(lotFormSettingsProvider).value ?? LotFormSettings.bundled;
     final baharWindow = _baharWindow(plot?.crop);
-    final window = _custom ?? baharWindow;
+    final from = _from ?? baharWindow?.from;
+    final window = from == null
+        ? null
+        : StageWindow(from, _to ?? settings.harvestEnd(from));
+    final range = settings.rangeOf(_basis);
+    final muted = BmType.meta.copyWith(color: c.inkMuted);
     final draft = _status == 'draft';
     final label = BmType.formLabel.copyWith(color: c.ink);
     final error = BmType.meta.copyWith(color: c.danger);
@@ -511,36 +554,58 @@ class _LotFormState extends ConsumerState<_LotForm> {
         validator: (v) => hasContactDetails(v ?? '') ? t.mlNoContacts : null,
       ),
       title(t.mlHarvestWindow),
-      Wrap(
-        spacing: BmSpace.xs,
-        runSpacing: BmSpace.xs,
-        children: [
-          if (baharWindow != null)
-            ChoiceChip(
-              key: const Key('lot-window-bahar'),
-              label: Text(
-                t.mlWindowFromBahar(
-                  formatDate(baharWindow.from, lang),
-                  formatDate(baharWindow.to, lang),
-                ),
-              ),
-              selected: _custom == null,
-              onSelected: draft ? (_) => setState(() => _custom = null) : null,
-            ),
-          ChoiceChip(
-            key: const Key('lot-window-pick'),
-            avatar: const Icon(Icons.date_range_rounded),
-            label: Text(
-              _custom == null
-                  ? t.mlWindowPick
-                  : windowLabel(t, _custom!.from, _custom!.to, lang),
-            ),
-            selected: _custom != null,
-            onSelected: draft ? (_) => _pickWindow(window) : null,
+      InkWell(
+        key: const Key('lot-window-from'),
+        borderRadius: BorderRadius.circular(BmRadius.chip),
+        onTap: draft ? () => _pickStart(from) : null,
+        child: InputDecorator(
+          decoration: InputDecoration(
+            labelText: t.mlHarvestFrom,
+            enabled: draft,
+            prefixIcon: const Icon(Icons.event_rounded),
           ),
-        ],
+          child: Text(
+            from == null
+                ? t.mlHarvestPickDate
+                : _from == null
+                ? t.mlHarvestFromBahar(formatDate(from, lang))
+                : formatDate(from, lang),
+            style: from == null
+                ? BmType.body.copyWith(color: c.inkMuted)
+                : BmType.body.copyWith(color: c.ink),
+          ),
+        ),
       ),
       missing(window == null),
+      if (window != null) ...[
+        const SizedBox(height: BmSpace.xs),
+        Row(
+          children: [
+            Expanded(
+              child: Text(
+                t.mlWindowRange(
+                  formatDayShortMonth(window.from, lang),
+                  formatDayShortMonth(window.to, lang),
+                ),
+                key: const Key('lot-window-range'),
+                style: BmType.bodyStrong.copyWith(color: c.brand),
+              ),
+            ),
+            if (draft)
+              TextButton(
+                key: const Key('lot-window-change-end'),
+                onPressed: () => _pickEnd(window),
+                child: Text(t.mlHarvestChangeEnd),
+              ),
+          ],
+        ),
+        if (draft && _to == null)
+          Text(
+            t.mlHarvestAutoEnd(formatInt(settings.harvestWindowDays, lang)),
+            key: const Key('lot-window-auto'),
+            style: muted,
+          ),
+      ],
       title(t.mlBasis),
       Wrap(
         spacing: BmSpace.xs,
@@ -557,17 +622,41 @@ class _LotFormState extends ConsumerState<_LotForm> {
       ),
       missing(_basis == null),
       gap,
-      TextFormField(
-        key: const Key('lot-rate'),
-        controller: _rate,
-        enabled: draft,
-        keyboardType: const TextInputType.numberWithOptions(decimal: true),
-        decoration: InputDecoration(labelText: t.mlAskingRate),
-        validator: (v) =>
-            (v ?? '').trim().isEmpty || parseRupeesToPaise(v!) != null
-            ? null
-            : t.invalidNumber,
-        onChanged: (_) => setState(() {}),
+      Focus(
+        onFocusChange: (on) {
+          if (!on && _rate.text.trim().isNotEmpty) {
+            setState(() => _rateTouched = true);
+          }
+        },
+        child: TextFormField(
+          key: const Key('lot-rate'),
+          controller: _rate,
+          enabled: draft,
+          keyboardType: const TextInputType.numberWithOptions(decimal: true),
+          autovalidateMode: _rateTouched
+              ? AutovalidateMode.always
+              : AutovalidateMode.disabled,
+          decoration: InputDecoration(
+            labelText: askingRateLabel(t, _basis),
+            helperText: draft ? rateRangeLabel(t, _basis, range, lang) : null,
+            helperMaxLines: 2,
+            errorMaxLines: 3,
+          ),
+          validator: (v) {
+            final text = (v ?? '').trim();
+            if (text.isEmpty) return null;
+            final paise = parseRupeesToPaise(text);
+            if (paise == null) return t.invalidNumber;
+            if (paise > 0 && range != null && !settings.fits(_basis, paise)) {
+              return t.mlRateOutOfRange(
+                formatPaise(range.min, lang),
+                formatPaise(range.max, lang),
+              );
+            }
+            return null;
+          },
+          onChanged: (_) => setState(() {}),
+        ),
       ),
       if (plot != null)
         LotMandiNote(

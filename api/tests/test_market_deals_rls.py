@@ -28,7 +28,7 @@ def test_ratings_visible_to_rater_and_ratee_only(conn: Connection) -> None:
             broker_user_id=u["broker"],
             submitted_by=u["trader"],
             status="accepted",
-            basis="per_tonne",
+            basis="per_quintal",
             rate_paise=1,
             harvest_date=NOW.date(),
         )

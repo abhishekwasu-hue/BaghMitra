@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:bagmitra/admin/admin_app.dart';
 import 'package:bagmitra/admin/kb_admin_repository.dart';
+import 'package:bagmitra/admin/lot_settings_page.dart';
 import 'package:bagmitra/admin/market_link_admin_repository.dart';
 import 'package:bagmitra/admin/market_link_pages.dart';
 import 'package:bagmitra/admin/market_link_rechecks.dart';
@@ -229,7 +230,38 @@ class FakeMarketLinkAdmin implements MarketLinkAdminRepository {
     saved.add((id, body));
     return tags.first;
   }
+
+  final lotSaves = <AdminLotSettingsIn>[];
+  AdminLotSettingsIn _lot = const AdminLotSettingsIn();
+
+  @override
+  Future<AdminLotSettingsOut> lotSettings() async => lotSettingsOut(_lot);
+
+  @override
+  Future<AdminLotSettingsOut> saveLotSettings(AdminLotSettingsIn body) async {
+    lotSaves.add(body);
+    _lot = body;
+    return lotSettingsOut(body);
+  }
 }
+
+const _lotDefaults = {
+  'per_quintal_min_paise': 250000,
+  'per_quintal_max_paise': 1000000,
+  'per_crate_min_paise': 40000,
+  'per_crate_max_paise': 120000,
+  'harvest_window_days': 15,
+};
+
+AdminLotSettingsOut lotSettingsOut(AdminLotSettingsIn s) => AdminLotSettingsOut(
+  perQuintalMinPaise: s.perQuintalMinPaise,
+  perQuintalMaxPaise: s.perQuintalMaxPaise,
+  perCrateMinPaise: s.perCrateMinPaise,
+  perCrateMaxPaise: s.perCrateMaxPaise,
+  harvestWindowDays: s.harvestWindowDays,
+  effective: _lotDefaults,
+  defaults: _lotDefaults,
+);
 
 Widget _page(Widget child) => MaterialApp(
   theme: BmTheme.light(),
@@ -544,6 +576,40 @@ void main() {
     expect(find.text('Done'), findsOneWidget);
   });
 
+  testWidgets(
+    'lot form settings: defaults in grey, rupees saved as paise (Q138)',
+    (tester) async {
+      await _wide(tester);
+      final repo = FakeMarketLinkAdmin();
+      await tester.pumpWidget(_page(LotSettingsPage(repo: repo)));
+      await tester.pumpAndSettle();
+      TextField field(String f) =>
+          tester.widget<TextField>(find.byKey(Key('admin-lot-$f')));
+      expect(field('per_quintal_min_paise').decoration!.hintText, '2500');
+      expect(field('per_crate_max_paise').decoration!.hintText, '1200');
+      expect(field('harvest_window_days').decoration!.hintText, '15');
+      expect(field('per_quintal_min_paise').controller!.text, isEmpty);
+      await tester.enterText(
+        find.byKey(const Key('admin-lot-per_quintal_min_paise')),
+        '3000',
+      );
+      await tester.enterText(
+        find.byKey(const Key('admin-lot-harvest_window_days')),
+        '20',
+      );
+      await tester.tap(find.byKey(const Key('admin-lot-save')));
+      await tester.pumpAndSettle();
+      final body = repo.lotSaves.single;
+      expect(body.perQuintalMinPaise, 300000);
+      expect(body.perQuintalMaxPaise, isNull); // empty = the default
+      expect(body.harvestWindowDays, 20);
+      expect(find.text('Done'), findsOneWidget);
+      expect(field('per_quintal_min_paise').controller!.text, '3000');
+      expect(rupeesToPaise(' 12 '), 1200);
+      expect(rupeesToPaise(''), isNull);
+    },
+  );
+
   group('ApiMarketLinkAdminRepository', () {
     late List<http.Request> sent;
     ApiMarketLinkAdminRepository repo(int status, Object body) {
@@ -636,6 +702,12 @@ void main() {
         'tags': [_tags().first.toJson()],
       });
       expect((await r.ratingTags()).single.key, 'trader_on_date_yes');
+      r = repo(200, lotSettingsOut(const AdminLotSettingsIn()).toJson());
+      expect((await r.lotSettings()).defaults['harvest_window_days'], 15);
+      expect(sent.single.url.path, '/v1/admin/market-link/lot-settings');
+      await r.saveLotSettings(const AdminLotSettingsIn(harvestWindowDays: 9));
+      expect(sent.last.method, 'PUT');
+      expect(jsonDecode(sent.last.body), {'harvest_window_days': 9});
       r = repo(200, _tags().first.toJson());
       await r.saveRatingTag(
         'trader_on_date_yes',

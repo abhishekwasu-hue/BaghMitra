@@ -434,8 +434,8 @@ enum InterestInBasis {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
-  @JsonValue('per_tonne')
-  perTonne('per_tonne'),
+  @JsonValue('per_quintal')
+  perQuintal('per_quintal'),
   @JsonValue('per_crate')
   perCrate('per_crate'),
   @JsonValue('lump_sum')
@@ -554,6 +554,20 @@ enum ProviderInKind {
   final String? value;
 
   const ProviderInKind(this.value);
+}
+
+enum RateRangeOutBasis {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('per_quintal')
+  perQuintal('per_quintal'),
+  @JsonValue('per_crate')
+  perCrate('per_crate');
+
+  final String? value;
+
+  const RateRangeOutBasis(this.value);
 }
 
 enum RatingTagInStatus {
