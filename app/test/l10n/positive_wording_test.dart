@@ -48,6 +48,8 @@ const allowNegative = {
   'exportRecordFooter',
   // False match: "नकाशावर" (on the map) contains "नका".
   'mlIntroOpenMap',
+  // Bill photo (Q136): the owner's own calm line for an unclear bill, verbatim.
+  'billUnsure',
 };
 
 final _negative = <String, RegExp>{

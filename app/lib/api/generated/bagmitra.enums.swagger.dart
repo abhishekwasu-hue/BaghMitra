@@ -938,6 +938,34 @@ enum V1AdminMarketLinkVerificationsSubjectTypeSubjectIdDocumentsIndexUrlGetSubje
   );
 }
 
+enum V1BillPhotosKindRecordIdUploadUrlPostKind {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('spray_record')
+  sprayRecord('spray_record'),
+  @JsonValue('expense')
+  expense('expense');
+
+  final String? value;
+
+  const V1BillPhotosKindRecordIdUploadUrlPostKind(this.value);
+}
+
+enum V1BillPhotosKindRecordIdUrlGetKind {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('spray_record')
+  sprayRecord('spray_record'),
+  @JsonValue('expense')
+  expense('expense');
+
+  final String? value;
+
+  const V1BillPhotosKindRecordIdUrlGetKind(this.value);
+}
+
 enum V1FeedGetLang {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),

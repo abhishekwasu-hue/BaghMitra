@@ -1263,7 +1263,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsPhotoMobileDataHint =>
-      'Scouting photos are backed up on Wi-Fi. Turn this on to use mobile data too.';
+      'Scouting and bill photos are backed up on Wi-Fi. Turn this on to use mobile data too.';
 
   @override
   String buildLabel(String sha) {
@@ -4983,4 +4983,117 @@ class AppLocalizationsEn extends AppLocalizations {
   String photoCheckLimitTotalAt(String when) {
     return 'Today\'s photo checks are full; you can check again after $when.';
   }
+
+  @override
+  String get billPhoto => 'Bill photo';
+
+  @override
+  String get billPhotoHint =>
+      'The shop bill\'s photo stays with this record on the phone.';
+
+  @override
+  String get billPhotoOpen => 'Open the bill photo';
+
+  @override
+  String get billFill => 'Fill from bill';
+
+  @override
+  String get billReading => 'Reading the bill…';
+
+  @override
+  String get billUnsure =>
+      'Could not read the bill clearly; fill in the details by hand.';
+
+  @override
+  String billFilled(String fields) {
+    return 'Filled from the bill: $fields. Please check once.';
+  }
+
+  @override
+  String get billNothingFilled =>
+      'These fields were already filled; they are kept as they were.';
+
+  @override
+  String get billOffline =>
+      'Reading the bill needs internet. The photo is saved with this record on the phone.';
+
+  @override
+  String get billFailed =>
+      'Try \'Fill from bill\' again in a while; the photo stays here.';
+
+  @override
+  String get billUnavailable =>
+      'Bill reading is paused for now; fill in the details by hand.';
+
+  @override
+  String get billRefused => 'Please take another photo of the bill.';
+
+  @override
+  String get billSignedOut => 'Sign in again to read the bill.';
+
+  @override
+  String billLimitDaily(String count) {
+    return 'Today\'s $count bill readings are used; you can read again tomorrow.';
+  }
+
+  @override
+  String billLimitDailyAt(String count, String when) {
+    return 'Today\'s $count bill readings are used; you can read again after $when.';
+  }
+
+  @override
+  String billLimitMonthly(String count, String when) {
+    return 'This month\'s $count bill readings are used; you can read again from $when.';
+  }
+
+  @override
+  String get billLimitTotal =>
+      'Today\'s bill readings are full; you can read again tomorrow.';
+
+  @override
+  String billLimitTotalAt(String when) {
+    return 'Today\'s bill readings are full; you can read again after $when.';
+  }
+
+  @override
+  String get billPickTitle => 'Pick a line from the bill';
+
+  @override
+  String get billTotal => 'Bill total';
+
+  @override
+  String billLabelShopNo(String shop, String no) {
+    return '$shop bill #$no';
+  }
+
+  @override
+  String billLabelShop(String shop) {
+    return '$shop bill';
+  }
+
+  @override
+  String billLabelNo(String no) {
+    return 'Bill #$no';
+  }
+
+  @override
+  String get billFieldProduct => 'product name';
+
+  @override
+  String get billFieldActive => 'active ingredient';
+
+  @override
+  String get billFieldDose => 'quantity';
+
+  @override
+  String get billFieldCost => 'cost';
+
+  @override
+  String get billFieldAmount => 'amount';
+
+  @override
+  String get billFieldDate => 'date';
+
+  @override
+  String get billFieldNote => 'note';
 }

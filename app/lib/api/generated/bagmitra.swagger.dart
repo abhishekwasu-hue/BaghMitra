@@ -2476,6 +2476,94 @@ broker: the phone call), else 422 `verified_rule_not_met`.''',
     ),
   });
 
+  ///Create Bill Photo Upload Url
+  ///@param kind
+  ///@param record_id
+  Future<chopper.Response<PhotoUploadUrl>>
+  v1BillPhotosKindRecordIdUploadUrlPost({
+    required enums.V1BillPhotosKindRecordIdUploadUrlPostKind? kind,
+    required String? recordId,
+    required PhotoUploadIn? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      PhotoUploadUrl,
+      () => PhotoUploadUrl.fromJsonFactory,
+    );
+
+    return _v1BillPhotosKindRecordIdUploadUrlPost(
+      kind: kind?.value?.toString(),
+      recordId: recordId,
+      body: body,
+    );
+  }
+
+  ///Create Bill Photo Upload Url
+  ///@param kind
+  ///@param record_id
+  @POST(
+    path: '/v1/bill-photos/{kind}/{record_id}/upload-url',
+    optionalBody: true,
+  )
+  Future<chopper.Response<PhotoUploadUrl>>
+  _v1BillPhotosKindRecordIdUploadUrlPost({
+    @Path('kind') required String? kind,
+    @Path('record_id') required String? recordId,
+    @Body() required PhotoUploadIn? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''A signed upload URL for this record\'s bill photo (JPEG only, at most `max_bytes`).
+
+The phone PUTs the file to `upload_url`, then records `photo_key` as the record\'s
+`bill_photo_key` through the normal outbox.''',
+      summary: 'Create Bill Photo Upload Url',
+      operationId: 'bill_photo_upload_url',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["bill-photos"],
+      deprecated: false,
+    ),
+  });
+
+  ///Get Bill Photo Url
+  ///@param kind
+  ///@param record_id
+  Future<chopper.Response<PhotoDownloadUrl>> v1BillPhotosKindRecordIdUrlGet({
+    required enums.V1BillPhotosKindRecordIdUrlGetKind? kind,
+    required String? recordId,
+  }) {
+    generatedMapping.putIfAbsent(
+      PhotoDownloadUrl,
+      () => PhotoDownloadUrl.fromJsonFactory,
+    );
+
+    return _v1BillPhotosKindRecordIdUrlGet(
+      kind: kind?.value?.toString(),
+      recordId: recordId,
+    );
+  }
+
+  ///Get Bill Photo Url
+  ///@param kind
+  ///@param record_id
+  @GET(path: '/v1/bill-photos/{kind}/{record_id}/url')
+  Future<chopper.Response<PhotoDownloadUrl>> _v1BillPhotosKindRecordIdUrlGet({
+    @Path('kind') required String? kind,
+    @Path('record_id') required String? recordId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''A short-lived signed download URL for a backed-up bill photo. Only the key derived
+from the caller and the record is ever signed; a stored key that differs is no photo.''',
+      summary: 'Get Bill Photo Url',
+      operationId: 'bill_photo_url',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["bill-photos"],
+      deprecated: false,
+    ),
+  });
+
   ///Entitlements
   Future<chopper.Response<EntitlementsResponse>> v1BillingEntitlementsGet() {
     generatedMapping.putIfAbsent(

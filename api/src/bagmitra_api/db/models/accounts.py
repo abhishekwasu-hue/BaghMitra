@@ -23,6 +23,9 @@ class Expense(OwnedSyncedRowMixin, Base):
     category: Mapped[str] = mapped_column(String(32))
     amount_paise: Mapped[int] = mapped_column(BigInteger)
     note: Mapped[str | None] = mapped_column(String(500))
+    # Backed-up bill photo `<owner_id>/bill-<id>.jpg` (OPEN_QUESTIONS Q136); the file itself
+    # stays on the phone unless the optional photo backup has uploaded it.
+    bill_photo_key: Mapped[str | None] = mapped_column(String(120))
 
 
 class Income(OwnedSyncedRowMixin, Base):
@@ -59,6 +62,8 @@ class SprayRecord(OwnedSyncedRowMixin, Base):
     operator: Mapped[str | None] = mapped_column(String(120))
     phi_days: Mapped[int | None] = mapped_column(Integer)
     target: Mapped[str | None] = mapped_column(String(120))
+    # Backed-up bill photo `<owner_id>/bill-<id>.jpg` (OPEN_QUESTIONS Q136).
+    bill_photo_key: Mapped[str | None] = mapped_column(String(120))
 
 
 class InputRecord(OwnedSyncedRowMixin, Base):

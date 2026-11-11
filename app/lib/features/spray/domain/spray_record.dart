@@ -1,6 +1,8 @@
 import '../../bahar/domain/bahar_cycle.dart';
 
-/// One spray application. `activeIngredient` is what the ban / PHI check keys on.
+/// One spray application. `activeIngredient` is what the ban / PHI check keys on. The
+/// optional bill photo lives on this phone ([billPhotoPath], never synced); [billPhotoKey] is
+/// set once the optional photo backup has uploaded it, and is synced (OPEN_QUESTIONS Q136).
 class SprayRecord {
   const SprayRecord({
     required this.id,
@@ -16,6 +18,8 @@ class SprayRecord {
     this.operator,
     this.phiDays,
     this.target,
+    this.billPhotoPath,
+    this.billPhotoKey,
   });
 
   final String id;
@@ -31,6 +35,28 @@ class SprayRecord {
   final String? operator;
   final int? phiDays;
   final String? target;
+  final String? billPhotoPath;
+  final String? billPhotoKey;
+
+  bool get hasBillPhoto => billPhotoPath != null || billPhotoKey != null;
+
+  SprayRecord withBillPhoto({String? path, String? key}) => SprayRecord(
+    id: id,
+    plotId: plotId,
+    baharCycleId: baharCycleId,
+    sprayedOn: sprayedOn,
+    productName: productName,
+    activeIngredient: activeIngredient,
+    dose: dose,
+    waterLitres: waterLitres,
+    areaAcres: areaAcres,
+    costPaise: costPaise,
+    operator: operator,
+    phiDays: phiDays,
+    target: target,
+    billPhotoPath: path ?? billPhotoPath,
+    billPhotoKey: key ?? billPhotoKey,
+  );
 
   Map<String, Object?> toPayload() => {
     'plot_id': plotId,
@@ -45,6 +71,8 @@ class SprayRecord {
     'operator': operator,
     'phi_days': phiDays,
     'target': target,
+    // Only once backed up, so a record without one reads the same as before.
+    if (billPhotoKey != null) 'bill_photo_key': billPhotoKey,
   };
 
   static SprayRecord fromPayload(String id, Map<String, Object?> p) =>
@@ -62,5 +90,6 @@ class SprayRecord {
         operator: p['operator'] as String?,
         phiDays: p['phi_days'] as int?,
         target: p['target'] as String?,
+        billPhotoKey: p['bill_photo_key'] as String?,
       );
 }

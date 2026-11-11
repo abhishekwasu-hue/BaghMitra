@@ -22,6 +22,8 @@ Position = tuple[float, float]  # GeoJSON order: (longitude, latitude)
 Slug = Annotated[str, Field(pattern=r"^[a-z][a-z0-9_]{1,31}$")]
 _UUID = r"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
 PHOTO_KEY_PATTERN = rf"^{_UUID}/{_UUID}\.jpg$"
+# A backed-up bill photo of a spray record or an expense (OPEN_QUESTIONS Q136).
+BILL_PHOTO_KEY_PATTERN = rf"^{_UUID}/bill-{_UUID}\.jpg$"
 
 
 class FarmerProfilePayload(BaseModel):
@@ -113,6 +115,7 @@ class ExpensePayload(RowPayload):
     category: Slug
     amount_paise: Paise
     note: str | None = Field(default=None, max_length=500)
+    bill_photo_key: str | None = Field(default=None, pattern=BILL_PHOTO_KEY_PATTERN)
 
 
 class IncomePayload(RowPayload):
@@ -142,6 +145,7 @@ class SprayRecordPayload(RowPayload):
     operator: str | None = Field(default=None, max_length=120)
     phi_days: int | None = Field(default=None, ge=0, le=365)
     target: str | None = Field(default=None, max_length=120)
+    bill_photo_key: str | None = Field(default=None, pattern=BILL_PHOTO_KEY_PATTERN)
 
 
 class InputRecordPayload(RowPayload):
