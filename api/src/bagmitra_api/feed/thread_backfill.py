@@ -1,7 +1,8 @@
-"""One-off (owner Q139): put the already published news items into topic threads, oldest first.
-Idempotent: only items without a thread are touched, so it is safe to repeat (every scheduled
-news run does the same for new items). Needs FEED_AI_API_KEY; one small classify-model call per
-item that has a candidate thread. Prints a JSON summary. Runbook: docs/runbooks/govt-feed.md §12.
+"""Optional, manual use only (owner Q139): put every published news item without a topic into
+one, oldest first, with no per-run cap. Not needed after deploy: every scheduled news run does
+the same, at most 50 items per run (`news_job.thread_step`). Idempotent: only items without a
+thread are touched, so it is safe to repeat. Needs FEED_AI_API_KEY; one small classify-model call
+per item that has a candidate thread. Prints a JSON summary. Runbook: govt-feed.md §12.
     python -m bagmitra_api.feed.thread_backfill
 """
 

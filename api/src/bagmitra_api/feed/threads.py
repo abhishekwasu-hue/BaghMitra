@@ -34,6 +34,9 @@ from bagmitra_api.feed.output_check import normalise
 
 THREAD_WINDOW = timedelta(days=30)
 MAX_CANDIDATES = 20
+# Items one scheduled news run threads at most (oldest first), so the first run after deploy
+# catches up on the already published news without a manual step and with a bounded cost.
+THREADS_PER_RUN = 50
 # Text languages in the order the matcher reads them (Mahasamvad writes Marathi).
 TEXT_LANGS = ("mr", "en", "hi")
 EVENT = "threaded"

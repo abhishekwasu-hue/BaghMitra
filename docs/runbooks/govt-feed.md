@@ -251,17 +251,17 @@ Rule (`feed/threads.py`; conservative, a wrong merge is worse than a duplicate):
   model error start a new topic (`threaded` review event: `reason`, `candidates`, `joined`);
 - the topic's title / summary are copied from its latest report's checked text, never new text.
 
-Every scheduled news run (§9) threads the newly published items after the article and recheck
-steps (fourth JSON line `{"threads": {"joined", "new", "model_calls", "ai_errors", ...}}`). Without
+**No manual step is needed.** Every scheduled news run (§9), after the article and recheck steps,
+threads published news that has no topic yet, oldest first, **at most 50 items per run**
+(`THREADS_PER_RUN`). So after deploying 0045 the already published news is threaded by the next
+runs on its own (50 per run, every 6 hours), with a bounded cost per run; afterwards each run
+threads its new items. Fourth JSON line in `/var/log/bagmitra-feed-news.log`:
+`{"threads": {"joined", "new", "model_calls", "ai_errors", "skipped_reason"}}`. Without
 `FEED_AI_API_KEY` nothing is threaded (single cards, as before) and the first run with the key
 catches up.
 
-**Backfill** of the news already published (one-off after deploying 0045; idempotent, only items
-without a topic are touched, oldest first; the next scheduled news run would do the same):
-```
-cd /opt/bagmitra/deploy && docker compose exec -T api python -m bagmitra_api.feed.thread_backfill
-```
-It prints `{"joined": …, "new": …, "model_calls": …, "ai_errors": …, "skipped_reason": …}`.
+Optional, manual use only (threads everything without a topic in one go, no cap; idempotent):
+`python -m bagmitra_api.feed.thread_backfill` inside the API container.
 A wrong merge is undone in the database only (no admin button yet, OPEN_QUESTIONS Q139): insert a
 new `feed_threads` row (title / summary copied from the item's text) and point the item's
 `feed_items.thread_id` at it. Setting it to NULL would let the next run ask the model again.

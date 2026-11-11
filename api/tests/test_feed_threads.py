@@ -11,10 +11,12 @@ from datetime import UTC, datetime, timedelta
 from typing import Any
 
 import httpx
+import pytest
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker
 
 from bagmitra_api.core.settings import Settings
+from bagmitra_api.feed import news_job
 from bagmitra_api.feed.ai import AnthropicFeedAi
 from bagmitra_api.feed.models import (
     FeedItem,
@@ -25,6 +27,7 @@ from bagmitra_api.feed.models import (
 )
 from bagmitra_api.feed.threads import (
     MAX_CANDIDATES,
+    THREADS_PER_RUN,
     AnthropicThreader,
     ThreadRun,
     TopicText,
@@ -241,6 +244,31 @@ async def test_backfill_is_idempotent_and_skips_unpublished(engine: AsyncEngine)
         assert (first.thread_id, later.thread_id) == before
         assert held.thread_id is None
         assert len(list(await session.scalars(select(FeedThread)))) == 1
+
+
+async def test_news_run_threads_old_items_capped_per_run(
+    engine: AsyncEngine, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """No manual step after deploy: each scheduled news run threads published news without a
+    topic, oldest first, at most THREADS_PER_RUN, and the next run goes on."""
+    monkeypatch.setattr(news_job, "THREADS_PER_RUN", 2)
+    async with maker(engine)() as session:
+        items = [
+            await news(session, (f"Topic {i} alpha", ""), T0 + timedelta(days=40 * i))
+            for i in range(3)
+        ]
+        await session.commit()
+        model = Model()
+        first = await news_job.thread_step(session, model.threader())
+        assert first.new == 2
+        assert [i.thread_id is not None for i in items] == [True, True, False]
+        second = await news_job.thread_step(session, model.threader())
+        assert second.new == 1
+        assert all(i.thread_id is not None for i in items)
+        third = await news_job.thread_step(session, model.threader())
+        assert third == ThreadRun()
+        assert model.bodies == []  # 40 days apart: no candidates, no calls
+    assert THREADS_PER_RUN == 50  # the real cap
 
 
 async def test_without_the_model_nothing_is_threaded(engine: AsyncEngine) -> None:
