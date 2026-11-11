@@ -120,7 +120,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get vsLastWeek => 'गेल्या आठवड्यापेक्षा';
 
   @override
-  String get takePhoto => 'फोटो काढा';
+  String get takePhoto => 'कीड-रोग फोटो';
 
   @override
   String get navHome => 'मुख्य पान';

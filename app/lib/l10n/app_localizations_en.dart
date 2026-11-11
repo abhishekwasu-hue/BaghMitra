@@ -121,7 +121,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get vsLastWeek => 'vs last week';
 
   @override
-  String get takePhoto => 'Take photo';
+  String get takePhoto => 'Pest/disease photo';
 
   @override
   String get navHome => 'Home';
