@@ -16,7 +16,8 @@ String _rupees(int? paise) => paise == null ? '' : '${paise ~/ 100}';
 /// The admin web's "Subscriptions" section (billing addendum §7): the switch (default
 /// OFF) with an optional start date, Play's price-change rules shown before any amount is
 /// saved, one monthly ₹ amount per role (written to Play; Play's price shown), the
-/// confirmed move of existing subscribers and the photo analysis limits (Q135).
+/// confirmed move of existing subscribers, the photo analysis limits (Q135) and the bill
+/// reading limits (Q136).
 class BillingSettingsPage extends StatefulWidget {
   const BillingSettingsPage({required this.repo, super.key});
   final BillingAdminRepository repo;
@@ -215,6 +216,13 @@ class _BillingSettingsPageState extends State<BillingSettingsPage> {
         ),
         const SizedBox(height: BmSpace.md),
         PhotoLimitsCard(settings: settings, repo: widget.repo, run: _run),
+        const SizedBox(height: BmSpace.md),
+        PhotoLimitsCard(
+          settings: settings,
+          repo: widget.repo,
+          run: _run,
+          kind: LimitsKind.bill,
+        ),
       ],
     );
   }

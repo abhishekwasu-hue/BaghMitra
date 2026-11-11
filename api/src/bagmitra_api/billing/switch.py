@@ -123,6 +123,49 @@ async def set_role_photo_limits(
     return row
 
 
+async def change_bill_limits(
+    session: AsyncSession,
+    admin_id: uuid.UUID,
+    *,
+    free_daily: int | None,
+    free_monthly: int | None,
+    daily_total: int | None,
+) -> BillingSettings:
+    """Bill reading limits without a plan and the optional overall cap (Q136)."""
+    row = await billing_settings(session)
+    old = {
+        "free_daily": row.bill_read_free_daily,
+        "free_monthly": row.bill_read_free_monthly,
+        "daily_total": row.bill_read_daily_total,
+    }
+    new = {"free_daily": free_daily, "free_monthly": free_monthly, "daily_total": daily_total}
+    if old != new:
+        row.bill_read_free_daily, row.bill_read_free_monthly = free_daily, free_monthly
+        row.bill_read_daily_total = daily_total
+        log_admin_change(session, "bill_limits_changed", admin_id, old, new)
+    await session.flush()
+    return row
+
+
+async def set_role_bill_limits(
+    session: AsyncSession,
+    admin_id: uuid.UUID,
+    role: str,
+    *,
+    daily: int | None,
+    monthly: int | None,
+) -> BillingRolePrice:
+    """Bill reading limits of one role's plan (Q136); None = the default."""
+    row = (await role_prices(session))[role]
+    old = {"role": role, "daily": row.bill_read_daily, "monthly": row.bill_read_monthly}
+    new = {"role": role, "daily": daily, "monthly": monthly}
+    if old != new:
+        row.bill_read_daily, row.bill_read_monthly = daily, monthly
+        log_admin_change(session, "role_bill_limits_changed", admin_id, old, new)
+    await session.flush()
+    return row
+
+
 def _iso(value: date | None) -> str | None:
     return value.isoformat() if value else None
 

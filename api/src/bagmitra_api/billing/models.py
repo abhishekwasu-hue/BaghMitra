@@ -126,6 +126,11 @@ class BillingSettings(TimestampMixin, Base):
     photo_ai_free_daily: Mapped[int | None] = mapped_column(Integer)
     photo_ai_free_monthly: Mapped[int | None] = mapped_column(Integer)
     photo_ai_daily_total: Mapped[int | None] = mapped_column(Integer)
+    # Bill reading (Q136, owner 2026-11-11): the same three limits for reading a shop bill
+    # photo, separate from photo analysis (`bills/limits.py`).
+    bill_read_free_daily: Mapped[int | None] = mapped_column(Integer)
+    bill_read_free_monthly: Mapped[int | None] = mapped_column(Integer)
+    bill_read_daily_total: Mapped[int | None] = mapped_column(Integer)
 
 
 class BillingRolePrice(TimestampMixin, Base):
@@ -144,3 +149,6 @@ class BillingRolePrice(TimestampMixin, Base):
     # Photo analysis limits for a farmer on this role's plan (Q135); empty = the code default.
     photo_ai_daily: Mapped[int | None] = mapped_column(Integer)
     photo_ai_monthly: Mapped[int | None] = mapped_column(Integer)
+    # Bill reading limits for a farmer on this role's plan (Q136); empty = the code default.
+    bill_read_daily: Mapped[int | None] = mapped_column(Integer)
+    bill_read_monthly: Mapped[int | None] = mapped_column(Integer)

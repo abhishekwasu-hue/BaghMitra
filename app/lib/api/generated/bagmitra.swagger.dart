@@ -110,6 +110,35 @@ abstract class Bagmitra extends ChopperService {
     ),
   });
 
+  ///Put Bill Limits
+  Future<chopper.Response<BillingSettingsOut>> v1AdminBillingBillLimitsPut({
+    required BillLimitsIn? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      BillingSettingsOut,
+      () => BillingSettingsOut.fromJsonFactory,
+    );
+
+    return _v1AdminBillingBillLimitsPut(body: body);
+  }
+
+  ///Put Bill Limits
+  @PUT(path: '/v1/admin/billing/bill-limits', optionalBody: true)
+  Future<chopper.Response<BillingSettingsOut>> _v1AdminBillingBillLimitsPut({
+    @Body() required BillLimitsIn? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Bill reading limits for farmers without a plan, and the optional overall cap (Q136).',
+      summary: 'Put Bill Limits',
+      operationId: 'admin_billing_put_bill_limits',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
   ///Events
   ///@param limit
   Future<chopper.Response<EventsResponse>> v1AdminBillingEventsGet({
@@ -316,6 +345,45 @@ abstract class Bagmitra extends ChopperService {
       description: '',
       summary: 'Put Role Amount',
       operationId: 'admin_billing_put_role_amount',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Put Role Bill Limits
+  ///@param role
+  Future<chopper.Response<BillingSettingsOut>>
+  v1AdminBillingRolesRoleBillLimitsPut({
+    required enums.V1AdminBillingRolesRoleBillLimitsPutRole? role,
+    required RoleBillLimitsIn? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      BillingSettingsOut,
+      () => BillingSettingsOut.fromJsonFactory,
+    );
+
+    return _v1AdminBillingRolesRoleBillLimitsPut(
+      role: role?.value?.toString(),
+      body: body,
+    );
+  }
+
+  ///Put Role Bill Limits
+  ///@param role
+  @PUT(path: '/v1/admin/billing/roles/{role}/bill-limits', optionalBody: true)
+  Future<chopper.Response<BillingSettingsOut>>
+  _v1AdminBillingRolesRoleBillLimitsPut({
+    @Path('role') required String? role,
+    @Body() required RoleBillLimitsIn? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description:
+          'Bill reading limits per farmer on this role\'s plan (Q136).',
+      summary: 'Put Role Bill Limits',
+      operationId: 'admin_billing_put_role_bill_limits',
       consumes: [],
       produces: [],
       security: ["HTTPBearer"],
@@ -2517,6 +2585,42 @@ change. The server acknowledges the purchase.''',
       produces: [],
       security: ["HTTPBearer"],
       tags: ["billing"],
+      deprecated: false,
+    ),
+  });
+
+  ///Read Bill
+  Future<chopper.Response<BillReadOut>> v1BillsReadPost({
+    required BodyBillsRead body,
+  }) {
+    generatedMapping.putIfAbsent(
+      BillReadOut,
+      () => BillReadOut.fromJsonFactory,
+    );
+
+    return _v1BillsReadPost(body: body);
+  }
+
+  ///Read Bill
+  @POST(path: '/v1/bills/read', optionalBody: true)
+  @Multipart()
+  Future<chopper.Response<BillReadOut>> _v1BillsReadPost({
+    @Part() required BodyBillsRead body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Reads one agri-input shop bill photo (owner Q136). Nothing of the photo or the result
+is stored; only a count row for the limits.
+
+429 `bill_read_limit`: `error.details` has `limit` (daily | monthly | total), `max` and
+`resets_at` (UTC); the `Retry-After` header has the seconds until then. 503
+`analysis_unavailable`: no API key on the server. 502 `analysis_failed`: the model could
+not answer; nothing is counted.''',
+      summary: 'Read Bill',
+      operationId: 'bills_read',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["bills"],
       deprecated: false,
     ),
   });

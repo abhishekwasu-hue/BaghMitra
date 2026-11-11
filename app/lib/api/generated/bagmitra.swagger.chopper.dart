@@ -65,6 +65,32 @@ final class _$Bagmitra extends Bagmitra {
   }
 
   @override
+  Future<Response<BillingSettingsOut>> _v1AdminBillingBillLimitsPut({
+    required BillLimitsIn? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Bill reading limits for farmers without a plan, and the optional overall cap (Q136).',
+      summary: 'Put Bill Limits',
+      operationId: 'admin_billing_put_bill_limits',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/billing/bill-limits');
+    final $body = body;
+    final Request $request = Request(
+      'PUT',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<BillingSettingsOut, BillingSettingsOut>($request);
+  }
+
+  @override
   Future<Response<EventsResponse>> _v1AdminBillingEventsGet({
     int? limit,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
@@ -232,6 +258,34 @@ final class _$Bagmitra extends Bagmitra {
     ),
   }) {
     final Uri $url = Uri.parse('/v1/admin/billing/roles/${role}/amount');
+    final $body = body;
+    final Request $request = Request(
+      'PUT',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<BillingSettingsOut, BillingSettingsOut>($request);
+  }
+
+  @override
+  Future<Response<BillingSettingsOut>> _v1AdminBillingRolesRoleBillLimitsPut({
+    required String? role,
+    required RoleBillLimitsIn? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description:
+          'Bill reading limits per farmer on this role\'s plan (Q136).',
+      summary: 'Put Role Bill Limits',
+      operationId: 'admin_billing_put_role_bill_limits',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/billing/roles/${role}/bill-limits');
     final $body = body;
     final Request $request = Request(
       'PUT',
@@ -2055,6 +2109,41 @@ change. The server acknowledges the purchase.''',
       tag: swaggerMetaData,
     );
     return client.send<PlanOfferOut, PlanOfferOut>($request);
+  }
+
+  @override
+  Future<Response<BillReadOut>> _v1BillsReadPost({
+    required BodyBillsRead body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Reads one agri-input shop bill photo (owner Q136). Nothing of the photo or the result
+is stored; only a count row for the limits.
+
+429 `bill_read_limit`: `error.details` has `limit` (daily | monthly | total), `max` and
+`resets_at` (UTC); the `Retry-After` header has the seconds until then. 503
+`analysis_unavailable`: no API key on the server. 502 `analysis_failed`: the model could
+not answer; nothing is counted.''',
+      summary: 'Read Bill',
+      operationId: 'bills_read',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["bills"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/bills/read');
+    final List<PartValue> $parts = <PartValue>[
+      PartValue<BodyBillsRead>('body', body),
+    ];
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      parts: $parts,
+      multipart: true,
+      tag: swaggerMetaData,
+    );
+    return client.send<BillReadOut, BillReadOut>($request);
   }
 
   @override
