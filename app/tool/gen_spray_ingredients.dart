@@ -1,13 +1,17 @@
-// Regenerates the CIB&RC part of assets/config/spray_ingredients.json from the label claims
-// the API seeds (api/src/bagmitra_api/kb/seed_data/label_claims_citrus.csv). Rows with any
-// other source (the nutrition rows) are kept as they are. Run from app/:
+// Regenerates the generated parts of assets/config/spray_ingredients.json:
+// - CIB&RC rows from the label claims the API seeds
+//   (api/src/bagmitra_api/kb/seed_data/label_claims_citrus.csv);
+// - growth regulators from the KB cards' chemical_options
+//   (api/src/bagmitra_api/kb/seed_data/knowledge.json).
+// Rows with any other source (the micronutrient rows) are kept as they are. Run from app/:
 //   dart run tool/gen_spray_ingredients.dart
-// test/features/spray/spray_ingredients_test.dart fails when the asset and the CSV differ.
+// test/features/spray/spray_ingredients_test.dart fails when the asset and the data differ.
 import 'dart:convert';
 import 'dart:io';
 
 const csvPath = '../api/src/bagmitra_api/kb/seed_data/label_claims_citrus.csv';
 const sourcesPath = '../api/src/bagmitra_api/kb/seed_data/sources.json';
+const knowledgePath = '../api/src/bagmitra_api/kb/seed_data/knowledge.json';
 const assetPath = 'assets/config/spray_ingredients.json';
 
 /// The picker type a CIB&RC row belongs to: `bio` when the row's category is bio, else the
@@ -125,8 +129,76 @@ List<Map<String, Object?>> cibrcEntries(String csv) {
   return byKey.values.toList()..sort(_byName);
 }
 
-/// The KB source rows the CIB&RC entries cite (title, URL, edition note).
-Map<String, Object?> cibrcSources(
+/// Growth regulators the picker lists from our own KB cards' `chemical_options` (owner
+/// 2026-11-11: "वाढ नियंत्रक हे शासन मान्य असले पाहिजे असे नाही", so a CIB&RC registration
+/// is not required). Each name must appear on at least one card, or the generator stops.
+const kbGrowthRegulators = [
+  'chlormequat chloride',
+  'gibberellic acid',
+  'paclobutrazol',
+  '2,4-D',
+];
+
+bool isFromKb(Map<String, Object?> entry) => entry.containsKey('kb_cards');
+
+String _sentenceCase(String s) => s.isEmpty || !RegExp('[a-z]').hasMatch(s[0])
+    ? s
+    : '${s[0].toUpperCase()}${s.substring(1)}';
+
+/// One `pgr` entry per growth regulator, citing every card that names it: the cards'
+/// own source keys, the card topics and the uses the cards give.
+List<Map<String, Object?>> kbEntries(String knowledgeJson) {
+  final cards = ((jsonDecode(knowledgeJson) as Map)['cards'] as List)
+      .cast<Map<String, Object?>>();
+  final out = <Map<String, Object?>>[];
+  for (final ai in kbGrowthRegulators) {
+    final sources = <String>[];
+    final topics = <String>[];
+    final uses = <String>[];
+    for (final c in cards) {
+      final options = ((c['chemical_options'] as List?) ?? const [])
+          .cast<Map<String, Object?>>();
+      final hits = options.where(
+        (o) =>
+            (o['active_ingredient']! as String).trim().toLowerCase() ==
+            ai.toLowerCase(),
+      );
+      if (hits.isEmpty) continue;
+      final topic = '${c['topic']} (${c['crop']})';
+      if (!topics.contains(topic)) topics.add(topic);
+      for (final h in hits) {
+        final use = (h['target']! as String).trim();
+        if (use.isNotEmpty && !uses.contains(use)) uses.add(use);
+      }
+      for (final s
+          in ((c['sources'] as List?) ?? const [])
+              .cast<Map<String, Object?>>()) {
+        final key = s['source']! as String;
+        if (!sources.contains(key)) sources.add(key);
+      }
+    }
+    if (topics.isEmpty) {
+      throw StateError('No KB card names the growth regulator "$ai"');
+    }
+    out.add({
+      'type': 'pgr',
+      'name': _sentenceCase(ai),
+      'sources': sources,
+      'kb_cards': topics,
+      'uses': uses,
+    });
+  }
+  return out..sort(_byName);
+}
+
+/// Every source key an entry cites.
+List<String> sourceKeys(Map<String, Object?> entry) => [
+  if (entry['source'] case final String s) s,
+  ...((entry['sources'] as List?) ?? const []).cast<String>(),
+];
+
+/// The KB source rows the generated entries cite (title, publisher, URL).
+Map<String, Object?> sourceRows(
   List<Map<String, Object?>> entries,
   String sourcesJson,
 ) {
@@ -135,10 +207,9 @@ Map<String, Object?> cibrcSources(
   final byKey = {
     for (final s in list.cast<Map<String, Object?>>()) s['key']! as String: s,
   };
+  final keys = {for (final e in entries) ...sourceKeys(e)}.toList()..sort();
   return {
-    for (final key in {
-      for (final e in entries) e['source']! as String,
-    }.toList()..sort())
+    for (final key in keys)
       key: {
         'title': byKey[key]!['title'],
         'publisher': byKey[key]!['publisher'],
@@ -148,26 +219,26 @@ Map<String, Object?> cibrcSources(
 }
 
 void main() {
-  final csv = File(csvPath).readAsStringSync();
   final asset =
       jsonDecode(File(assetPath).readAsStringSync()) as Map<String, Object?>;
-  final generated = cibrcEntries(csv);
+  final generated = [
+    ...cibrcEntries(File(csvPath).readAsStringSync()),
+    ...kbEntries(File(knowledgePath).readAsStringSync()),
+  ];
   final kept = [
     for (final e
         in (asset['entries']! as List<Object?>).cast<Map<String, Object?>>())
-      if (!isCibrc(e['source']! as String)) e,
+      if (!isFromKb(e) && !sourceKeys(e).any(isCibrc)) e,
   ];
-  final keptSources = {
-    for (final e in (asset['sources']! as Map<String, Object?>).entries)
-      if (!isCibrc(e.key)) e.key: e.value,
-  };
+  final oldSources = asset['sources']! as Map<String, Object?>;
+  final keptKeys = {for (final e in kept) ...sourceKeys(e)};
   asset['sources'] = {
-    ...cibrcSources(generated, File(sourcesPath).readAsStringSync()),
-    ...keptSources,
+    ...sourceRows(generated, File(sourcesPath).readAsStringSync()),
+    for (final k in keptKeys) k: oldSources[k],
   };
   asset['entries'] = [...generated, ...kept]..sort(_byName);
   File(
     assetPath,
   ).writeAsStringSync('${const JsonEncoder.withIndent('  ').convert(asset)}\n');
-  stdout.writeln('${generated.length} CIB&RC entries, ${kept.length} kept');
+  stdout.writeln('${generated.length} generated entries, ${kept.length} kept');
 }

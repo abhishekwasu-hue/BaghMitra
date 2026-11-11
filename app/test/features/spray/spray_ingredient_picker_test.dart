@@ -210,6 +210,10 @@ void main() {
     await chooseIngredientType(tester, 'Nutrition: micronutrients');
     await chooseIngredient(tester, 'Zinc sulphate');
     expect(find.text('Zinc sulphate'), findsOneWidget);
+    // Growth regulators come from our KB cards (owner 2026-11-11).
+    await chooseIngredientType(tester, 'Growth regulator');
+    await chooseIngredient(tester, 'Paclobutrazol');
+    expect(find.text('Paclobutrazol'), findsOneWidget);
     await unmountApp(tester);
   });
 

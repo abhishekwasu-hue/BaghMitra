@@ -20,7 +20,7 @@ void main() {
     final fromCsv = gen.cibrcEntries(csv);
     final inAsset = [
       for (final e in _entries())
-        if (gen.isCibrc(e['source'] as String)) e,
+        if (gen.sourceKeys(e).any(gen.isCibrc)) e,
     ];
     expect(jsonDecode(jsonEncode(inAsset)), jsonDecode(jsonEncode(fromCsv)));
     // Every active ingredient in the CSV is offered once.
@@ -35,6 +35,34 @@ void main() {
   });
 
   test(
+    'growth regulators are exactly what our KB cards name (owner '
+    '2026-11-11: no registration needed), each citing its cards\' sources',
+    () {
+      final fromKb = gen.kbEntries(File(gen.knowledgePath).readAsStringSync());
+      final inAsset = [
+        for (final e in _entries())
+          if (gen.isFromKb(e)) e,
+      ];
+      expect(jsonDecode(jsonEncode(inAsset)), jsonDecode(jsonEncode(fromKb)));
+      expect(inAsset.map((e) => e['name']), [
+        '2,4-D',
+        'Chlormequat chloride',
+        'Gibberellic acid',
+        'Paclobutrazol',
+      ]);
+      expect(inAsset.every((e) => e['type'] == 'pgr'), isTrue);
+      final ga = inAsset.singleWhere((e) => e['name'] == 'Gibberellic acid');
+      expect(ga['kb_cards'], ['bahar_ambia (santra)', 'fruit_drop (santra)']);
+      expect(ga['sources'], contains('pau_fruit_drop'));
+      // A name no card gives stops the generator instead of being typed in.
+      expect(
+        () => gen.kbEntries(jsonEncode({'cards': <Object>[]})),
+        throwsStateError,
+      );
+    },
+  );
+
+  test(
     'types come from the data; no acaricide type while no book marks one',
     () {
       final data = SprayIngredients.parse(_asset());
@@ -46,7 +74,7 @@ void main() {
         'insecticide': 9,
         'herbicide': 2,
         'bio': 1,
-        'pgr': 0,
+        'pgr': 4,
         'micronutrient': 4,
         'water_soluble': 0,
         'tonic': 0,
@@ -76,14 +104,17 @@ void main() {
                 as List)
             .cast<Map<String, dynamic>>();
     for (final e in _entries()) {
-      final key = e['source'] as String;
-      final s = sources[key] as Map<String, dynamic>?;
-      expect(s, isNotNull, reason: e['name'] as String);
-      expect((s!['url'] as String).startsWith('https://'), isTrue);
-      final kbRow = kbSources.where((k) => k['key'] == key).single;
-      expect(s['url'], kbRow['url']);
-      expect(s['title'], kbRow['title']);
-      if (!gen.isCibrc(key)) {
+      final keys = gen.sourceKeys(e);
+      expect(keys, isNotEmpty, reason: e['name'] as String);
+      for (final key in keys) {
+        final s = sources[key] as Map<String, dynamic>?;
+        expect(s, isNotNull, reason: '${e['name']}: $key');
+        expect((s!['url'] as String).startsWith('https://'), isTrue);
+        final kbRow = kbSources.where((k) => k['key'] == key).single;
+        expect(s['url'], kbRow['url']);
+        expect(s['title'], kbRow['title']);
+      }
+      if (!keys.any(gen.isCibrc) && !gen.isFromKb(e)) {
         final quote = e['quote'] as String;
         expect(kb, contains(quote), reason: e['name'] as String);
         final first = (e['name'] as String).split(' ').first.toLowerCase();

@@ -22,13 +22,15 @@ class SprayIngredient {
     required this.type,
     required this.name,
     required this.formulations,
-    required this.source,
+    required this.sources,
   });
 
   final String type;
   final String name;
   final List<String> formulations;
-  final String source;
+
+  /// Every source key the row cites (see `sources` in the asset).
+  final List<String> sources;
 
   /// "Captan 75% WP", or the name alone when the source prints no formulation.
   String get display =>
@@ -83,7 +85,10 @@ class SprayIngredients {
           name: e['name'] as String,
           formulations: ((e['formulations'] as List?) ?? const [])
               .cast<String>(),
-          source: e['source'] as String,
+          sources: [
+            if (e['source'] case final String s) s,
+            ...((e['sources'] as List?) ?? const []).cast<String>(),
+          ],
         ),
     ],
   );
