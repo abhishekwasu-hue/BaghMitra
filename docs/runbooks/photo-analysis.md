@@ -61,8 +61,8 @@ yet (the cached prefix would be about 2,000 tokens).
 
 - Table `photo_analysis_samples` (owner data, RLS; migration 0043): id, owner, plot, part,
   scouting item, model, candidates, unsure, created time, photo key, `label`, `label_source`.
-- The farmer deletes one with `DELETE /v1/photo-analysis/{photo_id}` (the app calls it when the
-  scouting entry is deleted, stage 3); account deletion (`DELETE /v1/me`) erases all of them and
+- The farmer deletes one with `DELETE /v1/photo-analysis/{photo_id}` (the app's "हा फोटो हटवा" /
+  "Delete this photo" button on the result screen, stage 3); account deletion (`DELETE /v1/me`) erases all of them and
   the photos.
 - Role `kb_admin`: `GET /v1/admin/photo-analysis/samples` (labelled ones: signed photo link for
   one hour + label; `?labelled=false` for the ones still to label) and

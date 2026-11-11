@@ -121,7 +121,7 @@ Google त्याच्या संमती-पानावर दाखव�
 {retention_days_mr} दिवसांनंतर पुसला जातो; त्यानंतर फक्त त्याची ओळख-खूण (hash) आणि आकार राहतो. सर्व्हरने
 नाकारलेल्या बदलांचा मजकूर ठेवला जात नाही; फक्त त्याची ओळख-खूण (hash) आणि आकार.</li>
 <li>तपासणीचे पिकाचे फोटो व निकाल: तपासणीपासून {photo_days_mr} दिवस ठेवले जातात, नंतर आपोआप
-पुसले जातात. त्याआधी त्याची पाहणी नोंद काढून फोटो पुसता येतो; खाते काढल्यावर सर्व पुसले
+पुसले जातात. त्याआधी निकालाच्या पानावरील 'हा फोटो हटवा' बटणाने फोटो पुसता येतो; खाते काढल्यावर सर्व पुसले
 जातात.</li>
 <li>खाते काढल्यावर (ॲपमधून किंवा विनंतीने) सर्व्हरवरच्या नोंदी, इतिहास, फोनची नोंदणी, सूचनांच्या
 खुणा आणि बॅकअप घेतलेले फोटो लगेच पुसले जातात. लॉगिन खाते (Supabase Auth) आपोआप किंवा
@@ -261,7 +261,7 @@ sync. The contents of a change in that history are erased after {retention_days}
 fingerprint (hash) and its size remain. For a change the server rejects, only a fingerprint (hash)
 and its size are kept, not its contents.</li>
 <li>Analysed crop photos and results: kept for {photo_days} days from the analysis, then
-deleted automatically; earlier by deleting the scouting entry, and all with the account.</li>
+deleted automatically; earlier with the "Delete this photo" button on the result, and all with the account.</li>
 <li>When the account is deleted (in the app or on request), the server records, history,
 registered devices, notice marks and backed-up photos are erased at once. The sign-in account
 (Supabase Auth) is removed automatically, or by us by hand {DELETION_DAYS["en"]}. Copies in our
