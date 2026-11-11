@@ -50,6 +50,9 @@ def test_folder_matching_and_licence(lm, tmp_path):
     assert tc.match_folder_label(lm, "mendeley_hlb_mexico", "HLB_leaves") == "greening"
     assert tc.match_folder_label(lm, "mendeley_hlb_mexico", "Control") == "healthy"
     assert tc.match_folder_label(lm, "mendeley_hlb_mexico", "misc") is None
+    assert tc.match_folder_label(lm, "mendeley_hlb_mexico", "Raw Images Healthy ") == "healthy"
+    assert tc.match_folder_label(lm, "mendeley_hlb_mexico", "Database HLB and Healthy - Final") == tc.AMBIGUOUS
+    assert tc.match_folder_label(lm, "mendeley_hlb_mexico", "Database HLB Sanas Final") == tc.AMBIGUOUS
     assert tc.licence_is_cc_by_4({"data_licence": {"short_name": "CC BY 4.0"}})[0]
     assert not tc.licence_is_cc_by_4({"data_licence": {"short_name": "CC BY NC 3.0"}})[0]
     assert not tc.licence_is_cc_by_4({"name": "x"})[0]
@@ -57,8 +60,8 @@ def test_folder_matching_and_licence(lm, tmp_path):
     # nested zip as Mendeley may serve it
     inner = tmp_path / "inner.zip"
     with zipfile.ZipFile(inner, "w") as z:
-        for folder in ("HLB", "Control", "notes"):
-            src = tmp_path / f"{folder}.png"
+        for folder in ("HLB", "Control", "notes", "HLB and Healthy/batch", "HLB and Healthy/Sanas"):
+            src = tmp_path / "src.png"
             _img(src, (1, 2, 3))
             z.write(src, f"{folder}/a.png")
     raw = tmp_path / "raw"
@@ -69,8 +72,31 @@ def test_folder_matching_and_licence(lm, tmp_path):
     ext.mkdir()
     tc._extract_all(raw, ext)
     recs, unmatched = tc.records_from_tree(ext, lm, "mendeley_hlb_mexico")
-    assert sorted(r.label for r in recs) == ["greening", "healthy"]
-    assert sum(unmatched.values()) == 1
+    # 'notes' matches nothing; 'HLB and Healthy/batch' stops at the mixed folder
+    assert sorted(r.label for r in recs) == ["greening", "healthy", "healthy"]
+    assert sum(unmatched.values()) == 2
+
+
+def test_dedupe_drops_copies_and_conflicts(tmp_path):
+    rng = np.random.default_rng(0)
+
+    def photo():  # smooth random picture (like a photo, not pixel noise)
+        small = Image.fromarray(rng.integers(0, 255, (6, 8, 3), dtype=np.uint8))
+        return small.resize((80, 60), Image.BICUBIC)
+
+    a, b, c = photo(), photo(), photo()
+    a.save(tmp_path / "a.png")
+    a.resize((160, 120)).save(tmp_path / "a_big.png")  # same photo, rescaled
+    b.save(tmp_path / "b.png")
+    b.save(tmp_path / "b_copy.png")
+    c.save(tmp_path / "c.png")
+    R = tc.Record
+    recs = [R(str(tmp_path / "a.png"), "healthy", "s1", "x"), R(str(tmp_path / "a_big.png"), "healthy", "s2", "x"),
+            R(str(tmp_path / "b.png"), "healthy", "s1", "x"), R(str(tmp_path / "b_copy.png"), "greening", "s1", "y"),
+            R(str(tmp_path / "c.png"), "canker", "s1", "z")]
+    kept, dropped, conflicts = tc.dedupe(recs)
+    assert sorted(Path(r.path).name for r in kept) == ["a.png", "c.png"]
+    assert (dropped, conflicts) == (1, 2)
 
 
 def test_extra_split_export_and_card(lm, tmp_path):

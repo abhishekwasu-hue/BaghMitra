@@ -100,14 +100,21 @@ def map_label(labels_map: dict, source: str, raw: str) -> str:
     raise KeyError(f"no class for {source}/{raw!r}; add it to ml/labels_map.json")
 
 
+AMBIGUOUS = "?ambiguous"
+
+
 def match_folder_label(labels_map: dict, source: str, folder: str) -> str | None:
-    """Substring match (case-insensitive, longest key first) for archive folder names."""
+    """Case-insensitive substring match of an archive folder name against the map's keys.
+
+    Returns the class, None when no key matches, or AMBIGUOUS when keys of two different
+    classes match (e.g. "HLB and Healthy"), so a mixed folder never labels its images.
+    """
     table = {k: v for k, v in labels_map["sources"].get(source, {}).items() if not k.startswith("_")}
     name = folder.lower()
-    for key in sorted(table, key=len, reverse=True):
-        if key.lower() in name:
-            return table[key]
-    return None
+    hits = {v for k, v in table.items() if k.lower() in name}
+    if not hits:
+        return None
+    return hits.pop() if len(hits) == 1 else AMBIGUOUS
 
 
 # --------------------------------------------------------------------------- sources
@@ -218,7 +225,11 @@ def _extract_all(archive_dir: Path, dest: Path) -> None:
 
 
 def records_from_tree(root: Path, labels_map: dict, source: str) -> tuple[list[Record], Counter]:
-    """Label each image by the nearest ancestor folder that matches the map."""
+    """Label each image by the nearest ancestor folder whose name matches a map key.
+
+    The walk stops at the first folder that matches any key; if that folder is ambiguous
+    (keys of two classes) or nothing matches, the image is left out and counted as unmatched.
+    """
     records: list[Record] = []
     unmatched: Counter = Counter()
     for p in sorted(root.rglob("*")):
@@ -228,7 +239,7 @@ def records_from_tree(root: Path, labels_map: dict, source: str) -> tuple[list[R
         raw = p.parent.name
         for parent in p.relative_to(root).parents:
             if parent.name and (m := match_folder_label(labels_map, source, parent.name)):
-                label, raw = m, parent.name
+                label, raw = (None, raw) if m == AMBIGUOUS else (m, parent.name)
                 break
         if label is None:
             unmatched[str(p.parent.relative_to(root))] += 1
@@ -246,7 +257,7 @@ def collect_mendeley_hlb(work: Path, labels_map: dict) -> tuple[list[Record], di
         return [], {"status": "skipped", "note": f"metadata not fetched: {e!r}"}
     print(f"[mendeley] metadata keys: {sorted(meta)[:40] if isinstance(meta, dict) else type(meta)}")
     ok, lic = licence_is_cc_by_4(meta)
-    print(f"[mendeley] licence fields: {lic[:300]}")
+    print(f"[mendeley] licence fields: {lic}")
     if not ok:
         return [], {"status": "skipped", "note": f"licence not confirmed as CC BY 4.0: {lic[:200]}"}
     version = meta.get("version") if isinstance(meta, dict) else None
@@ -281,6 +292,10 @@ def collect_mendeley_hlb(work: Path, labels_map: dict) -> tuple[list[Record], di
         except Exception as e:
             shutil.rmtree(ext_dir, ignore_errors=True)
             return [], {"status": "skipped", "note": f"files not downloaded: {e!r}"}
+    tree = Counter(str(p.parent.relative_to(ext_dir)) for p in ext_dir.rglob("*") if p.suffix.lower() in IMAGE_EXTS)
+    for folder, cnt in sorted(tree.items()):
+        sample = sorted(q.name for q in (ext_dir / folder).iterdir() if q.suffix.lower() in IMAGE_EXTS)[:2]
+        print(f"[mendeley] tree: {folder!r}: {cnt} images, e.g. {sample}")
     records, unmatched = records_from_tree(ext_dir, labels_map, source)
     folders = Counter(r.raw_label for r in records)
     print(f"[mendeley] matched folders: {dict(folders)}; unmatched: {dict(unmatched)}")
@@ -305,6 +320,46 @@ def collect_extra(extra: Path, labels_map: dict) -> tuple[list[Record], dict]:
 
 
 # --------------------------------------------------------------------------- split / images
+
+
+DUP_MAX_BITS = 12  # of 256: photos this close are copies (resaved, rescaled, recompressed)
+
+
+def image_hash(path: str) -> np.ndarray:
+    """256-bit difference hash (16 x 16 gradient signs of the grey photo)."""
+    with Image.open(path) as im:
+        g = np.asarray(ImageOps.exif_transpose(im).convert("L").resize((17, 16), Image.BILINEAR), dtype=np.int16)
+    return (g[:, 1:] > g[:, :-1]).ravel()
+
+
+def dedupe(records, max_bits: int = DUP_MAX_BITS):
+    """Drop repeated photos so no copy of a test photo is in training.
+
+    Two photos are copies when their hashes differ in at most max_bits bits. Returns
+    (kept, dropped, conflicts); copies that carry two different classes are all dropped,
+    as their label cannot be trusted.
+    """
+    records = sorted(records, key=lambda r: (r.source, r.path))
+    hashes = np.stack([image_hash(r.path) for r in records]) if records else np.zeros((0, 256), bool)
+    kept_idx: list[int] = []
+    bad: set[int] = set()
+    dropped = 0
+    for i in range(len(records)):
+        if kept_idx:
+            dist = np.count_nonzero(hashes[kept_idx] != hashes[i], axis=1)
+            close = [kept_idx[j] for j in np.flatnonzero(dist <= max_bits)]
+        else:
+            close = []
+        if not close:
+            kept_idx.append(i)
+            continue
+        if any(records[k].label != records[i].label for k in close):
+            bad.update(k for k in close)
+            bad.add(i)
+        else:
+            dropped += 1
+    kept = [records[k] for k in kept_idx if k not in bad]
+    return kept, dropped, len(bad)
 
 
 def stratified_split(records, val_frac=0.15, test_frac=0.15, seed=42):
@@ -486,6 +541,8 @@ def write_model_card(out_dir: Path, info: dict) -> Path:
     for key, st in info["sources"].items():
         meta = SOURCES[key]
         counts = ", ".join(f"{k}: {v}" for k, v in sorted(st.get("counts", {}).items())) or "0"
+        if "counts_after_dedupe" in st:
+            counts += f" (after removing repeats: {st['counts_after_dedupe']})"
         lines.append(f"| {meta['title']} — {meta['url']} | {meta['licence']} | {st['status']}: {st['note']} | {counts} | {meta['where']} |")
     lines += ["", "Citations: " + "; ".join(SOURCES[k]["citation"] for k in info["sources"] if SOURCES[k]["citation"] != "-"), ""]
     lines += ["## Classes (`ml/labels_map.json`)", ""]
@@ -493,6 +550,7 @@ def write_model_card(out_dir: Path, info: dict) -> Path:
         raws = sorted({f"{s}/{r}" for (s, r, lab) in info["raw_to_class"] if lab == c})
         lines.append(f"- `{c}` <- {', '.join(raws) if raws else '(no images)'}")
     lines += ["", "## Split (per class and source, seed %d)" % info["seed"], "",
+              info.get("dedupe_note", ""), "",
               "| Class | Train | Val | Test |", "|---|---|---|---|"]
     for c in classes:
         lines.append(f"| {c} | {info['split'][c]['train']} | {info['split'][c]['val']} | {info['split'][c]['test']} |")
@@ -570,6 +628,15 @@ def run(args) -> dict:
     if not records:
         raise SystemExit("no training images")
 
+    before = Counter(r.source for r in records)
+    records, n_dup, n_conflict = dedupe(records)
+    after = Counter(r.source for r in records)
+    for key in sources:
+        if key in before:
+            sources[key]["counts_after_dedupe"] = after.get(key, 0)
+    dedupe_note = (f"{n_dup} repeated photos removed and {n_conflict} photos dropped whose copies carried "
+                   f"two different classes (256-bit difference hash, copies = at most {DUP_MAX_BITS} bits apart).")
+    print(f"[data] dedupe: {dedupe_note} Per source after: {dict(after)}")
     train_r, val_r, test_r = stratified_split(records, args.val_frac, args.test_frac, args.seed)
     split = {c: {"train": 0, "val": 0, "test": 0} for c in classes}
     for name, rs in (("train", train_r), ("val", val_r), ("test", test_r)):
@@ -621,6 +688,7 @@ def run(args) -> dict:
         "raw_to_class": sorted({(r.source, r.raw_label, r.label) for r in records}),
         "seed": args.seed,
         "split": split,
+        "dedupe_note": dedupe_note,
         "confusion": cm,
         "keras_test_acc": keras_acc,
         "per_source": {k: tuple(v) for k, v in per_source.items()},

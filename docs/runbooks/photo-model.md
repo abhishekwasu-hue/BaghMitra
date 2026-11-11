@@ -39,6 +39,13 @@ evaluates the **exported `.tflite`** on the held-out test set. Results:
 | Rauf et al. 2019, TFDS `citrus_leaves` (Mendeley 3f83gxmv57) | CC BY 4.0 | 594 leaves, field, Pakistan: black spot, canker, greening, healthy (TFDS drops the 13 melanose leaves) |
 | Mexico HLB, Mendeley `jgkh2jxbwt` | CC BY 4.0 | HLB and control leaves on a white sheet. Used only if the runner reads the licence from the Mendeley API as CC BY 4.0 and the download works; otherwise skipped and the model card says why |
 
+Mexico archive labels come from folder names (`ml/labels_map.json`): an image takes the class of
+its nearest folder that matches a key; a folder whose name matches two classes (e.g. "HLB and
+Healthy") labels nothing, and skipped folders are listed in the log and the model card. The log
+prints the archive's whole folder tree (`[mendeley] tree:`) so the map can be extended. Repeated
+photos (the same photo in two zips, resaved or rescaled) are removed before the split, so no copy
+of a test photo is trained on; copies carrying two classes are dropped.
+
 Sets whose licence is not confirmed (Bangladesh sweet orange, MNIT, lemon sets, Hugging Face
 mirrors, Kaggle copies) are **not** used. Attribution (CC BY): the model card lists the citations;
 the app's about / credits screen must show them when the model ships.
