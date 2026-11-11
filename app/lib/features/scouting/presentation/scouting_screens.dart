@@ -196,9 +196,15 @@ class ScoutingScreen extends ConsumerWidget {
             ),
       bottomNavigationBar: BottomActions(
         children: [
+          // Photo analysis (Q135): the grower who cannot name what he sees sends a photo.
+          OutlinedButton(
+            key: const Key('photo-check-open'),
+            onPressed: () => context.push(Routes.photoCheck(plotId)),
+            child: Text(t.photoCheckOpen, textAlign: TextAlign.center),
+          ),
           FilledButton(
             onPressed: () => context.push(Routes.addScouting(plotId)),
-            child: Text(t.scoutingAdd),
+            child: Text(t.scoutingAdd, textAlign: TextAlign.center),
           ),
         ],
       ),
@@ -405,10 +411,28 @@ class _AddScoutingScreenState extends ConsumerState<AddScoutingScreen> {
               children: [
                 _Thumb(_picked!, size: 96),
                 const SizedBox(width: BmSpace.sm),
-                TextButton.icon(
-                  onPressed: () => setState(() => _picked = null),
-                  icon: const Icon(Icons.close_rounded),
-                  label: Text(t.scoutingRemovePhoto),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // The same photo goes to the photo analysis (Q135); the form keeps
+                      // it to save with the record.
+                      OutlinedButton.icon(
+                        key: const Key('scouting-photo-check'),
+                        onPressed: () => context.push(
+                          Routes.photoCheck(widget.plotId, item: _item),
+                          extra: _picked,
+                        ),
+                        icon: const Icon(Icons.image_search_rounded),
+                        label: Text(t.photoCheckOpen),
+                      ),
+                      TextButton.icon(
+                        onPressed: () => setState(() => _picked = null),
+                        icon: const Icon(Icons.close_rounded),
+                        label: Text(t.scoutingRemovePhoto),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             )

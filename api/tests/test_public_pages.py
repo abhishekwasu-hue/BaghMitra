@@ -121,8 +121,8 @@ async def test_privacy_page_covers_crop_photo_analysis() -> None:
     assert "AI सेवा (Anthropic) तो फोटो तपासते" in body
     assert "kept for 400 days from the analysis" in body
     assert "तपासणीपासून ४०० दिवस ठेवले" in body
-    assert "deleting the scouting entry" in body
-    assert "पाहणी नोंद काढून फोटो पुसता" in body
+    assert "Delete this photo" in body
+    assert "हा फोटो हटवा' बटणाने फोटो पुसता" in body
     assert "not asked again for each photo" in body
     assert "प्रत्येक फोटोसाठी" in body
     assert "(EXIF) are removed first" in body

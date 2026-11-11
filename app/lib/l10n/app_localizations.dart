@@ -8516,6 +8516,210 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Orchard records, today\'s market prices and buyers, in one app.'**
   String get mlWelcomeLine;
+
+  /// No description provided for @photoCheckOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Identify from photo'**
+  String get photoCheckOpen;
+
+  /// No description provided for @photoCheckHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Take a close photo of the leaf, fruit or trunk in good light.'**
+  String get photoCheckHint;
+
+  /// No description provided for @photoCheckPart.
+  ///
+  /// In en, this message translates to:
+  /// **'Which part? (optional)'**
+  String get photoCheckPart;
+
+  /// No description provided for @photoCheckPartLeaf.
+  ///
+  /// In en, this message translates to:
+  /// **'Leaf'**
+  String get photoCheckPartLeaf;
+
+  /// No description provided for @photoCheckPartFruit.
+  ///
+  /// In en, this message translates to:
+  /// **'Fruit'**
+  String get photoCheckPartFruit;
+
+  /// No description provided for @photoCheckPartTrunk.
+  ///
+  /// In en, this message translates to:
+  /// **'Trunk'**
+  String get photoCheckPartTrunk;
+
+  /// No description provided for @photoCheckPartWholeTree.
+  ///
+  /// In en, this message translates to:
+  /// **'Whole tree'**
+  String get photoCheckPartWholeTree;
+
+  /// No description provided for @photoCheckRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Check again'**
+  String get photoCheckRetry;
+
+  /// No description provided for @photoCheckBusy.
+  ///
+  /// In en, this message translates to:
+  /// **'Checking the photo… this can take up to a minute.'**
+  String get photoCheckBusy;
+
+  /// No description provided for @photoCheckChange.
+  ///
+  /// In en, this message translates to:
+  /// **'Another photo'**
+  String get photoCheckChange;
+
+  /// No description provided for @photoCheckBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to the record'**
+  String get photoCheckBack;
+
+  /// No description provided for @photoCheckLikelyHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'Quite likely'**
+  String get photoCheckLikelyHigh;
+
+  /// No description provided for @photoCheckLikelyMedium.
+  ///
+  /// In en, this message translates to:
+  /// **'Possible'**
+  String get photoCheckLikelyMedium;
+
+  /// No description provided for @photoCheckLikelyLow.
+  ///
+  /// In en, this message translates to:
+  /// **'Less likely'**
+  String get photoCheckLikelyLow;
+
+  /// No description provided for @photoCheckSigns.
+  ///
+  /// In en, this message translates to:
+  /// **'Seen in the photo'**
+  String get photoCheckSigns;
+
+  /// No description provided for @photoCheckSignsEnglish.
+  ///
+  /// In en, this message translates to:
+  /// **'Seen in the photo (in English)'**
+  String get photoCheckSignsEnglish;
+
+  /// No description provided for @photoCheckOpenCard.
+  ///
+  /// In en, this message translates to:
+  /// **'Open card'**
+  String get photoCheckOpenCard;
+
+  /// No description provided for @photoCheckUnsure.
+  ///
+  /// In en, this message translates to:
+  /// **'A clearer photo will help. Take one closer, in good light, or compare the signs on the cards.'**
+  String get photoCheckUnsure;
+
+  /// No description provided for @photoCheckHealthy.
+  ///
+  /// In en, this message translates to:
+  /// **'Good news: the photo looks like a healthy tree.'**
+  String get photoCheckHealthy;
+
+  /// No description provided for @photoCheckNote.
+  ///
+  /// In en, this message translates to:
+  /// **'A suggestion from the photo; the card has the details.'**
+  String get photoCheckNote;
+
+  /// No description provided for @photoCheckSeeCards.
+  ///
+  /// In en, this message translates to:
+  /// **'See the cards'**
+  String get photoCheckSeeCards;
+
+  /// No description provided for @photoCheckOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo check needs the internet. Your photo is kept here; tap Check again once you are online.'**
+  String get photoCheckOffline;
+
+  /// No description provided for @photoCheckFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Please check again in a little while. Your photo is kept here.'**
+  String get photoCheckFailed;
+
+  /// No description provided for @photoCheckUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo check is paused for now. Meanwhile you can compare the signs on the cards.'**
+  String get photoCheckUnavailable;
+
+  /// No description provided for @photoCheckRefused.
+  ///
+  /// In en, this message translates to:
+  /// **'Please take another photo.'**
+  String get photoCheckRefused;
+
+  /// No description provided for @photoCheckSignedOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Please sign in again to check photos.'**
+  String get photoCheckSignedOut;
+
+  /// No description provided for @photoCheckDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this photo'**
+  String get photoCheckDelete;
+
+  /// No description provided for @photoCheckDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'The photo was deleted from the server.'**
+  String get photoCheckDeleted;
+
+  /// No description provided for @photoCheckDeleteFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap Delete this photo again once you are online.'**
+  String get photoCheckDeleteFailed;
+
+  /// No description provided for @photoCheckLimitDaily.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s {count} photos are used; you can check again tomorrow.'**
+  String photoCheckLimitDaily(String count);
+
+  /// No description provided for @photoCheckLimitDailyAt.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s {count} photos are used; you can check again after {when}.'**
+  String photoCheckLimitDailyAt(String count, String when);
+
+  /// No description provided for @photoCheckLimitMonthly.
+  ///
+  /// In en, this message translates to:
+  /// **'This month\'s {count} photos are used; you can check again from {when}.'**
+  String photoCheckLimitMonthly(String count, String when);
+
+  /// No description provided for @photoCheckLimitTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s photo checks are full; you can check again tomorrow.'**
+  String get photoCheckLimitTotal;
+
+  /// No description provided for @photoCheckLimitTotalAt.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s photo checks are full; you can check again after {when}.'**
+  String photoCheckLimitTotalAt(String when);
 }
 
 class _AppLocalizationsDelegate

@@ -4863,4 +4863,124 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get mlWelcomeLine =>
       'Orchard records, today\'s market prices and buyers, in one app.';
+
+  @override
+  String get photoCheckOpen => 'Identify from photo';
+
+  @override
+  String get photoCheckHint =>
+      'Take a close photo of the leaf, fruit or trunk in good light.';
+
+  @override
+  String get photoCheckPart => 'Which part? (optional)';
+
+  @override
+  String get photoCheckPartLeaf => 'Leaf';
+
+  @override
+  String get photoCheckPartFruit => 'Fruit';
+
+  @override
+  String get photoCheckPartTrunk => 'Trunk';
+
+  @override
+  String get photoCheckPartWholeTree => 'Whole tree';
+
+  @override
+  String get photoCheckRetry => 'Check again';
+
+  @override
+  String get photoCheckBusy =>
+      'Checking the photo… this can take up to a minute.';
+
+  @override
+  String get photoCheckChange => 'Another photo';
+
+  @override
+  String get photoCheckBack => 'Back to the record';
+
+  @override
+  String get photoCheckLikelyHigh => 'Quite likely';
+
+  @override
+  String get photoCheckLikelyMedium => 'Possible';
+
+  @override
+  String get photoCheckLikelyLow => 'Less likely';
+
+  @override
+  String get photoCheckSigns => 'Seen in the photo';
+
+  @override
+  String get photoCheckSignsEnglish => 'Seen in the photo (in English)';
+
+  @override
+  String get photoCheckOpenCard => 'Open card';
+
+  @override
+  String get photoCheckUnsure =>
+      'A clearer photo will help. Take one closer, in good light, or compare the signs on the cards.';
+
+  @override
+  String get photoCheckHealthy =>
+      'Good news: the photo looks like a healthy tree.';
+
+  @override
+  String get photoCheckNote =>
+      'A suggestion from the photo; the card has the details.';
+
+  @override
+  String get photoCheckSeeCards => 'See the cards';
+
+  @override
+  String get photoCheckOffline =>
+      'Photo check needs the internet. Your photo is kept here; tap Check again once you are online.';
+
+  @override
+  String get photoCheckFailed =>
+      'Please check again in a little while. Your photo is kept here.';
+
+  @override
+  String get photoCheckUnavailable =>
+      'Photo check is paused for now. Meanwhile you can compare the signs on the cards.';
+
+  @override
+  String get photoCheckRefused => 'Please take another photo.';
+
+  @override
+  String get photoCheckSignedOut => 'Please sign in again to check photos.';
+
+  @override
+  String get photoCheckDelete => 'Delete this photo';
+
+  @override
+  String get photoCheckDeleted => 'The photo was deleted from the server.';
+
+  @override
+  String get photoCheckDeleteFailed =>
+      'Tap Delete this photo again once you are online.';
+
+  @override
+  String photoCheckLimitDaily(String count) {
+    return 'Today\'s $count photos are used; you can check again tomorrow.';
+  }
+
+  @override
+  String photoCheckLimitDailyAt(String count, String when) {
+    return 'Today\'s $count photos are used; you can check again after $when.';
+  }
+
+  @override
+  String photoCheckLimitMonthly(String count, String when) {
+    return 'This month\'s $count photos are used; you can check again from $when.';
+  }
+
+  @override
+  String get photoCheckLimitTotal =>
+      'Today\'s photo checks are full; you can check again tomorrow.';
+
+  @override
+  String photoCheckLimitTotalAt(String when) {
+    return 'Today\'s photo checks are full; you can check again after $when.';
+  }
 }
