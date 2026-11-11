@@ -304,6 +304,14 @@ def check_photo_key(user: AuthenticatedUser, entity_id: str, payload: BaseModel)
         raise RejectedError("invalid_photo_key")
 
 
+def check_bill_photo_key(user: AuthenticatedUser, entity_id: str, payload: BaseModel) -> None:
+    """A backed-up bill photo lives at `<owner_id>/bill-<record_id>.jpg` (OPEN_QUESTIONS
+    Q136); anything else is refused, as for scouting photos."""
+    key = getattr(payload, "bill_photo_key", None)
+    if key is not None and key != f"{user.id}/bill-{entity_id.lower()}.jpg":
+        raise RejectedError("invalid_photo_key")
+
+
 # Columns the server sets on a lot; pulled with the lot, never taken from a phone write.
 LOT_SERVER_FIELDS = ("crop", "variety", "status", "published_at", "orchard_check")
 
@@ -446,6 +454,7 @@ HANDLERS: dict[str, EntityHandler] = {
             model=Expense,
             payload_model=ExpensePayload,
             parents=(("plot_id", Plot), ("bahar_cycle_id", BaharCycle)),
+            payload_check=check_bill_photo_key,
         ),
         OwnedEntityHandler(
             name="income",
@@ -488,6 +497,7 @@ HANDLERS: dict[str, EntityHandler] = {
             model=SprayRecord,
             payload_model=SprayRecordPayload,
             parents=(("plot_id", Plot), ("bahar_cycle_id", BaharCycle)),
+            payload_check=check_bill_photo_key,
         ),
         OwnedEntityHandler(
             name="scouting_record",

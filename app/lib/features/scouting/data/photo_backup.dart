@@ -12,6 +12,7 @@ import '../../../core/clock.dart';
 import '../../../data/local/database.dart';
 import '../../../sync/backoff.dart';
 import '../../../sync/outbox.dart';
+import '../../bills/data/bill_photos.dart';
 import '../domain/scouting_record.dart';
 import 'scouting_photos.dart';
 import 'scouting_repository.dart';
@@ -29,6 +30,9 @@ import 'scouting_repository.dart';
 // Viewing a backed-up photo on another phone downloads it on any connection, because the
 // grower asked to see it. If the server answers 503 (backup not configured) nothing more
 // is tried until the next app start.
+//
+// Bill photos of spray records and expenses (OPEN_QUESTIONS Q136) ride the same run, with the
+// same rules, after the scouting photos ([BillBackupTarget]).
 
 /// The server has no photo storage configured (503).
 class PhotoBackupOffException implements Exception {
@@ -64,7 +68,18 @@ abstract interface class PhotoBackupApi {
   Future<List<int>> get(Uri url);
 }
 
-class HttpPhotoBackupApi implements PhotoBackupApi {
+/// Signed URLs for a bill photo (`/v1/bill-photos/{kind}/{record_id}/...`); the bytes go
+/// through [PhotoBackupApi.put] / [PhotoBackupApi.get].
+abstract interface class BillPhotoBackupApi {
+  Future<PhotoUploadTicket> billUploadUrl(
+    BillKind kind,
+    String recordId,
+    int sizeBytes,
+  );
+  Future<Uri> billDownloadUrl(BillKind kind, String recordId);
+}
+
+class HttpPhotoBackupApi implements PhotoBackupApi, BillPhotoBackupApi {
   HttpPhotoBackupApi(
     this._api, {
     http.Client? client,
@@ -95,6 +110,45 @@ class HttpPhotoBackupApi implements PhotoBackupApi {
     final body = _check(
       await _guard(
         () => _api.v1ScoutingRecordIdPhotoUrlGet(recordId: recordId),
+      ),
+    );
+    return Uri.parse(body.url);
+  }
+
+  @override
+  Future<PhotoUploadTicket> billUploadUrl(
+    BillKind kind,
+    String recordId,
+    int sizeBytes,
+  ) async {
+    final body = _check(
+      await _guard(
+        () => _api.v1BillPhotosKindRecordIdUploadUrlPost(
+          kind: switch (kind) {
+            BillKind.spray =>
+              V1BillPhotosKindRecordIdUploadUrlPostKind.sprayRecord,
+            BillKind.expense =>
+              V1BillPhotosKindRecordIdUploadUrlPostKind.expense,
+          },
+          recordId: recordId,
+          body: PhotoUploadIn(contentType: contentType, sizeBytes: sizeBytes),
+        ),
+      ),
+    );
+    return PhotoUploadTicket(Uri.parse(body.uploadUrl), body.photoKey);
+  }
+
+  @override
+  Future<Uri> billDownloadUrl(BillKind kind, String recordId) async {
+    final body = _check(
+      await _guard(
+        () => _api.v1BillPhotosKindRecordIdUrlGet(
+          kind: switch (kind) {
+            BillKind.spray => V1BillPhotosKindRecordIdUrlGetKind.sprayRecord,
+            BillKind.expense => V1BillPhotosKindRecordIdUrlGetKind.expense,
+          },
+          recordId: recordId,
+        ),
       ),
     );
     return Uri.parse(body.url);
@@ -205,10 +259,14 @@ abstract interface class PhotoFiles {
 }
 
 class DevicePhotoFiles implements PhotoFiles {
-  DevicePhotoFiles({Future<Directory> Function()? documents})
-    : _documents = documents ?? getApplicationDocumentsDirectory;
+  /// [folderName] is the kept photos' folder (bill photos use [billPhotoFolder]).
+  DevicePhotoFiles({
+    Future<Directory> Function()? documents,
+    this.folderName = DeviceScoutingPhotos.folder,
+  }) : _documents = documents ?? getApplicationDocumentsDirectory;
 
   final Future<Directory> Function() _documents;
+  final String folderName;
 
   @override
   Future<List<int>?> read(String path) async {
@@ -218,14 +276,29 @@ class DevicePhotoFiles implements PhotoFiles {
 
   @override
   Future<String> store(String recordId, List<int> bytes) async {
-    final dir = Directory(
-      p.join((await _documents()).path, DeviceScoutingPhotos.folder),
-    );
+    final dir = Directory(p.join((await _documents()).path, folderName));
     await dir.create(recursive: true);
     final dest = p.join(dir.path, '$recordId.jpg');
     await File(dest).writeAsBytes(bytes, flush: true);
     return dest;
   }
+}
+
+/// One kind of record whose bill photo rides the scouting photo backup (Q136).
+class BillBackupTarget {
+  const BillBackupTarget({
+    required this.kind,
+    required this.records,
+    required this.api,
+    required this.files,
+  });
+
+  final BillKind kind;
+  final BillPhotoRecords records;
+  final BillPhotoBackupApi api;
+
+  /// The folder downloaded bill photos are kept in.
+  final PhotoFiles files;
 }
 
 class ScoutingPhotoBackup {
@@ -237,6 +310,7 @@ class ScoutingPhotoBackup {
     required this._prefs,
     this._network = const InterfaceNetworkCheck(),
     this._clock = systemClock,
+    this._bills = const [],
     this._backoff = const Backoff(
       base: Duration(minutes: 1),
       cap: Duration(hours: 6),
@@ -253,6 +327,7 @@ class ScoutingPhotoBackup {
   final PhotoBackupPrefs _prefs;
   final NetworkCheck _network;
   final Clock _clock;
+  final List<BillBackupTarget> _bills;
   final Backoff _backoff;
   final Random _random;
   final void Function(String) _log;
@@ -280,7 +355,30 @@ class ScoutingPhotoBackup {
       if (!_due(r.id)) continue;
       // The server must have the record first: its own write is pushed before the photo.
       if (await _outbox.hasPending(ScoutingRepository.entity, r.id)) continue;
-      if (await _backUp(r)) done++;
+      if (await _backUp(
+        r.id,
+        r.photoPath!,
+        (size) => _api.uploadUrl(r.id, size),
+        (key) => _repo.markBackedUp(r.id, key),
+      )) {
+        done++;
+      }
+    }
+    for (final b in _bills) {
+      for (final r in await b.records.billPhotosToBackUp()) {
+        if (_off) break;
+        final tag = '${b.kind.wire}:${r.id}';
+        if (!_due(tag)) continue;
+        if (await _outbox.hasPending(b.kind.wire, r.id)) continue;
+        if (await _backUp(
+          tag,
+          r.path,
+          (size) => b.api.billUploadUrl(b.kind, r.id, size),
+          (key) => b.records.markBillBackedUp(r.id, key),
+        )) {
+          done++;
+        }
+      }
     }
     return done;
   }
@@ -291,26 +389,32 @@ class ScoutingPhotoBackup {
     return next == null || !next.isAfter(_clock());
   }
 
-  Future<bool> _backUp(ScoutingRecord r) async {
+  /// Uploads one photo; [tag] keys its retry state.
+  Future<bool> _backUp(
+    String tag,
+    String path,
+    Future<PhotoUploadTicket> Function(int size) ticketFor,
+    Future<void> Function(String key) markBackedUp,
+  ) async {
     try {
-      final bytes = await _files.read(r.photoPath!);
+      final bytes = await _files.read(path);
       if (bytes == null) throw const PhotoBackupRefusedException('file gone');
-      final ticket = await _api.uploadUrl(r.id, bytes.length);
+      final ticket = await ticketFor(bytes.length);
       await _api.put(ticket.uploadUrl, bytes);
-      await _repo.markBackedUp(r.id, ticket.photoKey);
-      _attempts.remove(r.id);
-      _nextAttempt.remove(r.id);
+      await markBackedUp(ticket.photoKey);
+      _attempts.remove(tag);
+      _nextAttempt.remove(tag);
       return true;
     } on PhotoBackupOffException {
       _off = true;
     } on PhotoBackupRefusedException catch (e) {
-      _refused.add(r.id);
-      _log('scouting photo backup: $e');
+      _refused.add(tag);
+      _log('photo backup $tag: $e');
     } on PhotoBackupFailedException catch (e) {
-      final attempt = _attempts[r.id] ?? 0;
-      _attempts[r.id] = attempt + 1;
-      _nextAttempt[r.id] = _clock().add(_backoff.delayFor(attempt, _random));
-      _log('scouting photo backup: $e');
+      final attempt = _attempts[tag] ?? 0;
+      _attempts[tag] = attempt + 1;
+      _nextAttempt[tag] = _clock().add(_backoff.delayFor(attempt, _random));
+      _log('photo backup $tag: $e');
     }
     return false;
   }
@@ -319,19 +423,46 @@ class ScoutingPhotoBackup {
   /// downloaded once and kept; null when there is none or it cannot be fetched now.
   Future<String?> localPhoto(ScoutingRecord r) async {
     if (r.photoPath != null) return r.photoPath;
-    if (r.photoKey == null || _off) return null;
+    if (r.photoKey == null) return null;
+    return _download(
+      () => _api.downloadUrl(r.id),
+      (bytes) => _files.store(r.id, bytes),
+      (path) => _repo.keepDownloaded(r.id, path),
+    );
+  }
+
+  /// The bill photo of record [id] of [kind] on this phone, downloaded once when it was
+  /// backed up from another phone; null when there is none or it cannot be fetched now.
+  Future<String?> localBillPhoto(BillKind kind, String id) async {
+    final b = _bills.where((x) => x.kind == kind).firstOrNull;
+    final ref = await b?.records.billPhotoOf(id);
+    if (b == null || ref == null) return null;
+    if (ref.path != null) return ref.path;
+    if (ref.key == null) return null;
+    return _download(
+      () => b.api.billDownloadUrl(kind, id),
+      (bytes) => b.files.store(id, bytes),
+      (path) => b.records.keepDownloadedBill(id, path),
+    );
+  }
+
+  Future<String?> _download(
+    Future<Uri> Function() url,
+    Future<String> Function(List<int> bytes) store,
+    Future<void> Function(String path) keep,
+  ) async {
+    if (_off) return null;
     try {
-      final url = await _api.downloadUrl(r.id);
-      final bytes = await _api.get(url);
-      final path = await _files.store(r.id, bytes);
-      await _repo.keepDownloaded(r.id, path);
+      final bytes = await _api.get(await url());
+      final path = await store(bytes);
+      await keep(path);
       return path;
     } on PhotoBackupOffException {
       _off = true;
     } on PhotoBackupRefusedException catch (e) {
-      _log('scouting photo download: $e');
+      _log('photo download: $e');
     } on PhotoBackupFailedException catch (e) {
-      _log('scouting photo download: $e');
+      _log('photo download: $e');
     }
     return null;
   }

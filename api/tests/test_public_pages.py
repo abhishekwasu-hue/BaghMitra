@@ -128,6 +128,27 @@ async def test_privacy_page_covers_crop_photo_analysis() -> None:
     assert "(EXIF) are removed first" in body
 
 
+async def test_privacy_page_covers_bill_reading() -> None:
+    """Q136: a bill photo is sent to Anthropic only to read it and is not kept on the server."""
+    cfg = Settings(
+        environment="test", database_url="sqlite+aiosqlite://", supabase_jwt_secret=JWT_SECRET
+    )
+    async for client in _client(cfg):
+        body = (await client.get("/privacy")).text
+    assert "sent to an AI service (Anthropic) only to read the bill" in body
+    assert "sent for reading and what is read from it are not kept on the server" in body
+    assert "बिल वाचण्यासाठी तो AI सेवेकडे (Anthropic) जातो" in body
+    assert "सर्व्हरवर ठेवली जात नाही" in body
+    # The bill photo kept with a record follows the scouting photo backup (Q136, app PR).
+    assert "bill photos kept with a spray record or an expense" in body
+    assert "is backed up only when photo\nbackup is on" in body
+    assert "a\nbacked-up copy is erased with the account" in body
+    assert "बिलांचे फोटो" in body
+    assert "फक्त फोटो बॅकअप चालू असल्यास" in body
+    assert "bill photos sent to be read (without EXIF)" in body
+    assert "Your signup consent covers this.</li>" in body
+
+
 @pytest.mark.parametrize(("lang", "present", "absent"), [("en", "en", "mr"), ("mr", "mr", "en")])
 async def test_privacy_page_one_language(
     pages: httpx.AsyncClient, lang: str, present: str, absent: str

@@ -16,6 +16,10 @@ const v13Tables = "('lab_tests', 'market_lots', 'market_lot_photos')";
 /// Tables added in v14 (market linkage lots and their photos).
 const v14Tables = "('market_lots', 'market_lot_photos')";
 
+/// The bill photo columns on expenses and spray records came in v15 (Q136).
+String beforeV15(String sql) =>
+    sql.replaceAll(RegExp(r',\s*"bill_photo_(path|key)" TEXT NULL'), '');
+
 /// Upgrading from schema v1 (M0) must keep existing data and add later tables.
 void main() {
   test(
@@ -29,6 +33,7 @@ void main() {
             "AND name IN ('outbox_entries', 'farmer_profiles', 'sync_meta')",
           )
           .map((r) => r.read<String>('sql'))
+          .map(beforeV15)
           // The profile's phone column came later (v10); v1 did not have it.
           .map((sql) => sql.replaceFirst(RegExp(r',\s*"phone" TEXT NULL'), ''))
           .get();
@@ -106,6 +111,7 @@ void main() {
           "AND name NOT LIKE 'sqlite_%' AND name NOT IN $v12Tables",
         )
         .map((r) => r.read<String>('sql'))
+        .map(beforeV15)
         .map(
           (sql) => sql.replaceFirst(RegExp(r',\s*"photo_key" TEXT NULL'), ''),
         )
@@ -140,6 +146,7 @@ void main() {
           "AND name NOT LIKE 'sqlite_%' AND name NOT IN $v12Tables",
         )
         .map((r) => r.read<String>('sql'))
+        .map(beforeV15)
         .get();
     await fresh.close();
     expect(ddl.join(), isNot(contains('insurance_policies')));
@@ -197,6 +204,7 @@ void main() {
           "AND name NOT LIKE 'sqlite_%' AND name NOT IN $v13Tables",
         )
         .map((r) => r.read<String>('sql'))
+        .map(beforeV15)
         .get();
     await fresh.close();
     expect(ddl.join(), isNot(contains('lab_tests')));
@@ -249,6 +257,7 @@ void main() {
           "AND name NOT LIKE 'sqlite_%' AND name NOT IN $v14Tables",
         )
         .map((r) => r.read<String>('sql'))
+        .map(beforeV15)
         .get();
     await fresh.close();
     expect(ddl.join(), isNot(contains('market_lots')));
@@ -268,7 +277,7 @@ void main() {
         },
       ),
     );
-    expect(db.schemaVersion, 14);
+    expect(db.schemaVersion, greaterThanOrEqualTo(14));
     expect(await db.select(db.plots).get(), hasLength(1));
     await db
         .into(db.marketLots)
@@ -286,6 +295,60 @@ void main() {
         );
     expect((await db.select(db.marketLots).getSingle()).status, 'draft');
     expect(await db.select(db.marketLotPhotos).get(), isEmpty);
+    await db.close();
+  });
+
+  test('v14 -> v15 adds the bill photo columns, keeps data', () async {
+    final fresh = memoryDb();
+    final ddl = await fresh
+        .customSelect(
+          "SELECT sql FROM sqlite_master WHERE type = 'table' "
+          "AND name NOT LIKE 'sqlite_%'",
+        )
+        .map((r) => r.read<String>('sql'))
+        .map(beforeV15)
+        .get();
+    await fresh.close();
+    expect(ddl.join(), isNot(contains('bill_photo')));
+
+    driftRuntimeOptions.dontWarnAboutMultipleDatabases = true;
+    final db = AppDatabase(
+      NativeDatabase.memory(
+        setup: (raw) {
+          for (final stmt in ddl) {
+            raw.execute(stmt);
+          }
+          raw.execute(
+            'INSERT INTO expenses (id, plot_id, spent_on, category, '
+            'amount_paise, client_updated_at) VALUES '
+            "('e1', 'p1', '2026-01-01T00:00:00.000', 'other', 5000, "
+            "'2026-01-01T00:00:00.000Z')",
+          );
+          raw.execute(
+            'INSERT INTO spray_records (id, plot_id, sprayed_on, product_name, '
+            'cost_paise, client_updated_at) VALUES '
+            "('s1', 'p1', '2026-01-01T00:00:00.000', 'Imida', 0, "
+            "'2026-01-01T00:00:00.000Z')",
+          );
+          raw.execute('PRAGMA user_version = 14');
+        },
+      ),
+    );
+    expect(db.schemaVersion, 15);
+    for (final table in ['expenses', 'spray_records']) {
+      final cols = await db
+          .customSelect("PRAGMA table_info('$table')")
+          .map((r) => r.read<String>('name'))
+          .get();
+      expect(cols, containsAll(['bill_photo_path', 'bill_photo_key']));
+    }
+    final expense = await db.select(db.expenses).getSingle();
+    expect(expense.amountPaise, 5000);
+    expect(expense.billPhotoPath, isNull);
+    expect(expense.billPhotoKey, isNull);
+    final spray = await db.select(db.sprayRecords).getSingle();
+    expect(spray.productName, 'Imida');
+    expect(spray.billPhotoKey, isNull);
     await db.close();
   });
 }

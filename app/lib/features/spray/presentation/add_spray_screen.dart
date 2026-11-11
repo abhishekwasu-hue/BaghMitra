@@ -11,6 +11,8 @@ import '../../../design_system/bottom_actions.dart';
 import '../../../design_system/info_note.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
+import '../../bills/domain/bill_reading.dart';
+import '../../bills/presentation/bill_photo_field.dart';
 import '../../voice/presentation/voice_mic_button.dart';
 import '../domain/spray_check.dart';
 import '../domain/spray_record.dart';
@@ -18,7 +20,8 @@ import 'spray_ingredient_picker.dart';
 import 'spray_warnings.dart';
 
 /// Records one spray. Warnings appear while typing (offline, from the cached ban list) and
-/// never block saving: the record is a fact about what the grower did.
+/// never block saving: the record is a fact about what the grower did. An optional bill
+/// photo is kept with the record and can fill the empty fields (OPEN_QUESTIONS Q136).
 class AddSprayScreen extends ConsumerStatefulWidget {
   const AddSprayScreen({required this.plotId, super.key});
   final String plotId;
@@ -27,7 +30,8 @@ class AddSprayScreen extends ConsumerStatefulWidget {
   ConsumerState<AddSprayScreen> createState() => _AddSprayScreenState();
 }
 
-class _AddSprayScreenState extends ConsumerState<AddSprayScreen> {
+class _AddSprayScreenState extends ConsumerState<AddSprayScreen>
+    with BillPhotoForm<AddSprayScreen> {
   final _form = GlobalKey<FormState>();
   final _product = TextEditingController();
   final _active = TextEditingController();
@@ -74,12 +78,56 @@ class _AddSprayScreenState extends ConsumerState<AddSprayScreen> {
   String? _opt(TextEditingController c) =>
       c.text.trim().isEmpty ? null : c.text.trim();
 
+  DateTime get _today {
+    final now = ref.read(clockProvider)();
+    return DateTime(now.year, now.month, now.day);
+  }
+
+  /// "बिलावरून भरा": the picked bill line fills only what is still empty.
+  Future<void> _fillFromBill() async {
+    final bill = await readBill();
+    if (bill == null || !mounted) return;
+    if (bill.items.isEmpty) return showBillUnsure();
+    final item = (await showBillPickSheet(context, bill))?.item;
+    if (item == null || !mounted) return;
+    final today = _today;
+    final controllers = {
+      BillField.product: _product,
+      BillField.active: _active,
+      BillField.dose: _dose,
+      BillField.cost: _cost,
+    };
+    final r = sprayFill(
+      item: item,
+      bill: bill,
+      current: {
+        for (final MapEntry(:key, :value) in controllers.entries)
+          key: value.text.trim(),
+      },
+      dateIsDefault: _date == null,
+      firstDate: DateTime(today.year - 2),
+      lastDate: DateTime(today.year + 1),
+    );
+    for (final MapEntry(:key, :value) in r.fill.entries) {
+      controllers[key]!.text = value;
+    }
+    if (r.date != null) _date = r.date;
+    showBillFilled(bill, [...r.fill.keys, if (r.date != null) BillField.date]);
+  }
+
   Future<void> _save(DateTime date) async {
     if (!_form.currentState!.validate()) return;
     final repo = ref.read(sprayRepositoryProvider);
+    final id = repo.newId();
+    final String? bill;
+    try {
+      bill = await keepBill(id);
+    } on Object {
+      return; // told in keepBill; nothing is saved
+    }
     await repo.save(
       SprayRecord(
-        id: repo.newId(),
+        id: id,
         plotId: widget.plotId,
         baharCycleId: _cycle,
         sprayedOn: date,
@@ -92,6 +140,7 @@ class _AddSprayScreenState extends ConsumerState<AddSprayScreen> {
         operator: _opt(_operator),
         phiDays: int.tryParse(_phi.text.trim()),
         target: _opt(_target),
+        billPhotoPath: bill,
       ),
     );
     if (!mounted) return;
@@ -162,6 +211,8 @@ class _AddSprayScreenState extends ConsumerState<AddSprayScreen> {
               ),
               const SizedBox(height: BmSpace.sm),
             ],
+            billField(onFill: _fillFromBill),
+            gap,
             TextFormField(
               key: const Key('spray-product'),
               controller: _product,
@@ -178,6 +229,7 @@ class _AddSprayScreenState extends ConsumerState<AddSprayScreen> {
             SprayIngredientPicker(controller: _active),
             gap,
             ListTile(
+              key: const Key('spray-date'),
               contentPadding: EdgeInsets.zero,
               title: Text(t.sprayDate, style: BmType.body),
               trailing: Text(
@@ -218,6 +270,7 @@ class _AddSprayScreenState extends ConsumerState<AddSprayScreen> {
               gap,
             ],
             TextFormField(
+              key: const Key('spray-dose'),
               controller: _dose,
               decoration: InputDecoration(labelText: t.sprayDose),
             ),
@@ -261,6 +314,7 @@ class _AddSprayScreenState extends ConsumerState<AddSprayScreen> {
             ),
             gap,
             TextFormField(
+              key: const Key('spray-cost'),
               controller: _cost,
               keyboardType: decimal,
               decoration: InputDecoration(labelText: t.sprayCost),

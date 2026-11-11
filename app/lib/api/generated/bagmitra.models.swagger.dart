@@ -2433,8 +2433,403 @@ extension $BadgeOutExtension on BadgeOut {
 }
 
 @JsonSerializable(explicitToJson: true)
+class BillItemOut {
+  const BillItemOut({
+    required this.activeIngredient,
+    required this.amountRs,
+    required this.name,
+    required this.quantity,
+    required this.unit,
+  });
+
+  factory BillItemOut.fromJson(Map<String, dynamic> json) =>
+      _$BillItemOutFromJson(json);
+
+  static const toJsonFactory = _$BillItemOutToJson;
+  Map<String, dynamic> toJson() => _$BillItemOutToJson(this);
+
+  @JsonKey(name: 'active_ingredient', includeIfNull: false)
+  final String? activeIngredient;
+  @JsonKey(name: 'amount_rs', includeIfNull: false)
+  final double? amountRs;
+  @JsonKey(name: 'name', includeIfNull: false)
+  final String name;
+  @JsonKey(name: 'quantity', includeIfNull: false)
+  final double? quantity;
+  @JsonKey(name: 'unit', includeIfNull: false)
+  final String? unit;
+  static const fromJsonFactory = _$BillItemOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is BillItemOut &&
+            (identical(other.activeIngredient, activeIngredient) ||
+                const DeepCollectionEquality().equals(
+                  other.activeIngredient,
+                  activeIngredient,
+                )) &&
+            (identical(other.amountRs, amountRs) ||
+                const DeepCollectionEquality().equals(
+                  other.amountRs,
+                  amountRs,
+                )) &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.quantity, quantity) ||
+                const DeepCollectionEquality().equals(
+                  other.quantity,
+                  quantity,
+                )) &&
+            (identical(other.unit, unit) ||
+                const DeepCollectionEquality().equals(other.unit, unit)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(activeIngredient) ^
+      const DeepCollectionEquality().hash(amountRs) ^
+      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(quantity) ^
+      const DeepCollectionEquality().hash(unit) ^
+      runtimeType.hashCode;
+}
+
+extension $BillItemOutExtension on BillItemOut {
+  BillItemOut copyWith({
+    String? activeIngredient,
+    double? amountRs,
+    String? name,
+    double? quantity,
+    String? unit,
+  }) {
+    return BillItemOut(
+      activeIngredient: activeIngredient ?? this.activeIngredient,
+      amountRs: amountRs ?? this.amountRs,
+      name: name ?? this.name,
+      quantity: quantity ?? this.quantity,
+      unit: unit ?? this.unit,
+    );
+  }
+
+  BillItemOut copyWithWrapped({
+    Wrapped<String?>? activeIngredient,
+    Wrapped<double?>? amountRs,
+    Wrapped<String>? name,
+    Wrapped<double?>? quantity,
+    Wrapped<String?>? unit,
+  }) {
+    return BillItemOut(
+      activeIngredient: (activeIngredient != null
+          ? activeIngredient.value
+          : this.activeIngredient),
+      amountRs: (amountRs != null ? amountRs.value : this.amountRs),
+      name: (name != null ? name.value : this.name),
+      quantity: (quantity != null ? quantity.value : this.quantity),
+      unit: (unit != null ? unit.value : this.unit),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class BillLimitsIn {
+  const BillLimitsIn({this.dailyTotal, this.freeDaily, this.freeMonthly});
+
+  factory BillLimitsIn.fromJson(Map<String, dynamic> json) =>
+      _$BillLimitsInFromJson(json);
+
+  static const toJsonFactory = _$BillLimitsInToJson;
+  Map<String, dynamic> toJson() => _$BillLimitsInToJson(this);
+
+  @JsonKey(name: 'daily_total', includeIfNull: false)
+  final int? dailyTotal;
+  @JsonKey(name: 'free_daily', includeIfNull: false)
+  final int? freeDaily;
+  @JsonKey(name: 'free_monthly', includeIfNull: false)
+  final int? freeMonthly;
+  static const fromJsonFactory = _$BillLimitsInFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is BillLimitsIn &&
+            (identical(other.dailyTotal, dailyTotal) ||
+                const DeepCollectionEquality().equals(
+                  other.dailyTotal,
+                  dailyTotal,
+                )) &&
+            (identical(other.freeDaily, freeDaily) ||
+                const DeepCollectionEquality().equals(
+                  other.freeDaily,
+                  freeDaily,
+                )) &&
+            (identical(other.freeMonthly, freeMonthly) ||
+                const DeepCollectionEquality().equals(
+                  other.freeMonthly,
+                  freeMonthly,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(dailyTotal) ^
+      const DeepCollectionEquality().hash(freeDaily) ^
+      const DeepCollectionEquality().hash(freeMonthly) ^
+      runtimeType.hashCode;
+}
+
+extension $BillLimitsInExtension on BillLimitsIn {
+  BillLimitsIn copyWith({int? dailyTotal, int? freeDaily, int? freeMonthly}) {
+    return BillLimitsIn(
+      dailyTotal: dailyTotal ?? this.dailyTotal,
+      freeDaily: freeDaily ?? this.freeDaily,
+      freeMonthly: freeMonthly ?? this.freeMonthly,
+    );
+  }
+
+  BillLimitsIn copyWithWrapped({
+    Wrapped<int?>? dailyTotal,
+    Wrapped<int?>? freeDaily,
+    Wrapped<int?>? freeMonthly,
+  }) {
+    return BillLimitsIn(
+      dailyTotal: (dailyTotal != null ? dailyTotal.value : this.dailyTotal),
+      freeDaily: (freeDaily != null ? freeDaily.value : this.freeDaily),
+      freeMonthly: (freeMonthly != null ? freeMonthly.value : this.freeMonthly),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class BillLimitsOut {
+  const BillLimitsOut({
+    required this.dailyTotal,
+    this.defaultDaily,
+    this.defaultMonthly,
+    required this.freeDaily,
+    required this.freeMonthly,
+  });
+
+  factory BillLimitsOut.fromJson(Map<String, dynamic> json) =>
+      _$BillLimitsOutFromJson(json);
+
+  static const toJsonFactory = _$BillLimitsOutToJson;
+  Map<String, dynamic> toJson() => _$BillLimitsOutToJson(this);
+
+  @JsonKey(name: 'daily_total', includeIfNull: false)
+  final int? dailyTotal;
+  @JsonKey(name: 'default_daily', includeIfNull: false)
+  final int? defaultDaily;
+  @JsonKey(name: 'default_monthly', includeIfNull: false)
+  final int? defaultMonthly;
+  @JsonKey(name: 'free_daily', includeIfNull: false)
+  final int? freeDaily;
+  @JsonKey(name: 'free_monthly', includeIfNull: false)
+  final int? freeMonthly;
+  static const fromJsonFactory = _$BillLimitsOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is BillLimitsOut &&
+            (identical(other.dailyTotal, dailyTotal) ||
+                const DeepCollectionEquality().equals(
+                  other.dailyTotal,
+                  dailyTotal,
+                )) &&
+            (identical(other.defaultDaily, defaultDaily) ||
+                const DeepCollectionEquality().equals(
+                  other.defaultDaily,
+                  defaultDaily,
+                )) &&
+            (identical(other.defaultMonthly, defaultMonthly) ||
+                const DeepCollectionEquality().equals(
+                  other.defaultMonthly,
+                  defaultMonthly,
+                )) &&
+            (identical(other.freeDaily, freeDaily) ||
+                const DeepCollectionEquality().equals(
+                  other.freeDaily,
+                  freeDaily,
+                )) &&
+            (identical(other.freeMonthly, freeMonthly) ||
+                const DeepCollectionEquality().equals(
+                  other.freeMonthly,
+                  freeMonthly,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(dailyTotal) ^
+      const DeepCollectionEquality().hash(defaultDaily) ^
+      const DeepCollectionEquality().hash(defaultMonthly) ^
+      const DeepCollectionEquality().hash(freeDaily) ^
+      const DeepCollectionEquality().hash(freeMonthly) ^
+      runtimeType.hashCode;
+}
+
+extension $BillLimitsOutExtension on BillLimitsOut {
+  BillLimitsOut copyWith({
+    int? dailyTotal,
+    int? defaultDaily,
+    int? defaultMonthly,
+    int? freeDaily,
+    int? freeMonthly,
+  }) {
+    return BillLimitsOut(
+      dailyTotal: dailyTotal ?? this.dailyTotal,
+      defaultDaily: defaultDaily ?? this.defaultDaily,
+      defaultMonthly: defaultMonthly ?? this.defaultMonthly,
+      freeDaily: freeDaily ?? this.freeDaily,
+      freeMonthly: freeMonthly ?? this.freeMonthly,
+    );
+  }
+
+  BillLimitsOut copyWithWrapped({
+    Wrapped<int?>? dailyTotal,
+    Wrapped<int?>? defaultDaily,
+    Wrapped<int?>? defaultMonthly,
+    Wrapped<int?>? freeDaily,
+    Wrapped<int?>? freeMonthly,
+  }) {
+    return BillLimitsOut(
+      dailyTotal: (dailyTotal != null ? dailyTotal.value : this.dailyTotal),
+      defaultDaily: (defaultDaily != null
+          ? defaultDaily.value
+          : this.defaultDaily),
+      defaultMonthly: (defaultMonthly != null
+          ? defaultMonthly.value
+          : this.defaultMonthly),
+      freeDaily: (freeDaily != null ? freeDaily.value : this.freeDaily),
+      freeMonthly: (freeMonthly != null ? freeMonthly.value : this.freeMonthly),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class BillReadOut {
+  const BillReadOut({
+    required this.billDate,
+    required this.billNo,
+    required this.items,
+    required this.shopName,
+    required this.totalRs,
+    required this.unsure,
+  });
+
+  factory BillReadOut.fromJson(Map<String, dynamic> json) =>
+      _$BillReadOutFromJson(json);
+
+  static const toJsonFactory = _$BillReadOutToJson;
+  Map<String, dynamic> toJson() => _$BillReadOutToJson(this);
+
+  @JsonKey(name: 'bill_date', includeIfNull: false, toJson: _dateToJson)
+  final DateTime? billDate;
+  @JsonKey(name: 'bill_no', includeIfNull: false)
+  final String? billNo;
+  @JsonKey(name: 'items', includeIfNull: false, defaultValue: <BillItemOut>[])
+  final List<BillItemOut> items;
+  @JsonKey(name: 'shop_name', includeIfNull: false)
+  final String? shopName;
+  @JsonKey(name: 'total_rs', includeIfNull: false)
+  final double? totalRs;
+  @JsonKey(name: 'unsure', includeIfNull: false)
+  final bool unsure;
+  static const fromJsonFactory = _$BillReadOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is BillReadOut &&
+            (identical(other.billDate, billDate) ||
+                const DeepCollectionEquality().equals(
+                  other.billDate,
+                  billDate,
+                )) &&
+            (identical(other.billNo, billNo) ||
+                const DeepCollectionEquality().equals(other.billNo, billNo)) &&
+            (identical(other.items, items) ||
+                const DeepCollectionEquality().equals(other.items, items)) &&
+            (identical(other.shopName, shopName) ||
+                const DeepCollectionEquality().equals(
+                  other.shopName,
+                  shopName,
+                )) &&
+            (identical(other.totalRs, totalRs) ||
+                const DeepCollectionEquality().equals(
+                  other.totalRs,
+                  totalRs,
+                )) &&
+            (identical(other.unsure, unsure) ||
+                const DeepCollectionEquality().equals(other.unsure, unsure)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(billDate) ^
+      const DeepCollectionEquality().hash(billNo) ^
+      const DeepCollectionEquality().hash(items) ^
+      const DeepCollectionEquality().hash(shopName) ^
+      const DeepCollectionEquality().hash(totalRs) ^
+      const DeepCollectionEquality().hash(unsure) ^
+      runtimeType.hashCode;
+}
+
+extension $BillReadOutExtension on BillReadOut {
+  BillReadOut copyWith({
+    DateTime? billDate,
+    String? billNo,
+    List<BillItemOut>? items,
+    String? shopName,
+    double? totalRs,
+    bool? unsure,
+  }) {
+    return BillReadOut(
+      billDate: billDate ?? this.billDate,
+      billNo: billNo ?? this.billNo,
+      items: items ?? this.items,
+      shopName: shopName ?? this.shopName,
+      totalRs: totalRs ?? this.totalRs,
+      unsure: unsure ?? this.unsure,
+    );
+  }
+
+  BillReadOut copyWithWrapped({
+    Wrapped<DateTime?>? billDate,
+    Wrapped<String?>? billNo,
+    Wrapped<List<BillItemOut>>? items,
+    Wrapped<String?>? shopName,
+    Wrapped<double?>? totalRs,
+    Wrapped<bool>? unsure,
+  }) {
+    return BillReadOut(
+      billDate: (billDate != null ? billDate.value : this.billDate),
+      billNo: (billNo != null ? billNo.value : this.billNo),
+      items: (items != null ? items.value : this.items),
+      shopName: (shopName != null ? shopName.value : this.shopName),
+      totalRs: (totalRs != null ? totalRs.value : this.totalRs),
+      unsure: (unsure != null ? unsure.value : this.unsure),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class BillingSettingsOut {
   const BillingSettingsOut({
+    required this.billLimits,
     required this.enabled,
     required this.photoLimits,
     required this.roles,
@@ -2447,6 +2842,8 @@ class BillingSettingsOut {
   static const toJsonFactory = _$BillingSettingsOutToJson;
   Map<String, dynamic> toJson() => _$BillingSettingsOutToJson(this);
 
+  @JsonKey(name: 'bill_limits', includeIfNull: false)
+  final BillLimitsOut billLimits;
   @JsonKey(name: 'enabled', includeIfNull: false)
   final bool enabled;
   @JsonKey(name: 'photo_limits', includeIfNull: false)
@@ -2461,6 +2858,11 @@ class BillingSettingsOut {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other is BillingSettingsOut &&
+            (identical(other.billLimits, billLimits) ||
+                const DeepCollectionEquality().equals(
+                  other.billLimits,
+                  billLimits,
+                )) &&
             (identical(other.enabled, enabled) ||
                 const DeepCollectionEquality().equals(
                   other.enabled,
@@ -2485,6 +2887,7 @@ class BillingSettingsOut {
 
   @override
   int get hashCode =>
+      const DeepCollectionEquality().hash(billLimits) ^
       const DeepCollectionEquality().hash(enabled) ^
       const DeepCollectionEquality().hash(photoLimits) ^
       const DeepCollectionEquality().hash(roles) ^
@@ -2494,12 +2897,14 @@ class BillingSettingsOut {
 
 extension $BillingSettingsOutExtension on BillingSettingsOut {
   BillingSettingsOut copyWith({
+    BillLimitsOut? billLimits,
     bool? enabled,
     PhotoLimitsOut? photoLimits,
     List<RolePriceOut>? roles,
     DateTime? startsOn,
   }) {
     return BillingSettingsOut(
+      billLimits: billLimits ?? this.billLimits,
       enabled: enabled ?? this.enabled,
       photoLimits: photoLimits ?? this.photoLimits,
       roles: roles ?? this.roles,
@@ -2508,12 +2913,14 @@ extension $BillingSettingsOutExtension on BillingSettingsOut {
   }
 
   BillingSettingsOut copyWithWrapped({
+    Wrapped<BillLimitsOut>? billLimits,
     Wrapped<bool>? enabled,
     Wrapped<PhotoLimitsOut>? photoLimits,
     Wrapped<List<RolePriceOut>>? roles,
     Wrapped<DateTime?>? startsOn,
   }) {
     return BillingSettingsOut(
+      billLimits: (billLimits != null ? billLimits.value : this.billLimits),
       enabled: (enabled != null ? enabled.value : this.enabled),
       photoLimits: (photoLimits != null ? photoLimits.value : this.photoLimits),
       roles: (roles != null ? roles.value : this.roles),
@@ -2695,6 +3102,46 @@ extension $BlocksResponseExtension on BlocksResponse {
           ? blockedUserIds.value
           : this.blockedUserIds),
     );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class BodyBillsRead {
+  const BodyBillsRead({required this.photo});
+
+  factory BodyBillsRead.fromJson(Map<String, dynamic> json) =>
+      _$BodyBillsReadFromJson(json);
+
+  static const toJsonFactory = _$BodyBillsReadToJson;
+  Map<String, dynamic> toJson() => _$BodyBillsReadToJson(this);
+
+  @JsonKey(name: 'photo', includeIfNull: false)
+  final String photo;
+  static const fromJsonFactory = _$BodyBillsReadFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is BodyBillsRead &&
+            (identical(other.photo, photo) ||
+                const DeepCollectionEquality().equals(other.photo, photo)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(photo) ^ runtimeType.hashCode;
+}
+
+extension $BodyBillsReadExtension on BodyBillsRead {
+  BodyBillsRead copyWith({String? photo}) {
+    return BodyBillsRead(photo: photo ?? this.photo);
+  }
+
+  BodyBillsRead copyWithWrapped({Wrapped<String>? photo}) {
+    return BodyBillsRead(photo: (photo != null ? photo.value : this.photo));
   }
 }
 
@@ -18099,6 +18546,61 @@ extension $RoleAmountInExtension on RoleAmountIn {
 }
 
 @JsonSerializable(explicitToJson: true)
+class RoleBillLimitsIn {
+  const RoleBillLimitsIn({this.daily, this.monthly});
+
+  factory RoleBillLimitsIn.fromJson(Map<String, dynamic> json) =>
+      _$RoleBillLimitsInFromJson(json);
+
+  static const toJsonFactory = _$RoleBillLimitsInToJson;
+  Map<String, dynamic> toJson() => _$RoleBillLimitsInToJson(this);
+
+  @JsonKey(name: 'daily', includeIfNull: false)
+  final int? daily;
+  @JsonKey(name: 'monthly', includeIfNull: false)
+  final int? monthly;
+  static const fromJsonFactory = _$RoleBillLimitsInFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is RoleBillLimitsIn &&
+            (identical(other.daily, daily) ||
+                const DeepCollectionEquality().equals(other.daily, daily)) &&
+            (identical(other.monthly, monthly) ||
+                const DeepCollectionEquality().equals(other.monthly, monthly)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(daily) ^
+      const DeepCollectionEquality().hash(monthly) ^
+      runtimeType.hashCode;
+}
+
+extension $RoleBillLimitsInExtension on RoleBillLimitsIn {
+  RoleBillLimitsIn copyWith({int? daily, int? monthly}) {
+    return RoleBillLimitsIn(
+      daily: daily ?? this.daily,
+      monthly: monthly ?? this.monthly,
+    );
+  }
+
+  RoleBillLimitsIn copyWithWrapped({
+    Wrapped<int?>? daily,
+    Wrapped<int?>? monthly,
+  }) {
+    return RoleBillLimitsIn(
+      daily: (daily != null ? daily.value : this.daily),
+      monthly: (monthly != null ? monthly.value : this.monthly),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class RolePhotoLimitsIn {
   const RolePhotoLimitsIn({this.daily, this.monthly});
 
@@ -18157,6 +18659,8 @@ extension $RolePhotoLimitsInExtension on RolePhotoLimitsIn {
 class RolePriceOut {
   const RolePriceOut({
     required this.amountPaise,
+    this.billReadDaily,
+    this.billReadMonthly,
     this.photoAiDaily,
     this.photoAiMonthly,
     required this.playCurrency,
@@ -18173,6 +18677,10 @@ class RolePriceOut {
 
   @JsonKey(name: 'amount_paise', includeIfNull: false)
   final int? amountPaise;
+  @JsonKey(name: 'bill_read_daily', includeIfNull: false)
+  final int? billReadDaily;
+  @JsonKey(name: 'bill_read_monthly', includeIfNull: false)
+  final int? billReadMonthly;
   @JsonKey(name: 'photo_ai_daily', includeIfNull: false)
   final int? photoAiDaily;
   @JsonKey(name: 'photo_ai_monthly', includeIfNull: false)
@@ -18195,6 +18703,16 @@ class RolePriceOut {
                 const DeepCollectionEquality().equals(
                   other.amountPaise,
                   amountPaise,
+                )) &&
+            (identical(other.billReadDaily, billReadDaily) ||
+                const DeepCollectionEquality().equals(
+                  other.billReadDaily,
+                  billReadDaily,
+                )) &&
+            (identical(other.billReadMonthly, billReadMonthly) ||
+                const DeepCollectionEquality().equals(
+                  other.billReadMonthly,
+                  billReadMonthly,
                 )) &&
             (identical(other.photoAiDaily, photoAiDaily) ||
                 const DeepCollectionEquality().equals(
@@ -18231,6 +18749,8 @@ class RolePriceOut {
   @override
   int get hashCode =>
       const DeepCollectionEquality().hash(amountPaise) ^
+      const DeepCollectionEquality().hash(billReadDaily) ^
+      const DeepCollectionEquality().hash(billReadMonthly) ^
       const DeepCollectionEquality().hash(photoAiDaily) ^
       const DeepCollectionEquality().hash(photoAiMonthly) ^
       const DeepCollectionEquality().hash(playCurrency) ^
@@ -18243,6 +18763,8 @@ class RolePriceOut {
 extension $RolePriceOutExtension on RolePriceOut {
   RolePriceOut copyWith({
     int? amountPaise,
+    int? billReadDaily,
+    int? billReadMonthly,
     int? photoAiDaily,
     int? photoAiMonthly,
     String? playCurrency,
@@ -18252,6 +18774,8 @@ extension $RolePriceOutExtension on RolePriceOut {
   }) {
     return RolePriceOut(
       amountPaise: amountPaise ?? this.amountPaise,
+      billReadDaily: billReadDaily ?? this.billReadDaily,
+      billReadMonthly: billReadMonthly ?? this.billReadMonthly,
       photoAiDaily: photoAiDaily ?? this.photoAiDaily,
       photoAiMonthly: photoAiMonthly ?? this.photoAiMonthly,
       playCurrency: playCurrency ?? this.playCurrency,
@@ -18263,6 +18787,8 @@ extension $RolePriceOutExtension on RolePriceOut {
 
   RolePriceOut copyWithWrapped({
     Wrapped<int?>? amountPaise,
+    Wrapped<int?>? billReadDaily,
+    Wrapped<int?>? billReadMonthly,
     Wrapped<int?>? photoAiDaily,
     Wrapped<int?>? photoAiMonthly,
     Wrapped<String?>? playCurrency,
@@ -18272,6 +18798,12 @@ extension $RolePriceOutExtension on RolePriceOut {
   }) {
     return RolePriceOut(
       amountPaise: (amountPaise != null ? amountPaise.value : this.amountPaise),
+      billReadDaily: (billReadDaily != null
+          ? billReadDaily.value
+          : this.billReadDaily),
+      billReadMonthly: (billReadMonthly != null
+          ? billReadMonthly.value
+          : this.billReadMonthly),
       photoAiDaily: (photoAiDaily != null
           ? photoAiDaily.value
           : this.photoAiDaily),
@@ -23731,6 +24263,99 @@ v1AdminBillingRolesRoleAmountPutRoleNullableListFromJson(
       .toList();
 }
 
+String? v1AdminBillingRolesRoleBillLimitsPutRoleNullableToJson(
+  enums.V1AdminBillingRolesRoleBillLimitsPutRole?
+  v1AdminBillingRolesRoleBillLimitsPutRole,
+) {
+  return v1AdminBillingRolesRoleBillLimitsPutRole?.value;
+}
+
+String? v1AdminBillingRolesRoleBillLimitsPutRoleToJson(
+  enums.V1AdminBillingRolesRoleBillLimitsPutRole
+  v1AdminBillingRolesRoleBillLimitsPutRole,
+) {
+  return v1AdminBillingRolesRoleBillLimitsPutRole.value;
+}
+
+enums.V1AdminBillingRolesRoleBillLimitsPutRole
+v1AdminBillingRolesRoleBillLimitsPutRoleFromJson(
+  Object? v1AdminBillingRolesRoleBillLimitsPutRole, [
+  enums.V1AdminBillingRolesRoleBillLimitsPutRole? defaultValue,
+]) {
+  return enums.V1AdminBillingRolesRoleBillLimitsPutRole.values.firstWhereOrNull(
+        (e) => e.value == v1AdminBillingRolesRoleBillLimitsPutRole,
+      ) ??
+      defaultValue ??
+      enums.V1AdminBillingRolesRoleBillLimitsPutRole.swaggerGeneratedUnknown;
+}
+
+enums.V1AdminBillingRolesRoleBillLimitsPutRole?
+v1AdminBillingRolesRoleBillLimitsPutRoleNullableFromJson(
+  Object? v1AdminBillingRolesRoleBillLimitsPutRole, [
+  enums.V1AdminBillingRolesRoleBillLimitsPutRole? defaultValue,
+]) {
+  if (v1AdminBillingRolesRoleBillLimitsPutRole == null) {
+    return null;
+  }
+  return enums.V1AdminBillingRolesRoleBillLimitsPutRole.values.firstWhereOrNull(
+        (e) => e.value == v1AdminBillingRolesRoleBillLimitsPutRole,
+      ) ??
+      defaultValue;
+}
+
+String v1AdminBillingRolesRoleBillLimitsPutRoleExplodedListToJson(
+  List<enums.V1AdminBillingRolesRoleBillLimitsPutRole>?
+  v1AdminBillingRolesRoleBillLimitsPutRole,
+) {
+  return v1AdminBillingRolesRoleBillLimitsPutRole
+          ?.map((e) => e.value!)
+          .join(',') ??
+      '';
+}
+
+List<String> v1AdminBillingRolesRoleBillLimitsPutRoleListToJson(
+  List<enums.V1AdminBillingRolesRoleBillLimitsPutRole>?
+  v1AdminBillingRolesRoleBillLimitsPutRole,
+) {
+  if (v1AdminBillingRolesRoleBillLimitsPutRole == null) {
+    return [];
+  }
+
+  return v1AdminBillingRolesRoleBillLimitsPutRole.map((e) => e.value!).toList();
+}
+
+List<enums.V1AdminBillingRolesRoleBillLimitsPutRole>
+v1AdminBillingRolesRoleBillLimitsPutRoleListFromJson(
+  List? v1AdminBillingRolesRoleBillLimitsPutRole, [
+  List<enums.V1AdminBillingRolesRoleBillLimitsPutRole>? defaultValue,
+]) {
+  if (v1AdminBillingRolesRoleBillLimitsPutRole == null) {
+    return defaultValue ?? [];
+  }
+
+  return v1AdminBillingRolesRoleBillLimitsPutRole
+      .map(
+        (e) => v1AdminBillingRolesRoleBillLimitsPutRoleFromJson(e.toString()),
+      )
+      .toList();
+}
+
+List<enums.V1AdminBillingRolesRoleBillLimitsPutRole>?
+v1AdminBillingRolesRoleBillLimitsPutRoleNullableListFromJson(
+  List? v1AdminBillingRolesRoleBillLimitsPutRole, [
+  List<enums.V1AdminBillingRolesRoleBillLimitsPutRole>? defaultValue,
+]) {
+  if (v1AdminBillingRolesRoleBillLimitsPutRole == null) {
+    return defaultValue;
+  }
+
+  return v1AdminBillingRolesRoleBillLimitsPutRole
+      .map(
+        (e) => v1AdminBillingRolesRoleBillLimitsPutRoleFromJson(e.toString()),
+      )
+      .toList();
+}
+
 String? v1AdminBillingRolesRoleMigratePricesPostRoleNullableToJson(
   enums.V1AdminBillingRolesRoleMigratePricesPostRole?
   v1AdminBillingRolesRoleMigratePricesPostRole,
@@ -24897,6 +25522,188 @@ v1AdminMarketLinkVerificationsSubjectTypeSubjectIdDocumentsIndexUrlGetSubjectTyp
               e.toString(),
             ),
       )
+      .toList();
+}
+
+String? v1BillPhotosKindRecordIdUploadUrlPostKindNullableToJson(
+  enums.V1BillPhotosKindRecordIdUploadUrlPostKind?
+  v1BillPhotosKindRecordIdUploadUrlPostKind,
+) {
+  return v1BillPhotosKindRecordIdUploadUrlPostKind?.value;
+}
+
+String? v1BillPhotosKindRecordIdUploadUrlPostKindToJson(
+  enums.V1BillPhotosKindRecordIdUploadUrlPostKind
+  v1BillPhotosKindRecordIdUploadUrlPostKind,
+) {
+  return v1BillPhotosKindRecordIdUploadUrlPostKind.value;
+}
+
+enums.V1BillPhotosKindRecordIdUploadUrlPostKind
+v1BillPhotosKindRecordIdUploadUrlPostKindFromJson(
+  Object? v1BillPhotosKindRecordIdUploadUrlPostKind, [
+  enums.V1BillPhotosKindRecordIdUploadUrlPostKind? defaultValue,
+]) {
+  return enums.V1BillPhotosKindRecordIdUploadUrlPostKind.values
+          .firstWhereOrNull(
+            (e) => e.value == v1BillPhotosKindRecordIdUploadUrlPostKind,
+          ) ??
+      defaultValue ??
+      enums.V1BillPhotosKindRecordIdUploadUrlPostKind.swaggerGeneratedUnknown;
+}
+
+enums.V1BillPhotosKindRecordIdUploadUrlPostKind?
+v1BillPhotosKindRecordIdUploadUrlPostKindNullableFromJson(
+  Object? v1BillPhotosKindRecordIdUploadUrlPostKind, [
+  enums.V1BillPhotosKindRecordIdUploadUrlPostKind? defaultValue,
+]) {
+  if (v1BillPhotosKindRecordIdUploadUrlPostKind == null) {
+    return null;
+  }
+  return enums.V1BillPhotosKindRecordIdUploadUrlPostKind.values
+          .firstWhereOrNull(
+            (e) => e.value == v1BillPhotosKindRecordIdUploadUrlPostKind,
+          ) ??
+      defaultValue;
+}
+
+String v1BillPhotosKindRecordIdUploadUrlPostKindExplodedListToJson(
+  List<enums.V1BillPhotosKindRecordIdUploadUrlPostKind>?
+  v1BillPhotosKindRecordIdUploadUrlPostKind,
+) {
+  return v1BillPhotosKindRecordIdUploadUrlPostKind
+          ?.map((e) => e.value!)
+          .join(',') ??
+      '';
+}
+
+List<String> v1BillPhotosKindRecordIdUploadUrlPostKindListToJson(
+  List<enums.V1BillPhotosKindRecordIdUploadUrlPostKind>?
+  v1BillPhotosKindRecordIdUploadUrlPostKind,
+) {
+  if (v1BillPhotosKindRecordIdUploadUrlPostKind == null) {
+    return [];
+  }
+
+  return v1BillPhotosKindRecordIdUploadUrlPostKind
+      .map((e) => e.value!)
+      .toList();
+}
+
+List<enums.V1BillPhotosKindRecordIdUploadUrlPostKind>
+v1BillPhotosKindRecordIdUploadUrlPostKindListFromJson(
+  List? v1BillPhotosKindRecordIdUploadUrlPostKind, [
+  List<enums.V1BillPhotosKindRecordIdUploadUrlPostKind>? defaultValue,
+]) {
+  if (v1BillPhotosKindRecordIdUploadUrlPostKind == null) {
+    return defaultValue ?? [];
+  }
+
+  return v1BillPhotosKindRecordIdUploadUrlPostKind
+      .map(
+        (e) => v1BillPhotosKindRecordIdUploadUrlPostKindFromJson(e.toString()),
+      )
+      .toList();
+}
+
+List<enums.V1BillPhotosKindRecordIdUploadUrlPostKind>?
+v1BillPhotosKindRecordIdUploadUrlPostKindNullableListFromJson(
+  List? v1BillPhotosKindRecordIdUploadUrlPostKind, [
+  List<enums.V1BillPhotosKindRecordIdUploadUrlPostKind>? defaultValue,
+]) {
+  if (v1BillPhotosKindRecordIdUploadUrlPostKind == null) {
+    return defaultValue;
+  }
+
+  return v1BillPhotosKindRecordIdUploadUrlPostKind
+      .map(
+        (e) => v1BillPhotosKindRecordIdUploadUrlPostKindFromJson(e.toString()),
+      )
+      .toList();
+}
+
+String? v1BillPhotosKindRecordIdUrlGetKindNullableToJson(
+  enums.V1BillPhotosKindRecordIdUrlGetKind? v1BillPhotosKindRecordIdUrlGetKind,
+) {
+  return v1BillPhotosKindRecordIdUrlGetKind?.value;
+}
+
+String? v1BillPhotosKindRecordIdUrlGetKindToJson(
+  enums.V1BillPhotosKindRecordIdUrlGetKind v1BillPhotosKindRecordIdUrlGetKind,
+) {
+  return v1BillPhotosKindRecordIdUrlGetKind.value;
+}
+
+enums.V1BillPhotosKindRecordIdUrlGetKind
+v1BillPhotosKindRecordIdUrlGetKindFromJson(
+  Object? v1BillPhotosKindRecordIdUrlGetKind, [
+  enums.V1BillPhotosKindRecordIdUrlGetKind? defaultValue,
+]) {
+  return enums.V1BillPhotosKindRecordIdUrlGetKind.values.firstWhereOrNull(
+        (e) => e.value == v1BillPhotosKindRecordIdUrlGetKind,
+      ) ??
+      defaultValue ??
+      enums.V1BillPhotosKindRecordIdUrlGetKind.swaggerGeneratedUnknown;
+}
+
+enums.V1BillPhotosKindRecordIdUrlGetKind?
+v1BillPhotosKindRecordIdUrlGetKindNullableFromJson(
+  Object? v1BillPhotosKindRecordIdUrlGetKind, [
+  enums.V1BillPhotosKindRecordIdUrlGetKind? defaultValue,
+]) {
+  if (v1BillPhotosKindRecordIdUrlGetKind == null) {
+    return null;
+  }
+  return enums.V1BillPhotosKindRecordIdUrlGetKind.values.firstWhereOrNull(
+        (e) => e.value == v1BillPhotosKindRecordIdUrlGetKind,
+      ) ??
+      defaultValue;
+}
+
+String v1BillPhotosKindRecordIdUrlGetKindExplodedListToJson(
+  List<enums.V1BillPhotosKindRecordIdUrlGetKind>?
+  v1BillPhotosKindRecordIdUrlGetKind,
+) {
+  return v1BillPhotosKindRecordIdUrlGetKind?.map((e) => e.value!).join(',') ??
+      '';
+}
+
+List<String> v1BillPhotosKindRecordIdUrlGetKindListToJson(
+  List<enums.V1BillPhotosKindRecordIdUrlGetKind>?
+  v1BillPhotosKindRecordIdUrlGetKind,
+) {
+  if (v1BillPhotosKindRecordIdUrlGetKind == null) {
+    return [];
+  }
+
+  return v1BillPhotosKindRecordIdUrlGetKind.map((e) => e.value!).toList();
+}
+
+List<enums.V1BillPhotosKindRecordIdUrlGetKind>
+v1BillPhotosKindRecordIdUrlGetKindListFromJson(
+  List? v1BillPhotosKindRecordIdUrlGetKind, [
+  List<enums.V1BillPhotosKindRecordIdUrlGetKind>? defaultValue,
+]) {
+  if (v1BillPhotosKindRecordIdUrlGetKind == null) {
+    return defaultValue ?? [];
+  }
+
+  return v1BillPhotosKindRecordIdUrlGetKind
+      .map((e) => v1BillPhotosKindRecordIdUrlGetKindFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.V1BillPhotosKindRecordIdUrlGetKind>?
+v1BillPhotosKindRecordIdUrlGetKindNullableListFromJson(
+  List? v1BillPhotosKindRecordIdUrlGetKind, [
+  List<enums.V1BillPhotosKindRecordIdUrlGetKind>? defaultValue,
+]) {
+  if (v1BillPhotosKindRecordIdUrlGetKind == null) {
+    return defaultValue;
+  }
+
+  return v1BillPhotosKindRecordIdUrlGetKind
+      .map((e) => v1BillPhotosKindRecordIdUrlGetKindFromJson(e.toString()))
       .toList();
 }
 

@@ -63,13 +63,20 @@ Google त्याच्या संमती-पानावर दाखव�
 पॉलिसी क्रमांक, रक्कम), माती/पाणी/पान तपासणीचे आकडे.</li>
 <li>का: ॲप चालवण्यासाठी, तुमच्या दुसऱ्या फोनवर नोंदी दिसण्यासाठी आणि बॅकअपसाठी.</li></ul>
 <h3>फोटो आणि फाइल</h3>
-<ul><li>पाहणीचे फोटो फोनवरच राहतात. फोटो बॅकअप {i}: ते खाजगी Supabase Storage मध्ये
-जातात (Wi-Fi वर; तुम्ही निवडल्यास मोबाइल डेटावरही). फोटो उघडण्याचा दुवा काही मिनिटांत आणि
-पाठवण्याचा दुवा दोन तासांत संपतो.</li>
+<ul><li>पाहणीचे फोटो, आणि फवारणी नोंद किंवा खर्चासोबत ठेवलेले कृषी केंद्राच्या बिलांचे फोटो,
+फोनवरच राहतात. फोटो बॅकअप {i}: ते खाजगी Supabase Storage मध्ये जातात (Wi-Fi वर; तुम्ही
+निवडल्यास मोबाइल डेटावरही). फोटो उघडण्याचा दुवा काही मिनिटांत आणि पाठवण्याचा दुवा दोन तासांत
+संपतो. नोंद काढल्यावर तिचा फोटो फोनवरून जातो; बॅकअप घेतलेली प्रत खाते काढल्यावर पुसली
+जाते.</li>
 <li>रोग/कीड ओळखण्यासाठी पाठवलेला पिकाचा फोटो {i}: आधी ठिकाण, वेळ व फोनची माहिती (EXIF)
 काढली जाते, मग AI सेवा (Anthropic) तो फोटो तपासते. रोग ओळख सुधारण्यासाठी फोटो व निकाल खाजगी
 साठवणीत ठेवले जातात; आमचे तज्ञ ते तपासू शकतात. नोंदणीची संमती यासाठी लागू; प्रत्येक फोटोसाठी
 परवानगी पुन्हा विचारली जात नाही.</li>
+<li>कृषी केंद्राच्या बिलाचा फोटो, तुम्ही तो वाचायला निवडल्यास {i}: आधी EXIF काढली जाते, मग फक्त
+बिल वाचण्यासाठी तो AI सेवेकडे (Anthropic) जातो. वाचण्यासाठी पाठवलेला फोटो व वाचलेली माहिती
+सर्व्हरवर ठेवली जात नाही; मर्यादा मोजण्यासाठी फक्त वाचल्याची वेळ राहते. नोंदीसोबत ठेवलेला बिलाचा
+फोटो फक्त फोटो बॅकअप चालू असल्यास, वर सांगितल्याप्रमाणे बॅकअप होतो. नोंदणीची संमती यासाठी
+लागू.</li>
 <li>पीक-नुकसान दाव्याचे फोटो, टिपा आणि तपासणी अहवालाच्या फाइल फक्त फोनवरच राहतात.</li></ul>
 <h3>ठिकाण (location)</h3>
 <ul><li>फक्त तुम्ही बागेचे ठिकाण/सीमा नोंदवता किंवा दाव्याचा फोटो जोडता तेव्हा एकदाच वाचले
@@ -110,8 +117,8 @@ Google त्याच्या संमती-पानावर दाखव�
 <li><b>Open-Meteo</b>: हवामानासाठी बागेचे ठिकाण सुमारे १ किमी पर्यंत गोल करून पाठवले जाते; नाव
 किंवा नंबर नाही.</li>
 <li><b>data.gov.in</b> (Agmarknet): बाजारभाव आणण्यासाठी फक्त पिकाचे नाव; तुमची माहिती नाही.</li>
-<li><b>Anthropic</b> (AI) {i}: सरकारी GR/परिपत्रकाचा मजकूर, आणि तपासणीचा पिकाचा फोटो (EXIF
-शिवाय); नाव, नंबर किंवा बागेचे ठिकाण नाही.</li>
+<li><b>Anthropic</b> (AI) {i}: सरकारी GR/परिपत्रकाचा मजकूर, तपासणीचा पिकाचा फोटो आणि वाचायचा
+बिलाचा फोटो (EXIF शिवाय); नाव, नंबर किंवा बागेचे ठिकाण नाही.</li>
 <li><b>Sentry</b> {i}: त्रुटी अहवाल. <b>सर्व्हर भाड्याने देणारी कंपनी</b>: API चालवण्यासाठी.</li>
 <li>कायद्याने बंधनकारक असल्यासच सरकारी यंत्रणांना.</li></ul>
 
@@ -202,13 +209,20 @@ scouting notes, crop insurance policy (insurer, policy number, amounts), soil / 
 test values.</li>
 <li>Why: to run the app, show your records on your other phones, and keep a backup.</li></ul>
 <h3>Photos and files</h3>
-<ul><li>Scouting photos stay on your phone. Photo backup {i}: they are uploaded to a private
-Supabase Storage bucket (on Wi-Fi, or on mobile data if you allow it). A link to open a photo
-expires within minutes; a link to upload one expires within two hours.</li>
+<ul><li>Scouting photos, and agri-input shop bill photos kept with a spray record or an expense,
+stay on your phone. Photo backup {i}: they are uploaded to a private Supabase Storage bucket (on
+Wi-Fi, or on mobile data if you allow it). A link to open a photo expires within minutes; a link
+to upload one expires within two hours. Deleting a record removes its photo from the phone; a
+backed-up copy is erased with the account.</li>
 <li>A crop photo you send to identify a disease or pest {i}: its location, time and phone
 details (EXIF) are removed first, then an AI service (Anthropic) analyses it. The photo and
 result are kept in private storage to improve disease identification; our experts may check
 them. Your signup consent covers this; it is not asked again for each photo.</li>
+<li>A photo of an agri-input shop bill, when you choose to read it {i}: its EXIF details are
+removed first, then it is sent to an AI service (Anthropic) only to read the bill. The photo
+sent for reading and what is read from it are not kept on the server; only the time of the read
+is kept, to count the limits. A bill photo kept with a record is backed up only when photo
+backup is on, as described above. Your signup consent covers this.</li>
 <li>Crop-loss claim photos and notes, and lab report files, stay on your phone only.</li></ul>
 <h3>Location</h3>
 <ul><li>Read once, only when you mark a plot location or boundary or add a claim photo. There is
@@ -249,8 +263,9 @@ included in Google's Android backup.</li></ul>
 number.</li>
 <li><b>data.gov.in</b> (Agmarknet): only crop names, to fetch mandi prices; none of your
 data.</li>
-<li><b>Anthropic</b> (AI) {i}: the text of government GRs and circulars, and crop photos sent
-for analysis (without EXIF); no name, number or plot location.</li>
+<li><b>Anthropic</b> (AI) {i}: the text of government GRs and circulars, crop photos sent
+for analysis and bill photos sent to be read (without EXIF); no name, number or plot
+location.</li>
 <li><b>Sentry</b> {i}: error reports. <b>The server hosting company</b>: to run the API.</li>
 <li>Government authorities only where the law requires it.</li></ul>
 

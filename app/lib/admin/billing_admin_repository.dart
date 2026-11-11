@@ -40,6 +40,21 @@ abstract interface class BillingAdminRepository {
     int? daily,
     int? monthly,
   });
+
+  /// Bill reading limits (Q136) per farmer without a plan, and the optional overall daily
+  /// cap; null = the default (5 / 50) or, for [dailyTotal], no cap.
+  Future<BillingSettingsOut> saveBillLimits({
+    int? freeDaily,
+    int? freeMonthly,
+    int? dailyTotal,
+  });
+
+  /// Bill reading limits per farmer on [role]'s plan; null = the default.
+  Future<BillingSettingsOut> saveRoleBillLimits(
+    String role, {
+    int? daily,
+    int? monthly,
+  });
 }
 
 class ApiBillingAdminRepository implements BillingAdminRepository {
@@ -114,6 +129,33 @@ class ApiBillingAdminRepository implements BillingAdminRepository {
     await _api.v1AdminBillingRolesRolePhotoLimitsPut(
       role: enums.V1AdminBillingRolesRolePhotoLimitsPutRole.values.byName(role),
       body: RolePhotoLimitsIn(daily: daily, monthly: monthly),
+    ),
+  );
+
+  @override
+  Future<BillingSettingsOut> saveBillLimits({
+    int? freeDaily,
+    int? freeMonthly,
+    int? dailyTotal,
+  }) async => _ok(
+    await _api.v1AdminBillingBillLimitsPut(
+      body: BillLimitsIn(
+        freeDaily: freeDaily,
+        freeMonthly: freeMonthly,
+        dailyTotal: dailyTotal,
+      ),
+    ),
+  );
+
+  @override
+  Future<BillingSettingsOut> saveRoleBillLimits(
+    String role, {
+    int? daily,
+    int? monthly,
+  }) async => _ok(
+    await _api.v1AdminBillingRolesRoleBillLimitsPut(
+      role: enums.V1AdminBillingRolesRoleBillLimitsPutRole.values.byName(role),
+      body: RoleBillLimitsIn(daily: daily, monthly: monthly),
     ),
   );
 }

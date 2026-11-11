@@ -110,6 +110,35 @@ abstract class Bagmitra extends ChopperService {
     ),
   });
 
+  ///Put Bill Limits
+  Future<chopper.Response<BillingSettingsOut>> v1AdminBillingBillLimitsPut({
+    required BillLimitsIn? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      BillingSettingsOut,
+      () => BillingSettingsOut.fromJsonFactory,
+    );
+
+    return _v1AdminBillingBillLimitsPut(body: body);
+  }
+
+  ///Put Bill Limits
+  @PUT(path: '/v1/admin/billing/bill-limits', optionalBody: true)
+  Future<chopper.Response<BillingSettingsOut>> _v1AdminBillingBillLimitsPut({
+    @Body() required BillLimitsIn? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Bill reading limits for farmers without a plan, and the optional overall cap (Q136).',
+      summary: 'Put Bill Limits',
+      operationId: 'admin_billing_put_bill_limits',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
   ///Events
   ///@param limit
   Future<chopper.Response<EventsResponse>> v1AdminBillingEventsGet({
@@ -316,6 +345,45 @@ abstract class Bagmitra extends ChopperService {
       description: '',
       summary: 'Put Role Amount',
       operationId: 'admin_billing_put_role_amount',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
+  ///Put Role Bill Limits
+  ///@param role
+  Future<chopper.Response<BillingSettingsOut>>
+  v1AdminBillingRolesRoleBillLimitsPut({
+    required enums.V1AdminBillingRolesRoleBillLimitsPutRole? role,
+    required RoleBillLimitsIn? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      BillingSettingsOut,
+      () => BillingSettingsOut.fromJsonFactory,
+    );
+
+    return _v1AdminBillingRolesRoleBillLimitsPut(
+      role: role?.value?.toString(),
+      body: body,
+    );
+  }
+
+  ///Put Role Bill Limits
+  ///@param role
+  @PUT(path: '/v1/admin/billing/roles/{role}/bill-limits', optionalBody: true)
+  Future<chopper.Response<BillingSettingsOut>>
+  _v1AdminBillingRolesRoleBillLimitsPut({
+    @Path('role') required String? role,
+    @Body() required RoleBillLimitsIn? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description:
+          'Bill reading limits per farmer on this role\'s plan (Q136).',
+      summary: 'Put Role Bill Limits',
+      operationId: 'admin_billing_put_role_bill_limits',
       consumes: [],
       produces: [],
       security: ["HTTPBearer"],
@@ -2408,6 +2476,94 @@ broker: the phone call), else 422 `verified_rule_not_met`.''',
     ),
   });
 
+  ///Create Bill Photo Upload Url
+  ///@param kind
+  ///@param record_id
+  Future<chopper.Response<PhotoUploadUrl>>
+  v1BillPhotosKindRecordIdUploadUrlPost({
+    required enums.V1BillPhotosKindRecordIdUploadUrlPostKind? kind,
+    required String? recordId,
+    required PhotoUploadIn? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      PhotoUploadUrl,
+      () => PhotoUploadUrl.fromJsonFactory,
+    );
+
+    return _v1BillPhotosKindRecordIdUploadUrlPost(
+      kind: kind?.value?.toString(),
+      recordId: recordId,
+      body: body,
+    );
+  }
+
+  ///Create Bill Photo Upload Url
+  ///@param kind
+  ///@param record_id
+  @POST(
+    path: '/v1/bill-photos/{kind}/{record_id}/upload-url',
+    optionalBody: true,
+  )
+  Future<chopper.Response<PhotoUploadUrl>>
+  _v1BillPhotosKindRecordIdUploadUrlPost({
+    @Path('kind') required String? kind,
+    @Path('record_id') required String? recordId,
+    @Body() required PhotoUploadIn? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''A signed upload URL for this record\'s bill photo (JPEG only, at most `max_bytes`).
+
+The phone PUTs the file to `upload_url`, then records `photo_key` as the record\'s
+`bill_photo_key` through the normal outbox.''',
+      summary: 'Create Bill Photo Upload Url',
+      operationId: 'bill_photo_upload_url',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["bill-photos"],
+      deprecated: false,
+    ),
+  });
+
+  ///Get Bill Photo Url
+  ///@param kind
+  ///@param record_id
+  Future<chopper.Response<PhotoDownloadUrl>> v1BillPhotosKindRecordIdUrlGet({
+    required enums.V1BillPhotosKindRecordIdUrlGetKind? kind,
+    required String? recordId,
+  }) {
+    generatedMapping.putIfAbsent(
+      PhotoDownloadUrl,
+      () => PhotoDownloadUrl.fromJsonFactory,
+    );
+
+    return _v1BillPhotosKindRecordIdUrlGet(
+      kind: kind?.value?.toString(),
+      recordId: recordId,
+    );
+  }
+
+  ///Get Bill Photo Url
+  ///@param kind
+  ///@param record_id
+  @GET(path: '/v1/bill-photos/{kind}/{record_id}/url')
+  Future<chopper.Response<PhotoDownloadUrl>> _v1BillPhotosKindRecordIdUrlGet({
+    @Path('kind') required String? kind,
+    @Path('record_id') required String? recordId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''A short-lived signed download URL for a backed-up bill photo. Only the key derived
+from the caller and the record is ever signed; a stored key that differs is no photo.''',
+      summary: 'Get Bill Photo Url',
+      operationId: 'bill_photo_url',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["bill-photos"],
+      deprecated: false,
+    ),
+  });
+
   ///Entitlements
   Future<chopper.Response<EntitlementsResponse>> v1BillingEntitlementsGet() {
     generatedMapping.putIfAbsent(
@@ -2517,6 +2673,42 @@ change. The server acknowledges the purchase.''',
       produces: [],
       security: ["HTTPBearer"],
       tags: ["billing"],
+      deprecated: false,
+    ),
+  });
+
+  ///Read Bill
+  Future<chopper.Response<BillReadOut>> v1BillsReadPost({
+    required BodyBillsRead body,
+  }) {
+    generatedMapping.putIfAbsent(
+      BillReadOut,
+      () => BillReadOut.fromJsonFactory,
+    );
+
+    return _v1BillsReadPost(body: body);
+  }
+
+  ///Read Bill
+  @POST(path: '/v1/bills/read', optionalBody: true)
+  @Multipart()
+  Future<chopper.Response<BillReadOut>> _v1BillsReadPost({
+    @Part() required BodyBillsRead body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Reads one agri-input shop bill photo (owner Q136). Nothing of the photo or the result
+is stored; only a count row for the limits.
+
+429 `bill_read_limit`: `error.details` has `limit` (daily | monthly | total), `max` and
+`resets_at` (UTC); the `Retry-After` header has the seconds until then. 503
+`analysis_unavailable`: no API key on the server. 502 `analysis_failed`: the model could
+not answer; nothing is counted.''',
+      summary: 'Read Bill',
+      operationId: 'bills_read',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["bills"],
       deprecated: false,
     ),
   });

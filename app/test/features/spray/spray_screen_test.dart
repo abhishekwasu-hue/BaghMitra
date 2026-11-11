@@ -114,6 +114,8 @@ void main() {
       locale: const Locale('en'),
       initialLocation: '/plots/p1/sprays/new',
       seed: seedPlotAndBanList,
+      // Tall enough for the notes on top and the fields below the bill photo (Q136).
+      size: const Size(393, 1400),
     );
     await settle(tester);
     await tester.tap(find.textContaining('Ambia'));

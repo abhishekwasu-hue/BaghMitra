@@ -1,6 +1,8 @@
 import '../../bahar/domain/bahar_cycle.dart';
 
-/// Money is whole paise everywhere (exact sums; formatted as rupees only for display).
+/// Money is whole paise everywhere (exact sums; formatted as rupees only for display). The
+/// optional bill photo works as on a spray record: [billPhotoPath] stays on this phone,
+/// [billPhotoKey] is synced once backed up (OPEN_QUESTIONS Q136).
 class Expense {
   const Expense({
     required this.id,
@@ -10,6 +12,8 @@ class Expense {
     required this.amountPaise,
     this.baharCycleId,
     this.note,
+    this.billPhotoPath,
+    this.billPhotoKey,
   });
 
   final String id;
@@ -21,6 +25,22 @@ class Expense {
   final String category;
   final int amountPaise;
   final String? note;
+  final String? billPhotoPath;
+  final String? billPhotoKey;
+
+  bool get hasBillPhoto => billPhotoPath != null || billPhotoKey != null;
+
+  Expense withBillPhoto({String? path, String? key}) => Expense(
+    id: id,
+    plotId: plotId,
+    baharCycleId: baharCycleId,
+    spentOn: spentOn,
+    category: category,
+    amountPaise: amountPaise,
+    note: note,
+    billPhotoPath: path ?? billPhotoPath,
+    billPhotoKey: key ?? billPhotoKey,
+  );
 
   Map<String, Object?> toPayload() => {
     'plot_id': plotId,
@@ -29,6 +49,7 @@ class Expense {
     'category': category,
     'amount_paise': amountPaise,
     'note': note,
+    if (billPhotoKey != null) 'bill_photo_key': billPhotoKey,
   };
 
   static Expense fromPayload(String id, Map<String, Object?> p) => Expense(
@@ -39,6 +60,7 @@ class Expense {
     category: p['category']! as String,
     amountPaise: p['amount_paise']! as int,
     note: p['note'] as String?,
+    billPhotoKey: p['bill_photo_key'] as String?,
   );
 }
 

@@ -21,7 +21,8 @@ Map<String, Object?> billingRoleJson(
   'play_synced_at': play ? '2026-11-08T05:00:00Z' : null,
 };
 
-/// The photo analysis limits block of the same response (Q135): nothing set yet.
+/// The photo analysis (Q135) or bill reading (Q136) limits block of the same response:
+/// nothing set yet.
 const Map<String, Object?> billingPhotoLimitsJson = {
   'free_daily': null,
   'free_monthly': null,
@@ -48,6 +49,7 @@ void main() {
       'starts_on': null,
       'roles': [for (final r in billingRoles) billingRoleJson(r)],
       'photo_limits': billingPhotoLimitsJson,
+      'bill_limits': billingPhotoLimitsJson,
     });
     final api = createApi(
       baseUrl: Uri.parse('https://api.test'),
@@ -73,6 +75,14 @@ void main() {
     expect(jsonDecode(sent[2].body), {'free_daily': 3, 'daily_total': 400});
     expect(sent[3].url.path, '/v1/admin/billing/roles/grower/photo-limits');
     expect(jsonDecode(sent[3].body), {'daily': 20, 'monthly': 200});
+    // Bill reading limits (Q136): the same shape on their own endpoints.
+    await repo.saveBillLimits(freeMonthly: 30);
+    await repo.saveRoleBillLimits('trader', daily: 8);
+    expect(sent[4].method, 'PUT');
+    expect(sent[4].url.path, '/v1/admin/billing/bill-limits');
+    expect(jsonDecode(sent[4].body), {'free_monthly': 30});
+    expect(sent[5].url.path, '/v1/admin/billing/roles/trader/bill-limits');
+    expect(jsonDecode(sent[5].body), {'daily': 8});
   });
 
   test('a 503 from the API becomes play_not_set_up', () async {

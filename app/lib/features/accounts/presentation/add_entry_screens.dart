@@ -10,6 +10,8 @@ import '../../../design_system/app_bar_title.dart';
 import '../../../design_system/bottom_actions.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
+import '../../bills/domain/bill_reading.dart';
+import '../../bills/presentation/bill_photo_field.dart';
 import '../../voice/domain/voice_note.dart';
 import '../../voice/presentation/voice_mic_button.dart';
 import '../domain/accounts.dart';
@@ -31,7 +33,8 @@ Future<void> _savedAndBack(BuildContext context, String plotId) async {
   context.canPop() ? context.pop() : context.go(Routes.accounts(plotId));
 }
 
-/// Records one expense for a block, optionally against one of its bahars.
+/// Records one expense for a block, optionally against one of its bahars, with an optional
+/// bill photo kept with it that can fill the empty fields (OPEN_QUESTIONS Q136).
 class AddExpenseScreen extends ConsumerStatefulWidget {
   const AddExpenseScreen({required this.plotId, super.key});
   final String plotId;
@@ -40,12 +43,49 @@ class AddExpenseScreen extends ConsumerStatefulWidget {
   ConsumerState<AddExpenseScreen> createState() => _AddExpenseScreenState();
 }
 
-class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
+class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen>
+    with BillPhotoForm<AddExpenseScreen> {
   final _form = GlobalKey<FormState>();
   final _amount = TextEditingController();
   final _note = TextEditingController();
   String? _category;
   String? _cycle;
+
+  /// Null: today (the default until the grower or a bill picks one).
+  DateTime? _date;
+
+  DateTime get _today {
+    final now = ref.read(clockProvider)();
+    return DateTime(now.year, now.month, now.day);
+  }
+
+  /// "बिलावरून भरा": the bill total or a picked line fills only what is still empty. The
+  /// category is left to the grower: the bill's lines name products, not these categories.
+  Future<void> _fillFromBill() async {
+    final t = AppLocalizations.of(context);
+    final bill = await readBill();
+    if (bill == null || !mounted) return;
+    if (bill.items.isEmpty && bill.totalRs == null) return showBillUnsure();
+    final pick = await showBillPickSheet(context, bill, withTotal: true);
+    if (pick == null || !mounted) return;
+    final today = _today;
+    final r = expenseFill(
+      item: pick.item,
+      bill: bill,
+      billLabel: billLabel(t, bill),
+      current: {
+        BillField.amount: _amount.text.trim(),
+        BillField.note: _note.text.trim(),
+      },
+      dateIsDefault: _date == null,
+      firstDate: DateTime(today.year - 2),
+      lastDate: DateTime(today.year + 1),
+    );
+    if (r.fill[BillField.amount] case final v?) _amount.text = v;
+    if (r.fill[BillField.note] case final v?) _note.text = v;
+    if (r.date != null) _date = r.date;
+    showBillFilled(bill, [...r.fill.keys, if (r.date != null) BillField.date]);
+  }
 
   /// A spoken note fills the note field; a number in it becomes the amount when that is empty.
   /// Nothing is saved until the grower taps Save.
@@ -68,16 +108,23 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
   Future<void> _save() async {
     if (!_form.currentState!.validate() || _category == null) return;
     final repo = ref.read(accountsRepositoryProvider);
-    final today = ref.read(clockProvider)();
+    final id = repo.newId();
+    final String? bill;
+    try {
+      bill = await keepBill(id);
+    } on Object {
+      return; // told in keepBill; nothing is saved
+    }
     await repo.saveExpense(
       Expense(
-        id: repo.newId(),
+        id: id,
         plotId: widget.plotId,
         baharCycleId: _cycle,
-        spentOn: DateTime(today.year, today.month, today.day),
+        spentOn: _date ?? _today,
         category: _category!,
         amountPaise: parseRupeesToPaise(_amount.text)!,
         note: _note.text.trim().isEmpty ? null : _note.text.trim(),
+        billPhotoPath: bill,
       ),
     );
     if (mounted) await _savedAndBack(context, widget.plotId);
@@ -93,6 +140,8 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
         ref.watch(baharCyclesProvider(widget.plotId)).value ?? const [];
     final bahars = ref.watch(baharOptionsProvider).value;
     final label = BmType.formLabel.copyWith(color: c.ink);
+    final today = ref.watch(clockProvider)();
+    final date = _date ?? DateTime(today.year, today.month, today.day);
     return Scaffold(
       appBar: AppBar(title: AppBarTitle(t.addExpense)),
       body: Form(
@@ -141,6 +190,8 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
               ],
             ),
             const SizedBox(height: BmSpace.lg),
+            billField(onFill: _fillFromBill),
+            const SizedBox(height: BmSpace.lg),
             Text(t.expenseCategory, style: label),
             const SizedBox(height: BmSpace.xs),
             Wrap(
@@ -164,6 +215,24 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
               ),
               decoration: InputDecoration(labelText: t.amountRupees),
               validator: (v) => _rupeesRequired(t, v),
+            ),
+            ListTile(
+              key: const Key('expense-date'),
+              contentPadding: EdgeInsets.zero,
+              title: Text(t.sprayDate, style: BmType.body),
+              trailing: Text(
+                formatDate(date, lang),
+                style: BmType.bodyStrong.copyWith(color: c.brandStrong),
+              ),
+              onTap: () async {
+                final picked = await showDatePicker(
+                  context: context,
+                  initialDate: date,
+                  firstDate: DateTime(today.year - 2),
+                  lastDate: DateTime(today.year + 1),
+                );
+                if (picked != null) setState(() => _date = picked);
+              },
             ),
             if (cycles.isNotEmpty) ...[
               const SizedBox(height: BmSpace.md),

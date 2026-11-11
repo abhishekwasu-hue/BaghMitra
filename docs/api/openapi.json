@@ -1107,8 +1107,242 @@
         "title": "BadgeOut",
         "type": "object"
       },
+      "BillItemOut": {
+        "properties": {
+          "active_ingredient": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Active Ingredient"
+          },
+          "amount_rs": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Amount Rs"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "quantity": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Quantity"
+          },
+          "unit": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Unit"
+          }
+        },
+        "required": [
+          "name",
+          "active_ingredient",
+          "quantity",
+          "unit",
+          "amount_rs"
+        ],
+        "title": "BillItemOut",
+        "type": "object"
+      },
+      "BillLimitsIn": {
+        "properties": {
+          "daily_total": {
+            "anyOf": [
+              {
+                "maximum": 100000.0,
+                "minimum": 0.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Daily Total"
+          },
+          "free_daily": {
+            "anyOf": [
+              {
+                "maximum": 100000.0,
+                "minimum": 0.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Free Daily"
+          },
+          "free_monthly": {
+            "anyOf": [
+              {
+                "maximum": 100000.0,
+                "minimum": 0.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Free Monthly"
+          }
+        },
+        "title": "BillLimitsIn",
+        "type": "object"
+      },
+      "BillLimitsOut": {
+        "description": "Bill reading limits (Q136) for farmers without a role plan (or while the switch is off);\nnull = the default. `daily_total`: all farmers together per India day; null = no cap.",
+        "properties": {
+          "daily_total": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Daily Total"
+          },
+          "default_daily": {
+            "default": 5,
+            "title": "Default Daily",
+            "type": "integer"
+          },
+          "default_monthly": {
+            "default": 50,
+            "title": "Default Monthly",
+            "type": "integer"
+          },
+          "free_daily": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Free Daily"
+          },
+          "free_monthly": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Free Monthly"
+          }
+        },
+        "required": [
+          "free_daily",
+          "free_monthly",
+          "daily_total"
+        ],
+        "title": "BillLimitsOut",
+        "type": "object"
+      },
+      "BillReadOut": {
+        "properties": {
+          "bill_date": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Bill Date"
+          },
+          "bill_no": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Bill No"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/BillItemOut"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "shop_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Shop Name"
+          },
+          "total_rs": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Total Rs"
+          },
+          "unsure": {
+            "title": "Unsure",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "shop_name",
+          "bill_date",
+          "bill_no",
+          "items",
+          "total_rs",
+          "unsure"
+        ],
+        "title": "BillReadOut",
+        "type": "object"
+      },
       "BillingSettingsOut": {
         "properties": {
+          "bill_limits": {
+            "$ref": "#/components/schemas/BillLimitsOut"
+          },
           "enabled": {
             "title": "Enabled",
             "type": "boolean"
@@ -1139,7 +1373,8 @@
         "required": [
           "enabled",
           "roles",
-          "photo_limits"
+          "photo_limits",
+          "bill_limits"
         ],
         "title": "BillingSettingsOut",
         "type": "object"
@@ -1202,6 +1437,21 @@
           "blocked_user_ids"
         ],
         "title": "BlocksResponse",
+        "type": "object"
+      },
+      "Body_bills_read": {
+        "properties": {
+          "photo": {
+            "description": "One JPEG or PNG photo of the bill",
+            "format": "binary",
+            "title": "Photo",
+            "type": "string"
+          }
+        },
+        "required": [
+          "photo"
+        ],
+        "title": "Body_bills_read",
         "type": "object"
       },
       "Body_photo_analysis_create": {
@@ -8842,6 +9092,38 @@
         "title": "RoleAmountIn",
         "type": "object"
       },
+      "RoleBillLimitsIn": {
+        "properties": {
+          "daily": {
+            "anyOf": [
+              {
+                "maximum": 100000.0,
+                "minimum": 0.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Daily"
+          },
+          "monthly": {
+            "anyOf": [
+              {
+                "maximum": 100000.0,
+                "minimum": 0.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Monthly"
+          }
+        },
+        "title": "RoleBillLimitsIn",
+        "type": "object"
+      },
       "RolePhotoLimitsIn": {
         "properties": {
           "daily": {
@@ -8886,6 +9168,28 @@
               }
             ],
             "title": "Amount Paise"
+          },
+          "bill_read_daily": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Bill Read Daily"
+          },
+          "bill_read_monthly": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Bill Read Monthly"
           },
           "photo_ai_daily": {
             "anyOf": [
@@ -10101,6 +10405,73 @@
         ]
       }
     },
+    "/v1/admin/billing/bill-limits": {
+      "put": {
+        "description": "Bill reading limits for farmers without a plan, and the optional overall cap (Q136).",
+        "operationId": "admin_billing_put_bill_limits",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BillLimitsIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BillingSettingsOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Put Bill Limits",
+        "tags": [
+          "admin"
+        ]
+      }
+    },
     "/v1/admin/billing/events": {
       "get": {
         "operationId": "admin_billing_events",
@@ -10635,6 +11006,91 @@
           }
         ],
         "summary": "Put Role Amount",
+        "tags": [
+          "admin"
+        ]
+      }
+    },
+    "/v1/admin/billing/roles/{role}/bill-limits": {
+      "put": {
+        "description": "Bill reading limits per farmer on this role's plan (Q136).",
+        "operationId": "admin_billing_put_role_bill_limits",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "role",
+            "required": true,
+            "schema": {
+              "enum": [
+                "grower",
+                "trader",
+                "broker",
+                "exporter",
+                "provider"
+              ],
+              "title": "Role",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RoleBillLimitsIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BillingSettingsOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Put Role Bill Limits",
         "tags": [
           "admin"
         ]
@@ -16280,6 +16736,240 @@
         ]
       }
     },
+    "/v1/bill-photos/{kind}/{record_id}/upload-url": {
+      "post": {
+        "description": "A signed upload URL for this record's bill photo (JPEG only, at most `max_bytes`).\n\nThe phone PUTs the file to `upload_url`, then records `photo_key` as the record's\n`bill_photo_key` through the normal outbox.",
+        "operationId": "bill_photo_upload_url",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "kind",
+            "required": true,
+            "schema": {
+              "enum": [
+                "spray_record",
+                "expense"
+              ],
+              "title": "Kind",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "record_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Record Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PhotoUploadIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PhotoUploadUrl"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Request Entity Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Gateway"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Create Bill Photo Upload Url",
+        "tags": [
+          "bill-photos"
+        ]
+      }
+    },
+    "/v1/bill-photos/{kind}/{record_id}/url": {
+      "get": {
+        "description": "A short-lived signed download URL for a backed-up bill photo. Only the key derived\nfrom the caller and the record is ever signed; a stored key that differs is no photo.",
+        "operationId": "bill_photo_url",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "kind",
+            "required": true,
+            "schema": {
+              "enum": [
+                "spray_record",
+                "expense"
+              ],
+              "title": "Kind",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "record_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Record Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PhotoDownloadUrl"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Request Entity Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Gateway"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Get Bill Photo Url",
+        "tags": [
+          "bill-photos"
+        ]
+      }
+    },
     "/v1/billing/entitlements": {
       "get": {
         "operationId": "billing_entitlements",
@@ -16541,6 +17231,113 @@
         "summary": "Plan",
         "tags": [
           "billing"
+        ]
+      }
+    },
+    "/v1/bills/read": {
+      "post": {
+        "description": "Reads one agri-input shop bill photo (owner Q136). Nothing of the photo or the result\nis stored; only a count row for the limits.\n\n429 `bill_read_limit`: `error.details` has `limit` (daily | monthly | total), `max` and\n`resets_at` (UTC); the `Retry-After` header has the seconds until then. 503\n`analysis_unavailable`: no API key on the server. 502 `analysis_failed`: the model could\nnot answer; nothing is counted.",
+        "operationId": "bills_read",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_bills_read"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BillReadOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Request Entity Too Large"
+          },
+          "415": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unsupported Media Type"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Gateway"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Read Bill",
+        "tags": [
+          "bills"
         ]
       }
     },

@@ -480,8 +480,84 @@ Map<String, dynamic> _$BadgeOutToJson(BadgeOut instance) => <String, dynamic>{
   'since_year': ?instance.sinceYear,
 };
 
+BillItemOut _$BillItemOutFromJson(Map<String, dynamic> json) => BillItemOut(
+  activeIngredient: json['active_ingredient'] as String?,
+  amountRs: (json['amount_rs'] as num?)?.toDouble(),
+  name: json['name'] as String,
+  quantity: (json['quantity'] as num?)?.toDouble(),
+  unit: json['unit'] as String?,
+);
+
+Map<String, dynamic> _$BillItemOutToJson(BillItemOut instance) =>
+    <String, dynamic>{
+      'active_ingredient': ?instance.activeIngredient,
+      'amount_rs': ?instance.amountRs,
+      'name': instance.name,
+      'quantity': ?instance.quantity,
+      'unit': ?instance.unit,
+    };
+
+BillLimitsIn _$BillLimitsInFromJson(Map<String, dynamic> json) => BillLimitsIn(
+  dailyTotal: (json['daily_total'] as num?)?.toInt(),
+  freeDaily: (json['free_daily'] as num?)?.toInt(),
+  freeMonthly: (json['free_monthly'] as num?)?.toInt(),
+);
+
+Map<String, dynamic> _$BillLimitsInToJson(BillLimitsIn instance) =>
+    <String, dynamic>{
+      'daily_total': ?instance.dailyTotal,
+      'free_daily': ?instance.freeDaily,
+      'free_monthly': ?instance.freeMonthly,
+    };
+
+BillLimitsOut _$BillLimitsOutFromJson(Map<String, dynamic> json) =>
+    BillLimitsOut(
+      dailyTotal: (json['daily_total'] as num?)?.toInt(),
+      defaultDaily: (json['default_daily'] as num?)?.toInt(),
+      defaultMonthly: (json['default_monthly'] as num?)?.toInt(),
+      freeDaily: (json['free_daily'] as num?)?.toInt(),
+      freeMonthly: (json['free_monthly'] as num?)?.toInt(),
+    );
+
+Map<String, dynamic> _$BillLimitsOutToJson(BillLimitsOut instance) =>
+    <String, dynamic>{
+      'daily_total': ?instance.dailyTotal,
+      'default_daily': ?instance.defaultDaily,
+      'default_monthly': ?instance.defaultMonthly,
+      'free_daily': ?instance.freeDaily,
+      'free_monthly': ?instance.freeMonthly,
+    };
+
+BillReadOut _$BillReadOutFromJson(Map<String, dynamic> json) => BillReadOut(
+  billDate: json['bill_date'] == null
+      ? null
+      : DateTime.parse(json['bill_date'] as String),
+  billNo: json['bill_no'] as String?,
+  items:
+      (json['items'] as List<dynamic>?)
+          ?.map((e) => BillItemOut.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      [],
+  shopName: json['shop_name'] as String?,
+  totalRs: (json['total_rs'] as num?)?.toDouble(),
+  unsure: json['unsure'] as bool,
+);
+
+Map<String, dynamic> _$BillReadOutToJson(BillReadOut instance) =>
+    <String, dynamic>{
+      'bill_date': ?_dateToJson(instance.billDate),
+      'bill_no': ?instance.billNo,
+      'items': instance.items.map((e) => e.toJson()).toList(),
+      'shop_name': ?instance.shopName,
+      'total_rs': ?instance.totalRs,
+      'unsure': instance.unsure,
+    };
+
 BillingSettingsOut _$BillingSettingsOutFromJson(Map<String, dynamic> json) =>
     BillingSettingsOut(
+      billLimits: BillLimitsOut.fromJson(
+        json['bill_limits'] as Map<String, dynamic>,
+      ),
       enabled: json['enabled'] as bool,
       photoLimits: PhotoLimitsOut.fromJson(
         json['photo_limits'] as Map<String, dynamic>,
@@ -498,6 +574,7 @@ BillingSettingsOut _$BillingSettingsOutFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$BillingSettingsOutToJson(BillingSettingsOut instance) =>
     <String, dynamic>{
+      'bill_limits': instance.billLimits.toJson(),
       'enabled': instance.enabled,
       'photo_limits': instance.photoLimits.toJson(),
       'roles': instance.roles.map((e) => e.toJson()).toList(),
@@ -535,6 +612,12 @@ BlocksResponse _$BlocksResponseFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$BlocksResponseToJson(BlocksResponse instance) =>
     <String, dynamic>{'blocked_user_ids': instance.blockedUserIds};
+
+BodyBillsRead _$BodyBillsReadFromJson(Map<String, dynamic> json) =>
+    BodyBillsRead(photo: json['photo'] as String);
+
+Map<String, dynamic> _$BodyBillsReadToJson(BodyBillsRead instance) =>
+    <String, dynamic>{'photo': instance.photo};
 
 BodyPhotoAnalysisCreate _$BodyPhotoAnalysisCreateFromJson(
   Map<String, dynamic> json,
@@ -3598,6 +3681,15 @@ RoleAmountIn _$RoleAmountInFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$RoleAmountInToJson(RoleAmountIn instance) =>
     <String, dynamic>{'amount_paise': ?instance.amountPaise};
 
+RoleBillLimitsIn _$RoleBillLimitsInFromJson(Map<String, dynamic> json) =>
+    RoleBillLimitsIn(
+      daily: (json['daily'] as num?)?.toInt(),
+      monthly: (json['monthly'] as num?)?.toInt(),
+    );
+
+Map<String, dynamic> _$RoleBillLimitsInToJson(RoleBillLimitsIn instance) =>
+    <String, dynamic>{'daily': ?instance.daily, 'monthly': ?instance.monthly};
+
 RolePhotoLimitsIn _$RolePhotoLimitsInFromJson(Map<String, dynamic> json) =>
     RolePhotoLimitsIn(
       daily: (json['daily'] as num?)?.toInt(),
@@ -3609,6 +3701,8 @@ Map<String, dynamic> _$RolePhotoLimitsInToJson(RolePhotoLimitsIn instance) =>
 
 RolePriceOut _$RolePriceOutFromJson(Map<String, dynamic> json) => RolePriceOut(
   amountPaise: (json['amount_paise'] as num?)?.toInt(),
+  billReadDaily: (json['bill_read_daily'] as num?)?.toInt(),
+  billReadMonthly: (json['bill_read_monthly'] as num?)?.toInt(),
   photoAiDaily: (json['photo_ai_daily'] as num?)?.toInt(),
   photoAiMonthly: (json['photo_ai_monthly'] as num?)?.toInt(),
   playCurrency: json['play_currency'] as String?,
@@ -3622,6 +3716,8 @@ RolePriceOut _$RolePriceOutFromJson(Map<String, dynamic> json) => RolePriceOut(
 Map<String, dynamic> _$RolePriceOutToJson(RolePriceOut instance) =>
     <String, dynamic>{
       'amount_paise': ?instance.amountPaise,
+      'bill_read_daily': ?instance.billReadDaily,
+      'bill_read_monthly': ?instance.billReadMonthly,
       'photo_ai_daily': ?instance.photoAiDaily,
       'photo_ai_monthly': ?instance.photoAiMonthly,
       'play_currency': ?instance.playCurrency,

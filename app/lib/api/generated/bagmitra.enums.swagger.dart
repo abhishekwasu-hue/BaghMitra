@@ -724,6 +724,26 @@ enum V1AdminBillingRolesRoleAmountPutRole {
   const V1AdminBillingRolesRoleAmountPutRole(this.value);
 }
 
+enum V1AdminBillingRolesRoleBillLimitsPutRole {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('grower')
+  grower('grower'),
+  @JsonValue('trader')
+  trader('trader'),
+  @JsonValue('broker')
+  broker('broker'),
+  @JsonValue('exporter')
+  exporter('exporter'),
+  @JsonValue('provider')
+  provider('provider');
+
+  final String? value;
+
+  const V1AdminBillingRolesRoleBillLimitsPutRole(this.value);
+}
+
 enum V1AdminBillingRolesRoleMigratePricesPostRole {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
@@ -916,6 +936,34 @@ enum V1AdminMarketLinkVerificationsSubjectTypeSubjectIdDocumentsIndexUrlGetSubje
   const V1AdminMarketLinkVerificationsSubjectTypeSubjectIdDocumentsIndexUrlGetSubjectType(
     this.value,
   );
+}
+
+enum V1BillPhotosKindRecordIdUploadUrlPostKind {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('spray_record')
+  sprayRecord('spray_record'),
+  @JsonValue('expense')
+  expense('expense');
+
+  final String? value;
+
+  const V1BillPhotosKindRecordIdUploadUrlPostKind(this.value);
+}
+
+enum V1BillPhotosKindRecordIdUrlGetKind {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('spray_record')
+  sprayRecord('spray_record'),
+  @JsonValue('expense')
+  expense('expense');
+
+  final String? value;
+
+  const V1BillPhotosKindRecordIdUrlGetKind(this.value);
 }
 
 enum V1FeedGetLang {

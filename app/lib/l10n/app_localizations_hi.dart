@@ -1278,7 +1278,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get settingsPhotoMobileDataHint =>
-      'निरीक्षण की फ़ोटो का बैकअप वाई-फ़ाई पर होता है। मोबाइल डेटा भी इस्तेमाल करना हो तो इसे चालू करें।';
+      'निरीक्षण और बिल की फ़ोटो का बैकअप वाई-फ़ाई पर होता है। मोबाइल डेटा भी इस्तेमाल करना हो तो इसे चालू करें।';
 
   @override
   String buildLabel(String sha) {
@@ -4992,4 +4992,114 @@ class AppLocalizationsHi extends AppLocalizations {
   String photoCheckLimitTotalAt(String when) {
     return 'आज की फ़ोटो जाँच पूरी हुईं; $when के बाद फिर से इस्तेमाल कर सकते हैं।';
   }
+
+  @override
+  String get billPhoto => 'बिल की फ़ोटो';
+
+  @override
+  String get billPhotoHint =>
+      'दुकान के बिल की फ़ोटो इस रिकॉर्ड के साथ फ़ोन पर रहती है।';
+
+  @override
+  String get billPhotoOpen => 'बिल की फ़ोटो बड़ी देखें';
+
+  @override
+  String get billFill => 'बिल से भरें';
+
+  @override
+  String get billReading => 'बिल पढ़ रहे हैं…';
+
+  @override
+  String get billUnsure => 'बिल ठीक से पढ़ा नहीं जा सका; जानकारी हाथ से भरें।';
+
+  @override
+  String billFilled(String fields) {
+    return 'बिल से भरा: $fields. एक बार जाँच लें।';
+  }
+
+  @override
+  String get billNothingFilled => 'ये खाने पहले से भरे थे; वैसे ही रखे गए।';
+
+  @override
+  String get billOffline =>
+      'बिल पढ़ने के लिए इंटरनेट चाहिए। फ़ोटो इस रिकॉर्ड के साथ फ़ोन पर सहेजी जाती है।';
+
+  @override
+  String get billFailed =>
+      'थोड़ी देर बाद फिर से \'बिल से भरें\' दबाएँ; फ़ोटो यहीं है।';
+
+  @override
+  String get billUnavailable => 'बिल पढ़ना अभी रुका है; जानकारी हाथ से भरें।';
+
+  @override
+  String get billRefused => 'कृपया बिल की दूसरी फ़ोटो लें।';
+
+  @override
+  String get billSignedOut => 'बिल पढ़ने के लिए फिर से लॉगिन करें।';
+
+  @override
+  String billLimitDaily(String count) {
+    return 'आज के $count बिल पढ़े जा चुके; कल फिर से इस्तेमाल कर सकते हैं।';
+  }
+
+  @override
+  String billLimitDailyAt(String count, String when) {
+    return 'आज के $count बिल पढ़े जा चुके; $when के बाद फिर से इस्तेमाल कर सकते हैं।';
+  }
+
+  @override
+  String billLimitMonthly(String count, String when) {
+    return 'इस महीने के $count बिल पढ़े जा चुके; $when से फिर से इस्तेमाल कर सकते हैं।';
+  }
+
+  @override
+  String get billLimitTotal =>
+      'आज की बिल पढ़ाई पूरी हुई; कल फिर से इस्तेमाल कर सकते हैं।';
+
+  @override
+  String billLimitTotalAt(String when) {
+    return 'आज की बिल पढ़ाई पूरी हुई; $when के बाद फिर से इस्तेमाल कर सकते हैं।';
+  }
+
+  @override
+  String get billPickTitle => 'बिल की पंक्ति चुनें';
+
+  @override
+  String get billTotal => 'बिल का कुल';
+
+  @override
+  String billLabelShopNo(String shop, String no) {
+    return '$shop बिल #$no';
+  }
+
+  @override
+  String billLabelShop(String shop) {
+    return '$shop बिल';
+  }
+
+  @override
+  String billLabelNo(String no) {
+    return 'बिल #$no';
+  }
+
+  @override
+  String get billFieldProduct => 'दवा का नाम';
+
+  @override
+  String get billFieldActive => 'सक्रिय तत्व';
+
+  @override
+  String get billFieldDose => 'मात्रा';
+
+  @override
+  String get billFieldCost => 'खर्च';
+
+  @override
+  String get billFieldAmount => 'रकम';
+
+  @override
+  String get billFieldDate => 'तारीख';
+
+  @override
+  String get billFieldNote => 'टिप्पणी';
 }
