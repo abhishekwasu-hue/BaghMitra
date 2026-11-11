@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
 
@@ -415,7 +417,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.open(String name) : super(driftDatabase(name: name));
 
   @override
-  int get schemaVersion => 15;
+  int get schemaVersion => 16;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -465,8 +467,48 @@ class AppDatabase extends _$AppDatabase {
         await m.addColumn(sprayRecords, sprayRecords.billPhotoPath);
         await m.addColumn(sprayRecords, sprayRecords.billPhotoKey);
       }
+      // Per tonne became per quintal (Q138); lots exist from v14.
+      if (from >= 14 && from < 16) await perTonneToPerQuintal();
     },
   );
+
+  /// Lots drafted before v16 sold "per_tonne"; the basis is per quintal now (owner
+  /// 2026-11-11, Q138), the unit of the mandi price. Each such lot and its queued sync
+  /// payloads become per quintal, the rate divided by 10 (rounded, at least one paisa),
+  /// as the server's migration 0047 does.
+  Future<void> perTonneToPerQuintal() async {
+    int? perQuintal(int? rate) {
+      if (rate == null) return null;
+      final q = (rate + 5) ~/ 10;
+      return q < 1 ? 1 : q;
+    }
+
+    final lots = await (select(
+      marketLots,
+    )..where((t) => t.basis.equals('per_tonne'))).get();
+    for (final lot in lots) {
+      await (update(marketLots)..where((t) => t.id.equals(lot.id))).write(
+        MarketLotsCompanion(
+          basis: const Value('per_quintal'),
+          askingRatePaise: Value(perQuintal(lot.askingRatePaise)),
+        ),
+      );
+    }
+    final queued = await (select(
+      outboxEntries,
+    )..where((t) => t.entity.equals('market_lot'))).get();
+    for (final e in queued) {
+      final payload = (jsonDecode(e.payload) as Map).cast<String, Object?>();
+      if (payload['basis'] != 'per_tonne') continue;
+      payload['basis'] = 'per_quintal';
+      payload['asking_rate_paise'] = perQuintal(
+        payload['asking_rate_paise'] as int?,
+      );
+      await (update(outboxEntries)..where((t) => t.id.equals(e.id))).write(
+        OutboxEntriesCompanion(payload: Value(jsonEncode(payload))),
+      );
+    }
+  }
 
   Future<String?> readMeta(String key) async {
     final row = await (select(

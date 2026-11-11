@@ -64,10 +64,10 @@ Introduction _deal(String basis, int ratePaise, {double? tonnes = 12}) =>
 
 void main() {
   test('the sale copy keeps the agreed rate per quintal, never payment', () {
-    final perTonne = saleFromDeal(_deal('per_tonne', 3200000));
-    expect(perTonne.buyer, 'सुनील · शिंदे फ्रुट्स');
-    expect(perTonne.kg, 12000);
-    expect(perTonne.ratePaisePerQuintal, 320000);
+    final perQuintal = saleFromDeal(_deal('per_quintal', 320000));
+    expect(perQuintal.buyer, 'सुनील · शिंदे फ्रुट्स');
+    expect(perQuintal.kg, 12000);
+    expect(perQuintal.ratePaisePerQuintal, 320000);
     // A lump sum over the agreed tonnes; the lot's tonnes when none was given.
     expect(
       saleFromDeal(_deal('lump_sum', 36000000)).ratePaisePerQuintal,

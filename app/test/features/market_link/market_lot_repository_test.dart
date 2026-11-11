@@ -18,8 +18,8 @@ MarketLot sampleLot({String id = 'l1', String status = 'draft'}) => MarketLot(
   quality: 'मोठी · ए ग्रेड · रंग चांगला',
   harvestFrom: DateTime(2026, 12, 2),
   harvestTo: DateTime(2026, 12, 20),
-  basis: 'per_tonne',
-  askingRatePaise: 3000000,
+  basis: 'per_quintal',
+  askingRatePaise: 300000,
   status: status,
 );
 

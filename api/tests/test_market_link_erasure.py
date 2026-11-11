@@ -83,7 +83,7 @@ def _lot(owner: uuid.UUID, status: str = "published") -> MarketLot:
         quantity_t=5.0,
         harvest_from=date(2026, 12, 1),
         harvest_to=date(2026, 12, 9),
-        basis="per_tonne",
+        basis="per_quintal",
         status=status,
         client_updated_at=T0,
         last_seq=1,
@@ -93,7 +93,7 @@ def _lot(owner: uuid.UUID, status: str = "published") -> MarketLot:
 def _offer(lot: uuid.UUID, status: str) -> MarketOffer:
     return MarketOffer(
         id=uuid.uuid4(),
-        basis="per_tonne",
+        basis="per_quintal",
         rate_paise=2_000_000,
         harvest_date=date(2026, 12, 2),
         lot_id=lot,

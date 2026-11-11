@@ -42,7 +42,9 @@ from bagmitra_api.market_link.package_models import (
 )
 
 LOT_STATUSES = ("draft", "published", "closed", "withdrawn")
-BASES = ("per_tonne", "per_crate", "lump_sum")
+# Per quintal (owner 2026-11-11, Q138: the same unit as the mandi price shown beside it), per
+# crate, or the whole orchard. "per_tonne" was the old name (migration 0047 converted it).
+BASES = ("per_quintal", "per_crate", "lump_sum")
 OFFER_STATUSES = ("open", "accepted", "closed", "withdrawn")
 DEAL_STATUSES = ("active", "completed", "cancelled")
 PARTY_ROLES = ("grower", "trader", "broker")
@@ -64,7 +66,8 @@ ADMIN_ACTIONS = ("verify", "warn", "hide", "suspend", "restore")
 # the two that close a check or an appeal.
 ADMIN_REASONS = (*REPORT_REASONS, "duplicate_user", "checks_passed", "appeal_upheld")
 # The season sale package logs its settings changes and grants here too (§4E, 0035).
-ADMIN_SUBJECT_TYPES = (*REPORT_SUBJECT_TYPES, *PACKAGE_SUBJECTS)
+# The lot form settings (Q138, 0047) log their changes as settings_change / admin_setting.
+ADMIN_SUBJECT_TYPES = (*REPORT_SUBJECT_TYPES, *PACKAGE_SUBJECTS, "lot_settings")
 ADMIN_ACTION_KINDS = (*ADMIN_ACTIONS, *PACKAGE_ACTIONS)
 ADMIN_REASON_CODES = (*ADMIN_REASONS, *PACKAGE_REASONS)
 APPEAL_STATES = ("none", "appealed", "upheld", "rejected")
@@ -151,6 +154,66 @@ class MarketLot(OwnedSyncedRowMixin, Base):
     # Set at publish (spec §4C, migration 0032): a lot that is not inside / near the mapped
     # plot stays out of the traders' list and waits for an admin check.
     orchard_check: Mapped[str | None] = mapped_column(String(16))
+
+
+class MarketLotSettings(TimestampMixin, Base):
+    """The admin's lot form settings (owner 2026-11-11, Q138), one row: the rate range per
+    crop (santra, mosambi) and basis (per quintal, per crate), for the grower's asking rate and
+    a trader's interest, and how many days after the chosen start the harvest window ends by
+    default. Empty = the default in `market_link/lot_rules.py`."""
+
+    __tablename__ = "market_lot_settings"
+    # Service only (migration 0047): RLS forced, one policy matching no row.
+    custom_rls = True
+    __table_args__ = (
+        CheckConstraint("id = 1", name="single_row"),
+        CheckConstraint(
+            "santra_per_quintal_min_paise IS NULL OR santra_per_quintal_min_paise > 0",
+            name="santra_per_quintal_min",
+        ),
+        CheckConstraint(
+            "santra_per_quintal_max_paise IS NULL OR santra_per_quintal_max_paise > 0",
+            name="santra_per_quintal_max",
+        ),
+        CheckConstraint(
+            "santra_per_crate_min_paise IS NULL OR santra_per_crate_min_paise > 0",
+            name="santra_per_crate_min",
+        ),
+        CheckConstraint(
+            "santra_per_crate_max_paise IS NULL OR santra_per_crate_max_paise > 0",
+            name="santra_per_crate_max",
+        ),
+        CheckConstraint(
+            "mosambi_per_quintal_min_paise IS NULL OR mosambi_per_quintal_min_paise > 0",
+            name="mosambi_per_quintal_min",
+        ),
+        CheckConstraint(
+            "mosambi_per_quintal_max_paise IS NULL OR mosambi_per_quintal_max_paise > 0",
+            name="mosambi_per_quintal_max",
+        ),
+        CheckConstraint(
+            "mosambi_per_crate_min_paise IS NULL OR mosambi_per_crate_min_paise > 0",
+            name="mosambi_per_crate_min",
+        ),
+        CheckConstraint(
+            "mosambi_per_crate_max_paise IS NULL OR mosambi_per_crate_max_paise > 0",
+            name="mosambi_per_crate_max",
+        ),
+        CheckConstraint(
+            "harvest_window_days IS NULL OR harvest_window_days >= 0", name="harvest_days"
+        ),
+    )
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, default=1)
+    santra_per_quintal_min_paise: Mapped[int | None] = mapped_column(BigInteger)
+    santra_per_quintal_max_paise: Mapped[int | None] = mapped_column(BigInteger)
+    santra_per_crate_min_paise: Mapped[int | None] = mapped_column(BigInteger)
+    santra_per_crate_max_paise: Mapped[int | None] = mapped_column(BigInteger)
+    mosambi_per_quintal_min_paise: Mapped[int | None] = mapped_column(BigInteger)
+    mosambi_per_quintal_max_paise: Mapped[int | None] = mapped_column(BigInteger)
+    mosambi_per_crate_min_paise: Mapped[int | None] = mapped_column(BigInteger)
+    mosambi_per_crate_max_paise: Mapped[int | None] = mapped_column(BigInteger)
+    harvest_window_days: Mapped[int | None] = mapped_column(Integer)
 
 
 class MarketLotPhoto(OwnedSyncedRowMixin, Base):
@@ -256,7 +319,7 @@ class ServiceProvider(AddressMixin, _Row, Base):
 class MarketOffer(_Row, Base):
     """A trader's interest in a lot, direct or through a named broker (spec §3 step 3): rate
     and basis, quantity, proposed harvest date; everything else is settled off the app.
-    `rate_paise` is per tonne, per crate, or the whole amount for a lump sum, by `basis`."""
+    `rate_paise` is per quintal, per crate, or the whole amount for a lump sum, by `basis`."""
 
     __tablename__ = "market_offers"
     __table_args__ = (one_of("basis", BASES), one_of("status", OFFER_STATUSES))

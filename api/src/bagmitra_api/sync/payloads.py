@@ -9,6 +9,7 @@ from typing import Annotated, Any, Literal, Self
 from pydantic import AwareDatetime, BaseModel, ConfigDict, Field, field_validator, model_validator
 
 from bagmitra_api.market_link.guards import MarketLinkIn, has_contact_details
+from bagmitra_api.market_link.lot_rules import legacy_basis
 
 
 class RowPayload(BaseModel):
@@ -275,8 +276,16 @@ class MarketLotPayload(RowPayload, MarketLinkIn):
     quality: str | None = Field(default=None, max_length=500)
     harvest_from: date
     harvest_to: date
-    basis: Literal["per_tonne", "per_crate", "lump_sum"]
+    # Per quintal, per crate or the whole orchard (Q138). The asking-rate range is checked
+    # at publish (admin settings, `lot_rules`); a draft on the phone may hold any rate.
+    basis: Literal["per_quintal", "per_crate", "lump_sum"]
     asking_rate_paise: Paise | None = Field(default=None, ge=1)
+
+    @model_validator(mode="before")
+    @classmethod
+    def _old_per_tonne(cls, data: Any) -> Any:
+        # Phones built before migration 0047 still send "per_tonne" (rate / 10).
+        return legacy_basis(data, "asking_rate_paise")
 
     @field_validator("quality")
     @classmethod

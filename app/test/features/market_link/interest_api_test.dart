@@ -14,7 +14,7 @@ const _lot = {
   'crop': 'santra',
   'variety': 'nagpur',
   'quantity_t': 12.5,
-  'basis': 'per_tonne',
+  'basis': 'per_quintal',
   'village': 'Warud',
   'taluka': 'Warud',
   'district': 'Amravati',
@@ -24,8 +24,8 @@ const _lot = {
 const _interest = {
   'id': 'i1',
   'lot_id': 'l1',
-  'basis': 'per_tonne',
-  'rate_paise': 3200000,
+  'basis': 'per_quintal',
+  'rate_paise': 320000,
   'quantity_t': 12.0,
   'harvest_date': '2026-12-05',
   'status': 'open',
@@ -80,8 +80,8 @@ void main() {
   test('send posts only the interest fields', () async {
     final api = answering(201, _interest);
     final got = await api.send('l1', (
-      basis: 'per_tonne',
-      ratePaise: 3200000,
+      basis: 'per_quintal',
+      ratePaise: 320000,
       quantityT: 12,
       harvestDate: DateTime(2026, 12, 5),
       brokerId: 'k1',
@@ -89,8 +89,8 @@ void main() {
     ));
     expect(sent.single.url.path, '/v1/market-link/lots/l1/interests');
     expect(jsonDecode(sent.single.body), {
-      'basis': 'per_tonne',
-      'rate_paise': 3200000,
+      'basis': 'per_quintal',
+      'rate_paise': 320000,
       'quantity_t': 12.0,
       'harvest_date': '2026-12-05',
       'broker_id': 'k1',

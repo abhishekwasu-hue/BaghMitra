@@ -1138,6 +1138,181 @@ extension $AdminFixOutExtension on AdminFixOut {
 }
 
 @JsonSerializable(explicitToJson: true)
+class AdminLotSettingsIn {
+  const AdminLotSettingsIn({this.harvestWindowDays, this.rateRanges});
+
+  factory AdminLotSettingsIn.fromJson(Map<String, dynamic> json) =>
+      _$AdminLotSettingsInFromJson(json);
+
+  static const toJsonFactory = _$AdminLotSettingsInToJson;
+  Map<String, dynamic> toJson() => _$AdminLotSettingsInToJson(this);
+
+  @JsonKey(name: 'harvest_window_days', includeIfNull: false)
+  final int? harvestWindowDays;
+  @JsonKey(
+    name: 'rate_ranges',
+    includeIfNull: false,
+    defaultValue: <AdminRangeIn>[],
+  )
+  final List<AdminRangeIn>? rateRanges;
+  static const fromJsonFactory = _$AdminLotSettingsInFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is AdminLotSettingsIn &&
+            (identical(other.harvestWindowDays, harvestWindowDays) ||
+                const DeepCollectionEquality().equals(
+                  other.harvestWindowDays,
+                  harvestWindowDays,
+                )) &&
+            (identical(other.rateRanges, rateRanges) ||
+                const DeepCollectionEquality().equals(
+                  other.rateRanges,
+                  rateRanges,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(harvestWindowDays) ^
+      const DeepCollectionEquality().hash(rateRanges) ^
+      runtimeType.hashCode;
+}
+
+extension $AdminLotSettingsInExtension on AdminLotSettingsIn {
+  AdminLotSettingsIn copyWith({
+    int? harvestWindowDays,
+    List<AdminRangeIn>? rateRanges,
+  }) {
+    return AdminLotSettingsIn(
+      harvestWindowDays: harvestWindowDays ?? this.harvestWindowDays,
+      rateRanges: rateRanges ?? this.rateRanges,
+    );
+  }
+
+  AdminLotSettingsIn copyWithWrapped({
+    Wrapped<int?>? harvestWindowDays,
+    Wrapped<List<AdminRangeIn>?>? rateRanges,
+  }) {
+    return AdminLotSettingsIn(
+      harvestWindowDays: (harvestWindowDays != null
+          ? harvestWindowDays.value
+          : this.harvestWindowDays),
+      rateRanges: (rateRanges != null ? rateRanges.value : this.rateRanges),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class AdminLotSettingsOut {
+  const AdminLotSettingsOut({
+    required this.effective,
+    required this.harvestWindowDays,
+    required this.harvestWindowDaysDefault,
+    required this.rateRanges,
+  });
+
+  factory AdminLotSettingsOut.fromJson(Map<String, dynamic> json) =>
+      _$AdminLotSettingsOutFromJson(json);
+
+  static const toJsonFactory = _$AdminLotSettingsOutToJson;
+  Map<String, dynamic> toJson() => _$AdminLotSettingsOutToJson(this);
+
+  @JsonKey(name: 'effective', includeIfNull: false)
+  final LotSettingsOut effective;
+  @JsonKey(name: 'harvest_window_days', includeIfNull: false)
+  final int? harvestWindowDays;
+  @JsonKey(name: 'harvest_window_days_default', includeIfNull: false)
+  final int harvestWindowDaysDefault;
+  @JsonKey(
+    name: 'rate_ranges',
+    includeIfNull: false,
+    defaultValue: <AdminRangeOut>[],
+  )
+  final List<AdminRangeOut> rateRanges;
+  static const fromJsonFactory = _$AdminLotSettingsOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is AdminLotSettingsOut &&
+            (identical(other.effective, effective) ||
+                const DeepCollectionEquality().equals(
+                  other.effective,
+                  effective,
+                )) &&
+            (identical(other.harvestWindowDays, harvestWindowDays) ||
+                const DeepCollectionEquality().equals(
+                  other.harvestWindowDays,
+                  harvestWindowDays,
+                )) &&
+            (identical(
+                  other.harvestWindowDaysDefault,
+                  harvestWindowDaysDefault,
+                ) ||
+                const DeepCollectionEquality().equals(
+                  other.harvestWindowDaysDefault,
+                  harvestWindowDaysDefault,
+                )) &&
+            (identical(other.rateRanges, rateRanges) ||
+                const DeepCollectionEquality().equals(
+                  other.rateRanges,
+                  rateRanges,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(effective) ^
+      const DeepCollectionEquality().hash(harvestWindowDays) ^
+      const DeepCollectionEquality().hash(harvestWindowDaysDefault) ^
+      const DeepCollectionEquality().hash(rateRanges) ^
+      runtimeType.hashCode;
+}
+
+extension $AdminLotSettingsOutExtension on AdminLotSettingsOut {
+  AdminLotSettingsOut copyWith({
+    LotSettingsOut? effective,
+    int? harvestWindowDays,
+    int? harvestWindowDaysDefault,
+    List<AdminRangeOut>? rateRanges,
+  }) {
+    return AdminLotSettingsOut(
+      effective: effective ?? this.effective,
+      harvestWindowDays: harvestWindowDays ?? this.harvestWindowDays,
+      harvestWindowDaysDefault:
+          harvestWindowDaysDefault ?? this.harvestWindowDaysDefault,
+      rateRanges: rateRanges ?? this.rateRanges,
+    );
+  }
+
+  AdminLotSettingsOut copyWithWrapped({
+    Wrapped<LotSettingsOut>? effective,
+    Wrapped<int?>? harvestWindowDays,
+    Wrapped<int>? harvestWindowDaysDefault,
+    Wrapped<List<AdminRangeOut>>? rateRanges,
+  }) {
+    return AdminLotSettingsOut(
+      effective: (effective != null ? effective.value : this.effective),
+      harvestWindowDays: (harvestWindowDays != null
+          ? harvestWindowDays.value
+          : this.harvestWindowDays),
+      harvestWindowDaysDefault: (harvestWindowDaysDefault != null
+          ? harvestWindowDaysDefault.value
+          : this.harvestWindowDaysDefault),
+      rateRanges: (rateRanges != null ? rateRanges.value : this.rateRanges),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class AdminProviderIn {
   const AdminProviderIn({
     this.address,
@@ -1361,6 +1536,230 @@ extension $AdminProviderInExtension on AdminProviderIn {
           ? vehicleNumbers.value
           : this.vehicleNumbers),
       village: (village != null ? village.value : this.village),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class AdminRangeIn {
+  const AdminRangeIn({
+    required this.basis,
+    required this.crop,
+    this.maxPaise,
+    this.minPaise,
+  });
+
+  factory AdminRangeIn.fromJson(Map<String, dynamic> json) =>
+      _$AdminRangeInFromJson(json);
+
+  static const toJsonFactory = _$AdminRangeInToJson;
+  Map<String, dynamic> toJson() => _$AdminRangeInToJson(this);
+
+  @JsonKey(
+    name: 'basis',
+    includeIfNull: false,
+    toJson: adminRangeInBasisToJson,
+    fromJson: adminRangeInBasisFromJson,
+  )
+  final enums.AdminRangeInBasis basis;
+  @JsonKey(
+    name: 'crop',
+    includeIfNull: false,
+    toJson: adminRangeInCropToJson,
+    fromJson: adminRangeInCropFromJson,
+  )
+  final enums.AdminRangeInCrop crop;
+  @JsonKey(name: 'max_paise', includeIfNull: false)
+  final int? maxPaise;
+  @JsonKey(name: 'min_paise', includeIfNull: false)
+  final int? minPaise;
+  static const fromJsonFactory = _$AdminRangeInFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is AdminRangeIn &&
+            (identical(other.basis, basis) ||
+                const DeepCollectionEquality().equals(other.basis, basis)) &&
+            (identical(other.crop, crop) ||
+                const DeepCollectionEquality().equals(other.crop, crop)) &&
+            (identical(other.maxPaise, maxPaise) ||
+                const DeepCollectionEquality().equals(
+                  other.maxPaise,
+                  maxPaise,
+                )) &&
+            (identical(other.minPaise, minPaise) ||
+                const DeepCollectionEquality().equals(
+                  other.minPaise,
+                  minPaise,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(basis) ^
+      const DeepCollectionEquality().hash(crop) ^
+      const DeepCollectionEquality().hash(maxPaise) ^
+      const DeepCollectionEquality().hash(minPaise) ^
+      runtimeType.hashCode;
+}
+
+extension $AdminRangeInExtension on AdminRangeIn {
+  AdminRangeIn copyWith({
+    enums.AdminRangeInBasis? basis,
+    enums.AdminRangeInCrop? crop,
+    int? maxPaise,
+    int? minPaise,
+  }) {
+    return AdminRangeIn(
+      basis: basis ?? this.basis,
+      crop: crop ?? this.crop,
+      maxPaise: maxPaise ?? this.maxPaise,
+      minPaise: minPaise ?? this.minPaise,
+    );
+  }
+
+  AdminRangeIn copyWithWrapped({
+    Wrapped<enums.AdminRangeInBasis>? basis,
+    Wrapped<enums.AdminRangeInCrop>? crop,
+    Wrapped<int?>? maxPaise,
+    Wrapped<int?>? minPaise,
+  }) {
+    return AdminRangeIn(
+      basis: (basis != null ? basis.value : this.basis),
+      crop: (crop != null ? crop.value : this.crop),
+      maxPaise: (maxPaise != null ? maxPaise.value : this.maxPaise),
+      minPaise: (minPaise != null ? minPaise.value : this.minPaise),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class AdminRangeOut {
+  const AdminRangeOut({
+    required this.basis,
+    required this.crop,
+    required this.defaultMaxPaise,
+    required this.defaultMinPaise,
+    this.maxPaise,
+    this.minPaise,
+  });
+
+  factory AdminRangeOut.fromJson(Map<String, dynamic> json) =>
+      _$AdminRangeOutFromJson(json);
+
+  static const toJsonFactory = _$AdminRangeOutToJson;
+  Map<String, dynamic> toJson() => _$AdminRangeOutToJson(this);
+
+  @JsonKey(
+    name: 'basis',
+    includeIfNull: false,
+    toJson: adminRangeOutBasisToJson,
+    fromJson: adminRangeOutBasisFromJson,
+  )
+  final enums.AdminRangeOutBasis basis;
+  @JsonKey(
+    name: 'crop',
+    includeIfNull: false,
+    toJson: adminRangeOutCropToJson,
+    fromJson: adminRangeOutCropFromJson,
+  )
+  final enums.AdminRangeOutCrop crop;
+  @JsonKey(name: 'default_max_paise', includeIfNull: false)
+  final int defaultMaxPaise;
+  @JsonKey(name: 'default_min_paise', includeIfNull: false)
+  final int defaultMinPaise;
+  @JsonKey(name: 'max_paise', includeIfNull: false)
+  final int? maxPaise;
+  @JsonKey(name: 'min_paise', includeIfNull: false)
+  final int? minPaise;
+  static const fromJsonFactory = _$AdminRangeOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is AdminRangeOut &&
+            (identical(other.basis, basis) ||
+                const DeepCollectionEquality().equals(other.basis, basis)) &&
+            (identical(other.crop, crop) ||
+                const DeepCollectionEquality().equals(other.crop, crop)) &&
+            (identical(other.defaultMaxPaise, defaultMaxPaise) ||
+                const DeepCollectionEquality().equals(
+                  other.defaultMaxPaise,
+                  defaultMaxPaise,
+                )) &&
+            (identical(other.defaultMinPaise, defaultMinPaise) ||
+                const DeepCollectionEquality().equals(
+                  other.defaultMinPaise,
+                  defaultMinPaise,
+                )) &&
+            (identical(other.maxPaise, maxPaise) ||
+                const DeepCollectionEquality().equals(
+                  other.maxPaise,
+                  maxPaise,
+                )) &&
+            (identical(other.minPaise, minPaise) ||
+                const DeepCollectionEquality().equals(
+                  other.minPaise,
+                  minPaise,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(basis) ^
+      const DeepCollectionEquality().hash(crop) ^
+      const DeepCollectionEquality().hash(defaultMaxPaise) ^
+      const DeepCollectionEquality().hash(defaultMinPaise) ^
+      const DeepCollectionEquality().hash(maxPaise) ^
+      const DeepCollectionEquality().hash(minPaise) ^
+      runtimeType.hashCode;
+}
+
+extension $AdminRangeOutExtension on AdminRangeOut {
+  AdminRangeOut copyWith({
+    enums.AdminRangeOutBasis? basis,
+    enums.AdminRangeOutCrop? crop,
+    int? defaultMaxPaise,
+    int? defaultMinPaise,
+    int? maxPaise,
+    int? minPaise,
+  }) {
+    return AdminRangeOut(
+      basis: basis ?? this.basis,
+      crop: crop ?? this.crop,
+      defaultMaxPaise: defaultMaxPaise ?? this.defaultMaxPaise,
+      defaultMinPaise: defaultMinPaise ?? this.defaultMinPaise,
+      maxPaise: maxPaise ?? this.maxPaise,
+      minPaise: minPaise ?? this.minPaise,
+    );
+  }
+
+  AdminRangeOut copyWithWrapped({
+    Wrapped<enums.AdminRangeOutBasis>? basis,
+    Wrapped<enums.AdminRangeOutCrop>? crop,
+    Wrapped<int>? defaultMaxPaise,
+    Wrapped<int>? defaultMinPaise,
+    Wrapped<int?>? maxPaise,
+    Wrapped<int?>? minPaise,
+  }) {
+    return AdminRangeOut(
+      basis: (basis != null ? basis.value : this.basis),
+      crop: (crop != null ? crop.value : this.crop),
+      defaultMaxPaise: (defaultMaxPaise != null
+          ? defaultMaxPaise.value
+          : this.defaultMaxPaise),
+      defaultMinPaise: (defaultMinPaise != null
+          ? defaultMinPaise.value
+          : this.defaultMinPaise),
+      maxPaise: (maxPaise != null ? maxPaise.value : this.maxPaise),
+      minPaise: (minPaise != null ? minPaise.value : this.minPaise),
     );
   }
 }
@@ -11616,6 +12015,79 @@ extension $LotPhotoViewExtension on LotPhotoView {
 }
 
 @JsonSerializable(explicitToJson: true)
+class LotSettingsOut {
+  const LotSettingsOut({
+    required this.harvestWindowDays,
+    required this.rateRanges,
+  });
+
+  factory LotSettingsOut.fromJson(Map<String, dynamic> json) =>
+      _$LotSettingsOutFromJson(json);
+
+  static const toJsonFactory = _$LotSettingsOutToJson;
+  Map<String, dynamic> toJson() => _$LotSettingsOutToJson(this);
+
+  @JsonKey(name: 'harvest_window_days', includeIfNull: false)
+  final int harvestWindowDays;
+  @JsonKey(
+    name: 'rate_ranges',
+    includeIfNull: false,
+    defaultValue: <RateRangeOut>[],
+  )
+  final List<RateRangeOut> rateRanges;
+  static const fromJsonFactory = _$LotSettingsOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is LotSettingsOut &&
+            (identical(other.harvestWindowDays, harvestWindowDays) ||
+                const DeepCollectionEquality().equals(
+                  other.harvestWindowDays,
+                  harvestWindowDays,
+                )) &&
+            (identical(other.rateRanges, rateRanges) ||
+                const DeepCollectionEquality().equals(
+                  other.rateRanges,
+                  rateRanges,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(harvestWindowDays) ^
+      const DeepCollectionEquality().hash(rateRanges) ^
+      runtimeType.hashCode;
+}
+
+extension $LotSettingsOutExtension on LotSettingsOut {
+  LotSettingsOut copyWith({
+    int? harvestWindowDays,
+    List<RateRangeOut>? rateRanges,
+  }) {
+    return LotSettingsOut(
+      harvestWindowDays: harvestWindowDays ?? this.harvestWindowDays,
+      rateRanges: rateRanges ?? this.rateRanges,
+    );
+  }
+
+  LotSettingsOut copyWithWrapped({
+    Wrapped<int>? harvestWindowDays,
+    Wrapped<List<RateRangeOut>>? rateRanges,
+  }) {
+    return LotSettingsOut(
+      harvestWindowDays: (harvestWindowDays != null
+          ? harvestWindowDays.value
+          : this.harvestWindowDays),
+      rateRanges: (rateRanges != null ? rateRanges.value : this.rateRanges),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class ManualPriceIn {
   const ManualPriceIn({
     required this.commodity,
@@ -16623,6 +17095,103 @@ extension $QueueResponseExtension on QueueResponse {
   QueueResponse copyWithWrapped({Wrapped<List<SubjectOut>>? subjects}) {
     return QueueResponse(
       subjects: (subjects != null ? subjects.value : this.subjects),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class RateRangeOut {
+  const RateRangeOut({
+    required this.basis,
+    required this.crop,
+    required this.maxPaise,
+    required this.minPaise,
+  });
+
+  factory RateRangeOut.fromJson(Map<String, dynamic> json) =>
+      _$RateRangeOutFromJson(json);
+
+  static const toJsonFactory = _$RateRangeOutToJson;
+  Map<String, dynamic> toJson() => _$RateRangeOutToJson(this);
+
+  @JsonKey(
+    name: 'basis',
+    includeIfNull: false,
+    toJson: rateRangeOutBasisToJson,
+    fromJson: rateRangeOutBasisFromJson,
+  )
+  final enums.RateRangeOutBasis basis;
+  @JsonKey(
+    name: 'crop',
+    includeIfNull: false,
+    toJson: rateRangeOutCropToJson,
+    fromJson: rateRangeOutCropFromJson,
+  )
+  final enums.RateRangeOutCrop crop;
+  @JsonKey(name: 'max_paise', includeIfNull: false)
+  final int maxPaise;
+  @JsonKey(name: 'min_paise', includeIfNull: false)
+  final int minPaise;
+  static const fromJsonFactory = _$RateRangeOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is RateRangeOut &&
+            (identical(other.basis, basis) ||
+                const DeepCollectionEquality().equals(other.basis, basis)) &&
+            (identical(other.crop, crop) ||
+                const DeepCollectionEquality().equals(other.crop, crop)) &&
+            (identical(other.maxPaise, maxPaise) ||
+                const DeepCollectionEquality().equals(
+                  other.maxPaise,
+                  maxPaise,
+                )) &&
+            (identical(other.minPaise, minPaise) ||
+                const DeepCollectionEquality().equals(
+                  other.minPaise,
+                  minPaise,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(basis) ^
+      const DeepCollectionEquality().hash(crop) ^
+      const DeepCollectionEquality().hash(maxPaise) ^
+      const DeepCollectionEquality().hash(minPaise) ^
+      runtimeType.hashCode;
+}
+
+extension $RateRangeOutExtension on RateRangeOut {
+  RateRangeOut copyWith({
+    enums.RateRangeOutBasis? basis,
+    enums.RateRangeOutCrop? crop,
+    int? maxPaise,
+    int? minPaise,
+  }) {
+    return RateRangeOut(
+      basis: basis ?? this.basis,
+      crop: crop ?? this.crop,
+      maxPaise: maxPaise ?? this.maxPaise,
+      minPaise: minPaise ?? this.minPaise,
+    );
+  }
+
+  RateRangeOut copyWithWrapped({
+    Wrapped<enums.RateRangeOutBasis>? basis,
+    Wrapped<enums.RateRangeOutCrop>? crop,
+    Wrapped<int>? maxPaise,
+    Wrapped<int>? minPaise,
+  }) {
+    return RateRangeOut(
+      basis: (basis != null ? basis.value : this.basis),
+      crop: (crop != null ? crop.value : this.crop),
+      maxPaise: (maxPaise != null ? maxPaise.value : this.maxPaise),
+      minPaise: (minPaise != null ? minPaise.value : this.minPaise),
     );
   }
 }
@@ -21896,6 +22465,310 @@ List<enums.AdminProviderInKind>? adminProviderInKindNullableListFromJson(
       .toList();
 }
 
+String? adminRangeInBasisNullableToJson(
+  enums.AdminRangeInBasis? adminRangeInBasis,
+) {
+  return adminRangeInBasis?.value;
+}
+
+String? adminRangeInBasisToJson(enums.AdminRangeInBasis adminRangeInBasis) {
+  return adminRangeInBasis.value;
+}
+
+enums.AdminRangeInBasis adminRangeInBasisFromJson(
+  Object? adminRangeInBasis, [
+  enums.AdminRangeInBasis? defaultValue,
+]) {
+  return enums.AdminRangeInBasis.values.firstWhereOrNull(
+        (e) => e.value == adminRangeInBasis,
+      ) ??
+      defaultValue ??
+      enums.AdminRangeInBasis.swaggerGeneratedUnknown;
+}
+
+enums.AdminRangeInBasis? adminRangeInBasisNullableFromJson(
+  Object? adminRangeInBasis, [
+  enums.AdminRangeInBasis? defaultValue,
+]) {
+  if (adminRangeInBasis == null) {
+    return null;
+  }
+  return enums.AdminRangeInBasis.values.firstWhereOrNull(
+        (e) => e.value == adminRangeInBasis,
+      ) ??
+      defaultValue;
+}
+
+String adminRangeInBasisExplodedListToJson(
+  List<enums.AdminRangeInBasis>? adminRangeInBasis,
+) {
+  return adminRangeInBasis?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> adminRangeInBasisListToJson(
+  List<enums.AdminRangeInBasis>? adminRangeInBasis,
+) {
+  if (adminRangeInBasis == null) {
+    return [];
+  }
+
+  return adminRangeInBasis.map((e) => e.value!).toList();
+}
+
+List<enums.AdminRangeInBasis> adminRangeInBasisListFromJson(
+  List? adminRangeInBasis, [
+  List<enums.AdminRangeInBasis>? defaultValue,
+]) {
+  if (adminRangeInBasis == null) {
+    return defaultValue ?? [];
+  }
+
+  return adminRangeInBasis
+      .map((e) => adminRangeInBasisFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.AdminRangeInBasis>? adminRangeInBasisNullableListFromJson(
+  List? adminRangeInBasis, [
+  List<enums.AdminRangeInBasis>? defaultValue,
+]) {
+  if (adminRangeInBasis == null) {
+    return defaultValue;
+  }
+
+  return adminRangeInBasis
+      .map((e) => adminRangeInBasisFromJson(e.toString()))
+      .toList();
+}
+
+String? adminRangeInCropNullableToJson(
+  enums.AdminRangeInCrop? adminRangeInCrop,
+) {
+  return adminRangeInCrop?.value;
+}
+
+String? adminRangeInCropToJson(enums.AdminRangeInCrop adminRangeInCrop) {
+  return adminRangeInCrop.value;
+}
+
+enums.AdminRangeInCrop adminRangeInCropFromJson(
+  Object? adminRangeInCrop, [
+  enums.AdminRangeInCrop? defaultValue,
+]) {
+  return enums.AdminRangeInCrop.values.firstWhereOrNull(
+        (e) => e.value == adminRangeInCrop,
+      ) ??
+      defaultValue ??
+      enums.AdminRangeInCrop.swaggerGeneratedUnknown;
+}
+
+enums.AdminRangeInCrop? adminRangeInCropNullableFromJson(
+  Object? adminRangeInCrop, [
+  enums.AdminRangeInCrop? defaultValue,
+]) {
+  if (adminRangeInCrop == null) {
+    return null;
+  }
+  return enums.AdminRangeInCrop.values.firstWhereOrNull(
+        (e) => e.value == adminRangeInCrop,
+      ) ??
+      defaultValue;
+}
+
+String adminRangeInCropExplodedListToJson(
+  List<enums.AdminRangeInCrop>? adminRangeInCrop,
+) {
+  return adminRangeInCrop?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> adminRangeInCropListToJson(
+  List<enums.AdminRangeInCrop>? adminRangeInCrop,
+) {
+  if (adminRangeInCrop == null) {
+    return [];
+  }
+
+  return adminRangeInCrop.map((e) => e.value!).toList();
+}
+
+List<enums.AdminRangeInCrop> adminRangeInCropListFromJson(
+  List? adminRangeInCrop, [
+  List<enums.AdminRangeInCrop>? defaultValue,
+]) {
+  if (adminRangeInCrop == null) {
+    return defaultValue ?? [];
+  }
+
+  return adminRangeInCrop
+      .map((e) => adminRangeInCropFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.AdminRangeInCrop>? adminRangeInCropNullableListFromJson(
+  List? adminRangeInCrop, [
+  List<enums.AdminRangeInCrop>? defaultValue,
+]) {
+  if (adminRangeInCrop == null) {
+    return defaultValue;
+  }
+
+  return adminRangeInCrop
+      .map((e) => adminRangeInCropFromJson(e.toString()))
+      .toList();
+}
+
+String? adminRangeOutBasisNullableToJson(
+  enums.AdminRangeOutBasis? adminRangeOutBasis,
+) {
+  return adminRangeOutBasis?.value;
+}
+
+String? adminRangeOutBasisToJson(enums.AdminRangeOutBasis adminRangeOutBasis) {
+  return adminRangeOutBasis.value;
+}
+
+enums.AdminRangeOutBasis adminRangeOutBasisFromJson(
+  Object? adminRangeOutBasis, [
+  enums.AdminRangeOutBasis? defaultValue,
+]) {
+  return enums.AdminRangeOutBasis.values.firstWhereOrNull(
+        (e) => e.value == adminRangeOutBasis,
+      ) ??
+      defaultValue ??
+      enums.AdminRangeOutBasis.swaggerGeneratedUnknown;
+}
+
+enums.AdminRangeOutBasis? adminRangeOutBasisNullableFromJson(
+  Object? adminRangeOutBasis, [
+  enums.AdminRangeOutBasis? defaultValue,
+]) {
+  if (adminRangeOutBasis == null) {
+    return null;
+  }
+  return enums.AdminRangeOutBasis.values.firstWhereOrNull(
+        (e) => e.value == adminRangeOutBasis,
+      ) ??
+      defaultValue;
+}
+
+String adminRangeOutBasisExplodedListToJson(
+  List<enums.AdminRangeOutBasis>? adminRangeOutBasis,
+) {
+  return adminRangeOutBasis?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> adminRangeOutBasisListToJson(
+  List<enums.AdminRangeOutBasis>? adminRangeOutBasis,
+) {
+  if (adminRangeOutBasis == null) {
+    return [];
+  }
+
+  return adminRangeOutBasis.map((e) => e.value!).toList();
+}
+
+List<enums.AdminRangeOutBasis> adminRangeOutBasisListFromJson(
+  List? adminRangeOutBasis, [
+  List<enums.AdminRangeOutBasis>? defaultValue,
+]) {
+  if (adminRangeOutBasis == null) {
+    return defaultValue ?? [];
+  }
+
+  return adminRangeOutBasis
+      .map((e) => adminRangeOutBasisFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.AdminRangeOutBasis>? adminRangeOutBasisNullableListFromJson(
+  List? adminRangeOutBasis, [
+  List<enums.AdminRangeOutBasis>? defaultValue,
+]) {
+  if (adminRangeOutBasis == null) {
+    return defaultValue;
+  }
+
+  return adminRangeOutBasis
+      .map((e) => adminRangeOutBasisFromJson(e.toString()))
+      .toList();
+}
+
+String? adminRangeOutCropNullableToJson(
+  enums.AdminRangeOutCrop? adminRangeOutCrop,
+) {
+  return adminRangeOutCrop?.value;
+}
+
+String? adminRangeOutCropToJson(enums.AdminRangeOutCrop adminRangeOutCrop) {
+  return adminRangeOutCrop.value;
+}
+
+enums.AdminRangeOutCrop adminRangeOutCropFromJson(
+  Object? adminRangeOutCrop, [
+  enums.AdminRangeOutCrop? defaultValue,
+]) {
+  return enums.AdminRangeOutCrop.values.firstWhereOrNull(
+        (e) => e.value == adminRangeOutCrop,
+      ) ??
+      defaultValue ??
+      enums.AdminRangeOutCrop.swaggerGeneratedUnknown;
+}
+
+enums.AdminRangeOutCrop? adminRangeOutCropNullableFromJson(
+  Object? adminRangeOutCrop, [
+  enums.AdminRangeOutCrop? defaultValue,
+]) {
+  if (adminRangeOutCrop == null) {
+    return null;
+  }
+  return enums.AdminRangeOutCrop.values.firstWhereOrNull(
+        (e) => e.value == adminRangeOutCrop,
+      ) ??
+      defaultValue;
+}
+
+String adminRangeOutCropExplodedListToJson(
+  List<enums.AdminRangeOutCrop>? adminRangeOutCrop,
+) {
+  return adminRangeOutCrop?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> adminRangeOutCropListToJson(
+  List<enums.AdminRangeOutCrop>? adminRangeOutCrop,
+) {
+  if (adminRangeOutCrop == null) {
+    return [];
+  }
+
+  return adminRangeOutCrop.map((e) => e.value!).toList();
+}
+
+List<enums.AdminRangeOutCrop> adminRangeOutCropListFromJson(
+  List? adminRangeOutCrop, [
+  List<enums.AdminRangeOutCrop>? defaultValue,
+]) {
+  if (adminRangeOutCrop == null) {
+    return defaultValue ?? [];
+  }
+
+  return adminRangeOutCrop
+      .map((e) => adminRangeOutCropFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.AdminRangeOutCrop>? adminRangeOutCropNullableListFromJson(
+  List? adminRangeOutCrop, [
+  List<enums.AdminRangeOutCrop>? defaultValue,
+]) {
+  if (adminRangeOutCrop == null) {
+    return defaultValue;
+  }
+
+  return adminRangeOutCrop
+      .map((e) => adminRangeOutCropFromJson(e.toString()))
+      .toList();
+}
+
 String? appealDecisionInOutcomeNullableToJson(
   enums.AppealDecisionInOutcome? appealDecisionInOutcome,
 ) {
@@ -23892,6 +24765,158 @@ List<enums.ProviderInKind>? providerInKindNullableListFromJson(
 
   return providerInKind
       .map((e) => providerInKindFromJson(e.toString()))
+      .toList();
+}
+
+String? rateRangeOutBasisNullableToJson(
+  enums.RateRangeOutBasis? rateRangeOutBasis,
+) {
+  return rateRangeOutBasis?.value;
+}
+
+String? rateRangeOutBasisToJson(enums.RateRangeOutBasis rateRangeOutBasis) {
+  return rateRangeOutBasis.value;
+}
+
+enums.RateRangeOutBasis rateRangeOutBasisFromJson(
+  Object? rateRangeOutBasis, [
+  enums.RateRangeOutBasis? defaultValue,
+]) {
+  return enums.RateRangeOutBasis.values.firstWhereOrNull(
+        (e) => e.value == rateRangeOutBasis,
+      ) ??
+      defaultValue ??
+      enums.RateRangeOutBasis.swaggerGeneratedUnknown;
+}
+
+enums.RateRangeOutBasis? rateRangeOutBasisNullableFromJson(
+  Object? rateRangeOutBasis, [
+  enums.RateRangeOutBasis? defaultValue,
+]) {
+  if (rateRangeOutBasis == null) {
+    return null;
+  }
+  return enums.RateRangeOutBasis.values.firstWhereOrNull(
+        (e) => e.value == rateRangeOutBasis,
+      ) ??
+      defaultValue;
+}
+
+String rateRangeOutBasisExplodedListToJson(
+  List<enums.RateRangeOutBasis>? rateRangeOutBasis,
+) {
+  return rateRangeOutBasis?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> rateRangeOutBasisListToJson(
+  List<enums.RateRangeOutBasis>? rateRangeOutBasis,
+) {
+  if (rateRangeOutBasis == null) {
+    return [];
+  }
+
+  return rateRangeOutBasis.map((e) => e.value!).toList();
+}
+
+List<enums.RateRangeOutBasis> rateRangeOutBasisListFromJson(
+  List? rateRangeOutBasis, [
+  List<enums.RateRangeOutBasis>? defaultValue,
+]) {
+  if (rateRangeOutBasis == null) {
+    return defaultValue ?? [];
+  }
+
+  return rateRangeOutBasis
+      .map((e) => rateRangeOutBasisFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.RateRangeOutBasis>? rateRangeOutBasisNullableListFromJson(
+  List? rateRangeOutBasis, [
+  List<enums.RateRangeOutBasis>? defaultValue,
+]) {
+  if (rateRangeOutBasis == null) {
+    return defaultValue;
+  }
+
+  return rateRangeOutBasis
+      .map((e) => rateRangeOutBasisFromJson(e.toString()))
+      .toList();
+}
+
+String? rateRangeOutCropNullableToJson(
+  enums.RateRangeOutCrop? rateRangeOutCrop,
+) {
+  return rateRangeOutCrop?.value;
+}
+
+String? rateRangeOutCropToJson(enums.RateRangeOutCrop rateRangeOutCrop) {
+  return rateRangeOutCrop.value;
+}
+
+enums.RateRangeOutCrop rateRangeOutCropFromJson(
+  Object? rateRangeOutCrop, [
+  enums.RateRangeOutCrop? defaultValue,
+]) {
+  return enums.RateRangeOutCrop.values.firstWhereOrNull(
+        (e) => e.value == rateRangeOutCrop,
+      ) ??
+      defaultValue ??
+      enums.RateRangeOutCrop.swaggerGeneratedUnknown;
+}
+
+enums.RateRangeOutCrop? rateRangeOutCropNullableFromJson(
+  Object? rateRangeOutCrop, [
+  enums.RateRangeOutCrop? defaultValue,
+]) {
+  if (rateRangeOutCrop == null) {
+    return null;
+  }
+  return enums.RateRangeOutCrop.values.firstWhereOrNull(
+        (e) => e.value == rateRangeOutCrop,
+      ) ??
+      defaultValue;
+}
+
+String rateRangeOutCropExplodedListToJson(
+  List<enums.RateRangeOutCrop>? rateRangeOutCrop,
+) {
+  return rateRangeOutCrop?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> rateRangeOutCropListToJson(
+  List<enums.RateRangeOutCrop>? rateRangeOutCrop,
+) {
+  if (rateRangeOutCrop == null) {
+    return [];
+  }
+
+  return rateRangeOutCrop.map((e) => e.value!).toList();
+}
+
+List<enums.RateRangeOutCrop> rateRangeOutCropListFromJson(
+  List? rateRangeOutCrop, [
+  List<enums.RateRangeOutCrop>? defaultValue,
+]) {
+  if (rateRangeOutCrop == null) {
+    return defaultValue ?? [];
+  }
+
+  return rateRangeOutCrop
+      .map((e) => rateRangeOutCropFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.RateRangeOutCrop>? rateRangeOutCropNullableListFromJson(
+  List? rateRangeOutCrop, [
+  List<enums.RateRangeOutCrop>? defaultValue,
+]) {
+  if (rateRangeOutCrop == null) {
+    return defaultValue;
+  }
+
+  return rateRangeOutCrop
+      .map((e) => rateRangeOutCropFromJson(e.toString()))
       .toList();
 }
 

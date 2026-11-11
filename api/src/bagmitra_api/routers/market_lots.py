@@ -30,6 +30,7 @@ from bagmitra_api.core.settings import Settings, get_settings
 from bagmitra_api.db.models import Farmer, Plot
 from bagmitra_api.db.session import DbSession
 from bagmitra_api.market_link.guards import is_verified_viewer
+from bagmitra_api.market_link.lot_rules import lot_rules
 from bagmitra_api.market_link.models import (
     LOT_MAX_PHOTOS,
     LOT_MIN_PHOTOS,
@@ -178,13 +179,23 @@ async def publish_lot(
 ) -> GrowerLotOut:
     """Shows a draft lot to verified buyers and brokers. Needs 3 to 8 live photos, each
     uploaded; crop and variety are copied from the plot again and the place names from the
-    grower's profile (village, taluka, district; never the plot's point)."""
+    grower's profile (village, taluka, district; never the plot's point). An asking rate
+    outside the admin's range for its basis is refused (422 `lot_rate_out_of_range`)."""
     lot = await _own_lot(session, user, lot_id)
     if lot.status != "draft":
         raise ApiError(409, "lot_not_draft")
     plot = await session.get(Plot, lot.plot_id)
     if plot is None or plot.owner_id != user.id or plot.deleted_at is not None:
         raise ApiError(409, "plot_not_found")
+    # The admin's range for the plot's crop and the basis (Q138); none for the whole orchard.
+    rules = await lot_rules(session)
+    span = rules.out_of_range(plot.crop, lot.basis, lot.asking_rate_paise)
+    if span is not None:
+        raise ApiError(
+            422,
+            "lot_rate_out_of_range",
+            f"the asking rate {lot.basis} for {plot.crop} must be {span[0]} to {span[1]} paise",
+        )
     photos = await _live_photos(session, lot.id)
     if not LOT_MIN_PHOTOS <= len(photos) <= LOT_MAX_PHOTOS:
         raise ApiError(

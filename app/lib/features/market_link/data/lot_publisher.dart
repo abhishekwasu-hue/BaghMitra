@@ -17,6 +17,9 @@ enum PublishOutcome {
   photoMissing,
   notAccepted,
   orchardCheck,
+
+  /// The asking rate is outside the admin's range for its basis (Q138).
+  rateOutOfRange,
   failed,
 }
 
@@ -181,6 +184,7 @@ class LotPublisher {
     'lot_photos_needed' => PublishOutcome.photosNeeded,
     'lot_photos_not_uploaded' => PublishOutcome.photoMissing,
     'terms_not_accepted' => PublishOutcome.notAccepted,
+    'lot_rate_out_of_range' => PublishOutcome.rateOutOfRange,
     _ => PublishOutcome.failed,
   };
 }

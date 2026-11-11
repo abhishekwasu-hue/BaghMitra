@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../app/providers.dart';
+import '../domain/lot_form_rules.dart';
 import '../domain/market_link.dart';
+import 'lot_settings_store.dart';
 import 'market_link_store.dart';
 
 final marketLinkStoreProvider = Provider<MarketLinkStore>(
@@ -23,6 +25,26 @@ final marketTermsProvider = FutureProvider<MarketTerms>((ref) async {
     );
   }
   return store.terms();
+});
+
+final lotSettingsStoreProvider = Provider<LotSettingsStore>(
+  (ref) =>
+      LotSettingsStore(ref.watch(databaseProvider), ref.watch(apiProvider)),
+);
+
+/// The admin's lot form settings (Q138): the phone's copy answers first (works offline);
+/// once per app run, online and signed in, the server is asked and this is read again.
+final lotFormSettingsProvider = FutureProvider<LotFormSettings>((ref) async {
+  final store = ref.watch(lotSettingsStoreProvider);
+  final signedIn = ref.watch(sessionProvider).value?.userId != null;
+  if (signedIn && !store.refreshed && !ref.watch(appConfigProvider).demoMode) {
+    unawaited(
+      store.refresh().then((saved) {
+        if (saved) ref.invalidateSelf();
+      }),
+    );
+  }
+  return store.load();
 });
 
 /// Whether the signed-in user accepted the current terms for [role] (spec v1.5 §4C).

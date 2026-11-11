@@ -44,6 +44,7 @@ OWN = {
     "blocks",
     "account_actions",
     "package_status",
+    "get_lot_settings",
 }
 
 

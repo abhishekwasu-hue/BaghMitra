@@ -5,16 +5,16 @@ import 'package:bagmitra/features/market_link/domain/registration.dart';
 
 import 'market_link_fakes.dart';
 
-BuyerLot sampleBuyerLot({String id = 'l1'}) => BuyerLot(
+BuyerLot sampleBuyerLot({String id = 'l1', String crop = 'santra'}) => BuyerLot(
   id: id,
-  crop: 'santra',
+  crop: crop,
   variety: 'नागपुरी',
   quantityT: 12.5,
   quality: 'मोठी · ए ग्रेड',
   harvestFrom: DateTime(2026, 12),
   harvestTo: DateTime(2026, 12, 20),
-  basis: 'per_tonne',
-  askingRatePaise: 3000000,
+  basis: 'per_quintal',
+  askingRatePaise: 300000,
   village: 'वरुड',
   taluka: 'वरुड',
   district: 'अमरावती',
@@ -22,14 +22,14 @@ BuyerLot sampleBuyerLot({String id = 'l1'}) => BuyerLot(
 
 Interest sampleInterest({
   String id = 'i1',
-  int ratePaise = 3200000,
+  int ratePaise = 320000,
   InterestStatus status = InterestStatus.open,
   bool viaBroker = false,
   String? dealId,
 }) => Interest(
   id: id,
   lotId: 'l1',
-  basis: 'per_tonne',
+  basis: 'per_quintal',
   ratePaise: ratePaise,
   quantityT: 12,
   harvestDate: DateTime(2026, 12, 5),
@@ -43,7 +43,7 @@ const sampleLotBrief = LotBrief(
   crop: 'santra',
   variety: 'नागपुरी',
   quantityT: 12.5,
-  basis: 'per_tonne',
+  basis: 'per_quintal',
   village: 'वरुड',
   taluka: 'वरुड',
   district: 'अमरावती',
@@ -87,6 +87,9 @@ class FakeInterestApi implements InterestApi {
   List<SentInterest> sentList;
   List<LotInterest> onLotList;
   Object? error;
+
+  /// Thrown by [send] only (the lot list still loads).
+  Object? sendError;
   Object? acceptError;
   final sent = <(String, InterestDraft)>[];
   final accepted = <String>[];
@@ -109,6 +112,7 @@ class FakeInterestApi implements InterestApi {
   @override
   Future<Interest> send(String lotId, InterestDraft draft) async {
     _fail();
+    if (sendError != null) throw sendError!;
     sent.add((lotId, draft));
     return sampleInterest();
   }

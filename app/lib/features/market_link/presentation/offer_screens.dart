@@ -16,8 +16,10 @@ import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../../market/domain/market_crops.dart';
 import '../data/interest_api.dart';
+import '../data/market_link_providers.dart';
 import '../data/registration_api.dart';
 import '../domain/interest.dart';
+import '../domain/lot_form_rules.dart';
 import '../domain/market_link_role.dart';
 import '../domain/market_lot.dart';
 import '../domain/registration.dart';
@@ -259,6 +261,7 @@ class _SendInterestState extends ConsumerState<_SendInterest> {
         (MarketCallProblem.offline, _) => t.mlOffline,
         (_, 'lot_not_found') => t.mlErrLotGone,
         (_, 'not_verified') => t.mlNotVerified,
+        (_, 'interest_rate_out_of_range') => t.mlOfferRateRange,
         _ => t.mlPublishFailed,
       });
     } finally {
@@ -308,6 +311,10 @@ class _SendInterestState extends ConsumerState<_SendInterest> {
     final basis = _basis ?? lot.basis;
     final date = _date ?? lot.harvestFrom;
     final paise = parseRupeesToPaise(_rate.text);
+    // The admin's range for the lot's crop and the basis chosen (owner 2026-11-11, Q138).
+    final settings =
+        ref.watch(lotFormSettingsProvider).value ?? LotFormSettings.bundled;
+    final range = settings.rangeOf(lot.crop, basis);
     const gap = SizedBox(height: BmSpace.md);
     Widget title(String text) => Padding(
       padding: const EdgeInsets.only(top: BmSpace.md, bottom: BmSpace.xs),
@@ -347,9 +354,25 @@ class _SendInterestState extends ConsumerState<_SendInterest> {
           key: const Key('ml-offer-rate'),
           controller: _rate,
           keyboardType: const TextInputType.numberWithOptions(decimal: true),
-          decoration: InputDecoration(labelText: t.mlOfferRate),
-          validator: (v) =>
-              (parseRupeesToPaise(v ?? '') ?? 0) > 0 ? null : t.mlErrRate,
+          // Checked on send; once a message shows it follows the typing.
+          autovalidateMode: AutovalidateMode.onUserInteractionIfError,
+          decoration: InputDecoration(
+            labelText: t.mlOfferRate,
+            helperText: rateRangeLabel(t, basis, range, lang),
+            helperMaxLines: 2,
+            errorMaxLines: 3,
+          ),
+          validator: (v) {
+            final p = parseRupeesToPaise(v ?? '') ?? 0;
+            if (p <= 0) return t.mlErrRate;
+            if (range != null && !settings.fits(lot.crop, basis, p)) {
+              return t.mlRateOutOfRange(
+                formatPaise(range.min, lang),
+                formatPaise(range.max, lang),
+              );
+            }
+            return null;
+          },
           onChanged: (_) => setState(() {}),
         ),
         if (paise != null && paise > 0)

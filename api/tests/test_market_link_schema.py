@@ -41,6 +41,8 @@ SPEC_TABLES = {
     # Added in 0034 (L7, spec §4, §4C).
     "verification_checks",
     "device_sightings",
+    # Added in 0047 (Q138): the admin's lot form settings.
+    "market_lot_settings",
 }
 # Dropped in 0030: BagMitra never enters the transaction or its disputes (§1 core principle).
 DROPPED_TABLES = {

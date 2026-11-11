@@ -38,6 +38,7 @@ from bagmitra_api.routers import (
     market_link_profiles,
     market_link_registration,
     market_link_safety,
+    market_lot_settings,
     market_lots,
     me,
     photo_analysis,
@@ -109,6 +110,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         market_link_profiles,
         market_link_registration,
         market_link_safety,
+        market_lot_settings,
         market_lots,
         me,
         photo_analysis,
@@ -120,6 +122,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     ):
         app.include_router(module.router)
     app.include_router(market_link_registration.admin_router)
+    app.include_router(market_lot_settings.admin_router)
     # Last, so `/admin/config.json` (admin_web router) wins over the static files.
     admin_files = admin_web.admin_web_files(settings)
     if admin_files is not None:

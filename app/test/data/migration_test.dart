@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:bagmitra/data/local/database.dart';
 import 'package:drift/drift.dart' hide isNull;
 import 'package:drift/native.dart';
@@ -289,7 +291,7 @@ void main() {
             quantityT: 10,
             harvestFrom: DateTime(2026, 12),
             harvestTo: DateTime(2026, 12, 20),
-            basis: 'per_tonne',
+            basis: 'per_quintal',
             clientUpdatedAt: DateTime.utc(2026),
           ),
         );
@@ -334,7 +336,7 @@ void main() {
         },
       ),
     );
-    expect(db.schemaVersion, 15);
+    expect(db.schemaVersion, greaterThanOrEqualTo(15));
     for (final table in ['expenses', 'spray_records']) {
       final cols = await db
           .customSelect("PRAGMA table_info('$table')")
@@ -349,6 +351,82 @@ void main() {
     final spray = await db.select(db.sprayRecords).getSingle();
     expect(spray.productName, 'Imida');
     expect(spray.billPhotoKey, isNull);
+    await db.close();
+  });
+
+  test('v15 -> v16 turns per-tonne lots and their queued payloads per quintal '
+      '(rate / 10, Q138)', () async {
+    final fresh = memoryDb();
+    final ddl = await fresh
+        .customSelect(
+          "SELECT sql FROM sqlite_master WHERE type = 'table' "
+          "AND name NOT LIKE 'sqlite_%'",
+        )
+        .map((r) => r.read<String>('sql'))
+        .get();
+    await fresh.close();
+
+    String lot(String id, String basis, String rate) =>
+        'INSERT INTO market_lots (id, plot_id, crop, quantity_t, harvest_from, '
+        'harvest_to, basis, asking_rate_paise, status, client_updated_at) '
+        "VALUES ('$id', 'p1', 'santra', 10, '2026-12-01T00:00:00.000', "
+        "'2026-12-16T00:00:00.000', '$basis', $rate, 'draft', "
+        "'2026-11-01T00:00:00.000Z')";
+    String queued(String id, String entity, Map<String, Object?> payload) =>
+        'INSERT INTO outbox_entries (id, entity, entity_id, op, payload, '
+        'client_updated_at, attempts, next_attempt_at, state) '
+        "VALUES ('$id', '$entity', 'l1', 'upsert', '${jsonEncode(payload)}', "
+        "'2026-11-01T00:00:00.000Z', 0, '2026-11-01T00:00:00.000Z', 'pending')";
+
+    driftRuntimeOptions.dontWarnAboutMultipleDatabases = true;
+    final db = AppDatabase(
+      NativeDatabase.memory(
+        setup: (raw) {
+          for (final stmt in ddl) {
+            raw.execute(stmt);
+          }
+          raw
+            ..execute(lot('l1', 'per_tonne', '3000000'))
+            ..execute(lot('l2', 'per_tonne', 'NULL'))
+            ..execute(lot('l3', 'per_crate', '50000'))
+            ..execute(
+              queued('o1', 'market_lot', {
+                'basis': 'per_tonne',
+                'asking_rate_paise': 3000005,
+              }),
+            )
+            ..execute(
+              queued('o2', 'market_lot', {
+                'basis': 'lump_sum',
+                'asking_rate_paise': 900,
+              }),
+            )
+            ..execute(queued('o3', 'market_lot_photo', {'basis': 'per_tonne'}))
+            ..execute('PRAGMA user_version = 15');
+        },
+      ),
+    );
+    expect(db.schemaVersion, 16);
+    final lots = {
+      for (final r in await db.select(db.marketLots).get())
+        r.id: (r.basis, r.askingRatePaise),
+    };
+    expect(lots, {
+      'l1': ('per_quintal', 300000),
+      'l2': ('per_quintal', null),
+      'l3': ('per_crate', 50000),
+    });
+    final payloads = {
+      for (final e in await db.select(db.outboxEntries).get())
+        e.id: jsonDecode(e.payload),
+    };
+    expect(payloads['o1'], {
+      'basis': 'per_quintal',
+      'asking_rate_paise': 300001,
+    });
+    expect(payloads['o2'], {'basis': 'lump_sum', 'asking_rate_paise': 900});
+    // Only lot payloads carry a basis; anything else is left as it is.
+    expect(payloads['o3'], {'basis': 'per_tonne'});
     await db.close();
   });
 }

@@ -530,6 +530,72 @@
         "title": "AdminFixOut",
         "type": "object"
       },
+      "AdminLotSettingsIn": {
+        "description": "Every range of every crop and the harvest window length: a value, or null for the\ndefault. A range left out is the default too. A minimum must stay below its maximum (as\nthey apply, defaults included).",
+        "properties": {
+          "harvest_window_days": {
+            "anyOf": [
+              {
+                "maximum": 120.0,
+                "minimum": 0.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Harvest Window Days"
+          },
+          "rate_ranges": {
+            "items": {
+              "$ref": "#/components/schemas/AdminRangeIn"
+            },
+            "maxItems": 8,
+            "title": "Rate Ranges",
+            "type": "array"
+          }
+        },
+        "title": "AdminLotSettingsIn",
+        "type": "object"
+      },
+      "AdminLotSettingsOut": {
+        "description": "The admin's stored values (null = default), with the defaults beside them.",
+        "properties": {
+          "effective": {
+            "$ref": "#/components/schemas/LotSettingsOut"
+          },
+          "harvest_window_days": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Harvest Window Days"
+          },
+          "harvest_window_days_default": {
+            "title": "Harvest Window Days Default",
+            "type": "integer"
+          },
+          "rate_ranges": {
+            "items": {
+              "$ref": "#/components/schemas/AdminRangeOut"
+            },
+            "title": "Rate Ranges",
+            "type": "array"
+          }
+        },
+        "required": [
+          "rate_ranges",
+          "harvest_window_days",
+          "harvest_window_days_default",
+          "effective"
+        ],
+        "title": "AdminLotSettingsOut",
+        "type": "object"
+      },
       "AdminProviderIn": {
         "additionalProperties": false,
         "properties": {
@@ -679,6 +745,120 @@
           "district"
         ],
         "title": "AdminProviderIn",
+        "type": "object"
+      },
+      "AdminRangeIn": {
+        "properties": {
+          "basis": {
+            "enum": [
+              "per_quintal",
+              "per_crate"
+            ],
+            "title": "Basis",
+            "type": "string"
+          },
+          "crop": {
+            "enum": [
+              "santra",
+              "mosambi"
+            ],
+            "title": "Crop",
+            "type": "string"
+          },
+          "max_paise": {
+            "anyOf": [
+              {
+                "exclusiveMinimum": 0.0,
+                "maximum": 10000000000.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Paise"
+          },
+          "min_paise": {
+            "anyOf": [
+              {
+                "exclusiveMinimum": 0.0,
+                "maximum": 10000000000.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Min Paise"
+          }
+        },
+        "required": [
+          "crop",
+          "basis"
+        ],
+        "title": "AdminRangeIn",
+        "type": "object"
+      },
+      "AdminRangeOut": {
+        "properties": {
+          "basis": {
+            "enum": [
+              "per_quintal",
+              "per_crate"
+            ],
+            "title": "Basis",
+            "type": "string"
+          },
+          "crop": {
+            "enum": [
+              "santra",
+              "mosambi"
+            ],
+            "title": "Crop",
+            "type": "string"
+          },
+          "default_max_paise": {
+            "title": "Default Max Paise",
+            "type": "integer"
+          },
+          "default_min_paise": {
+            "title": "Default Min Paise",
+            "type": "integer"
+          },
+          "max_paise": {
+            "anyOf": [
+              {
+                "exclusiveMinimum": 0.0,
+                "maximum": 10000000000.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Paise"
+          },
+          "min_paise": {
+            "anyOf": [
+              {
+                "exclusiveMinimum": 0.0,
+                "maximum": 10000000000.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Min Paise"
+          }
+        },
+        "required": [
+          "crop",
+          "basis",
+          "default_min_paise",
+          "default_max_paise"
+        ],
+        "title": "AdminRangeOut",
         "type": "object"
       },
       "AlertOut": {
@@ -5024,11 +5204,11 @@
       },
       "InterestIn": {
         "additionalProperties": false,
-        "description": "Spec §3 step 3, nothing more. `rate_paise` is per tonne, per crate or the whole amount,\nby `basis`. A trader may name a broker (`broker_id`); a broker names the trader\n(`trader_id`) it brings. Unknown keys (terms, commission, payer ...) are refused.",
+        "description": "Spec §3 step 3, nothing more. `rate_paise` is per quintal, per crate or the whole\namount, by `basis` (Q138; an old app's \"per_tonne\" is read as per quintal, rate / 10). A\ntrader may name a broker (`broker_id`); a broker names the trader (`trader_id`) it brings.\nUnknown keys (terms, commission, payer ...) are refused.",
         "properties": {
           "basis": {
             "enum": [
-              "per_tonne",
+              "per_quintal",
               "per_crate",
               "lump_sum"
             ],
@@ -5655,6 +5835,28 @@
           "captured_at"
         ],
         "title": "LotPhotoView",
+        "type": "object"
+      },
+      "LotSettingsOut": {
+        "description": "What the lot and offer forms use: a crop / basis not listed (the whole orchard) has no\nrange.",
+        "properties": {
+          "harvest_window_days": {
+            "title": "Harvest Window Days",
+            "type": "integer"
+          },
+          "rate_ranges": {
+            "items": {
+              "$ref": "#/components/schemas/RateRangeOut"
+            },
+            "title": "Rate Ranges",
+            "type": "array"
+          }
+        },
+        "required": [
+          "rate_ranges",
+          "harvest_window_days"
+        ],
+        "title": "LotSettingsOut",
         "type": "object"
       },
       "ManualPriceIn": {
@@ -8243,6 +8445,42 @@
           "subjects"
         ],
         "title": "QueueResponse",
+        "type": "object"
+      },
+      "RateRangeOut": {
+        "properties": {
+          "basis": {
+            "enum": [
+              "per_quintal",
+              "per_crate"
+            ],
+            "title": "Basis",
+            "type": "string"
+          },
+          "crop": {
+            "enum": [
+              "santra",
+              "mosambi"
+            ],
+            "title": "Crop",
+            "type": "string"
+          },
+          "max_paise": {
+            "title": "Max Paise",
+            "type": "integer"
+          },
+          "min_paise": {
+            "title": "Min Paise",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "crop",
+          "basis",
+          "min_paise",
+          "max_paise"
+        ],
+        "title": "RateRangeOut",
         "type": "object"
       },
       "RatingIn": {
@@ -14237,6 +14475,147 @@
         ]
       }
     },
+    "/v1/admin/market-link/lot-settings": {
+      "get": {
+        "operationId": "admin_market_link_lot_settings",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminLotSettingsOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Admin Lot Settings",
+        "tags": [
+          "admin"
+        ]
+      },
+      "put": {
+        "description": "Saves every field (null or left out = the default); each change is logged with old /\nnew values.",
+        "operationId": "admin_market_link_save_lot_settings",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdminLotSettingsIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminLotSettingsOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Save Lot Settings",
+        "tags": [
+          "admin"
+        ]
+      }
+    },
     "/v1/admin/market-link/package/company-profile": {
       "get": {
         "operationId": "package_company_profile",
@@ -19787,6 +20166,52 @@
         ]
       }
     },
+    "/v1/market-link/lot-settings": {
+      "get": {
+        "operationId": "market_link_lot_settings",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LotSettingsOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Get Lot Settings",
+        "tags": [
+          "market-link"
+        ]
+      }
+    },
     "/v1/market-link/lots": {
       "get": {
         "description": "Published lots, newest first, for admin-verified buyers and brokers only (403\n`not_verified` for anyone else); while the season package is ON, only lots with an active\npackage (§4E). Page with `before` = the last `published_at` seen.",
@@ -20095,7 +20520,7 @@
         ]
       },
       "post": {
-        "description": "An interest on a published lot from a verified trader / exporter (optionally naming a\nverified broker) or from a verified broker for a named verified trader. A trader's new\ninterest replaces their open one on the same lot. The grower gets a push.",
+        "description": "An interest on a published lot from a verified trader / exporter (optionally naming a\nverified broker) or from a verified broker for a named verified trader. A trader's new\ninterest replaces their open one on the same lot. The grower gets a push. A rate outside\nthe admin's range for the lot's crop and the basis is refused (422\n`interest_rate_out_of_range`, Q138).",
         "operationId": "market_link_send_interest",
         "parameters": [
           {
@@ -20194,7 +20619,7 @@
     },
     "/v1/market-link/lots/{lot_id}/publish": {
       "post": {
-        "description": "Shows a draft lot to verified buyers and brokers. Needs 3 to 8 live photos, each\nuploaded; crop and variety are copied from the plot again and the place names from the\ngrower's profile (village, taluka, district; never the plot's point).",
+        "description": "Shows a draft lot to verified buyers and brokers. Needs 3 to 8 live photos, each\nuploaded; crop and variety are copied from the plot again and the place names from the\ngrower's profile (village, taluka, district; never the plot's point). An asking rate\noutside the admin's range for its basis is refused (422 `lot_rate_out_of_range`).",
         "operationId": "market_link_publish_lot",
         "parameters": [
           {

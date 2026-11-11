@@ -33,8 +33,8 @@ def lot(plot_id: uuid.UUID, lot_id: uuid.UUID, **kw: Any) -> dict[str, Any]:
         "quality": "मोठा आकार, चांगला रंग",
         "harvest_from": "2026-12-01",
         "harvest_to": "2026-12-20",
-        "basis": "per_tonne",
-        "asking_rate_paise": 3_000_000,
+        "basis": "per_quintal",
+        "asking_rate_paise": 300_000,
     }
     fields.update(kw)
     return mutation("market_lot", lot_id, **fields)

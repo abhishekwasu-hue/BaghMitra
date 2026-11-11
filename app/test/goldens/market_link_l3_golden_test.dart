@@ -137,6 +137,71 @@ void main() {
     }
   }
 
+  // Sale form clarity (owner 2026-11-11, Q138): one start date picked, the end filled
+  // 15 days later with "बदला", per quintal chosen, the label and the muted range line.
+  for (final mode in [ThemeMode.light, ThemeMode.dark]) {
+    testWidgets('lot_form_quintal_mr_${mode.name}', (tester) async {
+      tester.platformDispatcher.textScaleFactorTestValue = 1.3;
+      addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+      await pumpApp(
+        tester,
+        config: mlConfig,
+        themeMode: mode,
+        initialLocation: '/market-link/lots/new?plot=p1',
+        seed: _seedLots,
+        size: _phone,
+      );
+      await settle(tester);
+      // The list builds lazily at phone height: scroll each part into view first.
+      final list = find.byType(Scrollable).first;
+      Future<void> reach(String key) async {
+        await tester.scrollUntilVisible(
+          find.byKey(Key(key)),
+          120,
+          scrollable: list,
+        );
+        // Built in the cache area is not on screen yet.
+        await tester.ensureVisible(find.byKey(Key(key)));
+        await settle(tester);
+      }
+
+      await reach('lot-window-from');
+      await tester.tap(find.byKey(const Key('lot-window-from')));
+      await settle(tester);
+      final ok = MaterialLocalizations.of(
+        tester.element(find.byType(DatePickerDialog)),
+      ).okButtonLabel;
+      await tester.tap(find.text('१५').last);
+      await tester.tap(find.text(ok));
+      await settle(tester);
+      await reach('lot-basis-per_quintal');
+      await tester.tap(find.byKey(const Key('lot-basis-per_quintal')));
+      await settle(tester);
+      await reach('lot-rate');
+      await tester.enterText(find.byKey(const Key('lot-rate')), '3500');
+      FocusManager.instance.primaryFocus?.unfocus();
+      await settle(tester);
+      // The harvest window near the top, the rate and the mandi line below it.
+      await tester.scrollUntilVisible(
+        find.text('तोडणीचा काळ'),
+        -120,
+        scrollable: list,
+      );
+      final top = Scrollable.ensureVisible(
+        tester.element(find.text('तोडणीचा काळ')),
+      );
+      await settle(tester);
+      await top;
+      expect(find.text('१५ ऑक्टो – ३० ऑक्टो'), findsOneWidget);
+      expect(tester.takeException(), isNull);
+      await expectLater(
+        find.byType(MaterialApp),
+        matchesGoldenFile('lot_form_quintal_mr_${mode.name}.png'),
+      );
+      await unmountApp(tester);
+    });
+  }
+
   // Season sale package chip (L9b, spec v1.5 §4E): an active and a not-active lot.
   for (final mode in [ThemeMode.light, ThemeMode.dark]) {
     testWidgets('l9_package_chip_mr_${mode.name}', (tester) async {

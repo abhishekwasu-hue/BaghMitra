@@ -6009,6 +6009,60 @@ abstract class AppLocalizations {
   /// **'Rating tags'**
   String get adminMlTags;
 
+  /// No description provided for @adminMlLotSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Lot form'**
+  String get adminMlLotSettings;
+
+  /// No description provided for @adminMlLotSettingsNote.
+  ///
+  /// In en, this message translates to:
+  /// **'The rate range for each crop, per quintal and per crate, for the grower\'s asking rate and a trader\'s offer (the whole orchard has none), and how many days the harvest window runs after the start the grower picks. Empty = the default shown in grey; the server checks the rate again.'**
+  String get adminMlLotSettingsNote;
+
+  /// No description provided for @adminMlQuintalMin.
+  ///
+  /// In en, this message translates to:
+  /// **'Per quintal: lowest ₹'**
+  String get adminMlQuintalMin;
+
+  /// No description provided for @adminMlQuintalMax.
+  ///
+  /// In en, this message translates to:
+  /// **'Per quintal: highest ₹'**
+  String get adminMlQuintalMax;
+
+  /// No description provided for @adminMlCrateMin.
+  ///
+  /// In en, this message translates to:
+  /// **'Per crate: lowest ₹'**
+  String get adminMlCrateMin;
+
+  /// No description provided for @adminMlCrateMax.
+  ///
+  /// In en, this message translates to:
+  /// **'Per crate: highest ₹'**
+  String get adminMlCrateMax;
+
+  /// No description provided for @adminMlHarvestDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Harvest window (days)'**
+  String get adminMlHarvestDays;
+
+  /// No description provided for @adminMlCropSantra.
+  ///
+  /// In en, this message translates to:
+  /// **'Santra (orange)'**
+  String get adminMlCropSantra;
+
+  /// No description provided for @adminMlCropMosambi.
+  ///
+  /// In en, this message translates to:
+  /// **'Mosambi (sweet lime)'**
+  String get adminMlCropMosambi;
+
   /// No description provided for @adminMlAll.
   ///
   /// In en, this message translates to:
@@ -7335,18 +7389,6 @@ abstract class AppLocalizations {
   /// **'Harvest window'**
   String get mlHarvestWindow;
 
-  /// No description provided for @mlWindowFromBahar.
-  ///
-  /// In en, this message translates to:
-  /// **'{from} – {to} (bahar)'**
-  String mlWindowFromBahar(String from, String to);
-
-  /// No description provided for @mlWindowPick.
-  ///
-  /// In en, this message translates to:
-  /// **'Choose dates'**
-  String get mlWindowPick;
-
   /// No description provided for @mlWindowRange.
   ///
   /// In en, this message translates to:
@@ -7359,11 +7401,11 @@ abstract class AppLocalizations {
   /// **'Sale basis'**
   String get mlBasis;
 
-  /// No description provided for @mlBasisPerTonne.
+  /// No description provided for @mlBasisPerQuintal.
   ///
   /// In en, this message translates to:
-  /// **'Per tonne'**
-  String get mlBasisPerTonne;
+  /// **'Per quintal'**
+  String get mlBasisPerQuintal;
 
   /// No description provided for @mlBasisPerCrate.
   ///
@@ -7382,6 +7424,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Asking rate in ₹ (optional)'**
   String get mlAskingRate;
+
+  /// No description provided for @mlHarvestFrom.
+  ///
+  /// In en, this message translates to:
+  /// **'Harvest from'**
+  String get mlHarvestFrom;
+
+  /// No description provided for @mlHarvestTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Until'**
+  String get mlHarvestTo;
+
+  /// No description provided for @mlHarvestPickDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a date'**
+  String get mlHarvestPickDate;
+
+  /// No description provided for @mlHarvestFromBahar.
+  ///
+  /// In en, this message translates to:
+  /// **'{date} (bahar)'**
+  String mlHarvestFromBahar(String date);
+
+  /// No description provided for @mlHarvestAutoEnd.
+  ///
+  /// In en, this message translates to:
+  /// **'Until is set {days} days after the start; change it if you like.'**
+  String mlHarvestAutoEnd(String days);
+
+  /// No description provided for @mlHarvestChangeEnd.
+  ///
+  /// In en, this message translates to:
+  /// **'Change'**
+  String get mlHarvestChangeEnd;
+
+  /// No description provided for @mlAskingRatePerQuintal.
+  ///
+  /// In en, this message translates to:
+  /// **'Asking rate ₹ / quintal (optional)'**
+  String get mlAskingRatePerQuintal;
+
+  /// No description provided for @mlAskingRatePerCrate.
+  ///
+  /// In en, this message translates to:
+  /// **'Asking rate ₹ / crate (optional)'**
+  String get mlAskingRatePerCrate;
+
+  /// No description provided for @mlAskingRateLumpSum.
+  ///
+  /// In en, this message translates to:
+  /// **'Asking rate ₹ for the whole orchard (optional)'**
+  String get mlAskingRateLumpSum;
+
+  /// No description provided for @mlRateRangePerQuintal.
+  ///
+  /// In en, this message translates to:
+  /// **'{min} – {max} per quintal'**
+  String mlRateRangePerQuintal(String min, String max);
+
+  /// No description provided for @mlRateRangePerCrate.
+  ///
+  /// In en, this message translates to:
+  /// **'{min} – {max} per crate'**
+  String mlRateRangePerCrate(String min, String max);
+
+  /// No description provided for @mlRateOutOfRange.
+  ///
+  /// In en, this message translates to:
+  /// **'Please write a rate from {min} to {max}.'**
+  String mlRateOutOfRange(String min, String max);
+
+  /// No description provided for @mlPublishRateRange.
+  ///
+  /// In en, this message translates to:
+  /// **'Please keep the asking rate within the range shown, then send again.'**
+  String get mlPublishRateRange;
+
+  /// No description provided for @mlOfferRateRange.
+  ///
+  /// In en, this message translates to:
+  /// **'Please keep the rate within the range shown, then send again.'**
+  String get mlOfferRateRange;
 
   /// No description provided for @mlPhotos.
   ///
@@ -7467,11 +7593,11 @@ abstract class AppLocalizations {
   /// **'{value} t'**
   String mlTonnes(String value);
 
-  /// No description provided for @mlRatePerTonne.
+  /// No description provided for @mlRatePerQuintal.
   ///
   /// In en, this message translates to:
-  /// **'{rate} per tonne'**
-  String mlRatePerTonne(String rate);
+  /// **'{rate} per quintal'**
+  String mlRatePerQuintal(String rate);
 
   /// No description provided for @mlRatePerCrate.
   ///
