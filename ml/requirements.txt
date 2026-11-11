@@ -3,6 +3,7 @@
 tensorflow-cpu==2.21.0
 keras==3.15.1
 tensorflow-datasets==4.9.10
+importlib-resources==7.1.0  # needed by tensorflow-datasets when it builds a dataset, not declared by it
 numpy==2.5.4
 pillow==13.0.0
 pytest==9.2.0
