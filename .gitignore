@@ -24,3 +24,7 @@ __pycache__/
 deploy/.previous_commit*
 # Admin web build unpacked by deploy.sh (OPS-02)
 deploy/admin-web/
+
+# Photo model training (docs/runbooks/photo-model.md)
+ml/out/
+ml/work/

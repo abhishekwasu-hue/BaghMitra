@@ -1,0 +1,83 @@
+name: Train photo model
+
+# On-device citrus leaf classifier (OPEN_QUESTIONS Q135). Manual only; needs no secrets.
+# Runbook: docs/runbooks/photo-model.md
+on:
+  workflow_dispatch:
+    inputs:
+      epochs:
+        description: "Head-only epochs"
+        default: "8"
+      fine_tune_epochs:
+        description: "Fine-tune epochs (top layers)"
+        default: "4"
+      quant:
+        description: "int8 or float16"
+        default: "int8"
+      skip_mendeley:
+        description: "Skip the Mexico HLB Mendeley set (true/false)"
+        default: "false"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  train:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    defaults:
+      run:
+        working-directory: ml
+    env:
+      TF_CPP_MIN_LOG_LEVEL: "2"
+      PYTHONUNBUFFERED: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: ml/requirements.txt
+      - name: Install
+        run: pip install -r requirements.txt
+      - name: Smoke test (synthetic images, no downloads)
+        run: python -m pytest -q -p no:cacheprovider test_pipeline.py
+      - name: Train and export
+        env:
+          EPOCHS: ${{ inputs.epochs }}
+          FT_EPOCHS: ${{ inputs.fine_tune_epochs }}
+          QUANT: ${{ inputs.quant }}
+          SKIP_MENDELEY: ${{ inputs.skip_mendeley }}
+        run: |
+          extra_flags=""
+          if [ "$SKIP_MENDELEY" = "true" ]; then extra_flags="--skip-mendeley"; fi
+          python train_citrus.py --out out --work work \
+            --epochs "$EPOCHS" --fine-tune-epochs "$FT_EPOCHS" --quant "$QUANT" $extra_flags
+      - name: Print model card and model (base64)
+        run: |
+          echo "::group::model_card.md"
+          cat out/model_card.md
+          echo "::endgroup::"
+          echo "::group::labels.txt"
+          cat out/labels.txt
+          echo "::endgroup::"
+          ls -l out
+          sha256sum out/citrus_v1.tflite
+          echo "::group::citrus_v1.tflite base64 (decode: base64 -d > citrus_v1.tflite)"
+          echo "BEGIN_TFLITE_BASE64"
+          base64 -w 76 out/citrus_v1.tflite
+          echo "END_TFLITE_BASE64"
+          echo "::endgroup::"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: citrus-photo-model
+          path: |
+            ml/out/citrus_v1.tflite
+            ml/out/labels.txt
+            ml/out/model_card.md
+          if-no-files-found: error
+          retention-days: 30
