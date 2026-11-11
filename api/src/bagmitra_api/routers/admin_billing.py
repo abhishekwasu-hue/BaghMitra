@@ -33,11 +33,13 @@ from bagmitra_api.billing.switch import (
     PlayNotSetUpError,
     PlayPlan,
     billing_settings,
+    change_bill_limits,
     change_photo_limits,
     change_switch,
     migrate_role_prices,
     role_prices,
     set_role_amount,
+    set_role_bill_limits,
     set_role_photo_limits,
 )
 from bagmitra_api.core.errors import ApiError, ErrorResponse
@@ -146,6 +148,9 @@ class RolePriceOut(BaseModel):
     # Photo analysis per farmer on this role's plan (Q135); null = the default (5 / 50).
     photo_ai_daily: int | None = None
     photo_ai_monthly: int | None = None
+    # Bill reading per farmer on this role's plan (Q136); null = the default (5 / 50).
+    bill_read_daily: int | None = None
+    bill_read_monthly: int | None = None
 
 
 class PhotoLimitsOut(BaseModel):
@@ -159,9 +164,21 @@ class PhotoLimitsOut(BaseModel):
     default_monthly: int = MONTHLY_DEFAULT
 
 
+class BillLimitsOut(BaseModel):
+    """Bill reading limits (Q136) for farmers without a role plan (or while the switch is off);
+    null = the default. `daily_total`: all farmers together per India day; null = no cap."""
+
+    free_daily: int | None
+    free_monthly: int | None
+    daily_total: int | None
+    default_daily: int = DAILY_DEFAULT
+    default_monthly: int = MONTHLY_DEFAULT
+
+
 class BillingSettingsOut(SwitchIn):
     roles: list[RolePriceOut]
     photo_limits: PhotoLimitsOut
+    bill_limits: BillLimitsOut
 
 
 async def _plan_out(session: AsyncSession, plan: BillingPlan) -> PlanOut:
@@ -307,6 +324,8 @@ async def _settings_out(session: AsyncSession) -> BillingSettingsOut:
                 play_synced_at=as_utc(r.play_synced_at) if r.play_synced_at else None,
                 photo_ai_daily=r.photo_ai_daily,
                 photo_ai_monthly=r.photo_ai_monthly,
+                bill_read_daily=r.bill_read_daily,
+                bill_read_monthly=r.bill_read_monthly,
             )
             for r in (await role_prices(session)).values()
         ],
@@ -314,6 +333,11 @@ async def _settings_out(session: AsyncSession) -> BillingSettingsOut:
             free_daily=row.photo_ai_free_daily,
             free_monthly=row.photo_ai_free_monthly,
             daily_total=row.photo_ai_daily_total,
+        ),
+        bill_limits=BillLimitsOut(
+            free_daily=row.bill_read_free_daily,
+            free_monthly=row.bill_read_free_monthly,
+            daily_total=row.bill_read_daily_total,
         ),
     )
 
@@ -373,6 +397,48 @@ async def put_role_photo_limits(
 ) -> BillingSettingsOut:
     """Photo analysis limits per farmer on this role's plan (Q135)."""
     await set_role_photo_limits(session, admin.id, role, daily=body.daily, monthly=body.monthly)
+    out = await _settings_out(session)
+    await session.commit()
+    return out
+
+
+class BillLimitsIn(BaseModel):
+    # Bills read per farmer without a role plan; null = the default (5 a day, 50 a month).
+    free_daily: PhotoLimit | None = None
+    free_monthly: PhotoLimit | None = None
+    # All farmers together per India day; null = no overall cap.
+    daily_total: PhotoLimit | None = None
+
+
+class RoleBillLimitsIn(BaseModel):
+    # Bills read per farmer on this role's plan; null = the default (5 a day, 50 a month).
+    daily: PhotoLimit | None = None
+    monthly: PhotoLimit | None = None
+
+
+@router.put("/bill-limits", operation_id="admin_billing_put_bill_limits")
+async def put_bill_limits(
+    body: BillLimitsIn, admin: BillingAdmin, session: DbSession
+) -> BillingSettingsOut:
+    """Bill reading limits for farmers without a plan, and the optional overall cap (Q136)."""
+    await change_bill_limits(
+        session,
+        admin.id,
+        free_daily=body.free_daily,
+        free_monthly=body.free_monthly,
+        daily_total=body.daily_total,
+    )
+    out = await _settings_out(session)
+    await session.commit()
+    return out
+
+
+@router.put("/roles/{role}/bill-limits", operation_id="admin_billing_put_role_bill_limits")
+async def put_role_bill_limits(
+    role: Role, body: RoleBillLimitsIn, admin: BillingAdmin, session: DbSession
+) -> BillingSettingsOut:
+    """Bill reading limits per farmer on this role's plan (Q136)."""
+    await set_role_bill_limits(session, admin.id, role, daily=body.daily, monthly=body.monthly)
     out = await _settings_out(session)
     await session.commit()
     return out

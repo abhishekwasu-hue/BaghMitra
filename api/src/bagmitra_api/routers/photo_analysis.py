@@ -145,7 +145,7 @@ def _candidate_out(raw: dict[str, Any]) -> CandidateOut:
     )
 
 
-def _image(data: bytes) -> tuple[str, bytes]:
+def clean_photo(data: bytes) -> tuple[str, bytes]:
     """The media type and the image without metadata; 415 for anything but JPEG / PNG."""
     try:
         if data.startswith(b"\xff\xd8"):
@@ -201,7 +201,7 @@ async def analyse_photo(  # noqa: PLR0913 - path, form fields and dependencies
     data = await photo.read(ctx.settings.photo_max_bytes + 1)
     if len(data) > ctx.settings.photo_max_bytes:
         raise ApiError(413, "photo_too_large", f"at most {ctx.settings.photo_max_bytes} bytes")
-    media_type, clean = _image(data)
+    media_type, clean = clean_photo(data)
     now = datetime.now(UTC)
     hit = await limit_hit(session, user.id, now)
     if hit is not None:
