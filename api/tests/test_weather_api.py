@@ -32,13 +32,13 @@ class FakeProvider:
     async def daily(
         self, lat: float, lon: float, *, past_days: int, forecast_days: int
     ) -> list[DailyWeather]:
-        assert (past_days, forecast_days) == (7, 7)
+        assert (past_days, forecast_days) == (7, 15)
         self.calls.append((lat, lon))
         if self.fail:
             raise WeatherUnavailableError("HTTP 503")
         code = 95.0 if self.storm else 3.0
         return [
-            DailyWeather(TODAY + timedelta(days=i), 30 + 3 * i, 18, 0.0, 40, 20, code)
+            DailyWeather(TODAY + timedelta(days=i), 30 + 3 * i, 18, 0.0, 40, 20, code, 20.0 * i)
             for i in range(3)
         ]
 
@@ -103,6 +103,7 @@ async def test_plot_weather_pulls_once_stores_and_returns_alerts(
     assert r.status_code == 200, r.text
     body = r.json()
     assert [d["day"] for d in body["days"]] == ["2026-03-14", "2026-03-15", "2026-03-16"]
+    assert [d["rain_prob_pct"] for d in body["days"]] == [0, 20, 40]
     assert body["stale"] is False
     heat = next(a for a in body["alerts"] if a["rule_key"] == "heat_fruit_drop")
     assert (heat["first_day"], heat["value"]) == ("2026-03-16", 36)
@@ -116,8 +117,9 @@ async def test_plot_weather_pulls_once_stores_and_returns_alerts(
 
     maker = async_sessionmaker(engine)
     async with maker() as s:
-        rows = (await s.execute(select(WeatherDaily))).all()
+        rows = (await s.scalars(select(WeatherDaily).order_by(WeatherDaily.day))).all()
     assert len(rows) == 3
+    assert [r.rain_prob_pct for r in rows] == [0, 20, 40]
 
 
 async def test_provider_down_serves_stored_days_as_stale(
@@ -195,4 +197,86 @@ def test_migration_0023_adds_and_drops_the_weather_code(tmp_path: Path) -> None:
     command.downgrade(cfg, "0022")
     with engine.connect() as conn:
         assert "weather_code" not in {c["name"] for c in inspect(conn).get_columns("weather_daily")}
+    engine.dispose()
+
+
+async def test_day_stored_before_0042_is_served_without_rain_probability(
+    api: httpx.AsyncClient,
+    engine: AsyncEngine,
+    provider: FakeProvider,
+    user_id: uuid.UUID,
+    auth_headers: dict[str, str],
+) -> None:
+    plot_id = await add_plot(engine, user_id)
+    maker = async_sessionmaker(engine)
+    async with maker() as s:
+        s.add(
+            WeatherDaily(
+                cell_lat=21.25,
+                cell_lon=77.75,
+                day=TODAY,
+                t_max_c=31,
+                t_min_c=19,
+                precip_mm=2.0,
+                rh_mean_pct=60,
+                wind_gust_kmh=15,
+                fetched_at=NOW,
+            )
+        )
+        await s.commit()
+    r = await api.get(f"/v1/plots/{plot_id}/weather", headers=auth_headers)
+    assert r.status_code == 200, r.text
+    day = r.json()["days"][0]
+    assert (day["precip_mm"], day["rain_prob_pct"]) == (2.0, None)
+    assert provider.calls == [], "served from storage"
+
+
+async def test_alerts_use_seven_forecast_days_of_the_fifteen_served(
+    api: httpx.AsyncClient,
+    engine: AsyncEngine,
+    provider: FakeProvider,
+    user_id: uuid.UUID,
+    auth_headers: dict[str, str],
+) -> None:
+    """The forecast screen shows 15 days; the risk rules keep their 7-day window (Q134)."""
+    plot_id = await add_plot(engine, user_id)
+    maker = async_sessionmaker(engine)
+    async with maker() as s:
+        s.add_all(
+            WeatherDaily(
+                cell_lat=21.25,
+                cell_lon=77.75,
+                day=TODAY + timedelta(days=i),
+                # Heat only on day 8 onward: outside the alert window.
+                t_max_c=40 if i >= 8 else 30,
+                t_min_c=10,
+                precip_mm=0.0,
+                rh_mean_pct=40,
+                wind_gust_kmh=10,
+                rain_prob_pct=5,
+                fetched_at=NOW,
+            )
+            for i in range(15)
+        )
+        await s.commit()
+    body = (await api.get(f"/v1/plots/{plot_id}/weather", headers=auth_headers)).json()
+    assert len(body["days"]) == 15
+    assert body["days"][9]["t_max_c"] == 40
+    assert all(a["rule_key"] != "heat_fruit_drop" for a in body["alerts"])
+
+
+def test_migration_0042_adds_and_drops_the_rain_probability(tmp_path: Path) -> None:
+    url = f"sqlite+aiosqlite:///{tmp_path / 'w.db'}"
+    cfg = _config(url)
+    engine = create_engine(_sync_url(url))
+
+    def columns() -> set[str]:
+        with engine.connect() as conn:
+            return {c["name"] for c in inspect(conn).get_columns("weather_daily")}
+
+    command.upgrade(cfg, "0042")
+    assert "rain_prob_pct" in columns()
+    command.downgrade(cfg, "0041")
+    assert "rain_prob_pct" not in columns()
+    assert "weather_code" in columns()
     engine.dispose()

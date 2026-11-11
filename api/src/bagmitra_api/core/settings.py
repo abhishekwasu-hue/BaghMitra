@@ -94,7 +94,10 @@ class Settings(BaseSettings):
     weather_cell_decimals: int = 2
     weather_max_age_hours: int = 6
     weather_past_days: int = 7
-    weather_forecast_days: int = 7
+    # Days pulled and served for the forecast screen (owner: 15 days, Q134; Open-Meteo's
+    # limit is 16). The risk rules read only the first `weather_alert_forecast_days` of them.
+    weather_forecast_days: int = Field(default=15, ge=1, le=16)
+    weather_alert_forecast_days: int = Field(default=7, ge=0, le=16)
 
     # Market prices (M5): Agmarknet "current daily price" resource on data.gov.in. The key is
     # issued free on data.gov.in registration and stays out of git (OPEN_QUESTIONS Q26).

@@ -19,6 +19,7 @@ import '../features/market/market_prices_test.dart' show seedPrices;
 import '../features/plots/plots_screen_test.dart' show seedTwo, settle;
 import '../features/spray/spray_screen_test.dart' show seedWithSpray;
 import '../features/tasks/tasks_test.dart' show task;
+import '../features/weather/weather_forecast_test.dart' show seedForecast;
 import '../helpers/pump_app.dart';
 
 Future<void> _seedTask(AppDatabase db) => TasksRepository(
@@ -31,6 +32,8 @@ double contrast(Color a, Color b) {
   final (la, lb) = (a.computeLuminance(), b.computeLuminance());
   return (la > lb ? la + 0.05 : lb + 0.05) / (la > lb ? lb + 0.05 : la + 0.05);
 }
+
+Future<void> _seedForecast(AppDatabase db) => seedForecast(db);
 
 void main() {
   for (final (location, seed) in [
@@ -56,6 +59,7 @@ void main() {
     ('/lookalikes?plot=p1', seedPlot),
     ('/labs', null),
     ('/market/directory', null),
+    ('/plots/p1/weather', _seedForecast),
   ]) {
     testWidgets('tap targets and contrast on $location', (tester) async {
       final handle = tester.ensureSemantics();

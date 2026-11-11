@@ -70,6 +70,7 @@ import '../features/spray/presentation/spray_log_screen.dart';
 import '../features/tasks/presentation/add_task_screen.dart';
 import '../features/tasks/presentation/tasks_screen.dart';
 import '../features/walkthrough/presentation/walkthrough_screen.dart';
+import '../features/weather/presentation/weather_forecast_screen.dart';
 import '../sync/account_guard.dart';
 import 'app_shell.dart';
 
@@ -173,6 +174,7 @@ abstract final class Routes {
   static String compareBahars(String plotId) => '/plots/$plotId/bahar/compare';
   static String irrigationGuide(String plotId) =>
       '/plots/$plotId/irrigation-guide';
+  static String weatherForecast(String plotId) => '/plots/$plotId/weather';
   static String sprays(String plotId) => '/plots/$plotId/sprays';
   static String addSpray(String plotId) => '/plots/$plotId/sprays/new';
   static String labels(String plotId, {String? target}) =>
@@ -669,6 +671,11 @@ GoRouter buildRouter(
         path: '/plots/:id/irrigation-guide',
         builder: (_, s) =>
             IrrigationGuideScreen(plotId: s.pathParameters['id']!),
+      ),
+      GoRoute(
+        path: '/plots/:id/weather',
+        builder: (_, s) =>
+            WeatherForecastScreen(plotId: s.pathParameters['id']!),
       ),
       GoRoute(
         path: Routes.onboarding,

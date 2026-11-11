@@ -25,6 +25,14 @@ String formatDecimal(double value, String languageCode) =>
 String formatDate(DateTime date, String languageCode) =>
     DateFormat.yMMMd(_intlLocale(languageCode)).format(date);
 
+/// Short weekday in the locale's script, e.g. "Wed" / "बुध".
+String formatWeekday(DateTime date, String languageCode) =>
+    DateFormat.E(_intlLocale(languageCode)).format(date);
+
+/// Day / month as numbers in the locale's digits, e.g. "14/10" / "१४/१०".
+String formatDayMonth(DateTime date, String languageCode) =>
+    DateFormat('d/M', _intlLocale(languageCode)).format(date);
+
 /// Day, short month and time of day in the locale's script, for "updated at" lines:
 /// "25 Oct 2026, 11:30 am" in English, a 24-hour clock elsewhere ("२५ ऑक्टो, २०२६ १८:३०"),
 /// where the locale's am / pm marks are single letters.

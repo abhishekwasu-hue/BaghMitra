@@ -19577,6 +19577,7 @@ class WeatherDay {
   const WeatherDay({
     required this.day,
     required this.precipMm,
+    this.rainProbPct,
     required this.rhMeanPct,
     required this.tMaxC,
     required this.tMinC,
@@ -19594,6 +19595,8 @@ class WeatherDay {
   final DateTime day;
   @JsonKey(name: 'precip_mm', includeIfNull: false)
   final double? precipMm;
+  @JsonKey(name: 'rain_prob_pct', includeIfNull: false)
+  final double? rainProbPct;
   @JsonKey(name: 'rh_mean_pct', includeIfNull: false)
   final double? rhMeanPct;
   @JsonKey(name: 't_max_c', includeIfNull: false)
@@ -19616,6 +19619,11 @@ class WeatherDay {
                 const DeepCollectionEquality().equals(
                   other.precipMm,
                   precipMm,
+                )) &&
+            (identical(other.rainProbPct, rainProbPct) ||
+                const DeepCollectionEquality().equals(
+                  other.rainProbPct,
+                  rainProbPct,
                 )) &&
             (identical(other.rhMeanPct, rhMeanPct) ||
                 const DeepCollectionEquality().equals(
@@ -19645,6 +19653,7 @@ class WeatherDay {
   int get hashCode =>
       const DeepCollectionEquality().hash(day) ^
       const DeepCollectionEquality().hash(precipMm) ^
+      const DeepCollectionEquality().hash(rainProbPct) ^
       const DeepCollectionEquality().hash(rhMeanPct) ^
       const DeepCollectionEquality().hash(tMaxC) ^
       const DeepCollectionEquality().hash(tMinC) ^
@@ -19657,6 +19666,7 @@ extension $WeatherDayExtension on WeatherDay {
   WeatherDay copyWith({
     DateTime? day,
     double? precipMm,
+    double? rainProbPct,
     double? rhMeanPct,
     double? tMaxC,
     double? tMinC,
@@ -19666,6 +19676,7 @@ extension $WeatherDayExtension on WeatherDay {
     return WeatherDay(
       day: day ?? this.day,
       precipMm: precipMm ?? this.precipMm,
+      rainProbPct: rainProbPct ?? this.rainProbPct,
       rhMeanPct: rhMeanPct ?? this.rhMeanPct,
       tMaxC: tMaxC ?? this.tMaxC,
       tMinC: tMinC ?? this.tMinC,
@@ -19677,6 +19688,7 @@ extension $WeatherDayExtension on WeatherDay {
   WeatherDay copyWithWrapped({
     Wrapped<DateTime>? day,
     Wrapped<double?>? precipMm,
+    Wrapped<double?>? rainProbPct,
     Wrapped<double?>? rhMeanPct,
     Wrapped<double?>? tMaxC,
     Wrapped<double?>? tMinC,
@@ -19686,6 +19698,7 @@ extension $WeatherDayExtension on WeatherDay {
     return WeatherDay(
       day: (day != null ? day.value : this.day),
       precipMm: (precipMm != null ? precipMm.value : this.precipMm),
+      rainProbPct: (rainProbPct != null ? rainProbPct.value : this.rainProbPct),
       rhMeanPct: (rhMeanPct != null ? rhMeanPct.value : this.rhMeanPct),
       tMaxC: (tMaxC != null ? tMaxC.value : this.tMaxC),
       tMinC: (tMinC != null ? tMinC.value : this.tMinC),

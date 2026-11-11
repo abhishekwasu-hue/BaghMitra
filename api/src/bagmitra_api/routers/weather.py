@@ -16,6 +16,7 @@ from bagmitra_api.risk.engine import evaluate, load_rules
 from bagmitra_api.weather.open_meteo import WeatherUnavailableError
 from bagmitra_api.weather.service import (
     WeatherContext,
+    alert_days,
     cell_for,
     get_weather_context,
     weather_for_cell,
@@ -35,6 +36,8 @@ class WeatherDay(BaseModel):
     wind_gust_kmh: float | None
     # WMO code (95 thunderstorm, 96 / 99 with hail); optional for older stored days.
     weather_code: float | None = None
+    # Chance of rain, % (highest in the day); None for past days and older stored days.
+    rain_prob_pct: float | None = None
 
 
 class WeatherAlert(BaseModel):
@@ -82,8 +85,9 @@ async def get_plot_weather(
     if plot.centroid_lat is None or plot.centroid_lon is None:
         raise ApiError(409, "plot_location_missing", "mark the plot location first")
     cell = cell_for(plot.centroid_lat, plot.centroid_lon, ctx.settings.weather_cell_decimals)
+    now = ctx.clock()
     try:
-        days, stale = await weather_for_cell(session, ctx.provider, ctx.settings, cell, ctx.clock())
+        days, stale = await weather_for_cell(session, ctx.provider, ctx.settings, cell, now)
     except WeatherUnavailableError as exc:
         log.warning("weather_source_unavailable", detail=str(exc))
         raise ApiError(503, "weather_unavailable") from exc
@@ -101,7 +105,7 @@ async def get_plot_weather(
                 status=rules[a.rule_key].status,
                 action=rules[a.rule_key].action,
             )
-            for a in evaluate(list(rules.values()), days)
+            for a in evaluate(list(rules.values()), alert_days(days, ctx.settings, now))
         ],
         stale=stale,
     )

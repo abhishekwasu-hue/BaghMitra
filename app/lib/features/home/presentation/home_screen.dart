@@ -252,6 +252,13 @@ class _HomeBody extends ConsumerWidget {
                 },
                 onAvatarTap: () => context.push(Routes.profile),
                 avatarLabel: t.profileTitle,
+                onWeatherTap: () => openForPlot(
+                  context,
+                  plots,
+                  Routes.weatherForecast,
+                  action: t.weatherForecastTitle,
+                ),
+                weatherTapLabel: t.weatherForecastTitle,
               ),
               if (snapshot.isDemo)
                 Positioned(

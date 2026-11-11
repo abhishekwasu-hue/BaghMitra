@@ -29,6 +29,7 @@ SAMPLE: dict[str, Any] = {
         "relative_humidity_2m_mean": [31, None],
         "wind_gusts_10m_max": [24.1, 61.2],
         "weather_code": [3, 95],
+        "precipitation_probability_max": [10, 85],
     },
 }
 
@@ -36,9 +37,20 @@ SAMPLE: dict[str, Any] = {
 def test_parse_daily_maps_each_day_and_keeps_missing_values_missing() -> None:
     days = parse_daily(SAMPLE)
     assert days == [
-        DailyWeather(date(2026, 3, 14), 38.4, 21.0, 0.0, 31.0, 24.1, 3.0),
-        DailyWeather(date(2026, 3, 15), 40.1, 22.6, 12.5, None, 61.2, 95.0),
+        DailyWeather(date(2026, 3, 14), 38.4, 21.0, 0.0, 31.0, 24.1, 3.0, 10.0),
+        DailyWeather(date(2026, 3, 15), 40.1, 22.6, 12.5, None, 61.2, 95.0, 85.0),
     ]
+
+
+def test_parse_daily_without_rain_probability_keeps_the_other_values() -> None:
+    # Past days, or a provider answer without the series, have no chance of rain.
+    daily = {k: v for k, v in SAMPLE["daily"].items() if k != "precipitation_probability_max"}
+    days = parse_daily({"daily": daily})
+    assert [d.rain_prob_pct for d in days] == [None, None]
+    assert days[1].precip_mm == 12.5
+    ragged = {"daily": {**SAMPLE["daily"], "precipitation_probability_max": [10]}}
+    with pytest.raises(WeatherUnavailableError, match="precipitation_probability_max"):
+        parse_daily(ragged)
 
 
 def test_parse_daily_rejects_ragged_or_missing_series() -> None:
@@ -66,6 +78,7 @@ async def test_client_sends_location_window_and_optional_key() -> None:
     assert (q["latitude"], q["longitude"]) == ("21.25", "77.75")
     assert (q["past_days"], q["forecast_days"]) == ("7", "7")
     assert q["daily"] == ",".join(DAILY_FIELDS)
+    assert "precipitation_probability_max" in q["daily"].split(",")
     assert q["timezone"] == "auto"
     assert q["apikey"] == "k1"
 

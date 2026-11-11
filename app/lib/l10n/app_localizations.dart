@@ -2662,6 +2662,102 @@ abstract class AppLocalizations {
   /// **'Humid weather'**
   String get alertNameHumidity;
 
+  /// No description provided for @weatherForecastTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Weather forecast'**
+  String get weatherForecastTitle;
+
+  /// No description provided for @weatherForecastNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next {days} days'**
+  String weatherForecastNext(String days);
+
+  /// No description provided for @weatherColDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Day'**
+  String get weatherColDay;
+
+  /// No description provided for @weatherColTemp.
+  ///
+  /// In en, this message translates to:
+  /// **'Temp.'**
+  String get weatherColTemp;
+
+  /// No description provided for @weatherColRain.
+  ///
+  /// In en, this message translates to:
+  /// **'Rain'**
+  String get weatherColRain;
+
+  /// No description provided for @weatherColWind.
+  ///
+  /// In en, this message translates to:
+  /// **'Wind'**
+  String get weatherColWind;
+
+  /// No description provided for @weatherColHumidity.
+  ///
+  /// In en, this message translates to:
+  /// **'Humidity'**
+  String get weatherColHumidity;
+
+  /// No description provided for @weatherUnitTemp.
+  ///
+  /// In en, this message translates to:
+  /// **'max/min'**
+  String get weatherUnitTemp;
+
+  /// No description provided for @weatherUnitRain.
+  ///
+  /// In en, this message translates to:
+  /// **'mm/%'**
+  String get weatherUnitRain;
+
+  /// No description provided for @weatherUnitWind.
+  ///
+  /// In en, this message translates to:
+  /// **'km/h'**
+  String get weatherUnitWind;
+
+  /// No description provided for @weatherLegendRain.
+  ///
+  /// In en, this message translates to:
+  /// **'Rain likely'**
+  String get weatherLegendRain;
+
+  /// No description provided for @weatherLegendHeat.
+  ///
+  /// In en, this message translates to:
+  /// **'{deg}° and above'**
+  String weatherLegendHeat(String deg);
+
+  /// No description provided for @weatherSkyClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear sky'**
+  String get weatherSkyClear;
+
+  /// No description provided for @weatherSkyCloudy.
+  ///
+  /// In en, this message translates to:
+  /// **'Cloudy'**
+  String get weatherSkyCloudy;
+
+  /// No description provided for @weatherSkyRain.
+  ///
+  /// In en, this message translates to:
+  /// **'Rain'**
+  String get weatherSkyRain;
+
+  /// No description provided for @weatherSkyStorm.
+  ///
+  /// In en, this message translates to:
+  /// **'Thunderstorm'**
+  String get weatherSkyStorm;
+
   /// No description provided for @labelInfoTitle.
   ///
   /// In en, this message translates to:

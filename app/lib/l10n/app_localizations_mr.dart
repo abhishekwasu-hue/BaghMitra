@@ -1489,6 +1489,58 @@ class AppLocalizationsMr extends AppLocalizations {
   String get alertNameHumidity => 'दमट हवामान';
 
   @override
+  String get weatherForecastTitle => 'हवामान अंदाज';
+
+  @override
+  String weatherForecastNext(String days) {
+    return 'पुढील $days दिवस';
+  }
+
+  @override
+  String get weatherColDay => 'दिवस';
+
+  @override
+  String get weatherColTemp => 'तापमान';
+
+  @override
+  String get weatherColRain => 'पाऊस';
+
+  @override
+  String get weatherColWind => 'वारा';
+
+  @override
+  String get weatherColHumidity => 'आर्द्रता';
+
+  @override
+  String get weatherUnitTemp => 'कमाल/किमान';
+
+  @override
+  String get weatherUnitRain => 'मि.मी./%';
+
+  @override
+  String get weatherUnitWind => 'किमी/तास';
+
+  @override
+  String get weatherLegendRain => 'पावसाची शक्यता';
+
+  @override
+  String weatherLegendHeat(String deg) {
+    return '$deg° व अधिक';
+  }
+
+  @override
+  String get weatherSkyClear => 'निरभ्र आकाश';
+
+  @override
+  String get weatherSkyCloudy => 'ढगाळ';
+
+  @override
+  String get weatherSkyRain => 'पाऊस';
+
+  @override
+  String get weatherSkyStorm => 'मेघगर्जनेसह पाऊस';
+
+  @override
   String get labelInfoTitle => 'लेबल माहिती';
 
   @override
