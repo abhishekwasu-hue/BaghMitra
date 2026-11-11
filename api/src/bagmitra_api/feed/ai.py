@@ -30,6 +30,8 @@ from bagmitra_api.feed.output_check import NOT_STATED
 ANTHROPIC_VERSION = "2026-10-21"
 # Server-side refusal fallback (summariser model only; Haiku has none).
 FALLBACK_BETA = "server-side-fallback-2026-07-01"
+# Room for a short JSON answer plus the model's (low-effort) thinking.
+SMALL_JSON_MAX_TOKENS = 2000
 CARD_FIELDS = (
     "scheme_name",
     "who_benefits",
@@ -202,6 +204,7 @@ class AnthropicFeedAi:
         schema: dict[str, Any] | None = None,
         wait_seconds: float | None = None,
         question: str | None = None,
+        effort: str | None = None,
     ) -> str:
         s = self._settings
         headers = {
@@ -227,6 +230,8 @@ class AnthropicFeedAi:
         if schema is not None:
             # Structured outputs: the answer is JSON matching the schema (no broken JSON).
             body["output_config"] = {"format": {"type": "json_schema", "schema": schema}}
+        if effort is not None:
+            body["output_config"] = {**body.get("output_config", {}), "effort": effort}
         return await messages_text(
             self._http,
             base_url=s.feed_ai_base_url,
@@ -274,6 +279,22 @@ class AnthropicFeedAi:
             schema=schema,
             wait_seconds=s.feed_article_timeout_seconds,
             question=question,
+        )
+        return _json_object(answer)
+
+    async def ask_small_json(
+        self, system: str, text: str, *, schema: dict[str, Any]
+    ) -> dict[str, Any]:
+        """One short structured-output answer from the cheap classify model at low effort
+        (Q139 topic threads: "same topic as thread X, or new")."""
+        answer = await self._ask(
+            self._settings.feed_classify_model,
+            system,
+            text,
+            fallback=False,
+            max_tokens=SMALL_JSON_MAX_TOKENS,
+            schema=schema,
+            effort="low",
         )
         return _json_object(answer)
 

@@ -142,6 +142,8 @@ draft for review only: it never publishes. Paid calls; without the key the endpo
 
 ## 6. App
 `GET /v1/feed?lang=en|mr|hi&type=official|scheme|deadline|news&district=&crop=` (signed in).
+News items carry `thread_id` and the answer lists their `threads` (§12);
+`GET /v1/feed/threads/{id}?lang=` returns one topic, oldest first.
 
 ## 7. Farmer state and push settings (G2)
 - `GET|PUT /v1/me/feed-preferences`: quiet hours (India time "HH:MM", default 21:00–07:00),
@@ -233,3 +235,33 @@ as they are. One-off, safe to repeat:
 cd /opt/bagmitra/deploy && docker compose exec -T api python -m bagmitra_api.feed.recheck_held
 ```
 It prints `{"published": …, "held": …, "retry": …}`; reasons still failing are in admin web (status "held").
+
+## 12. News topic threads (owner Q139)
+Mahasamvad publishes one decision from many districts under different links, so related news is
+grouped: each **published news item** joins a topic thread (`feed_threads`, migration `0046`) and
+the app shows one card per topic ("N बातम्या") that opens as a dated timeline, oldest first. GR,
+circular, scheme and alert items are not threaded.
+
+Rule (`feed/threads.py`; conservative, a wrong merge is worse than a duplicate):
+- candidates: topics whose latest report is within **30 days** of the new item and that share a
+  number (not a year) or two word stems with its checked title / summary; at most 20, newest first;
+- no candidate: a new topic, **no model call**;
+- otherwise one small structured-output call to `FEED_CLASSIFY_MODEL` (low effort): "same event /
+  decision as topic Tn, or new". Only a clear match joins; "new", an unknown answer and every
+  model error start a new topic (`threaded` review event: `reason`, `candidates`, `joined`);
+- the topic's title / summary are copied from its latest report's checked text, never new text.
+
+**No manual step is needed.** Every scheduled news run (§9), after the article and recheck steps,
+threads published news that has no topic yet, oldest first, **at most 50 items per run**
+(`THREADS_PER_RUN`). So after deploying 0046 the already published news is threaded by the next
+runs on its own (50 per run, every 6 hours), with a bounded cost per run; afterwards each run
+threads its new items. Fourth JSON line in `/var/log/bagmitra-feed-news.log`:
+`{"threads": {"joined", "new", "model_calls", "ai_errors", "skipped_reason"}}`. Without
+`FEED_AI_API_KEY` nothing is threaded (single cards, as before) and the first run with the key
+catches up.
+
+Optional, manual use only (threads everything without a topic in one go, no cap; idempotent):
+`python -m bagmitra_api.feed.thread_backfill` inside the API container.
+A wrong merge is undone in the database only (no admin button yet, OPEN_QUESTIONS Q139): insert a
+new `feed_threads` row (title / summary copied from the item's text) and point the item's
+`feed_items.thread_id` at it. Setting it to NULL would let the next run ask the model again.
