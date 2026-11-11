@@ -79,7 +79,7 @@ async def test_new_alert_goes_to_every_device_in_the_farmer_language_and_is_stam
     assert sorted(m.token for m in sender.sent) == ["tok-a", "tok-b"]
     msg = sender.sent[0]
     assert msg.body.startswith("३५ °C"), "Marathi label from rules.json"
-    assert "स्थानिक तज्ज्ञ" in msg.body
+    assert "फळगळ होऊ शकते" in msg.body  # calm wording, owner 2026-11-10
     assert msg.data == {
         "plot_id": str(alert.plot_id),
         "rule_key": "heat_fruit_drop",

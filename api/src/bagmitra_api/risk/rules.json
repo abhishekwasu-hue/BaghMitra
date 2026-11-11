@@ -11,9 +11,9 @@
       "status": "draft",
       "source": "ICAR-CCRI Nagpur monthly guidelines (March): sudden rise to 35–40 °C",
       "labels": {
-        "en": "Heat of 35 °C or more expected: risk of fruit drop. Check irrigation. Verify with your local expert.",
-        "mr": "३५ °C किंवा अधिक तापमानाचा अंदाज: फळगळीचा धोका. ओलित तपासा. स्थानिक तज्ज्ञांकडून खात्री करा.",
-        "hi": "35 °C या अधिक तापमान का अनुमान: फल गिरने का जोखिम। सिंचाई जाँचें। स्थानीय विशेषज्ञ से पुष्टि करें।"
+        "en": "Heat of 35 °C or more expected: fruit drop can happen. Check irrigation.",
+        "mr": "३५ °C किंवा अधिक तापमानाचा अंदाज: फळगळ होऊ शकते. ओलित तपासा.",
+        "hi": "35 °C या अधिक तापमान का अनुमान: फल गिर सकते हैं। सिंचाई जाँचें।"
       }
     },
     {
@@ -25,9 +25,9 @@
       "status": "draft",
       "source": "ACP degree-day model, Coop & McRoberts 2013 (after Liu & Tsai 2000)",
       "labels": {
-        "en": "Warm days favour citrus psylla development. Look for psylla on new flush. Verify with your local expert.",
-        "mr": "उबदार दिवस सिट्रस सायलाच्या वाढीस अनुकूल. नवतीवर सायला आहे का ते पाहा. स्थानिक तज्ज्ञांकडून खात्री करा.",
-        "hi": "गर्म दिन सिट्रस सिल्ला के विकास के अनुकूल। नई फुटान पर सिल्ला देखें। स्थानीय विशेषज्ञ से पुष्टि करें।"
+        "en": "Warm days favour citrus psylla development. Look for psylla on new flush.",
+        "mr": "उबदार दिवस सिट्रस सायलाच्या वाढीस अनुकूल. नवतीवर सायला आहे का ते पाहा.",
+        "hi": "गर्म दिन सिट्रस सिल्ला के विकास के अनुकूल। नई फुटान पर सिल्ला देखें।"
       }
     },
     {
@@ -57,9 +57,9 @@
       "action": "claim_kit",
       "source": "IMD thunderstorm / squall warning wording (gusty winds 40-60 km/h and above); 60 km/h daily max gust (Open-Meteo wind_gusts_10m_max) is a draft starting point for fruit drop and branch damage, to be calibrated locally.",
       "labels": {
-        "en": "Strong wind gusts of 60 km/h or more expected: risk of fruit drop and broken branches. If the orchard is damaged, take loss photos now and open the claim kit. Check your policy for how to report a loss.",
-        "mr": "ताशी ६० कि.मी. किंवा अधिक वेगाच्या जोरदार वाऱ्याचा अंदाज: फळगळ व फांद्या तुटण्याचा धोका. बागेचे नुकसान झाल्यास लगेच नुकसानीचे फोटो काढा आणि क्लेम किट उघडा. नुकसान कसे कळवायचे ते तुमच्या पॉलिसीत तपासा.",
-        "hi": "60 किमी/घंटा या अधिक की तेज़ हवा का अनुमान: फल गिरने और डालियाँ टूटने का जोखिम। बाग को नुकसान हो तो अभी नुकसान की फ़ोटो लें और क्लेम किट खोलें। नुकसान की सूचना कैसे दें, अपनी पॉलिसी में देखें।"
+        "en": "Strong wind gusts of 60 km/h or more expected: fruit may drop and branches may break. If the orchard is damaged, take loss photos now and open the claim kit. Check your policy for how to report a loss.",
+        "mr": "ताशी ६० कि.मी. किंवा अधिक वेगाच्या जोरदार वाऱ्याचा अंदाज: फळगळ होऊ शकते व फांद्या तुटू शकतात. बागेचे नुकसान झाल्यास लगेच नुकसानीचे फोटो काढा आणि क्लेम किट उघडा. नुकसान कसे कळवायचे ते तुमच्या पॉलिसीत तपासा.",
+        "hi": "60 किमी/घंटा या अधिक की तेज़ हवा का अनुमान: फल गिर सकते हैं और डालियाँ टूट सकती हैं। बाग को नुकसान हो तो अभी नुकसान की फ़ोटो लें और क्लेम किट खोलें। नुकसान की सूचना कैसे दें, अपनी पॉलिसी में देखें।"
       }
     },
     {
@@ -73,9 +73,9 @@
       "action": "claim_kit",
       "source": "IMD rainfall intensity terms: heavy rain 64.5-115.5 mm in 24 h (Open-Meteo precipitation_sum). Draft.",
       "labels": {
-        "en": "Heavy rain of 64.5 mm or more in a day expected: risk of water-logging and fruit drop. If the orchard is damaged, take loss photos now and open the claim kit. Check your policy for how to report a loss.",
-        "mr": "एका दिवसात ६४.५ मि.मी. किंवा अधिक मुसळधार पावसाचा अंदाज: पाणी साचण्याचा व फळगळीचा धोका. बागेचे नुकसान झाल्यास लगेच नुकसानीचे फोटो काढा आणि क्लेम किट उघडा. नुकसान कसे कळवायचे ते तुमच्या पॉलिसीत तपासा.",
-        "hi": "एक दिन में 64.5 मिमी या अधिक भारी बारिश का अनुमान: जलभराव और फल गिरने का जोखिम। बाग को नुकसान हो तो अभी नुकसान की फ़ोटो लें और क्लेम किट खोलें। नुकसान की सूचना कैसे दें, अपनी पॉलिसी में देखें।"
+        "en": "Heavy rain of 64.5 mm or more in a day expected: water may stand in the orchard and fruit may drop. If the orchard is damaged, take loss photos now and open the claim kit. Check your policy for how to report a loss.",
+        "mr": "एका दिवसात ६४.५ मि.मी. किंवा अधिक मुसळधार पावसाचा अंदाज: पाणी साचू शकते व फळगळ होऊ शकते. बागेचे नुकसान झाल्यास लगेच नुकसानीचे फोटो काढा आणि क्लेम किट उघडा. नुकसान कसे कळवायचे ते तुमच्या पॉलिसीत तपासा.",
+        "hi": "एक दिन में 64.5 मिमी या अधिक भारी बारिश का अनुमान: जलभराव हो सकता है और फल गिर सकते हैं। बाग को नुकसान हो तो अभी नुकसान की फ़ोटो लें और क्लेम किट खोलें। नुकसान की सूचना कैसे दें, अपनी पॉलिसी में देखें।"
       }
     },
     {
@@ -98,9 +98,9 @@
       "action": "claim_kit",
       "source": "IMD rainfall intensity terms: rather heavy rain 15.6-64.4 mm in 24 h; months November to May are outside the south-west monsoon and its withdrawal over Vidarbha (IMD seasons). Draft: months and amount to be calibrated.",
       "labels": {
-        "en": "Unseasonal rain of 15.6 mm or more expected outside the monsoon: risk to flowers and fruit. If the orchard is damaged, take loss photos now and open the claim kit. Check your policy for how to report a loss.",
-        "mr": "पावसाळ्याबाहेर १५.६ मि.मी. किंवा अधिक अवकाळी पावसाचा अंदाज: फुले व फळांना धोका. बागेचे नुकसान झाल्यास लगेच नुकसानीचे फोटो काढा आणि क्लेम किट उघडा. नुकसान कसे कळवायचे ते तुमच्या पॉलिसीत तपासा.",
-        "hi": "मानसून के बाहर 15.6 मिमी या अधिक बेमौसम बारिश का अनुमान: फूल और फल को जोखिम। बाग को नुकसान हो तो अभी नुकसान की फ़ोटो लें और क्लेम किट खोलें। नुकसान की सूचना कैसे दें, अपनी पॉलिसी में देखें।"
+        "en": "Unseasonal rain of 15.6 mm or more expected outside the monsoon: flowers and fruit can be affected. If the orchard is damaged, take loss photos now and open the claim kit. Check your policy for how to report a loss.",
+        "mr": "पावसाळ्याबाहेर १५.६ मि.मी. किंवा अधिक अवकाळी पावसाचा अंदाज: फुले व फळांवर परिणाम होऊ शकतो. बागेचे नुकसान झाल्यास लगेच नुकसानीचे फोटो काढा आणि क्लेम किट उघडा. नुकसान कसे कळवायचे ते तुमच्या पॉलिसीत तपासा.",
+        "hi": "मानसून के बाहर 15.6 मिमी या अधिक बेमौसम बारिश का अनुमान: फूल और फल प्रभावित हो सकते हैं। बाग को नुकसान हो तो अभी नुकसान की फ़ोटो लें और क्लेम किट खोलें। नुकसान की सूचना कैसे दें, अपनी पॉलिसी में देखें।"
       }
     },
     {
@@ -113,9 +113,9 @@
       "status": "draft",
       "source": "IMD cold-wave criteria for plains (IMD Pune hazard atlas, cold.pdf, read 2026-11-06): cold wave when the minimum temperature is 4 °C or less (severe at 2 °C or less). The departure-from-normal test (4.5 to 6.4 °C below normal at 10 °C or less) needs station normals and is not used. Draft: no citrus-specific cold threshold was found in a public source.",
       "labels": {
-        "en": "Cold wave expected (minimum 4 °C or less, IMD). Look over young plants, the nursery and new flush after the cold night. Verify with your local expert.",
-        "mr": "थंडीच्या लाटेचा अंदाज (किमान तापमान ४ °C किंवा कमी, IMD). थंड रात्रीनंतर लहान झाडे, रोपवाटिका आणि नवती पाहा. स्थानिक तज्ज्ञांकडून खात्री करा.",
-        "hi": "शीत लहर का अनुमान (न्यूनतम तापमान 4 °C या कम, IMD)। ठंडी रात के बाद छोटे पौधे, नर्सरी और नई फुटान देखें। स्थानीय विशेषज्ञ से पुष्टि करें।"
+        "en": "Cold wave expected (minimum 4 °C or less, IMD). Look over young plants, the nursery and new flush after the cold night.",
+        "mr": "थंडीच्या लाटेचा अंदाज (किमान तापमान ४ °C किंवा कमी, IMD). थंड रात्रीनंतर लहान झाडे, रोपवाटिका आणि नवती पाहा.",
+        "hi": "शीत लहर का अनुमान (न्यूनतम तापमान 4 °C या कम, IMD)। ठंडी रात के बाद छोटे पौधे, नर्सरी और नई फुटान देखें।"
       }
     },
     {
@@ -128,9 +128,9 @@
       "status": "draft",
       "source": "NIPHM and Directorate of Plant Protection, Quarantine & Storage, AESA based IPM for citrus (Vikaspedia 'Diseases and symptoms', read 2026-11-06): powdery mildew and anthracnose are favoured by a long period of relative humidity above 80 % with mist, in cool weather (about 20 °C). The source gives no number of days: one day of daily mean humidity is a draft to calibrate (Open-Meteo relative_humidity_2m_mean).",
       "labels": {
-        "en": "Humid weather expected (average humidity 80 % or more): it favours fungal diseases such as powdery mildew and anthracnose. Look over new leaves and young fruit. Verify with your local expert.",
-        "mr": "दमट हवामानाचा अंदाज (सरासरी आर्द्रता ८० % किंवा अधिक): भुरी आणि ॲन्थ्रॅकनोज यांसारख्या बुरशीजन्य रोगांना अनुकूल. नवीन पाने व लहान फळे पाहा. स्थानिक तज्ज्ञांकडून खात्री करा.",
-        "hi": "नम मौसम का अनुमान (औसत आर्द्रता 80 % या अधिक): यह चूर्णिल आसिता और एन्थ्रेक्नोज़ जैसे फफूंद रोगों के अनुकूल है। नई पत्तियाँ और छोटे फल देखें। स्थानीय विशेषज्ञ से पुष्टि करें।"
+        "en": "Humid weather expected (average humidity 80 % or more): it favours fungal diseases such as powdery mildew and anthracnose. Look over new leaves and young fruit.",
+        "mr": "दमट हवामानाचा अंदाज (सरासरी आर्द्रता ८० % किंवा अधिक): भुरी आणि ॲन्थ्रॅकनोज यांसारख्या बुरशीजन्य रोगांना अनुकूल. नवीन पाने व लहान फळे पाहा.",
+        "hi": "नम मौसम का अनुमान (औसत आर्द्रता 80 % या अधिक): यह चूर्णिल आसिता और एन्थ्रेक्नोज़ जैसे फफूंद रोगों के अनुकूल है। नई पत्तियाँ और छोटे फल देखें।"
       }
     }
   ]
