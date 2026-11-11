@@ -24900,6 +24900,188 @@ v1AdminMarketLinkVerificationsSubjectTypeSubjectIdDocumentsIndexUrlGetSubjectTyp
       .toList();
 }
 
+String? v1BillPhotosKindRecordIdUploadUrlPostKindNullableToJson(
+  enums.V1BillPhotosKindRecordIdUploadUrlPostKind?
+  v1BillPhotosKindRecordIdUploadUrlPostKind,
+) {
+  return v1BillPhotosKindRecordIdUploadUrlPostKind?.value;
+}
+
+String? v1BillPhotosKindRecordIdUploadUrlPostKindToJson(
+  enums.V1BillPhotosKindRecordIdUploadUrlPostKind
+  v1BillPhotosKindRecordIdUploadUrlPostKind,
+) {
+  return v1BillPhotosKindRecordIdUploadUrlPostKind.value;
+}
+
+enums.V1BillPhotosKindRecordIdUploadUrlPostKind
+v1BillPhotosKindRecordIdUploadUrlPostKindFromJson(
+  Object? v1BillPhotosKindRecordIdUploadUrlPostKind, [
+  enums.V1BillPhotosKindRecordIdUploadUrlPostKind? defaultValue,
+]) {
+  return enums.V1BillPhotosKindRecordIdUploadUrlPostKind.values
+          .firstWhereOrNull(
+            (e) => e.value == v1BillPhotosKindRecordIdUploadUrlPostKind,
+          ) ??
+      defaultValue ??
+      enums.V1BillPhotosKindRecordIdUploadUrlPostKind.swaggerGeneratedUnknown;
+}
+
+enums.V1BillPhotosKindRecordIdUploadUrlPostKind?
+v1BillPhotosKindRecordIdUploadUrlPostKindNullableFromJson(
+  Object? v1BillPhotosKindRecordIdUploadUrlPostKind, [
+  enums.V1BillPhotosKindRecordIdUploadUrlPostKind? defaultValue,
+]) {
+  if (v1BillPhotosKindRecordIdUploadUrlPostKind == null) {
+    return null;
+  }
+  return enums.V1BillPhotosKindRecordIdUploadUrlPostKind.values
+          .firstWhereOrNull(
+            (e) => e.value == v1BillPhotosKindRecordIdUploadUrlPostKind,
+          ) ??
+      defaultValue;
+}
+
+String v1BillPhotosKindRecordIdUploadUrlPostKindExplodedListToJson(
+  List<enums.V1BillPhotosKindRecordIdUploadUrlPostKind>?
+  v1BillPhotosKindRecordIdUploadUrlPostKind,
+) {
+  return v1BillPhotosKindRecordIdUploadUrlPostKind
+          ?.map((e) => e.value!)
+          .join(',') ??
+      '';
+}
+
+List<String> v1BillPhotosKindRecordIdUploadUrlPostKindListToJson(
+  List<enums.V1BillPhotosKindRecordIdUploadUrlPostKind>?
+  v1BillPhotosKindRecordIdUploadUrlPostKind,
+) {
+  if (v1BillPhotosKindRecordIdUploadUrlPostKind == null) {
+    return [];
+  }
+
+  return v1BillPhotosKindRecordIdUploadUrlPostKind
+      .map((e) => e.value!)
+      .toList();
+}
+
+List<enums.V1BillPhotosKindRecordIdUploadUrlPostKind>
+v1BillPhotosKindRecordIdUploadUrlPostKindListFromJson(
+  List? v1BillPhotosKindRecordIdUploadUrlPostKind, [
+  List<enums.V1BillPhotosKindRecordIdUploadUrlPostKind>? defaultValue,
+]) {
+  if (v1BillPhotosKindRecordIdUploadUrlPostKind == null) {
+    return defaultValue ?? [];
+  }
+
+  return v1BillPhotosKindRecordIdUploadUrlPostKind
+      .map(
+        (e) => v1BillPhotosKindRecordIdUploadUrlPostKindFromJson(e.toString()),
+      )
+      .toList();
+}
+
+List<enums.V1BillPhotosKindRecordIdUploadUrlPostKind>?
+v1BillPhotosKindRecordIdUploadUrlPostKindNullableListFromJson(
+  List? v1BillPhotosKindRecordIdUploadUrlPostKind, [
+  List<enums.V1BillPhotosKindRecordIdUploadUrlPostKind>? defaultValue,
+]) {
+  if (v1BillPhotosKindRecordIdUploadUrlPostKind == null) {
+    return defaultValue;
+  }
+
+  return v1BillPhotosKindRecordIdUploadUrlPostKind
+      .map(
+        (e) => v1BillPhotosKindRecordIdUploadUrlPostKindFromJson(e.toString()),
+      )
+      .toList();
+}
+
+String? v1BillPhotosKindRecordIdUrlGetKindNullableToJson(
+  enums.V1BillPhotosKindRecordIdUrlGetKind? v1BillPhotosKindRecordIdUrlGetKind,
+) {
+  return v1BillPhotosKindRecordIdUrlGetKind?.value;
+}
+
+String? v1BillPhotosKindRecordIdUrlGetKindToJson(
+  enums.V1BillPhotosKindRecordIdUrlGetKind v1BillPhotosKindRecordIdUrlGetKind,
+) {
+  return v1BillPhotosKindRecordIdUrlGetKind.value;
+}
+
+enums.V1BillPhotosKindRecordIdUrlGetKind
+v1BillPhotosKindRecordIdUrlGetKindFromJson(
+  Object? v1BillPhotosKindRecordIdUrlGetKind, [
+  enums.V1BillPhotosKindRecordIdUrlGetKind? defaultValue,
+]) {
+  return enums.V1BillPhotosKindRecordIdUrlGetKind.values.firstWhereOrNull(
+        (e) => e.value == v1BillPhotosKindRecordIdUrlGetKind,
+      ) ??
+      defaultValue ??
+      enums.V1BillPhotosKindRecordIdUrlGetKind.swaggerGeneratedUnknown;
+}
+
+enums.V1BillPhotosKindRecordIdUrlGetKind?
+v1BillPhotosKindRecordIdUrlGetKindNullableFromJson(
+  Object? v1BillPhotosKindRecordIdUrlGetKind, [
+  enums.V1BillPhotosKindRecordIdUrlGetKind? defaultValue,
+]) {
+  if (v1BillPhotosKindRecordIdUrlGetKind == null) {
+    return null;
+  }
+  return enums.V1BillPhotosKindRecordIdUrlGetKind.values.firstWhereOrNull(
+        (e) => e.value == v1BillPhotosKindRecordIdUrlGetKind,
+      ) ??
+      defaultValue;
+}
+
+String v1BillPhotosKindRecordIdUrlGetKindExplodedListToJson(
+  List<enums.V1BillPhotosKindRecordIdUrlGetKind>?
+  v1BillPhotosKindRecordIdUrlGetKind,
+) {
+  return v1BillPhotosKindRecordIdUrlGetKind?.map((e) => e.value!).join(',') ??
+      '';
+}
+
+List<String> v1BillPhotosKindRecordIdUrlGetKindListToJson(
+  List<enums.V1BillPhotosKindRecordIdUrlGetKind>?
+  v1BillPhotosKindRecordIdUrlGetKind,
+) {
+  if (v1BillPhotosKindRecordIdUrlGetKind == null) {
+    return [];
+  }
+
+  return v1BillPhotosKindRecordIdUrlGetKind.map((e) => e.value!).toList();
+}
+
+List<enums.V1BillPhotosKindRecordIdUrlGetKind>
+v1BillPhotosKindRecordIdUrlGetKindListFromJson(
+  List? v1BillPhotosKindRecordIdUrlGetKind, [
+  List<enums.V1BillPhotosKindRecordIdUrlGetKind>? defaultValue,
+]) {
+  if (v1BillPhotosKindRecordIdUrlGetKind == null) {
+    return defaultValue ?? [];
+  }
+
+  return v1BillPhotosKindRecordIdUrlGetKind
+      .map((e) => v1BillPhotosKindRecordIdUrlGetKindFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.V1BillPhotosKindRecordIdUrlGetKind>?
+v1BillPhotosKindRecordIdUrlGetKindNullableListFromJson(
+  List? v1BillPhotosKindRecordIdUrlGetKind, [
+  List<enums.V1BillPhotosKindRecordIdUrlGetKind>? defaultValue,
+]) {
+  if (v1BillPhotosKindRecordIdUrlGetKind == null) {
+    return defaultValue;
+  }
+
+  return v1BillPhotosKindRecordIdUrlGetKind
+      .map((e) => v1BillPhotosKindRecordIdUrlGetKindFromJson(e.toString()))
+      .toList();
+}
+
 String? v1FeedGetLangNullableToJson(enums.V1FeedGetLang? v1FeedGetLang) {
   return v1FeedGetLang?.value;
 }

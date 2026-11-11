@@ -86,7 +86,9 @@ class BaharCycles extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
-/// Expenses (mirror of the API `expense` entity). Money in whole paise.
+/// Expenses (mirror of the API `expense` entity). Money in whole paise. [billPhotoPath] is
+/// the bill photo on this phone (local only, never synced); [billPhotoKey] is synced, the
+/// object path once the optional photo backup has uploaded it (OPEN_QUESTIONS Q136).
 @DataClassName('ExpenseRow')
 class Expenses extends Table {
   TextColumn get id => text()();
@@ -97,6 +99,8 @@ class Expenses extends Table {
   IntColumn get amountPaise => integer()();
   TextColumn get note => text().nullable()();
   DateTimeColumn get clientUpdatedAt => dateTime()();
+  TextColumn get billPhotoPath => text().nullable()();
+  TextColumn get billPhotoKey => text().nullable()();
 
   @override
   Set<Column<Object>> get primaryKey => {id};
@@ -123,7 +127,8 @@ class Incomes extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
-/// Spray records (mirror of the API `spray_record` entity). Cost in whole paise.
+/// Spray records (mirror of the API `spray_record` entity). Cost in whole paise. The bill
+/// photo columns work as on [Expenses] (OPEN_QUESTIONS Q136).
 @DataClassName('SprayRecordRow')
 class SprayRecords extends Table {
   TextColumn get id => text()();
@@ -140,6 +145,8 @@ class SprayRecords extends Table {
   IntColumn get phiDays => integer().nullable()();
   TextColumn get target => text().nullable()();
   DateTimeColumn get clientUpdatedAt => dateTime()();
+  TextColumn get billPhotoPath => text().nullable()();
+  TextColumn get billPhotoKey => text().nullable()();
 
   @override
   Set<Column<Object>> get primaryKey => {id};
@@ -408,7 +415,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.open(String name) : super(driftDatabase(name: name));
 
   @override
-  int get schemaVersion => 14;
+  int get schemaVersion => 15;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -447,6 +454,16 @@ class AppDatabase extends _$AppDatabase {
       if (from < 14) {
         await m.createTable(marketLots);
         await m.createTable(marketLotPhotos);
+      }
+      // Bill photos (Q136). Created above with the columns already when coming from before
+      // the table existed.
+      if (from >= 4 && from < 15) {
+        await m.addColumn(expenses, expenses.billPhotoPath);
+        await m.addColumn(expenses, expenses.billPhotoKey);
+      }
+      if (from >= 5 && from < 15) {
+        await m.addColumn(sprayRecords, sprayRecords.billPhotoPath);
+        await m.addColumn(sprayRecords, sprayRecords.billPhotoKey);
       }
     },
   );

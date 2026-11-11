@@ -48,6 +48,7 @@ void main() {
     ('/plots/p1/sprays', seedWithSpray),
     ('/plots/p1/sprays/new', seedWithSpray),
     ('/plots/p1/accounts', seedAccounts),
+    ('/plots/p1/accounts/expense', seedPlot),
     ('/plots/p1/labour/new', seedPlot),
     ('/plots/p1/insurance/new', seedPlot),
     ('/claim-kit?plot=p1', seedPlot),

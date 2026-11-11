@@ -3069,6 +3069,28 @@ class $ExpensesTable extends Expenses
         type: DriftSqlType.dateTime,
         requiredDuringInsert: true,
       );
+  static const VerificationMeta _billPhotoPathMeta = const VerificationMeta(
+    'billPhotoPath',
+  );
+  @override
+  late final GeneratedColumn<String> billPhotoPath = GeneratedColumn<String>(
+    'bill_photo_path',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _billPhotoKeyMeta = const VerificationMeta(
+    'billPhotoKey',
+  );
+  @override
+  late final GeneratedColumn<String> billPhotoKey = GeneratedColumn<String>(
+    'bill_photo_key',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -3079,6 +3101,8 @@ class $ExpensesTable extends Expenses
     amountPaise,
     note,
     clientUpdatedAt,
+    billPhotoPath,
+    billPhotoKey,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -3158,6 +3182,24 @@ class $ExpensesTable extends Expenses
     } else if (isInserting) {
       context.missing(_clientUpdatedAtMeta);
     }
+    if (data.containsKey('bill_photo_path')) {
+      context.handle(
+        _billPhotoPathMeta,
+        billPhotoPath.isAcceptableOrUnknown(
+          data['bill_photo_path']!,
+          _billPhotoPathMeta,
+        ),
+      );
+    }
+    if (data.containsKey('bill_photo_key')) {
+      context.handle(
+        _billPhotoKeyMeta,
+        billPhotoKey.isAcceptableOrUnknown(
+          data['bill_photo_key']!,
+          _billPhotoKeyMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -3199,6 +3241,14 @@ class $ExpensesTable extends Expenses
         DriftSqlType.dateTime,
         data['${effectivePrefix}client_updated_at'],
       )!,
+      billPhotoPath: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}bill_photo_path'],
+      ),
+      billPhotoKey: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}bill_photo_key'],
+      ),
     );
   }
 
@@ -3217,6 +3267,8 @@ class ExpenseRow extends DataClass implements Insertable<ExpenseRow> {
   final int amountPaise;
   final String? note;
   final DateTime clientUpdatedAt;
+  final String? billPhotoPath;
+  final String? billPhotoKey;
   const ExpenseRow({
     required this.id,
     required this.plotId,
@@ -3226,6 +3278,8 @@ class ExpenseRow extends DataClass implements Insertable<ExpenseRow> {
     required this.amountPaise,
     this.note,
     required this.clientUpdatedAt,
+    this.billPhotoPath,
+    this.billPhotoKey,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -3242,6 +3296,12 @@ class ExpenseRow extends DataClass implements Insertable<ExpenseRow> {
       map['note'] = Variable<String>(note);
     }
     map['client_updated_at'] = Variable<DateTime>(clientUpdatedAt);
+    if (!nullToAbsent || billPhotoPath != null) {
+      map['bill_photo_path'] = Variable<String>(billPhotoPath);
+    }
+    if (!nullToAbsent || billPhotoKey != null) {
+      map['bill_photo_key'] = Variable<String>(billPhotoKey);
+    }
     return map;
   }
 
@@ -3257,6 +3317,12 @@ class ExpenseRow extends DataClass implements Insertable<ExpenseRow> {
       amountPaise: Value(amountPaise),
       note: note == null && nullToAbsent ? const Value.absent() : Value(note),
       clientUpdatedAt: Value(clientUpdatedAt),
+      billPhotoPath: billPhotoPath == null && nullToAbsent
+          ? const Value.absent()
+          : Value(billPhotoPath),
+      billPhotoKey: billPhotoKey == null && nullToAbsent
+          ? const Value.absent()
+          : Value(billPhotoKey),
     );
   }
 
@@ -3274,6 +3340,8 @@ class ExpenseRow extends DataClass implements Insertable<ExpenseRow> {
       amountPaise: serializer.fromJson<int>(json['amountPaise']),
       note: serializer.fromJson<String?>(json['note']),
       clientUpdatedAt: serializer.fromJson<DateTime>(json['clientUpdatedAt']),
+      billPhotoPath: serializer.fromJson<String?>(json['billPhotoPath']),
+      billPhotoKey: serializer.fromJson<String?>(json['billPhotoKey']),
     );
   }
   @override
@@ -3288,6 +3356,8 @@ class ExpenseRow extends DataClass implements Insertable<ExpenseRow> {
       'amountPaise': serializer.toJson<int>(amountPaise),
       'note': serializer.toJson<String?>(note),
       'clientUpdatedAt': serializer.toJson<DateTime>(clientUpdatedAt),
+      'billPhotoPath': serializer.toJson<String?>(billPhotoPath),
+      'billPhotoKey': serializer.toJson<String?>(billPhotoKey),
     };
   }
 
@@ -3300,6 +3370,8 @@ class ExpenseRow extends DataClass implements Insertable<ExpenseRow> {
     int? amountPaise,
     Value<String?> note = const Value.absent(),
     DateTime? clientUpdatedAt,
+    Value<String?> billPhotoPath = const Value.absent(),
+    Value<String?> billPhotoKey = const Value.absent(),
   }) => ExpenseRow(
     id: id ?? this.id,
     plotId: plotId ?? this.plotId,
@@ -3309,6 +3381,10 @@ class ExpenseRow extends DataClass implements Insertable<ExpenseRow> {
     amountPaise: amountPaise ?? this.amountPaise,
     note: note.present ? note.value : this.note,
     clientUpdatedAt: clientUpdatedAt ?? this.clientUpdatedAt,
+    billPhotoPath: billPhotoPath.present
+        ? billPhotoPath.value
+        : this.billPhotoPath,
+    billPhotoKey: billPhotoKey.present ? billPhotoKey.value : this.billPhotoKey,
   );
   ExpenseRow copyWithCompanion(ExpensesCompanion data) {
     return ExpenseRow(
@@ -3326,6 +3402,12 @@ class ExpenseRow extends DataClass implements Insertable<ExpenseRow> {
       clientUpdatedAt: data.clientUpdatedAt.present
           ? data.clientUpdatedAt.value
           : this.clientUpdatedAt,
+      billPhotoPath: data.billPhotoPath.present
+          ? data.billPhotoPath.value
+          : this.billPhotoPath,
+      billPhotoKey: data.billPhotoKey.present
+          ? data.billPhotoKey.value
+          : this.billPhotoKey,
     );
   }
 
@@ -3339,7 +3421,9 @@ class ExpenseRow extends DataClass implements Insertable<ExpenseRow> {
           ..write('category: $category, ')
           ..write('amountPaise: $amountPaise, ')
           ..write('note: $note, ')
-          ..write('clientUpdatedAt: $clientUpdatedAt')
+          ..write('clientUpdatedAt: $clientUpdatedAt, ')
+          ..write('billPhotoPath: $billPhotoPath, ')
+          ..write('billPhotoKey: $billPhotoKey')
           ..write(')'))
         .toString();
   }
@@ -3354,6 +3438,8 @@ class ExpenseRow extends DataClass implements Insertable<ExpenseRow> {
     amountPaise,
     note,
     clientUpdatedAt,
+    billPhotoPath,
+    billPhotoKey,
   );
   @override
   bool operator ==(Object other) =>
@@ -3366,7 +3452,9 @@ class ExpenseRow extends DataClass implements Insertable<ExpenseRow> {
           other.category == this.category &&
           other.amountPaise == this.amountPaise &&
           other.note == this.note &&
-          other.clientUpdatedAt == this.clientUpdatedAt);
+          other.clientUpdatedAt == this.clientUpdatedAt &&
+          other.billPhotoPath == this.billPhotoPath &&
+          other.billPhotoKey == this.billPhotoKey);
 }
 
 class ExpensesCompanion extends UpdateCompanion<ExpenseRow> {
@@ -3378,6 +3466,8 @@ class ExpensesCompanion extends UpdateCompanion<ExpenseRow> {
   final Value<int> amountPaise;
   final Value<String?> note;
   final Value<DateTime> clientUpdatedAt;
+  final Value<String?> billPhotoPath;
+  final Value<String?> billPhotoKey;
   final Value<int> rowid;
   const ExpensesCompanion({
     this.id = const Value.absent(),
@@ -3388,6 +3478,8 @@ class ExpensesCompanion extends UpdateCompanion<ExpenseRow> {
     this.amountPaise = const Value.absent(),
     this.note = const Value.absent(),
     this.clientUpdatedAt = const Value.absent(),
+    this.billPhotoPath = const Value.absent(),
+    this.billPhotoKey = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   ExpensesCompanion.insert({
@@ -3399,6 +3491,8 @@ class ExpensesCompanion extends UpdateCompanion<ExpenseRow> {
     required int amountPaise,
     this.note = const Value.absent(),
     required DateTime clientUpdatedAt,
+    this.billPhotoPath = const Value.absent(),
+    this.billPhotoKey = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        plotId = Value(plotId),
@@ -3415,6 +3509,8 @@ class ExpensesCompanion extends UpdateCompanion<ExpenseRow> {
     Expression<int>? amountPaise,
     Expression<String>? note,
     Expression<DateTime>? clientUpdatedAt,
+    Expression<String>? billPhotoPath,
+    Expression<String>? billPhotoKey,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -3426,6 +3522,8 @@ class ExpensesCompanion extends UpdateCompanion<ExpenseRow> {
       if (amountPaise != null) 'amount_paise': amountPaise,
       if (note != null) 'note': note,
       if (clientUpdatedAt != null) 'client_updated_at': clientUpdatedAt,
+      if (billPhotoPath != null) 'bill_photo_path': billPhotoPath,
+      if (billPhotoKey != null) 'bill_photo_key': billPhotoKey,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -3439,6 +3537,8 @@ class ExpensesCompanion extends UpdateCompanion<ExpenseRow> {
     Value<int>? amountPaise,
     Value<String?>? note,
     Value<DateTime>? clientUpdatedAt,
+    Value<String?>? billPhotoPath,
+    Value<String?>? billPhotoKey,
     Value<int>? rowid,
   }) {
     return ExpensesCompanion(
@@ -3450,6 +3550,8 @@ class ExpensesCompanion extends UpdateCompanion<ExpenseRow> {
       amountPaise: amountPaise ?? this.amountPaise,
       note: note ?? this.note,
       clientUpdatedAt: clientUpdatedAt ?? this.clientUpdatedAt,
+      billPhotoPath: billPhotoPath ?? this.billPhotoPath,
+      billPhotoKey: billPhotoKey ?? this.billPhotoKey,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -3481,6 +3583,12 @@ class ExpensesCompanion extends UpdateCompanion<ExpenseRow> {
     if (clientUpdatedAt.present) {
       map['client_updated_at'] = Variable<DateTime>(clientUpdatedAt.value);
     }
+    if (billPhotoPath.present) {
+      map['bill_photo_path'] = Variable<String>(billPhotoPath.value);
+    }
+    if (billPhotoKey.present) {
+      map['bill_photo_key'] = Variable<String>(billPhotoKey.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -3498,6 +3606,8 @@ class ExpensesCompanion extends UpdateCompanion<ExpenseRow> {
           ..write('amountPaise: $amountPaise, ')
           ..write('note: $note, ')
           ..write('clientUpdatedAt: $clientUpdatedAt, ')
+          ..write('billPhotoPath: $billPhotoPath, ')
+          ..write('billPhotoKey: $billPhotoKey, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -4433,6 +4543,28 @@ class $SprayRecordsTable extends SprayRecords
         type: DriftSqlType.dateTime,
         requiredDuringInsert: true,
       );
+  static const VerificationMeta _billPhotoPathMeta = const VerificationMeta(
+    'billPhotoPath',
+  );
+  @override
+  late final GeneratedColumn<String> billPhotoPath = GeneratedColumn<String>(
+    'bill_photo_path',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _billPhotoKeyMeta = const VerificationMeta(
+    'billPhotoKey',
+  );
+  @override
+  late final GeneratedColumn<String> billPhotoKey = GeneratedColumn<String>(
+    'bill_photo_key',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -4449,6 +4581,8 @@ class $SprayRecordsTable extends SprayRecords
     phiDays,
     target,
     clientUpdatedAt,
+    billPhotoPath,
+    billPhotoKey,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -4570,6 +4704,24 @@ class $SprayRecordsTable extends SprayRecords
     } else if (isInserting) {
       context.missing(_clientUpdatedAtMeta);
     }
+    if (data.containsKey('bill_photo_path')) {
+      context.handle(
+        _billPhotoPathMeta,
+        billPhotoPath.isAcceptableOrUnknown(
+          data['bill_photo_path']!,
+          _billPhotoPathMeta,
+        ),
+      );
+    }
+    if (data.containsKey('bill_photo_key')) {
+      context.handle(
+        _billPhotoKeyMeta,
+        billPhotoKey.isAcceptableOrUnknown(
+          data['bill_photo_key']!,
+          _billPhotoKeyMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -4635,6 +4787,14 @@ class $SprayRecordsTable extends SprayRecords
         DriftSqlType.dateTime,
         data['${effectivePrefix}client_updated_at'],
       )!,
+      billPhotoPath: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}bill_photo_path'],
+      ),
+      billPhotoKey: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}bill_photo_key'],
+      ),
     );
   }
 
@@ -4659,6 +4819,8 @@ class SprayRecordRow extends DataClass implements Insertable<SprayRecordRow> {
   final int? phiDays;
   final String? target;
   final DateTime clientUpdatedAt;
+  final String? billPhotoPath;
+  final String? billPhotoKey;
   const SprayRecordRow({
     required this.id,
     required this.plotId,
@@ -4674,6 +4836,8 @@ class SprayRecordRow extends DataClass implements Insertable<SprayRecordRow> {
     this.phiDays,
     this.target,
     required this.clientUpdatedAt,
+    this.billPhotoPath,
+    this.billPhotoKey,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -4708,6 +4872,12 @@ class SprayRecordRow extends DataClass implements Insertable<SprayRecordRow> {
       map['target'] = Variable<String>(target);
     }
     map['client_updated_at'] = Variable<DateTime>(clientUpdatedAt);
+    if (!nullToAbsent || billPhotoPath != null) {
+      map['bill_photo_path'] = Variable<String>(billPhotoPath);
+    }
+    if (!nullToAbsent || billPhotoKey != null) {
+      map['bill_photo_key'] = Variable<String>(billPhotoKey);
+    }
     return map;
   }
 
@@ -4741,6 +4911,12 @@ class SprayRecordRow extends DataClass implements Insertable<SprayRecordRow> {
           ? const Value.absent()
           : Value(target),
       clientUpdatedAt: Value(clientUpdatedAt),
+      billPhotoPath: billPhotoPath == null && nullToAbsent
+          ? const Value.absent()
+          : Value(billPhotoPath),
+      billPhotoKey: billPhotoKey == null && nullToAbsent
+          ? const Value.absent()
+          : Value(billPhotoKey),
     );
   }
 
@@ -4764,6 +4940,8 @@ class SprayRecordRow extends DataClass implements Insertable<SprayRecordRow> {
       phiDays: serializer.fromJson<int?>(json['phiDays']),
       target: serializer.fromJson<String?>(json['target']),
       clientUpdatedAt: serializer.fromJson<DateTime>(json['clientUpdatedAt']),
+      billPhotoPath: serializer.fromJson<String?>(json['billPhotoPath']),
+      billPhotoKey: serializer.fromJson<String?>(json['billPhotoKey']),
     );
   }
   @override
@@ -4784,6 +4962,8 @@ class SprayRecordRow extends DataClass implements Insertable<SprayRecordRow> {
       'phiDays': serializer.toJson<int?>(phiDays),
       'target': serializer.toJson<String?>(target),
       'clientUpdatedAt': serializer.toJson<DateTime>(clientUpdatedAt),
+      'billPhotoPath': serializer.toJson<String?>(billPhotoPath),
+      'billPhotoKey': serializer.toJson<String?>(billPhotoKey),
     };
   }
 
@@ -4802,6 +4982,8 @@ class SprayRecordRow extends DataClass implements Insertable<SprayRecordRow> {
     Value<int?> phiDays = const Value.absent(),
     Value<String?> target = const Value.absent(),
     DateTime? clientUpdatedAt,
+    Value<String?> billPhotoPath = const Value.absent(),
+    Value<String?> billPhotoKey = const Value.absent(),
   }) => SprayRecordRow(
     id: id ?? this.id,
     plotId: plotId ?? this.plotId,
@@ -4819,6 +5001,10 @@ class SprayRecordRow extends DataClass implements Insertable<SprayRecordRow> {
     phiDays: phiDays.present ? phiDays.value : this.phiDays,
     target: target.present ? target.value : this.target,
     clientUpdatedAt: clientUpdatedAt ?? this.clientUpdatedAt,
+    billPhotoPath: billPhotoPath.present
+        ? billPhotoPath.value
+        : this.billPhotoPath,
+    billPhotoKey: billPhotoKey.present ? billPhotoKey.value : this.billPhotoKey,
   );
   SprayRecordRow copyWithCompanion(SprayRecordsCompanion data) {
     return SprayRecordRow(
@@ -4846,6 +5032,12 @@ class SprayRecordRow extends DataClass implements Insertable<SprayRecordRow> {
       clientUpdatedAt: data.clientUpdatedAt.present
           ? data.clientUpdatedAt.value
           : this.clientUpdatedAt,
+      billPhotoPath: data.billPhotoPath.present
+          ? data.billPhotoPath.value
+          : this.billPhotoPath,
+      billPhotoKey: data.billPhotoKey.present
+          ? data.billPhotoKey.value
+          : this.billPhotoKey,
     );
   }
 
@@ -4865,7 +5057,9 @@ class SprayRecordRow extends DataClass implements Insertable<SprayRecordRow> {
           ..write('operator: $operator, ')
           ..write('phiDays: $phiDays, ')
           ..write('target: $target, ')
-          ..write('clientUpdatedAt: $clientUpdatedAt')
+          ..write('clientUpdatedAt: $clientUpdatedAt, ')
+          ..write('billPhotoPath: $billPhotoPath, ')
+          ..write('billPhotoKey: $billPhotoKey')
           ..write(')'))
         .toString();
   }
@@ -4886,6 +5080,8 @@ class SprayRecordRow extends DataClass implements Insertable<SprayRecordRow> {
     phiDays,
     target,
     clientUpdatedAt,
+    billPhotoPath,
+    billPhotoKey,
   );
   @override
   bool operator ==(Object other) =>
@@ -4904,7 +5100,9 @@ class SprayRecordRow extends DataClass implements Insertable<SprayRecordRow> {
           other.operator == this.operator &&
           other.phiDays == this.phiDays &&
           other.target == this.target &&
-          other.clientUpdatedAt == this.clientUpdatedAt);
+          other.clientUpdatedAt == this.clientUpdatedAt &&
+          other.billPhotoPath == this.billPhotoPath &&
+          other.billPhotoKey == this.billPhotoKey);
 }
 
 class SprayRecordsCompanion extends UpdateCompanion<SprayRecordRow> {
@@ -4922,6 +5120,8 @@ class SprayRecordsCompanion extends UpdateCompanion<SprayRecordRow> {
   final Value<int?> phiDays;
   final Value<String?> target;
   final Value<DateTime> clientUpdatedAt;
+  final Value<String?> billPhotoPath;
+  final Value<String?> billPhotoKey;
   final Value<int> rowid;
   const SprayRecordsCompanion({
     this.id = const Value.absent(),
@@ -4938,6 +5138,8 @@ class SprayRecordsCompanion extends UpdateCompanion<SprayRecordRow> {
     this.phiDays = const Value.absent(),
     this.target = const Value.absent(),
     this.clientUpdatedAt = const Value.absent(),
+    this.billPhotoPath = const Value.absent(),
+    this.billPhotoKey = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   SprayRecordsCompanion.insert({
@@ -4955,6 +5157,8 @@ class SprayRecordsCompanion extends UpdateCompanion<SprayRecordRow> {
     this.phiDays = const Value.absent(),
     this.target = const Value.absent(),
     required DateTime clientUpdatedAt,
+    this.billPhotoPath = const Value.absent(),
+    this.billPhotoKey = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        plotId = Value(plotId),
@@ -4977,6 +5181,8 @@ class SprayRecordsCompanion extends UpdateCompanion<SprayRecordRow> {
     Expression<int>? phiDays,
     Expression<String>? target,
     Expression<DateTime>? clientUpdatedAt,
+    Expression<String>? billPhotoPath,
+    Expression<String>? billPhotoKey,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -4994,6 +5200,8 @@ class SprayRecordsCompanion extends UpdateCompanion<SprayRecordRow> {
       if (phiDays != null) 'phi_days': phiDays,
       if (target != null) 'target': target,
       if (clientUpdatedAt != null) 'client_updated_at': clientUpdatedAt,
+      if (billPhotoPath != null) 'bill_photo_path': billPhotoPath,
+      if (billPhotoKey != null) 'bill_photo_key': billPhotoKey,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -5013,6 +5221,8 @@ class SprayRecordsCompanion extends UpdateCompanion<SprayRecordRow> {
     Value<int?>? phiDays,
     Value<String?>? target,
     Value<DateTime>? clientUpdatedAt,
+    Value<String?>? billPhotoPath,
+    Value<String?>? billPhotoKey,
     Value<int>? rowid,
   }) {
     return SprayRecordsCompanion(
@@ -5030,6 +5240,8 @@ class SprayRecordsCompanion extends UpdateCompanion<SprayRecordRow> {
       phiDays: phiDays ?? this.phiDays,
       target: target ?? this.target,
       clientUpdatedAt: clientUpdatedAt ?? this.clientUpdatedAt,
+      billPhotoPath: billPhotoPath ?? this.billPhotoPath,
+      billPhotoKey: billPhotoKey ?? this.billPhotoKey,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -5079,6 +5291,12 @@ class SprayRecordsCompanion extends UpdateCompanion<SprayRecordRow> {
     if (clientUpdatedAt.present) {
       map['client_updated_at'] = Variable<DateTime>(clientUpdatedAt.value);
     }
+    if (billPhotoPath.present) {
+      map['bill_photo_path'] = Variable<String>(billPhotoPath.value);
+    }
+    if (billPhotoKey.present) {
+      map['bill_photo_key'] = Variable<String>(billPhotoKey.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -5102,6 +5320,8 @@ class SprayRecordsCompanion extends UpdateCompanion<SprayRecordRow> {
           ..write('phiDays: $phiDays, ')
           ..write('target: $target, ')
           ..write('clientUpdatedAt: $clientUpdatedAt, ')
+          ..write('billPhotoPath: $billPhotoPath, ')
+          ..write('billPhotoKey: $billPhotoKey, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -13929,6 +14149,8 @@ typedef $$ExpensesTableCreateCompanionBuilder = ExpensesCompanion Function({
   required int amountPaise,
   Value<String?> note,
   required DateTime clientUpdatedAt,
+  Value<String?> billPhotoPath,
+  Value<String?> billPhotoKey,
   Value<int> rowid,
 });
 typedef $$ExpensesTableUpdateCompanionBuilder = ExpensesCompanion Function({
@@ -13940,6 +14162,8 @@ typedef $$ExpensesTableUpdateCompanionBuilder = ExpensesCompanion Function({
   Value<int> amountPaise,
   Value<String?> note,
   Value<DateTime> clientUpdatedAt,
+  Value<String?> billPhotoPath,
+  Value<String?> billPhotoKey,
   Value<int> rowid,
 });
 
@@ -13989,6 +14213,16 @@ class $$ExpensesTableFilterComposer
 
   ColumnFilters<DateTime> get clientUpdatedAt => $composableBuilder(
     column: $table.clientUpdatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get billPhotoPath => $composableBuilder(
+    column: $table.billPhotoPath,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get billPhotoKey => $composableBuilder(
+    column: $table.billPhotoKey,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -14041,6 +14275,16 @@ class $$ExpensesTableOrderingComposer
     column: $table.clientUpdatedAt,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<String> get billPhotoPath => $composableBuilder(
+    column: $table.billPhotoPath,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get billPhotoKey => $composableBuilder(
+    column: $table.billPhotoKey,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$ExpensesTableAnnotationComposer
@@ -14079,6 +14323,16 @@ class $$ExpensesTableAnnotationComposer
 
   GeneratedColumn<DateTime> get clientUpdatedAt => $composableBuilder(
     column: $table.clientUpdatedAt,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get billPhotoPath => $composableBuilder(
+    column: $table.billPhotoPath,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get billPhotoKey => $composableBuilder(
+    column: $table.billPhotoKey,
     builder: (column) => column,
   );
 }
@@ -14122,6 +14376,8 @@ class $$ExpensesTableTableManager
                 Value<int> amountPaise = const Value.absent(),
                 Value<String?> note = const Value.absent(),
                 Value<DateTime> clientUpdatedAt = const Value.absent(),
+                Value<String?> billPhotoPath = const Value.absent(),
+                Value<String?> billPhotoKey = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => ExpensesCompanion(
                 id: id,
@@ -14132,6 +14388,8 @@ class $$ExpensesTableTableManager
                 amountPaise: amountPaise,
                 note: note,
                 clientUpdatedAt: clientUpdatedAt,
+                billPhotoPath: billPhotoPath,
+                billPhotoKey: billPhotoKey,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -14144,6 +14402,8 @@ class $$ExpensesTableTableManager
                 required int amountPaise,
                 Value<String?> note = const Value.absent(),
                 required DateTime clientUpdatedAt,
+                Value<String?> billPhotoPath = const Value.absent(),
+                Value<String?> billPhotoKey = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => ExpensesCompanion.insert(
                 id: id,
@@ -14154,6 +14414,8 @@ class $$ExpensesTableTableManager
                 amountPaise: amountPaise,
                 note: note,
                 clientUpdatedAt: clientUpdatedAt,
+                billPhotoPath: billPhotoPath,
+                billPhotoKey: billPhotoKey,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
@@ -14568,6 +14830,8 @@ typedef $$SprayRecordsTableCreateCompanionBuilder =
       Value<int?> phiDays,
       Value<String?> target,
       required DateTime clientUpdatedAt,
+      Value<String?> billPhotoPath,
+      Value<String?> billPhotoKey,
       Value<int> rowid,
     });
 typedef $$SprayRecordsTableUpdateCompanionBuilder =
@@ -14586,6 +14850,8 @@ typedef $$SprayRecordsTableUpdateCompanionBuilder =
       Value<int?> phiDays,
       Value<String?> target,
       Value<DateTime> clientUpdatedAt,
+      Value<String?> billPhotoPath,
+      Value<String?> billPhotoKey,
       Value<int> rowid,
     });
 
@@ -14665,6 +14931,16 @@ class $$SprayRecordsTableFilterComposer
 
   ColumnFilters<DateTime> get clientUpdatedAt => $composableBuilder(
     column: $table.clientUpdatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get billPhotoPath => $composableBuilder(
+    column: $table.billPhotoPath,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get billPhotoKey => $composableBuilder(
+    column: $table.billPhotoKey,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -14747,6 +15023,16 @@ class $$SprayRecordsTableOrderingComposer
     column: $table.clientUpdatedAt,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<String> get billPhotoPath => $composableBuilder(
+    column: $table.billPhotoPath,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get billPhotoKey => $composableBuilder(
+    column: $table.billPhotoKey,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$SprayRecordsTableAnnotationComposer
@@ -14809,6 +15095,16 @@ class $$SprayRecordsTableAnnotationComposer
     column: $table.clientUpdatedAt,
     builder: (column) => column,
   );
+
+  GeneratedColumn<String> get billPhotoPath => $composableBuilder(
+    column: $table.billPhotoPath,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get billPhotoKey => $composableBuilder(
+    column: $table.billPhotoKey,
+    builder: (column) => column,
+  );
 }
 
 class $$SprayRecordsTableTableManager
@@ -14856,6 +15152,8 @@ class $$SprayRecordsTableTableManager
                 Value<int?> phiDays = const Value.absent(),
                 Value<String?> target = const Value.absent(),
                 Value<DateTime> clientUpdatedAt = const Value.absent(),
+                Value<String?> billPhotoPath = const Value.absent(),
+                Value<String?> billPhotoKey = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => SprayRecordsCompanion(
                 id: id,
@@ -14872,6 +15170,8 @@ class $$SprayRecordsTableTableManager
                 phiDays: phiDays,
                 target: target,
                 clientUpdatedAt: clientUpdatedAt,
+                billPhotoPath: billPhotoPath,
+                billPhotoKey: billPhotoKey,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -14890,6 +15190,8 @@ class $$SprayRecordsTableTableManager
                 Value<int?> phiDays = const Value.absent(),
                 Value<String?> target = const Value.absent(),
                 required DateTime clientUpdatedAt,
+                Value<String?> billPhotoPath = const Value.absent(),
+                Value<String?> billPhotoKey = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => SprayRecordsCompanion.insert(
                 id: id,
@@ -14906,6 +15208,8 @@ class $$SprayRecordsTableTableManager
                 phiDays: phiDays,
                 target: target,
                 clientUpdatedAt: clientUpdatedAt,
+                billPhotoPath: billPhotoPath,
+                billPhotoKey: billPhotoKey,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
