@@ -4075,6 +4075,18 @@
             ],
             "title": "Summary"
           },
+          "thread_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Thread Id"
+          },
           "title": {
             "title": "Title",
             "type": "string"
@@ -4213,6 +4225,14 @@
             },
             "title": "Items",
             "type": "array"
+          },
+          "threads": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/FeedThreadOut"
+            },
+            "title": "Threads",
+            "type": "array"
           }
         },
         "required": [
@@ -4220,6 +4240,84 @@
           "footer"
         ],
         "title": "FeedResponse",
+        "type": "object"
+      },
+      "FeedThreadOut": {
+        "description": "A news topic (Q139): one card in the list, a dated timeline when opened. The title and\nsummary are the latest item's own checked text.",
+        "properties": {
+          "has_new": {
+            "title": "Has New",
+            "type": "boolean"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "item_count": {
+            "title": "Item Count",
+            "type": "integer"
+          },
+          "latest_at": {
+            "format": "date-time",
+            "title": "Latest At",
+            "type": "string"
+          },
+          "summary": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Summary"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "unseen_count": {
+            "title": "Unseen Count",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "summary",
+          "latest_at",
+          "item_count",
+          "unseen_count",
+          "has_new"
+        ],
+        "title": "FeedThreadOut",
+        "type": "object"
+      },
+      "FeedThreadResponse": {
+        "properties": {
+          "footer": {
+            "title": "Footer",
+            "type": "string"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/FeedItemOut"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "thread": {
+            "$ref": "#/components/schemas/FeedThreadOut"
+          }
+        },
+        "required": [
+          "thread",
+          "items",
+          "footer"
+        ],
+        "title": "FeedThreadResponse",
         "type": "object"
       },
       "FeedbackIn": {
@@ -17397,7 +17495,7 @@
     },
     "/v1/feed": {
       "get": {
-        "description": "Newest first. `district` / `crop` narrow the list to items meant for them (items for\neveryone always pass); `may_be_eligible_because` is computed from the caller's own\nprofile and plots.",
+        "description": "Newest first. `district` / `crop` narrow the list to items meant for them (items for\neveryone always pass); `may_be_eligible_because` is computed from the caller's own\nprofile and plots. News items carry their topic `thread_id`; `threads` describes those\nthreads (Q139), so the app shows one card per topic.",
         "operationId": "feed_list",
         "parameters": [
           {
@@ -17594,6 +17692,90 @@
           }
         ],
         "summary": "Check",
+        "tags": [
+          "feed"
+        ]
+      }
+    },
+    "/v1/feed/threads/{thread_id}": {
+      "get": {
+        "description": "Every visible item of one news topic, oldest first (the dated timeline, Q139).",
+        "operationId": "feed_thread",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "thread_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Thread Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "lang",
+            "required": false,
+            "schema": {
+              "default": "en",
+              "enum": [
+                "en",
+                "mr",
+                "hi"
+              ],
+              "title": "Lang",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedThreadResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Feed Thread",
         "tags": [
           "feed"
         ]

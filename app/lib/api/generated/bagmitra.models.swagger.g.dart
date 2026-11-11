@@ -1607,6 +1607,7 @@ FeedItemOut _$FeedItemOutFromJson(Map<String, dynamic> json) => FeedItemOut(
   replacedBy: json['replaced_by'] as String?,
   seen: json['seen'] as bool? ?? false,
   summary: json['summary'] as String?,
+  threadId: json['thread_id'] as String?,
   title: json['title'] as String,
   trust: feedItemOutTrustFromJson(json['trust']),
   type: json['type'] as String,
@@ -1630,6 +1631,7 @@ Map<String, dynamic> _$FeedItemOutToJson(FeedItemOut instance) =>
       'replaced_by': ?instance.replacedBy,
       'seen': ?instance.seen,
       'summary': ?instance.summary,
+      'thread_id': ?instance.threadId,
       'title': instance.title,
       'trust': ?feedItemOutTrustToJson(instance.trust),
       'type': instance.type,
@@ -1681,12 +1683,58 @@ FeedResponse _$FeedResponseFromJson(Map<String, dynamic> json) => FeedResponse(
           ?.map((e) => FeedItemOut.fromJson(e as Map<String, dynamic>))
           .toList() ??
       [],
+  threads:
+      (json['threads'] as List<dynamic>?)
+          ?.map((e) => FeedThreadOut.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      [],
 );
 
 Map<String, dynamic> _$FeedResponseToJson(FeedResponse instance) =>
     <String, dynamic>{
       'footer': instance.footer,
       'items': instance.items.map((e) => e.toJson()).toList(),
+      'threads': ?instance.threads?.map((e) => e.toJson()).toList(),
+    };
+
+FeedThreadOut _$FeedThreadOutFromJson(Map<String, dynamic> json) =>
+    FeedThreadOut(
+      hasNew: json['has_new'] as bool,
+      id: json['id'] as String,
+      itemCount: (json['item_count'] as num).toInt(),
+      latestAt: DateTime.parse(json['latest_at'] as String),
+      summary: json['summary'] as String?,
+      title: json['title'] as String,
+      unseenCount: (json['unseen_count'] as num).toInt(),
+    );
+
+Map<String, dynamic> _$FeedThreadOutToJson(FeedThreadOut instance) =>
+    <String, dynamic>{
+      'has_new': instance.hasNew,
+      'id': instance.id,
+      'item_count': instance.itemCount,
+      'latest_at': instance.latestAt.toIso8601String(),
+      'summary': ?instance.summary,
+      'title': instance.title,
+      'unseen_count': instance.unseenCount,
+    };
+
+FeedThreadResponse _$FeedThreadResponseFromJson(Map<String, dynamic> json) =>
+    FeedThreadResponse(
+      footer: json['footer'] as String,
+      items:
+          (json['items'] as List<dynamic>?)
+              ?.map((e) => FeedItemOut.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+      thread: FeedThreadOut.fromJson(json['thread'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$FeedThreadResponseToJson(FeedThreadResponse instance) =>
+    <String, dynamic>{
+      'footer': instance.footer,
+      'items': instance.items.map((e) => e.toJson()).toList(),
+      'thread': instance.thread.toJson(),
     };
 
 FeedbackIn _$FeedbackInFromJson(Map<String, dynamic> json) => FeedbackIn(

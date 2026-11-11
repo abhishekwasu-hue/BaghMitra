@@ -66,6 +66,27 @@ def test_upgrade_downgrade_upgrade_on_sqlite(tmp_path: Path) -> None:
     engine.dispose()
 
 
+def test_feed_threads_migration_up_and_down(tmp_path: Path) -> None:
+    """0046 (Q139): feed_threads and feed_items.thread_id come and go together."""
+    url = f"sqlite+aiosqlite:///{tmp_path / 't.db'}"
+    cfg = _config(url)
+    engine = create_engine(_sync_url(url))
+
+    def state() -> tuple[bool, bool]:
+        with engine.connect() as conn:
+            insp = inspect(conn)
+            columns = {c["name"] for c in insp.get_columns("feed_items")}
+            return "feed_threads" in insp.get_table_names(), "thread_id" in columns
+
+    command.upgrade(cfg, "0046")
+    assert state() == (True, True)
+    command.downgrade(cfg, "0045")
+    assert state() == (False, False)
+    command.upgrade(cfg, "0046")
+    assert state() == (True, True)
+    engine.dispose()
+
+
 def test_every_model_declares_its_rls_kind() -> None:
     """Each table is owner-scoped (owner_column), read-only reference data, private, or has
     its own policies (custom_rls: market linkage, migrations 0029-0030)."""

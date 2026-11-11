@@ -22,6 +22,7 @@ import '../features/export_info/presentation/export_record_screen.dart';
 import '../features/feed/presentation/feed_check_screen.dart';
 import '../features/feed/presentation/feed_preferences_screen.dart';
 import '../features/feed/presentation/feed_screen.dart';
+import '../features/feed/presentation/feed_thread_screen.dart';
 import '../features/feedback/presentation/feedback_screen.dart';
 import '../features/field_work/presentation/harvest_screen.dart';
 import '../features/field_work/presentation/labour_screens.dart';
@@ -103,7 +104,10 @@ abstract final class Routes {
   static const calendar = '/calendar';
   static const market = '/market';
   static const feed = '/feed';
-  static String feedItem(String itemId) => '/feed/$itemId';
+  static String feedItem(String itemId, {String? threadId}) => threadId == null
+      ? '/feed/$itemId'
+      : '/feed/$itemId?thread=${Uri.encodeQueryComponent(threadId)}';
+  static String feedThread(String threadId) => '/feed-thread/$threadId';
   static const feedSettings = '/feed-settings';
   static const feedCheck = '/feed-check';
 
@@ -397,7 +401,14 @@ GoRouter buildRouter(
       ),
       GoRoute(
         path: '/feed/:id',
-        builder: (_, s) => FeedItemScreen(itemId: s.pathParameters['id']!),
+        builder: (_, s) => FeedItemScreen(
+          itemId: s.pathParameters['id']!,
+          threadId: s.uri.queryParameters['thread'],
+        ),
+      ),
+      GoRoute(
+        path: '/feed-thread/:id',
+        builder: (_, s) => FeedThreadScreen(threadId: s.pathParameters['id']!),
       ),
       GoRoute(path: Routes.more, builder: (_, _) => const MoreScreen()),
       GoRoute(path: Routes.marketLots, builder: (_, _) => const MyLotsScreen()),

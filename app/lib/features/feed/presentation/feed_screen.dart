@@ -19,6 +19,7 @@ import '../data/feed_receipts.dart';
 import '../data/feed_repository.dart';
 import '../domain/feed_item.dart';
 import 'feed_article_view.dart';
+import 'feed_thread_screen.dart';
 
 /// Sarkari Sandesh: official GRs, circulars, schemes and alerts, plus clearly marked news,
 /// newest first, from the phone's cache so it works offline. Information, not advice: the
@@ -46,6 +47,8 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
       for (final i in filterFeed(cached?.page.items ?? const [], _filter))
         if (!receipts.dismissed.contains(i.id)) i,
     ];
+    // Owner Q139: one card per news topic.
+    final entries = feedEntries(items, cached?.page.threads ?? const {});
     final now = ref.watch(clockProvider)();
     Future<void> refresh() => ref.read(refresherProvider).feed(lang);
 
@@ -110,10 +113,23 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
         child: ListView.builder(
           physics: const AlwaysScrollableScrollPhysics(),
           padding: const EdgeInsets.all(BmSpace.lg),
-          itemCount: head.length + items.length,
+          itemCount: head.length + entries.length,
           itemBuilder: (context, i) {
             if (i < head.length) return head[i];
-            final item = items[i - head.length];
+            final FeedItem item;
+            switch (entries[i - head.length]) {
+              case final FeedThreadEntry thread:
+                return Padding(
+                  padding: const EdgeInsets.only(top: BmSpace.sm),
+                  child: FeedThreadCard(
+                    entry: thread,
+                    lang: lang,
+                    hasNew: thread.hasNew(receipts.seen),
+                  ),
+                );
+              case FeedItemEntry(item: final single):
+                item = single;
+            }
             return Padding(
               padding: const EdgeInsets.only(top: BmSpace.sm),
               child: InkWell(
@@ -224,13 +240,26 @@ class _ItemBody extends StatelessWidget {
 /// "Official · GR no · date · department" for government items; "News · date" for news, in
 /// the warning colour, so the two are never confused (owner 2026-11-10: no verify line).
 class FeedBadge extends StatelessWidget {
-  const FeedBadge({super.key, required this.item, required this.lang});
+  const FeedBadge({
+    super.key,
+    required this.item,
+    required this.lang,
+    this.date,
+  });
 
   final FeedItem item;
   final String lang;
 
-  static String text(AppLocalizations t, FeedItem item, String lang) {
-    final date = formatDate(item.publishedAt.toLocal(), lang);
+  /// Shown instead of the item's own date (a topic card shows its latest report's date).
+  final DateTime? date;
+
+  static String text(
+    AppLocalizations t,
+    FeedItem item,
+    String lang, {
+    DateTime? at,
+  }) {
+    final date = formatDate((at ?? item.publishedAt).toLocal(), lang);
     // Central or State government (owner 2026-11-09).
     final level = switch (item.level) {
       'central' => t.feedLevelCentral,
@@ -269,7 +298,7 @@ class FeedBadge extends StatelessWidget {
           vertical: BmSpace.xxs,
         ),
         child: Text(
-          text(t, item, lang),
+          text(t, item, lang, at: date),
           style: BmType.label.copyWith(color: official ? c.ink : c.warnTitle),
         ),
       ),
@@ -351,8 +380,8 @@ Future<void> _copyLink(BuildContext context, String url) async {
 
 /// The item's source link as a full-width row at least 48 dp tall: tapping it copies the
 /// link (the app opens no browser), so the grower can open it or send it on.
-class _SourceLink extends StatelessWidget {
-  const _SourceLink({required this.url});
+class FeedSourceLink extends StatelessWidget {
+  const FeedSourceLink({super.key, required this.url});
 
   final String url;
 
@@ -393,9 +422,12 @@ class _SourceLink extends StatelessWidget {
 /// One item in full: summary, deadline, source link, and the remind / share / hide
 /// actions. Opening it marks it seen (on the phone at once, on the server when online).
 class FeedItemScreen extends ConsumerStatefulWidget {
-  const FeedItemScreen({super.key, required this.itemId});
+  const FeedItemScreen({super.key, required this.itemId, this.threadId});
 
   final String itemId;
+
+  /// Opened from a news topic: an older report may be only in the topic's saved copy.
+  final String? threadId;
 
   @override
   ConsumerState<FeedItemScreen> createState() => _FeedItemScreenState();
@@ -442,7 +474,18 @@ class _FeedItemScreenState extends ConsumerState<FeedItemScreen> {
     final loaded = ref.watch(feedProvider(lang));
     final cached = loaded.value;
     final now = ref.watch(clockProvider)();
-    final item = cached?.page.items.where((i) => i.id == itemId).firstOrNull;
+    final threadId = widget.threadId;
+    final item =
+        cached?.page.items.where((i) => i.id == itemId).firstOrNull ??
+        (threadId == null
+            ? null
+            : ref
+                  .watch(feedThreadProvider((lang, threadId)))
+                  .value
+                  ?.page
+                  .items
+                  .where((i) => i.id == itemId)
+                  .firstOrNull);
     if (item != null) _markSeen(item);
     final tasks = ref.watch(tasksProvider).value ?? const <FarmTask>[];
     final reminded =
@@ -464,7 +507,7 @@ class _FeedItemScreenState extends ConsumerState<FeedItemScreen> {
                   FeedArticleView(article: article, lang: lang),
                 ],
                 const SizedBox(height: BmSpace.md),
-                _SourceLink(url: item.url),
+                FeedSourceLink(url: item.url),
                 const SizedBox(height: BmSpace.xs),
                 FeedFooter(serverFooter: cached?.page.footer),
                 const SizedBox(height: BmSpace.md),

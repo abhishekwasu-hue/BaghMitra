@@ -10,7 +10,8 @@ from __future__ import annotations
 
 import uuid
 from collections import defaultdict
-from collections.abc import Callable
+from collections.abc import Callable, Iterable
+from dataclasses import dataclass
 from datetime import date, datetime
 from typing import Annotated, Literal
 from zoneinfo import ZoneInfo
@@ -18,13 +19,20 @@ from zoneinfo import ZoneInfo
 from fastapi import APIRouter, Depends, Query
 from pydantic import BaseModel
 from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from bagmitra_api.auth.jwt import CurrentUser
-from bagmitra_api.core.errors import ErrorResponse
+from bagmitra_api.core.errors import ApiError, ErrorResponse
 from bagmitra_api.core.settings import Settings, get_settings
 from bagmitra_api.db.models import Farmer, Plot
 from bagmitra_api.db.session import DbSession
-from bagmitra_api.feed.matching import Target, eligibility_reasons, passes_filter, profile_from
+from bagmitra_api.feed.matching import (
+    Profile,
+    Target,
+    eligibility_reasons,
+    passes_filter,
+    profile_from,
+)
 from bagmitra_api.feed.models import (
     FeedItem,
     FeedItemI18n,
@@ -112,9 +120,35 @@ class FeedItemOut(BaseModel):
     level: str | None = None  # "central" or "state" only
     # The AI article (spec v1.6); None for items without one.
     article: ArticleOut | None = None
+    # Q139: the news topic thread; items with the same id are one card in the app.
+    thread_id: uuid.UUID | None = None
+
+
+class FeedThreadOut(BaseModel):
+    """A news topic (Q139): one card in the list, a dated timeline when opened. The title and
+    summary are the latest item's own checked text."""
+
+    id: uuid.UUID
+    title: str
+    summary: str | None
+    # published_at of the newest visible item.
+    latest_at: datetime
+    item_count: int
+    # Items the caller has not opened yet; has_new marks the card.
+    unseen_count: int
+    has_new: bool
 
 
 class FeedResponse(BaseModel):
+    items: list[FeedItemOut]
+    footer: str
+    # Q139: the threads of the news items in `items` (older apps ignore it).
+    threads: list[FeedThreadOut] = []
+
+
+class FeedThreadResponse(BaseModel):
+    thread: FeedThreadOut
+    # Oldest first: the dated timeline of the topic.
     items: list[FeedItemOut]
     footer: str
 
@@ -144,6 +178,111 @@ def _text(texts: dict[str, FeedItemI18n], lang: str) -> FeedItemI18n | None:
     return None
 
 
+async def _seen(
+    session: AsyncSession, owner: uuid.UUID, ids: Iterable[uuid.UUID]
+) -> set[uuid.UUID]:
+    return set(
+        await session.scalars(
+            select(FeedReceipt.item_id).where(
+                FeedReceipt.owner_id == owner,
+                FeedReceipt.item_id.in_(list(ids)),
+                FeedReceipt.seen_at.is_not(None),
+            )
+        )
+    )
+
+
+@dataclass(slots=True)
+class _Context:
+    """What turning stored items into FeedItemOut needs: texts, targets, the caller's profile,
+    their seen receipts and the source levels."""
+
+    texts: dict[uuid.UUID, dict[str, FeedItemI18n]]
+    targets: dict[uuid.UUID, list[Target]]
+    profile: Profile
+    seen: set[uuid.UUID]
+    levels: dict[uuid.UUID, str]
+
+    def out(self, item: FeedItem, text: FeedItemI18n, lang: FeedLang) -> FeedItemOut:
+        return FeedItemOut(
+            id=item.id,
+            type=item.type,
+            trust="official" if item.trust_level == "official" else "news",
+            title=text.title,
+            summary=text.summary,
+            department=item.department,
+            gr_number=item.gr_number,
+            published_at=item.published_at,
+            date_is_first_seen=item.date_is_first_seen,
+            url=item.url,
+            deadline=item.deadline,
+            valid_to=item.valid_to,
+            replaced_by=item.replaced_by_id,
+            may_be_eligible_because=eligibility_reasons(self.targets[item.id], self.profile, lang),
+            seen=item.id in self.seen,
+            level=self.levels.get(item.source_id),
+            article=ArticleOut.model_validate(text.article) if text.article else None,
+            thread_id=item.thread_id,
+        )
+
+
+async def _context(session: AsyncSession, user_id: uuid.UUID, rows: list[FeedItem]) -> _Context:
+    ids = [r.id for r in rows]
+    texts: dict[uuid.UUID, dict[str, FeedItemI18n]] = defaultdict(dict)
+    for t in await session.scalars(select(FeedItemI18n).where(FeedItemI18n.item_id.in_(ids))):
+        texts[t.item_id][t.lang] = t
+    targets: dict[uuid.UUID, list[Target]] = defaultdict(list)
+    for g in await session.scalars(select(FeedItemTarget).where(FeedItemTarget.item_id.in_(ids))):
+        targets[g.item_id].append(Target(g.district, g.crop, g.min_ha, g.max_ha))
+    farmer = await session.get(Farmer, user_id)
+    plots = await session.execute(
+        select(Plot.crop, Plot.area_sq_m).where(Plot.owner_id == user_id, Plot.deleted_at.is_(None))
+    )
+    profile = profile_from(farmer.district if farmer else None, plots.tuples().all())
+    source_ids = {item.source_id for item in rows}
+    levels = {
+        sid: level
+        for sid, level in await session.execute(
+            select(FeedSource.id, FeedSource.level).where(FeedSource.id.in_(source_ids))
+        )
+        if level in ("central", "state")
+    }
+    return _Context(texts, targets, profile, await _seen(session, user_id, ids), levels)
+
+
+async def _threads_out(
+    session: AsyncSession, user_id: uuid.UUID, latest: dict[uuid.UUID, FeedItemOut]
+) -> list[FeedThreadOut]:
+    """Thread cards for the given threads: `latest` is each thread's newest shown item, whose
+    title and summary the card shows. Counts are over every visible item of the thread."""
+    if not latest:
+        return []
+    members: dict[uuid.UUID, list[tuple[uuid.UUID, datetime]]] = defaultdict(list)
+    for item_id, thread_id, when in await session.execute(
+        select(FeedItem.id, FeedItem.thread_id, FeedItem.published_at).where(
+            FeedItem.thread_id.in_(list(latest)), FeedItem.status.in_(VISIBLE)
+        )
+    ):
+        members[thread_id].append((item_id, when))
+    seen = await _seen(session, user_id, [i for m in members.values() for i, _ in m])
+    out = []
+    for thread_id, item in latest.items():
+        rows = members.get(thread_id) or [(item.id, item.published_at)]
+        unseen = sum(1 for i, _ in rows if i not in seen)
+        out.append(
+            FeedThreadOut(
+                id=thread_id,
+                title=item.title,
+                summary=item.summary,
+                latest_at=max(w for _, w in rows),
+                item_count=len(rows),
+                unseen_count=unseen,
+                has_new=unseen > 0,
+            )
+        )
+    return out
+
+
 @router.get(
     "/feed",
     operation_id="feed_list",
@@ -161,7 +300,8 @@ async def feed(  # noqa: PLR0913 - query parameters and dependencies
 ) -> FeedResponse:
     """Newest first. `district` / `crop` narrow the list to items meant for them (items for
     everyone always pass); `may_be_eligible_because` is computed from the caller's own
-    profile and plots."""
+    profile and plots. News items carry their topic `thread_id`; `threads` describes those
+    threads (Q139), so the app shows one card per topic."""
     today = clock().astimezone(INDIA).date()
     rows = list(
         await session.scalars(
@@ -171,68 +311,55 @@ async def feed(  # noqa: PLR0913 - query parameters and dependencies
             .limit(SCAN_LIMIT)
         )
     )
-    ids = [r.id for r in rows]
-    texts: dict[uuid.UUID, dict[str, FeedItemI18n]] = defaultdict(dict)
-    for t in await session.scalars(select(FeedItemI18n).where(FeedItemI18n.item_id.in_(ids))):
-        texts[t.item_id][t.lang] = t
-    targets: dict[uuid.UUID, list[Target]] = defaultdict(list)
-    for g in await session.scalars(select(FeedItemTarget).where(FeedItemTarget.item_id.in_(ids))):
-        targets[g.item_id].append(Target(g.district, g.crop, g.min_ha, g.max_ha))
-
-    farmer = await session.get(Farmer, user.id)
-    plots = await session.execute(
-        select(Plot.crop, Plot.area_sq_m).where(Plot.owner_id == user.id, Plot.deleted_at.is_(None))
-    )
-    profile = profile_from(farmer.district if farmer else None, plots.tuples().all())
-    seen = set(
-        await session.scalars(
-            select(FeedReceipt.item_id).where(
-                FeedReceipt.owner_id == user.id,
-                FeedReceipt.item_id.in_(ids),
-                FeedReceipt.seen_at.is_not(None),
-            )
-        )
-    )
-
-    source_ids = {item.source_id for item in rows}
-    levels = {
-        sid: level
-        for sid, level in await session.execute(
-            select(FeedSource.id, FeedSource.level).where(FeedSource.id.in_(source_ids))
-        )
-        if level in ("central", "state")
-    }
+    ctx = await _context(session, user.id, rows)
     items: list[FeedItemOut] = []
+    latest: dict[uuid.UUID, FeedItemOut] = {}
     for item in rows:
-        text = _text(texts[item.id], lang)
+        text = _text(ctx.texts[item.id], lang)
         if (
             text is None
             or _expired_scheme(item, today)
             or not _wanted(item, type, today)
-            or not passes_filter(targets[item.id], district=district, crop=crop)
+            or not passes_filter(ctx.targets[item.id], district=district, crop=crop)
         ):
             continue
-        items.append(
-            FeedItemOut(
-                id=item.id,
-                type=item.type,
-                trust="official" if item.trust_level == "official" else "news",
-                title=text.title,
-                summary=text.summary,
-                department=item.department,
-                gr_number=item.gr_number,
-                published_at=item.published_at,
-                date_is_first_seen=item.date_is_first_seen,
-                url=item.url,
-                deadline=item.deadline,
-                valid_to=item.valid_to,
-                replaced_by=item.replaced_by_id,
-                may_be_eligible_because=eligibility_reasons(targets[item.id], profile, lang),
-                seen=item.id in seen,
-                level=levels.get(item.source_id),
-                article=ArticleOut.model_validate(text.article) if text.article else None,
-            )
-        )
+        out = ctx.out(item, text, lang)
+        items.append(out)
+        if item.thread_id is not None:
+            latest.setdefault(item.thread_id, out)
         if len(items) >= settings.feed_page_size:
             break
-    return FeedResponse(items=items, footer=FOOTER[lang])
+    return FeedResponse(
+        items=items, footer=FOOTER[lang], threads=await _threads_out(session, user.id, latest)
+    )
+
+
+@router.get(
+    "/feed/threads/{thread_id}",
+    operation_id="feed_thread",
+    responses={401: {"model": ErrorResponse}, 404: {"model": ErrorResponse}},
+)
+async def feed_thread(
+    thread_id: uuid.UUID,
+    user: CurrentUser,
+    session: DbSession,
+    lang: Annotated[FeedLang, Query()] = "en",
+) -> FeedThreadResponse:
+    """Every visible item of one news topic, oldest first (the dated timeline, Q139)."""
+    rows = list(
+        await session.scalars(
+            select(FeedItem)
+            .where(FeedItem.thread_id == thread_id, FeedItem.status.in_(VISIBLE))
+            .order_by(FeedItem.published_at, FeedItem.id)
+        )
+    )
+    ctx = await _context(session, user.id, rows)
+    items = [
+        ctx.out(item, text, lang)
+        for item in rows
+        if (text := _text(ctx.texts[item.id], lang)) is not None
+    ]
+    if not items:
+        raise ApiError(404, "not_found", "feed thread not found")
+    (thread,) = await _threads_out(session, user.id, {thread_id: items[-1]})
+    return FeedThreadResponse(thread=thread, items=items, footer=FOOTER[lang])
