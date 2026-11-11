@@ -73,11 +73,11 @@ TEXTS = {
 }
 
 
-def answer(candidates: list[dict[str, Any]], *, unsure: bool = False) -> dict[str, Any]:
+def answer(candidates: list[Any], *, unsure: bool = False) -> dict[str, Any]:
     return {"unsure": unsure, "candidates": candidates}
 
 
-def candidate(key: str, confidence: float, **extra: Any) -> dict[str, Any]:
+def candidate(key: str, confidence: Any, **extra: Any) -> dict[str, Any]:
     return {
         "key": key,
         "confidence": confidence,
@@ -134,6 +134,12 @@ class Storage:
             raise PhotoStorageError("HTTP 503")
         self.objects[key] = data
         self.types[key] = content_type
+
+    async def signed_upload_url(self, key: str) -> SignedUrl:
+        return SignedUrl(f"https://files.test/upload/{key}", 600)
+
+    async def upload_object(self, key: str, data: bytes, content_type: str) -> None:
+        await self.put_object(key, data, content_type)
 
     async def signed_download_url(self, key: str, expires_in: int) -> SignedUrl:
         return SignedUrl(f"https://files.test/{key}", expires_in)
