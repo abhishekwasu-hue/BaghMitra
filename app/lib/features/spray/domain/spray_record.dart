@@ -1,5 +1,15 @@
 import '../../bahar/domain/bahar_cycle.dart';
 
+/// The active ingredient to show beside [name], or null when there is none or it is the
+/// same as the name in any case and spacing (an empty name is saved as the ingredient,
+/// owner 2026-11-12), so a display reads "Carbofuran", not "Carbofuran · Carbofuran".
+String? ingredientBesideName(String name, String? activeIngredient) {
+  if (activeIngredient == null || activeIngredient.trim().isEmpty) return null;
+  String norm(String v) =>
+      v.trim().toLowerCase().replaceAll(RegExp(r'\s+'), ' ');
+  return norm(activeIngredient) == norm(name) ? null : activeIngredient;
+}
+
 /// One product of a spray: what went into the tank, with its own dose, cost and the PHI on
 /// its label. A tank mix (OPEN_QUESTIONS Q142) is several of these in one spray.
 class SprayProduct {
@@ -16,6 +26,10 @@ class SprayProduct {
   final String? dose;
   final int costPaise;
   final int? phiDays;
+
+  /// [activeIngredient] when it says more than [productName]; see [ingredientBesideName].
+  String? get shownIngredient =>
+      ingredientBesideName(productName, activeIngredient);
 
   Map<String, Object?> toPayload() => {
     'product_name': productName,

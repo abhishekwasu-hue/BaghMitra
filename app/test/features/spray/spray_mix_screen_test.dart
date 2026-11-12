@@ -326,6 +326,52 @@ void main() {
     await unmountApp(tester);
   });
 
+  testWidgets('the detail shows an ingredient equal to the name once', (
+    tester,
+  ) async {
+    await pumpApp(
+      tester,
+      locale: const Locale('en'),
+      initialLocation: '/plots/p1/sprays',
+      seed: (db) async {
+        await seedPlotAndBanList(db);
+        await SprayRepository(db).save(
+          SprayRecord.ofProducts(
+            id: 'm2',
+            plotId: 'p1',
+            sprayedOn: DateTime(2026, 10, 2),
+            products: const [
+              SprayProduct(
+                productName: 'Carbofuran',
+                activeIngredient: ' carbofuran',
+                dose: '2 g',
+              ),
+              SprayProduct(
+                productName: 'Furadan',
+                activeIngredient: 'Carbofuran',
+              ),
+            ],
+          ),
+        );
+      },
+      size: const Size(393, 1400),
+    );
+    await settle(tester);
+    await tester.tap(find.byKey(const Key('spray-open-m2')));
+    await settle(tester);
+    Finder inProduct(int i, String text) => find.descendant(
+      of: find.byKey(Key('spray-detail-product-$i')),
+      matching: find.text(text),
+    );
+    expect(inProduct(0, 'Carbofuran'), findsOneWidget);
+    expect(inProduct(0, '2 g'), findsOneWidget);
+    expect(find.textContaining('carbofuran ·'), findsNothing);
+    expect(find.textContaining('Carbofuran · '), findsNothing);
+    // A different name still shows its ingredient.
+    expect(inProduct(1, 'Carbofuran'), findsOneWidget);
+    await unmountApp(tester);
+  });
+
   testWidgets('an old single-product record opens as one product', (
     tester,
   ) async {

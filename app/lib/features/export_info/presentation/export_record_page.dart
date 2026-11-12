@@ -4,6 +4,7 @@ import '../../../core/formatting.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/tokens.dart';
 import '../../export/presentation/report_page.dart' show reportPageSize;
+import '../../spray/domain/spray_record.dart' show ingredientBesideName;
 import '../domain/export_record.dart';
 
 /// Rows that fit on a page: the first page also holds the heading.
@@ -198,11 +199,15 @@ List<ExportRecordContent> exportRecordPages({
                       for (final p in r.products)
                         [
                           p.productName,
-                          ?p.activeIngredient,
+                          ?p.shownIngredient,
                           ?p.dose,
                         ].join(' · '),
                     ].join('\n')
-                  : [r.product, ?r.activeIngredient, ?r.dose].join(' · '),
+                  : [
+                      r.product,
+                      ?ingredientBesideName(r.product, r.activeIngredient),
+                      ?r.dose,
+                    ].join(' · '),
               label: labelStatusText(t, r.status),
               status: r.status,
               phiEnd: r.phiEnd == null ? '–' : formatDate(r.phiEnd!, lang),
