@@ -4734,6 +4734,62 @@ phone cannot rate each other (spec v1.5 §4C, Q100).''',
     ),
   });
 
+  ///Get Push Topics
+  Future<chopper.Response<PushTopicsBody>> v1MePushTopicsGet() {
+    generatedMapping.putIfAbsent(
+      PushTopicsBody,
+      () => PushTopicsBody.fromJsonFactory,
+    );
+
+    return _v1MePushTopicsGet();
+  }
+
+  ///Get Push Topics
+  @GET(path: '/v1/me/push-topics')
+  Future<chopper.Response<PushTopicsBody>> _v1MePushTopicsGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'The caller\'s switches, or the defaults (all on unless the admin changed them).',
+      summary: 'Get Push Topics',
+      operationId: 'push_topics_get',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["profile"],
+      deprecated: false,
+    ),
+  });
+
+  ///Put Push Topics
+  Future<chopper.Response<PushTopicsBody>> v1MePushTopicsPut({
+    required PushTopicsBody? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      PushTopicsBody,
+      () => PushTopicsBody.fromJsonFactory,
+    );
+
+    return _v1MePushTopicsPut(body: body);
+  }
+
+  ///Put Push Topics
+  @PUT(path: '/v1/me/push-topics', optionalBody: true)
+  Future<chopper.Response<PushTopicsBody>> _v1MePushTopicsPut({
+    @Body() required PushTopicsBody? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Saves all three switches; repeating the same body is harmless (the app retries a
+change made offline).''',
+      summary: 'Put Push Topics',
+      operationId: 'push_topics_put',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["profile"],
+      deprecated: false,
+    ),
+  });
+
   ///Delete Sample
   ///@param photo_id
   Future<chopper.Response> v1PhotoAnalysisPhotoIdDelete({

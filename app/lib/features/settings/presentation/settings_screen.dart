@@ -11,6 +11,7 @@ import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../../app_update/data/app_update_providers.dart';
 import '../../photo_analysis/domain/offline_check.dart';
+import '../../push/domain/push_topics.dart';
 
 /// Phone settings, the introduction, sending the on-device log, the app version and the photo
 /// model's data sources (CC BY attribution); shown in every build (audit R2). Only the
@@ -83,6 +84,8 @@ class SettingsScreen extends ConsumerWidget {
             onPressed: () => context.push(Routes.walkthrough),
             child: Text(t.settingsShowWalkthrough),
           ),
+          const SizedBox(height: BmSpace.lg),
+          const _PushTopicSwitches(),
           const SizedBox(height: BmSpace.md),
           SwitchListTile(
             key: const Key('photo-backup-mobile-data'),
@@ -113,6 +116,56 @@ class SettingsScreen extends ConsumerWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+/// "सूचना": the three update pushes the server sends (Q147), each on unless switched off.
+/// A change is kept on the phone and reaches the server when the network is there.
+class _PushTopicSwitches extends ConsumerWidget {
+  const _PushTopicSwitches();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final t = AppLocalizations.of(context);
+    final topics = ref.watch(pushTopicsProvider).value ?? PushTopics.defaults;
+    final rows = [
+      (
+        PushTopic.articles,
+        Icons.menu_book_rounded,
+        t.settingsPushArticles,
+        t.settingsPushArticlesHint,
+      ),
+      (
+        PushTopic.market,
+        Icons.currency_rupee_rounded,
+        t.settingsPushMarket,
+        t.settingsPushMarketHint,
+      ),
+      (
+        PushTopic.weather,
+        Icons.cloud_rounded,
+        t.settingsPushWeather,
+        t.settingsPushWeatherHint,
+      ),
+    ];
+    return Column(
+      key: const Key('settings-notifications'),
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(t.settingsNotifications, style: BmType.section),
+        for (final (topic, icon, title, hint) in rows)
+          SwitchListTile(
+            key: Key('push-topic-${topic.name}'),
+            contentPadding: EdgeInsets.zero,
+            secondary: Icon(icon, color: context.bm.brand),
+            title: Text(title, style: BmType.body),
+            subtitle: Text(hint, style: BmType.meta),
+            value: topics.isOn(topic),
+            onChanged: (on) =>
+                ref.read(pushTopicsProvider.notifier).set(topic, on: on),
+          ),
+      ],
     );
   }
 }

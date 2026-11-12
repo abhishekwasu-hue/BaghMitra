@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -20,6 +23,26 @@ class FirebasePushMessaging implements PushMessaging {
 
   final AppLog _log;
   final FlutterLocalNotificationsPlugin _plugin;
+  final _taps = StreamController<Map<String, String>>.broadcast();
+  // Lives as long as the app (one service per process), so it is never cancelled.
+  // ignore: cancel_subscriptions
+  StreamSubscription<RemoteMessage>? _opened;
+
+  static Map<String, String> _strings(Map<String, dynamic> data) => {
+    for (final MapEntry(:key, :value) in data.entries)
+      if (value is String) key: value,
+  };
+
+  /// A shown foreground push carries its `data` as the JSON payload.
+  static Map<String, String>? _payload(String? raw) {
+    if (raw == null || raw.isEmpty) return null;
+    try {
+      final decoded = jsonDecode(raw);
+      return decoded is Map<String, dynamic> ? _strings(decoded) : null;
+    } on FormatException {
+      return null;
+    }
+  }
 
   @override
   Future<bool> start() async {
@@ -30,6 +53,12 @@ class FirebasePushMessaging implements PushMessaging {
         settings: const InitializationSettings(
           android: AndroidInitializationSettings('@drawable/ic_stat_notify'),
         ),
+        onDidReceiveNotificationResponse: (r) {
+          if (_payload(r.payload) case final data?) _taps.add(data);
+        },
+      );
+      _opened ??= FirebaseMessaging.onMessageOpenedApp.listen(
+        (m) => _taps.add(_strings(m.data)),
       );
       await _plugin
           .resolvePlatformSpecificImplementation<
@@ -39,8 +68,7 @@ class FirebasePushMessaging implements PushMessaging {
             const AndroidNotificationChannel(
               pushChannelId,
               'Alerts',
-              description:
-                  'Weather risk alerts and government scheme reminders',
+              description: 'Weather, market price and new article updates, scheme reminders',
               importance: Importance.high,
             ),
           );
@@ -64,9 +92,32 @@ class FirebasePushMessaging implements PushMessaging {
 
   @override
   Stream<PushNote> get foregroundNotes => FirebaseMessaging.onMessage
-      .map((m) => m.notification)
-      .where((n) => n != null)
-      .map((n) => PushNote(title: n!.title ?? '', body: n.body ?? ''));
+      .where((m) => m.notification != null)
+      .map(
+        (m) => PushNote(
+          title: m.notification!.title ?? '',
+          body: m.notification!.body ?? '',
+          data: _strings(m.data),
+        ),
+      );
+
+  @override
+  Stream<Map<String, String>> get taps => _taps.stream;
+
+  @override
+  Future<Map<String, String>?> initialTap() async {
+    try {
+      final message = await FirebaseMessaging.instance.getInitialMessage();
+      if (message != null) return _strings(message.data);
+      final launch = await _plugin.getNotificationAppLaunchDetails();
+      if (launch?.didNotificationLaunchApp ?? false) {
+        return _payload(launch?.notificationResponse?.payload);
+      }
+    } on Object catch (e) {
+      _log.log('push initial tap: ${e.runtimeType}');
+    }
+    return null;
+  }
 
   @override
   Future<void> show(PushNote note) => _plugin.show(
@@ -81,5 +132,6 @@ class FirebasePushMessaging implements PushMessaging {
         priority: Priority.high,
       ),
     ),
+    payload: jsonEncode(note.data),
   );
 }

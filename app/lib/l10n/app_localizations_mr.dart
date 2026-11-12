@@ -1278,6 +1278,27 @@ class AppLocalizationsMr extends AppLocalizations {
   String get settingsShowWalkthrough => 'ॲपची ओळख पुन्हा पहा';
 
   @override
+  String get settingsNotifications => 'सूचना';
+
+  @override
+  String get settingsPushArticles => 'लेख';
+
+  @override
+  String get settingsPushArticlesHint => 'नवीन लेख आल्यावर';
+
+  @override
+  String get settingsPushMarket => 'बाजारभाव';
+
+  @override
+  String get settingsPushMarketHint => 'तुमच्या पिकाचा बाजारभाव बदलल्यावर';
+
+  @override
+  String get settingsPushWeather => 'हवामान बदल';
+
+  @override
+  String get settingsPushWeatherHint => 'बागेजवळचे हवामान अचानक बदलल्यावर';
+
+  @override
   String get settingsPhotoMobileData => 'मोबाईल डेटावरही फोटोचा बॅकअप घ्या';
 
   @override

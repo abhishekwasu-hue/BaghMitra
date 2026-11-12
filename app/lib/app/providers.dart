@@ -78,7 +78,9 @@ import '../features/profile/data/language_catalog.dart';
 import '../features/profile/data/profile_repository.dart';
 import '../features/profile/domain/farmer_profile.dart';
 import '../features/push/data/push_device_api.dart';
+import '../features/push/data/push_topics_store.dart';
 import '../features/push/domain/push.dart';
+import '../features/push/domain/push_topics.dart';
 import '../features/reminders/domain/reminders.dart';
 import '../features/schemes/data/scheme_catalog.dart';
 import '../features/schemes/data/scheme_ticks_store.dart';
@@ -903,7 +905,55 @@ final pushRegistrationProvider = Provider<void>((ref) {
         .signedIn(userId)
         .catchError((Object e) => ref.read(appLogProvider).log('push: $e')),
   );
+  // A switch changed offline reaches the server once the app starts signed in (Q147).
+  unawaited(ref.read(pushTopicsStoreProvider).sync());
 });
+
+/// The update-push switches (Settings -> सूचना, Q147): on the phone first, synced with
+/// `/v1/me/push-topics` (no API in demo mode). Tests override the API.
+final pushTopicsApiProvider = Provider<PushTopicsApi?>(
+  (ref) => ref.watch(appConfigProvider).demoMode
+      ? null
+      : HttpPushTopicsApi(ref.watch(apiProvider)),
+);
+
+final pushTopicsStoreProvider = Provider<PushTopicsStore>(
+  (ref) => PushTopicsStore(
+    ref.watch(databaseProvider),
+    userId: ref.watch(sessionProvider.select((s) => s.value?.userId)),
+    api: ref.watch(pushTopicsApiProvider),
+  ),
+);
+
+final pushTopicsProvider =
+    AsyncNotifierProvider<PushTopicsSwitches, PushTopics>(
+      PushTopicsSwitches.new,
+    );
+
+/// The phone's copy at once; a pending change is sent (or the server's copy taken) in the
+/// background and shown when it answers.
+class PushTopicsSwitches extends AsyncNotifier<PushTopics> {
+  @override
+  Future<PushTopics> build() async {
+    final store = ref.watch(pushTopicsStoreProvider);
+    final local = await store.local();
+    unawaited(
+      store.sync().then((synced) {
+        if (ref.mounted) state = AsyncData(synced);
+      }),
+    );
+    return local;
+  }
+
+  Future<void> set(PushTopic topic, {required bool on}) async {
+    final store = ref.read(pushTopicsStoreProvider);
+    state = AsyncData(
+      (state.value ?? PushTopics.defaults).withTopic(topic, on: on),
+    );
+    final saved = await store.set(topic, on: on);
+    if (ref.mounted) state = AsyncData(saved);
+  }
+}
 
 final fileSharerProvider = Provider<FileSharer>(
   (ref) => const SharePlusFileSharer(),

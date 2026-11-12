@@ -307,6 +307,42 @@ class Settings(BaseSettings):
     fcm_service_account_file: str = ""
     fcm_base_url: str = "https://fcm.googleapis.com"
     fcm_timeout_seconds: float = Field(default=15.0, gt=0)
+    # Update pushes (owner 2026-11-12, OPEN_QUESTIONS Q147; push/updates.py): new articles,
+    # market price changes and sudden weather changes. CRON_PUSH_UPDATES=off stops the job
+    # (and deploy.sh removes its cron line); each kind has its own switch as well.
+    cron_push_updates: bool = True
+    push_articles: bool = True
+    push_market: bool = True
+    push_weather_change: bool = True
+    # What a grower without a saved choice gets (Settings -> सूचना switches).
+    push_topic_articles_default: bool = True
+    push_topic_market_default: bool = True
+    push_topic_weather_default: bool = True
+    # Articles: at most this many article pushes per grower per India day (several new articles
+    # go in one push); an article published longer ago than the look-back is not pushed.
+    push_article_daily_max: int = Field(default=2, ge=0, le=10)
+    push_article_lookback_hours: int = Field(default=48, ge=1, le=168)
+    # Market: a change of at least this many per cent OR rupees per quintal between the two
+    # latest published days of a mandi series; the latest day at most this many days old;
+    # at most this many market pushes per grower per India day (series combined).
+    push_market_min_pct: float = Field(default=5.0, gt=0)
+    push_market_min_rs: int = Field(default=300, gt=0)
+    push_market_max_age_days: int = Field(default=3, ge=0)
+    push_market_daily_max: int = Field(default=1, ge=0, le=10)
+    # Weather: thresholds of a sudden change for today and the next days (push_weather_days in
+    # all, 2 = today and tomorrow); at most push_weather_daily_max pushes per plot per day.
+    push_weather_rain_prob_high: float = Field(default=60.0, ge=0, le=100)
+    push_weather_rain_prob_low: float = Field(default=30.0, ge=0, le=100)
+    push_weather_rain_mm: float = Field(default=10.0, gt=0)
+    push_weather_temp_jump_c: float = Field(default=5.0, gt=0)
+    # Same values as the heat_fruit_drop (35 °C) and cold_wave (4 °C) risk rules.
+    push_weather_heat_c: float = 35.0
+    push_weather_cold_c: float = 4.0
+    push_weather_gust_kmh: float = Field(default=40.0, gt=0)
+    push_weather_days: int = Field(default=2, ge=1, le=7)
+    push_weather_daily_max: int = Field(default=1, ge=0, le=5)
+    # Stored forecast days older than this are not compared (no pull ran).
+    push_weather_fresh_hours: int = Field(default=26, ge=1)
     # Market linkage legal gate (spec v1.5 §5, decision j): off unless MARKET_LINK_ENABLED is
     # set. Off, every /v1/market-link/* endpoint answers 404. Production stays off until the
     # owner records the legal and CA opinions.

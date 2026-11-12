@@ -106,6 +106,31 @@ def test_feed_knowledge_migration_up_and_down(tmp_path: Path) -> None:
     engine.dispose()
 
 
+PUSH_TABLES = {"push_topic_prefs", "push_notices", "push_weather_seen"}
+
+
+def test_push_updates_migration_up_and_down(tmp_path: Path) -> None:
+    """0052 (Q147): the three update-push tables come and go together."""
+    url = f"sqlite+aiosqlite:///{tmp_path / 'p.db'}"
+    cfg = _config(url)
+    engine = create_engine(_sync_url(url))
+
+    def tables() -> set[str]:
+        with engine.connect() as conn:
+            return set(inspect(conn).get_table_names()) & PUSH_TABLES
+
+    command.upgrade(cfg, "0052")
+    assert tables() == PUSH_TABLES
+    with engine.connect() as conn:
+        uniques = inspect(conn).get_unique_constraints("push_notices")
+    assert [u["column_names"] for u in uniques] == [["owner_id", "kind", "subject"]]
+    command.downgrade(cfg, "0051")
+    assert tables() == set()
+    command.upgrade(cfg, "0052")
+    assert tables() == PUSH_TABLES
+    engine.dispose()
+
+
 def test_every_model_declares_its_rls_kind() -> None:
     """Each table is owner-scoped (owner_column), read-only reference data, private, or has
     its own policies (custom_rls: market linkage, migrations 0029-0030)."""
@@ -169,6 +194,98 @@ def test_postgres_migrations_and_rls() -> None:
         assert _diff(conn) == []
         assert client_role_grants(conn) == []
         _assert_owner_isolation(conn)
+    engine.dispose()
+
+
+@pytest.mark.postgres
+@pytest.mark.skipif("POSTGRES_TEST_URL" not in os.environ, reason="needs POSTGRES_TEST_URL")
+def test_postgres_push_tables_rls() -> None:
+    """0052 (Q147): owner policies on the switches and the notice log, a no-row policy on the
+    forecast snapshot; a client role sees only its own rows and no snapshot; reversible."""
+    url = os.environ["POSTGRES_TEST_URL"]
+    cfg = _config(url)
+    command.upgrade(cfg, "head")
+    engine = create_engine(url.replace("+asyncpg", "+psycopg"))
+    me, other = str(uuid.uuid4()), str(uuid.uuid4())
+    with engine.connect() as conn:
+        policies = set(
+            conn.execute(
+                text(
+                    "SELECT tablename || ':' || policyname FROM pg_policies "
+                    "WHERE tablename IN ('push_topic_prefs', 'push_notices', 'push_weather_seen')"
+                )
+            ).scalars()
+        )
+        assert policies == {
+            "push_topic_prefs:push_topic_prefs_owner_all",
+            "push_notices:push_notices_owner_all",
+            "push_weather_seen:push_weather_seen_service_only",
+        }
+        conn.commit()
+        with conn.begin():
+            conn.execute(
+                text(
+                    "DO $$ BEGIN IF EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'push_probe') "
+                    "THEN DROP OWNED BY push_probe; DROP ROLE push_probe; END IF; END $$"
+                )
+            )
+            conn.execute(text("CREATE ROLE push_probe NOLOGIN"))
+            conn.execute(
+                text(
+                    "GRANT SELECT, INSERT ON push_topic_prefs, push_notices, push_weather_seen "
+                    "TO push_probe"
+                )
+            )
+            conn.execute(text("GRANT USAGE ON SCHEMA auth TO push_probe"))
+            conn.execute(
+                text(
+                    "INSERT INTO push_weather_seen (cell_lat, cell_lon, day, seen_at) "
+                    "VALUES (21.46, 78.26, '2026-11-12', now())"
+                )
+            )
+            for owner in (me, other):
+                conn.execute(
+                    text(
+                        "INSERT INTO push_notices (id, owner_id, kind, subject, day, data, "
+                        "created_at) VALUES (:id, :o, 'article', 'x', '2026-11-12', '{}', now())"
+                    ),
+                    {"id": str(uuid.uuid4()), "o": owner},
+                )
+        with conn.begin() as tx:
+            conn.execute(text("SET LOCAL ROLE push_probe"))
+            conn.execute(text("SELECT set_config('request.jwt.claim.sub', :s, true)"), {"s": me})
+            seen = conn.execute(text("SELECT owner_id::text FROM push_notices")).scalars().all()
+            assert seen == [me]
+            assert conn.execute(text("SELECT count(*) FROM push_weather_seen")).scalar_one() == 0
+            conn.execute(
+                text(
+                    "INSERT INTO push_topic_prefs (owner_id, articles, market, weather_change, "
+                    "created_at, updated_at) VALUES (:o, true, false, true, now(), now())"
+                ),
+                {"o": me},
+            )
+            with (
+                pytest.raises(sa_exc.ProgrammingError, match="row-level security"),
+                conn.begin_nested(),
+            ):
+                conn.execute(
+                    text(
+                        "INSERT INTO push_topic_prefs (owner_id, articles, market, "
+                        "weather_change, created_at, updated_at) "
+                        "VALUES (:o, true, true, true, now(), now())"
+                    ),
+                    {"o": other},
+                )
+            tx.rollback()
+        with conn.begin():
+            conn.execute(text("DELETE FROM push_notices"))
+            conn.execute(text("DELETE FROM push_weather_seen"))
+            conn.execute(text("DROP OWNED BY push_probe"))
+            conn.execute(text("DROP ROLE push_probe"))
+    command.downgrade(cfg, "0051")
+    with engine.connect() as conn:
+        assert not set(inspect(conn).get_table_names()) & PUSH_TABLES
+    command.upgrade(cfg, "head")
     engine.dispose()
 
 
