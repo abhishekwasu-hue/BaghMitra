@@ -1,0 +1,173 @@
+{
+  "_note": "Fertiliser (Control) Order 1985, Schedule I Part A: the 1(f) MICRONUTRIENTS and 1(h) [100% water soluble Complex Fertiliser] grades, for the spray form's ingredient picker (owner Q137). Read 2026-11-12 from the 'source' PDF through the card-sources workflow on a GitHub runner (the text layer, pypdf). 'printed' is the grade heading exactly as the text layer gives it (line breaks joined; PDF spacing and footnote numbers kept); 'name' is what the picker shows and saves: the printed heading with PDF spacing removed (and, for Ammonium Molybdate, the garbled formula left out). A test checks that 'name' without spaces is part of 'printed' without spaces. Serials the schedule marks 'Omitted' (1(f) 4, 1(h) 2) are not listed. app/tool/gen_spray_ingredients.dart turns this file into the picker rows.",
+  "entries": [
+    {
+      "type": "micronutrient",
+      "schedule_ref": "Schedule I, Part A, 1(f), 1",
+      "printed": "1. Zinc Sulphate Heptahydrate (ZnSO4.7H2O)",
+      "name": "Zinc Sulphate Heptahydrate (ZnSO4.7H2O)",
+      "source": "fco_1985_odisha_2009"
+    },
+    {
+      "type": "micronutrient",
+      "schedule_ref": "Schedule I, Part A, 1(f), 2",
+      "printed": "2. Manganese Sulphate",
+      "name": "Manganese Sulphate",
+      "source": "fco_1985_odisha_2009"
+    },
+    {
+      "type": "micronutrient",
+      "schedule_ref": "Schedule I, Part A, 1(f), 3",
+      "printed": "3. Borax (Sodium Tetraborate) (Na 2B4O7.10H2O) for soil application",
+      "name": "Borax (Sodium Tetraborate) (Na2B4O7.10H2O) for soil application",
+      "source": "fco_1985_odisha_2009"
+    },
+    {
+      "type": "micronutrient",
+      "schedule_ref": "Schedule I, Part A, 1(f), 5",
+      "printed": "5. Copper Sulphate (CuSO 4.5H2O)",
+      "name": "Copper Sulphate (CuSO4.5H2O)",
+      "source": "fco_1985_odisha_2009"
+    },
+    {
+      "type": "micronutrient",
+      "schedule_ref": "Schedule I, Part A, 1(f), 6",
+      "printed": "6. Ferrous Sulphate (FeSO 4.7H2O)",
+      "name": "Ferrous Sulphate (FeSO4.7H2O)",
+      "source": "fco_1985_odisha_2009"
+    },
+    {
+      "type": "micronutrient",
+      "schedule_ref": "Schedule I, Part A, 1(f), 7",
+      "printed": "7 .Ammonium Molybdate (NH 4)6MO 7O24 .4H2O)",
+      "name": "Ammonium Molybdate",
+      "source": "fco_1985_odisha_2009"
+    },
+    {
+      "type": "micronutrient",
+      "schedule_ref": "Schedule I, Part A, 1(f), 8",
+      "printed": "8. Chelated Zinc as Zn-EDTA",
+      "name": "Chelated Zinc as Zn-EDTA",
+      "source": "fco_1985_odisha_2009"
+    },
+    {
+      "type": "micronutrient",
+      "schedule_ref": "Schedule I, Part A, 1(f), 9",
+      "printed": "9. Chelated Iron as Fe-EDTA",
+      "name": "Chelated Iron as Fe-EDTA",
+      "source": "fco_1985_odisha_2009"
+    },
+    {
+      "type": "micronutrient",
+      "schedule_ref": "Schedule I, Part A, 1(f), 10",
+      "printed": "10. Zinc Sulphate Mono-hydrate (ZnSO4 H2O)",
+      "name": "Zinc Sulphate Mono-hydrate (ZnSO4 H2O)",
+      "source": "fco_1985_odisha_2009"
+    },
+    {
+      "type": "micronutrient",
+      "schedule_ref": "Schedule I, Part A, 1(f), 11",
+      "printed": "11. Magnesium Sulphate",
+      "name": "Magnesium Sulphate",
+      "source": "fco_1985_odisha_2009"
+    },
+    {
+      "type": "micronutrient",
+      "schedule_ref": "Schedule I, Part A, 1(f), 12",
+      "printed": "12. Boric Acid (H 3BO 3)60",
+      "name": "Boric Acid (H3BO3)",
+      "source": "fco_1985_odisha_2009"
+    },
+    {
+      "type": "micronutrient",
+      "schedule_ref": "Schedule I, Part A, 1(f), 13",
+      "printed": "13. Di-Sodium Octa Borate Tetra Hydrate",
+      "name": "Di-Sodium Octa Borate Tetra Hydrate",
+      "source": "fco_1985_odisha_2009"
+    },
+    {
+      "type": "micronutrient",
+      "schedule_ref": "Schedule I, Part A, 1(f), 14",
+      "printed": "14. Di-Sodium Tetra Borate Penta Hydrate",
+      "name": "Di-Sodium Tetra Borate Penta Hydrate",
+      "source": "fco_1985_odisha_2009"
+    },
+    {
+      "type": "water_soluble",
+      "schedule_ref": "Schedule I, Part A, 1(h), 1",
+      "printed": "1.Pottasium Nitrate (13-0-45)",
+      "name": "Pottasium Nitrate (13-0-45)",
+      "source": "fco_1985_odisha_2009"
+    },
+    {
+      "type": "water_soluble",
+      "schedule_ref": "Schedule I, Part A, 1(h), 3",
+      "printed": "3. Mono – Potasium Phosphate (0-52-34) (100% water Soluble)",
+      "name": "Mono – Potasium Phosphate (0-52-34) (100% water Soluble)",
+      "source": "fco_1985_odisha_2009"
+    },
+    {
+      "type": "water_soluble",
+      "schedule_ref": "Schedule I, Part A, 1(h), 4",
+      "printed": "4. Calcium Nitrate",
+      "name": "Calcium Nitrate",
+      "source": "fco_1985_odisha_2009"
+    },
+    {
+      "type": "water_soluble",
+      "schedule_ref": "Schedule I, Part A, 1(h), 5",
+      "printed": "5. NPK 13:40:13 (100% water soluble)",
+      "name": "NPK 13:40:13 (100% water soluble)",
+      "source": "fco_1985_odisha_2009"
+    },
+    {
+      "type": "water_soluble",
+      "schedule_ref": "Schedule I, Part A, 1(h), 6",
+      "printed": "6. NPK 18:18:18 (100% water soluble)",
+      "name": "NPK 18:18:18 (100% water soluble)",
+      "source": "fco_1985_odisha_2009"
+    },
+    {
+      "type": "water_soluble",
+      "schedule_ref": "Schedule I, Part A, 1(h), 7",
+      "printed": "7. NPK 13:5:26 (100% water soluble)",
+      "name": "NPK 13:5:26 (100% water soluble)",
+      "source": "fco_1985_odisha_2009"
+    },
+    {
+      "type": "water_soluble",
+      "schedule_ref": "Schedule I, Part A, 1(h), 8",
+      "printed": "8. NPK 6:12:36 (100% water soluble)",
+      "name": "NPK 6:12:36 (100% water soluble)",
+      "source": "fco_1985_odisha_2009"
+    },
+    {
+      "type": "water_soluble",
+      "schedule_ref": "Schedule I, Part A, 1(h), 9",
+      "printed": "9 NPK 20:20:20 (100% water soluble)",
+      "name": "NPK 20:20:20 (100% water soluble)",
+      "source": "fco_1985_odisha_2009"
+    },
+    {
+      "type": "water_soluble",
+      "schedule_ref": "Schedule I, Part A, 1(h), 10",
+      "printed": "10 Potassium Magnesium Sulphate",
+      "name": "Potassium Magnesium Sulphate",
+      "source": "fco_1985_odisha_2009"
+    },
+    {
+      "type": "water_soluble",
+      "schedule_ref": "Schedule I, Part A, 1(h), 11",
+      "printed": "11. NPK 19 :19:19 (100% water soluble)",
+      "name": "NPK 19:19:19 (100% water soluble)",
+      "source": "fco_1985_odisha_2009"
+    },
+    {
+      "type": "water_soluble",
+      "schedule_ref": "Schedule I, Part A, 1(h), 12",
+      "printed": "12. Mono Ammonium Phosphate 12:61:0 (100% water soluble)",
+      "name": "Mono Ammonium Phosphate 12:61:0 (100% water soluble)",
+      "source": "fco_1985_odisha_2009"
+    }
+  ]
+}
