@@ -69,6 +69,16 @@ jobs:
           from bagmitra_api.feed.extract import html_text
           AGENT = get_settings().feed_fetch_user_agent  # what the feed cron sends
           LIMIT = 20000
+          from datetime import datetime
+          from email.utils import parsedate_to_datetime
+          def day(text):
+              text = text.strip()
+              for parse in (parsedate_to_datetime, datetime.fromisoformat):
+                  try:
+                      return parse(text).date().isoformat()
+                  except (TypeError, ValueError):
+                      pass
+              return None
           OUT = os.path.join(os.environ["RUNNER_TEMP"], "raw")  # full bodies, for test fixtures
           os.makedirs(OUT, exist_ok=True)
           async def main():
@@ -110,6 +120,10 @@ jobs:
                                       if re.search(r"\.pdf|SchemeData|ViewGr", block, re.I):
                                           print("BLOCK", block[:LIMIT])
                                   body = body[:LIMIT // 10]
+                              if label == "RAW" and "html" not in (r.headers.get("content-type") or ""):
+                                  # A feed or sitemap: how many entries and which dates it spans.
+                                  dates = sorted(filter(None, (day(d) for d in re.findall(r"<(?:news:publication_date|pubDate)>\s*(?:<!\[CDATA\[)?\s*([^<\]]+)", body))))
+                                  print("COUNT items", body.count("<item>"), "urls", body.count("<url>"), "dated", len(dates), "first", dates[:1], "last", dates[-1:])
                               print(body[:LIMIT])
                           except httpx.HTTPError as exc:
                               print("ERROR", repr(exc))
