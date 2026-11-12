@@ -8,6 +8,7 @@ import '../../../app/refresh.dart';
 import '../../../app/router.dart';
 import '../../../core/formatting.dart';
 import '../../../design_system/app_bar_title.dart';
+import '../../../design_system/article_reading.dart';
 import '../../../design_system/empty_state.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../sync/presentation/refresh_note.dart';
@@ -202,10 +203,30 @@ class _ItemBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
     final c = context.bm;
-    return Column(
+    // An article's top is a title card (owner 2026-11-12): topic icon, badge, title and the
+    // summary in a tinted box.
+    final article = detail && item.article != null;
+    final tone = item.isKnowledge ? c.toneGreen : c.toneBlue;
+    final column = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        FeedBadge(item: item, lang: lang),
+        if (article)
+          Row(
+            children: [
+              ToneIconChip(
+                icon: item.isKnowledge
+                    ? Icons.menu_book_rounded
+                    : Icons.newspaper_rounded,
+                tone: tone,
+              ),
+              const SizedBox(width: BmSpace.xs),
+              Flexible(
+                child: FeedBadge(item: item, lang: lang),
+              ),
+            ],
+          )
+        else
+          FeedBadge(item: item, lang: lang),
         const SizedBox(height: BmSpace.xxs),
         Text(item.title, style: detail ? BmType.cardTitle : BmType.bodyStrong),
         if (item.replacedBy case final replacement?)
@@ -220,7 +241,19 @@ class _ItemBody extends StatelessWidget {
           ),
         if (detail && item.summary.isNotEmpty) ...[
           const SizedBox(height: BmSpace.xs),
-          Text(item.summary, style: BmType.body),
+          if (article)
+            Container(
+              key: const Key('feed-summary'),
+              width: double.infinity,
+              padding: const EdgeInsets.all(BmSpace.sm),
+              decoration: BoxDecoration(
+                color: tone.tint,
+                borderRadius: BorderRadius.circular(BmRadius.chip),
+              ),
+              child: HighlightedText(item.summary, tone: tone),
+            )
+          else
+            Text(item.summary, style: BmType.body),
         ],
         if (item.deadline case final deadline?)
           Padding(
@@ -240,6 +273,19 @@ class _ItemBody extends StatelessWidget {
               ),
             ),
       ],
+    );
+    if (!article) return column;
+    return Container(
+      key: const Key('feed-title-card'),
+      width: double.infinity,
+      padding: const EdgeInsets.all(BmSpace.md),
+      decoration: BoxDecoration(
+        color: c.card,
+        border: Border.all(color: tone.ink.withValues(alpha: 0.45), width: 1.5),
+        borderRadius: BorderRadius.circular(BmRadius.card),
+        boxShadow: BmElevation.card(c),
+      ),
+      child: column,
     );
   }
 }
@@ -425,12 +471,16 @@ class FeedSourceLink extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: BmSpace.xs),
             child: Row(
               children: [
-                Icon(Icons.link, color: c.brandStrong),
+                Icon(Icons.link, color: c.link),
                 const SizedBox(width: BmSpace.xs),
                 Expanded(
                   child: Text(
                     t.feedSource(url),
-                    style: BmType.meta.copyWith(color: c.brandStrong),
+                    style: BmType.meta.copyWith(
+                      color: c.link,
+                      decoration: TextDecoration.underline,
+                      decorationColor: c.link,
+                    ),
                   ),
                 ),
               ],
@@ -578,6 +628,7 @@ class _FeedItemScreenState extends ConsumerState<FeedItemScreen> {
                     ),
                     OutlinedButton.icon(
                       key: const Key('feed-dismiss'),
+                      style: BmButtonStyle.destructive(context.bm),
                       icon: const Icon(Icons.visibility_off_outlined),
                       label: Text(t.feedDismiss),
                       onPressed: () => _dismiss(item),

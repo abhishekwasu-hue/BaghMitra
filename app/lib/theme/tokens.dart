@@ -29,6 +29,9 @@ abstract final class BmPalette {
   static const alertWarmBody = Color(0xFF5E4225);
   static const doneTint = Color(0xFFEEF6EC);
 
+  /// Secondary-button fill: a leaf tint that still reads as green on cream and white.
+  static const leafTint = Color(0xFFD4EBCF);
+
   /// Neutral notes and disclaimers: a calm slate-sky ink, never santra (orange = action).
   static const infoInk = Color(0xFF2C5A70);
   static const nowTint = Color(0xFFFFF1E2);
@@ -48,6 +51,31 @@ abstract final class BmPalette {
   static const nightInfoInk = Color(0xFFA9D2E4);
   static const nightNowTint = Color(0xFF3A2610);
   static const shadow = Color(0xFF1F4D2B);
+
+  // Reading tones (article sections, highlights): an ink and a soft tint per meaning.
+  static const leafReadTint = Color(0xFFE3F1DF);
+  static const skyReadTint = Color(0xFFE1F0F7);
+  static const tealInk = Color(0xFF0E5E5A);
+  static const tealReadTint = Color(0xFFDDF2EF);
+  static const violetInk = Color(0xFF5B4A8A);
+  static const violetReadTint = Color(0xFFEEEAF7);
+  static const greyReadTint = Color(0xFFEEF1EC);
+  static const nightSkyTint = Color(0xFF1B3340);
+  static const nightTealInk = Color(0xFF8FD8CF);
+  static const nightTealTint = Color(0xFF163A36);
+  static const nightVioletInk = Color(0xFFC9B8F0);
+  static const nightVioletTint = Color(0xFF2E2745);
+  static const nightGreyTint = Color(0xFF223026);
+}
+
+/// One reading tone: [ink] for an icon, a heading accent or a highlighted word, [tint] for
+/// its chip, header strip or pill. [ink] is ≥ 4.5:1 on [tint] and on the card.
+@immutable
+class BmTone {
+  const BmTone(this.ink, this.tint);
+
+  final Color ink;
+  final Color tint;
 }
 
 /// Semantic colours. Widgets use these, never [BmPalette] directly.
@@ -81,6 +109,19 @@ class BmColors extends ThemeExtension<BmColors> {
     required this.doneTint,
     required this.nowTint,
     required this.shadow,
+    required this.accentEdge,
+    required this.primaryFill,
+    required this.onPrimaryFill,
+    required this.secondaryFill,
+    required this.secondaryBorder,
+    required this.onSecondaryFill,
+    required this.link,
+    required this.toneGreen,
+    required this.toneBlue,
+    required this.toneTeal,
+    required this.toneAmber,
+    required this.toneViolet,
+    required this.toneGrey,
   });
 
   final Color background;
@@ -123,6 +164,39 @@ class BmColors extends ThemeExtension<BmColors> {
   final Color nowTint;
   final Color shadow;
 
+  /// Edge of a santra (main commit) button: santra alone is 2.3:1 on cream / white, the
+  /// deepened edge keeps the button's shape ≥ 3:1 against the page.
+  final Color accentEdge;
+
+  /// Fill of a primary action inside a card or section (open the practices, try again):
+  /// the brand green, so it stands out on the page and the card in both modes.
+  /// The screen's main commit (Save, Add, Send) stays santra ([accent]).
+  final Color primaryFill;
+
+  /// Text and icon on [primaryFill] (≥ 4.5:1).
+  final Color onPrimaryFill;
+
+  /// Tonal fill and border of a secondary action: a green tint plus a visible border,
+  /// never a hairline outline on the page colour.
+  final Color secondaryFill;
+  final Color secondaryBorder;
+
+  /// Text and icon on [secondaryFill] (≥ 4.5:1).
+  final Color onSecondaryFill;
+
+  /// A link inside text (underlined); never a button.
+  final Color link;
+
+  /// Reading tones for article sections by meaning (docs/design/buttons-audit.md, article
+  /// reading): do / green, when / blue, check / teal, see / amber, caution / violet (calm,
+  /// never red), sources / grey.
+  final BmTone toneGreen;
+  final BmTone toneBlue;
+  final BmTone toneTeal;
+  final BmTone toneAmber;
+  final BmTone toneViolet;
+  final BmTone toneGrey;
+
   static const light = BmColors(
     background: BmPalette.cream,
     card: BmPalette.white,
@@ -151,6 +225,19 @@ class BmColors extends ThemeExtension<BmColors> {
     doneTint: BmPalette.doneTint,
     nowTint: BmPalette.nowTint,
     shadow: BmPalette.shadow,
+    accentEdge: BmPalette.santraDeep,
+    primaryFill: BmPalette.leaf,
+    onPrimaryFill: BmPalette.white,
+    secondaryFill: BmPalette.leafTint,
+    secondaryBorder: BmPalette.leaf2,
+    onSecondaryFill: BmPalette.leaf,
+    link: BmPalette.leaf2,
+    toneGreen: BmTone(BmPalette.leaf, BmPalette.leafReadTint),
+    toneBlue: BmTone(BmPalette.infoInk, BmPalette.skyReadTint),
+    toneTeal: BmTone(BmPalette.tealInk, BmPalette.tealReadTint),
+    toneAmber: BmTone(BmPalette.alertWarmTitle, BmPalette.alertWarmBg1),
+    toneViolet: BmTone(BmPalette.violetInk, BmPalette.violetReadTint),
+    toneGrey: BmTone(BmPalette.ink2, BmPalette.greyReadTint),
   );
 
   static const dark = BmColors(
@@ -181,6 +268,19 @@ class BmColors extends ThemeExtension<BmColors> {
     doneTint: BmPalette.nightDoneTint,
     nowTint: BmPalette.nightNowTint,
     shadow: BmPalette.night,
+    accentEdge: BmPalette.santra,
+    primaryFill: BmPalette.leaf3,
+    onPrimaryFill: BmPalette.ink,
+    secondaryFill: BmPalette.leaf2,
+    secondaryBorder: BmPalette.leaf3,
+    onSecondaryFill: BmPalette.nightInk,
+    link: BmPalette.leaf3,
+    toneGreen: BmTone(BmPalette.leaf3, BmPalette.nightDoneTint),
+    toneBlue: BmTone(BmPalette.nightInfoInk, BmPalette.nightSkyTint),
+    toneTeal: BmTone(BmPalette.nightTealInk, BmPalette.nightTealTint),
+    toneAmber: BmTone(BmPalette.nightAlertTitle, BmPalette.nightAlertBg1),
+    toneViolet: BmTone(BmPalette.nightVioletInk, BmPalette.nightVioletTint),
+    toneGrey: BmTone(BmPalette.nightInk2, BmPalette.nightGreyTint),
   );
 
   /// Market hero card stays deep green in both modes (one hero colour per card).
@@ -269,6 +369,12 @@ abstract final class BmType {
   static final formLabel = _body.copyWith(
     fontSize: 16,
     fontWeight: FontWeight.w600,
+  );
+
+  /// Every button label: bold, so an action never reads as plain text.
+  static final button = _body.copyWith(
+    fontSize: 16.5,
+    fontWeight: FontWeight.w700,
   );
   static final meta = _body.copyWith(fontSize: 14, fontWeight: FontWeight.w500);
   static final label = _body.copyWith(

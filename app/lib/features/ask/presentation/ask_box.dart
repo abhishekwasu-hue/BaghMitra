@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../app/providers.dart';
 import '../../../app/router.dart';
+import '../../../design_system/article_reading.dart';
 import '../../../design_system/sources_disclosure.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
@@ -150,31 +151,26 @@ class _AskBoxState extends ConsumerState<AskBox> {
     for (final e in kb.sameSection(best, limit: 4)) {
       if (!related.any((r) => r.id == e.id)) related.add(e);
     }
+    // The answer card's colour and icon follow the question's meaning (symptoms, when, ...).
+    final kind = sectionKindFor(best.question(lang));
+    final tone = sectionTone(c, kind);
     return [
       const SizedBox(height: BmSpace.sm),
-      Container(
+      ReadingCard(
         key: Key('ask-answer-${best.id}'),
-        padding: const EdgeInsets.all(BmSpace.sm),
-        decoration: BoxDecoration(
-          color: c.card,
-          borderRadius: BorderRadius.circular(BmRadius.tile),
-        ),
+        heading: best.question(lang),
+        icon: kind == ArticleSectionKind.other
+            ? Icons.question_answer_rounded
+            : sectionIcon(kind),
+        tone: tone,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(best.question(lang), style: BmType.bodyStrong),
-            const SizedBox(height: BmSpace.xs),
+            // A long answer line of several sentences reads as its own bullets.
             for (final line in best.answer(lang))
-              Padding(
-                padding: const EdgeInsets.only(bottom: BmSpace.xxs),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('•  ', style: BmType.body.copyWith(color: c.brand)),
-                    Expanded(child: Text(line, style: BmType.body)),
-                  ],
-                ),
-              ),
+              for (final piece in splitBullets(line))
+                ReadingBullet(text: piece, tone: tone),
+            const SizedBox(height: BmSpace.xs),
             SourcesDisclosure(
               key: const Key('ask-sources'),
               sources: [
@@ -184,17 +180,20 @@ class _AskBoxState extends ConsumerState<AskBox> {
               ],
             ),
             Text(t.askStoredNote, key: const Key('ask-note'), style: quiet),
-            if (best.section case final section?)
+            if (best.section case final section?) ...[
+              const SizedBox(height: BmSpace.xs),
               Align(
                 alignment: AlignmentDirectional.centerStart,
-                child: TextButton.icon(
+                child: FilledButton.icon(
                   key: const Key('ask-open-card'),
+                  style: BmButtonStyle.primary(c),
                   onPressed: () =>
                       context.push(Routes.practicesSection(section)),
-                  icon: const Icon(Icons.menu_book_outlined),
+                  icon: const Icon(Icons.menu_book_rounded),
                   label: Text(t.askOpenCard),
                 ),
               ),
+            ],
             const SizedBox(height: BmSpace.sm),
             ReactionBar(
               key: Key('ask-reactions-${best.id}'),

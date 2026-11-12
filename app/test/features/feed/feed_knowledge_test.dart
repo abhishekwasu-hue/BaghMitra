@@ -172,9 +172,6 @@ void main() {
       for (final heading in ['What you see', 'What to check', 'What to do']) {
         expect(find.text(heading), findsOneWidget);
       }
-      expect(find.byKey(const Key('feed-knowledge-note')), findsOneWidget);
-      // A card-based article is not about a GR: no "check the official GR" line.
-      expect(find.byKey(const Key('feed-footer')), findsNothing);
       final source = find.byKey(const Key('feed-knowledge-source-0'));
       await tester.scrollUntilVisible(
         source,
@@ -188,9 +185,20 @@ void main() {
         ),
         findsOneWidget,
       );
+      await tester.ensureVisible(source);
+      await settle(tester);
       await tester.tap(source);
       await settle(tester);
       expect(copied, nhbUrl);
+      // Section cards make the page longer: the note is further down.
+      await tester.scrollUntilVisible(
+        find.byKey(const Key('feed-knowledge-note')),
+        100,
+        scrollable: find.byType(Scrollable).first,
+      );
+      expect(find.byKey(const Key('feed-knowledge-note')), findsOneWidget);
+      // A card-based article is not about a GR: no "check the official GR" line.
+      expect(find.byKey(const Key('feed-footer')), findsNothing);
       final card = find.byKey(const Key('feed-knowledge-card'));
       await tester.ensureVisible(card);
       await tester.tap(card);
@@ -205,6 +213,11 @@ void main() {
     (tester) async {
       await _pump(tester, '/feed/k2');
       expect(find.byKey(const Key('feed-knowledge-card')), findsNothing);
+      await tester.scrollUntilVisible(
+        find.byKey(const Key('feed-footer')),
+        100,
+        scrollable: find.byType(Scrollable).first,
+      );
       expect(find.byKey(const Key('feed-footer')), findsOneWidget);
       expect(find.byKey(const Key('feed-knowledge-note')), findsOneWidget);
       await unmountApp(tester);

@@ -730,6 +730,7 @@ class _LabTestFormScreenState extends ConsumerState<LabTestFormScreen> {
             child: Text(t.cancel),
           ),
           TextButton(
+            style: BmButtonStyle.destructive(dialog.bm),
             onPressed: () => Navigator.pop(dialog, true),
             child: Text(t.delete),
           ),
@@ -946,6 +947,7 @@ class _LabTestFormScreenState extends ConsumerState<LabTestFormScreen> {
                   ),
                   TextButton.icon(
                     key: const Key('lab-remove-report'),
+                    style: BmButtonStyle.destructive(context.bm),
                     onPressed: () => setState(() {
                       _pickedReport = null;
                       _reportRemoved = true;

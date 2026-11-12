@@ -3438,7 +3438,7 @@ abstract class AppLocalizations {
   /// No description provided for @feedKnowledgeOpenCard.
   ///
   /// In en, this message translates to:
-  /// **'Open the card'**
+  /// **'See practices and details'**
   String get feedKnowledgeOpenCard;
 
   /// No description provided for @feedKnowledgeNote.
@@ -5808,13 +5808,13 @@ abstract class AppLocalizations {
   /// No description provided for @practicesLabelLink.
   ///
   /// In en, this message translates to:
-  /// **'Label-approved products'**
+  /// **'See label-approved products'**
   String get practicesLabelLink;
 
   /// No description provided for @practicesKnowledgeCard.
   ///
   /// In en, this message translates to:
-  /// **'Knowledge card'**
+  /// **'Read the knowledge card'**
   String get practicesKnowledgeCard;
 
   /// No description provided for @knowledgeTitle.
@@ -8880,7 +8880,7 @@ abstract class AppLocalizations {
   /// No description provided for @photoCheckOpenCard.
   ///
   /// In en, this message translates to:
-  /// **'Open card'**
+  /// **'See practices and details'**
   String get photoCheckOpenCard;
 
   /// No description provided for @photoCheckUnsure.
@@ -8904,7 +8904,7 @@ abstract class AppLocalizations {
   /// No description provided for @photoCheckSeeCards.
   ///
   /// In en, this message translates to:
-  /// **'See the cards'**
+  /// **'See all practices'**
   String get photoCheckSeeCards;
 
   /// No description provided for @photoCheckOffline.
@@ -9369,10 +9369,10 @@ abstract class AppLocalizations {
   /// **'For this question, see the guide below or ask your KVK.'**
   String get askNoMatch;
 
-  /// Button under an answer: opens the practice card it comes from.
+  /// Primary button under an answer: opens the practices section (practices and details) it comes from.
   ///
   /// In en, this message translates to:
-  /// **'Open the card'**
+  /// **'See practices and details'**
   String get askOpenCard;
 
   /// Heading of the emoji reaction bar below a feed article or item (Q146).

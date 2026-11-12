@@ -331,7 +331,7 @@ class _VerificationDetailPageState extends State<VerificationDetailPage> {
           : BottomActions(
               children: [
                 OutlinedButton(
-                  style: OutlinedButton.styleFrom(foregroundColor: c.danger),
+                  style: BmButtonStyle.destructive(c),
                   onPressed: () => _decide(approve: false),
                   child: Text(t.adminMlReject),
                 ),

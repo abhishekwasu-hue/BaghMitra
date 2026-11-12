@@ -143,8 +143,8 @@ class _ReactionBarState extends ConsumerState<ReactionBar> {
   }
 }
 
-/// One tinted chip: emoji, word and count. Chosen: brand-soft fill, strong brand border and
-/// text (the design-system "selected" look); otherwise the card fill with a quiet line.
+/// One chip in the button look of the design system (BmButtonStyle): a tinted fill with a
+/// visible border and bold text; the chosen one takes the primary fill.
 class _ReactionChip extends StatelessWidget {
   const _ReactionChip({
     required this.reaction,
@@ -164,25 +164,26 @@ class _ReactionChip extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
     final c = context.bm;
-    final ink = selected ? c.brandStrong : c.ink;
-    final radius = BorderRadius.circular(BmRadius.pill);
+    final ink = selected ? c.onPrimaryFill : c.onSecondaryFill;
+    final radius = BorderRadius.circular(BmRadius.tile);
     return Semantics(
       button: true,
       selected: selected,
       label: t.reactionChipSemantics(label, count),
       excludeSemantics: true,
       child: Material(
-        color: selected ? c.brandSoft : c.card,
+        color: selected ? c.primaryFill : c.secondaryFill,
         shape: RoundedRectangleBorder(
           borderRadius: radius,
           side: BorderSide(
-            color: selected ? c.brandStrong : c.line,
-            width: selected ? 2 : 1.5,
+            color: selected ? c.primaryFill : c.secondaryBorder,
+            width: 1.5,
           ),
         ),
         child: InkWell(
           key: Key('reaction-${reaction.value}'),
           customBorder: RoundedRectangleBorder(borderRadius: radius),
+          overlayColor: WidgetStatePropertyAll(ink.withValues(alpha: 0.12)),
           onTap: onTap,
           child: ConstrainedBox(
             constraints: const BoxConstraints(
@@ -202,7 +203,7 @@ class _ReactionChip extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: BmSpace.xxs),
-                  Text(label, style: BmType.bodyStrong.copyWith(color: ink)),
+                  Text(label, style: BmType.button.copyWith(color: ink)),
                   if (count > 0) ...[
                     const SizedBox(width: BmSpace.xs),
                     Text(
@@ -211,9 +212,7 @@ class _ReactionChip extends StatelessWidget {
                         Localizations.localeOf(context).languageCode,
                       ),
                       key: Key('reaction-${reaction.value}-count'),
-                      style: BmType.bodyStrong.copyWith(
-                        color: selected ? c.brandStrong : c.inkMuted,
-                      ),
+                      style: BmType.button.copyWith(color: ink),
                     ),
                   ],
                 ],

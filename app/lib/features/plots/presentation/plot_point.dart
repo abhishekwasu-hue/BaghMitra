@@ -175,15 +175,18 @@ class _Problem extends StatelessWidget {
           spacing: BmSpace.xs,
           runSpacing: BmSpace.xs,
           children: [
+            // The fix that helps is the green primary: settings when location is off.
             if (needsSettings)
-              OutlinedButton.icon(
+              FilledButton.icon(
                 key: const Key('point-settings'),
+                style: BmButtonStyle.primary(c),
                 onPressed: onSettings,
                 icon: const Icon(Icons.settings_outlined),
                 label: Text(t.plotPointOpenSettings),
               ),
             OutlinedButton.icon(
               key: const Key('point-retry'),
+              style: needsSettings ? null : BmButtonStyle.primary(c),
               onPressed: onRetry,
               icon: const Icon(Icons.refresh_rounded),
               label: Text(t.plotPointTryAgain),
@@ -364,10 +367,6 @@ class _PlotLocationRowState extends ConsumerState<PlotLocationRow>
                 if (accuracy != null) _Accuracy(accuracy),
                 TextButton.icon(
                   key: const Key('point-retake'),
-                  style: TextButton.styleFrom(
-                    padding: EdgeInsets.zero,
-                    minimumSize: const Size(0, BmSpace.tapTarget),
-                  ),
                   onPressed: reading ? null : capture,
                   icon: reading
                       ? const SizedBox.square(
