@@ -264,10 +264,8 @@ class _MarketPricesScreenState extends ConsumerState<MarketPricesScreen> {
                             IconButton(
                               key: Key('market-trend-${p.market}'),
                               tooltip: t.marketTrendOpen,
-                              icon: Icon(
-                                Icons.show_chart_rounded,
-                                color: c.brand,
-                              ),
+                              style: BmButtonStyle.icon(c),
+                              icon: const Icon(Icons.show_chart_rounded),
                               onPressed: () => showPriceTrend(context, (
                                 crop: crop,
                                 market: p.market,

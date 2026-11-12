@@ -727,6 +727,35 @@ farmer-facing deadlines are rebuilt when it is published again. Withdrawn: 409.'
   }
 
   @override
+  Future<Response<FeedAdminReactionsResponse>> _v1AdminFeedReactionsGet({
+    int? limit,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Readers\' reactions (Q146) as counts: the most and the least helpful feed items and
+Q&A answers. Never who reacted.''',
+      summary: 'Reaction Lists',
+      operationId: 'admin_feed_reactions',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/admin/feed/reactions');
+    final Map<String, dynamic> $params = <String, dynamic>{'limit': limit};
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+      tag: swaggerMetaData,
+    );
+    return client.send<FeedAdminReactionsResponse, FeedAdminReactionsResponse>(
+      $request,
+    );
+  }
+
+  @override
   Future<Response<FeedAdminSourcesResponse>> _v1AdminFeedSourcesGet({
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '',
@@ -3967,6 +3996,85 @@ Alerts come only from the configured rules (never from AI) and carry no chemical
       tag: swaggerMetaData,
     );
     return client.send<PlotWeather, PlotWeather>($request);
+  }
+
+  @override
+  Future<Response<ReactionsResponse>> _v1ReactionsGet({
+    required List<String>? target,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Counts and the caller\'s own reaction for up to 50 targets, in the order asked
+(duplicates once). A target nobody reacted to has zero counts.''',
+      summary: 'Get Reactions',
+      operationId: 'feed_reactions_get',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["feed"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/reactions');
+    final Map<String, dynamic> $params = <String, dynamic>{'target': target};
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+      tag: swaggerMetaData,
+    );
+    return client.send<ReactionsResponse, ReactionsResponse>($request);
+  }
+
+  @override
+  Future<Response<ReactionSummaryOut>> _v1ReactionsTargetDelete({
+    required String? target,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Remove the caller\'s reaction (none is fine: the answer is the same).',
+      summary: 'Delete Reaction',
+      operationId: 'feed_reaction_delete',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["feed"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/reactions/${target}');
+    final Request $request = Request(
+      'DELETE',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<ReactionSummaryOut, ReactionSummaryOut>($request);
+  }
+
+  @override
+  Future<Response<ReactionSummaryOut>> _v1ReactionsTargetPut({
+    required String? target,
+    required ReactionIn? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Set the caller\'s reaction to a published (or withdrawn) feed item or a Q&A answer;
+a different reaction replaces the earlier one. Sending the same one again is a no-op.''',
+      summary: 'Put Reaction',
+      operationId: 'feed_reaction_put',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["feed"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/reactions/${target}');
+    final $body = body;
+    final Request $request = Request(
+      'PUT',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<ReactionSummaryOut, ReactionSummaryOut>($request);
   }
 
   @override

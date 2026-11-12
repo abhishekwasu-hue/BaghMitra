@@ -58,6 +58,46 @@ const _summary2 = {
   'published_at': '2026-10-22T00:00:00Z',
   'check_issues': <Object>[],
   'approved': true,
+  'reactions': [
+    {'reaction': 'useful', 'count': 3},
+    {'reaction': 'thanks', 'count': 0},
+    {'reaction': 'liked', 'count': 0},
+    {'reaction': 'okay', 'count': 0},
+    {'reaction': 'unclear', 'count': 1},
+  ],
+};
+
+List<Map<String, Object>> _counts(Map<String, int> n) => [
+  for (final r in ['useful', 'thanks', 'liked', 'okay', 'unclear'])
+    {'reaction': r, 'count': n[r] ?? 0},
+];
+
+Map<String, Object?> _reactionRow(
+  String target,
+  String title,
+  Map<String, int> n, {
+  String kind = 'item',
+}) => {
+  'target': target,
+  'kind': kind,
+  'item_type': kind == 'item' ? 'gr' : null,
+  'title': title,
+  'counts': _counts(n),
+  'total': n.values.fold<int>(0, (a, b) => a + b),
+  'helpful': (n['useful'] ?? 0) + (n['thanks'] ?? 0) + (n['liked'] ?? 0),
+  'unclear': n['unclear'] ?? 0,
+};
+
+final _reactions = {
+  'most_helpful': [
+    _reactionRow('i2', 'Drip subsidy GR', {'useful': 3, 'unclear': 1}),
+    _reactionRow('qa:seed-psylla', 'seed-psylla', {'liked': 2}, kind: 'qa'),
+  ],
+  'least_helpful': [
+    _reactionRow('i2', 'Drip subsidy GR', {'useful': 3, 'unclear': 1}),
+  ],
+  'targets': 2,
+  'total': 6,
 };
 
 Map<String, dynamic> _detail(Map<String, dynamic> summary) => {
@@ -246,6 +286,10 @@ class FakeFeedAdmin implements FeedAdminRepository {
       'notes': notes,
     });
   }
+
+  @override
+  Future<FeedAdminReactionsResponse> reactions({int limit = 20}) async =>
+      FeedAdminReactionsResponse.fromJson(_reactions);
 }
 
 ApiFeedAdminRepository _repo(MockClientHandler handler) =>
@@ -641,6 +685,41 @@ void main() {
     await tester.pumpAndSettle();
     expect(feed.withdrawn, [('i1', 'superseded by GR-102', 'i2')]);
     expect(find.text('Replaced by i2'), findsOneWidget);
+  });
+
+  testWidgets('reactions: counts per item and the helpful lists (Q146)', (
+    tester,
+  ) async {
+    await _pump(tester);
+    await tester.tap(find.text('Govt feed'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Published'));
+    await tester.pumpAndSettle();
+    expect(find.textContaining('👍 3 · 😟 1'), findsOneWidget);
+
+    await tester.tap(find.text('Reactions'));
+    await tester.pumpAndSettle();
+    expect(find.text('2 items · 6 reactions'), findsOneWidget);
+    expect(find.text('Most helpful'), findsOneWidget);
+    expect(find.text('Least helpful'), findsOneWidget);
+    expect(
+      find.byKey(const Key('reactions-most-qa:seed-psylla')),
+      findsOneWidget,
+    );
+    expect(find.textContaining('Answer · 😊 2'), findsOneWidget);
+    expect(find.byKey(const Key('reactions-least-i2')), findsOneWidget);
+  });
+
+  test('API repository reads the reaction lists', () async {
+    final repo = _repo((req) async {
+      expect(req.url.path, '/v1/admin/feed/reactions');
+      expect(req.url.queryParameters['limit'], '5');
+      return _json(_reactions);
+    });
+    final r = await repo.reactions(limit: 5);
+    expect(r.total, 6);
+    expect(r.mostHelpful.first.helpful, 3);
+    expect(r.mostHelpful.last.kind, 'qa');
   });
 
   testWidgets('sources: set terms with a note', (tester) async {

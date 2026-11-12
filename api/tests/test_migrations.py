@@ -110,7 +110,7 @@ PUSH_TABLES = {"push_topic_prefs", "push_notices", "push_weather_seen"}
 
 
 def test_push_updates_migration_up_and_down(tmp_path: Path) -> None:
-    """0051 (Q147): the three update-push tables come and go together."""
+    """0052 (Q147): the three update-push tables come and go together."""
     url = f"sqlite+aiosqlite:///{tmp_path / 'p.db'}"
     cfg = _config(url)
     engine = create_engine(_sync_url(url))
@@ -119,14 +119,14 @@ def test_push_updates_migration_up_and_down(tmp_path: Path) -> None:
         with engine.connect() as conn:
             return set(inspect(conn).get_table_names()) & PUSH_TABLES
 
-    command.upgrade(cfg, "0051")
+    command.upgrade(cfg, "0052")
     assert tables() == PUSH_TABLES
     with engine.connect() as conn:
         uniques = inspect(conn).get_unique_constraints("push_notices")
     assert [u["column_names"] for u in uniques] == [["owner_id", "kind", "subject"]]
-    command.downgrade(cfg, "0050")
+    command.downgrade(cfg, "0051")
     assert tables() == set()
-    command.upgrade(cfg, "0051")
+    command.upgrade(cfg, "0052")
     assert tables() == PUSH_TABLES
     engine.dispose()
 
@@ -200,7 +200,7 @@ def test_postgres_migrations_and_rls() -> None:
 @pytest.mark.postgres
 @pytest.mark.skipif("POSTGRES_TEST_URL" not in os.environ, reason="needs POSTGRES_TEST_URL")
 def test_postgres_push_tables_rls() -> None:
-    """0051 (Q147): owner policies on the switches and the notice log, a no-row policy on the
+    """0052 (Q147): owner policies on the switches and the notice log, a no-row policy on the
     forecast snapshot; a client role sees only its own rows and no snapshot; reversible."""
     url = os.environ["POSTGRES_TEST_URL"]
     cfg = _config(url)
@@ -282,7 +282,7 @@ def test_postgres_push_tables_rls() -> None:
             conn.execute(text("DELETE FROM push_weather_seen"))
             conn.execute(text("DROP OWNED BY push_probe"))
             conn.execute(text("DROP ROLE push_probe"))
-    command.downgrade(cfg, "0050")
+    command.downgrade(cfg, "0051")
     with engine.connect() as conn:
         assert not set(inspect(conn).get_table_names()) & PUSH_TABLES
     command.upgrade(cfg, "head")

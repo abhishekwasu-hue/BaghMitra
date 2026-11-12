@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../theme/app_theme.dart';
 
-/// Hands a short text on (WhatsApp and the rest of the share sheet). A 48 dp icon button
-/// with a tooltip, so it fits beside a row without crowding it.
+/// Hands a short text on (WhatsApp and the rest of the share sheet). A 48 dp tonal circle
+/// with a tooltip, so it reads as a button and fits beside a row without crowding it.
 class ShareAction extends StatelessWidget {
   const ShareAction({super.key, required this.label, required this.onPressed});
 
@@ -61,6 +61,7 @@ class ShareSpeakActions extends StatelessWidget {
         label: speakLabel,
         onPressed: onSpeak,
       ),
+      const SizedBox(width: BmSpace.xs),
       ShareAction(
         key: Key('$keyPrefix-share'),
         label: shareLabel,
@@ -85,7 +86,7 @@ class _ActionIcon extends StatelessWidget {
   Widget build(BuildContext context) => IconButton(
     icon: Icon(icon),
     tooltip: label,
-    color: context.bm.brandStrong,
+    style: BmButtonStyle.icon(context.bm),
     constraints: const BoxConstraints(
       minWidth: BmSpace.tapTarget,
       minHeight: BmSpace.tapTarget,

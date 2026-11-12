@@ -1,6 +1,6 @@
 // Knowledge articles, ज्ञान लेख (Q141), at phone width, Marathi, 1.3x text, light and dark: the
 // feed list with the "ज्ञान" chip on, the article's top (badge, byline, sections) and its end
-// (sources with links, "कार्ड उघडा", the muted note). Served from the phone's cache (offline).
+// (source link chips, the green "उपाय व माहिती पहा", the muted note). Served from the phone's cache (offline).
 //   flutter test --update-goldens test/goldens/feed_knowledge_golden_test.dart
 @Tags(['golden'])
 library;
@@ -111,6 +111,7 @@ void main() {
     for (final (part, location) in [
       ('list', '/feed'),
       ('article', '/feed/k1'),
+      ('sections', '/feed/k1'),
       ('end', '/feed/k1'),
     ]) {
       final name = 'feed_knowledge_${part}_mr_${mode.name}';
@@ -135,6 +136,17 @@ void main() {
           await tester.pump(
             const Duration(seconds: 1),
           ); // the chip's check animation
+        }
+        if (part == 'sections') {
+          // The section cards: "काय करावे" with its number pills and names.
+          await tester.scrollUntilVisible(
+            find.text('काय करावे'),
+            100,
+            scrollable: find.byType(Scrollable).first,
+          );
+          await tester.ensureVisible(find.text('काय करावे'));
+          await tester.drag(find.byType(Scrollable).first, const Offset(0, 60));
+          await settle(tester);
         }
         if (part == 'end') {
           await tester.scrollUntilVisible(

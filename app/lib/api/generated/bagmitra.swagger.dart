@@ -929,6 +929,39 @@ farmer-facing deadlines are rebuilt when it is published again. Withdrawn: 409.'
     ),
   });
 
+  ///Reaction Lists
+  ///@param limit
+  Future<chopper.Response<FeedAdminReactionsResponse>> v1AdminFeedReactionsGet({
+    int? limit,
+  }) {
+    generatedMapping.putIfAbsent(
+      FeedAdminReactionsResponse,
+      () => FeedAdminReactionsResponse.fromJsonFactory,
+    );
+
+    return _v1AdminFeedReactionsGet(limit: limit);
+  }
+
+  ///Reaction Lists
+  ///@param limit
+  @GET(path: '/v1/admin/feed/reactions')
+  Future<chopper.Response<FeedAdminReactionsResponse>>
+  _v1AdminFeedReactionsGet({
+    @Query('limit') int? limit,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Readers\' reactions (Q146) as counts: the most and the least helpful feed items and
+Q&A answers. Never who reacted.''',
+      summary: 'Reaction Lists',
+      operationId: 'admin_feed_reactions',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["admin"],
+      deprecated: false,
+    ),
+  });
+
   ///Sources
   Future<chopper.Response<FeedAdminSourcesResponse>> v1AdminFeedSourcesGet() {
     generatedMapping.putIfAbsent(
@@ -4858,6 +4891,103 @@ Alerts come only from the configured rules (never from AI) and carry no chemical
       produces: [],
       security: ["HTTPBearer"],
       tags: ["weather"],
+      deprecated: false,
+    ),
+  });
+
+  ///Get Reactions
+  ///@param target
+  Future<chopper.Response<ReactionsResponse>> v1ReactionsGet({
+    required List<String>? target,
+  }) {
+    generatedMapping.putIfAbsent(
+      ReactionsResponse,
+      () => ReactionsResponse.fromJsonFactory,
+    );
+
+    return _v1ReactionsGet(target: target);
+  }
+
+  ///Get Reactions
+  ///@param target
+  @GET(path: '/v1/reactions')
+  Future<chopper.Response<ReactionsResponse>> _v1ReactionsGet({
+    @Query('target') required List<String>? target,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Counts and the caller\'s own reaction for up to 50 targets, in the order asked
+(duplicates once). A target nobody reacted to has zero counts.''',
+      summary: 'Get Reactions',
+      operationId: 'feed_reactions_get',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["feed"],
+      deprecated: false,
+    ),
+  });
+
+  ///Delete Reaction
+  ///@param target
+  Future<chopper.Response<ReactionSummaryOut>> v1ReactionsTargetDelete({
+    required String? target,
+  }) {
+    generatedMapping.putIfAbsent(
+      ReactionSummaryOut,
+      () => ReactionSummaryOut.fromJsonFactory,
+    );
+
+    return _v1ReactionsTargetDelete(target: target);
+  }
+
+  ///Delete Reaction
+  ///@param target
+  @DELETE(path: '/v1/reactions/{target}')
+  Future<chopper.Response<ReactionSummaryOut>> _v1ReactionsTargetDelete({
+    @Path('target') required String? target,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Remove the caller\'s reaction (none is fine: the answer is the same).',
+      summary: 'Delete Reaction',
+      operationId: 'feed_reaction_delete',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["feed"],
+      deprecated: false,
+    ),
+  });
+
+  ///Put Reaction
+  ///@param target
+  Future<chopper.Response<ReactionSummaryOut>> v1ReactionsTargetPut({
+    required String? target,
+    required ReactionIn? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      ReactionSummaryOut,
+      () => ReactionSummaryOut.fromJsonFactory,
+    );
+
+    return _v1ReactionsTargetPut(target: target, body: body);
+  }
+
+  ///Put Reaction
+  ///@param target
+  @PUT(path: '/v1/reactions/{target}', optionalBody: true)
+  Future<chopper.Response<ReactionSummaryOut>> _v1ReactionsTargetPut({
+    @Path('target') required String? target,
+    @Body() required ReactionIn? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Set the caller\'s reaction to a published (or withdrawn) feed item or a Q&A answer;
+a different reaction replaces the earlier one. Sending the same one again is a no-op.''',
+      summary: 'Put Reaction',
+      operationId: 'feed_reaction_put',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["feed"],
       deprecated: false,
     ),
   });

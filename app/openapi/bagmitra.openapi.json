@@ -3510,6 +3510,14 @@
             ],
             "title": "Raw Hash"
           },
+          "reactions": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/ReactionCountOut"
+            },
+            "title": "Reactions",
+            "type": "array"
+          },
           "replaced_by_id": {
             "anyOf": [
               {
@@ -3671,6 +3679,14 @@
             "title": "Published At",
             "type": "string"
           },
+          "reactions": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/ReactionCountOut"
+            },
+            "title": "Reactions",
+            "type": "array"
+          },
           "status": {
             "title": "Status",
             "type": "string"
@@ -3749,6 +3765,106 @@
           "items"
         ],
         "title": "FeedAdminItemsResponse",
+        "type": "object"
+      },
+      "FeedAdminReactionRowOut": {
+        "description": "One reacted-to target: a feed item (`kind` \"item\", with its type and title) or a\nbundled Q&A answer (`kind` \"qa\", the title is its id). Counts only.",
+        "properties": {
+          "counts": {
+            "items": {
+              "$ref": "#/components/schemas/ReactionCountOut"
+            },
+            "title": "Counts",
+            "type": "array"
+          },
+          "helpful": {
+            "title": "Helpful",
+            "type": "integer"
+          },
+          "item_type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Item Type"
+          },
+          "kind": {
+            "title": "Kind",
+            "type": "string"
+          },
+          "target": {
+            "title": "Target",
+            "type": "string"
+          },
+          "title": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Title"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          },
+          "unclear": {
+            "title": "Unclear",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "target",
+          "kind",
+          "item_type",
+          "title",
+          "counts",
+          "total",
+          "helpful",
+          "unclear"
+        ],
+        "title": "FeedAdminReactionRowOut",
+        "type": "object"
+      },
+      "FeedAdminReactionsResponse": {
+        "properties": {
+          "least_helpful": {
+            "items": {
+              "$ref": "#/components/schemas/FeedAdminReactionRowOut"
+            },
+            "title": "Least Helpful",
+            "type": "array"
+          },
+          "most_helpful": {
+            "items": {
+              "$ref": "#/components/schemas/FeedAdminReactionRowOut"
+            },
+            "title": "Most Helpful",
+            "type": "array"
+          },
+          "targets": {
+            "title": "Targets",
+            "type": "integer"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "most_helpful",
+          "least_helpful",
+          "targets",
+          "total"
+        ],
+        "title": "FeedAdminReactionsResponse",
         "type": "object"
       },
       "FeedAdminSourceOut": {
@@ -8713,6 +8829,100 @@
         "title": "RatingTagsResponse",
         "type": "object"
       },
+      "ReactionCountOut": {
+        "properties": {
+          "count": {
+            "title": "Count",
+            "type": "integer"
+          },
+          "reaction": {
+            "enum": [
+              "useful",
+              "thanks",
+              "liked",
+              "okay",
+              "unclear"
+            ],
+            "title": "Reaction",
+            "type": "string"
+          }
+        },
+        "required": [
+          "reaction",
+          "count"
+        ],
+        "title": "ReactionCountOut",
+        "type": "object"
+      },
+      "ReactionIn": {
+        "properties": {
+          "reaction": {
+            "enum": [
+              "useful",
+              "thanks",
+              "liked",
+              "okay",
+              "unclear"
+            ],
+            "title": "Reaction",
+            "type": "string"
+          }
+        },
+        "required": [
+          "reaction"
+        ],
+        "title": "ReactionIn",
+        "type": "object"
+      },
+      "ReactionSummaryOut": {
+        "description": "One target: every reaction with its count (app order, zeros included) and the caller's\nown reaction (`useful` | `thanks` | `liked` | `okay` | `unclear`), None when none.",
+        "properties": {
+          "counts": {
+            "items": {
+              "$ref": "#/components/schemas/ReactionCountOut"
+            },
+            "title": "Counts",
+            "type": "array"
+          },
+          "mine": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mine"
+          },
+          "target": {
+            "title": "Target",
+            "type": "string"
+          }
+        },
+        "required": [
+          "target",
+          "counts"
+        ],
+        "title": "ReactionSummaryOut",
+        "type": "object"
+      },
+      "ReactionsResponse": {
+        "properties": {
+          "reactions": {
+            "items": {
+              "$ref": "#/components/schemas/ReactionSummaryOut"
+            },
+            "title": "Reactions",
+            "type": "array"
+          }
+        },
+        "required": [
+          "reactions"
+        ],
+        "title": "ReactionsResponse",
+        "type": "object"
+      },
       "ReadyResponse": {
         "properties": {
           "database": {
@@ -12939,6 +13149,77 @@
           }
         ],
         "summary": "Withdraw",
+        "tags": [
+          "admin"
+        ]
+      }
+    },
+    "/v1/admin/feed/reactions": {
+      "get": {
+        "description": "Readers' reactions (Q146) as counts: the most and the least helpful feed items and\nQ&A answers. Never who reacted.",
+        "operationId": "admin_feed_reactions",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 20,
+              "maximum": 100,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedAdminReactionsResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Reaction Lists",
         "tags": [
           "admin"
         ]
@@ -23312,6 +23593,227 @@
         "summary": "Get Plot Weather",
         "tags": [
           "weather"
+        ]
+      }
+    },
+    "/v1/reactions": {
+      "get": {
+        "description": "Counts and the caller's own reaction for up to 50 targets, in the order asked\n(duplicates once). A target nobody reacted to has zero counts.",
+        "operationId": "feed_reactions_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "target",
+            "required": true,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "minItems": 1,
+              "title": "Target",
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReactionsResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Get Reactions",
+        "tags": [
+          "feed"
+        ]
+      }
+    },
+    "/v1/reactions/{target}": {
+      "delete": {
+        "description": "Remove the caller's reaction (none is fine: the answer is the same).",
+        "operationId": "feed_reaction_delete",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "target",
+            "required": true,
+            "schema": {
+              "maxLength": 80,
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}|qa:[A-Za-z0-9_-]{1,64})$",
+              "title": "Target",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReactionSummaryOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Delete Reaction",
+        "tags": [
+          "feed"
+        ]
+      },
+      "put": {
+        "description": "Set the caller's reaction to a published (or withdrawn) feed item or a Q&A answer;\na different reaction replaces the earlier one. Sending the same one again is a no-op.",
+        "operationId": "feed_reaction_put",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "target",
+            "required": true,
+            "schema": {
+              "maxLength": 80,
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}|qa:[A-Za-z0-9_-]{1,64})$",
+              "title": "Target",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReactionIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReactionSummaryOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Put Reaction",
+        "tags": [
+          "feed"
         ]
       }
     },

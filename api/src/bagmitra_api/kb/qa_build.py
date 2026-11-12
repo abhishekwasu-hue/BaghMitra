@@ -76,7 +76,7 @@ from bagmitra_api.kb.card_check import fetch_text
 from bagmitra_api.kb.qa_api import ModelClient, Reply, Request, Usage
 from bagmitra_api.kb.qa_text import index_keys, words
 
-PROMPT_VERSION = "qa-v1"
+PROMPT_VERSION = "qa-v2"  # v2: no closing "ask the KVK" lines (owner)
 LANGS = ("mr", "hi", "en")
 ANSWER_GROUP = 5
 PARAPHRASE_GROUP = 25
@@ -153,9 +153,11 @@ For each question:
   one.
 - Name no pesticide, fungicide, growth regulator or fertiliser product and give no dose beyond
   what the document itself states. Where the document lists a registered label claim, give it as
-  printed and say that the label and the KVK have the full directions.
-- Calm tone: no alarm words, no promises, no praise or criticism. Where the document says to ask
-  the KVK or an officer, say so.
+  printed.
+- Calm tone: no alarm words, no promises, no praise or criticism.
+- Do not end an answer with a line that only sends the farmer to the KVK, an expert or an
+  officer ("for more information ask your KVK", "the label and the KVK have the full
+  directions"): the owner removed such closing lines from the app. Every line carries a fact.
 - "source_keys": the keys of the <source key="..."> blocks (or of the label / schedule rows) the
   answer uses; [] when it uses only the card points.
 Answer with one JSON object:
@@ -634,6 +636,56 @@ def check_answer(
     return list(dict.fromkeys(reasons))
 
 
+# Closing "ask the KVK" lines (owner: such "check with your local expert" lines are
+# unnecessary warnings) --------------------------------------------------------------------------
+
+REFERRAL = {
+    "en": re.compile(r"\b(kvk|krishi vigyan kendra|experts?|officers?)\b", re.IGNORECASE),
+    "mr": re.compile(r"KVK|कृषी विज्ञान केंद्र|कृषि विज्ञान केंद्र|तज्ज्ञ|अधिकारी"),
+    "hi": re.compile(r"KVK|कृषि विज्ञान केंद्र|विशेषज्ञ|अधिकारी"),
+}
+# English words that carry no fact in a referral line ("For more details, please check the
+# label and ask your KVK").
+REFERRAL_FILLER = frozenset(
+    """a about advice advise advised also amount amounts an and any apply applying are ask at be
+    before can check confirm consult contact correct detail details directions direction do dose
+    doses doubt doubts exact expert experts for from full further get guidance guide has have
+    help here if in including information info instructions is it its kvk krishi label labels
+    level list local more name names nearest need not of officer officers on only or please
+    product products quantities quantity questions read see should so spray spraying sure that
+    the their them there these this those timing to unsure use using vigyan kendra want when
+    with you your agricultural agriculture orchard own method reference needed""".split()  # noqa: SIM905 - a word list
+)
+_DIGIT = re.compile("[0-9\u0966-\u096f]")
+
+
+def is_referral(lang: str, line: str) -> bool:
+    """A line that only refers the farmer to the KVK, an expert or an officer: it names one,
+    has no number, and (read on the English line) every other clause is either a "For ..." /
+    "If ..." / "To ..." lead-in or words that carry no fact. "Only a lab test confirms
+    greening; ask your KVK" carries a fact and is kept."""
+    if _DIGIT.search(line) or not REFERRAL[lang].search(line):
+        return False
+    if lang != "en":
+        return True
+    for raw in re.split(r"[;,.:]| so ", line.lower()):
+        clause = raw.strip()
+        if REFERRAL["en"].search(clause) or clause.startswith(("for ", "if ", "to ")):
+            continue
+        if any(w not in REFERRAL_FILLER for w in re.findall(r"[a-z]+", clause)):
+            return False
+    return True
+
+
+def strip_referral_tail(answer: Mapping[str, list[str]]) -> tuple[dict[str, list[str]], bool]:
+    """The answer without its last line when that line, in every language, only refers the
+    farmer to the KVK / an expert / an officer; lines inside the answer stay."""
+    out = {lang: list(answer.get(lang) or []) for lang in LANGS}
+    if all(len(out[lang]) > 1 and is_referral(lang, out[lang][-1]) for lang in LANGS):
+        return {lang: lines[:-1] for lang, lines in out.items()}, True
+    return out, False
+
+
 # The build --------------------------------------------------------------------------------------
 
 
@@ -650,6 +702,8 @@ class BuildReport:
     paraphrases: int = 0
     unreadable_sources: dict[str, str] = field(default_factory=dict)
     skipped: list[str] = field(default_factory=list)
+    referral_lines_removed: int = 0
+    seed_entries: int = 0
     asset_bytes: int = 0
     asset_raw_bytes: int = 0
 
@@ -862,13 +916,17 @@ class Builder:
                 used = [k for k in _strings(a.get("source_keys")) if k in t.sources] or list(
                     t.sources
                 )
+                lines, stripped = strip_referral_tail(
+                    {lang: _strings(a.get(lang)) for lang in LANGS}
+                )
+                self.report.referral_lines_removed += stripped
                 kept.append(
                     {
                         "id": qid,
                         "t": t.key,
                         "sec": t.section,
                         "q": dict(q),
-                        "a": {lang: _strings(a.get(lang)) for lang in LANGS},
+                        "a": lines,
                         "s": used,
                         "p": [],
                     }
@@ -967,6 +1025,8 @@ def asset(
     return {
         "version": 1,
         "kind": kind,
+        # Generated answers have had their closing "ask the KVK" line removed (once only).
+        "tidy": kind == "generated",
         "note": STORED_NOTE,
         "langs": list(LANGS),
         "src": {k: {"t": sources[k][0], "u": sources[k][1]} for k in sorted(used) if k in sources},
@@ -1001,6 +1061,8 @@ def report_markdown(report: BuildReport, usage: Usage, mode: str) -> str:
         f"{report.duplicates_removed}",
         f"- Answers kept: {report.answers_kept} · dropped: "
         + (", ".join(f"{k} {v}" for k, v in sorted(report.answers_dropped.items())) or "0"),
+        f"- Closing 'ask the KVK' lines removed: {report.referral_lines_removed}",
+        f"- Seed entries kept (card texts): {report.seed_entries}",
         f"- Paraphrases: {report.paraphrases}",
         "- Errors (retried on the next run): "
         + (", ".join(f"{k}: {v}" for k, v in sorted(report.errors.items())) or "none"),
@@ -1094,6 +1156,42 @@ def build_seed(cards: Mapping[str, Any]) -> dict[str, Any]:
             break
     sources = {k: (str(v.get("title", k)), str(v.get("url", ""))) for k, v in srcs.items()}
     return asset(entries, sources, "seed")
+
+
+def merge_seed(
+    entries: Sequence[dict[str, Any]], cards: Mapping[str, Any]
+) -> tuple[list[dict[str, Any]], int]:
+    """The seed entries (card texts, word for word) first, then the generated ones whose
+    question is not a near-duplicate of a seed question; returns (entries, generated dropped)."""
+    seed = build_seed(cards)["entries"]
+    plain = [{k: v for k, v in e.items() if k != "k"} for e in seed]
+    kept, _ = dedupe([e["q"] for e in plain] + [e["q"] for e in entries])
+    ids = {id(q) for q in kept}
+    generated = [e for e in entries if id(e["q"]) in ids and not e["id"].startswith("seed-")]
+    return [*plain, *generated], len(entries) - len(generated)
+
+
+def finalise_asset(
+    data: Mapping[str, Any], cards: Mapping[str, Any]
+) -> tuple[dict[str, Any], dict[str, int]]:
+    """A generated asset made final: closing referral lines removed from generated answers,
+    the seed merged in, search keys rebuilt. Returns (asset, counts)."""
+    generated = []
+    removed = 0
+    done = bool(data.get("tidy"))
+    for e in data.get("entries", []):
+        if e["id"].startswith("seed-"):
+            continue
+        lines, stripped = (e["a"], False) if done else strip_referral_tail(e["a"])
+        removed += stripped
+        generated.append({**{k: v for k, v in e.items() if k != "k"}, "a": lines})
+    merged, dropped = merge_seed(generated, cards)
+    sources = {k: (v["t"], v["u"]) for k, v in data.get("src", {}).items()}
+    sources.update(
+        {k: (str(v.get("title", k)), str(v.get("url", ""))) for k, v in cards["sources"].items()}
+    )
+    counts = {"referral_lines_removed": removed, "duplicates_of_seed": dropped}
+    return asset(merged, sources, "generated"), counts
 
 
 # CLI --------------------------------------------------------------------------------------------
@@ -1202,7 +1300,9 @@ def finish(
         print("No answer passed the checks: the asset was not written.", file=sys.stderr)
         code = 1
     else:
-        raw, packed = write_asset(asset(entries, sources, "generated"), Path(args.out))
+        merged, dropped = merge_seed(entries, practice_cards())
+        report.seed_entries = len(merged) - (len(entries) - dropped)
+        raw, packed = write_asset(asset(merged, sources, "generated"), Path(args.out))
         report.asset_raw_bytes, report.asset_bytes = raw, packed
         code = 0
     usage = builder.usage()
@@ -1230,6 +1330,10 @@ def parser() -> argparse.ArgumentParser:
     b.add_argument("--schemes", action="store_true", help="add official feed items (database)")
     s = sub.add_parser("seed", help="write the seed asset from the card texts (no model)")
     s.add_argument("--out", required=True)
+    f = sub.add_parser(
+        "finalise", help="tidy a generated asset (closing KVK lines, seed merged), no model"
+    )
+    f.add_argument("--asset", required=True)
     return p
 
 
@@ -1238,6 +1342,12 @@ def main(argv: list[str]) -> int:  # pragma: no cover - thin CLI wrapper
     if args.command == "seed":
         raw, packed = write_asset(build_seed(practice_cards()), Path(args.out))
         print(f"seed written: {raw} bytes JSON, {packed} bytes gzipped")
+        return 0
+    if args.command == "finalise":
+        data, counts = finalise_asset(read_asset(Path(args.asset)), practice_cards())
+        raw, packed = write_asset(data, Path(args.asset))
+        print(json.dumps({**counts, "entries": len(data["entries"]), "json_bytes": raw,
+                          "gz_bytes": packed}))  # fmt: skip
         return 0
     return asyncio.run(run_build(args, get_settings()))
 

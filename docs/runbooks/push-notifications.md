@@ -130,7 +130,7 @@ FCM चालू असताना (वरील पायऱ्या) deploy.
   `AppConfig.pushEnabled` = `PUSH=true` and not demo mode.
 - Update pushes (Q147): `api/src/bagmitra_api/push/updates.py` (job), `push/changes.py` (pure
   change checks), `push/texts.py` (mr / hi / en words, calm, Marathi digits). Tables (migration
-  0051): `push_topic_prefs` (owner RLS; the three switches, `GET`/`PUT /v1/me/push-topics`),
+  0052): `push_topic_prefs` (owner RLS; the three switches, `GET`/`PUT /v1/me/push-topics`),
   `push_notices` (owner RLS; sent log, unique per owner + kind + subject, so a re-run never
   repeats; weather rows wait there until sent, dropped after 24 h), `push_weather_seen`
   (service-only; "the previous forecast" per cell and day). Data payloads: article

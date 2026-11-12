@@ -112,6 +112,11 @@ async def _fill(c: httpx.AsyncClient, user: uuid.UUID) -> uuid.UUID:
         "digest_weekly": True,
     }
     assert (await c.put("/v1/me/feed-preferences", json=prefs, headers=headers)).status_code == 200
+    # Q146: a reaction to a bundled Q&A answer (no feed item needed).
+    reaction = await c.put(
+        "/v1/reactions/qa:seed-psylla", json={"reaction": "useful"}, headers=headers
+    )
+    assert reaction.status_code == 200, reaction.text
     return record_id
 
 
@@ -162,6 +167,7 @@ def test_owner_tables_cover_every_grower_table() -> None:
         "push_devices",
         "feed_receipts",
         "feed_preferences",
+        "feed_reactions",
         "insurance_policies",
         "lab_tests",
         "scouting_records",
@@ -182,9 +188,14 @@ async def test_erases_everything_of_the_caller_only(
         await _fill(c, other)
         await _add_snapshot(engine, user_id)
         before = await _owned_counts(engine, user_id)
-        assert {"farmers", "plots", "sync_mutations", "push_devices", "feed_preferences"} <= set(
-            before
-        )
+        assert {
+            "farmers",
+            "plots",
+            "sync_mutations",
+            "push_devices",
+            "feed_preferences",
+            "feed_reactions",
+        } <= set(before)
         other_before = await _owned_counts(engine, other)
 
         r = await c.delete("/v1/me", headers={"Authorization": f"Bearer {make_token(user_id)}"})

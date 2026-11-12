@@ -8,8 +8,8 @@ and sudden weather changes (`push/updates.py`).
 - `push_weather_seen` (service only: RLS forced with one policy that matches no row): the
   forecast per weather cell and day as the change check last compared it.
 
-Revision ID: 0051
-Revises: 0050
+Revision ID: 0052
+Revises: 0051
 Create Date: 2026-11-12
 """
 
@@ -25,8 +25,8 @@ from bagmitra_api.db.rls import (
     enable_policy_rls,
 )
 
-revision = "0051"
-down_revision = "0050"
+revision = "0052"
+down_revision = "0051"
 branch_labels = None
 depends_on = None
 

@@ -422,6 +422,7 @@ class _BillPhotoField extends StatelessWidget {
                       ),
                     TextButton.icon(
                       key: const Key('bill-photo-remove'),
+                      style: BmButtonStyle.destructive(context.bm),
                       onPressed: busy ? null : onRemove,
                       icon: const Icon(Icons.close_rounded),
                       label: Text(t.scoutingRemovePhoto),

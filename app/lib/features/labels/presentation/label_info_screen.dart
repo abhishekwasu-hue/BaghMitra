@@ -501,6 +501,7 @@ class _ClaimDetails extends ConsumerWidget {
             alignment: AlignmentDirectional.centerStart,
             child: TextButton.icon(
               key: const Key('label-maker-page'),
+              style: BmButtonStyle.link(c),
               onPressed: () => ref.read(urlOpenerProvider)(Uri.parse(maker)),
               icon: const Icon(Icons.open_in_new),
               label: Text(t.labelInfoMakerPage),
