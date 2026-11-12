@@ -1505,5 +1505,21 @@
   "billFieldCost": "खर्च",
   "billFieldAmount": "रक्कम",
   "billFieldDate": "तारीख",
-  "billFieldNote": "टीप"
+  "billFieldNote": "टीप",
+  "sprayProductHeading": "घटक {n}",
+  "sprayAddProduct": "+ आणखी घटक जोडा",
+  "sprayRemoveProduct": "घटक {n} काढा",
+  "spraySharedHeading": "संपूर्ण फवारणीसाठी",
+  "sprayMix": "मिश्रण: {names}",
+  "sprayMixHeading": "मिश्रण:",
+  "sprayMixTotal": "एकूण खर्च {amount}",
+  "sprayMixPhi": "मिश्रणाचा प्रतीक्षा कालावधी: {days} दिवस (सर्वांत जास्त)",
+  "sprayPhiDays": "PHI {days} दिवस",
+  "sprayDetailTitle": "फवारणी नोंद",
+  "sprayDetailWater": "पाणी {litres} लिटर",
+  "sprayDetailArea": "{acres} एकर",
+  "sprayDetailOperator": "फवारणी करणारा: {name}",
+  "sprayDetailProducts": "टाकीतील घटक",
+  "billPickManyTitle": "या फवारणीत मिसळलेल्या बिलातील ओळी निवडा",
+  "billPickMany": "निवडलेल्या {count} ओळी भरा"
 }

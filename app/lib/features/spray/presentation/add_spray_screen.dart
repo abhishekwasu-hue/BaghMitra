@@ -19,9 +19,51 @@ import '../domain/spray_record.dart';
 import 'spray_ingredient_picker.dart';
 import 'spray_warnings.dart';
 
-/// Records one spray. Warnings appear while typing (offline, from the cached ban list) and
-/// never block saving: the record is a fact about what the grower did. An optional bill
-/// photo is kept with the record and can fill the empty fields (OPEN_QUESTIONS Q136).
+/// The key of a product block's field: the first block keeps the plain key ("spray-product"),
+/// block i > 0 gets "spray-product-i".
+String sprayFieldKey(String base, int block) =>
+    block == 0 ? base : '$base-$block';
+
+/// One product block of the form: what went into the tank (Q142).
+class _ProductFields {
+  _ProductFields(this.id, VoidCallback onChange) {
+    for (final c in all) {
+      c.addListener(onChange);
+    }
+  }
+
+  /// Stable across removals, so a block keeps its picker state.
+  final int id;
+  final product = TextEditingController();
+  final active = TextEditingController();
+  final dose = TextEditingController();
+  final phi = TextEditingController();
+  final cost = TextEditingController();
+
+  List<TextEditingController> get all => [product, active, dose, phi, cost];
+
+  bool get isBlank => all.every((c) => c.text.trim().isEmpty);
+
+  Map<BillField, TextEditingController> get billFields => {
+    BillField.product: product,
+    BillField.active: active,
+    BillField.dose: dose,
+    BillField.cost: cost,
+  };
+
+  void dispose() {
+    for (final c in all) {
+      c.dispose();
+    }
+  }
+}
+
+/// Records one spray. Several products mixed in one tank are one spray (Q142): each product
+/// has its name, ingredient, dose, PHI and cost; date, bahar, water, area, target, sprayer
+/// and the bill photo are the spray's. Warnings appear while typing (offline, from the cached
+/// ban list) on the product they are about and never block saving: the record is a fact
+/// about what the grower did. An optional bill photo is kept with the record and can fill
+/// the empty fields (OPEN_QUESTIONS Q136).
 class AddSprayScreen extends ConsumerStatefulWidget {
   const AddSprayScreen({required this.plotId, super.key});
   final String plotId;
@@ -33,47 +75,54 @@ class AddSprayScreen extends ConsumerStatefulWidget {
 class _AddSprayScreenState extends ConsumerState<AddSprayScreen>
     with BillPhotoForm<AddSprayScreen> {
   final _form = GlobalKey<FormState>();
-  final _product = TextEditingController();
-  final _active = TextEditingController();
-  final _dose = TextEditingController();
+  late final List<_ProductFields> _products = [_ProductFields(0, _refresh)];
+  var _nextId = 1;
   final _water = TextEditingController();
   final _area = TextEditingController();
-  final _cost = TextEditingController();
   final _operator = TextEditingController();
-  final _phi = TextEditingController();
   final _target = TextEditingController();
   DateTime? _date;
   String? _cycle;
 
-  List<TextEditingController> get _all => [
-    _product,
-    _active,
-    _dose,
+  List<TextEditingController> get _shared => [
     _water,
     _area,
-    _cost,
     _operator,
-    _phi,
     _target,
   ];
 
   @override
   void initState() {
     super.initState();
-    for (final c in _all) {
+    for (final c in _shared) {
       c.addListener(_refresh);
     }
   }
 
   @override
   void dispose() {
-    for (final c in _all) {
+    for (final c in _shared) {
       c.dispose();
+    }
+    for (final p in _products) {
+      p.dispose();
     }
     super.dispose();
   }
 
   void _refresh() => setState(() {});
+
+  _ProductFields _addProduct() {
+    final p = _ProductFields(_nextId++, _refresh);
+    setState(() => _products.add(p));
+    return p;
+  }
+
+  void _removeProduct(_ProductFields p) {
+    setState(() => _products.remove(p));
+    // Its fields leave the tree in this frame; free the controllers after it.
+    WidgetsBinding.instance.addPostFrameCallback((_) => p.dispose());
+  }
 
   String? _opt(TextEditingController c) =>
       c.text.trim().isEmpty ? null : c.text.trim();
@@ -83,37 +132,57 @@ class _AddSprayScreenState extends ConsumerState<AddSprayScreen>
     return DateTime(now.year, now.month, now.day);
   }
 
-  /// "बिलावरून भरा": the picked bill line fills only what is still empty.
+  /// "बिलावरून भरा": every ticked bill line fills one product block, only what is still
+  /// empty; lines beyond the blocks add blocks.
   Future<void> _fillFromBill() async {
     final bill = await readBill();
     if (bill == null || !mounted) return;
     if (bill.items.isEmpty) return showBillUnsure();
-    final item = (await showBillPickSheet(context, bill))?.item;
-    if (item == null || !mounted) return;
+    final items = await showBillPickManySheet(context, bill);
+    if (items == null || items.isEmpty || !mounted) return;
     final today = _today;
-    final controllers = {
-      BillField.product: _product,
-      BillField.active: _active,
-      BillField.dose: _dose,
-      BillField.cost: _cost,
-    };
-    final r = sprayFill(
-      item: item,
+    final r = sprayFillMany(
+      items: items,
       bill: bill,
-      current: {
-        for (final MapEntry(:key, :value) in controllers.entries)
-          key: value.text.trim(),
-      },
+      blocks: [
+        for (final p in _products)
+          {
+            for (final MapEntry(:key, :value) in p.billFields.entries)
+              key: value.text.trim(),
+          },
+      ],
       dateIsDefault: _date == null,
       firstDate: DateTime(today.year - 2),
       lastDate: DateTime(today.year + 1),
     );
-    for (final MapEntry(:key, :value) in r.fill.entries) {
-      controllers[key]!.text = value;
+    final filled = <BillField>{};
+    for (final (i, fill) in r.fills.indexed) {
+      final block = i < _products.length ? _products[i] : _addProduct();
+      for (final MapEntry(:key, :value) in fill.entries) {
+        block.billFields[key]!.text = value;
+      }
+      filled.addAll(fill.keys);
     }
     if (r.date != null) _date = r.date;
-    showBillFilled(bill, [...r.fill.keys, if (r.date != null) BillField.date]);
+    showBillFilled(bill, [
+      for (final f in sprayProductFields)
+        if (filled.contains(f)) f,
+      if (r.date != null) BillField.date,
+    ]);
   }
+
+  List<SprayProduct> get _filledProducts => [
+    for (final (i, p) in _products.indexed)
+      // An extra block left empty is not a product.
+      if (i == 0 || !p.isBlank)
+        SprayProduct(
+          productName: p.product.text.trim(),
+          activeIngredient: _opt(p.active),
+          dose: _opt(p.dose),
+          costPaise: parseRupeesToPaise(p.cost.text) ?? 0,
+          phiDays: int.tryParse(p.phi.text.trim()),
+        ),
+  ];
 
   Future<void> _save(DateTime date) async {
     if (!_form.currentState!.validate()) return;
@@ -126,19 +195,15 @@ class _AddSprayScreenState extends ConsumerState<AddSprayScreen>
       return; // told in keepBill; nothing is saved
     }
     await repo.save(
-      SprayRecord(
+      SprayRecord.ofProducts(
         id: id,
         plotId: widget.plotId,
         baharCycleId: _cycle,
         sprayedOn: date,
-        productName: _product.text.trim(),
-        activeIngredient: _opt(_active),
-        dose: _opt(_dose),
+        products: _filledProducts,
         waterLitres: double.tryParse(_water.text.trim()),
         areaAcres: double.tryParse(_area.text.trim()),
-        costPaise: parseRupeesToPaise(_cost.text) ?? 0,
         operator: _opt(_operator),
-        phiDays: int.tryParse(_phi.text.trim()),
         target: _opt(_target),
         billPhotoPath: bill,
       ),
@@ -171,20 +236,138 @@ class _AddSprayScreenState extends ConsumerState<AddSprayScreen>
         .where((cy) => cy.id == _cycle)
         .firstOrNull
         ?.planned['harvest'];
-    final warnings = checkSpray(
-      activeIngredient: _active.text,
-      sprayedOn: date,
-      phiDays: int.tryParse(_phi.text.trim()),
-      plannedHarvest: harvest,
-      crop: cropRulesFor(ref, plot?.crop),
-      rules: rules,
-    );
+    final crop = cropRulesFor(ref, plot?.crop);
     String? number(String? v) =>
         (v ?? '').trim().isEmpty || (double.tryParse(v!.trim()) ?? -1) > 0
         ? null
         : t.invalidNumber;
     const gap = SizedBox(height: BmSpace.md);
     const decimal = TextInputType.numberWithOptions(decimal: true);
+    final mixed = _products.length > 1;
+    final totalPaise = _products.fold<int>(
+      0,
+      (sum, p) => sum + (parseRupeesToPaise(p.cost.text) ?? 0),
+    );
+
+    Widget productBlock(int i, _ProductFields p) {
+      final warnings = checkSpray(
+        activeIngredient: p.active.text,
+        sprayedOn: date,
+        phiDays: int.tryParse(p.phi.text.trim()),
+        plannedHarvest: harvest,
+        crop: crop,
+        rules: rules,
+      );
+      final n = formatInt(i + 1, lang);
+      final fields = Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          if (mixed) ...[
+            ConstrainedBox(
+              // As tall as the remove control, so every block's heading lines up.
+              constraints: const BoxConstraints(minHeight: BmSpace.tapTarget),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      t.sprayProductHeading(n),
+                      style: BmType.section.copyWith(color: c.brandStrong),
+                    ),
+                  ),
+                  if (i > 0)
+                    IconButton(
+                      key: Key('spray-remove-$i'),
+                      tooltip: t.sprayRemoveProduct(n),
+                      onPressed: () => _removeProduct(p),
+                      icon: Icon(Icons.close_rounded, color: c.inkMuted),
+                    ),
+                ],
+              ),
+            ),
+            const SizedBox(height: BmSpace.sm),
+          ],
+          for (final w in warnings) ...[
+            Builder(
+              builder: (_) {
+                final (title, body) = warningText(t, w, lang);
+                return Column(
+                  key: Key(sprayFieldKey('spray-note-${w.kind.name}', i)),
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: BmType.label.copyWith(color: c.inkMuted),
+                    ),
+                    InfoNote(body),
+                  ],
+                );
+              },
+            ),
+            const SizedBox(height: BmSpace.sm),
+          ],
+          TextFormField(
+            key: Key(sprayFieldKey('spray-product', i)),
+            controller: p.product,
+            decoration: InputDecoration(
+              labelText: t.sprayProduct,
+              suffixIcon: VoiceMicButton(
+                onResult: (text, {required isFinal}) => p.product.text = text,
+              ),
+            ),
+            validator: (v) => (v ?? '').trim().isEmpty && (i == 0 || !p.isBlank)
+                ? t.requiredSprayProduct
+                : null,
+          ),
+          gap,
+          SprayIngredientPicker(controller: p.active),
+          gap,
+          TextFormField(
+            key: Key(sprayFieldKey('spray-dose', i)),
+            controller: p.dose,
+            decoration: InputDecoration(labelText: t.sprayDose),
+          ),
+          gap,
+          TextFormField(
+            key: Key(sprayFieldKey('spray-phi', i)),
+            controller: p.phi,
+            keyboardType: TextInputType.number,
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+            decoration: InputDecoration(labelText: t.sprayPhi),
+          ),
+          gap,
+          TextFormField(
+            key: Key(sprayFieldKey('spray-cost', i)),
+            controller: p.cost,
+            keyboardType: decimal,
+            decoration: InputDecoration(labelText: t.sprayCost),
+            validator: (v) =>
+                (v ?? '').trim().isEmpty || parseRupeesToPaise(v!) != null
+                ? null
+                : t.invalidNumber,
+          ),
+        ],
+      );
+      // Keyed by the block's id (not its place), so removing one keeps the others' state;
+      // the same widget type with or without the frame, so adding one keeps it too.
+      return Container(
+        key: ValueKey('spray-block-${p.id}'),
+        margin: const EdgeInsets.only(bottom: BmSpace.md),
+        padding: mixed
+            ? const EdgeInsets.fromLTRB(
+                BmSpace.md,
+                BmSpace.xs,
+                BmSpace.md,
+                BmSpace.md,
+              )
+            : EdgeInsets.zero,
+        decoration: BoxDecoration(
+          border: mixed ? Border.all(color: c.line) : null,
+          borderRadius: BorderRadius.circular(BmRadius.card),
+        ),
+        child: fields,
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(title: AppBarTitle(t.addSpray)),
       body: Form(
@@ -192,42 +375,33 @@ class _AddSprayScreenState extends ConsumerState<AddSprayScreen>
         child: ListView(
           padding: const EdgeInsets.all(BmSpace.lg),
           children: [
-            for (final w in warnings) ...[
-              Builder(
-                builder: (_) {
-                  final (title, body) = warningText(t, w, lang);
-                  return Column(
-                    key: Key('spray-note-${w.kind.name}'),
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        title,
-                        style: BmType.label.copyWith(color: c.inkMuted),
-                      ),
-                      InfoNote(body),
-                    ],
-                  );
-                },
-              ),
-              const SizedBox(height: BmSpace.sm),
-            ],
             billField(onFill: _fillFromBill),
             gap,
-            TextFormField(
-              key: const Key('spray-product'),
-              controller: _product,
-              decoration: InputDecoration(
-                labelText: t.sprayProduct,
-                suffixIcon: VoiceMicButton(
-                  onResult: (text, {required isFinal}) => _product.text = text,
-                ),
+            for (final (i, p) in _products.indexed) productBlock(i, p),
+            Align(
+              alignment: AlignmentDirectional.centerStart,
+              child: OutlinedButton(
+                key: const Key('spray-add-product'),
+                onPressed: _addProduct,
+                child: Text(t.sprayAddProduct),
               ),
-              validator: (v) =>
-                  (v ?? '').trim().isEmpty ? t.requiredSprayProduct : null,
             ),
+            if (mixed && totalPaise > 0) ...[
+              const SizedBox(height: BmSpace.sm),
+              Text(
+                t.sprayMixTotal(formatPaise(totalPaise, lang)),
+                key: const Key('spray-mix-total'),
+                style: BmType.bodyStrong.copyWith(color: c.ink),
+              ),
+            ],
             gap,
-            SprayIngredientPicker(controller: _active),
-            gap,
+            if (mixed) ...[
+              Text(
+                t.spraySharedHeading,
+                style: BmType.section.copyWith(color: c.brandStrong),
+              ),
+              const SizedBox(height: BmSpace.xs),
+            ],
             ListTile(
               key: const Key('spray-date'),
               contentPadding: EdgeInsets.zero,
@@ -270,12 +444,7 @@ class _AddSprayScreenState extends ConsumerState<AddSprayScreen>
               gap,
             ],
             TextFormField(
-              key: const Key('spray-dose'),
-              controller: _dose,
-              decoration: InputDecoration(labelText: t.sprayDose),
-            ),
-            gap,
-            TextFormField(
+              key: const Key('spray-water'),
               controller: _water,
               keyboardType: decimal,
               inputFormatters: [
@@ -286,6 +455,7 @@ class _AddSprayScreenState extends ConsumerState<AddSprayScreen>
             ),
             gap,
             TextFormField(
+              key: const Key('spray-area'),
               controller: _area,
               keyboardType: decimal,
               inputFormatters: [
@@ -296,14 +466,7 @@ class _AddSprayScreenState extends ConsumerState<AddSprayScreen>
             ),
             gap,
             TextFormField(
-              key: const Key('spray-phi'),
-              controller: _phi,
-              keyboardType: TextInputType.number,
-              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-              decoration: InputDecoration(labelText: t.sprayPhi),
-            ),
-            gap,
-            TextFormField(
+              key: const Key('spray-target'),
               controller: _target,
               decoration: InputDecoration(
                 labelText: t.sprayTarget,
@@ -314,17 +477,7 @@ class _AddSprayScreenState extends ConsumerState<AddSprayScreen>
             ),
             gap,
             TextFormField(
-              key: const Key('spray-cost'),
-              controller: _cost,
-              keyboardType: decimal,
-              decoration: InputDecoration(labelText: t.sprayCost),
-              validator: (v) =>
-                  (v ?? '').trim().isEmpty || parseRupeesToPaise(v!) != null
-                  ? null
-                  : t.invalidNumber,
-            ),
-            gap,
-            TextFormField(
+              key: const Key('spray-operator'),
               controller: _operator,
               decoration: InputDecoration(labelText: t.sprayOperator),
             ),

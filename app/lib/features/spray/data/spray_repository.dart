@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:drift/drift.dart';
 import 'package:uuid/uuid.dart';
 
@@ -159,6 +161,11 @@ class SprayRepository implements BillPhotoRecords {
           clientUpdatedAt: at.toUtc(),
           billPhotoPath: billPhotoPath,
           billPhotoKey: Value(s.billPhotoKey),
+          products: Value(
+            s.mix.isEmpty
+                ? null
+                : jsonEncode([for (final p in s.mix) p.toPayload()]),
+          ),
         ),
       );
 
@@ -178,5 +185,8 @@ class SprayRepository implements BillPhotoRecords {
     target: r.target,
     billPhotoPath: r.billPhotoPath,
     billPhotoKey: r.billPhotoKey,
+    mix: r.products == null
+        ? const []
+        : SprayRecord.productsFrom(jsonDecode(r.products!)),
   );
 }

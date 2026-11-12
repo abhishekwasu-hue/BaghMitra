@@ -5231,4 +5231,73 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get billFieldNote => 'टिप्पणी';
+
+  @override
+  String sprayProductHeading(String n) {
+    return 'घटक $n';
+  }
+
+  @override
+  String get sprayAddProduct => '+ एक और घटक जोड़ें';
+
+  @override
+  String sprayRemoveProduct(String n) {
+    return 'घटक $n हटाएँ';
+  }
+
+  @override
+  String get spraySharedHeading => 'पूरे छिड़काव के लिए';
+
+  @override
+  String sprayMix(String names) {
+    return 'मिश्रण: $names';
+  }
+
+  @override
+  String get sprayMixHeading => 'मिश्रण:';
+
+  @override
+  String sprayMixTotal(String amount) {
+    return 'कुल खर्च $amount';
+  }
+
+  @override
+  String sprayMixPhi(String days) {
+    return 'मिश्रण की प्रतीक्षा अवधि: $days दिन (सबसे लंबी)';
+  }
+
+  @override
+  String sprayPhiDays(String days) {
+    return 'PHI $days दिन';
+  }
+
+  @override
+  String get sprayDetailTitle => 'छिड़काव रिकॉर्ड';
+
+  @override
+  String sprayDetailWater(String litres) {
+    return 'पानी $litres लीटर';
+  }
+
+  @override
+  String sprayDetailArea(String acres) {
+    return '$acres एकड़';
+  }
+
+  @override
+  String sprayDetailOperator(String name) {
+    return 'छिड़काव करने वाला: $name';
+  }
+
+  @override
+  String get sprayDetailProducts => 'टंकी के घटक';
+
+  @override
+  String get billPickManyTitle =>
+      'इस छिड़काव में मिलाई गई बिल की पंक्तियाँ चुनें';
+
+  @override
+  String billPickMany(String count) {
+    return 'चुनी गई $count पंक्तियाँ भरें';
+  }
 }

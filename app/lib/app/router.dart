@@ -68,6 +68,7 @@ import '../features/schemes/presentation/scheme_screens.dart';
 import '../features/scouting/presentation/scouting_screens.dart';
 import '../features/settings/presentation/settings_screen.dart';
 import '../features/spray/presentation/add_spray_screen.dart';
+import '../features/spray/presentation/spray_detail_screen.dart';
 import '../features/spray/presentation/spray_log_screen.dart';
 import '../features/tasks/presentation/add_task_screen.dart';
 import '../features/tasks/presentation/tasks_screen.dart';
@@ -185,6 +186,8 @@ abstract final class Routes {
   static String weatherForecast(String plotId) => '/plots/$plotId/weather';
   static String sprays(String plotId) => '/plots/$plotId/sprays';
   static String addSpray(String plotId) => '/plots/$plotId/sprays/new';
+  static String spray(String plotId, String sprayId) =>
+      '/plots/$plotId/sprays/view/$sprayId';
   static String labels(String plotId, {String? target}) =>
       '/plots/$plotId/labels${target == null ? '' : '?target=$target'}';
 
@@ -547,6 +550,13 @@ GoRouter buildRouter(
       GoRoute(
         path: '/plots/:id/sprays/new',
         builder: (_, s) => AddSprayScreen(plotId: s.pathParameters['id']!),
+      ),
+      GoRoute(
+        path: '/plots/:id/sprays/view/:sprayId',
+        builder: (_, s) => SprayDetailScreen(
+          plotId: s.pathParameters['id']!,
+          sprayId: s.pathParameters['sprayId']!,
+        ),
       ),
       GoRoute(
         path: '/plots/:id/labels',

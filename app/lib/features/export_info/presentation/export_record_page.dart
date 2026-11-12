@@ -174,6 +174,8 @@ List<ExportRecordContent> exportRecordPages({
     rows,
     first: exportRecordFirstRows,
     other: exportRecordOtherRows,
+    // A mix prints its "Mix:" line and a line per product.
+    weight: (r) => r.isMix ? r.products.length + 1 : 1,
   );
   return [
     for (var i = 0; i < pages.length; i++)
@@ -190,7 +192,17 @@ List<ExportRecordContent> exportRecordPages({
           for (final r in pages[i])
             (
               date: formatDate(r.sprayedOn, lang),
-              product: [r.product, ?r.activeIngredient, ?r.dose].join(' · '),
+              product: r.isMix
+                  ? [
+                      t.sprayMixHeading,
+                      for (final p in r.products)
+                        [
+                          p.productName,
+                          ?p.activeIngredient,
+                          ?p.dose,
+                        ].join(' · '),
+                    ].join('\n')
+                  : [r.product, ?r.activeIngredient, ?r.dose].join(' · '),
               label: labelStatusText(t, r.status),
               status: r.status,
               phiEnd: r.phiEnd == null ? '–' : formatDate(r.phiEnd!, lang),
