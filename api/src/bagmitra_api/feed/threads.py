@@ -221,6 +221,9 @@ async def thread_item(
             id=uuid.uuid4(), title=text.title[:500], summary=text.summary, last_item_at=text.when
         )
         session.add(chosen)
+        # Write the new thread first: feed_items.thread_id has a foreign key and no ORM
+        # relationship, so the unit of work could otherwise update the item before the insert.
+        await session.flush()
         run.new += 1
     else:
         run.joined += 1
