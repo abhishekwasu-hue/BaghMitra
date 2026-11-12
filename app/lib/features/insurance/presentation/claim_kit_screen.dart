@@ -173,6 +173,7 @@ class _ClaimKitScreenState extends ConsumerState<ClaimKitScreen> {
             child: Text(t.cancel),
           ),
           TextButton(
+            style: BmButtonStyle.destructive(dialog.bm),
             onPressed: () => Navigator.pop(dialog, true),
             child: Text(t.delete),
           ),

@@ -54,15 +54,17 @@ class RefreshNote extends ConsumerWidget {
                 ),
               ),
               if (failure == NetFailure.signedOut)
-                TextButton(
+                FilledButton(
                   key: const Key('refresh-sign-in'),
+                  style: BmButtonStyle.primary(c),
                   onPressed: () =>
                       unawaited(ref.read(authRepositoryProvider).signOut()),
                   child: Text(t.signInAgain),
                 )
               else
-                TextButton(
+                FilledButton(
                   key: const Key('refresh-retry'),
+                  style: BmButtonStyle.primary(c),
                   onPressed: state.busy ? null : () => unawaited(onRetry()),
                   child: Text(t.netRetry),
                 ),

@@ -170,6 +170,7 @@ class _TasksScreenState extends ConsumerState<TasksScreen> {
                       secondary: IconButton(
                         key: Key('task-details-${task.id}'),
                         tooltip: t.taskDetails,
+                        style: BmButtonStyle.icon(context.bm),
                         icon: const Icon(Icons.info_outline),
                         onPressed: () => showTaskDetails(
                           context,

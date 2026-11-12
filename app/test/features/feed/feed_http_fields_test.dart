@@ -5,6 +5,7 @@ import 'dart:convert';
 
 import 'package:bagmitra/api/api_client.dart';
 import 'package:bagmitra/app/providers.dart';
+import 'package:bagmitra/design_system/article_reading.dart';
 import 'package:bagmitra/features/feed/data/feed_cache.dart';
 import 'package:bagmitra/features/feed/data/feed_repository.dart';
 import 'package:flutter/material.dart';
@@ -207,7 +208,12 @@ void main() {
       await pump(tester, '/feed/art1');
       expect(find.textContaining('Government of Maharashtra'), findsOneWidget);
       expect(find.byKey(const Key('feed-article')), findsOneWidget);
-      expect(find.text('1,200 farmers eligible'), findsOneWidget);
+      expect(
+        find.byWidgetPredicate(
+          (w) => w is HighlightedText && w.text == '1,200 farmers eligible',
+        ),
+        findsOneWidget,
+      );
       await tester.scrollUntilVisible(
         find.text('What farmers can do next'),
         300,
@@ -239,7 +245,12 @@ void main() {
       await tester.tap(open);
       await settle(tester);
       expect(find.byKey(const Key('feed-article')), findsOneWidget);
-      expect(find.text('1,200 farmers eligible'), findsOneWidget);
+      expect(
+        find.byWidgetPredicate(
+          (w) => w is HighlightedText && w.text == '1,200 farmers eligible',
+        ),
+        findsOneWidget,
+      );
       expect(tester.takeException(), isNull);
       await unmountApp(tester);
     });

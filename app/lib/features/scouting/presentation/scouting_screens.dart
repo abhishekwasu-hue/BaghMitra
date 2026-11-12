@@ -427,6 +427,7 @@ class _AddScoutingScreenState extends ConsumerState<AddScoutingScreen> {
                         label: Text(t.photoCheckOpen),
                       ),
                       TextButton.icon(
+                        style: BmButtonStyle.destructive(context.bm),
                         onPressed: () => setState(() => _picked = null),
                         icon: const Icon(Icons.close_rounded),
                         label: Text(t.scoutingRemovePhoto),
