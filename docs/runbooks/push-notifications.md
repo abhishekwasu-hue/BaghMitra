@@ -93,6 +93,28 @@ start` लिहिते आणि push शिवाय नेहमीसा�
 `deploy/.env` मधून `FCM_PROJECT_ID` आणि `FCM_SERVICE_ACCOUNT_B64` च्या ओळी काढा आणि पुन्हा deploy:
 `... cron line removed` दिसते; feed आठवण job फक्त नियोजन करतो. (गरज असल्यास Firebase मध्ये key Delete करा.)
 
+## ७. नवीन लेख, बाजारभाव बदल, हवामान बदल (`push.updates`, OPEN_QUESTIONS Q147)
+
+FCM चालू असताना (वरील पायऱ्या) deploy.sh आणखी एक cron ओळ जोडते: `push.updates`, दिवसातून तीनदा
+08:17, 14:17, 20:17 IST (प्रत्येक बाजारभाव ओढणीनंतर १२ मिनिटांनी, शांत वेळेबाहेर). VPS वर वेगळी पायरी नाही.
+बंद करायचे: `deploy/.env` मध्ये `CRON_PUSH_UPDATES=off` आणि deploy (cron ओळ निघते). एकेक प्रकार बंद:
+`PUSH_ARTICLES=off`, `PUSH_MARKET=off`, `PUSH_WEATHER_CHANGE=off`.
+
+| प्रकार | केव्हा | मर्यादा (default) | टॅप केल्यावर |
+|---|---|---|---|
+| नवीन लेख | ज्ञान लेख / AI बातमी लेख प्रकाशित झाल्यावर (४८ तासांत) | दिवसाला २ push; अनेक लेख एकाच push मध्ये ("३ नवीन लेख") | लेख / बातमीचा विषय; अनेक असतील तर फीड |
+| बाजारभाव | शेवटच्या दोन प्रकाशित दिवसांत modal भाव ≥ ५ % **किंवा** ≥ ₹३००/क्विंटल बदलला | दिवसाला १ push (सर्व बाजार एकत्र) | बाजारभाव (त्या पिकासह) |
+| हवामान बदल | आज/उद्या: पावसाची शक्यता ≤३० % वरून ≥६० %; ≥१० मिमी पाऊस नव्याने; कमाल तापमान दिवसागणिक ±५ °C; ३५ °C ओलांडले; किमान ४ °C किंवा कमी; वारा ≥ ४० किमी/तास | प्रत्येक बागेला दिवसाला १ | १५ दिवसांचा अंदाज |
+
+- कोणाला: फोन नोंदलेले शेतकरी, ज्यांचा Settings → सूचना मधला त्या प्रकाराचा switch चालू (default चालू), फीडच्या
+  शांत वेळेबाहेर (default 21:00-07:00).
+- बाजार कोणते: शेतकऱ्याच्या बागांची पिके; त्याच्या जिल्ह्यातील बाजार (प्रोफाइलमधला जिल्हा; अमरावती/नागपूर इ. मराठीत
+  लिहिले तरी चालते); जिल्ह्यात त्या पिकाचा बाजार नसेल तर बाजारभाव पानावरचे "स्थानिक" बाजार (`MARKET_LOCAL_MARKETS`).
+- दुहेरी नाही: हवामान धोका सूचना (`push.deliver`) आधीच सांगते ते (मुसळधार/अवकाळी पाऊस, गारपीट, ६० किमी वारा,
+  ३५ °C उष्णता, थंडीची लाट) पुन्हा पाठवत नाही; मुदतीच्या आठवणी असलेले किंवा आठवड्याच्या सारांशात आलेले लेख पाठवत
+  नाही; उलट लेख push मध्ये गेलेला लेख आठवड्याच्या सारांशात पुन्हा येत नाही.
+- सर्व आकडे `.env` settings आहेत (खाली). बदलल्यावर deploy.
+
 ## Technical notes (English)
 
 - Sender: `api/src/bagmitra_api/push/fcm.py`. OAuth: a self-signed RS256 service-account JWT
@@ -106,3 +128,21 @@ start` लिहिते आणि push शिवाय नेहमीसा�
   `FCM_BASE_URL` (tests), `FCM_TIMEOUT_SECONDS` (default 15).
 - App: `app/lib/features/push/` (`PushRegistrar`, `FirebasePushMessaging`, `HttpPushDeviceApi`);
   `AppConfig.pushEnabled` = `PUSH=true` and not demo mode.
+- Update pushes (Q147): `api/src/bagmitra_api/push/updates.py` (job), `push/changes.py` (pure
+  change checks), `push/texts.py` (mr / hi / en words, calm, Marathi digits). Tables (migration
+  0051): `push_topic_prefs` (owner RLS; the three switches, `GET`/`PUT /v1/me/push-topics`),
+  `push_notices` (owner RLS; sent log, unique per owner + kind + subject, so a re-run never
+  repeats; weather rows wait there until sent, dropped after 24 h), `push_weather_seen`
+  (service-only; "the previous forecast" per cell and day). Data payloads: article
+  `{kind: article, item_id[, thread_id]}` or `{kind: article, items}`; market
+  `{kind: market, crop}`; weather `{kind: weather_change, plot_id}`. The app routes taps
+  (`features/push/domain/push_links.dart`), including the risk alerts (forecast / claim kit).
+- Settings (env, `.env` on the VPS; the API reads the same file): `CRON_PUSH_UPDATES`,
+  `PUSH_ARTICLES`, `PUSH_MARKET`, `PUSH_WEATHER_CHANGE` (kill switches, default on);
+  `PUSH_TOPIC_ARTICLES_DEFAULT` / `_MARKET_` / `_WEATHER_` (switch defaults, on);
+  `PUSH_ARTICLE_DAILY_MAX` 2, `PUSH_ARTICLE_LOOKBACK_HOURS` 48; `PUSH_MARKET_MIN_PCT` 5,
+  `PUSH_MARKET_MIN_RS` 300, `PUSH_MARKET_MAX_AGE_DAYS` 3, `PUSH_MARKET_DAILY_MAX` 1;
+  `PUSH_WEATHER_RAIN_PROB_HIGH` 60, `_LOW` 30, `PUSH_WEATHER_RAIN_MM` 10,
+  `PUSH_WEATHER_TEMP_JUMP_C` 5, `PUSH_WEATHER_HEAT_C` 35, `PUSH_WEATHER_COLD_C` 4,
+  `PUSH_WEATHER_GUST_KMH` 40, `PUSH_WEATHER_DAYS` 2, `PUSH_WEATHER_DAILY_MAX` 1,
+  `PUSH_WEATHER_FRESH_HOURS` 26.

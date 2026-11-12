@@ -16,7 +16,8 @@ them is held until the quiet time ends; the job sends it on its first run after 
 category opt-out (deadline / payment / window_open), and a hard weekly cap on alert pushes
 counted over the rolling 7 days, the most urgent first (OPEN_QUESTIONS QG4: T-0 does not
 exceed the cap). The weekly digest (new items matched to the farmer in the last 7 days) is
-its own switch, sent at most once in 7 days and not counted in the cap.
+its own switch, sent at most once in 7 days and not counted in the cap; it leaves out items the
+farmer already got as a new-article push (`push/updates.py`, OPEN_QUESTIONS Q147).
 
 Text: the item title, the date line ("Last date: ..."), and the footer "Check the official
 GR/portal before acting.", in the farmer's language (English when missing). Never a promise
@@ -51,6 +52,7 @@ from bagmitra_api.feed.models import (
 )
 from bagmitra_api.feed.texts import FOOTER
 from bagmitra_api.push.deliver import NO_SENDER
+from bagmitra_api.push.models import ARTICLE, PushNotice
 from bagmitra_api.push.sender import PushMessage, PushSender, PushUnavailableError, SendResult
 
 INDIA = ZoneInfo("Asia/Kolkata")
@@ -293,9 +295,12 @@ def plan_digest(
     items: Iterable[Item],
     receipts: Mapping[uuid.UUID, Receipt],
     now: datetime,
+    *,
+    already_pushed: frozenset[uuid.UUID] = frozenset(),
 ) -> Push | None:
     """New items for the farmer published in the last 7 days, newest first; None when the
-    digest is off, was sent less than 7 days ago, or there is nothing new."""
+    digest is off, was sent less than 7 days ago, or there is nothing new. Items in
+    `already_pushed` (sent to this farmer as a new-article push, Q147) are not repeated."""
     prefs = recipient.prefs
     if not prefs.digest_weekly:
         return None
@@ -307,6 +312,7 @@ def plan_digest(
             item
             for item in items
             if now - WEEK < item.published_at <= now
+            and item.id not in already_pushed
             and is_live(item, today)
             and not receipts.get(item.id, NO_RECEIPT).dismissed
             and is_for(item, recipient, receipts.get(item.id, NO_RECEIPT))
@@ -426,6 +432,29 @@ async def _load_items(session: AsyncSession, now: datetime) -> list[Item]:
     ]
 
 
+async def load_recipients(session: AsyncSession) -> list[Recipient]:
+    """Every farmer with language, matching profile (district + plots) and feed settings."""
+    return await _recipients(session)
+
+
+async def _article_pushes(session: AsyncSession, now: datetime) -> dict[uuid.UUID, set[uuid.UUID]]:
+    """Items each farmer got as a new-article push in the last 7 days (Q147)."""
+    out: dict[uuid.UUID, set[uuid.UUID]] = defaultdict(set)
+    rows = await session.execute(
+        select(PushNotice.owner_id, PushNotice.subject).where(
+            PushNotice.kind == ARTICLE,
+            PushNotice.notified_at.is_not(None),
+            PushNotice.notified_at > now - WEEK,
+        )
+    )
+    for owner_id, subject in rows.tuples():
+        try:
+            out[owner_id].add(uuid.UUID(subject))
+        except ValueError:
+            continue
+    return out
+
+
 async def _recipients(session: AsyncSession) -> list[Recipient]:
     plots: dict[uuid.UUID, list[tuple[str, float | None]]] = defaultdict(list)
     for owner, crop, area in (
@@ -500,6 +529,7 @@ async def _plan_all(session: AsyncSession, now: datetime, summary: AlertSummary)
             notified=_stage_times(r),
         )
     sent_week = _sent_in_week(receipt_rows, now)
+    article_pushes = await _article_pushes(session, now)
     summary.farmers, summary.items = len(recipients), len(items)
     skipped: Counter[str] = Counter()
     pushes: list[Push] = []
@@ -510,7 +540,13 @@ async def _plan_all(session: AsyncSession, now: datetime, summary: AlertSummary)
         )
         skipped += plan.skipped
         pushes += plan.pushes
-        digest = plan_digest(recipient, items, mine, now)
+        digest = plan_digest(
+            recipient,
+            items,
+            mine,
+            now,
+            already_pushed=frozenset(article_pushes.get(recipient.owner_id, ())),
+        )
         if digest is not None:
             pushes.append(digest)
             summary.digests_planned += 1

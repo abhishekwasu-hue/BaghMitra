@@ -1280,6 +1280,28 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsShowWalkthrough => 'See the app introduction again';
 
   @override
+  String get settingsNotifications => 'Notifications';
+
+  @override
+  String get settingsPushArticles => 'Articles';
+
+  @override
+  String get settingsPushArticlesHint => 'When a new article is published';
+
+  @override
+  String get settingsPushMarket => 'Market prices';
+
+  @override
+  String get settingsPushMarketHint => 'When your crop\'s mandi price changes';
+
+  @override
+  String get settingsPushWeather => 'Weather changes';
+
+  @override
+  String get settingsPushWeatherHint =>
+      'When the weather at your orchard changes suddenly';
+
+  @override
   String get settingsPhotoMobileData => 'Back up photos on mobile data';
 
   @override

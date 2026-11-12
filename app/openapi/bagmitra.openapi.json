@@ -8419,6 +8419,30 @@
         "title": "PushResponse",
         "type": "object"
       },
+      "PushTopicsBody": {
+        "description": "Which update pushes the caller wants: a new article, a market price change of their\ncrops' mandis, a sudden weather change at their plots.",
+        "properties": {
+          "articles": {
+            "title": "Articles",
+            "type": "boolean"
+          },
+          "market": {
+            "title": "Market",
+            "type": "boolean"
+          },
+          "weather_change": {
+            "title": "Weather Change",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "articles",
+          "market",
+          "weather_change"
+        ],
+        "title": "PushTopicsBody",
+        "type": "object"
+      },
       "QuestionStarsOut": {
         "properties": {
           "average": {
@@ -22905,6 +22929,98 @@
         "summary": "Put Preferences",
         "tags": [
           "feed"
+        ]
+      }
+    },
+    "/v1/me/push-topics": {
+      "get": {
+        "description": "The caller's switches, or the defaults (all on unless the admin changed them).",
+        "operationId": "push_topics_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PushTopicsBody"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Get Push Topics",
+        "tags": [
+          "profile"
+        ]
+      },
+      "put": {
+        "description": "Saves all three switches; repeating the same body is harmless (the app retries a\nchange made offline).",
+        "operationId": "push_topics_put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PushTopicsBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PushTopicsBody"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Put Push Topics",
+        "tags": [
+          "profile"
         ]
       }
     },

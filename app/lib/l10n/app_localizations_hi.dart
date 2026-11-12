@@ -1277,6 +1277,27 @@ class AppLocalizationsHi extends AppLocalizations {
   String get settingsShowWalkthrough => 'ऐप का परिचय फिर से देखें';
 
   @override
+  String get settingsNotifications => 'सूचनाएँ';
+
+  @override
+  String get settingsPushArticles => 'लेख';
+
+  @override
+  String get settingsPushArticlesHint => 'नया लेख आने पर';
+
+  @override
+  String get settingsPushMarket => 'मंडी भाव';
+
+  @override
+  String get settingsPushMarketHint => 'आपकी फसल का मंडी भाव बदलने पर';
+
+  @override
+  String get settingsPushWeather => 'मौसम में बदलाव';
+
+  @override
+  String get settingsPushWeatherHint => 'बाग के पास मौसम अचानक बदलने पर';
+
+  @override
   String get settingsPhotoMobileData => 'मोबाइल डेटा पर भी फ़ोटो का बैकअप लें';
 
   @override

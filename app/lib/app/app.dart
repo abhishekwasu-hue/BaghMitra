@@ -1,11 +1,15 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../features/app_update/presentation/app_update_gate.dart';
 import '../features/feedback/data/feedback_providers.dart';
+import '../features/market/domain/market_crops.dart';
 import '../features/market_link/data/market_link_providers.dart';
 import '../features/market_link/domain/market_link.dart';
+import '../features/push/domain/push_links.dart';
 import '../l10n/app_localizations.dart';
 import '../sync/account_guard.dart';
 import '../theme/app_theme.dart';
@@ -46,6 +50,9 @@ class _BagMitraAppState extends ConsumerState<BagMitraApp> {
 
   /// Reloads weather, prices and feed (when old) and syncs when the app comes back.
   late final AppLifecycleListener _lifecycle;
+
+  /// Taps on server pushes (build with push on): each opens its screen (Q147).
+  StreamSubscription<Map<String, String>>? _pushOpens;
 
   late final GoRouter _router = buildRouter(
     ref.read(authRepositoryProvider),
@@ -106,10 +113,25 @@ class _BagMitraAppState extends ConsumerState<BagMitraApp> {
         fireImmediately: true,
       );
     }
+    if (ref.read(appConfigProvider).pushEnabled) {
+      _pushOpens = ref.read(pushRegistrarProvider).opens.listen(openPush);
+    }
+  }
+
+  /// Opens the screen a tapped push names (`pushLink`); a market push also picks its crop.
+  /// Anything unknown opens nothing.
+  void openPush(Map<String, String> data) {
+    final link = pushLink(data);
+    if (link == null || !mounted) return;
+    if (link.crop case final crop? when marketCrops.any((c) => c.key == crop)) {
+      ref.read(marketCropProvider.notifier).pick(crop);
+    }
+    unawaited(_router.push<void>(link.route));
   }
 
   @override
   void dispose() {
+    unawaited(_pushOpens?.cancel());
     _lifecycle.dispose();
     _router.dispose();
     _onboarded.dispose();

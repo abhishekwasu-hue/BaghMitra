@@ -3382,6 +3382,20 @@ Map<String, dynamic> _$PushResponseToJson(PushResponse instance) =>
       'results': instance.results.map((e) => e.toJson()).toList(),
     };
 
+PushTopicsBody _$PushTopicsBodyFromJson(Map<String, dynamic> json) =>
+    PushTopicsBody(
+      articles: json['articles'] as bool,
+      market: json['market'] as bool,
+      weatherChange: json['weather_change'] as bool,
+    );
+
+Map<String, dynamic> _$PushTopicsBodyToJson(PushTopicsBody instance) =>
+    <String, dynamic>{
+      'articles': instance.articles,
+      'market': instance.market,
+      'weather_change': instance.weatherChange,
+    };
+
 QuestionStarsOut _$QuestionStarsOutFromJson(Map<String, dynamic> json) =>
     QuestionStarsOut(
       average: (json['average'] as num).toDouble(),

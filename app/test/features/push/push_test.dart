@@ -7,9 +7,12 @@ import 'package:bagmitra/api/api_client.dart';
 import 'package:bagmitra/app/providers.dart';
 import 'package:bagmitra/core/app_log.dart';
 import 'package:bagmitra/core/config.dart';
+import 'package:bagmitra/features/market/presentation/market_prices_screen.dart';
 import 'package:bagmitra/features/push/data/push_device_api.dart';
 import 'package:bagmitra/features/push/domain/push.dart';
+import 'package:bagmitra/features/weather/presentation/weather_forecast_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
@@ -26,7 +29,9 @@ class FakePushMessaging implements PushMessaging {
   int starts = 0;
   final refresh = StreamController<String>.broadcast();
   final notes = StreamController<PushNote>.broadcast();
+  final tapped = StreamController<Map<String, String>>.broadcast();
   final shown = <PushNote>[];
+  Map<String, String>? launchedBy;
 
   @override
   Future<bool> start() async {
@@ -46,9 +51,16 @@ class FakePushMessaging implements PushMessaging {
   @override
   Future<void> show(PushNote note) async => shown.add(note);
 
+  @override
+  Stream<Map<String, String>> get taps => tapped.stream;
+
+  @override
+  Future<Map<String, String>?> initialTap() async => launchedBy;
+
   Future<void> close() async {
     await refresh.close();
     await notes.close();
+    await tapped.close();
   }
 }
 
@@ -346,5 +358,43 @@ void main() {
       expect(api.calls, ['register tok-1', 'unregister tok-1']);
       await unmountApp(tester);
     });
+
+    testWidgets(
+      'a tapped push opens its screen (Q147): the push that started the '
+      'app, then a market push with its crop',
+      (tester) async {
+        const plot = '6f1c2a3b-4d5e-4f60-8a9b-0c1d2e3f4a5b';
+        final messaging = FakePushMessaging()
+          ..launchedBy = {'kind': 'weather_change', 'plot_id': plot};
+        await pumpApp(
+          tester,
+          locale: const Locale('en'),
+          config: _pushOn,
+          onboarded: false,
+          seed: seedProfile,
+          overrides: [
+            pushMessagingProvider.overrideWithValue(messaging),
+            pushDeviceApiProvider.overrideWithValue(RecordingDeviceApi()),
+          ],
+        );
+        await settle(tester);
+        expect(find.byType(WeatherForecastScreen), findsOneWidget);
+        messaging.tapped.add({'kind': 'market', 'crop': 'banana'});
+        await settle(tester);
+        expect(find.byType(MarketPricesScreen), findsOneWidget);
+        final container = ProviderScope.containerOf(
+          tester.element(find.byType(MarketPricesScreen)),
+        );
+        expect(container.read(marketCropProvider), 'banana');
+        messaging.tapped.add({'kind': 'unknown'});
+        await settle(tester);
+        expect(
+          find.byType(MarketPricesScreen),
+          findsOneWidget,
+          reason: 'stays',
+        );
+        await unmountApp(tester);
+      },
+    );
   });
 }
