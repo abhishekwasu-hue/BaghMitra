@@ -1,18 +1,224 @@
 {
-  "_note": "Addendum v1.4 §3. Terms of use and robots are not yet checked for any source, so every terms_status is unknown and nothing is fetched automatically (OPEN_QUESTIONS QG1). URLs are the portals' home pages [UV]; the owner confirms each before enabling a fetch.",
+  "_note": "Addendum v1.4 §3. Terms of use and robots are not yet checked for any source, so every terms_status is unknown and nothing is fetched automatically (OPEN_QUESTIONS QG1). URLs are the portals' home pages [UV]; the owner confirms each before enabling a fetch. Owner 2026-11-12 (OPEN_QUESTIONS Q145): 'take it from wherever it is available' - the official portals and a few agriculture news outlets are seeded with their robots.txt results; a deploy updates rows still unknown (never an admin's own decision). `backfill` and `departments` are reader options, not database columns.",
   "sources": [
-    {"key": "mh_gr_portal", "name": "Government of Maharashtra - Government Resolutions (GR) search", "url": "https://gr.maharashtra.gov.in", "tier": "official", "fetch_method": "portal_list", "notes": "Filter: Agriculture, Horticulture, Co-operation, Revenue & Forest (relief), Water Resources, Rural Development. No public API found [UV]; portal not fetchable from the research environment [UV].", "level": "state"},
-    {"key": "mahadbt", "name": "MahaDBT farmer schemes portal", "url": "https://mahadbt.maharashtra.gov.in", "tier": "official", "fetch_method": "manual", "notes": "Scheme pages and notices.", "level": "state"},
-    {"key": "mh_agri_commissionerate", "name": "Commissionerate of Agriculture, Maharashtra", "url": "https://krishi.maharashtra.gov.in", "tier": "official", "fetch_method": "manual", "notes": null, "level": "state"},
-    {"key": "mh_horticulture", "name": "Directorate of Horticulture, Maharashtra", "url": "https://krishi.maharashtra.gov.in", "tier": "official", "fetch_method": "manual", "notes": "Exact page to confirm [UV].", "level": "state"},
-    {"key": "mh_input_notices", "name": "Maharashtra state pesticide / fertiliser notices", "url": "https://krishi.maharashtra.gov.in", "tier": "official", "fetch_method": "manual", "notes": "Exact page to confirm [UV].", "level": "state"},
-    {"key": "pm_kisan", "name": "PM-KISAN", "url": "https://pmkisan.gov.in", "tier": "official", "fetch_method": "manual", "notes": null, "level": "central"},
-    {"key": "pib_agriculture", "name": "Press Information Bureau - Agriculture releases", "url": "https://pib.gov.in", "tier": "official", "fetch_method": "rss", "notes": "Also the first news-style feed (headline + link) once terms are checked.", "level": "central"},
-    {"key": "pib_agriculture_news", "name": "Press Information Bureau - Agriculture releases (RSS headlines)", "url": "https://pib.gov.in/RssMain.aspx?ModId=6&Lang=1&Regid=3", "tier": "news", "fetch_method": "rss", "notes": "News tier (G3): headline + link + our own summary only. Feed URL [UV]: not confirmed to be the agriculture-ministry feed, nor that PIB terms allow automated headline use; check both first (OPEN_QUESTIONS QG5).", "level": "central"},
-    {"key": "pmfby", "name": "Pradhan Mantri Fasal Bima Yojana (crop insurance) notices", "url": "https://pmfby.gov.in", "tier": "official", "fetch_method": "manual", "notes": null, "level": "central"},
-    {"key": "icar_ccri", "name": "ICAR-Central Citrus Research Institute advisories", "url": "https://ccri.icar.gov.in", "tier": "official", "fetch_method": "manual", "notes": null, "level": "central"},
-    {"key": "imd_agromet", "name": "IMD agromet advisories", "url": "https://mausam.imd.gov.in", "tier": "official", "fetch_method": "manual", "notes": "Already used by the weather module; listed for completeness.", "level": "central"},
-    {"key": "mahasamvad_news", "name": "Mahasamvad - Government of Maharashtra news portal (DGIPR), RSS headlines", "url": "https://mahasamvad.in/feed/", "tier": "news", "fetch_method": "rss", "level": "state", "terms_status": "allowed", "notes": "Owner decision 2026-11-09 (OPEN_QUESTIONS Q129): allowed. robots.txt (read from the VPS 2026-11-09) disallows only /wp-admin/; no separate terms page found. The AI article step keeps only farmer-relevant, non-political items (spec v1.6)."},
-    {"key": "bagmitra_knowledge", "name": "BagMitra knowledge articles (ज्ञान लेख), written from the checked KB practice cards and the open sources they cite, or an official feed item", "url": "https://github.com/abhishekwasu-hue/BaghMitra/blob/main/docs/runbooks/govt-feed.md", "tier": "knowledge", "fetch_method": "manual", "level": null, "notes": "Owner 2026-11-11 (OPEN_QUESTIONS Q141): no newspaper content; tier knowledge is never fetched by the GR or news adapters (terms stay unknown); each article lists its own sources."}
+    {
+      "key": "mh_gr_portal",
+      "name": "Government of Maharashtra - Government Resolutions (GR) search",
+      "url": "https://gr.maharashtra.gov.in/1145/Government-Resolutions",
+      "tier": "official",
+      "fetch_method": "portal_list",
+      "notes": "owner approval 2026-11-12 (any available source); robots.txt checked 2026-11-12 from a GitHub runner: allows the list and /Site/Upload/ (disallows only /admin/, /private/, /tmp/). Read: the server-rendered table of the newest GRs (department, title, unique code, date, PDF); only farm departments are kept. Older GRs need the ASP.NET search form (a POST), not read.",
+      "level": "state",
+      "terms_status": "allowed",
+      "departments": [
+        "कृषी",
+        "पणन",
+        "सहकार",
+        "महसूल",
+        "मदत व पुनर्वसन",
+        "जलसंपदा",
+        "मृद व जल",
+        "ग्राम विकास",
+        "पशुसंवर्धन",
+        "फलोत्पादन",
+        "रोजगार हमी",
+        "Agriculture",
+        "Co-operation",
+        "Marketing",
+        "Revenue",
+        "Relief",
+        "Water",
+        "Rural Development",
+        "Horticulture"
+      ]
+    },
+    {
+      "key": "mahadbt",
+      "name": "MahaDBT farmer schemes portal",
+      "url": "https://mahadbt.maharashtra.gov.in/Farmer/AgriLogin/AgriLogin",
+      "tier": "official",
+      "fetch_method": "scheme_list",
+      "notes": "owner approval 2026-11-12 (any available source); robots.txt checked 2026-11-12 from a GitHub runner: none served (HTTP 404), so no robots restriction. Read: the farmer scheme list (17 scheme pages, server-rendered, no dates) and each scheme page's 'Government Resolution' PDF; the scheme details on the page itself are not in the HTML.",
+      "level": "state",
+      "terms_status": "allowed"
+    },
+    {
+      "key": "mh_agri_commissionerate",
+      "name": "Commissionerate of Agriculture, Maharashtra",
+      "url": "https://krishi.maharashtra.gov.in/Site/Common/ViewGr.aspx?Doctype=f73825ef-89cb-4e56-ac83-4f73172aaacd?MenuID=2952",
+      "tier": "official",
+      "fetch_method": "portal_list",
+      "notes": "owner approval 2026-11-12 (any available source); robots.txt checked 2026-11-12 from a GitHub runner: /robots.txt redirects to the site's error page (no rules), so no robots restriction. Read: the server-rendered GR table (subject, category, date, PDF; no GR number).",
+      "level": "state",
+      "terms_status": "allowed"
+    },
+    {
+      "key": "mh_horticulture",
+      "name": "Directorate of Horticulture, Maharashtra",
+      "url": "https://krishi.maharashtra.gov.in",
+      "tier": "official",
+      "fetch_method": "manual",
+      "notes": "Exact page to confirm [UV].",
+      "level": "state"
+    },
+    {
+      "key": "mh_input_notices",
+      "name": "Maharashtra state pesticide / fertiliser notices",
+      "url": "https://krishi.maharashtra.gov.in",
+      "tier": "official",
+      "fetch_method": "manual",
+      "notes": "Exact page to confirm [UV].",
+      "level": "state"
+    },
+    {
+      "key": "pm_kisan",
+      "name": "PM-KISAN",
+      "url": "https://pmkisan.gov.in",
+      "tier": "official",
+      "fetch_method": "manual",
+      "notes": "owner approval 2026-11-12 (any available source); robots.txt checked 2026-11-12 from a GitHub runner: could not be read - https://pmkisan.gov.in fails TLS verification (certificate chain incomplete: unable to get local issuer certificate) and http:// times out. Not fetched (verification is never switched off); instalment news reaches the feed through PIB and the news sources.",
+      "level": "central",
+      "terms_status": "allowed"
+    },
+    {
+      "key": "pib_agriculture",
+      "name": "Press Information Bureau - Agriculture releases",
+      "url": "https://pib.gov.in",
+      "tier": "official",
+      "fetch_method": "rss",
+      "notes": "Also the first news-style feed (headline + link) once terms are checked.",
+      "level": "central"
+    },
+    {
+      "key": "pib_agriculture_news",
+      "name": "Press Information Bureau - Agriculture releases (RSS headlines)",
+      "url": "https://pib.gov.in/RssMain.aspx?ModId=6&Lang=1&Regid=3",
+      "tier": "news",
+      "fetch_method": "rss",
+      "notes": "owner approval 2026-11-12 (any available source); robots.txt checked 2026-11-12 from a GitHub runner: /robots.txt answers an HTML error page (no rules). The RSS address redirects to the all-ministries feed (Hindi, Lang=2, items without dates); the article step keeps only farm items. Earlier the VPS got HTTP 403 from PIB: then the run records fetch_failed once.",
+      "level": "central",
+      "terms_status": "allowed"
+    },
+    {
+      "key": "pmfby",
+      "name": "Pradhan Mantri Fasal Bima Yojana (crop insurance) notices",
+      "url": "https://pmfby.gov.in",
+      "tier": "official",
+      "fetch_method": "manual",
+      "notes": "owner approval 2026-11-12 (any available source); robots.txt checked 2026-11-12 from a GitHub runner: /robots.txt returns the app's HTML shell (no rules). Not readable: the site is a JavaScript-only app (an empty div id=app); no list in the HTML. PMFBY GRs reach the feed through the Agriculture Commissionerate's GR page.",
+      "level": "central",
+      "terms_status": "allowed"
+    },
+    {
+      "key": "icar_ccri",
+      "name": "ICAR-Central Citrus Research Institute advisories",
+      "url": "https://ccri.icar.gov.in",
+      "tier": "official",
+      "fetch_method": "manual",
+      "notes": null,
+      "level": "central"
+    },
+    {
+      "key": "imd_agromet",
+      "name": "IMD agromet advisories",
+      "url": "https://mausam.imd.gov.in",
+      "tier": "official",
+      "fetch_method": "manual",
+      "notes": "Already used by the weather module; listed for completeness.",
+      "level": "central"
+    },
+    {
+      "key": "mahasamvad_news",
+      "name": "Mahasamvad - Government of Maharashtra news portal (DGIPR), RSS headlines",
+      "url": "https://mahasamvad.in/feed/",
+      "tier": "news",
+      "fetch_method": "rss",
+      "level": "state",
+      "terms_status": "allowed",
+      "notes": "Owner decision 2026-11-09 (OPEN_QUESTIONS Q129): allowed. robots.txt (read from the VPS 2026-11-09) disallows only /wp-admin/; no separate terms page found. The AI article step keeps only farmer-relevant, non-political items (spec v1.6).",
+      "backfill": {
+        "kind": "rss_paged",
+        "param": "paged",
+        "max_pages": 15
+      }
+    },
+    {
+      "key": "bagmitra_knowledge",
+      "name": "BagMitra knowledge articles (ज्ञान लेख), written from the checked KB practice cards and the open sources they cite, or an official feed item",
+      "url": "https://github.com/abhishekwasu-hue/BaghMitra/blob/main/docs/runbooks/govt-feed.md",
+      "tier": "knowledge",
+      "fetch_method": "manual",
+      "level": null,
+      "notes": "Owner 2026-11-11 (OPEN_QUESTIONS Q141): no newspaper content; tier knowledge is never fetched by the GR or news adapters (terms stay unknown); each article lists its own sources."
+    },
+    {
+      "key": "agrowon_mr",
+      "name": "Agrowon (Sakal) - Marathi agriculture news, news sitemap",
+      "url": "https://agrowon.esakal.com/news_sitemap.xml",
+      "tier": "news",
+      "fetch_method": "rss",
+      "level": null,
+      "terms_status": "allowed",
+      "notes": "owner approval 2026-11-12 (any available source); robots.txt checked 2026-11-12 from a GitHub runner: allows the news sitemap, the daily sitemaps and the article pages, except the sections it disallows (weather updates, market intelligence, agrowon-special, video stories; those links are skipped). No RSS (/rss is 404). Headline + link + date + our own article only.",
+      "backfill": {
+        "kind": "daily_sitemap",
+        "url_template": "https://agrowon.esakal.com/sitemap/sitemap-daily-{date}.xml"
+      },
+      "skip_paths": [
+        "/ampstories/",
+        "/web-stories/",
+        "/video"
+      ]
+    },
+    {
+      "key": "krishijagran_en",
+      "name": "Krishi Jagran - English agriculture news, RSS",
+      "url": "https://krishijagran.com/feeds/rss",
+      "tier": "news",
+      "fetch_method": "rss",
+      "level": null,
+      "terms_status": "allowed",
+      "notes": "owner approval 2026-11-12 (any available source); robots.txt checked 2026-11-12 from a GitHub runner: allows all but /api/ (GPTBot is disallowed; we are not GPTBot). The feed holds about two weeks; it has no older pages (?page=2 is the same feed) and its news sitemap (7 MB) has no titles, so no backfill. Headline + link + date + our own article only."
+    },
+    {
+      "key": "krishijagran_hi",
+      "name": "Krishi Jagran - Hindi agriculture news, news sitemap",
+      "url": "https://hindi.krishijagran.com/feeds/googlenews",
+      "tier": "news",
+      "fetch_method": "rss",
+      "level": null,
+      "terms_status": "allowed",
+      "notes": "owner approval 2026-11-12 (any available source); robots.txt checked 2026-11-12 from a GitHub runner: allows all but /api/; robots.txt lists this news sitemap. About two days per read and no titled archive, so no backfill. Headline + link + date + our own article only."
+    },
+    {
+      "key": "kisantak_hi",
+      "name": "Kisan Tak (India Today group) - Hindi agriculture news, news sitemap",
+      "url": "https://www.kisantak.in/rssfeeds/news-sitemap.xml",
+      "tier": "news",
+      "fetch_method": "rss",
+      "level": null,
+      "terms_status": "allowed",
+      "notes": "owner approval 2026-11-12 (any available source); robots.txt checked 2026-11-12 from a GitHub runner: allows /rssfeeds/ and the story pages (disallows /topic/, /api/ajax/, /taxonomy/). No RSS (/rss is 404); about two days per read and no titled archive, so no backfill. Headline + link + date + our own article only."
+    },
+    {
+      "key": "businessline_agri",
+      "name": "The Hindu BusinessLine - Agri Business, RSS",
+      "url": "https://www.thehindubusinessline.com/economy/agri-business/feeder/default.rss",
+      "tier": "news",
+      "fetch_method": "rss",
+      "level": null,
+      "terms_status": "allowed",
+      "notes": "owner approval 2026-11-12 (any available source); robots.txt checked 2026-11-12 from a GitHub runner: allows the feeder and article paths (its wildcard rules block search, comment, fragment and some amp pages only). About three days per read; no older pages and no sitemap (404), so no backfill. Headline + link + date + our own article only."
+    },
+    {
+      "key": "krishakjagat_hi",
+      "name": "Krishak Jagat - Hindi agriculture news, RSS",
+      "url": "https://www.krishakjagat.org/feed/",
+      "tier": "news",
+      "fetch_method": "rss",
+      "level": null,
+      "terms_status": "disallowed",
+      "notes": "owner approval 2026-11-12 (any available source); robots.txt checked 2026-11-12 from a GitHub runner: disallows the feed (Disallow: */feed/), so it stays disallowed and is never fetched."
+    }
   ]
 }

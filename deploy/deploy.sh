@@ -38,6 +38,10 @@ FEED_NEWS_CRON_LINE="23 1,7,13,19 * * * $JOB bagmitra_api.feed.news_job >> /var/
 # Knowledge articles (govt-feed.md §13, Q141): daily 02:11 UTC (07:41 IST), after the 00:00 UTC
 # weather pull so its risk alerts are fresh; on unless CRON_FEED_KNOWLEDGE=off.
 FEED_KNOWLEDGE_CRON_LINE="11 2 * * * $JOB bagmitra_api.feed.knowledge >> /var/log/bagmitra-feed-knowledge.log 2>&1"
+# Official portals (govt-feed.md §14, Q145: GR portal, MahaDBT, PM-KISAN, PMFBY, Agriculture
+# Commissionerate): twice a day at 04:43 and 16:43 UTC (10:13, 22:13 IST), before the 07:23 /
+# 19:23 news runs; on unless CRON_FEED_PORTALS=off (then the job itself also fetches nothing).
+FEED_PORTALS_CRON_LINE="43 4,16 * * * $JOB bagmitra_api.feed.portal_job >> /var/log/bagmitra-feed-portals.log 2>&1"
 # Weather / risk alert pushes (push/deliver.py): 01:37 UTC (07:07 IST), after the 00:00 UTC
 # weather pull and just after the default quiet hours (21:00-07:00 IST); on once FCM_PROJECT_ID is set.
 PUSH_DELIVER_CRON_LINE="37 1 * * * $JOB bagmitra_api.push.deliver >> /var/log/bagmitra-push-deliver.log 2>&1"
@@ -219,6 +223,8 @@ install_cron() {
   cron_job_if "$on" "bagmitra_api.feed.news_job" "$FEED_NEWS_CRON_LINE" "feed news (every 6 h)"
   on=1; switch_on CRON_FEED_KNOWLEDGE && on=0
   cron_job_if "$on" "bagmitra_api.feed.knowledge" "$FEED_KNOWLEDGE_CRON_LINE" "knowledge articles (daily 02:11 UTC)"
+  on=1; switch_on CRON_FEED_PORTALS && on=0
+  cron_job_if "$on" "bagmitra_api.feed.portal_job" "$FEED_PORTALS_CRON_LINE" "official portals (04:43, 16:43 UTC)"
   on=1; switch_on CRON_KB_REGATE && on=0
   cron_job_if "$on" "bagmitra_api.kb.regate" "$KB_REGATE_CRON_LINE" "KB re-gate (nightly 20:50 UTC)"
   on=1; switch_on CRON_SYNC_RETENTION && on=0

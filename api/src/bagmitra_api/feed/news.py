@@ -28,7 +28,7 @@ import html
 import re
 import uuid
 from dataclasses import dataclass, field
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 from email.utils import parsedate_to_datetime
 from typing import NoReturn
 from urllib.parse import urljoin, urlsplit
@@ -45,10 +45,17 @@ from bagmitra_api.feed.gr_portal import (
     _lang_of,
 )
 from bagmitra_api.feed.models import FeedItem, FeedItemI18n, FeedReviewEvent, FeedSource
+from bagmitra_api.feed.seed import seed_option
 
 MAX_FEED_BYTES = 2 * 1024 * 1024
+# Q145: a dated entry more than this many days older than the feed's newest entry is not added
+# (Krishi Jagran's feed reaches back months); the same window bounds the one-off backfill
+# (`feed/backfill.py`, counted back from the run's day).
+RECENT_DAYS = 30
 MAX_TITLE_CHARS = 500
 _ATOM = "{http://www.w3.org/2005/Atom}"
+_SITEMAP = "{http://www.sitemaps.org/schemas/sitemap/0.9}"
+_NEWS = "{http://www.google.com/schemas/sitemap-news/0.9}"
 _DC_DATE = "{http://purl.org/dc/elements/1.1/}date"
 _TAG = re.compile(r"<[^>]*>")
 
@@ -215,17 +222,47 @@ def _atom_entries(root: Node, base_url: str) -> list[NewsEntry | None]:
     ]
 
 
+def _sitemap_entries(root: Node, base_url: str) -> list[NewsEntry | None]:
+    """A Google news sitemap (Q145: Kisan Tak, Agrowon, Krishi Jagran Hindi publish one
+    instead of RSS): `<url>` with `<loc>`, `<news:title>` and `<news:publication_date>`. A
+    `<url>` without a news title or date is skipped, so a plain sitemap yields nothing."""
+    found: list[NewsEntry | None] = []
+    for node in root.children:
+        news = node.child(f"{_NEWS}news")
+        found.append(
+            _entry(
+                _text_of(news.child(f"{_NEWS}title")) if news else None,
+                _web_link(_text_of(node.child(f"{_SITEMAP}loc")), base_url),
+                _text_of(news.child(f"{_NEWS}publication_date")) if news else None,
+                None,
+            )
+        )
+    return found
+
+
+def sitemap_children(data: bytes, base_url: str) -> list[str]:
+    """The child sitemaps of a sitemap index (empty for anything else)."""
+    root = safe_parse(data)
+    if root.tag != f"{_SITEMAP}sitemapindex":
+        return []
+    links = (_web_link(_text_of(n.child(f"{_SITEMAP}loc")), base_url) for n in root.children)
+    return [link for link in links if link]
+
+
 def parse_feed(data: bytes, base_url: str) -> list[NewsEntry]:
-    """Entries of an RSS 2.0 or Atom feed, in feed order; entries lacking a headline or a web
-    link, Atom entries without a readable date and RSS items with an unreadable date are
-    skipped. An RSS item with no date at all is kept with `published` None."""
+    """Entries of an RSS 2.0 or Atom feed or a news sitemap, in feed order; entries lacking a
+    headline or a web link, Atom / sitemap entries without a readable date and RSS items with
+    an unreadable date are skipped. An RSS item with no date at all is kept with `published`
+    None."""
     root = safe_parse(data)
     if root.tag == "rss":
         found = _rss_entries(root, base_url)
     elif root.tag == f"{_ATOM}feed":
         found = _atom_entries(root, base_url)
+    elif root.tag == f"{_SITEMAP}urlset":
+        found = _sitemap_entries(root, base_url)
     else:
-        raise UnsafeXmlError(f"not an RSS / Atom feed (root {root.tag!r})")
+        raise UnsafeXmlError(f"not an RSS / Atom feed or news sitemap (root {root.tag!r})")
     return [e for e in found if e is not None]
 
 
@@ -295,13 +332,48 @@ async def fetch_news_source(
         source.last_error = exc.reason[:500]
         await session.flush()
         return FetchOutcome(source.key, exc.status, error=source.last_error)
+    seen_at = datetime.now(UTC)
+    skip = skipped_paths(source.key)
+    newest = max((e.published for e in entries if e.published is not None), default=seen_at)
+    since = newest - timedelta(days=RECENT_DAYS)
+    entries = [
+        e
+        for e in entries
+        if not any(p in urlsplit(e.link).path for p in skip)
+        and (e.published is None or e.published >= since)
+    ]
+    added = await add_new_entries(session, source, entries, seen_at)
+    source.fetch_status = "ok"
+    source.last_error = None
+    source.last_ok_at = seen_at
+    await session.flush()
+    return FetchOutcome(source.key, "ok", added=added)
+
+
+def skipped_paths(key: str) -> tuple[str, ...]:
+    """The seed's `skip_paths` of a source (Q145: Agrowon's web stories and videos): entries
+    whose link path contains one are not added."""
+    return tuple(str(p) for p in seed_option(key, "skip_paths") or ())
+
+
+async def add_new_entries(
+    session: AsyncSession,
+    source: FeedSource,
+    entries: list[NewsEntry],
+    seen_at: datetime,
+    *,
+    limit: int | None = None,
+) -> int:
+    """Adds the entries not stored yet (same guid / link from this source, or the same link
+    as any news item) as `in_review` news items; at most `limit` of them. Returns the count."""
     known_keys = set(
         await session.scalars(select(FeedItem.external_id).where(FeedItem.source_id == source.id))
     )
     known_links = set(await session.scalars(select(FeedItem.url).where(FeedItem.type == "news")))
     added = 0
-    seen_at = datetime.now(UTC)
     for entry in entries:
+        if limit is not None and added >= limit:
+            break
         key = entry_key(entry)
         if key in known_keys or entry.link in known_links:
             continue
@@ -309,8 +381,5 @@ async def fetch_news_source(
         known_links.add(entry.link)
         _add_entry(session, source, entry, key, seen_at)
         added += 1
-    source.fetch_status = "ok"
-    source.last_error = None
-    source.last_ok_at = seen_at
     await session.flush()
-    return FetchOutcome(source.key, "ok", added=added)
+    return added

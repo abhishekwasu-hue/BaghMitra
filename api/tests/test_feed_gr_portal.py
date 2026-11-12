@@ -97,7 +97,7 @@ async def test_ok_run_adds_in_review_official_items_and_is_polite(engine: AsyncE
     portal = Portal(
         {
             "/robots.txt": httpx.Response(200, text="User-agent: *\nDisallow: /admin\n"),
-            "/": httpx.Response(200, text=FIXTURE),
+            "/1145/Government-Resolutions": httpx.Response(200, text=FIXTURE),
             "/Upload/PDF/202610261500000001.pdf": pdf,
         }
     )
@@ -121,7 +121,7 @@ async def test_ok_run_adds_in_review_official_items_and_is_polite(engine: AsyncE
         # A second pass adds nothing new (dedupe by the portal's unique code).
         again = await fetch_source_listings(session, source, adapter(portal), hash_documents=False)
         assert again.added == 0
-    assert portal.calls[:2] == ["/robots.txt", "/"]
+    assert portal.calls[:2] == ["/robots.txt", "/1145/Government-Resolutions"]
     assert sleeps == [5.0, 5.0, 5.0]  # every request after the first waited its turn
 
 

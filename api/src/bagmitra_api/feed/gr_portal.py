@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import asyncio
 import hashlib
+import re
 import time
 import uuid
 from collections.abc import Awaitable, Callable
@@ -26,7 +27,6 @@ from dataclasses import dataclass, field
 from datetime import UTC, date, datetime
 from html.parser import HTMLParser
 from urllib.parse import urljoin, urlsplit
-from urllib.robotparser import RobotFileParser
 
 import httpx
 from sqlalchemy import select
@@ -59,6 +59,9 @@ class GrListing:
     department: str | None
     published: date
     url: str
+    # False: the list has no code column (the Agriculture Commissionerate's GR page), so
+    # `code` is the SHA-256 of the document address, not a GR number.
+    numbered: bool = True
 
 
 @dataclass(slots=True)
@@ -120,29 +123,74 @@ def _parse_date(text: str) -> date | None:
 
 
 def parse_list_page(html: str, base_url: str) -> list[GrListing]:
-    """Listings from a result table; rows lacking a code, title, valid date or link are
-    skipped (nothing is guessed)."""
+    """Listings from a result table found by its headers (title and date; a code column when
+    the list has one); rows lacking a title, valid date, link or (with a code column) code are
+    skipped (nothing is guessed). Script links (sorting postbacks) are not document links."""
     parser = _TableParser()
     parser.feed(html)
     columns: dict[str, int] | None = None
     listings: list[GrListing] = []
     for row in parser.rows:
         mapped = _column_map(row)
-        if {"title", "code", "date"} <= mapped.keys():
+        if {"title", "date"} <= mapped.keys():
             columns = mapped
             continue
         if columns is None or len(row) <= max(columns.values()):
             continue
-        href = next((c.href for c in row if c.href), None)
-        code, title = _text(row[columns["code"]]), _text(row[columns["title"]])
+        href = next((c.href for c in row if c.href and not c.href.startswith("javascript:")), None)
+        title = _text(row[columns["title"]])
         published = _parse_date(_text(row[columns["date"]]))
-        if not code or not title or published is None or not href:
+        if not title or published is None or not href:
+            continue
+        url = urljoin(base_url, href.strip())
+        numbered = "code" in columns
+        code = _text(row[columns["code"]]) if numbered else hashlib.sha256(url.encode()).hexdigest()
+        if not code:
             continue
         department = _text(row[columns["department"]]) if "department" in columns else ""
-        listings.append(
-            GrListing(code, title, department or None, published, urljoin(base_url, href))
-        )
+        listings.append(GrListing(code, title, department or None, published, url, numbered))
     return listings
+
+
+def _rule_regex(pattern: str) -> re.Pattern[str]:
+    anchored = pattern.endswith("$")
+    body = re.escape(pattern.rstrip("$")).replace(r"\*", ".*")
+    return re.compile(body + ("$" if anchored else ""))
+
+
+def robots_allows(text: str, user_agent: str, target: str) -> bool:
+    """robots.txt as Google and RFC 9309 read it (the stdlib parser ignores `*` and `$`):
+    the groups naming our agent (else the `*` groups, merged), and of their Allow / Disallow
+    rules the longest matching one wins, Allow on a tie. A page that is not robots.txt (an HTML
+    error page served with status 200) has no rules, so it allows everything."""
+    agent = user_agent.split("/")[0].strip().lower()
+    groups: list[tuple[set[str], list[tuple[bool, str]]]] = []
+    agents: set[str] = set()
+    rules: list[tuple[bool, str]] = []
+    for raw in text.splitlines():
+        line = raw.split("#", 1)[0].strip()
+        name, _, value = line.partition(":")
+        name, value = name.strip().lower(), value.strip()
+        if name == "user-agent":
+            if rules:
+                groups.append((agents, rules))
+                agents, rules = set(), []
+            agents.add(value.lower())
+        elif name in ("allow", "disallow") and agents:
+            if value:
+                rules.append((name == "allow", value))
+    if agents:
+        groups.append((agents, rules))
+    mine = [r for a, r in groups if agent in a]
+    chosen = mine or [r for a, r in groups if "*" in a]
+    best: tuple[int, bool] | None = None
+    for group in chosen:
+        for allow, pattern in group:
+            if _rule_regex(pattern).match(target):
+                length = len(pattern)
+                if best is None or length > best[0] or (length == best[0] and allow):
+                    best = (length, allow)
+    return best is None or best[1]
 
 
 class GrPortalAdapter:
@@ -194,9 +242,10 @@ class GrPortalAdapter:
             return  # no robots.txt: no robots restriction (terms were checked separately)
         if response.status_code >= 400:
             raise FetchFailedError("fetch_failed", f"HTTP {response.status_code} for robots.txt")
-        robots = RobotFileParser()
-        robots.parse(response.text.splitlines())
-        if not robots.can_fetch(self._user_agent, url):
+        target = parts.path or "/"
+        if parts.query:
+            target += f"?{parts.query}"
+        if not robots_allows(response.text, self._user_agent, target):
             raise FetchFailedError("disallowed", f"robots.txt disallows {parts.path or '/'}")
 
     async def list_page(self, url: str) -> list[GrListing]:
@@ -206,6 +255,38 @@ class GrPortalAdapter:
                 "fetch_failed", f"HTTP {response.status_code} from {response.url.host}"
             )
         return parse_list_page(response.text, str(response.url))
+
+    async def document(self, url: str) -> tuple[bytes, str]:
+        """The bytes of a listed document (robots checked, at most MAX_DOCUMENT_BYTES) and its
+        kind, `pdf` or `html`; FetchFailedError when it cannot be read."""
+        await self.check_robots(url)
+        await self._wait_turn()
+        chunks: list[bytes] = []
+        size = 0
+        try:
+            async with self._http.stream(
+                "GET", url, headers={"User-Agent": self._user_agent}, timeout=self._timeout
+            ) as response:
+                if response.status_code >= 400:
+                    raise FetchFailedError(
+                        "fetch_failed", f"HTTP {response.status_code} for the document"
+                    )
+                content_type = response.headers.get("content-type", "")
+                async for chunk in response.aiter_bytes():
+                    size += len(chunk)
+                    if size > MAX_DOCUMENT_BYTES:
+                        raise FetchFailedError(
+                            "fetch_failed", f"document larger than {MAX_DOCUMENT_BYTES} bytes"
+                        )
+                    chunks.append(chunk)
+        except httpx.HTTPError as exc:
+            raise FetchFailedError("fetch_failed", f"{type(exc).__name__}: {exc}") from exc
+        data = b"".join(chunks)
+        if data.startswith(b"%PDF"):
+            return data, "pdf"
+        if "html" in content_type or data.lstrip()[:1] == b"<":
+            return data, "html"
+        raise FetchFailedError("fetch_failed", f"not a PDF or HTML document ({content_type})")
 
     async def document_hash(self, url: str) -> tuple[str, int] | None:
         """SHA-256 and size of a GR document, or None when it cannot be read (the item then

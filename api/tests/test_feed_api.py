@@ -190,9 +190,10 @@ async def test_sources_registry_and_terms(api: httpx.AsyncClient) -> None:
     sources = (await api.get(f"{ADMIN_BASE}/sources", headers=ADMIN)).json()["sources"]
     seeded = [s for s in sources if s["key"] != "test_news"]
     assert len(seeded) >= 9
-    owner_allowed = {"mahasamvad_news"}  # Q129
-    assert {s["terms_status"] for s in seeded if s["key"] not in owner_allowed} == {"unknown"}
-    assert {s["terms_status"] for s in seeded if s["key"] in owner_allowed} == {"allowed"}
+    # Q129, Q145: the seed records the owner's decisions; the rest stay unknown.
+    decided = {s["key"]: s.get("terms_status") for s in source_seeds() if s.get("terms_status")}
+    assert {s["terms_status"] for s in seeded if s["key"] not in decided} == {"unknown"}
+    assert {s["key"]: s["terms_status"] for s in seeded if s["key"] in decided} == decided
     res = await api.put(
         f"{ADMIN_BASE}/sources/mh_gr_portal/terms",
         json={"terms_status": "disallowed", "notes": "ToS forbids automated access"},
@@ -768,8 +769,13 @@ def test_text_cap_default() -> None:
 
 def test_every_seeded_source_says_central_or_state() -> None:
     """Owner 2026-11-09: the feed tells Central Government items from Maharashtra ones."""
-    levels = {s["key"]: s["level"] for s in source_seeds() if s["tier"] != "knowledge"}
+    # Q145: a non-government agriculture outlet is neither (no level, no badge).
+    outlets = {"agrowon_mr", "krishijagran_en", "krishijagran_hi", "kisantak_hi"}
+    outlets |= {"businessline_agri", "krishakjagat_hi"}
+    seeds = [s for s in source_seeds() if s["tier"] != "knowledge" and s["key"] not in outlets]
+    levels = {s["key"]: s["level"] for s in seeds}
     assert set(levels.values()) == {"central", "state"}
+    assert {s["level"] for s in source_seeds() if s["key"] in outlets} == {None}
     # Q141: our own knowledge articles are neither Central nor State government items.
     assert {s["level"] for s in source_seeds() if s["tier"] == "knowledge"} == {None}
     assert levels["pib_agriculture_news"] == "central"

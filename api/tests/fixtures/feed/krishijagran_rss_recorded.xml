@@ -1,0 +1,45 @@
+<!-- Recorded 2026-11-12 from a GitHub runner (card-sources raw mode) from https://krishijagran.com/feeds/rss; trimmed to a few entries, otherwise as served. -->
+<rss xmlns:ag="http://purl.org/rss/1.0/modules/aggregation/" xmlns:annotate="http://purl.org/rss/1.0/modules/annotate/" xmlns:app="http://www.w3.org/2007/app" xmlns:company="http://purl.org/rss/1.0/modules/company" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:media="http://search.yahoo.com/mrss/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:email="http://purl.org/rss/1.0/modules/email/" xmlns:ev="http://purl.org/rss/1.0/modules/event/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:ref="http://purl.org/rss/1.0/modules/reference/" xmlns:taxo="http://purl.org/rss/1.0/modules/taxonomy/" xmlns:atom10="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Krishi Jagran News Feed</title>
+        <description>Latest agriculture news and updates from India and all around the world on Krishi Jagran</description>
+        <lastBuildDate>Wed, 04 Nov 2026 17:44:18 +0530</lastBuildDate>
+        <link>https://krishijagran.com</link>
+        <copyright>krishijagran.com</copyright>
+        <generator>krishijagran.com</generator>
+        <language>en-us</language>
+
+            <item>
+                <pubDate>Wed, 04 Nov 2026 17:44:18 +0530 </pubDate>
+                <title><![CDATA[Bayer CropScience Limited reports Q2 and H1 Results for FY 2026-27]]></title>
+                <link>https://krishijagran.com/industry-news/bayer-cropscience-limited-reports-q2-and-h1-results-for-fy-2026-27/</link>
+                <guid>https://krishijagran.com/industry-news/bayer-cropscience-limited-reports-q2-and-h1-results-for-fy-2026-27/</guid>
+                <category>Industry News</category>
+                <description><![CDATA[Bayer CropScience Limited reported a 19% revenue decline in Q2 FY 2026-27, while profit before tax rose 6%. H1 revenue fell 11%, but profit increased 15%. The company announced an interim dividend of ₹90 per share amid challenging agricultural market conditions.]]></description>
+                <media:content url="https://kj1bcdn.b-cdn.net/media/106028/bayer.jpg" height="720" width="1280">
+                    <media:title type="html">
+                        <![CDATA[Bayer CropScience Limited reports Q2 and H1 Results for FY 2026-27]]>
+                    </media:title>
+                </media:content>
+                <media:thumbnail url="https://kj1bcdn.b-cdn.net/media/106028/bayer.jpg?width=650" width="650" />
+                <language>en-us</language>
+                <copyright>krishijagran.com</copyright>
+            </item>
+<item>
+                <pubDate>Tue, 03 Nov 2026 15:47:07 +0530 </pubDate>
+                <title><![CDATA[How Barsha Turned Barren Land into a Farm Legacy]]></title>
+                <link>https://krishijagran.com/success-story/how-barsha-turned-barren-land-into-a-farm-legacy/</link>
+                <guid>https://krishijagran.com/success-story/how-barsha-turned-barren-land-into-a-farm-legacy/</guid>
+                <category>Success Story</category>
+                <description><![CDATA[Barsha Agarwal transformed chemically depleted family land into a thriving natural farm in Kanpur, creating sustainable livelihoods, empowering rural women, and delivering chemical-free produce to 50 families.]]></description>
+                <media:content url="https://kj1bcdn.b-cdn.net/media/106027/barsha-agarwal.jpg" height="720" width="1280">
+                    <media:title type="html">
+                        <![CDATA[How Barsha Turned Barren Land into a Farm Legacy]]>
+                    </media:title>
+                </media:content>
+                <media:thumbnail url="https://kj1bcdn.b-cdn.net/media/106027/barsha-agarwal.jpg?width=650" width="650" />
+                <language>en-us</language>
+                <copyright>krishijagran.com</copyright>
+            </item>
+</channel>
+</rss>

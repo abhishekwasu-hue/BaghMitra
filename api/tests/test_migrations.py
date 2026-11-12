@@ -106,6 +106,25 @@ def test_feed_knowledge_migration_up_and_down(tmp_path: Path) -> None:
     engine.dispose()
 
 
+def test_feed_source_backfill_migration_up_and_down(tmp_path: Path) -> None:
+    """0051 (Q145): feed_sources.backfill_done_at comes and goes; existing rows keep null."""
+    url = f"sqlite+aiosqlite:///{tmp_path / 'b.db'}"
+    cfg = _config(url)
+    engine = create_engine(_sync_url(url))
+
+    def columns() -> set[str]:
+        with engine.connect() as conn:
+            return {c["name"] for c in inspect(conn).get_columns("feed_sources")}
+
+    command.upgrade(cfg, "0051")
+    assert "backfill_done_at" in columns()
+    command.downgrade(cfg, "0050")
+    assert "backfill_done_at" not in columns()
+    command.upgrade(cfg, "0051")
+    assert "backfill_done_at" in columns()
+    engine.dispose()
+
+
 def test_every_model_declares_its_rls_kind() -> None:
     """Each table is owner-scoped (owner_column), read-only reference data, private, or has
     its own policies (custom_rls: market linkage, migrations 0029-0030)."""

@@ -29,9 +29,10 @@ OFFICIAL_SUFFIXES = (".gov.in", ".nic.in")
 _EMAIL = re.compile(r"[\w.+-]+@[\w-]+(?:\.[\w-]+)+")
 _PHONE = re.compile(r"(?<!\d)(?:\+91[\s-]?)?[6-9]\d{9}(?!\d)")
 
-ARTICLE_PROMPT = """You are the news desk of BagMitra, an app for orange and sweet-lime farmers in
-Maharashtra. Read the official government source in <document> (its address is in <source_url>)
-and write a professional news article for farmers, as a careful agriculture journalist would.
+ARTICLE_PROMPT = """You are the news desk of BagMitra, an app for fruit growers (orange, sweet lime
+and other orchards) and farmers in Maharashtra. Read the source in <document> (an official
+government page or an agriculture news outlet's page; its address is in <source_url>) and write
+a professional news article for farmers, as a careful agriculture journalist would.
 
 Answer with ONE JSON object only, no other text:
 {"relevant": true|false, "political": true|false,
@@ -43,10 +44,15 @@ ARTICLE = {"headline": str, "standfirst": str, "key_points": [3-5 str],
  "key_dates": [{"date": "YYYY-MM-DD", "label": str}], "sources": [1-5 {"title": str, "url": str}]}
 
 Rules:
-- "relevant" is true only if the source changes something for farmers: a scheme, a subsidy, a
-  payment or relief, a deadline, crop insurance, a pesticide or fertiliser rule, market or
-  procurement decisions, weather or crop advisories. Otherwise answer {"relevant": false,
-  "political": false, "lang": null}.
+- "relevant" is true if the source does either of these:
+  (1) it changes something for farmers: a scheme, a subsidy, a payment or relief, a deadline,
+      crop insurance, a pesticide or fertiliser rule, market or procurement decisions;
+  (2) it gives useful farming knowledge for Maharashtra / Vidarbha farmers: horticulture and
+      every fruit crop (orange, sweet lime, mango, banana, pomegranate, grapes, guava, custard
+      apple and others), vegetables, soil and water, weather and crop advisories, pest and
+      disease management, markets and prices, post-harvest handling and storage.
+  Politics, crime, entertainment, sport and stories about a person are not relevant. Otherwise
+  answer {"relevant": false, "political": false, "lang": null}.
 - "political" is true if the source is about elections, parties, or praise or criticism of a
   government, minister or person. Then "lang" is null.
 - Use only facts in the source. Copy every number, amount, percentage, date and scheme name
