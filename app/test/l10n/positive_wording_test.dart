@@ -50,6 +50,9 @@ const allowNegative = {
   'mlIntroOpenMap',
   // Bill photo (Q136): the owner's own calm line for an unclear bill, verbatim.
   'billUnsure',
+  // Reaction 😟 "समजले नाही" (Q146): the owner's own example; the reader's honest signal
+  // that the text needs work is the point.
+  'reactionUnclear',
 };
 
 final _negative = <String, RegExp>{

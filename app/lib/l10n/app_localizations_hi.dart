@@ -5380,4 +5380,56 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get askOpenCard => 'उपाय व जानकारी देखें';
+
+  @override
+  String get reactionsArticleTitle => 'यह लेख कैसा लगा?';
+
+  @override
+  String get reactionsAnswerTitle => 'यह जवाब कैसा लगा?';
+
+  @override
+  String get reactionUseful => 'उपयोगी';
+
+  @override
+  String get reactionThanks => 'धन्यवाद';
+
+  @override
+  String get reactionLiked => 'पसंद आया';
+
+  @override
+  String get reactionOkay => 'ठीक';
+
+  @override
+  String get reactionUnclear => 'समझ नहीं आया';
+
+  @override
+  String get reactionThanksToast => 'धन्यवाद!';
+
+  @override
+  String get reactionPending => 'फ़ोन पर रखा; इंटरनेट आने पर जाएगा.';
+
+  @override
+  String reactionChipSemantics(String label, int count) {
+    return '$label, $count';
+  }
+
+  @override
+  String get adminFeedReactions => 'प्रतिक्रियाएँ';
+
+  @override
+  String get adminReactionsMost => 'सबसे उपयोगी';
+
+  @override
+  String get adminReactionsLeast => 'सबसे कम उपयोगी';
+
+  @override
+  String adminReactionsTotals(int targets, int total) {
+    return '$targets विषय · $total प्रतिक्रियाएँ';
+  }
+
+  @override
+  String get adminReactionsNone => 'प्रतिक्रियाएँ आने पर यहाँ दिखेंगी.';
+
+  @override
+  String get adminReactionsQa => 'प्रश्नोत्तर';
 }

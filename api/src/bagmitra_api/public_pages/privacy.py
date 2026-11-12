@@ -10,7 +10,7 @@ from __future__ import annotations
 
 from html import escape
 
-LAST_UPDATED = {"mr": "११ नोव्हेंबर २०२६", "en": "11 November 2026"}
+LAST_UPDATED = {"mr": "१२ नोव्हेंबर २०२६", "en": "12 November 2026"}
 DELETION_DAYS = {"mr": "३० दिवसांत", "en": "within 30 days"}
 
 _IF = {"mr": "चालू केले असल्यास", "en": "if turned on"}
@@ -89,6 +89,8 @@ Google त्याच्या संमती-पानावर दाखव�
 <ul><li>"संदेश तपासा": चिकटवलेला मजकूर अधिकृत सूचनांशी जुळवण्यासाठी सर्व्हरला जातो आणि कुठेही
 साठवला जात नाही; फक्त त्याची लांबी आणि निकाल log मध्ये नोंदतो.</li>
 <li>सरकारी सूचना पाहिली / बाजूला केली / आठवण हवी, आणि सूचना-वेळेच्या पसंती.</li>
+<li>लेख किंवा उत्तर वाचून तुम्ही दिलेला प्रतिसाद (उदा. 👍 उपयोगी): तुमच्या खात्यासोबत साठवला
+जातो; फक्त एकूण संख्या वापरली जाते, कोणी काय निवडले ते दाखवले जात नाही. खाते काढल्यावर पुसला जातो.</li>
 <li>Push सूचना {i}: फोनचा push token (Firebase Cloud Messaging), म्हणजे हवामान धोका सूचना
 आणि सरकारी योजनांच्या आठवणी फोनवर येतात. साइन-आउट केल्यावर किंवा खाते काढल्यावर token काढला
 जातो. कामांच्या आठवणी फोनवरच ठरतात.</li>
@@ -236,6 +238,9 @@ Reading aloud happens on the phone.</li></ul>
 notices and is not stored anywhere; only its length and the result are logged.</li>
 <li>Which government notices you saw, dismissed or asked to be reminded of, and your
 notification preferences.</li>
+<li>The reaction you give after reading an article or an answer (for example 👍 useful):
+stored with your account; only the totals are used, who chose what is never shown. Erased
+with the account.</li>
 <li>Push alerts {i}: your phone's push token (Firebase Cloud Messaging), so weather risk
 alerts and government scheme reminders reach your phone. It is removed when you sign out or
 delete your account. Task reminders are scheduled on the phone.</li>

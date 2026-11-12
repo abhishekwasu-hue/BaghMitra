@@ -13,6 +13,7 @@ import '../../../design_system/empty_state.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../sync/presentation/refresh_note.dart';
 import '../../../theme/app_theme.dart';
+import '../../reactions/presentation/reaction_bar.dart';
 import '../../tasks/domain/farm_task.dart';
 import '../../voice/presentation/share_speak_buttons.dart';
 import '../data/feed_cache.dart';
@@ -594,6 +595,8 @@ class _FeedItemScreenState extends ConsumerState<FeedItemScreen> {
                 // A card-based ज्ञान लेख is not about a GR; a scheme explainer still is.
                 if (!item.isKnowledge || item.article?.cardSection == null)
                   FeedFooter(serverFooter: cached?.page.footer),
+                const SizedBox(height: BmSpace.md),
+                ReactionBar(target: item.id, title: t.reactionsArticleTitle),
                 const SizedBox(height: BmSpace.md),
                 Wrap(
                   spacing: BmSpace.xs,

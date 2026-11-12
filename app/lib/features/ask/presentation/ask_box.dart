@@ -8,6 +8,8 @@ import '../../../design_system/article_reading.dart';
 import '../../../design_system/sources_disclosure.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
+import '../../reactions/domain/reaction.dart';
+import '../../reactions/presentation/reaction_bar.dart';
 import '../../voice/presentation/voice_mic_button.dart';
 import '../data/qa_kb.dart';
 
@@ -192,6 +194,12 @@ class _AskBoxState extends ConsumerState<AskBox> {
                 ),
               ),
             ],
+            const SizedBox(height: BmSpace.sm),
+            ReactionBar(
+              key: Key('ask-reactions-${best.id}'),
+              target: qaReactionTarget(best.id),
+              title: t.reactionsAnswerTitle,
+            ),
           ],
         ),
       ),
