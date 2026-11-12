@@ -4576,6 +4576,17 @@ class $SprayRecordsTable extends SprayRecords
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _labourPaiseMeta = const VerificationMeta(
+    'labourPaise',
+  );
+  @override
+  late final GeneratedColumn<int> labourPaise = GeneratedColumn<int>(
+    'labour_paise',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -4595,6 +4606,7 @@ class $SprayRecordsTable extends SprayRecords
     billPhotoPath,
     billPhotoKey,
     products,
+    labourPaise,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -4740,6 +4752,15 @@ class $SprayRecordsTable extends SprayRecords
         products.isAcceptableOrUnknown(data['products']!, _productsMeta),
       );
     }
+    if (data.containsKey('labour_paise')) {
+      context.handle(
+        _labourPaiseMeta,
+        labourPaise.isAcceptableOrUnknown(
+          data['labour_paise']!,
+          _labourPaiseMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -4817,6 +4838,10 @@ class $SprayRecordsTable extends SprayRecords
         DriftSqlType.string,
         data['${effectivePrefix}products'],
       ),
+      labourPaise: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}labour_paise'],
+      ),
     );
   }
 
@@ -4844,6 +4869,7 @@ class SprayRecordRow extends DataClass implements Insertable<SprayRecordRow> {
   final String? billPhotoPath;
   final String? billPhotoKey;
   final String? products;
+  final int? labourPaise;
   const SprayRecordRow({
     required this.id,
     required this.plotId,
@@ -4862,6 +4888,7 @@ class SprayRecordRow extends DataClass implements Insertable<SprayRecordRow> {
     this.billPhotoPath,
     this.billPhotoKey,
     this.products,
+    this.labourPaise,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -4905,6 +4932,9 @@ class SprayRecordRow extends DataClass implements Insertable<SprayRecordRow> {
     if (!nullToAbsent || products != null) {
       map['products'] = Variable<String>(products);
     }
+    if (!nullToAbsent || labourPaise != null) {
+      map['labour_paise'] = Variable<int>(labourPaise);
+    }
     return map;
   }
 
@@ -4947,6 +4977,9 @@ class SprayRecordRow extends DataClass implements Insertable<SprayRecordRow> {
       products: products == null && nullToAbsent
           ? const Value.absent()
           : Value(products),
+      labourPaise: labourPaise == null && nullToAbsent
+          ? const Value.absent()
+          : Value(labourPaise),
     );
   }
 
@@ -4973,6 +5006,7 @@ class SprayRecordRow extends DataClass implements Insertable<SprayRecordRow> {
       billPhotoPath: serializer.fromJson<String?>(json['billPhotoPath']),
       billPhotoKey: serializer.fromJson<String?>(json['billPhotoKey']),
       products: serializer.fromJson<String?>(json['products']),
+      labourPaise: serializer.fromJson<int?>(json['labourPaise']),
     );
   }
   @override
@@ -4996,6 +5030,7 @@ class SprayRecordRow extends DataClass implements Insertable<SprayRecordRow> {
       'billPhotoPath': serializer.toJson<String?>(billPhotoPath),
       'billPhotoKey': serializer.toJson<String?>(billPhotoKey),
       'products': serializer.toJson<String?>(products),
+      'labourPaise': serializer.toJson<int?>(labourPaise),
     };
   }
 
@@ -5017,6 +5052,7 @@ class SprayRecordRow extends DataClass implements Insertable<SprayRecordRow> {
     Value<String?> billPhotoPath = const Value.absent(),
     Value<String?> billPhotoKey = const Value.absent(),
     Value<String?> products = const Value.absent(),
+    Value<int?> labourPaise = const Value.absent(),
   }) => SprayRecordRow(
     id: id ?? this.id,
     plotId: plotId ?? this.plotId,
@@ -5039,6 +5075,7 @@ class SprayRecordRow extends DataClass implements Insertable<SprayRecordRow> {
         : this.billPhotoPath,
     billPhotoKey: billPhotoKey.present ? billPhotoKey.value : this.billPhotoKey,
     products: products.present ? products.value : this.products,
+    labourPaise: labourPaise.present ? labourPaise.value : this.labourPaise,
   );
   SprayRecordRow copyWithCompanion(SprayRecordsCompanion data) {
     return SprayRecordRow(
@@ -5073,6 +5110,9 @@ class SprayRecordRow extends DataClass implements Insertable<SprayRecordRow> {
           ? data.billPhotoKey.value
           : this.billPhotoKey,
       products: data.products.present ? data.products.value : this.products,
+      labourPaise: data.labourPaise.present
+          ? data.labourPaise.value
+          : this.labourPaise,
     );
   }
 
@@ -5095,7 +5135,8 @@ class SprayRecordRow extends DataClass implements Insertable<SprayRecordRow> {
           ..write('clientUpdatedAt: $clientUpdatedAt, ')
           ..write('billPhotoPath: $billPhotoPath, ')
           ..write('billPhotoKey: $billPhotoKey, ')
-          ..write('products: $products')
+          ..write('products: $products, ')
+          ..write('labourPaise: $labourPaise')
           ..write(')'))
         .toString();
   }
@@ -5119,6 +5160,7 @@ class SprayRecordRow extends DataClass implements Insertable<SprayRecordRow> {
     billPhotoPath,
     billPhotoKey,
     products,
+    labourPaise,
   );
   @override
   bool operator ==(Object other) =>
@@ -5140,7 +5182,8 @@ class SprayRecordRow extends DataClass implements Insertable<SprayRecordRow> {
           other.clientUpdatedAt == this.clientUpdatedAt &&
           other.billPhotoPath == this.billPhotoPath &&
           other.billPhotoKey == this.billPhotoKey &&
-          other.products == this.products);
+          other.products == this.products &&
+          other.labourPaise == this.labourPaise);
 }
 
 class SprayRecordsCompanion extends UpdateCompanion<SprayRecordRow> {
@@ -5161,6 +5204,7 @@ class SprayRecordsCompanion extends UpdateCompanion<SprayRecordRow> {
   final Value<String?> billPhotoPath;
   final Value<String?> billPhotoKey;
   final Value<String?> products;
+  final Value<int?> labourPaise;
   final Value<int> rowid;
   const SprayRecordsCompanion({
     this.id = const Value.absent(),
@@ -5180,6 +5224,7 @@ class SprayRecordsCompanion extends UpdateCompanion<SprayRecordRow> {
     this.billPhotoPath = const Value.absent(),
     this.billPhotoKey = const Value.absent(),
     this.products = const Value.absent(),
+    this.labourPaise = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   SprayRecordsCompanion.insert({
@@ -5200,6 +5245,7 @@ class SprayRecordsCompanion extends UpdateCompanion<SprayRecordRow> {
     this.billPhotoPath = const Value.absent(),
     this.billPhotoKey = const Value.absent(),
     this.products = const Value.absent(),
+    this.labourPaise = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        plotId = Value(plotId),
@@ -5225,6 +5271,7 @@ class SprayRecordsCompanion extends UpdateCompanion<SprayRecordRow> {
     Expression<String>? billPhotoPath,
     Expression<String>? billPhotoKey,
     Expression<String>? products,
+    Expression<int>? labourPaise,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -5245,6 +5292,7 @@ class SprayRecordsCompanion extends UpdateCompanion<SprayRecordRow> {
       if (billPhotoPath != null) 'bill_photo_path': billPhotoPath,
       if (billPhotoKey != null) 'bill_photo_key': billPhotoKey,
       if (products != null) 'products': products,
+      if (labourPaise != null) 'labour_paise': labourPaise,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -5267,6 +5315,7 @@ class SprayRecordsCompanion extends UpdateCompanion<SprayRecordRow> {
     Value<String?>? billPhotoPath,
     Value<String?>? billPhotoKey,
     Value<String?>? products,
+    Value<int?>? labourPaise,
     Value<int>? rowid,
   }) {
     return SprayRecordsCompanion(
@@ -5287,6 +5336,7 @@ class SprayRecordsCompanion extends UpdateCompanion<SprayRecordRow> {
       billPhotoPath: billPhotoPath ?? this.billPhotoPath,
       billPhotoKey: billPhotoKey ?? this.billPhotoKey,
       products: products ?? this.products,
+      labourPaise: labourPaise ?? this.labourPaise,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -5345,6 +5395,9 @@ class SprayRecordsCompanion extends UpdateCompanion<SprayRecordRow> {
     if (products.present) {
       map['products'] = Variable<String>(products.value);
     }
+    if (labourPaise.present) {
+      map['labour_paise'] = Variable<int>(labourPaise.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -5371,6 +5424,7 @@ class SprayRecordsCompanion extends UpdateCompanion<SprayRecordRow> {
           ..write('billPhotoPath: $billPhotoPath, ')
           ..write('billPhotoKey: $billPhotoKey, ')
           ..write('products: $products, ')
+          ..write('labourPaise: $labourPaise, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -14882,6 +14936,7 @@ typedef $$SprayRecordsTableCreateCompanionBuilder =
       Value<String?> billPhotoPath,
       Value<String?> billPhotoKey,
       Value<String?> products,
+      Value<int?> labourPaise,
       Value<int> rowid,
     });
 typedef $$SprayRecordsTableUpdateCompanionBuilder =
@@ -14903,6 +14958,7 @@ typedef $$SprayRecordsTableUpdateCompanionBuilder =
       Value<String?> billPhotoPath,
       Value<String?> billPhotoKey,
       Value<String?> products,
+      Value<int?> labourPaise,
       Value<int> rowid,
     });
 
@@ -14997,6 +15053,11 @@ class $$SprayRecordsTableFilterComposer
 
   ColumnFilters<String> get products => $composableBuilder(
     column: $table.products,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get labourPaise => $composableBuilder(
+    column: $table.labourPaise,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -15094,6 +15155,11 @@ class $$SprayRecordsTableOrderingComposer
     column: $table.products,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<int> get labourPaise => $composableBuilder(
+    column: $table.labourPaise,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$SprayRecordsTableAnnotationComposer
@@ -15169,6 +15235,11 @@ class $$SprayRecordsTableAnnotationComposer
 
   GeneratedColumn<String> get products =>
       $composableBuilder(column: $table.products, builder: (column) => column);
+
+  GeneratedColumn<int> get labourPaise => $composableBuilder(
+    column: $table.labourPaise,
+    builder: (column) => column,
+  );
 }
 
 class $$SprayRecordsTableTableManager
@@ -15219,6 +15290,7 @@ class $$SprayRecordsTableTableManager
                 Value<String?> billPhotoPath = const Value.absent(),
                 Value<String?> billPhotoKey = const Value.absent(),
                 Value<String?> products = const Value.absent(),
+                Value<int?> labourPaise = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => SprayRecordsCompanion(
                 id: id,
@@ -15238,6 +15310,7 @@ class $$SprayRecordsTableTableManager
                 billPhotoPath: billPhotoPath,
                 billPhotoKey: billPhotoKey,
                 products: products,
+                labourPaise: labourPaise,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -15259,6 +15332,7 @@ class $$SprayRecordsTableTableManager
                 Value<String?> billPhotoPath = const Value.absent(),
                 Value<String?> billPhotoKey = const Value.absent(),
                 Value<String?> products = const Value.absent(),
+                Value<int?> labourPaise = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => SprayRecordsCompanion.insert(
                 id: id,
@@ -15278,6 +15352,7 @@ class $$SprayRecordsTableTableManager
                 billPhotoPath: billPhotoPath,
                 billPhotoKey: billPhotoKey,
                 products: products,
+                labourPaise: labourPaise,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0

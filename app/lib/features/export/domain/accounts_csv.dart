@@ -79,8 +79,17 @@ List<LedgerLine> buildLedger({
         join([i.buyerName, '${kgText(i.quantityKg)} ${labels.kg}']),
         i.netPaise,
       ),
-    for (final s in sprays)
+    for (final s in sprays) ...[
       line(s.sprayedOn, labels.typeSpray, s.productsLabel, -s.costPaise),
+      // The spraying labour (Q143) is a labour cost: its own line, as in the summary.
+      if ((s.labourPaise ?? 0) > 0)
+        line(
+          s.sprayedOn,
+          labels.typeLabour,
+          join([nameOf('spraying'), s.productsLabel]),
+          -s.labourPaise!,
+        ),
+    ],
     for (final i in inputs)
       line(
         i.appliedOn,

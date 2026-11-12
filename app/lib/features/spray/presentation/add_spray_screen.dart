@@ -59,8 +59,8 @@ class _ProductFields {
 }
 
 /// Records one spray. Several products mixed in one tank are one spray (Q142): each product
-/// has its name, ingredient, dose, PHI and cost; date, bahar, water, area, target, sprayer
-/// and the bill photo are the spray's. Warnings appear while typing (offline, from the cached
+/// has its name, ingredient, dose, PHI and cost; date, bahar, water, area, target, sprayer,
+/// spraying labour (Q143) and the bill photo are the spray's. Warnings appear while typing (offline, from the cached
 /// ban list) on the product they are about and never block saving: the record is a fact
 /// about what the grower did. An optional bill photo is kept with the record and can fill
 /// the empty fields (OPEN_QUESTIONS Q136).
@@ -80,6 +80,7 @@ class _AddSprayScreenState extends ConsumerState<AddSprayScreen>
   final _water = TextEditingController();
   final _area = TextEditingController();
   final _operator = TextEditingController();
+  final _labour = TextEditingController();
   final _target = TextEditingController();
   DateTime? _date;
   String? _cycle;
@@ -88,6 +89,7 @@ class _AddSprayScreenState extends ConsumerState<AddSprayScreen>
     _water,
     _area,
     _operator,
+    _labour,
     _target,
   ];
 
@@ -204,6 +206,7 @@ class _AddSprayScreenState extends ConsumerState<AddSprayScreen>
         waterLitres: double.tryParse(_water.text.trim()),
         areaAcres: double.tryParse(_area.text.trim()),
         operator: _opt(_operator),
+        labourPaise: parseRupeesToPaise(_labour.text),
         target: _opt(_target),
         billPhotoPath: bill,
       ),
@@ -244,6 +247,7 @@ class _AddSprayScreenState extends ConsumerState<AddSprayScreen>
     const gap = SizedBox(height: BmSpace.md);
     const decimal = TextInputType.numberWithOptions(decimal: true);
     final mixed = _products.length > 1;
+    final labourPaise = parseRupeesToPaise(_labour.text) ?? 0;
     final totalPaise = _products.fold<int>(
       0,
       (sum, p) => sum + (parseRupeesToPaise(p.cost.text) ?? 0),
@@ -386,7 +390,8 @@ class _AddSprayScreenState extends ConsumerState<AddSprayScreen>
                 child: Text(t.sprayAddProduct),
               ),
             ),
-            if (mixed && totalPaise > 0) ...[
+            // With labour, the split under the labour field says it all.
+            if (mixed && totalPaise > 0 && labourPaise == 0) ...[
               const SizedBox(height: BmSpace.sm),
               Text(
                 t.sprayMixTotal(formatPaise(totalPaise, lang)),
@@ -481,6 +486,34 @@ class _AddSprayScreenState extends ConsumerState<AddSprayScreen>
               controller: _operator,
               decoration: InputDecoration(labelText: t.sprayOperator),
             ),
+            gap,
+            // Once per spray (Q143); counted under "labour" in the accounts. Bill fill never
+            // writes it.
+            TextFormField(
+              key: const Key('spray-labour'),
+              controller: _labour,
+              keyboardType: decimal,
+              decoration: InputDecoration(
+                labelText: t.sprayLabour,
+                helperText: t.sprayLabourHelp,
+                helperMaxLines: 3,
+              ),
+              validator: (v) =>
+                  (v ?? '').trim().isEmpty || parseRupeesToPaise(v!) != null
+                  ? null
+                  : t.invalidNumber,
+            ),
+            if (labourPaise > 0) ...[
+              const SizedBox(height: BmSpace.sm),
+              Text(
+                t.sprayCostSplit(
+                  formatPaise(totalPaise, lang),
+                  formatPaise(labourPaise, lang),
+                ),
+                key: const Key('spray-cost-split'),
+                style: BmType.bodyStrong.copyWith(color: c.ink),
+              ),
+            ],
           ],
         ),
       ),

@@ -1436,7 +1436,7 @@
   "feedbackSent": "मिल गया, धन्यवाद!",
   "feedbackQueued": "फ़ोन पर सहेजा; इंटरनेट आने पर जाएगा।",
   "mlLoginRole": "भूमिका: {role}",
-  "expenseElsewhere": "छिड़काव, मज़दूरी और खाद का खर्च उनकी अपनी प्रविष्टि में लिखें; हिसाब में वह अपने-आप जुड़ जाता है।",
+  "expenseElsewhere": "छिड़काव (मज़दूरी सहित), मज़दूरी और खाद का खर्च उनकी अपनी प्रविष्टि में लिखें; हिसाब में वह अपने-आप जुड़ जाता है।",
   "expenseGoSpray": "छिड़काव",
   "expenseGoLabour": "मज़दूरी",
   "expenseGoInputs": "खाद और गोबर खाद",
@@ -1521,5 +1521,8 @@
   "sprayDetailOperator": "छिड़काव करने वाला: {name}",
   "sprayDetailProducts": "टंकी के घटक",
   "billPickManyTitle": "इस छिड़काव में मिलाई गई बिल की पंक्तियाँ चुनें",
-  "billPickMany": "चुनी गई {count} पंक्तियाँ भरें"
+  "billPickMany": "चुनी गई {count} पंक्तियाँ भरें",
+  "sprayLabour": "छिड़काव मज़दूरी (₹, वैकल्पिक)",
+  "sprayLabourHelp": "मज़दूरी रजिस्टर में (छिड़काव) पहले लिखी हो तो यह खाना खाली छोड़ें।",
+  "sprayCostSplit": "कुल खर्च = दवाएँ {products} + मज़दूरी {labour}"
 }

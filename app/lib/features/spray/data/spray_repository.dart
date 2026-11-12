@@ -166,6 +166,7 @@ class SprayRepository implements BillPhotoRecords {
                 ? null
                 : jsonEncode([for (final p in s.mix) p.toPayload()]),
           ),
+          labourPaise: Value(s.labourPaise),
         ),
       );
 
@@ -188,5 +189,6 @@ class SprayRepository implements BillPhotoRecords {
     mix: r.products == null
         ? const []
         : SprayRecord.productsFrom(jsonDecode(r.products!)),
+    labourPaise: r.labourPaise,
   );
 }

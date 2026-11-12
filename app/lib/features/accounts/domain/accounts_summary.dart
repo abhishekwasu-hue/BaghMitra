@@ -39,7 +39,8 @@ class AccountsSummary {
         ifAbsent: () => e.amountPaise,
       );
     }
-    // Spray costs are recorded in the spray log (not as expenses), under "spray".
+    // Spray costs are recorded in the spray log (not as expenses): the products under
+    // "spray", the spraying labour (Q143) under "labour", each once.
     for (final sp in sprays.where((s) => inScope(s.baharCycleId))) {
       if (sp.costPaise > 0) {
         byCategory.update(
@@ -47,6 +48,10 @@ class AccountsSummary {
           (v) => v + sp.costPaise,
           ifAbsent: () => sp.costPaise,
         );
+      }
+      final labour = sp.labourPaise ?? 0;
+      if (labour > 0) {
+        byCategory.update('labour', (v) => v + labour, ifAbsent: () => labour);
       }
     }
     // Input costs are recorded in the input records, under their kind.

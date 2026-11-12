@@ -131,7 +131,8 @@ class Incomes extends Table {
 
 /// Spray records (mirror of the API `spray_record` entity). Cost in whole paise. The bill
 /// photo columns work as on [Expenses] (OPEN_QUESTIONS Q136). [products] is a tank mix's
-/// product list as JSON (Q142), null for a single-product record.
+/// product list as JSON (Q142), null for a single-product record. [labourPaise] is the
+/// spraying labour (Q143), null when not written.
 @DataClassName('SprayRecordRow')
 class SprayRecords extends Table {
   TextColumn get id => text()();
@@ -151,6 +152,7 @@ class SprayRecords extends Table {
   TextColumn get billPhotoPath => text().nullable()();
   TextColumn get billPhotoKey => text().nullable()();
   TextColumn get products => text().nullable()();
+  IntColumn get labourPaise => integer().nullable()();
 
   @override
   Set<Column<Object>> get primaryKey => {id};
@@ -419,7 +421,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.open(String name) : super(driftDatabase(name: name));
 
   @override
-  int get schemaVersion => 17;
+  int get schemaVersion => 18;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -474,6 +476,10 @@ class AppDatabase extends _$AppDatabase {
       // Tank mix (Q142): existing records keep null and read as one product.
       if (from >= 5 && from < 17) {
         await m.addColumn(sprayRecords, sprayRecords.products);
+      }
+      // Spraying labour (Q143): existing records keep null.
+      if (from >= 5 && from < 18) {
+        await m.addColumn(sprayRecords, sprayRecords.labourPaise);
       }
     },
   );

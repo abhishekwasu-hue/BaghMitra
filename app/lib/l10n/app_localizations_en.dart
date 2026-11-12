@@ -4995,7 +4995,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get expenseElsewhere =>
-      'Spray, labour and fertiliser costs go in their own records and are added to the accounts automatically.';
+      'Spray (with its labour), labour and fertiliser costs go in their own records and are added to the accounts automatically.';
 
   @override
   String get expenseGoSpray => 'Spray';
@@ -5312,5 +5312,17 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String billPickMany(String count) {
     return 'Fill $count selected';
+  }
+
+  @override
+  String get sprayLabour => 'Spraying labour (₹, optional)';
+
+  @override
+  String get sprayLabourHelp =>
+      'If it is already in the labour register (spraying), leave this empty.';
+
+  @override
+  String sprayCostSplit(String products, String labour) {
+    return 'Total cost = products $products + labour $labour';
   }
 }

@@ -1,6 +1,6 @@
-// Tank mix on the spray record (OPEN_QUESTIONS Q142), Marathi, 360 dp phone, text at 1.3x,
-// light and dark: the form with three products filled from a bill (one with a ban note on
-// it), the spray log with a mix, and the mix's detail. Regenerate with:
+// Tank mix on the spray record (OPEN_QUESTIONS Q142) and spraying labour (Q143), Marathi,
+// 360 dp phone, text at 1.3x, light and dark: the form with three products filled from a
+// bill (one with a ban note on it) and labour, the spray log with a mix, and its detail. Regenerate with:
 //   flutter test --update-goldens test/goldens/spray_mix_golden_test.dart
 @Tags(['golden'])
 library;
@@ -19,7 +19,7 @@ import '../features/bills/bill_read_test.dart';
 import '../features/photo_analysis/photo_analysis_test.dart' show json;
 import '../features/plots/plots_screen_test.dart' show settle;
 import '../features/scouting/scouting_test.dart' show FakePhotos;
-import '../features/spray/spray_mix_test.dart' show mixSpray;
+import '../features/spray/spray_mix_test.dart' show captan, imida, kelthane;
 import '../features/spray/spray_screen_test.dart' show seedPlotAndBanList;
 import '../helpers/pump_app.dart';
 
@@ -73,7 +73,21 @@ String _bill() => billJson(
 Future<void> _seedMix(AppDatabase db) async {
   await seedPlotAndBanList(db);
   final repo = SprayRepository(db);
-  await repo.save(mixSpray('m1'));
+  await repo.save(
+    SprayRecord.ofProducts(
+      id: 'm1',
+      plotId: 'p1',
+      baharCycleId: 'b1',
+      sprayedOn: DateTime(2026, 11, 2),
+      products: const [captan, imida, kelthane],
+      waterLitres: 600,
+      areaAcres: 4,
+      operator: 'Ramesh',
+      target: 'psylla, canker',
+      // Spraying labour (Q143).
+      labourPaise: 50000,
+    ),
+  );
   await repo.save(
     SprayRecord(
       id: 's1',
@@ -100,7 +114,7 @@ void main() {
         themeMode: mode,
         initialLocation: '/plots/p1/sprays/new',
         seed: seedPlotAndBanList,
-        size: const Size(360, 3000),
+        size: const Size(360, 3200),
         overrides: billOverrides(
           FakeBillServer((_) async => json(_bill(), 200)),
           FakePhotos(picked: path),
@@ -121,6 +135,7 @@ void main() {
       await tester.enterText(find.byKey(const Key('spray-phi-1')), '15');
       await tester.enterText(find.byKey(const Key('spray-water')), '600');
       await tester.enterText(find.byKey(const Key('spray-area')), '4');
+      await tester.enterText(find.byKey(const Key('spray-labour')), '500');
       await tester.enterText(
         find.byKey(const Key('spray-target')),
         'सिट्रस सायला, कॅन्कर',

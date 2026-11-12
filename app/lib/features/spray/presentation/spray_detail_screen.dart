@@ -114,10 +114,15 @@ class SprayDetailScreen extends ConsumerWidget {
               ],
             ],
           ),
-          if (s.costPaise > 0) ...[
+          if (s.totalPaise > 0) ...[
             const SizedBox(height: BmSpace.sm),
             Text(
-              s.isMix
+              (s.labourPaise ?? 0) > 0
+                  ? t.sprayCostSplit(
+                      formatPaise(s.costPaise, lang),
+                      formatPaise(s.labourPaise!, lang),
+                    )
+                  : s.isMix
                   ? t.sprayMixTotal(formatPaise(s.costPaise, lang))
                   : formatPaise(s.costPaise, lang),
               key: const Key('spray-detail-cost'),
