@@ -747,7 +747,7 @@ void main() {
         findsOneWidget,
       );
       expect(find.byKey(const Key('photo-offline-note')), findsOneWidget);
-      expect(find.textContaining('कार्ड उघडा'), findsNothing);
+      expect(find.textContaining('उपाय व माहिती पहा'), findsNothing);
       await unmountApp(tester);
     });
 
@@ -763,7 +763,7 @@ void main() {
         await identify(tester);
         expect(find.byKey(const Key('photo-offline-unclear')), findsOneWidget);
         expect(find.byKey(const Key('photo-offline-result')), findsNothing);
-        expect(find.textContaining('कार्ड उघडा'), findsNothing);
+        expect(find.textContaining('उपाय व माहिती पहा'), findsNothing);
         expect(find.byKey(const Key('photo-check-offline')), findsNothing);
         expect(find.text('पुन्हा तपासा'), findsOneWidget);
         await unmountApp(tester);

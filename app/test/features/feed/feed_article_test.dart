@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:bagmitra/app/providers.dart';
 import 'package:bagmitra/core/formatting.dart';
 import 'package:bagmitra/data/local/database.dart';
+import 'package:bagmitra/design_system/article_reading.dart';
 import 'package:bagmitra/features/feed/data/feed_cache.dart';
 import 'package:bagmitra/features/feed/domain/feed_article.dart';
 import 'package:bagmitra/features/feed/domain/feed_item.dart';
@@ -149,7 +150,13 @@ void articleWidgetTests() {
       await settle(tester);
       expect(find.byKey(const Key('feed-article')), findsOneWidget);
       expect(find.textContaining('written by AI'), findsOneWidget);
-      expect(find.text('1,200 farmers eligible'), findsOneWidget);
+      // Key points are highlighted (number pill): matched by their plain text.
+      expect(
+        find.byWidgetPredicate(
+          (w) => w is HighlightedText && w.text == '1,200 farmers eligible',
+        ),
+        findsOneWidget,
+      );
       for (final heading in ['What was decided', 'What farmers can do next']) {
         await tester.scrollUntilVisible(
           find.text(heading),

@@ -1943,7 +1943,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'BagMitra · written by AI only from checked cards and their open sources; every number checked against the source';
 
   @override
-  String get feedKnowledgeOpenCard => 'Open the card';
+  String get feedKnowledgeOpenCard => 'See practices and details';
 
   @override
   String get feedKnowledgeNote =>
@@ -3330,10 +3330,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get practicesHowToPrepare => 'How to prepare';
 
   @override
-  String get practicesLabelLink => 'Label-approved products';
+  String get practicesLabelLink => 'See label-approved products';
 
   @override
-  String get practicesKnowledgeCard => 'Knowledge card';
+  String get practicesKnowledgeCard => 'Read the knowledge card';
 
   @override
   String get knowledgeTitle => 'Knowledge cards';
@@ -5075,7 +5075,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get photoCheckSignsEnglish => 'Seen in the photo (in English)';
 
   @override
-  String get photoCheckOpenCard => 'Open card';
+  String get photoCheckOpenCard => 'See practices and details';
 
   @override
   String get photoCheckUnsure =>
@@ -5090,7 +5090,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'A suggestion from the photo; the card has the details.';
 
   @override
-  String get photoCheckSeeCards => 'See the cards';
+  String get photoCheckSeeCards => 'See all practices';
 
   @override
   String get photoCheckOffline =>
@@ -5393,5 +5393,5 @@ class AppLocalizationsEn extends AppLocalizations {
       'For this question, see the guide below or ask your KVK.';
 
   @override
-  String get askOpenCard => 'Open the card';
+  String get askOpenCard => 'See practices and details';
 }

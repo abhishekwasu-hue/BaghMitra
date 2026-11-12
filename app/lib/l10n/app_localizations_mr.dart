@@ -1938,7 +1938,7 @@ class AppLocalizationsMr extends AppLocalizations {
       'BagMitra · तपासलेली कार्डे व त्यांच्या खुल्या स्रोतांवरूनच AI ने लिहिलेले; प्रत्येक आकडा स्रोताशी तपासलेला';
 
   @override
-  String get feedKnowledgeOpenCard => 'कार्ड उघडा';
+  String get feedKnowledgeOpenCard => 'उपाय व माहिती पहा';
 
   @override
   String get feedKnowledgeNote =>
@@ -3324,10 +3324,10 @@ class AppLocalizationsMr extends AppLocalizations {
   String get practicesHowToPrepare => 'कसे तयार करावे';
 
   @override
-  String get practicesLabelLink => 'लेबलप्रमाणे मंजूर औषधे';
+  String get practicesLabelLink => 'लेबलप्रमाणे मंजूर औषधे पहा';
 
   @override
-  String get practicesKnowledgeCard => 'ज्ञान कार्ड';
+  String get practicesKnowledgeCard => 'ज्ञान कार्ड वाचा';
 
   @override
   String get knowledgeTitle => 'ज्ञान कार्ड';
@@ -5059,7 +5059,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get photoCheckSignsEnglish => 'फोटोत दिसलेले (इंग्रजीत)';
 
   @override
-  String get photoCheckOpenCard => 'कार्ड उघडा';
+  String get photoCheckOpenCard => 'उपाय व माहिती पहा';
 
   @override
   String get photoCheckUnsure =>
@@ -5073,7 +5073,7 @@ class AppLocalizationsMr extends AppLocalizations {
       'हा फोटोवरून दिलेला अंदाज आहे; सविस्तर माहिती कार्डात आहे.';
 
   @override
-  String get photoCheckSeeCards => 'कार्डे पाहा';
+  String get photoCheckSeeCards => 'सर्व उपाय पहा';
 
   @override
   String get photoCheckOffline =>
@@ -5374,5 +5374,5 @@ class AppLocalizationsMr extends AppLocalizations {
       'या प्रश्नासाठी खालील मार्गदर्शक पाहा किंवा आपल्या KVK ला विचारा.';
 
   @override
-  String get askOpenCard => 'कार्ड उघडा';
+  String get askOpenCard => 'उपाय व माहिती पहा';
 }

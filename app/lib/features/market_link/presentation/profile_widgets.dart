@@ -136,7 +136,7 @@ class CallRow extends ConsumerWidget {
         IconButton(
           key: Key('ml-copy-$keyId'),
           tooltip: t.directoryCopyNumber,
-          color: c.brandStrong,
+          style: BmButtonStyle.icon(c),
           constraints: const BoxConstraints(
             minWidth: BmSpace.tapTarget,
             minHeight: BmSpace.tapTarget,
@@ -156,6 +156,7 @@ class CallRow extends ConsumerWidget {
         IconButton.filled(
           key: Key('ml-call-$keyId'),
           tooltip: t.mlCall,
+          style: BmButtonStyle.iconPrimary(c),
           constraints: const BoxConstraints(
             minWidth: BmSpace.tapTarget,
             minHeight: BmSpace.tapTarget,

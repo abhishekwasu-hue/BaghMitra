@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'button_styles.dart';
 import 'tokens.dart';
 
+export 'button_styles.dart';
 export 'tokens.dart';
 
 abstract final class BmTheme {
@@ -85,12 +87,15 @@ abstract final class BmTheme {
           borderRadius: BorderRadius.circular(BmRadius.chip),
         ),
       ),
+      // Button roles: see BmButtonStyle (button_styles.dart) and docs/design/buttons-audit.md.
+      // Main commit (Save, Add, Send; dialog confirm): santra fill, dark ink, bold, 56 dp.
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
           backgroundColor: c.accent,
           // Dark ink on santra: white on santra is 2.4:1 and washes out in sunlight.
           foregroundColor: c.onAccent,
           iconColor: c.onAccent,
+          side: BorderSide(color: c.accentEdge, width: 1.5),
           minimumSize: const Size.fromHeight(56),
           textStyle: BmType.alertTitle,
           shape: RoundedRectangleBorder(
@@ -98,26 +103,14 @@ abstract final class BmTheme {
           ),
         ),
       ),
-      // Secondary actions: same shape and text as the main button, 48 dp tall at least.
+      // Secondary actions: a tonal green fill with a visible border and a bold label, so
+      // they read as buttons on the page and on cards in both modes (owner 2026-11-12:
+      // a thin outline on the page colour read as a text box). Text buttons look the same:
+      // a plain-text action is never used; a link uses BmButtonStyle.link.
       outlinedButtonTheme: OutlinedButtonThemeData(
-        style: OutlinedButton.styleFrom(
-          foregroundColor: c.brand,
-          minimumSize: const Size(BmSpace.tapTarget, BmSpace.tapTarget),
-          padding: const EdgeInsets.symmetric(horizontal: BmSpace.md),
-          textStyle: BmType.bodyStrong,
-          side: BorderSide(color: c.brandStrong, width: 1.5),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(BmRadius.tile),
-          ),
-        ),
+        style: BmButtonStyle.secondary(c),
       ),
-      textButtonTheme: TextButtonThemeData(
-        style: TextButton.styleFrom(
-          foregroundColor: c.brandStrong,
-          minimumSize: const Size(BmSpace.tapTarget, BmSpace.tapTarget),
-          textStyle: BmType.bodyStrong,
-        ),
-      ),
+      textButtonTheme: TextButtonThemeData(style: BmButtonStyle.secondary(c)),
     );
   }
 }

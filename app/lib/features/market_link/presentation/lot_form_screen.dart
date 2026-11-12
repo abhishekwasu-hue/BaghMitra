@@ -689,8 +689,9 @@ class _LotFormState extends ConsumerState<_LotForm> {
           alignment: AlignmentDirectional.centerStart,
           child: TextButton(
             key: const Key('lot-delete'),
+            style: BmButtonStyle.destructive(c),
             onPressed: _busy ? null : _delete,
-            child: Text(t.mlDeleteDraft, style: TextStyle(color: c.danger)),
+            child: Text(t.mlDeleteDraft),
           ),
         ),
     ];
