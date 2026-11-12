@@ -138,19 +138,83 @@ void main() {
     await unmountApp(tester);
   });
 
-  testWidgets('an extra product with only a dose asks for its name', (
+  testWidgets(
+    'an extra product with only a dose asks for a name or ingredient',
+    (tester) async {
+      final db = await openForm(tester, _form);
+      await tester.enterText(find.byKey(const Key('spray-product')), 'Captan');
+      await tester.tap(find.byKey(const Key('spray-add-product')));
+      await settle(tester);
+      await tester.enterText(find.byKey(const Key('spray-dose-1')), '2 g');
+      await tester.tap(find.text('Save'));
+      await settle(tester);
+      expect(
+        find.text('Write the product name or the active ingredient'),
+        findsOneWidget,
+      );
+      final rows = await tester.runAsync(
+        () => db.select(db.sprayRecords).get(),
+      );
+      expect(rows, isEmpty);
+      await unmountApp(tester);
+    },
+  );
+
+  testWidgets('in a mix, a product with an ingredient needs no name', (
     tester,
   ) async {
-    final db = await openForm(tester, _form);
+    final db = await pumpApp(
+      tester,
+      locale: const Locale('en'),
+      initialLocation: _form,
+      seed: seedPlotAndBanList,
+      size: const Size(393, 2200),
+    );
+    await settle(tester);
     await tester.enterText(find.byKey(const Key('spray-product')), 'Captan');
     await tester.tap(find.byKey(const Key('spray-add-product')));
     await settle(tester);
-    await tester.enterText(find.byKey(const Key('spray-dose-1')), '2 g');
+    expect(
+      find.descendant(
+        of: find.byKey(const Key('spray-block-1')),
+        matching: find.text('Product name'),
+      ),
+      findsOneWidget,
+    );
+    await chooseTypeIn(tester, 1, 'Insecticide');
+    await tester.ensureVisible(inBlock(1, 'spray-active-pick'));
+    await tester.tap(inBlock(1, 'spray-active-pick'));
+    await settle(tester);
+    await tester.tap(find.text('Carbofuran 03% CG'));
+    await settle(tester);
+    // Only the block with the ingredient reads as optional.
+    expect(
+      find.descendant(
+        of: find.byKey(const Key('spray-block-1')),
+        matching: find.text('Product name (optional)'),
+      ),
+      findsOneWidget,
+    );
+    expect(
+      find.descendant(
+        of: find.byKey(const Key('spray-block-0')),
+        matching: find.text('Product name'),
+      ),
+      findsOneWidget,
+    );
     await tester.tap(find.text('Save'));
     await settle(tester);
-    expect(find.text('Write the product name'), findsOneWidget);
-    final rows = await tester.runAsync(() => db.select(db.sprayRecords).get());
-    expect(rows, isEmpty);
+
+    final p = await queuedSpray(tester, db);
+    expect(
+      [
+        for (final m in (p['products']! as List).cast<Map<String, Object?>>())
+          (m['product_name'], m['active_ingredient']),
+      ],
+      [('Captan', null), ('Carbofuran', 'Carbofuran')],
+    );
+    // The log names the mix by both, with no blank.
+    expect(find.text('Mix: Captan + Carbofuran'), findsOneWidget);
     await unmountApp(tester);
   });
 
