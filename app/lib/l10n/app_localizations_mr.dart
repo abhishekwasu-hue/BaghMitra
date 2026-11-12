@@ -1918,6 +1918,23 @@ class AppLocalizationsMr extends AppLocalizations {
   String get feedFilterNews => 'बातम्या';
 
   @override
+  String get feedFilterKnowledge => 'ज्ञान';
+
+  @override
+  String get feedBadgeKnowledge => 'ज्ञान लेख';
+
+  @override
+  String get feedKnowledgeByline =>
+      'BagMitra · तपासलेली कार्डे व त्यांच्या खुल्या स्रोतांवरूनच AI ने लिहिलेले; प्रत्येक आकडा स्रोताशी तपासलेला';
+
+  @override
+  String get feedKnowledgeOpenCard => 'कार्ड उघडा';
+
+  @override
+  String get feedKnowledgeNote =>
+      'ही सर्वसाधारण माहिती आहे. कृती करण्यापूर्वी आपल्या KVK किंवा कृषी अधिकाऱ्याला विचारा.';
+
+  @override
   String get feedBadgeOfficial => 'अधिकृत';
 
   @override

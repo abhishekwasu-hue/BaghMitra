@@ -32,55 +32,58 @@ class FeedThreadCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
     final c = context.bm;
-    return InkWell(
-      key: Key('feed-thread-${entry.id}'),
-      borderRadius: BorderRadius.circular(BmRadius.tile),
-      onTap: () => context.push(Routes.feedThread(entry.id)),
-      child: Ink(
-        decoration: BoxDecoration(
-          color: c.card,
-          borderRadius: BorderRadius.circular(BmRadius.tile),
-          border: Border.all(color: c.line),
-        ),
-        padding: const EdgeInsets.all(BmSpace.md),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  FeedBadge(
-                    item: entry.items.first,
-                    lang: lang,
-                    date: entry.latestAt,
-                  ),
-                  const SizedBox(height: BmSpace.xxs),
-                  Text(entry.title, style: BmType.bodyStrong),
-                  const SizedBox(height: BmSpace.xxs),
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.view_timeline_outlined,
-                        size: 18,
-                        color: c.inkMuted,
-                      ),
-                      const SizedBox(width: BmSpace.xxs),
-                      Expanded(
-                        child: Text(
-                          t.feedThreadCount(formatInt(entry.count, lang)),
-                          key: Key('feed-thread-count-${entry.id}'),
-                          style: BmType.meta.copyWith(color: c.inkMuted),
+    // Its own Material, so the card's box moves with its text (see the item card).
+    return Material(
+      color: c.card,
+      clipBehavior: Clip.antiAlias,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(BmRadius.tile),
+        side: BorderSide(color: c.line),
+      ),
+      child: InkWell(
+        key: Key('feed-thread-${entry.id}'),
+        onTap: () => context.push(Routes.feedThread(entry.id)),
+        child: Padding(
+          padding: const EdgeInsets.all(BmSpace.md),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    FeedBadge(
+                      item: entry.items.first,
+                      lang: lang,
+                      date: entry.latestAt,
+                    ),
+                    const SizedBox(height: BmSpace.xxs),
+                    Text(entry.title, style: BmType.bodyStrong),
+                    const SizedBox(height: BmSpace.xxs),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.view_timeline_outlined,
+                          size: 18,
+                          color: c.inkMuted,
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                        const SizedBox(width: BmSpace.xxs),
+                        Expanded(
+                          child: Text(
+                            t.feedThreadCount(formatInt(entry.count, lang)),
+                            key: Key('feed-thread-count-${entry.id}'),
+                            style: BmType.meta.copyWith(color: c.inkMuted),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-            if (hasNew)
-              FeedUnseenDot(dotKey: Key('feed-thread-unseen-${entry.id}')),
-          ],
+              if (hasNew)
+                FeedUnseenDot(dotKey: Key('feed-thread-unseen-${entry.id}')),
+            ],
+          ),
         ),
       ),
     );

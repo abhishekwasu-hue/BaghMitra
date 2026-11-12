@@ -3399,6 +3399,36 @@ abstract class AppLocalizations {
   /// **'News'**
   String get feedFilterNews;
 
+  /// No description provided for @feedFilterKnowledge.
+  ///
+  /// In en, this message translates to:
+  /// **'Knowledge'**
+  String get feedFilterKnowledge;
+
+  /// No description provided for @feedBadgeKnowledge.
+  ///
+  /// In en, this message translates to:
+  /// **'Knowledge article'**
+  String get feedBadgeKnowledge;
+
+  /// No description provided for @feedKnowledgeByline.
+  ///
+  /// In en, this message translates to:
+  /// **'BagMitra · written by AI only from checked cards and their open sources; every number checked against the source'**
+  String get feedKnowledgeByline;
+
+  /// No description provided for @feedKnowledgeOpenCard.
+  ///
+  /// In en, this message translates to:
+  /// **'Open the card'**
+  String get feedKnowledgeOpenCard;
+
+  /// No description provided for @feedKnowledgeNote.
+  ///
+  /// In en, this message translates to:
+  /// **'General information. Ask your KVK or agriculture officer before acting.'**
+  String get feedKnowledgeNote;
+
   /// No description provided for @feedBadgeOfficial.
   ///
   /// In en, this message translates to:

@@ -477,6 +477,7 @@ Map<String, dynamic> _$ArticleFactOutToJson(ArticleFactOut instance) =>
     <String, dynamic>{'label': instance.label, 'value': instance.value};
 
 ArticleOut _$ArticleOutFromJson(Map<String, dynamic> json) => ArticleOut(
+  cardSection: json['card_section'] as String?,
   charts:
       (json['charts'] as List<dynamic>?)
           ?.map((e) => ArticleChartOut.fromJson(e as Map<String, dynamic>))
@@ -513,6 +514,7 @@ ArticleOut _$ArticleOutFromJson(Map<String, dynamic> json) => ArticleOut(
 
 Map<String, dynamic> _$ArticleOutToJson(ArticleOut instance) =>
     <String, dynamic>{
+      'card_section': ?instance.cardSection,
       'charts': instance.charts.map((e) => e.toJson()).toList(),
       'facts': instance.facts.map((e) => e.toJson()).toList(),
       'headline': instance.headline,
