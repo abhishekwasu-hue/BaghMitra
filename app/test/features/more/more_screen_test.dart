@@ -144,6 +144,17 @@ void main() {
       });
     }
 
+    testWidgets('settings credit the photo model data sets (CC BY 4.0)', (
+      tester,
+    ) async {
+      await _pump(tester, at: '/settings');
+      await _open(tester, const Key('settings-model-sources'));
+      expect(find.textContaining('Rauf H.T. et al. (2019)'), findsOneWidget);
+      expect(find.textContaining('jgkh2jxbwt'), findsOneWidget);
+      expect(find.textContaining('CC BY 4.0'), findsNWidgets(3));
+      await unmountApp(tester);
+    });
+
     testWidgets('government messages are listed only where the feed is on', (
       tester,
     ) async {

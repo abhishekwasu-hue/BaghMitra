@@ -1,8 +1,7 @@
 # Photo model: on-device citrus leaf classifier (OPEN_QUESTIONS Q135)
 
 Owner decision 2026-11-11: photo diagnosis runs **on the phone** (offline, no per-photo cost).
-This runbook covers the training pipeline (stages 1 and 3). Wiring the model into the app is a
-later PR; nothing here changes the app.
+This runbook covers the training pipeline (stages 1 and 3) and the model in the app (§3).
 
 | Item | Value |
 |---|---|
@@ -62,7 +61,7 @@ instead of the disease.
 
 Sets whose licence is not confirmed (Bangladesh sweet orange, MNIT, lemon sets, Hugging Face
 mirrors, Kaggle copies) are **not** used. Attribution (CC BY): the model card lists the citations;
-the app's about / credits screen must show them when the model ships.
+the app shows them under Settings → photo model data sources (§3).
 
 ### First model (workflow run 42966101512, 2026-11-11, commit 9a39f3a)
 
@@ -80,13 +79,33 @@ Mexico 649, no repeats found), split 871 / 186 / 186. Held-out test, exported fi
 
 Per source: Pakistan field photos 76.4 % (89), Mexico white-sheet photos 93.8 % (97).
 
-## 3. Where the model goes in the app (later PR)
+## 3. The model in the app (offline path of "फोटोवरून ओळखा")
 
-`app/assets/models/citrus_v1.tflite` and `app/assets/models/citrus_v1_labels.txt` (copy
-`labels.txt`), plus the model card next to them. Input: one RGB photo resized to 224 x 224 (whole
-photo, no crop) as float32 0..255; the scaling is inside the model. Output: probabilities in
-`labels.txt` order. Class names equal the practice-card keys (`canker`, `greening`) so a result can
-open that card; `healthy` and `other` have no card.
+| Item | Value |
+|---|---|
+| Files | `app/assets/models/citrus_v1.tflite`, `citrus_v1_labels.txt` (copy of `labels.txt`), `citrus_v1_model_card.md` (repo only, not in the APK) |
+| Package | `tflite_flutter` 0.12.1, exact pin (LiteRT 1.4.0, 16 KB page aligned). `libtensorflowlite_gpu_jni.so` is excluded in `android/app/build.gradle.kts` (CPU only) |
+| Code | `lib/features/photo_analysis/domain/offline_check.dart` (constants, output → verdict), `data/offline_leaf_model.dart` (preprocessing, `LeafModel` interface, `TfliteLeafModel`) |
+| Threshold | `OfflineModel.minConfidence` = 0.60 (provisional, Q135 (d)); second disease named from `OfflineModel.secondFrom` = 0.25 |
+| When it runs | Only when the online check fails with `PhotoProblem.offline`; never online, never on a server error, timeout or limit; never counted against limits |
+
+Input: one RGB photo (the prepared JPEG the online check would send), upright, resized to
+224 x 224 (whole photo, no crop) with the same resize as training (PIL bilinear, re-implemented in
+Dart; matches PIL within 1 level on a lossless test picture), float32 0..255; the scaling is inside
+the model. Output: probabilities in `labels.txt` order. Class names equal the practice-card keys
+(`canker`, `greening`) so a result can open that card; `healthy` and `other` have no card. The
+interpreter is created, run and closed in a background isolate per photo.
+
+Tests: the real interpreter cannot run in `flutter test` (the TFLite native library is only
+packaged for Android / iOS), so `offlineLeafCheckProvider` is null there and widget tests use a
+fake `LeafModel`. Unit tests cover preprocessing, the output mapping and threshold, the labels
+order against `ml/labels_map.json`, and the model file's size and sha256 against the model card.
+Goldens: `photo_check_on_phone_mr_{light,dark}_x13.png`.
+
+**New model:** replace the three files together (a new class changes `labels.txt` order), update
+the size / sha256 expectations in `test/features/photo_analysis/offline_check_test.dart`, and
+re-check the threshold on field photos. Attribution: Settings → photo model data sources
+(`offlineModelCitations`); add any new data set there.
 
 ## 4. Add field photos (stage 2, `--extra`)
 

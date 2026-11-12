@@ -2302,6 +2302,18 @@ abstract class AppLocalizations {
   /// **'Scouting and bill photos are backed up on Wi-Fi. Turn this on to use mobile data too.'**
   String get settingsPhotoMobileDataHint;
 
+  /// No description provided for @settingsModelSources.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo model data sources'**
+  String get settingsModelSources;
+
+  /// No description provided for @settingsModelSourcesIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'The phone\'s photo check model is trained on these public photo sets (photos resized for training). Licence: CC BY 4.0 (creativecommons.org/licenses/by/4.0).'**
+  String get settingsModelSourcesIntro;
+
   /// No description provided for @buildLabel.
   ///
   /// In en, this message translates to:
@@ -8972,6 +8984,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Today\'s photo checks are full; you can check again after {when}.'**
   String photoCheckLimitTotalAt(String when);
+
+  /// No description provided for @photoOfflineLead.
+  ///
+  /// In en, this message translates to:
+  /// **'First check on the phone: {what} ({likely})'**
+  String photoOfflineLead(String what, String likely);
+
+  /// No description provided for @photoOfflineAlso.
+  ///
+  /// In en, this message translates to:
+  /// **'or: {what} ({likely})'**
+  String photoOfflineAlso(String what, String likely);
+
+  /// No description provided for @photoOfflineCanker.
+  ///
+  /// In en, this message translates to:
+  /// **'signs like canker'**
+  String get photoOfflineCanker;
+
+  /// No description provided for @photoOfflineGreening.
+  ///
+  /// In en, this message translates to:
+  /// **'signs like greening'**
+  String get photoOfflineGreening;
+
+  /// No description provided for @photoOfflineHealthy.
+  ///
+  /// In en, this message translates to:
+  /// **'First check on the phone: the leaf looks healthy.'**
+  String get photoOfflineHealthy;
+
+  /// No description provided for @photoOfflineUnclear.
+  ///
+  /// In en, this message translates to:
+  /// **'For a clear answer this photo needs the full check. Tap Check again once the internet is back.'**
+  String get photoOfflineUnclear;
+
+  /// No description provided for @photoOfflineNote.
+  ///
+  /// In en, this message translates to:
+  /// **'An estimate on the phone; the full check can run once the internet is back.'**
+  String get photoOfflineNote;
+
+  /// No description provided for @photoOfflinePcr.
+  ///
+  /// In en, this message translates to:
+  /// **'Only a lab PCR test can confirm greening; see the greening card.'**
+  String get photoOfflinePcr;
 
   /// No description provided for @billPhoto.
   ///

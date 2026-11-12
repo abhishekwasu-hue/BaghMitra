@@ -52,6 +52,14 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
+    packaging {
+        jniLibs {
+            // tflite_flutter brings LiteRT's GPU delegate too; the leaf model runs on the CPU
+            // (the GPU library is opened only by GpuDelegateV2, which the app never uses).
+            excludes += "**/libtensorflowlite_gpu_jni.so"
+        }
+    }
+
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId = "app.bagmitra.bagmitra"

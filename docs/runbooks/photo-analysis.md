@@ -89,7 +89,9 @@ changed profile over (same keys and texts).
   cannot read, so `HttpPhotoAnalysisApi` builds the request (field `photo`, plus `part`,
   `scouting_item`) on the app's authenticated client, with its own 150 s answer wait (other calls: 20 s).
   The photo is re-encoded on the phone to JPEG, at most 1600 px, under 2 MiB.
-- No queue: offline or a server failure shows a calm line, and the photo stays for a one-tap retry.
+- No queue: a server failure shows a calm line, and the photo stays for a one-tap retry. Offline,
+  the phone's leaf model gives a first estimate (`docs/runbooks/photo-model.md` §3); the retry
+  still runs the full check once online.
 - Delete: "हा फोटो हटवा" on the result calls `DELETE /v1/photo-analysis/{photo_id}`; results are not
   stored with scouting entries (OPEN_QUESTIONS Q135, open point a).
 

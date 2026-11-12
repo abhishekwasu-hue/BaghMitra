@@ -1284,6 +1284,13 @@ class AppLocalizationsHi extends AppLocalizations {
       'निरीक्षण और बिल की फ़ोटो का बैकअप वाई-फ़ाई पर होता है। मोबाइल डेटा भी इस्तेमाल करना हो तो इसे चालू करें।';
 
   @override
+  String get settingsModelSources => 'फ़ोटो मॉडल के डेटा स्रोत';
+
+  @override
+  String get settingsModelSourcesIntro =>
+      'फ़ोन की फ़ोटो जाँच का मॉडल इन सार्वजनिक फ़ोटो-संग्रहों पर सिखाया गया है (सिखाने के लिए फ़ोटो का आकार बदला गया)। लाइसेंस: CC BY 4.0 (creativecommons.org/licenses/by/4.0)।';
+
+  @override
   String buildLabel(String sha) {
     return 'टेस्ट बिल्ड $sha';
   }
@@ -5124,6 +5131,38 @@ class AppLocalizationsHi extends AppLocalizations {
   String photoCheckLimitTotalAt(String when) {
     return 'आज की फ़ोटो जाँच पूरी हुईं; $when के बाद फिर से इस्तेमाल कर सकते हैं।';
   }
+
+  @override
+  String photoOfflineLead(String what, String likely) {
+    return 'फ़ोन पर शुरुआती जाँच के अनुसार: $what ($likely)';
+  }
+
+  @override
+  String photoOfflineAlso(String what, String likely) {
+    return 'या: $what ($likely)';
+  }
+
+  @override
+  String get photoOfflineCanker => 'कैंकर जैसे लक्षण';
+
+  @override
+  String get photoOfflineGreening => 'ग्रीनिंग जैसे लक्षण';
+
+  @override
+  String get photoOfflineHealthy =>
+      'फ़ोन पर शुरुआती जाँच के अनुसार: पत्ती स्वस्थ दिखती है।';
+
+  @override
+  String get photoOfflineUnclear =>
+      'साफ़ पहचान के लिए इस फ़ोटो की पूरी जाँच चाहिए। इंटरनेट आने पर \'फिर से जाँचें\' दबाएँ।';
+
+  @override
+  String get photoOfflineNote =>
+      'फ़ोन का अनुमान; इंटरनेट आने पर पूरी जाँच की जा सकती है।';
+
+  @override
+  String get photoOfflinePcr =>
+      'ग्रीनिंग की पुष्टि केवल लैब PCR जाँच से होती है; ग्रीनिंग कार्ड देखें।';
 
   @override
   String get billPhoto => 'बिल की फ़ोटो';

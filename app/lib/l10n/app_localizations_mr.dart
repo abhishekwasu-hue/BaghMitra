@@ -1285,6 +1285,13 @@ class AppLocalizationsMr extends AppLocalizations {
       'पाहणी व बिलांच्या फोटोंचा बॅकअप वाय-फायवर होतो. मोबाईल डेटाही वापरायचा असेल तर हे चालू करा.';
 
   @override
+  String get settingsModelSources => 'फोटो मॉडेलचे डेटा स्रोत';
+
+  @override
+  String get settingsModelSourcesIntro =>
+      'फोनवरील फोटो तपासणीचे मॉडेल या सार्वजनिक फोटो-संचांवर शिकवले आहे (शिकवण्यासाठी फोटोंचा आकार बदलला). परवाना: CC BY 4.0 (creativecommons.org/licenses/by/4.0).';
+
+  @override
   String buildLabel(String sha) {
     return 'चाचणी बिल्ड $sha';
   }
@@ -5119,6 +5126,38 @@ class AppLocalizationsMr extends AppLocalizations {
   String photoCheckLimitTotalAt(String when) {
     return 'आजच्या फोटो तपासण्या पूर्ण झाल्या; $when नंतर पुन्हा वापरता येईल.';
   }
+
+  @override
+  String photoOfflineLead(String what, String likely) {
+    return 'फोनवरच्या प्राथमिक तपासणीनुसार: $what ($likely)';
+  }
+
+  @override
+  String photoOfflineAlso(String what, String likely) {
+    return 'किंवा: $what ($likely)';
+  }
+
+  @override
+  String get photoOfflineCanker => 'कँकरसारखी लक्षणे';
+
+  @override
+  String get photoOfflineGreening => 'ग्रीनिंगसारखी लक्षणे';
+
+  @override
+  String get photoOfflineHealthy =>
+      'फोनवरच्या प्राथमिक तपासणीनुसार: पान निरोगी दिसते.';
+
+  @override
+  String get photoOfflineUnclear =>
+      'स्पष्ट ओळखीसाठी या फोटोची पूर्ण तपासणी लागेल. इंटरनेट आल्यावर \'पुन्हा तपासा\' दाबा.';
+
+  @override
+  String get photoOfflineNote =>
+      'फोनवरचा अंदाज; इंटरनेट आल्यावर पूर्ण तपासणी करता येईल.';
+
+  @override
+  String get photoOfflinePcr =>
+      'ग्रीनिंगची खात्री फक्त प्रयोगशाळेतील PCR चाचणीने होते; ग्रीनिंग कार्ड पाहा.';
 
   @override
   String get billPhoto => 'बिलाचा फोटो';
