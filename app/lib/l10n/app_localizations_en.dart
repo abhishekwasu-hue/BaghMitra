@@ -5394,4 +5394,57 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get askOpenCard => 'Open the card';
+
+  @override
+  String get reactionsArticleTitle => 'How was this article?';
+
+  @override
+  String get reactionsAnswerTitle => 'How was this answer?';
+
+  @override
+  String get reactionUseful => 'Useful';
+
+  @override
+  String get reactionThanks => 'Thanks';
+
+  @override
+  String get reactionLiked => 'Liked it';
+
+  @override
+  String get reactionOkay => 'Okay';
+
+  @override
+  String get reactionUnclear => 'Not clear';
+
+  @override
+  String get reactionThanksToast => 'Thank you!';
+
+  @override
+  String get reactionPending =>
+      'Saved on the phone; it goes when the internet is back.';
+
+  @override
+  String reactionChipSemantics(String label, int count) {
+    return '$label, $count';
+  }
+
+  @override
+  String get adminFeedReactions => 'Reactions';
+
+  @override
+  String get adminReactionsMost => 'Most helpful';
+
+  @override
+  String get adminReactionsLeast => 'Least helpful';
+
+  @override
+  String adminReactionsTotals(int targets, int total) {
+    return '$targets items · $total reactions';
+  }
+
+  @override
+  String get adminReactionsNone => 'Reactions will appear here.';
+
+  @override
+  String get adminReactionsQa => 'Answer';
 }

@@ -21,7 +21,7 @@ from bagmitra_api.auth.jwt import AuthenticatedUser, require_role
 from bagmitra_api.core.errors import ApiError, ErrorResponse
 from bagmitra_api.core.settings import Settings, get_settings
 from bagmitra_api.db.session import DbSession
-from bagmitra_api.feed import service
+from bagmitra_api.feed import reactions, service
 from bagmitra_api.feed.ai import AiUnavailableError, FeedAi, get_feed_ai
 from bagmitra_api.feed.extract import OcrEngine, get_feed_ocr
 from bagmitra_api.feed.gr_portal import MAX_DOCUMENT_BYTES
@@ -31,7 +31,9 @@ from bagmitra_api.feed.models import (
     FeedReviewEvent,
     FeedSource,
 )
+from bagmitra_api.feed.reactions import Target
 from bagmitra_api.feed.service import FeedError, NewItem
+from bagmitra_api.routers.feed_reactions import ReactionCountOut, summary_counts
 from bagmitra_api.weather.service import get_clock
 
 router = APIRouter(
@@ -187,10 +189,37 @@ class FeedAdminItemSummaryOut(BaseModel):
     date_is_first_seen: bool = False
     check_issues: list[FeedAdminCheckIssue]
     approved: bool
+    # Readers' emoji reactions (Q146): every reaction with its count, no identities.
+    reactions: list[ReactionCountOut] = []
 
 
 class FeedAdminItemsResponse(BaseModel):
     items: list[FeedAdminItemSummaryOut]
+
+
+class FeedAdminReactionRowOut(BaseModel):
+    """One reacted-to target: a feed item (`kind` "item", with its type and title) or a
+    bundled Q&A answer (`kind` "qa", the title is its id). Counts only."""
+
+    target: str
+    kind: str  # "item" | "qa"
+    item_type: str | None
+    title: str | None
+    counts: list[ReactionCountOut]
+    total: int
+    # useful + thanks + liked
+    helpful: int
+    unclear: int
+
+
+class FeedAdminReactionsResponse(BaseModel):
+    # Most helpful first: most helpful reactions, then fewest "unclear", then most reactions.
+    most_helpful: list[FeedAdminReactionRowOut]
+    # Least helpful first: most "unclear", then fewest helpful, then most reactions.
+    least_helpful: list[FeedAdminReactionRowOut]
+    # Targets with at least one reaction, and all reactions together.
+    targets: int
+    total: int
 
 
 class FeedAdminItemOut(FeedAdminItemSummaryOut):
@@ -252,6 +281,9 @@ async def _summary(session: AsyncSession, item: FeedItem) -> FeedAdminItemSummar
         date_is_first_seen=item.date_is_first_seen,
         check_issues=[FeedAdminCheckIssue(**c) for c in item.check_issues],
         approved=item.approved_at is not None,
+        reactions=summary_counts(
+            (await reactions.counts(session, [Target(item_id=item.id)])).get(str(item.id))
+        ),
     )
 
 
@@ -390,6 +422,54 @@ async def items(
         select(FeedItem).where(FeedItem.status == status).order_by(FeedItem.published_at.desc())
     )
     return FeedAdminItemsResponse(items=[await _summary(session, r) for r in rows])
+
+
+REACTION_LIST_LIMIT = 20
+
+
+@router.get("/reactions", operation_id="admin_feed_reactions")
+async def reaction_lists(
+    _: FeedAdmin,
+    session: DbSession,
+    limit: Annotated[int, Query(ge=1, le=100)] = REACTION_LIST_LIMIT,
+) -> FeedAdminReactionsResponse:
+    """Readers' reactions (Q146) as counts: the most and the least helpful feed items and
+    Q&A answers. Never who reacted."""
+    counted = await reactions.all_counts(session)
+    parsed = {key: reactions.parse_target(key) for key in counted}
+    item_ids = [t.item_id for t in parsed.values() if t is not None and t.item_id is not None]
+    items = {
+        i.id: i for i in await session.scalars(select(FeedItem).where(FeedItem.id.in_(item_ids)))
+    }
+
+    async def row(key: str) -> FeedAdminReactionRowOut:
+        c = counted[key]
+        target = parsed[key]
+        item = items.get(target.item_id) if target and target.item_id else None
+        title = (
+            _title(await service.texts_of(session, item.id))
+            if item
+            else key.removeprefix(reactions.QA_PREFIX)
+        )
+        return FeedAdminReactionRowOut(
+            target=key,
+            kind="item" if target and target.item_id else "qa",
+            item_type=item.type if item else None,
+            title=title,
+            counts=summary_counts(c),
+            total=sum(c.values()),
+            helpful=reactions.helpful(c),
+            unclear=c[reactions.UNCLEAR],
+        )
+
+    most = sorted(counted, key=lambda k: (reactions.most_helpful_order(counted[k]), k))
+    least = sorted(counted, key=lambda k: (reactions.least_helpful_order(counted[k]), k))
+    return FeedAdminReactionsResponse(
+        most_helpful=[await row(k) for k in most[:limit]],
+        least_helpful=[await row(k) for k in least[:limit]],
+        targets=len(counted),
+        total=sum(sum(c.values()) for c in counted.values()),
+    )
 
 
 @router.get("/items/{item_id}", operation_id="admin_feed_item", responses=ERRORS)
