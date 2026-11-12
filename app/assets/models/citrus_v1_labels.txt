@@ -1,0 +1,4 @@
+canker
+greening
+healthy
+other
