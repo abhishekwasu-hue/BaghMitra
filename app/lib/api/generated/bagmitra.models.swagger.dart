@@ -6924,6 +6924,7 @@ class FeedAdminItemOut {
     required this.publishedAt,
     required this.rawBytes,
     required this.rawHash,
+    this.reactions,
     required this.replacedById,
     required this.sourceKey,
     required this.status,
@@ -6993,6 +6994,12 @@ class FeedAdminItemOut {
   final int? rawBytes;
   @JsonKey(name: 'raw_hash', includeIfNull: false)
   final String? rawHash;
+  @JsonKey(
+    name: 'reactions',
+    includeIfNull: false,
+    defaultValue: <ReactionCountOut>[],
+  )
+  final List<ReactionCountOut>? reactions;
   @JsonKey(name: 'replaced_by_id', includeIfNull: false)
   final String? replacedById;
   @JsonKey(name: 'source_key', includeIfNull: false)
@@ -7101,6 +7108,11 @@ class FeedAdminItemOut {
                   other.rawHash,
                   rawHash,
                 )) &&
+            (identical(other.reactions, reactions) ||
+                const DeepCollectionEquality().equals(
+                  other.reactions,
+                  reactions,
+                )) &&
             (identical(other.replacedById, replacedById) ||
                 const DeepCollectionEquality().equals(
                   other.replacedById,
@@ -7159,6 +7171,7 @@ class FeedAdminItemOut {
       const DeepCollectionEquality().hash(publishedAt) ^
       const DeepCollectionEquality().hash(rawBytes) ^
       const DeepCollectionEquality().hash(rawHash) ^
+      const DeepCollectionEquality().hash(reactions) ^
       const DeepCollectionEquality().hash(replacedById) ^
       const DeepCollectionEquality().hash(sourceKey) ^
       const DeepCollectionEquality().hash(status) ^
@@ -7192,6 +7205,7 @@ extension $FeedAdminItemOutExtension on FeedAdminItemOut {
     DateTime? publishedAt,
     int? rawBytes,
     String? rawHash,
+    List<ReactionCountOut>? reactions,
     String? replacedById,
     String? sourceKey,
     String? status,
@@ -7223,6 +7237,7 @@ extension $FeedAdminItemOutExtension on FeedAdminItemOut {
       publishedAt: publishedAt ?? this.publishedAt,
       rawBytes: rawBytes ?? this.rawBytes,
       rawHash: rawHash ?? this.rawHash,
+      reactions: reactions ?? this.reactions,
       replacedById: replacedById ?? this.replacedById,
       sourceKey: sourceKey ?? this.sourceKey,
       status: status ?? this.status,
@@ -7255,6 +7270,7 @@ extension $FeedAdminItemOutExtension on FeedAdminItemOut {
     Wrapped<DateTime>? publishedAt,
     Wrapped<int?>? rawBytes,
     Wrapped<String?>? rawHash,
+    Wrapped<List<ReactionCountOut>?>? reactions,
     Wrapped<String?>? replacedById,
     Wrapped<String>? sourceKey,
     Wrapped<String>? status,
@@ -7291,6 +7307,7 @@ extension $FeedAdminItemOutExtension on FeedAdminItemOut {
       publishedAt: (publishedAt != null ? publishedAt.value : this.publishedAt),
       rawBytes: (rawBytes != null ? rawBytes.value : this.rawBytes),
       rawHash: (rawHash != null ? rawHash.value : this.rawHash),
+      reactions: (reactions != null ? reactions.value : this.reactions),
       replacedById: (replacedById != null
           ? replacedById.value
           : this.replacedById),
@@ -7318,6 +7335,7 @@ class FeedAdminItemSummaryOut {
     required this.grNumber,
     required this.id,
     required this.publishedAt,
+    this.reactions,
     required this.status,
     required this.title,
     required this.trust,
@@ -7352,6 +7370,12 @@ class FeedAdminItemSummaryOut {
   final String id;
   @JsonKey(name: 'published_at', includeIfNull: false)
   final DateTime publishedAt;
+  @JsonKey(
+    name: 'reactions',
+    includeIfNull: false,
+    defaultValue: <ReactionCountOut>[],
+  )
+  final List<ReactionCountOut>? reactions;
   @JsonKey(name: 'status', includeIfNull: false)
   final String status;
   @JsonKey(name: 'title', includeIfNull: false)
@@ -7398,6 +7422,11 @@ class FeedAdminItemSummaryOut {
                   other.publishedAt,
                   publishedAt,
                 )) &&
+            (identical(other.reactions, reactions) ||
+                const DeepCollectionEquality().equals(
+                  other.reactions,
+                  reactions,
+                )) &&
             (identical(other.status, status) ||
                 const DeepCollectionEquality().equals(other.status, status)) &&
             (identical(other.title, title) ||
@@ -7420,6 +7449,7 @@ class FeedAdminItemSummaryOut {
       const DeepCollectionEquality().hash(grNumber) ^
       const DeepCollectionEquality().hash(id) ^
       const DeepCollectionEquality().hash(publishedAt) ^
+      const DeepCollectionEquality().hash(reactions) ^
       const DeepCollectionEquality().hash(status) ^
       const DeepCollectionEquality().hash(title) ^
       const DeepCollectionEquality().hash(trust) ^
@@ -7436,6 +7466,7 @@ extension $FeedAdminItemSummaryOutExtension on FeedAdminItemSummaryOut {
     String? grNumber,
     String? id,
     DateTime? publishedAt,
+    List<ReactionCountOut>? reactions,
     String? status,
     String? title,
     String? trust,
@@ -7449,6 +7480,7 @@ extension $FeedAdminItemSummaryOutExtension on FeedAdminItemSummaryOut {
       grNumber: grNumber ?? this.grNumber,
       id: id ?? this.id,
       publishedAt: publishedAt ?? this.publishedAt,
+      reactions: reactions ?? this.reactions,
       status: status ?? this.status,
       title: title ?? this.title,
       trust: trust ?? this.trust,
@@ -7464,6 +7496,7 @@ extension $FeedAdminItemSummaryOutExtension on FeedAdminItemSummaryOut {
     Wrapped<String?>? grNumber,
     Wrapped<String>? id,
     Wrapped<DateTime>? publishedAt,
+    Wrapped<List<ReactionCountOut>?>? reactions,
     Wrapped<String>? status,
     Wrapped<String?>? title,
     Wrapped<String>? trust,
@@ -7479,6 +7512,7 @@ extension $FeedAdminItemSummaryOutExtension on FeedAdminItemSummaryOut {
       grNumber: (grNumber != null ? grNumber.value : this.grNumber),
       id: (id != null ? id.value : this.id),
       publishedAt: (publishedAt != null ? publishedAt.value : this.publishedAt),
+      reactions: (reactions != null ? reactions.value : this.reactions),
       status: (status != null ? status.value : this.status),
       title: (title != null ? title.value : this.title),
       trust: (trust != null ? trust.value : this.trust),
@@ -7589,6 +7623,237 @@ extension $FeedAdminItemsResponseExtension on FeedAdminItemsResponse {
   }) {
     return FeedAdminItemsResponse(
       items: (items != null ? items.value : this.items),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class FeedAdminReactionRowOut {
+  const FeedAdminReactionRowOut({
+    required this.counts,
+    required this.helpful,
+    required this.itemType,
+    required this.kind,
+    required this.target,
+    required this.title,
+    required this.total,
+    required this.unclear,
+  });
+
+  factory FeedAdminReactionRowOut.fromJson(Map<String, dynamic> json) =>
+      _$FeedAdminReactionRowOutFromJson(json);
+
+  static const toJsonFactory = _$FeedAdminReactionRowOutToJson;
+  Map<String, dynamic> toJson() => _$FeedAdminReactionRowOutToJson(this);
+
+  @JsonKey(
+    name: 'counts',
+    includeIfNull: false,
+    defaultValue: <ReactionCountOut>[],
+  )
+  final List<ReactionCountOut> counts;
+  @JsonKey(name: 'helpful', includeIfNull: false)
+  final int helpful;
+  @JsonKey(name: 'item_type', includeIfNull: false)
+  final String? itemType;
+  @JsonKey(name: 'kind', includeIfNull: false)
+  final String kind;
+  @JsonKey(name: 'target', includeIfNull: false)
+  final String target;
+  @JsonKey(name: 'title', includeIfNull: false)
+  final String? title;
+  @JsonKey(name: 'total', includeIfNull: false)
+  final int total;
+  @JsonKey(name: 'unclear', includeIfNull: false)
+  final int unclear;
+  static const fromJsonFactory = _$FeedAdminReactionRowOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is FeedAdminReactionRowOut &&
+            (identical(other.counts, counts) ||
+                const DeepCollectionEquality().equals(other.counts, counts)) &&
+            (identical(other.helpful, helpful) ||
+                const DeepCollectionEquality().equals(
+                  other.helpful,
+                  helpful,
+                )) &&
+            (identical(other.itemType, itemType) ||
+                const DeepCollectionEquality().equals(
+                  other.itemType,
+                  itemType,
+                )) &&
+            (identical(other.kind, kind) ||
+                const DeepCollectionEquality().equals(other.kind, kind)) &&
+            (identical(other.target, target) ||
+                const DeepCollectionEquality().equals(other.target, target)) &&
+            (identical(other.title, title) ||
+                const DeepCollectionEquality().equals(other.title, title)) &&
+            (identical(other.total, total) ||
+                const DeepCollectionEquality().equals(other.total, total)) &&
+            (identical(other.unclear, unclear) ||
+                const DeepCollectionEquality().equals(other.unclear, unclear)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(counts) ^
+      const DeepCollectionEquality().hash(helpful) ^
+      const DeepCollectionEquality().hash(itemType) ^
+      const DeepCollectionEquality().hash(kind) ^
+      const DeepCollectionEquality().hash(target) ^
+      const DeepCollectionEquality().hash(title) ^
+      const DeepCollectionEquality().hash(total) ^
+      const DeepCollectionEquality().hash(unclear) ^
+      runtimeType.hashCode;
+}
+
+extension $FeedAdminReactionRowOutExtension on FeedAdminReactionRowOut {
+  FeedAdminReactionRowOut copyWith({
+    List<ReactionCountOut>? counts,
+    int? helpful,
+    String? itemType,
+    String? kind,
+    String? target,
+    String? title,
+    int? total,
+    int? unclear,
+  }) {
+    return FeedAdminReactionRowOut(
+      counts: counts ?? this.counts,
+      helpful: helpful ?? this.helpful,
+      itemType: itemType ?? this.itemType,
+      kind: kind ?? this.kind,
+      target: target ?? this.target,
+      title: title ?? this.title,
+      total: total ?? this.total,
+      unclear: unclear ?? this.unclear,
+    );
+  }
+
+  FeedAdminReactionRowOut copyWithWrapped({
+    Wrapped<List<ReactionCountOut>>? counts,
+    Wrapped<int>? helpful,
+    Wrapped<String?>? itemType,
+    Wrapped<String>? kind,
+    Wrapped<String>? target,
+    Wrapped<String?>? title,
+    Wrapped<int>? total,
+    Wrapped<int>? unclear,
+  }) {
+    return FeedAdminReactionRowOut(
+      counts: (counts != null ? counts.value : this.counts),
+      helpful: (helpful != null ? helpful.value : this.helpful),
+      itemType: (itemType != null ? itemType.value : this.itemType),
+      kind: (kind != null ? kind.value : this.kind),
+      target: (target != null ? target.value : this.target),
+      title: (title != null ? title.value : this.title),
+      total: (total != null ? total.value : this.total),
+      unclear: (unclear != null ? unclear.value : this.unclear),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class FeedAdminReactionsResponse {
+  const FeedAdminReactionsResponse({
+    required this.leastHelpful,
+    required this.mostHelpful,
+    required this.targets,
+    required this.total,
+  });
+
+  factory FeedAdminReactionsResponse.fromJson(Map<String, dynamic> json) =>
+      _$FeedAdminReactionsResponseFromJson(json);
+
+  static const toJsonFactory = _$FeedAdminReactionsResponseToJson;
+  Map<String, dynamic> toJson() => _$FeedAdminReactionsResponseToJson(this);
+
+  @JsonKey(
+    name: 'least_helpful',
+    includeIfNull: false,
+    defaultValue: <FeedAdminReactionRowOut>[],
+  )
+  final List<FeedAdminReactionRowOut> leastHelpful;
+  @JsonKey(
+    name: 'most_helpful',
+    includeIfNull: false,
+    defaultValue: <FeedAdminReactionRowOut>[],
+  )
+  final List<FeedAdminReactionRowOut> mostHelpful;
+  @JsonKey(name: 'targets', includeIfNull: false)
+  final int targets;
+  @JsonKey(name: 'total', includeIfNull: false)
+  final int total;
+  static const fromJsonFactory = _$FeedAdminReactionsResponseFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is FeedAdminReactionsResponse &&
+            (identical(other.leastHelpful, leastHelpful) ||
+                const DeepCollectionEquality().equals(
+                  other.leastHelpful,
+                  leastHelpful,
+                )) &&
+            (identical(other.mostHelpful, mostHelpful) ||
+                const DeepCollectionEquality().equals(
+                  other.mostHelpful,
+                  mostHelpful,
+                )) &&
+            (identical(other.targets, targets) ||
+                const DeepCollectionEquality().equals(
+                  other.targets,
+                  targets,
+                )) &&
+            (identical(other.total, total) ||
+                const DeepCollectionEquality().equals(other.total, total)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(leastHelpful) ^
+      const DeepCollectionEquality().hash(mostHelpful) ^
+      const DeepCollectionEquality().hash(targets) ^
+      const DeepCollectionEquality().hash(total) ^
+      runtimeType.hashCode;
+}
+
+extension $FeedAdminReactionsResponseExtension on FeedAdminReactionsResponse {
+  FeedAdminReactionsResponse copyWith({
+    List<FeedAdminReactionRowOut>? leastHelpful,
+    List<FeedAdminReactionRowOut>? mostHelpful,
+    int? targets,
+    int? total,
+  }) {
+    return FeedAdminReactionsResponse(
+      leastHelpful: leastHelpful ?? this.leastHelpful,
+      mostHelpful: mostHelpful ?? this.mostHelpful,
+      targets: targets ?? this.targets,
+      total: total ?? this.total,
+    );
+  }
+
+  FeedAdminReactionsResponse copyWithWrapped({
+    Wrapped<List<FeedAdminReactionRowOut>>? leastHelpful,
+    Wrapped<List<FeedAdminReactionRowOut>>? mostHelpful,
+    Wrapped<int>? targets,
+    Wrapped<int>? total,
+  }) {
+    return FeedAdminReactionsResponse(
+      leastHelpful: (leastHelpful != null
+          ? leastHelpful.value
+          : this.leastHelpful),
+      mostHelpful: (mostHelpful != null ? mostHelpful.value : this.mostHelpful),
+      targets: (targets != null ? targets.value : this.targets),
+      total: (total != null ? total.value : this.total),
     );
   }
 }
@@ -17721,6 +17986,248 @@ extension $RatingTagsResponseExtension on RatingTagsResponse {
 }
 
 @JsonSerializable(explicitToJson: true)
+class ReactionCountOut {
+  const ReactionCountOut({required this.count, required this.reaction});
+
+  factory ReactionCountOut.fromJson(Map<String, dynamic> json) =>
+      _$ReactionCountOutFromJson(json);
+
+  static const toJsonFactory = _$ReactionCountOutToJson;
+  Map<String, dynamic> toJson() => _$ReactionCountOutToJson(this);
+
+  @JsonKey(name: 'count', includeIfNull: false)
+  final int count;
+  @JsonKey(
+    name: 'reaction',
+    includeIfNull: false,
+    toJson: reactionCountOutReactionToJson,
+    fromJson: reactionCountOutReactionFromJson,
+  )
+  final enums.ReactionCountOutReaction reaction;
+  static const fromJsonFactory = _$ReactionCountOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is ReactionCountOut &&
+            (identical(other.count, count) ||
+                const DeepCollectionEquality().equals(other.count, count)) &&
+            (identical(other.reaction, reaction) ||
+                const DeepCollectionEquality().equals(
+                  other.reaction,
+                  reaction,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(count) ^
+      const DeepCollectionEquality().hash(reaction) ^
+      runtimeType.hashCode;
+}
+
+extension $ReactionCountOutExtension on ReactionCountOut {
+  ReactionCountOut copyWith({
+    int? count,
+    enums.ReactionCountOutReaction? reaction,
+  }) {
+    return ReactionCountOut(
+      count: count ?? this.count,
+      reaction: reaction ?? this.reaction,
+    );
+  }
+
+  ReactionCountOut copyWithWrapped({
+    Wrapped<int>? count,
+    Wrapped<enums.ReactionCountOutReaction>? reaction,
+  }) {
+    return ReactionCountOut(
+      count: (count != null ? count.value : this.count),
+      reaction: (reaction != null ? reaction.value : this.reaction),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ReactionIn {
+  const ReactionIn({required this.reaction});
+
+  factory ReactionIn.fromJson(Map<String, dynamic> json) =>
+      _$ReactionInFromJson(json);
+
+  static const toJsonFactory = _$ReactionInToJson;
+  Map<String, dynamic> toJson() => _$ReactionInToJson(this);
+
+  @JsonKey(
+    name: 'reaction',
+    includeIfNull: false,
+    toJson: reactionInReactionToJson,
+    fromJson: reactionInReactionFromJson,
+  )
+  final enums.ReactionInReaction reaction;
+  static const fromJsonFactory = _$ReactionInFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is ReactionIn &&
+            (identical(other.reaction, reaction) ||
+                const DeepCollectionEquality().equals(
+                  other.reaction,
+                  reaction,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(reaction) ^ runtimeType.hashCode;
+}
+
+extension $ReactionInExtension on ReactionIn {
+  ReactionIn copyWith({enums.ReactionInReaction? reaction}) {
+    return ReactionIn(reaction: reaction ?? this.reaction);
+  }
+
+  ReactionIn copyWithWrapped({Wrapped<enums.ReactionInReaction>? reaction}) {
+    return ReactionIn(
+      reaction: (reaction != null ? reaction.value : this.reaction),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ReactionSummaryOut {
+  const ReactionSummaryOut({
+    required this.counts,
+    this.mine,
+    required this.target,
+  });
+
+  factory ReactionSummaryOut.fromJson(Map<String, dynamic> json) =>
+      _$ReactionSummaryOutFromJson(json);
+
+  static const toJsonFactory = _$ReactionSummaryOutToJson;
+  Map<String, dynamic> toJson() => _$ReactionSummaryOutToJson(this);
+
+  @JsonKey(
+    name: 'counts',
+    includeIfNull: false,
+    defaultValue: <ReactionCountOut>[],
+  )
+  final List<ReactionCountOut> counts;
+  @JsonKey(name: 'mine', includeIfNull: false)
+  final String? mine;
+  @JsonKey(name: 'target', includeIfNull: false)
+  final String target;
+  static const fromJsonFactory = _$ReactionSummaryOutFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is ReactionSummaryOut &&
+            (identical(other.counts, counts) ||
+                const DeepCollectionEquality().equals(other.counts, counts)) &&
+            (identical(other.mine, mine) ||
+                const DeepCollectionEquality().equals(other.mine, mine)) &&
+            (identical(other.target, target) ||
+                const DeepCollectionEquality().equals(other.target, target)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(counts) ^
+      const DeepCollectionEquality().hash(mine) ^
+      const DeepCollectionEquality().hash(target) ^
+      runtimeType.hashCode;
+}
+
+extension $ReactionSummaryOutExtension on ReactionSummaryOut {
+  ReactionSummaryOut copyWith({
+    List<ReactionCountOut>? counts,
+    String? mine,
+    String? target,
+  }) {
+    return ReactionSummaryOut(
+      counts: counts ?? this.counts,
+      mine: mine ?? this.mine,
+      target: target ?? this.target,
+    );
+  }
+
+  ReactionSummaryOut copyWithWrapped({
+    Wrapped<List<ReactionCountOut>>? counts,
+    Wrapped<String?>? mine,
+    Wrapped<String>? target,
+  }) {
+    return ReactionSummaryOut(
+      counts: (counts != null ? counts.value : this.counts),
+      mine: (mine != null ? mine.value : this.mine),
+      target: (target != null ? target.value : this.target),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ReactionsResponse {
+  const ReactionsResponse({required this.reactions});
+
+  factory ReactionsResponse.fromJson(Map<String, dynamic> json) =>
+      _$ReactionsResponseFromJson(json);
+
+  static const toJsonFactory = _$ReactionsResponseToJson;
+  Map<String, dynamic> toJson() => _$ReactionsResponseToJson(this);
+
+  @JsonKey(
+    name: 'reactions',
+    includeIfNull: false,
+    defaultValue: <ReactionSummaryOut>[],
+  )
+  final List<ReactionSummaryOut> reactions;
+  static const fromJsonFactory = _$ReactionsResponseFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is ReactionsResponse &&
+            (identical(other.reactions, reactions) ||
+                const DeepCollectionEquality().equals(
+                  other.reactions,
+                  reactions,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(reactions) ^ runtimeType.hashCode;
+}
+
+extension $ReactionsResponseExtension on ReactionsResponse {
+  ReactionsResponse copyWith({List<ReactionSummaryOut>? reactions}) {
+    return ReactionsResponse(reactions: reactions ?? this.reactions);
+  }
+
+  ReactionsResponse copyWithWrapped({
+    Wrapped<List<ReactionSummaryOut>>? reactions,
+  }) {
+    return ReactionsResponse(
+      reactions: (reactions != null ? reactions.value : this.reactions),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class ReadyResponse {
   const ReadyResponse({required this.database, required this.status});
 
@@ -25006,6 +25513,161 @@ List<enums.RatingTagInStatus>? ratingTagInStatusNullableListFromJson(
 
   return ratingTagInStatus
       .map((e) => ratingTagInStatusFromJson(e.toString()))
+      .toList();
+}
+
+String? reactionCountOutReactionNullableToJson(
+  enums.ReactionCountOutReaction? reactionCountOutReaction,
+) {
+  return reactionCountOutReaction?.value;
+}
+
+String? reactionCountOutReactionToJson(
+  enums.ReactionCountOutReaction reactionCountOutReaction,
+) {
+  return reactionCountOutReaction.value;
+}
+
+enums.ReactionCountOutReaction reactionCountOutReactionFromJson(
+  Object? reactionCountOutReaction, [
+  enums.ReactionCountOutReaction? defaultValue,
+]) {
+  return enums.ReactionCountOutReaction.values.firstWhereOrNull(
+        (e) => e.value == reactionCountOutReaction,
+      ) ??
+      defaultValue ??
+      enums.ReactionCountOutReaction.swaggerGeneratedUnknown;
+}
+
+enums.ReactionCountOutReaction? reactionCountOutReactionNullableFromJson(
+  Object? reactionCountOutReaction, [
+  enums.ReactionCountOutReaction? defaultValue,
+]) {
+  if (reactionCountOutReaction == null) {
+    return null;
+  }
+  return enums.ReactionCountOutReaction.values.firstWhereOrNull(
+        (e) => e.value == reactionCountOutReaction,
+      ) ??
+      defaultValue;
+}
+
+String reactionCountOutReactionExplodedListToJson(
+  List<enums.ReactionCountOutReaction>? reactionCountOutReaction,
+) {
+  return reactionCountOutReaction?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> reactionCountOutReactionListToJson(
+  List<enums.ReactionCountOutReaction>? reactionCountOutReaction,
+) {
+  if (reactionCountOutReaction == null) {
+    return [];
+  }
+
+  return reactionCountOutReaction.map((e) => e.value!).toList();
+}
+
+List<enums.ReactionCountOutReaction> reactionCountOutReactionListFromJson(
+  List? reactionCountOutReaction, [
+  List<enums.ReactionCountOutReaction>? defaultValue,
+]) {
+  if (reactionCountOutReaction == null) {
+    return defaultValue ?? [];
+  }
+
+  return reactionCountOutReaction
+      .map((e) => reactionCountOutReactionFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.ReactionCountOutReaction>?
+reactionCountOutReactionNullableListFromJson(
+  List? reactionCountOutReaction, [
+  List<enums.ReactionCountOutReaction>? defaultValue,
+]) {
+  if (reactionCountOutReaction == null) {
+    return defaultValue;
+  }
+
+  return reactionCountOutReaction
+      .map((e) => reactionCountOutReactionFromJson(e.toString()))
+      .toList();
+}
+
+String? reactionInReactionNullableToJson(
+  enums.ReactionInReaction? reactionInReaction,
+) {
+  return reactionInReaction?.value;
+}
+
+String? reactionInReactionToJson(enums.ReactionInReaction reactionInReaction) {
+  return reactionInReaction.value;
+}
+
+enums.ReactionInReaction reactionInReactionFromJson(
+  Object? reactionInReaction, [
+  enums.ReactionInReaction? defaultValue,
+]) {
+  return enums.ReactionInReaction.values.firstWhereOrNull(
+        (e) => e.value == reactionInReaction,
+      ) ??
+      defaultValue ??
+      enums.ReactionInReaction.swaggerGeneratedUnknown;
+}
+
+enums.ReactionInReaction? reactionInReactionNullableFromJson(
+  Object? reactionInReaction, [
+  enums.ReactionInReaction? defaultValue,
+]) {
+  if (reactionInReaction == null) {
+    return null;
+  }
+  return enums.ReactionInReaction.values.firstWhereOrNull(
+        (e) => e.value == reactionInReaction,
+      ) ??
+      defaultValue;
+}
+
+String reactionInReactionExplodedListToJson(
+  List<enums.ReactionInReaction>? reactionInReaction,
+) {
+  return reactionInReaction?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> reactionInReactionListToJson(
+  List<enums.ReactionInReaction>? reactionInReaction,
+) {
+  if (reactionInReaction == null) {
+    return [];
+  }
+
+  return reactionInReaction.map((e) => e.value!).toList();
+}
+
+List<enums.ReactionInReaction> reactionInReactionListFromJson(
+  List? reactionInReaction, [
+  List<enums.ReactionInReaction>? defaultValue,
+]) {
+  if (reactionInReaction == null) {
+    return defaultValue ?? [];
+  }
+
+  return reactionInReaction
+      .map((e) => reactionInReactionFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.ReactionInReaction>? reactionInReactionNullableListFromJson(
+  List? reactionInReaction, [
+  List<enums.ReactionInReaction>? defaultValue,
+]) {
+  if (reactionInReaction == null) {
+    return defaultValue;
+  }
+
+  return reactionInReaction
+      .map((e) => reactionInReactionFromJson(e.toString()))
       .toList();
 }
 

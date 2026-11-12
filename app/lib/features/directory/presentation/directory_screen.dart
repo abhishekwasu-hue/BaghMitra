@@ -230,7 +230,7 @@ class _EntryCard extends ConsumerWidget {
                 IconButton(
                   key: Key('$keyPrefix-copy-phone-$id'),
                   tooltip: t.directoryCopyNumber,
-                  color: c.brandStrong,
+                  style: BmButtonStyle.icon(c),
                   constraints: const BoxConstraints(
                     minWidth: BmSpace.tapTarget,
                     minHeight: BmSpace.tapTarget,
@@ -284,12 +284,16 @@ class _LinkRow extends StatelessWidget {
           constraints: const BoxConstraints(minHeight: BmSpace.tapTarget),
           child: Row(
             children: [
-              Icon(Icons.link, color: c.brandStrong),
+              Icon(Icons.link, color: c.link),
               const SizedBox(width: BmSpace.xs),
               Expanded(
                 child: Text(
                   t.directoryWebPage(url),
-                  style: BmType.meta.copyWith(color: c.brandStrong),
+                  style: BmType.meta.copyWith(
+                    color: c.link,
+                    decoration: TextDecoration.underline,
+                    decorationColor: c.link,
+                  ),
                 ),
               ),
             ],

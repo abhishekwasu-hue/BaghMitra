@@ -149,6 +149,17 @@ async def test_privacy_page_covers_bill_reading() -> None:
     assert "Your signup consent covers this.</li>" in body
 
 
+async def test_privacy_page_covers_reactions(pages: httpx.AsyncClient) -> None:
+    """Q146: reactions are stored per user, used only as totals and erased with the account."""
+    body = (await pages.get("/privacy")).text
+    assert "The reaction you give after reading an article or an answer" in body
+    assert (
+        "only the totals are used, who chose what is never shown. Erased\nwith the account." in body
+    )
+    assert "वाचून तुम्ही दिलेला प्रतिसाद" in body
+    assert "खाते काढल्यावर पुसला जातो." in body
+
+
 @pytest.mark.parametrize(("lang", "present", "absent"), [("en", "en", "mr"), ("mr", "mr", "en")])
 async def test_privacy_page_one_language(
     pages: httpx.AsyncClient, lang: str, present: str, absent: str
@@ -211,8 +222,9 @@ async def test_pages_need_no_auth_load_nothing_and_skip_openapi(pages: httpx.Asy
         assert "default-src 'none'" in resp.headers["content-security-policy"]
         assert resp.headers["x-content-type-options"] == "nosniff"
         assert resp.headers["x-request-id"]
-        # Raised from 30 000 for the crop photo analysis text (Q135; Marathi is 3 bytes a letter).
-        assert len(resp.content) < 34_000
+        # Raised from 30 000 for the crop photo analysis text (Q135; Marathi is 3 bytes a letter),
+        # and to 35 000 for the reactions line (Q146).
+        assert len(resp.content) < 35_000
         head = await pages.head(path)
         assert head.status_code == 200
     spec = (await pages.get("/openapi.json")).json()

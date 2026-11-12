@@ -14,6 +14,7 @@ from typing import Any
 from sqlalchemy import (
     JSON,
     Boolean,
+    CheckConstraint,
     Date,
     DateTime,
     Float,
@@ -38,6 +39,9 @@ LANGS = ("en", "mr", "hi")
 DEADLINE_KINDS = ("apply_by", "window_open", "window_close", "payment")
 # Push categories a farmer may opt out of (feed_preferences.opted_out).
 PUSH_CATEGORIES = ("deadline", "payment", "window_open")
+# feed_reactions.reaction (owner 2026-11-12, Q146), in the order the app shows them:
+# 👍 उपयोगी, 🙏 धन्यवाद, 😊 आवडले, 😐 ठीक, 😟 समजले नाही.
+REACTIONS = ("useful", "thanks", "liked", "okay", "unclear")
 
 
 class FeedSource(TimestampMixin, Base):
@@ -214,6 +218,30 @@ class FeedReceipt(TimestampMixin, Base):
     t0_notified_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     payment_notified_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     window_open_notified_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+
+
+class FeedReaction(TimestampMixin, Base):
+    """One reader's emoji reaction to one feed item or one bundled Q&A answer (Q146): exactly
+    one of `item_id` / `qa_id` is set, one row per reader and target (a new tap replaces it,
+    the same tap removes it). Owner data (RLS); the API reads only counts across owners."""
+
+    __tablename__ = "feed_reactions"
+    __table_args__ = (
+        UniqueConstraint("item_id", "owner_id"),
+        UniqueConstraint("qa_id", "owner_id"),
+        CheckConstraint("(item_id IS NULL) <> (qa_id IS NULL)", name="one_target"),
+        CheckConstraint(
+            "reaction IN ('useful', 'thanks', 'liked', 'okay', 'unclear')", name="reaction"
+        ),
+    )
+    owner_column = "owner_id"
+
+    id: Mapped[uuid.UUID] = mapped_column(primary_key=True)
+    owner_id: Mapped[uuid.UUID] = mapped_column(index=True)
+    item_id: Mapped[uuid.UUID | None] = mapped_column(ForeignKey("feed_items.id"), index=True)
+    # The bundled answer's id (app asset qa_kb.json.gz), without the "qa:" prefix.
+    qa_id: Mapped[str | None] = mapped_column(String(64), index=True)
+    reaction: Mapped[str] = mapped_column(String(16))
 
 
 class FeedPreferences(TimestampMixin, Base):

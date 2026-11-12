@@ -65,12 +65,8 @@ class SyncBanner extends StatelessWidget {
             if (actionLabel case final label? when onAction != null)
               TextButton(
                 key: const Key('sync-banner-action'),
-                style: TextButton.styleFrom(foregroundColor: fg),
                 onPressed: onAction,
-                child: Text(
-                  label,
-                  style: BmType.bodyStrong.copyWith(color: fg),
-                ),
+                child: Text(label),
               ),
           ],
         ),

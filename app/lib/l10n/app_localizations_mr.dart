@@ -1938,7 +1938,7 @@ class AppLocalizationsMr extends AppLocalizations {
       'BagMitra · तपासलेली कार्डे व त्यांच्या खुल्या स्रोतांवरूनच AI ने लिहिलेले; प्रत्येक आकडा स्रोताशी तपासलेला';
 
   @override
-  String get feedKnowledgeOpenCard => 'कार्ड उघडा';
+  String get feedKnowledgeOpenCard => 'उपाय व माहिती पहा';
 
   @override
   String get feedKnowledgeNote =>
@@ -3344,10 +3344,10 @@ class AppLocalizationsMr extends AppLocalizations {
   String get practicesHowToPrepare => 'कसे तयार करावे';
 
   @override
-  String get practicesLabelLink => 'लेबलप्रमाणे मंजूर औषधे';
+  String get practicesLabelLink => 'लेबलप्रमाणे मंजूर औषधे पहा';
 
   @override
-  String get practicesKnowledgeCard => 'ज्ञान कार्ड';
+  String get practicesKnowledgeCard => 'ज्ञान कार्ड वाचा';
 
   @override
   String get knowledgeTitle => 'ज्ञान कार्ड';
@@ -5079,7 +5079,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get photoCheckSignsEnglish => 'फोटोत दिसलेले (इंग्रजीत)';
 
   @override
-  String get photoCheckOpenCard => 'कार्ड उघडा';
+  String get photoCheckOpenCard => 'उपाय व माहिती पहा';
 
   @override
   String get photoCheckUnsure =>
@@ -5093,7 +5093,7 @@ class AppLocalizationsMr extends AppLocalizations {
       'हा फोटोवरून दिलेला अंदाज आहे; सविस्तर माहिती कार्डात आहे.';
 
   @override
-  String get photoCheckSeeCards => 'कार्डे पाहा';
+  String get photoCheckSeeCards => 'सर्व उपाय पहा';
 
   @override
   String get photoCheckOffline =>
@@ -5177,7 +5177,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get photoOfflinePcr =>
-      'ग्रीनिंगची खात्री फक्त प्रयोगशाळेतील PCR चाचणीने होते; ग्रीनिंग कार्ड पाहा.';
+      'ग्रीनिंगची खात्री फक्त प्रयोगशाळेतील PCR चाचणीने होते; ग्रीनिंगसाठी \"उपाय व माहिती पहा\" दाबा.';
 
   @override
   String get billPhoto => 'बिलाचा फोटो';
@@ -5394,5 +5394,57 @@ class AppLocalizationsMr extends AppLocalizations {
       'या प्रश्नासाठी खालील मार्गदर्शक पाहा किंवा आपल्या KVK ला विचारा.';
 
   @override
-  String get askOpenCard => 'कार्ड उघडा';
+  String get askOpenCard => 'उपाय व माहिती पहा';
+
+  @override
+  String get reactionsArticleTitle => 'हा लेख कसा वाटला?';
+
+  @override
+  String get reactionsAnswerTitle => 'हे उत्तर कसे वाटले?';
+
+  @override
+  String get reactionUseful => 'उपयोगी';
+
+  @override
+  String get reactionThanks => 'धन्यवाद';
+
+  @override
+  String get reactionLiked => 'आवडले';
+
+  @override
+  String get reactionOkay => 'ठीक';
+
+  @override
+  String get reactionUnclear => 'समजले नाही';
+
+  @override
+  String get reactionThanksToast => 'धन्यवाद!';
+
+  @override
+  String get reactionPending => 'फोनवर ठेवले; इंटरनेट आल्यावर जाईल.';
+
+  @override
+  String reactionChipSemantics(String label, int count) {
+    return '$label, $count';
+  }
+
+  @override
+  String get adminFeedReactions => 'प्रतिसाद';
+
+  @override
+  String get adminReactionsMost => 'सर्वात उपयोगी';
+
+  @override
+  String get adminReactionsLeast => 'सर्वात कमी उपयोगी';
+
+  @override
+  String adminReactionsTotals(int targets, int total) {
+    return '$targets विषय · $total प्रतिसाद';
+  }
+
+  @override
+  String get adminReactionsNone => 'प्रतिसाद आल्यावर इथे दिसतील.';
+
+  @override
+  String get adminReactionsQa => 'प्रश्नोत्तर';
 }

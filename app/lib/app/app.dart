@@ -6,6 +6,7 @@ import '../features/app_update/presentation/app_update_gate.dart';
 import '../features/feedback/data/feedback_providers.dart';
 import '../features/market_link/data/market_link_providers.dart';
 import '../features/market_link/domain/market_link.dart';
+import '../features/reactions/data/reaction_providers.dart';
 import '../l10n/app_localizations.dart';
 import '../sync/account_guard.dart';
 import '../theme/app_theme.dart';
@@ -69,6 +70,8 @@ class _BagMitraAppState extends ConsumerState<BagMitraApp> {
     // Purchases left from a killed app or another phone reach the server (billing §2.3).
     // Feedback written offline goes once the app starts online.
     ref.listenManual(feedbackStartupProvider, (_, _) {}, fireImmediately: true);
+    // Reactions tapped offline go the same way (Q146).
+    ref.listenManual(reactionStartupProvider, (_, _) {}, fireImmediately: true);
     ref.listenManual(
       subscriptionStartupProvider,
       (_, _) {},

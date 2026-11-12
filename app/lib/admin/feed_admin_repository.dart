@@ -57,6 +57,9 @@ abstract interface class FeedAdminRepository {
   Future<FeedAdminItemOut> aiDraft(String id);
   Future<List<FeedAdminSourceOut>> sources();
   Future<FeedAdminSourceOut> setTerms(String key, String status, String? notes);
+
+  /// Readers' reactions as counts (Q146): the most and the least helpful targets.
+  Future<FeedAdminReactionsResponse> reactions({int limit = 20});
 }
 
 class ApiFeedAdminRepository implements FeedAdminRepository {
@@ -195,6 +198,10 @@ class ApiFeedAdminRepository implements FeedAdminRepository {
   @override
   Future<List<FeedAdminSourceOut>> sources() async =>
       _ok(await _api.v1AdminFeedSourcesGet()).sources;
+
+  @override
+  Future<FeedAdminReactionsResponse> reactions({int limit = 20}) async =>
+      _ok(await _api.v1AdminFeedReactionsGet(limit: limit));
 
   @override
   Future<FeedAdminSourceOut> setTerms(

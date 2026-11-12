@@ -65,7 +65,7 @@ class FeedArticle {
   final List<({String title, String url})> sources;
 
   /// A knowledge article (Q141): the practice-card section it was written from, opened by
-  /// "कार्ड उघडा"; null for news articles and scheme explainers.
+  /// "उपाय व माहिती पहा"; null for news articles and scheme explainers.
   final String? cardSection;
 
   Map<String, Object?> toJson() => {

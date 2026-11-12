@@ -27,11 +27,18 @@ MAX_SIGNS = 8
 MAX_SIGN_CHARS = 200
 MAX_EXPLANATION_CHARS = 1200
 GREENING = "greening"
+# The button under a photo-check result that opens the matching practices (app label
+# "photoCheckOpenCard", renamed in PR #358).
+BUTTON = {
+    "en": "See practices and details",
+    "mr": "उपाय व माहिती पहा",
+    "hi": "उपाय व जानकारी देखें",
+}
 # The greening card: only a lab test confirms greening (scouting text and look-alike card).
 GREENING_LAB_NOTE = {
-    "en": "Only a lab PCR test can confirm greening; see the greening card.",
-    "mr": "ग्रीनिंगची खात्री फक्त प्रयोगशाळेतील PCR चाचणीने होते; ग्रीनिंग कार्ड पाहा.",
-    "hi": "ग्रीनिंग की पुष्टि केवल लैब PCR जाँच से होती है; ग्रीनिंग कार्ड देखें।",
+    "en": f'Only a lab PCR test can confirm greening; for greening, tap "{BUTTON["en"]}".',
+    "mr": f'ग्रीनिंगची खात्री फक्त प्रयोगशाळेतील PCR चाचणीने होते; ग्रीनिंगसाठी "{BUTTON["mr"]}" दाबा.',
+    "hi": f'ग्रीनिंग की पुष्टि केवल लैब PCR जाँच से होती है; ग्रीनिंग के लिए "{BUTTON["hi"]}" दबाएँ।',
 }
 PARTS = ("leaf", "fruit", "trunk", "whole_tree")
 
@@ -134,12 +141,14 @@ How to judge:
 
 How to write the explanation (English "en", Marathi "mr", Hindi "hi"; two to four short,
 plain sentences each, for a farmer):
-- Say what you see in the photo and which card it matches, and suggest opening that card to
-  check the tree and read what to do.
+- Say what you see in the photo and which problem it matches, and suggest tapping the button
+  under the answer to check the tree and read what to do. The button is named, exactly:
+  English "{BUTTON["en"]}", Marathi "{BUTTON["mr"]}", Hindi "{BUTTON["hi"]}". Never write
+  "open the card" ("कार्ड उघडून", "कार्ड उघडा", "कार्ड खोलकर").
 - Calm wording: no alarming words (never "danger", "emergency", "destroy", "urgent", "loss" or
   the like), no blame and no pressure. The farmer must not be frightened.
-- No chemical, pesticide, fungicide, product or brand names and no doses; the cards carry the
-  practices, so point to the card.
+- No chemical, pesticide, fungicide, product or brand names and no doses; the practices are
+  under that button, so point to it.
 - Marathi and Hindi in their own script, with the same meaning as the English."""
 
 

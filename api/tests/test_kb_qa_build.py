@@ -35,10 +35,13 @@ from bagmitra_api.kb.qa_build import (
     check_answer,
     dedupe,
     fco_topic,
+    finalise_asset,
     howto_topics,
+    is_referral,
     label_topics,
     read_asset,
     report_markdown,
+    strip_referral_tail,
     write_asset,
 )
 
@@ -228,7 +231,9 @@ async def test_batch_build_checks_drops_and_costs(tmp_path: Path) -> None:
     assert r.answers_dropped == {"number": 1, "not_answerable": 1}
     assert len(entries) == r.answers_kept == 1
     e = entries[0]
-    assert e["a"]["mr"] == GOOD["mr"]
+    # The closing "ask the KVK" line is removed in all three languages.
+    assert e["a"] == {lang: lines[:-1] for lang, lines in GOOD.items()}
+    assert r.referral_lines_removed == 1
     assert e["sec"] == "psylla"
     assert e["s"] == ["S1"]  # an unknown key the model named is not kept
     assert len(e["p"]) == 3
@@ -398,21 +403,23 @@ def _card_texts(cards: dict[str, Any], lang: str) -> set[str]:
 
 
 def test_seed_is_card_text_only() -> None:
-    """The shipped seed is exactly what the seed builder makes, and every answer line is a
-    checked card text of the same language, word for word."""
+    """The shipped asset carries the seed exactly as the seed builder makes it, and every seed
+    answer line is a checked card text of the same language, word for word. The app's test
+    fixture is the seed asset itself."""
     data = read_asset(ASSET)
     cards = json.loads((APP / "assets" / "config" / "practice_cards.json").read_text("utf-8"))
-    if data["kind"] != "seed":
-        pytest.skip("a generated asset is shipped; the seed check does not apply")
-    assert data == build_seed(cards)
-    assert 30 <= len(data["entries"]) <= 60
+    seed = build_seed(cards)
+    assert read_asset(APP / "test" / "fixtures" / "qa_kb_seed.json.gz") == seed
+    shipped = {e["id"]: e for e in data["entries"] if e["id"].startswith("seed-")}
+    assert list(shipped.values()) == seed["entries"]
+    assert 30 <= len(shipped) <= 60
     for lang in ("mr", "hi", "en"):
         texts = _card_texts(cards, lang)
-        for e in data["entries"]:
+        for e in seed["entries"]:
             assert e["a"][lang], e["id"]
             for line in e["a"][lang]:
                 assert line in texts, (e["id"], lang, line)
-    for e in data["entries"]:
+    for e in seed["entries"]:
         assert e["s"]
         assert all(data["src"][k]["u"].startswith("https://") for k in e["s"])
         assert all(cards["sources"][k]["publisher"] != "Agrowon" for k in e["s"])
@@ -505,3 +512,69 @@ def test_workflow_file() -> None:
 def test_report_lists_skipped_schemes() -> None:
     r = BuildReport(skipped=["Government schemes: run with --schemes"])
     assert "Government schemes" in report_markdown(r, Usage(), "batch")
+
+
+def test_closing_referral_lines() -> None:
+    """Owner: closing "ask the KVK / expert / officer" lines are unnecessary warnings."""
+    referral = {
+        "mr": "अधिक माहितीसाठी आपल्या KVK ला विचारा.",
+        "hi": "अधिक जानकारी के लिए अपने KVK से पूछें।",
+        "en": "For more details, please check the label and ask your KVK.",
+    }
+    answer = {lang: [*GOOD[lang][:3], referral[lang]] for lang in GOOD}
+    stripped, removed = strip_referral_tail(answer)
+    assert removed
+    assert stripped == {lang: GOOD[lang][:3] for lang in GOOD}
+    # A line with a fact or a number stays, and so does every line inside the answer.
+    for en in (
+        "Only a lab test confirms greening; if in doubt, ask your KVK.",
+        "Ask the KVK; the label prints a waiting period of 15 days.",
+        "Action levels are not published in the sources read; ask your KVK.",
+    ):
+        assert not is_referral("en", en), en
+    assert not is_referral("mr", "PHI १५ दिवस; KVK ला विचारा.")
+    kept, removed = strip_referral_tail(
+        {**answer, "en": [*GOOD["en"][:3], "Harvest in dry weather."]}
+    )
+    assert not removed
+    assert kept["mr"][-1] == referral["mr"]
+    # Only when the last line refers in ALL three languages; a one-line answer stays.
+    assert not strip_referral_tail({lang: [referral[lang]] for lang in GOOD})[1]
+    assert is_referral("en", "To be sure for your orchard, ask the KVK.")
+    assert is_referral("en", "Ask your KVK for more details.")
+    assert is_referral("hi", "शंका हो तो अपने कृषि विज्ञान केंद्र (KVK) से पूछें।")
+
+
+def test_answer_prompt_asks_for_no_closing_referral() -> None:
+    assert "Do not end an answer with a line that only sends the farmer to the KVK" in (
+        ANSWERS_PROMPT
+    )
+    assert "have the full directions." not in ANSWERS_PROMPT.split("Do not end")[0]
+
+
+def test_finalise_strips_once_and_keeps_the_seed() -> None:
+    cards = practice_cards()
+    seed_q = build_seed(cards)["entries"][0]["q"]
+    referral = {"mr": "KVK ला विचारा.", "hi": "KVK से पूछें।", "en": "Ask your KVK."}
+    raw = {
+        "src": {"S1": {"t": "NHB", "u": "https://nhb.gov.in/a.pdf"}},
+        "entries": [
+            {"id": "q1", "t": "section:psylla", "sec": "psylla", "q": QUESTIONS[0], "s": ["S1"],
+             "p": [], "a": {lang: [*GOOD[lang], referral[lang]] for lang in GOOD}},
+            # The same question as a seed entry: the seed (card text) is kept instead.
+            {"id": "q2", "t": "section:psylla", "sec": "psylla", "q": dict(seed_q), "s": ["S1"],
+             "p": [], "a": {lang: lines[:3] for lang, lines in GOOD.items()}},
+        ],
+    }  # fmt: skip
+    data, counts = finalise_asset(raw, cards)
+    assert counts == {"referral_lines_removed": 1, "duplicates_of_seed": 1}
+    ids = [e["id"] for e in data["entries"]]
+    assert ids[0].startswith("seed-")
+    assert "q1" in ids
+    assert "q2" not in ids
+    assert data["tidy"] is True
+    q1 = next(e for e in data["entries"] if e["id"] == "q1")
+    assert q1["a"]["en"] == GOOD["en"]
+    again, counts = finalise_asset(data, cards)
+    assert counts == {"referral_lines_removed": 0, "duplicates_of_seed": 0}
+    assert again == data

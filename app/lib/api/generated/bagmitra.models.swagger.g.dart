@@ -1373,6 +1373,11 @@ FeedAdminItemOut _$FeedAdminItemOutFromJson(
   publishedAt: DateTime.parse(json['published_at'] as String),
   rawBytes: (json['raw_bytes'] as num?)?.toInt(),
   rawHash: json['raw_hash'] as String?,
+  reactions:
+      (json['reactions'] as List<dynamic>?)
+          ?.map((e) => ReactionCountOut.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      [],
   replacedById: json['replaced_by_id'] as String?,
   sourceKey: json['source_key'] as String,
   status: json['status'] as String,
@@ -1413,6 +1418,7 @@ Map<String, dynamic> _$FeedAdminItemOutToJson(FeedAdminItemOut instance) =>
       'published_at': instance.publishedAt.toIso8601String(),
       'raw_bytes': ?instance.rawBytes,
       'raw_hash': ?instance.rawHash,
+      'reactions': ?instance.reactions?.map((e) => e.toJson()).toList(),
       'replaced_by_id': ?instance.replacedById,
       'source_key': instance.sourceKey,
       'status': instance.status,
@@ -1440,6 +1446,11 @@ FeedAdminItemSummaryOut _$FeedAdminItemSummaryOutFromJson(
   grNumber: json['gr_number'] as String?,
   id: json['id'] as String,
   publishedAt: DateTime.parse(json['published_at'] as String),
+  reactions:
+      (json['reactions'] as List<dynamic>?)
+          ?.map((e) => ReactionCountOut.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      [],
   status: json['status'] as String,
   title: json['title'] as String?,
   trust: json['trust'] as String,
@@ -1456,6 +1467,7 @@ Map<String, dynamic> _$FeedAdminItemSummaryOutToJson(
   'gr_number': ?instance.grNumber,
   'id': instance.id,
   'published_at': instance.publishedAt.toIso8601String(),
+  'reactions': ?instance.reactions?.map((e) => e.toJson()).toList(),
   'status': instance.status,
   'title': ?instance.title,
   'trust': instance.trust,
@@ -1488,6 +1500,66 @@ FeedAdminItemsResponse _$FeedAdminItemsResponseFromJson(
 Map<String, dynamic> _$FeedAdminItemsResponseToJson(
   FeedAdminItemsResponse instance,
 ) => <String, dynamic>{'items': instance.items.map((e) => e.toJson()).toList()};
+
+FeedAdminReactionRowOut _$FeedAdminReactionRowOutFromJson(
+  Map<String, dynamic> json,
+) => FeedAdminReactionRowOut(
+  counts:
+      (json['counts'] as List<dynamic>?)
+          ?.map((e) => ReactionCountOut.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      [],
+  helpful: (json['helpful'] as num).toInt(),
+  itemType: json['item_type'] as String?,
+  kind: json['kind'] as String,
+  target: json['target'] as String,
+  title: json['title'] as String?,
+  total: (json['total'] as num).toInt(),
+  unclear: (json['unclear'] as num).toInt(),
+);
+
+Map<String, dynamic> _$FeedAdminReactionRowOutToJson(
+  FeedAdminReactionRowOut instance,
+) => <String, dynamic>{
+  'counts': instance.counts.map((e) => e.toJson()).toList(),
+  'helpful': instance.helpful,
+  'item_type': ?instance.itemType,
+  'kind': instance.kind,
+  'target': instance.target,
+  'title': ?instance.title,
+  'total': instance.total,
+  'unclear': instance.unclear,
+};
+
+FeedAdminReactionsResponse _$FeedAdminReactionsResponseFromJson(
+  Map<String, dynamic> json,
+) => FeedAdminReactionsResponse(
+  leastHelpful:
+      (json['least_helpful'] as List<dynamic>?)
+          ?.map(
+            (e) => FeedAdminReactionRowOut.fromJson(e as Map<String, dynamic>),
+          )
+          .toList() ??
+      [],
+  mostHelpful:
+      (json['most_helpful'] as List<dynamic>?)
+          ?.map(
+            (e) => FeedAdminReactionRowOut.fromJson(e as Map<String, dynamic>),
+          )
+          .toList() ??
+      [],
+  targets: (json['targets'] as num).toInt(),
+  total: (json['total'] as num).toInt(),
+);
+
+Map<String, dynamic> _$FeedAdminReactionsResponseToJson(
+  FeedAdminReactionsResponse instance,
+) => <String, dynamic>{
+  'least_helpful': instance.leastHelpful.map((e) => e.toJson()).toList(),
+  'most_helpful': instance.mostHelpful.map((e) => e.toJson()).toList(),
+  'targets': instance.targets,
+  'total': instance.total,
+};
 
 FeedAdminSourceOut _$FeedAdminSourceOutFromJson(Map<String, dynamic> json) =>
     FeedAdminSourceOut(
@@ -3526,6 +3598,58 @@ RatingTagsResponse _$RatingTagsResponseFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$RatingTagsResponseToJson(RatingTagsResponse instance) =>
     <String, dynamic>{'tags': instance.tags.map((e) => e.toJson()).toList()};
+
+ReactionCountOut _$ReactionCountOutFromJson(Map<String, dynamic> json) =>
+    ReactionCountOut(
+      count: (json['count'] as num).toInt(),
+      reaction: reactionCountOutReactionFromJson(json['reaction']),
+    );
+
+Map<String, dynamic> _$ReactionCountOutToJson(ReactionCountOut instance) =>
+    <String, dynamic>{
+      'count': instance.count,
+      'reaction': ?reactionCountOutReactionToJson(instance.reaction),
+    };
+
+ReactionIn _$ReactionInFromJson(Map<String, dynamic> json) =>
+    ReactionIn(reaction: reactionInReactionFromJson(json['reaction']));
+
+Map<String, dynamic> _$ReactionInToJson(ReactionIn instance) =>
+    <String, dynamic>{'reaction': ?reactionInReactionToJson(instance.reaction)};
+
+ReactionSummaryOut _$ReactionSummaryOutFromJson(Map<String, dynamic> json) =>
+    ReactionSummaryOut(
+      counts:
+          (json['counts'] as List<dynamic>?)
+              ?.map((e) => ReactionCountOut.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+      mine: json['mine'] as String?,
+      target: json['target'] as String,
+    );
+
+Map<String, dynamic> _$ReactionSummaryOutToJson(ReactionSummaryOut instance) =>
+    <String, dynamic>{
+      'counts': instance.counts.map((e) => e.toJson()).toList(),
+      'mine': ?instance.mine,
+      'target': instance.target,
+    };
+
+ReactionsResponse _$ReactionsResponseFromJson(Map<String, dynamic> json) =>
+    ReactionsResponse(
+      reactions:
+          (json['reactions'] as List<dynamic>?)
+              ?.map(
+                (e) => ReactionSummaryOut.fromJson(e as Map<String, dynamic>),
+              )
+              .toList() ??
+          [],
+    );
+
+Map<String, dynamic> _$ReactionsResponseToJson(ReactionsResponse instance) =>
+    <String, dynamic>{
+      'reactions': instance.reactions.map((e) => e.toJson()).toList(),
+    };
 
 ReadyResponse _$ReadyResponseFromJson(Map<String, dynamic> json) =>
     ReadyResponse(

@@ -3438,7 +3438,7 @@ abstract class AppLocalizations {
   /// No description provided for @feedKnowledgeOpenCard.
   ///
   /// In en, this message translates to:
-  /// **'Open the card'**
+  /// **'See practices and details'**
   String get feedKnowledgeOpenCard;
 
   /// No description provided for @feedKnowledgeNote.
@@ -5844,13 +5844,13 @@ abstract class AppLocalizations {
   /// No description provided for @practicesLabelLink.
   ///
   /// In en, this message translates to:
-  /// **'Label-approved products'**
+  /// **'See label-approved products'**
   String get practicesLabelLink;
 
   /// No description provided for @practicesKnowledgeCard.
   ///
   /// In en, this message translates to:
-  /// **'Knowledge card'**
+  /// **'Read the knowledge card'**
   String get practicesKnowledgeCard;
 
   /// No description provided for @knowledgeTitle.
@@ -8916,7 +8916,7 @@ abstract class AppLocalizations {
   /// No description provided for @photoCheckOpenCard.
   ///
   /// In en, this message translates to:
-  /// **'Open card'**
+  /// **'See practices and details'**
   String get photoCheckOpenCard;
 
   /// No description provided for @photoCheckUnsure.
@@ -8940,7 +8940,7 @@ abstract class AppLocalizations {
   /// No description provided for @photoCheckSeeCards.
   ///
   /// In en, this message translates to:
-  /// **'See the cards'**
+  /// **'See all practices'**
   String get photoCheckSeeCards;
 
   /// No description provided for @photoCheckOffline.
@@ -9066,7 +9066,7 @@ abstract class AppLocalizations {
   /// No description provided for @photoOfflinePcr.
   ///
   /// In en, this message translates to:
-  /// **'Only a lab PCR test can confirm greening; see the greening card.'**
+  /// **'Only a lab PCR test can confirm greening; for greening, tap \"See practices and details\".'**
   String get photoOfflinePcr;
 
   /// No description provided for @billPhoto.
@@ -9405,11 +9405,107 @@ abstract class AppLocalizations {
   /// **'For this question, see the guide below or ask your KVK.'**
   String get askNoMatch;
 
-  /// Button under an answer: opens the practice card it comes from.
+  /// Primary button under an answer: opens the practices section (practices and details) it comes from.
   ///
   /// In en, this message translates to:
-  /// **'Open the card'**
+  /// **'See practices and details'**
   String get askOpenCard;
+
+  /// Heading of the emoji reaction bar below a feed article or item (Q146).
+  ///
+  /// In en, this message translates to:
+  /// **'How was this article?'**
+  String get reactionsArticleTitle;
+
+  /// Heading of the emoji reaction bar below an answer in the Ask tab (Q146).
+  ///
+  /// In en, this message translates to:
+  /// **'How was this answer?'**
+  String get reactionsAnswerTitle;
+
+  /// Reaction thumbs up: the text was useful.
+  ///
+  /// In en, this message translates to:
+  /// **'Useful'**
+  String get reactionUseful;
+
+  /// Reaction folded hands: thank you.
+  ///
+  /// In en, this message translates to:
+  /// **'Thanks'**
+  String get reactionThanks;
+
+  /// Reaction smile: liked it.
+  ///
+  /// In en, this message translates to:
+  /// **'Liked it'**
+  String get reactionLiked;
+
+  /// Reaction neutral face: it was okay.
+  ///
+  /// In en, this message translates to:
+  /// **'Okay'**
+  String get reactionOkay;
+
+  /// Reaction worried face: did not understand.
+  ///
+  /// In en, this message translates to:
+  /// **'Not clear'**
+  String get reactionUnclear;
+
+  /// Short toast after the reader chooses a reaction.
+  ///
+  /// In en, this message translates to:
+  /// **'Thank you!'**
+  String get reactionThanksToast;
+
+  /// Muted line under the reaction bar, shown only while the reaction could not be sent yet (offline).
+  ///
+  /// In en, this message translates to:
+  /// **'Saved on the phone; it goes when the internet is back.'**
+  String get reactionPending;
+
+  /// Screen-reader label of one reaction chip: its name and how many chose it.
+  ///
+  /// In en, this message translates to:
+  /// **'{label}, {count}'**
+  String reactionChipSemantics(String label, int count);
+
+  /// Feed admin tab: readers' emoji reaction counts (Q146).
+  ///
+  /// In en, this message translates to:
+  /// **'Reactions'**
+  String get adminFeedReactions;
+
+  /// Feed admin: list of items with the most helpful reactions.
+  ///
+  /// In en, this message translates to:
+  /// **'Most helpful'**
+  String get adminReactionsMost;
+
+  /// Feed admin: list of items with the most 'not clear' reactions.
+  ///
+  /// In en, this message translates to:
+  /// **'Least helpful'**
+  String get adminReactionsLeast;
+
+  /// Feed admin: how many items have reactions and how many reactions there are in all.
+  ///
+  /// In en, this message translates to:
+  /// **'{targets} items · {total} reactions'**
+  String adminReactionsTotals(int targets, int total);
+
+  /// Feed admin: shown when nobody has reacted yet.
+  ///
+  /// In en, this message translates to:
+  /// **'Reactions will appear here.'**
+  String get adminReactionsNone;
+
+  /// Feed admin: badge of a row that is a bundled answer of the Ask tab, not a feed item.
+  ///
+  /// In en, this message translates to:
+  /// **'Answer'**
+  String get adminReactionsQa;
 }
 
 class _AppLocalizationsDelegate

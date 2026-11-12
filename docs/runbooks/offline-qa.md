@@ -26,11 +26,19 @@ names or doses beyond our checked cards and label claims.
 
 ## 2. What the asset holds
 
-- Until the first generation run: the **seed**, 51 questions made without a model from the card
-  texts only (each answer line is a checked card text, word for word; a test checks it):
-  signs, season, scouting and what to do for each pest / disease card. Rebuild it with
-  `python -m bagmitra_api.kb.qa_build seed --out ../app/assets/config/qa_kb.json.gz`.
-- After a run: the generated questions and answers (kind `generated`), which replace the seed.
+- The **seed**: 51 questions made without a model from the card texts only (each answer line is
+  a checked card text, word for word; a test checks it): signs, season, scouting and what to do
+  for each pest / disease card. It is always kept: first in the asset, ids `seed-...`.
+  `python -m bagmitra_api.kb.qa_build seed --out FILE` writes it alone (the app's widget tests
+  read it as `app/test/fixtures/qa_kb_seed.json.gz`; a test keeps it equal to the cards).
+- The generated questions and answers after them (kind `generated`); a generated question that
+  repeats a seed question (same words, Jaccard ≥ 0.75) is left out.
+- First run (workflow run 43194172659): 916 generated + 51 seed − 3 repeats of a seed question =
+  **964 entries** (sections 469, bahar stages 218, label claims 102, app how-tos 94, FCO 20,
+  preparations 10, seed 51), 45 sources, 3,386 paraphrases, **636 KB gzipped** (3.0 MB JSON).
+  Every entry names its sources and has mr / hi / en; the 167 answers that name an active
+  ingredient passed the product check against their own input (163 label-claim answers, 4 card
+  answers); the label-claim list prints no brand names, so no brand appears.
 
 ## 3. How the generator works (`python -m bagmitra_api.kb.qa_build build`)
 
@@ -67,10 +75,20 @@ Steps (each resumable, see §5):
    (mr / hi / en state different amounts or dates), `alarm_word` (a frightening word the input
    does not use), `missing` (no answer returned). These are the knowledge-article checks
    (`check_knowledge`) plus length, brand and alarm words.
+   **Closing referral line (owner: "check with your local expert" lines are unnecessary
+   warnings):** after the checks, the LAST line is removed when, in all three languages, it
+   only sends the farmer to the KVK, an expert or an officer ("अधिक माहितीसाठी आपल्या KVK ला
+   विचारा."): it names one, has no number, and on the English line every other clause is a
+   "For ..." / "If ..." / "To ..." lead-in or words that carry no fact. A line with a fact
+   ("Only a lab test confirms greening; ask your KVK", "Action levels are not published in the
+   sources read; ask your KVK") and every line inside an answer stay. The prompt also asks for no
+   such closing line. On the first run's asset: 401 lines removed, 69 fact-bearing closing lines
+   and 26 mentions inside answers kept.
 4. **Paraphrases**: the cheaper model (`FEED_CLASSIFY_MODEL`, default `claude-haiku-5-5`, low
    effort) writes 3–6 more ways to ask each kept question (Marathi, romanised Marathi /
    Hinglish, Hindi), used only for matching, never shown.
-5. **Asset**: compact JSON, gzipped (no timestamp), with each entry's search keys; plus
+5. **Asset**: the seed and the kept answers, compact JSON, gzipped (no timestamp), with each
+   entry's search keys (`"tidy": true`: the closing lines are already removed); plus
    `qa_build_report.md` (counts, drop reasons, unreadable sources, tokens, estimated cost) and
    `qa_build_cost.json` in the work folder.
 
@@ -103,6 +121,11 @@ Follow it with `tail -f /var/log/bagmitra-qa-build.log`; the report is
 `/opt/bagmitra/api/qa_work/qa_build_report.md`. The asset then has to reach the repository in a
 pull request like any other change.
 
+An asset generated before the closing-line rule (no `"tidy"` key) is made final without a model:
+`python -m bagmitra_api.kb.qa_build finalise --asset ../app/assets/config/qa_kb.json.gz` (removes
+the closing lines once, merges the seed, rebuilds the search keys; running it again changes
+nothing).
+
 ## 5. Resume
 
 Every finished step is appended to `qa_work/qa_work.jsonl` (questions per topic and input,
@@ -123,6 +146,8 @@ not measured). Set a monthly spend limit in the Anthropic console all the same.
 
 ## 7. Size
 
-Seed: 23 KB gzipped (97 KB JSON). A full run (about 800–1,100 kept answers with paraphrases):
-about 1–1.5 MB gzipped (5–6 MB JSON), estimated from the seed's compression; the report gives the
-real size.
+Seed alone: 23 KB gzipped (97 KB JSON). First full run with the seed: 964 entries, 636 KB
+gzipped (3.0 MB JSON); the report of each run gives the real size.
+
+The prompt version is `qa-v2` (no closing referral lines): the next run writes every topic again
+(the work file's `qa-v1` results are not reused).

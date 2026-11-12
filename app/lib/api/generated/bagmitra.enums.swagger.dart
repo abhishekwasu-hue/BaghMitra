@@ -656,6 +656,46 @@ enum RatingTagInStatus {
   const RatingTagInStatus(this.value);
 }
 
+enum ReactionCountOutReaction {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('useful')
+  useful('useful'),
+  @JsonValue('thanks')
+  thanks('thanks'),
+  @JsonValue('liked')
+  liked('liked'),
+  @JsonValue('okay')
+  okay('okay'),
+  @JsonValue('unclear')
+  unclear('unclear');
+
+  final String? value;
+
+  const ReactionCountOutReaction(this.value);
+}
+
+enum ReactionInReaction {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('useful')
+  useful('useful'),
+  @JsonValue('thanks')
+  thanks('thanks'),
+  @JsonValue('liked')
+  liked('liked'),
+  @JsonValue('okay')
+  okay('okay'),
+  @JsonValue('unclear')
+  unclear('unclear');
+
+  final String? value;
+
+  const ReactionInReaction(this.value);
+}
+
 enum ReportDecisionInAction {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),

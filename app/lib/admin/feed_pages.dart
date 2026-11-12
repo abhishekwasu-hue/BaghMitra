@@ -7,6 +7,7 @@ import '../l10n/app_localizations.dart';
 import '../theme/app_theme.dart';
 import 'document_picker.dart';
 import 'feed_admin_repository.dart';
+import 'feed_reactions_page.dart';
 
 /// Supabase app_metadata role that may review the government feed (runbook govt-feed §1).
 const feedAdminRole = 'feed_admin';
@@ -49,7 +50,7 @@ class FeedAdminSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
     return DefaultTabController(
-      length: 3,
+      length: 4,
       child: Column(
         children: [
           TabBar(
@@ -59,6 +60,7 @@ class FeedAdminSection extends StatelessWidget {
               Tab(text: t.adminFeedQueue),
               Tab(text: t.adminFeedUpload),
               Tab(text: t.adminFeedSources),
+              Tab(text: t.adminFeedReactions),
             ],
           ),
           const SizedBox(height: BmSpace.sm),
@@ -68,6 +70,7 @@ class FeedAdminSection extends StatelessWidget {
                 FeedQueuePage(feed: feed),
                 FeedUploadPage(feed: feed, documents: documents),
                 FeedSourcesPage(feed: feed),
+                FeedReactionsPage(feed: feed),
               ],
             ),
           ),
@@ -177,6 +180,7 @@ class _FeedQueuePageState extends State<FeedQueuePage> {
                           ?item.grNumber,
                           _date(item.publishedAt),
                           if (item.approved) t.adminFeedApproved,
+                          ?reactionLine(item.reactions),
                         ].join(' · '),
                       ),
                       trailing: Wrap(

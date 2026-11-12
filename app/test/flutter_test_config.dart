@@ -33,5 +33,13 @@ Future<void> testExecutable(FutureOr<void> Function() testMain) async {
   if (flutterRoot != null && icons.existsSync()) {
     await load('MaterialIcons', [icons.path]);
   }
+  // The reaction chips' emoji (Q146): on a phone they come from the system emoji font; the
+  // Flutter SDK ships the same Noto font for its own tests.
+  final emoji = File(
+    '$flutterRoot/engine/src/flutter/txt/third_party/fonts/NotoColorEmoji.ttf',
+  );
+  if (flutterRoot != null && emoji.existsSync()) {
+    await load('NotoColorEmoji', [emoji.path]);
+  }
   await testMain();
 }

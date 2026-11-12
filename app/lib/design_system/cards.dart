@@ -54,15 +54,7 @@ class SectionHeader extends StatelessWidget {
           ),
         ),
         if (action != null)
-          TextButton(
-            onPressed: onAction,
-            style: TextButton.styleFrom(
-              foregroundColor: c.brandStrong,
-              minimumSize: const Size(BmSpace.tapTarget, BmSpace.tapTarget),
-              textStyle: BmType.label.copyWith(fontSize: 14),
-            ),
-            child: Text(action!),
-          ),
+          TextButton(onPressed: onAction, child: Text(action!)),
       ],
     );
   }
