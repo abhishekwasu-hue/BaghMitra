@@ -206,3 +206,60 @@ async def test_tank_mix_payload_is_validated(
     )
     assert [r["status"] for r in results] == ["rejected"] * 6
     assert {r["error"] for r in results} == {"invalid_payload"}
+
+
+async def test_spray_labour_round_trip_is_apart_from_product_cost(
+    client: httpx.AsyncClient, auth_headers: dict[str, str]
+) -> None:
+    """Q143: the spraying labour is stored once per spray, apart from the products' cost."""
+    plot_id = uuid.uuid4()
+    products = [
+        _product("Captan 50 WP", "captan", 45_000, 7),
+        _product("Imida 17.8 SL", "imidacloprid", 65_000, 15),
+    ]
+    await push(
+        client,
+        auth_headers,
+        plot_mutation(plot_id),
+        spray(plot_id, products=products, labour_paise=50_000),
+        spray(plot_id),
+    )
+    sprays = _sprays(await pull(client, auth_headers))
+    mix = next(s for s in sprays if s["products"])
+    assert mix["labour_paise"] == 50_000
+    assert mix["cost_paise"] == 110_000
+    single = next(s for s in sprays if not s["products"])
+    assert single["labour_paise"] is None
+
+
+async def test_a_write_without_labour_keeps_the_stored_labour(
+    client: httpx.AsyncClient, auth_headers: dict[str, str]
+) -> None:
+    """An app older than Q143 re-sends a pulled record without `labour_paise`."""
+    plot_id = uuid.uuid4()
+    with_labour = spray(plot_id, labour_paise=30_000)
+    await push(client, auth_headers, plot_mutation(plot_id), with_labour)
+    old = {
+        **with_labour,
+        "client_mutation_id": str(uuid.uuid4()),
+        "client_updated_at": "2026-10-14T07:00:00Z",
+        "payload": {k: v for k, v in with_labour["payload"].items() if k != "labour_paise"},
+    }
+    (result,) = await push(client, auth_headers, old)
+    assert result["status"] == "applied"
+    (data,) = _sprays(await pull(client, auth_headers))
+    assert data["labour_paise"] == 30_000
+
+
+async def test_spray_labour_is_validated(
+    client: httpx.AsyncClient, auth_headers: dict[str, str]
+) -> None:
+    plot_id = uuid.uuid4()
+    await push(client, auth_headers, plot_mutation(plot_id))
+    results = await push(
+        client,
+        auth_headers,
+        spray(plot_id, labour_paise=-1),
+        spray(plot_id, labour_paise=1.5),
+    )
+    assert [r["error"] for r in results] == ["invalid_payload"] * 2
