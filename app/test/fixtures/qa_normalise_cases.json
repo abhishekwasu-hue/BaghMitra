@@ -1,0 +1,407 @@
+[
+ {
+  "text": "संत्र्याच्या फळगळीसाठी काय करावे?",
+  "words": [
+   "संत्र्य",
+   "फळगळी"
+  ],
+  "keys": [
+   "संत्र्य",
+   "फळगळी",
+   "~sntr",
+   "~plgl"
+  ]
+ },
+ {
+  "text": "Santra madhe falgal kashi thambvavi",
+  "words": [
+   "santra",
+   "falgal",
+   "thambvavi"
+  ],
+  "keys": [
+   "santra",
+   "falgal",
+   "thambvavi",
+   "~sntr",
+   "~plgl",
+   "~tmbv"
+  ]
+ },
+ {
+  "text": "phalgal kami kashi karaychi",
+  "words": [
+   "phalgal",
+   "kami",
+   "karay"
+  ],
+  "keys": [
+   "phalgal",
+   "kami",
+   "karay",
+   "~plgl",
+   "~km",
+   "~kr"
+  ]
+ },
+ {
+  "text": "सायला कीड कशी ओळखावी?",
+  "words": [
+   "सायला",
+   "कीड",
+   "ओळखावी"
+  ],
+  "keys": [
+   "सायला",
+   "कीड",
+   "ओळखावी",
+   "~sl",
+   "~kd",
+   "~lkv"
+  ]
+ },
+ {
+  "text": "sayla kid olakhne",
+  "words": [
+   "sayla",
+   "kid",
+   "olakhne"
+  ],
+  "keys": [
+   "sayla",
+   "kid",
+   "olakhne",
+   "~sl",
+   "~kd",
+   "~lkn"
+  ]
+ },
+ {
+  "text": "Psylla on the new flush: what to do?",
+  "words": [
+   "psylla",
+   "new",
+   "flush"
+  ],
+  "keys": [
+   "psylla",
+   "new",
+   "flush",
+   "~psl",
+   "~nv",
+   "~pls"
+  ]
+ },
+ {
+  "text": "मोसंबीवर कोळी आली आहे",
+  "words": [
+   "मोसंबी",
+   "कोळी",
+   "आली"
+  ],
+  "keys": [
+   "मोसंबी",
+   "कोळी",
+   "आली",
+   "~msmb",
+   "~kl"
+  ]
+ },
+ {
+  "text": "mosambi var koli",
+  "words": [
+   "mosambi",
+   "var",
+   "koli"
+  ],
+  "keys": [
+   "mosambi",
+   "var",
+   "koli",
+   "~msmb",
+   "~vr",
+   "~kl"
+  ]
+ },
+ {
+  "text": "मोसंबी में माइट लगा है क्या करें",
+  "words": [
+   "मोसंबी",
+   "माइट",
+   "लगा"
+  ],
+  "keys": [
+   "मोसंबी",
+   "माइट",
+   "लगा",
+   "~msmb",
+   "~mt",
+   "~lg"
+  ]
+ },
+ {
+  "text": "डिंक्या रोगासाठी उपाय",
+  "words": [
+   "डिंक्या",
+   "रोगा",
+   "उपाय"
+  ],
+  "keys": [
+   "डिंक्या",
+   "रोगा",
+   "उपाय",
+   "~dnk",
+   "~rg"
+  ]
+ },
+ {
+  "text": "dinkya rog upay",
+  "words": [
+   "dinkya",
+   "rog",
+   "upay"
+  ],
+  "keys": [
+   "dinkya",
+   "rog",
+   "upay",
+   "~dnk",
+   "~rg"
+  ]
+ },
+ {
+  "text": "Gummosis on the trunk",
+  "words": [
+   "gummosis",
+   "trunk"
+  ],
+  "keys": [
+   "gummosis",
+   "trunk",
+   "~gms",
+   "~trnk"
+  ]
+ },
+ {
+  "text": "आंबिया बहारासाठी ताण केव्हा द्यावा?",
+  "words": [
+   "आंबिया",
+   "बहारा",
+   "ताण",
+   "द्यावा"
+  ],
+  "keys": [
+   "आंबिया",
+   "बहारा",
+   "ताण",
+   "द्यावा",
+   "~mb",
+   "~bhr",
+   "~tn",
+   "~dv"
+  ]
+ },
+ {
+  "text": "ambiya baharasathi tan kevha dyava",
+  "words": [
+   "ambiya",
+   "bahara",
+   "tan",
+   "dyava"
+  ],
+  "keys": [
+   "ambiya",
+   "bahara",
+   "tan",
+   "dyava",
+   "~mb",
+   "~bhr",
+   "~tn",
+   "~dv"
+  ]
+ },
+ {
+  "text": "मृग बहार में पानी कब रोकें?",
+  "words": [
+   "मृग",
+   "बहार",
+   "पानी",
+   "रोकें"
+  ],
+  "keys": [
+   "मृग",
+   "बहार",
+   "पानी",
+   "रोकें",
+   "~mg",
+   "~bhr",
+   "~pn",
+   "~rkn"
+  ]
+ },
+ {
+  "text": "फवारणीची नोंद कशी करायची?",
+  "words": [
+   "फवारणी",
+   "नोंद",
+   "कराय"
+  ],
+  "keys": [
+   "फवारणी",
+   "नोंद",
+   "कराय",
+   "~pvrn",
+   "~nd",
+   "~kr"
+  ]
+ },
+ {
+  "text": "favarnichi nond kashi karaychi",
+  "words": [
+   "favarni",
+   "nond",
+   "karay"
+  ],
+  "keys": [
+   "favarni",
+   "nond",
+   "karay",
+   "~pvrn",
+   "~nd",
+   "~kr"
+  ]
+ },
+ {
+  "text": "बिलाचा फोटो कसा जोडायचा",
+  "words": [
+   "बिला",
+   "फोटो",
+   "जोडाय"
+  ],
+  "keys": [
+   "बिला",
+   "फोटो",
+   "जोडाय",
+   "~bl",
+   "~pt",
+   "~jd"
+  ]
+ },
+ {
+  "text": "How do I add a bill photo?",
+  "words": [
+   "add",
+   "bill",
+   "photo"
+  ],
+  "keys": [
+   "add",
+   "bill",
+   "photo",
+   "~bl",
+   "~pt"
+  ]
+ },
+ {
+  "text": "भुरी रोगाची लक्षणे",
+  "words": [
+   "भुरी",
+   "रोगा",
+   "लक्षणे"
+  ],
+  "keys": [
+   "भुरी",
+   "रोगा",
+   "लक्षणे",
+   "~br",
+   "~rg",
+   "~lksn"
+  ]
+ },
+ {
+  "text": "bhuri rogachi lakshane",
+  "words": [
+   "bhuri",
+   "roga",
+   "lakshane"
+  ],
+  "keys": [
+   "bhuri",
+   "roga",
+   "lakshane",
+   "~br",
+   "~rg",
+   "~lksn"
+  ]
+ },
+ {
+  "text": "कँकर कशामुळे होतो",
+  "words": [
+   "कंकर",
+   "कशामुळे"
+  ],
+  "keys": [
+   "कंकर",
+   "कशामुळे",
+   "~knkr",
+   "~ksml"
+  ]
+ },
+ {
+  "text": "canker kashamule hoto",
+  "words": [
+   "canker",
+   "kashamule",
+   "hoto"
+  ],
+  "keys": [
+   "canker",
+   "kashamule",
+   "hoto",
+   "~knkr",
+   "~ksml",
+   "~ht"
+  ]
+ },
+ {
+  "text": "पिठ्या ढेकूण",
+  "words": [
+   "पिठ्या",
+   "ढेकूण"
+  ],
+  "keys": [
+   "पिठ्या",
+   "ढेकूण",
+   "~pt",
+   "~dkn"
+  ]
+ },
+ {
+  "text": "१५ सें.मी. उंच",
+  "words": [
+   "15",
+   "सें",
+   "उंच"
+  ],
+  "keys": [
+   "15",
+   "सें",
+   "उंच",
+   "~sn",
+   "~nc"
+  ]
+ },
+ {
+  "text": "फ़सल पर फ़ंगस",
+  "words": [
+   "फसल",
+   "फंगस"
+  ],
+  "keys": [
+   "फसल",
+   "फंगस",
+   "~psl",
+   "~pngs"
+  ]
+ }
+]

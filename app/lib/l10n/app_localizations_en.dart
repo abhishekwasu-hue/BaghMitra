@@ -5368,4 +5368,30 @@ class AppLocalizationsEn extends AppLocalizations {
   String sprayCostSplit(String products, String labour) {
     return 'Total cost = products $products + labour $labour';
   }
+
+  @override
+  String get askTitle => 'Ask a question';
+
+  @override
+  String get askHint => 'Type or say your question';
+
+  @override
+  String get askSearch => 'Find the answer';
+
+  @override
+  String get askStoredNote =>
+      'This information is from checked sources stored in the app.';
+
+  @override
+  String get askRelated => 'Related questions';
+
+  @override
+  String get askCloser => 'Closest stored questions:';
+
+  @override
+  String get askNoMatch =>
+      'For this question, see the guide below or ask your KVK.';
+
+  @override
+  String get askOpenCard => 'Open the card';
 }

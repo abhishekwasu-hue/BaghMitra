@@ -123,8 +123,8 @@ abstract final class Routes {
   /// The practices guide opened at one card section (a photo-check result, Q135).
   static String practicesSection(String key) => '$practices?section=$key';
 
-  /// The विचारा tab: the practices guide inside the tab shell. Tabs ([home], [plots],
-  /// [ask]) are opened with `go`, never pushed.
+  /// The विचारा tab: the question box (offline answers, Q144) and the practices guide inside
+  /// the tab shell. Tabs ([home], [plots], [ask]) are opened with `go`, never pushed.
   static const ask = '/ask';
 
   /// "All features": an entry to every screen (audit H1).
@@ -352,7 +352,7 @@ GoRouter buildRouter(
             routes: [
               GoRoute(
                 path: Routes.ask,
-                builder: (_, _) => const PracticesScreen(),
+                builder: (_, _) => const PracticesScreen(ask: true),
               ),
             ],
           ),
