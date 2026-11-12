@@ -794,6 +794,9 @@ class AppLocalizationsMr extends AppLocalizations {
   String get sprayProduct => 'औषधाचे नाव';
 
   @override
+  String get sprayProductOptional => 'औषधाचे नाव (ऐच्छिक)';
+
+  @override
   String get sprayActive => 'सक्रिय घटक (लेबलवर)';
 
   @override
@@ -3015,7 +3018,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get requiredWorker => 'मजुराचे नाव लिहा';
 
   @override
-  String get requiredSprayProduct => 'औषधाचे नाव लिहा';
+  String get requiredSprayProduct => 'औषधाचे नाव किंवा सक्रिय घटक लिहा';
 
   @override
   String get requiredInputProduct => 'उत्पादनाचे नाव लिहा';

@@ -40,6 +40,25 @@ extension SprayTestCopy on SprayRecord {
 }
 
 void main() {
+  test('the ingredient is shown beside the name only when it differs', () {
+    expect(ingredientBesideName('Carbofuran', 'Carbofuran'), isNull);
+    expect(ingredientBesideName('Carbofuran', '  carbofuran '), isNull);
+    expect(
+      ingredientBesideName('Lambda  Cyhalothrin', 'lambda cyhalothrin'),
+      isNull,
+    );
+    expect(ingredientBesideName('Furadan', 'Carbofuran'), 'Carbofuran');
+    expect(ingredientBesideName('Neem oil', null), isNull);
+    expect(ingredientBesideName('Neem oil', ' '), isNull);
+    expect(
+      const SprayProduct(
+        productName: 'Captan',
+        activeIngredient: 'CAPTAN',
+      ).shownIngredient,
+      isNull,
+    );
+  });
+
   test('payload matches the API contract and round-trips', () {
     final s = spray('s1', cycle: 'b1');
     final p = s.toPayload();

@@ -44,6 +44,15 @@ class _ProductFields {
 
   bool get isBlank => all.every((c) => c.text.trim().isEmpty);
 
+  /// With an active ingredient (picked or typed under "Other"), the name is optional
+  /// (owner 2026-11-12).
+  bool get hasActive => active.text.trim().isNotEmpty;
+
+  /// The name that is saved: the one written, or else the ingredient's compound name, as
+  /// the ban check, the lists and the export read it, so no display shows a blank.
+  String get savedName =>
+      product.text.trim().isNotEmpty ? product.text.trim() : active.text.trim();
+
   Map<BillField, TextEditingController> get billFields => {
     BillField.product: product,
     BillField.active: active,
@@ -178,7 +187,7 @@ class _AddSprayScreenState extends ConsumerState<AddSprayScreen>
       // An extra block left empty is not a product.
       if (i == 0 || !p.isBlank)
         SprayProduct(
-          productName: p.product.text.trim(),
+          productName: p.savedName,
           activeIngredient: _opt(p.active),
           dose: _opt(p.dose),
           costPaise: parseRupeesToPaise(p.cost.text) ?? 0,
@@ -313,12 +322,16 @@ class _AddSprayScreenState extends ConsumerState<AddSprayScreen>
             key: Key(sprayFieldKey('spray-product', i)),
             controller: p.product,
             decoration: InputDecoration(
-              labelText: t.sprayProduct,
+              labelText: p.hasActive ? t.sprayProductOptional : t.sprayProduct,
               suffixIcon: VoiceMicButton(
                 onResult: (text, {required isFinal}) => p.product.text = text,
               ),
             ),
-            validator: (v) => (v ?? '').trim().isEmpty && (i == 0 || !p.isBlank)
+            // A name or an ingredient; an extra block left empty is not a product.
+            validator: (v) =>
+                (v ?? '').trim().isEmpty &&
+                    !p.hasActive &&
+                    (i == 0 || !p.isBlank)
                 ? t.requiredSprayProduct
                 : null,
           ),
