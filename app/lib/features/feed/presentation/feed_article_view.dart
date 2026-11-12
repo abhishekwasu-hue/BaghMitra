@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../app/router.dart';
 import '../../../core/formatting.dart';
+import '../../../design_system/article_reading.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../domain/feed_article.dart';
@@ -14,7 +15,11 @@ import '../domain/feed_article.dart';
 /// official sources, key points, sections, a facts table, bar / pie charts drawn here (no
 /// chart package), key dates and the sources. Every chart is also read out as text.
 /// A knowledge article (ज्ञान लेख, Q141, [knowledge]) has its own byline, its sections and
-/// sources (a tap copies the link), and "कार्ड उघडा" to the practice card it came from.
+/// sources (a tap copies the link), and "उपाय व माहिती पहा" to the practices it came from.
+///
+/// Reading (owner 2026-11-12): every part is a card with a coloured header and icon chosen
+/// by meaning, numbers and KB names are marked, long paragraphs become bullets
+/// (design_system/article_reading.dart). The server text is drawn as written.
 class FeedArticleView extends StatelessWidget {
   const FeedArticleView({
     super.key,
@@ -31,80 +36,60 @@ class FeedArticleView extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
     final c = context.bm;
+    var others = 0;
     return Column(
       key: const Key('feed-article'),
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          // The knowledge byline runs to three lines: the icon stays at its first line.
-          crossAxisAlignment: knowledge
-              ? CrossAxisAlignment.start
-              : CrossAxisAlignment.center,
-          children: [
-            Icon(
-              knowledge ? Icons.menu_book_rounded : Icons.newspaper_rounded,
-              size: 18,
-              color: c.inkMuted,
-            ),
-            const SizedBox(width: BmSpace.xxs),
-            Expanded(
-              child: Text(
-                knowledge ? t.feedKnowledgeByline : t.feedArticleByline,
-                style: BmType.meta.copyWith(color: c.inkMuted),
-              ),
-            ),
-          ],
+        ReadingBadge(
+          icon: knowledge ? Icons.verified_rounded : Icons.newspaper_rounded,
+          text: knowledge ? t.feedKnowledgeByline : t.feedArticleByline,
+          tone: knowledge ? c.toneGreen : c.toneBlue,
         ),
         if (article.keyPoints.isNotEmpty) ...[
           const SizedBox(height: BmSpace.md),
-          _Panel(
-            title: t.feedArticleKeyPoints,
-            tint: c.brandSoft,
+          ReadingCard(
+            heading: t.feedArticleKeyPoints,
+            icon: Icons.star_rounded,
+            tone: c.toneGreen,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 for (final point in article.keyPoints)
-                  Padding(
-                    padding: const EdgeInsets.only(top: BmSpace.xxs),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 7),
-                          child: Icon(
-                            Icons.circle,
-                            size: 8,
-                            color: c.brandStrong,
-                          ),
-                        ),
-                        const SizedBox(width: BmSpace.xs),
-                        Expanded(child: Text(point, style: BmType.body)),
-                      ],
-                    ),
-                  ),
+                  ReadingBullet(text: point, tone: c.toneGreen),
               ],
             ),
           ),
         ],
         for (final s in article.sections) ...[
           const SizedBox(height: BmSpace.md),
-          Text(s.heading, style: BmType.cardTitle),
-          const SizedBox(height: BmSpace.xxs),
-          Text(s.body, style: BmType.body),
+          ArticleSectionCard(
+            heading: s.heading,
+            body: s.body,
+            otherIndex: sectionKindFor(s.heading) == ArticleSectionKind.other
+                ? others++
+                : 0,
+          ),
         ],
         if (article.facts.isNotEmpty) ...[
-          const SizedBox(height: BmSpace.lg),
-          _Panel(
+          const SizedBox(height: BmSpace.md),
+          ReadingCard(
             key: const Key('feed-facts'),
-            title: t.feedArticleFacts,
+            heading: t.feedArticleFacts,
+            icon: Icons.table_chart_rounded,
+            tone: c.toneBlue,
             child: _FactsTable(article.facts),
           ),
         ],
         for (final (i, chart) in article.charts.indexed) ...[
           const SizedBox(height: BmSpace.md),
-          _Panel(
+          ReadingCard(
             key: Key('feed-chart-$i'),
-            title: chart.title,
+            heading: chart.title,
+            icon: chart.type == FeedChartType.pie
+                ? Icons.pie_chart_rounded
+                : Icons.bar_chart_rounded,
+            tone: c.toneTeal,
             child: chart.type == FeedChartType.pie
                 ? _PieChart(chart: chart, lang: lang)
                 : _BarChart(chart: chart, lang: lang),
@@ -112,8 +97,10 @@ class FeedArticleView extends StatelessWidget {
         ],
         if (article.keyDates.isNotEmpty) ...[
           const SizedBox(height: BmSpace.md),
-          _Panel(
-            title: t.feedArticleKeyDates,
+          ReadingCard(
+            heading: t.feedArticleKeyDates,
+            icon: Icons.event_rounded,
+            tone: c.toneAmber,
             child: Column(
               children: [
                 for (final d in article.keyDates)
@@ -139,36 +126,42 @@ class FeedArticleView extends StatelessWidget {
         ],
         if (article.sources.isNotEmpty) ...[
           const SizedBox(height: BmSpace.md),
-          Text(t.feedArticleSources, style: BmType.bodyStrong),
-          for (final (i, s) in article.sources.indexed)
-            if (knowledge)
-              _SourceRow(key: Key('feed-knowledge-source-$i'), source: s)
-            else
-              Padding(
-                padding: const EdgeInsets.only(top: BmSpace.xxs),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Icon(Icons.link_rounded, size: 18, color: c.inkMuted),
-                    const SizedBox(width: BmSpace.xxs),
-                    Expanded(
-                      child: SelectableText(
-                        '${s.title}\n${Uri.tryParse(s.url)?.host ?? s.url}',
-                        style: BmType.meta,
-                      ),
-                    ),
-                  ],
-                ),
+          Row(
+            children: [
+              ToneIconChip(
+                icon: sectionIcon(ArticleSectionKind.sources),
+                tone: c.toneGrey,
+                size: 28,
               ),
+              const SizedBox(width: BmSpace.xs),
+              Text(t.feedArticleSources, style: BmType.bodyStrong),
+            ],
+          ),
+          const SizedBox(height: BmSpace.xs),
+          Wrap(
+            spacing: BmSpace.xs,
+            runSpacing: BmSpace.xs,
+            children: [
+              for (final (i, s) in article.sources.indexed)
+                if (knowledge)
+                  _SourceRow(key: Key('feed-knowledge-source-$i'), source: s)
+                else
+                  SourceChip(title: s.title, url: s.url),
+            ],
+          ),
         ],
         if (knowledge && article.cardSection != null) ...[
           const SizedBox(height: BmSpace.md),
-          OutlinedButton.icon(
-            key: const Key('feed-knowledge-card'),
-            icon: const Icon(Icons.menu_book_outlined),
-            label: Text(t.feedKnowledgeOpenCard),
-            onPressed: () =>
-                context.push(Routes.practicesSection(article.cardSection!)),
+          SizedBox(
+            width: double.infinity,
+            child: FilledButton.icon(
+              key: const Key('feed-knowledge-card'),
+              style: BmButtonStyle.primary(c),
+              icon: const Icon(Icons.menu_book_rounded),
+              label: Text(t.feedKnowledgeOpenCard),
+              onPressed: () =>
+                  context.push(Routes.practicesSection(article.cardSection!)),
+            ),
           ),
         ],
       ],
@@ -176,8 +169,8 @@ class FeedArticleView extends StatelessWidget {
   }
 }
 
-/// One source of a knowledge article: its title and site; a tap copies the full link (the
-/// app opens no browser), at least 48 dp tall.
+/// One source of a knowledge article as a link chip: its title and site; a tap copies the
+/// full link (the app opens no browser), at least 48 dp tall.
 class _SourceRow extends StatelessWidget {
   const _SourceRow({super.key, required this.source});
 
@@ -186,74 +179,17 @@ class _SourceRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
-    final c = context.bm;
-    return Semantics(
-      button: true,
+    return SourceChip(
+      title: source.title,
+      url: source.url,
       hint: t.feedCopyLink,
-      child: InkWell(
-        borderRadius: BorderRadius.circular(BmRadius.chip),
-        onTap: () async {
-          await Clipboard.setData(ClipboardData(text: source.url));
-          if (context.mounted) {
-            ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text(t.feedLinkCopied)));
-          }
-        },
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(minHeight: BmSpace.tapTarget),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: BmSpace.xxs),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Icon(Icons.link_rounded, size: 18, color: c.brandStrong),
-                const SizedBox(width: BmSpace.xxs),
-                Expanded(
-                  child: Text(
-                    '${source.title}\n${Uri.tryParse(source.url)?.host ?? source.url}',
-                    style: BmType.meta.copyWith(color: c.brandStrong),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _Panel extends StatelessWidget {
-  const _Panel({
-    super.key,
-    required this.title,
-    required this.child,
-    this.tint,
-  });
-
-  final String title;
-  final Widget child;
-  final Color? tint;
-
-  @override
-  Widget build(BuildContext context) {
-    final c = context.bm;
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(BmSpace.md),
-      decoration: BoxDecoration(
-        color: tint ?? c.card,
-        border: Border.all(color: c.line),
-        borderRadius: BorderRadius.circular(BmRadius.tile),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(title, style: BmType.bodyStrong),
-          const SizedBox(height: BmSpace.xs),
-          child,
-        ],
-      ),
+      onTap: () async {
+        await Clipboard.setData(ClipboardData(text: source.url));
+        if (context.mounted) {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text(t.feedLinkCopied)));
+        }
+      },
     );
   }
 }
@@ -272,7 +208,7 @@ class _FactsTable extends StatelessWidget {
       children: [
         for (final (i, f) in facts.indexed)
           TableRow(
-            decoration: BoxDecoration(color: i.isEven ? c.brandSoft : null),
+            decoration: BoxDecoration(color: i.isEven ? c.toneBlue.tint : null),
             children: [
               Padding(
                 padding: const EdgeInsets.all(BmSpace.xs),

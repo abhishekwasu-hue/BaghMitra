@@ -53,11 +53,12 @@ motion (`MediaQuery.disableAnimations`).
 | `SyncBanner` | sync_banner.dart | offline / pending / failed states |
 | `GlyphIcon` | glyphs.dart | painted illustration set (ADR 0007) |
 | `EmptyState`, `EmptyNote` | empty_state.dart | every empty list: glyph in soft circle, optional title, one line, optional action; `EmptyNote` for an empty line under filters/totals |
+| `ReadingCard`, `ArticleSectionCard`, `HighlightedText`, `SourceChip` | article_reading.dart | article / answer reading: section cards coloured by meaning, numbers and KB names marked, clean bullets (`buttons-audit.md` §5) |
 | `BottomActions` | bottom_actions.dart | pinned bottom strip for a screen's main action(s) (Save / Add); side-by-side buttons share the 56 dp height |
 
 Themed in `theme/app_theme.dart`, so screens never style these by hand:
 - **App bar**: page background, brand `section` title, brand icons, no scroll tint. Screens pass only title/actions.
-- **Buttons**: filled = santra with dark ink text, 56 dp; outlined/text = brand, ≥ 48 dp, same 18 dp radius.
+- **Buttons** (roles and audit: `buttons-audit.md`): every label bold. Filled = santra main commit (Save / Add / Send, dialog confirm) with dark ink, 56 dp; `BmButtonStyle.primary` = green filled primary inside a card or section; outlined / text = tonal secondary (leaf tint fill + visible border), ≥ 48 dp; `BmButtonStyle.destructive` = calm amber tint (no red fill); `BmButtonStyle.icon` = tonal 48 dp circle with tooltip; `BmButtonStyle.link` = underlined link. App-bar icons stay bare.
 - **Chips**: picked = `nowTint` with santra border; unpicked = `line` border.
 - **Inputs**: 18 dp radius; no `0/120` counters (the limit still applies); a mic (`VoiceMicButton`) on free-text name/note fields.
 - **Form question labels** ("Which crop?") use `BmType.formLabel` (16 sp, w600, ink) — not the 13 sp `label`.

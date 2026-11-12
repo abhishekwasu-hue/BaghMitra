@@ -338,7 +338,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   const SizedBox(height: BmSpace.md),
                   TextButton.icon(
                     key: const Key('delete-account'),
-                    style: TextButton.styleFrom(foregroundColor: c.danger),
+                    style: BmButtonStyle.destructive(c),
                     onPressed: _deleting ? null : _deleteAccount,
                     icon: _deleting
                         ? const SizedBox.square(
@@ -406,10 +406,7 @@ class _DeleteAccountDialogState extends State<_DeleteAccountDialog> {
         ),
         FilledButton(
           key: const Key('delete-account-confirm'),
-          style: FilledButton.styleFrom(
-            backgroundColor: c.danger,
-            foregroundColor: c.onBrand,
-          ),
+          style: BmButtonStyle.destructive(c),
           onPressed: _confirmed(t)
               ? () => Navigator.of(context).pop(true)
               : null,

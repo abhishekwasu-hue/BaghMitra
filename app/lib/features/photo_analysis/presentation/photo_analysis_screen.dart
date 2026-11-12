@@ -434,10 +434,10 @@ class _PhotoAnalysisScreenState extends ConsumerState<PhotoAnalysisScreen> {
                 alignment: AlignmentDirectional.centerStart,
                 child: TextButton.icon(
                   key: const Key('photo-check-delete'),
-                  style: TextButton.styleFrom(foregroundColor: c.inkMuted),
+                  style: BmButtonStyle.destructive(c),
                   onPressed: _deleting ? null : _delete,
                   icon: const Icon(Icons.delete_outline_rounded, size: 20),
-                  label: Text(t.photoCheckDelete, style: BmType.meta),
+                  label: Text(t.photoCheckDelete),
                 ),
               ),
               if (_deleteFailed)
@@ -622,11 +622,12 @@ class _CandidateCard extends StatelessWidget {
           if (hasCard)
             Padding(
               padding: const EdgeInsets.only(top: BmSpace.xs),
-              child: OutlinedButton.icon(
+              child: FilledButton.icon(
                 key: Key('photo-card-${cand.key}'),
+                style: BmButtonStyle.primary(c),
                 onPressed: () =>
                     context.push(Routes.practicesSection(cand.key)),
-                icon: const Icon(Icons.menu_book_outlined),
+                icon: const Icon(Icons.menu_book_rounded),
                 label: Text(t.photoCheckOpenCard),
               ),
             ),
@@ -712,11 +713,12 @@ class _OfflineResult extends StatelessWidget {
                   if (sections.contains(g.key))
                     Padding(
                       padding: const EdgeInsets.only(top: BmSpace.xs),
-                      child: OutlinedButton.icon(
+                      child: FilledButton.icon(
                         key: Key('photo-offline-card-${g.key}'),
+                        style: BmButtonStyle.primary(c),
                         onPressed: () =>
                             context.push(Routes.practicesSection(g.key)),
-                        icon: const Icon(Icons.menu_book_outlined),
+                        icon: const Icon(Icons.menu_book_rounded),
                         label: Text(t.photoCheckOpenCard),
                       ),
                     ),

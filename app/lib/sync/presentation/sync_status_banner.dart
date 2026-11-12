@@ -187,7 +187,7 @@ class _RejectedRow extends StatelessWidget {
               ),
               TextButton(
                 key: Key('rejected-delete-$entryId'),
-                style: TextButton.styleFrom(foregroundColor: c.danger),
+                style: BmButtonStyle.destructive(c),
                 onPressed: onDelete,
                 child: Text(deleteLabel),
               ),

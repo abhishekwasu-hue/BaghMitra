@@ -83,6 +83,7 @@ class _TermsState extends ConsumerState<TermsAcceptanceScreen> {
             alignment: AlignmentDirectional.centerStart,
             child: TextButton.icon(
               key: Key(key),
+              style: BmButtonStyle.link(context.bm),
               icon: const Icon(Icons.open_in_new),
               label: Text(label),
               onPressed: () => ref.read(urlOpenerProvider)(base.resolve(url)),

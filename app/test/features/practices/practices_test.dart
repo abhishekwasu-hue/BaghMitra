@@ -444,7 +444,7 @@ void main() {
       );
       final link = find.byKey(const Key('practices-labels-thrips'));
       await tester.scrollUntilVisible(link, 200);
-      expect(find.text('लेबलप्रमाणे मंजूर औषधे'), findsOneWidget);
+      expect(find.text('लेबलप्रमाणे मंजूर औषधे पहा'), findsOneWidget);
       expect(find.byKey(const Key('practices-bio-thrips')), findsOneWidget);
       expect(find.textContaining('नोंदणीकृत उत्पादन'), findsOneWidget);
       await unmountApp(tester);

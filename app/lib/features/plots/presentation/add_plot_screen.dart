@@ -129,6 +129,7 @@ class _AddPlotScreenState extends ConsumerState<AddPlotScreen> {
             child: Text(t.cancel),
           ),
           TextButton(
+            style: BmButtonStyle.destructive(context.bm),
             onPressed: () => Navigator.pop(context, true),
             child: Text(t.delete),
           ),
