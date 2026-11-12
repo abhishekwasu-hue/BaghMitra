@@ -14,9 +14,11 @@ Keep any roles already there (e.g. `["kb_admin", "feed_admin"]`). The user signs
 again to get a token with the new role.
 
 ## 2. Sources and terms
-`GET /v1/admin/feed/sources` lists the registry (addendum §3, seeded by migration 0019). Every
+`GET /v1/admin/feed/sources` lists the registry (addendum §3, seeded by migration 0019). A
 source starts with `terms_status: unknown`, so **nothing is fetched automatically**
-(OPEN_QUESTIONS QG1). After reading a source's terms of use and robots.txt:
+(OPEN_QUESTIONS QG1), unless the seed records the owner's decision: Mahasamvad (Q129) and, since
+2026-11-12, the official portals and a few agriculture news outlets (Q145, §14; a deploy updates
+rows still `unknown`, never an admin's own decision). After reading a source's terms of use and robots.txt:
 ```
 PUT /v1/admin/feed/sources/mh_gr_portal/terms
 {"terms_status": "allowed", "notes": "ToS read 2026-11-02: listing + link allowed"}
@@ -178,10 +180,10 @@ Same layout as docs/runbooks/weather-pull.md. To stop: `CRON_FEED_ALERTS=off` an
 
 ## 9. News headlines (G3; OPEN_QUESTIONS QG5)
 Only sources with tier `news` **and** `terms_status: allowed` are read; everything else is
-reported `refused` and nothing is requested. Seeded: `pib_agriculture_news` (PIB RSS, URL
-[UV], terms `unknown`). Before enabling it, open the feed URL in a browser, confirm it is the
-agriculture releases feed (fix the URL in the registry if not) and read PIB's terms, then
-`PUT /v1/admin/feed/sources/pib_agriculture_news/terms {"terms_status": "allowed", "notes": "..."}`.
+reported `refused` and nothing is requested. Seeded: `pib_agriculture_news` (PIB RSS; terms
+`allowed` since the owner's approval of 2026-11-12, Q145) and the agriculture outlets of §14;
+RSS 2.0, Atom and Google news sitemaps are read. To stop one source:
+`PUT /v1/admin/feed/sources/<key>/terms {"terms_status": "disallowed", "notes": "..."}`.
 ```
 python -m bagmitra_api.feed.news_job       # JSON summary: per source status / added / error
 ```
@@ -328,3 +330,84 @@ languages). Set a monthly spend limit in the Anthropic console.
 
 Deploy note: `deploy.sh` now runs the pulled copy of itself after `git pull` (`--after-pull`, once,
 guarded by `BAGMITRA_DEPLOY_REEXEC`), so a new cron line is added in the same deploy.
+
+## 14. Official portals and agriculture news outlets (owner 2026-11-12, OPEN_QUESTIONS Q145)
+Owner: "Build MahaDBT, PM-KISAN, PMFBY too; it need not be a government source — take it from
+wherever it is available." And: "many farming articles appeared in the last month, on other
+fruits too; find them." The seed (`feed/seed_data/sources.json`) records the decision with each
+source's robots.txt result; a deploy carries it onto rows still `unknown` (an admin's own
+`allowed` / `disallowed` is never overwritten). The terms gate itself is unchanged.
+
+**How each source was checked:** from a GitHub runner, `card-sources` workflow, `raw: true`
+(prints each address's status, robots.txt, feed / sitemap entry counts and date span, a page's
+visible text and its document tables; fetched with the feed's own User-Agent). Recorded
+2026-11-12; trimmed copies are the contract fixtures (`api/tests/fixtures/feed/*_recorded.*`).
+
+| Key | Address read | Read as | robots.txt (2026-11-12) | Recorded |
+|---|---|---|---|---|
+| `mh_gr_portal` | gr.maharashtra.gov.in/1145/Government-Resolutions | server-rendered GR table (dept, title, unique code, date, PDF); farm departments only | allows (disallows /admin/, /private/, /tmp/) | 10 GRs of the day, none from a farm department |
+| `mh_agri_commissionerate` | krishi.maharashtra.gov.in … ViewGr.aspx (GRs / standing orders) | server-rendered table (subject, date, PDF; no GR number) | none (redirects to an error page) | 5 GRs, newest 24-09-2026 (PKVY), PMFBY 2026-27, fruit-crop insurance 2026-27 |
+| `mahadbt` | mahadbt.maharashtra.gov.in/Farmer/AgriLogin/AgriLogin | farmer scheme list (17 schemes, no dates) → each scheme page's "Government Resolution" PDF | none (404) | 17 schemes |
+| `pm_kisan` | — | **not readable**: TLS chain incomplete (`CERTIFICATE_VERIFY_FAILED`), http:// times out; verification is never switched off | could not be read | — |
+| `pmfby` | — | **not readable**: JavaScript-only app (empty `<div id="app">`); its GRs come through the Commissionerate's page | serves the app shell (no rules) | — |
+| `pib_agriculture_news` | pib.gov.in RssMain (ModId=6) | RSS (redirects to the all-ministries Hindi feed, items undated) | serves an error page (no rules) | 20 items; the VPS got 403 earlier |
+| `mahasamvad_news` | mahasamvad.in/feed/ (+ `?paged=N` backfill) | RSS (WordPress) | /wp-admin/ only (VPS, Q129) | 403 to the GitHub runner; readable from the VPS |
+| `agrowon_mr` | agrowon.esakal.com/news_sitemap.xml (+ daily sitemaps) | news sitemap; web stories / videos skipped | allows (its listed sections skipped) | 57 links, 2026-11-10 → 11-12; daily sitemaps 22–68 links a day |
+| `krishijagran_en` | krishijagran.com/feeds/rss | RSS | allows all but /api/ | 99 items, 2026-08-19 → 11-04 |
+| `krishijagran_hi` | hindi.krishijagran.com/feeds/googlenews | news sitemap | allows all but /api/ | 50 links, 2026-10-30 → 11-12 |
+| `kisantak_hi` | kisantak.in/rssfeeds/news-sitemap.xml | news sitemap | allows /rssfeeds/ | 5 links, 2026-11-11 → 11-12 |
+| `businessline_agri` | thehindubusinessline.com/economy/agri-business/feeder/default.rss | RSS | allows (wildcard rules block search / fragments only) | 60 items, 2026-11-05 → 11-11 |
+| `krishakjagat_hi` | krishakjagat.org/feed/ | — | **disallows** `*/feed/`: seeded `disallowed`, never fetched | — |
+
+Not added: Krishi Jagran Marathi (`/feeds/rss` last item 2026-03-26: stale), Down To Earth (general
+environment outlet, few farm items per day), BusinessLine / Kisan Tak / Krishi Jagran archives
+(no titled sitemap or older feed pages; Krishi Jagran's news sitemap is 7 MB without titles).
+
+**Robots** (`gr_portal.robots_allows`, all adapters): read as RFC 9309 — the groups naming our
+agent, else the `*` groups merged; `*` and `$` wildcards; the longest matching rule wins, Allow
+on a tie (the standard library's parser ignored wildcards, e.g. Krishak Jagat's `*/feed/`). An
+HTML page served for /robots.txt has no rules.
+
+**Official portals** (`feed/portal_job.py`, cron below): each official source whose terms are
+`allowed` and that has a reader (`portal_list`, `rss`, `scheme_list`; `manual` = no reader, never
+requested) is read; new listings of the last 30 days (MahaDBT's undated schemes: every new one,
+dated by first sight) become `in_review` items, at most 100 per source and run. Then the AI step
+(`feed/official_items.py`) per listing: the document (robots, spacing, 20 MB limit; SHA-256 and
+size kept) → text (PDF text layer / HTML; scanned or legacy-font text holds the item for a
+person) → classify (`gr | circular | scheme | alert`, categories) → irrelevant: `draft` → the
+article set (mr / hi / en, `check_articles`) → a scheme: its card from the summariser (quote or
+`not_stated`, page cited) → the output check (`run_output_check`: every number, date, amount and
+scheme name in titles, summaries and card against the stored text). Any issue: `held`; otherwise
+published (`FEED_AUTO_PUBLISH=false`: waits for approval). Trust `official` only for a document on
+a `.gov.in` / `.nic.in` host. At most `FEED_AI_DAILY_ITEMS` attempts per UTC day (counted apart
+from the news articles). The stored text also feeds the knowledge trigger (c) (§13).
+
+**News outlets**: the news job (§9, §11) reads them like Mahasamvad: headline + link + date, then
+**our own** checked article (the page text is never stored; no images). Relevance (owner
+2026-11-12): items that change something for farmers **or** useful farming knowledge for
+Maharashtra / Vidarbha farmers (all fruits — mango, banana, pomegranate, grapes, guava, custard
+apple … — vegetables, soil, water, weather advisories, pests and diseases, markets,
+post-harvest); politics, crime, entertainment stay out; the number / name checks are unchanged.
+A dated entry more than 30 days older than its feed's newest entry is not added. Repeats across
+outlets are grouped by the topic threads (§12).
+
+**30-day backfill** (`feed/backfill.py`, migration `0051`: `feed_sources.backfill_done_at`,
+`backfill_cursor`): on the scheduled runs themselves, once per source, no manual step. Mahasamvad:
+older feed pages `?paged=2…15` [UV: not reachable from the runner; the first VPS run shows it];
+Agrowon: one daily sitemap per day back 30 days, each new link's page read once for its own
+`og:title` and publication time (`article:published_time` or JSON-LD `datePublished`; without
+both it is skipped). At most 100 new items and 150 page reads per source and run; the cursor keeps
+the last page / day read completely, so the next run continues. Done at the first missing,
+empty or older page, or after the last day. Log: the news log's first JSON line, `backfill`.
+The official lists take their last 30 days on the first run (their pages show no older items:
+the GR portal's archive is an ASP.NET search form, not read).
+
+Cron (on by default; `CRON_FEED_PORTALS=off` in `deploy/.env` removes the line and the job then
+fetches nothing), twice a day before the 07:23 / 19:23 news runs (04:43, 16:43 UTC = 10:13, 22:13
+IST); added by `deploy/deploy.sh` in the same deploy (it re-runs its pulled copy):
+```
+43 4,16 * * * cd /opt/bagmitra/deploy && docker compose exec -T api python -m bagmitra_api.feed.portal_job >> /var/log/bagmitra-feed-portals.log 2>&1
+```
+The log line is a JSON summary: `sources` (per key: `ok | refused | no_reader | skipped |
+fetch_failed | disallowed`, `added`, `error`), `added`, `official` (`published`, `held`,
+`drafted`, `review`, `retry`, `skipped_reason`). Migration `0051` runs on the API start.
