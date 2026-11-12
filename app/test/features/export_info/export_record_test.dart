@@ -136,6 +136,49 @@ void main() {
     expect(en.exportRecordFooter, 'Information record, not a certificate.');
   });
 
+  test('a name saved from its ingredient prints the ingredient once', () async {
+    final t = await AppLocalizations.delegate.load(const Locale('en'));
+    final lines = exportRecordPages(
+      t: t,
+      lang: 'en',
+      heading: const [('Plot', 'p1')],
+      rows: [
+        ExportRecordRow(
+          sprayedOn: DateTime(2026, 10, 4),
+          product: 'Carbofuran',
+          activeIngredient: ' carbofuran ',
+          dose: '2 g',
+          status: LabelStatus.listed,
+        ),
+        ExportRecordRow(
+          sprayedOn: DateTime(2026, 10, 2),
+          product: 'Furadan',
+          activeIngredient: 'Carbofuran',
+          status: LabelStatus.listed,
+        ),
+        ExportRecordRow(
+          sprayedOn: DateTime(2026, 10, 3),
+          product: 'Captan + Carbofuran',
+          activeIngredient: 'Captan + Carbofuran',
+          status: LabelStatus.listed,
+          products: const [
+            SprayProduct(productName: 'Captan', activeIngredient: 'Captan 50'),
+            SprayProduct(
+              productName: 'Carbofuran',
+              activeIngredient: 'CARBOFURAN',
+            ),
+          ],
+        ),
+      ],
+      made: DateTime(2026, 11, 7),
+    ).single.lines.map((l) => l.product);
+    expect(lines, [
+      'Carbofuran · 2 g',
+      'Furadan · Carbofuran',
+      'Mix:\nCaptan · Captan 50\nCarbofuran',
+    ]);
+  });
+
   testWidgets('the printed page shows the footer and every line', (
     tester,
   ) async {

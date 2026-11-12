@@ -13,7 +13,8 @@ import 'package:flutter_test/flutter_test.dart';
 import '../../helpers/pump_app.dart';
 import '../bahar/bahar_screen_test.dart' show seedPlot;
 import '../plots/plots_screen_test.dart' show settle;
-import 'spray_ingredient_picker_test.dart' show chooseIngredientType;
+import 'spray_ingredient_picker_test.dart'
+    show chooseIngredient, chooseIngredientType;
 import 'spray_records_test.dart' show SprayTestCopy, spray;
 
 /// A phone that has already cached the ban list (as after one online start).
@@ -141,7 +142,10 @@ void main() {
     await settle(tester);
     await tester.tap(find.text('Save'));
     await settle(tester);
-    expect(find.text('Write the product name'), findsOneWidget);
+    expect(
+      find.text('Write the product name or the active ingredient'),
+      findsOneWidget,
+    );
     await tester.enterText(find.byKey(const Key('spray-product')), 'Neem oil');
     await tester.tap(find.text('Save'));
     await settle(tester);
@@ -151,6 +155,95 @@ void main() {
       )..where((t) => t.entity.equals('spray_record'))).get(),
     );
     expect(queued, hasLength(1));
+    await unmountApp(tester);
+  });
+
+  testWidgets('an ingredient from the list is enough; it is saved as the name', (
+    tester,
+  ) async {
+    final db = await pumpApp(
+      tester,
+      locale: const Locale('en'),
+      initialLocation: '/plots/p1/sprays/new',
+      seed: seedPlotAndBanList,
+    );
+    await settle(tester);
+    expect(find.text('Product name'), findsOneWidget);
+    expect(find.text('Product name (optional)'), findsNothing);
+    await chooseIngredientType(tester, 'Insecticide');
+    await chooseIngredient(tester, 'Carbofuran 03% CG');
+    // Owner 2026-11-12: with an ingredient the name is optional, and the label says so.
+    expect(find.text('Product name (optional)'), findsOneWidget);
+    await tester.tap(find.text('Save'));
+    await settle(tester);
+    expect(
+      find.text('Write the product name or the active ingredient'),
+      findsNothing,
+    );
+    final queued = await tester.runAsync(
+      () => (db.select(
+        db.outboxEntries,
+      )..where((t) => t.entity.equals('spray_record'))).get(),
+    );
+    final payload = jsonDecode(queued!.single.payload) as Map<String, Object?>;
+    // The compound's name, as the ban check, the lists and the export read it.
+    expect(payload['product_name'], 'Carbofuran');
+    expect(payload['active_ingredient'], 'Carbofuran');
+    // Saved: the log lists the spray by that name.
+    expect(find.text('Carbofuran'), findsOneWidget);
+    await unmountApp(tester);
+  });
+
+  testWidgets('an ingredient typed under Other is saved as the name too', (
+    tester,
+  ) async {
+    final db = await pumpApp(
+      tester,
+      locale: const Locale('en'),
+      initialLocation: '/plots/p1/sprays/new',
+      seed: seedPlotAndBanList,
+    );
+    await settle(tester);
+    await chooseIngredientType(tester, 'Other');
+    await tester.enterText(find.byKey(const Key('spray-active')), ' Kelthane ');
+    await settle(tester);
+    expect(find.text('Product name (optional)'), findsOneWidget);
+    await tester.tap(find.text('Save'));
+    await settle(tester);
+    final queued = await tester.runAsync(
+      () => (db.select(
+        db.outboxEntries,
+      )..where((t) => t.entity.equals('spray_record'))).get(),
+    );
+    final payload = jsonDecode(queued!.single.payload) as Map<String, Object?>;
+    expect(payload['product_name'], 'Kelthane');
+    expect(payload['active_ingredient'], 'Kelthane');
+    await unmountApp(tester);
+  });
+
+  testWidgets('a written name is kept as written beside the ingredient', (
+    tester,
+  ) async {
+    final db = await pumpApp(
+      tester,
+      locale: const Locale('en'),
+      initialLocation: '/plots/p1/sprays/new',
+      seed: seedPlotAndBanList,
+    );
+    await settle(tester);
+    await tester.enterText(find.byKey(const Key('spray-product')), 'Furadan');
+    await chooseIngredientType(tester, 'Insecticide');
+    await chooseIngredient(tester, 'Carbofuran 03% CG');
+    await tester.tap(find.text('Save'));
+    await settle(tester);
+    final queued = await tester.runAsync(
+      () => (db.select(
+        db.outboxEntries,
+      )..where((t) => t.entity.equals('spray_record'))).get(),
+    );
+    final payload = jsonDecode(queued!.single.payload) as Map<String, Object?>;
+    expect(payload['product_name'], 'Furadan');
+    expect(payload['active_ingredient'], 'Carbofuran');
     await unmountApp(tester);
   });
 

@@ -167,7 +167,7 @@ class SprayDetailScreen extends ConsumerWidget {
                           ),
                       ],
                     ),
-                    if ([?p.activeIngredient, ?p.dose] case final line
+                    if ([?p.shownIngredient, ?p.dose] case final line
                         when line.isNotEmpty)
                       Text(line.join(' · '), style: meta),
                     if (p.phiDays case final phi?)

@@ -1456,6 +1456,12 @@ abstract class AppLocalizations {
   /// **'Product name'**
   String get sprayProduct;
 
+  /// No description provided for @sprayProductOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'Product name (optional)'**
+  String get sprayProductOptional;
+
   /// No description provided for @sprayActive.
   ///
   /// In en, this message translates to:
@@ -5262,7 +5268,7 @@ abstract class AppLocalizations {
   /// No description provided for @requiredSprayProduct.
   ///
   /// In en, this message translates to:
-  /// **'Write the product name'**
+  /// **'Write the product name or the active ingredient'**
   String get requiredSprayProduct;
 
   /// No description provided for @requiredInputProduct.

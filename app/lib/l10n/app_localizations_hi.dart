@@ -793,6 +793,9 @@ class AppLocalizationsHi extends AppLocalizations {
   String get sprayProduct => 'दवा का नाम';
 
   @override
+  String get sprayProductOptional => 'दवा का नाम (वैकल्पिक)';
+
+  @override
   String get sprayActive => 'सक्रिय तत्व (लेबल पर)';
 
   @override
@@ -3018,7 +3021,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get requiredWorker => 'मज़दूर का नाम लिखें';
 
   @override
-  String get requiredSprayProduct => 'दवा का नाम लिखें';
+  String get requiredSprayProduct => 'दवा का नाम या सक्रिय तत्व लिखें';
 
   @override
   String get requiredInputProduct => 'उत्पाद का नाम लिखें';
