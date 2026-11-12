@@ -76,7 +76,7 @@ class AppUpdateChecker {
     required this.db,
     required this.installedCode,
     required this.clock,
-    this.interval = const Duration(hours: 24),
+    this.interval = const Duration(hours: 1),
   });
 
   static const cacheKey = 'app_update.release';
