@@ -391,7 +391,7 @@ post-harvest); politics, crime, entertainment stay out; the number / name checks
 A dated entry more than 30 days older than its feed's newest entry is not added. Repeats across
 outlets are grouped by the topic threads (§12).
 
-**30-day backfill** (`feed/backfill.py`, migration `0051`: `feed_sources.backfill_done_at`,
+**30-day backfill** (`feed/backfill.py`, migration `0053`: `feed_sources.backfill_done_at`,
 `backfill_cursor`): on the scheduled runs themselves, once per source, no manual step. Mahasamvad:
 older feed pages `?paged=2…15` [UV: not reachable from the runner; the first VPS run shows it];
 Agrowon: one daily sitemap per day back 30 days, each new link's page read once for its own
@@ -410,4 +410,4 @@ IST); added by `deploy/deploy.sh` in the same deploy (it re-runs its pulled copy
 ```
 The log line is a JSON summary: `sources` (per key: `ok | refused | no_reader | skipped |
 fetch_failed | disallowed`, `added`, `error`), `added`, `official` (`published`, `held`,
-`drafted`, `review`, `retry`, `skipped_reason`). Migration `0051` runs on the API start.
+`drafted`, `review`, `retry`, `skipped_reason`). Migration `0053` runs on the API start.

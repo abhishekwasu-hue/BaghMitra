@@ -17256,6 +17256,81 @@ extension $PushResponseExtension on PushResponse {
 }
 
 @JsonSerializable(explicitToJson: true)
+class PushTopicsBody {
+  const PushTopicsBody({
+    required this.articles,
+    required this.market,
+    required this.weatherChange,
+  });
+
+  factory PushTopicsBody.fromJson(Map<String, dynamic> json) =>
+      _$PushTopicsBodyFromJson(json);
+
+  static const toJsonFactory = _$PushTopicsBodyToJson;
+  Map<String, dynamic> toJson() => _$PushTopicsBodyToJson(this);
+
+  @JsonKey(name: 'articles', includeIfNull: false)
+  final bool articles;
+  @JsonKey(name: 'market', includeIfNull: false)
+  final bool market;
+  @JsonKey(name: 'weather_change', includeIfNull: false)
+  final bool weatherChange;
+  static const fromJsonFactory = _$PushTopicsBodyFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is PushTopicsBody &&
+            (identical(other.articles, articles) ||
+                const DeepCollectionEquality().equals(
+                  other.articles,
+                  articles,
+                )) &&
+            (identical(other.market, market) ||
+                const DeepCollectionEquality().equals(other.market, market)) &&
+            (identical(other.weatherChange, weatherChange) ||
+                const DeepCollectionEquality().equals(
+                  other.weatherChange,
+                  weatherChange,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(articles) ^
+      const DeepCollectionEquality().hash(market) ^
+      const DeepCollectionEquality().hash(weatherChange) ^
+      runtimeType.hashCode;
+}
+
+extension $PushTopicsBodyExtension on PushTopicsBody {
+  PushTopicsBody copyWith({bool? articles, bool? market, bool? weatherChange}) {
+    return PushTopicsBody(
+      articles: articles ?? this.articles,
+      market: market ?? this.market,
+      weatherChange: weatherChange ?? this.weatherChange,
+    );
+  }
+
+  PushTopicsBody copyWithWrapped({
+    Wrapped<bool>? articles,
+    Wrapped<bool>? market,
+    Wrapped<bool>? weatherChange,
+  }) {
+    return PushTopicsBody(
+      articles: (articles != null ? articles.value : this.articles),
+      market: (market != null ? market.value : this.market),
+      weatherChange: (weatherChange != null
+          ? weatherChange.value
+          : this.weatherChange),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class QuestionStarsOut {
   const QuestionStarsOut({
     required this.average,

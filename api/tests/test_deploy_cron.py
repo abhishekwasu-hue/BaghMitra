@@ -35,6 +35,7 @@ MARKERS = {
     "regate": "bagmitra_api.kb.regate",
     "retention": "bagmitra_api.sync.retention",
     "push": "bagmitra_api.push.deliver",
+    "updates": "bagmitra_api.push.updates",
     "erase": "bagmitra_api.market_link.erase_job",
     "recheck": "bagmitra_api.market_link.recheck_job",
     "billing": "bagmitra_api.billing.reconcile_job",
@@ -126,6 +127,7 @@ def test_each_switch_adds_its_job_once_and_never_prints_values(tmp_path: Path) -
         "regate",
         "retention",
         "push",
+        "updates",
         "erase",
         "recheck",
         "photo_retention",
@@ -150,6 +152,24 @@ def test_weather_alert_pushes_run_only_with_fcm_set(tmp_path: Path) -> None:
     out, lines = run_install(tmp_path, "FCM_PROJECT_ID=\n" + key)
     assert "push" not in jobs(lines)
     assert "weather alert pushes (01:37 UTC = 07:07 IST) cron line removed" in out
+
+
+def test_update_pushes_run_with_fcm_set_unless_switched_off(tmp_path: Path) -> None:
+    """Q147: the update push job (articles, market, weather changes) comes with FCM, 12 min
+    after the 02:35 / 08:35 / 14:35 UTC market pulls and outside the default quiet hours;
+    CRON_PUSH_UPDATES=off removes it while the risk-alert deliver job stays."""
+    key = "FCM_SERVICE_ACCOUNT_B64=c2VjcmV0LWtleS1ibG9i\n"
+    _, lines = run_install(tmp_path, "FCM_PROJECT_ID=demo-project\n" + key)
+    line = next(ln for ln in lines if MARKERS["updates"] in ln)
+    assert line.startswith("47 2,8,14 * * * cd ")
+    assert line.endswith(">> /var/log/bagmitra-push-updates.log 2>&1")
+    # 02:47 / 08:47 / 14:47 UTC = 08:17 / 14:17 / 20:17 IST, all before 21:00 IST.
+    out, lines = run_install(tmp_path, "FCM_PROJECT_ID=demo-project\nCRON_PUSH_UPDATES=off\n" + key)
+    assert {"push"} <= jobs(lines)
+    assert "updates" not in jobs(lines)
+    assert "update pushes (02:47, 08:47, 14:47 UTC) cron line removed" in out
+    _, lines = run_install(tmp_path, "FCM_PROJECT_ID=\nCRON_PUSH_UPDATES=on\n")
+    assert "updates" not in jobs(lines)
 
 
 def test_the_test_apk_mirror_is_opt_in(tmp_path: Path) -> None:

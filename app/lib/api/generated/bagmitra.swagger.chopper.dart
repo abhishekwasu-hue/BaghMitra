@@ -3858,6 +3858,56 @@ phone cannot rate each other (spec v1.5 §4C, Q100).''',
   }
 
   @override
+  Future<Response<PushTopicsBody>> _v1MePushTopicsGet({
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'The caller\'s switches, or the defaults (all on unless the admin changed them).',
+      summary: 'Get Push Topics',
+      operationId: 'push_topics_get',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["profile"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/me/push-topics');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      tag: swaggerMetaData,
+    );
+    return client.send<PushTopicsBody, PushTopicsBody>($request);
+  }
+
+  @override
+  Future<Response<PushTopicsBody>> _v1MePushTopicsPut({
+    required PushTopicsBody? body,
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''Saves all three switches; repeating the same body is harmless (the app retries a
+change made offline).''',
+      summary: 'Put Push Topics',
+      operationId: 'push_topics_put',
+      consumes: [],
+      produces: [],
+      security: ["HTTPBearer"],
+      tags: ["profile"],
+      deprecated: false,
+    ),
+  }) {
+    final Uri $url = Uri.parse('/v1/me/push-topics');
+    final $body = body;
+    final Request $request = Request(
+      'PUT',
+      $url,
+      client.baseUrl,
+      body: $body,
+      tag: swaggerMetaData,
+    );
+    return client.send<PushTopicsBody, PushTopicsBody>($request);
+  }
+
+  @override
   Future<Response<dynamic>> _v1PhotoAnalysisPhotoIdDelete({
     required String? photoId,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(

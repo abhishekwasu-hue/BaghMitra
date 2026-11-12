@@ -2290,6 +2290,48 @@ abstract class AppLocalizations {
   /// **'See the app introduction again'**
   String get settingsShowWalkthrough;
 
+  /// No description provided for @settingsNotifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get settingsNotifications;
+
+  /// No description provided for @settingsPushArticles.
+  ///
+  /// In en, this message translates to:
+  /// **'Articles'**
+  String get settingsPushArticles;
+
+  /// No description provided for @settingsPushArticlesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'When a new article is published'**
+  String get settingsPushArticlesHint;
+
+  /// No description provided for @settingsPushMarket.
+  ///
+  /// In en, this message translates to:
+  /// **'Market prices'**
+  String get settingsPushMarket;
+
+  /// No description provided for @settingsPushMarketHint.
+  ///
+  /// In en, this message translates to:
+  /// **'When your crop\'s mandi price changes'**
+  String get settingsPushMarketHint;
+
+  /// No description provided for @settingsPushWeather.
+  ///
+  /// In en, this message translates to:
+  /// **'Weather changes'**
+  String get settingsPushWeather;
+
+  /// No description provided for @settingsPushWeatherHint.
+  ///
+  /// In en, this message translates to:
+  /// **'When the weather at your orchard changes suddenly'**
+  String get settingsPushWeatherHint;
+
   /// No description provided for @settingsPhotoMobileData.
   ///
   /// In en, this message translates to:

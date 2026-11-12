@@ -7,8 +7,8 @@ page or day read completely (null: from the start). Existing rows keep null, so 
 enabled by this deploy is backfilled once. No new table, so the row-level security of
 `feed_sources` covers it.
 
-Revision ID: 0051
-Revises: 0050
+Revision ID: 0053
+Revises: 0052
 Create Date: 2026-11-12
 """
 
@@ -17,8 +17,8 @@ from __future__ import annotations
 import sqlalchemy as sa
 from alembic import op
 
-revision = "0051"
-down_revision = "0050"
+revision = "0053"
+down_revision = "0052"
 branch_labels = None
 depends_on = None
 

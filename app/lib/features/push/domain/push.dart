@@ -5,9 +5,16 @@ import '../../../core/app_log.dart';
 /// A server push (weather risk alert, govt-feed reminder) that arrived while the app is open.
 /// When the app is closed or in the background Android shows it by itself.
 class PushNote {
-  const PushNote({required this.title, required this.body});
+  const PushNote({
+    required this.title,
+    required this.body,
+    this.data = const {},
+  });
   final String title;
   final String body;
+
+  /// What the server put in the push's `data`: where a tap opens (see `pushLink`).
+  final Map<String, String> data;
 }
 
 /// The phone's push service (Firebase Cloud Messaging in a build with push on).
@@ -26,6 +33,13 @@ abstract interface class PushMessaging {
 
   /// Shows a foreground push as a phone notification.
   Future<void> show(PushNote note);
+
+  /// The `data` of each push the grower taps while the app runs (in the background, or a
+  /// foreground push shown by [show]).
+  Stream<Map<String, String>> get taps;
+
+  /// The `data` of the push whose tap started the app, once; null otherwise.
+  Future<Map<String, String>?> initialTap();
 }
 
 /// Push is off (the default build, demo mode, tests): nothing starts, nothing is shown.
@@ -46,6 +60,12 @@ class NoPushMessaging implements PushMessaging {
 
   @override
   Future<void> show(PushNote note) async {}
+
+  @override
+  Stream<Map<String, String>> get taps => const Stream.empty();
+
+  @override
+  Future<Map<String, String>?> initialTap() async => null;
 }
 
 /// The API's device endpoints (`POST` / `DELETE /v1/me/devices`).
@@ -73,12 +93,21 @@ class PushRegistrar {
   final PushDeviceApi _api;
   final AppLog _log;
   final _subs = <StreamSubscription<Object>>[];
+  final _opens = StreamController<Map<String, String>>.broadcast();
   bool? _started;
   String? _userId;
   String? _token;
 
   /// The token last registered for the signed-in account (null: none).
   String? get registeredToken => _token;
+
+  /// The `data` of each push the grower opened: taps while the app runs, and the one whose
+  /// tap started the app (once the service has started). The app root routes them.
+  Stream<Map<String, String>> get opens => _opens.stream;
+
+  void _open(Map<String, String> data) {
+    if (!_opens.isClosed) _opens.add(data);
+  }
 
   Future<bool> _start() async {
     final started = _started ??= await _messaging.start();
@@ -95,7 +124,16 @@ class PushRegistrar {
                   ),
             ),
           ),
-        );
+        )
+        ..add(_messaging.taps.listen(_open));
+      unawaited(
+        _messaging.initialTap().then(
+          (data) {
+            if (data != null) _open(data);
+          },
+          onError: (Object e) => _log.log('push initial tap: ${e.runtimeType}'),
+        ),
+      );
     }
     return started;
   }
@@ -151,5 +189,6 @@ class PushRegistrar {
       await s.cancel();
     }
     _subs.clear();
+    await _opens.close();
   }
 }
