@@ -54,9 +54,9 @@ jobs:
           URLS: ${{ inputs.urls }}
         run: |
           python - <<'PY'
-          import asyncio, os, re
+          import asyncio, io, os, re
           from urllib.parse import urljoin
-          import httpx
+          import httpx, pypdf
           from bagmitra_api.feed.extract import extract
           from bagmitra_api.kb.card_check import fetch_text
           # Some government hosts answer 403 to a non-browser User-Agent: one retry with a
@@ -81,6 +81,9 @@ jobs:
                               reason = None if text.strip() else reason + "; no text"
                       print("::group::" + url)
                       print(reason or text[:200000])
+                      if is_pdf:  # the edition: the file's own dates and page count
+                          pdf = pypdf.PdfReader(io.BytesIO(page.content))
+                          print("META", len(pdf.pages), "pages", dict(pdf.metadata or {}), "Last-Modified:", page.headers.get("last-modified"))
                       if page is not None and page.status_code < 400 and not is_pdf:
                           for href in sorted(set(re.findall(r'href="([^"]+\.pdf[^"]*)"', page.text, re.I))):
                               print("LINK", urljoin(str(page.url), href))
