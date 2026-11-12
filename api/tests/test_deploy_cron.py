@@ -108,7 +108,7 @@ def test_each_switch_adds_its_job_once_and_never_prints_values(tmp_path: Path) -
     )
     out, lines = run_install(tmp_path, env)
     assert jobs(lines) == set(MARKERS)
-    assert len(lines) == 15
+    assert len(lines) == 16
     assert "secret-market-key-123" not in out
     assert not any("secret-market-key-123" in ln for ln in lines)
     out_again, lines_again = run_install(tmp_path, env)
