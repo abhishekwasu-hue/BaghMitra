@@ -9326,6 +9326,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Total cost = products {products} + labour {labour}'**
   String sprayCostSplit(String products, String labour);
+
+  /// Heading of the question box on the Ask tab (Q144).
+  ///
+  /// In en, this message translates to:
+  /// **'Ask a question'**
+  String get askTitle;
+
+  /// Hint in the question field; the farmer types or speaks.
+  ///
+  /// In en, this message translates to:
+  /// **'Type or say your question'**
+  String get askHint;
+
+  /// Tooltip of the search button of the question box.
+  ///
+  /// In en, this message translates to:
+  /// **'Find the answer'**
+  String get askSearch;
+
+  /// One muted line under every stored answer (owner's words, Q144).
+  ///
+  /// In en, this message translates to:
+  /// **'This information is from checked sources stored in the app.'**
+  String get askStoredNote;
+
+  /// Heading above two or three related questions.
+  ///
+  /// In en, this message translates to:
+  /// **'Related questions'**
+  String get askRelated;
+
+  /// Shown above close questions when no stored answer matches well.
+  ///
+  /// In en, this message translates to:
+  /// **'Closest stored questions:'**
+  String get askCloser;
+
+  /// Shown when no stored question is close; points to the guide below.
+  ///
+  /// In en, this message translates to:
+  /// **'For this question, see the guide below or ask your KVK.'**
+  String get askNoMatch;
+
+  /// Button under an answer: opens the practice card it comes from.
+  ///
+  /// In en, this message translates to:
+  /// **'Open the card'**
+  String get askOpenCard;
 }
 
 class _AppLocalizationsDelegate

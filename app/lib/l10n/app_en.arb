@@ -2038,5 +2038,21 @@
   "sprayLabour": "Spraying labour (₹, optional)",
   "sprayLabourHelp": "If it is already in the labour register (spraying), leave this empty.",
   "sprayCostSplit": "Total cost = products {products} + labour {labour}",
-  "@sprayCostSplit": {"placeholders": {"products": {"type": "String"}, "labour": {"type": "String"}}}
+  "@sprayCostSplit": {"placeholders": {"products": {"type": "String"}, "labour": {"type": "String"}}},
+  "askTitle": "Ask a question",
+  "@askTitle": {"description": "Heading of the question box on the Ask tab (Q144)."},
+  "askHint": "Type or say your question",
+  "@askHint": {"description": "Hint in the question field; the farmer types or speaks."},
+  "askSearch": "Find the answer",
+  "@askSearch": {"description": "Tooltip of the search button of the question box."},
+  "askStoredNote": "This information is from checked sources stored in the app.",
+  "@askStoredNote": {"description": "One muted line under every stored answer (owner's words, Q144)."},
+  "askRelated": "Related questions",
+  "@askRelated": {"description": "Heading above two or three related questions."},
+  "askCloser": "Closest stored questions:",
+  "@askCloser": {"description": "Shown above close questions when no stored answer matches well."},
+  "askNoMatch": "For this question, see the guide below or ask your KVK.",
+  "@askNoMatch": {"description": "Shown when no stored question is close; points to the guide below."},
+  "askOpenCard": "Open the card",
+  "@askOpenCard": {"description": "Button under an answer: opens the practice card it comes from."}
 }

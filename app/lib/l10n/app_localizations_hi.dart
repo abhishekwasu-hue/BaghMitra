@@ -5354,4 +5354,30 @@ class AppLocalizationsHi extends AppLocalizations {
   String sprayCostSplit(String products, String labour) {
     return 'कुल खर्च = दवाएँ $products + मज़दूरी $labour';
   }
+
+  @override
+  String get askTitle => 'सवाल पूछें';
+
+  @override
+  String get askHint => 'अपना सवाल लिखें या बोलें';
+
+  @override
+  String get askSearch => 'जवाब खोजें';
+
+  @override
+  String get askStoredNote =>
+      'यह जानकारी ऐप में रखे गए जाँचे हुए स्रोतों से है।';
+
+  @override
+  String get askRelated => 'संबंधित सवाल';
+
+  @override
+  String get askCloser => 'ये मिलते-जुलते सवाल देखें:';
+
+  @override
+  String get askNoMatch =>
+      'इस सवाल के लिए नीचे की मार्गदर्शिका देखें या अपने KVK से पूछें।';
+
+  @override
+  String get askOpenCard => 'कार्ड खोलें';
 }

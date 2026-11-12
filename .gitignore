@@ -28,3 +28,6 @@ deploy/admin-web/
 # Photo model training (docs/runbooks/photo-model.md)
 ml/out/
 ml/work/
+
+# Offline Q&A build work folder (docs/runbooks/offline-qa.md)
+api/qa_work/

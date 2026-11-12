@@ -7,6 +7,7 @@ import 'package:bagmitra/core/app_log.dart';
 import 'package:bagmitra/core/config.dart';
 import 'package:bagmitra/data/local/database.dart';
 import 'package:bagmitra/features/accounts/data/expense_categories.dart';
+import 'package:bagmitra/features/ask/data/qa_kb.dart';
 import 'package:bagmitra/features/auth/data/demo_auth_repository.dart';
 import 'package:bagmitra/features/auth/domain/auth.dart';
 import 'package:bagmitra/features/bahar/data/bahar_catalog.dart';
@@ -149,6 +150,7 @@ Future<AppDatabase> pumpApp(
   List<Override> overrides = const [],
   Size size = phoneSize,
   DateTime Function()? clock,
+  http.Client? apiHttp,
 }) async {
   tester.view.physicalSize = size * 3;
   tester.view.devicePixelRatio = 3;
@@ -190,12 +192,14 @@ Future<AppDatabase> pumpApp(
         placeGeocoderProvider.overrideWithValue(geocoder ?? FakeGeocoder()),
         databaseProvider.overrideWithValue(db),
         // Widget tests never reach a real server: a build with a backend configured gets a
-        // server that answers 503, so sync and refreshes end at once in fake time.
+        // server that answers 503 (or [apiHttp]), so sync and refreshes end at once in fake
+        // time.
         apiProvider.overrideWithValue(
           createApi(
             baseUrl: Uri.parse(config.apiBaseUrl),
             token: () => null,
-            httpClient: MockClient((_) async => http.Response('{}', 503)),
+            httpClient:
+                apiHttp ?? MockClient((_) async => http.Response('{}', 503)),
           ),
         ),
         // Real photo folders are not touched in widget tests.
@@ -229,6 +233,9 @@ Future<AppDatabase> pumpApp(
         ),
         practiceCardsConfigProvider.overrideWithValue(
           PracticeCardsConfig(bundle: FileAssetBundle()),
+        ),
+        qaKbConfigProvider.overrideWithValue(
+          QaKbConfig(bundle: FileAssetBundle()),
         ),
         irrigationGuideConfigProvider.overrideWithValue(
           IrrigationGuideConfig(bundle: FileAssetBundle()),

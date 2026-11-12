@@ -10,6 +10,7 @@ import '../../../design_system/general_info_note.dart';
 import '../../../design_system/sources_disclosure.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
+import '../../ask/presentation/ask_box.dart';
 import '../../labels/presentation/label_info_screen.dart';
 import '../data/practice_cards.dart';
 import 'practice_figure_view.dart';
@@ -23,10 +24,13 @@ import 'practice_figure_view.dart';
 /// date read one tap away (owner 2026-11-10: no "general information" mark).
 ///
 /// [section] opens that card already unfolded and in view (a photo-check result, Q135).
+/// As the विचारा tab ([ask]) the guide starts with the question box (Q144): answers stored
+/// in the app, offline and online alike.
 class PracticesScreen extends ConsumerWidget {
-  const PracticesScreen({super.key, this.section});
+  const PracticesScreen({super.key, this.section, this.ask = false});
 
   final String? section;
+  final bool ask;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -278,6 +282,10 @@ class PracticesScreen extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  if (ask) ...[
+                    const AskBox(),
+                    const SizedBox(height: BmSpace.md),
+                  ],
                   for (final s in data.sections)
                     _RevealWhen(
                       s.key == section,

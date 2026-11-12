@@ -16,6 +16,7 @@ import '../data/local/database.dart';
 import '../features/accounts/data/accounts_repository.dart';
 import '../features/accounts/data/expense_categories.dart';
 import '../features/accounts/domain/accounts.dart';
+import '../features/ask/data/qa_kb.dart';
 import '../features/auth/domain/auth.dart';
 import '../features/bahar/data/bahar_catalog.dart';
 import '../features/bahar/data/bahar_compare.dart';
@@ -335,6 +336,13 @@ final practiceCardsConfigProvider = Provider<PracticeCardsConfig>(
 
 final practiceCardsProvider = FutureProvider<PracticeCardsData>(
   (ref) => ref.watch(practiceCardsConfigProvider).load(),
+);
+
+/// The offline questions and answers of the विचारा tab (Q144), bundled with the app.
+final qaKbConfigProvider = Provider<QaKbConfig>((ref) => QaKbConfig());
+
+final qaKbProvider = FutureProvider<QaKb>(
+  (ref) => ref.watch(qaKbConfigProvider).load(),
 );
 
 final lookalikeCardsConfigProvider = Provider<LookalikeCardsConfig>(
