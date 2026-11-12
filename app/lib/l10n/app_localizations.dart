@@ -9030,7 +9030,7 @@ abstract class AppLocalizations {
   /// No description provided for @photoOfflinePcr.
   ///
   /// In en, this message translates to:
-  /// **'Only a lab PCR test can confirm greening; see the greening card.'**
+  /// **'Only a lab PCR test can confirm greening; for greening, tap \"See practices and details\".'**
   String get photoOfflinePcr;
 
   /// No description provided for @billPhoto.

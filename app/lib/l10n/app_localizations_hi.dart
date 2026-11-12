@@ -5162,7 +5162,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get photoOfflinePcr =>
-      'ग्रीनिंग की पुष्टि केवल लैब PCR जाँच से होती है; ग्रीनिंग कार्ड देखें।';
+      'ग्रीनिंग की पुष्टि केवल लैब PCR जाँच से होती है; ग्रीनिंग के लिए \"उपाय व जानकारी देखें\" दबाएँ।';
 
   @override
   String get billPhoto => 'बिल की फ़ोटो';
