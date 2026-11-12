@@ -141,7 +141,8 @@ new scheme-card version) written "quote or `not_stated`", then the output check 
 draft for review only: it never publishes. Paid calls; without the key the endpoint answers 503.
 
 ## 6. App
-`GET /v1/feed?lang=en|mr|hi&type=official|scheme|deadline|news&district=&crop=` (signed in).
+`GET /v1/feed?lang=en|mr|hi&type=official|scheme|deadline|news|knowledge&district=&crop=` (signed in).
+`knowledge` lists the ज्ञान लेख (§13); `official` and `news` leave them out.
 News items carry `thread_id` and the answer lists their `threads` (§12);
 `GET /v1/feed/threads/{id}?lang=` returns one topic, oldest first.
 
@@ -265,3 +266,65 @@ Optional, manual use only (threads everything without a topic in one go, no cap;
 A wrong merge is undone in the database only (no admin button yet, OPEN_QUESTIONS Q139): insert a
 new `feed_threads` row (title / summary copied from the item's text) and point the item's
 `feed_items.thread_id` at it. Setting it to NULL would let the next run ask the model again.
+
+## 13. Knowledge articles, ज्ञान लेख (owner 2026-11-11, OPEN_QUESTIONS Q141)
+Owner: farmers should become truly knowledgeable; articles come from the situation, **no fixed
+weekly count and no cap**; **no newspaper content** (not even headlines). Feed items of type
+`knowledge`, chip "ज्ञान" in the app; never threaded into news topics.
+
+**Triggers** (daily job `python -m bagmitra_api.feed.knowledge`, `feed/knowledge.py`):
+- (a) risk: a `plot_risk_alerts` row of a rule with a matching practice card, first day at most
+  14 days old or in the forecast: `psylla_degree_days` → card `psylla`, `heat_fruit_drop` →
+  `heat_drop`, `high_humidity` → `powdery_mildew` + `anthracnose`. Storm rules (claim kit) and
+  `cold_wave` have no card and write nothing. The topic stays current until 14 days after the
+  latest alert day.
+- (b) bahar stage: a stage window of `bahar/seed_data/stage_templates.json` that **starts within the
+  next 14 days**: `stress_start` → `bahar_irrigation`; `irrigation_restart` → `bahar_irrigation` +
+  `nutrition`; `flowering` → `fruit_drop` + `thrips`; `fruit_set` → `fruit_drop` + `nutrition`;
+  `harvest` → `harvest`. One topic per crop, bahar and stage; current until the window ends.
+- (c) scheme: an official, published `scheme` / `gr` item with stored text, published in the last
+  30 days and not past its deadline / validity: a "who may be eligible / how to apply" explainer
+  from that item's own checked text only (nothing is fetched).
+
+**Input** (the only material the model gets): for (a) / (b) the points of those card sections in
+`kb/seed_data/practice_cards.json` (a copy of `app/assets/config/practice_cards.json`; a test keeps
+them equal: change the app's file, then copy) plus passages of the sources each point cites, read
+like the card check (`card_check.fetch_text`, `passages_for`, at most 8,000 characters per source).
+Left out: a point citing a newspaper (publisher Agrowon), a point whose sources cannot be read, a
+point with a number not in its cited text. The input is cut to `FEED_AI_MAX_SOURCE_CHARS`.
+
+**Writing and checks**: one structured-output call to `FEED_SUMMARISE_MODEL` (default
+`claude-sonnet-5-5`, refusal fallback on): mr / hi / en, a title, one line, 4-8 short sections with
+farmer-friendly headings, no product names or doses. The sources list and the card link are
+attached by the job (never written by the model). `check_knowledge` (`feed/knowledge_article.py`)
+holds the article (status `held`, check issues, `output_check_failed` event; admin web status
+filter "held") when any number, amount or date is not in the input (`output_check`), a product
+name from our label claims / restrictions / KB cards is not in the input, a phone / e-mail is not in
+the input, or the languages state different amounts / dates. Otherwise it is published
+(`FEED_AUTO_PUBLISH=false`: waits for approval). Trust `official` when every cited source is on a
+`.gov.in` / `.nic.in` / `.ac.in` site (a scheme explainer: the item's trust), else `news`.
+
+**Every run first re-checks held knowledge articles** against their stored input (no model call,
+no fetch) and publishes those that now pass.
+
+**Dedupe** (`feed_knowledge_runs`, migration `0048`, service-only): a topic is not written again
+while its window is current or within 30 days of its last article, unless its input changed (the
+card sections' texts / their source list, or the scheme item's text and titles); a still active
+alert extends the window. Then the new article is published and the older one goes to `draft`
+(event `superseded`). A model error (`retry`) or unreadable sources (`no_input`) do not count, so
+the next run tries again. Safe to run twice a day (idempotent).
+
+**Switches and cost**: off without `FEED_AI_API_KEY`. Kill switch `CRON_FEED_KNOWLEDGE=off` in
+`deploy/.env`: deploy removes the cron line and the job itself writes nothing. Cron (added by
+`deploy/deploy.sh`, daily after the weather pull):
+```
+11 2 * * * cd /opt/bagmitra/deploy && docker compose exec -T api python -m bagmitra_api.feed.knowledge >> /var/log/bagmitra-feed-knowledge.log 2>&1
+```
+The log line is a JSON summary: `topics` (`key=outcome`), `published`, `held`, `review`,
+`deduped`, `not_relevant`, `no_input`, `retry`, `recheck_published`, `skipped_reason`.
+Estimated cost (estimate, not measured): about $0.15-0.25 per article on Sonnet 5.5 ($2 / $10 per
+million tokens; about 15-25k input tokens and 8-15k output tokens with thinking for three
+languages). Set a monthly spend limit in the Anthropic console.
+
+Deploy note: `deploy.sh` now runs the pulled copy of itself after `git pull` (`--after-pull`, once,
+guarded by `BAGMITRA_DEPLOY_REEXEC`), so a new cron line is added in the same deploy.

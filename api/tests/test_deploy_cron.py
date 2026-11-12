@@ -30,6 +30,7 @@ MARKERS = {
     "market": "bagmitra_api.market.pull_job",
     "alerts": "bagmitra_api.feed.alert_job",
     "news": "bagmitra_api.feed.news_job",
+    "knowledge": "bagmitra_api.feed.knowledge",
     "regate": "bagmitra_api.kb.regate",
     "retention": "bagmitra_api.sync.retention",
     "push": "bagmitra_api.push.deliver",
@@ -70,7 +71,7 @@ def test_only_weather_and_backup_with_every_switch_off(tmp_path: Path) -> None:
     env = (
         "API_DOMAIN=x\nMARKET_API_KEY=\nCRON_FEED_ALERTS=off\nCRON_FEED_NEWS=no\nCRON_KB_REGATE=0\n"
         "CRON_SYNC_RETENTION=false\nCRON_MARKET_LINK_ERASE=off\nCRON_ML_RECHECK=off\n"
-        "CRON_PHOTO_AI_RETENTION=off\n"
+        "CRON_PHOTO_AI_RETENTION=off\nCRON_FEED_KNOWLEDGE=off\n"
     )
     out, lines = run_install(tmp_path, env)
     assert jobs(lines) == {"weather", "backup"}
@@ -86,6 +87,7 @@ def test_unset_switches_are_on_by_default(tmp_path: Path) -> None:
         "backup",
         "alerts",
         "news",
+        "knowledge",
         "regate",
         "retention",
         "erase",
@@ -103,7 +105,7 @@ def test_each_switch_adds_its_job_once_and_never_prints_values(tmp_path: Path) -
     )
     out, lines = run_install(tmp_path, env)
     assert jobs(lines) == set(MARKERS)
-    assert len(lines) == 13
+    assert len(lines) == 14
     assert "secret-market-key-123" not in out
     assert not any("secret-market-key-123" in ln for ln in lines)
     out_again, lines_again = run_install(tmp_path, env)
@@ -117,6 +119,7 @@ def test_each_switch_adds_its_job_once_and_never_prints_values(tmp_path: Path) -
         "market",
         "alerts",
         "news",
+        "knowledge",
         "regate",
         "retention",
         "push",
@@ -178,6 +181,7 @@ def test_turning_a_switch_off_removes_only_its_line(tmp_path: Path) -> None:
         "backup",
         "market",
         "alerts",
+        "knowledge",
         "regate",
         "retention",
         "erase",
@@ -189,7 +193,7 @@ def test_turning_a_switch_off_removes_only_its_line(tmp_path: Path) -> None:
         tmp_path,
         "MARKET_API_KEY=\nCRON_FEED_ALERTS=off\nCRON_FEED_NEWS=off\nCRON_KB_REGATE=off\n"
         "CRON_SYNC_RETENTION=off\nCRON_MARKET_LINK_ERASE=off\nCRON_ML_RECHECK=off\n"
-        "CRON_PHOTO_AI_RETENTION=off\n",
+        "CRON_PHOTO_AI_RETENTION=off\nCRON_FEED_KNOWLEDGE=off\n",
     )
     assert jobs(cleared) == {"weather", "backup"}
 
@@ -199,6 +203,7 @@ def test_other_cron_lines_are_kept(tmp_path: Path) -> None:
     off = (
         "CRON_FEED_ALERTS=off\nCRON_FEED_NEWS=off\nCRON_SYNC_RETENTION=off\n"
         "CRON_MARKET_LINK_ERASE=off\nCRON_ML_RECHECK=off\nCRON_PHOTO_AI_RETENTION=off\n"
+        "CRON_FEED_KNOWLEDGE=off\n"
     )
     run_install(tmp_path, off + "CRON_KB_REGATE=on\n")
     _, lines = run_install(tmp_path, off + "CRON_KB_REGATE=no\n")
@@ -241,3 +246,78 @@ def test_deploy_waits_for_the_database_ready_check() -> None:
     assert "localhost:8000/health/ready" in compose
     assert "forwarded-allow-ips='*'" not in compose
     assert "--forwarded-allow-ips=$$(python -m bagmitra_api.core.proxy_trust)" in compose
+
+
+FAKE_GIT = """#!/usr/bin/env bash
+# Enough git for deploy.sh: a clean tree, a commit id, and `pull` replaces deploy.sh with the
+# pulled version by rename (as git does), while the running bash still reads the old copy.
+case "$1" in
+  diff) exit 0 ;;
+  rev-parse) echo 1111111 ;;
+  checkout) exit 0 ;;
+  pull) cp "$PULLED_SCRIPT" "$FAKE_ROOT/deploy/deploy.sh.new"
+        mv "$FAKE_ROOT/deploy/deploy.sh.new" "$FAKE_ROOT/deploy/deploy.sh"
+        echo pulled >> "$FAKE_ROOT/pulls" ;;
+  log) echo "2222222 pulled commit" ;;
+  *) exit 1 ;;  # fetch of the admin web branch: none here
+esac
+"""
+
+
+def test_a_cron_line_added_by_the_pulled_code_is_installed_in_the_same_deploy(
+    tmp_path: Path,
+) -> None:
+    """deploy.sh used to add cron lines with the functions bash read before `git pull`, so a
+    new job's line came only with the second deploy. Now it runs the pulled copy of itself
+    once (--after-pull, guarded by BAGMITRA_DEPLOY_REEXEC), and the line is added at once."""
+    root = tmp_path / "root"
+    (root / "deploy").mkdir(parents=True)
+    current = (DEPLOY / "deploy.sh").read_text()
+    install = (
+        '  on=1; switch_on CRON_FEED_KNOWLEDGE && on=0\n  cron_job_if "$on" '
+        '"bagmitra_api.feed.knowledge" "$FEED_KNOWLEDGE_CRON_LINE" '
+        '"knowledge articles (daily 02:11 UTC)"\n'
+    )
+    assert install in current
+    # The copy on the server before the pull: the same script without the new job.
+    (root / "deploy" / "deploy.sh").write_text(current.replace(install, ""))
+    (root / "deploy" / ".env").write_text(
+        "API_DOMAIN=api.example.test\nDATABASE_URL=x\nENTITLEMENT_SIGNING_KEY=x\n"
+        "SUPABASE_JWT_SECRET=x\nMARKET_API_KEY=k\n"
+    )
+    bin_dir = tmp_path / "bin"
+    bin_dir.mkdir()
+    fakes = {
+        "crontab": FAKE_CRONTAB,
+        "git": FAKE_GIT,
+        "docker": "#!/usr/bin/env bash\nexit 0\n",
+        "curl": '#!/usr/bin/env bash\necho \'{"status":"ok"}\'\n',
+    }
+    for name, body in fakes.items():
+        (bin_dir / name).write_text(body)
+        (bin_dir / name).chmod(0o755)
+    cron = tmp_path / "cron.txt"
+    env = {k: v for k, v in os.environ.items() if k != "BAGMITRA_DEPLOY_REEXEC"}
+    result = subprocess.run(  # noqa: S603 - fixed arguments, test only
+        [str(BASH), str(root / "deploy" / "deploy.sh")],
+        capture_output=True,
+        text=True,
+        check=False,
+        env={
+            **env,
+            "PATH": f"{bin_dir}:{os.environ['PATH']}",
+            "FAKE_CRON_FILE": str(cron),
+            "FAKE_ROOT": str(root),
+            "PULLED_SCRIPT": str(DEPLOY / "deploy.sh"),
+            "LOGROTATE_FILE": str(tmp_path / "logrotate"),
+        },
+    )
+    assert result.returncode == 0, result.stderr
+    assert (root / "pulls").read_text() == "pulled\n", "pulled once, no loop"
+    assert result.stdout.count("running the updated deploy script") == 1
+    lines = cron.read_text().splitlines()
+    assert "knowledge" in jobs(lines)
+    line = next(ln for ln in lines if MARKERS["knowledge"] in ln)
+    assert line.startswith("11 2 * * * cd ")
+    assert line.endswith(">> /var/log/bagmitra-feed-knowledge.log 2>&1")
+    assert "Done." in result.stdout

@@ -25,6 +25,13 @@ from bagmitra_api.feed.article import (
     ArticleSet,
     parse_articles,
 )
+from bagmitra_api.feed.knowledge_article import (
+    KNOWLEDGE_PROMPT,
+    KNOWLEDGE_SCHEMA,
+    KnowledgeError,
+    KnowledgeSet,
+    parse_knowledge,
+)
 from bagmitra_api.feed.output_check import NOT_STATED
 
 ANTHROPIC_VERSION = "2026-10-21"
@@ -78,6 +85,10 @@ class FeedSummariser(Protocol):
 
 class FeedArticleWriter(Protocol):
     async def write_article(self, text: str, *, source_url: str) -> ArticleSet: ...
+
+
+class KnowledgeWriter(Protocol):
+    async def write_knowledge(self, text: str, *, topic: str) -> KnowledgeSet: ...
 
 
 CLASSIFY_PROMPT = f"""You sort Maharashtra government documents (GRs, circulars, notices) for an
@@ -264,6 +275,25 @@ class AnthropicFeedAi:
             return parse_articles(_json_object(answer))
         except ArticleError as exc:
             raise AiUnavailableError(f"article JSON: {exc}") from exc
+
+    async def write_knowledge(self, text: str, *, topic: str) -> KnowledgeSet:
+        """Owner 2026-11-11: one knowledge article set (mr / hi / en) from the cards' checked
+        texts and their sources' passages (or an official item's text) only."""
+        s = self._settings
+        answer = await self._ask(
+            s.feed_summarise_model,
+            KNOWLEDGE_PROMPT,
+            text,
+            fallback=True,
+            max_tokens=s.feed_article_max_tokens,
+            schema=KNOWLEDGE_SCHEMA,
+            wait_seconds=s.feed_article_timeout_seconds,
+            question=f"<topic>{topic}</topic>",
+        )
+        try:
+            return parse_knowledge(_json_object(answer))
+        except KnowledgeError as exc:
+            raise AiUnavailableError(f"knowledge JSON: {exc}") from exc
 
     async def ask_json(
         self, system: str, text: str, *, question: str, schema: dict[str, Any], max_tokens: int

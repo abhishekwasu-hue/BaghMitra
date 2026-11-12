@@ -49,7 +49,7 @@ VISIBLE = ("published", "withdrawn")
 # Most recent items considered per request; the app caches the last 50 (spec §4.8).
 SCAN_LIMIT = 500
 FeedLang = Literal["en", "mr", "hi"]
-FeedFilter = Literal["official", "scheme", "deadline", "news"]
+FeedFilter = Literal["official", "scheme", "deadline", "news", "knowledge"]
 
 
 class ArticleSectionOut(BaseModel):
@@ -85,7 +85,8 @@ class ArticleSourceOut(BaseModel):
 
 
 class ArticleOut(BaseModel):
-    """Spec v1.6: the AI article from the official source, in the asked language."""
+    """Spec v1.6: the AI article from the official source, in the asked language; also the
+    knowledge article (ज्ञान लेख, Q141: sections and sources, the other lists empty)."""
 
     headline: str
     standfirst: str
@@ -95,6 +96,9 @@ class ArticleOut(BaseModel):
     charts: list[ArticleChartOut]
     key_dates: list[ArticleDateOut]
     sources: list[ArticleSourceOut]
+    # Knowledge articles (Q141): the practice-card section the article was written from, so
+    # the app can open it; None for news articles.
+    card_section: str | None = None
 
 
 class FeedItemOut(BaseModel):
@@ -163,9 +167,11 @@ def _wanted(item: FeedItem, kind: FeedFilter | None, today: date) -> bool:
     if kind is None:
         return True
     if kind == "official":
-        return item.trust_level == "official"
+        return item.trust_level == "official" and item.type != "knowledge"
     if kind == "news":
         return item.type == "news"
+    if kind == "knowledge":
+        return item.type == "knowledge"
     if kind == "scheme":
         return item.type == "scheme"
     return item.status == "published" and item.deadline is not None and item.deadline >= today
