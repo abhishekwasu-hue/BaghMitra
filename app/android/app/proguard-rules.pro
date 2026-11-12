@@ -22,4 +22,8 @@
 
 # flutter_local_notifications serialises scheduled notifications with Gson.
 -keep class com.dexterous.** { *; }
+
+# tflite_flutter / LiteRT: the interpreter is reached through FFI (libtensorflowlite_jni.so), not
+# through Java; the GPU delegate (left out of the APK) has optional classes R8 need not resolve.
+-dontwarn org.tensorflow.lite.**
 -keepattributes *Annotation*, Signature

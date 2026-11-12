@@ -41,6 +41,8 @@ dependencies:
   speech_to_text: ^7.5.0
   supabase_flutter: ^2.18.3
   timezone: ^0.11.2
+  # On-device citrus leaf model: the offline path of the photo check (Q135). Exact pin.
+  tflite_flutter: 0.12.1
   url_launcher: ^6.3.3
   uuid: ^4.6.0
 
@@ -62,6 +64,9 @@ flutter:
   assets:
     - assets/demo/
     - assets/config/
+    # The on-device leaf model (Q135); its model card sits next to it in the repo only.
+    - assets/models/citrus_v1.tflite
+    - assets/models/citrus_v1_labels.txt
   fonts:
     - family: Baloo2
       fonts:

@@ -1284,6 +1284,13 @@ class AppLocalizationsEn extends AppLocalizations {
       'Scouting and bill photos are backed up on Wi-Fi. Turn this on to use mobile data too.';
 
   @override
+  String get settingsModelSources => 'Photo model data sources';
+
+  @override
+  String get settingsModelSourcesIntro =>
+      'The phone\'s photo check model is trained on these public photo sets (photos resized for training). Licence: CC BY 4.0 (creativecommons.org/licenses/by/4.0).';
+
+  @override
   String buildLabel(String sha) {
     return 'Test build $sha';
   }
@@ -5132,6 +5139,38 @@ class AppLocalizationsEn extends AppLocalizations {
   String photoCheckLimitTotalAt(String when) {
     return 'Today\'s photo checks are full; you can check again after $when.';
   }
+
+  @override
+  String photoOfflineLead(String what, String likely) {
+    return 'First check on the phone: $what ($likely)';
+  }
+
+  @override
+  String photoOfflineAlso(String what, String likely) {
+    return 'or: $what ($likely)';
+  }
+
+  @override
+  String get photoOfflineCanker => 'signs like canker';
+
+  @override
+  String get photoOfflineGreening => 'signs like greening';
+
+  @override
+  String get photoOfflineHealthy =>
+      'First check on the phone: the leaf looks healthy.';
+
+  @override
+  String get photoOfflineUnclear =>
+      'For a clear answer this photo needs the full check. Tap Check again once the internet is back.';
+
+  @override
+  String get photoOfflineNote =>
+      'An estimate on the phone; the full check can run once the internet is back.';
+
+  @override
+  String get photoOfflinePcr =>
+      'Only a lab PCR test can confirm greening; see the greening card.';
 
   @override
   String get billPhoto => 'Bill photo';

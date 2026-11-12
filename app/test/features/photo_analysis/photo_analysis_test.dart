@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:bagmitra/api/api_client.dart';
+import 'package:bagmitra/features/photo_analysis/data/offline_leaf_model.dart';
 import 'package:bagmitra/features/photo_analysis/data/photo_analysis_api.dart';
 import 'package:bagmitra/features/photo_analysis/domain/photo_analysis.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,7 @@ import '../../helpers/pump_app.dart';
 import '../bahar/bahar_screen_test.dart' show seedPlot;
 import '../plots/plots_screen_test.dart' show settle;
 import '../scouting/scouting_test.dart' show FakePhotos;
+import 'offline_check_test.dart' show FakeLeafModel, fakeCheck;
 
 /// The seen signs as the server sends them, per language.
 const seenSigns = {
@@ -110,9 +112,14 @@ final fakeJpeg = Uint8List.fromList(
   ),
 );
 
-List<Override> photoOverrides(FakeAnalysisServer server) => [
+List<Override> photoOverrides(
+  FakeAnalysisServer server, {
+  FakeLeafModel? onPhone,
+}) => [
   photoAnalysisApiProvider.overrideWithValue(server.api),
   photoPreparerProvider.overrideWithValue((_) async => fakeJpeg),
+  if (onPhone != null)
+    offlineLeafCheckProvider.overrideWithValue(fakeCheck(onPhone)),
 ];
 
 Future<void> openAndPick(
@@ -120,6 +127,7 @@ Future<void> openAndPick(
   FakeAnalysisServer server, {
   FakePhotos? photos,
   Locale locale = const Locale('mr'),
+  FakeLeafModel? onPhone,
 }) async {
   await pumpApp(
     tester,
@@ -127,7 +135,7 @@ Future<void> openAndPick(
     initialLocation: '/plots/p1/photo-check',
     seed: seedPlot,
     photos: photos ?? FakePhotos(),
-    overrides: photoOverrides(server),
+    overrides: photoOverrides(server, onPhone: onPhone),
   );
   await settle(tester);
   await tester.tap(find.byKey(const Key('photo-check-camera')));
@@ -647,6 +655,195 @@ void main() {
       await settle(tester);
       expect(find.byKey(const Key('photo-check-open')), findsNothing);
       expect(find.byKey(const Key('scouting-photo-check')), findsNothing);
+      await unmountApp(tester);
+    });
+  });
+
+  group('offline: the phone\'s leaf model', () {
+    FakeAnalysisServer noNetwork() => FakeAnalysisServer(
+      (_) async => throw const SocketException('no route'),
+    );
+
+    Future<void> scrollTo(WidgetTester tester, String key) =>
+        tester.scrollUntilVisible(
+          find.byKey(Key(key)),
+          200,
+          scrollable: find.byType(Scrollable).first,
+        );
+
+    testWidgets('a calm estimate with its card; photo and retry stay', (
+      tester,
+    ) async {
+      final server = noNetwork();
+      final model = FakeLeafModel([0.65, 0.2, 0.1, 0.05]);
+      await openAndPick(tester, server, onPhone: model);
+      await identify(tester);
+
+      expect(model.inputs, hasLength(1));
+      expect(
+        find.text(
+          'फोनवरच्या प्राथमिक तपासणीनुसार: कँकरसारखी लक्षणे (मध्यम शक्यता)',
+        ),
+        findsOneWidget,
+      );
+      // The estimate replaces the plain "internet needed" line; it never says it is sure.
+      expect(find.byKey(const Key('photo-check-offline')), findsNothing);
+      expect(find.textContaining('%'), findsNothing);
+      expect(find.byKey(const Key('photo-offline-pcr')), findsNothing);
+      await scrollTo(tester, 'photo-offline-note');
+      expect(
+        find.text('फोनवरचा अंदाज; इंटरनेट आल्यावर पूर्ण तपासणी करता येईल.'),
+        findsOneWidget,
+      );
+      expect(find.byKey(const Key('photo-check-preview')), findsOneWidget);
+      expect(find.text('पुन्हा तपासा'), findsOneWidget);
+      // Nothing is stored on the server, so nothing to delete; one call only.
+      expect(find.byKey(const Key('photo-check-delete')), findsNothing);
+      expect(server.posts, hasLength(1));
+
+      await tester.ensureVisible(
+        find.byKey(const Key('photo-offline-card-canker')),
+      );
+      await tester.tap(find.byKey(const Key('photo-offline-card-canker')));
+      await settle(tester);
+      expect(find.byKey(const Key('practices-see-canker')), findsOneWidget);
+      await unmountApp(tester);
+    });
+
+    testWidgets('greening: two lines, the PCR line and both cards', (
+      tester,
+    ) async {
+      final model = FakeLeafModel([0.27, 0.66, 0.05, 0.02]);
+      await openAndPick(tester, noNetwork(), onPhone: model);
+      await identify(tester);
+      expect(
+        find.text(
+          'फोनवरच्या प्राथमिक तपासणीनुसार: ग्रीनिंगसारखी लक्षणे (मध्यम शक्यता)',
+        ),
+        findsOneWidget,
+      );
+      expect(
+        find.text(
+          'ग्रीनिंगची खात्री फक्त प्रयोगशाळेतील PCR चाचणीने होते; ग्रीनिंग कार्ड पाहा.',
+        ),
+        findsOneWidget,
+      );
+      await scrollTo(tester, 'photo-offline-card-canker');
+      expect(find.text('किंवा: कँकरसारखी लक्षणे (कमी शक्यता)'), findsOneWidget);
+      expect(
+        find.byKey(const Key('photo-offline-card-greening')),
+        findsOneWidget,
+      );
+      await unmountApp(tester);
+    });
+
+    testWidgets('healthy reads positively', (tester) async {
+      final model = FakeLeafModel([0.05, 0.1, 0.8, 0.05]);
+      await openAndPick(tester, noNetwork(), onPhone: model);
+      await identify(tester);
+      expect(find.byKey(const Key('photo-offline-healthy')), findsOneWidget);
+      expect(
+        find.text('फोनवरच्या प्राथमिक तपासणीनुसार: पान निरोगी दिसते.'),
+        findsOneWidget,
+      );
+      expect(find.byKey(const Key('photo-offline-note')), findsOneWidget);
+      expect(find.textContaining('कार्ड उघडा'), findsNothing);
+      await unmountApp(tester);
+    });
+
+    for (final (name, probabilities) in [
+      ('below the threshold', [0.5, 0.3, 0.1, 0.1]),
+      ('other', [0.02, 0.05, 0.03, 0.9]),
+    ]) {
+      testWidgets('$name: not clear, the full check runs online', (
+        tester,
+      ) async {
+        final model = FakeLeafModel(probabilities);
+        await openAndPick(tester, noNetwork(), onPhone: model);
+        await identify(tester);
+        expect(find.byKey(const Key('photo-offline-unclear')), findsOneWidget);
+        expect(find.byKey(const Key('photo-offline-result')), findsNothing);
+        expect(find.textContaining('कार्ड उघडा'), findsNothing);
+        expect(find.byKey(const Key('photo-check-offline')), findsNothing);
+        expect(find.text('पुन्हा तपासा'), findsOneWidget);
+        await unmountApp(tester);
+      });
+    }
+
+    testWidgets('a fruit photo is not run through the leaf model', (
+      tester,
+    ) async {
+      final model = FakeLeafModel([0.9, 0.05, 0.03, 0.02]);
+      await openAndPick(tester, noNetwork(), onPhone: model);
+      await tester.tap(find.byKey(const Key('photo-part-fruit')));
+      await settle(tester);
+      await identify(tester);
+      expect(model.inputs, isEmpty);
+      expect(find.byKey(const Key('photo-offline-unclear')), findsOneWidget);
+      await unmountApp(tester);
+    });
+
+    testWidgets('the model cannot run: the plain internet line', (
+      tester,
+    ) async {
+      final model = FakeLeafModel([0.9, 0, 0, 0.1], fails: true);
+      await openAndPick(tester, noNetwork(), onPhone: model);
+      await identify(tester);
+      expect(model.inputs, hasLength(1));
+      expect(find.byKey(const Key('photo-check-offline')), findsOneWidget);
+      expect(find.byKey(const Key('photo-offline-result')), findsNothing);
+      await unmountApp(tester);
+    });
+
+    testWidgets('back online, "check again" gives the full answer', (
+      tester,
+    ) async {
+      final server = noNetwork();
+      final model = FakeLeafModel([0.65, 0.2, 0.1, 0.05]);
+      await openAndPick(tester, server, onPhone: model);
+      await identify(tester);
+      expect(find.byKey(const Key('photo-offline-result')), findsOneWidget);
+
+      server.answer = (_) async => json(analysisJson(), 200);
+      await identify(tester);
+      expect(server.posts, hasLength(2));
+      expect(model.inputs, hasLength(1));
+      expect(find.byKey(const Key('photo-offline-result')), findsNothing);
+      expect(find.byKey(const Key('photo-offline-note')), findsNothing);
+      expect(find.text('कँकर'), findsOneWidget);
+      expect(find.text('जास्त शक्यता · ८२%'), findsOneWidget);
+      await unmountApp(tester);
+    });
+
+    testWidgets('online: the server answers and the model never runs', (
+      tester,
+    ) async {
+      final server = FakeAnalysisServer((_) async => json(analysisJson(), 200));
+      final model = FakeLeafModel([0.05, 0.9, 0.03, 0.02]);
+      await openAndPick(tester, server, onPhone: model);
+      await identify(tester);
+      expect(model.inputs, isEmpty);
+      expect(server.posts, hasLength(1));
+      expect(find.text('कँकर'), findsOneWidget);
+      expect(find.byKey(const Key('photo-offline-result')), findsNothing);
+      expect(find.byKey(const Key('photo-offline-note')), findsNothing);
+      await unmountApp(tester);
+    });
+
+    testWidgets('a server failure or a limit does not run the model', (
+      tester,
+    ) async {
+      final server = FakeAnalysisServer(
+        (_) async => json('{"error":{"code":"analysis_failed"}}', 502),
+      );
+      final model = FakeLeafModel([0.05, 0.9, 0.03, 0.02]);
+      await openAndPick(tester, server, onPhone: model);
+      await identify(tester);
+      expect(find.byKey(const Key('photo-check-failed')), findsOneWidget);
+      server.answer = (_) async => json(limitJson('daily'), 429);
+      await identify(tester);
+      expect(find.byKey(const Key('photo-check-limit')), findsOneWidget);
+      expect(model.inputs, isEmpty);
       await unmountApp(tester);
     });
   });

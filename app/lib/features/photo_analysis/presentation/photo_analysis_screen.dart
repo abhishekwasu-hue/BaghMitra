@@ -15,7 +15,9 @@ import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../../scouting/data/scouting_photos.dart';
 import '../../scouting/domain/scouting_record.dart';
+import '../data/offline_leaf_model.dart';
 import '../data/photo_analysis_api.dart';
+import '../domain/offline_check.dart';
 import '../domain/photo_analysis.dart';
 
 String photoPartLabel(AppLocalizations t, PhotoPart p) => switch (p) {
@@ -65,8 +67,10 @@ String photoLimitText(
 /// which names up to three problems from the practice cards with a calm explanation. Opened
 /// from the scouting log (the screen picks the photo) or from the pest / disease photo form
 /// with its photo ([photoPath], kept by that form). Consent is the privacy policy accepted at
-/// signup: no question here; the system camera needs no permission of the app. Online only:
+/// signup: no question here; the system camera needs no permission of the app. Online first:
 /// nothing is queued; the photo stays on screen for a one-tap retry. One call per photo.
+/// Without network the phone's own leaf model gives a first estimate ([OfflineLeafCheck]),
+/// said to be an estimate; it never reaches the server, so it never counts against limits.
 class PhotoAnalysisScreen extends ConsumerStatefulWidget {
   const PhotoAnalysisScreen({
     required this.plotId,
@@ -98,6 +102,9 @@ class _PhotoAnalysisScreenState extends ConsumerState<PhotoAnalysisScreen> {
   PhotoAnalysisResult? _result;
   PhotoLimitException? _limit;
   PhotoProblem? _problem;
+
+  /// The phone's own estimate, made when the online check found no network.
+  OfflineReading? _offline;
   bool _deleting = false;
   bool _deleted = false;
   bool _deleteFailed = false;
@@ -127,6 +134,7 @@ class _PhotoAnalysisScreenState extends ConsumerState<PhotoAnalysisScreen> {
       setState(() {
         _path = _ownPick = path;
         _problem = null;
+        _offline = null;
       });
       await _prepare(path);
     } on Object catch (e) {
@@ -163,6 +171,7 @@ class _PhotoAnalysisScreenState extends ConsumerState<PhotoAnalysisScreen> {
       _result = null;
       _limit = null;
       _problem = null;
+      _offline = null;
       _deleted = _deleteFailed = false;
     });
   }
@@ -173,6 +182,7 @@ class _PhotoAnalysisScreenState extends ConsumerState<PhotoAnalysisScreen> {
     setState(() {
       _busy = true;
       _problem = null;
+      _offline = null;
     });
     try {
       final item = widget.scoutingItem;
@@ -190,12 +200,35 @@ class _PhotoAnalysisScreenState extends ConsumerState<PhotoAnalysisScreen> {
       if (mounted) setState(() => _limit = e);
     } on PhotoProblemException catch (e) {
       _log('$e');
+      // The estimate first, so the plain offline line never flashes before it.
+      if (e.problem == PhotoProblem.offline) await _checkOnPhone(bytes);
       if (mounted) setState(() => _problem = e.problem);
     } on Object catch (e) {
       _log('$e');
       if (mounted) setState(() => _problem = PhotoProblem.failed);
     } finally {
       if (mounted) setState(() => _busy = false);
+    }
+  }
+
+  /// No network: the phone's leaf model looks at the same photo. The model knows only
+  /// leaves, so a photo marked fruit / trunk / whole tree reads "not clear". When the model
+  /// cannot run, the plain "internet needed" line stays.
+  Future<void> _checkOnPhone(Uint8List bytes) async {
+    final check = ref.read(offlineLeafCheckProvider);
+    if (check == null || !mounted) return;
+    if (_part != null && _part != PhotoPart.leaf) {
+      setState(() => _offline = OfflineReading.notALeaf);
+      return;
+    }
+    try {
+      final reading = await check.check(bytes);
+      _log('on phone: ${reading.verdict.name} ${reading.best}');
+      if (mounted && identical(_bytes, bytes)) {
+        setState(() => _offline = reading);
+      }
+    } on Object catch (e) {
+      _log('on phone $e');
     }
   }
 
@@ -253,7 +286,9 @@ class _PhotoAnalysisScreenState extends ConsumerState<PhotoAnalysisScreen> {
       ),
     );
 
+    final offline = _problem == PhotoProblem.offline ? _offline : null;
     final problemText = switch (_problem) {
+      PhotoProblem.offline when offline != null => null,
       PhotoProblem.offline => (t.photoCheckOffline, 'photo-check-offline'),
       PhotoProblem.failed => (t.photoCheckFailed, 'photo-check-failed'),
       PhotoProblem.unavailable => (
@@ -336,6 +371,10 @@ class _PhotoAnalysisScreenState extends ConsumerState<PhotoAnalysisScreen> {
           if (problemText case (final text, final key)) ...[
             const SizedBox(height: BmSpace.md),
             Text(text, key: Key(key), style: calm),
+          ],
+          if (offline != null && !_busy) ...[
+            const SizedBox(height: BmSpace.md),
+            _OfflineResult(reading: offline, sections: sections),
           ],
           if (limit != null) ...[
             const SizedBox(height: BmSpace.md),
@@ -593,6 +632,105 @@ class _CandidateCard extends StatelessWidget {
             ),
         ],
       ),
+    );
+  }
+}
+
+/// The phone's own estimate, offline: calm, never certain. A disease line ("signs like
+/// canker (possible)") with its card, at most two; a healthy line in green; or "not clear,
+/// the full check runs online". Greening carries the PCR line, as online. One muted line
+/// says it is the phone's estimate.
+class _OfflineResult extends StatelessWidget {
+  const _OfflineResult({required this.reading, required this.sections});
+
+  final OfflineReading reading;
+  final Set<String> sections;
+
+  @override
+  Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+    final c = context.bm;
+    if (reading.verdict == OfflineVerdict.unclear) {
+      return Text(
+        t.photoOfflineUnclear,
+        key: const Key('photo-offline-unclear'),
+        style: BmType.body.copyWith(color: c.info),
+      );
+    }
+    String what(String key) => switch (key) {
+      'canker' => t.photoOfflineCanker,
+      'greening' => t.photoOfflineGreening,
+      _ => key,
+    };
+    final shown = reading.shown;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        BmCard(
+          key: const Key('photo-offline-result'),
+          elevated: false,
+          radius: BmRadius.card,
+          padding: const EdgeInsets.all(BmSpace.md),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (reading.verdict == OfflineVerdict.healthy)
+                Row(
+                  key: const Key('photo-offline-healthy'),
+                  children: [
+                    Icon(Icons.eco_outlined, color: c.brand, size: 22),
+                    const SizedBox(width: BmSpace.xs),
+                    Expanded(
+                      child: Text(
+                        t.photoOfflineHealthy,
+                        style: BmType.bodyStrong.copyWith(color: c.brand),
+                      ),
+                    ),
+                  ],
+                )
+              else
+                for (final (i, g) in shown.indexed) ...[
+                  if (i > 0) const SizedBox(height: BmSpace.sm),
+                  Text(
+                    (i == 0 ? t.photoOfflineLead : t.photoOfflineAlso)(
+                      what(g.key),
+                      likelihoodLabel(t, Likelihood.of(g.probability)),
+                    ),
+                    key: Key('photo-offline-${g.key}'),
+                    style: i == 0
+                        ? BmType.bodyStrong.copyWith(color: c.ink)
+                        : BmType.body.copyWith(color: c.ink),
+                  ),
+                  if (g.key == 'greening') ...[
+                    const SizedBox(height: BmSpace.xxs),
+                    Text(
+                      t.photoOfflinePcr,
+                      key: const Key('photo-offline-pcr'),
+                      style: BmType.body,
+                    ),
+                  ],
+                  if (sections.contains(g.key))
+                    Padding(
+                      padding: const EdgeInsets.only(top: BmSpace.xs),
+                      child: OutlinedButton.icon(
+                        key: Key('photo-offline-card-${g.key}'),
+                        onPressed: () =>
+                            context.push(Routes.practicesSection(g.key)),
+                        icon: const Icon(Icons.menu_book_outlined),
+                        label: Text(t.photoCheckOpenCard),
+                      ),
+                    ),
+                ],
+            ],
+          ),
+        ),
+        const SizedBox(height: BmSpace.xs),
+        Text(
+          t.photoOfflineNote,
+          key: const Key('photo-offline-note'),
+          style: BmType.meta.copyWith(color: c.inkMuted),
+        ),
+      ],
     );
   }
 }

@@ -1,6 +1,7 @@
 // Photo analysis ("फोटोवरून ओळखा", Q135 stage 3), Marathi, 360 dp phone, text at 1.3x:
-// the result in light and dark, an unsure and a healthy answer, the daily limit and the
-// offline line. Regenerate with:
+// the result in light and dark, an unsure and a healthy answer, the daily limit, the
+// offline line, and the phone's own estimate offline (leaf model) in light and dark.
+// Regenerate with:
 //   flutter test --update-goldens test/goldens/photo_analysis_golden_test.dart
 @Tags(['golden'])
 library;
@@ -8,6 +9,7 @@ library;
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:bagmitra/features/photo_analysis/data/offline_leaf_model.dart';
 import 'package:bagmitra/features/photo_analysis/data/photo_analysis_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -15,6 +17,8 @@ import 'package:http/http.dart' as http;
 import 'package:image/image.dart' as img;
 
 import '../features/bahar/bahar_screen_test.dart' show seedPlot;
+import '../features/photo_analysis/offline_check_test.dart'
+    show FakeLeafModel, fakeCheck;
 import '../features/photo_analysis/photo_analysis_test.dart';
 import '../features/plots/plots_screen_test.dart' show settle;
 import '../features/scouting/scouting_test.dart' show FakePhotos;
@@ -98,13 +102,15 @@ void main() {
     ('healthy', ThemeMode.dark),
     ('limit', ThemeMode.light),
     ('offline', ThemeMode.dark),
+    ('on_phone', ThemeMode.light),
+    ('on_phone', ThemeMode.dark),
   ]) {
     final file = 'photo_check_${name}_mr_${mode.name}_x13';
     testWidgets(file, (tester) async {
       tester.platformDispatcher.textScaleFactorTestValue = 1.3;
       addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
       final server = FakeAnalysisServer(
-        name == 'offline'
+        name == 'offline' || name == 'on_phone'
             ? (_) async => throw const SocketException('no route')
             : _answer(name),
       );
@@ -118,6 +124,11 @@ void main() {
         overrides: [
           photoAnalysisApiProvider.overrideWithValue(server.api),
           photoPreparerProvider.overrideWithValue((_) async => _leaf),
+          // Greening first with canker second: the fullest offline estimate.
+          if (name == 'on_phone')
+            offlineLeafCheckProvider.overrideWithValue(
+              fakeCheck(FakeLeafModel([0.27, 0.66, 0.05, 0.02])),
+            ),
         ],
       );
       await settle(tester);

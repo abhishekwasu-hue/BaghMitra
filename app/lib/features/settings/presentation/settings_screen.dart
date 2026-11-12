@@ -10,10 +10,11 @@ import '../../../design_system/app_bar_title.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../../app_update/data/app_update_providers.dart';
+import '../../photo_analysis/domain/offline_check.dart';
 
-/// Phone settings, the introduction, sending the on-device log and the app version; shown in
-/// every build (audit R2). Only the test-build label and the sample orchard (demo mode) are
-/// limited to those builds.
+/// Phone settings, the introduction, sending the on-device log, the app version and the photo
+/// model's data sources (CC BY attribution); shown in every build (audit R2). Only the
+/// test-build label and the sample orchard (demo mode) are limited to those builds.
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
 
@@ -91,6 +92,24 @@ class SettingsScreen extends ConsumerWidget {
             value: ref.watch(photoBackupMobileDataProvider).value ?? false,
             onChanged: (on) =>
                 ref.read(photoBackupMobileDataProvider.notifier).set(on),
+          ),
+          // CC BY 4.0 attribution of the photo model's data sets (Q135), folded away.
+          ExpansionTile(
+            key: const Key('settings-model-sources'),
+            tilePadding: EdgeInsets.zero,
+            shape: const Border(),
+            collapsedShape: const Border(),
+            expandedCrossAxisAlignment: CrossAxisAlignment.start,
+            expandedAlignment: AlignmentDirectional.centerStart,
+            title: Text(t.settingsModelSources, style: BmType.body),
+            children: [
+              Text(t.settingsModelSourcesIntro, style: BmType.meta),
+              for (final c in offlineModelCitations)
+                Padding(
+                  padding: const EdgeInsets.only(top: BmSpace.xs),
+                  child: Text('• $c', style: BmType.meta),
+                ),
+            ],
           ),
         ],
       ),
