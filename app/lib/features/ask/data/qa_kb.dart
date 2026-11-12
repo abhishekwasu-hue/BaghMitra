@@ -220,9 +220,13 @@ const qaCloseScore = 0.2;
 
 /// Loads `assets/config/qa_kb.json.gz` (gzipped JSON; written by `kb/qa_build.py`).
 class QaKbConfig {
-  QaKbConfig({AssetBundle? bundle}) : _bundle = bundle ?? rootBundle;
+  QaKbConfig({AssetBundle? bundle, this.path = assetPath})
+    : _bundle = bundle ?? rootBundle;
 
-  static const path = 'assets/config/qa_kb.json.gz';
+  static const assetPath = 'assets/config/qa_kb.json.gz';
+
+  /// The asset to read; widget tests give a small fixture (the seed).
+  final String path;
   final AssetBundle _bundle;
 
   Future<QaKb> load() async {

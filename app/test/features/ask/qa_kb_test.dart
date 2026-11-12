@@ -83,20 +83,46 @@ void main() {
     });
   });
 
-  test('the shipped asset loads and every answer names its sources', () async {
-    final kb = await QaKbConfig(bundle: FileAssetBundle()).load();
-    expect(kb.entries.length, greaterThanOrEqualTo(30));
-    expect(kb.note, 'ही माहिती ॲपमध्ये साठवलेल्या तपासलेल्या स्रोतांवरून आहे.');
-    for (final e in kb.entries) {
-      expect(e.answer('mr'), isNotEmpty, reason: e.id);
-      expect(e.sources, isNotEmpty, reason: e.id);
-      expect(e.sources.every(kb.sources.containsKey), isTrue, reason: e.id);
-    }
-    // A farmer's own words find the matching stored answer.
+  test('the seed fixture finds the farmer\'s own words', () async {
+    final kb = await QaKbConfig(
+      bundle: FileAssetBundle(),
+      path: 'test/fixtures/qa_kb_seed.json.gz',
+    ).load();
+    expect(kb.kind, 'seed');
     expect(
       kb.search('सायलाची लक्षणे काय?').first.entry.id,
       'seed-psylla-symptoms',
     );
     expect(kb.search('sayla').first.entry.section, 'psylla');
   });
+
+  test(
+    'the shipped asset loads with sources, 3 languages and the seed',
+    () async {
+      final kb = await QaKbConfig(bundle: FileAssetBundle()).load();
+      expect(kb.entries.length, greaterThanOrEqualTo(51));
+      expect(
+        kb.note,
+        'ही माहिती ॲपमध्ये साठवलेल्या तपासलेल्या स्रोतांवरून आहे.',
+      );
+      for (final e in kb.entries) {
+        for (final lang in const ['mr', 'hi', 'en']) {
+          expect(e.answers[lang], isNotEmpty, reason: '${e.id} $lang');
+          expect(e.questions[lang], isNotEmpty, reason: '${e.id} $lang');
+        }
+        expect(e.sources, isNotEmpty, reason: e.id);
+        expect(e.sources.every(kb.sources.containsKey), isTrue, reason: e.id);
+      }
+      final ids = {for (final e in kb.entries) e.id};
+      for (final id in const [
+        'seed-psylla-symptoms',
+        'seed-psylla-scouting',
+        'seed-phytophthora-symptoms',
+        'seed-canker-items',
+      ]) {
+        expect(ids, contains(id));
+      }
+      expect(ids.where((id) => id.startsWith('seed-')), hasLength(51));
+    },
+  );
 }

@@ -5174,7 +5174,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get photoOfflinePcr =>
-      'Only a lab PCR test can confirm greening; see the greening card.';
+      'Only a lab PCR test can confirm greening; for greening, tap \"See practices and details\".';
 
   @override
   String get billPhoto => 'Bill photo';

@@ -40,8 +40,7 @@ Map<String, Object?> candidate(
   String key, {
   double confidence = 0.82,
   String mr = 'कँकर',
-  String explanationMr =
-      'पानावर उठावदार तपकिरी ठिपके दिसतात. कार्ड उघडून झाड तपासा.',
+  String explanationMr = 'पानावर उठावदार तपकिरी ठिपके दिसतात. "उपाय व माहिती पहा" दाबून झाड तपासा.',
   Map<String, List<String>> signs = seenSigns,
 }) => {
   'key': key,
@@ -49,9 +48,9 @@ Map<String, Object?> candidate(
   'confidence': confidence,
   'signs': signs,
   'explanation': {
-    'en': 'Raised brown spots on the leaf. Open the card to check the tree.',
+    'en': 'Raised brown spots on the leaf. Tap "See practices and details" to check the tree.',
     'mr': explanationMr,
-    'hi': 'पत्ती पर उभरे भूरे धब्बे दिखते हैं। कार्ड खोलकर पेड़ जाँचें।',
+    'hi': 'पत्ती पर उभरे भूरे धब्बे दिखते हैं। "उपाय व जानकारी देखें" दबाकर पेड़ जाँचें।',
   },
 };
 
@@ -334,7 +333,9 @@ void main() {
       expect(find.text('जास्त शक्यता · ८२%'), findsOneWidget);
       expect(find.text('मध्यम शक्यता · ४५%'), findsOneWidget);
       expect(
-        find.text('पानावर उठावदार तपकिरी ठिपके दिसतात. कार्ड उघडून झाड तपासा.'),
+        find.text(
+          'पानावर उठावदार तपकिरी ठिपके दिसतात. "उपाय व माहिती पहा" दाबून झाड तपासा.',
+        ),
         findsNWidgets(2),
       );
       await tester.scrollUntilVisible(
@@ -724,7 +725,8 @@ void main() {
       );
       expect(
         find.text(
-          'ग्रीनिंगची खात्री फक्त प्रयोगशाळेतील PCR चाचणीने होते; ग्रीनिंग कार्ड पाहा.',
+          'ग्रीनिंगची खात्री फक्त प्रयोगशाळेतील PCR चाचणीने होते; '
+          'ग्रीनिंगसाठी "उपाय व माहिती पहा" दाबा.',
         ),
         findsOneWidget,
       );

@@ -234,8 +234,12 @@ Future<AppDatabase> pumpApp(
         practiceCardsConfigProvider.overrideWithValue(
           PracticeCardsConfig(bundle: FileAssetBundle()),
         ),
+        // Widget tests read the seed fixture, not the shipped (generated) asset.
         qaKbConfigProvider.overrideWithValue(
-          QaKbConfig(bundle: FileAssetBundle()),
+          QaKbConfig(
+            bundle: FileAssetBundle(),
+            path: 'test/fixtures/qa_kb_seed.json.gz',
+          ),
         ),
         irrigationGuideConfigProvider.overrideWithValue(
           IrrigationGuideConfig(bundle: FileAssetBundle()),

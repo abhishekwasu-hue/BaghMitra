@@ -1970,7 +1970,7 @@
   "photoOfflineHealthy": "First check on the phone: the leaf looks healthy.",
   "photoOfflineUnclear": "For a clear answer this photo needs the full check. Tap Check again once the internet is back.",
   "photoOfflineNote": "An estimate on the phone; the full check can run once the internet is back.",
-  "photoOfflinePcr": "Only a lab PCR test can confirm greening; see the greening card.",
+  "photoOfflinePcr": "Only a lab PCR test can confirm greening; for greening, tap \"See practices and details\".",
   "billPhoto": "Bill photo",
   "billPhotoHint": "The shop bill's photo stays with this record on the phone.",
   "billPhotoOpen": "Open the bill photo",

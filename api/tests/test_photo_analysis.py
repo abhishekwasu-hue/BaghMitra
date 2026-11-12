@@ -35,6 +35,7 @@ from bagmitra_api.db.models import Plot
 from bagmitra_api.db.session import get_sessionmaker
 from bagmitra_api.main import create_app
 from bagmitra_api.photo_ai.analyse import (
+    BUTTON,
     GREENING_LAB_NOTE,
     MAX_SIGN_CHARS,
     MAX_SIGNS,
@@ -69,9 +70,10 @@ BILLING_ADMIN = {
     )
 }
 TEXTS = {
-    "en": "The leaf shows small raised brown spots with a yellow ring. Open the canker card.",
-    "mr": "पानावर पिवळ्या कडेचे लहान उंचवट्याचे तपकिरी ठिपके दिसतात. कँकर कार्ड पाहा.",
-    "hi": "पत्ती पर पीले घेरे वाले छोटे उभरे भूरे धब्बे दिखते हैं। कैंकर कार्ड देखें।",
+    "en": "The leaf shows small raised brown spots with a yellow ring. Tap "
+    '"See practices and details" to check the tree.',
+    "mr": 'पानावर पिवळ्या कडेचे लहान उंचवट्याचे तपकिरी ठिपके दिसतात. "उपाय व माहिती पहा" दाबून झाड तपासा.',
+    "hi": 'पत्ती पर पीले घेरे वाले छोटे उभरे भूरे धब्बे दिखते हैं। "उपाय व जानकारी देखें" दबाकर पेड़ जाँचें।',
 }
 
 SIGNS = {
@@ -305,6 +307,14 @@ def test_the_prompt_carries_every_card_text_and_the_rules() -> None:
         assert p.symptoms["en"] in prompt
     for rule in ("only from what is visible", "unsure", "PCR", "No chemical", "Calm wording"):
         assert rule in prompt
+    # The button under the result (app label renamed in PR #358), never "open the card".
+    for name in ("See practices and details", "उपाय व माहिती पहा", "उपाय व जानकारी देखें"):
+        assert f'"{name}"' in prompt
+    assert "suggest opening that card" not in prompt
+    for lang, note in GREENING_LAB_NOTE.items():
+        assert BUTTON[lang] in note
+        assert "कार्ड" not in note
+        assert "card" not in note
 
 
 def test_answer_schema_is_strict_without_bounds() -> None:

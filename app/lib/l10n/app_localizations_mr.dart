@@ -5157,7 +5157,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get photoOfflinePcr =>
-      'ग्रीनिंगची खात्री फक्त प्रयोगशाळेतील PCR चाचणीने होते; ग्रीनिंग कार्ड पाहा.';
+      'ग्रीनिंगची खात्री फक्त प्रयोगशाळेतील PCR चाचणीने होते; ग्रीनिंगसाठी \"उपाय व माहिती पहा\" दाबा.';
 
   @override
   String get billPhoto => 'बिलाचा फोटो';
