@@ -19,9 +19,13 @@ const v13Tables = "('lab_tests', 'market_lots', 'market_lot_photos')";
 /// Tables added in v14 (market linkage lots and their photos).
 const v14Tables = "('market_lots', 'market_lot_photos')";
 
+/// The spraying labour column on spray records came in v18 (Q143).
+String beforeV18(String sql) =>
+    sql.replaceAll(RegExp(r',\s*"labour_paise" INTEGER NULL'), '');
+
 /// The tank mix products column on spray records came in v17 (Q142).
 String beforeV17(String sql) =>
-    sql.replaceAll(RegExp(r',\s*"products" TEXT NULL'), '');
+    beforeV18(sql).replaceAll(RegExp(r',\s*"products" TEXT NULL'), '');
 
 /// The bill photo columns on expenses and spray records came in v15 (Q136).
 String beforeV15(String sql) =>
@@ -469,7 +473,7 @@ void main() {
         },
       ),
     );
-    expect(db.schemaVersion, 17);
+    expect(db.schemaVersion, greaterThanOrEqualTo(17));
     final cols = await db
         .customSelect("PRAGMA table_info('spray_records')")
         .map((r) => r.read<String>('name'))
@@ -482,6 +486,46 @@ void main() {
     expect(old.products.single.productName, 'Imida');
     expect(old.products.single.costPaise, 65000);
     expect(old.phiDays, 15);
+    await db.close();
+  });
+
+  test('v17 -> v18 adds the spraying labour column; old sprays have none '
+      '(Q143)', () async {
+    final fresh = memoryDb();
+    final ddl = await fresh
+        .customSelect(
+          "SELECT sql FROM sqlite_master WHERE type = 'table' "
+          "AND name NOT LIKE 'sqlite_%'",
+        )
+        .map((r) => r.read<String>('sql'))
+        .map(beforeV18)
+        .get();
+    await fresh.close();
+    expect(ddl.join(), isNot(contains('"labour_paise"')));
+
+    driftRuntimeOptions.dontWarnAboutMultipleDatabases = true;
+    final db = AppDatabase(
+      NativeDatabase.memory(
+        setup: (raw) {
+          for (final stmt in ddl) {
+            raw.execute(stmt);
+          }
+          raw
+            ..execute(
+              'INSERT INTO spray_records (id, plot_id, sprayed_on, product_name, '
+              'cost_paise, client_updated_at) '
+              "VALUES ('s1', 'p1', '2026-01-01T00:00:00.000', 'Imida', 65000, "
+              "'2026-01-01T00:00:00.000Z')",
+            )
+            ..execute('PRAGMA user_version = 17');
+        },
+      ),
+    );
+    expect(db.schemaVersion, 18);
+    final old = await SprayRepository(db).find('s1');
+    expect(old!.labourPaise, isNull);
+    expect(old.totalPaise, 65000);
+    expect(old.toPayload().containsKey('labour_paise'), isFalse);
     await db.close();
   });
 }

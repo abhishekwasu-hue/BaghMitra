@@ -74,6 +74,7 @@ class SprayRecord {
     this.billPhotoPath,
     this.billPhotoKey,
     this.mix = const [],
+    this.labourPaise,
   });
 
   /// A record of [products] (at least one) with the shared fields. One product gives the
@@ -90,6 +91,7 @@ class SprayRecord {
     String? target,
     String? billPhotoPath,
     String? billPhotoKey,
+    int? labourPaise,
   }) {
     if (products.isEmpty) {
       throw ArgumentError.value(products, 'products', 'at least one');
@@ -115,6 +117,7 @@ class SprayRecord {
       billPhotoPath: billPhotoPath,
       billPhotoKey: billPhotoKey,
       mix: mixed ? List.unmodifiable(products) : const [],
+      labourPaise: labourPaise,
     );
   }
 
@@ -136,6 +139,13 @@ class SprayRecord {
 
   /// The products of a tank mix; empty for a single-product record.
   final List<SprayProduct> mix;
+
+  /// Spraying labour for the whole spray (Q143), counted under "labour" in the accounts and
+  /// never in [costPaise] (the products). Null when not written.
+  final int? labourPaise;
+
+  /// What the spray cost in all: the products and the labour.
+  int get totalPaise => costPaise + (labourPaise ?? 0);
 
   bool get hasBillPhoto => billPhotoPath != null || billPhotoKey != null;
 
@@ -187,6 +197,7 @@ class SprayRecord {
     billPhotoPath: path ?? billPhotoPath,
     billPhotoKey: key ?? billPhotoKey,
     mix: mix,
+    labourPaise: labourPaise,
   );
 
   Map<String, Object?> toPayload() => {
@@ -206,6 +217,8 @@ class SprayRecord {
     if (billPhotoKey != null) 'bill_photo_key': billPhotoKey,
     // Only for a mix, so a single-product record syncs exactly as before Q142.
     if (mix.isNotEmpty) 'products': [for (final p in mix) p.toPayload()],
+    // Only when written, so a record without it syncs as before Q143.
+    if (labourPaise != null) 'labour_paise': labourPaise,
   };
 
   static SprayRecord fromPayload(String id, Map<String, Object?> p) =>
@@ -225,6 +238,7 @@ class SprayRecord {
         target: p['target'] as String?,
         billPhotoKey: p['bill_photo_key'] as String?,
         mix: productsFrom(p['products']),
+        labourPaise: p['labour_paise'] as int?,
       );
 
   /// A stored or synced products list; empty for null or a broken value.

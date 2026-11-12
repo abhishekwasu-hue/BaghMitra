@@ -8730,7 +8730,7 @@ abstract class AppLocalizations {
   /// No description provided for @expenseElsewhere.
   ///
   /// In en, this message translates to:
-  /// **'Spray, labour and fertiliser costs go in their own records and are added to the accounts automatically.'**
+  /// **'Spray (with its labour), labour and fertiliser costs go in their own records and are added to the accounts automatically.'**
   String get expenseElsewhere;
 
   /// No description provided for @expenseGoSpray.
@@ -9242,6 +9242,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Fill {count} selected'**
   String billPickMany(String count);
+
+  /// No description provided for @sprayLabour.
+  ///
+  /// In en, this message translates to:
+  /// **'Spraying labour (₹, optional)'**
+  String get sprayLabour;
+
+  /// No description provided for @sprayLabourHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'If it is already in the labour register (spraying), leave this empty.'**
+  String get sprayLabourHelp;
+
+  /// No description provided for @sprayCostSplit.
+  ///
+  /// In en, this message translates to:
+  /// **'Total cost = products {products} + labour {labour}'**
+  String sprayCostSplit(String products, String labour);
 }
 
 class _AppLocalizationsDelegate

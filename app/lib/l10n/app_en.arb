@@ -1914,7 +1914,7 @@
   "feedbackQueued": "Saved on the phone; it goes when the internet is back.",
   "mlLoginRole": "Role: {role}",
   "@mlLoginRole": {"description": "Sign-in screen (market link builds): the role card the user picked, with a link back to the five cards.", "placeholders": {"role": {"type": "String"}}},
-  "expenseElsewhere": "Spray, labour and fertiliser costs go in their own records and are added to the accounts automatically.",
+  "expenseElsewhere": "Spray (with its labour), labour and fertiliser costs go in their own records and are added to the accounts automatically.",
   "expenseGoSpray": "Spray",
   "expenseGoLabour": "Labour",
   "expenseGoInputs": "Fertiliser and manure",
@@ -2021,5 +2021,9 @@
   "sprayDetailProducts": "Products in the tank",
   "billPickManyTitle": "Tick the bill lines mixed in this spray",
   "billPickMany": "Fill {count} selected",
-  "@billPickMany": {"placeholders": {"count": {"type": "String"}}}
+  "@billPickMany": {"placeholders": {"count": {"type": "String"}}},
+  "sprayLabour": "Spraying labour (₹, optional)",
+  "sprayLabourHelp": "If it is already in the labour register (spraying), leave this empty.",
+  "sprayCostSplit": "Total cost = products {products} + labour {labour}",
+  "@sprayCostSplit": {"placeholders": {"products": {"type": "String"}, "labour": {"type": "String"}}}
 }

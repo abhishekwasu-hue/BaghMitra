@@ -1436,7 +1436,7 @@
   "feedbackSent": "मिळाले, धन्यवाद!",
   "feedbackQueued": "फोनवर जतन केले; नेट आल्यावर जाईल.",
   "mlLoginRole": "भूमिका: {role}",
-  "expenseElsewhere": "फवारणी, मजुरी आणि खतांचा खर्च त्यांच्या नोंदीत लिहा; हिशोबात तो आपोआप जोडला जातो.",
+  "expenseElsewhere": "फवारणी (मजुरीसह), मजुरी आणि खतांचा खर्च त्यांच्या नोंदीत लिहा; हिशोबात तो आपोआप जोडला जातो.",
   "expenseGoSpray": "फवारणी",
   "expenseGoLabour": "मजुरी",
   "expenseGoInputs": "खते व शेणखत",
@@ -1521,5 +1521,8 @@
   "sprayDetailOperator": "फवारणी करणारा: {name}",
   "sprayDetailProducts": "टाकीतील घटक",
   "billPickManyTitle": "या फवारणीत मिसळलेल्या बिलातील ओळी निवडा",
-  "billPickMany": "निवडलेल्या {count} ओळी भरा"
+  "billPickMany": "निवडलेल्या {count} ओळी भरा",
+  "sprayLabour": "फवारणी मजुरी (₹, ऐच्छिक)",
+  "sprayLabourHelp": "मजुरी नोंदीत (फवारणी काम) आधीच लिहिली असल्यास हा रकाना रिकामा ठेवा.",
+  "sprayCostSplit": "एकूण खर्च = औषधे {products} + मजुरी {labour}"
 }

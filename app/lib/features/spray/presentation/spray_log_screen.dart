@@ -97,8 +97,8 @@ class SprayLogScreen extends ConsumerWidget {
                                   [
                                     formatDate(s.sprayedOn, lang),
                                     if (s.target != null) s.target!,
-                                    if (s.costPaise > 0)
-                                      formatPaise(s.costPaise, lang),
+                                    if (s.totalPaise > 0)
+                                      formatPaise(s.totalPaise, lang),
                                   ].join(' · '),
                                   style: BmType.meta.copyWith(
                                     color: c.inkMuted,

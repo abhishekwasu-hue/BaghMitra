@@ -4981,7 +4981,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get expenseElsewhere =>
-      'फवारणी, मजुरी आणि खतांचा खर्च त्यांच्या नोंदीत लिहा; हिशोबात तो आपोआप जोडला जातो.';
+      'फवारणी (मजुरीसह), मजुरी आणि खतांचा खर्च त्यांच्या नोंदीत लिहा; हिशोबात तो आपोआप जोडला जातो.';
 
   @override
   String get expenseGoSpray => 'फवारणी';
@@ -5294,5 +5294,17 @@ class AppLocalizationsMr extends AppLocalizations {
   @override
   String billPickMany(String count) {
     return 'निवडलेल्या $count ओळी भरा';
+  }
+
+  @override
+  String get sprayLabour => 'फवारणी मजुरी (₹, ऐच्छिक)';
+
+  @override
+  String get sprayLabourHelp =>
+      'मजुरी नोंदीत (फवारणी काम) आधीच लिहिली असल्यास हा रकाना रिकामा ठेवा.';
+
+  @override
+  String sprayCostSplit(String products, String labour) {
+    return 'एकूण खर्च = औषधे $products + मजुरी $labour';
   }
 }

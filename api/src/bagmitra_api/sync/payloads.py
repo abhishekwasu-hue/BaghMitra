@@ -167,6 +167,9 @@ class SprayRecordPayload(RowPayload):
     target: str | None = Field(default=None, max_length=120)
     bill_photo_key: str | None = Field(default=None, pattern=BILL_PHOTO_KEY_PATTERN)
     products: list[SprayProduct] | None = Field(default=None, min_length=1, max_length=20)
+    # Spraying labour for the whole spray (Q143), counted under "labour", never in
+    # `cost_paise` (the products). Null when not written.
+    labour_paise: Paise | None = None
 
     @model_validator(mode="after")
     def _mix_figures(self) -> Self:
@@ -184,9 +187,11 @@ class SprayRecordPayload(RowPayload):
 
     def to_columns(self) -> dict[str, Any]:
         data = self.model_dump()
-        # A write from an app older than Q142 has no `products` key: keep the stored mix.
-        if "products" not in self.model_fields_set:
-            del data["products"]
+        # A write from an app older than Q142 / Q143 has no `products` / `labour_paise`
+        # key: keep what is stored.
+        for key in ("products", "labour_paise"):
+            if key not in self.model_fields_set:
+                del data[key]
         return data
 
 

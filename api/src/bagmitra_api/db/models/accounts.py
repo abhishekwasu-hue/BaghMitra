@@ -71,6 +71,8 @@ class SprayRecord(OwnedSyncedRowMixin, Base):
     # columns above then hold the first product, the summed cost and the longest PHI. Null
     # for a single-product record.
     products: Mapped[list[dict[str, Any]] | None] = mapped_column(JSON)
+    # Spraying labour for the whole spray (Q143), whole paise; counted under "labour".
+    labour_paise: Mapped[int | None] = mapped_column(BigInteger)
 
 
 class InputRecord(OwnedSyncedRowMixin, Base):
