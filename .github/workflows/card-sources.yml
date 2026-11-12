@@ -68,6 +68,8 @@ jobs:
           from bagmitra_api.core.settings import get_settings
           AGENT = get_settings().feed_fetch_user_agent  # what the feed cron sends
           LIMIT = 20000
+          OUT = os.path.join(os.environ["RUNNER_TEMP"], "raw")  # full bodies, for test fixtures
+          os.makedirs(OUT, exist_ok=True)
           async def main():
               async with httpx.AsyncClient(follow_redirects=True, timeout=45) as http:
                   robots_seen = set()
@@ -83,6 +85,11 @@ jobs:
                               r = await http.get(target, headers={"User-Agent": AGENT})
                               print("STATUS", r.status_code, "TYPE", r.headers.get("content-type"), "FINAL", r.url, "BYTES", len(r.content))
                               body = r.text
+                              n = len(os.listdir(OUT))
+                              with open(os.path.join(OUT, f"{n:02d}.body"), "wb") as f:
+                                  f.write(r.content)
+                              with open(os.path.join(OUT, "index.txt"), "a") as f:
+                                  f.write(f"{n:02d} {r.status_code} {target}\n")
                               if label == "RAW" and "html" in (r.headers.get("content-type") or ""):
                                   # A page: its feed links and its link list (text + href), then the head of the body.
                                   for m in re.finditer(r'<link[^>]+(?:rss|atom)[^>]*>', body, re.I):
@@ -100,6 +107,12 @@ jobs:
                           print("::endgroup::")
           asyncio.run(main())
           PY
+      - uses: actions/upload-artifact@v4
+        if: ${{ inputs.urls != '' && inputs.raw }}
+        with:
+          name: raw-pages
+          path: ${{ runner.temp }}/raw
+          retention-days: 7
       - name: Print extra pages
         if: ${{ inputs.urls != '' && !inputs.raw }}
         env:
