@@ -7,6 +7,7 @@ import '../../../app/providers.dart';
 import '../../../app/refresh.dart';
 import '../../../app/router.dart';
 import '../../../core/formatting.dart';
+import '../../../core/net_failure.dart';
 import '../../../design_system/app_bar_title.dart';
 import '../../../design_system/empty_state.dart';
 import '../../../l10n/app_localizations.dart';
@@ -89,7 +90,18 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
       if (items.isEmpty)
         loaded.isLoading && !loaded.hasValue
             ? LoadingState(label: t.loadingLabel)
-            : EmptyNote(t.feedEmpty),
+            : EmptyNote(
+                key: const Key('feed-empty'),
+                emptyText(
+                  t,
+                  _filter,
+                  offline:
+                      ref
+                          .watch(refreshStateProvider(FeedCache.keyFor(lang)))
+                          .failure ==
+                      NetFailure.offline,
+                ),
+              ),
     ];
     return Scaffold(
       appBar: AppBar(
@@ -181,6 +193,24 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
       ),
     );
   }
+}
+
+/// The empty list's line: offline, when the messages come once the phone is online; online,
+/// a calm per-filter line (an empty filter is not a network problem).
+String emptyText(
+  AppLocalizations t,
+  FeedFilter? filter, {
+  required bool offline,
+}) {
+  if (offline) return t.feedEmpty;
+  return switch (filter) {
+    null => t.feedEmptyAll,
+    FeedFilter.official => t.feedEmptyOfficial,
+    FeedFilter.scheme => t.feedEmptySchemes,
+    FeedFilter.deadline => t.feedEmptyDeadlines,
+    FeedFilter.news => t.feedEmptyNews,
+    FeedFilter.knowledge => t.feedEmptyKnowledge,
+  };
 }
 
 /// One feed item: trust badge, title, status banners, deadline and eligibility lines.

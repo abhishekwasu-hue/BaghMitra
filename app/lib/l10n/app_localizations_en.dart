@@ -2014,6 +2014,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String get feedEmpty => 'Messages load when the phone is online.';
 
   @override
+  String get feedEmptyAll => 'New messages appear here as they come.';
+
+  @override
+  String get feedEmptyOfficial =>
+      'Official GRs and notices appear here as they come.';
+
+  @override
+  String get feedEmptySchemes => 'New schemes appear here as they come.';
+
+  @override
+  String get feedEmptyDeadlines =>
+      'Last dates to apply appear here as they come.';
+
+  @override
+  String get feedEmptyNews => 'News appears here as it comes.';
+
+  @override
+  String get feedEmptyKnowledge =>
+      'Knowledge articles appear here as the situation calls for them.';
+
+  @override
   String get feedRemindMe => 'Remind me';
 
   @override
