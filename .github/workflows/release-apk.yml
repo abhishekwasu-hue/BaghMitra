@@ -10,6 +10,8 @@ name: Release APK
 # - A Play App Bundle (.aab) for Google Play from the same key, run number and dart-defines: a
 #   30-day workflow artifact only, never on the public release and never sent to Play by this
 #   workflow (the owner uploads it in Play Console; docs/runbooks/release-apk.md §५).
+# - Push alerts: on only when the secret GOOGLE_SERVICES_JSON_B64 is set (writes google-services.json,
+#   adds --dart-define=PUSH=true to both builds); without it the builds are unchanged.
 # The Test APK workflow (release-test-apk.yml) stays the testers' build (same version-code rule).
 on:
   workflow_dispatch:
@@ -97,6 +99,27 @@ jobs:
           printf '%s' "$KEYSTORE_B64" | base64 -d > "$RUNNER_TEMP/release.jks"
           [ -s "$RUNNER_TEMP/release.jks" ] || { echo "::error::RELEASE_KEYSTORE_BASE64 does not decode to a file"; exit 1; }
           echo "RELEASE_KEYSTORE_PATH=$RUNNER_TEMP/release.jks" >> "$GITHUB_ENV"
+      # Push alerts (OPEN_QUESTIONS Q32, docs/runbooks/push-notifications.md §४): only when the
+      # repository secret GOOGLE_SERVICES_JSON_B64 is set, write app/android/app/google-services.json
+      # (gitignored; the Gradle google-services plugin is applied only when it exists) and build with
+      # --dart-define=PUSH=true. Without the secret nothing is written and both builds run as before.
+      - name: Push alerts config
+        id: push
+        env:
+          GOOGLE_SERVICES_JSON_B64: ${{ secrets.GOOGLE_SERVICES_JSON_B64 }}
+        run: |
+          if [ -z "$GOOGLE_SERVICES_JSON_B64" ]; then
+            echo "push=" >> "$GITHUB_OUTPUT"
+            echo "- push: off (no GOOGLE_SERVICES_JSON_B64)" >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          file=app/android/app/google-services.json
+          printf '%s' "$GOOGLE_SERVICES_JSON_B64" | base64 -d > "$file" \
+            || { echo "::error::GOOGLE_SERVICES_JSON_B64 is not valid base64"; exit 1; }
+          python3 -c 'import json, sys; json.load(open(sys.argv[1]))' "$file" 2>/dev/null \
+            || { echo "::error::GOOGLE_SERVICES_JSON_B64 does not decode to a JSON file"; exit 1; }
+          echo "push=true" >> "$GITHUB_OUTPUT"
+          echo "- push: on" >> "$GITHUB_STEP_SUMMARY"
       - name: Build production APKs
         working-directory: app
         env:
@@ -116,6 +139,8 @@ jobs:
           # the same repository variable as the Test APK; the spec §5 legal-gate records are
           # still to be recorded in admin (OPEN_QUESTIONS Q117).
           MARKET_LINK: ${{ vars.MARKET_LINK || 'false' }}
+          # Empty unless the push step wrote google-services.json.
+          PUSH: ${{ steps.push.outputs.push }}
         run: |
           flutter pub get
           flutter build apk --release --split-per-abi \
@@ -129,7 +154,8 @@ jobs:
             --dart-define=SUPABASE_ANON_KEY="$SUPABASE_ANON_KEY" \
             --dart-define=SARKARI_SANDESH="$SARKARI_SANDESH" \
             --dart-define=PHONE_LOGIN="$PHONE_LOGIN" \
-            --dart-define=MARKET_LINK="$MARKET_LINK"
+            --dart-define=MARKET_LINK="$MARKET_LINK" \
+            ${PUSH:+--dart-define=PUSH=true}
       - name: Check signature and version codes
         env:
           CODE: ${{ steps.meta.outputs.code }}
@@ -214,6 +240,8 @@ jobs:
           SARKARI_SANDESH: ${{ inputs.sarkari_sandesh }}
           PHONE_LOGIN: ${{ vars.PHONE_LOGIN || 'false' }}
           MARKET_LINK: ${{ vars.MARKET_LINK || 'false' }}
+          # Empty unless the push step wrote google-services.json.
+          PUSH: ${{ steps.push.outputs.push }}
         run: |
           flutter build appbundle --release \
             --build-number="$BUILD_NUMBER" --build-name="$BUILD_NAME" \
@@ -224,7 +252,8 @@ jobs:
             --dart-define=SUPABASE_ANON_KEY="$SUPABASE_ANON_KEY" \
             --dart-define=SARKARI_SANDESH="$SARKARI_SANDESH" \
             --dart-define=PHONE_LOGIN="$PHONE_LOGIN" \
-            --dart-define=MARKET_LINK="$MARKET_LINK"
+            --dart-define=MARKET_LINK="$MARKET_LINK" \
+            ${PUSH:+--dart-define=PUSH=true}
       - name: Check the App Bundle
         env:
           CODE: ${{ steps.meta.outputs.code }}

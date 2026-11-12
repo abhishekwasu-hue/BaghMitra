@@ -70,9 +70,12 @@ cd /opt/bagmitra/deploy && docker compose exec -T api python -m bagmitra_api.pus
 2. build मध्ये `--dart-define=PUSH=true` जोडा, उदा.
    `flutter build apk --release --dart-define-from-file=../product.env --dart-define=PUSH=true ...`
    (बाकीचे `API_BASE_URL`, `SUPABASE_*` नेहमीप्रमाणे).
-3. CI (GitHub Actions) मधून बांधायचे असेल तर: repo Settings → Secrets → `GOOGLE_SERVICES_JSON_B64`
-   (= `base64 -w0 google-services.json`) आणि release workflow मध्ये build आधी ती फाइल लिहिणारी पायरी +
-   `PUSH=true` — ही workflow पायरी अजून जोडलेली नाही (OPEN_QUESTIONS Q32).
+3. CI (GitHub Actions) मधून: "Release APK" workflow मध्ये ही पायरी आता तयार आहे. मालकाने फक्त secret
+   जोडायचे: `base64 -w0 google-services.json` चे output copy करा → repo Settings → Secrets and variables →
+   Actions → New repository secret → नाव `GOOGLE_SERVICES_JSON_B64`, value = ते output. पुढच्या run मध्ये
+   workflow ही फाइल लिहिते आणि APK + App Bundle दोन्ही `--dart-define=PUSH=true` ने बांधते; job summary
+   मध्ये `push: on` दिसते. secret नसेल तर build आधीसारखेच होते आणि summary मध्ये
+   `push: off (no GOOGLE_SERVICES_JSON_B64)` दिसते (OPEN_QUESTIONS Q32).
 
 `PUSH=true` असूनही फाइल नसेल तर ॲप Firebase सुरू करू शकत नाही, log मध्ये `push off: firebase did not
 start` लिहिते आणि push शिवाय नेहमीसारखे चालते.
