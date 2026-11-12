@@ -54,15 +54,39 @@ jobs:
           URLS: ${{ inputs.urls }}
         run: |
           python - <<'PY'
-          import asyncio, os
-          import httpx
+          import asyncio, io, os, re
+          from urllib.parse import urljoin
+          import httpx, pypdf
+          from bagmitra_api.feed.extract import extract
           from bagmitra_api.kb.card_check import fetch_text
+          # Some government hosts answer 403 to a non-browser User-Agent: one retry with a
+          # generic one. An HTML page also lists its document links, to find the right file.
+          BROWSER = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64)"}
           async def main():
               async with httpx.AsyncClient(follow_redirects=True) as http:
                   for url in os.environ["URLS"].split():
                       text, reason = await fetch_text(http, url)
+                      page = None
+                      if reason == "HTTP 403" or not reason:
+                          try:
+                              page = await http.get(url, headers=BROWSER, timeout=60)
+                          except httpx.HTTPError as exc:
+                              reason = reason and f"{reason}; browser User-Agent: {exc!r}"
+                      is_pdf = page is not None and page.content.startswith(b"%PDF")
+                      if reason and page is not None:
+                          if page.status_code >= 400:
+                              reason += f"; browser User-Agent: HTTP {page.status_code}"
+                          else:
+                              text = extract(page.content, "pdf" if is_pdf else "html").text
+                              reason = None if text.strip() else reason + "; no text"
                       print("::group::" + url)
                       print(reason or text[:200000])
+                      if is_pdf:  # the edition: the file's own dates and page count
+                          pdf = pypdf.PdfReader(io.BytesIO(page.content))
+                          print("META", len(pdf.pages), "pages", dict(pdf.metadata or {}), "Last-Modified:", page.headers.get("last-modified"))
+                      if page is not None and page.status_code < 400 and not is_pdf:
+                          for href in sorted(set(re.findall(r'href="([^"]+\.pdf[^"]*)"', page.text, re.I))):
+                              print("LINK", urljoin(str(page.url), href))
                       print("::endgroup::")
           asyncio.run(main())
           PY

@@ -207,9 +207,13 @@ void main() {
     await chooseIngredientType(tester, 'Tonic');
     expect(find.byKey(const Key('spray-active-pick')), findsNothing);
     expect(find.byKey(const Key('spray-active')), findsOneWidget);
+    // Nutrition types list the FCO 1985 Schedule I grades.
     await chooseIngredientType(tester, 'Nutrition: micronutrients');
-    await chooseIngredient(tester, 'Zinc sulphate');
-    expect(find.text('Zinc sulphate'), findsOneWidget);
+    await chooseIngredient(tester, 'Chelated Zinc as Zn-EDTA');
+    expect(find.text('Chelated Zinc as Zn-EDTA'), findsOneWidget);
+    await chooseIngredientType(tester, 'Nutrition: water-soluble fertilisers');
+    await chooseIngredient(tester, 'Calcium Nitrate');
+    expect(find.text('Calcium Nitrate'), findsOneWidget);
     // Growth regulators come from our KB cards (owner 2026-11-11).
     await chooseIngredientType(tester, 'Growth regulator');
     await chooseIngredient(tester, 'Paclobutrazol');

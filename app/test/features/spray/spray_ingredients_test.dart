@@ -62,6 +62,98 @@ void main() {
     },
   );
 
+  test('micronutrient and water-soluble rows are exactly the FCO 1985 '
+      'Schedule I extract, each citing the FCO source', () {
+    final extract = File(gen.fcoPath).readAsStringSync();
+    final fromExtract = gen.fcoEntries(extract);
+    final inAsset = [
+      for (final e in _entries())
+        if (gen.sourceKeys(e).any(gen.isFco)) e,
+    ];
+    expect(
+      jsonDecode(jsonEncode(inAsset)),
+      jsonDecode(jsonEncode(fromExtract)),
+    );
+    // Every row of the extract has the FCO source and is in its printed heading.
+    final rows = ((jsonDecode(extract) as Map)['entries'] as List)
+        .cast<Map<String, dynamic>>();
+    String bare(String s) => s.replaceAll(RegExp(r'\s+'), '');
+    for (final r in rows) {
+      expect(r['source'], 'fco_1985_odisha_2009', reason: r['name'] as String);
+      expect(
+        bare(r['printed'] as String),
+        contains(bare(r['name'] as String)),
+        reason: r['name'] as String,
+      );
+      expect(r['schedule_ref'], startsWith('Schedule I, Part A, 1('));
+    }
+    final kbSources =
+        ((jsonDecode(File(gen.sourcesPath).readAsStringSync())
+                    as Map)['sources']
+                as List)
+            .cast<Map<String, dynamic>>();
+    final fco = kbSources.singleWhere(
+      (s) => s['key'] == 'fco_1985_odisha_2009',
+    );
+    expect(
+      fco['url'],
+      'https://odishaagrilicense.nic.in/actsRules/Fertiliser_Control_Order_1985.pdf',
+    );
+    // Only the two nutrition types come from the FCO; the hand-kept KB card rows they
+    // replace (same compounds) are gone.
+    expect(inAsset.map((e) => e['type']).toSet(), {
+      'micronutrient',
+      'water_soluble',
+    });
+    expect(
+      _entries().where(
+        (e) =>
+            gen.sourceKeys(e).contains('ccri_monthly_november') &&
+            !gen.isFromKb(e),
+      ),
+      isEmpty,
+    );
+    expect(
+      [
+        for (final e in inAsset)
+          if (e['type'] == 'water_soluble') e['name'],
+      ],
+      [
+        'Calcium Nitrate',
+        'Mono Ammonium Phosphate 12:61:0 (100% water soluble)',
+        'Mono – Potasium Phosphate (0-52-34) (100% water Soluble)',
+        'NPK 13:40:13 (100% water soluble)',
+        'NPK 13:5:26 (100% water soluble)',
+        'NPK 18:18:18 (100% water soluble)',
+        'NPK 19:19:19 (100% water soluble)',
+        'NPK 20:20:20 (100% water soluble)',
+        'NPK 6:12:36 (100% water soluble)',
+        'Potassium Magnesium Sulphate',
+        'Pottasium Nitrate (13-0-45)',
+      ],
+    );
+    // A row with another type, another source or a name not in its heading stops the
+    // generator instead of being listed.
+    Map<String, Object?> row(String type, String source, String printed) => {
+      'entries': [
+        {
+          'type': type,
+          'name': 'Calcium Nitrate',
+          'printed': printed,
+          'schedule_ref': 'Schedule I, Part A, 1(h), 4',
+          'source': source,
+        },
+      ],
+    };
+    for (final bad in [
+      row('fungicide', 'fco_1985_odisha_2009', '4. Calcium Nitrate'),
+      row('water_soluble', 'ccri_monthly_november', '4. Calcium Nitrate'),
+      row('water_soluble', 'fco_1985_odisha_2009', '4. Calcium Ammonium'),
+    ]) {
+      expect(() => gen.fcoEntries(jsonEncode(bad)), throwsStateError);
+    }
+  });
+
   test(
     'types come from the data; no acaricide type while no book marks one',
     () {
@@ -75,8 +167,8 @@ void main() {
         'herbicide': 2,
         'bio': 1,
         'pgr': 4,
-        'micronutrient': 4,
-        'water_soluble': 0,
+        'micronutrient': 13,
+        'water_soluble': 11,
         'tonic': 0,
       });
       for (final t in data.types) {
@@ -114,7 +206,8 @@ void main() {
         expect(s['url'], kbRow['url']);
         expect(s['title'], kbRow['title']);
       }
-      if (!keys.any(gen.isCibrc) && !gen.isFromKb(e)) {
+      if (!keys.any((k) => gen.isCibrc(k) || gen.isFco(k)) &&
+          !gen.isFromKb(e)) {
         final quote = e['quote'] as String;
         expect(kb, contains(quote), reason: e['name'] as String);
         final first = (e['name'] as String).split(' ').first.toLowerCase();
@@ -140,7 +233,10 @@ void main() {
       'Streptomycin Sulphate + Tetracycline Hydrochloride '
       '90% + 10% SP, 9% + 1% SP',
     );
-    expect(data.match('Borax')!.display, 'Borax');
+    expect(
+      data.match('NPK 19:19:19 (100% water soluble)')!.display,
+      'NPK 19:19:19 (100% water soluble)',
+    );
   });
 
   test('a filled-in value matches by name or name with formulation', () {

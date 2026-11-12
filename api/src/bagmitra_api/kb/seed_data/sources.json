@@ -497,6 +497,17 @@
       "notes": "Owner upload; text extracted from the PDF is kept at docs/research/sources/cibrc/MUP_insecticides_upto_2026-09-30.txt (sha256 30f845a5…). Row refs are line numbers in that file."
     },
     {
+      "key": "fco_1985_odisha_2009",
+      "title": "Fertiliser (Control) Order, 1985 (consolidated copy, PDF of 24.12.2009)",
+      "publisher": "Government of India, Department of Agriculture and Cooperation (G.S.R. 758(E)); copy hosted by the Government of Odisha e-Licensing System",
+      "url": "https://odishaagrilicense.nic.in/actsRules/Fertiliser_Control_Order_1985.pdf",
+      "tier": "tier2",
+      "licence": "government publication",
+      "allowed_use": "cite_only",
+      "verification": "V",
+      "notes": "Schedule I Part A 1(f) MICRONUTRIENTS and 1(h) 100% water soluble complex fertiliser grades, read 2026-11-12 from a GitHub Actions runner (card-sources workflow; pypdf text layer). Edition: undated consolidated text, 91 pages, PDF CreationDate 2009-12-24, server Last-Modified 2019-12-27; it still carries the old title 'The Fertiliser (Control) Order 1985', so later amendments are not in it. The Puducherry copy (py.gov.in/sites/default/files/fertorder1985.pdf, PDF of 2007-03-02) prints the same 1(f) and 1(h) grades. Not reachable from the runner: fert.nic.in and agricoop.nic.in (no DNS), fert.gov.in and diragri.assam.gov.in (connect timeout), agriwelfare.gov.in (HTTP 403, also with a browser User-Agent), egazette.gov.in (TLS chain not verifiable), indiacode.nic.in (read timeout)."
+    },
+    {
       "key": "fssai_mrl_2020",
       "title": "FSSAI Contaminants, Toxins and Residues compendium (v.2020)",
       "publisher": "FSSAI",
