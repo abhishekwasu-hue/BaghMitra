@@ -12,10 +12,17 @@ from typing import Any
 
 import httpx
 import pytest
-from sqlalchemy import select
-from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker
+from sqlalchemy import event, select
+from sqlalchemy.ext.asyncio import (
+    AsyncEngine,
+    AsyncSession,
+    async_sessionmaker,
+    create_async_engine,
+)
+from sqlalchemy.pool import StaticPool
 
 from bagmitra_api.core.settings import Settings
+from bagmitra_api.db.base import Base
 from bagmitra_api.feed import news_job
 from bagmitra_api.feed.ai import AnthropicFeedAi
 from bagmitra_api.feed.models import (
@@ -405,3 +412,28 @@ async def test_thread_endpoint_hides_unpublished_and_unknown(
     res = await api.get(f"/v1/feed/threads/{thread_id}", headers=auth_headers)
     assert res.status_code == 404
     assert (await api.get(f"/v1/feed/threads/{thread_id}")).status_code == 401
+
+
+async def test_new_thread_is_written_before_the_item_points_at_it() -> None:
+    """VPS 2026-11-12: Postgres refused the backfill (fk_feed_items_thread_id_feed_threads) because
+    the item's thread_id was flushed before the new thread row. SQLite checks foreign keys only
+    with the pragma on, so this test turns it on."""
+    eng = create_async_engine(
+        "sqlite+aiosqlite://", connect_args={"check_same_thread": False}, poolclass=StaticPool
+    )
+
+    @event.listens_for(eng.sync_engine, "connect")
+    def _fk_on(dbapi_conn: Any, _record: Any) -> None:
+        dbapi_conn.execute("PRAGMA foreign_keys=ON")
+
+    async with eng.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+    try:
+        async with maker(eng)() as session:
+            await news(session, DROUGHT_1, T0)
+            await session.commit()
+            run = await thread_news(session, Model().threader())
+            await session.commit()
+            assert run.new == 1
+    finally:
+        await eng.dispose()
