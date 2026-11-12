@@ -539,3 +539,124 @@ class BillPickSheet extends StatelessWidget {
     );
   }
 }
+
+/// The spray form's pick sheet (a tank mix, Q142): the farmer ticks every bill line that
+/// went into this spray, then fills; each line becomes one product. Null when closed.
+Future<List<BillItem>?> showBillPickManySheet(
+  BuildContext context,
+  BillReading bill,
+) => showModalBottomSheet<List<BillItem>>(
+  context: context,
+  isScrollControlled: true,
+  showDragHandle: true,
+  builder: (context) => BillPickManySheet(bill: bill),
+);
+
+class BillPickManySheet extends StatefulWidget {
+  const BillPickManySheet({required this.bill, super.key});
+
+  final BillReading bill;
+
+  @override
+  State<BillPickManySheet> createState() => _BillPickManySheetState();
+}
+
+class _BillPickManySheetState extends State<BillPickManySheet> {
+  final _picked = <int>{};
+
+  @override
+  Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+    final c = context.bm;
+    final lang = Localizations.localeOf(context).languageCode;
+    final bill = widget.bill;
+    final head = [
+      ?billLabel(t, bill),
+      if (bill.billDate case final d?) formatDate(d, lang),
+    ].join(' · ');
+    return SafeArea(
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          maxHeight: MediaQuery.sizeOf(context).height * 0.8,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Flexible(
+              child: ListView(
+                key: const Key('bill-pick-sheet'),
+                shrinkWrap: true,
+                padding: const EdgeInsets.symmetric(horizontal: BmSpace.lg),
+                children: [
+                  Text(
+                    t.billPickManyTitle,
+                    style: BmType.section.copyWith(color: c.ink),
+                  ),
+                  if (head.isNotEmpty) InfoNote(head),
+                  if (bill.unsure) ...[
+                    const SizedBox(height: BmSpace.xs),
+                    Text(
+                      t.billUnsure,
+                      style: BmType.body.copyWith(color: c.info),
+                    ),
+                  ],
+                  const SizedBox(height: BmSpace.sm),
+                  for (final (i, item) in bill.items.indexed)
+                    CheckboxListTile(
+                      key: Key('bill-pick-$i'),
+                      contentPadding: EdgeInsets.zero,
+                      controlAffinity: ListTileControlAffinity.leading,
+                      value: _picked.contains(i),
+                      onChanged: (on) => setState(() {
+                        if (on ?? false) {
+                          _picked.add(i);
+                        } else {
+                          _picked.remove(i);
+                        }
+                      }),
+                      title: Text(item.name, style: BmType.bodyStrong),
+                      subtitle:
+                          [?item.activeIngredient, ?item.quantityText].isEmpty
+                          ? null
+                          : Text(
+                              [
+                                ?item.activeIngredient,
+                                ?item.quantityText,
+                              ].join(' · '),
+                              style: BmType.meta.copyWith(color: c.inkMuted),
+                            ),
+                      secondary: Text(
+                        item.amountRs == null
+                            ? '—'
+                            : formatPaise(_paise(item.amountRs!), lang),
+                        style: BmType.section.copyWith(color: c.ink),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(
+                BmSpace.lg,
+                BmSpace.sm,
+                BmSpace.lg,
+                BmSpace.lg,
+              ),
+              child: FilledButton(
+                key: const Key('bill-pick-fill'),
+                onPressed: _picked.isEmpty
+                    ? null
+                    : () => Navigator.of(context).pop([
+                        for (final (i, item) in bill.items.indexed)
+                          if (_picked.contains(i)) item,
+                      ]),
+                child: Text(t.billPickMany(formatInt(_picked.length, lang))),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

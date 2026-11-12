@@ -1,3 +1,5 @@
+import 'spray_record.dart';
+
 /// Offline ban / PHI check for a spray record (spec M2). Mirrors the server's legal gate
 /// for the facts a phone can know: gazette bans, crop restrictions and the pre-harvest
 /// interval against the planned harvest date. It warns; it never blocks recording what
@@ -152,3 +154,24 @@ List<SprayWarning> checkSpray({
   }
   return warnings;
 }
+
+/// [checkSpray] for each product of one spray (a tank mix, Q142), index-aligned with
+/// [products]: each product's own ingredient and PHI, so a note sits on the product it is
+/// about.
+List<List<SprayWarning>> checkSprayProducts(
+  List<SprayProduct> products, {
+  required DateTime sprayedOn,
+  required CropRules crop,
+  required RestrictionList rules,
+  DateTime? plannedHarvest,
+}) => [
+  for (final p in products)
+    checkSpray(
+      activeIngredient: p.activeIngredient,
+      sprayedOn: sprayedOn,
+      phiDays: p.phiDays,
+      plannedHarvest: plannedHarvest,
+      crop: crop,
+      rules: rules,
+    ),
+];

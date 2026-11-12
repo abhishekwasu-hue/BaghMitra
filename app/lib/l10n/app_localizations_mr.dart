@@ -5227,4 +5227,72 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get billFieldNote => 'टीप';
+
+  @override
+  String sprayProductHeading(String n) {
+    return 'घटक $n';
+  }
+
+  @override
+  String get sprayAddProduct => '+ आणखी घटक जोडा';
+
+  @override
+  String sprayRemoveProduct(String n) {
+    return 'घटक $n काढा';
+  }
+
+  @override
+  String get spraySharedHeading => 'संपूर्ण फवारणीसाठी';
+
+  @override
+  String sprayMix(String names) {
+    return 'मिश्रण: $names';
+  }
+
+  @override
+  String get sprayMixHeading => 'मिश्रण:';
+
+  @override
+  String sprayMixTotal(String amount) {
+    return 'एकूण खर्च $amount';
+  }
+
+  @override
+  String sprayMixPhi(String days) {
+    return 'मिश्रणाचा प्रतीक्षा कालावधी: $days दिवस (सर्वांत जास्त)';
+  }
+
+  @override
+  String sprayPhiDays(String days) {
+    return 'PHI $days दिवस';
+  }
+
+  @override
+  String get sprayDetailTitle => 'फवारणी नोंद';
+
+  @override
+  String sprayDetailWater(String litres) {
+    return 'पाणी $litres लिटर';
+  }
+
+  @override
+  String sprayDetailArea(String acres) {
+    return '$acres एकर';
+  }
+
+  @override
+  String sprayDetailOperator(String name) {
+    return 'फवारणी करणारा: $name';
+  }
+
+  @override
+  String get sprayDetailProducts => 'टाकीतील घटक';
+
+  @override
+  String get billPickManyTitle => 'या फवारणीत मिसळलेल्या बिलातील ओळी निवडा';
+
+  @override
+  String billPickMany(String count) {
+    return 'निवडलेल्या $count ओळी भरा';
+  }
 }

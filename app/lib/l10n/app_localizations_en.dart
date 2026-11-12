@@ -5245,4 +5245,72 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get billFieldNote => 'note';
+
+  @override
+  String sprayProductHeading(String n) {
+    return 'Product $n';
+  }
+
+  @override
+  String get sprayAddProduct => '+ Add another product';
+
+  @override
+  String sprayRemoveProduct(String n) {
+    return 'Remove product $n';
+  }
+
+  @override
+  String get spraySharedHeading => 'For the whole spray';
+
+  @override
+  String sprayMix(String names) {
+    return 'Mix: $names';
+  }
+
+  @override
+  String get sprayMixHeading => 'Mix:';
+
+  @override
+  String sprayMixTotal(String amount) {
+    return 'Total cost $amount';
+  }
+
+  @override
+  String sprayMixPhi(String days) {
+    return 'Waiting period of the mix: $days days (the longest)';
+  }
+
+  @override
+  String sprayPhiDays(String days) {
+    return 'PHI $days days';
+  }
+
+  @override
+  String get sprayDetailTitle => 'Spray record';
+
+  @override
+  String sprayDetailWater(String litres) {
+    return 'Water $litres L';
+  }
+
+  @override
+  String sprayDetailArea(String acres) {
+    return '$acres acres';
+  }
+
+  @override
+  String sprayDetailOperator(String name) {
+    return 'Sprayed by $name';
+  }
+
+  @override
+  String get sprayDetailProducts => 'Products in the tank';
+
+  @override
+  String get billPickManyTitle => 'Tick the bill lines mixed in this spray';
+
+  @override
+  String billPickMany(String count) {
+    return 'Fill $count selected';
+  }
 }

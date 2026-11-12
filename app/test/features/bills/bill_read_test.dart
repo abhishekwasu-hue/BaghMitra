@@ -306,6 +306,57 @@ void main() {
       expect(empty.date, isNull);
     });
 
+    test('spray mix: each picked line fills one product block (Q142)', () {
+      final r = sprayFillMany(
+        items: bill.items,
+        bill: bill,
+        // Block 0 has a typed name; nothing else is typed.
+        blocks: const [
+          {BillField.product: 'Confidor'},
+        ],
+        dateIsDefault: true,
+        firstDate: first,
+        lastDate: last,
+      );
+      expect(r.fills, [
+        {
+          BillField.active: 'imidacloprid',
+          BillField.dose: '500 ml',
+          BillField.cost: '650',
+        },
+        {
+          BillField.product: 'Ridomil Gold',
+          BillField.dose: '1 kg',
+          BillField.cost: '1500',
+        },
+      ]);
+      expect(r.date, DateTime(2026, 10, 10));
+    });
+
+    test('spray mix: a block typed in full is skipped, typed text stays', () {
+      final r = sprayFillMany(
+        items: [bill.items.last],
+        bill: bill,
+        blocks: const [
+          {
+            BillField.product: 'Captan',
+            BillField.active: 'Captan',
+            BillField.dose: '2 g',
+            BillField.cost: '450',
+          },
+          {BillField.cost: '99'},
+        ],
+        dateIsDefault: false,
+        firstDate: first,
+        lastDate: last,
+      );
+      expect(r.fills, [
+        <BillField, String>{},
+        {BillField.product: 'Ridomil Gold', BillField.dose: '1 kg'},
+      ]);
+      expect(r.date, isNull);
+    });
+
     test('rupee and quantity text has no trailing zeros', () {
       expect(rupeesFieldText(1250), '1250');
       expect(rupeesFieldText(12.5), '12.5');

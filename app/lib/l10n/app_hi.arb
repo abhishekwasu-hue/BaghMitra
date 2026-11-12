@@ -1505,5 +1505,21 @@
   "billFieldCost": "खर्च",
   "billFieldAmount": "रकम",
   "billFieldDate": "तारीख",
-  "billFieldNote": "टिप्पणी"
+  "billFieldNote": "टिप्पणी",
+  "sprayProductHeading": "घटक {n}",
+  "sprayAddProduct": "+ एक और घटक जोड़ें",
+  "sprayRemoveProduct": "घटक {n} हटाएँ",
+  "spraySharedHeading": "पूरे छिड़काव के लिए",
+  "sprayMix": "मिश्रण: {names}",
+  "sprayMixHeading": "मिश्रण:",
+  "sprayMixTotal": "कुल खर्च {amount}",
+  "sprayMixPhi": "मिश्रण की प्रतीक्षा अवधि: {days} दिन (सबसे लंबी)",
+  "sprayPhiDays": "PHI {days} दिन",
+  "sprayDetailTitle": "छिड़काव रिकॉर्ड",
+  "sprayDetailWater": "पानी {litres} लीटर",
+  "sprayDetailArea": "{acres} एकड़",
+  "sprayDetailOperator": "छिड़काव करने वाला: {name}",
+  "sprayDetailProducts": "टंकी के घटक",
+  "billPickManyTitle": "इस छिड़काव में मिलाई गई बिल की पंक्तियाँ चुनें",
+  "billPickMany": "चुनी गई {count} पंक्तियाँ भरें"
 }

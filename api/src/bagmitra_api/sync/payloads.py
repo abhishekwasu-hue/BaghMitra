@@ -133,7 +133,26 @@ class IncomePayload(RowPayload):
     paid_on: date | None = None
 
 
+class SprayProduct(BaseModel):
+    """One product of a tank mix (OPEN_QUESTIONS Q142): what was mixed into the one spray,
+    with its own dose, cost and label PHI. Extra keys are refused."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    product_name: str = Field(min_length=1, max_length=120)
+    active_ingredient: str | None = Field(default=None, min_length=1, max_length=120)
+    dose: str | None = Field(default=None, max_length=200)
+    cost_paise: Paise = 0
+    phi_days: int | None = Field(default=None, ge=0, le=365)
+
+
 class SprayRecordPayload(RowPayload):
+    """One spray. A tank mix (Q142) lists its products in `products`; the record stays one
+    spray (one date, water, area, count), its `cost_paise` is the products' sum and its
+    `phi_days` the longest PHI among them, and its product, ingredient and dose are the first
+    product's, so older apps and every total read it as before. Without `products` (null)
+    it is a single-product record, exactly as before Q142."""
+
     plot_id: uuid.UUID
     bahar_cycle_id: uuid.UUID | None = None
     sprayed_on: date
@@ -147,6 +166,28 @@ class SprayRecordPayload(RowPayload):
     phi_days: int | None = Field(default=None, ge=0, le=365)
     target: str | None = Field(default=None, max_length=120)
     bill_photo_key: str | None = Field(default=None, pattern=BILL_PHOTO_KEY_PATTERN)
+    products: list[SprayProduct] | None = Field(default=None, min_length=1, max_length=20)
+
+    @model_validator(mode="after")
+    def _mix_figures(self) -> Self:
+        """A mix's record-level figures come from its products, never from what was sent:
+        the cost is counted once (the sum) and the PHI is the strictest (the longest)."""
+        if self.products:
+            first = self.products[0]
+            self.product_name = first.product_name
+            self.active_ingredient = first.active_ingredient
+            self.dose = first.dose
+            self.cost_paise = sum(p.cost_paise for p in self.products)
+            phis = [p.phi_days for p in self.products if p.phi_days is not None]
+            self.phi_days = max(phis) if phis else None
+        return self
+
+    def to_columns(self) -> dict[str, Any]:
+        data = self.model_dump()
+        # A write from an app older than Q142 has no `products` key: keep the stored mix.
+        if "products" not in self.model_fields_set:
+            del data["products"]
+        return data
 
 
 class InputRecordPayload(RowPayload):

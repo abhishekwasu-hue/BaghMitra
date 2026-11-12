@@ -15,6 +15,7 @@ import '../../../theme/app_theme.dart';
 import '../../bills/data/bill_photos.dart';
 import '../../bills/presentation/bill_photo_field.dart';
 import '../domain/spray_check.dart';
+import 'spray_detail_screen.dart';
 import 'spray_warnings.dart';
 
 /// Spray history of one block, newest first, with offline ban / PHI flags per record.
@@ -56,66 +57,78 @@ class SprayLogScreen extends ConsumerWidget {
               itemCount: sprays.length,
               itemBuilder: (context, i) {
                 final s = sprays[i];
+                final harvest = cycles
+                    .where((cy) => cy.id == s.baharCycleId)
+                    .firstOrNull
+                    ?.planned['harvest'];
+                // Each product's own check (a tank mix, Q142); a note kind once per card.
+                final notes = {
+                  for (final ws in checkSprayProducts(
+                    s.products,
+                    sprayedOn: s.sprayedOn,
+                    plannedHarvest: harvest,
+                    crop: crop,
+                    rules: rules,
+                  ))
+                    for (final w in ws) warningText(t, w, lang).$1,
+                };
                 return Padding(
                   padding: const EdgeInsets.only(bottom: BmSpace.sm),
-                  child: BmCard(
-                    elevated: false,
-                    radius: BmRadius.card,
-                    padding: const EdgeInsets.all(BmSpace.md),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                s.productName,
-                                style: BmType.section.copyWith(color: c.ink),
-                              ),
-                              Text(
-                                [
-                                  formatDate(s.sprayedOn, lang),
-                                  if (s.target != null) s.target!,
-                                  if (s.costPaise > 0)
-                                    formatPaise(s.costPaise, lang),
-                                ].join(' · '),
-                                style: BmType.meta.copyWith(color: c.inkMuted),
-                              ),
-                              for (final w in checkSpray(
-                                activeIngredient: s.activeIngredient,
-                                sprayedOn: s.sprayedOn,
-                                phiDays: s.phiDays,
-                                plannedHarvest: cycles
-                                    .where((cy) => cy.id == s.baharCycleId)
-                                    .firstOrNull
-                                    ?.planned['harvest'],
-                                crop: crop,
-                                rules: rules,
-                              ))
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                    top: BmSpace.xs,
-                                  ),
-                                  child: Text(
-                                    warningText(t, w, lang).$1,
-                                    style: BmType.meta.copyWith(
-                                      color: c.inkMuted,
-                                    ),
+                  child: InkWell(
+                    key: Key('spray-open-${s.id}'),
+                    borderRadius: BorderRadius.circular(BmRadius.card),
+                    onTap: () => context.push(Routes.spray(plotId, s.id)),
+                    child: BmCard(
+                      elevated: false,
+                      radius: BmRadius.card,
+                      padding: const EdgeInsets.all(BmSpace.md),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  sprayTitle(t, s),
+                                  style: BmType.section.copyWith(color: c.ink),
+                                ),
+                                Text(
+                                  [
+                                    formatDate(s.sprayedOn, lang),
+                                    if (s.target != null) s.target!,
+                                    if (s.costPaise > 0)
+                                      formatPaise(s.costPaise, lang),
+                                  ].join(' · '),
+                                  style: BmType.meta.copyWith(
+                                    color: c.inkMuted,
                                   ),
                                 ),
-                            ],
+                                for (final title in notes)
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                      top: BmSpace.xs,
+                                    ),
+                                    child: Text(
+                                      title,
+                                      style: BmType.meta.copyWith(
+                                        color: c.inkMuted,
+                                      ),
+                                    ),
+                                  ),
+                              ],
+                            ),
                           ),
-                        ),
-                        if (s.hasBillPhoto) ...[
-                          const SizedBox(width: BmSpace.sm),
-                          RecordBillThumb(
-                            kind: BillKind.spray,
-                            recordId: s.id,
-                            path: s.billPhotoPath,
-                          ),
+                          if (s.hasBillPhoto) ...[
+                            const SizedBox(width: BmSpace.sm),
+                            RecordBillThumb(
+                              kind: BillKind.spray,
+                              recordId: s.id,
+                              path: s.billPhotoPath,
+                            ),
+                          ],
                         ],
-                      ],
+                      ),
                     ),
                   ),
                 );

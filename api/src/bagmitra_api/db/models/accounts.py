@@ -7,8 +7,9 @@ from __future__ import annotations
 
 import uuid
 from datetime import date
+from typing import Any
 
-from sqlalchemy import BigInteger, Date, Float, Integer, String
+from sqlalchemy import JSON, BigInteger, Date, Float, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column
 
 from bagmitra_api.db.base import Base, OwnedSyncedRowMixin
@@ -46,7 +47,8 @@ class Income(OwnedSyncedRowMixin, Base):
 
 
 class SprayRecord(OwnedSyncedRowMixin, Base):
-    """A spray application. `active_ingredient` drives the offline ban / PHI warning."""
+    """A spray application, one or several products mixed in one tank (Q142).
+    `active_ingredient` drives the offline ban / PHI warning."""
 
     __tablename__ = "spray_records"
 
@@ -64,6 +66,11 @@ class SprayRecord(OwnedSyncedRowMixin, Base):
     target: Mapped[str | None] = mapped_column(String(120))
     # Backed-up bill photo `<owner_id>/bill-<id>.jpg` (OPEN_QUESTIONS Q136).
     bill_photo_key: Mapped[str | None] = mapped_column(String(120))
+    # A tank mix (OPEN_QUESTIONS Q142): every product of the one spray,
+    # `[{"product_name", "active_ingredient", "dose", "cost_paise", "phi_days"}, ...]`; the
+    # columns above then hold the first product, the summed cost and the longest PHI. Null
+    # for a single-product record.
+    products: Mapped[list[dict[str, Any]] | None] = mapped_column(JSON)
 
 
 class InputRecord(OwnedSyncedRowMixin, Base):

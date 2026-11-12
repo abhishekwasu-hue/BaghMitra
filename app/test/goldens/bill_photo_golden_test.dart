@@ -93,6 +93,12 @@ void main() {
         if (pick != null) {
           await tester.tap(find.byKey(Key(pick)));
           await settle(tester);
+          // The spray form ticks lines, then fills (a tank mix, Q142).
+          final fill = find.byKey(const Key('bill-pick-fill'));
+          if (fill.evaluate().isNotEmpty) {
+            await tester.tap(fill);
+            await settle(tester);
+          }
         }
         // Let the thumbnail decode.
         await tester.runAsync(() async {

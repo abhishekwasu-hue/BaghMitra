@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:bagmitra/data/local/database.dart';
+import 'package:bagmitra/features/spray/data/spray_repository.dart';
 import 'package:drift/drift.dart' hide isNull;
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -18,9 +19,14 @@ const v13Tables = "('lab_tests', 'market_lots', 'market_lot_photos')";
 /// Tables added in v14 (market linkage lots and their photos).
 const v14Tables = "('market_lots', 'market_lot_photos')";
 
+/// The tank mix products column on spray records came in v17 (Q142).
+String beforeV17(String sql) =>
+    sql.replaceAll(RegExp(r',\s*"products" TEXT NULL'), '');
+
 /// The bill photo columns on expenses and spray records came in v15 (Q136).
 String beforeV15(String sql) =>
-    sql.replaceAll(RegExp(r',\s*"bill_photo_(path|key)" TEXT NULL'), '');
+    beforeV17(sql)
+        .replaceAll(RegExp(r',\s*"bill_photo_(path|key)" TEXT NULL'), '');
 
 /// Upgrading from schema v1 (M0) must keep existing data and add later tables.
 void main() {
@@ -363,6 +369,7 @@ void main() {
           "AND name NOT LIKE 'sqlite_%'",
         )
         .map((r) => r.read<String>('sql'))
+        .map(beforeV17)
         .get();
     await fresh.close();
 
@@ -406,7 +413,7 @@ void main() {
         },
       ),
     );
-    expect(db.schemaVersion, 16);
+    expect(db.schemaVersion, greaterThanOrEqualTo(16));
     final lots = {
       for (final r in await db.select(db.marketLots).get())
         r.id: (r.basis, r.askingRatePaise),
@@ -427,6 +434,54 @@ void main() {
     expect(payloads['o2'], {'basis': 'lump_sum', 'asking_rate_paise': 900});
     // Only lot payloads carry a basis; anything else is left as it is.
     expect(payloads['o3'], {'basis': 'per_tonne'});
+    await db.close();
+  });
+
+  test('v16 -> v17 adds the tank mix products column; an old spray reads as '
+      'one product (Q142)', () async {
+    final fresh = memoryDb();
+    final ddl = await fresh
+        .customSelect(
+          "SELECT sql FROM sqlite_master WHERE type = 'table' "
+          "AND name NOT LIKE 'sqlite_%'",
+        )
+        .map((r) => r.read<String>('sql'))
+        .map(beforeV17)
+        .get();
+    await fresh.close();
+    expect(ddl.join(), isNot(contains('"products"')));
+
+    driftRuntimeOptions.dontWarnAboutMultipleDatabases = true;
+    final db = AppDatabase(
+      NativeDatabase.memory(
+        setup: (raw) {
+          for (final stmt in ddl) {
+            raw.execute(stmt);
+          }
+          raw
+            ..execute(
+              'INSERT INTO spray_records (id, plot_id, sprayed_on, product_name, '
+              'active_ingredient, cost_paise, phi_days, client_updated_at) '
+              "VALUES ('s1', 'p1', '2026-01-01T00:00:00.000', 'Imida', "
+              "'imidacloprid', 65000, 15, '2026-01-01T00:00:00.000Z')",
+            )
+            ..execute('PRAGMA user_version = 16');
+        },
+      ),
+    );
+    expect(db.schemaVersion, 17);
+    final cols = await db
+        .customSelect("PRAGMA table_info('spray_records')")
+        .map((r) => r.read<String>('name'))
+        .get();
+    expect(cols, contains('products'));
+    final row = await db.select(db.sprayRecords).getSingle();
+    expect(row.products, isNull);
+    final old = await SprayRepository(db).find('s1');
+    expect(old!.isMix, isFalse);
+    expect(old.products.single.productName, 'Imida');
+    expect(old.products.single.costPaise, 65000);
+    expect(old.phiDays, 15);
     await db.close();
   });
 }

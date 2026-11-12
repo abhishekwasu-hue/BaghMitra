@@ -80,7 +80,7 @@ List<LedgerLine> buildLedger({
         i.netPaise,
       ),
     for (final s in sprays)
-      line(s.sprayedOn, labels.typeSpray, s.productName, -s.costPaise),
+      line(s.sprayedOn, labels.typeSpray, s.productsLabel, -s.costPaise),
     for (final i in inputs)
       line(
         i.appliedOn,

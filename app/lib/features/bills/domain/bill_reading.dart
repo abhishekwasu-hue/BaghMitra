@@ -114,6 +114,59 @@ typedef BillFill = Map<BillField, String>;
   return (fill: fill, date: date);
 }
 
+/// Product fields of the spray form a bill line can fill.
+const sprayProductFields = [
+  BillField.product,
+  BillField.active,
+  BillField.dose,
+  BillField.cost,
+];
+
+/// The spray form's product blocks (a tank mix, Q142) from several picked bill lines: each
+/// line fills one block, in order, with [sprayFill]'s rule (only empty fields). A block
+/// whose product fields are all typed already can take nothing, so the line goes to the
+/// next one; lines left over get new blocks. [blocks] holds each block's current product
+/// fields. [fills] is index-aligned with the blocks (longer than [blocks] when new ones are
+/// needed; an untouched block has an empty fill).
+({List<BillFill> fills, DateTime? date}) sprayFillMany({
+  required List<BillItem> items,
+  required BillReading bill,
+  required List<Map<BillField, String>> blocks,
+  required bool dateIsDefault,
+  required DateTime firstDate,
+  required DateTime lastDate,
+}) {
+  bool full(Map<BillField, String> b) =>
+      sprayProductFields.every((f) => (b[f] ?? '').isNotEmpty);
+  final fills = [for (final _ in blocks) <BillField, String>{}];
+  var next = 0;
+  DateTime? date;
+  for (final item in items) {
+    while (next < blocks.length && full(blocks[next])) {
+      next++;
+    }
+    final current = next < blocks.length
+        ? blocks[next]
+        : const <BillField, String>{};
+    final r = sprayFill(
+      item: item,
+      bill: bill,
+      current: current,
+      dateIsDefault: dateIsDefault,
+      firstDate: firstDate,
+      lastDate: lastDate,
+    );
+    if (next < fills.length) {
+      fills[next] = r.fill;
+    } else {
+      fills.add(r.fill);
+    }
+    date ??= r.date;
+    next++;
+  }
+  return (fills: fills, date: date);
+}
+
 /// The expense form ("खर्च जोडा") from the bill: the amount of the picked line, or the bill
 /// total when [item] is null; the date; and a note `item · bill label` where
 /// [billLabel] is the localised `shop बिल #no` (null when the bill has neither).

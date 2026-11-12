@@ -9146,6 +9146,102 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'note'**
   String get billFieldNote;
+
+  /// No description provided for @sprayProductHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Product {n}'**
+  String sprayProductHeading(String n);
+
+  /// No description provided for @sprayAddProduct.
+  ///
+  /// In en, this message translates to:
+  /// **'+ Add another product'**
+  String get sprayAddProduct;
+
+  /// No description provided for @sprayRemoveProduct.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove product {n}'**
+  String sprayRemoveProduct(String n);
+
+  /// No description provided for @spraySharedHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'For the whole spray'**
+  String get spraySharedHeading;
+
+  /// No description provided for @sprayMix.
+  ///
+  /// In en, this message translates to:
+  /// **'Mix: {names}'**
+  String sprayMix(String names);
+
+  /// No description provided for @sprayMixHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Mix:'**
+  String get sprayMixHeading;
+
+  /// No description provided for @sprayMixTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Total cost {amount}'**
+  String sprayMixTotal(String amount);
+
+  /// No description provided for @sprayMixPhi.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting period of the mix: {days} days (the longest)'**
+  String sprayMixPhi(String days);
+
+  /// No description provided for @sprayPhiDays.
+  ///
+  /// In en, this message translates to:
+  /// **'PHI {days} days'**
+  String sprayPhiDays(String days);
+
+  /// No description provided for @sprayDetailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Spray record'**
+  String get sprayDetailTitle;
+
+  /// No description provided for @sprayDetailWater.
+  ///
+  /// In en, this message translates to:
+  /// **'Water {litres} L'**
+  String sprayDetailWater(String litres);
+
+  /// No description provided for @sprayDetailArea.
+  ///
+  /// In en, this message translates to:
+  /// **'{acres} acres'**
+  String sprayDetailArea(String acres);
+
+  /// No description provided for @sprayDetailOperator.
+  ///
+  /// In en, this message translates to:
+  /// **'Sprayed by {name}'**
+  String sprayDetailOperator(String name);
+
+  /// No description provided for @sprayDetailProducts.
+  ///
+  /// In en, this message translates to:
+  /// **'Products in the tank'**
+  String get sprayDetailProducts;
+
+  /// No description provided for @billPickManyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Tick the bill lines mixed in this spray'**
+  String get billPickManyTitle;
+
+  /// No description provided for @billPickMany.
+  ///
+  /// In en, this message translates to:
+  /// **'Fill {count} selected'**
+  String billPickMany(String count);
 }
 
 class _AppLocalizationsDelegate

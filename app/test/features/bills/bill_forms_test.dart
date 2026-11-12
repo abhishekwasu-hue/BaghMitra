@@ -59,11 +59,22 @@ Future<void> attach(WidgetTester tester, {bool gallery = false}) async {
   await settle(tester);
 }
 
-Future<void> fillFromBill(WidgetTester tester, {String? pick}) async {
+/// Reads the bill and picks [pick] (or, on the spray form, ticks every line in [picks]
+/// and fills: a tank mix, Q142).
+Future<void> fillFromBill(
+  WidgetTester tester, {
+  String? pick,
+  List<String> picks = const [],
+}) async {
   await tester.tap(find.byKey(const Key('bill-fill')));
   await settle(tester);
-  if (pick != null) {
-    await tester.tap(find.byKey(Key(pick)));
+  for (final p in [?pick, ...picks]) {
+    await tester.tap(find.byKey(Key(p)));
+    await settle(tester);
+  }
+  final fill = find.byKey(const Key('bill-pick-fill'));
+  if ((pick != null || picks.isNotEmpty) && fill.evaluate().isNotEmpty) {
+    await tester.tap(fill);
     await settle(tester);
   }
 }
@@ -150,7 +161,17 @@ void main() {
       expect(find.text('Imida 17.8 SL'), findsOneWidget);
       expect(find.text('₹650'), findsOneWidget);
       expect(find.byKey(const Key('bill-pick-total')), findsNothing);
+      // Nothing ticked yet: nothing to fill.
+      expect(
+        tester
+            .widget<FilledButton>(find.byKey(const Key('bill-pick-fill')))
+            .onPressed,
+        isNull,
+      );
       await tester.tap(find.byKey(const Key('bill-pick-0')));
+      await settle(tester);
+      expect(find.text('Fill 1 selected'), findsOneWidget);
+      await tester.tap(find.byKey(const Key('bill-pick-fill')));
       await settle(tester);
 
       expect(field(tester, 'spray-product'), 'Confidor'); // typed: kept
@@ -170,18 +191,28 @@ void main() {
       );
       expect(server.requests.single.url.path, '/v1/bills/read');
 
-      // A second pick changes nothing that is now filled.
+      // A second pick: the first product is full now, so the line becomes a second
+      // product (a tank mix, Q142); the first stays as it is.
       await fillFromBill(tester, pick: 'bill-pick-1');
       expect(field(tester, 'spray-dose'), '500 ml');
-      expect(find.byKey(const Key('bill-note-nothingFilled')), findsOneWidget);
+      expect(field(tester, 'spray-product-1'), 'Ridomil Gold');
+      expect(field(tester, 'spray-dose-1'), '1 kg');
+      expect(field(tester, 'spray-cost-1'), '1500');
 
       await tester.tap(find.text('Save'));
       await settle(tester);
       final payload = await lastPayload(db, SprayRepository.entity);
       expect(payload['product_name'], 'Confidor');
       expect(payload['sprayed_on'], '2026-10-10');
-      expect(payload['cost_paise'], 65000);
+      expect(payload['cost_paise'], 65000 + 150000);
       expect(payload['active_ingredient'], 'Imidacloprid');
+      expect(
+        [
+          for (final p in payload['products']! as List)
+            (p as Map)['product_name'],
+        ],
+        ['Confidor', 'Ridomil Gold'],
+      );
       await unmountApp(tester);
     });
 
