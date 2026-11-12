@@ -1133,8 +1133,19 @@
         "type": "object"
       },
       "ArticleOut": {
-        "description": "Spec v1.6: the AI article from the official source, in the asked language.",
+        "description": "Spec v1.6: the AI article from the official source, in the asked language; also the\nknowledge article (ज्ञान लेख, Q141: sections and sources, the other lists empty).",
         "properties": {
+          "card_section": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Card Section"
+          },
           "charts": {
             "items": {
               "$ref": "#/components/schemas/ArticleChartOut"
@@ -17903,7 +17914,8 @@
                     "official",
                     "scheme",
                     "deadline",
-                    "news"
+                    "news",
+                    "knowledge"
                   ],
                   "type": "string"
                 },

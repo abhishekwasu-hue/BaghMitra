@@ -87,6 +87,25 @@ def test_feed_threads_migration_up_and_down(tmp_path: Path) -> None:
     engine.dispose()
 
 
+def test_feed_knowledge_migration_up_and_down(tmp_path: Path) -> None:
+    """0048 (Q141): the knowledge job's decision table comes and goes."""
+    url = f"sqlite+aiosqlite:///{tmp_path / 'k.db'}"
+    cfg = _config(url)
+    engine = create_engine(_sync_url(url))
+
+    def exists() -> bool:
+        with engine.connect() as conn:
+            return "feed_knowledge_runs" in inspect(conn).get_table_names()
+
+    command.upgrade(cfg, "0048")
+    assert exists()
+    command.downgrade(cfg, "0047")
+    assert not exists()
+    command.upgrade(cfg, "0048")
+    assert exists()
+    engine.dispose()
+
+
 def test_every_model_declares_its_rls_kind() -> None:
     """Each table is owner-scoped (owner_column), read-only reference data, private, or has
     its own policies (custom_rls: market linkage, migrations 0029-0030)."""

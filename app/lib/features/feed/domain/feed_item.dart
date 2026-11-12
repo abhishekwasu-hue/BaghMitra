@@ -52,7 +52,7 @@ class FeedItem {
 
   final String id;
 
-  /// `gr`, `circular`, `scheme`, `alert` or `news`.
+  /// `gr`, `circular`, `scheme`, `alert`, `news` or `knowledge` (a ज्ञान लेख, Q141).
   final String type;
 
   /// `official` or `news`.
@@ -82,6 +82,10 @@ class FeedItem {
   final String? threadId;
 
   bool get isOfficial => trust == 'official';
+
+  /// A ज्ञान लेख (owner 2026-11-11, Q141): written from our checked cards and their open
+  /// sources (or an official item's own text), never presented as news or as a GR.
+  bool get isKnowledge => type == 'knowledge';
 
   bool get isWithdrawn => replacedBy != null;
 
@@ -328,17 +332,19 @@ enum FeedFilter {
   official('official'),
   scheme('scheme'),
   deadline('deadline'),
-  news('news');
+  news('news'),
+  knowledge('knowledge');
 
   const FeedFilter(this.value);
 
   final String value;
 
   bool matches(FeedItem i) => switch (this) {
-    FeedFilter.official => i.isOfficial,
+    FeedFilter.official => i.isOfficial && !i.isKnowledge,
     FeedFilter.scheme => i.type == 'scheme',
     FeedFilter.deadline => i.deadline != null,
-    FeedFilter.news => !i.isOfficial,
+    FeedFilter.news => !i.isOfficial && !i.isKnowledge,
+    FeedFilter.knowledge => i.isKnowledge,
   };
 }
 

@@ -210,6 +210,9 @@ class Settings(BaseSettings):
     feed_ai_daily_items: int = Field(default=30, ge=0)
     # Owner Q127: a checked article is published without review; false = human approval.
     feed_auto_publish: bool = True
+    # Knowledge articles (owner 2026-11-11, Q141): the daily job's kill switch; the same
+    # CRON_FEED_KNOWLEDGE in deploy/.env also removes its cron line. No weekly cap (owner).
+    cron_feed_knowledge: bool = True
     feed_ai_timeout_seconds: float = 60.0
     # Source text sent to the model is cut to this many characters (cost bound).
     feed_ai_max_source_chars: int = 60_000

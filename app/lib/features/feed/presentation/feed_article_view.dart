@@ -1,7 +1,10 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../app/router.dart';
 import '../../../core/formatting.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
@@ -10,11 +13,19 @@ import '../domain/feed_article.dart';
 /// The AI article of a feed item (spec v1.6): a byline saying it was written by AI from
 /// official sources, key points, sections, a facts table, bar / pie charts drawn here (no
 /// chart package), key dates and the sources. Every chart is also read out as text.
+/// A knowledge article (ज्ञान लेख, Q141, [knowledge]) has its own byline, its sections and
+/// sources (a tap copies the link), and "कार्ड उघडा" to the practice card it came from.
 class FeedArticleView extends StatelessWidget {
-  const FeedArticleView({super.key, required this.article, required this.lang});
+  const FeedArticleView({
+    super.key,
+    required this.article,
+    required this.lang,
+    this.knowledge = false,
+  });
 
   final FeedArticle article;
   final String lang;
+  final bool knowledge;
 
   @override
   Widget build(BuildContext context) {
@@ -25,46 +36,56 @@ class FeedArticleView extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
+          // The knowledge byline runs to three lines: the icon stays at its first line.
+          crossAxisAlignment: knowledge
+              ? CrossAxisAlignment.start
+              : CrossAxisAlignment.center,
           children: [
-            Icon(Icons.newspaper_rounded, size: 18, color: c.inkMuted),
+            Icon(
+              knowledge ? Icons.menu_book_rounded : Icons.newspaper_rounded,
+              size: 18,
+              color: c.inkMuted,
+            ),
             const SizedBox(width: BmSpace.xxs),
             Expanded(
               child: Text(
-                t.feedArticleByline,
+                knowledge ? t.feedKnowledgeByline : t.feedArticleByline,
                 style: BmType.meta.copyWith(color: c.inkMuted),
               ),
             ),
           ],
         ),
-        const SizedBox(height: BmSpace.md),
-        _Panel(
-          title: t.feedArticleKeyPoints,
-          tint: c.brandSoft,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              for (final point in article.keyPoints)
-                Padding(
-                  padding: const EdgeInsets.only(top: BmSpace.xxs),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 7),
-                        child: Icon(
-                          Icons.circle,
-                          size: 8,
-                          color: c.brandStrong,
+        if (article.keyPoints.isNotEmpty) ...[
+          const SizedBox(height: BmSpace.md),
+          _Panel(
+            title: t.feedArticleKeyPoints,
+            tint: c.brandSoft,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                for (final point in article.keyPoints)
+                  Padding(
+                    padding: const EdgeInsets.only(top: BmSpace.xxs),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 7),
+                          child: Icon(
+                            Icons.circle,
+                            size: 8,
+                            color: c.brandStrong,
+                          ),
                         ),
-                      ),
-                      const SizedBox(width: BmSpace.xs),
-                      Expanded(child: Text(point, style: BmType.body)),
-                    ],
+                        const SizedBox(width: BmSpace.xs),
+                        Expanded(child: Text(point, style: BmType.body)),
+                      ],
+                    ),
                   ),
-                ),
-            ],
+              ],
+            ),
           ),
-        ),
+        ],
         for (final s in article.sections) ...[
           const SizedBox(height: BmSpace.md),
           Text(s.heading, style: BmType.cardTitle),
@@ -119,25 +140,85 @@ class FeedArticleView extends StatelessWidget {
         if (article.sources.isNotEmpty) ...[
           const SizedBox(height: BmSpace.md),
           Text(t.feedArticleSources, style: BmType.bodyStrong),
-          for (final s in article.sources)
-            Padding(
-              padding: const EdgeInsets.only(top: BmSpace.xxs),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Icon(Icons.link_rounded, size: 18, color: c.inkMuted),
-                  const SizedBox(width: BmSpace.xxs),
-                  Expanded(
-                    child: SelectableText(
-                      '${s.title}\n${Uri.tryParse(s.url)?.host ?? s.url}',
-                      style: BmType.meta,
+          for (final (i, s) in article.sources.indexed)
+            if (knowledge)
+              _SourceRow(key: Key('feed-knowledge-source-$i'), source: s)
+            else
+              Padding(
+                padding: const EdgeInsets.only(top: BmSpace.xxs),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Icon(Icons.link_rounded, size: 18, color: c.inkMuted),
+                    const SizedBox(width: BmSpace.xxs),
+                    Expanded(
+                      child: SelectableText(
+                        '${s.title}\n${Uri.tryParse(s.url)?.host ?? s.url}',
+                        style: BmType.meta,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
+        ],
+        if (knowledge && article.cardSection != null) ...[
+          const SizedBox(height: BmSpace.md),
+          OutlinedButton.icon(
+            key: const Key('feed-knowledge-card'),
+            icon: const Icon(Icons.menu_book_outlined),
+            label: Text(t.feedKnowledgeOpenCard),
+            onPressed: () =>
+                context.push(Routes.practicesSection(article.cardSection!)),
+          ),
         ],
       ],
+    );
+  }
+}
+
+/// One source of a knowledge article: its title and site; a tap copies the full link (the
+/// app opens no browser), at least 48 dp tall.
+class _SourceRow extends StatelessWidget {
+  const _SourceRow({super.key, required this.source});
+
+  final ({String title, String url}) source;
+
+  @override
+  Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+    final c = context.bm;
+    return Semantics(
+      button: true,
+      hint: t.feedCopyLink,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(BmRadius.chip),
+        onTap: () async {
+          await Clipboard.setData(ClipboardData(text: source.url));
+          if (context.mounted) {
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text(t.feedLinkCopied)));
+          }
+        },
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(minHeight: BmSpace.tapTarget),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: BmSpace.xxs),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Icon(Icons.link_rounded, size: 18, color: c.brandStrong),
+                const SizedBox(width: BmSpace.xxs),
+                Expanded(
+                  child: Text(
+                    '${source.title}\n${Uri.tryParse(source.url)?.host ?? source.url}',
+                    style: BmType.meta.copyWith(color: c.brandStrong),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

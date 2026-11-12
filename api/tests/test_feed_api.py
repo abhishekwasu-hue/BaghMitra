@@ -768,8 +768,10 @@ def test_text_cap_default() -> None:
 
 def test_every_seeded_source_says_central_or_state() -> None:
     """Owner 2026-11-09: the feed tells Central Government items from Maharashtra ones."""
-    levels = {s["key"]: s["level"] for s in source_seeds()}
+    levels = {s["key"]: s["level"] for s in source_seeds() if s["tier"] != "knowledge"}
     assert set(levels.values()) == {"central", "state"}
+    # Q141: our own knowledge articles are neither Central nor State government items.
+    assert {s["level"] for s in source_seeds() if s["tier"] == "knowledge"} == {None}
     assert levels["pib_agriculture_news"] == "central"
     assert levels["pm_kisan"] == "central"
     assert levels["mh_gr_portal"] == "state"

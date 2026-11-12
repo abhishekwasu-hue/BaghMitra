@@ -69,6 +69,7 @@ cd /opt/bagmitra && bash deploy/deploy.sh
 | KB कार्डांची रात्रीची फेरतपासणी (`kb.regate`) | नेहमी (बंद: `CRON_KB_REGATE=off`) | रोज 20:50 = 02:20 | `/var/log/bagmitra-kb-regate.log` |
 | सरकारी सूचनांच्या आठवणी (`feed.alert_job`) | नेहमी (बंद: `CRON_FEED_ALERTS=off`) | रोज 03:17 व 11:17 = 08:47 व 16:47 | `/var/log/bagmitra-feed-alerts.log` |
 | बातम्यांचे मथळे (`feed.news_job`) | नेहमी (बंद: `CRON_FEED_NEWS=off`); अटी `allowed` असलेल्या स्रोतांकडूनच मथळे येतात | दर ६ तासांनी 01:23, 07:23, 13:23, 19:23 | `/var/log/bagmitra-feed-news.log` |
+| ज्ञान लेख (`feed.knowledge`, Q141) | नेहमी (बंद: `CRON_FEED_KNOWLEDGE=off`); `FEED_AI_API_KEY` असेल तरच लेख लिहिले जातात; परिस्थितीनुसार लेख, आठवड्याची मर्यादा नाही | रोज 02:11 = 07:41 | `/var/log/bagmitra-feed-knowledge.log` |
 | sync इतिहासातील जुना मजकूर पुसणे (`sync.retention`) | नेहमी (बंद: `CRON_SYNC_RETENTION=off`); `SYNC_PAYLOAD_RETENTION_DAYS` (default 90) दिवसांपेक्षा जुन्या बदलांचा मजकूर hash मध्ये बदलतो | रोज 22:13 = 03:43 | `/var/log/bagmitra-sync-retention.log` |
 | खाते काढलेल्या व्यक्तीची बाजार-जोडणी माहिती पुसणे (`market_link.erase_job`) | नेहमी (बंद: `CRON_MARKET_LINK_ERASE=off`); माहिती लगेच लपते आणि `MARKET_LINK_ERASE_AFTER_DAYS` (default 180) दिवसांनी पुसली जाते | रोज 22:41 = 04:11 | `/var/log/bagmitra-market-link-erase.log` |
 | बाजार जोडणी: वर्षाने पुन्हा तपासायच्या नोंदींची यादी (`market_link.recheck_job`) | नेहमी (बंद: `CRON_ML_RECHECK=off`); `MARKET_LINK_ENABLED` बंद असताना काहीच करत नाही; `MARKET_LINK_RECHECK_DAYS` (default 365) दिवसांपेक्षा जुन्या तपासण्या admin च्या यादीत येतात | रोज 23:19 = 04:49 | `/var/log/bagmitra-ml-recheck.log` |
@@ -77,11 +78,14 @@ cd /opt/bagmitra && bash deploy/deploy.sh
   ("... cron line added").
 - बंद करणे: `deploy/.env` मध्ये उदा. `CRON_FEED_NEWS=off` (`off` / `false` / `no` / `0` चालते) लिहा आणि पुन्हा
   deploy: "... cron line removed" दिसते.
+- नवीन कामाची cron ओळ त्याच deploy मध्ये लागते: `git pull` नंतर `deploy.sh` स्वतःची नवी प्रत एकदाच पुन्हा चालवते
+  ("running the updated deploy script"). अपवाद: ही सोय ज्या deploy मध्ये पहिल्यांदा येते, तो deploy अजून जुनी प्रत
+  चालवतो, म्हणून तेव्हाची नवी ओळ पुढच्या deploy ला लागते.
 - तपासणे: `crontab -l | grep bagmitra`. एखादे काम हाताने आत्ता चालवायचे असेल तर, उदा.
   `cd /opt/bagmitra/deploy && docker compose exec -T api python -m bagmitra_api.market.pull_job`
   (शेवटी JSON सारांश; बाजारभाव key टाकल्यावर एकदा असे चालवा म्हणजे पहिल्या ठरलेल्या वेळेआधीच भाव दिसतात).
 - हवामान: `docs/runbooks/weather-pull.md`. बाजारभाव: `docs/runbooks/market-prices.md`. सरकारी सूचना व बातम्या:
-  `docs/runbooks/govt-feed.md` §8–§9. फोनवर push सूचना Firebase key मिळाल्यावरच (Q32); तोपर्यंत आठवणींचे काम
+  `docs/runbooks/govt-feed.md` §8–§9, ज्ञान लेख §13. फोनवर push सूचना Firebase key मिळाल्यावरच (Q32); तोपर्यंत आठवणींचे काम
   फक्त नियोजन करते.
 
 ## ६अ-२. त्रुटी अहवाल (ऐच्छिक, Sentry)

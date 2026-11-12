@@ -29,7 +29,8 @@ from sqlalchemy.orm import Mapped, mapped_column
 
 from bagmitra_api.db.base import Base, TimestampMixin, utcnow
 
-ITEM_TYPES = ("gr", "circular", "scheme", "alert", "news")
+# "knowledge": a ज्ञान लेख written by the knowledge job (owner 2026-11-11), never uploaded.
+ITEM_TYPES = ("gr", "circular", "scheme", "alert", "news", "knowledge")
 ITEM_STATUSES = ("draft", "in_review", "published", "withdrawn", "held")
 LANGS = ("en", "mr", "hi")
 # feed_deadlines.kind, derived on publish: deadline -> apply_by, valid_from -> window_open,
@@ -225,3 +226,26 @@ class FeedPreferences(TimestampMixin, Base):
     opted_out: Mapped[list[str]] = mapped_column(JSON, default=list)
     digest_weekly: Mapped[bool] = mapped_column(default=True)
     last_digest_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+
+
+class FeedKnowledgeRun(Base):
+    """One decision of the knowledge job for one topic (owner 2026-11-11): what triggered it,
+    the hash of the input it would write from, the window the topic is current for and the
+    outcome. The dedupe reads it (a topic is not written again while its window is current or
+    within 30 days, unless the input changed). Append-only except `window_end`, which a still
+    active risk alert extends. Service-only."""
+
+    __tablename__ = "feed_knowledge_runs"
+    private_table = True
+
+    id: Mapped[uuid.UUID] = mapped_column(primary_key=True)
+    # e.g. "risk:psylla_degree_days", "stage:santra:ambia:stress_start", "scheme:<item id>"
+    topic_key: Mapped[str] = mapped_column(String(160), index=True)
+    # risk | stage | scheme
+    trigger: Mapped[str] = mapped_column(String(16))
+    source_hash: Mapped[str] = mapped_column(String(64))
+    window_end: Mapped[date | None] = mapped_column(Date)
+    item_id: Mapped[uuid.UUID | None] = mapped_column(ForeignKey("feed_items.id"), index=True)
+    # published | held | review | not_relevant | no_input | retry
+    result: Mapped[str] = mapped_column(String(16))
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)

@@ -1923,6 +1923,23 @@ class AppLocalizationsEn extends AppLocalizations {
   String get feedFilterNews => 'News';
 
   @override
+  String get feedFilterKnowledge => 'Knowledge';
+
+  @override
+  String get feedBadgeKnowledge => 'Knowledge article';
+
+  @override
+  String get feedKnowledgeByline =>
+      'BagMitra · written by AI only from checked cards and their open sources; every number checked against the source';
+
+  @override
+  String get feedKnowledgeOpenCard => 'Open the card';
+
+  @override
+  String get feedKnowledgeNote =>
+      'General information. Ask your KVK or agriculture officer before acting.';
+
+  @override
   String get feedBadgeOfficial => 'Official';
 
   @override

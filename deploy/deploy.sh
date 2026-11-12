@@ -9,9 +9,10 @@
 # It checks .env, pulls the code, rebuilds and restarts the containers (migrations run on
 # start), waits until https://$API_DOMAIN/health/ready answers (API and database up), and adds
 # the daily weather and nightly backup cron lines once, plus each scheduled job whose switch
-# in .env is on (market pull, feed reminders, feed news, KB re-gate, sync retention;
-# install_cron), and keeps the job logs rotated (install_logrotate). It never prints .env
-# values.
+# in .env is on (market pull, feed reminders, feed news, knowledge articles, KB re-gate, sync
+# retention; install_cron), and keeps the job logs rotated (install_logrotate). After the pull it
+# runs the pulled copy of itself, so new steps and cron lines apply in the same deploy. It never
+# prints .env values.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -34,6 +35,9 @@ FEED_ALERTS_CRON_LINE="17 3,11 * * * $JOB bagmitra_api.feed.alert_job >> /var/lo
 # News headlines (govt-feed.md §9): every 6 h at 01:23, 07:23, 13:23, 19:23 UTC; on with
 # CRON_FEED_NEWS=on (only after the source terms are recorded).
 FEED_NEWS_CRON_LINE="23 1,7,13,19 * * * $JOB bagmitra_api.feed.news_job >> /var/log/bagmitra-feed-news.log 2>&1"
+# Knowledge articles (govt-feed.md §13, Q141): daily 02:11 UTC (07:41 IST), after the 00:00 UTC
+# weather pull so its risk alerts are fresh; on unless CRON_FEED_KNOWLEDGE=off.
+FEED_KNOWLEDGE_CRON_LINE="11 2 * * * $JOB bagmitra_api.feed.knowledge >> /var/log/bagmitra-feed-knowledge.log 2>&1"
 # Weather / risk alert pushes (push/deliver.py): 01:37 UTC (07:07 IST), after the 00:00 UTC
 # weather pull and just after the default quiet hours (21:00-07:00 IST); on once FCM_PROJECT_ID is set.
 PUSH_DELIVER_CRON_LINE="37 1 * * * $JOB bagmitra_api.push.deliver >> /var/log/bagmitra-push-deliver.log 2>&1"
@@ -213,6 +217,8 @@ install_cron() {
   cron_job_if "$on" "bagmitra_api.feed.alert_job" "$FEED_ALERTS_CRON_LINE" "feed reminders (03:17, 11:17 UTC)"
   on=1; switch_on CRON_FEED_NEWS && on=0
   cron_job_if "$on" "bagmitra_api.feed.news_job" "$FEED_NEWS_CRON_LINE" "feed news (every 6 h)"
+  on=1; switch_on CRON_FEED_KNOWLEDGE && on=0
+  cron_job_if "$on" "bagmitra_api.feed.knowledge" "$FEED_KNOWLEDGE_CRON_LINE" "knowledge articles (daily 02:11 UTC)"
   on=1; switch_on CRON_KB_REGATE && on=0
   cron_job_if "$on" "bagmitra_api.kb.regate" "$KB_REGATE_CRON_LINE" "KB re-gate (nightly 20:50 UTC)"
   on=1; switch_on CRON_SYNC_RETENTION && on=0
@@ -268,12 +274,24 @@ update_admin_web() {
 
 main() {
   case "${1:-}" in
-    "" | --revert) ;;
+    "" | --revert | --after-pull) ;;
     status) check_env > /dev/null; compose ps; exit 0 ;;
     *) fail "usage: bash deploy/deploy.sh [--revert|status]" ;;
   esac
   check_env
-  update_code "${1:-}"
+  if [[ "${1:-}" == "--after-pull" ]]; then
+    echo "running the updated deploy script"
+  else
+    update_code "${1:-}"
+    # bash already holds this run's functions from the copy it read before the pull, so a cron
+    # line or step added by the pulled code would only run on the next deploy. Run the pulled
+    # script for the rest instead (once: the variable stops a second re-run). A revert keeps
+    # going with this script: the older one may not know --after-pull.
+    if [[ -z "${1:-}" && -z "${BAGMITRA_DEPLOY_REEXEC:-}" ]]; then
+      export BAGMITRA_DEPLOY_REEXEC=1
+      exec bash "$DEPLOY/deploy.sh" --after-pull
+    fi
+  fi
   update_admin_web
   restart
   wait_healthy

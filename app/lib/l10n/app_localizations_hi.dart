@@ -1920,6 +1920,23 @@ class AppLocalizationsHi extends AppLocalizations {
   String get feedFilterNews => 'ख़बरें';
 
   @override
+  String get feedFilterKnowledge => 'ज्ञान';
+
+  @override
+  String get feedBadgeKnowledge => 'ज्ञान लेख';
+
+  @override
+  String get feedKnowledgeByline =>
+      'BagMitra · जाँचे गए कार्ड और उनके खुले स्रोतों से ही AI द्वारा लिखा; हर संख्या स्रोत से जाँची गई';
+
+  @override
+  String get feedKnowledgeOpenCard => 'कार्ड खोलें';
+
+  @override
+  String get feedKnowledgeNote =>
+      'यह सामान्य जानकारी है। कुछ करने से पहले अपने KVK या कृषि अधिकारी से पूछें।';
+
+  @override
   String get feedBadgeOfficial => 'आधिकारिक';
 
   @override

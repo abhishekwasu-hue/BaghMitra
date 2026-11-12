@@ -2479,6 +2479,7 @@ extension $ArticleFactOutExtension on ArticleFactOut {
 @JsonSerializable(explicitToJson: true)
 class ArticleOut {
   const ArticleOut({
+    this.cardSection,
     required this.charts,
     required this.facts,
     required this.headline,
@@ -2495,6 +2496,8 @@ class ArticleOut {
   static const toJsonFactory = _$ArticleOutToJson;
   Map<String, dynamic> toJson() => _$ArticleOutToJson(this);
 
+  @JsonKey(name: 'card_section', includeIfNull: false)
+  final String? cardSection;
   @JsonKey(
     name: 'charts',
     includeIfNull: false,
@@ -2537,6 +2540,11 @@ class ArticleOut {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other is ArticleOut &&
+            (identical(other.cardSection, cardSection) ||
+                const DeepCollectionEquality().equals(
+                  other.cardSection,
+                  cardSection,
+                )) &&
             (identical(other.charts, charts) ||
                 const DeepCollectionEquality().equals(other.charts, charts)) &&
             (identical(other.facts, facts) ||
@@ -2578,6 +2586,7 @@ class ArticleOut {
 
   @override
   int get hashCode =>
+      const DeepCollectionEquality().hash(cardSection) ^
       const DeepCollectionEquality().hash(charts) ^
       const DeepCollectionEquality().hash(facts) ^
       const DeepCollectionEquality().hash(headline) ^
@@ -2591,6 +2600,7 @@ class ArticleOut {
 
 extension $ArticleOutExtension on ArticleOut {
   ArticleOut copyWith({
+    String? cardSection,
     List<ArticleChartOut>? charts,
     List<ArticleFactOut>? facts,
     String? headline,
@@ -2601,6 +2611,7 @@ extension $ArticleOutExtension on ArticleOut {
     String? standfirst,
   }) {
     return ArticleOut(
+      cardSection: cardSection ?? this.cardSection,
       charts: charts ?? this.charts,
       facts: facts ?? this.facts,
       headline: headline ?? this.headline,
@@ -2613,6 +2624,7 @@ extension $ArticleOutExtension on ArticleOut {
   }
 
   ArticleOut copyWithWrapped({
+    Wrapped<String?>? cardSection,
     Wrapped<List<ArticleChartOut>>? charts,
     Wrapped<List<ArticleFactOut>>? facts,
     Wrapped<String>? headline,
@@ -2623,6 +2635,7 @@ extension $ArticleOutExtension on ArticleOut {
     Wrapped<String>? standfirst,
   }) {
     return ArticleOut(
+      cardSection: (cardSection != null ? cardSection.value : this.cardSection),
       charts: (charts != null ? charts.value : this.charts),
       facts: (facts != null ? facts.value : this.facts),
       headline: (headline != null ? headline.value : this.headline),

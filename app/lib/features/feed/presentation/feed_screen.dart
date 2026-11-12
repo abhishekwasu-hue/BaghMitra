@@ -58,6 +58,7 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
       FeedFilter.scheme: t.feedFilterSchemes,
       FeedFilter.deadline: t.feedFilterDeadlines,
       FeedFilter.news: t.feedFilterNews,
+      FeedFilter.knowledge: t.feedFilterKnowledge,
     };
 
     // The filters and notes above the items; the items are built as they scroll in.
@@ -132,40 +133,45 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
             }
             return Padding(
               padding: const EdgeInsets.only(top: BmSpace.sm),
-              child: InkWell(
-                key: Key('feed-item-${item.id}'),
-                borderRadius: BorderRadius.circular(BmRadius.tile),
-                onTap: () => context.push(Routes.feedItem(item.id)),
-                child: Ink(
-                  decoration: BoxDecoration(
-                    color: c.card,
-                    borderRadius: BorderRadius.circular(BmRadius.tile),
-                    border: Border.all(color: c.line),
-                  ),
-                  padding: const EdgeInsets.all(BmSpace.md),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: _ItemBody(item: item, now: now, lang: lang),
-                      ),
-                      if (!item.seen && !receipts.seen.contains(item.id))
-                        Padding(
-                          padding: const EdgeInsets.only(left: BmSpace.xs),
-                          child: Semantics(
-                            label: t.feedUnseen,
-                            child: Container(
-                              key: Key('feed-unseen-${item.id}'),
-                              width: 10,
-                              height: 10,
-                              decoration: BoxDecoration(
-                                color: c.accent,
-                                shape: BoxShape.circle,
+              // Its own Material: an Ink decoration painted on the page's Material stays
+              // where it was when the list head changes height (the ज्ञान chip wrapping to a
+              // new row left the cards' boxes behind their text).
+              child: Material(
+                color: c.card,
+                clipBehavior: Clip.antiAlias,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(BmRadius.tile),
+                  side: BorderSide(color: c.line),
+                ),
+                child: InkWell(
+                  key: Key('feed-item-${item.id}'),
+                  onTap: () => context.push(Routes.feedItem(item.id)),
+                  child: Padding(
+                    padding: const EdgeInsets.all(BmSpace.md),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: _ItemBody(item: item, now: now, lang: lang),
+                        ),
+                        if (!item.seen && !receipts.seen.contains(item.id))
+                          Padding(
+                            padding: const EdgeInsets.only(left: BmSpace.xs),
+                            child: Semantics(
+                              label: t.feedUnseen,
+                              child: Container(
+                                key: Key('feed-unseen-${item.id}'),
+                                width: 10,
+                                height: 10,
+                                decoration: BoxDecoration(
+                                  color: c.accent,
+                                  shape: BoxShape.circle,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -266,6 +272,7 @@ class FeedBadge extends StatelessWidget {
       'state' => t.feedLevelState,
       _ => null,
     };
+    if (item.isKnowledge) return [t.feedBadgeKnowledge, date].join(' · ');
     if (!item.isOfficial) {
       return [t.feedBadgeNews, ?level, date].join(' · ');
     }
@@ -282,14 +289,29 @@ class FeedBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
     final c = context.bm;
-    final official = item.isOfficial;
+    final knowledge = item.isKnowledge;
+    final official = item.isOfficial && !knowledge;
     // News uses the warning pair (fill, border, title ink), readable in both themes; the old
     // santra fill put light-orange text on orange in dark mode (owner screenshot 2026-11-09).
+    // A ज्ञान लेख (Q141): card fill, ink text and an accent border, readable in both themes
+    // (the accent fill put orange text on orange in dark mode); neither a GR nor news.
+    final Color fill = knowledge
+        ? c.card
+        : official
+        ? c.brandSoft
+        : c.warnBg.first;
+    final Color ink = knowledge
+        ? c.ink
+        : official
+        ? c.ink
+        : c.warnTitle;
     return DecoratedBox(
       key: Key('feed-badge-${item.id}'),
       decoration: BoxDecoration(
-        color: official ? c.brandSoft : c.warnBg.first,
-        border: official ? null : Border.all(color: c.warnBorder),
+        color: fill,
+        border: official
+            ? null
+            : Border.all(color: knowledge ? c.accent : c.warnBorder),
         borderRadius: BorderRadius.circular(BmRadius.chip),
       ),
       child: Padding(
@@ -299,7 +321,7 @@ class FeedBadge extends StatelessWidget {
         ),
         child: Text(
           text(t, item, lang, at: date),
-          style: BmType.label.copyWith(color: official ? c.ink : c.warnTitle),
+          style: BmType.label.copyWith(color: ink),
         ),
       ),
     );
@@ -504,12 +526,24 @@ class _FeedItemScreenState extends ConsumerState<FeedItemScreen> {
                 _ItemBody(item: item, now: now, lang: lang, detail: true),
                 if (item.article case final article?) ...[
                   const SizedBox(height: BmSpace.md),
-                  FeedArticleView(article: article, lang: lang),
+                  FeedArticleView(
+                    article: article,
+                    lang: lang,
+                    knowledge: item.isKnowledge,
+                  ),
                 ],
                 const SizedBox(height: BmSpace.md),
                 FeedSourceLink(url: item.url),
                 const SizedBox(height: BmSpace.xs),
-                FeedFooter(serverFooter: cached?.page.footer),
+                if (item.isKnowledge)
+                  Text(
+                    t.feedKnowledgeNote,
+                    key: const Key('feed-knowledge-note'),
+                    style: BmType.meta.copyWith(color: context.bm.inkMuted),
+                  ),
+                // A card-based ज्ञान लेख is not about a GR; a scheme explainer still is.
+                if (!item.isKnowledge || item.article?.cardSection == null)
+                  FeedFooter(serverFooter: cached?.page.footer),
                 const SizedBox(height: BmSpace.md),
                 Wrap(
                   spacing: BmSpace.xs,

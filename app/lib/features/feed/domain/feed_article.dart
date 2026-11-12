@@ -1,6 +1,7 @@
 /// An AI news article written from an official source (spec v1.6): headline, standfirst,
 /// key points, sections, a facts table, bar / pie charts, key dates and the sources. The
-/// server checked every number against the source before publishing it.
+/// server checked every number against the source before publishing it. A knowledge article
+/// (ज्ञान लेख, Q141) has the same shape with only sections and sources filled.
 class FeedArticle {
   const FeedArticle({
     required this.headline,
@@ -11,6 +12,7 @@ class FeedArticle {
     required this.charts,
     required this.keyDates,
     required this.sources,
+    this.cardSection,
   });
 
   /// Null when [json] is missing or not an article (old caches, a damaged entry).
@@ -46,6 +48,7 @@ class FeedArticle {
           for (final s in list('sources'))
             (title: s['title']! as String, url: s['url']! as String),
         ],
+        cardSection: j['card_section'] as String?,
       );
     } on Object {
       return null;
@@ -60,6 +63,10 @@ class FeedArticle {
   final List<FeedChart> charts;
   final List<({DateTime date, String label})> keyDates;
   final List<({String title, String url})> sources;
+
+  /// A knowledge article (Q141): the practice-card section it was written from, opened by
+  /// "कार्ड उघडा"; null for news articles and scheme explainers.
+  final String? cardSection;
 
   Map<String, Object?> toJson() => {
     'headline': headline,
@@ -85,6 +92,7 @@ class FeedArticle {
     'sources': [
       for (final s in sources) {'title': s.title, 'url': s.url},
     ],
+    'card_section': ?cardSection,
   };
 }
 
