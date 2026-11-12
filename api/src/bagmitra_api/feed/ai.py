@@ -97,9 +97,12 @@ only, no other text:
 {{"relevant": true|false, "kind": one of {list(ITEM_KINDS)}, "categories": a list from
 {list(CATEGORIES)}, "crops": [crop names written in the document], "districts": [district
 names written in the document]}}
-"relevant" is true only if the document changes something for farmers (a scheme, a payment or
-relief, a deadline, an insurance window, a pesticide or fertiliser rule). Administrative
-transfers, budgets and staff matters are not relevant. List only crops and districts that
+"relevant" is true if the document changes something for farmers (a scheme, a payment or
+relief, a deadline, an insurance window, a pesticide or fertiliser rule), or if it gives useful
+farming knowledge for Maharashtra / Vidarbha farmers (an advisory on horticulture and any fruit
+crop such as orange, mango, banana, pomegranate, grapes or guava, vegetables, soil, water,
+weather, pests and diseases, markets or post-harvest handling). Administrative transfers,
+budgets, staff matters and politics are not relevant. List only crops and districts that
 the document names; never guess."""
 
 SUMMARISE_PROMPT = f"""You prepare a review draft of a government document for farmers. Answer

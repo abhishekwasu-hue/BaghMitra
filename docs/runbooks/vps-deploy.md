@@ -69,6 +69,7 @@ cd /opt/bagmitra && bash deploy/deploy.sh
 | KB कार्डांची रात्रीची फेरतपासणी (`kb.regate`) | नेहमी (बंद: `CRON_KB_REGATE=off`) | रोज 20:50 = 02:20 | `/var/log/bagmitra-kb-regate.log` |
 | सरकारी सूचनांच्या आठवणी (`feed.alert_job`) | नेहमी (बंद: `CRON_FEED_ALERTS=off`) | रोज 03:17 व 11:17 = 08:47 व 16:47 | `/var/log/bagmitra-feed-alerts.log` |
 | बातम्यांचे मथळे (`feed.news_job`) | नेहमी (बंद: `CRON_FEED_NEWS=off`); अटी `allowed` असलेल्या स्रोतांकडूनच मथळे येतात | दर ६ तासांनी 01:23, 07:23, 13:23, 19:23 | `/var/log/bagmitra-feed-news.log` |
+| अधिकृत पोर्टल (`feed.portal_job`, Q145) | नेहमी (बंद: `CRON_FEED_PORTALS=off`); GR पोर्टल व कृषी आयुक्तालयाच्या याद्या, मागील ३० दिवस एकदाच (प्रति धाव कमाल १००); लेख `FEED_AI_API_KEY` असेल तरच | रोज 04:43, 16:43 = 10:13, 22:13 | `/var/log/bagmitra-feed-portals.log` |
 | ज्ञान लेख (`feed.knowledge`, Q141) | नेहमी (बंद: `CRON_FEED_KNOWLEDGE=off`); `FEED_AI_API_KEY` असेल तरच लेख लिहिले जातात; परिस्थितीनुसार लेख, आठवड्याची मर्यादा नाही | रोज 02:11 = 07:41 | `/var/log/bagmitra-feed-knowledge.log` |
 | sync इतिहासातील जुना मजकूर पुसणे (`sync.retention`) | नेहमी (बंद: `CRON_SYNC_RETENTION=off`); `SYNC_PAYLOAD_RETENTION_DAYS` (default 90) दिवसांपेक्षा जुन्या बदलांचा मजकूर hash मध्ये बदलतो | रोज 22:13 = 03:43 | `/var/log/bagmitra-sync-retention.log` |
 | खाते काढलेल्या व्यक्तीची बाजार-जोडणी माहिती पुसणे (`market_link.erase_job`) | नेहमी (बंद: `CRON_MARKET_LINK_ERASE=off`); माहिती लगेच लपते आणि `MARKET_LINK_ERASE_AFTER_DAYS` (default 180) दिवसांनी पुसली जाते | रोज 22:41 = 04:11 | `/var/log/bagmitra-market-link-erase.log` |

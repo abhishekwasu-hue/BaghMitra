@@ -187,6 +187,76 @@ void main() {
     await unmountApp(tester);
   });
 
+  testWidgets(
+    'empty filter online: a calm line per filter; offline: the online note',
+    (tester) async {
+      // Online: the server answers with one news item only.
+      await pumpApp(
+        tester,
+        initialLocation: '/feed',
+        overrides: [
+          feedRepositoryProvider.overrideWithValue(
+            FakeFeedRepository(
+              feedBody([
+                feedJson(
+                  'news1',
+                  type: 'news',
+                  trust: 'news',
+                  grNumber: null,
+                  department: null,
+                  publishedAt: '2026-10-11T06:00:00Z',
+                ),
+              ]),
+            ),
+          ),
+        ],
+      );
+      await settle(tester);
+      Future<String> emptyAfter(String chip) async {
+        await tester.tap(find.byKey(Key('feed-filter-$chip')));
+        await settle(tester);
+        return tester
+            .widget<Text>(
+              find.descendant(
+                of: find.byKey(const Key('feed-empty')),
+                matching: find.byType(Text),
+              ),
+            )
+            .data!;
+      }
+
+      expect(await emptyAfter('scheme'), 'नवीन योजना आल्यावर इथे दिसतील.');
+      expect(
+        await emptyAfter('knowledge'),
+        'ज्ञान लेख परिस्थितीनुसार इथे येतील.',
+      );
+      expect(
+        await emptyAfter('official'),
+        'अधिकृत शासन निर्णय व सूचना आल्यावर इथे दिसतील.',
+      );
+      expect(find.text('फोन ऑनलाइन असताना संदेश येतील.'), findsNothing);
+      await tester.tap(find.byKey(const Key('feed-filter-news')));
+      await settle(tester);
+      expect(find.byKey(const Key('feed-empty')), findsNothing);
+      await unmountApp(tester);
+
+      // Offline and nothing saved: the "messages come when online" note stays.
+      await pumpApp(
+        tester,
+        initialLocation: '/feed',
+        overrides: [
+          feedRepositoryProvider.overrideWithValue(FakeFeedRepository(null)),
+        ],
+      );
+      await settle(tester);
+      await tester.tap(find.byKey(const Key('feed-filter-scheme')));
+      await settle(tester);
+      expect(find.text('फोन ऑनलाइन असताना संदेश येतील.'), findsOneWidget);
+      expect(find.text('नवीन योजना आल्यावर इथे दिसतील.'), findsNothing);
+      await unmountApp(tester);
+    },
+  );
+
   testWidgets('remind me makes one task due on the last date', (tester) async {
     final (db, _, _) = await pumpFeed(tester);
     await tester.tap(find.text('Title gr1'));

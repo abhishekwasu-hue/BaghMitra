@@ -12,6 +12,11 @@ on:
         required: false
         default: ""
         type: string
+      raw:
+        description: "Feed source checks: print each URL's raw response (status, type, feed and page links, first 20,000 characters) and its host's robots.txt, fetched with the feed adapters' own User-Agent, instead of the visible text"
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   contents: read
@@ -32,6 +37,7 @@ jobs:
           cache-dependency-path: api/pyproject.toml
       - run: pip install -e .
       - name: Fetch the cited sources and write the reviewer file
+        if: ${{ !inputs.raw }}
         env:
           ENVIRONMENT: test
         run: |
@@ -44,12 +50,94 @@ jobs:
           cat "$RUNNER_TEMP/card_passages.json"
           echo "::endgroup::"
       - uses: actions/upload-artifact@v4
+        if: ${{ !inputs.raw }}
         with:
           name: card-passages
           path: ${{ runner.temp }}/card_passages.json
           retention-days: 7
+      - name: Print raw responses and robots.txt (feed source checks)
+        if: ${{ inputs.urls != '' && inputs.raw }}
+        env:
+          URLS: ${{ inputs.urls }}
+          ENVIRONMENT: test
+        run: |
+          python - <<'PY'
+          import asyncio, os, re
+          from urllib.parse import urlsplit
+          import httpx
+          from bagmitra_api.core.settings import get_settings
+          from bagmitra_api.feed.extract import html_text
+          AGENT = get_settings().feed_fetch_user_agent  # what the feed cron sends
+          LIMIT = 20000
+          from datetime import datetime
+          from email.utils import parsedate_to_datetime
+          def day(text):
+              text = text.strip()
+              for parse in (parsedate_to_datetime, datetime.fromisoformat):
+                  try:
+                      return parse(text).date().isoformat()
+                  except (TypeError, ValueError):
+                      pass
+              return None
+          OUT = os.path.join(os.environ["RUNNER_TEMP"], "raw")  # full bodies, for test fixtures
+          os.makedirs(OUT, exist_ok=True)
+          async def main():
+              async with httpx.AsyncClient(follow_redirects=True, timeout=45) as http:
+                  robots_seen = set()
+                  for url in os.environ["URLS"].split():
+                      parts = urlsplit(url)
+                      host = f"{parts.scheme}://{parts.netloc}"
+                      for target, label in ((host + "/robots.txt", "ROBOTS"), (url, "RAW")):
+                          if label == "ROBOTS" and host in robots_seen:
+                              continue
+                          robots_seen.add(host)
+                          print(f"::group::{label} {target}")
+                          try:
+                              r = await http.get(target, headers={"User-Agent": AGENT})
+                              print("STATUS", r.status_code, "TYPE", r.headers.get("content-type"), "FINAL", r.url, "BYTES", len(r.content))
+                              body = r.text
+                              n = len(os.listdir(OUT))
+                              with open(os.path.join(OUT, f"{n:02d}.body"), "wb") as f:
+                                  f.write(r.content)
+                              with open(os.path.join(OUT, "index.txt"), "a") as f:
+                                  f.write(f"{n:02d} {r.status_code} {target}\n")
+                              if label == "RAW" and "html" in (r.headers.get("content-type") or ""):
+                                  # A page: its feed links and its link list (text + href), then the head of the body.
+                                  for m in re.finditer(r'<link[^>]+(?:rss|atom)[^>]*>', body, re.I):
+                                      print("FEED", m.group(0))
+                                  seen = set()
+                                  for href, text in re.findall(r'<a[^>]+href="([^"#]+)"[^>]*>(.*?)</a>', body, re.I | re.S):
+                                      text = " ".join(re.sub(r"<[^>]+>", " ", text).split())[:120]
+                                      if (href, text) not in seen and len(seen) < 400:
+                                          seen.add((href, text))
+                                          print("A", href, "|", text)
+                                  # Visible text (what the feed's extractor reads), then the raw
+                                  # tables / lists that carry document links (fixture material).
+                                  print("TEXT", " ".join(html_text(r.content).split())[:8000])
+                                  for m in re.finditer(r'<meta[^>]+(?:og:title|published_time)[^>]*>|"datePublished"\s*:\s*"[^"]*"', body, re.I):
+                                      print("META", m.group(0)[:400])
+                                  for block in re.findall(r"<table.*?</table>|<ul.*?</ul>", body, re.I | re.S):
+                                      if re.search(r"\.pdf|SchemeData|ViewGr", block, re.I):
+                                          print("BLOCK", block[:LIMIT])
+                                  body = body[:LIMIT // 10]
+                              if label == "RAW" and "html" not in (r.headers.get("content-type") or ""):
+                                  # A feed or sitemap: how many entries and which dates it spans.
+                                  dates = sorted(filter(None, (day(d) for d in re.findall(r"<(?:news:publication_date|pubDate)>\s*(?:<!\[CDATA\[)?\s*([^<\]]+)", body))))
+                                  print("COUNT items", body.count("<item>"), "urls", body.count("<url>"), "dated", len(dates), "first", dates[:1], "last", dates[-1:])
+                              print(body[:LIMIT])
+                          except httpx.HTTPError as exc:
+                              print("ERROR", repr(exc))
+                          print("::endgroup::")
+          asyncio.run(main())
+          PY
+      - uses: actions/upload-artifact@v4
+        if: ${{ inputs.urls != '' && inputs.raw }}
+        with:
+          name: raw-pages
+          path: ${{ runner.temp }}/raw
+          retention-days: 7
       - name: Print extra pages
-        if: ${{ inputs.urls != '' }}
+        if: ${{ inputs.urls != '' && !inputs.raw }}
         env:
           URLS: ${{ inputs.urls }}
         run: |

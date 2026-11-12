@@ -2033,6 +2033,26 @@ class AppLocalizationsHi extends AppLocalizations {
   String get feedEmpty => 'फ़ोन ऑनलाइन होने पर संदेश आएँगे।';
 
   @override
+  String get feedEmptyAll => 'नए संदेश आने पर यहाँ दिखेंगे।';
+
+  @override
+  String get feedEmptyOfficial =>
+      'आधिकारिक शासन निर्णय और सूचनाएँ आने पर यहाँ दिखेंगी।';
+
+  @override
+  String get feedEmptySchemes => 'नई योजनाएँ आने पर यहाँ दिखेंगी।';
+
+  @override
+  String get feedEmptyDeadlines =>
+      'आवेदन की आख़िरी तारीख़ें आने पर यहाँ दिखेंगी।';
+
+  @override
+  String get feedEmptyNews => 'नई ख़बरें आने पर यहाँ दिखेंगी।';
+
+  @override
+  String get feedEmptyKnowledge => 'ज्ञान लेख परिस्थिति के अनुसार यहाँ आएँगे।';
+
+  @override
   String get feedRemindMe => 'मुझे याद दिलाएँ';
 
   @override

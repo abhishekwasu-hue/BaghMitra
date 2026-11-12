@@ -67,6 +67,10 @@ class FeedSource(TimestampMixin, Base):
     last_ok_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     last_error: Mapped[str | None] = mapped_column(Text)
     notes: Mapped[str | None] = mapped_column(Text)
+    # When the one-off ~30-day backfill (Q145) finished; None: the next run continues it.
+    backfill_done_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    # The last older page ("page:3") or day ("day:2026-10-20") read completely; None: none yet.
+    backfill_cursor: Mapped[str | None] = mapped_column(String(64))
 
 
 class FeedThread(TimestampMixin, Base):

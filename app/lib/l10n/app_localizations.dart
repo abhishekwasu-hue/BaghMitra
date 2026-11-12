@@ -3591,6 +3591,42 @@ abstract class AppLocalizations {
   /// **'Messages load when the phone is online.'**
   String get feedEmpty;
 
+  /// No description provided for @feedEmptyAll.
+  ///
+  /// In en, this message translates to:
+  /// **'New messages appear here as they come.'**
+  String get feedEmptyAll;
+
+  /// No description provided for @feedEmptyOfficial.
+  ///
+  /// In en, this message translates to:
+  /// **'Official GRs and notices appear here as they come.'**
+  String get feedEmptyOfficial;
+
+  /// No description provided for @feedEmptySchemes.
+  ///
+  /// In en, this message translates to:
+  /// **'New schemes appear here as they come.'**
+  String get feedEmptySchemes;
+
+  /// No description provided for @feedEmptyDeadlines.
+  ///
+  /// In en, this message translates to:
+  /// **'Last dates to apply appear here as they come.'**
+  String get feedEmptyDeadlines;
+
+  /// No description provided for @feedEmptyNews.
+  ///
+  /// In en, this message translates to:
+  /// **'News appears here as it comes.'**
+  String get feedEmptyNews;
+
+  /// No description provided for @feedEmptyKnowledge.
+  ///
+  /// In en, this message translates to:
+  /// **'Knowledge articles appear here as the situation calls for them.'**
+  String get feedEmptyKnowledge;
+
   /// No description provided for @feedRemindMe.
   ///
   /// In en, this message translates to:

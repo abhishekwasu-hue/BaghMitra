@@ -31,6 +31,7 @@ MARKERS = {
     "alerts": "bagmitra_api.feed.alert_job",
     "news": "bagmitra_api.feed.news_job",
     "knowledge": "bagmitra_api.feed.knowledge",
+    "portals": "bagmitra_api.feed.portal_job",
     "regate": "bagmitra_api.kb.regate",
     "retention": "bagmitra_api.sync.retention",
     "push": "bagmitra_api.push.deliver",
@@ -72,7 +73,7 @@ def test_only_weather_and_backup_with_every_switch_off(tmp_path: Path) -> None:
     env = (
         "API_DOMAIN=x\nMARKET_API_KEY=\nCRON_FEED_ALERTS=off\nCRON_FEED_NEWS=no\nCRON_KB_REGATE=0\n"
         "CRON_SYNC_RETENTION=false\nCRON_MARKET_LINK_ERASE=off\nCRON_ML_RECHECK=off\n"
-        "CRON_PHOTO_AI_RETENTION=off\nCRON_FEED_KNOWLEDGE=off\n"
+        "CRON_PHOTO_AI_RETENTION=off\nCRON_FEED_KNOWLEDGE=off\nCRON_FEED_PORTALS=off\n"
     )
     out, lines = run_install(tmp_path, env)
     assert jobs(lines) == {"weather", "backup"}
@@ -89,6 +90,7 @@ def test_unset_switches_are_on_by_default(tmp_path: Path) -> None:
         "alerts",
         "news",
         "knowledge",
+        "portals",
         "regate",
         "retention",
         "erase",
@@ -106,7 +108,7 @@ def test_each_switch_adds_its_job_once_and_never_prints_values(tmp_path: Path) -
     )
     out, lines = run_install(tmp_path, env)
     assert jobs(lines) == set(MARKERS)
-    assert len(lines) == 15
+    assert len(lines) == 16
     assert "secret-market-key-123" not in out
     assert not any("secret-market-key-123" in ln for ln in lines)
     out_again, lines_again = run_install(tmp_path, env)
@@ -121,6 +123,7 @@ def test_each_switch_adds_its_job_once_and_never_prints_values(tmp_path: Path) -
         "alerts",
         "news",
         "knowledge",
+        "portals",
         "regate",
         "retention",
         "push",
@@ -202,6 +205,7 @@ def test_turning_a_switch_off_removes_only_its_line(tmp_path: Path) -> None:
         "market",
         "alerts",
         "knowledge",
+        "portals",
         "regate",
         "retention",
         "erase",
@@ -213,7 +217,7 @@ def test_turning_a_switch_off_removes_only_its_line(tmp_path: Path) -> None:
         tmp_path,
         "MARKET_API_KEY=\nCRON_FEED_ALERTS=off\nCRON_FEED_NEWS=off\nCRON_KB_REGATE=off\n"
         "CRON_SYNC_RETENTION=off\nCRON_MARKET_LINK_ERASE=off\nCRON_ML_RECHECK=off\n"
-        "CRON_PHOTO_AI_RETENTION=off\nCRON_FEED_KNOWLEDGE=off\n",
+        "CRON_PHOTO_AI_RETENTION=off\nCRON_FEED_KNOWLEDGE=off\nCRON_FEED_PORTALS=off\n",
     )
     assert jobs(cleared) == {"weather", "backup"}
 
@@ -223,7 +227,7 @@ def test_other_cron_lines_are_kept(tmp_path: Path) -> None:
     off = (
         "CRON_FEED_ALERTS=off\nCRON_FEED_NEWS=off\nCRON_SYNC_RETENTION=off\n"
         "CRON_MARKET_LINK_ERASE=off\nCRON_ML_RECHECK=off\nCRON_PHOTO_AI_RETENTION=off\n"
-        "CRON_FEED_KNOWLEDGE=off\n"
+        "CRON_FEED_KNOWLEDGE=off\nCRON_FEED_PORTALS=off\n"
     )
     run_install(tmp_path, off + "CRON_KB_REGATE=on\n")
     _, lines = run_install(tmp_path, off + "CRON_KB_REGATE=no\n")

@@ -22,6 +22,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from bagmitra_api.core.settings import Settings, get_settings
 from bagmitra_api.db.session import get_sessionmaker
 from bagmitra_api.feed.ai import AnthropicFeedAi, FeedArticleWriter
+from bagmitra_api.feed.backfill import BackfillOutcome, backfill_news_source
 from bagmitra_api.feed.gr_portal import FetchOutcome
 from bagmitra_api.feed.models import FeedSource
 from bagmitra_api.feed.news import NewsFeedAdapter, fetch_news_source
@@ -43,19 +44,27 @@ from bagmitra_api.feed.threads import (
 @dataclass(slots=True)
 class NewsSummary:
     sources: list[FetchOutcome] = field(default_factory=list)
+    # Q145: the one-off ~30-day backfill, per source with a plan that is not done yet.
+    backfill: list[BackfillOutcome] = field(default_factory=list)
 
     @property
     def added(self) -> int:
-        return sum(o.added for o in self.sources)
+        return sum(o.added for o in self.sources) + sum(b.added for b in self.backfill)
 
     def to_json(self) -> str:
         return json.dumps(
-            {"sources": [asdict(o) for o in self.sources], "added": self.added},
+            {
+                "sources": [asdict(o) for o in self.sources],
+                "backfill": [asdict(b) for b in self.backfill if b.status != "not_planned"],
+                "added": self.added,
+            },
             ensure_ascii=False,
         )
 
 
-async def run_news(session: AsyncSession, adapter: NewsFeedAdapter) -> NewsSummary:
+async def run_news(
+    session: AsyncSession, adapter: NewsFeedAdapter, now: datetime | None = None
+) -> NewsSummary:
     await seed_feed_sources(session)
     summary = NewsSummary()
     sources = await session.scalars(
@@ -63,6 +72,10 @@ async def run_news(session: AsyncSession, adapter: NewsFeedAdapter) -> NewsSumma
     )
     for source in list(sources):
         summary.sources.append(await fetch_news_source(session, source, adapter))
+        # Owner 2026-11-12 (Q145): the past ~30 days once, capped per run, on its own.
+        backfilled = await backfill_news_source(session, source, adapter, now or datetime.now(UTC))
+        if backfilled.status not in ("not_planned", "done") or backfilled.added:
+            summary.backfill.append(backfilled)
     return summary
 
 

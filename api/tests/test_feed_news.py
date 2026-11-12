@@ -28,7 +28,7 @@ from bagmitra_api.feed.news import (
     parse_feed,
     safe_parse,
 )
-from bagmitra_api.feed.seed import seed_feed_sources, source_seeds
+from bagmitra_api.feed.seed import source_seeds
 from bagmitra_api.feed.service import source_text
 from tests.test_feed_api import ADMIN, ADMIN_BASE, ai_box, api, ocr_box
 
@@ -201,12 +201,12 @@ def test_namespaced_attributes_are_read() -> None:
 # --- seeded source -------------------------------------------------------------------------
 
 
-def test_pib_news_source_is_seeded_unknown_and_marked_unverified() -> None:
+def test_pib_news_source_is_seeded_allowed_by_the_owner_with_its_robots_result() -> None:
     [pib] = [s for s in source_seeds() if s["key"] == "pib_agriculture_news"]
     assert pib["tier"] == "news"
     assert pib["fetch_method"] == "rss"
-    assert "[UV]" in pib["notes"]
-    assert "terms_status" not in pib  # seeding records unknown unless the owner decided
+    assert pib["terms_status"] == "allowed"  # owner 2026-11-12 (Q145)
+    assert "robots.txt checked 2026-11-12" in pib["notes"]
 
 
 def test_mahasamvad_is_seeded_allowed_by_the_owner() -> None:
@@ -225,15 +225,10 @@ def test_mahasamvad_is_seeded_allowed_by_the_owner() -> None:
 async def test_refused_without_allowed_terms_or_news_tier(engine: AsyncEngine) -> None:
     server = ok_server()
     async with async_sessionmaker(engine)() as session:
-        await seed_feed_sources(session)
-        pib = await session.scalar(
-            select(FeedSource).where(FeedSource.key == "pib_agriculture_news")
-        )
-        assert pib is not None
-        assert pib.terms_status == "unknown"
-        outcome = await fetch_news_source(session, pib, adapter(server))
+        undecided = await news_source(session, "unknown", key="undecided_rss")
+        outcome = await fetch_news_source(session, undecided, adapter(server))
         assert outcome.status == "refused"
-        assert pib.last_error == "not fetched: terms_status is unknown"
+        assert undecided.last_error == "not fetched: terms_status is unknown"
         bad = await news_source(session, "disallowed")
         assert (await fetch_news_source(session, bad, adapter(server))).status == "refused"
         assert bad.fetch_status == "disallowed"
@@ -430,11 +425,18 @@ async def test_job_fetches_only_allowed_news_sources(engine: AsyncEngine) -> Non
     by_key = {s["key"]: s for s in data["sources"]}
     assert data["added"] == 2
     assert by_key["test_rss"] == {"key": "test_rss", "status": "ok", "added": 2, "error": None}
-    assert by_key["pib_agriculture_news"]["status"] == "refused"  # seeded by the job, unknown
-    assert by_key["mahasamvad_news"]["status"] == "fetch_failed"  # allowed; the fake has no feed
+    # Seeded by the job: the disallowed outlet is refused; the allowed ones are read (the fake
+    # serves only /rss, so they fail once and are recorded).
+    assert by_key["krishakjagat_hi"]["status"] == "refused"
+    allowed = {s["key"] for s in source_seeds() if s.get("terms_status") == "allowed"}
+    for key in allowed & set(by_key):
+        assert by_key[key]["status"] == "fetch_failed", key
+    assert {"mahasamvad_news", "pib_agriculture_news", "agrowon_mr"} <= set(by_key)
     assert "official_allowed" not in by_key
     assert "mh_gr_portal" not in by_key
-    assert server.calls == ["/robots.txt", "/feed/", "/robots.txt", "/rss"]
+    assert "/feeds/rss" in server.calls  # Krishi Jagran's feed address
+    assert "/www.krishakjagat.org/feed/" not in server.calls
+    assert server.calls.count("/rss") == 1
 
 
 # --- review: our own summary, then publish as "News - not official" ------------------------
