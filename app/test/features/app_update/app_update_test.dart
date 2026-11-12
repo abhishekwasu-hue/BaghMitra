@@ -155,7 +155,7 @@ void main() {
         expect(first.release?.latestName, '1.2.0');
         expect(source.calls, 1);
 
-        now = now.add(const Duration(hours: 23));
+        now = now.add(const Duration(minutes: 59));
         source.release = const AppRelease(
           latestCode: 20,
           latestName: '2.0.0',
@@ -166,7 +166,7 @@ void main() {
         expect(source.calls, 1, reason: 'within the interval: no request');
         expect(cached.need, UpdateNeed.available);
 
-        now = now.add(const Duration(hours: 1));
+        now = now.add(const Duration(minutes: 1));
         final fresh = await checker().check();
         expect(source.calls, 2);
         expect(fresh.need, UpdateNeed.required);
