@@ -104,6 +104,8 @@ jobs:
                                   # Visible text (what the feed's extractor reads), then the raw
                                   # tables / lists that carry document links (fixture material).
                                   print("TEXT", " ".join(html_text(r.content).split())[:8000])
+                                  for m in re.finditer(r'<meta[^>]+(?:og:title|published_time)[^>]*>', body, re.I):
+                                      print("META", m.group(0)[:400])
                                   for block in re.findall(r"<table.*?</table>|<ul.*?</ul>", body, re.I | re.S):
                                       if re.search(r"\.pdf|SchemeData|ViewGr", block, re.I):
                                           print("BLOCK", block[:LIMIT])
