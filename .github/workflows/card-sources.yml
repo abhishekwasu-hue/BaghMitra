@@ -66,6 +66,7 @@ jobs:
           from urllib.parse import urlsplit
           import httpx
           from bagmitra_api.core.settings import get_settings
+          from bagmitra_api.feed.extract import html_text
           AGENT = get_settings().feed_fetch_user_agent  # what the feed cron sends
           LIMIT = 20000
           OUT = os.path.join(os.environ["RUNNER_TEMP"], "raw")  # full bodies, for test fixtures
@@ -100,7 +101,13 @@ jobs:
                                       if (href, text) not in seen and len(seen) < 400:
                                           seen.add((href, text))
                                           print("A", href, "|", text)
-                                  body = body[:LIMIT // 4]
+                                  # Visible text (what the feed's extractor reads), then the raw
+                                  # tables / lists that carry document links (fixture material).
+                                  print("TEXT", " ".join(html_text(r.content).split())[:8000])
+                                  for block in re.findall(r"<table.*?</table>|<ul.*?</ul>", body, re.I | re.S):
+                                      if re.search(r"\.pdf|SchemeData|ViewGr", block, re.I):
+                                          print("BLOCK", block[:LIMIT])
+                                  body = body[:LIMIT // 10]
                               print(body[:LIMIT])
                           except httpx.HTTPError as exc:
                               print("ERROR", repr(exc))
