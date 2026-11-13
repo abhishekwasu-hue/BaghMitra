@@ -16,9 +16,11 @@ final rejectedWritesProvider = StreamProvider<List<OutboxEntry>>(
   (ref) => ref.watch(syncEngineProvider).watchRejected(),
 );
 
-/// The sync strip for a screen, or null when everything is sent. Signed out comes first
-/// (nothing syncs until then), then offline, server unavailable, entries to check and
-/// entries still waiting. A test build with no backend says where the data lives instead.
+/// The sync strip for a screen, or null when the grower has nothing to do. Only two strips:
+/// signed out (sign in again; nothing syncs until then) and entries the server turned down
+/// (review them). Offline, server unavailable and entries still waiting show nothing: the
+/// engine keeps retrying quietly, and the privacy page says once that entries are saved on
+/// the phone first (owner 2026-11-13). A test build with no backend says it is local-only.
 Widget? buildSyncStatusBanner(BuildContext context, WidgetRef ref) {
   final t = AppLocalizations.of(context);
   final config = ref.watch(appConfigProvider);
@@ -27,29 +29,14 @@ Widget? buildSyncStatusBanner(BuildContext context, WidgetRef ref) {
   }
   final s = ref.watch(syncStatusProvider).value;
   if (s == null) return null;
-  switch (s.connectivity) {
-    case Connectivity.signedOut:
-      return SyncBanner(
-        key: const Key('sync-banner-signed-out'),
-        kind: SyncBannerKind.signedOut,
-        message: t.syncSignedOutBanner,
-        actionLabel: t.signInAgain,
-        onAction: () => unawaited(ref.read(authRepositoryProvider).signOut()),
-      );
-    case Connectivity.offline:
-      return SyncBanner(
-        key: const Key('sync-banner-offline'),
-        kind: SyncBannerKind.offline,
-        message: t.offlineBanner,
-      );
-    case Connectivity.serverError:
-      return SyncBanner(
-        key: const Key('sync-banner-server'),
-        kind: SyncBannerKind.server,
-        message: t.syncServerBanner,
-      );
-    case Connectivity.unknown || Connectivity.online:
-      break;
+  if (s.connectivity == Connectivity.signedOut) {
+    return SyncBanner(
+      key: const Key('sync-banner-signed-out'),
+      kind: SyncBannerKind.signedOut,
+      message: t.syncSignedOutBanner,
+      actionLabel: t.signInAgain,
+      onAction: () => unawaited(ref.read(authRepositoryProvider).signOut()),
+    );
   }
   if (s.rejected > 0) {
     return SyncBanner(
@@ -60,17 +47,10 @@ Widget? buildSyncStatusBanner(BuildContext context, WidgetRef ref) {
       onAction: () => unawaited(showRejectedWritesSheet(context)),
     );
   }
-  if (s.pending > 0) {
-    return SyncBanner(
-      key: const Key('sync-banner-pending'),
-      kind: SyncBannerKind.pending,
-      message: t.pendingSync(s.pending),
-    );
-  }
   return null;
 }
 
-/// [buildSyncStatusBanner] as a widget (nothing when everything is sent).
+/// [buildSyncStatusBanner] as a widget (nothing when there is nothing to do).
 class SyncStatusBanner extends ConsumerWidget {
   const SyncStatusBanner({super.key});
 

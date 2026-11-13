@@ -55,26 +55,30 @@ void main() {
     await tester.pump();
   }
 
-  testWidgets('offline, server down and all-sent each read differently', (
+  testWidgets('offline, server down, waiting and all-sent show no strip', (
     tester,
   ) async {
-    await pump(tester, const SyncStatus(connectivity: Connectivity.offline));
-    expect(find.byKey(const Key('sync-banner-offline')), findsOneWidget);
+    // Owner (2026-11-13): only strips the grower must act on; sync retries quietly.
+    for (final status in const [
+      SyncStatus(connectivity: Connectivity.offline, pending: 3),
+      SyncStatus(connectivity: Connectivity.serverError, pending: 3),
+      SyncStatus(connectivity: Connectivity.online, pending: 3),
+      SyncStatus(pending: 1),
+      SyncStatus(connectivity: Connectivity.online),
+    ]) {
+      await pump(tester, status);
+      expect(find.byType(SyncBanner), findsNothing, reason: '$status');
+    }
+  });
 
+  testWidgets('offline with turned-down entries still offers the review', (
+    tester,
+  ) async {
     await pump(
       tester,
-      const SyncStatus(connectivity: Connectivity.serverError),
+      const SyncStatus(connectivity: Connectivity.offline, rejected: 1),
     );
-    expect(find.byKey(const Key('sync-banner-server')), findsOneWidget);
-    expect(
-      find.text(
-        'तुमच्या नोंदी फोनवर सुरक्षित आहेत; सर्व्हर तयार झाल्यावर त्या आपोआप पाठवल्या जातील.',
-      ),
-      findsOneWidget,
-    );
-
-    await pump(tester, const SyncStatus(connectivity: Connectivity.online));
-    expect(find.byType(SyncBanner), findsNothing);
+    expect(find.byKey(const Key('sync-banner-rejected')), findsOneWidget);
   });
 
   testWidgets('401: a sign-in-again banner whose action signs out', (

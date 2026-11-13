@@ -282,4 +282,31 @@ void main() {
     expect(find.text('Received. Thank you!'), findsOneWidget);
     await unmountApp(tester);
   });
+
+  testWidgets('offline send: a plain thank-you, no "saved on the phone" line', (
+    tester,
+  ) async {
+    // Owner (2026-11-13): it waits and goes quietly, like every other entry.
+    final server = FakeFeedbackServer()..online = false;
+    await pumpApp(
+      tester,
+      locale: const Locale('en'),
+      initialLocation: Routes.settings,
+      overrides: feedbackOverrides(server),
+    );
+    await tester.tap(find.byKey(const Key('settings-feedback')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('feedback-kind-suggestion')));
+    await tester.enterText(find.byKey(const Key('feedback-text')), 'Later');
+    await tester.pump();
+    await tester.runAsync(() async {
+      await tester.tap(find.byKey(const Key('feedback-send')));
+      await Future<void>.delayed(const Duration(milliseconds: 50));
+    });
+    await tester.pumpAndSettle();
+    expect(server.sent, isEmpty);
+    expect(find.text('Thank you!'), findsOneWidget);
+    expect(find.textContaining('on the phone'), findsNothing);
+    await unmountApp(tester);
+  });
 }

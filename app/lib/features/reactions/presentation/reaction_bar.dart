@@ -30,8 +30,8 @@ class ReactionBar extends ConsumerStatefulWidget {
 }
 
 class _ReactionBarState extends ConsumerState<ReactionBar> {
-  /// The view right after a tap, until the send attempt ends (the waiting note is not shown
-  /// while a send is still under way).
+  /// The view right after a tap, until the send attempt ends. A reaction that could not go
+  /// yet waits quietly and is sent later (no note; owner 2026-11-13).
   ReactionView? _justTapped;
 
   @override
@@ -94,10 +94,8 @@ class _ReactionBarState extends ConsumerState<ReactionBar> {
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
-    final c = context.bm;
     final stored = ref.watch(reactionViewProvider(widget.target)).value;
     final view = _justTapped ?? stored ?? const ReactionView();
-    final waiting = _justTapped == null && (stored?.pending ?? false);
     return Column(
       key: Key('reaction-bar-${widget.target}'),
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -118,26 +116,6 @@ class _ReactionBarState extends ConsumerState<ReactionBar> {
               ),
           ],
         ),
-        if (waiting) ...[
-          const SizedBox(height: BmSpace.xs),
-          Row(
-            key: const Key('reaction-pending'),
-            children: [
-              Icon(
-                Icons.cloud_off_outlined,
-                size: BmSpace.md,
-                color: c.inkMuted,
-              ),
-              const SizedBox(width: BmSpace.xs),
-              Expanded(
-                child: Text(
-                  t.reactionPending,
-                  style: BmType.meta.copyWith(color: c.inkMuted),
-                ),
-              ),
-            ],
-          ),
-        ],
       ],
     );
   }

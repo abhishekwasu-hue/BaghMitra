@@ -142,21 +142,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get markTaskDone => 'Mark task done';
 
   @override
-  String get offlineBanner =>
-      'Your entries are saved on this phone; they will sync when the network is back.';
-
-  @override
-  String pendingSync(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$count changes waiting to sync',
-      one: '1 change waiting to sync',
-    );
-    return '$_temp0';
-  }
-
-  @override
   String get syncFailed =>
       'Your records are safe on this phone. The app will try sending again on its own.';
 
@@ -2180,9 +2165,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get feedCheckButton => 'Check';
 
   @override
-  String get feedCheckPrivacy => 'The text is not saved on your phone.';
-
-  @override
   String get feedCheckFailed =>
       'Checking needs internet; please try again when online.';
 
@@ -2455,10 +2437,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'Delete this loss record and its photos from this phone?';
 
   @override
-  String get claimKitLocalOnly =>
-      'Photos and notes stay on this phone. Share the PDF when you need it.';
-
-  @override
   String get claimPdfTitle => 'Crop loss record';
 
   @override
@@ -2577,9 +2555,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get labTestReportFailed => 'Please try adding the report again.';
 
   @override
-  String get labTestReportLocal => 'The report stays on this phone.';
-
-  @override
   String get labTestReportMissing => 'Please attach the report file again.';
 
   @override
@@ -2669,8 +2644,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get schemeDocuments => 'Documents usually needed';
 
   @override
-  String get schemeDocumentsHint =>
-      'Tick what you already have. Kept on this phone only.';
+  String get schemeDocumentsHint => 'Tick what you already have.';
 
   @override
   String schemeDocsReady(int have, int total) {
@@ -2954,10 +2928,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get signInAgain => 'Sign in';
-
-  @override
-  String get syncServerBanner =>
-      'Your entries are safe on this phone; they will be sent once the server is back.';
 
   @override
   String get syncSignedOutBanner => 'Sign in again to send your entries';
@@ -5039,8 +5009,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get feedbackSent => 'Received. Thank you!';
 
   @override
-  String get feedbackQueued =>
-      'Saved on the phone; it goes when the internet is back.';
+  String get feedbackThanks => 'Thank you!';
 
   @override
   String mlLoginRole(String role) {
@@ -5223,10 +5192,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get billPhoto => 'Bill photo';
 
   @override
-  String get billPhotoHint =>
-      'The shop bill\'s photo stays with this record on the phone.';
-
-  @override
   String get billPhotoOpen => 'Open the bill photo';
 
   @override
@@ -5249,8 +5214,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'These fields were already filled; they are kept as they were.';
 
   @override
-  String get billOffline =>
-      'Reading the bill needs internet. The photo is saved with this record on the phone.';
+  String get billOffline => 'Reading the bill needs internet.';
 
   @override
   String get billFailed =>
@@ -5461,10 +5425,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reactionThanksToast => 'Thank you!';
-
-  @override
-  String get reactionPending =>
-      'Saved on the phone; it goes when the internet is back.';
 
   @override
   String reactionChipSemantics(String label, int count) {

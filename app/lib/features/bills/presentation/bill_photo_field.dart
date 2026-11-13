@@ -376,8 +376,6 @@ class _BillPhotoField extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: BmSpace.xs),
-          InfoNote(t.billPhotoHint),
         ] else
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,

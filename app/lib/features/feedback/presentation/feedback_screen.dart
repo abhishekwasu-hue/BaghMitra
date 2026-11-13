@@ -47,7 +47,7 @@ class _FeedbackScreenState extends ConsumerState<FeedbackScreen> {
         );
     if (!mounted) return;
     messenger.showSnackBar(
-      SnackBar(content: Text(sent ? t.feedbackSent : t.feedbackQueued)),
+      SnackBar(content: Text(sent ? t.feedbackSent : t.feedbackThanks)),
     );
     Navigator.of(context).maybePop();
   }

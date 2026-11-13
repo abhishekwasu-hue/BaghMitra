@@ -29,31 +29,19 @@ void main() {
     await unmountApp(tester);
   });
 
-  testWidgets('offline status shows the offline banner', (tester) async {
-    await pumpApp(
-      tester,
-      locale: const Locale('en'),
-      syncStatus: const SyncStatus(connectivity: Connectivity.offline),
-    );
-    expect(find.byType(SyncBanner), findsOneWidget);
-    expect(
-      find.textContaining('Your entries are saved on this phone'),
-      findsOneWidget,
-    );
-    await unmountApp(tester);
-  });
-
-  testWidgets('pending and rejected states show their banners', (tester) async {
-    await pumpApp(
-      tester,
-      locale: const Locale('en'),
-      syncStatus: const SyncStatus(
-        connectivity: Connectivity.online,
-        pending: 3,
-      ),
-    );
-    expect(find.text('3 changes waiting to sync'), findsOneWidget);
-    await unmountApp(tester);
+  testWidgets('offline, server down and waiting entries show no strip', (
+    tester,
+  ) async {
+    // Owner (2026-11-13): sync retries quietly; a strip only when the grower must act.
+    for (final status in const [
+      SyncStatus(connectivity: Connectivity.offline, pending: 2),
+      SyncStatus(connectivity: Connectivity.serverError, pending: 2),
+      SyncStatus(connectivity: Connectivity.online, pending: 3),
+    ]) {
+      await pumpApp(tester, locale: const Locale('en'), syncStatus: status);
+      expect(find.byType(SyncBanner), findsNothing, reason: '$status');
+      await unmountApp(tester);
+    }
   });
 
   testWidgets('rejected writes surface a failure banner', (tester) async {

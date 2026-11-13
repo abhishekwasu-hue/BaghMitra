@@ -10,7 +10,7 @@ from __future__ import annotations
 
 from html import escape
 
-LAST_UPDATED = {"mr": "१२ नोव्हेंबर २०२६", "en": "12 November 2026"}
+LAST_UPDATED = {"mr": "१३ नोव्हेंबर २०२६", "en": "13 November 2026"}
 DELETION_DAYS = {"mr": "३० दिवसांत", "en": "within 30 days"}
 
 _IF = {"mr": "चालू केले असल्यास", "en": "if turned on"}
@@ -77,7 +77,8 @@ Google त्याच्या संमती-पानावर दाखव�
 सर्व्हरवर ठेवली जात नाही; मर्यादा मोजण्यासाठी फक्त वाचल्याची वेळ राहते. नोंदीसोबत ठेवलेला बिलाचा
 फोटो फक्त फोटो बॅकअप चालू असल्यास, वर सांगितल्याप्रमाणे बॅकअप होतो. नोंदणीची संमती यासाठी
 लागू.</li>
-<li>पीक-नुकसान दाव्याचे फोटो, टिपा आणि तपासणी अहवालाच्या फाइल फक्त फोनवरच राहतात.</li></ul>
+<li>पीक-नुकसान दाव्याचे फोटो, टिपा, तपासणी अहवालाच्या फाइल आणि योजनेच्या कागदपत्रांच्या खुणा फक्त
+फोनवरच राहतात.</li></ul>
 <h3>ठिकाण (location)</h3>
 <ul><li>फक्त तुम्ही बागेचे ठिकाण/सीमा नोंदवता किंवा दाव्याचा फोटो जोडता तेव्हा एकदाच वाचले
 जाते. पार्श्वभूमीत ठिकाण पाहिले जात नाही.</li></ul>
@@ -103,7 +104,7 @@ Google त्याच्या संमती-पानावर दाखव�
 <li>योजना (plan) आणि तिची मुदत. बागमित्र कार्ड किंवा बँक तपशील घेत नाही.</li></ul>
 
 <h2 id="mr-where">३. माहिती कुठे ठेवली जाते</h2>
-<ul><li>तुमच्या फोनवर (ॲप ऑफलाइन चालते).</li>
+<ul><li>आधी तुमच्या फोनवर (ॲप ऑफलाइन चालते); इंटरनेट मिळाल्यावर ॲप नोंदी आपोआप सर्व्हरला पाठवते.</li>
 <li>Supabase चा डेटाबेस (PostgreSQL) — आमच्या सेटअप मार्गदर्शकानुसार मुंबई (ap-south-1) भागात.
 सर्व्हरवरचा स्वतंत्र डेटाबेस {i}: बागमित्रच्या भाड्याच्या सर्व्हरवर (VPS), Supabase ऐवजी.</li>
 <li>फोटो बॅकअप {i}: खाजगी Supabase Storage.</li>
@@ -225,7 +226,8 @@ removed first, then it is sent to an AI service (Anthropic) only to read the bil
 sent for reading and what is read from it are not kept on the server; only the time of the read
 is kept, to count the limits. A bill photo kept with a record is backed up only when photo
 backup is on, as described above. Your signup consent covers this.</li>
-<li>Crop-loss claim photos and notes, and lab report files, stay on your phone only.</li></ul>
+<li>Crop-loss claim photos and notes, lab report files and the scheme document ticks stay on
+your phone only.</li></ul>
 <h3>Location</h3>
 <ul><li>Read once, only when you mark a plot location or boundary or add a claim photo. There is
 no background tracking.</li></ul>
@@ -252,7 +254,8 @@ reporting (Sentry) {i}: receives error details.</li>
 <li>Your plan and its period. BagMitra does not collect card or bank details.</li></ul>
 
 <h2 id="en-where">3. Where it is stored</h2>
-<ul><li>On your phone (the app works offline).</li>
+<ul><li>First on your phone (the app works offline); the app sends your records to the server on
+its own whenever it is online.</li>
 <li>In a Supabase PostgreSQL database, in the Mumbai (ap-south-1) region per our setup guide. The
 server's own database {i}: on BagMitra's rented server (VPS) instead.</li>
 <li>Photo backup {i}: private Supabase Storage.</li>

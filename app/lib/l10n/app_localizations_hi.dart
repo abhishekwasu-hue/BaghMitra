@@ -141,21 +141,6 @@ class AppLocalizationsHi extends AppLocalizations {
   String get markTaskDone => 'काम पूरा हुआ';
 
   @override
-  String get offlineBanner =>
-      'आपकी एंट्री इस फ़ोन पर सहेजी गई है; नेटवर्क आने पर भेजी जाएगी।';
-
-  @override
-  String pendingSync(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$count बदलाव भेजने बाकी',
-      one: '1 बदलाव भेजना बाकी',
-    );
-    return '$_temp0';
-  }
-
-  @override
   String get syncFailed =>
       'आपके रिकॉर्ड इस फ़ोन पर सुरक्षित हैं। ऐप अपने आप फिर से भेजने की कोशिश करेगा।';
 
@@ -2176,10 +2161,6 @@ class AppLocalizationsHi extends AppLocalizations {
   String get feedCheckButton => 'जाँचें';
 
   @override
-  String get feedCheckPrivacy =>
-      'यह पाठ केवल जाँच के लिए इस्तेमाल होता है; यह फ़ोन पर सहेजा नहीं जाता।';
-
-  @override
   String get feedCheckFailed =>
       'जाँच के लिए इंटरनेट चाहिए; इंटरनेट आने पर फिर कोशिश करें।';
 
@@ -2450,10 +2431,6 @@ class AppLocalizationsHi extends AppLocalizations {
       'यह नुकसान रिकॉर्ड और इसकी फ़ोटो इस फ़ोन से हटाएँ?';
 
   @override
-  String get claimKitLocalOnly =>
-      'फ़ोटो और नोट इसी फ़ोन पर रहते हैं। ज़रूरत हो तो PDF भेजें।';
-
-  @override
   String get claimPdfTitle => 'फसल नुकसान रिकॉर्ड';
 
   @override
@@ -2573,9 +2550,6 @@ class AppLocalizationsHi extends AppLocalizations {
   String get labTestReportFailed => 'रिपोर्ट दोबारा जोड़कर देखें।';
 
   @override
-  String get labTestReportLocal => 'रिपोर्ट इसी फ़ोन पर रहती है।';
-
-  @override
   String get labTestReportMissing => 'रिपोर्ट की फ़ाइल दोबारा जोड़ें।';
 
   @override
@@ -2665,8 +2639,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get schemeDocuments => 'आमतौर पर लगने वाले दस्तावेज़';
 
   @override
-  String get schemeDocumentsHint =>
-      'जो पहले से है उस पर निशान लगाएँ। सिर्फ़ इसी फ़ोन पर रहता है।';
+  String get schemeDocumentsHint => 'जो पहले से है उस पर निशान लगाएँ।';
 
   @override
   String schemeDocsReady(int have, int total) {
@@ -2950,10 +2923,6 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get signInAgain => 'लॉगिन करें';
-
-  @override
-  String get syncServerBanner =>
-      'आपकी एंट्री फ़ोन पर सुरक्षित हैं; सर्वर तैयार होते ही अपने आप भेजी जाएँगी।';
 
   @override
   String get syncSignedOutBanner => 'एंट्री भेजने के लिए फिर से लॉगिन करें';
@@ -5027,7 +4996,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get feedbackSent => 'मिल गया, धन्यवाद!';
 
   @override
-  String get feedbackQueued => 'फ़ोन पर सहेजा; इंटरनेट आने पर जाएगा।';
+  String get feedbackThanks => 'धन्यवाद!';
 
   @override
   String mlLoginRole(String role) {
@@ -5209,10 +5178,6 @@ class AppLocalizationsHi extends AppLocalizations {
   String get billPhoto => 'बिल की फ़ोटो';
 
   @override
-  String get billPhotoHint =>
-      'दुकान के बिल की फ़ोटो इस रिकॉर्ड के साथ फ़ोन पर रहती है।';
-
-  @override
   String get billPhotoOpen => 'बिल की फ़ोटो बड़ी देखें';
 
   @override
@@ -5233,8 +5198,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get billNothingFilled => 'ये खाने पहले से भरे थे; वैसे ही रखे गए।';
 
   @override
-  String get billOffline =>
-      'बिल पढ़ने के लिए इंटरनेट चाहिए। फ़ोटो इस रिकॉर्ड के साथ फ़ोन पर सहेजी जाती है।';
+  String get billOffline => 'बिल पढ़ने के लिए इंटरनेट चाहिए।';
 
   @override
   String get billFailed =>
@@ -5445,9 +5409,6 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get reactionThanksToast => 'धन्यवाद!';
-
-  @override
-  String get reactionPending => 'फ़ोन पर रखा; इंटरनेट आने पर जाएगा.';
 
   @override
   String reactionChipSemantics(String label, int count) {

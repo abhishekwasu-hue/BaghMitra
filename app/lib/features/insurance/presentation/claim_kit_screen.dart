@@ -362,11 +362,6 @@ class _ClaimKitScreenState extends ConsumerState<ClaimKitScreen> {
               onChanged: (on) =>
                   setState(() => on == true ? _done.add(k) : _done.remove(k)),
             ),
-          const SizedBox(height: BmSpace.sm),
-          Text(
-            t.claimKitLocalOnly,
-            style: BmType.meta.copyWith(color: c.inkMuted),
-          ),
         ],
       ),
       bottomNavigationBar: BottomActions(

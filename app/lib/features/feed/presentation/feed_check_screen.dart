@@ -87,8 +87,6 @@ class _FeedCheckScreenState extends ConsumerState<FeedCheckScreen> {
               border: const OutlineInputBorder(),
             ),
           ),
-          const SizedBox(height: BmSpace.xxs),
-          Text(t.feedCheckPrivacy, style: BmType.meta),
           const SizedBox(height: BmSpace.sm),
           Wrap(
             spacing: BmSpace.xs,

@@ -107,6 +107,19 @@ async def test_privacy_page_matches_the_code(pages: httpx.AsyncClient) -> None:
     assert "by database row-level security" not in body
 
 
+async def test_privacy_page_says_once_what_the_app_no_longer_repeats(
+    pages: httpx.AsyncClient,
+) -> None:
+    """Owner 2026-11-13: the app stopped repeating "saved on the phone, sent later" lines on
+    its screens; the privacy page says it once (docs/design/reassurance-audit.md)."""
+    body = " ".join((await pages.get("/privacy")).text.split())
+    assert "आधी तुमच्या फोनवर (ॲप ऑफलाइन चालते); इंटरनेट मिळाल्यावर ॲप नोंदी आपोआप" in body
+    assert "First on your phone (the app works offline); the app sends your records" in body
+    assert "योजनेच्या कागदपत्रांच्या खुणा फक्त फोनवरच राहतात" in body
+    assert "the scheme document ticks stay on your phone only" in body
+    assert "is not stored anywhere" in body
+
+
 async def test_privacy_page_covers_crop_photo_analysis() -> None:
     """Q135: one-time consent at signup; AI analysis; kept PHOTO_AI_RETENTION_DAYS; deletable."""
     cfg = Settings(
