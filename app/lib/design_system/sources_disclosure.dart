@@ -20,7 +20,7 @@ class SourceRef {
 /// on / off button for the source links, everywhere in the app). Collapsed it is one 48 dp
 /// header, "स्रोत (३)" in green bold with a chevron; one tap shows every source: [notes]
 /// (free-text citations such as page references), each [sources] entry with its publisher,
-/// date read and link, the screen's own [links] (link cards that keep their tap action) and
+/// date read and link, the screen's own [links] (link cards that keep their tap action), its [actions] and
 /// the evidence [kinds]; a second tap folds them again. Nothing is removed, only folded.
 /// Open or closed is per view: it starts closed each time the screen is built.
 class SourcesDisclosure extends StatefulWidget {
@@ -29,6 +29,7 @@ class SourcesDisclosure extends StatefulWidget {
     this.sources = const [],
     this.notes = const [],
     this.links = const [],
+    this.actions = const [],
     this.kinds = const [],
     this.initiallyExpanded = false,
   });
@@ -38,6 +39,10 @@ class SourcesDisclosure extends StatefulWidget {
 
   /// Link cards built by the screen (e.g. a chip that copies its link), each one source.
   final List<Widget> links;
+
+  /// Buttons about the sources (e.g. copy the link), shown below them when open; not
+  /// counted in "(n)".
+  final List<Widget> actions;
 
   /// Evidence levels already in the reader's language ("Official", "University" …).
   final List<String> kinds;
@@ -148,6 +153,11 @@ class _SourcesDisclosureState extends State<SourcesDisclosure> {
                   Padding(
                     padding: const EdgeInsets.only(top: BmSpace.xs),
                     child: link,
+                  ),
+                for (final action in w.actions)
+                  Padding(
+                    padding: const EdgeInsets.only(top: BmSpace.sm),
+                    child: action,
                   ),
                 if (w.kinds.isNotEmpty)
                   Padding(

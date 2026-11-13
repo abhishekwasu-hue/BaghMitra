@@ -615,12 +615,14 @@ class _FeedItemScreenState extends ConsumerState<FeedItemScreen> {
                     lang: lang,
                     knowledge: item.isKnowledge,
                     sourceLinks: [FeedSourceLink(url: item.url)],
+                    sourceActions: [_copyLinkButton(item)],
                   ),
                 ] else ...[
                   const SizedBox(height: BmSpace.md),
                   SourcesDisclosure(
                     key: const Key('feed-item-sources'),
                     links: [FeedSourceLink(url: item.url)],
+                    actions: [_copyLinkButton(item)],
                   ),
                 ],
                 const SizedBox(height: BmSpace.xs),
@@ -659,12 +661,6 @@ class _FeedItemScreenState extends ConsumerState<FeedItemScreen> {
                       speakText: feedShareText(t, item, lang, withLink: false),
                     ),
                     OutlinedButton.icon(
-                      key: const Key('feed-copy-link'),
-                      icon: const Icon(Icons.link),
-                      label: Text(t.feedCopyLink),
-                      onPressed: () => _copyLink(context, item.url),
-                    ),
-                    OutlinedButton.icon(
                       key: const Key('feed-dismiss'),
                       style: BmButtonStyle.destructive(context.bm),
                       icon: const Icon(Icons.visibility_off_outlined),
@@ -677,6 +673,15 @@ class _FeedItemScreenState extends ConsumerState<FeedItemScreen> {
             ),
     );
   }
+
+  /// "Copy the source link": source material too, so it sits inside the opened
+  /// "स्रोत (n)" section, below the link cards (owner 2026-11-13).
+  Widget _copyLinkButton(FeedItem item) => OutlinedButton.icon(
+    key: const Key('feed-copy-link'),
+    icon: const Icon(Icons.link),
+    label: Text(AppLocalizations.of(context).feedCopyLink),
+    onPressed: () => _copyLink(context, item.url),
+  );
 
   /// Adds an orchard-wide task due on the item's last date (once per item), and tells the
   /// server so its reminder alert goes out too.

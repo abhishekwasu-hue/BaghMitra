@@ -141,6 +141,37 @@ void main() {
     expect(find.byKey(const Key('card-2')), findsNothing);
   });
 
+  testWidgets('actions sit below the cards when open and are not counted', (
+    tester,
+  ) async {
+    var copied = false;
+    await tester.pumpWidget(
+      _host(
+        SourcesDisclosure(
+          links: const [Text('Card')],
+          actions: [
+            TextButton(
+              key: const Key('copy'),
+              onPressed: () => copied = true,
+              child: const Text('Copy link'),
+            ),
+          ],
+        ),
+        const Locale('en'),
+      ),
+    );
+    expect(find.text('Sources (1)'), findsOneWidget);
+    expect(find.byKey(const Key('copy')), findsNothing);
+    await tester.tap(find.byKey(const Key('sources-toggle')));
+    await tester.pump();
+    expect(
+      tester.getTopLeft(find.byKey(const Key('copy'))).dy,
+      greaterThan(tester.getTopLeft(find.text('Card')).dy),
+    );
+    await tester.tap(find.byKey(const Key('copy')));
+    expect(copied, isTrue);
+  });
+
   testWidgets('header is green and bold in both themes', (tester) async {
     for (final theme in [BmTheme.light(), BmTheme.dark()]) {
       await tester.pumpWidget(

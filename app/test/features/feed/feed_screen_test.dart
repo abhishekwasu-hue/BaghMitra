@@ -346,7 +346,26 @@ void main() {
       find.text('News · Government of India · ${en(DateTime(2026, 10, 11))}'),
       findsOneWidget,
     );
-    await tester.tap(find.byKey(const Key('feed-copy-link')));
+    // The copy button is source material too: inside the folded "Sources (1)",
+    // below the link card (owner 2026-11-13).
+    expect(find.byKey(const Key('feed-copy-link')), findsNothing);
+    await openAllSources(tester);
+    await settle(tester);
+    final copy = find.byKey(const Key('feed-copy-link'));
+    expect(
+      find.descendant(
+        of: find.byKey(const Key('feed-item-sources')),
+        matching: copy,
+      ),
+      findsOneWidget,
+    );
+    expect(
+      tester.getTopLeft(copy).dy,
+      greaterThan(tester.getTopLeft(find.byKey(const Key('feed-source'))).dy),
+    );
+    await tester.ensureVisible(copy);
+    await settle(tester);
+    await tester.tap(copy);
     await settle(tester);
     expect(copied, 'https://example.org/news1');
     expect(find.textContaining('Link copied'), findsOneWidget);

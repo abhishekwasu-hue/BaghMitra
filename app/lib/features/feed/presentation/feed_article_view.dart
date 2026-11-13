@@ -28,6 +28,7 @@ class FeedArticleView extends StatelessWidget {
     required this.lang,
     this.knowledge = false,
     this.sourceLinks = const [],
+    this.sourceActions = const [],
   });
 
   final FeedArticle article;
@@ -37,6 +38,9 @@ class FeedArticleView extends StatelessWidget {
   /// More link cards for the same sources list (the item's own source link), so the
   /// screen shows one folded "स्रोत (n)" header, not two.
   final List<Widget> sourceLinks;
+
+  /// Buttons shown below the opened sources (the item's "copy link").
+  final List<Widget> sourceActions;
 
   @override
   Widget build(BuildContext context) {
@@ -148,6 +152,7 @@ class FeedArticleView extends StatelessWidget {
                   ),
               ...sourceLinks,
             ],
+            actions: sourceActions,
           ),
         ],
         if (knowledge && article.cardSection != null) ...[

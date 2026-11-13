@@ -196,6 +196,18 @@ void main() {
       await tester.tap(toggle);
       await settle(tester);
       expect(find.byKey(const Key('feed-source')), findsOneWidget);
+      // The copy button sits in the same opened section (still "Sources (2)").
+      expect(
+        find.descendant(
+          of: sources,
+          matching: find.byKey(const Key('feed-copy-link')),
+        ),
+        findsOneWidget,
+      );
+      expect(
+        find.descendant(of: toggle, matching: find.text('Sources (2)')),
+        findsOneWidget,
+      );
       await tester.scrollUntilVisible(
         source,
         100,
