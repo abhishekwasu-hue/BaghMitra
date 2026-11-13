@@ -3068,8 +3068,11 @@ class AppLocalizationsHi extends AppLocalizations {
   String get sourcesShow => 'स्रोत देखें';
 
   @override
-  String sourcesShowCount(String count) {
-    return 'स्रोत देखें ($count)';
+  String get sourcesTitle => 'स्रोत';
+
+  @override
+  String sourcesTitleCount(String count) {
+    return 'स्रोत ($count)';
   }
 
   @override

@@ -172,7 +172,42 @@ void main() {
       for (final heading in ['What you see', 'What to check', 'What to do']) {
         expect(find.text(heading), findsOneWidget);
       }
+      // The sources sit folded behind one "Sources (n)" header (owner 2026-11-13): the
+      // article's sources and the item's own link, counted together.
       final source = find.byKey(const Key('feed-knowledge-source-0'));
+      final sources = find.byKey(const Key('feed-article-sources'));
+      await tester.scrollUntilVisible(
+        sources,
+        100,
+        scrollable: find.byType(Scrollable).first,
+      );
+      expect(source, findsNothing);
+      expect(find.byKey(const Key('feed-source')), findsNothing);
+      final toggle = find.descendant(
+        of: sources,
+        matching: find.byKey(const Key('sources-toggle')),
+      );
+      expect(
+        find.descendant(of: toggle, matching: find.text('Sources (2)')),
+        findsOneWidget,
+      );
+      await tester.ensureVisible(toggle);
+      await settle(tester);
+      await tester.tap(toggle);
+      await settle(tester);
+      expect(find.byKey(const Key('feed-source')), findsOneWidget);
+      // The copy button sits in the same opened section (still "Sources (2)").
+      expect(
+        find.descendant(
+          of: sources,
+          matching: find.byKey(const Key('feed-copy-link')),
+        ),
+        findsOneWidget,
+      );
+      expect(
+        find.descendant(of: toggle, matching: find.text('Sources (2)')),
+        findsOneWidget,
+      );
       await tester.scrollUntilVisible(
         source,
         100,

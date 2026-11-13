@@ -183,19 +183,19 @@ void main() {
     expect(find.textContaining('General information'), findsNothing);
     expect(find.textContaining('confirm with your KVK'), findsNothing);
 
-    // The card's sources fold into one "See sources (n)" line; one tap shows them all.
+    // The card's sources fold into one "Sources (n)" header; one tap shows them all.
     const nhb = 'National Horticulture Board: Citrus diseases';
     final sources = find.byKey(
       const Key('lookalike-sources-greening_vs_deficiency'),
     );
     await tester.scrollUntilVisible(sources, 300);
     expect(
-      find.descendant(of: sources, matching: find.text('See sources (3)')),
+      find.descendant(of: sources, matching: find.text('Sources (3)')),
       findsOneWidget,
     );
     expect(find.text(nhb), findsNothing);
     await tester.tap(
-      find.descendant(of: sources, matching: find.text('See sources (3)')),
+      find.descendant(of: sources, matching: find.text('Sources (3)')),
     );
     await tester.pump();
     expect(find.text(nhb), findsOneWidget);

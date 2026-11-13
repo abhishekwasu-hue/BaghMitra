@@ -5367,11 +5367,17 @@ abstract class AppLocalizations {
   /// **'See sources'**
   String get sourcesShow;
 
-  /// No description provided for @sourcesShowCount.
+  /// No description provided for @sourcesTitle.
   ///
   /// In en, this message translates to:
-  /// **'See sources ({count})'**
-  String sourcesShowCount(String count);
+  /// **'Sources'**
+  String get sourcesTitle;
+
+  /// No description provided for @sourcesTitleCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Sources ({count})'**
+  String sourcesTitleCount(String count);
 
   /// No description provided for @sourcesHide.
   ///

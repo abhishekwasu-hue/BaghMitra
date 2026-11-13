@@ -16,7 +16,7 @@ import '../data/practice_cards.dart';
 import 'practice_figure_view.dart';
 
 /// Non-chemical orchard practices from published sources, grouped by problem. Every practice
-/// names its source and evidence level behind one "See sources" line (folded, owner request).
+/// names its source and evidence level behind one "स्रोत (n)" header (folded, owner request).
 /// No synthetic chemical advice (owner Q28); no draft
 /// banner (Q30). A problem section with a profile also says what the grower sees, when it
 /// comes, how to scout and any published action level, lists organic / bio options as
@@ -48,7 +48,7 @@ class PracticesScreen extends ConsumerWidget {
       _ => t.practicesEvidenceInferred,
     };
 
-    // Sources fold behind one quiet "See sources (n)" line per point (owner request);
+    // Sources fold behind one "स्रोत (n)" header per point (owner request);
     // one tap shows the citation, each source with its publisher, date read and link, and
     // the evidence level, as before.
     Widget sources(String source, List<String> keys, [List<String>? kinds]) =>

@@ -233,12 +233,34 @@ void main() {
     );
     expect(find.byKey(const Key('scheme-feed-old')), findsNothing);
     expect(find.byKey(const Key('scheme-feed-other')), findsNothing);
+    // The official pages fold behind one "Sources (n)" header (owner 2026-11-13).
+    final sources = find.byKey(const Key('scheme-sources'));
+    await tester.scrollUntilVisible(
+      sources,
+      200,
+      scrollable: find.byType(Scrollable).first,
+    );
+    expect(find.byKey(const Key('scheme-source-0')), findsNothing);
+    final toggle = find.descendant(
+      of: sources,
+      matching: find.byKey(const Key('sources-toggle')),
+    );
+    expect(
+      find.descendant(of: toggle, matching: find.textContaining('Sources (')),
+      findsOne,
+    );
+    await tester.ensureVisible(toggle);
+    await settle(tester);
+    await tester.tap(toggle);
+    await settle(tester);
     await tester.scrollUntilVisible(
       find.byKey(const Key('scheme-source-0')),
       200,
       scrollable: find.byType(Scrollable).first,
     );
     expect(find.text('Sources (checked on 6 Nov 2026)'), findsOne);
+    await tester.ensureVisible(find.byKey(const Key('scheme-source-0')));
+    await settle(tester);
     await tester.tap(find.byKey(const Key('scheme-source-0')));
     await settle(tester);
     expect(find.text('Link copied. Open it in your browser.'), findsOne);
