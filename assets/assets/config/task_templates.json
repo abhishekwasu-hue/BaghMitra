@@ -1,0 +1,265 @@
+{
+  "_note": "Reminders made from the dates a grower enters for a bahar. The first four only restate the grower's own dates and ask for a record. The stage operations after them are cultural work only (water, basin, pruning, looking over the block, harvest care) from public sources, marked as general information with the source and the date read (owner decision Q57); no pesticide, fertiliser or dose content. `crops` / `bahars` limit a template (empty = all), `offset_days` counts from the stage date. Placeholders: {stage}, {bahar}. Sources: docs/agronomy/DRAFT_santra_mosambi_bahar_stages.md §11.",
+  "source": "BagMitra stage reminder",
+  "templates": [
+    {
+      "stage": "stress_start",
+      "kind": "scouting",
+      "titles": {
+        "en": "{stage} today ({bahar}): look over the block and note what you see",
+        "mr": "आज {stage} ({bahar}): बाग पाहा आणि जे दिसते ते नोंदवा",
+        "hi": "आज {stage} ({bahar}): बाग देखें और जो दिखे उसे दर्ज करें"
+      }
+    },
+    {
+      "stage": "flowering",
+      "kind": "scouting",
+      "titles": {
+        "en": "{stage} today ({bahar}): look over the block and note what you see",
+        "mr": "आज {stage} ({bahar}): बाग पाहा आणि जे दिसते ते नोंदवा",
+        "hi": "आज {stage} ({bahar}): बाग देखें और जो दिखे उसे दर्ज करें"
+      }
+    },
+    {
+      "stage": "fruit_set",
+      "kind": "scouting",
+      "titles": {
+        "en": "{stage} today ({bahar}): look over the block and note what you see",
+        "mr": "आज {stage} ({bahar}): बाग पाहा आणि जे दिसते ते नोंदवा",
+        "hi": "आज {stage} ({bahar}): बाग देखें और जो दिखे उसे दर्ज करें"
+      }
+    },
+    {
+      "stage": "harvest",
+      "kind": "harvest",
+      "titles": {
+        "en": "{stage} planned today ({bahar}): enter the weight and the sale when done",
+        "mr": "आज {stage} नियोजित ({bahar}): झाल्यावर वजन आणि विक्री नोंदवा",
+        "hi": "आज {stage} तय ({bahar}): पूरा होने पर वजन और बिक्री दर्ज करें"
+      }
+    },
+    {
+      "id": "pick_old_fruit",
+      "stage": "stress_start",
+      "kind": "harvest",
+      "crops": [],
+      "bahars": [
+        "ambia"
+      ],
+      "offset_days": 0,
+      "titles": {
+        "en": "{stage} ({bahar}): first pick any fruit left from the last crop",
+        "mr": "{stage} ({bahar}): आधी मागील बहाराची झाडावरील फळे काढा",
+        "hi": "{stage} ({bahar}): पहले पिछली फसल के बचे फल तोड़ लें"
+      },
+      "source": "General information (public sources, read 2026-11-06): Dr. PDKV Akola (Agrowon 2023, 2024); Mosambi Research Station Badnapur (Agrowon 2024)"
+    },
+    {
+      "id": "water_down",
+      "stage": "stress_start",
+      "kind": "irrigation",
+      "crops": [],
+      "bahars": [
+        "ambia"
+      ],
+      "offset_days": 0,
+      "titles": {
+        "en": "{stage} ({bahar}): cut the water down step by step, then stop it",
+        "mr": "{stage} ({bahar}): पाणी हळूहळू कमी करत नंतर बंद करा",
+        "hi": "{stage} ({bahar}): पानी धीरे-धीरे कम करें, फिर बंद करें"
+      },
+      "source": "General information (public sources, read 2026-11-06): Dr. PDKV Akola (Agrowon 2023, 2024); Mosambi Research Station Badnapur (Agrowon 2024, Vikaspedia)"
+    },
+    {
+      "id": "heavy_soil",
+      "stage": "stress_start",
+      "kind": "other",
+      "crops": [],
+      "bahars": [
+        "ambia"
+      ],
+      "offset_days": 0,
+      "titles": {
+        "en": "{stage} ({bahar}): in heavy soil, keep the orchard harrowed clean; a light ploughing between the rows helps the stress set",
+        "mr": "{stage} ({bahar}): भारी जमिनीत बाग वखरून स्वच्छ ठेवा; ओळींमध्ये हलकी नांगरट केल्याने ताण बसण्यास मदत होते",
+        "hi": "{stage} ({bahar}): भारी मिट्टी में बाग की गुड़ाई कर साफ रखें; कतारों के बीच हल्की जुताई से तनाव लगने में मदद होती है"
+      },
+      "source": "General information (public sources, read 2026-11-06): Dr. PDKV Akola (Agrowon 2023, 2024); Mosambi Research Station Badnapur (Agrowon 2024, Vikaspedia)"
+    },
+    {
+      "id": "drain_rain",
+      "stage": "stress_start",
+      "kind": "other",
+      "crops": [
+        "santra"
+      ],
+      "bahars": [
+        "mrig"
+      ],
+      "offset_days": 0,
+      "titles": {
+        "en": "{stage} ({bahar}): keep the drains open so rain water runs off quickly",
+        "mr": "{stage} ({bahar}): पावसाच्या पाण्याचा निचरा लगेच होईल असे चर मोकळे ठेवा",
+        "hi": "{stage} ({bahar}): नालियाँ खुली रखें ताकि बारिश का पानी जल्दी निकल जाए"
+      },
+      "source": "General information (public sources, read 2026-11-06): Maharashtra Agriculture Dept. (Vikaspedia)"
+    },
+    {
+      "id": "leaf_check",
+      "stage": "irrigation_restart",
+      "kind": "scouting",
+      "crops": [],
+      "bahars": [
+        "ambia",
+        "mrig"
+      ],
+      "offset_days": 0,
+      "titles": {
+        "en": "{stage} ({bahar}): before ending the stress, look at the leaves; about 25% leaf fall means the stress has set",
+        "mr": "{stage} ({bahar}): ताण तोडण्यापूर्वी पाने पाहा; सुमारे २५% पानगळ झाली असेल तर ताण बसला असे समजा",
+        "hi": "{stage} ({bahar}): तनाव खत्म करने से पहले पत्ते देखें; लगभग 25% पत्ते गिरे हों तो तनाव लग गया समझें"
+      },
+      "source": "General information (public sources, read 2026-11-06): Dr. PDKV Akola (Agrowon 2023, 2024); Mosambi Research Station Badnapur (Agrowon 2024); NHB (citrus bahar treatment)"
+    },
+    {
+      "id": "dry_twigs",
+      "stage": "irrigation_restart",
+      "kind": "pruning",
+      "crops": [
+        "mosambi"
+      ],
+      "bahars": [
+        "ambia"
+      ],
+      "offset_days": 0,
+      "titles": {
+        "en": "{stage} ({bahar}): before ending the stress, cut out dry twigs",
+        "mr": "{stage} ({bahar}): ताण तोडण्यापूर्वी झाडावरील वाळलेल्या काड्या काढा",
+        "hi": "{stage} ({bahar}): तनाव खत्म करने से पहले सूखी टहनियाँ काट दें"
+      },
+      "source": "General information (public sources, read 2026-11-06): Mosambi Research Station Badnapur (Agrowon 2024)"
+    },
+    {
+      "id": "basin_ready",
+      "stage": "irrigation_restart",
+      "kind": "other",
+      "crops": [],
+      "bahars": [],
+      "offset_days": 0,
+      "titles": {
+        "en": "{stage} ({bahar}): make the basins before the first water; a double ring keeps water off the trunk",
+        "mr": "{stage} ({bahar}): पहिल्या पाण्याआधी आळे करा; दुहेरी आळ्यामुळे पाणी खोडापासून दूर राहते",
+        "hi": "{stage} ({bahar}): पहले पानी से पहले थाले बनाएँ; दोहरा थाला पानी को तने से दूर रखता है"
+      },
+      "source": "General information (public sources, read 2026-11-06): Mosambi Research Station Badnapur (Agrowon 2024); NHB (citrus diseases)"
+    },
+    {
+      "id": "light_water",
+      "stage": "irrigation_restart",
+      "kind": "irrigation",
+      "crops": [],
+      "bahars": [
+        "ambia"
+      ],
+      "offset_days": 0,
+      "titles": {
+        "en": "{stage} ({bahar}): give a light watering first, the second 5–7 days later, then a full watering",
+        "mr": "{stage} ({bahar}): आधी हलके पाणी द्या, दुसरे पाणी ५–७ दिवसांनी, नंतर भरपूर पाणी द्या",
+        "hi": "{stage} ({bahar}): पहले हल्का पानी दें, दूसरा पानी 5–7 दिन बाद, फिर भरपूर पानी दें"
+      },
+      "source": "General information (public sources, read 2026-11-06): Dr. PDKV Akola (Agrowon 2023, 2024); Mosambi Research Station Badnapur (Agrowon 2024, Vikaspedia)"
+    },
+    {
+      "id": "rain_short",
+      "stage": "irrigation_restart",
+      "kind": "irrigation",
+      "crops": [
+        "santra"
+      ],
+      "bahars": [
+        "mrig"
+      ],
+      "offset_days": 0,
+      "titles": {
+        "en": "{stage} ({bahar}): if the Mrig rains are short or break, water at once; do no harrowing while the bahar sets",
+        "mr": "{stage} ({bahar}): मृगाचा पाऊस अपुरा पडला किंवा खंड पडला तर लगेच ओलित करा; बहार धरताना वखरणी करू नका",
+        "hi": "{stage} ({bahar}): मृग की बारिश कम हो या रुक जाए तो तुरंत सिंचाई करें; बहार लगते समय गुड़ाई न करें"
+      },
+      "source": "General information (public sources, read 2026-11-06): Maharashtra Agriculture Dept. (Vikaspedia)"
+    },
+    {
+      "id": "flower_water",
+      "stage": "flowering",
+      "kind": "irrigation",
+      "crops": [],
+      "bahars": [],
+      "offset_days": 0,
+      "titles": {
+        "en": "{stage} ({bahar}): water around flowering and again after fruit set; short water then drops flowers and young fruit",
+        "mr": "{stage} ({bahar}): फुलोऱ्याच्या वेळी आणि फळधारणेनंतर पुन्हा पाणी द्या; तेव्हा पाणी कमी पडले तर फुले व लहान फळे गळतात",
+        "hi": "{stage} ({bahar}): फूल आने के समय और फल बनने के बाद फिर पानी दें; तब पानी कम पड़ा तो फूल और छोटे फल गिरते हैं"
+      },
+      "source": "General information (public sources, read 2026-11-06): NHB (citrus irrigation)"
+    },
+    {
+      "id": "grass_mulch",
+      "stage": "flowering",
+      "kind": "other",
+      "crops": [],
+      "bahars": [
+        "ambia"
+      ],
+      "offset_days": 0,
+      "titles": {
+        "en": "{stage} ({bahar}): cover the basins with a grass layer about 6 cm thick to keep the moisture in",
+        "mr": "{stage} ({bahar}): ओलावा टिकवण्यासाठी आळे सुमारे ६ सें.मी. जाड गवताच्या थराने झाका",
+        "hi": "{stage} ({bahar}): नमी बनाए रखने के लिए थाले को लगभग 6 सेमी मोटी घास की परत से ढकें"
+      },
+      "source": "General information (public sources, read 2026-11-06): Dr. PDKV Akola (Agrowon 2024)"
+    },
+    {
+      "id": "clip_harvest",
+      "stage": "harvest",
+      "kind": "harvest",
+      "crops": [],
+      "bahars": [],
+      "offset_days": 0,
+      "titles": {
+        "en": "{stage} ({bahar}): cut the fruit with clippers or secateurs, leaving a little stalk; do not pull it by hand",
+        "mr": "{stage} ({bahar}): फळे क्लिपर किंवा सिकेटरने थोडा देठ ठेवून तोडा; हाताने ओढू नका",
+        "hi": "{stage} ({bahar}): फल क्लिपर या सिकेटियर से थोड़ा डंठल छोड़कर काटें; हाथ से न खींचें"
+      },
+      "source": "General information (public sources, read 2026-11-06): NHB (citrus harvesting, orange report)"
+    },
+    {
+      "id": "dry_weather",
+      "stage": "harvest",
+      "kind": "harvest",
+      "crops": [
+        "santra"
+      ],
+      "bahars": [],
+      "offset_days": 0,
+      "titles": {
+        "en": "{stage} ({bahar}): do not harvest in wet weather or rain",
+        "mr": "{stage} ({bahar}): ओल्या हवामानात किंवा पावसात तोडणी करू नका",
+        "hi": "{stage} ({bahar}): गीले मौसम या बारिश में तुड़ाई न करें"
+      },
+      "source": "General information (public sources, read 2026-11-06): NHB (orange report)"
+    },
+    {
+      "id": "after_harvest_prune",
+      "stage": "harvest",
+      "kind": "pruning",
+      "crops": [],
+      "bahars": [],
+      "offset_days": 0,
+      "titles": {
+        "en": "After {stage} ({bahar}): remove dead, diseased and crossing branches",
+        "mr": "{stage} झाल्यावर ({bahar}): वाळलेल्या, रोगट व एकमेकांत घुसलेल्या फांद्या काढा",
+        "hi": "{stage} के बाद ({bahar}): सूखी, रोगी और आपस में फँसी टहनियाँ हटाएँ"
+      },
+      "source": "General information (public sources, read 2026-11-06): NHB (orange report); ICAR-CCRI Nagpur scientists (Agrowon 2018)"
+    }
+  ]
+}
