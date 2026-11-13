@@ -93,7 +93,7 @@ class _BaharCompareScreenState extends ConsumerState<BaharCompareScreen> {
                   contentPadding: EdgeInsets.zero,
                   leading: Icon(Icons.info_outline, color: c.inkMuted),
                   title: Text(p.label(lang), style: BmType.body),
-                  // The source folds behind one "See sources" line (owner request).
+                  // The source folds behind one "स्रोत (n)" header (owner request).
                   subtitle: SourcesDisclosure(
                     notes: [t.baharCompareSource(p.source)],
                   ),

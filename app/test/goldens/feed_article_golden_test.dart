@@ -166,7 +166,9 @@ void main() {
         await unmountApp(tester);
       });
     }
-    for (final part in ['top', 'end']) {
+    // "end": the sources folded behind "स्रोत (२)" (owner 2026-11-13); "sources_open": the
+    // same header opened, its link cards shown.
+    for (final part in ['top', 'end', 'sources_open']) {
       final name = 'feed_item_http_${part}_mr_${mode.name}';
       testWidgets(name, (tester) async {
         tester.platformDispatcher.textScaleFactorTestValue = 1.3;
@@ -190,6 +192,29 @@ void main() {
             const Offset(0, -300),
           );
           await settle(tester);
+        }
+        if (part == 'sources_open') {
+          final sources = find.byKey(const Key('feed-article-sources'));
+          await tester.scrollUntilVisible(
+            sources,
+            100,
+            scrollable: find.byType(Scrollable).first,
+          );
+          final toggle = find.descendant(
+            of: sources,
+            matching: find.byKey(const Key('sources-toggle')),
+          );
+          await tester.ensureVisible(toggle);
+          await settle(tester);
+          await tester.tap(toggle);
+          await settle(tester);
+          // The header at the top, its opened cards below it.
+          await tester.drag(
+            find.byType(Scrollable).first,
+            Offset(0, -(tester.getTopLeft(toggle).dy - 120)),
+          );
+          await settle(tester);
+          expect(find.byKey(const Key('feed-source')), findsOneWidget);
         }
         expect(tester.takeException(), isNull);
         await expectLater(

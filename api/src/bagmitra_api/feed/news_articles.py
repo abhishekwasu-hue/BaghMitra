@@ -7,7 +7,7 @@ publish it when nothing fails (FEED_AUTO_PUBLISH), else hold it with the reasons
 text is never stored: only its SHA-256 and size. At most FEED_AI_DAILY_ITEMS writer calls per
 UTC day; with no writer (FEED_AI_API_KEY empty) nothing happens.
 
-Headline filter (owner 2026-11-13, Q149): before any page is fetched, the waiting headlines
+Headline filter (owner 2026-11-13, Q150): before any page is fetched, the waiting headlines
 (title, source, language only) go in batches of FILTER_BATCH to the cheap classify model, which
 answers per headline relevant / political / reason (structured output). Not relevant or
 political: the item goes to `draft` exactly as when the writer judges it so (an ATTEMPT event
@@ -45,7 +45,7 @@ RECHECK = "ai_article_recheck"
 MAX_PAGE_BYTES = 2 * 1024 * 1024
 # Attempts that end the item's AI step (an unavailable model is tried again next run).
 FINAL = ("published", "held", "draft", "review")
-# Q149 headline filter: its verdict event, headlines per call, answer ceiling (thinking
+# Q150 headline filter: its verdict event, headlines per call, answer ceiling (thinking
 # included) and the reason prefix of the drafts it makes (kept out of the writer's daily cap).
 FILTER = "ai_prefilter"
 FILTER_BATCH = 40
@@ -388,7 +388,7 @@ async def write_news_articles(  # noqa: PLR0913 - the run with its clock and opt
     now: datetime,
     prefilter: HeadlineFilter | None = None,
 ) -> ArticleRun:
-    """With `prefilter` (Q149) the headlines are judged first and only kept ones are written."""
+    """With `prefilter` (Q150) the headlines are judged first and only kept ones are written."""
     run = ArticleRun()
     if writer is None:
         run.skipped_reason = "FEED_AI_API_KEY is not set"

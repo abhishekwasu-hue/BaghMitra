@@ -16,21 +16,33 @@ class SourceRef {
 }
 
 /// The sources behind a piece of content, folded away so they do not break the reading
-/// flow (owner request: "hide the sources; whoever wants them taps and sees them"). Collapsed
-/// it is one quiet 48 dp line, "Sources (3)"; one tap shows every source as before: [notes]
+/// flow (owner: "hide the sources; whoever wants them taps and sees them"; 2026-11-13: an
+/// on / off button for the source links, everywhere in the app). Collapsed it is one 48 dp
+/// header, "स्रोत (३)" in green bold with a chevron; one tap shows every source: [notes]
 /// (free-text citations such as page references), each [sources] entry with its publisher,
-/// date read and link, and the evidence [kinds]. Nothing is removed, only folded.
+/// date read and link, the screen's own [links] (link cards that keep their tap action), its [actions] and
+/// the evidence [kinds]; a second tap folds them again. Nothing is removed, only folded.
+/// Open or closed is per view: it starts closed each time the screen is built.
 class SourcesDisclosure extends StatefulWidget {
   const SourcesDisclosure({
     super.key,
     this.sources = const [],
     this.notes = const [],
+    this.links = const [],
+    this.actions = const [],
     this.kinds = const [],
     this.initiallyExpanded = false,
   });
 
   final List<SourceRef> sources;
   final List<String> notes;
+
+  /// Link cards built by the screen (e.g. a chip that copies its link), each one source.
+  final List<Widget> links;
+
+  /// Buttons about the sources (e.g. copy the link), shown below them when open; not
+  /// counted in "(n)".
+  final List<Widget> actions;
 
   /// Evidence levels already in the reader's language ("Official", "University" …).
   final List<String> kinds;
@@ -49,21 +61,17 @@ class _SourcesDisclosureState extends State<SourcesDisclosure> {
   @override
   Widget build(BuildContext context) {
     final w = widget;
-    if (w.sources.isEmpty && w.notes.isEmpty && w.kinds.isEmpty) {
+    final count = w.sources.length + w.links.length;
+    if (count == 0 && w.notes.isEmpty && w.kinds.isEmpty) {
       return const SizedBox.shrink();
     }
     final t = AppLocalizations.of(context);
     final c = context.bm;
     final quiet = BmType.meta.copyWith(color: c.inkMuted);
-    final label = _open
-        ? t.sourcesHide
-        : w.sources.isEmpty
-        ? t.sourcesShow
-        : t.sourcesShowCount(
-            formatInt(
-              w.sources.length,
-              Localizations.localeOf(context).languageCode,
-            ),
+    final label = count == 0
+        ? t.sourcesTitle
+        : t.sourcesTitleCount(
+            formatInt(count, Localizations.localeOf(context).languageCode),
           );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,6 +82,7 @@ class _SourcesDisclosureState extends State<SourcesDisclosure> {
           button: true,
           expanded: _open,
           label: label,
+          hint: _open ? t.sourcesHide : t.sourcesShow,
           excludeSemantics: true,
           onTap: _toggle,
           child: InkWell(
@@ -87,19 +96,24 @@ class _SourcesDisclosureState extends State<SourcesDisclosure> {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(
-                    Icons.info_outline_rounded,
-                    size: BmSpace.md,
-                    color: c.inkMuted,
+                  Icon(Icons.link_rounded, size: 20, color: c.link),
+                  const SizedBox(width: BmSpace.xxs),
+                  Flexible(
+                    child: Text(
+                      label,
+                      style: BmType.bodyStrong.copyWith(
+                        color: c.link,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
                   ),
                   const SizedBox(width: BmSpace.xxs),
-                  Flexible(child: Text(label, style: quiet)),
                   Icon(
                     _open
                         ? Icons.expand_less_rounded
                         : Icons.expand_more_rounded,
-                    size: BmSpace.lg,
-                    color: c.inkMuted,
+                    size: 26,
+                    color: c.link,
                   ),
                 ],
               ),
@@ -134,6 +148,16 @@ class _SourcesDisclosureState extends State<SourcesDisclosure> {
                           ),
                       ],
                     ),
+                  ),
+                for (final link in w.links)
+                  Padding(
+                    padding: const EdgeInsets.only(top: BmSpace.xs),
+                    child: link,
+                  ),
+                for (final action in w.actions)
+                  Padding(
+                    padding: const EdgeInsets.only(top: BmSpace.sm),
+                    child: action,
                   ),
                 if (w.kinds.isNotEmpty)
                   Padding(

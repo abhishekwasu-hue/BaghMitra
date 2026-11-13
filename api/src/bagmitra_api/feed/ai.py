@@ -324,7 +324,7 @@ class AnthropicFeedAi:
         max_tokens: int = SMALL_JSON_MAX_TOKENS,
     ) -> dict[str, Any]:
         """One short structured-output answer from the cheap classify model at low effort
-        (Q139 topic threads: "same topic as thread X, or new"; Q149 news headline filter)."""
+        (Q139 topic threads: "same topic as thread X, or new"; Q150 news headline filter)."""
         answer = await self._ask(
             self._settings.feed_classify_model,
             system,

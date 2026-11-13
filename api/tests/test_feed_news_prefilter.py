@@ -1,4 +1,4 @@
-"""Owner 2026-11-13 (Q149): a cheap headline filter runs before the article writer, so the
+"""Owner 2026-11-13 (Q150): a cheap headline filter runs before the article writer, so the
 writer (and its page fetch) only sees useful news. The filter is the real adapter over
 httpx.MockTransport (nothing leaves the test); the writer and the source are fakes."""
 

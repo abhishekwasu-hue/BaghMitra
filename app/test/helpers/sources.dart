@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-/// Opens every folded "See sources" line that is built (on screen or not), so a test can
+/// Opens every folded "Sources (n)" header that is built (on screen or not), so a test can
 /// check the source text that sits one tap away (SourcesDisclosure).
 Future<void> openAllSources(WidgetTester tester, {Finder? within}) async {
   Finder toggles() {

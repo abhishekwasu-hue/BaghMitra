@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import '../../../app/router.dart';
 import '../../../core/formatting.dart';
 import '../../../design_system/article_reading.dart';
+import '../../../design_system/sources_disclosure.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../domain/feed_article.dart';
@@ -26,11 +27,20 @@ class FeedArticleView extends StatelessWidget {
     required this.article,
     required this.lang,
     this.knowledge = false,
+    this.sourceLinks = const [],
+    this.sourceActions = const [],
   });
 
   final FeedArticle article;
   final String lang;
   final bool knowledge;
+
+  /// More link cards for the same sources list (the item's own source link), so the
+  /// screen shows one folded "स्रोत (n)" header, not two.
+  final List<Widget> sourceLinks;
+
+  /// Buttons shown below the opened sources (the item's "copy link").
+  final List<Widget> sourceActions;
 
   @override
   Widget build(BuildContext context) {
@@ -124,30 +134,25 @@ class FeedArticleView extends StatelessWidget {
             ),
           ),
         ],
-        if (article.sources.isNotEmpty) ...[
+        // Folded behind one "स्रोत (n)" header (owner 2026-11-13: an on / off button for
+        // the source links; whoever needs them opens them).
+        if (article.sources.isNotEmpty || sourceLinks.isNotEmpty) ...[
           const SizedBox(height: BmSpace.md),
-          Row(
-            children: [
-              ToneIconChip(
-                icon: sectionIcon(ArticleSectionKind.sources),
-                tone: c.toneGrey,
-                size: 28,
-              ),
-              const SizedBox(width: BmSpace.xs),
-              Text(t.feedArticleSources, style: BmType.bodyStrong),
-            ],
-          ),
-          const SizedBox(height: BmSpace.xs),
-          Wrap(
-            spacing: BmSpace.xs,
-            runSpacing: BmSpace.xs,
-            children: [
+          SourcesDisclosure(
+            key: const Key('feed-article-sources'),
+            links: [
               for (final (i, s) in article.sources.indexed)
                 if (knowledge)
                   _SourceRow(key: Key('feed-knowledge-source-$i'), source: s)
                 else
-                  SourceChip(title: s.title, url: s.url),
+                  SourceChip(
+                    key: Key('feed-article-source-$i'),
+                    title: s.title,
+                    url: s.url,
+                  ),
+              ...sourceLinks,
             ],
+            actions: sourceActions,
           ),
         ],
         if (knowledge && article.cardSection != null) ...[

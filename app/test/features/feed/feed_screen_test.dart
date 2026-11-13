@@ -15,6 +15,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import '../../architecture/ui_guidelines_test.dart' show contrast;
 import '../../helpers/pump_app.dart';
+import '../../helpers/sources.dart';
 import '../plots/plots_screen_test.dart' show settle;
 import 'feed_data_test.dart';
 
@@ -262,6 +263,8 @@ void main() {
     await tester.tap(find.text('Title gr1'));
     await settle(tester);
     expect(find.text('Summary gr1'), findsOneWidget);
+    expect(find.text('Source: https://example.org/gr1'), findsNothing);
+    await openAllSources(tester);
     expect(find.text('Source: https://example.org/gr1'), findsOneWidget);
     await tester.tap(find.byKey(const Key('feed-remind')));
     await settle(tester);
@@ -343,12 +346,77 @@ void main() {
       find.text('News · Government of India · ${en(DateTime(2026, 10, 11))}'),
       findsOneWidget,
     );
-    await tester.tap(find.byKey(const Key('feed-copy-link')));
+    // The copy button is source material too: inside the folded "Sources (1)",
+    // below the link card (owner 2026-11-13).
+    expect(find.byKey(const Key('feed-copy-link')), findsNothing);
+    await openAllSources(tester);
+    await settle(tester);
+    final copy = find.byKey(const Key('feed-copy-link'));
+    expect(
+      find.descendant(
+        of: find.byKey(const Key('feed-item-sources')),
+        matching: copy,
+      ),
+      findsOneWidget,
+    );
+    expect(
+      tester.getTopLeft(copy).dy,
+      greaterThan(tester.getTopLeft(find.byKey(const Key('feed-source'))).dy),
+    );
+    await tester.ensureVisible(copy);
+    await settle(tester);
+    await tester.tap(copy);
     await settle(tester);
     expect(copied, 'https://example.org/news1');
     expect(find.textContaining('Link copied'), findsOneWidget);
     await unmountApp(tester);
   });
+
+  testWidgets(
+    'the source link folds behind "Sources (1)"; open, a tap copies',
+    (tester) async {
+      String? copied;
+      tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+        SystemChannels.platform,
+        (call) async {
+          if (call.method == 'Clipboard.setData') {
+            copied = (call.arguments as Map)['text'] as String?;
+          }
+          return null;
+        },
+      );
+      addTearDown(
+        () => tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+          SystemChannels.platform,
+          null,
+        ),
+      );
+      await pumpFeed(tester, location: '/feed/gr1');
+      final sources = find.byKey(const Key('feed-item-sources'));
+      expect(
+        find.descendant(of: sources, matching: find.text('Sources (1)')),
+        findsOneWidget,
+      );
+      expect(find.byKey(const Key('feed-source')), findsNothing);
+      final toggle = find.descendant(
+        of: sources,
+        matching: find.byKey(const Key('sources-toggle')),
+      );
+      await tester.ensureVisible(toggle);
+      await settle(tester);
+      await tester.tap(toggle);
+      await settle(tester);
+      await tester.ensureVisible(find.byKey(const Key('feed-source')));
+      await settle(tester);
+      await tester.tap(find.byKey(const Key('feed-source')));
+      await settle(tester);
+      expect(copied, 'https://example.org/gr1');
+      await tester.tap(toggle);
+      await settle(tester);
+      expect(find.byKey(const Key('feed-source')), findsNothing);
+      await unmountApp(tester);
+    },
+  );
 
   testWidgets('an item missing from the cache says so', (tester) async {
     await pumpFeed(tester, location: '/feed/gone');

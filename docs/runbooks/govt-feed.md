@@ -231,7 +231,7 @@ Log: `/var/log/bagmitra-feed-news.log` (second JSON line: published / held / dra
 and `filter` below).
 Set a monthly spend limit in the Anthropic console.
 
-**Headline filter before the writer** (owner 2026-11-13, OPEN_QUESTIONS Q149). Before any page is
+**Headline filter before the writer** (owner 2026-11-13, OPEN_QUESTIONS Q150). Before any page is
 read, the waiting headlines go to the cheap `FEED_CLASSIFY_MODEL` (default `claude-haiku-5-5`, low
 effort, structured output) in batches of **40** (title, source name, language only; no page fetch).
 For each headline it answers `relevant` (useful to an Indian, mainly Maharashtra, fruit-orchard /

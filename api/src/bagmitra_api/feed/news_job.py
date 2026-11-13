@@ -89,7 +89,7 @@ async def article_step(  # noqa: PLR0913 - the run with its clock and optional f
     now: datetime,
     prefilter: HeadlineFilter | None = None,
 ) -> tuple[ArticleRun, ArticleRun]:
-    """New headlines are judged by the headline filter (Q149) and the kept ones get their
+    """New headlines are judged by the headline filter (Q150) and the kept ones get their
     article; then the held articles are checked again with the current checks (owner
     2026-11-10: every run, no separate command; no model call)."""
     written = await write_news_articles(session, adapter, writer, settings, now, prefilter)
@@ -124,7 +124,7 @@ async def main() -> int:  # pragma: no cover - thin CLI wrapper
         async with get_sessionmaker()() as session:
             summary = await run_news(session, adapter)
             await session.commit()
-            # Q149: the cheap headline filter runs first; the writer sees only useful news.
+            # Q150: the cheap headline filter runs first; the writer sees only useful news.
             prefilter = AnthropicHeadlineFilter(writer) if writer is not None else None
             articles, rechecked = await article_step(
                 session, adapter, writer, settings, datetime.now(UTC), prefilter

@@ -384,9 +384,9 @@ void main() {
       find.textContaining('Soil solarisation of nursery beds'),
       findsOneWidget,
     );
-    // Sources fold behind one "See sources" line per practice (owner request).
+    // Sources fold behind one "Sources (n)" header per practice (owner request).
     expect(find.textContaining('P1 Plant Pathology recs'), findsNothing);
-    expect(find.textContaining('See sources'), findsWidgets);
+    expect(find.byKey(const Key('sources-toggle')), findsWidgets);
     await openAllSources(tester);
     expect(find.textContaining('P1 Plant Pathology recs'), findsWidgets);
     expect(find.textContaining('PDKV: AICRP'), findsWidgets);
@@ -435,7 +435,7 @@ void main() {
       // Owner 2026-11-10: no "general information · confirm with your KVK" line.
       expect(find.textContaining('सर्वसाधारण माहिती'), findsNothing);
       expect(find.textContaining('KVK कडून खात्री'), findsNothing);
-      expect(find.textContaining('स्रोत पहा'), findsWidgets);
+      expect(find.textContaining('स्रोत ('), findsWidgets);
       expect(find.text('काय दिसते'), findsOneWidget);
       expect(find.text('पाहणी कशी करावी'), findsOneWidget);
       expect(
