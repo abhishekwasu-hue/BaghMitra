@@ -33,6 +33,16 @@ from bagmitra_api.feed.knowledge_article import (
     parse_knowledge,
 )
 from bagmitra_api.feed.output_check import NOT_STATED
+from bagmitra_api.feed.pdf_transcribe import (
+    TRANSCRIBE_EFFORT,
+    TRANSCRIBE_PROMPT,
+    TRANSCRIBE_QUESTION,
+    TRANSCRIBE_SCHEMA,
+    Transcription,
+    TranscriptionError,
+    parse_transcription,
+    pdf_document_block,
+)
 
 ANTHROPIC_VERSION = "2026-10-21"
 # Server-side refusal fallback (summariser model only; Haiku has none).
@@ -56,6 +66,18 @@ CATEGORIES = ("deadline", "payment", "new_scheme", "amendment", "cancellation", 
 
 class AiUnavailableError(Exception):
     """The model could not be reached or answered with something unusable."""
+
+
+class AiRefusedError(AiUnavailableError):
+    """The model (and its fallback) declined the request: asking again does not help."""
+
+
+class AiCutOffError(AiUnavailableError):
+    """The answer was cut off at max_tokens: the same request would be cut off again."""
+
+
+class AiBadAnswerError(AiUnavailableError):
+    """The model answered, but not in the asked shape: not an outage, so not retried."""
 
 
 @dataclass(frozen=True, slots=True)
@@ -168,6 +190,33 @@ def parse_summary(payload: dict[str, Any]) -> Summary:
     return Summary(title=title.strip(), summary=summary.strip(), fields=fields)
 
 
+async def _streamed(
+    http: httpx.AsyncClient, url: str, headers: dict[str, str], body: dict[str, Any], wait: float
+) -> tuple[str, str | None]:
+    """The text deltas and the stop reason of a streamed answer (server-sent events). With
+    the refusal fallback, a fallback model continues on the same stream after any partial
+    text, so the deltas joined are the whole answer."""
+    texts: list[str] = []
+    stop: str | None = None
+    async with http.stream(
+        "POST", url, headers=headers, json={**body, "stream": True}, timeout=wait
+    ) as response:
+        if response.status_code != httpx.codes.OK:
+            raise AiUnavailableError(f"HTTP {response.status_code}")
+        async for line in response.aiter_lines():
+            if not line.startswith("data:"):
+                continue
+            event = json.loads(line[5:])
+            kind = event.get("type")
+            if kind == "error":
+                raise AiUnavailableError(f"stream error: {event.get('error', {}).get('type')}")
+            if kind == "content_block_delta" and event["delta"].get("type") == "text_delta":
+                texts.append(event["delta"].get("text", ""))
+            elif kind == "message_delta":
+                stop = event.get("delta", {}).get("stop_reason") or stop
+    return "".join(texts), stop
+
+
 async def messages_text(  # noqa: PLR0913 - the one Messages API call of the repo
     http: httpx.AsyncClient,
     *,
@@ -176,27 +225,37 @@ async def messages_text(  # noqa: PLR0913 - the one Messages API call of the rep
     body: dict[str, Any],
     fallback: bool,
     read_seconds: float,
+    stream: bool = False,
 ) -> str:
-    """POST /v1/messages and the answer's text; AiUnavailableError for a transport error, a
-    non-200 status, a refusal or an answer cut off at max_tokens. With `fallback`, the
-    server-side refusal fallback beta routes a declined request to the default fallback."""
+    """POST /v1/messages and the answer's text; AiUnavailableError for a transport error or a
+    non-200 status, AiRefusedError for a refusal, AiCutOffError for an answer cut off at
+    max_tokens (both subclasses). With `fallback`, the server-side refusal fallback beta
+    routes a declined request to the default fallback. `stream` reads the answer as
+    server-sent events (a long answer: no idle HTTP wait of many minutes)."""
     if fallback:
         headers = {**headers, "anthropic-beta": FALLBACK_BETA}
         body = {**body, "fallbacks": "default"}
     url = f"{base_url.rstrip('/')}/v1/messages"
     try:
-        response = await http.post(url, headers=headers, json=body, timeout=read_seconds)
+        if stream:
+            text, stop = await _streamed(http, url, headers, body, read_seconds)
+        else:
+            response = await http.post(url, headers=headers, json=body, timeout=read_seconds)
+            if response.status_code != httpx.codes.OK:
+                raise AiUnavailableError(f"HTTP {response.status_code}")
+            payload = response.json()
+            stop = payload.get("stop_reason")
+            blocks = payload.get("content", [])
+            text = "".join(b.get("text", "") for b in blocks if b.get("type") == "text")
     except httpx.HTTPError as exc:
         raise AiUnavailableError(f"{type(exc).__name__}: {exc}") from exc
-    if response.status_code != httpx.codes.OK:
-        raise AiUnavailableError(f"HTTP {response.status_code}")
-    payload = response.json()
-    if payload.get("stop_reason") == "refusal":
-        raise AiUnavailableError("model declined the request")
-    if payload.get("stop_reason") == "max_tokens":
-        raise AiUnavailableError("answer cut off at max_tokens")
-    texts = [b.get("text", "") for b in payload.get("content", []) if b.get("type") == "text"]
-    return "".join(texts)
+    except (ValueError, KeyError, AttributeError) as exc:
+        raise AiUnavailableError(f"unreadable answer: {type(exc).__name__}") from exc
+    if stop == "refusal":
+        raise AiRefusedError("model declined the request")
+    if stop == "max_tokens":
+        raise AiCutOffError("answer cut off at max_tokens")
+    return text
 
 
 class AnthropicFeedAi:
@@ -335,6 +394,48 @@ class AnthropicFeedAi:
             effort="low",
         )
         return _json_object(answer)
+
+    async def transcribe_pdf(self, data: bytes) -> Transcription:
+        """Owner 2026-11-13 (Q152): the visible text of a legacy-font PDF, transcribed by the
+        model from the PDF itself (document block). Streamed: a long GR takes minutes."""
+        s = self._settings
+        model = s.feed_pdf_transcribe_model or s.feed_summarise_model
+        headers = {
+            "x-api-key": s.feed_ai_api_key.get_secret_value(),
+            "anthropic-version": ANTHROPIC_VERSION,
+            "content-type": "application/json",
+        }
+        body: dict[str, Any] = {
+            "model": model,
+            "max_tokens": s.feed_pdf_transcribe_max_tokens,
+            "system": TRANSCRIBE_PROMPT,
+            "messages": [
+                {
+                    "role": "user",
+                    "content": [
+                        pdf_document_block(data),
+                        {"type": "text", "text": TRANSCRIBE_QUESTION},
+                    ],
+                }
+            ],
+            "output_config": {
+                "format": {"type": "json_schema", "schema": TRANSCRIBE_SCHEMA},
+                "effort": TRANSCRIBE_EFFORT,
+            },
+        }
+        answer = await messages_text(
+            self._http,
+            base_url=s.feed_ai_base_url,
+            headers=headers,
+            body=body,
+            fallback=True,
+            read_seconds=s.feed_pdf_transcribe_timeout_seconds,
+            stream=True,
+        )
+        try:
+            return parse_transcription(_json_object(answer), model=model)
+        except (AiUnavailableError, TranscriptionError) as exc:
+            raise AiBadAnswerError(f"transcription JSON: {exc}") from exc
 
     async def summarise(self, text: str) -> Summary:
         answer = await self._ask(

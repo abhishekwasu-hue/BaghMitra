@@ -2,7 +2,8 @@
 official-tier source whose terms are `allowed` and that has a reader for its `fetch_method`,
 adds the new listings of the last BACKFILL_DAYS (at most BACKFILL_PER_RUN per source and run)
 as `in_review` items, then runs the AI step (`official_items.py`: document, classify, article,
-scheme card, output check, publish or hold). Prints a JSON summary.
+scheme card, output check, publish or hold; a legacy-font PDF is transcribed by the model first,
+Q152). Prints a JSON summary.
 
 Readers (how each portal is read is in docs/runbooks/govt-feed.md §14):
 - `portal_list`: a server-rendered result table with a date and a document link per row
@@ -52,6 +53,7 @@ from bagmitra_api.feed.news import UnsafeXmlError, entry_key, parse_feed
 from bagmitra_api.feed.official_items import (
     OfficialAi,
     OfficialRun,
+    PdfTranscriber,
     recheck_held_official,
     write_official_items,
 )
@@ -277,20 +279,22 @@ class PortalSummary:
             {
                 "sources": [asdict(o) for o in self.sources],
                 "added": sum(o.added for o in self.sources),
-                "official": asdict(self.official),
-                "rechecked": asdict(self.rechecked),
+                "official": self.official.as_dict(),
+                "pdf_transcribe": self.official.transcribe.as_dict(),
+                "rechecked": self.rechecked.as_dict(),
                 "skipped_reason": self.skipped_reason,
             },
             ensure_ascii=False,
         )
 
 
-async def run_portals(
+async def run_portals(  # noqa: PLR0913 - the job's inputs
     session: AsyncSession,
     adapter: GrPortalAdapter,
     ai: OfficialAi | None,
     settings: Settings,
     now: datetime,
+    transcriber: PdfTranscriber | None = None,
 ) -> PortalSummary:
     summary = PortalSummary()
     if not settings.cron_feed_portals:
@@ -303,7 +307,7 @@ async def run_portals(
     for source in list(sources):
         summary.sources.append(await fetch_portal(session, source, adapter, now))
     await session.commit()
-    summary.official = await write_official_items(session, adapter, ai, settings, now)
+    summary.official = await write_official_items(session, adapter, ai, settings, now, transcriber)
     await session.commit()
     # Owner 2026-11-13: held listings are checked again with the current checks on every run
     # (no model call, no fetch), so a check fix reaches the items it held before.
@@ -325,7 +329,7 @@ async def main() -> int:  # pragma: no cover - thin CLI wrapper
             AnthropicFeedAi(http, settings) if settings.feed_ai_api_key.get_secret_value() else None
         )
         async with get_sessionmaker()() as session:
-            summary = await run_portals(session, adapter, ai, settings, datetime.now(UTC))
+            summary = await run_portals(session, adapter, ai, settings, datetime.now(UTC), ai)
     print(summary.to_json())
     return 0
 
