@@ -33,10 +33,11 @@ from bagmitra_api.feed.article import ArticleSet, check_articles
 from bagmitra_api.feed.extract import extract
 from bagmitra_api.feed.gr_portal import FetchFailedError, GrPortalAdapter
 from bagmitra_api.feed.models import FeedItem, FeedReviewEvent, FeedSchemeCard, FeedSource
-from bagmitra_api.feed.news_articles import _store
+from bagmitra_api.feed.news_articles import _saved_articles, _store
 from bagmitra_api.feed.service import latest_card, run_output_check, sync_deadlines
 
 ATTEMPT = "ai_official"
+RECHECK = "ai_official_recheck"
 FINAL = ("published", "held", "draft", "review")
 OFFICIAL_KINDS = ("gr", "circular", "scheme", "alert")
 # Review-event `via` of the listings this step handles (manual uploads stay with the admin).
@@ -216,5 +217,52 @@ async def write_official_items(
         run.drafted += outcome == "draft"
         run.review += outcome == "review"
         run.retry += outcome == "retry"
+        await session.flush()
+    return run
+
+
+async def recheck_held_official(session: AsyncSession, settings: Settings) -> OfficialRun:
+    """Owner 2026-11-13: check the held portal listings again with the current checks and
+    publish those that now pass. Only a listing whose document text was stored and whose
+    article was saved is checked: the stored text and the saved article are used as they are
+    (no model call, no fetch). A listing held for its text (scanned / legacy font) or for a
+    failed fetch has neither and stays held. Safe to repeat on every run."""
+    run = OfficialRun()
+    from_portal = select(FeedReviewEvent.item_id).where(
+        FeedReviewEvent.kind == "created",
+        FeedReviewEvent.detail["via"].as_string().in_(PORTAL_VIA),
+    )
+    held = await session.scalars(
+        select(FeedItem)
+        .where(
+            FeedItem.type.in_(OFFICIAL_KINDS),
+            FeedItem.status == "held",
+            FeedItem.extracted_text.is_not(None),
+            FeedItem.id.in_(from_portal),
+        )
+        .order_by(FeedItem.published_at.desc())
+    )
+    for item in list(held):
+        articles = await _saved_articles(session, item)
+        if articles is None or not item.extracted_text:
+            continue
+        await _store(session, item, articles)  # saved links in their canonical form
+        await session.flush()
+        problems = check_articles(item.extracted_text, articles, source_url=item.url)
+        issues = [{"kind": "article", "text": p, "where": ""} for p in problems]
+        issues += await run_output_check(session, item, settings, None)
+        item.check_issues = issues
+        if issues:
+            outcome = "held"
+        elif settings.feed_auto_publish:
+            item.status, outcome = "published", "published"
+            await sync_deadlines(session, item)
+            session.add(_event(item, "auto_published"))
+        else:
+            item.status, outcome = "in_review", "review"
+        session.add(_event(item, RECHECK, result=outcome))
+        run.published += outcome == "published"
+        run.held += outcome == "held"
+        run.review += outcome == "review"
         await session.flush()
     return run

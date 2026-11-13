@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import copy
 import json
+import uuid
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
@@ -29,7 +30,7 @@ from bagmitra_api.feed.models import (
     FeedSchemeCard,
     FeedSource,
 )
-from bagmitra_api.feed.official_items import write_official_items
+from bagmitra_api.feed.official_items import recheck_held_official, write_official_items
 from bagmitra_api.feed.output_check import NOT_STATED
 from bagmitra_api.feed.portal_job import (
     READERS,
@@ -402,6 +403,83 @@ async def test_the_daily_model_cap_is_kept(engine: AsyncEngine) -> None:
         capped = settings(feed_ai_daily_items=0)
         run = await write_official_items(session, adapter(doc_site()), FakeAi(), capped, now)
         assert run.skipped_reason == "daily AI limit reached"
+
+
+async def _held_with_saved(session: AsyncSession, now: datetime, link: str) -> FeedItem:
+    """A listing as an earlier check left it: held, its text and article saved, the article
+    citing `link` as the model wrote it (VPS 2026-11-13: "http://www.nfsm.gov.in/mis/bline")."""
+    item = await listed(session, now)
+    await write_official_items(session, adapter(doc_site()), FakeAi(), settings(), now)
+    rows = list(await session.scalars(select(FeedItemI18n).where(FeedItemI18n.item_id == item.id)))
+    for row in rows:
+        assert row.article is not None
+        row.article = {**row.article, "sources": [{"title": "NFSM", "url": link}]}
+    item.status = "held"
+    item.check_issues = [{"kind": "article", "text": "old check", "where": ""}]
+    await session.flush()
+    return item
+
+
+async def test_held_listings_are_rechecked_from_the_stored_text(engine: AsyncEngine) -> None:
+    """Owner 2026-11-13: after a check fix the listings it held are checked again on the next
+    portal run, from the stored text and the saved article: no model call, no fetch."""
+    now = datetime(2026, 11, 12, 12, tzinfo=UTC)
+    async with async_sessionmaker(engine, expire_on_commit=False)() as session:
+        item = await _held_with_saved(session, now, "http://www.nfsm.gov.in/mis/bline")
+        nothing = Site({})
+        summary = await run_portals(session, adapter(nothing), None, settings(), now)
+        assert asdict_run(summary.rechecked) == {"published": 1, "held": 0, "review": 0}
+        assert (item.status, item.check_issues) == ("published", [])
+        assert GR_PDF not in nothing.calls
+        rows = list(await session.scalars(select(FeedItemI18n)))
+        assert {r.article["sources"][0]["url"] for r in rows if r.article} == {
+            "https://www.nfsm.gov.in/mis/bline"
+        }
+        kinds = [e.kind for e in await session.scalars(select(FeedReviewEvent))]
+        assert "ai_official_recheck" in kinds
+        assert json.loads(summary.to_json())["rechecked"]["published"] == 1
+
+
+async def test_a_recheck_keeps_refusing_what_is_not_in_the_source(engine: AsyncEngine) -> None:
+    now = datetime(2026, 11, 12, 12, tzinfo=UTC)
+    async with async_sessionmaker(engine)() as session:
+        item = await _held_with_saved(session, now, "https://example.com/blog")
+        run = await recheck_held_official(session, settings())
+        assert (run.published, run.held, item.status) == (0, 1, "held")
+        assert any("example.com" in i["text"] for i in item.check_issues)
+
+
+async def test_a_recheck_leaves_unreadable_listings_and_keeps_review_mode(
+    engine: AsyncEngine,
+) -> None:
+    now = datetime(2026, 11, 12, 12, tzinfo=UTC)
+    async with async_sessionmaker(engine)() as session:
+        item = await _held_with_saved(session, now, "WWW.krishi.maharashtra.gov.in")
+        broken = FeedItem(
+            id=uuid.uuid4(),
+            source_id=item.source_id,
+            type="scheme",
+            trust_level="official",
+            status="held",
+            url="https://mahadbt.maharashtra.gov.in/x.pdf",
+            published_at=now,
+            check_issues=[{"kind": "text_broken", "text": "legacy font", "where": "x"}],
+        )
+        session.add(broken)
+        await session.flush()
+        created = {"via": "official_portal"}
+        session.add(
+            FeedReviewEvent(id=uuid.uuid4(), item_id=broken.id, kind="created", detail=created)
+        )
+        await session.flush()
+        run = await recheck_held_official(session, settings(feed_auto_publish=False))
+        assert (run.review, item.status) == (1, "in_review")
+        assert broken.status == "held"
+        assert broken.check_issues[0]["kind"] == "text_broken"
+
+
+def asdict_run(run: Any) -> dict[str, int]:
+    return {"published": run.published, "held": run.held, "review": run.review}
 
 
 # --- job --------------------------------------------------------------------------------------
