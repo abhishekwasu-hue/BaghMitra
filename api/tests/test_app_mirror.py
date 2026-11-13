@@ -1,10 +1,22 @@
 """Test APK mirror (owner 2026-11-08): the newest coded test release on GitHub, so the VPS
-cron puts it at https://<domain>/app. Parsing only; GitHub is never called in tests."""
+cron puts it at https://<domain>/app. GitHub is never called in tests (MockTransport)."""
 
 from __future__ import annotations
 
+import json
+import tempfile
+from pathlib import Path
+from typing import Any
+
+import httpx
+import pytest
+
 from bagmitra_api.app_mirror.latest import (
+    RateLimitedError,
     asset_sha256,
+    cache_path,
+    fetch_releases,
+    main,
     newest_release_apk,
     newest_test_apk,
     releases_url,
@@ -83,3 +95,179 @@ def test_the_asset_digest_is_found_by_its_url() -> None:
     assert asset_sha256(no_digest, url) is None
     bad: list[dict[str, object]] = [{"assets": [{"browser_download_url": url, "digest": "md5:x"}]}]
     assert asset_sha256(bad, url) is None
+
+
+# --- GitHub rate limit (VPS log 2026-11-13: "403 rate limit exceeded" on a shared IP). The
+# releases list is fetched with If-None-Match; a 304 does not count against GitHub's limit.
+
+ETAG = 'W/"abc"'
+APK = "https://github.com/o/r/releases/download/test-9/a-universal.apk"
+LIST: list[dict[str, Any]] = [
+    {
+        "tag_name": "test-9",
+        "name": "Test build test-9 · code 160",
+        "assets": [{"browser_download_url": APK, "digest": "sha256:" + "ab" * 32}],
+    }
+]
+
+
+def client_for(
+    responses: list[httpx.Response], seen: list[httpx.Request] | None = None
+) -> httpx.Client:
+    def handler(request: httpx.Request) -> httpx.Response:
+        if seen is not None:
+            seen.append(request)
+        return responses.pop(0)
+
+    return httpx.Client(transport=httpx.MockTransport(handler))
+
+
+def write_cache(cache: Path, repo: str = "o/r") -> None:
+    cache.write_text(json.dumps({"url": releases_url(repo), "etag": ETAG, "releases": LIST}))
+
+
+def test_a_fresh_list_is_cached_with_its_etag(tmp_path: Path) -> None:
+    cache = tmp_path / "cache.json"
+    seen: list[httpx.Request] = []
+    client = client_for([httpx.Response(200, json=LIST, headers={"ETag": ETAG})], seen)
+    assert fetch_releases(client, releases_url("o/r"), cache, token=None) == LIST
+    assert "if-none-match" not in seen[0].headers
+    assert "authorization" not in seen[0].headers
+    stored = json.loads(cache.read_text())
+    assert stored == {"url": releases_url("o/r"), "etag": ETAG, "releases": LIST}
+
+
+def test_a_304_reuses_the_cached_list(tmp_path: Path) -> None:
+    cache = tmp_path / "cache.json"
+    write_cache(cache)
+    seen: list[httpx.Request] = []
+    client = client_for([httpx.Response(304)], seen)
+    assert fetch_releases(client, releases_url("o/r"), cache, token=None) == LIST
+    assert seen[0].headers["if-none-match"] == ETAG
+
+
+def test_a_cache_of_another_repo_is_not_used(tmp_path: Path) -> None:
+    cache = tmp_path / "cache.json"
+    write_cache(cache, repo="x/y")
+    seen: list[httpx.Request] = []
+    client = client_for([httpx.Response(200, json=[])], seen)
+    assert fetch_releases(client, releases_url("o/r"), cache, token=None) == []
+    assert "if-none-match" not in seen[0].headers
+
+
+def test_a_broken_cache_file_is_ignored(tmp_path: Path) -> None:
+    cache = tmp_path / "cache.json"
+    cache.write_text("{not json")
+    client = client_for([httpx.Response(200, json=LIST)])
+    assert fetch_releases(client, releases_url("o/r"), cache, token=None) == LIST
+
+
+def test_an_unwritable_cache_does_not_stop_the_mirror(tmp_path: Path) -> None:
+    cache = tmp_path / "missing-dir" / "cache.json"
+    client = client_for([httpx.Response(200, json=LIST, headers={"ETag": ETAG})])
+    assert fetch_releases(client, releases_url("o/r"), cache, token=None) == LIST
+    assert not cache.exists()
+
+
+def test_the_optional_token_is_sent_as_bearer(tmp_path: Path) -> None:
+    seen: list[httpx.Request] = []
+    client = client_for([httpx.Response(200, json=LIST)], seen)
+    fetch_releases(client, releases_url("o/r"), tmp_path / "c.json", token="tok123")
+    assert seen[0].headers["authorization"] == "Bearer tok123"
+
+
+def rate_limited() -> list[httpx.Response]:
+    return [
+        httpx.Response(403, headers={"x-ratelimit-remaining": "0"}, json={"message": "x"}),
+        httpx.Response(403, json={"message": "API rate limit exceeded for 1.2.3.4."}),
+        httpx.Response(429, json={"message": "slow down"}),
+        httpx.Response(403, extensions={"reason_phrase": b"rate limit exceeded"}),
+    ]
+
+
+@pytest.mark.parametrize("index", range(4))
+def test_a_rate_limit_falls_back_to_the_cached_list(
+    tmp_path: Path, index: int, capsys: pytest.CaptureFixture[str]
+) -> None:
+    cache = tmp_path / "cache.json"
+    write_cache(cache)
+    client = client_for([rate_limited()[index]])
+    assert fetch_releases(client, releases_url("o/r"), cache, token=None) == LIST
+    err = capsys.readouterr().err
+    assert err == "GitHub rate limit; using the last fetched releases list\n"
+
+
+@pytest.mark.parametrize("index", range(4))
+def test_a_rate_limit_without_cache_raises(tmp_path: Path, index: int) -> None:
+    client = client_for([rate_limited()[index]])
+    with pytest.raises(RateLimitedError):
+        fetch_releases(client, releases_url("o/r"), tmp_path / "none.json", token=None)
+
+
+def test_a_403_that_is_not_a_rate_limit_still_fails(tmp_path: Path) -> None:
+    cache = tmp_path / "cache.json"
+    write_cache(cache)
+    client = client_for([httpx.Response(403, json={"message": "Forbidden"})])
+    with pytest.raises(httpx.HTTPStatusError):
+        fetch_releases(client, releases_url("o/r"), cache, token=None)
+
+
+def test_main_prints_the_newest_test_apk_and_the_second_channel_gets_a_304(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    monkeypatch.setenv("APK_MIRROR_CACHE", str(tmp_path / "c.json"))
+    monkeypatch.delenv("GITHUB_MIRROR_TOKEN", raising=False)
+    client = client_for([httpx.Response(200, json=LIST, headers={"ETag": ETAG})])
+    assert main("o/r", "test", client) == 0
+    assert capsys.readouterr().out == f"160 {APK} {'ab' * 32}\n"
+    # The cron's second call in the same run: a 304 (free against the limit), same list.
+    seen: list[httpx.Request] = []
+    assert main("o/r", "test", client_for([httpx.Response(304)], seen)) == 0
+    assert seen[0].headers["if-none-match"] == ETAG
+    assert capsys.readouterr().out == f"160 {APK} {'ab' * 32}\n"
+
+
+def test_main_prints_the_newest_release_apk_and_fails_without_one(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    monkeypatch.setenv("APK_MIRROR_CACHE", str(tmp_path / "c.json"))
+    build = release_build("release-1.0.18-30", "BagMitra 1.0.18 (version code 30)")
+    url = build["assets"][0]["browser_download_url"]  # type: ignore[index]
+    assert main("o/r", "release", client_for([httpx.Response(200, json=[build])])) == 0
+    assert capsys.readouterr().out == f"30 {url} - 1.0.18\n"
+    assert main("o/r", "release", client_for([httpx.Response(200, json=LIST)])) == 1
+    assert main("o/r", "test", client_for([httpx.Response(200, json=[build])])) == 1
+    assert capsys.readouterr().out == ""
+
+
+def test_a_cache_that_is_not_a_list_is_ignored(tmp_path: Path) -> None:
+    cache = tmp_path / "cache.json"
+    cache.write_text(json.dumps([1, 2]))
+    client = client_for([httpx.Response(200, json=LIST)])
+    assert fetch_releases(client, releases_url("o/r"), cache, token=None) == LIST
+    cache.write_text(json.dumps({"url": releases_url("o/r"), "releases": "x"}))
+    client = client_for([httpx.Response(200, json=LIST)])
+    assert fetch_releases(client, releases_url("o/r"), cache, token=None) == LIST
+
+
+def test_main_rate_limited_without_cache_prints_one_line_and_fails(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    monkeypatch.setenv("APK_MIRROR_CACHE", str(tmp_path / "none.json"))
+    monkeypatch.setenv("GITHUB_MIRROR_TOKEN", "secret-token-value")
+    client = client_for([httpx.Response(403, headers={"x-ratelimit-remaining": "0"})])
+    assert main("o/r", "test", client) != 0
+    out = capsys.readouterr()
+    assert out.out == ""
+    assert out.err == "GitHub rate limit; will retry next run\n"
+
+
+def test_the_default_cache_is_in_the_containers_temp_folder(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """/srv/bagmitra-apk is mounted read-only in the api container; /tmp lives as long as the
+    container, which `docker compose exec` reuses on every cron run."""
+    monkeypatch.delenv("APK_MIRROR_CACHE", raising=False)
+    assert cache_path() == Path(tempfile.gettempdir()) / "bagmitra-apk-mirror.json"
+    monkeypatch.setenv("APK_MIRROR_CACHE", "/x/y.json")
+    assert cache_path() == Path("/x/y.json")

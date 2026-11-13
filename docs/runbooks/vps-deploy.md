@@ -172,6 +172,16 @@ ATP प्रकल्पात करायचा (बागमित्र र
 `https://<API_DOMAIN>/app/test`; Test APK चे अपडेट बटण हाच पत्ता उघडते. दोन्ही फाईल एकमेकींची जागा कधीच घेत नाहीत (audit H1).
 `.env` मध्ये `APP_LATEST_VERSION_CODE` ठेवला असेल तर तोच वापरला जातो (हाताचा मार्ग चालू राहतो).
 
+**GitHub rate limit (ऐच्छिक, काही करायची गरज नाही):** हे काम GitHub ला key शिवाय विचारते; GitHub एका IP ला तासाला ६० प्रश्न
+देते आणि shared VPS चा IP इतरही वापरतात, म्हणून log (`/var/log/bagmitra-test-apk.log`) मध्ये कधी
+`GitHub rate limit; using the last fetched releases list` किंवा `GitHub rate limit; will retry next run` दिसू शकते.
+काम आधीच्या यादीची ETag पाठवते: यादी बदलली नसेल तर GitHub `304` देते, तो मर्यादेत मोजला जात नाही (दुसऱ्या channel चा
+प्रश्नही असाच मोफत). मर्यादा संपली तर शेवटची मिळालेली यादी वापरली जाते; नवीन release फक्त पुढच्या १५ मिनिटांच्या फेरीत येते.
+हवे असल्यास `deploy/.env` मध्ये `GITHUB_MIRROR_TOKEN=<token>` ठेवा (GitHub → Settings → Developer settings →
+Fine-grained token, फक्त या public repo साठी, कोणतीही permission नको) आणि `bash deploy/deploy.sh` चालवा: मग तासाला ५०००.
+Token कधीही log मध्ये छापला जात नाही. यादी api container च्या `/tmp/bagmitra-apk-mirror.json` मध्ये राहते (container
+पुन्हा तयार झाला की एकदा पूर्ण प्रश्न; दुसरी जागा हवी तर `APK_MIRROR_CACHE`).
+
 हाताचा मार्ग:
 1. GitHub → Actions → **Release APK** चालवा (`docs/runbooks/release-apk.md`). Summary मधील **version code** आणि
    **version name** लिहून ठेवा. Releases पानावरून `bagmitra-<name>-<code>-arm64-v8a.apk` तुमच्या कॉम्प्युटरवर उतरवा.
