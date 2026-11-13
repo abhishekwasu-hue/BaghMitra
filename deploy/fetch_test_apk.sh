@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # APK mirror (owner 2026-11-08): keeps our own addresses at the newest APKs so the app's update
 # button and the link sent to growers use our own address, not GitHub.
-# Cron (deploy.sh): every 15 minutes, when TEST_APK_MIRROR=on or RELEASE_APK_MIRROR=on in .env.
+# Cron (deploy.sh): every hour (minute 7), when TEST_APK_MIRROR=on or RELEASE_APK_MIRROR=on in .env.
 # Two channels in two files (audit H1: a Test APK cannot install a Release APK, and back):
 # - RELEASE_APK_MIRROR=on: the newest Release APK (arm64-v8a, release key) → bagmitra.apk
 #   (GET /app), release-code, and release.json {code, name}, which GET /v1/app/version reads.

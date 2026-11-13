@@ -214,13 +214,13 @@ jobs:
           gh release create "$tag" release-files/*.apk \
             --target "$(git rev-parse HEAD)" \
             --title "BagMitra ${{ steps.meta.outputs.name }} (version code ${{ steps.meta.outputs.code }})" \
-            --notes "Production APKs. Nothing to set in .env: within 15 minutes the VPS mirror (RELEASE_APK_MIRROR=on, deploy/fetch_test_apk.sh) serves the arm64-v8a file at /app and writes release.json, which /v1/app/version reads." \
+            --notes "Production APKs. Nothing to set in .env: within an hour the VPS mirror (RELEASE_APK_MIRROR=on, deploy/fetch_test_apk.sh) serves the arm64-v8a file at /app and writes release.json, which /v1/app/version reads." \
             || gh release upload "$tag" release-files/*.apk --clobber
           {
             echo "### BagMitra ${{ steps.meta.outputs.name }}"
             echo "- version code: **${{ steps.meta.outputs.code }}**"
             echo "- release: $tag"
-            echo "- server: nothing to set in .env; the VPS mirror updates /app and release.json (version) within 15 minutes"
+            echo "- server: nothing to set in .env; the VPS mirror updates /app and release.json (version) within an hour"
           } >> "$GITHUB_STEP_SUMMARY"
       # Google Play takes only an App Bundle (docs/store/pre-launch-checklist.md §A). Same env, run
       # number and dart-defines as the APKs above; its own symbol folder. Built after the APK release

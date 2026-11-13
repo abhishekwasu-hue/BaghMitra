@@ -5,7 +5,8 @@
 #   cd /opt/bagmitra && bash deploy/deploy.sh --revert   # go back to the previous deploy
 # If another project's Caddy already owns ports 80/443, set EDGE_NETWORK=edge in .env: BagMitra
 # then runs without its own Caddy and joins that shared network (docker-compose.shared-caddy.yml,
-# runbook "Sharing the server").
+# runbook "Sharing the server"). It keeps COMPOSE_FILE in .env at those same files, so a plain
+# `docker compose ...` in deploy/ uses them too (set_compose_file).
 # It checks .env, pulls the code, rebuilds and restarts the containers (migrations run on
 # start), waits until https://$API_DOMAIN/health/ready answers (API and database up), and adds
 # the daily weather and nightly backup cron lines once, plus each scheduled job whose switch
@@ -66,9 +67,10 @@ PHOTO_AI_RETENTION_CRON_LINE="29 22 * * * $JOB bagmitra_api.photo_ai.retention >
 # Play billing reconciliation (billing/reconcile_job.py: voided purchases, drift list): 23:47 UTC
 # (05:17 IST); on once PLAY_PACKAGE_NAME is set (runbook billing-play.md).
 BILLING_RECONCILE_CRON_LINE="47 23 * * * $JOB bagmitra_api.billing.reconcile_job >> /var/log/bagmitra-billing-reconcile.log 2>&1"
-# APK mirror (deploy/fetch_test_apk.sh): every 15 minutes, with TEST_APK_MIRROR=on or
-# RELEASE_APK_MIRROR=on (release wins; the test mirror never replaces a served Release APK).
-TEST_APK_CRON_LINE="*/15 * * * * bash $DEPLOY/fetch_test_apk.sh >> /var/log/bagmitra-test-apk.log 2>&1"
+# APK mirror (deploy/fetch_test_apk.sh): every hour at minute 7 (owner 2026-11-13, was every
+# 15 minutes), with TEST_APK_MIRROR=on or RELEASE_APK_MIRROR=on (release wins; the test mirror
+# never replaces a served Release APK).
+TEST_APK_CRON_LINE="7 * * * * bash $DEPLOY/fetch_test_apk.sh >> /var/log/bagmitra-test-apk.log 2>&1"
 # Job logs (BG-05): every /var/log/bagmitra-*.log above is rotated weekly or past 10 MB, 8 old
 # copies kept compressed. Written by install_logrotate; LOGROTATE_FILE is overridable (tests).
 LOGROTATE_FILE="${LOGROTATE_FILE:-/etc/logrotate.d/bagmitra}"
@@ -152,6 +154,32 @@ compose() {
   fi
 }
 
+# Plain `docker compose ...` typed in deploy/ (runbooks, a quick `up -d api`) must use the same
+# files as this script, or with EDGE_NETWORK set it recreates the API without the shared Caddy's
+# network and the whole app answers 502 (incident 2026-11-12). Compose reads COMPOSE_FILE from
+# the .env in the folder it runs in (an explicit -f, as in compose() above, still wins), so keep
+# one COMPOSE_FILE line there: replaced in place, never doubled, the file's mode kept, no other
+# value printed. Absolute paths, joined by ":" (Compose's default separator on Linux).
+set_compose_file() {
+  local files="$DEPLOY/docker-compose.yml" tmp
+  [[ -n "$(env_value EDGE_NETWORK)" ]] && files="$files:$DEPLOY/docker-compose.shared-caddy.yml"
+  if [[ "$(grep -E '^COMPOSE_FILE=' "$ENV_FILE" || true)" == "COMPOSE_FILE=$files" ]]; then
+    echo "compose files for plain docker compose already set (COMPOSE_FILE in .env)"
+    return 0
+  fi
+  # A copy with the same mode and owner (mktemp: 600 from the start), then one move: .env is
+  # never half written, and never readable by others on the way.
+  tmp="$(mktemp "$ENV_FILE.XXXXXX")"
+  cp -p "$ENV_FILE" "$tmp"
+  LINE="COMPOSE_FILE=$files" awk '
+    /^COMPOSE_FILE=/ { if (!done) print ENVIRON["LINE"]; done = 1; next }
+    { print }
+    END { if (!done) print ENVIRON["LINE"] }
+  ' "$ENV_FILE" > "$tmp"
+  mv "$tmp" "$ENV_FILE"
+  echo "compose files for plain docker compose set: ${files//"$DEPLOY/"/} (COMPOSE_FILE in .env)"
+}
+
 restart() {
   say "Building and starting (migrations run on start; first build takes 5-10 minutes)"
   cd "$DEPLOY"
@@ -181,12 +209,21 @@ wait_healthy() {
   fail "the API did not answer in 5 minutes (logs above). Go back with: bash deploy/deploy.sh --revert"
 }
 
-add_cron_line() { # marker, line, label: adds the line once
-  if crontab -l 2> /dev/null | grep -Fq "$1"; then
+add_cron_line() { # marker, line, label: adds the line once; a line with the same marker but
+  # another schedule or command (e.g. an older deploy's) is replaced by this one, in its place
+  local current
+  current="$(crontab -l 2> /dev/null || true)"
+  if ! grep -Fq "$1" <<< "$current"; then
+    { [[ -z "$current" ]] || printf '%s\n' "$current"; echo "$2"; } | crontab -
+    echo "$3 cron line added"
+  elif [[ "$(grep -F "$1" <<< "$current")" == "$2" ]]; then
     echo "$3 cron line already present"
   else
-    (crontab -l 2> /dev/null || true; echo "$2") | crontab -
-    echo "$3 cron line added"
+    MARKER="$1" LINE="$2" awk '
+      index($0, ENVIRON["MARKER"]) { if (!done) print ENVIRON["LINE"]; done = 1; next }
+      { print }
+    ' <<< "$current" | crontab -
+    echo "$3 cron line updated"
   fi
 }
 
@@ -247,7 +284,7 @@ install_cron() {
   for mirror in TEST_APK_MIRROR RELEASE_APK_MIRROR; do
     [[ "$(env_value "$mirror" | tr '[:upper:]' '[:lower:]')" == "on" ]] && on=0
   done
-  cron_job_if "$on" "deploy/fetch_test_apk.sh" "$TEST_APK_CRON_LINE" "APK mirror to /app (every 15 min)"
+  cron_job_if "$on" "deploy/fetch_test_apk.sh" "$TEST_APK_CRON_LINE" "APK mirror to /app (every hour)"
 }
 
 install_logrotate() { # writes the drop-in only when it is missing or different
@@ -305,6 +342,7 @@ main() {
     fi
   fi
   update_admin_web
+  set_compose_file
   restart
   wait_healthy
   install_cron
