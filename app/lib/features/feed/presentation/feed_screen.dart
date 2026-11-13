@@ -11,6 +11,7 @@ import '../../../core/net_failure.dart';
 import '../../../design_system/app_bar_title.dart';
 import '../../../design_system/article_reading.dart';
 import '../../../design_system/empty_state.dart';
+import '../../../design_system/sources_disclosure.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../sync/presentation/refresh_note.dart';
 import '../../../theme/app_theme.dart';
@@ -605,16 +606,23 @@ class _FeedItemScreenState extends ConsumerState<FeedItemScreen> {
               padding: const EdgeInsets.all(BmSpace.lg),
               children: [
                 _ItemBody(item: item, now: now, lang: lang, detail: true),
+                // The item's own source link sits in the article's folded sources (one
+                // "स्रोत (n)" header), or under its own when there is no article.
                 if (item.article case final article?) ...[
                   const SizedBox(height: BmSpace.md),
                   FeedArticleView(
                     article: article,
                     lang: lang,
                     knowledge: item.isKnowledge,
+                    sourceLinks: [FeedSourceLink(url: item.url)],
+                  ),
+                ] else ...[
+                  const SizedBox(height: BmSpace.md),
+                  SourcesDisclosure(
+                    key: const Key('feed-item-sources'),
+                    links: [FeedSourceLink(url: item.url)],
                   ),
                 ],
-                const SizedBox(height: BmSpace.md),
-                FeedSourceLink(url: item.url),
                 const SizedBox(height: BmSpace.xs),
                 if (item.isKnowledge)
                   Text(

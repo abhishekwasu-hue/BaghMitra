@@ -382,9 +382,17 @@ class SchemeDetailScreen extends ConsumerWidget {
                 onTap: () => context.push(Routes.feedItem(item.id)),
               ),
           ],
-          section(t.schemeSources(formatDate(data.checkedOn, lang))),
-          for (final (i, s) in scheme.sources.indexed)
-            link(Key('scheme-source-$i'), s.title, s.url),
+          // Folded behind one "स्रोत (n)" header (owner 2026-11-13); the checked date
+          // heads the opened list.
+          const SizedBox(height: BmSpace.md),
+          SourcesDisclosure(
+            key: const Key('scheme-sources'),
+            notes: [t.schemeSources(formatDate(data.checkedOn, lang))],
+            links: [
+              for (final (i, s) in scheme.sources.indexed)
+                link(Key('scheme-source-$i'), s.title, s.url),
+            ],
+          ),
         ],
       ),
     );

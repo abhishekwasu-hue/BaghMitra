@@ -14,6 +14,7 @@ import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 
 import '../../helpers/pump_app.dart';
+import '../../helpers/sources.dart';
 import '../../helpers/test_db.dart';
 import '../plots/plots_screen_test.dart' show settle;
 import 'feed_article_test.dart' show articleJson;
@@ -225,6 +226,11 @@ void main() {
         300,
         scrollable: _list,
       );
+      // Article sources and the item's link sit behind one "Sources (2)" header.
+      expect(find.textContaining('mahasamvad.in'), findsNothing);
+      expect(find.text('Sources (2)'), findsOneWidget);
+      await openAllSources(tester);
+      await tester.pump();
       expect(find.textContaining('mahasamvad.in'), findsOneWidget);
       expect(find.textContaining('example.org/art1'), findsWidgets);
       expect(

@@ -9,6 +9,7 @@ import '../../../core/formatting.dart';
 import '../../../design_system/app_bar_title.dart';
 import '../../../design_system/cards.dart';
 import '../../../design_system/empty_state.dart';
+import '../../../design_system/sources_disclosure.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../../app_update/data/app_update_providers.dart';
@@ -248,32 +249,11 @@ class _LabelNotice extends StatelessWidget {
         Text(t.labelInfoBanner, style: note),
         const SizedBox(height: BmSpace.xxs),
         Text(t.labelReadNote, key: const Key('label-read-note'), style: note),
+        // The same folded "स्रोत (n)" header as every source list (owner 2026-11-13).
         if (sources.isNotEmpty)
-          ExpansionTile(
+          SourcesDisclosure(
             key: const Key('label-sources'),
-            shape: const Border(),
-            collapsedShape: const Border(),
-            tilePadding: EdgeInsets.zero,
-            childrenPadding: const EdgeInsets.only(bottom: BmSpace.xs),
-            expandedCrossAxisAlignment: CrossAxisAlignment.start,
-            iconColor: c.inkMuted,
-            collapsedIconColor: c.inkMuted,
-            title: Text(
-              t.labelInfoSources(
-                formatInt(
-                  sources.length,
-                  Localizations.localeOf(context).languageCode,
-                ),
-              ),
-              style: note,
-            ),
-            children: [
-              for (final s in sources)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: BmSpace.xxs),
-                  child: Text('• $s', style: note),
-                ),
-            ],
+            sources: [for (final s in sources) SourceRef(s)],
           )
         else
           const SizedBox(height: BmSpace.xs),

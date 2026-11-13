@@ -79,7 +79,7 @@ void main() {
     expect(find.text('Send photos to your KVK.'), findsOneWidget);
     // Owner 2026-11-10: no "general information · confirm with your KVK" mark.
     expect(find.textContaining('सर्वसाधारण माहिती'), findsNothing);
-    // The sources fold behind one "See sources" line per card (owner request).
+    // The sources fold behind one "Sources (n)" header per card (owner request).
     expect(find.textContaining('NIPHM'), findsNothing);
     await openAllSources(tester);
     expect(find.textContaining('NIPHM'), findsWidgets);

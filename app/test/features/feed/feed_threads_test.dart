@@ -16,6 +16,7 @@ import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 
 import '../../helpers/pump_app.dart';
+import '../../helpers/sources.dart';
 import '../../helpers/test_db.dart';
 import '../plots/plots_screen_test.dart' show settle;
 import 'feed_data_test.dart';
@@ -246,6 +247,9 @@ void main() {
       expect(ys[1], lessThan(ys[2]));
       expect(find.text('3 reports · Latest: 12 Oct 2026'), findsOneWidget);
       expect(find.text('Summary n1'), findsOneWidget);
+      // Each report's link sits behind its folded "Sources (1)" header.
+      expect(find.text('Source: https://example.org/n1'), findsNothing);
+      await openAllSources(tester);
       expect(find.text('Source: https://example.org/n1'), findsOneWidget);
       expect(find.byKey(const Key('feed-thread-new-n1')), findsOneWidget);
       expect(

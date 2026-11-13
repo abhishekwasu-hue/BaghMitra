@@ -67,7 +67,7 @@ void main() {
     await settle(tester);
     // Owner 2026-11-10: no general-information mark; the sources stay folded.
     expect(find.textContaining('General information'), findsNothing);
-    expect(find.textContaining('See sources'), findsOne);
+    expect(find.byKey(const Key('sources-toggle')), findsOne);
     // One "ask an expert" line per screen: the hint keeps only the comparison.
     expect(
       find.text('Compare the value on your report with these ranges.'),

@@ -32,7 +32,7 @@ void main() {
     expect(find.textContaining('General information'), findsNothing);
     expect(find.textContaining('KVK'), findsNothing);
     expect(find.textContaining('ICAR-CCRI'), findsNothing);
-    await tester.tap(find.text('See sources'));
+    await tester.tap(find.text('Sources'));
     await tester.pump();
     expect(
       find.textContaining('Source: ICAR-CCRI Nagpur · checked 6 Nov 2026'),
