@@ -420,6 +420,11 @@ scheme name in titles, summaries and card against the stored text). Any issue: `
 published (`FEED_AUTO_PUBLISH=false`: waits for approval). Trust `official` only for a document on
 a `.gov.in` / `.nic.in` host. At most `FEED_AI_DAILY_ITEMS` attempts per UTC day (counted apart
 from the news articles). The stored text also feeds the knowledge trigger (c) (§13).
+**Re-check of held listings** (owner 2026-11-13, Q151): every portal run, after the AI step,
+checks each held portal listing that has a stored text and a saved article again with the
+current checks (no model call, no fetch) and publishes it when it now passes (second JSON key
+`rechecked`). Listings held for their text (scanned / legacy font) or a failed fetch are left as
+they are. Saved source links are rewritten to their canonical `https://host/path` form.
 
 **News outlets**: the news job (§9, §11) reads them like Mahasamvad: headline + link + date, then
 **our own** checked article (the page text is never stored; no images). Relevance (owner

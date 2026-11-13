@@ -12,6 +12,7 @@ import re
 from collections.abc import Iterator
 from dataclasses import dataclass
 from datetime import date
+from decimal import Decimal
 from typing import Any
 from urllib.parse import urlsplit
 
@@ -225,6 +226,41 @@ def _chart(raw: object, where: str) -> Chart:
     )
 
 
+_OTHER_SCHEME = re.compile(r"^[a-z][a-z0-9+.-]*:(?!\d)", re.IGNORECASE)
+_HOST = re.compile(r"^[a-z0-9-]+(?:\.[a-z0-9-]+)+$")
+
+
+def _web_address(url: str) -> tuple[str, str] | None:
+    """(lower-case host, canonical link) of a web address; None for anything else (another
+    scheme such as mailto:, no host, a malformed host)."""
+    raw = url.strip()
+    if raw.startswith("//"):
+        raw = f"https:{raw}"
+    elif "://" not in raw:
+        if _OTHER_SCHEME.match(raw):
+            return None
+        raw = f"https://{raw}"
+    try:
+        parts = urlsplit(raw)
+        host = (parts.hostname or "").rstrip(".")
+    except ValueError:
+        return None
+    if parts.scheme.lower() not in ("http", "https") or not _HOST.match(host):
+        return None
+    query = f"?{parts.query}" if parts.query else ""
+    return host, f"https://{host}{parts.path}{query}"
+
+
+def canonical_url(url: str) -> str:
+    """The link as the app should show and copy it: https, lower-case host, path and query
+    kept, no user name, port or fragment. A missing scheme is read as https and http becomes
+    https (VPS 2026-11-13: the model copied "http://www.nfsm.gov.in/mis/bline" and
+    "WWW.krishi.maharashtra.gov.in" from the source). Anything that is no web address is
+    returned unchanged, so the source check refuses it."""
+    found = _web_address(url)
+    return found[1] if found else url
+
+
 def _iso(value: object, where: str) -> str:
     try:
         return date.fromisoformat(str(value)).isoformat()
@@ -263,7 +299,10 @@ def _article(raw: object, lang: str) -> Article:
             for d in _items(raw.get("key_dates", []), f"{w}.key_dates", 0, 8)
         ),
         sources=tuple(
-            (_text(_field(s, "title", w), w, 200), _text(_field(s, "url", w), w, 1000))
+            (
+                _text(_field(s, "title", w), w, 200),
+                canonical_url(_text(_field(s, "url", w), w, 1000)),
+            )
             for s in _items(raw.get("sources"), f"{w}.sources", 1, 5)
         ),
     )
@@ -304,12 +343,15 @@ def _names(text: str, name: str) -> bool:
     return re.search(rf"(?<![^\W\d_]){re.escape(name)}{end}", text) is not None
 
 
+def _host(url: str) -> str:
+    """Lower-case host of a web address (http / https, scheme optional); "" for anything else."""
+    found = _web_address(url)
+    return found[0] if found else ""
+
+
 def _official(url: str, source_host: str) -> bool:
-    parts = urlsplit(url)
-    host = (parts.hostname or "").lower()
-    return parts.scheme == "https" and (
-        host == source_host or any(host.endswith(s) for s in OFFICIAL_SUFFIXES)
-    )
+    host = _host(url)
+    return bool(host) and (host == source_host or any(host.endswith(s) for s in OFFICIAL_SUFFIXES))
 
 
 def _chart_issues(c: Chart, where: str, index: SourceIndex) -> list[str]:
@@ -319,7 +361,8 @@ def _chart_issues(c: Chart, where: str, index: SourceIndex) -> list[str]:
         if p.value not in index.values
     ]
     if c.type == "pie":
-        total = sum(p.value for p in c.data)
+        # Decimal sum: 0.1 + 0.2 is 0.3 here, as the source states it.
+        total = float(sum(Decimal(repr(p.value)) for p in c.data))
         whole = abs(total - 100) <= 1 if c.unit.strip() == "%" else total in index.values
         if not whole:
             out.append(f"{where}: pie parts add up to {total:g}, not to a stated whole")
@@ -334,7 +377,7 @@ def check_articles(source_text: str, result: ArticleSet, *, source_url: str) -> 
         return ["not relevant to farmers"]
     index = SourceIndex.build(source_text)
     source_norm = normalise(source_text)
-    source_host = (urlsplit(source_url).hostname or "").lower()
+    source_host = _host(source_url)
     out: list[str] = []
     facts_by_lang = {}
     for lang, a in result.articles.items():
