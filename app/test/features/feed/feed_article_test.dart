@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../helpers/pump_app.dart';
+import '../../helpers/sources.dart';
 import '../plots/plots_screen_test.dart' show settle;
 import 'feed_data_test.dart' show FakeFeedRepository, feedBody, feedJson;
 
@@ -193,6 +194,10 @@ void articleWidgetTests() {
         find.text(formatDate(DateTime(2026, 11, 30), 'en')),
         findsOneWidget,
       );
+      // The sources sit behind the folded "Sources (n)" header (owner 2026-11-13).
+      expect(find.textContaining('mahasamvad.in'), findsNothing);
+      await openAllSources(tester);
+      await tester.pump();
       await tester.scrollUntilVisible(
         find.textContaining('mahasamvad.in'),
         300,

@@ -297,9 +297,9 @@ void main() {
           findsOneWidget,
         );
         expect(find.textContaining('General information'), findsNothing);
-        expect(find.text('Source documents (1)'), findsOneWidget);
+        expect(find.text('Sources (1)'), findsOneWidget);
         // Owner 2026-11-10: the notice is small, muted text: no coloured box or icons
-        // (only the sources line keeps its fold arrow).
+        // (only the shared green "Sources (n)" header, owner 2026-11-13).
         for (final icon in [Icons.info_outline, Icons.menu_book_outlined]) {
           expect(
             find.descendant(

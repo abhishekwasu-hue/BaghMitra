@@ -12,7 +12,7 @@ import '../data/irrigation_guide.dart';
 
 /// Read-only irrigation guide (ओलित तक्ता): sourced amounts and intervals per crop, tree age and
 /// season. With a block it uses the block's crop and, when the planting year is known, its tree
-/// age. Every point names its source (folded behind "See sources"); no draft banner (Q30); no fertiliser or chemical content.
+/// age. Every point names its source (folded behind "स्रोत (n)"); no draft banner (Q30); no fertiliser or chemical content.
 class IrrigationGuideScreen extends ConsumerStatefulWidget {
   const IrrigationGuideScreen({this.plotId, super.key});
 
@@ -56,7 +56,7 @@ class _IrrigationGuideScreenState extends ConsumerState<IrrigationGuideScreen> {
     final plotBand = data.bandFor(plot?.plantingYear, thisYear);
     final band = _band ?? plotBand?.key ?? data.ageBands.first.key;
 
-    // Each point's sources fold behind one "See sources (n)" line (owner request).
+    // Each point's sources fold behind one "स्रोत (n)" header (owner request).
     Widget sourceLines(String source, List<String> keys) => SourcesDisclosure(
       notes: [t.practicesSource(source)],
       sources: [

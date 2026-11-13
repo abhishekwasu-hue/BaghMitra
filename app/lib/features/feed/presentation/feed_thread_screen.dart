@@ -7,6 +7,7 @@ import '../../../app/router.dart';
 import '../../../core/formatting.dart';
 import '../../../design_system/app_bar_title.dart';
 import '../../../design_system/empty_state.dart';
+import '../../../design_system/sources_disclosure.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../data/feed_receipts.dart';
@@ -339,7 +340,11 @@ class _TimelineEntry extends StatelessWidget {
                       ),
                     ),
                   ),
-                  FeedSourceLink(url: item.url),
+                  // Folded like every source (owner 2026-11-13).
+                  SourcesDisclosure(
+                    key: Key('feed-thread-sources-${item.id}'),
+                    links: [FeedSourceLink(url: item.url)],
+                  ),
                 ],
               ),
             ),
