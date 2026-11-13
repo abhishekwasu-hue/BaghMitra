@@ -177,11 +177,12 @@ def test_the_test_apk_mirror_is_opt_in(tmp_path: Path) -> None:
     assert "test_apk" not in jobs(lines)
     _, lines = run_install(tmp_path, "TEST_APK_MIRROR=on\n")
     line = next(ln for ln in lines if MARKERS["test_apk"] in ln)
-    assert line.startswith("*/15 * * * * bash ")
+    # Owner 2026-11-13: hourly at a fixed minute (was every 15 minutes).
+    assert line.startswith("7 * * * * bash ")
     assert line.endswith(">> /var/log/bagmitra-test-apk.log 2>&1")
     out, lines = run_install(tmp_path, "TEST_APK_MIRROR=off\n")
     assert "test_apk" not in jobs(lines)
-    assert "APK mirror to /app (every 15 min) cron line removed" in out
+    assert "APK mirror to /app (every hour) cron line removed" in out
     _, lines = run_install(tmp_path, "RELEASE_APK_MIRROR=on\n")
     assert "test_apk" in jobs(lines)
 
@@ -233,6 +234,95 @@ def test_other_cron_lines_are_kept(tmp_path: Path) -> None:
     _, lines = run_install(tmp_path, off + "CRON_KB_REGATE=no\n")
     assert lines[0] == "5 4 * * * /usr/local/bin/other-project"
     assert jobs(lines) == {"weather", "backup"}
+
+
+def test_a_changed_cron_line_is_replaced_in_place_once(tmp_path: Path) -> None:
+    """add_cron_line only looked for the marker, so the VPS kept an older deploy's `*/15` APK
+    mirror line after the schedule changed. A line with the marker but other text is now
+    replaced (once, in its place); other lines stay as they were; an identical one is kept."""
+    log = ">> /var/log/bagmitra-test-apk.log 2>&1"
+    old = f"*/15 * * * * bash /opt/bagmitra/deploy/fetch_test_apk.sh {log}"
+    before = ["5 4 * * * /usr/local/bin/other-project", old, "# a comment", "9 9 * * * other-job"]
+    (tmp_path / "cron.txt").write_text("\n".join(before) + "\n")
+    out, lines = run_install(tmp_path, "TEST_APK_MIRROR=on\n")
+    assert "APK mirror to /app (every hour) cron line updated" in out
+    mirror = [ln for ln in lines if MARKERS["test_apk"] in ln]
+    assert len(mirror) == 1
+    assert mirror[0] == f"7 * * * * bash {DEPLOY}/fetch_test_apk.sh {log}"
+    assert old not in lines
+    # The other lines are untouched and in their order; the new line took the old one's place.
+    assert lines[:4] == [before[0], mirror[0], before[2], before[3]]
+    out_again, lines_again = run_install(tmp_path, "TEST_APK_MIRROR=on\n")
+    assert lines_again == lines
+    assert "APK mirror to /app (every hour) cron line already present" in out_again
+    assert "updated" not in out_again
+
+
+def test_a_doubled_cron_line_is_collapsed_to_one(tmp_path: Path) -> None:
+    weather = (
+        f"0 0 * * * cd {DEPLOY} && docker compose exec -T api python -m "
+        "bagmitra_api.weather.pull_job"
+    )
+    old = weather + " >> /var/log/old.log 2>&1"
+    (tmp_path / "cron.txt").write_text(f"{old}\n{old}\n")
+    out, lines = run_install(tmp_path, "API_DOMAIN=x\n")
+    assert "weather (daily 00:00 UTC = 05:30 IST) cron line updated" in out
+    weather_lines = [ln for ln in lines if MARKERS["weather"] in ln]
+    assert weather_lines == [weather + " >> /var/log/bagmitra-weather-pull.log 2>&1"]
+
+
+def run_compose_file(tmp_path: Path, env_text: str) -> tuple[str, str]:
+    env_file = tmp_path / ".env"
+    if not env_file.exists() or env_text:
+        env_file.write_text(env_text)
+        env_file.chmod(0o600)
+    script = f'source "{DEPLOY / "deploy.sh"}"; ENV_FILE="{env_file}"; set_compose_file'
+    out = subprocess.run(  # noqa: S603 - fixed arguments, test only
+        [str(BASH), "-c", script], capture_output=True, text=True, check=True
+    ).stdout
+    return out, env_file.read_text()
+
+
+BASE = f"{DEPLOY}/docker-compose.yml"
+SHARED = f"{BASE}:{DEPLOY}/docker-compose.shared-caddy.yml"
+
+
+def test_compose_file_includes_the_shared_caddy_file_with_edge_network(tmp_path: Path) -> None:
+    """Incident 2026-11-12: a plain `docker compose up -d api` in deploy/ read only
+    docker-compose.yml, recreated the API without the shared Caddy's network, and the app
+    answered 502. deploy.sh now keeps COMPOSE_FILE in .env, which Compose reads from there."""
+    env = 'API_DOMAIN=x\nDATABASE_URL="postgresql://u:secret-db-pass@h/db"\nEDGE_NETWORK=edge\n'
+    out, text = run_compose_file(tmp_path, env)
+    assert text == env + f"COMPOSE_FILE={SHARED}\n"
+    assert "secret-db-pass" not in out
+    assert "docker-compose.yml:docker-compose.shared-caddy.yml" in out
+    assert (tmp_path / ".env").stat().st_mode & 0o777 == 0o600
+    assert sorted(p.name for p in tmp_path.iterdir()) == [".env"], "no temp file left"
+
+
+def test_compose_file_without_edge_network_is_only_the_main_file(tmp_path: Path) -> None:
+    _, text = run_compose_file(tmp_path, "API_DOMAIN=x\nEDGE_NETWORK=\n")
+    assert text == f"API_DOMAIN=x\nEDGE_NETWORK=\nCOMPOSE_FILE={BASE}\n"
+
+
+def test_compose_file_line_is_replaced_in_place_never_doubled(tmp_path: Path) -> None:
+    # EDGE_NETWORK turned on after a deploy without it (and a stray second line): one line,
+    # in place.
+    env = f"API_DOMAIN=x\nCOMPOSE_FILE={BASE}\nEDGE_NETWORK=edge\nCOMPOSE_FILE=old.yml\nLAST=1\n"
+    out, text = run_compose_file(tmp_path, env)
+    assert text == f"API_DOMAIN=x\nCOMPOSE_FILE={SHARED}\nEDGE_NETWORK=edge\nLAST=1\n"
+    assert "set:" in out
+    out_again, text_again = run_compose_file(tmp_path, "")
+    assert text_again == text, "idempotent: a second deploy changes nothing"
+    assert "already set" in out_again
+    # Switched back off: the line drops the shared Caddy file again.
+    _, text_off = run_compose_file(tmp_path, f"EDGE_NETWORK=\nCOMPOSE_FILE={SHARED}\n")
+    assert text_off == f"EDGE_NETWORK=\nCOMPOSE_FILE={BASE}\n"
+
+
+def test_deploy_sets_compose_file_before_the_containers_restart() -> None:
+    script = (DEPLOY / "deploy.sh").read_text()
+    assert "  update_admin_web\n  set_compose_file\n  restart\n" in script
 
 
 def run_logrotate(target: Path) -> str:

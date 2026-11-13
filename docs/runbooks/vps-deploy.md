@@ -154,6 +154,12 @@ docker exec atp-caddy-1 caddy reload --config /etc/caddy/Caddyfile
 `validate` मध्ये त्रुटी आली तर reload करू नका; जोडलेल्या ओळी काढा आणि मला संदेश पाठवा.
 6. बागमित्र सुरू करा: `cd /opt/bagmitra && bash deploy/deploy.sh` → शेवटी "API is up".
 
+**साधे `docker compose` (2026-11-13 पासून):** `deploy.sh` दर deploy ला `deploy/.env` मध्ये एक `COMPOSE_FILE=` ओळ ठेवते
+(`EDGE_NETWORK` असेल तर `docker-compose.yml` + `docker-compose.shared-caddy.yml`). त्यामुळे `cd /opt/bagmitra/deploy`
+मधून हाताने चालवलेले साधे `docker compose up -d api` (किंवा `ps`, `logs`, `exec`) आता नेहमी shared Caddy चे `edge` नेटवर्क
+घेते — 2026-11-12 सारखा 502 (API `edge` शिवाय पुन्हा बनला) होत नाही. ही ओळ हाताने बदलू नका; `EDGE_NETWORK` बदलला की
+पुढचा `bash deploy/deploy.sh` ती आपोआप बदलतो.
+
 **लक्षात ठेवा:** ATP चा Caddy container पुन्हा बनवला (ATP update) की `docker network connect edge atp-caddy-1`
 परत चालवावे लागते, आणि ATP ची Caddyfile git मधून बदलत असेल तर वरचा block तिथेही (ATP रेपोमध्ये) टाकावा
 लागेल. कायमचा उपाय: ATP च्या compose मध्ये caddy ला `edge` नेटवर्क आणि Caddyfile मध्ये हा block — हा बदल
@@ -166,7 +172,7 @@ ATP प्रकल्पात करायचा (बागमित्र र
 वरून APK उतरतो. इंटरनेट नसेल तर ॲप काहीच दाखवत नाही.
 
 **सोपा मार्ग (2026-11-08 पासून):** `deploy/.env` मध्ये एकदा `RELEASE_APK_MIRROR=on` ठेवा आणि `bash deploy/deploy.sh` चालवा. मग प्रत्येक वेळी
-फक्त GitHub → Actions → **Release APK** चालवायचे: १५ मिनिटांत VPS चे काम (`deploy/fetch_test_apk.sh`) नवीन arm64-v8a APK `/app` वर
+फक्त GitHub → Actions → **Release APK** चालवायचे: एका तासात VPS चे काम (`deploy/fetch_test_apk.sh`) नवीन arm64-v8a APK `/app` वर
 ठेवते आणि `release.json` लिहिते; `/v1/app/version` तेच आकडे सांगतो. खालच्या पायऱ्या २–४ (scp, `.env` मध्ये आकडे) लागत नाहीत.
 `TEST_APK_MIRROR=on` असेल तर तेच काम नवीन Test APK वेगळ्या फाईलमध्ये (`bagmitra-test.apk`) ठेवते, पत्ता
 `https://<API_DOMAIN>/app/test`; Test APK चे अपडेट बटण हाच पत्ता उघडते. दोन्ही फाईल एकमेकींची जागा कधीच घेत नाहीत (audit H1).
@@ -176,7 +182,7 @@ ATP प्रकल्पात करायचा (बागमित्र र
 देते आणि shared VPS चा IP इतरही वापरतात, म्हणून log (`/var/log/bagmitra-test-apk.log`) मध्ये कधी
 `GitHub rate limit; using the last fetched releases list` किंवा `GitHub rate limit; will retry next run` दिसू शकते.
 काम आधीच्या यादीची ETag पाठवते: यादी बदलली नसेल तर GitHub `304` देते, तो मर्यादेत मोजला जात नाही (दुसऱ्या channel चा
-प्रश्नही असाच मोफत). मर्यादा संपली तर शेवटची मिळालेली यादी वापरली जाते; नवीन release फक्त पुढच्या १५ मिनिटांच्या फेरीत येते.
+प्रश्नही असाच मोफत). मर्यादा संपली तर शेवटची मिळालेली यादी वापरली जाते; नवीन release फक्त पुढच्या तासाच्या फेरीत येते.
 हवे असल्यास `deploy/.env` मध्ये `GITHUB_MIRROR_TOKEN=<token>` ठेवा (GitHub → Settings → Developer settings →
 Fine-grained token, फक्त या public repo साठी, कोणतीही permission नको) आणि `bash deploy/deploy.sh` चालवा: मग तासाला ५०००.
 Token कधीही log मध्ये छापला जात नाही. यादी api container च्या `/tmp/bagmitra-apk-mirror.json` मध्ये राहते (container
