@@ -368,7 +368,7 @@ async def _one(  # noqa: PLR0913 - one item of the run, with the run clock
         item.status = "draft"
         return "draft"
     await _store(session, item, result)
-    problems = check_articles(text, result, source_url=item.url)
+    problems = check_articles(text, result, source_url=item.url, published=item.published_at)
     item.check_issues = [{"kind": "article", "text": p, "where": ""} for p in problems]
     if problems:
         item.status = "held"
@@ -446,7 +446,9 @@ async def recheck_held_articles(
             continue
         item.raw_hash, item.raw_bytes = hashlib.sha256(data).hexdigest(), len(data)
         await _store(session, item, articles)  # saved links in their canonical form
-        problems = check_articles(html_text(data), articles, source_url=item.url)
+        problems = check_articles(
+            html_text(data), articles, source_url=item.url, published=item.published_at
+        )
         item.check_issues = [{"kind": "article", "text": p, "where": ""} for p in problems]
         if problems:
             outcome = "held"

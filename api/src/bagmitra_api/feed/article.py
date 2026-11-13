@@ -369,8 +369,12 @@ def _chart_issues(c: Chart, where: str, index: SourceIndex) -> list[str]:
     return out
 
 
-def check_articles(source_text: str, result: ArticleSet, *, source_url: str) -> list[str]:
-    """Every reason not to publish; empty means the article set may be published."""
+def check_articles(
+    source_text: str, result: ArticleSet, *, source_url: str, published: date | None = None
+) -> list[str]:
+    """Every reason not to publish; empty means the article set may be published.
+    `published`: the item's published date. Its year completes a source date stated without a
+    year ("१२ नोव्हेंबरला" vouches for 12 November of that year only, `SourceIndex.build`)."""
     if result.political:
         return ["political: the model marked the source as political"]
     if not result.relevant:
@@ -380,9 +384,10 @@ def check_articles(source_text: str, result: ArticleSet, *, source_url: str) -> 
     source_host = _host(source_url)
     out: list[str] = []
     facts_by_lang = {}
+    year = published.year if published is not None else None
     for lang, a in result.articles.items():
         texts = dict(_texts(lang, a))
-        for m in check_output(source_text, texts):
+        for m in check_output(source_text, texts, year=year):
             out.append(f"{m.where}: {m.kind} '{m.text}' is not in the source")
         joined = normalise("\n".join(texts.values()))
         out += [f"{lang}: political: names '{n}'" for n in PARTY_NAMES if _names(joined, n)]

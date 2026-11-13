@@ -60,6 +60,24 @@ _MONTH_DAY_YEAR = re.compile(
     rf"(?<![^\W\d_])({_MONTH})\.?\s+(\d{{1,2}}){_ORD},?\s+(\d{{4}})(?!\d)", re.IGNORECASE
 )
 _MONTH_YEAR = re.compile(rf"(?<![^\W\d_])({_MONTH})\.?,?\s+(\d{{4}})(?!\d)", re.IGNORECASE)
+# A day and month WITHOUT a year, as news pages state them ("१२ नोव्हेंबरला", "12 नोव्हेंबर
+# रोजी", "Nov 12"). Read in the source only, where it vouches for that day and month in the
+# item's own year (`SourceIndex.build(year=...)`). A Marathi ending written onto the month
+# (ला / रोजी / पासून / पर्यंत) is allowed; any other letter or vowel sign right after it is
+# not ("12 में" is Hindi "in 12", not 12 May). English "may" counts only before the day is
+# named ("12 May"): "may 15" is left out, as in "farmers may 15 days ...".
+_NOT_AFTER_WORD = r"(?![\w\u0900-\u0963\u0970-\u097f])"
+_DATE_ENDING = r"(?:ला|रोजी|पासून|पर्यंत)?"
+_DAY_MONTH = re.compile(
+    rf"(?<!\d)(?<!\d\.)(\d{{1,2}}){_ORD}\s*(?:of\s+|[-/]\s*)?({_MONTH})\.?{_DATE_ENDING}"
+    rf"{_NOT_AFTER_WORD}",
+    re.IGNORECASE,
+)
+_MONTH_DAY = re.compile(
+    rf"(?<![\w\u0900-\u097f])(?!may\b)({_MONTH})\.?\s+(\d{{1,2}}){_ORD}{_DATE_ENDING}"
+    rf"{_NOT_AFTER_WORD}(?!\.?\d)",
+    re.IGNORECASE,
+)
 
 _UNITS = {
     "lakh": 100_000,
@@ -183,6 +201,7 @@ class Mismatch:
 class _Facts:
     dates: set[str] = field(default_factory=set)
     dates_found: list[tuple[str, str]] = field(default_factory=list)
+    spans: list[tuple[int, int]] = field(default_factory=list)  # of the dates, in normalised text
     numbers: list[tuple[str, float, bool]] = field(default_factory=list)
 
 
@@ -216,7 +235,7 @@ def _scan(text: str) -> _Facts:
     numbers are read, so a date's parts are not reported again as plain numbers."""
     facts = _Facts()
     norm = normalise(text)
-    spans: list[tuple[int, int]] = []
+    spans = facts.spans
 
     def add_date(start: int, end: int, key: str | None) -> None:
         if key is None or any(s <= start < e for s, e in spans):
@@ -258,6 +277,22 @@ class TextFacts:
     amounts: frozenset[float]
 
 
+def day_months(text: str) -> list[tuple[str, int, int]]:
+    """(as written, normalised; month; day) of every day-and-month WITHOUT a year in `text`. A
+    day and month that is part of a full date ("12 नोव्हेंबर 2026") is not one."""
+    return _day_months(normalise(text), _scan(text).spans)
+
+
+def _day_months(norm: str, spans: Sequence[tuple[int, int]]) -> list[tuple[str, int, int]]:
+    found = [(m.start(), m.end(), m[0], m[2], m[1]) for m in _DAY_MONTH.finditer(norm)]
+    found += [(m.start(), m.end(), m[0], m[1], m[2]) for m in _MONTH_DAY.finditer(norm)]
+    out = []
+    for start, end, raw, month, day in sorted(found):
+        if not any(s < end and start < e for s, e in spans):
+            out.append((raw, _MONTHS[month.lower()], int(day)))
+    return out
+
+
 def text_facts(text: str) -> TextFacts:
     """The dates and amounts the output check reads, for other matchers (e.g. "Check this
     message"): same normalisation of Devanagari digits, digit grouping and units."""
@@ -279,14 +314,25 @@ class SourceIndex:
     values: frozenset[float]
 
     @classmethod
-    def build(cls, source: str) -> SourceIndex:
+    def build(cls, source: str, *, year: int | None = None) -> SourceIndex:
         """Values the source vouches for: plain numbers (also the parts of its dates, so a year
-        or a day mentioned alone still matches) and unit-multiplied amounts."""
+        or a day mentioned alone still matches) and unit-multiplied amounts.
+
+        `year` (the item's own published year): a day and month the source states without a
+        year ("१२ नोव्हेंबरला") also vouches for that full date in exactly this year; never in
+        another year, never for another day or month (VPS 2026-11-13: news pages seldom repeat
+        the year, while the writer must give key_dates as YYYY-MM-DD)."""
         norm = normalise(source)
         facts = _scan(source)
         values = {float(n.replace(",", "")) for n in _PLAIN_NUMBER.findall(norm)}
         values |= {value for _, value, _ in facts.numbers}
-        return cls(norm, frozenset(facts.dates), frozenset(values))
+        dates = set(facts.dates)
+        if year is not None:
+            for _raw, month, day in _day_months(norm, facts.spans):
+                key = _date_key(year, month, day)
+                if key is not None:
+                    dates.add(key)
+        return cls(norm, frozenset(dates), frozenset(values))
 
 
 def _check_text(index: SourceIndex, text: str, where: str) -> list[Mismatch]:
@@ -317,10 +363,12 @@ def check_output(
     *,
     card_fields: Mapping[str, Mapping[str, Any]] | None = None,
     scheme_glossary: Mapping[str, Sequence[str]] | None = None,
+    year: int | None = None,
 ) -> list[Mismatch]:
     """Mismatches between generated text and its source; empty means every checked claim was
-    found. `texts` maps a location (e.g. "mr.summary", "deadline") to the text shown there."""
-    index = SourceIndex.build(source_text)
+    found. `texts` maps a location (e.g. "mr.summary", "deadline") to the text shown there.
+    `year`: the item's published year, for source dates stated without one (`SourceIndex`)."""
+    index = SourceIndex.build(source_text, year=year)
     glossary = scheme_glossary or {}
     out: list[Mismatch] = []
     for where, text in texts.items():
