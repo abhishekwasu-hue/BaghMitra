@@ -27,7 +27,9 @@ from bagmitra_api.feed.gr_portal import FetchOutcome
 from bagmitra_api.feed.models import FeedSource
 from bagmitra_api.feed.news import NewsFeedAdapter, fetch_news_source
 from bagmitra_api.feed.news_articles import (
+    AnthropicHeadlineFilter,
     ArticleRun,
+    HeadlineFilter,
     recheck_held_articles,
     write_news_articles,
 )
@@ -79,16 +81,18 @@ async def run_news(
     return summary
 
 
-async def article_step(
+async def article_step(  # noqa: PLR0913 - the run with its clock and optional filter
     session: AsyncSession,
     adapter: NewsFeedAdapter,
     writer: FeedArticleWriter | None,
     settings: Settings,
     now: datetime,
+    prefilter: HeadlineFilter | None = None,
 ) -> tuple[ArticleRun, ArticleRun]:
-    """New headlines get their article; then the held articles are checked again with the
-    current checks (owner 2026-11-10: every run, no separate command; no model call)."""
-    written = await write_news_articles(session, adapter, writer, settings, now)
+    """New headlines are judged by the headline filter (Q150) and the kept ones get their
+    article; then the held articles are checked again with the current checks (owner
+    2026-11-10: every run, no separate command; no model call)."""
+    written = await write_news_articles(session, adapter, writer, settings, now, prefilter)
     await session.commit()
     rechecked = await recheck_held_articles(session, adapter, settings)
     await session.commit()
@@ -120,8 +124,10 @@ async def main() -> int:  # pragma: no cover - thin CLI wrapper
         async with get_sessionmaker()() as session:
             summary = await run_news(session, adapter)
             await session.commit()
+            # Q150: the cheap headline filter runs first; the writer sees only useful news.
+            prefilter = AnthropicHeadlineFilter(writer) if writer is not None else None
             articles, rechecked = await article_step(
-                session, adapter, writer, settings, datetime.now(UTC)
+                session, adapter, writer, settings, datetime.now(UTC), prefilter
             )
             threads = await thread_step(
                 session, AnthropicThreader(writer) if writer is not None else None
