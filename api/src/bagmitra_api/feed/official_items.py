@@ -406,7 +406,7 @@ async def _write(  # noqa: PLR0913 - the article step of one listing
     if summary is not None:
         await _card(session, item, summary)
     await session.flush()
-    problems = check_articles(text, article, source_url=item.url)
+    problems = check_articles(text, article, source_url=item.url, published=item.published_at)
     issues = [{"kind": "article", "text": p, "where": ""} for p in problems]
     issues += await run_output_check(session, item, settings, None)
     item.check_issues = issues
@@ -506,7 +506,9 @@ async def recheck_held_official(session: AsyncSession, settings: Settings) -> Of
             continue
         await _store(session, item, articles)  # saved links in their canonical form
         await session.flush()
-        problems = check_articles(item.extracted_text, articles, source_url=item.url)
+        problems = check_articles(
+            item.extracted_text, articles, source_url=item.url, published=item.published_at
+        )
         issues = [{"kind": "article", "text": p, "where": ""} for p in problems]
         issues += await run_output_check(session, item, settings, None)
         item.check_issues = issues
