@@ -15,27 +15,31 @@ import re
 from collections.abc import Iterable, Mapping, Sequence
 from dataclasses import dataclass, field
 from datetime import date
+from decimal import Decimal
 from typing import Any
 
 NOT_STATED = "not_stated"
 
-_DEVANAGARI_DIGITS = str.maketrans("०१२३४५६७८९", "0123456789")
+# Devanagari and the other Indic scripts' digits (Bengali, Gurmukhi, Gujarati, Oriya, Tamil,
+# Telugu, Kannada, Malayalam) read as ASCII digits. One character for one, so offsets stay.
+_INDIC_ZEROS = (0x0966, 0x09E6, 0x0A66, 0x0AE6, 0x0B66, 0x0BE6, 0x0C66, 0x0CE6, 0x0D66)
+_DEVANAGARI_DIGITS = str.maketrans({zero + d: str(d) for zero in _INDIC_ZEROS for d in range(10)})
 
 _MONTHS: dict[str, int] = {}
 for _number, _names in enumerate(
     (
         ("january", "jan", "जानेवारी", "जनवरी"),
-        ("february", "feb", "फेब्रुवारी", "फरवरी"),
+        ("february", "feb", "फेब्रुवारी", "फेब्रुवरी", "फरवरी", "फ़रवरी", "\u095eरवरी"),
         ("march", "mar", "मार्च"),
-        ("april", "apr", "एप्रिल", "अप्रैल"),
+        ("april", "apr", "एप्रिल", "एप्रील", "अप्रैल", "अप्रेल"),
         ("may", "मे", "मई"),
         ("june", "jun", "जून"),
         ("july", "jul", "जुलै", "जुलाई"),
-        ("august", "aug", "ऑगस्ट", "अगस्त"),
-        ("september", "sept", "sep", "सप्टेंबर", "सितंबर", "सितम्बर"),
-        ("october", "oct", "ऑक्टोबर", "अक्टूबर", "अक्तूबर"),
-        ("november", "nov", "नोव्हेंबर", "नवंबर", "नवम्बर"),
-        ("december", "dec", "डिसेंबर", "दिसंबर", "दिसम्बर"),
+        ("august", "aug", "ऑगस्ट", "ऑगष्ट", "अगस्त"),
+        ("september", "sept", "sep", "सप्टेंबर", "सप्टेबर", "सितंबर", "सितम्बर"),
+        ("october", "oct", "ऑक्टोबर", "ऑक्टोंबर", "अक्टूबर", "अक्तूबर"),
+        ("november", "nov", "नोव्हेंबर", "नोव्हेबर", "नवंबर", "नवम्बर"),
+        ("december", "dec", "डिसेंबर", "डिसेबर", "दिसंबर", "दिसम्बर"),
     ),
     start=1,
 ):
@@ -44,10 +48,13 @@ for _number, _names in enumerate(
 
 _MONTH = "|".join(sorted(map(re.escape, _MONTHS), key=len, reverse=True))
 _ORD = r"(?:st|nd|rd|th)?"
-_NUMERIC_DMY = re.compile(r"(?<![\d.])(\d{1,2})[/.\-](\d{1,2})[/.\-](\d{4})(?!\d)")
+# A dot right before the day is allowed after a letter ("दि.19.04.2023", the usual GR form),
+# not after a digit (so "1.19.04.2023" is no date). One space may stand around a separator.
+_NUMERIC_DMY = re.compile(r"(?<!\d)(?<!\d\.)(\d{1,2}) ?[/.\-] ?(\d{1,2}) ?[/.\-] ?(\d{4})(?!\d)")
 _NUMERIC_YMD = re.compile(r"(?<!\d)(\d{4})-(\d{1,2})-(\d{1,2})(?!\d)")
 _DAY_MONTH_YEAR = re.compile(
-    rf"(?<!\d)(\d{{1,2}}){_ORD}\s*(?:of\s+)?({_MONTH})\.?,?\s*(\d{{4}})(?!\d)", re.IGNORECASE
+    rf"(?<!\d)(\d{{1,2}}){_ORD}\s*(?:of\s+|[-/]\s*)?({_MONTH})\.?,?\s*[-/]?\s*(\d{{4}})(?!\d)",
+    re.IGNORECASE,
 )
 _MONTH_DAY_YEAR = re.compile(
     rf"(?<![^\W\d_])({_MONTH})\.?\s+(\d{{1,2}}){_ORD},?\s+(\d{{4}})(?!\d)", re.IGNORECASE
@@ -128,8 +135,37 @@ def _english_value(m: re.Match[str]) -> str:
     return str((_EN_TENS.index(m[1]) + 2) * 10 + (_EN_SMALL.index(m[2]) if m[2] else 0))
 
 
-_LAKH_THOUSAND = re.compile(r"(?<![\d.,])(\d{1,3}) लाख (\d{1,2}) (?:हजार|हज़ार)")
-_THOUSAND_REST = re.compile(r"(?<![\d.,])(\d{1,3}) (?:हजार|हज़ार) (\d{3})(?![\d,])")
+_PART_UNITS = {"कोटी": 10_000_000, "करोड़": 10_000_000, "करोड": 10_000_000, "लाख": 100_000}
+_PART_UNITS |= {"हजार": 1_000, "हज़ार": 1_000}
+_PART_UNIT = "|".join(sorted(map(re.escape, _PART_UNITS), key=len, reverse=True))
+# A number spelt in parts: "८८ कोटी १९ लाख", "३ लाख ६५ हजार ११", "१ हजार ६००".
+_PARTS = re.compile(
+    rf"(?<![\d.,])\d{{1,3}} (?:{_PART_UNIT})(?: \d{{1,2}} (?:{_PART_UNIT}))*"
+    rf"(?: (\d{{1,3}})(?![\d,]|\.\d| ?(?:{_PART_UNIT})))?"
+)
+_PART = re.compile(rf"(\d+) ({_PART_UNIT})")
+
+
+def _join_parts(m: re.Match[str]) -> str:
+    """One number for a number spelt in parts, when the parts are in falling order and each
+    fits below the one before (lakh and thousand counts below 100). A trailing plain number is
+    the rest below a thousand only after a thousand part: three digits after a thousand alone
+    ("१ हजार ६००"), one to three after a lakh / crore chain ("३ लाख ६५ हजार ११", Mahasamvad
+    style). Exact sums only; anything else stays as written."""
+    parts = [(int(n), _PART_UNITS[u]) for n, u in _PART.findall(m[0])]
+    rest = m[1]
+    scales = [scale for _, scale in parts]
+    if scales != sorted(set(scales), reverse=True):
+        return m[0]
+    if any(n >= 100 for n, _ in parts[1:]):
+        return m[0]
+    if rest is not None and (scales[-1] != 1_000 or (len(parts) == 1 and len(rest) != 3)):
+        return m[0]
+    if len(parts) == 1 and rest is None:
+        return m[0]
+    return str(sum(n * scale for n, scale in parts) + int(rest or 0))
+
+
 _PLAIN_NUMBER = re.compile(r"\d+(?:,\d{2,3})*(?:\.\d+)?")
 
 
@@ -158,8 +194,7 @@ def _number_words(text: str) -> str:
     and a bare "पाच दिवसांत" is not read)."""
     text = _WORD_BEFORE_UNIT.sub(lambda m: f"{_WORDS[m[1]]} {m[2]}", text)
     text = _EN_WORDS_BEFORE_UNIT.sub(_english_value, text)
-    text = _LAKH_THOUSAND.sub(lambda m: str(int(m[1]) * 100_000 + int(m[2]) * 1_000), text)
-    return _THOUSAND_REST.sub(lambda m: str(int(m[1]) * 1_000 + int(m[2])), text)
+    return _PARTS.sub(_join_parts, text)
 
 
 def normalise(text: str) -> str:
@@ -207,10 +242,11 @@ def _scan(text: str) -> _Facts:
     for start, end in spans:
         blanked[start:end] = " " * (end - start)
     for m in _NUMBER.finditer("".join(blanked)):
-        value = float(m["num"].replace(",", ""))
+        # Decimal: "1.15 लाख" is exactly 115000 (as a float product it is 114999.99999999999).
         unit = (m["unit"] or "").lower()
+        value = Decimal(m["num"].replace(",", "")) * _UNITS.get(unit, 1)
         is_amount = bool(m["cur"] or unit)
-        facts.numbers.append((m[0].strip(), value * _UNITS.get(unit, 1), is_amount))
+        facts.numbers.append((m[0].strip(), float(value), is_amount))
     return facts
 
 

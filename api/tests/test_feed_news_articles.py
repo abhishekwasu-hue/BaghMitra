@@ -317,6 +317,38 @@ async def test_a_held_article_that_still_fails_stays_held_with_fresh_reasons(
         assert "ai_article_recheck" in await kinds(session, item)
 
 
+async def test_a_recheck_reads_numbers_in_parts_and_stores_canonical_links(
+    engine: AsyncEngine,
+) -> None:
+    """VPS 2026-11-13 (case 1): the chart counted 365011 farmers, the page wrote "३ लाख ६५
+    हजार ११"; the next news run checks the held article again with no model call. A link the
+    model copied as "http://…gov.in" is stored as https."""
+    async with async_sessionmaker(engine, expire_on_commit=False)() as session:
+        source = await news_source(session)
+        item = await headline(session, source, "/a1")
+        data = sound(f"{HOST}/a1")
+        chart: dict[str, Any] = {"type": "bar", "title": "Farmers", "unit": "farmers"}
+        chart["data"] = [{"label": "Dhule", "value": 365011}, {"label": "All", "value": 1200}]
+        for lang in ("mr", "hi", "en"):
+            data["lang"][lang]["charts"] = [chart]
+        writer = Writer(data)
+        await write_news_articles(session, adapter(pages("/a1")), writer, settings(), NOW)
+        assert item.status == "held"
+        rows = list(await session.scalars(select(FeedItemI18n)))
+        for row in rows:
+            assert row.article is not None
+            link = {"title": "NFSM", "url": "http://www.nfsm.gov.in/mis/bline"}
+            row.article = {**row.article, "sources": [*row.article["sources"], link]}
+        await session.flush()
+        page = page_with("धुळे जिल्ह्यातील ३ लाख ६५ हजार ११ पात्र शेतकरी.", "/a1")
+        run = await recheck_held_articles(session, adapter(page), settings())
+        assert (run.published, item.status) == (1, "published"), item.check_issues
+        assert len(writer.calls) == 1  # the first write only
+        urls = {s["url"] for r in rows if r.article for s in r.article["sources"]}
+        assert "https://www.nfsm.gov.in/mis/bline" in urls
+        assert "http://www.nfsm.gov.in/mis/bline" not in urls
+
+
 async def test_recheck_skips_items_without_a_saved_article_and_keeps_review_mode(
     engine: AsyncEngine,
 ) -> None:

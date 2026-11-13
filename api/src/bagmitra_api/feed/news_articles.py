@@ -445,6 +445,7 @@ async def recheck_held_articles(
             run.retry += 1
             continue
         item.raw_hash, item.raw_bytes = hashlib.sha256(data).hexdigest(), len(data)
+        await _store(session, item, articles)  # saved links in their canonical form
         problems = check_articles(html_text(data), articles, source_url=item.url)
         item.check_issues = [{"kind": "article", "text": p, "where": ""} for p in problems]
         if problems:

@@ -23,7 +23,11 @@ from bagmitra_api.feed.ai import (
     AnthropicFeedAi,
 )
 from bagmitra_api.feed.models import FeedItem, FeedItemI18n, FeedReviewEvent
-from bagmitra_api.feed.official_items import ATTEMPT, write_official_items
+from bagmitra_api.feed.official_items import (
+    ATTEMPT,
+    recheck_held_official,
+    write_official_items,
+)
 from bagmitra_api.feed.pdf_transcribe import TRANSCRIBE_SCHEMA, Transcription
 from bagmitra_api.feed.portal_job import run_portals
 from tests.feed_docs import KRUTI_DEV, make_pdf
@@ -362,6 +366,37 @@ async def test_the_job_summary_has_the_transcription_counts(engine: AsyncEngine)
         "errors": 0,
     }
     assert "transcribe" not in data["official"]
+    assert set(data["rechecked"]) >= {"published", "held", "review"}
+
+
+async def test_the_held_recheck_leaves_untranscribed_listings_and_asks_nothing(
+    engine: AsyncEngine,
+) -> None:
+    """Q151 re-check next to Q152: a listing held for its broken text has no stored text, so
+    the re-check skips it (its one transcription comes from the AI step); a transcribed listing
+    held by a check is re-checked against the stored transcription without a model request."""
+    reader = FakeTranscriber(AiUnavailableError("HTTP 529"))
+    async with async_sessionmaker(engine)() as session:
+        item = await listed(session, NOW)
+        await write_official_items(session, adapter(pdf_site()), FakeAi(), settings(), NOW, reader)
+        assert (item.status, item.extracted_text) == ("held", None)
+        run = await recheck_held_official(session, settings())
+        assert (run.published, run.held, item.status) == (0, 0, "held")
+        assert len(reader.seen) == 1
+        await session.rollback()
+
+    async with async_sessionmaker(engine)() as session:
+        bad = FakeAi(fields={"amount": {"value": "₹ 9,000", "page": "p. 1"}})
+        reader = FakeTranscriber()
+        item = await listed(session, NOW)
+        run = await write_official_items(session, adapter(pdf_site()), bad, settings(), NOW, reader)
+        assert (run.held, item.extracted_text) == (1, SOURCE)
+        again = await recheck_held_official(session, settings())
+        assert again.held == 1  # the same check against the transcription, no request
+        assert len(reader.seen) == 1
+        later = NOW + timedelta(days=1)
+        await write_official_items(session, adapter(pdf_site()), bad, settings(), later, reader)
+        assert len(reader.seen) == 1  # held by a check: never transcribed again
 
 
 async def test_the_real_adapter_end_to_end(engine: AsyncEngine) -> None:

@@ -54,6 +54,7 @@ from bagmitra_api.feed.official_items import (
     OfficialAi,
     OfficialRun,
     PdfTranscriber,
+    recheck_held_official,
     write_official_items,
 )
 from bagmitra_api.feed.seed import seed_feed_sources, seed_option
@@ -270,6 +271,7 @@ async def fetch_portal(
 class PortalSummary:
     sources: list[FetchOutcome] = field(default_factory=list)
     official: OfficialRun = field(default_factory=OfficialRun)
+    rechecked: OfficialRun = field(default_factory=OfficialRun)
     skipped_reason: str | None = None
 
     def to_json(self) -> str:
@@ -279,6 +281,7 @@ class PortalSummary:
                 "added": sum(o.added for o in self.sources),
                 "official": self.official.as_dict(),
                 "pdf_transcribe": self.official.transcribe.as_dict(),
+                "rechecked": self.rechecked.as_dict(),
                 "skipped_reason": self.skipped_reason,
             },
             ensure_ascii=False,
@@ -305,6 +308,10 @@ async def run_portals(  # noqa: PLR0913 - the job's inputs
         summary.sources.append(await fetch_portal(session, source, adapter, now))
     await session.commit()
     summary.official = await write_official_items(session, adapter, ai, settings, now, transcriber)
+    await session.commit()
+    # Owner 2026-11-13: held listings are checked again with the current checks on every run
+    # (no model call, no fetch), so a check fix reaches the items it held before.
+    summary.rechecked = await recheck_held_official(session, settings)
     await session.commit()
     return summary
 
