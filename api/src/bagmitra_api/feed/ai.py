@@ -316,16 +316,21 @@ class AnthropicFeedAi:
         return _json_object(answer)
 
     async def ask_small_json(
-        self, system: str, text: str, *, schema: dict[str, Any]
+        self,
+        system: str,
+        text: str,
+        *,
+        schema: dict[str, Any],
+        max_tokens: int = SMALL_JSON_MAX_TOKENS,
     ) -> dict[str, Any]:
         """One short structured-output answer from the cheap classify model at low effort
-        (Q139 topic threads: "same topic as thread X, or new")."""
+        (Q139 topic threads: "same topic as thread X, or new"; Q150 news headline filter)."""
         answer = await self._ask(
             self._settings.feed_classify_model,
             system,
             text,
             fallback=False,
-            max_tokens=SMALL_JSON_MAX_TOKENS,
+            max_tokens=max_tokens,
             schema=schema,
             effort="low",
         )

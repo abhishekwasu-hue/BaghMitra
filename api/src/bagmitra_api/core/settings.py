@@ -208,6 +208,10 @@ class Settings(BaseSettings):
     feed_article_timeout_seconds: float = 300.0
     # At most this many article requests to the model per UTC day (cost bound).
     feed_ai_daily_items: int = Field(default=30, ge=0)
+    # Q150: headline filter calls (FEED_CLASSIFY_MODEL, ~40 news headlines each) per UTC day
+    # before the article writer; counted apart from FEED_AI_DAILY_ITEMS. Reached = the
+    # unclassified headlines wait for the next day (none is written unclassified).
+    feed_ai_filter_daily_calls: int = Field(default=50, ge=0)
     # Owner Q127: a checked article is published without review; false = human approval.
     feed_auto_publish: bool = True
     # Knowledge articles (owner 2026-11-11, Q141): the daily job's kill switch; the same

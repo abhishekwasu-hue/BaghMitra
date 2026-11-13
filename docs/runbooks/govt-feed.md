@@ -227,8 +227,47 @@ with the reasons (admin web, status filter "held"). The page text is never store
 | `FEED_ARTICLE_MAX_TOKENS` | 16000 | Model output limit per article set (thinking included) |
 | `FEED_ARTICLE_TIMEOUT_SECONDS` | 300 | How long one article request may take |
 
-Log: `/var/log/bagmitra-feed-news.log` (second JSON line: published / held / drafted / retry).
+Log: `/var/log/bagmitra-feed-news.log` (second JSON line: published / held / drafted / retry,
+and `filter` below).
 Set a monthly spend limit in the Anthropic console.
+
+**Headline filter before the writer** (owner 2026-11-13, OPEN_QUESTIONS Q150). Before any page is
+read, the waiting headlines go to the cheap `FEED_CLASSIFY_MODEL` (default `claude-haiku-5-5`, low
+effort, structured output) in batches of **40** (title, source name, language only; no page fetch).
+For each headline it answers `relevant` (useful to an Indian, mainly Maharashtra, fruit-orchard /
+farming grower: crops, horticulture, pests and diseases, weather effects, markets and prices,
+inputs, schemes, agri policy, irrigation; livestock only when farm-related), `political` (party
+politics, elections, political personalities) and a short reason.
+- Not relevant or political: the item goes to `draft` exactly as when the writer judged it so
+  (`ai_article` event, result `draft`, reason `prefilter: <reason>`). No page fetch, no writer call,
+  and it does **not** count against `FEED_AI_DAILY_ITEMS` (that cap counts writer calls only).
+- Relevant: the writer gets it as before, newest first.
+- Each verdict is an `ai_prefilter` review event (`call`, `result` relevant / dropped, `relevant`,
+  `political`, `reason`), so a headline is judged once.
+- A filter error (HTTP error, timeout, refusal, cut-off answer) is never a verdict: one
+  `ai_prefilter` event with result `error` is written, the filter stops for that run and the
+  unjudged headlines stay `in_review` for the next run. Only headlines with a `relevant` verdict
+  reach the writer, so with the filter failing nothing new is written in that run; headlines judged
+  relevant earlier are still written.
+- A headline the model leaves out of its answer gets no verdict and is sent again next run.
+
+| `.env` | Default | Meaning |
+|---|---|---|
+| `FEED_AI_FILTER_DAILY_CALLS` | 50 | Filter calls (40 headlines each) per UTC day, counted from the `ai_prefilter` events. Reached: unjudged headlines wait for the next UTC day (none is written unjudged); `0` stops new articles |
+
+Summary line: `"filter": {"calls": n, "relevant": n, "dropped": n, "errors": n}` inside the second
+JSON line (this run's counts; `drafted` counts only the writer's own drafts).
+
+Cost (prices from the Claude API models table, prompts up to 100K tokens): Haiku 5.5 $0.10 input /
+$0.50 output per million tokens; the writer, Sonnet 5.5, $2 / $10. One filter call carries the
+prompt (~350 tokens) and 40 headlines (a few thousand tokens; Marathi / Hindi titles use more tokens
+than English), and answers 40 short verdicts plus low-effort thinking (`FILTER_MAX_TOKENS` 8000 is
+the ceiling). At e.g. 4K input + 3K output tokens that is about $0.0004 + $0.0015 ≈ **$0.002 per
+call**, so the 50-call daily cap is about $0.10 a day at most. One writer call (up to 16K output
+tokens at $10 per million, plus the page text) can cost up to about $0.20, so every headline the
+filter drops saves far more than a whole filter call. These are estimates from the prices and
+token sizes above, not measured bills: check the Anthropic console usage after the first days.
+The backlog of ~700 waiting headlines is about 18 filter calls, within one day's cap.
 
 **Re-check held articles** (owner 2026-11-09; since 2026-11-10 every scheduled news run does this by itself, third JSON line `recheck`): checks every held news
 article again against its page and publishes those that now pass. It uses the saved article (no model
