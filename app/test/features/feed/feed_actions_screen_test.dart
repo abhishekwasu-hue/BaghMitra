@@ -326,7 +326,8 @@ void main() {
     final db = await _pump(tester, repo, location: '/feed-check');
     final go = find.byKey(const Key('feed-check-go'));
     expect(tester.widget<FilledButton>(go).onPressed, isNull);
-    expect(find.text('The text is not saved on your phone.'), findsOneWidget);
+    // The privacy promise lives once on the privacy page (owner 2026-11-13), not here.
+    expect(find.text('The text is not saved on your phone.'), findsNothing);
 
     await tester.tap(find.byKey(const Key('feed-check-paste')));
     await settle(tester);

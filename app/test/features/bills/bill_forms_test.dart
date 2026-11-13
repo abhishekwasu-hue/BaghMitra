@@ -302,13 +302,8 @@ void main() {
       );
       await attach(tester);
       expect(find.byKey(const Key('bill-fill')), findsNothing);
-      expect(
-        find.text(
-          'Reading the bill needs internet. The photo is saved with this '
-          'record on the phone.',
-        ),
-        findsOneWidget,
-      );
+      expect(find.text('Reading the bill needs internet.'), findsOneWidget);
+      expect(find.textContaining('on the phone'), findsNothing);
       expect(find.textContaining('will be sent'), findsNothing);
       await tester.enterText(find.byKey(const Key('spray-product')), 'Imida');
       await tester.tap(find.text('Save'));

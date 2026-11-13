@@ -19,6 +19,7 @@ import '../feed/feed_data_test.dart';
 import '../plots/plots_screen_test.dart' show settle;
 import 'reaction_store_test.dart' show FakeReactionServer;
 
+// The old offline line under the bar (owner 2026-11-13: never shown; it waits quietly).
 const pendingNote = 'फोनवर ठेवले; इंटरनेट आल्यावर जाईल.';
 
 Future<void> seedFeed(AppDatabase db) => db.writeMeta(
@@ -113,7 +114,8 @@ void main() {
       expect(isSelected(tester, Reaction.thanks), isTrue);
       expect(countOf(tester, Reaction.thanks), '१');
       expect(find.text('धन्यवाद!'), findsOneWidget);
-      expect(find.text(pendingNote), findsOneWidget);
+      expect(find.text(pendingNote), findsNothing);
+      expect(find.byKey(const Key('reaction-pending')), findsNothing);
       expect(server.sent, isEmpty);
 
       // Back online: opening the item again sends the waiting reaction.
@@ -155,7 +157,8 @@ void main() {
     expect(find.text('हे उत्तर कसे वाटले?'), findsOneWidget);
     await tapChip(tester, Reaction.liked);
     expect(isSelected(tester, Reaction.liked), isTrue);
-    expect(find.text(pendingNote), findsOneWidget);
+    expect(find.text(pendingNote), findsNothing);
+    expect(find.byKey(const Key('reaction-pending')), findsNothing);
     final state = await tester.runAsync(() => ReactionStore(db, server).load());
     expect(state!.pending, {'qa:seed-psylla-symptoms': Reaction.liked});
 

@@ -10,8 +10,6 @@ const allowNegative = {
   'labelInfoBanner',
   // Consent text: says plainly that this consent cannot be switched off here.
   'profileConsentDataNote',
-  // Privacy promise: the pasted text is not stored on the phone.
-  'feedCheckPrivacy',
   // Forwarded-message check: "no official match found" is the warning.
   'feedCheckNoMatch',
   // Claim PDF legal note: a grower's record, not an insurer's document.

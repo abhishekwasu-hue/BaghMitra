@@ -455,10 +455,6 @@ class LabTestDetailScreen extends ConsumerWidget {
                 label: Text(t.labTestShareReport),
               ),
             ),
-            Text(
-              t.labTestReportLocal,
-              style: BmType.meta.copyWith(color: c.inkMuted),
-            ),
           ],
         ],
       ),
@@ -991,11 +987,6 @@ class _LabTestFormScreenState extends ConsumerState<LabTestFormScreen> {
                   ),
                 ],
               ),
-            const SizedBox(height: BmSpace.xxs),
-            Text(
-              t.labTestReportLocal,
-              style: BmType.meta.copyWith(color: c.inkMuted),
-            ),
             gap,
             TextField(
               key: const Key('lab-note'),

@@ -274,18 +274,6 @@ abstract class AppLocalizations {
   /// **'Mark task done'**
   String get markTaskDone;
 
-  /// No description provided for @offlineBanner.
-  ///
-  /// In en, this message translates to:
-  /// **'Your entries are saved on this phone; they will sync when the network is back.'**
-  String get offlineBanner;
-
-  /// No description provided for @pendingSync.
-  ///
-  /// In en, this message translates to:
-  /// **'{count, plural, =1{1 change waiting to sync} other{{count} changes waiting to sync}}'**
-  String pendingSync(int count);
-
   /// No description provided for @syncFailed.
   ///
   /// In en, this message translates to:
@@ -3849,12 +3837,6 @@ abstract class AppLocalizations {
   /// **'Check'**
   String get feedCheckButton;
 
-  /// No description provided for @feedCheckPrivacy.
-  ///
-  /// In en, this message translates to:
-  /// **'The text is not saved on your phone.'**
-  String get feedCheckPrivacy;
-
   /// No description provided for @feedCheckFailed.
   ///
   /// In en, this message translates to:
@@ -4305,12 +4287,6 @@ abstract class AppLocalizations {
   /// **'Delete this loss record and its photos from this phone?'**
   String get claimKitDeleteConfirm;
 
-  /// No description provided for @claimKitLocalOnly.
-  ///
-  /// In en, this message translates to:
-  /// **'Photos and notes stay on this phone. Share the PDF when you need it.'**
-  String get claimKitLocalOnly;
-
   /// No description provided for @claimPdfTitle.
   ///
   /// In en, this message translates to:
@@ -4539,12 +4515,6 @@ abstract class AppLocalizations {
   /// **'Please try adding the report again.'**
   String get labTestReportFailed;
 
-  /// No description provided for @labTestReportLocal.
-  ///
-  /// In en, this message translates to:
-  /// **'The report stays on this phone.'**
-  String get labTestReportLocal;
-
   /// No description provided for @labTestReportMissing.
   ///
   /// In en, this message translates to:
@@ -4686,7 +4656,7 @@ abstract class AppLocalizations {
   /// No description provided for @schemeDocumentsHint.
   ///
   /// In en, this message translates to:
-  /// **'Tick what you already have. Kept on this phone only.'**
+  /// **'Tick what you already have.'**
   String get schemeDocumentsHint;
 
   /// No description provided for @schemeDocsReady.
@@ -5186,12 +5156,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sign in'**
   String get signInAgain;
-
-  /// No description provided for @syncServerBanner.
-  ///
-  /// In en, this message translates to:
-  /// **'Your entries are safe on this phone; they will be sent once the server is back.'**
-  String get syncServerBanner;
 
   /// No description provided for @syncSignedOutBanner.
   ///
@@ -8811,11 +8775,11 @@ abstract class AppLocalizations {
   /// **'Received. Thank you!'**
   String get feedbackSent;
 
-  /// No description provided for @feedbackQueued.
+  /// Snackbar after sending feedback while the phone is offline; it goes quietly later (owner 2026-11-13).
   ///
   /// In en, this message translates to:
-  /// **'Saved on the phone; it goes when the internet is back.'**
-  String get feedbackQueued;
+  /// **'Thank you!'**
+  String get feedbackThanks;
 
   /// Sign-in screen (market link builds): the role card the user picked, with a link back to the five cards.
   ///
@@ -9117,12 +9081,6 @@ abstract class AppLocalizations {
   /// **'Bill photo'**
   String get billPhoto;
 
-  /// No description provided for @billPhotoHint.
-  ///
-  /// In en, this message translates to:
-  /// **'The shop bill\'s photo stays with this record on the phone.'**
-  String get billPhotoHint;
-
   /// No description provided for @billPhotoOpen.
   ///
   /// In en, this message translates to:
@@ -9162,7 +9120,7 @@ abstract class AppLocalizations {
   /// No description provided for @billOffline.
   ///
   /// In en, this message translates to:
-  /// **'Reading the bill needs internet. The photo is saved with this record on the phone.'**
+  /// **'Reading the bill needs internet.'**
   String get billOffline;
 
   /// No description provided for @billFailed.
@@ -9500,12 +9458,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Thank you!'**
   String get reactionThanksToast;
-
-  /// Muted line under the reaction bar, shown only while the reaction could not be sent yet (offline).
-  ///
-  /// In en, this message translates to:
-  /// **'Saved on the phone; it goes when the internet is back.'**
-  String get reactionPending;
 
   /// Screen-reader label of one reaction chip: its name and how many chose it.
   ///
