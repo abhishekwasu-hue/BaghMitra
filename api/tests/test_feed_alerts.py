@@ -318,7 +318,7 @@ def test_digest_lists_new_items_for_me_newest_first() -> None:
     assert push is not None
     assert push.stage == "digest"
     assert push.item_id is None
-    assert push.title == "Sarkari Sandesh: 2 new this week"
+    assert push.title == "Farm news: 2 new this week"
     assert push.body.split("\n") == ["• Newer", "• Older", FOOTER_EN]
     assert push.data == {"kind": "feed_digest", "items": f"{newer.id},{older.id}"}
 
@@ -334,7 +334,7 @@ def test_digest_caps_titles_and_speaks_marathi() -> None:
     assert lines[0] == "• बातमी 1"
     assert lines[DIGEST_MAX_TITLES] == "…आणखी 2"
     assert "अधिकृत" in lines[-1]
-    assert push.title == f"सरकारी संदेश: या आठवड्यात {DIGEST_MAX_TITLES + 2} नवीन"
+    assert push.title == f"शेतीवार्ता: या आठवड्यात {DIGEST_MAX_TITLES + 2} नवीन"
 
 
 @pytest.mark.parametrize(

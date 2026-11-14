@@ -460,7 +460,7 @@ class _HomeBody extends ConsumerWidget {
                     _linkCard(
                       context,
                       key: const Key('open-feed'),
-                      icon: Icons.account_balance_outlined,
+                      icon: Icons.newspaper_outlined,
                       title: t.feedTitle,
                       subtitle: t.feedOpenHint,
                       onTap: () => context.push(Routes.feed),

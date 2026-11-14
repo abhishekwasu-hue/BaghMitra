@@ -98,7 +98,7 @@ void main() {
   ) async {
     final (_, repo, _) = await pumpFeed(tester);
     expect(repo.calls, contains('en'), reason: 'a refresh was tried');
-    expect(find.text('Sarkari Sandesh'), findsOneWidget);
+    expect(find.text('Farm news'), findsOneWidget);
     expect(find.text('Title gr1'), findsOneWidget);
     expect(find.text('Title news1'), findsOneWidget);
     expect(find.textContaining('Updated'), findsOneWidget);
@@ -435,7 +435,7 @@ void main() {
     // Demo mode (testConfig): the built-in sample feed, no network needed.
     await pumpApp(tester, initialLocation: '/feed');
     await settle(tester);
-    expect(find.text('सरकारी संदेश'), findsOneWidget);
+    expect(find.text('शेतीवार्ता'), findsOneWidget);
     expect(
       find.text(
         'कोणतीही कृती करण्यापूर्वी अधिकृत शासन निर्णय (GR) / पोर्टल तपासा.',
