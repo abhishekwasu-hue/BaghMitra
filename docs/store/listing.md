@@ -3,7 +3,8 @@
 Draft for the owner to paste into Play Console → Grow → Store presence → Main store listing (one
 translation per language: English (India) `en-IN`, Marathi `mr-IN`, Hindi `hi-IN`). Nothing here is
 submitted anywhere. Limits: title ≤ 30, short description ≤ 80, full description ≤ 4000 characters
-(Play counts characters, not bytes). Measured lengths are in the table at the end.
+(Play counts characters, not bytes). Measured lengths are in the table at the end. The title is the brand
+only, "BaagMitra", with no subtitle, in every language (owner decision).
 
 Written only from what the app does today (sources: `app/lib/features/more/presentation/more_screen.dart`
 for the screens, `docs/legal/DATA_INVENTORY.md` for data). Rules kept: no chemical names, doses or
@@ -26,7 +27,7 @@ lines that match the release):
 **Title (30 max)**
 
 ```
-BaagMitra Orange Orchard Diary
+BaagMitra
 ```
 
 **Short description (80 max)**
@@ -97,7 +98,7 @@ BaagMitra keeps your records and shows general information. It does not recommen
 **शीर्षक (30 max)**
 
 ```
-बागमित्र: संत्रा बाग डायरी
+BaagMitra
 ```
 
 **छोटे वर्णन (80 max)**
@@ -168,7 +169,7 @@ BaagMitra keeps your records and shows general information. It does not recommen
 **शीर्षक (30 max)**
 
 ```
-बागमित्र: संतरा बाग डायरी
+BaagMitra
 ```
 
 **छोटा विवरण (80 max)**
@@ -238,8 +239,8 @@ BaagMitra keeps your records and shows general information. It does not recommen
 
 | | Title (≤ 30) | Short (≤ 80) | Full (≤ 4000) |
 |---|---|---|---|
-| en-IN | 30 | 80 | 2240 / 2021 |
-| mr-IN | 26 | 74 | 1980 / 1804 |
-| hi-IN | 25 | 80 | 2013 / 1824 |
+| en-IN | 9 | 80 | 2240 / 2021 |
+| mr-IN | 9 | 74 | 1980 / 1804 |
+| hi-IN | 9 | 80 | 2013 / 1824 |
 
 Re-measure after any edit (Python `len()` on the pasted text; Play shows its own counter too).
