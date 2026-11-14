@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 
-/// The product name is localized (BagMitra / बागमित्र). The Android launcher label lives in
+/// The product name is localized (BaagMitra / बागमित्र). The Android launcher label lives in
 /// res/values*/strings.xml and must match appName in the ARB of the same language.
 void main() {
   String arbName(String lang) =>
@@ -20,7 +20,7 @@ void main() {
   }
 
   test('product name per language', () {
-    expect(arbName('en'), 'BagMitra');
+    expect(arbName('en'), 'BaagMitra');
     expect(arbName('mr'), 'बागमित्र');
     expect(arbName('hi'), 'बागमित्र');
   });

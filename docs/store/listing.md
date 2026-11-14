@@ -3,7 +3,8 @@
 Draft for the owner to paste into Play Console → Grow → Store presence → Main store listing (one
 translation per language: English (India) `en-IN`, Marathi `mr-IN`, Hindi `hi-IN`). Nothing here is
 submitted anywhere. Limits: title ≤ 30, short description ≤ 80, full description ≤ 4000 characters
-(Play counts characters, not bytes). Measured lengths are in the table at the end.
+(Play counts characters, not bytes). Measured lengths are in the table at the end. The title is the brand
+only, "BaagMitra", with no subtitle, in every language (owner decision).
 
 Written only from what the app does today (sources: `app/lib/features/more/presentation/more_screen.dart`
 for the screens, `docs/legal/DATA_INVENTORY.md` for data). Rules kept: no chemical names, doses or
@@ -26,7 +27,7 @@ lines that match the release):
 **Title (30 max)**
 
 ```
-BagMitra: Orange Orchard Diary
+BaagMitra
 ```
 
 **Short description (80 max)**
@@ -38,7 +39,7 @@ Bahar-wise records, tasks, spray log, accounts and mandi prices for your orchard
 **Full description**
 
 ```
-BagMitra is an orchard diary for Nagpur orange (santra) and sweet lime (mosambi) growers. Keep every record of your orchard in one place, bahar by bahar, in Marathi, Hindi or English.
+BaagMitra is an orchard diary for Nagpur orange (santra) and sweet lime (mosambi) growers. Keep every record of your orchard in one place, bahar by bahar, in Marathi, Hindi or English.
 
 WORKS WITHOUT INTERNET
 Write your records in the field even with no signal. When the phone is online again, they are sent to your account and appear on your other phone too.
@@ -87,7 +88,7 @@ YOUR DATA
 • Delete your account and data any time from Profile in the app
 • Privacy policy: https://bagmitra.aialgodesk.org/privacy
 
-BagMitra keeps your records and shows general information. It does not recommend chemicals or doses; for those, ask your agriculture officer, KVK or a qualified expert.
+BaagMitra keeps your records and shows general information. It does not recommend chemicals or doses; for those, ask your agriculture officer, KVK or a qualified expert.
 ```
 
 ---
@@ -97,7 +98,7 @@ BagMitra keeps your records and shows general information. It does not recommend
 **शीर्षक (30 max)**
 
 ```
-बागमित्र: संत्रा बाग डायरी
+BaagMitra
 ```
 
 **छोटे वर्णन (80 max)**
@@ -168,7 +169,7 @@ BagMitra keeps your records and shows general information. It does not recommend
 **शीर्षक (30 max)**
 
 ```
-बागमित्र: संतरा बाग डायरी
+BaagMitra
 ```
 
 **छोटा विवरण (80 max)**
@@ -238,8 +239,8 @@ BagMitra keeps your records and shows general information. It does not recommend
 
 | | Title (≤ 30) | Short (≤ 80) | Full (≤ 4000) |
 |---|---|---|---|
-| en-IN | 30 | 80 | 2238 / 2019 |
-| mr-IN | 26 | 74 | 1980 / 1804 |
-| hi-IN | 25 | 80 | 2013 / 1824 |
+| en-IN | 9 | 80 | 2213 / 2021 |
+| mr-IN | 9 | 74 | 1978 / 1804 |
+| hi-IN | 9 | 80 | 2012 / 1824 |
 
 Re-measure after any edit (Python `len()` on the pasted text; Play shows its own counter too).

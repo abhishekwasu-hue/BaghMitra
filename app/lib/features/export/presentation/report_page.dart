@@ -136,7 +136,7 @@ class ReportPage extends StatelessWidget {
                 const Spacer(),
                 Align(
                   alignment: Alignment.centerRight,
-                  child: Text('BagMitra · $pageLabel', style: muted),
+                  child: Text('BaagMitra · $pageLabel', style: muted),
                 ),
               ],
             ),

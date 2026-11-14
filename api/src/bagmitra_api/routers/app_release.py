@@ -28,7 +28,7 @@ RELEASE_FILE = "release.json"
 APK_MEDIA_TYPE = "application/vnd.android.package-archive"
 _NOT_AVAILABLE = (
     "बागमित्र ॲप अजून इथे उपलब्ध नाही. थोड्या वेळाने पुन्हा पाहा.\n"
-    "The BagMitra app is not available here yet. Please try again later.\n"
+    "The BaagMitra app is not available here yet. Please try again later.\n"
 )
 
 

@@ -54,7 +54,7 @@ from bagmitra_api.risk.engine import RiskRule, load_rules
 NO_SENDER = "no push sender configured (FCM credentials)"
 SOURCE = "deliver"
 TITLES = {
-    "en": "BagMitra weather alert",
+    "en": "BaagMitra weather alert",
     "mr": "बागमित्र हवामान सूचना",
     "hi": "बागमित्र मौसम सूचना",
 }

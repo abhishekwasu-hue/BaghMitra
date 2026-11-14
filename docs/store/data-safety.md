@@ -1,4 +1,4 @@
-# Google Play Data safety form: answers for BagMitra
+# Google Play Data safety form: answers for BaagMitra
 
 Draft answers for Play Console → Policy → App content → Data safety. Derived only from
 `docs/legal/DATA_INVENTORY.md` (what the code does; section numbers below as "DI §n") and the privacy page

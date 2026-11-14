@@ -219,7 +219,7 @@ void main() {
   test('the share text says what was typed and to ask an expert', () async {
     await initializeDateFormatting('en');
     final t = AppLocalizationsEn();
-    final text = labTestShareText(t, labTest('l1'), 'en', 'BagMitra');
+    final text = labTestShareText(t, labTest('l1'), 'en', 'BaagMitra');
     expect(text, contains('Soil test · Sample 1 Oct 2026'));
     expect(text, contains('EC: 0.42 dS/m'));
     expect(text, contains('Lab: District soil testing lab'));

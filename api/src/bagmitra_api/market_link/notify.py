@@ -33,7 +33,7 @@ TEXTS: dict[str, dict[str, tuple[str, str]]] = {
         "mr": ("बागमित्र: नवी ऑफर", "तुमच्या विक्रीच्या मालावर नवी ऑफर आली आहे. ॲपमध्ये तुलना करा."),
         "hi": ("बागमित्र: नया ऑफ़र", "आपके बिक्री के माल पर नया ऑफ़र आया है। ऐप में तुलना करें।"),
         "en": (
-            "BagMitra: new offer",
+            "BaagMitra: new offer",
             "A new offer came in on your produce. Compare it in the app.",
         ),
     },
@@ -47,14 +47,17 @@ TEXTS: dict[str, dict[str, tuple[str, str]]] = {
             "किसान ने ऑफ़र स्वीकार किया। संपर्क ऐप में देखें; आगे का लेन-देन सीधे आपस में तय करें।",
         ),
         "en": (
-            "BagMitra: offer accepted",
+            "BaagMitra: offer accepted",
             "The grower accepted the offer. See the contacts in the app; settle the rest directly.",
         ),
     },
     "closed": {
         "mr": ("बागमित्र: माल बंद", "तुम्ही ऑफर दिलेला माल आता यादीत नाही."),
         "hi": ("बागमित्र: माल बंद", "जिस माल पर आपने ऑफ़र दिया, वह अब सूची में नहीं है।"),
-        "en": ("BagMitra: produce closed", "The produce you made an offer on is no longer listed."),
+        "en": (
+            "BaagMitra: produce closed",
+            "The produce you made an offer on is no longer listed.",
+        ),
     },
 }
 PushFactory = Callable[[], AbstractAsyncContextManager[PushSender | None]]

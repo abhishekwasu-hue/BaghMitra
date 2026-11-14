@@ -127,7 +127,7 @@ void main() {
         String repo = '',
         bool demo = false,
       }) => AppConfig(
-        productName: 'BagMitra',
+        productName: 'BaagMitra',
         apiBaseUrl: 'https://api.test',
         supabaseUrl: demo ? '' : 'https://x.supabase.co',
         supabaseAnonKey: demo ? '' : 'anon',

@@ -10,7 +10,7 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get appName => 'BagMitra';
+  String get appName => 'BaagMitra';
 
   @override
   String get greetingHello => 'Namaste';
@@ -1029,7 +1029,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get exportSharePdf => 'Share PDF';
 
   @override
-  String get onboardingWelcome => 'Welcome to BagMitra';
+  String get onboardingWelcome => 'Welcome to BaagMitra';
 
   @override
   String get onboardingLanguage => 'Choose your language';
@@ -1048,7 +1048,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get onboardingConsentData =>
-      'I agree that BagMitra stores my orchard records to run the app.';
+      'I agree that BaagMitra stores my orchard records to run the app.';
 
   @override
   String get onboardingConsentWhatsapp =>
@@ -1212,7 +1212,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get updateRequiredBody =>
-      'Download and install the new version to keep using BagMitra.';
+      'Download and install the new version to keep using BaagMitra.';
 
   @override
   String updateLinkCopied(String url) {
@@ -3810,11 +3810,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mlTermsIntroOnly =>
-      'BagMitra only gives information and introduces you to traders, brokers and the market.';
+      'BaagMitra only gives information and introduces you to traders, brokers and the market.';
 
   @override
   String get mlTermsNotParty =>
-      'BagMitra is not a buyer, seller, commission agent or transporter.';
+      'BaagMitra is not a buyer, seller, commission agent or transporter.';
 
   @override
   String get mlTermsNoMoney =>
@@ -3857,13 +3857,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mlSafetyNotice =>
-      'BagMitra never asks for money, OTP or bank details.';
+      'BaagMitra never asks for money, OTP or bank details.';
 
   @override
   String get mlGrievanceTitle => 'Grievance officer';
 
   @override
-  String get mlGrievanceOwner => 'BagMitra owner';
+  String get mlGrievanceOwner => 'BaagMitra owner';
 
   @override
   String mlGrievanceContact(String contact) {
@@ -3910,7 +3910,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mlFixOnce =>
-      'Taken once, right now. Your public profile shows only village, taluka and district; the exact point is for BagMitra\'s check.';
+      'Taken once, right now. Your public profile shows only village, taluka and district; the exact point is for BaagMitra\'s check.';
 
   @override
   String get mlPhonePublicNote =>
@@ -3997,14 +3997,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mlNumbersNote =>
-      'Give at least one: GSTIN, APMC licence or IEC. BagMitra checks it on the official public register.';
+      'Give at least one: GSTIN, APMC licence or IEC. BaagMitra checks it on the official public register.';
 
   @override
   String get mlIecRequired => 'An exporter registers with an IEC number.';
 
   @override
   String get mlBrokerCallNote =>
-      'BagMitra calls you on this number to complete the check.';
+      'BaagMitra calls you on this number to complete the check.';
 
   @override
   String get mlErrPhone => 'Write a 10-digit mobile number';
@@ -4044,7 +4044,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mlSubmit => 'Send registration';
 
   @override
-  String get mlSubmitted => 'Registration sent. BagMitra will check it.';
+  String get mlSubmitted => 'Registration sent. BaagMitra will check it.';
 
   @override
   String get mlOffline => 'Connect to the internet to see this';
@@ -4066,14 +4066,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mlStatusPending => 'Check pending';
 
   @override
-  String get mlStatusApproved => 'Checked by BagMitra';
+  String get mlStatusApproved => 'Checked by BaagMitra';
 
   @override
   String get mlStatusRejected => 'Sent back; see the reason';
 
   @override
   String get mlCheckNote =>
-      'Your profile is shown to growers after BagMitra\'s check. Document photos help the check.';
+      'Your profile is shown to growers after BaagMitra\'s check. Document photos help the check.';
 
   @override
   String mlDocsCount(String count) {
@@ -4140,7 +4140,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String mlBadgeChecked(String date) {
-    return 'Checked by BagMitra on $date';
+    return 'Checked by BaagMitra on $date';
   }
 
   @override
@@ -4150,12 +4150,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String mlBadgePlacePhoto(String date) {
-    return 'Place photo by a BagMitra representative on $date';
+    return 'Place photo by a BaagMitra representative on $date';
   }
 
   @override
   String get mlBadgeNote =>
-      'A badge says what BagMitra checked and when. You settle the deal terms directly with each other.';
+      'A badge says what BaagMitra checked and when. You settle the deal terms directly with each other.';
 
   @override
   String get mlCall => 'Call';
@@ -4213,7 +4213,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mlDisclaimerShort =>
-      'BagMitra is not a buyer, seller, middleman (broker) or transporter, does not hold money and does not guarantee payment or quality.';
+      'BaagMitra is not a buyer, seller, middleman (broker) or transporter, does not hold money and does not guarantee payment or quality.';
 
   @override
   String get mlOpen => 'Show produce for sale';
@@ -4438,14 +4438,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mlSafetyReport => 'Report';
 
   @override
-  String get mlSafetyReportTitle => 'Report to BagMitra';
+  String get mlSafetyReportTitle => 'Report to BaagMitra';
 
   @override
   String get mlSafetyReportWhy => 'Choose the reason';
 
   @override
   String get mlSafetyReportNote =>
-      'BagMitra only introduces people. Report a fake identity, a fake lot, someone pretending to be BagMitra, a fake rating or abuse; payment, weight and quality are settled between you.';
+      'BaagMitra only introduces people. Report a fake identity, a fake lot, someone pretending to be BaagMitra, a fake rating or abuse; payment, weight and quality are settled between you.';
 
   @override
   String get mlSafetyPhoto => 'Add a photo (if you wish)';
@@ -4457,7 +4457,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mlSafetySend => 'Send report';
 
   @override
-  String get mlSafetySent => 'Report received. BagMitra will check it.';
+  String get mlSafetySent => 'Report received. BaagMitra will check it.';
 
   @override
   String get mlSafetyRetry => 'Check the internet and try again';
@@ -4469,7 +4469,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mlReasonFakeLot => 'Fake lot or photos from another orchard';
 
   @override
-  String get mlReasonImpersonation => 'Pretends to be BagMitra';
+  String get mlReasonImpersonation => 'Pretends to be BaagMitra';
 
   @override
   String get mlReasonFakeRating => 'Fake rating';
@@ -4558,7 +4558,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mlAppealSent => 'Appeal received';
 
   @override
-  String get mlGrievanceDefault => 'Owner of BagMitra';
+  String get mlGrievanceDefault => 'Owner of BaagMitra';
 
   @override
   String get mlBlock => 'Block';
@@ -4663,7 +4663,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mlNotVerified =>
-      'Produce shows here once BagMitra has checked your registration.';
+      'Produce shows here once BaagMitra has checked your registration.';
 
   @override
   String get mlMyOffersTitle => 'My offers';
@@ -4912,7 +4912,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get billingIncluded => 'The whole BagMitra app, every feature.';
+  String get billingIncluded => 'The whole BaagMitra app, every feature.';
 
   @override
   String get billingTerms =>
@@ -4934,7 +4934,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get billingPending => 'Waiting for Google Play to confirm.';
 
   @override
-  String get billingVerifying => 'BagMitra is checking with Google Play…';
+  String get billingVerifying => 'BaagMitra is checking with Google Play…';
 
   @override
   String get billingRetry => 'Try again, or tap Restore subscription.';
@@ -5013,7 +5013,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get expenseGoInputs => 'Fertiliser and manure';
 
   @override
-  String get mlWelcomeTitle => 'Welcome to BagMitra';
+  String get mlWelcomeTitle => 'Welcome to BaagMitra';
 
   @override
   String get mlWelcomeLine =>

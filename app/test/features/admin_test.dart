@@ -9,9 +9,9 @@ void main() {
     tester.view.physicalSize = const Size(1280, 800);
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.reset);
-    await tester.pumpWidget(const AdminApp(productName: 'BagMitra'));
+    await tester.pumpWidget(const AdminApp(productName: 'BaagMitra'));
     await tester.pumpAndSettle();
-    expect(find.text('BagMitra Admin'), findsOneWidget);
+    expect(find.text('BaagMitra Admin'), findsOneWidget);
     await tester.tap(find.text('Crop stage templates'));
     await tester.pumpAndSettle();
     expect(find.text('Editing arrives in Milestone 1.'), findsOneWidget);

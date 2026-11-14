@@ -120,7 +120,7 @@ HOWTO_SCREENS: dict[str, tuple[str, tuple[str, ...]]] = {
 }
 NAV_FILES = ("lib/app/app_shell.dart",)
 
-QUESTIONS_PROMPT = """You prepare an offline question bank for BagMitra, an app for orange
+QUESTIONS_PROMPT = """You prepare an offline question bank for BaagMitra, an app for orange
 (santra, Nagpur mandarin) and sweet-lime (mosambi) farmers in Vidarbha, Maharashtra.
 
 The user message has <topic> and <document>: the ONLY material the answers may use (checked
@@ -137,7 +137,7 @@ meaning. Never put a number, dose, date or product in a question unless the docu
 Answer with one JSON object: {"questions": [{"mr": str, "hi": str, "en": str}]} with about
 <count> questions (fewer when the document supports fewer)."""
 
-ANSWERS_PROMPT = """You answer farmers' questions for BagMitra's offline question bank (orange
+ANSWERS_PROMPT = """You answer farmers' questions for BaagMitra's offline question bank (orange
 / santra and sweet-lime / mosambi farmers in Vidarbha, Maharashtra).
 
 The user message has <topic>, <document> (the ONLY material you may use) and <questions>.
@@ -437,7 +437,7 @@ def howto_topics(app_root: Path) -> list[QaTopic]:
                 if k not in names and isinstance(arbs["en"].get(k), str):
                     names.append(k)
         names += [k for k in nav if k not in names and isinstance(arbs["en"].get(k), str)]
-        lines = [f'<source key="{APP_SOURCE}" title="BagMitra app screens">']
+        lines = [f'<source key="{APP_SOURCE}" title="BaagMitra app screens">']
         lines.append("Texts the farmer sees on these screens (key: English | मराठी | हिंदी):")
         for k in names:
             lines.append(
@@ -447,10 +447,10 @@ def howto_topics(app_root: Path) -> list[QaTopic]:
         out.append(
             QaTopic(
                 key=f"howto:{key}",
-                about=f"How to use the BagMitra app: {about}. Explain the steps from the screen "
+                about=f"How to use the BaagMitra app: {about}. Explain the steps from the screen "
                 "texts only; quote button names as the screen writes them.",
                 text="\n".join(lines),
-                sources={APP_SOURCE: ("BagMitra ॲप", "")},
+                sources={APP_SOURCE: ("BaagMitra ॲप", "")},
                 points=max(2, len(names) // 6),
             )
         )

@@ -473,7 +473,7 @@ void main() {
       locale: const Locale('en'),
       initialLocation: '/feed',
       config: const AppConfig(
-        productName: 'BagMitra',
+        productName: 'BaagMitra',
         apiBaseUrl: 'http://localhost:8000',
         supabaseUrl: '',
         supabaseAnonKey: '',

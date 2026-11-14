@@ -20,7 +20,7 @@ import '../helpers/pump_app.dart' show testConfig;
 import '../helpers/test_db.dart';
 
 const _online = AppConfig(
-  productName: 'BagMitra',
+  productName: 'BaagMitra',
   apiBaseUrl: 'https://api.example.test',
   supabaseUrl: 'https://project.supabase.test',
   supabaseAnonKey: 'anon',

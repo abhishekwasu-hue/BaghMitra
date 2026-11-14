@@ -143,7 +143,7 @@ void main() {
     expect(sharer.shared.single.split('\n'), [
       '14 Oct 2026: Heat of 35 °C or more expected: risk of fruit drop.',
       'Source: ICAR-CCRI Nagpur monthly guidelines (March)',
-      'Shared from the BagMitra app',
+      'Shared from the BaagMitra app',
     ]);
     expect(voice.spoken.single.$2, 'en_IN');
     expect(voice.spoken.single.$1, isNot(contains('Shared from')));
@@ -195,7 +195,7 @@ void main() {
     final lines = sharer.shared.single.split('\n');
     expect(lines.first, 'Task t1');
     expect(lines, contains('Due: 13 Oct 2026'));
-    expect(lines.last, 'Shared from the BagMitra app');
+    expect(lines.last, 'Shared from the BaagMitra app');
     expect(voice.spoken.single.$1, startsWith('Task t1'));
     await unmountApp(tester);
   });
@@ -222,7 +222,7 @@ void main() {
     expect(sharer.shared.single.split('\n'), [
       "Today's tasks (13 Oct 2026)",
       '• Task a',
-      'Shared from the BagMitra app',
+      'Shared from the BaagMitra app',
     ]);
     await unmountApp(tester);
   });

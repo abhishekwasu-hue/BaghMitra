@@ -42,12 +42,12 @@ def _html(content: str) -> HTMLResponse:
 @router.api_route("/", methods=["GET", "HEAD"])
 async def home_page() -> HTMLResponse:
     header = (
-        "<h1>बागमित्र · BagMitra</h1>"
+        "<h1>बागमित्र · BaagMitra</h1>"
         "<p>संत्रा आणि मोसंबी बागायतदारांसाठी · for santra and mosambi growers</p>"
         f"{_LANG_LINKS}"
     )
     footer = '<a href="/privacy">गोपनीयता धोरण · Privacy policy</a>'
-    return _html(page(lang="mr", title="BagMitra", header=header, body=home.BODY, footer=footer))
+    return _html(page(lang="mr", title="BaagMitra", header=header, body=home.BODY, footer=footer))
 
 
 @router.api_route("/privacy", methods=["GET", "HEAD"])
@@ -60,7 +60,7 @@ async def privacy_page(
     email = settings.privacy_contact_email
     langs = [lang] if lang is not None and lang in {"mr", "en"} else ["mr", "en"]
     if langs == ["en"]:
-        title, heading = "BagMitra privacy policy", "BagMitra privacy policy"
+        title, heading = "BaagMitra privacy policy", "BaagMitra privacy policy"
     else:
         title, heading = "बागमित्र गोपनीयता धोरण", "बागमित्र गोपनीयता धोरण"
     if len(langs) == 2:
@@ -69,5 +69,5 @@ async def privacy_page(
     days = settings.sync_payload_retention_days
     photo_days = settings.photo_ai_retention_days
     body = "".join(privacy.section(code, email, days, photo_days) for code in langs)
-    footer = '<a href="/">बागमित्र · BagMitra</a>'
+    footer = '<a href="/">बागमित्र · BaagMitra</a>'
     return _html(page(lang=langs[0], title=title, header=header, body=body, footer=footer))

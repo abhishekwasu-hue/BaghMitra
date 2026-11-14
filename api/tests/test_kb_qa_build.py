@@ -358,7 +358,7 @@ def test_other_topics_are_built_from_bundled_data() -> None:
     assert set(howtos) == {"howto:spray", "howto:bill", "howto:sale_lot", "howto:photo_check"}
     assert "फवारणी" in howtos["howto:spray"].text
     assert "बिलाचा फोटो" in howtos["howto:bill"].text
-    assert howtos["howto:photo_check"].sources == {"app": ("BagMitra ॲप", "")}
+    assert howtos["howto:photo_check"].sources == {"app": ("BaagMitra ॲप", "")}
 
 
 def test_asset_round_trip_and_size(tmp_path: Path) -> None:

@@ -8,7 +8,7 @@ import 'package:pdf/widgets.dart' as pw;
 /// The pages are drawn by Flutter's own text engine (so Marathi / Hindi conjuncts are shaped
 /// correctly) and only embedded here: the `pdf` package does not shape Devanagari reliably.
 Future<Uint8List> pdfFromPngPages(List<Uint8List> pngPages) async {
-  final doc = pw.Document(creator: 'BagMitra', producer: 'BagMitra');
+  final doc = pw.Document(creator: 'BaagMitra', producer: 'BaagMitra');
   for (final png in pngPages) {
     final image = pw.MemoryImage(png);
     doc.addPage(

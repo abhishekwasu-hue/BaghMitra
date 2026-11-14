@@ -27,7 +27,7 @@ void main() {
   ) async {
     await pumpApp(tester, locale: const Locale('en'), onboarded: false);
     await settle(tester);
-    expect(find.text('Welcome to BagMitra'), findsOneWidget);
+    expect(find.text('Welcome to BaagMitra'), findsOneWidget);
     expect(find.text("Today's tasks"), findsNothing);
     await unmountApp(tester);
   });
@@ -57,7 +57,7 @@ void main() {
     await tester.tap(find.byKey(const Key('consent-data')));
     await tester.pump();
     expect(tester.widget<FilledButton>(button).onPressed, isNotNull);
-    expect(find.text('Welcome to BagMitra'), findsOneWidget);
+    expect(find.text('Welcome to BaagMitra'), findsOneWidget);
     expect(
       await tester.runAsync(() => db.select(db.farmerProfiles).get()),
       isEmpty,
@@ -99,7 +99,7 @@ void main() {
       expect(p['consent_data_processing'], true);
       expect(p['consent_whatsapp'], true);
       // Home, now in Marathi.
-      expect(find.text('Welcome to BagMitra'), findsNothing);
+      expect(find.text('Welcome to BaagMitra'), findsNothing);
       expect(find.text('आजची कामे'), findsOneWidget);
       await unmountApp(tester);
     },
@@ -141,7 +141,7 @@ void main() {
       onboarded: false,
     );
     await settle(tester);
-    expect(find.text('Welcome to BagMitra'), findsNothing);
+    expect(find.text('Welcome to BaagMitra'), findsNothing);
     expect(find.text('आज के काम'), findsOneWidget);
     await unmountApp(tester);
   });
@@ -158,7 +158,7 @@ void main() {
       onboarded: false,
     );
     await settle(tester);
-    expect(find.text('Welcome to BagMitra'), findsOneWidget);
+    expect(find.text('Welcome to BaagMitra'), findsOneWidget);
     await unmountApp(tester);
   });
 }

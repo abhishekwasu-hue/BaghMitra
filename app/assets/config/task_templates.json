@@ -1,6 +1,6 @@
 {
   "_note": "Reminders made from the dates a grower enters for a bahar. The first four only restate the grower's own dates and ask for a record. The stage operations after them are cultural work only (water, basin, pruning, looking over the block, harvest care) from public sources, marked as general information with the source and the date read (owner decision Q57); no pesticide, fertiliser or dose content. `crops` / `bahars` limit a template (empty = all), `offset_days` counts from the stage date. Placeholders: {stage}, {bahar}. Sources: docs/agronomy/DRAFT_santra_mosambi_bahar_stages.md §11.",
-  "source": "BagMitra stage reminder",
+  "source": "BaagMitra stage reminder",
   "templates": [
     {
       "stage": "stress_start",

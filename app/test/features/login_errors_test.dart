@@ -27,7 +27,7 @@ class FailingAuth extends DemoAuthRepository {
 }
 
 const _backendConfig = AppConfig(
-  productName: 'BagMitra',
+  productName: 'BaagMitra',
   apiBaseUrl: 'http://localhost:8000',
   supabaseUrl: 'https://project.supabase.test',
   supabaseAnonKey: 'anon',
@@ -37,7 +37,7 @@ const _backendConfig = AppConfig(
 );
 
 const _backendWithPhone = AppConfig(
-  productName: 'BagMitra',
+  productName: 'BaagMitra',
   apiBaseUrl: 'http://localhost:8000',
   supabaseUrl: 'https://project.supabase.test',
   supabaseAnonKey: 'anon',

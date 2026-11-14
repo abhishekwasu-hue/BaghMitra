@@ -74,7 +74,7 @@ void main() {
     await tester.tap(find.byKey(const Key('walkthrough-skip')));
     await settle(tester);
     expect(await seenFlag(tester, db), '1');
-    expect(find.text('Welcome to BagMitra'), findsOneWidget);
+    expect(find.text('Welcome to BaagMitra'), findsOneWidget);
     await unmountApp(tester);
   });
 

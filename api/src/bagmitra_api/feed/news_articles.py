@@ -53,7 +53,7 @@ FILTER_MAX_TOKENS = 8000
 PREFILTER = "prefilter: "
 VERDICTS = ("relevant", "dropped")
 
-FILTER_PROMPT = """You screen news headlines for BagMitra, an app for fruit-orchard and farming
+FILTER_PROMPT = """You screen news headlines for BaagMitra, an app for fruit-orchard and farming
 growers in India, mostly in Maharashtra (orange, sweet lime and other fruit, field crops). The
 document is a JSON list of headlines, each with a "key", its "title", the "source" name and the
 "lang" code. Judge each headline from its words only. For every key answer:

@@ -36,7 +36,7 @@ OFFICIAL_SUFFIXES = (".gov.in", ".nic.in")
 _EMAIL = re.compile(r"[\w.+-]+@[\w-]+(?:\.[\w-]+)+")
 _PHONE = re.compile(r"(?<!\d)(?:\+91[\s-]?)?[6-9]\d{9}(?!\d)")
 
-ARTICLE_PROMPT = """You are the news desk of BagMitra, an app for fruit growers (orange, sweet lime
+ARTICLE_PROMPT = """You are the news desk of BaagMitra, an app for fruit growers (orange, sweet lime
 and other orchards) and farmers in Maharashtra. Read the source in <document> (an official
 government page or an agriculture news outlet's page; its address is in <source_url>) and write
 a professional news article for farmers, as a careful agriculture journalist would.

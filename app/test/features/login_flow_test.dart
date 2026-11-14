@@ -34,7 +34,7 @@ void main() {
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 500));
     // A first sign-in goes through setup before home.
-    expect(find.text('Welcome to BagMitra'), findsOneWidget);
+    expect(find.text('Welcome to BaagMitra'), findsOneWidget);
     await unmountApp(tester);
   });
 
@@ -46,7 +46,7 @@ void main() {
     await tester.tap(find.byKey(const Key('google-login')));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 500));
-    expect(find.text('Welcome to BagMitra'), findsOneWidget);
+    expect(find.text('Welcome to BaagMitra'), findsOneWidget);
     await unmountApp(tester);
   });
 

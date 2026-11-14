@@ -48,7 +48,7 @@ Future<void> pumpFeedback(WidgetTester tester, FakeFeedbackAdmin fake) async {
   addTearDown(tester.view.reset);
   await tester.pumpWidget(
     AdminApp(
-      productName: 'BagMitra',
+      productName: 'BaagMitra',
       auth: FakeAdminAuth(signedIn: true, roles: {feedbackAdminRole}),
       kb: FakeKbAdmin(),
       feedback: fake,
@@ -85,7 +85,7 @@ void main() {
     addTearDown(tester.view.reset);
     await tester.pumpWidget(
       AdminApp(
-        productName: 'BagMitra',
+        productName: 'BaagMitra',
         auth: FakeAdminAuth(signedIn: true, roles: {'kb_admin'}),
         kb: FakeKbAdmin(),
         feedback: FakeFeedbackAdmin(),

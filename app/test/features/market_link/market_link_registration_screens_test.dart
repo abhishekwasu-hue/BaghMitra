@@ -359,7 +359,7 @@ void main() {
       'sort': 'rating',
     });
     expect(find.text('रमेश पाटील'), findsOneWidget);
-    expect(find.textContaining('BagMitra ने'), findsWidgets);
+    expect(find.textContaining('BaagMitra ने'), findsWidgets);
     await _tap(tester, find.byKey(const Key('ml-call-b1')));
     expect(dialled, ['+919800000001']);
     await _tap(tester, find.byKey(const Key('ml-sort-deals')));

@@ -100,10 +100,10 @@ abstract class AppLocalizations {
     Locale('mr'),
   ];
 
-  /// Product name shown as the app title and in admin. Brand: BagMitra; Devanagari in mr/hi.
+  /// Product name shown as the app title and in admin. Brand: BaagMitra; Devanagari in mr/hi.
   ///
   /// In en, this message translates to:
-  /// **'BagMitra'**
+  /// **'BaagMitra'**
   String get appName;
 
   /// Home header greeting line above the farmer's name.
@@ -1897,7 +1897,7 @@ abstract class AppLocalizations {
   /// No description provided for @onboardingWelcome.
   ///
   /// In en, this message translates to:
-  /// **'Welcome to BagMitra'**
+  /// **'Welcome to BaagMitra'**
   String get onboardingWelcome;
 
   /// No description provided for @onboardingLanguage.
@@ -1933,7 +1933,7 @@ abstract class AppLocalizations {
   /// No description provided for @onboardingConsentData.
   ///
   /// In en, this message translates to:
-  /// **'I agree that BagMitra stores my orchard records to run the app.'**
+  /// **'I agree that BaagMitra stores my orchard records to run the app.'**
   String get onboardingConsentData;
 
   /// No description provided for @onboardingConsentWhatsapp.
@@ -2191,7 +2191,7 @@ abstract class AppLocalizations {
   /// No description provided for @updateRequiredBody.
   ///
   /// In en, this message translates to:
-  /// **'Download and install the new version to keep using BagMitra.'**
+  /// **'Download and install the new version to keep using BaagMitra.'**
   String get updateRequiredBody;
 
   /// No description provided for @updateLinkCopied.
@@ -4905,7 +4905,7 @@ abstract class AppLocalizations {
   /// **'Export information'**
   String get exportInfoTitle;
 
-  /// Always-visible note: the page is information; BagMitra takes no part in the export deal.
+  /// Always-visible note: the page is information; BaagMitra takes no part in the export deal.
   ///
   /// In en, this message translates to:
   /// **'For information. The export deal is between you and the exporter.'**
@@ -6696,13 +6696,13 @@ abstract class AppLocalizations {
   /// No description provided for @mlTermsIntroOnly.
   ///
   /// In en, this message translates to:
-  /// **'BagMitra only gives information and introduces you to traders, brokers and the market.'**
+  /// **'BaagMitra only gives information and introduces you to traders, brokers and the market.'**
   String get mlTermsIntroOnly;
 
   /// No description provided for @mlTermsNotParty.
   ///
   /// In en, this message translates to:
-  /// **'BagMitra is not a buyer, seller, commission agent or transporter.'**
+  /// **'BaagMitra is not a buyer, seller, commission agent or transporter.'**
   String get mlTermsNotParty;
 
   /// No description provided for @mlTermsNoMoney.
@@ -6774,7 +6774,7 @@ abstract class AppLocalizations {
   /// Fixed notice on every market-link role home (spec v1.5 §4C).
   ///
   /// In en, this message translates to:
-  /// **'BagMitra never asks for money, OTP or bank details.'**
+  /// **'BaagMitra never asks for money, OTP or bank details.'**
   String get mlSafetyNotice;
 
   /// No description provided for @mlGrievanceTitle.
@@ -6786,7 +6786,7 @@ abstract class AppLocalizations {
   /// No description provided for @mlGrievanceOwner.
   ///
   /// In en, this message translates to:
-  /// **'BagMitra owner'**
+  /// **'BaagMitra owner'**
   String get mlGrievanceOwner;
 
   /// Role home: the grievance officer's phone or email.
@@ -6870,7 +6870,7 @@ abstract class AppLocalizations {
   /// No description provided for @mlFixOnce.
   ///
   /// In en, this message translates to:
-  /// **'Taken once, right now. Your public profile shows only village, taluka and district; the exact point is for BagMitra\'s check.'**
+  /// **'Taken once, right now. Your public profile shows only village, taluka and district; the exact point is for BaagMitra\'s check.'**
   String get mlFixOnce;
 
   /// No description provided for @mlPhonePublicNote.
@@ -7032,7 +7032,7 @@ abstract class AppLocalizations {
   /// No description provided for @mlNumbersNote.
   ///
   /// In en, this message translates to:
-  /// **'Give at least one: GSTIN, APMC licence or IEC. BagMitra checks it on the official public register.'**
+  /// **'Give at least one: GSTIN, APMC licence or IEC. BaagMitra checks it on the official public register.'**
   String get mlNumbersNote;
 
   /// No description provided for @mlIecRequired.
@@ -7044,7 +7044,7 @@ abstract class AppLocalizations {
   /// No description provided for @mlBrokerCallNote.
   ///
   /// In en, this message translates to:
-  /// **'BagMitra calls you on this number to complete the check.'**
+  /// **'BaagMitra calls you on this number to complete the check.'**
   String get mlBrokerCallNote;
 
   /// No description provided for @mlErrPhone.
@@ -7122,7 +7122,7 @@ abstract class AppLocalizations {
   /// No description provided for @mlSubmitted.
   ///
   /// In en, this message translates to:
-  /// **'Registration sent. BagMitra will check it.'**
+  /// **'Registration sent. BaagMitra will check it.'**
   String get mlSubmitted;
 
   /// No description provided for @mlOffline.
@@ -7164,7 +7164,7 @@ abstract class AppLocalizations {
   /// No description provided for @mlStatusApproved.
   ///
   /// In en, this message translates to:
-  /// **'Checked by BagMitra'**
+  /// **'Checked by BaagMitra'**
   String get mlStatusApproved;
 
   /// No description provided for @mlStatusRejected.
@@ -7176,7 +7176,7 @@ abstract class AppLocalizations {
   /// No description provided for @mlCheckNote.
   ///
   /// In en, this message translates to:
-  /// **'Your profile is shown to growers after BagMitra\'s check. Document photos help the check.'**
+  /// **'Your profile is shown to growers after BaagMitra\'s check. Document photos help the check.'**
   String get mlCheckNote;
 
   /// No description provided for @mlDocsCount.
@@ -7278,7 +7278,7 @@ abstract class AppLocalizations {
   /// No description provided for @mlBadgeChecked.
   ///
   /// In en, this message translates to:
-  /// **'Checked by BagMitra on {date}'**
+  /// **'Checked by BaagMitra on {date}'**
   String mlBadgeChecked(String date);
 
   /// No description provided for @mlBadgeRegisteredFrom.
@@ -7290,13 +7290,13 @@ abstract class AppLocalizations {
   /// No description provided for @mlBadgePlacePhoto.
   ///
   /// In en, this message translates to:
-  /// **'Place photo by a BagMitra representative on {date}'**
+  /// **'Place photo by a BaagMitra representative on {date}'**
   String mlBadgePlacePhoto(String date);
 
   /// No description provided for @mlBadgeNote.
   ///
   /// In en, this message translates to:
-  /// **'A badge says what BagMitra checked and when. You settle the deal terms directly with each other.'**
+  /// **'A badge says what BaagMitra checked and when. You settle the deal terms directly with each other.'**
   String get mlBadgeNote;
 
   /// No description provided for @mlCall.
@@ -7398,7 +7398,7 @@ abstract class AppLocalizations {
   /// No description provided for @mlDisclaimerShort.
   ///
   /// In en, this message translates to:
-  /// **'BagMitra is not a buyer, seller, middleman (broker) or transporter, does not hold money and does not guarantee payment or quality.'**
+  /// **'BaagMitra is not a buyer, seller, middleman (broker) or transporter, does not hold money and does not guarantee payment or quality.'**
   String get mlDisclaimerShort;
 
   /// No description provided for @mlOpen.
@@ -7776,7 +7776,7 @@ abstract class AppLocalizations {
   /// No description provided for @mlSafetyReportTitle.
   ///
   /// In en, this message translates to:
-  /// **'Report to BagMitra'**
+  /// **'Report to BaagMitra'**
   String get mlSafetyReportTitle;
 
   /// No description provided for @mlSafetyReportWhy.
@@ -7788,7 +7788,7 @@ abstract class AppLocalizations {
   /// No description provided for @mlSafetyReportNote.
   ///
   /// In en, this message translates to:
-  /// **'BagMitra only introduces people. Report a fake identity, a fake lot, someone pretending to be BagMitra, a fake rating or abuse; payment, weight and quality are settled between you.'**
+  /// **'BaagMitra only introduces people. Report a fake identity, a fake lot, someone pretending to be BaagMitra, a fake rating or abuse; payment, weight and quality are settled between you.'**
   String get mlSafetyReportNote;
 
   /// No description provided for @mlSafetyPhoto.
@@ -7812,7 +7812,7 @@ abstract class AppLocalizations {
   /// No description provided for @mlSafetySent.
   ///
   /// In en, this message translates to:
-  /// **'Report received. BagMitra will check it.'**
+  /// **'Report received. BaagMitra will check it.'**
   String get mlSafetySent;
 
   /// No description provided for @mlSafetyRetry.
@@ -7836,7 +7836,7 @@ abstract class AppLocalizations {
   /// No description provided for @mlReasonImpersonation.
   ///
   /// In en, this message translates to:
-  /// **'Pretends to be BagMitra'**
+  /// **'Pretends to be BaagMitra'**
   String get mlReasonImpersonation;
 
   /// No description provided for @mlReasonFakeRating.
@@ -8004,7 +8004,7 @@ abstract class AppLocalizations {
   /// No description provided for @mlGrievanceDefault.
   ///
   /// In en, this message translates to:
-  /// **'Owner of BagMitra'**
+  /// **'Owner of BaagMitra'**
   String get mlGrievanceDefault;
 
   /// No description provided for @mlBlock.
@@ -8196,7 +8196,7 @@ abstract class AppLocalizations {
   /// No description provided for @mlNotVerified.
   ///
   /// In en, this message translates to:
-  /// **'Produce shows here once BagMitra has checked your registration.'**
+  /// **'Produce shows here once BaagMitra has checked your registration.'**
   String get mlNotVerified;
 
   /// No description provided for @mlMyOffersTitle.
@@ -8616,7 +8616,7 @@ abstract class AppLocalizations {
   /// No description provided for @billingIncluded.
   ///
   /// In en, this message translates to:
-  /// **'The whole BagMitra app, every feature.'**
+  /// **'The whole BaagMitra app, every feature.'**
   String get billingIncluded;
 
   /// No description provided for @billingTerms.
@@ -8658,7 +8658,7 @@ abstract class AppLocalizations {
   /// No description provided for @billingVerifying.
   ///
   /// In en, this message translates to:
-  /// **'BagMitra is checking with Google Play…'**
+  /// **'BaagMitra is checking with Google Play…'**
   String get billingVerifying;
 
   /// No description provided for @billingRetry.
@@ -8796,7 +8796,7 @@ abstract class AppLocalizations {
   /// No description provided for @mlWelcomeTitle.
   ///
   /// In en, this message translates to:
-  /// **'Welcome to BagMitra'**
+  /// **'Welcome to BaagMitra'**
   String get mlWelcomeTitle;
 
   /// No description provided for @mlWelcomeLine.

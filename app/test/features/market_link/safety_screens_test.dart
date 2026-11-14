@@ -15,7 +15,7 @@ import '../../helpers/pump_app.dart';
 import '../plots/plots_screen_test.dart' show settle;
 
 const marketLinkConfig = AppConfig(
-  productName: 'BagMitra',
+  productName: 'BaagMitra',
   apiBaseUrl: 'http://localhost:8000',
   supabaseUrl: '',
   supabaseAnonKey: '',

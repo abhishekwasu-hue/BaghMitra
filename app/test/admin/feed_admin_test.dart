@@ -325,7 +325,7 @@ Future<FakeFeedAdmin> _pump(
   final feed = FakeFeedAdmin();
   await tester.pumpWidget(
     AdminApp(
-      productName: 'BagMitra',
+      productName: 'BaagMitra',
       kb: FakeKbAdmin(),
       feed: feed,
       documents: documents,

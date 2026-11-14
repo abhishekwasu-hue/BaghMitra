@@ -49,7 +49,7 @@ import 'package:http/testing.dart';
 import 'test_db.dart';
 
 const testConfig = AppConfig(
-  productName: 'BagMitra',
+  productName: 'BaagMitra',
   apiBaseUrl: 'http://localhost:8000',
   supabaseUrl: '',
   supabaseAnonKey: '',

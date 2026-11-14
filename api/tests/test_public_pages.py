@@ -57,7 +57,7 @@ async def test_home_page_is_html_and_links_to_privacy(pages: httpx.AsyncClient) 
     assert resp.status_code == 200
     assert resp.headers["content-type"].startswith("text/html")
     assert "बागमित्र" in resp.text
-    assert "BagMitra" in resp.text
+    assert "BaagMitra" in resp.text
     assert 'href="/privacy#mr"' in resp.text
     assert 'href="/privacy?lang=en"' in resp.text
 
@@ -169,14 +169,14 @@ async def test_privacy_page_says_ai_text_can_be_wrong(pages: httpx.AsyncClient) 
     body = " ".join((await pages.get("/privacy")).text.split())
     assert "AI ने लिहिलेली माहिती</h2>" in body
     assert "या ॲपमधील बातम्या, लेख आणि ज्ञान लेख AI च्या मदतीने लिहिलेले आहेत. AI चूक करू शकते." in body
-    assert "या माहितीतील चुकीमुळे झालेल्या नुकसानीस BagMitra जबाबदार राहणार नाही." in body
+    assert "या माहितीतील चुकीमुळे झालेल्या नुकसानीस BaagMitra जबाबदार राहणार नाही." in body
     assert "AI-written information</h2>" in body
     assert (
         "news, articles and knowledge articles in this app are written with the help of AI" in body
     )
     assert "AI can make mistakes." in body
     assert (
-        "BagMitra is not responsible for any loss caused by a mistake in this information." in body
+        "BaagMitra is not responsible for any loss caused by a mistake in this information." in body
     )
     assert body.index('id="mr-ai"') < body.index('id="mr-changes"')
     assert body.index('id="en-ai"') < body.index('id="en-changes"')

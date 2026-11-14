@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 
 const _base = AppConfig(
-  productName: 'BagMitra',
+  productName: 'BaagMitra',
   apiBaseUrl: 'http://10.0.2.2:8000',
   supabaseUrl: '',
   supabaseAnonKey: '',
@@ -84,7 +84,7 @@ void main() {
       return http.Response('{}', 200);
     });
     const defined = AppConfig(
-      productName: 'BagMitra',
+      productName: 'BaagMitra',
       apiBaseUrl: 'https://api.example.com',
       supabaseUrl: 'https://ref.supabase.co',
       supabaseAnonKey: 'anon',
