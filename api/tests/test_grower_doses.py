@@ -161,7 +161,7 @@ def test_crop_guide_input_lines_carry_the_note_and_name_nothing_banned_for_their
     crops = {c["slug"]: c for c in _load(CONFIG / "crops.json")["crops"]}
     guides = _load(CONFIG / "crop_guides.json")["crops"]
     assert len(guides) >= 8
-    problems = []
+    problems: list[tuple[str, str, str]] = []
     for guide in guides:
         crop = crops[guide["crop"]]
         banned = dose_rules.banned_names(
@@ -174,7 +174,7 @@ def test_crop_guide_input_lines_carry_the_note_and_name_nothing_banned_for_their
                     if item.get("input") and not text.endswith(dose_rules.NOTE[lang]):
                         problems.append((item["id"], lang, "no note"))
                     if named := dose_rules.names_banned(text, banned):
-                        problems.append((item["id"], lang, named))
+                        problems.append((item["id"], lang, ", ".join(named)))
     assert problems == []
 
 
