@@ -213,12 +213,14 @@ void main() {
         find.descendant(of: mrig, matching: find.textContaining('8 Dec 2025')),
         findsOneWidget,
       );
+      // Publisher only; no "read <date>" line (owner 2026-11-14).
       expect(
-        find.descendant(
-          of: mrig,
-          matching: find.textContaining('FreshPlaza · read '),
-        ),
+        find.descendant(of: mrig, matching: find.text('FreshPlaza')),
         findsOneWidget,
+      );
+      expect(
+        find.descendant(of: mrig, matching: find.textContaining(' · read ')),
+        findsNothing,
       );
       await unmountApp(tester);
     });

@@ -24,7 +24,6 @@ from bagmitra_api.kb.qa_build import (
     ANSWERS_PROMPT,
     PARAPHRASE_PROMPT,
     QUESTIONS_PROMPT,
-    STORED_NOTE,
     Builder,
     BuildReport,
     QaTopic,
@@ -373,7 +372,8 @@ def test_asset_round_trip_and_size(tmp_path: Path) -> None:
         "p": ["falgal"],
     }
     data = asset([entry], TOPIC.sources, "generated")
-    assert data["note"] == STORED_NOTE
+    # No line vouching for the answers (owner 2026-11-14).
+    assert "note" not in data
     assert data["src"] == {"S1": {"t": "NHB Citrus: Pests", "u": "https://nhb.gov.in/pests.pdf"}}
     assert "~plgl" in data["entries"][0]["k"]
     raw, packed = write_asset(data, tmp_path / "a.json.gz")

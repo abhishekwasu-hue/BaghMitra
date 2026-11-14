@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../app/providers.dart';
-import '../../../core/formatting.dart';
 import '../../../design_system/app_bar_title.dart';
 import '../../../design_system/cards.dart';
 import '../../../design_system/empty_state.dart';
@@ -249,11 +248,6 @@ class _EntryCard extends ConsumerWidget {
           if (e.source != e.url)
             Text(
               t.directoryDetailsFrom(e.source),
-              style: BmType.meta.copyWith(color: c.inkMuted),
-            ),
-          if (e.checked case final checked?)
-            Text(
-              t.directoryChecked(formatDate(checked, lang)),
               style: BmType.meta.copyWith(color: c.inkMuted),
             ),
         ],

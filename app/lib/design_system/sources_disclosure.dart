@@ -4,23 +4,22 @@ import '../core/formatting.dart';
 import '../l10n/app_localizations.dart';
 import '../theme/app_theme.dart';
 
-/// One source behind a piece of content: its title, and when known its link, publisher and
-/// the date it was read (already formatted for the reader's language).
+/// One source behind a piece of content: its title, and when known its link and publisher.
+/// No "read on a date" line (owner 2026-11-14).
 class SourceRef {
-  const SourceRef(this.title, {this.url, this.publisher, this.checked});
+  const SourceRef(this.title, {this.url, this.publisher});
 
   final String title;
   final String? url;
   final String? publisher;
-  final String? checked;
 }
 
 /// The sources behind a piece of content, folded away so they do not break the reading
 /// flow (owner: "hide the sources; whoever wants them taps and sees them"; 2026-11-13: an
 /// on / off button for the source links, everywhere in the app). Collapsed it is one 48 dp
 /// header, "स्रोत (३)" in green bold with a chevron; one tap shows every source: [notes]
-/// (free-text citations such as page references), each [sources] entry with its publisher,
-/// date read and link, the screen's own [links] (link cards that keep their tap action), its [actions] and
+/// (free-text citations such as page references), each [sources] entry with its publisher
+/// and link, the screen's own [links] (link cards that keep their tap action), its [actions] and
 /// the evidence [kinds]; a second tap folds them again. Nothing is removed, only folded.
 /// Open or closed is per view: it starts closed each time the screen is built.
 class SourcesDisclosure extends StatefulWidget {
@@ -135,12 +134,8 @@ class _SourcesDisclosureState extends State<SourcesDisclosure> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(s.title, style: BmType.meta),
-                        if ([
-                              ?s.publisher,
-                              if (s.checked case final d?) t.sourcesChecked(d),
-                            ]
-                            case final meta when meta.isNotEmpty)
-                          Text(meta.join(' · '), style: quiet),
+                        if (s.publisher case final p? when p.isNotEmpty)
+                          Text(p, style: quiet),
                         if (s.url case final url? when url.isNotEmpty)
                           Text(
                             url,

@@ -209,8 +209,8 @@ on 25 screens.
   occurrence only, at most 4 per paragraph.
 - **Bullets**: a paragraph of more than two sentences that splits cleanly on "." / ";" / "।" is
   shown as bullets; decimals and abbreviations never split.
-- **Top**: a title card (topic icon chip, badge, title, the summary in a tinted box) and the
-  "checked sources" byline as a small badge.
+- **Top**: a title card (topic icon chip, badge, title, the summary in a tinted box). (The
+  "checked sources" byline badge was removed by the owner 2026-11-14, Q156.)
 - **Bottom**: sources as compact link chips (a tap copies the link, as before) and the full-width
   green "उपाय व माहिती पहा".
 - Facts, charts and key dates use the same cards (blue, teal, amber).

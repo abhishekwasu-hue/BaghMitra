@@ -418,47 +418,6 @@ class ArticleSectionCard extends StatelessWidget {
   }
 }
 
-/// A small rounded badge: an icon and a short line in a tone (the "written from checked
-/// sources" line of an article).
-class ReadingBadge extends StatelessWidget {
-  const ReadingBadge({
-    super.key,
-    required this.icon,
-    required this.text,
-    required this.tone,
-  });
-
-  final IconData icon;
-  final String text;
-  final BmTone tone;
-
-  @override
-  Widget build(BuildContext context) => Container(
-    padding: const EdgeInsets.symmetric(
-      horizontal: BmSpace.sm,
-      vertical: BmSpace.xxs,
-    ),
-    decoration: BoxDecoration(
-      color: tone.tint,
-      border: Border.all(color: tone.ink.withValues(alpha: 0.45)),
-      borderRadius: BorderRadius.circular(BmRadius.chip),
-    ),
-    child: Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(top: 2),
-          child: Icon(icon, size: 16, color: tone.ink),
-        ),
-        const SizedBox(width: BmSpace.xxs),
-        Expanded(
-          child: Text(text, style: BmType.meta.copyWith(color: tone.ink)),
-        ),
-      ],
-    ),
-  );
-}
-
 /// A compact source chip: link icon, title and site, at least 48 dp tall. [onTap] copies
 /// the link where the screen allows it; without it the chip is plain (selectable) text.
 class SourceChip extends StatelessWidget {

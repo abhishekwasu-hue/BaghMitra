@@ -161,10 +161,17 @@ void main() {
         ),
       );
       await _pump(tester, '/feed/k1');
+      // No byline vouching for the text (owner 2026-11-14).
+      expect(find.textContaining('written by AI'), findsNothing);
+      expect(find.textContaining('checked'), findsNothing);
+      // The owner's neutral tag under every AI-written article.
+      final tag = find.byKey(const Key('feed-ai-tag'));
+      await tester.scrollUntilVisible(tag, 200);
       expect(
-        find.textContaining('written by AI only from checked cards'),
+        find.descendant(of: tag, matching: find.text('AI-generated')),
         findsOneWidget,
       );
+      expect(find.bySemanticsLabel('AI-generated'), findsOneWidget);
       expect(
         find.text('Key points'),
         findsNothing,

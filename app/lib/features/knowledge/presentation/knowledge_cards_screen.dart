@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../api/generated/bagmitra.swagger.dart';
 import '../../../app/providers.dart';
-import '../../../core/formatting.dart';
 import '../../../design_system/app_bar_title.dart';
 import '../../../design_system/cards.dart';
 import '../../../design_system/empty_state.dart';
@@ -117,15 +116,7 @@ class _KnowledgeCardView extends StatelessWidget {
             key: Key('knowledge-sources-${card.topic}-${card.crop}'),
             sources: [
               for (final s in card.sources)
-                SourceRef(
-                  s.title,
-                  url: s.url,
-                  publisher: s.publisher,
-                  checked: switch (s.checked) {
-                    final d? => formatDate(d, lang),
-                    null => null,
-                  },
-                ),
+                SourceRef(s.title, url: s.url, publisher: s.publisher),
             ],
           ),
         ],

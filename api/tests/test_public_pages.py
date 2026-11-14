@@ -19,6 +19,7 @@ MR_SECTIONS = [
     "mr-delete",
     "mr-children",
     "mr-security",
+    "mr-ai",
     "mr-changes",
     "mr-contact",
 ]
@@ -162,6 +163,25 @@ async def test_privacy_page_covers_bill_reading() -> None:
     assert "Your signup consent covers this.</li>" in body
 
 
+async def test_privacy_page_says_ai_text_can_be_wrong(pages: httpx.AsyncClient) -> None:
+    """Owner 2026-11-14: news, articles and knowledge articles are written with AI help; AI
+    can be wrong; check the official GR / portal or an expert before acting (mr and en)."""
+    body = " ".join((await pages.get("/privacy")).text.split())
+    assert "AI ने लिहिलेली माहिती</h2>" in body
+    assert "या ॲपमधील बातम्या, लेख आणि ज्ञान लेख AI च्या मदतीने लिहिलेले आहेत. AI चूक करू शकते." in body
+    assert "या माहितीतील चुकीमुळे झालेल्या नुकसानीस BagMitra जबाबदार राहणार नाही." in body
+    assert "AI-written information</h2>" in body
+    assert (
+        "news, articles and knowledge articles in this app are written with the help of AI" in body
+    )
+    assert "AI can make mistakes." in body
+    assert (
+        "BagMitra is not responsible for any loss caused by a mistake in this information." in body
+    )
+    assert body.index('id="mr-ai"') < body.index('id="mr-changes"')
+    assert body.index('id="en-ai"') < body.index('id="en-changes"')
+
+
 async def test_privacy_page_covers_reactions(pages: httpx.AsyncClient) -> None:
     """Q146: reactions are stored per user, used only as totals and erased with the account."""
     body = (await pages.get("/privacy")).text
@@ -236,8 +256,9 @@ async def test_pages_need_no_auth_load_nothing_and_skip_openapi(pages: httpx.Asy
         assert resp.headers["x-content-type-options"] == "nosniff"
         assert resp.headers["x-request-id"]
         # Raised from 30 000 for the crop photo analysis text (Q135; Marathi is 3 bytes a letter),
-        # and to 35 000 for the reactions line (Q146).
-        assert len(resp.content) < 35_000
+        # to 35 000 for the reactions line (Q146), and to 37 000 for the owner's AI-text
+        # section (2026-11-14, his Marathi words kept as given).
+        assert len(resp.content) < 37_000
         head = await pages.head(path)
         assert head.status_code == 200
     spec = (await pages.get("/openapi.json")).json()

@@ -179,7 +179,6 @@ class _AskBoxState extends ConsumerState<AskBox> {
                     SourceRef(s.title, url: s.url.isEmpty ? null : s.url),
               ],
             ),
-            Text(t.askStoredNote, key: const Key('ask-note'), style: quiet),
             if (best.section case final section?) ...[
               const SizedBox(height: BmSpace.xs),
               Align(

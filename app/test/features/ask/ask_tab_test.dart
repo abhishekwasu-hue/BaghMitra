@@ -11,7 +11,6 @@ import 'package:http/testing.dart';
 import '../../helpers/pump_app.dart';
 import '../plots/plots_screen_test.dart' show settle;
 
-const note = 'ही माहिती ॲपमध्ये साठवलेल्या तपासलेल्या स्रोतांवरून आहे.';
 const symptoms = Key('ask-answer-seed-psylla-symptoms');
 
 Future<void> ask(WidgetTester tester, String question) async {
@@ -21,7 +20,7 @@ Future<void> ask(WidgetTester tester, String question) async {
 }
 
 void main() {
-  testWidgets('offline: the stored answer, its note and sources as text', (
+  testWidgets('offline: the stored answer and its sources as text, no note', (
     tester,
   ) async {
     await pumpApp(tester, initialLocation: '/ask');
@@ -31,7 +30,8 @@ void main() {
     expect(find.byKey(const Key('practices-psylla')), findsOneWidget);
     await ask(tester, 'सायलाची लक्षणे काय?');
     expect(find.byKey(symptoms), findsOneWidget);
-    expect(find.text(note), findsOneWidget);
+    // No line vouching for the answer (owner 2026-11-14).
+    expect(find.byKey(const Key('ask-note')), findsNothing);
     expect(find.text('संबंधित प्रश्न'), findsOneWidget);
     final toggle = find.descendant(
       of: find.byKey(const Key('ask-sources')),
@@ -65,7 +65,8 @@ void main() {
     await settle(tester);
     await ask(tester, 'sayla lakshane');
     expect(find.byKey(symptoms), findsOneWidget);
-    expect(find.text(note), findsOneWidget);
+    // No line vouching for the answer (owner 2026-11-14).
+    expect(find.byKey(const Key('ask-note')), findsNothing);
     await unmountApp(tester);
   });
 
@@ -106,7 +107,6 @@ void main() {
     await settle(tester);
     await ask(tester, 'ट्रॅक्टर कर्ज');
     expect(find.byKey(const Key('ask-no-match')), findsOneWidget);
-    expect(find.text(note), findsNothing);
     await unmountApp(tester);
   });
 

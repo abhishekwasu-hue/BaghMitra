@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 
 import '../../../app/providers.dart';
 import '../../../app/router.dart';
-import '../../../core/formatting.dart';
 import '../../../design_system/app_bar_title.dart';
 import '../../../design_system/cards.dart';
 import '../../../design_system/empty_state.dart';
@@ -129,15 +128,7 @@ class _LookalikeCardView extends ConsumerWidget {
             key: Key('lookalike-sources-${card.id}'),
             sources: [
               for (final s in cited)
-                SourceRef(
-                  s.title,
-                  url: s.url,
-                  publisher: s.publisher,
-                  checked: switch (s.checked) {
-                    final d? => formatDate(d, lang),
-                    null => null,
-                  },
-                ),
+                SourceRef(s.title, url: s.url, publisher: s.publisher),
             ],
           ),
           const SizedBox(height: BmSpace.xs),
