@@ -238,7 +238,10 @@ void main() {
     );
     expect(find.textContaining('KVK'), findsNothing);
     // The source and date are one tap away (folded, owner request).
-    expect(find.textContaining('checked 6 Nov 2026'), findsNothing);
+    expect(
+      find.textContaining(RegExp(r'^Source: .* · read 6 Nov 2026$')),
+      findsNothing,
+    );
     await tester.tap(
       find.descendant(
         of: find.byKey(const Key('irrigation-general-info')),
@@ -246,7 +249,10 @@ void main() {
       ),
     );
     await tester.pump();
-    expect(find.textContaining('checked 6 Nov 2026'), findsOneWidget);
+    expect(
+      find.textContaining(RegExp(r'^Source: .* · read 6 Nov 2026$')),
+      findsOneWidget,
+    );
     expect(find.text('Planted in 2019: about 7 years old'), findsOneWidget);
     // A block has one crop: no crop chooser.
     expect(find.byKey(const Key('irrigation-crop-mosambi')), findsNothing);

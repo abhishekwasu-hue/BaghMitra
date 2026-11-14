@@ -13,7 +13,7 @@ names or doses beyond our checked cards and label claims.
   practices guide only), so there is no online answer to prefer; online behaviour is otherwise
   unchanged (the guide below the box is the same).
 - Shown: the stored question, the answer as short lines, "स्रोत पहा (n)" (titles and links as
-  text), the muted line "ही माहिती ॲपमध्ये साठवलेल्या तपासलेल्या स्रोतांवरून आहे.", "कार्ड उघडा"
+  text) (no "checked sources" note: owner 2026-11-14, Q156), "कार्ड उघडा"
   when the answer comes from a practice card, and up to 3 related questions (tap = that answer).
 - Matching (`app/lib/features/ask/`): Marathi, Hindi, English and romanised text ("santra
   falgal", "sayla"). Words are normalised (Devanagari digits, nukta, chandrabindu, one case

@@ -121,9 +121,15 @@ void main() {
     // Owner 2026-11-10: no "general information · confirm with your KVK" mark.
     expect(find.textContaining('General information'), findsNothing);
     // Source and date are one tap away, once for the screen (owner request).
-    expect(find.textContaining('checked 6 Nov 2026'), findsNothing);
+    expect(
+      find.textContaining(RegExp(r'^Source: .* · read 6 Nov 2026$')),
+      findsNothing,
+    );
     await openAllSources(tester);
-    expect(find.textContaining('checked 6 Nov 2026'), findsOneWidget);
+    expect(
+      find.textContaining(RegExp(r'^Source: .* · read 6 Nov 2026$')),
+      findsOneWidget,
+    );
 
     await tester.scrollUntilVisible(
       find.byKey(const Key('fill-suggested')),

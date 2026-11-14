@@ -35,7 +35,7 @@ void main() {
     await tester.tap(find.text('Sources'));
     await tester.pump();
     expect(
-      find.textContaining('Source: ICAR-CCRI Nagpur · checked 6 Nov 2026'),
+      find.textContaining('Source: ICAR-CCRI Nagpur · read 6 Nov 2026'),
       findsOneWidget,
     );
   });

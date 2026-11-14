@@ -150,7 +150,8 @@ void articleWidgetTests() {
       );
       await settle(tester);
       expect(find.byKey(const Key('feed-article')), findsOneWidget);
-      expect(find.textContaining('written by AI'), findsOneWidget);
+      // No byline vouching for the text (owner 2026-11-14).
+      expect(find.textContaining('written by AI'), findsNothing);
       // Key points are highlighted (number pill): matched by their plain text.
       expect(
         find.byWidgetPredicate(

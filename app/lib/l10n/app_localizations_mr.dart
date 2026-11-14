@@ -1454,7 +1454,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get baharCompareNoPoints =>
-      'या बहाराची तपासलेली माहिती तयार झाल्यावर इथे दिसेल.';
+      'या बहाराची माहिती तयार झाल्यावर इथे दिसेल.';
 
   @override
   String get baharCompareUse => 'हा बहार निवडा';
@@ -1940,10 +1940,6 @@ class AppLocalizationsMr extends AppLocalizations {
   String get feedBadgeKnowledge => 'ज्ञान लेख';
 
   @override
-  String get feedKnowledgeByline =>
-      'BagMitra · तपासलेली कार्डे व त्यांच्या खुल्या स्रोतांवरूनच AI ने लिहिलेले; प्रत्येक आकडा स्रोताशी तपासलेला';
-
-  @override
   String get feedKnowledgeOpenCard => 'उपाय व माहिती पहा';
 
   @override
@@ -1958,10 +1954,6 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get feedLevelState => 'महाराष्ट्र शासन';
-
-  @override
-  String get feedArticleByline =>
-      'BagMitra बातमी कक्ष · शासकीय स्रोतांवरून AI ने लिहिलेले';
 
   @override
   String get feedArticleKeyPoints => 'मुख्य मुद्दे';
@@ -2651,7 +2643,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String schemeSources(String date) {
-    return 'स्रोत ($date रोजी तपासले)';
+    return 'स्रोत ($date रोजी वाचले)';
   }
 
   @override
@@ -2750,7 +2742,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String directoryChecked(Object date) {
-    return 'तपासले $date';
+    return 'वाचले $date';
   }
 
   @override
@@ -3058,7 +3050,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String generalInfoSource(String source, String date) {
-    return 'स्रोत: $source · तपासले $date';
+    return 'स्रोत: $source · वाचले $date';
   }
 
   @override
@@ -5366,10 +5358,6 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get askSearch => 'उत्तर शोधा';
-
-  @override
-  String get askStoredNote =>
-      'ही माहिती ॲपमध्ये साठवलेल्या तपासलेल्या स्रोतांवरून आहे.';
 
   @override
   String get askRelated => 'संबंधित प्रश्न';

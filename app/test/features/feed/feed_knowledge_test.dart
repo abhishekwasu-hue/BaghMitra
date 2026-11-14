@@ -161,10 +161,9 @@ void main() {
         ),
       );
       await _pump(tester, '/feed/k1');
-      expect(
-        find.textContaining('written by AI only from checked cards'),
-        findsOneWidget,
-      );
+      // No byline vouching for the text (owner 2026-11-14).
+      expect(find.textContaining('written by AI'), findsNothing);
+      expect(find.textContaining('checked'), findsNothing);
       expect(
         find.text('Key points'),
         findsNothing,

@@ -12,11 +12,11 @@ import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../domain/feed_article.dart';
 
-/// The AI article of a feed item (spec v1.6): a byline saying it was written by AI from
-/// official sources, key points, sections, a facts table, bar / pie charts drawn here (no
-/// chart package), key dates and the sources. Every chart is also read out as text.
-/// A knowledge article (ज्ञान लेख, Q141, [knowledge]) has its own byline, its sections and
-/// sources (a tap copies the link), and "उपाय व माहिती पहा" to the practices it came from.
+/// The AI article of a feed item (spec v1.6): key points, sections, a facts table, bar / pie
+/// charts drawn here (no chart package), key dates and the sources. Every chart is also read
+/// out as text. No byline vouching for the text (owner 2026-11-14: no "checked" guarantee).
+/// A knowledge article (ज्ञान लेख, Q141, [knowledge]) has its sections and sources (a tap
+/// copies the link), and "उपाय व माहिती पहा" to the practices it came from.
 ///
 /// Reading (owner 2026-11-12): every part is a card with a coloured header and icon chosen
 /// by meaning, numbers and KB names are marked, long paragraphs become bullets
@@ -51,13 +51,7 @@ class FeedArticleView extends StatelessWidget {
       key: const Key('feed-article'),
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ReadingBadge(
-          icon: knowledge ? Icons.verified_rounded : Icons.newspaper_rounded,
-          text: knowledge ? t.feedKnowledgeByline : t.feedArticleByline,
-          tone: knowledge ? c.toneGreen : c.toneBlue,
-        ),
         if (article.keyPoints.isNotEmpty) ...[
-          const SizedBox(height: BmSpace.md),
           ReadingCard(
             heading: t.feedArticleKeyPoints,
             icon: Icons.star_rounded,

@@ -258,7 +258,7 @@ void main() {
       200,
       scrollable: find.byType(Scrollable).first,
     );
-    expect(find.text('Sources (checked on 6 Nov 2026)'), findsOne);
+    expect(find.text('Sources (read on 6 Nov 2026)'), findsOne);
     await tester.ensureVisible(find.byKey(const Key('scheme-source-0')));
     await settle(tester);
     await tester.tap(find.byKey(const Key('scheme-source-0')));

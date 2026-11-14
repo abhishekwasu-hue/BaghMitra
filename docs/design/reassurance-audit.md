@@ -70,7 +70,7 @@ server on its own whenever it is online"; §2 the scheme document ticks stay on 
 | `marketTrendCollecting` | भाव दररोज साठवला जातो; चार्ट दिवसागणिक भरत जातो. | Price trend sheet | Kept | Fact: why the chart is short. |
 | `feedEmpty` | फोन ऑनलाइन असताना संदेश येतील. | Sarkari Sandesh feed (empty) | Kept | Empty state. |
 | `knowledgeEmpty` | फोन ऑनलाइन झाल्यावर ज्ञान कार्ड येथे दिसतील. | Knowledge cards (empty) | Kept | Empty state. |
-| `askStoredNote` | ही माहिती ॲपमध्ये साठवलेल्या तपासलेल्या स्रोतांवरून आहे. | Ask answer | Kept | Source of the answer (fact at that moment). |
+| `askStoredNote` | ही माहिती ॲपमध्ये साठवलेल्या तपासलेल्या स्रोतांवरून आहे. | Ask answer | **Removed 2026-11-14** | Owner: no line vouching that the content is checked (Q156). |
 | `feedbackIncluded` | app version व फोनचे मॉडेल सोबत जाते. | Feedback form | Kept | Disclosure at the moment of sending (app version and phone model go along). |
 | `settingsPhotoMobileDataHint` | पाहणी व बिलांच्या फोटोंचा बॅकअप वाय-फायवर होतो. मोबाईल डेटाही वापरायचा असेल तर हे चालू करा. | Settings, photo backup on mobile data | Kept | Explains the switch beside it. |
 | `deletePlotConfirm` | {name} काढून टाकायची? तुमच्या इतर फोनवरूनही ती जाईल. | Delete plot dialog | Kept | Fact for the decision (it goes from other phones too). |

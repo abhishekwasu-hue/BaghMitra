@@ -101,10 +101,6 @@ void main() {
     () async {
       final kb = await QaKbConfig(bundle: FileAssetBundle()).load();
       expect(kb.entries.length, greaterThanOrEqualTo(51));
-      expect(
-        kb.note,
-        'ही माहिती ॲपमध्ये साठवलेल्या तपासलेल्या स्रोतांवरून आहे.',
-      );
       for (final e in kb.entries) {
         for (final lang in const ['mr', 'hi', 'en']) {
           expect(e.answers[lang], isNotEmpty, reason: '${e.id} $lang');
@@ -123,6 +119,22 @@ void main() {
         expect(ids, contains(id));
       }
       expect(ids.where((id) => id.startsWith('seed-')), hasLength(51));
+    },
+  );
+
+  test(
+    'the shipped asset and the seed carry no note vouching for the answers',
+    () {
+      // Owner 2026-11-14: no "this information is from checked sources" line.
+      for (final path in const [
+        'assets/config/qa_kb.json.gz',
+        'test/fixtures/qa_kb_seed.json.gz',
+      ]) {
+        final json = jsonDecode(
+          utf8.decode(gzip.decode(File(path).readAsBytesSync())),
+        ) as Map<String, dynamic>;
+        expect(json.containsKey('note'), isFalse, reason: path);
+      }
     },
   );
 }

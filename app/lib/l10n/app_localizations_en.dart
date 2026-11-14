@@ -1457,7 +1457,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get baharCompareNoPoints =>
-      'Checked information for this bahar appears here once it is ready.';
+      'Information for this bahar appears here once it is ready.';
 
   @override
   String get baharCompareUse => 'Use this bahar';
@@ -1946,10 +1946,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get feedBadgeKnowledge => 'Knowledge article';
 
   @override
-  String get feedKnowledgeByline =>
-      'BagMitra · written by AI only from checked cards and their open sources; every number checked against the source';
-
-  @override
   String get feedKnowledgeOpenCard => 'See practices and details';
 
   @override
@@ -1964,10 +1960,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get feedLevelState => 'Government of Maharashtra';
-
-  @override
-  String get feedArticleByline =>
-      'BagMitra news desk · written by AI from official government sources';
 
   @override
   String get feedArticleKeyPoints => 'Key points';
@@ -2659,7 +2651,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String schemeSources(String date) {
-    return 'Sources (checked on $date)';
+    return 'Sources (read on $date)';
   }
 
   @override
@@ -2758,7 +2750,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String directoryChecked(Object date) {
-    return 'Checked $date';
+    return 'Read $date';
   }
 
   @override
@@ -3067,7 +3059,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String generalInfoSource(String source, String date) {
-    return 'Source: $source · checked $date';
+    return 'Source: $source · read $date';
   }
 
   @override
@@ -5387,10 +5379,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get askSearch => 'Find the answer';
-
-  @override
-  String get askStoredNote =>
-      'This information is from checked sources stored in the app.';
 
   @override
   String get askRelated => 'Related questions';

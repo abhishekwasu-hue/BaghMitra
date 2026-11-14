@@ -2629,7 +2629,7 @@ abstract class AppLocalizations {
   /// No description provided for @baharCompareNoPoints.
   ///
   /// In en, this message translates to:
-  /// **'Checked information for this bahar appears here once it is ready.'**
+  /// **'Information for this bahar appears here once it is ready.'**
   String get baharCompareNoPoints;
 
   /// No description provided for @baharCompareUse.
@@ -3459,12 +3459,6 @@ abstract class AppLocalizations {
   /// **'Knowledge article'**
   String get feedBadgeKnowledge;
 
-  /// No description provided for @feedKnowledgeByline.
-  ///
-  /// In en, this message translates to:
-  /// **'BagMitra · written by AI only from checked cards and their open sources; every number checked against the source'**
-  String get feedKnowledgeByline;
-
   /// No description provided for @feedKnowledgeOpenCard.
   ///
   /// In en, this message translates to:
@@ -3494,12 +3488,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Government of Maharashtra'**
   String get feedLevelState;
-
-  /// No description provided for @feedArticleByline.
-  ///
-  /// In en, this message translates to:
-  /// **'BagMitra news desk · written by AI from official government sources'**
-  String get feedArticleByline;
 
   /// No description provided for @feedArticleKeyPoints.
   ///
@@ -4680,7 +4668,7 @@ abstract class AppLocalizations {
   /// No description provided for @schemeSources.
   ///
   /// In en, this message translates to:
-  /// **'Sources (checked on {date})'**
+  /// **'Sources (read on {date})'**
   String schemeSources(String date);
 
   /// No description provided for @schemeFeedItems.
@@ -4854,7 +4842,7 @@ abstract class AppLocalizations {
   /// No description provided for @directoryChecked.
   ///
   /// In en, this message translates to:
-  /// **'Checked {date}'**
+  /// **'Read {date}'**
   String directoryChecked(Object date);
 
   /// No description provided for @directoryCheckLine.
@@ -5358,7 +5346,7 @@ abstract class AppLocalizations {
   /// No description provided for @generalInfoSource.
   ///
   /// In en, this message translates to:
-  /// **'Source: {source} · checked {date}'**
+  /// **'Source: {source} · read {date}'**
   String generalInfoSource(String source, String date);
 
   /// No description provided for @sourcesShow.
@@ -9386,12 +9374,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Find the answer'**
   String get askSearch;
-
-  /// One muted line under every stored answer (owner's words, Q144).
-  ///
-  /// In en, this message translates to:
-  /// **'This information is from checked sources stored in the app.'**
-  String get askStoredNote;
 
   /// Heading above two or three related questions.
   ///

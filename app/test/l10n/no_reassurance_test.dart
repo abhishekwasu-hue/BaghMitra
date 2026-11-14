@@ -48,6 +48,40 @@ final _reassurance = <String, RegExp>{
   ),
 };
 
+/// Owner (2026-11-14): no line that vouches for the content ("checked", "verified", "written
+/// by AI from checked sources", "every number checked"). BagMitra gives no guarantee that its
+/// information is checked. Market-link keys (`ml*`) are exempt: "checked trader" there is the
+/// real verification status of a trader, a feature. Admin keys (`admin*`) are never shown to
+/// growers.
+const removedGuaranteeKeys = {
+  'feedKnowledgeByline',
+  'feedArticleByline',
+  'askStoredNote',
+};
+
+/// Kept although they use the word: each is an instruction to the reader or an honest
+/// "still to be checked" status, not a claim that the content was checked.
+const allowedGuarantee = {
+  // "Get it checked by a lab or an expert before you decide" (instruction).
+  'lookalikesCheckLine',
+  // "Draft: a source is still to be checked" (status of an unfinished card).
+  'lookalikesDraft',
+};
+
+final _guarantee = <String, RegExp>{
+  'mr': RegExp(
+    'तपासले|सत्यापित|पडताळलेल|AI ने|प्रत्येक आकडा स्रोताशी|अचूक माहिती',
+  ),
+  'en': RegExp(
+    r'\bchecked\b|verified|fact-?checked|written by AI|by AI\b|accurate information',
+    caseSensitive: false,
+  ),
+  // "जाँचें" (please check) is an instruction; "जाँचे / जाँची / जाँचा" (checked) is not.
+  'hi': RegExp(
+    'जाँचे(?!ं)|जाँची|जाँचा|सत्यापित|AI द्वारा|हर संख्या स्रोत|सटीक जानकारी',
+  ),
+};
+
 Map<String, dynamic> _arb(String locale) =>
     jsonDecode(File('lib/l10n/app_$locale.arb').readAsStringSync())
         as Map<String, dynamic>;
@@ -71,9 +105,32 @@ void main() {
     });
   }
 
+  for (final MapEntry(key: locale, value: pattern) in _guarantee.entries) {
+    test(
+      '$locale: no "checked / verified / written by AI" guarantee lines',
+      () {
+        final arb = _arb(locale);
+        for (final k in removedGuaranteeKeys) {
+          expect(arb.containsKey(k), isFalse, reason: 'app_$locale.arb: $k');
+        }
+        final found = [
+          for (final MapEntry(:key, :value) in arb.entries)
+            if (!key.startsWith('@') &&
+                !key.startsWith('ml') &&
+                !key.startsWith('admin') &&
+                !allowedGuarantee.contains(key) &&
+                value is String &&
+                pattern.hasMatch(value))
+              '$key: $value',
+        ];
+        expect(found, isEmpty, reason: 'guarantee wording in app_$locale.arb');
+      },
+    );
+  }
+
   test('every allowed key exists', () {
     final mr = _arb('mr');
-    for (final k in allowed) {
+    for (final k in {...allowed, ...allowedGuarantee}) {
       expect(mr.containsKey(k), isTrue, reason: k);
     }
   });
