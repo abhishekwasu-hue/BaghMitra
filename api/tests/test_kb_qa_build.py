@@ -40,6 +40,7 @@ from bagmitra_api.kb.qa_build import (
     label_topics,
     read_asset,
     report_markdown,
+    strip_doses,
     strip_referral_tail,
     write_asset,
 )
@@ -49,7 +50,7 @@ APP = ROOT / "app"
 ASSET = APP / "assets" / "config" / "qa_kb.json.gz"
 STRONG, CHEAP = "claude-sonnet-5-5", "claude-haiku-5-5"
 SOURCE = (
-    '<cards>\n- Hang yellow sticky traps, 30 per acre.\n</cards>\n<source key="S1" title="NHB">'
+    '<cards>\n- Hang yellow sticky traps from June.\n</cards>\n<source key="S1" title="NHB">'
     "\nHang yellow sticky traps at 30 per acre from June. Watch every new flush.\n</source>"
 )
 TOPIC = QaTopic(
@@ -62,28 +63,54 @@ TOPIC = QaTopic(
 )
 QUESTIONS = [
     {
-        "mr": "सायलासाठी किती सापळे लावावेत?",
-        "hi": "सिल्ला के लिए कितने ट्रैप?",
-        "en": "How many traps for psylla?",
+        "mr": "सायलासाठी सापळे केव्हा लावावेत?",
+        "hi": "सिल्ला के लिए ट्रैप कब?",
+        "en": "When do I hang traps for psylla?",
     },
     {"mr": "नवती कशी तपासावी?", "hi": "नई फुटान कैसे जाँचें?", "en": "How do I check the new flush?"},
     {
-        "mr": "सायलासाठी किती सापळे लावायचे?",
-        "hi": "सिल्ला के लिए ट्रैप कितने?",
-        "en": "How many traps for psylla ?",
+        "mr": "सायलासाठी सापळे केव्हा लावायचे?",
+        "hi": "सिल्ला के लिए ट्रैप कब लगाएँ?",
+        "en": "When do I hang traps for psylla ?",
     },
     {"mr": "फवारणी किती वेळा?", "hi": "छिड़काव कितनी बार?", "en": "How often do I spray?"},
 ]
+# GOOD with the expert-advice note after its input line (owner Q160): what is shipped.
+NOTE = {
+    "mr": "(तज्ज्ञांच्या सल्ल्याने करावे)",
+    "hi": "(विशेषज्ञ की सलाह से करें)",
+    "en": "(follow expert advice)",
+}
+
+
+# A dose line, as a source states it: never shipped (owner Q160).
+DOSE = {
+    "mr": "निंबोळी तेल प्रति लिटर १० मि.ली.",
+    "hi": "नीम तेल प्रति लीटर 10 मि.ली.।",
+    "en": "Neem oil at 10 ml per litre.",
+}
+NAMED = {"mr": "निंबोळी तेल वापरा.", "hi": "नीम तेल इस्तेमाल करें।", "en": "Use neem oil."}
+AMOUNT_Q = {
+    "mr": "निंबोळी तेल किती घ्यावे?",
+    "hi": "नीम तेल कितना लें?",
+    "en": "How much neem oil should I use?",
+}
+
+
+def noted(answer: dict[str, list[str]]) -> dict[str, list[str]]:
+    return {lang: [f"{lines[0]} {NOTE[lang]}", *lines[1:]] for lang, lines in answer.items()}
+
+
 GOOD = {
     "mr": [
-        "एकरी ३० पिवळे चिकट सापळे लावा.",
+        "पिवळे चिकट सापळे लावा.",
         "जूनपासून लावा.",
         "नवती तपासा.",
         "शंका असल्यास KVK ला विचारा.",
     ],
-    "hi": ["प्रति एकड़ 30 पीले ट्रैप लगाएँ।", "जून से लगाएँ।", "नई फुटान देखें।", "शंका हो तो KVK से पूछें।"],
+    "hi": ["पीले ट्रैप लगाएँ।", "जून से लगाएँ।", "नई फुटान देखें।", "शंका हो तो KVK से पूछें।"],
     "en": [
-        "Hang 30 yellow sticky traps per acre.",
+        "Hang yellow sticky traps.",
         "Start in June.",
         "Watch every new flush.",
         "Ask the KVK when unsure.",
@@ -231,7 +258,7 @@ async def test_batch_build_checks_drops_and_costs(tmp_path: Path) -> None:
     assert len(entries) == r.answers_kept == 1
     e = entries[0]
     # The closing "ask the KVK" line is removed in all three languages.
-    assert e["a"] == {lang: lines[:-1] for lang, lines in GOOD.items()}
+    assert e["a"] == noted({lang: lines[:-1] for lang, lines in GOOD.items()})
     assert r.referral_lines_removed == 1
     assert e["sec"] == "psylla"
     assert e["s"] == ["S1"]  # an unknown key the model named is not kept
@@ -564,17 +591,52 @@ def test_finalise_strips_once_and_keeps_the_seed() -> None:
             # The same question as a seed entry: the seed (card text) is kept instead.
             {"id": "q2", "t": "section:psylla", "sec": "psylla", "q": dict(seed_q), "s": ["S1"],
              "p": [], "a": {lang: lines[:3] for lang, lines in GOOD.items()}},
+            # A dose line goes in all three languages; the rest stays (owner Q160).
+            {"id": "q3", "t": "section:mites", "sec": "mites", "q": QUESTIONS[1], "s": ["S1"],
+             "p": [], "a": {lang: [*GOOD[lang][1:3], DOSE[lang]] for lang in GOOD}},
+            # A question that asks for an amount loses its whole entry with its dose line.
+            {"id": "q4", "t": "section:psylla", "sec": "psylla", "q": AMOUNT_Q, "s": ["S1"],
+             "p": [], "a": {lang: [DOSE[lang], GOOD[lang][1]] for lang in GOOD}},
         ],
     }  # fmt: skip
     data, counts = finalise_asset(raw, cards)
-    assert counts == {"referral_lines_removed": 1, "duplicates_of_seed": 1}
+    assert counts == {
+        "referral_lines_removed": 1,
+        "duplicates_of_seed": 1,
+        "dose_lines_removed": 2,
+        "dose_entries_removed": 1,
+    }
     ids = [e["id"] for e in data["entries"]]
     assert ids[0].startswith("seed-")
     assert "q1" in ids
     assert "q2" not in ids
+    assert "q4" not in ids
     assert data["tidy"] is True
     q1 = next(e for e in data["entries"] if e["id"] == "q1")
-    assert q1["a"]["en"] == GOOD["en"]
+    assert q1["a"]["en"] == noted(GOOD)["en"]
+    q3 = next(e for e in data["entries"] if e["id"] == "q3")
+    assert q3["a"] == {lang: GOOD[lang][1:3] for lang in GOOD}
     again, counts = finalise_asset(data, cards)
-    assert counts == {"referral_lines_removed": 0, "duplicates_of_seed": 0}
+    assert counts == {
+        "referral_lines_removed": 0,
+        "duplicates_of_seed": 0,
+        "dose_lines_removed": 0,
+        "dose_entries_removed": 0,
+    }
     assert again == data
+
+
+def test_strip_doses_keeps_names_and_adds_the_note() -> None:
+    entry = {"id": "q", "t": "section:psylla", "q": QUESTIONS[1],
+             "a": {lang: [NAMED[lang], DOSE[lang], GOOD[lang][2]] for lang in GOOD}}  # fmt: skip
+    out, removed = strip_doses(entry)
+    assert removed == 1
+    assert out is not None
+    assert out["a"] == {lang: [f"{NAMED[lang]} {NOTE[lang]}", GOOD[lang][2]] for lang in GOOD}
+    assert strip_doses(out) == (out, 0)
+    # The app's own screens are not advice: no note there.
+    howto = {**entry, "t": "howto:spray", "a": {lang: [NAMED[lang]] for lang in GOOD}}
+    assert strip_doses(howto)[0] == howto
+    # A banned ingredient in a line takes the line out.
+    banned = {**entry, "a": {lang: [GOOD[lang][2], "Dicofol."] for lang in GOOD}}
+    assert strip_doses(banned) == ({**entry, "a": {lang: [GOOD[lang][2]] for lang in GOOD}}, 1)

@@ -471,10 +471,13 @@ void main() {
     await tester.pumpAndSettle();
     await tester.tap(prep);
     await settle(tester);
+    // The method as published, without amounts, and the expert-advice note (owner Q160).
     expect(
-      find.textContaining('5 kg well-dried neem seed kernels'),
+      find.textContaining('well-dried neem seed kernels, water, detergent'),
       findsOneWidget,
     );
+    expect(find.textContaining('5 kg'), findsNothing);
+    expect(find.textContaining('(follow expert advice)'), findsWidgets);
     expect(find.text('Home-made, as published'), findsWidgets);
     final link = find.byKey(const Key('practices-labels-leaf_miner'));
     await tester.scrollUntilVisible(link, 200);

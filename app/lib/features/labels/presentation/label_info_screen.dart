@@ -18,10 +18,11 @@ import '../data/label_targets.dart';
 /// What CIB&RC registered labels say for a crop, grouped by pest / disease, chemical and
 /// 🌿 bio apart (owner decision Q57). Label information only, never a recommendation: one
 /// notice at the top (not a recommendation, read the pack label, the source documents), then
-/// a compact tile per row (product, dose in bold, PHI); a tap opens every field exactly as
-/// the API gives it (dose and dilution in bold) in a sheet. Brand names are a plain
-/// alphabetical list, banned or restricted rows are red and carry no dose, and nothing is
-/// added by the app.
+/// a compact tile per row (product, the expert-advice note, PHI); a tap opens the row's
+/// fields in a sheet. Owner 2026-11-14 (Q160): products are named but no dose or dilution is
+/// ever shown, even from an older cached response, and each product carries the note
+/// "(तज्ज्ञांच्या सल्ल्याने करावे)". Brand names are a plain alphabetical list, banned or
+/// restricted rows are calm and carry no dose, and nothing is added by the app.
 ///
 /// Opened for a block ([plotId]: its crop) or from practices / look-alikes ([crop], or the
 /// grower's first block, or santra; the grower can switch crop). [target] is a key from
@@ -230,9 +231,6 @@ class _SubHeading extends StatelessWidget {
   );
 }
 
-/// A dilution cell that is only a number or a range ("750", "750-1000").
-final _bareLitres = RegExp(r'^\d+(\.\d+)?(\s*[-–]\s*\d+(\.\d+)?)?$');
-
 /// The one notice on the screen (owner, label UX): what CIB&RC label information is (not a
 /// recommendation, check with the KVK), read the pack label, and the source documents once.
 /// Owner 2026-11-10: small, muted text, with no coloured box, border or icons.
@@ -266,8 +264,8 @@ class _LabelNotice extends StatelessWidget {
   }
 }
 
-/// One label row in the list: product large, the dose in bold right below, PHI as a chip.
-/// Tapping it opens every field of the row in [showLabelClaimDetails].
+/// One label row in the list: product large, the expert-advice note right below (never a
+/// dose, owner Q160), PHI as a chip. Tapping it opens the row in [showLabelClaimDetails].
 class _ClaimTile extends StatelessWidget {
   const _ClaimTile({required this.id, required this.claim, required this.lang});
 
@@ -315,21 +313,10 @@ class _ClaimTile extends StatelessWidget {
                               style: BmType.alertTitle.copyWith(color: c.ink),
                             ),
                             const SizedBox(height: BmSpace.xxs),
-                            Text.rich(
-                              TextSpan(
-                                children: [
-                                  TextSpan(
-                                    text: '${t.labelInfoDose} ',
-                                    style: BmType.meta.copyWith(
-                                      color: c.inkMuted,
-                                    ),
-                                  ),
-                                  TextSpan(text: claim.dose, style: _strong(c)),
-                                ],
-                              ),
-                              key: Key('label-row-dose-$id'),
-                              maxLines: 3,
-                              overflow: TextOverflow.ellipsis,
+                            Text(
+                              t.expertAdviceNote,
+                              key: Key('label-row-note-$id'),
+                              style: BmType.meta.copyWith(color: c.inkMuted),
                             ),
                             if (phi != null) ...[
                               const SizedBox(height: BmSpace.xs),
@@ -357,9 +344,6 @@ class _ClaimTile extends StatelessWidget {
 String _product(LabelClaimOut claim) =>
     '${claim.activeIngredient} ${claim.formulation}';
 
-TextStyle _strong(BmColors c) =>
-    BmType.bodyStrong.copyWith(color: c.ink, fontWeight: FontWeight.w700);
-
 class _Chip extends StatelessWidget {
   const _Chip(this.text);
 
@@ -385,7 +369,8 @@ class _Chip extends StatelessWidget {
   }
 }
 
-/// Every field of one label row as the API gives it, in a scrollable bottom sheet.
+/// The fields of one label row in a scrollable bottom sheet: everything the API gives
+/// except the dose and the dilution, which are never shown (owner Q160).
 Future<void> showLabelClaimDetails(
   BuildContext context,
   int id,
@@ -424,7 +409,6 @@ class _ClaimDetails extends ConsumerWidget {
     final t = AppLocalizations.of(context);
     final c = context.bm;
     final meta = BmType.meta.copyWith(color: c.inkMuted);
-    final strong = _strong(c);
     String n(int v) => formatInt(v, lang);
     final maker = claim.makerUrl;
     final brands = claim.brandNames ?? const <String>[];
@@ -437,22 +421,9 @@ class _ClaimDetails extends ConsumerWidget {
         Text(t.labelInfoDetailsTitle, style: BmType.label),
         const SizedBox(height: BmSpace.xxs),
         Text(_product(claim), style: BmType.section.copyWith(color: c.brand)),
+        const SizedBox(height: BmSpace.xxs),
+        Text(t.expertAdviceNote, key: const Key('label-note'), style: meta),
         const SizedBox(height: BmSpace.sm),
-        Text(t.labelInfoDose, style: meta),
-        Text(claim.dose, key: const Key('label-dose'), style: strong),
-        if (claim.dilution case final d?) ...[
-          const SizedBox(height: BmSpace.xs),
-          Text(
-            // A bare number sits under the printed heading "Dilution in water (L)" of
-            // "Dosage per ha"; a cell with its own unit (per tree, '**') is shown as printed.
-            _bareLitres.hasMatch(d)
-                ? t.labelInfoDilution(d)
-                : t.labelInfoDilutionPrinted(d),
-            key: const Key('label-dilution'),
-            style: strong,
-          ),
-        ],
-        const SizedBox(height: BmSpace.xs),
         if (claim.phiDays != null)
           Text(t.labelInfoPhi(n(claim.phiDays!)), style: BmType.body),
         if (claim.intervalDays != null)

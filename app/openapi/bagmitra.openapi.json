@@ -18927,7 +18927,7 @@
     },
     "/v1/knowledge/cards": {
       "get": {
-        "description": "The general part of every live knowledge card (newest version per topic and crop).",
+        "description": "The grower part of every live knowledge card (newest version per topic and crop).",
         "operationId": "knowledge_cards",
         "parameters": [
           {
@@ -23819,7 +23819,7 @@
     },
     "/v1/reference/label-claims": {
       "get": {
-        "description": "What CIB&RC registered labels say for the crop (owner, 2026-10-26: label information\nonly). Only claims valid today whose active ingredient is neither banned nor restricted\nfor the crop pass the legal gate; doses are quoted exactly as the label states them.\nThe app shows this as label information with \"read the label; confirm with KVK\", never\nas BagMitra's own advice.",
+        "description": "What CIB&RC registered labels say for the crop (owner, 2026-10-26: label information\nonly). Only claims valid today whose active ingredient is neither banned nor restricted\nfor the crop pass the legal check. Products, targets, PHI, interval and the number of\nsprays are given as printed; the dose and the dilution never are (owner 2026-11-14, Q160:\nnames yes, doses no). The app shows this as label information with the expert-advice\nnote, never as BagMitra's own advice.",
         "operationId": "reference_label_claims",
         "parameters": [
           {

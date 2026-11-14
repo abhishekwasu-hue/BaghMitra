@@ -1,5 +1,5 @@
 {
-  "_note": "Non-chemical IPM / orchard practices for santra and mosambi, from docs/agronomy/DRAFT_ipm_practices.md. Sourced DRAFT, not expert-reviewed (OPEN_QUESTIONS Q28, Q29). No chemical advice: no pesticide, fungicide, PGR or bio-product names, doses or remedy types, and no pointer to where a source gives them; where a source uses a product the item says to check the registered label information in the app or to ask the KVK. Marathi terms follow docs/agronomy/GLOSSARY_mr.md; every number in en is also in mr and hi (test). WP2 (2026-11-06, owner decision Q57): problem sections carry a 'profile' (what you see, when it comes, how to scout, a published action level where one exists, an organic / bio list and the label-screen target); each is shown as general information with its sources and the date read. The organic / bio list names registered bio-agents and botanicals only where a public source links them to that problem on citrus, without a dose (dose from the label), and home-made preparations only with the preparation and rate as published (top-level 'preparations'). Synthetic pesticides stay out of this file.",
+  "_note": "IPM / orchard practices for santra and mosambi, from docs/agronomy/DRAFT_ipm_practices.md, checked against their sources (Q128). Owner decision 2026-11-14 (OPEN_QUESTIONS Q160): inputs (fertilisers, pesticides, organic / bio inputs, traps and lures) may be named, but no text carries a dose, quantity, rate, concentration or per-tree / per-acre amount, and every line that recommends an input ends with the expert-advice note \"(तज्ज्ञांच्या सल्ल्याने करावे)\" / \"(विशेषज्ञ की सलाह से करें)\" / \"(follow expert advice)\" (api/src/bagmitra_api/kb/dose_rules.py; guard test api/tests/test_grower_doses.py). No ingredient banned or restricted for citrus is named. Marathi terms follow docs/agronomy/GLOSSARY_mr.md; every number in en is also in mr and hi (test). Problem sections carry a 'profile' (what you see, when it comes, how to scout, a published action level where one exists, an organic / bio list and the label-screen target), shown with their sources and the date read. Home-made preparations ('preparations') give the method as published, without amounts. Synthetic pesticides are not listed in this file; the label screen names the registered ones.",
   "status": "draft",
   "sources": {
     "C02": {
@@ -753,9 +753,9 @@
             "id": "b12",
             "kind": "registered",
             "labels": {
-              "en": "Trichoderma harzianum, Pseudomonas fluorescens and Mycorrhiza, mixed with FYM and put round each tree at the first signs of gummosis (PDKV, Nagpur mandarin; NIPHM also lists Trichoderma and Pseudomonas for soil use).",
-              "mr": "डिंक्याची पहिली लक्षणे दिसताच शेणखतात मिसळून प्रत्येक झाडाभोवती ट्रायकोडर्मा हर्जियानम, स्यूडोमोनास फ्लुरोसन्स व मायकोरायझा (डॉ. पंदेकृवि, नागपुरी संत्रा; NIPHM नेही जमिनीत वापरासाठी ट्रायकोडर्मा व स्यूडोमोनास दिले आहेत).",
-              "hi": "गमोसिस के पहले लक्षण पर गोबर खाद में मिलाकर हर पेड़ के चारों ओर ट्राइकोडर्मा हर्ज़ियानम, स्यूडोमोनास फ्लोरेसेंस और माइकोराइज़ा (पीडीकेवी, नागपुरी संतरा; NIPHM भी मिट्टी में ट्राइकोडर्मा और स्यूडोमोनास बताता है)।"
+              "en": "Trichoderma harzianum, Pseudomonas fluorescens and Mycorrhiza, mixed with FYM and put round each tree at the first signs of gummosis (PDKV, Nagpur mandarin; NIPHM also lists Trichoderma and Pseudomonas for soil use). (follow expert advice)",
+              "mr": "डिंक्याची पहिली लक्षणे दिसताच शेणखतात मिसळून प्रत्येक झाडाभोवती ट्रायकोडर्मा हर्जियानम, स्यूडोमोनास फ्लुरोसन्स व मायकोरायझा (डॉ. पंदेकृवि, नागपुरी संत्रा; NIPHM नेही जमिनीत वापरासाठी ट्रायकोडर्मा व स्यूडोमोनास दिले आहेत). (तज्ज्ञांच्या सल्ल्याने करावे)",
+              "hi": "गमोसिस के पहले लक्षण पर गोबर खाद में मिलाकर हर पेड़ के चारों ओर ट्राइकोडर्मा हर्ज़ियानम, स्यूडोमोनास फ्लोरेसेंस और माइकोराइज़ा (पीडीकेवी, नागपुरी संतरा; NIPHM भी मिट्टी में ट्राइकोडर्मा और स्यूडोमोनास बताता है)। (विशेषज्ञ की सलाह से करें)"
             },
             "source": "R21 p.6 #23; VK-NIPHM-STAGE (note on Trichoderma and Pseudomonas)",
             "source_keys": [
@@ -941,9 +941,9 @@
         {
           "id": 93,
           "labels": {
-            "en": "Do not give more nitrogen than needed: dense, leafy growth makes powdery mildew worse.",
-            "mr": "गरजेपेक्षा जास्त नत्र देऊ नका: दाट, पानांची जास्त वाढ भुरी वाढवते.",
-            "hi": "ज़रूरत से ज़्यादा नाइट्रोजन न दें: घनी, पत्तेदार बढ़वार चूर्णिल आसिता बढ़ाती है।"
+            "en": "Do not give more nitrogen than needed: dense, leafy growth makes powdery mildew worse. (follow expert advice)",
+            "mr": "गरजेपेक्षा जास्त नत्र देऊ नका: दाट, पानांची जास्त वाढ भुरी वाढवते. (तज्ज्ञांच्या सल्ल्याने करावे)",
+            "hi": "ज़रूरत से ज़्यादा नाइट्रोजन न दें: घनी, पत्तेदार बढ़वार चूर्णिल आसिता बढ़ाती है। (विशेषज्ञ की सलाह से करें)"
           },
           "source": "VK-NIPHM-STAGE \"Powdery mildew\"",
           "source_keys": [
@@ -1071,9 +1071,9 @@
         {
           "id": 26,
           "labels": {
-            "en": "Hang yellow sticky traps from the first week of June, about 2 m above ground, and change them monthly (source: 30 per acre).",
-            "mr": "जूनच्या पहिल्या आठवड्यापासून जमिनीपासून सुमारे २ मीटर उंचीवर पिवळे चिकट सापळे लावा आणि दर महिन्याला बदला (स्रोतानुसार एकरी ३०).",
-            "hi": "जून के पहले सप्ताह से ज़मीन से लगभग 2 मीटर ऊपर पीले चिपचिपे ट्रैप लगाएँ और हर महीने बदलें (स्रोत: 30 प्रति एकड़)।"
+            "en": "Hang yellow sticky traps from the first week of June, about 2 m above ground, and change them monthly. (follow expert advice)",
+            "mr": "जूनच्या पहिल्या आठवड्यापासून जमिनीपासून सुमारे २ मीटर उंचीवर पिवळे चिकट सापळे लावा आणि दर महिन्याला बदला. (तज्ज्ञांच्या सल्ल्याने करावे)",
+            "hi": "जून के पहले सप्ताह से ज़मीन से लगभग 2 मीटर ऊपर पीले चिपचिपे ट्रैप लगाएँ और हर महीने बदलें। (विशेषज्ञ की सलाह से करें)"
           },
           "source": "R25 p.10 #32",
           "source_keys": [
@@ -1189,9 +1189,9 @@
             "id": "b9",
             "kind": "home",
             "labels": {
-              "en": "PDKV's Ambia module for Nagpur mandarin starts in the first week of June with yellow sticky traps (30/acre) and neem oil 1 % on the new flush.",
-              "mr": "नागपुरी संत्र्यासाठी डॉ. पंदेकृविची आंबिया पद्धत जूनच्या पहिल्या आठवड्यात पिवळे चिकट सापळे (एकरी ३०) आणि नवतीवर १ % निंबोळी तेल यांनी सुरू होते.",
-              "hi": "नागपुरी संतरे के लिए पीडीकेवी की अंबिया पद्धति जून के पहले सप्ताह में पीले चिपचिपे ट्रैप (प्रति एकड़ 30) और नई फुटान पर 1 % नीम तेल से शुरू होती है।"
+              "en": "PDKV's Ambia module for Nagpur mandarin starts in the first week of June with yellow sticky traps and neem oil on the new flush. (follow expert advice)",
+              "mr": "नागपुरी संत्र्यासाठी डॉ. पंदेकृविची आंबिया पद्धत जूनच्या पहिल्या आठवड्यात पिवळे चिकट सापळे आणि नवतीवर निंबोळी तेल यांनी सुरू होते. (तज्ज्ञांच्या सल्ल्याने करावे)",
+              "hi": "नागपुरी संतरे के लिए पीडीकेवी की अंबिया पद्धति जून के पहले सप्ताह में पीले चिपचिपे ट्रैप और नई फुटान पर नीम तेल से शुरू होती है। (विशेषज्ञ की सलाह से करें)"
             },
             "source": "R25 p.10 #32",
             "source_keys": [
@@ -1206,9 +1206,9 @@
             "id": "b10",
             "kind": "home",
             "labels": {
-              "en": "TNAU lists NSKE 5 % against citrus psylla in March and again in September.",
-              "mr": "TNAU नुसार सिट्रस सायलाविरुद्ध मार्चमध्ये व पुन्हा सप्टेंबरमध्ये ५ % निंबोळी अर्क.",
-              "hi": "TNAU के अनुसार सिट्रस सिल्ला के विरुद्ध मार्च में और फिर सितंबर में 5 % नीम बीज अर्क।"
+              "en": "TNAU lists NSKE against citrus psylla in March and again in September. (follow expert advice)",
+              "mr": "TNAU नुसार सिट्रस सायलाविरुद्ध मार्चमध्ये व पुन्हा सप्टेंबरमध्ये निंबोळी अर्क. (तज्ज्ञांच्या सल्ल्याने करावे)",
+              "hi": "TNAU के अनुसार सिट्रस सिल्ला के विरुद्ध मार्च में और फिर सितंबर में नीम बीज अर्क। (विशेषज्ञ की सलाह से करें)"
             },
             "source": "TNAU-E331-PSY \"Shoot psyllid\"",
             "source_keys": [
@@ -1223,9 +1223,9 @@
             "id": "b11",
             "kind": "registered",
             "labels": {
-              "en": "Azadirachtin: MPKV used it against psylla on sweet orange.",
-              "mr": "ॲझाडिरॅक्टिन: MPKV ने मोसंबीवरील सायलाविरुद्ध वापरले.",
-              "hi": "एज़ाडिरेक्टिन: MPKV ने मोसंबी पर सिल्ला के विरुद्ध इस्तेमाल किया।"
+              "en": "Azadirachtin: MPKV used it against psylla on sweet orange. (follow expert advice)",
+              "mr": "ॲझाडिरॅक्टिन: MPKV ने मोसंबीवरील सायलाविरुद्ध वापरले. (तज्ज्ञांच्या सल्ल्याने करावे)",
+              "hi": "एज़ाडिरेक्टिन: MPKV ने मोसंबी पर सिल्ला के विरुद्ध इस्तेमाल किया। (विशेषज्ञ की सलाह से करें)"
             },
             "source": "MPKV-AICRP §8 l",
             "source_keys": [
@@ -1401,9 +1401,9 @@
         {
           "id": 31,
           "labels": {
-            "en": "Biological control: two releases of the green lacewing Mallada boninensis (eggs on shoots) during hasta bahar; ask your KVK for the release rate.",
-            "mr": "जैविक नियंत्रण: हस्त बहारात हिरव्या लेसविंगची (Mallada boninensis) अंडी फांद्यांवर दोनदा सोडा; किती सोडायची ते आपल्या KVK ला विचारा.",
-            "hi": "जैविक नियंत्रण: हस्त बहार में हरे लेसविंग Mallada boninensis (टहनियों पर अंडे) को दो बार छोड़ें; छोड़ने की मात्रा अपने KVK से पूछें।"
+            "en": "Biological control: two releases of the green lacewing Mallada boninensis (eggs on shoots) during hasta bahar; ask your KVK for the release rate. (follow expert advice)",
+            "mr": "जैविक नियंत्रण: हस्त बहारात हिरव्या लेसविंगची (Mallada boninensis) अंडी फांद्यांवर दोनदा सोडा; किती सोडायची ते आपल्या KVK ला विचारा. (तज्ज्ञांच्या सल्ल्याने करावे)",
+            "hi": "जैविक नियंत्रण: हस्त बहार में हरे लेसविंग Mallada boninensis (टहनियों पर अंडे) को दो बार छोड़ें; छोड़ने की मात्रा अपने KVK से पूछें। (विशेषज्ञ की सलाह से करें)"
           },
           "source": "P1 Entomology recs",
           "source_keys": [
@@ -1444,9 +1444,9 @@
             "id": "b13",
             "kind": "home",
             "labels": {
-              "en": "Neem oil 1 % (emulsified) worked best against black fly nymphs in PDKV trials, followed by NSKE 5 %.",
-              "mr": "डॉ. पंदेकृविच्या प्रयोगांत काळ्या माशीच्या पिल्लांविरुद्ध १ % निंबोळी तेल (इमल्शन) सर्वोत्तम ठरले, त्यानंतर ५ % निंबोळी अर्क.",
-              "hi": "पीडीकेवी प्रयोगों में काली मक्खी के शिशुओं पर 1 % नीम तेल (इमल्शन) सबसे अच्छा रहा, उसके बाद 5 % नीम बीज अर्क।"
+              "en": "Neem oil (emulsified) worked best against black fly nymphs in PDKV trials, followed by NSKE. (follow expert advice)",
+              "mr": "डॉ. पंदेकृविच्या प्रयोगांत काळ्या माशीच्या पिल्लांविरुद्ध निंबोळी तेल (इमल्शन) सर्वोत्तम ठरले, त्यानंतर निंबोळी अर्क. (तज्ज्ञांच्या सल्ल्याने करावे)",
+              "hi": "पीडीकेवी प्रयोगों में काली मक्खी के शिशुओं पर नीम तेल (इमल्शन) सबसे अच्छा रहा, उसके बाद नीम बीज अर्क। (विशेषज्ञ की सलाह से करें)"
             },
             "source": "P1 Entomology recs (neem products against black fly nymphs)",
             "source_keys": [
@@ -1461,9 +1461,9 @@
             "id": "b14",
             "kind": "registered",
             "labels": {
-              "en": "Azadirachtin: PDKV times it after half the eggs have hatched, with a second round 15 days later.",
-              "mr": "ॲझाडिरॅक्टिन: डॉ. पंदेकृवि निम्मी अंडी उबल्यानंतर आणि १५ दिवसांनी दुसऱ्यांदा अशी वेळ सांगते.",
-              "hi": "एज़ाडिरेक्टिन: पीडीकेवी आधे अंडे फूटने के बाद और 15 दिन बाद दूसरी बार का समय बताता है।"
+              "en": "Azadirachtin: PDKV times it after half the eggs have hatched, with a second round 15 days later. (follow expert advice)",
+              "mr": "ॲझाडिरॅक्टिन: डॉ. पंदेकृवि निम्मी अंडी उबल्यानंतर आणि १५ दिवसांनी दुसऱ्यांदा अशी वेळ सांगते. (तज्ज्ञांच्या सल्ल्याने करावे)",
+              "hi": "एज़ाडिरेक्टिन: पीडीकेवी आधे अंडे फूटने के बाद और 15 दिन बाद दूसरी बार का समय बताता है। (विशेषज्ञ की सलाह से करें)"
             },
             "source": "P1 Entomology recs (black fly, after 50 % egg hatch)",
             "source_keys": [
@@ -1730,9 +1730,9 @@
             "id": "b1",
             "kind": "registered",
             "labels": {
-              "en": "Azadirachtin: an MPKV (AICRP) citrus trial used it as the first step against aphids, thrips and black fly.",
-              "mr": "ॲझाडिरॅक्टिन: MPKV (AICRP) च्या लिंबूवर्गीय प्रयोगात मावा, फुलकिडे व काळ्या माशीविरुद्ध पहिली पायरी म्हणून वापरले.",
-              "hi": "एज़ाडिरेक्टिन: MPKV (AICRP) के नींबूवर्गीय प्रयोग में माहू, थ्रिप्स और काली मक्खी के विरुद्ध पहले कदम के रूप में इस्तेमाल।"
+              "en": "Azadirachtin: an MPKV (AICRP) citrus trial used it as the first step against aphids, thrips and black fly. (follow expert advice)",
+              "mr": "ॲझाडिरॅक्टिन: MPKV (AICRP) च्या लिंबूवर्गीय प्रयोगात मावा, फुलकिडे व काळ्या माशीविरुद्ध पहिली पायरी म्हणून वापरले. (तज्ज्ञांच्या सल्ल्याने करावे)",
+              "hi": "एज़ाडिरेक्टिन: MPKV (AICRP) के नींबूवर्गीय प्रयोग में माहू, थ्रिप्स और काली मक्खी के विरुद्ध पहले कदम के रूप में इस्तेमाल। (विशेषज्ञ की सलाह से करें)"
             },
             "source": "MPKV-AICRP §8 n",
             "source_keys": [
@@ -1751,9 +1751,9 @@
         {
           "id": 74,
           "labels": {
-            "en": "Hang yellow sticky traps.",
-            "mr": "पिवळे चिकट सापळे लावा.",
-            "hi": "पीले चिपचिपे ट्रैप लगाएँ।"
+            "en": "Hang yellow sticky traps. (follow expert advice)",
+            "mr": "पिवळे चिकट सापळे लावा. (तज्ज्ञांच्या सल्ल्याने करावे)",
+            "hi": "पीले चिपचिपे ट्रैप लगाएँ। (विशेषज्ञ की सलाह से करें)"
           },
           "source": "VK-NIPHM-STAGE \"Citrus aphid\"; TNAU-PESTS \"Citrus aphids\"",
           "source_keys": [
@@ -1785,9 +1785,9 @@
         {
           "id": 76,
           "labels": {
-            "en": "TNAU lists the release of the ladybird beetle Menochilus sexmaculatus at 50 per tree.",
-            "mr": "TNAU नुसार मेनोकायलस सेक्समॅक्युलॅटस हा ढालकिडा झाडामागे ५० सोडावा.",
-            "hi": "TNAU के अनुसार लेडीबर्ड भृंग मेनोकाइलस सेक्समैकुलेटस प्रति पेड़ 50 छोड़ें।"
+            "en": "TNAU lists the release of the ladybird beetle Menochilus sexmaculatus. (follow expert advice)",
+            "mr": "TNAU नुसार मेनोकायलस सेक्समॅक्युलॅटस हा ढालकिडा सोडावा. (तज्ज्ञांच्या सल्ल्याने करावे)",
+            "hi": "TNAU के अनुसार लेडीबर्ड भृंग मेनोकाइलस सेक्समैकुलेटस छोड़ें। (विशेषज्ञ की सलाह से करें)"
           },
           "source": "TNAU-E331-APH \"Aphid\"",
           "source_keys": [
@@ -1869,9 +1869,9 @@
             "id": "b2",
             "kind": "registered",
             "labels": {
-              "en": "Azadirachtin: an MPKV (AICRP) citrus trial used it as the first step against thrips, aphids and black fly.",
-              "mr": "ॲझाडिरॅक्टिन: MPKV (AICRP) च्या लिंबूवर्गीय प्रयोगात फुलकिडे, मावा व काळ्या माशीविरुद्ध पहिली पायरी म्हणून वापरले.",
-              "hi": "एज़ाडिरेक्टिन: MPKV (AICRP) के नींबूवर्गीय प्रयोग में थ्रिप्स, माहू और काली मक्खी के विरुद्ध पहले कदम के रूप में इस्तेमाल।"
+              "en": "Azadirachtin: an MPKV (AICRP) citrus trial used it as the first step against thrips, aphids and black fly. (follow expert advice)",
+              "mr": "ॲझाडिरॅक्टिन: MPKV (AICRP) च्या लिंबूवर्गीय प्रयोगात फुलकिडे, मावा व काळ्या माशीविरुद्ध पहिली पायरी म्हणून वापरले. (तज्ज्ञांच्या सल्ल्याने करावे)",
+              "hi": "एज़ाडिरेक्टिन: MPKV (AICRP) के नींबूवर्गीय प्रयोग में थ्रिप्स, माहू और काली मक्खी के विरुद्ध पहले कदम के रूप में इस्तेमाल। (विशेषज्ञ की सलाह से करें)"
             },
             "source": "MPKV-AICRP §8 n",
             "source_keys": [
@@ -2044,9 +2044,9 @@
         {
           "id": 83,
           "labels": {
-            "en": "Release the Australian ladybird beetle Cryptolaemus montrouzieri at 10 beetles per tree; it does not do well in severe winter.",
-            "mr": "ऑस्ट्रेलियन ढालकिडा क्रिप्टोलिमस माँट्रोझिएरी झाडामागे १० भुंगे सोडा; कडक हिवाळ्यात तो चांगला टिकत नाही.",
-            "hi": "ऑस्ट्रेलियाई लेडीबर्ड भृंग क्रिप्टोलेमस मोंट्रोज़िएरी प्रति पेड़ 10 भृंग छोड़ें; कड़ी सर्दी में यह ठीक नहीं टिकता।"
+            "en": "Release the Australian ladybird beetle Cryptolaemus montrouzieri; it does not do well in severe winter. (follow expert advice)",
+            "mr": "ऑस्ट्रेलियन ढालकिडा क्रिप्टोलिमस माँट्रोझिएरी सोडा; कडक हिवाळ्यात तो चांगला टिकत नाही. (तज्ज्ञांच्या सल्ल्याने करावे)",
+            "hi": "ऑस्ट्रेलियाई लेडीबर्ड भृंग क्रिप्टोलेमस मोंट्रोज़िएरी छोड़ें; कड़ी सर्दी में यह ठीक नहीं टिकता। (विशेषज्ञ की सलाह से करें)"
           },
           "source": "VK-NIPHM-STAGE \"Mealybug\" (10 beetles per tree); NRCC-MB p.144 (winter)",
           "source_keys": [
@@ -2133,9 +2133,9 @@
             "id": "b3",
             "kind": "home",
             "labels": {
-              "en": "NSKE 5 % in the Nagpur mandarin nursery, 30 days after the buds sprout (PDKV).",
-              "mr": "नागपुरी संत्र्याच्या रोपवाटिकेत डोळे फुटल्यानंतर ३० दिवसांनी ५ % निंबोळी अर्क (डॉ. पंदेकृवि).",
-              "hi": "नागपुरी संतरे की नर्सरी में आँख फूटने के 30 दिन बाद 5 % नीम बीज अर्क (पीडीकेवी)।"
+              "en": "NSKE in the Nagpur mandarin nursery, 30 days after the buds sprout (PDKV). (follow expert advice)",
+              "mr": "नागपुरी संत्र्याच्या रोपवाटिकेत डोळे फुटल्यानंतर ३० दिवसांनी निंबोळी अर्क (डॉ. पंदेकृवि). (तज्ज्ञांच्या सल्ल्याने करावे)",
+              "hi": "नागपुरी संतरे की नर्सरी में आँख फूटने के 30 दिन बाद नीम बीज अर्क (पीडीकेवी)। (विशेषज्ञ की सलाह से करें)"
             },
             "source": "R23 p.8 #38",
             "source_keys": [
@@ -2150,9 +2150,9 @@
             "id": "b4",
             "kind": "home",
             "labels": {
-              "en": "Neem oil 1 % as soon as the attack begins (PDKV AICRP citrus).",
-              "mr": "प्रादुर्भाव सुरू होताच १ % निंबोळी तेल (डॉ. पंदेकृवि AICRP लिंबूवर्गीय).",
-              "hi": "हमला शुरू होते ही 1 % नीम तेल (पीडीकेवी AICRP नींबूवर्गीय)।"
+              "en": "Neem oil as soon as the attack begins (PDKV AICRP citrus). (follow expert advice)",
+              "mr": "प्रादुर्भाव सुरू होताच निंबोळी तेल (डॉ. पंदेकृवि AICRP लिंबूवर्गीय). (तज्ज्ञांच्या सल्ल्याने करावे)",
+              "hi": "हमला शुरू होते ही नीम तेल (पीडीकेवी AICRP नींबूवर्गीय)। (विशेषज्ञ की सलाह से करें)"
             },
             "source": "P1 Entomology recs (leaf miner)",
             "source_keys": [
@@ -2167,9 +2167,9 @@
             "id": "b5",
             "kind": "registered",
             "labels": {
-              "en": "Neem formulation: used by MPKV (AICRP) against leaf miner on nursery and young orchards during new flush.",
-              "mr": "निंबाचे फॉर्म्युलेशन: MPKV (AICRP) ने रोपवाटिका व लहान बागांत नवतीच्या काळात पाने पोखरणाऱ्या अळीविरुद्ध वापरले.",
-              "hi": "नीम फ़ॉर्मूलेशन: MPKV (AICRP) ने नर्सरी और छोटे बागों में नई फुटान के समय पत्ती सुरंगक के विरुद्ध इस्तेमाल किया।"
+              "en": "Neem formulation: used by MPKV (AICRP) against leaf miner on nursery and young orchards during new flush. (follow expert advice)",
+              "mr": "निंबाचे फॉर्म्युलेशन: MPKV (AICRP) ने रोपवाटिका व लहान बागांत नवतीच्या काळात पाने पोखरणाऱ्या अळीविरुद्ध वापरले. (तज्ज्ञांच्या सल्ल्याने करावे)",
+              "hi": "नीम फ़ॉर्मूलेशन: MPKV (AICRP) ने नर्सरी और छोटे बागों में नई फुटान के समय पत्ती सुरंगक के विरुद्ध इस्तेमाल किया। (विशेषज्ञ की सलाह से करें)"
             },
             "source": "MPKV-AICRP §8 m",
             "source_keys": [
@@ -2188,9 +2188,9 @@
         {
           "id": 85,
           "labels": {
-            "en": "Hang pheromone traps (about 5 per acre).",
-            "mr": "फेरोमोन सापळे लावा (एकरी सुमारे ५).",
-            "hi": "फेरोमोन ट्रैप लगाएँ (लगभग 5 प्रति एकड़)।"
+            "en": "Hang pheromone traps. (follow expert advice)",
+            "mr": "फेरोमोन सापळे लावा. (तज्ज्ञांच्या सल्ल्याने करावे)",
+            "hi": "फेरोमोन ट्रैप लगाएँ। (विशेषज्ञ की सलाह से करें)"
           },
           "source": "VK-NIPHM-STAGE \"Citrus leaf miner\"",
           "source_keys": [
@@ -2244,9 +2244,9 @@
         {
           "id": 39,
           "labels": {
-            "en": "Fruit fly: install lure traps at 20 per hectare from the first week of October (first week of August in the alternative module) and change the lure every 15–20 days; check the registered label information in the app for the lure.",
-            "mr": "फळमाशी: ऑक्टोबरच्या पहिल्या आठवड्यापासून (पर्यायी पद्धतीत ऑगस्टच्या पहिल्या आठवड्यापासून) हेक्टरी २० ल्युअर सापळे लावा आणि ल्युअर दर १५–२० दिवसांनी बदला; ल्युअरसाठी ॲपमधील नोंदणीकृत लेबल माहिती पाहा.",
-            "hi": "फल मक्खी: अक्टूबर के पहले सप्ताह से (वैकल्पिक पद्धति में अगस्त के पहले सप्ताह से) प्रति हेक्टेयर 20 ल्यूर ट्रैप लगाएँ और ल्यूर हर 15–20 दिन में बदलें; ल्यूर के लिए ऐप में पंजीकृत लेबल की जानकारी देखें।"
+            "en": "Fruit fly: install lure traps from the first week of October (first week of August in the alternative module) and change the lure every 15–20 days; check the registered label information in the app for the lure. (follow expert advice)",
+            "mr": "फळमाशी: ऑक्टोबरच्या पहिल्या आठवड्यापासून (पर्यायी पद्धतीत ऑगस्टच्या पहिल्या आठवड्यापासून) ल्युअर सापळे लावा आणि ल्युअर दर १५–२० दिवसांनी बदला; ल्युअरसाठी ॲपमधील नोंदणीकृत लेबल माहिती पाहा. (तज्ज्ञांच्या सल्ल्याने करावे)",
+            "hi": "फल मक्खी: अक्टूबर के पहले सप्ताह से (वैकल्पिक पद्धति में अगस्त के पहले सप्ताह से) ल्यूर ट्रैप लगाएँ और ल्यूर हर 15–20 दिन में बदलें; ल्यूर के लिए ऐप में पंजीकृत लेबल की जानकारी देखें। (विशेषज्ञ की सलाह से करें)"
           },
           "source": "R25 p.10 #32",
           "source_keys": [
@@ -2293,9 +2293,9 @@
             "id": "b15",
             "kind": "home",
             "labels": {
-              "en": "Fruit-sucking moth: PDKV recommends neem seed extract 5 % or neem oil 1 %.",
-              "mr": "फळातील रस शोषणारा पतंग: डॉ. पंदेकृवि ५ % निंबोळी अर्क किंवा १ % निंबोळी तेलाची शिफारस करते.",
-              "hi": "फल-चूसक पतंगा: पीडीकेवी 5 % नीम बीज अर्क या 1 % नीम तेल की सिफ़ारिश करता है।"
+              "en": "Fruit-sucking moth: PDKV recommends neem seed extract or neem oil. (follow expert advice)",
+              "mr": "फळातील रस शोषणारा पतंग: डॉ. पंदेकृवि निंबोळी अर्क किंवा निंबोळी तेलाची शिफारस करते. (तज्ज्ञांच्या सल्ल्याने करावे)",
+              "hi": "फल-चूसक पतंगा: पीडीकेवी नीम बीज अर्क या नीम तेल की सिफ़ारिश करता है। (विशेषज्ञ की सलाह से करें)"
             },
             "source": "P1 Entomology recs (fruit-sucking moth)",
             "source_keys": [
@@ -2310,9 +2310,9 @@
             "id": "b16",
             "kind": "registered",
             "labels": {
-              "en": "Azadirachtin is in the same PDKV list for the fruit-sucking moth.",
-              "mr": "ॲझाडिरॅक्टिन फळातील रस शोषणाऱ्या पतंगासाठी डॉ. पंदेकृविच्या त्याच यादीत आहे.",
-              "hi": "एज़ाडिरेक्टिन फल-चूसक पतंगे के लिए पीडीकेवी की उसी सूची में है।"
+              "en": "Azadirachtin is in the same PDKV list for the fruit-sucking moth. (follow expert advice)",
+              "mr": "ॲझाडिरॅक्टिन फळातील रस शोषणाऱ्या पतंगासाठी डॉ. पंदेकृविच्या त्याच यादीत आहे. (तज्ज्ञांच्या सल्ल्याने करावे)",
+              "hi": "एज़ाडिरेक्टिन फल-चूसक पतंगे के लिए पीडीकेवी की उसी सूची में है। (विशेषज्ञ की सलाह से करें)"
             },
             "source": "P1 Entomology recs (fruit-sucking moth)",
             "source_keys": [
@@ -2584,9 +2584,9 @@
         {
           "id": 51,
           "labels": {
-            "en": "Bahar treatment: withhold water until the leaves wilt. For deeper soils the source adds root exposure: about 7–10 cm of soil removed within a 40–60 cm radius. Then re-cover the roots with soil mixed with FYM and irrigate at once.",
-            "mr": "बहार धरणे: पाने कोमेजेपर्यंत पाणी तोडा. खोल जमिनीत स्रोत मुळे उघडी करण्यासही सांगतो: ४०–६० सें.मी. त्रिज्येत सुमारे ७–१० सें.मी. माती काढणे. नंतर मुळे शेणखत मिसळलेल्या मातीने झाका आणि लगेच पाणी द्या.",
-            "hi": "बहार उपचार: पत्तियाँ मुरझाने तक पानी रोकें। गहरी मिट्टी के लिए स्रोत जड़ें खोलना भी बताता है: 40–60 सें.मी. घेरे में लगभग 7–10 सें.मी. मिट्टी हटाना। फिर जड़ों को गोबर खाद मिली मिट्टी से ढकें और तुरंत सिंचाई करें।"
+            "en": "Bahar treatment: withhold water until the leaves wilt. For deeper soils the source adds root exposure: about 7–10 cm of soil removed within a 40–60 cm radius. Then re-cover the roots with soil mixed with FYM and irrigate at once. (follow expert advice)",
+            "mr": "बहार धरणे: पाने कोमेजेपर्यंत पाणी तोडा. खोल जमिनीत स्रोत मुळे उघडी करण्यासही सांगतो: ४०–६० सें.मी. त्रिज्येत सुमारे ७–१० सें.मी. माती काढणे. नंतर मुळे शेणखत मिसळलेल्या मातीने झाका आणि लगेच पाणी द्या. (तज्ज्ञांच्या सल्ल्याने करावे)",
+            "hi": "बहार उपचार: पत्तियाँ मुरझाने तक पानी रोकें। गहरी मिट्टी के लिए स्रोत जड़ें खोलना भी बताता है: 40–60 सें.मी. घेरे में लगभग 7–10 सें.मी. मिट्टी हटाना। फिर जड़ों को गोबर खाद मिली मिट्टी से ढकें और तुरंत सिंचाई करें। (विशेषज्ञ की सलाह से करें)"
           },
           "source": "N1 §5.13",
           "source_keys": [
@@ -2740,9 +2740,9 @@
         {
           "id": 60,
           "labels": {
-            "en": "Grow a green manure crop (e.g. sunhemp) in kharif and plough it in before flowering.",
-            "mr": "खरिपात हिरवळीचे पीक (उदा. ताग) घ्या आणि फुलोऱ्याआधी नांगरून जमिनीत गाडा.",
-            "hi": "खरीफ़ में हरी खाद की फसल (जैसे सनई) उगाएँ और फूल आने से पहले जुताई करके मिट्टी में मिला दें।"
+            "en": "Grow a green manure crop (e.g. sunhemp) in kharif and plough it in before flowering. (follow expert advice)",
+            "mr": "खरिपात हिरवळीचे पीक (उदा. ताग) घ्या आणि फुलोऱ्याआधी नांगरून जमिनीत गाडा. (तज्ज्ञांच्या सल्ल्याने करावे)",
+            "hi": "खरीफ़ में हरी खाद की फसल (जैसे सनई) उगाएँ और फूल आने से पहले जुताई करके मिट्टी में मिला दें। (विशेषज्ञ की सलाह से करें)"
           },
           "source": "P1 Horticulture recs; C05 \"Intercropping\"",
           "source_keys": [
@@ -2757,9 +2757,9 @@
         {
           "id": 61,
           "labels": {
-            "en": "Supply part of the nitrogen through organic manure (FYM, cakes); ask your KVK for the quantities.",
-            "mr": "नत्राचा काही भाग सेंद्रिय खतांतून (शेणखत, पेंड) द्या; प्रमाण आपल्या KVK ला विचारा.",
-            "hi": "नाइट्रोजन का कुछ हिस्सा जैविक खाद (गोबर खाद, खली) से दें; मात्रा अपने KVK से पूछें।"
+            "en": "Supply part of the nitrogen through organic manure (FYM, cakes); ask your KVK for the quantities. (follow expert advice)",
+            "mr": "नत्राचा काही भाग सेंद्रिय खतांतून (शेणखत, पेंड) द्या; प्रमाण आपल्या KVK ला विचारा. (तज्ज्ञांच्या सल्ल्याने करावे)",
+            "hi": "नाइट्रोजन का कुछ हिस्सा जैविक खाद (गोबर खाद, खली) से दें; मात्रा अपने KVK से पूछें। (विशेषज्ञ की सलाह से करें)"
           },
           "source": "N1 §5.6",
           "source_keys": [
@@ -2826,9 +2826,9 @@
         {
           "id": 103,
           "labels": {
-            "en": "Nagpur mandarin (PDKV): give the feeding in two parts: the first when the bahar stress ends, the rest about two months after fruit set. Ask your KVK or a soil-testing lab for the quantities.",
-            "mr": "नागपुरी संत्रा (डॉ. पंदेकृवि): पोषण दोन भागांत द्या: पहिला बहाराचा ताण संपताना, उरलेला फळधारणेनंतर सुमारे दोन महिन्यांनी. मात्रेसाठी आपल्या KVK ला किंवा माती परीक्षण प्रयोगशाळेला विचारा.",
-            "hi": "नागपुरी संतरा (पीडीकेवी): पोषण दो भागों में दें: पहला बहार का तनाव ख़त्म होने पर, बाकी फल लगने के लगभग दो महीने बाद। मात्रा के लिए अपने KVK या मिट्टी जाँच प्रयोगशाला से पूछें।"
+            "en": "Nagpur mandarin (PDKV): give the feeding in two parts: the first when the bahar stress ends, the rest about two months after fruit set. Ask your KVK or a soil-testing lab for the quantities. (follow expert advice)",
+            "mr": "नागपुरी संत्रा (डॉ. पंदेकृवि): पोषण दोन भागांत द्या: पहिला बहाराचा ताण संपताना, उरलेला फळधारणेनंतर सुमारे दोन महिन्यांनी. मात्रेसाठी आपल्या KVK ला किंवा माती परीक्षण प्रयोगशाळेला विचारा. (तज्ज्ञांच्या सल्ल्याने करावे)",
+            "hi": "नागपुरी संतरा (पीडीकेवी): पोषण दो भागों में दें: पहला बहार का तनाव ख़त्म होने पर, बाकी फल लगने के लगभग दो महीने बाद। मात्रा के लिए अपने KVK या मिट्टी जाँच प्रयोगशाला से पूछें। (विशेषज्ञ की सलाह से करें)"
           },
           "source": "P1 Horticulture recs (two splits: end of stress, two months after fruit set)",
           "source_keys": [
@@ -2841,9 +2841,9 @@
         {
           "id": 104,
           "labels": {
-            "en": "Young trees (1–5 years): give manures in 2 to 3 equal parts, in December–January, June–July and September, by the ring method.",
-            "mr": "लहान झाडे (१–५ वर्षे): खत २ ते ३ समान भागांत, डिसेंबर–जानेवारी, जून–जुलै व सप्टेंबरमध्ये, आळे (रिंग) पद्धतीने द्या.",
-            "hi": "छोटे पेड़ (1–5 वर्ष): खाद 2 से 3 बराबर भागों में, दिसंबर–जनवरी, जून–जुलाई और सितंबर में, रिंग विधि से दें।"
+            "en": "Young trees (1–5 years): give manures in 2 to 3 equal parts, in December–January, June–July and September, by the ring method. (follow expert advice)",
+            "mr": "लहान झाडे (१–५ वर्षे): खत २ ते ३ समान भागांत, डिसेंबर–जानेवारी, जून–जुलै व सप्टेंबरमध्ये, आळे (रिंग) पद्धतीने द्या. (तज्ज्ञांच्या सल्ल्याने करावे)",
+            "hi": "छोटे पेड़ (1–5 वर्ष): खाद 2 से 3 बराबर भागों में, दिसंबर–जनवरी, जून–जुलाई और सितंबर में, रिंग विधि से दें। (विशेषज्ञ की सलाह से करें)"
           },
           "source": "VK-NIPHM-STAGE \"Vegetative growth stage (1-5 years)\"",
           "source_keys": [
@@ -2856,9 +2856,9 @@
         {
           "id": 105,
           "labels": {
-            "en": "Put the manure in the active root zone, cover it with soil and give a light irrigation.",
-            "mr": "खत सक्रिय मुळांच्या भागात द्या, मातीने झाका आणि हलके ओलित द्या.",
-            "hi": "खाद सक्रिय जड़ क्षेत्र में डालें, मिट्टी से ढकें और हल्की सिंचाई करें।"
+            "en": "Put the manure in the active root zone, cover it with soil and give a light irrigation. (follow expert advice)",
+            "mr": "खत सक्रिय मुळांच्या भागात द्या, मातीने झाका आणि हलके ओलित द्या. (तज्ज्ञांच्या सल्ल्याने करावे)",
+            "hi": "खाद सक्रिय जड़ क्षेत्र में डालें, मिट्टी से ढकें और हल्की सिंचाई करें। (विशेषज्ञ की सलाह से करें)"
           },
           "source": "P1 Horticulture recs (organic mixture in the active root zone)",
           "source_keys": [
@@ -2874,9 +2874,9 @@
         {
           "id": 106,
           "labels": {
-            "en": "Waibar disorder (PDKV, Vidarbha): the feeding is split into three parts: at stress release in January, a month later in February and a month after that in March. Ask your KVK for the quantities.",
-            "mr": "वायबार विकृती (डॉ. पंदेकृवि, विदर्भ): पोषण तीन भागांत: जानेवारीत ताण सोडताना, महिनाभराने फेब्रुवारीत आणि त्यानंतर महिनाभराने मार्चमध्ये. मात्रेसाठी आपल्या KVK ला विचारा.",
-            "hi": "वायबार विकार (पीडीकेवी, विदर्भ): पोषण तीन भागों में: जनवरी में तनाव छोड़ते समय, एक महीने बाद फरवरी में और उसके एक महीने बाद मार्च में। मात्रा के लिए अपने KVK से पूछें।"
+            "en": "Waibar disorder (PDKV, Vidarbha): the feeding is split into three parts: at stress release in January, a month later in February and a month after that in March. Ask your KVK for the quantities. (follow expert advice)",
+            "mr": "वायबार विकृती (डॉ. पंदेकृवि, विदर्भ): पोषण तीन भागांत: जानेवारीत ताण सोडताना, महिनाभराने फेब्रुवारीत आणि त्यानंतर महिनाभराने मार्चमध्ये. मात्रेसाठी आपल्या KVK ला विचारा. (तज्ज्ञांच्या सल्ल्याने करावे)",
+            "hi": "वायबार विकार (पीडीकेवी, विदर्भ): पोषण तीन भागों में: जनवरी में तनाव छोड़ते समय, एक महीने बाद फरवरी में और उसके एक महीने बाद मार्च में। मात्रा के लिए अपने KVK से पूछें। (विशेषज्ञ की सलाह से करें)"
           },
           "source": "R25 p.9 #20",
           "source_keys": [
@@ -3029,9 +3029,9 @@
             "id": "b6",
             "kind": "registered",
             "labels": {
-              "en": "Trichoderma harzianum and Pseudomonas fluorescens with azadirachtin (spray) in January are part of MPKV's organic module for Ambia sweet orange on medium black soil.",
-              "mr": "मध्यम काळ्या जमिनीतील आंबिया मोसंबीसाठी MPKV च्या सेंद्रिय पद्धतीत जानेवारीत ट्रायकोडर्मा हर्जियानम व स्यूडोमोनास फ्लुरोसन्स आणि ॲझाडिरॅक्टिन (फवारणी) आहेत.",
-              "hi": "मध्यम काली मिट्टी में अंबिया मोसंबी के लिए MPKV की जैविक पद्धति में जनवरी में ट्राइकोडर्मा हर्ज़ियानम और स्यूडोमोनास फ्लोरेसेंस और एज़ाडिरेक्टिन (छिड़काव) हैं।"
+              "en": "Trichoderma harzianum and Pseudomonas fluorescens with azadirachtin (spray) in January are part of MPKV's organic module for Ambia sweet orange on medium black soil. (follow expert advice)",
+              "mr": "मध्यम काळ्या जमिनीतील आंबिया मोसंबीसाठी MPKV च्या सेंद्रिय पद्धतीत जानेवारीत ट्रायकोडर्मा हर्जियानम व स्यूडोमोनास फ्लुरोसन्स आणि ॲझाडिरॅक्टिन (फवारणी) आहेत. (तज्ज्ञांच्या सल्ल्याने करावे)",
+              "hi": "मध्यम काली मिट्टी में अंबिया मोसंबी के लिए MPKV की जैविक पद्धति में जनवरी में ट्राइकोडर्मा हर्ज़ियानम और स्यूडोमोनास फ्लोरेसेंस और एज़ाडिरेक्टिन (छिड़काव) हैं। (विशेषज्ञ की सलाह से करें)"
             },
             "source": "MPKV-AICRP §8 d",
             "source_keys": [
@@ -3045,9 +3045,9 @@
             "id": "b7",
             "kind": "registered",
             "labels": {
-              "en": "Azadirachtin: against psylla on sweet orange, twice 15 days apart at the pest's peak (MPKV).",
-              "mr": "ॲझाडिरॅक्टिन मोसंबीवरील सायलाविरुद्ध, किडीच्या शिखर काळात १५ दिवसांच्या अंतराने दोनदा (MPKV).",
-              "hi": "एज़ाडिरेक्टिन मोसंबी पर सिल्ला के विरुद्ध, कीट के चरम समय में 15 दिन के अंतर पर दो बार (MPKV)।"
+              "en": "Azadirachtin: against psylla on sweet orange, twice 15 days apart at the pest's peak (MPKV). (follow expert advice)",
+              "mr": "ॲझाडिरॅक्टिन मोसंबीवरील सायलाविरुद्ध, किडीच्या शिखर काळात १५ दिवसांच्या अंतराने दोनदा (MPKV). (तज्ज्ञांच्या सल्ल्याने करावे)",
+              "hi": "एज़ाडिरेक्टिन मोसंबी पर सिल्ला के विरुद्ध, कीट के चरम समय में 15 दिन के अंतर पर दो बार (MPKV)। (विशेषज्ञ की सलाह से करें)"
             },
             "source": "MPKV-AICRP §8 l",
             "source_keys": [
@@ -3061,9 +3061,9 @@
             "id": "b8",
             "kind": "home",
             "labels": {
-              "en": "Neem oil 1 % (10 ml per litre) at colour break against the fruit-sucking moth on sweet orange; in MPKV trials it cut fruit drop by 10–24 %.",
-              "mr": "मोसंबीवरील फळातील रस शोषणाऱ्या पतंगाविरुद्ध फळे रंग बदलू लागताना १ % निंबोळी तेल (प्रति लिटर १० मि.ली.); MPKV च्या प्रयोगांत फळगळ १०–२४ % कमी झाली.",
-              "hi": "मोसंबी पर फल-चूसक पतंगे के विरुद्ध रंग बदलते समय 1 % नीम तेल (प्रति लीटर 10 मि.ली.); MPKV प्रयोगों में फल गिरना 10–24 % घटा।"
+              "en": "Neem oil at colour break against the fruit-sucking moth on sweet orange; in MPKV trials it cut fruit drop by 10–24 %. (follow expert advice)",
+              "mr": "मोसंबीवरील फळातील रस शोषणाऱ्या पतंगाविरुद्ध फळे रंग बदलू लागताना निंबोळी तेल; MPKV च्या प्रयोगांत फळगळ १०–२४ % कमी झाली. (तज्ज्ञांच्या सल्ल्याने करावे)",
+              "hi": "मोसंबी पर फल-चूसक पतंगे के विरुद्ध रंग बदलते समय नीम तेल; MPKV प्रयोगों में फल गिरना 10–24 % घटा। (विशेषज्ञ की सलाह से करें)"
             },
             "source": "MPKV-AICRP §8 o",
             "source_keys": [
@@ -3126,9 +3126,9 @@
         {
           "id": 102,
           "labels": {
-            "en": "MPKV's organic module for Ambia sweet orange supplies 75 % of the nitrogen of the recommended dose as vermicompost, given in January.",
-            "mr": "आंबिया मोसंबीसाठी MPKV च्या सेंद्रिय पद्धतीत शिफारस केलेल्या मात्रेतील ७५ % नत्र गांडूळखतातून, जानेवारीत दिले जाते.",
-            "hi": "अंबिया मोसंबी के लिए MPKV की जैविक पद्धति में अनुशंसित मात्रा का 75 % नाइट्रोजन वर्मीकम्पोस्ट से, जनवरी में दिया जाता है।"
+            "en": "MPKV's organic module for Ambia sweet orange supplies part of the nitrogen as vermicompost, given in January. (follow expert advice)",
+            "mr": "आंबिया मोसंबीसाठी MPKV च्या सेंद्रिय पद्धतीत नत्राचा काही भाग गांडूळखतातून, जानेवारीत दिला जातो. (तज्ज्ञांच्या सल्ल्याने करावे)",
+            "hi": "अंबिया मोसंबी के लिए MPKV की जैविक पद्धति में नाइट्रोजन का कुछ हिस्सा वर्मीकम्पोस्ट से, जनवरी में दिया जाता है। (विशेषज्ञ की सलाह से करें)"
           },
           "source": "MPKV-AICRP §8 d",
           "source_keys": [
@@ -3161,9 +3161,9 @@
   "preparations": {
     "nske_5": {
       "labels": {
-        "en": "NSKE 5 % for 100 litres: 5 kg well-dried neem seed kernels, 100 litres of water, 200 g detergent and a muslin cloth. Grind the kernels gently to powder and soak overnight in 10 litres of water. In the morning stir with a wooden plank till the liquid turns milky white, filter through a double layer of muslin cloth and make it up to 100 litres. Make the detergent into a paste and mix it in (the same page also says \"add 1 % detergent\"). Use kernels not older than eight months, use the extract fresh and spray after 3.30 pm.",
-        "mr": "१०० लिटरसाठी ५ % निंबोळी अर्क (NSKE): चांगल्या वाळलेल्या निंबोळीचे गर ५ किलो, पाणी १०० लिटर, डिटर्जंट २०० ग्रॅम आणि मलमलचे कापड. गर हलके कुटून भुकटी करा आणि १० लिटर पाण्यात रात्रभर भिजवा. सकाळी लाकडी फळीने द्रावण दुधाळ पांढरे होईपर्यंत ढवळा, मलमलच्या दुहेरी कापडातून गाळा आणि १०० लिटर करा. डिटर्जंटची पेस्ट करून मिसळा (त्याच पानावर \"१ % डिटर्जंट घाला\" असेही लिहिले आहे). आठ महिन्यांपेक्षा जुने गर वापरू नका, अर्क ताजा वापरा आणि दुपारी ३.३० नंतर फवारा.",
-        "hi": "100 लीटर के लिए 5 % नीम बीज गिरी अर्क (NSKE): अच्छी सूखी नीम गिरी 5 किलो, पानी 100 लीटर, डिटर्जेंट 200 ग्राम और मलमल का कपड़ा। गिरी को हल्का कूटकर चूर्ण करें और 10 लीटर पानी में रात भर भिगोएँ। सुबह लकड़ी के पटरे से घोल दूधिया सफ़ेद होने तक हिलाएँ, मलमल की दोहरी परत से छानें और 100 लीटर बनाएँ। डिटर्जेंट का पेस्ट बनाकर मिलाएँ (उसी पेज पर \"1 % डिटर्जेंट डालें\" भी लिखा है)। आठ महीने से पुरानी गिरी न लें, अर्क ताज़ा इस्तेमाल करें और दोपहर 3.30 बजे के बाद छिड़कें।"
+        "en": "NSKE (neem seed kernel extract): well-dried neem seed kernels, water, detergent and a muslin cloth. Grind the kernels gently to powder and soak them overnight in water. In the morning stir with a wooden plank till the liquid turns milky white, filter through a double layer of muslin cloth and make it up with water. Make the detergent into a paste and mix it in. Use kernels not older than eight months, use the extract fresh and spray after 3.30 pm. (follow expert advice)",
+        "mr": "निंबोळी अर्क (NSKE): चांगल्या वाळलेल्या निंबोळीचे गर, पाणी, डिटर्जंट आणि मलमलचे कापड. गर हलके कुटून भुकटी करा आणि पाण्यात रात्रभर भिजवा. सकाळी लाकडी फळीने द्रावण दुधाळ पांढरे होईपर्यंत ढवळा, मलमलच्या दुहेरी कापडातून गाळा आणि पाणी घालून पूर्ण करा. डिटर्जंटची पेस्ट करून मिसळा. आठ महिन्यांपेक्षा जुने गर वापरू नका, अर्क ताजा वापरा आणि दुपारी ३.३० नंतर फवारा. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "नीम बीज गिरी अर्क (NSKE): अच्छी सूखी नीम गिरी, पानी, डिटर्जेंट और मलमल का कपड़ा। गिरी को हल्का कूटकर चूर्ण करें और पानी में रात भर भिगोएँ। सुबह लकड़ी के पटरे से घोल दूधिया सफ़ेद होने तक हिलाएँ, मलमल की दोहरी परत से छानें और पानी मिलाकर पूरा करें। डिटर्जेंट का पेस्ट बनाकर मिलाएँ। आठ महीने से पुरानी गिरी न लें, अर्क ताज़ा इस्तेमाल करें और दोपहर 3.30 बजे के बाद छिड़कें। (विशेषज्ञ की सलाह से करें)"
       },
       "source": "Vikaspedia, source TNAU Agritech portal: \"Neem seed kernel extract (NSKE)\"",
       "source_keys": [
@@ -3172,9 +3172,9 @@
     },
     "neem_oil_1": {
       "labels": {
-        "en": "Neem oil 1 %: 10 ml neem oil per litre of water, with detergent powder to mix the oil (PDKV, Nagpur mandarin). The PDKV AICRP citrus page names Teepol or detergent washing powder as the emulsifier \"(1:10)\".",
-        "mr": "१ % निंबोळी तेल: प्रति लिटर पाण्यात १० मि.ली. निंबोळी तेल, तेल मिसळण्यासाठी डिटर्जंट पावडरसह (डॉ. पंदेकृवि, नागपुरी संत्रा). डॉ. पंदेकृविच्या AICRP लिंबूवर्गीय पानावर तेल मिसळण्यासाठी टिपॉल किंवा कपडे धुण्याची पावडर \"(१:१०)\" असे दिले आहे.",
-        "hi": "1 % नीम तेल: प्रति लीटर पानी में 10 मि.ली. नीम तेल, तेल घोलने के लिए डिटर्जेंट पाउडर के साथ (पीडीकेवी, नागपुरी संतरा)। पीडीकेवी के AICRP नींबूवर्गीय पेज पर तेल घोलने के लिए टीपॉल या कपड़े धोने का पाउडर \"(1:10)\" लिखा है।"
+        "en": "Neem oil: neem oil in water, with detergent powder to mix the oil (PDKV, Nagpur mandarin). The PDKV AICRP citrus page names Teepol or detergent washing powder as the emulsifier. (follow expert advice)",
+        "mr": "निंबोळी तेल: पाण्यात निंबोळी तेल, तेल मिसळण्यासाठी डिटर्जंट पावडरसह (डॉ. पंदेकृवि, नागपुरी संत्रा). डॉ. पंदेकृविच्या AICRP लिंबूवर्गीय पानावर तेल मिसळण्यासाठी टिपॉल किंवा कपडे धुण्याची पावडर दिली आहे. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "नीम तेल: पानी में नीम तेल, तेल घोलने के लिए डिटर्जेंट पाउडर के साथ (पीडीकेवी, नागपुरी संतरा)। पीडीकेवी के AICRP नींबूवर्गीय पेज पर तेल घोलने के लिए टीपॉल या कपड़े धोने का पाउडर लिखा है। (विशेषज्ञ की सलाह से करें)"
       },
       "source": "R25 p.10 #32 (neem oil 10 ml / L (1 %) with detergent powder); P1 Entomology recs (emulsifier)",
       "source_keys": [

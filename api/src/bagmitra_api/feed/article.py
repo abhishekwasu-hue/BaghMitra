@@ -10,7 +10,7 @@ from __future__ import annotations
 import math
 import re
 from collections.abc import Iterator
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from datetime import date
 from decimal import Decimal
 from typing import Any
@@ -24,6 +24,7 @@ from bagmitra_api.feed.output_check import (
     normalise,
     text_facts,
 )
+from bagmitra_api.kb.dose_rules import has_dose, note_sections
 
 LANGS = ("mr", "hi", "en")
 CHART_TYPES = ("bar", "pie")
@@ -80,6 +81,11 @@ Rules:
 - Charts only from numbers in the source: "bar" to compare amounts or counts; "pie" only for
   parts of one whole whose values add up to 100 % or to a total the source states. No chart
   when the source has no such numbers.
+- Fertilisers, pesticides and organic inputs may be named as the source names them, but NEVER
+  give a dose, quantity, rate, concentration, dilution or per-tree / per-acre / per-litre
+  amount of one, even when the source states it; end every sentence that recommends an input
+  with the note in that language: Marathi "(तज्ज्ञांच्या सल्ल्याने करावे)", Hindi "(विशेषज्ञ की
+  सलाह से करें)", English "(follow expert advice)" (owner 2026-11-14).
 - Write Marathi as a Maharashtra farmer speaks it, simple and clear (use व्यवहार, never सौदा;
   मध्यस्थ (दलाल) for a broker). Hindi and English say the same facts as the Marathi.
 - "sources": the source address first, then only addresses the source itself gives.
@@ -344,8 +350,13 @@ def parse_articles(payload: dict[str, Any]) -> ArticleSet:
     langs = payload.get("lang")
     if not isinstance(langs, dict):
         raise ArticleError("lang: missing")
+    articles = {lang: _article(langs.get(lang), lang) for lang in LANGS}
+    # The expert-advice note after each section that recommends an input (owner Q160).
+    noted = note_sections({lang: a.sections for lang, a in articles.items()})
     return ArticleSet(
-        relevant, political, {lang: _article(langs.get(lang), lang) for lang in LANGS}
+        relevant,
+        political,
+        {lang: replace(a, sections=noted[lang]) for lang, a in articles.items()},
     )
 
 
@@ -419,6 +430,8 @@ def check_articles(
             out.append(f"{m.where}: {m.kind} '{m.text}' is not in the source")
         joined = normalise("\n".join(texts.values()))
         out += [f"{lang}: political: names '{n}'" for n in PARTY_NAMES if _names(joined, n)]
+        # No dose of an input reaches a grower (owner 2026-11-14, Q160).
+        out += [f"{where}: dose in the text" for where, text in texts.items() if has_dose(text)]
         for found in (*_EMAIL.findall(joined), *_PHONE.findall(joined)):
             if normalise(found) not in source_norm:
                 out.append(f"{lang}: contact '{found}' is not in the source")

@@ -2536,7 +2536,7 @@ their profile; undoes a dismiss. Only for a published item that has a date.''',
   Future<Response<GrowerCardsResponse>> _v1KnowledgeCardsGet({
     String? crop,
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
-      description: 'The general part of every live knowledge card (newest version per topic and crop).',
+      description: 'The grower part of every live knowledge card (newest version per topic and crop).',
       summary: 'Cards',
       operationId: 'knowledge_cards',
       consumes: [],
@@ -4084,9 +4084,10 @@ a different reaction replaces the earlier one. Sending the same one again is a n
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''What CIB&RC registered labels say for the crop (owner, 2026-10-26: label information
 only). Only claims valid today whose active ingredient is neither banned nor restricted
-for the crop pass the legal gate; doses are quoted exactly as the label states them.
-The app shows this as label information with "read the label; confirm with KVK", never
-as BagMitra\'s own advice.''',
+for the crop pass the legal check. Products, targets, PHI, interval and the number of
+sprays are given as printed; the dose and the dilution never are (owner 2026-11-14, Q160:
+names yes, doses no). The app shows this as label information with the expert-advice
+note, never as BagMitra\'s own advice.''',
       summary: 'Label Claims',
       operationId: 'reference_label_claims',
       consumes: [],

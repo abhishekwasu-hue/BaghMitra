@@ -1,5 +1,5 @@
 {
-  "_note": "Draft knowledge cards from addendum v1.3 §3 (read and verified 2026-10-12). All cards are drafts until an expert review; before that a grower sees only the general-information view (owner decision Q57). Chemical options carry no dose: dose, interval and PHI come only from the label claims. Marathi and Hindi (2026-11-06) are written sentence for sentence with the English, without the 'organic' field; the grower view (kb/grower_view.py, owner decision Q57) shows only the sentences that name no product and carry no dose.",
+  "_note": "Draft knowledge cards from addendum v1.3 §3 (read and verified 2026-10-12). Owner decision 2026-11-14 (OPEN_QUESTIONS Q160): no expert review is needed to show a card; inputs may be named, but a grower never sees a dose. The grower view (kb/grower_view.py) leaves out every sentence that carries a dose (kb/dose_rules.py) or names an ingredient banned or restricted for the crop, and adds the expert-advice note after each sentence that recommends an input; chemical options and the English-only 'organic' rates stay out. Marathi and Hindi (2026-11-06) are written sentence for sentence with the English, without the 'organic' field. Doses kept here (and in 'conflicts') are source records for admins only.",
   "topics": [
     {
       "key": "bahar_ambia",
@@ -313,21 +313,21 @@
           "summary": "Mrig flowers after a dry rest in the hot season. On medium soils about 50 days of soil-moisture stress in May is enough; the crop is harvested in February and March.",
           "cultural": "Let the soil dry from the start of May for about 50 days on medium soils. If the monsoon is late, break the stress with irrigation in June. If pre-monsoon rain weakens the stress on heavy black soils, a growth regulator is sometimes used (see the regulator options); otherwise rely on water management.",
           "organic": "",
-          "warnings": "Growth regulators may have no citrus label in India: they are shown only after the legal check and expert review.",
+          "warnings": "Growth regulators may have no citrus label in India: they are shown only after the legal check.",
           "when_to_call_expert": "Send photos and details to your local KVK or agricultural officer if it spreads, if more than a small part of the orchard is affected, or if you are unsure."
         },
         "mr": {
           "title": "मृग बहार: मे महिन्यात सुमारे ५० दिवसांचा ताण",
           "summary": "उन्हाळ्यातील कोरड्या विश्रांतीनंतर मृग बहर येतो. मध्यम जमिनीत मे महिन्यात सुमारे ५० दिवसांचा ओलाव्याचा ताण पुरेसा असतो; फळांची तोडणी फेब्रुवारी-मार्चमध्ये होते.",
           "cultural": "मध्यम जमिनीत मेच्या सुरुवातीपासून सुमारे ५० दिवस जमीन कोरडी होऊ द्या. पावसाळा उशिरा आला तर जूनमध्ये ओलित देऊन ताण सोडा. भारी काळ्या जमिनीत मान्सूनपूर्व पावसाने ताण कमकुवत झाल्यास कधी वाढ नियंत्रक वापरले जाते; अन्यथा पाणी व्यवस्थापनावर भर द्या.",
-          "warnings": "वाढ नियंत्रकांना भारतात लिंबूवर्गीय लेबल नसू शकते: ते कायदेशीर तपासणी व तज्ज्ञ आढाव्यानंतरच दाखवले जातात.",
+          "warnings": "वाढ नियंत्रकांना भारतात लिंबूवर्गीय लेबल नसू शकते: ते कायदेशीर तपासणीनंतरच दाखवले जातात.",
           "when_to_call_expert": "कीड किंवा रोग पसरत असेल, बागेचा थोड्यापेक्षा जास्त भाग बाधित असेल किंवा खात्री नसेल तर फोटो व माहिती आपल्या स्थानिक KVK किंवा कृषी अधिकाऱ्याला पाठवा."
         },
         "hi": {
           "title": "मृग बहार: मई में लगभग 50 दिन का तनाव",
           "summary": "गर्मी के सूखे विश्राम के बाद मृग में फूल आते हैं। मध्यम मिट्टी में मई में लगभग 50 दिन का नमी तनाव काफ़ी है; फसल की तुड़ाई फरवरी-मार्च में होती है।",
           "cultural": "मध्यम मिट्टी में मई की शुरुआत से लगभग 50 दिन मिट्टी सूखने दें। मानसून देर से आए तो जून में सिंचाई देकर तनाव तोड़ें। भारी काली मिट्टी में मानसून-पूर्व बारिश तनाव कमज़ोर करे तो कभी वृद्धि नियामक इस्तेमाल होता है; वरना पानी प्रबंधन पर भरोसा करें।",
-          "warnings": "वृद्धि नियामकों का भारत में नींबूवर्गीय लेबल न हो सकता है: वे कानूनी जाँच और विशेषज्ञ समीक्षा के बाद ही दिखाए जाते हैं।",
+          "warnings": "वृद्धि नियामकों का भारत में नींबूवर्गीय लेबल न हो सकता है: वे कानूनी जाँच के बाद ही दिखाए जाते हैं।",
           "when_to_call_expert": "यदि यह फैल रहा हो, बाग का छोटे से अधिक हिस्सा प्रभावित हो, या आप निश्चित न हों, तो फोटो और जानकारी अपने स्थानीय KVK या कृषि अधिकारी को भेजें।"
         }
       },
@@ -548,21 +548,21 @@
           "summary": "There is no cure. Protection is clean planting material, controlling the psylla that carries it, good nutrition and removing infected trees.",
           "cultural": "Plant only certified, disease-indexed budwood. Control psylla at every flush. Keep the bud union 30 to 46 cm above ground and keep water off the trunk. Paint trunks to about 60 cm each year. Remove and destroy infected trees.",
           "organic": "",
-          "warnings": "Antibiotic sprays recommended in older notes must pass the legal check and an expert review.",
+          "warnings": "Antibiotic sprays recommended in older notes must pass the legal check.",
           "when_to_call_expert": "Send photos to your KVK at once if you suspect greening: early removal protects neighbouring trees."
         },
         "mr": {
           "title": "ग्रीनिंग (HLB): प्रतिबंध हाच एकमेव बचाव",
           "summary": "यावर इलाज नाही. बचाव म्हणजे स्वच्छ लागवड साहित्य, हा रोग पसरवणाऱ्या सायलाचे नियंत्रण, चांगले पोषण आणि बाधित झाडे काढणे.",
           "cultural": "फक्त प्रमाणित, रोगमुक्त तपासलेले डोळे लावा. प्रत्येक नवतीवर सायलाचे नियंत्रण करा. डोळ्याचा जोड जमिनीपासून ३० ते ४६ सें.मी. वर ठेवा आणि खोडाला पाणी लागू देऊ नका. दरवर्षी खोड सुमारे ६० सें.मी. पर्यंत रंगवा. बाधित झाडे काढून नष्ट करा.",
-          "warnings": "जुन्या नोंदींतील प्रतिजैविक फवारण्यांना कायदेशीर तपासणी व तज्ज्ञ आढावा आवश्यक आहे.",
+          "warnings": "जुन्या नोंदींतील प्रतिजैविक फवारण्यांना कायदेशीर तपासणी आवश्यक आहे.",
           "when_to_call_expert": "ग्रीनिंगची शंका आल्यास लगेच फोटो आपल्या KVK ला पाठवा: लवकर झाड काढल्याने शेजारची झाडे वाचतात."
         },
         "hi": {
           "title": "ग्रीनिंग (HLB): रोकथाम ही एकमात्र सुरक्षा",
           "summary": "इसका कोई इलाज नहीं है। सुरक्षा का मतलब है साफ़ रोपण सामग्री, इसे फैलाने वाले सिल्ला का नियंत्रण, अच्छा पोषण और संक्रमित पेड़ हटाना।",
           "cultural": "केवल प्रमाणित, रोग-जाँची आँख (बडवुड) लगाएँ। हर नई फुटान पर सिल्ला का नियंत्रण करें। आँख का जोड़ ज़मीन से 30 से 46 सें.मी. ऊपर रखें और तने पर पानी न लगने दें। हर साल तने को लगभग 60 सें.मी. तक पेंट करें। संक्रमित पेड़ हटाकर नष्ट करें।",
-          "warnings": "पुराने नोट्स में सुझाए एंटीबायोटिक छिड़कावों को कानूनी जाँच और विशेषज्ञ समीक्षा पास करनी होगी।",
+          "warnings": "पुराने नोट्स में सुझाए एंटीबायोटिक छिड़कावों को कानूनी जाँच पास करनी होगी।",
           "when_to_call_expert": "ग्रीनिंग का शक हो तो तुरंत फोटो अपने KVK को भेजें: जल्दी हटाने से पड़ोसी पेड़ बचते हैं।"
         }
       },
@@ -1245,7 +1245,7 @@
       "content": {
         "en": {
           "title": "Feeding bearing trees",
-          "summary": "ICAR-CCRI and PDKV give different doses; the reviewer must choose. A soil or leaf test is the best guide.",
+          "summary": "ICAR-CCRI and PDKV give different amounts; decide on expert advice. A soil or leaf test is the best guide.",
           "cultural": "CCRI (soil, November, per bearing tree): urea 500 g, single superphosphate 600 g, muriate of potash 150 g, ferrous, manganese and zinc sulphate 100 g each and borax 50 g; an Ambia top-up of muriate of potash 180 g in July. PDKV (full-grown tree per year): 1200 g nitrogen, 400 g phosphate and 400 g potash, with 600 g of the nitrogen and all of the phosphate and potash at the end of stress and the rest two months after fruit set; zinc sulphate 200 g in the soil. Fertigation reference: 600:100:200 g N:P2O5:K2O per plant. Leaf-test ranges (percent dry weight): N 1.70 to 2.81, P 0.09 to 0.15, K 1.02 to 2.59.",
           "organic": "",
           "warnings": "Sources disagree on nitrogen per tree (about 230 g to 1200 g); see the recorded conflict.",
@@ -1253,14 +1253,14 @@
         },
         "mr": {
           "title": "फळधारणा करणाऱ्या झाडांचे पोषण",
-          "summary": "ICAR-CCRI आणि डॉ. पंदेकृवि वेगवेगळ्या मात्रा देतात; परीक्षकाने निवड करायची आहे. माती किंवा पान चाचणी हाच सर्वोत्तम मार्गदर्शक आहे.",
+          "summary": "ICAR-CCRI आणि डॉ. पंदेकृवि वेगवेगळ्या मात्रा देतात; तज्ज्ञांच्या सल्ल्याने ठरवा. माती किंवा पान चाचणी हाच सर्वोत्तम मार्गदर्शक आहे.",
           "cultural": "CCRI (जमिनीत, नोव्हेंबर, फळधारणा करणाऱ्या झाडामागे): युरिया ५०० ग्रॅम, सिंगल सुपर फॉस्फेट ६०० ग्रॅम, म्युरेट ऑफ पोटॅश १५० ग्रॅम, फेरस, मँगनीज व झिंक सल्फेट प्रत्येकी १०० ग्रॅम आणि बोरॅक्स ५० ग्रॅम; आंबियासाठी जुलैमध्ये म्युरेट ऑफ पोटॅश १८० ग्रॅम. डॉ. पंदेकृवि (पूर्ण वाढलेले झाड, वर्षाला): १२०० ग्रॅम नत्र, ४०० ग्रॅम स्फुरद आणि ४०० ग्रॅम पालाश; त्यातील ६०० ग्रॅम नत्र व सर्व स्फुरद-पालाश ताण संपताना आणि उरलेले फळधारणेनंतर दोन महिन्यांनी; जमिनीत झिंक सल्फेट २०० ग्रॅम. फर्टिगेशन संदर्भ: झाडामागे ६००:१००:२०० ग्रॅम N:P2O5:K2O. पान चाचणी मर्यादा (कोरड्या वजनाचे टक्के): N १.७० ते २.८१, P ०.०९ ते ०.१५, K १.०२ ते २.५९.",
           "warnings": "झाडामागे नत्राबाबत स्रोतांत मतभेद आहेत (सुमारे २३० ग्रॅम ते १२०० ग्रॅम); नोंदवलेला विरोध पाहा.",
           "when_to_call_expert": "मात्रा बदलण्यापूर्वी माती व पान चाचणी करा."
         },
         "hi": {
           "title": "फल देने वाले पेड़ों का पोषण",
-          "summary": "ICAR-CCRI और पीडीकेवी अलग-अलग मात्रा देते हैं; समीक्षक को चुनना है। मिट्टी या पत्ती जाँच ही सबसे अच्छा मार्गदर्शक है।",
+          "summary": "ICAR-CCRI और पीडीकेवी अलग-अलग मात्रा देते हैं; विशेषज्ञ की सलाह से तय करें। मिट्टी या पत्ती जाँच ही सबसे अच्छा मार्गदर्शक है।",
           "cultural": "CCRI (मिट्टी में, नवंबर, फल देने वाले पेड़ पर): यूरिया 500 ग्राम, सिंगल सुपर फॉस्फेट 600 ग्राम, म्यूरेट ऑफ पोटाश 150 ग्राम, फेरस, मैंगनीज और ज़िंक सल्फेट 100 ग्राम प्रत्येक और बोरेक्स 50 ग्राम; अंबिया के लिए जुलाई में म्यूरेट ऑफ पोटाश 180 ग्राम। पीडीकेवी (पूरा बड़ा पेड़, प्रति वर्ष): 1200 ग्राम नाइट्रोजन, 400 ग्राम फॉस्फेट और 400 ग्राम पोटाश; इनमें से 600 ग्राम नाइट्रोजन और पूरा फॉस्फेट-पोटाश तनाव खत्म होने पर और बाकी फल लगने के दो महीने बाद; मिट्टी में ज़िंक सल्फेट 200 ग्राम। फर्टिगेशन संदर्भ: प्रति पौधा 600:100:200 ग्राम N:P2O5:K2O। पत्ती जाँच सीमा (सूखे वज़न का प्रतिशत): N 1.70 से 2.81, P 0.09 से 0.15, K 1.02 से 2.59।",
           "warnings": "प्रति पेड़ नाइट्रोजन पर स्रोतों में मतभेद है (लगभग 230 ग्राम से 1200 ग्राम); दर्ज विरोध देखें।",
           "when_to_call_expert": "मात्रा बदलने से पहले मिट्टी और पत्ती जाँच कराएँ।"
@@ -1296,7 +1296,7 @@
       "content": {
         "en": {
           "title": "Feeding young trees",
-          "summary": "Doses grow with tree age (multiply the 1-year dose by 1 to 4).",
+          "summary": "Feeding needs grow with tree age.",
           "cultural": "Per young tree, twice a year (April and August): urea about 108 g (or ammonium sulphate 250 g), single superphosphate 157 g and 25 g each of zinc, iron and manganese sulphate, with 20 to 25 kg farmyard manure.",
           "organic": "",
           "warnings": "",
@@ -1304,14 +1304,14 @@
         },
         "mr": {
           "title": "लहान झाडांचे पोषण",
-          "summary": "झाडाच्या वयानुसार मात्रा वाढते (१ वर्षाच्या मात्रेला १ ते ४ ने गुणा).",
+          "summary": "झाडाच्या वयानुसार पोषणाची गरज वाढते.",
           "cultural": "लहान झाडामागे, वर्षातून दोनदा (एप्रिल व ऑगस्ट): युरिया सुमारे १०८ ग्रॅम (किंवा अमोनियम सल्फेट २५० ग्रॅम), सिंगल सुपर फॉस्फेट १५७ ग्रॅम आणि झिंक, लोह व मँगनीज सल्फेट प्रत्येकी २५ ग्रॅम, सोबत २० ते २५ किलो शेणखत.",
           "warnings": "",
           "when_to_call_expert": "कीड किंवा रोग पसरत असेल, बागेचा थोड्यापेक्षा जास्त भाग बाधित असेल किंवा खात्री नसेल तर फोटो व माहिती आपल्या स्थानिक KVK किंवा कृषी अधिकाऱ्याला पाठवा."
         },
         "hi": {
           "title": "छोटे पेड़ों का पोषण",
-          "summary": "पेड़ की उम्र के साथ मात्रा बढ़ती है (1 वर्ष की मात्रा को 1 से 4 से गुणा करें)।",
+          "summary": "पेड़ की उम्र के साथ पोषण की ज़रूरत बढ़ती है।",
           "cultural": "प्रति छोटा पेड़, साल में दो बार (अप्रैल और अगस्त): यूरिया लगभग 108 ग्राम (या अमोनियम सल्फेट 250 ग्राम), सिंगल सुपर फॉस्फेट 157 ग्राम और ज़िंक, आयरन व मैंगनीज सल्फेट 25 ग्राम प्रत्येक, साथ में 20 से 25 किलो गोबर खाद।",
           "warnings": "",
           "when_to_call_expert": "यदि यह फैल रहा हो, बाग का छोटे से अधिक हिस्सा प्रभावित हो, या आप निश्चित न हों, तो फोटो और जानकारी अपने स्थानीय KVK या कृषि अधिकारी को भेजें।"
