@@ -1922,7 +1922,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get feedTitle => 'Farm news';
 
   @override
-  String get feedOpenHint => 'Official GRs, schemes and last dates';
+  String get feedOpenHint => 'News, articles, schemes and deadlines';
 
   @override
   String get feedFilterAll => 'All';

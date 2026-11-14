@@ -3414,7 +3414,7 @@ abstract class AppLocalizations {
   /// No description provided for @feedOpenHint.
   ///
   /// In en, this message translates to:
-  /// **'Official GRs, schemes and last dates'**
+  /// **'News, articles, schemes and deadlines'**
   String get feedOpenHint;
 
   /// No description provided for @feedFilterAll.

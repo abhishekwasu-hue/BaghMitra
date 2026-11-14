@@ -1916,7 +1916,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get feedTitle => 'शेतीवार्ता';
 
   @override
-  String get feedOpenHint => 'अधिकृत GR, योजना आणि शेवटच्या तारखा';
+  String get feedOpenHint => 'बातम्या, लेख, योजना आणि शेवटच्या तारखा';
 
   @override
   String get feedFilterAll => 'सर्व';

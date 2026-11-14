@@ -211,12 +211,7 @@ class MoreScreen extends ConsumerWidget {
             Routes.claimKit,
           ),
           if (config.sarkariSandeshEnabled) ...[
-            page(
-              'feed',
-              Icons.account_balance_outlined,
-              t.feedTitle,
-              Routes.feed,
-            ),
+            page('feed', Icons.newspaper_outlined, t.feedTitle, Routes.feed),
             page(
               'feed-check',
               Icons.manage_search_outlined,

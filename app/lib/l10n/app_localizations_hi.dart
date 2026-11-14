@@ -1918,7 +1918,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get feedTitle => 'खेती वार्ता';
 
   @override
-  String get feedOpenHint => 'आधिकारिक GR, योजनाएँ और आख़िरी तारीख़ें';
+  String get feedOpenHint => 'खबरें, लेख, योजनाएँ और अंतिम तारीखें';
 
   @override
   String get feedFilterAll => 'सभी';
