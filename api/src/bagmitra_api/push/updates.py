@@ -26,7 +26,12 @@ run), and within the daily caps (India day):
   ones in the grower's district (profile) for that crop; when the district has none (or is
   empty), the local APMC list the market tab shows first (MARKET_LOCAL_MARKETS). The app stores
   no mandi choice and plots no nearest mandi. Series combined; at most PUSH_MARKET_DAILY_MAX;
-- weather: pending changes of the grower's plots, at most PUSH_WEATHER_DAILY_MAX per plot.
+- weather: pending changes of the grower's plots, at most PUSH_WEATHER_DAILY_MAX per plot;
+  the same change on several plots of one cell is one line naming the plots.
+Then the shared daily budget (push/budget.py, OPEN_QUESTIONS Q157): weather changes first,
+market moves, new articles last; a topic ("weather:<signal>", "market:<crop>",
+"article:<thread or item>") sent to the grower within PUSH_REPEAT_DAYS is left out, and a push
+over PUSH_DAILY_MAX is not sent. What is held back is logged and not planned again.
 Without a sender (no FCM credentials) or with CRON_PUSH_UPDATES=off nothing is read or sent.
 """
 
@@ -71,6 +76,7 @@ from bagmitra_api.feed.models import (
 )
 from bagmitra_api.market.models import MarketPrice
 from bagmitra_api.market.service import MANUAL
+from bagmitra_api.push import budget as pb
 from bagmitra_api.push import texts
 from bagmitra_api.push.changes import (
     SIGNAL_ORDER,
@@ -101,6 +107,7 @@ from bagmitra_api.weather.models import WeatherDaily
 from bagmitra_api.weather.service import Cell, cell_for
 
 SWITCHED_OFF = "update pushes switched off (CRON_PUSH_UPDATES)"
+SOURCE = "updates"
 ARTICLE_TYPES = ("news", "knowledge")
 PUBLISH_EVENTS = ("published", "auto_published", "knowledge_recheck")
 MAX_LINES = 3  # lines in one push body; the rest is "…and N more"
@@ -139,6 +146,8 @@ class UpdatesSummary:
     failed: int = 0
     invalid_tokens: int = 0
     skipped: dict[str, int] = field(default_factory=dict)
+    skipped_budget: int = 0
+    skipped_repeat: int = 0
     skipped_reason: str | None = None
 
     def count(self, table: dict[str, int], key: str) -> None:
@@ -156,6 +165,8 @@ class Planned:
     body: str
     data: dict[str, str]
     rows: tuple[PushNotice, ...]  # new rows (articles, market) or pending rows (weather)
+    priority: int = pb.ARTICLES
+    topics: tuple[str, ...] = ()
 
 
 @dataclass
@@ -283,6 +294,30 @@ async def _subjects(
     return set(rows.tuples())
 
 
+def _repeats(  # noqa: PLR0913 - one grower's candidates with the run context
+    session: AsyncSession,
+    budget: pb.Budget,
+    grower: Grower,
+    priority: int,
+    topics: Sequence[str],
+    summary: UpdatesSummary,
+) -> set[str]:
+    """The topics sent to the grower within PUSH_REPEAT_DAYS; logged as held back."""
+    again = {t for t in topics if budget.repeated(grower.owner_id, t)}
+    if again:
+        budget.record(session, grower.owner_id, SOURCE, priority, sorted(again), pb.REPEAT)
+        summary.skipped_repeat += 1
+    return again
+
+
+def _park(session: AsyncSession, rows: Iterable[PushNotice], now: datetime) -> None:
+    """Log article / market subjects held back by the budget unsent, so no run plans them
+    again (they stay in the app)."""
+    for row in rows:
+        row.day, row.created_at = india_day(now), now
+        session.add(row)
+
+
 def _gate(grower: Grower, kind: str, now: datetime, summary: UpdatesSummary) -> bool:
     """Switch on and outside quiet hours; counts why not."""
     if not grower.topics.on(kind):
@@ -397,6 +432,11 @@ def articles_for(
     return out
 
 
+def article_topic(article: Article) -> str:
+    """An article's topic: its news thread (Q139) or the item itself."""
+    return f"article:{article.thread_id or article.item.id}"
+
+
 def article_push(grower: Grower, chosen: Sequence[Article], now: datetime) -> Planned:
     lang = grower.lang
     day = india_day(now)
@@ -423,15 +463,17 @@ def article_push(grower: Grower, chosen: Sequence[Article], now: datetime) -> Pl
         )
         for a, t in zip(chosen, titles, strict=True)
     )
-    return Planned(grower.owner_id, ARTICLE, title, body, data, rows)
+    topics = tuple(dict.fromkeys(article_topic(a) for a in chosen))
+    return Planned(grower.owner_id, ARTICLE, title, body, data, rows, pb.ARTICLES, topics)
 
 
-async def plan_articles(
+async def plan_articles(  # noqa: PLR0913 - the run context
     session: AsyncSession,
     settings: Settings,
     growers: dict[uuid.UUID, Grower],
     now: datetime,
     summary: UpdatesSummary,
+    budget: pb.Budget,
 ) -> list[Planned]:
     articles = await recent_articles(session, settings, now)
     if not articles:
@@ -471,7 +513,17 @@ async def plan_articles(
         if sent[(grower.owner_id, None)] >= settings.push_article_daily_max:
             summary.count(summary.skipped, "article_daily_cap")
             continue
-        out.append(article_push(grower, chosen, now))
+        topics = [article_topic(a) for a in chosen]
+        again = _repeats(session, budget, grower, pb.ARTICLES, topics, summary)
+        if again:
+            _park(
+                session,
+                article_push(grower, [a for a in chosen if article_topic(a) in again], now).rows,
+                now,
+            )
+            chosen = [a for a in chosen if article_topic(a) not in again]
+        if chosen:
+            out.append(article_push(grower, chosen, now))
     return out
 
 
@@ -574,15 +626,22 @@ def market_push(
         for s, c in ordered
     )
     data = {"kind": MARKET, "crop": ordered[0][0].crop}
-    return Planned(grower.owner_id, MARKET, texts.pick(texts.MARKET_TITLE, lang), body, data, rows)
+    title = texts.pick(texts.MARKET_TITLE, lang)
+    topics = tuple(dict.fromkeys(market_topic(s.crop) for s, _ in ordered))
+    return Planned(grower.owner_id, MARKET, title, body, data, rows, pb.MARKET_MOVE, topics)
 
 
-async def plan_market(
+def market_topic(crop: str) -> str:
+    return f"market:{crop}"
+
+
+async def plan_market(  # noqa: PLR0913 - the run context
     session: AsyncSession,
     settings: Settings,
     growers: dict[uuid.UUID, Grower],
     now: datetime,
     summary: UpdatesSummary,
+    budget: pb.Budget,
 ) -> list[Planned]:
     series, changes = await market_changes(session, settings, now)
     if not changes:
@@ -603,7 +662,14 @@ async def plan_market(
         if sent[(grower.owner_id, None)] >= settings.push_market_daily_max:
             summary.count(summary.skipped, "market_daily_cap")
             continue
-        out.append(market_push(grower, changed, now))
+        topics = [market_topic(s.crop) for s, _ in changed]
+        again = _repeats(session, budget, grower, pb.MARKET_MOVE, topics, summary)
+        if again:
+            held = [(s, c) for s, c in changed if market_topic(s.crop) in again]
+            _park(session, market_push(grower, held, now).rows, now)
+            changed = [(s, c) for s, c in changed if market_topic(s.crop) not in again]
+        if changed:
+            out.append(market_push(grower, changed, now))
     return out
 
 
@@ -769,27 +835,44 @@ def weather_push(
         {r.plot_id for r in pending},
         key=lambda p: (known.index(p) if p in known else len(known), str(p)),
     )
-    lines = []
 
     def order(r: PushNotice) -> tuple[int, date, int]:
         return (plots.index(r.plot_id), r.day, SIGNAL_ORDER.index(str(r.data["signal"])))
 
+    # The same change on several plots (one weather cell) is one line naming them all.
+    same: dict[str, list[uuid.UUID]] = {}
     for row in sorted(pending, key=order):
-        line = weather_line(row.data, lang, today)
-        if len(plots) > 1 and row.plot_id is not None:
-            line = f"{names.get(row.plot_id, '')}: {line}"
-        lines.append(line)
+        on = same.setdefault(weather_line(row.data, lang, today), [])
+        if row.plot_id is not None and row.plot_id not in on:
+            on.append(row.plot_id)
+    lines = []
+    for line, on in same.items():
+        named = [names[p] for p in on if names.get(p)]
+        lines.append(
+            f"{texts.plot_names(named, lang, total=len(on))}: {line}"
+            if len(plots) > 1 and named
+            else line
+        )
     data = {"kind": "weather_change", "plot_id": str(plots[0])}
     title = texts.pick(texts.WEATHER_TITLE, lang)
-    return Planned(grower.owner_id, WEATHER, title, _lines(lines, lang), data, tuple(pending))
+    topics = tuple(dict.fromkeys(weather_topic(r) for r in sorted(pending, key=order)))
+    body = _lines(lines, lang)
+    return Planned(
+        grower.owner_id, WEATHER, title, body, data, tuple(pending), pb.WEATHER_CHANGE, topics
+    )
 
 
-async def plan_weather(
+def weather_topic(row: PushNotice) -> str:
+    return f"weather:{row.data['signal']}"
+
+
+async def plan_weather(  # noqa: PLR0913 - the run context
     session: AsyncSession,
     settings: Settings,
     growers: dict[uuid.UUID, Grower],
     now: datetime,
     summary: UpdatesSummary,
+    budget: pb.Budget,
 ) -> list[Planned]:
     today = india_day(now)
     pending = list(
@@ -809,8 +892,9 @@ async def plan_weather(
         return []
     sent = await _sent_today(session, WEATHER, now)
     by_owner: dict[uuid.UUID, list[PushNotice]] = defaultdict(list)
-    for row in pending:
-        by_owner[row.owner_id].append(row)
+    for row in pending:  # a change a run already held back is not planned again
+        if not budget.held_since(row.owner_id, weather_topic(row), row.created_at):
+            by_owner[row.owner_id].append(row)
     out = []
     for owner_id, rows in by_owner.items():
         grower = growers[owner_id]
@@ -821,6 +905,11 @@ async def plan_weather(
         ]
         if len(open_rows) < len(rows):
             summary.count(summary.skipped, "weather_daily_cap")
+        if not open_rows:
+            continue
+        topics = [weather_topic(r) for r in open_rows]
+        again = _repeats(session, budget, grower, pb.WEATHER_CHANGE, topics, summary)
+        open_rows = [r for r in open_rows if weather_topic(r) not in again]
         if not open_rows:
             continue
         names = {pid: name for pid, name, _ in grower.plots}
@@ -875,29 +964,50 @@ async def run_updates(
         return summary
     if settings.push_weather_change:
         summary.weather_changes_found = await find_weather_changes(session, settings, growers, now)
+    budget = await pb.Budget.load(session, pb.BudgetRules.of(settings), now, growers)
     planned: list[Planned] = []
     if settings.push_articles:
-        planned += await plan_articles(session, settings, growers, now, summary)
+        planned += await plan_articles(session, settings, growers, now, summary, budget)
     if settings.push_market:
-        planned += await plan_market(session, settings, growers, now, summary)
+        planned += await plan_market(session, settings, growers, now, summary, budget)
     if settings.push_weather_change:
-        planned += await plan_weather(session, settings, growers, now, summary)
+        planned += await plan_weather(session, settings, growers, now, summary, budget)
+    await _send_planned(session, sender, planned, growers, budget, summary, now)
+    await session.commit()
+    return summary
+
+
+async def _send_planned(  # noqa: PLR0913 - the run context
+    session: AsyncSession,
+    sender: PushSender,
+    planned: Sequence[Planned],
+    growers: dict[uuid.UUID, Grower],
+    budget: pb.Budget,
+    summary: UpdatesSummary,
+    now: datetime,
+) -> None:
+    """Send within the shared budget, most important first; drop dead tokens."""
     invalid: set[str] = set()
-    for push in planned:
+    for push in sorted(planned, key=lambda p: p.priority):  # stable: most important first
         summary.count(summary.planned, push.kind)
+        if not budget.room(push.owner_id, push.priority):
+            budget.record(session, push.owner_id, SOURCE, push.priority, push.topics, pb.BUDGET)
+            summary.skipped_budget += 1
+            if push.kind != WEATHER:  # weather rows are dropped by the logged topics
+                _park(session, push.rows, now)
+            continue
         phones = [t for t in growers[push.owner_id].tokens if t not in invalid]
         sent, outage = await _send(sender, push, phones, invalid)
         summary.messages += sent
         if sent:
             _stamp(session, push, now)
             summary.count(summary.sent, push.kind)
+            budget.record(session, push.owner_id, SOURCE, push.priority, push.topics, pb.SENT)
         elif outage:
             summary.failed += 1
     if invalid:
         await session.execute(delete(PushDevice).where(PushDevice.token.in_(invalid)))
     summary.invalid_tokens = len(invalid)
-    await session.commit()
-    return summary
 
 
 def exit_code(summary: UpdatesSummary, reporting: bool) -> int:

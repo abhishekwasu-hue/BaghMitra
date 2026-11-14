@@ -35,6 +35,10 @@ _OPS: dict[str, Callable[[float, float], bool]] = {
 _FIELDS = {f.name for f in fields(DailyWeather)} - {"day"}
 # Screens an alert may link to in the app (`action` in rules.json, pushed as data).
 ACTIONS = frozenset({"claim_kit"})
+# How a rule's alert ranks in the shared daily push budget (`push` in rules.json,
+# OPEN_QUESTIONS Q157): weather danger first, pest / disease advisories after sudden weather
+# changes. A rule without it is an advisory.
+PUSH_CLASSES = frozenset({"danger", "advisory"})
 
 
 class RuleConfigError(ValueError):
@@ -57,6 +61,7 @@ class RiskRule:
     per_unit: float | None = None
     months: frozenset[int] | None = None
     action: str | None = None
+    push: str = "advisory"
 
 
 @dataclass(frozen=True)
@@ -81,6 +86,9 @@ def _rule(raw: Mapping[str, Any]) -> RiskRule:
     action = raw.get("action")
     if action is not None and action not in ACTIONS:
         raise RuleConfigError(f"rule {key}: unknown action {action!r}")
+    push_class = raw.get("push", "advisory")
+    if push_class not in PUSH_CLASSES:
+        raise RuleConfigError(f"rule {key}: unknown push class {push_class!r}")
     common: dict[str, Any] = {
         "key": key,
         "kind": need("kind"),
@@ -88,6 +96,7 @@ def _rule(raw: Mapping[str, Any]) -> RiskRule:
         "labels": labels,
         "status": raw.get("status", "draft"),
         "action": action,
+        "push": push_class,
     }
     if common["kind"] == "threshold":
         if need("field") not in _FIELDS:
