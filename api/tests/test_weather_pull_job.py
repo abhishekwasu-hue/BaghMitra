@@ -54,12 +54,13 @@ async def add_plot(
     lat: float | None,
     lon: float | None,
     deleted: bool = False,
+    crop: str = "santra",
 ) -> Plot:
     plot = Plot(
         id=uuid.uuid4(),
         owner_id=uuid.uuid4(),
         name="बाग",
-        crop="santra",
+        crop=crop,
         area_sq_m=4000,
         centroid_lat=lat,
         centroid_lon=lon,
@@ -253,3 +254,22 @@ async def test_alerts_keep_the_seven_forecast_day_window(
         summary = await run_daily_pull(s, FifteenDayProvider(), settings, NOW, rules=HEAT)
     assert summary.new_alerts == 0
     assert await alerts(maker) == []
+
+
+async def test_citrus_rules_are_not_stored_for_other_crops(
+    maker: async_sessionmaker[AsyncSession], settings: Settings
+) -> None:
+    # Owner 2026-11-14 (Q158): a cotton plot in the same cell as a santra plot gets the
+    # weather alerts for every crop, never the citrus heat / psylla / humidity ones.
+    santra = await add_plot(maker, lat=21.2468, lon=77.7512)
+    cotton = await add_plot(maker, lat=21.2471, lon=77.7489, crop="cotton")
+    async with maker() as s:
+        summary = await run_daily_pull(s, FakeProvider(), settings, NOW)
+
+    rows = await alerts(maker)
+    citrus_only = {"heat_fruit_drop", "psylla_degree_days", "high_humidity"}
+    assert {"heat_fruit_drop", "psylla_degree_days"} <= {
+        r.rule_key for r in rows if r.plot_id == santra.id
+    }
+    assert [r.rule_key for r in rows if r.plot_id == cotton.id and r.rule_key in citrus_only] == []
+    assert summary.new_alerts == len(rows)

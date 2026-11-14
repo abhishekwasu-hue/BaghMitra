@@ -1565,5 +1565,10 @@
   "adminReactionsLeast": "सर्वात कमी उपयोगी",
   "adminReactionsTotals": "{targets} विषय · {total} प्रतिसाद",
   "adminReactionsNone": "प्रतिसाद आल्यावर इथे दिसतील.",
-  "adminReactionsQa": "प्रश्नोत्तर"
+  "adminReactionsQa": "प्रश्नोत्तर",
+  "plotOtherCrops": "इतर पिके",
+  "plotCropName": "पिकाचे नाव",
+  "plotCropNameHint": "उदा. टोमॅटो, झेंडू",
+  "requiredCropName": "पिकाचे नाव लिहा",
+  "homePlotOpen": "नोंदी उघडा"
 }

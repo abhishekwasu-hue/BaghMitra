@@ -62,7 +62,10 @@ class _LabelInfoScreenState extends ConsumerState<LabelInfoScreen> {
         : plots?.where((p) => p.id == widget.plotId).firstOrNull?.crop;
     final crop = widget.plotId != null
         ? plotCrop
-        : _picked ?? widget.crop ?? plots?.firstOrNull?.crop ?? 'santra';
+        : _picked ??
+              widget.crop ??
+              plots?.where((p) => p.hasCitrusFeatures).firstOrNull?.crop ??
+              'santra';
     final cached = crop == null
         ? null
         : ref.watch(labelClaimsProvider(crop)).value;
@@ -199,12 +202,13 @@ class _CropChoice extends ConsumerWidget {
         spacing: BmSpace.xs,
         children: [
           for (final o in crops)
-            ChoiceChip(
-              key: Key('label-crop-${o.slug}'),
-              label: Text(o.label(lang)),
-              selected: o.slug == crop,
-              onSelected: (_) => onPick(o.slug),
-            ),
+            if (o.primary)
+              ChoiceChip(
+                key: Key('label-crop-${o.slug}'),
+                label: Text(o.label(lang)),
+                selected: o.slug == crop,
+                onSelected: (_) => onPick(o.slug),
+              ),
         ],
       ),
     );

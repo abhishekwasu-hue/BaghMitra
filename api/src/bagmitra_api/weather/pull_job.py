@@ -68,19 +68,20 @@ class PullSummary:
 class _PlotRef:
     id: uuid.UUID
     owner_id: uuid.UUID
+    crop: str
 
 
 async def _located_plots(session: AsyncSession, decimals: int) -> dict[Cell, list[_PlotRef]]:
     """Plain values, not ORM rows: the per-cell commits must not expire what we iterate."""
-    query = select(Plot.id, Plot.owner_id, Plot.centroid_lat, Plot.centroid_lon).where(
+    query = select(Plot.id, Plot.owner_id, Plot.crop, Plot.centroid_lat, Plot.centroid_lon).where(
         Plot.deleted_at.is_(None),
         Plot.centroid_lat.is_not(None),
         Plot.centroid_lon.is_not(None),
     )
     by_cell: dict[Cell, list[_PlotRef]] = defaultdict(list)
-    for plot_id, owner_id, lat, lon in (await session.execute(query)).tuples():
+    for plot_id, owner_id, crop, lat, lon in (await session.execute(query)).tuples():
         if lat is not None and lon is not None:  # narrowed by the query; keeps mypy exact
-            by_cell[cell_for(lat, lon, decimals)].append(_PlotRef(plot_id, owner_id))
+            by_cell[cell_for(lat, lon, decimals)].append(_PlotRef(plot_id, owner_id, crop))
     return dict(sorted(by_cell.items()))
 
 
@@ -94,6 +95,7 @@ async def run_daily_pull(
 ) -> PullSummary:
     """Pull each plot cell once, evaluate the rules and store alerts not stored before."""
     active = list(rules) if rules is not None else load_rules()
+    by_key = {r.key: r for r in active}
     by_cell = await _located_plots(session, settings.weather_cell_decimals)
     summary = PullSummary(cells=len(by_cell), plots=sum(len(p) for p in by_cell.values()))
     for cell, plots in by_cell.items():
@@ -130,7 +132,9 @@ async def run_daily_pull(
             )
             for plot in plots
             for alert in found
-            if (plot.id, alert.rule_key) not in existing
+            # A rule for other crops (e.g. citrus psylla) never alerts this plot.
+            if by_key[alert.rule_key].applies_to(plot.crop)
+            and (plot.id, alert.rule_key) not in existing
         ]
         session.add_all(new)
         await session.commit()

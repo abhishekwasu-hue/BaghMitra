@@ -9506,6 +9506,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Answer'**
   String get adminReactionsQa;
+
+  /// Block form: green button under the two big crop choices (santra, mosambi) that opens the list of other crops.
+  ///
+  /// In en, this message translates to:
+  /// **'Other crops'**
+  String get plotOtherCrops;
+
+  /// Block form: the name the grower types for a vegetable, flower or other crop.
+  ///
+  /// In en, this message translates to:
+  /// **'Crop name'**
+  String get plotCropName;
+
+  /// Block form: hint inside the crop name field.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. tomato, marigold'**
+  String get plotCropNameHint;
+
+  /// Block form: error when the crop name is left blank.
+  ///
+  /// In en, this message translates to:
+  /// **'Type the crop name'**
+  String get requiredCropName;
+
+  /// Home: button of the block card shown for a crop other than santra / mosambi (no bahar card).
+  ///
+  /// In en, this message translates to:
+  /// **'Open records'**
+  String get homePlotOpen;
 }
 
 class _AppLocalizationsDelegate

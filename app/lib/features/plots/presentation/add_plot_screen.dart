@@ -11,9 +11,11 @@ import '../../../design_system/empty_state.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../../voice/presentation/voice_mic_button.dart';
+import '../data/crop_catalog.dart';
 import '../data/place_geocoder.dart';
 import '../domain/geo.dart';
 import '../domain/plot.dart';
+import 'crop_picker.dart';
 import 'plot_point.dart';
 
 /// Adds an orchard block, or edits one when [plotId] is given. The grower stands in the block
@@ -180,8 +182,8 @@ class _AddPlotScreenState extends ConsumerState<AddPlotScreen> {
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
     final c = context.bm;
-    final lang = Localizations.localeOf(context).languageCode;
-    final crops = ref.watch(cropsProvider).value ?? const [];
+    final catalog = ref.watch(cropCatalogDataProvider).value;
+    final crops = catalog?.crops ?? const <CropOption>[];
     if (widget.plotId != null && !_filled) {
       final plots = ref.watch(plotsProvider).value;
       final existing = plots?.where((p) => p.id == widget.plotId).firstOrNull;
@@ -202,6 +204,9 @@ class _AddPlotScreenState extends ConsumerState<AddPlotScreen> {
       _fill(existing);
     }
     _crop ??= crops.isEmpty ? null : crops.first.slug;
+    // Vegetables, flowers and other: the grower types the crop's name, kept as the variety.
+    final nameTyped =
+        crops.where((o) => o.slug == _crop).firstOrNull?.nameTyped ?? false;
 
     String? required(String? v) =>
         _optional(v) == null ? t.requiredPlotName : null;
@@ -257,18 +262,41 @@ class _AddPlotScreenState extends ConsumerState<AddPlotScreen> {
             gap,
             Text(t.plotCrop, style: BmType.formLabel.copyWith(color: c.ink)),
             const SizedBox(height: BmSpace.xs),
-            Wrap(
-              spacing: BmSpace.xs,
-              runSpacing: BmSpace.xs,
-              children: [
-                for (final crop in crops)
-                  ChoiceChip(
-                    label: Text(crop.label(lang), style: BmType.bodyStrong),
-                    selected: _crop == crop.slug,
-                    onSelected: (_) => setState(() => _crop = crop.slug),
+            if (catalog != null)
+              CropPicker(
+                catalog: catalog,
+                selected: _crop,
+                onSelected: (slug) => setState(() {
+                  final typed = crops
+                      .where((o) => o.slug == slug)
+                      .firstOrNull
+                      ?.nameTyped;
+                  // A variety and a typed crop name are not the same thing.
+                  if (typed != nameTyped) _variety.clear();
+                  _crop = slug;
+                }),
+              ),
+            if (nameTyped) ...[
+              gap,
+              TextFormField(
+                key: const Key('plot-crop-name'),
+                controller: _variety,
+                // The server keeps a variety of up to 60 characters.
+                maxLength: 60,
+                textCapitalization: TextCapitalization.sentences,
+                decoration: InputDecoration(
+                  counterText: '',
+                  labelText: t.plotCropName,
+                  hintText: t.plotCropNameHint,
+                  suffixIcon: VoiceMicButton(
+                    onResult: (text, {required isFinal}) =>
+                        _variety.text = text,
                   ),
-              ],
-            ),
+                ),
+                validator: (v) =>
+                    _optional(v) == null ? t.requiredCropName : null,
+              ),
+            ],
             gap,
             TextFormField(
               key: const Key('plot-acres'),
@@ -309,14 +337,17 @@ class _AddPlotScreenState extends ConsumerState<AddPlotScreen> {
               decoration: InputDecoration(labelText: t.plotTreeCount),
               validator: optionalInt,
             ),
+            if (!nameTyped) ...[
+              gap,
+              TextFormField(
+                key: const Key('plot-variety'),
+                controller: _variety,
+                decoration: InputDecoration(labelText: t.plotVariety),
+              ),
+            ],
             gap,
             TextFormField(
-              key: const Key('plot-variety'),
-              controller: _variety,
-              decoration: InputDecoration(labelText: t.plotVariety),
-            ),
-            gap,
-            TextFormField(
+              key: const Key('plot-year'),
               controller: _year,
               keyboardType: TextInputType.number,
               inputFormatters: [

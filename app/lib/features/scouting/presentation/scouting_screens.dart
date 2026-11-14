@@ -30,6 +30,17 @@ String scoutingItemLabel(AppLocalizations t, String item) => switch (item) {
   _ => t.scoutingItemOther,
 };
 
+/// Whether [plotId]'s crop has the citrus scouting list, photo check and look-alikes
+/// (santra / mosambi). True while the block is not loaded yet.
+bool scoutsCitrus(WidgetRef ref, String plotId) =>
+    ref
+        .watch(plotsProvider)
+        .value
+        ?.where((p) => p.id == plotId)
+        .firstOrNull
+        ?.hasCitrusFeatures ??
+    true;
+
 String scoutingSeverityLabel(AppLocalizations t, String severity) =>
     switch (severity) {
       'low' => t.scoutingSeverityLow,
@@ -110,6 +121,7 @@ class ScoutingScreen extends ConsumerWidget {
     final loaded = ref.watch(scoutingRecordsProvider(plotId));
     final records = loaded.value ?? const [];
     final labelLinks = ref.watch(labelTargetsProvider).value?.scoutingItems;
+    final citrus = scoutsCitrus(ref, plotId);
     Color tone(String severity) => switch (severity) {
       'high' => c.danger,
       'medium' => c.soil,
@@ -120,12 +132,13 @@ class ScoutingScreen extends ConsumerWidget {
       appBar: AppBar(
         title: AppBarTitle(t.scoutingTitle),
         actions: [
-          IconButton(
-            key: const Key('open-lookalikes'),
-            tooltip: t.lookalikesOpen,
-            icon: Icon(Icons.compare_outlined, color: c.brand),
-            onPressed: () => context.push(Routes.lookalikesFor(plotId)),
-          ),
+          if (citrus)
+            IconButton(
+              key: const Key('open-lookalikes'),
+              tooltip: t.lookalikesOpen,
+              icon: Icon(Icons.compare_outlined, color: c.brand),
+              onPressed: () => context.push(Routes.lookalikesFor(plotId)),
+            ),
         ],
       ),
       body: loaded.isLoading && !loaded.hasValue
@@ -197,11 +210,13 @@ class ScoutingScreen extends ConsumerWidget {
       bottomNavigationBar: BottomActions(
         children: [
           // Photo analysis (Q135): the grower who cannot name what he sees sends a photo.
-          OutlinedButton(
-            key: const Key('photo-check-open'),
-            onPressed: () => context.push(Routes.photoCheck(plotId)),
-            child: Text(t.photoCheckOpen, textAlign: TextAlign.center),
-          ),
+          // Citrus only: the photo check knows santra / mosambi problems.
+          if (citrus)
+            OutlinedButton(
+              key: const Key('photo-check-open'),
+              onPressed: () => context.push(Routes.photoCheck(plotId)),
+              child: Text(t.photoCheckOpen, textAlign: TextAlign.center),
+            ),
           FilledButton(
             onPressed: () => context.push(Routes.addScouting(plotId)),
             child: Text(t.scoutingAdd, textAlign: TextAlign.center),
@@ -351,6 +366,10 @@ class _AddScoutingScreenState extends ConsumerState<AddScoutingScreen> {
           ),
       ],
     );
+    final citrus = scoutsCitrus(ref, widget.plotId);
+    // The pest list is santra / mosambi's: another crop records "other" with a note.
+    final items = citrus ? scoutingItems : const ['other'];
+    if (!citrus && !items.contains(_item)) _item = 'other';
     return Scaffold(
       appBar: AppBar(title: AppBarTitle(t.scoutingAdd)),
       body: ListView(
@@ -376,7 +395,7 @@ class _AddScoutingScreenState extends ConsumerState<AddScoutingScreen> {
           ),
           choice(
             t.scoutingWhat,
-            scoutingItems,
+            items,
             (s) => scoutingItemLabel(t, s),
             _item,
             (v) => _item = v,
@@ -417,15 +436,16 @@ class _AddScoutingScreenState extends ConsumerState<AddScoutingScreen> {
                     children: [
                       // The same photo goes to the photo analysis (Q135); the form keeps
                       // it to save with the record.
-                      OutlinedButton.icon(
-                        key: const Key('scouting-photo-check'),
-                        onPressed: () => context.push(
-                          Routes.photoCheck(widget.plotId, item: _item),
-                          extra: _picked,
+                      if (citrus)
+                        OutlinedButton.icon(
+                          key: const Key('scouting-photo-check'),
+                          onPressed: () => context.push(
+                            Routes.photoCheck(widget.plotId, item: _item),
+                            extra: _picked,
+                          ),
+                          icon: const Icon(Icons.image_search_rounded),
+                          label: Text(t.photoCheckOpen),
                         ),
-                        icon: const Icon(Icons.image_search_rounded),
-                        label: Text(t.photoCheckOpen),
-                      ),
                       TextButton.icon(
                         style: BmButtonStyle.destructive(context.bm),
                         onPressed: () => setState(() => _picked = null),

@@ -84,6 +84,29 @@ async def test_create_and_pull_plot(
     assert change["data"]["boundary"] == SQUARE
 
 
+async def test_other_crop_slugs_and_a_typed_crop_name_are_accepted(
+    client: httpx.AsyncClient, auth_headers: dict[str, str]
+) -> None:
+    # Owner 2026-11-14 (Q158): every slug of app/assets/config/crops.json syncs as a plain
+    # slug; a vegetable / flower / other crop's typed name travels as the variety (<= 60).
+    slugs = [
+        "pomegranate", "banana", "grapes", "mango", "guava", "lemon", "papaya",
+        "custard_apple", "sapota", "ber", "aonla", "other_fruit", "cotton", "soybean", "tur",
+        "gram", "moong", "urad", "vegetables", "flowers", "other",
+    ]  # fmt: skip
+    mutations = [
+        plot_mutation(uuid.uuid4(), crop=slug, variety="वांगी" if slug == "vegetables" else None)
+        for slug in slugs
+    ]
+    results = await push(client, auth_headers, *mutations)
+    assert [r["status"] for r in results] == ["applied"] * len(slugs)
+    changes = plot_changes(await pull(client, auth_headers))
+    assert sorted(c["data"]["crop"] for c in changes) == sorted(slugs)
+    assert {c["data"]["variety"] for c in changes if c["data"]["crop"] == "vegetables"} == {"वांगी"}
+    [r] = await push(client, auth_headers, plot_mutation(uuid.uuid4(), variety="क" * 61))
+    assert r["error"] == "invalid_payload"
+
+
 async def test_last_writer_wins_on_plot(
     client: httpx.AsyncClient, auth_headers: dict[str, str]
 ) -> None:

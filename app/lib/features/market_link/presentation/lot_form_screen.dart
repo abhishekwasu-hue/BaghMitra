@@ -17,6 +17,7 @@ import '../../../theme/app_theme.dart';
 import '../../bahar/data/bahar_catalog.dart';
 import '../../bahar/data/stage_templates.dart';
 import '../../bahar/presentation/cycle_chips.dart';
+import '../../plots/data/crop_catalog.dart';
 import '../../plots/domain/plot.dart';
 import '../../scouting/data/scouting_photos.dart';
 import '../../voice/presentation/voice_mic_button.dart';
@@ -417,10 +418,7 @@ class _LotFormState extends ConsumerState<_LotForm> {
     if (_plot == null && plots.length == 1) _plot = plots.single.id;
     final plot = _plotOf(plots);
     final crops = ref.watch(cropsProvider).value ?? const [];
-    final cropName = plot == null
-        ? null
-        : crops.where((x) => x.slug == plot.crop).firstOrNull?.label(lang) ??
-              plot.crop;
+    final cropName = plot == null ? null : plotCropName(plot, crops, lang);
     final options = ref.watch(fieldWorkOptionsProvider).value;
     final sizes = options?.sizeClasses ?? const <LabeledOption>[];
     // Graded produce for sale: fallen / rejected fruit is not a sale grade.

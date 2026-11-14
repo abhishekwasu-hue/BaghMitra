@@ -87,7 +87,12 @@ async def api(
 
 
 async def add_plot(
-    engine: AsyncEngine, owner: uuid.UUID, *, lat: float | None = 21.2468, lon: float = 77.7512
+    engine: AsyncEngine,
+    owner: uuid.UUID,
+    *,
+    lat: float | None = 21.2468,
+    lon: float = 77.7512,
+    crop: str = "santra",
 ) -> uuid.UUID:
     maker = async_sessionmaker(engine, expire_on_commit=False)
     plot_id = uuid.uuid4()
@@ -97,7 +102,7 @@ async def add_plot(
                 id=plot_id,
                 owner_id=owner,
                 name="बाग १",
-                crop="santra",
+                crop=crop,
                 area_sq_m=4000,
                 centroid_lat=lat,
                 centroid_lon=lon,
@@ -107,6 +112,32 @@ async def add_plot(
         )
         await s.commit()
     return plot_id
+
+
+async def test_a_cotton_plot_gets_no_citrus_alerts(
+    api: httpx.AsyncClient,
+    engine: AsyncEngine,
+    provider: FakeProvider,
+    user_id: uuid.UUID,
+    auth_headers: dict[str, str],
+) -> None:
+    # Owner 2026-11-14 (Q158): the same weather alerts a santra plot of heat and psylla; a
+    # cotton plot on the same cell gets neither (the storm rules stay for every crop).
+    provider.storm = True
+    santra = await add_plot(engine, user_id)
+    cotton = await add_plot(engine, user_id, crop="cotton")
+    keys = {}
+    for plot_id in (santra, cotton):
+        r = await api.get(f"/v1/plots/{plot_id}/weather", headers=auth_headers)
+        assert r.status_code == 200, r.text
+        keys[plot_id] = {a["rule_key"] for a in r.json()["alerts"]}
+    assert {"heat_fruit_drop", "psylla_degree_days", "hail_thunderstorm"} <= keys[santra]
+    assert keys[cotton] == keys[santra] - {
+        "heat_fruit_drop",
+        "psylla_degree_days",
+        "high_humidity",
+    }
+    assert "hail_thunderstorm" in keys[cotton]
 
 
 def test_cell_rounds_so_neighbours_share_one_pull() -> None:

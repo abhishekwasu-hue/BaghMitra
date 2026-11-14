@@ -10,6 +10,7 @@ from bagmitra_api.risk.engine import (
     evaluate,
     load_rules,
     parse_rules,
+    rules_for_crop,
 )
 from bagmitra_api.weather.open_meteo import DailyWeather
 
@@ -186,3 +187,30 @@ def test_cold_wave_and_humidity_rules_use_their_sourced_thresholds() -> None:
     assert [a.rule_key for a in evaluate([cold, humid], [mild])] == []
     assert [a.rule_key for a in evaluate([cold, humid], [night])] == ["cold_wave"]
     assert [a.rule_key for a in evaluate([cold, humid], [damp])] == ["high_humidity"]
+
+
+def test_crops_limit_a_rule_to_plots_of_those_crops() -> None:
+    citrus = rule(key="citrus_only", crops=["santra", "mosambi"])
+    every = rule(key="every_crop")
+    assert citrus.applies_to("santra")
+    assert citrus.applies_to("mosambi")
+    assert not citrus.applies_to("cotton")
+    assert every.crops is None
+    assert every.applies_to("cotton")
+    assert [r.key for r in rules_for_crop([citrus, every], "cotton")] == ["every_crop"]
+    for bad in ([], "santra", [""], [1]):
+        with pytest.raises(RuleConfigError, match="citrus_only"):
+            rule(key="citrus_only", crops=bad)
+
+
+def test_shipped_citrus_rules_never_alert_other_crops() -> None:
+    # Owner 2026-11-14 (Q158): the rules sourced from a citrus guideline are for santra and
+    # mosambi only; every other shipped rule (IMD storms, rain, cold) is for every crop.
+    by_key = {r.key: r for r in load_rules()}
+    citrus_only = {"heat_fruit_drop", "psylla_degree_days", "high_humidity"}
+    for key, r in by_key.items():
+        assert r.crops == (frozenset({"santra", "mosambi"}) if key in citrus_only else None), key
+    for crop in ("cotton", "soybean", "banana", "lemon", "vegetables"):
+        assert [r.key for r in rules_for_crop(list(by_key.values()), crop)] == [
+            k for k in by_key if k not in citrus_only
+        ], crop

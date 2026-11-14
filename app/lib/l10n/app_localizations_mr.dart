@@ -5432,4 +5432,19 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get adminReactionsQa => 'प्रश्नोत्तर';
+
+  @override
+  String get plotOtherCrops => 'इतर पिके';
+
+  @override
+  String get plotCropName => 'पिकाचे नाव';
+
+  @override
+  String get plotCropNameHint => 'उदा. टोमॅटो, झेंडू';
+
+  @override
+  String get requiredCropName => 'पिकाचे नाव लिहा';
+
+  @override
+  String get homePlotOpen => 'नोंदी उघडा';
 }

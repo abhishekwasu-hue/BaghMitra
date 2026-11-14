@@ -1565,5 +1565,10 @@
   "adminReactionsLeast": "सबसे कम उपयोगी",
   "adminReactionsTotals": "{targets} विषय · {total} प्रतिक्रियाएँ",
   "adminReactionsNone": "प्रतिक्रियाएँ आने पर यहाँ दिखेंगी.",
-  "adminReactionsQa": "प्रश्नोत्तर"
+  "adminReactionsQa": "प्रश्नोत्तर",
+  "plotOtherCrops": "अन्य फसलें",
+  "plotCropName": "फसल का नाम",
+  "plotCropNameHint": "जैसे टमाटर, गेंदा",
+  "requiredCropName": "फसल का नाम लिखें",
+  "homePlotOpen": "रिकॉर्ड खोलें"
 }

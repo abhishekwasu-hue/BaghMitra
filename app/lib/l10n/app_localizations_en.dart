@@ -5453,4 +5453,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get adminReactionsQa => 'Answer';
+
+  @override
+  String get plotOtherCrops => 'Other crops';
+
+  @override
+  String get plotCropName => 'Crop name';
+
+  @override
+  String get plotCropNameHint => 'e.g. tomato, marigold';
+
+  @override
+  String get requiredCropName => 'Type the crop name';
+
+  @override
+  String get homePlotOpen => 'Open records';
 }

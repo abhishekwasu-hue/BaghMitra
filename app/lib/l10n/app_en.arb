@@ -2085,5 +2085,15 @@
   "adminReactionsNone": "Reactions will appear here.",
   "@adminReactionsNone": {"description": "Feed admin: shown when nobody has reacted yet."},
   "adminReactionsQa": "Answer",
-  "@adminReactionsQa": {"description": "Feed admin: badge of a row that is a bundled answer of the Ask tab, not a feed item."}
+  "@adminReactionsQa": {"description": "Feed admin: badge of a row that is a bundled answer of the Ask tab, not a feed item."},
+  "plotOtherCrops": "Other crops",
+  "@plotOtherCrops": {"description": "Block form: green button under the two big crop choices (santra, mosambi) that opens the list of other crops."},
+  "plotCropName": "Crop name",
+  "@plotCropName": {"description": "Block form: the name the grower types for a vegetable, flower or other crop."},
+  "plotCropNameHint": "e.g. tomato, marigold",
+  "@plotCropNameHint": {"description": "Block form: hint inside the crop name field."},
+  "requiredCropName": "Type the crop name",
+  "@requiredCropName": {"description": "Block form: error when the crop name is left blank."},
+  "homePlotOpen": "Open records",
+  "@homePlotOpen": {"description": "Home: button of the block card shown for a crop other than santra / mosambi (no bahar card)."}
 }

@@ -11,6 +11,7 @@ import '../../../design_system/glyphs.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../theme/app_theme.dart';
 import '../../weather/presentation/plot_weather_card.dart';
+import '../data/crop_catalog.dart';
 import '../domain/geo.dart';
 import 'plot_point.dart';
 
@@ -33,12 +34,10 @@ class PlotDetailScreen extends ConsumerWidget {
         .firstOrNull;
     final crops = ref.watch(cropsProvider).value ?? const [];
     if (plot == null) return const Scaffold(body: SizedBox.shrink());
-    final cropLabel =
-        [
-          for (final k in crops)
-            if (k.slug == plot.crop) k.label(lang),
-        ].firstOrNull ??
-        plot.crop;
+    final cropLabel = plotCropName(plot, crops, lang);
+    // A typed crop name (vegetables, flowers, other) is kept as the variety.
+    final typedName =
+        crops.where((k) => k.slug == plot.crop).firstOrNull?.nameTyped ?? false;
     final corners = cornersFromGeoJson(plot.boundary);
     // Pull to refresh: the plot's weather and the latest records from the server.
     Future<void> refresh() async {
@@ -82,7 +81,8 @@ class PlotDetailScreen extends ConsumerWidget {
           padding: const EdgeInsets.all(BmSpace.lg),
           children: [
             row(t.plotCrop, cropLabel),
-            if (plot.variety != null) row(t.plotVariety, plot.variety!),
+            if (plot.variety != null && !typedName)
+              row(t.plotVariety, plot.variety!),
             row(t.plotAreaAcres, formatDecimal(plot.areaAcres, lang)),
             if (plot.treeCount != null)
               row(t.plotTreeCount, formatInt(plot.treeCount!, lang)),
@@ -107,7 +107,7 @@ class PlotDetailScreen extends ConsumerWidget {
               PlotWeatherCard(plotId: plot.id),
             ],
             const SizedBox(height: BmSpace.lg),
-            PlotTiles(plotId: plot.id),
+            PlotTiles(plotId: plot.id, citrus: plot.hasCitrusFeatures),
           ],
         ),
       ),
@@ -116,11 +116,13 @@ class PlotDetailScreen extends ConsumerWidget {
 }
 
 /// The way into a block's records: Bahar as the one primary tile, then a two-column grid
-/// of labelled tiles, one per screen, each opened with one tap.
+/// of labelled tiles, one per screen, each opened with one tap. A crop other than santra /
+/// mosambi has the records only: no bahar, irrigation guide or practices (citrus content).
 class PlotTiles extends ConsumerWidget {
-  const PlotTiles({required this.plotId, super.key});
+  const PlotTiles({required this.plotId, this.citrus = true, super.key});
 
   final String plotId;
+  final bool citrus;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -175,18 +177,20 @@ class PlotTiles extends ConsumerWidget {
         label: t.labTestsTitle,
         route: Routes.labTests(plotId),
       ),
-      (
-        key: 'open-irrigation-guide',
-        icon: const GlyphIcon(BmGlyph.drop, size: 28),
-        label: t.irrigationOpen,
-        route: Routes.irrigationGuide(plotId),
-      ),
-      (
-        key: 'open-practices',
-        icon: const Icon(Icons.eco_outlined),
-        label: t.practicesOpen,
-        route: Routes.practices,
-      ),
+      if (citrus) ...[
+        (
+          key: 'open-irrigation-guide',
+          icon: const GlyphIcon(BmGlyph.drop, size: 28),
+          label: t.irrigationOpen,
+          route: Routes.irrigationGuide(plotId),
+        ),
+        (
+          key: 'open-practices',
+          icon: const Icon(Icons.eco_outlined),
+          label: t.practicesOpen,
+          route: Routes.practices,
+        ),
+      ],
       if (marketLink)
         (
           key: 'open-market-lot',
@@ -198,22 +202,23 @@ class PlotTiles extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        _Tile(
-          spec: (
-            key: 'open-records',
-            icon: GlyphIcon(
-              BmGlyph.flower,
-              size: 28,
-              color: context.bm.onAccent,
+        if (citrus)
+          _Tile(
+            spec: (
+              key: 'open-records',
+              icon: GlyphIcon(
+                BmGlyph.flower,
+                size: 28,
+                color: context.bm.onAccent,
+              ),
+              label: t.plotTileBahar,
+              route: Routes.plotBahar(plotId),
             ),
-            label: t.plotTileBahar,
-            route: Routes.plotBahar(plotId),
+            primary: true,
           ),
-          primary: true,
-        ),
         for (var i = 0; i < tiles.length; i += 2)
           Padding(
-            padding: const EdgeInsets.only(top: BmSpace.sm),
+            padding: EdgeInsets.only(top: citrus || i > 0 ? BmSpace.sm : 0),
             // Both tiles of a row take the taller one's height at any text size.
             child: IntrinsicHeight(
               child: Row(
