@@ -214,7 +214,7 @@ Future<void> pumpPackage(
   addTearDown(tester.view.reset);
   await tester.pumpWidget(
     AdminApp(
-      productName: 'BagMitra',
+      productName: 'BaagMitra',
       auth: FakeAdminAuth(signedIn: true, roles: {'market_link_admin'}),
       kb: FakeKbAdmin(),
       marketLink: FakeMarketLinkAdmin(),

@@ -52,7 +52,7 @@ class FakeOpener {
 }
 
 const _realBuild = AppConfig(
-  productName: 'BagMitra',
+  productName: 'BaagMitra',
   apiBaseUrl: 'http://localhost:8000',
   supabaseUrl: 'https://x.supabase.co',
   supabaseAnonKey: 'anon',
@@ -222,7 +222,7 @@ void main() {
     test('test and demo builds never check', () async {
       for (final config in [
         AppConfig(
-          productName: 'BagMitra',
+          productName: 'BaagMitra',
           apiBaseUrl: _realBuild.apiBaseUrl,
           supabaseUrl: _realBuild.supabaseUrl,
           supabaseAnonKey: _realBuild.supabaseAnonKey,

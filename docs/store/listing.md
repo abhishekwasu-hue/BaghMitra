@@ -26,7 +26,7 @@ lines that match the release):
 **Title (30 max)**
 
 ```
-BagMitra: Orange Orchard Diary
+BaagMitra Orange Orchard Diary
 ```
 
 **Short description (80 max)**
@@ -38,7 +38,7 @@ Bahar-wise records, tasks, spray log, accounts and mandi prices for your orchard
 **Full description**
 
 ```
-BagMitra is an orchard diary for Nagpur orange (santra) and sweet lime (mosambi) growers. Keep every record of your orchard in one place, bahar by bahar, in Marathi, Hindi or English.
+BaagMitra is an orchard diary for Nagpur orange (santra) and sweet lime (mosambi) growers. Keep every record of your orchard in one place, bahar by bahar, in Marathi, Hindi or English.
 
 WORKS WITHOUT INTERNET
 Write your records in the field even with no signal. When the phone is online again, they are sent to your account and appear on your other phone too.
@@ -87,7 +87,7 @@ YOUR DATA
 • Delete your account and data any time from Profile in the app
 • Privacy policy: https://bagmitra.aialgodesk.org/privacy
 
-BagMitra keeps your records and shows general information. It does not recommend chemicals or doses; for those, ask your agriculture officer, KVK or a qualified expert.
+BaagMitra keeps your records and shows general information. It does not recommend chemicals or doses; for those, ask your agriculture officer, KVK or a qualified expert.
 ```
 
 ---
@@ -238,7 +238,7 @@ BagMitra keeps your records and shows general information. It does not recommend
 
 | | Title (≤ 30) | Short (≤ 80) | Full (≤ 4000) |
 |---|---|---|---|
-| en-IN | 30 | 80 | 2238 / 2019 |
+| en-IN | 30 | 80 | 2240 / 2021 |
 | mr-IN | 26 | 74 | 1980 / 1804 |
 | hi-IN | 25 | 80 | 2013 / 1824 |
 

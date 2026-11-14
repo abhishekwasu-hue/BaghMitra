@@ -24,7 +24,7 @@ void main() {
   });
 
   test('an unknown kind is not shown as a place photo', () {
-    expect(text('something_new'), startsWith('Checked by BagMitra'));
+    expect(text('something_new'), startsWith('Checked by BaagMitra'));
   });
 
   test('since_year is read from the API json', () {

@@ -48,26 +48,27 @@ Verdict = Literal["official_match", "possible_match", "no_official_match"]
 
 NOTES: dict[str, dict[str, str]] = {
     "official_match": {
-        "en": "This matches an official item in BagMitra. Compare every detail with the "
+        "en": "This matches an official item in BaagMitra. Compare every detail with the "
         "official GR before acting.",
-        "mr": "हा संदेश BagMitra मधील अधिकृत नोंदीशी जुळतो. कोणतीही कृती करण्यापूर्वी अधिकृत "
+        "mr": "हा संदेश BaagMitra मधील अधिकृत नोंदीशी जुळतो. कोणतीही कृती करण्यापूर्वी अधिकृत "
         "शासन निर्णय (GR) मधील सर्व तपशील तपासा.",
-        "hi": "यह संदेश BagMitra की एक आधिकारिक जानकारी से मेल खाता है। कोई भी कदम उठाने से "
+        "hi": "यह संदेश BaagMitra की एक आधिकारिक जानकारी से मेल खाता है। कोई भी कदम उठाने से "
         "पहले आधिकारिक GR में सभी विवरण जाँचें।",
     },
     "possible_match": {
-        "en": "Some details are similar to an official item in BagMitra, and some differ. "
+        "en": "Some details are similar to an official item in BaagMitra, and some differ. "
         "Check the official portal before acting.",
-        "mr": "काही तपशील BagMitra मधील अधिकृत नोंदीसारखे आहेत, तर काही वेगळे आहेत. कोणतीही "
+        "mr": "काही तपशील BaagMitra मधील अधिकृत नोंदीसारखे आहेत, तर काही वेगळे आहेत. कोणतीही "
         "कृती करण्यापूर्वी अधिकृत पोर्टल तपासा.",
-        "hi": "कुछ विवरण BagMitra की एक आधिकारिक जानकारी से मिलते हैं, और कुछ अलग हैं। कोई भी "
+        "hi": "कुछ विवरण BaagMitra की एक आधिकारिक जानकारी से मिलते हैं, और कुछ अलग हैं। कोई भी "
         "कदम उठाने से पहले आधिकारिक पोर्टल देखें।",
     },
     "no_official_match": {
-        "en": "No matching official GR found in BagMitra. Check the official portal before acting.",
-        "mr": "BagMitra मध्ये जुळणारा अधिकृत शासन निर्णय (GR) सापडला नाही. कोणतीही कृती "
+        "en": "No matching official GR found in BaagMitra. "
+        "Check the official portal before acting.",
+        "mr": "BaagMitra मध्ये जुळणारा अधिकृत शासन निर्णय (GR) सापडला नाही. कोणतीही कृती "
         "करण्यापूर्वी अधिकृत पोर्टल तपासा.",
-        "hi": "BagMitra में कोई मेल खाता आधिकारिक GR नहीं मिला। कोई भी कदम उठाने से पहले "
+        "hi": "BaagMitra में कोई मेल खाता आधिकारिक GR नहीं मिला। कोई भी कदम उठाने से पहले "
         "आधिकारिक पोर्टल देखें।",
     },
 }

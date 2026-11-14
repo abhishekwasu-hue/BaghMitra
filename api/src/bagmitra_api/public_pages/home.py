@@ -1,4 +1,4 @@
-"""Short public home page: what BagMitra is, who it is for, links to the privacy policy.
+"""Short public home page: what BaagMitra is, who it is for, links to the privacy policy.
 
 Only features that exist in the app are named here (see docs/legal/DATA_INVENTORY.md).
 """
@@ -17,7 +17,7 @@ BODY = """
 <p><a href="/privacy#mr">गोपनीयता धोरण (मराठी)</a></p>
 </section>
 <section lang="en">
-<h2>What BagMitra is</h2>
+<h2>What BaagMitra is</h2>
 <p>An orchard diary for santra (orange) and mosambi (sweet lime) growers in Nagpur and Vidarbha.
 It works offline, in Marathi, Hindi and English.</p>
 <ul><li>Plots and bahar calendar, tasks and reminders</li>

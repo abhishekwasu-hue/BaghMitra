@@ -109,7 +109,7 @@ Future<FakeKbAdmin> _pump(WidgetTester tester) async {
   tester.view.devicePixelRatio = 1;
   addTearDown(tester.view.reset);
   final kb = FakeKbAdmin();
-  await tester.pumpWidget(AdminApp(productName: 'BagMitra', kb: kb));
+  await tester.pumpWidget(AdminApp(productName: 'BaagMitra', kb: kb));
   await tester.pumpAndSettle();
   return kb;
 }
@@ -203,7 +203,7 @@ void main() {
     tester.view.physicalSize = const Size(1280, 900);
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.reset);
-    await tester.pumpWidget(const AdminApp(productName: 'BagMitra'));
+    await tester.pumpWidget(const AdminApp(productName: 'BaagMitra'));
     await tester.pumpAndSettle();
     expect(find.textContaining('admin account'), findsOneWidget);
   });

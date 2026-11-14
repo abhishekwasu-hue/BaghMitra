@@ -130,15 +130,15 @@ void main() {
     // The role home, with the fixed notice; saved on the phone, to be posted (no server).
     expect(find.byKey(const Key('safety-notice')), findsOneWidget);
     expect(
-      find.text('BagMitra कधीही पैसे, OTP किंवा बँक तपशील मागत नाही.'),
+      find.text('BaagMitra कधीही पैसे, OTP किंवा बँक तपशील मागत नाही.'),
       findsOneWidget,
     );
     final stored = await _accepted(tester, db);
     expect((stored['trader']! as Map)['posted'], isFalse);
     // The grievance officer is behind a fold; the owner by default.
-    expect(find.text('BagMitra चे मालक'), findsNothing);
+    expect(find.text('BaagMitra चे मालक'), findsNothing);
     await _tap(tester, 'grievance');
-    expect(find.text('BagMitra चे मालक'), findsOneWidget);
+    expect(find.text('BaagMitra चे मालक'), findsOneWidget);
     await unmountApp(tester);
   });
 

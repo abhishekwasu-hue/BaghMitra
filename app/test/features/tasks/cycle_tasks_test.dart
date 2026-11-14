@@ -41,7 +41,7 @@ void main() {
       final tasks = tasksForCycle(
         cycle(),
         templates: templates,
-        source: 'BagMitra stage reminder',
+        source: 'BaagMitra stage reminder',
         lang: 'en',
         baharLabel: 'Mrig bahar',
         stageLabels: const {'flowering': 'Flowering', 'harvest': 'Harvest'},
@@ -144,7 +144,7 @@ void main() {
         for (final t in tasksForCycle(
           cycle(),
           templates: [...templates, ...ops],
-          source: 'BagMitra stage reminder',
+          source: 'BaagMitra stage reminder',
           lang: 'en',
           baharLabel: 'Mrig bahar',
           stageLabels: const {'flowering': 'Flowering'},
@@ -162,7 +162,7 @@ void main() {
       final water = tasksForCycle(
         cycle(),
         templates: ops,
-        source: 'BagMitra stage reminder',
+        source: 'BaagMitra stage reminder',
         lang: 'en',
         baharLabel: 'Mrig bahar',
         stageLabels: const {'flowering': 'Flowering'},

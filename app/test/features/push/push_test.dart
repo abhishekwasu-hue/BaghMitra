@@ -90,7 +90,7 @@ class _HangingApi implements PushDeviceApi {
 }
 
 const _online = AppConfig(
-  productName: 'BagMitra',
+  productName: 'BaagMitra',
   apiBaseUrl: 'https://api.example.test',
   supabaseUrl: 'https://project.supabase.test',
   supabaseAnonKey: 'anon',
@@ -100,7 +100,7 @@ const _online = AppConfig(
 );
 
 const _pushOn = AppConfig(
-  productName: 'BagMitra',
+  productName: 'BaagMitra',
   apiBaseUrl: 'https://api.example.test',
   supabaseUrl: 'https://project.supabase.test',
   supabaseAnonKey: 'anon',
@@ -121,7 +121,7 @@ void main() {
         expect(_online.pushEnabled, isFalse);
         expect(_pushOn.pushEnabled, isTrue);
         const demo = AppConfig(
-          productName: 'BagMitra',
+          productName: 'BaagMitra',
           apiBaseUrl: 'http://localhost',
           supabaseUrl: '',
           supabaseAnonKey: '',

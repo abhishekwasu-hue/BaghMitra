@@ -304,7 +304,7 @@ void main() {
       await _wide(tester);
       await tester.pumpWidget(
         AdminApp(
-          productName: 'BagMitra',
+          productName: 'BaagMitra',
           auth: FakeAdminAuth(signedIn: true, roles: {'kb_admin', ...roles}),
           kb: FakeKbAdmin(),
           marketLink: repo,

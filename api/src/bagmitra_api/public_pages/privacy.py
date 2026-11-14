@@ -177,7 +177,7 @@ security हे आणखी एक संरक्षण म्हणून च
 <h2 id="mr-ai">१०. AI ने लिहिलेली माहिती</h2>
 <p>या ॲपमधील बातम्या, लेख आणि ज्ञान लेख AI च्या मदतीने लिहिलेले आहेत. AI चूक करू शकते. कोणतीही
 कृती (अर्ज, फवारणी, खर्च, विक्री) करण्यापूर्वी अधिकृत शासन निर्णय (GR) / संबंधित अधिकृत पोर्टल
-किंवा कृषी तज्ज्ञांकडून माहिती तपासून घ्या. या माहितीतील चुकीमुळे झालेल्या नुकसानीस BagMitra
+किंवा कृषी तज्ज्ञांकडून माहिती तपासून घ्या. या माहितीतील चुकीमुळे झालेल्या नुकसानीस BaagMitra
 जबाबदार राहणार नाही.</p>
 
 <h2 id="mr-changes">११. बदल</h2>
@@ -193,7 +193,7 @@ def _en(email: str, retention_days: int, photo_days: int) -> str:
     i = _if("en")
     return f"""
 <h2 id="en-about">1. About this policy</h2>
-<p>BagMitra is an orchard record app for santra (orange) and mosambi (sweet lime) growers. This
+<p>BaagMitra is an orchard record app for santra (orange) and mosambi (sweet lime) growers. This
 policy explains what the app and its server collect, where it is stored, who receives it and
 what your rights are, following India's Digital Personal Data Protection Act, 2023 (DPDP).</p>
 
@@ -201,11 +201,11 @@ what your rights are, following India's Digital Personal Data Protection Act, 20
 <h3>Account</h3>
 <ul><li>Your mobile number (sign-in by OTP) or your Google account. Sign-in is handled by Supabase
 Auth; with Google sign-in, Google shares the details shown on its consent screen (such as name
-and email) with Supabase Auth. BagMitra's server uses only the account id and, if present, the
+and email) with Supabase Auth. BaagMitra's server uses only the account id and, if present, the
 mobile number.</li></ul>
 <h3>Profile</h3>
 <ul><li>Name, language, village, taluka, district, an optional contact number, and your consents:
-storing your records, and (optional) WhatsApp reminders. BagMitra does not send WhatsApp messages
+storing your records, and (optional) WhatsApp reminders. BaagMitra does not send WhatsApp messages
 yet; your choice is only saved.</li>
 <li>Your district and your plots' crop and area are used to pick the government notices meant
 for you.</li></ul>
@@ -239,7 +239,7 @@ your phone only.</li></ul>
 no background tracking.</li></ul>
 <h3>Voice</h3>
 <ul><li>Voice typing uses your phone's own speech service (on most Android phones, Google's),
-which may process the audio online under its own terms. BagMitra's server never receives audio.
+which may process the audio online under its own terms. BaagMitra's server never receives audio.
 Reading aloud happens on the phone.</li></ul>
 <h3>Other</h3>
 <ul><li>"Check a message": the pasted text is sent to our server to compare with official
@@ -257,15 +257,15 @@ troubleshooting. They do not contain your IP address, query strings or record co
 are capped in size (about 50 MB per service); older lines are deleted automatically. Error
 reporting (Sentry) {i}: receives error details.</li>
 <li>A small log on the phone stays there unless you tap "Send logs" and pick an app.</li>
-<li>Your plan and its period. BagMitra does not collect card or bank details.</li></ul>
+<li>Your plan and its period. BaagMitra does not collect card or bank details.</li></ul>
 
 <h2 id="en-where">3. Where it is stored</h2>
 <ul><li>First on your phone (the app works offline); the app sends your records to the server on
 its own whenever it is online.</li>
 <li>In a Supabase PostgreSQL database, in the Mumbai (ap-south-1) region per our setup guide. The
-server's own database {i}: on BagMitra's rented server (VPS) instead.</li>
+server's own database {i}: on BaagMitra's rented server (VPS) instead.</li>
 <li>Photo backup {i}: private Supabase Storage.</li>
-<li>Nightly database backups: on BagMitra's server, kept for 14 days. Data on the phone is not
+<li>Nightly database backups: on BaagMitra's server, kept for 14 days. Data on the phone is not
 included in Google's Android backup.</li></ul>
 
 <h2 id="en-share">4. Who receives it</h2>
@@ -326,7 +326,7 @@ sign in with. After confirming it is you, we erase the account and its server da
 backup).</p>
 
 <h2 id="en-children">8. Children</h2>
-<p>BagMitra is meant for adult growers, not for children under 18. If a child's data was
+<p>BaagMitra is meant for adult growers, not for children under 18. If a child's data was
 entered, tell us and we will delete it.</p>
 
 <h2 id="en-security">9. Security</h2>
@@ -342,7 +342,7 @@ app.</li></ul>
 <p>The news, articles and knowledge articles in this app are written with the help of AI. AI can
 make mistakes. Before any action (an application, a spray, an expense, a sale), check the
 information against the official government resolution (GR) / the relevant official portal or
-with an agriculture expert. BagMitra is not responsible for any loss caused by a mistake in this
+with an agriculture expert. BaagMitra is not responsible for any loss caused by a mistake in this
 information.</p>
 
 <h2 id="en-changes">11. Changes</h2>

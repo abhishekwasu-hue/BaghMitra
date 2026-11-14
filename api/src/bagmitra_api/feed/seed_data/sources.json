@@ -144,7 +144,7 @@
     },
     {
       "key": "bagmitra_knowledge",
-      "name": "BagMitra knowledge articles (ज्ञान लेख), written from the checked KB practice cards and the open sources they cite, or an official feed item",
+      "name": "BaagMitra knowledge articles (ज्ञान लेख), written from the checked KB practice cards and the open sources they cite, or an official feed item",
       "url": "https://github.com/abhishekwasu-hue/BaghMitra/blob/main/docs/runbooks/govt-feed.md",
       "tier": "knowledge",
       "fetch_method": "manual",

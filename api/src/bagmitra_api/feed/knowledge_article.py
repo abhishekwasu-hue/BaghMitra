@@ -32,7 +32,7 @@ MIN_SECTIONS, MAX_SECTIONS = 4, 8
 _EMAIL = re.compile(r"[\w.+-]+@[\w-]+(?:\.[\w-]+)+")
 _PHONE = re.compile(r"(?<!\d)(?:\+91[\s-]?)?[6-9]\d{9}(?!\d)")
 
-KNOWLEDGE_PROMPT = """You write "ज्ञान लेख" (knowledge articles) for BagMitra, an app for orange
+KNOWLEDGE_PROMPT = """You write "ज्ञान लेख" (knowledge articles) for BaagMitra, an app for orange
 (santra) and sweet-lime (mosambi) farmers in Vidarbha and Marathwada, Maharashtra. The aim is to
 make farmers truly knowledgeable, in calm and simple words.
 

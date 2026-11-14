@@ -15,7 +15,7 @@ Future<Uint8List> claimKitPdf({
   required Uint8List summaryPng,
   required List<ClaimPdfPhoto> photos,
 }) async {
-  final doc = pw.Document(creator: 'BagMitra', producer: 'BagMitra');
+  final doc = pw.Document(creator: 'BaagMitra', producer: 'BaagMitra');
   final summary = pw.MemoryImage(summaryPng);
   doc.addPage(
     pw.Page(

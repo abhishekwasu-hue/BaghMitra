@@ -79,7 +79,7 @@ class FeedThreader(Protocol):
         ...
 
 
-THREAD_PROMPT = """You group farm news for BagMitra, an app for Maharashtra farmers. <document>
+THREAD_PROMPT = """You group farm news for BaagMitra, an app for Maharashtra farmers. <document>
 holds one NEW news item and recent topic THREADS, each with an id (T1, T2, ...), a date, a title
 and a summary. Decide whether the NEW item reports the SAME specific event or government decision
 as one thread: for example the same relief package, the same payment, the same scheme decision or

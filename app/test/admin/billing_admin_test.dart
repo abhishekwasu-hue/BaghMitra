@@ -497,7 +497,7 @@ void main() {
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.reset);
     Widget app(Set<String> roles) => AdminApp(
-      productName: 'BagMitra',
+      productName: 'BaagMitra',
       auth: FakeAdminAuth(signedIn: true, roles: roles),
       kb: FakeKbAdmin(),
       billing: FakeBillingAdmin(),

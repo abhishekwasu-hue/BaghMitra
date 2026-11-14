@@ -15,7 +15,7 @@ import 'package:drift/drift.dart' show Value;
 
 /// A production-like build: a backend is configured, so the demo home is never used.
 const realConfig = AppConfig(
-  productName: 'BagMitra',
+  productName: 'BaagMitra',
   apiBaseUrl: 'http://localhost:8000',
   supabaseUrl: 'https://x.supabase.co',
   supabaseAnonKey: 'anon',
@@ -26,7 +26,7 @@ const realConfig = AppConfig(
 
 /// The same production-like build with the developer component gallery switched on.
 const realDevConfig = AppConfig(
-  productName: 'BagMitra',
+  productName: 'BaagMitra',
   apiBaseUrl: 'http://localhost:8000',
   supabaseUrl: 'https://x.supabase.co',
   supabaseAnonKey: 'anon',

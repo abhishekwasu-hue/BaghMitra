@@ -213,7 +213,7 @@ void main() {
       expect(sharer.shared.single, contains('07103-275537'));
       expect(sharer.shared.single, contains('Nagpur'));
       expect(sharer.shared.single, contains('kvknagpur.org.in'));
-      expect(sharer.shared.single, contains('BagMitra'));
+      expect(sharer.shared.single, contains('BaagMitra'));
       await unmountApp(tester);
     },
   );

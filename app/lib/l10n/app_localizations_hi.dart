@@ -3802,11 +3802,11 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get mlTermsIntroOnly =>
-      'BagMitra केवल जानकारी देता है और आपको व्यापारियों, मध्यस्थों (दलाल) और बाज़ार से मिलवाता है।';
+      'BaagMitra केवल जानकारी देता है और आपको व्यापारियों, मध्यस्थों (दलाल) और बाज़ार से मिलवाता है।';
 
   @override
   String get mlTermsNotParty =>
-      'BagMitra खरीदार, विक्रेता, कमीशन एजेंट या ट्रांसपोर्टर नहीं है।';
+      'BaagMitra खरीदार, विक्रेता, कमीशन एजेंट या ट्रांसपोर्टर नहीं है।';
 
   @override
   String get mlTermsNoMoney =>
@@ -3818,7 +3818,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get mlTermsNoPart =>
-      'आपके लेन-देन या किसी भी विवाद में BagMitra भाग नहीं लेता।';
+      'आपके लेन-देन या किसी भी विवाद में BaagMitra भाग नहीं लेता।';
 
   @override
   String get mlTermsAfterDeal =>
@@ -3849,13 +3849,13 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get mlSafetyNotice =>
-      'BagMitra कभी भी पैसे, OTP या बैंक विवरण नहीं माँगता।';
+      'BaagMitra कभी भी पैसे, OTP या बैंक विवरण नहीं माँगता।';
 
   @override
   String get mlGrievanceTitle => 'शिकायत अधिकारी';
 
   @override
-  String get mlGrievanceOwner => 'BagMitra के मालिक';
+  String get mlGrievanceOwner => 'BaagMitra के मालिक';
 
   @override
   String mlGrievanceContact(String contact) {
@@ -3902,7 +3902,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get mlFixOnce =>
-      'लोकेशन सिर्फ़ एक बार, अभी ली जाती है। सार्वजनिक प्रोफ़ाइल पर सिर्फ़ गाँव, तहसील और ज़िला दिखता है; सटीक जगह सिर्फ़ BagMitra की जाँच के लिए।';
+      'लोकेशन सिर्फ़ एक बार, अभी ली जाती है। सार्वजनिक प्रोफ़ाइल पर सिर्फ़ गाँव, तहसील और ज़िला दिखता है; सटीक जगह सिर्फ़ BaagMitra की जाँच के लिए।';
 
   @override
   String get mlPhonePublicNote =>
@@ -3989,14 +3989,14 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get mlNumbersNote =>
-      'कम से कम एक लिखें: GSTIN, APMC लाइसेंस या IEC। BagMitra उसे आधिकारिक सार्वजनिक रजिस्टर पर जाँचता है।';
+      'कम से कम एक लिखें: GSTIN, APMC लाइसेंस या IEC। BaagMitra उसे आधिकारिक सार्वजनिक रजिस्टर पर जाँचता है।';
 
   @override
   String get mlIecRequired => 'निर्यातक पंजीकरण के लिए IEC नंबर चाहिए।';
 
   @override
   String get mlBrokerCallNote =>
-      'जाँच पूरी करने के लिए BagMitra इस नंबर पर आपको फ़ोन करेगा।';
+      'जाँच पूरी करने के लिए BaagMitra इस नंबर पर आपको फ़ोन करेगा।';
 
   @override
   String get mlErrPhone => '10 अंकों का मोबाइल नंबर लिखें';
@@ -4036,7 +4036,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get mlSubmit => 'पंजीकरण भेजें';
 
   @override
-  String get mlSubmitted => 'पंजीकरण भेजा गया। BagMitra जाँच करेगा।';
+  String get mlSubmitted => 'पंजीकरण भेजा गया। BaagMitra जाँच करेगा।';
 
   @override
   String get mlOffline => 'इसे देखने के लिए इंटरनेट चालू करें';
@@ -4058,14 +4058,14 @@ class AppLocalizationsHi extends AppLocalizations {
   String get mlStatusPending => 'जाँच बाकी';
 
   @override
-  String get mlStatusApproved => 'BagMitra ने जाँचा';
+  String get mlStatusApproved => 'BaagMitra ने जाँचा';
 
   @override
   String get mlStatusRejected => 'वापस भेजा; कारण देखें';
 
   @override
   String get mlCheckNote =>
-      'BagMitra की जाँच के बाद आपकी प्रोफ़ाइल किसानों को दिखती है। दस्तावेज़ों की फ़ोटो जाँच में मदद करती हैं।';
+      'BaagMitra की जाँच के बाद आपकी प्रोफ़ाइल किसानों को दिखती है। दस्तावेज़ों की फ़ोटो जाँच में मदद करती हैं।';
 
   @override
   String mlDocsCount(String count) {
@@ -4132,7 +4132,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String mlBadgeChecked(String date) {
-    return 'BagMitra ने $date को जाँचा';
+    return 'BaagMitra ने $date को जाँचा';
   }
 
   @override
@@ -4142,12 +4142,12 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String mlBadgePlacePhoto(String date) {
-    return 'BagMitra प्रतिनिधि ने $date को जगह की फ़ोटो ली';
+    return 'BaagMitra प्रतिनिधि ने $date को जगह की फ़ोटो ली';
   }
 
   @override
   String get mlBadgeNote =>
-      'बैज बताता है कि BagMitra ने क्या और कब जाँचा। सौदे की शर्तें आप सीधे आपस में तय करते हैं।';
+      'बैज बताता है कि BaagMitra ने क्या और कब जाँचा। सौदे की शर्तें आप सीधे आपस में तय करते हैं।';
 
   @override
   String get mlCall => 'फ़ोन करें';
@@ -4652,7 +4652,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get mlNotVerified =>
-      'BagMitra के आपका पंजीकरण जाँचने के बाद माल यहाँ दिखेगा।';
+      'BaagMitra के आपका पंजीकरण जाँचने के बाद माल यहाँ दिखेगा।';
 
   @override
   String get mlMyOffersTitle => 'मेरे ऑफ़र';
@@ -4901,7 +4901,7 @@ class AppLocalizationsHi extends AppLocalizations {
   }
 
   @override
-  String get billingIncluded => 'पूरा BagMitra app, सभी सुविधाएँ।';
+  String get billingIncluded => 'पूरा BaagMitra app, सभी सुविधाएँ।';
 
   @override
   String get billingTerms =>
@@ -4923,7 +4923,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get billingPending => 'Google Play की पुष्टि का इंतज़ार है।';
 
   @override
-  String get billingVerifying => 'BagMitra Google Play से जाँच रहा है…';
+  String get billingVerifying => 'BaagMitra Google Play से जाँच रहा है…';
 
   @override
   String get billingRetry =>

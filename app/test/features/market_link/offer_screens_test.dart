@@ -64,7 +64,7 @@ void main() {
       ),
     );
     expect(
-      find.text('BagMitra ने तुमची नोंदणी तपासल्यावर माल येथे दिसेल.'),
+      find.text('BaagMitra ने तुमची नोंदणी तपासल्यावर माल येथे दिसेल.'),
       findsOneWidget,
     );
     await unmountApp(tester);

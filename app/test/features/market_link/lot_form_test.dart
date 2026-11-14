@@ -18,7 +18,7 @@ import 'lot_settings_test.dart' show lotSettingsJson;
 import 'market_lot_repository_test.dart' show sampleLot;
 
 const mlConfig = AppConfig(
-  productName: 'BagMitra',
+  productName: 'BaagMitra',
   apiBaseUrl: 'http://localhost:8000',
   supabaseUrl: '',
   supabaseAnonKey: '',

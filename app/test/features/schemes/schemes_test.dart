@@ -154,7 +154,7 @@ void main() {
       data.byId('kcc')!,
       {'satbara'},
       'en',
-      'BagMitra',
+      'BaagMitra',
     );
     expect(text, contains('✔ 7/12 extract (Satbara) (have)'));
     expect(text, contains('☐ Details of the crops you grow (to get)'));

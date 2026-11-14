@@ -16,7 +16,7 @@ import '../plots/plots_screen_test.dart' show settle;
 
 /// A test build with the market-link module on (MARKET_LINK=true).
 const linkOn = AppConfig(
-  productName: 'BagMitra',
+  productName: 'BaagMitra',
   apiBaseUrl: 'http://localhost:8000',
   supabaseUrl: '',
   supabaseAnonKey: '',

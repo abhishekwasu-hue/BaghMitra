@@ -7,7 +7,7 @@ void main() {
     () {
       expect(AppConfig.fromEnvironment().marketLink, isFalse);
       const config = AppConfig(
-        productName: 'BagMitra',
+        productName: 'BaagMitra',
         apiBaseUrl: 'http://localhost',
         supabaseUrl: '',
         supabaseAnonKey: '',

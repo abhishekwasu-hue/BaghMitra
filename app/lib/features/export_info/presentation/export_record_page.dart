@@ -145,7 +145,7 @@ class ExportRecordPage extends StatelessWidget {
                 Text(k.footer, style: strong),
                 Align(
                   alignment: Alignment.centerRight,
-                  child: Text('BagMitra · ${k.pageLabel}', style: muted),
+                  child: Text('BaagMitra · ${k.pageLabel}', style: muted),
                 ),
               ],
             ),

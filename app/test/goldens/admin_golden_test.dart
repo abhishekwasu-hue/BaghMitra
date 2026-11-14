@@ -29,7 +29,7 @@ void main() {
     await _pump(
       tester,
       AdminApp(
-        productName: 'BagMitra',
+        productName: 'BaagMitra',
         auth: FakeAdminAuth(),
         kb: FakeKbAdmin(),
       ),
@@ -38,7 +38,7 @@ void main() {
   });
 
   testWidgets('admin_sections', (tester) async {
-    await _pump(tester, AdminApp(productName: 'BagMitra', kb: FakeKbAdmin()));
+    await _pump(tester, AdminApp(productName: 'BaagMitra', kb: FakeKbAdmin()));
     await _shot(tester, 'cards');
 
     await tester.tap(find.text('Imports'));
@@ -69,7 +69,7 @@ void main() {
     await _pump(
       tester,
       AdminApp(
-        productName: 'BagMitra',
+        productName: 'BaagMitra',
         auth: FakeAdminAuth(signedIn: true, roles: {'kb_admin', 'feed_admin'}),
         kb: FakeKbAdmin(),
         feed: FakeFeedAdmin(),
@@ -94,7 +94,7 @@ void main() {
       await _pump(
         tester,
         AdminApp(
-          productName: 'BagMitra',
+          productName: 'BaagMitra',
           auth: FakeAdminAuth(
             signedIn: true,
             roles: {'kb_admin', 'market_link_admin'},
@@ -146,7 +146,7 @@ void main() {
       await _pump(
         tester,
         AdminApp(
-          productName: 'BagMitra',
+          productName: 'BaagMitra',
           auth: FakeAdminAuth(signedIn: true, roles: {'market_link_admin'}),
           kb: FakeKbAdmin(),
           marketLink: FakeMarketLinkAdmin(),
@@ -187,7 +187,7 @@ void main() {
       addTearDown(tester.view.reset);
       await tester.pumpWidget(
         AdminApp(
-          productName: 'BagMitra',
+          productName: 'BaagMitra',
           auth: FakeAdminAuth(signedIn: true, roles: {'billing_admin'}),
           kb: FakeKbAdmin(),
           // Both modes filled: a priced role, and a role made free again (audit L1).
@@ -214,7 +214,7 @@ void main() {
       await _pump(
         tester,
         AdminApp(
-          productName: 'BagMitra',
+          productName: 'BaagMitra',
           auth: FakeAdminAuth(signedIn: true, roles: {'feedback_admin'}),
           kb: FakeKbAdmin(),
           feedback: FakeFeedbackAdmin(),

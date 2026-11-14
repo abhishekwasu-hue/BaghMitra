@@ -202,7 +202,7 @@ async def verify(  # noqa: PLR0913 - body and dependencies
             403, "account_mismatch", "this purchase was made for another account"
         ) from exc
     except UnknownProductError as exc:
-        raise ApiError(422, "unknown_product", "not a BagMitra subscription") from exc
+        raise ApiError(422, "unknown_product", "not a BaagMitra subscription") from exc
     except PlayError as exc:
         raise ApiError(502, "play_error", "Google Play could not confirm the purchase") from exc
     return await entitlements(user, session, settings)

@@ -22,7 +22,7 @@ from bagmitra_api.push.sender import PushMessage, PushSender, PushUnavailableErr
 INDIA = ZoneInfo("Asia/Kolkata")
 # A receipt needs at least these company fields.
 RECEIPT_FIELDS = ("legal_name", "address")
-PUSH_TITLE = {"mr": "बागमित्र", "hi": "बागमित्र", "en": "BagMitra"}
+PUSH_TITLE = {"mr": "बागमित्र", "hi": "बागमित्र", "en": "BaagMitra"}
 PUSH_BODY = {
     "mr": "तुमचे विक्री पॅकेज {date} पर्यंत चालू आहे.",
     "hi": "आपका बिक्री पैकेज {date} तक चालू है।",

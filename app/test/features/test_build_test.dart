@@ -12,7 +12,7 @@ import 'package:flutter_test/flutter_test.dart';
 import '../helpers/pump_app.dart';
 
 const testBuildConfig = AppConfig(
-  productName: 'BagMitra',
+  productName: 'BaagMitra',
   apiBaseUrl: 'http://localhost:8000',
   supabaseUrl: '',
   supabaseAnonKey: '',
@@ -42,7 +42,7 @@ void main() {
     await tester.tap(find.byKey(const Key('try-without-account')));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 500));
-    expect(find.text('Welcome to BagMitra'), findsOneWidget);
+    expect(find.text('Welcome to BaagMitra'), findsOneWidget);
     await unmountApp(tester);
   });
 
@@ -79,7 +79,7 @@ void main() {
       '(audit R2), without the test label or the dev gallery', (tester) async {
     final sharer = RecordingSharer();
     const realBuild = AppConfig(
-      productName: 'BagMitra',
+      productName: 'BaagMitra',
       apiBaseUrl: 'http://localhost:8000',
       supabaseUrl: '',
       supabaseAnonKey: '',
@@ -130,7 +130,7 @@ void main() {
       locale: const Locale('en'),
       initialLocation: '/dev/gallery',
       config: const AppConfig(
-        productName: 'BagMitra',
+        productName: 'BaagMitra',
         apiBaseUrl: 'http://localhost:8000',
         supabaseUrl: '',
         supabaseAnonKey: '',

@@ -38,7 +38,7 @@ published.
 
 ## Feature graphic (1024 × 500)
 
-App icon on the left, the product name in the listing's language (BagMitra / बागमित्र), one line such as
+App icon on the left, the product name in the listing's language (BaagMitra / बागमित्र), one line such as
 "Orchard diary for santra and mosambi" / "संत्रा व मोसंबी बागेची डायरी". No price, no "No. 1", no
 screenshots of other apps, no Google Play badge.
 

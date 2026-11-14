@@ -117,7 +117,7 @@ async def test_download_without_a_file_says_not_available(apk_dir: Path) -> None
         resp = await c.get("/app")
     assert resp.status_code == 404
     assert resp.headers["content-type"].startswith("text/plain")
-    assert "BagMitra" in resp.text
+    assert "BaagMitra" in resp.text
 
 
 async def test_download_ignores_other_files_and_folders(apk_dir: Path) -> None:
@@ -185,5 +185,5 @@ async def test_app_test_without_its_file_says_not_available(apk_dir: Path) -> No
         spec = (await c.get("/openapi.json")).json()
     assert resp.status_code == 404
     assert resp.headers["content-type"].startswith("text/plain")
-    assert "BagMitra" in resp.text
+    assert "BaagMitra" in resp.text
     assert "/app/test" not in spec["paths"]

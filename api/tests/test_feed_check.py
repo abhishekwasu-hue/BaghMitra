@@ -200,7 +200,7 @@ def test_notes_never_say_fake(lang: str) -> None:
         assert text
         assert not any(word in text.lower() for word in FORBIDDEN)
     assert note("no_official_match", "en") == (
-        "No matching official GR found in BagMitra. Check the official portal before acting."
+        "No matching official GR found in BaagMitra. Check the official portal before acting."
     )
 
 
