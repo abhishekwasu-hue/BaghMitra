@@ -103,6 +103,8 @@ class LabelClaimOut(BaseModel):
     active_ingredient: str
     formulation: str
     target: str
+    # Always "" for growers: no dose reaches a grower (owner 2026-11-14, OPEN_QUESTIONS Q160).
+    # Kept in the contract so older app builds still read the row.
     dose: str
     interval_days: int | None
     phi_days: int | None
@@ -113,6 +115,7 @@ class LabelClaimOut(BaseModel):
     source_url: str
     # Owner Q57: the rest of the printed row and plain product facts (migration 0028).
     category: Literal["chemical", "bio"] = "chemical"
+    # Always null for growers, as `dose` (owner Q160).
     dilution: str | None = None
     page_ref: str | None = None
     description: str | None = None
@@ -150,9 +153,10 @@ async def label_claims(
 ) -> LabelClaimsResponse:
     """What CIB&RC registered labels say for the crop (owner, 2026-10-26: label information
     only). Only claims valid today whose active ingredient is neither banned nor restricted
-    for the crop pass the legal gate; doses are quoted exactly as the label states them.
-    The app shows this as label information with "read the label; confirm with KVK", never
-    as BagMitra's own advice."""
+    for the crop pass the legal check. Products, targets, PHI, interval and the number of
+    sprays are given as printed; the dose and the dilution never are (owner 2026-11-14, Q160:
+    names yes, doses no). The app shows this as label information with the expert-advice
+    note, never as BagMitra's own advice."""
     aliases = frozenset(a.lower() for a in settings.kb_crop_label_aliases.get(crop, []))
     if not aliases:
         return LabelClaimsResponse(claims=[])
@@ -204,7 +208,7 @@ async def label_claims(
                     active_ingredient=c.active_ingredient,
                     formulation=c.formulation,
                     target=c.target,
-                    dose=c.dose,
+                    dose="",
                     interval_days=c.interval_days,
                     phi_days=c.phi_days,
                     max_sprays=c.max_sprays,
@@ -213,7 +217,7 @@ async def label_claims(
                     source_title=sources[c.source_key].title,
                     source_url=sources[c.source_key].url,
                     category="bio" if c.category == "bio" else "chemical",
-                    dilution=c.dilution,
+                    dilution=None,
                     page_ref=c.page_ref,
                     description=c.description,
                     brand_names=sorted(c.brand_names, key=lambda b: (b.casefold(), b)),

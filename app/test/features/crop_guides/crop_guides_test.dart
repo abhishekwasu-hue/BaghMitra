@@ -17,138 +17,13 @@ import '../feed/feed_data_test.dart'
 import '../plots/other_crops_test.dart' show seedCotton;
 import '../plots/plots_screen_test.dart' show settle;
 
-/// Owner 2026-11-14 (पीक मार्गदर्शक, Q160): the bundled crop guides, their rules (no doses,
-/// the expert-advice note, nothing banned or restricted) and where the app shows them.
+/// Owner 2026-11-14 (पीक मार्गदर्शक, Q161): the bundled crop guides, their rules (no doses,
+/// the expert-advice note, nothing banned or restricted: api tests/test_grower_doses.py) and
+/// where the app shows them.
 
 final _raw = File('assets/config/crop_guides.json').readAsStringSync();
 final _json = jsonDecode(_raw) as Map<String, dynamic>;
 final _data = parseCropGuides(_raw);
-
-const _note = {
-  'en': '(follow expert advice)',
-  'mr': '(तज्ज्ञांच्या सल्ल्याने करावे)',
-  'hi': '(विशेषज्ञ की सलाह से करें)',
-};
-
-/// Words that make a line an input recommendation (fertiliser, pesticide, organic input).
-const _inputWords = {
-  'en': [
-    'fertiliser',
-    'fertilizer',
-    'manure',
-    'fym',
-    'compost',
-    'urea',
-    'dap',
-    'npk',
-    'rhizobium',
-    'psb',
-    'azotobacter',
-    'trichoderma',
-    'neem',
-    'azadirachtin',
-    'sulphur',
-    'zinc',
-    'borax',
-    'gypsum',
-    'potassium nitrate',
-    'herbicide',
-    'fungicide',
-    'insecticide',
-    'pesticide',
-    'spray',
-    'seed treatment',
-    'metarhizium',
-    'beauveria',
-    'verticillium',
-    'bacillus',
-    'trichogramma',
-    'thiram',
-    'carbendazim',
-    'copper',
-    'salicylic',
-    'dashparni',
-    'extract',
-  ],
-  'mr': [
-    'खत',
-    'कंपोस्ट',
-    'युरिया',
-    'रायझोबियम',
-    'पीएसबी',
-    'ट्रायकोडर्मा',
-    'निंबोळी',
-    'गंधक',
-    'जस्त',
-    'बोरॅक्स',
-    'जिप्सम',
-    'तणनाशक',
-    'कीटकनाशक',
-    'बुरशीनाशक',
-    'फवारणी',
-    'बीजप्रक्रिया',
-    'अर्क',
-  ],
-  'hi': [
-    'खाद',
-    'कम्पोस्ट',
-    'यूरिया',
-    'राइजोबियम',
-    'पीएसबी',
-    'ट्राइकोडर्मा',
-    'नीम',
-    'गंधक',
-    'जिंक',
-    'बोरेक्स',
-    'जिप्सम',
-    'खरपतवारनाशी',
-    'कीटनाशी',
-    'फफूंदनाशी',
-    'छिड़काव',
-    'बीजोपचार',
-    'अर्क',
-  ],
-}; // fmt: skip
-
-const _digits =
-    r'[0-9०-९]+(?:[.,][0-9०-९]+)?(?:\s*[-–]\s*[0-9०-९]+(?:[.,][0-9०-९]+)?)?';
-
-/// A number with a dose unit, or a per-area rate; a percent that names a crop stage (50%
-/// flowering) is a stage, not a dose.
-final _dose = RegExp(
-  '$_digits\\s*(?:kgs?\\b|kg/|g\\b|gm\\b|grams?\\b|ml\\b|l\\b|lit\\b|litres?\\b|liters?\\b|'
-  'ppm\\b|t/ha|tonnes?\\b|q/ha|quintals?\\b|किलो|कि\\.ग्रॅ|ग्रॅम|ग्राम|मिली|मि\\.ली\\.|लिटर|लीटर|'
-  'टन|पीपीएम|%(?!\\s*(?:flower|फुलो|फूल))|टक्के(?!\\s*फुलो)|प्रतिशत(?!\\s*फूल)|per ?cent\\b(?!\\s*flower))'
-  '|per acre|per hectare|/ha\\b|हेक्टरी|एकरी|प्रति हेक्टर|प्रति एकर|प्रति हेक्टेयर|प्रति एकड़',
-  caseSensitive: false,
-);
-
-bool _namesInput(String lang, String text) {
-  final t = text.toLowerCase();
-  return _inputWords[lang]!.any(
-    (w) => lang == 'en'
-        ? RegExp('(?<![a-z])${RegExp.escape(w)}').hasMatch(t)
-        : t.contains(w),
-  );
-}
-
-/// Every ingredient of the PPQS banned / refused / withdrawn / restricted list (the list the
-/// spray check uses), and its synonyms.
-List<String> _restricted() {
-  final json = jsonDecode(
-    File('../api/src/bagmitra_api/kb/seed_data/restrictions.json')
-        .readAsStringSync(),
-  ) as Map<String, Object?>;
-  return [
-    for (final r
-        in (json['restrictions']! as List<Object?>)
-            .cast<Map<String, Object?>>()) ...[
-      (r['active_ingredient']! as String).toLowerCase(),
-      for (final s in (r['synonyms'] as List<Object?>? ?? const []))
-        (s! as String).toLowerCase(),
-    ],
-  ];
-}
 
 Iterable<CropGuideItem> get _items =>
     _data.guides.expand((g) => g.sections).expand((s) => s.items);
@@ -191,12 +66,10 @@ void main() {
         'mustard',
         'linseed',
       ]);
-      final crops =
-          (jsonDecode(
-                    File('assets/config/crops.json').readAsStringSync(),
-                  )['crops']
-                  as List)
-              .cast<Map<String, dynamic>>();
+      final catalog = jsonDecode(
+        File('assets/config/crops.json').readAsStringSync(),
+      ) as Map<String, dynamic>;
+      final crops = (catalog['crops'] as List).cast<Map<String, dynamic>>();
       final field = {
         for (final c in crops)
           if (c['category'] == 'field') c['slug'],
@@ -260,80 +133,11 @@ void main() {
       }
     });
 
-    test(
-      'doses guard: an input line names no dose and ends with the expert note; '
-      'a line that names an input is an input line',
-      () {
-        final misses = <String>[];
-        for (final i in _items) {
-          for (final lang in ['en', 'mr', 'hi']) {
-            final text = i.label(lang);
-            if (_namesInput(lang, text) && !i.input) {
-              misses.add('${i.id} $lang names an input but is not `input`');
-            }
-            if (!i.input) continue;
-            if (!text.trimRight().endsWith(_note[lang]!)) {
-              misses.add('${i.id} $lang does not end with the expert note');
-            }
-            for (final m in _dose.allMatches(text)) {
-              misses.add('${i.id} $lang dose "${m.group(0)}"');
-            }
-          }
-        }
-        expect(misses, isEmpty);
-      },
-    );
-
-    test('the doses guard catches doses and rates', () {
-      for (final bad in [
-        'urea 25 kg per hectare',
-        'imidacloprid 0.5 ml/l',
-        'neem seed extract 5%',
-        'एकरी २ किलो युरिया',
-        'हेक्टरी खत द्या',
-        '१० मिली प्रति १० लिटर पाणी',
-        'नीम तेल 5 मिली प्रति लीटर',
-        'azadirachtin 300 ppm',
-        'spray 2 g in 10 liter',
-      ]) {
-        expect(_dose.hasMatch(bad), isTrue, reason: bad);
-      }
-      for (final ok in [
-        'at 50% flowering, 15 days later',
-        '५०% फुलोऱ्यावर, १५ दिवसांनी',
-        'two sprays a fortnight apart',
-        'from 55 days after germination',
-      ]) {
-        expect(_dose.hasMatch(ok), isFalse, reason: ok);
-      }
-      expect(_namesInput('mr', 'शेणखत द्या'), isTrue);
-      expect(_namesInput('en', 'Give FYM'), isTrue);
-      expect(_namesInput('en', 'Sow at 45 x 10 cm'), isFalse);
-    });
-
-    test('no banned or restricted pesticide (PPQS list of the spray check) is named', () {
-      final names = _restricted();
-      expect(names, contains('dinocap'), reason: 'the list is read');
-      final misses = <String>[];
-      for (final i in _items) {
-        final text = '${i.label('en')} ${i.source}'.toLowerCase();
-        for (final n in names) {
-          if (RegExp('(?<![a-z])${RegExp.escape(n)}(?![a-z])').hasMatch(text)) {
-            misses.add('${i.id}: $n');
-          }
-        }
-      }
-      expect(misses, isEmpty);
-      // The source that listed banned fungicides is kept, the names are not.
-      final omitted = [
-        for (final c in (_json['crops'] as List).cast<Map<String, dynamic>>())
-          for (final s in (c['sections'] as List).cast<Map<String, dynamic>>())
-            for (final i in (s['items'] as List).cast<Map<String, dynamic>>())
-              ...((i['omitted'] as List?) ?? const []),
-      ];
-      for (final o in omitted) {
-        expect(names, contains(o), reason: '$o is on the list');
-      }
+    // Doses, the expert-advice note and banned / crop-restricted names are checked by the
+    // shared rules of api kb/dose_rules.py (owner Q160), in api tests/test_grower_doses.py,
+    // over every line of this file: one definition of "dose" and one note text.
+    test('input lines are marked', () {
+      expect(_items.where((i) => i.input), isNotEmpty);
     });
   });
 

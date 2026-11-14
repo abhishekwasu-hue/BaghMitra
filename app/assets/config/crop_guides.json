@@ -1,11 +1,6 @@
 {
- "_note": "Crop guides (पीक मार्गदर्शक, owner 2026-11-14, OPEN_QUESTIONS Q160): one field crop from land to harvest. Text written by AI (Claude, in the build session) from the fetched text of the public sources below; every item keeps `quote`, the source passage it rests on (parts joined by …), and every number of an item is in its quote (api tests/test_crop_guides.py, the feed output check). Fertilisers, pesticides and organic inputs are named without a dose or rate and the item ends with the expert-advice note (`input`, app test). No ingredient of the PPQS banned / restricted list is named (app test): where a source lists one it is left out (`omitted`). A section is present only where a source covers it. Add a crop by adding it here (its slug from crops.json).",
+ "_note": "Crop guides (पीक मार्गदर्शक, owner 2026-11-14, OPEN_QUESTIONS Q161): one field crop from land to harvest. Text written by AI (Claude, in the build session) from the fetched text of the public sources below; every item keeps `quote`, the source passage it rests on (parts joined by …), and every number of an item is in its quote (api tests/test_crop_guides.py, the feed output check). Fertilisers, pesticides and organic inputs are named without a dose or rate and a line that names one ends with the expert-advice note (`input`). No ingredient of the PPQS banned / restricted list is named (api tests/test_grower_doses.py, per crop): where a source lists one it is left out (`omitted`). The dose, note and banned-name rules are the shared ones of api kb/dose_rules.py (Q160). A section is present only where a source covers it. Add a crop by adding it here (its slug from crops.json).",
  "status": "draft",
- "expert_note": {
-  "en": "(follow expert advice)",
-  "mr": "(तज्ज्ञांच्या सल्ल्याने करावे)",
-  "hi": "(विशेषज्ञ की सलाह से करें)"
- },
  "sources": {
   "CICR-MH": {
    "title": "Approved package of practices for cotton: Maharashtra State (compiled by M. Sabesh, ICAR-CICR, 2006-07)",
@@ -454,10 +449,11 @@
       {
        "id": "cotton-protection-4",
        "labels": {
-        "en": "Light traps catch the most pink bollworm moths when lit from 3.30 to 5.30 am or from 6.00 to 8.00 pm.",
-        "mr": "गुलाबी बोंडअळीचे जास्तीत जास्त पतंग पकडण्यासाठी प्रकाश सापळ्याचा दिवा पहाटे ३.३० ते ५.३० किंवा संध्याकाळी ६.०० ते ८.०० या वेळेत लावा.",
-        "hi": "गुलाबी सुंडी के अधिकतम पतंगे पकड़ने के लिए प्रकाश जाल का बल्ब सुबह 3.30 से 5.30 या शाम 6.00 से 8.00 बजे तक जलाएँ।"
+        "en": "Light traps catch the most pink bollworm moths when lit from 3.30 to 5.30 am or from 6.00 to 8.00 pm. (follow expert advice)",
+        "mr": "गुलाबी बोंडअळीचे जास्तीत जास्त पतंग पकडण्यासाठी प्रकाश सापळ्याचा दिवा पहाटे ३.३० ते ५.३० किंवा संध्याकाळी ६.०० ते ८.०० या वेळेत लावा. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "गुलाबी सुंडी के अधिकतम पतंगे पकड़ने के लिए प्रकाश जाल का बल्ब सुबह 3.30 से 5.30 या शाम 6.00 से 8.00 बजे तक जलाएँ। (विशेषज्ञ की सलाह से करें)"
        },
+       "input": true,
        "source": "PDKV-R24, Entomology no. 45",
        "source_keys": [
         "PDKV-R24"
@@ -942,9 +938,9 @@
       {
        "id": "tur-protection-1",
        "labels": {
-        "en": "Pod borer complex: thiodicarb at 50% flowering, flubendiamide 15 days later, then lambda-cyhalothrin 20 days after the second spray. (follow expert advice)",
-        "mr": "शेंगा पोखरणाऱ्या अळ्या: ५०% फुलोऱ्यावर थायोडीकार्ब, १५ दिवसांनी फ्लुबेंडियामाइड, नंतर दुसऱ्या फवारणीनंतर २० दिवसांनी लॅम्बडा-सायहॅलोथ्रिन. (तज्ज्ञांच्या सल्ल्याने करावे)",
-        "hi": "फली छेदक इल्लियाँ: 50% फूल आने पर थायोडिकार्ब, 15 दिन बाद फ्लुबेंडियामाइड, फिर दूसरे छिड़काव के 20 दिन बाद लैम्ब्डा-साइहैलोथ्रिन। (विशेषज्ञ की सलाह से करें)"
+        "en": "Pod borer complex: thiodicarb when half the crop is in flower, flubendiamide 15 days later, then lambda-cyhalothrin 20 days after the second spray. (follow expert advice)",
+        "mr": "शेंगा पोखरणाऱ्या अळ्या: पीक निम्मे फुलोऱ्यात असताना थायोडीकार्ब, १५ दिवसांनी फ्लुबेंडियामाइड, नंतर दुसऱ्या फवारणीनंतर २० दिवसांनी लॅम्बडा-सायहॅलोथ्रिन. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "फली छेदक इल्लियाँ: आधी फसल में फूल आने पर थायोडिकार्ब, 15 दिन बाद फ्लुबेंडियामाइड, फिर दूसरे छिड़काव के 20 दिन बाद लैम्ब्डा-साइहैलोथ्रिन। (विशेषज्ञ की सलाह से करें)"
        },
        "input": true,
        "source": "PDKV-R22, Entomology no. 30",
@@ -956,9 +952,9 @@
       {
        "id": "tur-protection-2",
        "labels": {
-        "en": "Pod borers, bio-pesticide option: 3 sprays of Bacillus thuringiensis (NBAIR-BTG4) from 50% flowering, every 15 days. (follow expert advice)",
-        "mr": "शेंगा पोखरणाऱ्या अळ्या, जैविक पर्याय: ५०% फुलोऱ्यापासून दर १५ दिवसांनी बॅसिलस थुरिंजिएन्सिस (NBAIR-BTG4) च्या ३ फवारण्या. (तज्ज्ञांच्या सल्ल्याने करावे)",
-        "hi": "फली छेदक, जैविक विकल्प: 50% फूल आने से हर 15 दिन पर बैसिलस थुरिंजिएन्सिस (NBAIR-BTG4) के 3 छिड़काव। (विशेषज्ञ की सलाह से करें)"
+        "en": "Pod borers, bio-pesticide option: 3 sprays of Bacillus thuringiensis (NBAIR-BTG4) from when half the crop is in flower, every 15 days. (follow expert advice)",
+        "mr": "शेंगा पोखरणाऱ्या अळ्या, जैविक पर्याय: पीक निम्मे फुलोऱ्यात आल्यापासून दर १५ दिवसांनी बॅसिलस थुरिंजिएन्सिस (NBAIR-BTG4) च्या ३ फवारण्या. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "फली छेदक, जैविक विकल्प: आधी फसल में फूल आने से हर 15 दिन पर बैसिलस थुरिंजिएन्सिस (NBAIR-BTG4) के 3 छिड़काव। (विशेषज्ञ की सलाह से करें)"
        },
        "input": true,
        "source": "PDKV-R22, Entomology no. 34",
@@ -1168,9 +1164,9 @@
       {
        "id": "gram-protection-1",
        "labels": {
-        "en": "Gram pod borer: emamectin benzoate at 50% flowering, then the combination novaluron + indoxacarb 15 days later. (follow expert advice)",
-        "mr": "घाटेअळी: ५०% फुलोऱ्यावर इमामेक्टिन बेंझोएट, नंतर १५ दिवसांनी नोव्हॅल्युरॉन + इंडोक्झाकार्ब हे मिश्र कीटकनाशक. (तज्ज्ञांच्या सल्ल्याने करावे)",
-        "hi": "चना फली छेदक: 50% फूल आने पर इमामेक्टिन बेंजोएट, फिर 15 दिन बाद नोवाल्यूरॉन + इंडोक्साकार्ब मिश्रित कीटनाशी। (विशेषज्ञ की सलाह से करें)"
+        "en": "Gram pod borer: emamectin benzoate when half the crop is in flower, then the combination novaluron + indoxacarb 15 days later. (follow expert advice)",
+        "mr": "घाटेअळी: पीक निम्मे फुलोऱ्यात असताना इमामेक्टिन बेंझोएट, नंतर १५ दिवसांनी नोव्हॅल्युरॉन + इंडोक्झाकार्ब हे मिश्र कीटकनाशक. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "चना फली छेदक: आधी फसल में फूल आने पर इमामेक्टिन बेंजोएट, फिर 15 दिन बाद नोवाल्यूरॉन + इंडोक्साकार्ब मिश्रित कीटनाशी। (विशेषज्ञ की सलाह से करें)"
        },
        "input": true,
        "source": "PDKV-R25, Entomology no. 35",
@@ -1654,9 +1650,9 @@
       {
        "id": "mustard-nutrition-1",
        "labels": {
-        "en": "Dryland mustard: a urea spray at 50% flowering along with the recommended fertiliser dose. (follow expert advice)",
-        "mr": "कोरडवाहू मोहरी: शिफारशीत खतमात्रेसोबत ५०% फुलोऱ्यावर युरियाची फवारणी. (तज्ज्ञांच्या सल्ल्याने करावे)",
-        "hi": "बारानी सरसों: अनुशंसित खाद के साथ 50% फूल आने पर यूरिया का छिड़काव। (विशेषज्ञ की सलाह से करें)"
+        "en": "Dryland mustard: a urea spray when half the crop is in flower, along with the recommended fertiliser. (follow expert advice)",
+        "mr": "कोरडवाहू मोहरी: शिफारशीत खतांसोबत, पीक निम्मे फुलोऱ्यात असताना युरियाची फवारणी. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "बारानी सरसों: अनुशंसित खाद के साथ, आधी फसल में फूल आने पर यूरिया का छिड़काव। (विशेषज्ञ की सलाह से करें)"
        },
        "input": true,
        "source": "PDKV-LM, Mustard agronomy no. 3",

@@ -1,4 +1,4 @@
-"""Crop guides (पीक मार्गदर्शक, owner 2026-11-14, Q160): every checkable fact of a guide line
+"""Crop guides (पीक मार्गदर्शक, owner 2026-11-14, Q161): every checkable fact of a guide line
 (sowing windows, durations, spacing, seed rates, varieties' numbers) is in the source passage
 the line keeps (`quote`), by the feed's output check; the quote itself is checked against the
 fetched source by `card_check --quotes` (the card-sources workflow). No network here."""

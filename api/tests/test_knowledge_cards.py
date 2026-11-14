@@ -1,4 +1,5 @@
-"""Grower knowledge cards: general information only (owner decision Q57)."""
+"""Grower knowledge cards: inputs named, never a dose, the expert-advice note after each input
+recommendation, nothing banned for the crop (owner decisions Q57 and Q160)."""
 
 from __future__ import annotations
 
@@ -10,24 +11,12 @@ import httpx
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncEngine, async_sessionmaker
 
+from bagmitra_api.kb.dose_rules import NOTE, has_dose, names_input
 from bagmitra_api.kb.grower_view import FIELDS, grower_text, sentences
 from bagmitra_api.kb.models import KbCard, KbSource
 from bagmitra_api.kb.seed import knowledge_seeds, seed_knowledge, seed_restrictions, seed_sources
 
 _DEVANAGARI = str.maketrans("०१२३४५६७८९", "0123456789")
-# Names that must never reach a grower from a knowledge card.
-_NEVER = (
-    "bordeaux",
-    "permanganate",
-    "urea",
-    "superphosphate",
-    "potash",
-    "neem",
-    "abamectin",
-    "novaluron",
-    "regulator",
-    "spray",
-)
 
 
 def _numbers(text: str) -> set[str]:
@@ -59,25 +48,48 @@ def test_every_translation_lines_up_with_the_english() -> None:
                 assert _numbers(en[field]) <= _numbers(own[field]), (card.topic, lang, field)
 
 
-def test_the_grower_view_drops_products_doses_and_rates() -> None:
+def test_the_grower_view_names_inputs_but_drops_every_dose() -> None:
     for card in knowledge_seeds().cards:
         view = grower_text(card.content)
         assert set(view) == {"en", "mr", "hi"}, card.topic
-        for field, text in view["en"].items():
-            assert field in FIELDS
-            lowered = text.lower()
-            for word in _NEVER:
-                if field == "warnings" and word in {"spray", "regulator"}:
+        for lang, fields in view.items():
+            for field, text in fields.items():
+                assert field in FIELDS
+                assert not has_dose(text), (card.topic, lang, field, text)
+        # Every input recommendation that is shown carries the expert-advice note, in every
+        # language.
+        for field in ("summary", "cultural", "when_to_call_expert"):
+            en = sentences(card.content["en"].get(field, ""))
+            for i, sentence in enumerate(en):
+                if not names_input(sentence) or sentence not in view["en"].get(field, ""):
                     continue
-                assert word not in lowered, (card.topic, field, word)
-            assert not re.search(r"\b\d+\s*(?:g|kg|ml)\b", text), (card.topic, field)
+                for lang in ("en", "mr", "hi"):
+                    own = sentences(card.content[lang][field])[i]
+                    assert f"{own} {NOTE[lang]}" in view[lang][field], (card.topic, lang, field)
     by_topic = {c.topic: grower_text(c.content) for c in knowledge_seeds().cards}
-    # The general part survives: the drainage advice stays, the paste and the wash go.
-    assert by_topic["phytophthora"]["en"]["cultural"].startswith("Keep the bud union high")
-    assert "title" not in by_topic["phytophthora"]["en"]
+    # The permanganate wash (10 g per litre) goes; the Bordeaux paste is named, with the note.
+    cultural = by_topic["phytophthora"]["en"]["cultural"]
+    assert cultural.startswith(
+        "Apply Bordeaux paste to the trunk up to 60 cm before and after the monsoon. "
+        "(follow expert advice) Keep the bud union high"
+    )
+    assert "permanganate" not in cultural
+    assert by_topic["phytophthora"]["en"]["title"].endswith("Bordeaux paste")
+    # A card that is only doses keeps no cultural text at all.
     assert "cultural" not in by_topic["nutrition_young"]["en"]
-    # Marathi drops the same sentences as English.
-    assert by_topic["phytophthora"]["mr"]["cultural"].startswith("डोळ्याचा जोड उंच")
+    # Marathi drops the same sentences as English and carries its own note.
+    assert by_topic["phytophthora"]["mr"]["cultural"].startswith("पावसाळ्यापूर्वी")
+    assert NOTE["mr"] in by_topic["phytophthora"]["mr"]["cultural"]
+
+
+def test_a_banned_ingredient_is_never_named() -> None:
+    content = {
+        "en": {"cultural": "Prune the dead twigs. An old note used dicofol on mites."},
+        "mr": {"cultural": "वाळलेल्या फांद्या छाटा. जुन्या नोंदीत कोळ्यासाठी डायकोफॉल होते."},
+    }
+    view = grower_text(content, banned={"dicofol"})
+    assert view["en"] == {"cultural": "Prune the dead twigs."}
+    assert view["mr"] == {"cultural": "वाळलेल्या फांद्या छाटा."}
 
 
 def test_a_translation_that_does_not_line_up_is_not_shown() -> None:
@@ -86,7 +98,7 @@ def test_a_translation_that_does_not_line_up_is_not_shown() -> None:
         "mr": {"title": "कोळी", "cultural": "ओलावा सारखा ठेवा"},
     }
     view = grower_text(content)
-    assert view["en"] == {"title": "Mites", "cultural": "Keep moisture even."}
+    assert view["en"] == {"title": "Mites", "cultural": "Keep moisture even. Spray oil."}
     assert view["mr"] == {"title": "कोळी"}
     assert sentences("३ x ३ मी. पेक्षा कमी. डॉ. पंदेकृवि.") == ["३ x ३ मी. पेक्षा कमी.", "डॉ. पंदेकृवि."]
 
@@ -112,8 +124,15 @@ async def test_growers_get_general_cards_without_chemicals(
     raw = r.text.lower()
     assert "chemical_options" not in raw
     assert '"organic"' not in raw
-    assert "bordeaux" not in raw
-    assert "neem" not in raw
+    # Inputs are named now (owner Q160), with the note, and never with a dose.
+    gummosis = cards["phytophthora"]["text"]
+    assert "bordeaux" in gummosis["en"]["cultural"].lower()
+    assert NOTE["en"] in gummosis["en"]["cultural"]
+    assert NOTE["mr"] in gummosis["mr"]["cultural"]
+    for card in cards.values():
+        for fields in card["text"].values():
+            for text in fields.values():
+                assert text is None or not has_dose(text), (card["topic"], text)
     assert (await client.get("/v1/knowledge/cards")).status_code == 401
 
 

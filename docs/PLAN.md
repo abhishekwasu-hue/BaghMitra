@@ -172,10 +172,15 @@ privacy policy, DPDP export/delete, load tests, backups, runbooks.
 
 ## Knowledge base & advice safety (addendum v1.3) — interleaved milestones
 
-Hard rule until K1 is done: **no chemical name, dose or spray instruction reaches a grower** —
+~~Hard rule until K1 is done: no chemical name, dose or spray instruction reaches a grower —
 not in cards, task templates, alerts, AI answers or voice. Until a real expert reviewer is
 attached (§6), only the safe subset ships: cultural practices, record-keeping, bahar calendar
-dates, irrigation tables and weather risk alerts without chemical advice.
+dates, irrigation tables and weather risk alerts without chemical advice.~~
+**Hard rule (owner decision 2026-11-14, Q160, supersedes the line above): input names yes, doses
+no.** Fertilisers, pesticides and organic inputs may be named; no dose, quantity, rate or
+concentration reaches a grower anywhere; every input recommendation ends with
+"(तज्ज्ञांच्या सल्ल्याने करावे)"; nothing banned or restricted for the crop is ever named
+(`kb/dose_rules.py`, guard test `api/tests/test_grower_doses.py`).
 
 ### K0 — Knowledge data model & source registry (with M1)
 Files: `api/src/bagmitra_api/kb/` (models: `kb_sources`, `kb_topics`, `kb_cards`,

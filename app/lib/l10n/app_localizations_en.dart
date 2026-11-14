@@ -1617,7 +1617,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get labelInfoDose => 'Dose on label:';
+  String get expertAdviceNote => '(follow expert advice)';
 
   @override
   String labelInfoInterval(String days) {
@@ -3316,8 +3316,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get practicesBioTitle => 'Organic / bio';
 
   @override
-  String get practicesBioRegistered =>
-      'Registered product: the dose comes only from its label.';
+  String get practicesBioRegistered => 'Registered product.';
 
   @override
   String get practicesBioHome => 'Home-made, as published';
@@ -3336,7 +3335,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get knowledgeIntro =>
-      'Short notes on bahar, pests, diseases, feeding, water and harvest. Products and doses are on the label screen.';
+      'Short notes on bahar, pests, diseases, feeding, water and harvest.';
 
   @override
   String get knowledgeEmpty =>
@@ -3378,16 +3377,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get labelInfoBio => '🌿 Organic / bio (registered biopesticides)';
-
-  @override
-  String labelInfoDilution(String value) {
-    return 'Water on label: $value L per hectare';
-  }
-
-  @override
-  String labelInfoDilutionPrinted(String value) {
-    return 'Water on label: $value';
-  }
 
   @override
   String labelInfoBrands(String names) {

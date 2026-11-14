@@ -67,6 +67,7 @@ Future<void> _seedTicks(AppDatabase db) async {
 }
 
 void main() {
+  phoneLabels();
   for (final mode in [ThemeMode.light, ThemeMode.dark]) {
     final suffix = mode == ThemeMode.dark ? 'dark' : 'light';
     for (final (name, location, seed) in [
@@ -103,5 +104,31 @@ void main() {
         await unmountApp(tester);
       });
     }
+  }
+}
+
+/// Owner 2026-11-14 (Q160): the label tile names the product with the expert-advice note and
+/// no dose, at phone width (360 px) and 1.3x text, light and dark.
+void phoneLabels() {
+  for (final mode in [ThemeMode.light, ThemeMode.dark]) {
+    final name = 'labels_no_dose_mr_x13_${mode.name}';
+    testWidgets(name, (tester) async {
+      tester.platformDispatcher.textScaleFactorTestValue = 1.3;
+      addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+      await pumpApp(
+        tester,
+        themeMode: mode,
+        initialLocation: '/plots/p1/labels?target=gummosis',
+        seed: _seedLabels,
+        size: const Size(360, 780),
+      );
+      await settle(tester);
+      expect(tester.takeException(), isNull);
+      await expectLater(
+        find.byType(MaterialApp),
+        matchesGoldenFile('$name.png'),
+      );
+      await unmountApp(tester);
+    });
   }
 }
