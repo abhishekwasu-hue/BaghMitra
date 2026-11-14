@@ -132,10 +132,7 @@ class _LabNormsCard extends ConsumerWidget {
         leading: Icon(Icons.table_chart_outlined, color: c.brand),
         title: Text(t.labNormsTitle, style: BmType.bodyStrong),
         children: [
-          GeneralInfoNote(
-            source: norms.sourceShort,
-            checked: formatDate(norms.checked, lang),
-          ),
+          GeneralInfoNote(source: norms.sourceShort),
           const SizedBox(height: BmSpace.xs),
           Text(t.labNormsHint, style: BmType.meta.copyWith(color: c.inkMuted)),
           for (final r in norms.rows)

@@ -19,7 +19,6 @@ const _sources = SourcesDisclosure(
       'NHB Citrus: Diseases',
       url: 'https://www.nhb.gov.in/cit002.pdf',
       publisher: 'NHB',
-      checked: '26 Oct 2026',
     ),
     SourceRef('PDKV recommendations', publisher: 'Dr. PDKV'),
     SourceRef('A page with only a title'),
@@ -74,7 +73,9 @@ void main() {
     );
     expect(find.text('Source: C02 "Foot Rot or Gummosis" p.4'), findsOneWidget);
     expect(find.text('NHB Citrus: Diseases'), findsOneWidget);
-    expect(find.text('NHB · read 26 Oct 2026'), findsOneWidget);
+    // Publisher only; no "read <date>" line (owner 2026-11-14).
+    expect(find.text('NHB'), findsOneWidget);
+    expect(find.textContaining('read'), findsNothing);
     expect(find.text('https://www.nhb.gov.in/cit002.pdf'), findsOneWidget);
     expect(find.text('PDKV recommendations'), findsOneWidget);
     expect(find.text('Dr. PDKV'), findsOneWidget);

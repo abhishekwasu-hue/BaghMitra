@@ -61,12 +61,7 @@ class QaHit {
 /// same word is stored, nearly when one word starts with the other ("फळगळ" / "फळगळी"), and
 /// partly when only its sound key matches ("falgal" / "फळगळ"). Rare words weigh more.
 class QaKb {
-  QaKb({
-    required this.kind,
-    required this.note,
-    required this.sources,
-    required this.entries,
-  }) {
+  QaKb({required this.kind, required this.sources, required this.entries}) {
     for (final (i, e) in entries.indexed) {
       for (final k in e.keys) {
         (k.startsWith('~') ? _sounds : _words)
@@ -92,7 +87,6 @@ class QaKb {
     ];
     return QaKb(
       kind: json['kind'] as String? ?? 'seed',
-      note: json['note'] as String? ?? '',
       sources: src,
       entries: entries,
     );
@@ -127,7 +121,6 @@ class QaKb {
 
   /// "seed" (hand-assembled from card texts) or "generated".
   final String kind;
-  final String note;
   final Map<String, QaSource> sources;
   final List<QaEntry> entries;
   final _words = <String, List<int>>{};

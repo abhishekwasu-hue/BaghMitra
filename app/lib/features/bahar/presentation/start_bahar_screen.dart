@@ -122,7 +122,6 @@ class _StartBaharScreenState extends ConsumerState<StartBaharScreen> {
         ? null
         : ref.watch(stageTemplatesProvider).value?[templateKey(crop, _bahar!)];
     final windows = template?.windows(_season!, _dates) ?? const {};
-    final checked = template?.checked();
     final stages =
         template?.withStages(catalog?.stages ?? const []) ??
         catalog?.stages ??
@@ -219,10 +218,7 @@ class _StartBaharScreenState extends ConsumerState<StartBaharScreen> {
             SourcesDisclosure(
               key: const Key('stage-sources'),
               notes: [
-                t.generalInfoSource(
-                  template.sourceNames().join(', '),
-                  checked == null ? '–' : formatDate(checked, lang),
-                ),
+                t.generalInfoSource(template.sourceNames().join(', ')),
                 for (final stage in stages)
                   if (template.sourcesFor(stage.key) case final src
                       when src.isNotEmpty)
@@ -233,15 +229,7 @@ class _StartBaharScreenState extends ConsumerState<StartBaharScreen> {
                 for (final src in {
                   for (final stage in stages) ...template.sourcesFor(stage.key),
                 })
-                  SourceRef(
-                    src.title,
-                    url: src.url,
-                    publisher: src.name,
-                    checked: switch (src.read) {
-                      final d? => formatDate(d, lang),
-                      null => null,
-                    },
-                  ),
+                  SourceRef(src.title, url: src.url, publisher: src.name),
               ],
             ),
           ],

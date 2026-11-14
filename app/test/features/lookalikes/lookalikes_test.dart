@@ -199,7 +199,9 @@ void main() {
     );
     await tester.pump();
     expect(find.text(nhb), findsOneWidget);
-    expect(find.text('NHB · read 28 Oct 2026'), findsOneWidget);
+    // Publisher only; no "read <date>" line (owner 2026-11-14).
+    expect(find.text('NHB'), findsWidgets);
+    expect(find.textContaining('28 Oct 2026'), findsNothing);
     expect(
       find.text('https://www.nhb.gov.in/pdf/fruits/citrus/cit002.pdf'),
       findsOneWidget,

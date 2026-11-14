@@ -10,7 +10,7 @@ from __future__ import annotations
 
 from html import escape
 
-LAST_UPDATED = {"mr": "१३ नोव्हेंबर २०२६", "en": "13 November 2026"}
+LAST_UPDATED = {"mr": "१४ नोव्हेंबर २०२६", "en": "14 November 2026"}
 DELETION_DAYS = {"mr": "३० दिवसांत", "en": "within 30 days"}
 
 _IF = {"mr": "चालू केले असल्यास", "en": "if turned on"}
@@ -174,10 +174,16 @@ Google त्याच्या संमती-पानावर दाखव�
 security हे आणखी एक संरक्षण म्हणून चालू आहे.</li>
 <li>फोटो खाजगी साठवणीत, थोड्या वेळासाठीच्या दुव्यांनी. सर्व्हरच्या गुप्त चाव्या ॲपमध्ये नसतात.</li></ul>
 
-<h2 id="mr-changes">१०. बदल</h2>
+<h2 id="mr-ai">१०. AI ने लिहिलेली माहिती</h2>
+<p>या ॲपमधील बातम्या, लेख आणि ज्ञान लेख AI च्या मदतीने लिहिलेले आहेत. AI चूक करू शकते. कोणतीही
+कृती (अर्ज, फवारणी, खर्च, विक्री) करण्यापूर्वी अधिकृत शासन निर्णय (GR) / संबंधित अधिकृत पोर्टल
+किंवा कृषी तज्ज्ञांकडून माहिती तपासून घ्या. या माहितीतील चुकीमुळे झालेल्या नुकसानीस BagMitra
+जबाबदार राहणार नाही.</p>
+
+<h2 id="mr-changes">११. बदल</h2>
 <p>हे धोरण बदलल्यास नवीन मजकूर आणि "शेवटचा बदल" तारीख याच पानावर दिसेल.</p>
 
-<h2 id="mr-contact">११. संपर्क</h2>
+<h2 id="mr-contact">१२. संपर्क</h2>
 {contact_line("mr", email)}
 <p class="note">शेवटचा बदल: {LAST_UPDATED["mr"]}</p>
 """
@@ -332,10 +338,17 @@ row-level security stays on as a further guard.</li>
 <li>Photos are in private storage behind short-lived links. Server secrets are never in the
 app.</li></ul>
 
-<h2 id="en-changes">10. Changes</h2>
+<h2 id="en-ai">10. AI-written information</h2>
+<p>The news, articles and knowledge articles in this app are written with the help of AI. AI can
+make mistakes. Before any action (an application, a spray, an expense, a sale), check the
+information against the official government resolution (GR) / the relevant official portal or
+with an agriculture expert. BagMitra is not responsible for any loss caused by a mistake in this
+information.</p>
+
+<h2 id="en-changes">11. Changes</h2>
 <p>If this policy changes, the new text and its "last updated" date appear on this page.</p>
 
-<h2 id="en-contact">11. Contact</h2>
+<h2 id="en-contact">12. Contact</h2>
 {contact_line("en", email)}
 <p class="note">Last updated: {LAST_UPDATED["en"]}</p>
 """

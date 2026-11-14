@@ -86,8 +86,6 @@ DUPLICATE_JACCARD = 0.75
 BAHARS = ("ambia", "mrig")  # owner: आंबिया, मृग
 MAX_PARAPHRASES = 6
 APP_SOURCE = "app"
-# Shown with every answer (owner 2026-11-12).
-STORED_NOTE = "ही माहिती ॲपमध्ये साठवलेल्या तपासलेल्या स्रोतांवरून आहे."
 # Words that frighten rather than inform (owner: no frightening wording); an answer using one
 # that its input does not use is dropped.
 ALARM_WORDS = (
@@ -1027,7 +1025,6 @@ def asset(
         "kind": kind,
         # Generated answers have had their closing "ask the KVK" line removed (once only).
         "tidy": kind == "generated",
-        "note": STORED_NOTE,
         "langs": list(LANGS),
         "src": {k: {"t": sources[k][0], "u": sources[k][1]} for k in sorted(used) if k in sources},
         "entries": out_entries,

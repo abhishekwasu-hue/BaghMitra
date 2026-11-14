@@ -150,7 +150,7 @@ class _SchemeTile extends ConsumerWidget {
 
 /// One scheme: what it is, who can apply (general, "check the official page"), the
 /// document checklist the grower ticks on this phone, where to apply, related govt notices
-/// from the feed, and the sources with the date they were checked.
+/// from the feed, and the sources.
 class SchemeDetailScreen extends ConsumerWidget {
   const SchemeDetailScreen({super.key, required this.schemeId});
 
@@ -260,7 +260,6 @@ class SchemeDetailScreen extends ConsumerWidget {
           GeneralInfoNote(
             key: const Key('scheme-general-info'),
             source: t.schemeGeneralSource,
-            checked: formatDate(data.checkedOn, lang),
           ),
           section(t.schemeWho),
           Text(scheme.whoCanApply(lang), style: BmType.body),
@@ -382,12 +381,11 @@ class SchemeDetailScreen extends ConsumerWidget {
                 onTap: () => context.push(Routes.feedItem(item.id)),
               ),
           ],
-          // Folded behind one "स्रोत (n)" header (owner 2026-11-13); the checked date
-          // heads the opened list.
+          // Folded behind one "स्रोत (n)" header (owner 2026-11-13); no date line
+          // (owner 2026-11-14).
           const SizedBox(height: BmSpace.md),
           SourcesDisclosure(
             key: const Key('scheme-sources'),
-            notes: [t.schemeSources(formatDate(data.checkedOn, lang))],
             links: [
               for (final (i, s) in scheme.sources.indexed)
                 link(Key('scheme-source-$i'), s.title, s.url),

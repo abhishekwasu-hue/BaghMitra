@@ -66,7 +66,9 @@ Length: 250–450 words of section text per language. Marathi uses the app gloss
 
 ## 5. App
 - Feed list: headline, standfirst, badge (Official / News · केंद्र शासन / महाराष्ट्र शासन · date).
-- Article screen: headline, standfirst, label "BagMitra बातमी कक्ष · शासकीय स्रोतांवरून AI ने लिहिलेले",
+- Article screen: headline, standfirst (the label "BagMitra बातमी कक्ष · शासकीय स्रोतांवरून AI ने लिहिलेले"
+  was removed by the owner 2026-11-14, Q156: no byline vouching for the text; instead a small
+  neutral chip "AI ने निर्मित" under the article),
   key points, sections, facts table, charts (bar / pie drawn in Flutter, no new package; values and labels
   also read out as text for accessibility), key-dates timeline, sources, footer "कोणतीही कृती
   करण्याआधी अधिकृत स्रोत तपासा". Share = headline + standfirst + source link.

@@ -1457,7 +1457,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get baharCompareNoPoints =>
-      'Checked information for this bahar appears here once it is ready.';
+      'Information for this bahar appears here once it is ready.';
 
   @override
   String get baharCompareUse => 'Use this bahar';
@@ -1946,10 +1946,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get feedBadgeKnowledge => 'Knowledge article';
 
   @override
-  String get feedKnowledgeByline =>
-      'BagMitra · written by AI only from checked cards and their open sources; every number checked against the source';
-
-  @override
   String get feedKnowledgeOpenCard => 'See practices and details';
 
   @override
@@ -1966,11 +1962,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get feedLevelState => 'Government of Maharashtra';
 
   @override
-  String get feedArticleByline =>
-      'BagMitra news desk · written by AI from official government sources';
+  String get feedArticleKeyPoints => 'Key points';
 
   @override
-  String get feedArticleKeyPoints => 'Key points';
+  String get feedAiTag => 'AI-generated';
 
   @override
   String get feedArticleFacts => 'At a glance';
@@ -2658,11 +2653,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get schemeWhereToApply => 'Where to apply';
 
   @override
-  String schemeSources(String date) {
-    return 'Sources (checked on $date)';
-  }
-
-  @override
   String get schemeFeedItems => 'Related govt notices';
 
   @override
@@ -2757,13 +2747,8 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String directoryChecked(Object date) {
-    return 'Checked $date';
-  }
-
-  @override
   String get directoryCheckLine =>
-      'Details are copied from official pages on the date shown. Call or visit the page to confirm before you travel.';
+      'Details are copied from official pages. Call or visit the page to confirm before you travel.';
 
   @override
   String get directoryEmpty => 'Entries appear here.';
@@ -3066,8 +3051,8 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String generalInfoSource(String source, String date) {
-    return 'Source: $source · checked $date';
+  String generalInfoSource(String source) {
+    return 'Source: $source';
   }
 
   @override
@@ -3083,11 +3068,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get sourcesHide => 'Hide sources';
-
-  @override
-  String sourcesChecked(String date) {
-    return 'read $date';
-  }
 
   @override
   String get labelReadNote => 'Read the label on the packet before spraying.';
@@ -5387,10 +5367,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get askSearch => 'Find the answer';
-
-  @override
-  String get askStoredNote =>
-      'This information is from checked sources stored in the app.';
 
   @override
   String get askRelated => 'Related questions';
