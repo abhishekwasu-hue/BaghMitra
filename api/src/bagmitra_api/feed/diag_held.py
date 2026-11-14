@@ -51,6 +51,7 @@ from bagmitra_api.feed.output_check import (
     normalise,
     text_facts,
 )
+from bagmitra_api.feed.output_check import language_differences as compare_languages
 
 CONTEXT = 60
 MAX_SNIPPETS = 2
@@ -195,16 +196,14 @@ def mismatches(
 
 def language_differences(articles: ArticleSet) -> list[str]:
     """For "amounts or dates differ between mr / hi / en": what each language has that
-    another lacks."""
-    facts = {}
-    for lang, a in articles.articles.items():
-        found = text_facts("\n".join(text for _, text in _texts(lang, a)))
-        facts[lang] = {f"{v:g}" for v in found.amounts} | set(found.dates)
-    every = set.intersection(*facts.values()) if facts else set()
+    another lacks (`output_check.language_differences`, the check's own comparison)."""
+    facts = {
+        lang: text_facts("\n".join(text for _, text in _texts(lang, a)))
+        for lang, a in articles.articles.items()
+    }
     return [
-        f"{lang} only/extra: {', '.join(sorted(values - every))}"
-        for lang, values in facts.items()
-        if values - every
+        f"{lang} only/extra: {', '.join(values)}"
+        for lang, values in compare_languages(facts).items()
     ]
 
 
