@@ -530,10 +530,18 @@ async def recheck_held_knowledge(session: AsyncSession, settings: Settings) -> i
         select(FeedItem).where(FeedItem.type == "knowledge", FeedItem.status == "held")
     )
     for item in list(held):
-        rows = await session.scalars(select(FeedItemI18n).where(FeedItemI18n.item_id == item.id))
+        rows = list(
+            await session.scalars(select(FeedItemI18n).where(FeedItemI18n.item_id == item.id))
+        )
         saved = from_saved({r.lang: r.article for r in rows if r.article})
         if saved is None:
             continue
+        for r in rows:  # stored as read: without missing-information sentences (Q159)
+            a = saved.articles.get(r.lang)
+            if a is not None and r.article:
+                sections = [{"heading": h, "body": b} for h, b in a.sections]
+                r.article = {**r.article, "standfirst": a.standfirst, "sections": sections}
+                r.summary = a.standfirst
         problems = check_knowledge(item.extracted_text or "", saved)
         item.check_issues = _issues(problems)
         if problems:

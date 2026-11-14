@@ -38,9 +38,10 @@ no praise or criticism of any government, party or person, no forecast the sourc
  "lang": {"mr": ARTICLE, "hi": ARTICLE, "en": ARTICLE}}
 ARTICLE = {
   "headline": ≤ 90 chars, "standfirst": one sentence ≤ 200 chars,
-  "key_points": 3–5 strings,
-  "sections": [{"heading": str, "body": 1–3 short paragraphs}]  // 3–5 sections, from:
+  "key_points": 1–5 strings,
+  "sections": [{"heading": str, "body": 1–3 short paragraphs}]  // 1–5 sections, from:
       what was decided · who benefits · amounts and dates · what farmers can do next · background
+      // only those the source has content for (Q159): never a "not given in the source" line
   "facts": [{"label": str, "value": str}]   // 3–8 rows; value "not_stated" allowed, then omitted
   "charts": [CHART]                          // 0–2; only when the source has the numbers
   "key_dates": [{"date": "YYYY-MM-DD", "label": str}],
@@ -49,10 +50,14 @@ ARTICLE = {
 CHART = {"type": "bar" | "pie", "title": str, "unit": str,
          "data": [{"label": str, "value": number}]}   // 2–8 points
 ```
-Length: 250–450 words of section text per language. Marathi uses the app glossary (व्यवहार, never
-सौदा; मध्यस्थ (दलाल)); numbers may be Devanagari or Latin.
+Length: up to 450 words of section text per language, never padded (Q159; was 250–450).
+Marathi uses the app glossary (व्यवहार, never सौदा; मध्यस्थ (दलाल)); numbers may be Devanagari or Latin.
 
 ## 4. Automated checks (all must pass to publish)
+- **No missing-information filler (Q159):** before the checks, a sentence that only says the
+  source / text / article lacks some information is dropped (`feed/no_filler.py`, mr / hi / en);
+  a key point, fact or section left empty is dropped; an article left with no section or key
+  point is refused as malformed.
 - **Source match:** every number, amount, percentage, date and scheme name in headline, standfirst,
   key points, sections, facts, chart values and key dates — in every language — appears in the
   source text (normalised as in `feed/output_check.py`: Devanagari digits, lakh / crore, date formats).

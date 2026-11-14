@@ -278,6 +278,15 @@ cd /opt/bagmitra/deploy && docker compose exec -T api python -m bagmitra_api.fee
 ```
 It prints `{"published": …, "held": …, "retry": …}`; reasons still failing are in admin web (status "held").
 
+**Remove "not given in the source" filler from saved articles (one-off, OPEN_QUESTIONS Q159):** new articles and the held re-checks drop such sentences by themselves; articles saved before (published ones too) keep them until this runs. Dry run first (read-only, prints per item / language the sentences it would remove, and under `left` the articles that would keep no section, which are never written):
+```
+cd /opt/bagmitra/deploy && docker compose exec -T api python -m bagmitra_api.feed.clean_filler
+```
+If the list looks right, write it (adds a `filler_removed` review event per item; safe to repeat):
+```
+cd /opt/bagmitra/deploy && docker compose exec -T api python -m bagmitra_api.feed.clean_filler --apply
+```
+
 **Why is it held? (read-only diagnosis, OPEN_QUESTIONS Q153):** `cd /opt/bagmitra/deploy && docker compose exec -T api python -m bagmitra_api.feed.diag_held --limit 15` prints, per held news / official item, each date / amount / number "not in the source" with up to two source snippets (same day+month, same digits or a number word); `--pdf-probe [ITEM_ID]` instead re-downloads one PDF (default: the newest `illegible` transcription) and prints pages, text layer, Devanagari / ASCII / private-use share, image-only pages and fonts; `--render-test` (Q155) adds page 1 rendered as image mode renders it (pixel size, PNG bytes). No database write, no model call; news pages are fetched again (robots, spacing, size limit as above).
 
 ## 12. News topic threads (owner Q139)

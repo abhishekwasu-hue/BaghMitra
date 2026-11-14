@@ -16,6 +16,7 @@ from decimal import Decimal
 from typing import Any
 from urllib.parse import urlsplit
 
+from bagmitra_api.feed.no_filler import clean_text
 from bagmitra_api.feed.output_check import (
     SourceIndex,
     check_output,
@@ -44,8 +45,8 @@ a professional news article for farmers, as a careful agriculture journalist wou
 Answer with ONE JSON object only, no other text:
 {"relevant": true|false, "political": true|false,
  "lang": {"mr": ARTICLE, "hi": ARTICLE, "en": ARTICLE}}
-ARTICLE = {"headline": str, "standfirst": str, "key_points": [3-5 str],
- "sections": [3-5 {"heading": str, "body": str}], "facts": [3-8 {"label": str, "value": str}],
+ARTICLE = {"headline": str, "standfirst": str, "key_points": [1-5 str],
+ "sections": [1-5 {"heading": str, "body": str}], "facts": [3-8 {"label": str, "value": str}],
  "charts": [0-2 {"type": "bar"|"pie", "title": str, "unit": str,
                  "data": [2-8 {"label": str, "value": number}]}],
  "key_dates": [{"date": "YYYY-MM-DD", "label": str}], "sources": [1-5 {"title": str, "url": str}]}
@@ -69,8 +70,12 @@ Rules:
 - Tone: neutral and explanatory, like a news-desk explainer. No opinion, no advice beyond what
   the source says, no praise or criticism, no forecasts the source does not make. Write "may
   be eligible", never "will receive".
-- Sections, in this order when the source covers them: what was decided; who benefits; amounts
-  and dates; what farmers can do next; background. 250-450 words of section text per language.
+- Sections, in this order, and only those the source has content for: what was decided; who
+  benefits; amounts and dates; what farmers can do next; background. Leave out every section
+  and every key point the source gives nothing for; fewer sections are right for a short
+  source. Never write a sentence, in any language, saying that something is not given, not
+  stated or not available in the source, the text or the article, and never fill a section
+  from general knowledge instead. Up to 450 words of section text per language; never pad.
 - Headline at most 90 letters; standfirst one sentence.
 - Charts only from numbers in the source: "bar" to compare amounts or counts; "pie" only for
   parts of one whole whose values add up to 100 % or to a total the source states. No chart
@@ -274,28 +279,45 @@ def _iso(value: object, where: str) -> str:
         raise ArticleError(f"{where}: date is not YYYY-MM-DD") from exc
 
 
+def _kept(entries: list[Any], where: str) -> list[Any]:
+    """Owner 2026-11-14: entries left empty by the filler guard (`feed.no_filler`) are dropped;
+    at least one must remain."""
+    kept = [e for e in entries if e[-1]]
+    if not kept:
+        raise ArticleError(f"{where}: nothing left once missing-information sentences are dropped")
+    return kept
+
+
 def _article(raw: object, lang: str) -> Article:
     if not isinstance(raw, dict):
         raise ArticleError(f"{lang}: article missing")
     w = lang
     facts = [
-        (_text(_field(f, "label", w), f"{w}.facts", 80), _text(_field(f, "value", w), w, 300))
+        (
+            _text(_field(f, "label", w), f"{w}.facts", 80),
+            clean_text(_text(_field(f, "value", w), w, 300)),
+        )
         for f in _items(raw.get("facts"), f"{w}.facts", 3, 8)
+    ]
+    key_points = [
+        (clean_text(_text(k, f"{w}.key_points", 300)),)
+        for k in _items(raw.get("key_points"), w, 1, 5)
+    ]
+    sections = [
+        (
+            _text(_field(s, "heading", w), f"{w}.sections", 120),
+            clean_text(_text(_field(s, "body", w), f"{w}.sections", 3000)),
+        )
+        for s in _items(raw.get("sections"), f"{w}.sections", 1, 5)
     ]
     return Article(
         headline=_text(raw.get("headline"), f"{w}.headline", 160),
-        standfirst=_text(raw.get("standfirst"), f"{w}.standfirst", 400),
-        key_points=tuple(
-            _text(k, f"{w}.key_points", 300) for k in _items(raw.get("key_points"), w, 3, 5)
+        standfirst=_text(
+            clean_text(_text(raw.get("standfirst"), f"{w}.standfirst", 400)), f"{w}.standfirst", 400
         ),
-        sections=tuple(
-            (
-                _text(_field(s, "heading", w), f"{w}.sections", 120),
-                _text(_field(s, "body", w), f"{w}.sections", 3000),
-            )
-            for s in _items(raw.get("sections"), f"{w}.sections", 3, 5)
-        ),
-        facts=tuple((k, v) for k, v in facts if v != "not_stated"),
+        key_points=tuple(k for (k,) in _kept(key_points, f"{w}.key_points")),
+        sections=tuple(_kept(sections, f"{w}.sections")),
+        facts=tuple((k, v) for k, v in facts if v and v != "not_stated"),
         charts=tuple(
             _chart(c, f"{w}.charts[{i}]")
             for i, c in enumerate(_items(raw.get("charts", []), f"{w}.charts", 0, 2))

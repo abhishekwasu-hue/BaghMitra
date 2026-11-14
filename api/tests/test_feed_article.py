@@ -152,7 +152,7 @@ def test_an_e_mail_or_phone_not_in_the_source_is_caught() -> None:
 @pytest.mark.parametrize(
     "breaker",
     [
-        lambda a: a.update(key_points=["only one"]),
+        lambda a: a.update(key_points=[]),
         lambda a: a.update(sections=[]),
         lambda a: a.update(headline=""),
         lambda a: a.update(charts=[{"type": "line", "title": "x", "unit": "", "data": []}]),
