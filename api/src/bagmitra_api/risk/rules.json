@@ -1,5 +1,5 @@
 {
-  "_note": "Weather risk rules (knowledge addendum v1.3 §3.7). Optional crops: the plot crops a rule applies to (absent = every crop); the three rules whose source is a citrus guideline (ICAR-CCRI heat, the citrus psylla model, the citrus IPM humidity rule) apply to santra and mosambi only (owner 2026-11-14, OPEN_QUESTIONS Q158). Starting points for local calibration; draft until the expert reviewer approves (OPEN_QUESTIONS Q12). Alert texts state the risk and what to check, never a chemical. Storm rules (hail / wind / heavy or unseasonal rain) only say what weather is expected and link to the claim kit (action claim_kit); thresholds are drafts to calibrate (OPEN_QUESTIONS Q38). Cold-wave (IMD) and humidity (NIPHM) rules added 2026-11-06 with sourced thresholds; a fruit-split rule is left out because no public source gives a weather threshold for it (NHB names only 'high humidity following heavy rains or heavy irrigation during hot weather').",
+  "_note": "Weather risk rules (knowledge addendum v1.3 §3.7). Optional crops: the plot crops a rule applies to (absent = every crop); the three rules whose source is a citrus guideline (ICAR-CCRI heat, the citrus psylla model, the citrus IPM humidity rule) apply to santra and mosambi only (owner 2026-11-14, OPEN_QUESTIONS Q158). Starting points for local calibration; draft until the expert reviewer approves (OPEN_QUESTIONS Q12). Alert texts state the risk and what to check, never a chemical. Storm rules (hail / wind / heavy or unseasonal rain) only say what weather is expected and link to the claim kit (action claim_kit); thresholds are drafts to calibrate (OPEN_QUESTIONS Q38). Cold-wave (IMD) and humidity (NIPHM) rules added 2026-11-06 with sourced thresholds; a fruit-split rule is left out because no public source gives a weather threshold for it (NHB names only 'high humidity following heavy rains or heavy irrigation during hot weather'). Push class (OPEN_QUESTIONS Q157): \"push\": \"danger\" (weather danger, first in the daily push budget) or \"advisory\" (pest / disease conditions, after sudden weather changes); a rule without it is an advisory.",
   "rules": [
     {
       "key": "heat_fruit_drop",
@@ -10,6 +10,7 @@
       "value": 35,
       "min_days": 1,
       "status": "draft",
+      "push": "danger",
       "source": "ICAR-CCRI Nagpur monthly guidelines (March): sudden rise to 35–40 °C",
       "labels": {
         "en": "Heat of 35 °C or more expected: fruit drop can happen. Check irrigation.",
@@ -25,6 +26,7 @@
       "upper_c": 32,
       "per_unit": 580,
       "status": "draft",
+      "push": "advisory",
       "source": "ACP degree-day model, Coop & McRoberts 2013 (after Liu & Tsai 2000)",
       "labels": {
         "en": "Warm days favour citrus psylla development. Look for psylla on new flush.",
@@ -40,6 +42,7 @@
       "value": 95,
       "min_days": 1,
       "status": "draft",
+      "push": "danger",
       "action": "claim_kit",
       "source": "Open-Meteo daily weather_code (WMO 4677): 95 thunderstorm, 96/99 thunderstorm with hail. Open-Meteo marks the hail codes as reliable only in Central Europe, so any thunderstorm day alerts. Draft.",
       "labels": {
@@ -56,6 +59,7 @@
       "value": 60,
       "min_days": 1,
       "status": "draft",
+      "push": "danger",
       "action": "claim_kit",
       "source": "IMD thunderstorm / squall warning wording (gusty winds 40-60 km/h and above); 60 km/h daily max gust (Open-Meteo wind_gusts_10m_max) is a draft starting point for fruit drop and branch damage, to be calibrated locally.",
       "labels": {
@@ -72,6 +76,7 @@
       "value": 64.5,
       "min_days": 1,
       "status": "draft",
+      "push": "danger",
       "action": "claim_kit",
       "source": "IMD rainfall intensity terms: heavy rain 64.5-115.5 mm in 24 h (Open-Meteo precipitation_sum). Draft.",
       "labels": {
@@ -97,6 +102,7 @@
         5
       ],
       "status": "draft",
+      "push": "danger",
       "action": "claim_kit",
       "source": "IMD rainfall intensity terms: rather heavy rain 15.6-64.4 mm in 24 h; months November to May are outside the south-west monsoon and its withdrawal over Vidarbha (IMD seasons). Draft: months and amount to be calibrated.",
       "labels": {
@@ -113,6 +119,7 @@
       "value": 4,
       "min_days": 1,
       "status": "draft",
+      "push": "danger",
       "source": "IMD cold-wave criteria for plains (IMD Pune hazard atlas, cold.pdf, read 2026-11-06): cold wave when the minimum temperature is 4 °C or less (severe at 2 °C or less). The departure-from-normal test (4.5 to 6.4 °C below normal at 10 °C or less) needs station normals and is not used. Draft: no citrus-specific cold threshold was found in a public source.",
       "labels": {
         "en": "Cold wave expected (minimum 4 °C or less, IMD). Look over young plants, the nursery and new flush after the cold night.",
@@ -129,6 +136,7 @@
       "value": 80,
       "min_days": 1,
       "status": "draft",
+      "push": "advisory",
       "source": "NIPHM and Directorate of Plant Protection, Quarantine & Storage, AESA based IPM for citrus (Vikaspedia 'Diseases and symptoms', read 2026-11-06): powdery mildew and anthracnose are favoured by a long period of relative humidity above 80 % with mist, in cool weather (about 20 °C). The source gives no number of days: one day of daily mean humidity is a draft to calibrate (Open-Meteo relative_humidity_2m_mean).",
       "labels": {
         "en": "Humid weather expected (average humidity 80 % or more): it favours fungal diseases such as powdery mildew and anthracnose. Look over new leaves and young fruit.",

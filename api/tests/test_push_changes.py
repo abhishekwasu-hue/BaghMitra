@@ -36,13 +36,14 @@ def days(*prices: tuple[int, int]) -> dict[date, int]:
 
 def test_defaults_come_from_settings() -> None:
     s = Settings()
-    assert MarketRules.of(s) == MarketRules(5.0, 300, 3)
+    assert MarketRules.of(s) == MarketRules(10.0, 500, 3), "Q157: only big moves"
     assert WeatherRules.of(s) == WeatherRules(60.0, 30.0, 10.0, 5.0, 35.0, 4.0, 40.0, 2)
     assert (s.push_article_daily_max, s.push_market_daily_max, s.push_weather_daily_max) == (
-        2,
+        1,
         1,
         1,
     )
+    assert (s.push_daily_max, s.push_repeat_days) == (2, 3)
     changed = Settings(push_market_min_pct=8, push_weather_gust_kmh=50)
     assert MarketRules.of(changed).min_pct == 8
     assert WeatherRules.of(changed).gust_kmh == 50
@@ -51,12 +52,13 @@ def test_defaults_come_from_settings() -> None:
 @pytest.mark.parametrize(
     ("prices", "moved"),
     [
-        (((1, 3200), (0, 3500)), True),  # +300 (exactly the rupee threshold) and +9 %
-        (((1, 3200), (0, 3460)), True),  # +260, +8 %: the per cent threshold
-        (((1, 8000), (0, 8300)), True),  # +300, +3.75 %: the rupee threshold alone
-        (((1, 8000), (0, 8299)), False),  # +299, +3.7 %: neither
-        (((1, 4000), (0, 3790)), True),  # -210, -5.25 %: a fall counts the same
-        (((1, 4000), (0, 3810)), False),  # -190, -4.75 %
+        (((1, 3200), (0, 3700)), True),  # +500 (exactly the rupee threshold) and +16 %
+        (((1, 3200), (0, 3520)), True),  # +320, +10 %: the per cent threshold
+        (((1, 3200), (0, 3500)), False),  # +300, +9 %: was a push before Q157, not now
+        (((1, 8000), (0, 8500)), True),  # +500, +6.25 %: the rupee threshold alone
+        (((1, 8000), (0, 8499)), False),  # +499, +6.2 %: neither
+        (((1, 4000), (0, 3590)), True),  # -410, -10.25 %: a fall counts the same
+        (((1, 4000), (0, 3610)), False),  # -390, -9.75 %
         (((0, 3500),), False),  # one day only: nothing to compare
     ],
 )
@@ -65,15 +67,15 @@ def test_price_thresholds(prices: tuple[tuple[int, int], ...], moved: bool) -> N
 
 
 def test_change_is_against_the_previous_published_day_not_a_filled_gap() -> None:
-    change = price_change(KEY, days((9, 2000), (5, 3200), (0, 3500)), TODAY, RULES)
+    change = price_change(KEY, days((9, 2000), (5, 3200), (0, 3700)), TODAY, RULES)
     assert change is not None
     assert (change.previous_day, change.previous, change.price) == (
         TODAY - timedelta(days=5),
         3200,
-        3500,
+        3700,
     )
-    assert change.delta == 300
-    assert round(change.pct) == 9
+    assert change.delta == 500
+    assert round(change.pct) == 16
     assert change.subject == "Warud|Orange|Nagpuri|FAQ|2026-11-12"
 
 
@@ -82,7 +84,7 @@ def test_old_latest_day_and_zero_prices_send_nothing() -> None:
     assert price_change(KEY, days((5, 3000), (3, 4000)), TODAY, RULES) is not None
     assert price_change(KEY, days((1, 0), (0, 4000)), TODAY, RULES) is None
     stricter = MarketRules(min_pct=20, min_rs=1000)
-    assert price_change(KEY, days((1, 3200), (0, 3500)), TODAY, stricter) is None
+    assert price_change(KEY, days((1, 3200), (0, 3700)), TODAY, stricter) is None
 
 
 def dv(day_offset: int, **values: float) -> DayValues:

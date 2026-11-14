@@ -105,8 +105,8 @@ FCM चालू असताना (वरील पायऱ्या) deploy.
 
 | प्रकार | केव्हा | मर्यादा (default) | टॅप केल्यावर |
 |---|---|---|---|
-| नवीन लेख | ज्ञान लेख / AI बातमी लेख प्रकाशित झाल्यावर (४८ तासांत) | दिवसाला २ push; अनेक लेख एकाच push मध्ये ("३ नवीन लेख") | लेख / बातमीचा विषय; अनेक असतील तर फीड |
-| बाजारभाव | शेवटच्या दोन प्रकाशित दिवसांत modal भाव ≥ ५ % **किंवा** ≥ ₹३००/क्विंटल बदलला | दिवसाला १ push (सर्व बाजार एकत्र) | बाजारभाव (त्या पिकासह) |
+| नवीन लेख | ज्ञान लेख / AI बातमी लेख प्रकाशित झाल्यावर (४८ तासांत) | दिवसाला १ push (आठवड्याच्या सारांशासह); अनेक लेख एकाच push मध्ये ("३ नवीन लेख") | लेख / बातमीचा विषय; अनेक असतील तर फीड |
+| बाजारभाव | शेवटच्या दोन प्रकाशित दिवसांत modal भाव ≥ १० % **किंवा** ≥ ₹५००/क्विंटल बदलला | दिवसाला १ push (सर्व बाजार एकत्र) | बाजारभाव (त्या पिकासह) |
 | हवामान बदल | आज/उद्या: पावसाची शक्यता ≤३० % वरून ≥६० %; ≥१० मिमी पाऊस नव्याने; कमाल तापमान दिवसागणिक ±५ °C; ३५ °C ओलांडले; किमान ४ °C किंवा कमी; वारा ≥ ४० किमी/तास | प्रत्येक बागेला दिवसाला १ | १५ दिवसांचा अंदाज |
 
 - कोणाला: फोन नोंदलेले शेतकरी, ज्यांचा Settings → सूचना मधला त्या प्रकाराचा switch चालू (default चालू), फीडच्या
@@ -117,6 +117,29 @@ FCM चालू असताना (वरील पायऱ्या) deploy.
   ३५ °C उष्णता, थंडीची लाट) पुन्हा पाठवत नाही; मुदतीच्या आठवणी असलेले किंवा आठवड्याच्या सारांशात आलेले लेख पाठवत
   नाही; उलट लेख push मध्ये गेलेला लेख आठवड्याच्या सारांशात पुन्हा येत नाही.
 - सर्व आकडे `.env` settings आहेत (खाली). बदलल्यावर deploy.
+
+## ८. रोजची एकत्रित मर्यादा (OPEN_QUESTIONS Q157)
+
+सर्व push jobs मिळून एका शेतकऱ्याला एका दिवसात (IST) जास्तीत जास्त `PUSH_DAILY_MAX` = **२** push. कमी पडल्यास क्रम:
+
+| क्रम | प्रकार | job |
+|---|---|---|
+| १ | हवामान धोका (मुसळधार/अवकाळी पाऊस, गारपीट, उष्णता/थंडीची लाट, जोरदार वारा) | `push.deliver` (rules.json `"push": "danger"`) |
+| २ | अचानक हवामान बदल | `push.updates` |
+| ३ | कीड/रोग अनुकूल हवामान (सायला, दमट हवामान) | `push.deliver` (`"push": "advisory"`) |
+| ४ | योजनांच्या मुदतीच्या आठवणी | `feed.alert_job` |
+| ५ | मोठा बाजारभाव बदल | `push.updates` |
+| ६ | नवीन लेख + आठवड्याचा सारांश (दिवसाला १) | `push.updates`, `feed.alert_job` |
+
+- एकाच job च्या एका run मध्ये महत्त्वाचे आधी; वेगवेगळ्या jobs मध्ये जो आधी चालतो तो आधी (07:07 deliver → 08:17
+  updates → 08:47 योजना आठवणी).
+- तोच विषय (उदा. तोच हवामान नियम, त्याच पिकाचा बाजारभाव, तोच बातमी-विषय) त्याच शेतकऱ्याला `PUSH_REPEAT_DAYS` = **३**
+  दिवसांत पुन्हा नाही.
+- मर्यादेमुळे न गेलेली सूचना नंतर पाठवली जात नाही (ॲपमध्ये दिसत राहते). प्रत्येक job च्या JSON मध्ये
+  `skipped_budget`, `skipped_repeat`.
+- एकाच नियमाचा धोका दोन बागांवर: **एकच** push, बागांची नावे सोबत ("… (बाग: Sharayu farm, बाग १)").
+- मोजले जात नाहीत: market-link (नवी ऑफर / ऑफर स्वीकारली / माल बंद) आणि विक्री पॅकेज सूचना — या शेतकरी/व्यापाऱ्याच्या
+  स्वतःच्या कृतीचे लगेच उत्तर आहेत.
 
 ## Technical notes (English)
 
@@ -143,9 +166,15 @@ FCM चालू असताना (वरील पायऱ्या) deploy.
 - Settings (env, `.env` on the VPS; the API reads the same file): `CRON_PUSH_UPDATES`,
   `PUSH_ARTICLES`, `PUSH_MARKET`, `PUSH_WEATHER_CHANGE` (kill switches, default on);
   `PUSH_TOPIC_ARTICLES_DEFAULT` / `_MARKET_` / `_WEATHER_` (switch defaults, on);
-  `PUSH_ARTICLE_DAILY_MAX` 2, `PUSH_ARTICLE_LOOKBACK_HOURS` 48; `PUSH_MARKET_MIN_PCT` 5,
-  `PUSH_MARKET_MIN_RS` 300, `PUSH_MARKET_MAX_AGE_DAYS` 3, `PUSH_MARKET_DAILY_MAX` 1;
+  `PUSH_ARTICLE_DAILY_MAX` 1 (articles + weekly digest), `PUSH_ARTICLE_LOOKBACK_HOURS` 48;
+  `PUSH_MARKET_MIN_PCT` 10, `PUSH_MARKET_MIN_RS` 500, `PUSH_MARKET_MAX_AGE_DAYS` 3, `PUSH_MARKET_DAILY_MAX` 1;
   `PUSH_WEATHER_RAIN_PROB_HIGH` 60, `_LOW` 30, `PUSH_WEATHER_RAIN_MM` 10,
   `PUSH_WEATHER_TEMP_JUMP_C` 5, `PUSH_WEATHER_HEAT_C` 35, `PUSH_WEATHER_COLD_C` 4,
   `PUSH_WEATHER_GUST_KMH` 40, `PUSH_WEATHER_DAYS` 2, `PUSH_WEATHER_DAILY_MAX` 1,
   `PUSH_WEATHER_FRESH_HOURS` 26.
+- Shared budget (Q157): `api/src/bagmitra_api/push/budget.py`; table `push_log` (migration 0054, owner RLS),
+  one row per topic of each push sent or held back (status `sent` / `budget` / `repeat`), written by
+  `push.deliver`, `push.updates` and `feed.alert_job`. Settings `PUSH_DAILY_MAX` 2, `PUSH_REPEAT_DAYS` 3.
+  Topics: `risk:<rule>`, `weather:<signal>`, `market:<crop>`, `article:<thread or item>`,
+  `feed:<item>:<stage>`, `digest`. A candidate whose topic was held back at or after its own creation
+  is not planned again (feed reminders / digest: within the last 8 days).

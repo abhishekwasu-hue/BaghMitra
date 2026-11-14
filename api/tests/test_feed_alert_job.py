@@ -26,6 +26,8 @@ from bagmitra_api.feed.models import (
     FeedSource,
 )
 from bagmitra_api.feed.seed import seed_feed_sources
+from bagmitra_api.push import budget as pb
+from bagmitra_api.push.models import PushLog
 from bagmitra_api.push.sender import PushMessage, PushUnavailableError, SendResult
 
 NOW = datetime(2026, 10, 27, 10, 0, tzinfo=INDIA).astimezone(UTC)
@@ -260,3 +262,38 @@ async def test_dismissed_and_remind_receipts(maker: async_sessionmaker[AsyncSess
     assert sender.sent[0].body == (
         "Last date: 27/10/2026\nCheck the official GR/portal before acting."
     )
+
+
+async def test_reminders_share_the_daily_push_budget_and_are_not_sent_later(
+    maker: async_sessionmaker[AsyncSession],
+) -> None:
+    """Q157: two pushes already reached the farmer today (risk alerts), so the T-7 reminder
+    and the digest are held back, logged, and not sent the next day; the T-2 stage comes."""
+    item_id = await add_item(maker, due_in=6)
+    owner = await add_farmer(maker)
+    async with maker() as s:
+        for rule in ("heat_fruit_drop", "hail_thunderstorm"):
+            s.add(
+                PushLog(
+                    owner_id=owner,
+                    push_id=uuid.uuid4(),
+                    day=TODAY,
+                    source="deliver",
+                    priority=pb.DANGER,
+                    topic=f"risk:{rule}",
+                    status=pb.SENT,
+                    created_at=NOW - timedelta(hours=3),
+                )
+            )
+        await s.commit()
+    sender = FakeSender()
+    summary = await run(maker, sender)
+    assert sender.sent == []
+    assert (summary.skipped_budget, summary.sent, summary.digests_sent) == (2, 0, 0)
+    nextday = FakeSender()
+    await run(maker, nextday, NOW + timedelta(days=1))
+    assert nextday.sent == [], "held back: the T-7 reminder and the digest are not repeated"
+    t2 = FakeSender()
+    await run(maker, t2, NOW + timedelta(days=4))
+    assert [m.data.get("stage") for m in t2.sent] == ["t2"]
+    assert t2.sent[0].data["item_id"] == str(item_id)

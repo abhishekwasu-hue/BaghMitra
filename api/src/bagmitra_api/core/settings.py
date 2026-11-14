@@ -334,15 +334,21 @@ class Settings(BaseSettings):
     push_topic_articles_default: bool = True
     push_topic_market_default: bool = True
     push_topic_weather_default: bool = True
-    # Articles: at most this many article pushes per grower per India day (several new articles
-    # go in one push); an article published longer ago than the look-back is not pushed.
-    push_article_daily_max: int = Field(default=2, ge=0, le=10)
+    # Shared push budget (owner 2026-11-14, OPEN_QUESTIONS Q157; push/budget.py): at most
+    # push_daily_max pushes per farmer per India day from all push jobs together, the most
+    # important first; the same topic not again within push_repeat_days days.
+    push_daily_max: int = Field(default=2, ge=0, le=20)
+    push_repeat_days: int = Field(default=3, ge=0, le=30)
+    # Articles: at most this many pushes of new articles and the weekly digest together per
+    # grower per India day (several new articles go in one push; Q157: 1); an article
+    # published longer ago than the look-back is not pushed.
+    push_article_daily_max: int = Field(default=1, ge=0, le=10)
     push_article_lookback_hours: int = Field(default=48, ge=1, le=168)
     # Market: a change of at least this many per cent OR rupees per quintal between the two
     # latest published days of a mandi series; the latest day at most this many days old;
     # at most this many market pushes per grower per India day (series combined).
-    push_market_min_pct: float = Field(default=5.0, gt=0)
-    push_market_min_rs: int = Field(default=300, gt=0)
+    push_market_min_pct: float = Field(default=10.0, gt=0)
+    push_market_min_rs: int = Field(default=500, gt=0)
     push_market_max_age_days: int = Field(default=3, ge=0)
     push_market_daily_max: int = Field(default=1, ge=0, le=10)
     # Weather: thresholds of a sudden change for today and the next days (push_weather_days in

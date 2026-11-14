@@ -43,8 +43,8 @@ class SeriesKey:
 
 @dataclass(frozen=True, slots=True)
 class MarketRules:
-    min_pct: float = 5.0
-    min_rs: int = 300
+    min_pct: float = 10.0
+    min_rs: int = 500
     max_age_days: int = 3
 
     @classmethod
