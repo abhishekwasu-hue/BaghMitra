@@ -15,6 +15,8 @@ dependencies = [
   "structlog==25.4.0",
   "httpx==0.28.1",
   "pypdf==6.21.2",
+  # Page images of legacy-font PDFs for the model (Q155); manylinux wheels, no system libs.
+  "pypdfium2==5.14.0",
   # Multipart form uploads (crop photo analysis, Q135).
   "python-multipart==0.0.20",
   "sentry-sdk==2.74.0",
@@ -72,6 +74,11 @@ explicit_package_bases = true
 
 [[tool.mypy.overrides]]
 module = ["alembic.*"]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+# pypdfium2 ships no type information (no py.typed).
+module = ["pypdfium2", "pypdfium2.*"]
 ignore_missing_imports = true
 
 [tool.pytest.ini_options]

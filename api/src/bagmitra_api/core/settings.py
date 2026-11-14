@@ -220,9 +220,10 @@ class Settings(BaseSettings):
     # Official portals (owner 2026-11-12, Q145): the portal job's kill switch; the same
     # CRON_FEED_PORTALS in deploy/.env also removes its cron line.
     cron_feed_portals: bool = True
-    # Legacy-font official PDFs read by the model (owner 2026-11-13, Q152). Empty model: the
-    # summariser's (FEED_SUMMARISE_MODEL). At most FEED_PDF_TRANSCRIBE_DAILY requests per UTC
-    # day, counted apart from FEED_AI_DAILY_ITEMS; larger PDFs stay held.
+    # Legacy-font official PDFs read by the model (owner 2026-11-13, Q152), from their page
+    # images (Q155, 20 pages per request). Empty model: the summariser's (FEED_SUMMARISE_MODEL).
+    # At most FEED_PDF_TRANSCRIBE_DAILY requests per UTC day, counted apart from
+    # FEED_AI_DAILY_ITEMS; larger PDFs stay held. MAX_TOKENS and the timeout are per request.
     feed_pdf_transcribe_model: str = ""
     feed_pdf_transcribe_daily: int = Field(default=10, ge=0)
     feed_pdf_transcribe_max_pages: int = Field(default=30, ge=1)

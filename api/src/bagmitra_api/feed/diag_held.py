@@ -7,11 +7,13 @@ runs, and every date / amount / number mismatch is printed with up to two source
 
 `--pdf-probe [ITEM_ID]`: re-download one official PDF (default: the newest one whose
 transcription ended `illegible`) and report its page count, text layer, character mix
-(Devanagari / ASCII / private use), image-only pages and fonts.
+(Devanagari / ASCII / private use), image-only pages and fonts. With `--render-test` (implies
+`--pdf-probe`) page 1 is also rendered as the image-mode transcription renders it (Q155) and its
+pixel size and PNG byte size are printed, to confirm the renderer works in the container.
 
 Nothing is written (no database change, the session is rolled back) and no model is called.
 Runbook: docs/runbooks/govt-feed.md.
-    python -m bagmitra_api.feed.diag_held [--limit 15] [--pdf-probe [ITEM_ID]]
+    python -m bagmitra_api.feed.diag_held [--limit 15] [--pdf-probe [ITEM_ID]] [--render-test]
 """
 
 from __future__ import annotations
@@ -52,6 +54,7 @@ from bagmitra_api.feed.output_check import (
     text_facts,
 )
 from bagmitra_api.feed.output_check import language_differences as compare_languages
+from bagmitra_api.feed.pdf_transcribe import RenderError, render_pages
 
 CONTEXT = 60
 MAX_SNIPPETS = 2
@@ -417,6 +420,24 @@ def probe_lines(probe: PdfProbe) -> list[str]:
     ]
 
 
+def render_lines(data: bytes) -> list[str]:
+    """Page 1 rendered as the image-mode transcription renders it (no model call)."""
+    import pypdfium2  # noqa: PLC0415 - only for its version line
+
+    try:
+        pages = render_pages(data, max_pages=1)
+    except RenderError as exc:
+        return [f"  render test: failed ({str(exc)[:200]})"]
+    if not pages:
+        return ["  render test: the PDF has no page"]
+    page = pages[0]
+    return [
+        f"  render test: page 1 {page.width} x {page.height} px grayscale PNG, "
+        f"{len(page.png)} bytes, ~{page.visual_tokens} visual tokens "
+        f"(pypdfium2 {pypdfium2.PYPDFIUM_INFO}, PDFium {pypdfium2.PDFIUM_INFO}); no model call"
+    ]
+
+
 async def _illegible(session: AsyncSession, item_id: uuid.UUID | None) -> FeedItem | None:
     if item_id is not None:
         return await session.get(FeedItem, item_id)
@@ -438,7 +459,11 @@ async def _illegible(session: AsyncSession, item_id: uuid.UUID | None) -> FeedIt
 
 
 async def pdf_probe(
-    session: AsyncSession, adapter: GrPortalAdapter, item_id: uuid.UUID | None = None
+    session: AsyncSession,
+    adapter: GrPortalAdapter,
+    item_id: uuid.UUID | None = None,
+    *,
+    render_test: bool = False,
 ) -> list[str]:
     item = await _illegible(session, item_id)
     if item is None:
@@ -465,9 +490,10 @@ async def pdf_probe(
     if kind != "pdf":
         return [*lines, "  not a PDF"]
     try:
-        return lines + probe_lines(probe_pdf(data))
+        lines += probe_lines(probe_pdf(data))
     except Exception as exc:  # pypdf raises many types on damaged files
-        return [*lines, f"  PDF could not be read ({type(exc).__name__})"]
+        lines.append(f"  PDF could not be read ({type(exc).__name__})")
+    return lines + render_lines(data) if render_test else lines
 
 
 def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
@@ -481,7 +507,15 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
         metavar="ITEM_ID",
         help="probe one official PDF (default: the newest illegible transcription)",
     )
-    return parser.parse_args(argv)
+    parser.add_argument(
+        "--render-test",
+        action="store_true",
+        help="with the PDF probe: render page 1 as image mode does and print its size",
+    )
+    args = parser.parse_args(argv)
+    if args.render_test and args.pdf_probe is None:
+        args.pdf_probe = "illegible"
+    return args
 
 
 async def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover - CLI wrapper
@@ -506,7 +540,7 @@ async def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover - 
         try:
             if args.pdf_probe is not None:
                 item_id = None if args.pdf_probe == "illegible" else uuid.UUID(args.pdf_probe)
-                lines = await pdf_probe(session, adapter, item_id)
+                lines = await pdf_probe(session, adapter, item_id, render_test=args.render_test)
             else:
                 lines = (await diagnose(session, adapter, limit=args.limit)).lines
         finally:

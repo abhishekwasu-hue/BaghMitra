@@ -8,6 +8,7 @@ still goes through `output_check` and the human review gate before anything is p
 
 from __future__ import annotations
 
+import asyncio
 import json
 import re
 from collections.abc import AsyncIterator
@@ -36,12 +37,14 @@ from bagmitra_api.feed.output_check import NOT_STATED
 from bagmitra_api.feed.pdf_transcribe import (
     TRANSCRIBE_EFFORT,
     TRANSCRIBE_PROMPT,
-    TRANSCRIBE_QUESTION,
     TRANSCRIBE_SCHEMA,
     Transcription,
     TranscriptionError,
+    batch_content,
+    batches,
+    joined,
     parse_transcription,
-    pdf_document_block,
+    render_pages,
 )
 
 ANTHROPIC_VERSION = "2026-10-21"
@@ -396,46 +399,48 @@ class AnthropicFeedAi:
         return _json_object(answer)
 
     async def transcribe_pdf(self, data: bytes) -> Transcription:
-        """Owner 2026-11-13 (Q152): the visible text of a legacy-font PDF, transcribed by the
-        model from the PDF itself (document block). Streamed: a long GR takes minutes."""
+        """Owner 2026-11-13 (Q152, image mode Q155): the visible text of a legacy-font PDF,
+        transcribed by the model from its rendered pages (image blocks, at most
+        IMAGES_PER_REQUEST a request; the batches joined in page order). Streamed: a long GR
+        takes minutes. RenderError (no request made) when the pages cannot be rendered."""
         s = self._settings
         model = s.feed_pdf_transcribe_model or s.feed_summarise_model
+        pages = await asyncio.to_thread(
+            render_pages, data, max_pages=s.feed_pdf_transcribe_max_pages
+        )
         headers = {
             "x-api-key": s.feed_ai_api_key.get_secret_value(),
             "anthropic-version": ANTHROPIC_VERSION,
             "content-type": "application/json",
         }
-        body: dict[str, Any] = {
-            "model": model,
-            "max_tokens": s.feed_pdf_transcribe_max_tokens,
-            "system": TRANSCRIBE_PROMPT,
-            "messages": [
-                {
-                    "role": "user",
-                    "content": [
-                        pdf_document_block(data),
-                        {"type": "text", "text": TRANSCRIBE_QUESTION},
-                    ],
-                }
-            ],
-            "output_config": {
-                "format": {"type": "json_schema", "schema": TRANSCRIBE_SCHEMA},
-                "effort": TRANSCRIBE_EFFORT,
-            },
-        }
-        answer = await messages_text(
-            self._http,
-            base_url=s.feed_ai_base_url,
-            headers=headers,
-            body=body,
-            fallback=True,
-            read_seconds=s.feed_pdf_transcribe_timeout_seconds,
-            stream=True,
-        )
-        try:
-            return parse_transcription(_json_object(answer), model=model)
-        except (AiUnavailableError, TranscriptionError) as exc:
-            raise AiBadAnswerError(f"transcription JSON: {exc}") from exc
+        parts: list[Transcription] = []
+        first = 1
+        for batch in batches(pages):
+            body: dict[str, Any] = {
+                "model": model,
+                "max_tokens": s.feed_pdf_transcribe_max_tokens,
+                "system": TRANSCRIBE_PROMPT,
+                "messages": [{"role": "user", "content": batch_content(batch, first, len(pages))}],
+                "output_config": {
+                    "format": {"type": "json_schema", "schema": TRANSCRIBE_SCHEMA},
+                    "effort": TRANSCRIBE_EFFORT,
+                },
+            }
+            answer = await messages_text(
+                self._http,
+                base_url=s.feed_ai_base_url,
+                headers=headers,
+                body=body,
+                fallback=True,
+                read_seconds=s.feed_pdf_transcribe_timeout_seconds,
+                stream=True,
+            )
+            try:
+                parts.append(parse_transcription(_json_object(answer), model=model))
+            except (AiUnavailableError, TranscriptionError) as exc:
+                raise AiBadAnswerError(f"transcription JSON: {exc}") from exc
+            first += len(batch)
+        return joined(parts, model=model)
 
     async def summarise(self, text: str) -> Summary:
         answer = await self._ask(

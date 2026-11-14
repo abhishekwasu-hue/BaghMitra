@@ -20,10 +20,12 @@ from bagmitra_api.feed.diag_held import (
     parse_args,
     pdf_probe,
     probe_pdf,
+    render_lines,
     snippets,
 )
 from bagmitra_api.feed.models import FeedItem, FeedReviewEvent, FeedSource
 from bagmitra_api.feed.official_items import TRANSCRIBE, write_official_items
+from bagmitra_api.feed.pdf_transcribe import render_pages
 from tests.feed_docs import KRUTI_DEV, MARATHI, PUA, make_pdf
 from tests.test_feed_article import SOURCE
 from tests.test_feed_news import Server, adapter
@@ -223,8 +225,33 @@ async def test_pdf_probe_takes_the_newest_illegible_transcription(engine: AsyncE
         assert missing[0].startswith("no such item")
 
 
+async def test_the_render_test_renders_page_one_without_a_model_call(engine: AsyncEngine) -> None:
+    now = datetime(2026, 11, 13, 6, tzinfo=UTC)
+    async with async_sessionmaker(engine, expire_on_commit=False)() as session:
+        item = await listed(session, now)
+        pdf = {"content-type": "application/pdf"}
+        body = make_pdf([KRUTI_DEV, KRUTI_DEV])
+        site = Site({GR_PDF: httpx.Response(200, content=body, headers=pdf)})
+        before = await _counts(session)
+        plain = await pdf_probe(session, portal_adapter(site), item.id)
+        assert not any("render test" in line for line in plain)
+        lines = await pdf_probe(session, portal_adapter(site), item.id, render_test=True)
+        [line] = [x for x in lines if "render test" in x]
+        page = render_pages(body, max_pages=1)[0]
+        assert f"page 1 {page.width} x {page.height} px grayscale PNG" in line
+        assert f"{len(page.png)} bytes" in line
+        assert "pypdfium2 " in line
+        assert line.endswith("no model call")
+        assert site.calls.count(GR_PDF) == 2  # only the portal reader: no model request
+        assert await _counts(session) == before
+    assert render_lines(b"%PDF-1.4 broken")[0].startswith("  render test: failed")
+
+
 def test_the_command_line() -> None:
     assert parse_args([]).limit == 15
     assert parse_args([]).pdf_probe is None
+    assert parse_args([]).render_test is False
     assert parse_args(["--limit", "3", "--pdf-probe"]).pdf_probe == "illegible"
     assert parse_args(["--pdf-probe", "abc"]).pdf_probe == "abc"
+    assert parse_args(["--pdf-probe", "abc", "--render-test"]).render_test is True
+    assert parse_args(["--render-test"]).pdf_probe == "illegible"  # implies the probe
