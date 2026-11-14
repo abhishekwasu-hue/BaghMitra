@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 
 import '../../../app/providers.dart';
 import '../../../app/router.dart';
-import '../../../core/formatting.dart';
 import '../../../design_system/app_bar_title.dart';
 import '../../../design_system/general_info_note.dart';
 import '../../../design_system/sources_disclosure.dart';
@@ -57,15 +56,7 @@ class PracticesScreen extends ConsumerWidget {
           sources: [
             for (final k in keys)
               if (data?.sources[k] case final s?)
-                SourceRef(
-                  '$k: ${s.title}',
-                  url: s.url,
-                  publisher: s.publisher,
-                  checked: switch (s.checked) {
-                    final d? => formatDate(d, lang),
-                    null => null,
-                  },
-                ),
+                SourceRef('$k: ${s.title}', url: s.url, publisher: s.publisher),
           ],
           kinds: [for (final e in kinds ?? const <String>[]) evidence(e)],
         );
@@ -175,13 +166,11 @@ class PracticesScreen extends ConsumerWidget {
     List<Widget> profiled(PracticeSection s, PracticeProfile p) {
       final keys = {...p.sourceKeys, for (final i in s.items) ...i.sourceKeys};
       final publishers = {for (final k in keys) ?data?.sources[k]?.publisher};
-      final checked = p.checked;
       final pest = p.kind == 'pest';
       return [
         GeneralInfoNote(
           key: Key('practices-general-${s.key}'),
           source: publishers.join(', '),
-          checked: checked == null ? null : formatDate(checked, lang),
         ),
         if (p.figure case final f?) ...[
           const SizedBox(height: BmSpace.xs),

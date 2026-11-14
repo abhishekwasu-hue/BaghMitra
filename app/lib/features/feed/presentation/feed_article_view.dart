@@ -14,7 +14,7 @@ import '../domain/feed_article.dart';
 
 /// The AI article of a feed item (spec v1.6): key points, sections, a facts table, bar / pie
 /// charts drawn here (no chart package), key dates and the sources. Every chart is also read
-/// out as text. No byline vouching for the text (owner 2026-11-14: no "checked" guarantee).
+/// out as text. No byline vouching for the text (owner 2026-11-14); only the neutral [AiTag].
 /// A knowledge article (ज्ञान लेख, Q141, [knowledge]) has its sections and sources (a tap
 /// copies the link), and "उपाय व माहिती पहा" to the practices it came from.
 ///
@@ -163,7 +163,53 @@ class FeedArticleView extends StatelessWidget {
             ),
           ),
         ],
+        const SizedBox(height: BmSpace.md),
+        const AiTag(key: Key('feed-ai-tag')),
       ],
+    );
+  }
+}
+
+/// The owner's small neutral tag under every AI-written article (2026-11-14, Q156): only
+/// "AI ने निर्मित", no claim that the text was checked. Muted ink on the card colour.
+class AiTag extends StatelessWidget {
+  const AiTag({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final c = context.bm;
+    final text = AppLocalizations.of(context).feedAiTag;
+    return Semantics(
+      label: text,
+      container: true,
+      excludeSemantics: true,
+      child: Align(
+        alignment: AlignmentDirectional.centerStart,
+        child: Container(
+          padding: const EdgeInsets.symmetric(
+            horizontal: BmSpace.sm,
+            vertical: BmSpace.xxs,
+          ),
+          decoration: BoxDecoration(
+            color: c.card,
+            border: Border.all(color: c.line),
+            borderRadius: BorderRadius.circular(BmRadius.chip),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.auto_awesome_outlined, size: 16, color: c.inkMuted),
+              const SizedBox(width: BmSpace.xxs),
+              Flexible(
+                child: Text(
+                  text,
+                  style: BmType.meta.copyWith(color: c.inkMuted),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

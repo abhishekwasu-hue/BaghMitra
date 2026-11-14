@@ -1959,6 +1959,9 @@ class AppLocalizationsMr extends AppLocalizations {
   String get feedArticleKeyPoints => 'मुख्य मुद्दे';
 
   @override
+  String get feedAiTag => 'AI ने निर्मित';
+
+  @override
   String get feedArticleFacts => 'एका नजरेत';
 
   @override
@@ -2642,11 +2645,6 @@ class AppLocalizationsMr extends AppLocalizations {
   String get schemeWhereToApply => 'कुठे अर्ज करावा';
 
   @override
-  String schemeSources(String date) {
-    return 'स्रोत ($date रोजी वाचले)';
-  }
-
-  @override
   String get schemeFeedItems => 'संबंधित शासकीय सूचना';
 
   @override
@@ -2741,13 +2739,8 @@ class AppLocalizationsMr extends AppLocalizations {
   }
 
   @override
-  String directoryChecked(Object date) {
-    return 'वाचले $date';
-  }
-
-  @override
   String get directoryCheckLine =>
-      'माहिती दाखवलेल्या तारखेला अधिकृत पानांवरून घेतली आहे. प्रवासापूर्वी फोन करून किंवा पान पाहून खात्री करा.';
+      'माहिती अधिकृत पानांवरून घेतली आहे. प्रवासापूर्वी फोन करून किंवा पान पाहून खात्री करा.';
 
   @override
   String get directoryEmpty => 'नोंदी इथे दिसतील.';
@@ -3049,8 +3042,8 @@ class AppLocalizationsMr extends AppLocalizations {
   }
 
   @override
-  String generalInfoSource(String source, String date) {
-    return 'स्रोत: $source · वाचले $date';
+  String generalInfoSource(String source) {
+    return 'स्रोत: $source';
   }
 
   @override
@@ -3066,11 +3059,6 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get sourcesHide => 'स्रोत लपवा';
-
-  @override
-  String sourcesChecked(String date) {
-    return 'वाचले $date';
-  }
 
   @override
   String get labelReadNote => 'फवारणीपूर्वी पाकिटावरील लेबल वाचा.';

@@ -3495,6 +3495,12 @@ abstract class AppLocalizations {
   /// **'Key points'**
   String get feedArticleKeyPoints;
 
+  /// Small neutral tag under every AI-written article (owner 2026-11-14, Q156). Only this text.
+  ///
+  /// In en, this message translates to:
+  /// **'AI-generated'**
+  String get feedAiTag;
+
   /// No description provided for @feedArticleFacts.
   ///
   /// In en, this message translates to:
@@ -4665,12 +4671,6 @@ abstract class AppLocalizations {
   /// **'Where to apply'**
   String get schemeWhereToApply;
 
-  /// No description provided for @schemeSources.
-  ///
-  /// In en, this message translates to:
-  /// **'Sources (read on {date})'**
-  String schemeSources(String date);
-
   /// No description provided for @schemeFeedItems.
   ///
   /// In en, this message translates to:
@@ -4839,16 +4839,10 @@ abstract class AppLocalizations {
   /// **'Details from: {url}'**
   String directoryDetailsFrom(Object url);
 
-  /// No description provided for @directoryChecked.
-  ///
-  /// In en, this message translates to:
-  /// **'Read {date}'**
-  String directoryChecked(Object date);
-
   /// No description provided for @directoryCheckLine.
   ///
   /// In en, this message translates to:
-  /// **'Details are copied from official pages on the date shown. Call or visit the page to confirm before you travel.'**
+  /// **'Details are copied from official pages. Call or visit the page to confirm before you travel.'**
   String get directoryCheckLine;
 
   /// No description provided for @directoryEmpty.
@@ -5346,8 +5340,8 @@ abstract class AppLocalizations {
   /// No description provided for @generalInfoSource.
   ///
   /// In en, this message translates to:
-  /// **'Source: {source} · read {date}'**
-  String generalInfoSource(String source, String date);
+  /// **'Source: {source}'**
+  String generalInfoSource(String source);
 
   /// No description provided for @sourcesShow.
   ///
@@ -5372,12 +5366,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Hide sources'**
   String get sourcesHide;
-
-  /// No description provided for @sourcesChecked.
-  ///
-  /// In en, this message translates to:
-  /// **'read {date}'**
-  String sourcesChecked(String date);
 
   /// No description provided for @labelReadNote.
   ///

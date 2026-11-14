@@ -21,10 +21,7 @@ void main() {
   ) async {
     await tester.pumpWidget(
       _host(
-        const GeneralInfoNote(
-          source: 'ICAR-CCRI Nagpur',
-          checked: '6 Nov 2026',
-        ),
+        const GeneralInfoNote(source: 'ICAR-CCRI Nagpur'),
         const Locale('en'),
       ),
     );
@@ -34,10 +31,8 @@ void main() {
     expect(find.textContaining('ICAR-CCRI'), findsNothing);
     await tester.tap(find.text('Sources'));
     await tester.pump();
-    expect(
-      find.textContaining('Source: ICAR-CCRI Nagpur · read 6 Nov 2026'),
-      findsOneWidget,
-    );
+    expect(find.text('Source: ICAR-CCRI Nagpur'), findsOneWidget);
+    expect(find.textContaining('2026'), findsNothing);
   });
 
   testWidgets('without a source it shows nothing (Marathi)', (tester) async {

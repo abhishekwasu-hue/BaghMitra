@@ -57,6 +57,17 @@ const removedGuaranteeKeys = {
   'feedKnowledgeByline',
   'feedArticleByline',
   'askStoredNote',
+  // Owner 2026-11-14: no "read / checked on <date>" line on grower screens.
+  'schemeSources',
+  'directoryChecked',
+  'sourcesChecked',
+};
+
+/// The owner's own neutral tag under every AI-written article (2026-11-14), exactly.
+const aiTag = {
+  'mr': 'AI ने निर्मित',
+  'hi': 'AI द्वारा निर्मित',
+  'en': 'AI-generated',
 };
 
 /// Kept although they use the word: each is an instruction to the reader or an honest
@@ -70,15 +81,17 @@ const allowedGuarantee = {
 
 final _guarantee = <String, RegExp>{
   'mr': RegExp(
-    'तपासले|सत्यापित|पडताळलेल|AI ने|प्रत्येक आकडा स्रोताशी|अचूक माहिती',
+    r'तपासले|वाचले \{|सत्यापित|पडताळलेल|AI ने लिहि|प्रत्येक आकडा स्रोताशी|अचूक माहिती',
   ),
   'en': RegExp(
-    r'\bchecked\b|verified|fact-?checked|written by AI|by AI\b|accurate information',
+    r'\bchecked\b|\bread (on )?\{date|verified|fact-?checked|written by AI'
+    r'|accurate information',
     caseSensitive: false,
   ),
   // "जाँचें" (please check) is an instruction; "जाँचे / जाँची / जाँचा" (checked) is not.
   'hi': RegExp(
-    'जाँचे(?!ं)|जाँची|जाँचा|सत्यापित|AI द्वारा|हर संख्या स्रोत|सटीक जानकारी',
+    r'जाँचे(?!ं)|जाँची|जाँचा|पढ़ा \{|पढ़े\)|सत्यापित|AI द्वारा लिख|हर संख्या स्रोत'
+    '|सटीक जानकारी',
   ),
 };
 
@@ -126,6 +139,12 @@ void main() {
         expect(found, isEmpty, reason: 'guarantee wording in app_$locale.arb');
       },
     );
+
+    test("$locale: the AI tag is the owner's neutral text only", () {
+      final tag = _arb(locale)['feedAiTag'];
+      expect(tag, aiTag[locale]);
+      expect(pattern.hasMatch(tag as String), isFalse);
+    });
   }
 
   test('every allowed key exists', () {

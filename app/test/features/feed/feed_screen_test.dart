@@ -263,6 +263,8 @@ void main() {
     await tester.tap(find.text('Title gr1'));
     await settle(tester);
     expect(find.text('Summary gr1'), findsOneWidget);
+    // An official item without an AI article carries no AI tag.
+    expect(find.byKey(const Key('feed-ai-tag')), findsNothing);
     expect(find.text('Source: https://example.org/gr1'), findsNothing);
     await openAllSources(tester);
     expect(find.text('Source: https://example.org/gr1'), findsOneWidget);

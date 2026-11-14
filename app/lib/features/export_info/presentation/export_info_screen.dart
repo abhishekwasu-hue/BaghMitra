@@ -137,10 +137,6 @@ class _ExportInfoScreenState extends ConsumerState<ExportInfoScreen> {
                             key: Key('export-link-${l.id}'),
                             leading: Icon(Icons.open_in_new, color: c.brand),
                             title: Text(l.labelIn(lang), style: BmType.body),
-                            subtitle: Text(
-                              t.directoryChecked(formatDate(l.checked, lang)),
-                              style: BmType.meta.copyWith(color: c.inkMuted),
-                            ),
                             onTap: () => _open(l),
                           ),
                       ],
@@ -177,7 +173,6 @@ class _FactLine extends StatelessWidget {
                 src?.title ?? fact.source,
                 url: src?.url,
                 publisher: src?.publisher,
-                checked: formatDate(fact.read, lang),
               ),
             ],
           ),

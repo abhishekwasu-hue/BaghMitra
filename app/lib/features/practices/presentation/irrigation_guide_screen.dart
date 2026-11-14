@@ -62,15 +62,7 @@ class _IrrigationGuideScreenState extends ConsumerState<IrrigationGuideScreen> {
       sources: [
         for (final k in keys)
           if (data.sources[k] case final s?)
-            SourceRef(
-              '$k: ${s.title}',
-              url: s.url,
-              publisher: s.publisher,
-              checked: switch (s.checked) {
-                final d? => formatDate(d, lang),
-                null => null,
-              },
-            ),
+            SourceRef('$k: ${s.title}', url: s.url, publisher: s.publisher),
       ],
     );
 
@@ -104,10 +96,6 @@ class _IrrigationGuideScreenState extends ConsumerState<IrrigationGuideScreen> {
           GeneralInfoNote(
             key: const Key('irrigation-general-info'),
             source: data.generalSource,
-            checked: switch (data.checked) {
-              final d? => formatDate(d, lang),
-              null => null,
-            },
           ),
           const SizedBox(height: BmSpace.sm),
           Text(

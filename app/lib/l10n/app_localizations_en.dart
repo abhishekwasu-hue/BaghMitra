@@ -1965,6 +1965,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get feedArticleKeyPoints => 'Key points';
 
   @override
+  String get feedAiTag => 'AI-generated';
+
+  @override
   String get feedArticleFacts => 'At a glance';
 
   @override
@@ -2650,11 +2653,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get schemeWhereToApply => 'Where to apply';
 
   @override
-  String schemeSources(String date) {
-    return 'Sources (read on $date)';
-  }
-
-  @override
   String get schemeFeedItems => 'Related govt notices';
 
   @override
@@ -2749,13 +2747,8 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String directoryChecked(Object date) {
-    return 'Read $date';
-  }
-
-  @override
   String get directoryCheckLine =>
-      'Details are copied from official pages on the date shown. Call or visit the page to confirm before you travel.';
+      'Details are copied from official pages. Call or visit the page to confirm before you travel.';
 
   @override
   String get directoryEmpty => 'Entries appear here.';
@@ -3058,8 +3051,8 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String generalInfoSource(String source, String date) {
-    return 'Source: $source · read $date';
+  String generalInfoSource(String source) {
+    return 'Source: $source';
   }
 
   @override
@@ -3075,11 +3068,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get sourcesHide => 'Hide sources';
-
-  @override
-  String sourcesChecked(String date) {
-    return 'read $date';
-  }
 
   @override
   String get labelReadNote => 'Read the label on the packet before spraying.';

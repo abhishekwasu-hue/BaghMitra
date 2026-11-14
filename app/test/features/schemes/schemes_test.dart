@@ -258,7 +258,8 @@ void main() {
       200,
       scrollable: find.byType(Scrollable).first,
     );
-    expect(find.text('Sources (read on 6 Nov 2026)'), findsOne);
+    // No "read on <date>" line (owner 2026-11-14).
+    expect(find.textContaining('6 Nov 2026'), findsNothing);
     await tester.ensureVisible(find.byKey(const Key('scheme-source-0')));
     await settle(tester);
     await tester.tap(find.byKey(const Key('scheme-source-0')));
