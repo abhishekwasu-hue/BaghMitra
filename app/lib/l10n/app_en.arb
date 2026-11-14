@@ -2084,5 +2084,11 @@
   "requiredCropName": "Type the crop name",
   "@requiredCropName": {"description": "Block form: error when the crop name is left blank."},
   "homePlotOpen": "Open records",
-  "@homePlotOpen": {"description": "Home: button of the block card shown for a crop other than santra / mosambi (no bahar card)."}
+  "@homePlotOpen": {"description": "Home: button of the block card shown for a crop other than santra / mosambi (no bahar card)."},
+  "cropGuideOpen": "Crop guide",
+  "@cropGuideOpen": {"description": "Block screen tile: opens the sowing-to-harvest guide of the block's crop (owner 2026-11-14, पीक मार्गदर्शक)."},
+  "cropGuideTitle": "{crop}: crop guide",
+  "@cropGuideTitle": {"description": "Crop guide screen title.", "placeholders": {"crop": {"type": "String"}}},
+  "cropGuideArticleButton": "{crop}: sowing to harvest guide",
+  "@cropGuideArticleButton": {"description": "Button under a feed article whose text names the crop (owner 2026-11-14).", "placeholders": {"crop": {"type": "String"}}}
 }

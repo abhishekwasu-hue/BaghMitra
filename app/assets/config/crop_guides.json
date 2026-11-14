@@ -1,0 +1,1976 @@
+{
+ "_note": "Crop guides (पीक मार्गदर्शक, owner 2026-11-14, OPEN_QUESTIONS Q161): one field crop from land to harvest. Text written by AI (Claude, in the build session) from the fetched text of the public sources below; every item keeps `quote`, the source passage it rests on (parts joined by …), and every number of an item is in its quote (api tests/test_crop_guides.py, the feed output check). Fertilisers, pesticides and organic inputs are named without a dose or rate and a line that names one ends with the expert-advice note (`input`). No ingredient of the PPQS banned / restricted list is named (api tests/test_grower_doses.py, per crop): where a source lists one it is left out (`omitted`). The dose, note and banned-name rules are the shared ones of api kb/dose_rules.py (Q160). A section is present only where a source covers it. Add a crop by adding it here (its slug from crops.json).",
+ "status": "draft",
+ "sources": {
+  "CICR-MH": {
+   "title": "Approved package of practices for cotton: Maharashtra State (compiled by M. Sabesh, ICAR-CICR, 2006-07)",
+   "url": "https://static.vikaspedia.in/media/files_en/agriculture/crop-production/package-of-practices/practices-for-maharastra.pdf",
+   "publisher": "ICAR-CICR",
+   "checked": "2026-11-14"
+  },
+  "CRIDA-AKL": {
+   "title": "ICAR-CRIDA and Dr. PDKV: agriculture contingency plan, district Akola",
+   "url": "https://icar-crida.res.in/CP/Maharastra/PDKV,%20Akola/Akola.pdf",
+   "publisher": "ICAR-CRIDA",
+   "checked": "2026-11-14"
+  },
+  "MPKV-COT": {
+   "title": "MPKV Rahuri: improved / hybrid varieties of cotton developed by the university",
+   "url": "https://mpkv.ac.in/Uploads/Research/10-Cotton_20230912061049.pdf",
+   "publisher": "MPKV",
+   "checked": "2026-11-14"
+  },
+  "PDKV-LM": {
+   "title": "Dr. PDKV: AICRP on Oilseeds (Linseed & Mustard), Nagpur: varieties and research recommendations",
+   "url": "https://www.pdkv.ac.in/?p=4536",
+   "publisher": "Dr. PDKV",
+   "checked": "2026-11-14"
+  },
+  "PDKV-R12": {
+   "title": "Dr. PDKV: research recommendations 2012 (English)",
+   "url": "https://www.pdkv.ac.in/wp-content/uploads/pdf_files/ResReco2012English.pdf",
+   "publisher": "Dr. PDKV",
+   "checked": "2026-11-14"
+  },
+  "PDKV-R13": {
+   "title": "Dr. PDKV: research recommendations 2013 (English)",
+   "url": "https://www.pdkv.ac.in/Circulars/Recom2013%20English.pdf",
+   "publisher": "Dr. PDKV",
+   "checked": "2026-11-14"
+  },
+  "PDKV-R14": {
+   "title": "Dr. PDKV: research recommendations 2014 (English)",
+   "url": "https://www.pdkv.ac.in/Circulars/Recom-2014English.pdf",
+   "publisher": "Dr. PDKV",
+   "checked": "2026-11-14"
+  },
+  "PDKV-R15": {
+   "title": "Dr. PDKV: research recommendations 2015 (English)",
+   "url": "https://www.pdkv.ac.in/Circulars/Recom-2015English.pdf",
+   "publisher": "Dr. PDKV",
+   "checked": "2026-11-14"
+  },
+  "PDKV-R17": {
+   "title": "Dr. PDKV: research recommendations 2017 (English)",
+   "url": "https://www.pdkv.ac.in/Circulars/Recom-2017English.pdf",
+   "publisher": "Dr. PDKV",
+   "checked": "2026-11-14"
+  },
+  "PDKV-R19": {
+   "title": "Dr. PDKV: research recommendations 2019 (English)",
+   "url": "https://www.pdkv.ac.in/Circulars/Recom-2019English.pdf",
+   "publisher": "Dr. PDKV",
+   "checked": "2026-11-14"
+  },
+  "PDKV-R20": {
+   "title": "Dr. PDKV: research recommendations 2020 (English)",
+   "url": "https://www.pdkv.ac.in/Circulars/Recom-2020English.pdf",
+   "publisher": "Dr. PDKV",
+   "checked": "2026-11-14"
+  },
+  "PDKV-R21": {
+   "title": "Dr. PDKV: research recommendations 2021 (English)",
+   "url": "https://www.pdkv.ac.in/Circulars/Recom-2021English.pdf",
+   "publisher": "Dr. PDKV",
+   "checked": "2026-11-14"
+  },
+  "PDKV-R22": {
+   "title": "Dr. PDKV: research recommendations 2022 (English)",
+   "url": "https://www.pdkv.ac.in/Circulars/Recom-2022English.pdf",
+   "publisher": "Dr. PDKV",
+   "checked": "2026-11-14"
+  },
+  "PDKV-R23": {
+   "title": "Dr. PDKV: research recommendations 2023 (English)",
+   "url": "https://www.pdkv.ac.in/Circulars/Recom-2023English.pdf",
+   "publisher": "Dr. PDKV",
+   "checked": "2026-11-14"
+  },
+  "PDKV-R24": {
+   "title": "Dr. PDKV: research recommendations 2024 (English)",
+   "url": "https://www.pdkv.ac.in/Circulars/Recom-2024English.pdf",
+   "publisher": "Dr. PDKV",
+   "checked": "2026-11-14"
+  },
+  "PDKV-R25": {
+   "title": "Dr. PDKV: research recommendations 2025 (English)",
+   "url": "https://www.pdkv.ac.in/Circulars/Recom-2025English.pdf",
+   "publisher": "Dr. PDKV",
+   "checked": "2026-11-14"
+  }
+ },
+ "section_labels": {
+  "land": {
+   "en": "Land and preparation",
+   "mr": "जमीन व पूर्वमशागत",
+   "hi": "भूमि और तैयारी"
+  },
+  "sowing": {
+   "en": "Sowing time and method",
+   "mr": "पेरणीची वेळ व पद्धत",
+   "hi": "बुवाई का समय और तरीका"
+  },
+  "varieties": {
+   "en": "Varieties",
+   "mr": "वाण",
+   "hi": "किस्में"
+  },
+  "seed": {
+   "en": "Seed and seed treatment",
+   "mr": "बियाणे व बीजप्रक्रिया",
+   "hi": "बीज और बीजोपचार"
+  },
+  "nutrition": {
+   "en": "Fertilisers and organic inputs",
+   "mr": "खते व सेंद्रिय निविष्ठा",
+   "hi": "खाद और जैविक आदान"
+  },
+  "water": {
+   "en": "Water management",
+   "mr": "पाणी व्यवस्थापन",
+   "hi": "जल प्रबंधन"
+  },
+  "intercultivation": {
+   "en": "Weeding and intercultivation",
+   "mr": "तण नियंत्रण व आंतरमशागत",
+   "hi": "निराई-गुड़ाई"
+  },
+  "protection": {
+   "en": "Pests and diseases",
+   "mr": "कीड व रोग",
+   "hi": "कीट और रोग"
+  },
+  "harvest": {
+   "en": "Harvest and storage",
+   "mr": "काढणी व साठवण",
+   "hi": "कटाई और भंडारण"
+  }
+ },
+ "crops": [
+  {
+   "crop": "cotton",
+   "labels": {
+    "en": "Cotton",
+    "mr": "कापूस",
+    "hi": "कपास"
+   },
+   "names": {
+    "en": [
+     "cotton"
+    ],
+    "mr": [
+     "कापूस",
+     "कापसा",
+     "कपाशी"
+    ],
+    "hi": [
+     "कपास"
+    ]
+   },
+   "ai_written": true,
+   "sections": [
+    {
+     "key": "land",
+     "items": [
+      {
+       "id": "cotton-land-1",
+       "labels": {
+        "en": "Rainfed cotton: plough once in three years; irrigated cotton: plough every year. Harrow twice after ploughing and a third time before sowing, after the monsoon rains, to reduce weeds.",
+        "mr": "कोरडवाहू कापूस: तीन वर्षांतून एकदा नांगरणी; बागायती कापूस: दरवर्षी नांगरणी. नांगरणीनंतर दोन कुळवण्या आणि पावसाळा सुरू झाल्यावर पेरणीपूर्वी तिसरी कुळवणी करा, म्हणजे तण कमी होते.",
+        "hi": "बारानी कपास: तीन साल में एक बार जुताई; सिंचित कपास: हर साल जुताई. जुताई के बाद दो बार हैरो और मानसून की बारिश के बाद बुवाई से पहले तीसरी बार हैरो चलाएँ, ताकि खरपतवार कम हों।"
+       },
+       "source": "CICR-MH, III. Land preparation",
+       "source_keys": [
+        "CICR-MH"
+       ],
+       "quote": "Rainfed: Ploughing once after three years Irrigated: Ploughing every year Harrowing: Two harrowing after Ploughing and third harrowing before sowing after receipt of monsoon rains to reduce the weed infestation"
+      }
+     ]
+    },
+    {
+     "key": "sowing",
+     "items": [
+      {
+       "id": "cotton-sowing-1",
+       "labels": {
+        "en": "Sow rainfed cotton after the monsoon sets in and 75 to 100 mm of rain has fallen; late sowing (10 to 15 July) cuts the yield by 24%.",
+        "mr": "कोरडवाहू कापसाची पेरणी मान्सून सुरू होऊन ७५ ते १०० मि.मी. पाऊस झाल्यानंतर करा; उशिरा पेरणी (१० ते १५ जुलै) केल्यास उत्पादन २४% घटते.",
+        "hi": "बारानी कपास की बुवाई मानसून शुरू होने और 75 से 100 मि.मी. बारिश होने के बाद करें; देर से बुवाई (10 से 15 जुलाई) करने पर उपज 24% घटती है।"
+       },
+       "source": "PDKV-R24, Agronomy no. 3",
+       "source_keys": [
+        "PDKV-R24"
+       ],
+       "quote": "For higher yield of rainfed cotton the sowing should be done after the onset of monsoon with receipt of adequate rainfall (75 mm to 100 mm) in Vidarbha region, late sowing (10 to 15 July) will result in 24% reduction in yield."
+      },
+      {
+       "id": "cotton-sowing-2",
+       "labels": {
+        "en": "Under rainfed conditions, sowing cotton on broad bed and furrow gives higher seed cotton yield.",
+        "mr": "कोरडवाहू परिस्थितीत कापसाची पेरणी रुंद सरी वरंबा पद्धतीने केल्यास कापसाचे उत्पादन जास्त मिळते.",
+        "hi": "बारानी स्थिति में कपास की बुवाई चौड़ी क्यारी और नाली (BBF) पर करने से कपास की उपज अधिक मिलती है।"
+       },
+       "source": "PDKV-R25, Agronomy no. 6",
+       "source_keys": [
+        "PDKV-R25"
+       ],
+       "quote": "For higher seed cotton yield and monetary returns under rainfed condition, sowing of cotton on broad bed and furrow"
+      },
+      {
+       "id": "cotton-sowing-3",
+       "labels": {
+        "en": "Straight varieties are sown by drilling; hybrids are dibbled at wider spacing.",
+        "mr": "सरळ वाणांची पेरणी पाभरीने करा; संकरित वाणांची टोकण जास्त अंतरावर करा.",
+        "hi": "सीधी किस्मों की बुवाई कतार में ड्रिल से करें; संकर किस्मों को अधिक दूरी पर खूंटी से (डिबलिंग) बोएँ।"
+       },
+       "source": "CICR-MH, IV. Method of sowing",
+       "source_keys": [
+        "CICR-MH"
+       ],
+       "quote": "A. Drilling method: For straight varieties B. Dibbling method: For hybrids (wider spacing)"
+      },
+      {
+       "id": "cotton-sowing-4",
+       "labels": {
+        "en": "High density planting of the improved American variety Rajat Bt under rainfed conditions: 60 cm between rows and 15 cm between plants.",
+        "mr": "कोरडवाहू परिस्थितीत सुधारित अमेरिकन वाण रजत बीटीची सघन लागवड: दोन ओळींत ६० सें.मी. व दोन रोपांत १५ सें.मी. अंतर.",
+        "hi": "बारानी स्थिति में उन्नत अमेरिकन किस्म रजत बीटी की सघन बुवाई: कतारों में 60 सें.मी. और पौधों में 15 सें.मी. दूरी।"
+       },
+       "source": "PDKV-R22, Agronomy (HDPS, Rajat Bt)",
+       "source_keys": [
+        "PDKV-R22"
+       ],
+       "quote": "sowing of improved American Rajat Bt variety at row to row spacing of 60 cm and plant to plant spacing of 15cm under rainfed condition"
+      },
+      {
+       "id": "cotton-sowing-5",
+       "labels": {
+        "en": "Intercrop cotton with green gram or black gram (1:1 rows) and bury the green gram and black gram residues after harvest.",
+        "mr": "कापसात मूग किंवा उडदाचे आंतरपीक (१:१ ओळी) घ्या आणि काढणीनंतर मूग व उडदाचे अवशेष जमिनीत गाडा.",
+        "hi": "कपास में मूंग या उड़द की अंतरफसल (1:1 कतारें) लें और कटाई के बाद मूंग और उड़द के अवशेष मिट्टी में दबाएँ।"
+       },
+       "source": "PDKV-R22, Soil science no. 16; CRIDA-AKL (Cotton + Greengram / Blackgram 1:1)",
+       "source_keys": [
+        "PDKV-R22",
+        "CRIDA-AKL"
+       ],
+       "quote": "Intercropping of Bt. cotton + greengram / blackgram (1:1) … burying of crop residues of greengram and blackgram after harvest"
+      }
+     ]
+    },
+    {
+     "key": "varieties",
+     "items": [
+      {
+       "id": "cotton-varieties-1",
+       "labels": {
+        "en": "Phule Satpuda (JL1027, MPKV, 2022): for rainfed cultivation, 165-170 days, resistant to sucking pests and bacterial leaf blight.",
+        "mr": "फुले सातपुडा (JL1027, MPKV, २०२२): कोरडवाहू लागवडीसाठी, १६५-१७० दिवस, रस शोषणाऱ्या किडींना व जिवाणूजन्य करपा रोगाला प्रतिकारक.",
+        "hi": "फुले सातपुड़ा (JL1027, MPKV, 2022): बारानी खेती के लिए, 165-170 दिन, रस चूसने वाले कीटों और जीवाणु पत्ती झुलसा के प्रति प्रतिरोधी।"
+       },
+       "source": "MPKV-COT, Phule Satpuda (JL1027)",
+       "source_keys": [
+        "MPKV-COT"
+       ],
+       "quote": "Phule Satpuda (JL1027) Release year 2022 … Climate Rainfed … Crop duration 165-170 days … Resistant to bacterial leaf blight & myrothecium leaf spot, moderately resistant to gray mildew, resistant to sucking pests"
+      },
+      {
+       "id": "cotton-varieties-2",
+       "labels": {
+        "en": "Suvarna Shubhra (AKH-09-5, Dr. PDKV): rainfed, matures in 150-160 days, tolerant to jassids, grey mildew and bacterial leaf blight.",
+        "mr": "सुवर्ण शुभ्रा (AKH-09-5, डॉ. पंदेकृवि): कोरडवाहू, १५०-१६० दिवसांत तयार, तुडतुडे, दहिया (ग्रे मिल्ड्यू) व जिवाणूजन्य करपा सहन करणारा.",
+        "hi": "सुवर्ण शुभ्रा (AKH-09-5, डॉ. पीडीकेवी): बारानी, 150-160 दिन में पकती, जैसिड, ग्रे मिल्ड्यू और जीवाणु पत्ती झुलसा सहनशील।"
+       },
+       "source": "PDKV-R19, released varieties no. 1",
+       "source_keys": [
+        "PDKV-R19"
+       ],
+       "quote": "Cotton Suvarna Shubhra (AKH-09-5 ) Average seed cotton yield (Rainfed) - 1300-1600 kg/ha Maturity duration - 150-160 days … Tolerant to Jassids , Myrothecium leaf spot , grey mildew, and Bacterial Leaf Blight diseases"
+      },
+      {
+       "id": "cotton-varieties-3",
+       "labels": {
+        "en": "If the monsoon is 4 weeks late, replace hybrids by improved varieties: American AKH-8828, PKV Rajat, AKH-081; desi AKA-5, AKA-7, AKA-8.",
+        "mr": "मान्सून ४ आठवडे उशिरा आल्यास संकरित वाणांऐवजी सुधारित वाण घ्या: अमेरिकन AKH-8828, PKV रजत, AKH-081; देशी AKA-5, AKA-7, AKA-8.",
+        "hi": "मानसून 4 सप्ताह देर से आए तो संकर किस्मों की जगह उन्नत किस्में लें: अमेरिकन AKH-8828, PKV रजत, AKH-081; देसी AKA-5, AKA-7, AKA-8।"
+       },
+       "source": "CRIDA-AKL, 2.1.1 delay by 4 weeks, Cotton + Pigeonpea",
+       "source_keys": [
+        "CRIDA-AKL"
+       ],
+       "quote": "Delay by 4 weeks … Replace the hybrids with improved varieties in cott on.(American Cotton:- AKH-8828,PKV Rajat,AKH-081, Desi Cotton:- AKA-5, AKA-7, AKA-8"
+      }
+     ]
+    },
+    {
+     "key": "seed",
+     "items": [
+      {
+       "id": "cotton-seed-1",
+       "labels": {
+        "en": "Seed treatment with Azotobacter helps cut the nitrogen fertiliser needed. (follow expert advice)",
+        "mr": "अॅझोटोबॅक्टरची बीजप्रक्रिया केल्यास नत्र खताची गरज कमी होते. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "एजोटोबैक्टर से बीजोपचार करने पर नत्रजन खाद की ज़रूरत कम होती है। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "CICR-MH, VI. Fertilizer",
+       "source_keys": [
+        "CICR-MH"
+       ],
+       "quote": "Seed treatment with azatobactor was found beneficial for cotton crop for reducing the nitrogen dose"
+      }
+     ]
+    },
+    {
+     "key": "nutrition",
+     "items": [
+      {
+       "id": "cotton-nutrition-1",
+       "labels": {
+        "en": "Give FYM or compost at least once in three years, and apply fertilisers as per the soil test report. (follow expert advice)",
+        "mr": "किमान तीन वर्षांतून एकदा शेणखत किंवा कंपोस्ट द्या आणि रासायनिक खते माती परीक्षण अहवालानुसार द्या. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "कम से कम तीन साल में एक बार गोबर की खाद या कम्पोस्ट दें और रासायनिक खाद मिट्टी जाँच रिपोर्ट के अनुसार दें। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "CICR-MH, VI. Fertilizer",
+       "source_keys": [
+        "CICR-MH"
+       ],
+       "quote": "Cotton crop should be manured with FYM or compost at least once in 3 years … Application of chemical fertilizers should be as per soil test report."
+      },
+      {
+       "id": "cotton-nutrition-2",
+       "labels": {
+        "en": "Give nitrogen in parts, two for rainfed and three for irrigated cotton; give all the phosphorus and potash at sowing, by the ring method near dibbled seed. (follow expert advice)",
+        "mr": "नत्र विभागून द्या: कोरडवाहू कापसाला दोन व बागायती कापसाला तीन हप्त्यांत; स्फुरद व पालाश पूर्ण मात्रा पेरणीवेळी, टोकलेल्या बियाजवळ बांगडी पद्धतीने द्या. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "नत्रजन बाँटकर दें: बारानी कपास को दो और सिंचित कपास को तीन किस्तों में; फॉस्फोरस और पोटाश की पूरी मात्रा बुवाई के समय, बोए गए बीज के पास रिंग विधि से दें। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "CICR-MH, VI. Fertilizer",
+       "source_keys": [
+        "CICR-MH"
+       ],
+       "quote": "Nitrogen should be in two splits for rainfed cotton crop … three split for irrigated cotton … While whole P and K should be applied as basal dose for both rainfed and irrigated cotton. … The application of basal dose of fertilizer to dibbled cotton crop should be given at the time of sowing by ring method"
+      }
+     ]
+    },
+    {
+     "key": "water",
+     "items": [
+      {
+       "id": "cotton-water-1",
+       "labels": {
+        "en": "Irrigate at peak flowering and at boll development only if needed; stop irrigation after the bolls burst.",
+        "mr": "गरज असल्यासच भरपूर फुलोऱ्याच्या व बोंडे भरण्याच्या अवस्थेत पाणी द्या; बोंडे फुटल्यानंतर पाणी देणे बंद करा.",
+        "hi": "ज़रूरत हो तभी भरपूर फूल आने और टिंडे बनने की अवस्था में सिंचाई करें; टिंडे फटने के बाद सिंचाई बंद करें।"
+       },
+       "source": "CICR-MH, VIII. Water management",
+       "source_keys": [
+        "CICR-MH"
+       ],
+       "quote": "a. Peak flowering: If there is necessity b. Boll development: If there is necessity c. Stop irrigation after boll bursting"
+      },
+      {
+       "id": "cotton-water-2",
+       "labels": {
+        "en": "Rainfed cotton: earth up at each hoeing and, at the last hoeing, open ridges and furrows across the slope to hold rain water.",
+        "mr": "कोरडवाहू कापूस: प्रत्येक कोळपणीवेळी भर द्या आणि शेवटच्या कोळपणीवेळी उताराला आडवे सरी-वरंबे पाडा, म्हणजे पावसाचे पाणी मुरते.",
+        "hi": "बारानी कपास: हर गुड़ाई के समय मिट्टी चढ़ाएँ और अंतिम गुड़ाई पर ढलान के आर-पार मेड़-नाली बनाएँ, ताकि बारिश का पानी रुके।"
+       },
+       "source": "CICR-MH, water management for rainfed cotton",
+       "source_keys": [
+        "CICR-MH"
+       ],
+       "quote": "Normal sowing of cotton on flat beds followed by earthingup at the time of each hoeing and opening of ridges and furrows at last hoeing across the slope produced maximum seed cotton yield. Hence, this practice is recommended for rainfed cotton for rain water conservation in cotton crop."
+      }
+     ]
+    },
+    {
+     "key": "intercultivation",
+     "items": [
+      {
+       "id": "cotton-intercultivation-1",
+       "labels": {
+        "en": "Keep the field weed-free up to 60 days after sowing with three to four hoeings followed by 2 to 3 hand weedings.",
+        "mr": "पेरणीनंतर ६० दिवसांपर्यंत शेत तणमुक्त ठेवा: तीन ते चार कोळपण्या व त्यानंतर २ ते ३ खुरपण्या करा.",
+        "hi": "बुवाई के बाद 60 दिन तक खेत खरपतवार-मुक्त रखें: तीन से चार गुड़ाई और उसके बाद 2 से 3 हाथ से निराई करें।"
+       },
+       "source": "CICR-MH, IX. Weed management",
+       "source_keys": [
+        "CICR-MH"
+       ],
+       "quote": "Keep the field weed free up to 60 days after sowing (9 weeks) by adopting three to four hoeing followed by 2 to 3 manual weedings."
+      }
+     ]
+    },
+    {
+     "key": "protection",
+     "items": [
+      {
+       "id": "cotton-protection-1",
+       "labels": {
+        "en": "Action levels for sucking pests: aphids 10 nymphs per plant, jassids 2 to 3 per leaf, thrips 10 per leaf, whitefly 8 to 10 adults per leaf.",
+        "mr": "रस शोषणाऱ्या किडींची आर्थिक नुकसान पातळी: मावा प्रति झाड १० पिल्ले, तुडतुडे प्रति पान २ ते ३, फुलकिडे प्रति पान १०, पांढरी माशी प्रति पान ८ ते १० प्रौढ.",
+        "hi": "रस चूसने वाले कीटों का आर्थिक क्षति स्तर: माहू प्रति पौधा 10 शिशु, जैसिड प्रति पत्ती 2 से 3, थ्रिप्स प्रति पत्ती 10, सफेद मक्खी प्रति पत्ती 8 से 10 वयस्क।"
+       },
+       "source": "CICR-MH, D) IPM, economic threshold levels",
+       "source_keys": [
+        "CICR-MH"
+       ],
+       "quote": "Aphids - 10 aphid nymphs/plant or 15-20 % aphid infested plants • Jassids - 2 to 3 / leaf • Thrips - 10 thrips/leaf • Whitefly – 8 to 10 adults or 20 btnobs/leaf"
+      },
+      {
+       "id": "cotton-protection-2",
+       "labels": {
+        "en": "Action level for bollworms: 5 to 10% damaged squares, flowers and green bolls; for pink bollworm, 5 to 10% green boll damage.",
+        "mr": "बोंडअळीची आर्थिक नुकसान पातळी: ५ ते १०% पात्या, फुले व हिरवी बोंडे खराब; गुलाबी बोंडअळीसाठी ५ ते १०% हिरवी बोंडे खराब.",
+        "hi": "सुंडी का आर्थिक क्षति स्तर: 5 से 10% कलियाँ, फूल और हरे टिंडे खराब; गुलाबी सुंडी के लिए 5 से 10% हरे टिंडे खराब।"
+       },
+       "source": "CICR-MH, D) IPM, bollworms",
+       "source_keys": [
+        "CICR-MH"
+       ],
+       "quote": "Spotted bollworm : 5 to 10 % damage in green fruiting bodies (squares, flowers & green bolls) • Pink bollworm : 5 to 10 % green boll damage"
+      },
+      {
+       "id": "cotton-protection-3",
+       "labels": {
+        "en": "Pink bollworm: six releases of the egg parasitoid Trichogrammatoidea bactrae every 10 days from 55 days after germination. (follow expert advice)",
+        "mr": "गुलाबी बोंडअळी: उगवणीनंतर ५५ दिवसांपासून दर १० दिवसांनी ट्रायकोग्रामाटॉइडिया बॅक्ट्री या अंडी परोपजीवी कीटकाचे सहा वेळा प्रसारण करा. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "गुलाबी सुंडी: अंकुरण के 55 दिन बाद से हर 10 दिन पर अंड परजीवी ट्राइकोग्रामाटॉइडिया बैक्ट्री को छह बार छोड़ें। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "PDKV-R21, Entomology (pink bollworm)",
+       "source_keys": [
+        "PDKV-R21"
+       ],
+       "quote": "releases of Trichogrammatoidea bactrae @ 1 lakh eggs/hectare at an interval of 10 days, starting from 55 days of crop germination is recommended"
+      },
+      {
+       "id": "cotton-protection-4",
+       "labels": {
+        "en": "Light traps catch the most pink bollworm moths when lit from 3.30 to 5.30 am or from 6.00 to 8.00 pm. (follow expert advice)",
+        "mr": "गुलाबी बोंडअळीचे जास्तीत जास्त पतंग पकडण्यासाठी प्रकाश सापळ्याचा दिवा पहाटे ३.३० ते ५.३० किंवा संध्याकाळी ६.०० ते ८.०० या वेळेत लावा. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "गुलाबी सुंडी के अधिकतम पतंगे पकड़ने के लिए प्रकाश जाल का बल्ब सुबह 3.30 से 5.30 या शाम 6.00 से 8.00 बजे तक जलाएँ। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "PDKV-R24, Entomology no. 45",
+       "source_keys": [
+        "PDKV-R24"
+       ],
+       "quote": "For trapping of maximum moth catches of pink bollworm, it is recommended to switch on the lamp of light trap for the period of 3.30 to 5.30 am. in morning or from 6.00 to 8.00 pm at evening."
+      },
+      {
+       "id": "cotton-protection-5",
+       "labels": {
+        "en": "Eco-friendly control of aphids, jassids, thrips and whiteflies: sprays of the bio-pesticide Metarhizium anisopliae or Verticillium lecanii. (follow expert advice)",
+        "mr": "मावा, तुडतुडे, फुलकिडे व पांढरी माशीच्या पर्यावरणपूरक नियंत्रणासाठी मेटाऱ्हायझियम अॅनिसोप्ली किंवा व्हर्टिसिलियम लेकॅनी या जैविक कीटकनाशकाची फवारणी. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "माहू, जैसिड, थ्रिप्स और सफेद मक्खी के पर्यावरण-अनुकूल नियंत्रण के लिए मेटाराइजियम एनिसोप्ली या वर्टिसिलियम लेकानी जैविक कीटनाशी का छिड़काव। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "PDKV-R13, Entomology no. 10",
+       "source_keys": [
+        "PDKV-R13"
+       ],
+       "quote": "For the eco-friendly management of aphids, jassids, thrips and whiteflies on cotton, spraying of bio -pesticides Metarhizium anisopliae @ 50g or Verticillium lecanii"
+      },
+      {
+       "id": "cotton-protection-6",
+       "labels": {
+        "en": "Do not grow okra, brinjal or tomato near cotton: they carry the Alternaria leaf spot fungus.",
+        "mr": "कापसाजवळ भेंडी, वांगी व टोमॅटो लावू नका: त्यांच्यावर अल्टरनेरिया पानांवरील ठिपके रोगाची बुरशी राहते.",
+        "hi": "कपास के पास भिंडी, बैंगन और टमाटर न लगाएँ: इन पर अल्टरनेरिया पत्ती धब्बा रोग का कवक रहता है।"
+       },
+       "source": "CICR-MH, Cotton pathology",
+       "source_keys": [
+        "CICR-MH"
+       ],
+       "quote": "The crops of Bhendi,Brinjal and Tomato acts as alternate host for the fungus Alternaria so it is suggested that these host plants should not be planted near the cotton crop"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "crop": "soybean",
+   "labels": {
+    "en": "Soybean",
+    "mr": "सोयाबीन",
+    "hi": "सोयाबीन"
+   },
+   "names": {
+    "en": [
+     "soybean",
+     "soyabean",
+     "soya bean"
+    ],
+    "mr": [
+     "सोयाबीन"
+    ],
+    "hi": [
+     "सोयाबीन"
+    ]
+   },
+   "ai_written": true,
+   "sections": [
+    {
+     "key": "land",
+     "items": [
+      {
+       "id": "soybean-land-1",
+       "labels": {
+        "en": "Subsoiling to 50-60 cm depth before sowing keeps more soil moisture for kharif crops.",
+        "mr": "पेरणीपूर्वी सबसॉयलरने ५०-६० सें.मी. खोल मशागत केल्यास खरीप पिकांसाठी जमिनीत ओलावा जास्त टिकतो.",
+        "hi": "बुवाई से पहले सबसॉयलर से 50-60 सें.मी. गहरी जुताई करने से खरीफ फसलों के लिए मिट्टी में नमी अधिक टिकती है।"
+       },
+       "source": "PDKV-R12, no. 5",
+       "source_keys": [
+        "PDKV-R12"
+       ],
+       "quote": "Subsurface tillage at 50-60 cm depth before sowing by subsoiler is recommended for higher soil moisture retention, improving physical properties of soil and harvesting more economic returns from kharif crops."
+      }
+     ]
+    },
+    {
+     "key": "sowing",
+     "items": [
+      {
+       "id": "soybean-sowing-1",
+       "labels": {
+        "en": "Sow after 75 to 100 mm of monsoon rain, from 25 June to 08 July; sowing from 09 to 22 July cuts the yield by up to 36%.",
+        "mr": "७५ ते १०० मि.मी. पाऊस झाल्यानंतर २५ जून ते ०८ जुलै दरम्यान पेरणी करा; ०९ ते २२ जुलै दरम्यान पेरणी केल्यास उत्पादन ३६% पर्यंत घटते.",
+        "hi": "75 से 100 मि.मी. बारिश के बाद 25 जून से 08 जुलाई के बीच बुवाई करें; 09 से 22 जुलाई के बीच बुवाई करने पर उपज 36% तक घटती है।"
+       },
+       "source": "PDKV-R23, Agronomy no. 1",
+       "source_keys": [
+        "PDKV-R23"
+       ],
+       "quote": "After receipt of sufficient monsoon rains (75 to 100 mm) sowing of soybean in Vidarbha during 25 June to 08 July is recommended for higher seed yield and economic returns. Later sowing from 09 July to 22nd July results in yield reduction to the extent of 36 %."
+      },
+      {
+       "id": "soybean-sowing-2",
+       "labels": {
+        "en": "Dibble PDKV Yellow Gold, Suvarn Soya and PDKV Amba at 45 x 10 cm.",
+        "mr": "PDKV यलो गोल्ड, सुवर्ण सोया व PDKV अंबा या वाणांची टोकण ४५ x १० सें.मी. अंतरावर करा.",
+        "hi": "PDKV येलो गोल्ड, सुवर्ण सोया और PDKV अंबा किस्मों की बुवाई 45 x 10 सें.मी. पर खूंटी से (डिबलिंग) करें।"
+       },
+       "source": "PDKV-R23, Agronomy no. 15",
+       "source_keys": [
+        "PDKV-R23"
+       ],
+       "quote": "Sowing of soybean varieties PDKV Yellow Gold, Suvarn Soya and PDKV Amba by dibbling method with spacing of 45 x10 cm is recommended"
+      },
+      {
+       "id": "soybean-sowing-3",
+       "labels": {
+        "en": "Intercrop one row of pigeon pea after every 4 or 6 rows of soybean, and open a furrow after every six or three rows of soybean.",
+        "mr": "सोयाबीनच्या प्रत्येक ४ किंवा ६ ओळींनंतर तुरीची एक ओळ घ्या आणि सोयाबीनच्या सहा किंवा तीन ओळींनंतर एक सरी पाडा.",
+        "hi": "सोयाबीन की हर 4 या 6 कतारों के बाद अरहर की एक कतार लें और सोयाबीन की छह या तीन कतारों के बाद एक नाली बनाएँ।"
+       },
+       "source": "CRIDA-AKL, 2.1.1 soybean",
+       "source_keys": [
+        "CRIDA-AKL"
+       ],
+       "quote": "Intercrop one row of pigeon pea after every 4 or 6 rows of soybean as per convenience Open furrow after six /Three rows of soybean"
+      }
+     ]
+    },
+    {
+     "key": "varieties",
+     "items": [
+      {
+       "id": "soybean-varieties-1",
+       "labels": {
+        "en": "PDKV Amba (AMS 100-39): matures in 94-96 days; moderately resistant to girdle beetle, stem fly and charcoal rot; pods do not shatter for 10-12 days after maturity.",
+        "mr": "PDKV अंबा (AMS 100-39): ९४-९६ दिवसांत तयार; चक्रीभुंगा, खोडमाशी व कोळसा कूज (चारकोल रॉट) यांना मध्यम प्रतिकारक; पक्व झाल्यावर १०-१२ दिवस शेंगा फुटत नाहीत.",
+        "hi": "PDKV अंबा (AMS 100-39): 94-96 दिन में पकती; गर्डल बीटल, तना मक्खी और चारकोल रॉट के प्रति मध्यम प्रतिरोधी; पकने के बाद 10-12 दिन तक फलियाँ नहीं चटकतीं।"
+       },
+       "source": "PDKV-R21, released varieties no. 2",
+       "source_keys": [
+        "PDKV-R21"
+       ],
+       "quote": "Soybean AMS 100-39 (PDKV Amba) Maturity duration (days): 94-96 days … It has shown moderately resistance to girdle beetle and stem fly and charcoal rot disease. Pod shattering resistance up to 10- 12 days from harvest maturity."
+      },
+      {
+       "id": "soybean-varieties-2",
+       "labels": {
+        "en": "If the monsoon is 4 weeks late, the contingency plan names JS-335 and JS-93-05.",
+        "mr": "मान्सून ४ आठवडे उशिरा आल्यास आकस्मिक पीक नियोजनात JS-335 व JS-93-05 हे वाण सुचवले आहेत.",
+        "hi": "मानसून 4 सप्ताह देर से आए तो आकस्मिक योजना में JS-335 और JS-93-05 किस्में सुझाई गई हैं।"
+       },
+       "source": "CRIDA-AKL, 2.1.1 delay by 4 weeks",
+       "source_keys": [
+        "CRIDA-AKL"
+       ],
+       "quote": "Delay by 4 weeks … Soybean, JS-335, JS-93 -05"
+      }
+     ]
+    },
+    {
+     "key": "seed",
+     "items": [
+      {
+       "id": "soybean-seed-1",
+       "labels": {
+        "en": "Seed rate for PDKV Yellow Gold, Suvarn Soya and PDKV Amba: 62.5 kg per hectare, with at least 70% germination.",
+        "mr": "PDKV यलो गोल्ड, सुवर्ण सोया व PDKV अंबासाठी बियाणे: हेक्टरी ६२.५ किलो, उगवणशक्ती किमान ७०%.",
+        "hi": "PDKV येलो गोल्ड, सुवर्ण सोया और PDKV अंबा के लिए बीज दर: 62.5 किलो प्रति हेक्टेयर, अंकुरण कम से कम 70%।"
+       },
+       "source": "PDKV-R23, Agronomy no. 16",
+       "source_keys": [
+        "PDKV-R23"
+       ],
+       "quote": "sowing of soybean varieties PDKV Yellow gold, Suvarn soya and PDKV Amba with seedrate of 62.5 kgha -1 (minimum 70% germination) is recommended."
+      },
+      {
+       "id": "soybean-seed-2",
+       "labels": {
+        "en": "Test germination before sowing; treat seed with Rhizobium and PSB, thiram with carbendazim, and Trichoderma. (follow expert advice)",
+        "mr": "पेरणीपूर्वी उगवणशक्ती तपासा; बियाण्याला रायझोबियम व पीएसबी, थायरम व कार्बेन्डाझिम आणि ट्रायकोडर्मा यांची बीजप्रक्रिया करा. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "बुवाई से पहले अंकुरण जाँचें; बीज को राइजोबियम और पीएसबी, थाइरम और कार्बेन्डाजिम तथा ट्राइकोडर्मा से उपचारित करें। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "CRIDA-AKL, 2.1.1 soybean",
+       "source_keys": [
+        "CRIDA-AKL"
+       ],
+       "quote": "(Test GP% Use seed rate @ 75-80kg/ha Seed Treatment with Rhizobium+ PSB (250gm each /10Kg seed + Thiram 3 gm+Carbendazim 1gm +Trichoderma 4 gm/Kg of seed"
+      }
+     ]
+    },
+    {
+     "key": "nutrition",
+     "items": [
+      {
+       "id": "soybean-nutrition-1",
+       "labels": {
+        "en": "Integrated nutrition under dryland: give part of the nitrogen through glyricidia leaves, the rest through fertiliser, with Rhizobium and PSB seed treatment. (follow expert advice)",
+        "mr": "कोरडवाहू परिस्थितीत एकात्मिक अन्नद्रव्य व्यवस्थापन: नत्राचा काही भाग गिरिपुष्पाच्या (ग्लिरिसिडिया) पाल्यातून, उरलेला रासायनिक खतातून द्या आणि रायझोबियम व पीएसबीची बीजप्रक्रिया करा. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "बारानी स्थिति में एकीकृत पोषण: नत्रजन का कुछ भाग ग्लिरिसिडिया की पत्तियों से, बाकी रासायनिक खाद से दें और राइजोबियम व पीएसबी से बीजोपचार करें। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "PDKV-R14, Soil science no. 4",
+       "source_keys": [
+        "PDKV-R14"
+       ],
+       "quote": "application of 50% recommended N (15kg ha -1) through glyricidia (2 to 3 t /ha ) +50% N through inorganics + bio -fertilizers (Rhizobium & PSB 25g kg -1 seed treatment)"
+      },
+      {
+       "id": "soybean-nutrition-2",
+       "labels": {
+        "en": "In soils short of sulphur and zinc, apply sulphur and zinc with the recommended nitrogen and phosphorus. (follow expert advice)",
+        "mr": "गंधक व जस्ताची कमतरता असलेल्या जमिनीत शिफारशीत नत्र व स्फुरदासोबत गंधक व जस्त द्या. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "गंधक और जिंक की कमी वाली मिट्टी में अनुशंसित नत्रजन और फॉस्फोरस के साथ गंधक और जिंक दें। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "PDKV-R13, Soil science no. 5",
+       "source_keys": [
+        "PDKV-R13"
+       ],
+       "quote": "In medium deep soil having deficiency of sulphur and zinc, application of sulphur @ 30 kg ha -1 + zinc @ 2.5 kg ha - 1 along with recommended dose N (30 kg ha -1) and P (75 kg ha-1) is recommended for higher yield of soybean"
+      }
+     ]
+    },
+    {
+     "key": "water",
+     "items": [
+      {
+       "id": "soybean-water-1",
+       "labels": {
+        "en": "After heavy rain, open field channels to drain standing water.",
+        "mr": "जोरदार पावसानंतर शेतात साचलेले पाणी काढण्यासाठी चर काढा.",
+        "hi": "भारी बारिश के बाद खेत में रुका पानी निकालने के लिए नालियाँ खोलें।"
+       },
+       "source": "CRIDA-AKL, 2.2 heavy rainfall, soybean",
+       "source_keys": [
+        "CRIDA-AKL"
+       ],
+       "quote": "Soybean Opening of field channels to remove surface ponding"
+      }
+     ]
+    },
+    {
+     "key": "intercultivation",
+     "items": [
+      {
+       "id": "soybean-intercultivation-1",
+       "labels": {
+        "en": "Weed control in sole soybean: post-emergence propaquizafop with imazethapyr at 21 days after sowing, or pre-emergence diclosulam. (follow expert advice)",
+        "mr": "एकट्या सोयाबीनमध्ये तण नियंत्रण: पेरणीनंतर २१ दिवसांनी उगवणीपश्चात प्रोपाक्विझाफॉप + इमाझेथापायर, किंवा उगवणपूर्व डायक्लोसुलाम. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "केवल सोयाबीन में खरपतवार नियंत्रण: बुवाई के 21 दिन बाद अंकुरण-पश्चात प्रोपाक्विज़ाफॉप + इमाज़ेथापायर, या अंकुरण-पूर्व डाइक्लोसुलम। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "PDKV-R20, Agronomy no. 6",
+       "source_keys": [
+        "PDKV-R20"
+       ],
+       "quote": "For effective weed management in sole soybean, post emergence application of Propaquizafop @ 0.050 kg a.i. + Imazethapyr @ 0.075 kg a.i./ha at 21 DAS (2.0 L/ha ready mix commercial formulation in 500L water) or pre emergence application of Diclosulam"
+      }
+     ]
+    },
+    {
+     "key": "protection",
+     "items": [
+      {
+       "id": "soybean-protection-1",
+       "labels": {
+        "en": "Leaf-eating pests: four sprays of neem seed extract or marigold leaf extract, from 20 days after emergence, every 10 days. (follow expert advice)",
+        "mr": "पाने खाणाऱ्या किडी: उगवणीनंतर २० दिवसांपासून दर १० दिवसांनी निंबोळी अर्क किंवा झेंडूच्या पानांच्या अर्काच्या चार फवारण्या. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "पत्ती खाने वाले कीट: अंकुरण के 20 दिन बाद से हर 10 दिन पर नीम बीज अर्क या गेंदे की पत्ती के अर्क के चार छिड़काव। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "PDKV-R20, Plant protection no. 20",
+       "source_keys": [
+        "PDKV-R20"
+       ],
+       "quote": "For effective management of foliage feeder pests on soybean and for getting increased seed yield with maximum net return four sprays of Neem Seed extract @ 5% OR Marigold leaf extract @ 5% starting at 20 days of crop emergence with subsequent sprays at 10 days interval is recommended."
+      },
+      {
+       "id": "soybean-protection-2",
+       "labels": {
+        "en": "Leaf defoliators: two sprays of the soybean-oil formulation of Metarhizium rileyi, at 30 and 45 days of the crop. (follow expert advice)",
+        "mr": "पाने खाणाऱ्या अळ्या: पिकाच्या ३० व ४५ दिवसांनी मेटाऱ्हायझियम रिलेयीच्या सोयाबीन तेल आधारित द्रावणाच्या दोन फवारण्या. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "पत्ती खाने वाली इल्लियाँ: फसल के 30 और 45 दिन पर मेटाराइजियम रिलेयी के सोयाबीन तेल आधारित घोल के दो छिड़काव। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "PDKV-R22, Organic / IPM no. 14",
+       "source_keys": [
+        "PDKV-R22"
+       ],
+       "quote": "soybean oil based formulation of Metarhizium rileyi @ 250 ml/ha (containing 2.0 x 108spores per ml) at 30 days and 45 days of crop stage is recommended."
+      },
+      {
+       "id": "soybean-protection-3",
+       "labels": {
+        "en": "Stem fly: seed treatment with thiamethoxam coated with a polymer, then a spray of indoxacarb or chlorantraniliprole 45 days after sowing. (follow expert advice)",
+        "mr": "खोडमाशी: पॉलिमरसह थायामेथॉक्झामची बीजप्रक्रिया, नंतर पेरणीनंतर ४५ दिवसांनी इंडोक्झाकार्ब किंवा क्लोरँट्रानिलिप्रोलची फवारणी. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "तना मक्खी: पॉलिमर के साथ थायमेथोक्साम से बीजोपचार, फिर बुवाई के 45 दिन बाद इंडोक्साकार्ब या क्लोरेंट्रानिलिप्रोल का छिड़काव। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "PDKV-R22, Entomology no. 31",
+       "source_keys": [
+        "PDKV-R22"
+       ],
+       "quote": "against soybean stem fly by using Controll Release Technology (CRT) seed treatment by mixing p olykote polymer 4ml @ 4ml water with Thiamethaxon 30FS 10ml per kg seed and then it is recommended to spray Indoxacarb 15.8% EC @ 7 ml or Chlorantroniliprol 18.5% SC @ 3 ml in 10 liters of water after 45 days of sowing"
+      },
+      {
+       "id": "soybean-protection-4",
+       "labels": {
+        "en": "Girdle beetle: two sprays of lambda-cyhalothrin a fortnight apart, after the attack starts. (follow expert advice)",
+        "mr": "चक्रीभुंगा: प्रादुर्भाव सुरू झाल्यानंतर पंधरवड्याच्या अंतराने लॅम्बडा-सायहॅलोथ्रिनच्या दोन फवारण्या. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "गर्डल बीटल: प्रकोप शुरू होने के बाद पखवाड़े के अंतर पर लैम्ब्डा-साइहैलोथ्रिन के दो छिड़काव। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "PDKV-R12, no. 15",
+       "source_keys": [
+        "PDKV-R12"
+       ],
+       "quote": "For management of girdle beetle on soybean and to obtain maximum yield and higher monetary return, two sprays of Lamda cylohathrin 5 CS @ 0.005% (i.e.10ml per 10 lit water) at fortnight interval after initiation the infestation of girdle beetle are recommended"
+      },
+      {
+       "id": "soybean-protection-5",
+       "labels": {
+        "en": "To check stem fly and girdle beetle, inspect 5 spots per field: 4 near the corners, 10 metres inside, and 1 in the centre.",
+        "mr": "खोडमाशी व चक्रीभुंग्याच्या पाहणीसाठी प्रत्येक शेतात ५ ठिकाणी तपासा: ४ कोपऱ्यांजवळ, १० मीटर आत, आणि १ मध्यभागी.",
+        "hi": "तना मक्खी और गर्डल बीटल की जाँच के लिए हर खेत में 5 जगह देखें: 4 कोनों के पास, 10 मीटर अंदर, और 1 बीच में।"
+       },
+       "source": "PDKV-R23, Entomology no. 39",
+       "source_keys": [
+        "PDKV-R23"
+       ],
+       "quote": "such 5 spots per field (4 spots from 4 corners of the field 10 meter inside and 1 spot in the center of the field) for field diagnosis for extension workers is recommended."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "crop": "tur",
+   "labels": {
+    "en": "Tur (pigeon pea)",
+    "mr": "तूर",
+    "hi": "अरहर (तुअर)"
+   },
+   "names": {
+    "en": [
+     "pigeonpea",
+     "pigeon pea",
+     "tur",
+     "toor",
+     "arhar",
+     "red gram",
+     "redgram"
+    ],
+    "mr": [
+     "तूर",
+     "तुरी"
+    ],
+    "hi": [
+     "अरहर",
+     "तुअर",
+     "तूर"
+    ]
+   },
+   "ai_written": true,
+   "sections": [
+    {
+     "key": "sowing",
+     "items": [
+      {
+       "id": "tur-sowing-1",
+       "labels": {
+        "en": "Rainfed sowing window: 15 June to 10 July.",
+        "mr": "कोरडवाहू पेरणीचा कालावधी: १५ जून ते १० जुलै.",
+        "hi": "बारानी बुवाई का समय: 15 जून से 10 जुलाई।"
+       },
+       "source": "CRIDA-AKL, 1.12 sowing window",
+       "source_keys": [
+        "CRIDA-AKL"
+       ],
+       "quote": "Sowing window for 5 major field crops (start and end of normal sowing period) Cotton Soybean Green gram/ Black gram Pigeonpea Kharif sorghum Kharif- Rainfed 15 th June – 30 th June 15 th June – 15 th July 15 th June – 30 th June 15 th June – 10 th July"
+      },
+      {
+       "id": "tur-sowing-2",
+       "labels": {
+        "en": "Sole medium-duration tur on medium deep black soil, rainfed: sow at 120 cm x 30 cm and nip the shoot tips 45 days after sowing.",
+        "mr": "मध्यम खोल काळ्या जमिनीत कोरडवाहू मध्यम कालावधीची एकटी तूर: १२० सें.मी. x ३० सें.मी. अंतरावर पेरणी करा व पेरणीनंतर ४५ दिवसांनी शेंडे खुडा.",
+        "hi": "मध्यम गहरी काली मिट्टी में बारानी मध्यम अवधि की अकेली अरहर: 120 सें.मी. x 30 सें.मी. पर बुवाई करें और बुवाई के 45 दिन बाद शीर्ष तोड़ें (निपिंग)।"
+       },
+       "source": "PDKV-R21, Agronomy (sole pigeonpea)",
+       "source_keys": [
+        "PDKV-R21"
+       ],
+       "quote": "from the medium duration sole pigeonpea crop, sowing at a distance of 120 cm x 30 cm and nipping at 45 days after sowing is recommended."
+      },
+      {
+       "id": "tur-sowing-3",
+       "labels": {
+        "en": "Intercrops: soybean + tur (4:2 or 6:2) and cotton + tur (8:1 or 6:2).",
+        "mr": "आंतरपिके: सोयाबीन + तूर (४:२ किंवा ६:२) आणि कापूस + तूर (८:१ किंवा ६:२).",
+        "hi": "अंतरफसलें: सोयाबीन + अरहर (4:2 या 6:2) और कपास + अरहर (8:1 या 6:2)।"
+       },
+       "source": "CRIDA-AKL, 2.1.1 pigeonpea",
+       "source_keys": [
+        "CRIDA-AKL"
+       ],
+       "quote": "Soybean+ Pigeonpea(4:2 / 6:2) Cotton + Pigeonpea(8:1 / 6:2)"
+      }
+     ]
+    },
+    {
+     "key": "varieties",
+     "items": [
+      {
+       "id": "tur-varieties-1",
+       "labels": {
+        "en": "Varieties named for Akola district: AKT-8811, Vipula, PKV Tara, BSMR-736. If the monsoon is 4 weeks late, sow them at 90 x 20 cm instead of 90 x 30 cm.",
+        "mr": "अकोला जिल्ह्यासाठी सुचवलेले वाण: AKT-8811, विपुला, PKV तारा, BSMR-736. मान्सून ४ आठवडे उशिरा आल्यास ९० x ३० सें.मी. ऐवजी ९० x २० सें.मी. अंतरावर पेरणी करा.",
+        "hi": "अकोला ज़िले के लिए सुझाई किस्में: AKT-8811, विपुला, PKV तारा, BSMR-736। मानसून 4 सप्ताह देर से आए तो 90 x 30 सें.मी. की जगह 90 x 20 सें.मी. पर बुवाई करें।"
+       },
+       "source": "CRIDA-AKL, 2.1.1 delay by 4 weeks",
+       "source_keys": [
+        "CRIDA-AKL"
+       ],
+       "quote": "Delay by 4 weeks … Pigeonpea Change in variety AKT 8811,Vipula, Use spacing 90 x 20 cm instead of 90 X 30 cm.14 PKV - Tara, BSMR -736"
+      }
+     ]
+    },
+    {
+     "key": "seed",
+     "items": [
+      {
+       "id": "tur-seed-1",
+       "labels": {
+        "en": "Before sowing, treat seed with the Rhizobium isolate PKVPR-101 together with PSB-3 as bio-fertilisers. (follow expert advice)",
+        "mr": "पेरणीपूर्वी बियाण्याला जैविक खत म्हणून रायझोबियम PKVPR-101 व PSB-3 यांची एकत्रित बीजप्रक्रिया करा. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "बुवाई से पहले बीज को जैव उर्वरक के रूप में राइजोबियम PKVPR-101 और PSB-3 से एक साथ उपचारित करें। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "PDKV-R15, Plant pathology no. 13",
+       "source_keys": [
+        "PDKV-R15"
+       ],
+       "quote": "Before sowing of pigeonpea, seed treatment of dual inoculation of Rhizobium PKVPR- 101 (25 g/kg seed) and PSB -3 (20 g/kg seed) as biofertilizers is recommended for enhancing the yield."
+      }
+     ]
+    },
+    {
+     "key": "nutrition",
+     "items": [
+      {
+       "id": "tur-nutrition-1",
+       "labels": {
+        "en": "Give the recommended dose of manure and phosphate fertiliser. (follow expert advice)",
+        "mr": "शिफारशीत मात्रेत शेणखत व स्फुरदयुक्त खत द्या. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "अनुशंसित मात्रा में गोबर की खाद और फॉस्फेट खाद दें। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "PDKV-R15, Social science no. 40",
+       "source_keys": [
+        "PDKV-R15"
+       ],
+       "quote": "Pigeon pea producing farmers should used recommended dose of manure and phosphatic fertilizer."
+      }
+     ]
+    },
+    {
+     "key": "water",
+     "items": [
+      {
+       "id": "tur-water-1",
+       "labels": {
+        "en": "After heavy or unseasonal rain, improve drainage and drench copper oxychloride at the root zone to avoid wilt and root rot. (follow expert advice)",
+        "mr": "जोरदार किंवा अवकाळी पावसानंतर पाण्याचा निचरा सुधारा आणि मर व मूळकूज टाळण्यासाठी मुळांजवळ कॉपर ऑक्सिक्लोराईडची आळवणी करा. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "भारी या बेमौसम बारिश के बाद जल निकासी सुधारें और उकठा व जड़ सड़न से बचाव के लिए जड़ों के पास कॉपर ऑक्सीक्लोराइड डालें (ड्रेंचिंग)। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "CRIDA-AKL, 2.2 pests and diseases due to unseasonable rains",
+       "source_keys": [
+        "CRIDA-AKL"
+       ],
+       "quote": "Pigeon pea Improved drainage and drenching with copper oxy chloride @25g/10 lit of water to avoid incidence of wilt and root rot"
+      }
+     ]
+    },
+    {
+     "key": "protection",
+     "items": [
+      {
+       "id": "tur-protection-1",
+       "labels": {
+        "en": "Pod borer complex: thiodicarb when half the crop is in flower, flubendiamide 15 days later, then lambda-cyhalothrin 20 days after the second spray. (follow expert advice)",
+        "mr": "शेंगा पोखरणाऱ्या अळ्या: पीक निम्मे फुलोऱ्यात असताना थायोडीकार्ब, १५ दिवसांनी फ्लुबेंडियामाइड, नंतर दुसऱ्या फवारणीनंतर २० दिवसांनी लॅम्बडा-सायहॅलोथ्रिन. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "फली छेदक इल्लियाँ: आधी फसल में फूल आने पर थायोडिकार्ब, 15 दिन बाद फ्लुबेंडियामाइड, फिर दूसरे छिड़काव के 20 दिन बाद लैम्ब्डा-साइहैलोथ्रिन। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "PDKV-R22, Entomology no. 30",
+       "source_keys": [
+        "PDKV-R22"
+       ],
+       "quote": "For the effective management of pod borer complex and for obtaining higher yield in pigeonpea, module Thiodicarb 75 WP 20 gm at 50 per cent flowering followed by Flubendamide 39.35 SC 2 ml at 15 days after first spraying followed b y Lambda Cyhalothrin 5EC 10ml in 10 liters of water 20 days after second spraying is recommended."
+      },
+      {
+       "id": "tur-protection-2",
+       "labels": {
+        "en": "Pod borers, bio-pesticide option: 3 sprays of Bacillus thuringiensis (NBAIR-BTG4) from when half the crop is in flower, every 15 days. (follow expert advice)",
+        "mr": "शेंगा पोखरणाऱ्या अळ्या, जैविक पर्याय: पीक निम्मे फुलोऱ्यात आल्यापासून दर १५ दिवसांनी बॅसिलस थुरिंजिएन्सिस (NBAIR-BTG4) च्या ३ फवारण्या. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "फली छेदक, जैविक विकल्प: आधी फसल में फूल आने से हर 15 दिन पर बैसिलस थुरिंजिएन्सिस (NBAIR-BTG4) के 3 छिड़काव। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "PDKV-R22, Entomology no. 34",
+       "source_keys": [
+        "PDKV-R22"
+       ],
+       "quote": "For effective management of Pigeonpea pod borers and to get higher economic returns, 3 sprays of Bacillus thuringiensis (NBAIR-BTG4 2%) @ 2 ml/L starting at 50 % flowering and subsequent sprays at 15 days interval is recommended."
+      },
+      {
+       "id": "tur-protection-3",
+       "labels": {
+        "en": "Pod fly: thiacloprid or acephate at grain filling, and again 15 days later. (follow expert advice)",
+        "mr": "शेंगमाशी: दाणे भरताना थायाक्लोप्रिड किंवा अॅसिफेट, आणि १५ दिवसांनी पुन्हा. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "फली मक्खी: दाने भरते समय थायक्लोप्रिड या एसीफेट, और 15 दिन बाद फिर से। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "PDKV-R13, Entomology no. 13",
+       "source_keys": [
+        "PDKV-R13"
+       ],
+       "quote": "For management of pigeonpea pod fly, application of thicloprid (21.7SC) 4.0 ml or acephate (75SP) 20.0 g per 10 lit water at grain filling and 15 days after first application is recommended."
+      }
+     ]
+    },
+    {
+     "key": "harvest",
+     "items": [
+      {
+       "id": "tur-harvest-1",
+       "labels": {
+        "en": "Storage: keep custard apple seed powder in cotton cloth bags with stored tur against pulse beetle. (follow expert advice)",
+        "mr": "साठवण: साठवलेल्या तुरीत भुंगेऱ्यापासून (पल्स बीटल) संरक्षणासाठी सीताफळाच्या बियांची पूड सुती कापडाच्या पिशवीत ठेवा. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "भंडारण: भंडारित अरहर में दाल भृंग (पल्स बीटल) से बचाव के लिए सीताफल के बीज का चूर्ण सूती कपड़े की थैली में रखें। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "PDKV-R22, Entomology no. 32",
+       "source_keys": [
+        "PDKV-R22"
+       ],
+       "quote": "Application of custard apple seed powder packed in cotton cloth @ 15g/kg of stored pigeon pea is recommended for management of pulse beetle."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "crop": "gram",
+   "labels": {
+    "en": "Gram (chickpea)",
+    "mr": "हरभरा",
+    "hi": "चना"
+   },
+   "names": {
+    "en": [
+     "chickpea",
+     "chick pea",
+     "bengal gram",
+     "chana"
+    ],
+    "mr": [
+     "हरभरा",
+     "हरभऱ्या"
+    ],
+    "hi": [
+     "चना",
+     "चने"
+    ]
+   },
+   "ai_written": true,
+   "sections": [
+    {
+     "key": "sowing",
+     "items": [
+      {
+       "id": "gram-sowing-1",
+       "labels": {
+        "en": "Rainfed gram in Vidarbha: sow from 15 Oct. to 04 Nov.; sowing on 05-11 Nov. cuts the yield by 7% and on 12-18 Nov. by 15%.",
+        "mr": "विदर्भात कोरडवाहू हरभरा: १५ ऑक्टो. ते ०४ नोव्हें. दरम्यान पेरणी करा; ०५-११ नोव्हें. पेरणीत उत्पादन ७% व १२-१८ नोव्हें. पेरणीत १५% घटते.",
+        "hi": "विदर्भ में बारानी चना: 15 अक्टू. से 04 नवं. के बीच बुवाई करें; 05-11 नवं. की बुवाई में उपज 7% और 12-18 नवं. में 15% घटती है।"
+       },
+       "source": "PDKV-R25, Agronomy no. 4",
+       "source_keys": [
+        "PDKV-R25"
+       ],
+       "quote": "For higher seed yield and economic benefits in Vidarbha, sowing of rainfed chickpea is recommended from 15th Oct. to 04th Nov (42-44 MW). Delayed sowing in 05th-11th Nov (45 MW) results in 7% yield reduction, while 12th-18th Nov (46 MW) leads to 15% yield reduction."
+      },
+      {
+       "id": "gram-sowing-2",
+       "labels": {
+        "en": "Irrigated desi gram (Vijay, Jaki-9218) can be sown up to 15 November; after paddy in Eastern Vidarbha, sow from 15 to 30 November.",
+        "mr": "बागायती देशी हरभरा (विजय, जाकी-9218) १५ नोव्हेंबरपर्यंत पेरता येतो; पूर्व विदर्भात भातानंतर १५ ते ३० नोव्हेंबर दरम्यान पेरणी करा.",
+        "hi": "सिंचित देसी चना (विजय, जाकी-9218) 15 नवंबर तक बोया जा सकता है; पूर्वी विदर्भ में धान के बाद 15 से 30 नवंबर के बीच बुवाई करें।"
+       },
+       "source": "PDKV-R15, Agronomy no. 2; PDKV-R14, Agronomy no. 3",
+       "source_keys": [
+        "PDKV-R15",
+        "PDKV-R14"
+       ],
+       "quote": "Under irrigated condition sowing of Desi chickpea (Vijay and Jaki -9218) up to 15 November is recommended … chickpea sowing should be done from 15 November to 30 November is recommended"
+      },
+      {
+       "id": "gram-sowing-3",
+       "labels": {
+        "en": "Intercrops: gram + mustard (6:1 or 5:2) and linseed + gram (4:2).",
+        "mr": "आंतरपिके: हरभरा + मोहरी (६:१ किंवा ५:२) आणि जवस + हरभरा (४:२ ओळी).",
+        "hi": "अंतरफसलें: चना + सरसों (6:1 या 5:2) और अलसी + चना (4:2 कतारें)।"
+       },
+       "source": "PDKV-R24, Agronomy no. 11; PDKV-LM, Crop production no. 2",
+       "source_keys": [
+        "PDKV-R24",
+        "PDKV-LM"
+       ],
+       "quote": "Intercropping of Chickpea + Mustard (6:1) or Chickpea + Mustard (5:2) is recommended … Chickpea + Linseed (4:2) intercropping system"
+      }
+     ]
+    },
+    {
+     "key": "varieties",
+     "items": [
+      {
+       "id": "gram-varieties-1",
+       "labels": {
+        "en": "PDKV Kabuli-5 (AKGK1801): early, 104 days, bold seed, resistant to Fusarium wilt, suits machine harvesting.",
+        "mr": "PDKV काबुली-5 (AKGK1801): लवकर येणारा, १०४ दिवस, टपोरे दाणे, मर (फ्युजेरियम) रोगाला प्रतिकारक, यंत्राने काढणीस योग्य.",
+        "hi": "PDKV काबुली-5 (AKGK1801): जल्दी पकने वाली, 104 दिन, मोटे दाने, फ्यूजेरियम उकठा प्रतिरोधी, मशीन से कटाई योग्य।"
+       },
+       "source": "PDKV-R25, released varieties no. 5",
+       "source_keys": [
+        "PDKV-R25"
+       ],
+       "quote": "Chickpea: PDKV Kabuli-5 (AKGK1801) Yield: 2067 kg/ha. Early and synchronous maturity (104 days). Tall and erect in growth habit and suitable for mechanical harvesting. Bold seeded (45 g per 100 seed wt.) Resistant to Fusarium wilt."
+      },
+      {
+       "id": "gram-varieties-2",
+       "labels": {
+        "en": "PDKV Super JAKI (AKG-1402): matures in 98 days, bold seed, suits machine harvesting.",
+        "mr": "PDKV सुपर जाकी (AKG-1402): ९८ दिवसांत तयार, टपोरे दाणे, यंत्राने काढणीस योग्य.",
+        "hi": "PDKV सुपर जाकी (AKG-1402): 98 दिन में पकती, मोटे दाने, मशीन से कटाई योग्य।"
+       },
+       "source": "PDKV-R24, released varieties no. 1",
+       "source_keys": [
+        "PDKV-R24"
+       ],
+       "quote": "PDKV super JAKI ( AKG – 1402 ) Yield – 20.73 q/ha . Maturity – 98 days Early and Synchronous Maturity. Bold seeded Suitable for Mechanical"
+      }
+     ]
+    },
+    {
+     "key": "seed",
+     "items": [
+      {
+       "id": "gram-seed-1",
+       "labels": {
+        "en": "Desi gram: soak the seed for 4 hours in potassium nitrate solution, dry it in shade for one hour, then sow. (follow expert advice)",
+        "mr": "देशी हरभरा: बियाणे पोटॅशियम नायट्रेटच्या द्रावणात ४ तास भिजवा, एक तास सावलीत सुकवा व नंतर पेरा. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "देसी चना: बीज को पोटैशियम नाइट्रेट के घोल में 4 घंटे भिगोएँ, एक घंटा छाया में सुखाएँ, फिर बोएँ। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "PDKV-R20, Agronomy no. 4",
+       "source_keys": [
+        "PDKV-R20"
+       ],
+       "quote": "seed priming for 4 hours with 0.5% Potassium Nitrate (5g potassium nitrate/ liter water) followed by one hour shed drying and then sowing is recommended."
+      }
+     ]
+    },
+    {
+     "key": "nutrition",
+     "items": [
+      {
+       "id": "gram-nutrition-1",
+       "labels": {
+        "en": "In soils short of sulphur, apply sulphur through bentonite sulphur or gypsum with the recommended fertiliser dose. (follow expert advice)",
+        "mr": "गंधकाची कमतरता असलेल्या जमिनीत शिफारशीत खतमात्रेसोबत बेंटोनाइट सल्फर किंवा जिप्समद्वारे गंधक द्या. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "गंधक की कमी वाली मिट्टी में अनुशंसित खाद के साथ बेंटोनाइट सल्फर या जिप्सम से गंधक दें। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "PDKV-R21, Soil science no. 9",
+       "source_keys": [
+        "PDKV-R21"
+       ],
+       "quote": "In sulphur deficient soils for obtaining higher seed yield of chickpea, quality of seed, higher monetary returns and for improving soil fertility, soil application of S @ 30 kg ha-1 through Bentonite sulphur (35 kg ha-1) or through Gypsum (130 kg ha-1) along with recommended dose of fertilizer"
+      }
+     ]
+    },
+    {
+     "key": "water",
+     "items": [
+      {
+       "id": "gram-water-1",
+       "labels": {
+        "en": "Clay loam soils of western Vidarbha: run the sprinkler for four hours at the critical stages, flowering and pod formation.",
+        "mr": "पश्चिम विदर्भातील चिकण पोयट्याच्या जमिनीत: फुलोरा व घाटे भरणे या महत्त्वाच्या अवस्थांत तुषार संच चार तास चालवा.",
+        "hi": "पश्चिमी विदर्भ की चिकनी दोमट मिट्टी में: फूल आने और फली बनने की महत्वपूर्ण अवस्थाओं में फव्वारा चार घंटे चलाएँ।"
+       },
+       "source": "PDKV-R25, Agricultural engineering no. 45",
+       "source_keys": [
+        "PDKV-R25"
+       ],
+       "quote": "For clay loam soils in western Vidarbha region, it is recommended that the overhead sprinkler (4ft, 9 lpm, 50% overlapping) should be operated for four hours during critical stages of chickpea i.e. flowering and pod formation"
+      }
+     ]
+    },
+    {
+     "key": "protection",
+     "items": [
+      {
+       "id": "gram-protection-1",
+       "labels": {
+        "en": "Gram pod borer: emamectin benzoate when half the crop is in flower, then the combination novaluron + indoxacarb 15 days later. (follow expert advice)",
+        "mr": "घाटेअळी: पीक निम्मे फुलोऱ्यात असताना इमामेक्टिन बेंझोएट, नंतर १५ दिवसांनी नोव्हॅल्युरॉन + इंडोक्झाकार्ब हे मिश्र कीटकनाशक. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "चना फली छेदक: आधी फसल में फूल आने पर इमामेक्टिन बेंजोएट, फिर 15 दिन बाद नोवाल्यूरॉन + इंडोक्साकार्ब मिश्रित कीटनाशी। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "PDKV-R25, Entomology no. 35",
+       "source_keys": [
+        "PDKV-R25"
+       ],
+       "quote": "For effective management of gram pod borer on chickpea and getting higher returns, spraying of emamectin benzoate 5 % SG @ 4.4 g at 50 per cent flowering followed by spraying of a combi product, novaluron 5.25 % + indoxacarb 4.50 % SC @ 16.5 ml in l0 liters of water, 15 days after first application is recommended."
+      },
+      {
+       "id": "gram-protection-2",
+       "labels": {
+        "en": "Action level for gram pod borer: 2 larvae per metre of row; repeat the control after 15 days if needed.",
+        "mr": "घाटेअळीची आर्थिक नुकसान पातळी: प्रति मीटर ओळीत २ अळ्या; गरज असल्यास १५ दिवसांनी नियंत्रण पुन्हा करा.",
+        "hi": "चना फली छेदक का आर्थिक क्षति स्तर: प्रति मीटर कतार 2 इल्लियाँ; ज़रूरत हो तो 15 दिन बाद नियंत्रण दोहराएँ।"
+       },
+       "source": "PDKV-R15, Entomology no. 10",
+       "source_keys": [
+        "PDKV-R15"
+       ],
+       "quote": "at ETL (2 Larvae/mrl) followed by second spraying after 15 days is recommended"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "crop": "moong",
+   "labels": {
+    "en": "Moong (green gram)",
+    "mr": "मूग",
+    "hi": "मूंग"
+   },
+   "names": {
+    "en": [
+     "moong",
+     "mung",
+     "mungbean",
+     "green gram",
+     "greengram"
+    ],
+    "mr": [
+     "मूग",
+     "मुगा"
+    ],
+    "hi": [
+     "मूंग"
+    ]
+   },
+   "ai_written": true,
+   "sections": [
+    {
+     "key": "sowing",
+     "items": [
+      {
+       "id": "moong-sowing-1",
+       "labels": {
+        "en": "Rainfed sowing window: 15 June to 30 June. If the monsoon is 4 weeks late (9-15 July), avoid sowing moong and urad.",
+        "mr": "कोरडवाहू पेरणीचा कालावधी: १५ जून ते ३० जून. मान्सून ४ आठवडे उशिरा (९-१५ जुलै) आल्यास मूग व उडदाची पेरणी टाळा.",
+        "hi": "बारानी बुवाई का समय: 15 जून से 30 जून। मानसून 4 सप्ताह देर (9-15 जुलाई) हो तो मूंग और उड़द की बुवाई न करें।"
+       },
+       "source": "CRIDA-AKL, 1.12 sowing window; 2.1.1 delay by 4 weeks",
+       "source_keys": [
+        "CRIDA-AKL"
+       ],
+       "quote": "Kharif- Rainfed 15 th June – 30 th June … Delay by 4 weeks 28 th wk 9-15 th July … Avoid sowing of Greengram and Blackgram."
+      },
+      {
+       "id": "moong-sowing-2",
+       "labels": {
+        "en": "Cotton-based intercropping: paired rows of cotton with two rows of moong (60-120-60 cm) under rainfed conditions.",
+        "mr": "कापूस आधारित आंतरपीक: कोरडवाहू परिस्थितीत कापसाच्या जोडओळी व मुगाच्या दोन ओळी (६०-१२०-६० सें.मी.).",
+        "hi": "कपास आधारित अंतरफसल: बारानी स्थिति में कपास की जोड़ी कतारें और मूंग की दो कतारें (60-120-60 सें.मी.)।"
+       },
+       "source": "PDKV-R23, Agronomy no. 14",
+       "source_keys": [
+        "PDKV-R23"
+       ],
+       "quote": "the intercrops combination of paired row cotton (Two rows) + two rows of greengram (60-120-60 cm) under rainfed condition."
+      }
+     ]
+    },
+    {
+     "key": "varieties",
+     "items": [
+      {
+       "id": "moong-varieties-1",
+       "labels": {
+        "en": "PDKV Varsha (TAKM-141), kharif: pods at the top for easy picking, pods do not shatter, resistant to yellow mosaic virus.",
+        "mr": "PDKV वर्षा (TAKM-141), खरीप: शेंगा झाडाच्या वरच्या भागात, तोडणीस सोप्या; शेंगा फुटत नाहीत; पिवळा मोझॅक रोगाला प्रतिकारक.",
+        "hi": "PDKV वर्षा (TAKM-141), खरीफ: फलियाँ ऊपर की ओर, तुड़ाई आसान; फलियाँ नहीं चटकतीं; पीला मोज़ेक वायरस प्रतिरोधी।"
+       },
+       "source": "PDKV-R25, released varieties no. 3",
+       "source_keys": [
+        "PDKV-R25"
+       ],
+       "quote": "Mung: PDKV-Varsha (TAKM-141) (Kharif) Yield: 1076 kg/ha. Top bearing for easy pod picking Medium Bold seed type with non-shattering pods. Resistant to yellow mosaic virus disease."
+      },
+      {
+       "id": "moong-varieties-2",
+       "labels": {
+        "en": "PDKV Phalguni (TAKSM-140), summer: matures in 70 days, resistant to yellow mosaic virus. Kopergaon is another PDKV variety in wide use.",
+        "mr": "PDKV फाल्गुनी (TAKSM-140), उन्हाळी: ७० दिवसांत तयार, पिवळा मोझॅक रोगाला प्रतिकारक. कोपरगाव हा डॉ. पंदेकृविचा आणखी एक प्रचलित वाण.",
+        "hi": "PDKV फाल्गुनी (TAKSM-140), गर्मी: 70 दिन में पकती, पीला मोज़ेक वायरस प्रतिरोधी। कोपरगाँव डॉ. पीडीकेवी की एक और प्रचलित किस्म है।"
+       },
+       "source": "PDKV-R25, released varieties no. 4; PDKV-R21, Agricultural economics no. 32",
+       "source_keys": [
+        "PDKV-R25",
+        "PDKV-R21"
+       ],
+       "quote": "Mung (Zaid): PDKV- Phalguni (TAKSM-140) … Suitable for summer cultivation in Maharashtra. Matures in 70 days with synchronous maturity. … Resistant to yellow mosaic virus disease. … Kopergaon variety of green gram"
+      }
+     ]
+    },
+    {
+     "key": "seed",
+     "items": [
+      {
+       "id": "moong-seed-1",
+       "labels": {
+        "en": "Treat the seed with the Rhizobium strain AKMR-12-01 before sowing, and with PSB, thiram with carbendazim, and Trichoderma. (follow expert advice)",
+        "mr": "पेरणीपूर्वी बियाण्याला रायझोबियम AKMR-12-01 तसेच पीएसबी, थायरम व कार्बेन्डाझिम आणि ट्रायकोडर्मा यांची बीजप्रक्रिया करा. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "बुवाई से पहले बीज को राइजोबियम AKMR-12-01 तथा पीएसबी, थाइरम व कार्बेन्डाजिम और ट्राइकोडर्मा से उपचारित करें। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "PDKV-R17, Plant pathology no. 30; CRIDA-AKL, 2.1.1 green gram",
+       "source_keys": [
+        "PDKV-R17",
+        "CRIDA-AKL"
+       ],
+       "quote": "Before sowing of Mungbean, seed treatment of Rhizobium AKMR-12-01 … Green gra m No Change Normal recommended Package of Practices by Dr. PDKV, Akola Seed Treatment with Rhizobium + PSB (250gm each /10Kg seed + Thiram 3 gm+ Carbendazim 1 gm + Trichoderma 4 gm/Kg of seed"
+      }
+     ]
+    },
+    {
+     "key": "nutrition",
+     "items": [
+      {
+       "id": "moong-nutrition-1",
+       "labels": {
+        "en": "Organic moong: enriched PDKV compost mixed with Rhizobium and PSB, two sprays of liquid organic fertiliser at 20 and 40 days, and Dashparni ark or neem seed extract with Beauveria and Metarhizium against pests. (follow expert advice)",
+        "mr": "सेंद्रिय मूग: रायझोबियम व पीएसबी मिसळलेले समृद्ध PDKV कंपोस्ट, २० व ४० दिवसांनी द्रवरूप सेंद्रिय खताच्या दोन फवारण्या, आणि किडींसाठी दशपर्णी अर्क किंवा निंबोळी अर्क तसेच ब्युव्हेरिया व मेटाऱ्हायझियम. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "जैविक मूंग: राइजोबियम और पीएसबी मिली समृद्ध PDKV कम्पोस्ट, 20 और 40 दिन पर तरल जैविक खाद के दो छिड़काव, और कीटों के लिए दशपर्णी अर्क या नीम बीज अर्क तथा ब्यूवेरिया व मेटाराइजियम। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "PDKV-R21, Agronomy no. 5",
+       "source_keys": [
+        "PDKV-R21"
+       ],
+       "quote": "In organic farming system, soil application of 2.5 t/ha enriched PDKV compost mixed with Rhizobium and PSB @ 4.0 kg/ha along with two foliar sprays of liquid organic fertilizer (N:P:K) @ 30 ml / 10 lit. water at 20 and 40 DAS and for biological pest control spraying of botanical insecticide (Dashparni Ark or 5 % NSKE) and bio -pesticides (Beauveria and Metarhizium) is recommended for higher yield, monetary returns of green gram"
+      }
+     ]
+    },
+    {
+     "key": "water",
+     "items": [
+      {
+       "id": "moong-water-1",
+       "labels": {
+        "en": "Summer moong in Eastern Vidarbha takes 60-65 days and about 6 irrigations, far fewer than summer paddy.",
+        "mr": "पूर्व विदर्भात उन्हाळी मूग ६०-६५ दिवसांत तयार होतो व सुमारे ६ पाणी लागतात, उन्हाळी भातापेक्षा खूप कमी.",
+        "hi": "पूर्वी विदर्भ में गर्मी की मूंग 60-65 दिन में तैयार होती है और लगभग 6 सिंचाइयाँ लगती हैं, गर्मी के धान से बहुत कम।"
+       },
+       "source": "PDKV-R24, Social science no. 68",
+       "source_keys": [
+        "PDKV-R24"
+       ],
+       "quote": "Crop duration and total number of irrigations required for mung (60-65 days and 6 Nos.) was less than paddy"
+      }
+     ]
+    },
+    {
+     "key": "protection",
+     "items": [
+      {
+       "id": "moong-protection-1",
+       "labels": {
+        "en": "Integrated pest management: seed treatment with imidacloprid and Trichoderma, a spray of azadirachtin at 30 days and of profenofos at 45 days after emergence. (follow expert advice)",
+        "mr": "एकात्मिक कीड व्यवस्थापन: इमिडाक्लोप्रिड व ट्रायकोडर्माची बीजप्रक्रिया, उगवणीनंतर ३० दिवसांनी अॅझाडिरॅक्टिन व ४५ दिवसांनी प्रोफेनोफॉसची फवारणी. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "एकीकृत कीट प्रबंधन: इमिडाक्लोप्रिड और ट्राइकोडर्मा से बीजोपचार, अंकुरण के 30 दिन बाद एज़ाडिरैक्टिन और 45 दिन बाद प्रोफेनोफॉस का छिड़काव। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "PDKV-R13, Entomology no. 11",
+       "source_keys": [
+        "PDKV-R13"
+       ],
+       "quote": "For integrated pest man agement in mungbean seed treatment with Imidacloprid 600 FS 5 ml per kg seed and Trichoderma 4 g per kg seed followed by spraying of azadirachtin (10000 ppm) 10ml/10 lit water at 30 days and profenphos (50 EC) 25 ml/10 lit water at 45 days after crop emergence is recommended."
+      },
+      {
+       "id": "moong-protection-2",
+       "labels": {
+        "en": "Cercospora leaf spot: spray the combination metiram + pyraclostrobin when the disease starts, and again 15 days later. (follow expert advice)",
+        "mr": "सर्कोस्पोरा पानांवरील ठिपके: रोग दिसताच मेटिराम + पायराक्लोस्ट्रोबिन या मिश्र बुरशीनाशकाची फवारणी करा व १५ दिवसांनी पुन्हा करा. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "सर्कोस्पोरा पत्ती धब्बा: रोग दिखते ही मेटिराम + पायराक्लोस्ट्रोबिन मिश्रित फफूंदनाशी का छिड़काव करें और 15 दिन बाद फिर करें। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "PDKV-R20, Plant protection no. 18",
+       "source_keys": [
+        "PDKV-R20"
+       ],
+       "quote": "Foliar application of co mbi product of fungicides Metiram 55% + Pyraclostrobin 5% WG (0.3%) is applied at disease initiation and 2 nd application at 15 days after 1st application is recommended for management of Cercospora leaf spot of Mungbean."
+      },
+      {
+       "id": "moong-protection-3",
+       "labels": {
+        "en": "Powdery mildew after unseasonal rain: penconazole or wettable sulphur. (follow expert advice)",
+        "mr": "अवकाळी पावसानंतर भुरी रोग: पेनकोनाझोल किंवा पाण्यात मिसळणारे गंधक. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "बेमौसम बारिश के बाद चूर्णिल आसिता (पाउडरी मिल्ड्यू): पेनकोनाज़ोल या घुलनशील गंधक। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "CRIDA-AKL, 2.2 pests and diseases due to unseasonable rains",
+       "source_keys": [
+        "CRIDA-AKL"
+       ],
+       "quote": "Green gram To control Powdery mildew penconozol 5 ml or dinocap 10 ml or triadomorph 5 ml or sulphur spray @ 30 g/10 lit. of water.",
+       "omitted": [
+        "dinocap",
+        "tridemorph"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "crop": "urad",
+   "labels": {
+    "en": "Urad (black gram)",
+    "mr": "उडीद",
+    "hi": "उड़द"
+   },
+   "names": {
+    "en": [
+     "urad",
+     "urd",
+     "urdbean",
+     "black gram",
+     "blackgram"
+    ],
+    "mr": [
+     "उडीद",
+     "उडदा"
+    ],
+    "hi": [
+     "उड़द",
+     "उडद"
+    ]
+   },
+   "ai_written": true,
+   "sections": [
+    {
+     "key": "sowing",
+     "items": [
+      {
+       "id": "urad-sowing-1",
+       "labels": {
+        "en": "Rainfed sowing window: 15 June to 30 June. If the monsoon is 4 weeks late (9-15 July), avoid sowing urad and moong.",
+        "mr": "कोरडवाहू पेरणीचा कालावधी: १५ जून ते ३० जून. मान्सून ४ आठवडे उशिरा (९-१५ जुलै) आल्यास उडीद व मुगाची पेरणी टाळा.",
+        "hi": "बारानी बुवाई का समय: 15 जून से 30 जून। मानसून 4 सप्ताह देर (9-15 जुलाई) हो तो उड़द और मूंग की बुवाई न करें।"
+       },
+       "source": "CRIDA-AKL, 1.12 sowing window; 2.1.1 delay by 4 weeks",
+       "source_keys": [
+        "CRIDA-AKL"
+       ],
+       "quote": "Kharif- Rainfed 15 th June – 30 th June … Delay by 4 weeks 28 th wk 9-15 th July … Avoid sowing of Greengram and Blackgram."
+      },
+      {
+       "id": "urad-sowing-2",
+       "labels": {
+        "en": "Intercrop urad in cotton (1:1 rows) and bury the urad residues in the soil after harvest.",
+        "mr": "कापसात उडदाचे आंतरपीक (१:१ ओळी) घ्या आणि काढणीनंतर उडदाचे अवशेष जमिनीत गाडा.",
+        "hi": "कपास में उड़द की अंतरफसल (1:1 कतारें) लें और कटाई के बाद उड़द के अवशेष मिट्टी में दबाएँ।"
+       },
+       "source": "PDKV-R22, Soil science no. 16",
+       "source_keys": [
+        "PDKV-R22"
+       ],
+       "quote": "Intercropping of Bt. cotton + greengram / blackgram (1:1) … burying of crop residues of greengram and blackgram after harvest"
+      }
+     ]
+    },
+    {
+     "key": "varieties",
+     "items": [
+      {
+       "id": "urad-varieties-1",
+       "labels": {
+        "en": "TAU 1 is the Dr. PDKV black gram variety in wide use; seed is in demand.",
+        "mr": "TAU 1 हा डॉ. पंदेकृविचा प्रचलित उडीद वाण आहे; त्याच्या बियाण्याला मागणी आहे.",
+        "hi": "TAU 1 डॉ. पीडीकेवी की प्रचलित उड़द किस्म है; इसके बीज की माँग है।"
+       },
+       "source": "PDKV-R21, Agricultural economics no. 32",
+       "source_keys": [
+        "PDKV-R21"
+       ],
+       "quote": "TAU 1 variety of black gram released by Dr. PDKV, Akola. Considering the farmers demand for seed of Kopergaon & TAU 1 variet y, it is need to increase the seed production."
+      }
+     ]
+    },
+    {
+     "key": "seed",
+     "items": [
+      {
+       "id": "urad-seed-1",
+       "labels": {
+        "en": "Treat the seed with the Rhizobium strain WUR-12-1 before sowing, and with PSB, thiram with carbendazim, and Trichoderma. (follow expert advice)",
+        "mr": "पेरणीपूर्वी बियाण्याला रायझोबियम WUR-12-1 तसेच पीएसबी, थायरम व कार्बेन्डाझिम आणि ट्रायकोडर्मा यांची बीजप्रक्रिया करा. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "बुवाई से पहले बीज को राइजोबियम WUR-12-1 तथा पीएसबी, थाइरम व कार्बेन्डाजिम और ट्राइकोडर्मा से उपचारित करें। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "PDKV-R17, Plant pathology no. 31; CRIDA-AKL, 2.1.1 black gram",
+       "source_keys": [
+        "PDKV-R17",
+        "CRIDA-AKL"
+       ],
+       "quote": "Before sowing of Urdbean, seed treatment of Rhizobium WUR-12-1 … Black gram No Change Normal recommended Package of Practices by Dr. PDKV, Akola Seed Treatment with Rhizobium + PSB (250gm each /10Kg seed + Thiram 3 gm+ Carbendazim 1 gm + Trichoderma 4 gm/Kg of seed"
+      }
+     ]
+    },
+    {
+     "key": "protection",
+     "items": [
+      {
+       "id": "urad-protection-1",
+       "labels": {
+        "en": "Powdery mildew after unseasonal rain: as for moong, penconazole or wettable sulphur. (follow expert advice)",
+        "mr": "अवकाळी पावसानंतर भुरी रोग: मुगाप्रमाणे पेनकोनाझोल किंवा पाण्यात मिसळणारे गंधक. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "बेमौसम बारिश के बाद चूर्णिल आसिता: मूंग की तरह पेनकोनाज़ोल या घुलनशील गंधक। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "CRIDA-AKL, 2.2 pests and diseases due to unseasonable rains (black gram: -do-)",
+       "source_keys": [
+        "CRIDA-AKL"
+       ],
+       "quote": "Green gram To control Powdery mildew penconozol 5 ml or dinocap 10 ml or triadomorph 5 ml or sulphur spray @ 30 g/10 lit. of water. … Black gram -do- -do-",
+       "omitted": [
+        "dinocap",
+        "tridemorph"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "crop": "mustard",
+   "labels": {
+    "en": "Mustard",
+    "mr": "मोहरी",
+    "hi": "सरसों"
+   },
+   "names": {
+    "en": [
+     "mustard",
+     "rapeseed"
+    ],
+    "mr": [
+     "मोहरी"
+    ],
+    "hi": [
+     "सरसों"
+    ]
+   },
+   "ai_written": true,
+   "sections": [
+    {
+     "key": "land",
+     "items": [
+      {
+       "id": "mustard-land-1",
+       "labels": {
+        "en": "Mustard fits well as the second, rabi crop after soybean in Vidarbha; it needs less irrigation and fewer inputs, and wild animals and stray cattle damage it little.",
+        "mr": "विदर्भात सोयाबीननंतर दुसरे, रब्बी पीक म्हणून मोहरी चांगली बसते; तिला कमी पाणी व कमी निविष्ठा लागतात आणि वन्य प्राणी व मोकाट जनावरे तिचे कमी नुकसान करतात.",
+        "hi": "विदर्भ में सोयाबीन के बाद दूसरी, रबी फसल के रूप में सरसों अच्छी बैठती है; इसे कम सिंचाई और कम आदान चाहिए, और जंगली जानवर व आवारा पशु इसे कम नुकसान करते हैं।"
+       },
+       "source": "PDKV-LM, About project",
+       "source_keys": [
+        "PDKV-LM"
+       ],
+       "quote": "In Vidarbha it offers a good scope for diversification of cropping pattern in rabi season, as it requires less irrigation and other inputs for production. With the introduction of soybean as a major kharif crops in Vidarbha, mustard fit well in cropping as second crop in rabi after soybean. And also due to presence of pungency smell in mustard plant, this crop is very less damage by the wild animals and stray cattle."
+      }
+     ]
+    },
+    {
+     "key": "sowing",
+     "items": [
+      {
+       "id": "mustard-sowing-1",
+       "labels": {
+        "en": "TAM-108-1: sow from 15 October to 15 November at 45 x 10 cm. ACN-9: rainfed in the last week of October, irrigated in the first week of November.",
+        "mr": "TAM-108-1: १५ ऑक्टोबर ते १५ नोव्हेंबर दरम्यान ४५ x १० सें.मी. अंतरावर पेरणी. ACN-9: कोरडवाहू ऑक्टोबरच्या शेवटच्या आठवड्यात, बागायती नोव्हेंबरच्या पहिल्या आठवड्यात.",
+        "hi": "TAM-108-1: 15 अक्टूबर से 15 नवंबर के बीच 45 x 10 सें.मी. पर बुवाई। ACN-9: बारानी अक्टूबर के अंतिम सप्ताह में, सिंचित नवंबर के पहले सप्ताह में।"
+       },
+       "source": "PDKV-LM, Variety TAM-108-1 and ACN-9",
+       "source_keys": [
+        "PDKV-LM"
+       ],
+       "quote": "Variety : ACN -9 … Rainfed – Last week of October Irrigated – First week of November … Variety : TAM-108-1 … 15 October – 15 November … Spacing 45 x 10 cm"
+      },
+      {
+       "id": "mustard-sowing-2",
+       "labels": {
+        "en": "Irrigated mustard GM-3: sow in the second fortnight of October (15 to 25 October) at 45 x 15 cm.",
+        "mr": "बागायती मोहरी GM-3: ऑक्टोबरच्या दुसऱ्या पंधरवड्यात (१५ ते २५ ऑक्टोबर) ४५ x १५ सें.मी. अंतरावर पेरणी करा.",
+        "hi": "सिंचित सरसों GM-3: अक्टूबर के दूसरे पखवाड़े (15 से 25 अक्टूबर) में 45 x 15 सें.मी. पर बुवाई करें।"
+       },
+       "source": "PDKV-LM, Mustard agronomy no. 5",
+       "source_keys": [
+        "PDKV-LM"
+       ],
+       "quote": "For more yield and higher economic returns of irrigated mustard GM-3, sowing in the second fortnight of October (from 15 to 25 October) at 45 x 15 cm geometry is recommended"
+      },
+      {
+       "id": "mustard-sowing-3",
+       "labels": {
+        "en": "Intercrops: wheat + mustard (9:1); gram + mustard (6:1 or 5:2).",
+        "mr": "आंतरपिके: गहू + मोहरी (९:१); हरभरा + मोहरी (६:१ किंवा ५:२).",
+        "hi": "अंतरफसलें: गेहूँ + सरसों (9:1); चना + सरसों (6:1 या 5:2)।"
+       },
+       "source": "PDKV-LM, Mustard agronomy no. 1; PDKV-R24, Agronomy no. 11",
+       "source_keys": [
+        "PDKV-LM",
+        "PDKV-R24"
+       ],
+       "quote": "Intercropping of wheat + mustard (9:1) proved more remunerative than their sole crops. … Intercropping of Chickpea + Mustard (6:1) or Chickpea + Mustard (5:2) is recommended"
+      }
+     ]
+    },
+    {
+     "key": "varieties",
+     "items": [
+      {
+       "id": "mustard-varieties-1",
+       "labels": {
+        "en": "TAM-108-1 (Dr. PDKV, 2019): 100-110 days, moderately resistant to aphid. ACN-9 (2005): early, 95-105 days.",
+        "mr": "TAM-108-1 (डॉ. पंदेकृवि, २०१९): १००-११० दिवस, माव्याला मध्यम प्रतिकारक. ACN-9 (२००५): लवकर येणारा, ९५-१०५ दिवस.",
+        "hi": "TAM-108-1 (डॉ. पीडीकेवी, 2019): 100-110 दिन, माहू के प्रति मध्यम प्रतिरोधी। ACN-9 (2005): जल्दी पकने वाली, 95-105 दिन।"
+       },
+       "source": "PDKV-LM, Variety TAM-108-1 and ACN-9",
+       "source_keys": [
+        "PDKV-LM"
+       ],
+       "quote": "Variety : ACN -9 Year of Identification 2005 … Duration Average 98 days (95-105 days) Maturity Group Early … Variety : TAM-108-1 Year of Identification 2019 … Duration Average 101 days (100-110 days) Reaction of Major Pest/Diseases Moderately resistant to Aphid"
+      },
+      {
+       "id": "mustard-varieties-2",
+       "labels": {
+        "en": "PDKV Kartik (ACN 237): tolerates terminal heat; aphid and powdery mildew reaction comparable with the check varieties.",
+        "mr": "PDKV कार्तिक (ACN 237): पीक काढणीच्या काळातील उष्णता सहन करणारा; मावा व भुरी रोगाबाबत तुलनात्मक वाणांइतका.",
+        "hi": "PDKV कार्तिक (ACN 237): फसल के अंतिम दौर की गर्मी सहनशील; माहू और चूर्णिल आसिता में तुलनात्मक किस्मों के बराबर।"
+       },
+       "source": "PDKV-R25, Plant breeding no. 3; PDKV-R24, released varieties no. 3",
+       "source_keys": [
+        "PDKV-R25",
+        "PDKV-R24"
+       ],
+       "quote": "Mustard genotypes ACN 226 and ACN 237 (PDKV Kartik) are terminal heat tolerant genotypes … Comparable with checks for Aphid and Powdery Mildew Reaction."
+      }
+     ]
+    },
+    {
+     "key": "seed",
+     "items": [
+      {
+       "id": "mustard-seed-1",
+       "labels": {
+        "en": "Seed rate: ACN-9 4-5 kg per hectare, TAM-108-1 5 kg per hectare.",
+        "mr": "बियाणे: ACN-9 हेक्टरी ४-५ किलो, TAM-108-1 हेक्टरी ५ किलो.",
+        "hi": "बीज दर: ACN-9 के लिए 4-5 किलो प्रति हेक्टेयर, TAM-108-1 के लिए 5 किलो प्रति हेक्टेयर।"
+       },
+       "source": "PDKV-LM, Variety ACN-9 and TAM-108-1",
+       "source_keys": [
+        "PDKV-LM"
+       ],
+       "quote": "ACN -9 … Seed Rate 4-5 kg/ha … TAM-108-1 … Seed Rate 5 kg/ha"
+      }
+     ]
+    },
+    {
+     "key": "nutrition",
+     "items": [
+      {
+       "id": "mustard-nutrition-1",
+       "labels": {
+        "en": "Dryland mustard: a urea spray when half the crop is in flower, along with the recommended fertiliser. (follow expert advice)",
+        "mr": "कोरडवाहू मोहरी: शिफारशीत खतांसोबत, पीक निम्मे फुलोऱ्यात असताना युरियाची फवारणी. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "बारानी सरसों: अनुशंसित खाद के साथ, आधी फसल में फूल आने पर यूरिया का छिड़काव। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "PDKV-LM, Mustard agronomy no. 3",
+       "source_keys": [
+        "PDKV-LM"
+       ],
+       "quote": "For more production and financial returns of dry-land mustard, 1 percent urea should be sprayed at 50 percent flowering stage along with the recommended dose of fertilizer."
+      }
+     ]
+    },
+    {
+     "key": "water",
+     "items": [
+      {
+       "id": "mustard-water-1",
+       "labels": {
+        "en": "Irrigated mustard: irrigate at 20, 40 and 55 days after sowing.",
+        "mr": "बागायती मोहरी: पेरणीनंतर २०, ४० व ५५ दिवसांनी पाणी द्या.",
+        "hi": "सिंचित सरसों: बुवाई के 20, 40 और 55 दिन बाद सिंचाई करें।"
+       },
+       "source": "PDKV-R17, Agronomy no. 9 (also PDKV-LM, Mustard agronomy no. 4)",
+       "source_keys": [
+        "PDKV-R17",
+        "PDKV-LM"
+       ],
+       "quote": "irrigated mustard, irrigation at 0.8 IW/CPE ratio (w ith 50 mm irrigation depth, irrigation at 20, 40 and 55 DAS) is recommended."
+      }
+     ]
+    },
+    {
+     "key": "intercultivation",
+     "items": [
+      {
+       "id": "mustard-intercultivation-1",
+       "labels": {
+        "en": "Weed control: 2 hand weedings and 2 hoeings at 20 and 40 days after sowing.",
+        "mr": "तण नियंत्रण: पेरणीनंतर २० व ४० दिवसांनी २ खुरपण्या व २ कोळपण्या.",
+        "hi": "खरपतवार नियंत्रण: बुवाई के 20 और 40 दिन बाद 2 निराई और 2 गुड़ाई।"
+       },
+       "source": "PDKV-LM, Mustard agronomy no. 2",
+       "source_keys": [
+        "PDKV-LM"
+       ],
+       "quote": "For effective weed control, more yield and more economic return in mustard, 2 weeding and 2 hoeing at 20 and 40 DAS"
+      },
+      {
+       "id": "mustard-intercultivation-2",
+       "labels": {
+        "en": "Or a pre-emergence herbicide: oxadiargyl or pendimethalin. (follow expert advice)",
+        "mr": "किंवा उगवणपूर्व तणनाशक: ऑक्सडायर्जिल किंवा पेंडिमेथालिन. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "या अंकुरण-पूर्व खरपतवारनाशी: ऑक्साडायर्जिल या पेंडीमेथालिन। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "PDKV-LM, Mustard agronomy no. 2",
+       "source_keys": [
+        "PDKV-LM"
+       ],
+       "quote": "or pre-emergence application of herbicide Oxadiargyl (80 WP) @ 90. g a.i. ha-1 or Pendimethalin (30 EC) @ 1.0 kg a.i. ha-1 is recommended."
+      }
+     ]
+    },
+    {
+     "key": "protection",
+     "items": [
+      {
+       "id": "mustard-protection-1",
+       "labels": {
+        "en": "For higher yield, a salicylic acid spray at flowering and at siliqua formation. (follow expert advice)",
+        "mr": "जास्त उत्पादनासाठी फुलोऱ्यात व शेंगा (सिलिक्वा) धरताना सॅलिसिलिक अॅसिडची फवारणी. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "अधिक उपज के लिए फूल आने और फली (सिलिक्वा) बनने पर सैलिसिलिक एसिड का छिड़काव। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "PDKV-LM, Mustard agronomy no. 6; PDKV-R20, Agronomy no. 8",
+       "source_keys": [
+        "PDKV-LM",
+        "PDKV-R20"
+       ],
+       "quote": "Spraying of Salicylic acid @ 200 ppm (2 g in 10 liter of water) at flowering and siliqua formation stage is recommended for higher yield of mustard and economic returns."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "crop": "linseed",
+   "labels": {
+    "en": "Linseed",
+    "mr": "जवस",
+    "hi": "अलसी"
+   },
+   "names": {
+    "en": [
+     "linseed",
+     "flaxseed",
+     "flax"
+    ],
+    "mr": [
+     "जवस"
+    ],
+    "hi": [
+     "अलसी"
+    ]
+   },
+   "ai_written": true,
+   "sections": [
+    {
+     "key": "sowing",
+     "items": [
+      {
+       "id": "linseed-sowing-1",
+       "labels": {
+        "en": "NL-97 and PKV NL-260: rainfed in the last week of October, irrigated in the first week of November, rows 30 cm apart.",
+        "mr": "NL-97 व PKV NL-260: कोरडवाहू ऑक्टोबरच्या शेवटच्या आठवड्यात, बागायती नोव्हेंबरच्या पहिल्या आठवड्यात, दोन ओळींत ३० सें.मी. अंतर.",
+        "hi": "NL-97 और PKV NL-260: बारानी अक्टूबर के अंतिम सप्ताह में, सिंचित नवंबर के पहले सप्ताह में, कतारों में 30 सें.मी. दूरी।"
+       },
+       "source": "PDKV-LM, Variety NL-97 and PKV NL-260",
+       "source_keys": [
+        "PDKV-LM"
+       ],
+       "quote": "Variety : NL-97 … Rainfed – Last week of October Irrigated – First week of November … Spacing 30 cm row to row distance … Variety : PKV NL-260"
+      },
+      {
+       "id": "linseed-sowing-2",
+       "labels": {
+        "en": "Eastern Vidarbha: sow on broad bed and furrow during 12-25 November. After paddy, sow with zero tillage instead of broadcasting.",
+        "mr": "पूर्व विदर्भ: १२-२५ नोव्हेंबर दरम्यान रुंद सरी वरंबा पद्धतीने पेरणी करा. भातानंतर फेकून पेरण्याऐवजी शून्य मशागत पद्धतीने पेरा.",
+        "hi": "पूर्वी विदर्भ: 12-25 नवंबर के बीच चौड़ी क्यारी-नाली (BBF) पर बुवाई करें। धान के बाद छिटकवाँ की जगह शून्य जुताई से बोएँ।"
+       },
+       "source": "PDKV-R25, Agronomy no. 9; PDKV-R22, Agronomy no. 5",
+       "source_keys": [
+        "PDKV-R25",
+        "PDKV-R22"
+       ],
+       "quote": "sowing of linseed on Broad Bed Furrow during 12-25 November (46th to 47th Meteorological Week) is recommended in Eastern Vidarbha. … After harvesting of paddy crop, sowing of linseed with zero tillage method instead of broadcasting is recommended."
+      },
+      {
+       "id": "linseed-sowing-3",
+       "labels": {
+        "en": "Sole linseed or linseed + gram intercrop (4:2) with PKV NL-260; the 4:2 linseed + gram intercrop also lowers bud fly attack.",
+        "mr": "PKV NL-260 वाणासह एकटे जवस किंवा जवस + हरभरा आंतरपीक (४:२); जवस + हरभरा (४:२) आंतरपिकामुळे कळीमाशीचा प्रादुर्भावही कमी होतो.",
+        "hi": "PKV NL-260 के साथ अकेली अलसी या अलसी + चना अंतरफसल (4:2); अलसी + चना (4:2) अंतरफसल से कली मक्खी का प्रकोप भी घटता है।"
+       },
+       "source": "PDKV-LM, Crop production no. 2; Plant protection no. 4",
+       "source_keys": [
+        "PDKV-LM"
+       ],
+       "quote": "it is recommended to grow Linseed variety (PKV NL-260) as sole crop or as intercrop in Chickpea + Linseed (4:2) intercropping system. … Intercropping of linseed + Chickpea at 4:2 row proportion is recommended for more linseed equivalent yield (LEY) and higher economic returns by minimizing bud fly infestation"
+      }
+     ]
+    },
+    {
+     "key": "varieties",
+     "items": [
+      {
+       "id": "linseed-varieties-1",
+       "labels": {
+        "en": "PKV NL-260 (2009): 97-111 days, blue flowers, moderately resistant to Alternaria, powdery mildew and bud fly. NL-97 (1999): same resistance.",
+        "mr": "PKV NL-260 (२००९): ९७-१११ दिवस, निळी फुले, अल्टरनेरिया, भुरी व कळीमाशी यांना मध्यम प्रतिकारक. NL-97 (१९९९): तशीच प्रतिकारशक्ती.",
+        "hi": "PKV NL-260 (2009): 97-111 दिन, नीले फूल, अल्टरनेरिया, चूर्णिल आसिता और कली मक्खी के प्रति मध्यम प्रतिरोधी। NL-97 (1999): वैसी ही प्रतिरोधकता।"
+       },
+       "source": "PDKV-LM, Variety PKV NL-260 and NL-97",
+       "source_keys": [
+        "PDKV-LM"
+       ],
+       "quote": "Variety : NL-97 Year of Identification 1999 … Moderately resistant to Alterneria, powdery mildew and bud fly. … Variety : PKV NL-260 Year of Identification 2009 … Flower Blue color Duration Average 105 days (97-111days) Maturity Group Medium Reaction of Major Pest/Diseases Moderately resistant to Alterneria, powdery mildew and bud fly."
+      },
+      {
+       "id": "linseed-varieties-2",
+       "labels": {
+        "en": "PDKV Sharda (PDKV ANAL 371): moderately resistant to linseed bud fly and wilt.",
+        "mr": "PDKV शारदा (PDKV ANAL 371): जवसावरील कळीमाशी व मर रोगाला मध्यम प्रतिकारक.",
+        "hi": "PDKV शारदा (PDKV ANAL 371): अलसी कली मक्खी और उकठा के प्रति मध्यम प्रतिरोधी।"
+       },
+       "source": "PDKV-R25, released varieties no. 6",
+       "source_keys": [
+        "PDKV-R25"
+       ],
+       "quote": "Linseed: PDKV Sharda (PDKV ANAL 371) Yield: of 1019 Kg/ha. Oil content: 37.5%. Moderate resistance to linseed bud fly and wilt."
+      }
+     ]
+    },
+    {
+     "key": "seed",
+     "items": [
+      {
+       "id": "linseed-seed-1",
+       "labels": {
+        "en": "Seed rate: NL-97 12-15 kg per hectare, PKV NL-260 25 kg per hectare; irrigated linseed 15 kg per hectare at 30 cm.",
+        "mr": "बियाणे: NL-97 हेक्टरी १२-१५ किलो, PKV NL-260 हेक्टरी २५ किलो; बागायती जवस हेक्टरी १५ किलो, ३० सें.मी. अंतरावर.",
+        "hi": "बीज दर: NL-97 के लिए 12-15 किलो प्रति हेक्टेयर, PKV NL-260 के लिए 25 किलो प्रति हेक्टेयर; सिंचित अलसी 15 किलो प्रति हेक्टेयर, 30 सें.मी. पर।"
+       },
+       "source": "PDKV-LM, Variety NL-97 and PKV NL-260; PDKV-R22, Agronomy no. 5",
+       "source_keys": [
+        "PDKV-LM",
+        "PDKV-R22"
+       ],
+       "quote": "Variety : NL-97 … Seed Rate 12-15 kg/ha … Variety : PKV NL-260 … Seed Rate 25 kg/ha … irrigated condition, seed rate of 15 kg per hectare at 30 cm spacing is recommended."
+      }
+     ]
+    },
+    {
+     "key": "nutrition",
+     "items": [
+      {
+       "id": "linseed-nutrition-1",
+       "labels": {
+        "en": "Zinc and boron deficient soils: a foliar spray of zinc sulphate with borax at 45 days after sowing, along with the recommended fertiliser. (follow expert advice)",
+        "mr": "जस्त व बोरॉनची कमतरता असलेल्या जमिनीत: शिफारशीत खतासोबत पेरणीनंतर ४५ दिवसांनी झिंक सल्फेट व बोरॅक्सची फवारणी. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "जिंक और बोरॉन की कमी वाली मिट्टी में: अनुशंसित खाद के साथ बुवाई के 45 दिन बाद जिंक सल्फेट और बोरेक्स का छिड़काव। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "PDKV-LM, Crop production no. 5",
+       "source_keys": [
+        "PDKV-LM"
+       ],
+       "quote": "In Zinc and boron deficient soils for obtaining higher seed yield at economic returns of linseed crop along with recommended dose of fertilizer 60:30:00 NPK per ha foliar application of zinc sulphate @ 0.5 % (5g per lit of water) + borax @ 0.3 % (3g/ lit of water) at 45 DAS is recommended."
+      },
+      {
+       "id": "linseed-nutrition-2",
+       "labels": {
+        "en": "Soybean-linseed double cropping: Azotobacter and PSB seed inoculation for linseed lets part of the fertiliser be saved. (follow expert advice)",
+        "mr": "सोयाबीन-जवस दुबार पीक पद्धत: जवसाला अॅझोटोबॅक्टर व पीएसबीची बीजप्रक्रिया केल्यास खताचा काही भाग वाचतो. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "सोयाबीन-अलसी दोहरी फसल: अलसी के बीज को एजोटोबैक्टर और पीएसबी से उपचारित करने पर खाद का कुछ भाग बचता है। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "PDKV-LM, Crop production no. 3",
+       "source_keys": [
+        "PDKV-LM"
+       ],
+       "quote": "In Soybean-Linseed double cropping system, to maintain soil health through integrated nutrient management as well as to get more and at par yield and economic return with that of 100% RDF application of 75% recommended dose of fertilizer to both the crops … Azotobactor (25 g/kg seed) to Linseed and PSB (20 g/kg seed) to both the crops is recommended."
+      }
+     ]
+    },
+    {
+     "key": "water",
+     "items": [
+      {
+       "id": "linseed-water-1",
+       "labels": {
+        "en": "Utera linseed (sown in standing paddy): irrigate twice, at a 25-30 day interval, after the paddy harvest.",
+        "mr": "उतेरा जवस (उभ्या भातात पेरलेला): भात काढणीनंतर २५-३० दिवसांच्या अंतराने दोन वेळा पाणी द्या.",
+        "hi": "उतेरा अलसी (खड़े धान में बोई): धान कटाई के बाद 25-30 दिन के अंतर पर दो बार सिंचाई करें।"
+       },
+       "source": "PDKV-LM, Crop production no. 4",
+       "source_keys": [
+        "PDKV-LM"
+       ],
+       "quote": "In Utera linseed, for getting more yield and economic returns, it is recommended to irrigate it twice at 25-30 day interval after paddy harvest"
+      }
+     ]
+    },
+    {
+     "key": "intercultivation",
+     "items": [
+      {
+       "id": "linseed-intercultivation-1",
+       "labels": {
+        "en": "Weeds: post-emergence clodinafop + metsulfuron methyl at the 2-3 leaf stage of the weeds (20-25 days after sowing). (follow expert advice)",
+        "mr": "तण: तण २-३ पानांच्या अवस्थेत (पेरणीनंतर २०-२५ दिवसांनी) उगवणीपश्चात क्लोडिनाफॉप + मेटसल्फ्युरॉन मिथाईल. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "खरपतवार: खरपतवार की 2-3 पत्ती अवस्था में (बुवाई के 20-25 दिन बाद) अंकुरण-पश्चात क्लोडिनाफॉप + मेटसल्फ्यूरॉन मिथाइल। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "PDKV-LM, Crop production no. 7",
+       "source_keys": [
+        "PDKV-LM"
+       ],
+       "quote": "application of post emergence herbicide Clodinafop + Metsulfuron methyl @ 0.06 + 0.004 Kg a.i./ha (400g/ha) at 2-3 leaf stage of weed (20-25 DAS) is found better."
+      }
+     ]
+    },
+    {
+     "key": "protection",
+     "items": [
+      {
+       "id": "linseed-protection-1",
+       "labels": {
+        "en": "Bud fly action level: 8.77 per cent of buds infested.",
+        "mr": "कळीमाशीची आर्थिक नुकसान पातळी: ८.७७ टक्के कळ्या प्रादुर्भावग्रस्त.",
+        "hi": "कली मक्खी का आर्थिक क्षति स्तर: 8.77 प्रतिशत कलियाँ ग्रसित।"
+       },
+       "source": "PDKV-LM, Plant protection no. 1",
+       "source_keys": [
+        "PDKV-LM"
+       ],
+       "quote": "The economic threshold level of 8.77 per cent bud fly infestation is recommended for the management of linseed bud fly"
+      },
+      {
+       "id": "linseed-protection-2",
+       "labels": {
+        "en": "Bud fly: two sprays a fortnight apart from bud initiation of azadirachtin, acetamiprid or imidacloprid; or PDKV Dashparni extract twice, 10 days apart. (follow expert advice)",
+        "mr": "कळीमाशी: कळी येण्यापासून पंधरवड्याच्या अंतराने अॅझाडिरॅक्टिन, अॅसिटामिप्रिड किंवा इमिडाक्लोप्रिडच्या दोन फवारण्या; किंवा PDKV दशपर्णी अर्क दोन वेळा, १० दिवसांच्या अंतराने. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "कली मक्खी: कली आने से पखवाड़े के अंतर पर एज़ाडिरैक्टिन, एसिटामिप्रिड या इमिडाक्लोप्रिड के दो छिड़काव; या PDKV दशपर्णी अर्क दो बार, 10 दिन के अंतर पर। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "PDKV-LM, Plant protection no. 2; PDKV-R25, Entomology no. 36",
+       "source_keys": [
+        "PDKV-LM",
+        "PDKV-R25"
+       ],
+       "quote": "Two fortnightly sprays of Azadirachtin 300 ppm @ 5 ml/lit or Acetamiprid 20 SP @ 0.004% (0.2 g/lit) or Imidacloprid 17.8 SL @ 0.0045% (0.2 ml/lit) starting from bud initiation is recommended for the effective management of linseed bud fly … at 10 days interval from bud initiation stage is recommended"
+      },
+      {
+       "id": "linseed-protection-3",
+       "labels": {
+        "en": "Powdery mildew: two sprays of propiconazole, difenoconazole, wettable sulphur or hexaconazole, the first when the disease starts and the second 15 days later. (follow expert advice)",
+        "mr": "भुरी रोग: प्रोपिकोनाझोल, डायफेनोकोनाझोल, पाण्यात मिसळणारे गंधक किंवा हेक्झाकोनाझोल यांच्या दोन फवारण्या, पहिली रोग दिसताच व दुसरी १५ दिवसांनी. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "चूर्णिल आसिता: प्रोपिकोनाज़ोल, डाइफेनोकोनाज़ोल, घुलनशील गंधक या हेक्साकोनाज़ोल के दो छिड़काव, पहला रोग दिखते ही और दूसरा 15 दिन बाद। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "PDKV-LM, Plant protection no. 3",
+       "source_keys": [
+        "PDKV-LM"
+       ],
+       "quote": "For control of powdery mildew of linseed two sprays of Propiconazole (0.1%) or Difenconazole (0.05%) or wettable sulphur (0.25 %) or Quintal (0.1 %) or Hexaconazole (0.1%) one at disease initiation and second 15 days later is recommended."
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

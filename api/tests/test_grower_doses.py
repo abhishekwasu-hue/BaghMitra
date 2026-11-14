@@ -33,7 +33,9 @@ LANGS = ("en", "mr", "hi")
 _NOT_TEXT = frozenset(
     {"_note", "note", "source", "source_keys", "sources", "src", "evidence", "url", "quote",
      "read", "checked", "id", "k", "p", "t", "sec", "s", "key", "slug", "figure", "kb_topic",
-     "label_target", "preparation", "publisher", "title_en"}
+     "label_target", "preparation", "publisher", "title_en",
+     # Crop guides (Q161): banned names a source listed, kept for audit and never shown.
+     "omitted"}
 )  # fmt: skip
 
 
@@ -124,7 +126,17 @@ def _qa_lines() -> Iterator[tuple[str, dict[str, str]]]:
             yield f"{e['id']}[{i}]", {lang: e["a"][lang][i] for lang in LANGS}
 
 
-@pytest.mark.parametrize("lines", [_practice_lines, _qa_lines], ids=["practice", "qa"])
+def _guide_lines() -> Iterator[tuple[str, dict[str, str]]]:
+    """Crop guides (पीक मार्गदर्शक, Q161): every line of every crop."""
+    for c in _load(CONFIG / "crop_guides.json")["crops"]:
+        for s in c["sections"]:
+            for item in s["items"]:
+                yield item["id"], item["labels"]
+
+
+@pytest.mark.parametrize(
+    "lines", [_practice_lines, _qa_lines, _guide_lines], ids=["practice", "qa", "crop-guides"]
+)
 def test_every_input_recommendation_carries_the_note(lines: Any) -> None:
     missing = []
     noted = 0
@@ -137,6 +149,33 @@ def test_every_input_recommendation_carries_the_note(lines: Any) -> None:
                 missing.append((where, lang, labels[lang]))
     assert noted > 20
     assert missing == []
+
+
+def test_crop_guide_input_lines_carry_the_note_and_name_nothing_banned_for_their_crop() -> None:
+    """Crop guides (Q161): a line marked `input` ends with the note in every language, and no
+    ingredient banned, or restricted for that crop (its crops.json aliases and groups), is
+    named in any language."""
+    rows = json.loads(
+        resources.files("bagmitra_api.kb.seed_data").joinpath("restrictions.json").read_text()
+    )["restrictions"]
+    crops = {c["slug"]: c for c in _load(CONFIG / "crops.json")["crops"]}
+    guides = _load(CONFIG / "crop_guides.json")["crops"]
+    assert len(guides) >= 8
+    problems: list[tuple[str, str, str]] = []
+    for guide in guides:
+        crop = crops[guide["crop"]]
+        banned = dose_rules.banned_names(
+            rows, crop.get("label_aliases", []), crop.get("groups", [])
+        )
+        for s in guide["sections"]:
+            for item in s["items"]:
+                for lang in LANGS:
+                    text = item["labels"][lang]
+                    if item.get("input") and not text.endswith(dose_rules.NOTE[lang]):
+                        problems.append((item["id"], lang, "no note"))
+                    if named := dose_rules.names_banned(text, banned):
+                        problems.append((item["id"], lang, ", ".join(named)))
+    assert problems == []
 
 
 def test_every_bio_option_and_preparation_is_noted() -> None:

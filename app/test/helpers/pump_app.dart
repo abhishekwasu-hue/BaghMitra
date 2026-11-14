@@ -12,6 +12,7 @@ import 'package:bagmitra/features/auth/data/demo_auth_repository.dart';
 import 'package:bagmitra/features/auth/domain/auth.dart';
 import 'package:bagmitra/features/bahar/data/bahar_catalog.dart';
 import 'package:bagmitra/features/bahar/data/stage_templates.dart';
+import 'package:bagmitra/features/crop_guides/data/crop_guides.dart';
 import 'package:bagmitra/features/directory/data/directory_config.dart';
 import 'package:bagmitra/features/export/data/file_sharer.dart';
 import 'package:bagmitra/features/field_work/data/field_work_options.dart';
@@ -233,6 +234,9 @@ Future<AppDatabase> pumpApp(
         ),
         practiceCardsConfigProvider.overrideWithValue(
           PracticeCardsConfig(bundle: FileAssetBundle()),
+        ),
+        cropGuidesConfigProvider.overrideWithValue(
+          CropGuidesConfig(bundle: FileAssetBundle()),
         ),
         // Widget tests read the seed fixture, not the shipped (generated) asset.
         qaKbConfigProvider.overrideWithValue(

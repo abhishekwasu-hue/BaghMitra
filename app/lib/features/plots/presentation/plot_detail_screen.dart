@@ -107,7 +107,11 @@ class PlotDetailScreen extends ConsumerWidget {
               PlotWeatherCard(plotId: plot.id),
             ],
             const SizedBox(height: BmSpace.lg),
-            PlotTiles(plotId: plot.id, citrus: plot.hasCitrusFeatures),
+            PlotTiles(
+              plotId: plot.id,
+              citrus: plot.hasCitrusFeatures,
+              crop: plot.crop,
+            ),
           ],
         ),
       ),
@@ -117,18 +121,37 @@ class PlotDetailScreen extends ConsumerWidget {
 
 /// The way into a block's records: Bahar as the one primary tile, then a two-column grid
 /// of labelled tiles, one per screen, each opened with one tap. A crop other than santra /
-/// mosambi has the records only: no bahar, irrigation guide or practices (citrus content).
+/// mosambi has the records only: no bahar, irrigation guide or practices (citrus content),
+/// and, first, the crop guide (पीक मार्गदर्शक) when its crop has one (owner 2026-11-14).
 class PlotTiles extends ConsumerWidget {
-  const PlotTiles({required this.plotId, this.citrus = true, super.key});
+  const PlotTiles({
+    required this.plotId,
+    this.citrus = true,
+    this.crop,
+    super.key,
+  });
 
   final String plotId;
   final bool citrus;
+
+  /// The block's crop slug, for its crop guide.
+  final String? crop;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final t = AppLocalizations.of(context);
     final marketLink = ref.watch(appConfigProvider).marketLink;
+    final guide = citrus
+        ? null
+        : ref.watch(cropGuidesProvider).value?.forCrop(crop);
     final tiles = <_TileSpec>[
+      if (guide != null)
+        (
+          key: 'open-crop-guide',
+          icon: const Icon(Icons.menu_book_outlined),
+          label: t.cropGuideOpen,
+          route: Routes.cropGuide(guide.crop),
+        ),
       (
         key: 'open-sprays',
         icon: const GlyphIcon(BmGlyph.spray, size: 28),
