@@ -10,7 +10,8 @@ from typing import Any
 import pytest
 
 from bagmitra_api.feed.article import canonical_url, check_articles, parse_articles
-from bagmitra_api.feed.output_check import check_output
+from bagmitra_api.feed.diag_held import language_differences
+from bagmitra_api.feed.output_check import check_output, text_facts
 from tests.test_feed_article import SOURCE, URL, issues, payload
 
 
@@ -167,3 +168,140 @@ def test_a_pie_of_decimal_parts_adds_up_to_its_stated_whole() -> None:
     data = [{"label": "A", "value": 0.1}, {"label": "B", "value": 0.2}]
     pie = {"charts": [{"type": "pie", "title": "Area", "unit": "lakh ha", "data": data}]}
     assert _with(source, pie) == []
+
+
+# --- VPS 2026-11-14: "1 lakh 29 thousand" read as two amounts -------------------------------
+# diag_held, agrowon.esakal.com: the source wrote "1 लाख 29 हजार शेतकरी" (joined into 129000),
+# the English article "1 lakh 29 thousand farmers"; English parts were not joined, so en gave
+# 100000 and 29000: "amount en.sections[3] '1 lakh'", "'29 thousand'" and "languages differ".
+
+SAMBHAJINAGAR = "छत्रपती संभाजीनगर जिल्ह्यात 1 लाख 29 हजार शेतकरी कर्जमुक्त"
+EXAM_FEES = "राज्यातील दुष्काळग्रस्त तालुक्यांतील 2 लाख 40 हजार विद्यार्थ्यांचे परीक्षा शुल्क माफ"
+HAZAR_NUKTA = "हज़ार"  # हज़ार, ज + nukta sign
+HAZAR_PRECOMPOSED = "हज़ार"  # हज़ार, precomposed ज़ (U+095B)
+KAROD_PRECOMPOSED = "करोड़"  # करोड़, precomposed ड़ (U+095C)
+
+
+def _per_language(source: str, stated: dict[str, str]) -> list[str]:
+    """Issues of the sound test article with `stated[lang]` added to a section and a fact."""
+    data = payload()
+    for lang, text in stated.items():
+        article = data["lang"][lang]
+        article["sections"].append({"heading": "District", "body": text})
+        article["facts"].append({"label": "Count", "value": text})
+    return check_articles(f"{SOURCE} {source}.", parse_articles(data), source_url=URL)
+
+
+@pytest.mark.parametrize(
+    ("source", "stated"),
+    [
+        (
+            SAMBHAJINAGAR,
+            {
+                "mr": "1 लाख 29 हजार शेतकरी कर्जमुक्त",
+                "hi": f"1 लाख 29 {HAZAR_NUKTA} किसान कर्जमुक्त",
+                "en": "1 lakh 29 thousand farmers are debt-free",
+            },
+        ),
+        (
+            EXAM_FEES,
+            {
+                "mr": "२ लाख ४० हजार विद्यार्थ्यांचे शुल्क माफ",
+                "hi": f"2 लाख 40 {HAZAR_PRECOMPOSED} छात्रों की फीस माफ",
+                "en": "Exam fees of 2 lakh 40 thousand students waived",
+            },
+        ),
+    ],
+)
+def test_compound_vps_cases_pass_in_every_language(source: str, stated: dict[str, str]) -> None:
+    assert _per_language(source, stated) == []
+
+
+@pytest.mark.parametrize(
+    "en",
+    [
+        "1 lakh 29 thousand farmers",
+        "1 lakhs 29 thousand farmers",
+        "1 lac 29 thousand farmers",
+        "1.29 lakh farmers",  # the same exact value in decimal form
+        "one lakh twenty-nine thousand farmers",
+        "1 Lakh 29 Thousand farmers",
+    ],
+)
+def test_compound_english_forms_match_the_marathi_parts(en: str) -> None:
+    stated = {"mr": "1 लाख 29 हजार शेतकरी", "hi": "1 लाख 29 हजार किसान", "en": en}
+    assert _per_language(SAMBHAJINAGAR, stated) == []
+
+
+@pytest.mark.parametrize(
+    ("source", "claim"),
+    [
+        ("एकूण 88 कोटी 19 लाख रुपये वाटप", "₹88 crore 19 lakh disbursed"),
+        ("एकूण 88 कोटी 19 लाख रुपये वाटप", "Rs 88 crores 19 lakhs disbursed"),
+        ("एकूण 88 कोटी 19 लाख रुपये वाटप", f"88 {KAROD_PRECOMPOSED} 19 लाख रुपये"),
+        ("Total 88 crore 19 lakh rupees", "८८ कोटी १९ लाख रुपये"),  # English source, joined too
+        ("1 lakh 29 thousand farmers", "1 लाख 29 हजार शेतकरी"),
+        ("3 lakh 65 thousand 11 farmers", "365,011 farmers"),
+        ("1 thousand 600 animals", "1,600 animals"),
+    ],
+)
+def test_compound_english_and_hindi_parts_join_on_both_sides(source: str, claim: str) -> None:
+    assert check_output(source, {"en.body": claim}) == []
+
+
+@pytest.mark.parametrize(
+    "claim",
+    [
+        "1 lakh farmers",  # a part of the compound alone
+        "29 thousand farmers",
+        "29 farmers",
+        "1.3 lakh farmers",  # rounded
+        "1.2 lakh farmers",
+        "1 lakh 30 thousand farmers",
+        "1 lakh 2 thousand 9 farmers",
+        "129 farmers",
+    ],
+)
+def test_compound_a_partial_or_rounded_value_still_fails(claim: str) -> None:
+    assert check_output(SAMBHAJINAGAR, {"en.body": claim}) != []
+
+
+def test_compound_separate_amounts_in_the_source_do_not_vouch_for_a_compound() -> None:
+    source = "1 लाख शेतकरी आणि 29 हजार विद्यार्थी"
+    assert check_output(source, {"en.body": "1 lakh farmers and 29 thousand students"}) == []
+    assert check_output(source, {"en.body": "1 lakh 29 thousand beneficiaries"}) != []
+
+
+def test_compound_parts_in_text_facts_are_one_amount_in_every_form() -> None:
+    forms = [
+        "1 लाख 29 हजार",
+        "१ लाख २९ हजार",
+        f"1 लाख 29 {HAZAR_NUKTA}",
+        f"1 लाख 29 {HAZAR_PRECOMPOSED}",
+        "1 lakh 29 thousand",
+        "1.29 lakh",
+        "₹1,29,000",
+    ]
+    assert {f: text_facts(f).amounts for f in forms} == {f: {129000.0} for f in forms}
+
+
+def test_compound_languages_differ_only_on_a_real_difference() -> None:
+    stated = {"mr": "1 लाख 29 हजार शेतकरी", "hi": "1 लाख 29 हजार किसान"}
+    found = _per_language(SAMBHAJINAGAR, {**stated, "en": "1 lakh 30 thousand farmers"})
+    assert "languages: amounts or dates differ between mr / hi / en" in found
+    data = payload()
+    for lang, text in {**stated, "en": "1 lakh 29 thousand farmers"}.items():
+        data["lang"][lang]["facts"].append({"label": "Count", "value": text})
+    assert language_differences(parse_articles(data)) == []
+
+
+def test_compound_a_number_absent_from_the_source_is_still_held() -> None:
+    # diag_held, kept held: "number mr.sections[2] AI '2.25'"; no such digits or words in source.
+    stated = {
+        "mr": "1 लाख 29 हजार शेतकरी; दर 2.25",
+        "hi": "1 लाख 29 हजार किसान; दर 2.25",
+        "en": "1 lakh 29 thousand farmers; rate 2.25",
+    }
+    found = _per_language(SAMBHAJINAGAR, stated)
+    assert "mr.sections[3]: number '2.25' is not in the source" in found
+    assert not any("lakh" in i or "लाख" in i or "thousand" in i for i in found)
