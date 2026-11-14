@@ -12,8 +12,8 @@ which Play's metadata policy does not allow.
 
 **Before pasting, check the optional parts** (marked *[if on]* / *[if off]*; delete the markers, keep the
 lines that match the release):
-- *Sarkari Sandesh* (government notices and "Check a message") is in the release only when the Release
-  APK run used `sarkari_sandesh: on`. If it was `off`, delete those lines.
+- *Farm news* / शेतीवार्ता (build flag `SARKARI_SANDESH`; government notices and "Check a message") is in
+  the release only when the Release APK run used `sarkari_sandesh: on`. If it was `off`, delete those lines.
 - *Market prices* show data only when `MARKET_API_KEY` is set on the server (`vps-deploy.md` §४).
 - *Phone (OTP) login* is shown only when the build has `PHONE_LOGIN=true` (an SMS provider is set up in
   Supabase, `test-apk.md` §1a). If not, the sign-in line must say Google only (alternative lines below it).
@@ -71,7 +71,7 @@ MARKET
 • Mandi prices from Agmarknet (data.gov.in)
 • Markets and buyers list
 
-[if on] GOVERNMENT NOTICES (SARKARI SANDESH)
+[if on] FARM NEWS
 [if on] • Official GRs and notices for your district, checked by our team before they are shown
 [if on] • "Check a message": compare a forwarded message with the published official notices
 
@@ -142,7 +142,7 @@ BagMitra keeps your records and shows general information. It does not recommend
 • Agmarknet (data.gov.in) वरील बाजारभाव
 • बाजार व खरेदीदारांची यादी
 
-[if on] सरकारी संदेश
+[if on] शेतीवार्ता
 [if on] • तुमच्या जिल्ह्यासाठीचे अधिकृत GR व सूचना, आमच्या टीमने तपासून मगच दाखवलेले
 [if on] • "संदेश तपासा": आलेला forward संदेश प्रकाशित अधिकृत सूचनांशी जुळवून पाहा
 
@@ -213,7 +213,7 @@ BagMitra keeps your records and shows general information. It does not recommend
 • Agmarknet (data.gov.in) से मंडी भाव
 • बाज़ार और खरीदारों की सूची
 
-[if on] सरकारी संदेश
+[if on] खेती वार्ता
 [if on] • आपके ज़िले के आधिकारिक GR और सूचनाएँ, हमारी टीम की जाँच के बाद ही दिखाई जाती हैं
 [if on] • "संदेश जाँचें": आया हुआ फ़ॉरवर्ड संदेश प्रकाशित आधिकारिक सूचनाओं से मिलाकर देखें
 
