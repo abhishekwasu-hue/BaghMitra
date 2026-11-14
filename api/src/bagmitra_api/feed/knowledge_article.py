@@ -4,7 +4,7 @@ checks that decide whether one may be published.
 The model writes from ONE input only: the checked texts of our KB practice cards plus the
 passages of the open sources those cards cite, or an official scheme item's own checked text.
 Newspaper content never enters (owner: copyright). The answer is one article per language
-(mr first, hi, en) with a title, one line under it and 4-8 short sections. Sources are not
+(mr first, hi, en) with a title, one line under it and 2-8 short sections. Sources are not
 written by the model: the job attaches the cards' own source list. `check_knowledge` lists every
 reason not to publish; any number, amount or date that is not in the input holds the article.
 """
@@ -20,6 +20,7 @@ from functools import cache
 from importlib import resources
 from typing import Any
 
+from bagmitra_api.feed.no_filler import clean_text
 from bagmitra_api.feed.output_check import (
     check_output,
     language_differences,
@@ -28,7 +29,9 @@ from bagmitra_api.feed.output_check import (
 )
 
 LANGS = ("mr", "hi", "en")
-MIN_SECTIONS, MAX_SECTIONS = 4, 8
+# Owner 2026-11-14: a section the input gives nothing for is left out (was 4-8), and a
+# missing-information sentence is dropped (`feed.no_filler`).
+MIN_SECTIONS, MAX_SECTIONS = 2, 8
 _EMAIL = re.compile(r"[\w.+-]+@[\w-]+(?:\.[\w-]+)+")
 _PHONE = re.compile(r"(?<!\d)(?:\+91[\s-]?)?[6-9]\d{9}(?!\d)")
 
@@ -43,17 +46,20 @@ other source, no newspaper.
 
 Answer with ONE JSON object only:
 {"relevant": true|false, "lang": {"mr": ARTICLE, "hi": ARTICLE, "en": ARTICLE} | null}
-ARTICLE = {"title": str, "standfirst": str, "sections": [4-8 {"heading": str, "body": str}]}
+ARTICLE = {"title": str, "standfirst": str, "sections": [2-8 {"heading": str, "body": str}]}
 
 Rules:
 - "relevant" is false (and "lang" null) when the document does not give enough to explain the
   topic to a farmer (for a scheme: who may apply, how to apply or what the scheme gives).
 - Marathi first, as a Vidarbha farmer speaks it, simple and clear; Hindi and English say exactly
   the same facts as the Marathi.
-- Title at most 80 letters; standfirst one calm sentence; 4-8 sections, each with a short,
+- Title at most 80 letters; standfirst one calm sentence; 2-8 sections, each with a short,
   farmer-friendly heading (for example: what you see, when it comes, what to check in the
   orchard, what to do, what not to do, when to ask the KVK; for a scheme: what the scheme is,
   who may be eligible, documents, how to apply, last date) and a body of 40-120 words.
+- Write only the sections the document has content for. Leave out a section the document gives
+  nothing for. Never write a sentence, in any language, saying that something is not given, not
+  stated or not available in the document, the source or the text.
 - Copy every number, amount, percentage and date exactly as the document states it. Never
   estimate, convert, round, add up or add a number, year or date the document does not state.
 - No pesticide, fungicide, growth-regulator or fertiliser product or brand names and no doses
@@ -149,15 +155,15 @@ def _article(raw: object, lang: str) -> KnowledgeArticle:
     for i, s in enumerate(sections):
         if not isinstance(s, dict):
             raise KnowledgeError(f"{lang}.sections[{i}]: not an object")
-        parts.append(
-            (
-                _text(s.get("heading"), f"{lang}.sections[{i}].heading", 120),
-                _text(s.get("body"), f"{lang}.sections[{i}].body", 2000),
-            )
-        )
+        body = clean_text(_text(s.get("body"), f"{lang}.sections[{i}].body", 2000))
+        if body:  # a section that only said the input lacks something is dropped
+            parts.append((_text(s.get("heading"), f"{lang}.sections[{i}].heading", 120), body))
+    if len(parts) < MIN_SECTIONS:
+        raise KnowledgeError(f"{lang}.sections: fewer than {MIN_SECTIONS} with content")
+    standfirst = clean_text(_text(raw.get("standfirst"), f"{lang}.standfirst", 400))
     return KnowledgeArticle(
         title=_text(raw.get("title"), f"{lang}.title", 160),
-        standfirst=_text(raw.get("standfirst"), f"{lang}.standfirst", 400),
+        standfirst=_text(standfirst, f"{lang}.standfirst", 400),
         sections=tuple(parts),
     )
 
