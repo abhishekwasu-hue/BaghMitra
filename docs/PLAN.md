@@ -148,6 +148,23 @@ traceability QR report.
 MQTT → ingestion API → time-series table → risk engine; device registry/provisioning,
 health alerts, sensor charts, sensor-based irrigation advisory.
 
+**Status: deferred — roadmap only (owner 2026-11-14).** The owner decided the field hardware is a
+cost item: record it here for later, build nothing now. State on 2026-11-14: no ingestion API,
+device registry, readings table, firmware or hardware BOM exists. The only trace in code is the
+home weather card's optional `soil_moisture_pct` field (`app/lib/features/home/domain/home_snapshot.dart`),
+which no server sends. Roadmap when the owner starts it (discuss-then-build; owner decides each step):
+
+1. **Hardware spec** (separate doc): a low-cost field unit the owner mentioned at about
+   ₹2,000-3,000 — candidate parts to evaluate then: ESP32-class board, capacitive soil-moisture
+   probe(s) at two depths, air temperature/humidity sensor, solar + battery. Decide the uplink first
+   (SIM / GSM-4G, LoRa gateway, or nearby Wi-Fi), since orchards rarely have Wi-Fi.
+2. **Server**: device registry with per-device provisioning token (QR on the unit, scanned in the
+   app to link it to a plot), ingestion endpoint (MQTT broker or HTTPS), readings table, device
+   health (missed heartbeats, low battery) alerts.
+3. **App**: "add device" (QR), live values on the plot, per-plot charts, and the irrigation advisory
+   using sensor readings; the home card's soil-moisture pill then shows real data.
+4. **Optional later**: leaf wetness, rain gauge, camera / sticky-trap counts (SPEC_v1 §M7).
+
 ### M8 — Hardening & launch
 
 Low-end device profiling, size/battery/data audits, accessibility pass, store assets,
