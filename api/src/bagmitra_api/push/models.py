@@ -1,6 +1,7 @@
 """Push tables: the phones (push_devices), each grower's update-push switches
 (push_topic_prefs), the log of update pushes (push_notices) and the forecast the weather
-change check last compared (push_weather_seen). Owner 2026-11-12, OPEN_QUESTIONS Q147."""
+change check last compared (push_weather_seen). Owner 2026-11-12, OPEN_QUESTIONS Q147.
+The shared daily push budget's log (push_log): owner 2026-11-14, OPEN_QUESTIONS Q157."""
 
 from __future__ import annotations
 
@@ -8,7 +9,7 @@ import uuid
 from datetime import date, datetime
 from typing import Any
 
-from sqlalchemy import JSON, Boolean, Date, DateTime, Float, String, UniqueConstraint
+from sqlalchemy import JSON, Boolean, Date, DateTime, Float, Integer, String, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column
 
 from bagmitra_api.db.base import Base, TimestampMixin, utcnow
@@ -93,3 +94,26 @@ class PushWeatherSeen(Base):
     t_max_c: Mapped[float | None] = mapped_column(Float)
     t_min_c: Mapped[float | None] = mapped_column(Float)
     seen_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+
+
+class PushLog(Base):
+    """One push a farmer got, or one the shared daily budget held back (push/budget.py,
+    OPEN_QUESTIONS Q157): every push source (risk alerts, update pushes, feed reminders) logs
+    here, so the budget and the repeat window count across jobs.
+
+    One row per topic of a push (a combined push has several; they share `push_id`).
+    `status`: sent (a phone got it), budget (the day's budget was used up) or repeat (the
+    topic was sent within PUSH_REPEAT_DAYS). `day` is the India date. Owner data (RLS)."""
+
+    __tablename__ = "push_log"
+    owner_column = "owner_id"
+
+    id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
+    owner_id: Mapped[uuid.UUID] = mapped_column(index=True)
+    push_id: Mapped[uuid.UUID] = mapped_column()
+    day: Mapped[date] = mapped_column(Date, index=True)
+    source: Mapped[str] = mapped_column(String(16))
+    priority: Mapped[int] = mapped_column(Integer)
+    topic: Mapped[str] = mapped_column(String(160))
+    status: Mapped[str] = mapped_column(String(16))
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
