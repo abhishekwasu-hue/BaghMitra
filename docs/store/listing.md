@@ -239,8 +239,8 @@ BaagMitra
 
 | | Title (≤ 30) | Short (≤ 80) | Full (≤ 4000) |
 |---|---|---|---|
-| en-IN | 9 | 80 | 2240 / 2021 |
-| mr-IN | 9 | 74 | 1980 / 1804 |
-| hi-IN | 9 | 80 | 2013 / 1824 |
+| en-IN | 9 | 80 | 2213 / 2021 |
+| mr-IN | 9 | 74 | 1978 / 1804 |
+| hi-IN | 9 | 80 | 2012 / 1824 |
 
 Re-measure after any edit (Python `len()` on the pasted text; Play shows its own counter too).
