@@ -278,7 +278,7 @@ cd /opt/bagmitra/deploy && docker compose exec -T api python -m bagmitra_api.fee
 ```
 It prints `{"published": …, "held": …, "retry": …}`; reasons still failing are in admin web (status "held").
 
-**Why is it held? (read-only diagnosis, OPEN_QUESTIONS Q153):** `cd /opt/bagmitra/deploy && docker compose exec -T api python -m bagmitra_api.feed.diag_held --limit 15` prints, per held news / official item, each date / amount / number "not in the source" with up to two source snippets (same day+month, same digits or a number word); `--pdf-probe [ITEM_ID]` instead re-downloads one PDF (default: the newest `illegible` transcription) and prints pages, text layer, Devanagari / ASCII / private-use share, image-only pages and fonts. No database write, no model call; news pages are fetched again (robots, spacing, size limit as above).
+**Why is it held? (read-only diagnosis, OPEN_QUESTIONS Q153):** `cd /opt/bagmitra/deploy && docker compose exec -T api python -m bagmitra_api.feed.diag_held --limit 15` prints, per held news / official item, each date / amount / number "not in the source" with up to two source snippets (same day+month, same digits or a number word); `--pdf-probe [ITEM_ID]` instead re-downloads one PDF (default: the newest `illegible` transcription) and prints pages, text layer, Devanagari / ASCII / private-use share, image-only pages and fonts; `--render-test` (Q154) adds page 1 rendered as image mode renders it (pixel size, PNG bytes). No database write, no model call; news pages are fetched again (robots, spacing, size limit as above).
 
 ## 12. News topic threads (owner Q139)
 Mahasamvad publishes one decision from many districts under different links, so related news is
@@ -462,11 +462,31 @@ fetch_failed | disallowed`, `added`, `error`), `added`, `official` (`published`,
 Many GRs (MahaDBT's scheme PDFs among them) are typed in non-Unicode Marathi fonts (Kruti Dev,
 Shree-Lipi …): their text layer is garbage and the listing was held `text_broken` ("almost no
 Devanagari in a Marathi document"). Now the portal job (`feed/official_items.py`,
-`feed/pdf_transcribe.py`) sends such a PDF to Claude itself — one Messages API request, the PDF as
-a `document` block (base64, `application/pdf`) — asking for a faithful Unicode transcription of
-the visible text only: no summary, no translation, nothing added; unreadable parts `[अस्पष्ट]`;
-structured output `{text, pages_read, legible}`. Streamed (a long GR takes minutes).
+`feed/pdf_transcribe.py`) has Claude read such a PDF — asking for a faithful Unicode
+transcription of the visible text only: no summary, no translation, nothing added; unreadable
+parts `[अस्पष्ट]`; structured output `{text, pages_read, legible}`. Streamed (a long GR takes
+minutes).
 
+- **Image mode (Q154).** Each page is rendered in the API container (pypdfium2, pure pip wheel,
+  no system library) to an 8-bit grayscale PNG with a long edge of 1,568 px (sent unscaled on
+  every model; ~134 dpi on A4) and sent as an `image` block (`image/png`, base64) after a
+  `Page N:` label; at most 20 pages per request (above 20 images the API applies a stricter
+  per-image size limit), so a PDF of 21–30 pages takes two requests, whose texts are joined in
+  page order (form feed between them; `legible` only when every request says legible). Why not
+  the PDF `document` block of Q152's first version: for a document block the API extracts each
+  page's text layer and sends it alongside the page image (PDF-support docs), and here that text
+  layer is the legacy-font garbage. On the VPS (`diag_held --pdf-probe`) a held 18-page MahaDBT
+  PDF has a text layer on all 18 pages, 55,383 characters, Devanagari 0.01 / ASCII 0.26 / other
+  0.73, 9 of 10 fonts without a ToUnicode map (DV-TTSurekh …); it and a 16-page PDF came back
+  `legible: false`, `pages_read: 0` in document mode. A page image has no text layer. Whether
+  image mode reads them is shown only by the first image-mode run (`pdf_transcribe` events with
+  `mode: "image"`).
+- **Renderer check on the VPS (no model call, nothing written):**
+  `cd /opt/bagmitra/deploy && docker compose exec -T api python -m bagmitra_api.feed.diag_held --pdf-probe --render-test`
+  (after the deploy that rebuilt the api image with pypdfium2)
+  prints, after the probe, `render test: page 1 W x H px grayscale PNG, N bytes, ~T visual
+  tokens (pypdfium2 …, PDFium …)`. `render test: failed (…)` means the renderer does not work in
+  the container (or that PDF cannot be rendered).
 - **The transcription is the item's text** (`feed_items.extracted_text`), with provenance: review
   event `pdf_transcribed` (`model`, `pages`, `pages_read`, `chars`, `devanagari_ratio`). Then the
   normal official path runs on it (classify → article set → scheme card → checks). **The "facts in
@@ -478,28 +498,39 @@ structured output `{text, pages_read, legible}`. Streamed (a long GR takes minut
   (`text_empty`, no text layer) is not sent either (unchanged).
 - **One attempt per PDF.** Results in review events `pdf_transcribe` (`detail.result`): `ok`,
   `illegible` (the model says not legible, or the text is still not Marathi), `refused`, `cut_off`
-  (longer than `FEED_PDF_TRANSCRIBE_MAX_TOKENS`), `unusable` (answer not in the asked shape),
+  (longer than `FEED_PDF_TRANSCRIBE_MAX_TOKENS` in one request), `unusable` (answer not in the
+  asked shape), `unrenderable` (the pages could not be rendered; no request made),
   `skipped_large` — all final, never asked again; the item stays held with the reason in its
   issue text. Only `retry` (API unreachable: network, 5xx, overload) is asked again on the next
-  run. A listing held `text_broken` before this step (the five MahaDBT items on the VPS) gets its
+  run. Image-mode events carry `mode: "image"` and `requests`. **One image-mode attempt for the
+  earlier illegible ones:** a listing whose document-block transcription (an event without
+  `mode`) ended `illegible` is read once more from its page images on the next run; after any
+  final image-mode result it is never asked again. Other document-mode results stay final. A listing held `text_broken` before this step (the five MahaDBT items on the VPS) gets its
   one transcription on the next run. If the article model is unavailable after a transcription,
   the next run writes from the stored transcription (no second transcription, no new fetch).
   The held re-check (`recheck_held_official`, §14, `rechecked`) needs a stored text and saved
   articles, so it touches a transcribed item only after its article was written and costs no
   request; a listing held for its text is not picked by it.
-- **Daily cap:** at most `FEED_PDF_TRANSCRIBE_DAILY` (default 10) requests per UTC day, counted
-  from the `pdf_transcribe` events that made a request (all results except `skipped_large`);
-  separate from `FEED_AI_DAILY_ITEMS`, which still counts the article attempt that follows. Over
-  the cap the listing stays held ("waits for transcription") and is taken on a later day.
+- **Daily cap:** at most `FEED_PDF_TRANSCRIBE_DAILY` (default 10) requests per UTC day, the
+  sum of `detail.requests` of the `pdf_transcribe` events that made requests (all results except
+  `skipped_large` and `unrenderable`; an event from before image mode counts 1; a failed
+  two-request PDF counts 2); separate from `FEED_AI_DAILY_ITEMS`, which still counts the article
+  attempt that follows. A PDF whose requests do not fit in what is left today stays held
+  ("waits for transcription") and is taken on a later day.
 - **Model:** `FEED_PDF_TRANSCRIBE_MODEL` (empty = `FEED_SUMMARISE_MODEL`, Claude Sonnet 5.5),
   effort `low` (reading, not reasoning), the server-side refusal fallback on.
-- **The PDF bytes are never stored** — only SHA-256 and size, as before; the request carries them
-  to the API and nothing else keeps them.
-- **Cost (estimate, not measured):** Anthropic's PDF-support docs: each page is sent as text and
-  as an image, "typically 1,500–3,000 tokens" of text per page plus image tokens. Taking ~3,000–
-  5,000 input and ~1,500–3,000 output tokens per page at Sonnet 5.5's $2 / $10 per million: a
-  4-page GR ≈ $0.06–0.16; a 30-page PDF (the cap) ≈ $0.50–1.20. At the daily cap of 10 requests:
-  ≈ $0.60–1.60 a day for 4-page GRs, at most ≈ $12 a day for ten 30-page PDFs. The real figure is
-  the API usage on the Console after the first runs.
+- **Neither the PDF bytes nor the page images are stored** — only the PDF's SHA-256 and size, as
+  before; the page images exist in memory for the request only.
+- **Cost (estimate, not measured).** Input, from the vision docs' rule: a page image costs
+  ⌈width / 28⌉ × ⌈height / 28⌉ visual tokens (≈ width × height / 784; the older rule of thumb
+  width × height / 750 gives about the same). A4 at 1109 × 1568 px ≈ 2,240 tokens, US Letter at
+  1212 × 1568 px ≈ 2,464 tokens per page, plus ~400 tokens of prompt per request. No text layer
+  is sent any more. Output: the transcription itself; taking ~1,500–3,000 tokens per page (not
+  measured for Marathi). At Sonnet 5.5's $2 / $10 per million: per page ≈ $0.005 input +
+  $0.015–0.03 output ≈ $0.02–0.035; a 4-page GR ≈ $0.08–0.14; the 18-page MahaDBT PDF
+  ≈ $0.35–0.63; a 30-page PDF (the cap, two requests) ≈ $0.60–1.05. At the daily cap of 10
+  requests: at most ≈ $4–7 a day if every request were a 20-page batch. The real figure is the
+  API usage on the Console after the first runs.
 - **Job log:** the portal job's JSON line has `"pdf_transcribe": {"calls", "ok", "illegible",
-  "skipped_large", "errors"}` (`errors`: refused / cut off / unusable / unreachable). No migration.
+  "skipped_large", "errors"}` (`calls`: model requests; `errors`: refused / cut off / unusable /
+  unrenderable / unreachable). No migration.

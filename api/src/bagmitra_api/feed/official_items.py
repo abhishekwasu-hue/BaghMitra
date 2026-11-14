@@ -17,12 +17,17 @@ finished attempt), from a source whose terms are `allowed`:
 At most FEED_AI_DAILY_ITEMS such attempts per UTC day (counted apart from the news articles).
 Without a model key (FEED_AI_API_KEY empty) nothing happens and the listings wait.
 
-Transcription (Q152): one request per PDF, at most FEED_PDF_TRANSCRIBE_DAILY per UTC day
-(`pdf_transcribe` review events, counted apart from FEED_AI_DAILY_ITEMS). A listing held
-earlier for a broken text gets its one transcription on a later run. Final results (never
-asked again): `ok` (the text is stored, review event `pdf_transcribed` with model and pages),
-`illegible`, `refused`, `cut_off`, `unusable`, `skipped_large`. Only `retry` (the API could not
-be reached) is asked again on the next run.
+Transcription (Q152; image mode Q154): one transcription per PDF from its rendered page
+images (one request per IMAGES_PER_REQUEST pages), at most FEED_PDF_TRANSCRIBE_DAILY requests
+per UTC day (`pdf_transcribe` review events, `detail.requests`, counted apart from
+FEED_AI_DAILY_ITEMS). A listing held earlier for a broken text gets its one transcription on a
+later run. Final results (never asked again): `ok` (the text is stored, review event
+`pdf_transcribed` with model and pages), `illegible`, `refused`, `cut_off`, `unusable`,
+`unrenderable` (no request), `skipped_large`. Only `retry` (the API could not be reached) is
+asked again on the next run. Events of image mode carry `mode: "image"`. A listing whose
+earlier transcription from the PDF document block (events without `mode`) ended `illegible`
+gets exactly one image-mode transcription; after any final image-mode result it is never asked
+again.
 """
 
 from __future__ import annotations
@@ -50,7 +55,13 @@ from bagmitra_api.feed.extract import assess, extract
 from bagmitra_api.feed.gr_portal import FetchFailedError, GrPortalAdapter
 from bagmitra_api.feed.models import FeedItem, FeedReviewEvent, FeedSchemeCard, FeedSource
 from bagmitra_api.feed.news_articles import _saved_articles, _store
-from bagmitra_api.feed.pdf_transcribe import PDF_MAX_BYTES, Transcription
+from bagmitra_api.feed.pdf_transcribe import (
+    IMAGE_MODE,
+    PDF_MAX_BYTES,
+    RenderError,
+    Transcription,
+    requests_for,
+)
 from bagmitra_api.feed.service import latest_card, run_output_check, sync_deadlines
 
 ATTEMPT = "ai_official"
@@ -62,8 +73,17 @@ PORTAL_VIA = ("gr_portal", "official_portal")
 # One event per transcription decision (detail.result) and the provenance of a stored text.
 TRANSCRIBE = "pdf_transcribe"
 TRANSCRIBED = "pdf_transcribed"
-TRANSCRIBE_FINAL = ("ok", "illegible", "refused", "cut_off", "unusable", "skipped_large")
-# Results that made a model request (the daily FEED_PDF_TRANSCRIBE_DAILY count).
+TRANSCRIBE_FINAL = (
+    "ok",
+    "illegible",
+    "refused",
+    "cut_off",
+    "unusable",
+    "unrenderable",
+    "skipped_large",
+)
+# Results that made model requests (the daily FEED_PDF_TRANSCRIBE_DAILY count adds up their
+# `requests`; an event from before image mode made one).
 TRANSCRIBE_CALLS = ("ok", "illegible", "refused", "cut_off", "unusable", "retry")
 TEXT_BROKEN = "text_broken"
 
@@ -133,22 +153,38 @@ def _event(
     return event
 
 
-async def _count_today(
-    session: AsyncSession, now: datetime, kind: str, results: tuple[str, ...] | None = None
-) -> int:
-    start = datetime.combine(now.date(), time.min, tzinfo=now.tzinfo)
-    query = (
-        select(func.count())
-        .select_from(FeedReviewEvent)
-        .where(FeedReviewEvent.kind == kind, FeedReviewEvent.created_at >= start)
-    )
-    if results is not None:
-        query = query.where(FeedReviewEvent.detail["result"].as_string().in_(results))
-    return int(await session.scalar(query) or 0)
+def _day_start(now: datetime) -> datetime:
+    return datetime.combine(now.date(), time.min, tzinfo=now.tzinfo)
 
 
 async def _calls_today(session: AsyncSession, now: datetime) -> int:
-    return await _count_today(session, now, ATTEMPT)
+    query = (
+        select(func.count())
+        .select_from(FeedReviewEvent)
+        .where(FeedReviewEvent.kind == ATTEMPT, FeedReviewEvent.created_at >= _day_start(now))
+    )
+    return int(await session.scalar(query) or 0)
+
+
+async def _transcribe_requests_today(session: AsyncSession, now: datetime) -> int:
+    start = _day_start(now)
+    details = await session.scalars(
+        select(FeedReviewEvent.detail).where(
+            FeedReviewEvent.kind == TRANSCRIBE,
+            FeedReviewEvent.created_at >= start,
+            FeedReviewEvent.detail["result"].as_string().in_(TRANSCRIBE_CALLS),
+        )
+    )
+    return sum(int(d.get("requests", 1)) for d in details)
+
+
+def _transcription_final(detail: dict[str, Any]) -> bool:
+    """A final transcription result, except a document-block (pre-image-mode) `illegible`:
+    that listing is owed one image-mode transcription (Q154)."""
+    result = detail.get("result")
+    if result not in TRANSCRIBE_FINAL:
+        return False
+    return detail.get("mode") == IMAGE_MODE or result != "illegible"
 
 
 def _from_portal() -> Any:
@@ -190,10 +226,6 @@ async def after_transcription(session: AsyncSession) -> list[FeedItem]:
     """Q152: portal listings still due their one transcription (held for a broken text, no
     final `pdf_transcribe` result) or transcribed but without a finished article attempt on
     that text (the article model was unavailable), newest first."""
-    transcribed_final = select(FeedReviewEvent.item_id).where(
-        FeedReviewEvent.kind == TRANSCRIBE,
-        FeedReviewEvent.detail["result"].as_string().in_(TRANSCRIBE_FINAL),
-    )
     rows = list(
         await session.scalars(
             _official()
@@ -204,17 +236,17 @@ async def after_transcription(session: AsyncSession) -> list[FeedItem]:
     if not rows:
         return []
     ids = [r.id for r in rows]
-    final_ids = set(
-        await session.scalars(transcribed_final.where(FeedReviewEvent.item_id.in_(ids)))
-    )
     events = list(
         await session.scalars(
             select(FeedReviewEvent).where(
                 FeedReviewEvent.item_id.in_(ids),
-                FeedReviewEvent.kind.in_((TRANSCRIBED, ATTEMPT)),
+                FeedReviewEvent.kind.in_((TRANSCRIBE, TRANSCRIBED, ATTEMPT)),
             )
         )
     )
+    final_ids = {
+        e.item_id for e in events if e.kind == TRANSCRIBE and _transcription_final(e.detail)
+    }
     transcribed = {e.item_id for e in events if e.kind == TRANSCRIBED}
     done = {
         e.item_id
@@ -264,7 +296,7 @@ async def _card(session: AsyncSession, item: FeedItem, summary: Summary) -> None
     )
 
 
-async def _transcribed(  # noqa: PLR0913 - the PDF, its extraction and the run
+async def _transcribed(  # noqa: PLR0911, PLR0913 - the PDF, its extraction and the run
     session: AsyncSession,
     item: FeedItem,
     data: bytes,
@@ -275,39 +307,60 @@ async def _transcribed(  # noqa: PLR0913 - the PDF, its extraction and the run
     now: datetime,
     run: TranscribeRun,
 ) -> str | None:
-    """Q152: the model's transcription of a broken-text PDF, or None (the item is then held
-    with the reason; a final result is never asked again)."""
+    """Q152: the model's transcription of a broken-text PDF (from its page images, Q154), or
+    None (the item is then held with the reason; a final result is never asked again)."""
     limit = settings.feed_pdf_transcribe_max_pages
+    mode = {"mode": IMAGE_MODE}
     if pages > limit or len(data) > PDF_MAX_BYTES:
         run.skipped_large += 1
         session.add(
-            _event(item, TRANSCRIBE, now, result="skipped_large", pages=pages, bytes=len(data))
+            _event(
+                item, TRANSCRIBE, now, result="skipped_large", pages=pages, bytes=len(data), **mode
+            )
         )
         why = f"{pages} pages / {len(data)} bytes, over FEED_PDF_TRANSCRIBE_MAX_PAGES ({limit})"
         _hold(item, TEXT_BROKEN, f"{reason}; not sent for transcription: {why}", "extracted_text")
         return None
-    if run.room <= 0:
+    needed = requests_for(pages)
+    if run.room < needed:
         why = "waits for transcription (FEED_PDF_TRANSCRIBE_DAILY reached today)"
         _hold(item, TEXT_BROKEN, f"{reason}; {why}", "extracted_text")
         return None
-    run.room -= 1
-    run.calls += 1
+    run.room -= needed
+    run.calls += needed
+    # A failed request may be the first or a later one: all planned requests are counted.
+    asked = {**mode, "requests": needed}
     try:
         found = await transcriber.transcribe_pdf(data)
+    except RenderError as exc:  # nothing was sent: the requests are given back
+        run.room += needed
+        run.calls -= needed
+        run.errors += 1
+        session.add(
+            _event(item, TRANSCRIBE, now, result="unrenderable", reason=str(exc)[:300], **mode)
+        )
+        _hold(item, TEXT_BROKEN, f"{reason}; transcription: {exc}", "extracted_text")
+        return None
     except (AiRefusedError, AiCutOffError, AiBadAnswerError) as exc:
         result = {AiRefusedError: "refused", AiCutOffError: "cut_off"}.get(type(exc), "unusable")
         run.errors += 1
-        session.add(_event(item, TRANSCRIBE, now, result=result, reason=str(exc)[:300]))
+        session.add(_event(item, TRANSCRIBE, now, result=result, reason=str(exc)[:300], **asked))
         _hold(item, TEXT_BROKEN, f"{reason}; transcription {result}: {exc}", "extracted_text")
         return None
     except AiUnavailableError as exc:
         run.errors += 1
-        session.add(_event(item, TRANSCRIBE, now, result="retry", reason=str(exc)[:300]))
+        session.add(_event(item, TRANSCRIBE, now, result="retry", reason=str(exc)[:300], **asked))
         why = f"transcription tried again on the next run ({exc})"
         _hold(item, TEXT_BROKEN, f"{reason}; {why}", "extracted_text")
         return None
     quality, ratio, bad = assess(found.text, expect_marathi=True)
-    detail = {"model": found.model, "pages": pages, "pages_read": found.pages_read}
+    detail = {
+        "model": found.model,
+        "pages": pages,
+        "pages_read": found.pages_read,
+        "requests": found.requests,
+        **mode,
+    }
     if not found.legible or quality != "ok":
         run.illegible += 1
         why = "the model found it not legible" if not found.legible else bad or quality
@@ -447,7 +500,7 @@ async def write_official_items(  # noqa: PLR0913 - the step's inputs
         return run
     tr = run.transcribe
     if transcriber is not None:
-        used = await _count_today(session, now, TRANSCRIBE, TRANSCRIBE_CALLS)
+        used = await _transcribe_requests_today(session, now)
         tr.room = max(0, settings.feed_pdf_transcribe_daily - used)
     seen: set[uuid.UUID] = set()
     for item in await waiting(session, room):

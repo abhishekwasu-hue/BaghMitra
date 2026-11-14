@@ -1,12 +1,16 @@
 """Owner 2026-11-13 (OPEN_QUESTIONS Q152): an official PDF whose text layer is legacy-font
-garbage (`text_broken`) is transcribed by the model from the PDF itself (document block,
-base64, application/pdf); the transcription becomes the item's text and the normal official
-article path runs on it. No live network: httpx.MockTransport answers every request."""
+garbage (`text_broken`) is transcribed by the model; the transcription becomes the item's text
+and the normal official article path runs on it. Q154: the pages are rendered here and sent as
+image blocks (grayscale PNG, at most 20 a request), not as a PDF document block (whose
+extracted text layer is the garbage). No live network: httpx.MockTransport answers every
+request."""
 
 from __future__ import annotations
 
 import base64
 import json
+import struct
+import zlib
 from datetime import UTC, datetime, timedelta
 from typing import Any
 
@@ -25,10 +29,18 @@ from bagmitra_api.feed.ai import (
 from bagmitra_api.feed.models import FeedItem, FeedItemI18n, FeedReviewEvent
 from bagmitra_api.feed.official_items import (
     ATTEMPT,
+    TRANSCRIBE,
     recheck_held_official,
     write_official_items,
 )
-from bagmitra_api.feed.pdf_transcribe import TRANSCRIBE_SCHEMA, Transcription
+from bagmitra_api.feed.pdf_transcribe import (
+    IMAGE_LONG_EDGE,
+    IMAGES_PER_REQUEST,
+    TRANSCRIBE_SCHEMA,
+    RenderError,
+    Transcription,
+    render_pages,
+)
 from bagmitra_api.feed.portal_job import run_portals
 from tests.feed_docs import KRUTI_DEV, make_pdf
 from tests.test_feed_article import SOURCE
@@ -100,25 +112,79 @@ def model_client(answer: httpx.Response, seen: list[httpx.Request]) -> httpx.Asy
     return httpx.AsyncClient(transport=httpx.MockTransport(handler))
 
 
-async def test_the_pdf_goes_as_a_base64_document_block_and_the_answer_is_read() -> None:
+def png_header(png: bytes) -> tuple[int, int, int, int]:
+    """(width, height, bit depth, colour type) of a PNG."""
+    assert png[:8] == b"\x89PNG\r\n\x1a\n"
+    assert png[12:16] == b"IHDR"
+    width, height, depth, colour = struct.unpack(">IIBB", png[16:26])
+    return width, height, depth, colour
+
+
+def png_pixels(png: bytes) -> bytes:
+    """The filtered scanlines of a single-IDAT PNG (as `gray_png` writes it)."""
+    length = struct.unpack(">I", png[33:37])[0]
+    assert png[37:41] == b"IDAT"
+    return zlib.decompress(png[41 : 41 + length])
+
+
+def test_a_page_is_rendered_to_a_grayscale_png_within_the_long_edge() -> None:
+    [page] = render_pages(BROKEN_PDF, max_pages=30)
+    width, height, depth, colour = png_header(page.png)
+    assert (width, height) == (page.width, page.height)
+    assert height == IMAGE_LONG_EDGE  # a portrait Letter page: the height is the long edge
+    assert width == round(612 * IMAGE_LONG_EDGE / 792)
+    assert (depth, colour) == (8, 0)  # 8-bit grayscale
+    rows = png_pixels(page.png)
+    assert len(rows) == height * (width + 1)
+    assert min(rows[1 : width + 1]) == 255  # the top row is the white page
+    assert min(rows) < 128  # the text line was drawn
+    assert page.visual_tokens == -(-width // 28) * -(-height // 28)
+    three = render_pages(make_pdf([KRUTI_DEV] * 3), max_pages=2)
+    assert len(three) == 2  # only the first max_pages pages
+    with pytest.raises(RenderError):
+        render_pages(b"%PDF-1.4 not really a pdf", max_pages=30)
+
+
+def paged_client(answers: list[dict[str, Any]], seen: list[httpx.Request]) -> httpx.AsyncClient:
+    """One streamed answer per request, in turn."""
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        seen.append(request)
+        answer = answers[len(seen) - 1]
+        return httpx.Response(200, content=streamed_answer(json.dumps(answer)))
+
+    return httpx.AsyncClient(transport=httpx.MockTransport(handler))
+
+
+async def test_the_pages_go_as_png_image_blocks_and_the_answer_is_read() -> None:
     seen: list[httpx.Request] = []
     answer = {"text": SOURCE, "pages_read": 1, "legible": True}
     http = model_client(httpx.Response(200, content=streamed_answer(json.dumps(answer))), seen)
     ai = AnthropicFeedAi(http, settings(feed_ai_api_key="k"))
     found = await ai.transcribe_pdf(BROKEN_PDF)
-    assert found == Transcription(SOURCE, 1, True, "claude-sonnet-5-5")
+    assert found == Transcription(SOURCE, 1, True, "claude-sonnet-5-5", requests=1)
     [request] = seen
     body = json.loads(request.content)
     assert body["model"] == "claude-sonnet-5-5"  # FEED_PDF_TRANSCRIBE_MODEL empty: summariser's
     assert body["stream"] is True
-    [document, question] = body["messages"][0]["content"]
-    assert document["type"] == "document"
-    assert document["source"]["type"] == "base64"
-    assert document["source"]["media_type"] == "application/pdf"
-    assert "\n" not in document["source"]["data"]
-    assert base64.b64decode(document["source"]["data"]) == BROKEN_PDF
+    [label, image, question] = body["messages"][0]["content"]
+    assert label == {"type": "text", "text": "Page 1:"}
+    assert image["type"] == "image"
+    assert image["source"]["type"] == "base64"
+    assert image["source"]["media_type"] == "image/png"
+    assert "\n" not in image["source"]["data"]
+    png = base64.b64decode(image["source"]["data"])
+    assert png == render_pages(BROKEN_PDF, max_pages=1)[0].png
+    assert max(png_header(png)[:2]) == IMAGE_LONG_EDGE
     assert question["type"] == "text"
+    assert "pages 1 to 1 of a 1-page document" in question["text"]
+    # No PDF document block: the legacy-font text layer is not sent.
+    assert '"document"' not in request.content.decode()
+    assert "application/pdf" not in request.content.decode()
+    assert base64.b64encode(BROKEN_PDF).decode()[:40] not in request.content.decode()
     assert body["output_config"]["format"] == {"type": "json_schema", "schema": TRANSCRIBE_SCHEMA}
+    assert body["output_config"]["effort"] == "low"
+    assert "page images" in body["system"]
     assert "[अस्पष्ट]" in body["system"]
     assert body["fallbacks"] == "default"
     assert request.headers["anthropic-beta"] == FALLBACK_BETA
@@ -129,6 +195,41 @@ async def test_the_pdf_goes_as_a_base64_document_block_and_the_answer_is_read() 
         settings(feed_ai_api_key="k", feed_pdf_transcribe_model="claude-opus-5-5"),
     )
     assert (await own.transcribe_pdf(BROKEN_PDF)).model == "claude-opus-5-5"
+
+
+async def test_more_than_twenty_pages_are_sent_in_batches_joined_in_order() -> None:
+    pages = IMAGES_PER_REQUEST + 5
+    seen: list[httpx.Request] = []
+    answers = [
+        {"text": "पहिला भाग", "pages_read": IMAGES_PER_REQUEST, "legible": True},
+        {"text": "दुसरा भाग", "pages_read": 5, "legible": True},
+    ]
+    ai = AnthropicFeedAi(paged_client(answers, seen), settings(feed_ai_api_key="k"))
+    found = await ai.transcribe_pdf(make_pdf([KRUTI_DEV] * pages))
+    assert found.text == "पहिला भाग\fदुसरा भाग"
+    assert (found.pages_read, found.legible, found.requests) == (pages, True, 2)
+    first, second = (json.loads(r.content)["messages"][0]["content"] for r in seen)
+    images = [[b for b in c if b["type"] == "image"] for c in (first, second)]
+    assert [len(i) for i in images] == [IMAGES_PER_REQUEST, 5]
+    assert first[0]["text"] == "Page 1:"
+    assert second[0]["text"] == f"Page {IMAGES_PER_REQUEST + 1}:"
+    assert "pages 21 to 25 of a 25-page document" in second[-1]["text"]
+    assert all(b["source"]["media_type"] == "image/png" for i in images for b in i)
+
+    # One illegible batch makes the whole transcription illegible.
+    answers[1] = {"text": "", "pages_read": 0, "legible": False}
+    seen.clear()
+    ai = AnthropicFeedAi(paged_client(answers, seen), settings(feed_ai_api_key="k"))
+    found = await ai.transcribe_pdf(make_pdf([KRUTI_DEV] * pages))
+    assert (found.legible, found.text, len(seen)) == (False, "पहिला भाग", 2)
+
+
+async def test_a_pdf_that_cannot_be_rendered_makes_no_request() -> None:
+    seen: list[httpx.Request] = []
+    ai = AnthropicFeedAi(model_client(httpx.Response(500), seen), settings(feed_ai_api_key="k"))
+    with pytest.raises(RenderError):
+        await ai.transcribe_pdf(b"%PDF-1.4 broken")
+    assert seen == []
 
 
 @pytest.mark.parametrize(
@@ -414,3 +515,149 @@ async def test_the_real_adapter_end_to_end(engine: AsyncEngine) -> None:
         stored = await session.scalar(select(FeedItem).where(FeedItem.id == item.id))
         assert stored is not None
         assert stored.raw_bytes == len(BROKEN_PDF)
+
+
+# --- Q154: image mode ---------------------------------------------------------------------------
+
+
+async def _as_document_mode(session: AsyncSession) -> None:
+    """Make the item's transcription events look as Q152's document-block mode wrote them
+    (no `mode`, no `requests`): the VPS state before image mode."""
+    for event in await events(session, TRANSCRIBE):
+        event.detail = {k: v for k, v in event.detail.items() if k not in ("mode", "requests")}
+    await session.flush()
+
+
+async def test_an_earlier_illegible_document_transcription_gets_one_image_attempt(
+    engine: AsyncEngine,
+) -> None:
+    async with async_sessionmaker(engine)() as session:
+        item = await listed(session, NOW)
+        first = FakeTranscriber(Transcription("", 0, False, "claude-sonnet-5-5"))
+        await write_official_items(session, adapter(pdf_site()), FakeAi(), settings(), NOW, first)
+        assert (item.status, len(first.seen)) == ("held", 1)
+        await _as_document_mode(session)
+        # Image mode: the held listing is read once more, now from its page images.
+        reader = FakeTranscriber()
+        later = NOW + timedelta(days=1)
+        run = await write_official_items(
+            session, adapter(pdf_site()), FakeAi(), settings(), later, reader
+        )
+        assert (run.published, run.transcribe.ok, len(reader.seen)) == (1, 1, 1)
+        assert (item.status, item.extracted_text) == ("published", SOURCE)
+        results = [
+            (e.detail["result"], e.detail.get("mode")) for e in await events(session, TRANSCRIBE)
+        ]
+        assert sorted(results, key=str) == [("illegible", None), ("ok", "image")]
+        [provenance] = await events(session, "pdf_transcribed")
+        assert (provenance.detail["mode"], provenance.detail["requests"]) == ("image", 1)
+
+
+async def test_an_illegible_image_transcription_is_never_asked_again(
+    engine: AsyncEngine,
+) -> None:
+    async with async_sessionmaker(engine)() as session:
+        item = await listed(session, NOW)
+        reader = FakeTranscriber(Transcription("", 0, False, "m"))
+        await write_official_items(session, adapter(pdf_site()), FakeAi(), settings(), NOW, reader)
+        await _as_document_mode(session)  # the earlier document-block attempt
+        later = NOW + timedelta(days=1)
+        await write_official_items(
+            session, adapter(pdf_site()), FakeAi(), settings(), later, reader
+        )
+        assert len(reader.seen) == 2  # its one image-mode attempt, illegible too
+        [image] = [e for e in await events(session, TRANSCRIBE) if e.detail.get("mode")]
+        assert image.detail["result"] == "illegible"
+        for days in (2, 3):
+            await write_official_items(
+                session,
+                adapter(pdf_site()),
+                FakeAi(),
+                settings(),
+                NOW + timedelta(days=days),
+                reader,
+            )
+        assert len(reader.seen) == 2  # at most one image-mode attempt, ever
+        assert item.status == "held"
+
+
+async def test_other_document_mode_results_are_not_asked_again(engine: AsyncEngine) -> None:
+    async with async_sessionmaker(engine)() as session:
+        item = await listed(session, NOW)
+        reader = FakeTranscriber(AiRefusedError("declined"), Transcription(SOURCE, 1, True, "m"))
+        await write_official_items(session, adapter(pdf_site()), FakeAi(), settings(), NOW, reader)
+        await _as_document_mode(session)
+        later = NOW + timedelta(days=1)
+        await write_official_items(
+            session, adapter(pdf_site()), FakeAi(), settings(), later, reader
+        )
+        assert (len(reader.seen), item.status) == (1, "held")  # only `illegible` is retried
+
+
+async def test_a_pdf_that_cannot_be_rendered_is_final_and_costs_no_request(
+    engine: AsyncEngine,
+) -> None:
+    reader = FakeTranscriber(RenderError("PDF not opened for rendering: damaged"))
+    async with async_sessionmaker(engine)() as session:
+        item = await listed(session, NOW)
+        one = settings(feed_pdf_transcribe_daily=1)
+        run = await write_official_items(session, adapter(pdf_site()), FakeAi(), one, NOW, reader)
+        assert (run.transcribe.calls, run.transcribe.errors, item.status) == (0, 1, "held")
+        assert "not opened for rendering" in item.check_issues[0]["text"]
+        [event] = await events(session, TRANSCRIBE)
+        assert (event.detail["result"], event.detail["mode"]) == ("unrenderable", "image")
+        later = NOW + timedelta(days=1)
+        await write_official_items(session, adapter(pdf_site()), FakeAi(), one, later, reader)
+        assert len(reader.seen) == 1  # final
+
+
+async def test_the_daily_cap_counts_each_request_of_a_batched_pdf(engine: AsyncEngine) -> None:
+    big = make_pdf([KRUTI_DEV] * (IMAGES_PER_REQUEST + 1))  # two requests
+    reader = FakeTranscriber(Transcription(SOURCE, IMAGES_PER_REQUEST + 1, True, "m", requests=2))
+    async with async_sessionmaker(engine)() as session:
+        item = await listed(session, NOW)
+        run = await write_official_items(
+            session,
+            adapter(pdf_site(big)),
+            FakeAi(),
+            settings(feed_pdf_transcribe_daily=1),
+            NOW,
+            reader,
+        )
+        assert (run.transcribe.calls, reader.seen, item.status) == (0, [], "held")
+        assert "FEED_PDF_TRANSCRIBE_DAILY" in item.check_issues[0]["text"]
+        later = NOW + timedelta(days=1)
+        run = await write_official_items(
+            session,
+            adapter(pdf_site(big)),
+            FakeAi(),
+            settings(feed_pdf_transcribe_daily=3),
+            later,
+            reader,
+        )
+        assert (run.transcribe.calls, run.transcribe.ok, item.status) == (2, 1, "published")
+        # The same day: 2 of 3 requests used, so a second two-request PDF would wait.
+        [ok] = [e for e in await events(session, TRANSCRIBE) if e.detail["result"] == "ok"]
+        assert ok.detail["requests"] == 2
+
+
+async def test_no_page_image_is_stored(engine: AsyncEngine) -> None:
+    """The real adapter end to end: neither the PDF nor its page images are kept."""
+    seen: list[httpx.Request] = []
+    answer = {"text": SOURCE, "pages_read": 1, "legible": True}
+    http = model_client(httpx.Response(200, content=streamed_answer(json.dumps(answer))), seen)
+    reader = AnthropicFeedAi(http, settings(feed_ai_api_key="k"))
+    png = base64.b64encode(render_pages(BROKEN_PDF, max_pages=1)[0].png).decode()
+    async with async_sessionmaker(engine)() as session:
+        item = await listed(session, NOW)
+        run = await write_official_items(
+            session, adapter(pdf_site()), FakeAi(), settings(), NOW, reader
+        )
+        assert (run.published, len(seen)) == (1, 1)
+        assert png[100:160] in seen[0].content.decode()  # it was sent ...
+        stored = [json.dumps(e.detail) for e in await session.scalars(select(FeedReviewEvent))]
+        stored += [json.dumps(r.article) for r in await session.scalars(select(FeedItemI18n))]
+        stored.append(item.extracted_text or "")
+        for text in stored:  # ... and nothing kept it
+            assert png[100:160] not in text
+            assert "iVBORw0KGgo" not in text  # the base64 PNG signature
