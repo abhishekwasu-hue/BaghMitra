@@ -208,7 +208,8 @@ async def run_delivery(  # noqa: PLR0913 - the job's context
             **({"action": rule.action} if rule.action else {}),
         }
         body = alert_body(rule, plots, names, lang)
-        message = PushMessage(token="", title=_text(TITLES, lang), body=body, data=data)
+        # Each phone gets its own token in send_to_phones; the first one stands in here.
+        message = PushMessage(token=phones[0], title=_text(TITLES, lang), body=body, data=data)
         sent, outage = await send_to_phones(sender, phones, message, invalid)
         summary.messages += sent
         if sent:
