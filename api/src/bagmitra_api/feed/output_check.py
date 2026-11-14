@@ -91,9 +91,11 @@ _UNITS = {
     "कोटी": 10_000_000,
     "करोड़": 10_000_000,
     "करोड": 10_000_000,
+    "करोड़": 10_000_000,  # करोड़ with the precomposed ड़ (U+095C)
     "thousand": 1_000,
     "हजार": 1_000,
     "हज़ार": 1_000,
+    "हज़ार": 1_000,  # हज़ार with the precomposed ज़ (U+095B)
 }
 _UNIT = "|".join(sorted(map(re.escape, _UNITS), key=len, reverse=True))
 _CURRENCY = r"(?:₹|rs\.?|inr|रु\.?|रुपये|रुपए)"
@@ -111,7 +113,7 @@ _WORDS: dict[str, int] = {
     "तीस": 30, "चाळीस": 40, "चालीस": 40, "पन्नास": 50, "पचास": 50, "साठ": 60,
     "सत्तर": 70, "ऐंशी": 80, "अस्सी": 80, "नव्वद": 90, "नब्बे": 90,
 }  # fmt: skip
-_UNIT_WORDS = "हजार|हज़ार|लाख|कोटी|करोड़|करोड"
+_UNIT_WORDS = "|".join(sorted((u for u in _UNITS if not u.isascii()), key=len, reverse=True))
 _WORD_BEFORE_UNIT = re.compile(
     rf"(?<![^\W\d_])({'|'.join(sorted(map(re.escape, _WORDS), key=len, reverse=True))})"
     rf"\s+({_UNIT_WORDS})"
@@ -153,10 +155,17 @@ def _english_value(m: re.Match[str]) -> str:
     return str((_EN_TENS.index(m[1]) + 2) * 10 + (_EN_SMALL.index(m[2]) if m[2] else 0))
 
 
-_PART_UNITS = {"कोटी": 10_000_000, "करोड़": 10_000_000, "करोड": 10_000_000, "लाख": 100_000}
-_PART_UNITS |= {"हजार": 1_000, "हज़ार": 1_000}
-_PART_UNIT = "|".join(sorted(map(re.escape, _PART_UNITS), key=len, reverse=True))
-# A number spelt in parts: "८८ कोटी १९ लाख", "३ लाख ६५ हजार ११", "१ हजार ६००".
+# The units of a number spelt in parts: Marathi, Hindi (हज़ार / करोड़ with the nukta as a
+# combining sign or precomposed, or without it) and English. VPS 2026-11-14: the source wrote
+# "1 लाख 29 हजार", the English article "1 lakh 29 thousand"; only Devanagari parts were joined,
+# so en read 100000 and 29000 where the source and mr read 129000. Not "cr", not "hundred".
+_PART_UNITS = {unit: scale for unit, scale in _UNITS.items() if unit != "cr"}
+_PART_UNIT = "|".join(
+    re.escape(u) + ("(?![a-z])" if u.isascii() else "")  # "lakh" only as a whole word
+    for u in sorted(_PART_UNITS, key=len, reverse=True)
+)
+# A number spelt in parts: "८८ कोटी १९ लाख", "३ लाख ६५ हजार ११", "१ हजार ६००",
+# "1 lakh 29 thousand", "88 crore 19 lakh".
 _PARTS = re.compile(
     rf"(?<![\d.,])\d{{1,3}} (?:{_PART_UNIT})(?: \d{{1,2}} (?:{_PART_UNIT}))*"
     rf"(?: (\d{{1,3}})(?![\d,]|\.\d| ?(?:{_PART_UNIT})))?"
@@ -164,23 +173,28 @@ _PARTS = re.compile(
 _PART = re.compile(rf"(\d+) ({_PART_UNIT})")
 
 
-def _join_parts(m: re.Match[str]) -> str:
+def _join_parts(m: re.Match[str]) -> str | None:
     """One number for a number spelt in parts, when the parts are in falling order and each
     fits below the one before (lakh and thousand counts below 100). A trailing plain number is
     the rest below a thousand only after a thousand part: three digits after a thousand alone
     ("१ हजार ६००"), one to three after a lakh / crore chain ("३ लाख ६५ हजार ११", Mahasamvad
-    style). Exact sums only; anything else stays as written."""
+    style). Exact sums only; anything else stays as written (None). The same rules in every
+    language, on the source and on the output alike.
+
+    A joined number is one value: its parts do not vouch for themselves ("1 लाख 29 हजार" in
+    the source vouches for 129000 only, never for "1 lakh", "29 thousand", 1 or 29 alone), and
+    it is a unit-multiplied amount, as "1.29 lakh" is (`TextFacts.amounts`)."""
     parts = [(int(n), _PART_UNITS[u]) for n, u in _PART.findall(m[0])]
     rest = m[1]
     scales = [scale for _, scale in parts]
     if scales != sorted(set(scales), reverse=True):
-        return m[0]
+        return None
     if any(n >= 100 for n, _ in parts[1:]):
-        return m[0]
+        return None
     if rest is not None and (scales[-1] != 1_000 or (len(parts) == 1 and len(rest) != 3)):
-        return m[0]
+        return None
     if len(parts) == 1 and rest is None:
-        return m[0]
+        return None
     return str(sum(n * scale for n, scale in parts) + int(rest or 0))
 
 
@@ -205,22 +219,39 @@ class _Facts:
     numbers: list[tuple[str, float, bool]] = field(default_factory=list)
 
 
-def _number_words(text: str) -> str:
+def _number_words(text: str) -> tuple[str, list[tuple[int, int]]]:
     """Number words before a unit become digits ("पाच हजार" -> "5 हजार"), and the "N lakh M
-    thousand" / "N thousand MMM" forms become one number ("१ हजार ६००" -> "1600"). VPS
-    2026-11-09: Mahasamvad wrote "पाच हजार रुपयांची" and "१ हजार ६०० जनावरांची" and held two
-    correct articles. A word counts only right before हजार / लाख / कोटी (so "साठी" is not 60
-    and a bare "पाच दिवसांत" is not read)."""
+    thousand" / "N thousand MMM" forms become one number ("१ हजार ६००" -> "1600"); also the
+    spans of those joined numbers in the result. VPS 2026-11-09: Mahasamvad wrote "पाच हजार
+    रुपयांची" and "१ हजार ६०० जनावरांची" and held two correct articles. A word counts only right
+    before हजार / लाख / कोटी (so "साठी" is not 60 and a bare "पाच दिवसांत" is not read)."""
     text = _WORD_BEFORE_UNIT.sub(lambda m: f"{_WORDS[m[1]]} {m[2]}", text)
     text = _EN_WORDS_BEFORE_UNIT.sub(_english_value, text)
-    return _PARTS.sub(_join_parts, text)
+    out: list[str] = []
+    joined: list[tuple[int, int]] = []
+    pos = length = 0
+    for m in _PARTS.finditer(text):
+        value = _join_parts(m)
+        if value is None:
+            continue
+        length += m.start() - pos
+        joined.append((length, length + len(value)))
+        length += len(value)
+        out += [text[pos : m.start()], value]
+        pos = m.end()
+    out.append(text[pos:])
+    return "".join(out), joined
+
+
+def _normalised(text: str) -> tuple[str, list[tuple[int, int]]]:
+    flat = re.sub(r"\s+", " ", text.translate(_DEVANAGARI_DIGITS)).strip().lower()
+    return _number_words(flat)
 
 
 def normalise(text: str) -> str:
-    """Devanagari digits to ASCII, number words before a unit to digits, unified whitespace,
-    lower case."""
-    flat = re.sub(r"\s+", " ", text.translate(_DEVANAGARI_DIGITS)).strip().lower()
-    return _number_words(flat)
+    """Devanagari digits to ASCII, number words before a unit to digits, a number spelt in
+    parts to one number, unified whitespace, lower case."""
+    return _normalised(text)[0]
 
 
 def _date_key(year: int, month: int, day: int) -> str | None:
@@ -234,7 +265,7 @@ def _scan(text: str) -> _Facts:
     """Dates (full and month-year) and numbers in `text`. Date spans are blanked before
     numbers are read, so a date's parts are not reported again as plain numbers."""
     facts = _Facts()
-    norm = normalise(text)
+    norm, joined = _normalised(text)
     spans = facts.spans
 
     def add_date(start: int, end: int, key: str | None) -> None:
@@ -264,17 +295,20 @@ def _scan(text: str) -> _Facts:
         # Decimal: "1.15 लाख" is exactly 115000 (as a float product it is 114999.99999999999).
         unit = (m["unit"] or "").lower()
         value = Decimal(m["num"].replace(",", "")) * _UNITS.get(unit, 1)
-        is_amount = bool(m["cur"] or unit)
+        start = m.start("num")  # a number joined from parts is an amount (`_join_parts`)
+        is_amount = bool(m["cur"] or unit or any(s <= start < e for s, e in joined))
         facts.numbers.append((m[0].strip(), float(value), is_amount))
     return facts
 
 
 @dataclass(frozen=True, slots=True)
 class TextFacts:
-    """Full dates (ISO) and money amounts (₹ / lakh / crore, unit-multiplied) in a text."""
+    """Full dates (ISO) and money amounts (₹ / lakh / crore, unit-multiplied) in a text;
+    `numbers`: every value read, amounts and plain numbers alike."""
 
     dates: frozenset[str]
     amounts: frozenset[float]
+    numbers: frozenset[float] = frozenset()
 
 
 def day_months(text: str) -> list[tuple[str, int, int]]:
@@ -300,7 +334,23 @@ def text_facts(text: str) -> TextFacts:
     return TextFacts(
         frozenset(k for k in facts.dates if len(k) == 10),
         frozenset(v for _, v, is_amount in facts.numbers if is_amount),
+        frozenset(v for _, v, _ in facts.numbers),
     )
+
+
+def language_differences(facts: Mapping[str, TextFacts]) -> dict[str, list[str]]:
+    """Per language, the amounts and dates it states that another language lacks; empty means
+    every language states the same ones. An amount counts as stated in another language when
+    that language has the same value in any form, as an amount or a plain number ("१ हजार ६००"
+    = "1,600", "1 लाख 29 हजार" = "1.29 lakh" = "129,000"); a different value never does."""
+    out: dict[str, list[str]] = {}
+    for lang, own in facts.items():
+        others = [f for other, f in facts.items() if other != lang]
+        lacking = {f"{v:g}" for v in own.amounts if any(v not in f.numbers for f in others)}
+        lacking |= {d for d in own.dates if any(d not in f.dates for f in others)}
+        if lacking:
+            out[lang] = sorted(lacking)
+    return out
 
 
 def _contains(haystack: str, needle: str) -> bool:

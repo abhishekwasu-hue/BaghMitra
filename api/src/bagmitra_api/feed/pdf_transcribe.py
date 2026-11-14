@@ -9,7 +9,7 @@ becomes the item's stored text (review event `pdf_transcribed`: model, pages) an
 official article path runs on it, so the "facts in the source" checks compare against the
 transcription. Neither the PDF bytes nor the page images are ever stored.
 
-Image mode (Q154): every page is rendered here (pypdfium2, grayscale PNG, long edge
+Image mode (Q155): every page is rendered here (pypdfium2, grayscale PNG, long edge
 IMAGE_LONG_EDGE px) and sent as an `image` block, at most IMAGES_PER_REQUEST pages per
 request; the batches' texts are joined in page order. The PDF `document` block (Q152's first
 version) is not used any more: for a PDF document block the API extracts each page's text
@@ -45,7 +45,7 @@ IMAGE_LONG_EDGE = 1568
 # platforms PDF blocks count too); 20 pages per request stays below it everywhere. With the
 # 30-page cap a PDF takes at most two requests.
 IMAGES_PER_REQUEST = 20
-# Review-event `mode` of a transcription made from page images (Q154).
+# Review-event `mode` of a transcription made from page images (Q155).
 IMAGE_MODE = "image"
 
 TRANSCRIBE_PROMPT = f"""You transcribe Maharashtra government documents (GRs, circulars,

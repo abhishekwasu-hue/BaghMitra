@@ -278,7 +278,7 @@ cd /opt/bagmitra/deploy && docker compose exec -T api python -m bagmitra_api.fee
 ```
 It prints `{"published": …, "held": …, "retry": …}`; reasons still failing are in admin web (status "held").
 
-**Why is it held? (read-only diagnosis, OPEN_QUESTIONS Q153):** `cd /opt/bagmitra/deploy && docker compose exec -T api python -m bagmitra_api.feed.diag_held --limit 15` prints, per held news / official item, each date / amount / number "not in the source" with up to two source snippets (same day+month, same digits or a number word); `--pdf-probe [ITEM_ID]` instead re-downloads one PDF (default: the newest `illegible` transcription) and prints pages, text layer, Devanagari / ASCII / private-use share, image-only pages and fonts; `--render-test` (Q154) adds page 1 rendered as image mode renders it (pixel size, PNG bytes). No database write, no model call; news pages are fetched again (robots, spacing, size limit as above).
+**Why is it held? (read-only diagnosis, OPEN_QUESTIONS Q153):** `cd /opt/bagmitra/deploy && docker compose exec -T api python -m bagmitra_api.feed.diag_held --limit 15` prints, per held news / official item, each date / amount / number "not in the source" with up to two source snippets (same day+month, same digits or a number word); `--pdf-probe [ITEM_ID]` instead re-downloads one PDF (default: the newest `illegible` transcription) and prints pages, text layer, Devanagari / ASCII / private-use share, image-only pages and fonts; `--render-test` (Q155) adds page 1 rendered as image mode renders it (pixel size, PNG bytes). No database write, no model call; news pages are fetched again (robots, spacing, size limit as above).
 
 ## 12. News topic threads (owner Q139)
 Mahasamvad publishes one decision from many districts under different links, so related news is
@@ -467,7 +467,7 @@ transcription of the visible text only: no summary, no translation, nothing adde
 parts `[अस्पष्ट]`; structured output `{text, pages_read, legible}`. Streamed (a long GR takes
 minutes).
 
-- **Image mode (Q154).** Each page is rendered in the API container (pypdfium2, pure pip wheel,
+- **Image mode (Q155).** Each page is rendered in the API container (pypdfium2, pure pip wheel,
   no system library) to an 8-bit grayscale PNG with a long edge of 1,568 px (sent unscaled on
   every model; ~134 dpi on A4) and sent as an `image` block (`image/png`, base64) after a
   `Page N:` label; at most 20 pages per request (above 20 images the API applies a stricter

@@ -399,7 +399,7 @@ class AnthropicFeedAi:
         return _json_object(answer)
 
     async def transcribe_pdf(self, data: bytes) -> Transcription:
-        """Owner 2026-11-13 (Q152, image mode Q154): the visible text of a legacy-font PDF,
+        """Owner 2026-11-13 (Q152, image mode Q155): the visible text of a legacy-font PDF,
         transcribed by the model from its rendered pages (image blocks, at most
         IMAGES_PER_REQUEST a request; the batches joined in page order). Streamed: a long GR
         takes minutes. RenderError (no request made) when the pages cannot be rendered."""

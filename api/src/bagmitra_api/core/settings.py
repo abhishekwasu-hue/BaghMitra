@@ -221,7 +221,7 @@ class Settings(BaseSettings):
     # CRON_FEED_PORTALS in deploy/.env also removes its cron line.
     cron_feed_portals: bool = True
     # Legacy-font official PDFs read by the model (owner 2026-11-13, Q152), from their page
-    # images (Q154, 20 pages per request). Empty model: the summariser's (FEED_SUMMARISE_MODEL).
+    # images (Q155, 20 pages per request). Empty model: the summariser's (FEED_SUMMARISE_MODEL).
     # At most FEED_PDF_TRANSCRIBE_DAILY requests per UTC day, counted apart from
     # FEED_AI_DAILY_ITEMS; larger PDFs stay held. MAX_TOKENS and the timeout are per request.
     feed_pdf_transcribe_model: str = ""

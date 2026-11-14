@@ -17,7 +17,7 @@ finished attempt), from a source whose terms are `allowed`:
 At most FEED_AI_DAILY_ITEMS such attempts per UTC day (counted apart from the news articles).
 Without a model key (FEED_AI_API_KEY empty) nothing happens and the listings wait.
 
-Transcription (Q152; image mode Q154): one transcription per PDF from its rendered page
+Transcription (Q152; image mode Q155): one transcription per PDF from its rendered page
 images (one request per IMAGES_PER_REQUEST pages), at most FEED_PDF_TRANSCRIBE_DAILY requests
 per UTC day (`pdf_transcribe` review events, `detail.requests`, counted apart from
 FEED_AI_DAILY_ITEMS). A listing held earlier for a broken text gets its one transcription on a
@@ -180,7 +180,7 @@ async def _transcribe_requests_today(session: AsyncSession, now: datetime) -> in
 
 def _transcription_final(detail: dict[str, Any]) -> bool:
     """A final transcription result, except a document-block (pre-image-mode) `illegible`:
-    that listing is owed one image-mode transcription (Q154)."""
+    that listing is owed one image-mode transcription (Q155)."""
     result = detail.get("result")
     if result not in TRANSCRIBE_FINAL:
         return False
@@ -307,7 +307,7 @@ async def _transcribed(  # noqa: PLR0911, PLR0913 - the PDF, its extraction and 
     now: datetime,
     run: TranscribeRun,
 ) -> str | None:
-    """Q152: the model's transcription of a broken-text PDF (from its page images, Q154), or
+    """Q152: the model's transcription of a broken-text PDF (from its page images, Q155), or
     None (the item is then held with the reason; a final result is never asked again)."""
     limit = settings.feed_pdf_transcribe_max_pages
     mode = {"mode": IMAGE_MODE}

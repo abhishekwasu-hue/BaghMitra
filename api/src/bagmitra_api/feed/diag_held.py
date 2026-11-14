@@ -8,7 +8,7 @@ runs, and every date / amount / number mismatch is printed with up to two source
 `--pdf-probe [ITEM_ID]`: re-download one official PDF (default: the newest one whose
 transcription ended `illegible`) and report its page count, text layer, character mix
 (Devanagari / ASCII / private use), image-only pages and fonts. With `--render-test` (implies
-`--pdf-probe`) page 1 is also rendered as the image-mode transcription renders it (Q154) and its
+`--pdf-probe`) page 1 is also rendered as the image-mode transcription renders it (Q155) and its
 pixel size and PNG byte size are printed, to confirm the renderer works in the container.
 
 Nothing is written (no database change, the session is rolled back) and no model is called.
@@ -53,6 +53,7 @@ from bagmitra_api.feed.output_check import (
     normalise,
     text_facts,
 )
+from bagmitra_api.feed.output_check import language_differences as compare_languages
 from bagmitra_api.feed.pdf_transcribe import RenderError, render_pages
 
 CONTEXT = 60
@@ -198,16 +199,14 @@ def mismatches(
 
 def language_differences(articles: ArticleSet) -> list[str]:
     """For "amounts or dates differ between mr / hi / en": what each language has that
-    another lacks."""
-    facts = {}
-    for lang, a in articles.articles.items():
-        found = text_facts("\n".join(text for _, text in _texts(lang, a)))
-        facts[lang] = {f"{v:g}" for v in found.amounts} | set(found.dates)
-    every = set.intersection(*facts.values()) if facts else set()
+    another lacks (`output_check.language_differences`, the check's own comparison)."""
+    facts = {
+        lang: text_facts("\n".join(text for _, text in _texts(lang, a)))
+        for lang, a in articles.articles.items()
+    }
     return [
-        f"{lang} only/extra: {', '.join(sorted(values - every))}"
-        for lang, values in facts.items()
-        if values - every
+        f"{lang} only/extra: {', '.join(values)}"
+        for lang, values in compare_languages(facts).items()
     ]
 
 

@@ -1,6 +1,6 @@
 """Owner 2026-11-13 (OPEN_QUESTIONS Q152): an official PDF whose text layer is legacy-font
 garbage (`text_broken`) is transcribed by the model; the transcription becomes the item's text
-and the normal official article path runs on it. Q154: the pages are rendered here and sent as
+and the normal official article path runs on it. Q155: the pages are rendered here and sent as
 image blocks (grayscale PNG, at most 20 a request), not as a PDF document block (whose
 extracted text layer is the garbage). No live network: httpx.MockTransport answers every
 request."""
@@ -517,7 +517,7 @@ async def test_the_real_adapter_end_to_end(engine: AsyncEngine) -> None:
         assert stored.raw_bytes == len(BROKEN_PDF)
 
 
-# --- Q154: image mode ---------------------------------------------------------------------------
+# --- Q155: image mode ---------------------------------------------------------------------------
 
 
 async def _as_document_mode(session: AsyncSession) -> None:
