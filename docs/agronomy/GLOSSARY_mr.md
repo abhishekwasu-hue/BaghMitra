@@ -9,6 +9,7 @@
 | Concept (en) | Use (mr) | Not | Reason |
 |---|---|---|---|
 | Harvest (fruit picking) | तोडणी; तोडणीपूर्व, तोडणीनंतर | काढणी | Citrus fruit is cut or picked from the tree; काढणी is the word for crops that are pulled or dug. तोडणी was already used in 7 practice items, `bahars.json` and `bahar_compare.json`. |
+| Harvest (field crop: cotton, soybean, pulses, oilseeds) | काढणी | तोडणी | Field crops are cut or pulled, not picked; the crop guides (owner 2026-11-14, "लागवड ते काढणी", `crop_guides.json`) use काढणी. The test exempts that file only. |
 | Pre-harvest interval (PHI) | तोडणीपूर्वीचे दिवस (PHI) | काढणीपूर्वी … | Follows the harvest term. arb only (see below). |
 | Plot / orchard | बाग | प्लॉट | बाग is used on every other screen and in all configs; प्लॉट is an English loan used only in the walkthrough. arb only. |
 | Citrus psylla | सायला (सिट्रस सायला) | सिल्ला | सायला is already used in the configs, `rules.json` and the arb; सिल्ला appears only in the mr demo file. Hindi keeps सिल्ला. |

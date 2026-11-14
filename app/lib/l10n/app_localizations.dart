@@ -9506,6 +9506,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Open records'**
   String get homePlotOpen;
+
+  /// Block screen tile: opens the sowing-to-harvest guide of the block's crop (owner 2026-11-14, पीक मार्गदर्शक).
+  ///
+  /// In en, this message translates to:
+  /// **'Crop guide'**
+  String get cropGuideOpen;
+
+  /// Crop guide screen title.
+  ///
+  /// In en, this message translates to:
+  /// **'{crop}: crop guide'**
+  String cropGuideTitle(String crop);
+
+  /// Button under a feed article whose text names the crop (owner 2026-11-14).
+  ///
+  /// In en, this message translates to:
+  /// **'{crop}: sowing to harvest guide'**
+  String cropGuideArticleButton(String crop);
 }
 
 class _AppLocalizationsDelegate

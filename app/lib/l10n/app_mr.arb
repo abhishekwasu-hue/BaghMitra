@@ -1565,5 +1565,8 @@
   "plotCropName": "पिकाचे नाव",
   "plotCropNameHint": "उदा. टोमॅटो, झेंडू",
   "requiredCropName": "पिकाचे नाव लिहा",
-  "homePlotOpen": "नोंदी उघडा"
+  "homePlotOpen": "नोंदी उघडा",
+  "cropGuideOpen": "पीक मार्गदर्शक",
+  "cropGuideTitle": "{crop}: पीक मार्गदर्शक",
+  "cropGuideArticleButton": "{crop}: लागवड ते काढणी मार्गदर्शक"
 }

@@ -5444,4 +5444,17 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get homePlotOpen => 'Open records';
+
+  @override
+  String get cropGuideOpen => 'Crop guide';
+
+  @override
+  String cropGuideTitle(String crop) {
+    return '$crop: crop guide';
+  }
+
+  @override
+  String cropGuideArticleButton(String crop) {
+    return '$crop: sowing to harvest guide';
+  }
 }

@@ -29,6 +29,7 @@ import '../features/billing/data/snapshot_signature.dart';
 import '../features/billing/data/subscription_flow.dart';
 import '../features/billing/domain/entitlements.dart';
 import '../features/bills/data/bill_photos.dart';
+import '../features/crop_guides/data/crop_guides.dart';
 import '../features/dev/sample_orchard.dart';
 import '../features/directory/data/directory_config.dart';
 import '../features/export/data/file_sharer.dart';
@@ -342,6 +343,15 @@ final practiceCardsConfigProvider = Provider<PracticeCardsConfig>(
 
 final practiceCardsProvider = FutureProvider<PracticeCardsData>(
   (ref) => ref.watch(practiceCardsConfigProvider).load(),
+);
+
+/// The bundled crop guides (पीक मार्गदर्शक, owner 2026-11-14): offline, by crop.
+final cropGuidesConfigProvider = Provider<CropGuidesConfig>(
+  (ref) => CropGuidesConfig(),
+);
+
+final cropGuidesProvider = FutureProvider<CropGuidesData>(
+  (ref) => ref.watch(cropGuidesConfigProvider).load(),
 );
 
 /// The offline questions and answers of the विचारा tab (Q144), bundled with the app.

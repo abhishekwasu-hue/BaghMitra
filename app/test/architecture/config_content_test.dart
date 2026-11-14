@@ -100,6 +100,9 @@ void main() {
       for (final (path, t) in _texts(json, name)) {
         if (t['mr'] case final String mr) {
           for (final v in _mrVariants.entries) {
+            // Field crops are harvested, not picked: काढणी is the right word in the crop
+            // guides (owner 2026-11-14, "लागवड ते काढणी"; glossary row "Harvest (field crop)").
+            if (name == 'crop_guides.json' && v.key == 'काढणी') continue;
             if (mr.contains(v.key)) {
               misses.add('$path: "${v.key}" -> "${v.value}"');
             }

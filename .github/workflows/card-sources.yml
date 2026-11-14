@@ -12,6 +12,11 @@ on:
         required: false
         default: ""
         type: string
+      guides:
+        description: "Crop guides (owner 2026-11-14): check that every guide line's quote is in its cited source (no model call), instead of the card passages"
+        required: false
+        default: false
+        type: boolean
       raw:
         description: "Feed source checks: print each URL's raw response (status, type, feed and page links, first 20,000 characters) and its host's robots.txt, fetched with the feed adapters' own User-Agent, instead of the visible text"
         required: false
@@ -36,8 +41,13 @@ jobs:
           cache: pip
           cache-dependency-path: api/pyproject.toml
       - run: pip install -e .
+      - name: Check the crop guide quotes against their sources
+        if: ${{ inputs.guides }}
+        env:
+          ENVIRONMENT: test
+        run: python -m bagmitra_api.kb.card_check ../app/assets/config/crop_guides.json --quotes
       - name: Fetch the cited sources and write the reviewer file
-        if: ${{ !inputs.raw }}
+        if: ${{ !inputs.raw && !inputs.guides }}
         env:
           ENVIRONMENT: test
         run: |
@@ -50,7 +60,7 @@ jobs:
           cat "$RUNNER_TEMP/card_passages.json"
           echo "::endgroup::"
       - uses: actions/upload-artifact@v4
-        if: ${{ !inputs.raw }}
+        if: ${{ !inputs.raw && !inputs.guides }}
         with:
           name: card-passages
           path: ${{ runner.temp }}/card_passages.json

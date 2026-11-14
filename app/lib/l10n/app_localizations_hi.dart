@@ -5428,4 +5428,17 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get homePlotOpen => 'रिकॉर्ड खोलें';
+
+  @override
+  String get cropGuideOpen => 'फसल मार्गदर्शिका';
+
+  @override
+  String cropGuideTitle(String crop) {
+    return '$crop: फसल मार्गदर्शिका';
+  }
+
+  @override
+  String cropGuideArticleButton(String crop) {
+    return '$crop: बुवाई से कटाई तक मार्गदर्शिका';
+  }
 }

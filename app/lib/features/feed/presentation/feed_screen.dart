@@ -15,6 +15,7 @@ import '../../../design_system/sources_disclosure.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../sync/presentation/refresh_note.dart';
 import '../../../theme/app_theme.dart';
+import '../../crop_guides/presentation/crop_guide_screen.dart';
 import '../../reactions/presentation/reaction_bar.dart';
 import '../../tasks/domain/farm_task.dart';
 import '../../voice/presentation/share_speak_buttons.dart';
@@ -625,6 +626,8 @@ class _FeedItemScreenState extends ConsumerState<FeedItemScreen> {
                     actions: [_copyLinkButton(item)],
                   ),
                 ],
+                // The guide of every crop the item names (owner 2026-11-14).
+                CropGuideLinks(text: feedItemText(item)),
                 const SizedBox(height: BmSpace.xs),
                 if (item.isKnowledge)
                   Text(
@@ -708,6 +711,18 @@ class _FeedItemScreenState extends ConsumerState<FeedItemScreen> {
     await _receipt(item.id, FeedReceiptAction.remind, receipts);
   }
 }
+
+/// Everything a feed item says (title, summary and its article), to find the crops it names.
+String feedItemText(FeedItem item) => [
+  item.title,
+  item.summary,
+  if (item.article case final a?) ...[
+    a.headline,
+    a.standfirst,
+    ...a.keyPoints,
+    for (final s in a.sections) ...[s.heading, s.body],
+  ],
+].join('\n');
 
 /// The task `source` that marks a reminder made from a feed item.
 String feedTaskSource(FeedItem item) => 'feed:${item.id}';

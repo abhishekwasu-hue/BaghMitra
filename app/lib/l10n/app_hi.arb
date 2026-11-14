@@ -1565,5 +1565,8 @@
   "plotCropName": "फसल का नाम",
   "plotCropNameHint": "जैसे टमाटर, गेंदा",
   "requiredCropName": "फसल का नाम लिखें",
-  "homePlotOpen": "रिकॉर्ड खोलें"
+  "homePlotOpen": "रिकॉर्ड खोलें",
+  "cropGuideOpen": "फसल मार्गदर्शिका",
+  "cropGuideTitle": "{crop}: फसल मार्गदर्शिका",
+  "cropGuideArticleButton": "{crop}: बुवाई से कटाई तक मार्गदर्शिका"
 }

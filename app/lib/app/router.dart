@@ -15,6 +15,7 @@ import '../features/bahar/presentation/bahar_screen.dart';
 import '../features/bahar/presentation/start_bahar_screen.dart';
 import '../features/billing/presentation/subscription_screen.dart';
 import '../features/calendar/presentation/season_calendar_screen.dart';
+import '../features/crop_guides/presentation/crop_guide_screen.dart';
 import '../features/dev/component_gallery_screen.dart';
 import '../features/directory/presentation/directory_screen.dart';
 import '../features/export_info/presentation/export_info_screen.dart';
@@ -119,6 +120,9 @@ abstract final class Routes {
   static String mlReport(String subjectType, String subjectId) =>
       '$mlSafety/report/$subjectType/$subjectId';
   static const practices = '/practices';
+
+  /// The sowing-to-harvest guide of one field crop (पीक मार्गदर्शक, owner 2026-11-14).
+  static String cropGuide(String crop) => '/crop-guide/$crop';
 
   /// The practices guide opened at one card section (a photo-check result, Q135).
   static String practicesSection(String key) => '$practices?section=$key';
@@ -364,6 +368,10 @@ GoRouter buildRouter(
         path: Routes.practices,
         builder: (_, s) =>
             PracticesScreen(section: s.uri.queryParameters['section']),
+      ),
+      GoRoute(
+        path: '/crop-guide/:crop',
+        builder: (_, s) => CropGuideScreen(crop: s.pathParameters['crop']!),
       ),
       GoRoute(
         path: Routes.walkthrough,

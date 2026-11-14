@@ -5423,4 +5423,17 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get homePlotOpen => 'नोंदी उघडा';
+
+  @override
+  String get cropGuideOpen => 'पीक मार्गदर्शक';
+
+  @override
+  String cropGuideTitle(String crop) {
+    return '$crop: पीक मार्गदर्शक';
+  }
+
+  @override
+  String cropGuideArticleButton(String crop) {
+    return '$crop: लागवड ते काढणी मार्गदर्शक';
+  }
 }

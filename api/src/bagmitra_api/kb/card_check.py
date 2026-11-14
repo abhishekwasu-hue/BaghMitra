@@ -4,6 +4,7 @@ against the source document the point cites.
 Usage (one-off, on the VPS where FEED_AI_API_KEY is set; runbook kb-sources.md):
     python -m bagmitra_api.kb.card_check CARDS_JSON|- [--only SOURCE_KEY ...] > report.md
     python -m bagmitra_api.kb.card_check CARDS_JSON --passages OUT.json   # reviewer file
+    python -m bagmitra_api.kb.card_check GUIDES_JSON --quotes   # crop guides: quotes in sources
 ("-" reads the cards file from stdin: the API image does not contain the app's assets.)
 
 A "point" is every object in the cards file with `labels` and `source_keys` (card items,
@@ -320,6 +321,51 @@ async def point_passages(
     return out
 
 
+async def check_quotes(
+    cards: Mapping[str, Any], http: httpx.AsyncClient
+) -> tuple[dict[str, str], dict[str, str]]:
+    """Crop guides (owner 2026-11-14): every item keeps `quote`, the passage of its cited
+    sources it rests on (parts joined by "…"). Returns item id -> problem for every quote
+    that is not in the text of its cited sources (or whose numbers are not all in the
+    quote), and the sources that could not be read. No model call."""
+    sources: Mapping[str, Any] = cards.get("sources", {})
+    texts: dict[str, str] = {}
+    failed: dict[str, str] = {}
+    problems: dict[str, str] = {}
+
+    def items(node: Any) -> Iterator[Mapping[str, Any]]:
+        if isinstance(node, dict):
+            if "quote" in node and "source_keys" in node:
+                yield node
+            for v in node.values():
+                yield from items(v)
+        elif isinstance(node, list):
+            for v in node:
+                yield from items(v)
+
+    for item in items({k: v for k, v in cards.items() if k != "sources"}):
+        keys = [str(k) for k in item["source_keys"]]
+        for key in keys:
+            if key in texts or key in failed:
+                continue
+            url = sources.get(key, {}).get("url") if isinstance(sources.get(key), dict) else None
+            text, reason = await fetch_text(http, url) if url else ("", "no URL")
+            if reason:
+                failed[key] = reason
+            else:
+                texts[key] = text
+        cited = "\n".join(texts[k] for k in keys if k in texts)
+        quote = str(item.get("quote") or "")
+        point = Point(str(item.get("id")), item.get("labels", {}), tuple(keys))
+        if not cited:
+            problems[point.id] = "no cited source could be read"
+        elif not quote_in_source(quote, cited):
+            problems[point.id] = "quote not in the cited sources"
+        elif issues := number_issues(point, quote):
+            problems[point.id] = "numbers not in the quote: " + "; ".join(issues)
+    return problems, failed
+
+
 def report(
     results: list[Result], failed: Mapping[str, str], read: Mapping[str, int] | None = None
 ) -> str:
@@ -361,6 +407,15 @@ async def main(argv: list[str]) -> int:  # pragma: no cover - thin CLI wrapper
     cards = json.loads(raw)
     only = set(argv[argv.index("--only") + 1 :]) if "--only" in argv else None
     settings = get_settings()
+    if "--quotes" in argv:  # crop guides: each quote is in its cited sources, no model call
+        async with httpx.AsyncClient(follow_redirects=True) as http:
+            problems, failed = await check_quotes(cards, http)
+        for key, reason in sorted(failed.items()):
+            print(f"UNREADABLE {key}: {reason}")
+        for item, problem in sorted(problems.items()):
+            print(f"FAIL {item}: {problem}")
+        print(f"quotes: {len(problems)} problems, {len(failed)} sources unreadable")
+        return 1 if problems else 0
     if "--passages" in argv:  # reviewer file, no model call: --passages OUT.json
         async with httpx.AsyncClient(follow_redirects=True) as http:
             found = await point_passages(cards, http, limit=PASSAGE_CHARS)

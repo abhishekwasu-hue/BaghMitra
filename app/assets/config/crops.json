@@ -1,5 +1,5 @@
 {
-  "_note": "Bundled default crop list. label_aliases are the crop names on CIB&RC labels and groups the gazette crop groups used by the offline spray check (owner-confirmed: orange = santra, sweet lime = mosambi). For the other crops (owner 2026-11-14, OPEN_QUESTIONS Q158) an alias or group is listed only where the bundled PPQS restriction list (api kb/seed_data/restrictions.json) names that crop or group exactly: Soybean, Ber, Mango, Grape, Guava (crops) and vegetables (group); none for the others. primary: santra and mosambi, the crops the citrus features are built for (the two big choices on the block form). category: the section of the 'other crops' list (categories). name_typed: the grower types the crop name (saved as the block's variety). Adding a crop needs no code change.",
+  "_note": "Bundled default crop list. label_aliases are the crop names on CIB&RC labels and groups the gazette crop groups used by the offline spray check (owner-confirmed: orange = santra, sweet lime = mosambi). For the other crops (owner 2026-11-14, OPEN_QUESTIONS Q158) an alias or group is listed only where the bundled PPQS restriction list (api kb/seed_data/restrictions.json) names that crop or group exactly: Soybean, Ber, Mango, Grape, Guava (crops) and vegetables (group); none for the others. primary: santra and mosambi, the crops the citrus features are built for (the two big choices on the block form). category: the section of the 'other crops' list (categories). name_typed: the grower types the crop name (saved as the block's variety). Mustard and linseed were added as field crops for the crop guides (owner 2026-11-14, Q160); the PPQS list names neither, so no alias. Adding a crop needs no code change.",
   "crops": [
     {
       "slug": "santra",
@@ -214,6 +214,24 @@
         "en": "Urad (black gram)",
         "mr": "उडीद",
         "hi": "उड़द"
+      },
+      "category": "field"
+    },
+    {
+      "slug": "mustard",
+      "labels": {
+        "en": "Mustard",
+        "mr": "मोहरी",
+        "hi": "सरसों"
+      },
+      "category": "field"
+    },
+    {
+      "slug": "linseed",
+      "labels": {
+        "en": "Linseed",
+        "mr": "जवस",
+        "hi": "अलसी"
       },
       "category": "field"
     },
