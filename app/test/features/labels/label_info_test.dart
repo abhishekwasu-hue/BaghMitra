@@ -123,8 +123,12 @@ void main() {
     await settle(tester);
 
     expect(find.textContaining('It is not a recommendation'), findsOneWidget);
-    // Each row is a compact tile: product, the dose right below it, PHI as a chip.
-    expect(find.textContaining('1.0 ml/L (500 L water/ha)'), findsOneWidget);
+    // Each row is a compact tile: product, the expert-advice note right below it, PHI as a
+    // chip. Owner 2026-11-14 (Q160): no dose is shown, even when an older cache holds one.
+    expect(find.textContaining('1.0 ml/L (500 L water/ha)'), findsNothing);
+    expect(find.textContaining('2 g/L'), findsNothing);
+    expect(find.byKey(const Key('label-row-note-0')), findsOneWidget);
+    expect(find.text('(follow expert advice)'), findsNWidgets(3));
     expect(find.textContaining('14 days before harvest'), findsOneWidget);
     expect(find.textContaining('Updated'), findsOneWidget);
     // One heading per target (the grower's name for it), both anthracnose claims under it.
@@ -134,7 +138,7 @@ void main() {
     final heading = tester.getTopLeft(find.text(anthracnose)).dy;
     final fly = tester.getTopLeft(find.text('Fruit fly')).dy;
     expect(
-      tester.getTopLeft(find.textContaining('2 g/L')).dy,
+      tester.getTopLeft(find.text('Mancozeb 25% SC')).dy,
       inInclusiveRange(heading, fly),
     );
     // The source documents are listed once, in the notice at the top.
@@ -239,28 +243,28 @@ void main() {
     }
 
     testWidgets(
-      'tile: name and bold dose; bio apart; banned calm; one notice',
+      'tile: name and the expert note, no dose; bio apart; banned calm; one notice',
       (tester) async {
         await open(tester, '/plots/p1/labels?target=gummosis');
         expect(find.byKey(const Key('label-target-heading')), findsOneWidget);
-        // The tile: product in a large style, the dose in bold right below it, PHI as a chip.
+        // The tile: product in a large style, the expert-advice note right below it (never
+        // a dose, owner Q160), PHI as a chip.
         final tile = find.byKey(const Key('label-row-0'));
         final name = tester.widget<Text>(
           find.descendant(of: tile, matching: find.text('Chem A 25% SC')),
         );
         expect(name.style!.fontSize, greaterThanOrEqualTo(16.5));
-        final doseSpan =
-            tester
-                    .widget<Text>(find.byKey(const Key('label-row-dose-0')))
-                    .textSpan!
-                as TextSpan;
-        final dose = doseSpan.children!.whereType<TextSpan>().last;
-        expect(dose.text, '500 g/ha');
-        expect(dose.style!.fontWeight, FontWeight.w700);
+        final note = tester.widget<Text>(
+          find.byKey(const Key('label-row-note-0')),
+        );
+        expect(note.data, '(follow expert advice)');
+        expect(note.style!.fontSize, lessThanOrEqualTo(BmType.meta.fontSize!));
         expect(
-          tester.getTopLeft(find.byKey(const Key('label-row-dose-0'))).dy,
+          tester.getTopLeft(find.byKey(const Key('label-row-note-0'))).dy,
           greaterThan(tester.getTopLeft(find.text('Chem A 25% SC')).dy),
         );
+        expect(find.textContaining('500 g/ha'), findsNothing);
+        expect(find.textContaining('Dose'), findsNothing);
         expect(
           find.descendant(
             of: tile,
@@ -357,7 +361,7 @@ void main() {
           hint: 'Tap to see the full label details',
           isFocusable: true,
           hasFocusAction: true,
-          label: 'Chem A 25% SC\nDose on label: 500 g/ha\nPHI: 30 days before harvest',
+          label: 'Chem A 25% SC\n(follow expert advice)\nPHI: 30 days before harvest',
         ),
       );
       handle.dispose();
@@ -368,16 +372,14 @@ void main() {
       Finder inSheet(Finder f) => find.descendant(of: sheet, matching: f);
       expect(inSheet(find.text('Full label details')), findsOneWidget);
       expect(inSheet(find.text('Chem A 25% SC')), findsOneWidget);
-      final dose = tester.widget<Text>(
-        inSheet(find.byKey(const Key('label-dose'))),
+      // Owner Q160: the product with the expert-advice note, never its dose or dilution.
+      expect(
+        tester.widget<Text>(inSheet(find.byKey(const Key('label-note')))).data,
+        '(follow expert advice)',
       );
-      expect(dose.data, '500 g/ha');
-      expect(dose.style!.fontWeight, FontWeight.w700);
-      final dilution = tester.widget<Text>(
-        inSheet(find.byKey(const Key('label-dilution'))),
-      );
-      expect(dilution.data, 'Water on label: 500-1000 L per hectare');
-      expect(dilution.style!.fontWeight, FontWeight.w700);
+      expect(inSheet(find.textContaining('500 g/ha')), findsNothing);
+      expect(inSheet(find.textContaining('500-1000')), findsNothing);
+      expect(inSheet(find.textContaining('Water on label')), findsNothing);
       expect(inSheet(find.text('PHI: 30 days before harvest')), findsOneWidget);
       expect(inSheet(find.text('Contact fungicide.')), findsOneWidget);
       expect(
@@ -402,18 +404,20 @@ void main() {
       await tester.tap(inSheet(find.byKey(const Key('label-maker-page'))));
       expect(opened.single, Uri.parse('https://maker.example/a'));
 
-      // The bio row's water cell has its own unit: shown exactly as printed.
+      // The bio row's per-tree water cell is not shown either.
       Navigator.of(tester.element(sheet)).pop();
       await tester.pumpAndSettle();
       await tester.ensureVisible(find.byKey(const Key('label-row-1')));
       await tester.pumpAndSettle();
       await tester.tap(find.byKey(const Key('label-row-1')));
       await tester.pumpAndSettle();
+      final bio = find.byKey(const Key('label-detail-1'));
       expect(
-        find.descendant(
-          of: find.byKey(const Key('label-detail-1')),
-          matching: find.text('Water on label: 5 liter/tree'),
-        ),
+        find.descendant(of: bio, matching: find.textContaining('5 liter')),
+        findsNothing,
+      );
+      expect(
+        find.descendant(of: bio, matching: find.byKey(const Key('label-note'))),
         findsOneWidget,
       );
       await unmountApp(tester);

@@ -108,7 +108,8 @@ def article(number: str = "३०", *, en_number: str = "30") -> dict[str, Any]:
             "standfirst": "नवतीवर लक्ष ठेवा.",
             "sections": [
                 {"heading": "काय दिसते", "body": "नवतीवर पिल्ले दिसतात."},
-                {"heading": "काय करावे", "body": f"एकरी {n} पिवळे चिकट सापळे लावा."},
+                # No dose of an input (owner Q160): the number is a timing.
+                {"heading": "काय करावे", "body": f"{n} दिवसांनी नवती पुन्हा तपासा."},
                 {"heading": "केव्हा बदलावे", "body": "दर महिन्याला सापळे बदला."},
                 {"heading": "KVK ला केव्हा विचारावे", "body": "खात्री नसेल तर विचारा."},
             ],
@@ -369,6 +370,25 @@ def test_a_product_name_not_in_the_input_is_an_issue() -> None:
     raw["lang"]["en"]["sections"][1]["body"] = "Spray imidacloprid and hang 30 traps."
     problems = check_knowledge("hang 30 traps", parse_knowledge(raw))
     assert "en: product 'imidacloprid' is not in the cards or the source" in problems
+
+
+def test_a_dose_or_a_banned_name_holds_the_article() -> None:
+    """Names yes, doses no; never an ingredient banned for citrus (owner Q160)."""
+    raw = article()
+    raw["lang"]["mr"]["sections"][1]["body"] = "एकरी ३० पिवळे चिकट सापळे लावा."
+    raw["lang"]["en"]["sections"][1]["body"] = "Dicofol was used on mites."
+    problems = check_knowledge("hang 30 traps; dicofol", parse_knowledge(raw))
+    assert "mr.sections[1]: dose in the text" in problems
+    assert "en: banned 'dicofol'" in problems
+
+
+def test_sections_that_name_an_input_get_the_expert_note() -> None:
+    raw = article()
+    raw["lang"]["en"]["sections"][2]["body"] = "Change the traps every month."
+    parsed = parse_knowledge(raw)
+    assert parsed.articles["en"].sections[2][1].endswith("(follow expert advice)")
+    assert parsed.articles["mr"].sections[2][1].endswith("(तज्ज्ञांच्या सल्ल्याने करावे)")
+    assert parsed.articles["en"].sections[0][1] == "नवतीवर पिल्ले दिसतात."
 
 
 async def test_dedupe_same_topic_not_rewritten_until_the_input_changes(

@@ -19,6 +19,8 @@ void main() {
       ('symptoms', 'practice-figure-phytophthora'),
       ('trench', 'practice-figure-19'),
       ('prune', 'practice-figure-21'),
+      // Owner Q160: the bio option names its inputs, with the expert-advice note.
+      ('bio', 'practice-bio-b12'),
     ]) {
       final name = 'practices_gummosis_${part}_mr_${mode.name}';
       testWidgets(name, (tester) async {

@@ -182,6 +182,13 @@ A chemical (including antibiotics and PGRs) can appear in any card, alert, AI an
 If any check fails the chemical is suppressed, the card shows only cultural/organic options plus "consult your local expert/KVK", and an admin task is created. An "ICAR-recommended but no label claim" case (e.g. 2,4-D, GA3) is shown **only** as a clearly labelled caution note approved by a reviewer, never as a dose instruction. Re-run the gate nightly and on every data import; when status changes (new ban), affected published cards are automatically pulled and an admin alert is raised.
 Never show brand names or "where to buy". Every chemical suggestion carries: "Read the label; follow PHI; wear protective gear; verify with a local expert."
 
+> **Owner decision 2026-11-14 (OPEN_QUESTIONS Q160) — supersedes the gate above for what a grower sees.** The owner did not set the expert-review gate (check 4) or the "suppress and show only cultural/organic + consult KVK" rule. From now on:
+> - Fertilisers, pesticides and organic / bio inputs **may be named** to growers, with no expert review needed.
+> - **No dose, quantity, rate, concentration, dilution or per-tree / per-acre / per-litre amount** reaches a grower anywhere (cards, label screen, Q&A, articles, alerts, tasks); check 3's "dose shown from the label claim" no longer applies to growers.
+> - Each sentence that recommends an input ends with "(तज्ज्ञांच्या सल्ल्याने करावे)" (hi "(विशेषज्ञ की सलाह से करें)", en "(follow expert advice)").
+> - Only the legal check stays: never name an ingredient banned, withdrawn, refused, or restricted for that crop (checks 1-2, `kb_restrictions`, the same data as the spray check).
+> Rules in code: `api/src/bagmitra_api/kb/dose_rules.py`; guard test `api/tests/test_grower_doses.py`. Card publishing still records reviews (the "reviewed" mark), but it no longer decides what a grower may see. The text above is kept as history.
+
 ---
 
 ## 5. Knowledge model and ingestion pipeline

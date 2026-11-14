@@ -242,3 +242,15 @@ async def test_a_cut_off_answer_is_reported_as_such() -> None:
     http = httpx.AsyncClient(transport=httpx.MockTransport(handler))
     with pytest.raises(AiUnavailableError, match="max_tokens"):
         await AnthropicFeedAi(http, settings).write_article(SOURCE, source_url=URL)
+
+
+def test_a_dose_holds_a_news_article_and_inputs_get_the_note() -> None:
+    """Names yes, doses no (owner 2026-11-14, Q160)."""
+    data = payload()
+    data["lang"]["en"]["sections"][2]["body"] = "Apply neem oil at 10 ml per litre."
+    assert "en.sections[2]: dose in the text" in issues(data)
+    data["lang"]["en"]["sections"][2]["body"] = "Growers may use neem oil."
+    parsed = parse_articles(data)
+    assert parsed.articles["en"].sections[2][1].endswith("(follow expert advice)")
+    assert parsed.articles["mr"].sections[2][1].endswith("(तज्ज्ञांच्या सल्ल्याने करावे)")
+    assert parsed.articles["en"].sections[1][1].endswith("divisions.")

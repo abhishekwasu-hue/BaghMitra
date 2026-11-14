@@ -69,14 +69,18 @@ from bagmitra_api.feed.knowledge import (
 from bagmitra_api.feed.knowledge_article import (
     KnowledgeArticle,
     KnowledgeSet,
+    banned_for_citrus,
     check_knowledge,
 )
 from bagmitra_api.feed.output_check import normalise
+from bagmitra_api.kb import dose_rules
 from bagmitra_api.kb.card_check import fetch_text
 from bagmitra_api.kb.qa_api import ModelClient, Reply, Request, Usage
 from bagmitra_api.kb.qa_text import index_keys, words
 
-PROMPT_VERSION = "qa-v2"  # v2: no closing "ask the KVK" lines (owner)
+# v2: no closing "ask the KVK" lines (owner); v3: inputs named, no doses, the expert-advice note
+# (owner 2026-11-14, Q160)
+PROMPT_VERSION = "qa-v3"
 LANGS = ("mr", "hi", "en")
 ANSWER_GROUP = 5
 PARAPHRASE_GROUP = 25
@@ -133,7 +137,8 @@ to prepare, which registered label lists it, what waiting period the label print
 this in the app ...). Every question must be FULLY answerable from the document alone; never
 ask what the document does not state. Do not repeat a question in other words. Write each
 question in Marathi as a Vidarbha farmer speaks it, in Hindi and in English, with the same
-meaning. Never put a number, dose, date or product in a question unless the document states it.
+meaning. Never put a number, date or product in a question unless the document states it, and
+never ask for a dose, quantity, rate or concentration of an input: the app gives none (owner).
 Answer with one JSON object: {"questions": [{"mr": str, "hi": str, "en": str}]} with about
 <count> questions (fewer when the document supports fewer)."""
 
@@ -149,9 +154,12 @@ For each question:
 - Use only the document: no general knowledge, no other source. Copy every number, amount,
   percentage and date exactly as the document states it; never estimate, convert, round or add
   one.
-- Name no pesticide, fungicide, growth regulator or fertiliser product and give no dose beyond
-  what the document itself states. Where the document lists a registered label claim, give it as
-  printed.
+- You may name the fertilisers, pesticides and organic / bio inputs the document names (never
+  a brand), but NEVER give a dose, quantity, rate, concentration, dilution or per-tree / per-acre
+  / per-litre amount, even when the document states one. End every sentence that recommends an
+  input with the note in that language: Marathi "(तज्ज्ञांच्या सल्ल्याने करावे)", Hindi "(विशेषज्ञ
+  की सलाह से करें)", English "(follow expert advice)". From a registered label claim give the
+  product, its target and the waiting period / PHI as printed, never its dose.
 - Calm tone: no alarm words, no promises, no praise or criticism.
 - Do not end an answer with a line that only sends the farmer to the KVK, an expert or an
   officer ("for more information ask your KVK", "the label and the KVK have the full
@@ -337,13 +345,13 @@ async def card_topics(
     return out
 
 
+# Label fields given to the model. Dose and dilution are left out: no dose reaches a grower
+# (owner 2026-11-14, Q160).
 LABEL_FIELDS = (
     ("target", "target pest / disease / weed"),
     ("active_ingredient", "active ingredient"),
     ("formulation", "formulation"),
     ("category", "category"),
-    ("dose", "dose as printed"),
-    ("dilution", "dilution (litres of water) as printed"),
     ("interval_days", "spray interval (days)"),
     ("phi_days", "waiting period / PHI (days) as printed"),
     ("max_sprays", "maximum sprays"),
@@ -379,8 +387,8 @@ def label_topics() -> list[QaTopic]:
                 key=f"label:{key}",
                 about=(
                     f"{title}: which registered label claims for citrus this list prints and "
-                    "the spray-safety facts it prints (dose, dilution, interval, waiting period "
-                    "/ PHI), exactly as printed."
+                    "the spray-safety facts it prints (interval, waiting period / PHI), exactly "
+                    "as printed. No dose."
                 ),
                 text="\n".join(lines),
                 sources={key: (title, str(src.get("url", "")))},
@@ -586,14 +594,21 @@ def _named(text: str, name: str) -> bool:
     return re.search(rf"(?<![\w-]){re.escape(name)}(?![\w-])", text) is not None
 
 
+_REASON_MARKERS = (
+    ("product '", "product"),
+    (": dose in the text", "dose"),
+    ("banned '", "banned"),
+    ("contact '", "contact"),
+)
+
+
 def reason_code(problem: str) -> str:
     """A `check_knowledge` line as a counting reason."""
     if problem.startswith("languages:"):
         return "languages_differ"
-    if "product '" in problem:
-        return "product"
-    if "contact '" in problem:
-        return "contact"
+    for marker, code in _REASON_MARKERS:
+        if marker in problem:
+            return code
     if re.search(r": (number|amount|date) '", problem):
         return "number"
     return "other"
@@ -603,7 +618,8 @@ def check_answer(
     source_text: str, question: Mapping[str, str], answer: Mapping[str, Any]
 ) -> list[str]:
     """Every reason not to ship one answer (codes: not_answerable, length, number, product,
-    contact, languages_differ, alarm_word, other); empty means it may be shipped."""
+    contact, languages_differ, alarm_word, dose, banned, other); empty means it may be
+    shipped."""
     if answer.get("answerable") is not True:
         return ["not_answerable"]
     lines = {
@@ -684,6 +700,53 @@ def strip_referral_tail(answer: Mapping[str, list[str]]) -> tuple[dict[str, list
     return out, False
 
 
+# Names yes, doses no (owner 2026-11-14, Q160) -------------------------------------------------
+
+# A question that asks for an amount of an input: its answer is the amount, so the entry goes.
+_AMOUNT_QUESTION = re.compile(
+    r"\b(?:how much|how many|dose|doses|dosage|quantity|quantities|amount|amounts|rate|strength|"
+    r"concentration|dilution|per (?:litre|liter|acre|tree|plant|hectare))\b",
+    re.IGNORECASE,
+)
+
+
+NO_NOTE_TOPICS = ("howto:", "fco")
+
+
+def _clean(text: str, banned: frozenset[str]) -> bool:
+    return not dose_rules.has_dose(text) and not dose_rules.names_banned(text, banned)
+
+
+def strip_doses(entry: Mapping[str, Any]) -> tuple[dict[str, Any] | None, int]:
+    """The entry with every answer line that carries a dose (in any language) or names a banned
+    ingredient left out, and the expert-advice note after each line that names an input.
+    Returns (entry, lines removed); the entry is None when its question asks for a dose or names
+    a banned ingredient, when a line went and the question asks for an amount, or when no line
+    is left. Idempotent."""
+    q = entry["q"]
+    banned = banned_for_citrus()
+    if not all(_clean(q[lang], banned) for lang in LANGS):
+        return None, 0
+    answer = entry["a"]
+    n = min(len(answer.get(lang) or []) for lang in LANGS)
+    keep = [i for i in range(n) if all(_clean(answer[lang][i], banned) for lang in LANGS)]
+    removed = n - len(keep)
+    if not keep or (removed and _AMOUNT_QUESTION.search(q["en"])):
+        return None, removed
+    # The app's own screens and the FCO schedule list are not advice: no note there.
+    advice = not str(entry.get("t", "")).startswith(NO_NOTE_TOPICS)
+    lines = {
+        lang: [
+            dose_rules.with_note(answer[lang][i], lang)
+            if advice and dose_rules.names_input(answer["en"][i])
+            else answer[lang][i]
+            for i in keep
+        ]
+        for lang in LANGS
+    }
+    return {**entry, "a": lines}, removed
+
+
 # The build --------------------------------------------------------------------------------------
 
 
@@ -701,6 +764,7 @@ class BuildReport:
     unreadable_sources: dict[str, str] = field(default_factory=dict)
     skipped: list[str] = field(default_factory=list)
     referral_lines_removed: int = 0
+    dose_lines_removed: int = 0
     seed_entries: int = 0
     asset_bytes: int = 0
     asset_raw_bytes: int = 0
@@ -918,7 +982,7 @@ class Builder:
                     {lang: _strings(a.get(lang)) for lang in LANGS}
                 )
                 self.report.referral_lines_removed += stripped
-                kept.append(
+                entry, removed = strip_doses(
                     {
                         "id": qid,
                         "t": t.key,
@@ -929,6 +993,13 @@ class Builder:
                         "p": [],
                     }
                 )
+                self.report.dose_lines_removed += removed
+                if entry is None:
+                    self.report.answers_dropped["dose"] = (
+                        self.report.answers_dropped.get("dose", 0) + 1
+                    )
+                    continue
+                kept.append(entry)
         self.report.answers_kept = len(kept)
         return kept
 
@@ -1059,6 +1130,7 @@ def report_markdown(report: BuildReport, usage: Usage, mode: str) -> str:
         f"- Answers kept: {report.answers_kept} · dropped: "
         + (", ".join(f"{k} {v}" for k, v in sorted(report.answers_dropped.items())) or "0"),
         f"- Closing 'ask the KVK' lines removed: {report.referral_lines_removed}",
+        f"- Dose lines removed (owner Q160): {report.dose_lines_removed}",
         f"- Seed entries kept (card texts): {report.seed_entries}",
         f"- Paraphrases: {report.paraphrases}",
         "- Errors (retried on the next run): "
@@ -1171,23 +1243,36 @@ def merge_seed(
 def finalise_asset(
     data: Mapping[str, Any], cards: Mapping[str, Any]
 ) -> tuple[dict[str, Any], dict[str, int]]:
-    """A generated asset made final: closing referral lines removed from generated answers,
-    the seed merged in, search keys rebuilt. Returns (asset, counts)."""
+    """A generated asset made final: closing referral lines removed from generated answers (once),
+    doses and banned names taken out and the expert-advice note added (`strip_doses`, every
+    time), the seed merged in, search keys rebuilt. Returns (asset, counts)."""
     generated = []
     removed = 0
+    dose_lines = 0
+    dose_entries = 0
     done = bool(data.get("tidy"))
     for e in data.get("entries", []):
         if e["id"].startswith("seed-"):
             continue
         lines, stripped = (e["a"], False) if done else strip_referral_tail(e["a"])
         removed += stripped
-        generated.append({**{k: v for k, v in e.items() if k != "k"}, "a": lines})
+        entry, cut = strip_doses({**{k: v for k, v in e.items() if k != "k"}, "a": lines})
+        dose_lines += cut
+        if entry is None:
+            dose_entries += 1
+            continue
+        generated.append(entry)
     merged, dropped = merge_seed(generated, cards)
     sources = {k: (v["t"], v["u"]) for k, v in data.get("src", {}).items()}
     sources.update(
         {k: (str(v.get("title", k)), str(v.get("url", ""))) for k, v in cards["sources"].items()}
     )
-    counts = {"referral_lines_removed": removed, "duplicates_of_seed": dropped}
+    counts = {
+        "referral_lines_removed": removed,
+        "duplicates_of_seed": dropped,
+        "dose_lines_removed": dose_lines,
+        "dose_entries_removed": dose_entries,
+    }
     return asset(merged, sources, "generated"), counts
 
 
@@ -1328,7 +1413,8 @@ def parser() -> argparse.ArgumentParser:
     s = sub.add_parser("seed", help="write the seed asset from the card texts (no model)")
     s.add_argument("--out", required=True)
     f = sub.add_parser(
-        "finalise", help="tidy a generated asset (closing KVK lines, seed merged), no model"
+        "finalise",
+        help="tidy a generated asset (closing KVK lines, doses, seed merged), no model",
     )
     f.add_argument("--asset", required=True)
     return p

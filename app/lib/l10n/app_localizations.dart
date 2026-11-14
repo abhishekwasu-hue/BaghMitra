@@ -2896,11 +2896,11 @@ abstract class AppLocalizations {
   /// **'Updated {date}'**
   String labelInfoUpdated(String date);
 
-  /// No description provided for @labelInfoDose.
+  /// No description provided for @expertAdviceNote.
   ///
   /// In en, this message translates to:
-  /// **'Dose on label:'**
-  String get labelInfoDose;
+  /// **'(follow expert advice)'**
+  String get expertAdviceNote;
 
   /// No description provided for @labelInfoInterval.
   ///
@@ -5814,7 +5814,7 @@ abstract class AppLocalizations {
   /// No description provided for @practicesBioRegistered.
   ///
   /// In en, this message translates to:
-  /// **'Registered product: the dose comes only from its label.'**
+  /// **'Registered product.'**
   String get practicesBioRegistered;
 
   /// No description provided for @practicesBioHome.
@@ -5850,7 +5850,7 @@ abstract class AppLocalizations {
   /// No description provided for @knowledgeIntro.
   ///
   /// In en, this message translates to:
-  /// **'Short notes on bahar, pests, diseases, feeding, water and harvest. Products and doses are on the label screen.'**
+  /// **'Short notes on bahar, pests, diseases, feeding, water and harvest.'**
   String get knowledgeIntro;
 
   /// No description provided for @knowledgeEmpty.
@@ -5924,18 +5924,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'🌿 Organic / bio (registered biopesticides)'**
   String get labelInfoBio;
-
-  /// No description provided for @labelInfoDilution.
-  ///
-  /// In en, this message translates to:
-  /// **'Water on label: {value} L per hectare'**
-  String labelInfoDilution(String value);
-
-  /// No description provided for @labelInfoDilutionPrinted.
-  ///
-  /// In en, this message translates to:
-  /// **'Water on label: {value}'**
-  String labelInfoDilutionPrinted(String value);
 
   /// No description provided for @labelInfoBrands.
   ///

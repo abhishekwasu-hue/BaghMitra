@@ -1613,7 +1613,7 @@ class AppLocalizationsHi extends AppLocalizations {
   }
 
   @override
-  String get labelInfoDose => 'लेबल पर मात्रा:';
+  String get expertAdviceNote => '(विशेषज्ञ की सलाह से करें)';
 
   @override
   String labelInfoInterval(String days) {
@@ -3310,8 +3310,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get practicesBioTitle => 'जैविक उपाय';
 
   @override
-  String get practicesBioRegistered =>
-      'पंजीकृत उत्पाद: मात्रा केवल उसके लेबल से।';
+  String get practicesBioRegistered => 'पंजीकृत उत्पाद।';
 
   @override
   String get practicesBioHome => 'घर पर बना, प्रकाशित विधि अनुसार';
@@ -3330,7 +3329,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get knowledgeIntro =>
-      'बहार, कीट, रोग, पोषण, पानी और तुड़ाई पर संक्षिप्त जानकारी। उत्पाद और मात्रा लेबल स्क्रीन पर देखें।';
+      'बहार, कीट, रोग, पोषण, पानी और तुड़ाई पर संक्षिप्त जानकारी।';
 
   @override
   String get knowledgeEmpty => 'फ़ोन ऑनलाइन होने पर ज्ञान कार्ड यहाँ दिखेंगे।';
@@ -3371,16 +3370,6 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get labelInfoBio => '🌿 जैविक (पंजीकृत जैव-कीटनाशक)';
-
-  @override
-  String labelInfoDilution(String value) {
-    return 'लेबल पर पानी: $value लीटर प्रति हेक्टेयर';
-  }
-
-  @override
-  String labelInfoDilutionPrinted(String value) {
-    return 'लेबल पर पानी: $value';
-  }
 
   @override
   String labelInfoBrands(String names) {

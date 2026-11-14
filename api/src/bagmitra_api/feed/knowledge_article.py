@@ -15,7 +15,7 @@ import csv
 import json
 import re
 from collections.abc import Iterator
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from functools import cache
 from importlib import resources
 from typing import Any
@@ -27,6 +27,7 @@ from bagmitra_api.feed.output_check import (
     normalise,
     text_facts,
 )
+from bagmitra_api.kb.dose_rules import has_dose, names_banned, note_sections
 
 LANGS = ("mr", "hi", "en")
 # Owner 2026-11-14: a section the input gives nothing for is left out (was 4-8), and a
@@ -62,9 +63,12 @@ Rules:
   stated or not available in the document, the source or the text.
 - Copy every number, amount, percentage and date exactly as the document states it. Never
   estimate, convert, round, add up or add a number, year or date the document does not state.
-- No pesticide, fungicide, growth-regulator or fertiliser product or brand names and no doses
-  beyond what the card points themselves say; where the document uses a product, write that the
-  registered label information is on the card in the app and to ask the KVK.
+- Fertilisers, pesticides, growth regulators and organic / bio inputs may be named as the
+  document names them (never a brand), but NEVER give a dose, quantity, rate, concentration,
+  dilution or per-tree / per-acre / per-litre amount, even when the document states one; end
+  every sentence that recommends an input with the note in that language: Marathi
+  "(तज्ज्ञांच्या सल्ल्याने करावे)", Hindi "(विशेषज्ञ की सलाह से करें)", English "(follow expert
+  advice)" (owner 2026-11-14).
 - Calm tone: no alarm words, no promises, no praise or criticism. For a scheme write "may be
   eligible", never "will receive".
 - Do not write source lists or links; the app adds the sources."""
@@ -174,7 +178,12 @@ def parse_knowledge(payload: dict[str, Any]) -> KnowledgeSet:
     langs = payload.get("lang")
     if not isinstance(langs, dict):
         raise KnowledgeError("lang: missing")
-    return KnowledgeSet(True, {lang: _article(langs.get(lang), lang) for lang in LANGS})
+    articles = {lang: _article(langs.get(lang), lang) for lang in LANGS}
+    # The expert-advice note after each section that recommends an input (owner Q160).
+    noted = note_sections({lang: a.sections for lang, a in articles.items()})
+    return KnowledgeSet(
+        True, {lang: replace(a, sections=noted[lang]) for lang, a in articles.items()}
+    )
 
 
 def from_saved(saved: dict[str, dict[str, Any]]) -> KnowledgeSet | None:
@@ -219,6 +228,22 @@ def chemical_names() -> frozenset[str]:
     return frozenset(n.lower() for n in names if len(n) >= 4)
 
 
+@cache
+def banned_for_citrus() -> frozenset[str]:
+    """Ingredients banned, or restricted for santra / mosambi (citrus label crops), in the
+    bundled gazette extract."""
+    from bagmitra_api.core.settings import get_settings  # noqa: PLC0415
+    from bagmitra_api.kb.dose_rules import banned_names  # noqa: PLC0415
+
+    settings = get_settings()
+    seed = resources.files("bagmitra_api.kb.seed_data")
+    rows = json.loads(seed.joinpath("restrictions.json").read_text("utf-8"))["restrictions"]
+    names: set[str] = set()
+    for crop, aliases in settings.kb_crop_label_aliases.items():
+        names |= banned_names(rows, aliases, settings.kb_crop_groups.get(crop, []))
+    return frozenset(names)
+
+
 def _texts(lang: str, a: KnowledgeArticle) -> Iterator[tuple[str, str]]:
     yield f"{lang}.title", a.title
     yield f"{lang}.standfirst", a.standfirst
@@ -246,6 +271,9 @@ def check_knowledge(source_text: str, result: KnowledgeSet) -> list[str]:
         for name in sorted(chemical_names()):
             if _named(joined, name) and not _named(source_norm, name):
                 out.append(f"{lang}: product '{name}' is not in the cards or the source")
+        # Names yes, doses no; never an ingredient banned or restricted for citrus (Q160).
+        out += [f"{where}: dose in the text" for where, text in texts.items() if has_dose(text)]
+        out += [f"{lang}: banned '{n}'" for n in names_banned(joined, banned_for_citrus())]
         for found in (*_EMAIL.findall(joined), *_PHONE.findall(joined)):
             if normalise(found) not in source_norm:
                 out.append(f"{lang}: contact '{found}' is not in the source")

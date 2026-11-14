@@ -90,7 +90,8 @@ async def test_label_info_lists_only_current_legal_claims_for_the_crop(
         ("imidacloprid", "psylla"),
     ]
     first = rows[0]
-    assert (first["formulation"], first["dose"], first["phi_days"]) == ("17.8 SL", "0.3 ml/L", 15)
+    # No dose reaches a grower (owner Q160): the printed dose stays in the database only.
+    assert (first["formulation"], first["dose"], first["phi_days"]) == ("17.8 SL", "", 15)
     assert first["label_crop"] == "citrus"
     assert first["source_title"].startswith("CIB&RC")
     assert first["source_url"].startswith("https://ppqs.gov.in/")
@@ -161,7 +162,7 @@ async def test_label_info_carries_the_printed_details(
     ).json()["claims"]
     assert len(rows) == 1
     row = rows[0]
-    assert (row["category"], row["dilution"], row["page_ref"]) == ("bio", "500", "p. 70")
+    assert (row["category"], row["dilution"], row["page_ref"]) == ("bio", None, "p. 70")
     assert row["brand_names"] == ["Alpha", "zeta"]
     assert (row["maker_url"], row["photo_url"]) == ("https://maker.example/p", None)
     assert row["description"] == "Living fungus."
