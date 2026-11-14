@@ -110,6 +110,7 @@ Consultant dashboard: roster of growers, each plot's stage, risk alerts, photos 
 
 **M7 — IoT ingestion.**
 MQTT ingestion API, device registry/provisioning, readings pipeline into the same risk engine (soil moisture at two depths, air temp/RH, leaf wetness, rainfall, battery/solar), device health alerts, per-plot sensor charts, irrigation advisory upgraded to sensor-based. Camera add-on (gateway camera, smart sticky-trap counts) designed as optional ingestion types. Firmware/hardware BOM delivered as a separate spec later.
+_Status (owner 2026-11-14): deferred because the field hardware is a cost item; roadmap only, see PLAN.md §M7. Nothing is built._
 
 **M8 — Hardening & launch.**
 Performance on low-end devices (profile on 2 GB RAM emulator), app size, battery, data usage audit, accessibility pass, Play Store listing assets, privacy policy, data export/delete (DPDP compliance), load tests, backup/restore, runbooks.

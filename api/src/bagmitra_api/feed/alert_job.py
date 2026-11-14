@@ -21,6 +21,7 @@ from bagmitra_api.core.settings import Settings, get_settings
 from bagmitra_api.db.base import utcnow
 from bagmitra_api.db.session import get_sessionmaker
 from bagmitra_api.feed.alerts import AlertSummary, run_alerts
+from bagmitra_api.push.budget import BudgetRules
 from bagmitra_api.push.fcm import fcm_sender
 from bagmitra_api.push.sender import PushSender
 
@@ -32,15 +33,18 @@ def configured_sender(
     return fcm_sender(settings or get_settings(), http)
 
 
-async def run_once(sender: PushSender | None = None) -> AlertSummary:  # pragma: no cover
+async def run_once(  # pragma: no cover
+    sender: PushSender | None = None, settings: Settings | None = None
+) -> AlertSummary:
+    rules = BudgetRules.of(settings or get_settings())
     async with get_sessionmaker()() as session:
-        return await run_alerts(session, sender, utcnow())
+        return await run_alerts(session, sender, utcnow(), rules)
 
 
 async def main() -> int:  # pragma: no cover - thin CLI wrapper
     settings = get_settings()
     async with httpx.AsyncClient(timeout=settings.fcm_timeout_seconds) as http:
-        summary = await run_once(configured_sender(http, settings))
+        summary = await run_once(configured_sender(http, settings), settings)
     print(summary.to_json())
     return 1 if summary.failed else 0
 

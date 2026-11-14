@@ -9,7 +9,7 @@ Latin digits. Rupees use Indian grouping (३,५०० / 1,25,000)."""
 from __future__ import annotations
 
 import re
-from collections.abc import Mapping
+from collections.abc import Mapping, Sequence
 from datetime import date
 
 _MARATHI_DIGITS = str.maketrans("0123456789", "०१२३४५६७८९")
@@ -58,6 +58,9 @@ ARTICLE_ONE = {"en": "New article: {title}", "mr": "नवीन लेख: {tit
 ARTICLE_MANY = {"en": "{n} new articles", "mr": "{n} नवीन लेख", "hi": "{n} नए लेख"}
 MORE = {"en": "…and {n} more", "mr": "…आणखी {n}", "hi": "…और {n}"}
 MARKET_TITLE = {"en": "Market prices", "mr": "बाजारभाव", "hi": "मंडी भाव"}
+# A risk alert that fired on several plots of one farmer: "<label> (बाग: Sharayu farm, बाग १)".
+PLOTS_SUFFIX = {"en": " (plots: {names})", "mr": " (बाग: {names})", "hi": " (बाग: {names})"}
+PLOT_NAMES_SHOWN = 3
 WEATHER_TITLE = {"en": "Weather change", "mr": "हवामान बदल", "hi": "मौसम में बदलाव"}
 TODAY = {"en": "today", "mr": "आज", "hi": "आज"}
 YESTERDAY = {"en": "yesterday", "mr": "काल", "hi": "कल"}
@@ -112,6 +115,15 @@ ALARM_WORDS = ("धोका", "सावधान", "इशारा", "खत�
 
 def pick(table: Mapping[str, str], lang: str) -> str:
     return table.get(lang) or table["en"]
+
+
+def plot_names(names: Sequence[str], lang: str, total: int | None = None) -> str:
+    """Plot names as one short list: the first PLOT_NAMES_SHOWN, then "+N" for the rest of
+    `total` plots (default: len(names)), e.g. "Sharayu farm, बाग १, बाग २ +२". Names are the
+    farmer's own, never translated."""
+    head = ", ".join(names[:PLOT_NAMES_SHOWN])
+    rest = (len(names) if total is None else total) - min(len(names), PLOT_NAMES_SHOWN)
+    return f"{head} +{digits(str(rest), lang)}" if rest > 0 else head
 
 
 def digits(text: str, lang: str) -> str:

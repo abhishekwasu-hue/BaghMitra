@@ -235,20 +235,17 @@ async def test_several_articles_are_grouped_and_capped_per_day(
     assert msg.title == "४ नवीन लेख"
     assert msg.body == "• लेख 1\n• लेख 2\n• लेख 3\n…आणखी १"
     assert msg.data == {"kind": "article", "items": ",".join(str(i) for i in ids)}
-    # Later the same day: a second push for new ones (cap 2), then nothing more that day.
+    # Later the same day nothing more: one article push a day (Q157).
     await article(maker, "लेख 5", published=NOW + timedelta(hours=1))
     second = FakeSender()
-    await run(maker, second, NOW + timedelta(hours=6))
-    assert [m.title for m in second.sent] == ["नवीन लेख: लेख 5"]
-    await article(maker, "लेख 6", published=NOW + timedelta(hours=7))
-    third = FakeSender()
-    summary = await run(maker, third, NOW + timedelta(hours=12))
-    assert third.sent == []
+    summary = await run(maker, second, NOW + timedelta(hours=6))
+    assert second.sent == []
     assert summary.skipped == {"article_daily_cap": 1}
-    # The next India day it goes out.
+    await article(maker, "लेख 6", published=NOW + timedelta(hours=7))
+    # The next India day both go out in one push.
     fourth = FakeSender()
     await run(maker, fourth, NOW + timedelta(days=1))
-    assert [m.title for m in fourth.sent] == ["नवीन लेख: लेख 6"]
+    assert [m.title for m in fourth.sent] == ["२ नवीन लेख"]
     one_day = await run(maker, FakeSender(), NOW + timedelta(days=1), push_article_daily_max=0)
     assert one_day.sent == {}
 
@@ -369,8 +366,8 @@ async def test_market_change_of_the_district_mandis_in_one_push_a_day(
     maker: async_sessionmaker[AsyncSession],
 ) -> None:
     await grower(maker, district="अमरावती")  # typed in Marathi
-    await price(maker, "Warud", "Amravati", (1, 3200), (0, 3500))
-    await price(maker, "Morshi", "Amravati", (2, 3000), (1, 2800))
+    await price(maker, "Warud", "Amravati", (1, 3200), (0, 3700))
+    await price(maker, "Morshi", "Amravati", (2, 3000), (1, 2600))
     await price(maker, "Pune", "Pune", (1, 3000), (0, 4000))  # another district
     await price(maker, "Katol", "Amravati", (1, 3000), (0, 3100))  # +100, +3 %: too small
     sender = FakeSender()
@@ -379,7 +376,7 @@ async def test_market_change_of_the_district_mandis_in_one_push_a_day(
     msg = sender.sent[0]
     assert msg.title == "बाजारभाव"
     assert msg.body == (
-        "वरूड संत्रा (नागपुरी): आज ₹३,५०० (+₹३००, +९%)\nमोर्शी संत्रा (नागपुरी): काल ₹२,८०० (-₹२००, -७%)"
+        "वरूड संत्रा (नागपुरी): आज ₹३,७०० (+₹५००, +१६%)\nमोर्शी संत्रा (नागपुरी): काल ₹२,६०० (-₹४००, -१३%)"
     )
     assert msg.data == {"kind": "market", "crop": "santra"}
     assert len(await notices(maker, "market")) == 2
@@ -399,12 +396,12 @@ async def test_market_falls_back_to_the_local_mandis_and_follows_plot_crops(
 ) -> None:
     await grower(maker, district="", lang="en")
     await grower(maker, district="Nagpur", crop="banana", tokens=("tok-banana",))
-    await price(maker, "Warud", "Amravati", (1, 3200), (0, 3500))  # local list
+    await price(maker, "Warud", "Amravati", (1, 3200), (0, 3700))  # local list
     await price(maker, "Pune", "Pune", (1, 3000), (0, 4000))
     sender = FakeSender()
     await run(maker, sender)
     assert [(m.token, m.body) for m in sender.sent] == [
-        ("tok-a", "Warud Santra (Nagpuri): today ₹3,500 (+₹300, +9%)")
+        ("tok-a", "Warud Santra (Nagpuri): today ₹3,700 (+₹500, +16%)")
     ], "the banana grower has no changed banana price"
 
 
@@ -507,11 +504,9 @@ async def test_several_plots_in_one_push_and_old_forecasts_ignored(
     await run(maker, sender)
     assert len(sender.sent) == 1
     assert sender.sent[0].body.split("\n") == [
-        "बाग 1: Highest temperature tomorrow: 24 °C, 6 °C below today.",
-        "बाग 1: Lowest temperature tomorrow: 3 °C; look over young plants and the nursery.",
-        "बाग 2: Highest temperature tomorrow: 24 °C, 6 °C below today.",
-        "…and 1 more",
-    ]
+        "बाग 1, बाग 2: Highest temperature tomorrow: 24 °C, 6 °C below today.",
+        "बाग 1, बाग 2: Lowest temperature tomorrow: 3 °C; look over young plants and the nursery.",
+    ], "the same change on two plots is one line naming both"
     rows = await notices(maker, "weather")
     assert len(rows) == 4
     assert all(r.notified_at is not None for r in rows)

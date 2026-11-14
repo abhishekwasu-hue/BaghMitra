@@ -19,6 +19,10 @@ exceed the cap). The weekly digest (new items matched to the farmer in the last 
 its own switch, sent at most once in 7 days and not counted in the cap; it leaves out items the
 farmer already got as a new-article push (`push/updates.py`, OPEN_QUESTIONS Q147).
 
+Shared daily budget (push/budget.py, OPEN_QUESTIONS Q157): reminders rank after weather and
+pest / disease alerts, the digest with the new articles last; a reminder or digest held back
+(PUSH_DAILY_MAX used up) is logged and not sent later (the next stage still comes).
+
 Text: the item title, the date line ("Last date: ..."), and the footer "Check the official
 GR/portal before acting.", in the farmer's language (English when missing). Never a promise
 ("you will receive"): dates only. Sending uses the `PushSender` protocol like push/deliver.py;
@@ -51,6 +55,7 @@ from bagmitra_api.feed.models import (
     FeedReceipt,
 )
 from bagmitra_api.feed.texts import FOOTER
+from bagmitra_api.push import budget as pb
 from bagmitra_api.push.deliver import NO_SENDER
 from bagmitra_api.push.models import ARTICLE, PushNotice
 from bagmitra_api.push.sender import PushMessage, PushSender, PushUnavailableError, SendResult
@@ -63,6 +68,7 @@ EVENT_GRACE_DAYS = 2
 DIGEST_MAX_TITLES = 5
 TITLE_MAX = 200
 DIGEST = "digest"
+SOURCE = "feed"
 STAGES = ("t0", "t2", "t7", "payment", "window_open")  # most urgent first
 REMINDER_KINDS = ("apply_by", "window_close")
 EVENT_KINDS = ("payment", "window_open")
@@ -355,6 +361,8 @@ class AlertSummary:
     invalid_tokens: int = 0
     no_device: int = 0
     skipped: dict[str, int] = field(default_factory=dict)
+    skipped_budget: int = 0
+    skipped_repeat: int = 0
     skipped_reason: str | None = None
 
     def to_json(self) -> str:
@@ -580,11 +588,21 @@ async def _stamp(
     setattr(receipt, f"{push.stage}_notified_at", now)
 
 
+def budget_key(push: Push) -> tuple[int, str]:
+    """(priority, topic) of a push in the shared daily budget."""
+    if push.item_id is None:
+        return pb.ARTICLES, DIGEST
+    return pb.SCHEME, f"feed:{push.item_id}:{push.stage}"
+
+
 async def run_alerts(
-    session: AsyncSession, sender: PushSender | None, now: datetime
+    session: AsyncSession,
+    sender: PushSender | None,
+    now: datetime,
+    budget_rules: pb.BudgetRules | None = None,
 ) -> AlertSummary:
-    """Plan every farmer's alerts and digest; send those due now through `sender` and stamp
-    them. Without a sender nothing is sent or stamped."""
+    """Plan every farmer's alerts and digest; send those due now through `sender` within the
+    shared budget and stamp them. Without a sender nothing is sent or stamped."""
     summary = AlertSummary()
     planned = await _plan_all(session, now, summary)
     if sender is None:
@@ -606,14 +624,26 @@ async def run_alerts(
             select(FeedPreferences).where(FeedPreferences.owner_id.in_(owners))
         )
     }
+    budget = await pb.Budget.load(session, budget_rules or pb.BudgetRules(), now, owners)
     invalid: set[str] = set()
-    for push in planned.pushes:
+    for push in sorted(planned.pushes, key=lambda p: budget_key(p)[0]):  # stable
+        rank, topic = budget_key(push)
         if push.send_at > now:
             summary.deferred_quiet += 1
+            continue
+        if budget.held_since(push.owner_id, topic, None):  # held back before: not again
             continue
         phones = [t for t in tokens.get(push.owner_id, []) if t not in invalid]
         if not phones:
             summary.no_device += 1
+            continue
+        if budget.repeated(push.owner_id, topic):
+            budget.record(session, push.owner_id, SOURCE, rank, [topic], pb.REPEAT)
+            summary.skipped_repeat += 1
+            continue
+        if not budget.room(push.owner_id, rank):
+            budget.record(session, push.owner_id, SOURCE, rank, [topic], pb.BUDGET)
+            summary.skipped_budget += 1
             continue
         sent, outage = await _send(sender, push, phones, invalid)
         summary.messages += sent
@@ -621,6 +651,7 @@ async def run_alerts(
             summary.failed += 1 if outage else 0
             continue
         await _stamp(session, push, planned, prefs_rows, now)
+        budget.record(session, push.owner_id, SOURCE, rank, [topic], pb.SENT)
         if push.item_id is None:
             summary.digests_sent += 1
         else:
