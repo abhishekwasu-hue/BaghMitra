@@ -1919,7 +1919,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Sources: NHB, Dr. PDKV Akola and published citrus research. Details under each point.';
 
   @override
-  String get feedTitle => 'Sarkari Sandesh';
+  String get feedTitle => 'Farm news';
 
   @override
   String get feedOpenHint => 'Official GRs, schemes and last dates';

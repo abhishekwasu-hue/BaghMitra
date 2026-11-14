@@ -99,9 +99,9 @@ DATE_LINE = {
     },
 }
 DIGEST_TITLE = {
-    "en": "Sarkari Sandesh: {n} new this week",
-    "mr": "सरकारी संदेश: या आठवड्यात {n} नवीन",
-    "hi": "सरकारी संदेश: इस सप्ताह {n} नए",
+    "en": "Farm news: {n} new this week",
+    "mr": "शेतीवार्ता: या आठवड्यात {n} नवीन",
+    "hi": "खेती वार्ता: इस सप्ताह {n} नए",
 }
 DIGEST_MORE = {"en": "…and {n} more", "mr": "…आणखी {n}", "hi": "…और {n}"}
 

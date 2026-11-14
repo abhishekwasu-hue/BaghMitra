@@ -864,7 +864,7 @@
   "irrigationGapsTitle": "Still to be found in the sources",
   "irrigationSourcesLine": "Sources: NHB, Dr. PDKV Akola and published citrus research. Details under each point.",
   "@irrigationPlanted": {"placeholders": {"year": {"type": "String"}, "years": {"type": "String"}}},
-  "feedTitle": "Sarkari Sandesh",
+  "feedTitle": "Farm news",
   "feedOpenHint": "Official GRs, schemes and last dates",
   "feedFilterAll": "All",
   "feedFilterOfficial": "Official",

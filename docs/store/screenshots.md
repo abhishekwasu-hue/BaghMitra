@@ -33,7 +33,7 @@ Play needs 2–8 phone screenshots per language (PNG or JPEG, 16:9 or 9:16, each
 
 Spares (use if one above is weak): scouting log with a photo (`/plots/:id/scouting`), crop insurance
 (`/plots/:id/insurance`), season calendar (`/calendar`), schemes (`/schemes`), the login page.
-*[if on]* Sarkari Sandesh list (`/feed`) only when the release has it on and at least one approved notice is
+*[if on]* Farm news (शेतीवार्ता) list (`/feed`) only when the release has it on and at least one approved notice is
 published.
 
 ## Feature graphic (1024 × 500)

@@ -1915,7 +1915,7 @@ class AppLocalizationsHi extends AppLocalizations {
       'स्रोत: NHB, डॉ. पीडीकेवी अकोला और प्रकाशित नींबूवर्गीय शोध। हर बिंदु के नीचे विवरण।';
 
   @override
-  String get feedTitle => 'सरकारी संदेश';
+  String get feedTitle => 'खेती वार्ता';
 
   @override
   String get feedOpenHint => 'आधिकारिक GR, योजनाएँ और आख़िरी तारीख़ें';

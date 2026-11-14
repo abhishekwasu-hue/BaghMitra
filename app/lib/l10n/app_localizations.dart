@@ -3408,7 +3408,7 @@ abstract class AppLocalizations {
   /// No description provided for @feedTitle.
   ///
   /// In en, this message translates to:
-  /// **'Sarkari Sandesh'**
+  /// **'Farm news'**
   String get feedTitle;
 
   /// No description provided for @feedOpenHint.

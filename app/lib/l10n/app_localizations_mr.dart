@@ -1913,7 +1913,7 @@ class AppLocalizationsMr extends AppLocalizations {
       'स्रोत: NHB, डॉ. पंदेकृवि अकोला आणि प्रकाशित लिंबूवर्गीय संशोधन. प्रत्येक मुद्द्याखाली तपशील.';
 
   @override
-  String get feedTitle => 'सरकारी संदेश';
+  String get feedTitle => 'शेतीवार्ता';
 
   @override
   String get feedOpenHint => 'अधिकृत GR, योजना आणि शेवटच्या तारखा';
