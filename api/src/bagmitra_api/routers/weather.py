@@ -12,7 +12,7 @@ from bagmitra_api.auth.jwt import CurrentUser
 from bagmitra_api.core.errors import ApiError, ErrorResponse
 from bagmitra_api.db.models import Plot
 from bagmitra_api.db.session import DbSession
-from bagmitra_api.risk.engine import evaluate, load_rules
+from bagmitra_api.risk.engine import evaluate, load_rules, rules_for_crop
 from bagmitra_api.weather.open_meteo import WeatherUnavailableError
 from bagmitra_api.weather.service import (
     WeatherContext,
@@ -127,7 +127,11 @@ async def get_plot_weather(
                 status=rules[a.rule_key].status,
                 action=rules[a.rule_key].action,
             )
-            for a in evaluate(list(rules.values()), alert_days(days, ctx.settings, now))
+            # A rule for other crops (e.g. citrus psylla) never alerts this plot.
+            for a in evaluate(
+                rules_for_crop(list(rules.values()), plot.crop),
+                alert_days(days, ctx.settings, now),
+            )
         ],
         stale=stale,
         current=None

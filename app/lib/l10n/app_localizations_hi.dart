@@ -5413,4 +5413,19 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get adminReactionsQa => 'प्रश्नोत्तर';
+
+  @override
+  String get plotOtherCrops => 'अन्य फसलें';
+
+  @override
+  String get plotCropName => 'फसल का नाम';
+
+  @override
+  String get plotCropNameHint => 'जैसे टमाटर, गेंदा';
+
+  @override
+  String get requiredCropName => 'फसल का नाम लिखें';
+
+  @override
+  String get homePlotOpen => 'रिकॉर्ड खोलें';
 }

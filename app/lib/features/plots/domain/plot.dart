@@ -1,3 +1,8 @@
+/// The crops the citrus features (bahar and stage templates, practices, irrigation guide,
+/// pest scouting list, photo check, label information) are built for: `primary` in
+/// assets/config/crops.json (owner 2026-11-14). Every other crop keeps the records only.
+const citrusFeatureCrops = {'santra', 'mosambi'};
+
 /// An orchard block. Crop, irrigation, water and soil are slugs into admin-managed lists.
 class Plot {
   const Plot({
@@ -39,6 +44,9 @@ class Plot {
   final Map<String, Object?>? boundary;
 
   double get areaAcres => areaSqM / sqMPerAcre;
+
+  /// Santra or mosambi: the citrus features apply (see [citrusFeatureCrops]).
+  bool get hasCitrusFeatures => citrusFeatureCrops.contains(crop);
 
   /// The same block at a new location (taken again in the block); everything else is kept.
   Plot withCentre(double lat, double lon) => Plot(

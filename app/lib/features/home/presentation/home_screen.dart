@@ -15,6 +15,7 @@ import '../../../design_system/weather_header.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../sync/presentation/sync_status_banner.dart';
 import '../../../theme/app_theme.dart';
+import '../../plots/data/crop_catalog.dart';
 import '../../plots/domain/plot.dart';
 import '../../profile/presentation/name_script_prompt.dart';
 import '../../tasks/domain/farm_task.dart';
@@ -315,7 +316,7 @@ class _HomeBody extends ConsumerWidget {
                   // A name saved in Latin letters, in Marathi / Hindi: write it once in
                   // the script (owner request; no machine transliteration).
                   if (!snapshot.isDemo) const NameScriptPrompt(),
-                  _stageBlock(context, t),
+                  _stageBlock(context, ref, t, plots),
                   const SizedBox(height: BmSpace.sm),
                   if (banner != null) ...[
                     banner,
@@ -527,8 +528,14 @@ class _HomeBody extends ConsumerWidget {
   }
 
   /// The bahar block: the stage card; else "start a bahar" for the block; else, for a
-  /// grower with no block yet, the first step: add the first orchard block (H2).
-  Widget _stageBlock(BuildContext context, AppLocalizations t) {
+  /// grower with no block yet, the first step: add the first orchard block (H2). A block of
+  /// a crop other than santra / mosambi has no bahar: its card opens the block's records.
+  Widget _stageBlock(
+    BuildContext context,
+    WidgetRef ref,
+    AppLocalizations t,
+    List<Plot> plots,
+  ) {
     final plotId = snapshot.plotId;
     if (!snapshot.hasPlot) {
       return _ActionCard(
@@ -538,6 +545,22 @@ class _HomeBody extends ConsumerWidget {
         body: t.plotsEmptyBody,
         action: t.addPlot,
         onPressed: () => context.push(Routes.addPlot),
+      );
+    }
+    final plot = plots.where((p) => p.id == plotId).firstOrNull;
+    if (plot != null && !plot.hasCitrusFeatures) {
+      final crops = ref.watch(cropsProvider).value ?? const <CropOption>[];
+      return _ActionCard(
+        key: const Key('home-plot-card'),
+        glyph: BmGlyph.orchard,
+        title: plot.name,
+        body: [
+          plotCropName(plot, crops, lang),
+          t.plotAcres(formatDecimal(plot.areaAcres, lang)),
+        ].join(' · '),
+        action: t.homePlotOpen,
+        icon: Icons.chevron_right_rounded,
+        onPressed: () => context.push(Routes.plot(plot.id)),
       );
     }
     final s = snapshot.stage;
@@ -784,9 +807,11 @@ class _ActionCard extends StatelessWidget {
     required this.body,
     required this.action,
     required this.onPressed,
+    this.icon = Icons.add_rounded,
   });
 
   final BmGlyph glyph;
+  final IconData icon;
   final String title;
   final String body;
   final String action;
@@ -816,7 +841,7 @@ class _ActionCard extends StatelessWidget {
           const SizedBox(height: BmSpace.md),
           FilledButton.icon(
             onPressed: onPressed,
-            icon: const Icon(Icons.add_rounded),
+            icon: Icon(icon),
             label: Text(action),
           ),
         ],

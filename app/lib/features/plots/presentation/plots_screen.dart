@@ -47,7 +47,7 @@ class PlotsScreen extends ConsumerWidget {
                 separatorBuilder: (_, _) => const SizedBox(height: BmSpace.sm),
                 itemBuilder: (context, i) => _PlotCard(
                   plot: plots[i],
-                  cropLabel: _cropLabel(crops, plots[i].crop, lang),
+                  cropLabel: plotCropName(plots[i], crops, lang),
                   lang: lang,
                 ),
               ),
@@ -65,9 +65,6 @@ class PlotsScreen extends ConsumerWidget {
             ),
     );
   }
-
-  static String _cropLabel(List<CropOption> crops, String slug, String lang) =>
-      crops.where((c) => c.slug == slug).firstOrNull?.label(lang) ?? slug;
 }
 
 /// One block in the list. The whole card opens the block (with ink feedback); deleting
@@ -113,7 +110,9 @@ class _PlotCard extends StatelessWidget {
                     color: c.nowTint,
                     borderRadius: BorderRadius.circular(16),
                   ),
-                  child: const GlyphIcon(BmGlyph.orange),
+                  child: GlyphIcon(
+                    plot.hasCitrusFeatures ? BmGlyph.orange : BmGlyph.orchard,
+                  ),
                 ),
                 const SizedBox(width: BmSpace.sm),
                 Expanded(

@@ -285,8 +285,12 @@ final plotsProvider = StreamProvider<List<Plot>>(
 
 final cropCatalogProvider = Provider<CropCatalog>((ref) => CropCatalog());
 
+final cropCatalogDataProvider = FutureProvider<CropCatalogData>(
+  (ref) => ref.watch(cropCatalogProvider).loadAll(),
+);
+
 final cropsProvider = FutureProvider<List<CropOption>>(
-  (ref) => ref.watch(cropCatalogProvider).load(),
+  (ref) async => (await ref.watch(cropCatalogDataProvider.future)).crops,
 );
 
 final baharRepositoryProvider = Provider<BaharRepository>(

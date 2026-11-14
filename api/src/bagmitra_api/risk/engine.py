@@ -11,6 +11,9 @@ Rule kinds:
   in another month breaks a run.
 - `degree_days`: sum over the window of max(0, min(mean, upper_c) - base_c), the average
   method with a horizontal cutoff; `units` = total / `per_unit` (e.g. insect generations).
+
+Optional `crops` (plot crop slugs) limits a rule to plots of those crops, e.g. a citrus pest
+model never alerts a cotton plot (`applies_to`); a rule without `crops` applies to every crop.
 """
 
 from __future__ import annotations
@@ -62,6 +65,11 @@ class RiskRule:
     months: frozenset[int] | None = None
     action: str | None = None
     push: str = "advisory"
+    crops: frozenset[str] | None = None
+
+    def applies_to(self, crop: str) -> bool:
+        """Whether the rule alerts a plot of [crop] (no `crops` listed: every crop)."""
+        return self.crops is None or crop in self.crops
 
 
 @dataclass(frozen=True)
@@ -97,6 +105,7 @@ def _rule(raw: Mapping[str, Any]) -> RiskRule:
         "status": raw.get("status", "draft"),
         "action": action,
         "push": push_class,
+        "crops": _crops(key, raw.get("crops")),
     }
     if common["kind"] == "threshold":
         if need("field") not in _FIELDS:
@@ -131,6 +140,19 @@ def _months(key: str, raw: object) -> frozenset[int] | None:
     ):
         raise RuleConfigError(f"rule {key}: 'months' must be a non-empty list of 1-12")
     return frozenset(raw)
+
+
+def _crops(key: str, raw: object) -> frozenset[str] | None:
+    if raw is None:
+        return None
+    if not isinstance(raw, list) or not raw or not all(isinstance(c, str) and c for c in raw):
+        raise RuleConfigError(f"rule {key}: 'crops' must be a non-empty list of crop slugs")
+    return frozenset(raw)
+
+
+def rules_for_crop(rules: Sequence[RiskRule], crop: str) -> list[RiskRule]:
+    """The rules that alert a plot of [crop]."""
+    return [r for r in rules if r.applies_to(crop)]
 
 
 def parse_rules(config: Mapping[str, Any]) -> list[RiskRule]:

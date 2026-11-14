@@ -1,8 +1,9 @@
 {
-  "_note": "Weather risk rules (knowledge addendum v1.3 §3.7). Starting points for local calibration; draft until the expert reviewer approves (OPEN_QUESTIONS Q12). Alert texts state the risk and what to check, never a chemical. Storm rules (hail / wind / heavy or unseasonal rain) only say what weather is expected and link to the claim kit (action claim_kit); thresholds are drafts to calibrate (OPEN_QUESTIONS Q38). Cold-wave (IMD) and humidity (NIPHM) rules added 2026-11-06 with sourced thresholds; a fruit-split rule is left out because no public source gives a weather threshold for it (NHB names only 'high humidity following heavy rains or heavy irrigation during hot weather'). Push class (OPEN_QUESTIONS Q157): \"push\": \"danger\" (weather danger, first in the daily push budget) or \"advisory\" (pest / disease conditions, after sudden weather changes); a rule without it is an advisory.",
+  "_note": "Weather risk rules (knowledge addendum v1.3 §3.7). Optional crops: the plot crops a rule applies to (absent = every crop); the three rules whose source is a citrus guideline (ICAR-CCRI heat, the citrus psylla model, the citrus IPM humidity rule) apply to santra and mosambi only (owner 2026-11-14, OPEN_QUESTIONS Q158). Starting points for local calibration; draft until the expert reviewer approves (OPEN_QUESTIONS Q12). Alert texts state the risk and what to check, never a chemical. Storm rules (hail / wind / heavy or unseasonal rain) only say what weather is expected and link to the claim kit (action claim_kit); thresholds are drafts to calibrate (OPEN_QUESTIONS Q38). Cold-wave (IMD) and humidity (NIPHM) rules added 2026-11-06 with sourced thresholds; a fruit-split rule is left out because no public source gives a weather threshold for it (NHB names only 'high humidity following heavy rains or heavy irrigation during hot weather'). Push class (OPEN_QUESTIONS Q157): \"push\": \"danger\" (weather danger, first in the daily push budget) or \"advisory\" (pest / disease conditions, after sudden weather changes); a rule without it is an advisory.",
   "rules": [
     {
       "key": "heat_fruit_drop",
+      "crops": ["santra", "mosambi"],
       "kind": "threshold",
       "field": "t_max_c",
       "op": ">=",
@@ -19,6 +20,7 @@
     },
     {
       "key": "psylla_degree_days",
+      "crops": ["santra", "mosambi"],
       "kind": "degree_days",
       "base_c": 11.11,
       "upper_c": 32,
@@ -127,6 +129,7 @@
     },
     {
       "key": "high_humidity",
+      "crops": ["santra", "mosambi"],
       "kind": "threshold",
       "field": "rh_mean_pct",
       "op": ">=",

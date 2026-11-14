@@ -137,12 +137,14 @@ class SprayLogScreen extends ConsumerWidget {
       bottomNavigationBar: BottomActions(
         stacked: true,
         children: [
-          OutlinedButton.icon(
-            key: const Key('open-labels'),
-            onPressed: () => context.push(Routes.labels(plotId)),
-            icon: const Icon(Icons.menu_book_outlined),
-            label: Text(t.labelInfoTitle),
-          ),
+          // CIB&RC label information is collected for santra / mosambi only.
+          if (plot?.hasCitrusFeatures ?? true)
+            OutlinedButton.icon(
+              key: const Key('open-labels'),
+              onPressed: () => context.push(Routes.labels(plotId)),
+              icon: const Icon(Icons.menu_book_outlined),
+              label: Text(t.labelInfoTitle),
+            ),
           FilledButton(
             onPressed: () => context.push(Routes.addSpray(plotId)),
             child: Text(t.addSpray),

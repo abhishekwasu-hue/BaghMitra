@@ -6,6 +6,7 @@ import '../../../app/providers.dart';
 import '../../../core/formatting.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../export/presentation/report_page.dart';
+import '../../plots/data/crop_catalog.dart';
 import '../data/claim_pdf.dart';
 import '../domain/claim_kit.dart';
 import 'claim_report_page.dart';
@@ -35,10 +36,7 @@ Future<ClaimReportContent> claimReportContent(
   final plots = await read(plotRepositoryProvider).watchAll().first;
   final plot = plots.where((p) => p.id == kit.plotId).firstOrNull;
   final crops = await read(cropsProvider.future);
-  final crop = [
-    for (final k in crops)
-      if (k.slug == plot?.crop) k.label(lang),
-  ].firstOrNull;
+  final crop = plot == null ? null : plotCropName(plot, crops, lang);
   final policies = await read(insuranceRepositoryProvider)
       .watchForPlot(kit.plotId)
       .first;

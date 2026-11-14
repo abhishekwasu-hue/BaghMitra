@@ -1,5 +1,5 @@
 {
-  "_note": "Bundled default crop list. label_aliases are the crop names on CIB&RC labels and groups the gazette crop groups used by the offline spray check (owner-confirmed: orange = santra, sweet lime = mosambi). Adding a crop needs no code change.",
+  "_note": "Bundled default crop list. label_aliases are the crop names on CIB&RC labels and groups the gazette crop groups used by the offline spray check (owner-confirmed: orange = santra, sweet lime = mosambi). For the other crops (owner 2026-11-14, OPEN_QUESTIONS Q158) an alias or group is listed only where the bundled PPQS restriction list (api kb/seed_data/restrictions.json) names that crop or group exactly: Soybean, Ber, Mango, Grape, Guava (crops) and vegetables (group); none for the others. primary: santra and mosambi, the crops the citrus features are built for (the two big choices on the block form). category: the section of the 'other crops' list (categories). name_typed: the grower types the crop name (saved as the block's variety). Adding a crop needs no code change.",
   "crops": [
     {
       "slug": "santra",
@@ -16,7 +16,9 @@
       ],
       "groups": [
         "fruit_eaten_raw"
-      ]
+      ],
+      "primary": true,
+      "category": "fruit"
     },
     {
       "slug": "mosambi",
@@ -33,7 +35,262 @@
       ],
       "groups": [
         "fruit_eaten_raw"
+      ],
+      "primary": true,
+      "category": "fruit"
+    },
+    {
+      "slug": "pomegranate",
+      "labels": {
+        "en": "Pomegranate",
+        "mr": "डाळिंब",
+        "hi": "अनार"
+      },
+      "category": "fruit"
+    },
+    {
+      "slug": "banana",
+      "labels": {
+        "en": "Banana",
+        "mr": "केळी",
+        "hi": "केला"
+      },
+      "category": "fruit"
+    },
+    {
+      "slug": "grapes",
+      "labels": {
+        "en": "Grapes",
+        "mr": "द्राक्ष",
+        "hi": "अंगूर"
+      },
+      "category": "fruit",
+      "label_aliases": [
+        "grape"
       ]
+    },
+    {
+      "slug": "mango",
+      "labels": {
+        "en": "Mango",
+        "mr": "आंबा",
+        "hi": "आम"
+      },
+      "category": "fruit",
+      "label_aliases": [
+        "mango"
+      ]
+    },
+    {
+      "slug": "guava",
+      "labels": {
+        "en": "Guava",
+        "mr": "पेरू",
+        "hi": "अमरूद"
+      },
+      "category": "fruit",
+      "label_aliases": [
+        "guava"
+      ]
+    },
+    {
+      "slug": "lemon",
+      "labels": {
+        "en": "Lime / lemon",
+        "mr": "लिंबू",
+        "hi": "नींबू"
+      },
+      "category": "fruit"
+    },
+    {
+      "slug": "papaya",
+      "labels": {
+        "en": "Papaya",
+        "mr": "पपई",
+        "hi": "पपीता"
+      },
+      "category": "fruit"
+    },
+    {
+      "slug": "custard_apple",
+      "labels": {
+        "en": "Custard apple",
+        "mr": "सीताफळ",
+        "hi": "सीताफल"
+      },
+      "category": "fruit"
+    },
+    {
+      "slug": "sapota",
+      "labels": {
+        "en": "Sapota (chiku)",
+        "mr": "चिकू",
+        "hi": "चीकू"
+      },
+      "category": "fruit"
+    },
+    {
+      "slug": "ber",
+      "labels": {
+        "en": "Ber",
+        "mr": "बोर",
+        "hi": "बेर"
+      },
+      "category": "fruit",
+      "label_aliases": [
+        "ber"
+      ]
+    },
+    {
+      "slug": "aonla",
+      "labels": {
+        "en": "Aonla (amla)",
+        "mr": "आवळा",
+        "hi": "आंवला"
+      },
+      "category": "fruit"
+    },
+    {
+      "slug": "other_fruit",
+      "labels": {
+        "en": "Other fruit crop",
+        "mr": "इतर फळपीक",
+        "hi": "अन्य फल फसल"
+      },
+      "category": "fruit",
+      "name_typed": true
+    },
+    {
+      "slug": "cotton",
+      "labels": {
+        "en": "Cotton",
+        "mr": "कापूस",
+        "hi": "कपास"
+      },
+      "category": "field"
+    },
+    {
+      "slug": "soybean",
+      "labels": {
+        "en": "Soybean",
+        "mr": "सोयाबीन",
+        "hi": "सोयाबीन"
+      },
+      "category": "field",
+      "label_aliases": [
+        "soybean"
+      ]
+    },
+    {
+      "slug": "tur",
+      "labels": {
+        "en": "Tur (pigeon pea)",
+        "mr": "तूर",
+        "hi": "अरहर (तुअर)"
+      },
+      "category": "field"
+    },
+    {
+      "slug": "gram",
+      "labels": {
+        "en": "Gram (chana)",
+        "mr": "हरभरा",
+        "hi": "चना"
+      },
+      "category": "field"
+    },
+    {
+      "slug": "moong",
+      "labels": {
+        "en": "Moong (green gram)",
+        "mr": "मूग",
+        "hi": "मूंग"
+      },
+      "category": "field"
+    },
+    {
+      "slug": "urad",
+      "labels": {
+        "en": "Urad (black gram)",
+        "mr": "उडीद",
+        "hi": "उड़द"
+      },
+      "category": "field"
+    },
+    {
+      "slug": "vegetables",
+      "labels": {
+        "en": "Vegetable crop",
+        "mr": "भाजीपाला पीक",
+        "hi": "सब्ज़ी की फसल"
+      },
+      "category": "vegetable",
+      "groups": [
+        "vegetable"
+      ],
+      "name_typed": true
+    },
+    {
+      "slug": "flowers",
+      "labels": {
+        "en": "Flower crop",
+        "mr": "फुलपीक",
+        "hi": "फूलों की फसल"
+      },
+      "category": "flower",
+      "name_typed": true
+    },
+    {
+      "slug": "other",
+      "labels": {
+        "en": "Other crop",
+        "mr": "इतर पीक",
+        "hi": "अन्य फसल"
+      },
+      "category": "other",
+      "name_typed": true
+    }
+  ],
+  "categories": [
+    {
+      "key": "fruit",
+      "labels": {
+        "en": "Fruit crops",
+        "mr": "फळपिके",
+        "hi": "फल फसलें"
+      }
+    },
+    {
+      "key": "field",
+      "labels": {
+        "en": "Field crops",
+        "mr": "शेतपिके",
+        "hi": "खेत की फसलें"
+      }
+    },
+    {
+      "key": "vegetable",
+      "labels": {
+        "en": "Vegetables",
+        "mr": "भाजीपाला",
+        "hi": "सब्ज़ियाँ"
+      }
+    },
+    {
+      "key": "flower",
+      "labels": {
+        "en": "Flowers",
+        "mr": "फुलझाडे",
+        "hi": "फूल"
+      }
+    },
+    {
+      "key": "other",
+      "labels": {
+        "en": "Other",
+        "mr": "इतर",
+        "hi": "अन्य"
+      }
     }
   ]
 }
