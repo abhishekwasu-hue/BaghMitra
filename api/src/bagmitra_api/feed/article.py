@@ -16,7 +16,13 @@ from decimal import Decimal
 from typing import Any
 from urllib.parse import urlsplit
 
-from bagmitra_api.feed.output_check import SourceIndex, check_output, normalise, text_facts
+from bagmitra_api.feed.output_check import (
+    SourceIndex,
+    check_output,
+    language_differences,
+    normalise,
+    text_facts,
+)
 
 LANGS = ("mr", "hi", "en")
 CHART_TYPES = ("bar", "pie")
@@ -399,8 +405,7 @@ def check_articles(
                 out.append(f"{lang}.sources: '{url}' is not the source or a government site")
         for i, c in enumerate(a.charts):
             out += _chart_issues(c, f"{lang}.charts[{i}]", index)
-        facts = text_facts("\n".join(texts.values()))
-        facts_by_lang[lang] = (facts.amounts, facts.dates)
-    if len(set(facts_by_lang.values())) > 1:
+        facts_by_lang[lang] = text_facts("\n".join(texts.values()))
+    if language_differences(facts_by_lang):
         out.append("languages: amounts or dates differ between mr / hi / en")
     return out

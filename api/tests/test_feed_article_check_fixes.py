@@ -12,6 +12,7 @@ import pytest
 from bagmitra_api.feed.article import canonical_url, check_articles, parse_articles
 from bagmitra_api.feed.diag_held import language_differences
 from bagmitra_api.feed.output_check import check_output, text_facts
+from bagmitra_api.feed.output_check import language_differences as output_language_differences
 from tests.test_feed_article import SOURCE, URL, issues, payload
 
 
@@ -293,6 +294,45 @@ def test_compound_languages_differ_only_on_a_real_difference() -> None:
     for lang, text in {**stated, "en": "1 lakh 29 thousand farmers"}.items():
         data["lang"][lang]["facts"].append({"label": "Count", "value": text})
     assert language_differences(parse_articles(data)) == []
+
+
+@pytest.mark.parametrize(
+    ("source", "mr", "en"),
+    [
+        ("सुमारे १ हजार ६०० जनावरे", "१ हजार ६०० जनावरे", "1,600 animals"),
+        ("1,600 जनावरे", "1,600 जनावरे", "1 thousand 600 animals"),
+        (SAMBHAJINAGAR, "1 लाख 29 हजार शेतकरी", "1.29 lakh farmers"),
+        (SAMBHAJINAGAR, "1 लाख 29 हजार शेतकरी", "129,000 farmers"),
+        ("एकूण 1 लाख शेतकरी", "1 लाख शेतकरी", "100,000 farmers"),
+    ],
+)
+def test_compound_the_same_value_in_another_form_is_no_language_difference(
+    source: str, mr: str, en: str
+) -> None:
+    found = _per_language(source, {"mr": mr, "hi": mr, "en": en})
+    assert found == []
+    facts = {"mr": text_facts(mr), "en": text_facts(en)}
+    assert output_language_differences(facts) == {}
+
+
+@pytest.mark.parametrize(
+    ("mr", "en", "lacking"),
+    [
+        ("१ हजार ६०० जनावरे", "1,700 animals", {"mr": ["1600"]}),
+        ("1,600 जनावरे", "1 thousand 700 animals", {"en": ["1700"]}),
+        ("1 लाख 29 हजार शेतकरी", "1.3 lakh farmers", {"mr": ["129000"], "en": ["130000"]}),
+        ("₹ 7,000 अनुदान", "a subsidy for farmers", {"mr": ["7000"]}),  # en drops it
+    ],
+)
+def test_compound_a_real_language_difference_is_still_flagged(
+    mr: str, en: str, lacking: dict[str, list[str]]
+) -> None:
+    facts = {"mr": text_facts(mr), "hi": text_facts(mr), "en": text_facts(en)}
+    hi = {"hi": lacking["mr"]} if "mr" in lacking else {}  # hi states what mr states
+    assert output_language_differences(facts) == {**lacking, **hi}
+    source = f"{mr} {en}"
+    found = _per_language(source, {"mr": mr, "hi": mr, "en": en})
+    assert "languages: amounts or dates differ between mr / hi / en" in found
 
 
 def test_compound_a_number_absent_from_the_source_is_still_held() -> None:

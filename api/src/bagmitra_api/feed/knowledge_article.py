@@ -20,7 +20,12 @@ from functools import cache
 from importlib import resources
 from typing import Any
 
-from bagmitra_api.feed.output_check import check_output, normalise, text_facts
+from bagmitra_api.feed.output_check import (
+    check_output,
+    language_differences,
+    normalise,
+    text_facts,
+)
 
 LANGS = ("mr", "hi", "en")
 MIN_SECTIONS, MAX_SECTIONS = 4, 8
@@ -238,8 +243,7 @@ def check_knowledge(source_text: str, result: KnowledgeSet) -> list[str]:
         for found in (*_EMAIL.findall(joined), *_PHONE.findall(joined)):
             if normalise(found) not in source_norm:
                 out.append(f"{lang}: contact '{found}' is not in the source")
-        facts = text_facts("\n".join(texts.values()))
-        facts_by_lang[lang] = (facts.amounts, facts.dates)
-    if len(set(facts_by_lang.values())) > 1:
+        facts_by_lang[lang] = text_facts("\n".join(texts.values()))
+    if language_differences(facts_by_lang):
         out.append("languages: amounts or dates differ between mr / hi / en")
     return out

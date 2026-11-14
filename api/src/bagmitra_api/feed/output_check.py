@@ -303,10 +303,12 @@ def _scan(text: str) -> _Facts:
 
 @dataclass(frozen=True, slots=True)
 class TextFacts:
-    """Full dates (ISO) and money amounts (₹ / lakh / crore, unit-multiplied) in a text."""
+    """Full dates (ISO) and money amounts (₹ / lakh / crore, unit-multiplied) in a text;
+    `numbers`: every value read, amounts and plain numbers alike."""
 
     dates: frozenset[str]
     amounts: frozenset[float]
+    numbers: frozenset[float] = frozenset()
 
 
 def day_months(text: str) -> list[tuple[str, int, int]]:
@@ -332,7 +334,23 @@ def text_facts(text: str) -> TextFacts:
     return TextFacts(
         frozenset(k for k in facts.dates if len(k) == 10),
         frozenset(v for _, v, is_amount in facts.numbers if is_amount),
+        frozenset(v for _, v, _ in facts.numbers),
     )
+
+
+def language_differences(facts: Mapping[str, TextFacts]) -> dict[str, list[str]]:
+    """Per language, the amounts and dates it states that another language lacks; empty means
+    every language states the same ones. An amount counts as stated in another language when
+    that language has the same value in any form, as an amount or a plain number ("१ हजार ६००"
+    = "1,600", "1 लाख 29 हजार" = "1.29 lakh" = "129,000"); a different value never does."""
+    out: dict[str, list[str]] = {}
+    for lang, own in facts.items():
+        others = [f for other, f in facts.items() if other != lang]
+        lacking = {f"{v:g}" for v in own.amounts if any(v not in f.numbers for f in others)}
+        lacking |= {d for d in own.dates if any(d not in f.dates for f in others)}
+        if lacking:
+            out[lang] = sorted(lacking)
+    return out
 
 
 def _contains(haystack: str, needle: str) -> bool:
