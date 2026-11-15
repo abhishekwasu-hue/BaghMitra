@@ -12,6 +12,7 @@ import '../../reactions/domain/reaction.dart';
 import '../../reactions/presentation/reaction_bar.dart';
 import '../../voice/presentation/voice_mic_button.dart';
 import '../data/qa_kb.dart';
+import '../domain/ask_crops.dart';
 
 /// The question box at the top of the विचारा tab (owner 2026-11-12, Q144). The farmer types or
 /// says a question; the answer comes at once from the questions and answers stored in the app
@@ -51,6 +52,9 @@ class _AskBoxState extends ConsumerState<AskBox> {
     final t = AppLocalizations.of(context);
     final c = context.bm;
     final kb = ref.watch(qaKbProvider).value;
+    // The crop names are read before any answer is shown (no citrus answer flashes for a
+    // question about another crop); without them the answers show as before.
+    final crops = ref.watch(askCropsProvider);
     return Container(
       key: const Key('ask-box'),
       padding: const EdgeInsets.all(BmSpace.md),
@@ -91,17 +95,30 @@ class _AskBoxState extends ConsumerState<AskBox> {
               ),
             ),
           ),
-          if (kb != null && _asked != null) ..._result(context, kb, _asked!),
+          if (kb != null && _asked != null && !crops.isLoading)
+            ..._result(context, kb, crops.value, _asked!),
         ],
       ),
     );
   }
 
-  List<Widget> _result(BuildContext context, QaKb kb, String asked) {
+  List<Widget> _result(
+    BuildContext context,
+    QaKb kb,
+    AskCrops? crops,
+    String asked,
+  ) {
     final t = AppLocalizations.of(context);
     final c = context.bm;
     final lang = Localizations.localeOf(context).languageCode;
     final quiet = BmType.meta.copyWith(color: c.inkMuted);
+    // A question about another crop (owner 2026-11-15): the stored answers are for santra
+    // and mosambi, so no citrus answer and no close questions; the crop's guide when it has
+    // one.
+    final other = _chosen == null
+        ? crops?.otherCropsIn(asked) ?? const []
+        : const <AskCrop>[];
+    if (other.isNotEmpty) return _otherCrop(context, other);
     final hits = kb.search(asked);
     final best = _chosen ?? hits.firstOrNull?.entry;
     final strong =
@@ -207,6 +224,35 @@ class _AskBoxState extends ConsumerState<AskBox> {
         Text(t.askRelated, style: BmType.label),
         for (final e in related.take(3)) question(e),
       ],
+    ];
+  }
+
+  List<Widget> _otherCrop(BuildContext context, List<AskCrop> crops) {
+    final t = AppLocalizations.of(context);
+    final c = context.bm;
+    final lang = Localizations.localeOf(context).languageCode;
+    final guides = ref.watch(cropGuidesProvider).value;
+    return [
+      const SizedBox(height: BmSpace.sm),
+      Text(
+        t.askCropNoQa([for (final crop in crops) crop.label(lang)].join(', ')),
+        key: const Key('ask-crop-no-qa'),
+        style: BmType.body.copyWith(color: c.ink),
+      ),
+      for (final named in crops)
+        if (guides?.forCrop(named.slug) case final guide?) ...[
+          const SizedBox(height: BmSpace.xs),
+          Align(
+            alignment: AlignmentDirectional.centerStart,
+            child: FilledButton.icon(
+              key: Key('ask-crop-guide-${guide.crop}'),
+              style: BmButtonStyle.primary(c),
+              onPressed: () => context.push(Routes.cropGuide(guide.crop)),
+              icon: const Icon(Icons.menu_book_rounded),
+              label: Text(t.askCropGuide(guide.label(lang))),
+            ),
+          ),
+        ],
     ];
   }
 }

@@ -16,7 +16,9 @@ import '../data/local/database.dart';
 import '../features/accounts/data/accounts_repository.dart';
 import '../features/accounts/data/expense_categories.dart';
 import '../features/accounts/domain/accounts.dart';
+import '../features/ask/data/ask_crops_config.dart';
 import '../features/ask/data/qa_kb.dart';
+import '../features/ask/domain/ask_crops.dart';
 import '../features/auth/domain/auth.dart';
 import '../features/bahar/data/bahar_catalog.dart';
 import '../features/bahar/data/bahar_compare.dart';
@@ -360,6 +362,19 @@ final qaKbConfigProvider = Provider<QaKbConfig>((ref) => QaKbConfig());
 final qaKbProvider = FutureProvider<QaKb>(
   (ref) => ref.watch(qaKbConfigProvider).load(),
 );
+
+/// The crop names the question box looks for (owner 2026-11-15): a question about a crop
+/// the stored answers are not for gets no citrus answer.
+final askCropsConfigProvider = Provider<AskCropsConfig>(
+  (ref) => AskCropsConfig(),
+);
+
+final askCropsProvider = FutureProvider<AskCrops>((ref) async {
+  final config = await ref.watch(askCropsConfigProvider).load();
+  final catalog = await ref.watch(cropCatalogDataProvider.future);
+  final guides = await ref.watch(cropGuidesProvider.future);
+  return buildAskCrops(config, catalog, guides);
+});
 
 final lookalikeCardsConfigProvider = Provider<LookalikeCardsConfig>(
   (ref) => LookalikeCardsConfig(),

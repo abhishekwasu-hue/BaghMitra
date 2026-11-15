@@ -51,6 +51,9 @@ const allowNegative = {
   // Reaction 😟 "समजले नाही" (Q146): the owner's own example; the reader's honest signal
   // that the text needs work is the point.
   'reactionUnclear',
+  // Question box (owner 2026-11-15): the owner's own calm line for a crop the stored
+  // answers are not for, "या पिकाची प्रश्नोत्तरे अजून ॲपमध्ये नाहीत."
+  'askCropNoQa',
 };
 
 final _negative = <String, RegExp>{

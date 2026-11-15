@@ -67,6 +67,15 @@ class QaKb {
         (k.startsWith('~') ? _sounds : _words)
             .putIfAbsent(k.startsWith('~') ? k.substring(1) : k, () => [])
             .add(i);
+        if (!k.startsWith('~') && qaIsDevanagari(k)) {
+          final s = qaSkeleton(k);
+          if (s.length >= 2) {
+            _devanagariSounds.putIfAbsent(s, () => []).add((
+              i,
+              qaLongASkeleton(k),
+            ));
+          }
+        }
       }
     }
   }
@@ -126,6 +135,9 @@ class QaKb {
   final _words = <String, List<int>>{};
   final _sounds = <String, List<int>>{};
 
+  /// Sound key -> (entry, [qaLongASkeleton]) of the stored Devanagari words with that key.
+  final _devanagariSounds = <String, List<(int, String)>>{};
+
   static const _exact = 1.0;
   static const _prefix = 0.85;
   static const _sound = 0.8;
@@ -151,6 +163,10 @@ class QaKb {
       }
     }
     final s = qaSkeleton(word);
+    if (qaIsDevanagari(word)) {
+      if (s.length >= 2) _devanagariSoundMatches(word, s, mark);
+      return best;
+    }
     if (s.length >= 2) {
       mark(_sounds[s], _sound);
       if (s.length >= _minPrefix) {
@@ -164,6 +180,36 @@ class QaKb {
       }
     }
     return best;
+  }
+
+  /// Sound matches of a Devanagari [word] (owner 2026-11-15: "बाजरी" found the "बाजार"
+  /// packing answer). Only stored Devanagari words count: every entry carries its Marathi
+  /// and Hindi text, and the romanised words are there for romanised questions ("bazar"
+  /// has the sound key of "बाजरी" too). A stored word counts only when its long-ā key and
+  /// the word's are one the start of the other (see [qaLongASkeleton]): "संत्री" /
+  /// "संत्रा", "कापसा" / "कापूस", "सिला" / "सिल्ला" match; "बाजरी" / "बाजार" do not.
+  void _devanagariSoundMatches(
+    String word,
+    String s,
+    void Function(List<int>?, double) mark,
+  ) {
+    final a = qaLongASkeleton(word);
+    bool sameWord(String b) => a.startsWith(b) || b.startsWith(a);
+    List<int> entriesOf(List<(int, String)> stored) => [
+      for (final (i, b) in stored)
+        if (sameWord(b)) i,
+    ];
+    if (_devanagariSounds[s] case final stored?) {
+      mark(entriesOf(stored), _sound);
+    }
+    if (s.length < _minPrefix) return;
+    for (final MapEntry(:key, :value) in _devanagariSounds.entries) {
+      if (key != s &&
+          key.length >= _minPrefix &&
+          (key.startsWith(s) || s.startsWith(key))) {
+        mark(entriesOf(value), _soundPrefix);
+      }
+    }
   }
 
   /// Entries for [query], best first, with a score above zero.

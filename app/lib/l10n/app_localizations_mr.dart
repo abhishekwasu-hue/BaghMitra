@@ -5350,6 +5350,16 @@ class AppLocalizationsMr extends AppLocalizations {
   String get askOpenCard => 'उपाय व माहिती पहा';
 
   @override
+  String askCropNoQa(String crop) {
+    return '$crop: या पिकाची प्रश्नोत्तरे अजून ॲपमध्ये नाहीत.';
+  }
+
+  @override
+  String askCropGuide(String crop) {
+    return '$crop: पीक मार्गदर्शक पहा';
+  }
+
+  @override
   String get reactionsArticleTitle => 'हा लेख कसा वाटला?';
 
   @override

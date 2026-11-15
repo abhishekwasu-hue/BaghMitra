@@ -5371,6 +5371,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get askOpenCard => 'See practices and details';
 
   @override
+  String askCropNoQa(String crop) {
+    return '$crop: questions and answers for this crop are not in the app yet.';
+  }
+
+  @override
+  String askCropGuide(String crop) {
+    return '$crop: see the crop guide';
+  }
+
+  @override
   String get reactionsArticleTitle => 'How was this article?';
 
   @override

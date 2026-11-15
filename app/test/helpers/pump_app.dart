@@ -7,6 +7,7 @@ import 'package:bagmitra/core/app_log.dart';
 import 'package:bagmitra/core/config.dart';
 import 'package:bagmitra/data/local/database.dart';
 import 'package:bagmitra/features/accounts/data/expense_categories.dart';
+import 'package:bagmitra/features/ask/data/ask_crops_config.dart';
 import 'package:bagmitra/features/ask/data/qa_kb.dart';
 import 'package:bagmitra/features/auth/data/demo_auth_repository.dart';
 import 'package:bagmitra/features/auth/domain/auth.dart';
@@ -237,6 +238,9 @@ Future<AppDatabase> pumpApp(
         ),
         cropGuidesConfigProvider.overrideWithValue(
           CropGuidesConfig(bundle: FileAssetBundle()),
+        ),
+        askCropsConfigProvider.overrideWithValue(
+          AskCropsConfig(bundle: FileAssetBundle()),
         ),
         // Widget tests read the seed fixture, not the shipped (generated) asset.
         qaKbConfigProvider.overrideWithValue(

@@ -5355,6 +5355,16 @@ class AppLocalizationsHi extends AppLocalizations {
   String get askOpenCard => 'उपाय व जानकारी देखें';
 
   @override
+  String askCropNoQa(String crop) {
+    return '$crop: इस फसल के प्रश्नोत्तर अभी ऐप में नहीं हैं।';
+  }
+
+  @override
+  String askCropGuide(String crop) {
+    return '$crop: फसल मार्गदर्शिका देखें';
+  }
+
+  @override
   String get reactionsArticleTitle => 'यह लेख कैसा लगा?';
 
   @override
