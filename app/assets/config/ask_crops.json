@@ -1,0 +1,591 @@
+{
+  "_note": "Crop names the question box (विचारा tab) looks for (owner 2026-11-15): the stored questions and answers are for the qa_crops only, so a question that names another crop (and none of the qa_crops) gets a calm 'not in the app yet' line and, when the crop has a guide (crop_guides.json), a button to it, instead of a citrus answer. The names are read from crops.json (labels in mr / hi / en, the en label split at '(' ')' '/', and label_aliases) and crop_guides.json (names), plus the extra names and inflected forms below; other_crops are common crops that are not in crops.json. A word names a crop when it is the name, or the name followed by one of the endings (Devanagari or Latin). skip_slugs are the catch-all entries of crops.json (no crop name). ignore_names are names that also mean something else in a farmer's question and are never read as a crop: केला / केले (Marathi 'did'), आम (Hindi 'common'), बोर (also written for a borewell), gram (the unit), lime (चुना), keli / kela (Marathi 'did'), us (English). Adding a name or a crop needs no code change. not_crop_phrases are phrases in which a crop word names something else (a mulch material, cotton-like wax); their words are never read as a crop. citrus_terms are words of citrus questions that hold another crop's word (lemon butterfly, rough lemon rootstock, the citrus group): they count as santra.",
+  "qa_crops": [
+    "santra",
+    "mosambi"
+  ],
+  "skip_slugs": [
+    "other_fruit",
+    "vegetables",
+    "flowers",
+    "other"
+  ],
+  "ignore_names": [
+    "केला",
+    "केले",
+    "आम",
+    "बोर",
+    "gram",
+    "lime",
+    "keli",
+    "kela",
+    "us"
+  ],
+  "not_crop_phrases": [
+    "paddy husk",
+    "rice husk",
+    "भाताचे तूस",
+    "भाताचा तूस",
+    "भाताच्या तुसाचे",
+    "धान की भूसी",
+    "धान का भूसा",
+    "kapus sarkhe",
+    "कापूस सारखे",
+    "कापसा सारखे",
+    "cotton like"
+  ],
+  "citrus_terms": [
+    "lemon butterfly",
+    "लिंबू फुलपाखरू",
+    "लिंबू फुलपाखरा",
+    "limbu fulpakharu",
+    "limbu fulpakhara",
+    "नींबू तितली",
+    "nimbu titli",
+    "rough lemon",
+    "jamberi",
+    "jambheri",
+    "जंबेरी",
+    "जांभेरी",
+    "नींबू वर्गीय",
+    "nimbu varg",
+    "nimbu vargiya",
+    "nimbu prajati",
+    "nimbu kism",
+    "लिंबूवर्गीय",
+    "लिंबू वर्गीय"
+  ],
+  "endings": {
+    "devanagari": [
+      "चा",
+      "ची",
+      "चे",
+      "च्या",
+      "ला",
+      "ना",
+      "ने",
+      "नी",
+      "त",
+      "ात",
+      "ांत",
+      "मध्ये",
+      "मधे",
+      "मधील",
+      "साठी",
+      "वर",
+      "वरील",
+      "तील",
+      "ांना",
+      "ांचा",
+      "ांची",
+      "ांचे",
+      "ांच्या",
+      "ंचा",
+      "ंची",
+      "ंचे",
+      "ंच्या",
+      "ंना",
+      "ंत",
+      "ंवर",
+      "ंसाठी",
+      "ंमध्ये",
+      "ों",
+      "ें"
+    ],
+    "latin": [
+      "chi",
+      "cha",
+      "che",
+      "chya",
+      "la",
+      "na",
+      "sathi",
+      "madhe",
+      "madhye",
+      "var",
+      "s",
+      "es"
+    ]
+  },
+  "names": {
+    "santra": {
+      "mr": [
+        "संत्रा",
+        "संत्री",
+        "संत्र्या",
+        "संत्रे",
+        "संत्र्य",
+        "नागपुरी",
+        "लिंबूवर्गीय"
+      ],
+      "hi": [
+        "संतरा",
+        "संतरे",
+        "संतरों"
+      ],
+      "en": [
+        "santra",
+        "santri",
+        "santre",
+        "santrya",
+        "oranges",
+        "nagpuri"
+      ]
+    },
+    "mosambi": {
+      "mr": [
+        "मोसंबी",
+        "मोसम्बी",
+        "मोसंब्या"
+      ],
+      "hi": [
+        "मौसंबी",
+        "मौसमी",
+        "मोसमी"
+      ],
+      "en": [
+        "mosambi",
+        "mosambee",
+        "mausambi",
+        "musambi"
+      ]
+    },
+    "pomegranate": {
+      "mr": [
+        "डाळिंब",
+        "डाळिंबा"
+      ],
+      "hi": [
+        "अनार"
+      ],
+      "en": [
+        "dalimb",
+        "anar"
+      ]
+    },
+    "banana": {
+      "mr": [
+        "केळी",
+        "केळ"
+      ],
+      "hi": [],
+      "en": [
+        "bananas"
+      ]
+    },
+    "grapes": {
+      "mr": [
+        "द्राक्ष",
+        "द्राक्षे",
+        "द्राक्षा"
+      ],
+      "hi": [
+        "अंगूर"
+      ],
+      "en": [
+        "draksha"
+      ]
+    },
+    "mango": {
+      "mr": [
+        "आंबा",
+        "आंब्या",
+        "आंबे"
+      ],
+      "hi": [],
+      "en": [
+        "mangoes",
+        "amba"
+      ]
+    },
+    "guava": {
+      "mr": [
+        "पेरू"
+      ],
+      "hi": [
+        "अमरूद"
+      ],
+      "en": [
+        "peru",
+        "amrud"
+      ]
+    },
+    "lemon": {
+      "mr": [
+        "लिंबू",
+        "लिंबा"
+      ],
+      "hi": [
+        "नींबू",
+        "नीबू"
+      ],
+      "en": [
+        "lemons",
+        "limbu",
+        "nimbu"
+      ]
+    },
+    "papaya": {
+      "mr": [
+        "पपई"
+      ],
+      "hi": [
+        "पपीता",
+        "पपीते"
+      ],
+      "en": [
+        "papai",
+        "papita"
+      ]
+    },
+    "custard_apple": {
+      "mr": [
+        "सीताफळ",
+        "सीताफळा"
+      ],
+      "hi": [
+        "सीताफल"
+      ],
+      "en": [
+        "sitafal",
+        "sitaphal"
+      ]
+    },
+    "sapota": {
+      "mr": [
+        "चिकू",
+        "चीकू"
+      ],
+      "hi": [
+        "चीकू"
+      ],
+      "en": [
+        "chikoo",
+        "chiku"
+      ]
+    },
+    "ber": {
+      "mr": [],
+      "hi": [
+        "बेर"
+      ],
+      "en": [
+        "ber"
+      ]
+    },
+    "aonla": {
+      "mr": [
+        "आवळा",
+        "आवळ्या"
+      ],
+      "hi": [
+        "आंवला",
+        "आंवले"
+      ],
+      "en": [
+        "amla",
+        "awla",
+        "avla"
+      ]
+    },
+    "cotton": {
+      "mr": [
+        "कापूस",
+        "कापसा",
+        "कपाशी"
+      ],
+      "hi": [
+        "कपास"
+      ],
+      "en": [
+        "kapus",
+        "kapas",
+        "kapsa",
+        "kapashi"
+      ]
+    },
+    "soybean": {
+      "mr": [
+        "सोयाबीन"
+      ],
+      "hi": [
+        "सोयाबीन"
+      ],
+      "en": [
+        "soyabin"
+      ]
+    },
+    "tur": {
+      "mr": [
+        "तूर",
+        "तुरी"
+      ],
+      "hi": [
+        "अरहर",
+        "तुअर"
+      ],
+      "en": [
+        "turi"
+      ]
+    },
+    "gram": {
+      "mr": [
+        "हरभरा",
+        "हरभऱ्या",
+        "हरबरा"
+      ],
+      "hi": [
+        "चना",
+        "चने"
+      ],
+      "en": [
+        "harbhara",
+        "chana"
+      ]
+    },
+    "moong": {
+      "mr": [
+        "मूग",
+        "मुगा"
+      ],
+      "hi": [
+        "मूंग"
+      ],
+      "en": []
+    },
+    "urad": {
+      "mr": [
+        "उडीद",
+        "उडदा"
+      ],
+      "hi": [
+        "उडद"
+      ],
+      "en": [
+        "udid"
+      ]
+    },
+    "mustard": {
+      "mr": [
+        "मोहरी"
+      ],
+      "hi": [
+        "सरसों"
+      ],
+      "en": [
+        "mohari"
+      ]
+    },
+    "linseed": {
+      "mr": [
+        "जवस"
+      ],
+      "hi": [
+        "अलसी"
+      ],
+      "en": [
+        "javas",
+        "alsi"
+      ]
+    },
+    "bajra": {
+      "mr": [
+        "बाजरी",
+        "बाजऱ्या"
+      ],
+      "hi": [
+        "बाजरा",
+        "बाजरे"
+      ],
+      "en": [
+        "bajra",
+        "bajri",
+        "pearl millet"
+      ]
+    },
+    "jowar": {
+      "mr": [
+        "ज्वारी",
+        "ज्वार"
+      ],
+      "hi": [
+        "ज्वार"
+      ],
+      "en": [
+        "jowar",
+        "jowari",
+        "jwari",
+        "sorghum"
+      ]
+    },
+    "wheat": {
+      "mr": [
+        "गहू",
+        "गव्हा"
+      ],
+      "hi": [
+        "गेहूं",
+        "गेहूँ"
+      ],
+      "en": [
+        "wheat",
+        "gahu",
+        "gehu",
+        "gehun"
+      ]
+    },
+    "maize": {
+      "mr": [
+        "मका",
+        "मक्या"
+      ],
+      "hi": [
+        "मक्का",
+        "मक्के"
+      ],
+      "en": [
+        "maize",
+        "corn",
+        "maka",
+        "makka"
+      ]
+    }
+  },
+  "other_crops": [
+    {
+      "slug": "rice",
+      "labels": {
+        "mr": "भात",
+        "hi": "धान",
+        "en": "Rice (paddy)"
+      },
+      "names": {
+        "mr": [
+          "भात",
+          "भाता",
+          "धान",
+          "तांदूळ"
+        ],
+        "hi": [
+          "धान",
+          "चावल"
+        ],
+        "en": [
+          "rice",
+          "paddy"
+        ]
+      }
+    },
+    {
+      "slug": "sugarcane",
+      "labels": {
+        "mr": "ऊस",
+        "hi": "गन्ना",
+        "en": "Sugarcane"
+      },
+      "names": {
+        "mr": [
+          "ऊस",
+          "उसा"
+        ],
+        "hi": [
+          "गन्ना",
+          "गन्ने"
+        ],
+        "en": [
+          "sugarcane",
+          "oos",
+          "ganna"
+        ]
+      }
+    },
+    {
+      "slug": "groundnut",
+      "labels": {
+        "mr": "भुईमूग",
+        "hi": "मूंगफली",
+        "en": "Groundnut"
+      },
+      "names": {
+        "mr": [
+          "भुईमूग",
+          "भुईमुगा"
+        ],
+        "hi": [
+          "मूंगफली"
+        ],
+        "en": [
+          "groundnut",
+          "peanut",
+          "bhuimug"
+        ]
+      }
+    },
+    {
+      "slug": "onion",
+      "labels": {
+        "mr": "कांदा",
+        "hi": "प्याज",
+        "en": "Onion"
+      },
+      "names": {
+        "mr": [
+          "कांदा",
+          "कांद्या",
+          "कांदे"
+        ],
+        "hi": [
+          "प्याज"
+        ],
+        "en": [
+          "onion",
+          "kanda"
+        ]
+      }
+    },
+    {
+      "slug": "chilli",
+      "labels": {
+        "mr": "मिरची",
+        "hi": "मिर्च",
+        "en": "Chilli"
+      },
+      "names": {
+        "mr": [
+          "मिरची",
+          "मिरच्या"
+        ],
+        "hi": [
+          "मिर्च",
+          "मिर्ची"
+        ],
+        "en": [
+          "chilli",
+          "chili",
+          "mirchi"
+        ]
+      }
+    },
+    {
+      "slug": "turmeric",
+      "labels": {
+        "mr": "हळद",
+        "hi": "हल्दी",
+        "en": "Turmeric"
+      },
+      "names": {
+        "mr": [
+          "हळद",
+          "हळदी"
+        ],
+        "hi": [
+          "हल्दी"
+        ],
+        "en": [
+          "turmeric",
+          "halad"
+        ]
+      }
+    }
+  ]
+}

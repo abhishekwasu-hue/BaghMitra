@@ -1,5 +1,6 @@
 // The विचारा tab with a stored answer (owner 2026-11-12, Q144): a 360 px phone, Marathi,
-// 1.3x text, light and dark; and the close-questions state.
+// 1.3x text, light and dark; the close-questions state; and a question about another crop
+// (owner 2026-11-15), with and without a crop guide.
 // Regenerate with:
 //   flutter test --update-goldens test/goldens/ask_golden_test.dart
 @Tags(['golden'])
@@ -19,6 +20,13 @@ void main() {
     'ask_answer_mr_light_360_x13': ('सायलाची लक्षणे काय?', ThemeMode.light),
     'ask_answer_mr_dark_360_x13': ('सायलाची लक्षणे काय?', ThemeMode.dark),
     'ask_close_mr_light_360_x13': ('झाडाची पाने', ThemeMode.light),
+    // Another crop (owner 2026-11-15): the calm line and the crop guide button.
+    'ask_other_crop_mr_light_360_x13': ('कापूस लागवड', ThemeMode.light),
+    'ask_other_crop_mr_dark_360_x13': ('कापूस लागवड', ThemeMode.dark),
+    'ask_other_crop_no_guide_mr_light_360_x13': (
+      'उसाची लागवड कशी करावी',
+      ThemeMode.light,
+    ),
   };
   for (final MapEntry(key: name, value: (question, mode)) in cases.entries) {
     testWidgets(name, (tester) async {

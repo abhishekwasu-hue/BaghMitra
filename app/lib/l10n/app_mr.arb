@@ -1544,6 +1544,8 @@
   "askCloser": "हे जवळचे प्रश्न पाहा:",
   "askNoMatch": "या प्रश्नासाठी खालील मार्गदर्शक पाहा किंवा आपल्या KVK ला विचारा.",
   "askOpenCard": "उपाय व माहिती पहा",
+  "askCropNoQa": "{crop}: या पिकाची प्रश्नोत्तरे अजून ॲपमध्ये नाहीत.",
+  "askCropGuide": "{crop}: पीक मार्गदर्शक पहा",
   "reactionsArticleTitle": "हा लेख कसा वाटला?",
   "reactionsAnswerTitle": "हे उत्तर कसे वाटले?",
   "reactionUseful": "उपयोगी",

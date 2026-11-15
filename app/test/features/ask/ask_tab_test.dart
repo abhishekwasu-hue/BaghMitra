@@ -110,6 +110,96 @@ void main() {
     await unmountApp(tester);
   });
 
+  testWidgets('another crop: the calm line, no citrus answer (2026-11-15)', (
+    tester,
+  ) async {
+    await pumpApp(tester, initialLocation: '/ask');
+    await settle(tester);
+    // Sugarcane has no guide (bajra got one, Q163).
+    await ask(tester, 'उसाची लागवड कशी करावी');
+    expect(
+      find.text('ऊस: या पिकाची प्रश्नोत्तरे अजून ॲपमध्ये नाहीत.'),
+      findsOneWidget,
+    );
+    expect(find.byKey(const Key('ask-closer')), findsNothing);
+    expect(find.byKey(const Key('ask-no-match')), findsNothing);
+    expect(find.byKey(const Key('ask-open-card')), findsNothing);
+    expect(find.textContaining('पीक मार्गदर्शक पहा'), findsNothing);
+    // Not one stored question is offered.
+    expect(
+      find.byWidgetPredicate(
+        (w) =>
+            '${w.key}'.contains('ask-answer-') ||
+            '${w.key}'.contains('ask-related-'),
+      ),
+      findsNothing,
+    );
+    await unmountApp(tester);
+  });
+
+  testWidgets('a crop with a guide: the green button opens it', (tester) async {
+    await pumpApp(tester, initialLocation: '/ask');
+    await settle(tester);
+    await ask(tester, 'कापूस लागवड');
+    expect(find.byKey(const Key('ask-crop-no-qa')), findsOneWidget);
+    final button = find.byKey(const Key('ask-crop-guide-cotton'));
+    expect(
+      find.descendant(
+        of: button,
+        matching: find.text('कापूस: पीक मार्गदर्शक पहा'),
+      ),
+      findsOneWidget,
+    );
+    await tester.ensureVisible(button);
+    await tester.tap(button);
+    await settle(tester);
+    expect(find.byKey(const Key('crop-guide')), findsOneWidget);
+    await unmountApp(tester);
+  });
+
+  testWidgets('the cereals with a guide get its button (Q163)', (tester) async {
+    await pumpApp(tester, initialLocation: '/ask');
+    await settle(tester);
+    for (final (question, slug, label) in [
+      ('बाजरी लागवडी संदर्भात सांगा', 'bajra', 'बाजरी'),
+      ('ज्वारी पेरणी', 'jowar', 'ज्वारी'),
+      ('गव्हाची पेरणी', 'wheat', 'गहू'),
+      ('मक्याची लष्करी अळी', 'maize', 'मका'),
+    ]) {
+      await ask(tester, question);
+      expect(
+        find.text('$label: या पिकाची प्रश्नोत्तरे अजून ॲपमध्ये नाहीत.'),
+        findsOneWidget,
+        reason: question,
+      );
+      expect(
+        find.descendant(
+          of: find.byKey(Key('ask-crop-guide-$slug')),
+          matching: find.text('$label: पीक मार्गदर्शक पहा'),
+        ),
+        findsOneWidget,
+        reason: question,
+      );
+    }
+    await unmountApp(tester);
+  });
+
+  testWidgets('santra named with another crop: answered as before', (
+    tester,
+  ) async {
+    await pumpApp(tester, initialLocation: '/ask');
+    await settle(tester);
+    await ask(tester, 'संत्रा हरभरा सायलाची लक्षणे');
+    expect(find.byKey(const Key('ask-crop-no-qa')), findsNothing);
+    // The seed has no word for "संत्रा" / "हरभरा": the closest questions, as for any question.
+    expect(find.byKey(const Key('ask-closer')), findsOneWidget);
+    expect(
+      find.byKey(const Key('ask-related-seed-psylla-symptoms')),
+      findsOneWidget,
+    );
+    await unmountApp(tester);
+  });
+
   testWidgets('the guide opened from a page has no question box', (
     tester,
   ) async {

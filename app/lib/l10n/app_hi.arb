@@ -1544,6 +1544,8 @@
   "askCloser": "ये मिलते-जुलते सवाल देखें:",
   "askNoMatch": "इस सवाल के लिए नीचे की मार्गदर्शिका देखें या अपने KVK से पूछें।",
   "askOpenCard": "उपाय व जानकारी देखें",
+  "askCropNoQa": "{crop}: इस फसल के प्रश्नोत्तर अभी ऐप में नहीं हैं।",
+  "askCropGuide": "{crop}: फसल मार्गदर्शिका देखें",
   "reactionsArticleTitle": "यह लेख कैसा लगा?",
   "reactionsAnswerTitle": "यह जवाब कैसा लगा?",
   "reactionUseful": "उपयोगी",
