@@ -1,5 +1,5 @@
 {
- "_note": "Crop guides (पीक मार्गदर्शक, owner 2026-11-14, OPEN_QUESTIONS Q161): one field crop from land to harvest. Text written by AI (Claude, in the build session) from the fetched text of the public sources below; every item keeps `quote`, the source passage it rests on (parts joined by …), and every number of an item is in its quote (api tests/test_crop_guides.py, the feed output check). Fertilisers, pesticides and organic inputs are named without a dose or rate and a line that names one ends with the expert-advice note (`input`). No ingredient of the PPQS banned / restricted list is named (api tests/test_grower_doses.py, per crop): where a source lists one it is left out (`omitted`). The dose, note and banned-name rules are the shared ones of api kb/dose_rules.py (Q160). A section is present only where a source covers it. Add a crop by adding it here (its slug from crops.json).",
+ "_note": "Crop guides (पीक मार्गदर्शक, owner 2026-11-14, OPEN_QUESTIONS Q161): one field crop from land to harvest. Text written by AI (Claude, in the build session) from the fetched text of the public sources below; every item keeps `quote`, the source passage it rests on (parts joined by …), and every number of an item is in its quote (api tests/test_crop_guides.py, the feed output check). Fertilisers, pesticides and organic inputs are named without a dose or rate and a line that names one ends with the expert-advice note (`input`). No ingredient of the PPQS banned / restricted list is named (api tests/test_grower_doses.py, per crop): where a source lists one it is left out (`omitted`). The dose, note and banned-name rules are the shared ones of api kb/dose_rules.py (Q160). A section is present only where a source covers it. `names` are the words that mean the crop in a text (feed button; a Devanagari name matches at a word start, so Marathi stems such as गव्हा and मक्या carry the case endings), `not_names` the words that start like one but mean something else (मकान is not मका). Add a crop by adding it here (its slug from crops.json).",
  "status": "draft",
  "sources": {
   "CICR-MH": {
@@ -14,11 +14,95 @@
    "publisher": "ICAR-CRIDA",
    "checked": "2026-11-14"
   },
+  "CRIDA-NND": {
+   "title": "ICAR-CRIDA and VNMKV (MAU) Parbhani: agriculture contingency plan, district Nanded",
+   "url": "https://icar-crida.res.in/CP/Maharastra/MAU,%20Parbhani/Maharashtra%2029-Nanded-%2031-12-2011.pdf",
+   "publisher": "ICAR-CRIDA",
+   "checked": "2026-11-15"
+  },
+  "IIMR-KS": {
+   "title": "ICAR-IIMR Hyderabad: recommended package of practices, kharif sorghum",
+   "url": "https://www.millets.res.in/farmer/Recommended_package_of_Practices_Kharif.pdf",
+   "publisher": "ICAR-IIMR",
+   "checked": "2026-11-15"
+  },
+  "IIMR-PM": {
+   "title": "ICAR-IIMR Hyderabad: recommended package of practices, pearl millet",
+   "url": "https://www.millets.res.in/technologies/Recommended_package_of_practices-Pearl_millet.pdf",
+   "publisher": "ICAR-IIMR",
+   "checked": "2026-11-15"
+  },
+  "IIMR-RS": {
+   "title": "ICAR-IIMR Hyderabad (DAC-ICAR): recommended package of practices, rabi sorghum",
+   "url": "https://www.millets.res.in/farmer/Recommended_packages_of_practices_Rabi_sorghum.pdf",
+   "publisher": "ICAR-IIMR",
+   "checked": "2026-11-15"
+  },
+  "MPKV-BAJ": {
+   "title": "MPKV Rahuri: improved / hybrid varieties of bajra developed by the university",
+   "url": "https://mpkv.ac.in/Uploads/Research/02%20-%20Bajara,%20Rice_20250822024636.pdf",
+   "publisher": "MPKV",
+   "checked": "2026-11-15"
+  },
   "MPKV-COT": {
    "title": "MPKV Rahuri: improved / hybrid varieties of cotton developed by the university",
    "url": "https://mpkv.ac.in/Uploads/Research/10-Cotton_20230912061049.pdf",
    "publisher": "MPKV",
    "checked": "2026-11-14"
+  },
+  "MPKV-JWR": {
+   "title": "MPKV Rahuri: improved / hybrid varieties of sorghum developed by the university",
+   "url": "https://mpkv.ac.in/Uploads/Research/03%20-%20Rabi%20Jwar_20230824040659.pdf",
+   "publisher": "MPKV",
+   "checked": "2026-11-15"
+  },
+  "MPKV-MZE": {
+   "title": "MPKV Rahuri: improved / hybrid varieties of maize developed by the university",
+   "url": "https://mpkv.ac.in/Uploads/Research/05%20-%20Maka_20230825111803.pdf",
+   "publisher": "MPKV",
+   "checked": "2026-11-15"
+  },
+  "MPKV-MZE-REC": {
+   "title": "MPKV Rahuri: maize, recommendations released in the last 10 years",
+   "url": "https://mpkv.ac.in/Uploads/Research/5.%20Maize_20200110053602.pdf",
+   "publisher": "MPKV",
+   "checked": "2026-11-15"
+  },
+  "MPKV-R22": {
+   "title": "MPKV Rahuri: research recommendations 2022 (English)",
+   "url": "https://mpkv.ac.in/Uploads/Research/2022-English_20230913025026.pdf",
+   "publisher": "MPKV",
+   "checked": "2026-11-15"
+  },
+  "MPKV-R23": {
+   "title": "MPKV Rahuri: research recommendations 2023 (English)",
+   "url": "https://mpkv.ac.in/Uploads/Research/2023-English_20230913025314.pdf",
+   "publisher": "MPKV",
+   "checked": "2026-11-15"
+  },
+  "MPKV-R24": {
+   "title": "MPKV Rahuri: research recommendations 2024 (English)",
+   "url": "https://mpkv.ac.in/Uploads/Research/2024-English_20241017111319.pdf",
+   "publisher": "MPKV",
+   "checked": "2026-11-15"
+  },
+  "MPKV-R25": {
+   "title": "MPKV Rahuri: research recommendations 2025 (English)",
+   "url": "https://mpkv.ac.in/Uploads/Research/2025-English_20250808061909.pdf",
+   "publisher": "MPKV",
+   "checked": "2026-11-15"
+  },
+  "MPKV-WHT": {
+   "title": "MPKV Rahuri: improved varieties of wheat developed by the university",
+   "url": "https://mpkv.ac.in/Uploads/Research/04%20-%20Wheat_20250822024052.pdf",
+   "publisher": "MPKV",
+   "checked": "2026-11-15"
+  },
+  "MPKV-WHT-REC": {
+   "title": "MPKV Rahuri: wheat, recommendations released in the last 10 years",
+   "url": "https://mpkv.ac.in/Uploads/Research/4.%20Wheat_20200110053545.pdf",
+   "publisher": "MPKV",
+   "checked": "2026-11-15"
   },
   "PDKV-LM": {
    "title": "Dr. PDKV: AICRP on Oilseeds (Linseed & Mustard), Nagpur: varieties and research recommendations",
@@ -50,11 +134,23 @@
    "publisher": "Dr. PDKV",
    "checked": "2026-11-14"
   },
+  "PDKV-R16": {
+   "title": "Dr. PDKV: research recommendations 2016 (English)",
+   "url": "https://www.pdkv.ac.in/Circulars/Recom-2016English.pdf",
+   "publisher": "Dr. PDKV",
+   "checked": "2026-11-15"
+  },
   "PDKV-R17": {
    "title": "Dr. PDKV: research recommendations 2017 (English)",
    "url": "https://www.pdkv.ac.in/Circulars/Recom-2017English.pdf",
    "publisher": "Dr. PDKV",
    "checked": "2026-11-14"
+  },
+  "PDKV-R18": {
+   "title": "Dr. PDKV: research recommendations 2018 (English)",
+   "url": "https://www.pdkv.ac.in/Circulars/Recom-2018English.pdf",
+   "publisher": "Dr. PDKV",
+   "checked": "2026-11-15"
   },
   "PDKV-R19": {
    "title": "Dr. PDKV: research recommendations 2019 (English)",
@@ -1967,6 +2063,1467 @@
         "PDKV-LM"
        ],
        "quote": "For control of powdery mildew of linseed two sprays of Propiconazole (0.1%) or Difenconazole (0.05%) or wettable sulphur (0.25 %) or Quintal (0.1 %) or Hexaconazole (0.1%) one at disease initiation and second 15 days later is recommended."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "crop": "bajra",
+   "labels": {
+    "en": "Bajra (pearl millet)",
+    "mr": "बाजरी",
+    "hi": "बाजरा"
+   },
+   "names": {
+    "en": [
+     "bajra",
+     "bajri",
+     "pearl millet",
+     "pearlmillet"
+    ],
+    "mr": [
+     "बाजरी"
+    ],
+    "hi": [
+     "बाजरा",
+     "बाजरे"
+    ]
+   },
+   "ai_written": true,
+   "sections": [
+    {
+     "key": "land",
+     "items": [
+      {
+       "id": "bajra-land-1",
+       "labels": {
+        "en": "Bajra grows in many soils but not where water stands. Plough once or twice and harrow to a fine tilth; on heavy soils of Maharashtra a deep summer ploughing holds rainwater.",
+        "mr": "बाजरी अनेक प्रकारच्या जमिनीत येते, पण पाणी साचणाऱ्या जमिनीत नाही. एक-दोन नांगरटी व कुळवाच्या पाळ्या देऊन जमीन भुसभुशीत करावी; महाराष्ट्रातील भारी जमिनीत उन्हाळ्यात खोल नांगरट केल्याने पावसाचे पाणी मुरते.",
+        "hi": "बाजरा कई प्रकार की मिट्टी में होता है, पर जलभराव वाली मिट्टी में नहीं। एक-दो जुताई और हैरो से मिट्टी भुरभुरी करें; महाराष्ट्र की भारी मिट्टी में गर्मी की गहरी जुताई से वर्षा जल रुकता है।"
+       },
+       "source": "IIMR-PM, preparation of land; contingency planning",
+       "source_keys": [
+        "IIMR-PM"
+       ],
+       "quote": "Pearl millet can be grown in different soils. It does not grow well in soils prone to waterlogged conditions. The field should be ploughed once or twice followed by harrowing to create fine tilth … To conserve in situ rainwater, deep plough the field during summer on heavy soils of Maharashtra"
+      }
+     ]
+    },
+    {
+     "key": "sowing",
+     "items": [
+      {
+       "id": "bajra-sowing-1",
+       "labels": {
+        "en": "Kharif bajra: MPKV hybrids and varieties are sown from 15 June to 15 July. In Marathwada, dry sowing before the first monsoon rains is advised. Sow 2.5-3 cm deep.",
+        "mr": "खरीप बाजरी: फुले कृषी विद्यापीठाचे संकरित व सुधारित वाण १५ जून ते १५ जुलै दरम्यान पेरावेत. मराठवाड्यात पहिल्या मान्सून पावसापूर्वी धूळपेरणीची शिफारस आहे. बी २.५-३ सें.मी. खोल पेरावे.",
+        "hi": "खरीफ बाजरा: एमपीकेवी के संकर और किस्में 15 जून से 15 जुलाई के बीच बोएँ। मराठवाड़ा में पहली मानसूनी वर्षा से पहले सूखी बुवाई की सलाह है। बीज 2.5-3 सें.मी. गहरा बोएँ।"
+       },
+       "source": "MPKV-BAJ, sowing time; IIMR-PM, method and time of sowing",
+       "source_keys": [
+        "MPKV-BAJ",
+        "IIMR-PM"
+       ],
+       "quote": "Sowing Time / Planting period 15th June to 15th July … The seed should be sown at 2.5 cm – 3 cm depth … In Marathwada area of Maharashtra, dry sowing prior to first monsoon rains is recommended."
+      },
+      {
+       "id": "bajra-sowing-2",
+       "labels": {
+        "en": "If the monsoon is delayed, bajra can still be sown up to 15 July on shallow soils of the scarcity zone of western Maharashtra, with a yield loss below 12 percent.",
+        "mr": "पाऊस लांबल्यास पश्चिम महाराष्ट्राच्या अवर्षणप्रवण विभागातील हलक्या जमिनीत बाजरी १५ जुलैपर्यंत पेरता येते; उत्पादनातील घट १२ टक्क्यांपेक्षा कमी राहते.",
+        "hi": "मानसून देर से आए तो पश्चिम महाराष्ट्र के सूखाग्रस्त क्षेत्र की उथली मिट्टी में बाजरा 15 जुलाई तक बो सकते हैं; उपज में कमी 12 प्रतिशत से कम रहती है।"
+       },
+       "source": "MPKV-R25, Agronomy no. 9",
+       "source_keys": [
+        "MPKV-R25"
+       ],
+       "quote": "In kharif season, under delayed monsoon condition for contingent cropping, sowing of pigeonpea, sunflower, soybean, pearlmillet, horse gram and moth bean is recommended upto 15th July with reduction in yield below 12 percent on shallow soils of scarcity zone of Western Maharashtra."
+      },
+      {
+       "id": "bajra-sowing-3",
+       "labels": {
+        "en": "Spacing 45 x 10-15 cm, about 1.75 to 2.0 lakh plants per hectare; where rainfall is below 400 mm, use wider rows of 60 cm.",
+        "mr": "अंतर ४५ x १०-१५ सें.मी., हेक्टरी सुमारे १.७५ ते २.० लाख रोपे; ४०० मि.मी.पेक्षा कमी पावसाच्या भागात ६० सें.मी.च्या रुंद ओळी ठेवाव्यात.",
+        "hi": "दूरी 45 x 10-15 सें.मी., प्रति हेक्टेयर लगभग 1.75 से 2.0 लाख पौधे; 400 मि.मी. से कम वर्षा वाले क्षेत्र में 60 सें.मी. की चौड़ी पंक्तियाँ रखें।"
+       },
+       "source": "IIMR-PM, spacing; contingency planning",
+       "source_keys": [
+        "IIMR-PM"
+       ],
+       "quote": "planted at the spacing of 45 x 10- 15 cm keeping plant population of 1.75 to 2.0 lakhs/ha. … A wider row spacing of 60 cm is advocated where rainfall is less than 400 mm."
+      },
+      {
+       "id": "bajra-sowing-4",
+       "labels": {
+        "en": "Summer bajra: sow in the 4th to 5th standard week, the last week of January to the first week of February.",
+        "mr": "उन्हाळी बाजरी: ४ थ्या ते ५ व्या प्रमाण हवामान आठवड्यात, म्हणजे जानेवारीचा शेवटचा आठवडा ते फेब्रुवारीचा पहिला आठवडा या काळात पेरणी करावी.",
+        "hi": "ग्रीष्म बाजरा: 4वें से 5वें मानक मौसम सप्ताह, यानी जनवरी के अंतिम सप्ताह से फरवरी के पहले सप्ताह में बुवाई करें।"
+       },
+       "source": "IIMR-PM, time of sowing",
+       "source_keys": [
+        "IIMR-PM"
+       ],
+       "quote": "Summer pearl millet should be sown from 4th to 5th Standard Meteorological Week (SMW) i.e. last week of Jan uary to 1st week of February"
+      },
+      {
+       "id": "bajra-sowing-5",
+       "labels": {
+        "en": "Intercrops in Maharashtra: bajra with moth bean, tur, soybean, black gram, green gram, cowpea or sunflower. On shallow soils of the scarcity zone, bajra + cowpea (2:1); on medium soils, tur + bajra (1:2); Akola plan bajra + tur (2:1, 4:2).",
+        "mr": "महाराष्ट्रातील आंतरपिके: बाजरीसोबत मटकी, तूर, सोयाबीन, उडीद, मूग, चवळी किंवा सूर्यफूल. अवर्षणप्रवण विभागातील हलक्या जमिनीत बाजरी + चवळी (२:१); मध्यम जमिनीत तूर + बाजरी (१:२); अकोला नियोजनात बाजरी + तूर (२:१, ४:२).",
+        "hi": "महाराष्ट्र में अंतरफसलें: बाजरा के साथ मोठ, अरहर, सोयाबीन, उड़द, मूंग, लोबिया या सूरजमुखी। सूखाग्रस्त क्षेत्र की उथली मिट्टी में बाजरा + लोबिया (2:1); मध्यम मिट्टी में अरहर + बाजरा (1:2); अकोला योजना में बाजरा + अरहर (2:1, 4:2)।"
+       },
+       "source": "IIMR-PM, cropping systems; MPKV-R24, Agronomy no. 7; MPKV-R23, Agronomy no. 9; CRIDA-AKL, 2.1.1",
+       "source_keys": [
+        "IIMR-PM",
+        "MPKV-R24",
+        "MPKV-R23",
+        "CRIDA-AKL"
+       ],
+       "quote": "Maharashtra Pearl millet + Moth bean / Pigeonpea/soybean/bl ackgram, greengram/cowpea/sunflower … Pearl millet + Cowpea (2:1) intercropping in shallow soil under scarcity zone of Western Maharashtra is recommended … Pigeonpea + Pear lmillet (1:2) … intercropping system in medium soils under scarcity zone of Western Maharashtra is recommended … Pearlmillet +Pigeon pea inter-cropping (2:1,.4:2)."
+      }
+     ]
+    },
+    {
+     "key": "varieties",
+     "items": [
+      {
+       "id": "bajra-varieties-1",
+       "labels": {
+        "en": "MPKV hybrids for light to medium soils, kharif rainfed: Phule Aadishakti (80-85 days), Phule Mahashakti (85-90 days, high iron), Shanti (80-85 days), Saburi (76-80 days), Shradha (70-75 days, early). Shradha and Phule Aadishakti resist downy mildew; Phule Mahashakti tolerates it.",
+        "mr": "हलक्या ते मध्यम जमिनीसाठी, खरीप कोरडवाहू, फुले कृषी विद्यापीठाचे संकरित वाण: फुले आदिशक्ती (८०-८५ दिवस), फुले महाशक्ती (८५-९० दिवस, जास्त लोह), शांती (८०-८५ दिवस), सबुरी (७६-८० दिवस), श्रद्धा (७०-७५ दिवस, लवकर). श्रद्धा व फुले आदिशक्ती गोसावी रोगास प्रतिकारक; फुले महाशक्ती सहनशील.",
+        "hi": "हल्की से मध्यम मिट्टी, खरीफ बारानी, के लिए एमपीकेवी के संकर: फुले आदिशक्ति (80-85 दिन), फुले महाशक्ति (85-90 दिन, अधिक लौह), शांति (80-85 दिन), सबुरी (76-80 दिन), श्रद्धा (70-75 दिन, जल्दी)। श्रद्धा और फुले आदिशक्ति हरित बाली (डाउनी मिल्ड्यू) रोग प्रतिरोधी; फुले महाशक्ति सहनशील।"
+       },
+       "source": "MPKV-BAJ, Shradha, Saburi, Shanti, Phule Aadishakti, Phule Mahashakti",
+       "source_keys": [
+        "MPKV-BAJ"
+       ],
+       "quote": "Shradha (RHRBH 8609) (Hybrid) … Soil type lighter to medium … Crop duration 70 to 75 days (early maturity) … Resistant to downy mildew disease. Saburi (RHRBH 8924) (Hybrid) … Crop duration 76 to 80 days … Hybrid Shanti (RHRBH 9808) … Western Maharashtra under kharif rainfed situation. … Crop duration 80 to 85 days (medium maturity) … Hybrid Phule Aadishakti (DHBH 9071) … Crop duration 80 to 85 days (medium maturity)) … Resistant to downy mildew disease … Hybrid Phule Mahashakti (DHBH 1211) … Crop duration 85 to 90 days … High Fe content (87 ppm), Very compact earhed, bold globular grain with gray colour, Tolerant to downy mildew disease."
+      },
+      {
+       "id": "bajra-varieties-2",
+       "labels": {
+        "en": "Dhanshakti (variety, 74-78 days): high iron, tolerant to downy mildew, suited to drought-prone areas. Phule 21075 (hybrid, 2025, 78-80 days): grain high in Fe and Zn, resistant to downy mildew and blast, for kharif in Maharashtra.",
+        "mr": "धनशक्ती (सुधारित वाण, ७४-७८ दिवस): जास्त लोह, गोसावी रोगास सहनशील, अवर्षणप्रवण भागासाठी योग्य. फुले २१०७५ (संकरित, २०२५, ७८-८० दिवस): जास्त लोह व जस्त, गोसावी व करपा रोगास प्रतिकारक, महाराष्ट्रात खरीपसाठी.",
+        "hi": "धनशक्ति (किस्म, 74-78 दिन): अधिक लौह, हरित बाली रोग सहनशील, सूखाग्रस्त क्षेत्रों के योग्य। फुले 21075 (संकर, 2025, 78-80 दिन): अधिक लौह और जिंक, हरित बाली और ब्लास्ट रोग प्रतिरोधी, महाराष्ट्र में खरीफ के लिए।"
+       },
+       "source": "MPKV-BAJ, Dhanshakti and Phule 21075",
+       "source_keys": [
+        "MPKV-BAJ"
+       ],
+       "quote": "Variety Dhanshakti ICTP 8203 10-2 Fe) … Crop duration 74 to 78 days (early maturity) … High Fe content (81 ppm), Early maturing variety, Bold globular grain with gray colour, Tolerant to downy mildew disease, Specifically suitable for drought prone environments … Bajra hybrid Phule 21075 [DHBH -21075] Release year 2025 … Climate Recommended for kharif season in Maharashtra … Crop duration 78 to 80 days … High content of Iron (75 ppm) and Zinc (42 ppm), compact earhead, bold, globular and gray colour grains, resistant to Downey mildew and Blast disease"
+      },
+      {
+       "id": "bajra-varieties-3",
+       "labels": {
+        "en": "Others named for Maharashtra kharif (ICAR-IIMR): varieties ABPC-4-3, PC 612, Parbhani Sampada, Samrudhi, ICMV 221, Raj 171, ICMV 155; the Akola plan names PKV Raj, Shradha and Saburi.",
+        "mr": "महाराष्ट्र खरीपसाठी नमूद इतर (भा.कृ.अ.प.-IIMR): सुधारित वाण ABPC-4-3, PC 612, परभणी संपदा, समृद्धी, ICMV 221, राज 171, ICMV 155; अकोला नियोजनात PKV राज, श्रद्धा व सबुरी.",
+        "hi": "महाराष्ट्र खरीफ के लिए अन्य (आईसीएआर-आईआईएमआर): किस्में ABPC-4-3, PC 612, परभणी संपदा, समृद्धि, ICMV 221, राज 171, ICMV 155; अकोला योजना में PKV राज, श्रद्धा और सबुरी।"
+       },
+       "source": "IIMR-PM, recommended hybrids and varieties; CRIDA-AKL, 2.1.1",
+       "source_keys": [
+        "IIMR-PM",
+        "CRIDA-AKL"
+       ],
+       "quote": "ABPC-4-3, PC 612, Parbhani Sampada, Samrudhi, ICMV 221, Raj 171, ICMV 155 … pearlmillet. PKV Raj Shradha, Saburi"
+      }
+     ]
+    },
+    {
+     "key": "seed",
+     "items": [
+      {
+       "id": "bajra-seed-1",
+       "labels": {
+        "en": "Seed rate: MPKV hybrids and varieties 1.5 kg per acre; ICAR-IIMR 3 to 4 kg per hectare.",
+        "mr": "बियाणे: फुले कृषी विद्यापीठाचे संकरित व सुधारित वाण एकरी १.५ किलो; भा.कृ.अ.प.-IIMR नुसार हेक्टरी ३ ते ४ किलो.",
+        "hi": "बीज दर: एमपीकेवी के संकर और किस्में 1.5 किलो प्रति एकड़; आईसीएआर-आईआईएमआर के अनुसार 3 से 4 किलो प्रति हेक्टेयर।"
+       },
+       "source": "MPKV-BAJ, seed rate; IIMR-PM, seed rate",
+       "source_keys": [
+        "MPKV-BAJ",
+        "IIMR-PM"
+       ],
+       "quote": "Seed Rate (Per acre) 1.5 kg … Seed rate for the crop should be taken @ 3 to 4 kg/ha for obtaining required plant stand."
+      },
+      {
+       "id": "bajra-seed-2",
+       "labels": {
+        "en": "Seed treatment: Trichoderma harzianum or thiram against soil-borne diseases, sulphur powder against smut, metalaxyl (Apron 35 SD) against downy mildew, and Azospirillum with Phosphobacterium for nitrogen and phosphorus. Soak the seed in salt water to remove ergot-affected seed. (follow expert advice)",
+        "mr": "बीजप्रक्रिया: जमिनीतून येणाऱ्या रोगांसाठी ट्रायकोडर्मा हर्झियानम किंवा थायरम, काणी रोगासाठी गंधक भुकटी, गोसावी रोगासाठी मेटॅलॅक्झिल (ॲप्रॉन ३५ एसडी), आणि नत्र व स्फुरदासाठी ॲझोस्पिरिलम व फॉस्फोबॅक्टेरियम. अरगटग्रस्त बी काढण्यासाठी बी मिठाच्या पाण्यात भिजवावे. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "बीजोपचार: मिट्टी जनित रोगों के लिए ट्राइकोडर्मा हार्ज़ियानम या थाइरम, कंडुआ के लिए गंधक चूर्ण, हरित बाली के लिए मेटालैक्सिल (एप्रन 35 एसडी), और नाइट्रोजन व फॉस्फोरस के लिए एज़ोस्पिरिलम व फॉस्फोबैक्टीरियम। अरगट-ग्रस्त बीज निकालने के लिए बीज नमक के पानी में भिगोएँ। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "IIMR-PM, seed treatment",
+       "source_keys": [
+        "IIMR-PM"
+       ],
+       "quote": "Seed treatment with biopesticides (Trichoderma harzianum @ 4g kg-1) or thiram 75% dust @ 3 g kg-1 seed will help against soilborne diseases. Seed treatment with 300 -mesh sulfur powder @ 4 g kg-1 seeds controls the smut disease. For removing ergot affected seeds, they are soaked in 10% salt solution. Seed treatment with metalaxyl (Apron 35 SD) @ 6 g kg -1 … seed controls downy mildew. Seeds are treated with Azospirillum (600 g) and Phosphobacterium to enhance the availability of nitrogen and phosphorus."
+      }
+     ]
+    },
+    {
+     "key": "nutrition",
+     "items": [
+      {
+       "id": "bajra-nutrition-1",
+       "labels": {
+        "en": "On light (sandy loam) soils give half the nitrogen at seedbed preparation and side-dress the rest when the crop is 25 days old; on black soils all of it can go at seedbed preparation. Do not put fertiliser in the furrow with the seed or very near it (the seed burns). Azospirillum and PSB save nitrogen and phosphorus fertiliser. (follow expert advice)",
+        "mr": "हलक्या (वालुकामय पोयट्याच्या) जमिनीत अर्धे नत्र जमीन तयार करताना व उरलेले पीक २५ दिवसांचे झाल्यावर बाजूने द्यावे; काळ्या जमिनीत सर्व नत्र जमीन तयार करतानाच देता येते. खत बियाण्यासोबत सरीत किंवा बियाण्याजवळ टाकू नये (बी जळते). ॲझोस्पिरिलम व पीएसबीमुळे नत्र व स्फुरद खताची बचत होते. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "हल्की (बलुई दोमट) मिट्टी में आधी नाइट्रोजन खेत तैयारी पर और शेष फसल 25 दिन की होने पर बगल में दें; काली मिट्टी में पूरी नाइट्रोजन खेत तैयारी पर दी जा सकती है। उर्वरक बीज के साथ कूँड़ में या बीज के पास न डालें (बीज झुलसता है)। एज़ोस्पिरिलम और पीएसबी से नाइट्रोजन व फॉस्फोरस उर्वरक की बचत होती है। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "IIMR-PM, nutrient management",
+       "source_keys": [
+        "IIMR-PM"
+       ],
+       "quote": "In light soils (sandy loams) the applied nitrogen may be lost due to leaching with heavy rains. So, only about half of the recommended nitrogen dose should be applied at seedbed preparation. The remaining half of nitrogen dose is side -dressed when the crop is 25 days old. On soils which do not leach easily like black soils, all of the nitrogen may be applied during seedbed preparation. Pearl millet seeds are sensitive to fertilizer burn. Do not apply fertilizer in the furrow with the seed or very near the seed in the row after sowing. It should be applied as side dressing Use of biofertilizer (Azospirillum and PSB) can economize the N and P fertilizer application."
+      },
+      {
+       "id": "bajra-nutrition-2",
+       "labels": {
+        "en": "Zinc-deficient soils: zinc sulphate to the soil, or a zinc sulphate spray from tillering to pre-flowering. In a long dry spell skip the nitrogen top-dressing and spray urea instead. (follow expert advice)",
+        "mr": "जस्ताची कमतरता असलेल्या जमिनीत: जमिनीतून झिंक सल्फेट, किंवा फुटवे येण्यापासून फुलोऱ्यापूर्वीपर्यंत झिंक सल्फेटची फवारणी. पावसाचा मोठा खंड पडल्यास नत्राचा वरखत हप्ता टाळून युरियाची फवारणी करावी. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "जिंक की कमी वाली मिट्टी में: मिट्टी में जिंक सल्फेट, या कल्ले निकलने से फूल आने से पहले तक जिंक सल्फेट का छिड़काव। लंबे सूखे अंतराल में नाइट्रोजन की टॉप ड्रेसिंग छोड़कर यूरिया का छिड़काव करें। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "IIMR-PM, nutrient management",
+       "source_keys": [
+        "IIMR-PM"
+       ],
+       "quote": "In zinc deficient soils of the pearl millet growing area of the country, application of 10 kg ZnSO4/ha is recommended. To correct the zinc deficiency in standing crop, spray of 0.2% ZnSO4 at tillering to pre -flowering stage is recommended. Under prolonged dry spell, skip top dressing of N and spray 2% urea."
+      }
+     ]
+    },
+    {
+     "key": "water",
+     "items": [
+      {
+       "id": "bajra-water-1",
+       "labels": {
+        "en": "In a long dry spell, irrigate at the critical stages: tillering, flowering and grain development. If drought lasts 2-3 weeks from pre-flowering to grain setting, give one life-saving irrigation. Summer bajra is irrigated at regular intervals as the crop needs.",
+        "mr": "पावसाचा मोठा खंड पडल्यास फुटवे, फुलोरा व दाणे भरणे या महत्त्वाच्या अवस्थांत पाणी द्यावे. फुलोऱ्यापूर्वी ते दाणे धरेपर्यंत २-३ आठवडे अवर्षण राहिल्यास एक जीवरक्षक पाणी द्यावे. उन्हाळी बाजरीला गरजेनुसार नियमित अंतराने पाणी द्यावे.",
+        "hi": "लंबे सूखे अंतराल में कल्ले, फूल और दाना बनने की नाज़ुक अवस्थाओं में सिंचाई करें। फूल से पहले से दाना बनने तक 2-3 सप्ताह सूखा रहे तो एक जीवन रक्षक सिंचाई दें। ग्रीष्म बाजरे को आवश्यकता अनुसार नियमित अंतराल पर सिंचाई दें।"
+       },
+       "source": "IIMR-PM, irrigation; contingency planning",
+       "source_keys": [
+        "IIMR-PM"
+       ],
+       "quote": "Irrigation: Under prolonged dry spells, irrigation should be applied at critical stages of crop growth i.e. tillering, flowering and grain developmental stage, if water is available. In summer, pearl millet should be irrigated at regular intervals … If drought prevails for 2- 3 week during pre-flowering to grain setting stage, one life saving irrigation may be given if water is available."
+      }
+     ]
+    },
+    {
+     "key": "intercultivation",
+     "items": [
+      {
+       "id": "bajra-intercultivation-1",
+       "labels": {
+        "en": "Two hoeings and weedings at 15 and 30 days after sowing control weeds as well as a pre-emergence atrazine spray with one hand weeding; the second weeding also keeps soil moisture. (follow expert advice)",
+        "mr": "पेरणीनंतर १५ व ३० दिवसांनी दोन कोळपण्या व खुरपण्या केल्याने उगवणपूर्व ॲट्राझिन फवारणी व एक खुरपणी इतकेच तण नियंत्रण होते; दुसऱ्या खुरपणीने ओलावाही टिकतो. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "बुवाई के 15 और 30 दिन बाद दो गुड़ाई-निराई से खरपतवार उतने ही नियंत्रित होते हैं जितने अंकुरण-पूर्व एट्राज़ीन छिड़काव और एक निराई से; दूसरी निराई से नमी भी बचती है। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "IIMR-PM, intercultivation and weed control",
+       "source_keys": [
+        "IIMR-PM"
+       ],
+       "quote": "Two hoeings and weedings at 15 and 30 DAS are sufficient for controlling weeds effe ctively which is comparable with the herbicidal weed control through pre -emergent application of atrazine @ 0.5 kg/ha superimposed with one hand weeding. Second weeding helps to conserve soil moisture."
+      },
+      {
+       "id": "bajra-intercultivation-2",
+       "labels": {
+        "en": "In a long dry spell during the grand growth period, thin the crop by 25 to 40% and keep it weed-free; if a dry spell follows sowing, re-sow between the rows.",
+        "mr": "जोमदार वाढीच्या काळात पावसाचा मोठा खंड पडल्यास रोपसंख्या २५ ते ४०% ने कमी करावी व पीक तणमुक्त ठेवावे; पेरणीनंतर लगेच खंड पडल्यास ओळींच्या मधे पुन्हा पेरणी करावी.",
+        "hi": "तीव्र बढ़वार के समय लंबा सूखा अंतराल हो तो पौध संख्या 25 से 40% घटाएँ और फसल खरपतवार-मुक्त रखें; बुवाई के तुरंत बाद सूखा पड़े तो पंक्तियों के बीच दोबारा बुवाई करें।"
+       },
+       "source": "IIMR-PM, contingency planning",
+       "source_keys": [
+        "IIMR-PM"
+       ],
+       "quote": "Keep the crop weed -free by timely w eeding. If dry spell occurs immediately after sowing, replant pearl millet in between the existing row or relay cropping may be practiced including short duration oilseed/pulse crops. Under normal onset of monsoon and occurrence of prolonged dry spell duri ng grand growth period of the crop, reduce plant population to the extent of 25 to 40%."
+      }
+     ]
+    },
+    {
+     "key": "protection",
+     "items": [
+      {
+       "id": "bajra-protection-1",
+       "labels": {
+        "en": "Downy mildew (green ear): grow resistant cultivars and use hybrids and open-pollinated varieties in alternate years, never the same one on the same land every year; pull out and bury or burn infected plants.",
+        "mr": "गोसावी रोग (हिरवी कणसे): प्रतिकारक वाण घ्यावेत, संकरित व सुधारित (मुक्त परागीभवन) वाण आलटून पालटून वर्षाआड घ्यावेत, एकाच जमिनीत तोच वाण दरवर्षी घेऊ नये; रोगट झाडे उपटून पुरावी किंवा जाळावीत.",
+        "hi": "हरित बाली रोग (डाउनी मिल्ड्यू): प्रतिरोधी किस्में लें, संकर और खुली परागित किस्में एक साल छोड़कर बदलें, एक ही खेत में हर साल वही किस्म न लें; रोगी पौधे उखाड़कर गाड़ें या जलाएँ।"
+       },
+       "source": "IIMR-PM, cropping systems; downy mildew management",
+       "source_keys": [
+        "IIMR-PM"
+       ],
+       "quote": "Rotation of cultivars also should be adopted to avoid downy mildew disease problem. Pearl millet hybrids and open -pollinated varieties should be used in alternate years/seasons. It is advised not to grow the same hybrid or open pollinated variety continuously on the same piece of land. … Use of resistant cultivars … Rogue out infected plants and bury or burn"
+      },
+      {
+       "id": "bajra-protection-2",
+       "labels": {
+        "en": "Ergot: remove the sclerotia from the seed and wash the seed in salt water, time sowing so that ear emergence does not meet many rainy days, and plough soon after harvest to bury it. Smut: resistant cultivars, remove smutted ears; an early-sown crop usually escapes it.",
+        "mr": "अरगट: बियाण्यातील काळ्या गाठी काढून बी मिठाच्या पाण्यात धुवावे, कणसे निघण्याचा काळ जास्त पावसाच्या दिवसांत येणार नाही अशी पेरणी करावी आणि काढणीनंतर लगेच नांगरट करून रोगकारक जमिनीत गाडावा. काणी: प्रतिकारक वाण, काणीग्रस्त कणसे काढून टाकावीत; लवकर पेरलेले पीक बहुधा वाचते.",
+        "hi": "अरगट: बीज से काली गाँठें (स्क्लेरोशिया) निकालें और बीज नमक के पानी में धोएँ, बुवाई ऐसी करें कि बालियाँ अधिक वर्षा वाले दिनों में न निकलें, और कटाई के तुरंत बाद जुताई कर इसे गहरा दबाएँ। कंडुआ: प्रतिरोधी किस्में, कंडुआ-ग्रस्त बालियाँ हटाएँ; जल्दी बोई फसल प्रायः बच जाती है।"
+       },
+       "source": "IIMR-PM, ergot and smut management",
+       "source_keys": [
+        "IIMR-PM"
+       ],
+       "quote": "Early sown crop generally escapes from the smut infection. Management o Use of resistant cultivars. … o Remove smutted ears from the field. … Management o Mechanical removal of sclerotia from seed and washing of seed in 2% salt water. o Adjust sowing dates so that ear emergence does not cocide with more rainy days. o Plough the field soon after harvest so that ergot is buried deep.",
+       "omitted": [
+        "captafol"
+       ]
+      },
+      {
+       "id": "bajra-protection-3",
+       "labels": {
+        "en": "Rust: resistant hybrids or varieties, sowing at the onset of the monsoon, and removing the host grasses on field bunds; dust fine sulphur. (follow expert advice)",
+        "mr": "तांबेरा: प्रतिकारक संकरित किंवा सुधारित वाण, मान्सून सुरू होताच पेरणी, बांधावरील पर्यायी गवते नष्ट करणे; बारीक गंधकाची धुरळणी. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "रतुआ: प्रतिरोधी संकर या किस्में, मानसून की शुरुआत पर बुवाई, मेड़ों पर वैकल्पिक घासें नष्ट करना; बारीक गंधक का भुरकाव। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "IIMR-PM, rust management",
+       "source_keys": [
+        "IIMR-PM"
+       ],
+       "quote": "Management: o Use of resistant hybrids/verieties. o Sow the crop with the onset of monsoon. o Destruction of collate ral hosts like Ischaemum pretosum and Panicum maximum on the field bunds. o Dusting of fine sulphur"
+      },
+      {
+       "id": "bajra-protection-4",
+       "labels": {
+        "en": "Shoot fly is worse on a late crop: sow with the monsoon onset or within 10-15 days of the first shower, stagger sowing, and thin out affected seedlings within 15 days of sowing.",
+        "mr": "खोडमाशी उशिरा पेरलेल्या पिकावर जास्त येते: मान्सून सुरू होताच किंवा पहिल्या पावसानंतर १०-१५ दिवसांत पेरणी करावी, टप्प्याटप्प्याने पेरणी करावी आणि पेरणीनंतर १५ दिवसांत प्रादुर्भावग्रस्त रोपे विरळून काढावीत.",
+        "hi": "प्ररोह मक्खी देर से बोई फसल पर अधिक आती है: मानसून शुरू होते ही या पहली बारिश के 10-15 दिन में बुवाई करें, बुवाई अलग-अलग समय पर करें, और बुवाई के 15 दिन के भीतर प्रभावित पौधे निकाल दें।"
+       },
+       "source": "IIMR-PM, shoot fly control",
+       "source_keys": [
+        "IIMR-PM"
+       ],
+       "quote": "Infestation is more on late sown crop. Control • The crop should be sown with the onset of the monsoon or latest within 10-15 days of first shower of monsoon; • Staggered sowing to contain the buildup of shoot fly population … the affected seedlings are thinned within 15 days after sowing",
+       "omitted": [
+        "endosulfan"
+       ]
+      },
+      {
+       "id": "bajra-protection-5",
+       "labels": {
+        "en": "White grub: intercropping with sunflower and tur reduces it; collect and destroy the adult beetles right after the first showers, when they gather on neem and acacia trees. Termites: deep ploughing after harvest, collect and burn stubbles, use only well-rotted FYM and irrigate on time. (follow expert advice)",
+        "mr": "हुमणी: सूर्यफूल व तुरीच्या आंतरपिकाने प्रादुर्भाव कमी होतो; पहिल्या पावसानंतर लगेच कडुनिंब व बाभळीच्या झाडांवर जमणारे भुंगे गोळा करून नष्ट करावेत. वाळवी: काढणीनंतर खोल नांगरट, धसकटे गोळा करून जाळणे, पूर्ण कुजलेले शेणखतच वापरणे व वेळेवर पाणी देणे. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "सफेद लट: सूरजमुखी और अरहर की अंतरफसल से प्रकोप घटता है; पहली बारिश के तुरंत बाद नीम और बबूल के पेड़ों पर जमा भृंग इकट्ठा कर नष्ट करें। दीमक: कटाई के बाद गहरी जुताई, ठूँठ इकट्ठा कर जलाना, केवल अच्छी सड़ी गोबर खाद और समय पर सिंचाई। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "IIMR-PM, white grub and termites",
+       "source_keys": [
+        "IIMR-PM"
+       ],
+       "quote": "Inter-cropping with Sunflower and Pigeon pea reduces the incidence of white grub • Collect and destroy the adult beetles immediately after first showers when they visit Neem/ Acacia trees mating … Deep ploughing after harvesting of the crop followed by collection of stubbles/plant refuge and burning thereof • Use well decomposed FYM • Irrigate the crop timely",
+       "omitted": [
+        "carbofuran",
+        "carbaryl",
+        "chlorpyrifos",
+        "endosulfan"
+       ]
+      },
+      {
+       "id": "bajra-protection-6",
+       "labels": {
+        "en": "Stem borer and hairy caterpillars: release the egg parasite Trichogramma chilonis every week. (follow expert advice)",
+        "mr": "खोडकिडा व केसाळ अळी: ट्रायकोग्रामा चिलोनिस या अंडी परोपजीवी कीटकाचे दर आठवड्याला प्रसारण करावे. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "तना छेदक और बालदार इल्ली: अंड परजीवी ट्राइकोग्रामा चिलोनिस हर सप्ताह छोड़ें। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "IIMR-PM, stem borers and hairy caterpillars",
+       "source_keys": [
+        "IIMR-PM"
+       ],
+       "quote": "Release of Trichogramma chilonis @ 75, 000 per ha/week",
+       "omitted": [
+        "endosulfan"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "harvest",
+     "items": [
+      {
+       "id": "bajra-harvest-1",
+       "labels": {
+        "en": "Harvest at physiological maturity, shown by a black spot at the base of the grain; the leaves turn yellow and the grains are hard. Cut the earheads first and the stalks a week later, dry and stack. Grain at 14% moisture or less is dry; for storage beyond 6 months keep it below 12%.",
+        "mr": "शारीरिक पक्वतेला काढणी करावी: दाण्याच्या तळाशी काळा ठिपका दिसतो, पाने पिवळी पडतात व दाणे कडक होतात. आधी कणसे काढावीत व आठवड्याने ताटे कापून वाळवून गंजी लावावी. १४% किंवा कमी ओलावा असलेले दाणे कोरडे; ६ महिन्यांपेक्षा जास्त साठवणुकीसाठी ओलावा १२% पेक्षा कमी ठेवावा.",
+        "hi": "शारीरिक परिपक्वता पर कटाई करें: दाने के निचले सिरे पर काला धब्बा दिखता है, पत्तियाँ पीली पड़ती हैं और दाने सख्त होते हैं। पहले बालियाँ काटें और एक सप्ताह बाद डंठल काटकर सुखाएँ और ढेर लगाएँ। 14% या कम नमी वाला दाना सूखा है; 6 महीने से अधिक भंडारण के लिए नमी 12% से कम रखें।"
+       },
+       "source": "IIMR-PM, harvesting",
+       "source_keys": [
+        "IIMR-PM"
+       ],
+       "quote": "Harvesting: The best stage to harvest pearl millet is when the plants reach physiological maturity determined by the black spot at the bottom of the grain in the hilar region. When the crop matures, the leaves turn yellowish and present a nearly dried up appearance. The grains are hard and firm. The usual practice of harvesting pearl millet is cutting the earheads first and the stalks later. The stalks (straw) are cut after a week, allowed to dry and then stacke d. Grain at or below 14% moisture is considered dry. For long -term storage (more than 6 months), grain moisture content should be less than 12%."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "crop": "jowar",
+   "labels": {
+    "en": "Jowar (sorghum)",
+    "mr": "ज्वारी",
+    "hi": "ज्वार"
+   },
+   "names": {
+    "en": [
+     "jowar",
+     "sorghum",
+     "jawar"
+    ],
+    "mr": [
+     "ज्वारी",
+     "जोंधळ"
+    ],
+    "hi": [
+     "ज्वार"
+    ]
+   },
+   "ai_written": true,
+   "sections": [
+    {
+     "key": "land",
+     "items": [
+      {
+       "id": "jowar-land-1",
+       "labels": {
+        "en": "Rabi jowar: one deep ploughing with a mould board plough in summer, then 3 to 4 harrowings for a good, weed-free seed bed. Compartmental bunds of 10 m x 10 m made in August hold more water.",
+        "mr": "रब्बी ज्वारी: उन्हाळ्यात मोल्ड बोर्ड नांगराने एक खोल नांगरट, नंतर चांगल्या, तणमुक्त वाफ्यासाठी ३ ते ४ कुळवाच्या पाळ्या. ऑगस्टमध्ये १० मी. x १० मी. चे सरी-वाफे (कंपार्टमेंट बंडिंग) केल्याने जमिनीत जास्त पाणी साठते.",
+        "hi": "रबी ज्वार: गर्मी में मोल्ड बोर्ड हल से एक गहरी जुताई, फिर अच्छी, खरपतवार-मुक्त क्यारी के लिए 3 से 4 हैरो। अगस्त में 10 मी. x 10 मी. की कम्पार्टमेंटल मेड़ें बनाने से ज़मीन में अधिक पानी रुकता है।"
+       },
+       "source": "IIMR-RS, 2. Preparation of land",
+       "source_keys": [
+        "IIMR-RS"
+       ],
+       "quote": "One deep ploughing with mould board plough in summer followed by 3 to 4 harrowing is recommended to attain good seed bed and maintain weed free conditions. To improve the water retention compartmental bunds of 10m × 10m in the month of August is being recommended."
+      },
+      {
+       "id": "jowar-land-2",
+       "labels": {
+        "en": "Rabi jowar is grown on medium to deep soils after a kharif fallow; where it works, take black gram, green gram or fodder cowpea first and rabi jowar after it. Soybean followed by rabi jowar pays under irrigation.",
+        "mr": "रब्बी ज्वारी मध्यम ते भारी जमिनीत खरीप पड ठेवून घेतली जाते; जमत असेल तेथे आधी उडीद, मूग किंवा चाऱ्याची चवळी आणि नंतर रब्बी ज्वारी घ्यावी. बागायतीत सोयाबीननंतर रब्बी ज्वारी फायदेशीर ठरते.",
+        "hi": "रबी ज्वार मध्यम से गहरी मिट्टी में खरीफ परती के बाद ली जाती है; जहाँ संभव हो वहाँ पहले उड़द, मूंग या चारे का लोबिया और उसके बाद रबी ज्वार लें। सिंचित में सोयाबीन के बाद रबी ज्वार लाभदायक है।"
+       },
+       "source": "IIMR-RS, 1. Crop based cropping system",
+       "source_keys": [
+        "IIMR-RS"
+       ],
+       "quote": "Rabi sorghum is sown after a fallow period (kharif) in certain medium to deep soil areas where the rainfall frequency is high. However, double cropping of black gram/ green gram/ cowpea (fodder) and rabi sorghum is recommended wherever found operationally feasible. Soybean – rabi sorghum sequential cropping found feasible and profitable in irrigated conditions."
+      }
+     ]
+    },
+    {
+     "key": "sowing",
+     "items": [
+      {
+       "id": "jowar-sowing-1",
+       "labels": {
+        "en": "Rabi jowar: the best sowing time is the second fortnight of September to the first fortnight of October; after a kharif crop it can go up to the second fortnight of October. MPKV rabi varieties: 15 September to 15 October.",
+        "mr": "रब्बी ज्वारी: पेरणीची उत्तम वेळ सप्टेंबरचा दुसरा पंधरवडा ते ऑक्टोबरचा पहिला पंधरवडा; खरीप पिकानंतर ऑक्टोबरच्या दुसऱ्या पंधरवड्यापर्यंत पेरता येते. फुले कृषी विद्यापीठाचे रब्बी वाण: १५ सप्टेंबर ते १५ ऑक्टोबर.",
+        "hi": "रबी ज्वार: बुवाई का सबसे अच्छा समय सितंबर का दूसरा पखवाड़ा से अक्टूबर का पहला पखवाड़ा; खरीफ फसल के बाद अक्टूबर के दूसरे पखवाड़े तक बो सकते हैं। एमपीकेवी की रबी किस्में: 15 सितंबर से 15 अक्टूबर।"
+       },
+       "source": "IIMR-RS, 4. Method and time of sowing; MPKV-JWR, rabi varieties",
+       "source_keys": [
+        "IIMR-RS",
+        "MPKV-JWR"
+       ],
+       "quote": "Time of sowing: The optimum sowing time for rabi sorghum is 2nd fortnight of September to 1st fortnight of October. In double cropping practice sowing is extended up to 2nd fortnight of October. … Climate Rabi Season Sowing Time / Planting period 15th September to 15th October"
+      },
+      {
+       "id": "jowar-sowing-2",
+       "labels": {
+        "en": "District contingency plans: kharif jowar (rainfed) 15 June to 15 July in Nanded, 15 June to 10 July in Akola; rabi jowar in Nanded rainfed 1 to 15 October, irrigated 15 October to 15 November.",
+        "mr": "जिल्हा आकस्मिक पीक नियोजन: खरीप ज्वारी (कोरडवाहू) नांदेडमध्ये १५ जून ते १५ जुलै, अकोल्यात १५ जून ते १० जुलै; नांदेडमध्ये रब्बी ज्वारी कोरडवाहू १ ते १५ ऑक्टोबर, बागायती १५ ऑक्टोबर ते १५ नोव्हेंबर.",
+        "hi": "ज़िला आकस्मिक फसल योजना: खरीफ ज्वार (बारानी) नांदेड़ में 15 जून से 15 जुलाई, अकोला में 15 जून से 10 जुलाई; नांदेड़ में रबी ज्वार बारानी 1 से 15 अक्टूबर, सिंचित 15 अक्टूबर से 15 नवंबर।"
+       },
+       "source": "CRIDA-NND, 1.12 sowing window; CRIDA-AKL, sowing window",
+       "source_keys": [
+        "CRIDA-NND",
+        "CRIDA-AKL"
+       ],
+       "quote": "Cotton Sorghum Soybean Black gram / Green gram Pigeonpea Kharif - Rainfed June 15 to July 15 June 15 to July 15 … Wheat Rabi sorghum Gram Safflower Rabi - Rainfed 15-30 Oct 1-15 Oct … Rabi - Irrigated 15 Nov – 15 Dec 15 Oct – 15 Nov … Pigeonpea Kharif sorghum Kharif- Rainfed 15 th June – 30 th June 15 th June – 15 th July 15 th June – 30 th June 15 th June – 10 th July 15 th June – 10 th July"
+      },
+      {
+       "id": "jowar-sowing-3",
+       "labels": {
+        "en": "Sow with a seed drill at 7 cm depth and cover the seed by one harrowing. Spacing 45 cm between rows and 15 cm between plants: rainfed rabi about 1.35 lakh plants per hectare, irrigated 1.50 to 1.80 lakh.",
+        "mr": "पाभरीने ७ सें.मी. खोलीवर पेरणी करून एका कुळवाच्या पाळीने बी झाकावे. दोन ओळींत ४५ सें.मी. व दोन रोपांत १५ सें.मी. अंतर: कोरडवाहू रब्बीत हेक्टरी सुमारे १.३५ लाख रोपे, बागायतीत १.५० ते १.८० लाख.",
+        "hi": "सीड ड्रिल से 7 सें.मी. गहराई पर बुवाई करें और एक हैरो से बीज ढकें। पंक्ति से पंक्ति 45 सें.मी. और पौधे से पौधा 15 सें.मी.: बारानी रबी में प्रति हेक्टेयर लगभग 1.35 लाख पौधे, सिंचित में 1.50 से 1.80 लाख।"
+       },
+       "source": "IIMR-RS, 4. Method of sowing and 5. Seed rate, spacing and plant population",
+       "source_keys": [
+        "IIMR-RS"
+       ],
+       "quote": "The crop is sown by bullock drawn seed drills with 2 or 3 coulters at 7 cm depth in the soil. The seeds are covered by one harrowing after sowing by seed drill. … Spacing : Row to row 45 cm and plant to plant 15 cm Plant population : In rainfed conditions ‐ 1.35 lakh per ha. In irrigated conditions ‐ 1.50 to 1.80 lakh per ha."
+      },
+      {
+       "id": "jowar-sowing-4",
+       "labels": {
+        "en": "Kharif jowar: sowing on a four-row broad bed of 1.5 m at 45 cm by tractor gives more yield and keeps more moisture.",
+        "mr": "खरीप ज्वारी: ट्रॅक्टरने १.५ मी. रुंद वरंबा-सरीवर (BBF) चार ओळींत ४५ सें.मी. अंतरावर पेरणी केल्याने उत्पादन वाढते व ओलावा टिकतो.",
+        "hi": "खरीफ ज्वार: ट्रैक्टर से 1.5 मी. चौड़ी क्यारी-नाली (BBF) पर चार पंक्तियों में 45 सें.मी. पर बुवाई से उपज बढ़ती है और नमी बनी रहती है।"
+       },
+       "source": "PDKV-R18, Agronomy no. 2",
+       "source_keys": [
+        "PDKV-R18"
+       ],
+       "quote": "Sowing of Kharif sorghum on four row 1.5 m. BBF at 45 cm by tractor is recommended for getting maximum yield, net returns and improved moisture conservation"
+      },
+      {
+       "id": "jowar-sowing-5",
+       "labels": {
+        "en": "Intercrops: rabi jowar + safflower 4:2 or 6:3 on deep soils; kharif jowar + tur 2:1 or 3:3, or jowar + fodder cowpea 2:2.",
+        "mr": "आंतरपिके: भारी जमिनीत रब्बी ज्वारी + करडई ४:२ किंवा ६:३; खरीप ज्वारी + तूर २:१ किंवा ३:३, किंवा ज्वारी + चाऱ्याची चवळी २:२.",
+        "hi": "अंतरफसलें: गहरी मिट्टी में रबी ज्वार + कुसुम 4:2 या 6:3; खरीफ ज्वार + अरहर 2:1 या 3:3, या ज्वार + चारे का लोबिया 2:2।"
+       },
+       "source": "IIMR-RS, 1. Crop based cropping system; IIMR-KS, sorghum-based cropping systems",
+       "source_keys": [
+        "IIMR-RS",
+        "IIMR-KS"
+       ],
+       "quote": "Intercropping of sorghum + safflower in 4:2 or 6:3 ratio is recommended on deep soils. … Sorghum with red‐gram as an intercrop is found practicable in 2:1 or 3:3 row proportions. Alternatively the sorghum and fodder cowpea as an intercrop in the ratio of 2:2 is also 40% more profitable."
+      },
+      {
+       "id": "jowar-sowing-6",
+       "labels": {
+        "en": "If the monsoon is late, the Nanded plan gives jowar + tur in 4:2 rows (jowar CSH-9, 11, 14, 16, PVK-401, 809; tur BSMR 736, 853).",
+        "mr": "पाऊस उशिरा आल्यास नांदेड नियोजनात ज्वारी + तूर ४:२ ओळी (ज्वारी CSH-9, 11, 14, 16, PVK-401, 809; तूर BSMR 736, 853).",
+        "hi": "मानसून देर से आने पर नांदेड़ योजना में ज्वार + अरहर 4:2 पंक्तियाँ (ज्वार CSH-9, 11, 14, 16, PVK-401, 809; अरहर BSMR 736, 853)।"
+       },
+       "source": "CRIDA-NND, 2.1.1 delay in monsoon",
+       "source_keys": [
+        "CRIDA-NND"
+       ],
+       "quote": "Sorghum Sorghum + Pigeonpea 4 : 2 (CSH- 9, 11, 14, 16 PVK-401, 809) + (BSMR 736, 853)"
+      }
+     ]
+    },
+    {
+     "key": "varieties",
+     "items": [
+      {
+       "id": "jowar-varieties-1",
+       "labels": {
+        "en": "MPKV rabi varieties for shallow soils: Phule Anuradha (105-110 days), Phule Yashomati (112-115 days, 2021), Selection-3 (110-115 days); all tolerate shoot fly and drought.",
+        "mr": "हलक्या जमिनीसाठी फुले कृषी विद्यापीठाचे रब्बी वाण: फुले अनुराधा (१०५-११० दिवस), फुले यशोमती (११२-११५ दिवस, २०२१), सिलेक्शन-३ (११०-११५ दिवस); सर्व खोडमाशी व अवर्षण सहनशील.",
+        "hi": "उथली मिट्टी के लिए एमपीकेवी की रबी किस्में: फुले अनुराधा (105-110 दिन), फुले यशोमती (112-115 दिन, 2021), सिलेक्शन-3 (110-115 दिन); सभी प्ररोह मक्खी और सूखा सहनशील।"
+       },
+       "source": "MPKV-JWR, Selection-3, Phule Anuradha, Phule Yashomati",
+       "source_keys": [
+        "MPKV-JWR"
+       ],
+       "quote": "Selection-3 Release year 1994 … Soil type Shallow Soil … Crop duration 110-115 days … Early, Tolerant to shoot fly, Tolerant to Charcoal rot, Tolerant to drought … Phule Anuradha (RSV458/SPV1709) Release year 2008 … Soil type Shallow soil … Crop duration 105-110 days … Tolerant to shoot fly, Tolerant to Charcoal rot, Tolerant drought … Phule Yashomati (RSV 1910) Release year 2021 … Soil type Shallow soils … Crop duration 112-115 days … Tolerance to shoot fly and stem borer"
+      },
+      {
+       "id": "jowar-varieties-2",
+       "labels": {
+        "en": "For medium soils: Phule Mauli (110-112 days), Phule Chitra (118-120 days), Phule Suchitra (120-125 days).",
+        "mr": "मध्यम जमिनीसाठी: फुले माऊली (११०-११२ दिवस), फुले चित्रा (११८-१२० दिवस), फुले सुचित्रा (१२०-१२५ दिवस).",
+        "hi": "मध्यम मिट्टी के लिए: फुले माऊली (110-112 दिन), फुले चित्रा (118-120 दिन), फुले सुचित्रा (120-125 दिन)।"
+       },
+       "source": "MPKV-JWR, Phule Mauli, Phule Chitra, Phule Suchitra",
+       "source_keys": [
+        "MPKV-JWR"
+       ],
+       "quote": "Phule Mauli (RSLG 262) … Soil type Medium Soil … Crop duration 110-112 days … Phule Chitra (RSV 237/SPV 1546) … Soil type Medium Soil … Crop duration 118-120 days … Phule Suchitra (RSV1098/SPV2048) … Soil type Medium Soil … Crop duration 120-125 days"
+      },
+      {
+       "id": "jowar-varieties-3",
+       "labels": {
+        "en": "For deep soils: Phule Vasudha (116-120 days), CSV-22 (118-122 days), Phule Revati (118-120 days; for irrigated deep soils), Phule Purva (2022, 118-121 days, does not lodge, suits machine harvesting).",
+        "mr": "भारी जमिनीसाठी: फुले वसुधा (११६-१२० दिवस), CSV-22 (११८-१२२ दिवस), फुले रेवती (११८-१२० दिवस; बागायती भारी जमिनीसाठी), फुले पूर्वा (२०२२, ११८-१२१ दिवस, लोळत नाही, यंत्राने काढणीस योग्य).",
+        "hi": "गहरी मिट्टी के लिए: फुले वसुधा (116-120 दिन), CSV-22 (118-122 दिन), फुले रेवती (118-120 दिन; सिंचित गहरी मिट्टी के लिए), फुले पूर्वा (2022, 118-121 दिन, गिरती नहीं, मशीन से कटाई के योग्य)।"
+       },
+       "source": "MPKV-JWR, deep-soil varieties; MPKV-R24, Crop improvement no. 1",
+       "source_keys": [
+        "MPKV-JWR",
+        "MPKV-R24"
+       ],
+       "quote": "Phule Vasudha (RSV 423/SPV1704) … Soil type Deep Soil … Crop duration 116-120 days … CSV-22 (RSV 491/SPV 1626) … Soil type Deep Soil … Crop duration 118-122 days … Phule Revati (RSV1006/SPV1830) … Crop duration 118-120 days … Phule Purva (RSV 2371) Release year 2022 … Soil type Deep soils … Crop duration 118-121 days … Variety is non lodging ideotype and can be suitable for mechanical harvesting … Rabi Sorghum variety Phule Revati having higher grain yield is recommended forcultivation under irrigated condition indeep soils of Maharashtrastate."
+      },
+      {
+       "id": "jowar-varieties-4",
+       "labels": {
+        "en": "Dr. PDKV: PDKV Shashvat (AKASV 461 R), released for rabi rainfed areas, moderately resistant to shoot fly, stem borer and charcoal rot; for hurda, Trombay Akola Suruchi (TAKPS-5, 90-95 days) for rainfed rabi of Vidarbha; kharif PDKV Kalyani (AKSV-181, 117 days).",
+        "mr": "डॉ. पंदेकृवि: PDKV शाश्वत (AKASV 461 R), रब्बी कोरडवाहू क्षेत्रासाठी, खोडमाशी, खोडकिडा व खडखड्या रोगास मध्यम प्रतिकारक; हुरड्यासाठी विदर्भातील कोरडवाहू रब्बीकरिता ट्रॉम्बे अकोला सुरुची (TAKPS-5, ९०-९५ दिवस); खरीपसाठी PDKV कल्याणी (AKSV-181, ११७ दिवस).",
+        "hi": "डॉ. पीडीकेवी: PDKV शाश्वत (AKASV 461 R), रबी बारानी क्षेत्र के लिए, प्ररोह मक्खी, तना छेदक और चारकोल सड़न के प्रति मध्यम प्रतिरोधी; हुरडा के लिए विदर्भ की बारानी रबी में ट्रॉम्बे अकोला सुरुचि (TAKPS-5, 90-95 दिन); खरीफ के लिए PDKV कल्याणी (AKSV-181, 117 दिन)।"
+       },
+       "source": "PDKV-R25, varieties no. 1; PDKV-R21, varieties no. 2; PDKV-R16, varieties no. 2",
+       "source_keys": [
+        "PDKV-R25",
+        "PDKV-R21",
+        "PDKV-R16"
+       ],
+       "quote": "Sorghum (Rabi): PDKV Shashvat (AKASV 461 R) … Moderately resistant to shoot fly and stem borer. … Moderately resistant to charcoal rot, rust and leaf blight diseases. … Released for Rabi rainfed areas of Maharashtra. … TAKPS-5 (Trombay Akola Suruchi) … Duration: 90 – 95 days. … Recommendation: Rabi Sorghum Variety TAKPS-5 (Trombay Akola Suruchi) with higher hurda yield, sweet taste, good aroma and easy threshability is recommended for release in the rainfed … Kharif Sorghum AKSV-181 (PDKV KALYANI) … Duration-117 days"
+      },
+      {
+       "id": "jowar-varieties-5",
+       "labels": {
+        "en": "Special purposes (MPKV): hurda Phule Uttara and Phule Madhur; popping Phule Panchami; red grain Phule Rohini.",
+        "mr": "खास उपयोगासाठी (फुले कृषी विद्यापीठ): हुरड्यासाठी फुले उत्तरा व फुले मधुर; लाह्यांसाठी फुले पंचमी; लाल दाण्याची फुले रोहिणी.",
+        "hi": "विशेष उपयोग के लिए (एमपीकेवी): हुरडा के लिए फुले उत्तरा और फुले मधुर; लाई (पॉपिंग) के लिए फुले पंचमी; लाल दाने वाली फुले रोहिणी।"
+       },
+       "source": "MPKV-JWR, Phule Uttara, Phule Madhur, Phule Panchami, Phule Rohini",
+       "source_keys": [
+        "MPKV-JWR"
+       ],
+       "quote": "Phule Uttara (RSSGV 3) – Hurda Purpose … Phule Panchami (RPOSV 3) - Popping purpose … Phule Madhur (RSSGV 46) – Hurda Purpose … Phule Rohini (RPASV 3) … Red grain"
+      },
+      {
+       "id": "jowar-varieties-6",
+       "labels": {
+        "en": "Kharif jowar for medium to heavy soils of Maharashtra (ICAR-IIMR): hybrids CSH 16, CSH 18, SPH 388, CSH 23, CSH 25, CSH 30; varieties CSV 15, PVK 400, CSV 17, CSV 20, CSV 23.",
+        "mr": "महाराष्ट्रातील मध्यम ते भारी जमिनीसाठी खरीप ज्वारी (भा.कृ.अ.प.-IIMR): संकरित CSH 16, CSH 18, SPH 388, CSH 23, CSH 25, CSH 30; सुधारित वाण CSV 15, PVK 400, CSV 17, CSV 20, CSV 23.",
+        "hi": "महाराष्ट्र की मध्यम से भारी मिट्टी के लिए खरीफ ज्वार (आईसीएआर-आईआईएमआर): संकर CSH 16, CSH 18, SPH 388, CSH 23, CSH 25, CSH 30; किस्में CSV 15, PVK 400, CSV 17, CSV 20, CSV 23।"
+       },
+       "source": "IIMR-KS, selection of hybrids and varieties",
+       "source_keys": [
+        "IIMR-KS"
+       ],
+       "quote": "Maharashtra Medium to heavy soil areas CSH 16, CSH 18, SPH 388, CSH 23, CSH 25, CSH 30 CSV 15, PVK 400, CSV 17, CSV 20, CSV 23"
+      }
+     ]
+    },
+    {
+     "key": "seed",
+     "items": [
+      {
+       "id": "jowar-seed-1",
+       "labels": {
+        "en": "Seed rate 8-10 kg per hectare (ICAR-IIMR); MPKV rabi varieties 4 kg per acre (Phule Purva 10 kg per acre). If sowing is late, a higher seed rate of 10 to 12 kg per hectare is advised against shoot fly.",
+        "mr": "बियाणे हेक्टरी ८-१० किलो (भा.कृ.अ.प.-IIMR); फुले कृषी विद्यापीठाचे रब्बी वाण एकरी ४ किलो (फुले पूर्वा एकरी १० किलो). पेरणी उशिरा झाल्यास खोडमाशीसाठी हेक्टरी १० ते १२ किलो जास्त बियाणे वापरावे.",
+        "hi": "बीज दर 8-10 किलो प्रति हेक्टेयर (आईसीएआर-आईआईएमआर); एमपीकेवी की रबी किस्में 4 किलो प्रति एकड़ (फुले पूर्वा 10 किलो प्रति एकड़)। बुवाई देर से हो तो प्ररोह मक्खी से बचाव हेतु 10 से 12 किलो प्रति हेक्टेयर अधिक बीज लें।"
+       },
+       "source": "IIMR-RS, 5. Seed rate and 12. IPM; MPKV-JWR",
+       "source_keys": [
+        "IIMR-RS",
+        "MPKV-JWR"
+       ],
+       "quote": "Seed rate : 8‐10 kg/ha … High seed rate @ 10 to 12 kg ha‐1 is recommended in case delay in sowing; … Seed Rate (Per acre) 4 kg/ Acre … Phule Purva (RSV 2371) … Seed Rate (Per acre) 10 kg/ Acre"
+      },
+      {
+       "id": "jowar-seed-2",
+       "labels": {
+        "en": "Seed treatment: imidacloprid against shoot fly; the MPKV consortium (Azotobacter, phosphate-solubilising and potash-mobilising bacteria); for kharif jowar, liquid Azospirillum. (follow expert advice)",
+        "mr": "बीजप्रक्रिया: खोडमाशीसाठी इमिडाक्लोप्रिड; फुले कृषी विद्यापीठाचे कन्सॉर्शिया (ॲझोटोबॅक्टर, स्फुरद विरघळविणारे व पालाश उपलब्ध करणारे जिवाणू); खरीप ज्वारीसाठी द्रवरूप ॲझोस्पिरिलम. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "बीजोपचार: प्ररोह मक्खी के लिए इमिडाक्लोप्रिड; एमपीकेवी कंसोर्टियम (एज़ोटोबैक्टर, फॉस्फेट घुलनशील और पोटाश गतिशील जीवाणु); खरीफ ज्वार के लिए तरल एज़ोस्पिरिलम। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "IIMR-RS, 12. IPM no. 5; PDKV-R17, Entomology no. 24; MPKV-R23, no. 40; PDKV-R19, Field crops no. 1",
+       "source_keys": [
+        "IIMR-RS",
+        "PDKV-R17",
+        "MPKV-R23",
+        "PDKV-R19"
+       ],
+       "quote": "Seed treatment with Imidacloprid @14 ml/kg of seed … For effective management of shoot fly in sorghum, seed treatment with s imidacloprid 48 FS … Seed treatment to sorghum seeds with MPKV c onsortium ( Azotobacter, phosphate solubilizing and potash mobilizing bacteria) … Seed treatment with liquid Azospirillum @ 2 ml /kg seed along with RDF is recommended in Kharif Sorghum",
+       "omitted": [
+        "carbofuran",
+        "quinalphos"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "nutrition",
+     "items": [
+      {
+       "id": "jowar-nutrition-1",
+       "labels": {
+        "en": "Fertiliser is applied as basal for rainfed jowar on shallow, medium or deep soils; under irrigation nitrogen goes in two equal parts, half at sowing and half 30-35 days after sowing. (follow expert advice)",
+        "mr": "कोरडवाहू ज्वारीला (हलकी, मध्यम किंवा भारी जमीन) खत पेरणीच्या वेळी द्यावे; बागायतीत नत्र दोन समान हप्त्यांत, अर्धे पेरणीच्या वेळी व अर्धे पेरणीनंतर ३०-३५ दिवसांनी. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "बारानी ज्वार (उथली, मध्यम या गहरी मिट्टी) में खाद बुवाई के समय दें; सिंचित में नाइट्रोजन दो बराबर भागों में, आधी बुवाई पर और आधी बुवाई के 30-35 दिन बाद। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "IIMR-RS, 6. Nutrient management",
+       "source_keys": [
+        "IIMR-RS"
+       ],
+       "quote": "Rainfed (shallow to medium soil) : 40:20:00 Kg NPK ha‐1 as basal Rainfed (deep soil) : 60:30:00 Kg NPK ha‐1 as basal Irrigated : 80:40:40 Kg NPK ha‐1 (N in two equal splits 50% as basal and 50% at 30‐35 days after sowing)"
+      },
+      {
+       "id": "jowar-nutrition-2",
+       "labels": {
+        "en": "Rainfed jowar (Dr. PDKV): one hoeing and one hand weeding; at sowing nitrogen partly as fertiliser and partly as FYM, with phosphorus and potash; at 30 days the rest of the nitrogen, partly as fertiliser and partly as Gliricidia leaves. (follow expert advice)",
+        "mr": "कोरडवाहू ज्वारी (डॉ. पंदेकृवि): एक कोळपणी व एक हाताने खुरपणी; पेरणीच्या वेळी नत्र काही रासायनिक खतातून व काही शेणखतातून, सोबत स्फुरद व पालाश; ३० दिवसांनी उरलेले नत्र काही रासायनिक खतातून व काही ग्लिरिसिडियाच्या पाल्यातून. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "बारानी ज्वार (डॉ. पीडीकेवी): एक गुड़ाई और एक हाथ से निराई; बुवाई पर नाइट्रोजन कुछ उर्वरक से और कुछ गोबर खाद से, साथ में फॉस्फोरस और पोटाश; 30 दिन पर शेष नाइट्रोजन कुछ उर्वरक से और कुछ ग्लिरिसिडिया की पत्तियों से। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "PDKV-R16, Rainfed crops no. 9",
+       "source_keys": [
+        "PDKV-R16"
+       ],
+       "quote": "In rainfed condition for sorghum crop, low tillage (one hoeing follo wed by one hand weeding) with 20 kg nitrogen through inorganic fertilizer + 20 kg N th rough FYM (3.8 t ha-1), 40 kg P 2O5 and 40 kg K 2O as basal dose and 20kg nitrogen through inorganic fertilizer + 20 kg N through glyricidia (3t ha -1) at 30 DAS is recommended"
+      },
+      {
+       "id": "jowar-nutrition-3",
+       "labels": {
+        "en": "Hurda jowar: FYM with fertiliser and zinc sulphate gives more green hurda. (follow expert advice)",
+        "mr": "हुरडा ज्वारी: शेणखतासोबत रासायनिक खत व झिंक सल्फेट दिल्याने हिरव्या हुरड्याचे उत्पादन वाढते. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "हुरडा ज्वार: गोबर खाद के साथ उर्वरक और जिंक सल्फेट देने से हरे हुरडा की उपज बढ़ती है। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "PDKV-R19, Field crops no. 2",
+       "source_keys": [
+        "PDKV-R19"
+       ],
+       "quote": "Application of 5 t FYM per ha along with 75% RDF and ZnSO4 @ 25 kg/ha is recommended for obtaining high green Hurda yield and monetary return from Hurda Sorghum."
+      }
+     ]
+    },
+    {
+     "key": "water",
+     "items": [
+      {
+       "id": "jowar-water-1",
+       "labels": {
+        "en": "Irrigated rabi jowar on medium deep to deep soils: three irrigations, at germination, panicle initiation and grain filling. The best schedule is five irrigations at 35, 55, 75, 85 and 105 days (panicle initiation, boot leaf, flowering, milky and dough stages). With water for one irrigation only, give it at flower primordial or boot leaf stage.",
+        "mr": "बागायती रब्बी ज्वारी (मध्यम खोल ते खोल जमीन): तीन पाणी, उगवणीच्या वेळी, कणसे निसवण्याच्या सुरुवातीला व दाणे भरताना. उत्तम वेळापत्रक म्हणजे ३५, ५५, ७५, ८५ व १०५ दिवसांनी पाच पाणी (कणीस धरण्याची सुरुवात, पोटरी, फुलोरा, दुधाळ व चिकाची अवस्था). एकाच पाण्याची सोय असल्यास ते कणीस धरण्याच्या सुरुवातीला किंवा पोटरीत द्यावे.",
+        "hi": "सिंचित रबी ज्वार (मध्यम गहरी से गहरी मिट्टी): तीन सिंचाई, अंकुरण, बाली बनने की शुरुआत और दाना भरते समय। सबसे अच्छा क्रम 35, 55, 75, 85 और 105 दिन पर पाँच सिंचाई (बाली प्रारंभ, गभोट, फूल, दूधिया और आटा अवस्था)। केवल एक सिंचाई का पानी हो तो बाली प्रारंभ या गभोट अवस्था में दें।"
+       },
+       "source": "IIMR-RS, 8. Water management",
+       "source_keys": [
+        "IIMR-RS"
+       ],
+       "quote": "Under irrigated conditions in medium deep to deep soils, three irrigations first at germination, next panicle initiation and third at grain filling stage are desirable. Optimum irrigation schedule consist of five irrigations each at 35, 55, 75, 85 and 105 days after sowing which coincides with physiological stages of panicle primordial initiation, boot leaf, flowering, milky and dough stages respectively. In case of limited availability of irrigation water, it can be restricted to one irrigation and it should be at flower primordial stage or boot leaf stage"
+      },
+      {
+       "id": "jowar-water-2",
+       "labels": {
+        "en": "Plain zone, black soils: with only two canal irrigations in rabi, jowar (or safflower or gram) pays better than wheat; give the first 20-25 days and the second 60-65 days after sowing.",
+        "mr": "पठारी विभाग, काळ्या जमिनी: रब्बीत कालव्याचे दोनच पाणी मिळणार असल्यास गव्हाऐवजी ज्वारी (किंवा करडई, हरभरा) फायदेशीर; पहिले पाणी पेरणीनंतर २०-२५ दिवसांनी व दुसरे ६०-६५ दिवसांनी.",
+        "hi": "मैदानी क्षेत्र, काली मिट्टी: रबी में नहर की केवल दो सिंचाई मिलें तो गेहूं की जगह ज्वार (या कुसुम, चना) लाभदायक; पहली बुवाई के 20-25 दिन बाद और दूसरी 60-65 दिन बाद।"
+       },
+       "source": "MPKV-R23, Agronomy no. 8",
+       "source_keys": [
+        "MPKV-R23"
+       ],
+       "quote": "If two canal irrigations are available during rabi season, cultivation of Safflower or Sorghum or G ram is profitable instead of Wheat crop with first canal irrigation at 20 -25 days aftersowing and second canal irrigation at 60 -65 days after sowing is recommended for Plain Zone of Maharashtra in Vertisols."
+      },
+      {
+       "id": "jowar-water-3",
+       "labels": {
+        "en": "Kharif jowar in a dry spell: do not top-dress fertiliser until there is enough soil moisture; thin within rows and give a protective irrigation where possible. (follow expert advice)",
+        "mr": "खरीप ज्वारी, पावसाचा खंड: जमिनीत पुरेसा ओलावा येईपर्यंत खताचा वरखत हप्ता देऊ नये; ओळीतील विरळणी करावी व शक्य असल्यास संरक्षित पाणी द्यावे. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "खरीफ ज्वार, सूखा अंतराल: मिट्टी में पर्याप्त नमी आने तक उर्वरक की टॉप ड्रेसिंग न करें; पंक्ति में छँटाई करें और संभव हो तो जीवन रक्षक सिंचाई दें। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "CRIDA-NND, 2.1.2 early season drought",
+       "source_keys": [
+        "CRIDA-NND"
+       ],
+       "quote": "Sorghum Avoid top dressing of fertilizers till sufficient soil moisture is available. Protective irrigation if possible Intra row thinning"
+      }
+     ]
+    },
+    {
+     "key": "intercultivation",
+     "items": [
+      {
+       "id": "jowar-intercultivation-1",
+       "labels": {
+        "en": "Two or three intercultivations at 3, 5 and 7 weeks after sowing check weeds and keep moisture by a top-soil mulch. Atrazine as a pre-emergence spray on the soil soon after sowing controls weeds. (follow expert advice)",
+        "mr": "पेरणीनंतर ३, ५ व ७ आठवड्यांनी दोन-तीन कोळपण्या केल्याने तण आटोक्यात राहते व मातीचे आच्छादन होऊन ओलावा टिकतो. पेरणीनंतर लगेच जमिनीवर ॲट्राझिनची उगवणपूर्व फवारणी तण नियंत्रित करते. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "बुवाई के 3, 5 और 7 सप्ताह बाद दो-तीन गुड़ाई से खरपतवार रुकते हैं और ऊपरी मिट्टी की परत से नमी बनी रहती है। बुवाई के तुरंत बाद मिट्टी पर एट्राज़ीन का अंकुरण-पूर्व छिड़काव खरपतवार नियंत्रित करता है। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "IIMR-RS, 7. Inter-cultivation and weed control",
+       "source_keys": [
+        "IIMR-RS"
+       ],
+       "quote": "Inter‐cultivation 2 or 3 time at 3, 5 and 7 weeks after sowing to check the weed growth and also helps conserve soil moisture by providing top soil mulch. Weed management: Application of Atrazine @ 0.5 kg a.l/ha is recommended for spraying on the soil as pre‐emergence application immediately after sowing."
+      }
+     ]
+    },
+    {
+     "key": "protection",
+     "items": [
+      {
+       "id": "jowar-protection-1",
+       "labels": {
+        "en": "Shoot fly attacks seedlings in the 1st-4th week after germination; the maggot kills the central shoot (dead heart). Sow rabi jowar from the end of September to the first week of October, and kharif jowar within 7 to 10 days of the monsoon onset, to escape it; sow a little more seed and pull out dead-heart seedlings.",
+        "mr": "खोडमाशी उगवणीनंतर पहिल्या ते चौथ्या आठवड्यात रोपांवर येते; अळी मधला कोंब खाते व तो सुकतो (पोंगा मर). टाळण्यासाठी रब्बी ज्वारी सप्टेंबरअखेर ते ऑक्टोबरच्या पहिल्या आठवड्यात व खरीप ज्वारी मान्सून सुरू झाल्यावर ७ ते १० दिवसांत पेरावी; बियाणे थोडे जास्त वापरून पोंगा मर झालेली रोपे उपटून टाकावीत.",
+        "hi": "प्ररोह मक्खी अंकुरण के बाद पहले से चौथे सप्ताह में पौधों पर आती है; इल्ली बीच का प्ररोह खाती है और वह सूख जाता है (डेड हार्ट)। बचाव के लिए रबी ज्वार सितंबर के अंत से अक्टूबर के पहले सप्ताह में और खरीफ ज्वार मानसून शुरू होने के 7 से 10 दिन में बोएँ; बीज थोड़ा अधिक लें और डेड हार्ट वाले पौधे उखाड़ दें।"
+       },
+       "source": "IIMR-RS, 9 a) shoot fly; IIMR-KS, IPM technology for shoot fly",
+       "source_keys": [
+        "IIMR-RS",
+        "IIMR-KS"
+       ],
+       "quote": "It is a seedling pest and normally occurs in the 1st‐ 4th week after germination. Maggot feeds on the growing tip causing wilting of leaf and later drying of central leaf giving a typical appearance of ‘dead heart’ symptoms. Cultural control: Planting towards the September end to October first week is ideal to escape shoot fly damage. Another important practice is to increase the seed rate and destroy the ‘deadheart’ seedlings after removal, to maintain the optimum plant stand. … Early Sowing within 7 to 10 days of the onset of monsoon in kharif",
+       "omitted": [
+        "carbofuran",
+        "phorate",
+        "endosulfan"
+       ]
+      },
+      {
+       "id": "jowar-protection-2",
+       "labels": {
+        "en": "Shoot fly, biological and botanical: release the egg parasite Trichogramma chilonis, and spray neem kernel extract. (follow expert advice)",
+        "mr": "खोडमाशी, जैविक व वनस्पतीजन्य उपाय: ट्रायकोग्रामा चिलोनिस या अंडी परोपजीवी कीटकाचे प्रसारण करावे व निंबोळी अर्काची फवारणी करावी. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "प्ररोह मक्खी, जैविक व वानस्पतिक उपाय: अंड परजीवी ट्राइकोग्रामा चिलोनिस छोड़ें और नीम गिरी अर्क का छिड़काव करें। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "IIMR-KS, IPM technology for shoot fly",
+       "source_keys": [
+        "IIMR-KS"
+       ],
+       "quote": "Biological Control: Releasing egg parasite, Trichogramma chilonis Ishii@ 12.5 lakh/ha is reported to reduce shootfly incidence. IV. Botanical insecticides: Spraying the crop with 5% neem kernel extract."
+      },
+      {
+       "id": "jowar-protection-3",
+       "labels": {
+        "en": "Stem borer carries over in stubbles and in stalks kept for fodder: uproot and burn the stubbles and chop the stems after harvest.",
+        "mr": "खोडकिडा धसकटांत व चाऱ्यासाठी ठेवलेल्या कडब्यात पुढील हंगामापर्यंत टिकतो: काढणीनंतर धसकटे उपटून जाळावीत व कडबा कुट्टी करावा.",
+        "hi": "तना छेदक ठूँठों और चारे के लिए रखे डंठलों में अगले मौसम तक बचता है: कटाई के बाद ठूँठ उखाड़कर जलाएँ और डंठल काट दें।"
+       },
+       "source": "IIMR-RS, 9 b) stem borer",
+       "source_keys": [
+        "IIMR-RS"
+       ],
+       "quote": "Cultural control: The carryover of the pest form one season to another is through stubbles left in the field as well as the stems/stalks kept for use as fodder after harvest. Uprooting and burning of stubbles and chopping of stems prevent its carryover.",
+       "omitted": [
+        "endosulfan",
+        "carbaryl",
+        "malathion",
+        "carbofuran"
+       ]
+      },
+      {
+       "id": "jowar-protection-4",
+       "labels": {
+        "en": "Charcoal rot (premature drying and lodging): it is less with low nitrogen and low plant density, crop rotation, jowar as a mixed crop, a wheat-straw mulch to keep moisture and tolerant varieties; soil treatment with thiram at sowing also reduces it. (follow expert advice)",
+        "mr": "खडखड्या रोग (ताट अकाली वाळणे व लोळणे): कमी नत्र व कमी रोपसंख्या, पिकांची फेरपालट, मिश्र पीक म्हणून ज्वारी, ओलावा टिकविण्यासाठी गव्हाच्या काडाचे आच्छादन व सहनशील वाण यांनी तो कमी होतो; पेरणीच्या वेळी थायरमची जमिनीत प्रक्रियाही तो कमी करते. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "चारकोल सड़न (समय से पहले सूखना और गिरना): कम नाइट्रोजन और कम पौध संख्या, फसल चक्र, मिश्रित फसल के रूप में ज्वार, नमी बचाने को गेहूं के भूसे की पलवार और सहनशील किस्मों से यह कम होती है; बुवाई पर थाइरम से मिट्टी उपचार भी इसे घटाता है। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "IIMR-RS, Diseases a) charcoal rot",
+       "source_keys": [
+        "IIMR-RS"
+       ],
+       "quote": "Losses in grain yield and seed size occur due to premature drying and lodging. … Control: (1) Minimal doses of nitrogen fertilizer and low plant densities reduce charcoal rot; (2) Crop rotation also reduces the disease. Sorghum as a mixed crop also suffers less damage by charcoal rot than sole crop; (3) Moisture conservation practices like wheat straw mulch will provide marginal advantage in checking the disease symptoms; (4) Growing varieties and hybrids resistant to predisposing stress conditions is of more economical value; (5) Soil treatment with Thiram @ 4.5 kg ha‐1 at sowing reduces the charcoal rot by 15%."
+      },
+      {
+       "id": "jowar-protection-5",
+       "labels": {
+        "en": "October sowing reduces stripe virus.",
+        "mr": "ऑक्टोबरमध्ये पेरणी केल्याने स्ट्राइप विषाणू रोग कमी होतो.",
+        "hi": "अक्टूबर में बुवाई से स्ट्राइप विषाणु रोग कम होता है।"
+       },
+       "source": "IIMR-RS, 12. IPM, disease management no. 1",
+       "source_keys": [
+        "IIMR-RS"
+       ],
+       "quote": "October‐sowing is recommended to reduce stripe virus disease incidence;"
+      },
+      {
+       "id": "jowar-protection-6",
+       "labels": {
+        "en": "Midge fly: spray neem seed extract when half the earheads have emerged. (follow expert advice)",
+        "mr": "कणसातील मिज माशी: निम्मी कणसे बाहेर आल्यावर निंबोळी अर्काची फवारणी करावी. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "मिज मक्खी: आधी बालियाँ निकलने पर नीम बीज अर्क का छिड़काव करें। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "PDKV-R21, Entomology no. 21",
+       "source_keys": [
+        "PDKV-R21"
+       ],
+       "quote": "For effective management of sorghum midge fly, increasing the grain yield an d incremental cost benefit, at 50 % earhead emergence neem seed extract @ 5%",
+       "omitted": [
+        "dimethoate"
+       ]
+      },
+      {
+       "id": "jowar-protection-7",
+       "labels": {
+        "en": "Grain mold comes with long rains at grain maturity: avoid varieties that mature in likely rain; captan sprays on the earheads from flowering control it but pay only in seed plots. (follow expert advice)",
+        "mr": "दाणे पक्व होताना लांबलेल्या पावसात दाण्यावर बुरशी येते: पावसात पक्व होणारे वाण टाळावेत; फुलोऱ्यापासून कणसांवर कॅप्टनच्या फवारण्या प्रभावी, पण फक्त बीजोत्पादन क्षेत्रातच परवडतात. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "दाना पकते समय लंबी बारिश में दाना फफूंद आती है: बारिश में पकने वाली किस्में न लें; फूल आने से बालियों पर कैप्टन के छिड़काव प्रभावी हैं, पर केवल बीज उत्पादन खेत में ही लाभकारी। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "IIMR-KS, Diseases, grain mold",
+       "source_keys": [
+        "IIMR-KS"
+       ],
+       "quote": "Grain molds are severe during the years of prolonged rainfall at the time of grain maturity. … Cultural control: Avoiding cultivars that mature when there is likelihood of rains is a precaution that can be used to avoid grain molds. … Chemical control: Effective control can be obtained by three sprays on the Earheads with Aureofungin (200ppm) and 0.2% Captan, starting from flowering with 10 days interval. But it is impracticable and uneconomical, except in seed plots.",
+       "omitted": [
+        "mancozeb"
+       ]
+      },
+      {
+       "id": "jowar-protection-8",
+       "labels": {
+        "en": "Birds: a wind-operated bird-scaring unit protects jowar earheads up to 25 m.",
+        "mr": "पक्षी: वाऱ्यावर चालणारे पक्षी हाकलणी यंत्र २५ मी. अंतरापर्यंत ज्वारीच्या कणसांचे संरक्षण करते.",
+        "hi": "पक्षी: हवा से चलने वाला पक्षी भगाने का यंत्र 25 मी. दूरी तक ज्वार की बालियों की रक्षा करता है।"
+       },
+       "source": "MPKV-R24, Agril. Engineering no. 55",
+       "source_keys": [
+        "MPKV-R24"
+       ],
+       "quote": "Wind operated bird scaring unit is recommended for protection of sorgumearheads from birds upto distance of 25 m."
+      }
+     ]
+    },
+    {
+     "key": "harvest",
+     "items": [
+      {
+       "id": "jowar-harvest-1",
+       "labels": {
+        "en": "Harvest at physiological maturity and dry the grain; do not delay harvesting a mature crop, which also reduces grain mold.",
+        "mr": "शारीरिक पक्वतेला काढणी करून दाणे वाळवावेत; पक्व पिकाची काढणी लांबवू नये, यामुळे दाण्यावरील बुरशीही कमी होते.",
+        "hi": "शारीरिक परिपक्वता पर कटाई कर दाने सुखाएँ; पकी फसल की कटाई में देरी न करें, इससे दाना फफूंद भी कम होती है।"
+       },
+       "source": "IIMR-KS, Diseases, grain mold (cultural control)",
+       "source_keys": [
+        "IIMR-KS"
+       ],
+       "quote": "Harvesting of genotypes at physiological maturity and drying also reduces mold incidence. Delay in harvesting of matured crop should be avoided."
+      },
+      {
+       "id": "jowar-harvest-2",
+       "labels": {
+        "en": "In a late-season drought, give a life-saving irrigation or harvest at physiological maturity; if no grain sets, use the crop as green fodder.",
+        "mr": "हंगामाच्या शेवटी अवर्षण पडल्यास जीवरक्षक पाणी द्यावे किंवा शारीरिक पक्वतेला काढणी करावी; दाणे भरले नसल्यास पीक हिरवा चारा म्हणून वापरावे.",
+        "hi": "मौसम के अंत में सूखा पड़े तो जीवन रक्षक सिंचाई दें या शारीरिक परिपक्वता पर कटाई करें; दाने न बनें तो फसल हरे चारे के रूप में उपयोग करें।"
+       },
+       "source": "CRIDA-NND, 2.1.4 terminal drought",
+       "source_keys": [
+        "CRIDA-NND"
+       ],
+       "quote": "Sorghum Life saving irrigation or harvest at physiological maturity or if no grain setting use as green fodder."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "crop": "wheat",
+   "labels": {
+    "en": "Wheat",
+    "mr": "गहू",
+    "hi": "गेहूं"
+   },
+   "names": {
+    "en": [
+     "wheat"
+    ],
+    "mr": [
+     "गहू",
+     "गव्हा"
+    ],
+    "hi": [
+     "गेहू"
+    ]
+   },
+   "ai_written": true,
+   "sections": [
+    {
+     "key": "sowing",
+     "items": [
+      {
+       "id": "wheat-sowing-1",
+       "labels": {
+        "en": "Sowing time (MPKV): timely irrigated wheat in the first fortnight of November, late-sown irrigated in the first fortnight of December, rainfed in the second fortnight of October. Phule Samadhan can be sown up to the 51st week (17 to 23 December) under late sowing in deep black soils of the plain zone.",
+        "mr": "पेरणीची वेळ (फुले कृषी विद्यापीठ): वेळेवर बागायती गहू नोव्हेंबरचा पहिला पंधरवडा, उशिरा बागायती डिसेंबरचा पहिला पंधरवडा, कोरडवाहू ऑक्टोबरचा दुसरा पंधरवडा. पठारी विभागातील भारी काळ्या जमिनीत उशिरा पेरणीत फुले समाधान ५१ व्या आठवड्यापर्यंत (१७ ते २३ डिसेंबर) पेरता येतो.",
+        "hi": "बुवाई का समय (एमपीकेवी): समय पर सिंचित गेहूं नवंबर का पहला पखवाड़ा, देर से सिंचित दिसंबर का पहला पखवाड़ा, बारानी अक्टूबर का दूसरा पखवाड़ा। मैदानी क्षेत्र की गहरी काली मिट्टी में देर की बुवाई में फुले समाधान 51वें सप्ताह (17 से 23 दिसंबर) तक बो सकते हैं।"
+       },
+       "source": "MPKV-WHT, sowing time of the varieties; MPKV-R24, Agronomy no. 12",
+       "source_keys": [
+        "MPKV-WHT",
+        "MPKV-R24"
+       ],
+       "quote": "Sowing Time / Planting period 1st fortnight of November (Timely) 1st fortnight of December (Late) … Sowing Time / Planting period Second Fortnight of October (Rainfed) … Sowing of Phule Samadhan variety of wheat upto 51 st MW (17 th to 23 rd December) is recommended for obtaining higher grain yield and monetary returns under late sown condition in deep black soils of plain zone of Maharashtra."
+      },
+      {
+       "id": "wheat-sowing-2",
+       "labels": {
+        "en": "District contingency plans: Akola rainfed 1-15 October, irrigated 1-15 November; Nanded rainfed 15-30 October, irrigated 15 November to 15 December. Dr. PDKV: PDKV-Sardar sown 26 November to 2 December in Vidarbha.",
+        "mr": "जिल्हा आकस्मिक पीक नियोजन: अकोला कोरडवाहू १-१५ ऑक्टोबर, बागायती १-१५ नोव्हेंबर; नांदेड कोरडवाहू १५-३० ऑक्टोबर, बागायती १५ नोव्हेंबर ते १५ डिसेंबर. डॉ. पंदेकृवि: विदर्भात PDKV-सरदार २६ नोव्हेंबर ते २ डिसेंबर दरम्यान पेरावा.",
+        "hi": "ज़िला आकस्मिक फसल योजना: अकोला बारानी 1-15 अक्टूबर, सिंचित 1-15 नवंबर; नांदेड़ बारानी 15-30 अक्टूबर, सिंचित 15 नवंबर से 15 दिसंबर। डॉ. पीडीकेवी: विदर्भ में PDKV-सरदार 26 नवंबर से 2 दिसंबर के बीच बोएँ।"
+       },
+       "source": "CRIDA-AKL and CRIDA-NND, sowing window; PDKV-R16, Production technology no. 1",
+       "source_keys": [
+        "CRIDA-AKL",
+        "CRIDA-NND",
+        "PDKV-R16"
+       ],
+       "quote": "Wheat Chickpea Safflower 1-15 Oct 1-15 Oct 25 Sept -7Oct Rabi-Irrigated 1-15 Nov … Wheat Rabi sorghum Gram Safflower Rabi - Rainfed 15-30 Oct … Rabi - Irrigated 15 Nov – 15 Dec … wheat variety PDKV-Sardar , sowing during 26 Nov to 2 Dec is recommend ed in Vidarbha region."
+      },
+      {
+       "id": "wheat-sowing-3",
+       "labels": {
+        "en": "Sowing between 16 November and 1 December lowers aphids, jassids and shoot fly (MPKV).",
+        "mr": "१६ नोव्हेंबर ते १ डिसेंबर दरम्यान पेरणी केल्याने मावा, तुडतुडे व खोडमाशीचा प्रादुर्भाव कमी होतो (फुले कृषी विद्यापीठ).",
+        "hi": "16 नवंबर से 1 दिसंबर के बीच बुवाई से माहू, जैसिड और प्ररोह मक्खी कम होती है (एमपीकेवी)।"
+       },
+       "source": "MPKV-WHT-REC, 2017-18 no. 4",
+       "source_keys": [
+        "MPKV-WHT-REC"
+       ],
+       "quote": "Sowing of wheat crop during 16 th November to 1 st December is recommended to minimize the incidence of aphids, jassids and shoot fly"
+      },
+      {
+       "id": "wheat-sowing-4",
+       "labels": {
+        "en": "Intercrop: wheat + mustard (9:1) paid more than either crop alone.",
+        "mr": "आंतरपीक: गहू + मोहरी (९:१) दोन्ही स्वतंत्र पिकांपेक्षा जास्त फायदेशीर ठरले.",
+        "hi": "अंतरफसल: गेहूं + सरसों (9:1) दोनों अकेली फसलों से अधिक लाभदायक रहा।"
+       },
+       "source": "PDKV-LM, Mustard agronomy no. 1",
+       "source_keys": [
+        "PDKV-LM"
+       ],
+       "quote": "Intercropping of wheat + mustard (9:1) proved more remunerative than their sole crops."
+      }
+     ]
+    },
+    {
+     "key": "varieties",
+     "items": [
+      {
+       "id": "wheat-varieties-1",
+       "labels": {
+        "en": "Timely sown, irrigated (MPKV, Niphad): Trambak (NIAW-301, 110-115 days), Tapovan (NIAW-917, 110-115 days), Godavari (NIDW-295, durum for processing, 110-115 days), Phule Samadhan (NIAW-1994, 115-120 days; also for late sowing), NIAW 4028 (2024, 106 days, resists brown and black rust).",
+        "mr": "वेळेवर पेरणी, बागायती (फुले कृषी विद्यापीठ, निफाड): त्र्यंबक (NIAW-301, ११०-११५ दिवस), तपोवन (NIAW-917, ११०-११५ दिवस), गोदावरी (NIDW-295, प्रक्रियेसाठी बन्सी (ड्युरम), ११०-११५ दिवस), फुले समाधान (NIAW-1994, ११५-१२० दिवस; उशिरा पेरणीसाठीही), NIAW 4028 (२०२४, १०६ दिवस, तपकिरी व काळ्या तांबेऱ्यास प्रतिकारक).",
+        "hi": "समय पर बुवाई, सिंचित (एमपीकेवी, निफाड): त्र्यंबक (NIAW-301, 110-115 दिन), तपोवन (NIAW-917, 110-115 दिन), गोदावरी (NIDW-295, प्रसंस्करण हेतु कठिया (ड्यूरम), 110-115 दिन), फुले समाधान (NIAW-1994, 115-120 दिन; देर की बुवाई के लिए भी), NIAW 4028 (2024, 106 दिन, भूरा और काला रतुआ प्रतिरोधी)।"
+       },
+       "source": "MPKV-WHT, Trambak, Tapovan, Godavari, Phule Samadhan, NIAW 4028",
+       "source_keys": [
+        "MPKV-WHT"
+       ],
+       "quote": "Trambak (NIAW-301) [Triticum aestivum] … Crop duration Medium Maturity (110-115 days) … Recommended for irrigated timely sown conditions of Maharashtra State … Godavari [NIDW-295] [Triticum durum] (Processing Purpose) … Crop duration Medium Maturity (110-115 days) … Tapovan [NIAW-917] [Triticum aestivum] … Crop duration Medium Maturity (110-115 days) … Phule Samadhan [NIAW-1994] [Triticum aestivum] … Crop duration 115-120 days (Timely sown), 105-110 days (Late sown) … Recommended for timely sown and late sown irrigated conditions of Maharashtra State. … Wheat- NIAW 4028 Release year 2024 … Crop duration 106 days … Resistance to brown rust and black rust"
+      },
+      {
+       "id": "wheat-varieties-2",
+       "labels": {
+        "en": "Late sown, irrigated: Niphad (NIAW-34, 105-110 days), Phule Samadhan (105-110 days when late), Phule Shashwat (NIAW 4114, 2025, 105-110 days); Dr. PDKV AKAW-4210-6 (early, rust resistant).",
+        "mr": "उशिरा पेरणी, बागायती: निफाड (NIAW-34, १०५-११० दिवस), फुले समाधान (उशिरा पेरणीत १०५-११० दिवस), फुले शाश्वत (NIAW 4114, २०२५, १०५-११० दिवस); डॉ. पंदेकृवि AKAW-4210-6 (लवकर येणारा, तांबेरा प्रतिकारक).",
+        "hi": "देर से बुवाई, सिंचित: निफाड (NIAW-34, 105-110 दिन), फुले समाधान (देर की बुवाई में 105-110 दिन), फुले शाश्वत (NIAW 4114, 2025, 105-110 दिन); डॉ. पीडीकेवी AKAW-4210-6 (जल्दी पकने वाली, रतुआ प्रतिरोधी)।"
+       },
+       "source": "MPKV-WHT, Niphad, Phule Samadhan, Phule Shashwat; PDKV-R15, varieties no. 1",
+       "source_keys": [
+        "MPKV-WHT",
+        "PDKV-R15"
+       ],
+       "quote": "Niphad (NIAW-34) [Triticum aestivum] … Crop duration Early Maturity (105-110 days) … Recommended for late sown irrigated conditions of Peninsular Zone … 105-110 days (Late sown) … Wheat- Phule Shashwat (NIAW 4114) Release year 2025 … Crop duration 105-110 days … Recommended for late sow n irrigated condition … Wheat AKAW- 4210-6 Salient Fetures 1. Suitable for cultivation under IR-LS conditions in Maharashtra State 2. Early Maturity … 5. Rust resistant"
+      },
+      {
+       "id": "wheat-varieties-3",
+       "labels": {
+        "en": "Rainfed or limited irrigation: Netravati (NIAW-1415; rainfed, or restricted irrigation), Panchavati (NIDW-15, durum, rainfed), Phule Anupam (NIAW-3624, 105-110 days, one irrigation); Dr. PDKV AKAW-5100 (109 days, heat and drought tolerant, resists black and brown rust).",
+        "mr": "कोरडवाहू किंवा मर्यादित पाणी: नेत्रावती (NIAW-1415; कोरडवाहू किंवा मर्यादित ओलित), पंचवटी (NIDW-15, बन्सी (ड्युरम), कोरडवाहू), फुले अनुपम (NIAW-3624, १०५-११० दिवस, एक पाणी); डॉ. पंदेकृवि AKAW-5100 (१०९ दिवस, उष्णता व अवर्षण सहनशील, काळ्या व तपकिरी तांबेऱ्यास प्रतिकारक).",
+        "hi": "बारानी या सीमित सिंचाई: नेत्रावती (NIAW-1415; बारानी या सीमित सिंचाई), पंचवटी (NIDW-15, कठिया (ड्यूरम), बारानी), फुले अनुपम (NIAW-3624, 105-110 दिन, एक सिंचाई); डॉ. पीडीकेवी AKAW-5100 (109 दिन, गर्मी और सूखा सहनशील, काला और भूरा रतुआ प्रतिरोधी)।"
+       },
+       "source": "MPKV-WHT, Netravati, Panchavati, Phule Anupam; PDKV-R25, varieties no. 9",
+       "source_keys": [
+        "MPKV-WHT",
+        "PDKV-R25"
+       ],
+       "quote": "Panchavati [NIDW-15] [Triticum durum] … Recommended for rainfed conditions of Maharashtra State … Netravati [NIAW-1415] [Triticum aestivum] … Recommended for rainfed and restricted irrigated conditions of Peninsular Zone … Phule Anupam (NIAW-3624) … Crop duration 105-110 days … Productivity 30-35 qt./ ha. under one irrigation … Wheat AKAW-5100 … Maturity: 109 days. … Heat and Drought tolerant Resistant to black and brown rust."
+      }
+     ]
+    },
+    {
+     "key": "seed",
+     "items": [
+      {
+       "id": "wheat-seed-1",
+       "labels": {
+        "en": "Seed rate (MPKV varieties): timely sown 40 kg per acre, late sown 50 kg per acre, rainfed 30 kg per acre.",
+        "mr": "बियाणे (फुले कृषी विद्यापीठाचे वाण): वेळेवर पेरणी एकरी ४० किलो, उशिरा पेरणी एकरी ५० किलो, कोरडवाहू एकरी ३० किलो.",
+        "hi": "बीज दर (एमपीकेवी किस्में): समय पर बुवाई 40 किलो प्रति एकड़, देर से बुवाई 50 किलो प्रति एकड़, बारानी 30 किलो प्रति एकड़।"
+       },
+       "source": "MPKV-WHT, Phule Samadhan and Netravati",
+       "source_keys": [
+        "MPKV-WHT"
+       ],
+       "quote": "Seed Rate (Per acre) 30 kg/Acre (Rainfed), 40 kg/Acre (Restricted Irrigated) … Seed Rate (Per acre) 40 kg/Acre (Timely sown), 50 kg/Acre (Late sown)"
+      },
+      {
+       "id": "wheat-seed-2",
+       "labels": {
+        "en": "Seed treatment: Azotobacter chroococcum and PSB; thiamethoxam as a preventive against aphids, jassids and shoot fly. (follow expert advice)",
+        "mr": "बीजप्रक्रिया: ॲझोटोबॅक्टर क्रोकोकम व पीएसबी; मावा, तुडतुडे व खोडमाशीच्या प्रतिबंधासाठी थायामेथोक्झाम. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "बीजोपचार: एज़ोटोबैक्टर क्रूकोकम और पीएसबी; माहू, जैसिड और प्ररोह मक्खी से बचाव के लिए थायामेथोक्साम। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "MPKV-WHT-REC, 2015-16 no. 8 and no. 10",
+       "source_keys": [
+        "MPKV-WHT-REC"
+       ],
+       "quote": "Seed treatment of wheat with Azotobacter chroococcum and PSB … Seed treatment with thimethoxam 30 % FS @ 7.50 ml /10 kg wheat seed as preventive measure is recommended for the control of wheat aphids, jassid and"
+      }
+     ]
+    },
+    {
+     "key": "nutrition",
+     "items": [
+      {
+       "id": "wheat-nutrition-1",
+       "labels": {
+        "en": "Medium deep black soils of western Maharashtra: vermicompost with the recommended fertiliser dose improves soil health and yield. Dr. PDKV: nitrogen in two equal split doses, with phosphorus and potash. (follow expert advice)",
+        "mr": "पश्चिम महाराष्ट्रातील मध्यम खोल काळ्या जमिनीत: शिफारशीत खतमात्रेसोबत गांडूळखत दिल्याने जमिनीचे आरोग्य व उत्पादन सुधारते. डॉ. पंदेकृवि: नत्र दोन समान हप्त्यांत, सोबत स्फुरद व पालाश. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "पश्चिम महाराष्ट्र की मध्यम गहरी काली मिट्टी में: अनुशंसित उर्वरक के साथ वर्मीकम्पोस्ट से मिट्टी का स्वास्थ्य और उपज सुधरती है। डॉ. पीडीकेवी: नाइट्रोजन दो बराबर भागों में, साथ में फॉस्फोरस और पोटाश। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "MPKV-R25, Soil science no. 11; PDKV-R17, Agronomy no. 6",
+       "source_keys": [
+        "MPKV-R25",
+        "PDKV-R17"
+       ],
+       "quote": "Application of vermicompost @ 3 t ha -1 along with recommended dose of fertilizer (120:60:40 N:P 2O5:K2O kg ha -1) to wheat crop is recommended for improvement of soil health and higher yield in medium deep black soils of Western Maharashtra. … wheat should be fertilized with 150 kg N ha-1 (in two equal spilt doses) along with 50 kg P2O5 ha-1 and 50 kg K2o ha-1"
+      },
+      {
+       "id": "wheat-nutrition-2",
+       "labels": {
+        "en": "Zinc-deficient soils: zinc sulphate or zinc EDTA to the soil with the recommended fertiliser. Iron-deficient soils of the plain zone: ferrous sulphate incubated in FYM for a week, with the general fertiliser dose at sowing, then Fe EDTA sprays at tillering (40-45 days) and flowering (60-65 days). (follow expert advice)",
+        "mr": "जस्ताची कमतरता असलेल्या जमिनीत: शिफारशीत खतासोबत झिंक सल्फेट किंवा झिंक ईडीटीए जमिनीतून. पठारी विभागातील लोहाची कमतरता असलेल्या जमिनीत: शेणखतात एक आठवडा मुरवलेले फेरस सल्फेट पेरणीच्या वेळी सर्वसाधारण खतमात्रेसोबत, नंतर फुटवे येताना (४०-४५ दिवस) व फुलोऱ्यात (६०-६५ दिवस) फेरस ईडीटीएची फवारणी. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "जिंक की कमी वाली मिट्टी में: अनुशंसित उर्वरक के साथ जिंक सल्फेट या जिंक ईडीटीए मिट्टी में। मैदानी क्षेत्र की लौह की कमी वाली मिट्टी में: गोबर खाद में एक सप्ताह रखा फेरस सल्फेट बुवाई पर सामान्य उर्वरक के साथ, फिर कल्ले निकलते समय (40-45 दिन) और फूल आने पर (60-65 दिन) फेरस ईडीटीए का छिड़काव। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "PDKV-R25, Soil science no. 17; MPKV-R23, Soil science no. 18",
+       "source_keys": [
+        "PDKV-R25",
+        "MPKV-R23"
+       ],
+       "quote": "In zinc deficient soil for obtaining higher wheat yield, monetary return and for improving soil fertility status, soil application of zinc sulphate @ 15 kg ha-1 or zinc EDTA @ 1.5 kg ha-1 along with recommended dose of fertilizer … Application of FeSO 4 @ 20 kg ha -1 incubated in FYM (1:10 proportion) for one week along with general recommended dose of fertilizer … at the time of sowing followed by foliar sprays of Fe EDTA @ 0.2 % (2 g per liter water) at tillering stage (40 -45 DAS) and flowering stage (60 -65 DAS) to wheat crop is recommended for higher yield, iron concentration in grain and monetary returns in iron deficient soils of plain zone of Maharashtra."
+      },
+      {
+       "id": "wheat-nutrition-3",
+       "labels": {
+        "en": "Organic wheat (Dr. PDKV): enriched PDKV compost mixed with Rhizobium and PSB, three sprays of liquid organic fertiliser at 20, 40 and 60 days, and Dashparni ark or neem seed extract with Beauveria and Metarhizium against pests. (follow expert advice)",
+        "mr": "सेंद्रिय गहू (डॉ. पंदेकृवि): रायझोबियम व पीएसबी मिसळलेले समृद्ध PDKV कंपोस्ट, २०, ४० व ६० दिवसांनी द्रवरूप सेंद्रिय खताच्या तीन फवारण्या, आणि किडींसाठी दशपर्णी अर्क किंवा निंबोळी अर्क तसेच ब्युव्हेरिया व मेटाऱ्हायझियम. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "जैविक गेहूं (डॉ. पीडीकेवी): राइजोबियम और पीएसबी मिली समृद्ध PDKV कम्पोस्ट, 20, 40 और 60 दिन पर तरल जैविक खाद के तीन छिड़काव, और कीटों के लिए दशपर्णी अर्क या नीम बीज अर्क तथा ब्यूवेरिया व मेटाराइजियम। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "PDKV-R21, Agronomy no. 6",
+       "source_keys": [
+        "PDKV-R21"
+       ],
+       "quote": "In organic farming system, soil application of 8 t/ha en riched PDKV compost mixed with Rhizobium and PSB @ 4.0 kg/ha along with three foliar sprays of liquid organic fertilizer (N:P:K) @ 30 ml / 10lit water at 20, 40 and 60 DAS and for biological pest control spraying of botanical insecticide (Dashparni Ark or 5 % NSKE) and bio -pesticide (Beauveria and Metarhizium) is recommended for higher yield, monetary returns of wheat"
+      }
+     ]
+    },
+    {
+     "key": "water",
+     "items": [
+      {
+       "id": "wheat-water-1",
+       "labels": {
+        "en": "Phule Samadhan with little water (medium black soils): sow normally, 1-15 November. With one irrigation, give it 41 days after sowing; with two, at 41 and 62 days, besides the pre-sowing and post-sowing irrigations.",
+        "mr": "कमी पाण्यात फुले समाधान (मध्यम काळी जमीन): नेहमीप्रमाणे १-१५ नोव्हेंबरला पेरणी. एकच पाणी असल्यास पेरणीनंतर ४१ दिवसांनी द्यावे; दोन असल्यास ४१ व ६२ दिवसांनी, पेरणीपूर्व व पेरणीनंतरच्या पाण्याशिवाय.",
+        "hi": "कम पानी में फुले समाधान (मध्यम काली मिट्टी): सामान्य बुवाई 1-15 नवंबर। एक सिंचाई हो तो बुवाई के 41 दिन बाद दें; दो हों तो 41 और 62 दिन पर, बुवाई-पूर्व और बुवाई के बाद की सिंचाई के अलावा।"
+       },
+       "source": "MPKV-WHT-REC, deficit irrigation of Samadhan",
+       "source_keys": [
+        "MPKV-WHT-REC"
+       ],
+       "quote": "normal sowing i.e. between 1 -15 November and if one irrigation is available should be given at 41 st DAS … if two irrigation are available give at 41 st and 62 nd … DAS alongwith pre and post sowing irrigations."
+      },
+      {
+       "id": "wheat-water-2",
+       "labels": {
+        "en": "If canal water comes late in a low-rainfall year, replace wheat by gram, safflower or mustard, and irrigate alternate rows or only at the critical stages. With only two canal irrigations in the plain zone, safflower, jowar or gram pays better than wheat.",
+        "mr": "कमी पावसाच्या वर्षी कालव्याचे पाणी उशिरा मिळणार असल्यास गव्हाऐवजी हरभरा, करडई किंवा मोहरी घ्यावी आणि एकाआड एक सरीला किंवा फक्त महत्त्वाच्या अवस्थांत पाणी द्यावे. पठारी विभागात कालव्याचे दोनच पाणी मिळणार असल्यास गव्हापेक्षा करडई, ज्वारी किंवा हरभरा फायदेशीर.",
+        "hi": "कम वर्षा वाले वर्ष में नहर का पानी देर से मिले तो गेहूं की जगह चना, कुसुम या सरसों लें, और एक छोड़ एक कूँड़ में या केवल नाज़ुक अवस्थाओं में सिंचाई करें। मैदानी क्षेत्र में नहर की केवल दो सिंचाई हों तो गेहूं से कुसुम, ज्वार या चना अधिक लाभदायक।"
+       },
+       "source": "CRIDA-AKL, 2.1.1 delayed release of canal water; MPKV-R23, Agronomy no. 8",
+       "source_keys": [
+        "CRIDA-AKL",
+        "MPKV-R23"
+       ],
+       "quote": "Wheat & Chickpea Wheat to be replaced by Chickpea/Safflower/Mustard Follow alternate row irrigation/irrigate at critical stages … If two canal irrigations are available during rabi season, cultivation of Safflower or Sorghum or G ram is profitable instead of Wheat crop"
+      }
+     ]
+    },
+    {
+     "key": "intercultivation",
+     "items": [
+      {
+       "id": "wheat-intercultivation-1",
+       "labels": {
+        "en": "Weeds (Dr. PDKV): a post-emergence spray of clodinafop-propargyl + metsulfuron-methyl, or sulfosulfuron + metsulfuron-methyl, 35 days after sowing. (follow expert advice)",
+        "mr": "तण (डॉ. पंदेकृवि): पेरणीनंतर ३५ दिवसांनी क्लोडिनाफॉप-प्रोपार्जिल + मेटसल्फ्युरॉन-मिथाइल, किंवा सल्फोसल्फ्युरॉन + मेटसल्फ्युरॉन-मिथाइल यांची उगवणीनंतरची फवारणी. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "खरपतवार (डॉ. पीडीकेवी): बुवाई के 35 दिन बाद क्लोडिनाफॉप-प्रोपार्जिल + मेटसल्फ्यूरॉन-मिथाइल, या सल्फोसल्फ्यूरॉन + मेटसल्फ्यूरॉन-मिथाइल का उगने के बाद छिड़काव। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "PDKV-R19, Agronomy no. 8",
+       "source_keys": [
+        "PDKV-R19"
+       ],
+       "quote": "post emergence application of Clodinafop Propargyl + Metsulfuron Methyl @ 0.06 + 0.004 kg a.i /ha (400 g/ha) or Sulfosulfuron + Metsulfuron Methyl @ 0.03 + 0.002 Kg a.i./ha (40 g/ha) at 35 DAS were the most remunerative and effective herbicides for contro lling the weed flora and getting higher yield and economic returns in wheat."
+      }
+     ]
+    },
+    {
+     "key": "protection",
+     "items": [
+      {
+       "id": "wheat-protection-1",
+       "labels": {
+        "en": "Leaf blight: spray kresoxim-methyl when the disease appears and again after 10 days. Stem rust: spray tebuconazole + trifloxystrobin when it appears and again 15 days later. (follow expert advice)",
+        "mr": "पानांवरील करपा: रोग दिसताच क्रेसॉक्झिम-मिथाइलची फवारणी व १० दिवसांनी दुसरी. खोडावरील (काळा) तांबेरा: रोग दिसताच टेब्युकोनॅझोल + ट्रायफ्लॉक्सिस्ट्रोबिनची फवारणी व १५ दिवसांनी दुसरी. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "पत्ती झुलसा: रोग दिखते ही क्रेसोक्सिम-मिथाइल का छिड़काव और 10 दिन बाद दूसरा। तना (काला) रतुआ: रोग दिखते ही टेबुकोनाज़ोल + ट्राइफ्लॉक्सीस्ट्रोबिन का छिड़काव और 15 दिन बाद दूसरा। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "MPKV-R23, Plant pathology no. 45; MPKV-R24, Plant pathology no. 47",
+       "source_keys": [
+        "MPKV-R23",
+        "MPKV-R24"
+       ],
+       "quote": "Spraying of fungicide Kresoxim methyl 44.3% SC @ 1 ml per litre water on appearance of disease and second spray after 10 days is recommended for effective management of leaf blight disease, obtaining higher yield and monetary returns in wheat crop. … Spraying of combi -fungicide tebuconazole 50% + trifloxystrobin 25% WG @ 6g per 10 L water on appearance of disease followed by second spray 15 days thereafter is recommended for effective management of stem rust disease"
+      },
+      {
+       "id": "wheat-protection-2",
+       "labels": {
+        "en": "Rust-resistant varieties: Phule Samadhan (highly resistant to rust), NIAW 4028, Netravati and AKAW-5100 (resistant to black and brown rust).",
+        "mr": "तांबेरा प्रतिकारक वाण: फुले समाधान (तांबेऱ्यास अतिशय प्रतिकारक), NIAW 4028, नेत्रावती व AKAW-5100 (काळ्या व तपकिरी तांबेऱ्यास प्रतिकारक).",
+        "hi": "रतुआ प्रतिरोधी किस्में: फुले समाधान (रतुआ के प्रति अत्यधिक प्रतिरोधी), NIAW 4028, नेत्रावती और AKAW-5100 (काले और भूरे रतुआ प्रतिरोधी)।"
+       },
+       "source": "MPKV-WHT, Phule Samadhan, Netravati, NIAW 4028; PDKV-R25, varieties no. 9",
+       "source_keys": [
+        "MPKV-WHT",
+        "PDKV-R25"
+       ],
+       "quote": "Phule Samadhan [NIAW-1994] … Highly Resistant to rust … Netravati [NIAW-1415] … Resistant to black and brown rust … Wheat- NIAW 4028 … Resistance to brown rust and black rust … Wheat AKAW-5100 … Resistant to black and brown rust."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "crop": "maize",
+   "labels": {
+    "en": "Maize",
+    "mr": "मका",
+    "hi": "मक्का"
+   },
+   "names": {
+    "en": [
+     "maize",
+     "corn"
+    ],
+    "mr": [
+     "मका",
+     "मक्या"
+    ],
+    "hi": [
+     "मक्का",
+     "मक्के",
+     "मक्की"
+    ]
+   },
+   "not_names": [
+    "मकान"
+   ],
+   "ai_written": true,
+   "sections": [
+    {
+     "key": "sowing",
+     "items": [
+      {
+       "id": "maize-sowing-1",
+       "labels": {
+        "en": "Sowing time (MPKV varieties): kharif 15 June to 15 July, rabi 15 October to 15 November.",
+        "mr": "पेरणीची वेळ (फुले कृषी विद्यापीठाचे वाण): खरीप १५ जून ते १५ जुलै, रब्बी १५ ऑक्टोबर ते १५ नोव्हेंबर.",
+        "hi": "बुवाई का समय (एमपीकेवी किस्में): खरीफ 15 जून से 15 जुलाई, रबी 15 अक्टूबर से 15 नवंबर।"
+       },
+       "source": "MPKV-MZE, sowing time",
+       "source_keys": [
+        "MPKV-MZE"
+       ],
+       "quote": "Sowing Time / Planting period Kharif – 15th June to 15th July Rabi – 15th October to 15th November"
+      },
+      {
+       "id": "maize-sowing-2",
+       "labels": {
+        "en": "Intercrops: maize + tur in 6:1 rows (Dr. PDKV); maize + green gram (1:1) followed by groundnut (MPKV, irrigated farming system).",
+        "mr": "आंतरपिके: मका + तूर ६:१ ओळी (डॉ. पंदेकृवि); मका + मूग (१:१) व नंतर भुईमूग (फुले कृषी विद्यापीठ, बागायती शेती पद्धती).",
+        "hi": "अंतरफसलें: मक्का + अरहर 6:1 पंक्तियाँ (डॉ. पीडीकेवी); मक्का + मूंग (1:1) और उसके बाद मूंगफली (एमपीकेवी, सिंचित खेती प्रणाली)।"
+       },
+       "source": "PDKV-R25, Agronomy no. 5; MPKV-R24, Agronomy no. 8",
+       "source_keys": [
+        "PDKV-R25",
+        "MPKV-R24"
+       ],
+       "quote": "For higher yield and monetary returns from Maize + Pigeonpea intercropping system, sowing of maize and pigeonpea in 6:1 intercropping system … Maize + Green gram (1:1) - Groundnut for household nutritional security"
+      }
+     ]
+    },
+    {
+     "key": "varieties",
+     "items": [
+      {
+       "id": "maize-varieties-1",
+       "labels": {
+        "en": "MPKV hybrids for medium to heavy soils: Rajarshi (95-100 days, kharif and rabi), Phule Maharshi (QMH-1025, 95-100 days, kharif and rabi), Phule Umed (QMH 1701, 2023, kharif, 95-100 days) and Phule Champion (QMH-1819, 2023, kharif, 90-95 days); the last two resist leaf blights, rust and stem borer and are moderately resistant to fall armyworm.",
+        "mr": "मध्यम ते भारी जमिनीसाठी फुले कृषी विद्यापीठाचे संकरित वाण: राजर्षी (९५-१०० दिवस, खरीप व रब्बी), फुले महर्षी (QMH-1025, ९५-१०० दिवस, खरीप व रब्बी), फुले उमेद (QMH 1701, २०२३, खरीप, ९५-१०० दिवस) व फुले चॅम्पियन (QMH-1819, २०२३, खरीप, ९०-९५ दिवस); शेवटचे दोन पानांवरील करपा, तांबेरा व खोडकिड्यास प्रतिकारक आणि लष्करी अळीस मध्यम प्रतिकारक.",
+        "hi": "मध्यम से भारी मिट्टी के लिए एमपीकेवी के संकर: राजर्षि (95-100 दिन, खरीफ और रबी), फुले महर्षि (QMH-1025, 95-100 दिन, खरीफ और रबी), फुले उमेद (QMH 1701, 2023, खरीफ, 95-100 दिन) और फुले चैंपियन (QMH-1819, 2023, खरीफ, 90-95 दिन); अंतिम दो पत्ती झुलसा, रतुआ और तना छेदक प्रतिरोधी तथा फॉल आर्मीवर्म के प्रति मध्यम प्रतिरोधी।"
+       },
+       "source": "MPKV-MZE, Rajarshi, Phule Maharshi, Phule Umed, Phule Champion",
+       "source_keys": [
+        "MPKV-MZE"
+       ],
+       "quote": "Rajarshi (Hybrid) … Soil type Medium to Heavy … Crop duration 95 to 100 days … A. Suitable for Kharif & Rabi season. … Phule Maharshi (QMH-1025) (Hybrid) … Crop duration 95 to 100 days … A. Suitable for Kharif & Rabi season. … Maize hybrid Phule Umed (QMH 1701) Release year 2023 … Kharif – 15th June to 15th July … Crop duration 95-100 days … Resistant to Turcicum leaf blight (TLB), Maydis leaf blight (MLB), Curvularia leaf spot (CLS) and Rust. Resistant to stem borer and moderately resistant to FAW … Maize Hybrid Phule Champion (QMH-1819) Release year 2023 … Crop duration 90-95 days … Resistant to Turcicum leaf blight (TLB), Maydis Leaf blight (MLB), Curvularia leaf spot (CLS) and Rust. Resistant to stem borer and moderately resistant to FAW"
+      },
+      {
+       "id": "maize-varieties-2",
+       "labels": {
+        "en": "Composites (MPKV): Karveer (95-100 days, does not lodge), Panchganga (85-95 days, early), Manjri (100-110 days, grain and fodder). Sweet corn hybrid Phule Madhu: green cobs in 80-85 days.",
+        "mr": "संमिश्र वाण (फुले कृषी विद्यापीठ): करवीर (९५-१०० दिवस, लोळत नाही), पंचगंगा (८५-९५ दिवस, लवकर), मांजरी (१००-११० दिवस, धान्य व चारा). मधुमका संकरित फुले मधू: ८०-८५ दिवसांत हिरवी कणसे.",
+        "hi": "संकुल किस्में (एमपीकेवी): करवीर (95-100 दिन, गिरती नहीं), पंचगंगा (85-95 दिन, जल्दी), मांजरी (100-110 दिन, दाना और चारा)। स्वीट कॉर्न संकर फुले मधु: 80-85 दिन में हरे भुट्टे।"
+       },
+       "source": "MPKV-MZE, Karveer, Panchganga, Manjri, Phule Madhu",
+       "source_keys": [
+        "MPKV-MZE"
+       ],
+       "quote": "Manjri (Composite) … Crop duration 100 to 110 days … A. Suitable for grain as well as fodder purpose. … Panchganga (Composite) … Crop duration 85 to 95 days … A. It is early maturing composite. … Karveer (MPQ-13) (Composite) … Crop duration 95 to 100 days … B. Non lodging. … Phule Madhu (QMHSC-1182) Sweet Corn Hybrid … Crop duration 80 to 85 days (Green cobs)"
+      },
+      {
+       "id": "maize-varieties-3",
+       "labels": {
+        "en": "Dr. PDKV hybrid PDKV Aarambha (BMH 18-2): released for kharif in Maharashtra, medium maturity (95-102 days), moderately resistant to stem borer and fall armyworm.",
+        "mr": "डॉ. पंदेकृवि संकरित PDKV आरंभ (BMH 18-2): महाराष्ट्रात खरीपसाठी प्रसारित, मध्यम कालावधी (९५-१०२ दिवस), खोडकिडा व लष्करी अळीस मध्यम प्रतिकारक.",
+        "hi": "डॉ. पीडीकेवी संकर PDKV आरंभ (BMH 18-2): महाराष्ट्र में खरीफ के लिए जारी, मध्यम अवधि (95-102 दिन), तना छेदक और फॉल आर्मीवर्म के प्रति मध्यम प्रतिरोधी।"
+       },
+       "source": "PDKV-R25, varieties no. 10",
+       "source_keys": [
+        "PDKV-R25"
+       ],
+       "quote": "Maize Hybrid PDKV Aarambha (BMH 18-2) … Released in Maharashtra, Karnataka, Andhra Pradesh, Tamil Nadu & Telangana States for Kharif season. Medium maturity (95-102 days). Moderate resistant to stem borer and American army worm."
+      }
+     ]
+    },
+    {
+     "key": "seed",
+     "items": [
+      {
+       "id": "maize-seed-1",
+       "labels": {
+        "en": "Seed rate (MPKV): composites 6 to 8 kg per acre; hybrids Rajarshi, Phule Maharshi and sweet corn Phule Madhu 5 to 6 kg per acre.",
+        "mr": "बियाणे (फुले कृषी विद्यापीठ): संमिश्र वाण एकरी ६ ते ८ किलो; संकरित राजर्षी, फुले महर्षी व मधुमका फुले मधू एकरी ५ ते ६ किलो.",
+        "hi": "बीज दर (एमपीकेवी): संकुल किस्में 6 से 8 किलो प्रति एकड़; संकर राजर्षि, फुले महर्षि और स्वीट कॉर्न फुले मधु 5 से 6 किलो प्रति एकड़।"
+       },
+       "source": "MPKV-MZE, seed rate",
+       "source_keys": [
+        "MPKV-MZE"
+       ],
+       "quote": "Karveer (MPQ-13) (Composite) … Seed Rate (Per acre) 06 to 08 kg … Rajarshi (Hybrid) … Seed Rate (Per acre) 05 to 06 kg … Phule Maharshi (QMH-1025) (Hybrid) … Seed Rate (Per acre) 05 to 06 kg … Phule Madhu (QMHSC-1182) … Seed Rate (Per acre) 05 to 06 kg"
+      }
+     ]
+    },
+    {
+     "key": "nutrition",
+     "items": [
+      {
+       "id": "maize-nutrition-1",
+       "labels": {
+        "en": "Zinc-deficient shallow soils (sub-montane zone): zinc sulphate incubated with FYM for a week and applied before sowing, with nutrients as per soil test and FYM. (follow expert advice)",
+        "mr": "जस्ताची कमतरता असलेल्या हलक्या जमिनी (उप-पर्वतीय विभाग): शेणखतात एक आठवडा मुरवलेले झिंक सल्फेट पेरणीपूर्वी, सोबत माती परीक्षणानुसार अन्नद्रव्ये व शेणखत. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "जिंक की कमी वाली उथली मिट्टी (उप-पर्वतीय क्षेत्र): गोबर खाद में एक सप्ताह रखा जिंक सल्फेट बुवाई से पहले, साथ में मिट्टी परीक्षण अनुसार पोषक तत्व और गोबर खाद। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "MPKV-MZE-REC, 2017-18 no. 1",
+       "source_keys": [
+        "MPKV-MZE-REC"
+       ],
+       "quote": "The application of Zinc Sulphate @25 kg ha-1 (incubated with 500 kg FYM for one week and applied before sowing) along with recommended nutrients dose based on soil test values + FYM@ 10 t ha -1 is recommen ded for higher grain yield and economic returns of maize on zinc deficient shallow soils of Sub"
+      },
+      {
+       "id": "maize-nutrition-2",
+       "labels": {
+        "en": "Sub-montane zone: nitrogen, phosphorus and potash to the soil with FYM, then two urea sprays at 30 and 60 days after sowing. In a soybean-maize sequence, zinc sulphate and ferrous sulphate with the recommended fertiliser to maize. (follow expert advice)",
+        "mr": "उप-पर्वतीय विभाग: शेणखतासोबत नत्र, स्फुरद व पालाश जमिनीतून, नंतर पेरणीनंतर ३० व ६० दिवसांनी युरियाच्या दोन फवारण्या. सोयाबीन-मका पीक पद्धतीत मक्याला शिफारशीत खतासोबत झिंक सल्फेट व फेरस सल्फेट. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "उप-पर्वतीय क्षेत्र: गोबर खाद के साथ नाइट्रोजन, फॉस्फोरस और पोटाश मिट्टी में, फिर बुवाई के 30 और 60 दिन बाद यूरिया के दो छिड़काव। सोयाबीन-मक्का फसल क्रम में मक्का को अनुशंसित उर्वरक के साथ जिंक सल्फेट और फेरस सल्फेट। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "MPKV-R25, Soil science no. 12; PDKV-R20, Agronomy no. 2",
+       "source_keys": [
+        "MPKV-R25",
+        "PDKV-R20"
+       ],
+       "quote": "Soil application of 75% recommended dose of Nitrogen (90 kg ha -1), recommended dose of Phosphorus (60 kg ha -1) and potassium (40 kg ha -1) + 10 t ha -1 FYM followed by two foliar applications of 2% urea (20g L -1) at 30 and 60 days after sowing is recommended for higher grain yield and economic returns of maize for Sub -montane Zone of Maharashtra. … supplementation of ZnSO4 (@ 20 kg ha-1) and FeSO4 (@ 30 kg ha-1) along with RDF (120:60:30 N:P:K kg/ha) to maize."
+      }
+     ]
+    },
+    {
+     "key": "water",
+     "items": [
+      {
+       "id": "maize-water-1",
+       "labels": {
+        "en": "Kharif maize on medium deep soils: drip fertigation with water-soluble fertilisers in 12 weekly splits gives more yield and saves water and nutrients. (follow expert advice)",
+        "mr": "मध्यम खोल जमिनीतील खरीप मका: ठिबकद्वारे पाण्यात विरघळणारी खते १२ साप्ताहिक हप्त्यांत दिल्याने उत्पादन वाढते व पाणी आणि अन्नद्रव्यांची बचत होते. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "मध्यम गहरी मिट्टी में खरीफ मक्का: ड्रिप से पानी में घुलनशील उर्वरक 12 साप्ताहिक भागों में देने से उपज बढ़ती है और पानी व पोषक तत्वों की बचत होती है। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "MPKV-MZE-REC, 2014-15 no. 5",
+       "source_keys": [
+        "MPKV-MZE-REC"
+       ],
+       "quote": "Drip fertigation with 80 % recommended dose ( 96 : 48: 32 NPK kg / ha) of water soluble fertilizers in 12 weekly splits as per following schedule is recommended for higher yield and net returns, efficient water and nutrient use for kharif maize in medium deep soils of Maharashtra."
+      }
+     ]
+    },
+    {
+     "key": "intercultivation",
+     "items": [
+      {
+       "id": "maize-intercultivation-1",
+       "labels": {
+        "en": "Weeds (Dr. PDKV): atrazine as a pre-emergence spray, followed by tembotrione as a post-emergence spray 20 days after sowing. (follow expert advice)",
+        "mr": "तण (डॉ. पंदेकृवि): उगवणपूर्व ॲट्राझिनची फवारणी, त्यानंतर पेरणीनंतर २० दिवसांनी उगवणीनंतरची टेम्बोट्रायॉनची फवारणी. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "खरपतवार (डॉ. पीडीकेवी): अंकुरण-पूर्व एट्राज़ीन का छिड़काव, उसके बाद बुवाई के 20 दिन बाद उगने के बाद टेम्बोट्रायोन का छिड़काव। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "PDKV-R19, Agronomy no. 7",
+       "source_keys": [
+        "PDKV-R19"
+       ],
+       "quote": "It is recommended that the pre emergence application of atrazine (0.50 kg a.i./ha) @ 1 kg/ha followed by post emergence application of tembotrione (0.120 Kg a.i./ha) @ 285 g/ha at 20DAS are the most remunerative and effective herbicides for controlling weed flora and getting higher yield and economic returns in Maize."
+      }
+     ]
+    },
+    {
+     "key": "protection",
+     "items": [
+      {
+       "id": "maize-protection-1",
+       "labels": {
+        "en": "Turcicum leaf blight: two sprays of azoxystrobin + cyproconazole or azoxystrobin + difenoconazole, the first when the disease appears and the second 15 days later. (follow expert advice)",
+        "mr": "टर्सिकम पानांवरील करपा: ॲझोक्सिस्ट्रोबिन + सायप्रोकोनॅझोल किंवा ॲझोक्सिस्ट्रोबिन + डायफेनोकोनॅझोल यांच्या दोन फवारण्या, पहिली रोग दिसताच व दुसरी १५ दिवसांनी. (तज्ज्ञांच्या सल्ल्याने करावे)",
+        "hi": "टर्सिकम पत्ती झुलसा: एज़ोक्सीस्ट्रोबिन + साइप्रोकोनाज़ोल या एज़ोक्सीस्ट्रोबिन + डाइफेनोकोनाज़ोल के दो छिड़काव, पहला रोग दिखते ही और दूसरा 15 दिन बाद। (विशेषज्ञ की सलाह से करें)"
+       },
+       "input": true,
+       "source": "MPKV-R24, Plant pathology no. 48",
+       "source_keys": [
+        "MPKV-R24"
+       ],
+       "quote": "Two sprays of combi -fungicide azoxystrobin 18.2% w/w + cyproconazole 7.3% w/w SC @ 10ml per 10L water or azoxystrobin 18.2% w/w + difenoconozole 11.4% w/w SC@ 10ml per 10L water first on appearance of disease and second after 15 days are recommended for effective management of Turcicum leaf blight disease, higher yield and monetary returns in maize."
+      },
+      {
+       "id": "maize-protection-2",
+       "labels": {
+        "en": "Fall armyworm: relying on chemical sprays alone is not enough; MPKV advises integrated management, cultural, physical and biological methods together with chemical control, learnt through farmer field schools with the KVKs.",
+        "mr": "लष्करी अळी: फक्त रासायनिक फवारण्यांवर अवलंबून राहणे पुरेसे नाही; फुले कृषी विद्यापीठ एकात्मिक व्यवस्थापनाची, म्हणजे रासायनिक उपायांसोबत मशागतीय, भौतिक व जैविक उपायांची शिफारस करते, जे कृषी विज्ञान केंद्रांच्या शेतकरी शेती शाळांतून शिकावे.",
+        "hi": "फॉल आर्मीवर्म: केवल रासायनिक छिड़काव पर निर्भर रहना पर्याप्त नहीं; एमपीकेवी एकीकृत प्रबंधन, यानी रासायनिक के साथ सस्य, भौतिक और जैविक उपायों की सलाह देता है, जो कृषि विज्ञान केंद्रों के किसान खेत पाठशालाओं में सीखें।"
+       },
+       "source": "MPKV-R22, Agril. extension no. 47",
+       "source_keys": [
+        "MPKV-R22"
+       ],
+       "quote": "They mostly rely only on chemical control of FAW and had low adoption of cultural, physical, biolo gical methods. But for sustainable management of FAW in maize cultivation it is necessary to adopt the chemical methods along with cultural, physical and biological control methods. Therefore it is strongly recommended that, State Agricultural Department with the help of KVKs should promote and start Farmers Field School (FFS)"
       }
      ]
     }

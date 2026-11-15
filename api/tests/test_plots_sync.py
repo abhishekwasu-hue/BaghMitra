@@ -92,7 +92,8 @@ async def test_other_crop_slugs_and_a_typed_crop_name_are_accepted(
     slugs = [
         "pomegranate", "banana", "grapes", "mango", "guava", "lemon", "papaya",
         "custard_apple", "sapota", "ber", "aonla", "other_fruit", "cotton", "soybean", "tur",
-        "gram", "moong", "urad", "mustard", "linseed", "vegetables", "flowers", "other",
+        "gram", "moong", "urad", "mustard", "linseed", "bajra", "jowar", "wheat", "maize",
+        "vegetables", "flowers", "other",
     ]  # fmt: skip
     mutations = [
         plot_mutation(uuid.uuid4(), crop=slug, variety="वांगी" if slug == "vegetables" else None)

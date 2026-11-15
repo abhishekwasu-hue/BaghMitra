@@ -55,7 +55,7 @@ Future<void> _seedSantra(AppDatabase db) => PlotRepository(db)
 
 void main() {
   group('data', () {
-    test('the owner\'s eight crops, each a crops.json field crop', () {
+    test('the owner\'s twelve crops, each a crops.json field crop', () {
       expect(_data.guides.map((g) => g.crop), [
         'cotton',
         'soybean',
@@ -65,6 +65,11 @@ void main() {
         'urad',
         'mustard',
         'linseed',
+        // Cereals (owner 2026-11-15).
+        'bajra',
+        'jowar',
+        'wheat',
+        'maize',
       ]);
       final catalog = jsonDecode(
         File('assets/config/crops.json').readAsStringSync(),
@@ -155,6 +160,25 @@ void main() {
       expect(mentionsCrop('सरसों की बुवाई', guide('mustard')), isTrue);
       expect(mentionsCrop('Green gram prices rise', guide('moong')), isTrue);
       expect(mentionsCrop('Soybean MSP', guide('soybean')), isTrue);
+      // Cereals (owner 2026-11-15): the Marathi stems carry the case endings.
+      expect(mentionsCrop('बाजरीचे भाव', guide('bajra')), isTrue);
+      expect(mentionsCrop('ज्वारीच्या पेरणीला', guide('jowar')), isTrue);
+      expect(mentionsCrop('रब्बी ज्वारी', guide('jowar')), isTrue);
+      expect(mentionsCrop('गव्हाचे वाण', guide('wheat')), isTrue);
+      expect(mentionsCrop('गहू पेरणी', guide('wheat')), isTrue);
+      expect(
+        mentionsCrop('मक्याच्या पिकावर लष्करी अळी', guide('maize')),
+        isTrue,
+      );
+      expect(mentionsCrop('मका खरेदी केंद्र', guide('maize')), isTrue);
+      expect(mentionsCrop('गेहूँ की बुवाई', guide('wheat')), isTrue);
+      expect(mentionsCrop('गेहूं का एमएसपी', guide('wheat')), isTrue);
+      expect(mentionsCrop('मक्के की फसल', guide('maize')), isTrue);
+      expect(mentionsCrop('बाजरे का भाव', guide('bajra')), isTrue);
+      expect(mentionsCrop('Pearl millet and sorghum', guide('bajra')), isTrue);
+      expect(mentionsCrop('Pearl millet and sorghum', guide('jowar')), isTrue);
+      expect(mentionsCrop('Wheat procurement', guide('wheat')), isTrue);
+      expect(mentionsCrop('Maize prices', guide('maize')), isTrue);
     });
 
     test('a name inside another word does not match', () {
@@ -162,6 +186,11 @@ void main() {
       expect(mentionsCrop('A new program for farmers', guide('gram')), isFalse);
       expect(mentionsCrop('Saturday market', guide('tur')), isFalse);
       expect(mentionsCrop('संत्रा बागेत पाणी', guide('cotton')), isFalse);
+      // मकान (a house) starts like मका but is not maize; बाजार is not बाजरी.
+      expect(mentionsCrop('पक्के मकान के लिए सहायता', guide('maize')), isFalse);
+      expect(mentionsCrop('बाजार समितीत आवक', guide('bajra')), isFalse);
+      expect(mentionsCrop('Popcorn and buckwheat', guide('maize')), isFalse);
+      expect(mentionsCrop('Popcorn and buckwheat', guide('wheat')), isFalse);
     });
 
     test('mentionedIn keeps guide order', () {
