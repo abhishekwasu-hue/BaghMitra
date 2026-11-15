@@ -9375,6 +9375,18 @@ abstract class AppLocalizations {
   /// **'See practices and details'**
   String get askOpenCard;
 
+  /// Question box: the question names a crop the stored questions and answers are not for (they are for santra and mosambi); the owner's calm line (2026-11-15).
+  ///
+  /// In en, this message translates to:
+  /// **'{crop}: questions and answers for this crop are not in the app yet.'**
+  String askCropNoQa(String crop);
+
+  /// Green button under askCropNoQa when that crop has a crop guide: opens it.
+  ///
+  /// In en, this message translates to:
+  /// **'{crop}: see the crop guide'**
+  String askCropGuide(String crop);
+
   /// Heading of the emoji reaction bar below a feed article or item (Q146).
   ///
   /// In en, this message translates to:

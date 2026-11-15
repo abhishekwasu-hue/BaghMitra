@@ -83,6 +83,67 @@ void main() {
     });
   });
 
+  test('the long-ā key keeps "बाजरी" and "बाजार" apart', () {
+    expect(qaSkeleton('बाजरी'), qaSkeleton('बाजार'));
+    expect(qaLongASkeleton('बाजरी'), 'bAjr');
+    expect(qaLongASkeleton('बाजार'), 'bAjAr');
+    expect(qaLongASkeleton('संत्री'), 'sntr');
+    expect(qaLongASkeleton('संत्रा'), 'sntrA');
+    expect(qaLongASkeleton('मोसंबी'), qaLongASkeleton('मोसम्बी'));
+  });
+
+  group(
+    'a different word with the same sound key is no match (2026-11-15)',
+    () {
+      late QaKb kb;
+      setUpAll(
+        () async => kb = await QaKbConfig(bundle: FileAssetBundle()).load(),
+      );
+
+      test('"बाजरी" (pearl millet) finds no market answer', () {
+        // Before: "बाजरी" found every "बाजार" entry at 0.8 (same sound key "bjr") and the
+        // owner's question was answered with the santra packing entry (0.46).
+        expect(kb.search('बाजरी'), isEmpty);
+        final hits = kb.search('बाजरी लागवडी संदर्भात सांगा');
+        expect(
+          hits.where((h) => h.entry.question('mr').contains('बाजार')),
+          isEmpty,
+        );
+        expect(hits.first.score, lessThan(qaAnswerScore));
+      });
+
+      test('the market questions still find their answers', () {
+        final packing = kb.search('संत्री बाजारात पॅकिंग').first;
+        expect(packing.entry.question('mr'), contains('पॅकिंग'));
+        expect(packing.score, greaterThanOrEqualTo(qaAnswerScore));
+        for (final q in const [
+          'बाजारभाव',
+          'संत्र्याचा बाजारभाव',
+          'bajarbhav',
+        ]) {
+          final best = kb.search(q).first;
+          expect(best.entry.question('mr'), contains('बाजार'), reason: q);
+          expect(best.score, greaterThanOrEqualTo(qaAnswerScore), reason: q);
+        }
+      });
+
+      test('spelling variants and case endings still match', () {
+        for (final MapEntry(key: q, value: word) in const {
+          'सिलाची लक्षणे': 'सायला',
+          'सायल्ला नियंत्रण': 'सायला',
+          'psylla': 'सायला',
+          'मोसम्बी वर कोळी': 'कोळी',
+          'संत्र्याच्या फळगळीसाठी काय करावे': 'फळगळ',
+          'कॅन्कर रोग': 'कँकर',
+        }.entries) {
+          final best = kb.search(q).first;
+          expect(best.entry.question('mr'), contains(word), reason: q);
+          expect(best.score, greaterThanOrEqualTo(qaAnswerScore), reason: q);
+        }
+      });
+    },
+  );
+
   test('the seed fixture finds the farmer\'s own words', () async {
     final kb = await QaKbConfig(
       bundle: FileAssetBundle(),

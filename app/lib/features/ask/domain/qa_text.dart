@@ -295,6 +295,32 @@ String qaSkeleton(String word) {
   return merged.toString();
 }
 
+/// Whether [word] is written in Devanagari.
+bool qaIsDevanagari(String word) =>
+    word.runes.any((r) => r >= 0x0900 && r <= 0x097F);
+
+/// App-side search only, not part of the index keys (owner 2026-11-15): the sound key of a
+/// Devanagari word with the long "ā" (ा / आ) kept as "A" ("बाजार" -> "bAjAr", "बाजरी" ->
+/// "bAjr", "संत्रा" -> "sntrA"). A Marathi case ending changes the last vowel and adds
+/// letters ("संत्री", "संत्र्या", "बाजारात"), but never drops an inner ā, so two words whose
+/// keys are not one the start of the other are different words even when their sound keys
+/// are the same.
+String qaLongASkeleton(String word) {
+  final raw = word
+      .split('')
+      .map((ch) => ch == 'ा' || ch == 'आ' ? 'A' : _devConsonants[ch] ?? '')
+      .join()
+      .replaceAll('np', 'mp')
+      .replaceAll('nb', 'mb');
+  final merged = StringBuffer();
+  String? last;
+  for (final ch in raw.split('')) {
+    if (ch != last) merged.write(ch);
+    last = ch;
+  }
+  return merged.toString();
+}
+
 /// Words of all [texts], then "~" + each word's sound key (two letters or more).
 List<String> qaIndexKeys(Iterable<String> texts) {
   final found = <String>[];
