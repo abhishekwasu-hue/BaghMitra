@@ -1,6 +1,6 @@
 # Mandi prices: Agmarknet pull and manual upload
 
-`GET /v1/market/prices?crop=santra|mosambi` serves **stored** prices only; a farmer's request
+`GET /v1/market/prices?crop=<crop>` (every crop key of `MARKET_COMMODITIES`) serves **stored** prices only; a farmer's request
 never calls Agmarknet (audit BG-04). Prices come in through the scheduled pull below and the
 manual upload. `MARKET_API_KEY` is a VPS secret (OPEN_QUESTIONS Q26), never in git. No price is
 ever invented.
@@ -53,6 +53,18 @@ one JSON line per commodity: `read`, `stored`, `skipped_existing`, `unmatched`,
 ```
 tail -n 3 /root/market_backfill_deploy.log; cat /root/market_backfill.log
 ```
+
+## Check the commodity names (Q164)
+The pull matches names exactly, so a misspelt name in `MARKET_COMMODITIES` only yields no rows.
+Read-only check (writes nothing, takes no lock):
+```
+cd /opt/bagmitra/deploy && docker compose exec -T api python -m bagmitra_api.market.list_commodities > /tmp/commodities.txt; cat /tmp/commodities.txt
+```
+It prints every commodity name in the current daily feed (India-wide, or `--state Maharashtra`;
+at most `--max-pages` pages of 500 rows, default 60, and says when the feed had more) with its
+row count, then each configured crop and name: rows in the daily feed, or, when it has none
+(a crop out of season), whether the 90-day archive has it ("NOT FOUND ... either" = fix the
+name from the list above). Exit 2 without `MARKET_API_KEY`, 1 when the feed cannot be read.
 
 ## Read rule (fallback) and `reason`
 `reason` is a stable code the app translates; the technical detail goes to the job log, never

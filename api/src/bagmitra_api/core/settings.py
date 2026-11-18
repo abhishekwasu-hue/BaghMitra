@@ -170,6 +170,20 @@ class Settings(BaseSettings):
             "papaya": ["Papaya"],
             "lemon": ["Lemon"],
             "apple": ["Apple"],
+            # Field crops (Q158 other crops, Q164): names as the Agmarknet feed prints them,
+            # to be confirmed with `python -m bagmitra_api.market.list_commodities` on the VPS.
+            "cotton": ["Cotton"],
+            "soybean": ["Soyabean"],
+            "tur": ["Arhar (Tur/Red Gram)(Whole)"],
+            "gram": ["Bengal Gram(Gram)(Whole)"],
+            "moong": ["Green Gram (Moong)(Whole)"],
+            "urad": ["Black Gram (Urd Beans)(Whole)"],
+            "mustard": ["Mustard"],
+            "linseed": ["Linseed"],
+            "bajra": ["Bajra(Pearl Millet/Cumbu)"],
+            "jowar": ["Jowar(Sorghum)"],
+            "wheat": ["Wheat"],
+            "maize": ["Maize"],
         }
     )
 
