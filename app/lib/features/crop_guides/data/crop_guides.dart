@@ -45,6 +45,7 @@ class CropGuide {
     required this.labels,
     required this.names,
     required this.sections,
+    this.notNames = const [],
     this.aiWritten = false,
   });
 
@@ -54,6 +55,10 @@ class CropGuide {
 
   /// Names and common spellings that mean this crop in a text, per language (feed button).
   final Map<String, List<String>> names;
+
+  /// Words that start with one of [names] but mean something else (मकान, a house, is not
+  /// मका, maize): a match at such a word does not count.
+  final List<String> notNames;
   final List<CropGuideSection> sections;
 
   /// The text was written by AI from the sources: the screen shows "AI ने निर्मित".
@@ -106,7 +111,8 @@ final _devanagari = RegExp(r'[ऀ-ॿ]');
 
 /// Whether [text] names [guide]'s crop. Latin names match whole words, any case. A
 /// Devanagari name matches where a word starts with it, so Marathi case endings count
-/// (कापसाचे, तुरीचे) but a name inside another word does not (चना in रचना).
+/// (कापसाचे, तुरीचे, गव्हाचे, मक्याच्या) but a name inside another word does not (चना in
+/// रचना), nor a word of the guide's [CropGuide.notNames] (मकान).
 bool mentionsCrop(String text, CropGuide guide) {
   final lower = text.toLowerCase();
   for (final name in guide.names.values.expand((n) => n)) {
@@ -116,7 +122,10 @@ bool mentionsCrop(String text, CropGuide guide) {
       while (true) {
         final at = lower.indexOf(n, from);
         if (at < 0) break;
-        if (at == 0 || !_devanagari.hasMatch(lower[at - 1])) return true;
+        if ((at == 0 || !_devanagari.hasMatch(lower[at - 1])) &&
+            !guide.notNames.any((w) => lower.startsWith(w.toLowerCase(), at))) {
+          return true;
+        }
         from = at + 1;
       }
     } else if (RegExp('(?<![a-z])${RegExp.escape(n)}(?![a-z])')
@@ -171,6 +180,7 @@ CropGuidesData parseCropGuides(String raw) {
             for (final e in (g['names'] as Map<String, dynamic>).entries)
               e.key: keys(e.value),
           },
+          notNames: keys(g['not_names']),
           aiWritten: g['ai_written'] as bool? ?? false,
           sections: [
             for (final s in list(g['sections']))

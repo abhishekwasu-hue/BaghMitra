@@ -387,103 +387,71 @@
         "javas",
         "alsi"
       ]
+    },
+    "bajra": {
+      "mr": [
+        "बाजरी",
+        "बाजऱ्या"
+      ],
+      "hi": [
+        "बाजरा",
+        "बाजरे"
+      ],
+      "en": [
+        "bajra",
+        "bajri",
+        "pearl millet"
+      ]
+    },
+    "jowar": {
+      "mr": [
+        "ज्वारी",
+        "ज्वार"
+      ],
+      "hi": [
+        "ज्वार"
+      ],
+      "en": [
+        "jowar",
+        "jowari",
+        "jwari",
+        "sorghum"
+      ]
+    },
+    "wheat": {
+      "mr": [
+        "गहू",
+        "गव्हा"
+      ],
+      "hi": [
+        "गेहूं",
+        "गेहूँ"
+      ],
+      "en": [
+        "wheat",
+        "gahu",
+        "gehu",
+        "gehun"
+      ]
+    },
+    "maize": {
+      "mr": [
+        "मका",
+        "मक्या"
+      ],
+      "hi": [
+        "मक्का",
+        "मक्के"
+      ],
+      "en": [
+        "maize",
+        "corn",
+        "maka",
+        "makka"
+      ]
     }
   },
   "other_crops": [
-    {
-      "slug": "bajra",
-      "labels": {
-        "mr": "बाजरी",
-        "hi": "बाजरा",
-        "en": "Pearl millet (bajra)"
-      },
-      "names": {
-        "mr": [
-          "बाजरी",
-          "बाजऱ्या"
-        ],
-        "hi": [
-          "बाजरा",
-          "बाजरे"
-        ],
-        "en": [
-          "bajra",
-          "bajri",
-          "pearl millet"
-        ]
-      }
-    },
-    {
-      "slug": "jowar",
-      "labels": {
-        "mr": "ज्वारी",
-        "hi": "ज्वार",
-        "en": "Sorghum (jowar)"
-      },
-      "names": {
-        "mr": [
-          "ज्वारी",
-          "ज्वार"
-        ],
-        "hi": [
-          "ज्वार"
-        ],
-        "en": [
-          "jowar",
-          "jowari",
-          "jwari",
-          "sorghum"
-        ]
-      }
-    },
-    {
-      "slug": "wheat",
-      "labels": {
-        "mr": "गहू",
-        "hi": "गेहूं",
-        "en": "Wheat"
-      },
-      "names": {
-        "mr": [
-          "गहू",
-          "गव्हा"
-        ],
-        "hi": [
-          "गेहूं",
-          "गेहूँ"
-        ],
-        "en": [
-          "wheat",
-          "gahu",
-          "gehu",
-          "gehun"
-        ]
-      }
-    },
-    {
-      "slug": "maize",
-      "labels": {
-        "mr": "मका",
-        "hi": "मक्का",
-        "en": "Maize"
-      },
-      "names": {
-        "mr": [
-          "मका",
-          "मक्या"
-        ],
-        "hi": [
-          "मक्का",
-          "मक्के"
-        ],
-        "en": [
-          "maize",
-          "corn",
-          "maka",
-          "makka"
-        ]
-      }
-    },
     {
       "slug": "rice",
       "labels": {

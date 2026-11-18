@@ -69,6 +69,26 @@ void main() {
     expect(bajra.label('hi'), 'बाजरा');
   });
 
+  test('a crop in the crop list is not also an other_crops entry', () async {
+    final config = await AskCropsConfig(bundle: FileAssetBundle()).load();
+    final catalog = await CropCatalog(bundle: FileAssetBundle()).loadAll();
+    final slugs = {for (final c in catalog.crops) c.slug};
+    final twice = [
+      for (final o
+          in (config['other_crops'] as List).cast<Map<String, dynamic>>())
+        if (slugs.contains(o['slug'])) o['slug'],
+    ];
+    expect(twice, isEmpty);
+  });
+
+  test('the cereals in the crop list keep their inflected names (Q163)', () {
+    expect(other('बाजऱ्याची पेरणी'), ['bajra']);
+    expect(other('गव्हाची पेरणी'), ['wheat']);
+    expect(other('मक्याची लष्करी अळी'), ['maize']);
+    expect(other('jwari perni'), ['jowar']);
+    expect(other('मकान बांधकाम'), isEmpty);
+  });
+
   test('no stored question or paraphrase is taken for another crop', () {
     final json = jsonDecode(
       utf8.decode(

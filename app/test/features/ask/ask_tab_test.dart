@@ -115,9 +115,10 @@ void main() {
   ) async {
     await pumpApp(tester, initialLocation: '/ask');
     await settle(tester);
-    await ask(tester, 'बाजरी लागवडी संदर्भात सांगा');
+    // Sugarcane has no guide (bajra got one, Q163).
+    await ask(tester, 'उसाची लागवड कशी करावी');
     expect(
-      find.text('बाजरी: या पिकाची प्रश्नोत्तरे अजून ॲपमध्ये नाहीत.'),
+      find.text('ऊस: या पिकाची प्रश्नोत्तरे अजून ॲपमध्ये नाहीत.'),
       findsOneWidget,
     );
     expect(find.byKey(const Key('ask-closer')), findsNothing);
@@ -153,6 +154,33 @@ void main() {
     await tester.tap(button);
     await settle(tester);
     expect(find.byKey(const Key('crop-guide')), findsOneWidget);
+    await unmountApp(tester);
+  });
+
+  testWidgets('the cereals with a guide get its button (Q163)', (tester) async {
+    await pumpApp(tester, initialLocation: '/ask');
+    await settle(tester);
+    for (final (question, slug, label) in [
+      ('बाजरी लागवडी संदर्भात सांगा', 'bajra', 'बाजरी'),
+      ('ज्वारी पेरणी', 'jowar', 'ज्वारी'),
+      ('गव्हाची पेरणी', 'wheat', 'गहू'),
+      ('मक्याची लष्करी अळी', 'maize', 'मका'),
+    ]) {
+      await ask(tester, question);
+      expect(
+        find.text('$label: या पिकाची प्रश्नोत्तरे अजून ॲपमध्ये नाहीत.'),
+        findsOneWidget,
+        reason: question,
+      );
+      expect(
+        find.descendant(
+          of: find.byKey(Key('ask-crop-guide-$slug')),
+          matching: find.text('$label: पीक मार्गदर्शक पहा'),
+        ),
+        findsOneWidget,
+        reason: question,
+      );
+    }
     await unmountApp(tester);
   });
 

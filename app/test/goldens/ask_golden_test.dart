@@ -24,7 +24,7 @@ void main() {
     'ask_other_crop_mr_light_360_x13': ('कापूस लागवड', ThemeMode.light),
     'ask_other_crop_mr_dark_360_x13': ('कापूस लागवड', ThemeMode.dark),
     'ask_other_crop_no_guide_mr_light_360_x13': (
-      'बाजरी लागवडी संदर्भात सांगा',
+      'उसाची लागवड कशी करावी',
       ThemeMode.light,
     ),
   };
