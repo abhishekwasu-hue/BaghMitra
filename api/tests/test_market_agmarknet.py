@@ -193,4 +193,17 @@ def test_settings_price_the_owners_fruit_list() -> None:
         "papaya",
         "lemon",
         "apple",
+        # Field crops (Q164): the crop list's field crops.
+        "cotton",
+        "soybean",
+        "tur",
+        "gram",
+        "moong",
+        "urad",
+        "mustard",
+        "linseed",
+        "bajra",
+        "jowar",
+        "wheat",
+        "maize",
     }
