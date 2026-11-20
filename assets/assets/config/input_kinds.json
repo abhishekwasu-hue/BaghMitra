@@ -1,0 +1,15 @@
+{
+  "_note": "Kinds of farm inputs and the units a grower can pick. Config, not code: add or rename without a release. An input's cost is counted under its kind in the bahar summary, so there is no matching expense category.",
+  "kinds": [
+    {"slug": "fertiliser", "labels": {"en": "Fertiliser", "mr": "खत", "hi": "खाद"}},
+    {"slug": "manure", "labels": {"en": "Manure / FYM", "mr": "शेणखत", "hi": "गोबर खाद"}},
+    {"slug": "micronutrient", "labels": {"en": "Micronutrient", "mr": "सूक्ष्म अन्नद्रव्य", "hi": "सूक्ष्म पोषक तत्व"}},
+    {"slug": "other", "labels": {"en": "Other input", "mr": "इतर निविष्ठा", "hi": "अन्य सामग्री"}}
+  ],
+  "units": [
+    {"slug": "kg", "labels": {"en": "kg", "mr": "किलो", "hi": "किलो"}},
+    {"slug": "bag", "labels": {"en": "bag", "mr": "गोणी", "hi": "बोरी"}},
+    {"slug": "litre", "labels": {"en": "litre", "mr": "लिटर", "hi": "लीटर"}},
+    {"slug": "trolley", "labels": {"en": "trolley", "mr": "ट्रॉली", "hi": "ट्रॉली"}}
+  ]
+}

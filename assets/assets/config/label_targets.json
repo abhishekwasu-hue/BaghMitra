@@ -1,0 +1,359 @@
+{
+  "_note": "Display keys for CIB&RC label targets (WP4, owner Q57). 'match': lower-case words looked for in the target as printed on the label, to group rows under one key and show the name in Marathi / Hindi. The printed target is always shown on every row as well, and a printed target that matches no key is shown under its own printed name: nothing is hidden. 'practice_sections' and 'scouting_items' link practice cards, scouting records and look-alike cards to these keys (WP2 practice links use the same keys).",
+  "targets": [
+    {
+      "key": "psylla",
+      "labels": {
+        "en": "Citrus psylla",
+        "mr": "सायला",
+        "hi": "सिट्रस सिल्ला"
+      },
+      "match": [
+        "psylla",
+        "psyllid"
+      ]
+    },
+    {
+      "key": "leaf_miner",
+      "labels": {
+        "en": "Leaf miner",
+        "mr": "पाने पोखरणारी अळी",
+        "hi": "पत्ती सुरंगक (लीफ माइनर)"
+      },
+      "match": [
+        "leaf miner",
+        "leafminer"
+      ]
+    },
+    {
+      "key": "thrips",
+      "labels": {
+        "en": "Thrips",
+        "mr": "फुलकिडे",
+        "hi": "थ्रिप्स"
+      },
+      "match": [
+        "thrips"
+      ]
+    },
+    {
+      "key": "mites",
+      "labels": {
+        "en": "Mites",
+        "mr": "कोळी",
+        "hi": "माइट्स"
+      },
+      "match": [
+        "mite"
+      ]
+    },
+    {
+      "key": "aphids",
+      "labels": {
+        "en": "Aphids",
+        "mr": "मावा",
+        "hi": "माहू (एफिड)"
+      },
+      "match": [
+        "aphid"
+      ]
+    },
+    {
+      "key": "black_fly",
+      "labels": {
+        "en": "Citrus black fly",
+        "mr": "काळी माशी",
+        "hi": "सिट्रस काली मक्खी"
+      },
+      "match": [
+        "black fly",
+        "blackfly"
+      ]
+    },
+    {
+      "key": "mealybug",
+      "labels": {
+        "en": "Mealybug",
+        "mr": "पिठ्या ढेकूण",
+        "hi": "मिलीबग"
+      },
+      "match": [
+        "mealy bug",
+        "mealybug"
+      ]
+    },
+    {
+      "key": "scales",
+      "labels": {
+        "en": "Scale insects",
+        "mr": "खवले कीड",
+        "hi": "शल्क कीट"
+      },
+      "match": [
+        "scale"
+      ]
+    },
+    {
+      "key": "lemon_butterfly",
+      "labels": {
+        "en": "Lemon butterfly",
+        "mr": "लिंबू फुलपाखरू",
+        "hi": "नींबू तितली"
+      },
+      "match": [
+        "butterfly"
+      ]
+    },
+    {
+      "key": "bark_borer",
+      "labels": {
+        "en": "Bark-eating caterpillar",
+        "mr": "साल खाणारी अळी",
+        "hi": "छाल भेदक"
+      },
+      "match": [
+        "bark eating",
+        "bark borer"
+      ]
+    },
+    {
+      "key": "fruit_fly",
+      "labels": {
+        "en": "Fruit fly",
+        "mr": "फळमाशी",
+        "hi": "फल मक्खी"
+      },
+      "match": [
+        "fruit fly"
+      ]
+    },
+    {
+      "key": "fruit_sucking_moth",
+      "labels": {
+        "en": "Fruit-sucking moth",
+        "mr": "रस शोषणारा पतंग",
+        "hi": "फल-रस चूसक पतंगा"
+      },
+      "match": [
+        "fruit sucking moth"
+      ]
+    },
+    {
+      "key": "nematode",
+      "labels": {
+        "en": "Nematode",
+        "mr": "सूत्रकृमी",
+        "hi": "सूत्रकृमि"
+      },
+      "match": [
+        "nematode"
+      ]
+    },
+    {
+      "key": "gummosis",
+      "labels": {
+        "en": "Gummosis, foot rot, root rot (Phytophthora)",
+        "mr": "डिंक्या, खोडकूज, मूळकूज (फायटोफ्थोरा)",
+        "hi": "गोंदिया (गमोसिस), तना/जड़ सड़न (फाइटोफ्थोरा)"
+      },
+      "match": [
+        "gummosis",
+        "foot rot",
+        "collar rot",
+        "root rot",
+        "phytophthora"
+      ]
+    },
+    {
+      "key": "canker",
+      "labels": {
+        "en": "Canker",
+        "mr": "कँकर",
+        "hi": "कैंकर"
+      },
+      "match": [
+        "canker"
+      ]
+    },
+    {
+      "key": "scab",
+      "labels": {
+        "en": "Scab",
+        "mr": "खरूज (स्कॅब)",
+        "hi": "स्कैब"
+      },
+      "match": [
+        "scab"
+      ]
+    },
+    {
+      "key": "powdery_mildew",
+      "labels": {
+        "en": "Powdery mildew",
+        "mr": "भुरी",
+        "hi": "चूर्णिल आसिता (पाउडरी मिल्ड्यू)"
+      },
+      "match": [
+        "powdery mildew"
+      ]
+    },
+    {
+      "key": "anthracnose_dieback",
+      "labels": {
+        "en": "Anthracnose, twig blight, dieback",
+        "mr": "ॲन्थ्रॅकनोज, काडी करपा, फांदीमर",
+        "hi": "एन्थ्रेक्नोज, टहनी झुलसा, डाइबैक"
+      },
+      "match": [
+        "anthracnose",
+        "twig blight",
+        "die back",
+        "dieback"
+      ]
+    },
+    {
+      "key": "greening",
+      "labels": {
+        "en": "Greening (HLB)",
+        "mr": "ग्रीनिंग (HLB)",
+        "hi": "ग्रीनिंग (HLB)"
+      },
+      "match": [
+        "greening",
+        "huanglongbing"
+      ]
+    },
+    {
+      "key": "sooty_mould",
+      "labels": {
+        "en": "Sooty mould",
+        "mr": "काळी बुरशी",
+        "hi": "काली फफूंद (सूटी मोल्ड)"
+      },
+      "match": [
+        "sooty mould",
+        "sooty mold"
+      ]
+    },
+    {
+      "key": "snails",
+      "labels": {
+        "en": "Snails and slugs",
+        "mr": "गोगलगाय",
+        "hi": "घोंघा"
+      },
+      "match": [
+        "snail",
+        "slug"
+      ]
+    },
+    {
+      "key": "brown_rot",
+      "labels": {
+        "en": "Brown rot (fruit)",
+        "mr": "तपकिरी फळकूज",
+        "hi": "भूरा फल सड़न (ब्राउन रॉट)"
+      },
+      "match": [
+        "brown rot"
+      ]
+    },
+    {
+      "key": "leaf_spot",
+      "labels": {
+        "en": "Leaf spot",
+        "mr": "पानांवरील ठिपके",
+        "hi": "पत्ती धब्बा"
+      },
+      "match": [
+        "leaf spot",
+        "leafspot"
+      ]
+    },
+    {
+      "key": "greasy_spot",
+      "labels": {
+        "en": "Greasy spot",
+        "mr": "ग्रीसी स्पॉट (पानांवरील तेलकट ठिपके)",
+        "hi": "ग्रीसी स्पॉट"
+      },
+      "match": [
+        "greasy spot"
+      ]
+    },
+    {
+      "key": "post_harvest_rot",
+      "labels": {
+        "en": "Post-harvest fruit rot",
+        "mr": "तोडणीनंतरची फळकूज",
+        "hi": "तुड़ाई के बाद फल सड़न"
+      },
+      "match": [
+        "post harvest",
+        "postharvest"
+      ]
+    },
+    {
+      "key": "weeds",
+      "labels": {
+        "en": "Weeds",
+        "mr": "तण",
+        "hi": "खरपतवार"
+      },
+      "match": [
+        "weed",
+        "euphorbia",
+        "convolvulus",
+        "cyperus",
+        "tribulus",
+        "amaranthus",
+        "digera",
+        "commelina"
+      ]
+    }
+  ],
+  "practice_sections": {
+    "phytophthora": [
+      "gummosis"
+    ],
+    "psylla": [
+      "psylla"
+    ],
+    "black_fly": [
+      "black_fly"
+    ],
+    "other_pests": [
+      "leaf_miner",
+      "lemon_butterfly",
+      "bark_borer",
+      "scales",
+      "nematode"
+    ],
+    "fruit_fly": [
+      "fruit_fly",
+      "fruit_sucking_moth"
+    ],
+    "canker_decline": [
+      "canker",
+      "anthracnose_dieback"
+    ]
+  },
+  "scouting_items": {
+    "psylla": [
+      "psylla"
+    ],
+    "leaf_miner": [
+      "leaf_miner"
+    ],
+    "mites_thrips": [
+      "mites",
+      "thrips"
+    ],
+    "gummosis_bark": [
+      "gummosis"
+    ],
+    "die_back": [
+      "anthracnose_dieback"
+    ]
+  }
+}

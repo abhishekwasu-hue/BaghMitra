@@ -1,0 +1,419 @@
+{
+  "_note": "Bahar stage windows per crop and bahar, from public sources (owner decision Q57: shown as general information with the source and the date it was read). Research and conflicts: docs/agronomy/DRAFT_santra_mosambi_bahar_stages.md §11. Only windows a read source states are here; a stage with no published window is left out and the grower dates it by hand. The same file is bundled in the app (app/assets/config/stage_templates.json); a test keeps the two equal. No chemical, fertiliser or dose content.",
+  "season_start": "1 January of the season year, the year the bahar flowers. 'season_start' offsets count days in a 365-day reference year (no 29 February): 0 = 1 January, -31 = 1 December of the year before, 365 = 1 January of the next year.",
+  "checked": "2026-11-06",
+  "sources": {
+    "N1": {
+      "name": "NHB (orange report)",
+      "title": "NHB Model Project Report: Orange (Mandarin), §5.13 Crop regulation and Export",
+      "publisher": "National Horticulture Board",
+      "url": "https://nhb.gov.in/model-project-reports/Horticulture%20Crops/orange/orange1.htm",
+      "seen": "full text",
+      "read": "2026-11-06"
+    },
+    "C03": {
+      "name": "NHB (citrus disorders)",
+      "title": "NHB Citrus: Disorders (oleocellosis in the Mrig crop harvested February–March)",
+      "publisher": "National Horticulture Board",
+      "url": "https://www.nhb.gov.in/pdf/fruits/citrus/cit003.pdf",
+      "seen": "full text",
+      "read": "2026-11-06"
+    },
+    "C05": {
+      "name": "NHB (citrus bahar treatment)",
+      "title": "NHB Citrus: Intercultural operations, Regulation of flowering (bahar treatment)",
+      "publisher": "National Horticulture Board",
+      "url": "https://www.nhb.gov.in/pdf/fruits/citrus/cit005.pdf",
+      "seen": "full text",
+      "read": "2026-11-06"
+    },
+    "AW23": {
+      "name": "Dr. PDKV Akola (Agrowon 2023)",
+      "title": "Surendra Patil (Dr. PDKV, Akola): Points for the bahar stress in santra and mosambi, Agrowon, 6 Jan 2023",
+      "publisher": "Agrowon; author from Dr. PDKV, Akola",
+      "url": "https://agrowon.esakal.com/agroguide/keep-these-things-in-mind-while-managemet-of-orange-mosambi-orchard",
+      "seen": "full text",
+      "read": "2026-11-06"
+    },
+    "AW24D": {
+      "name": "Dr. PDKV Akola (Agrowon 2024)",
+      "title": "Surendra Patil & Narendra Ramteke (Dr. PDKV, Akola): Bahar planning in santra and mosambi, with a month-wise drip table, Agrowon, 26 Dec 2024",
+      "publisher": "Agrowon; authors from Dr. PDKV, Akola",
+      "url": "https://agrowon.esakal.com/agro-special/effective-management-of-ambia-bahar-in-citrus-fruit-cultivation-article-on-agrowon",
+      "seen": "full text",
+      "read": "2026-11-06"
+    },
+    "AW24": {
+      "name": "Mosambi Research Station Badnapur (Agrowon 2024)",
+      "title": "Sanjay Patil (Mosambi Research Station, Badnapur): Ambia bahar management in mosambi, Agrowon, 30 Nov 2024",
+      "publisher": "Agrowon; author from VNMKV Mosambi Research Station, Badnapur",
+      "url": "https://agrowon.esakal.com/agro-special/management-of-ambia-blossom-in-mosambi-article-on-agrowon",
+      "seen": "full text",
+      "read": "2026-11-06"
+    },
+    "VKM": {
+      "name": "Maharashtra Agriculture Dept. (Vikaspedia)",
+      "title": "Vikaspedia (Marathi): Santra Mrig bahar management (source: Agriculture Department, Government of Maharashtra)",
+      "publisher": "Vikaspedia; Krishi Vibhag, Maharashtra",
+      "url": "https://mr.vikaspedia.in/viewcontent/agriculture/crop-production/92b933947/93890292494d93093e-92e94391792c93993e93093e91a947-93594d92f93593894d92593e92a928?lgn=mr",
+      "seen": "full text",
+      "read": "2026-11-06"
+    },
+    "VKB": {
+      "name": "Mosambi Research Station Badnapur (Vikaspedia)",
+      "title": "Vikaspedia (Marathi): Give the mosambi tree the right stress (M. B. Patil, Mosambi Research Station, Badnapur; from Agrowon)",
+      "publisher": "Vikaspedia; VNMKV Mosambi Research Station, Badnapur",
+      "url": "https://mr.vikaspedia.in/viewcontent/agriculture/crop-production/92b933947/92e94b93890292c940-93893294d93293e-92e94b93890292c94091a94d92f93e-91d93e92193e93293e-92694d92f93e-92f94b91794d92f-92a94d93091593e930947-92493e923",
+      "seen": "full text",
+      "read": "2026-11-06"
+    },
+    "LM11": {
+      "name": "ICAR-NRC for Citrus Nagpur (IJAgS 2011)",
+      "title": "Ladaniya & Mahalle: Fruit maturation in Mosambi orange (monsoon blossom), Indian J. Agric. Sci. 81(6): 494–499, 2011",
+      "publisher": "ICAR-NRC for Citrus, Nagpur",
+      "url": "https://epubs.icar.org.in/index.php/IJAgS/article/download/6568/2473/14236",
+      "seen": "full text",
+      "read": "2026-11-06"
+    },
+    "KAL22": {
+      "name": "ICAR-CCRI Nagpur (Current Horticulture 2022)",
+      "title": "Kalatippi, Pandey, Huchche & Hota: Tree storage of Nagpur mandarin fruits, Current Horticulture 10(2): 27–29, 2022",
+      "publisher": "ICAR-CCRI, Nagpur",
+      "url": "https://indianjournals.com/article/chr-10-2-005",
+      "seen": "harvest months from the paper's abstract as quoted in search results; the full text was not reachable",
+      "read": "2026-11-06"
+    },
+    "QRT": {
+      "name": "ICAR-CCRI Nagpur (QRT 2013–18)",
+      "title": "ICAR-CCRI Nagpur: Report of the VI Quinquennial Review Team (2013–18)",
+      "publisher": "ICAR-CCRI, Nagpur",
+      "url": "https://icar.org.in/sites/default/files/2022-07/QRT-NAGPUR-01.pdf",
+      "seen": "full text",
+      "read": "2026-11-06"
+    }
+  },
+  "templates": [
+    {
+      "crop": "santra",
+      "bahar": "ambia",
+      "version": 1,
+      "status": "published",
+      "labels": {
+        "en": "Ambia bahar",
+        "mr": "आंबिया बहार",
+        "hi": "अंबिया बहार"
+      },
+      "stages": [
+        {
+          "key": "stress_start",
+          "labels": {
+            "en": "Water stress starts",
+            "mr": "ताण सुरू",
+            "hi": "पानी रोकना शुरू"
+          },
+          "anchor": "season_start",
+          "offset_days_min": -24,
+          "offset_days_max": -18,
+          "source_ids": [
+            "AW23",
+            "AW24D"
+          ]
+        },
+        {
+          "key": "irrigation_restart",
+          "labels": {
+            "en": "Stress ends: water again",
+            "mr": "ताण तोडणे: पुन्हा ओलित",
+            "hi": "तनाव खत्म: फिर सिंचाई"
+          },
+          "anchor": "stress_start",
+          "offset_days_min": 35,
+          "offset_days_max": 75,
+          "source_ids": [
+            "AW23",
+            "AW24D"
+          ]
+        },
+        {
+          "key": "flowering",
+          "labels": {
+            "en": "Flowering",
+            "mr": "फुलोरा",
+            "hi": "फूल आना"
+          },
+          "anchor": "irrigation_restart",
+          "offset_days_min": 20,
+          "offset_days_max": 25,
+          "source_ids": [
+            "AW23",
+            "AW24D"
+          ]
+        },
+        {
+          "key": "harvest",
+          "labels": {
+            "en": "Harvest",
+            "mr": "तोडणी",
+            "hi": "तुड़ाई"
+          },
+          "anchor": "season_start",
+          "offset_days_min": 273,
+          "offset_days_max": 364,
+          "source_ids": [
+            "KAL22"
+          ]
+        }
+      ]
+    },
+    {
+      "crop": "santra",
+      "bahar": "mrig",
+      "version": 1,
+      "status": "published",
+      "labels": {
+        "en": "Mrig bahar",
+        "mr": "मृग बहार",
+        "hi": "मृग बहार"
+      },
+      "stages": [
+        {
+          "key": "stress_start",
+          "labels": {
+            "en": "Water stress starts",
+            "mr": "ताण सुरू",
+            "hi": "पानी रोकना शुरू"
+          },
+          "anchor": "season_start",
+          "offset_days_min": 90,
+          "offset_days_max": 150,
+          "source_ids": [
+            "N1",
+            "C05"
+          ]
+        },
+        {
+          "key": "irrigation_restart",
+          "labels": {
+            "en": "Stress ends: water again",
+            "mr": "ताण तोडणे: पुन्हा ओलित",
+            "hi": "तनाव खत्म: फिर सिंचाई"
+          },
+          "anchor": "stress_start",
+          "offset_days_min": 15,
+          "offset_days_max": 50,
+          "source_ids": [
+            "N1",
+            "VKM",
+            "C05"
+          ]
+        },
+        {
+          "key": "flowering",
+          "labels": {
+            "en": "Flowering",
+            "mr": "फुलोरा",
+            "hi": "फूल आना"
+          },
+          "anchor": "season_start",
+          "offset_days_min": 151,
+          "offset_days_max": 211,
+          "source_ids": [
+            "AW23",
+            "AW24D",
+            "VKM",
+            "QRT"
+          ]
+        },
+        {
+          "key": "harvest",
+          "labels": {
+            "en": "Harvest",
+            "mr": "तोडणी",
+            "hi": "तुड़ाई"
+          },
+          "anchor": "season_start",
+          "offset_days_min": 396,
+          "offset_days_max": 454,
+          "source_ids": [
+            "N1",
+            "C03",
+            "VKM"
+          ]
+        }
+      ]
+    },
+    {
+      "crop": "santra",
+      "bahar": "hasta",
+      "version": 1,
+      "status": "published",
+      "labels": {
+        "en": "Hasta bahar",
+        "mr": "हस्त बहार",
+        "hi": "हस्त बहार"
+      },
+      "stages": [
+        {
+          "key": "flowering",
+          "labels": {
+            "en": "Flowering",
+            "mr": "फुलोरा",
+            "hi": "फूल आना"
+          },
+          "anchor": "season_start",
+          "offset_days_min": 273,
+          "offset_days_max": 303,
+          "source_ids": [
+            "N1",
+            "AW23",
+            "AW24D"
+          ]
+        }
+      ]
+    },
+    {
+      "crop": "mosambi",
+      "bahar": "ambia",
+      "version": 1,
+      "status": "published",
+      "labels": {
+        "en": "Ambia bahar",
+        "mr": "आंबिया बहार",
+        "hi": "अंबिया बहार"
+      },
+      "stages": [
+        {
+          "key": "stress_start",
+          "labels": {
+            "en": "Water stress starts",
+            "mr": "ताण सुरू",
+            "hi": "पानी रोकना शुरू"
+          },
+          "anchor": "season_start",
+          "offset_days_min": -61,
+          "offset_days_max": -1,
+          "source_ids": [
+            "AW24",
+            "AW23"
+          ]
+        },
+        {
+          "key": "irrigation_restart",
+          "labels": {
+            "en": "Stress ends: water again",
+            "mr": "ताण तोडणे: पुन्हा ओलित",
+            "hi": "तनाव खत्म: फिर सिंचाई"
+          },
+          "anchor": "stress_start",
+          "offset_days_min": 35,
+          "offset_days_max": 75,
+          "source_ids": [
+            "AW24",
+            "AW23"
+          ]
+        },
+        {
+          "key": "flowering",
+          "labels": {
+            "en": "Flowering",
+            "mr": "फुलोरा",
+            "hi": "फूल आना"
+          },
+          "anchor": "irrigation_restart",
+          "offset_days_min": 20,
+          "offset_days_max": 25,
+          "source_ids": [
+            "AW24",
+            "VKB",
+            "AW23"
+          ]
+        },
+        {
+          "key": "harvest",
+          "labels": {
+            "en": "Harvest",
+            "mr": "तोडणी",
+            "hi": "तुड़ाई"
+          },
+          "anchor": "season_start",
+          "offset_days_min": 243,
+          "offset_days_max": 303,
+          "source_ids": [
+            "AW24"
+          ]
+        }
+      ]
+    },
+    {
+      "crop": "mosambi",
+      "bahar": "mrig",
+      "version": 1,
+      "status": "published",
+      "labels": {
+        "en": "Mrig bahar",
+        "mr": "मृग बहार",
+        "hi": "मृग बहार"
+      },
+      "stages": [
+        {
+          "key": "flowering",
+          "labels": {
+            "en": "Flowering",
+            "mr": "फुलोरा",
+            "hi": "फूल आना"
+          },
+          "anchor": "season_start",
+          "offset_days_min": 151,
+          "offset_days_max": 211,
+          "source_ids": [
+            "LM11",
+            "AW23",
+            "AW24D"
+          ]
+        },
+        {
+          "key": "harvest",
+          "labels": {
+            "en": "Harvest",
+            "mr": "तोडणी",
+            "hi": "तुड़ाई"
+          },
+          "anchor": "season_start",
+          "offset_days_min": 424,
+          "offset_days_max": 484,
+          "source_ids": [
+            "LM11"
+          ]
+        }
+      ]
+    },
+    {
+      "crop": "mosambi",
+      "bahar": "hasta",
+      "version": 1,
+      "status": "published",
+      "labels": {
+        "en": "Hasta bahar",
+        "mr": "हस्त बहार",
+        "hi": "हस्त बहार"
+      },
+      "stages": [
+        {
+          "key": "flowering",
+          "labels": {
+            "en": "Flowering",
+            "mr": "फुलोरा",
+            "hi": "फूल आना"
+          },
+          "anchor": "season_start",
+          "offset_days_min": 273,
+          "offset_days_max": 303,
+          "source_ids": [
+            "AW23",
+            "AW24D"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "_note": "Parameter NAMES a soil, water or leaf report usually lists, offered as typing shortcuts in the lab test form. DRAFT, not expert-reviewed (OPEN_QUESTIONS Q40). Names and usual units only. The grower always types the value from the report and may change the name or unit. 'norms' (Q57, WP3): the soil rating ranges exactly as printed on the sample Soil Health Card in the official SHC Scheme Manual for District-Level Functionaries (2017), shown as general information with source and date; the app never rates the grower's own values and gives no fertiliser product or dose. The manual prints organic carbon 'High >7.5' next to 'Medium 0.5-0.75'; shown as > 0.75 (the medium upper bound). It gives no unit for Zn, Fe, Mn, Cu and no range for N or B; those stay out. Ca and Mg (also on the card) are left out: no unit given and not in the soil shortcut list.",
+  "status": "draft",
+  "types": {
+    "soil": [
+      {"key": "ph", "labels": {"en": "pH", "mr": "सामू (pH)", "hi": "पीएच (pH)"}},
+      {"key": "ec", "labels": {"en": "EC", "mr": "विद्युत वाहकता (EC)", "hi": "विद्युत चालकता (EC)"}, "unit": "dS/m"},
+      {"key": "oc", "labels": {"en": "Organic carbon", "mr": "सेंद्रिय कर्ब", "hi": "जैविक कार्बन"}, "unit": "%"},
+      {"key": "n", "labels": {"en": "Nitrogen (N)", "mr": "नत्र (N)", "hi": "नाइट्रोजन (N)"}, "unit": "kg/ha"},
+      {"key": "p", "labels": {"en": "Phosphorus (P)", "mr": "स्फुरद (P)", "hi": "फॉस्फोरस (P)"}, "unit": "kg/ha"},
+      {"key": "k", "labels": {"en": "Potassium (K)", "mr": "पालाश (K)", "hi": "पोटैशियम (K)"}, "unit": "kg/ha"},
+      {"key": "s", "labels": {"en": "Sulphur (S)", "mr": "गंधक (S)", "hi": "सल्फर (S)"}, "unit": "ppm"},
+      {"key": "zn", "labels": {"en": "Zinc (Zn)", "mr": "जस्त (Zn)", "hi": "जिंक (Zn)"}, "unit": "ppm"},
+      {"key": "fe", "labels": {"en": "Iron (Fe)", "mr": "लोह (Fe)", "hi": "लोहा (Fe)"}, "unit": "ppm"},
+      {"key": "mn", "labels": {"en": "Manganese (Mn)", "mr": "मँगनीज (Mn)", "hi": "मैंगनीज (Mn)"}, "unit": "ppm"},
+      {"key": "cu", "labels": {"en": "Copper (Cu)", "mr": "तांबे (Cu)", "hi": "तांबा (Cu)"}, "unit": "ppm"},
+      {"key": "b", "labels": {"en": "Boron (B)", "mr": "बोरॉन (B)", "hi": "बोरॉन (B)"}, "unit": "ppm"},
+      {"key": "caco3", "labels": {"en": "Free lime (CaCO3)", "mr": "मुक्त चुना (CaCO3)", "hi": "मुक्त चूना (CaCO3)"}, "unit": "%"}
+    ],
+    "water": [
+      {"key": "ph", "labels": {"en": "pH", "mr": "सामू (pH)", "hi": "पीएच (pH)"}},
+      {"key": "ec", "labels": {"en": "EC", "mr": "विद्युत वाहकता (EC)", "hi": "विद्युत चालकता (EC)"}, "unit": "dS/m"},
+      {"key": "co3", "labels": {"en": "Carbonate (CO3)", "mr": "कार्बोनेट (CO3)", "hi": "कार्बोनेट (CO3)"}, "unit": "meq/L"},
+      {"key": "hco3", "labels": {"en": "Bicarbonate (HCO3)", "mr": "बायकार्बोनेट (HCO3)", "hi": "बाइकार्बोनेट (HCO3)"}, "unit": "meq/L"},
+      {"key": "cl", "labels": {"en": "Chloride (Cl)", "mr": "क्लोराइड (Cl)", "hi": "क्लोराइड (Cl)"}, "unit": "meq/L"},
+      {"key": "na", "labels": {"en": "Sodium (Na)", "mr": "सोडियम (Na)", "hi": "सोडियम (Na)"}, "unit": "meq/L"},
+      {"key": "ca_mg", "labels": {"en": "Calcium + Magnesium (Ca+Mg)", "mr": "कॅल्शियम + मॅग्नेशियम (Ca+Mg)", "hi": "कैल्शियम + मैग्नीशियम (Ca+Mg)"}, "unit": "meq/L"},
+      {"key": "sar", "labels": {"en": "SAR", "mr": "SAR", "hi": "SAR"}},
+      {"key": "rsc", "labels": {"en": "RSC", "mr": "RSC", "hi": "RSC"}, "unit": "meq/L"}
+    ],
+    "leaf": [
+      {"key": "n", "labels": {"en": "Nitrogen (N)", "mr": "नत्र (N)", "hi": "नाइट्रोजन (N)"}, "unit": "%"},
+      {"key": "p", "labels": {"en": "Phosphorus (P)", "mr": "स्फुरद (P)", "hi": "फॉस्फोरस (P)"}, "unit": "%"},
+      {"key": "k", "labels": {"en": "Potassium (K)", "mr": "पालाश (K)", "hi": "पोटैशियम (K)"}, "unit": "%"},
+      {"key": "ca", "labels": {"en": "Calcium (Ca)", "mr": "कॅल्शियम (Ca)", "hi": "कैल्शियम (Ca)"}, "unit": "%"},
+      {"key": "mg", "labels": {"en": "Magnesium (Mg)", "mr": "मॅग्नेशियम (Mg)", "hi": "मैग्नीशियम (Mg)"}, "unit": "%"},
+      {"key": "s", "labels": {"en": "Sulphur (S)", "mr": "गंधक (S)", "hi": "सल्फर (S)"}, "unit": "%"},
+      {"key": "fe", "labels": {"en": "Iron (Fe)", "mr": "लोह (Fe)", "hi": "लोहा (Fe)"}, "unit": "ppm"},
+      {"key": "zn", "labels": {"en": "Zinc (Zn)", "mr": "जस्त (Zn)", "hi": "जिंक (Zn)"}, "unit": "ppm"},
+      {"key": "mn", "labels": {"en": "Manganese (Mn)", "mr": "मँगनीज (Mn)", "hi": "मैंगनीज (Mn)"}, "unit": "ppm"},
+      {"key": "cu", "labels": {"en": "Copper (Cu)", "mr": "तांबे (Cu)", "hi": "तांबा (Cu)"}, "unit": "ppm"},
+      {"key": "b", "labels": {"en": "Boron (B)", "mr": "बोरॉन (B)", "hi": "बोरॉन (B)"}, "unit": "ppm"}
+    ]
+  },
+  "norms": {
+    "soil": {
+      "source": {"title": "Soil Health Card Scheme: Manual for District-Level Functionaries (2017), sample card", "short": "Soil Health Card manual (2017)", "url": "https://www.nitiforstates.gov.in/public-assets/Policy/policy-repo/agriculture-and-allied-services/SNC511A000049.pdf", "official": true, "checked": "2026-11-06"},
+      "classes": {
+        "low": {"en": "Low", "mr": "कमी", "hi": "कम"},
+        "medium": {"en": "Medium", "mr": "मध्यम", "hi": "मध्यम"},
+        "high": {"en": "High", "mr": "जास्त", "hi": "अधिक"},
+        "acidic": {"en": "Acidic", "mr": "आम्लधर्मी", "hi": "अम्लीय"},
+        "normal": {"en": "Normal", "mr": "सामान्य", "hi": "सामान्य"},
+        "alkaline": {"en": "Alkaline", "mr": "अल्कधर्मी", "hi": "क्षारीय"},
+        "harmful": {"en": "Harmful", "mr": "हानिकारक", "hi": "हानिकारक"}
+      },
+      "rows": [
+        {"key": "ph", "ranges": [{"class": "acidic", "tone": "bad", "range": "< 6.5"}, {"class": "normal", "tone": "ok", "range": "6.5 – 8.2"}, {"class": "alkaline", "tone": "bad", "range": "> 8.2"}]},
+        {"key": "ec", "unit": "dS/m", "ranges": [{"class": "normal", "tone": "ok", "range": "< 1"}, {"class": "medium", "tone": "mid", "range": "1 – 3"}, {"class": "harmful", "tone": "bad", "range": "> 3"}]},
+        {"key": "oc", "unit": "%", "ranges": [{"class": "low", "tone": "bad", "range": "< 0.5"}, {"class": "medium", "tone": "mid", "range": "0.5 – 0.75"}, {"class": "high", "tone": "ok", "range": "> 0.75"}]},
+        {"key": "p", "unit": "kg/ha", "ranges": [{"class": "low", "tone": "bad", "range": "< 28"}, {"class": "medium", "tone": "mid", "range": "28 – 56"}, {"class": "high", "tone": "ok", "range": "> 56"}]},
+        {"key": "k", "unit": "kg/ha", "ranges": [{"class": "low", "tone": "bad", "range": "< 140"}, {"class": "medium", "tone": "mid", "range": "140 – 280"}, {"class": "high", "tone": "ok", "range": "> 280"}]},
+        {"key": "s", "unit": "ppm", "ranges": [{"class": "low", "tone": "bad", "range": "< 10"}, {"class": "medium", "tone": "mid", "range": "10 – 20"}, {"class": "high", "tone": "ok", "range": "> 20"}]},
+        {"key": "zn", "ranges": [{"class": "low", "tone": "bad", "range": "< 0.5"}, {"class": "medium", "tone": "mid", "range": "0.5 – 1.0"}, {"class": "high", "tone": "ok", "range": "> 1.0"}]},
+        {"key": "fe", "ranges": [{"class": "low", "tone": "bad", "range": "< 5"}, {"class": "medium", "tone": "mid", "range": "5 – 10"}, {"class": "high", "tone": "ok", "range": "> 10"}]},
+        {"key": "mn", "ranges": [{"class": "low", "tone": "bad", "range": "< 5"}, {"class": "medium", "tone": "mid", "range": "5 – 10"}, {"class": "high", "tone": "ok", "range": "> 10"}]},
+        {"key": "cu", "ranges": [{"class": "low", "tone": "bad", "range": "< 0.2"}, {"class": "medium", "tone": "mid", "range": "0.2 – 0.4"}, {"class": "high", "tone": "ok", "range": "> 0.4"}]}
+      ],
+      "gap": {"en": "Nitrogen (N) and boron (B): the official card shows no range. Zn, Fe, Mn and Cu: no unit is printed; read the unit on your own report.", "mr": "नत्र (N) व बोरॉन (B): अधिकृत पत्रिकेत श्रेणी दिलेली नाही. जस्त, लोह, मँगनीज व तांबे: एकक छापलेले नाही; आपल्या अहवालावरील एकक पाहा.", "hi": "नाइट्रोजन (N) और बोरॉन (B): आधिकारिक कार्ड में श्रेणी नहीं दी गई। जिंक, लोहा, मैंगनीज और तांबा: इकाई छपी नहीं है; अपनी रिपोर्ट पर इकाई देखें।"}
+    }
+  }
+}
