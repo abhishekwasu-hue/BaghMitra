@@ -81,7 +81,8 @@ async def add_items(maker: Any, kinds: list[tuple[str, datetime]]) -> list[uuid.
 async def pages(
     api: httpx.AsyncClient, headers: dict[str, str], **params: str
 ) -> list[list[dict[str, Any]]]:
-    out, cursor = [], {}
+    out: list[list[dict[str, Any]]] = []
+    cursor: dict[str, str] = {}
     for _ in range(50):
         body = (
             await api.get("/v1/feed", params={"lang": "mr", **params, **cursor}, headers=headers)
