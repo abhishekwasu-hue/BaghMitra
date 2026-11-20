@@ -2033,6 +2033,9 @@ class AppLocalizationsHi extends AppLocalizations {
   String get feedEmptyKnowledge => 'ज्ञान लेख परिस्थिति के अनुसार यहाँ आएँगे।';
 
   @override
+  String get feedShowOlder => 'और पुराने दिखाएँ';
+
+  @override
   String get feedRemindMe => 'मुझे याद दिलाएँ';
 
   @override

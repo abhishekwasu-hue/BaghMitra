@@ -24,7 +24,12 @@ enum FeedReceiptAction {
 /// Where the Sarkari Sandesh feed comes from, and where the grower's receipts, alert
 /// settings and message checks go. Every failure is a [FeedUnavailableException].
 abstract interface class FeedRepository {
-  Future<FeedPage> fetch({required String lang, FeedFilter? filter});
+  /// One page, newest first; [before] is the previous page's [FeedPage.next] (Q165).
+  Future<FeedPage> fetch({
+    required String lang,
+    FeedFilter? filter,
+    FeedCursor? before,
+  });
 
   /// One news topic with every report, oldest first (owner Q139).
   Future<FeedThreadPage> fetchThread({
@@ -147,12 +152,18 @@ class HttpFeedRepository implements FeedRepository {
   }
 
   @override
-  Future<FeedPage> fetch({required String lang, FeedFilter? filter}) async {
+  Future<FeedPage> fetch({
+    required String lang,
+    FeedFilter? filter,
+    FeedCursor? before,
+  }) async {
     final res = await _guard(
       'bad body',
       () => _api.v1FeedGet(
         lang: V1FeedGetLang.values.where((l) => l.value == lang).firstOrNull,
         type: filter?.value,
+        before: before?.before.toUtc().toIso8601String(),
+        beforeId: before?.beforeId,
       ),
     );
     final body = res.body;
@@ -168,6 +179,10 @@ class HttpFeedRepository implements FeedRepository {
       threads: {
         for (final t in body.threads ?? const <FeedThreadOut>[])
           t.id: _thread(t),
+      },
+      next: switch ((body.nextBefore, body.nextBeforeId)) {
+        (final DateTime at, final String id) => FeedCursor(at, id),
+        _ => null,
       },
     );
   }

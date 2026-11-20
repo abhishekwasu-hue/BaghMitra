@@ -2031,6 +2031,9 @@ class AppLocalizationsMr extends AppLocalizations {
   String get feedEmptyKnowledge => 'ज्ञान लेख परिस्थितीनुसार इथे येतील.';
 
   @override
+  String get feedShowOlder => 'आणखी जुने दाखवा';
+
+  @override
   String get feedRemindMe => 'मला आठवण करा';
 
   @override

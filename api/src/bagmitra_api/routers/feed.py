@@ -18,7 +18,7 @@ from zoneinfo import ZoneInfo
 
 from fastapi import APIRouter, Depends, Query
 from pydantic import BaseModel
-from sqlalchemy import select
+from sqlalchemy import ColumnElement, and_, false, or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from bagmitra_api.auth.jwt import CurrentUser
@@ -148,6 +148,9 @@ class FeedResponse(BaseModel):
     footer: str
     # Q139: the threads of the news items in `items` (older apps ignore it).
     threads: list[FeedThreadOut] = []
+    # Q165: pass as `before` / `before_id` for the next, older page; null when the list ends.
+    next_before: datetime | None = None
+    next_before_id: uuid.UUID | None = None
 
 
 class FeedThreadResponse(BaseModel):
@@ -175,6 +178,20 @@ def _wanted(item: FeedItem, kind: FeedFilter | None, today: date) -> bool:
     if kind == "scheme":
         return item.type == "scheme"
     return item.status == "published" and item.deadline is not None and item.deadline >= today
+
+
+def _type_clause(kind: FeedFilter, today: date) -> ColumnElement[bool]:
+    """[_wanted] in SQL (Q165): a filtered list reads that kind's own newest rows, so an older
+    item of a rare kind (a ज्ञान लेख among hundreds of news items) is never crowded out."""
+    if kind == "official":
+        return and_(FeedItem.trust_level == "official", FeedItem.type != "knowledge")
+    if kind in ("news", "knowledge", "scheme"):
+        return FeedItem.type == kind
+    return and_(
+        FeedItem.status == "published",
+        FeedItem.deadline.is_not(None),
+        FeedItem.deadline >= today,
+    )
 
 
 def _text(texts: dict[str, FeedItemI18n], lang: str) -> FeedItemI18n | None:
@@ -303,24 +320,44 @@ async def feed(  # noqa: PLR0913 - query parameters and dependencies
     type: Annotated[FeedFilter | None, Query()] = None,  # noqa: A002 - public query name
     district: Annotated[str | None, Query(max_length=120)] = None,
     crop: Annotated[str | None, Query(max_length=32)] = None,
+    before: Annotated[datetime | None, Query()] = None,
+    before_id: Annotated[uuid.UUID | None, Query()] = None,
 ) -> FeedResponse:
     """Newest first. `district` / `crop` narrow the list to items meant for them (items for
     everyone always pass); `may_be_eligible_because` is computed from the caller's own
     profile and plots. News items carry their topic `thread_id`; `threads` describes those
-    threads (Q139), so the app shows one card per topic."""
+    threads (Q139), so the app shows one card per topic. `type` is applied in the query, and
+    `before` / `before_id` (the previous page's `next_before` / `next_before_id`) list the
+    items after that one in this order, so every older item stays reachable (Q165: nothing
+    leaves the list by age)."""
     today = clock().astimezone(INDIA).date()
+    query = select(FeedItem).where(FeedItem.status.in_(VISIBLE))
+    if type is not None:
+        query = query.where(_type_clause(type, today))
+    if before is not None:
+        # Same order as below (newest first, then id): items sharing one time are not lost.
+        query = query.where(
+            or_(
+                FeedItem.published_at < before,
+                and_(FeedItem.published_at == before, FeedItem.id > before_id)
+                if before_id is not None
+                else false(),
+            )
+        )
     rows = list(
         await session.scalars(
-            select(FeedItem)
-            .where(FeedItem.status.in_(VISIBLE))
-            .order_by(FeedItem.published_at.desc())
-            .limit(SCAN_LIMIT)
+            query.order_by(FeedItem.published_at.desc(), FeedItem.id).limit(SCAN_LIMIT)
         )
     )
     ctx = await _context(session, user.id, rows)
     items: list[FeedItemOut] = []
     latest: dict[uuid.UUID, FeedItemOut] = {}
+    # The next page starts after the last row scanned here, listed or not.
+    last: FeedItem | None = None
     for item in rows:
+        if len(items) >= settings.feed_page_size:
+            break
+        last = item
         text = _text(ctx.texts[item.id], lang)
         if (
             text is None
@@ -333,10 +370,13 @@ async def feed(  # noqa: PLR0913 - query parameters and dependencies
         items.append(out)
         if item.thread_id is not None:
             latest.setdefault(item.thread_id, out)
-        if len(items) >= settings.feed_page_size:
-            break
+    more = last is not None and (last is not rows[-1] or len(rows) == SCAN_LIMIT)
     return FeedResponse(
-        items=items, footer=FOOTER[lang], threads=await _threads_out(session, user.id, latest)
+        items=items,
+        footer=FOOTER[lang],
+        threads=await _threads_out(session, user.id, latest),
+        next_before=last.published_at if more and last else None,
+        next_before_id=last.id if more and last else None,
     )
 
 

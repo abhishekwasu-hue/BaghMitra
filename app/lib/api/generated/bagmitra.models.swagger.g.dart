@@ -1832,6 +1832,10 @@ FeedResponse _$FeedResponseFromJson(Map<String, dynamic> json) => FeedResponse(
           ?.map((e) => FeedItemOut.fromJson(e as Map<String, dynamic>))
           .toList() ??
       [],
+  nextBefore: json['next_before'] == null
+      ? null
+      : DateTime.parse(json['next_before'] as String),
+  nextBeforeId: json['next_before_id'] as String?,
   threads:
       (json['threads'] as List<dynamic>?)
           ?.map((e) => FeedThreadOut.fromJson(e as Map<String, dynamic>))
@@ -1843,6 +1847,8 @@ Map<String, dynamic> _$FeedResponseToJson(FeedResponse instance) =>
     <String, dynamic>{
       'footer': instance.footer,
       'items': instance.items.map((e) => e.toJson()).toList(),
+      'next_before': ?instance.nextBefore?.toIso8601String(),
+      'next_before_id': ?instance.nextBeforeId,
       'threads': ?instance.threads?.map((e) => e.toJson()).toList(),
     };
 

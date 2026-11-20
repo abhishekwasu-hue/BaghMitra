@@ -136,11 +136,33 @@ class FeedItem {
 
 /// The feed answer: items plus the server's standard footer line, and the news topics
 /// ([threads], owner Q139) the items belong to.
+/// Where the next, older page of a feed list starts (Q165): the server's `next_before` /
+/// `next_before_id`.
+class FeedCursor {
+  const FeedCursor(this.before, this.beforeId);
+
+  static FeedCursor? fromJson(Object? j) {
+    if (j is! Map) return null;
+    final before = DateTime.tryParse('${j['before']}');
+    final id = j['before_id'];
+    return before == null || id is! String ? null : FeedCursor(before, id);
+  }
+
+  final DateTime before;
+  final String beforeId;
+
+  Map<String, Object?> toJson() => {
+    'before': before.toUtc().toIso8601String(),
+    'before_id': beforeId,
+  };
+}
+
 class FeedPage {
   const FeedPage({
     required this.items,
     this.footer = '',
     this.threads = const {},
+    this.next,
   });
 
   factory FeedPage.fromJson(Map<String, Object?> j) => FeedPage(
@@ -156,6 +178,7 @@ class FeedPage {
       ])
         t.id: t,
     },
+    next: FeedCursor.fromJson(j['next']),
   );
 
   final List<FeedItem> items;
@@ -164,10 +187,14 @@ class FeedPage {
   /// By thread id.
   final Map<String, FeedThread> threads;
 
+  /// Null when no older item is listed after these (Q165).
+  final FeedCursor? next;
+
   Map<String, Object?> toJson() => {
     'items': [for (final i in items) i.toJson()],
     'footer': footer,
     'threads': [for (final t in threads.values) t.toJson()],
+    if (next case final n?) 'next': n.toJson(),
   };
 }
 

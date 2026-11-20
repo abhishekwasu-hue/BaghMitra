@@ -12,6 +12,7 @@ import '../core/app_log.dart';
 import '../core/clock.dart';
 import '../core/config.dart';
 import '../core/formatting.dart';
+import '../core/net_failure.dart';
 import '../data/local/database.dart';
 import '../features/accounts/data/accounts_repository.dart';
 import '../features/accounts/data/expense_categories.dart';
@@ -41,6 +42,7 @@ import '../features/feed/data/feed_preferences_store.dart';
 import '../features/feed/data/feed_receipts.dart';
 import '../features/feed/data/feed_repository.dart';
 import '../features/feed/data/text_sharer.dart';
+import '../features/feed/domain/feed_item.dart';
 import '../features/field_work/data/field_work_options.dart';
 import '../features/field_work/data/field_work_repository.dart';
 import '../features/field_work/domain/field_work.dart';
@@ -1307,6 +1309,120 @@ final feedProvider = FutureProvider.family<CachedFeed?, String>((ref, lang) {
     fetch: () => cache.refreshOrFailure(lang),
   );
 });
+
+/// One chip's own list (Q165), saved copy first like [feedProvider]: the server applies the
+/// filter, so an older item of a rare kind (a ज्ञान लेख) is listed although newer items of
+/// other kinds pushed it out of the whole feed's saved [FeedCache.maxItems].
+final feedFilteredProvider =
+    FutureProvider.family<CachedFeed?, (String, FeedFilter)>((ref, key) {
+      final (lang, filter) = key;
+      final cache = ref.watch(feedCacheProvider);
+      return cacheFirst(
+        ref,
+        key: FeedCache.keyFor(lang, filter),
+        load: () => cache.load(lang, filter: filter),
+        savedAt: (c) => c.savedAt,
+        fetch: () => cache.refreshOrFailure(lang, filter: filter),
+      );
+    });
+
+/// Older pages of one list (Q165, "जुने दाखवा"), fetched on request after the saved first
+/// page; kept for the app session only.
+class FeedOlder {
+  const FeedOlder({
+    this.items = const [],
+    this.threads = const {},
+    this.next,
+    this.started = false,
+    this.loading = false,
+    this.failure,
+  });
+
+  final List<FeedItem> items;
+  final Map<String, FeedThread> threads;
+
+  /// Where the next page starts once [started]; before that the first page's cursor counts.
+  final FeedCursor? next;
+  final bool started;
+  final bool loading;
+  final NetFailure? failure;
+}
+
+class FeedOlderPages extends Notifier<FeedOlder> {
+  FeedOlderPages(this.key);
+
+  final (String, FeedFilter?) key;
+
+  @override
+  FeedOlder build() => const FeedOlder();
+
+  /// Fetches the page after [first] (the saved first page's cursor) or after the last
+  /// page fetched here.
+  Future<void> loadMore(FeedCursor? first) async {
+    final cursor = state.started ? state.next : first;
+    if (state.loading || cursor == null) return;
+    final (lang, filter) = key;
+    state = FeedOlder(
+      items: state.items,
+      threads: state.threads,
+      next: state.next,
+      started: state.started,
+      loading: true,
+    );
+    try {
+      final page = await ref
+          .read(feedRepositoryProvider)
+          .fetch(lang: lang, filter: filter, before: cursor);
+      if (!ref.mounted) return;
+      final have = {for (final i in state.items) i.id};
+      state = FeedOlder(
+        items: [
+          ...state.items,
+          for (final i in page.items)
+            if (have.add(i.id)) i,
+        ],
+        threads: {...state.threads, ...page.threads},
+        next: page.next,
+        started: true,
+      );
+    } on Object catch (e) {
+      if (!ref.mounted) return;
+      state = FeedOlder(
+        items: state.items,
+        threads: state.threads,
+        next: state.next,
+        started: state.started,
+        failure: e is FeedUnavailableException
+            ? e.failure
+            : netFailureForError(e),
+      );
+    }
+  }
+}
+
+final feedOlderProvider =
+    NotifierProvider.family<FeedOlderPages, FeedOlder, (String, FeedFilter?)>(
+      FeedOlderPages.new,
+    );
+
+/// An item opened from any list (Q165): the whole feed's saved copy, each chip's saved
+/// list, then the older pages fetched this session. Null when none holds it.
+final feedItemLookupProvider =
+    FutureProvider.family<FeedItem?, (String, String)>((ref, key) async {
+      final (lang, id) = key;
+      final cache = ref.watch(feedCacheProvider);
+      FeedItem? find(Iterable<FeedItem> items) =>
+          items.where((i) => i.id == id).firstOrNull;
+      for (final filter in <FeedFilter?>[null, ...FeedFilter.values]) {
+        final saved = await cache.load(lang, filter: filter);
+        if (find(saved?.page.items ?? const []) case final hit?) return hit;
+        if (find(ref.read(feedOlderProvider((lang, filter))).items)
+            case final hit?) {
+          return hit;
+        }
+      }
+      return null;
+    });
 
 /// One opened news topic (owner Q139) for (language, thread id), saved copy first like the
 /// feed; null when it was never fetched and the phone is offline (the screen then shows the

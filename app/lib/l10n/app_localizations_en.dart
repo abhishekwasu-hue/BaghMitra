@@ -2037,6 +2037,9 @@ class AppLocalizationsEn extends AppLocalizations {
       'Knowledge articles appear here as the situation calls for them.';
 
   @override
+  String get feedShowOlder => 'Show older';
+
+  @override
   String get feedRemindMe => 'Remind me';
 
   @override

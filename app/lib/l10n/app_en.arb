@@ -899,6 +899,10 @@
   "feedEmptyDeadlines": "Last dates to apply appear here as they come.",
   "feedEmptyNews": "News appears here as it comes.",
   "feedEmptyKnowledge": "Knowledge articles appear here as the situation calls for them.",
+  "feedShowOlder": "Show older",
+  "@feedShowOlder": {
+    "description": "Button under a feed list: fetch the next, older page (Q165)."
+  },
   "feedRemindMe": "Remind me",
   "feedReminderAdded": "Added to your tasks for {date}",
   "feedReminderExists": "Already in your tasks",
