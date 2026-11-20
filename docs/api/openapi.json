@@ -4533,6 +4533,30 @@
             "title": "Items",
             "type": "array"
           },
+          "next_before": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next Before"
+          },
+          "next_before_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next Before Id"
+          },
           "threads": {
             "default": [],
             "items": {
@@ -18190,7 +18214,7 @@
     },
     "/v1/feed": {
       "get": {
-        "description": "Newest first. `district` / `crop` narrow the list to items meant for them (items for\neveryone always pass); `may_be_eligible_because` is computed from the caller's own\nprofile and plots. News items carry their topic `thread_id`; `threads` describes those\nthreads (Q139), so the app shows one card per topic.",
+        "description": "Newest first. `district` / `crop` narrow the list to items meant for them (items for\neveryone always pass); `may_be_eligible_because` is computed from the caller's own\nprofile and plots. News items carry their topic `thread_id`; `threads` describes those\nthreads (Q139), so the app shows one card per topic. `type` is applied in the query, and\n`before` / `before_id` (the previous page's `next_before` / `next_before_id`) list the\nitems after that one in this order, so every older item stays reachable (Q165: nothing\nleaves the list by age).",
         "operationId": "feed_list",
         "parameters": [
           {
@@ -18263,6 +18287,40 @@
                 }
               ],
               "title": "Crop"
+            }
+          },
+          {
+            "in": "query",
+            "name": "before",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Before"
+            }
+          },
+          {
+            "in": "query",
+            "name": "before_id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Before Id"
             }
           }
         ],

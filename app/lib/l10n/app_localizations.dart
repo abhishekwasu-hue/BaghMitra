@@ -3609,6 +3609,12 @@ abstract class AppLocalizations {
   /// **'Knowledge articles appear here as the situation calls for them.'**
   String get feedEmptyKnowledge;
 
+  /// Button under a feed list: fetch the next, older page (Q165).
+  ///
+  /// In en, this message translates to:
+  /// **'Show older'**
+  String get feedShowOlder;
+
   /// No description provided for @feedRemindMe.
   ///
   /// In en, this message translates to:

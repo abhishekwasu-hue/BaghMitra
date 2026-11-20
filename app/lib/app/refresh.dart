@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../api/generated/bagmitra.swagger.dart' show V1MarketPricesGetScope;
 import '../core/net_failure.dart';
 import '../features/feed/data/feed_cache.dart';
+import '../features/feed/domain/feed_item.dart';
 import '../features/market/data/market_prices_cache.dart';
 import '../features/market/data/price_history_cache.dart';
 import '../features/weather/data/plot_weather_cache.dart';
@@ -129,13 +130,23 @@ class Refresher {
     if (failure == null) _ref.invalidate(priceHistoryProvider(key));
   }
 
-  Future<void> feed(String lang) async {
+  /// Pull to refresh: the whole feed, and the open chip's own list (Q165); the older pages
+  /// fetched this session start again from the new first page.
+  Future<void> feed(String lang, {FeedFilter? filter}) async {
     final cache = _ref.read(feedCacheProvider);
     final failure = await _board.run(
       FeedCache.keyFor(lang),
       () => cache.refreshOrFailure(lang),
     );
     if (failure == null) _ref.invalidate(feedProvider(lang));
+    if (filter != null) {
+      final own = await _board.run(
+        FeedCache.keyFor(lang, filter),
+        () => cache.refreshOrFailure(lang, filter: filter),
+      );
+      if (own == null) _ref.invalidate(feedFilteredProvider((lang, filter)));
+    }
+    _ref.invalidate(feedOlderProvider((lang, filter)));
   }
 
   /// Sends queued entries and pulls the latest records (orchard and task lists). Does
@@ -158,7 +169,8 @@ class Refresher {
     _ref
       ..invalidate(plotWeatherProvider)
       ..invalidate(marketPricesProvider)
-      ..invalidate(feedProvider);
+      ..invalidate(feedProvider)
+      ..invalidate(feedFilteredProvider);
     unawaited(records());
   }
 }

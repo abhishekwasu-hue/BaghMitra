@@ -2809,11 +2809,15 @@ not answer; nothing is counted.''',
   ///@param type
   ///@param district
   ///@param crop
+  ///@param before
+  ///@param before_id
   Future<chopper.Response<FeedResponse>> v1FeedGet({
     enums.V1FeedGetLang? lang,
     String? type,
     String? district,
     String? crop,
+    String? before,
+    String? beforeId,
   }) {
     generatedMapping.putIfAbsent(
       FeedResponse,
@@ -2825,6 +2829,8 @@ not answer; nothing is counted.''',
       type: type,
       district: district,
       crop: crop,
+      before: before,
+      beforeId: beforeId,
     );
   }
 
@@ -2833,18 +2839,25 @@ not answer; nothing is counted.''',
   ///@param type
   ///@param district
   ///@param crop
+  ///@param before
+  ///@param before_id
   @GET(path: '/v1/feed')
   Future<chopper.Response<FeedResponse>> _v1FeedGet({
     @Query('lang') String? lang,
     @Query('type') String? type,
     @Query('district') String? district,
     @Query('crop') String? crop,
+    @Query('before') String? before,
+    @Query('before_id') String? beforeId,
     @chopper.Tag()
     SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
       description: '''Newest first. `district` / `crop` narrow the list to items meant for them (items for
 everyone always pass); `may_be_eligible_because` is computed from the caller\'s own
 profile and plots. News items carry their topic `thread_id`; `threads` describes those
-threads (Q139), so the app shows one card per topic.''',
+threads (Q139), so the app shows one card per topic. `type` is applied in the query, and
+`before` / `before_id` (the previous page\'s `next_before` / `next_before_id`) list the
+items after that one in this order, so every older item stays reachable (Q165: nothing
+leaves the list by age).''',
       summary: 'Feed',
       operationId: 'feed_list',
       consumes: [],

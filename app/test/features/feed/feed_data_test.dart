@@ -87,11 +87,25 @@ class FakeFeedRepository implements FeedRepository {
   }
 
   @override
-  Future<FeedPage> fetch({required String lang, FeedFilter? filter}) async {
+  Future<FeedPage> fetch({
+    required String lang,
+    FeedFilter? filter,
+    FeedCursor? before,
+  }) async {
     calls.add(lang);
+    fetches.add((lang, filter, before));
     _online();
+    if (pages[(filter, before?.beforeId)] case final page?) {
+      return FeedPage.fromJson(page);
+    }
     return FeedPage.fromJson(body!);
   }
+
+  /// Every fetch as (lang, filter, cursor) (Q165).
+  final fetches = <(String, FeedFilter?, FeedCursor?)>[];
+
+  /// Answers by (filter, cursor id), before [body] (Q165).
+  final pages = <(FeedFilter?, String?), Map<String, Object?>>{};
 
   /// Topic answers by thread id (owner Q139); a missing one is a 404-like failure.
   final threads = <String, Map<String, Object?>>{};

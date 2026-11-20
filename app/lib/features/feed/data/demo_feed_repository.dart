@@ -30,7 +30,11 @@ class DemoFeedRepository implements FeedRepository {
   };
 
   @override
-  Future<FeedPage> fetch({required String lang, FeedFilter? filter}) async {
+  Future<FeedPage> fetch({
+    required String lang,
+    FeedFilter? filter,
+    FeedCursor? before,
+  }) async {
     final now = clock().toUtc();
     DateTime ago(int days) => now.subtract(Duration(days: days));
     DateTime ahead(int days) {
@@ -153,8 +157,10 @@ class DemoFeedRepository implements FeedRepository {
     ];
     return FeedPage(
       items: [
-        for (final i in items)
-          if (filter == null || filter.matches(i)) i,
+        // The sample is one page: nothing comes after it.
+        if (before == null)
+          for (final i in items)
+            if (filter == null || filter.matches(i)) i,
       ],
       footer: s(_footer),
     );

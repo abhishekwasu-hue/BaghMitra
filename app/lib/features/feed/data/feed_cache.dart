@@ -14,8 +14,9 @@ class CachedFeed {
 }
 
 /// The Sarkari Sandesh feed, cached on the phone (newest [maxItems] items per language) so
-/// the tab works offline. The whole feed is cached and the chips filter it on the phone, so
-/// every filter works offline too. Refreshing is best effort: a failure keeps the cache.
+/// the tab works offline; the chips filter it on the phone. Each chip's own list (Q165: a
+/// ज्ञान लेख older than the newest [maxItems] items of every kind) is cached under its own
+/// key once it was opened. Refreshing is best effort: a failure keeps the cache.
 class FeedCache {
   FeedCache(this._db, {required this._repository, required this._clock});
 
@@ -25,10 +26,11 @@ class FeedCache {
   final FeedRepository _repository;
   final DateTime Function() _clock;
 
-  static String keyFor(String lang) => 'feed.$lang';
+  static String keyFor(String lang, [FeedFilter? filter]) =>
+      filter == null ? 'feed.$lang' : 'feed.$lang.${filter.value}';
 
-  Future<CachedFeed?> load(String lang) async {
-    final raw = await _db.readMeta(keyFor(lang));
+  Future<CachedFeed?> load(String lang, {FeedFilter? filter}) async {
+    final raw = await _db.readMeta(keyFor(lang, filter));
     if (raw == null) return null;
     final j = (jsonDecode(raw) as Map).cast<String, Object?>();
     return CachedFeed(
@@ -42,10 +44,13 @@ class FeedCache {
       await refreshOrFailure(lang) == null;
 
   /// Stores a fresh answer and returns null, or says why none came; the cache stays as is.
-  Future<NetFailure?> refreshOrFailure(String lang) async {
+  Future<NetFailure?> refreshOrFailure(
+    String lang, {
+    FeedFilter? filter,
+  }) async {
     final FeedPage page;
     try {
-      page = await _repository.fetch(lang: lang);
+      page = await _repository.fetch(lang: lang, filter: filter);
     } on FeedUnavailableException catch (e) {
       return e.failure;
     } on Object catch (e) {
@@ -53,8 +58,12 @@ class FeedCache {
     }
     final items = filterFeed(page.items, null).take(maxItems).toList();
     final kept = {for (final i in items) ?i.threadId};
+    // A longer answer than kept: the next page starts after the last kept item.
+    final next = items.length < page.items.length
+        ? FeedCursor(items.last.publishedAt, items.last.id)
+        : page.next;
     await _db.writeMeta(
-      keyFor(lang),
+      keyFor(lang, filter),
       jsonEncode({
         'saved_at': _clock().toUtc().toIso8601String(),
         'page': FeedPage(
@@ -64,6 +73,7 @@ class FeedCache {
             for (final t in page.threads.values)
               if (kept.contains(t.id)) t.id: t,
           },
+          next: next,
         ).toJson(),
       }),
     );

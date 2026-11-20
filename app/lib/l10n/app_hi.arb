@@ -583,6 +583,7 @@
   "feedEmptyDeadlines": "आवेदन की आख़िरी तारीख़ें आने पर यहाँ दिखेंगी।",
   "feedEmptyNews": "नई ख़बरें आने पर यहाँ दिखेंगी।",
   "feedEmptyKnowledge": "ज्ञान लेख परिस्थिति के अनुसार यहाँ आएँगे।",
+  "feedShowOlder": "और पुराने दिखाएँ",
   "feedRemindMe": "मुझे याद दिलाएँ",
   "feedReminderAdded": "{date} के लिए आपके कामों में जोड़ा",
   "feedReminderExists": "पहले से आपके कामों में है",

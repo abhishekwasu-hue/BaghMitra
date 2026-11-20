@@ -46,16 +46,41 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
     final lang = Localizations.localeOf(context).languageCode;
     final loaded = ref.watch(feedProvider(lang));
     final cached = loaded.value;
+    final filter = _filter;
+    // Q165: a chip also lists the server's answer for it (an older ज्ञान लेख is not in the
+    // whole feed's saved newest items), and older pages come on request.
+    final own = filter == null
+        ? null
+        : ref.watch(feedFilteredProvider((lang, filter)));
+    final older = ref.watch(feedOlderProvider((lang, filter)));
+    final first = filter == null ? cached?.page : own?.value?.page;
+    final more = older.started ? older.next : first?.next;
     final receipts =
         ref.watch(feedReceiptStateProvider).value ?? const FeedReceiptState();
+    final byId = {
+      for (final i in [
+        ...?cached?.page.items,
+        ...?own?.value?.page.items,
+        ...older.items,
+      ])
+        i.id: i,
+    };
     final items = [
-      for (final i in filterFeed(cached?.page.items ?? const [], _filter))
+      for (final i in filterFeed(byId.values.toList(), filter))
         if (!receipts.dismissed.contains(i.id)) i,
     ];
     // Owner Q139: one card per news topic.
-    final entries = feedEntries(items, cached?.page.threads ?? const {});
+    final entries = feedEntries(items, {
+      ...?cached?.page.threads,
+      ...?own?.value?.page.threads,
+      ...older.threads,
+    });
     final now = ref.watch(clockProvider)();
-    Future<void> refresh() => ref.read(refresherProvider).feed(lang);
+    Future<void> refresh() =>
+        ref.read(refresherProvider).feed(lang, filter: filter);
+    final loading =
+        (loaded.isLoading && !loaded.hasValue) ||
+        (own != null && own.isLoading && !own.hasValue);
 
     final filters = <FeedFilter?, String>{
       null: t.feedFilterAll,
@@ -92,7 +117,7 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
         onRetry: refresh,
       ),
       if (items.isEmpty)
-        loaded.isLoading && !loaded.hasValue
+        loading
             ? LoadingState(label: t.loadingLabel)
             : EmptyNote(
                 key: const Key('feed-empty'),
@@ -130,9 +155,21 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
         child: ListView.builder(
           physics: const AlwaysScrollableScrollPhysics(),
           padding: const EdgeInsets.all(BmSpace.lg),
-          itemCount: head.length + entries.length,
+          itemCount:
+              head.length +
+              entries.length +
+              (more != null || older.loading ? 1 : 0),
           itemBuilder: (context, i) {
             if (i < head.length) return head[i];
+            if (i == head.length + entries.length) {
+              return _OlderButton(
+                loading: older.loading,
+                failure: older.failure,
+                onPressed: () => ref
+                    .read(feedOlderProvider((lang, filter)).notifier)
+                    .loadMore(first?.next),
+              );
+            }
             final FeedItem item;
             switch (entries[i - head.length]) {
               case final FeedThreadEntry thread:
@@ -194,6 +231,53 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
             );
           },
         ),
+      ),
+    );
+  }
+}
+
+/// "आणखी जुने दाखवा" under a list (Q165): the next, older page from the server.
+class _OlderButton extends StatelessWidget {
+  const _OlderButton({
+    required this.loading,
+    required this.failure,
+    required this.onPressed,
+  });
+
+  final bool loading;
+  final NetFailure? failure;
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+    final c = context.bm;
+    return Padding(
+      padding: const EdgeInsets.only(top: BmSpace.md),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          OutlinedButton.icon(
+            key: const Key('feed-show-older'),
+            onPressed: loading ? null : onPressed,
+            icon: loading
+                ? const SizedBox.square(
+                    dimension: 18,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
+                : const Icon(Icons.history),
+            label: Text(t.feedShowOlder),
+          ),
+          if (failure case final f?)
+            Padding(
+              padding: const EdgeInsets.only(top: BmSpace.xs),
+              child: Text(
+                RefreshNote.failureText(t, f),
+                key: const Key('feed-show-older-failed'),
+                style: BmType.meta.copyWith(color: c.inkMuted),
+              ),
+            ),
+        ],
       ),
     );
   }
@@ -580,6 +664,7 @@ class _FeedItemScreenState extends ConsumerState<FeedItemScreen> {
     final cached = loaded.value;
     final now = ref.watch(clockProvider)();
     final threadId = widget.threadId;
+    final lookup = ref.watch(feedItemLookupProvider((lang, itemId)));
     final item =
         cached?.page.items.where((i) => i.id == itemId).firstOrNull ??
         (threadId == null
@@ -590,7 +675,9 @@ class _FeedItemScreenState extends ConsumerState<FeedItemScreen> {
                   ?.page
                   .items
                   .where((i) => i.id == itemId)
-                  .firstOrNull);
+                  .firstOrNull) ??
+        // Q165: opened from a chip's own list or an older page.
+        lookup.value;
     if (item != null) _markSeen(item);
     final tasks = ref.watch(tasksProvider).value ?? const <FarmTask>[];
     final reminded =
@@ -600,7 +687,7 @@ class _FeedItemScreenState extends ConsumerState<FeedItemScreen> {
     return Scaffold(
       appBar: AppBar(title: AppBarTitle(t.feedTitle)),
       body: item == null
-          ? loaded.isLoading && !loaded.hasValue
+          ? (loaded.isLoading && !loaded.hasValue) || lookup.isLoading
                 ? LoadingState(label: t.loadingLabel)
                 : Center(child: Text(t.feedNotFound, style: BmType.meta))
           : ListView(

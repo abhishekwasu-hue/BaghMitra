@@ -9164,7 +9164,13 @@ extension $FeedReceiptOutExtension on FeedReceiptOut {
 
 @JsonSerializable(explicitToJson: true)
 class FeedResponse {
-  const FeedResponse({required this.footer, required this.items, this.threads});
+  const FeedResponse({
+    required this.footer,
+    required this.items,
+    this.nextBefore,
+    this.nextBeforeId,
+    this.threads,
+  });
 
   factory FeedResponse.fromJson(Map<String, dynamic> json) =>
       _$FeedResponseFromJson(json);
@@ -9176,6 +9182,10 @@ class FeedResponse {
   final String footer;
   @JsonKey(name: 'items', includeIfNull: false, defaultValue: <FeedItemOut>[])
   final List<FeedItemOut> items;
+  @JsonKey(name: 'next_before', includeIfNull: false)
+  final DateTime? nextBefore;
+  @JsonKey(name: 'next_before_id', includeIfNull: false)
+  final String? nextBeforeId;
   @JsonKey(
     name: 'threads',
     includeIfNull: false,
@@ -9192,6 +9202,16 @@ class FeedResponse {
                 const DeepCollectionEquality().equals(other.footer, footer)) &&
             (identical(other.items, items) ||
                 const DeepCollectionEquality().equals(other.items, items)) &&
+            (identical(other.nextBefore, nextBefore) ||
+                const DeepCollectionEquality().equals(
+                  other.nextBefore,
+                  nextBefore,
+                )) &&
+            (identical(other.nextBeforeId, nextBeforeId) ||
+                const DeepCollectionEquality().equals(
+                  other.nextBeforeId,
+                  nextBeforeId,
+                )) &&
             (identical(other.threads, threads) ||
                 const DeepCollectionEquality().equals(other.threads, threads)));
   }
@@ -9203,6 +9223,8 @@ class FeedResponse {
   int get hashCode =>
       const DeepCollectionEquality().hash(footer) ^
       const DeepCollectionEquality().hash(items) ^
+      const DeepCollectionEquality().hash(nextBefore) ^
+      const DeepCollectionEquality().hash(nextBeforeId) ^
       const DeepCollectionEquality().hash(threads) ^
       runtimeType.hashCode;
 }
@@ -9211,11 +9233,15 @@ extension $FeedResponseExtension on FeedResponse {
   FeedResponse copyWith({
     String? footer,
     List<FeedItemOut>? items,
+    DateTime? nextBefore,
+    String? nextBeforeId,
     List<FeedThreadOut>? threads,
   }) {
     return FeedResponse(
       footer: footer ?? this.footer,
       items: items ?? this.items,
+      nextBefore: nextBefore ?? this.nextBefore,
+      nextBeforeId: nextBeforeId ?? this.nextBeforeId,
       threads: threads ?? this.threads,
     );
   }
@@ -9223,11 +9249,17 @@ extension $FeedResponseExtension on FeedResponse {
   FeedResponse copyWithWrapped({
     Wrapped<String>? footer,
     Wrapped<List<FeedItemOut>>? items,
+    Wrapped<DateTime?>? nextBefore,
+    Wrapped<String?>? nextBeforeId,
     Wrapped<List<FeedThreadOut>?>? threads,
   }) {
     return FeedResponse(
       footer: (footer != null ? footer.value : this.footer),
       items: (items != null ? items.value : this.items),
+      nextBefore: (nextBefore != null ? nextBefore.value : this.nextBefore),
+      nextBeforeId: (nextBeforeId != null
+          ? nextBeforeId.value
+          : this.nextBeforeId),
       threads: (threads != null ? threads.value : this.threads),
     );
   }
